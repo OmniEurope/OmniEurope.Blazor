@@ -6,10 +6,12 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment: release
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v5
@@ -19,5 +21,10 @@ jobs:
         run: dotnet restore src/OmniEurope.Blazor/OmniEurope.Blazor.csproj --locked-mode
       - name: Pack release
         run: dotnet pack src/OmniEurope.Blazor/OmniEurope.Blazor.csproj --configuration Release --no-restore --output artifacts/packages -p:Version=${{ github.event.release.tag_name }}
+      - name: Authenticate to NuGet.org
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
       - name: Publish to NuGet.org
-        run: dotnet nuget push "artifacts/packages/*.nupkg" --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push "artifacts/packages/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
