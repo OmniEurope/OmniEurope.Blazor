@@ -1,0 +1,112 @@
+:root {
+    --omni-color-accent: #165dff;
+    --omni-color-accent-strong: #0f46c7;
+    --omni-color-surface: #ffffff;
+    --omni-color-surface-muted: #f4f6fa;
+    --omni-color-border: #cbd3e1;
+    --omni-color-text: #172033;
+    --omni-color-danger: #b42318;
+    --omni-color-warning: #a15c00;
+    --omni-color-success: #087443;
+    --omni-radius: 0.5rem;
+    --omni-focus-ring: 0 0 0 0.2rem rgb(22 93 255 / 28%);
+    --omni-space-xs: 0.25rem;
+    --omni-space-sm: 0.5rem;
+    --omni-space-md: 0.75rem;
+    --omni-space-lg: 1rem;
+    --omni-space-xl: 1.5rem;
+}
+
+.omni-button {
+    align-items: center;
+    border: 1px solid transparent;
+    border-radius: var(--omni-radius);
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    font-weight: 650;
+    gap: var(--omni-space-sm);
+    justify-content: center;
+    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.omni-button:focus-visible {
+    box-shadow: var(--omni-focus-ring);
+    outline: none;
+}
+
+.omni-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.58;
+}
+
+.omni-button--small { min-height: 2rem; padding: var(--omni-space-xs) var(--omni-space-sm); }
+.omni-button--medium { min-height: 2.5rem; padding: var(--omni-space-sm) var(--omni-space-lg); }
+.omni-button--large { min-height: 3rem; padding: var(--omni-space-md) var(--omni-space-xl); }
+.omni-button--primary { background: var(--omni-color-accent); color: #fff; }
+.omni-button--primary:hover:not(:disabled) { background: var(--omni-color-accent-strong); }
+.omni-button--secondary { background: var(--omni-color-surface); border-color: var(--omni-color-border); color: var(--omni-color-text); }
+.omni-button--ghost { background: transparent; color: var(--omni-color-accent); }
+.omni-button--danger { background: var(--omni-color-danger); color: #fff; }
+
+.omni-button__busy {
+    animation: omni-spin 800ms linear infinite;
+    border: 0.15rem solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    height: 1em;
+    width: 1em;
+}
+
+@keyframes omni-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .omni-button,
+    .omni-button__busy { animation: none; transition: none; }
+}
+
+.omni-card {
+    background: var(--omni-color-surface);
+    border: 1px solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    color: var(--omni-color-text);
+}
+
+.omni-card__header,
+.omni-card__footer { padding: var(--omni-space-lg); }
+.omni-card__header { border-bottom: 1px solid var(--omni-color-border); }
+.omni-card__body { padding: var(--omni-space-lg); }
+.omni-card__footer { border-top: 1px solid var(--omni-color-border); }
+
+.omni-stack { display: flex; }
+.omni-stack--horizontal { flex-direction: row; }
+.omni-stack--vertical { flex-direction: column; }
+.omni-stack--gap-none { gap: 0; }
+.omni-stack--gap-xsmall { gap: var(--omni-space-xs); }
+.omni-stack--gap-small { gap: var(--omni-space-sm); }
+.omni-stack--gap-medium { gap: var(--omni-space-md); }
+.omni-stack--gap-large { gap: var(--omni-space-lg); }
+.omni-stack--gap-xlarge { gap: var(--omni-space-xl); }
+.omni-stack--align-start { align-items: flex-start; }
+.omni-stack--align-center { align-items: center; }
+.omni-stack--align-end { align-items: flex-end; }
+.omni-stack--align-stretch { align-items: stretch; }
+.omni-stack--justify-start { justify-content: flex-start; }
+.omni-stack--justify-center { justify-content: center; }
+.omni-stack--justify-end { justify-content: flex-end; }
+.omni-stack--justify-between { justify-content: space-between; }
+
+.omni-alert {
+    border: 1px solid currentColor;
+    border-radius: var(--omni-radius);
+    display: grid;
+    gap: var(--omni-space-xs);
+    padding: var(--omni-space-md) var(--omni-space-lg);
+}
+
+.omni-alert--info { color: var(--omni-color-accent-strong); }
+.omni-alert--success { color: var(--omni-color-success); }
+.omni-alert--warning { color: var(--omni-color-warning); }
+.omni-alert--danger { color: var(--omni-color-danger); }
+.omni-alert__title { display: block; }
+

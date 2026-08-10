@@ -1,0 +1,23 @@
+name: Publish NuGet
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - name: Restore
+        run: dotnet restore src/OmniEurope.Blazor/OmniEurope.Blazor.csproj --locked-mode
+      - name: Pack release
+        run: dotnet pack src/OmniEurope.Blazor/OmniEurope.Blazor.csproj --configuration Release --no-restore --output artifacts/packages -p:Version=${{ github.event.release.tag_name }}
+      - name: Publish to NuGet.org
+        run: dotnet nuget push "artifacts/packages/*.nupkg" --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate

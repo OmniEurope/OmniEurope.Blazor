@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+    <PackageId>OmniEurope.Blazor</PackageId>
+    <Version>0.1.0-alpha.1</Version>
+    <Authors>OmniEurope contributors</Authors>
+    <Company>OmniEurope</Company>
+    <Description>Composants Blazor accessibles et compatibles avec une CSP stricte.</Description>
+    <PackageTags>blazor;components;csp;accessibility;eupl</PackageTags>
+    <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/OmniEurope/OmniEurope.Blazor</RepositoryUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+</Project>
+

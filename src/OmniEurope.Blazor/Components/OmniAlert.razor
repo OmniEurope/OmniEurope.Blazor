@@ -1,0 +1,27 @@
+@inherits OmniComponentBase
+
+<div id="@Id"
+     class="@Css("omni-alert", $"omni-alert--{Severity.ToString().ToLowerInvariant()}")"
+     role="@(Live ? "alert" : "status")"
+     @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrWhiteSpace(Title))
+    {
+        <strong class="omni-alert__title">@Title</strong>
+    }
+    <div class="omni-alert__content">@ChildContent</div>
+</div>
+
+@code {
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public OmniAlertSeverity Severity { get; set; } = OmniAlertSeverity.Info;
+
+    [Parameter]
+    public bool Live { get; set; }
+}
+

@@ -1,0 +1,25 @@
+@inherits OmniComponentBase
+
+<div id="@Id"
+     class="@Css("omni-stack", $"omni-stack--{Orientation.ToString().ToLowerInvariant()}", $"omni-stack--gap-{Gap.ToString().ToLowerInvariant()}", $"omni-stack--align-{Align.ToString().ToLowerInvariant()}", $"omni-stack--justify-{Justify.ToString().ToLowerInvariant()}")"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public OmniStackOrientation Orientation { get; set; } = OmniStackOrientation.Vertical;
+
+    [Parameter]
+    public OmniSpacing Gap { get; set; } = OmniSpacing.Medium;
+
+    [Parameter]
+    public OmniAlignment Align { get; set; } = OmniAlignment.Stretch;
+
+    [Parameter]
+    public OmniJustification Justify { get; set; } = OmniJustification.Start;
+}
+

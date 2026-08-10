@@ -1,0 +1,5905 @@
+{
+  "generatedAt": "2026-08-10T11:33:36+02:00",
+  "workspaceRoot": "C:\\Dev",
+  "method": "Balises Radzen* dans les fichiers .razor, commentaires Razor et HTML exclus.",
+  "projects": [
+    {
+      "project": "Astraia.Front",
+      "path": "Astraia/Astraia.Front/Astraia.Front.csproj",
+      "status": "actif",
+      "radzenVersion": "10.4.9",
+      "distinctComponents": 77,
+      "occurrences": 2691,
+      "razorFiles": 124,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 55
+        },
+        {
+          "name": "RadzenBadge",
+          "occurrences": 140
+        },
+        {
+          "name": "RadzenBarOptions",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBarSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBreadCrumb",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenBreadCrumbItem",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 309
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 130
+        },
+        {
+          "name": "RadzenCategoryAxis",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenChart",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 18
+        },
+        {
+          "name": "RadzenCheckBoxList",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenColumn",
+          "occurrences": 90
+        },
+        {
+          "name": "RadzenColumnSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenContextMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 29
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 144
+        },
+        {
+          "name": "RadzenDataList",
+          "occurrences": 14
+        },
+        {
+          "name": "RadzenDatePicker",
+          "occurrences": 11
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 54
+        },
+        {
+          "name": "RadzenFieldset",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 85
+        },
+        {
+          "name": "RadzenGridLines",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHtmlEditor",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenHtmlEditorBold",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHtmlEditorCustomTool",
+          "occurrences": 28
+        },
+        {
+          "name": "RadzenHtmlEditorIndent",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHtmlEditorItalic",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHtmlEditorOutdent",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHtmlEditorRedo",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHtmlEditorSeparator",
+          "occurrences": 11
+        },
+        {
+          "name": "RadzenHtmlEditorSubscript",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHtmlEditorSuperscript",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHtmlEditorUndo",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 135
+        },
+        {
+          "name": "RadzenLabel",
+          "occurrences": 67
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLink",
+          "occurrences": 22
+        },
+        {
+          "name": "RadzenListBox",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 21
+        },
+        {
+          "name": "RadzenPassword",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenPieSeries",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenProgressBar",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 68
+        },
+        {
+          "name": "RadzenRadioButtonList",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenRadioButtonListItem",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenRequiredValidator",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenRow",
+          "occurrences": 32
+        },
+        {
+          "name": "RadzenSelectBar",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenSelectBarItem",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSkeleton",
+          "occurrences": 20
+        },
+        {
+          "name": "RadzenSlider",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSplitButton",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSplitButtonItem",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 504
+        },
+        {
+          "name": "RadzenSteps",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenStepsItem",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenSwitch",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenTabs",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenTabsItem",
+          "occurrences": 20
+        },
+        {
+          "name": "RadzenTemplateForm",
+          "occurrences": 15
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 446
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 15
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 78
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTree",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenTreeItem",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenTreeLevel",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenValueAxis",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "project": "Aetheus.Front",
+      "path": "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+      "status": "actif",
+      "radzenVersion": "11.1.6",
+      "distinctComponents": 60,
+      "occurrences": 5046,
+      "razorFiles": 212,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 95
+        },
+        {
+          "name": "RadzenArcGauge",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenArcGaugeScale",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenArcGaugeScaleValue",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenAxisTitle",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenBadge",
+          "occurrences": 329
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBreadCrumb",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBreadCrumbItem",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 637
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 196
+        },
+        {
+          "name": "RadzenCategoryAxis",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenChart",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenColumn",
+          "occurrences": 254
+        },
+        {
+          "name": "RadzenColumnSeries",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 81
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 587
+        },
+        {
+          "name": "RadzenDatePicker",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 117
+        },
+        {
+          "name": "RadzenFieldset",
+          "occurrences": 13
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 324
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 296
+        },
+        {
+          "name": "RadzenLabel",
+          "occurrences": 30
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLegend",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenLineSeries",
+          "occurrences": 14
+        },
+        {
+          "name": "RadzenLink",
+          "occurrences": 18
+        },
+        {
+          "name": "RadzenListBox",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenMarkers",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 52
+        },
+        {
+          "name": "RadzenPager",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 53
+        },
+        {
+          "name": "RadzenPassword",
+          "occurrences": 23
+        },
+        {
+          "name": "RadzenProgressBar",
+          "occurrences": 17
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenRequiredValidator",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenRow",
+          "occurrences": 75
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSplitButton",
+          "occurrences": 9
+        },
+        {
+          "name": "RadzenSplitButtonItem",
+          "occurrences": 24
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 555
+        },
+        {
+          "name": "RadzenSteps",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStepsItem",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSwitch",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenTabs",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenTabsItem",
+          "occurrences": 104
+        },
+        {
+          "name": "RadzenTemplateForm",
+          "occurrences": 51
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 714
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 43
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 234
+        },
+        {
+          "name": "RadzenTimeline",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenTimelineItem",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenValueAxis",
+          "occurrences": 8
+        }
+      ]
+    },
+    {
+      "project": "Lexaidos.Web",
+      "path": "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+      "status": "actif",
+      "radzenVersion": "10.4.9",
+      "distinctComponents": 56,
+      "occurrences": 3114,
+      "razorFiles": 136,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 115
+        },
+        {
+          "name": "RadzenBadge",
+          "occurrences": 150
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenBreadCrumb",
+          "occurrences": 7
+        },
+        {
+          "name": "RadzenBreadCrumbItem",
+          "occurrences": 17
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 341
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 171
+        },
+        {
+          "name": "RadzenCategoryAxis",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenChart",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 22
+        },
+        {
+          "name": "RadzenColorPicker",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenColumn",
+          "occurrences": 39
+        },
+        {
+          "name": "RadzenContextMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 17
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 78
+        },
+        {
+          "name": "RadzenDataList",
+          "occurrences": 53
+        },
+        {
+          "name": "RadzenDatePicker",
+          "occurrences": 12
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 57
+        },
+        {
+          "name": "RadzenFieldset",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 160
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 44
+        },
+        {
+          "name": "RadzenImage",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLabel",
+          "occurrences": 45
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenLineSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLink",
+          "occurrences": 13
+        },
+        {
+          "name": "RadzenListBox",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 20
+        },
+        {
+          "name": "RadzenPager",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 44
+        },
+        {
+          "name": "RadzenPassword",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenProgressBar",
+          "occurrences": 13
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 97
+        },
+        {
+          "name": "RadzenRow",
+          "occurrences": 20
+        },
+        {
+          "name": "RadzenScheduler",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSelectBar",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenSelectBarItem",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 584
+        },
+        {
+          "name": "RadzenSwitch",
+          "occurrences": 7
+        },
+        {
+          "name": "RadzenTabs",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTabsItem",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenTemplateForm",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 806
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 40
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 80
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenTree",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTreeItem",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenValueAxis",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenWeekView",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "Bellwether",
+      "path": "Bellwether/Bellwether/Bellwether.csproj",
+      "status": "actif",
+      "radzenVersion": "10.4.9",
+      "distinctComponents": 48,
+      "occurrences": 763,
+      "razorFiles": 24,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 12
+        },
+        {
+          "name": "RadzenAreaSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenAxisTitle",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenBarSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 78
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 56
+        },
+        {
+          "name": "RadzenCategoryAxis",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenChart",
+          "occurrences": 7
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenColumn",
+          "occurrences": 56
+        },
+        {
+          "name": "RadzenColumnSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenContextMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 15
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 75
+        },
+        {
+          "name": "RadzenDatePicker",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenGridLines",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 54
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLegend",
+          "occurrences": 7
+        },
+        {
+          "name": "RadzenLineSeries",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenMarkers",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 9
+        },
+        {
+          "name": "RadzenPieSeries",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenProgressBar",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenRow",
+          "occurrences": 22
+        },
+        {
+          "name": "RadzenSelectBar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSelectBarItem",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenSeriesDataLabels",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 82
+        },
+        {
+          "name": "RadzenStackedColumnSeries",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenSwitch",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenTabs",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenTabsItem",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 190
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 11
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenValueAxis",
+          "occurrences": 5
+        }
+      ]
+    },
+    {
+      "project": "Astraia.Perf",
+      "path": "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+      "status": "actif",
+      "radzenVersion": "10.4.9",
+      "distinctComponents": 41,
+      "occurrences": 327,
+      "razorFiles": 9,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 9
+        },
+        {
+          "name": "RadzenBadge",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenBarSeries",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 25
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 28
+        },
+        {
+          "name": "RadzenCategoryAxis",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenChart",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenColumn",
+          "occurrences": 31
+        },
+        {
+          "name": "RadzenContextMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 46
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 19
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 12
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLegend",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenLineSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLink",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenPassword",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPieSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenProgressBar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenRow",
+          "occurrences": 11
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 43
+        },
+        {
+          "name": "RadzenSwitch",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTemplateForm",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 34
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 9
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenValueAxis",
+          "occurrences": 3
+        }
+      ]
+    },
+    {
+      "project": "Pronoia.Shared.Blazor",
+      "path": "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+      "status": "actif",
+      "radzenVersion": "10.4.9",
+      "distinctComponents": 39,
+      "occurrences": 727,
+      "razorFiles": 35,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenBadge",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 140
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 21
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenColorPicker",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 19
+        },
+        {
+          "name": "RadzenDatePicker",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 19
+        },
+        {
+          "name": "RadzenFieldset",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 46
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 15
+        },
+        {
+          "name": "RadzenLabel",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 22
+        },
+        {
+          "name": "RadzenPassword",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 11
+        },
+        {
+          "name": "RadzenSelectBar",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenSelectBarItem",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSplitButton",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSplitButtonItem",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 183
+        },
+        {
+          "name": "RadzenSwitch",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTabs",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenTabsItem",
+          "occurrences": 20
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 126
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 9
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 21
+        },
+        {
+          "name": "RadzenToggleButton",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "Orpheus",
+      "path": "Orpheus/Orpheus/Orpheus.csproj",
+      "status": "actif",
+      "radzenVersion": "10.2.0",
+      "distinctComponents": 38,
+      "occurrences": 688,
+      "razorFiles": 25,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 10
+        },
+        {
+          "name": "RadzenBadge",
+          "occurrences": 7
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 107
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 27
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenColumn",
+          "occurrences": 21
+        },
+        {
+          "name": "RadzenContextMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 15
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 84
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 14
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 38
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLink",
+          "occurrences": 12
+        },
+        {
+          "name": "RadzenListBox",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 16
+        },
+        {
+          "name": "RadzenProgressBar",
+          "occurrences": 10
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 15
+        },
+        {
+          "name": "RadzenRow",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSlider",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 126
+        },
+        {
+          "name": "RadzenSwitch",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenTabs",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenTabsItem",
+          "occurrences": 15
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 109
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 14
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTree",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTreeLevel",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "Ats.Front",
+      "path": "Ats/Ats.Front/Ats.Front.csproj",
+      "status": "actif",
+      "radzenVersion": "8.4.0",
+      "distinctComponents": 34,
+      "occurrences": 130,
+      "razorFiles": 5,
+      "components": [
+        {
+          "name": "RadzenAppearanceToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenAreaSeries",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 16
+        },
+        {
+          "name": "RadzenCategoryAxis",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenChart",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenChartTooltipOptions",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenComponents",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 25
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenGridLines",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenLabel",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenLegend",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenLineSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLink",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenMarkers",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenRequiredValidator",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenSeriesDataLabels",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 12
+        },
+        {
+          "name": "RadzenStackedAreaSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 7
+        },
+        {
+          "name": "RadzenTheme",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenValueAxis",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "project": "Olbios.Front",
+      "path": "Olbios/Olbios.Front/Olbios.Front.csproj",
+      "status": "actif",
+      "radzenVersion": "10.4.9",
+      "distinctComponents": 34,
+      "occurrences": 130,
+      "razorFiles": 5,
+      "components": [
+        {
+          "name": "RadzenAppearanceToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenAreaSeries",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 16
+        },
+        {
+          "name": "RadzenCategoryAxis",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenChart",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenChartTooltipOptions",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenComponents",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 25
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenGridLines",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenLabel",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenLegend",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenLineSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLink",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenMarkers",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenRequiredValidator",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenSeriesDataLabels",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 12
+        },
+        {
+          "name": "RadzenStackedAreaSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 7
+        },
+        {
+          "name": "RadzenTheme",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenValueAxis",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "project": "Phaios.Web",
+      "path": "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+      "status": "actif",
+      "radzenVersion": "10.4.9",
+      "distinctComponents": 34,
+      "occurrences": 153,
+      "razorFiles": 10,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 10
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 17
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 9
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 12
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenLabel",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLengthValidator",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLink",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenPassword",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenProfileMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenProfileMenuItem",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenRadioButtonList",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenRadioButtonListItem",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenRequiredValidator",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 20
+        },
+        {
+          "name": "RadzenTemplateForm",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 32
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "Atlas",
+      "path": "Atlas/Atlas/Atlas.csproj",
+      "status": "actif",
+      "radzenVersion": "11.1.6",
+      "distinctComponents": 32,
+      "occurrences": 389,
+      "razorFiles": 18,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenAutoComplete",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBadge",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 55
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 14
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 21
+        },
+        {
+          "name": "RadzenColumn",
+          "occurrences": 11
+        },
+        {
+          "name": "RadzenContextMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 7
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 37
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 29
+        },
+        {
+          "name": "RadzenFieldset",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 11
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenRow",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 59
+        },
+        {
+          "name": "RadzenTabs",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTabsItem",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 73
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 20
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "Portfolio.Editor",
+      "path": "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+      "status": "actif",
+      "radzenVersion": "10.4.9",
+      "distinctComponents": 26,
+      "occurrences": 196,
+      "razorFiles": 6,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBadge",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 32
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 9
+        },
+        {
+          "name": "RadzenColumn",
+          "occurrences": 18
+        },
+        {
+          "name": "RadzenContextMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 23
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenRow",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenSelectBar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSelectBarItem",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 22
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 30
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 31
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenUpload",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "Phaios.Desktop",
+      "path": "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+      "status": "actif",
+      "radzenVersion": "10.4.9",
+      "distinctComponents": 21,
+      "occurrences": 77,
+      "razorFiles": 5,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 13
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenComponents",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 9
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenPassword",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 10
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 11
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 3
+        }
+      ]
+    },
+    {
+      "project": "Ates.Shared.Blazor",
+      "path": "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+      "status": "actif",
+      "radzenVersion": "10.3.2",
+      "distinctComponents": 17,
+      "occurrences": 175,
+      "razorFiles": 12,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 15
+        },
+        {
+          "name": "RadzenBadge",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 12
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 19
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 22
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 7
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 16
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenLabel",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenPassword",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 20
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 44
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "project": "PoeUtils",
+      "path": "PoeUtils/PoeUtils/PoeUtils.csproj",
+      "status": "actif",
+      "radzenVersion": "8.0.0",
+      "distinctComponents": 17,
+      "occurrences": 41,
+      "razorFiles": 12,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 11
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenLabel",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTabs",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTabsItem",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "Ates.App",
+      "path": "Ates/Ates.App/Ates.App.csproj",
+      "status": "actif",
+      "radzenVersion": "usage transitif",
+      "distinctComponents": 16,
+      "occurrences": 29,
+      "razorFiles": 2,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenContextMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLink",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "Ates.Front",
+      "path": "Ates/Ates.Front/Ates.Front.csproj",
+      "status": "actif",
+      "radzenVersion": "usage transitif",
+      "distinctComponents": 16,
+      "occurrences": 32,
+      "razorFiles": 3,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenContextMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLink",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "Hyb",
+      "path": "Hyb/Hyb/Hyb.csproj",
+      "status": "actif",
+      "radzenVersion": "5.6.6",
+      "distinctComponents": 1,
+      "occurrences": 66,
+      "razorFiles": 7,
+      "components": [
+        {
+          "name": "RadzenIcon",
+          "occurrences": 66
+        }
+      ]
+    },
+    {
+      "project": "Astraia.Front.Tests",
+      "path": "Astraia/Tests/Astraia.Front.Tests/Astraia.Front.Tests.csproj",
+      "status": "actif",
+      "radzenVersion": "10.4.9",
+      "distinctComponents": 0,
+      "occurrences": 0,
+      "razorFiles": 0,
+      "components": []
+    },
+    {
+      "project": "Pronoia.App",
+      "path": "Pronoia/Pronoia.App/Pronoia.App.csproj",
+      "status": "actif",
+      "radzenVersion": "10.4.9",
+      "distinctComponents": 0,
+      "occurrences": 0,
+      "razorFiles": 0,
+      "components": []
+    },
+    {
+      "project": "Pronoia.Front.Tests",
+      "path": "Pronoia/Pronoia.Front.Tests/Pronoia.Front.Tests.csproj",
+      "status": "actif",
+      "radzenVersion": "10.4.9",
+      "distinctComponents": 0,
+      "occurrences": 0,
+      "razorFiles": 0,
+      "components": []
+    },
+    {
+      "project": "Pronoia.Front",
+      "path": "Pronoia/Pronoia.Front/Pronoia.Front.csproj",
+      "status": "actif",
+      "radzenVersion": "10.4.9",
+      "distinctComponents": 0,
+      "occurrences": 0,
+      "razorFiles": 0,
+      "components": []
+    },
+    {
+      "project": "ExampleMaui",
+      "path": "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+      "status": "modèle",
+      "radzenVersion": "10.2.0",
+      "distinctComponents": 23,
+      "occurrences": 40,
+      "razorFiles": 4,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenContextMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenRequiredValidator",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenTemplateForm",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "ExampleWeb.Front",
+      "path": "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+      "status": "modèle",
+      "radzenVersion": "10.2.0",
+      "distinctComponents": 23,
+      "occurrences": 44,
+      "razorFiles": 4,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenContextMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenRequiredValidator",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenTemplateForm",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "ExampleServer",
+      "path": "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+      "status": "modèle",
+      "radzenVersion": "10.2.0",
+      "distinctComponents": 18,
+      "occurrences": 34,
+      "razorFiles": 3,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenContextMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "Themis.Front",
+      "path": "On hold/Themis/Themis.Front/Themis.Front.csproj",
+      "status": "archivé",
+      "radzenVersion": "9.0.4",
+      "distinctComponents": 62,
+      "occurrences": 1702,
+      "razorFiles": 64,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 20
+        },
+        {
+          "name": "RadzenBadge",
+          "occurrences": 41
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBreadCrumb",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBreadCrumbItem",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 134
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 95
+        },
+        {
+          "name": "RadzenCategoryAxis",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenChart",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenColumn",
+          "occurrences": 198
+        },
+        {
+          "name": "RadzenColumnSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenContextMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 28
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 148
+        },
+        {
+          "name": "RadzenDataList",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenDatePicker",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenDayView",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDonutSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 43
+        },
+        {
+          "name": "RadzenEmailValidator",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenFieldset",
+          "occurrences": 11
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 129
+        },
+        {
+          "name": "RadzenGridLines",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHtmlEditor",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 26
+        },
+        {
+          "name": "RadzenLabel",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLengthValidator",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLink",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenMonthView",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 34
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 31
+        },
+        {
+          "name": "RadzenPassword",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenProfileMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenProfileMenuItem",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenProgressBar",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenRadioButtonList",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenRequiredValidator",
+          "occurrences": 25
+        },
+        {
+          "name": "RadzenRow",
+          "occurrences": 108
+        },
+        {
+          "name": "RadzenScheduler",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSplitButton",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenSplitButtonItem",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 193
+        },
+        {
+          "name": "RadzenSteps",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStepsItem",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenSwitch",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTabs",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenTabsItem",
+          "occurrences": 11
+        },
+        {
+          "name": "RadzenTemplateForm",
+          "occurrences": 17
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 272
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 13
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 44
+        },
+        {
+          "name": "RadzenToggleButton",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenValueAxis",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenWeekView",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "Astraia.Front",
+      "path": "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+      "status": "archivé",
+      "radzenVersion": "9.0.5",
+      "distinctComponents": 52,
+      "occurrences": 675,
+      "razorFiles": 36,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 24
+        },
+        {
+          "name": "RadzenBadge",
+          "occurrences": 21
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBreadCrumb",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBreadCrumbItem",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 75
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 35
+        },
+        {
+          "name": "RadzenCategoryAxis",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenChart",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenColumn",
+          "occurrences": 17
+        },
+        {
+          "name": "RadzenColumnSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenContextMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 11
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 57
+        },
+        {
+          "name": "RadzenDataList",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 17
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 32
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHtmlEditor",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 21
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLink",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 32
+        },
+        {
+          "name": "RadzenPassword",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenPieSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 10
+        },
+        {
+          "name": "RadzenRequiredValidator",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenRow",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSkeleton",
+          "occurrences": 21
+        },
+        {
+          "name": "RadzenSplitButton",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSplitButtonItem",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 96
+        },
+        {
+          "name": "RadzenSteps",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenStepsItem",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenSwitch",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTabs",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenTabsItem",
+          "occurrences": 11
+        },
+        {
+          "name": "RadzenTemplateForm",
+          "occurrences": 7
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 111
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 11
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTree",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTreeItem",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenValueAxis",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "AiNotes.FrontTwo",
+      "path": "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+      "status": "archivé",
+      "radzenVersion": "8.6.3",
+      "distinctComponents": 36,
+      "occurrences": 239,
+      "razorFiles": 16,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 33
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 14
+        },
+        {
+          "name": "RadzenCompareValidator",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenComponents",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 7
+        },
+        {
+          "name": "RadzenDatePicker",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenDayView",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenEmailValidator",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 15
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenHtmlEditor",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 7
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLengthValidator",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLink",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenMonthView",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 11
+        },
+        {
+          "name": "RadzenPassword",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenProgressBar",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenRequiredValidator",
+          "occurrences": 7
+        },
+        {
+          "name": "RadzenScheduler",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 53
+        },
+        {
+          "name": "RadzenSwitch",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenTemplateForm",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 38
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenWeekView",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "Syndes",
+      "path": "On hold/Syndes/Syndes/Syndes.csproj",
+      "status": "archivé",
+      "radzenVersion": "10.2.0",
+      "distinctComponents": 32,
+      "occurrences": 226,
+      "razorFiles": 7,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 12
+        },
+        {
+          "name": "RadzenAxisTitle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 26
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 10
+        },
+        {
+          "name": "RadzenCategoryAxis",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenChart",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenColumn",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenContextMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 25
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 21
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLineSeries",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenPieSeries",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenRow",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 40
+        },
+        {
+          "name": "RadzenSwitch",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenTabs",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenTabsItem",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 44
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenValueAxis",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "project": "Astraia.Front.Tests",
+      "path": "On hold/AstraiaBackup/Astraia.Front.Tests/Astraia.Front.Tests.csproj",
+      "status": "archivé",
+      "radzenVersion": "9.0.5",
+      "distinctComponents": 0,
+      "occurrences": 0,
+      "razorFiles": 0,
+      "components": []
+    },
+    {
+      "project": "Syndes.Tests",
+      "path": "On hold/Syndes/Syndes.Tests/Syndes.Tests.csproj",
+      "status": "archivé",
+      "radzenVersion": "10.2.0",
+      "distinctComponents": 0,
+      "occurrences": 0,
+      "razorFiles": 0,
+      "components": []
+    },
+    {
+      "project": "Aetheus.Front",
+      "path": "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+      "status": "miroir",
+      "radzenVersion": "11.1.6",
+      "distinctComponents": 59,
+      "occurrences": 4384,
+      "razorFiles": 186,
+      "components": [
+        {
+          "name": "RadzenAlert",
+          "occurrences": 71
+        },
+        {
+          "name": "RadzenArcGauge",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenArcGaugeScale",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenArcGaugeScaleValue",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenAxisTitle",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenBadge",
+          "occurrences": 285
+        },
+        {
+          "name": "RadzenBody",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenBreadCrumb",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenBreadCrumbItem",
+          "occurrences": 4
+        },
+        {
+          "name": "RadzenButton",
+          "occurrences": 555
+        },
+        {
+          "name": "RadzenCard",
+          "occurrences": 154
+        },
+        {
+          "name": "RadzenCategoryAxis",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenChart",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenCheckBox",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenColumn",
+          "occurrences": 190
+        },
+        {
+          "name": "RadzenDataGrid",
+          "occurrences": 71
+        },
+        {
+          "name": "RadzenDataGridColumn",
+          "occurrences": 502
+        },
+        {
+          "name": "RadzenDatePicker",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenDialog",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenDropDown",
+          "occurrences": 97
+        },
+        {
+          "name": "RadzenFieldset",
+          "occurrences": 12
+        },
+        {
+          "name": "RadzenFormField",
+          "occurrences": 270
+        },
+        {
+          "name": "RadzenHeader",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenIcon",
+          "occurrences": 261
+        },
+        {
+          "name": "RadzenLabel",
+          "occurrences": 27
+        },
+        {
+          "name": "RadzenLayout",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenLegend",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenLineSeries",
+          "occurrences": 13
+        },
+        {
+          "name": "RadzenLink",
+          "occurrences": 8
+        },
+        {
+          "name": "RadzenListBox",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenMarkers",
+          "occurrences": 6
+        },
+        {
+          "name": "RadzenNotification",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenNumeric",
+          "occurrences": 43
+        },
+        {
+          "name": "RadzenPager",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenu",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenPanelMenuItem",
+          "occurrences": 53
+        },
+        {
+          "name": "RadzenPassword",
+          "occurrences": 23
+        },
+        {
+          "name": "RadzenProgressBar",
+          "occurrences": 17
+        },
+        {
+          "name": "RadzenProgressBarCircular",
+          "occurrences": 68
+        },
+        {
+          "name": "RadzenRequiredValidator",
+          "occurrences": 2
+        },
+        {
+          "name": "RadzenRow",
+          "occurrences": 61
+        },
+        {
+          "name": "RadzenSidebar",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSidebarToggle",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSplitButton",
+          "occurrences": 9
+        },
+        {
+          "name": "RadzenSplitButtonItem",
+          "occurrences": 23
+        },
+        {
+          "name": "RadzenStack",
+          "occurrences": 509
+        },
+        {
+          "name": "RadzenSteps",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenStepsItem",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenSwitch",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenTabs",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenTabsItem",
+          "occurrences": 89
+        },
+        {
+          "name": "RadzenTemplateForm",
+          "occurrences": 47
+        },
+        {
+          "name": "RadzenText",
+          "occurrences": 597
+        },
+        {
+          "name": "RadzenTextArea",
+          "occurrences": 35
+        },
+        {
+          "name": "RadzenTextBox",
+          "occurrences": 202
+        },
+        {
+          "name": "RadzenTimeline",
+          "occurrences": 3
+        },
+        {
+          "name": "RadzenTimelineItem",
+          "occurrences": 5
+        },
+        {
+          "name": "RadzenTooltip",
+          "occurrences": 1
+        },
+        {
+          "name": "RadzenValueAxis",
+          "occurrences": 6
+        }
+      ]
+    }
+  ],
+  "catalog": [
+    {
+      "component": "RadzenStack",
+      "activeProjects": 17,
+      "allProjects": 25,
+      "activeOccurrences": 2235,
+      "occurrences": 3134,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenButton",
+      "activeProjects": 17,
+      "allProjects": 25,
+      "activeOccurrences": 1814,
+      "occurrences": 2653,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenBody",
+      "activeProjects": 16,
+      "allProjects": 24,
+      "activeOccurrences": 20,
+      "occurrences": 28,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenHeader",
+      "activeProjects": 16,
+      "allProjects": 24,
+      "activeOccurrences": 20,
+      "occurrences": 28,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenLayout",
+      "activeProjects": 16,
+      "allProjects": 24,
+      "activeOccurrences": 20,
+      "occurrences": 28,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenText",
+      "activeProjects": 15,
+      "allProjects": 23,
+      "activeOccurrences": 2628,
+      "occurrences": 3707,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenTextBox",
+      "activeProjects": 15,
+      "allProjects": 21,
+      "activeOccurrences": 527,
+      "occurrences": 792,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenAlert",
+      "activeProjects": 15,
+      "allProjects": 23,
+      "activeOccurrences": 346,
+      "occurrences": 480,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenPanelMenuItem",
+      "activeProjects": 15,
+      "allProjects": 23,
+      "activeOccurrences": 208,
+      "occurrences": 347,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenPanelMenu",
+      "activeProjects": 15,
+      "allProjects": 23,
+      "activeOccurrences": 19,
+      "occurrences": 33,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenSidebar",
+      "activeProjects": 15,
+      "allProjects": 23,
+      "activeOccurrences": 20,
+      "occurrences": 31,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenSidebarToggle",
+      "activeProjects": 15,
+      "allProjects": 22,
+      "activeOccurrences": 15,
+      "occurrences": 22,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenIcon",
+      "activeProjects": 14,
+      "allProjects": 19,
+      "activeOccurrences": 691,
+      "occurrences": 1027,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "Hyb/Hyb/Hyb.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenDropDown",
+      "activeProjects": 14,
+      "allProjects": 19,
+      "activeOccurrences": 308,
+      "occurrences": 470,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenDataGridColumn",
+      "activeProjects": 13,
+      "allProjects": 21,
+      "activeOccurrences": 1155,
+      "occurrences": 1906,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenCard",
+      "activeProjects": 13,
+      "allProjects": 18,
+      "activeOccurrences": 685,
+      "occurrences": 993,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenDataGrid",
+      "activeProjects": 13,
+      "allProjects": 21,
+      "activeOccurrences": 188,
+      "occurrences": 307,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenNumeric",
+      "activeProjects": 13,
+      "allProjects": 16,
+      "activeOccurrences": 119,
+      "occurrences": 197,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenCheckBox",
+      "activeProjects": 13,
+      "allProjects": 16,
+      "activeOccurrences": 93,
+      "occurrences": 107,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenDialog",
+      "activeProjects": 13,
+      "allProjects": 20,
+      "activeOccurrences": 15,
+      "occurrences": 22,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenNotification",
+      "activeProjects": 13,
+      "allProjects": 20,
+      "activeOccurrences": 15,
+      "occurrences": 22,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenTooltip",
+      "activeProjects": 13,
+      "allProjects": 20,
+      "activeOccurrences": 15,
+      "occurrences": 22,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenFormField",
+      "activeProjects": 12,
+      "allProjects": 18,
+      "activeOccurrences": 712,
+      "occurrences": 1162,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenTextArea",
+      "activeProjects": 11,
+      "allProjects": 17,
+      "activeOccurrences": 121,
+      "occurrences": 179,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenLink",
+      "activeProjects": 10,
+      "allProjects": 14,
+      "activeOccurrences": 85,
+      "occurrences": 99,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenBadge",
+      "activeProjects": 9,
+      "allProjects": 12,
+      "activeOccurrences": 641,
+      "occurrences": 988,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenProgressBarCircular",
+      "activeProjects": 9,
+      "allProjects": 16,
+      "activeOccurrences": 206,
+      "occurrences": 297,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenLabel",
+      "activeProjects": 9,
+      "allProjects": 11,
+      "activeOccurrences": 152,
+      "occurrences": 184,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenContextMenu",
+      "activeProjects": 9,
+      "allProjects": 15,
+      "activeOccurrences": 9,
+      "occurrences": 15,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "Ates/Ates.App/Ates.App.csproj",
+        "Ates/Ates.Front/Ates.Front.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj"
+      ]
+    },
+    {
+      "component": "RadzenColumn",
+      "activeProjects": 8,
+      "allProjects": 12,
+      "activeOccurrences": 520,
+      "occurrences": 931,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenRow",
+      "activeProjects": 8,
+      "allProjects": 12,
+      "activeOccurrences": 177,
+      "occurrences": 355,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenTabsItem",
+      "activeProjects": 8,
+      "allProjects": 12,
+      "activeOccurrences": 179,
+      "occurrences": 294,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenPassword",
+      "activeProjects": 8,
+      "allProjects": 12,
+      "activeOccurrences": 44,
+      "occurrences": 80,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenTabs",
+      "activeProjects": 8,
+      "allProjects": 12,
+      "activeOccurrences": 29,
+      "occurrences": 41,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "PoeUtils/PoeUtils/PoeUtils.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenChart",
+      "activeProjects": 7,
+      "allProjects": 11,
+      "activeOccurrences": 28,
+      "occurrences": 40,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenSwitch",
+      "activeProjects": 7,
+      "allProjects": 12,
+      "activeOccurrences": 27,
+      "occurrences": 38,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenCategoryAxis",
+      "activeProjects": 7,
+      "allProjects": 11,
+      "activeOccurrences": 23,
+      "occurrences": 32,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenValueAxis",
+      "activeProjects": 7,
+      "allProjects": 11,
+      "activeOccurrences": 23,
+      "occurrences": 32,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenProgressBar",
+      "activeProjects": 6,
+      "allProjects": 9,
+      "activeOccurrences": 51,
+      "occurrences": 75,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenLineSeries",
+      "activeProjects": 6,
+      "allProjects": 8,
+      "activeOccurrences": 20,
+      "occurrences": 35,
+      "consumers": [
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenTemplateForm",
+      "activeProjects": 5,
+      "allProjects": 11,
+      "activeOccurrences": 74,
+      "occurrences": 151,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenRequiredValidator",
+      "activeProjects": 5,
+      "allProjects": 11,
+      "activeOccurrences": 22,
+      "occurrences": 64,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
+        "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenDatePicker",
+      "activeProjects": 5,
+      "allProjects": 8,
+      "activeOccurrences": 40,
+      "occurrences": 53,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenFieldset",
+      "activeProjects": 5,
+      "allProjects": 7,
+      "activeOccurrences": 22,
+      "occurrences": 45,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Atlas/Atlas/Atlas.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenLegend",
+      "activeProjects": 5,
+      "allProjects": 6,
+      "activeOccurrences": 19,
+      "occurrences": 25,
+      "consumers": [
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenSelectBarItem",
+      "activeProjects": 5,
+      "allProjects": 5,
+      "activeOccurrences": 21,
+      "occurrences": 21,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj"
+      ]
+    },
+    {
+      "component": "RadzenSelectBar",
+      "activeProjects": 5,
+      "allProjects": 5,
+      "activeOccurrences": 8,
+      "occurrences": 8,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj"
+      ]
+    },
+    {
+      "component": "RadzenGridLines",
+      "activeProjects": 4,
+      "allProjects": 5,
+      "activeOccurrences": 14,
+      "occurrences": 15,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenMarkers",
+      "activeProjects": 4,
+      "allProjects": 5,
+      "activeOccurrences": 8,
+      "occurrences": 14,
+      "consumers": [
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenListBox",
+      "activeProjects": 4,
+      "allProjects": 5,
+      "activeOccurrences": 5,
+      "occurrences": 6,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenSplitButtonItem",
+      "activeProjects": 3,
+      "allProjects": 6,
+      "activeOccurrences": 34,
+      "occurrences": 65,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenBreadCrumbItem",
+      "activeProjects": 3,
+      "allProjects": 6,
+      "activeOccurrences": 27,
+      "occurrences": 35,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenSplitButton",
+      "activeProjects": 3,
+      "allProjects": 6,
+      "activeOccurrences": 11,
+      "occurrences": 23,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenBreadCrumb",
+      "activeProjects": 3,
+      "allProjects": 6,
+      "activeOccurrences": 12,
+      "occurrences": 16,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenSeriesDataLabels",
+      "activeProjects": 3,
+      "allProjects": 3,
+      "activeOccurrences": 13,
+      "occurrences": 13,
+      "consumers": [
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenPieSeries",
+      "activeProjects": 3,
+      "allProjects": 5,
+      "activeOccurrences": 5,
+      "occurrences": 7,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj"
+      ]
+    },
+    {
+      "component": "RadzenColumnSeries",
+      "activeProjects": 3,
+      "allProjects": 5,
+      "activeOccurrences": 4,
+      "occurrences": 6,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenTree",
+      "activeProjects": 3,
+      "allProjects": 4,
+      "activeOccurrences": 5,
+      "occurrences": 6,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenAreaSeries",
+      "activeProjects": 3,
+      "allProjects": 3,
+      "activeOccurrences": 5,
+      "occurrences": 5,
+      "consumers": [
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenBarSeries",
+      "activeProjects": 3,
+      "allProjects": 3,
+      "activeOccurrences": 4,
+      "occurrences": 4,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "Astraia/Astraia.Perf/Astraia.Perf.csproj"
+      ]
+    },
+    {
+      "component": "RadzenComponents",
+      "activeProjects": 3,
+      "allProjects": 4,
+      "activeOccurrences": 3,
+      "occurrences": 4,
+      "consumers": [
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj",
+        "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj"
+      ]
+    },
+    {
+      "component": "RadzenDataList",
+      "activeProjects": 2,
+      "allProjects": 4,
+      "activeOccurrences": 67,
+      "occurrences": 70,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenAxisTitle",
+      "activeProjects": 2,
+      "allProjects": 4,
+      "activeOccurrences": 8,
+      "occurrences": 13,
+      "consumers": [
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Bellwether/Bellwether/Bellwether.csproj",
+        "On hold/Syndes/Syndes/Syndes.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenStepsItem",
+      "activeProjects": 2,
+      "allProjects": 5,
+      "activeOccurrences": 5,
+      "occurrences": 11,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenTreeItem",
+      "activeProjects": 2,
+      "allProjects": 3,
+      "activeOccurrences": 6,
+      "occurrences": 8,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenSteps",
+      "activeProjects": 2,
+      "allProjects": 5,
+      "activeOccurrences": 3,
+      "occurrences": 7,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenSlider",
+      "activeProjects": 2,
+      "allProjects": 2,
+      "activeOccurrences": 6,
+      "occurrences": 6,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj"
+      ]
+    },
+    {
+      "component": "RadzenChartTooltipOptions",
+      "activeProjects": 2,
+      "allProjects": 2,
+      "activeOccurrences": 4,
+      "occurrences": 4,
+      "consumers": [
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenPager",
+      "activeProjects": 2,
+      "allProjects": 3,
+      "activeOccurrences": 3,
+      "occurrences": 4,
+      "consumers": [
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenRadioButtonListItem",
+      "activeProjects": 2,
+      "allProjects": 2,
+      "activeOccurrences": 4,
+      "occurrences": 4,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj"
+      ]
+    },
+    {
+      "component": "RadzenColorPicker",
+      "activeProjects": 2,
+      "allProjects": 2,
+      "activeOccurrences": 3,
+      "occurrences": 3,
+      "consumers": [
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj"
+      ]
+    },
+    {
+      "component": "RadzenRadioButtonList",
+      "activeProjects": 2,
+      "allProjects": 3,
+      "activeOccurrences": 2,
+      "occurrences": 3,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenTreeLevel",
+      "activeProjects": 2,
+      "allProjects": 2,
+      "activeOccurrences": 3,
+      "occurrences": 3,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "Orpheus/Orpheus/Orpheus.csproj"
+      ]
+    },
+    {
+      "component": "RadzenAppearanceToggle",
+      "activeProjects": 2,
+      "allProjects": 2,
+      "activeOccurrences": 2,
+      "occurrences": 2,
+      "consumers": [
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenStackedAreaSeries",
+      "activeProjects": 2,
+      "allProjects": 2,
+      "activeOccurrences": 2,
+      "occurrences": 2,
+      "consumers": [
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenTheme",
+      "activeProjects": 2,
+      "allProjects": 2,
+      "activeOccurrences": 2,
+      "occurrences": 2,
+      "consumers": [
+        "Ats/Ats.Front/Ats.Front.csproj",
+        "Olbios/Olbios.Front/Olbios.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenSkeleton",
+      "activeProjects": 1,
+      "allProjects": 2,
+      "activeOccurrences": 20,
+      "occurrences": 41,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenHtmlEditorCustomTool",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 28,
+      "occurrences": 28,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenHtmlEditorSeparator",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 11,
+      "occurrences": 11,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenArcGaugeScaleValue",
+      "activeProjects": 1,
+      "allProjects": 2,
+      "activeOccurrences": 4,
+      "occurrences": 8,
+      "consumers": [
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenTimelineItem",
+      "activeProjects": 1,
+      "allProjects": 2,
+      "activeOccurrences": 2,
+      "occurrences": 7,
+      "consumers": [
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenHtmlEditor",
+      "activeProjects": 1,
+      "allProjects": 4,
+      "activeOccurrences": 2,
+      "occurrences": 5,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj"
+      ]
+    },
+    {
+      "component": "RadzenTimeline",
+      "activeProjects": 1,
+      "allProjects": 2,
+      "activeOccurrences": 2,
+      "occurrences": 5,
+      "consumers": [
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenArcGauge",
+      "activeProjects": 1,
+      "allProjects": 2,
+      "activeOccurrences": 2,
+      "occurrences": 4,
+      "consumers": [
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenArcGaugeScale",
+      "activeProjects": 1,
+      "allProjects": 2,
+      "activeOccurrences": 2,
+      "occurrences": 4,
+      "consumers": [
+        "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
+        "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenProfileMenuItem",
+      "activeProjects": 1,
+      "allProjects": 2,
+      "activeOccurrences": 1,
+      "occurrences": 4,
+      "consumers": [
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenLengthValidator",
+      "activeProjects": 1,
+      "allProjects": 3,
+      "activeOccurrences": 1,
+      "occurrences": 3,
+      "consumers": [
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj"
+      ]
+    },
+    {
+      "component": "RadzenScheduler",
+      "activeProjects": 1,
+      "allProjects": 3,
+      "activeOccurrences": 1,
+      "occurrences": 3,
+      "consumers": [
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj"
+      ]
+    },
+    {
+      "component": "RadzenToggleButton",
+      "activeProjects": 1,
+      "allProjects": 2,
+      "activeOccurrences": 2,
+      "occurrences": 3,
+      "consumers": [
+        "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenWeekView",
+      "activeProjects": 1,
+      "allProjects": 3,
+      "activeOccurrences": 1,
+      "occurrences": 3,
+      "consumers": [
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj"
+      ]
+    },
+    {
+      "component": "RadzenProfileMenu",
+      "activeProjects": 1,
+      "allProjects": 2,
+      "activeOccurrences": 1,
+      "occurrences": 2,
+      "consumers": [
+        "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "On hold/Themis/Themis.Front/Themis.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenStackedColumnSeries",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 2,
+      "occurrences": 2,
+      "consumers": [
+        "Bellwether/Bellwether/Bellwether.csproj"
+      ]
+    },
+    {
+      "component": "RadzenAutoComplete",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 1,
+      "occurrences": 1,
+      "consumers": [
+        "Atlas/Atlas/Atlas.csproj"
+      ]
+    },
+    {
+      "component": "RadzenBarOptions",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 1,
+      "occurrences": 1,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenCheckBoxList",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 1,
+      "occurrences": 1,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenHtmlEditorBold",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 1,
+      "occurrences": 1,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenHtmlEditorIndent",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 1,
+      "occurrences": 1,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenHtmlEditorItalic",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 1,
+      "occurrences": 1,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenHtmlEditorOutdent",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 1,
+      "occurrences": 1,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenHtmlEditorRedo",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 1,
+      "occurrences": 1,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenHtmlEditorSubscript",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 1,
+      "occurrences": 1,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenHtmlEditorSuperscript",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 1,
+      "occurrences": 1,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenHtmlEditorUndo",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 1,
+      "occurrences": 1,
+      "consumers": [
+        "Astraia/Astraia.Front/Astraia.Front.csproj"
+      ]
+    },
+    {
+      "component": "RadzenImage",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 1,
+      "occurrences": 1,
+      "consumers": [
+        "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj"
+      ]
+    },
+    {
+      "component": "RadzenUpload",
+      "activeProjects": 1,
+      "allProjects": 1,
+      "activeOccurrences": 1,
+      "occurrences": 1,
+      "consumers": [
+        "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj"
+      ]
+    },
+    {
+      "component": "RadzenEmailValidator",
+      "activeProjects": 0,
+      "allProjects": 2,
+      "activeOccurrences": 0,
+      "occurrences": 5,
+      "consumers": [
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj"
+      ]
+    },
+    {
+      "component": "RadzenDayView",
+      "activeProjects": 0,
+      "allProjects": 2,
+      "activeOccurrences": 0,
+      "occurrences": 2,
+      "consumers": [
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj"
+      ]
+    },
+    {
+      "component": "RadzenMonthView",
+      "activeProjects": 0,
+      "allProjects": 2,
+      "activeOccurrences": 0,
+      "occurrences": 2,
+      "consumers": [
+        "On hold/Themis/Themis.Front/Themis.Front.csproj",
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj"
+      ]
+    },
+    {
+      "component": "RadzenCompareValidator",
+      "activeProjects": 0,
+      "allProjects": 1,
+      "activeOccurrences": 0,
+      "occurrences": 1,
+      "consumers": [
+        "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj"
+      ]
+    },
+    {
+      "component": "RadzenDonutSeries",
+      "activeProjects": 0,
+      "allProjects": 1,
+      "activeOccurrences": 0,
+      "occurrences": 1,
+      "consumers": [
+        "On hold/Themis/Themis.Front/Themis.Front.csproj"
+      ]
+    }
+  ]
+}
