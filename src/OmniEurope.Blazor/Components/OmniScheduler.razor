@@ -1,0 +1,136 @@
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler")" aria-busy="@(_loading ? "true" : "false")">
+    <header class="omni-scheduler__header">
+        <button type="button" class="omni-button" aria-label="Période précédente" @onclick="PreviousAsync">‹</button>
+        <button type="button" class="omni-button" @onclick="TodayAsync">Aujourd'hui</button>
+        <button type="button" class="omni-button" aria-label="Période suivante" @onclick="NextAsync">›</button>
+        <div class="omni-select-bar" role="radiogroup" aria-label="Vue du calendrier">
+            @foreach (var view in Enum.GetValues<OmniSchedulerView>())
+            {
+                <button type="button" class="@ViewClass(view)" role="radio" aria-checked="@(View == view ? "true" : "false")" @onclick="() => ChangeViewAsync(view)">@ViewLabel(view)</button>
+            }
+        </div>
+    </header>
+    @if (_error is not null)
+    {
+        <div class="omni-scheduler__state" role="alert">Le calendrier n'a pas pu être chargé. <button type="button" class="omni-button" @onclick="ReloadAsync">Réessayer</button></div>
+    }
+    else if (_loading)
+    {
+        <div class="omni-scheduler__state" role="status">Chargement…</div>
+    }
+    else
+    {
+        @switch (View)
+        {
+            case OmniSchedulerView.Day:
+                <OmniDayView Date="@LocalDate" Appointments="@LocalAppointments" Culture="@Culture" />
+                break;
+            case OmniSchedulerView.Week:
+                <OmniWeekView Date="@LocalDate" Appointments="@LocalAppointments" Culture="@Culture" />
+                break;
+            default:
+                <OmniMonthView Date="@LocalDate" Appointments="@LocalAppointments" Culture="@Culture" />
+                break;
+        }
+    }
+</section>
+
+@code {
+    private CancellationTokenSource? _loadCancellation;
+    private int _loadGeneration;
+    private IReadOnlyList<OmniSchedulerAppointment> _loadedItems = Array.Empty<OmniSchedulerAppointment>();
+    private bool _loading;
+    private Exception? _error;
+
+    [Parameter] public IReadOnlyList<OmniSchedulerAppointment> Items { get; set; } = Array.Empty<OmniSchedulerAppointment>();
+    [Parameter] public Func<DateTimeOffset, DateTimeOffset, CancellationToken, Task<IReadOnlyList<OmniSchedulerAppointment>>>? Load { get; set; }
+    [Parameter] public DateTimeOffset Date { get; set; } = DateTimeOffset.Now;
+    [Parameter] public EventCallback<DateTimeOffset> DateChanged { get; set; }
+    [Parameter] public OmniSchedulerView View { get; set; } = OmniSchedulerView.Month;
+    [Parameter] public EventCallback<OmniSchedulerView> ViewChanged { get; set; }
+    [Parameter] public TimeZoneInfo TimeZone { get; set; } = TimeZoneInfo.Local;
+    [Parameter] public System.Globalization.CultureInfo Culture { get; set; } = System.Globalization.CultureInfo.CurrentCulture;
+
+    private DateTimeOffset LocalDate => TimeZoneInfo.ConvertTime(Date, TimeZone);
+    private IReadOnlyList<OmniSchedulerAppointment> SourceItems => Load is null ? Items : _loadedItems;
+    private IReadOnlyList<OmniSchedulerAppointment> LocalAppointments => SourceItems.Select(item => item with
+    {
+        Start = TimeZoneInfo.ConvertTime(item.Start, TimeZone),
+        End = TimeZoneInfo.ConvertTime(item.End, TimeZone)
+    }).ToArray();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        base.OnParametersSet();
+        if (Load is not null && _loadedItems.Count == 0 && !_loading && _error is null) await ReloadAsync();
+    }
+
+    private (DateTimeOffset Start, DateTimeOffset End) Range()
+    {
+        var local = LocalDate;
+        return View switch
+        {
+            OmniSchedulerView.Day => (local.Date, local.Date.AddDays(1)),
+            OmniSchedulerView.Week => (local.AddDays(-(int)local.DayOfWeek).Date, local.AddDays(7 - (int)local.DayOfWeek).Date),
+            _ => (new DateTimeOffset(local.Year, local.Month, 1, 0, 0, 0, local.Offset), new DateTimeOffset(local.Year, local.Month, 1, 0, 0, 0, local.Offset).AddMonths(1))
+        };
+    }
+
+    public async Task ReloadAsync()
+    {
+        if (Load is null) return;
+        _loadCancellation?.Cancel();
+        _loadCancellation?.Dispose();
+        _loadCancellation = new CancellationTokenSource();
+        var token = _loadCancellation.Token;
+        var generation = ++_loadGeneration;
+        var range = Range();
+        _loading = true;
+        _error = null;
+        try
+        {
+            var items = await Load(range.Start, range.End, token);
+            if (generation == _loadGeneration) _loadedItems = items;
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+        catch (Exception exception)
+        {
+            if (generation == _loadGeneration) _error = exception;
+        }
+        finally
+        {
+            if (generation == _loadGeneration) _loading = false;
+        }
+    }
+
+    private async Task NavigateAsync(int direction)
+    {
+        var next = View switch
+        {
+            OmniSchedulerView.Day => Date.AddDays(direction),
+            OmniSchedulerView.Week => Date.AddDays(direction * 7),
+            _ => Date.AddMonths(direction)
+        };
+        Date = next;
+        await DateChanged.InvokeAsync(next);
+        if (Load is not null) await ReloadAsync();
+    }
+
+    private Task PreviousAsync() => NavigateAsync(-1);
+    private Task NextAsync() => NavigateAsync(1);
+    private async Task TodayAsync() { Date = TimeZoneInfo.ConvertTime(DateTimeOffset.Now, TimeZone); await DateChanged.InvokeAsync(Date); if (Load is not null) await ReloadAsync(); }
+    private async Task ChangeViewAsync(OmniSchedulerView view) { View = view; await ViewChanged.InvokeAsync(view); if (Load is not null) await ReloadAsync(); }
+    private string ViewClass(OmniSchedulerView view) => View == view ? "omni-select-bar__item omni-select-bar__item--selected" : "omni-select-bar__item";
+    private static string ViewLabel(OmniSchedulerView view) => view switch { OmniSchedulerView.Day => "Jour", OmniSchedulerView.Week => "Semaine", _ => "Mois" };
+
+    public ValueTask DisposeAsync()
+    {
+        _loadGeneration++;
+        _loadCancellation?.Cancel();
+        _loadCancellation?.Dispose();
+        return ValueTask.CompletedTask;
+    }
+}

@@ -1,0 +1,36 @@
+# Session Audit - Follow-ups
+
+> Deferred follow-ups raised by `/audit session` (the self-review run as `/next`'s first step).
+> Each item is work Codex can execute end-to-end in a later scoped run; no item delegates manual work to the user.
+> Deduplicated and effort-tagged; resolved items are pruned on later runs.
+> Separate from `.claude/suggestions.md` (kit improvement backlog).
+> Tags: size 🟢 quick · 🟡 medium · 🟠 significant · 🔴 major - priority low / med / high.
+> Last updated: 2026-08-10
+
+## Follow-ups
+
+- [🟡 medium · high] Remplacer la gate CSP du catalogue par une navigation dans un vrai navigateur qui attend l'interactivité, exerce les composants et contrôle rapports CSP et console - les seules requêtes HTTP actuelles valident un collecteur vide par construction. _(raised 2026-08-10 · `eng/Test-CatalogHost.ps1:45`)_
+- [🟡 medium · high] Remplacer la baseline d'API publique fondée sur des regex partielles par une extraction sémantique couvrant paramètres requis, méthodes, propriétés, constructeurs, enums et contraintes génériques - 57 paramètres requis sont actuellement absents. _(raised 2026-08-10 · `eng/Test-PublicApi.ps1:20`)_
+- [🟡 medium · high] Rendre le registre 110/110 et le catalogue comportementaux - l'existence d'un fichier Razor et les 36 composants actuellement montrés ne prouvent pas les 110 capacités annoncées. _(raised 2026-08-10 · `eng/Generate-ComponentCoverage.ps1:50`)_
+- [🟡 medium · high] Ajouter une couverture réaliste des branches DataGrid, de la géométrie chart, des huit composants jamais référencés par les tests et des budgets avec colonnes, tri, filtre et groupes - les gates actuelles ne prouvent pas les capacités cochées. _(raised 2026-08-10 · `tests/OmniEurope.Blazor.Tests/PerformanceBudgetTests.cs:26`)_
+- [🟡 medium · high] Paramétrer ou localiser toutes les chaînes visibles et labels d'accessibilité selon `STD-I18N` - la nouvelle surface contient de nombreuses chaînes françaises codées en dur. _(raised 2026-08-10 · `src/OmniEurope.Blazor/Components/OmniDataGrid.razor:11`)_
+- [🟡 medium · high] Aligner le plan, le README et les gates sur les capacités réellement prouvées - plusieurs cases navigateur, accessibilité, performance, API, scheduler, chart et HtmlEditor sont cochées avant leur validation observable. _(raised 2026-08-10 · `plans/PLAN-002-remplacement-radzen.md:35`)_
+- [🟠 significant · high] Implémenter un contexte chart qui calcule domaines, transformations d'axes et baselines cumulées - les séries empilées se superposent et les axes non 0-100 produisent une géométrie fausse. _(raised 2026-08-10 · `src/OmniEurope.Blazor/Components/OmniStackedColumnSeries.razor:2`)_
+- [🟠 significant · high] Construire une projection DataGrid unique par changement d'état et la réutiliser pour la page, le total et les groupes - le rendu rematérialise actuellement filtres et tris plusieurs fois. _(raised 2026-08-10 · `src/OmniEurope.Blazor/Components/OmniDataGrid.razor:221`)_
+- [🟠 significant · high] Ajouter un chemin virtualisé réel au DropDown pour les gros volumes - le coût quadratique a été supprimé, mais les 10 000 options restent entièrement matérialisées dans le DOM. _(raised 2026-08-10 · `src/OmniEurope.Blazor/Components/OmniDropDown.razor:15`)_
+- [🟠 significant · high] Implémenter et tester le contrat de sélection et de composition IME de l'éditeur - les commandes entourent actuellement tout le document et aucun gestionnaire de composition n'existe. _(raised 2026-08-10 · `src/OmniEurope.Blazor/Components/OmniHtmlEditor.razor:20`)_
+- [🔴 major · high] Déplacer par lots la logique des 101 nouveaux composants vers des fichiers `.razor.cs` et câbler la garde `GEN004` si le projet conserve la convention `_Generic` - la migration systémique dépasse une correction d'audit sûre. _(raised 2026-08-10 · `src/OmniEurope.Blazor/Components/OmniDataGrid.razor:145`)_
+- [🟢 quick · med] Mettre à jour une définition DataGrid lorsque les paramètres d'une colonne changent et retirer l'ancienne clé en cas de renommage - l'enregistrement unique dans `OnInitialized` laisse aujourd'hui un état obsolète. _(raised 2026-08-10 · `src/OmniEurope.Blazor/Components/OmniDataGridColumn.razor:47`)_
+- [🟢 quick · med] Corriger l'analyse de `OmniNumeric` pour accepter le format invariant réel de `input type=number` tout en conservant la culture d'affichage - le test `fr-FR` injecte actuellement une valeur DOM artificielle. _(raised 2026-08-10 · `src/OmniEurope.Blazor/Components/OmniNumeric.razor:43`)_
+- [🟢 quick · med] Synchroniser l'état interne de `OmniTreeItem` quand le parent modifie le paramètre contrôlé `Expanded`. _(raised 2026-08-10 · `src/OmniEurope.Blazor/Components/OmniTreeItem.razor:72`)_
+- [🟢 quick · med] Borner le corps et la rétention de `/csp-report`, puis limiter la sortie de `/csp-status` - la file actuelle peut croître sans borne. _(raised 2026-08-10 · `samples/OmniEurope.Blazor.Catalog/Program.cs:23`)_
+- [🟢 quick · med] Ne plus afficher directement `Exception.Message` dans `OmniUpload`; exposer un message générique et un canal applicatif pour le diagnostic. _(raised 2026-08-10 · `src/OmniEurope.Blazor/Components/OmniUpload.razor:147`)_
+- [🟢 quick · med] Faire régénérer et comparer en CI les inventaires Radzen, contrats et couvertures nouvellement ajoutés afin qu'ils ne puissent pas dériver silencieusement. _(raised 2026-08-10 · `.github/workflows/ci.yml:42`)_
+- [🟡 medium · med] Corriger le focus trap du dialogue pour cibler les premier et dernier éléments réellement focalisables, y compris le footer, puis le vérifier dans un navigateur. _(raised 2026-08-10 · `src/OmniEurope.Blazor/Components/OmniDialog.razor:14`)_
+- [🟡 medium · med] Définir explicitement le contrat de récurrence Scheduler, puis soit implémenter et tester son expansion, soit documenter `RecurrenceRule` comme donnée passive. _(raised 2026-08-10 · `src/OmniEurope.Blazor/Components/OmniSchedulerTypes.cs:10`)_
+- [🟡 medium · med] Injecter un `TimeProvider` dans Scheduler pour rendre l'action Aujourd'hui déterministe dans les tests de fuseaux et de dates limites. _(raised 2026-08-10 · `src/OmniEurope.Blazor/Components/OmniScheduler.razor:112`)_
+- [🟠 significant · med] Réduire la surface SemVer en rendant internes les types de plomberie sans appelant public et en organisant les fichiers `*Types.cs` selon la convention d'un type public par fichier - cette correction est potentiellement cassante. _(raised 2026-08-10 · `src/OmniEurope.Blazor/Components/OmniDataGridTypes.cs:48`)_
+- [🟠 significant · med] Stabiliser les tests de performance et d'annulation asynchrone avec échauffement, isolation et synchronisation explicite plutôt que seuils muraux et délais fixes. _(raised 2026-08-10 · `tests/OmniEurope.Blazor.Tests/PerformanceBudgetTests.cs:12`)_
+- [🟠 significant · med] Ajouter une documentation de test couvrant hôtes HTTP, navigateur, accessibilité, compatibilité multi-hôte et limites de chaque gate. _(raised 2026-08-10 · `.claude/test-config.md:12`)_
+- [🟢 quick · low] Restreindre `connect-src` aux hôtes WebSocket nécessaires dans les hôtes de smoke test. _(raised 2026-08-10 · `samples/OmniEurope.Blazor.Catalog/Program.cs:16`)_
+- [🟢 quick · low] Documenter et tester que `IBrowserFile.ContentType` ne remplace jamais une validation serveur par signature de fichier. _(raised 2026-08-10 · `src/OmniEurope.Blazor/Components/OmniUpload.razor:96`)_

@@ -1,0 +1,13 @@
+@inherits OmniComponentBase
+
+<nav @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-panel-menu")" aria-label="@Label">
+    @ChildContent
+</nav>
+
+@code {
+    [Parameter]
+    public string Label { get; set; } = "Navigation";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

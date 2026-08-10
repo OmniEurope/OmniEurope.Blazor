@@ -1,0 +1,17 @@
+<g class="omni-chart__axis omni-chart__axis--value">
+    <line x1="5" y1="5" x2="5" y2="95" />
+    @for (var index = 0; index <= TickCount; index++)
+    {
+        var value = Minimum + (Maximum - Minimum) * index / Math.Max(1, TickCount);
+        var y = 95 - index * 90d / Math.Max(1, TickCount);
+        <g><text x="3" y="@OmniChartGeometry.Number(y)" text-anchor="end">@Format(value)</text></g>
+    }
+</g>
+
+@code {
+    [Parameter] public double Minimum { get; set; }
+    [Parameter] public double Maximum { get; set; } = 100;
+    [Parameter] public int TickCount { get; set; } = 5;
+    [Parameter] public Func<double, string>? Formatter { get; set; }
+    private string Format(double value) => Formatter?.Invoke(value) ?? OmniChartGeometry.Number(value);
+}

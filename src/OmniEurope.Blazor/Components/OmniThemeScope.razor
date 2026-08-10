@@ -1,0 +1,20 @@
+@inherits OmniComponentBase
+
+<div id="@Id"
+     class="@Css("omni-theme-scope")"
+     data-omni-theme="@Appearance.ToString().ToLowerInvariant()"
+     data-omni-density="@Density.ToString().ToLowerInvariant()"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public OmniAppearance Appearance { get; set; }
+
+    [Parameter]
+    public OmniDensity Density { get; set; } = OmniDensity.Comfortable;
+}

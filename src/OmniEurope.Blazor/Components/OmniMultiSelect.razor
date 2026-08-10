@@ -1,0 +1,59 @@
+@typeparam TValue
+@inherits OmniInputBase<IReadOnlyList<TValue>>
+
+<select @attributes="AdditionalAttributes"
+        id="@Id"
+        class="@InputCss("omni-input", "omni-multi-select")"
+        multiple
+        size="@VisibleRows"
+        disabled="@Disabled"
+        aria-invalid="@AriaInvalid"
+        aria-describedby="@AriaDescribedBy"
+        @onchange="HandleChange">
+    @for (var index = 0; index < Options.Count; index++)
+    {
+        var option = Options[index];
+        <option value="@index" disabled="@option.Disabled" selected="@IsSelected(option.Value)">@option.Text</option>
+    }
+</select>
+
+@code {
+    [Parameter, EditorRequired]
+    public IReadOnlyList<OmniOption<TValue>> Options { get; set; } = Array.Empty<OmniOption<TValue>>();
+
+    [Parameter]
+    public int VisibleRows { get; set; } = 5;
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public string? AriaDescribedBy { get; set; }
+
+    private bool IsSelected(TValue value) =>
+        CurrentValue?.Contains(value, EqualityComparer<TValue>.Default) == true;
+
+    private void HandleChange(ChangeEventArgs args)
+    {
+        var keys = args.Value switch
+        {
+            string[] values => values,
+            IEnumerable<string> values => values.ToArray(),
+            string value => [value],
+            _ => Array.Empty<string>()
+        };
+
+        CurrentValue = keys
+            .Select(key => int.TryParse(key, out var index) ? index : -1)
+            .Where(index => index >= 0 && index < Options.Count && !Options[index].Disabled)
+            .Select(index => Options[index].Value)
+            .ToArray();
+    }
+
+    protected override bool TryParseValueFromString(string? value, out IReadOnlyList<TValue> result, out string validationErrorMessage)
+    {
+        result = Array.Empty<TValue>();
+        validationErrorMessage = "La sélection multiple n'est pas valide.";
+        return false;
+    }
+}

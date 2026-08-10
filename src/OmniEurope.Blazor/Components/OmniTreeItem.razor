@@ -1,0 +1,123 @@
+@typeparam TValue
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+<div @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@Css("omni-tree__item", Selected ? "omni-tree__item--selected" : null)"
+     role="treeitem"
+     aria-selected="@(Selected ? "true" : "false")"
+     aria-expanded="@(HasChildren ? (_expanded ? "true" : "false") : null)"
+     tabindex="@TabIndex"
+     @onkeydown="HandleKeyDownAsync"
+     @onkeydown:stopPropagation="true">
+    <div class="omni-tree__row">
+        @if (HasChildren)
+        {
+            <button type="button" class="omni-tree__toggle" aria-label="@(_expanded ? "Réduire" : "Développer")" @onclick="ToggleExpandedAsync">@(_expanded ? "▾" : "▸")</button>
+        }
+        <button type="button" class="omni-tree__select" disabled="@Disabled" @onclick="SelectAsync">@Text</button>
+    </div>
+    @if (_expanded && HasChildren)
+    {
+        @if (_loading)
+        {
+            <span class="omni-tree__state" role="status">Chargement…</span>
+        }
+        else if (_loadError)
+        {
+            <span class="omni-tree__state" role="alert">Le chargement a échoué.</span>
+        }
+        <OmniTreeLevel>@ChildContent</OmniTreeLevel>
+    }
+</div>
+
+@code {
+    private bool _expanded;
+    private bool _loaded;
+    private bool _loading;
+    private bool _loadError;
+    private CancellationTokenSource? _loadCancellation;
+
+    [CascadingParameter]
+    private OmniTreeContext<TValue>? Context { get; set; }
+
+    [Parameter]
+    public TValue Value { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public string Text { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool Expanded { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> ExpandedChanged { get; set; }
+
+    [Parameter]
+    public Func<CancellationToken, Task>? LoadChildren { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public int TabIndex { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private bool HasChildren => ChildContent is not null || LoadChildren is not null;
+    private bool Selected => Context?.SelectedValues.Contains(Value, EqualityComparer<TValue>.Default) == true;
+
+    protected override void OnInitialized() => _expanded = Expanded;
+
+    private async Task ToggleExpandedAsync()
+    {
+        _expanded = !_expanded;
+        await ExpandedChanged.InvokeAsync(_expanded);
+        if (!_expanded || _loaded || LoadChildren is null)
+        {
+            return;
+        }
+
+        _loadCancellation?.Cancel();
+        _loadCancellation?.Dispose();
+        _loadCancellation = new CancellationTokenSource();
+        _loading = true;
+        _loadError = false;
+        try
+        {
+            await LoadChildren(_loadCancellation.Token);
+            _loaded = true;
+        }
+        catch (OperationCanceledException) when (_loadCancellation.IsCancellationRequested) { }
+        catch (Exception) { _loadError = true; }
+        finally { _loading = false; }
+    }
+    private Task SelectAsync() => Disabled || Context is null ? Task.CompletedTask : Context.ToggleSelectionAsync(Value);
+
+    private Task HandleKeyDownAsync(KeyboardEventArgs args)
+    {
+        if (args.Key == "ArrowRight" && HasChildren)
+        {
+            if (!_expanded) return ToggleExpandedAsync();
+        }
+        else if (args.Key == "ArrowLeft" && HasChildren)
+        {
+            if (_expanded) return ToggleExpandedAsync();
+        }
+        else if (args.Key is "Enter" or " ")
+        {
+            return SelectAsync();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        _loadCancellation?.Cancel();
+        _loadCancellation?.Dispose();
+        return ValueTask.CompletedTask;
+    }
+}

@@ -1,0 +1,451 @@
+@typeparam TItem
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+<CascadingValue Value="_context" IsFixed="true">@Columns</CascadingValue>
+
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-data-grid")" aria-busy="@(_loading ? "true" : "false")">
+    @if (_error is not null)
+    {
+        <div class="omni-data-grid__state" role="alert">
+            <span>Le chargement de la grille a échoué.</span>
+            <button type="button" class="omni-button" @onclick="ReloadAsync">Réessayer</button>
+        </div>
+    }
+    else
+    {
+        <div class="omni-data-grid__viewport">
+            <table class="omni-data-grid__table">
+                @if (!string.IsNullOrWhiteSpace(Caption))
+                {
+                    <caption>@Caption</caption>
+                }
+                <thead>
+                    <tr>
+                        @if (DetailTemplate is not null)
+                        {
+                            <th scope="col"><span class="omni-visually-hidden">Développement</span></th>
+                        }
+                        @if (SelectionMode != OmniDataGridSelectionMode.None)
+                        {
+                            <th scope="col"><span class="omni-visually-hidden">Sélection</span></th>
+                        }
+                        @foreach (var column in VisibleColumns)
+                        {
+                            <th class="@ColumnClass(column)" scope="col" aria-sort="@AriaSort(column)">
+                                @if (column.Sortable)
+                                {
+                                    <button type="button" class="omni-data-grid__sort" @onclick="args => SortAsync(column.Key, args.ShiftKey)">@column.Title</button>
+                                }
+                                else
+                                {
+                                    @column.Title
+                                }
+                                @if (column.Resizable)
+                                {
+                                    <button type="button" class="omni-data-grid__resize" aria-label="Élargir @column.Title" @onclick="() => ResizeColumnAsync(column)">↔</button>
+                                }
+                            </th>
+                        }
+                        @if (HasEditing)
+                        {
+                            <th scope="col"><span class="omni-visually-hidden">Édition</span></th>
+                        }
+                    </tr>
+                    @if (VisibleColumns.Any(column => column.Filterable))
+                    {
+                        <tr class="omni-data-grid__filters">
+                            @if (DetailTemplate is not null) { <th></th> }
+                            @if (SelectionMode != OmniDataGridSelectionMode.None)
+                            {
+                                <th></th>
+                            }
+                            @foreach (var column in VisibleColumns)
+                            {
+                                <th>
+                                    @if (column.Filterable)
+                                    {
+                                        <label class="omni-visually-hidden" for="@FilterId(column)">Filtrer @column.Title</label>
+                                        <input id="@FilterId(column)" class="omni-input omni-data-grid__filter" value="@FilterValue(column.Key)" @onchange="args => FilterAsync(column.Key, args.Value?.ToString() ?? string.Empty)" />
+                                    }
+                                </th>
+                            }
+                            @if (HasEditing) { <th></th> }
+                        </tr>
+                    }
+                </thead>
+                <tbody>
+                    @if (_loading)
+                    {
+                        <tr><td colspan="@ColumnSpan" class="omni-data-grid__state">Chargement…</td></tr>
+                    }
+                    else if (VisibleItems.Count == 0)
+                    {
+                        <tr><td colspan="@ColumnSpan" class="omni-data-grid__state">Aucune donnée.</td></tr>
+                    }
+                    else
+                    {
+                        var firstGroup = true;
+                        object? previousGroup = null;
+                        @foreach (var item in VisibleItems)
+                        {
+                            var currentGroup = GroupBy?.Invoke(item);
+                            if (GroupBy is not null && (firstGroup || !Equals(previousGroup, currentGroup)))
+                            {
+                                var groupCount = VisibleItems.Count(candidate => Equals(GroupBy(candidate), currentGroup));
+                                <tr class="omni-data-grid__group"><th colspan="@ColumnSpan" scope="rowgroup">@GroupText(currentGroup, groupCount)</th></tr>
+                            }
+                            firstGroup = false;
+                            previousGroup = currentGroup;
+                            var key = ItemKey(item);
+                            <tr class="@(IsSelected(key) ? "omni-data-grid__row--selected" : null)">
+                                @if (DetailTemplate is not null)
+                                {
+                                    <td><button type="button" class="omni-data-grid__expand" aria-expanded="@(IsExpanded(key) ? "true" : "false")" aria-label="@(IsExpanded(key) ? "Réduire la ligne" : "Développer la ligne")" @onclick="() => ToggleExpandedAsync(key)">@(IsExpanded(key) ? "▾" : "▸")</button></td>
+                                }
+                                @if (SelectionMode != OmniDataGridSelectionMode.None)
+                                {
+                                    <td><input type="checkbox" class="omni-checkbox" checked="@IsSelected(key)" aria-label="Sélectionner la ligne" @onchange="() => ToggleSelectionAsync(key)" /></td>
+                                }
+                                @foreach (var column in VisibleColumns)
+                                {
+                                    <td class="@ColumnClass(column)">@Cell(column, item, IsEditing?.Invoke(item) == true)</td>
+                                }
+                                @if (HasEditing)
+                                {
+                                    <td class="omni-data-grid__actions">
+                                        @if (IsEditing?.Invoke(item) == true)
+                                        {
+                                            <button type="button" class="omni-button" @onclick="() => RowUpdated.InvokeAsync(item)">Enregistrer</button>
+                                            <button type="button" class="omni-button" @onclick="() => EditCancelled.InvokeAsync(item)">Annuler</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="omni-button" @onclick="() => EditRequested.InvokeAsync(item)">Modifier</button>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                            @if (DetailTemplate is not null && IsExpanded(key))
+                            {
+                                <tr class="omni-data-grid__detail"><td colspan="@ColumnSpan">@DetailTemplate(item)</td></tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (PageCount > 1)
+        {
+            <OmniPager Page="@Page" PageCount="@PageCount" PageChanged="ChangePageAsync" />
+        }
+    }
+</div>
+
+@code {
+    private readonly List<OmniDataGridColumnDefinition<TItem>> _columns = [];
+    private readonly Dictionary<string, string> _filters = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, OmniDataGridColumnWidth> _columnWidths = new(StringComparer.Ordinal);
+    private OmniDataGridContext<TItem> _context = default!;
+    private CancellationTokenSource? _loadCancellation;
+    private int _loadGeneration;
+    private IReadOnlyList<TItem> _remoteItems = Array.Empty<TItem>();
+    private int _remoteTotalCount;
+    private readonly List<OmniDataGridSort> _sorts = [];
+    private bool _loading;
+    private Exception? _error;
+
+    [Parameter]
+    public IReadOnlyList<TItem> Items { get; set; } = Array.Empty<TItem>();
+
+    [Parameter]
+    public Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<TItem>>>? Load { get; set; }
+
+    [Parameter]
+    public RenderFragment? Columns { get; set; }
+
+    [Parameter]
+    public string? Caption { get; set; }
+
+    [Parameter]
+    public int Page { get; set; } = 1;
+
+    [Parameter]
+    public EventCallback<int> PageChanged { get; set; }
+
+    [Parameter]
+    public int PageSize { get; set; } = 20;
+
+    [Parameter]
+    public OmniDataGridSelectionMode SelectionMode { get; set; }
+
+    [Parameter]
+    public Func<TItem, object>? KeySelector { get; set; }
+
+    [Parameter]
+    public IReadOnlyList<object> SelectedKeys { get; set; } = Array.Empty<object>();
+
+    [Parameter]
+    public EventCallback<IReadOnlyList<object>> SelectedKeysChanged { get; set; }
+
+    [Parameter]
+    public Func<TItem, bool>? IsEditing { get; set; }
+
+    [Parameter]
+    public EventCallback<TItem> EditRequested { get; set; }
+
+    [Parameter]
+    public EventCallback<TItem> RowUpdated { get; set; }
+
+    [Parameter]
+    public EventCallback<TItem> EditCancelled { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem>? DetailTemplate { get; set; }
+
+    [Parameter]
+    public IReadOnlyList<object> ExpandedKeys { get; set; } = Array.Empty<object>();
+
+    [Parameter]
+    public EventCallback<IReadOnlyList<object>> ExpandedKeysChanged { get; set; }
+
+    [Parameter]
+    public Func<TItem, object?>? GroupBy { get; set; }
+
+    [Parameter]
+    public Func<object?, int, string>? GroupLabel { get; set; }
+
+    [Parameter]
+    public EventCallback<OmniDataGridColumnWidthChange> ColumnWidthChanged { get; set; }
+
+    private IEnumerable<OmniDataGridColumnDefinition<TItem>> VisibleColumns => _columns.Where(column => column.Visible);
+    private IReadOnlyList<TItem> VisibleItems => Load is null ? LocalPage() : _remoteItems;
+    private int TotalCount => Load is null ? LocalFiltered().Count : _remoteTotalCount;
+    private int PageCount => Math.Max(1, (int)Math.Ceiling(TotalCount / (double)Math.Max(1, PageSize)));
+    private bool HasEditing => VisibleColumns.Any(column => column.EditTemplate is not null);
+    private int ColumnSpan => VisibleColumns.Count() + (SelectionMode == OmniDataGridSelectionMode.None ? 0 : 1) + (HasEditing ? 1 : 0) + (DetailTemplate is null ? 0 : 1);
+
+    protected override void OnInitialized()
+    {
+        _context = new OmniDataGridContext<TItem> { Register = RegisterColumn, Unregister = UnregisterColumn };
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        base.OnParametersSet();
+        if (Load is not null && _remoteItems.Count == 0 && !_loading && _error is null)
+        {
+            await ReloadAsync();
+        }
+    }
+
+    private void RegisterColumn(OmniDataGridColumnDefinition<TItem> definition)
+    {
+        var index = _columns.FindIndex(column => column.Key == definition.Key);
+        if (index >= 0)
+        {
+            _columns[index] = definition;
+        }
+        else
+        {
+            _columns.Add(definition);
+        }
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    private void UnregisterColumn(string key)
+    {
+        _columns.RemoveAll(column => column.Key == key);
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    private IReadOnlyList<TItem> LocalFiltered()
+    {
+        IEnumerable<(TItem Item, int Index)> query = Items.Select((item, index) => (item, index));
+        foreach (var filter in _filters.Where(pair => !string.IsNullOrWhiteSpace(pair.Value)))
+        {
+            var column = _columns.FirstOrDefault(candidate => candidate.Key == filter.Key);
+            if (column is not null)
+            {
+                query = query.Where(entry => column.FilterPredicate?.Invoke(entry.Item, filter.Value)
+                    ?? MatchesFilter(column.Value(entry.Item), filter.Value, column.FilterOperator));
+            }
+        }
+
+        IOrderedEnumerable<(TItem Item, int Index)>? ordered = null;
+        foreach (var sort in _sorts)
+        {
+            var column = _columns.FirstOrDefault(candidate => candidate.Key == sort.Key);
+            if (column is not null)
+            {
+                ordered = ordered is null
+                    ? (sort.Descending
+                        ? query.OrderByDescending(entry => column.Value(entry.Item), OmniObjectComparer.Instance)
+                        : query.OrderBy(entry => column.Value(entry.Item), OmniObjectComparer.Instance))
+                    : (sort.Descending
+                        ? ordered.ThenByDescending(entry => column.Value(entry.Item), OmniObjectComparer.Instance)
+                        : ordered.ThenBy(entry => column.Value(entry.Item), OmniObjectComparer.Instance));
+            }
+        }
+
+        if (ordered is not null) query = ordered.ThenBy(entry => entry.Index);
+
+        return query.Select(entry => entry.Item).ToArray();
+    }
+
+    private IReadOnlyList<TItem> LocalPage() => LocalFiltered().Skip((Math.Max(1, Page) - 1) * PageSize).Take(PageSize).ToArray();
+    private object ItemKey(TItem item) => KeySelector?.Invoke(item) ?? item!;
+    private bool IsSelected(object key) => SelectedKeys.Contains(key);
+    private bool IsExpanded(object key) => ExpandedKeys.Contains(key);
+    private string GroupText(object? key, int count) => GroupLabel?.Invoke(key, count) ?? $"{key} ({count})";
+
+    private async Task ToggleSelectionAsync(object key)
+    {
+        var keys = SelectedKeys.ToList();
+        if (keys.Contains(key))
+        {
+            keys.Remove(key);
+        }
+        else
+        {
+            if (SelectionMode == OmniDataGridSelectionMode.Single)
+            {
+                keys.Clear();
+            }
+            keys.Add(key);
+        }
+        await SelectedKeysChanged.InvokeAsync(keys);
+    }
+
+    private Task ToggleExpandedAsync(object key)
+    {
+        var keys = ExpandedKeys.ToList();
+        if (!keys.Remove(key)) keys.Add(key);
+        return ExpandedKeysChanged.InvokeAsync(keys);
+    }
+
+    private async Task SortAsync(string key, bool append)
+    {
+        var existing = _sorts.FindIndex(sort => sort.Key == key);
+        var descending = existing >= 0 && !_sorts[existing].Descending;
+        if (!append) _sorts.Clear();
+        else if (existing >= 0) _sorts.RemoveAt(existing);
+        _sorts.Add(new OmniDataGridSort(key, descending));
+        if (Load is not null) await ReloadAsync();
+    }
+
+    private async Task FilterAsync(string key, string value)
+    {
+        _filters[key] = value;
+        if (Page != 1) await PageChanged.InvokeAsync(1);
+        if (Load is not null) await ReloadAsync();
+    }
+
+    private async Task ChangePageAsync(int page)
+    {
+        Page = page;
+        await PageChanged.InvokeAsync(page);
+        if (Load is not null) await ReloadAsync();
+    }
+
+    public async Task ReloadAsync()
+    {
+        if (Load is null) return;
+        _loadCancellation?.Cancel();
+        _loadCancellation?.Dispose();
+        _loadCancellation = new CancellationTokenSource();
+        var token = _loadCancellation.Token;
+        var generation = ++_loadGeneration;
+        _loading = true;
+        _error = null;
+        try
+        {
+            var filters = _filters.Where(pair => !string.IsNullOrWhiteSpace(pair.Value))
+                .Select(pair => new OmniDataGridFilter(pair.Key, _columns.First(column => column.Key == pair.Key).FilterOperator, pair.Value))
+                .ToArray();
+            var result = await Load(new OmniDataGridLoadRequest(Page, PageSize, _sorts.ToArray(), filters, token));
+            if (generation == _loadGeneration)
+            {
+                _remoteItems = result.Items;
+                _remoteTotalCount = result.TotalCount;
+            }
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+        catch (Exception exception)
+        {
+            if (generation == _loadGeneration) _error = exception;
+        }
+        finally
+        {
+            if (generation == _loadGeneration) _loading = false;
+        }
+    }
+
+    private string? AriaSort(OmniDataGridColumnDefinition<TItem> column)
+    {
+        var sort = _sorts.FirstOrDefault(candidate => candidate.Key == column.Key);
+        return sort is null ? null : sort.Descending ? "descending" : "ascending";
+    }
+    private string FilterId(OmniDataGridColumnDefinition<TItem> column) => $"{Id ?? "omni-grid"}-filter-{column.Key}";
+    private string FilterValue(string key) => _filters.GetValueOrDefault(key, string.Empty);
+    private string ColumnClass(OmniDataGridColumnDefinition<TItem> column)
+    {
+        var width = _columnWidths.GetValueOrDefault(column.Key, column.Width);
+        return $"omni-data-grid__column--{width.ToString().ToLowerInvariant()}";
+    }
+
+    private Task ResizeColumnAsync(OmniDataGridColumnDefinition<TItem> column)
+    {
+        var current = _columnWidths.GetValueOrDefault(column.Key, column.Width);
+        var next = current == OmniDataGridColumnWidth.Wide ? OmniDataGridColumnWidth.Auto : (OmniDataGridColumnWidth)((int)current + 1);
+        _columnWidths[column.Key] = next;
+        return ColumnWidthChanged.InvokeAsync(new OmniDataGridColumnWidthChange(column.Key, next));
+    }
+    private RenderFragment Cell(OmniDataGridColumnDefinition<TItem> column, TItem item, bool editing) => builder =>
+    {
+        if (editing && column.EditTemplate is not null) builder.AddContent(0, column.EditTemplate(item));
+        else if (column.Template is not null) builder.AddContent(1, column.Template(item));
+        else builder.AddContent(2, column.Format?.Invoke(column.Value(item)) ?? column.Value(item)?.ToString());
+    };
+
+    private static bool MatchesFilter(object? candidate, string filter, OmniDataGridFilterOperator filterOperator)
+    {
+        var text = candidate?.ToString() ?? string.Empty;
+        return filterOperator switch
+        {
+            OmniDataGridFilterOperator.Equals => string.Equals(text, filter, StringComparison.OrdinalIgnoreCase),
+            OmniDataGridFilterOperator.StartsWith => text.StartsWith(filter, StringComparison.OrdinalIgnoreCase),
+            OmniDataGridFilterOperator.EndsWith => text.EndsWith(filter, StringComparison.OrdinalIgnoreCase),
+            OmniDataGridFilterOperator.GreaterThan => CompareNumeric(text, filter) > 0,
+            OmniDataGridFilterOperator.LessThan => CompareNumeric(text, filter) < 0,
+            _ => text.Contains(filter, StringComparison.OrdinalIgnoreCase)
+        };
+    }
+
+    private static int CompareNumeric(string left, string right) =>
+        decimal.TryParse(left, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, out var leftNumber)
+        && decimal.TryParse(right, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, out var rightNumber)
+            ? leftNumber.CompareTo(rightNumber)
+            : string.Compare(left, right, StringComparison.CurrentCultureIgnoreCase);
+
+    public ValueTask DisposeAsync()
+    {
+        _loadGeneration++;
+        _loadCancellation?.Cancel();
+        _loadCancellation?.Dispose();
+        return ValueTask.CompletedTask;
+    }
+
+    private sealed class OmniObjectComparer : IComparer<object?>
+    {
+        public static OmniObjectComparer Instance { get; } = new();
+        public int Compare(object? left, object? right)
+        {
+            if (ReferenceEquals(left, right)) return 0;
+            if (left is null) return -1;
+            if (right is null) return 1;
+            if (left is IComparable comparable) return comparable.CompareTo(right);
+            return string.Compare(left.ToString(), right.ToString(), StringComparison.CurrentCulture);
+        }
+    }
+}

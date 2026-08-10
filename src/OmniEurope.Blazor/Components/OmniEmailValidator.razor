@@ -1,0 +1,16 @@
+@inherits OmniValidatorBase<string>
+
+@if (ShowMessage && !string.IsNullOrWhiteSpace(CurrentError))
+{
+    <div class="omni-validation-message" role="alert">@CurrentError</div>
+}
+
+@code {
+    private static readonly System.ComponentModel.DataAnnotations.EmailAddressAttribute EmailRule = new();
+
+    [Parameter]
+    public string Message { get; set; } = "L'adresse e-mail n'est pas valide.";
+
+    protected override string? GetValidationError(string value) =>
+        string.IsNullOrWhiteSpace(value) || EmailRule.IsValid(value) ? null : Message;
+}

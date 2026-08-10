@@ -1,0 +1,10 @@
+@inherits OmniComponentBase
+
+<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-timeline")" aria-label="@Label">
+    <ol class="omni-timeline__list">@ChildContent</ol>
+</section>
+
+@code {
+    [Parameter] public string Label { get; set; } = "Chronologie";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

@@ -1,0 +1,53 @@
+<EditForm EditContext="@EditContext">
+    <OmniDropDown TValue="string" Id="drop-down" Options="@Options" AllowEmpty="true" @bind-Value="Model.Single" />
+    <OmniMultiSelect TValue="string" Id="multi-select" Options="@Options" @bind-Value="Model.Multiple" />
+    <OmniListBox TValue="string" Id="list-box" Options="@Options" @bind-Value="Model.ListValue" />
+    <OmniAutocomplete TValue="string" Id="autocomplete" Search="SearchAsync" DebounceMilliseconds="1" @bind-Value="Model.Autocomplete" />
+    <OmniCheckBoxList TValue="string" Id="checkbox-list" Label="Choix" Options="@Options" @bind-Value="Model.Checked" />
+    <OmniRadioButtonList TValue="string" Id="radio-list" Label="Choix unique" Options="@Options" @bind-Value="Model.Radio" />
+    <OmniSelectBar TValue="string" Id="select-bar" Label="Vue" Options="@Options" @bind-Value="Model.Bar" />
+    <OmniDatePicker Id="date" Minimum="@MinimumDate" Maximum="@MaximumDate" @bind-Value="Model.Date" />
+    <OmniSlider Id="slider" Minimum="0" Maximum="10" Step="0.5" @bind-Value="Model.Amount" />
+    <OmniColorPicker Id="color" @bind-Value="Model.Color" />
+</EditForm>
+
+@code {
+    public IReadOnlyList<OmniOption<string>> Options { get; } =
+    [
+        new("alpha", "Alpha"),
+        new("beta", "Beta"),
+        new("gamma", "Gamma")
+    ];
+
+    public SelectionTestModel Model { get; } = new();
+    public EditContext EditContext { get; private set; } = default!;
+    public int SearchCount { get; private set; }
+    private DateOnly MinimumDate { get; } = new(2020, 1, 1);
+    private DateOnly MaximumDate { get; } = new(2030, 12, 31);
+
+    protected override void OnInitialized() => EditContext = new EditContext(Model);
+
+    private Task<IReadOnlyList<OmniOption<string>>> SearchAsync(string text, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        SearchCount++;
+        IReadOnlyList<OmniOption<string>> results = Options
+            .Where(option => option.Text.Contains(text, StringComparison.OrdinalIgnoreCase))
+            .ToArray();
+        return Task.FromResult(results);
+    }
+
+    public sealed class SelectionTestModel
+    {
+        public string Single { get; set; } = string.Empty;
+        public IReadOnlyList<string> Multiple { get; set; } = Array.Empty<string>();
+        public string ListValue { get; set; } = string.Empty;
+        public string Autocomplete { get; set; } = string.Empty;
+        public IReadOnlyList<string> Checked { get; set; } = Array.Empty<string>();
+        public string Radio { get; set; } = string.Empty;
+        public string Bar { get; set; } = string.Empty;
+        public DateOnly? Date { get; set; }
+        public double Amount { get; set; }
+        public string Color { get; set; } = "#000000";
+    }
+}

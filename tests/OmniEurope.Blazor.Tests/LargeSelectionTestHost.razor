@@ -1,0 +1,11 @@
+<EditForm EditContext="@EditContext">
+    <OmniDropDown TValue="int" Id="large-selector" Options="@Options" @bind-Value="Model.Value" />
+</EditForm>
+
+@code {
+    public LargeSelectionModel Model { get; } = new();
+    public EditContext EditContext { get; private set; } = default!;
+    private IReadOnlyList<OmniOption<int>> Options { get; } = Enumerable.Range(0, 10_000).Select(value => new OmniOption<int>(value, $"Option {value}")).ToArray();
+    protected override void OnInitialized() => EditContext = new EditContext(Model);
+    public sealed class LargeSelectionModel { public int Value { get; set; } }
+}

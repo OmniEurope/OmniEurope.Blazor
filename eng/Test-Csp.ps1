@@ -1,13 +1,20 @@
 [CmdletBinding()]
 param(
-    [string]$SourceRoot = (Join-Path $PSScriptRoot '..\src\OmniEurope.Blazor')
+    [string[]]$SourceRoots = @(
+        (Join-Path $PSScriptRoot '..\src\OmniEurope.Blazor'),
+        (Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.AutoSmoke'),
+        (Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.AutoSmoke.Client'),
+        (Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.Catalog'),
+        (Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.HybridSmoke'),
+        (Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.WasmSmoke')
+    )
 )
 
 $ErrorActionPreference = 'Stop'
-$resolvedRoot = (Resolve-Path -LiteralPath $SourceRoot).Path
-$sourceFiles = Get-ChildItem -LiteralPath $resolvedRoot -Recurse -File |
+$repositoryRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+$sourceFiles = $SourceRoots | ForEach-Object { Get-ChildItem -LiteralPath (Resolve-Path -LiteralPath $_).Path -Recurse -File } |
     Where-Object {
-        $_.Extension -in '.razor', '.cs', '.js' -and
+        $_.Extension -in '.razor', '.cs', '.js', '.html' -and
         $_.FullName -notmatch '(\\|/)(bin|obj)(\\|/)'
     }
 
@@ -23,7 +30,7 @@ $violations = foreach ($file in $sourceFiles) {
         if ($content -match $rule.Pattern) {
             [pscustomobject]@{
                 Rule = $rule.Name
-                File = $file.FullName.Substring($resolvedRoot.Length + 1)
+                File = [System.IO.Path]::GetRelativePath($repositoryRoot, $file.FullName)
             }
         }
     }

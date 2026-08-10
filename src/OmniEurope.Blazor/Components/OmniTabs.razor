@@ -1,0 +1,40 @@
+@inherits OmniComponentBase
+
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tabs")" @onkeydown="HandleKeyDownAsync">
+    <CascadingValue Value="Context">@ChildContent</CascadingValue>
+</div>
+
+@code {
+    [Parameter]
+    public string? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> ValueChanged { get; set; }
+
+    [Parameter]
+    public IReadOnlyList<string> Keys { get; set; } = Array.Empty<string>();
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private OmniTabsContext Context => new() { Value = Value, SelectAsync = SelectAsync };
+    private Task SelectAsync(string key) => ValueChanged.InvokeAsync(key);
+
+    private Task HandleKeyDownAsync(KeyboardEventArgs args)
+    {
+        if (Keys.Count == 0 || args.Key is not ("ArrowLeft" or "ArrowRight" or "Home" or "End"))
+        {
+            return Task.CompletedTask;
+        }
+
+        var current = Math.Max(0, Array.IndexOf(Keys.ToArray(), Value));
+        var next = args.Key switch
+        {
+            "Home" => 0,
+            "End" => Keys.Count - 1,
+            "ArrowLeft" => (current - 1 + Keys.Count) % Keys.Count,
+            _ => (current + 1) % Keys.Count
+        };
+        return ValueChanged.InvokeAsync(Keys[next]);
+    }
+}

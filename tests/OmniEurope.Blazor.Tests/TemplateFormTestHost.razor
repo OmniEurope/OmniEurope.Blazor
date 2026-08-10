@@ -1,0 +1,14 @@
+<OmniTemplateForm TModel="TemplateFormModel" Model="@Model">
+    <OmniTextBox Id="template-name" @bind-Value="Model.Name" />
+    <OmniRequiredValidator TValue="string" For="@(() => Model.Name)" />
+    <button type="submit">Valider</button>
+</OmniTemplateForm>
+
+@code {
+    public TemplateFormModel Model { get; } = new();
+
+    public sealed class TemplateFormModel
+    {
+        public string Name { get; set; } = string.Empty;
+    }
+}

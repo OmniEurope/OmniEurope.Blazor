@@ -1,0 +1,12 @@
+<g class="omni-arc-gauge__scale">
+    <path class="omni-arc-gauge__track" d="@OmniChartGeometry.Gauge(100)" />
+    @ChildContent
+    <text x="10" y="58">@Minimum</text>
+    <text x="90" y="58" text-anchor="end">@Maximum</text>
+</g>
+
+@code {
+    [Parameter] public double Minimum { get; set; }
+    [Parameter] public double Maximum { get; set; } = 100;
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

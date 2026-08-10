@@ -1,0 +1,19 @@
+@inherits OmniComponentBase
+
+<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler-view", "omni-day-view")" aria-label="@Label">
+    <h3>@Date.ToString("D", Culture)</h3>
+    <ol class="omni-scheduler__appointments">
+        @foreach (var appointment in DayItems.OrderBy(item => item.Start))
+        {
+            <li><time datetime="@appointment.Start.ToString("O")">@appointment.Start.ToString("t", Culture)–@appointment.End.ToString("t", Culture)</time><strong>@appointment.Title</strong>@if (!string.IsNullOrWhiteSpace(appointment.Description)) { <span>@appointment.Description</span> }</li>
+        }
+    </ol>
+</section>
+
+@code {
+    [Parameter] public DateTimeOffset Date { get; set; }
+    [Parameter] public IReadOnlyList<OmniSchedulerAppointment> Appointments { get; set; } = Array.Empty<OmniSchedulerAppointment>();
+    [Parameter] public System.Globalization.CultureInfo Culture { get; set; } = System.Globalization.CultureInfo.CurrentCulture;
+    [Parameter] public string Label { get; set; } = "Vue journalière";
+    private IEnumerable<OmniSchedulerAppointment> DayItems => Appointments.Where(item => item.Start.Date == Date.Date);
+}

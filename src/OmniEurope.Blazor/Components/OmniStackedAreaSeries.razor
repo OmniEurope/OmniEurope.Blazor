@@ -1,0 +1,9 @@
+<polygon class="omni-chart__area omni-chart__area--stacked @ColorClass" points="@AreaPoints"><title>@Title</title></polygon>
+
+@code {
+    [Parameter] public IReadOnlyList<OmniChartPoint> Data { get; set; } = Array.Empty<OmniChartPoint>();
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public int ColorIndex { get; set; }
+    private string AreaPoints => Data.Count == 0 ? string.Empty : $"{OmniChartGeometry.Xy(Data[0].X, 0)} {OmniChartGeometry.Points(Data)} {OmniChartGeometry.Xy(Data[^1].X, 0)}";
+    private string ColorClass => $"omni-chart-color-{Math.Abs(ColorIndex) % 8}";
+}

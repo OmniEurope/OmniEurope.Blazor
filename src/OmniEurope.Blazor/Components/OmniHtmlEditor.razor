@@ -1,0 +1,100 @@
+@inherits OmniInputBase<string>
+@using OmniEurope.Blazor.Internal
+
+<section class="@InputCss("omni-html-editor")" aria-label="@Label">
+    <div class="omni-html-editor__toolbar" role="toolbar" aria-label="Outils de mise en forme">
+        @if (EnableBold) { <button type="button" aria-label="Gras" @onclick="BoldAsync"><strong>B</strong></button> }
+        @if (EnableItalic) { <button type="button" aria-label="Italique" @onclick="ItalicAsync"><em>I</em></button> }
+        @if (EnableSubscript) { <button type="button" aria-label="Indice" @onclick="SubscriptAsync">x<sub>2</sub></button> }
+        @if (EnableSuperscript) { <button type="button" aria-label="Exposant" @onclick="SuperscriptAsync">x<sup>2</sup></button> }
+        @if (EnableIndent) { <button type="button" aria-label="Augmenter le retrait" @onclick="IndentAsync">→</button> }
+        @if (EnableOutdent) { <button type="button" aria-label="Réduire le retrait" @onclick="OutdentAsync">←</button> }
+        <span class="omni-html-editor__separator" role="separator"></span>
+        <button type="button" aria-label="Annuler" disabled="@(_undo.Count == 0)" @onclick="UndoAsync">↶</button>
+        <button type="button" aria-label="Rétablir" disabled="@(_redo.Count == 0)" @onclick="RedoAsync">↷</button>
+        @foreach (var tool in CustomTools)
+        {
+            <button type="button" aria-label="@tool.Label" @onclick="() => ApplyAsync(tool.Transform)">@tool.Label</button>
+        }
+    </div>
+    <textarea @attributes="AdditionalAttributes"
+              id="@Id"
+              class="omni-html-editor__source"
+              value="@CurrentValue"
+              rows="@Rows"
+              disabled="@Disabled"
+              aria-invalid="@AriaInvalid"
+              aria-describedby="@AriaDescribedBy"
+              @oninput="HandleInputAsync"></textarea>
+    @if (ShowPreview)
+    {
+        <div class="omni-html-editor__preview" aria-label="Aperçu du contenu">@((MarkupString)OmniHtmlSanitizer.Sanitize(CurrentValue))</div>
+    }
+</section>
+
+@code {
+    private readonly Stack<string> _undo = new();
+    private readonly Stack<string> _redo = new();
+
+    [Parameter] public string Label { get; set; } = "Éditeur HTML";
+    [Parameter] public int Rows { get; set; } = 12;
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool ShowPreview { get; set; } = true;
+    [Parameter] public bool EnableBold { get; set; } = true;
+    [Parameter] public bool EnableItalic { get; set; } = true;
+    [Parameter] public bool EnableSubscript { get; set; } = true;
+    [Parameter] public bool EnableSuperscript { get; set; } = true;
+    [Parameter] public bool EnableIndent { get; set; } = true;
+    [Parameter] public bool EnableOutdent { get; set; } = true;
+    [Parameter] public string? AriaDescribedBy { get; set; }
+    [Parameter] public IReadOnlyList<OmniHtmlEditorTool> CustomTools { get; set; } = Array.Empty<OmniHtmlEditorTool>();
+
+    private Task HandleInputAsync(ChangeEventArgs args) => CommitAsync(OmniHtmlSanitizer.Sanitize(args.Value?.ToString()));
+    private Task WrapAsync(string tag) => ApplyAsync(value => $"<{tag}>{value}</{tag}>");
+    private Task BoldAsync() => WrapAsync("strong");
+    private Task ItalicAsync() => WrapAsync("em");
+    private Task SubscriptAsync() => WrapAsync("sub");
+    private Task SuperscriptAsync() => WrapAsync("sup");
+    private Task IndentAsync() => WrapAsync("blockquote");
+    private Task OutdentAsync() => ApplyAsync(value => value.StartsWith("<blockquote>", StringComparison.OrdinalIgnoreCase) && value.EndsWith("</blockquote>", StringComparison.OrdinalIgnoreCase) ? value[12..^13] : value);
+
+    private Task ApplyAsync(Func<string, string> transform) => CommitAsync(OmniHtmlSanitizer.Sanitize(transform(CurrentValue ?? string.Empty)));
+
+    private Task CommitAsync(string value)
+    {
+        if (!string.Equals(CurrentValue, value, StringComparison.Ordinal))
+        {
+            _undo.Push(CurrentValue ?? string.Empty);
+            _redo.Clear();
+            CurrentValue = value;
+        }
+        return Task.CompletedTask;
+    }
+
+    private Task UndoAsync()
+    {
+        if (_undo.TryPop(out var previous))
+        {
+            _redo.Push(CurrentValue ?? string.Empty);
+            CurrentValue = previous;
+        }
+        return Task.CompletedTask;
+    }
+
+    private Task RedoAsync()
+    {
+        if (_redo.TryPop(out var next))
+        {
+            _undo.Push(CurrentValue ?? string.Empty);
+            CurrentValue = next;
+        }
+        return Task.CompletedTask;
+    }
+
+    protected override bool TryParseValueFromString(string? value, out string result, out string validationErrorMessage)
+    {
+        result = OmniHtmlSanitizer.Sanitize(value);
+        validationErrorMessage = null!;
+        return true;
+    }
+}

@@ -1,0 +1,15 @@
+@inherits OmniComponentBase
+
+<div id="@Id"
+     class="@Css("omni-layout", $"omni-layout--{Width.ToString().ToLowerInvariant()}")"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public OmniLayoutWidth Width { get; set; } = OmniLayoutWidth.Full;
+}

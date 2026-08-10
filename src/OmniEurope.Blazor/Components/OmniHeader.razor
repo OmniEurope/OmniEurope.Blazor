@@ -1,0 +1,15 @@
+@inherits OmniComponentBase
+
+<header id="@Id"
+        class="@Css("omni-header", Sticky ? "omni-header--sticky" : null)"
+        @attributes="AdditionalAttributes">
+    @ChildContent
+</header>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool Sticky { get; set; }
+}

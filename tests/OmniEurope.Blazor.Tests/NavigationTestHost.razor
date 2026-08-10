@@ -1,0 +1,36 @@
+<OmniBreadcrumb>
+    <OmniBreadcrumbItem Href="/">Accueil</OmniBreadcrumbItem>
+    <OmniBreadcrumbItem Current="true">Page</OmniBreadcrumbItem>
+</OmniBreadcrumb>
+
+<OmniPanelMenu>
+    <OmniPanelMenuItem Text="Groupe" Expanded="true">
+        <OmniPanelMenuItem Text="Page" Href="/page" Current="true" />
+    </OmniPanelMenuItem>
+</OmniPanelMenu>
+
+<OmniTabs @bind-Value="Tab" Keys="@TabKeys">
+    <OmniTabsItem Key="first" Title="Premier">Contenu 1</OmniTabsItem>
+    <OmniTabsItem Key="second" Title="Second">Contenu 2</OmniTabsItem>
+</OmniTabs>
+
+<OmniSteps @bind-Value="Step" CanNavigate="CanNavigateAsync">
+    <OmniStepsItem Index="0" Title="Début">Étape 1</OmniStepsItem>
+    <OmniStepsItem Index="1" Title="Fin">Étape 2</OmniStepsItem>
+</OmniSteps>
+
+<OmniProfileMenu Summary="@ProfileSummary">
+    <OmniProfileMenuItem Href="/profile">Profil</OmniProfileMenuItem>
+    <OmniProfileMenuItem OnClick="SignOut">Déconnexion</OmniProfileMenuItem>
+</OmniProfileMenu>
+
+@code {
+    public string? Tab { get; set; } = "first";
+    public int Step { get; set; }
+    public bool AllowStep { get; set; } = true;
+    public bool SignedOut { get; set; }
+    private IReadOnlyList<string> TabKeys { get; } = ["first", "second"];
+    private RenderFragment ProfileSummary => builder => builder.AddContent(0, "Alice");
+    private Task<bool> CanNavigateAsync(int _) => Task.FromResult(AllowStep);
+    private void SignOut() => SignedOut = true;
+}

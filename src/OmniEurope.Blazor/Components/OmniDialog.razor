@@ -1,0 +1,74 @@
+@inherits OmniComponentBase
+
+@if (Open)
+{
+    <div class="omni-overlay" role="presentation" @onclick="HandleBackdropAsync">
+        <section @attributes="AdditionalAttributes"
+                 id="@Id"
+                 class="@Css("omni-dialog")"
+                 role="dialog"
+                 aria-modal="true"
+                 aria-labelledby="@TitleId"
+                 @onclick:stopPropagation="true"
+                 @onkeydown="HandleKeyDownAsync">
+            <button type="button" class="omni-visually-hidden" aria-label="Fin du dialogue" @onfocus="FocusLastAsync"></button>
+            <header class="omni-dialog__header">
+                <h2 id="@TitleId" class="omni-dialog__title">@Title</h2>
+                <button @ref="_closeButton" type="button" class="omni-dialog__close" aria-label="@CloseLabel" @onclick="CloseAsync">×</button>
+            </header>
+            <div @ref="_content" class="omni-dialog__content" tabindex="-1">@ChildContent</div>
+            @if (Footer is not null)
+            {
+                <footer class="omni-dialog__footer">@Footer</footer>
+            }
+            <button type="button" class="omni-visually-hidden" aria-label="Début du dialogue" @onfocus="FocusFirstAsync"></button>
+        </section>
+    </div>
+}
+
+@code {
+    private ElementReference _closeButton;
+    private ElementReference _content;
+
+    [Parameter]
+    public bool Open { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OpenChanged { get; set; }
+
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string CloseLabel { get; set; } = "Fermer";
+
+    [Parameter]
+    public bool CloseOnBackdrop { get; set; } = true;
+
+    [Parameter]
+    public bool CloseOnEscape { get; set; } = true;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? Footer { get; set; }
+
+    [Parameter]
+    public ElementReference? ReturnFocusTo { get; set; }
+
+    private string TitleId => $"{Id ?? "omni-dialog"}-title";
+
+    private async Task CloseAsync()
+    {
+        await OpenChanged.InvokeAsync(false);
+        if (ReturnFocusTo is { } target)
+        {
+            await target.FocusAsync();
+        }
+    }
+    private Task HandleBackdropAsync() => CloseOnBackdrop ? CloseAsync() : Task.CompletedTask;
+    private Task HandleKeyDownAsync(KeyboardEventArgs args) => args.Key == "Escape" && CloseOnEscape ? CloseAsync() : Task.CompletedTask;
+    private Task FocusFirstAsync(FocusEventArgs _) => _content.FocusAsync().AsTask();
+    private Task FocusLastAsync(FocusEventArgs _) => _closeButton.FocusAsync().AsTask();
+}

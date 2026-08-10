@@ -1,0 +1,35 @@
+<EditForm EditContext="@EditContext">
+    <OmniTextBox Id="name" @bind-Value="Model.Name" />
+    <OmniPassword Id="password" @bind-Value="Model.Password" />
+    <OmniTextArea Id="notes" MaxLength="100" ShowCount="true" @bind-Value="Model.Notes" />
+    <OmniNumeric TValue="int" Id="age" @bind-Value="Model.Age" />
+    <OmniCheckBox Id="accepted" @bind-Value="Model.Accepted" />
+    <OmniSwitch Id="enabled" @bind-Value="Model.Enabled">Enabled</OmniSwitch>
+    <OmniNullableCheckBox Id="optional-accepted" @bind-Value="Model.OptionalAccepted">Optional accepted</OmniNullableCheckBox>
+    <OmniNullableSwitch Id="optional-enabled" @bind-Value="Model.OptionalEnabled">Optional enabled</OmniNullableSwitch>
+    <OmniRequiredValidator TValue="string" For="@(() => Model.Name)" />
+    <OmniLengthValidator For="@(() => Model.Name)" MinimumLength="3" MaximumLength="40" ValidationDelayMilliseconds="20" />
+    <OmniEmailValidator For="@(() => Model.Email)" />
+    <OmniCompareValidator TValue="string" For="@(() => Model.Password)" Other="@(() => Model.ConfirmedPassword)" />
+</EditForm>
+
+@code {
+    public FormTestModel Model { get; } = new();
+    public EditContext EditContext { get; private set; } = default!;
+
+    protected override void OnInitialized() => EditContext = new EditContext(Model);
+
+    public sealed class FormTestModel
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public string ConfirmedPassword { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Notes { get; set; } = string.Empty;
+        public int Age { get; set; }
+        public bool Accepted { get; set; }
+        public bool Enabled { get; set; }
+        public bool? OptionalAccepted { get; set; }
+        public bool? OptionalEnabled { get; set; }
+    }
+}

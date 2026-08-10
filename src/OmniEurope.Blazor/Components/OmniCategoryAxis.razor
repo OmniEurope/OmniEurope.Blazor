@@ -1,0 +1,10 @@
+<g class="omni-chart__axis omni-chart__axis--category">
+    <line x1="5" y1="95" x2="95" y2="95" />
+    @for (var index = 0; index < Labels.Count; index++)
+    {
+        var x = Labels.Count == 1 ? 50 : 5 + index * 90d / (Labels.Count - 1);
+        <g><text x="@OmniChartGeometry.Number(x)" y="99" text-anchor="middle">@Labels[index]</text></g>
+    }
+</g>
+
+@code { [Parameter] public IReadOnlyList<string> Labels { get; set; } = Array.Empty<string>(); }

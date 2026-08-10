@@ -31,3 +31,7 @@ frame-ancestors 'none'
 
 Cette politique est un objectif de test de la bibliothèque, pas un en-tête universel prêt à copier pour toutes les applications.
 
+## État de la vérification
+
+La CI scanne actuellement les sources Razor, C# et JavaScript pour les attributs `style`, les balises `style` créées à l'exécution et les appels `eval`/`new Function`, puis vérifie par HTTP l'en-tête et les assets du catalogue. Ce scanner ne couvre pas encore les gestionnaires HTML en chaîne ni tous les chargements distants. Le contrôle de `/csp-status` interroge le collecteur avant toute navigation interactive : son état vide ne prouve pas l'absence de violation à l'exécution. Une preuve complète exige encore un navigateur réel qui attend l'interactivité, exerce les composants et contrôle les rapports CSP ainsi que la console.
+

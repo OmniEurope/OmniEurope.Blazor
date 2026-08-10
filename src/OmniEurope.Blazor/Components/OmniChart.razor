@@ -1,0 +1,22 @@
+@inherits OmniComponentBase
+
+<figure @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-chart")">
+    <svg class="omni-chart__svg" viewBox="0 0 100 100" role="img" aria-labelledby="@TitleId @DescriptionId" preserveAspectRatio="xMidYMid meet">
+        <title id="@TitleId">@Title</title>
+        <desc id="@DescriptionId">@Description</desc>
+        @ChildContent
+    </svg>
+    @if (DataTable is not null)
+    {
+        <div class="omni-chart__data">@DataTable</div>
+    }
+</figure>
+
+@code {
+    [Parameter, EditorRequired] public string Title { get; set; } = string.Empty;
+    [Parameter] public string Description { get; set; } = string.Empty;
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? DataTable { get; set; }
+    private string TitleId => $"{Id ?? "omni-chart"}-title";
+    private string DescriptionId => $"{Id ?? "omni-chart"}-description";
+}

@@ -1,0 +1,11 @@
+<EditForm EditContext="@EditContext">
+    <OmniHtmlEditor Id="editor" CustomTools="@Tools" @bind-Value="Model.Html" />
+</EditForm>
+
+@code {
+    public EditorModel Model { get; } = new();
+    public EditContext EditContext { get; private set; } = default!;
+    private IReadOnlyList<OmniHtmlEditorTool> Tools { get; } = [new("heading", "Titre", value => $"<h2>{value}</h2>")];
+    protected override void OnInitialized() => EditContext = new EditContext(Model);
+    public sealed class EditorModel { public string Html { get; set; } = "<p>Bonjour</p>"; }
+}

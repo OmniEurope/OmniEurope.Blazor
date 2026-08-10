@@ -21,26 +21,28 @@ L'inventaire décrit les noms observés dans les applications. Cette feuille de 
 
 ## Lots de réalisation
 
+Les cibles Razor des cinq lots sont maintenant présentes. Les descriptions ci-dessous rappellent l'ordre de construction ; elles ne signifient pas que toutes les capacités sont stabilisées. La validation comportementale se poursuit avant toute migration d'une application consommatrice.
+
 ### Lot 1 — primitives fréquentes
 
-`OmniButton`, `OmniStack`, `OmniCard` et `OmniAlert` constituent la tranche pilote. La suite immédiate couvre texte, icône, badge, lien, ligne/colonne et skeleton. Ce lot adresse les composants les plus répandus avec une complexité limitée.
+`OmniButton`, `OmniStack`, `OmniCard` et `OmniAlert` ont constitué la tranche pilote, ensuite étendue au texte, à l'icône, au badge, au lien, aux lignes/colonnes et au skeleton.
 
 ### Lot 2 — formulaires simples
 
-Champs texte, zone de texte, nombre, mot de passe, case à cocher, interrupteur, libellé, champ de formulaire et validateurs. L'objectif est une intégration native à `EditContext` avant d'ajouter les sélecteurs complexes.
+Les cibles des champs texte, zone de texte, nombre, mot de passe, case à cocher, interrupteur, libellé, champ de formulaire et validateurs sont présentes et intégrées à `EditContext` selon leur contrat.
 
 ### Lot 3 — navigation et retours utilisateur
 
-Menu latéral, breadcrumb, onglets, étapes, dialogue, notification, tooltip et menu contextuel. Ce lot exige les premières primitives de focus et de portail.
+Les cibles du menu latéral, breadcrumb, onglets, étapes, dialogue, notification, tooltip et menu contextuel sont présentes. Les parcours de focus et superpositions restent à éprouver dans un navigateur réel.
 
 ### Lot 4 — données complexes
 
-Liste, pagination, arbre et grille. La grille est décomposée en capacités testables : colonnes, tri, filtre, sélection, édition, virtualisation et modèles de cellule.
+Les cibles de liste, pagination, arbre et grille sont présentes. La grille couvre colonnes, tri, filtre, sélection, édition et modèles de cellule ; la pagination limite le rendu, mais la virtualisation pilotée par le viewport reste à implémenter.
 
 ### Lot 5 — visualisation, planification et édition
 
-Graphiques SVG, jauge, planificateur et éditeur riche. Ces composants sont reportés parce qu'ils concentrent le plus de surface interactive, d'accessibilité et de risques CSP.
+Les cibles des graphiques SVG, jauge, planificateur et éditeur riche sont présentes. La géométrie liée aux axes et aux empilements, la sélection et la composition IME de l'éditeur, ainsi que les preuves navigateur restent à compléter.
 
 ## Règle de priorité
 
-À complexité comparable, l'ordre est déterminé par le nombre de projets actifs dans `component-inventory.json`, puis par le nombre d'occurrences actives. Aetheus valide chaque lot sur un écran réel avant généralisation aux autres projets.
+À complexité comparable, l'ordre a été déterminé par le nombre de projets actifs dans `component-inventory.json`, puis par le nombre d'occurrences actives. La construction de toutes les cibles précède la migration : Aetheus validera ultérieurement chaque lot sur un écran réel avant généralisation aux autres projets.

@@ -1,0 +1,38 @@
+@inherits OmniComponentBase
+
+<button id="@Id"
+        class="@Css("omni-sidebar-toggle")"
+        type="button"
+        aria-controls="@Controls"
+        aria-expanded="@(Open ? "true" : "false")"
+        aria-label="@AriaLabel"
+        @attributes="AdditionalAttributes"
+        @onclick="ToggleAsync">
+    @if (ChildContent is null)
+    {
+        <OmniIcon Name="OmniIconName.Menu" />
+    }
+    else
+    {
+        @ChildContent
+    }
+</button>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Controls { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool Open { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OpenChanged { get; set; }
+
+    [Parameter]
+    public string AriaLabel { get; set; } = "Toggle navigation";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private Task ToggleAsync() => OpenChanged.InvokeAsync(!Open);
+}

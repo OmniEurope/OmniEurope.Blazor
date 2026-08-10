@@ -1,0 +1,16 @@
+<g class="omni-arc-gauge__value @ColorClass">
+    <path d="@ValuePath" />
+    <text x="50" y="52" text-anchor="middle">@DisplayValue</text>
+</g>
+
+@code {
+    [Parameter] public double Value { get; set; }
+    [Parameter] public double Minimum { get; set; }
+    [Parameter] public double Maximum { get; set; } = 100;
+    [Parameter] public int ColorIndex { get; set; }
+    [Parameter] public Func<double, string>? Formatter { get; set; }
+    private double Percentage => Maximum <= Minimum ? 0 : (Value - Minimum) / (Maximum - Minimum) * 100;
+    private string ValuePath => OmniChartGeometry.Gauge(Percentage);
+    private string DisplayValue => Formatter?.Invoke(Value) ?? OmniChartGeometry.Number(Value);
+    private string ColorClass => $"omni-chart-color-{Math.Abs(ColorIndex) % 8}";
+}

@@ -1,0 +1,15 @@
+@typeparam TValue
+@inherits OmniValidatorBase<TValue>
+
+@if (ShowMessage && !string.IsNullOrWhiteSpace(CurrentError))
+{
+    <div class="omni-validation-message" role="alert">@CurrentError</div>
+}
+
+@code {
+    [Parameter]
+    public string Message { get; set; } = "Ce champ est obligatoire.";
+
+    protected override string? GetValidationError(TValue value) =>
+        value is null || value is string text && string.IsNullOrWhiteSpace(text) ? Message : null;
+}

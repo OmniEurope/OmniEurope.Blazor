@@ -1,0 +1,16 @@
+<g class="omni-chart__columns omni-chart__columns--stacked @ColorClass" aria-label="@Title">
+    @for (var index = 0; index < Data.Count; index++)
+    {
+        var point = Data[index];
+        var width = 80d / Math.Max(1, Data.Count);
+        var height = OmniChartGeometry.Clamp(point.Y);
+        <rect x="@OmniChartGeometry.Number(10 + index * width)" y="@OmniChartGeometry.Number(100 - height)" width="@OmniChartGeometry.Number(width * 0.75)" height="@OmniChartGeometry.Number(height)"><title>@(point.Label ?? point.Y.ToString())</title></rect>
+    }
+</g>
+
+@code {
+    [Parameter] public IReadOnlyList<OmniChartPoint> Data { get; set; } = Array.Empty<OmniChartPoint>();
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public int ColorIndex { get; set; }
+    private string ColorClass => $"omni-chart-color-{Math.Abs(ColorIndex) % 8}";
+}

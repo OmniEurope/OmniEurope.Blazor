@@ -1,0 +1,18 @@
+@inherits OmniComponentBase
+
+<li @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-timeline__item")">
+    <span class="omni-timeline__marker" aria-hidden="true"></span>
+    <article class="omni-timeline__content">
+        <header><time datetime="@DateTimeValue">@DateLabel</time><h3>@Title</h3></header>
+        @ChildContent
+    </article>
+</li>
+
+@code {
+    [Parameter, EditorRequired] public string Title { get; set; } = string.Empty;
+    [Parameter] public DateTimeOffset? Date { get; set; }
+    [Parameter] public string? DateText { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    private string? DateTimeValue => Date?.ToString("O", System.Globalization.CultureInfo.InvariantCulture);
+    private string DateLabel => DateText ?? Date?.ToString("g", System.Globalization.CultureInfo.CurrentCulture) ?? string.Empty;
+}

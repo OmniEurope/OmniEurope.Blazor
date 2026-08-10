@@ -1,0 +1,1108 @@
+{
+  "generatedFrom": "2026-08-10T11:33:36+02:00",
+  "total": 110,
+  "implemented": 110,
+  "planned": 0,
+  "entries": [
+    {
+      "source": "RadzenStack",
+      "target": "OmniStack",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 17,
+      "activeOccurrences": 2235,
+      "allProjects": 25,
+      "occurrences": 3134
+    },
+    {
+      "source": "RadzenButton",
+      "target": "OmniButton",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 17,
+      "activeOccurrences": 1814,
+      "allProjects": 25,
+      "occurrences": 2653
+    },
+    {
+      "source": "RadzenBody",
+      "target": "OmniBody",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 16,
+      "activeOccurrences": 20,
+      "allProjects": 24,
+      "occurrences": 28
+    },
+    {
+      "source": "RadzenHeader",
+      "target": "OmniHeader",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 16,
+      "activeOccurrences": 20,
+      "allProjects": 24,
+      "occurrences": 28
+    },
+    {
+      "source": "RadzenLayout",
+      "target": "OmniLayout",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 16,
+      "activeOccurrences": 20,
+      "allProjects": 24,
+      "occurrences": 28
+    },
+    {
+      "source": "RadzenText",
+      "target": "OmniText",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 15,
+      "activeOccurrences": 2628,
+      "allProjects": 23,
+      "occurrences": 3707
+    },
+    {
+      "source": "RadzenTextBox",
+      "target": "OmniTextBox",
+      "phase": 5,
+      "status": "implemented",
+      "activeProjects": 15,
+      "activeOccurrences": 527,
+      "allProjects": 21,
+      "occurrences": 792
+    },
+    {
+      "source": "RadzenAlert",
+      "target": "OmniAlert",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 15,
+      "activeOccurrences": 346,
+      "allProjects": 23,
+      "occurrences": 480
+    },
+    {
+      "source": "RadzenPanelMenuItem",
+      "target": "OmniPanelMenuItem",
+      "phase": 7,
+      "status": "implemented",
+      "activeProjects": 15,
+      "activeOccurrences": 208,
+      "allProjects": 23,
+      "occurrences": 347
+    },
+    {
+      "source": "RadzenPanelMenu",
+      "target": "OmniPanelMenu",
+      "phase": 7,
+      "status": "implemented",
+      "activeProjects": 15,
+      "activeOccurrences": 19,
+      "allProjects": 23,
+      "occurrences": 33
+    },
+    {
+      "source": "RadzenSidebar",
+      "target": "OmniSidebar",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 15,
+      "activeOccurrences": 20,
+      "allProjects": 23,
+      "occurrences": 31
+    },
+    {
+      "source": "RadzenSidebarToggle",
+      "target": "OmniSidebarToggle",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 15,
+      "activeOccurrences": 15,
+      "allProjects": 22,
+      "occurrences": 22
+    },
+    {
+      "source": "RadzenIcon",
+      "target": "OmniIcon",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 14,
+      "activeOccurrences": 691,
+      "allProjects": 19,
+      "occurrences": 1027
+    },
+    {
+      "source": "RadzenDropDown",
+      "target": "OmniDropDown",
+      "phase": 6,
+      "status": "implemented",
+      "activeProjects": 14,
+      "activeOccurrences": 308,
+      "allProjects": 19,
+      "occurrences": 470
+    },
+    {
+      "source": "RadzenDataGridColumn",
+      "target": "OmniDataGridColumn",
+      "phase": 9,
+      "status": "implemented",
+      "activeProjects": 13,
+      "activeOccurrences": 1155,
+      "allProjects": 21,
+      "occurrences": 1906
+    },
+    {
+      "source": "RadzenCard",
+      "target": "OmniCard",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 13,
+      "activeOccurrences": 685,
+      "allProjects": 18,
+      "occurrences": 993
+    },
+    {
+      "source": "RadzenDataGrid",
+      "target": "OmniDataGrid",
+      "phase": 9,
+      "status": "implemented",
+      "activeProjects": 13,
+      "activeOccurrences": 188,
+      "allProjects": 21,
+      "occurrences": 307
+    },
+    {
+      "source": "RadzenNumeric",
+      "target": "OmniNumeric",
+      "phase": 5,
+      "status": "implemented",
+      "activeProjects": 13,
+      "activeOccurrences": 119,
+      "allProjects": 16,
+      "occurrences": 197
+    },
+    {
+      "source": "RadzenCheckBox",
+      "target": "OmniCheckBox",
+      "phase": 5,
+      "status": "implemented",
+      "activeProjects": 13,
+      "activeOccurrences": 93,
+      "allProjects": 16,
+      "occurrences": 107
+    },
+    {
+      "source": "RadzenDialog",
+      "target": "OmniDialog",
+      "phase": 4,
+      "status": "implemented",
+      "activeProjects": 13,
+      "activeOccurrences": 15,
+      "allProjects": 20,
+      "occurrences": 22
+    },
+    {
+      "source": "RadzenNotification",
+      "target": "OmniNotification",
+      "phase": 4,
+      "status": "implemented",
+      "activeProjects": 13,
+      "activeOccurrences": 15,
+      "allProjects": 20,
+      "occurrences": 22
+    },
+    {
+      "source": "RadzenTooltip",
+      "target": "OmniTooltip",
+      "phase": 4,
+      "status": "implemented",
+      "activeProjects": 13,
+      "activeOccurrences": 15,
+      "allProjects": 20,
+      "occurrences": 22
+    },
+    {
+      "source": "RadzenFormField",
+      "target": "OmniFormField",
+      "phase": 5,
+      "status": "implemented",
+      "activeProjects": 12,
+      "activeOccurrences": 712,
+      "allProjects": 18,
+      "occurrences": 1162
+    },
+    {
+      "source": "RadzenTextArea",
+      "target": "OmniTextArea",
+      "phase": 5,
+      "status": "implemented",
+      "activeProjects": 11,
+      "activeOccurrences": 121,
+      "allProjects": 17,
+      "occurrences": 179
+    },
+    {
+      "source": "RadzenLink",
+      "target": "OmniLink",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 10,
+      "activeOccurrences": 85,
+      "allProjects": 14,
+      "occurrences": 99
+    },
+    {
+      "source": "RadzenBadge",
+      "target": "OmniBadge",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 9,
+      "activeOccurrences": 641,
+      "allProjects": 12,
+      "occurrences": 988
+    },
+    {
+      "source": "RadzenProgressBarCircular",
+      "target": "OmniProgressBar",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 9,
+      "activeOccurrences": 206,
+      "allProjects": 16,
+      "occurrences": 297
+    },
+    {
+      "source": "RadzenLabel",
+      "target": "OmniLabel",
+      "phase": 5,
+      "status": "implemented",
+      "activeProjects": 9,
+      "activeOccurrences": 152,
+      "allProjects": 11,
+      "occurrences": 184
+    },
+    {
+      "source": "RadzenContextMenu",
+      "target": "OmniContextMenu",
+      "phase": 4,
+      "status": "implemented",
+      "activeProjects": 9,
+      "activeOccurrences": 9,
+      "allProjects": 15,
+      "occurrences": 15
+    },
+    {
+      "source": "RadzenColumn",
+      "target": "OmniColumn",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 8,
+      "activeOccurrences": 520,
+      "allProjects": 12,
+      "occurrences": 931
+    },
+    {
+      "source": "RadzenRow",
+      "target": "OmniRow",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 8,
+      "activeOccurrences": 177,
+      "allProjects": 12,
+      "occurrences": 355
+    },
+    {
+      "source": "RadzenTabsItem",
+      "target": "OmniTabsItem",
+      "phase": 7,
+      "status": "implemented",
+      "activeProjects": 8,
+      "activeOccurrences": 179,
+      "allProjects": 12,
+      "occurrences": 294
+    },
+    {
+      "source": "RadzenPassword",
+      "target": "OmniPassword",
+      "phase": 5,
+      "status": "implemented",
+      "activeProjects": 8,
+      "activeOccurrences": 44,
+      "allProjects": 12,
+      "occurrences": 80
+    },
+    {
+      "source": "RadzenTabs",
+      "target": "OmniTabs",
+      "phase": 7,
+      "status": "implemented",
+      "activeProjects": 8,
+      "activeOccurrences": 29,
+      "allProjects": 12,
+      "occurrences": 41
+    },
+    {
+      "source": "RadzenChart",
+      "target": "OmniChart",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 7,
+      "activeOccurrences": 28,
+      "allProjects": 11,
+      "occurrences": 40
+    },
+    {
+      "source": "RadzenSwitch",
+      "target": "OmniSwitch",
+      "phase": 5,
+      "status": "implemented",
+      "activeProjects": 7,
+      "activeOccurrences": 27,
+      "allProjects": 12,
+      "occurrences": 38
+    },
+    {
+      "source": "RadzenCategoryAxis",
+      "target": "OmniCategoryAxis",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 7,
+      "activeOccurrences": 23,
+      "allProjects": 11,
+      "occurrences": 32
+    },
+    {
+      "source": "RadzenValueAxis",
+      "target": "OmniValueAxis",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 7,
+      "activeOccurrences": 23,
+      "allProjects": 11,
+      "occurrences": 32
+    },
+    {
+      "source": "RadzenProgressBar",
+      "target": "OmniProgressBar",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 6,
+      "activeOccurrences": 51,
+      "allProjects": 9,
+      "occurrences": 75
+    },
+    {
+      "source": "RadzenLineSeries",
+      "target": "OmniLineSeries",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 6,
+      "activeOccurrences": 20,
+      "allProjects": 8,
+      "occurrences": 35
+    },
+    {
+      "source": "RadzenTemplateForm",
+      "target": "OmniTemplateForm",
+      "phase": 5,
+      "status": "implemented",
+      "activeProjects": 5,
+      "activeOccurrences": 74,
+      "allProjects": 11,
+      "occurrences": 151
+    },
+    {
+      "source": "RadzenRequiredValidator",
+      "target": "OmniRequiredValidator",
+      "phase": 5,
+      "status": "implemented",
+      "activeProjects": 5,
+      "activeOccurrences": 22,
+      "allProjects": 11,
+      "occurrences": 64
+    },
+    {
+      "source": "RadzenDatePicker",
+      "target": "OmniDatePicker",
+      "phase": 6,
+      "status": "implemented",
+      "activeProjects": 5,
+      "activeOccurrences": 40,
+      "allProjects": 8,
+      "occurrences": 53
+    },
+    {
+      "source": "RadzenFieldset",
+      "target": "OmniFieldset",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 5,
+      "activeOccurrences": 22,
+      "allProjects": 7,
+      "occurrences": 45
+    },
+    {
+      "source": "RadzenLegend",
+      "target": "OmniLegend",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 5,
+      "activeOccurrences": 19,
+      "allProjects": 6,
+      "occurrences": 25
+    },
+    {
+      "source": "RadzenSelectBarItem",
+      "target": "OmniSelectBarItem",
+      "phase": 6,
+      "status": "implemented",
+      "activeProjects": 5,
+      "activeOccurrences": 21,
+      "allProjects": 5,
+      "occurrences": 21
+    },
+    {
+      "source": "RadzenSelectBar",
+      "target": "OmniSelectBar",
+      "phase": 6,
+      "status": "implemented",
+      "activeProjects": 5,
+      "activeOccurrences": 8,
+      "allProjects": 5,
+      "occurrences": 8
+    },
+    {
+      "source": "RadzenGridLines",
+      "target": "OmniGridLines",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 4,
+      "activeOccurrences": 14,
+      "allProjects": 5,
+      "occurrences": 15
+    },
+    {
+      "source": "RadzenMarkers",
+      "target": "OmniMarkers",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 4,
+      "activeOccurrences": 8,
+      "allProjects": 5,
+      "occurrences": 14
+    },
+    {
+      "source": "RadzenListBox",
+      "target": "OmniListBox",
+      "phase": 6,
+      "status": "implemented",
+      "activeProjects": 4,
+      "activeOccurrences": 5,
+      "allProjects": 5,
+      "occurrences": 6
+    },
+    {
+      "source": "RadzenSplitButtonItem",
+      "target": "OmniSplitButtonItem",
+      "phase": 4,
+      "status": "implemented",
+      "activeProjects": 3,
+      "activeOccurrences": 34,
+      "allProjects": 6,
+      "occurrences": 65
+    },
+    {
+      "source": "RadzenBreadCrumbItem",
+      "target": "OmniBreadcrumbItem",
+      "phase": 7,
+      "status": "implemented",
+      "activeProjects": 3,
+      "activeOccurrences": 27,
+      "allProjects": 6,
+      "occurrences": 35
+    },
+    {
+      "source": "RadzenSplitButton",
+      "target": "OmniSplitButton",
+      "phase": 4,
+      "status": "implemented",
+      "activeProjects": 3,
+      "activeOccurrences": 11,
+      "allProjects": 6,
+      "occurrences": 23
+    },
+    {
+      "source": "RadzenBreadCrumb",
+      "target": "OmniBreadcrumb",
+      "phase": 7,
+      "status": "implemented",
+      "activeProjects": 3,
+      "activeOccurrences": 12,
+      "allProjects": 6,
+      "occurrences": 16
+    },
+    {
+      "source": "RadzenSeriesDataLabels",
+      "target": "OmniSeriesDataLabels",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 3,
+      "activeOccurrences": 13,
+      "allProjects": 3,
+      "occurrences": 13
+    },
+    {
+      "source": "RadzenPieSeries",
+      "target": "OmniPieSeries",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 3,
+      "activeOccurrences": 5,
+      "allProjects": 5,
+      "occurrences": 7
+    },
+    {
+      "source": "RadzenColumnSeries",
+      "target": "OmniColumnSeries",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 3,
+      "activeOccurrences": 4,
+      "allProjects": 5,
+      "occurrences": 6
+    },
+    {
+      "source": "RadzenTree",
+      "target": "OmniTree",
+      "phase": 8,
+      "status": "implemented",
+      "activeProjects": 3,
+      "activeOccurrences": 5,
+      "allProjects": 4,
+      "occurrences": 6
+    },
+    {
+      "source": "RadzenAreaSeries",
+      "target": "OmniAreaSeries",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 3,
+      "activeOccurrences": 5,
+      "allProjects": 3,
+      "occurrences": 5
+    },
+    {
+      "source": "RadzenBarSeries",
+      "target": "OmniBarSeries",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 3,
+      "activeOccurrences": 4,
+      "allProjects": 3,
+      "occurrences": 4
+    },
+    {
+      "source": "RadzenComponents",
+      "target": "OmniComponentsHost",
+      "phase": 4,
+      "status": "implemented",
+      "activeProjects": 3,
+      "activeOccurrences": 3,
+      "allProjects": 4,
+      "occurrences": 4
+    },
+    {
+      "source": "RadzenDataList",
+      "target": "OmniDataList",
+      "phase": 8,
+      "status": "implemented",
+      "activeProjects": 2,
+      "activeOccurrences": 67,
+      "allProjects": 4,
+      "occurrences": 70
+    },
+    {
+      "source": "RadzenAxisTitle",
+      "target": "OmniAxisTitle",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 2,
+      "activeOccurrences": 8,
+      "allProjects": 4,
+      "occurrences": 13
+    },
+    {
+      "source": "RadzenStepsItem",
+      "target": "OmniStepsItem",
+      "phase": 7,
+      "status": "implemented",
+      "activeProjects": 2,
+      "activeOccurrences": 5,
+      "allProjects": 5,
+      "occurrences": 11
+    },
+    {
+      "source": "RadzenTreeItem",
+      "target": "OmniTreeItem",
+      "phase": 8,
+      "status": "implemented",
+      "activeProjects": 2,
+      "activeOccurrences": 6,
+      "allProjects": 3,
+      "occurrences": 8
+    },
+    {
+      "source": "RadzenSteps",
+      "target": "OmniSteps",
+      "phase": 7,
+      "status": "implemented",
+      "activeProjects": 2,
+      "activeOccurrences": 3,
+      "allProjects": 5,
+      "occurrences": 7
+    },
+    {
+      "source": "RadzenSlider",
+      "target": "OmniSlider",
+      "phase": 6,
+      "status": "implemented",
+      "activeProjects": 2,
+      "activeOccurrences": 6,
+      "allProjects": 2,
+      "occurrences": 6
+    },
+    {
+      "source": "RadzenChartTooltipOptions",
+      "target": "OmniChartTooltipOptions",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 2,
+      "activeOccurrences": 4,
+      "allProjects": 2,
+      "occurrences": 4
+    },
+    {
+      "source": "RadzenPager",
+      "target": "OmniPager",
+      "phase": 8,
+      "status": "implemented",
+      "activeProjects": 2,
+      "activeOccurrences": 3,
+      "allProjects": 3,
+      "occurrences": 4
+    },
+    {
+      "source": "RadzenRadioButtonListItem",
+      "target": "OmniRadioButtonListItem",
+      "phase": 6,
+      "status": "implemented",
+      "activeProjects": 2,
+      "activeOccurrences": 4,
+      "allProjects": 2,
+      "occurrences": 4
+    },
+    {
+      "source": "RadzenColorPicker",
+      "target": "OmniColorPicker",
+      "phase": 6,
+      "status": "implemented",
+      "activeProjects": 2,
+      "activeOccurrences": 3,
+      "allProjects": 2,
+      "occurrences": 3
+    },
+    {
+      "source": "RadzenRadioButtonList",
+      "target": "OmniRadioButtonList",
+      "phase": 6,
+      "status": "implemented",
+      "activeProjects": 2,
+      "activeOccurrences": 2,
+      "allProjects": 3,
+      "occurrences": 3
+    },
+    {
+      "source": "RadzenTreeLevel",
+      "target": "OmniTreeLevel",
+      "phase": 8,
+      "status": "implemented",
+      "activeProjects": 2,
+      "activeOccurrences": 3,
+      "allProjects": 2,
+      "occurrences": 3
+    },
+    {
+      "source": "RadzenAppearanceToggle",
+      "target": "OmniAppearanceToggle",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 2,
+      "activeOccurrences": 2,
+      "allProjects": 2,
+      "occurrences": 2
+    },
+    {
+      "source": "RadzenStackedAreaSeries",
+      "target": "OmniStackedAreaSeries",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 2,
+      "activeOccurrences": 2,
+      "allProjects": 2,
+      "occurrences": 2
+    },
+    {
+      "source": "RadzenTheme",
+      "target": "OmniThemeScope",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 2,
+      "activeOccurrences": 2,
+      "allProjects": 2,
+      "occurrences": 2
+    },
+    {
+      "source": "RadzenSkeleton",
+      "target": "OmniSkeleton",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 20,
+      "allProjects": 2,
+      "occurrences": 41
+    },
+    {
+      "source": "RadzenHtmlEditorCustomTool",
+      "target": "OmniHtmlEditor",
+      "phase": 12,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 28,
+      "allProjects": 1,
+      "occurrences": 28
+    },
+    {
+      "source": "RadzenHtmlEditorSeparator",
+      "target": "OmniHtmlEditor",
+      "phase": 12,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 11,
+      "allProjects": 1,
+      "occurrences": 11
+    },
+    {
+      "source": "RadzenArcGaugeScaleValue",
+      "target": "OmniArcGaugeScaleValue",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 4,
+      "allProjects": 2,
+      "occurrences": 8
+    },
+    {
+      "source": "RadzenTimelineItem",
+      "target": "OmniTimelineItem",
+      "phase": 11,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 2,
+      "allProjects": 2,
+      "occurrences": 7
+    },
+    {
+      "source": "RadzenHtmlEditor",
+      "target": "OmniHtmlEditor",
+      "phase": 12,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 2,
+      "allProjects": 4,
+      "occurrences": 5
+    },
+    {
+      "source": "RadzenTimeline",
+      "target": "OmniTimeline",
+      "phase": 11,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 2,
+      "allProjects": 2,
+      "occurrences": 5
+    },
+    {
+      "source": "RadzenArcGauge",
+      "target": "OmniArcGauge",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 2,
+      "allProjects": 2,
+      "occurrences": 4
+    },
+    {
+      "source": "RadzenArcGaugeScale",
+      "target": "OmniArcGaugeScale",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 2,
+      "allProjects": 2,
+      "occurrences": 4
+    },
+    {
+      "source": "RadzenProfileMenuItem",
+      "target": "OmniProfileMenuItem",
+      "phase": 7,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 2,
+      "occurrences": 4
+    },
+    {
+      "source": "RadzenLengthValidator",
+      "target": "OmniLengthValidator",
+      "phase": 5,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 3,
+      "occurrences": 3
+    },
+    {
+      "source": "RadzenScheduler",
+      "target": "OmniScheduler",
+      "phase": 11,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 3,
+      "occurrences": 3
+    },
+    {
+      "source": "RadzenToggleButton",
+      "target": "OmniToggleButton",
+      "phase": 4,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 2,
+      "allProjects": 2,
+      "occurrences": 3
+    },
+    {
+      "source": "RadzenWeekView",
+      "target": "OmniWeekView",
+      "phase": 11,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 3,
+      "occurrences": 3
+    },
+    {
+      "source": "RadzenProfileMenu",
+      "target": "OmniProfileMenu",
+      "phase": 7,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 2,
+      "occurrences": 2
+    },
+    {
+      "source": "RadzenStackedColumnSeries",
+      "target": "OmniStackedColumnSeries",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 2,
+      "allProjects": 1,
+      "occurrences": 2
+    },
+    {
+      "source": "RadzenAutoComplete",
+      "target": "OmniAutocomplete",
+      "phase": 6,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 1,
+      "occurrences": 1
+    },
+    {
+      "source": "RadzenBarOptions",
+      "target": "OmniBarOptions",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 1,
+      "occurrences": 1
+    },
+    {
+      "source": "RadzenCheckBoxList",
+      "target": "OmniCheckBoxList",
+      "phase": 6,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 1,
+      "occurrences": 1
+    },
+    {
+      "source": "RadzenHtmlEditorBold",
+      "target": "OmniHtmlEditor",
+      "phase": 12,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 1,
+      "occurrences": 1
+    },
+    {
+      "source": "RadzenHtmlEditorIndent",
+      "target": "OmniHtmlEditor",
+      "phase": 12,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 1,
+      "occurrences": 1
+    },
+    {
+      "source": "RadzenHtmlEditorItalic",
+      "target": "OmniHtmlEditor",
+      "phase": 12,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 1,
+      "occurrences": 1
+    },
+    {
+      "source": "RadzenHtmlEditorOutdent",
+      "target": "OmniHtmlEditor",
+      "phase": 12,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 1,
+      "occurrences": 1
+    },
+    {
+      "source": "RadzenHtmlEditorRedo",
+      "target": "OmniHtmlEditor",
+      "phase": 12,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 1,
+      "occurrences": 1
+    },
+    {
+      "source": "RadzenHtmlEditorSubscript",
+      "target": "OmniHtmlEditor",
+      "phase": 12,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 1,
+      "occurrences": 1
+    },
+    {
+      "source": "RadzenHtmlEditorSuperscript",
+      "target": "OmniHtmlEditor",
+      "phase": 12,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 1,
+      "occurrences": 1
+    },
+    {
+      "source": "RadzenHtmlEditorUndo",
+      "target": "OmniHtmlEditor",
+      "phase": 12,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 1,
+      "occurrences": 1
+    },
+    {
+      "source": "RadzenImage",
+      "target": "OmniImage",
+      "phase": 3,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 1,
+      "occurrences": 1
+    },
+    {
+      "source": "RadzenUpload",
+      "target": "OmniUpload",
+      "phase": 6,
+      "status": "implemented",
+      "activeProjects": 1,
+      "activeOccurrences": 1,
+      "allProjects": 1,
+      "occurrences": 1
+    },
+    {
+      "source": "RadzenEmailValidator",
+      "target": "OmniEmailValidator",
+      "phase": 5,
+      "status": "implemented",
+      "activeProjects": 0,
+      "activeOccurrences": 0,
+      "allProjects": 2,
+      "occurrences": 5
+    },
+    {
+      "source": "RadzenDayView",
+      "target": "OmniDayView",
+      "phase": 11,
+      "status": "implemented",
+      "activeProjects": 0,
+      "activeOccurrences": 0,
+      "allProjects": 2,
+      "occurrences": 2
+    },
+    {
+      "source": "RadzenMonthView",
+      "target": "OmniMonthView",
+      "phase": 11,
+      "status": "implemented",
+      "activeProjects": 0,
+      "activeOccurrences": 0,
+      "allProjects": 2,
+      "occurrences": 2
+    },
+    {
+      "source": "RadzenCompareValidator",
+      "target": "OmniCompareValidator",
+      "phase": 5,
+      "status": "implemented",
+      "activeProjects": 0,
+      "activeOccurrences": 0,
+      "allProjects": 1,
+      "occurrences": 1
+    },
+    {
+      "source": "RadzenDonutSeries",
+      "target": "OmniDonutSeries",
+      "phase": 10,
+      "status": "implemented",
+      "activeProjects": 0,
+      "activeOccurrences": 0,
+      "allProjects": 1,
+      "occurrences": 1
+    }
+  ]
+}

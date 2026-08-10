@@ -1,0 +1,2991 @@
+{
+  "generatedAt": "2026-08-10T15:04:54+02:00",
+  "components": [
+    {
+      "component": "RadzenAlert",
+      "occurrences": 485,
+      "parameters": [
+        {
+          "name": "AlertStyle",
+          "occurrences": 485
+        },
+        {
+          "name": "AllowClose",
+          "occurrences": 247
+        },
+        {
+          "name": "Close",
+          "occurrences": 2
+        },
+        {
+          "name": "FailureCount",
+          "occurrences": 1
+        },
+        {
+          "name": "Icon",
+          "occurrences": 9
+        },
+        {
+          "name": "Shade",
+          "occurrences": 106
+        },
+        {
+          "name": "ShowIcon",
+          "occurrences": 83
+        },
+        {
+          "name": "Size",
+          "occurrences": 11
+        },
+        {
+          "name": "Style",
+          "occurrences": 2
+        },
+        {
+          "name": "Title",
+          "occurrences": 8
+        },
+        {
+          "name": "Variant",
+          "occurrences": 402
+        },
+        {
+          "name": "Visible",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "component": "RadzenAppearanceToggle",
+      "occurrences": 2,
+      "parameters": []
+    },
+    {
+      "component": "RadzenArcGauge",
+      "occurrences": 4,
+      "parameters": []
+    },
+    {
+      "component": "RadzenArcGaugeScale",
+      "occurrences": 4,
+      "parameters": [
+        {
+          "name": "EndAngle",
+          "occurrences": 4
+        },
+        {
+          "name": "Max",
+          "occurrences": 4
+        },
+        {
+          "name": "Min",
+          "occurrences": 4
+        },
+        {
+          "name": "StartAngle",
+          "occurrences": 4
+        },
+        {
+          "name": "Step",
+          "occurrences": 4
+        },
+        {
+          "name": "TickPosition",
+          "occurrences": 4
+        }
+      ]
+    },
+    {
+      "component": "RadzenArcGaugeScaleValue",
+      "occurrences": 8,
+      "parameters": [
+        {
+          "name": "Fill",
+          "occurrences": 8
+        },
+        {
+          "name": "ShowValue",
+          "occurrences": 8
+        },
+        {
+          "name": "Value",
+          "occurrences": 8
+        }
+      ]
+    },
+    {
+      "component": "RadzenAreaSeries",
+      "occurrences": 5,
+      "parameters": [
+        {
+          "name": "CategoryProperty",
+          "occurrences": 5
+        },
+        {
+          "name": "Data",
+          "occurrences": 5
+        },
+        {
+          "name": "Fill",
+          "occurrences": 1
+        },
+        {
+          "name": "LineType",
+          "occurrences": 2
+        },
+        {
+          "name": "Smooth",
+          "occurrences": 4
+        },
+        {
+          "name": "Stroke",
+          "occurrences": 1
+        },
+        {
+          "name": "Title",
+          "occurrences": 5
+        },
+        {
+          "name": "ValueProperty",
+          "occurrences": 5
+        }
+      ]
+    },
+    {
+      "component": "RadzenAutoComplete",
+      "occurrences": 1,
+      "parameters": [
+        {
+          "name": "Data",
+          "occurrences": 1
+        },
+        {
+          "name": "FilterCaseSensitivity",
+          "occurrences": 1
+        },
+        {
+          "name": "FilterDelay",
+          "occurrences": 1
+        },
+        {
+          "name": "FilterOperator",
+          "occurrences": 1
+        },
+        {
+          "name": "LoadData",
+          "occurrences": 1
+        },
+        {
+          "name": "MinLength",
+          "occurrences": 1
+        },
+        {
+          "name": "OpenOnFocus",
+          "occurrences": 1
+        },
+        {
+          "name": "Placeholder",
+          "occurrences": 1
+        },
+        {
+          "name": "TextProperty",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenAxisTitle",
+      "occurrences": 13,
+      "parameters": [
+        {
+          "name": "Text",
+          "occurrences": 13
+        }
+      ]
+    },
+    {
+      "component": "RadzenBadge",
+      "occurrences": 996,
+      "parameters": [
+        {
+          "name": "Action",
+          "occurrences": 2
+        },
+        {
+          "name": "ArticleCount",
+          "occurrences": 1
+        },
+        {
+          "name": "BadgeStyle",
+          "occurrences": 974
+        },
+        {
+          "name": "Committee",
+          "occurrences": 2
+        },
+        {
+          "name": "Decision",
+          "occurrences": 1
+        },
+        {
+          "name": "DeploymentTargetAvailable",
+          "occurrences": 4
+        },
+        {
+          "name": "Icon",
+          "occurrences": 29
+        },
+        {
+          "name": "IsPill",
+          "occurrences": 70
+        },
+        {
+          "name": "LintPassed",
+          "occurrences": 4
+        },
+        {
+          "name": "ModelType",
+          "occurrences": 1
+        },
+        {
+          "name": "PipelineRunnerAvailable",
+          "occurrences": 8
+        },
+        {
+          "name": "PipelineRunnerEnabled",
+          "occurrences": 4
+        },
+        {
+          "name": "Port",
+          "occurrences": 2
+        },
+        {
+          "name": "Provenance",
+          "occurrences": 4
+        },
+        {
+          "name": "Role",
+          "occurrences": 4
+        },
+        {
+          "name": "Scope",
+          "occurrences": 2
+        },
+        {
+          "name": "Shade",
+          "occurrences": 11
+        },
+        {
+          "name": "Source",
+          "occurrences": 1
+        },
+        {
+          "name": "Status",
+          "occurrences": 19
+        },
+        {
+          "name": "Style",
+          "occurrences": 7
+        },
+        {
+          "name": "Text",
+          "occurrences": 976
+        },
+        {
+          "name": "Type",
+          "occurrences": 2
+        },
+        {
+          "name": "Variant",
+          "occurrences": 5
+        },
+        {
+          "name": "Verdict",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "component": "RadzenBarOptions",
+      "occurrences": 1,
+      "parameters": [
+        {
+          "name": "Radius",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenBarSeries",
+      "occurrences": 4,
+      "parameters": [
+        {
+          "name": "CategoryProperty",
+          "occurrences": 4
+        },
+        {
+          "name": "Data",
+          "occurrences": 4
+        },
+        {
+          "name": "Fill",
+          "occurrences": 1
+        },
+        {
+          "name": "Title",
+          "occurrences": 3
+        },
+        {
+          "name": "ValueProperty",
+          "occurrences": 4
+        }
+      ]
+    },
+    {
+      "component": "RadzenBody",
+      "occurrences": 30,
+      "parameters": []
+    },
+    {
+      "component": "RadzenBreadCrumb",
+      "occurrences": 16,
+      "parameters": []
+    },
+    {
+      "component": "RadzenBreadCrumbItem",
+      "occurrences": 35,
+      "parameters": [
+        {
+          "name": "Icon",
+          "occurrences": 3
+        },
+        {
+          "name": "Path",
+          "occurrences": 19
+        },
+        {
+          "name": "Text",
+          "occurrences": 35
+        }
+      ]
+    },
+    {
+      "component": "RadzenButton",
+      "occurrences": 2658,
+      "parameters": [
+        {
+          "name": "Busy",
+          "occurrences": 18
+        },
+        {
+          "name": "BusyText",
+          "occurrences": 42
+        },
+        {
+          "name": "ButtonStyle",
+          "occurrences": 1941
+        },
+        {
+          "name": "ButtonType",
+          "occurrences": 290
+        },
+        {
+          "name": "Click",
+          "occurrences": 2397
+        },
+        {
+          "name": "Count",
+          "occurrences": 10
+        },
+        {
+          "name": "Disabled",
+          "occurrences": 340
+        },
+        {
+          "name": "HasIngestKey",
+          "occurrences": 2
+        },
+        {
+          "name": "Icon",
+          "occurrences": 2477
+        },
+        {
+          "name": "IconPosition",
+          "occurrences": 2
+        },
+        {
+          "name": "IsBusy",
+          "occurrences": 384
+        },
+        {
+          "name": "MatchCount",
+          "occurrences": 2
+        },
+        {
+          "name": "Mode",
+          "occurrences": 1
+        },
+        {
+          "name": "MouseEnter",
+          "occurrences": 22
+        },
+        {
+          "name": "PipelineRunnerEnabled",
+          "occurrences": 6
+        },
+        {
+          "name": "ResultCount",
+          "occurrences": 2
+        },
+        {
+          "name": "SelectedCount",
+          "occurrences": 2
+        },
+        {
+          "name": "Size",
+          "occurrences": 1254
+        },
+        {
+          "name": "Status",
+          "occurrences": 1
+        },
+        {
+          "name": "Style",
+          "occurrences": 37
+        },
+        {
+          "name": "Text",
+          "occurrences": 1814
+        },
+        {
+          "name": "Title",
+          "occurrences": 38
+        },
+        {
+          "name": "Variant",
+          "occurrences": 1211
+        },
+        {
+          "name": "Visible",
+          "occurrences": 6
+        }
+      ]
+    },
+    {
+      "component": "RadzenCard",
+      "occurrences": 1005,
+      "parameters": [
+        {
+          "name": "Id",
+          "occurrences": 2
+        },
+        {
+          "name": "Style",
+          "occurrences": 39
+        },
+        {
+          "name": "Variant",
+          "occurrences": 15
+        }
+      ]
+    },
+    {
+      "component": "RadzenCategoryAxis",
+      "occurrences": 32,
+      "parameters": [
+        {
+          "name": "FormatString",
+          "occurrences": 2
+        },
+        {
+          "name": "Formatter",
+          "occurrences": 2
+        },
+        {
+          "name": "LabelAutoRotation",
+          "occurrences": 4
+        },
+        {
+          "name": "Padding",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "component": "RadzenChart",
+      "occurrences": 40,
+      "parameters": [
+        {
+          "name": "Style",
+          "occurrences": 10
+        },
+        {
+          "name": "Visible",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "component": "RadzenChartTooltipOptions",
+      "occurrences": 4,
+      "parameters": [
+        {
+          "name": "Shared",
+          "occurrences": 4
+        }
+      ]
+    },
+    {
+      "component": "RadzenCheckBox",
+      "occurrences": 107,
+      "parameters": [
+        {
+          "name": "Change",
+          "occurrences": 36
+        },
+        {
+          "name": "Count",
+          "occurrences": 1
+        },
+        {
+          "name": "Disabled",
+          "occurrences": 3
+        },
+        {
+          "name": "Name",
+          "occurrences": 29
+        },
+        {
+          "name": "ReadOnly",
+          "occurrences": 4
+        },
+        {
+          "name": "TabIndex",
+          "occurrences": 2
+        },
+        {
+          "name": "TriState",
+          "occurrences": 3
+        },
+        {
+          "name": "TValue",
+          "occurrences": 64
+        },
+        {
+          "name": "Value",
+          "occurrences": 36
+        },
+        {
+          "name": "ValueChanged",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "component": "RadzenCheckBoxList",
+      "occurrences": 1,
+      "parameters": [
+        {
+          "name": "Data",
+          "occurrences": 1
+        },
+        {
+          "name": "Orientation",
+          "occurrences": 1
+        },
+        {
+          "name": "TValue",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenColorPicker",
+      "occurrences": 3,
+      "parameters": [
+        {
+          "name": "Change",
+          "occurrences": 1
+        },
+        {
+          "name": "ShowButton",
+          "occurrences": 1
+        },
+        {
+          "name": "ShowColors",
+          "occurrences": 1
+        },
+        {
+          "name": "ShowHSV",
+          "occurrences": 1
+        },
+        {
+          "name": "ShowRGBA",
+          "occurrences": 1
+        },
+        {
+          "name": "Value",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenColumn",
+      "occurrences": 935,
+      "parameters": [
+        {
+          "name": "Size",
+          "occurrences": 805
+        },
+        {
+          "name": "SizeLG",
+          "occurrences": 89
+        },
+        {
+          "name": "SizeMD",
+          "occurrences": 658
+        },
+        {
+          "name": "SizeSM",
+          "occurrences": 66
+        },
+        {
+          "name": "SizeXL",
+          "occurrences": 6
+        },
+        {
+          "name": "SizeXS",
+          "occurrences": 96
+        }
+      ]
+    },
+    {
+      "component": "RadzenColumnSeries",
+      "occurrences": 6,
+      "parameters": [
+        {
+          "name": "CategoryProperty",
+          "occurrences": 6
+        },
+        {
+          "name": "Data",
+          "occurrences": 6
+        },
+        {
+          "name": "Fill",
+          "occurrences": 1
+        },
+        {
+          "name": "Title",
+          "occurrences": 6
+        },
+        {
+          "name": "ValueProperty",
+          "occurrences": 6
+        }
+      ]
+    },
+    {
+      "component": "RadzenCompareValidator",
+      "occurrences": 1,
+      "parameters": [
+        {
+          "name": "Component",
+          "occurrences": 1
+        },
+        {
+          "name": "Text",
+          "occurrences": 1
+        },
+        {
+          "name": "Value",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenComponents",
+      "occurrences": 4,
+      "parameters": []
+    },
+    {
+      "component": "RadzenContextMenu",
+      "occurrences": 17,
+      "parameters": []
+    },
+    {
+      "component": "RadzenDataGrid",
+      "occurrences": 297,
+      "parameters": [
+        {
+          "name": "AllowAltering",
+          "occurrences": 2
+        },
+        {
+          "name": "AllowAlternatingRows",
+          "occurrences": 5
+        },
+        {
+          "name": "AllowColumnResize",
+          "occurrences": 20
+        },
+        {
+          "name": "AllowFiltering",
+          "occurrences": 200
+        },
+        {
+          "name": "AllowGrouping",
+          "occurrences": 11
+        },
+        {
+          "name": "AllowPaging",
+          "occurrences": 149
+        },
+        {
+          "name": "AllowRowSelectOnRowClick",
+          "occurrences": 6
+        },
+        {
+          "name": "AllowSorting",
+          "occurrences": 252
+        },
+        {
+          "name": "AllowVirtualization",
+          "occurrences": 7
+        },
+        {
+          "name": "ColumnResized",
+          "occurrences": 1
+        },
+        {
+          "name": "ColumnWidth",
+          "occurrences": 3
+        },
+        {
+          "name": "Count",
+          "occurrences": 49
+        },
+        {
+          "name": "Data",
+          "occurrences": 297
+        },
+        {
+          "name": "Density",
+          "occurrences": 206
+        },
+        {
+          "name": "EditMode",
+          "occurrences": 14
+        },
+        {
+          "name": "EmptyText",
+          "occurrences": 91
+        },
+        {
+          "name": "ExpandChildItemAriaLabel",
+          "occurrences": 3
+        },
+        {
+          "name": "ExpandMode",
+          "occurrences": 6
+        },
+        {
+          "name": "FilterCaseSensitivity",
+          "occurrences": 4
+        },
+        {
+          "name": "FilterMode",
+          "occurrences": 183
+        },
+        {
+          "name": "FilterPopupRenderMode",
+          "occurrences": 10
+        },
+        {
+          "name": "FirstPageAriaLabel",
+          "occurrences": 24
+        },
+        {
+          "name": "FirstPageTitle",
+          "occurrences": 24
+        },
+        {
+          "name": "GridLines",
+          "occurrences": 6
+        },
+        {
+          "name": "Groups",
+          "occurrences": 8
+        },
+        {
+          "name": "IsLoading",
+          "occurrences": 75
+        },
+        {
+          "name": "KeyProperty",
+          "occurrences": 3
+        },
+        {
+          "name": "LastPageAriaLabel",
+          "occurrences": 24
+        },
+        {
+          "name": "LastPageTitle",
+          "occurrences": 24
+        },
+        {
+          "name": "LoadData",
+          "occurrences": 48
+        },
+        {
+          "name": "NextPageAriaLabel",
+          "occurrences": 24
+        },
+        {
+          "name": "NextPageTitle",
+          "occurrences": 24
+        },
+        {
+          "name": "PageAriaLabelFormat",
+          "occurrences": 24
+        },
+        {
+          "name": "PagerHorizontalAlign",
+          "occurrences": 24
+        },
+        {
+          "name": "PagerPosition",
+          "occurrences": 2
+        },
+        {
+          "name": "PageSize",
+          "occurrences": 132
+        },
+        {
+          "name": "PageSizeOptions",
+          "occurrences": 10
+        },
+        {
+          "name": "PageSizeText",
+          "occurrences": 24
+        },
+        {
+          "name": "PageTitleFormat",
+          "occurrences": 24
+        },
+        {
+          "name": "PagingSummaryFormat",
+          "occurrences": 24
+        },
+        {
+          "name": "PrevPageAriaLabel",
+          "occurrences": 24
+        },
+        {
+          "name": "PrevPageTitle",
+          "occurrences": 24
+        },
+        {
+          "name": "Responsive",
+          "occurrences": 87
+        },
+        {
+          "name": "RowClick",
+          "occurrences": 55
+        },
+        {
+          "name": "RowCollapse",
+          "occurrences": 1
+        },
+        {
+          "name": "RowDoubleClick",
+          "occurrences": 2
+        },
+        {
+          "name": "RowExpand",
+          "occurrences": 1
+        },
+        {
+          "name": "RowRender",
+          "occurrences": 12
+        },
+        {
+          "name": "RowSelect",
+          "occurrences": 4
+        },
+        {
+          "name": "RowUpdate",
+          "occurrences": 8
+        },
+        {
+          "name": "SelectionMode",
+          "occurrences": 1
+        },
+        {
+          "name": "ShowExpandAll",
+          "occurrences": 1
+        },
+        {
+          "name": "ShowExpandColumn",
+          "occurrences": 1
+        },
+        {
+          "name": "ShowGroupPanel",
+          "occurrences": 10
+        },
+        {
+          "name": "ShowPagingSummary",
+          "occurrences": 2
+        },
+        {
+          "name": "Style",
+          "occurrences": 19
+        },
+        {
+          "name": "TItem",
+          "occurrences": 293
+        },
+        {
+          "name": "VirtualizationOverscanCount",
+          "occurrences": 4
+        }
+      ]
+    },
+    {
+      "component": "RadzenDataGridColumn",
+      "occurrences": 1911,
+      "parameters": [
+        {
+          "name": "Context",
+          "occurrences": 4
+        },
+        {
+          "name": "CssClass",
+          "occurrences": 28
+        },
+        {
+          "name": "Filterable",
+          "occurrences": 164
+        },
+        {
+          "name": "FormatString",
+          "occurrences": 195
+        },
+        {
+          "name": "Frozen",
+          "occurrences": 3
+        },
+        {
+          "name": "HeaderCssClass",
+          "occurrences": 28
+        },
+        {
+          "name": "MinWidth",
+          "occurrences": 110
+        },
+        {
+          "name": "Property",
+          "occurrences": 1458
+        },
+        {
+          "name": "Resizable",
+          "occurrences": 11
+        },
+        {
+          "name": "Sortable",
+          "occurrences": 269
+        },
+        {
+          "name": "SortOrder",
+          "occurrences": 17
+        },
+        {
+          "name": "SortProperty",
+          "occurrences": 7
+        },
+        {
+          "name": "TextAlign",
+          "occurrences": 241
+        },
+        {
+          "name": "TItem",
+          "occurrences": 1469
+        },
+        {
+          "name": "Title",
+          "occurrences": 1884
+        },
+        {
+          "name": "Visible",
+          "occurrences": 18
+        },
+        {
+          "name": "Width",
+          "occurrences": 1329
+        }
+      ]
+    },
+    {
+      "component": "RadzenDataList",
+      "occurrences": 70,
+      "parameters": [
+        {
+          "name": "AllowPaging",
+          "occurrences": 43
+        },
+        {
+          "name": "Count",
+          "occurrences": 2
+        },
+        {
+          "name": "Data",
+          "occurrences": 70
+        },
+        {
+          "name": "LoadData",
+          "occurrences": 2
+        },
+        {
+          "name": "PageSize",
+          "occurrences": 4
+        },
+        {
+          "name": "Style",
+          "occurrences": 1
+        },
+        {
+          "name": "TItem",
+          "occurrences": 70
+        },
+        {
+          "name": "WrapItems",
+          "occurrences": 51
+        }
+      ]
+    },
+    {
+      "component": "RadzenDatePicker",
+      "occurrences": 53,
+      "parameters": [
+        {
+          "name": "AllowClear",
+          "occurrences": 6
+        },
+        {
+          "name": "Change",
+          "occurrences": 17
+        },
+        {
+          "name": "DateFormat",
+          "occurrences": 31
+        },
+        {
+          "name": "Name",
+          "occurrences": 13
+        },
+        {
+          "name": "Placeholder",
+          "occurrences": 9
+        },
+        {
+          "name": "ShowCalendarWeek",
+          "occurrences": 3
+        },
+        {
+          "name": "ShowTime",
+          "occurrences": 22
+        },
+        {
+          "name": "Style",
+          "occurrences": 11
+        },
+        {
+          "name": "TimeOnly",
+          "occurrences": 2
+        },
+        {
+          "name": "TValue",
+          "occurrences": 32
+        },
+        {
+          "name": "Value",
+          "occurrences": 7
+        },
+        {
+          "name": "ValueChanged",
+          "occurrences": 6
+        }
+      ]
+    },
+    {
+      "component": "RadzenDayView",
+      "occurrences": 2,
+      "parameters": [
+        {
+          "name": "Text",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenDialog",
+      "occurrences": 24,
+      "parameters": []
+    },
+    {
+      "component": "RadzenDonutSeries",
+      "occurrences": 1,
+      "parameters": [
+        {
+          "name": "CategoryProperty",
+          "occurrences": 1
+        },
+        {
+          "name": "Data",
+          "occurrences": 1
+        },
+        {
+          "name": "Title",
+          "occurrences": 1
+        },
+        {
+          "name": "ValueProperty",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenDropDown",
+      "occurrences": 448,
+      "parameters": [
+        {
+          "name": "AllowClear",
+          "occurrences": 136
+        },
+        {
+          "name": "AllowFiltering",
+          "occurrences": 54
+        },
+        {
+          "name": "AllowVirtualization",
+          "occurrences": 8
+        },
+        {
+          "name": "Change",
+          "occurrences": 177
+        },
+        {
+          "name": "Chips",
+          "occurrences": 1
+        },
+        {
+          "name": "ClearSearchAfterSelection",
+          "occurrences": 12
+        },
+        {
+          "name": "Count",
+          "occurrences": 2
+        },
+        {
+          "name": "Data",
+          "occurrences": 443
+        },
+        {
+          "name": "Disabled",
+          "occurrences": 14
+        },
+        {
+          "name": "FilterCaseSensitivity",
+          "occurrences": 35
+        },
+        {
+          "name": "FilterDelay",
+          "occurrences": 15
+        },
+        {
+          "name": "FilterOperator",
+          "occurrences": 15
+        },
+        {
+          "name": "FilterPlaceholder",
+          "occurrences": 14
+        },
+        {
+          "name": "ItemRender",
+          "occurrences": 4
+        },
+        {
+          "name": "LoadData",
+          "occurrences": 9
+        },
+        {
+          "name": "Multiple",
+          "occurrences": 1
+        },
+        {
+          "name": "Name",
+          "occurrences": 35
+        },
+        {
+          "name": "Placeholder",
+          "occurrences": 172
+        },
+        {
+          "name": "SearchText",
+          "occurrences": 1
+        },
+        {
+          "name": "Size",
+          "occurrences": 4
+        },
+        {
+          "name": "Style",
+          "occurrences": 78
+        },
+        {
+          "name": "TextProperty",
+          "occurrences": 324
+        },
+        {
+          "name": "TValue",
+          "occurrences": 313
+        },
+        {
+          "name": "Value",
+          "occurrences": 60
+        },
+        {
+          "name": "ValueChanged",
+          "occurrences": 12
+        },
+        {
+          "name": "ValueProperty",
+          "occurrences": 323
+        }
+      ]
+    },
+    {
+      "component": "RadzenEmailValidator",
+      "occurrences": 5,
+      "parameters": [
+        {
+          "name": "Component",
+          "occurrences": 5
+        },
+        {
+          "name": "Text",
+          "occurrences": 5
+        }
+      ]
+    },
+    {
+      "component": "RadzenFieldset",
+      "occurrences": 45,
+      "parameters": [
+        {
+          "name": "AllowCollapse",
+          "occurrences": 14
+        },
+        {
+          "name": "CollapseChanged",
+          "occurrences": 2
+        },
+        {
+          "name": "Collapsed",
+          "occurrences": 12
+        },
+        {
+          "name": "Text",
+          "occurrences": 45
+        }
+      ]
+    },
+    {
+      "component": "RadzenFormField",
+      "occurrences": 1162,
+      "parameters": [
+        {
+          "name": "AllowFloatingLabel",
+          "occurrences": 14
+        },
+        {
+          "name": "Component",
+          "occurrences": 4
+        },
+        {
+          "name": "Id",
+          "occurrences": 2
+        },
+        {
+          "name": "Style",
+          "occurrences": 241
+        },
+        {
+          "name": "Text",
+          "occurrences": 1162
+        },
+        {
+          "name": "Variant",
+          "occurrences": 393
+        }
+      ]
+    },
+    {
+      "component": "RadzenGridLines",
+      "occurrences": 15,
+      "parameters": [
+        {
+          "name": "Visible",
+          "occurrences": 15
+        }
+      ]
+    },
+    {
+      "component": "RadzenHeader",
+      "occurrences": 30,
+      "parameters": []
+    },
+    {
+      "component": "RadzenHtmlEditor",
+      "occurrences": 5,
+      "parameters": [
+        {
+          "name": "Execute",
+          "occurrences": 1
+        },
+        {
+          "name": "Style",
+          "occurrences": 4
+        },
+        {
+          "name": "Value",
+          "occurrences": 1
+        },
+        {
+          "name": "ValueChanged",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenHtmlEditorBold",
+      "occurrences": 1,
+      "parameters": []
+    },
+    {
+      "component": "RadzenHtmlEditorCustomTool",
+      "occurrences": 28,
+      "parameters": [
+        {
+          "name": "CommandName",
+          "occurrences": 28
+        },
+        {
+          "name": "Icon",
+          "occurrences": 28
+        },
+        {
+          "name": "Title",
+          "occurrences": 28
+        }
+      ]
+    },
+    {
+      "component": "RadzenHtmlEditorIndent",
+      "occurrences": 1,
+      "parameters": []
+    },
+    {
+      "component": "RadzenHtmlEditorItalic",
+      "occurrences": 1,
+      "parameters": []
+    },
+    {
+      "component": "RadzenHtmlEditorOutdent",
+      "occurrences": 1,
+      "parameters": []
+    },
+    {
+      "component": "RadzenHtmlEditorRedo",
+      "occurrences": 1,
+      "parameters": []
+    },
+    {
+      "component": "RadzenHtmlEditorSeparator",
+      "occurrences": 11,
+      "parameters": []
+    },
+    {
+      "component": "RadzenHtmlEditorSubscript",
+      "occurrences": 1,
+      "parameters": []
+    },
+    {
+      "component": "RadzenHtmlEditorSuperscript",
+      "occurrences": 1,
+      "parameters": []
+    },
+    {
+      "component": "RadzenHtmlEditorUndo",
+      "occurrences": 1,
+      "parameters": []
+    },
+    {
+      "component": "RadzenIcon",
+      "occurrences": 1057,
+      "parameters": [
+        {
+          "name": "ButtonStyle",
+          "occurrences": 2
+        },
+        {
+          "name": "DeploymentTargetAvailable",
+          "occurrences": 2
+        },
+        {
+          "name": "Icon",
+          "occurrences": 1057
+        },
+        {
+          "name": "IconStyle",
+          "occurrences": 3
+        },
+        {
+          "name": "IsCorrect",
+          "occurrences": 2
+        },
+        {
+          "name": "MouseEnter",
+          "occurrences": 1
+        },
+        {
+          "name": "PipelineRunnerAvailable",
+          "occurrences": 4
+        },
+        {
+          "name": "PipelineRunnerEnabled",
+          "occurrences": 4
+        },
+        {
+          "name": "Status",
+          "occurrences": 1
+        },
+        {
+          "name": "Style",
+          "occurrences": 81
+        },
+        {
+          "name": "Type",
+          "occurrences": 9
+        },
+        {
+          "name": "Variant",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "component": "RadzenImage",
+      "occurrences": 1,
+      "parameters": [
+        {
+          "name": "Path",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenLabel",
+      "occurrences": 184,
+      "parameters": [
+        {
+          "name": "Component",
+          "occurrences": 85
+        },
+        {
+          "name": "Style",
+          "occurrences": 1
+        },
+        {
+          "name": "Text",
+          "occurrences": 184
+        }
+      ]
+    },
+    {
+      "component": "RadzenLayout",
+      "occurrences": 30,
+      "parameters": []
+    },
+    {
+      "component": "RadzenLegend",
+      "occurrences": 25,
+      "parameters": [
+        {
+          "name": "Position",
+          "occurrences": 21
+        },
+        {
+          "name": "Visible",
+          "occurrences": 6
+        }
+      ]
+    },
+    {
+      "component": "RadzenLengthValidator",
+      "occurrences": 3,
+      "parameters": [
+        {
+          "name": "Component",
+          "occurrences": 3
+        },
+        {
+          "name": "Min",
+          "occurrences": 3
+        },
+        {
+          "name": "Text",
+          "occurrences": 3
+        }
+      ]
+    },
+    {
+      "component": "RadzenLineSeries",
+      "occurrences": 35,
+      "parameters": [
+        {
+          "name": "CategoryProperty",
+          "occurrences": 35
+        },
+        {
+          "name": "Data",
+          "occurrences": 35
+        },
+        {
+          "name": "LineType",
+          "occurrences": 5
+        },
+        {
+          "name": "Smooth",
+          "occurrences": 32
+        },
+        {
+          "name": "Stroke",
+          "occurrences": 2
+        },
+        {
+          "name": "StrokeWidth",
+          "occurrences": 2
+        },
+        {
+          "name": "Title",
+          "occurrences": 35
+        },
+        {
+          "name": "ValueProperty",
+          "occurrences": 35
+        }
+      ]
+    },
+    {
+      "component": "RadzenLink",
+      "occurrences": 105,
+      "parameters": [
+        {
+          "name": "Click",
+          "occurrences": 1
+        },
+        {
+          "name": "Icon",
+          "occurrences": 3
+        },
+        {
+          "name": "Path",
+          "occurrences": 104
+        },
+        {
+          "name": "Style",
+          "occurrences": 2
+        },
+        {
+          "name": "Target",
+          "occurrences": 8
+        },
+        {
+          "name": "Text",
+          "occurrences": 79
+        }
+      ]
+    },
+    {
+      "component": "RadzenListBox",
+      "occurrences": 3,
+      "parameters": [
+        {
+          "name": "Change",
+          "occurrences": 1
+        },
+        {
+          "name": "Data",
+          "occurrences": 3
+        },
+        {
+          "name": "Style",
+          "occurrences": 1
+        },
+        {
+          "name": "TextProperty",
+          "occurrences": 2
+        },
+        {
+          "name": "TValue",
+          "occurrences": 2
+        },
+        {
+          "name": "ValueProperty",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "component": "RadzenMarkers",
+      "occurrences": 14,
+      "parameters": [
+        {
+          "name": "Fill",
+          "occurrences": 1
+        },
+        {
+          "name": "MarkerType",
+          "occurrences": 14
+        },
+        {
+          "name": "Size",
+          "occurrences": 2
+        },
+        {
+          "name": "Stroke",
+          "occurrences": 1
+        },
+        {
+          "name": "StrokeWidth",
+          "occurrences": 1
+        },
+        {
+          "name": "Visible",
+          "occurrences": 3
+        }
+      ]
+    },
+    {
+      "component": "RadzenMonthView",
+      "occurrences": 2,
+      "parameters": [
+        {
+          "name": "Text",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenNotification",
+      "occurrences": 24,
+      "parameters": []
+    },
+    {
+      "component": "RadzenNumeric",
+      "occurrences": 197,
+      "parameters": [
+        {
+          "name": "AriaLabel",
+          "occurrences": 2
+        },
+        {
+          "name": "Change",
+          "occurrences": 20
+        },
+        {
+          "name": "Disabled",
+          "occurrences": 1
+        },
+        {
+          "name": "Format",
+          "occurrences": 13
+        },
+        {
+          "name": "Immediate",
+          "occurrences": 15
+        },
+        {
+          "name": "InputAttributes",
+          "occurrences": 2
+        },
+        {
+          "name": "Max",
+          "occurrences": 129
+        },
+        {
+          "name": "Min",
+          "occurrences": 148
+        },
+        {
+          "name": "Name",
+          "occurrences": 26
+        },
+        {
+          "name": "Placeholder",
+          "occurrences": 5
+        },
+        {
+          "name": "ShowUpDown",
+          "occurrences": 10
+        },
+        {
+          "name": "Step",
+          "occurrences": 17
+        },
+        {
+          "name": "Style",
+          "occurrences": 45
+        },
+        {
+          "name": "TextAlign",
+          "occurrences": 2
+        },
+        {
+          "name": "TValue",
+          "occurrences": 128
+        },
+        {
+          "name": "Value",
+          "occurrences": 15
+        },
+        {
+          "name": "ValueChanged",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "component": "RadzenPager",
+      "occurrences": 4,
+      "parameters": [
+        {
+          "name": "Count",
+          "occurrences": 4
+        },
+        {
+          "name": "CurrentPage",
+          "occurrences": 1
+        },
+        {
+          "name": "PageChanged",
+          "occurrences": 4
+        },
+        {
+          "name": "PageSize",
+          "occurrences": 4
+        }
+      ]
+    },
+    {
+      "component": "RadzenPanelMenu",
+      "occurrences": 37,
+      "parameters": [
+        {
+          "name": "Click",
+          "occurrences": 1
+        },
+        {
+          "name": "DisplayStyle",
+          "occurrences": 19
+        },
+        {
+          "name": "ShowArrow",
+          "occurrences": 17
+        }
+      ]
+    },
+    {
+      "component": "RadzenPanelMenuItem",
+      "occurrences": 351,
+      "parameters": [
+        {
+          "name": "Click",
+          "occurrences": 6
+        },
+        {
+          "name": "Expanded",
+          "occurrences": 8
+        },
+        {
+          "name": "ExpandedChanged",
+          "occurrences": 2
+        },
+        {
+          "name": "Icon",
+          "occurrences": 350
+        },
+        {
+          "name": "Path",
+          "occurrences": 329
+        },
+        {
+          "name": "Selected",
+          "occurrences": 6
+        },
+        {
+          "name": "Style",
+          "occurrences": 10
+        },
+        {
+          "name": "Text",
+          "occurrences": 351
+        }
+      ]
+    },
+    {
+      "component": "RadzenPassword",
+      "occurrences": 77,
+      "parameters": [
+        {
+          "name": "Change",
+          "occurrences": 1
+        },
+        {
+          "name": "Disabled",
+          "occurrences": 1
+        },
+        {
+          "name": "Immediate",
+          "occurrences": 2
+        },
+        {
+          "name": "Name",
+          "occurrences": 39
+        },
+        {
+          "name": "Placeholder",
+          "occurrences": 2
+        },
+        {
+          "name": "Style",
+          "occurrences": 11
+        },
+        {
+          "name": "Value",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "component": "RadzenPieSeries",
+      "occurrences": 7,
+      "parameters": [
+        {
+          "name": "CategoryProperty",
+          "occurrences": 7
+        },
+        {
+          "name": "Data",
+          "occurrences": 7
+        },
+        {
+          "name": "Title",
+          "occurrences": 7
+        },
+        {
+          "name": "ValueProperty",
+          "occurrences": 7
+        }
+      ]
+    },
+    {
+      "component": "RadzenProfileMenu",
+      "occurrences": 2,
+      "parameters": [
+        {
+          "name": "Click",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenProfileMenuItem",
+      "occurrences": 4,
+      "parameters": [
+        {
+          "name": "Icon",
+          "occurrences": 4
+        },
+        {
+          "name": "Path",
+          "occurrences": 3
+        },
+        {
+          "name": "Text",
+          "occurrences": 4
+        },
+        {
+          "name": "Value",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenProgressBar",
+      "occurrences": 76,
+      "parameters": [
+        {
+          "name": "CompletionPercent",
+          "occurrences": 1
+        },
+        {
+          "name": "Max",
+          "occurrences": 40
+        },
+        {
+          "name": "Mode",
+          "occurrences": 23
+        },
+        {
+          "name": "ProgressBarStyle",
+          "occurrences": 10
+        },
+        {
+          "name": "ShowValue",
+          "occurrences": 65
+        },
+        {
+          "name": "Style",
+          "occurrences": 9
+        },
+        {
+          "name": "Value",
+          "occurrences": 60
+        },
+        {
+          "name": "Visible",
+          "occurrences": 3
+        }
+      ]
+    },
+    {
+      "component": "RadzenProgressBarCircular",
+      "occurrences": 299,
+      "parameters": [
+        {
+          "name": "CompletionPercent",
+          "occurrences": 1
+        },
+        {
+          "name": "Max",
+          "occurrences": 2
+        },
+        {
+          "name": "Mode",
+          "occurrences": 297
+        },
+        {
+          "name": "ProgressBarStyle",
+          "occurrences": 2
+        },
+        {
+          "name": "ShowValue",
+          "occurrences": 270
+        },
+        {
+          "name": "Size",
+          "occurrences": 65
+        },
+        {
+          "name": "Value",
+          "occurrences": 6
+        }
+      ]
+    },
+    {
+      "component": "RadzenRadioButtonList",
+      "occurrences": 2,
+      "parameters": [
+        {
+          "name": "Change",
+          "occurrences": 1
+        },
+        {
+          "name": "Orientation",
+          "occurrences": 1
+        },
+        {
+          "name": "TValue",
+          "occurrences": 2
+        },
+        {
+          "name": "Value",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenRadioButtonListItem",
+      "occurrences": 4,
+      "parameters": [
+        {
+          "name": "Text",
+          "occurrences": 4
+        },
+        {
+          "name": "TValue",
+          "occurrences": 1
+        },
+        {
+          "name": "Value",
+          "occurrences": 4
+        }
+      ]
+    },
+    {
+      "component": "RadzenRequiredValidator",
+      "occurrences": 64,
+      "parameters": [
+        {
+          "name": "Component",
+          "occurrences": 64
+        },
+        {
+          "name": "Popup",
+          "occurrences": 6
+        },
+        {
+          "name": "Text",
+          "occurrences": 64
+        }
+      ]
+    },
+    {
+      "component": "RadzenRow",
+      "occurrences": 357,
+      "parameters": [
+        {
+          "name": "AlignItems",
+          "occurrences": 97
+        },
+        {
+          "name": "Gap",
+          "occurrences": 267
+        },
+        {
+          "name": "JustifyContent",
+          "occurrences": 32
+        },
+        {
+          "name": "RowGap",
+          "occurrences": 4
+        },
+        {
+          "name": "Style",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenScheduler",
+      "occurrences": 3,
+      "parameters": [
+        {
+          "name": "AppointmentMove",
+          "occurrences": 1
+        },
+        {
+          "name": "AppointmentRender",
+          "occurrences": 3
+        },
+        {
+          "name": "AppointmentSelect",
+          "occurrences": 3
+        },
+        {
+          "name": "Data",
+          "occurrences": 3
+        },
+        {
+          "name": "Date",
+          "occurrences": 1
+        },
+        {
+          "name": "EndProperty",
+          "occurrences": 3
+        },
+        {
+          "name": "LoadData",
+          "occurrences": 1
+        },
+        {
+          "name": "SelectedIndex",
+          "occurrences": 1
+        },
+        {
+          "name": "SlotRender",
+          "occurrences": 2
+        },
+        {
+          "name": "SlotSelect",
+          "occurrences": 2
+        },
+        {
+          "name": "StartProperty",
+          "occurrences": 3
+        },
+        {
+          "name": "Style",
+          "occurrences": 2
+        },
+        {
+          "name": "TextProperty",
+          "occurrences": 3
+        },
+        {
+          "name": "TItem",
+          "occurrences": 3
+        },
+        {
+          "name": "TodayText",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenSelectBar",
+      "occurrences": 8,
+      "parameters": [
+        {
+          "name": "Change",
+          "occurrences": 3
+        },
+        {
+          "name": "Data",
+          "occurrences": 1
+        },
+        {
+          "name": "Size",
+          "occurrences": 8
+        },
+        {
+          "name": "TextProperty",
+          "occurrences": 1
+        },
+        {
+          "name": "TValue",
+          "occurrences": 8
+        },
+        {
+          "name": "Value",
+          "occurrences": 4
+        },
+        {
+          "name": "ValueChanged",
+          "occurrences": 2
+        },
+        {
+          "name": "ValueProperty",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenSelectBarItem",
+      "occurrences": 21,
+      "parameters": [
+        {
+          "name": "Icon",
+          "occurrences": 7
+        },
+        {
+          "name": "Text",
+          "occurrences": 18
+        },
+        {
+          "name": "Value",
+          "occurrences": 21
+        }
+      ]
+    },
+    {
+      "component": "RadzenSeriesDataLabels",
+      "occurrences": 13,
+      "parameters": [
+        {
+          "name": "Visible",
+          "occurrences": 13
+        }
+      ]
+    },
+    {
+      "component": "RadzenSidebar",
+      "occurrences": 35,
+      "parameters": [
+        {
+          "name": "Expanded",
+          "occurrences": 18
+        },
+        {
+          "name": "Responsive",
+          "occurrences": 31
+        },
+        {
+          "name": "Style",
+          "occurrences": 12
+        }
+      ]
+    },
+    {
+      "component": "RadzenSidebarToggle",
+      "occurrences": 23,
+      "parameters": [
+        {
+          "name": "Click",
+          "occurrences": 23
+        }
+      ]
+    },
+    {
+      "component": "RadzenSkeleton",
+      "occurrences": 41,
+      "parameters": [
+        {
+          "name": "Shape",
+          "occurrences": 1
+        },
+        {
+          "name": "Style",
+          "occurrences": 21
+        }
+      ]
+    },
+    {
+      "component": "RadzenSlider",
+      "occurrences": 6,
+      "parameters": [
+        {
+          "name": "Change",
+          "occurrences": 4
+        },
+        {
+          "name": "Disabled",
+          "occurrences": 1
+        },
+        {
+          "name": "Max",
+          "occurrences": 6
+        },
+        {
+          "name": "Min",
+          "occurrences": 6
+        },
+        {
+          "name": "Step",
+          "occurrences": 1
+        },
+        {
+          "name": "TValue",
+          "occurrences": 6
+        },
+        {
+          "name": "Value",
+          "occurrences": 2
+        },
+        {
+          "name": "ValueChanged",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenSplitButton",
+      "occurrences": 23,
+      "parameters": [
+        {
+          "name": "BusyText",
+          "occurrences": 4
+        },
+        {
+          "name": "ButtonStyle",
+          "occurrences": 4
+        },
+        {
+          "name": "Click",
+          "occurrences": 23
+        },
+        {
+          "name": "Disabled",
+          "occurrences": 10
+        },
+        {
+          "name": "Icon",
+          "occurrences": 23
+        },
+        {
+          "name": "IsBusy",
+          "occurrences": 4
+        },
+        {
+          "name": "Size",
+          "occurrences": 18
+        },
+        {
+          "name": "Text",
+          "occurrences": 20
+        },
+        {
+          "name": "Variant",
+          "occurrences": 4
+        }
+      ]
+    },
+    {
+      "component": "RadzenSplitButtonItem",
+      "occurrences": 65,
+      "parameters": [
+        {
+          "name": "ButtonStyle",
+          "occurrences": 12
+        },
+        {
+          "name": "Icon",
+          "occurrences": 65
+        },
+        {
+          "name": "Text",
+          "occurrences": 65
+        },
+        {
+          "name": "Value",
+          "occurrences": 65
+        },
+        {
+          "name": "Variant",
+          "occurrences": 12
+        }
+      ]
+    },
+    {
+      "component": "RadzenStack",
+      "occurrences": 3172,
+      "parameters": [
+        {
+          "name": "AlignItems",
+          "occurrences": 1392
+        },
+        {
+          "name": "Gap",
+          "occurrences": 2855
+        },
+        {
+          "name": "JustifyContent",
+          "occurrences": 531
+        },
+        {
+          "name": "Orientation",
+          "occurrences": 1860
+        },
+        {
+          "name": "Style",
+          "occurrences": 75
+        },
+        {
+          "name": "Wrap",
+          "occurrences": 417
+        }
+      ]
+    },
+    {
+      "component": "RadzenStackedAreaSeries",
+      "occurrences": 2,
+      "parameters": [
+        {
+          "name": "CategoryProperty",
+          "occurrences": 2
+        },
+        {
+          "name": "Data",
+          "occurrences": 2
+        },
+        {
+          "name": "Smooth",
+          "occurrences": 2
+        },
+        {
+          "name": "Title",
+          "occurrences": 2
+        },
+        {
+          "name": "ValueProperty",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "component": "RadzenStackedColumnSeries",
+      "occurrences": 2,
+      "parameters": [
+        {
+          "name": "CategoryProperty",
+          "occurrences": 2
+        },
+        {
+          "name": "Data",
+          "occurrences": 2
+        },
+        {
+          "name": "Fill",
+          "occurrences": 2
+        },
+        {
+          "name": "Title",
+          "occurrences": 2
+        },
+        {
+          "name": "ValueProperty",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "component": "RadzenSteps",
+      "occurrences": 7,
+      "parameters": [
+        {
+          "name": "Change",
+          "occurrences": 6
+        },
+        {
+          "name": "ShowStepsButtons",
+          "occurrences": 5
+        },
+        {
+          "name": "Style",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenStepsItem",
+      "occurrences": 11,
+      "parameters": [
+        {
+          "name": "Disabled",
+          "occurrences": 6
+        },
+        {
+          "name": "Icon",
+          "occurrences": 7
+        },
+        {
+          "name": "Text",
+          "occurrences": 11
+        }
+      ]
+    },
+    {
+      "component": "RadzenSwitch",
+      "occurrences": 38,
+      "parameters": [
+        {
+          "name": "Change",
+          "occurrences": 16
+        },
+        {
+          "name": "Disabled",
+          "occurrences": 8
+        },
+        {
+          "name": "Style",
+          "occurrences": 1
+        },
+        {
+          "name": "TabIndex",
+          "occurrences": 2
+        },
+        {
+          "name": "TValue",
+          "occurrences": 3
+        },
+        {
+          "name": "Value",
+          "occurrences": 17
+        }
+      ]
+    },
+    {
+      "component": "RadzenTabs",
+      "occurrences": 41,
+      "parameters": [
+        {
+          "name": "Change",
+          "occurrences": 12
+        },
+        {
+          "name": "RenderMode",
+          "occurrences": 2
+        },
+        {
+          "name": "SelectedIndex",
+          "occurrences": 9
+        },
+        {
+          "name": "Style",
+          "occurrences": 1
+        },
+        {
+          "name": "TabPosition",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "component": "RadzenTabsItem",
+      "occurrences": 296,
+      "parameters": [
+        {
+          "name": "Disabled",
+          "occurrences": 1
+        },
+        {
+          "name": "Icon",
+          "occurrences": 183
+        },
+        {
+          "name": "IconColor",
+          "occurrences": 9
+        },
+        {
+          "name": "Text",
+          "occurrences": 295
+        }
+      ]
+    },
+    {
+      "component": "RadzenTemplateForm",
+      "occurrences": 151,
+      "parameters": [
+        {
+          "name": "Data",
+          "occurrences": 150
+        },
+        {
+          "name": "InvalidSubmit",
+          "occurrences": 1
+        },
+        {
+          "name": "OnValidSubmit",
+          "occurrences": 2
+        },
+        {
+          "name": "Submit",
+          "occurrences": 149
+        },
+        {
+          "name": "TItem",
+          "occurrences": 151
+        }
+      ]
+    },
+    {
+      "component": "RadzenText",
+      "occurrences": 3769,
+      "parameters": [
+        {
+          "name": "Status",
+          "occurrences": 3
+        },
+        {
+          "name": "Style",
+          "occurrences": 223
+        },
+        {
+          "name": "TagName",
+          "occurrences": 48
+        },
+        {
+          "name": "Text",
+          "occurrences": 9
+        },
+        {
+          "name": "TextAlign",
+          "occurrences": 17
+        },
+        {
+          "name": "TextStyle",
+          "occurrences": 3564
+        }
+      ]
+    },
+    {
+      "component": "RadzenTextArea",
+      "occurrences": 179,
+      "parameters": [
+        {
+          "name": "Change",
+          "occurrences": 4
+        },
+        {
+          "name": "Disabled",
+          "occurrences": 1
+        },
+        {
+          "name": "Immediate",
+          "occurrences": 1
+        },
+        {
+          "name": "MaxLength",
+          "occurrences": 32
+        },
+        {
+          "name": "Name",
+          "occurrences": 23
+        },
+        {
+          "name": "Placeholder",
+          "occurrences": 23
+        },
+        {
+          "name": "ReadOnly",
+          "occurrences": 7
+        },
+        {
+          "name": "Rows",
+          "occurrences": 164
+        },
+        {
+          "name": "Style",
+          "occurrences": 32
+        },
+        {
+          "name": "Value",
+          "occurrences": 12
+        },
+        {
+          "name": "ValueChanged",
+          "occurrences": 4
+        }
+      ]
+    },
+    {
+      "component": "RadzenTextBox",
+      "occurrences": 791,
+      "parameters": [
+        {
+          "name": "AutoComplete",
+          "occurrences": 3
+        },
+        {
+          "name": "AutoFocus",
+          "occurrences": 4
+        },
+        {
+          "name": "Change",
+          "occurrences": 82
+        },
+        {
+          "name": "Disabled",
+          "occurrences": 18
+        },
+        {
+          "name": "Immediate",
+          "occurrences": 29
+        },
+        {
+          "name": "InputAttributes",
+          "occurrences": 2
+        },
+        {
+          "name": "MaxLength",
+          "occurrences": 129
+        },
+        {
+          "name": "Name",
+          "occurrences": 177
+        },
+        {
+          "name": "Placeholder",
+          "occurrences": 278
+        },
+        {
+          "name": "ReadOnly",
+          "occurrences": 29
+        },
+        {
+          "name": "Style",
+          "occurrences": 93
+        },
+        {
+          "name": "Value",
+          "occurrences": 73
+        },
+        {
+          "name": "ValueChanged",
+          "occurrences": 7
+        }
+      ]
+    },
+    {
+      "component": "RadzenTheme",
+      "occurrences": 2,
+      "parameters": [
+        {
+          "name": "Theme",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "component": "RadzenTimeline",
+      "occurrences": 5,
+      "parameters": [
+        {
+          "name": "AlignItems",
+          "occurrences": 5
+        },
+        {
+          "name": "LinePosition",
+          "occurrences": 5
+        },
+        {
+          "name": "Orientation",
+          "occurrences": 5
+        }
+      ]
+    },
+    {
+      "component": "RadzenTimelineItem",
+      "occurrences": 7,
+      "parameters": [
+        {
+          "name": "PointStyle",
+          "occurrences": 7
+        }
+      ]
+    },
+    {
+      "component": "RadzenToggleButton",
+      "occurrences": 3,
+      "parameters": [
+        {
+          "name": "ButtonStyle",
+          "occurrences": 2
+        },
+        {
+          "name": "Click",
+          "occurrences": 1
+        },
+        {
+          "name": "Icon",
+          "occurrences": 3
+        },
+        {
+          "name": "Text",
+          "occurrences": 2
+        },
+        {
+          "name": "ToggleIcon",
+          "occurrences": 1
+        },
+        {
+          "name": "Value",
+          "occurrences": 2
+        },
+        {
+          "name": "ValueChanged",
+          "occurrences": 2
+        },
+        {
+          "name": "Variant",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenTooltip",
+      "occurrences": 24,
+      "parameters": []
+    },
+    {
+      "component": "RadzenTree",
+      "occurrences": 6,
+      "parameters": [
+        {
+          "name": "Change",
+          "occurrences": 4
+        },
+        {
+          "name": "Data",
+          "occurrences": 3
+        },
+        {
+          "name": "Expand",
+          "occurrences": 1
+        },
+        {
+          "name": "Style",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenTreeItem",
+      "occurrences": 8,
+      "parameters": [
+        {
+          "name": "Expanded",
+          "occurrences": 3
+        },
+        {
+          "name": "HasChildren",
+          "occurrences": 2
+        },
+        {
+          "name": "Id",
+          "occurrences": 2
+        },
+        {
+          "name": "Selected",
+          "occurrences": 2
+        },
+        {
+          "name": "Text",
+          "occurrences": 6
+        },
+        {
+          "name": "Value",
+          "occurrences": 2
+        }
+      ]
+    },
+    {
+      "component": "RadzenTreeLevel",
+      "occurrences": 3,
+      "parameters": [
+        {
+          "name": "ChildrenProperty",
+          "occurrences": 3
+        },
+        {
+          "name": "HasChildren",
+          "occurrences": 3
+        },
+        {
+          "name": "TextProperty",
+          "occurrences": 3
+        }
+      ]
+    },
+    {
+      "component": "RadzenUpload",
+      "occurrences": 1,
+      "parameters": [
+        {
+          "name": "Accept",
+          "occurrences": 1
+        },
+        {
+          "name": "ChooseText",
+          "occurrences": 1
+        },
+        {
+          "name": "Complete",
+          "occurrences": 1
+        },
+        {
+          "name": "Error",
+          "occurrences": 1
+        },
+        {
+          "name": "Icon",
+          "occurrences": 1
+        },
+        {
+          "name": "Style",
+          "occurrences": 1
+        },
+        {
+          "name": "Url",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "component": "RadzenValueAxis",
+      "occurrences": 32,
+      "parameters": [
+        {
+          "name": "FormatString",
+          "occurrences": 3
+        },
+        {
+          "name": "Formatter",
+          "occurrences": 6
+        },
+        {
+          "name": "Max",
+          "occurrences": 8
+        },
+        {
+          "name": "Min",
+          "occurrences": 17
+        },
+        {
+          "name": "Step",
+          "occurrences": 8
+        }
+      ]
+    },
+    {
+      "component": "RadzenWeekView",
+      "occurrences": 3,
+      "parameters": [
+        {
+          "name": "EndTime",
+          "occurrences": 1
+        },
+        {
+          "name": "StartTime",
+          "occurrences": 1
+        },
+        {
+          "name": "Text",
+          "occurrences": 1
+        }
+      ]
+    }
+  ],
+  "templates": [
+    {
+      "name": "ChildContent",
+      "occurrences": 205
+    },
+    {
+      "name": "EditTemplate",
+      "occurrences": 61
+    },
+    {
+      "name": "EmptyTemplate",
+      "occurrences": 66
+    },
+    {
+      "name": "FooterTemplate",
+      "occurrences": 36
+    },
+    {
+      "name": "HeaderTemplate",
+      "occurrences": 10
+    },
+    {
+      "name": "LoadingTemplate",
+      "occurrences": 3
+    },
+    {
+      "name": "Template",
+      "occurrences": 1132
+    }
+  ]
+}

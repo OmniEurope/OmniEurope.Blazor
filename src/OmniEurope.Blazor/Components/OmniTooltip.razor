@@ -1,0 +1,19 @@
+@inherits OmniComponentBase
+
+<span @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tooltip")">
+    <span class="omni-tooltip__trigger" tabindex="@TabIndex" aria-describedby="@TooltipId">@ChildContent</span>
+    <span id="@TooltipId" class="omni-tooltip__content" role="tooltip">@Text</span>
+</span>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Text { get; set; } = string.Empty;
+
+    [Parameter]
+    public int TabIndex { get; set; } = 0;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string TooltipId => $"{Id ?? "omni-tooltip"}-content";
+}

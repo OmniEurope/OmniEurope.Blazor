@@ -1,0 +1,541 @@
+component _Imports
+component OmniAlert
+component OmniAppearanceToggle
+component OmniArcGauge
+component OmniArcGaugeScale
+component OmniArcGaugeScaleValue
+component OmniAreaSeries
+component OmniAutocomplete
+component OmniAxisTitle
+component OmniBadge
+component OmniBarOptions
+component OmniBarSeries
+component OmniBody
+component OmniBreadcrumb
+component OmniBreadcrumbItem
+component OmniButton
+component OmniCard
+component OmniCategoryAxis
+component OmniChart
+component OmniChartTooltipOptions
+component OmniCheckBox
+component OmniCheckBoxList
+component OmniColorPicker
+component OmniColumn
+component OmniColumnSeries
+component OmniCompareValidator
+component OmniComponentsHost
+component OmniContextMenu
+component OmniDataGrid
+component OmniDataGridColumn
+component OmniDataList
+component OmniDatePicker
+component OmniDayView
+component OmniDialog
+component OmniDonutSeries
+component OmniDropDown
+component OmniEmailValidator
+component OmniFieldset
+component OmniFormField
+component OmniGrid
+component OmniGridLines
+component OmniHeader
+component OmniHeading
+component OmniHtmlEditor
+component OmniIcon
+component OmniImage
+component OmniLabel
+component OmniLayout
+component OmniLegend
+component OmniLengthValidator
+component OmniLineSeries
+component OmniLink
+component OmniListBox
+component OmniMain
+component OmniMarkers
+component OmniMonthView
+component OmniMultiSelect
+component OmniNotification
+component OmniNullableCheckBox
+component OmniNullableSwitch
+component OmniNumeric
+component OmniPager
+component OmniPanelMenu
+component OmniPanelMenuItem
+component OmniPassword
+component OmniPieSeries
+component OmniProfileMenu
+component OmniProfileMenuItem
+component OmniProgressBar
+component OmniRadioButtonList
+component OmniRadioButtonListItem
+component OmniRequiredValidator
+component OmniRow
+component OmniScheduler
+component OmniSelectBar
+component OmniSelectBarItem
+component OmniSeriesDataLabels
+component OmniSidebar
+component OmniSidebarToggle
+component OmniSkeleton
+component OmniSlider
+component OmniSplitButton
+component OmniSplitButtonItem
+component OmniStack
+component OmniStackedAreaSeries
+component OmniStackedColumnSeries
+component OmniSteps
+component OmniStepsItem
+component OmniSwitch
+component OmniTabs
+component OmniTabsItem
+component OmniTemplateForm
+component OmniText
+component OmniTextArea
+component OmniTextBox
+component OmniThemeScope
+component OmniTimeline
+component OmniTimelineItem
+component OmniToggleButton
+component OmniTooltip
+component OmniTree
+component OmniTreeItem
+component OmniTreeLevel
+component OmniUpload
+component OmniValueAxis
+component OmniWeekView
+parameter OmniAlert.Live : bool
+parameter OmniAlert.Severity : OmniAlertSeverity
+parameter OmniAlert.Title : string?
+parameter OmniAppearanceToggle.Appearance : OmniAppearance
+parameter OmniAppearanceToggle.AppearanceChanged : EventCallback<OmniAppearance>
+parameter OmniAppearanceToggle.AriaLabel : string
+parameter OmniArcGauge.ChildContent : RenderFragment?
+parameter OmniArcGauge.Label : string
+parameter OmniArcGaugeScale.ChildContent : RenderFragment?
+parameter OmniArcGaugeScale.Maximum : double
+parameter OmniArcGaugeScale.Minimum : double
+parameter OmniArcGaugeScaleValue.ColorIndex : int
+parameter OmniArcGaugeScaleValue.Maximum : double
+parameter OmniArcGaugeScaleValue.Minimum : double
+parameter OmniArcGaugeScaleValue.Value : double
+parameter OmniAreaSeries.ColorIndex : int
+parameter OmniAreaSeries.Data : IReadOnlyList<OmniChartPoint>
+parameter OmniAreaSeries.Title : string?
+parameter OmniAutocomplete.AriaDescribedBy : string?
+parameter OmniAutocomplete.DebounceMilliseconds : int
+parameter OmniAutocomplete.Disabled : bool
+parameter OmniAutocomplete.MinimumLength : int
+parameter OmniAutocomplete.Placeholder : string?
+parameter OmniAxisTitle.Vertical : bool
+parameter OmniBadge.Variant : OmniBadgeVariant
+parameter OmniBarOptions.ChildContent : RenderFragment?
+parameter OmniBarOptions.Orientation : string
+parameter OmniBarOptions.Stacked : bool
+parameter OmniBarSeries.ColorIndex : int
+parameter OmniBarSeries.Data : IReadOnlyList<OmniChartPoint>
+parameter OmniBarSeries.Title : string?
+parameter OmniBreadcrumb.ChildContent : RenderFragment?
+parameter OmniBreadcrumb.Label : string
+parameter OmniBreadcrumbItem.ChildContent : RenderFragment?
+parameter OmniBreadcrumbItem.Current : bool
+parameter OmniBreadcrumbItem.Href : string?
+parameter OmniButton.AriaLabel : string?
+parameter OmniButton.Busy : bool
+parameter OmniButton.ButtonType : OmniButtonType
+parameter OmniButton.Disabled : bool
+parameter OmniButton.OnClick : EventCallback<MouseEventArgs>
+parameter OmniButton.Size : OmniControlSize
+parameter OmniButton.Variant : OmniButtonVariant
+parameter OmniCard.Footer : RenderFragment?
+parameter OmniCard.Header : RenderFragment?
+parameter OmniCategoryAxis.Labels : IReadOnlyList<string>
+parameter OmniChart.ChildContent : RenderFragment?
+parameter OmniChart.DataTable : RenderFragment?
+parameter OmniChart.Description : string
+parameter OmniChartTooltipOptions.Description : string
+parameter OmniChartTooltipOptions.Enabled : bool
+parameter OmniCheckBox.AriaDescribedBy : string?
+parameter OmniCheckBox.Disabled : bool
+parameter OmniCheckBoxList.AriaDescribedBy : string?
+parameter OmniCheckBoxList.Disabled : bool
+parameter OmniCheckBoxList.Label : string?
+parameter OmniColorPicker.AriaDescribedBy : string?
+parameter OmniColorPicker.Disabled : bool
+parameter OmniColorPicker.ShowValue : bool
+parameter OmniColumn.LargeSpan : int?
+parameter OmniColumn.MediumSpan : int?
+parameter OmniColumn.SmallSpan : int?
+parameter OmniColumn.Span : int
+parameter OmniColumnSeries.ColorIndex : int
+parameter OmniColumnSeries.Data : IReadOnlyList<OmniChartPoint>
+parameter OmniColumnSeries.Title : string?
+parameter OmniCompareValidator.Message : string
+parameter OmniComponentBase.Class : string?
+parameter OmniComponentBase.Id : string?
+parameter OmniComponentsHost.ChildContent : RenderFragment?
+parameter OmniComponentsHost.OverlayService : OmniOverlayService?
+parameter OmniContextMenu.ChildContent : RenderFragment?
+parameter OmniContextMenu.MenuLabel : string
+parameter OmniContextMenu.Open : bool
+parameter OmniContextMenu.OpenChanged : EventCallback<bool>
+parameter OmniDataGrid.Caption : string?
+parameter OmniDataGrid.Columns : RenderFragment?
+parameter OmniDataGrid.ColumnWidthChanged : EventCallback<OmniDataGridColumnWidthChange>
+parameter OmniDataGrid.DetailTemplate : RenderFragment<TItem>?
+parameter OmniDataGrid.EditCancelled : EventCallback<TItem>
+parameter OmniDataGrid.EditRequested : EventCallback<TItem>
+parameter OmniDataGrid.ExpandedKeys : IReadOnlyList<object>
+parameter OmniDataGrid.ExpandedKeysChanged : EventCallback<IReadOnlyList<object>>
+parameter OmniDataGrid.Items : IReadOnlyList<TItem>
+parameter OmniDataGrid.Page : int
+parameter OmniDataGrid.PageChanged : EventCallback<int>
+parameter OmniDataGrid.PageSize : int
+parameter OmniDataGrid.RowUpdated : EventCallback<TItem>
+parameter OmniDataGrid.SelectedKeys : IReadOnlyList<object>
+parameter OmniDataGrid.SelectedKeysChanged : EventCallback<IReadOnlyList<object>>
+parameter OmniDataGrid.SelectionMode : OmniDataGridSelectionMode
+parameter OmniDataGridColumn.EditTemplate : RenderFragment<TItem>?
+parameter OmniDataGridColumn.Filterable : bool
+parameter OmniDataGridColumn.FilterOperator : OmniDataGridFilterOperator
+parameter OmniDataGridColumn.Resizable : bool
+parameter OmniDataGridColumn.Sortable : bool
+parameter OmniDataGridColumn.Template : RenderFragment<TItem>?
+parameter OmniDataGridColumn.Visible : bool
+parameter OmniDataGridColumn.Width : OmniDataGridColumnWidth
+parameter OmniDataList.EmptyContent : RenderFragment?
+parameter OmniDataList.ErrorContent : RenderFragment<Exception>?
+parameter OmniDataList.Items : IReadOnlyList<TItem>
+parameter OmniDataList.LoadingContent : RenderFragment?
+parameter OmniDataList.Virtualize : bool
+parameter OmniDatePicker.AriaDescribedBy : string?
+parameter OmniDatePicker.Disabled : bool
+parameter OmniDatePicker.Maximum : DateOnly?
+parameter OmniDatePicker.Minimum : DateOnly?
+parameter OmniDatePicker.ReadOnly : bool
+parameter OmniDayView.Appointments : IReadOnlyList<OmniSchedulerAppointment>
+parameter OmniDayView.Culture : System.Globalization.CultureInfo
+parameter OmniDayView.Date : DateTimeOffset
+parameter OmniDayView.Label : string
+parameter OmniDialog.ChildContent : RenderFragment?
+parameter OmniDialog.CloseLabel : string
+parameter OmniDialog.CloseOnBackdrop : bool
+parameter OmniDialog.CloseOnEscape : bool
+parameter OmniDialog.Footer : RenderFragment?
+parameter OmniDialog.Open : bool
+parameter OmniDialog.OpenChanged : EventCallback<bool>
+parameter OmniDialog.ReturnFocusTo : ElementReference?
+parameter OmniDonutSeries.Data : IReadOnlyList<OmniChartSlice>
+parameter OmniDonutSeries.Title : string?
+parameter OmniDropDown.AllowEmpty : bool
+parameter OmniDropDown.AriaDescribedBy : string?
+parameter OmniDropDown.Disabled : bool
+parameter OmniDropDown.Placeholder : string
+parameter OmniEmailValidator.Message : string
+parameter OmniFieldset.Disabled : bool
+parameter OmniFormField.Description : string?
+parameter OmniFormField.Disabled : bool
+parameter OmniFormField.Error : string?
+parameter OmniFormField.Required : bool
+parameter OmniGrid.Columns : int
+parameter OmniGrid.Gap : OmniSpacing
+parameter OmniGridLines.Count : int
+parameter OmniHeader.Sticky : bool
+parameter OmniHeading.Level : OmniHeadingLevel
+parameter OmniHeading.Tone : OmniTextTone
+parameter OmniHtmlEditor.AriaDescribedBy : string?
+parameter OmniHtmlEditor.CustomTools : IReadOnlyList<OmniHtmlEditorTool>
+parameter OmniHtmlEditor.Disabled : bool
+parameter OmniHtmlEditor.EnableBold : bool
+parameter OmniHtmlEditor.EnableIndent : bool
+parameter OmniHtmlEditor.EnableItalic : bool
+parameter OmniHtmlEditor.EnableOutdent : bool
+parameter OmniHtmlEditor.EnableSubscript : bool
+parameter OmniHtmlEditor.EnableSuperscript : bool
+parameter OmniHtmlEditor.Label : string
+parameter OmniHtmlEditor.Rows : int
+parameter OmniHtmlEditor.ShowPreview : bool
+parameter OmniIcon.AriaLabel : string?
+parameter OmniIcon.Name : OmniIconName
+parameter OmniIcon.Size : OmniControlSize
+parameter OmniImage.Fit : OmniImageFit
+parameter OmniImage.Height : int?
+parameter OmniImage.Loading : OmniImageLoading
+parameter OmniImage.Width : int?
+parameter OmniInputBase.Class : string?
+parameter OmniInputBase.Id : string?
+parameter OmniLabel.Required : bool
+parameter OmniLayout.Width : OmniLayoutWidth
+parameter OmniLegend.Items : IReadOnlyList<string>
+parameter OmniLegend.Label : string
+parameter OmniLengthValidator.MaximumLength : int?
+parameter OmniLengthValidator.Message : string
+parameter OmniLengthValidator.MinimumLength : int?
+parameter OmniLineSeries.ColorIndex : int
+parameter OmniLineSeries.Data : IReadOnlyList<OmniChartPoint>
+parameter OmniLineSeries.Title : string?
+parameter OmniLink.AriaLabel : string?
+parameter OmniLink.NewTab : bool
+parameter OmniListBox.AriaDescribedBy : string?
+parameter OmniListBox.Disabled : bool
+parameter OmniListBox.VisibleRows : int
+parameter OmniMain.AriaLabelledBy : string?
+parameter OmniMain.FocusTarget : bool
+parameter OmniMarkers.ColorIndex : int
+parameter OmniMarkers.Data : IReadOnlyList<OmniChartPoint>
+parameter OmniMarkers.Radius : double
+parameter OmniMonthView.Appointments : IReadOnlyList<OmniSchedulerAppointment>
+parameter OmniMonthView.Culture : System.Globalization.CultureInfo
+parameter OmniMonthView.Date : DateTimeOffset
+parameter OmniMonthView.Label : string
+parameter OmniMultiSelect.AriaDescribedBy : string?
+parameter OmniMultiSelect.Disabled : bool
+parameter OmniMultiSelect.VisibleRows : int
+parameter OmniNotification.Dismissible : bool
+parameter OmniNotification.OnDismiss : EventCallback
+parameter OmniNotification.Severity : OmniNotificationSeverity
+parameter OmniNotification.Title : string?
+parameter OmniNullableCheckBox.AllowIndeterminate : bool
+parameter OmniNullableCheckBox.AriaDescribedBy : string?
+parameter OmniNullableCheckBox.ChildContent : RenderFragment?
+parameter OmniNullableCheckBox.Disabled : bool
+parameter OmniNullableSwitch.AllowIndeterminate : bool
+parameter OmniNullableSwitch.AriaDescribedBy : string?
+parameter OmniNullableSwitch.ChildContent : RenderFragment?
+parameter OmniNullableSwitch.Disabled : bool
+parameter OmniNullableSwitch.IndeterminateDescription : string
+parameter OmniNumeric.AriaDescribedBy : string?
+parameter OmniNumeric.Disabled : bool
+parameter OmniNumeric.Maximum : string?
+parameter OmniNumeric.Minimum : string?
+parameter OmniNumeric.Placeholder : string?
+parameter OmniNumeric.ReadOnly : bool
+parameter OmniNumeric.Step : string?
+parameter OmniPager.Disabled : bool
+parameter OmniPager.Label : string
+parameter OmniPager.Page : int
+parameter OmniPager.PageChanged : EventCallback<int>
+parameter OmniPager.PageCount : int
+parameter OmniPanelMenu.ChildContent : RenderFragment?
+parameter OmniPanelMenu.Label : string
+parameter OmniPanelMenuItem.ChildContent : RenderFragment?
+parameter OmniPanelMenuItem.Current : bool
+parameter OmniPanelMenuItem.Expanded : bool
+parameter OmniPanelMenuItem.Href : string?
+parameter OmniPassword.AriaDescribedBy : string?
+parameter OmniPassword.Autocomplete : string?
+parameter OmniPassword.Disabled : bool
+parameter OmniPassword.HideLabel : string
+parameter OmniPassword.HideText : string
+parameter OmniPassword.Placeholder : string?
+parameter OmniPassword.ReadOnly : bool
+parameter OmniPassword.Revealable : bool
+parameter OmniPassword.RevealLabel : string
+parameter OmniPassword.RevealText : string
+parameter OmniPieSeries.Data : IReadOnlyList<OmniChartSlice>
+parameter OmniPieSeries.Title : string?
+parameter OmniProfileMenu.ChildContent : RenderFragment?
+parameter OmniProfileMenu.Label : string
+parameter OmniProfileMenuItem.ChildContent : RenderFragment?
+parameter OmniProfileMenuItem.Disabled : bool
+parameter OmniProfileMenuItem.Href : string?
+parameter OmniProfileMenuItem.OnClick : EventCallback
+parameter OmniProgressBar.Indeterminate : bool
+parameter OmniProgressBar.Label : string
+parameter OmniProgressBar.Maximum : double
+parameter OmniProgressBar.Minimum : double
+parameter OmniProgressBar.Shape : OmniProgressShape
+parameter OmniProgressBar.ShowValue : bool
+parameter OmniProgressBar.Value : double
+parameter OmniProgressBar.ValueText : string?
+parameter OmniProgressBar.Variant : OmniProgressVariant
+parameter OmniRadioButtonList.Disabled : bool
+parameter OmniRadioButtonList.Label : string?
+parameter OmniRadioButtonList.Name : string?
+parameter OmniRadioButtonListItem.ChildContent : RenderFragment?
+parameter OmniRadioButtonListItem.Disabled : bool
+parameter OmniRadioButtonListItem.Selected : bool
+parameter OmniRadioButtonListItem.SelectedValueChanged : EventCallback<TValue?>
+parameter OmniRadioButtonListItem.Value : TValue?
+parameter OmniRequiredValidator.Message : string
+parameter OmniRow.Align : OmniAlignment
+parameter OmniRow.Gap : OmniSpacing
+parameter OmniRow.Justify : OmniJustification
+parameter OmniRow.Wrap : bool
+parameter OmniScheduler.Culture : System.Globalization.CultureInfo
+parameter OmniScheduler.Date : DateTimeOffset
+parameter OmniScheduler.DateChanged : EventCallback<DateTimeOffset>
+parameter OmniScheduler.Items : IReadOnlyList<OmniSchedulerAppointment>
+parameter OmniScheduler.TimeZone : TimeZoneInfo
+parameter OmniScheduler.View : OmniSchedulerView
+parameter OmniScheduler.ViewChanged : EventCallback<OmniSchedulerView>
+parameter OmniSelectBar.Disabled : bool
+parameter OmniSelectBar.Label : string?
+parameter OmniSelectBarItem.ChildContent : RenderFragment?
+parameter OmniSelectBarItem.Disabled : bool
+parameter OmniSelectBarItem.Selected : bool
+parameter OmniSelectBarItem.SelectedValueChanged : EventCallback<TValue?>
+parameter OmniSelectBarItem.Value : TValue?
+parameter OmniSeriesDataLabels.Data : IReadOnlyList<OmniChartPoint>
+parameter OmniSidebar.AriaLabel : string
+parameter OmniSidebar.Open : bool
+parameter OmniSidebar.Position : OmniSidebarPosition
+parameter OmniSidebarToggle.AriaLabel : string
+parameter OmniSidebarToggle.ChildContent : RenderFragment?
+parameter OmniSidebarToggle.Open : bool
+parameter OmniSidebarToggle.OpenChanged : EventCallback<bool>
+parameter OmniSkeleton.Label : string?
+parameter OmniSkeleton.LineCount : int
+parameter OmniSkeleton.Shape : OmniSkeletonShape
+parameter OmniSlider.AriaDescribedBy : string?
+parameter OmniSlider.Disabled : bool
+parameter OmniSlider.Maximum : double
+parameter OmniSlider.Minimum : double
+parameter OmniSlider.ShowValue : bool
+parameter OmniSlider.Step : double
+parameter OmniSlider.Vertical : bool
+parameter OmniSplitButton.Busy : bool
+parameter OmniSplitButton.ChildContent : RenderFragment?
+parameter OmniSplitButton.Disabled : bool
+parameter OmniSplitButton.MenuLabel : string
+parameter OmniSplitButton.OnClick : EventCallback
+parameter OmniSplitButtonItem.ChildContent : RenderFragment?
+parameter OmniSplitButtonItem.Disabled : bool
+parameter OmniSplitButtonItem.OnClick : EventCallback
+parameter OmniStack.Align : OmniAlignment
+parameter OmniStack.Gap : OmniSpacing
+parameter OmniStack.Justify : OmniJustification
+parameter OmniStack.Orientation : OmniStackOrientation
+parameter OmniStackedAreaSeries.ColorIndex : int
+parameter OmniStackedAreaSeries.Data : IReadOnlyList<OmniChartPoint>
+parameter OmniStackedAreaSeries.Title : string?
+parameter OmniStackedColumnSeries.ColorIndex : int
+parameter OmniStackedColumnSeries.Data : IReadOnlyList<OmniChartPoint>
+parameter OmniStackedColumnSeries.Title : string?
+parameter OmniSteps.ChildContent : RenderFragment?
+parameter OmniSteps.Label : string
+parameter OmniSteps.Value : int
+parameter OmniSteps.ValueChanged : EventCallback<int>
+parameter OmniStepsItem.ChildContent : RenderFragment?
+parameter OmniStepsItem.Disabled : bool
+parameter OmniStepsItem.Index : int
+parameter OmniSwitch.AriaDescribedBy : string?
+parameter OmniSwitch.ChildContent : RenderFragment?
+parameter OmniSwitch.Disabled : bool
+parameter OmniTabs.ChildContent : RenderFragment?
+parameter OmniTabs.Keys : IReadOnlyList<string>
+parameter OmniTabs.Value : string?
+parameter OmniTabs.ValueChanged : EventCallback<string?>
+parameter OmniTabsItem.ChildContent : RenderFragment?
+parameter OmniTabsItem.Disabled : bool
+parameter OmniTemplateForm.EditContext : EditContext?
+parameter OmniTemplateForm.FocusOnFirstInvalid : bool
+parameter OmniTemplateForm.FormName : string?
+parameter OmniTemplateForm.Model : TModel?
+parameter OmniTemplateForm.OnInvalidSubmit : EventCallback<EditContext>
+parameter OmniTemplateForm.OnValidSubmit : EventCallback<EditContext>
+parameter OmniText.Element : OmniTextElement
+parameter OmniText.Tone : OmniTextTone
+parameter OmniText.Truncate : bool
+parameter OmniTextArea.AriaDescribedBy : string?
+parameter OmniTextArea.Disabled : bool
+parameter OmniTextArea.MaxLength : int?
+parameter OmniTextArea.Placeholder : string?
+parameter OmniTextArea.ReadOnly : bool
+parameter OmniTextArea.Rows : int
+parameter OmniTextArea.ShowCount : bool
+parameter OmniTextBox.AriaDescribedBy : string?
+parameter OmniTextBox.Autocomplete : string?
+parameter OmniTextBox.Disabled : bool
+parameter OmniTextBox.Placeholder : string?
+parameter OmniTextBox.ReadOnly : bool
+parameter OmniThemeScope.Appearance : OmniAppearance
+parameter OmniThemeScope.Density : OmniDensity
+parameter OmniTimeline.ChildContent : RenderFragment?
+parameter OmniTimeline.Label : string
+parameter OmniTimelineItem.ChildContent : RenderFragment?
+parameter OmniTimelineItem.Date : DateTimeOffset?
+parameter OmniTimelineItem.DateText : string?
+parameter OmniToggleButton.Busy : bool
+parameter OmniToggleButton.ChildContent : RenderFragment?
+parameter OmniToggleButton.Disabled : bool
+parameter OmniToggleButton.Value : bool
+parameter OmniToggleButton.ValueChanged : EventCallback<bool>
+parameter OmniTooltip.ChildContent : RenderFragment?
+parameter OmniTooltip.TabIndex : int
+parameter OmniTree.ChildContent : RenderFragment?
+parameter OmniTree.Label : string
+parameter OmniTree.Multiple : bool
+parameter OmniTree.SelectedValues : IReadOnlyList<TValue>
+parameter OmniTree.SelectedValuesChanged : EventCallback<IReadOnlyList<TValue>>
+parameter OmniTreeItem.ChildContent : RenderFragment?
+parameter OmniTreeItem.Disabled : bool
+parameter OmniTreeItem.Expanded : bool
+parameter OmniTreeItem.ExpandedChanged : EventCallback<bool>
+parameter OmniTreeItem.TabIndex : int
+parameter OmniTreeItem.Value : TValue
+parameter OmniTreeLevel.ChildContent : RenderFragment?
+parameter OmniUpload.AllowedContentTypes : IReadOnlyList<string>
+parameter OmniUpload.Disabled : bool
+parameter OmniUpload.FilesSelected : EventCallback<IReadOnlyList<IBrowserFile>>
+parameter OmniUpload.MaximumFiles : int
+parameter OmniUpload.MaximumFileSize : long
+parameter OmniUpload.Multiple : bool
+parameter OmniValidatorBase.ShowMessage : bool
+parameter OmniValidatorBase.ValidationDelayMilliseconds : int
+parameter OmniValueAxis.Maximum : double
+parameter OmniValueAxis.Minimum : double
+parameter OmniValueAxis.TickCount : int
+parameter OmniWeekView.Appointments : IReadOnlyList<OmniSchedulerAppointment>
+parameter OmniWeekView.Culture : System.Globalization.CultureInfo
+parameter OmniWeekView.Date : DateTimeOffset
+parameter OmniWeekView.Label : string
+type OmniAlertSeverity (enum)
+type OmniAlignment (enum)
+type OmniAppearance (enum)
+type OmniBadgeVariant (enum)
+type OmniButtonType (enum)
+type OmniButtonVariant (enum)
+type OmniChartPoint (record)
+type OmniChartSlice (record)
+type OmniComponentBase (class)
+type OmniControlSize (enum)
+type OmniDataGridColumnDefinition (class)
+type OmniDataGridColumnWidth (enum)
+type OmniDataGridColumnWidthChange (record)
+type OmniDataGridContext (class)
+type OmniDataGridFilter (record)
+type OmniDataGridFilterOperator (enum)
+type OmniDataGridLoadRequest (record)
+type OmniDataGridResult (record)
+type OmniDataGridSelectionMode (enum)
+type OmniDataGridSort (record)
+type OmniDensity (enum)
+type OmniDialogRequest (record)
+type OmniHeadingLevel (enum)
+type OmniHtmlEditorTool (record)
+type OmniIconName (enum)
+type OmniImageFit (enum)
+type OmniImageLoading (enum)
+type OmniInputBase (class)
+type OmniJustification (enum)
+type OmniLayoutWidth (enum)
+type OmniNotificationMessage (record)
+type OmniNotificationSeverity (enum)
+type OmniOption (record)
+type OmniOverlayService (class)
+type OmniProgressShape (enum)
+type OmniProgressVariant (enum)
+type OmniSchedulerAppointment (record)
+type OmniSchedulerView (enum)
+type OmniSidebarPosition (enum)
+type OmniSkeletonShape (enum)
+type OmniSpacing (enum)
+type OmniStackOrientation (enum)
+type OmniStepsContext (class)
+type OmniTabsContext (class)
+type OmniTextElement (enum)
+type OmniTextTone (enum)
+type OmniTreeContext (class)
+type OmniUploadRequest (class)
+type OmniValidatorBase (class)

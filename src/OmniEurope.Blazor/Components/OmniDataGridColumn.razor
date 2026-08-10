@@ -1,0 +1,68 @@
+@typeparam TItem
+@implements IDisposable
+
+@code {
+    [CascadingParameter]
+    private OmniDataGridContext<TItem>? Context { get; set; }
+
+    [Parameter, EditorRequired]
+    public string Key { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public Func<TItem, object?> Value { get; set; } = default!;
+
+    [Parameter]
+    public RenderFragment<TItem>? Template { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem>? EditTemplate { get; set; }
+
+    [Parameter]
+    public Func<TItem, string, bool>? FilterPredicate { get; set; }
+
+    [Parameter]
+    public Func<object?, string>? Format { get; set; }
+
+    [Parameter]
+    public bool Sortable { get; set; } = true;
+
+    [Parameter]
+    public bool Filterable { get; set; }
+
+    [Parameter]
+    public OmniDataGridFilterOperator FilterOperator { get; set; }
+
+    [Parameter]
+    public bool Visible { get; set; } = true;
+
+    [Parameter]
+    public bool Resizable { get; set; }
+
+    [Parameter]
+    public OmniDataGridColumnWidth Width { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Context?.Register(new OmniDataGridColumnDefinition<TItem>
+        {
+            Key = Key,
+            Title = Title,
+            Value = Value,
+            Template = Template,
+            EditTemplate = EditTemplate,
+            FilterPredicate = FilterPredicate,
+            Format = Format,
+            Sortable = Sortable,
+            Filterable = Filterable,
+            FilterOperator = FilterOperator,
+            Visible = Visible,
+            Resizable = Resizable,
+            Width = Width
+        });
+    }
+
+    public void Dispose() => Context?.Unregister(Key);
+}

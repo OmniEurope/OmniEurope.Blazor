@@ -1,0 +1,9 @@
+<polyline class="omni-chart__line @ColorClass" points="@PointText" fill="none"><title>@Title</title></polyline>
+
+@code {
+    [Parameter] public IReadOnlyList<OmniChartPoint> Data { get; set; } = Array.Empty<OmniChartPoint>();
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public int ColorIndex { get; set; }
+    private string PointText => OmniChartGeometry.Points(Data);
+    private string ColorClass => $"omni-chart-color-{Math.Abs(ColorIndex) % 8}";
+}

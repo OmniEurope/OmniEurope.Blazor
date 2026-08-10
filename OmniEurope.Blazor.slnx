@@ -5,5 +5,11 @@
   <Folder Name="/tests/">
     <Project Path="tests/OmniEurope.Blazor.Tests/OmniEurope.Blazor.Tests.csproj" />
   </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/OmniEurope.Blazor.AutoSmoke/OmniEurope.Blazor.AutoSmoke.csproj" />
+    <Project Path="samples/OmniEurope.Blazor.AutoSmoke.Client/OmniEurope.Blazor.AutoSmoke.Client.csproj" />
+    <Project Path="samples/OmniEurope.Blazor.Catalog/OmniEurope.Blazor.Catalog.csproj" />
+    <Project Path="samples/OmniEurope.Blazor.WasmSmoke/OmniEurope.Blazor.WasmSmoke.csproj" />
+  </Folder>
 </Solution>
 

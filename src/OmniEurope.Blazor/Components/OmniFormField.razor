@@ -1,0 +1,42 @@
+@inherits OmniComponentBase
+
+<div id="@Id"
+     class="@Css("omni-form-field", Disabled ? "omni-form-field--disabled" : null, !string.IsNullOrWhiteSpace(Error) ? "omni-form-field--invalid" : null)"
+     @attributes="AdditionalAttributes">
+    <OmniLabel For="@For" Required="@Required">@Label</OmniLabel>
+    @if (!string.IsNullOrWhiteSpace(Description))
+    {
+        <div id="@DescriptionId" class="omni-form-field__description">@Description</div>
+    }
+    <div class="omni-form-field__control">@ChildContent</div>
+    @if (!string.IsNullOrWhiteSpace(Error))
+    {
+        <div id="@ErrorId" class="omni-form-field__error" role="alert">@Error</div>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public string For { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public RenderFragment? Label { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Description { get; set; }
+
+    [Parameter]
+    public string? Error { get; set; }
+
+    [Parameter]
+    public bool Required { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    private string? DescriptionId => string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(Description) ? null : $"{Id}-description";
+    private string? ErrorId => string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(Error) ? null : $"{Id}-error";
+}

@@ -1,0 +1,49 @@
+@inherits OmniInputBase<bool>
+
+<button @attributes="AdditionalAttributes"
+        id="@Id"
+        class="@InputCss("omni-switch", CurrentValue ? "omni-switch--checked" : null)"
+        type="button"
+        role="switch"
+        disabled="@Disabled"
+        aria-checked="@(CurrentValue ? "true" : "false")"
+        aria-invalid="@AriaInvalid"
+        aria-describedby="@AriaDescribedBy"
+        @onclick="Toggle">
+    <span class="omni-switch__track" aria-hidden="true"><span class="omni-switch__thumb"></span></span>
+    @if (ChildContent is not null)
+    {
+        <span class="omni-switch__label">@ChildContent</span>
+    }
+</button>
+
+@code {
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public string? AriaDescribedBy { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private void Toggle()
+    {
+        if (!Disabled)
+        {
+            CurrentValue = !CurrentValue;
+        }
+    }
+
+    protected override bool TryParseValueFromString(string? value, out bool result, out string validationErrorMessage)
+    {
+        if (bool.TryParse(value, out result))
+        {
+            validationErrorMessage = null!;
+            return true;
+        }
+
+        validationErrorMessage = "La valeur d'interrupteur n'est pas valide.";
+        return false;
+    }
+}

@@ -1,0 +1,27 @@
+<OmniDataGrid TItem="Person"
+              Id="people"
+              Items="@People"
+              Caption="Personnes"
+              PageSize="2"
+              @bind-Page="Page"
+              SelectionMode="OmniDataGridSelectionMode.Multiple"
+              KeySelector="person => person.Id"
+              @bind-SelectedKeys="SelectedKeys">
+    <Columns>
+        <OmniDataGridColumn TItem="Person" Key="name" Title="Nom" Value="person => person.Name" Filterable="true" />
+        <OmniDataGridColumn TItem="Person" Key="age" Title="Âge" Value="person => person.Age" />
+    </Columns>
+</OmniDataGrid>
+
+@code {
+    public IReadOnlyList<Person> People { get; } =
+    [
+        new(1, "Charlie", 40),
+        new(2, "Alice", 20),
+        new(3, "Bob", 30)
+    ];
+
+    public int Page { get; set; } = 1;
+    public IReadOnlyList<object> SelectedKeys { get; set; } = Array.Empty<object>();
+    public sealed record Person(int Id, string Name, int Age);
+}

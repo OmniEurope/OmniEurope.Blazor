@@ -1,0 +1,28 @@
+@inherits OmniComponentBase
+
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tabs__item")">
+    <button id="@TabId" type="button" class="omni-tabs__tab" role="tab" aria-selected="@(Selected ? "true" : "false")" aria-controls="@PanelId" tabindex="@(Selected ? 0 : -1)" disabled="@Disabled" @onclick="SelectAsync">@Title</button>
+    <section id="@PanelId" class="omni-tabs__panel" role="tabpanel" aria-labelledby="@TabId" hidden="@(!Selected)">@ChildContent</section>
+</div>
+
+@code {
+    [CascadingParameter]
+    private OmniTabsContext? Context { get; set; }
+
+    [Parameter, EditorRequired]
+    public string Key { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private bool Selected => Context?.Value == Key;
+    private string TabId => $"{Id ?? $"omni-tab-{Key}"}-tab";
+    private string PanelId => $"{Id ?? $"omni-tab-{Key}"}-panel";
+    private Task SelectAsync() => Disabled || Context is null ? Task.CompletedTask : Context.SelectAsync(Key);
+}

@@ -1,0 +1,24 @@
+@inherits OmniComponentBase
+
+<div id="@Id"
+     class="@Css("omni-row", $"omni-row--gap-{Gap.ToString().ToLowerInvariant()}", $"omni-row--align-{Align.ToString().ToLowerInvariant()}", $"omni-row--justify-{Justify.ToString().ToLowerInvariant()}", Wrap ? "omni-row--wrap" : null)"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public OmniSpacing Gap { get; set; } = OmniSpacing.Medium;
+
+    [Parameter]
+    public OmniAlignment Align { get; set; } = OmniAlignment.Stretch;
+
+    [Parameter]
+    public OmniJustification Justify { get; set; } = OmniJustification.Start;
+
+    [Parameter]
+    public bool Wrap { get; set; } = true;
+}

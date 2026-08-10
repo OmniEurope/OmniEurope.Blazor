@@ -1,0 +1,23 @@
+@inherits OmniComponentBase
+
+<label id="@Id"
+       class="@Css("omni-label", Required ? "omni-label--required" : null)"
+       for="@For"
+       @attributes="AdditionalAttributes">
+    @ChildContent
+    @if (Required)
+    {
+        <span class="omni-label__required" aria-hidden="true">*</span>
+    }
+</label>
+
+@code {
+    [Parameter, EditorRequired]
+    public string For { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool Required { get; set; }
+}

@@ -1,0 +1,24 @@
+@inherits OmniComponentBase
+
+<aside id="@Id"
+       class="@Css("omni-sidebar", $"omni-sidebar--{Position.ToString().ToLowerInvariant()}", Open ? "omni-sidebar--open" : "omni-sidebar--closed")"
+       aria-label="@AriaLabel"
+       aria-hidden="@(Open ? null : "true")"
+       hidden="@(!Open)"
+       @attributes="AdditionalAttributes">
+    @ChildContent
+</aside>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool Open { get; set; }
+
+    [Parameter]
+    public OmniSidebarPosition Position { get; set; }
+
+    [Parameter]
+    public string AriaLabel { get; set; } = "Navigation";
+}

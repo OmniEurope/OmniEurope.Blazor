@@ -1,6 +1,6 @@
 # Migration progressive d'Aetheus
 
-Aetheus est le premier consommateur cible parce qu'il concentre le plus grand volume Radzen observé. La migration reste incrémentale : Radzen et OmniEurope.Blazor peuvent coexister pendant la transition.
+Aetheus est le premier consommateur cible parce qu'il concentre le plus grand volume Radzen observé. Aucune substitution n'est engagée pendant la construction et la stabilisation de la bibliothèque ; ce document décrit la phase ultérieure. La migration restera incrémentale : Radzen et OmniEurope.Blazor pourront coexister pendant la transition.
 
 ## Ordre recommandé
 

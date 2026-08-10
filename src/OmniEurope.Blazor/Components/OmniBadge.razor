@@ -1,0 +1,15 @@
+@inherits OmniComponentBase
+
+<span id="@Id"
+      class="@Css("omni-badge", $"omni-badge--{Variant.ToString().ToLowerInvariant()}")"
+      @attributes="AdditionalAttributes">
+    @ChildContent
+</span>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public OmniBadgeVariant Variant { get; set; }
+}

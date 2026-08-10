@@ -21,15 +21,59 @@ jobs:
         run: dotnet restore OmniEurope.Blazor.slnx --locked-mode
       - name: Build
         run: dotnet build OmniEurope.Blazor.slnx --configuration Release --no-restore
+      - name: Publish Server catalog
+        run: dotnet publish samples/OmniEurope.Blazor.Catalog/OmniEurope.Blazor.Catalog.csproj --configuration Release --no-restore --output artifacts/catalog-smoke
+      - name: Server catalog smoke test
+        shell: pwsh
+        run: ./eng/Test-CatalogHost.ps1
+      - name: Publish WebAssembly smoke host
+        run: dotnet publish samples/OmniEurope.Blazor.WasmSmoke/OmniEurope.Blazor.WasmSmoke.csproj --configuration Release --no-restore --output artifacts/wasm-smoke
+      - name: Publish Interactive Auto smoke host
+        run: dotnet publish samples/OmniEurope.Blazor.AutoSmoke/OmniEurope.Blazor.AutoSmoke.csproj --configuration Release --no-restore --output artifacts/auto-smoke
+      - name: Interactive Auto smoke test
+        shell: pwsh
+        run: ./eng/Test-AutoHost.ps1
       - name: Test
         run: dotnet test OmniEurope.Blazor.slnx --configuration Release --no-build
       - name: CSP source guard
         shell: pwsh
         run: ./eng/Test-Csp.ps1
+      - name: Coverage registry guard
+        shell: pwsh
+        run: |
+          ./eng/Generate-ComponentCoverage.ps1
+          git diff --exit-code -- docs/component-coverage.json docs/component-coverage.md
+      - name: Public API guard
+        shell: pwsh
+        run: ./eng/Test-PublicApi.ps1
+      - name: Artifact budgets
+        shell: pwsh
+        run: ./eng/Test-Budgets.ps1
       - name: Pack
         run: dotnet pack src/OmniEurope.Blazor/OmniEurope.Blazor.csproj --configuration Release --no-build --output artifacts/packages
+      - name: Package content and size
+        shell: pwsh
+        run: |
+          $package = Get-ChildItem artifacts/packages/*.nupkg | Where-Object Name -NotLike '*.snupkg' | Select-Object -First 1
+          $symbols = Get-ChildItem artifacts/packages/*.snupkg | Select-Object -First 1
+          ./eng/Test-Package.ps1 -PackagePath $package.FullName -SymbolPackagePath $symbols.FullName
+          ./eng/Test-Budgets.ps1 -PackagePath $package.FullName
       - uses: actions/upload-artifact@v4
         with:
           name: nuget-package
           path: artifacts/packages/*.*nupkg
+
+  hybrid-smoke:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - name: Install MAUI Windows workload
+        run: dotnet workload install maui-windows
+      - name: Restore Hybrid smoke host
+        run: dotnet restore samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --locked-mode
+      - name: Build Hybrid smoke host
+        run: dotnet build samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --configuration Release --no-restore
 

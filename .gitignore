@@ -9,4 +9,5 @@ TestResults/
 coverage/
 *.nupkg
 *.snupkg
+.claude/.next-progress
 

@@ -1,0 +1,35 @@
+@inherits OmniComponentBase
+
+<button id="@Id"
+        class="@Css("omni-appearance-toggle")"
+        type="button"
+        aria-label="@AriaLabel"
+        @attributes="AdditionalAttributes"
+        @onclick="CycleAsync">
+    <span class="omni-appearance-toggle__label">@DisplayLabel</span>
+</button>
+
+@code {
+    [Parameter]
+    public OmniAppearance Appearance { get; set; }
+
+    [Parameter]
+    public EventCallback<OmniAppearance> AppearanceChanged { get; set; }
+
+    [Parameter]
+    public string AriaLabel { get; set; } = "Change appearance";
+
+    private string DisplayLabel => Appearance switch
+    {
+        OmniAppearance.Light => "Light",
+        OmniAppearance.Dark => "Dark",
+        _ => "System"
+    };
+
+    private Task CycleAsync() => AppearanceChanged.InvokeAsync(Appearance switch
+    {
+        OmniAppearance.System => OmniAppearance.Light,
+        OmniAppearance.Light => OmniAppearance.Dark,
+        _ => OmniAppearance.System
+    });
+}

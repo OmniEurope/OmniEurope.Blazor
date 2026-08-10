@@ -1,0 +1,23 @@
+@inherits OmniComponentBase
+
+<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler-view", "omni-week-view")" aria-label="@Label">
+    @for (var offset = 0; offset < 7; offset++)
+    {
+        var day = WeekStart.AddDays(offset);
+        <article class="omni-week-view__day">
+            <h3>@day.ToString("ddd d", Culture)</h3>
+            @foreach (var appointment in Appointments.Where(item => item.Start.Date == day.Date).OrderBy(item => item.Start))
+            {
+                <p><time datetime="@appointment.Start.ToString("O")">@appointment.Start.ToString("t", Culture)</time> <strong>@appointment.Title</strong></p>
+            }
+        </article>
+    }
+</section>
+
+@code {
+    [Parameter] public DateTimeOffset Date { get; set; }
+    [Parameter] public IReadOnlyList<OmniSchedulerAppointment> Appointments { get; set; } = Array.Empty<OmniSchedulerAppointment>();
+    [Parameter] public System.Globalization.CultureInfo Culture { get; set; } = System.Globalization.CultureInfo.CurrentCulture;
+    [Parameter] public string Label { get; set; } = "Vue hebdomadaire";
+    private DateTimeOffset WeekStart => Date.AddDays(-((7 + (int)Date.DayOfWeek - (int)Culture.DateTimeFormat.FirstDayOfWeek) % 7));
+}
