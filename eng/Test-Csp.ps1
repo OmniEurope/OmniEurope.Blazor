@@ -6,7 +6,10 @@ param(
 $ErrorActionPreference = 'Stop'
 $resolvedRoot = (Resolve-Path -LiteralPath $SourceRoot).Path
 $sourceFiles = Get-ChildItem -LiteralPath $resolvedRoot -Recurse -File |
-    Where-Object { $_.Extension -in '.razor', '.cs', '.js' }
+    Where-Object {
+        $_.Extension -in '.razor', '.cs', '.js' -and
+        $_.FullName -notmatch '(\\|/)(bin|obj)(\\|/)'
+    }
 
 $forbidden = @(
     @{ Name = 'inline style attribute'; Pattern = '(?i)\bstyle\s*=' },
@@ -32,4 +35,3 @@ if ($violations) {
 }
 
 Write-Host "CSP source scan passed: $($sourceFiles.Count) files checked."
-
