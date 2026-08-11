@@ -1,0 +1,10 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<li @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-timeline__item")">
+    <span class="omni-timeline__marker" aria-hidden="true"></span>
+    <article class="omni-timeline__content">
+        <header><time datetime="@DateTimeValue">@DateLabel</time><h3>@Title</h3></header>
+        @ChildContent
+    </article>
+</li>

@@ -6,7 +6,7 @@
 - Une valeur contrôlée utilise `Value`, `ValueChanged` et, lorsqu'elle participe à un formulaire, `ValueExpression` via `InputBase<TValue>`.
 - Les collections utilisent `IReadOnlyList<T>` ; une absence de sélection multiple est une liste vide, jamais `null`.
 - Une valeur réellement optionnelle utilise un type nullable (`DateOnly?`, `bool?`). Les composants non nullables ne donnent pas de sens implicite à `default`.
-- Les opérations distantes reçoivent un `CancellationToken`. `OmniDataList`, `OmniDataGrid` et `OmniScheduler` rendent chargement et erreur observables et proposent une reprise. `OmniAutocomplete` ne possède pas encore ces états ; cette limitation reste ouverte.
+- Les opérations distantes reçoivent un `CancellationToken`. `OmniDataList`, `OmniDataGrid`, `OmniScheduler` et `OmniAutocomplete` rendent chargement et erreur observables et proposent une reprise. Pour l'autocomplete, `SearchFailed` reçoit l'exception sans l'afficher et l'état récupérable reste localisé.
 - Les templates sont des `RenderFragment` ou `RenderFragment<T>`. Les événements asynchrones sont des `EventCallback` ou des délégués retournant `Task`.
 
 ## HTML, attributs et CSS
@@ -22,4 +22,4 @@ La surface n'est ni binaire ni syntaxiquement compatible avec Radzen. Toute corr
 
 ## État de la garde API
 
-La baseline CI actuelle est extraite par expressions régulières. Elle couvre les fichiers de composants, une partie des paramètres `[Parameter]` et les déclarations publiques `enum`, `class` et `record`, mais pas exhaustivement les paramètres requis, méthodes, propriétés, constructeurs, contraintes génériques ni toutes les formes de types. Elle détecte donc certaines dérives ; elle ne prouve pas encore la stabilité de toute la surface publique.
+La baseline CI est extraite depuis l'assembly compilé par `OmniEurope.PublicApiGuard`. Elle sérialise de façon canonique les types et membres publics ou protégés, la nullabilité référence, `init`/`required`, les modificateurs, constantes, enums, rangs de tableaux, paramètres et contraintes génériques. Des fixtures exactes couvrent ces catégories avant la comparaison séquentielle, triée et sans doublon avec `docs/public-api.txt`; la mise à jour utilise un remplacement atomique.

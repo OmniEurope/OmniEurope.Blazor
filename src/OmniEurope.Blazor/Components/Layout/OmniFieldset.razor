@@ -1,0 +1,10 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<fieldset id="@Id"
+          class="@Css("omni-fieldset")"
+          disabled="@Disabled"
+          @attributes="AdditionalAttributes">
+    <legend class="omni-fieldset__legend">@Legend</legend>
+    <div class="omni-fieldset__content">@ChildContent</div>
+</fieldset>

@@ -1,0 +1,42 @@
+<OmniDataGrid TItem="AdvancedRow"
+              Items="@Rows"
+              KeySelector="row => row.Id"
+              GroupBy="row => row.Group"
+              GroupLabel="FormatGroup"
+              DetailTemplate="DetailTemplate"
+              ExpandedKeys="@ExpandedKeys"
+              ExpandedKeysChanged="OnExpandedKeysChanged"
+              IsEditing="row => row.Id == EditingId"
+              EditRequested="OnEditRequested"
+              RowUpdated="OnRowUpdated"
+              EditCancelled="OnEditCancelled"
+              ColumnWidthChanged="OnWidthChanged">
+    <Columns>
+        <OmniDataGridColumn TItem="AdvancedRow" Key="name" Title="Nom" Value="row => row.Name" Resizable="true" Width="OmniDataGridColumnWidth.Narrow">
+            <EditTemplate Context="row"><input class="advanced-edit" value="@row.Name" /></EditTemplate>
+        </OmniDataGridColumn>
+    </Columns>
+</OmniDataGrid>
+
+@code {
+    public IReadOnlyList<AdvancedRow> Rows { get; } =
+    [
+        new(1, "Alice", "A"),
+        new(2, "Aline", "A"),
+        new(3, "Bob", "B")
+    ];
+    public IReadOnlyList<object> ExpandedKeys { get; private set; } = [];
+    public int? EditingId { get; private set; }
+    public string? UpdatedName { get; private set; }
+    public OmniDataGridColumnWidthChange? WidthChange { get; private set; }
+
+    private RenderFragment<AdvancedRow> DetailTemplate => row => builder => builder.AddContent(0, $"Détail {row.Name}");
+    private static string FormatGroup(object? key, int count) => $"{key} ({count})";
+    private void OnExpandedKeysChanged(IReadOnlyList<object> keys) => ExpandedKeys = keys;
+    private void OnEditRequested(AdvancedRow row) => EditingId = row.Id;
+    private void OnRowUpdated(AdvancedRow row) { UpdatedName = row.Name; EditingId = null; }
+    private void OnEditCancelled(AdvancedRow _) => EditingId = null;
+    private void OnWidthChanged(OmniDataGridColumnWidthChange change) => WidthChange = change;
+
+    public sealed record AdvancedRow(int Id, string Name, string Group);
+}

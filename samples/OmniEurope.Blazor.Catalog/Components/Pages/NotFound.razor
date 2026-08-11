@@ -1,0 +1,10 @@
+@page "/{**Path}"
+@layout MainLayout
+
+<PageTitle>@Text["NotFoundPageTitle"]</PageTitle>
+
+<section aria-labelledby="not-found-title">
+    <OmniHeading Id="not-found-title" Level="OmniHeadingLevel.H1">@Text["NotFoundTitle"]</OmniHeading>
+    <p>@Text["NotFoundDescription"]</p>
+    <OmniLink Href="/">@Text["BackToCatalog"]</OmniLink>
+</section>

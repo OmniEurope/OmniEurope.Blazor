@@ -1,0 +1,20 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<button id="@Id"
+        class="@Css("omni-sidebar-toggle")"
+        type="button"
+        aria-controls="@Controls"
+        aria-expanded="@(Open ? "true" : "false")"
+        aria-label="@EffectiveAriaLabel"
+        @attributes="AdditionalAttributes"
+        @onclick="ToggleAsync">
+    @if (ChildContent is null)
+    {
+        <OmniIcon Name="OmniIconName.Menu" />
+    }
+    else
+    {
+        @ChildContent
+    }
+</button>

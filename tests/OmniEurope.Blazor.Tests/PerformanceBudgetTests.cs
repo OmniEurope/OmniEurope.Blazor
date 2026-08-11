@@ -4,21 +4,22 @@ using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
 
+[Collection("Performance")]
 public sealed class PerformanceBudgetTests : BunitContext
 {
     [Fact]
     public void OneThousandSimpleComponents_StayWithinRegressionBudget()
     {
-        var before = GC.GetAllocatedBytesForCurrentThread();
-        var watch = Stopwatch.StartNew();
-        for (var index = 0; index < 1_000; index++)
+        void RenderBatch()
         {
-            using var button = Render<OmniButton>(parameters => parameters.AddChildContent($"Bouton {index}"));
+            for (var index = 0; index < 1_000; index++)
+            {
+                using var button = Render<OmniButton>(parameters => parameters.AddChildContent($"Bouton {index}"));
+            }
         }
-        watch.Stop();
-        var allocated = GC.GetAllocatedBytesForCurrentThread() - before;
+        var (elapsed, allocated) = MeasureMedian(RenderBatch);
 
-        Assert.True(watch.Elapsed < TimeSpan.FromSeconds(5), $"Temps: {watch.Elapsed}");
+        Assert.True(elapsed < TimeSpan.FromSeconds(5), $"Temps médian: {elapsed}");
         Assert.True(allocated < 160 * 1024 * 1024, $"Allocations: {allocated} octets");
     }
 
@@ -26,16 +27,18 @@ public sealed class PerformanceBudgetTests : BunitContext
     public void TenThousandRowGrid_RendersOnlyItsPageWithinBudget()
     {
         var items = Enumerable.Range(1, 10_000).ToArray();
-        var before = GC.GetAllocatedBytesForCurrentThread();
-        var watch = Stopwatch.StartNew();
-        using var grid = Render<OmniDataGrid<int>>(parameters => parameters
+        using var functionalGrid = Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, items)
             .Add(component => component.PageSize, 50));
-        watch.Stop();
-        var allocated = GC.GetAllocatedBytesForCurrentThread() - before;
+        Assert.Equal(50, functionalGrid.FindAll("tbody tr").Count);
+        var (elapsed, allocated) = MeasureMedian(() =>
+        {
+            using var grid = Render<OmniDataGrid<int>>(parameters => parameters
+                .Add(component => component.Items, items)
+                .Add(component => component.PageSize, 50));
+        });
 
-        Assert.Equal(50, grid.FindAll("tbody tr").Count);
-        Assert.True(watch.Elapsed < TimeSpan.FromSeconds(3), $"Temps: {watch.Elapsed}");
+        Assert.True(elapsed < TimeSpan.FromSeconds(3), $"Temps médian: {elapsed}");
         Assert.True(allocated < 160 * 1024 * 1024, $"Allocations: {allocated} octets");
     }
 
@@ -45,14 +48,35 @@ public sealed class PerformanceBudgetTests : BunitContext
         var points = Enumerable.Range(0, 1_000)
             .Select(index => new OmniChartPoint(index / 10d, index % 100))
             .ToArray();
-        var before = GC.GetAllocatedBytesForCurrentThread();
-        var watch = Stopwatch.StartNew();
-        using var series = Render<OmniLineSeries>(parameters => parameters.Add(component => component.Data, points));
-        watch.Stop();
-        var allocated = GC.GetAllocatedBytesForCurrentThread() - before;
+        using var functionalSeries = Render<OmniLineSeries>(parameters => parameters.Add(component => component.Data, points));
+        Assert.Equal(1_000, functionalSeries.Find("polyline").GetAttribute("points")!.Split(' ').Length);
+        var (elapsed, allocated) = MeasureMedian(() =>
+        {
+            using var series = Render<OmniLineSeries>(parameters => parameters.Add(component => component.Data, points));
+        });
 
-        Assert.Equal(1_000, series.Find("polyline").GetAttribute("points")!.Split(' ').Length);
-        Assert.True(watch.Elapsed < TimeSpan.FromSeconds(3), $"Temps: {watch.Elapsed}");
+        Assert.True(elapsed < TimeSpan.FromSeconds(3), $"Temps médian: {elapsed}");
         Assert.True(allocated < 80 * 1024 * 1024, $"Allocations: {allocated} octets");
+    }
+
+    private static (TimeSpan Elapsed, long Allocated) MeasureMedian(Action action)
+    {
+        action();
+        var samples = new (TimeSpan Elapsed, long Allocated)[5];
+        for (var index = 0; index < samples.Length; index++)
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+            var before = GC.GetTotalAllocatedBytes(precise: true);
+            var watch = Stopwatch.StartNew();
+            action();
+            watch.Stop();
+            samples[index] = (watch.Elapsed, GC.GetTotalAllocatedBytes(precise: true) - before);
+        }
+
+        return (
+            samples.Select(sample => sample.Elapsed).Order().ElementAt(samples.Length / 2),
+            samples.Select(sample => sample.Allocated).Order().ElementAt(samples.Length / 2));
     }
 }

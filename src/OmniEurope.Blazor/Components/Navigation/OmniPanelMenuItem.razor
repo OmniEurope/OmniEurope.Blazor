@@ -1,0 +1,27 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@inject NavigationManager Navigation
+@implements IDisposable
+@using OmniEurope.Blazor.Internal
+
+@if (ChildContent is not null)
+{
+    <details @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-panel-menu__group")" open="@Expanded">
+        <summary class="omni-panel-menu__summary">@Text</summary>
+        <div class="omni-panel-menu__children">@ChildContent</div>
+    </details>
+}
+else if (!string.IsNullOrWhiteSpace(Href))
+{
+    <a @attributes="AdditionalAttributes"
+       id="@Id"
+       class="@Css("omni-panel-menu__link", Current || IsActive ? "omni-panel-menu__link--current" : null)"
+       href="@SafeHref"
+       aria-current="@(Current || IsActive ? "page" : null)"
+       @onclick="HandleNavigateAsync"
+       @onclick:preventDefault="@(CanNavigate is not null)">@Text</a>
+}
+else
+{
+    <span @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-panel-menu__label")">@Text</span>
+}

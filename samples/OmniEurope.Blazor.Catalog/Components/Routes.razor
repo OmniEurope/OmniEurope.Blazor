@@ -1,5 +1,19 @@
+@using Microsoft.Extensions.Localization
+@using OmniEurope.Blazor.Catalog.Resources
+@inject IStringLocalizer<CatalogStrings> Text
+
 <Router AppAssembly="typeof(Program).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)" />
     </Found>
+    <NotFound>
+        <LayoutView Layout="typeof(MainLayout)">
+            <PageTitle>@Text["NotFoundPageTitle"]</PageTitle>
+            <section aria-labelledby="not-found-title">
+                <OmniHeading Id="not-found-title" Level="OmniHeadingLevel.H1">@Text["NotFoundTitle"]</OmniHeading>
+                <p>@Text["NotFoundDescription"]</p>
+                <OmniLink Href="/">@Text["BackToCatalog"]</OmniLink>
+            </section>
+        </LayoutView>
+    </NotFound>
 </Router>

@@ -1,0 +1,8 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<nav @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-pager")" aria-label="@EffectiveLabel">
+    <button type="button" class="omni-pager__button" disabled="@(Page <= 1 || Disabled)" aria-label="@Localize("PagerPrevious")" @onclick="() => SelectAsync(Page - 1)">‹</button>
+    <span class="omni-pager__status" aria-live="polite">@Localize("PagerStatus", Page, PageCount)</span>
+    <button type="button" class="omni-pager__button" disabled="@(Page >= PageCount || Disabled)" aria-label="@Localize("PagerNext")" @onclick="() => SelectAsync(Page + 1)">›</button>
+</nav>

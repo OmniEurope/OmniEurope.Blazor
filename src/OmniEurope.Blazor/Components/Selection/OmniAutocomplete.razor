@@ -1,0 +1,50 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TValue
+@inherits OmniInputBase<TValue>
+@implements IAsyncDisposable
+
+<div class="omni-autocomplete">
+    <input @attributes="AdditionalAttributes"
+           id="@Id"
+           class="@InputCss("omni-input", "omni-autocomplete__input")"
+           type="search"
+           value="@_searchText"
+           placeholder="@Placeholder"
+           autocomplete="off"
+           disabled="@Disabled"
+           role="combobox"
+           aria-autocomplete="list"
+           aria-expanded="@(_results.Count > 0 ? "true" : "false")"
+           aria-controls="@ResultsId"
+           aria-invalid="@AriaInvalid"
+           aria-describedby="@CombinedAriaDescribedBy"
+           @oninput="HandleInputAsync" />
+    @if (_error is not null)
+    {
+        <div id="@ErrorId" class="omni-autocomplete__error" role="alert">
+            @if (ErrorContent is not null)
+            {
+                @ErrorContent(_error)
+            }
+            else
+            {
+                @EffectiveSearchErrorMessage
+            }
+        </div>
+    }
+    @if (_results.Count > 0)
+    {
+        <ul id="@ResultsId" class="omni-autocomplete__results" role="listbox">
+            @foreach (var option in _results)
+            {
+                <li role="option" aria-selected="@(IsSelected(option.Value) ? "true" : "false")">
+                    <button type="button"
+                            class="omni-autocomplete__option"
+                            disabled="@option.Disabled"
+                            @onclick="() => Select(option)">@option.Text</button>
+                </li>
+            }
+        </ul>
+    }
+    <span class="omni-visually-hidden" role="status" aria-live="polite">@_announcement</span>
+</div>

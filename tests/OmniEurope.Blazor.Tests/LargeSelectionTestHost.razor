@@ -3,9 +3,11 @@
 </EditForm>
 
 @code {
+    [Parameter] public int OptionCount { get; set; } = 10_000;
     public LargeSelectionModel Model { get; } = new();
     public EditContext EditContext { get; private set; } = default!;
-    private IReadOnlyList<OmniOption<int>> Options { get; } = Enumerable.Range(0, 10_000).Select(value => new OmniOption<int>(value, $"Option {value}")).ToArray();
+    private IReadOnlyList<OmniOption<int>> Options { get; set; } = Array.Empty<OmniOption<int>>();
     protected override void OnInitialized() => EditContext = new EditContext(Model);
+    protected override void OnParametersSet() => Options = Enumerable.Range(0, OptionCount).Select(value => new OmniOption<int>(value, $"Option {value}")).ToArray();
     public sealed class LargeSelectionModel { public int Value { get; set; } }
 }

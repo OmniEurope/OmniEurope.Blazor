@@ -1,121 +1,124 @@
 # Registre de couverture des composants
 
-Ce registre relie les 110 balises inventoriées à une cible Razor OmniEurope et à la phase de construction correspondante. Il mesure uniquement la présence des fichiers cibles et ne déclenche aucune migration.
+Ce registre relie les 110 balises inventoriées à une cible Razor OmniEurope et à des facettes de preuve explicites. La présence du fichier, les références de tests, l'illustration catalogue et les scénarios navigateur restent des mesures distinctes.
 
-- Cibles Razor présentes : **110/110**
-- Cibles Razor encore absentes : **0**
+- Entrées avec fichier cible Razor présent : **110/110**
+- Entrées avec fichier cible Razor absent : **0**
+- Entrées dont la cible est nommée par au moins un test : **107/110**
+- Entrées dont la cible est illustrée dans le catalogue : **47/110**
+- Entrées dont la cible est exercée par un scénario navigateur déclaré : **6/110**
 
-| Source inventoriée | Cible OmniEurope | Phase | État | Projets actifs | Occurrences actives |
-| --- | --- | ---: | --- | ---: | ---: |
-| `RadzenStack` | `OmniStack` | 3 | implémenté | 17 | 2235 |
-| `RadzenButton` | `OmniButton` | 3 | implémenté | 17 | 1814 |
-| `RadzenBody` | `OmniBody` | 3 | implémenté | 16 | 20 |
-| `RadzenHeader` | `OmniHeader` | 3 | implémenté | 16 | 20 |
-| `RadzenLayout` | `OmniLayout` | 3 | implémenté | 16 | 20 |
-| `RadzenText` | `OmniText` | 3 | implémenté | 15 | 2628 |
-| `RadzenTextBox` | `OmniTextBox` | 5 | implémenté | 15 | 527 |
-| `RadzenAlert` | `OmniAlert` | 3 | implémenté | 15 | 346 |
-| `RadzenPanelMenuItem` | `OmniPanelMenuItem` | 7 | implémenté | 15 | 208 |
-| `RadzenPanelMenu` | `OmniPanelMenu` | 7 | implémenté | 15 | 19 |
-| `RadzenSidebar` | `OmniSidebar` | 3 | implémenté | 15 | 20 |
-| `RadzenSidebarToggle` | `OmniSidebarToggle` | 3 | implémenté | 15 | 15 |
-| `RadzenIcon` | `OmniIcon` | 3 | implémenté | 14 | 691 |
-| `RadzenDropDown` | `OmniDropDown` | 6 | implémenté | 14 | 308 |
-| `RadzenDataGridColumn` | `OmniDataGridColumn` | 9 | implémenté | 13 | 1155 |
-| `RadzenCard` | `OmniCard` | 3 | implémenté | 13 | 685 |
-| `RadzenDataGrid` | `OmniDataGrid` | 9 | implémenté | 13 | 188 |
-| `RadzenNumeric` | `OmniNumeric` | 5 | implémenté | 13 | 119 |
-| `RadzenCheckBox` | `OmniCheckBox` | 5 | implémenté | 13 | 93 |
-| `RadzenDialog` | `OmniDialog` | 4 | implémenté | 13 | 15 |
-| `RadzenNotification` | `OmniNotification` | 4 | implémenté | 13 | 15 |
-| `RadzenTooltip` | `OmniTooltip` | 4 | implémenté | 13 | 15 |
-| `RadzenFormField` | `OmniFormField` | 5 | implémenté | 12 | 712 |
-| `RadzenTextArea` | `OmniTextArea` | 5 | implémenté | 11 | 121 |
-| `RadzenLink` | `OmniLink` | 3 | implémenté | 10 | 85 |
-| `RadzenBadge` | `OmniBadge` | 3 | implémenté | 9 | 641 |
-| `RadzenProgressBarCircular` | `OmniProgressBar` | 3 | implémenté | 9 | 206 |
-| `RadzenLabel` | `OmniLabel` | 5 | implémenté | 9 | 152 |
-| `RadzenContextMenu` | `OmniContextMenu` | 4 | implémenté | 9 | 9 |
-| `RadzenColumn` | `OmniColumn` | 3 | implémenté | 8 | 520 |
-| `RadzenRow` | `OmniRow` | 3 | implémenté | 8 | 177 |
-| `RadzenTabsItem` | `OmniTabsItem` | 7 | implémenté | 8 | 179 |
-| `RadzenPassword` | `OmniPassword` | 5 | implémenté | 8 | 44 |
-| `RadzenTabs` | `OmniTabs` | 7 | implémenté | 8 | 29 |
-| `RadzenChart` | `OmniChart` | 10 | implémenté | 7 | 28 |
-| `RadzenSwitch` | `OmniSwitch` | 5 | implémenté | 7 | 27 |
-| `RadzenCategoryAxis` | `OmniCategoryAxis` | 10 | implémenté | 7 | 23 |
-| `RadzenValueAxis` | `OmniValueAxis` | 10 | implémenté | 7 | 23 |
-| `RadzenProgressBar` | `OmniProgressBar` | 3 | implémenté | 6 | 51 |
-| `RadzenLineSeries` | `OmniLineSeries` | 10 | implémenté | 6 | 20 |
-| `RadzenTemplateForm` | `OmniTemplateForm` | 5 | implémenté | 5 | 74 |
-| `RadzenRequiredValidator` | `OmniRequiredValidator` | 5 | implémenté | 5 | 22 |
-| `RadzenDatePicker` | `OmniDatePicker` | 6 | implémenté | 5 | 40 |
-| `RadzenFieldset` | `OmniFieldset` | 3 | implémenté | 5 | 22 |
-| `RadzenLegend` | `OmniLegend` | 10 | implémenté | 5 | 19 |
-| `RadzenSelectBarItem` | `OmniSelectBarItem` | 6 | implémenté | 5 | 21 |
-| `RadzenSelectBar` | `OmniSelectBar` | 6 | implémenté | 5 | 8 |
-| `RadzenGridLines` | `OmniGridLines` | 10 | implémenté | 4 | 14 |
-| `RadzenMarkers` | `OmniMarkers` | 10 | implémenté | 4 | 8 |
-| `RadzenListBox` | `OmniListBox` | 6 | implémenté | 4 | 5 |
-| `RadzenSplitButtonItem` | `OmniSplitButtonItem` | 4 | implémenté | 3 | 34 |
-| `RadzenBreadCrumbItem` | `OmniBreadcrumbItem` | 7 | implémenté | 3 | 27 |
-| `RadzenSplitButton` | `OmniSplitButton` | 4 | implémenté | 3 | 11 |
-| `RadzenBreadCrumb` | `OmniBreadcrumb` | 7 | implémenté | 3 | 12 |
-| `RadzenSeriesDataLabels` | `OmniSeriesDataLabels` | 10 | implémenté | 3 | 13 |
-| `RadzenPieSeries` | `OmniPieSeries` | 10 | implémenté | 3 | 5 |
-| `RadzenColumnSeries` | `OmniColumnSeries` | 10 | implémenté | 3 | 4 |
-| `RadzenTree` | `OmniTree` | 8 | implémenté | 3 | 5 |
-| `RadzenAreaSeries` | `OmniAreaSeries` | 10 | implémenté | 3 | 5 |
-| `RadzenBarSeries` | `OmniBarSeries` | 10 | implémenté | 3 | 4 |
-| `RadzenComponents` | `OmniComponentsHost` | 4 | implémenté | 3 | 3 |
-| `RadzenDataList` | `OmniDataList` | 8 | implémenté | 2 | 67 |
-| `RadzenAxisTitle` | `OmniAxisTitle` | 10 | implémenté | 2 | 8 |
-| `RadzenStepsItem` | `OmniStepsItem` | 7 | implémenté | 2 | 5 |
-| `RadzenTreeItem` | `OmniTreeItem` | 8 | implémenté | 2 | 6 |
-| `RadzenSteps` | `OmniSteps` | 7 | implémenté | 2 | 3 |
-| `RadzenSlider` | `OmniSlider` | 6 | implémenté | 2 | 6 |
-| `RadzenChartTooltipOptions` | `OmniChartTooltipOptions` | 10 | implémenté | 2 | 4 |
-| `RadzenPager` | `OmniPager` | 8 | implémenté | 2 | 3 |
-| `RadzenRadioButtonListItem` | `OmniRadioButtonListItem` | 6 | implémenté | 2 | 4 |
-| `RadzenColorPicker` | `OmniColorPicker` | 6 | implémenté | 2 | 3 |
-| `RadzenRadioButtonList` | `OmniRadioButtonList` | 6 | implémenté | 2 | 2 |
-| `RadzenTreeLevel` | `OmniTreeLevel` | 8 | implémenté | 2 | 3 |
-| `RadzenAppearanceToggle` | `OmniAppearanceToggle` | 3 | implémenté | 2 | 2 |
-| `RadzenStackedAreaSeries` | `OmniStackedAreaSeries` | 10 | implémenté | 2 | 2 |
-| `RadzenTheme` | `OmniThemeScope` | 3 | implémenté | 2 | 2 |
-| `RadzenSkeleton` | `OmniSkeleton` | 3 | implémenté | 1 | 20 |
-| `RadzenHtmlEditorCustomTool` | `OmniHtmlEditor` | 12 | implémenté | 1 | 28 |
-| `RadzenHtmlEditorSeparator` | `OmniHtmlEditor` | 12 | implémenté | 1 | 11 |
-| `RadzenArcGaugeScaleValue` | `OmniArcGaugeScaleValue` | 10 | implémenté | 1 | 4 |
-| `RadzenTimelineItem` | `OmniTimelineItem` | 11 | implémenté | 1 | 2 |
-| `RadzenHtmlEditor` | `OmniHtmlEditor` | 12 | implémenté | 1 | 2 |
-| `RadzenTimeline` | `OmniTimeline` | 11 | implémenté | 1 | 2 |
-| `RadzenArcGauge` | `OmniArcGauge` | 10 | implémenté | 1 | 2 |
-| `RadzenArcGaugeScale` | `OmniArcGaugeScale` | 10 | implémenté | 1 | 2 |
-| `RadzenProfileMenuItem` | `OmniProfileMenuItem` | 7 | implémenté | 1 | 1 |
-| `RadzenLengthValidator` | `OmniLengthValidator` | 5 | implémenté | 1 | 1 |
-| `RadzenScheduler` | `OmniScheduler` | 11 | implémenté | 1 | 1 |
-| `RadzenToggleButton` | `OmniToggleButton` | 4 | implémenté | 1 | 2 |
-| `RadzenWeekView` | `OmniWeekView` | 11 | implémenté | 1 | 1 |
-| `RadzenProfileMenu` | `OmniProfileMenu` | 7 | implémenté | 1 | 1 |
-| `RadzenStackedColumnSeries` | `OmniStackedColumnSeries` | 10 | implémenté | 1 | 2 |
-| `RadzenAutoComplete` | `OmniAutocomplete` | 6 | implémenté | 1 | 1 |
-| `RadzenBarOptions` | `OmniBarOptions` | 10 | implémenté | 1 | 1 |
-| `RadzenCheckBoxList` | `OmniCheckBoxList` | 6 | implémenté | 1 | 1 |
-| `RadzenHtmlEditorBold` | `OmniHtmlEditor` | 12 | implémenté | 1 | 1 |
-| `RadzenHtmlEditorIndent` | `OmniHtmlEditor` | 12 | implémenté | 1 | 1 |
-| `RadzenHtmlEditorItalic` | `OmniHtmlEditor` | 12 | implémenté | 1 | 1 |
-| `RadzenHtmlEditorOutdent` | `OmniHtmlEditor` | 12 | implémenté | 1 | 1 |
-| `RadzenHtmlEditorRedo` | `OmniHtmlEditor` | 12 | implémenté | 1 | 1 |
-| `RadzenHtmlEditorSubscript` | `OmniHtmlEditor` | 12 | implémenté | 1 | 1 |
-| `RadzenHtmlEditorSuperscript` | `OmniHtmlEditor` | 12 | implémenté | 1 | 1 |
-| `RadzenHtmlEditorUndo` | `OmniHtmlEditor` | 12 | implémenté | 1 | 1 |
-| `RadzenImage` | `OmniImage` | 3 | implémenté | 1 | 1 |
-| `RadzenUpload` | `OmniUpload` | 6 | implémenté | 1 | 1 |
-| `RadzenEmailValidator` | `OmniEmailValidator` | 5 | implémenté | 0 | 0 |
-| `RadzenDayView` | `OmniDayView` | 11 | implémenté | 0 | 0 |
-| `RadzenMonthView` | `OmniMonthView` | 11 | implémenté | 0 | 0 |
-| `RadzenCompareValidator` | `OmniCompareValidator` | 5 | implémenté | 0 | 0 |
-| `RadzenDonutSeries` | `OmniDonutSeries` | 10 | implémenté | 0 | 0 |
+| Source inventoriée | Cible OmniEurope | Phase | Présence | Références de tests | Catalogue | Navigateur |
+| --- | --- | ---: | --- | ---: | --- | ---: |
+| `RadzenStack` | `OmniStack` | 3 | fichier présent | 1 | non | 0 |
+| `RadzenButton` | `OmniButton` | 3 | fichier présent | 3 | oui | 4 |
+| `RadzenBody` | `OmniBody` | 3 | fichier présent | 1 | non | 0 |
+| `RadzenHeader` | `OmniHeader` | 3 | fichier présent | 1 | non | 0 |
+| `RadzenLayout` | `OmniLayout` | 3 | fichier présent | 1 | non | 0 |
+| `RadzenText` | `OmniText` | 3 | fichier présent | 1 | non | 0 |
+| `RadzenTextBox` | `OmniTextBox` | 5 | fichier présent | 2 | oui | 0 |
+| `RadzenAlert` | `OmniAlert` | 3 | fichier présent | 1 | oui | 0 |
+| `RadzenPanelMenuItem` | `OmniPanelMenuItem` | 7 | fichier présent | 3 | non | 0 |
+| `RadzenPanelMenu` | `OmniPanelMenu` | 7 | fichier présent | 2 | non | 0 |
+| `RadzenSidebar` | `OmniSidebar` | 3 | fichier présent | 2 | non | 0 |
+| `RadzenSidebarToggle` | `OmniSidebarToggle` | 3 | fichier présent | 2 | non | 0 |
+| `RadzenIcon` | `OmniIcon` | 3 | fichier présent | 2 | oui | 0 |
+| `RadzenDropDown` | `OmniDropDown` | 6 | fichier présent | 3 | oui | 0 |
+| `RadzenDataGridColumn` | `OmniDataGridColumn` | 9 | fichier présent | 3 | oui | 0 |
+| `RadzenCard` | `OmniCard` | 3 | fichier présent | 1 | oui | 0 |
+| `RadzenDataGrid` | `OmniDataGrid` | 9 | fichier présent | 7 | oui | 0 |
+| `RadzenNumeric` | `OmniNumeric` | 5 | fichier présent | 2 | non | 0 |
+| `RadzenCheckBox` | `OmniCheckBox` | 5 | fichier présent | 1 | non | 0 |
+| `RadzenDialog` | `OmniDialog` | 4 | fichier présent | 3 | non | 1 |
+| `RadzenNotification` | `OmniNotification` | 4 | fichier présent | 2 | non | 1 |
+| `RadzenTooltip` | `OmniTooltip` | 4 | fichier présent | 1 | oui | 0 |
+| `RadzenFormField` | `OmniFormField` | 5 | fichier présent | 1 | oui | 0 |
+| `RadzenTextArea` | `OmniTextArea` | 5 | fichier présent | 1 | oui | 0 |
+| `RadzenLink` | `OmniLink` | 3 | fichier présent | 1 | non | 0 |
+| `RadzenBadge` | `OmniBadge` | 3 | fichier présent | 1 | non | 0 |
+| `RadzenProgressBarCircular` | `OmniProgressBar` | 3 | fichier présent | 2 | oui | 1 |
+| `RadzenLabel` | `OmniLabel` | 5 | fichier présent | 1 | non | 0 |
+| `RadzenContextMenu` | `OmniContextMenu` | 4 | fichier présent | 3 | non | 0 |
+| `RadzenColumn` | `OmniColumn` | 3 | fichier présent | 1 | non | 0 |
+| `RadzenRow` | `OmniRow` | 3 | fichier présent | 1 | non | 0 |
+| `RadzenTabsItem` | `OmniTabsItem` | 7 | fichier présent | 1 | oui | 0 |
+| `RadzenPassword` | `OmniPassword` | 5 | fichier présent | 2 | non | 0 |
+| `RadzenTabs` | `OmniTabs` | 7 | fichier présent | 2 | oui | 0 |
+| `RadzenChart` | `OmniChart` | 10 | fichier présent | 2 | oui | 0 |
+| `RadzenSwitch` | `OmniSwitch` | 5 | fichier présent | 1 | non | 0 |
+| `RadzenCategoryAxis` | `OmniCategoryAxis` | 10 | fichier présent | 1 | oui | 0 |
+| `RadzenValueAxis` | `OmniValueAxis` | 10 | fichier présent | 2 | oui | 0 |
+| `RadzenProgressBar` | `OmniProgressBar` | 3 | fichier présent | 2 | oui | 1 |
+| `RadzenLineSeries` | `OmniLineSeries` | 10 | fichier présent | 3 | oui | 0 |
+| `RadzenTemplateForm` | `OmniTemplateForm` | 5 | fichier présent | 2 | non | 0 |
+| `RadzenRequiredValidator` | `OmniRequiredValidator` | 5 | fichier présent | 4 | oui | 0 |
+| `RadzenDatePicker` | `OmniDatePicker` | 6 | fichier présent | 2 | oui | 0 |
+| `RadzenFieldset` | `OmniFieldset` | 3 | fichier présent | 1 | non | 0 |
+| `RadzenLegend` | `OmniLegend` | 10 | fichier présent | 2 | non | 0 |
+| `RadzenSelectBarItem` | `OmniSelectBarItem` | 6 | fichier présent | 0 | non | 0 |
+| `RadzenSelectBar` | `OmniSelectBar` | 6 | fichier présent | 1 | non | 0 |
+| `RadzenGridLines` | `OmniGridLines` | 10 | fichier présent | 2 | oui | 0 |
+| `RadzenMarkers` | `OmniMarkers` | 10 | fichier présent | 2 | oui | 0 |
+| `RadzenListBox` | `OmniListBox` | 6 | fichier présent | 1 | non | 0 |
+| `RadzenSplitButtonItem` | `OmniSplitButtonItem` | 4 | fichier présent | 1 | non | 0 |
+| `RadzenBreadCrumbItem` | `OmniBreadcrumbItem` | 7 | fichier présent | 2 | oui | 0 |
+| `RadzenSplitButton` | `OmniSplitButton` | 4 | fichier présent | 2 | non | 0 |
+| `RadzenBreadCrumb` | `OmniBreadcrumb` | 7 | fichier présent | 2 | oui | 0 |
+| `RadzenSeriesDataLabels` | `OmniSeriesDataLabels` | 10 | fichier présent | 1 | non | 0 |
+| `RadzenPieSeries` | `OmniPieSeries` | 10 | fichier présent | 1 | non | 0 |
+| `RadzenColumnSeries` | `OmniColumnSeries` | 10 | fichier présent | 1 | non | 0 |
+| `RadzenTree` | `OmniTree` | 8 | fichier présent | 2 | oui | 0 |
+| `RadzenAreaSeries` | `OmniAreaSeries` | 10 | fichier présent | 1 | non | 0 |
+| `RadzenBarSeries` | `OmniBarSeries` | 10 | fichier présent | 1 | non | 0 |
+| `RadzenComponents` | `OmniComponentsHost` | 4 | fichier présent | 3 | oui | 1 |
+| `RadzenDataList` | `OmniDataList` | 8 | fichier présent | 2 | oui | 0 |
+| `RadzenAxisTitle` | `OmniAxisTitle` | 10 | fichier présent | 1 | non | 0 |
+| `RadzenStepsItem` | `OmniStepsItem` | 7 | fichier présent | 1 | non | 0 |
+| `RadzenTreeItem` | `OmniTreeItem` | 8 | fichier présent | 2 | oui | 0 |
+| `RadzenSteps` | `OmniSteps` | 7 | fichier présent | 2 | non | 0 |
+| `RadzenSlider` | `OmniSlider` | 6 | fichier présent | 2 | oui | 0 |
+| `RadzenChartTooltipOptions` | `OmniChartTooltipOptions` | 10 | fichier présent | 2 | non | 0 |
+| `RadzenPager` | `OmniPager` | 8 | fichier présent | 2 | non | 0 |
+| `RadzenRadioButtonListItem` | `OmniRadioButtonListItem` | 6 | fichier présent | 0 | non | 0 |
+| `RadzenColorPicker` | `OmniColorPicker` | 6 | fichier présent | 1 | oui | 0 |
+| `RadzenRadioButtonList` | `OmniRadioButtonList` | 6 | fichier présent | 1 | non | 0 |
+| `RadzenTreeLevel` | `OmniTreeLevel` | 8 | fichier présent | 0 | non | 0 |
+| `RadzenAppearanceToggle` | `OmniAppearanceToggle` | 3 | fichier présent | 2 | non | 0 |
+| `RadzenStackedAreaSeries` | `OmniStackedAreaSeries` | 10 | fichier présent | 1 | non | 0 |
+| `RadzenTheme` | `OmniThemeScope` | 3 | fichier présent | 1 | non | 0 |
+| `RadzenSkeleton` | `OmniSkeleton` | 3 | fichier présent | 1 | oui | 0 |
+| `RadzenHtmlEditorCustomTool` | `OmniHtmlEditor` | 12 | fichier présent | 4 | oui | 0 |
+| `RadzenHtmlEditorSeparator` | `OmniHtmlEditor` | 12 | fichier présent | 4 | oui | 0 |
+| `RadzenArcGaugeScaleValue` | `OmniArcGaugeScaleValue` | 10 | fichier présent | 2 | non | 0 |
+| `RadzenTimelineItem` | `OmniTimelineItem` | 11 | fichier présent | 1 | non | 0 |
+| `RadzenHtmlEditor` | `OmniHtmlEditor` | 12 | fichier présent | 4 | oui | 0 |
+| `RadzenTimeline` | `OmniTimeline` | 11 | fichier présent | 2 | non | 0 |
+| `RadzenArcGauge` | `OmniArcGauge` | 10 | fichier présent | 2 | non | 0 |
+| `RadzenArcGaugeScale` | `OmniArcGaugeScale` | 10 | fichier présent | 1 | non | 0 |
+| `RadzenProfileMenuItem` | `OmniProfileMenuItem` | 7 | fichier présent | 2 | non | 0 |
+| `RadzenLengthValidator` | `OmniLengthValidator` | 5 | fichier présent | 1 | non | 0 |
+| `RadzenScheduler` | `OmniScheduler` | 11 | fichier présent | 2 | oui | 0 |
+| `RadzenToggleButton` | `OmniToggleButton` | 4 | fichier présent | 1 | oui | 0 |
+| `RadzenWeekView` | `OmniWeekView` | 11 | fichier présent | 1 | non | 0 |
+| `RadzenProfileMenu` | `OmniProfileMenu` | 7 | fichier présent | 2 | non | 0 |
+| `RadzenStackedColumnSeries` | `OmniStackedColumnSeries` | 10 | fichier présent | 1 | non | 0 |
+| `RadzenAutoComplete` | `OmniAutocomplete` | 6 | fichier présent | 2 | oui | 0 |
+| `RadzenBarOptions` | `OmniBarOptions` | 10 | fichier présent | 1 | non | 0 |
+| `RadzenCheckBoxList` | `OmniCheckBoxList` | 6 | fichier présent | 1 | non | 0 |
+| `RadzenHtmlEditorBold` | `OmniHtmlEditor` | 12 | fichier présent | 4 | oui | 0 |
+| `RadzenHtmlEditorIndent` | `OmniHtmlEditor` | 12 | fichier présent | 4 | oui | 0 |
+| `RadzenHtmlEditorItalic` | `OmniHtmlEditor` | 12 | fichier présent | 4 | oui | 0 |
+| `RadzenHtmlEditorOutdent` | `OmniHtmlEditor` | 12 | fichier présent | 4 | oui | 0 |
+| `RadzenHtmlEditorRedo` | `OmniHtmlEditor` | 12 | fichier présent | 4 | oui | 0 |
+| `RadzenHtmlEditorSubscript` | `OmniHtmlEditor` | 12 | fichier présent | 4 | oui | 0 |
+| `RadzenHtmlEditorSuperscript` | `OmniHtmlEditor` | 12 | fichier présent | 4 | oui | 0 |
+| `RadzenHtmlEditorUndo` | `OmniHtmlEditor` | 12 | fichier présent | 4 | oui | 0 |
+| `RadzenImage` | `OmniImage` | 3 | fichier présent | 1 | non | 0 |
+| `RadzenUpload` | `OmniUpload` | 6 | fichier présent | 2 | oui | 0 |
+| `RadzenEmailValidator` | `OmniEmailValidator` | 5 | fichier présent | 1 | non | 0 |
+| `RadzenDayView` | `OmniDayView` | 11 | fichier présent | 1 | non | 0 |
+| `RadzenMonthView` | `OmniMonthView` | 11 | fichier présent | 2 | non | 0 |
+| `RadzenCompareValidator` | `OmniCompareValidator` | 5 | fichier présent | 2 | non | 0 |
+| `RadzenDonutSeries` | `OmniDonutSeries` | 10 | fichier présent | 1 | non | 0 |
 
-Le statut technique « implémenté » signifie uniquement que le composant Razor cible existe. Il ne prouve ni ses comportements, ni sa compatibilité avec les usages observés, ni une validation en navigateur. Les limites connues sont synthétisées dans [component-families.md](component-families.md).
+Aucune facette ne prouve à elle seule une équivalence fonctionnelle. Une référence de test indique seulement que le type est nommé dans ce fichier; une illustration catalogue et un scénario navigateur sont comptés uniquement lorsqu'ils figurent dans leurs matrices versionnées.

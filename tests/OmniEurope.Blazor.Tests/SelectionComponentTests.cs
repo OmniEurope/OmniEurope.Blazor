@@ -50,6 +50,36 @@ public sealed class SelectionComponentTests : BunitContext
             .Add(component => component.Vertical, true)).Find("input").GetAttribute("aria-orientation"));
     }
 
+    [Theory]
+    [InlineData(10, 0, 1, 5)]
+    [InlineData(0, 10, 0, 5)]
+    [InlineData(0, 10, 1, 11)]
+    public void Slider_RejectsInvalidBoundsStepAndInitialValue(double minimum, double maximum, double step, double value)
+    {
+        var holder = new SliderHolder { Value = value };
+
+        Assert.ThrowsAny<ArgumentOutOfRangeException>(() => Render<OmniSlider>(parameters => parameters
+            .Add(component => component.Minimum, minimum)
+            .Add(component => component.Maximum, maximum)
+            .Add(component => component.Step, step)
+            .Add(component => component.Value, holder.Value)
+            .Add(component => component.ValueExpression, () => holder.Value)));
+    }
+
+    [Fact]
+    public void DatePicker_RejectsContradictoryBounds()
+    {
+        DateOnly? value = null;
+
+        var exception = Assert.Throws<InvalidOperationException>(() => Render<OmniDatePicker>(parameters => parameters
+            .Add(component => component.Minimum, new DateOnly(2026, 8, 12))
+            .Add(component => component.Maximum, new DateOnly(2026, 8, 11))
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)));
+
+        Assert.Equal("Minimum cannot be greater than Maximum.", exception.Message);
+    }
+
     [Fact]
     public async Task Autocomplete_DebouncesAnnouncesAndSelectsAResult()
     {
@@ -63,6 +93,24 @@ public sealed class SelectionComponentTests : BunitContext
 
         Assert.Equal("alpha", form.Instance.Model.Autocomplete);
         Assert.Contains("Alpha sélectionné.", form.Markup, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task Autocomplete_DebouncesRapidInputsAndSearchesOnlyTheLatestTerm()
+    {
+        var form = Render<SelectionTestHost>(parameters => parameters.Add(component => component.DebounceMilliseconds, 100));
+
+        var input = form.Find("#autocomplete");
+        var first = input.InputAsync(new ChangeEventArgs { Value = "a" });
+        var second = input.InputAsync(new ChangeEventArgs { Value = "al" });
+        var third = input.InputAsync(new ChangeEventArgs { Value = "alp" });
+        await Task.WhenAll(first, second, third);
+
+        form.WaitForAssertion(() =>
+        {
+            Assert.Equal(1, form.Instance.SearchCount);
+            Assert.Equal("alp", form.Instance.LastSearch);
+        }, TimeSpan.FromSeconds(1));
     }
 
     [Fact]
@@ -94,6 +142,27 @@ public sealed class SelectionComponentTests : BunitContext
     }
 
     [Fact]
+    public async Task Autocomplete_ExposesARecoverableErrorWithoutLeakingExceptionDetails()
+    {
+        var value = string.Empty;
+        Exception? observed = null;
+        var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.DebounceMilliseconds, 0)
+            .Add(component => component.Search, (_, _) => throw new InvalidOperationException("C:\\secret\\query.txt"))
+            .Add(component => component.SearchFailed, exception => observed = exception));
+
+        await autocomplete.Find("input").InputAsync(new ChangeEventArgs { Value = "query" });
+
+        Assert.IsType<InvalidOperationException>(observed);
+        Assert.Equal("alert", autocomplete.Find(".omni-autocomplete__error").GetAttribute("role"));
+        Assert.Contains("La recherche a échoué", autocomplete.Markup, StringComparison.Ordinal);
+        Assert.DoesNotContain("secret", autocomplete.Markup, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("-error", autocomplete.Find("input").GetAttribute("aria-describedby"), StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void Upload_ValidatesTypeAndReportsSuccessfulProgress()
     {
         var uploadCalled = false;
@@ -121,14 +190,63 @@ public sealed class SelectionComponentTests : BunitContext
     }
 
     [Fact]
-    public void LargeSelector_ReloadsAndSelectsTheLastTypedValue()
+    public void Upload_AppliesTheInputIdToTheNativeFileControl()
+    {
+        var upload = Render<OmniUpload>(parameters => parameters
+            .Add(component => component.Id, "upload-wrapper")
+            .Add(component => component.InputId, "upload-input"));
+
+        Assert.Equal("upload-wrapper", upload.Find(".omni-upload").Id);
+        Assert.Equal("upload-input", upload.Find("input[type=file]").Id);
+    }
+
+    [Fact]
+    public void Upload_DoesNotExposeCallbackExceptionDetails()
+    {
+        var upload = Render<OmniUpload>(parameters => parameters
+            .Add(component => component.Upload, _ => throw new InvalidOperationException("C:\\secret\\token.txt")));
+
+        upload.FindComponent<InputFile>().UploadFiles(InputFileContent.CreateFromText("hello", "note.txt", contentType: "text/plain"));
+
+        Assert.Contains("Le téléversement a échoué.", upload.Markup, StringComparison.Ordinal);
+        Assert.DoesNotContain("secret", upload.Markup, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("token.txt", upload.Markup, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void Upload_ValidatesTheOpenedStreamBeforeCallingTheTransport()
+    {
+        var uploadCalled = false;
+        var upload = Render<OmniUpload>(parameters => parameters
+            .Add(component => component.Validate, async request =>
+            {
+                await using var stream = request.OpenReadStream(request.Files[0]);
+                var firstByte = stream.ReadByte();
+                return firstByte == 'P' ? null : "La signature du fichier est invalide.";
+            })
+            .Add(component => component.Upload, _ =>
+            {
+                uploadCalled = true;
+                return Task.CompletedTask;
+            }));
+
+        upload.FindComponent<InputFile>().UploadFiles(InputFileContent.CreateFromText("hello", "note.txt", contentType: "text/plain"));
+
+        Assert.False(uploadCalled);
+        Assert.Contains("La signature du fichier est invalide.", upload.Markup, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void LargeSelector_ReloadsOptionsAndSelectsTheNewLastValue()
     {
         var selector = Render<LargeSelectionTestHost>();
         Assert.Equal(10_000, selector.FindAll("option").Count);
 
-        selector.Find("#large-selector").Change("9999");
+        selector.Render(parameters => parameters.Add(component => component.OptionCount, 10_001));
+        selector.Find("#large-selector").Change("10000");
 
-        Assert.Equal(9_999, selector.Instance.Model.Value);
+        Assert.Equal(10_001, selector.FindAll("option").Count);
+        Assert.Equal(10_000, selector.Instance.Model.Value);
     }
 
     private sealed class SliderHolder

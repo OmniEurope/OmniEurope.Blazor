@@ -1,0 +1,14 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<section id="@Id" class="@Css("omni-card")" @attributes="AdditionalAttributes">
+    @if (Header is not null)
+    {
+        <header class="omni-card__header">@Header</header>
+    }
+    <div class="omni-card__body">@ChildContent</div>
+    @if (Footer is not null)
+    {
+        <footer class="omni-card__footer">@Footer</footer>
+    }
+</section>

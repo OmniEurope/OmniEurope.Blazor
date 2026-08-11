@@ -1,34 +1,113 @@
 {
-  "generatedFrom": "2026-08-10T11:33:36+02:00",
+  "schemaVersion": 2,
+  "generatedFrom": "2026-08-11T17:20:14+02:00",
   "total": 110,
-  "implemented": 110,
-  "planned": 0,
+  "targetsPresent": 110,
+  "targetsMissing": 0,
+  "withTestReferences": 107,
+  "catalogIllustrated": 47,
+  "browserExercised": 6,
   "entries": [
     {
       "source": "RadzenStack",
       "target": "OmniStack",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Layout/OmniStack.razor",
+      "targetSha256": "eb1348e8af14e39924ebe99921bbe5a6ae2915a8ffac3939666b825ac40134e5",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ComponentCspTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 17,
-      "activeOccurrences": 2235,
+      "activeOccurrences": 2246,
       "allProjects": 25,
-      "occurrences": 3134
+      "occurrences": 3145
     },
     {
       "source": "RadzenButton",
       "target": "OmniButton",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Actions/OmniButton.razor",
+      "targetSha256": "a5982ab540eaa8a315fbc4e35a338bfeee92273824843d7c95f8354e00c2622a",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ComponentCspTests.cs",
+          "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
+          "tests/OmniEurope.Blazor.Tests/PerformanceBudgetTests.cs"
+        ],
+        "catalog": {
+          "scenario": "foundations",
+          "evidence": "illustrated"
+        },
+        "browser": [
+          {
+            "id": "catalog-critical-interactions",
+            "host": "Server catalog",
+            "script": "eng/Test-CatalogProbe.mjs",
+            "assertions": [
+              "five catalog families",
+              "dialog opens and owns focus",
+              "dialog closes",
+              "notification live role",
+              "zero browser console errors",
+              "zero client CSP violations"
+            ]
+          },
+          {
+            "id": "wasm-counter-progress",
+            "host": "WebAssembly",
+            "script": "eng/Test-WasmHost.ps1",
+            "assertions": [
+              "counter changes to 1",
+              "progress aria-valuenow changes to 1",
+              "zero browser console errors"
+            ]
+          },
+          {
+            "id": "auto-counter",
+            "host": "Interactive Auto",
+            "script": "eng/Test-AutoHost.ps1",
+            "assertions": [
+              "prerender marker",
+              "hydrated counter changes to 1",
+              "zero browser console errors"
+            ]
+          },
+          {
+            "id": "hybrid-counter",
+            "host": "MAUI Blazor Hybrid",
+            "script": "eng/Test-HybridHost.ps1",
+            "assertions": [
+              "WebView2 counter changes to 1",
+              "zero WebView console errors"
+            ]
+          }
+        ]
+      },
       "activeProjects": 17,
-      "activeOccurrences": 1814,
+      "activeOccurrences": 1841,
       "allProjects": 25,
-      "occurrences": 2653
+      "occurrences": 2680
     },
     {
       "source": "RadzenBody",
       "target": "OmniBody",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Layout/OmniBody.razor",
+      "targetSha256": "40494306e46e84dc0547c38471868a5d72a801559c20834ff0d72c82c86cdbb1",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/InteractionComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 16,
       "activeOccurrences": 20,
       "allProjects": 24,
@@ -38,7 +117,16 @@
       "source": "RadzenHeader",
       "target": "OmniHeader",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Layout/OmniHeader.razor",
+      "targetSha256": "c7ec9d129d79620f8bd8db1e4a323d9aa5ff464f8ec5ea6ecd7fb430b2b472cc",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 16,
       "activeOccurrences": 20,
       "allProjects": 24,
@@ -48,7 +136,16 @@
       "source": "RadzenLayout",
       "target": "OmniLayout",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Layout/OmniLayout.razor",
+      "targetSha256": "bcc02e83be0de5508de447d043d9939623e34ab0aef91c18368c9ef057fe0a3e",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 16,
       "activeOccurrences": 20,
       "allProjects": 24,
@@ -58,37 +155,82 @@
       "source": "RadzenText",
       "target": "OmniText",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Foundation/OmniText.razor",
+      "targetSha256": "2650a64207e89a469fd53b7c461e8201287faa43a79efbd48fc70d5244b194e3",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 15,
-      "activeOccurrences": 2628,
+      "activeOccurrences": 2640,
       "allProjects": 23,
-      "occurrences": 3707
+      "occurrences": 3719
     },
     {
       "source": "RadzenTextBox",
       "target": "OmniTextBox",
       "phase": 5,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Forms/OmniTextBox.razor",
+      "targetSha256": "607c406760c45cc01917e3600ba09b92efc6ab62978f93ee284aaea42be2c8fc",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FormTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/TemplateFormTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "forms-selection",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 15,
-      "activeOccurrences": 527,
+      "activeOccurrences": 532,
       "allProjects": 21,
-      "occurrences": 792
+      "occurrences": 797
     },
     {
       "source": "RadzenAlert",
       "target": "OmniAlert",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Feedback/OmniAlert.razor",
+      "targetSha256": "3f9193ab33b56b3201c88373401f99b32909de00bdf11e6948ed8ee142b04d26",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ComponentCspTests.cs"
+        ],
+        "catalog": {
+          "scenario": "foundations",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 15,
-      "activeOccurrences": 346,
+      "activeOccurrences": 352,
       "allProjects": 23,
-      "occurrences": 480
+      "occurrences": 486
     },
     {
       "source": "RadzenPanelMenuItem",
       "target": "OmniPanelMenuItem",
       "phase": 7,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniPanelMenuItem.razor",
+      "targetSha256": "c0b445445bd61eb595778527c1d0b557bba614f1a18df9ab050e810167c7e056",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
+          "tests/OmniEurope.Blazor.Tests/NavigationComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 15,
       "activeOccurrences": 208,
       "allProjects": 23,
@@ -98,7 +240,17 @@
       "source": "RadzenPanelMenu",
       "target": "OmniPanelMenu",
       "phase": 7,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniPanelMenu.razor",
+      "targetSha256": "f1ce3a3850a74b53651a05b5bf7e3821c579b9d9ab458c940c5be2dd4ff5354e",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 15,
       "activeOccurrences": 19,
       "allProjects": 23,
@@ -108,7 +260,17 @@
       "source": "RadzenSidebar",
       "target": "OmniSidebar",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniSidebar.razor",
+      "targetSha256": "afc625d1646b6f8be62d0f6e382a8c895b78ed760f400ba3d9c3b38ac5b71189",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/InteractionComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 15,
       "activeOccurrences": 20,
       "allProjects": 23,
@@ -118,7 +280,17 @@
       "source": "RadzenSidebarToggle",
       "target": "OmniSidebarToggle",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniSidebarToggle.razor",
+      "targetSha256": "f34da84a208f9ea7ce48c8397a6d7e756e2e7cefe99c3fc4809b17a14ed8ae59",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/InteractionComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 15,
       "activeOccurrences": 15,
       "allProjects": 22,
@@ -128,67 +300,157 @@
       "source": "RadzenIcon",
       "target": "OmniIcon",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Feedback/OmniIcon.razor",
+      "targetSha256": "1910a9a1647988aa18d923e62b690b6cd22ec181b05b75b3dada547a4159127b",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
+          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs"
+        ],
+        "catalog": {
+          "scenario": "foundations",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 14,
-      "activeOccurrences": 691,
+      "activeOccurrences": 694,
       "allProjects": 19,
-      "occurrences": 1027
+      "occurrences": 1030
     },
     {
       "source": "RadzenDropDown",
       "target": "OmniDropDown",
       "phase": 6,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Selection/OmniDropDown.razor",
+      "targetSha256": "4fb5223034be78ea779b53b84900db327bb3393a937404490d499e8fb613f7ef",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LargeSelectionTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/SelectionTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "forms-selection",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 14,
-      "activeOccurrences": 308,
+      "activeOccurrences": 310,
       "allProjects": 19,
-      "occurrences": 470
+      "occurrences": 472
     },
     {
       "source": "RadzenDataGridColumn",
       "target": "OmniDataGridColumn",
       "phase": 9,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Data/OmniDataGridColumn.razor",
+      "targetSha256": "4b5f1fb044e0d2bdd743813861b60917c3f73368dd9341da90a128fa0fea693f",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/DataGridAdvancedTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/DataGridTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/DynamicDataGridTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "data-charts",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 13,
-      "activeOccurrences": 1155,
+      "activeOccurrences": 1171,
       "allProjects": 21,
-      "occurrences": 1906
+      "occurrences": 1922
     },
     {
       "source": "RadzenCard",
       "target": "OmniCard",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Layout/OmniCard.razor",
+      "targetSha256": "00c703c582ad3f0ce35c8087bc6c25e40db416f88a28f1750dc6d3214e81f7e8",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ComponentCspTests.cs"
+        ],
+        "catalog": {
+          "scenario": "foundations",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 13,
-      "activeOccurrences": 685,
+      "activeOccurrences": 693,
       "allProjects": 18,
-      "occurrences": 993
+      "occurrences": 1001
     },
     {
       "source": "RadzenDataGrid",
       "target": "OmniDataGrid",
       "phase": 9,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Data/OmniDataGrid.razor",
+      "targetSha256": "77567dd25371b5476a16771ce98c5f30aecd738b0b3c61002458a41aec603d77",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/DataGridAdvancedTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/DataGridComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/DataGridTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/DynamicDataGridTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/PerformanceBudgetTests.cs",
+          "tests/OmniEurope.Blazor.Tests/PublicApiBoundaryTests.cs"
+        ],
+        "catalog": {
+          "scenario": "data-charts",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 13,
-      "activeOccurrences": 188,
+      "activeOccurrences": 191,
       "allProjects": 21,
-      "occurrences": 307
+      "occurrences": 310
     },
     {
       "source": "RadzenNumeric",
       "target": "OmniNumeric",
       "phase": 5,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Forms/OmniNumeric.razor",
+      "targetSha256": "db7526c7c10757289de657c714286b2ce8e26734b03358d71dca93ffebe51c38",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FormTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/InteractionComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 13,
-      "activeOccurrences": 119,
+      "activeOccurrences": 121,
       "allProjects": 16,
-      "occurrences": 197
+      "occurrences": 199
     },
     {
       "source": "RadzenCheckBox",
       "target": "OmniCheckBox",
       "phase": 5,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Forms/OmniCheckBox.razor",
+      "targetSha256": "4210c4cf28d05989395472359fdc3894c4c5fc252c830a12b1635e5c54402142",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FormTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 13,
       "activeOccurrences": 93,
       "allProjects": 16,
@@ -198,7 +460,32 @@
       "source": "RadzenDialog",
       "target": "OmniDialog",
       "phase": 4,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Overlays/OmniDialog.razor",
+      "targetSha256": "e69bf4396699926316b2209ba07c7424e4cf246f35d0aefe9d66d24562ef5cb3",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/OverlayComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": [
+          {
+            "id": "catalog-critical-interactions",
+            "host": "Server catalog",
+            "script": "eng/Test-CatalogProbe.mjs",
+            "assertions": [
+              "five catalog families",
+              "dialog opens and owns focus",
+              "dialog closes",
+              "notification live role",
+              "zero browser console errors",
+              "zero client CSP violations"
+            ]
+          }
+        ]
+      },
       "activeProjects": 13,
       "activeOccurrences": 15,
       "allProjects": 20,
@@ -208,7 +495,31 @@
       "source": "RadzenNotification",
       "target": "OmniNotification",
       "phase": 4,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Overlays/OmniNotification.razor",
+      "targetSha256": "c8179cb63773e3c8781c3320365c3f9647e3a7d76d444585364c9bcbe11d80e8",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/OverlayComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": [
+          {
+            "id": "catalog-critical-interactions",
+            "host": "Server catalog",
+            "script": "eng/Test-CatalogProbe.mjs",
+            "assertions": [
+              "five catalog families",
+              "dialog opens and owns focus",
+              "dialog closes",
+              "notification live role",
+              "zero browser console errors",
+              "zero client CSP violations"
+            ]
+          }
+        ]
+      },
       "activeProjects": 13,
       "activeOccurrences": 15,
       "allProjects": 20,
@@ -218,7 +529,19 @@
       "source": "RadzenTooltip",
       "target": "OmniTooltip",
       "phase": 4,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Overlays/OmniTooltip.razor",
+      "targetSha256": "e0b793ad708889c23a11f9a2dbd133f59a03ef71ef5ea218809ef57b100de20e",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/OverlayComponentTests.cs"
+        ],
+        "catalog": {
+          "scenario": "foundations",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 13,
       "activeOccurrences": 15,
       "allProjects": 20,
@@ -228,17 +551,41 @@
       "source": "RadzenFormField",
       "target": "OmniFormField",
       "phase": 5,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Forms/OmniFormField.razor",
+      "targetSha256": "3a9f4b318bc7077582575a41761596790f0bfa12b0e6d9389060ce41314e0c72",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/InteractionComponentTests.cs"
+        ],
+        "catalog": {
+          "scenario": "forms-selection",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 12,
-      "activeOccurrences": 712,
+      "activeOccurrences": 714,
       "allProjects": 18,
-      "occurrences": 1162
+      "occurrences": 1164
     },
     {
       "source": "RadzenTextArea",
       "target": "OmniTextArea",
       "phase": 5,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Forms/OmniTextArea.razor",
+      "targetSha256": "fca95ead8acb1310b95d01937aa318edc78b362e15ba8a32aea33e96770dfa3b",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FormTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "forms-selection",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 11,
       "activeOccurrences": 121,
       "allProjects": 17,
@@ -248,47 +595,109 @@
       "source": "RadzenLink",
       "target": "OmniLink",
       "phase": 3,
-      "status": "implemented",
-      "activeProjects": 10,
-      "activeOccurrences": 85,
-      "allProjects": 14,
-      "occurrences": 99
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniLink.razor",
+      "targetSha256": "570a7f72f4050a6fafff9bd339b9ad162a7c80708914611d118b234df5f675bb",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
+      "activeProjects": 11,
+      "activeOccurrences": 91,
+      "allProjects": 15,
+      "occurrences": 105
     },
     {
       "source": "RadzenBadge",
       "target": "OmniBadge",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Feedback/OmniBadge.razor",
+      "targetSha256": "d35fa7ab511646328f9d62ee38df6e195e5b6575130dabaea458486ea48f27f1",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 9,
-      "activeOccurrences": 641,
+      "activeOccurrences": 644,
       "allProjects": 12,
-      "occurrences": 988
+      "occurrences": 991
     },
     {
       "source": "RadzenProgressBarCircular",
       "target": "OmniProgressBar",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Feedback/OmniProgressBar.razor",
+      "targetSha256": "0e0f2278d6ef52f892969e30223146ec5f72ab1f86fde5fe1c9929117171c63a",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": {
+          "scenario": "foundations",
+          "evidence": "illustrated"
+        },
+        "browser": [
+          {
+            "id": "wasm-counter-progress",
+            "host": "WebAssembly",
+            "script": "eng/Test-WasmHost.ps1",
+            "assertions": [
+              "counter changes to 1",
+              "progress aria-valuenow changes to 1",
+              "zero browser console errors"
+            ]
+          }
+        ]
+      },
       "activeProjects": 9,
-      "activeOccurrences": 206,
+      "activeOccurrences": 207,
       "allProjects": 16,
-      "occurrences": 297
+      "occurrences": 298
     },
     {
       "source": "RadzenLabel",
       "target": "OmniLabel",
       "phase": 5,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Forms/OmniLabel.razor",
+      "targetSha256": "dc6b56b673bd49eec4d4939135819ea08d6fe6b5250aaf846ce15fe565706bd5",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/InteractionComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 9,
-      "activeOccurrences": 152,
+      "activeOccurrences": 153,
       "allProjects": 11,
-      "occurrences": 184
+      "occurrences": 185
     },
     {
       "source": "RadzenContextMenu",
       "target": "OmniContextMenu",
       "phase": 4,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Overlays/OmniContextMenu.razor",
+      "targetSha256": "cf1d28acb45c6954d5fbdadcfd1e91ab7803000282d67b69084021cbee0e02bd",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/OverlayComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/OverlayPortalTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 9,
       "activeOccurrences": 9,
       "allProjects": 15,
@@ -298,7 +707,16 @@
       "source": "RadzenColumn",
       "target": "OmniColumn",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Layout/OmniColumn.razor",
+      "targetSha256": "515b757bbe22d4ce4062ac20d701a20f2ba919161539494d18cce03a0db82483",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 8,
       "activeOccurrences": 520,
       "allProjects": 12,
@@ -308,7 +726,16 @@
       "source": "RadzenRow",
       "target": "OmniRow",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Layout/OmniRow.razor",
+      "targetSha256": "bbb7457e9236bf786a0f9a4ca217004490645cc731b0d4e79e544dbd1ce2fb85",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 8,
       "activeOccurrences": 177,
       "allProjects": 12,
@@ -318,17 +745,39 @@
       "source": "RadzenTabsItem",
       "target": "OmniTabsItem",
       "phase": 7,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniTabsItem.razor",
+      "targetSha256": "94a93733856abdcb765a58c12fc988a1d3bf15754d833892290c9ce8ff1bf89c",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "navigation-collections",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 8,
-      "activeOccurrences": 179,
+      "activeOccurrences": 181,
       "allProjects": 12,
-      "occurrences": 294
+      "occurrences": 296
     },
     {
       "source": "RadzenPassword",
       "target": "OmniPassword",
       "phase": 5,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Forms/OmniPassword.razor",
+      "targetSha256": "a0d9509d4fc4660ca85cbf672094a09cded727352f9da9c64e8e94530aa9d89a",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FormTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 8,
       "activeOccurrences": 44,
       "allProjects": 12,
@@ -338,17 +787,43 @@
       "source": "RadzenTabs",
       "target": "OmniTabs",
       "phase": 7,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniTabs.razor",
+      "targetSha256": "9009b995b23f4b83ceecda0f6a7468a360e4c395bb182df11ee49d753136a8eb",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "navigation-collections",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 8,
-      "activeOccurrences": 29,
+      "activeOccurrences": 28,
       "allProjects": 12,
-      "occurrences": 41
+      "occurrences": 40
     },
     {
       "source": "RadzenChart",
       "target": "OmniChart",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniChart.razor",
+      "targetSha256": "5ac480b8a8acc1ccbca6c30b4d0204a15a7d1487a0aeb963a6cc7bf7684ce005",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartProjectionTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "data-charts",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 7,
       "activeOccurrences": 28,
       "allProjects": 11,
@@ -358,7 +833,16 @@
       "source": "RadzenSwitch",
       "target": "OmniSwitch",
       "phase": 5,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Forms/OmniSwitch.razor",
+      "targetSha256": "d34970b86e7ddb09eed9bef344324b4c9b56422491a0e210b762c2128d7bcca9",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FormTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 7,
       "activeOccurrences": 27,
       "allProjects": 12,
@@ -368,7 +852,19 @@
       "source": "RadzenCategoryAxis",
       "target": "OmniCategoryAxis",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniCategoryAxis.razor",
+      "targetSha256": "3f7f0a308c37ac9d84ff10fb6be6eca30fa0e3560f594a0c89291441c6de3639",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "data-charts",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 7,
       "activeOccurrences": 23,
       "allProjects": 11,
@@ -378,7 +874,20 @@
       "source": "RadzenValueAxis",
       "target": "OmniValueAxis",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniValueAxis.razor",
+      "targetSha256": "f98e27fc62c2e0f7672fb5d57e0732f60790070663db2d07a982bf42d70081b9",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartProjectionTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "data-charts",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 7,
       "activeOccurrences": 23,
       "allProjects": 11,
@@ -388,17 +897,55 @@
       "source": "RadzenProgressBar",
       "target": "OmniProgressBar",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Feedback/OmniProgressBar.razor",
+      "targetSha256": "0e0f2278d6ef52f892969e30223146ec5f72ab1f86fde5fe1c9929117171c63a",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": {
+          "scenario": "foundations",
+          "evidence": "illustrated"
+        },
+        "browser": [
+          {
+            "id": "wasm-counter-progress",
+            "host": "WebAssembly",
+            "script": "eng/Test-WasmHost.ps1",
+            "assertions": [
+              "counter changes to 1",
+              "progress aria-valuenow changes to 1",
+              "zero browser console errors"
+            ]
+          }
+        ]
+      },
       "activeProjects": 6,
-      "activeOccurrences": 51,
+      "activeOccurrences": 55,
       "allProjects": 9,
-      "occurrences": 75
+      "occurrences": 79
     },
     {
       "source": "RadzenLineSeries",
       "target": "OmniLineSeries",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniLineSeries.razor",
+      "targetSha256": "21d718b11e76a0a5f4a0a51d57cb66a0df0101a5d302eb358da01579f4256112",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartProjectionTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/PerformanceBudgetTests.cs"
+        ],
+        "catalog": {
+          "scenario": "data-charts",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 6,
       "activeOccurrences": 20,
       "allProjects": 8,
@@ -408,7 +955,17 @@
       "source": "RadzenTemplateForm",
       "target": "OmniTemplateForm",
       "phase": 5,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Forms/OmniTemplateForm.razor",
+      "targetSha256": "16b1b51140ce6fd467336250be5cb070692d909fd494e4f2ff021f79056064a6",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/InteractionComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/TemplateFormTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 5,
       "activeOccurrences": 74,
       "allProjects": 11,
@@ -418,7 +975,22 @@
       "source": "RadzenRequiredValidator",
       "target": "OmniRequiredValidator",
       "phase": 5,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Forms/OmniRequiredValidator.razor",
+      "targetSha256": "88d8626cdc7df259218b1bd880ab83d14432990a3c931aec6905a87c42742bec",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FormTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/TemplateFormTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/ValidatorFailureTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/ValidatorLifecycleTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "forms-selection",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 5,
       "activeOccurrences": 22,
       "allProjects": 11,
@@ -428,7 +1000,20 @@
       "source": "RadzenDatePicker",
       "target": "OmniDatePicker",
       "phase": 6,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Selection/OmniDatePicker.razor",
+      "targetSha256": "65037b5708692f79810bdb1bbed59a3f9f9c045dfeb7fc867616640b0b54e35c",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/SelectionComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/SelectionTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "forms-selection",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 5,
       "activeOccurrences": 40,
       "allProjects": 8,
@@ -438,7 +1023,16 @@
       "source": "RadzenFieldset",
       "target": "OmniFieldset",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Layout/OmniFieldset.razor",
+      "targetSha256": "f64617baa1780b4a4ecc59d6ca3f0cf3bc6edda2bd5763c91bfc823af825b2b0",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 5,
       "activeOccurrences": 22,
       "allProjects": 7,
@@ -448,7 +1042,17 @@
       "source": "RadzenLegend",
       "target": "OmniLegend",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniLegend.razor",
+      "targetSha256": "7b459ca42029fe18836c4b3510bda515f466b8c1b918e84989de9b0faaf3575a",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 5,
       "activeOccurrences": 19,
       "allProjects": 6,
@@ -458,7 +1062,14 @@
       "source": "RadzenSelectBarItem",
       "target": "OmniSelectBarItem",
       "phase": 6,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Selection/OmniSelectBarItem.razor",
+      "targetSha256": "5e2109841e0fea5b9caaa576f66752a5bb0c9b5b3a4631693b7e5f546ff11b7d",
+      "evidence": {
+        "testReferences": [],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 5,
       "activeOccurrences": 21,
       "allProjects": 5,
@@ -468,7 +1079,16 @@
       "source": "RadzenSelectBar",
       "target": "OmniSelectBar",
       "phase": 6,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Selection/OmniSelectBar.razor",
+      "targetSha256": "950552921c275d0406cd5f8d9862e451afd4f4bbe81d7a38dd78697ebf5d9f99",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/SelectionTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 5,
       "activeOccurrences": 8,
       "allProjects": 5,
@@ -478,7 +1098,20 @@
       "source": "RadzenGridLines",
       "target": "OmniGridLines",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniGridLines.razor",
+      "targetSha256": "2b06a0d5243fbc778c53e65e06dab837a033e3c2ecd7edc71fd7e1e133201182",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "data-charts",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 4,
       "activeOccurrences": 14,
       "allProjects": 5,
@@ -488,7 +1121,20 @@
       "source": "RadzenMarkers",
       "target": "OmniMarkers",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniMarkers.razor",
+      "targetSha256": "25e1e2c4706474a6df3d2847ebc0a820613e69b2c0a534f81c2b6af796093345",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "data-charts",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 4,
       "activeOccurrences": 8,
       "allProjects": 5,
@@ -498,7 +1144,16 @@
       "source": "RadzenListBox",
       "target": "OmniListBox",
       "phase": 6,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Selection/OmniListBox.razor",
+      "targetSha256": "38c31114ef5937f3df7f8dd5e3f4469fe7fc2665ec0fadb4c5959be314e77a00",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/SelectionTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 4,
       "activeOccurrences": 5,
       "allProjects": 5,
@@ -508,7 +1163,16 @@
       "source": "RadzenSplitButtonItem",
       "target": "OmniSplitButtonItem",
       "phase": 4,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Actions/OmniSplitButtonItem.razor",
+      "targetSha256": "3e306fb8cec1d72dfb0784d6cc2a9f083ef6ac5d6de4869fcb5a524702db8f26",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/OverlayComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 3,
       "activeOccurrences": 34,
       "allProjects": 6,
@@ -518,7 +1182,20 @@
       "source": "RadzenBreadCrumbItem",
       "target": "OmniBreadcrumbItem",
       "phase": 7,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniBreadcrumbItem.razor",
+      "targetSha256": "6cb1830a389d729d4a5c5b414c2ba2182804458ab412f0aea256d5df1e94b157",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/NavigationComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "navigation-collections",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 3,
       "activeOccurrences": 27,
       "allProjects": 6,
@@ -528,7 +1205,17 @@
       "source": "RadzenSplitButton",
       "target": "OmniSplitButton",
       "phase": 4,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Actions/OmniSplitButton.razor",
+      "targetSha256": "ebad8972bd40d1afd45a1f103aaf58915b74dbbcc063218e8c5f62ab1a2743ae",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/OverlayComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 3,
       "activeOccurrences": 11,
       "allProjects": 6,
@@ -538,7 +1225,20 @@
       "source": "RadzenBreadCrumb",
       "target": "OmniBreadcrumb",
       "phase": 7,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniBreadcrumb.razor",
+      "targetSha256": "cb48f36f073aa4481f5fc75aa845fc175d5e09c53567784f6eabe5f096354a0b",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "navigation-collections",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 3,
       "activeOccurrences": 12,
       "allProjects": 6,
@@ -548,7 +1248,16 @@
       "source": "RadzenSeriesDataLabels",
       "target": "OmniSeriesDataLabels",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniSeriesDataLabels.razor",
+      "targetSha256": "ab5f31b3953c6c5d26f47ae55fb59d4e544523528ac382fe1f441f213def742a",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 3,
       "activeOccurrences": 13,
       "allProjects": 3,
@@ -558,7 +1267,16 @@
       "source": "RadzenPieSeries",
       "target": "OmniPieSeries",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniPieSeries.razor",
+      "targetSha256": "60675f16b9beef439f08bed4dca0c7ae93a21d3856a6cb1c7f9c95f9a96ba295",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 3,
       "activeOccurrences": 5,
       "allProjects": 5,
@@ -568,7 +1286,16 @@
       "source": "RadzenColumnSeries",
       "target": "OmniColumnSeries",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniColumnSeries.razor",
+      "targetSha256": "7bc0a963cfc3a887b81d179850733f2cc8d12744d073f33eabb6dc8aa51d4bb8",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 3,
       "activeOccurrences": 4,
       "allProjects": 5,
@@ -578,7 +1305,20 @@
       "source": "RadzenTree",
       "target": "OmniTree",
       "phase": 8,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Data/OmniTree.razor",
+      "targetSha256": "6f5f0851e14fc0a412107ac84ae84464188230f4adbffe4dde66193d1fb2ebee",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/TreeTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "navigation-collections",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 3,
       "activeOccurrences": 5,
       "allProjects": 4,
@@ -588,7 +1328,16 @@
       "source": "RadzenAreaSeries",
       "target": "OmniAreaSeries",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniAreaSeries.razor",
+      "targetSha256": "e6451b75ab51e849be1e862059f7005f8e23d99d1f04dcebac6752304772b61e",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 3,
       "activeOccurrences": 5,
       "allProjects": 3,
@@ -598,7 +1347,16 @@
       "source": "RadzenBarSeries",
       "target": "OmniBarSeries",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniBarSeries.razor",
+      "targetSha256": "e69bf2b2ace33f6028ffc8f73ef4d07090e7b97ef680460c66a6463aedf010e2",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 3,
       "activeOccurrences": 4,
       "allProjects": 3,
@@ -608,7 +1366,35 @@
       "source": "RadzenComponents",
       "target": "OmniComponentsHost",
       "phase": 4,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Overlays/OmniComponentsHost.razor",
+      "targetSha256": "0f54adf916bdb5343c003acc1fb11f6241b871159b3ed83d352a9b9e619dbc73",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/OverlayComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/OverlayPortalTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "host-shell",
+          "evidence": "illustrated"
+        },
+        "browser": [
+          {
+            "id": "catalog-critical-interactions",
+            "host": "Server catalog",
+            "script": "eng/Test-CatalogProbe.mjs",
+            "assertions": [
+              "five catalog families",
+              "dialog opens and owns focus",
+              "dialog closes",
+              "notification live role",
+              "zero browser console errors",
+              "zero client CSP violations"
+            ]
+          }
+        ]
+      },
       "activeProjects": 3,
       "activeOccurrences": 3,
       "allProjects": 4,
@@ -618,7 +1404,20 @@
       "source": "RadzenDataList",
       "target": "OmniDataList",
       "phase": 8,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Data/OmniDataList.razor",
+      "targetSha256": "6a508c23b7d90947d922c9daa801f9d2d10d934c6c1b5971865846450b3ef313",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/CollectionComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": {
+          "scenario": "navigation-collections",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 2,
       "activeOccurrences": 67,
       "allProjects": 4,
@@ -628,7 +1427,16 @@
       "source": "RadzenAxisTitle",
       "target": "OmniAxisTitle",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniAxisTitle.razor",
+      "targetSha256": "ce5bb0efc7b9ad3d280996e5a01f5dcd6949816430f8746c16013867a20f6aa3",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 2,
       "activeOccurrences": 8,
       "allProjects": 4,
@@ -638,7 +1446,16 @@
       "source": "RadzenStepsItem",
       "target": "OmniStepsItem",
       "phase": 7,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniStepsItem.razor",
+      "targetSha256": "8408b7098871bda1560881d78632a9d6958cf8e00d9d5b3da8e6514968aea41e",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 2,
       "activeOccurrences": 5,
       "allProjects": 5,
@@ -648,7 +1465,20 @@
       "source": "RadzenTreeItem",
       "target": "OmniTreeItem",
       "phase": 8,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Data/OmniTreeItem.razor",
+      "targetSha256": "16b31fb3396cc6a8ae9ab4761a8b71dcc9aac14ad064baa5a3db30cdc1223134",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/TreeControlledTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/TreeTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "navigation-collections",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 2,
       "activeOccurrences": 6,
       "allProjects": 3,
@@ -658,7 +1488,17 @@
       "source": "RadzenSteps",
       "target": "OmniSteps",
       "phase": 7,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniSteps.razor",
+      "targetSha256": "7faeb11411cb13d0a092dd4aac98f2e883d684b1383545534acf4f2cb0ac2425",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 2,
       "activeOccurrences": 3,
       "allProjects": 5,
@@ -668,7 +1508,20 @@
       "source": "RadzenSlider",
       "target": "OmniSlider",
       "phase": 6,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Selection/OmniSlider.razor",
+      "targetSha256": "18e4ac77e9fbc7caf84c668141c3021cc2daa64d92babccbdd0b751fbadcef74",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/SelectionComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/SelectionTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "forms-selection",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 2,
       "activeOccurrences": 6,
       "allProjects": 2,
@@ -678,7 +1531,17 @@
       "source": "RadzenChartTooltipOptions",
       "target": "OmniChartTooltipOptions",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniChartTooltipOptions.razor",
+      "targetSha256": "37b6eb1770856d89e10fa09cc0f2131fb99e6fc9762df54aa645703dc56f493e",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 2,
       "activeOccurrences": 4,
       "allProjects": 2,
@@ -688,7 +1551,17 @@
       "source": "RadzenPager",
       "target": "OmniPager",
       "phase": 8,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Data/OmniPager.razor",
+      "targetSha256": "2cc01cf79be24729269eafb05f3aafef42f6724744cf5f351ab34a1682068664",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/CollectionComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 2,
       "activeOccurrences": 3,
       "allProjects": 3,
@@ -698,7 +1571,14 @@
       "source": "RadzenRadioButtonListItem",
       "target": "OmniRadioButtonListItem",
       "phase": 6,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Selection/OmniRadioButtonListItem.razor",
+      "targetSha256": "0c37737633146122a5b0c69d8eb3837e415b423b8e0af4ad862eeacc6e63d85c",
+      "evidence": {
+        "testReferences": [],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 2,
       "activeOccurrences": 4,
       "allProjects": 2,
@@ -708,7 +1588,19 @@
       "source": "RadzenColorPicker",
       "target": "OmniColorPicker",
       "phase": 6,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Selection/OmniColorPicker.razor",
+      "targetSha256": "24896c2f86fdc921e7613025252baf34b1c6c997d70e4446f45ba4a1a140935a",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/SelectionTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "forms-selection",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 2,
       "activeOccurrences": 3,
       "allProjects": 2,
@@ -718,7 +1610,16 @@
       "source": "RadzenRadioButtonList",
       "target": "OmniRadioButtonList",
       "phase": 6,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Selection/OmniRadioButtonList.razor",
+      "targetSha256": "952222efbb9ccdeda86da3bc0bad5d7b269c2a30ffe2c795f629238597fe8aa0",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/SelectionTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 2,
       "activeOccurrences": 2,
       "allProjects": 3,
@@ -728,7 +1629,14 @@
       "source": "RadzenTreeLevel",
       "target": "OmniTreeLevel",
       "phase": 8,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Data/OmniTreeLevel.razor",
+      "targetSha256": "dd00bb1388e46be60457fae3a499119c069103ee442a9561068993201f13d355",
+      "evidence": {
+        "testReferences": [],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 2,
       "activeOccurrences": 3,
       "allProjects": 2,
@@ -738,7 +1646,17 @@
       "source": "RadzenAppearanceToggle",
       "target": "OmniAppearanceToggle",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Actions/OmniAppearanceToggle.razor",
+      "targetSha256": "df83f27248aee3b17925e4a1e36a3b713f8832fff846d56599fc27a5682d398f",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/InteractionComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 2,
       "activeOccurrences": 2,
       "allProjects": 2,
@@ -748,7 +1666,16 @@
       "source": "RadzenStackedAreaSeries",
       "target": "OmniStackedAreaSeries",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniStackedAreaSeries.razor",
+      "targetSha256": "07522358522179cc452533cd917975b9a3c2b4cdbba9dbd1cb3c22fb64683944",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 2,
       "activeOccurrences": 2,
       "allProjects": 2,
@@ -758,7 +1685,16 @@
       "source": "RadzenTheme",
       "target": "OmniThemeScope",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Layout/OmniThemeScope.razor",
+      "targetSha256": "85f066633bbedb24db2e73f4f52810930e5ea34abff3fdaa979dd8ddba53f4b6",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/InteractionComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 2,
       "activeOccurrences": 2,
       "allProjects": 2,
@@ -768,7 +1704,19 @@
       "source": "RadzenSkeleton",
       "target": "OmniSkeleton",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Feedback/OmniSkeleton.razor",
+      "targetSha256": "22a582caa9d8441bc4868c8f2e33e887a8c3a523593783a04f17cca5118518ee",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs"
+        ],
+        "catalog": {
+          "scenario": "foundations",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 20,
       "allProjects": 2,
@@ -778,7 +1726,22 @@
       "source": "RadzenHtmlEditorCustomTool",
       "target": "OmniHtmlEditor",
       "phase": 12,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Editor/OmniHtmlEditor.razor",
+      "targetSha256": "bddff163accc65d533ed5718ab4a6d317e7a4491d64954436f351543ed3024db",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": {
+          "scenario": "time-content",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 28,
       "allProjects": 1,
@@ -788,7 +1751,22 @@
       "source": "RadzenHtmlEditorSeparator",
       "target": "OmniHtmlEditor",
       "phase": 12,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Editor/OmniHtmlEditor.razor",
+      "targetSha256": "bddff163accc65d533ed5718ab4a6d317e7a4491d64954436f351543ed3024db",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": {
+          "scenario": "time-content",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 11,
       "allProjects": 1,
@@ -798,7 +1776,17 @@
       "source": "RadzenArcGaugeScaleValue",
       "target": "OmniArcGaugeScaleValue",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniArcGaugeScaleValue.razor",
+      "targetSha256": "411a49837f86b5c2bc0896b7d6f18eb328cd7153bd98a9f98b7caa817ab1b837",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 4,
       "allProjects": 2,
@@ -808,7 +1796,16 @@
       "source": "RadzenTimelineItem",
       "target": "OmniTimelineItem",
       "phase": 11,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Scheduling/OmniTimelineItem.razor",
+      "targetSha256": "9128f12e633ce9bd4da1146b3cb21a60bde7c48d6982a411769cfd72da4087d5",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/SchedulerComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 2,
       "allProjects": 2,
@@ -818,7 +1815,22 @@
       "source": "RadzenHtmlEditor",
       "target": "OmniHtmlEditor",
       "phase": 12,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Editor/OmniHtmlEditor.razor",
+      "targetSha256": "bddff163accc65d533ed5718ab4a6d317e7a4491d64954436f351543ed3024db",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": {
+          "scenario": "time-content",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 2,
       "allProjects": 4,
@@ -828,7 +1840,17 @@
       "source": "RadzenTimeline",
       "target": "OmniTimeline",
       "phase": 11,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Scheduling/OmniTimeline.razor",
+      "targetSha256": "9ecf8c0ab90d345eacc2611c5d11abcb073b3c616afa81603808c95027a6c675",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/SchedulerComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 2,
       "allProjects": 2,
@@ -838,7 +1860,17 @@
       "source": "RadzenArcGauge",
       "target": "OmniArcGauge",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniArcGauge.razor",
+      "targetSha256": "2b9edeb96bf98f1d2d61c1d24aa7e6818dca9447f17c955915c9882d0c468d81",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 2,
       "allProjects": 2,
@@ -848,7 +1880,16 @@
       "source": "RadzenArcGaugeScale",
       "target": "OmniArcGaugeScale",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniArcGaugeScale.razor",
+      "targetSha256": "b5e7949a7beeb9e1915cccc72f30cc559a3988ac57e93af8aba4c82f9aa8d3a2",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 2,
       "allProjects": 2,
@@ -858,7 +1899,17 @@
       "source": "RadzenProfileMenuItem",
       "target": "OmniProfileMenuItem",
       "phase": 7,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniProfileMenuItem.razor",
+      "targetSha256": "813f0ed10df6f1d464787761ef349762f5369156af14de7f932db67d28283222",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/NavigationComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 2,
@@ -868,7 +1919,16 @@
       "source": "RadzenLengthValidator",
       "target": "OmniLengthValidator",
       "phase": 5,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Forms/OmniLengthValidator.razor",
+      "targetSha256": "f9d746b4d05f947e9acf5cbbaed851dcb42f7c7d157abec2a6be96b5040ae4ba",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FormTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 3,
@@ -878,7 +1938,20 @@
       "source": "RadzenScheduler",
       "target": "OmniScheduler",
       "phase": 11,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Scheduling/OmniScheduler.razor",
+      "targetSha256": "e895da3ebdb6f808d708413a6b09b27d108b22fd8d85673b3e931baba1c4484b",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/SchedulerComponentTests.cs"
+        ],
+        "catalog": {
+          "scenario": "time-content",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 3,
@@ -888,7 +1961,19 @@
       "source": "RadzenToggleButton",
       "target": "OmniToggleButton",
       "phase": 4,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Actions/OmniToggleButton.razor",
+      "targetSha256": "0e4519464c2675a76cc34e2719c970ca877e09e0ef0f68cdd60378463d524683",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/OverlayComponentTests.cs"
+        ],
+        "catalog": {
+          "scenario": "foundations",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 2,
       "allProjects": 2,
@@ -898,7 +1983,16 @@
       "source": "RadzenWeekView",
       "target": "OmniWeekView",
       "phase": 11,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Scheduling/OmniWeekView.razor",
+      "targetSha256": "1906180a1c9849f635c7567df0b67fa2b0266cbdaa29fc681de440c67f58ff08",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 3,
@@ -908,7 +2002,17 @@
       "source": "RadzenProfileMenu",
       "target": "OmniProfileMenu",
       "phase": 7,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniProfileMenu.razor",
+      "targetSha256": "8db6e5a539be7f0253acc02f9ad7319317961c9443d6cae153734581e5e41f6a",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 2,
@@ -918,7 +2022,16 @@
       "source": "RadzenStackedColumnSeries",
       "target": "OmniStackedColumnSeries",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniStackedColumnSeries.razor",
+      "targetSha256": "8e81e20d11e609145b6b49914eb7ea3b74e03e2626f060672c326db335a5b033",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartProjectionTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 2,
       "allProjects": 1,
@@ -928,7 +2041,20 @@
       "source": "RadzenAutoComplete",
       "target": "OmniAutocomplete",
       "phase": 6,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Selection/OmniAutocomplete.razor",
+      "targetSha256": "5a29f316554b097292a7dc8eafcc7018412149209109b1071bcc77849a056eac",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/SelectionComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/SelectionTestHost.razor"
+        ],
+        "catalog": {
+          "scenario": "forms-selection",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 1,
@@ -938,7 +2064,16 @@
       "source": "RadzenBarOptions",
       "target": "OmniBarOptions",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniBarOptions.razor",
+      "targetSha256": "c32bdfe301a84c1e1086c5ee4fbe733f0eeb865fa5249647f9e4ef84bebd5e47",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 1,
@@ -948,7 +2083,16 @@
       "source": "RadzenCheckBoxList",
       "target": "OmniCheckBoxList",
       "phase": 6,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Selection/OmniCheckBoxList.razor",
+      "targetSha256": "4e01be22c35c8d377fc79e41cd52f25c6896e5d8d298aac48298979dd57d20f1",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/SelectionTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 1,
@@ -958,7 +2102,22 @@
       "source": "RadzenHtmlEditorBold",
       "target": "OmniHtmlEditor",
       "phase": 12,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Editor/OmniHtmlEditor.razor",
+      "targetSha256": "bddff163accc65d533ed5718ab4a6d317e7a4491d64954436f351543ed3024db",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": {
+          "scenario": "time-content",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 1,
@@ -968,7 +2127,22 @@
       "source": "RadzenHtmlEditorIndent",
       "target": "OmniHtmlEditor",
       "phase": 12,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Editor/OmniHtmlEditor.razor",
+      "targetSha256": "bddff163accc65d533ed5718ab4a6d317e7a4491d64954436f351543ed3024db",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": {
+          "scenario": "time-content",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 1,
@@ -978,7 +2152,22 @@
       "source": "RadzenHtmlEditorItalic",
       "target": "OmniHtmlEditor",
       "phase": 12,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Editor/OmniHtmlEditor.razor",
+      "targetSha256": "bddff163accc65d533ed5718ab4a6d317e7a4491d64954436f351543ed3024db",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": {
+          "scenario": "time-content",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 1,
@@ -988,7 +2177,22 @@
       "source": "RadzenHtmlEditorOutdent",
       "target": "OmniHtmlEditor",
       "phase": 12,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Editor/OmniHtmlEditor.razor",
+      "targetSha256": "bddff163accc65d533ed5718ab4a6d317e7a4491d64954436f351543ed3024db",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": {
+          "scenario": "time-content",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 1,
@@ -998,7 +2202,22 @@
       "source": "RadzenHtmlEditorRedo",
       "target": "OmniHtmlEditor",
       "phase": 12,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Editor/OmniHtmlEditor.razor",
+      "targetSha256": "bddff163accc65d533ed5718ab4a6d317e7a4491d64954436f351543ed3024db",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": {
+          "scenario": "time-content",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 1,
@@ -1008,7 +2227,22 @@
       "source": "RadzenHtmlEditorSubscript",
       "target": "OmniHtmlEditor",
       "phase": 12,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Editor/OmniHtmlEditor.razor",
+      "targetSha256": "bddff163accc65d533ed5718ab4a6d317e7a4491d64954436f351543ed3024db",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": {
+          "scenario": "time-content",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 1,
@@ -1018,7 +2252,22 @@
       "source": "RadzenHtmlEditorSuperscript",
       "target": "OmniHtmlEditor",
       "phase": 12,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Editor/OmniHtmlEditor.razor",
+      "targetSha256": "bddff163accc65d533ed5718ab4a6d317e7a4491d64954436f351543ed3024db",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": {
+          "scenario": "time-content",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 1,
@@ -1028,7 +2277,22 @@
       "source": "RadzenHtmlEditorUndo",
       "target": "OmniHtmlEditor",
       "phase": 12,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Editor/OmniHtmlEditor.razor",
+      "targetSha256": "bddff163accc65d533ed5718ab4a6d317e7a4491d64954436f351543ed3024db",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/HtmlEditorTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": {
+          "scenario": "time-content",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 1,
@@ -1038,7 +2302,16 @@
       "source": "RadzenImage",
       "target": "OmniImage",
       "phase": 3,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Feedback/OmniImage.razor",
+      "targetSha256": "01d625d7af07c2b7e927c30f2b8a27234a053748f43f6f206f93b80895cd9300",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 1,
@@ -1048,7 +2321,20 @@
       "source": "RadzenUpload",
       "target": "OmniUpload",
       "phase": 6,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Selection/OmniUpload.razor",
+      "targetSha256": "61611fdba5873345b477ec69992ceaa1e79ca38c5fa1bebefb96e144796b36a3",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/SelectionComponentTests.cs"
+        ],
+        "catalog": {
+          "scenario": "forms-selection",
+          "evidence": "illustrated"
+        },
+        "browser": []
+      },
       "activeProjects": 1,
       "activeOccurrences": 1,
       "allProjects": 1,
@@ -1058,7 +2344,16 @@
       "source": "RadzenEmailValidator",
       "target": "OmniEmailValidator",
       "phase": 5,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Forms/OmniEmailValidator.razor",
+      "targetSha256": "f9d746b4d05f947e9acf5cbbaed851dcb42f7c7d157abec2a6be96b5040ae4ba",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FormTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 0,
       "activeOccurrences": 0,
       "allProjects": 2,
@@ -1068,7 +2363,16 @@
       "source": "RadzenDayView",
       "target": "OmniDayView",
       "phase": 11,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Scheduling/OmniDayView.razor",
+      "targetSha256": "d37e8fac3970769d8158e781cd9da8c59d7881af224dd63905113c94ba3e185d",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 0,
       "activeOccurrences": 0,
       "allProjects": 2,
@@ -1078,7 +2382,17 @@
       "source": "RadzenMonthView",
       "target": "OmniMonthView",
       "phase": 11,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Scheduling/OmniMonthView.razor",
+      "targetSha256": "b3a6024276e26431e4d461772435522a4e607fb998d7b7fb6cbea19d13b50327",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
+          "tests/OmniEurope.Blazor.Tests/SchedulerComponentTests.cs"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 0,
       "activeOccurrences": 0,
       "allProjects": 2,
@@ -1088,7 +2402,17 @@
       "source": "RadzenCompareValidator",
       "target": "OmniCompareValidator",
       "phase": 5,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Forms/OmniCompareValidator.razor",
+      "targetSha256": "645748f40c48cb8159ba5e6bb81f666ee0ecfee233b59da1c3c2f87632f9438b",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/FormTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/ValidatorLifecycleTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 0,
       "activeOccurrences": 0,
       "allProjects": 1,
@@ -1098,7 +2422,16 @@
       "source": "RadzenDonutSeries",
       "target": "OmniDonutSeries",
       "phase": 10,
-      "status": "implemented",
+      "status": "target-present",
+      "targetFile": "src/OmniEurope.Blazor/Components/Charts/OmniDonutSeries.razor",
+      "targetSha256": "e32b6f4ec989eb7e5bfb3173001d71bdcc2bdf620638b0a36de3d47d660264f8",
+      "evidence": {
+        "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/ChartTestHost.razor"
+        ],
+        "catalog": null,
+        "browser": []
+      },
       "activeProjects": 0,
       "activeOccurrences": 0,
       "allProjects": 1,

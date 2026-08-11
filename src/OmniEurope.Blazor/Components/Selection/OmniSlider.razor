@@ -1,0 +1,25 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniInputBase<double>
+
+<div class="@InputCss("omni-slider", Vertical ? "omni-slider--vertical" : null)">
+    <input @attributes="AdditionalAttributes"
+           id="@Id"
+           class="omni-slider__input"
+           type="range"
+           min="@Format(Minimum)"
+           max="@Format(Maximum)"
+           step="@Format(Step)"
+           value="@Format(CurrentValue)"
+           disabled="@Disabled"
+           aria-orientation="@OrientationText"
+           aria-valuemin="@Format(Minimum)"
+           aria-valuemax="@Format(Maximum)"
+           aria-valuenow="@Format(CurrentValue)"
+           aria-valuetext="@ValueText"
+           aria-describedby="@AriaDescribedBy"
+           @oninput="HandleInput" />
+    @if (ShowValue)
+    {
+        <output for="@Id" class="omni-slider__value">@ValueText</output>
+    }
+</div>

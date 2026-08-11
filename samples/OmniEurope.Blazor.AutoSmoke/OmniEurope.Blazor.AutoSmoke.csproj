@@ -1,10 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
+    <EnforceRazorCodeBehind>true</EnforceRazorCodeBehind>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
     <ProjectReference Include="../OmniEurope.Blazor.AutoSmoke.Client/OmniEurope.Blazor.AutoSmoke.Client.csproj" />
+    <ProjectReference Include="../../src/OmniEurope.Blazor/OmniEurope.Blazor.csproj" />
   </ItemGroup>
 </Project>

@@ -34,22 +34,28 @@ public sealed class HtmlEditorComponentTests : BunitContext
     }
 
     [Fact]
-    public void Editor_AppliesCommandsAndSupportsDeterministicUndoRedo()
+    public void Editor_AdoptsMockedInteropResultsAndSupportsDeterministicUndoRedo()
     {
+        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omniInterop.js");
+        var selection = JsonDocument.Parse("""{"value":"<p><strong>Bonjour</strong></p>","selectionStart":11,"selectionEnd":18}""").RootElement.Clone();
+        module.Setup<JsonElement>("wrapTextSelection", _ => true).SetResult(selection);
+        module.SetupVoid("restoreTextSelection", _ => true);
         var editor = Render<HtmlEditorTestHost>();
 
         editor.Find("button[aria-label=Gras]").Click();
-        Assert.Equal("<strong><p>Bonjour</p></strong>", editor.Instance.Model.Html);
+        Assert.Equal("<p><strong>Bonjour</strong></p>", editor.Instance.Model.Html);
 
         editor.Find("button[aria-label=Annuler]").Click();
         Assert.Equal("<p>Bonjour</p>", editor.Instance.Model.Html);
 
         editor.Find("button[aria-label=Rétablir]").Click();
-        Assert.Equal("<strong><p>Bonjour</p></strong>", editor.Instance.Model.Html);
+        Assert.Equal("<p><strong>Bonjour</strong></p>", editor.Instance.Model.Html);
 
         editor.Find("button[aria-label=Titre]").Click();
         Assert.StartsWith("<h2>", editor.Instance.Model.Html, StringComparison.Ordinal);
         Assert.Equal("toolbar", editor.Find(".omni-html-editor__toolbar").GetAttribute("role"));
+        Assert.Single(module.Invocations["wrapTextSelection"]);
+        Assert.Single(module.Invocations["restoreTextSelection"]);
     }
 
     [Fact]
@@ -78,11 +84,37 @@ public sealed class HtmlEditorComponentTests : BunitContext
         Assert.Contains("rel=\"noopener noreferrer\"", canonical, StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void Editor_DisabledBlocksEveryToolbarAndInputMutation()
+    {
+        var value = "<p>Bonjour</p>";
+        var editor = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueChanged, updated => value = updated)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Disabled, true)
+            .Add(component => component.CustomTools,
+                [new OmniHtmlEditorTool("heading", "Titre", current => $"<h2>{current}</h2>")]));
+
+        Assert.All(editor.FindAll("button"), button => Assert.True(button.HasAttribute("disabled")));
+        Assert.True(editor.Find("textarea").HasAttribute("disabled"));
+
+        editor.Find("button[aria-label=Titre]").Click();
+        editor.Find("textarea").Input("<p>Changed</p>");
+
+        Assert.Equal("<p>Bonjour</p>", value);
+        Assert.Empty(JSInterop.Invocations);
+    }
+
     [Theory]
     [InlineData("<SCRIPT SRC=//evil.test/x.js></SCRIPT><p>Sain</p>")]
     [InlineData("<a href=\"&#x6a;avascript:alert(1)\">Lien</a>")]
     [InlineData("<svg><script>alert(1)</script></svg><strong>Sain</strong>")]
     [InlineData("<!-- <img src=x onerror=alert(1)> --><em>Sain</em>")]
+    [InlineData("<a href=\"java&#x0D;script:alert(1)\">Lien</a>")]
+    [InlineData("<math><mtext><table><mglyph><style><!--</style><img title=\"--><img src=x onerror=alert(1)>\">")]
+    [InlineData("<svg><g/onload=alert(1)//<p>Sain</p>")]
+    [InlineData("<<script>alert(1)//<</script><p>Sain</p>")]
     public void Editor_RejectsAdditionalXssVectors(string payload)
     {
         var editor = Render<HtmlEditorTestHost>();

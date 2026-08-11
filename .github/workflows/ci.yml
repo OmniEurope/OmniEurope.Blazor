@@ -13,8 +13,8 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
         with:
           global-json-file: global.json
       - name: Restore
@@ -28,16 +28,36 @@ jobs:
         run: ./eng/Test-CatalogHost.ps1
       - name: Publish WebAssembly smoke host
         run: dotnet publish samples/OmniEurope.Blazor.WasmSmoke/OmniEurope.Blazor.WasmSmoke.csproj --configuration Release --no-restore --output artifacts/wasm-smoke
+      - name: WebAssembly deployment headers
+        shell: pwsh
+        run: ./eng/Test-WasmHeaders.ps1
+      - name: WebAssembly browser smoke test
+        shell: pwsh
+        run: ./eng/Test-WasmHost.ps1
       - name: Publish Interactive Auto smoke host
         run: dotnet publish samples/OmniEurope.Blazor.AutoSmoke/OmniEurope.Blazor.AutoSmoke.csproj --configuration Release --no-restore --output artifacts/auto-smoke
       - name: Interactive Auto smoke test
         shell: pwsh
         run: ./eng/Test-AutoHost.ps1
-      - name: Test
-        run: dotnet test OmniEurope.Blazor.slnx --configuration Release --no-build
+      - name: Unit tests and coverage
+        run: dotnet test tests/OmniEurope.Blazor.Tests/OmniEurope.Blazor.Tests.csproj --configuration Release --no-build --collect:"XPlat Code Coverage" --logger "trx;LogFileName=tests.trx" --results-directory artifacts/coverage
+      - name: Verify coverage artifact
+        shell: pwsh
+        run: ./eng/Test-Coverage.ps1 -CoverageRoot artifacts/coverage
+      - name: Dependency and action policy
+        shell: pwsh
+        run: ./eng/Test-DependencyPolicy.ps1
+      - name: SBOM and license registry
+        shell: pwsh
+        run: |
+          ./eng/Generate-Sbom.ps1
+          ./eng/Test-Sbom.ps1
+          git diff --exit-code -- NOTICE.md docs/sbom.cdx.json docs/third-party-packages.json docs/third-party-licenses
       - name: CSP source guard
         shell: pwsh
-        run: ./eng/Test-Csp.ps1
+        run: |
+          ./eng/Test-CspFixtures.ps1
+          ./eng/Test-Csp.ps1
       - name: Coverage registry guard
         shell: pwsh
         run: |
@@ -57,23 +77,43 @@ jobs:
           $package = Get-ChildItem artifacts/packages/*.nupkg | Where-Object Name -NotLike '*.snupkg' | Select-Object -First 1
           $symbols = Get-ChildItem artifacts/packages/*.snupkg | Select-Object -First 1
           ./eng/Test-Package.ps1 -PackagePath $package.FullName -SymbolPackagePath $symbols.FullName
+          ./eng/Test-PackageFixtures.ps1 -PackagePath $package.FullName
           ./eng/Test-Budgets.ps1 -PackagePath $package.FullName
-      - uses: actions/upload-artifact@v4
+      - name: Record validated package provenance
+        shell: pwsh
+        run: |
+          ./eng/New-PackageProvenance.ps1 -PackageDirectory artifacts/packages -Repository $env:GITHUB_REPOSITORY -Commit $env:GITHUB_SHA -RunId $env:GITHUB_RUN_ID -RunAttempt $env:GITHUB_RUN_ATTEMPT
+          ./eng/Test-PackageProvenance.ps1 -PackageDirectory artifacts/packages -ExpectedCommit $env:GITHUB_SHA -ExpectedRepository $env:GITHUB_REPOSITORY -ExpectedRunId $env:GITHUB_RUN_ID -ExpectedRunAttempt $env:GITHUB_RUN_ATTEMPT
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: nuget-package
-          path: artifacts/packages/*.*nupkg
+          path: artifacts/packages
 
   hybrid-smoke:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
         with:
           global-json-file: global.json
+      - name: Record exact SDK and workload mode
+        run: |
+          dotnet --version
+          dotnet workload config --update-mode
       - name: Install MAUI Windows workload
         run: dotnet workload install maui-windows
+      - name: Verify exact SDK and workload set
+        shell: pwsh
+        run: |
+          $sdkVersion = dotnet --version
+          if ($sdkVersion -ne '10.0.302') { throw "Unexpected SDK version: $sdkVersion" }
+          $workloadVersion = dotnet workload --version
+          if ($workloadVersion -ne '10.0.302') { throw "Unexpected workload set: $workloadVersion" }
       - name: Restore Hybrid smoke host
         run: dotnet restore samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --locked-mode
       - name: Build Hybrid smoke host
         run: dotnet build samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --configuration Release --no-restore
+      - name: Hybrid WebView2 smoke test
+        shell: pwsh
+        run: ./eng/Test-HybridHost.ps1
 

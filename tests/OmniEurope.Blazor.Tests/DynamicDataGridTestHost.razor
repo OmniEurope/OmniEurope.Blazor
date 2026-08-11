@@ -1,0 +1,9 @@
+<OmniDataGrid TItem="DynamicDataGridRow" Load="LoadAsync">
+    <Columns>
+        @if (ShowNameColumn)
+        {
+            <OmniDataGridColumn TItem="DynamicDataGridRow" Key="name" Title="Nom" Value="row => row.Name" Filterable="true" Sortable="true" />
+        }
+        <OmniDataGridColumn TItem="DynamicDataGridRow" Key="age" Title="Âge" Value="row => row.Age" />
+    </Columns>
+</OmniDataGrid>

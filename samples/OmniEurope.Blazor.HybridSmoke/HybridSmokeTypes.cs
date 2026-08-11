@@ -3,9 +3,9 @@ using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.HybridSmoke;
 
-public static class HybridSmokeTypes
+internal static class HybridSmokeTypes
 {
-    public static IReadOnlyList<Type> RequiredTypes { get; } =
+    internal static IReadOnlyList<Type> RequiredTypes { get; } =
     [
         typeof(BlazorWebView),
         typeof(OmniButton)

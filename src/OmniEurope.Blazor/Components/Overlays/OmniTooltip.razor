@@ -1,0 +1,7 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<span @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tooltip")">
+    <span class="omni-tooltip__trigger" tabindex="@TabIndex" aria-describedby="@TooltipId">@ChildContent</span>
+    <span id="@TooltipId" class="omni-tooltip__content" role="tooltip">@Text</span>
+</span>

@@ -1,0 +1,1751 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": "packages.lock.json",
+  "packages": [
+    {
+      "id": "AngleSharp",
+      "version": "1.6.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.Catalog/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "AngleSharp.Css",
+      "version": "1.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.Catalog/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "AngleSharp.Diffing",
+      "version": "1.1.1",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "bunit",
+      "version": "2.8.6",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "coverlet.collector",
+      "version": "10.0.1",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "HtmlSanitizer",
+      "version": "9.1.973",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.Catalog/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.ApplicationInsights",
+      "version": "2.23.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.AspNetCore.App.Internal.Assets",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.Catalog/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.AspNetCore.Authorization",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.AspNetCore.Components",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.AspNetCore.Components.Analyzers",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.AspNetCore.Components.Authorization",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.AspNetCore.Components.Forms",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.AspNetCore.Components.Web",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.AspNetCore.Components.WebAssembly",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.AspNetCore.Components.WebAssembly.Authentication",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.AspNetCore.Components.WebAssembly.DevServer",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.AspNetCore.Components.WebAssembly.Server",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.AspNetCore.Components.WebView",
+      "version": "10.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.AspNetCore.Components.WebView.Maui",
+      "version": "10.0.90",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.AspNetCore.Metadata",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Bcl.AsyncInterfaces",
+      "version": "6.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.CodeAnalysis.Analyzers",
+      "version": "3.3.4",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.CodeAnalysis.Common",
+      "version": "4.12.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.CodeAnalysis.CSharp",
+      "version": "4.12.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.CodeCoverage",
+      "version": "18.8.1",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Caching.Abstractions",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Caching.Memory",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Configuration",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Configuration.Abstractions",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Configuration.Binder",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Configuration.FileExtensions",
+      "version": "10.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Configuration.FileExtensions",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Configuration.Json",
+      "version": "10.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Configuration.Json",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.DependencyInjection",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.DependencyInjection.Abstractions",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Diagnostics",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Diagnostics.Abstractions",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.FileProviders.Abstractions",
+      "version": "10.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.FileProviders.Abstractions",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.FileProviders.Composite",
+      "version": "10.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.FileProviders.Embedded",
+      "version": "10.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.FileProviders.Physical",
+      "version": "10.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.FileProviders.Physical",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.FileSystemGlobbing",
+      "version": "10.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.FileSystemGlobbing",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Hosting.Abstractions",
+      "version": "10.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Localization",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Localization.Abstractions",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Logging",
+      "version": "10.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Logging",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Logging.Abstractions",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Options",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Options.ConfigurationExtensions",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Primitives",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Extensions.Validation",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Graphics.Win2D",
+      "version": "1.3.2",
+      "license": {
+        "kind": "url",
+        "value": "http://www.microsoft.com/web/webpi/eula/eula_win2d_10012014.htm",
+        "url": "http://www.microsoft.com/web/webpi/eula/eula_win2d_10012014.htm",
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.IO.RecyclableMemoryStream",
+      "version": "3.0.1",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.JSInterop",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.PublicApiGuard/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.JSInterop.WebAssembly",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Maui.Controls",
+      "version": "10.0.90",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Maui.Controls.Build.Tasks",
+      "version": "10.0.90",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Maui.Controls.Core",
+      "version": "10.0.90",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Maui.Controls.Xaml",
+      "version": "10.0.90",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Maui.Core",
+      "version": "10.0.90",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Maui.Essentials",
+      "version": "10.0.90",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Maui.Graphics",
+      "version": "10.0.90",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Maui.Graphics.Win2D.WinUI.Desktop",
+      "version": "10.0.90",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Maui.Resizetizer",
+      "version": "10.0.90",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.NET.ILLink.Tasks",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.NET.Sdk.WebAssembly.Pack",
+      "version": "10.0.10",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.NET.Test.Sdk",
+      "version": "18.8.1",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.NETCore.Platforms",
+      "version": "1.1.0",
+      "license": {
+        "kind": "url",
+        "value": "http://go.microsoft.com/fwlink/?LinkId=329770",
+        "url": "http://go.microsoft.com/fwlink/?LinkId=329770",
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Testing.Extensions.Telemetry",
+      "version": "1.9.1",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Testing.Extensions.TrxReport.Abstractions",
+      "version": "1.9.1",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Testing.Platform",
+      "version": "1.9.1",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Testing.Platform.MSBuild",
+      "version": "1.9.1",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.TestPlatform.ObjectModel",
+      "version": "18.8.1",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.TestPlatform.TestHost",
+      "version": "18.8.1",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Web.WebView2",
+      "version": "1.0.3179.45",
+      "license": {
+        "kind": "file",
+        "value": "LICENSE.txt",
+        "url": null,
+        "localFile": "docs/third-party-licenses/Microsoft.Web.WebView2--1.0.3179.45--LICENSE.txt",
+        "localFileSha256": "0af8f1b807512aae39c2ac1aa4d0cae65cabecb6fd554b8439a5162a0d6eca55"
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Win32.Registry",
+      "version": "5.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Windows.SDK.BuildTools",
+      "version": "10.0.26100.4654",
+      "license": {
+        "kind": "url",
+        "value": "https://aka.ms/WinSDKLicenseURL",
+        "url": "https://aka.ms/WinSDKLicenseURL",
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Windows.SDK.BuildTools.MSIX",
+      "version": "1.7.20250829.1",
+      "license": {
+        "kind": "file",
+        "value": "sdk_license.txt",
+        "url": null,
+        "localFile": "docs/third-party-licenses/Microsoft.Windows.SDK.BuildTools.MSIX--1.7.20250829.1--sdk_license.txt",
+        "localFileSha256": "a7a5c7e7ff998558983d6aca2702117c328aeb0c6404d298cb275f5623c6fd13"
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.WindowsAppSDK",
+      "version": "1.8.260508005",
+      "license": {
+        "kind": "file",
+        "value": "license.txt",
+        "url": null,
+        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK--1.8.260508005--license.txt",
+        "localFileSha256": "5b11e6347756e40fe0274bc08c97f89201b94f0d50181a09a00f1f4740840501"
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.WindowsAppSDK.AI",
+      "version": "1.8.76",
+      "license": {
+        "kind": "file",
+        "value": "license.txt",
+        "url": null,
+        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.AI--1.8.76--license.txt",
+        "localFileSha256": "5b11e6347756e40fe0274bc08c97f89201b94f0d50181a09a00f1f4740840501"
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.WindowsAppSDK.Base",
+      "version": "1.8.251216001",
+      "license": {
+        "kind": "file",
+        "value": "license.txt",
+        "url": null,
+        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.Base--1.8.251216001--license.txt",
+        "localFileSha256": "5b11e6347756e40fe0274bc08c97f89201b94f0d50181a09a00f1f4740840501"
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.WindowsAppSDK.DWrite",
+      "version": "1.8.25122902",
+      "license": {
+        "kind": "file",
+        "value": "license.txt",
+        "url": null,
+        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.DWrite--1.8.25122902--license.txt",
+        "localFileSha256": "f9ed00147604bdc48c7e62d127d73245781ce53903cef9c3863f8a7ef8120cc2"
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.WindowsAppSDK.Foundation",
+      "version": "1.8.260505001",
+      "license": {
+        "kind": "file",
+        "value": "license.txt",
+        "url": null,
+        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.Foundation--1.8.260505001--license.txt",
+        "localFileSha256": "5b11e6347756e40fe0274bc08c97f89201b94f0d50181a09a00f1f4740840501"
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.WindowsAppSDK.InteractiveExperiences",
+      "version": "1.8.260430001",
+      "license": {
+        "kind": "file",
+        "value": "license.txt",
+        "url": null,
+        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.InteractiveExperiences--1.8.260430001--license.txt",
+        "localFileSha256": "5b11e6347756e40fe0274bc08c97f89201b94f0d50181a09a00f1f4740840501"
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.WindowsAppSDK.ML",
+      "version": "1.8.2197",
+      "license": {
+        "kind": "file",
+        "value": "license.txt",
+        "url": null,
+        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.ML--1.8.2197--license.txt",
+        "localFileSha256": "656aab74c15aa9f9964bcdcc993eb2755cbdb4822d5e0e3bc61d2e281897f758"
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.WindowsAppSDK.Runtime",
+      "version": "1.8.260508005",
+      "license": {
+        "kind": "file",
+        "value": "license.txt",
+        "url": null,
+        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.Runtime--1.8.260508005--license.txt",
+        "localFileSha256": "5b11e6347756e40fe0274bc08c97f89201b94f0d50181a09a00f1f4740840501"
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.WindowsAppSDK.Widgets",
+      "version": "1.8.251231004",
+      "license": {
+        "kind": "file",
+        "value": "license.txt",
+        "url": null,
+        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.Widgets--1.8.251231004--license.txt",
+        "localFileSha256": "f9ed00147604bdc48c7e62d127d73245781ce53903cef9c3863f8a7ef8120cc2"
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.WindowsAppSDK.WinUI",
+      "version": "1.8.260505002",
+      "license": {
+        "kind": "file",
+        "value": "license.txt",
+        "url": null,
+        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.WinUI--1.8.260505002--license.txt",
+        "localFileSha256": "5b11e6347756e40fe0274bc08c97f89201b94f0d50181a09a00f1f4740840501"
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "NETStandard.Library",
+      "version": "2.0.3",
+      "license": {
+        "kind": "url",
+        "value": "https://github.com/dotnet/standard/blob/master/LICENSE.TXT",
+        "url": "https://github.com/dotnet/standard/blob/master/LICENSE.TXT",
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Buffers",
+      "version": "4.5.1",
+      "license": {
+        "kind": "url",
+        "value": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT",
+        "url": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT",
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Collections.Immutable",
+      "version": "8.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Memory",
+      "version": "4.5.5",
+      "license": {
+        "kind": "url",
+        "value": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT",
+        "url": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT",
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Numerics.Tensors",
+      "version": "9.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Numerics.Vectors",
+      "version": "4.5.0",
+      "license": {
+        "kind": "url",
+        "value": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT",
+        "url": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT",
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Reflection.Metadata",
+      "version": "8.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Runtime.CompilerServices.Unsafe",
+      "version": "6.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Text.Encoding.CodePages",
+      "version": "7.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Threading.Tasks.Extensions",
+      "version": "4.5.4",
+      "license": {
+        "kind": "url",
+        "value": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT",
+        "url": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT",
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "xunit.analyzers",
+      "version": "1.27.0",
+      "license": {
+        "kind": "expression",
+        "value": "Apache-2.0",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "xunit.runner.visualstudio",
+      "version": "3.1.5",
+      "license": {
+        "kind": "expression",
+        "value": "Apache-2.0",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "xunit.v3",
+      "version": "3.2.2",
+      "license": {
+        "kind": "expression",
+        "value": "Apache-2.0",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "xunit.v3.assert",
+      "version": "3.2.2",
+      "license": {
+        "kind": "expression",
+        "value": "Apache-2.0",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "xunit.v3.common",
+      "version": "3.2.2",
+      "license": {
+        "kind": "expression",
+        "value": "Apache-2.0",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "xunit.v3.core.mtp-v1",
+      "version": "3.2.2",
+      "license": {
+        "kind": "expression",
+        "value": "Apache-2.0",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "xunit.v3.extensibility.core",
+      "version": "3.2.2",
+      "license": {
+        "kind": "expression",
+        "value": "Apache-2.0",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "xunit.v3.mtp-v1",
+      "version": "3.2.2",
+      "license": {
+        "kind": "expression",
+        "value": "Apache-2.0",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "xunit.v3.runner.common",
+      "version": "3.2.2",
+      "license": {
+        "kind": "expression",
+        "value": "Apache-2.0",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "xunit.v3.runner.inproc.console",
+      "version": "3.2.2",
+      "license": {
+        "kind": "expression",
+        "value": "Apache-2.0",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    }
+  ]
+}

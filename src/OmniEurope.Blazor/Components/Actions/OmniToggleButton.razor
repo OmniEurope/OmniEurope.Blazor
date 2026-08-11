@@ -1,0 +1,11 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<button @attributes="AdditionalAttributes"
+        id="@Id"
+        type="button"
+        class="@Css("omni-toggle-button", Value ? "omni-toggle-button--pressed" : null)"
+        aria-pressed="@(Value ? "true" : "false")"
+        disabled="@(Disabled || Busy)"
+        aria-busy="@(Busy ? "true" : "false")"
+        @onclick="ToggleAsync">@ChildContent</button>

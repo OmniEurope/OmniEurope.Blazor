@@ -1,0 +1,13 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@using OmniEurope.Blazor.Internal
+
+<a id="@Id"
+   class="@Css("omni-link")"
+   href="@SafeHref"
+   target="@(NewTab ? "_blank" : null)"
+   rel="@(NewTab ? "noopener noreferrer" : null)"
+   aria-label="@AriaLabel"
+   @attributes="AdditionalAttributes">
+    @ChildContent
+</a>

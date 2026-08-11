@@ -14,13 +14,19 @@ $ErrorActionPreference = 'Stop'
 $repositoryRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $sourceFiles = $SourceRoots | ForEach-Object { Get-ChildItem -LiteralPath (Resolve-Path -LiteralPath $_).Path -Recurse -File } |
     Where-Object {
-        $_.Extension -in '.razor', '.cs', '.js', '.html' -and
+        $_.Extension -in '.razor', '.cs', '.js', '.html', '.css' -and
         $_.FullName -notmatch '(\\|/)(bin|obj)(\\|/)'
     }
 
 $forbidden = @(
     @{ Name = 'inline style attribute'; Pattern = '(?i)\bstyle\s*=' },
     @{ Name = 'runtime style element'; Pattern = '(?i)<style\b|createElement\s*\(\s*["'']style["'']' },
+    @{ Name = 'inline HTML event handler'; Pattern = '(?-i)(?<!@)\bon[a-z][a-z0-9_-]*\s*=' },
+    @{ Name = 'javascript URI'; Pattern = '(?i)(?:href|src)\s*=\s*["'']?\s*javascript\s*:' },
+    @{ Name = 'remote static resource'; Pattern = '(?i)<(?:script|link|img|iframe)\b[^>]*(?:src|href)\s*=\s*["'']\s*https?://' },
+    @{ Name = 'remote module import'; Pattern = '(?im)^\s*import(?:\s+[^;]+?\s+from\s+|\s*\()\s*["'']https?://' },
+    @{ Name = 'remote CSS import'; Pattern = '(?im)@import\s+(?:url\s*\()?\s*["'']?https?://' },
+    @{ Name = 'remote CSS URL'; Pattern = '(?im)url\s*\(\s*["'']?https?://' },
     @{ Name = 'dynamic JavaScript evaluation'; Pattern = '(?i)\beval\s*\(|\bnew\s+Function\s*\(' }
 )
 

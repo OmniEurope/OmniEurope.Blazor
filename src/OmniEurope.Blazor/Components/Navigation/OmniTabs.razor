@@ -1,0 +1,8 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
+
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tabs")" role="tablist" aria-label="@EffectiveLabel" @ref="_root" @onkeydown="HandleKeyDownAsync">
+    <CascadingValue Value="Context">@ChildContent</CascadingValue>
+</div>

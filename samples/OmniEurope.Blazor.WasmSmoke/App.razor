@@ -1,20 +1,10 @@
-<PageTitle>OmniEurope.Blazor WASM smoke test</PageTitle>
+<PageTitle>@Text["PageTitle"]</PageTitle>
 
-<OmniMain>
-    <OmniHeading Level="@OmniHeadingLevel.H1">OmniEurope.Blazor WebAssembly</OmniHeading>
-    <OmniStack Gap="@OmniSpacing.Medium">
-        <OmniAlert Severity="OmniAlertSeverity.Success">La bibliothèque est chargée dans WebAssembly.</OmniAlert>
-        <OmniButton Id="wasm-action" OnClick="Increment">Compteur : @_count</OmniButton>
-        <OmniProgressBar Value="@_count" Maximum="10" Label="Progression du test" />
+<OmniMain Class="wasm-shell">
+    <OmniHeading Level="@OmniHeadingLevel.H1">@Text["Title"]</OmniHeading>
+    <OmniStack Class="wasm-probe" Gap="@OmniSpacing.Medium">
+        <OmniAlert Severity="OmniAlertSeverity.Success">@Text["Loaded"]</OmniAlert>
+        <OmniButton Id="wasm-action" OnClick="IncrementAsync"><OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" /> <span>@Text["Counter", _count]</span></OmniButton>
+        <OmniProgressBar Value="@_count" Maximum="10" Label="@Text["ProgressLabel"]" />
     </OmniStack>
 </OmniMain>
-
-@code {
-    private int _count;
-
-    private Task Increment()
-    {
-        _count = (_count + 1) % 11;
-        return Task.CompletedTask;
-    }
-}

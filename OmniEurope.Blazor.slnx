@@ -5,6 +5,11 @@
   <Folder Name="/tests/">
     <Project Path="tests/OmniEurope.Blazor.Tests/OmniEurope.Blazor.Tests.csproj" />
   </Folder>
+  <Folder Name="/eng/">
+    <Project Path="eng/OmniEurope.Analyzers/OmniEurope.Analyzers.csproj" />
+    <Project Path="eng/OmniEurope.Analyzers.Tests/OmniEurope.Analyzers.Tests.csproj" />
+    <Project Path="eng/OmniEurope.PublicApiGuard/OmniEurope.PublicApiGuard.csproj" />
+  </Folder>
   <Folder Name="/samples/">
     <Project Path="samples/OmniEurope.Blazor.AutoSmoke/OmniEurope.Blazor.AutoSmoke.csproj" />
     <Project Path="samples/OmniEurope.Blazor.AutoSmoke.Client/OmniEurope.Blazor.AutoSmoke.Client.csproj" />

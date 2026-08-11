@@ -1,91 +1,91 @@
 # Inventaire des composants Radzen
 
-Généré le 2026-08-10T11:33:36+02:00 à partir de `C:\Dev`.
+Généré depuis le manifeste versionné ``docs/radzen-corpus.json`` (SHA-256 ``96e87a57f1b14e288c547550383ad726c47d11544e888288e3df4273ceab5474``), daté du 2026-08-11T17:20:14+02:00.
 
-Méthode : balises `Radzen*` réellement présentes dans les fichiers `.razor` ; commentaires Razor et HTML exclus. Les sorties de build, dépendances et dossiers techniques ne sont pas parcourus. Les projets marqués « miroir », « modèle » ou « archivé » n'affectent pas le nombre de projets actifs, mais leurs occurrences participent au tri secondaire actuel.
+Méthode : balises `Radzen*` réellement présentes dans les fichiers `.razor`; commentaires Razor et HTML exclus. Les sorties de build, dépendances et dossiers techniques ne sont pas parcourus. Les projets marqués « miroir », « modèle » ou « archivé » restent visibles mais ne déterminent pas la priorité active.
 
 Résumé : **18 projets actifs avec usages Razor**, **22 projets actifs avec usage ou dépendance**, **105 composants distincts actifs** et **110 composants distincts** sur l'ensemble du parc observé.
 
 ## Projets
 
-| Statut | Projet | Version Radzen | Composants distincts | Occurrences | Fichiers Razor |
-|---|---|---:|---:|---:|---:|
-| actif | `Astraia/Astraia.Front/Astraia.Front.csproj` | 10.4.9 | 77 | 2691 | 124 |
-| actif | `Aetheus/src/Aetheus.Front/Aetheus.Front.csproj` | 11.1.6 | 60 | 5046 | 212 |
-| actif | `Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj` | 10.4.9 | 56 | 3114 | 136 |
-| actif | `Bellwether/Bellwether/Bellwether.csproj` | 10.4.9 | 48 | 763 | 24 |
-| actif | `Astraia/Astraia.Perf/Astraia.Perf.csproj` | 10.4.9 | 41 | 327 | 9 |
-| actif | `Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj` | 10.4.9 | 39 | 727 | 35 |
-| actif | `Orpheus/Orpheus/Orpheus.csproj` | 10.2.0 | 38 | 688 | 25 |
-| actif | `Ats/Ats.Front/Ats.Front.csproj` | 8.4.0 | 34 | 130 | 5 |
-| actif | `Olbios/Olbios.Front/Olbios.Front.csproj` | 10.4.9 | 34 | 130 | 5 |
-| actif | `Phaios/src/Phaios.Web/Phaios.Web.csproj` | 10.4.9 | 34 | 153 | 10 |
-| actif | `Atlas/Atlas/Atlas.csproj` | 11.1.6 | 32 | 389 | 18 |
-| actif | `Portfolio/Portfolio.Editor/Portfolio.Editor.csproj` | 10.4.9 | 26 | 196 | 6 |
-| actif | `Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj` | 10.4.9 | 21 | 77 | 5 |
-| actif | `Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj` | 10.3.2 | 17 | 175 | 12 |
-| actif | `PoeUtils/PoeUtils/PoeUtils.csproj` | 8.0.0 | 17 | 41 | 12 |
-| actif | `Ates/Ates.App/Ates.App.csproj` | usage transitif | 16 | 29 | 2 |
-| actif | `Ates/Ates.Front/Ates.Front.csproj` | usage transitif | 16 | 32 | 3 |
-| actif | `Hyb/Hyb/Hyb.csproj` | 5.6.6 | 1 | 66 | 7 |
-| actif | `Astraia/Tests/Astraia.Front.Tests/Astraia.Front.Tests.csproj` | 10.4.9 | 0 | 0 | 0 |
-| actif | `Pronoia/Pronoia.App/Pronoia.App.csproj` | 10.4.9 | 0 | 0 | 0 |
-| actif | `Pronoia/Pronoia.Front.Tests/Pronoia.Front.Tests.csproj` | 10.4.9 | 0 | 0 | 0 |
-| actif | `Pronoia/Pronoia.Front/Pronoia.Front.csproj` | 10.4.9 | 0 | 0 | 0 |
-| modèle | `_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj` | 10.2.0 | 23 | 40 | 4 |
-| modèle | `_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj` | 10.2.0 | 23 | 44 | 4 |
-| modèle | `_Generic/ExampleServer/ExampleServer/ExampleServer.csproj` | 10.2.0 | 18 | 34 | 3 |
-| archivé | `On hold/Themis/Themis.Front/Themis.Front.csproj` | 9.0.4 | 62 | 1702 | 64 |
-| archivé | `On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj` | 9.0.5 | 52 | 675 | 36 |
-| archivé | `On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj` | 8.6.3 | 36 | 239 | 16 |
-| archivé | `On hold/Syndes/Syndes/Syndes.csproj` | 10.2.0 | 32 | 226 | 7 |
-| archivé | `On hold/AstraiaBackup/Astraia.Front.Tests/Astraia.Front.Tests.csproj` | 9.0.5 | 0 | 0 | 0 |
-| archivé | `On hold/Syndes/Syndes.Tests/Syndes.Tests.csproj` | 10.2.0 | 0 | 0 | 0 |
-| miroir | `_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj` | 11.1.6 | 59 | 4384 | 186 |
+| Statut | Projet | Révision | Empreinte d'entrée | Version Radzen | Composants distincts | Occurrences | Fichiers Razor |
+|---|---|---|---|---:|---:|---:|---:|
+| actif | `Astraia/Astraia.Front/Astraia.Front.csproj` | `unversioned` | `f25d1d39fac2` | 10.4.9 | 77 | 2691 | 124 |
+| actif | `Aetheus/src/Aetheus.Front/Aetheus.Front.csproj` | `c6904e602f08` | `f945c3ee26e5` | 11.1.6 | 60 | 5046 | 212 |
+| actif | `Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj` | `unversioned` | `7cc4f8c1ba4d` | 10.4.9 | 56 | 3135 | 136 |
+| actif | `Bellwether/Bellwether/Bellwether.csproj` | `unversioned` | `e24ca5ef4a1d` | 10.4.9 | 48 | 767 | 27 |
+| actif | `Astraia/Astraia.Perf/Astraia.Perf.csproj` | `unversioned` | `51105a49fbce` | 10.4.9 | 41 | 327 | 9 |
+| actif | `Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj` | `unversioned` | `c9163379ab79` | 11.2.3 | 39 | 727 | 41 |
+| actif | `Orpheus/Orpheus/Orpheus.csproj` | `unversioned` | `5d6893729d23` | 10.2.0 | 38 | 727 | 26 |
+| actif | `Ats/Ats.Front/Ats.Front.csproj` | `unversioned` | `8fca7f33c62a` | 8.4.0 | 34 | 130 | 5 |
+| actif | `Olbios/Olbios.Front/Olbios.Front.csproj` | `unversioned` | `6e31a6f7706b` | 10.4.9 | 34 | 130 | 5 |
+| actif | `Phaios/src/Phaios.Web/Phaios.Web.csproj` | `unversioned` | `ae83ffbf42da` | 10.4.9 | 34 | 153 | 10 |
+| actif | `Atlas/Atlas/Atlas.csproj` | `3efc44ece47c` | `d373112a0771` | 11.1.6 | 33 | 438 | 19 |
+| actif | `Portfolio/Portfolio.Editor/Portfolio.Editor.csproj` | `340f9e52af2b` | `1139f87ee582` | 10.4.9 | 26 | 196 | 6 |
+| actif | `Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj` | `unversioned` | `1616b0250152` | 10.4.9 | 21 | 77 | 5 |
+| actif | `Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj` | `unversioned` | `0d9dc32b21b1` | 10.3.2 | 17 | 175 | 12 |
+| actif | `PoeUtils/PoeUtils/PoeUtils.csproj` | `unversioned` | `c69accf379a1` | 8.0.0 | 17 | 41 | 12 |
+| actif | `Ates/Ates.App/Ates.App.csproj` | `unversioned` | `0f0bc9fa884d` | usage transitif | 16 | 29 | 2 |
+| actif | `Ates/Ates.Front/Ates.Front.csproj` | `unversioned` | `28be4b5cc616` | usage transitif | 16 | 32 | 3 |
+| actif | `Hyb/Hyb/Hyb.csproj` | `unversioned` | `bfb518333a79` | 5.6.6 | 1 | 66 | 7 |
+| actif | `Astraia/Tests/Astraia.Front.Tests/Astraia.Front.Tests.csproj` | `unversioned` | `5b2c0ccf115d` | 10.4.9 | 0 | 0 | 0 |
+| actif | `Pronoia/Pronoia.App/Pronoia.App.csproj` | `unversioned` | `c4f1c2cdf3a1` | 11.2.3 | 0 | 0 | 0 |
+| actif | `Pronoia/Pronoia.Front.Tests/Pronoia.Front.Tests.csproj` | `unversioned` | `329dbc4814d9` | 11.2.3 | 0 | 0 | 0 |
+| actif | `Pronoia/Pronoia.Front/Pronoia.Front.csproj` | `unversioned` | `83ab7e2c51b5` | 11.2.3 | 0 | 0 | 0 |
+| modèle | `_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj` | `unversioned` | `284309c05271` | 10.2.0 | 23 | 40 | 4 |
+| modèle | `_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj` | `unversioned` | `50b20efc8567` | 10.2.0 | 23 | 44 | 4 |
+| modèle | `_Generic/ExampleServer/ExampleServer/ExampleServer.csproj` | `unversioned` | `a80547b25ae8` | 10.2.0 | 18 | 34 | 3 |
+| archivé | `On hold/Themis/Themis.Front/Themis.Front.csproj` | `unversioned` | `5e7692aab828` | 9.0.4 | 62 | 1702 | 64 |
+| archivé | `On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj` | `unversioned` | `61d187ed4ae9` | 9.0.5 | 52 | 675 | 36 |
+| archivé | `On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj` | `unversioned` | `453ec6ae3111` | 8.6.3 | 36 | 239 | 16 |
+| archivé | `On hold/Syndes/Syndes/Syndes.csproj` | `unversioned` | `b38f06712af5` | 10.2.0 | 32 | 226 | 7 |
+| archivé | `On hold/AstraiaBackup/Astraia.Front.Tests/Astraia.Front.Tests.csproj` | `unversioned` | `3ed1cc3cffd9` | 9.0.5 | 0 | 0 | 0 |
+| archivé | `On hold/Syndes/Syndes.Tests/Syndes.Tests.csproj` | `unversioned` | `0c5897e3b632` | 10.2.0 | 0 | 0 | 0 |
+| miroir | `_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj` | `unversioned` | `aa022ecdbef7` | 11.1.6 | 59 | 4384 | 186 |
 
 ## Catalogue global
 
 | Composant observé | Projets actifs | Tous projets | Occurrences actives | Toutes occurrences |
 |---|---:|---:|---:|---:|
-| `RadzenStack` | 17 | 25 | 2235 | 3134 |
-| `RadzenButton` | 17 | 25 | 1814 | 2653 |
+| `RadzenStack` | 17 | 25 | 2246 | 3145 |
+| `RadzenButton` | 17 | 25 | 1841 | 2680 |
 | `RadzenBody` | 16 | 24 | 20 | 28 |
 | `RadzenHeader` | 16 | 24 | 20 | 28 |
 | `RadzenLayout` | 16 | 24 | 20 | 28 |
-| `RadzenText` | 15 | 23 | 2628 | 3707 |
-| `RadzenTextBox` | 15 | 21 | 527 | 792 |
-| `RadzenAlert` | 15 | 23 | 346 | 480 |
+| `RadzenText` | 15 | 23 | 2640 | 3719 |
+| `RadzenTextBox` | 15 | 21 | 532 | 797 |
+| `RadzenAlert` | 15 | 23 | 352 | 486 |
 | `RadzenPanelMenuItem` | 15 | 23 | 208 | 347 |
 | `RadzenPanelMenu` | 15 | 23 | 19 | 33 |
 | `RadzenSidebar` | 15 | 23 | 20 | 31 |
 | `RadzenSidebarToggle` | 15 | 22 | 15 | 22 |
-| `RadzenIcon` | 14 | 19 | 691 | 1027 |
-| `RadzenDropDown` | 14 | 19 | 308 | 470 |
-| `RadzenDataGridColumn` | 13 | 21 | 1155 | 1906 |
-| `RadzenCard` | 13 | 18 | 685 | 993 |
-| `RadzenDataGrid` | 13 | 21 | 188 | 307 |
-| `RadzenNumeric` | 13 | 16 | 119 | 197 |
+| `RadzenIcon` | 14 | 19 | 694 | 1030 |
+| `RadzenDropDown` | 14 | 19 | 310 | 472 |
+| `RadzenDataGridColumn` | 13 | 21 | 1171 | 1922 |
+| `RadzenCard` | 13 | 18 | 693 | 1001 |
+| `RadzenDataGrid` | 13 | 21 | 191 | 310 |
+| `RadzenNumeric` | 13 | 16 | 121 | 199 |
 | `RadzenCheckBox` | 13 | 16 | 93 | 107 |
 | `RadzenDialog` | 13 | 20 | 15 | 22 |
 | `RadzenNotification` | 13 | 20 | 15 | 22 |
 | `RadzenTooltip` | 13 | 20 | 15 | 22 |
-| `RadzenFormField` | 12 | 18 | 712 | 1162 |
+| `RadzenFormField` | 12 | 18 | 714 | 1164 |
 | `RadzenTextArea` | 11 | 17 | 121 | 179 |
-| `RadzenLink` | 10 | 14 | 85 | 99 |
-| `RadzenBadge` | 9 | 12 | 641 | 988 |
-| `RadzenProgressBarCircular` | 9 | 16 | 206 | 297 |
-| `RadzenLabel` | 9 | 11 | 152 | 184 |
+| `RadzenLink` | 11 | 15 | 91 | 105 |
+| `RadzenBadge` | 9 | 12 | 644 | 991 |
+| `RadzenProgressBarCircular` | 9 | 16 | 207 | 298 |
+| `RadzenLabel` | 9 | 11 | 153 | 185 |
 | `RadzenContextMenu` | 9 | 15 | 9 | 15 |
 | `RadzenColumn` | 8 | 12 | 520 | 931 |
 | `RadzenRow` | 8 | 12 | 177 | 355 |
-| `RadzenTabsItem` | 8 | 12 | 179 | 294 |
+| `RadzenTabsItem` | 8 | 12 | 181 | 296 |
 | `RadzenPassword` | 8 | 12 | 44 | 80 |
-| `RadzenTabs` | 8 | 12 | 29 | 41 |
+| `RadzenTabs` | 8 | 12 | 28 | 40 |
 | `RadzenChart` | 7 | 11 | 28 | 40 |
 | `RadzenSwitch` | 7 | 12 | 27 | 38 |
 | `RadzenCategoryAxis` | 7 | 11 | 23 | 32 |
 | `RadzenValueAxis` | 7 | 11 | 23 | 32 |
-| `RadzenProgressBar` | 6 | 9 | 51 | 75 |
+| `RadzenProgressBar` | 6 | 9 | 55 | 79 |
 | `RadzenLineSeries` | 6 | 8 | 20 | 35 |
 | `RadzenTemplateForm` | 5 | 11 | 74 | 151 |
 | `RadzenRequiredValidator` | 5 | 11 | 22 | 64 |
@@ -170,11 +170,11 @@ Résumé : **18 projets actifs avec usages Razor**, **22 projets actifs avec usa
 
 ### Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj
 
-`RadzenAlert` (115), `RadzenBadge` (150), `RadzenBody` (3), `RadzenBreadCrumb` (7), `RadzenBreadCrumbItem` (17), `RadzenButton` (341), `RadzenCard` (171), `RadzenCategoryAxis` (1), `RadzenChart` (1), `RadzenCheckBox` (22), `RadzenColorPicker` (2), `RadzenColumn` (39), `RadzenContextMenu` (1), `RadzenDataGrid` (17), `RadzenDataGridColumn` (78), `RadzenDataList` (53), `RadzenDatePicker` (12), `RadzenDialog` (3), `RadzenDropDown` (57), `RadzenFieldset` (3), `RadzenFormField` (160), `RadzenHeader` (3), `RadzenIcon` (44), `RadzenImage` (1), `RadzenLabel` (45), `RadzenLayout` (3), `RadzenLineSeries` (1), `RadzenLink` (13), `RadzenListBox` (1), `RadzenNotification` (3), `RadzenNumeric` (20), `RadzenPager` (1), `RadzenPanelMenu` (1), `RadzenPanelMenuItem` (44), `RadzenPassword` (6), `RadzenProgressBar` (13), `RadzenProgressBarCircular` (97), `RadzenRow` (20), `RadzenScheduler` (1), `RadzenSelectBar` (2), `RadzenSelectBarItem` (3), `RadzenSidebar` (2), `RadzenSidebarToggle` (1), `RadzenStack` (584), `RadzenSwitch` (7), `RadzenTabs` (1), `RadzenTabsItem` (5), `RadzenTemplateForm` (5), `RadzenText` (806), `RadzenTextArea` (40), `RadzenTextBox` (80), `RadzenTooltip` (3), `RadzenTree` (1), `RadzenTreeItem` (2), `RadzenValueAxis` (1), `RadzenWeekView` (1)
+`RadzenAlert` (115), `RadzenBadge` (149), `RadzenBody` (3), `RadzenBreadCrumb` (7), `RadzenBreadCrumbItem` (17), `RadzenButton` (350), `RadzenCard` (181), `RadzenCategoryAxis` (1), `RadzenChart` (1), `RadzenCheckBox` (22), `RadzenColorPicker` (2), `RadzenColumn` (39), `RadzenContextMenu` (1), `RadzenDataGrid` (17), `RadzenDataGridColumn` (78), `RadzenDataList` (53), `RadzenDatePicker` (12), `RadzenDialog` (3), `RadzenDropDown` (57), `RadzenFieldset` (3), `RadzenFormField` (160), `RadzenHeader` (3), `RadzenIcon` (43), `RadzenImage` (1), `RadzenLabel` (46), `RadzenLayout` (3), `RadzenLineSeries` (1), `RadzenLink` (13), `RadzenListBox` (1), `RadzenNotification` (3), `RadzenNumeric` (20), `RadzenPager` (1), `RadzenPanelMenu` (1), `RadzenPanelMenuItem` (44), `RadzenPassword` (6), `RadzenProgressBar` (13), `RadzenProgressBarCircular` (97), `RadzenRow` (20), `RadzenScheduler` (1), `RadzenSelectBar` (2), `RadzenSelectBarItem` (3), `RadzenSidebar` (2), `RadzenSidebarToggle` (1), `RadzenStack` (585), `RadzenSwitch` (7), `RadzenTabs` (1), `RadzenTabsItem` (5), `RadzenTemplateForm` (5), `RadzenText` (807), `RadzenTextArea` (40), `RadzenTextBox` (81), `RadzenTooltip` (3), `RadzenTree` (1), `RadzenTreeItem` (2), `RadzenValueAxis` (1), `RadzenWeekView` (1)
 
 ### Bellwether/Bellwether/Bellwether.csproj
 
-`RadzenAlert` (12), `RadzenAreaSeries` (1), `RadzenAxisTitle` (5), `RadzenBarSeries` (1), `RadzenBody` (1), `RadzenButton` (78), `RadzenCard` (56), `RadzenCategoryAxis` (5), `RadzenChart` (7), `RadzenCheckBox` (1), `RadzenColumn` (56), `RadzenColumnSeries` (1), `RadzenContextMenu` (1), `RadzenDataGrid` (15), `RadzenDataGridColumn` (75), `RadzenDatePicker` (6), `RadzenDialog` (1), `RadzenDropDown` (4), `RadzenGridLines` (5), `RadzenHeader` (1), `RadzenIcon` (54), `RadzenLayout` (1), `RadzenLegend` (7), `RadzenLineSeries` (2), `RadzenMarkers` (2), `RadzenNotification` (1), `RadzenNumeric` (2), `RadzenPanelMenu` (1), `RadzenPanelMenuItem` (9), `RadzenPieSeries` (2), `RadzenProgressBar` (2), `RadzenProgressBarCircular` (6), `RadzenRow` (22), `RadzenSelectBar` (1), `RadzenSelectBarItem` (3), `RadzenSeriesDataLabels` (5), `RadzenSidebar` (1), `RadzenSidebarToggle` (1), `RadzenStack` (82), `RadzenStackedColumnSeries` (2), `RadzenSwitch` (5), `RadzenTabs` (2), `RadzenTabsItem` (8), `RadzenText` (190), `RadzenTextArea` (3), `RadzenTextBox` (11), `RadzenTooltip` (1), `RadzenValueAxis` (5)
+`RadzenAlert` (13), `RadzenAreaSeries` (1), `RadzenAxisTitle` (5), `RadzenBarSeries` (1), `RadzenBody` (1), `RadzenButton` (79), `RadzenCard` (56), `RadzenCategoryAxis` (5), `RadzenChart` (7), `RadzenCheckBox` (1), `RadzenColumn` (56), `RadzenColumnSeries` (1), `RadzenContextMenu` (1), `RadzenDataGrid` (15), `RadzenDataGridColumn` (75), `RadzenDatePicker` (6), `RadzenDialog` (1), `RadzenDropDown` (4), `RadzenGridLines` (5), `RadzenHeader` (1), `RadzenIcon` (54), `RadzenLayout` (1), `RadzenLegend` (7), `RadzenLineSeries` (2), `RadzenMarkers` (2), `RadzenNotification` (1), `RadzenNumeric` (3), `RadzenPanelMenu` (1), `RadzenPanelMenuItem` (9), `RadzenPieSeries` (2), `RadzenProgressBar` (2), `RadzenProgressBarCircular` (6), `RadzenRow` (22), `RadzenSelectBar` (1), `RadzenSelectBarItem` (3), `RadzenSeriesDataLabels` (5), `RadzenSidebar` (1), `RadzenSidebarToggle` (1), `RadzenStack` (83), `RadzenStackedColumnSeries` (2), `RadzenSwitch` (5), `RadzenTabs` (1), `RadzenTabsItem` (8), `RadzenText` (190), `RadzenTextArea` (3), `RadzenTextBox` (12), `RadzenTooltip` (1), `RadzenValueAxis` (5)
 
 ### Astraia/Astraia.Perf/Astraia.Perf.csproj
 
@@ -182,11 +182,11 @@ Résumé : **18 projets actifs avec usages Razor**, **22 projets actifs avec usa
 
 ### Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj
 
-`RadzenAlert` (8), `RadzenBadge` (6), `RadzenBody` (1), `RadzenButton` (140), `RadzenCard` (21), `RadzenCheckBox` (5), `RadzenColorPicker` (1), `RadzenDataGrid` (5), `RadzenDataGridColumn` (19), `RadzenDatePicker` (3), `RadzenDialog` (1), `RadzenDropDown` (19), `RadzenFieldset` (2), `RadzenFormField` (46), `RadzenHeader` (1), `RadzenIcon` (15), `RadzenLabel` (1), `RadzenLayout` (1), `RadzenNotification` (1), `RadzenNumeric` (6), `RadzenPanelMenu` (2), `RadzenPanelMenuItem` (22), `RadzenPassword` (4), `RadzenProgressBarCircular` (11), `RadzenSelectBar` (2), `RadzenSelectBarItem` (6), `RadzenSidebar` (2), `RadzenSidebarToggle` (1), `RadzenSplitButton` (1), `RadzenSplitButtonItem` (5), `RadzenStack` (183), `RadzenSwitch` (1), `RadzenTabs` (6), `RadzenTabsItem` (20), `RadzenText` (126), `RadzenTextArea` (9), `RadzenTextBox` (21), `RadzenToggleButton` (2), `RadzenTooltip` (1)
+`RadzenAlert` (8), `RadzenBadge` (6), `RadzenBody` (1), `RadzenButton` (142), `RadzenCard` (19), `RadzenCheckBox` (5), `RadzenColorPicker` (1), `RadzenDataGrid` (5), `RadzenDataGridColumn` (19), `RadzenDatePicker` (3), `RadzenDialog` (1), `RadzenDropDown` (19), `RadzenFieldset` (2), `RadzenFormField` (46), `RadzenHeader` (1), `RadzenIcon` (15), `RadzenLabel` (1), `RadzenLayout` (1), `RadzenNotification` (1), `RadzenNumeric` (6), `RadzenPanelMenu` (2), `RadzenPanelMenuItem` (22), `RadzenPassword` (4), `RadzenProgressBarCircular` (11), `RadzenSelectBar` (2), `RadzenSelectBarItem` (6), `RadzenSidebar` (2), `RadzenSidebarToggle` (1), `RadzenSplitButton` (1), `RadzenSplitButtonItem` (5), `RadzenStack` (184), `RadzenSwitch` (1), `RadzenTabs` (6), `RadzenTabsItem` (20), `RadzenText` (125), `RadzenTextArea` (9), `RadzenTextBox` (21), `RadzenToggleButton` (2), `RadzenTooltip` (1)
 
 ### Orpheus/Orpheus/Orpheus.csproj
 
-`RadzenAlert` (10), `RadzenBadge` (7), `RadzenBody` (1), `RadzenButton` (107), `RadzenCard` (27), `RadzenCheckBox` (6), `RadzenColumn` (21), `RadzenContextMenu` (1), `RadzenDataGrid` (15), `RadzenDataGridColumn` (84), `RadzenDialog` (1), `RadzenDropDown` (3), `RadzenFormField` (14), `RadzenHeader` (1), `RadzenIcon` (38), `RadzenLayout` (1), `RadzenLink` (12), `RadzenListBox` (1), `RadzenNotification` (1), `RadzenNumeric` (4), `RadzenPanelMenu` (2), `RadzenPanelMenuItem` (16), `RadzenProgressBar` (10), `RadzenProgressBarCircular` (15), `RadzenRow` (8), `RadzenSidebar` (2), `RadzenSidebarToggle` (1), `RadzenSlider` (5), `RadzenStack` (126), `RadzenSwitch` (2), `RadzenTabs` (4), `RadzenTabsItem` (15), `RadzenText` (109), `RadzenTextArea` (1), `RadzenTextBox` (14), `RadzenTooltip` (1), `RadzenTree` (1), `RadzenTreeLevel` (1)
+`RadzenAlert` (14), `RadzenBadge` (7), `RadzenBody` (1), `RadzenButton` (120), `RadzenCard` (26), `RadzenCheckBox` (6), `RadzenColumn` (21), `RadzenContextMenu` (1), `RadzenDataGrid` (16), `RadzenDataGridColumn` (92), `RadzenDialog` (1), `RadzenDropDown` (5), `RadzenFormField` (16), `RadzenHeader` (1), `RadzenIcon` (36), `RadzenLayout` (1), `RadzenLink` (12), `RadzenListBox` (1), `RadzenNotification` (1), `RadzenNumeric` (5), `RadzenPanelMenu` (2), `RadzenPanelMenuItem` (16), `RadzenProgressBar` (14), `RadzenProgressBarCircular` (16), `RadzenRow` (8), `RadzenSidebar` (2), `RadzenSidebarToggle` (1), `RadzenSlider` (5), `RadzenStack` (127), `RadzenSwitch` (2), `RadzenTabs` (4), `RadzenTabsItem` (15), `RadzenText` (114), `RadzenTextArea` (1), `RadzenTextBox` (14), `RadzenTooltip` (1), `RadzenTree` (1), `RadzenTreeLevel` (1)
 
 ### Ats/Ats.Front/Ats.Front.csproj
 
@@ -202,7 +202,7 @@ Résumé : **18 projets actifs avec usages Razor**, **22 projets actifs avec usa
 
 ### Atlas/Atlas/Atlas.csproj
 
-`RadzenAlert` (8), `RadzenAutoComplete` (1), `RadzenBadge` (4), `RadzenBody` (1), `RadzenButton` (55), `RadzenCard` (14), `RadzenCheckBox` (21), `RadzenColumn` (11), `RadzenContextMenu` (1), `RadzenDataGrid` (7), `RadzenDataGridColumn` (37), `RadzenDialog` (1), `RadzenDropDown` (29), `RadzenFieldset` (2), `RadzenHeader` (1), `RadzenIcon` (8), `RadzenLayout` (1), `RadzenNotification` (1), `RadzenNumeric` (11), `RadzenPanelMenu` (1), `RadzenPanelMenuItem` (8), `RadzenProgressBarCircular` (3), `RadzenRow` (3), `RadzenSidebar` (1), `RadzenSidebarToggle` (1), `RadzenStack` (59), `RadzenTabs` (1), `RadzenTabsItem` (3), `RadzenText` (73), `RadzenTextArea` (1), `RadzenTextBox` (20), `RadzenTooltip` (1)
+`RadzenAlert` (9), `RadzenAutoComplete` (1), `RadzenBadge` (8), `RadzenBody` (1), `RadzenButton` (57), `RadzenCard` (15), `RadzenCheckBox` (21), `RadzenColumn` (11), `RadzenContextMenu` (1), `RadzenDataGrid` (9), `RadzenDataGridColumn` (45), `RadzenDialog` (1), `RadzenDropDown` (29), `RadzenFieldset` (2), `RadzenHeader` (1), `RadzenIcon` (14), `RadzenLayout` (1), `RadzenLink` (6), `RadzenNotification` (1), `RadzenNumeric` (11), `RadzenPanelMenu` (1), `RadzenPanelMenuItem` (8), `RadzenProgressBarCircular` (3), `RadzenRow` (3), `RadzenSidebar` (1), `RadzenSidebarToggle` (1), `RadzenStack` (66), `RadzenTabs` (1), `RadzenTabsItem` (5), `RadzenText` (80), `RadzenTextArea` (1), `RadzenTextBox` (23), `RadzenTooltip` (1)
 
 ### Portfolio/Portfolio.Editor/Portfolio.Editor.csproj
 
@@ -267,7 +267,7 @@ Résumé : **18 projets actifs avec usages Razor**, **22 projets actifs avec usa
 ## Régénération
 
 ```powershell
-.\eng\Generate-RadzenInventory.ps1 -WorkspaceRoot C:\Dev
+.\eng\Generate-RadzenInventory.ps1 -WorkspaceRoot C:\Dev -ManifestPath .\docs\radzen-corpus.json
 ```
 
 Le JSON voisin contient les mêmes données sous une forme exploitable par des outils de planification.

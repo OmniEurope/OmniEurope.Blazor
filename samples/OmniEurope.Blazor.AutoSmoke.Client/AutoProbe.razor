@@ -1,16 +1,6 @@
 @page "/"
 
 <OmniMain>
-    <OmniHeading Level="@OmniHeadingLevel.H1">OmniEurope.Blazor Interactive Auto</OmniHeading>
-    <OmniButton Id="auto-action" OnClick="Increment">Compteur Auto : @_count</OmniButton>
+    <OmniHeading Level="@OmniHeadingLevel.H1">@Text["Title"]</OmniHeading>
+    <OmniButton Id="auto-action" OnClick="IncrementAsync"><OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" /> <span>@Text["Counter", Count]</span></OmniButton>
 </OmniMain>
-
-@code {
-    private int _count;
-
-    private Task Increment()
-    {
-        _count++;
-        return Task.CompletedTask;
-    }
-}

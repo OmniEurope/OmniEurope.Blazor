@@ -2,7 +2,19 @@
 
 <OmniThemeScope Appearance="OmniAppearance.Light" Density="OmniDensity.Comfortable">
     <OmniLayout Width="OmniLayoutWidth.Wide">
-        <OmniHeader><a class="catalog-brand" href="/">OmniEurope.Blazor</a><OmniBadge Variant="OmniBadgeVariant.Accent">Catalogue 110/110</OmniBadge></OmniHeader>
-        <OmniMain>@Body</OmniMain>
+        <OmniHeader><a class="catalog-brand" href="/">OmniEurope.Blazor</a><OmniBadge Variant="OmniBadgeVariant.Accent">@Text["CatalogBadge"]</OmniBadge></OmniHeader>
+        <ErrorBoundary @ref="_errorBoundary">
+            <ChildContent>
+                <OmniMain>@Body</OmniMain>
+            </ChildContent>
+            <ErrorContent Context="error">
+                <OmniMain>
+                    <OmniAlert Severity="OmniAlertSeverity.Danger" Title="@Text["CatalogErrorTitle"]">
+                        @Text["CatalogErrorMessage"]
+                        <OmniButton OnClick="@(_ => RecoverAsync())">@Text["Retry"]</OmniButton>
+                    </OmniAlert>
+                </OmniMain>
+            </ErrorContent>
+        </ErrorBoundary>
     </OmniLayout>
 </OmniThemeScope>

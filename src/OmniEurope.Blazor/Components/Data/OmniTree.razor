@@ -1,0 +1,7 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TValue
+@inherits OmniComponentBase
+
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tree")" role="tree" aria-label="@EffectiveLabel" aria-multiselectable="@(Multiple ? "true" : "false")">
+    <CascadingValue Value="Context">@ChildContent</CascadingValue>
+</div>

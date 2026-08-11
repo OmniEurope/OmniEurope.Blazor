@@ -1,0 +1,39 @@
+namespace OmniEurope.Blazor.Components;
+
+public partial class OmniColumn
+{
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public int Span { get; set; } = 12;
+
+    [Parameter]
+    public int? SmallSpan { get; set; }
+
+    [Parameter]
+    public int? MediumSpan { get; set; }
+
+    [Parameter]
+    public int? LargeSpan { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        ValidateSpan(Span, nameof(Span));
+        ValidateSpan(SmallSpan, nameof(SmallSpan));
+        ValidateSpan(MediumSpan, nameof(MediumSpan));
+        ValidateSpan(LargeSpan, nameof(LargeSpan));
+    }
+
+    private static string? SpanClass(string breakpoint, int? value) =>
+        value is null ? null : $"omni-column--{breakpoint}-{value}";
+
+    private static void ValidateSpan(int? value, string parameterName)
+    {
+        if (value is < 1 or > 12)
+        {
+            throw new ArgumentOutOfRangeException(parameterName, "Column spans must be between 1 and 12.");
+        }
+    }
+}

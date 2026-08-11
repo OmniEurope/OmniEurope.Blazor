@@ -1,0 +1,12 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@using OmniEurope.Blazor.Internal
+
+@if (!string.IsNullOrWhiteSpace(Href))
+{
+    <a @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-profile-menu__item")" role="menuitem" href="@SafeHref">@ChildContent</a>
+}
+else
+{
+    <button @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-profile-menu__item")" role="menuitem" type="button" disabled="@Disabled" @onclick="OnClick">@ChildContent</button>
+}

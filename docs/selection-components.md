@@ -29,7 +29,9 @@ Ce lot fournit des contrôles typés reliés à `EditContext`, avec sémantique 
 
 ## Téléversement
 
-Le délégué `Upload` reçoit un `OmniUploadRequest` contenant les fichiers, un `CancellationToken` et `ReportProgress`. Le composant n'envoie rien seul : l'application conserve la responsabilité du transport et peut ouvrir chaque flux avec sa propre limite.
+Les propriétés `MaximumFiles`, `MaximumFileSize` et `AllowedContentTypes` filtrent l'interface à partir de métadonnées fournies par le client. Elles ne constituent jamais une validation de sécurité du contenu reçu.
+
+Le délégué `Validate` reçoit un `OmniUploadRequest` avant `Upload`. L'hôte doit ouvrir chaque fichier avec `request.OpenReadStream(file)`, contrôler sa signature réelle, son format, sa taille effectivement lue et les règles métier, puis retourner un message public lorsqu'il refuse le lot. `OpenReadStream` applique la limite configurée et le jeton d'annulation. Le délégué `Upload` reçoit ensuite la même requête avec `CancellationToken` et `ReportProgress`. Le composant n'envoie rien seul et la validation doit être répétée à la frontière serveur qui persiste le contenu.
 
 ```razor
 <OmniUpload Multiple="true"

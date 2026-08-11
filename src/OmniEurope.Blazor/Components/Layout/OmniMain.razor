@@ -1,0 +1,10 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<main id="@Id"
+      class="@Css("omni-main")"
+      tabindex="@(FocusTarget ? "-1" : null)"
+      aria-labelledby="@AriaLabelledBy"
+      @attributes="AdditionalAttributes">
+    @ChildContent
+</main>

@@ -1,4 +1,5 @@
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
@@ -37,6 +38,30 @@ public sealed class ComponentCspTests : BunitContext
             Render<OmniButton>(parameters => parameters
                 .AddChildContent("Action")
                 .AddUnmatched("onmouseover", "alert(1)")));
+
+        Assert.Contains("Inline event handler", exception.Message);
+    }
+
+    [Theory]
+    [InlineData("onmouseover", 42)]
+    [InlineData("onfocus", true)]
+    public void NonStringEventHandlerAttributes_AreRejected(string name, object value)
+    {
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            Render<OmniButton>(parameters => parameters
+                .AddChildContent("Action")
+                .AddUnmatched(name, value)));
+
+        Assert.Contains("Inline event handler", exception.Message);
+    }
+
+    [Fact]
+    public void MarkupStringEventHandlerAttribute_IsRejected()
+    {
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            Render<OmniButton>(parameters => parameters
+                .AddChildContent("Action")
+                .AddUnmatched("onfocus", new MarkupString("alert(1)"))));
 
         Assert.Contains("Inline event handler", exception.Message);
     }

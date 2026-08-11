@@ -12,16 +12,36 @@
 - Setup: none
 - Run:
   - dotnet test tests/OmniEurope.Blazor.Tests/OmniEurope.Blazor.Tests.csproj --nologo --verbosity minimal
+  - dotnet test tests/OmniEurope.Blazor.Tests/OmniEurope.Blazor.Tests.csproj --configuration Release --collect:"XPlat Code Coverage" --logger "trx;LogFileName=tests.trx" --results-directory artifacts/coverage
+  - pwsh ./eng/Test-Coverage.ps1 -CoverageRoot artifacts/coverage
 - Teardown: none
 
 ### integration
-- Projects: none
+- Projects: RCL package and repository gates
 - Setup: none
-- Run: none
+- Run:
+  - pwsh ./eng/Test-CspFixtures.ps1
+  - pwsh ./eng/Test-Csp.ps1
+  - pwsh ./eng/Generate-ComponentCoverage.ps1, then require no diff in `docs/component-coverage.json` and `docs/component-coverage.md`
+  - pwsh ./eng/Test-PublicApi.ps1
+  - pwsh ./eng/Test-Budgets.ps1
+  - dotnet pack src/OmniEurope.Blazor/OmniEurope.Blazor.csproj --configuration Release --no-build --output artifacts/packages
+  - pwsh ./eng/Test-Package.ps1 with both `.nupkg` and `.snupkg`
+  - pwsh ./eng/Test-PackageFixtures.ps1 with the clean `.nupkg`
+  - pwsh ./eng/Test-PackageProvenance.ps1 for the CI package artifact
+  - pwsh ./eng/Test-DependencyPolicy.ps1
+  - pwsh ./eng/Generate-Sbom.ps1, then pwsh ./eng/Test-Sbom.ps1 and require no diff in `NOTICE.md`, `docs/sbom.cdx.json`, `docs/third-party-packages.json`, and `docs/third-party-licenses/`
 - Teardown: none
 
 ### e2e
-- Projects: none
-- Setup: none
-- Run: none
-- Teardown: none
+- Projects: Catalog, WebAssembly, Interactive Auto, and MAUI Hybrid smoke hosts
+- Setup:
+  - publish each web host to its documented `artifacts/*-smoke` directory
+  - build Hybrid on Windows with the `maui-windows` workload and WebView2
+- Run:
+  - pwsh ./eng/Test-CatalogHost.ps1
+  - pwsh ./eng/Test-WasmHeaders.ps1
+  - pwsh ./eng/Test-WasmHost.ps1
+  - pwsh ./eng/Test-AutoHost.ps1
+  - pwsh ./eng/Test-HybridHost.ps1 on Windows
+- Teardown: every host probe owns and terminates only the processes it started

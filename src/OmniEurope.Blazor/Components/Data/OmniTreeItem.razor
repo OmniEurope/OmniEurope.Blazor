@@ -1,0 +1,34 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TValue
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+<div @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@Css("omni-tree__item", Selected ? "omni-tree__item--selected" : null)"
+     role="treeitem"
+     aria-selected="@(Selected ? "true" : "false")"
+     aria-expanded="@(HasChildren ? (_expanded ? "true" : "false") : null)"
+     tabindex="@TabIndex"
+     @onkeydown="HandleKeyDownAsync"
+     @onkeydown:stopPropagation="true">
+    <div class="omni-tree__row">
+        @if (HasChildren)
+        {
+            <button type="button" class="omni-tree__toggle" aria-label="@(_expanded ? Localize("TreeCollapse") : Localize("TreeExpand"))" @onclick="ToggleExpandedAsync">@(_expanded ? "▾" : "▸")</button>
+        }
+        <button type="button" class="omni-tree__select" disabled="@Disabled" @onclick="SelectAsync">@Text</button>
+    </div>
+    @if (_expanded && HasChildren)
+    {
+        @if (_loading)
+        {
+            <span class="omni-tree__state" role="status">@Localize("Loading")</span>
+        }
+        else if (_loadError)
+        {
+            <span class="omni-tree__state" role="alert">@Localize("TreeLoadFailed")</span>
+        }
+        <OmniTreeLevel>@ChildContent</OmniTreeLevel>
+    }
+</div>

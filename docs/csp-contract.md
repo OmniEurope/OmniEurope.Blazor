@@ -29,9 +29,13 @@ base-uri 'self';
 frame-ancestors 'none'
 ```
 
-Cette politique est un objectif de test de la bibliothèque, pas un en-tête universel prêt à copier pour toutes les applications.
+Cette politique est un objectif de test de la bibliothèque, pas un en-tête universel prêt à copier pour toutes les applications. Un hôte WebAssembly, y compris un hôte Interactive Auto qui télécharge le runtime client, doit ajouter la source CSP ciblée `'wasm-unsafe-eval'` à `script-src`. Elle autorise la compilation WebAssembly sans autoriser la source plus large et interdite `'unsafe-eval'`.
 
 ## État de la vérification
 
-La CI scanne actuellement les sources Razor, C# et JavaScript pour les attributs `style`, les balises `style` créées à l'exécution et les appels `eval`/`new Function`, puis vérifie par HTTP l'en-tête et les assets du catalogue. Ce scanner ne couvre pas encore les gestionnaires HTML en chaîne ni tous les chargements distants. Le contrôle de `/csp-status` interroge le collecteur avant toute navigation interactive : son état vide ne prouve pas l'absence de violation à l'exécution. Une preuve complète exige encore un navigateur réel qui attend l'interactivité, exerce les composants et contrôle les rapports CSP ainsi que la console.
+La CI scanne les sources Razor, C#, JavaScript et HTML pour les styles inline, les balises de style créées à l'exécution, les gestionnaires HTML `on*=`, les URI `javascript:`, les ressources statiques distantes, les imports distants et les évaluations JavaScript dynamiques. Des fixtures prouvent que les constructions Razor sûres restent acceptées et que les formes dangereuses sont rejetées. Le scanner reste une défense statique et non une preuve d'exécution.
+
+La sonde WebAssembly publie un manifeste `_headers` qui impose notamment `frame-ancestors 'none'`; cette directive a été retirée de la balise `meta`, où les navigateurs l'ignorent. Chaque hébergeur statique doit appliquer ce manifeste ou le traduire vers sa configuration native. La CI vérifie sa présence dans l'artefact publié.
+
+Le contrôle de `/csp-status` interroge un collecteur borné et n'expose que le compteur. Son état vide avant toute navigation interactive ne prouve toujours pas l'absence de violation à l'exécution. Une preuve complète exige un navigateur réel qui attend l'interactivité, exerce les composants et contrôle les rapports CSP ainsi que la console.
 

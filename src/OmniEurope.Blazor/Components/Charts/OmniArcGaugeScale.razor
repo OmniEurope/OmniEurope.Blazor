@@ -1,0 +1,7 @@
+@namespace OmniEurope.Blazor.Components
+<g class="omni-arc-gauge__scale">
+    <path class="omni-arc-gauge__track" d="@OmniChartGeometry.Gauge(100)" />
+    @ChildContent
+    <text x="10" y="58">@Minimum</text>
+    <text x="90" y="58" text-anchor="end">@Maximum</text>
+</g>

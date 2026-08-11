@@ -17,10 +17,10 @@ internal static class CspAttributeGuard
                     "Inline style attributes are forbidden by the OmniEurope.Blazor CSP contract. Use a CSS class instead.");
             }
 
-            if (attribute.Key.StartsWith("on", StringComparison.OrdinalIgnoreCase) && attribute.Value is string)
+            if (attribute.Key.StartsWith("on", StringComparison.OrdinalIgnoreCase))
             {
                 throw new InvalidOperationException(
-                    $"Inline event handler '{attribute.Key}' is forbidden by the OmniEurope.Blazor CSP contract. Use an EventCallback instead.");
+                    $"Inline event handler '{attribute.Key}' is forbidden by the OmniEurope.Blazor CSP contract. Declare the EventCallback on the component instead.");
             }
         }
     }

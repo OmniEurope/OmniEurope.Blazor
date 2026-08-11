@@ -1,0 +1,8 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<div id="@Id"
+     class="@Css("omni-row", $"omni-row--gap-{Gap.ToString().ToLowerInvariant()}", $"omni-row--align-{Align.ToString().ToLowerInvariant()}", $"omni-row--justify-{Justify.ToString().ToLowerInvariant()}", Wrap ? "omni-row--wrap" : null)"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>

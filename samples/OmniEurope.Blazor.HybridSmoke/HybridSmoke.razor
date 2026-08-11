@@ -1,6 +1,7 @@
 @using OmniEurope.Blazor.Components
 
-<OmniCard>
-    <OmniHeading Level="@OmniHeadingLevel.H2">OmniEurope.Blazor Hybrid</OmniHeading>
-    <OmniButton Id="hybrid-action">Action Hybrid</OmniButton>
+<OmniCard Id="hybrid-probe">
+    <OmniHeading Level="@OmniHeadingLevel.H2">@Text["Title"]</OmniHeading>
+    <OmniButton Id="hybrid-action" OnClick="@(_ => IncrementAsync())"><OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" /> <span>@Text["Action"]</span></OmniButton>
+    <output id="hybrid-count" aria-live="polite">@Count</output>
 </OmniCard>

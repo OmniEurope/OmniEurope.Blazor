@@ -1,13 +1,13 @@
 # Guide de migration vers OmniEurope.Blazor
 
-Ce guide prépare les remplacements futurs sans modifier un projet consommateur. Le registre exhaustif [component-coverage.md](component-coverage.md) fournit la correspondance des 110 balises observées et [component-contracts.md](component-contracts.md) conserve les paramètres candidats et templates extraits des usages, avec les limites heuristiques qui y sont décrites.
+Ce guide prépare les remplacements futurs sans modifier un projet consommateur. Le registre [component-coverage.md](component-coverage.md) sépare la présence des 110 fichiers cibles des références de tests, illustrations catalogue et preuves navigateur. [component-contracts.md](component-contracts.md) conserve les paramètres candidats analysés dans les tags Razor avec fichier, ligne et SHA-256 pour chaque occurrence; les identifiants internes aux expressions ne sont pas assimilés à des paramètres.
 
 ## Préparer un hôte
 
 1. Référencer le paquet `OmniEurope.Blazor` avec la version décidée pour la vague de migration.
 2. Charger `_content/OmniEurope.Blazor/omnieurope.blazor.css` dans la page hôte.
 3. Importer `OmniEurope.Blazor.Components` dans `_Imports.razor`.
-4. Ajouter `OmniComponentsHost` au niveau racine lorsque les dialogs ou notifications pilotés par `OmniOverlayService` sont utilisés. `OmniContextMenu` et `OmniTooltip` sont instanciés et contrôlés directement.
+4. Ajouter `OmniComponentsHost` au niveau racine lorsque les dialogs, notifications ou menus contextuels doivent partager le portail ordonné. `OmniTooltip` reste une aide sémantique locale liée à son déclencheur.
 5. Conserver une CSP sans `unsafe-inline` ni `unsafe-eval` et activer la collecte des rapports pendant la validation.
 
 ## Traduire un usage
@@ -21,9 +21,9 @@ Les composants OmniEurope expriment des capacités et ne reproduisent pas l'API 
 | Chargement distant de listes, grilles et scheduler | Callback annulable ; `OmniDataList`, `OmniDataGrid` et `OmniScheduler` rendent chargement et erreur observables et proposent une reprise. |
 | Autocomplete distant | Callback annulable ; les états de chargement, d'erreur et de reprise ne sont pas encore exposés. |
 | Validation | `OmniTemplateForm`, validateurs Omni et messages `role="alert"`. |
-| Superposition | `OmniOverlayService` et `OmniComponentsHost` pour dialogs et notifications ; context menu et tooltip sont contrôlés directement. |
+| Superposition | `OmniOverlayService` et `OmniComponentsHost` pour la pile de dialogs, les notifications et le portail des menus contextuels ; tooltip local au déclencheur. |
 | DataGrid | Colonnes `OmniDataGridColumn<TItem>`, clés stables, pagination contrôlée par `Page`/`PageChanged` ; tri et filtres internes transmis au callback `Load`. |
-| Graphique | Séries SVG typées, axes et options déclaratives. |
+| Graphique | Séries SVG typées, axes et options déclaratives partageant domaines, projection et baselines empilées. |
 | Temps | `DateTimeOffset` et `TimeZoneInfo` explicite. |
 | HTML | Valeur sanitizée par allowlist avant aperçu et persistance. |
 

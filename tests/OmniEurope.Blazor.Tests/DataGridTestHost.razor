@@ -8,7 +8,7 @@
               KeySelector="person => person.Id"
               @bind-SelectedKeys="SelectedKeys">
     <Columns>
-        <OmniDataGridColumn TItem="Person" Key="name" Title="Nom" Value="person => person.Name" Filterable="true" />
+        <OmniDataGridColumn TItem="Person" Key="name" Title="@NameTitle" Value="person => person.Name" Filterable="true" />
         <OmniDataGridColumn TItem="Person" Key="age" Title="Âge" Value="person => person.Age" />
     </Columns>
 </OmniDataGrid>
@@ -22,6 +22,12 @@
     ];
 
     public int Page { get; set; } = 1;
+    public string NameTitle { get; set; } = "Nom";
     public IReadOnlyList<object> SelectedKeys { get; set; } = Array.Empty<object>();
+    public void RenameColumn()
+    {
+        NameTitle = "Nom complet";
+        StateHasChanged();
+    }
     public sealed record Person(int Id, string Name, int Age);
 }

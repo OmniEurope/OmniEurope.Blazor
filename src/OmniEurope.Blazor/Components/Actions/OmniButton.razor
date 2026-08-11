@@ -1,0 +1,17 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<button id="@Id"
+        class="@Css("omni-button", $"omni-button--{Variant.ToString().ToLowerInvariant()}", $"omni-button--{Size.ToString().ToLowerInvariant()}")"
+        type="@ButtonType.ToString().ToLowerInvariant()"
+        disabled="@(Disabled || Busy)"
+        aria-busy="@(Busy ? "true" : null)"
+        aria-label="@AriaLabel"
+        @attributes="AdditionalAttributes"
+        @onclick="HandleClickAsync">
+    @if (Busy)
+    {
+        <span class="omni-button__busy" aria-hidden="true"></span>
+    }
+    <span class="omni-button__content">@ChildContent</span>
+</button>

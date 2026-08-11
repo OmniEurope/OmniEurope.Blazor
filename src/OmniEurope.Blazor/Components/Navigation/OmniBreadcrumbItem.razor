@@ -1,0 +1,14 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@using OmniEurope.Blazor.Internal
+
+<li @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-breadcrumb__item")">
+    @if (Current || string.IsNullOrWhiteSpace(Href))
+    {
+        <span aria-current="@(Current ? "page" : null)">@ChildContent</span>
+    }
+    else
+    {
+        <a href="@SafeHref">@ChildContent</a>
+    }
+</li>

@@ -1,0 +1,6 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<nav @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-breadcrumb")" aria-label="@EffectiveLabel">
+    <ol class="omni-breadcrumb__list">@ChildContent</ol>
+</nav>

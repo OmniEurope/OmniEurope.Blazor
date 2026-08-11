@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
+    <EnforceRazorCodeBehind>true</EnforceRazorCodeBehind>
     <PackageId>OmniEurope.Blazor</PackageId>
     <Version>0.1.0-alpha.1</Version>
     <Authors>OmniEurope contributors</Authors>
@@ -17,8 +18,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HtmlSanitizer" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+    <PackageReference Include="Microsoft.Extensions.Localization" />
     <None Include="../../README.md" Pack="true" PackagePath="/" />
+    <None Include="../../NOTICE.md" Pack="true" PackagePath="/" />
+    <None Include="../../docs/sbom.cdx.json" Pack="true" PackagePath="compliance/" />
+    <None Include="../../docs/third-party-packages.json" Pack="true" PackagePath="compliance/" />
+    <None Include="../../docs/third-party-licenses/*" Pack="true" PackagePath="compliance/licenses/" />
   </ItemGroup>
 </Project>
 

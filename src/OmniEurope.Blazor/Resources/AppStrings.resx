@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="UploadFailed" xml:space="preserve"><value>Le téléversement a échoué.</value></data>
+  <data name="Today" xml:space="preserve"><value>Aujourd'hui</value></data>
+  <data name="Retry" xml:space="preserve"><value>Réessayer</value></data>
+  <data name="Loading" xml:space="preserve"><value>Chargement…</value></data>
+  <data name="AppearanceAriaLabel" xml:space="preserve"><value>Changer l'apparence</value></data>
+  <data name="AppearanceLight" xml:space="preserve"><value>Clair</value></data>
+  <data name="AppearanceDark" xml:space="preserve"><value>Sombre</value></data>
+  <data name="AppearanceSystem" xml:space="preserve"><value>Système</value></data>
+  <data name="ArcGaugeLabel" xml:space="preserve"><value>Jauge</value></data>
+  <data name="AutocompleteSearchFailed" xml:space="preserve"><value>La recherche a échoué. Modifiez la saisie pour réessayer.</value></data>
+  <data name="AutocompleteOneResult" xml:space="preserve"><value>1 résultat disponible.</value></data>
+  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} résultats disponibles.</value></data>
+  <data name="AutocompleteSelected" xml:space="preserve"><value>{0} sélectionné.</value></data>
+  <data name="AutocompleteInvalid" xml:space="preserve"><value>La valeur de saisie assistée n'est pas valide.</value></data>
+  <data name="BreadcrumbLabel" xml:space="preserve"><value>Fil d'Ariane</value></data>
+  <data name="ChartTooltipDisabled" xml:space="preserve"><value>Les infobulles sont désactivées.</value></data>
+  <data name="ChartTooltipDescription" xml:space="preserve"><value>Les valeurs détaillées sont disponibles au focus ou au survol des séries.</value></data>
+  <data name="CheckBoxInvalid" xml:space="preserve"><value>La valeur de case à cocher n'est pas valide.</value></data>
+  <data name="CheckBoxListInvalid" xml:space="preserve"><value>La liste de cases à cocher n'est pas valide.</value></data>
+  <data name="ColorPickerInvalid" xml:space="preserve"><value>La couleur doit être au format #RRGGBB.</value></data>
+  <data name="CompareValidatorMessage" xml:space="preserve"><value>Les valeurs ne correspondent pas.</value></data>
+  <data name="NotificationsRegionLabel" xml:space="preserve"><value>Notifications</value></data>
+  <data name="ContextMenuLabel" xml:space="preserve"><value>Menu contextuel</value></data>
+  <data name="GridLoadFailed" xml:space="preserve"><value>Le chargement de la grille a échoué.</value></data>
+  <data name="GridDetailColumn" xml:space="preserve"><value>Développement</value></data>
+  <data name="GridSelectionColumn" xml:space="preserve"><value>Sélection</value></data>
+  <data name="GridResizeColumn" xml:space="preserve"><value>Élargir {0}</value></data>
+  <data name="GridEditColumn" xml:space="preserve"><value>Édition</value></data>
+  <data name="GridFilterColumn" xml:space="preserve"><value>Filtrer {0}</value></data>
+  <data name="GridEmpty" xml:space="preserve"><value>Aucune donnée.</value></data>
+  <data name="GridCollapseRow" xml:space="preserve"><value>Réduire la ligne</value></data>
+  <data name="GridExpandRow" xml:space="preserve"><value>Développer la ligne</value></data>
+  <data name="GridSelectRow" xml:space="preserve"><value>Sélectionner la ligne</value></data>
+  <data name="Save" xml:space="preserve"><value>Enregistrer</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Annuler</value></data>
+  <data name="Edit" xml:space="preserve"><value>Modifier</value></data>
+  <data name="DataListLoadFailed" xml:space="preserve"><value>Le chargement a échoué.</value></data>
+  <data name="DataListEmpty" xml:space="preserve"><value>Aucun élément.</value></data>
+  <data name="DatePickerInvalid" xml:space="preserve"><value>La date saisie n'est pas valide.</value></data>
+  <data name="DayViewLabel" xml:space="preserve"><value>Vue journalière</value></data>
+  <data name="DialogEnd" xml:space="preserve"><value>Fin du dialogue</value></data>
+  <data name="Close" xml:space="preserve"><value>Fermer</value></data>
+  <data name="DialogStart" xml:space="preserve"><value>Début du dialogue</value></data>
+  <data name="DropDownPlaceholder" xml:space="preserve"><value>Sélectionner</value></data>
+  <data name="DropDownInvalid" xml:space="preserve"><value>La sélection n'est pas valide pour {0}.</value></data>
+  <data name="EmailValidatorMessage" xml:space="preserve"><value>L'adresse e-mail n'est pas valide.</value></data>
+  <data name="HtmlEditorLabel" xml:space="preserve"><value>Éditeur HTML</value></data>
+  <data name="HtmlEditorToolbar" xml:space="preserve"><value>Outils de mise en forme</value></data>
+  <data name="HtmlEditorBold" xml:space="preserve"><value>Gras</value></data>
+  <data name="HtmlEditorItalic" xml:space="preserve"><value>Italique</value></data>
+  <data name="HtmlEditorSubscript" xml:space="preserve"><value>Indice</value></data>
+  <data name="HtmlEditorSuperscript" xml:space="preserve"><value>Exposant</value></data>
+  <data name="HtmlEditorIndent" xml:space="preserve"><value>Augmenter le retrait</value></data>
+  <data name="HtmlEditorOutdent" xml:space="preserve"><value>Réduire le retrait</value></data>
+  <data name="HtmlEditorUndo" xml:space="preserve"><value>Annuler</value></data>
+  <data name="HtmlEditorRedo" xml:space="preserve"><value>Rétablir</value></data>
+  <data name="HtmlEditorPreview" xml:space="preserve"><value>Aperçu du contenu</value></data>
+  <data name="LegendLabel" xml:space="preserve"><value>Légende</value></data>
+  <data name="LengthValidatorMessage" xml:space="preserve"><value>La longueur de ce champ n'est pas valide.</value></data>
+  <data name="ListBoxInvalid" xml:space="preserve"><value>La sélection de liste n'est pas valide.</value></data>
+  <data name="MonthViewLabel" xml:space="preserve"><value>Vue mensuelle</value></data>
+  <data name="MultiSelectInvalid" xml:space="preserve"><value>La sélection multiple n'est pas valide.</value></data>
+  <data name="NotificationDismiss" xml:space="preserve"><value>Ignorer la notification</value></data>
+  <data name="NullableCheckBoxInvalid" xml:space="preserve"><value>La valeur de case à cocher n'est pas valide.</value></data>
+  <data name="NullableSwitchIndeterminate" xml:space="preserve"><value>État non défini</value></data>
+  <data name="NullableSwitchInvalid" xml:space="preserve"><value>La valeur d'interrupteur n'est pas valide.</value></data>
+  <data name="NumericInvalid" xml:space="preserve"><value>La valeur saisie n'est pas valide.</value></data>
+  <data name="NumericInvalidNamed" xml:space="preserve"><value>La valeur saisie n'est pas valide pour {0}.</value></data>
+  <data name="PagerLabel" xml:space="preserve"><value>Pagination</value></data>
+  <data name="PagerPrevious" xml:space="preserve"><value>Page précédente</value></data>
+  <data name="PagerStatus" xml:space="preserve"><value>Page {0} sur {1}</value></data>
+  <data name="PagerNext" xml:space="preserve"><value>Page suivante</value></data>
+  <data name="PanelMenuLabel" xml:space="preserve"><value>Navigation</value></data>
+  <data name="PasswordRevealLabel" xml:space="preserve"><value>Afficher le mot de passe</value></data>
+  <data name="PasswordHideLabel" xml:space="preserve"><value>Masquer le mot de passe</value></data>
+  <data name="PasswordRevealText" xml:space="preserve"><value>Afficher</value></data>
+  <data name="PasswordHideText" xml:space="preserve"><value>Masquer</value></data>
+  <data name="ProfileMenuLabel" xml:space="preserve"><value>Menu du profil</value></data>
+  <data name="ProgressLabel" xml:space="preserve"><value>Progression</value></data>
+  <data name="ProgressValue" xml:space="preserve"><value>{0:0} %</value></data>
+  <data name="RadioButtonListInvalid" xml:space="preserve"><value>La sélection radio n'est pas valide.</value></data>
+  <data name="RequiredValidatorMessage" xml:space="preserve"><value>Ce champ est obligatoire.</value></data>
+  <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Période précédente</value></data>
+  <data name="SchedulerNextPeriod" xml:space="preserve"><value>Période suivante</value></data>
+  <data name="SchedulerViewLabel" xml:space="preserve"><value>Vue du calendrier</value></data>
+  <data name="SchedulerDay" xml:space="preserve"><value>Jour</value></data>
+  <data name="SchedulerWeek" xml:space="preserve"><value>Semaine</value></data>
+  <data name="SchedulerMonth" xml:space="preserve"><value>Mois</value></data>
+  <data name="SchedulerLoadFailed" xml:space="preserve"><value>Le calendrier n'a pas pu être chargé.</value></data>
+  <data name="SelectBarInvalid" xml:space="preserve"><value>La sélection segmentée n'est pas valide.</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Navigation</value></data>
+  <data name="SidebarToggleLabel" xml:space="preserve"><value>Afficher ou masquer la navigation</value></data>
+  <data name="SliderInvalid" xml:space="preserve"><value>La valeur du curseur n'est pas valide.</value></data>
+  <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Autres actions</value></data>
+  <data name="StepsLabel" xml:space="preserve"><value>Étapes</value></data>
+  <data name="SwitchInvalid" xml:space="preserve"><value>La valeur d'interrupteur n'est pas valide.</value></data>
+  <data name="TabsLabel" xml:space="preserve"><value>Onglets</value></data>
+  <data name="TimelineLabel" xml:space="preserve"><value>Chronologie</value></data>
+  <data name="TreeLabel" xml:space="preserve"><value>Arbre</value></data>
+  <data name="TreeCollapse" xml:space="preserve"><value>Réduire</value></data>
+  <data name="TreeExpand" xml:space="preserve"><value>Développer</value></data>
+  <data name="TreeLoadFailed" xml:space="preserve"><value>Le chargement a échoué.</value></data>
+  <data name="UploadSelectedFiles" xml:space="preserve"><value>Fichiers sélectionnés</value></data>
+  <data name="UploadProgressLabel" xml:space="preserve"><value>Téléversement</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Vous pouvez sélectionner au maximum {0} fichiers.</value></data>
+  <data name="UploadFileTooLarge" xml:space="preserve"><value>Le fichier {0} dépasse la taille maximale autorisée.</value></data>
+  <data name="UploadTypeRejected" xml:space="preserve"><value>Le type du fichier {0} n'est pas autorisé.</value></data>
+  <data name="UploadOneSelected" xml:space="preserve"><value>1 fichier sélectionné.</value></data>
+  <data name="UploadManySelected" xml:space="preserve"><value>{0} fichiers sélectionnés.</value></data>
+  <data name="UploadInProgress" xml:space="preserve"><value>Téléversement en cours.</value></data>
+  <data name="UploadCompleted" xml:space="preserve"><value>Téléversement terminé.</value></data>
+  <data name="UploadCancelled" xml:space="preserve"><value>Téléversement annulé.</value></data>
+  <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0:0.##} Mo</value></data>
+  <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} Ko</value></data>
+  <data name="UploadSizeBytes" xml:space="preserve"><value>{0} o</value></data>
+  <data name="WeekViewLabel" xml:space="preserve"><value>Vue hebdomadaire</value></data>
+</root>

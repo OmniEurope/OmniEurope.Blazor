@@ -1,0 +1,144 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TItem
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+<CascadingValue Value="_context" IsFixed="true">@Columns</CascadingValue>
+
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-data-grid")" aria-busy="@(_remote.Loading ? "true" : "false")">
+    @if (_remote.Error is not null)
+    {
+        <div class="omni-data-grid__state" role="alert">
+            <span>@Localize("GridLoadFailed")</span>
+            <button type="button" class="omni-button" @onclick="ReloadAsync">@Localize("Retry")</button>
+        </div>
+    }
+    else
+    {
+        <div class="omni-data-grid__viewport">
+            <table class="omni-data-grid__table">
+                @if (!string.IsNullOrWhiteSpace(Caption))
+                {
+                    <caption>@Caption</caption>
+                }
+                <thead>
+                    <tr>
+                        @if (DetailTemplate is not null)
+                        {
+                            <th scope="col"><span class="omni-visually-hidden">@Localize("GridDetailColumn")</span></th>
+                        }
+                        @if (SelectionMode != OmniDataGridSelectionMode.None)
+                        {
+                            <th scope="col"><span class="omni-visually-hidden">@Localize("GridSelectionColumn")</span></th>
+                        }
+                        @foreach (var column in VisibleColumns)
+                        {
+                            <th class="@ColumnClass(column)" scope="col" aria-sort="@AriaSort(column)">
+                                @if (column.Sortable)
+                                {
+                                    <button type="button" class="omni-data-grid__sort" @onclick="args => SortAsync(column.Key, args.ShiftKey)">@column.Title</button>
+                                }
+                                else
+                                {
+                                    @column.Title
+                                }
+                                @if (column.Resizable)
+                                {
+                                    <button type="button" class="omni-data-grid__resize" aria-label="@Localize("GridResizeColumn", column.Title)" @onclick="() => ResizeColumnAsync(column)">↔</button>
+                                }
+                            </th>
+                        }
+                        @if (HasEditing)
+                        {
+                            <th scope="col"><span class="omni-visually-hidden">@Localize("GridEditColumn")</span></th>
+                        }
+                    </tr>
+                    @if (VisibleColumns.Any(column => column.Filterable))
+                    {
+                        <tr class="omni-data-grid__filters">
+                            @if (DetailTemplate is not null) { <th></th> }
+                            @if (SelectionMode != OmniDataGridSelectionMode.None)
+                            {
+                                <th></th>
+                            }
+                            @foreach (var column in VisibleColumns)
+                            {
+                                <th>
+                                    @if (column.Filterable)
+                                    {
+                                        <label class="omni-visually-hidden" for="@FilterId(column)">@Localize("GridFilterColumn", column.Title)</label>
+                                        <input id="@FilterId(column)" class="omni-input omni-data-grid__filter" value="@FilterValue(column.Key)" @onchange="args => FilterAsync(column.Key, args.Value?.ToString() ?? string.Empty)" />
+                                    }
+                                </th>
+                            }
+                            @if (HasEditing) { <th></th> }
+                        </tr>
+                    }
+                </thead>
+                <tbody>
+                    @if (_remote.Loading)
+                    {
+                        <tr><td colspan="@ColumnSpan" class="omni-data-grid__state">@Localize("Loading")</td></tr>
+                    }
+                    else if (VisibleItems.Count == 0)
+                    {
+                        <tr><td colspan="@ColumnSpan" class="omni-data-grid__state">@Localize("GridEmpty")</td></tr>
+                    }
+                    else
+                    {
+                        var firstGroup = true;
+                        object? previousGroup = null;
+                        @foreach (var item in VisibleItems)
+                        {
+                            var currentGroup = GroupBy?.Invoke(item);
+                            if (GroupBy is not null && (firstGroup || !Equals(previousGroup, currentGroup)))
+                            {
+                                var groupCount = GroupCount(currentGroup);
+                                <tr class="omni-data-grid__group"><th colspan="@ColumnSpan" scope="rowgroup">@GroupText(currentGroup, groupCount)</th></tr>
+                            }
+                            firstGroup = false;
+                            previousGroup = currentGroup;
+                            var key = ItemKey(item);
+                            <tr class="@(IsSelected(key) ? "omni-data-grid__row--selected" : null)">
+                                @if (DetailTemplate is not null)
+                                {
+                                    <td><button type="button" class="omni-data-grid__expand" aria-expanded="@(IsExpanded(key) ? "true" : "false")" aria-label="@(IsExpanded(key) ? Localize("GridCollapseRow") : Localize("GridExpandRow"))" @onclick="() => ToggleExpandedAsync(key)">@(IsExpanded(key) ? "▾" : "▸")</button></td>
+                                }
+                                @if (SelectionMode != OmniDataGridSelectionMode.None)
+                                {
+                                    <td><input type="checkbox" class="omni-checkbox" checked="@IsSelected(key)" aria-label="@Localize("GridSelectRow")" @onchange="() => ToggleSelectionAsync(key)" /></td>
+                                }
+                                @foreach (var column in VisibleColumns)
+                                {
+                                    <td class="@ColumnClass(column)">@Cell(column, item, IsEditing?.Invoke(item) == true)</td>
+                                }
+                                @if (HasEditing)
+                                {
+                                    <td class="omni-data-grid__actions">
+                                        @if (IsEditing?.Invoke(item) == true)
+                                        {
+                                            <button type="button" class="omni-button" @onclick="() => RowUpdated.InvokeAsync(item)">@Localize("Save")</button>
+                                            <button type="button" class="omni-button" @onclick="() => EditCancelled.InvokeAsync(item)">@Localize("Cancel")</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="omni-button" @onclick="() => EditRequested.InvokeAsync(item)">@Localize("Edit")</button>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                            @if (DetailTemplate is not null && IsExpanded(key))
+                            {
+                                <tr class="omni-data-grid__detail"><td colspan="@ColumnSpan">@DetailTemplate(item)</td></tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (PageCount > 1)
+        {
+            <OmniPager Page="@Page" PageCount="@PageCount" PageChanged="ChangePageAsync" />
+        }
+    }
+</div>

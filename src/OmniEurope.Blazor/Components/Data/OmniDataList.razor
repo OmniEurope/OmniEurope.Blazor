@@ -1,0 +1,43 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TItem
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+
+<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-data-list")" aria-busy="@(_loading ? "true" : "false")">
+    @if (_loading)
+    {
+        <div class="omni-data-list__state" role="status">@(LoadingContent ?? DefaultLoading)</div>
+    }
+    else if (_error is not null)
+    {
+        <div class="omni-data-list__state omni-data-list__state--error" role="alert">
+            @if (ErrorContent is not null)
+            {
+                @ErrorContent(_error)
+            }
+            else
+            {
+                <span>@Localize("DataListLoadFailed")</span>
+            }
+            <button type="button" class="omni-button" @onclick="ReloadAsync">@Localize("Retry")</button>
+        </div>
+    }
+    else if (_items.Count == 0)
+    {
+        <div class="omni-data-list__state">@(EmptyContent ?? DefaultEmpty)</div>
+    }
+    else if (Virtualize)
+    {
+        <Virtualize TItem="TItem" Items="@_items.ToArray()" Context="item">
+            <div class="omni-data-list__item">@ItemTemplate(item)</div>
+        </Virtualize>
+    }
+    else
+    {
+        @foreach (var item in _items)
+        {
+            <div class="omni-data-list__item">@ItemTemplate(item)</div>
+        }
+    }
+</section>

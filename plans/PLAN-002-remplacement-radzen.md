@@ -176,6 +176,7 @@
 - [ ] Gate : documents représentatifs préservés en round-trip, payloads XSS bloqués et interactions navigateur validées.
 
 ## Phase 13 - Consolidation audit, preuves et qualité [in progress]
+- [ ] Exécuter le plan canonique de correction exhaustive `plans/PLAN-003-correction-findings-audit.md` avant les migrations consommatrices.
 - [ ] Batch A : corriger les paramètres dynamiques DataGridColumn, Numeric invariant, Tree contrôlé et focus trap Dialog avec régressions ciblées.
 - [ ] Batch A : borner `/csp-report`, masquer les messages internes Upload et renforcer les recommandations de validation serveur des fichiers.
 - [ ] Batch A : stabiliser les tests de performance et d'annulation sans délais fixes, avec échauffement et synchronisation explicite.

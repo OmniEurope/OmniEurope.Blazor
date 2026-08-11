@@ -1,25 +1,38 @@
-using Microsoft.AspNetCore.DataProtection;
 using OmniEurope.Blazor.AutoSmoke.Client;
 using OmniEurope.Blazor.AutoSmoke.Components;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
-var keyDirectory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "OmniEurope.Blazor.AutoSmoke.Keys"));
-builder.Services.AddDataProtection()
-    .PersistKeysToFileSystem(keyDirectory)
-    .SetApplicationName("OmniEurope.Blazor.AutoSmoke");
+builder.Services.AddOmniEuropeBlazor();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[] { new CultureInfo("fr"), new CultureInfo("en") };
+    options.DefaultRequestCulture = new RequestCulture("fr");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
 
 var app = builder.Build();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts();
+}
+app.UseRequestLocalization();
 app.Use(async (context, next) =>
 {
+    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    context.Response.Headers["Referrer-Policy"] = "no-referrer";
+    context.Response.Headers["Permissions-Policy"] = "camera=(), geolocation=(), microphone=()";
     context.Response.Headers.ContentSecurityPolicy =
         "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; " +
-        "style-src 'self'; script-src 'self'; img-src 'self' data:; font-src 'self'; " +
-        "connect-src 'self' ws: wss:; form-action 'self'";
+        "style-src 'self'; script-src 'self' 'wasm-unsafe-eval'; img-src 'self' data:; font-src 'self'; " +
+        "connect-src 'self'; form-action 'self'";
     await next();
 });
 app.UseAntiforgery();

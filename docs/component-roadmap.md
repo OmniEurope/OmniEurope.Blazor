@@ -33,15 +33,15 @@ Les cibles des champs texte, zone de texte, nombre, mot de passe, case à cocher
 
 ### Lot 3 - navigation et retours utilisateur
 
-Les cibles du menu latéral, breadcrumb, onglets, étapes, dialogue, notification, tooltip et menu contextuel sont présentes. Les parcours de focus et superpositions restent à éprouver dans un navigateur réel.
+Les cibles du menu latéral, breadcrumb, onglets, étapes, dialogue, notification, tooltip et menu contextuel sont présentes. Les dialogues partagent une pile restaurable et les menus contextuels un portail ordonné ; ouverture, fermeture et restauration de focus sont exercées dans Chromium sous CSP stricte. La couverture exhaustive des technologies d'assistance reste distincte.
 
 ### Lot 4 - données complexes
 
-Les cibles de liste, pagination, arbre et grille sont présentes. La grille couvre colonnes, tri, filtre, sélection, édition et modèles de cellule ; la pagination limite le rendu, mais la virtualisation pilotée par le viewport reste à implémenter.
+Les cibles de liste, pagination, arbre et grille sont présentes. La grille couvre colonnes, tri, filtre, sélection, édition et modèles de cellule ; projection pure et état distant annulable sont séparés du rendu. La virtualisation pilotée par le viewport reste à implémenter.
 
 ### Lot 5 - visualisation, planification et édition
 
-Les cibles des graphiques SVG, jauge, planificateur et éditeur riche sont présentes. La géométrie liée aux axes et aux empilements, la sélection et la composition IME de l'éditeur, ainsi que les preuves navigateur restent à compléter.
+Les cibles des graphiques SVG, jauge, planificateur et éditeur riche sont présentes. Les axes, domaines et empilements partagent la même projection ; une sélection réelle et sa restauration sont exercées dans Chromium. La composition IME reste la limite ouverte de l'éditeur.
 
 ## Règle de priorité
 

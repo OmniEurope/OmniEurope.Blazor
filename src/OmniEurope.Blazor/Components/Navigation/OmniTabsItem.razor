@@ -1,0 +1,7 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tabs__item")">
+    <button id="@TabId" type="button" class="omni-tabs__tab" role="tab" data-key="@Key" aria-selected="@(Selected ? "true" : "false")" aria-controls="@PanelId" tabindex="@(Selected ? 0 : -1)" disabled="@Disabled" @onclick="SelectAsync">@Title</button>
+    <section id="@PanelId" class="omni-tabs__panel" role="tabpanel" aria-labelledby="@TabId" hidden="@(!Selected)">@ChildContent</section>
+</div>

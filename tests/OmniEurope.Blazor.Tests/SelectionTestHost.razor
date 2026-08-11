@@ -2,7 +2,7 @@
     <OmniDropDown TValue="string" Id="drop-down" Options="@Options" AllowEmpty="true" @bind-Value="Model.Single" />
     <OmniMultiSelect TValue="string" Id="multi-select" Options="@Options" @bind-Value="Model.Multiple" />
     <OmniListBox TValue="string" Id="list-box" Options="@Options" @bind-Value="Model.ListValue" />
-    <OmniAutocomplete TValue="string" Id="autocomplete" Search="SearchAsync" DebounceMilliseconds="1" @bind-Value="Model.Autocomplete" />
+    <OmniAutocomplete TValue="string" Id="autocomplete" Search="SearchAsync" DebounceMilliseconds="@DebounceMilliseconds" @bind-Value="Model.Autocomplete" />
     <OmniCheckBoxList TValue="string" Id="checkbox-list" Label="Choix" Options="@Options" @bind-Value="Model.Checked" />
     <OmniRadioButtonList TValue="string" Id="radio-list" Label="Choix unique" Options="@Options" @bind-Value="Model.Radio" />
     <OmniSelectBar TValue="string" Id="select-bar" Label="Vue" Options="@Options" @bind-Value="Model.Bar" />
@@ -19,9 +19,13 @@
         new("gamma", "Gamma")
     ];
 
+    [Parameter]
+    public int DebounceMilliseconds { get; set; } = 1;
+
     public SelectionTestModel Model { get; } = new();
     public EditContext EditContext { get; private set; } = default!;
     public int SearchCount { get; private set; }
+    public string? LastSearch { get; private set; }
     private DateOnly MinimumDate { get; } = new(2020, 1, 1);
     private DateOnly MaximumDate { get; } = new(2030, 12, 31);
 
@@ -31,6 +35,7 @@
     {
         cancellationToken.ThrowIfCancellationRequested();
         SearchCount++;
+        LastSearch = text;
         IReadOnlyList<OmniOption<string>> results = Options
             .Where(option => option.Text.Contains(text, StringComparison.OrdinalIgnoreCase))
             .ToArray();

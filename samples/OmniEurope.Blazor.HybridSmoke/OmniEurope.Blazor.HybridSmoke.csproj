@@ -1,9 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
+    <EnforceRazorCodeBehind>true</EnforceRazorCodeBehind>
     <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
     <UseMaui>true</UseMaui>
     <SingleProject>true</SingleProject>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>OmniEurope.Blazor.HybridSmoke</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ApplicationTitle>OmniEurope.Blazor</ApplicationTitle>
+    <ApplicationId>com.sonytumen.omnieurope.hybridsmoke</ApplicationId>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <WindowsPackageType>None</WindowsPackageType>
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
@@ -11,7 +20,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" />
+    <PackageReference Include="Microsoft.Web.WebView2" />
     <ProjectReference Include="../../src/OmniEurope.Blazor/OmniEurope.Blazor.csproj" />
   </ItemGroup>
 </Project>

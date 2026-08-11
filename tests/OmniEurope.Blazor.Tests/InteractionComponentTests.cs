@@ -1,6 +1,7 @@
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
 using System.Globalization;
 
@@ -51,7 +52,7 @@ public sealed class InteractionComponentTests : BunitContext
     }
 
     [Fact]
-    public void FormInputs_UpdateTheirEditContextModel()
+    public async Task FormInputs_UpdateTheirEditContextModel()
     {
         var form = Render<FormTestHost>();
 
@@ -60,9 +61,9 @@ public sealed class InteractionComponentTests : BunitContext
         form.Find("#notes").Input("Notes");
         form.Find("#age").Change("42");
         form.Find("#accepted").Change(true);
-        form.Find("#enabled").Click();
-        form.Find("#optional-accepted").Click();
-        form.Find("#optional-enabled").Click();
+        await form.Find("#enabled").ClickAsync(new Microsoft.AspNetCore.Components.Web.MouseEventArgs());
+        await form.Find("#optional-accepted").ClickAsync(new Microsoft.AspNetCore.Components.Web.MouseEventArgs());
+        await form.Find("#optional-enabled").ClickAsync(new Microsoft.AspNetCore.Components.Web.MouseEventArgs());
 
         Assert.Equal("Alice", form.Instance.Model.Name);
         Assert.Equal("secret", form.Instance.Model.Password);
@@ -124,18 +125,35 @@ public sealed class InteractionComponentTests : BunitContext
     }
 
     [Fact]
-    public async Task DelayedValidator_CancelsStaleFieldValidation()
+    public async Task Validators_RebindWhenExpressionsModelsAndEditContextsChange()
+    {
+        var host = Render<ValidatorLifecycleTestHost>();
+        var originalContext = host.Instance.EditContext;
+
+        Assert.True(await host.InvokeAsync(() => host.Instance.EditContext.Validate()));
+        host.Instance.UseAlternativeComparison();
+        host.Render();
+        Assert.False(await host.InvokeAsync(() => host.Instance.EditContext.Validate()));
+        Assert.Contains("Les valeurs ne correspondent pas.", host.Instance.EditContext.GetValidationMessages());
+
+        host.Instance.ReplaceModel();
+        host.Render();
+        Assert.False(await host.InvokeAsync(() => host.Instance.EditContext.Validate()));
+        Assert.Contains("Ce champ est obligatoire.", host.Instance.EditContext.GetValidationMessages());
+        Assert.Empty(originalContext.GetValidationMessages());
+    }
+
+    [Fact]
+    public void DelayedValidator_CancelsStaleFieldValidation()
     {
         var form = Render<FormTestHost>();
 
         form.Find("#name").Input("Al");
         form.Find("#name").Input("Alice");
 
-        await Task.Delay(100, Xunit.TestContext.Current.CancellationToken);
-
-        Assert.DoesNotContain(
+        form.WaitForAssertion(() => Assert.DoesNotContain(
             "La longueur de ce champ n'est pas valide.",
-            form.Instance.EditContext.GetValidationMessages());
+            form.Instance.EditContext.GetValidationMessages()), TimeSpan.FromSeconds(1));
     }
 
     [Fact]
@@ -193,6 +211,34 @@ public sealed class InteractionComponentTests : BunitContext
             Assert.Equal("true", form.Find("#template-name").GetAttribute("aria-invalid"));
             Assert.Contains("Ce champ est obligatoire.", form.Find("[role=alert]").TextContent, StringComparison.Ordinal);
         });
+    }
+
+    [Fact]
+    public void TemplateForm_ContainsExpectedInteropFailuresDuringInvalidSubmission()
+    {
+        JSInterop.Mode = JSRuntimeMode.Strict;
+        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omniInterop.js");
+        module.SetupVoid("focusFirstInvalid", _ => true).SetException(new JSException("unavailable"));
+        var form = Render<TemplateFormTestHost>();
+
+        form.Find("form").Submit();
+
+        form.WaitForAssertion(() =>
+        {
+            Assert.Single(module.Invocations["focusFirstInvalid"]);
+            Assert.Contains("Ce champ est obligatoire.", form.Markup, StringComparison.Ordinal);
+            Assert.Equal("true", form.Find("#template-name").GetAttribute("aria-invalid"));
+        });
+    }
+
+    [Fact]
+    public void Validator_ReportsDelayedAccessorFailuresWithoutCrashingTheRenderer()
+    {
+        var host = Render<ValidatorFailureTestHost>();
+
+        host.InvokeAsync(host.Instance.Trigger);
+
+        host.WaitForAssertion(() => Assert.IsType<InvalidOperationException>(host.Instance.ObservedException));
     }
 
     private static RenderFragment Content(string value) => builder => builder.AddContent(0, value);

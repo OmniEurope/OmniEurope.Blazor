@@ -1,13 +1,19 @@
 @using OmniEurope.Blazor.AutoSmoke.Client
+@using OmniEurope.Blazor.AutoSmoke.Client.Resources
+@using Microsoft.Extensions.Localization
 @using static Microsoft.AspNetCore.Components.Web.RenderMode
+@inject IStringLocalizer<AutoSmokeStrings> Text
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
+    <title>@Text["Title"]</title>
+    <link rel="icon" href="data:," />
     <link rel="stylesheet" href="_content/OmniEurope.Blazor/omnieurope.blazor.css" />
+    <link rel="stylesheet" href="app.css" />
     <HeadOutlet @rendermode="InteractiveAuto" />
 </head>
 <body>

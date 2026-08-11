@@ -1,0 +1,15 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniInputBase<string>
+
+<input @attributes="AdditionalAttributes"
+       id="@Id"
+       class="@InputCss("omni-input", "omni-text-box")"
+       type="text"
+       value="@CurrentValueAsString"
+       placeholder="@Placeholder"
+       autocomplete="@Autocomplete"
+       disabled="@Disabled"
+       readonly="@ReadOnly"
+       aria-invalid="@AriaInvalid"
+       aria-describedby="@AriaDescribedBy"
+       @oninput="HandleInput" />

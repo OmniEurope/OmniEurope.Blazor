@@ -1,0 +1,20 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniInputBase<string>
+
+<div class="omni-text-area">
+    <textarea @attributes="AdditionalAttributes"
+              id="@Id"
+              class="@InputCss("omni-input", "omni-text-area__input")"
+              rows="@Rows"
+              maxlength="@MaxLength"
+              placeholder="@Placeholder"
+              disabled="@Disabled"
+              readonly="@ReadOnly"
+              aria-invalid="@AriaInvalid"
+              aria-describedby="@AriaDescribedBy"
+              @oninput="HandleInput">@CurrentValueAsString</textarea>
+    @if (ShowCount && MaxLength is not null)
+    {
+        <span class="omni-text-area__count" aria-live="polite">@CurrentLength / @MaxLength</span>
+    }
+</div>

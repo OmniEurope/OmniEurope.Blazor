@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
   <PropertyGroup>
+    <EnforceRazorCodeBehind>true</EnforceRazorCodeBehind>
     <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>

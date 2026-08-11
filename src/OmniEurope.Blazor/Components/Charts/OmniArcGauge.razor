@@ -1,0 +1,6 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<figure @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-arc-gauge")">
+    <svg class="omni-arc-gauge__svg" viewBox="0 0 100 60" role="img" aria-label="@EffectiveLabel">@ChildContent</svg>
+</figure>

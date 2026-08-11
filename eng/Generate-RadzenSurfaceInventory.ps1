@@ -1,146 +1,204 @@
 [CmdletBinding()]
 param(
     [string]$WorkspaceRoot = 'C:\Dev',
+    [string]$ManifestPath = (Join-Path $PSScriptRoot '..\docs\radzen-corpus.json'),
     [string]$OutputDirectory = (Join-Path $PSScriptRoot '..\docs')
 )
 
 $ErrorActionPreference = 'Stop'
-$workspace = (Resolve-Path -LiteralPath $WorkspaceRoot).Path.TrimEnd('\')
-$output = [System.IO.Path]::GetFullPath($OutputDirectory)
-$selfRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..')).TrimEnd('\') + '\'
-$excluded = '(\\|/)(bin|obj|node_modules|packages|artifacts|\.git|\.vs)(\\|/)'
+$psText = Import-PowerShellDataFile (Join-Path $PSScriptRoot 'PowerShellMessages.psd1')
+. (Join-Path $PSScriptRoot 'RadzenCorpus.ps1')
+. (Join-Path $PSScriptRoot 'RadzenSyntax.ps1')
+$corpus = Read-RadzenCorpus -ManifestPath $ManifestPath -WorkspaceRoot $WorkspaceRoot
+$manifest = $corpus.Manifest
+$output = [IO.Path]::GetFullPath($OutputDirectory)
+$selfRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..')).TrimEnd('\') + '\'
 $extensions = '.cs', '.razor', '.css', '.js', '.json', '.resx', '.xml', '.csproj'
-
-$fileGlobs = @($extensions | ForEach-Object { '-g'; "*$_" }) + @(
-    '-g', '!**/bin/**', '-g', '!**/obj/**', '-g', '!**/node_modules/**',
-    '-g', '!**/packages/**', '-g', '!**/artifacts/**', '-g', '!**/.git/**', '-g', '!**/.vs/**'
-)
-$allFilePaths = @(& rg --files --hidden @fileGlobs $workspace)
-$matchingPaths = @(& rg --files-with-matches --hidden --ignore-case @fileGlobs 'radzen' $workspace)
-$files = @($matchingPaths | ForEach-Object { Get-Item -LiteralPath $_ } | Where-Object {
-    -not $_.FullName.StartsWith($selfRoot, [StringComparison]::OrdinalIgnoreCase)
-})
-
-$symbolCounts = @{}
-$resourceCounts = @{}
+$observations = [Collections.Generic.List[object]]::new()
 $contracts = @{}
-$filesWithUsage = [System.Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+$templates = [Collections.Generic.List[object]]::new()
+$filesWithUsage = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
 
-foreach ($file in $files) {
-    $content = [string](Get-Content -Raw -LiteralPath $file.FullName -ErrorAction SilentlyContinue)
-    if ([string]::IsNullOrEmpty($content)) { continue }
-    $relative = [System.IO.Path]::GetRelativePath($workspace, $file.FullName).Replace('\', '/')
+foreach ($source in $corpus.Files | Where-Object { [IO.Path]::GetExtension($_.Path) -in $extensions }) {
+    if ([IO.Path]::GetFullPath($source.FullPath).StartsWith($selfRoot, [StringComparison]::OrdinalIgnoreCase)) { continue }
+    $content = [string](Get-Content -Raw -LiteralPath $source.FullPath)
+    if ([string]::IsNullOrEmpty($content) -or $content -notmatch '(?i)radzen|\.rz-') { continue }
+    $extension = [IO.Path]::GetExtension($source.Path).ToLowerInvariant()
 
-    $symbols = [regex]::Matches($content, '(?<![A-Za-z0-9_])(Radzen[A-Z][A-Za-z0-9_]*)')
-    foreach ($match in $symbols) {
-        $name = $match.Groups[1].Value
-        if (-not $symbolCounts.ContainsKey($name)) { $symbolCounts[$name] = 0 }
-        $symbolCounts[$name]++
-        [void]$filesWithUsage.Add($relative)
-    }
-
-    foreach ($pattern in @('Radzen\.Blazor', '_content/Radzen\.Blazor', '(?i)radzen[-\.]')) {
-        $count = [regex]::Matches($content, $pattern).Count
-        if ($count -gt 0) {
-            $key = switch -Regex ($pattern) {
-                '^Radzen' { 'package-or-namespace' }
-                '^_content' { 'static-resource' }
-                default { 'css-or-script-token' }
+    if ($extension -eq '.razor') {
+        $components = @(Get-RadzenRazorComponents -Text $content)
+        foreach ($component in $components) {
+            $evidence = [ordered]@{
+                path = $source.Path
+                line = $component.line
+                column = $component.column
+                offset = $component.offset
+                sha256 = $source.Sha256
+                project = $source.Project
+                status = $source.Status
             }
-            if (-not $resourceCounts.ContainsKey($key)) { $resourceCounts[$key] = 0 }
-            $resourceCounts[$key] += $count
-            [void]$filesWithUsage.Add($relative)
+            $observations.Add([pscustomobject]@{
+                kind = 'razor-component'
+                name = $component.component
+                path = $source.Path
+                line = $component.line
+                column = $component.column
+                offset = $component.offset
+                sha256 = $source.Sha256
+                project = $source.Project
+                status = $source.Status
+            })
+            [void]$filesWithUsage.Add($source.Path)
+
+            if (-not $contracts.ContainsKey($component.component)) {
+                $contracts[$component.component] = @{
+                    observations = [Collections.Generic.List[object]]::new()
+                    parameters = @{}
+                }
+            }
+            $contracts[$component.component].observations.Add([pscustomobject]@{
+                path = $source.Path
+                line = $component.line
+                column = $component.column
+                offset = $component.offset
+                sha256 = $source.Sha256
+                parameters = @($component.parameters)
+            })
+            foreach ($parameter in $component.parameters) {
+                if (-not $contracts[$component.component].parameters.ContainsKey($parameter)) {
+                    $contracts[$component.component].parameters[$parameter] = [Collections.Generic.List[object]]::new()
+                }
+                $contracts[$component.component].parameters[$parameter].Add([pscustomobject]$evidence)
+            }
+        }
+
+        if ($components.Count -gt 0) {
+            foreach ($template in [regex]::Matches((Remove-RazorCommentsPreservingLines $content), '<\s*(Template|HeaderTemplate|FooterTemplate|ItemTemplate|EditTemplate|ChildContent|EmptyTemplate|LoadingTemplate)\b')) {
+                $templates.Add([pscustomobject]@{
+                    name = $template.Groups[1].Value
+                    path = $source.Path
+                    line = Get-SourceLineNumber -Text $content -Index $template.Index
+                    column = Get-SourceColumnNumber -Text $content -Index $template.Index
+                    offset = $template.Index
+                    sha256 = $source.Sha256
+                })
+            }
         }
     }
 
-    if ($file.Extension -ne '.razor') { continue }
-    $clean = [regex]::Replace($content, '(?s)@\*.*?\*@|<!--.*?-->', '')
-    foreach ($tag in [regex]::Matches($clean, '(?s)<\s*(Radzen[A-Z][A-Za-z0-9_]*)\b([^<>]*?)>')) {
-        $component = $tag.Groups[1].Value
-        if (-not $contracts.ContainsKey($component)) {
-            $contracts[$component] = @{ occurrences = 0; parameters = @{}; templates = @{} }
-        }
-        $contracts[$component].occurrences++
-        foreach ($attribute in [regex]::Matches($tag.Groups[2].Value, '(?m)(?<![@:A-Za-z0-9_-])([A-Z][A-Za-z0-9_]*)\s*=')) {
-            $parameter = $attribute.Groups[1].Value
-            if (-not $contracts[$component].parameters.ContainsKey($parameter)) { $contracts[$component].parameters[$parameter] = 0 }
-            $contracts[$component].parameters[$parameter]++
-        }
-    }
-
-    foreach ($template in [regex]::Matches($clean, '<\s*(Template|HeaderTemplate|FooterTemplate|ItemTemplate|EditTemplate|ChildContent|EmptyTemplate|LoadingTemplate)\b')) {
-        $name = $template.Groups[1].Value
-        if (-not $contracts.ContainsKey('_templates')) { $contracts['_templates'] = @{ occurrences = 0; parameters = @{}; templates = @{} } }
-        if (-not $contracts['_templates'].templates.ContainsKey($name)) { $contracts['_templates'].templates[$name] = 0 }
-        $contracts['_templates'].templates[$name]++
+    foreach ($reference in Get-RadzenClassifiedReferences -Text $content -Extension $extension) {
+        $observations.Add([pscustomobject]@{
+            kind = $reference.kind
+            name = $reference.name
+            path = $source.Path
+            line = $reference.line
+            column = $reference.column
+            offset = $reference.offset
+            sha256 = $source.Sha256
+            project = $source.Project
+            status = $source.Status
+        })
+        [void]$filesWithUsage.Add($source.Path)
     }
 }
 
-$symbols = @($symbolCounts.GetEnumerator() | Sort-Object Name | ForEach-Object { [pscustomobject]@{ name = $_.Key; occurrences = $_.Value } })
-$resources = @($resourceCounts.GetEnumerator() | Sort-Object Name | ForEach-Object { [pscustomobject]@{ kind = $_.Key; occurrences = $_.Value } })
-$contractEntries = @($contracts.GetEnumerator() | Where-Object Name -ne '_templates' | Sort-Object Name | ForEach-Object {
+$componentSummary = @($observations | Where-Object kind -eq 'razor-component' | Group-Object name | Sort-Object Name | ForEach-Object {
+    [pscustomobject]@{ name = $_.Name; occurrences = $_.Count }
+})
+$referenceSummary = @($observations | Where-Object kind -ne 'razor-component' | Group-Object kind, name | Sort-Object Name | ForEach-Object {
+    [pscustomobject]@{ kind = $_.Group[0].kind; name = $_.Group[0].name; occurrences = $_.Count }
+})
+$contractEntries = @($contracts.GetEnumerator() | Sort-Object Name | ForEach-Object {
+    $contract = $_.Value
     [pscustomobject]@{
         component = $_.Key
-        occurrences = $_.Value.occurrences
-        parameters = @($_.Value.parameters.GetEnumerator() | Sort-Object Name | ForEach-Object { [pscustomobject]@{ name = $_.Key; occurrences = $_.Value } })
+        occurrences = $contract.observations.Count
+        observations = @($contract.observations)
+        parameters = @($contract.parameters.GetEnumerator() | Sort-Object Name | ForEach-Object {
+            [pscustomobject]@{ name = $_.Key; occurrences = $_.Value.Count; evidence = @($_.Value) }
+        })
     }
 })
-$templates = if ($contracts.ContainsKey('_templates')) { @($contracts['_templates'].templates.GetEnumerator() | Sort-Object Name | ForEach-Object { [pscustomobject]@{ name = $_.Key; occurrences = $_.Value } }) } else { @() }
-$generatedAt = (Get-Date).ToString('yyyy-MM-ddTHH:mm:ssK')
+$generatedAt = if ($manifest.generatedAt -is [datetime]) { $manifest.generatedAt.ToString('yyyy-MM-ddTHH:mm:ssK', [Globalization.CultureInfo]::InvariantCulture) } else { [string]$manifest.generatedAt }
+$manifestRelative = [IO.Path]::GetRelativePath((Join-Path $PSScriptRoot '..'), $corpus.ManifestPath).Replace('\', '/')
 
 $surface = [ordered]@{
+    schemaVersion = 2
     generatedAt = $generatedAt
-    workspaceRoot = $workspace
-    scannedFiles = $allFilePaths.Count
+    provenance = [ordered]@{
+        workspaceRoot = $corpus.Workspace
+        corpusManifest = $manifestRelative
+        corpusManifestSha256 = $corpus.ManifestSha256
+        corpusSchemaVersion = $manifest.schemaVersion
+    }
     filesWithUsage = $filesWithUsage.Count
-    symbols = $symbols
-    resources = $resources
-    files = @($filesWithUsage | Sort-Object)
+    componentSummary = $componentSummary
+    referenceSummary = $referenceSummary
+    observations = @($observations | Sort-Object path, offset, kind, name)
 }
 $contractDocument = [ordered]@{
+    schemaVersion = 2
     generatedAt = $generatedAt
+    provenance = $surface.provenance
     components = $contractEntries
-    templates = $templates
+    templates = @($templates | Sort-Object path, line, name)
 }
 
-[System.IO.Directory]::CreateDirectory($output) | Out-Null
-$surface | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $output 'radzen-surface-inventory.json') -Encoding utf8
-$contractDocument | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $output 'component-contracts.json') -Encoding utf8
+[IO.Directory]::CreateDirectory($output) | Out-Null
+$surface | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath (Join-Path $output 'radzen-surface-inventory.json') -Encoding utf8
+$contractDocument | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath (Join-Path $output 'component-contracts.json') -Encoding utf8
 
-$surfaceLines = [System.Collections.Generic.List[string]]::new()
-$surfaceLines.Add('# Inventaire étendu de la surface Radzen')
+$surfaceLines = [Collections.Generic.List[string]]::new()
+$surfaceLines.Add($psText.SurfaceTitle)
 $surfaceLines.Add('')
-$surfaceLines.Add("Généré le $generatedAt par inspection en lecture seule de $($allFilePaths.Count) fichiers sous ``$workspace``. Le dépôt OmniEurope.Blazor et les sorties techniques sont exclus.")
+$surfaceLines.Add(($psText.InventoryGenerated -f $corpus.ManifestSha256, $generatedAt))
 $surfaceLines.Add('')
-$surfaceLines.Add("- Fichiers contenant un symbole, une ressource ou un token Radzen : **$($filesWithUsage.Count)**")
-$surfaceLines.Add("- Symboles C#/Razor distincts : **$($symbols.Count)**")
+$surfaceLines.Add($psText.SurfaceMethod)
 $surfaceLines.Add('')
-$surfaceLines.Add('| Symbole | Occurrences |')
+$surfaceLines.Add(($psText.SurfaceFiles -f $filesWithUsage.Count))
+$surfaceLines.Add(($psText.SurfaceTags -f (($componentSummary | Measure-Object occurrences -Sum).Sum)))
+$surfaceLines.Add(($psText.SurfaceDistinctTags -f $componentSummary.Count))
+$surfaceLines.Add('')
+$surfaceLines.Add($psText.SurfaceComponentsHeading)
+$surfaceLines.Add('')
+$surfaceLines.Add('| Balise | Occurrences |')
 $surfaceLines.Add('|---|---:|')
-foreach ($symbol in $symbols) { $surfaceLines.Add("| ``$($symbol.name)`` | $($symbol.occurrences) |") }
+foreach ($component in $componentSummary) { $surfaceLines.Add("| ``$($component.name)`` | $($component.occurrences) |") }
 $surfaceLines.Add('')
-$surfaceLines.Add('## Ressources et intégrations')
+$surfaceLines.Add($psText.SurfaceReferencesHeading)
 $surfaceLines.Add('')
-$surfaceLines.Add('| Nature | Occurrences |')
-$surfaceLines.Add('|---|---:|')
-foreach ($resource in $resources) { $surfaceLines.Add("| $($resource.kind) | $($resource.occurrences) |") }
+$surfaceLines.Add($psText.SurfaceReferenceHeader)
+$surfaceLines.Add('|---|---|---:|')
+foreach ($reference in $referenceSummary) { $surfaceLines.Add("| $($reference.kind) | ``$($reference.name)`` | $($reference.occurrences) |") }
+$surfaceLines.Add('')
+$surfaceLines.Add($psText.SurfaceProvenance)
 $surfaceLines | Set-Content -LiteralPath (Join-Path $output 'radzen-surface-inventory.md') -Encoding utf8
 
-$contractLines = [System.Collections.Generic.List[string]]::new()
-$contractLines.Add('# Contrats observés des composants Radzen')
+$contractLines = [Collections.Generic.List[string]]::new()
+$contractLines.Add($psText.ContractTitle)
 $contractLines.Add('')
-$contractLines.Add('Ce rapport extrait les paramètres nommés et les emplacements de templates réellement présents dans les fichiers Razor, sans lire le code source de Radzen.')
+$contractLines.Add($psText.ContractReliableIntro)
 foreach ($entry in $contractEntries) {
     $contractLines.Add('')
     $contractLines.Add("## $($entry.component)")
     $contractLines.Add('')
-    $parameterText = if ($entry.parameters.Count -eq 0) { 'Aucun paramètre nommé observé.' } else { ($entry.parameters | ForEach-Object { "``$($_.name)`` ($($_.occurrences))" }) -join ', ' }
-    $contractLines.Add($parameterText)
+    if ($entry.parameters.Count -eq 0) {
+        $contractLines.Add($psText.ContractNoObservedParameters)
+        continue
+    }
+    $contractLines.Add($psText.ContractEvidenceHeader)
+    $contractLines.Add('|---|---:|---|')
+    foreach ($parameter in $entry.parameters) {
+        $evidence = @($parameter.evidence | ForEach-Object { "``$($_.path):$($_.line)`` (``$($_.sha256.Substring(0, 12))``)" }) -join '<br>'
+        $contractLines.Add("| ``$($parameter.name)`` | $($parameter.occurrences) | $evidence |")
+    }
 }
 $contractLines.Add('')
-$contractLines.Add('## Templates observés')
+$contractLines.Add($psText.ContractTemplatesHeading)
 $contractLines.Add('')
-$contractLines.Add((($templates | ForEach-Object { "``$($_.name)`` ($($_.occurrences))" }) -join ', '))
+foreach ($template in $contractDocument.templates) {
+    $contractLines.Add("- ``$($template.name)`` : ``$($template.path):$($template.line)`` (``$($template.sha256.Substring(0, 12))``)")
+}
 $contractLines | Set-Content -LiteralPath (Join-Path $output 'component-contracts.md') -Encoding utf8
 
-Write-Host "Extended Radzen surface inventory generated: $($symbols.Count) symbols across $($filesWithUsage.Count) files."
+Write-Host "Classified Radzen inventory generated: $($componentSummary.Count) component tags, $($observations.Count) provenanced observations."
