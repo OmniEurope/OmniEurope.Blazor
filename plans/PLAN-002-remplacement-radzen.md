@@ -1,7 +1,7 @@
 # Plan - Remplacement complet de Radzen
 
 > Canonical plan: `plans/PLAN-002-remplacement-radzen.md`
-> Last updated: 2026-08-10
+> Last updated: 2026-08-11
 > Current scope: build and validate the complete component library first; consumer migrations are deferred to phases 14 and 15.
 
 ## Phase 1 - Fondation et publication initiale [done]
@@ -54,12 +54,12 @@
 - [x] Implémenter split button et ses items avec navigation clavier.
 - [x] Implémenter toggle button avec états pressé et désactivé.
 - [x] Créer l'hôte de services OmniEurope remplaçant `RadzenComponents`.
-- [x] Créer une couche de portail unique pour les superpositions.
-- [x] Implémenter dialog avec focus trap, fermeture contrôlée et restauration du focus.
+- [ ] Créer une véritable couche de portail pour les superpositions au lieu du rendu direct dans l'hôte.
+- [ ] Implémenter dialog avec focus trap sur les éléments réellement focalisables, fermeture contrôlée et restauration du focus.
 - [x] Implémenter notifications avec régions live et files d'attente.
 - [x] Implémenter tooltip avec déclencheurs clavier, souris et tactile.
 - [x] Implémenter context menu sans gestionnaire HTML inline.
-- [x] Gérer z-index, scroll lock, clic extérieur, Escape et superpositions imbriquées.
+- [ ] Gérer z-index, scroll lock, clic extérieur, Escape et superpositions imbriquées avec une pile réelle.
 - [x] Ajouter les tests unitaires et les assertions d'accessibilité DOM de la famille.
 - [ ] Exécuter l'intégration dans un navigateur réel avec contrôle du focus et des superpositions.
 - [ ] Gate : services et superpositions validés dans un navigateur réel sous CSP stricte, sans migration consommatrice.
@@ -85,6 +85,7 @@
 - [x] Définir le modèle commun d'options, valeurs, texte, groupes, recherche et valeur vide.
 - [ ] Implémenter un chemin réellement virtualisé pour les drop-down à gros volume.
 - [x] Implémenter autocomplete avec annulation, debounce et annonces de résultats.
+- [ ] Exposer et tester un état d'erreur remplaçable pour les recherches asynchrones d'autocomplete.
 - [x] Implémenter list box et checkbox list.
 - [x] Implémenter radio button list et ses items.
 - [x] Implémenter select bar et ses items.
@@ -170,6 +171,7 @@
 - [x] Implémenter separator et custom tool via une API contrôlée.
 - [ ] Gérer collage, sélection, IME, clavier et lecture d'écran avec conservation réelle du caret.
 - [x] Ajouter les tests de sécurité XSS, sérialisation et round-trip.
+- [ ] Borner l'historique par nombre ou octets et éviter la sanitisation complète du document à chaque frappe.
 - [ ] Exécuter la collecte CSP de l'éditeur dans un navigateur réel.
 - [ ] Gate : documents représentatifs préservés en round-trip, payloads XSS bloqués et interactions navigateur validées.
 
@@ -177,14 +179,13 @@
 - [ ] Batch A : corriger les paramètres dynamiques DataGridColumn, Numeric invariant, Tree contrôlé et focus trap Dialog avec régressions ciblées.
 - [ ] Batch A : borner `/csp-report`, masquer les messages internes Upload et renforcer les recommandations de validation serveur des fichiers.
 - [ ] Batch A : stabiliser les tests de performance et d'annulation sans délais fixes, avec échauffement et synchronisation explicite.
-- [ ] Batch A : réduire la surface SemVer des types de plomberie après vérification des consommateurs.
 - [ ] Batch A : décider et appliquer par lots la convention `.razor.cs`/`GEN004` sans changement de comportement.
 - [ ] Batch B : remplacer la gate CSP HTTP par un scénario navigateur exercé et une collecte de rapports réelle.
-- [ ] Batch B : remplacer la baseline API regex par une extraction sémantique exhaustive.
+- [ ] Batch B : remplacer la baseline API regex par une extraction sémantique exhaustive et des fixtures négatifs par catégorie de membre public.
 - [ ] Batch B : lier la couverture 110/110 et le catalogue à des tests comportementaux, états et variantes prouvés.
 - [ ] Batch B : compléter les tests DataGrid, charts, Scheduler DST, HtmlEditor, navigateur et accessibilité outillée.
 - [ ] Batch B : paramétrer ou localiser toutes les chaînes visibles et labels accessibles selon `STD-I18N`.
-- [ ] Batch B : corriger puis verrouiller en CI les générateurs d'inventaire, contrats et couverture afin que les documents ne dérivent plus.
+- [ ] Batch B : corriger puis verrouiller en CI `Generate-RadzenSurfaceInventory.ps1` et `Generate-RadzenInventory.ps1` afin que contrats et inventaires ne réintroduisent plus de formulations obsolètes.
 - [ ] Batch B : documenter la stratégie de tests multi-hôte, navigateur, accessibilité et limites de chaque gate.
 - [ ] Batch C : produire dans une tâche isolée un audit de provenance reproductible avec versions/SHA, manifestes, hashes, scanner versionné et résultats bruts.
 - [ ] Batch C : ajouter une gate CI de provenance sur sources, DLL/PDB, CSS, JavaScript, NuGet et symboles avec paquet négatif contaminé.

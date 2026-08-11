@@ -1,11 +1,11 @@
 # OmniEurope.Blazor
 
-Bibliothèque de composants Blazor développée indépendamment pour les applications OmniEurope. Son objectif est de fournir des primitives accessibles, thémables et compatibles avec une politique CSP stricte, afin de remplacer progressivement les usages de Radzen sans reprendre son code.
+Bibliothèque de composants Blazor conçue selon une politique d'implémentation indépendante pour les applications OmniEurope. Son objectif est de fournir des primitives accessibles, thémables et compatibles avec une politique CSP stricte, afin de remplacer progressivement les usages de Radzen sans réutiliser son code.
 
 ## Principes
 
-- implémentation clean-room : aucune source Radzen n'est copiée ni traduite ;
-- aucun attribut `style`, aucune balise `<style>` générée à l'exécution et aucun `unsafe-eval` ;
+- politique clean-room : la copie ou la traduction de sources Radzen est interdite ; les limites des preuves de provenance actuellement conservées sont documentées dans [docs/reproducibility.md](docs/reproducibility.md) ;
+- contrat CSP interdisant les attributs `style`, les balises `<style>` générées à l'exécution et `unsafe-eval` ; la portée actuelle des vérifications est documentée dans [docs/csp-contract.md](docs/csp-contract.md) ;
 - styles livrés comme ressource statique versionnée ;
 - API orientée capacités métier, sans promesse de compatibilité binaire avec Radzen ;
 - accessibilité clavier et sémantique HTML intégrées aux critères d'acceptation ;
@@ -41,7 +41,7 @@ Exemple :
 
 Les 110 balises inventoriées disposent désormais d'une cible Razor OmniEurope : fondations, formulaires, sélecteurs, superpositions, navigation, collections, DataGrid, graphiques, scheduler et éditeur HTML. Ce total mesure la présence des cibles, pas une équivalence comportementale ni une validation complète. Le panorama et les limites actuelles sont décrits dans [docs/component-families.md](docs/component-families.md), avec les détails des [fondations](docs/foundation-components.md), [formulaires](docs/form-components.md) et [sélecteurs](docs/selection-components.md). Le [guide de migration](docs/migration-guide.md) prépare le remplacement sans l'exécuter.
 
-La bibliothèque est construite et validée avant toute migration : aucun projet consommateur n'est modifié pendant cette étape.
+La bibliothèque est construite et soumise aux gates documentées avant toute migration. Ces gates ne constituent pas encore une validation comportementale ou navigateur exhaustive, et aucun projet consommateur n'est modifié pendant cette étape.
 
 ## CSP de référence
 

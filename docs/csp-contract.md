@@ -10,7 +10,7 @@ Le code livré par `OmniEurope.Blazor` ne doit pas :
 - utiliser `eval`, `new Function` ou une API équivalente ;
 - charger automatiquement une ressource depuis une origine distante.
 
-Les variations visuelles dynamiques passent par un ensemble fini de classes CSS, d'attributs `data-*` et d'états ARIA. La feuille `_content/OmniEurope.Blazor/omnieurope.blazor.css` est une ressource statique que l'application peut autoriser via `'self'`.
+Les variations visuelles dynamiques passent par un ensemble fini de classes CSS, d'attributs `data-*`, d'états ARIA et, pour le SVG, d'attributs géométriques ou de présentation autorisés ; aucun style inline n'est généré. La feuille `_content/OmniEurope.Blazor/omnieurope.blazor.css` est une ressource statique que l'application peut autoriser via `'self'`.
 
 ## Responsabilité de l'application hôte
 

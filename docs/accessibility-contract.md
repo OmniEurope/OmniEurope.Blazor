@@ -3,7 +3,7 @@
 ## Règles communes
 
 - Utiliser l'élément HTML natif lorsqu'il existe (`button`, `input`, `select`, `nav`, `table`, `fieldset`).
-- Conserver un ordre de focus identique à l'ordre du document ; aucun `tabindex` positif.
+- Conserver un ordre de focus identique à l'ordre du document ; la bibliothèque n'émet aucun `tabindex` positif par défaut et les consommateurs ne doivent pas en fournir via `TabIndex` ou `AdditionalAttributes`.
 - Afficher un anneau `:focus-visible` contrasté et respecter `prefers-reduced-motion`.
 - Exposer `disabled`, `aria-busy`, `aria-invalid`, `aria-current`, `aria-selected` et `aria-expanded` sous forme de chaînes ARIA valides.
 - Relier libellés, descriptions et erreurs avec `for`, `aria-describedby` et les landmarks appropriés.
@@ -23,4 +23,4 @@ Les couleurs d'état ne sont jamais l'unique information : texte, icône, rôle 
 
 ## État de la vérification
 
-Les tests automatisés actuels couvrent une partie du HTML sémantique, des attributs ARIA et des interactions simulées avec bUnit. Ils ne constituent pas une validation exhaustive en navigateur : les parcours clavier réels, le focus des superpositions, un moteur d'audit accessibilité et les technologies d'assistance restent à vérifier avant de revendiquer une conformité complète. `OmniTabs` change actuellement la sélection avec les flèches, mais le déplacement réel du focus et le motif `tablist`/roving `tabindex` ne sont pas encore implémentés.
+Les tests automatisés actuels couvrent une partie du HTML sémantique, des attributs ARIA et des interactions simulées avec bUnit. Ils ne constituent pas une validation exhaustive en navigateur : les parcours clavier réels, le focus des superpositions, un moteur d'audit accessibilité et les technologies d'assistance restent à vérifier avant de revendiquer une conformité complète. `OmniTabs` expose déjà les rôles `tab`/`tabpanel`, applique un `tabindex` roving `0/-1` et change la sélection avec les flèches. En revanche, le conteneur n'expose pas encore `role="tablist"` et les commandes clavier ne déplacent pas réellement le focus DOM vers l'onglet nouvellement sélectionné.

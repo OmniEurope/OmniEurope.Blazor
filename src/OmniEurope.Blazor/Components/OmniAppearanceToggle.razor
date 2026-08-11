@@ -17,13 +17,13 @@
     public EventCallback<OmniAppearance> AppearanceChanged { get; set; }
 
     [Parameter]
-    public string AriaLabel { get; set; } = "Change appearance";
+    public string AriaLabel { get; set; } = "Changer l'apparence";
 
     private string DisplayLabel => Appearance switch
     {
-        OmniAppearance.Light => "Light",
-        OmniAppearance.Dark => "Dark",
-        _ => "System"
+        OmniAppearance.Light => "Clair",
+        OmniAppearance.Dark => "Sombre",
+        _ => "Système"
     };
 
     private Task CycleAsync() => AppearanceChanged.InvokeAsync(Appearance switch

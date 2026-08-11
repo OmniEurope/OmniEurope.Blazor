@@ -1,6 +1,6 @@
 # Inventaire étendu de la surface Radzen
 
-Généré le 2026-08-10T15:04:54+02:00 par inspection en lecture seule de 31030 fichiers sous `C:\Dev`. Le dépôt OmniEurope.Blazor et les sorties techniques sont exclus.
+Généré le 2026-08-10T15:04:54+02:00 après recensement en lecture seule de 31030 fichiers candidats sous `C:\Dev`. Le dépôt OmniEurope.Blazor et les sorties techniques sont exclus avant l'analyse des symboles, mais le total candidat affiché les inclut encore.
 
 - Fichiers contenant un symbole, une ressource ou un token Radzen : **1457**
 - Symboles C#/Razor distincts : **122**

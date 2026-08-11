@@ -2,7 +2,7 @@
 
 Généré le 2026-08-10T11:33:36+02:00 à partir de `C:\Dev`.
 
-Méthode : balises `Radzen*` réellement présentes dans les fichiers `.razor`; commentaires Razor et HTML exclus. Les sorties de build, dépendances et dossiers techniques ne sont pas parcourus. Les projets marqués « miroir », « modèle » ou « archivé » restent visibles mais ne déterminent pas la priorité active.
+Méthode : balises `Radzen*` réellement présentes dans les fichiers `.razor` ; commentaires Razor et HTML exclus. Les sorties de build, dépendances et dossiers techniques ne sont pas parcourus. Les projets marqués « miroir », « modèle » ou « archivé » n'affectent pas le nombre de projets actifs, mais leurs occurrences participent au tri secondaire actuel.
 
 Résumé : **18 projets actifs avec usages Razor**, **22 projets actifs avec usage ou dépendance**, **105 composants distincts actifs** et **110 composants distincts** sur l'ensemble du parc observé.
 

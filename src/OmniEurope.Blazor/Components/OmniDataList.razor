@@ -43,6 +43,7 @@
 
 @code {
     private CancellationTokenSource? _loadCancellation;
+    private int _loadGeneration;
     private IReadOnlyList<TItem> _items = Array.Empty<TItem>();
     private Exception? _error;
     private bool _loading;
@@ -76,8 +77,11 @@
         base.OnParametersSet();
         if (Load is null)
         {
+            _loadCancellation?.Cancel();
+            _loadGeneration++;
             _items = Items;
             _error = null;
+            _loading = false;
             return;
         }
 
@@ -101,30 +105,42 @@
         _loadCancellation?.Dispose();
         _loadCancellation = new CancellationTokenSource();
         var token = _loadCancellation.Token;
+        var generation = ++_loadGeneration;
         _loading = true;
         _error = null;
 
         try
         {
-            _items = await Load(token);
+            var items = await Load(token);
+            if (generation == _loadGeneration)
+            {
+                _items = items;
+            }
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested)
         {
         }
         catch (Exception exception)
         {
-            _error = exception;
-            _items = Array.Empty<TItem>();
+            if (generation == _loadGeneration)
+            {
+                _error = exception;
+                _items = Array.Empty<TItem>();
+            }
         }
         finally
         {
-            _loading = false;
+            if (generation == _loadGeneration)
+            {
+                _loading = false;
+            }
         }
     }
 
     public ValueTask DisposeAsync()
     {
         _loadCancellation?.Cancel();
+        _loadGeneration++;
         _loadCancellation?.Dispose();
         return ValueTask.CompletedTask;
     }

@@ -1,6 +1,6 @@
 # Procédure clean-room
 
-Le projet reproduit des capacités générales de composants d'interface, jamais l'expression originale du code Radzen.
+La procédure clean-room impose de reproduire uniquement des capacités générales de composants d'interface, sans reprendre l'expression originale du code Radzen.
 
 ## Sources autorisées
 
@@ -24,7 +24,7 @@ Le projet reproduit des capacités générales de composants d'interface, jamais
 4. Vérifier le rendu, le clavier, l'accessibilité et le contrat CSP.
 5. Documenter la correspondance de migration sans prétendre à une compatibilité totale.
 
-Toute nouvelle capacité ou évolution substantielle doit utiliser la [fiche clean-room](clean-room-component-sheet.md). Les composants déjà créés ne disposent pas de fiches historiques remplies ; il ne faut pas en fabriquer rétroactivement. L'inventaire étendu [radzen-surface-inventory.md](radzen-surface-inventory.md) et les [contrats observés](component-contracts.md) sont produits uniquement depuis les applications consommatrices, sans inspection du code ou des assemblies Radzen.
+Toute nouvelle capacité ou évolution substantielle doit utiliser la [fiche clean-room](clean-room-component-sheet.md). Les composants déjà créés ne disposent pas de fiches historiques remplies ; il ne faut pas en fabriquer rétroactivement. L'inventaire étendu [radzen-surface-inventory.md](radzen-surface-inventory.md) et les [contrats observés](component-contracts.md) sont générés depuis un instantané externe de `C:\Dev`, en excluant ce dépôt. Le générateur actuel ne conserve pas encore un manifeste permettant d'attester que chaque entrée provient exclusivement d'une application consommatrice ; cette limite est documentée dans [reproducibility.md](reproducibility.md).
 
 Ces inventaires décrivent des usages observables, mais ne prouvent pas à eux seuls la provenance de l'implémentation. Toute comparaison de provenance future doit être isolée du travail d'implémentation et conserver les versions, empreintes, manifestes, paramètres et résultats nécessaires à une reproduction indépendante.
 

@@ -18,10 +18,13 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 ### Changed
 
 - Remplacement de la référence serveur `Microsoft.AspNetCore.App` par le paquet client-compatible `Microsoft.AspNetCore.Components.Web`.
+- Francisation des libellés accessibles par défaut d'`OmniAppearanceToggle`, `OmniProgressBar` et `OmniSidebarToggle`.
+- Précision des limites de preuve du registre de couverture, de la procédure clean-room, des contrôles CSP et de la baseline API après audit et revue adversariale.
 
 ### Fixed
 
 - Annonce accessible des erreurs de validation, focus automatique sur le premier contrôle invalide et prise en charge des entrées autonomes hors `EditForm`.
-- Assainissement de la valeur initiale de l'éditeur HTML et protection contre les résultats asynchrones obsolètes dans Autocomplete, DataGrid et Scheduler.
+- Assainissement de la valeur initiale de l'éditeur HTML et protection contre les résultats asynchrones obsolètes dans Autocomplete, DataList, DataGrid et Scheduler.
 - Coûts répétés supprimés dans DropDown et les séries Pie/Donut, sans changer leurs contrats publics.
+- Correction de l'exemple `OmniSkeleton` du catalogue pour utiliser le paramètre public `LineCount`.
 

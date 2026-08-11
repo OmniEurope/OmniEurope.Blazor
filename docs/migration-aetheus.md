@@ -4,7 +4,7 @@ Aetheus est le premier consommateur cible parce qu'il concentre le plus grand vo
 
 ## Ordre recommandé
 
-1. Primitives sans état : boutons, cartes, badges, piles et séparateurs.
+1. Primitives sans état : boutons, cartes, badges et piles.
 2. Retours utilisateur : alertes, notifications, indicateurs de progression.
 3. Navigation et superpositions : menus, onglets, dialogues et info-bulles.
 4. Formulaires : champs, validation, listes et sélecteurs.

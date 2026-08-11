@@ -6,12 +6,12 @@
 - Une valeur contrôlée utilise `Value`, `ValueChanged` et, lorsqu'elle participe à un formulaire, `ValueExpression` via `InputBase<TValue>`.
 - Les collections utilisent `IReadOnlyList<T>` ; une absence de sélection multiple est une liste vide, jamais `null`.
 - Une valeur réellement optionnelle utilise un type nullable (`DateOnly?`, `bool?`). Les composants non nullables ne donnent pas de sens implicite à `default`.
-- Les opérations distantes reçoivent un `CancellationToken`. Les états chargement, vide et erreur restent observables.
+- Les opérations distantes reçoivent un `CancellationToken`. `OmniDataList`, `OmniDataGrid` et `OmniScheduler` rendent chargement et erreur observables et proposent une reprise. `OmniAutocomplete` ne possède pas encore ces états ; cette limitation reste ouverte.
 - Les templates sont des `RenderFragment` ou `RenderFragment<T>`. Les événements asynchrones sont des `EventCallback` ou des délégués retournant `Task`.
 
 ## HTML, attributs et CSS
 
-- `Id`, `Class` et `AdditionalAttributes` viennent de `OmniComponentBase`; les contrôles de formulaire héritent de `OmniInputBase<TValue>`.
+- Les composants fondés sur `OmniComponentBase` partagent `Id`, `Class` et `AdditionalAttributes`. Les contrôles de formulaire héritent de `OmniInputBase<TValue>`, qui déclare `Id` et `Class` et garde les `AdditionalAttributes` fournis par `InputBase<TValue>`.
 - `AdditionalAttributes` refuse les gestionnaires HTML `on*` et l'attribut `style` afin de préserver le contrat CSP.
 - Les états visuels sont des classes CSS finies. Les données SVG emploient des attributs géométriques, jamais un style inline.
 - Les chaînes affichées par défaut sont en français et peuvent être remplacées par paramètres lorsque le contexte l'exige.

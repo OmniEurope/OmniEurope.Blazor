@@ -1,6 +1,6 @@
 # Contrats observés des composants Radzen
 
-Ce rapport extrait par expressions régulières des candidats paramètres et les emplacements de templates présents dans les fichiers Razor, sans lire le code source de Radzen. Le parseur actuel n'interprète pas Razor : des identifiants C# placés dans une expression d'attribut peuvent être comptés à tort comme des paramètres. Ce document guide l'inventaire, mais ne constitue pas encore un contrat fiable paramètre par paramètre.
+Ce rapport extrait par expressions régulières des paramètres candidats et les emplacements de templates présents dans les fichiers Razor, sans lire le code source de Radzen. Le parseur actuel n'interprète pas Razor : des identifiants C# placés dans une expression d'attribut peuvent être comptés à tort comme des paramètres. Ce document guide l'inventaire, mais ne constitue pas encore un contrat fiable paramètre par paramètre.
 
 ## RadzenAlert
 

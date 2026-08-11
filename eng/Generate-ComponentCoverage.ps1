@@ -75,10 +75,10 @@ $document | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $JsonOutput -Enco
 $lines = [System.Collections.Generic.List[string]]::new()
 $lines.Add('# Registre de couverture des composants')
 $lines.Add('')
-$lines.Add("Ce registre relie les $($document.total) balises inventoriées à une capacité OmniEurope et à la phase de construction correspondante. Il ne déclenche aucune migration.")
+$lines.Add("Ce registre relie les $($document.total) balises inventoriées à une cible Razor OmniEurope et à la phase de construction correspondante. Il mesure uniquement la présence des fichiers cibles et ne déclenche aucune migration.")
 $lines.Add('')
-$lines.Add("- Capacités inventoriées déjà couvertes : **$implementedCount/$($document.total)**")
-$lines.Add("- Capacités encore planifiées : **$($document.planned)**")
+$lines.Add("- Cibles Razor présentes : **$implementedCount/$($document.total)**")
+$lines.Add("- Cibles Razor encore absentes : **$($document.planned)**")
 $lines.Add('')
 $lines.Add('| Source inventoriée | Cible OmniEurope | Phase | État | Projets actifs | Occurrences actives |')
 $lines.Add('| --- | --- | ---: | --- | ---: | ---: |')
@@ -89,7 +89,7 @@ foreach ($entry in $entries) {
 }
 
 $lines.Add('')
-$lines.Add('Le statut « implémenté » signifie que le composant Razor cible existe. Les comportements détaillés restent validés par les gates de leur phase dans `PLAN-002`.')
+$lines.Add('Le statut technique « implémenté » signifie uniquement que le composant Razor cible existe. Il ne prouve ni ses comportements, ni sa compatibilité avec les usages observés, ni une validation en navigateur. Les limites connues sont synthétisées dans [component-families.md](component-families.md).')
 $lines | Set-Content -LiteralPath $MarkdownOutput -Encoding utf8
 
 Write-Host "Coverage registry generated: $implementedCount/$($document.total) inventory items implemented."
