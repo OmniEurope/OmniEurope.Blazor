@@ -36,7 +36,8 @@ public abstract class OmniValidatorBase<TValue> : ComponentBase, IDisposable
     protected FieldIdentifier Field => _field;
     protected string? CurrentError { get; private set; }
 
-    protected string Localize(string name, params object[] arguments) => StringLocalizer[name, arguments].Value;
+    protected string Localize(string name, params object[] arguments) =>
+        (arguments.Length == 0 ? StringLocalizer[name] : StringLocalizer[name, arguments]).Value;
 
     protected override void OnParametersSet()
     {

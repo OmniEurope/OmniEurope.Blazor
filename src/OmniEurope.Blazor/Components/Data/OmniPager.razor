@@ -1,8 +1,42 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<nav @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-pager")" aria-label="@EffectiveLabel">
-    <button type="button" class="omni-pager__button" disabled="@(Page <= 1 || Disabled)" aria-label="@Localize("PagerPrevious")" @onclick="() => SelectAsync(Page - 1)">‹</button>
-    <span class="omni-pager__status" aria-live="polite">@Localize("PagerStatus", Page, PageCount)</span>
-    <button type="button" class="omni-pager__button" disabled="@(Page >= PageCount || Disabled)" aria-label="@Localize("PagerNext")" @onclick="() => SelectAsync(Page + 1)">›</button>
+<nav @attributes="AdditionalAttributes" id="@Id" class="@PagerClass()" aria-label="@EffectiveLabel">
+    @if (ShowFirstLast)
+    {
+        <button type="button" class="omni-pager__button" disabled="@(Page <= 1 || Disabled)" aria-label="@Text(FirstPageAriaLabel, "PagerFirst")" title="@Text(FirstPageTitle, "PagerFirst")" @onclick="() => SelectAsync(1)">«</button>
+    }
+    <button type="button" class="omni-pager__button" disabled="@(Page <= 1 || Disabled)" aria-label="@Text(PrevPageAriaLabel, "PagerPrevious")" title="@Text(PrevPageTitle, "PagerPrevious")" @onclick="() => SelectAsync(Page - 1)">‹</button>
+    @if (NumericPageCount > 0)
+    {
+        @foreach (var page in NumericPages)
+        {
+            <button type="button"
+                    class="@(page == Page ? "omni-pager__button omni-pager__button--current" : "omni-pager__button")"
+                    disabled="@Disabled"
+                    aria-current="@(page == Page ? "page" : null)"
+                    aria-label="@PageLabel(PageAriaLabelFormat, page)"
+                    title="@PageLabel(PageTitleFormat, page)"
+                    @onclick="() => SelectAsync(page)">@(page)</button>
+        }
+    }
+    else
+    {
+        <span class="omni-pager__status" aria-live="polite">@Localize("PagerStatus", Page, PageCount)</span>
+    }
+    <button type="button" class="omni-pager__button" disabled="@(Page >= PageCount || Disabled)" aria-label="@Text(NextPageAriaLabel, "PagerNext")" title="@Text(NextPageTitle, "PagerNext")" @onclick="() => SelectAsync(Page + 1)">›</button>
+    @if (ShowFirstLast)
+    {
+        <button type="button" class="omni-pager__button" disabled="@(Page >= PageCount || Disabled)" aria-label="@Text(LastPageAriaLabel, "PagerLast")" title="@Text(LastPageTitle, "PagerLast")" @onclick="() => SelectAsync(PageCount)">»</button>
+    }
+    @if (HasPageSizeOptions)
+    {
+        <label class="omni-pager__page-size-label" for="@PageSizeId">@Text(PageSizeText, "PagerPageSize")</label>
+        <select id="@PageSizeId" class="omni-input omni-pager__page-size" disabled="@Disabled" value="@PageSize" @onchange="args => ChangePageSizeAsync(args.Value?.ToString())">
+            @foreach (var option in PageSizeOptions)
+            {
+                <option value="@option" selected="@(option == PageSize)">@option</option>
+            }
+        </select>
+    }
 </nav>

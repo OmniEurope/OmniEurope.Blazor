@@ -1,8 +1,8 @@
-# Plan - Correction exhaustive des findings d'audit
+# Plan - Grille complète et virtualisation
 
-> Canonical plan: `plans/PLAN-003-correction-findings-audit.md`
+> Canonical plan: `plans/PLAN-004-grille-complete.md` (précédent : `plans/PLAN-003-correction-findings-audit.md`)
 > Last updated: 2026-08-11
-> Current scope: close all 325 findings from the 2026-08-11 audit before resuming consumer migrations from PLAN-002.
+> Current scope: `OmniDataGrid` couvre la surface observée dans `docs/component-contracts.md`, avec virtualisation à défilement continu et hauteur de tableau paramétrable. Le plan PLAN-003 reste ouvert derrière.
 
 ## Phase 1 - Baseline et traçabilité [done]
 - [x] Conserver et vérifier la baseline de 325 findings uniques.

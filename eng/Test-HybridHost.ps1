@@ -17,7 +17,7 @@ $hostPage = Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.HybridSmoke\ww
 
 try {
     $hostHtml = Get-Content -Raw -LiteralPath $hostPage
-    if ($hostHtml -notmatch 'http-equiv="Content-Security-Policy"') { throw 'La coque Hybrid ne déclare aucune CSP.' }
+    if ($hostHtml -notmatch 'http-equiv="Content-Security-Policy"') { throw $psText.HybridShellMissingCsp }
     if ($hostHtml -match "'unsafe-inline'|'unsafe-eval'") { throw 'La coque Hybrid contient une directive CSP interdite.' }
 
     $portOccupied = $false

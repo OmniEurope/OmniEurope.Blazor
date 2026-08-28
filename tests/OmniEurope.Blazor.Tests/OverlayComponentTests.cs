@@ -4,7 +4,7 @@ using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
 
-public sealed class OverlayComponentTests : BunitContext
+public sealed class OverlayComponentTests : OmniBunitContext
 {
     public OverlayComponentTests()
     {

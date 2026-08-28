@@ -8,7 +8,7 @@ using System.Globalization;
 
 namespace OmniEurope.Blazor.Tests;
 
-public sealed class LocalizationTests : BunitContext
+public sealed class LocalizationTests : OmniBunitContext
 {
     [Theory]
     [InlineData("fr-FR", "Le téléversement a échoué.")]

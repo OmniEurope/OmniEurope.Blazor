@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace OmniEurope.Blazor.Tests;
 
-public sealed class ChartComponentTests : BunitContext
+public sealed class ChartComponentTests : OmniBunitContext
 {
     [Fact]
     public void ChartContext_ComputesDomainsOncePerRegistrationSnapshot()

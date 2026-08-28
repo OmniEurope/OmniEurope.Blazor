@@ -5,7 +5,7 @@ using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
 
-public sealed class NavigationComponentTests : BunitContext
+public sealed class NavigationComponentTests : OmniBunitContext
 {
     public NavigationComponentTests()
     {

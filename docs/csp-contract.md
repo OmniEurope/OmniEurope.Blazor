@@ -10,7 +10,7 @@ Le code livré par `OmniEurope.Blazor` ne doit pas :
 - utiliser `eval`, `new Function` ou une API équivalente ;
 - charger automatiquement une ressource depuis une origine distante.
 
-Les variations visuelles dynamiques passent par un ensemble fini de classes CSS, d'attributs `data-*`, d'états ARIA et, pour le SVG, d'attributs géométriques ou de présentation autorisés ; aucun style inline n'est généré. La feuille `_content/OmniEurope.Blazor/omnieurope.blazor.css` est une ressource statique que l'application peut autoriser via `'self'`.
+Les variations visuelles dynamiques passent par un ensemble fini de classes CSS, d'attributs `data-*`, d'états ARIA et, pour le SVG, d'attributs géométriques ou de présentation autorisés ; aucun style inline n'est généré. Les longueurs que seul le navigateur peut connaître, hauteur du tableau virtualisé, hauteur des lignes d'espacement, largeur et décalage des colonnes gelées, sont posées par `omni-grid.js` en propriétés personnalisées CSS via `setProperty`. Le CSSOM n'est pas soumis à `style-src` et aucun attribut `style` ni aucune balise `<style>` n'est produit ; le scan CSP couvre ces fichiers. La feuille `_content/OmniEurope.Blazor/omnieurope.blazor.css` est une ressource statique que l'application peut autoriser via `'self'`.
 
 ## Responsabilité de l'application hôte
 

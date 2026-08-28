@@ -23,22 +23,23 @@ internal static class OmniUriPolicy
             throw CreateException(parameterName);
         }
 
-        if (Uri.TryCreate(candidate, UriKind.Absolute, out var absolute))
+        // A single RelativeOrAbsolute parse rather than two separate UriKind.Absolute /
+        // UriKind.Relative attempts: under the Blazor WebAssembly runtime, Uri.TryCreate with an
+        // explicit UriKind.Relative rejects some well-formed relative paths (observed with a plain
+        // "/segment" path carrying a query string) that the very same call accepts on desktop .NET,
+        // which made every relative Href in a WASM app throw. RelativeOrAbsolute matches how
+        // Microsoft.AspNetCore.Components.NavLink itself validates hrefs and does not have that gap.
+        if (!Uri.TryCreate(candidate, UriKind.RelativeOrAbsolute, out var uri))
         {
-            if (!AllowedSchemes.Contains(absolute.Scheme))
-            {
-                throw CreateException(parameterName);
-            }
-
-            return candidate;
+            throw CreateException(parameterName);
         }
 
-        if (Uri.TryCreate(candidate, UriKind.Relative, out _))
+        if (uri.IsAbsoluteUri && !AllowedSchemes.Contains(uri.Scheme))
         {
-            return candidate;
+            throw CreateException(parameterName);
         }
 
-        throw CreateException(parameterName);
+        return candidate;
     }
 
     private static InvalidOperationException CreateException(string parameterName) =>

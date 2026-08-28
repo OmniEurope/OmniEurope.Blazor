@@ -4,7 +4,7 @@ using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
 
-public sealed class CollectionComponentTests : BunitContext
+public sealed class CollectionComponentTests : OmniBunitContext
 {
     [Fact]
     public void TreeItem_SynchronizesControlledExpansionAndReportsLoadFailures()

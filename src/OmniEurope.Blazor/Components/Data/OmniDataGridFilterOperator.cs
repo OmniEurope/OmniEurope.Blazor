@@ -4,8 +4,16 @@ public enum OmniDataGridFilterOperator
 {
     Contains,
     Equals,
+    NotEquals,
     StartsWith,
     EndsWith,
+    DoesNotContain,
     GreaterThan,
-    LessThan
+    GreaterThanOrEquals,
+    LessThan,
+    LessThanOrEquals,
+    IsNull,
+    IsNotNull,
+    IsEmpty,
+    IsNotEmpty
 }

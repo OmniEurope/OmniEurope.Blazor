@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace OmniEurope.Blazor.Tests;
 
-public sealed class HtmlEditorComponentTests : BunitContext
+public sealed class HtmlEditorComponentTests : OmniBunitContext
 {
     [Fact]
     public void Editor_SanitizesAnUntrustedInitialValueBeforePreviewRendering()

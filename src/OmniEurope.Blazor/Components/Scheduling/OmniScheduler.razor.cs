@@ -134,7 +134,19 @@ public partial class OmniScheduler
     private async Task TodayAsync() { Date = TimeZoneInfo.ConvertTime(TimeProvider.GetUtcNow(), TimeZone); await DateChanged.InvokeAsync(Date); if (Load is not null) await ReloadAsync(); }
     private async Task ChangeViewAsync(OmniSchedulerView view) { View = view; await ViewChanged.InvokeAsync(view); if (Load is not null) await ReloadAsync(); }
     private string ViewClass(OmniSchedulerView view) => View == view ? "omni-select-bar__item omni-select-bar__item--selected" : "omni-select-bar__item";
-    private string Text(string key, params object[] arguments) => Localize(Culture, key, arguments);
+    private string Text(string key, params object[] arguments)
+    {
+        var previous = System.Globalization.CultureInfo.CurrentUICulture;
+        System.Globalization.CultureInfo.CurrentUICulture = Culture;
+        try
+        {
+            return Localize(key, arguments);
+        }
+        finally
+        {
+            System.Globalization.CultureInfo.CurrentUICulture = previous;
+        }
+    }
     private string ViewLabel(OmniSchedulerView view) => view switch
     {
         OmniSchedulerView.Day => Text("SchedulerDay"),

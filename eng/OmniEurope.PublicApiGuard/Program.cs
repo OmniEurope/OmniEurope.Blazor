@@ -78,7 +78,7 @@ internal static class ApiSurfaceExtractor
     internal static IReadOnlyList<string> Extract(IEnumerable<Type> types)
     {
         var signatures = new SortedSet<string>(StringComparer.Ordinal);
-        foreach (var type in types.OrderBy(TypeName, StringComparer.Ordinal))
+        foreach (var type in types.OrderBy(candidate => TypeName(candidate), StringComparer.Ordinal))
         {
             AddType(signatures, type);
         }
@@ -102,7 +102,7 @@ internal static class ApiSurfaceExtractor
         {
             inheritance.Add(TypeName(type.BaseType));
         }
-        inheritance.AddRange(type.GetInterfaces().Select(TypeName).Order(StringComparer.Ordinal));
+        inheritance.AddRange(type.GetInterfaces().Select(candidate => TypeName(candidate)).Order(StringComparer.Ordinal));
         if (type.IsEnum)
         {
             inheritance.Add(TypeName(Enum.GetUnderlyingType(type)));
@@ -184,7 +184,7 @@ internal static class ApiSurfaceExtractor
             var attributes = argument.GenericParameterAttributes;
             if (attributes.HasFlag(GenericParameterAttributes.ReferenceTypeConstraint)) constraints.Add("class");
             if (attributes.HasFlag(GenericParameterAttributes.NotNullableValueTypeConstraint)) constraints.Add("struct");
-            constraints.AddRange(argument.GetGenericParameterConstraints().Select(TypeName));
+            constraints.AddRange(argument.GetGenericParameterConstraints().Select(candidate => TypeName(candidate)));
             if (attributes.HasFlag(GenericParameterAttributes.DefaultConstructorConstraint)) constraints.Add("new()");
             if (constraints.Count > 0) values.Add($" where {argument.Name} : {string.Join(", ", constraints)}");
         }
@@ -277,7 +277,7 @@ public readonly record struct ApiValue(int Value)
     public static ApiValue operator +(ApiValue left, ApiValue right) => new(left.Value + right.Value);
 }
 public delegate void ApiDelegate(string value);
-public sealed class ApiFixture<T> where T : class, new()
+public class ApiFixture<T> where T : class, new()
 {
     public const int Version = 2;
     public ApiFixture(T value) => Value = value;

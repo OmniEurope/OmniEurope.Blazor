@@ -82,4 +82,11 @@
     CoveragePassed = 'Couverture validée : {0} tests, {1} lignes valides, taux de lignes {2}%.'
     DependencyPolicyPassed = 'Politique de dépendances validée : versions centrales, verrous, SDK, workload et actions immuables.'
     ProvenanceWritten = 'Provenance de paquet générée : commit {0}, exécution {1}, deux artefacts empreintés.'
+
+    AutoNegotiationEnglishInvalid = 'La négociation anglaise Interactive Auto est invalide.'
+    AutoNegotiationFrenchInvalid = 'La négociation française Interactive Auto est invalide.'
+    CatalogNegotiationEnglishInvalid = 'La négociation anglaise du catalogue est invalide.'
+    CatalogNegotiationFrenchInvalid = 'La négociation française du catalogue est invalide.'
+    HybridShellMissingCsp = 'La coque Hybrid ne déclare aucune CSP.'
+    WasmFingerprintedAssetMissing = 'Aucun asset WebAssembly fingerprinté à vérifier.'
 }

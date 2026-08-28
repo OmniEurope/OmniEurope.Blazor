@@ -78,7 +78,7 @@ Host, CSP, API, package, inventory, and budget commands are catalogued in `.clau
 | `coding-standards.md` | `.claude/code-rules.md`, `.editorconfig`, `docs/testing.md` | Enforced code, test and quality standards |
 | `testing.md` | `.claude/test-config.md`, `docs/testing.md`, `docs/browser-scenarios.json` | Unit, integration, browser and WebView evidence |
 | Clean-room evidence | `docs/clean-room.md`, `docs/clean-room-component-sheet.md`, `docs/reproducibility.md` | Prohibited inputs, corpus provenance and reproducibility |
-| Components and scenarios | `docs/component-coverage.md`, `docs/component-contracts.md`, `docs/catalog-scenarios.json`, family guides | Component surface, contracts and executable examples |
+| Components and scenarios | `docs/component-coverage.md`, `docs/component-contracts.md`, `docs/catalog-scenarios.json`, family guides (`docs/foundation-components.md`, `docs/form-components.md`, `docs/selection-components.md`, `docs/data-components.md`) | Component surface, contracts and executable examples |
 | Runtime quality | `docs/compatibility.md`, `docs/csp-contract.md`, `docs/accessibility-contract.md`, `docs/localization.md`, `docs/performance-budgets.md` | Hosts, CSP, accessibility, localization and budgets |
 | Delivery and evolution | `docs/versioning.md`, `docs/migration-guide.md`, `docs/migration-aetheus.md`, `plans/` | Versioning, migrations and canonical numbered plans |
 

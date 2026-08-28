@@ -4,7 +4,7 @@ using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
 
-public sealed class ComponentCspTests : BunitContext
+public sealed class ComponentCspTests : OmniBunitContext
 {
     [Fact]
     public void PilotComponents_RenderWithoutInlineStyles()

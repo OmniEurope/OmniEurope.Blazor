@@ -60,7 +60,7 @@ try {
         throw "Cache-Control du shell WebAssembly invalide : $rootCache"
     }
     $frameworkWasm = Get-ChildItem -LiteralPath (Join-Path $resolvedRoot '_framework') -Filter '*.wasm' -File | Select-Object -First 1
-    if ($null -eq $frameworkWasm) { throw 'Aucun asset WebAssembly fingerprinté à vérifier.' }
+    if ($null -eq $frameworkWasm) { throw $psText.WasmFingerprintedAssetMissing }
     $wasmResponse = Invoke-WebRequest -UseBasicParsing -Uri "$baseUri/_framework/$([Uri]::EscapeDataString($frameworkWasm.Name))" -TimeoutSec 3
     $assetCache = ($wasmResponse.Headers['Cache-Control'] -join ', ')
     $assetCacheTokens = @($assetCache -split ',' | ForEach-Object { $_.Trim() } | Sort-Object -Unique)

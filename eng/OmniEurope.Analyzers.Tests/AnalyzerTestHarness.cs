@@ -38,7 +38,7 @@ internal static class AnalyzerTestHarness
                 typeof(AuthorizeAttribute).Assembly.Location
             ])
             .Distinct(StringComparer.OrdinalIgnoreCase);
-        return paths.Select(path => MetadataReference.CreateFromFile(path)).ToImmutableArray();
+        return paths.Select(path => (MetadataReference)MetadataReference.CreateFromFile(path)).ToImmutableArray();
     }
 
     private sealed class InMemoryAdditionalText(string path, string text) : AdditionalText

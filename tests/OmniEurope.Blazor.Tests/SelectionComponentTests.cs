@@ -5,7 +5,7 @@ using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
 
-public sealed class SelectionComponentTests : BunitContext
+public sealed class SelectionComponentTests : OmniBunitContext
 {
     [Fact]
     public void NativeSelectors_UpdateTheirBoundValues()

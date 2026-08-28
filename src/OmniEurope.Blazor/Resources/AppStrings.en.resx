@@ -34,6 +34,42 @@
   <data name="GridEditColumn" xml:space="preserve"><value>Editing</value></data>
   <data name="GridFilterColumn" xml:space="preserve"><value>Filter {0}</value></data>
   <data name="GridEmpty" xml:space="preserve"><value>No data.</value></data>
+  <data name="GridValueColumn" xml:space="preserve"><value>Value</value></data>
+  <data name="GridFilterPlaceholder" xml:space="preserve"><value>Filter</value></data>
+  <data name="GridFilterOperator" xml:space="preserve"><value>Filter operator for {0}</value></data>
+  <data name="GridFilterSecondOperator" xml:space="preserve"><value>Second filter operator for {0}</value></data>
+  <data name="GridFilterSecondValue" xml:space="preserve"><value>Second filter value for {0}</value></data>
+  <data name="GridFilterLogical" xml:space="preserve"><value>Logical operator for {0}</value></data>
+  <data name="GridFilterApply" xml:space="preserve"><value>Apply</value></data>
+  <data name="GridFilterClear" xml:space="preserve"><value>Clear</value></data>
+  <data name="GridFilterContains" xml:space="preserve"><value>Contains</value></data>
+  <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Does not contain</value></data>
+  <data name="GridFilterEquals" xml:space="preserve"><value>Equals</value></data>
+  <data name="GridFilterNotEquals" xml:space="preserve"><value>Not equals</value></data>
+  <data name="GridFilterStartsWith" xml:space="preserve"><value>Starts with</value></data>
+  <data name="GridFilterEndsWith" xml:space="preserve"><value>Ends with</value></data>
+  <data name="GridFilterGreaterThan" xml:space="preserve"><value>Greater than</value></data>
+  <data name="GridFilterGreaterThanOrEquals" xml:space="preserve"><value>Greater than or equals</value></data>
+  <data name="GridFilterLessThan" xml:space="preserve"><value>Less than</value></data>
+  <data name="GridFilterLessThanOrEquals" xml:space="preserve"><value>Less than or equals</value></data>
+  <data name="GridFilterIsNull" xml:space="preserve"><value>Is null</value></data>
+  <data name="GridFilterIsNotNull" xml:space="preserve"><value>Is not null</value></data>
+  <data name="GridFilterIsEmpty" xml:space="preserve"><value>Is empty</value></data>
+  <data name="GridFilterIsNotEmpty" xml:space="preserve"><value>Is not empty</value></data>
+  <data name="GridFilterAnd" xml:space="preserve"><value>And</value></data>
+  <data name="GridFilterOr" xml:space="preserve"><value>Or</value></data>
+  <data name="GridGroupPanel" xml:space="preserve"><value>Active groups</value></data>
+  <data name="GridGroupPanelEmpty" xml:space="preserve"><value>No grouping.</value></data>
+  <data name="GridGroupColumn" xml:space="preserve"><value>Group by {0}</value></data>
+  <data name="GridUngroupColumn" xml:space="preserve"><value>Remove the {0} grouping</value></data>
+  <data name="GridExpandAll" xml:space="preserve"><value>Expand or collapse every row</value></data>
+  <data name="GridShrinkColumn" xml:space="preserve"><value>Shrink the {0} column</value></data>
+  <data name="GridGrowColumn" xml:space="preserve"><value>Grow the {0} column</value></data>
+  <data name="PagerFirst" xml:space="preserve"><value>First page</value></data>
+  <data name="PagerLast" xml:space="preserve"><value>Last page</value></data>
+  <data name="PagerPageSize" xml:space="preserve"><value>Rows per page</value></data>
+  <data name="GridPagingSummary" xml:space="preserve"><value>{0} to {1} of {2}</value></data>
+  <data name="GridRowsLoading" xml:space="preserve"><value>Loading rows…</value></data>
   <data name="GridCollapseRow" xml:space="preserve"><value>Collapse row</value></data>
   <data name="GridExpandRow" xml:space="preserve"><value>Expand row</value></data>
   <data name="GridSelectRow" xml:space="preserve"><value>Select row</value></data>

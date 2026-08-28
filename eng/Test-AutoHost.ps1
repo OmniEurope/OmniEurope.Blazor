@@ -60,11 +60,11 @@ try {
     }
     $englishResponse = Invoke-WebRequest -UseBasicParsing -Uri "$baseUri/" -Headers @{ 'Accept-Language' = 'en' } -TimeoutSec 2
     if ($englishResponse.Content -notmatch '<html lang="en"' -or $englishResponse.Content -notmatch 'Auto counter: 0') {
-        throw 'La négociation anglaise Interactive Auto est invalide.'
+        throw $psText.AutoNegotiationEnglishInvalid
     }
     $frenchResponse = Invoke-WebRequest -UseBasicParsing -Uri "$baseUri/" -Headers @{ 'Accept-Language' = 'fr' } -TimeoutSec 2
     if ($frenchResponse.Content -notmatch '<html lang="fr"' -or $frenchResponse.Content -notmatch 'Compteur Auto : 0') {
-        throw 'La négociation française Interactive Auto est invalide.'
+        throw $psText.AutoNegotiationFrenchInvalid
     }
 
     $csp = ($rootResponse.Headers['Content-Security-Policy'] -join '; ')

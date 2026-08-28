@@ -159,7 +159,7 @@ public partial class OmniUpload
         _message = message;
     }
 
-    private static string FormatSize(long bytes) => bytes switch
+    private string FormatSize(long bytes) => bytes switch
     {
         >= 1024 * 1024 => Localize("UploadSizeMegabytes", bytes / 1024d / 1024d),
         >= 1024 => Localize("UploadSizeKilobytes", bytes / 1024d),

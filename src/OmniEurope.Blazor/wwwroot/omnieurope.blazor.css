@@ -16,6 +16,10 @@
     --omni-space-lg: 1rem;
     --omni-space-xl: 1.5rem;
     --omni-control-height: 2.75rem;
+    /* Matches Radzen's --rz-body-font-size (0.875rem), which every Radzen-based Atlas page inherits
+       at the body level. This package sets no base font-size anywhere, so an OmniEurope.Blazor grid
+       dropped next to a Radzen one renders visibly larger at the browser's 1rem default. */
+    --omni-font-size-base: 0.875rem;
 }
 
 [data-omni-density="compact"] {
@@ -709,15 +713,16 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-tree__item--selected > .omni-tree__row > .omni-tree__select { background: var(--omni-color-surface-muted); color: var(--omni-color-accent-strong); font-weight: 650; }
 .omni-tree__item:focus-visible { border-radius: var(--omni-radius); box-shadow: var(--omni-focus-ring); outline: none; }
 
-.omni-data-grid { display: grid; gap: var(--omni-space-md); }
+.omni-data-grid { display: grid; font-size: var(--omni-font-size-base); gap: var(--omni-space-md); }
 .omni-data-grid__viewport { overflow: auto; }
 .omni-data-grid__table { border-collapse: collapse; color: var(--omni-color-text); width: 100%; }
 .omni-data-grid__table caption { font-weight: 650; padding: var(--omni-space-sm); text-align: start; }
 .omni-data-grid__table th,
 .omni-data-grid__table td { border-block-end: 1px solid var(--omni-color-border); padding: var(--omni-space-sm); text-align: start; }
 .omni-data-grid__table th { background: var(--omni-color-surface-muted); font-weight: 650; }
-.omni-data-grid__sort { background: transparent; border: 0; color: inherit; cursor: pointer; font: inherit; font-weight: inherit; padding: 0; }
+.omni-data-grid__sort { align-items: center; background: transparent; border: 0; color: inherit; cursor: pointer; display: inline-flex; font: inherit; font-weight: inherit; gap: var(--omni-space-xs); padding: 0; }
 .omni-data-grid__sort:focus-visible { border-radius: calc(var(--omni-radius) / 2); box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-data-grid__sort-icon { font-size: 0.65em; opacity: 0.75; }
 .omni-data-grid__filter { min-width: 8rem; }
 .omni-data-grid__row--selected { background: color-mix(in srgb, var(--omni-color-accent) 10%, transparent); }
 .omni-data-grid__state { color: #5c667a; padding: var(--omni-space-lg); text-align: center; }
@@ -725,10 +730,62 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid__detail td { background: var(--omni-color-surface-muted); }
 .omni-data-grid__actions { display: flex; gap: var(--omni-space-xs); }
 .omni-data-grid__group th { background: var(--omni-color-surface-muted); color: var(--omni-color-text); }
-.omni-data-grid__resize { background: transparent; border: 0; color: inherit; cursor: col-resize; margin-inline-start: var(--omni-space-xs); }
-.omni-data-grid__column--narrow { max-width: 8rem; width: 8rem; }
-.omni-data-grid__column--medium { max-width: 16rem; width: 16rem; }
-.omni-data-grid__column--wide { max-width: 24rem; width: 24rem; }
+.omni-data-grid__resize { display: inline-flex; margin-inline-start: var(--omni-space-xs); }
+.omni-data-grid__column--align-start { text-align: start; }
+.omni-data-grid__column--align-center { text-align: center; }
+.omni-data-grid__column--align-end { text-align: end; }
+.omni-data-grid__col { inline-size: var(--omni-col-width, auto); min-inline-size: var(--omni-col-min, auto); }
+.omni-data-grid__column--frozen { background: var(--omni-color-surface); inset-inline-start: var(--omni-col-offset, 0px); position: sticky; z-index: 2; }
+.omni-data-grid--striped .omni-data-grid__row--alternate { background: var(--omni-color-surface-muted); }
+.omni-data-grid__row--interactive { cursor: pointer; }
+.omni-data-grid__row--interactive:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-data-grid__summary { color: #5c667a; margin: 0; }
+.omni-data-grid--lines-none .omni-data-grid__table th,
+.omni-data-grid--lines-none .omni-data-grid__table td { border: 0; }
+.omni-data-grid--lines-vertical .omni-data-grid__table th,
+.omni-data-grid--lines-vertical .omni-data-grid__table td { border-block-end: 0; border-inline-end: 1px solid var(--omni-color-border); }
+.omni-data-grid--lines-both .omni-data-grid__table th,
+.omni-data-grid--lines-both .omni-data-grid__table td { border-inline-end: 1px solid var(--omni-color-border); }
+.omni-data-grid__viewport--sized { block-size: var(--omni-grid-viewport, auto); overflow: auto; }
+.omni-data-grid__viewport--virtual { block-size: var(--omni-grid-viewport, 24rem); overflow-y: auto; overscroll-behavior: contain; }
+.omni-data-grid__viewport--virtual .omni-data-grid__table thead th { background: var(--omni-color-surface-muted); position: sticky; inset-block-start: 0; z-index: 3; }
+.omni-data-grid__filter-menu { display: inline-block; position: relative; }
+.omni-data-grid__filter-menu-toggle { background: transparent; border: 0; color: inherit; cursor: pointer; font: inherit; list-style: none; padding: 0 var(--omni-space-xs); }
+.omni-data-grid__filter-menu-toggle::-webkit-details-marker { display: none; }
+.omni-data-grid__filter-menu[open] > .omni-data-grid__filter-menu-toggle { color: var(--omni-color-accent); }
+.omni-data-grid__filter-menu-panel { background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-radius: var(--omni-radius); box-shadow: 0 0.5rem 1.5rem rgb(15 23 42 / 16%); display: grid; gap: var(--omni-space-sm); inset-block-start: calc(100% + var(--omni-space-xs)); inset-inline-start: 0; min-width: 12rem; padding: var(--omni-space-sm); position: absolute; text-transform: none; z-index: 30; }
+.omni-data-grid--fixed-row-height .omni-data-grid__table tbody tr { block-size: var(--omni-row-height); }
+.omni-data-grid--fixed-row-height .omni-data-grid__table tbody td { block-size: var(--omni-row-height); max-block-size: var(--omni-row-height); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-data-grid__spacer td { block-size: var(--omni-grid-spacer, 0px); border: 0; padding: 0; }
+.omni-data-grid__row--placeholder td { block-size: var(--omni-grid-row, 2.5rem); }
+.omni-data-grid__group-panel { display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
+.omni-data-grid__group-chip { align-items: center; background: var(--omni-color-surface-muted); border-radius: var(--omni-radius); display: inline-flex; gap: var(--omni-space-xs); padding: var(--omni-space-xs) var(--omni-space-sm); }
+.omni-data-grid__group-hint { color: #5c667a; }
+.omni-data-grid__group-remove,
+.omni-data-grid__group-toggle,
+.omni-data-grid__group-expand,
+.omni-data-grid__resize-step { background: transparent; border: 0; color: inherit; cursor: pointer; font: inherit; padding: 0 var(--omni-space-xs); }
+.omni-data-grid__group-remove:focus-visible,
+.omni-data-grid__group-toggle:focus-visible,
+.omni-data-grid__group-expand:focus-visible,
+.omni-data-grid__resize-step:focus-visible { border-radius: calc(var(--omni-radius) / 2); box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-data-grid__group[data-omni-group-level="1"] th { padding-inline-start: var(--omni-space-lg); }
+.omni-data-grid__group[data-omni-group-level="2"] th { padding-inline-start: var(--omni-space-xl, 3rem); }
+.omni-data-grid__filter-operator,
+.omni-data-grid__filter-logical { max-inline-size: 12rem; }
+.omni-data-grid__filter-apply,
+.omni-data-grid__filter-clear { margin-block-start: var(--omni-space-xs); }
+.omni-pager--align-start { justify-content: flex-start; }
+.omni-pager--align-center { justify-content: center; }
+.omni-pager--align-end { justify-content: flex-end; }
+.omni-pager--align-between { justify-content: space-between; }
+.omni-pager__page-size { max-inline-size: 6rem; }
+@media (max-width: 40rem) {
+    .omni-data-grid--responsive .omni-data-grid__table thead { display: none; }
+    .omni-data-grid--responsive .omni-data-grid__table tr { display: block; margin-block-end: var(--omni-space-sm); }
+    .omni-data-grid--responsive .omni-data-grid__table td { display: flex; gap: var(--omni-space-sm); justify-content: space-between; }
+    .omni-data-grid--responsive .omni-data-grid__table td::before { content: attr(data-omni-label); font-weight: 650; }
+}
 
 .omni-chart,
 .omni-arc-gauge { margin: 0; }

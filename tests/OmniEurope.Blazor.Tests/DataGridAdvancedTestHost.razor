@@ -12,7 +12,7 @@
               EditCancelled="OnEditCancelled"
               ColumnWidthChanged="OnWidthChanged">
     <Columns>
-        <OmniDataGridColumn TItem="AdvancedRow" Key="name" Title="Nom" Value="row => row.Name" Resizable="true" Width="OmniDataGridColumnWidth.Narrow">
+        <OmniDataGridColumn TItem="AdvancedRow" Key="name" Title="Nom" Value="row => row.Name" Resizable="true" Width="160px">
             <EditTemplate Context="row"><input class="advanced-edit" value="@row.Name" /></EditTemplate>
         </OmniDataGridColumn>
     </Columns>

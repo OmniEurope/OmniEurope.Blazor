@@ -37,7 +37,7 @@ Les cibles du menu latéral, breadcrumb, onglets, étapes, dialogue, notificatio
 
 ### Lot 4 - données complexes
 
-Les cibles de liste, pagination, arbre et grille sont présentes. La grille couvre colonnes, tri, filtre, sélection, édition et modèles de cellule ; projection pure et état distant annulable sont séparés du rendu. La virtualisation pilotée par le viewport reste à implémenter.
+Les cibles de liste, pagination, arbre et grille sont présentes. La grille couvre colonnes déclarées par lambda ou par propriété, tri, filtres à opérateurs, regroupements, sélection, édition, pagination complète et virtualisation pilotée par le viewport avec hauteur de tableau paramétrable ; projection pure, fenêtre de défilement et état distant annulable sont séparés du rendu.
 
 ### Lot 5 - visualisation, planification et édition
 

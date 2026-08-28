@@ -1,3 +1,4 @@
 namespace OmniEurope.Blazor.Components;
 
-public sealed record OmniDataGridColumnWidthChange(string Key, OmniDataGridColumnWidth Width);
+/// <summary>Reports the new CSS width of a resized column.</summary>
+public sealed record OmniDataGridColumnWidthChange(string Key, string Width);

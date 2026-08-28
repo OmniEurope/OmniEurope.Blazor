@@ -30,5 +30,6 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
     protected string InputCss(params string?[] values) =>
         CssClassBuilder.Combine(values.Append(CssClass).Append(Class));
 
-    protected string Localize(string name, params object[] arguments) => StringLocalizer[name, arguments].Value;
+    protected string Localize(string name, params object[] arguments) =>
+        (arguments.Length == 0 ? StringLocalizer[name] : StringLocalizer[name, arguments]).Value;
 }

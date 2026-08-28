@@ -8,20 +8,27 @@ internal static class GridProjection<TItem>
     internal static GridProjectionResult<TItem> Create(
         IReadOnlyList<TItem> items,
         IReadOnlyList<OmniDataGridColumnDefinition<TItem>> columns,
-        IReadOnlyDictionary<string, string> filters,
+        IReadOnlyDictionary<string, GridColumnFilter> filters,
         IReadOnlyList<OmniDataGridSort> sorts,
+        OmniDataGridFilterCaseSensitivity caseSensitivity,
         int page,
         int pageSize)
     {
         IEnumerable<(TItem Item, int Index)> query = items.Select((item, index) => (item, index));
-        foreach (var filter in filters.Where(pair => !string.IsNullOrWhiteSpace(pair.Value)))
+        var comparison = caseSensitivity == OmniDataGridFilterCaseSensitivity.CaseSensitive
+            ? StringComparison.CurrentCulture
+            : StringComparison.CurrentCultureIgnoreCase;
+
+        foreach (var filter in filters.Where(pair => pair.Value.IsActive))
         {
             var column = columns.FirstOrDefault(candidate => candidate.Key == filter.Key);
-            if (column is not null)
+            if (column is null)
             {
-                query = query.Where(entry => column.FilterPredicate?.Invoke(entry.Item, filter.Value)
-                    ?? MatchesFilter(column.Value(entry.Item), filter.Value, column.FilterOperator));
+                continue;
             }
+
+            var state = filter.Value;
+            query = query.Where(entry => Matches(column, entry.Item, state, comparison));
         }
 
         IOrderedEnumerable<(TItem Item, int Index)>? ordered = null;
@@ -33,13 +40,14 @@ internal static class GridProjection<TItem>
                 continue;
             }
 
+            var accessor = column.SortValue ?? column.Value;
             ordered = ordered is null
                 ? (sort.Descending
-                    ? query.OrderByDescending(entry => column.Value(entry.Item), GridObjectComparer.Instance)
-                    : query.OrderBy(entry => column.Value(entry.Item), GridObjectComparer.Instance))
+                    ? query.OrderByDescending(entry => accessor(entry.Item), GridObjectComparer.Instance)
+                    : query.OrderBy(entry => accessor(entry.Item), GridObjectComparer.Instance))
                 : (sort.Descending
-                    ? ordered.ThenByDescending(entry => column.Value(entry.Item), GridObjectComparer.Instance)
-                    : ordered.ThenBy(entry => column.Value(entry.Item), GridObjectComparer.Instance));
+                    ? ordered.ThenByDescending(entry => accessor(entry.Item), GridObjectComparer.Instance)
+                    : ordered.ThenBy(entry => accessor(entry.Item), GridObjectComparer.Instance));
         }
 
         if (ordered is not null)
@@ -55,25 +63,69 @@ internal static class GridProjection<TItem>
         return new GridProjectionResult<TItem>(visible, filtered.Length);
     }
 
-    private static bool MatchesFilter(object? candidate, string filter, OmniDataGridFilterOperator filterOperator)
+    private static bool Matches(
+        OmniDataGridColumnDefinition<TItem> column,
+        TItem item,
+        GridColumnFilter filter,
+        StringComparison comparison)
+    {
+        var first = !filter.HasFirst
+            || (column.FilterPredicate?.Invoke(item, filter.Value)
+                ?? MatchesFilter(column.Value(item), filter.Value, filter.Operator, comparison));
+        if (!filter.HasSecond)
+        {
+            return first;
+        }
+
+        var second = column.FilterPredicate?.Invoke(item, filter.SecondValue)
+            ?? MatchesFilter(column.Value(item), filter.SecondValue, filter.SecondOperator, comparison);
+        return filter.LogicalOperator == OmniDataGridLogicalOperator.Or
+            ? (filter.HasFirst && first) || second
+            : first && second;
+    }
+
+    internal static bool MatchesFilter(
+        object? candidate,
+        string filter,
+        OmniDataGridFilterOperator filterOperator,
+        StringComparison comparison)
     {
         var text = candidate?.ToString() ?? string.Empty;
         return filterOperator switch
         {
-            OmniDataGridFilterOperator.Equals => string.Equals(text, filter, StringComparison.OrdinalIgnoreCase),
-            OmniDataGridFilterOperator.StartsWith => text.StartsWith(filter, StringComparison.OrdinalIgnoreCase),
-            OmniDataGridFilterOperator.EndsWith => text.EndsWith(filter, StringComparison.OrdinalIgnoreCase),
-            OmniDataGridFilterOperator.GreaterThan => CompareNumeric(text, filter) > 0,
-            OmniDataGridFilterOperator.LessThan => CompareNumeric(text, filter) < 0,
-            _ => text.Contains(filter, StringComparison.OrdinalIgnoreCase)
+            OmniDataGridFilterOperator.Equals => string.Equals(text, filter, comparison),
+            OmniDataGridFilterOperator.NotEquals => !string.Equals(text, filter, comparison),
+            OmniDataGridFilterOperator.StartsWith => text.StartsWith(filter, comparison),
+            OmniDataGridFilterOperator.EndsWith => text.EndsWith(filter, comparison),
+            OmniDataGridFilterOperator.DoesNotContain => !text.Contains(filter, comparison),
+            OmniDataGridFilterOperator.GreaterThan => Compare(text, filter, comparison) > 0,
+            OmniDataGridFilterOperator.GreaterThanOrEquals => Compare(text, filter, comparison) >= 0,
+            OmniDataGridFilterOperator.LessThan => Compare(text, filter, comparison) < 0,
+            OmniDataGridFilterOperator.LessThanOrEquals => Compare(text, filter, comparison) <= 0,
+            OmniDataGridFilterOperator.IsNull => candidate is null,
+            OmniDataGridFilterOperator.IsNotNull => candidate is not null,
+            OmniDataGridFilterOperator.IsEmpty => text.Length == 0,
+            OmniDataGridFilterOperator.IsNotEmpty => text.Length != 0,
+            _ => text.Contains(filter, comparison)
         };
     }
 
-    private static int CompareNumeric(string left, string right) =>
-        decimal.TryParse(left, NumberStyles.Any, CultureInfo.CurrentCulture, out var leftNumber)
-        && decimal.TryParse(right, NumberStyles.Any, CultureInfo.CurrentCulture, out var rightNumber)
-            ? leftNumber.CompareTo(rightNumber)
-            : string.Compare(left, right, StringComparison.CurrentCultureIgnoreCase);
+    private static int Compare(string left, string right, StringComparison comparison)
+    {
+        if (decimal.TryParse(left, NumberStyles.Any, CultureInfo.CurrentCulture, out var leftNumber)
+            && decimal.TryParse(right, NumberStyles.Any, CultureInfo.CurrentCulture, out var rightNumber))
+        {
+            return leftNumber.CompareTo(rightNumber);
+        }
+
+        if (DateTimeOffset.TryParse(left, CultureInfo.CurrentCulture, out var leftDate)
+            && DateTimeOffset.TryParse(right, CultureInfo.CurrentCulture, out var rightDate))
+        {
+            return leftDate.CompareTo(rightDate);
+        }
+
+        return string.Compare(left, right, comparison);
+    }
 
     private sealed class GridObjectComparer : IComparer<object?>
     {
@@ -84,7 +136,7 @@ internal static class GridProjection<TItem>
             if (ReferenceEquals(left, right)) return 0;
             if (left is null) return -1;
             if (right is null) return 1;
-            if (left is IComparable comparable) return comparable.CompareTo(right);
+            if (left is IComparable comparable && left.GetType() == right.GetType()) return comparable.CompareTo(right);
             return string.Compare(left.ToString(), right.ToString(), StringComparison.CurrentCulture);
         }
     }

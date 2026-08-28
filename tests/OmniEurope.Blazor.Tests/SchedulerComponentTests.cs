@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace OmniEurope.Blazor.Tests;
 
-public sealed class SchedulerComponentTests : BunitContext
+public sealed class SchedulerComponentTests : OmniBunitContext
 {
     [Fact]
     public void Timeline_RendersSemanticDatesWithoutInlineStyles()

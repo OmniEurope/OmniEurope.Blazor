@@ -4,7 +4,7 @@ Le registre [component-coverage.md](component-coverage.md) relie les 110 balises
 
 - Actions : boutons simples, bascules, boutons scindés et actions de menu.
 - Charts : moteur SVG, axes, domaines partagés, séries projetées et empilements à baselines cumulées.
-- Data : listes, pagination, arbre et grille avec projection locale ou chargement distant annulable.
+- Data : listes, pagination, arbre et grille virtualisable avec projection locale ou chargement distant annulable par blocs.
 - Editor : édition source HTML, aperçu sanitizé, historique et outils personnalisés.
 - Feedback : alertes, progression, skeletons et indicateurs d'état.
 - Forms : champs texte, formulaires typés, validation et contrôles de saisie.
@@ -19,7 +19,7 @@ Les noms Omni décrivent des capacités. Ils ne reproduisent pas l'API Radzen ; 
 
 ## Limites fonctionnelles actuelles
 
-- La DataGrid fournit pagination, tri, filtres, groupes et sélection, mais pas de virtualisation réelle pilotée par le viewport.
+- La DataGrid virtualise réellement le viewport avec un défilement continu, une hauteur de tableau paramétrable en longueur CSS et un chargement distant par blocs ; elle refuse explicitement de virtualiser en présence de groupes ou de lignes de détail. Voir [data-components.md](data-components.md).
 - Les séries et axes SVG partagent désormais leurs domaines et projections; la couverture visuelle navigateur reste à étendre aux combinaisons de séries et de tailles de viewport.
 - L'éditeur HTML assainit sa valeur, affiche un aperçu et conserve un historique ; ses commandes portent encore sur tout le document et ne gèrent ni sélection, ni caret, ni composition IME, ni collage spécialisé.
 - Le catalogue illustre un sous-ensemble de la surface. Le registre `110/110` ne remplace pas des scénarios comportementaux, navigateur et accessibilité pour chaque cible.

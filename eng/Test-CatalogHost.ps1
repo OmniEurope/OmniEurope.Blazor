@@ -60,11 +60,11 @@ try {
     if ($null -eq $homeResponse -or $homeResponse.StatusCode -ne 200) { throw $psText.CatalogNoHttp200 }
     $englishResponse = Invoke-WebRequest -UseBasicParsing -Uri "$baseUri/" -Headers @{ 'Accept-Language' = 'en' } -TimeoutSec $RequestTimeoutSeconds
     if ($englishResponse.Content -notmatch '<html lang="en"' -or $englishResponse.Content -notmatch 'Component catalog') {
-        throw 'La négociation anglaise du catalogue est invalide.'
+        throw $psText.CatalogNegotiationEnglishInvalid
     }
     $frenchResponse = Invoke-WebRequest -UseBasicParsing -Uri "$baseUri/" -Headers @{ 'Accept-Language' = 'fr' } -TimeoutSec $RequestTimeoutSeconds
     if ($frenchResponse.Content -notmatch '<html lang="fr"' -or $frenchResponse.Content -notmatch 'Catalogue des composants') {
-        throw 'La négociation française du catalogue est invalide.'
+        throw $psText.CatalogNegotiationFrenchInvalid
     }
     $notFoundResponse = Invoke-WebRequest -UseBasicParsing -Uri "$baseUri/route-inconnue" -TimeoutSec $RequestTimeoutSeconds
     if ($notFoundResponse.StatusCode -ne 200 -or $notFoundResponse.Content -notmatch 'Page introuvable' -or $notFoundResponse.Content -notmatch 'Retour au catalogue') {

@@ -4,7 +4,7 @@ using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
 
-public sealed class FoundationComponentTests : BunitContext
+public sealed class FoundationComponentTests : OmniBunitContext
 {
     [Theory]
     [InlineData(nameof(OmniText))]

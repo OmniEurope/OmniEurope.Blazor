@@ -7,7 +7,7 @@ using System.Globalization;
 
 namespace OmniEurope.Blazor.Tests;
 
-public sealed class InteractionComponentTests : BunitContext
+public sealed class InteractionComponentTests : OmniBunitContext
 {
     [Fact]
     public void SecondBatch_RendersFoundationControlsWithoutInlineStyles()

@@ -4,7 +4,7 @@ using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Tests;
 
-public sealed class DataGridComponentTests : BunitContext
+public sealed class DataGridComponentTests : OmniBunitContext
 {
     [Fact]
     public void DataGridColumn_ReregistersWhenItsParametersChange()
@@ -54,7 +54,7 @@ public sealed class DataGridComponentTests : BunitContext
     {
         var grid = Render<DataGridTestHost>();
 
-        grid.FindAll(".omni-pager button")[1].Click();
+        grid.Find(".omni-pager button[aria-label=\"Page suivante\"]").Click();
 
         Assert.Equal(2, grid.Instance.Page);
         Assert.Single(grid.FindAll("tbody tr"));
@@ -85,9 +85,9 @@ public sealed class DataGridComponentTests : BunitContext
         grid.FindAll(".omni-data-grid__actions button")[0].Click();
         Assert.Equal("Alice", grid.Instance.UpdatedName);
 
-        grid.Find(".omni-data-grid__resize").Click();
+        grid.FindAll(".omni-data-grid__resize-step")[1].Click();
         Assert.Equal("name", grid.Instance.WidthChange?.Key);
-        Assert.Equal(OmniDataGridColumnWidth.Medium, grid.Instance.WidthChange?.Width);
+        Assert.Equal("192px", grid.Instance.WidthChange?.Width);
     }
 
     [Fact]
@@ -224,7 +224,7 @@ public sealed class DataGridComponentTests : BunitContext
         grid.WaitForAssertion(() =>
         {
             Assert.Equal("alert", grid.Find(".omni-data-grid__state").GetAttribute("role"));
-            Assert.Contains("Le chargement des données a échoué.", grid.Markup, StringComparison.Ordinal);
+            Assert.Contains("Le chargement de la grille a échoué.", grid.Markup, StringComparison.Ordinal);
             Assert.DoesNotContain("sensitive details", grid.Markup, StringComparison.Ordinal);
         });
 
@@ -278,8 +278,12 @@ public sealed class DataGridComponentTests : BunitContext
         var result = GridProjection<GridRow>.Create(
             [new("Alice", 20), new("Bob", 10), new("Aline", 30)],
             columns,
-            new Dictionary<string, string> { ["name"] = "ali" },
+            new Dictionary<string, GridColumnFilter>
+            {
+                ["name"] = GridColumnFilter.Empty with { Operator = OmniDataGridFilterOperator.Contains, Value = "ali" }
+            },
             [new OmniDataGridSort("score", true)],
+            OmniDataGridFilterCaseSensitivity.Default,
             page: 1,
             pageSize: 1);
 

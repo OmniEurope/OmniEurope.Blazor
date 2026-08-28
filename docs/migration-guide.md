@@ -47,3 +47,35 @@ Les composants OmniEurope expriment des capacités et ne reproduisent pas l'API 
 - Éditeur HTML : vecteurs XSS, sérialisation, round-trip et CSP navigateur.
 
 Les phases 14 et 15 du [plan canonique](../plans/PLAN-002-remplacement-radzen.md) restent l'autorité pour l'ordre des projets et les gates de migration.
+
+## Correspondance de la grille
+
+La grille est le composant le plus utilisé du parc. Le tableau relie les paramètres observés dans
+[component-contracts.md](component-contracts.md) à leur contrat OmniEurope. Le détail complet est
+dans [data-components.md](data-components.md).
+
+| Paramètre observé | Contrat OmniEurope |
+|---|---|
+| `Data` | `Items` pour une source locale, `Load` pour un chargement distant annulable. |
+| `Count` | `Count`. |
+| `LoadData` | `Load`, dont la requête porte `Page`, `PageSize`, `Skip`, `Top`, tris, filtres et jeton d'annulation. |
+| `IsLoading` | `IsLoading`. |
+| `AllowPaging`, `PageSize`, `PageSizeOptions`, `PageSizeText` | mêmes noms. |
+| `PagerPosition`, `PagerHorizontalAlign`, `ShowPagingSummary`, `PagingSummaryFormat` | mêmes noms. |
+| `FirstPageAriaLabel`, `FirstPageTitle`, `LastPage*`, `PrevPage*`, `NextPage*`, `PageTitleFormat`, `PageAriaLabelFormat` | mêmes noms ; `NumericPageCount` active les numéros de page. |
+| `AllowSorting`, `AllowFiltering`, `AllowColumnResize`, `AllowGrouping`, `ShowGroupPanel` | mêmes noms. |
+| `AllowVirtualization`, `VirtualizationOverscanCount` | mêmes noms, complétés par `Height`, `EstimatedRowHeight`, `RowHeight` et `VirtualBlockSize`. |
+| `FilterMode`, `FilterCaseSensitivity` | mêmes noms ; `FilterPopupRenderMode` n'a pas d'équivalent, les filtres sont rendus en ligne. |
+| `FilterText`, `ApplyFilterText`, `ClearFilterText`, `ContainsText`, `EqualsText`, `NotEqualsText`, `AndOperatorText`, `OrOperatorText` | mêmes noms, plus `DoesNotContainText`, `StartsWithText` et `EndsWithText`. |
+| `SelectionMode`, `AllowRowSelectOnRowClick`, `Value` | mêmes noms ; `SelectedKeys` complète `Value` par des clés stables. |
+| `KeyProperty` | `KeyProperty`, ou `KeySelector` pour une clé calculée. |
+| `RowClick`, `RowDoubleClick`, `RowSelect`, `RowExpand`, `RowCollapse`, `RowUpdate`, `RowRender` | mêmes noms ; `RowUpdate` devient `RowUpdated`. |
+| `EditMode` | `EditMode`, avec `EditRowAsync`, `UpdateRowAsync` et `CancelEditAsync`. |
+| `ExpandMode`, `ShowExpandColumn`, `ShowExpandAll`, `ExpandChildItemAriaLabel` | mêmes noms. |
+| `Groups`, `AllGroupsExpanded` | mêmes noms ; `Groups` liste des `OmniDataGridGroup` par clé de colonne. |
+| `GridLines`, `Density`, `Responsive`, `AllowAlternatingRows`, `EmptyText` | mêmes noms. |
+| `ColumnWidth`, `ColumnResized` | mêmes noms ; `ColumnWidthChanged` est l'alias historique. |
+| `Style` | sans équivalent : le contrat CSP interdit l'attribut `style`. Utiliser `Class`, `Height`, `GridLines` et `Density`. |
+| `AllowAltering` | sans équivalent : la visibilité des colonnes reste pilotée par `Visible`. |
+| Colonne `Property`, `SortProperty`, `FormatString`, `Width`, `MinWidth`, `Frozen`, `TextAlign`, `CssClass`, `HeaderCssClass`, `SortOrder`, `Sortable`, `Filterable`, `Resizable`, `Visible` | mêmes noms. `Width` et `MinWidth` sont des longueurs CSS. |
+| Colonne `Context` | le contexte de gabarit est nommé dans `Template`, `EditTemplate` et `FooterTemplate`. |

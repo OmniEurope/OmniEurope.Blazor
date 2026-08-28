@@ -5,7 +5,7 @@ using OmniEurope.Blazor.Components;
 namespace OmniEurope.Blazor.Tests;
 
 [Collection("Performance")]
-public sealed class PerformanceBudgetTests : BunitContext
+public sealed class PerformanceBudgetTests : OmniBunitContext
 {
     [Fact]
     public void OneThousandSimpleComponents_StayWithinRegressionBudget()
