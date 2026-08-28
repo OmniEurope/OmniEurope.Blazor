@@ -5,7 +5,22 @@
 
 <CascadingValue Value="_context" IsFixed="true">@Columns</CascadingValue>
 
-<div @attributes="AdditionalAttributes" id="@Id" class="@GridClass()" data-omni-density="@Density.ToString().ToLowerInvariant()" aria-busy="@(Loading ? "true" : "false")">
+<div @attributes="AdditionalAttributes" id="@Id" class="@GridClass()" data-omni-density="@Density.ToString().ToLowerInvariant()" data-omni-grid-theme="@GridTheme" aria-busy="@(Loading ? "true" : "false")">
+    @* Scoped to this grid only: the attribute above redefines the colour tokens inside the
+       component, the surrounding page keeps whatever theme it already had. *@
+    @if (ShowThemeToggle)
+    {
+        <div class="omni-data-grid__toolbar">
+            <button type="button"
+                    class="omni-button omni-data-grid__theme-toggle"
+                    aria-pressed="@(IsDarkTheme ? "true" : "false")"
+                    title="@Localize(IsDarkTheme ? "GridThemeLight" : "GridThemeDark")"
+                    @onclick="ToggleTheme">
+                <OmniIcon Name="@(IsDarkTheme ? OmniIconName.ThemeLight : OmniIconName.ThemeDark)" Size="OmniControlSize.Small" />
+                <span>@Localize(IsDarkTheme ? "GridThemeLight" : "GridThemeDark")</span>
+            </button>
+        </div>
+    }
     @if (Failure is not null)
     {
         <div class="omni-data-grid__state" role="alert">
@@ -93,43 +108,86 @@
                         }
                         @foreach (var column in VisibleColumns)
                         {
-                            <th class="@ColumnClass(column, true)" data-omni-col="@column.Key" scope="col" aria-sort="@AriaSort(column)">
-                                @if (column.HeaderTemplate is not null)
-                                {
-                                    @column.HeaderTemplate
-                                }
-                                else if (IsSortable(column))
-                                {
-                                    <button type="button" class="omni-data-grid__sort" @onclick="args => SortAsync(column.Key, args.ShiftKey)">
-                                        <span>@column.Title</span>
-                                        <span class="omni-data-grid__sort-icon" aria-hidden="true">@SortGlyph(column)</span>
-                                    </button>
-                                }
-                                else
-                                {
-                                    @column.Title
-                                }
-                                @if (IsGroupable(column))
-                                {
-                                    <button type="button" class="omni-data-grid__group-toggle" aria-pressed="@(IsGrouped(column.Key) ? "true" : "false")" aria-label="@Localize("GridGroupColumn", column.Title)" @onclick="() => ToggleGroupingAsync(column)">⊞</button>
-                                }
+                            @* The whole cell sorts, not just its title: the click handler sits on the th and the
+                               controls that mean something else (filter menu, grouping, resize handle) stop the
+                               event from reaching it. The inner button stays for the keyboard and for screen
+                               readers, which need a real control to announce. *@
+                            <th class="@ColumnClass(column, true)"
+                                data-omni-col="@column.Key"
+                                scope="col"
+                                aria-sort="@AriaSort(column)"
+                                @onclick="args => SortAsync(column.Key, args.ShiftKey)">
+                                <div class="omni-data-grid__header">
+                                    @if (column.HeaderTemplate is not null)
+                                    {
+                                        @column.HeaderTemplate
+                                    }
+                                    else if (IsSortable(column))
+                                    {
+                                        <button type="button" class="omni-data-grid__sort" tabindex="0" @onclick:stopPropagation="true" @onclick="args => SortAsync(column.Key, args.ShiftKey)">
+                                            <span class="omni-data-grid__title">@column.Title</span>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <span class="omni-data-grid__title">@column.Title</span>
+                                    }
+                                    @if (IsGroupable(column))
+                                    {
+                                        <button type="button" class="@HeaderActionClass("omni-data-grid__group-toggle", IsGrouped(column.Key))" aria-pressed="@(IsGrouped(column.Key) ? "true" : "false")" aria-label="@Localize("GridGroupColumn", column.Title)" @onclick:stopPropagation="true" @onclick="() => ToggleGroupingAsync(column)">⊞</button>
+                                    }
+                                    @* The header filter menu and the inline filter row are mutually exclusive:
+                                       HasFilterRow is false as soon as the menu is on, so a column never shows
+                                       the same value control twice. *@
+                                    @if (ShowHeaderFilterMenu && IsFilterable(column))
+                                    {
+                                        <details class="omni-data-grid__filter-menu" @onclick:stopPropagation="true">
+                                            <summary class="@FilterToggleClass(column)" aria-label="@Localize("GridFilterColumn", column.Title)" aria-haspopup="true">
+                                                <OmniIcon Name="OmniIconName.Filter" Size="OmniControlSize.Small" />
+                                            </summary>
+                                            <div class="omni-data-grid__filter-menu-panel" role="group">
+                                                <label class="omni-visually-hidden" for="@HeaderFilterId(column)">@Localize("GridFilterColumn", column.Title)</label>
+                                                @FilterValueControl(column, HeaderFilterId(column), FilterValue(column), value => FilterValueChangedAsync(column, value))
+                                                <button type="button" class="omni-button omni-data-grid__filter-clear" @onclick="() => ClearFilterAsync(column)">@Text(ClearFilterText, "GridFilterClear")</button>
+                                            </div>
+                                        </details>
+                                        @* Shortcut out of the menu: emptying a filter is the one action worth a
+                                           single click, and it only exists while there is something to empty. *@
+                                        @if (HasActiveFilter(column))
+                                        {
+                                            <button type="button"
+                                                    class="omni-data-grid__filter-reset"
+                                                    aria-label="@Text(ClearFilterText, "GridFilterClear")"
+                                                    title="@Text(ClearFilterText, "GridFilterClear")"
+                                                    @onclick:stopPropagation="true"
+                                                    @onclick="() => ClearFilterAsync(column)">
+                                                <OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" />
+                                            </button>
+                                        }
+                                    }
+                                    @* Always last, and always occupying its slot: a column that gains a sort must
+                                       not shift its title sideways, which is what an icon appearing from nowhere
+                                       does on a narrow column. *@
+                                    @if (IsSortable(column))
+                                    {
+                                        <span class="@SortIconClass(column)" aria-hidden="true">
+                                            <OmniIcon Name="@(SortIcon(column) ?? OmniIconName.SortAscending)" Size="OmniControlSize.Small" />
+                                        </span>
+                                    }
+                                </div>
+                                @* Drag handle straddling the column's trailing border. The pointer gesture runs
+                                   entirely in omni-grid.js and reports the final width once; the arrow keys keep
+                                   a keyboard path to the same operation. *@
                                 @if (IsResizable(column))
                                 {
-                                    <span class="omni-data-grid__resize">
-                                        <button type="button" class="omni-data-grid__resize-step" aria-label="@Localize("GridShrinkColumn", column.Title)" @onclick="() => ResizeColumnAsync(column, -1)">‹</button>
-                                        <button type="button" class="omni-data-grid__resize-step" aria-label="@Localize("GridGrowColumn", column.Title)" @onclick="() => ResizeColumnAsync(column, 1)">›</button>
-                                    </span>
-                                }
-                                @if (ShowHeaderFilterMenu && IsFilterable(column))
-                                {
-                                    <details class="omni-data-grid__filter-menu">
-                                        <summary class="omni-data-grid__filter-menu-toggle" aria-label="@Localize("GridFilterColumn", column.Title)" aria-haspopup="true">▾</summary>
-                                        <div class="omni-data-grid__filter-menu-panel" role="group">
-                                            <label class="omni-visually-hidden" for="@HeaderFilterId(column)">@Localize("GridFilterColumn", column.Title)</label>
-                                            @FilterValueControl(column, HeaderFilterId(column), FilterValue(column), value => FilterValueChangedAsync(column, value))
-                                            <button type="button" class="omni-button omni-data-grid__filter-clear" @onclick="() => ClearFilterAsync(column)">@Text(ClearFilterText, "GridFilterClear")</button>
-                                        </div>
-                                    </details>
+                                    <span class="omni-data-grid__resize-handle"
+                                          data-omni-resize="@column.Key"
+                                          role="separator"
+                                          aria-orientation="vertical"
+                                          tabindex="0"
+                                          aria-label="@Localize("GridResizeColumn", column.Title)"
+                                          @onclick:stopPropagation="true"
+                                          @onkeydown="args => ResizeKeyDownAsync(column, args.Key)"></span>
                                 }
                             </th>
                         }

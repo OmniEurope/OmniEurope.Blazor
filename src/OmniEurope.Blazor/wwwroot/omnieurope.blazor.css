@@ -8,7 +8,7 @@
     --omni-color-danger: #b42318;
     --omni-color-warning: #a15c00;
     --omni-color-success: #087443;
-    --omni-radius: 0.5rem;
+    --omni-radius: 0.1875rem;
     --omni-focus-ring: 0 0 0 0.2rem rgb(22 93 255 / 28%);
     --omni-space-xs: 0.25rem;
     --omni-space-sm: 0.5rem;
@@ -714,7 +714,51 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-tree__item:focus-visible { border-radius: var(--omni-radius); box-shadow: var(--omni-focus-ring); outline: none; }
 
 .omni-data-grid { display: grid; font-size: var(--omni-font-size-base); gap: var(--omni-space-md); }
-.omni-data-grid__viewport { overflow: auto; }
+/* One light frame around the whole table, the scrolling area included, so the grid reads as a
+   single object instead of a run of loose rows. */
+.omni-data-grid__viewport { border: 1px solid var(--omni-color-border); border-radius: var(--omni-radius); overflow: auto; }
+.omni-data-grid__toolbar { display: flex; justify-content: flex-end; }
+.omni-data-grid__theme-toggle { align-items: center; display: inline-flex; gap: var(--omni-space-xs); }
+/* Palette override scoped to one grid: only the tokens the component reads are redefined, so the
+   page around it keeps its own theme. */
+.omni-data-grid[data-omni-grid-theme="dark"] {
+    --omni-color-surface: #12161f;
+    --omni-color-surface-muted: #1c2230;
+    --omni-color-border: #2c3444;
+    --omni-color-text: #e8ecf4;
+    --omni-color-accent: #7aa2ff;
+    --omni-color-accent-strong: #5b86ee;
+    --omni-focus-ring: 0 0 0 0.2rem rgb(122 162 255 / 32%);
+    background: var(--omni-color-surface);
+    color: var(--omni-color-text);
+}
+/* Restated for the dark palette: the light hover fill is a hand-picked lighter grey, which would
+   read as a smudge here. */
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__table thead th { --omni-header-fill: #1c2230; --omni-header-fill-hover: #2a3446; }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__table thead th.omni-data-grid__column--active { --omni-header-fill: #23304a; --omni-header-fill-hover: #2e3e5e; }
+/* Stated explicitly rather than left to the tokens above: a host page's own theme can carry rules
+   that reach the table cells, and the toggle has to win over them inside this grid. */
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__viewport--virtual .omni-data-grid__table thead th { background: var(--omni-header-fill); color: var(--omni-color-text); }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__viewport--virtual .omni-data-grid__table thead th:hover { background: var(--omni-header-fill-hover); }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__table td:not(.omni-data-grid__column--active) { background: var(--omni-color-surface); }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__table td { color: var(--omni-color-text); }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__table th,
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__table td { border-color: var(--omni-color-border); }
+.omni-data-grid[data-omni-grid-theme="dark"] { --omni-column-active-fill: #1d2942; }
+.omni-data-grid[data-omni-grid-theme="dark"].omni-data-grid--striped .omni-data-grid__row--alternate td:not(.omni-data-grid__column--active) { background: #171d29; }
+.omni-data-grid[data-omni-grid-theme="dark"].omni-data-grid--row-hover .omni-data-grid__table tbody tr:hover td { background: #232b3b; }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__row--selected td { background: color-mix(in srgb, var(--omni-color-accent) 22%, var(--omni-color-surface)); }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__filter-menu-panel,
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-combo__list { background: var(--omni-color-surface-muted); border-color: var(--omni-color-border); box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 45%); }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-combo__option:hover,
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-combo__option--active,
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-multi-select__option:hover { background: #2a3446; }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-combo__match { background: color-mix(in srgb, var(--omni-color-accent) 40%, transparent); }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__group-hint,
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__summary,
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__state { color: #98a2b3; }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-input,
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-button { background: var(--omni-color-surface-muted); border-color: var(--omni-color-border); color: var(--omni-color-text); }
 .omni-data-grid__table { border-collapse: collapse; color: var(--omni-color-text); width: 100%; }
 .omni-data-grid__table caption { font-weight: 650; padding: var(--omni-space-sm); text-align: start; }
 .omni-data-grid__table th,
@@ -722,15 +766,73 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid__table th { background: var(--omni-color-surface-muted); font-weight: 650; }
 .omni-data-grid__sort { align-items: center; background: transparent; border: 0; color: inherit; cursor: pointer; display: inline-flex; font: inherit; font-weight: inherit; gap: var(--omni-space-xs); padding: 0; }
 .omni-data-grid__sort:focus-visible { border-radius: calc(var(--omni-radius) / 2); box-shadow: var(--omni-focus-ring); outline: none; }
-.omni-data-grid__sort-icon { font-size: 0.65em; opacity: 0.75; }
+.omni-data-grid__sort-icon { align-items: center; block-size: 0.9em; display: inline-flex; flex: 0 0 auto; inline-size: 0.9em; margin-inline-start: auto; opacity: 0.7; }
+.omni-data-grid__sort-icon > svg { block-size: 100%; inline-size: 100%; }
+/* Reserved, not removed: the slot keeps its width so sorting a narrow column shifts nothing. */
+.omni-data-grid__sort-icon--idle { visibility: hidden; }
+.omni-data-grid__filter-reset { align-items: center; background: transparent; border: 0; border-radius: var(--omni-radius); color: inherit; cursor: pointer; display: inline-flex; flex: 0 0 auto; padding: var(--omni-space-xs); }
+.omni-data-grid__filter-reset:hover { background: color-mix(in srgb, var(--omni-color-text) 10%, transparent); }
+.omni-data-grid__filter-reset:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-data-grid__table th { position: relative; }
+.omni-data-grid__header { align-items: center; display: flex; gap: var(--omni-space-xs); min-inline-size: 0; }
+/* Header affordances stay out of the way until the column is hovered or focused, so an idle header
+   shows nothing but its title and, when sorted, its sort direction. */
+.omni-data-grid__header-action { opacity: 0; transition: opacity 120ms ease-in-out; }
+.omni-data-grid__table th:hover .omni-data-grid__header-action,
+.omni-data-grid__table th:focus-within .omni-data-grid__header-action,
+.omni-data-grid__header-action--active { opacity: 1; }
+.omni-data-grid__header-action--active { color: var(--omni-color-accent); }
+@media (prefers-reduced-motion: reduce) {
+    .omni-data-grid__header-action { transition: none; }
+}
+/* Drag target straddling the column's trailing border. It is wider than the border it covers so the
+   pointer can find it, and it is never a scroll or text-selection target during the gesture. */
+/* No separators inside the header row: the hovered cell is told apart by a darker fill, not by
+   rules drawn between columns. The two fills are set as tokens so the dark palette can restate them
+   instead of inheriting a mix computed for a light background. */
+.omni-data-grid__table thead th { --omni-header-fill: var(--omni-color-surface-muted); --omni-header-fill-hover: #e2e7f0; background: var(--omni-header-fill); border-inline: 0; transition: background-color 120ms ease-in-out; }
+.omni-data-grid__table thead th:hover { background: var(--omni-header-fill-hover); }
+.omni-data-grid__column--sortable { cursor: pointer; }
+/* A column carrying a sort or a filter stays tinted so it can be spotted without reading the icons.
+   The tint is a token rather than a literal mix: each theme restates it, and no theme rule repainting
+   the cells can silently win over it by being declared later. */
+.omni-data-grid { --omni-column-active-fill: color-mix(in srgb, var(--omni-color-accent) 10%, transparent); }
+.omni-data-grid--striped .omni-data-grid__row--alternate .omni-data-grid__column--active,
+.omni-data-grid__table td.omni-data-grid__column--active { background: var(--omni-column-active-fill); }
+.omni-data-grid__table thead th.omni-data-grid__column--active { --omni-header-fill: color-mix(in srgb, var(--omni-color-accent) 16%, var(--omni-color-surface-muted)); --omni-header-fill-hover: color-mix(in srgb, var(--omni-color-accent) 26%, var(--omni-color-surface-muted)); }
+.omni-data-grid--row-hover .omni-data-grid__table tbody tr:hover td { background: color-mix(in srgb, var(--omni-color-text) 7%, transparent); }
+/* Kept fully inside the cell: a handle that overhangs the trailing edge widens the table past its
+   own columns and raises a horizontal scrollbar the content does not need. */
+.omni-data-grid__resize-handle { block-size: 100%; cursor: col-resize; inline-size: 0.5rem; inset-block-start: 0; inset-inline-end: 0; position: absolute; touch-action: none; user-select: none; }
+.omni-data-grid__resize-handle::after { background: var(--omni-color-accent); block-size: 55%; content: ""; inline-size: 2px; inset-block-start: 22.5%; inset-inline-end: 0; opacity: 0; position: absolute; transition: opacity 120ms ease-in-out; }
+.omni-data-grid__resize-handle:hover::after,
+.omni-data-grid__resize-handle:focus-visible::after { opacity: 1; }
+.omni-data-grid__resize-handle:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+@media (prefers-reduced-motion: reduce) {
+    .omni-data-grid__table thead th,
+    .omni-data-grid__resize-handle::after { transition: none; }
+}
+.omni-data-grid__viewport--resizing { cursor: col-resize; user-select: none; }
 .omni-data-grid__filter { min-width: 8rem; }
+.omni-combo { display: block; position: relative; }
+.omni-combo__input { inline-size: 100%; }
+.omni-combo__list { background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-radius: var(--omni-radius); box-shadow: 0 0.5rem 1.5rem rgb(15 23 42 / 16%); inset-block-start: calc(100% + 0.125rem); inset-inline: 0; list-style: none; margin: 0; max-block-size: 14rem; overflow-y: auto; padding: 0.25rem; position: absolute; z-index: 40; }
+.omni-combo__option { border-radius: calc(var(--omni-radius) / 2); cursor: pointer; padding: 0.25rem 0.5rem; white-space: nowrap; }
+.omni-combo__option:hover,
+.omni-combo__option--active { background: var(--omni-color-surface-muted); }
+.omni-combo__match { background: color-mix(in srgb, var(--omni-color-accent) 28%, transparent); border-radius: 0.125rem; color: inherit; font-weight: 650; padding: 0 0.0625rem; }
+.omni-multi-select { display: grid; gap: var(--omni-space-xs); }
+.omni-multi-select__list { list-style: none; margin: 0; max-block-size: 12rem; overflow-y: auto; padding: 0; }
+.omni-multi-select__option { border-radius: calc(var(--omni-radius) / 2); }
+.omni-multi-select__option:hover { background: var(--omni-color-surface-muted); }
+.omni-multi-select__label { align-items: center; cursor: pointer; display: flex; gap: var(--omni-space-xs); padding: 0.25rem 0.375rem; white-space: nowrap; }
+.omni-multi-select__checkbox { accent-color: var(--omni-color-accent); flex: 0 0 auto; }
 .omni-data-grid__row--selected { background: color-mix(in srgb, var(--omni-color-accent) 10%, transparent); }
 .omni-data-grid__state { color: #5c667a; padding: var(--omni-space-lg); text-align: center; }
 .omni-data-grid__expand { background: transparent; border: 0; color: var(--omni-color-text); cursor: pointer; min-height: 2.75rem; min-width: 2.75rem; }
 .omni-data-grid__detail td { background: var(--omni-color-surface-muted); }
 .omni-data-grid__actions { display: flex; gap: var(--omni-space-xs); }
 .omni-data-grid__group th { background: var(--omni-color-surface-muted); color: var(--omni-color-text); }
-.omni-data-grid__resize { display: inline-flex; margin-inline-start: var(--omni-space-xs); }
 .omni-data-grid__column--align-start { text-align: start; }
 .omni-data-grid__column--align-center { text-align: center; }
 .omni-data-grid__column--align-end { text-align: end; }
@@ -748,14 +850,27 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid--lines-both .omni-data-grid__table td { border-inline-end: 1px solid var(--omni-color-border); }
 .omni-data-grid__viewport--sized { block-size: var(--omni-grid-viewport, auto); overflow: auto; }
 .omni-data-grid__viewport--virtual { block-size: var(--omni-grid-viewport, 24rem); overflow-y: auto; overscroll-behavior: contain; }
-.omni-data-grid__viewport--virtual .omni-data-grid__table thead th { background: var(--omni-color-surface-muted); position: sticky; inset-block-start: 0; z-index: 3; }
+/* FillAvailableHeight: the grid becomes a column that takes the free space its parent leaves, and
+   the viewport takes what is left inside it, never going under --omni-grid-viewport-min. min-block-size
+   on the grid itself is 0 so the flex item is allowed to shrink below its content height. */
+.omni-data-grid--fill { block-size: 100%; display: flex; flex-direction: column; min-block-size: 0; }
+.omni-data-grid--fill .omni-data-grid__viewport--fill { block-size: auto; flex: 1 1 auto; min-block-size: var(--omni-grid-viewport-min, 24rem); overflow-y: auto; }
+/* The sticky header used to pin a background of its own, which outranked the hover rule and made
+   the hover invisible while virtualizing. It now reads the same token. */
+.omni-data-grid__viewport--virtual .omni-data-grid__table thead th { background: var(--omni-header-fill); position: sticky; inset-block-start: 0; z-index: 3; }
+.omni-data-grid__viewport--virtual .omni-data-grid__table thead th:hover { background: var(--omni-header-fill-hover); }
 .omni-data-grid__filter-menu { display: inline-block; position: relative; }
-.omni-data-grid__filter-menu-toggle { background: transparent; border: 0; color: inherit; cursor: pointer; font: inherit; list-style: none; padding: 0 var(--omni-space-xs); }
+.omni-data-grid__filter-menu-toggle { align-items: center; background: transparent; border: 0; border-radius: calc(var(--omni-radius) / 2); color: inherit; cursor: pointer; display: inline-flex; font: inherit; list-style: none; padding: var(--omni-space-xs); }
+.omni-data-grid__filter-menu-toggle:hover { background: color-mix(in srgb, var(--omni-color-text) 8%, transparent); }
+.omni-data-grid__filter-menu-toggle:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-data-grid__filter-menu-toggle--active { color: var(--omni-color-accent); }
 .omni-data-grid__filter-menu-toggle::-webkit-details-marker { display: none; }
 .omni-data-grid__filter-menu[open] > .omni-data-grid__filter-menu-toggle { color: var(--omni-color-accent); }
 .omni-data-grid__filter-menu-panel { background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-radius: var(--omni-radius); box-shadow: 0 0.5rem 1.5rem rgb(15 23 42 / 16%); display: grid; gap: var(--omni-space-sm); inset-block-start: calc(100% + var(--omni-space-xs)); inset-inline-start: 0; min-width: 12rem; padding: var(--omni-space-sm); position: absolute; text-transform: none; z-index: 30; }
-.omni-data-grid--fixed-row-height .omni-data-grid__table tbody tr { block-size: var(--omni-row-height); }
-.omni-data-grid--fixed-row-height .omni-data-grid__table tbody td { block-size: var(--omni-row-height); max-block-size: var(--omni-row-height); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* The virtualization spacers stand in for the rows outside the rendered window, so their height is
+   the scroll geometry itself and must never be clamped to one row. */
+.omni-data-grid--fixed-row-height .omni-data-grid__table tbody tr:not(.omni-data-grid__spacer) { block-size: var(--omni-row-height); }
+.omni-data-grid--fixed-row-height .omni-data-grid__table tbody tr:not(.omni-data-grid__spacer) td { block-size: var(--omni-row-height); max-block-size: var(--omni-row-height); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .omni-data-grid__spacer td { block-size: var(--omni-grid-spacer, 0px); border: 0; padding: 0; }
 .omni-data-grid__row--placeholder td { block-size: var(--omni-grid-row, 2.5rem); }
 .omni-data-grid__group-panel { display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
@@ -763,12 +878,10 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid__group-hint { color: #5c667a; }
 .omni-data-grid__group-remove,
 .omni-data-grid__group-toggle,
-.omni-data-grid__group-expand,
-.omni-data-grid__resize-step { background: transparent; border: 0; color: inherit; cursor: pointer; font: inherit; padding: 0 var(--omni-space-xs); }
+.omni-data-grid__group-expand { background: transparent; border: 0; color: inherit; cursor: pointer; font: inherit; padding: 0 var(--omni-space-xs); }
 .omni-data-grid__group-remove:focus-visible,
 .omni-data-grid__group-toggle:focus-visible,
-.omni-data-grid__group-expand:focus-visible,
-.omni-data-grid__resize-step:focus-visible { border-radius: calc(var(--omni-radius) / 2); box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-data-grid__group-expand:focus-visible { border-radius: calc(var(--omni-radius) / 2); box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-data-grid__group[data-omni-group-level="1"] th { padding-inline-start: var(--omni-space-lg); }
 .omni-data-grid__group[data-omni-group-level="2"] th { padding-inline-start: var(--omni-space-xl, 3rem); }
 .omni-data-grid__filter-operator,

@@ -21,11 +21,16 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public OmniDataGridSortOrder? SortOrder { get; init; }
     public bool Filterable { get; init; }
     public OmniDataGridColumnFilterType FilterType { get; init; }
+    /// <summary>Explicit Select/Combo suggestions; null derives them from the column's own values.</summary>
+    public IEnumerable<string>? FilterValues { get; init; }
+    /// <summary>Column-supplied filter editor, overriding <see cref="FilterType"/>.</summary>
+    public RenderFragment<OmniDataGridFilterContext>? FilterTemplate { get; init; }
     public OmniDataGridFilterOperator FilterOperator { get; init; }
     public OmniDataGridFilterOperator SecondFilterOperator { get; init; }
     public OmniDataGridLogicalOperator LogicalFilterOperator { get; init; }
     public bool Visible { get; init; } = true;
-    public bool Resizable { get; init; }
+    /// <summary>Null follows the grid's own AllowColumnResize; false pins this column.</summary>
+    public bool? Resizable { get; init; }
     public bool Frozen { get; init; }
     public string? Width { get; init; }
     public string? MinWidth { get; init; }

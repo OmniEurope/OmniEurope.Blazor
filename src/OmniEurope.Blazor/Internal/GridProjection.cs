@@ -11,13 +11,12 @@ internal static class GridProjection<TItem>
         IReadOnlyDictionary<string, GridColumnFilter> filters,
         IReadOnlyList<OmniDataGridSort> sorts,
         OmniDataGridFilterCaseSensitivity caseSensitivity,
+        bool ignoreDiacritics,
         int page,
         int pageSize)
     {
         IEnumerable<(TItem Item, int Index)> query = items.Select((item, index) => (item, index));
-        var comparison = caseSensitivity == OmniDataGridFilterCaseSensitivity.CaseSensitive
-            ? StringComparison.CurrentCulture
-            : StringComparison.CurrentCultureIgnoreCase;
+        var comparison = OmniDataGridFilterText.Comparison(caseSensitivity);
 
         foreach (var filter in filters.Where(pair => pair.Value.IsActive))
         {
@@ -28,7 +27,7 @@ internal static class GridProjection<TItem>
             }
 
             var state = filter.Value;
-            query = query.Where(entry => Matches(column, entry.Item, state, comparison));
+            query = query.Where(entry => Matches(column, entry.Item, state, comparison, ignoreDiacritics));
         }
 
         IOrderedEnumerable<(TItem Item, int Index)>? ordered = null;
@@ -67,18 +66,19 @@ internal static class GridProjection<TItem>
         OmniDataGridColumnDefinition<TItem> column,
         TItem item,
         GridColumnFilter filter,
-        StringComparison comparison)
+        StringComparison comparison,
+        bool ignoreDiacritics)
     {
         var first = !filter.HasFirst
             || (column.FilterPredicate?.Invoke(item, filter.Value)
-                ?? MatchesFilter(column.Value(item), filter.Value, filter.Operator, comparison));
+                ?? MatchesFilter(column.Value(item), filter.Value, filter.Operator, comparison, ignoreDiacritics));
         if (!filter.HasSecond)
         {
             return first;
         }
 
         var second = column.FilterPredicate?.Invoke(item, filter.SecondValue)
-            ?? MatchesFilter(column.Value(item), filter.SecondValue, filter.SecondOperator, comparison);
+            ?? MatchesFilter(column.Value(item), filter.SecondValue, filter.SecondOperator, comparison, ignoreDiacritics);
         return filter.LogicalOperator == OmniDataGridLogicalOperator.Or
             ? (filter.HasFirst && first) || second
             : first && second;
@@ -88,9 +88,26 @@ internal static class GridProjection<TItem>
         object? candidate,
         string filter,
         OmniDataGridFilterOperator filterOperator,
-        StringComparison comparison)
+        StringComparison comparison,
+        bool ignoreDiacritics = false)
     {
-        var text = candidate?.ToString() ?? string.Empty;
+        var rawText = candidate?.ToString() ?? string.Empty;
+
+        // A multi-valued operator is answered before normalization so each candidate is compared
+        // with the same equality rules as a single Equals filter.
+        if (OmniDataGridFilterValues.IsMultiValued(filterOperator))
+        {
+            var wanted = OmniDataGridFilterValues.Split(filter);
+            var normalizedText = OmniDataGridFilterText.Normalize(rawText, ignoreDiacritics);
+            var any = wanted.Any(value => string.Equals(
+                normalizedText,
+                OmniDataGridFilterText.Normalize(value, ignoreDiacritics),
+                comparison));
+            return filterOperator == OmniDataGridFilterOperator.In ? any : !any;
+        }
+
+        var text = OmniDataGridFilterText.Normalize(rawText, ignoreDiacritics);
+        filter = OmniDataGridFilterText.Normalize(filter, ignoreDiacritics);
         return filterOperator switch
         {
             OmniDataGridFilterOperator.Equals => string.Equals(text, filter, comparison),

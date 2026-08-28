@@ -42,6 +42,8 @@ public partial class OmniDataGrid<TItem>
     private double _viewportHeight;
     private bool _virtualAttached;
     private bool _virtualBootstrapped;
+    private bool _resizeAttached;
+    private bool _filterMenuAttached;
     private string? _appliedHeight;
     private string? _appliedColumnLayout;
     private double? _appliedRowHeight;
@@ -273,8 +275,23 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public bool ShowHeaderFilterMenu { get; set; }
 
+    /// <summary>
+    /// Closes a header filter menu as soon as a value is picked in it. A click outside the menu, or
+    /// the Escape key, always closes it whatever this is set to.
+    /// </summary>
+    [Parameter]
+    public bool HideFilterMenuOnSelect { get; set; }
+
     [Parameter]
     public OmniDataGridFilterCaseSensitivity FilterCaseSensitivity { get; set; }
+
+    /// <summary>
+    /// Compares filters with accents stripped from both sides, so a search for "epee" matches the
+    /// accented spelling of the same word. A host that filters its own rows behind <see cref="Load"/>
+    /// applies the same rule through <see cref="OmniDataGridFilterText.Normalize"/>.
+    /// </summary>
+    [Parameter]
+    public bool IgnoreDiacritics { get; set; }
 
     [Parameter]
     public string? FilterText { get; set; }
@@ -328,6 +345,14 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public bool AllowAlternatingRows { get; set; }
 
+    /// <summary>Tints a whole column, header included, while it carries a sort or a filter.</summary>
+    [Parameter]
+    public bool HighlightActiveColumn { get; set; }
+
+    /// <summary>Tints the row under the pointer.</summary>
+    [Parameter]
+    public bool HighlightRowOnHover { get; set; }
+
     [Parameter]
     public OmniDataGridLines GridLines { get; set; } = OmniDataGridLines.Default;
 
@@ -351,6 +376,42 @@ public partial class OmniDataGrid<TItem>
     /// </summary>
     [Parameter]
     public string? Height { get; set; }
+
+    /// <summary>
+    /// Shows a button that switches this grid, and only this grid, between the light and dark
+    /// palettes. The surrounding page is untouched.
+    /// </summary>
+    [Parameter]
+    public bool ShowThemeToggle { get; set; }
+
+    /// <summary>Palette the grid starts on when <see cref="ShowThemeToggle"/> is used.</summary>
+    [Parameter]
+    public bool DarkTheme { get; set; }
+
+    private bool? _darkThemeOverride;
+
+    private bool IsDarkTheme => _darkThemeOverride ?? DarkTheme;
+
+    private string? GridTheme => ShowThemeToggle || DarkTheme
+        ? IsDarkTheme ? "dark" : "light"
+        : null;
+
+    private void ToggleTheme() => _darkThemeOverride = !IsDarkTheme;
+
+    /// <summary>
+    /// Opt-in: the grid stretches to whatever height its parent leaves free instead of using its
+    /// own fixed viewport height, never dropping below <see cref="MinHeight"/>. The parent must be
+    /// a sized flex or grid container for there to be a remainder to take. Off by default, so an
+    /// existing grid keeps its current height.
+    /// </summary>
+    [Parameter]
+    public bool FillAvailableHeight { get; set; }
+
+    /// <summary>
+    /// Floor of the scrolling area as a CSS length while <see cref="FillAvailableHeight"/> is on.
+    /// </summary>
+    [Parameter]
+    public string MinHeight { get; set; } = "24rem";
 
     // ---- virtualization -----------------------------------------------------------------------
 
@@ -420,10 +481,10 @@ public partial class OmniDataGrid<TItem>
     };
 
     private IReadOnlyList<TItem> VirtualLocalItems => _virtualLocalItems ??=
-        GridProjection<TItem>.Create(Items, EffectiveColumns, _filters, _sorts, FilterCaseSensitivity, 1, int.MaxValue).Items;
+        GridProjection<TItem>.Create(Items, EffectiveColumns, _filters, _sorts, FilterCaseSensitivity, IgnoreDiacritics, 1, int.MaxValue).Items;
 
     private GridProjectionResult<TItem> LocalView => _localProjection ??= GridProjection<TItem>.Create(
-        Items, EffectiveColumns, _filters, _sorts, FilterCaseSensitivity, Page, AllowPaging ? PageSize : int.MaxValue);
+        Items, EffectiveColumns, _filters, _sorts, FilterCaseSensitivity, IgnoreDiacritics, Page, AllowPaging ? PageSize : int.MaxValue);
 
     private IReadOnlyList<TItem> VisibleItems => Virtualized
         ? Array.Empty<TItem>()
@@ -764,10 +825,14 @@ public partial class OmniDataGrid<TItem>
         {
             await DetachViewportAsync();
             await ApplyLayoutAsync();
+            await EnsureResizeInteropAsync();
+        await EnsureFilterMenuInteropAsync();
             return;
         }
 
         _gridModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
+        await EnsureResizeInteropAsync();
+        await EnsureFilterMenuInteropAsync();
         if (!_virtualAttached)
         {
             _selfReference ??= DotNetObjectReference.Create(this);
@@ -775,12 +840,12 @@ public partial class OmniDataGrid<TItem>
             _virtualAttached = true;
         }
 
-        var snapshot = await _gridModule.InvokeAsync<GridViewportSnapshot?>("sync", _viewport);
+        var snapshot = await _gridModule.InvokeAsync<GridViewportSnapshot?>("sync", _viewport, RowHeight is null);
         var moved = ApplySnapshot(snapshot);
         var previous = _range;
         SyncVirtualWindow();
-        await _gridModule.InvokeVoidAsync("applyLayout", _viewport, _range.TopSpacer, _range.BottomSpacer, Height);
-        _appliedHeight = Height;
+        await _gridModule.InvokeVoidAsync("applyLayout", _viewport, _range.TopSpacer, _range.BottomSpacer, Height, EffectiveMinHeight);
+        _appliedHeight = HeightSignature;
         await ApplyColumnLayoutAsync();
         await ApplyRowHeightAsync(FixedRowHeight ? RowHeight : null);
         await EnsureVirtualDataAsync();
@@ -789,6 +854,58 @@ public partial class OmniDataGrid<TItem>
             StateHasChanged();
         }
     }
+
+    /// <summary>
+    /// Wires the pointer gesture of the column resize handles once, and only when at least one
+    /// column can actually be resized, so a read-only grid still needs no script.
+    /// </summary>
+    private async Task EnsureResizeInteropAsync()
+    {
+        if (_resizeAttached || !VisibleColumns.Any(IsResizable))
+        {
+            return;
+        }
+
+        _gridModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
+        _selfReference ??= DotNetObjectReference.Create(this);
+        await _gridModule.InvokeVoidAsync("attachResize", _viewport, _selfReference, MinimumColumnWidth);
+        _resizeAttached = true;
+    }
+
+    /// <summary>
+    /// Closes any open header filter popover after a suggestion was chosen in one of them, when the
+    /// grid was told to hide the menu on select.
+    /// </summary>
+    private async Task CloseFilterMenusAsync()
+    {
+        if (!HideFilterMenuOnSelect || !_filterMenuAttached || _gridModule is null)
+        {
+            return;
+        }
+
+        await _gridModule.InvokeVoidAsync("closeFilterMenus", _viewport);
+    }
+
+    /// <summary>Wires the dismissal behaviour of the header filter popovers, once.</summary>
+    private async Task EnsureFilterMenuInteropAsync()
+    {
+        if (_filterMenuAttached || !ShowHeaderFilterMenu || !VisibleColumns.Any(IsFilterable))
+        {
+            return;
+        }
+
+        _gridModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
+        await _gridModule.InvokeVoidAsync("attachFilterMenus", _viewport, HideFilterMenuOnSelect);
+        _filterMenuAttached = true;
+    }
+
+    /// <summary>Minimum viewport height pushed to CSS, only meaningful while filling.</summary>
+    private string? EffectiveMinHeight => FillAvailableHeight && !string.IsNullOrWhiteSpace(MinHeight)
+        ? MinHeight
+        : null;
+
+    /// <summary>Both height inputs in one value, so a change to either re-runs the layout interop.</summary>
+    private string HeightSignature => $"{Height}|{EffectiveMinHeight}";
 
     /// <summary>Applies the table height and the column widths outside the virtualized path.</summary>
     private async Task ApplyLayoutAsync()
@@ -800,14 +917,14 @@ public partial class OmniDataGrid<TItem>
         }
 
         var rowHeight = FixedRowHeight ? RowHeight : null;
-        if (Height == _appliedHeight && signature == _appliedColumnLayout && rowHeight == _appliedRowHeight)
+        if (HeightSignature == _appliedHeight && signature == _appliedColumnLayout && rowHeight == _appliedRowHeight)
         {
             return;
         }
 
         _gridModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
-        await _gridModule.InvokeVoidAsync("applyLayout", _viewport, 0d, 0d, Height);
-        _appliedHeight = Height;
+        await _gridModule.InvokeVoidAsync("applyLayout", _viewport, 0d, 0d, Height, EffectiveMinHeight);
+        _appliedHeight = HeightSignature;
         await ApplyColumnLayoutAsync();
         await ApplyRowHeightAsync(rowHeight);
     }
@@ -829,6 +946,7 @@ public partial class OmniDataGrid<TItem>
     /// module is only imported once something actually has to be measured or positioned.
     /// </summary>
     private bool RequiresLayoutInterop => Height is not null
+        || FillAvailableHeight
         || ColumnWidth is not null
         || _columnWidths.Count > 0
         || (FixedRowHeight && RowHeight is not null)
@@ -1206,14 +1324,31 @@ public partial class OmniDataGrid<TItem>
 
     // ---- sorting ------------------------------------------------------------------------------
 
+    /// <summary>
+    /// Cycles a column through the three sort states on successive clicks: ascending, descending,
+    /// then unsorted. The third click removes the column from <see cref="_sorts"/> rather than
+    /// looping back to ascending, so the grid can be returned to its natural order.
+    /// </summary>
     private async Task SortAsync(string key, bool append)
     {
         var column = EffectiveColumns.FirstOrDefault(candidate => candidate.Key == key);
+        // The handler now sits on the whole header cell, so a click on a column that does not sort
+        // has to be turned away here rather than by not wiring the handler at all.
+        if (column is null || !IsSortable(column))
+        {
+            return;
+        }
+
         var existing = _sorts.FindIndex(sort => sort.Key == key);
-        var descending = existing >= 0 && !_sorts[existing].Descending;
+        var wasDescending = existing >= 0 && _sorts[existing].Descending;
+        var clear = existing >= 0 && wasDescending;
         if (!append) _sorts.Clear();
         else if (existing >= 0) _sorts.RemoveAt(existing);
-        _sorts.Add(new OmniDataGridSort(key, descending) { Property = column?.SortProperty ?? column?.Property });
+        if (!clear)
+        {
+            _sorts.Add(new OmniDataGridSort(key, existing >= 0) { Property = column?.SortProperty ?? column?.Property });
+        }
+
         await ResetToFirstPageAsync();
         InvalidateLocalProjection();
         await RefreshAfterQueryChangeAsync();
@@ -1226,13 +1361,49 @@ public partial class OmniDataGrid<TItem>
         return sort is null ? null : sort.Descending ? "descending" : "ascending";
     }
 
-    /// <summary>Visual sort indicator next to a sortable header's title, mirroring aria-sort.</summary>
-    private string SortGlyph(OmniDataGridColumnDefinition<TItem> column) => AriaSort(column) switch
+    /// <summary>
+    /// Visual sort indicator next to a sortable header's title, mirroring aria-sort. Null on an
+    /// unsorted column so no icon is rendered at all.
+    /// </summary>
+    private OmniIconName? SortIcon(OmniDataGridColumnDefinition<TItem> column) => AriaSort(column) switch
     {
-        "ascending" => "▲",
-        "descending" => "▼",
-        _ => ""
+        "ascending" => OmniIconName.SortAscending,
+        "descending" => OmniIconName.SortDescending,
+        _ => null
     };
+
+    /// <summary>
+    /// Secondary header affordances stay hidden until the header is hovered or focused, unless the
+    /// affordance is currently active, in which case it remains visible so the column's state can be
+    /// read without pointing at it.
+    /// </summary>
+    private static string HeaderActionClass(string baseClass, bool active) => CssClassBuilder.Combine([
+        baseClass,
+        "omni-data-grid__header-action",
+        active ? "omni-data-grid__header-action--active" : null
+    ]);
+
+    /// <summary>
+    /// The filter entry point is always visible: it is the column's primary control once the inline
+    /// filter row has been replaced by the menu, so hiding it until hover would leave no sign that
+    /// the column can be filtered at all.
+    /// </summary>
+    private string FilterToggleClass(OmniDataGridColumnDefinition<TItem> column) => CssClassBuilder.Combine([
+        "omni-data-grid__filter-menu-toggle",
+        HasActiveFilter(column) ? "omni-data-grid__filter-menu-toggle--active" : null
+    ]);
+
+    private bool HasActiveFilter(OmniDataGridColumnDefinition<TItem> column) =>
+        !string.IsNullOrEmpty(FilterValue(column));
+
+    /// <summary>
+    /// The sort indicator keeps its slot at all times so the header does not reflow when a column
+    /// gains or loses its sort; only its visibility changes.
+    /// </summary>
+    private string SortIconClass(OmniDataGridColumnDefinition<TItem> column) => CssClassBuilder.Combine([
+        "omni-data-grid__sort-icon",
+        SortIcon(column) is null ? "omni-data-grid__sort-icon--idle" : null
+    ]);
 
     // ---- filtering ----------------------------------------------------------------------------
 
@@ -1243,18 +1414,38 @@ public partial class OmniDataGrid<TItem>
         _draftFilters.GetValueOrDefault(column.Key, FilterOf(column));
 
     private static GridColumnFilter DefaultFilter(OmniDataGridColumnDefinition<TItem> column) => new(
-        column.FilterOperator,
+        DefaultOperator(column),
         string.Empty,
         column.LogicalFilterOperator,
         column.SecondFilterOperator,
         string.Empty);
 
     /// <summary>
+    /// The operator a filter shape implies. A closed dropdown means equality and a checkable list
+    /// means membership, whatever the column's text-oriented default says; only the shapes that
+    /// really are free text keep it.
+    /// </summary>
+    private static OmniDataGridFilterOperator DefaultOperator(OmniDataGridColumnDefinition<TItem> column) => column.FilterType switch
+    {
+        OmniDataGridColumnFilterType.Select => OmniDataGridFilterOperator.Equals,
+        OmniDataGridColumnFilterType.MultiSelect or OmniDataGridColumnFilterType.MultiCombo => OmniDataGridFilterOperator.In,
+        _ => column.FilterOperator
+    };
+
+    /// <summary>
     /// Distinct string values for a Select/Combo filter, read from the locally held <see cref="Items"/>.
     /// A remote (<see cref="Load"/>-backed) grid only ever sees the current page, so Select/Combo on
     /// such a grid is a known limitation rather than a silent wrong answer.
     /// </summary>
-    private IReadOnlyList<string> DistinctFilterValues(OmniDataGridColumnDefinition<TItem> column) => Items
+    private IReadOnlyList<string> DistinctFilterValues(OmniDataGridColumnDefinition<TItem> column) =>
+        column.FilterValues is { } declared
+            ? declared.Where(value => !string.IsNullOrEmpty(value))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(value => value, StringComparer.OrdinalIgnoreCase)
+                .ToArray()
+            : DerivedFilterValues(column);
+
+    private IReadOnlyList<string> DerivedFilterValues(OmniDataGridColumnDefinition<TItem> column) => Items
         .Select(item => column.Value(item)?.ToString())
         .Where(value => !string.IsNullOrEmpty(value))
         .Select(value => value!)
@@ -1464,9 +1655,14 @@ public partial class OmniDataGrid<TItem>
 
     private bool IsSortable(OmniDataGridColumnDefinition<TItem> column) => AllowSorting && column.Sortable;
     private bool IsFilterable(OmniDataGridColumnDefinition<TItem> column) => AllowFiltering && column.Filterable;
-    private bool IsResizable(OmniDataGridColumnDefinition<TItem> column) => AllowColumnResize && column.Resizable;
+    private bool IsResizable(OmniDataGridColumnDefinition<TItem> column) => AllowColumnResize && column.Resizable != false;
     private bool IsGroupable(OmniDataGridColumnDefinition<TItem> column) => AllowGrouping && column.Groupable;
-    private bool HasFilterRow => VisibleColumns.Any(IsFilterable);
+    /// <summary>
+    /// The inline filter row and the per-column header menu are two entry points to the same
+    /// filter, so only one of them is ever rendered: turning <see cref="ShowHeaderFilterMenu"/> on
+    /// moves the value control into the header and drops the row.
+    /// </summary>
+    private bool HasFilterRow => !ShowHeaderFilterMenu && VisibleColumns.Any(IsFilterable);
 
     private string FilterId(OmniDataGridColumnDefinition<TItem> column) => $"{Id ?? "omni-grid"}-filter-{column.Key}";
     private string HeaderFilterId(OmniDataGridColumnDefinition<TItem> column) => $"{FilterId(column)}-menu";
@@ -1504,6 +1700,8 @@ public partial class OmniDataGrid<TItem>
 
     private string GridClass() => Css(
         "omni-data-grid",
+        FillAvailableHeight ? "omni-data-grid--fill" : null,
+        HighlightRowOnHover ? "omni-data-grid--row-hover" : null,
         AllowAlternatingRows ? "omni-data-grid--striped" : null,
         Virtualized ? "omni-data-grid--virtual" : null,
         Responsive ? "omni-data-grid--responsive" : null,
@@ -1513,14 +1711,22 @@ public partial class OmniDataGrid<TItem>
     private string ViewportClass() => CssClassBuilder.Combine([
         "omni-data-grid__viewport",
         Virtualized ? "omni-data-grid__viewport--virtual" : null,
+        FillAvailableHeight ? "omni-data-grid__viewport--fill" : null,
         Height is null ? null : "omni-data-grid__viewport--sized"
     ]);
 
     private string ColumnClass(OmniDataGridColumnDefinition<TItem> column, bool header) => CssClassBuilder.Combine([
         $"omni-data-grid__column--align-{column.TextAlign.ToString().ToLowerInvariant()}",
         column.Frozen ? "omni-data-grid__column--frozen" : null,
+        HighlightActiveColumn && IsColumnActive(column) ? "omni-data-grid__column--active" : null,
+        header && IsSortable(column) ? "omni-data-grid__column--sortable" : null,
         header ? column.HeaderCssClass : column.CssClass
     ]);
+
+    /// <summary>A column is active while it carries the sort or a filter value.</summary>
+    private bool IsColumnActive(OmniDataGridColumnDefinition<TItem> column) =>
+        _sorts.Any(sort => sort.Key == column.Key)
+        || (_filters.TryGetValue(column.Key, out var filter) && filter.IsActive);
 
     private string RowClass(GridRenderRow<TItem> row) => CssClassBuilder.Combine([
         row.HasItem && IsSelected(ItemKey(row.Item)) ? "omni-data-grid__row--selected" : null,
@@ -1540,33 +1746,121 @@ public partial class OmniDataGrid<TItem>
     private async Task ResizeColumnAsync(OmniDataGridColumnDefinition<TItem> column, int step)
     {
         var current = ParseWidth(_columnWidths.GetValueOrDefault(column.Key, column.Width ?? ColumnWidth));
-        var next = Math.Max(48d, current + (step * 32d));
-        var width = $"{next.ToString(CultureInfo.InvariantCulture)}px";
-        _columnWidths[column.Key] = width;
+        await ApplyColumnWidthAsync(column.Key, current + (step * 32d));
+    }
+
+    /// <summary>Keyboard equivalent of the drag handle, one step per arrow press.</summary>
+    private Task ResizeKeyDownAsync(OmniDataGridColumnDefinition<TItem> column, string key) => key switch
+    {
+        "ArrowLeft" => ResizeColumnAsync(column, -1),
+        "ArrowRight" => ResizeColumnAsync(column, 1),
+        _ => Task.CompletedTask
+    };
+
+    /// <summary>
+    /// Final width of a pointer drag on a column's resize handle, in CSS pixels measured by
+    /// omni-grid.js. The gesture itself never round-trips to .NET; only its outcome does.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnColumnResizedAsync(string key, double width)
+    {
+        if (!AllowColumnResize || VisibleColumns.All(column => column.Key != key))
+        {
+            return;
+        }
+
+        await ApplyColumnWidthAsync(key, width);
+        StateHasChanged();
+    }
+
+    private async Task ApplyColumnWidthAsync(string key, double width)
+    {
+        var clamped = Math.Max(MinimumColumnWidth, width);
+        var value = $"{clamped.ToString(CultureInfo.InvariantCulture)}px";
+        _columnWidths[key] = value;
         _appliedColumnLayout = null;
-        var change = new OmniDataGridColumnWidthChange(column.Key, width);
+        var change = new OmniDataGridColumnWidthChange(key, value);
         await ColumnWidthChanged.InvokeAsync(change);
         await ColumnResized.InvokeAsync(change);
         await PersistStateAsync();
     }
 
-    private static double ParseWidth(string? width) =>
-        width is not null
-        && double.TryParse(width.TrimEnd('p', 'x'), NumberStyles.Any, CultureInfo.InvariantCulture, out var parsed)
-            ? parsed
-            : 160d;
+    private const double MinimumColumnWidth = 48d;
 
     /// <summary>
-    /// The value control for a filterable column: a plain text input (Text), a closed dropdown of
-    /// its distinct values (Select), or a text input with a suggestion list of those same values
-    /// (Combo). Shared by the inline filter row and the header filter menu, and by the primary and
-    /// secondary condition of the advanced filter mode.
+    /// Reads a declared CSS width back into pixels for the keyboard resize steps. Only absolute
+    /// units can be resolved without measuring the document, so a percentage or any other relative
+    /// unit falls back to the default estimate rather than silently pretending to be pixels.
+    /// </summary>
+    private static double ParseWidth(string? width)
+    {
+        const double fallback = 160d;
+        if (string.IsNullOrWhiteSpace(width))
+        {
+            return fallback;
+        }
+
+        var trimmed = width.Trim();
+        var digits = trimmed.AsSpan().TrimEnd("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ%");
+        if (digits.Length == 0
+            || !double.TryParse(digits, NumberStyles.Any, CultureInfo.InvariantCulture, out var parsed))
+        {
+            return fallback;
+        }
+
+        var unit = trimmed.AsSpan(digits.Length).Trim().ToString().ToLowerInvariant();
+        return unit switch
+        {
+            "" or "px" => parsed,
+            "rem" or "em" => parsed * RootFontSize,
+            "pt" => parsed * 4d / 3d,
+            _ => fallback
+        };
+    }
+
+    /// <summary>Browser default root font size, used to turn rem/em widths into pixels.</summary>
+    private const double RootFontSize = 16d;
+
+    /// <summary>
+    /// The single place that decides which editor a filterable column gets. A column's own
+    /// <c>FilterTemplate</c> wins over every built-in shape, which is how a mode none of them covers
+    /// is added without touching the grid. Shared by the inline filter row and the header filter
+    /// menu, and by the primary and secondary condition of the advanced filter mode.
     /// </summary>
     private RenderFragment FilterValueControl(OmniDataGridColumnDefinition<TItem> column, string id, string value, Func<string, Task> onChanged) => builder =>
     {
+        if (column.FilterTemplate is not null)
+        {
+            builder.AddContent(0, column.FilterTemplate(new OmniDataGridFilterContext(
+                id,
+                value,
+                DistinctFilterValues(column),
+                Text(FilterText, "GridFilterPlaceholder"),
+                onChanged)));
+            return;
+        }
+
         var onChange = EventCallback.Factory.Create<ChangeEventArgs>(this, args => onChanged(args.Value?.ToString() ?? string.Empty));
         switch (column.FilterType)
         {
+            case OmniDataGridColumnFilterType.MultiSelect:
+            case OmniDataGridColumnFilterType.MultiCombo:
+                builder.OpenComponent<OmniDataGridFilterMultiSelect>(0);
+                builder.AddComponentParameter(1, nameof(OmniDataGridFilterMultiSelect.Id), id);
+                builder.AddComponentParameter(2, nameof(OmniDataGridFilterMultiSelect.Value), value);
+                builder.AddComponentParameter(3, nameof(OmniDataGridFilterMultiSelect.Suggestions), DistinctFilterValues(column));
+                builder.AddComponentParameter(4, nameof(OmniDataGridFilterMultiSelect.Placeholder), Text(FilterText, "GridFilterPlaceholder"));
+                builder.AddComponentParameter(
+                    5,
+                    nameof(OmniDataGridFilterMultiSelect.Searchable),
+                    column.FilterType == OmniDataGridColumnFilterType.MultiCombo);
+                builder.AddComponentParameter(
+                    6,
+                    nameof(OmniDataGridFilterMultiSelect.ValueChanged),
+                    EventCallback.Factory.Create<string>(this, encoded => onChanged(encoded)));
+                builder.CloseComponent();
+                break;
+
             case OmniDataGridColumnFilterType.Select:
                 builder.OpenElement(0, "select");
                 builder.AddAttribute(1, "id", id);
@@ -1590,25 +1884,20 @@ public partial class OmniDataGrid<TItem>
                 break;
 
             case OmniDataGridColumnFilterType.Combo:
-                var listId = $"{id}-options";
-                builder.OpenElement(0, "input");
-                builder.AddAttribute(1, "id", id);
-                builder.AddAttribute(2, "class", "omni-input omni-data-grid__filter");
-                builder.AddAttribute(3, "list", listId);
-                builder.AddAttribute(4, "placeholder", Text(FilterText, "GridFilterPlaceholder"));
-                builder.AddAttribute(5, "value", value);
-                builder.AddAttribute(6, "onchange", onChange);
-                builder.CloseElement();
-                builder.OpenElement(7, "datalist");
-                builder.AddAttribute(8, "id", listId);
-                var comboSeq = 9;
-                foreach (var candidate in DistinctFilterValues(column))
-                {
-                    builder.OpenElement(comboSeq++, "option");
-                    builder.AddAttribute(comboSeq++, "value", candidate);
-                    builder.CloseElement();
-                }
-                builder.CloseElement();
+                builder.OpenComponent<OmniDataGridFilterCombo>(0);
+                builder.AddComponentParameter(1, nameof(OmniDataGridFilterCombo.Id), id);
+                builder.AddComponentParameter(2, nameof(OmniDataGridFilterCombo.Value), value);
+                builder.AddComponentParameter(3, nameof(OmniDataGridFilterCombo.Suggestions), DistinctFilterValues(column));
+                builder.AddComponentParameter(4, nameof(OmniDataGridFilterCombo.Placeholder), Text(FilterText, "GridFilterPlaceholder"));
+                builder.AddComponentParameter(
+                    5,
+                    nameof(OmniDataGridFilterCombo.ValueChanged),
+                    EventCallback.Factory.Create<string>(this, typed => onChanged(typed)));
+                builder.AddComponentParameter(
+                    6,
+                    nameof(OmniDataGridFilterCombo.Picked),
+                    EventCallback.Factory.Create(this, CloseFilterMenusAsync));
+                builder.CloseComponent();
                 break;
 
             default:
@@ -1617,7 +1906,8 @@ public partial class OmniDataGrid<TItem>
                 builder.AddAttribute(2, "class", "omni-input omni-data-grid__filter");
                 builder.AddAttribute(3, "placeholder", Text(FilterText, "GridFilterPlaceholder"));
                 builder.AddAttribute(4, "value", value);
-                builder.AddAttribute(5, "onchange", onChange);
+                // Filters as the user types rather than on blur, so the table follows the keystrokes.
+                builder.AddAttribute(5, "oninput", onChange);
                 builder.CloseElement();
                 break;
         }
@@ -1676,6 +1966,18 @@ public partial class OmniDataGrid<TItem>
         try
         {
             await DetachViewportAsync();
+            if (_resizeAttached && _gridModule is not null)
+            {
+                _resizeAttached = false;
+                await _gridModule.InvokeVoidAsync("detachResize", _viewport);
+            }
+
+            if (_filterMenuAttached && _gridModule is not null)
+            {
+                _filterMenuAttached = false;
+                await _gridModule.InvokeVoidAsync("detachFilterMenus", _viewport);
+            }
+
             if (_gridModule is not null)
             {
                 await _gridModule.DisposeAsync();

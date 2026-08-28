@@ -15,5 +15,14 @@ public enum OmniDataGridFilterOperator
     IsNull,
     IsNotNull,
     IsEmpty,
-    IsNotEmpty
+    IsNotEmpty,
+
+    /// <summary>
+    /// The filter value carries several candidates and a row matches any of them. Read and write
+    /// that value with <see cref="OmniDataGridFilterValues"/> rather than splitting it by hand.
+    /// </summary>
+    In,
+
+    /// <summary>Negation of <see cref="In"/>: a row matches none of the candidates.</summary>
+    NotIn
 }

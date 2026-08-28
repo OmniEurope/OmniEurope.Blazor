@@ -65,6 +65,8 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Expand or collapse every row</value></data>
   <data name="GridShrinkColumn" xml:space="preserve"><value>Shrink the {0} column</value></data>
   <data name="GridGrowColumn" xml:space="preserve"><value>Grow the {0} column</value></data>
+  <data name="GridThemeDark" xml:space="preserve"><value>Dark theme</value></data>
+  <data name="GridThemeLight" xml:space="preserve"><value>Light theme</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>First page</value></data>
   <data name="PagerLast" xml:space="preserve"><value>Last page</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Rows per page</value></data>

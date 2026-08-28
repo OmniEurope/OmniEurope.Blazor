@@ -1,0 +1,36 @@
+<OmniDataGrid TItem="Region"
+              Id="regions"
+              Items="@Regions"
+              KeyProperty="Id"
+              AllowPaging="false"
+              ShowHeaderFilterMenu="true"
+              ShowThemeToggle="true"
+              IgnoreDiacritics="@IgnoreDiacritics">
+    <Columns>
+        <OmniDataGridColumn TItem="Region"
+                            Key="name"
+                            Title="Nom"
+                            Value="region => region.Name"
+                            Filterable="true"
+                            FilterType="OmniDataGridColumnFilterType.MultiSelect" />
+        <OmniDataGridColumn TItem="Region"
+                            Key="code"
+                            Title="Code"
+                            Value="region => region.Code"
+                            Filterable="true"
+                            FilterType="OmniDataGridColumnFilterType.Combo" />
+    </Columns>
+</OmniDataGrid>
+
+@code {
+    public IReadOnlyList<Region> Regions { get; } =
+    [
+        new(1, "Liège", "LG"),
+        new(2, "Namur", "NA"),
+        new(3, "Anvers", "AN")
+    ];
+
+    [Parameter] public bool IgnoreDiacritics { get; set; }
+
+    public sealed record Region(int Id, string Name, string Code);
+}

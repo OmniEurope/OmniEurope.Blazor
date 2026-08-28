@@ -29,6 +29,28 @@ public sealed class DataGridComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void DataGrid_CyclesAColumnThroughAscendingDescendingAndUnsorted()
+    {
+        var grid = Render<DataGridTestHost>();
+        grid.WaitForAssertion(() => Assert.Equal(2, grid.FindAll("tbody tr").Count));
+
+        grid.FindAll(".omni-data-grid__sort")[1].Click();
+        Assert.Equal("ascending", grid.FindAll("thead th")[2].GetAttribute("aria-sort"));
+
+        grid.FindAll(".omni-data-grid__sort")[1].Click();
+        Assert.Equal("descending", grid.FindAll("thead th")[2].GetAttribute("aria-sort"));
+
+        // Third click drops the sort entirely instead of looping back to ascending, so the grid can
+        // be returned to its natural order.
+        grid.FindAll(".omni-data-grid__sort")[1].Click();
+        Assert.Null(grid.FindAll("thead th")[2].GetAttribute("aria-sort"));
+        // The indicator keeps its slot on every sortable column; unsorted it is the hidden idle one.
+        Assert.All(
+            grid.FindAll(".omni-data-grid__sort-icon"),
+            icon => Assert.Contains("omni-data-grid__sort-icon--idle", icon.ClassName, StringComparison.Ordinal));
+    }
+
+    [Fact]
     public void DataGrid_SelectsByStableKey()
     {
         var grid = Render<DataGridTestHost>();
@@ -43,7 +65,7 @@ public sealed class DataGridComponentTests : OmniBunitContext
     {
         var grid = Render<DataGridTestHost>();
 
-        grid.Find(".omni-data-grid__filter").Change("bo");
+        grid.Find(".omni-data-grid__filter").Input("bo");
         Assert.Single(grid.FindAll("tbody tr"));
         Assert.Contains("Bob", grid.Find("tbody tr").TextContent, StringComparison.Ordinal);
         Assert.DoesNotContain("style=", grid.Markup, StringComparison.OrdinalIgnoreCase);
@@ -85,7 +107,9 @@ public sealed class DataGridComponentTests : OmniBunitContext
         grid.FindAll(".omni-data-grid__actions button")[0].Click();
         Assert.Equal("Alice", grid.Instance.UpdatedName);
 
-        grid.FindAll(".omni-data-grid__resize-step")[1].Click();
+        // The pointer drag itself lives in omni-grid.js, out of bUnit's reach; the arrow-key path on
+        // the same handle goes through the identical .NET width-change code.
+        grid.FindAll(".omni-data-grid__resize-handle")[0].KeyDown("ArrowRight");
         Assert.Equal("name", grid.Instance.WidthChange?.Key);
         Assert.Equal("192px", grid.Instance.WidthChange?.Width);
     }
@@ -98,7 +122,7 @@ public sealed class DataGridComponentTests : OmniBunitContext
         grid.Render();
         grid.WaitForAssertion(() => Assert.Contains("Bob", grid.Find("tbody").TextContent, StringComparison.Ordinal));
 
-        grid.Find(".omni-data-grid__filter").Change("ali");
+        grid.Find(".omni-data-grid__filter").Input("ali");
 
         Assert.Equal(1, grid.Instance.Page);
         Assert.Single(grid.FindAll("tbody tr"));
@@ -153,7 +177,7 @@ public sealed class DataGridComponentTests : OmniBunitContext
     public void DataGrid_RemovingAColumnPurgesItsRemoteFilterAndSort()
     {
         var host = Render<DynamicDataGridTestHost>();
-        host.Find(".omni-data-grid__filter").Change("ali");
+        host.Find(".omni-data-grid__filter").Input("ali");
         host.Find(".omni-data-grid__sort").Click();
 
         Assert.Contains(host.Instance.Requests[^1].Filters, filter => filter.Key == "name");
@@ -284,6 +308,7 @@ public sealed class DataGridComponentTests : OmniBunitContext
             },
             [new OmniDataGridSort("score", true)],
             OmniDataGridFilterCaseSensitivity.Default,
+            ignoreDiacritics: false,
             page: 1,
             pageSize: 1);
 

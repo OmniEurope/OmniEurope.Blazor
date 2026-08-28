@@ -75,7 +75,7 @@ public sealed class DataGridSurfaceTests : OmniBunitContext
             .Add(component => component.FilterMode, OmniDataGridFilterMode.SimpleWithMenu));
 
         grid.Find(".omni-data-grid__filter-operator").Change(nameof(OmniDataGridFilterOperator.Equals));
-        grid.Find(".omni-data-grid__filter").Change("Bob");
+        grid.Find(".omni-data-grid__filter").Input("Bob");
 
         Assert.Single(grid.FindAll("tbody tr"));
         Assert.Contains("Bob", grid.Find("tbody tr").TextContent, StringComparison.Ordinal);
@@ -87,7 +87,7 @@ public sealed class DataGridSurfaceTests : OmniBunitContext
         var grid = Render<DataGridSurfaceTestHost>(parameters => parameters
             .Add(component => component.FilterMode, OmniDataGridFilterMode.Advanced));
 
-        grid.Find(".omni-data-grid__filter").Change("Bob");
+        grid.Find(".omni-data-grid__filter").Input("Bob");
         Assert.Equal(3, grid.FindAll("tbody tr").Count);
 
         grid.Find(".omni-data-grid__filter-apply").Click();

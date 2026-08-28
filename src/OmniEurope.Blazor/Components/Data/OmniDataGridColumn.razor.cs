@@ -46,6 +46,22 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public Func<TItem, string, bool>? FilterPredicate { get; set; }
 
+    /// <summary>
+    /// Explicit list of Select/Combo suggestions. Left unset the grid derives them from the values
+    /// this column reads, which only works when it reads a single value per row and the grid holds
+    /// every row. Set it for a column built from a collection, or for a grid fed page by page.
+    /// </summary>
+    [Parameter]
+    public IEnumerable<string>? FilterValues { get; set; }
+
+    /// <summary>
+    /// This column's own filter editor, overriding <see cref="FilterType"/>. Use it for a filter
+    /// shape none of the built-in types covers; the context carries the current value, the candidate
+    /// values and the callback that applies a new one.
+    /// </summary>
+    [Parameter]
+    public RenderFragment<OmniDataGridFilterContext>? FilterTemplate { get; set; }
+
     [Parameter]
     public Func<object?, string>? Format { get; set; }
 
@@ -78,8 +94,13 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public bool Visible { get; set; } = true;
 
+    /// <summary>
+    /// Whether this column carries a resize handle. Left unset it follows the grid's
+    /// <c>AllowColumnResize</c>, so turning resizing on once at grid level is enough; set it to
+    /// false to keep one column fixed while the others can be resized.
+    /// </summary>
     [Parameter]
-    public bool Resizable { get; set; }
+    public bool? Resizable { get; set; }
 
     /// <summary>Keeps the column visible against the inline start edge while the grid scrolls sideways.</summary>
     [Parameter]
@@ -137,6 +158,8 @@ public partial class OmniDataGridColumn<TItem>
             FooterTemplate = FooterTemplate,
             HeaderTemplate = HeaderTemplate,
             FilterPredicate = FilterPredicate,
+            FilterValues = FilterValues,
+            FilterTemplate = FilterTemplate,
             Format = Format,
             FormatString = FormatString,
             Sortable = Sortable,
@@ -179,6 +202,8 @@ public partial class OmniDataGridColumn<TItem>
         && Equals(left.FooterTemplate, right.FooterTemplate)
         && Equals(left.HeaderTemplate, right.HeaderTemplate)
         && Equals(left.FilterPredicate, right.FilterPredicate)
+        && ReferenceEquals(left.FilterValues, right.FilterValues)
+        && Equals(left.FilterTemplate, right.FilterTemplate)
         && Equals(left.Format, right.Format)
         && string.Equals(left.FormatString, right.FormatString, StringComparison.Ordinal)
         && left.Sortable == right.Sortable

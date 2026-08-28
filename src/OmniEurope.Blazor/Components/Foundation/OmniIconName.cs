@@ -7,5 +7,10 @@ public enum OmniIconName
     Info,
     Warning,
     ChevronDown,
-    Menu
+    Menu,
+    Filter,
+    SortAscending,
+    SortDescending,
+    ThemeDark,
+    ThemeLight
 }
