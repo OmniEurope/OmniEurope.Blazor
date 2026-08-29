@@ -57,8 +57,8 @@
             </button>
         </div>
 
-        @* Le contexte descend même quand le groupe est replié : c'est ce que les enfants utilisent
-           pour signaler qu'ils sont la page courante, donc pour le déplier. *@
+        @* The context flows down even while the group is collapsed: it is what the children use
+           to report they are the current page, and therefore what expands the group. *@
         <CascadingValue Value="OwnContext" IsFixed="true">
             <div id="@ChildrenId" class="omni-panel-menu__children" hidden="@(!IsOpen)">@ChildContent</div>
         </CascadingValue>
