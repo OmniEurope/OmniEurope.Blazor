@@ -153,6 +153,9 @@ comme n'importe quel autre filtre.
   et Espace.
 - `RowRender` reçoit un `OmniDataGridRowRenderArgs<TItem>` : classe CSS supplémentaire, ligne non
   sélectionnable, ligne non dépliable. Il ne peut pas produire de style inline.
+- `ShowEditColumn`, actif par défaut, ajoute la colonne d'actions d'édition dès qu'au moins une
+  colonne visible porte un `EditTemplate` ; le mettre à `false` retire cette colonne et laisse l'hôte
+  déclencher l'édition lui-même.
 - `EditMode` vaut `Single` ou `Multiple`. La grille tient son propre état d'édition via
   `EditRowAsync`, `UpdateRowAsync` et `CancelEditAsync` ; `IsEditing` reprend la main quand l'hôte
   préfère gérer l'état lui-même.
@@ -166,6 +169,10 @@ suivante et dernière, sélecteur `PageSizeOptions`, libellés et titres par bou
 `PageTitleFormat`/`PageAriaLabelFormat` pour les numéros, alignement `PagerHorizontalAlign`.
 `PagerPosition` place la barre en haut, en bas ou aux deux. `ShowPagingSummary` et
 `PagingSummaryFormat` produisent le résumé « premier à dernier sur total ».
+
+Dans la grille, la barre n'apparaît que si `AllowPaging` est actif, que la virtualisation ne l'a pas
+remplacée et qu'il existe plus d'une page. `AlwaysShowPager` la maintient visible même sur une page
+unique, pour une mise en page qui ne doit pas se réorganiser au fil des filtres.
 
 ## Présentation
 

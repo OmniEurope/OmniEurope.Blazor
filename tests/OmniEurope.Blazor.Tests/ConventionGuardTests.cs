@@ -428,6 +428,26 @@ public sealed partial class ConventionGuardTests
         Assert.Contains(sources, source => source.content.Contains("Localize(", StringComparison.Ordinal));
     }
 
+    [Fact]
+    public void RazorImports_DeclareTheWebNamespaceSoEventDirectivesStayDirectives()
+    {
+        // Without this using, an @onchange or @onclick written inside a template still compiles: Razor
+        // stops recognising it as a directive attribute and emits it as a literal HTML attribute, so
+        // the handler is silently never wired. Nothing else in the suite catches that.
+        var imports = new[] { "tests", "samples" }
+            .Select(area => Path.Combine(Root, area))
+            .SelectMany(area => Directory.EnumerateFiles(area, "_Imports.razor", SearchOption.AllDirectories))
+            .Where(path => !path.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}", StringComparison.Ordinal)
+                && !path.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}", StringComparison.Ordinal))
+            .ToArray();
+
+        Assert.NotEmpty(imports);
+        Assert.All(imports, path => Assert.Contains(
+            "@using Microsoft.AspNetCore.Components.Web",
+            File.ReadAllText(path),
+            StringComparison.Ordinal));
+    }
+
     private static string Root
     {
         get

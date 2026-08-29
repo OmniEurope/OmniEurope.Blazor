@@ -17,6 +17,14 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - Virtualisation réelle de `OmniDataGrid` : défilement continu sur la totalité des lignes, index de décalages Fenwick avec mesure réelle des lignes, chargement distant par blocs à cache borné, `ScrollToIndexAsync` et hauteur de tableau paramétrable en longueur CSS via `Height`.
 - Surface `OmniDataGrid` alignée sur les paramètres observés des projets consommateurs : colonnes par `Property` et `FormatString`, largeurs et colonnes gelées, opérateurs de filtre étendus avec modes `Simple`, `SimpleWithMenu` et `Advanced`, regroupements par clé avec panneau, `RowRender`, `EditMode`, `ExpandMode`, pagination complète avec numéros de page et tailles de page, `GridLines`, `Density` et mode responsive.
 - Guide de famille `docs/data-components.md` pour la grille, la liste, la pagination et l'arbre.
+- `OmniAlert` gagne `Variant` (`Outline` ou `Filled`) et un emplacement `Icon` rendu avant le titre.
+- `OmniMultiSelect<TValue>` gagne `Presentation` (`List` ou `Compact`) et `Placeholder` : la forme compacte tient sur une ligne, résume la sélection et ouvre sa liste à la demande.
+- `OmniPanelMenu` gagne `DisplayStyle` (`IconAndText` ou `Icon`), `OmniPanelMenuItem` et `OmniTabsItem` gagnent un emplacement `Icon`, et le contexte de groupe du menu latéral déplie la branche portant la page courante.
+- `OmniOverlayService.OpenDialogAsync` ouvre un dialogue et attend son résultat ; `CloseDialog(object?)` répond à l'appelant, toute autre fermeture répond `null`.
+- `OmniDataGrid<TItem>` gagne `AlwaysShowPager` et `ShowEditColumn`, et `OmniDataGridColumn<TItem>` gagne `FilterSearchable`.
+- Quatre chaînes de ressources françaises et anglaises pour la sélection multiple compacte et la bascule du menu latéral : `MultiSelectEmpty`, `MultiSelectSelected`, `MultiSelectClear` et `PanelMenuToggle`.
+- Tests bUnit du cycle de dépliement du menu latéral, des paramètres `Variant`, `Icon` et `Title` d'`OmniAlert`, de la forme compacte d'`OmniMultiSelect` dans les deux cultures, et du contrat asynchrone d'`OmniOverlayService`.
+- Garde de convention exigeant `@using Microsoft.AspNetCore.Components.Web` dans chaque `_Imports.razor` des tests et des samples, sans lequel un `@onchange` compile en attribut HTML littéral au lieu d'un gestionnaire d'événement.
 
 ### Changed
 
@@ -38,4 +46,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - Assainissement de la valeur initiale de l'éditeur HTML et protection contre les résultats asynchrones obsolètes dans Autocomplete, DataList, DataGrid et Scheduler.
 - Coûts répétés supprimés dans DropDown et les séries Pie/Donut, sans changer leurs contrats publics.
 - Correction de l'exemple `OmniSkeleton` du catalogue pour utiliser le paramètre public `LineCount`.
+- Remontée de l'état actif à travers les groupes imbriqués d'`OmniPanelMenuItem` : une feuille rapporte la route qu'elle satisfait et un groupe rapporte la page tenue par ses propres enfants, puis re-rapporte à son parent, si bien qu'un menu de trois niveaux ou plus déplie la branche courante même quand le groupe intermédiaire ne porte aucun `Href`.
+- Fin de l'attente infinie d'`OmniOverlayService.OpenDialogAsync` lorsque la même instance d'`OmniDialogRequest` est rouverte avant sa fermeture : l'appelant déplacé reçoit `null`, conformément au contrat documenté de la fermeture non explicite.
+- Rétablissement des sigils Razor dans l'exemple `FilterTemplate` de `docs/data-components.md`, qui ne compilait pas tel quel chez un consommateur.
 

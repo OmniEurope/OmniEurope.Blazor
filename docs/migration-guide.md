@@ -22,6 +22,7 @@ Les composants OmniEurope expriment des capacités et ne reproduisent pas l'API 
 | Autocomplete distant | Callback annulable ; les états de chargement, d'erreur et de reprise ne sont pas encore exposés. |
 | Validation | `OmniTemplateForm`, validateurs Omni et messages `role="alert"`. |
 | Superposition | `OmniOverlayService` et `OmniComponentsHost` pour la pile de dialogs, les notifications et le portail des menus contextuels ; tooltip local au déclencheur. |
+| Dialogue attendant une réponse | `OpenDialogAsync` retourne le résultat rendu par `CloseDialog(object?)` ; `Escape`, le bouton de fermeture, la réouverture de la même instance et `Dispose` répondent `null` plutôt que de laisser l'appelant en attente. |
 | DataGrid | Colonnes `OmniDataGridColumn<TItem>`, clés stables, pagination contrôlée par `Page`/`PageChanged` ; tri et filtres internes transmis au callback `Load`. |
 | Graphique | Séries SVG typées, axes et options déclaratives partageant domaines, projection et baselines empilées. |
 | Temps | `DateTimeOffset` et `TimeZoneInfo` explicite. |
@@ -41,7 +42,7 @@ Les composants OmniEurope expriment des capacités et ne reproduisent pas l'API 
 - Formulaires : culture, saisie incomplète, soumission invalide, focus et annonce de l'erreur.
 - Sélecteurs : valeurs nulles, gros volumes, rechargement asynchrone et annulation.
 - Superpositions : `Escape`, clic extérieur, ordre du focus, imbrication et restauration du focus.
-- Navigation : route active, annulation de navigation, historique et clavier.
+- Navigation : route active, annulation de navigation, historique et clavier ; vérifier en particulier un menu latéral de trois niveaux ou plus dont le groupe intermédiaire ne porte aucun `Href`, et la forme `DisplayStyle="Icon"` qui doit conserver le texte pour les technologies d'assistance.
 - Collections et grille : clés stables, sélection, édition, détails, groupes et chargements distants.
 - Graphiques et planification : labels accessibles, fuseaux, DST, chevauchements et grands jeux de données.
 - Éditeur HTML : vecteurs XSS, sérialisation, round-trip et CSP navigateur.

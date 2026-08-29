@@ -39,7 +39,7 @@ Exemple :
 
 ## Composants disponibles
 
-Les 110 balises inventoriées disposent désormais d'une cible Razor OmniEurope : fondations, formulaires, sélecteurs, superpositions, navigation, collections, DataGrid, graphiques, scheduler et éditeur HTML. Ce total mesure la présence des cibles, pas une équivalence comportementale ni une validation complète. Le panorama et les limites actuelles sont décrits dans [docs/component-families.md](docs/component-families.md), avec les détails des [fondations](docs/foundation-components.md), [formulaires](docs/form-components.md) et [sélecteurs](docs/selection-components.md). Le [guide de migration](docs/migration-guide.md) prépare le remplacement sans l'exécuter.
+Les 110 balises inventoriées disposent désormais d'une cible Razor OmniEurope : fondations, formulaires, sélecteurs, superpositions, navigation, collections, DataGrid, graphiques, scheduler et éditeur HTML. Ce total mesure la présence des cibles, pas une équivalence comportementale ni une validation complète. Le panorama et les limites actuelles sont décrits dans [docs/component-families.md](docs/component-families.md), avec les détails des [fondations](docs/foundation-components.md), [formulaires](docs/form-components.md), [sélecteurs](docs/selection-components.md) et [données](docs/data-components.md). Le [guide de migration](docs/migration-guide.md) prépare le remplacement sans l'exécuter.
 
 La bibliothèque est construite et soumise aux gates documentées avant toute migration. Ces gates ne constituent pas encore une validation comportementale ou navigateur exhaustive, et aucun projet consommateur n'est modifié pendant cette étape.
 

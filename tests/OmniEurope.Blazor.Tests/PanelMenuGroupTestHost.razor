@@ -1,0 +1,14 @@
+@namespace OmniEurope.Blazor.Tests
+@using OmniEurope.Blazor.Components
+
+@* Three levels, and neither group names a route: a group can then only learn it holds the current
+   page from its children, which is exactly the path that leaves an outer group closed when the
+   report stops at the first level. *@
+<OmniPanelMenu>
+    <OmniPanelMenuItem Text="Section" Id="group-outer">
+        <OmniPanelMenuItem Text="Sous-section" Id="group-inner">
+            <OmniPanelMenuItem Text="Detail" Href="/reports/detail" Id="leaf-detail" />
+        </OmniPanelMenuItem>
+    </OmniPanelMenuItem>
+    <OmniPanelMenuItem Text="Ailleurs" Href="/elsewhere" Id="leaf-elsewhere" />
+</OmniPanelMenu>

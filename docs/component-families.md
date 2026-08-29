@@ -6,12 +6,12 @@ Le registre [component-coverage.md](component-coverage.md) relie les 110 balises
 - Charts : moteur SVG, axes, domaines partagés, séries projetées et empilements à baselines cumulées.
 - Data : listes, pagination, arbre et grille virtualisable avec projection locale ou chargement distant annulable par blocs.
 - Editor : édition source HTML, aperçu sanitizé, historique et outils personnalisés.
-- Feedback : alertes, progression, skeletons et indicateurs d'état.
+- Feedback : alertes à deux variantes de remplissage et emplacement d'icône, progression, skeletons et indicateurs d'état.
 - Forms : champs texte, formulaires typés, validation et contrôles de saisie.
 - Foundation : primitives de texte, titres et types fondamentaux.
 - Layout : conteneurs, cartes, panneaux, barres et structure de page.
-- Navigation : fil d'Ariane, menus, onglets, étapes et profil.
-- Overlays : hôte, dialogues empilés, notifications bornées, tooltip local et menu contextuel porté.
+- Navigation : fil d'Ariane, menus à groupes imbriqués qui déplient la branche portant la page courante, onglets, étapes et profil, avec icônes optionnelles et rendu icône seule du menu latéral.
+- Overlays : hôte, dialogues empilés avec ouverture attendue par `OpenDialogAsync`, notifications bornées, tooltip local et menu contextuel porté.
 - Scheduling : timeline et scheduler jour/semaine/mois en `DateTimeOffset`, avec fuseau explicite.
 - Selection : dropdown simple/multiple, autocomplete annulable, listes de choix, date, slider, couleur et upload.
 

@@ -292,5 +292,61 @@ public sealed class OverlayComponentTests : OmniBunitContext
         dialog.WaitForAssertion(() => Assert.Single(module.Invocations["restoreFocus"]));
     }
 
+    [Fact]
+    public async Task OpenDialogAsync_HandsTheClosingResultToItsCaller()
+    {
+        using var service = new OmniOverlayService();
+        var request = new OmniDialogRequest("Confirmer", Content("Supprimer ?"));
+
+        var pending = service.OpenDialogAsync(request);
+        Assert.False(pending.IsCompleted);
+        Assert.Same(request, service.Dialog);
+
+        service.CloseDialog("deleted");
+
+        Assert.Equal("deleted", await pending);
+        Assert.Null(service.Dialog);
+    }
+
+    [Fact]
+    public async Task DismissingADialogAnyOtherWayAnswersItsCallerWithNull()
+    {
+        using var service = new OmniOverlayService();
+
+        var pending = service.OpenDialogAsync(new OmniDialogRequest("Confirmer", Content("Supprimer ?")));
+        service.CloseDialog();
+
+        Assert.Null(await pending);
+    }
+
+    [Fact]
+    public async Task ReopeningTheSameRequestAnswersTheCallerItDisplaces()
+    {
+        using var service = new OmniOverlayService();
+
+        // The same instance twice is what a consumer holding one request in a field produces on a
+        // double click. The first caller must be answered rather than left waiting for ever.
+        var request = new OmniDialogRequest("Confirmer", Content("Supprimer ?"));
+        var first = service.OpenDialogAsync(request);
+        var second = service.OpenDialogAsync(request);
+
+        Assert.Null(await first);
+        Assert.False(second.IsCompleted);
+
+        service.CloseDialog("deleted");
+        Assert.Equal("deleted", await second);
+    }
+
+    [Fact]
+    public async Task DisposingTheServiceReleasesEveryCallerStillWaiting()
+    {
+        var service = new OmniOverlayService();
+        var pending = service.OpenDialogAsync(new OmniDialogRequest("Confirmer", Content("Supprimer ?")));
+
+        service.Dispose();
+
+        Assert.Null(await pending);
+    }
+
     private static RenderFragment Content(string value) => builder => builder.AddContent(0, value);
 }

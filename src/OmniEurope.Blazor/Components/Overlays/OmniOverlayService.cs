@@ -56,6 +56,14 @@ public sealed class OmniOverlayService : IDisposable
     {
         ArgumentNullException.ThrowIfNull(request);
         var completion = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        // Reopening the same instance while a caller still waits on it would drop that caller's
+        // completion and leave it hanging for ever: answer it the way any other dismissal does.
+        if (_pending.Remove(request, out var displaced))
+        {
+            displaced.TrySetResult(null);
+        }
+
         _pending[request] = completion;
         OpenDialog(request);
         return completion.Task;

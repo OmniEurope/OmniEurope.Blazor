@@ -11,6 +11,13 @@ Ce lot fournit des contrôles typés reliés à `EditContext`, avec sémantique 
 - `OmniRadioButtonList<TValue>` et `OmniRadioButtonListItem<TValue>` ;
 - `OmniSelectBar<TValue>` et `OmniSelectBarItem<TValue>`.
 
+`OmniMultiSelect<TValue>` expose deux formes par `Presentation`. `List`, la valeur par défaut, reste
+une liste native toujours ouverte dont la hauteur est donnée par `VisibleRows`. `Compact` tient sur
+une seule ligne, ouvre sa liste à la demande et résume la sélection : `Placeholder` quand rien n'est
+choisi, le texte de l'option quand il n'y en a qu'une, le décompte au-delà. Les libellés de repli et
+le bouton de désélection proviennent des ressources `MultiSelectEmpty`, `MultiSelectSelected` et
+`MultiSelectClear`.
+
 `OmniAutocomplete<TValue>` reçoit une fonction asynchrone annulable, applique un délai de debounce et annonce le nombre de résultats dans une région live. Une option n'est engagée dans le modèle qu'après sélection explicite.
 
 ```razor

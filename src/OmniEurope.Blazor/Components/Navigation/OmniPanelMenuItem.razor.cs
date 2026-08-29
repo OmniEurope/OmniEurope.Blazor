@@ -60,8 +60,13 @@ public partial class OmniPanelMenuItem
     /// Context handed down to the nested items. Created on first use rather than in the field
     /// initializer, because it closes over a state change this instance must already own.
     /// </summary>
-    private OmniPanelMenuGroupContext OwnContext => _ownContext ??= new OmniPanelMenuGroupContext(
-        () => _ = InvokeAsync(StateHasChanged));
+    private OmniPanelMenuGroupContext OwnContext => _ownContext ??= new OmniPanelMenuGroupContext(() =>
+    {
+        // A group that has just learned it holds the current page has to pass that up in turn, or a
+        // menu deeper than two levels leaves the outer group closed over the branch it should reveal.
+        ReportToParent();
+        _ = InvokeAsync(StateHasChanged);
+    });
 
     private string ChildrenId => _childrenId;
 
@@ -130,9 +135,10 @@ public partial class OmniPanelMenuItem
         _ = InvokeAsync(StateHasChanged);
     }
 
-    // Only a leaf reports: a nested group already unfolds through its own children, and counting it
-    // as well would unfold its parent for a page nobody is on.
-    private void ReportToParent() => ParentGroup?.Report(this, ChildContent is null && IsActive);
+    // A leaf reports the route it matches; a group reports the page its own children hold, never its
+    // own address, or a section landing page nobody is on would unfold the section above it.
+    private void ReportToParent() =>
+        ParentGroup?.Report(this, ChildContent is null ? IsActive : _ownContext?.HasActiveChild ?? false);
 
     private enum RouteMatch
     {
