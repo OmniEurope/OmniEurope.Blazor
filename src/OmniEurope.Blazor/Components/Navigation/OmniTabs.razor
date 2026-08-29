@@ -3,6 +3,38 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JavaScript
 
-<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tabs")" role="tablist" aria-label="@EffectiveLabel" @ref="_root" @onkeydown="HandleKeyDownAsync">
-    <CascadingValue Value="Context">@ChildContent</CascadingValue>
+@* The strip and the panels are separate boxes: a tab row that never wraps has to scroll, and it
+   cannot scroll while the panel it controls shares its container. The child content is therefore
+   rendered twice, each pass emitting only its half, which is what the phase in the context says. *@
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tabs")">
+    <div class="omni-tabs__strip" @ref="_strip">
+        <button type="button"
+                class="omni-tabs__scroll omni-tabs__scroll--start"
+                tabindex="-1"
+                aria-hidden="true"
+                hidden>
+            <svg class="omni-tabs__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+                <path d="M15 6l-6 6 6 6" />
+            </svg>
+        </button>
+        <div class="omni-tabs__viewport"
+             role="tablist"
+             aria-label="@EffectiveLabel"
+             @ref="_root"
+             @onkeydown="HandleKeyDownAsync">
+            <CascadingValue Value="TabContext">@ChildContent</CascadingValue>
+        </div>
+        <button type="button"
+                class="omni-tabs__scroll omni-tabs__scroll--end"
+                tabindex="-1"
+                aria-hidden="true"
+                hidden>
+            <svg class="omni-tabs__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+                <path d="M9 6l6 6-6 6" />
+            </svg>
+        </button>
+    </div>
+    <CascadingValue Value="PanelContext">@ChildContent</CascadingValue>
 </div>

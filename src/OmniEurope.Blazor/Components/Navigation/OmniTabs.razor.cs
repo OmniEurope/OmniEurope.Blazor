@@ -3,6 +3,7 @@ namespace OmniEurope.Blazor.Components;
 public partial class OmniTabs
 {
     private ElementReference _root;
+    private ElementReference _strip;
     private IJSObjectReference? _module;
     private KeyboardInterop? _keyboardInterop;
     private DotNetObjectReference<KeyboardInterop>? _selfReference;
@@ -26,7 +27,9 @@ public partial class OmniTabs
         ? Localize("TabsLabel")
         : Label;
 
-    private OmniTabsContext Context => new() { Value = Value, SelectAsync = SelectAsync };
+    private OmniTabsContext TabContext => new() { Value = Value, SelectAsync = SelectAsync, Phase = OmniTabsPhase.Tab };
+
+    private OmniTabsContext PanelContext => new() { Value = Value, SelectAsync = SelectAsync, Phase = OmniTabsPhase.Panel };
     private Task SelectAsync(string key) => ValueChanged.InvokeAsync(key);
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -37,6 +40,7 @@ public partial class OmniTabs
             _keyboardInterop = new KeyboardInterop(SelectAsync);
             _selfReference = DotNetObjectReference.Create(_keyboardInterop);
             await _module.InvokeVoidAsync("configureTabs", _root, _selfReference);
+            await _module.InvokeVoidAsync("configureTabsOverflow", _strip);
         }
     }
 
@@ -64,6 +68,7 @@ public partial class OmniTabs
         {
             try
             {
+                await _module.InvokeVoidAsync("disposeTabsOverflow", _strip);
                 await _module.InvokeVoidAsync("disposeTabs", _root);
                 await _module.DisposeAsync();
             }

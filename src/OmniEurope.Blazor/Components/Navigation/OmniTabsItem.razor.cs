@@ -24,6 +24,10 @@ public partial class OmniTabsItem
     public RenderFragment? ChildContent { get; set; }
 
     private bool Selected => Context?.Value == Key;
+
+    // The tabs render their content once per phase; this instance emits only the half it is asked
+    // for, so the button lives in the scrolling strip and the panel below it.
+    private bool IsPanelPhase => Context?.Phase == OmniTabsPhase.Panel;
     private string TabId => $"{Id ?? $"omni-tab-{Key}"}-tab";
     private string PanelId => $"{Id ?? $"omni-tab-{Key}"}-panel";
     private Task SelectAsync() => Disabled || Context is null ? Task.CompletedTask : Context.SelectAsync(Key);

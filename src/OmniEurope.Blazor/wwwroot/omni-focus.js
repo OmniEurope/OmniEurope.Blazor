@@ -1,6 +1,7 @@
 const returnTargets = new Map();
 const dialogHandlers = new Map();
 const tabHandlers = new WeakMap();
+const tabOverflow = new WeakMap();
 
 function focusableElements(container) {
     if (!container) {
@@ -166,4 +167,72 @@ export function disposeTabs(tablist) {
         tablist.removeEventListener('keydown', handler);
         tabHandlers.delete(tablist);
     }
+}
+
+// A tab strip never wraps, so it has to say when it hides tabs off either edge. The strip carries
+// data-omni-overflow-start / -end, which the stylesheet turns into the fade, and the two chevron
+// buttons are unhidden with it. Both go out at the stops, so reaching an end is visible.
+export function configureTabsOverflow(strip) {
+    if (!strip || tabOverflow.has(strip)) {
+        return;
+    }
+
+    const viewport = strip.querySelector('.omni-tabs__viewport');
+    if (!viewport) {
+        return;
+    }
+
+    const start = strip.querySelector('.omni-tabs__scroll--start');
+    const end = strip.querySelector('.omni-tabs__scroll--end');
+
+    const update = () => {
+        // Right-to-left scrolling reports scrollLeft as negative or decreasing, so the distance to
+        // each edge is measured in absolute terms rather than from the raw value.
+        const offset = Math.abs(viewport.scrollLeft);
+        const hidden = viewport.scrollWidth - viewport.clientWidth;
+        // A sub-pixel remainder is not an overflow: rounding alone would keep a chevron lit on a
+        // strip that has nothing left to show.
+        const atStart = offset <= 1;
+        const atEnd = offset >= hidden - 1;
+        strip.toggleAttribute('data-omni-overflow-start', !atStart);
+        strip.toggleAttribute('data-omni-overflow-end', hidden > 1 && !atEnd);
+        if (start) start.hidden = atStart;
+        if (end) end.hidden = hidden <= 1 || atEnd;
+    };
+
+    const scrollBy = direction => {
+        // A step short of a full page keeps one tab in common between the two views, so the reader
+        // never loses their place.
+        viewport.scrollBy({ left: direction * viewport.clientWidth * 0.8, behavior: 'smooth' });
+    };
+
+    const onStart = () => scrollBy(-1);
+    const onEnd = () => scrollBy(1);
+    start?.addEventListener('click', onStart);
+    end?.addEventListener('click', onEnd);
+    viewport.addEventListener('scroll', update, { passive: true });
+
+    // The strip also overflows when the window narrows or when a tab is added, neither of which
+    // fires a scroll event.
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(update);
+    observer?.observe(viewport);
+    const mutations = typeof MutationObserver === 'undefined' ? null : new MutationObserver(update);
+    mutations?.observe(viewport, { childList: true, subtree: true });
+
+    tabOverflow.set(strip, { viewport, start, end, onStart, onEnd, update, observer, mutations });
+    update();
+}
+
+export function disposeTabsOverflow(strip) {
+    const state = tabOverflow.get(strip);
+    if (!state) {
+        return;
+    }
+
+    state.start?.removeEventListener('click', state.onStart);
+    state.end?.removeEventListener('click', state.onEnd);
+    state.viewport.removeEventListener('scroll', state.update);
+    state.observer?.disconnect();
+    state.mutations?.disconnect();
+    tabOverflow.delete(strip);
 }

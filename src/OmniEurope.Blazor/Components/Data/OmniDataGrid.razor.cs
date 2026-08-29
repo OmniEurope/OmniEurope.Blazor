@@ -428,7 +428,7 @@ public partial class OmniDataGrid<TItem>
     /// Floor of the scrolling area as a CSS length while <see cref="FillAvailableHeight"/> is on.
     /// </summary>
     [Parameter]
-    public string MinHeight { get; set; } = "24rem";
+    public string MinHeight { get; set; } = "28rem";
 
     // ---- virtualization -----------------------------------------------------------------------
 
