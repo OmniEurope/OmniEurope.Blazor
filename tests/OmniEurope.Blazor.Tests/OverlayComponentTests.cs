@@ -105,7 +105,7 @@ public sealed class OverlayComponentTests : OmniBunitContext
             {
                 builder.OpenElement(0, "button");
                 builder.AddAttribute(1, "type", "button");
-                builder.AddAttribute(2, "onclick", EventCallback.Factory.Create(this, service.CloseDialog));
+                builder.AddAttribute(2, "onclick", EventCallback.Factory.Create(this, () => service.CloseDialog()));
                 builder.AddContent(3, "Fermer");
                 builder.CloseElement();
             }

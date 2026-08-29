@@ -12,13 +12,28 @@
                             Title="Nom"
                             Value="region => region.Name"
                             Filterable="true"
-                            FilterType="OmniDataGridColumnFilterType.MultiSelect" />
+                            FilterType="OmniDataGridColumnFilterType.MultiSelect"
+                            FilterSearchable="@FilterSearchable" />
         <OmniDataGridColumn TItem="Region"
                             Key="code"
                             Title="Code"
                             Value="region => region.Code"
                             Filterable="true"
                             FilterType="OmniDataGridColumnFilterType.Combo" />
+        <OmniDataGridColumn TItem="Region"
+                            Key="id"
+                            Title="Id"
+                            Value="region => region.Id"
+                            Filterable="true">
+            <FilterTemplate Context="filter">
+                <input id="@filter.Id"
+                       class="omni-input custom-filter"
+                       placeholder="@filter.Placeholder"
+                       data-candidates="@filter.Suggestions.Count"
+                       value="@filter.Value"
+                       @onchange="args => filter.ValueChanged(args.Value?.ToString() ?? string.Empty)" />
+            </FilterTemplate>
+        </OmniDataGridColumn>
     </Columns>
 </OmniDataGrid>
 
@@ -31,6 +46,8 @@
     ];
 
     [Parameter] public bool IgnoreDiacritics { get; set; }
+
+    [Parameter] public bool FilterSearchable { get; set; }
 
     public sealed record Region(int Id, string Name, string Code);
 }

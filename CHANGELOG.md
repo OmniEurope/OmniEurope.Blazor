@@ -25,6 +25,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - `OmniPager` gagne première et dernière page, numéros de page, sélecteur de taille de page, libellés par bouton et alignement.
 - Remplacement de la référence serveur `Microsoft.AspNetCore.App` par le paquet client-compatible `Microsoft.AspNetCore.Components.Web`.
 - Francisation des libellés accessibles par défaut d'`OmniAppearanceToggle`, `OmniProgressBar` et `OmniSidebarToggle`.
+- `OmniDataGridColumnFilterType.MultiCombo` est retirée : la forme est désormais `MultiSelect` avec le paramètre de colonne `FilterSearchable`, un axe pour la forme du contrôle et une option pour la recherche.
 - Précision des limites de preuve du registre de couverture, de la procédure clean-room, des contrôles CSP et de la baseline API après audit et revue adversariale.
 
 ### Fixed

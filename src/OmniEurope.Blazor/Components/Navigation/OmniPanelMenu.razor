@@ -1,6 +1,9 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<nav @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-panel-menu")" aria-label="@EffectiveLabel">
+<nav @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@Css("omni-panel-menu", DisplayStyle == OmniPanelMenuDisplayStyle.Icon ? "omni-panel-menu--icons" : null)"
+     aria-label="@EffectiveLabel">
     @ChildContent
 </nav>

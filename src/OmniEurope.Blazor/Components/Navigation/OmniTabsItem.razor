@@ -2,6 +2,12 @@
 @inherits OmniComponentBase
 
 <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tabs__item")">
-    <button id="@TabId" type="button" class="omni-tabs__tab" role="tab" data-key="@Key" aria-selected="@(Selected ? "true" : "false")" aria-controls="@PanelId" tabindex="@(Selected ? 0 : -1)" disabled="@Disabled" @onclick="SelectAsync">@Title</button>
+    <button id="@TabId" type="button" class="omni-tabs__tab" role="tab" data-key="@Key" aria-selected="@(Selected ? "true" : "false")" aria-controls="@PanelId" tabindex="@(Selected ? 0 : -1)" disabled="@Disabled" @onclick="SelectAsync">
+        @if (Icon is not null)
+        {
+            <span class="omni-tabs__icon" aria-hidden="true">@Icon</span>
+        }
+        <span class="omni-tabs__title">@Title</span>
+    </button>
     <section id="@PanelId" class="omni-tabs__panel" role="tabpanel" aria-labelledby="@TabId" hidden="@(!Selected)">@ChildContent</section>
 </div>

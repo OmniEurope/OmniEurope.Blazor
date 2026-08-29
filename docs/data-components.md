@@ -96,6 +96,47 @@ géométrie de défilement. La pagination est ignorée dans ce mode.
 - `OmniDataGridFilterOperator` couvre contient, ne contient pas, égal, différent, commence par, finit
   par, supérieur, supérieur ou égal, inférieur, inférieur ou égal, est nul, n'est pas nul, est vide
   et n'est pas vide. `FilterCaseSensitivity` choisit la comparaison.
+### Forme du contrôle de filtre
+
+`FilterType` choisit la forme du contrôle, sur un seul axe :
+
+| `FilterType` | Contrôle rendu |
+| --- | --- |
+| `Text` (défaut) | saisie libre, comparée avec `FilterOperator` |
+| `Select` | liste déroulante fermée des valeurs distinctes, comparée par égalité |
+| `Combo` | saisie libre avec liste de suggestions |
+| `MultiSelect` | liste cochable, la ligne correspond à une valeur cochée |
+
+`FilterSearchable` ajoute une boîte de recherche au-dessus d'une liste `MultiSelect`, pour une colonne
+dont le catalogue est trop long à parcourir à l'oeil. Les autres formes l'ignorent.
+
+```razor
+<OmniDataGridColumn TItem="Order" Property="Country" Title="Pays" Filterable="true"
+                    FilterType="OmniDataGridColumnFilterType.MultiSelect" FilterSearchable="true" />
+```
+
+`FilterValues` impose la liste des candidats quand la grille ne peut pas la déduire, notamment sur une
+grille alimentée par `Load` qui ne voit que la page courante.
+
+### Filtre entièrement sur mesure
+
+Quand aucune des quatre formes ne convient, `FilterTemplate` remplace le contrôle sans toucher à la
+grille. Le contexte porte l'identifiant à poser sur le champ, la valeur courante, les valeurs
+candidates, le texte indicatif et le rappel qui applique une nouvelle valeur.
+
+```razor
+<OmniDataGridColumn TItem="Order" Property="Total" Title="Total" Filterable="true">
+    <FilterTemplate Context="filter">
+        <input id=".Id" class="omni-input" type="number" value=".Value"
+               placeholder=".Placeholder"
+               ="args => filter.ValueChanged(args.Value?.ToString() ?? string.Empty)" />
+    </FilterTemplate>
+</OmniDataGridColumn>
+```
+
+La valeur écrite reste une chaîne : elle traverse la projection, la requête `Load` et l'état persisté
+comme n'importe quel autre filtre.
+
 - Les libellés `FilterText`, `ApplyFilterText`, `ClearFilterText`, `ContainsText`, `EqualsText`,
   `NotEqualsText`, `AndOperatorText` et `OrOperatorText` remplacent les textes par défaut, eux-mêmes
   localisés.

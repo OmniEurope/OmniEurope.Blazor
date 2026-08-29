@@ -82,6 +82,13 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public OmniDataGridColumnFilterType FilterType { get; set; }
 
+    /// <summary>
+    /// Puts a narrowing box above a MultiSelect filter, for a column whose candidate list is too
+    /// long to scan by eye. Ignored by the other filter types.
+    /// </summary>
+    [Parameter]
+    public bool FilterSearchable { get; set; }
+
     [Parameter]
     public OmniDataGridFilterOperator FilterOperator { get; set; }
 
@@ -166,6 +173,7 @@ public partial class OmniDataGridColumn<TItem>
             SortOrder = SortOrder,
             Filterable = Filterable,
             FilterType = FilterType,
+            FilterSearchable = FilterSearchable,
             FilterOperator = FilterOperator,
             SecondFilterOperator = SecondFilterOperator,
             LogicalFilterOperator = LogicalFilterOperator,
@@ -210,6 +218,7 @@ public partial class OmniDataGridColumn<TItem>
         && left.SortOrder == right.SortOrder
         && left.Filterable == right.Filterable
         && left.FilterType == right.FilterType
+        && left.FilterSearchable == right.FilterSearchable
         && left.FilterOperator == right.FilterOperator
         && left.SecondFilterOperator == right.SecondFilterOperator
         && left.LogicalFilterOperator == right.LogicalFilterOperator

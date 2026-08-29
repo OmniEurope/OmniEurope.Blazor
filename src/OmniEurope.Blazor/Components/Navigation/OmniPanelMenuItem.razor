@@ -6,22 +6,87 @@
 
 @if (ChildContent is not null)
 {
-    <details @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-panel-menu__group")" open="@Expanded">
-        <summary class="omni-panel-menu__summary">@Text</summary>
-        <div class="omni-panel-menu__children">@ChildContent</div>
-    </details>
+    @* A group is a controlled disclosure rather than a <details>: the open state has to follow the
+       active route, and a <details> the browser toggles on its own drifts away from that. *@
+    <div @attributes="AdditionalAttributes"
+         id="@Id"
+         class="@Css("omni-panel-menu__group", IsOpen ? "omni-panel-menu__group--open" : "omni-panel-menu__group--closed")">
+        <div class="omni-panel-menu__summary">
+            @if (!string.IsNullOrWhiteSpace(Href))
+            {
+                @* A group that names a route is navigable as well as expandable, which is what a
+                   section landing page needs. The chevron stays its own control, so reaching the
+                   children never costs a navigation. *@
+                <a class="@GroupLinkClass"
+                   href="@SafeHref"
+                   aria-current="@(IsCurrent ? "page" : null)"
+                   @onclick="HandleNavigateAsync"
+                   @onclick:preventDefault="@(CanNavigate is not null)">
+                    @if (Icon is not null)
+                    {
+                        <span class="omni-panel-menu__icon" aria-hidden="true">@Icon</span>
+                    }
+                    <span class="omni-panel-menu__text">@Text</span>
+                </a>
+            }
+            else
+            {
+                <button type="button"
+                        class="@GroupLinkClass"
+                        aria-expanded="@(IsOpen ? "true" : "false")"
+                        aria-controls="@ChildrenId"
+                        @onclick="Toggle">
+                    @if (Icon is not null)
+                    {
+                        <span class="omni-panel-menu__icon" aria-hidden="true">@Icon</span>
+                    }
+                    <span class="omni-panel-menu__text">@Text</span>
+                </button>
+            }
+
+            <button type="button"
+                    class="omni-panel-menu__toggle"
+                    aria-expanded="@(IsOpen ? "true" : "false")"
+                    aria-controls="@ChildrenId"
+                    aria-label="@ToggleLabel"
+                    @onclick="Toggle">
+                <svg class="omni-panel-menu__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+                    <path d="M6 9l6 6 6-6" />
+                </svg>
+            </button>
+        </div>
+
+        @* Le contexte descend même quand le groupe est replié : c'est ce que les enfants utilisent
+           pour signaler qu'ils sont la page courante, donc pour le déplier. *@
+        <CascadingValue Value="OwnContext" IsFixed="true">
+            <div id="@ChildrenId" class="omni-panel-menu__children" hidden="@(!IsOpen)">@ChildContent</div>
+        </CascadingValue>
+    </div>
 }
 else if (!string.IsNullOrWhiteSpace(Href))
 {
     <a @attributes="AdditionalAttributes"
        id="@Id"
-       class="@Css("omni-panel-menu__link", Current || IsActive ? "omni-panel-menu__link--current" : null)"
+       class="@LinkClass"
        href="@SafeHref"
-       aria-current="@(Current || IsActive ? "page" : null)"
+       aria-current="@(IsCurrent ? "page" : null)"
        @onclick="HandleNavigateAsync"
-       @onclick:preventDefault="@(CanNavigate is not null)">@Text</a>
+       @onclick:preventDefault="@(CanNavigate is not null)">
+        @if (Icon is not null)
+        {
+            <span class="omni-panel-menu__icon" aria-hidden="true">@Icon</span>
+        }
+        <span class="omni-panel-menu__text">@Text</span>
+    </a>
 }
 else
 {
-    <span @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-panel-menu__label")">@Text</span>
+    <span @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-panel-menu__label")">
+        @if (Icon is not null)
+        {
+            <span class="omni-panel-menu__icon" aria-hidden="true">@Icon</span>
+        }
+        <span class="omni-panel-menu__text">@Text</span>
+    </span>
 }

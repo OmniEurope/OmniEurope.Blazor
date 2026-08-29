@@ -104,6 +104,9 @@
   <data name="ListBoxInvalid" xml:space="preserve"><value>The list selection is invalid.</value></data>
   <data name="MonthViewLabel" xml:space="preserve"><value>Month view</value></data>
   <data name="MultiSelectInvalid" xml:space="preserve"><value>The multiple selection is invalid.</value></data>
+  <data name="MultiSelectEmpty" xml:space="preserve"><value>All</value></data>
+  <data name="MultiSelectSelected" xml:space="preserve"><value>{0} selected</value></data>
+  <data name="MultiSelectClear" xml:space="preserve"><value>Clear selection</value></data>
   <data name="NotificationDismiss" xml:space="preserve"><value>Dismiss notification</value></data>
   <data name="NullableCheckBoxInvalid" xml:space="preserve"><value>The checkbox value is invalid.</value></data>
   <data name="NullableSwitchIndeterminate" xml:space="preserve"><value>Indeterminate state</value></data>
@@ -115,6 +118,7 @@
   <data name="PagerStatus" xml:space="preserve"><value>Page {0} of {1}</value></data>
   <data name="PagerNext" xml:space="preserve"><value>Next page</value></data>
   <data name="PanelMenuLabel" xml:space="preserve"><value>Navigation</value></data>
+  <data name="PanelMenuToggle" xml:space="preserve"><value>Expand or collapse {0}</value></data>
   <data name="PasswordRevealLabel" xml:space="preserve"><value>Show password</value></data>
   <data name="PasswordHideLabel" xml:space="preserve"><value>Hide password</value></data>
   <data name="PasswordRevealText" xml:space="preserve"><value>Show</value></data>

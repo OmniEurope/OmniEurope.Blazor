@@ -21,6 +21,8 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public OmniDataGridSortOrder? SortOrder { get; init; }
     public bool Filterable { get; init; }
     public OmniDataGridColumnFilterType FilterType { get; init; }
+    /// <summary>Adds a narrowing box above a MultiSelect filter; ignored by the other types.</summary>
+    public bool FilterSearchable { get; init; }
     /// <summary>Explicit Select/Combo suggestions; null derives them from the column's own values.</summary>
     public IEnumerable<string>? FilterValues { get; init; }
     /// <summary>Column-supplied filter editor, overriding <see cref="FilterType"/>.</summary>

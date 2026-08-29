@@ -2,18 +2,63 @@
 @typeparam TValue
 @inherits OmniInputBase<IReadOnlyList<TValue>>
 
-<select @attributes="AdditionalAttributes"
-        id="@Id"
-        class="@InputCss("omni-input", "omni-multi-select")"
-        multiple
-        size="@VisibleRows"
-        disabled="@Disabled"
-        aria-invalid="@AriaInvalid"
-        aria-describedby="@AriaDescribedBy"
-        @onchange="HandleChange">
-    @for (var index = 0; index < Options.Count; index++)
-    {
-        var option = Options[index];
-        <option value="@index" disabled="@option.Disabled" selected="@IsSelected(option.Value)">@option.Text</option>
-    }
-</select>
+@if (Presentation == OmniMultiSelectPresentation.Compact)
+{
+    @* Divulgation native : le panneau se ferme par Échap et par un second clic sur le résumé, sans
+       écouteur global. C'est la même mécanique que les menus de filtre de la grille. *@
+    <details @attributes="AdditionalAttributes"
+             id="@Id"
+             class="@InputCss("omni-multi-select-compact")">
+        <summary class="omni-input omni-multi-select-compact__summary"
+                 aria-invalid="@AriaInvalid"
+                 aria-describedby="@AriaDescribedBy">
+            <span class="omni-multi-select-compact__text">@SummaryText</span>
+            <svg class="omni-multi-select-compact__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" />
+            </svg>
+        </summary>
+        <div class="omni-multi-select-compact__panel" role="group" aria-label="@SummaryText">
+            @if (SelectedCount > 0)
+            {
+                <button type="button" class="omni-multi-select-compact__clear" disabled="@Disabled" @onclick="Clear">
+                    @Localize("MultiSelectClear")
+                </button>
+            }
+            <ul class="omni-multi-select-compact__list">
+                @for (var index = 0; index < Options.Count; index++)
+                {
+                    var option = Options[index];
+                    var selected = IsSelected(option.Value);
+                    <li class="omni-multi-select-compact__item">
+                        <label class="omni-multi-select-compact__option">
+                            <input type="checkbox"
+                                   checked="@selected"
+                                   disabled="@(Disabled || option.Disabled)"
+                                   @onchange="args => Toggle(option, args.Value is true)" />
+                            <span>@option.Text</span>
+                        </label>
+                    </li>
+                }
+            </ul>
+        </div>
+    </details>
+}
+else
+{
+    <select @attributes="AdditionalAttributes"
+            id="@Id"
+            class="@InputCss("omni-input", "omni-multi-select")"
+            multiple
+            size="@VisibleRows"
+            disabled="@Disabled"
+            aria-invalid="@AriaInvalid"
+            aria-describedby="@AriaDescribedBy"
+            @onchange="HandleChange">
+        @for (var index = 0; index < Options.Count; index++)
+        {
+            var option = Options[index];
+            <option value="@index" disabled="@option.Disabled" selected="@IsSelected(option.Value)">@option.Text</option>
+        }
+    </select>
+}

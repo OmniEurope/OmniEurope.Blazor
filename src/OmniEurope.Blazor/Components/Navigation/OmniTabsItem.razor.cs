@@ -11,6 +11,12 @@ public partial class OmniTabsItem
     [Parameter, EditorRequired]
     public string Title { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Rendered before the title. A slot rather than a name, so the consumer keeps its own icon set.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Icon { get; set; }
+
     [Parameter]
     public bool Disabled { get; set; }
 

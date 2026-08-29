@@ -139,6 +139,14 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public int NumericPageCount { get; set; }
 
+    /// <summary>
+    /// Keep the pager on screen even when everything fits on one page. Without it the grid grows
+    /// and shrinks by the height of the pager as rows are filtered, which moves the content under
+    /// the pointer.
+    /// </summary>
+    [Parameter]
+    public bool AlwaysShowPager { get; set; }
+
     /// <summary>Total row count when the host already knows it, for instance from a count query.</summary>
     [Parameter]
     public int? Count { get; set; }
@@ -218,6 +226,15 @@ public partial class OmniDataGrid<TItem>
 
     [Parameter]
     public bool ShowExpandColumn { get; set; } = true;
+
+    /// <summary>
+    /// Whether the grid appends its own edit, save and cancel column as soon as a column carries an
+    /// <see cref="OmniDataGridColumn{TItem}.EditTemplate"/>. Set to false when the consumer places
+    /// those controls in a column of its own: otherwise every row shows a second, unlabelled set
+    /// beside them, and there was no way to take it away.
+    /// </summary>
+    [Parameter]
+    public bool ShowEditColumn { get; set; } = true;
 
     [Parameter]
     public bool ShowExpandAll { get; set; }
@@ -500,7 +517,7 @@ public partial class OmniDataGrid<TItem>
     private int ColumnSpan => _columnSpan;
     private bool Loading => IsLoading || _remote.Loading || (Virtualized && _virtualSource.Loading && _virtualSource.CachedItemCount == 0);
     private Exception? Failure => Virtualized ? _virtualSource.Error : _remote.Error;
-    private bool ShowPager => AllowPaging && !Virtualized && PageCount > 1;
+    private bool ShowPager => AllowPaging && !Virtualized && (PageCount > 1 || AlwaysShowPager);
     private bool ShowPagerTop => ShowPager && PagerPosition is OmniDataGridPagerPosition.Top or OmniDataGridPagerPosition.TopAndBottom;
     private bool ShowPagerBottom => ShowPager && PagerPosition is OmniDataGridPagerPosition.Bottom or OmniDataGridPagerPosition.TopAndBottom;
     private int BlockSize => VirtualBlockSize > 0 ? VirtualBlockSize : Math.Max(1, PageSize);
@@ -746,7 +763,7 @@ public partial class OmniDataGrid<TItem>
     private void RebuildRenderSnapshot()
     {
         _visibleColumns = EffectiveColumns.Where(column => column.Visible).ToArray();
-        _hasEditing = _visibleColumns.Any(column => column.EditTemplate is not null);
+        _hasEditing = ShowEditColumn && _visibleColumns.Any(column => column.EditTemplate is not null);
         _columnSpan = _visibleColumns.Count
             + (SelectionMode == OmniDataGridSelectionMode.None ? 0 : 1)
             + (_hasEditing ? 1 : 0)
@@ -1428,7 +1445,7 @@ public partial class OmniDataGrid<TItem>
     private static OmniDataGridFilterOperator DefaultOperator(OmniDataGridColumnDefinition<TItem> column) => column.FilterType switch
     {
         OmniDataGridColumnFilterType.Select => OmniDataGridFilterOperator.Equals,
-        OmniDataGridColumnFilterType.MultiSelect or OmniDataGridColumnFilterType.MultiCombo => OmniDataGridFilterOperator.In,
+        OmniDataGridColumnFilterType.MultiSelect => OmniDataGridFilterOperator.In,
         _ => column.FilterOperator
     };
 
@@ -1844,16 +1861,12 @@ public partial class OmniDataGrid<TItem>
         switch (column.FilterType)
         {
             case OmniDataGridColumnFilterType.MultiSelect:
-            case OmniDataGridColumnFilterType.MultiCombo:
                 builder.OpenComponent<OmniDataGridFilterMultiSelect>(0);
                 builder.AddComponentParameter(1, nameof(OmniDataGridFilterMultiSelect.Id), id);
                 builder.AddComponentParameter(2, nameof(OmniDataGridFilterMultiSelect.Value), value);
                 builder.AddComponentParameter(3, nameof(OmniDataGridFilterMultiSelect.Suggestions), DistinctFilterValues(column));
                 builder.AddComponentParameter(4, nameof(OmniDataGridFilterMultiSelect.Placeholder), Text(FilterText, "GridFilterPlaceholder"));
-                builder.AddComponentParameter(
-                    5,
-                    nameof(OmniDataGridFilterMultiSelect.Searchable),
-                    column.FilterType == OmniDataGridColumnFilterType.MultiCombo);
+                builder.AddComponentParameter(5, nameof(OmniDataGridFilterMultiSelect.Searchable), column.FilterSearchable);
                 builder.AddComponentParameter(
                     6,
                     nameof(OmniDataGridFilterMultiSelect.ValueChanged),

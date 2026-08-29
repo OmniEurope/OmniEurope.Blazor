@@ -83,6 +83,44 @@ public sealed class DataGridFilterSurfaceTests : OmniBunitContext
         Assert.Equal(["Anvers"], Project(rows, columns, OmniDataGridFilterOperator.NotIn, wanted, true));
     }
 
+    [Fact]
+    public void MultiSelectFilter_IsSearchableOnlyWhenTheColumnAsksForIt()
+    {
+        var plain = Render<DataGridFilterMenuTestHost>();
+        Assert.Empty(plain.FindAll("th[data-omni-col=\"name\"] .omni-multi-select__search"));
+
+        var searchable = Render<DataGridFilterMenuTestHost>(parameters => parameters
+            .Add(component => component.FilterSearchable, true));
+
+        var search = searchable.Find("th[data-omni-col=\"name\"] .omni-multi-select__search");
+        Assert.Equal(3, searchable.FindAll("th[data-omni-col=\"name\"] .omni-multi-select__option").Count);
+
+        search.Input("na");
+
+        var narrowed = searchable.FindAll("th[data-omni-col=\"name\"] .omni-multi-select__option");
+        Assert.Equal(["Namur"], narrowed.Select(option => option.TextContent.Trim()));
+        // The searched fragment is marked up as text, never as markup supplied by the row.
+        Assert.Equal("Na", searchable.Find("th[data-omni-col=\"name\"] .omni-combo__match").TextContent);
+    }
+
+    [Fact]
+    public void FilterTemplate_ReplacesTheEditorAndAppliesTheValueItPublishes()
+    {
+        var grid = Render<DataGridFilterMenuTestHost>();
+
+        var custom = grid.Find("th[data-omni-col=\"id\"] .custom-filter");
+        // The context carries the identifier, the placeholder and the column's candidate values.
+        Assert.False(string.IsNullOrEmpty(custom.GetAttribute("id")));
+        Assert.False(string.IsNullOrEmpty(custom.GetAttribute("placeholder")));
+        Assert.Equal("3", custom.GetAttribute("data-candidates"));
+        Assert.Empty(grid.FindAll("th[data-omni-col=\"id\"] .omni-data-grid__filter"));
+
+        custom.Change("2");
+
+        var row = Assert.Single(grid.FindAll("tbody tr"));
+        Assert.Contains("Namur", row.TextContent, StringComparison.Ordinal);
+    }
+
     private static IReadOnlyList<string> Project(
         IReadOnlyList<Region> rows,
         IReadOnlyList<OmniDataGridColumnDefinition<Region>> columns,

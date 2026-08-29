@@ -103,7 +103,7 @@ public sealed class DataGridComponentTests : OmniBunitContext
 
         grid.Find(".omni-data-grid__actions button").Click();
         Assert.Equal(1, grid.Instance.EditingId);
-        Assert.NotNull(grid.Find(".advanced-edit"));
+        Assert.Single(grid.FindAll(".advanced-edit"));
         grid.FindAll(".omni-data-grid__actions button")[0].Click();
         Assert.Equal("Alice", grid.Instance.UpdatedName);
 

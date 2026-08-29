@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// Checkable list of candidate values behind the MultiSelect and MultiCombo filter types. The value
+/// Checkable list of candidate values behind the MultiSelect filter type. The value
 /// it reads and writes is the encoded list of <see cref="OmniDataGridFilterValues"/>, so a
 /// multi-valued filter travels as the same single string as any other.
 /// </summary>
@@ -20,7 +20,7 @@ public partial class OmniDataGridFilterMultiSelect
     [Parameter]
     public IReadOnlyList<string> Suggestions { get; set; } = [];
 
-    /// <summary>Adds a box that narrows the list as it is typed into (the MultiCombo shape).</summary>
+    /// <summary>Adds a box that narrows the list as it is typed into.</summary>
     [Parameter]
     public bool Searchable { get; set; }
 
