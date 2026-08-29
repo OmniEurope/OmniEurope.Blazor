@@ -127,9 +127,9 @@ candidates, le texte indicatif et le rappel qui applique une nouvelle valeur.
 ```razor
 <OmniDataGridColumn TItem="Order" Property="Total" Title="Total" Filterable="true">
     <FilterTemplate Context="filter">
-        <input id=".Id" class="omni-input" type="number" value=".Value"
-               placeholder=".Placeholder"
-               ="args => filter.ValueChanged(args.Value?.ToString() ?? string.Empty)" />
+        <input id="@filter.Id" class="omni-input" type="number" value="@filter.Value"
+               placeholder="@filter.Placeholder"
+               @onchange="args => filter.ValueChanged(args.Value?.ToString() ?? string.Empty)" />
     </FilterTemplate>
 </OmniDataGridColumn>
 ```
