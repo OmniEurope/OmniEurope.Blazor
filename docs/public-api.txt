@@ -347,6 +347,8 @@ field public static OmniEurope.Blazor.Components.OmniLayoutWidth.Full : OmniEuro
 field public static OmniEurope.Blazor.Components.OmniLayoutWidth.Wide : OmniEurope.Blazor.Components.OmniLayoutWidth const = 1
 field public static OmniEurope.Blazor.Components.OmniMultiSelectPresentation.Compact : OmniEurope.Blazor.Components.OmniMultiSelectPresentation const = 1
 field public static OmniEurope.Blazor.Components.OmniMultiSelectPresentation.List : OmniEurope.Blazor.Components.OmniMultiSelectPresentation const = 0
+field public static OmniEurope.Blazor.Components.OmniNavMatch.Exact : OmniEurope.Blazor.Components.OmniNavMatch const = 1
+field public static OmniEurope.Blazor.Components.OmniNavMatch.Prefix : OmniEurope.Blazor.Components.OmniNavMatch const = 0
 field public static OmniEurope.Blazor.Components.OmniNotificationSeverity.Error : OmniEurope.Blazor.Components.OmniNotificationSeverity const = 3
 field public static OmniEurope.Blazor.Components.OmniNotificationSeverity.Information : OmniEurope.Blazor.Components.OmniNotificationSeverity const = 0
 field public static OmniEurope.Blazor.Components.OmniNotificationSeverity.Success : OmniEurope.Blazor.Components.OmniNotificationSeverity const = 1
@@ -1203,6 +1205,7 @@ property public OmniEurope.Blazor.Components.OmniPanelMenuItem.Current : System.
 property public OmniEurope.Blazor.Components.OmniPanelMenuItem.Expanded : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPanelMenuItem.Href : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPanelMenuItem.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPanelMenuItem.Match : OmniEurope.Blazor.Components.OmniNavMatch {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPanelMenuItem.Text : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniPassword.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPassword.Autocomplete : System.String? {get(public);set(public)} [Parameter]
@@ -1519,6 +1522,7 @@ type public OmniEurope.Blazor.Components.OmniMarkers [class] : Microsoft.AspNetC
 type public OmniEurope.Blazor.Components.OmniMonthView [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniMultiSelect<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<System.Collections.Generic.IReadOnlyList<TValue>>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniMultiSelectPresentation [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
+type public OmniEurope.Blazor.Components.OmniNavMatch [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniNotification [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniNotificationMessage [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniNotificationMessage>
 type public OmniEurope.Blazor.Components.OmniNotificationSeverity [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32

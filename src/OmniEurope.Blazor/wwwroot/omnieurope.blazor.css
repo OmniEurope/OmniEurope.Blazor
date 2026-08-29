@@ -18,9 +18,9 @@
     --omni-space-lg: 1rem;
     --omni-space-xl: 1.5rem;
     --omni-control-height: 2.75rem;
-    /* Matches Radzen's --rz-body-font-size (0.875rem), which every Radzen-based Atlas page inherits
-       at the body level. This package sets no base font-size anywhere, so an OmniEurope.Blazor grid
-       dropped next to a Radzen one renders visibly larger at the browser's 1rem default. */
+    /* 14px, the base body size the host Atlas pages already set. This package sets no base
+       font-size anywhere, so without this token a component dropped into one of those pages
+       renders visibly larger at the browser's 1rem default. */
     --omni-font-size-base: 0.875rem;
 }
 
@@ -69,6 +69,16 @@
 .omni-button--secondary { background: var(--omni-color-surface); border-color: var(--omni-color-border); color: var(--omni-color-text); }
 .omni-button--ghost { background: transparent; color: var(--omni-color-accent); }
 .omni-button--danger { background: var(--omni-color-danger); color: #fff; }
+
+/* The button wraps everything a consumer passes in this single element, so the gap declared on
+   .omni-button never separated an icon from its label: it applied between the button and its one
+   child. The spacing and the vertical centring belong here, where icon and text actually meet. */
+.omni-button__content {
+    align-items: center;
+    display: inline-flex;
+    gap: var(--omni-space-sm);
+    justify-content: center;
+}
 
 .omni-button__busy {
     animation: omni-spin 800ms linear infinite;
@@ -679,7 +689,18 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-profile-menu__item { color: var(--omni-color-accent-strong); }
 .omni-panel-menu { display: grid; gap: var(--omni-space-xs); }
 .omni-panel-menu__group { border: 0; display: grid; }
-.omni-panel-menu__summary { align-items: center; display: flex; gap: var(--omni-space-xs); }
+/* A group row is a link plus a chevron sitting side by side, so highlighting only the link left
+   the row half painted: the gap and the chevron stayed the surface colour. The row carries the
+   highlight instead, in the same colour the link paints, so the two coincide rather than differ. */
+.omni-panel-menu__summary {
+    align-items: center;
+    border-radius: var(--omni-radius);
+    display: flex;
+    gap: var(--omni-space-xs);
+    transition: background-color 120ms ease-in-out;
+}
+.omni-panel-menu__summary:hover,
+.omni-panel-menu__summary:has(.omni-panel-menu__link--current) { background: var(--omni-color-surface-muted); }
 .omni-panel-menu__summary .omni-panel-menu__link { flex: 1 1 auto; min-width: 0; }
 
 /* A navigation entry is a destination, not body copy: it takes the text colour and drops the

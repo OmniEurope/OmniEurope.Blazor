@@ -33,6 +33,14 @@ public partial class OmniPanelMenuItem
     public bool Current { get; set; }
 
     /// <summary>
+    /// How <see cref="Href"/> is compared to the current route. Prefix by default, so a section
+    /// entry stays lit inside its section; Exact for the landing page of an area, whose address is
+    /// the prefix of every page below it and which would otherwise never go out.
+    /// </summary>
+    [Parameter]
+    public OmniNavMatch Match { get; set; }
+
+    /// <summary>
     /// Initial state of a group. The active route still opens the group that contains it, and a
     /// hand toggle still wins over both.
     /// </summary>
@@ -54,7 +62,7 @@ public partial class OmniPanelMenuItem
     /// sits strictly below its address. Landing on the group's own page is not enough on its own,
     /// which is what keeps a section landing page from unfolding the section.
     /// </summary>
-    private bool IsWithin => (_ownContext?.HasActiveChild ?? false) || Match == RouteMatch.Descendant;
+    private bool IsWithin => (_ownContext?.HasActiveChild ?? false) || RouteState == RouteMatch.Descendant;
 
     /// <summary>
     /// Context handed down to the nested items. Created on first use rather than in the field
@@ -82,11 +90,13 @@ public partial class OmniPanelMenuItem
         ? "omni-panel-menu__link omni-panel-menu__link--current"
         : "omni-panel-menu__link";
 
-    private bool IsActive => Match is not (null or RouteMatch.None);
+    // Exact narrows what counts as current, not what counts as being inside a group: a collapsed
+    // group still unfolds on a descendant route, which is what IsWithin reads.
+    private bool IsActive => Match == OmniNavMatch.Exact
+        ? RouteState == RouteMatch.Exact
+        : RouteState is not (null or RouteMatch.None);
 
-    private bool IsExactMatch => Match == RouteMatch.Exact;
-
-    private RouteMatch? Match
+    private RouteMatch? RouteState
     {
         get
         {
