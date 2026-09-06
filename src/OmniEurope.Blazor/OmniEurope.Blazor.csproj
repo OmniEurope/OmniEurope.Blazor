@@ -2,7 +2,7 @@
   <PropertyGroup>
     <EnforceRazorCodeBehind>true</EnforceRazorCodeBehind>
     <PackageId>OmniEurope.Blazor</PackageId>
-    <Version>0.1.0-alpha.1</Version>
+    <Version>1.0.0</Version>
     <Authors>OmniEurope contributors</Authors>
     <Company>OmniEurope</Company>
     <Description>Composants Blazor accessibles et compatibles avec une CSP stricte.</Description>

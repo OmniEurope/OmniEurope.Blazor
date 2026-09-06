@@ -32,6 +32,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.Catalog/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -66,6 +67,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.Catalog/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -142,6 +144,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.Catalog/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -175,7 +178,8 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.Catalog/packages.lock.json",
-        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json"
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json"
       ]
     },
     {
@@ -193,6 +197,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -212,6 +217,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -231,6 +237,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -264,6 +271,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -283,6 +291,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -301,6 +310,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
@@ -329,7 +339,8 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json"
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json"
       ]
     },
     {
@@ -389,6 +400,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -511,6 +523,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -530,6 +543,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -549,6 +563,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -580,6 +595,7 @@
       "lockFiles": [
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
@@ -610,6 +626,7 @@
       "lockFiles": [
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
@@ -628,6 +645,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -647,6 +665,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -666,6 +685,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -685,6 +705,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -716,6 +737,7 @@
       "lockFiles": [
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
@@ -774,6 +796,7 @@
       "lockFiles": [
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
@@ -804,6 +827,7 @@
       "lockFiles": [
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
@@ -836,6 +860,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -855,6 +880,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -886,6 +912,7 @@
       "lockFiles": [
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
@@ -904,6 +931,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -923,6 +951,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -942,6 +971,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -961,6 +991,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -980,6 +1011,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -1027,6 +1059,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
@@ -1045,6 +1078,7 @@
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
         "samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
@@ -1186,7 +1220,8 @@
       },
       "lockFiles": [
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
-        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json"
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json"
       ]
     },
     {
@@ -1201,7 +1236,8 @@
       },
       "lockFiles": [
         "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json",
-        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json"
+        "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
+        "site/OmniEurope.Blazor.Showcase/packages.lock.json"
       ]
     },
     {
