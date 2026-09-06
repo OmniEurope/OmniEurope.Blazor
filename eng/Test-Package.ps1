@@ -76,6 +76,7 @@ try {
         '^NOTICE\.md$',
         '^compliance/sbom\.cdx\.json$',
         '^compliance/third-party-packages\.json$',
+        '^compliance/vendored-assets\.json$',
         '^compliance/licenses/.+$',
         '^lib/net10\.0/OmniEurope\.Blazor\.dll$',
         '^staticwebassets/omnieurope\.blazor\.css$',
@@ -90,6 +91,16 @@ try {
         Where-Object { $_.license.kind -eq 'file' } |
         ForEach-Object { 'compliance/licenses/' + [IO.Path]::GetFileName([string]$_.license.localFile) } |
         Sort-Object -Unique)
+    $embeddedAssets = @()
+    $assetsEntry = $archive.GetEntry('compliance/vendored-assets.json')
+    if ($assetsEntry) {
+        $assetManifest = Read-EntryText $assetsEntry | ConvertFrom-Json
+        if ([int]$assetManifest.schemaVersion -ne 1) { throw 'Unsupported vendored asset manifest schema in the package.' }
+        $embeddedAssets = @($assetManifest.assets)
+    }
+    $expectedLicenseEntries = @($expectedLicenseEntries + @($embeddedAssets |
+        ForEach-Object { 'compliance/licenses/' + [IO.Path]::GetFileName([string]$_.license.localFile) }) |
+        Sort-Object -Unique)
     $actualLicenseEntries = @($entries | Where-Object { $_ -match '^compliance/licenses/[^/]+$' } | Sort-Object -Unique)
     if (Compare-Object $expectedLicenseEntries $actualLicenseEntries) {
         throw 'Packaged license files do not exactly match the embedded third-party registry.'
@@ -99,6 +110,13 @@ try {
         $hash = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData((Read-EntryBytes ($archive.GetEntry($entryName))))).ToLowerInvariant()
         if ($hash -cne [string]$package.license.localFileSha256) {
             throw "Packaged license hash mismatch: $entryName"
+        }
+    }
+    foreach ($asset in $embeddedAssets) {
+        $entryName = 'compliance/licenses/' + [IO.Path]::GetFileName([string]$asset.license.localFile)
+        $hash = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData((Read-EntryBytes ($archive.GetEntry($entryName))))).ToLowerInvariant()
+        if ($hash -cne ([string]$asset.license.localFileSha256).ToLowerInvariant()) {
+            throw "Packaged license hash mismatch for vendored asset $($asset.id): $entryName"
         }
     }
     if ($entries -match '(?i)(Radzen|\.pdb$)') { throw 'Package contains a forbidden Radzen reference or an unexpected embedded PDB.' }

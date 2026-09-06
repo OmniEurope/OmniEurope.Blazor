@@ -16,5 +16,8 @@
     <Project Path="samples/OmniEurope.Blazor.Catalog/OmniEurope.Blazor.Catalog.csproj" />
     <Project Path="samples/OmniEurope.Blazor.WasmSmoke/OmniEurope.Blazor.WasmSmoke.csproj" />
   </Folder>
+  <Folder Name="/site/">
+    <Project Path="site/OmniEurope.Blazor.Showcase/OmniEurope.Blazor.Showcase.csproj" />
+  </Folder>
 </Solution>
 

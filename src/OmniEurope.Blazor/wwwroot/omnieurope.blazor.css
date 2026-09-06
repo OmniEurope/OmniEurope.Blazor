@@ -25,6 +25,70 @@
        font-size anywhere, so without this token a component dropped into one of those pages
        renders visibly larger at the browser's 1rem default. */
     --omni-font-size-base: 0.875rem;
+    /* Sizes above the base, so a host that repaints the scale moves every component with it
+       instead of leaving the small print behind. */
+    --omni-font-size-sm: 0.75rem;
+    --omni-font-size-lg: 1rem;
+    /* Heading scale. Exposed so a theme can retune the whole hierarchy from one place rather than
+       leave six sizes frozen while the body text moves. */
+    --omni-font-size-h1: 2.25rem;
+    --omni-font-size-h2: 1.875rem;
+    --omni-font-size-h3: 1.5rem;
+    --omni-font-size-h4: 1.25rem;
+    --omni-font-size-h5: 1.125rem;
+    --omni-font-size-h6: 1rem;
+    /* The system font stack: whatever the operating system already uses for its own interface. No
+       webfont ships with the package, so a theme never waits on a network fetch and never falls
+       back to a face the reader does not have. */
+    --omni-font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    --omni-border-width: 1px;
+    /* Rounded shapes that are geometric rather than stylistic keep their own tokens: a pill and a
+       disc must stay a pill and a disc whatever the theme does to --omni-radius. */
+    --omni-radius-sm: 0.125rem;
+    --omni-radius-lg: 0.375rem;
+    --omni-radius-pill: 999px;
+    --omni-radius-circle: 50%;
+    /* Text laid over a filled surface. Split from the surfaces themselves so a light accent can
+       carry dark text without the theme having to restate every filled component. */
+    --omni-color-on-accent: #ffffff;
+    --omni-color-on-danger: #ffffff;
+    --omni-color-on-success: #ffffff;
+    --omni-color-on-inverse: #ffffff;
+    --omni-color-inverse-surface: #111827;
+    --omni-color-text-muted: #5c667a;
+    --omni-color-surface-hover: #e2e7f0;
+    --omni-color-surface-highlight: #e1e6ef;
+    /* Tinted backgrounds for badges and soft alerts, one per severity. */
+    --omni-color-accent-subtle: #e8efff;
+    --omni-color-success-subtle: #e4f5ec;
+    --omni-color-warning-subtle: #fff2d8;
+    --omni-color-danger-subtle: #fde9e7;
+    --omni-color-overlay: rgb(15 23 42 / 55%);
+    --omni-shadow-sm: 0 1px 2px rgb(0 0 0 / 30%);
+    --omni-shadow-md: 0 0.5rem 1.5rem rgb(15 23 42 / 16%);
+    --omni-shadow-lg: 0 1rem 3rem rgb(0 0 0 / 30%);
+    /* Categorical series colours. Exposed as tokens so a theme can carry its own chart palette
+       rather than inherit a blue that clashes with everything around it. */
+    --omni-chart-color-0: #2563eb;
+    --omni-chart-color-1: #16a34a;
+    --omni-chart-color-2: #ea580c;
+    --omni-chart-color-3: #9333ea;
+    --omni-chart-color-4: #0891b2;
+    --omni-chart-color-5: #db2777;
+    --omni-chart-color-6: #65a30d;
+    --omni-chart-color-7: #4f46e5;
+    /* Dark surfaces of the data grid. Held as tokens so the theme editor reaches them like any
+       other colour; they only ever resolve inside the grid's own dark scope. */
+    --omni-grid-dark-header: #1c2230;
+    --omni-grid-dark-header-hover: #2a3446;
+    --omni-grid-dark-header-active: #23304a;
+    --omni-grid-dark-header-active-hover: #2e3e5e;
+    --omni-grid-dark-column-active: #1d2942;
+    --omni-grid-dark-row-alternate: #171d29;
+    --omni-grid-dark-row-hover: #232b3b;
+    --omni-grid-dark-state-text: #98a2b3;
+    --omni-shadow-md-strong: 0 0.5rem 1.5rem rgb(0 0 0 / 25%);
+    --omni-shadow-md-dark: 0 0.5rem 1.5rem rgb(0 0 0 / 45%);
 }
 
 [data-omni-density="compact"] {
@@ -69,11 +133,11 @@
 .omni-button--small { min-height: var(--omni-control-height); padding: var(--omni-space-xs) var(--omni-space-sm); }
 .omni-button--medium { min-height: var(--omni-control-height); padding: var(--omni-space-xs) var(--omni-space-lg); }
 .omni-button--large { min-height: calc(var(--omni-control-height) + 0.5rem); padding: var(--omni-space-sm) var(--omni-space-xl); }
-.omni-button--primary { background: var(--omni-color-accent); color: #fff; }
+.omni-button--primary { background: var(--omni-color-accent); color: var(--omni-color-on-accent); }
 .omni-button--primary:hover:not(:disabled) { background: var(--omni-color-accent-strong); }
 .omni-button--secondary { background: var(--omni-color-surface); border-color: var(--omni-color-border); color: var(--omni-color-text); }
 .omni-button--ghost { background: transparent; color: var(--omni-color-accent); }
-.omni-button--danger { background: var(--omni-color-danger); color: #fff; }
+.omni-button--danger { background: var(--omni-color-danger); color: var(--omni-color-on-accent); }
 
 /* The button wraps everything a consumer passes in this single element, so the gap declared on
    .omni-button never separated an icon from its label: it applied between the button and its one
@@ -89,7 +153,7 @@
     animation: omni-spin 800ms linear infinite;
     border: 0.15rem solid currentColor;
     border-right-color: transparent;
-    border-radius: 50%;
+    border-radius: var(--omni-radius-circle);
     height: 1em;
     width: 1em;
 }
@@ -150,7 +214,7 @@
 .omni-alert--outline { color: var(--omni-alert-color); }
 /* Le texte est forcé en blanc plutôt qu'hérité : sur un fond plein de sévérité, la couleur de
    texte du thème n'a plus le contraste nécessaire dans les deux apparences. */
-.omni-alert--filled { background: var(--omni-alert-color); border-color: transparent; color: #fff; }
+.omni-alert--filled { background: var(--omni-alert-color); border-color: transparent; color: var(--omni-color-on-accent); }
 .omni-alert--filled a { color: inherit; }
 .omni-alert__title { display: block; }
 
@@ -169,7 +233,7 @@
 .omni-text,
 .omni-heading { color: var(--omni-color-text); }
 .omni-text--default { color: var(--omni-color-text); }
-.omni-text--muted { color: #5c667a; }
+.omni-text--muted { color: var(--omni-color-text-muted); }
 .omni-text--accent { color: var(--omni-color-accent-strong); }
 .omni-text--success { color: var(--omni-color-success); }
 .omni-text--danger { color: var(--omni-color-danger); }
@@ -181,12 +245,12 @@
 }
 
 .omni-heading { line-height: 1.2; margin-block: 0 0.5em; }
-.omni-heading--h1 { font-size: 2.25rem; }
-.omni-heading--h2 { font-size: 1.875rem; }
-.omni-heading--h3 { font-size: 1.5rem; }
-.omni-heading--h4 { font-size: 1.25rem; }
-.omni-heading--h5 { font-size: 1.125rem; }
-.omni-heading--h6 { font-size: 1rem; }
+.omni-heading--h1 { font-size: var(--omni-font-size-h1); }
+.omni-heading--h2 { font-size: var(--omni-font-size-h2); }
+.omni-heading--h3 { font-size: var(--omni-font-size-h3); }
+.omni-heading--h4 { font-size: var(--omni-font-size-h4); }
+.omni-heading--h5 { font-size: var(--omni-font-size-h5); }
+.omni-heading--h6 { font-size: var(--omni-font-size-h6); }
 
 .omni-icon {
     display: inline-block;
@@ -200,19 +264,19 @@
 .omni-badge {
     align-items: center;
     border: 1px solid transparent;
-    border-radius: 999px;
+    border-radius: var(--omni-radius-pill);
     display: inline-flex;
-    font-size: 0.75rem;
+    font-size: var(--omni-font-size-sm);
     font-weight: 650;
     line-height: 1;
     min-height: 1.5rem;
     padding: var(--omni-space-xs) var(--omni-space-sm);
 }
 .omni-badge--neutral { background: var(--omni-color-surface-muted); color: var(--omni-color-text); }
-.omni-badge--accent { background: #e8efff; color: var(--omni-color-accent-strong); }
-.omni-badge--success { background: #e4f5ec; color: var(--omni-color-success); }
-.omni-badge--warning { background: #fff2d8; color: var(--omni-color-warning); }
-.omni-badge--danger { background: #fde9e7; color: var(--omni-color-danger); }
+.omni-badge--accent { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); }
+.omni-badge--success { background: var(--omni-color-success-subtle); color: var(--omni-color-success); }
+.omni-badge--warning { background: var(--omni-color-warning-subtle); color: var(--omni-color-warning); }
+.omni-badge--danger { background: var(--omni-color-danger-subtle); color: var(--omni-color-danger); }
 
 .omni-link { color: var(--omni-color-accent-strong); text-decoration-thickness: 0.08em; text-underline-offset: 0.15em; }
 .omni-link:hover { text-decoration-thickness: 0.14em; }
@@ -225,14 +289,14 @@
 .omni-skeleton { display: grid; gap: var(--omni-space-sm); }
 .omni-skeleton__item {
     animation: omni-pulse 1.6s ease-in-out infinite;
-    background: linear-gradient(90deg, var(--omni-color-surface-muted), #e1e6ef, var(--omni-color-surface-muted));
+    background: linear-gradient(90deg, var(--omni-color-surface-muted), var(--omni-color-surface-highlight), var(--omni-color-surface-muted));
     background-size: 200% 100%;
     border-radius: var(--omni-radius);
     display: block;
     min-height: 1rem;
     width: 100%;
 }
-.omni-skeleton--circle .omni-skeleton__item { aspect-ratio: 1; border-radius: 50%; width: 3rem; }
+.omni-skeleton--circle .omni-skeleton__item { aspect-ratio: 1; border-radius: var(--omni-radius-circle); width: 3rem; }
 .omni-skeleton--rectangle .omni-skeleton__item { min-height: 5rem; }
 @keyframes omni-pulse { to { background-position: -200% 0; } }
 
@@ -316,7 +380,7 @@
 .omni-progress--success { color: var(--omni-color-success); }
 .omni-progress--warning { color: var(--omni-color-warning); }
 .omni-progress--danger { color: var(--omni-color-danger); }
-.omni-progress__track { background: var(--omni-color-surface-muted); border-radius: 999px; display: block; height: 0.6rem; overflow: hidden; width: 100%; }
+.omni-progress__track { background: var(--omni-color-surface-muted); border-radius: var(--omni-radius-pill); display: block; height: 0.6rem; overflow: hidden; width: 100%; }
 .omni-progress__indicator { background: currentColor; display: block; height: 100%; transition: width 160ms ease; width: 0; }
 .omni-progress__indicator--0 { width: 0; }
 .omni-progress__indicator--5 { width: 5%; }
@@ -413,6 +477,9 @@
     --omni-color-accent-strong: #a8c1ff;
     --omni-color-surface: #111827;
     --omni-color-surface-muted: #1f2937;
+    /* Without a dark value of its own this fell back to the light one, and every hover built on it,
+       the grid header first, lit up near-white on a dark page. */
+    --omni-color-surface-hover: #243044;
     --omni-color-border: #475569;
     --omni-color-text: #f3f4f6;
     color-scheme: dark;
@@ -424,13 +491,22 @@
         --omni-color-accent-strong: #a8c1ff;
         --omni-color-surface: #111827;
         --omni-color-surface-muted: #1f2937;
+        --omni-color-surface-hover: #243044;
         --omni-color-border: #475569;
         --omni-color-text: #f3f4f6;
         color-scheme: dark;
     }
 }
 
-.omni-theme-scope { background: var(--omni-color-surface); color: var(--omni-color-text); }
+/* The scope sets the base size, it does not inherit the host's. The token existed for exactly this
+   and was never applied at the root, so a control rendered at whatever size the surrounding page
+   used while the grid beside it rendered at the token: two sizes in one component set. */
+.omni-theme-scope {
+    background: var(--omni-color-surface);
+    color: var(--omni-color-text);
+    font-family: var(--omni-font-family);
+    font-size: var(--omni-font-size-base);
+}
 .omni-body { box-sizing: border-box; display: flex; flex: 1 1 auto; min-height: 0; min-width: 0; }
 .omni-sidebar {
     background: var(--omni-color-surface);
@@ -461,9 +537,9 @@
 .omni-label { color: var(--omni-color-text); display: inline-flex; font-weight: 650; gap: var(--omni-space-xs); }
 .omni-label__required { color: var(--omni-color-danger); }
 .omni-form-field { display: grid; gap: var(--omni-space-xs); }
-.omni-form-field__description { color: #5c667a; font-size: 0.875rem; }
-.omni-validation-message { color: var(--omni-color-danger); font-size: 0.875rem; margin-block-start: 0.25rem; }
-.omni-form-field__error { color: var(--omni-color-danger); font-size: 0.875rem; }
+.omni-form-field__description { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-base); }
+.omni-validation-message { color: var(--omni-color-danger); font-size: var(--omni-font-size-base); margin-block-start: 0.25rem; }
+.omni-form-field__error { color: var(--omni-color-danger); font-size: var(--omni-font-size-base); }
 .omni-form-field--disabled { opacity: 0.65; }
 
 .omni-input {
@@ -496,7 +572,7 @@
 .omni-password__toggle:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-text-area { display: grid; gap: var(--omni-space-xs); }
 .omni-text-area__input { min-height: 6rem; resize: vertical; }
-.omni-text-area__count { color: #5c667a; font-size: 0.75rem; justify-self: end; }
+.omni-text-area__count { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); justify-self: end; }
 
 .omni-checkbox { accent-color: var(--omni-color-accent); height: 1.125rem; width: 1.125rem; }
 .omni-checkbox:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
@@ -515,14 +591,14 @@
     align-items: center;
     background: var(--omni-color-surface);
     border: 1px solid var(--omni-color-border);
-    border-radius: 0.2rem;
+    border-radius: var(--omni-radius);
     display: inline-flex;
     height: 1rem;
     justify-content: center;
     width: 1rem;
 }
 .omni-checkbox-nullable--checked .omni-checkbox-nullable__indicator { background: var(--omni-color-accent); border-color: var(--omni-color-accent); }
-.omni-checkbox-nullable--checked .omni-checkbox-nullable__indicator::after { color: #fff; content: "✓"; font-size: 0.8rem; }
+.omni-checkbox-nullable--checked .omni-checkbox-nullable__indicator::after { color: var(--omni-color-on-accent); content: "✓"; font-size: var(--omni-font-size-sm); }
 .omni-checkbox-nullable--mixed .omni-checkbox-nullable__indicator::after { background: var(--omni-color-accent); content: ""; height: 0.15rem; width: 0.6rem; }
 .omni-checkbox-nullable:focus-visible { border-radius: var(--omni-radius); box-shadow: var(--omni-focus-ring); outline: none; }
 
@@ -539,7 +615,7 @@
 }
 .omni-switch__track {
     background: var(--omni-color-border);
-    border-radius: 999px;
+    border-radius: var(--omni-radius-pill);
     display: inline-flex;
     padding: 0.15rem;
     transition: background-color 120ms ease;
@@ -547,8 +623,8 @@
 }
 .omni-switch__thumb {
     background: var(--omni-color-surface);
-    border-radius: 50%;
-    box-shadow: 0 1px 2px rgb(0 0 0 / 30%);
+    border-radius: var(--omni-radius-circle);
+    box-shadow: var(--omni-shadow-sm);
     display: block;
     height: 0.95rem;
     transform: translateX(0);
@@ -574,7 +650,7 @@
     background: var(--omni-color-surface);
     border: 1px solid var(--omni-color-border);
     border-radius: var(--omni-radius);
-    box-shadow: 0 0.5rem 1.5rem rgb(15 23 42 / 16%);
+    box-shadow: var(--omni-shadow-md);
     display: grid;
     list-style: none;
     margin: var(--omni-space-xs) 0 0;
@@ -614,7 +690,7 @@
 .omni-select-bar__item:first-child { border-radius: var(--omni-radius) 0 0 var(--omni-radius); }
 .omni-select-bar__item:last-child { border-radius: 0 var(--omni-radius) var(--omni-radius) 0; }
 .omni-select-bar__item + .omni-select-bar__item { border-inline-start: 0; }
-.omni-select-bar__item--selected { background: var(--omni-color-accent); border-color: var(--omni-color-accent); color: #fff; }
+.omni-select-bar__item--selected { background: var(--omni-color-accent); border-color: var(--omni-color-accent); color: var(--omni-color-on-accent); }
 .omni-select-bar__item:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; z-index: 1; }
 .omni-slider { align-items: center; display: flex; gap: var(--omni-space-sm); }
 .omni-slider__input { accent-color: var(--omni-color-accent); flex: 1; }
@@ -642,7 +718,7 @@
     font: inherit;
 }
 .omni-toggle-button { border-radius: var(--omni-radius); min-height: 2.75rem; padding: var(--omni-space-sm) var(--omni-space-md); }
-.omni-toggle-button--pressed { background: var(--omni-color-accent); border-color: var(--omni-color-accent); color: #fff; }
+.omni-toggle-button--pressed { background: var(--omni-color-accent); border-color: var(--omni-color-accent); color: var(--omni-color-on-accent); }
 .omni-split-button { display: inline-flex; position: relative; }
 .omni-split-button__main { border-radius: var(--omni-radius) 0 0 var(--omni-radius); min-height: 2.75rem; padding: var(--omni-space-sm) var(--omni-space-md); }
 .omni-split-button__toggle { border-inline-start: 0; border-radius: 0 var(--omni-radius) var(--omni-radius) 0; min-height: 2.75rem; min-width: 2.75rem; }
@@ -651,7 +727,7 @@
     background: var(--omni-color-surface);
     border: 1px solid var(--omni-color-border);
     border-radius: var(--omni-radius);
-    box-shadow: 0 0.5rem 1.5rem rgb(15 23 42 / 16%);
+    box-shadow: var(--omni-shadow-md);
     display: grid;
     min-width: 12rem;
     padding: var(--omni-space-xs);
@@ -662,24 +738,28 @@
 .omni-split-button__item { background: transparent; border: 0; border-radius: calc(var(--omni-radius) / 2); color: var(--omni-color-text); font: inherit; padding: var(--omni-space-sm); text-align: start; }
 .omni-split-button__item:hover,
 .omni-split-button__item:focus-visible { background: var(--omni-color-surface-muted); outline: none; }
-.omni-overlay { align-items: center; background: rgb(15 23 42 / 55%); display: flex; inset: 0; justify-content: center; padding: var(--omni-space-lg); position: fixed; z-index: 100; }
+.omni-overlay { align-items: center; background: var(--omni-color-overlay); display: flex; inset: 0; justify-content: center; padding: var(--omni-space-lg); position: fixed; z-index: 100; }
 .omni-overlay:has(.omni-dialog[inert]) { pointer-events: none; }
 body:has(.omni-overlay) { overflow: hidden; }
-.omni-dialog { background: var(--omni-color-surface); border-radius: var(--omni-radius); box-shadow: 0 1rem 3rem rgb(0 0 0 / 30%); color: var(--omni-color-text); max-height: calc(100vh - 2rem); max-width: 40rem; overflow: auto; width: 100%; }
+.omni-dialog { background: var(--omni-color-surface); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-lg); color: var(--omni-color-text); max-height: calc(100vh - 2rem); max-width: 40rem; overflow: auto; width: 100%; }
 .omni-dialog__header { align-items: center; border-block-end: 1px solid var(--omni-color-border); display: flex; justify-content: space-between; padding: var(--omni-space-md); }
-.omni-dialog__title { font-size: 1.25rem; margin: 0; }
+.omni-dialog__title { font-size: var(--omni-font-size-h4); margin: 0; }
 .omni-dialog__close,
-.omni-notification__dismiss { border: 0; border-radius: var(--omni-radius); font-size: 1.25rem; min-height: 2.75rem; min-width: 2.75rem; }
+.omni-notification__dismiss { border: 0; border-radius: var(--omni-radius); font-size: var(--omni-font-size-h4); min-height: 2.75rem; min-width: 2.75rem; }
 .omni-dialog__content { padding: var(--omni-space-lg); }
 .omni-dialog__footer { border-block-start: 1px solid var(--omni-color-border); display: flex; gap: var(--omni-space-sm); justify-content: end; padding: var(--omni-space-md); }
 .omni-notification-region { display: grid; gap: var(--omni-space-sm); inset-block-start: var(--omni-space-md); inset-inline-end: var(--omni-space-md); max-width: 24rem; position: fixed; z-index: 120; }
-.omni-notification { align-items: start; background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-inline-start: 0.3rem solid var(--omni-color-accent); border-radius: var(--omni-radius); box-shadow: 0 0.5rem 1.5rem rgb(15 23 42 / 16%); display: flex; gap: var(--omni-space-md); justify-content: space-between; padding: var(--omni-space-md); }
+.omni-notification { align-items: start; background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-inline-start: 0.3rem solid var(--omni-color-accent); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-md); display: flex; gap: var(--omni-space-md); justify-content: space-between; padding: var(--omni-space-md); }
 .omni-notification--success { border-inline-start-color: var(--omni-color-success); }
 .omni-notification--warning { border-inline-start-color: var(--omni-color-warning); }
 .omni-notification--error { border-inline-start-color: var(--omni-color-danger); }
 .omni-notification__content { display: grid; gap: var(--omni-space-xs); }
 .omni-tooltip { display: inline-block; position: relative; }
-.omni-tooltip__content { background: #111827; border-radius: var(--omni-radius); color: #fff; inset-block-end: calc(100% + var(--omni-space-xs)); inset-inline-start: 50%; max-width: 18rem; opacity: 0; padding: var(--omni-space-xs) var(--omni-space-sm); pointer-events: none; position: absolute; transform: translateX(-50%); transition: opacity 120ms ease; visibility: hidden; white-space: nowrap; z-index: 40; }
+.omni-tooltip__content { background: var(--omni-color-inverse-surface); border-radius: var(--omni-radius); color: var(--omni-color-on-accent); inset-block-end: calc(100% + var(--omni-space-xs)); inset-inline-start: 50%; max-width: 18rem; opacity: 0; padding: var(--omni-space-xs) var(--omni-space-sm); pointer-events: none; position: absolute; transform: translateX(-50%); transition: opacity 120ms ease; visibility: hidden; white-space: normal; width: max-content; overflow-wrap: anywhere; z-index: 40; }
+/* Placed on the pointer by omni-tooltip.js, which also keeps it inside the viewport. Fixed rather
+   than absolute so a tooltip raised from inside a scrolling grid is not clipped by it. The class
+   only appears once that script is running, so without it the anchored position above stays. */
+.omni-tooltip--tracked .omni-tooltip__content { inset: auto; inset-block-start: var(--omni-tooltip-y); inset-inline-start: var(--omni-tooltip-x); position: fixed; transform: translate(-50%, -100%); }
 .omni-tooltip:hover .omni-tooltip__content,
 .omni-tooltip:focus-within .omni-tooltip__content { opacity: 1; visibility: visible; }
 .omni-context-menu { position: relative; }
@@ -689,7 +769,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-overlay-portal__entry--contextmenu .omni-context-menu__popup { position: fixed; }
 
 .omni-breadcrumb__list { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); list-style: none; margin: 0; padding: 0; }
-.omni-breadcrumb__item + .omni-breadcrumb__item::before { color: #5c667a; content: "/"; margin-inline-end: var(--omni-space-xs); }
+.omni-breadcrumb__item + .omni-breadcrumb__item::before { color: var(--omni-color-text-muted); content: "/"; margin-inline-end: var(--omni-space-xs); }
 .omni-breadcrumb a,
 .omni-profile-menu__item { color: var(--omni-color-accent-strong); }
 .omni-panel-menu { display: grid; gap: var(--omni-space-xs); }
@@ -777,8 +857,15 @@ body:has(.omni-overlay) { overflow: hidden; }
    selected underline stopped reading as a single row of choices. Overflow is shown rather than
    hidden, by a fade and a chevron on whichever side still holds tabs, both of which go out at the
    stop so reaching an end is visible. */
-.omni-tabs { display: flex; flex-direction: column; }
-.omni-tabs__strip { align-items: center; display: flex; position: relative; }
+.omni-tabs { display: flex; flex-direction: column; min-block-size: 0; }
+/* The strip closes on a rule: without it the selected tab's underline floated with nothing to sit
+   on, and the panel below started at no particular place. */
+.omni-tabs__strip {
+    align-items: center;
+    border-block-end: 1px solid var(--omni-color-border);
+    display: flex;
+    position: relative;
+}
 .omni-tabs__viewport {
     display: flex;
     flex: 1 1 auto;
@@ -836,25 +923,32 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-tabs__tab,
 .omni-steps__button { background: transparent; border: 0; border-block-end: 2px solid transparent; color: var(--omni-color-text); cursor: pointer; font: inherit; padding: var(--omni-space-sm) var(--omni-space-md); }
 .omni-tabs__tab[aria-selected="true"] { border-block-end-color: var(--omni-color-accent); color: var(--omni-color-accent-strong); font-weight: 650; }
-.omni-tabs__panel { padding: var(--omni-space-lg) 0; }
+/* A flex column that may shrink: a grid inside asking for the height its parent leaves free needs
+   a parent that is itself bounded, or it overflows the panel and runs off the bottom of the page. */
+.omni-tabs__panel {
+    display: flex;
+    flex-direction: column;
+    min-block-size: 0;
+    padding: var(--omni-space-lg) 0;
+}
 .omni-tabs__panel[hidden],
 .omni-steps__panel[hidden] { display: none; }
 .omni-steps__list { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
 .omni-steps__item { display: contents; }
 .omni-steps__button { align-items: center; display: inline-flex; gap: var(--omni-space-xs); }
-.omni-steps__number { align-items: center; background: var(--omni-color-surface-muted); border-radius: 50%; display: inline-flex; height: 1.75rem; justify-content: center; width: 1.75rem; }
-.omni-steps__item--selected .omni-steps__number { background: var(--omni-color-accent); color: #fff; }
+.omni-steps__number { align-items: center; background: var(--omni-color-surface-muted); border-radius: var(--omni-radius-circle); display: inline-flex; height: 1.75rem; justify-content: center; width: 1.75rem; }
+.omni-steps__item--selected .omni-steps__number { background: var(--omni-color-accent); color: var(--omni-color-on-accent); }
 .omni-steps__panel { flex-basis: 100%; order: 2; padding-block: var(--omni-space-lg); }
 .omni-profile-menu { display: inline-block; position: relative; }
 .omni-profile-menu__summary { cursor: pointer; list-style: none; }
-.omni-profile-menu__items { background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-radius: var(--omni-radius); box-shadow: 0 0.5rem 1.5rem rgb(15 23 42 / 16%); display: grid; inset-inline-end: 0; min-width: 12rem; padding: var(--omni-space-xs); position: absolute; z-index: 30; }
+.omni-profile-menu__items { background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-md); display: grid; inset-inline-end: 0; min-width: 12rem; padding: var(--omni-space-xs); position: absolute; z-index: 30; }
 .omni-profile-menu__item { background: transparent; border: 0; border-radius: calc(var(--omni-radius) / 2); font: inherit; padding: var(--omni-space-sm); text-align: start; text-decoration: none; }
 .omni-profile-menu__item:hover,
 .omni-profile-menu__item:focus-visible { background: var(--omni-color-surface-muted); outline: none; }
 
 .omni-data-list { display: grid; gap: var(--omni-space-sm); }
 .omni-data-list__item { border-block-end: 1px solid var(--omni-color-border); padding: var(--omni-space-md); }
-.omni-data-list__state { color: #5c667a; padding: var(--omni-space-lg); text-align: center; }
+.omni-data-list__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
 .omni-data-list__state--error { color: var(--omni-color-danger); display: grid; gap: var(--omni-space-sm); justify-items: center; }
 .omni-pager { align-items: center; display: flex; gap: var(--omni-space-sm); justify-content: center; }
 .omni-pager__button { background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-radius: var(--omni-radius); color: var(--omni-color-text); cursor: pointer; font: inherit; min-height: 2.75rem; min-width: 2.75rem; }
@@ -891,8 +985,8 @@ body:has(.omni-overlay) { overflow: hidden; }
 }
 /* Restated for the dark palette: the light hover fill is a hand-picked lighter grey, which would
    read as a smudge here. */
-.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__table thead th { --omni-header-fill: #1c2230; --omni-header-fill-hover: #2a3446; }
-.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__table thead th.omni-data-grid__column--active { --omni-header-fill: #23304a; --omni-header-fill-hover: #2e3e5e; }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__table thead th { --omni-header-fill: var(--omni-grid-dark-header); --omni-header-fill-hover: var(--omni-grid-dark-header-hover); }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__table thead th.omni-data-grid__column--active { --omni-header-fill: var(--omni-grid-dark-header-active); --omni-header-fill-hover: var(--omni-grid-dark-header-active-hover); }
 /* Stated explicitly rather than left to the tokens above: a host page's own theme can carry rules
    that reach the table cells, and the toggle has to win over them inside this grid. */
 .omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__viewport--virtual .omni-data-grid__table thead th { background: var(--omni-header-fill); color: var(--omni-color-text); }
@@ -901,22 +995,27 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__table td { color: var(--omni-color-text); }
 .omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__table th,
 .omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__table td { border-color: var(--omni-color-border); }
-.omni-data-grid[data-omni-grid-theme="dark"] { --omni-column-active-fill: #1d2942; }
-.omni-data-grid[data-omni-grid-theme="dark"].omni-data-grid--striped .omni-data-grid__row--alternate td:not(.omni-data-grid__column--active) { background: #171d29; }
-.omni-data-grid[data-omni-grid-theme="dark"].omni-data-grid--row-hover .omni-data-grid__table tbody tr:hover td { background: #232b3b; }
+.omni-data-grid[data-omni-grid-theme="dark"] { --omni-column-active-fill: var(--omni-grid-dark-column-active); }
+.omni-data-grid[data-omni-grid-theme="dark"].omni-data-grid--striped .omni-data-grid__row--alternate td:not(.omni-data-grid__column--active) { background: var(--omni-grid-dark-row-alternate); }
+.omni-data-grid[data-omni-grid-theme="dark"].omni-data-grid--row-hover .omni-data-grid__table tbody tr:hover td { background: var(--omni-grid-dark-row-hover); }
 .omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__row--selected td { background: color-mix(in srgb, var(--omni-color-accent) 22%, var(--omni-color-surface)); }
 .omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__filter-menu-panel,
-.omni-data-grid[data-omni-grid-theme="dark"] .omni-combo__list { background: var(--omni-color-surface-muted); border-color: var(--omni-color-border); box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 45%); }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-combo__list { background: var(--omni-color-surface-muted); border-color: var(--omni-color-border); box-shadow: var(--omni-shadow-md-dark); }
 .omni-data-grid[data-omni-grid-theme="dark"] .omni-combo__option:hover,
 .omni-data-grid[data-omni-grid-theme="dark"] .omni-combo__option--active,
-.omni-data-grid[data-omni-grid-theme="dark"] .omni-multi-select__option:hover { background: #2a3446; }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-multi-select__option:hover { background: var(--omni-grid-dark-header-hover); }
 .omni-data-grid[data-omni-grid-theme="dark"] .omni-combo__match { background: color-mix(in srgb, var(--omni-color-accent) 40%, transparent); }
 .omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__group-hint,
 .omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__summary,
-.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__state { color: #98a2b3; }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__state { color: var(--omni-grid-dark-state-text); }
 .omni-data-grid[data-omni-grid-theme="dark"] .omni-input,
 .omni-data-grid[data-omni-grid-theme="dark"] .omni-button { background: var(--omni-color-surface-muted); border-color: var(--omni-color-border); color: var(--omni-color-text); }
-.omni-data-grid__table { border-collapse: collapse; color: var(--omni-color-text); width: 100%; }
+/* Fixed layout, not auto: under auto the browser derives the column widths from the cells that
+   happen to be in the DOM, so virtualization swapping rows during a scroll made the columns jump.
+   Fixed also honours a resized column past the viewport, widening the table to the sum of its
+   columns instead of stealing the width from its neighbours, which is what turns on the
+   horizontal scrollbar the viewport already allows. */
+.omni-data-grid__table { border-collapse: collapse; color: var(--omni-color-text); table-layout: fixed; width: 100%; }
 .omni-data-grid__table caption { font-weight: 650; padding: var(--omni-space-sm); text-align: start; }
 .omni-data-grid__table th,
 .omni-data-grid__table td { border-block-end: 1px solid var(--omni-color-border); padding: var(--omni-space-sm); text-align: start; }
@@ -947,7 +1046,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* No separators inside the header row: the hovered cell is told apart by a darker fill, not by
    rules drawn between columns. The two fills are set as tokens so the dark palette can restate them
    instead of inheriting a mix computed for a light background. */
-.omni-data-grid__table thead th { --omni-header-fill: var(--omni-color-surface-muted); --omni-header-fill-hover: #e2e7f0; background: var(--omni-header-fill); border-inline: 0; transition: background-color 120ms ease-in-out; }
+.omni-data-grid__table thead th { --omni-header-fill: var(--omni-color-surface-muted); --omni-header-fill-hover: var(--omni-color-surface-hover); background: var(--omni-header-fill); border-inline: 0; transition: background-color 120ms ease-in-out; }
 .omni-data-grid__table thead th:hover { background: var(--omni-header-fill-hover); }
 .omni-data-grid__column--sortable { cursor: pointer; }
 /* A column carrying a sort or a filter stays tinted so it can be spotted without reading the icons.
@@ -973,7 +1072,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid__filter { min-width: 8rem; }
 .omni-combo { display: block; position: relative; }
 .omni-combo__input { inline-size: 100%; }
-.omni-combo__list { background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-radius: var(--omni-radius); box-shadow: 0 0.5rem 1.5rem rgb(15 23 42 / 16%); inset-block-start: calc(100% + 0.125rem); inset-inline: 0; list-style: none; margin: 0; max-block-size: 14rem; overflow-y: auto; padding: 0.25rem; position: absolute; z-index: 40; }
+.omni-combo__list { background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-md); inset-block-start: calc(100% + 0.125rem); inset-inline: 0; list-style: none; margin: 0; max-block-size: 14rem; overflow-y: auto; padding: 0.25rem; position: absolute; z-index: 40; }
 .omni-combo__option { border-radius: calc(var(--omni-radius) / 2); cursor: pointer; padding: 0.25rem 0.5rem; white-space: nowrap; }
 .omni-combo__option:hover,
 .omni-combo__option--active { background: var(--omni-color-surface-muted); }
@@ -998,7 +1097,7 @@ body:has(.omni-overlay) { overflow: hidden; }
     background: var(--omni-color-surface);
     border: 1px solid var(--omni-color-border);
     border-radius: var(--omni-radius);
-    box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 25%);
+    box-shadow: var(--omni-shadow-md-strong);
     inset-block-start: calc(100% + var(--omni-space-xs));
     inset-inline: 0;
     max-block-size: 16rem;
@@ -1017,7 +1116,7 @@ body:has(.omni-overlay) { overflow: hidden; }
     .omni-multi-select-compact__chevron { transition: none; }
 }
 .omni-data-grid__row--selected { background: color-mix(in srgb, var(--omni-color-accent) 10%, transparent); }
-.omni-data-grid__state { color: #5c667a; padding: var(--omni-space-lg); text-align: center; }
+.omni-data-grid__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
 .omni-data-grid__expand { background: transparent; border: 0; color: var(--omni-color-text); cursor: pointer; min-height: 2.75rem; min-width: 2.75rem; }
 .omni-data-grid__detail td { background: var(--omni-color-surface-muted); }
 .omni-data-grid__actions { display: flex; gap: var(--omni-space-xs); }
@@ -1027,10 +1126,14 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid__column--align-end { text-align: end; }
 .omni-data-grid__col { inline-size: var(--omni-col-width, auto); min-inline-size: var(--omni-col-min, auto); }
 .omni-data-grid__column--frozen { background: var(--omni-color-surface); inset-inline-start: var(--omni-col-offset, 0px); position: sticky; z-index: 2; }
-.omni-data-grid--striped .omni-data-grid__row--alternate { background: var(--omni-color-surface-muted); }
+/* The stripe is a wash of the text colour over whatever the surface is, not a named token: in a
+   dark scope the muted surface sits darker than the surface by a dozen values, which made the
+   alternation invisible rather than subtle. Same technique as the row hover, at half its strength
+   so the two never read as the same state. */
+.omni-data-grid--striped .omni-data-grid__row--alternate { background: color-mix(in srgb, var(--omni-color-text) 4%, transparent); }
 .omni-data-grid__row--interactive { cursor: pointer; }
 .omni-data-grid__row--interactive:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
-.omni-data-grid__summary { color: #5c667a; margin: 0; }
+.omni-data-grid__summary { color: var(--omni-color-text-muted); margin: 0; }
 .omni-data-grid--lines-none .omni-data-grid__table th,
 .omni-data-grid--lines-none .omni-data-grid__table td { border: 0; }
 .omni-data-grid--lines-vertical .omni-data-grid__table th,
@@ -1038,14 +1141,14 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid--lines-both .omni-data-grid__table th,
 .omni-data-grid--lines-both .omni-data-grid__table td { border-inline-end: 1px solid var(--omni-color-border); }
 .omni-data-grid__viewport--sized { block-size: var(--omni-grid-viewport, auto); overflow: auto; }
-/* 28rem is ten rows at the default estimate plus the sticky header: a grid that shows fewer than
-   ten rows reads as a fragment of a list rather than as a list. */
-.omni-data-grid__viewport--virtual { block-size: var(--omni-grid-viewport, 28rem); overflow-y: auto; overscroll-behavior: contain; }
+/* 30rem: a grid that shows only a handful of rows reads as a fragment of a list rather than as a
+   list. Ten rows plus the sticky header is the floor, with room to spare at larger row heights. */
+.omni-data-grid__viewport--virtual { block-size: var(--omni-grid-viewport, 30rem); overflow-y: auto; overscroll-behavior: contain; }
 /* FillAvailableHeight: the grid becomes a column that takes the free space its parent leaves, and
    the viewport takes what is left inside it, never going under --omni-grid-viewport-min. min-block-size
    on the grid itself is 0 so the flex item is allowed to shrink below its content height. */
 .omni-data-grid--fill { block-size: 100%; display: flex; flex-direction: column; min-block-size: 0; }
-.omni-data-grid--fill .omni-data-grid__viewport--fill { block-size: auto; flex: 1 1 auto; min-block-size: var(--omni-grid-viewport-min, 28rem); overflow-y: auto; }
+.omni-data-grid--fill .omni-data-grid__viewport--fill { block-size: auto; flex: 1 1 auto; min-block-size: var(--omni-grid-viewport-min, 30rem); overflow-y: auto; }
 /* The sticky header used to pin a background of its own, which outranked the hover rule and made
    the hover invisible while virtualizing. It now reads the same token. */
 .omni-data-grid__viewport--virtual .omni-data-grid__table thead th { background: var(--omni-header-fill); position: sticky; inset-block-start: 0; z-index: 3; }
@@ -1057,7 +1160,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid__filter-menu-toggle--active { color: var(--omni-color-accent); }
 .omni-data-grid__filter-menu-toggle::-webkit-details-marker { display: none; }
 .omni-data-grid__filter-menu[open] > .omni-data-grid__filter-menu-toggle { color: var(--omni-color-accent); }
-.omni-data-grid__filter-menu-panel { background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-radius: var(--omni-radius); box-shadow: 0 0.5rem 1.5rem rgb(15 23 42 / 16%); display: grid; gap: var(--omni-space-sm); inset-block-start: calc(100% + var(--omni-space-xs)); inset-inline-start: 0; min-width: 12rem; padding: var(--omni-space-sm); position: absolute; text-transform: none; z-index: 30; }
+.omni-data-grid__filter-menu-panel { background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-md); display: grid; gap: var(--omni-space-sm); inset-block-start: calc(100% + var(--omni-space-xs)); inset-inline-start: 0; min-width: 12rem; padding: var(--omni-space-sm); position: absolute; text-transform: none; z-index: 30; }
 /* The virtualization spacers stand in for the rows outside the rendered window, so their height is
    the scroll geometry itself and must never be clamped to one row. */
 .omni-data-grid--fixed-row-height .omni-data-grid__table tbody tr:not(.omni-data-grid__spacer) { block-size: var(--omni-row-height); }
@@ -1066,7 +1169,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid__row--placeholder td { block-size: var(--omni-grid-row, 2.5rem); }
 .omni-data-grid__group-panel { display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
 .omni-data-grid__group-chip { align-items: center; background: var(--omni-color-surface-muted); border-radius: var(--omni-radius); display: inline-flex; gap: var(--omni-space-xs); padding: var(--omni-space-xs) var(--omni-space-sm); }
-.omni-data-grid__group-hint { color: #5c667a; }
+.omni-data-grid__group-hint { color: var(--omni-color-text-muted); }
 .omni-data-grid__group-remove,
 .omni-data-grid__group-toggle,
 .omni-data-grid__group-expand { background: transparent; border: 0; color: inherit; cursor: pointer; font: inherit; padding: 0 var(--omni-space-xs); }
@@ -1110,14 +1213,14 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-chart__labels { fill: var(--omni-color-text); font-size: 3px; }
 .omni-chart__grid-lines line { stroke: var(--omni-color-border); stroke-dasharray: 1 1; stroke-width: 0.25; }
 .omni-chart__markers { fill: var(--omni-color-surface); stroke: currentColor; stroke-width: 0.75; }
-.omni-chart-color-0 { color: #2563eb; fill: #2563eb; stroke: #2563eb; }
-.omni-chart-color-1 { color: #16a34a; fill: #16a34a; stroke: #16a34a; }
-.omni-chart-color-2 { color: #ea580c; fill: #ea580c; stroke: #ea580c; }
-.omni-chart-color-3 { color: #9333ea; fill: #9333ea; stroke: #9333ea; }
-.omni-chart-color-4 { color: #0891b2; fill: #0891b2; stroke: #0891b2; }
-.omni-chart-color-5 { color: #db2777; fill: #db2777; stroke: #db2777; }
-.omni-chart-color-6 { color: #65a30d; fill: #65a30d; stroke: #65a30d; }
-.omni-chart-color-7 { color: #4f46e5; fill: #4f46e5; stroke: #4f46e5; }
+.omni-chart-color-0 { color: var(--omni-chart-color-0); fill: var(--omni-chart-color-0); stroke: var(--omni-chart-color-0); }
+.omni-chart-color-1 { color: var(--omni-chart-color-1); fill: var(--omni-chart-color-1); stroke: var(--omni-chart-color-1); }
+.omni-chart-color-2 { color: var(--omni-chart-color-2); fill: var(--omni-chart-color-2); stroke: var(--omni-chart-color-2); }
+.omni-chart-color-3 { color: var(--omni-chart-color-3); fill: var(--omni-chart-color-3); stroke: var(--omni-chart-color-3); }
+.omni-chart-color-4 { color: var(--omni-chart-color-4); fill: var(--omni-chart-color-4); stroke: var(--omni-chart-color-4); }
+.omni-chart-color-5 { color: var(--omni-chart-color-5); fill: var(--omni-chart-color-5); stroke: var(--omni-chart-color-5); }
+.omni-chart-color-6 { color: var(--omni-chart-color-6); fill: var(--omni-chart-color-6); stroke: var(--omni-chart-color-6); }
+.omni-chart-color-7 { color: var(--omni-chart-color-7); fill: var(--omni-chart-color-7); stroke: var(--omni-chart-color-7); }
 .omni-arc-gauge__track { fill: none; stroke: var(--omni-color-surface-muted); stroke-linecap: round; stroke-width: 8; }
 .omni-arc-gauge__value path { fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 8; }
 .omni-arc-gauge text { fill: var(--omni-color-text); font-size: 5px; }
@@ -1126,25 +1229,25 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-timeline__item { display: grid; gap: var(--omni-space-md); grid-template-columns: 1rem 1fr; position: relative; }
 .omni-timeline__item::before { background: var(--omni-color-border); content: ""; inset-block: 1rem -1rem; inset-inline-start: 0.45rem; position: absolute; width: 1px; }
 .omni-timeline__item:last-child::before { display: none; }
-.omni-timeline__marker { background: var(--omni-color-accent); border: 0.2rem solid var(--omni-color-surface); border-radius: 50%; height: 0.9rem; position: relative; width: 0.9rem; z-index: 1; }
+.omni-timeline__marker { background: var(--omni-color-accent); border: 0.2rem solid var(--omni-color-surface); border-radius: var(--omni-radius-circle); height: 0.9rem; position: relative; width: 0.9rem; z-index: 1; }
 .omni-timeline__content header { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
 .omni-timeline__content h3,
 .omni-timeline__content p { margin: 0; }
 .omni-scheduler { display: grid; gap: var(--omni-space-md); }
 .omni-scheduler__header { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: space-between; }
-.omni-scheduler__state { color: #5c667a; padding: var(--omni-space-lg); text-align: center; }
+.omni-scheduler__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
 .omni-scheduler-view h3 { margin-block-start: 0; }
 .omni-scheduler__appointments { display: grid; gap: var(--omni-space-sm); list-style: none; margin: 0; padding: 0; }
 .omni-scheduler__appointments li { border-inline-start: 0.25rem solid var(--omni-color-accent); display: grid; gap: var(--omni-space-xs); padding: var(--omni-space-sm); }
 .omni-week-view { display: grid; gap: var(--omni-space-sm); grid-template-columns: repeat(7, minmax(8rem, 1fr)); overflow: auto; }
 .omni-week-view__day { border: 1px solid var(--omni-color-border); min-height: 10rem; padding: var(--omni-space-sm); }
-.omni-week-view__day p { font-size: 0.875rem; }
+.omni-week-view__day p { font-size: var(--omni-font-size-base); }
 .omni-month-view { display: grid; gap: 1px; grid-template-columns: repeat(7, minmax(7rem, 1fr)); overflow: auto; }
-.omni-month-view__weekday { background: var(--omni-color-surface-muted); font-size: 0.8rem; font-weight: 700; padding: var(--omni-space-xs); text-align: center; }
+.omni-month-view__weekday { background: var(--omni-color-surface-muted); font-size: var(--omni-font-size-sm); font-weight: 700; padding: var(--omni-space-xs); text-align: center; }
 .omni-month-view__day { border: 1px solid var(--omni-color-border); min-height: 7rem; padding: var(--omni-space-xs); }
 .omni-month-view__day--outside { background: var(--omni-color-surface-muted); }
 .omni-month-view__day h3,
-.omni-month-view__day p { font-size: 0.8rem; margin: 0 0 var(--omni-space-xs); }
+.omni-month-view__day p { font-size: var(--omni-font-size-sm); margin: 0 0 var(--omni-space-xs); }
 
 .omni-html-editor { border: 1px solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; overflow: hidden; }
 .omni-html-editor__toolbar { align-items: center; background: var(--omni-color-surface-muted); border-block-end: 1px solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); padding: var(--omni-space-xs); }

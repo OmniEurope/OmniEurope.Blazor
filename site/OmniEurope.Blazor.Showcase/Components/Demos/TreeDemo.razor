@@ -1,0 +1,34 @@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniTree TValue="string" Label="Arborescence des dossiers" Multiple="true"
+              SelectedValues="Selected"
+              SelectedValuesChanged="@(values => Selected = values)">
+        <OmniTreeItem TValue="string" Value="@("europe")" Text="Europe" Expanded="true">
+            <OmniTreeLevel>
+                <OmniTreeItem TValue="string" Value="@("be")" Text="Belgique" Expanded="true">
+                    <OmniTreeLevel>
+                        <OmniTreeItem TValue="string" Value="@("bru")" Text="Bruxelles" />
+                        <OmniTreeItem TValue="string" Value="@("anv")" Text="Anvers" />
+                    </OmniTreeLevel>
+                </OmniTreeItem>
+                <OmniTreeItem TValue="string" Value="@("fr")" Text="France">
+                    <OmniTreeLevel>
+                        <OmniTreeItem TValue="string" Value="@("par")" Text="Paris" />
+                        <OmniTreeItem TValue="string" Value="@("lyo")" Text="Lyon" />
+                    </OmniTreeLevel>
+                </OmniTreeItem>
+                <OmniTreeItem TValue="string" Value="@("lu")" Text="Luxembourg" Disabled="true" />
+            </OmniTreeLevel>
+        </OmniTreeItem>
+        <OmniTreeItem TValue="string" Value="@("archives")" Text="Archives, chargées à l'ouverture"
+                      LoadChildren="LoadArchivesAsync">
+            <OmniTreeLevel>
+                @foreach (var year in Archives)
+                {
+                    <OmniTreeItem TValue="string" Value="@year" Text="@year" />
+                }
+            </OmniTreeLevel>
+        </OmniTreeItem>
+    </OmniTree>
+
+    <p>Sélection : @(Selected.Count == 0 ? "aucune" : string.Join(", ", Selected))</p>
+</OmniStack>

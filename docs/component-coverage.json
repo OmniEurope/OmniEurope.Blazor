@@ -38,7 +38,8 @@
         "testReferences": [
           "tests/OmniEurope.Blazor.Tests/ComponentCspTests.cs",
           "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
-          "tests/OmniEurope.Blazor.Tests/PerformanceBudgetTests.cs"
+          "tests/OmniEurope.Blazor.Tests/PerformanceBudgetTests.cs",
+          "tests/OmniEurope.Blazor.Tests/ShowcaseCoverageTests.cs"
         ],
         "catalog": {
           "scenario": "foundations",
@@ -160,7 +161,8 @@
       "targetSha256": "2650a64207e89a469fd53b7c461e8201287faa43a79efbd48fc70d5244b194e3",
       "evidence": {
         "testReferences": [
-          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs"
+          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/ShowcaseCoverageTests.cs"
         ],
         "catalog": null,
         "browser": []
@@ -180,6 +182,7 @@
       "evidence": {
         "testReferences": [
           "tests/OmniEurope.Blazor.Tests/FormTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/ShowcaseCoverageTests.cs",
           "tests/OmniEurope.Blazor.Tests/TemplateFormTestHost.razor"
         ],
         "catalog": {
@@ -199,9 +202,10 @@
       "phase": 3,
       "status": "target-present",
       "targetFile": "src/OmniEurope.Blazor/Components/Feedback/OmniAlert.razor",
-      "targetSha256": "3f9193ab33b56b3201c88373401f99b32909de00bdf11e6948ed8ee142b04d26",
+      "targetSha256": "d9b68c054a473d30fc0e2562e19ef7f5be7ed283987debd14e5092f342ec15d3",
       "evidence": {
         "testReferences": [
+          "tests/OmniEurope.Blazor.Tests/AlertAndMultiSelectTests.cs",
           "tests/OmniEurope.Blazor.Tests/ComponentCspTests.cs"
         ],
         "catalog": {
@@ -221,12 +225,13 @@
       "phase": 7,
       "status": "target-present",
       "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniPanelMenuItem.razor",
-      "targetSha256": "c0b445445bd61eb595778527c1d0b557bba614f1a18df9ab050e810167c7e056",
+      "targetSha256": "e2e2c397647dea4a2be6fc4f94b8b180e5e7539af367ee968fed6d81338706c3",
       "evidence": {
         "testReferences": [
           "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
           "tests/OmniEurope.Blazor.Tests/NavigationComponentTests.cs",
-          "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor"
+          "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/PanelMenuGroupTestHost.razor"
         ],
         "catalog": null,
         "browser": []
@@ -242,11 +247,12 @@
       "phase": 7,
       "status": "target-present",
       "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniPanelMenu.razor",
-      "targetSha256": "f1ce3a3850a74b53651a05b5bf7e3821c579b9d9ab458c940c5be2dd4ff5354e",
+      "targetSha256": "c6ace1928ac24bca87b7423778ab9a8a96ae07fe11fc7a1460fcb2047f479fbc",
       "evidence": {
         "testReferences": [
           "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
-          "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor"
+          "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/PanelMenuGroupTestHost.razor"
         ],
         "catalog": null,
         "browser": []
@@ -302,11 +308,12 @@
       "phase": 3,
       "status": "target-present",
       "targetFile": "src/OmniEurope.Blazor/Components/Feedback/OmniIcon.razor",
-      "targetSha256": "1910a9a1647988aa18d923e62b690b6cd22ec181b05b75b3dada547a4159127b",
+      "targetSha256": "5a89221793e4089c22a1092a492a83befdc559fe77fceb5a732b838273368f1a",
       "evidence": {
         "testReferences": [
           "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
-          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs"
+          "tests/OmniEurope.Blazor.Tests/FoundationComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/IconGlyphTests.cs"
         ],
         "catalog": {
           "scenario": "foundations",
@@ -353,6 +360,8 @@
       "evidence": {
         "testReferences": [
           "tests/OmniEurope.Blazor.Tests/DataGridAdvancedTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/DataGridFilterMenuTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/DataGridSurfaceTestHost.razor",
           "tests/OmniEurope.Blazor.Tests/DataGridTestHost.razor",
           "tests/OmniEurope.Blazor.Tests/DynamicDataGridTestHost.razor"
         ],
@@ -395,12 +404,15 @@
       "phase": 9,
       "status": "target-present",
       "targetFile": "src/OmniEurope.Blazor/Components/Data/OmniDataGrid.razor",
-      "targetSha256": "77567dd25371b5476a16771ce98c5f30aecd738b0b3c61002458a41aec603d77",
+      "targetSha256": "7590662b5db7286c1fd8ec1c5a41f78f8f46ec500c0d0f4a17da5b1596d845c3",
       "evidence": {
         "testReferences": [
           "tests/OmniEurope.Blazor.Tests/DataGridAdvancedTestHost.razor",
           "tests/OmniEurope.Blazor.Tests/DataGridComponentTests.cs",
+          "tests/OmniEurope.Blazor.Tests/DataGridFilterMenuTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/DataGridSurfaceTestHost.razor",
           "tests/OmniEurope.Blazor.Tests/DataGridTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/DataGridVirtualizationTests.cs",
           "tests/OmniEurope.Blazor.Tests/DynamicDataGridTestHost.razor",
           "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
           "tests/OmniEurope.Blazor.Tests/PerformanceBudgetTests.cs",
@@ -747,7 +759,7 @@
       "phase": 7,
       "status": "target-present",
       "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniTabsItem.razor",
-      "targetSha256": "94a93733856abdcb765a58c12fc988a1d3bf15754d833892290c9ce8ff1bf89c",
+      "targetSha256": "426ea19ed97d63362af0e06591bf02850e05c7aa8367512229fcae884f257353",
       "evidence": {
         "testReferences": [
           "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor"
@@ -789,7 +801,7 @@
       "phase": 7,
       "status": "target-present",
       "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniTabs.razor",
-      "targetSha256": "9009b995b23f4b83ceecda0f6a7468a360e4c395bb182df11ee49d753136a8eb",
+      "targetSha256": "542f0ecd316c92dabd830dad8705391c049380561863bec3df51f8768b91a637",
       "evidence": {
         "testReferences": [
           "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
@@ -1373,7 +1385,8 @@
         "testReferences": [
           "tests/OmniEurope.Blazor.Tests/LocalizationTests.cs",
           "tests/OmniEurope.Blazor.Tests/OverlayComponentTests.cs",
-          "tests/OmniEurope.Blazor.Tests/OverlayPortalTestHost.razor"
+          "tests/OmniEurope.Blazor.Tests/OverlayPortalTestHost.razor",
+          "tests/OmniEurope.Blazor.Tests/ShowcaseCoverageTests.cs"
         ],
         "catalog": {
           "scenario": "host-shell",
@@ -1553,7 +1566,7 @@
       "phase": 8,
       "status": "target-present",
       "targetFile": "src/OmniEurope.Blazor/Components/Data/OmniPager.razor",
-      "targetSha256": "2cc01cf79be24729269eafb05f3aafef42f6724744cf5f351ab34a1682068664",
+      "targetSha256": "8d616be9248923c631fb97064a1eba1c52e3ca99ca4b6ca87c70649417585774",
       "evidence": {
         "testReferences": [
           "tests/OmniEurope.Blazor.Tests/CollectionComponentTests.cs",

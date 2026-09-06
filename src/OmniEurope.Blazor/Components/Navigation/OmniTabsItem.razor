@@ -3,7 +3,15 @@
 
 @if (IsPanelPhase)
 {
-    <section id="@PanelId" class="omni-tabs__panel" role="tabpanel" aria-labelledby="@TabId" hidden="@(!Selected)">@ChildContent</section>
+    @* The content is built on first selection and kept afterwards: mounting every panel up front
+       made a page of grids pay for all of them at load and re-render the lot on each switch, while
+       dropping a panel on leaving would rebuild it, and lose its scroll and filters, on return. *@
+    <section id="@PanelId" class="omni-tabs__panel" role="tabpanel" aria-labelledby="@TabId" hidden="@(!Selected)">
+        @if (_visited)
+        {
+            @ChildContent
+        }
+    </section>
 }
 else
 {

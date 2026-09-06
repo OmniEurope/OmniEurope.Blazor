@@ -1,0 +1,55 @@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+        <OmniButton Variant="OmniButtonVariant.Primary" OnClick="@(_ => DialogOpen = true)">
+            Ouvrir la boîte de dialogue
+        </OmniButton>
+
+        <OmniSplitButton Text="Enregistrer" MenuLabel="Autres enregistrements"
+                         OnClick="@(() => Last = "Enregistrer")">
+            <OmniSplitButtonItem OnClick="@(() => Last = "Enregistrer et fermer")">Enregistrer et fermer</OmniSplitButtonItem>
+            <OmniSplitButtonItem OnClick="@(() => Last = "Enregistrer une copie")">Enregistrer une copie</OmniSplitButtonItem>
+            <OmniSplitButtonItem Disabled="true">Publier, indisponible</OmniSplitButtonItem>
+        </OmniSplitButton>
+
+        <OmniContextMenu MenuLabel="Actions du dossier" Open="MenuOpen"
+                         OpenChanged="@(value => MenuOpen = value)">
+            <TriggerContent>Actions</TriggerContent>
+            <ChildContent>
+                <button type="button" @onclick="@(() => Last = "Dupliquer")">Dupliquer</button>
+                <button type="button" @onclick="@(() => Last = "Exporter")">Exporter</button>
+            </ChildContent>
+        </OmniContextMenu>
+
+        <OmniProfileMenu Label="Menu du compte">
+            <Summary>Camille Durand</Summary>
+            <ChildContent>
+                <OmniProfileMenuItem Href="documentation">Mon profil</OmniProfileMenuItem>
+                <OmniProfileMenuItem OnClick="@(() => Last = "Déconnexion")">Se déconnecter</OmniProfileMenuItem>
+                <OmniProfileMenuItem Disabled="true">Administration, indisponible</OmniProfileMenuItem>
+            </ChildContent>
+        </OmniProfileMenu>
+    </OmniStack>
+
+    <p>Dernière action : @(Last ?? "aucune")</p>
+
+    <OmniNotification Severity="OmniNotificationSeverity.Information" Title="Information"
+                      Message="Le traitement de nuit démarrera à 23 h." />
+    <OmniNotification Severity="OmniNotificationSeverity.Success" Title="Terminé"
+                      Message="Les 14 pièces ont été importées." Dismissible="true"
+                      OnDismiss="@(() => Last = "Notification fermée")" />
+    <OmniNotification Severity="OmniNotificationSeverity.Warning" Message="Le quota est presque atteint." />
+    <OmniNotification Severity="OmniNotificationSeverity.Error" Title="Échec"
+                      Message="La connexion au service a échoué." />
+
+    <OmniDialog Title="Confirmer la suppression" Open="DialogOpen"
+                OpenChanged="@(value => DialogOpen = value)"
+                CloseOnEscape="true" CloseOnBackdrop="true" CloseLabel="Fermer">
+        <ChildContent>
+            <p>Cette action retire le dossier de la liste. Elle est réversible pendant trente jours.</p>
+        </ChildContent>
+        <Footer>
+            <OmniButton Variant="OmniButtonVariant.Ghost" OnClick="@(_ => DialogOpen = false)">Annuler</OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => Confirm())">Supprimer</OmniButton>
+        </Footer>
+    </OmniDialog>
+</OmniStack>

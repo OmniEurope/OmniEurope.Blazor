@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="HeaderBadge" xml:space="preserve"><value>Component library</value></data>
+  <data name="ModeLight" xml:space="preserve"><value>Light theme</value></data>
+  <data name="ModeDark" xml:space="preserve"><value>Dark theme</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Main navigation</value></data>
+  <data name="MenuLabel" xml:space="preserve"><value>Site sections</value></data>
+  <data name="NavShowcase" xml:space="preserve"><value>Overview</value></data>
+  <data name="NavDocumentation" xml:space="preserve"><value>Documentation</value></data>
+  <data name="NavComponents" xml:space="preserve"><value>Components</value></data>
+  <data name="NavCustomize" xml:space="preserve"><value>Customization</value></data>
+  <data name="ErrorTitle" xml:space="preserve"><value>Something went wrong</value></data>
+  <data name="ErrorMessage" xml:space="preserve"><value>The page could not be rendered.</value></data>
+  <data name="Retry" xml:space="preserve"><value>Try again</value></data>
+  <data name="NotFoundPageTitle" xml:space="preserve"><value>Page not found</value></data>
+  <data name="NotFoundTitle" xml:space="preserve"><value>Page not found</value></data>
+  <data name="NotFoundDescription" xml:space="preserve"><value>No page of this site matches that address.</value></data>
+  <data name="BackHome" xml:space="preserve"><value>Back to the home page</value></data>
+  <data name="HomePageTitle" xml:space="preserve"><value>OmniEurope.Blazor</value></data>
+  <data name="HomeKicker" xml:space="preserve"><value>Blazor</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Accessible Blazor components under a strict security policy</value></data>
+  <data name="HomeLead" xml:space="preserve"><value>A component library built for applications that forbid inline style, require accessibility, and want a theme they can drive end to end.</value></data>
+  <data name="HomeSeeComponents" xml:space="preserve"><value>See the components</value></data>
+  <data name="HomeSeeCustomize" xml:space="preserve"><value>Customize the theme</value></data>
+  <data name="HomePillarsTitle" xml:space="preserve"><value>What sets the library apart</value></data>
+  <data name="PillarCspTitle" xml:space="preserve"><value>Strict security policy</value></data>
+  <data name="PillarCspBody" xml:space="preserve"><value>No inline style attribute, no injected style element, no dynamic script evaluation. The library runs under a policy that refuses all of it.</value></data>
+  <data name="PillarThemeTitle" xml:space="preserve"><value>Fully tokenised theme</value></data>
+  <data name="PillarThemeBody" xml:space="preserve"><value>Colours, type, spacing, radii, shadows and the chart palette all go through CSS variables, with no value frozen inside a rule.</value></data>
+  <data name="PillarA11yTitle" xml:space="preserve"><value>Accessibility held by tests</value></data>
+  <data name="PillarA11yBody" xml:space="preserve"><value>Roles, states and labels are checked by the test suite, not merely promised by the documentation.</value></data>
+  <data name="PillarWeightTitle" xml:space="preserve"><value>Weight kept in check</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>The published package is measured against a byte budget on every build, stylesheet included.</value></data>
+  <data name="DocsPageTitle" xml:space="preserve"><value>Documentation</value></data>
+  <data name="DocsTitle" xml:space="preserve"><value>Documentation</value></data>
+  <data name="DocsLead" xml:space="preserve"><value>From installing the package to your first custom theme, in five steps.</value></data>
+  <data name="DocsInstallTitle" xml:space="preserve"><value>Install the package</value></data>
+  <data name="DocsInstallBody" xml:space="preserve"><value>The library is referenced like any other NuGet package.</value></data>
+  <data name="DocsRegisterTitle" xml:space="preserve"><value>Register the services</value></data>
+  <data name="DocsRegisterBody" xml:space="preserve"><value>A single call registers everything the components need.</value></data>
+  <data name="DocsCssTitle" xml:space="preserve"><value>Reference the stylesheet</value></data>
+  <data name="DocsCssBody" xml:space="preserve"><value>The stylesheet ships as a static asset of the package.</value></data>
+  <data name="DocsCspTitle" xml:space="preserve"><value>Security policy</value></data>
+  <data name="DocsCspBody" xml:space="preserve"><value>The library asks for nothing beyond these directives: no inline style, no dynamic script evaluation.</value></data>
+  <data name="DocsThemeTitle" xml:space="preserve"><value>Customize the theme</value></data>
+  <data name="DocsThemeBody" xml:space="preserve"><value>Redefining one variable repaints every component that reads it.</value></data>
+  <data name="DocsThemePointer" xml:space="preserve"><value>To compose a full theme without writing CSS:</value></data>
+  <data name="GalleryPageTitle" xml:space="preserve"><value>Components</value></data>
+  <data name="GalleryTitle" xml:space="preserve"><value>Components</value></data>
+  <data name="GalleryLead" xml:space="preserve"><value>Each family comes with what it can do, a live demo, and the code that produces it.</value></data>
+  <data name="GalleryNavLabel" xml:space="preserve"><value>Component families</value></data>
+  <data name="GalleryCapabilities" xml:space="preserve"><value>What the component can do</value></data>
+  <data name="GalleryPreview" xml:space="preserve"><value>Demo</value></data>
+  <data name="GallerySource" xml:space="preserve"><value>Source code</value></data>
+  <data name="GallerySourceNote" xml:space="preserve"><value>This is the very file compiled and executed by the demo above, read back from the assembly, never retyped by hand.</value></data>
+  <data name="GallerySourceMissingTitle" xml:space="preserve"><value>Source unavailable</value></data>
+  <data name="GallerySourceMissing" xml:space="preserve"><value>The demo file was not found among the assembly resources.</value></data>
+  <data name="DemoButtonsTitle" xml:space="preserve"><value>Buttons</value></data>
+  <data name="DemoButtonsSummary" xml:space="preserve"><value>The action trigger, in its visual intents and its states.</value></data>
+  <data name="DemoButtonsCapability1" xml:space="preserve"><value>Four intents: primary, secondary, ghost and destructive.</value></data>
+  <data name="DemoButtonsCapability2" xml:space="preserve"><value>A busy state that blocks double submission and announces itself to screen readers.</value></data>
+  <data name="DemoButtonsCapability3" xml:space="preserve"><value>A disabled state kept distinct from the busy one.</value></data>
+  <data name="DemoBadgesTitle" xml:space="preserve"><value>Badges</value></data>
+  <data name="DemoBadgesSummary" xml:space="preserve"><value>The short label that qualifies an item without crowding it.</value></data>
+  <data name="DemoBadgesCapability1" xml:space="preserve"><value>Five variants aligned with the theme severities.</value></data>
+  <data name="DemoBadgesCapability2" xml:space="preserve"><value>Tinted backgrounds derived from the variables, so they repaint with the theme.</value></data>
+  <data name="DemoAlertsTitle" xml:space="preserve"><value>Alerts</value></data>
+  <data name="DemoAlertsSummary" xml:space="preserve"><value>The contextual message, from a plain notice to a blocking failure.</value></data>
+  <data name="DemoAlertsCapability1" xml:space="preserve"><value>Four severities: info, success, warning and danger.</value></data>
+  <data name="DemoAlertsCapability2" xml:space="preserve"><value>Two variants: quiet outline or filled surface.</value></data>
+  <data name="DemoAlertsCapability3" xml:space="preserve"><value>A live mode that announces the message to assistive technology.</value></data>
+  <data name="CustomizePageTitle" xml:space="preserve"><value>Customization</value></data>
+  <data name="CustomizeTitle" xml:space="preserve"><value>Customization</value></data>
+  <data name="CustomizeLead" xml:space="preserve"><value>Every variable of the stylesheet can be edited here, and the whole site repaints as you move it.</value></data>
+  <data name="CustomizeModeTitle" xml:space="preserve"><value>Mode</value></data>
+  <data name="CustomizePresetsTitle" xml:space="preserve"><value>Ready-made themes</value></data>
+  <data name="CustomizePresetsLead" xml:space="preserve"><value>Palettes carried over from Bootswatch, MIT licensed. Upstream ships each palette in one mode only: the other one was derived for this site and is labelled as such.</value></data>
+  <data name="PresetDerivedDark" xml:space="preserve"><value>Dark mode derived</value></data>
+  <data name="PresetDerivedLight" xml:space="preserve"><value>Light mode derived</value></data>
+  <data name="PresetApply" xml:space="preserve"><value>Apply</value></data>
+  <data name="CustomizeTokensTitle" xml:space="preserve"><value>Variables</value></data>
+  <data name="CustomizeTokensLead" xml:space="preserve"><value>This list is read from the shipped stylesheet, so it cannot drift away from what the library actually exposes.</value></data>
+  <data name="CustomizeReset" xml:space="preserve"><value>Reset everything</value></data>
+  <data name="TokenGroupColor" xml:space="preserve"><value>Colours</value></data>
+  <data name="TokenGroupTypography" xml:space="preserve"><value>Typography</value></data>
+  <data name="TokenGroupSpacing" xml:space="preserve"><value>Spacing</value></data>
+  <data name="TokenGroupShape" xml:space="preserve"><value>Shape and borders</value></data>
+  <data name="TokenGroupElevation" xml:space="preserve"><value>Shadows and overlays</value></data>
+  <data name="TokenGroupChart" xml:space="preserve"><value>Charts</value></data>
+  <data name="TokenGroupGrid" xml:space="preserve"><value>Data grid in dark mode</value></data>
+  <data name="CustomizeExportTitle" xml:space="preserve"><value>Export</value></data>
+  <data name="CustomizeExportLead" xml:space="preserve"><value>The CSS below carries only the variables you moved, to be loaded after the library stylesheet.</value></data>
+  <data name="CustomizeCopy" xml:space="preserve"><value>Copy</value></data>
+  <data name="CustomizeDownload" xml:space="preserve"><value>Download</value></data>
+  <data name="CustomizeCopied" xml:space="preserve"><value>The CSS was copied to the clipboard.</value></data>
+  <data name="CustomizeCopyFailed" xml:space="preserve"><value>Copying failed. Select the code below and copy it by hand.</value></data>
+  <data name="CustomizeDownloaded" xml:space="preserve"><value>The file omnieurope-theme.css was downloaded.</value></data>
+  <data name="CustomizeDownloadFailed" xml:space="preserve"><value>The download failed. Copy the code below instead.</value></data>
+  <data name="DemoFormTitle" xml:space="preserve"><value>Forms</value></data>
+  <data name="DemoFormSummary" xml:space="preserve"><value>Input fields and their accessible labelling.</value></data>
+  <data name="DemoFormCapability1" xml:space="preserve"><value>Label, description and error message tied to the field by identifier.</value></data>
+  <data name="DemoFormCapability2" xml:space="preserve"><value>Text area with a character counter and a limit.</value></data>
+  <data name="DemoFormCapability3" xml:space="preserve"><value>Slider, checkbox and switch driven from the keyboard.</value></data>
+  <data name="DemoSelectionTitle" xml:space="preserve"><value>Selection</value></data>
+  <data name="DemoSelectionSummary" xml:space="preserve"><value>Picking one value from a list, or several.</value></data>
+  <data name="DemoSelectionCapability1" xml:space="preserve"><value>Drop-down with an optional empty value.</value></data>
+  <data name="DemoSelectionCapability2" xml:space="preserve"><value>List box sized by its number of visible rows.</value></data>
+  <data name="DemoSelectionCapability3" xml:space="preserve"><value>Multiple selection returning the list of retained values.</value></data>
+  <data name="DemoNavigationTitle" xml:space="preserve"><value>Navigation</value></data>
+  <data name="DemoNavigationSummary" xml:space="preserve"><value>Placing the reader and moving them between sections.</value></data>
+  <data name="DemoNavigationCapability1" xml:space="preserve"><value>Breadcrumb marking the current page.</value></data>
+  <data name="DemoNavigationCapability2" xml:space="preserve"><value>Controlled tabs, with roles and keyboard navigation.</value></data>
+  <data name="DemoNavigationCapability3" xml:space="preserve"><value>Numbered steps with validation before moving on.</value></data>
+  <data name="DemoFeedbackTitle" xml:space="preserve"><value>Status feedback</value></data>
+  <data name="DemoFeedbackSummary" xml:space="preserve"><value>Saying where the system stands without blocking the page.</value></data>
+  <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Progress bar, determinate or indeterminate.</value></data>
+  <data name="DemoFeedbackCapability2" xml:space="preserve"><value>Tooltip reachable from the keyboard, not only on hover.</value></data>
+  <data name="DemoFeedbackCapability3" xml:space="preserve"><value>Loading skeleton announced to screen readers.</value></data>
+  <data name="DemoGridTitle" xml:space="preserve"><value>Data grid</value></data>
+  <data name="DemoGridSummary" xml:space="preserve"><value>The working table: sorting, filtering, paging and groups.</value></data>
+  <data name="DemoGridCapability1" xml:space="preserve"><value>Per-column sorting and filtering, over the real data.</value></data>
+  <data name="DemoGridCapability2" xml:space="preserve"><value>Paging with an adjustable page size.</value></data>
+  <data name="DemoGridCapability3" xml:space="preserve"><value>Alternating rows and declarative column formats.</value></data>
+  <data name="DemoChartTitle" xml:space="preserve"><value>Charts</value></data>
+  <data name="DemoChartSummary" xml:space="preserve"><value>Categorical series, in the colours of the theme.</value></data>
+  <data name="DemoChartCapability1" xml:space="preserve"><value>Column series with titled axes.</value></data>
+  <data name="DemoChartCapability2" xml:space="preserve"><value>Colours taken from the chart variables of the theme.</value></data>
+  <data name="DemoTypographyTitle" xml:space="preserve"><value>Typography</value></data>
+  <data name="DemoTypographySummary" xml:space="preserve"><value>Headings, paragraphs, labels and links.</value></data>
+  <data name="DemoTypographyCapability1" xml:space="preserve"><value>Six heading levels, each available in several tones.</value></data>
+  <data name="DemoTypographyCapability2" xml:space="preserve"><value>Five text elements, from paragraph to emphasis.</value></data>
+  <data name="DemoTypographyCapability3" xml:space="preserve"><value>Ellipsis truncation, and a label tied to its field.</value></data>
+  <data name="DemoLayoutTitle" xml:space="preserve"><value>Layout</value></data>
+  <data name="DemoLayoutSummary" xml:space="preserve"><value>The grid, rows, cards and field groups.</value></data>
+  <data name="DemoLayoutCapability1" xml:space="preserve"><value>A twelve-column grid with spans per breakpoint.</value></data>
+  <data name="DemoLayoutCapability2" xml:space="preserve"><value>A card in three zones: header, body and footer.</value></data>
+  <data name="DemoLayoutCapability3" xml:space="preserve"><value>A field group that can be disabled in one move.</value></data>
+  <data name="DemoShellTitle" xml:space="preserve"><value>Application shell</value></data>
+  <data name="DemoShellSummary" xml:space="preserve"><value>The frame of an application, the one this site is built from.</value></data>
+  <data name="DemoShellCapability1" xml:space="preserve"><value>Header, collapsible sidebar and main region.</value></data>
+  <data name="DemoShellCapability2" xml:space="preserve"><value>A navigation menu with expandable groups.</value></data>
+  <data name="DemoShellCapability3" xml:space="preserve"><value>An appearance toggle and a local theme scope.</value></data>
+  <data name="DemoMediaTitle" xml:space="preserve"><value>Icons and media</value></data>
+  <data name="DemoMediaSummary" xml:space="preserve"><value>Icons, images and the timeline.</value></data>
+  <data name="DemoMediaCapability1" xml:space="preserve"><value>Built-in icons in three sizes.</value></data>
+  <data name="DemoMediaCapability2" xml:space="preserve"><value>A host-supplied icon path, with no weight added to the package.</value></data>
+  <data name="DemoMediaCapability3" xml:space="preserve"><value>An image with adjustable fit and lazy loading.</value></data>
+  <data name="DemoInputsTitle" xml:space="preserve"><value>Advanced inputs</value></data>
+  <data name="DemoInputsSummary" xml:space="preserve"><value>Numbers, passwords, dates, colours and autocomplete.</value></data>
+  <data name="DemoInputsCapability1" xml:space="preserve"><value>A bounded numeric field with an adjustable step.</value></data>
+  <data name="DemoInputsCapability2" xml:space="preserve"><value>A revealable password that is never copied elsewhere.</value></data>
+  <data name="DemoInputsCapability3" xml:space="preserve"><value>Asynchronous autocomplete, debounced and length-gated.</value></data>
+  <data name="DemoChoiceTitle" xml:space="preserve"><value>Choice</value></data>
+  <data name="DemoChoiceSummary" xml:space="preserve"><value>Radio buttons, multi-checkboxes, select bars and toggles.</value></data>
+  <data name="DemoChoiceCapability1" xml:space="preserve"><value>Lists driven by options, or laid out item by item.</value></data>
+  <data name="DemoChoiceCapability2" xml:space="preserve"><value>A select bar and a toggle button, with busy and disabled states.</value></data>
+  <data name="DemoChoiceCapability3" xml:space="preserve"><value>A checkbox and a switch with three positions, indeterminate included.</value></data>
+  <data name="DemoValidationTitle" xml:space="preserve"><value>Validation</value></data>
+  <data name="DemoValidationSummary" xml:space="preserve"><value>Rules declared next to the field they guard.</value></data>
+  <data name="DemoValidationCapability1" xml:space="preserve"><value>Required, length, email shape and comparison.</value></data>
+  <data name="DemoValidationCapability2" xml:space="preserve"><value>Focus moves to the first invalid field on submit.</value></data>
+  <data name="DemoValidationCapability3" xml:space="preserve"><value>No attribute on the model, everything lives in the markup.</value></data>
+  <data name="DemoEditorTitle" xml:space="preserve"><value>Editor and upload</value></data>
+  <data name="DemoEditorSummary" xml:space="preserve"><value>The rich text editor and the file upload.</value></data>
+  <data name="DemoEditorCapability1" xml:space="preserve"><value>Bold, italic, indents, superscript and subscript.</value></data>
+  <data name="DemoEditorCapability2" xml:space="preserve"><value>Extra host-supplied tools, expressed as transforms.</value></data>
+  <data name="DemoEditorCapability3" xml:space="preserve"><value>Upload bounded by count, size and type, validated before transfer.</value></data>
+  <data name="DemoOverlayTitle" xml:space="preserve"><value>Overlays</value></data>
+  <data name="DemoOverlaySummary" xml:space="preserve"><value>Dialogs, notifications and pop-up menus.</value></data>
+  <data name="DemoOverlayCapability1" xml:space="preserve"><value>A modal dialog, closable by Escape or by the backdrop.</value></data>
+  <data name="DemoOverlayCapability2" xml:space="preserve"><value>Four notification severities, with optional dismissal.</value></data>
+  <data name="DemoOverlayCapability3" xml:space="preserve"><value>A context menu, a split button and an account menu.</value></data>
+  <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Data grid, full range</value></data>
+  <data name="DemoGridAdvancedSummary" xml:space="preserve"><value>Selection, groups, editing, frozen columns and rich filters.</value></data>
+  <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Multiple selection, from a click on the row.</value></data>
+  <data name="DemoGridAdvancedCapability2" xml:space="preserve"><value>Combo and multi-select filters, per column.</value></data>
+  <data name="DemoGridAdvancedCapability3" xml:space="preserve"><value>A frozen column, expanded groups and a computed column footer.</value></data>
+  <data name="DemoDataListTitle" xml:space="preserve"><value>Lists and paging</value></data>
+  <data name="DemoDataListSummary" xml:space="preserve"><value>The free-template list and its pager.</value></data>
+  <data name="DemoDataListCapability1" xml:space="preserve"><value>An item template entirely supplied by the host.</value></data>
+  <data name="DemoDataListCapability2" xml:space="preserve"><value>Empty, loading and error states kept distinct.</value></data>
+  <data name="DemoDataListCapability3" xml:space="preserve"><value>A pager with adjustable page size and first and last shortcuts.</value></data>
+  <data name="DemoTreeTitle" xml:space="preserve"><value>Tree</value></data>
+  <data name="DemoTreeSummary" xml:space="preserve"><value>The expandable hierarchy, single or multiple selection.</value></data>
+  <data name="DemoTreeCapability1" xml:space="preserve"><value>Multiple selection and keyboard navigation.</value></data>
+  <data name="DemoTreeCapability2" xml:space="preserve"><value>A branch fetched on demand, when the node opens.</value></data>
+  <data name="DemoTreeCapability3" xml:space="preserve"><value>Nodes can be disabled without breaking traversal.</value></data>
+  <data name="DemoSchedulerTitle" xml:space="preserve"><value>Scheduler</value></data>
+  <data name="DemoSchedulerSummary" xml:space="preserve"><value>The calendar and its three views.</value></data>
+  <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Day, week and month views, switchable.</value></data>
+  <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Recurring appointments described by a rule.</value></data>
+  <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Each view can also be used on its own, outside the calendar.</value></data>
+  <data name="DemoChartsExtendedTitle" xml:space="preserve"><value>Charts, full range</value></data>
+  <data name="DemoChartsExtendedSummary" xml:space="preserve"><value>Every series, the legend, the labels and the gauge.</value></data>
+  <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Lines, areas, columns, bars, stacks, pie and donut.</value></data>
+  <data name="DemoChartsExtendedCapability2" xml:space="preserve"><value>Legend, markers, value labels and tooltip.</value></data>
+  <data name="DemoChartsExtendedCapability3" xml:space="preserve"><value>An arc gauge, with a scale and a value format.</value></data>
+</root>

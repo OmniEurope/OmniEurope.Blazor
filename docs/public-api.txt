@@ -168,6 +168,7 @@ ctor public OmniEurope.Blazor.Components.OmniHeading()
 ctor public OmniEurope.Blazor.Components.OmniHtmlEditor()
 ctor public OmniEurope.Blazor.Components.OmniHtmlEditorTool(System.String Name, System.String Label, System.Func<System.String,System.String> Transform)
 ctor public OmniEurope.Blazor.Components.OmniIcon()
+ctor public OmniEurope.Blazor.Components.OmniIconGlyph(System.String pathData, System.Int32 viewBoxSize)
 ctor public OmniEurope.Blazor.Components.OmniImage()
 ctor public OmniEurope.Blazor.Components.OmniLabel()
 ctor public OmniEurope.Blazor.Components.OmniLayout()
@@ -732,6 +733,7 @@ method public static OmniEurope.Blazor.Components.OmniDialogRequest.op_Equality(
 method public static OmniEurope.Blazor.Components.OmniDialogRequest.op_Inequality(OmniEurope.Blazor.Components.OmniDialogRequest? left, OmniEurope.Blazor.Components.OmniDialogRequest? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorTool.op_Equality(OmniEurope.Blazor.Components.OmniHtmlEditorTool? left, OmniEurope.Blazor.Components.OmniHtmlEditorTool? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorTool.op_Inequality(OmniEurope.Blazor.Components.OmniHtmlEditorTool? left, OmniEurope.Blazor.Components.OmniHtmlEditorTool? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniIconGlyph.Phosphor(System.String pathData) : OmniEurope.Blazor.Components.OmniIconGlyph
 method public static OmniEurope.Blazor.Components.OmniNotificationMessage.op_Equality(OmniEurope.Blazor.Components.OmniNotificationMessage? left, OmniEurope.Blazor.Components.OmniNotificationMessage? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniNotificationMessage.op_Inequality(OmniEurope.Blazor.Components.OmniNotificationMessage? left, OmniEurope.Blazor.Components.OmniNotificationMessage? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniOption<TValue>.op_Equality(OmniEurope.Blazor.Components.OmniOption<TValue>? left, OmniEurope.Blazor.Components.OmniOption<TValue>? right) : System.Boolean
@@ -1096,8 +1098,11 @@ property public OmniEurope.Blazor.Components.OmniHtmlEditorTool.Label : System.S
 property public OmniEurope.Blazor.Components.OmniHtmlEditorTool.Name : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorTool.Transform : System.Func<System.String,System.String> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniIcon.AriaLabel : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniIcon.Glyph : OmniEurope.Blazor.Components.OmniIconGlyph? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniIcon.Name : OmniEurope.Blazor.Components.OmniIconName {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniIcon.Size : OmniEurope.Blazor.Components.OmniControlSize {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniIconGlyph.PathData : System.String {get(public)}
+property public OmniEurope.Blazor.Components.OmniIconGlyph.ViewBoxSize : System.Int32 {get(public)}
 property public OmniEurope.Blazor.Components.OmniImage.Alt : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniImage.Fit : OmniEurope.Blazor.Components.OmniImageFit {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniImage.Height : System.Int32? {get(public);set(public)} [Parameter]
@@ -1502,6 +1507,7 @@ type public OmniEurope.Blazor.Components.OmniHeadingLevel [enum, sealed] : Syste
 type public OmniEurope.Blazor.Components.OmniHtmlEditor [class] : OmniEurope.Blazor.Components.OmniInputBase<System.String>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniHtmlEditorTool [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniHtmlEditorTool>
 type public OmniEurope.Blazor.Components.OmniIcon [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
+type public OmniEurope.Blazor.Components.OmniIconGlyph [class, sealed]
 type public OmniEurope.Blazor.Components.OmniIconName [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniImage [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniImageFit [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32

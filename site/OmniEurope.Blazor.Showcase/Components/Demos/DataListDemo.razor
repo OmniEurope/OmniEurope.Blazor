@@ -1,0 +1,24 @@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniDataList TItem="GridRow" Items="Page" Virtualize="false">
+        <ItemTemplate>
+            <OmniCard>
+                <Header><OmniHeading Level="OmniHeadingLevel.H5">@context.Reference</OmniHeading></Header>
+                <ChildContent>@context.Applicant, @context.Country</ChildContent>
+                <Footer><OmniBadge Variant="OmniBadgeVariant.Neutral">@context.Amount.ToString("C0")</OmniBadge></Footer>
+            </OmniCard>
+        </ItemTemplate>
+        <EmptyContent>Aucun dossier sur cette page.</EmptyContent>
+        <LoadingContent>Chargement des dossiers.</LoadingContent>
+    </OmniDataList>
+
+    <OmniPager Label="Pagination des dossiers"
+               Page="PageIndex"
+               PageChanged="@(value => PageIndex = value)"
+               PageSize="PageSize"
+               PageSizeChanged="@(value => PageSize = value)"
+               PageSizeOptions="Sizes"
+               PageCount="PageCount"
+               NumericPageCount="5"
+               ShowFirstLast="true"
+               HorizontalAlign="OmniJustification.Center" />
+</OmniStack>

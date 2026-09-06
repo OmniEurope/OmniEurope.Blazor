@@ -242,9 +242,11 @@ export function attachResize(viewport, reference, minimumWidth) {
         }
     };
 
-    // Excel's double click on a column edge: size the column to its widest content. The cells are
-    // measured with their width constraint lifted, so the value is the natural width, not the
-    // current clipped one; only the rendered rows exist, so this fits what is on screen.
+    // Excel's double click on a column edge: size the column to its widest content. The measurement
+    // needs the constraints actually lifted, which inline styles do and a class cannot: under
+    // table-layout: fixed a cell is exactly as wide as its column, so reading it while the column
+    // still applies returns the width being replaced rather than the width the content wants.
+    // Only the rendered rows exist, so the fit follows what is on screen.
     const onDoubleClick = event => {
         const handle = event.target instanceof Element
             ? event.target.closest('[data-omni-resize]')
@@ -259,19 +261,59 @@ export function attachResize(viewport, reference, minimumWidth) {
         }
 
         const selector = `[data-omni-col="${CSS.escape(key)}"]`;
+        const table = viewport.querySelector('.omni-data-grid__table');
         const col = viewport.querySelector(`col${selector}`);
-        const previous = col ? col.style.getPropertyValue('--omni-col-width') : '';
-        col?.style.setProperty('--omni-col-width', 'max-content');
-
-        // Data cells decide the width. The header is measured through its title alone: counting the
-        // sort button and the filter icon would make a short column grow on a gesture meant to
-        // shrink it. Only the rows currently rendered can be measured, which under virtualization
-        // means the fit follows what is on screen.
-        let widest = 0;
-        for (const cell of viewport.querySelectorAll(`td${selector}`)) {
-            widest = Math.max(widest, cell.scrollWidth);
+        const cells = [...viewport.querySelectorAll(`td${selector}`)];
+        if (!table) {
+            return;
         }
 
+        // First pass, constraints still in place: a cell clipped by overflow reports the width its
+        // content wanted through scrollWidth, which is the only reading that sees through an inner
+        // flex box whose items were told they may shrink. It omits the trailing padding, added back
+        // from the computed style.
+        let widest = 0;
+        if (cells.length > 0) {
+            const cellStyle = getComputedStyle(cells[0]);
+            const cellPadding = parseFloat(cellStyle.paddingInlineStart || '0')
+                + parseFloat(cellStyle.paddingInlineEnd || '0');
+            for (const cell of cells) {
+                widest = Math.max(widest, cell.scrollWidth + cellPadding);
+            }
+        }
+
+        const tableStyle = table.getAttribute('style');
+        const colStyle = col?.getAttribute('style') ?? null;
+        const cellStyles = cells.map(cell => cell.getAttribute('style'));
+        const restore = (element, style) => {
+            if (style === null) {
+                element?.removeAttribute('style');
+            } else {
+                element?.setAttribute('style', style);
+            }
+        };
+
+        table.style.tableLayout = 'auto';
+        table.style.width = 'max-content';
+        col?.style.setProperty('--omni-col-width', 'auto');
+        col?.style.setProperty('--omni-col-min', '0');
+        for (const cell of cells) {
+            cell.style.whiteSpace = 'nowrap';
+            cell.style.overflow = 'visible';
+            cell.style.textOverflow = 'clip';
+            cell.style.maxWidth = 'none';
+            cell.style.width = 'max-content';
+        }
+
+        // Second pass, constraints lifted: border-box widths, so the padding is already counted.
+        // This catches what the first pass cannot see, a cell that was not clipping because its own
+        // box had already been squeezed to fit the column.
+        for (const cell of cells) {
+            widest = Math.max(widest, cell.getBoundingClientRect().width);
+        }
+
+        // The header is measured through its title alone: counting the sort button and the filter
+        // icon would make a short column grow on a gesture meant to shrink it.
         const title = viewport.querySelector(`th${selector} .omni-data-grid__title`);
         if (title) {
             const header = title.closest('th');
@@ -279,14 +321,12 @@ export function attachResize(viewport, reference, minimumWidth) {
                 ? parseFloat(getComputedStyle(header).paddingInlineStart || '0')
                     + parseFloat(getComputedStyle(header).paddingInlineEnd || '0')
                 : 0;
-            widest = Math.max(widest, Math.ceil(title.scrollWidth + padding));
+            widest = Math.max(widest, title.getBoundingClientRect().width + padding);
         }
 
-        if (previous) {
-            col?.style.setProperty('--omni-col-width', previous);
-        } else {
-            col?.style.removeProperty('--omni-col-width');
-        }
+        cells.forEach((cell, index) => restore(cell, cellStyles[index]));
+        restore(col, colStyle);
+        restore(table, tableStyle);
 
         const width = Math.max(floor, Math.ceil(widest) + 1);
         col?.style.setProperty('--omni-col-width', `${width}px`);

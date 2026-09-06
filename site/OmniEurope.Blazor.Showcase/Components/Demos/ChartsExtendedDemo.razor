@@ -1,0 +1,44 @@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniChart Title="Évolution mensuelle">
+        <OmniGridLines />
+        <OmniCategoryAxis Labels="Months" />
+        <OmniValueAxis TickCount="5" />
+        <OmniAxisTitle Text="Mois" />
+        <OmniLineSeries Title="Dépôts" ColorIndex="0" Data="Deposits" />
+        <OmniMarkers ColorIndex="0" Data="Deposits" Radius="3" />
+        <OmniAreaSeries Title="Décisions" ColorIndex="1" Data="Decisions" />
+        <OmniSeriesDataLabels Data="Deposits" />
+        <OmniChartTooltipOptions Enabled="true" Description="Valeur au survol et au clavier" />
+        <OmniLegend Label="Séries" Items="LineLegend" />
+    </OmniChart>
+
+    <OmniChart Title="Répartition empilée">
+        <OmniCategoryAxis Labels="Months" />
+        <OmniValueAxis />
+        <OmniStackedColumnSeries Title="Entrants" ColorIndex="0" Data="Deposits" />
+        <OmniStackedColumnSeries Title="Sortants" ColorIndex="2" Data="Decisions" />
+        <OmniStackedAreaSeries Title="Stock" ColorIndex="3" Data="Backlog" />
+    </OmniChart>
+
+    <OmniChart Title="Comparatif horizontal">
+        <OmniBarOptions Orientation="horizontal" Stacked="false" />
+        <OmniCategoryAxis Labels="Countries" />
+        <OmniValueAxis />
+        <OmniBarSeries Title="Dossiers par pays" ColorIndex="4" Data="ByCountry" />
+    </OmniChart>
+
+    <OmniChart Title="Parts par origine">
+        <OmniPieSeries Title="Origine" Data="Slices" />
+    </OmniChart>
+
+    <OmniChart Title="Parts par origine, en anneau">
+        <OmniDonutSeries Title="Origine" Data="Slices" />
+    </OmniChart>
+
+    <OmniArcGauge Label="Taux de traitement">
+        <OmniArcGaugeScale Minimum="0" Maximum="100">
+            <OmniArcGaugeScaleValue Value="72" Minimum="0" Maximum="100" ColorIndex="1"
+                                    Formatter="FormatPercent" />
+        </OmniArcGaugeScale>
+    </OmniArcGauge>
+</OmniStack>

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "showcase",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "site/OmniEurope.Blazor.Showcase/OmniEurope.Blazor.Showcase.csproj", "--urls", "http://localhost:5280"],
+      "port": 5280
+    }
+  ]
+}

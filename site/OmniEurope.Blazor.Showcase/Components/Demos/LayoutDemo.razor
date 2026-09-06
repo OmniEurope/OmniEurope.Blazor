@@ -1,0 +1,43 @@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniGrid Columns="12" Gap="OmniSpacing.Medium">
+        <OmniColumn Span="12" MediumSpan="6" LargeSpan="4">
+            <OmniCard>
+                <Header><OmniHeading Level="OmniHeadingLevel.H4">Colonne fluide</OmniHeading></Header>
+                <ChildContent>Pleine largeur en petit écran, un tiers en grand.</ChildContent>
+                <Footer><OmniBadge Variant="OmniBadgeVariant.Neutral">12 / 6 / 4</OmniBadge></Footer>
+            </OmniCard>
+        </OmniColumn>
+        <OmniColumn Span="12" MediumSpan="6" LargeSpan="4">
+            <OmniCard>
+                <Header><OmniHeading Level="OmniHeadingLevel.H4">Carte avec entête</OmniHeading></Header>
+                <ChildContent>Entête, corps et pied sont trois zones distinctes.</ChildContent>
+            </OmniCard>
+        </OmniColumn>
+        <OmniColumn Span="12" LargeSpan="4">
+            <OmniCard>
+                <ChildContent>Une carte peut n'avoir que son corps.</ChildContent>
+            </OmniCard>
+        </OmniColumn>
+    </OmniGrid>
+
+    <OmniRow Gap="OmniSpacing.Small" Justify="OmniJustification.Between" Align="OmniAlignment.Center" Wrap="true">
+        <OmniBadge Variant="OmniBadgeVariant.Accent">Début</OmniBadge>
+        <OmniBadge Variant="OmniBadgeVariant.Neutral">Milieu</OmniBadge>
+        <OmniBadge Variant="OmniBadgeVariant.Success">Fin</OmniBadge>
+    </OmniRow>
+
+    <OmniFieldset>
+        <Legend>Groupe de champs</Legend>
+        <ChildContent>
+            <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
+                <OmniBadge Variant="OmniBadgeVariant.Neutral">Un</OmniBadge>
+                <OmniBadge Variant="OmniBadgeVariant.Neutral">Deux</OmniBadge>
+            </OmniStack>
+        </ChildContent>
+    </OmniFieldset>
+
+    <OmniFieldset Disabled="true">
+        <Legend>Groupe désactivé</Legend>
+        <ChildContent>Tout ce que ce groupe contient devient inopérant d'un seul geste.</ChildContent>
+    </OmniFieldset>
+</OmniStack>

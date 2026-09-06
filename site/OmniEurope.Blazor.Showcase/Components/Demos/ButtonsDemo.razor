@@ -1,0 +1,12 @@
+<OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+    <OmniButton Variant="OmniButtonVariant.Primary" OnClick="@(_ => Count++)">
+        Primaire
+    </OmniButton>
+    <OmniButton Variant="OmniButtonVariant.Secondary">Secondaire</OmniButton>
+    <OmniButton Variant="OmniButtonVariant.Ghost">Discret</OmniButton>
+    <OmniButton Variant="OmniButtonVariant.Danger">Supprimer</OmniButton>
+    <OmniButton Disabled="true">Indisponible</OmniButton>
+    <OmniButton Busy="true">Enregistrement</OmniButton>
+</OmniStack>
+
+<p>Clics sur le bouton primaire : @Count</p>

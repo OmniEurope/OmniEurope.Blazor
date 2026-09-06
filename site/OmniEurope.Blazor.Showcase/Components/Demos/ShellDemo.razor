@@ -1,0 +1,28 @@
+@* The application shell, shown in miniature: the same components this site is itself built from. *@
+<OmniThemeScope Appearance="OmniAppearance.Light" Density="OmniDensity.Compact">
+    <OmniLayout Width="OmniLayoutWidth.Content">
+        <OmniHeader>
+            <OmniSidebarToggle Open="SidebarOpen" OpenChanged="@(value => SidebarOpen = value)"
+                               Controls="shell-demo-sidebar" AriaLabel="Afficher ou masquer le menu" />
+            <OmniHeading Level="OmniHeadingLevel.H4">Mon application</OmniHeading>
+            <OmniAppearanceToggle Appearance="Appearance" AppearanceChanged="@(value => Appearance = value)"
+                                  AriaLabel="Changer l'apparence" />
+        </OmniHeader>
+        <OmniBody>
+            <OmniSidebar Open="SidebarOpen" AriaLabel="Menu de la démonstration" Position="OmniSidebarPosition.Start">
+                <OmniPanelMenu Label="Sections" DisplayStyle="OmniPanelMenuDisplayStyle.IconAndText">
+                    <OmniPanelMenuItem Text="Tableau de bord" Href="composants/coquille" Match="OmniNavMatch.Exact" />
+                    <OmniPanelMenuItem Text="Dossiers" Expanded="true">
+                        <OmniPanelMenuItem Text="En cours" Href="composants/coquille/en-cours" />
+                        <OmniPanelMenuItem Text="Archivés" Href="composants/coquille/archives" />
+                    </OmniPanelMenuItem>
+                    <OmniPanelMenuItem Text="Réglages" Href="composants/coquille/reglages" />
+                </OmniPanelMenu>
+            </OmniSidebar>
+            <OmniMain AriaLabelledBy="shell-demo-title">
+                <OmniHeading Id="shell-demo-title" Level="OmniHeadingLevel.H5">Contenu principal</OmniHeading>
+                <p>L'apparence retenue ici est @(Appearance is OmniAppearance.Dark ? "sombre" : "claire").</p>
+            </OmniMain>
+        </OmniBody>
+    </OmniLayout>
+</OmniThemeScope>

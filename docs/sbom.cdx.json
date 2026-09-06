@@ -7,7 +7,7 @@
     "component": {
       "type": "library",
       "name": "OmniEurope.Blazor",
-      "version": "1.0.0"
+      "version": "0.1.0-alpha.1"
     },
     "properties": [
       {
@@ -39,7 +39,29 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "AngleSharp",
+      "version": "1.7.1",
+      "bom-ref": "pkg:nuget/AngleSharp@1.7.1",
+      "purl": "pkg:nuget/AngleSharp@1.7.1",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -61,7 +83,29 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "AngleSharp.Css",
+      "version": "1.0.1",
+      "bom-ref": "pkg:nuget/AngleSharp.Css@1.0.1",
+      "purl": "pkg:nuget/AngleSharp.Css@1.0.1",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -90,9 +134,9 @@
     {
       "type": "library",
       "name": "bunit",
-      "version": "2.8.6",
-      "bom-ref": "pkg:nuget/bunit@2.8.6",
-      "purl": "pkg:nuget/bunit@2.8.6",
+      "version": "2.9.0",
+      "bom-ref": "pkg:nuget/bunit@2.9.0",
+      "purl": "pkg:nuget/bunit@2.9.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -149,7 +193,29 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "HtmlSanitizer",
+      "version": "9.2.995",
+      "bom-ref": "pkg:nuget/HtmlSanitizer@9.2.995",
+      "purl": "pkg:nuget/HtmlSanitizer@9.2.995",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -171,16 +237,16 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.App.Internal.Assets",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.App.Internal.Assets@10.0.10",
-      "purl": "pkg:nuget/Microsoft.AspNetCore.App.Internal.Assets@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.App.Internal.Assets@10.0.11",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.App.Internal.Assets@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -501,16 +567,16 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
     {
       "type": "library",
       "name": "Microsoft.CodeAnalysis.Analyzers",
-      "version": "3.3.4",
-      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Analyzers@3.3.4",
-      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Analyzers@3.3.4",
+      "version": "5.3.0",
+      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Analyzers@5.3.0",
+      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Analyzers@5.3.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -523,16 +589,16 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json"
         }
       ]
     },
     {
       "type": "library",
       "name": "Microsoft.CodeAnalysis.Common",
-      "version": "4.12.0",
-      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Common@4.12.0",
-      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Common@4.12.0",
+      "version": "5.6.0",
+      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Common@5.6.0",
+      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Common@5.6.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -545,16 +611,16 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json"
         }
       ]
     },
     {
       "type": "library",
       "name": "Microsoft.CodeAnalysis.CSharp",
-      "version": "4.12.0",
-      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.CSharp@4.12.0",
-      "purl": "pkg:nuget/Microsoft.CodeAnalysis.CSharp@4.12.0",
+      "version": "5.6.0",
+      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.CSharp@5.6.0",
+      "purl": "pkg:nuget/Microsoft.CodeAnalysis.CSharp@5.6.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -567,7 +633,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json"
         }
       ]
     },
@@ -589,7 +655,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1567,9 +1633,9 @@
     {
       "type": "library",
       "name": "Microsoft.NET.ILLink.Tasks",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.NET.ILLink.Tasks@10.0.10",
-      "purl": "pkg:nuget/Microsoft.NET.ILLink.Tasks@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.NET.ILLink.Tasks@10.0.11",
+      "purl": "pkg:nuget/Microsoft.NET.ILLink.Tasks@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -1589,9 +1655,9 @@
     {
       "type": "library",
       "name": "Microsoft.NET.Sdk.WebAssembly.Pack",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.NET.Sdk.WebAssembly.Pack@10.0.10",
-      "purl": "pkg:nuget/Microsoft.NET.Sdk.WebAssembly.Pack@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.NET.Sdk.WebAssembly.Pack@10.0.11",
+      "purl": "pkg:nuget/Microsoft.NET.Sdk.WebAssembly.Pack@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -1626,7 +1692,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1673,7 +1739,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1695,7 +1761,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1717,7 +1783,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1739,7 +1805,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1761,7 +1827,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1783,7 +1849,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1837,7 +1903,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -2246,21 +2312,18 @@
     {
       "type": "library",
       "name": "System.Buffers",
-      "version": "4.5.1",
-      "bom-ref": "pkg:nuget/System.Buffers@4.5.1",
-      "purl": "pkg:nuget/System.Buffers@4.5.1",
+      "version": "4.6.1",
+      "bom-ref": "pkg:nuget/System.Buffers@4.6.1",
+      "purl": "pkg:nuget/System.Buffers@4.6.1",
       "licenses": [
         {
-          "license": {
-            "name": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT",
-            "url": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT"
-          }
+          "expression": "MIT"
         }
       ],
       "properties": [
         {
           "name": "omnieurope:license-kind",
-          "value": "url"
+          "value": "expression"
         },
         {
           "name": "omnieurope:lock-files",
@@ -2271,9 +2334,9 @@
     {
       "type": "library",
       "name": "System.Collections.Immutable",
-      "version": "8.0.0",
-      "bom-ref": "pkg:nuget/System.Collections.Immutable@8.0.0",
-      "purl": "pkg:nuget/System.Collections.Immutable@8.0.0",
+      "version": "10.0.1",
+      "bom-ref": "pkg:nuget/System.Collections.Immutable@10.0.1",
+      "purl": "pkg:nuget/System.Collections.Immutable@10.0.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -2293,21 +2356,18 @@
     {
       "type": "library",
       "name": "System.Memory",
-      "version": "4.5.5",
-      "bom-ref": "pkg:nuget/System.Memory@4.5.5",
-      "purl": "pkg:nuget/System.Memory@4.5.5",
+      "version": "4.6.3",
+      "bom-ref": "pkg:nuget/System.Memory@4.6.3",
+      "purl": "pkg:nuget/System.Memory@4.6.3",
       "licenses": [
         {
-          "license": {
-            "name": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT",
-            "url": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT"
-          }
+          "expression": "MIT"
         }
       ],
       "properties": [
         {
           "name": "omnieurope:license-kind",
-          "value": "url"
+          "value": "expression"
         },
         {
           "name": "omnieurope:lock-files",
@@ -2340,21 +2400,18 @@
     {
       "type": "library",
       "name": "System.Numerics.Vectors",
-      "version": "4.5.0",
-      "bom-ref": "pkg:nuget/System.Numerics.Vectors@4.5.0",
-      "purl": "pkg:nuget/System.Numerics.Vectors@4.5.0",
+      "version": "4.6.1",
+      "bom-ref": "pkg:nuget/System.Numerics.Vectors@4.6.1",
+      "purl": "pkg:nuget/System.Numerics.Vectors@4.6.1",
       "licenses": [
         {
-          "license": {
-            "name": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT",
-            "url": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT"
-          }
+          "expression": "MIT"
         }
       ],
       "properties": [
         {
           "name": "omnieurope:license-kind",
-          "value": "url"
+          "value": "expression"
         },
         {
           "name": "omnieurope:lock-files",
@@ -2365,9 +2422,9 @@
     {
       "type": "library",
       "name": "System.Reflection.Metadata",
-      "version": "8.0.0",
-      "bom-ref": "pkg:nuget/System.Reflection.Metadata@8.0.0",
-      "purl": "pkg:nuget/System.Reflection.Metadata@8.0.0",
+      "version": "10.0.1",
+      "bom-ref": "pkg:nuget/System.Reflection.Metadata@10.0.1",
+      "purl": "pkg:nuget/System.Reflection.Metadata@10.0.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -2387,9 +2444,9 @@
     {
       "type": "library",
       "name": "System.Runtime.CompilerServices.Unsafe",
-      "version": "6.0.0",
-      "bom-ref": "pkg:nuget/System.Runtime.CompilerServices.Unsafe@6.0.0",
-      "purl": "pkg:nuget/System.Runtime.CompilerServices.Unsafe@6.0.0",
+      "version": "6.1.2",
+      "bom-ref": "pkg:nuget/System.Runtime.CompilerServices.Unsafe@6.1.2",
+      "purl": "pkg:nuget/System.Runtime.CompilerServices.Unsafe@6.1.2",
       "licenses": [
         {
           "expression": "MIT"
@@ -2409,9 +2466,9 @@
     {
       "type": "library",
       "name": "System.Text.Encoding.CodePages",
-      "version": "7.0.0",
-      "bom-ref": "pkg:nuget/System.Text.Encoding.CodePages@7.0.0",
-      "purl": "pkg:nuget/System.Text.Encoding.CodePages@7.0.0",
+      "version": "8.0.0",
+      "bom-ref": "pkg:nuget/System.Text.Encoding.CodePages@8.0.0",
+      "purl": "pkg:nuget/System.Text.Encoding.CodePages@8.0.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -2431,21 +2488,18 @@
     {
       "type": "library",
       "name": "System.Threading.Tasks.Extensions",
-      "version": "4.5.4",
-      "bom-ref": "pkg:nuget/System.Threading.Tasks.Extensions@4.5.4",
-      "purl": "pkg:nuget/System.Threading.Tasks.Extensions@4.5.4",
+      "version": "4.6.3",
+      "bom-ref": "pkg:nuget/System.Threading.Tasks.Extensions@4.6.3",
+      "purl": "pkg:nuget/System.Threading.Tasks.Extensions@4.6.3",
       "licenses": [
         {
-          "license": {
-            "name": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT",
-            "url": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT"
-          }
+          "expression": "MIT"
         }
       ],
       "properties": [
         {
           "name": "omnieurope:license-kind",
-          "value": "url"
+          "value": "expression"
         },
         {
           "name": "omnieurope:lock-files",
@@ -2471,7 +2525,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -2493,7 +2547,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -2515,7 +2569,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -2537,7 +2591,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -2559,7 +2613,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -2581,7 +2635,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -2603,7 +2657,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -2625,7 +2679,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -2647,7 +2701,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -2669,7 +2723,45 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "name": "phosphor-icons",
+      "version": "2.0.8",
+      "bom-ref": "pkg:generic/phosphor-icons@2.0.8",
+      "purl": "pkg:generic/phosphor-icons@2.0.8",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:origin",
+          "value": "vendored"
+        },
+        {
+          "name": "omnieurope:display-name",
+          "value": "Phosphor Icons"
+        },
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:license-file",
+          "value": "docs/third-party-licenses/phosphor-icons--2.0.8--LICENSE.txt"
+        },
+        {
+          "name": "omnieurope:license-file-sha256",
+          "value": "b5b1f1da112d18ea2147decfd48ddc1bf2b5aeb6c265381579340e95b15a2bb2"
+        },
+        {
+          "name": "omnieurope:vendored-files",
+          "value": "src/OmniEurope.Blazor/Internal/PhosphorIconGlyphs.cs"
         }
       ]
     }

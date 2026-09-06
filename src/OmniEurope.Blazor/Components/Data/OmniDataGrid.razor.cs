@@ -428,7 +428,7 @@ public partial class OmniDataGrid<TItem>
     /// Floor of the scrolling area as a CSS length while <see cref="FillAvailableHeight"/> is on.
     /// </summary>
     [Parameter]
-    public string MinHeight { get; set; } = "28rem";
+    public string MinHeight { get; set; } = "30rem";
 
     // ---- virtualization -----------------------------------------------------------------------
 
@@ -530,7 +530,15 @@ public partial class OmniDataGrid<TItem>
     private bool UsesAdvancedFilter => AllowFiltering && FilterMode == OmniDataGridFilterMode.Advanced;
     private bool ShowsOperatorSelector => AllowFiltering && FilterMode != OmniDataGridFilterMode.Simple;
     private IReadOnlyList<OmniDataGridGroup> ActiveGroups => AllowGrouping ? Groups : Array.Empty<OmniDataGridGroup>();
+    /// <summary>Where the footer row goes. See <see cref="OmniDataGridFooterPosition"/>.</summary>
+    [Parameter]
+    public OmniDataGridFooterPosition FooterPosition { get; set; }
+
     private bool HasFooter => VisibleColumns.Any(column => column.FooterTemplate is not null);
+
+    private bool HasTopFooter => HasFooter && FooterPosition == OmniDataGridFooterPosition.Top;
+
+    private bool HasBottomFooter => HasFooter && FooterPosition == OmniDataGridFooterPosition.Bottom;
 
     protected override void OnInitialized()
     {

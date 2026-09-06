@@ -11,22 +11,22 @@ Ce registre relie les 110 balises inventoriées à une cible Razor OmniEurope et
 | Source inventoriée | Cible OmniEurope | Phase | Présence | Références de tests | Catalogue | Navigateur |
 | --- | --- | ---: | --- | ---: | --- | ---: |
 | `RadzenStack` | `OmniStack` | 3 | fichier présent | 1 | non | 0 |
-| `RadzenButton` | `OmniButton` | 3 | fichier présent | 3 | oui | 4 |
+| `RadzenButton` | `OmniButton` | 3 | fichier présent | 4 | oui | 4 |
 | `RadzenBody` | `OmniBody` | 3 | fichier présent | 1 | non | 0 |
 | `RadzenHeader` | `OmniHeader` | 3 | fichier présent | 1 | non | 0 |
 | `RadzenLayout` | `OmniLayout` | 3 | fichier présent | 1 | non | 0 |
-| `RadzenText` | `OmniText` | 3 | fichier présent | 1 | non | 0 |
-| `RadzenTextBox` | `OmniTextBox` | 5 | fichier présent | 2 | oui | 0 |
-| `RadzenAlert` | `OmniAlert` | 3 | fichier présent | 1 | oui | 0 |
-| `RadzenPanelMenuItem` | `OmniPanelMenuItem` | 7 | fichier présent | 3 | non | 0 |
-| `RadzenPanelMenu` | `OmniPanelMenu` | 7 | fichier présent | 2 | non | 0 |
+| `RadzenText` | `OmniText` | 3 | fichier présent | 2 | non | 0 |
+| `RadzenTextBox` | `OmniTextBox` | 5 | fichier présent | 3 | oui | 0 |
+| `RadzenAlert` | `OmniAlert` | 3 | fichier présent | 2 | oui | 0 |
+| `RadzenPanelMenuItem` | `OmniPanelMenuItem` | 7 | fichier présent | 4 | non | 0 |
+| `RadzenPanelMenu` | `OmniPanelMenu` | 7 | fichier présent | 3 | non | 0 |
 | `RadzenSidebar` | `OmniSidebar` | 3 | fichier présent | 2 | non | 0 |
 | `RadzenSidebarToggle` | `OmniSidebarToggle` | 3 | fichier présent | 2 | non | 0 |
-| `RadzenIcon` | `OmniIcon` | 3 | fichier présent | 2 | oui | 0 |
+| `RadzenIcon` | `OmniIcon` | 3 | fichier présent | 3 | oui | 0 |
 | `RadzenDropDown` | `OmniDropDown` | 6 | fichier présent | 3 | oui | 0 |
-| `RadzenDataGridColumn` | `OmniDataGridColumn` | 9 | fichier présent | 3 | oui | 0 |
+| `RadzenDataGridColumn` | `OmniDataGridColumn` | 9 | fichier présent | 5 | oui | 0 |
 | `RadzenCard` | `OmniCard` | 3 | fichier présent | 1 | oui | 0 |
-| `RadzenDataGrid` | `OmniDataGrid` | 9 | fichier présent | 7 | oui | 0 |
+| `RadzenDataGrid` | `OmniDataGrid` | 9 | fichier présent | 10 | oui | 0 |
 | `RadzenNumeric` | `OmniNumeric` | 5 | fichier présent | 2 | non | 0 |
 | `RadzenCheckBox` | `OmniCheckBox` | 5 | fichier présent | 1 | non | 0 |
 | `RadzenDialog` | `OmniDialog` | 4 | fichier présent | 3 | non | 1 |
@@ -70,7 +70,7 @@ Ce registre relie les 110 balises inventoriées à une cible Razor OmniEurope et
 | `RadzenTree` | `OmniTree` | 8 | fichier présent | 2 | oui | 0 |
 | `RadzenAreaSeries` | `OmniAreaSeries` | 10 | fichier présent | 1 | non | 0 |
 | `RadzenBarSeries` | `OmniBarSeries` | 10 | fichier présent | 1 | non | 0 |
-| `RadzenComponents` | `OmniComponentsHost` | 4 | fichier présent | 3 | oui | 1 |
+| `RadzenComponents` | `OmniComponentsHost` | 4 | fichier présent | 4 | oui | 1 |
 | `RadzenDataList` | `OmniDataList` | 8 | fichier présent | 2 | oui | 0 |
 | `RadzenAxisTitle` | `OmniAxisTitle` | 10 | fichier présent | 1 | non | 0 |
 | `RadzenStepsItem` | `OmniStepsItem` | 7 | fichier présent | 1 | non | 0 |

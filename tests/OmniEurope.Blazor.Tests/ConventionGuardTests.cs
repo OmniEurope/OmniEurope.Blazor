@@ -82,7 +82,7 @@ public sealed partial class ConventionGuardTests
     {
         var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
 
-        Assert.Contains(".omni-notification__dismiss { border: 0; border-radius: var(--omni-radius); font-size: 1.25rem; min-height: 2.75rem; min-width: 2.75rem; }", styles, StringComparison.Ordinal);
+        Assert.Contains(".omni-notification__dismiss { border: 0; border-radius: var(--omni-radius); font-size: var(--omni-font-size-h4); min-height: 2.75rem; min-width: 2.75rem; }", styles, StringComparison.Ordinal);
         Assert.Contains(".omni-tree__select { background: transparent; border: 0; color: var(--omni-color-text); cursor: pointer; font: inherit; min-height: 2.75rem; }", styles, StringComparison.Ordinal);
         Assert.Contains(".omni-tree__toggle { min-width: 2.75rem; width: 2.75rem; }", styles, StringComparison.Ordinal);
         Assert.Contains(".omni-data-grid__expand { background: transparent; border: 0; color: var(--omni-color-text); cursor: pointer; min-height: 2.75rem; min-width: 2.75rem; }", styles, StringComparison.Ordinal);

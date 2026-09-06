@@ -23,7 +23,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
         Assert.Equal("page", host.Find(".omni-breadcrumb [aria-current]").GetAttribute("aria-current"));
         Assert.Equal("page", host.Find(".omni-panel-menu [aria-current]").GetAttribute("aria-current"));
         Assert.Equal("true", host.Find(".omni-tabs__tab").GetAttribute("aria-selected"));
-        Assert.Equal("tablist", host.Find(".omni-tabs").GetAttribute("role"));
+        Assert.Equal("tablist", host.Find(".omni-tabs__viewport").GetAttribute("role"));
         Assert.Equal("list", host.Find(".omni-steps__list").GetAttribute("role"));
         Assert.Equal("step", host.Find(".omni-steps__button").GetAttribute("aria-current"));
         Assert.Equal(host.Find(".omni-steps__button").Id, host.Find(".omni-steps__panel").GetAttribute("aria-labelledby"));
@@ -35,7 +35,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
     {
         var host = Render<NavigationTestHost>();
 
-        host.Find(".omni-tabs").KeyDown("ArrowRight");
+        host.Find(".omni-tabs__viewport").KeyDown("ArrowRight");
         Assert.Equal("second", host.Instance.Tab);
         Assert.Contains("Contenu 2", host.Find(".omni-tabs__panel:not([hidden])").TextContent, StringComparison.Ordinal);
 

@@ -465,6 +465,13 @@
           "Microsoft.Extensions.Localization": "[10.0.10, )"
         }
       },
+      "omnieurope.blazor.showcase": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components.WebAssembly": "[10.0.10, )",
+          "OmniEurope.Blazor": "[0.1.0-alpha.1, )"
+        }
+      },
       "HtmlSanitizer": {
         "type": "CentralTransitive",
         "requested": "[9.2.995, )",

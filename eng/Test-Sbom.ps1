@@ -24,6 +24,14 @@ foreach ($lock in $locks) {
     }
 }
 
+$assetsManifestPath = Join-Path $PSScriptRoot 'vendored-assets.json'
+$assets = @()
+if (Test-Path -LiteralPath $assetsManifestPath -PathType Leaf) {
+    $assetManifest = Get-Content -LiteralPath $assetsManifestPath -Raw | ConvertFrom-Json
+    if ([int]$assetManifest.schemaVersion -ne 1) { throw 'Unsupported vendored asset manifest schema.' }
+    $assets = @($assetManifest.assets)
+}
+
 $registry = Get-Content -LiteralPath $registryPath -Raw | ConvertFrom-Json
 if ([int]$registry.schemaVersion -ne 1) { throw 'Unsupported third-party registry schema.' }
 $actual = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
@@ -59,8 +67,9 @@ $sbom = Get-Content -LiteralPath $sbomPath -Raw | ConvertFrom-Json
 if ($sbom.bomFormat -ne 'CycloneDX' -or $sbom.specVersion -ne '1.6') {
     throw 'The SBOM is not CycloneDX 1.6.'
 }
-if (@($sbom.components).Count -ne $expected.Count) {
-    throw "SBOM component count mismatch: expected $($expected.Count), found $(@($sbom.components).Count)."
+$expectedComponentCount = $expected.Count + @($assets).Count
+if (@($sbom.components).Count -ne $expectedComponentCount) {
+    throw "SBOM component count mismatch: expected $expectedComponentCount, found $(@($sbom.components).Count)."
 }
 [xml]$packageProject = Get-Content -LiteralPath (Join-Path $repoRoot 'src/OmniEurope.Blazor/OmniEurope.Blazor.csproj') -Raw
 $expectedRootName = [string]$packageProject.Project.PropertyGroup.PackageId
@@ -76,7 +85,9 @@ foreach ($component in @($sbom.components)) {
     if (@($component.licenses).Count -eq 0) { throw "SBOM component has no license: $($component.name)" }
     $key = "$($component.name)|$($component.version)"
     if (-not $componentKeys.Add($key)) { throw "Duplicate SBOM component identity: $key" }
-    $expectedPurl = "pkg:nuget/$([Uri]::EscapeDataString([string]$component.name))@$([Uri]::EscapeDataString([string]$component.version))"
+    $origin = [string](@($component.properties | Where-Object name -EQ 'omnieurope:origin').value)
+    $purlType = if ($origin -eq 'vendored') { 'generic' } else { 'nuget' }
+    $expectedPurl = "pkg:$purlType/$([Uri]::EscapeDataString([string]$component.name))@$([Uri]::EscapeDataString([string]$component.version))"
     if ([string]$component.'bom-ref' -cne $expectedPurl -or [string]$component.purl -cne $expectedPurl) {
         throw "SBOM purl mismatch for $key"
     }
@@ -96,4 +107,33 @@ foreach ($package in @($registry.packages)) {
         throw "NOTICE does not list $($package.id) $($package.version)."
     }
 }
+
+foreach ($asset in $assets) {
+    $key = "$($asset.id)|$($asset.version)"
+    if (-not $componentKeys.Contains($key)) { throw "Vendored asset absent from SBOM: $key" }
+
+    $assetLicenseFile = [string]$asset.license.localFile
+    $assetLicensePath = Join-Path $repoRoot $assetLicenseFile
+    if (-not (Test-Path -LiteralPath $assetLicensePath -PathType Leaf)) {
+        throw "Missing preserved licence file for vendored asset $key"
+    }
+    $assetHash = (Get-FileHash -LiteralPath $assetLicensePath -Algorithm SHA256).Hash.ToLowerInvariant()
+    if ($assetHash -ne ([string]$asset.license.localFileSha256).ToLowerInvariant()) {
+        throw "Licence text hash mismatch for vendored asset $key"
+    }
+
+    foreach ($vendoredFile in @($asset.vendoredFiles)) {
+        if (-not (Test-Path -LiteralPath (Join-Path $repoRoot $vendoredFile) -PathType Leaf)) {
+            throw "Vendored asset $($asset.id) declares a missing file: $vendoredFile"
+        }
+    }
+
+    if (-not $notice.Contains([string]$asset.name) -or -not $notice.Contains("``$($asset.version)``")) {
+        throw "NOTICE does not list vendored asset $key"
+    }
+    if (-not $notice.Contains("``$assetLicenseFile``")) {
+        throw "NOTICE does not point at the preserved licence for $key"
+    }
+}
+
 Write-Host ($messages.SbomPassed -f $expected.Count)

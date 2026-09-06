@@ -92,9 +92,12 @@ public partial class OmniPanelMenuItem
 
     // Exact narrows what counts as current, not what counts as being inside a group: a collapsed
     // group still unfolds on a descendant route, which is what IsWithin reads.
-    private bool IsActive => Match == OmniNavMatch.Exact
-        ? RouteState == RouteMatch.Exact
-        : RouteState is not (null or RouteMatch.None);
+    private bool IsActive => Match switch
+    {
+        OmniNavMatch.None => false,
+        OmniNavMatch.Exact => RouteState == RouteMatch.Exact,
+        _ => RouteState is not (null or RouteMatch.None)
+    };
 
     private RouteMatch? RouteState
     {

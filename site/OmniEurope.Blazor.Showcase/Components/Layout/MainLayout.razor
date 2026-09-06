@@ -1,0 +1,37 @@
+@inherits LayoutComponentBase
+
+<OmniThemeScope Appearance="CurrentAppearance" Density="OmniDensity.Comfortable">
+    <OmniLayout Width="OmniLayoutWidth.Wide">
+        <OmniHeader Sticky="true">
+            <a class="showcase-brand" href="">OmniEurope.Blazor</a>
+            <OmniBadge Variant="OmniBadgeVariant.Accent">@Text["HeaderBadge"]</OmniBadge>
+            <span class="showcase-header__spacer"></span>
+            <OmniButton Variant="OmniButtonVariant.Ghost" OnClick="@(_ => ToggleModeAsync())">
+                @(Theme.Mode is ThemeMode.Dark ? Text["ModeLight"] : Text["ModeDark"])
+            </OmniButton>
+        </OmniHeader>
+        <OmniBody>
+            <OmniSidebar AriaLabel="@Text["SidebarLabel"]" Open="true">
+                <OmniPanelMenu Label="@Text["MenuLabel"]">
+                    <OmniPanelMenuItem Href="" Text="@Text["NavShowcase"]" Match="OmniNavMatch.Exact" />
+                    <OmniPanelMenuItem Href="documentation" Text="@Text["NavDocumentation"]" />
+                    <OmniPanelMenuItem Href="composants" Text="@Text["NavComponents"]" />
+                    <OmniPanelMenuItem Href="personnalisation" Text="@Text["NavCustomize"]" />
+                </OmniPanelMenu>
+            </OmniSidebar>
+            <ErrorBoundary @ref="_errorBoundary">
+                <ChildContent>
+                    <OmniMain>@Body</OmniMain>
+                </ChildContent>
+                <ErrorContent Context="error">
+                    <OmniMain>
+                        <OmniAlert Severity="OmniAlertSeverity.Danger" Title="@Text["ErrorTitle"]">
+                            @Text["ErrorMessage"]
+                            <OmniButton OnClick="@(_ => RecoverAsync())">@Text["Retry"]</OmniButton>
+                        </OmniAlert>
+                    </OmniMain>
+                </ErrorContent>
+            </ErrorBoundary>
+        </OmniBody>
+    </OmniLayout>
+</OmniThemeScope>

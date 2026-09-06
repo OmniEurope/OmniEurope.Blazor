@@ -6,7 +6,8 @@ param(
         (Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.AutoSmoke.Client'),
         (Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.Catalog'),
         (Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.HybridSmoke'),
-        (Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.WasmSmoke')
+        (Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.WasmSmoke'),
+        (Join-Path $PSScriptRoot '..\site\OmniEurope.Blazor.Showcase')
     )
 )
 
@@ -21,7 +22,9 @@ $sourceFiles = $SourceRoots | ForEach-Object { Get-ChildItem -LiteralPath (Resol
 $forbidden = @(
     @{ Name = 'inline style attribute'; Pattern = '(?i)\bstyle\s*=' },
     @{ Name = 'runtime style element'; Pattern = '(?i)<style\b|createElement\s*\(\s*["'']style["'']' },
-    @{ Name = 'inline HTML event handler'; Pattern = '(?-i)(?<!@)\bon[a-z][a-z0-9_-]*\s*=' },
+    # Anchored inside a start tag so a C# identifier that merely begins with "on" (var only = ...)
+    # cannot trip the rule; whitespace before the name keeps the Razor @onclick binding excluded.
+    @{ Name = 'inline HTML event handler'; Pattern = '(?-i)<[a-zA-Z][^>]*\son[a-z][a-z0-9_-]*\s*=' },
     @{ Name = 'javascript URI'; Pattern = '(?i)(?:href|src)\s*=\s*["'']?\s*javascript\s*:' },
     @{ Name = 'remote static resource'; Pattern = '(?i)<(?:script|link|img|iframe)\b[^>]*(?:src|href)\s*=\s*["'']\s*https?://' },
     @{ Name = 'remote module import'; Pattern = '(?im)^\s*import(?:\s+[^;]+?\s+from\s+|\s*\()\s*["'']https?://' },

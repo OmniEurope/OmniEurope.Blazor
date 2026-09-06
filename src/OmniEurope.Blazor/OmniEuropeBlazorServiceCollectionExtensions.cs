@@ -18,6 +18,9 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
         // renders sits outside that cascade: content opened through OpenDialog cannot receive the
         // service as a cascading parameter, so it had no way to close the dialog it lives in.
         services.TryAddScoped<OmniOverlayService>();
+        // Scoped: the tooltip listeners live on the document, and each circuit owns the document it
+        // rendered into.
+        services.TryAddScoped<OmniTooltipInterop>();
         return services;
     }
 }

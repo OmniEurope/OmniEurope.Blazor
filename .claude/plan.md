@@ -1,22 +1,23 @@
-# Plan - Grille complète et virtualisation
+# Plan - Site vitrine, documentation et personnalisation
 
-> Canonical plan: `plans/PLAN-004-grille-complete.md` (précédent : `plans/PLAN-003-correction-findings-audit.md`)
-> Last updated: 2026-08-11
-> Current scope: `OmniDataGrid` couvre la surface observée dans `docs/component-contracts.md`, avec virtualisation à défilement continu et hauteur de tableau paramétrable. Le plan PLAN-003 reste ouvert derrière.
+> Canonical plan: `plans/PLAN-005-site-vitrine.md` (précédent : `plans/PLAN-004-grille-complete.md`)
+> Last updated: 2026-09-06
+> Current scope: PLAN-005 est **clos**, ses cinq phases livrées et vérifiées. PLAN-004 et PLAN-003
+> restent ouverts derrière.
 
-## Phase 1 - Baseline et traçabilité [done]
-- [x] Conserver et vérifier la baseline de 325 findings uniques.
-- [x] Découper `A360-001` à `A360-325` en 22 lots de 15 findings au maximum.
-- [x] Tenir `.claude/audit-remediation.md` à jour avec une preuve par lot.
+## Phase 1 - Variabilisation complète [done]
+- [x] 66 tokens dans `:root`, zéro valeur codée en dur.
 
-## Phase 2 - Correction par lots [in progress]
-- [ ] Corriger les lots 01 à 05, soit `A360-001` à `A360-075`.
-- [ ] Corriger les lots 06 à 10, soit `A360-076` à `A360-150`.
-- [ ] Corriger les lots 11 à 15, soit `A360-151` à `A360-225`.
-- [ ] Corriger les lots 16 à 20, soit `A360-226` à `A360-300`.
-- [ ] Corriger les lots 21 et 22, soit `A360-301` à `A360-325`.
+## Phase 2 - Socle du site [done]
+- [x] `site/OmniEurope.Blazor.Showcase`, WebAssembly statique à quatre menus, publication autonome.
 
-## Phase 3 - Vérification exhaustive [todo]
-- [ ] Exécuter toutes les gates pertinentes sans les affaiblir.
-- [ ] Rejouer un audit 360 complet.
-- [ ] Prouver 325/325 findings originaux fermés et zéro finding restant.
+## Phase 3 - Explorateur de composants [done]
+- [x] 23 familles, 109 composants sur 109, code affiché prouvé identique au code exécuté.
+- [x] Couverture, rendu et conformité de sécurité tenus par des tests.
+
+## Phase 4 - Personnalisateur et thèmes [done]
+- [x] 66 tokens éditables, export CSS, persistance, 25 palettes en clair et sombre.
+- [x] Contraste WCAG vérifié sur les 50 palettes-modes.
+
+## Phase 5 - Typographie [done]
+- [x] Police système, aucune police web chargée, vérifié en navigateur.

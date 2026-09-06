@@ -3,6 +3,25 @@
 @inherits OmniComponentBase
 @implements IAsyncDisposable
 
+@* One definition for the two places the footer can go: a real table footer, or a second header
+   row when the consumer needs it reachable without scrolling past every row. *@
+@{
+    RenderFragment footerRow = @<tr class="omni-data-grid__footer-row">
+        @if (ShowDetailColumn) { <td></td> }
+        @if (SelectionMode != OmniDataGridSelectionMode.None) { <td></td> }
+        @foreach (var column in VisibleColumns)
+        {
+            <td class="@ColumnClass(column, false)">
+                @if (column.FooterTemplate is not null)
+                {
+                    @column.FooterTemplate(default!)
+                }
+            </td>
+        }
+        @if (HasEditing) { <td></td> }
+    </tr>;
+}
+
 <CascadingValue Value="_context" IsFixed="true">@Columns</CascadingValue>
 
 <div @attributes="AdditionalAttributes" id="@Id" class="@GridClass()" data-omni-density="@Density.ToString().ToLowerInvariant()" data-omni-grid-theme="@GridTheme" aria-busy="@(Loading ? "true" : "false")">
@@ -243,6 +262,10 @@
                             @if (HasEditing) { <th></th> }
                         </tr>
                     }
+                    @if (HasTopFooter)
+                    {
+                        @footerRow
+                    }
                 </thead>
                 <tbody>
                     @if (Virtualized)
@@ -334,24 +357,9 @@
                         <tr class="omni-data-grid__spacer" data-omni-spacer="bottom" aria-hidden="true"><td colspan="@ColumnSpan"></td></tr>
                     }
                 </tbody>
-                @if (HasFooter)
+                @if (HasBottomFooter)
                 {
-                    <tfoot>
-                        <tr>
-                            @if (ShowDetailColumn) { <td></td> }
-                            @if (SelectionMode != OmniDataGridSelectionMode.None) { <td></td> }
-                            @foreach (var column in VisibleColumns)
-                            {
-                                <td class="@ColumnClass(column, false)">
-                                    @if (column.FooterTemplate is not null)
-                                    {
-                                        @column.FooterTemplate(default!)
-                                    }
-                                </td>
-                            }
-                            @if (HasEditing) { <td></td> }
-                        </tr>
-                    </tfoot>
+                    <tfoot>@footerRow</tfoot>
                 }
             </table>
         </div>

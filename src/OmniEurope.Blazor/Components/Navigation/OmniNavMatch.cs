@@ -16,5 +16,12 @@ public enum OmniNavMatch
     /// address is the prefix of every other page of the area, so under <see cref="Prefix"/> it
     /// would never go out.
     /// </summary>
-    Exact
+    Exact,
+
+    /// <summary>
+    /// The entry is never current, whatever the route. What a group whose address duplicates one of
+    /// its own entries needs: it stays clickable, and the entry it points at is the only one lit,
+    /// instead of the two of them lighting together.
+    /// </summary>
+    None
 }

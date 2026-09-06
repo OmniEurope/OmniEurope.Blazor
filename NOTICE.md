@@ -9,13 +9,16 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | Package | Version | Licence déclarée | Nature | Source locale |
 |---|---:|---|---|---|
 | `AngleSharp` | `1.6.0` | MIT | `expression` | - |
+| `AngleSharp` | `1.7.1` | MIT | `expression` | - |
 | `AngleSharp.Css` | `1.0.0` | MIT | `expression` | - |
+| `AngleSharp.Css` | `1.0.1` | MIT | `expression` | - |
 | `AngleSharp.Diffing` | `1.1.1` | MIT | `expression` | - |
-| `bunit` | `2.8.6` | MIT | `expression` | - |
+| `bunit` | `2.9.0` | MIT | `expression` | - |
 | `coverlet.collector` | `10.0.1` | MIT | `expression` | - |
 | `HtmlSanitizer` | `9.1.973` | MIT | `expression` | - |
+| `HtmlSanitizer` | `9.2.995` | MIT | `expression` | - |
 | `Microsoft.ApplicationInsights` | `2.23.0` | MIT | `expression` | - |
-| `Microsoft.AspNetCore.App.Internal.Assets` | `10.0.10` | MIT | `expression` | - |
+| `Microsoft.AspNetCore.App.Internal.Assets` | `10.0.11` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.Authorization` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.Components` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.Components.Analyzers` | `10.0.10` | MIT | `expression` | - |
@@ -30,9 +33,9 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Microsoft.AspNetCore.Components.WebView.Maui` | `10.0.90` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.Metadata` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Bcl.AsyncInterfaces` | `6.0.0` | MIT | `expression` | - |
-| `Microsoft.CodeAnalysis.Analyzers` | `3.3.4` | MIT | `expression` | - |
-| `Microsoft.CodeAnalysis.Common` | `4.12.0` | MIT | `expression` | - |
-| `Microsoft.CodeAnalysis.CSharp` | `4.12.0` | MIT | `expression` | - |
+| `Microsoft.CodeAnalysis.Analyzers` | `5.3.0` | MIT | `expression` | - |
+| `Microsoft.CodeAnalysis.Common` | `5.6.0` | MIT | `expression` | - |
+| `Microsoft.CodeAnalysis.CSharp` | `5.6.0` | MIT | `expression` | - |
 | `Microsoft.CodeCoverage` | `18.8.1` | MIT | `expression` | - |
 | `Microsoft.Extensions.Caching.Abstractions` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.Caching.Memory` | `10.0.10` | MIT | `expression` | - |
@@ -78,8 +81,8 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Microsoft.Maui.Graphics` | `10.0.90` | MIT | `expression` | - |
 | `Microsoft.Maui.Graphics.Win2D.WinUI.Desktop` | `10.0.90` | MIT | `expression` | - |
 | `Microsoft.Maui.Resizetizer` | `10.0.90` | MIT | `expression` | - |
-| `Microsoft.NET.ILLink.Tasks` | `10.0.10` | MIT | `expression` | - |
-| `Microsoft.NET.Sdk.WebAssembly.Pack` | `10.0.10` | MIT | `expression` | - |
+| `Microsoft.NET.ILLink.Tasks` | `10.0.11` | MIT | `expression` | - |
+| `Microsoft.NET.Sdk.WebAssembly.Pack` | `10.0.11` | MIT | `expression` | - |
 | `Microsoft.NET.Test.Sdk` | `18.8.1` | MIT | `expression` | - |
 | `Microsoft.NETCore.Platforms` | `1.1.0` | http://go.microsoft.com/fwlink/?LinkId=329770 | `url` | - |
 | `Microsoft.Testing.Extensions.Telemetry` | `1.9.1` | MIT | `expression` | - |
@@ -103,15 +106,15 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Microsoft.WindowsAppSDK.Widgets` | `1.8.251231004` | license.txt | `file` | `docs/third-party-licenses/Microsoft.WindowsAppSDK.Widgets--1.8.251231004--license.txt` |
 | `Microsoft.WindowsAppSDK.WinUI` | `1.8.260505002` | license.txt | `file` | `docs/third-party-licenses/Microsoft.WindowsAppSDK.WinUI--1.8.260505002--license.txt` |
 | `NETStandard.Library` | `2.0.3` | https://github.com/dotnet/standard/blob/master/LICENSE.TXT | `url` | - |
-| `System.Buffers` | `4.5.1` | https://github.com/dotnet/corefx/blob/master/LICENSE.TXT | `url` | - |
-| `System.Collections.Immutable` | `8.0.0` | MIT | `expression` | - |
-| `System.Memory` | `4.5.5` | https://github.com/dotnet/corefx/blob/master/LICENSE.TXT | `url` | - |
+| `System.Buffers` | `4.6.1` | MIT | `expression` | - |
+| `System.Collections.Immutable` | `10.0.1` | MIT | `expression` | - |
+| `System.Memory` | `4.6.3` | MIT | `expression` | - |
 | `System.Numerics.Tensors` | `9.0.0` | MIT | `expression` | - |
-| `System.Numerics.Vectors` | `4.5.0` | https://github.com/dotnet/corefx/blob/master/LICENSE.TXT | `url` | - |
-| `System.Reflection.Metadata` | `8.0.0` | MIT | `expression` | - |
-| `System.Runtime.CompilerServices.Unsafe` | `6.0.0` | MIT | `expression` | - |
-| `System.Text.Encoding.CodePages` | `7.0.0` | MIT | `expression` | - |
-| `System.Threading.Tasks.Extensions` | `4.5.4` | https://github.com/dotnet/corefx/blob/master/LICENSE.TXT | `url` | - |
+| `System.Numerics.Vectors` | `4.6.1` | MIT | `expression` | - |
+| `System.Reflection.Metadata` | `10.0.1` | MIT | `expression` | - |
+| `System.Runtime.CompilerServices.Unsafe` | `6.1.2` | MIT | `expression` | - |
+| `System.Text.Encoding.CodePages` | `8.0.0` | MIT | `expression` | - |
+| `System.Threading.Tasks.Extensions` | `4.6.3` | MIT | `expression` | - |
 | `xunit.analyzers` | `1.27.0` | Apache-2.0 | `expression` | - |
 | `xunit.runner.visualstudio` | `3.1.5` | Apache-2.0 | `expression` | - |
 | `xunit.v3` | `3.2.2` | Apache-2.0 | `expression` | - |
@@ -124,3 +127,11 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `xunit.v3.runner.inproc.console` | `3.2.2` | Apache-2.0 | `expression` | - |
 
 Pour les licences par URL, la valeur affichée est la déclaration publiée par le paquet NuGet. Les conditions propriétaires, notamment celles de Windows App SDK et des SDK Windows, ne sont pas remplacées par une classification SPDX supposée.
+
+## Ressources tierces vendorisées
+
+Ces ressources ne proviennent pas de NuGet : elles sont recopiées dans le dépôt. Elles sont déclarées dans `eng/vendored-assets.json`, qui pilote cette section, la conservation du texte de licence et le SBOM.
+
+| Ressource | Version | Licence | Usage | Source locale |
+|---|---:|---|---|---|
+| [Phosphor Icons](https://github.com/phosphor-icons/core) | `2.0.8` | MIT | Tracés intégrés d'OmniIcon, repris tels quels du poids regular. | `docs/third-party-licenses/phosphor-icons--2.0.8--LICENSE.txt` |

@@ -25,6 +25,7 @@
     <None Include="../../NOTICE.md" Pack="true" PackagePath="/" />
     <None Include="../../docs/sbom.cdx.json" Pack="true" PackagePath="compliance/" />
     <None Include="../../docs/third-party-packages.json" Pack="true" PackagePath="compliance/" />
+    <None Include="../../eng/vendored-assets.json" Pack="true" PackagePath="compliance/" />
     <None Include="../../docs/third-party-licenses/*" Pack="true" PackagePath="compliance/licenses/" />
   </ItemGroup>
 </Project>

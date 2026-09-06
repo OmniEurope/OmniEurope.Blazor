@@ -9,4 +9,8 @@ Les versions directes sont centralisées dans `Directory.Packages.props`; les r�
 - les packages MAUI sont alignés sur `10.0.90`;
 - le SDK et le workload set sont tous deux figés en `10.0.302`, sans roll-forward.
 
+## Ressources tierces hors NuGet
+
+Les ressources recopiées dans le dépôt sont déclarées dans `eng/vendored-assets.json`, qui pilote leur section dans `NOTICE.md`, leur composant CycloneDX et la conservation de leur texte de licence. Y figure aujourd'hui Phosphor Icons `2.0.8` (MIT), source des tracés intégrés d'`OmniIcon`. Toute mise à jour doit rejouer `eng/Generate-Sbom.ps1` puis `eng/Test-Sbom.ps1`.
+
 Toute modification doit mettre à jour les verrous, passer les tests et conserver les contrôles de couverture, de SBOM et de licences.

@@ -140,6 +140,73 @@ foreach ($package in $packages) {
     }
 }
 
+# Vendored assets do not come from NuGet, so the lock files cannot describe them. The manifest is
+# the declaration of record: it keeps their licence text out of the pruning below, feeds the SBOM,
+# and drives the dedicated NOTICE section.
+$assetsManifestPath = Join-Path $PSScriptRoot 'vendored-assets.json'
+$assets = @()
+if (Test-Path -LiteralPath $assetsManifestPath -PathType Leaf) {
+    $manifest = Get-Content -LiteralPath $assetsManifestPath -Raw | ConvertFrom-Json
+    if ([int]$manifest.schemaVersion -ne 1) { throw 'Unsupported vendored asset manifest schema.' }
+    $assets = @($manifest.assets | Sort-Object @{ Expression = { $_.id.ToLowerInvariant() } })
+}
+
+foreach ($asset in $assets) {
+    foreach ($field in @('id', 'name', 'version', 'usage')) {
+        if ([string]::IsNullOrWhiteSpace([string]$asset.$field)) {
+            throw "Vendored asset $($asset.id) is missing its $field."
+        }
+    }
+
+    $assetLicenseFile = [string]$asset.license.localFile
+    if ([string]::IsNullOrWhiteSpace($assetLicenseFile)) {
+        throw "Vendored asset $($asset.id) does not preserve a licence text."
+    }
+
+    $assetLicensePath = Join-Path $repoRoot $assetLicenseFile
+    if (-not (Test-Path -LiteralPath $assetLicensePath -PathType Leaf)) {
+        throw "Missing preserved licence file for vendored asset $($asset.id): $assetLicenseFile"
+    }
+
+    $assetLicenseHash = (Get-FileHash -LiteralPath $assetLicensePath -Algorithm SHA256).Hash.ToLowerInvariant()
+    if ($assetLicenseHash -ne ([string]$asset.license.localFileSha256).ToLowerInvariant()) {
+        throw "Licence text for vendored asset $($asset.id) does not match its declared hash."
+    }
+
+    foreach ($vendoredFile in @($asset.vendoredFiles)) {
+        if (-not (Test-Path -LiteralPath (Join-Path $repoRoot $vendoredFile) -PathType Leaf)) {
+            throw "Vendored asset $($asset.id) declares a missing file: $vendoredFile"
+        }
+    }
+
+    # Spare the preserved text from the prune that follows.
+    [void]$expectedLicenseFiles.Add((Split-Path -Leaf $assetLicensePath))
+
+    $assetLicenseChoice = if ([string]$asset.license.kind -eq 'expression') {
+        [ordered]@{ expression = [string]$asset.license.value }
+    } else {
+        [ordered]@{ license = [ordered]@{ name = [string]$asset.license.value } }
+    }
+    $escapedAssetId = [Uri]::EscapeDataString([string]$asset.id)
+    $escapedAssetVersion = [Uri]::EscapeDataString([string]$asset.version)
+    $components += [ordered]@{
+        type = 'file'
+        name = [string]$asset.id
+        version = [string]$asset.version
+        'bom-ref' = "pkg:generic/$escapedAssetId@$escapedAssetVersion"
+        purl = "pkg:generic/$escapedAssetId@$escapedAssetVersion"
+        licenses = @($assetLicenseChoice)
+        properties = @(
+            [ordered]@{ name = 'omnieurope:origin'; value = 'vendored' },
+            [ordered]@{ name = 'omnieurope:display-name'; value = [string]$asset.name },
+            [ordered]@{ name = 'omnieurope:license-kind'; value = [string]$asset.license.kind },
+            [ordered]@{ name = 'omnieurope:license-file'; value = $assetLicenseFile },
+            [ordered]@{ name = 'omnieurope:license-file-sha256'; value = $assetLicenseHash },
+            [ordered]@{ name = 'omnieurope:vendored-files'; value = (@($asset.vendoredFiles) -join ';') }
+        )
+    }
+}
+
 foreach ($existing in @(Get-ChildItem -LiteralPath $licenseRoot -File)) {
     if (-not $expectedLicenseFiles.Contains($existing.Name)) {
         Remove-Item -LiteralPath $existing.FullName -Force
@@ -187,6 +254,21 @@ foreach ($item in $registry) {
 }
 $notice.Add('')
 $notice.Add($messages.NoticeUrlDisclaimer)
+
+if ($assets.Count -gt 0) {
+    $notice.Add('')
+    $notice.Add($messages.NoticeAssetsTitle)
+    $notice.Add('')
+    $notice.Add($messages.NoticeAssetsIntro)
+    $notice.Add('')
+    $notice.Add($messages.NoticeAssetsHeader)
+    $notice.Add('|---|---:|---|---|---|')
+    foreach ($asset in $assets) {
+        $assetValue = ([string]$asset.license.value).Replace('|', '\|')
+        $assetUsage = ([string]$asset.usage).Replace('|', '\|')
+        $notice.Add("| [$($asset.name)]($($asset.homepage)) | ``$($asset.version)`` | $assetValue | $assetUsage | ``$($asset.license.localFile)`` |")
+    }
+}
 $notice | Set-Content -LiteralPath (Join-Path $repoRoot 'NOTICE.md') -Encoding utf8
 
 Write-Host ($messages.SbomWritten -f $registry.Count)

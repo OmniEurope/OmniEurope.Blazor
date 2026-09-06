@@ -2,6 +2,8 @@ namespace OmniEurope.Blazor.Components;
 
 public partial class OmniTabsItem
 {
+    private bool _visited;
+
     [CascadingParameter]
     private OmniTabsContext? Context { get; set; }
 
@@ -24,6 +26,8 @@ public partial class OmniTabsItem
     public RenderFragment? ChildContent { get; set; }
 
     private bool Selected => Context?.Value == Key;
+
+    protected override void OnParametersSet() => _visited |= Selected;
 
     // The tabs render their content once per phase; this instance emits only the half it is asked
     // for, so the button lives in the scrolling strip and the panel below it.
