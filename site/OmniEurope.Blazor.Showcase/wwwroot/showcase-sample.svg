@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" role="img" aria-label="Bandes de couleur">
+    <rect width="240" height="120" fill="#e8efff" />
+    <rect x="16" y="72" width="40" height="32" fill="#165dff" />
+    <rect x="68" y="48" width="40" height="56" fill="#087443" />
+    <rect x="120" y="28" width="40" height="76" fill="#a15c00" />
+    <rect x="172" y="60" width="40" height="44" fill="#b42318" />
+</svg>

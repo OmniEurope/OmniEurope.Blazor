@@ -1,0 +1,17 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<div id="@Id"
+     class="@Css("omni-skeleton", $"omni-skeleton--{Shape.ToString().ToLowerInvariant()}")"
+     role="@(string.IsNullOrWhiteSpace(Label) ? null : "status")"
+     aria-hidden="@(string.IsNullOrWhiteSpace(Label) ? "true" : null)"
+     @attributes="AdditionalAttributes">
+    @for (var index = 0; index < NormalizedLineCount; index++)
+    {
+        <span class="omni-skeleton__item"></span>
+    }
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <span class="omni-visually-hidden">@Label</span>
+    }
+</div>

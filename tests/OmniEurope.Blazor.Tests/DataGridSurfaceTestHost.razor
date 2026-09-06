@@ -1,0 +1,62 @@
+<OmniDataGrid TItem="DataGridSurfaceTests.Order"
+              Items="@Orders"
+              KeyProperty="Id"
+              PageSize="@PageSize"
+              AllowSorting="@AllowSorting"
+              AllowFiltering="@AllowFiltering"
+              AllowPaging="@AllowPaging"
+              AllowGrouping="@AllowGrouping"
+              ShowGroupPanel="@ShowGroupPanel"
+              Groups="@Groups"
+              GroupsChanged="OnGroupsChanged"
+              FilterMode="@FilterMode"
+              SelectionMode="@SelectionMode"
+              EditMode="@EditMode"
+              GridLines="@GridLines"
+              Density="@Density"
+              Responsive="@Responsive"
+              Count="@Count"
+              ShowPagingSummary="@ShowPagingSummary"
+              PagingSummaryFormat="@PagingSummaryFormat"
+              PageSizeOptions="@PageSizeOptions"
+              PageSizeChanged="OnPageSizeChanged"
+              RowRender="@RowRender">
+    <Columns>
+        <OmniDataGridColumn TItem="DataGridSurfaceTests.Order" Key="customer" Title="Client" Property="Customer.Name" Filterable="true">
+            <EditTemplate Context="order"><input class="surface-edit" value="@order.Customer?.Name" /></EditTemplate>
+        </OmniDataGridColumn>
+        <OmniDataGridColumn TItem="DataGridSurfaceTests.Order" Title="Total" Property="Total" FormatString="{0:n2}" SortOrder="OmniDataGridSortOrder.Descending" />
+    </Columns>
+</OmniDataGrid>
+
+@code {
+    public IReadOnlyList<DataGridSurfaceTests.Order> Orders { get; } =
+    [
+        new(1, new DataGridSurfaceTests.Customer("Alice"), 12.5m),
+        new(2, new DataGridSurfaceTests.Customer("Bob"), 30m),
+        new(3, new DataGridSurfaceTests.Customer("Alice"), 7m)
+    ];
+
+    [Parameter] public int PageSize { get; set; } = 20;
+    [Parameter] public bool AllowSorting { get; set; } = true;
+    [Parameter] public bool AllowFiltering { get; set; } = true;
+    [Parameter] public bool AllowPaging { get; set; } = true;
+    [Parameter] public bool AllowGrouping { get; set; }
+    [Parameter] public bool ShowGroupPanel { get; set; }
+    [Parameter] public OmniDataGridFilterMode FilterMode { get; set; } = OmniDataGridFilterMode.Simple;
+    [Parameter] public OmniDataGridSelectionMode SelectionMode { get; set; }
+    [Parameter] public OmniDataGridEditMode EditMode { get; set; } = OmniDataGridEditMode.Single;
+    [Parameter] public OmniDataGridLines GridLines { get; set; } = OmniDataGridLines.Default;
+    [Parameter] public OmniDensity Density { get; set; } = OmniDensity.Comfortable;
+    [Parameter] public bool Responsive { get; set; }
+    [Parameter] public int? Count { get; set; }
+    [Parameter] public bool ShowPagingSummary { get; set; }
+    [Parameter] public string? PagingSummaryFormat { get; set; }
+    [Parameter] public IReadOnlyList<int> PageSizeOptions { get; set; } = Array.Empty<int>();
+    [Parameter] public Action<OmniDataGridRowRenderArgs<DataGridSurfaceTests.Order>>? RowRender { get; set; }
+
+    public IReadOnlyList<OmniDataGridGroup> Groups { get; private set; } = [];
+
+    private void OnGroupsChanged(IReadOnlyList<OmniDataGridGroup> groups) => Groups = groups;
+    private void OnPageSizeChanged(int pageSize) => PageSize = pageSize;
+}

@@ -1,0 +1,15 @@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniProgressBar Label="Téléversement" Value="62" ShowValue="true" />
+    <OmniProgressBar Label="Analyse en cours" Indeterminate="true" />
+
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+        <OmniTooltip Text="Le quota est calculé sur trente jours glissants.">
+            <OmniBadge Variant="OmniBadgeVariant.Neutral">Quota</OmniBadge>
+        </OmniTooltip>
+        <OmniTooltip Text="Un dossier archivé reste consultable en lecture seule.">
+            <OmniBadge Variant="OmniBadgeVariant.Accent">Archivé</OmniBadge>
+        </OmniTooltip>
+    </OmniStack>
+
+    <OmniSkeleton Label="Chargement du dossier" LineCount="3" />
+</OmniStack>

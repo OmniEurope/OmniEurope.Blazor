@@ -1,0 +1,17 @@
+html { background: #f4f6fa; color: #172033; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+body { margin: 0; }
+.catalog-brand { color: inherit; font-size: 1.1rem; font-weight: 750; text-decoration: none; }
+.catalog-hero { padding-block: 3rem 2rem; }
+.catalog-hero p { color: #5c667a; max-width: 62rem; }
+.catalog-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+.catalog-section { display: grid; gap: 1rem; margin-block: 2rem; }
+.catalog-card { padding: 1rem; }
+.catalog-card h3 { margin-block-start: 0; }
+.catalog-row { align-items: center; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.catalog-list { display: grid; gap: 0.5rem; }
+.catalog-form { display: grid; gap: 0.75rem; max-width: 36rem; }
+.catalog-chart { max-width: 44rem; }
+.catalog-summary { display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); }
+.catalog-summary div { background: #fff; border: 1px solid #cbd3e1; border-radius: 0.5rem; padding: 1rem; }
+.catalog-summary strong { display: block; font-size: 1.5rem; }
+@media (max-width: 45rem) { .catalog-hero { padding-block-start: 2rem; } }

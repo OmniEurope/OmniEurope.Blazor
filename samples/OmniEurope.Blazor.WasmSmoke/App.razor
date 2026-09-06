@@ -1,0 +1,10 @@
+<PageTitle>@Text["PageTitle"]</PageTitle>
+
+<OmniMain Class="wasm-shell">
+    <OmniHeading Level="@OmniHeadingLevel.H1">@Text["Title"]</OmniHeading>
+    <OmniStack Class="wasm-probe" Gap="@OmniSpacing.Medium">
+        <OmniAlert Severity="OmniAlertSeverity.Success">@Text["Loaded"]</OmniAlert>
+        <OmniButton Id="wasm-action" OnClick="IncrementAsync"><OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" /> <span>@Text["Counter", _count]</span></OmniButton>
+        <OmniProgressBar Value="@_count" Maximum="10" Label="@Text["ProgressLabel"]" />
+    </OmniStack>
+</OmniMain>

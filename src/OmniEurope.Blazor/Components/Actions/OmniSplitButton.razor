@@ -1,0 +1,24 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
+
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-split-button")" @onkeydown="HandleKeyDownAsync">
+    <button type="button"
+            @ref="_toggle"
+            class="omni-split-button__main"
+            disabled="@(Disabled || Busy)"
+            aria-busy="@(Busy ? "true" : "false")"
+            @onclick="InvokeMainAsync">@Text</button>
+    <button type="button"
+            class="omni-split-button__toggle"
+            disabled="@(Disabled || Busy)"
+            aria-haspopup="menu"
+            aria-expanded="@(_open ? "true" : "false")"
+            aria-label="@EffectiveMenuLabel"
+            @onclick="ToggleMenuAsync">▾</button>
+    @if (_open)
+    {
+        <div @ref="_menu" class="omni-split-button__menu" role="menu" tabindex="-1" autofocus>@ChildContent</div>
+    }
+</div>

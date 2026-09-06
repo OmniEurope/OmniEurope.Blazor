@@ -1,0 +1,26 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+<EditForm Model="this">
+    <OmniStack Gap="OmniSpacing.Medium">
+        <OmniFormField For="demo-country">
+            <Label>Pays</Label>
+            <ChildContent>
+                <OmniDropDown TValue="string" Id="demo-country" Options="Countries" @bind-Value="Country" Placeholder="Choisir un pays" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField For="demo-city">
+            <Label>Villes desservies</Label>
+            <ChildContent>
+                <OmniListBox TValue="string" Id="demo-city" Options="Cities" @bind-Value="City" VisibleRows="4" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField For="demo-tags">
+            <Label>Étiquettes</Label>
+            <ChildContent>
+                <OmniMultiSelect TValue="string" Id="demo-tags" Options="Tags" @bind-Value="SelectedTags" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniStack>
+</EditForm>

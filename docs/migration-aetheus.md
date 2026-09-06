@@ -1,10 +1,10 @@
 # Migration progressive d'Aetheus
 
-Aetheus est le premier consommateur cible parce qu'il concentre le plus grand volume Radzen observé. La migration reste incrémentale : Radzen et OmniEurope.Blazor peuvent coexister pendant la transition.
+Aetheus est le premier consommateur cible parce qu'il concentre le plus grand volume Radzen observé. Aucune substitution n'est engagée pendant la construction et la stabilisation de la bibliothèque ; ce document décrit la phase ultérieure. La migration restera incrémentale : Radzen et OmniEurope.Blazor pourront coexister pendant la transition.
 
 ## Ordre recommandé
 
-1. Primitives sans état : boutons, cartes, badges, piles et séparateurs.
+1. Primitives sans état : boutons, cartes, badges et piles.
 2. Retours utilisateur : alertes, notifications, indicateurs de progression.
 3. Navigation et superpositions : menus, onglets, dialogues et info-bulles.
 4. Formulaires : champs, validation, listes et sélecteurs.

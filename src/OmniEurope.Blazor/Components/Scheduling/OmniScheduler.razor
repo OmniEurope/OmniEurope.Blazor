@@ -1,0 +1,40 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler")" aria-busy="@(_loading ? "true" : "false")">
+    <header class="omni-scheduler__header">
+        <button type="button" class="omni-button" aria-label="@Text("SchedulerPreviousPeriod")" @onclick="PreviousAsync">‹</button>
+        <button type="button" class="omni-button" @onclick="TodayAsync">@Text("Today")</button>
+        <button type="button" class="omni-button" aria-label="@Text("SchedulerNextPeriod")" @onclick="NextAsync">›</button>
+        <div class="omni-select-bar" role="radiogroup" aria-label="@Text("SchedulerViewLabel")">
+            @foreach (var view in Enum.GetValues<OmniSchedulerView>())
+            {
+                <button type="button" class="@ViewClass(view)" role="radio" aria-checked="@(View == view ? "true" : "false")" @onclick="() => ChangeViewAsync(view)">@ViewLabel(view)</button>
+            }
+        </div>
+    </header>
+    @if (_error is not null)
+    {
+        <div class="omni-scheduler__state" role="alert">@Text("SchedulerLoadFailed") <button type="button" class="omni-button" @onclick="ReloadAsync">@Text("Retry")</button></div>
+    }
+    else if (_loading)
+    {
+        <div class="omni-scheduler__state" role="status">@Text("Loading")</div>
+    }
+    else
+    {
+        @switch (View)
+        {
+            case OmniSchedulerView.Day:
+                <OmniDayView Date="@LocalDate" Appointments="@LocalAppointments" Culture="@Culture" />
+                break;
+            case OmniSchedulerView.Week:
+                <OmniWeekView Date="@LocalDate" Appointments="@LocalAppointments" Culture="@Culture" />
+                break;
+            default:
+                <OmniMonthView Date="@LocalDate" Appointments="@LocalAppointments" Culture="@Culture" />
+                break;
+        }
+    }
+</section>

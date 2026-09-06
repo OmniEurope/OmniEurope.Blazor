@@ -1,0 +1,20 @@
+<OmniChart Id="projection-domain" Title="Projection domain">
+    <OmniValueAxis Minimum="-50" Maximum="150" />
+    <OmniLineSeries Data="@DomainPoints" Title="Domain" />
+</OmniChart>
+
+<OmniChart Id="stacked-domain" Title="Stacked domain">
+    <OmniStackedColumnSeries Data="@FirstStack" Title="First" />
+    <OmniStackedColumnSeries Data="@SecondStack" Title="Second" ColorIndex="1" />
+</OmniChart>
+
+@code {
+    private IReadOnlyList<OmniChartPoint> DomainPoints { get; } =
+        [new(10, -50), new(20, 150)];
+
+    private IReadOnlyList<OmniChartPoint> FirstStack { get; } =
+        [new(0, 20), new(1, -10)];
+
+    private IReadOnlyList<OmniChartPoint> SecondStack { get; } =
+        [new(0, 30), new(1, -15)];
+}

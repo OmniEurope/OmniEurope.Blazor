@@ -1,0 +1,41 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+@inject Microsoft.Extensions.Logging.ILogger<OmniUpload> Logger
+
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-upload")">
+    <InputFile class="omni-input omni-upload__input"
+               id="@InputId"
+               OnChange="HandleFilesAsync"
+               multiple="@Multiple"
+               accept="@Accept"
+               disabled="@(Disabled || _uploading)" />
+
+    @if (_files.Count > 0)
+    {
+        <ul class="omni-upload__files" aria-label="@Localize("UploadSelectedFiles")">
+            @foreach (var file in _files)
+            {
+                <li><span>@file.Name</span><span>@FormatSize(file.Size)</span></li>
+            }
+        </ul>
+    }
+
+    @if (_uploading || _progress > 0)
+    {
+        <OmniProgressBar Value="@_progress" Label="@Localize("UploadProgressLabel")" />
+    }
+    @if (_uploading)
+    {
+        <button type="button" class="omni-button omni-upload__cancel" @onclick="Cancel">@Localize("Cancel")</button>
+    }
+    else if (_canRetry)
+    {
+        <button type="button" class="omni-button omni-upload__retry" @onclick="RetryAsync">@Localize("Retry")</button>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(_message))
+    {
+        <p class="@MessageClass" role="status" aria-live="polite">@_message</p>
+    }
+</div>

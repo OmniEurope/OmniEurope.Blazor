@@ -21,26 +21,28 @@ L'inventaire décrit les noms observés dans les applications. Cette feuille de 
 
 ## Lots de réalisation
 
-### Lot 1 — primitives fréquentes
+Les cibles Razor des cinq lots sont maintenant présentes. Les descriptions ci-dessous rappellent l'ordre de construction ; elles ne signifient pas que toutes les capacités sont stabilisées. La validation comportementale se poursuit avant toute migration d'une application consommatrice.
 
-`OmniButton`, `OmniStack`, `OmniCard` et `OmniAlert` constituent la tranche pilote. La suite immédiate couvre texte, icône, badge, lien, ligne/colonne et skeleton. Ce lot adresse les composants les plus répandus avec une complexité limitée.
+### Lot 1 - primitives fréquentes
 
-### Lot 2 — formulaires simples
+`OmniButton`, `OmniStack`, `OmniCard` et `OmniAlert` ont constitué la tranche pilote, ensuite étendue au texte, à l'icône, au badge, au lien, aux lignes/colonnes et au skeleton.
 
-Champs texte, zone de texte, nombre, mot de passe, case à cocher, interrupteur, libellé, champ de formulaire et validateurs. L'objectif est une intégration native à `EditContext` avant d'ajouter les sélecteurs complexes.
+### Lot 2 - formulaires simples
 
-### Lot 3 — navigation et retours utilisateur
+Les cibles des champs texte, zone de texte, nombre, mot de passe, case à cocher, interrupteur, libellé, champ de formulaire et validateurs sont présentes et intégrées à `EditContext` selon leur contrat.
 
-Menu latéral, breadcrumb, onglets, étapes, dialogue, notification, tooltip et menu contextuel. Ce lot exige les premières primitives de focus et de portail.
+### Lot 3 - navigation et retours utilisateur
 
-### Lot 4 — données complexes
+Les cibles du menu latéral, breadcrumb, onglets, étapes, dialogue, notification, tooltip et menu contextuel sont présentes. Les dialogues partagent une pile restaurable et les menus contextuels un portail ordonné ; ouverture, fermeture et restauration de focus sont exercées dans Chromium sous CSP stricte. La couverture exhaustive des technologies d'assistance reste distincte.
 
-Liste, pagination, arbre et grille. La grille est décomposée en capacités testables : colonnes, tri, filtre, sélection, édition, virtualisation et modèles de cellule.
+### Lot 4 - données complexes
 
-### Lot 5 — visualisation, planification et édition
+Les cibles de liste, pagination, arbre et grille sont présentes. La grille couvre colonnes déclarées par lambda ou par propriété, tri, filtres à opérateurs, regroupements, sélection, édition, pagination complète et virtualisation pilotée par le viewport avec hauteur de tableau paramétrable ; projection pure, fenêtre de défilement et état distant annulable sont séparés du rendu.
 
-Graphiques SVG, jauge, planificateur et éditeur riche. Ces composants sont reportés parce qu'ils concentrent le plus de surface interactive, d'accessibilité et de risques CSP.
+### Lot 5 - visualisation, planification et édition
+
+Les cibles des graphiques SVG, jauge, planificateur et éditeur riche sont présentes. Les axes, domaines et empilements partagent la même projection ; une sélection réelle et sa restauration sont exercées dans Chromium. La composition IME reste la limite ouverte de l'éditeur.
 
 ## Règle de priorité
 
-À complexité comparable, l'ordre est déterminé par le nombre de projets actifs dans `component-inventory.json`, puis par le nombre d'occurrences actives. Aetheus valide chaque lot sur un écran réel avant généralisation aux autres projets.
+Dans l'inventaire actuel, l'ordre est déterminé par le nombre de projets actifs dans `component-inventory.json`, puis par le nombre total d'occurrences. Ce critère secondaire inclut donc les occurrences des projets miroir, modèle ou archivés et ne constitue pas une priorité strictement active. La construction de toutes les cibles précède la migration : Aetheus validera ultérieurement chaque lot sur un écran réel avant généralisation aux autres projets.

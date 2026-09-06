@@ -1,0 +1,8 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<div id="@Id"
+     class="@Css("omni-grid", $"omni-grid--columns-{Columns}", $"omni-grid--gap-{Gap.ToString().ToLowerInvariant()}")"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>

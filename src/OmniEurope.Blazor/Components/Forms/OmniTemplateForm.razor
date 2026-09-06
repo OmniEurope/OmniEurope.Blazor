@@ -1,0 +1,17 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TModel where TModel : class
+@inject IJSRuntime JavaScript
+@inject Microsoft.Extensions.Logging.ILogger<OmniTemplateForm<TModel>> Logger
+@implements IAsyncDisposable
+
+@if (_resolvedEditContext is not null)
+{
+    <div @ref="_formRoot">
+        <EditForm EditContext="@_resolvedEditContext"
+                  OnValidSubmit="@OnValidSubmit"
+                  OnInvalidSubmit="HandleInvalidSubmitAsync"
+                  FormName="@FormName">
+            @ChildContent(_resolvedEditContext)
+        </EditForm>
+    </div>
+}

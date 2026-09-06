@@ -1,0 +1,20 @@
+# Registre d'audit - OmniEurope.Blazor.HybridSmoke
+
+> Total: 14 fichiers; audit Full achevé le 2026-08-11.
+
+| Statut | Path | Mode | Signature | Date | Sévérité max | Findings |
+| --- | --- | --- | --- | --- | --- | --- |
+| ✅ Audité | `samples/OmniEurope.Blazor.HybridSmoke/App.cs` | Full | `02b51c347de038e624dd28e143fccf5e39c4ee50` | 2026-08-11 | RAS | [Détail](AUDIT_FINDINGS_OmniEurope_Blazor_HybridSmoke.md#samples-omnieurope-blazor-hybridsmoke-app-cs) |
+| ✅ Audité | `samples/OmniEurope.Blazor.HybridSmoke/HybridSmoke.razor` | Full | `b6dca4a6732ab976d4ba25385f235360e8d90510` | 2026-08-11 | RAS | [Détail](AUDIT_FINDINGS_OmniEurope_Blazor_HybridSmoke.md#samples-omnieurope-blazor-hybridsmoke-hybridsmoke-razor) |
+| ✅ Audité | `samples/OmniEurope.Blazor.HybridSmoke/HybridSmoke.razor.cs` | Full | `1702aff2226665a3cbd830e3bba4c802cb84949b` | 2026-08-11 | INFO | [Détail](AUDIT_FINDINGS_OmniEurope_Blazor_HybridSmoke.md#samples-omnieurope-blazor-hybridsmoke-hybridsmoke-razor-cs) |
+| ✅ Audité | `samples/OmniEurope.Blazor.HybridSmoke/HybridSmokeTypes.cs` | Full | `36ea3f79627246596d30fdf0b02373ab47558891` | 2026-08-11 | INFO | [Détail](AUDIT_FINDINGS_OmniEurope_Blazor_HybridSmoke.md#samples-omnieurope-blazor-hybridsmoke-hybridsmoketypes-cs) |
+| ✅ Audité | `samples/OmniEurope.Blazor.HybridSmoke/MainPage.cs` | Full | `9d1747a0511d3f21b87882513b4cfc6b00e25be0` | 2026-08-11 | RAS | [Détail](AUDIT_FINDINGS_OmniEurope_Blazor_HybridSmoke.md#samples-omnieurope-blazor-hybridsmoke-mainpage-cs) |
+| ✅ Audité | `samples/OmniEurope.Blazor.HybridSmoke/MauiProgram.cs` | Full | `e26dd4c1cb4c9e07e60502bf17a62a4890bd6791` | 2026-08-11 | RAS | [Détail](AUDIT_FINDINGS_OmniEurope_Blazor_HybridSmoke.md#samples-omnieurope-blazor-hybridsmoke-mauiprogram-cs) |
+| ✅ Audité | `samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj` | Full | `911b9c9cafe274c656e0dc200bcca59768746873` | 2026-08-11 | Élevé | [Détail](AUDIT_FINDINGS_OmniEurope_Blazor_HybridSmoke.md#samples-omnieurope-blazor-hybridsmoke-omnieurope-blazor-hybridsmoke-csproj) |
+| ✅ Audité | `samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json` | Full | `b691f59ba1c61d476519d8a8905891c78fb752eb` | 2026-08-11 | RAS | [Détail](AUDIT_FINDINGS_OmniEurope_Blazor_HybridSmoke.md#samples-omnieurope-blazor-hybridsmoke-packages-lock-json) |
+| ✅ Audité | `samples/OmniEurope.Blazor.HybridSmoke/Platforms/Windows/App.xaml` | Full | `1a5073a37acb78b12b62be88d4714d6b1b16168f` | 2026-08-11 | RAS | [Détail](AUDIT_FINDINGS_OmniEurope_Blazor_HybridSmoke.md#samples-omnieurope-blazor-hybridsmoke-platforms-windows-app-xaml) |
+| ✅ Audité | `samples/OmniEurope.Blazor.HybridSmoke/Platforms/Windows/App.xaml.cs` | Full | `ac998c1800c04080608907386b8d85e0aaf95e5f` | 2026-08-11 | RAS | [Détail](AUDIT_FINDINGS_OmniEurope_Blazor_HybridSmoke.md#samples-omnieurope-blazor-hybridsmoke-platforms-windows-app-xaml-cs) |
+| ✅ Audité | `samples/OmniEurope.Blazor.HybridSmoke/Resources/HybridSmokeStrings.cs` | Full | `0fbfc4f193c89f8faece745009dda27db6a9970a` | 2026-08-11 | RAS | [Détail](AUDIT_FINDINGS_OmniEurope_Blazor_HybridSmoke.md#samples-omnieurope-blazor-hybridsmoke-resources-hybridsmokestrings-cs) |
+| ✅ Audité | `samples/OmniEurope.Blazor.HybridSmoke/Resources/HybridSmokeStrings.en.resx` | Full | `3b05b631153786656a8ffb7aa6bc78b0d3daafae` | 2026-08-11 | RAS | [Détail](AUDIT_FINDINGS_OmniEurope_Blazor_HybridSmoke.md#samples-omnieurope-blazor-hybridsmoke-resources-hybridsmokestrings-en-resx) |
+| ✅ Audité | `samples/OmniEurope.Blazor.HybridSmoke/Resources/HybridSmokeStrings.resx` | Full | `61c5a63b6ce3b7e2692446b6ca055ffc56d8440d` | 2026-08-11 | RAS | [Détail](AUDIT_FINDINGS_OmniEurope_Blazor_HybridSmoke.md#samples-omnieurope-blazor-hybridsmoke-resources-hybridsmokestrings-resx) |
+| ✅ Audité | `samples/OmniEurope.Blazor.HybridSmoke/wwwroot/index.html` | Full | `eed1fa7246fdbc90fedbcace170b96f093627037` | 2026-08-11 | Élevé | [Détail](AUDIT_FINDINGS_OmniEurope_Blazor_HybridSmoke.md#samples-omnieurope-blazor-hybridsmoke-wwwroot-index-html) |

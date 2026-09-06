@@ -1,0 +1,12 @@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniScheduler Date="Anchor"
+                   DateChanged="@(value => Anchor = value)"
+                   View="View"
+                   ViewChanged="@(value => View = value)"
+                   Items="Appointments" />
+
+    <OmniHeading Level="OmniHeadingLevel.H4">Les trois vues, posées séparément</OmniHeading>
+    <OmniDayView Date="Anchor" Appointments="Appointments" Label="Vue du jour" />
+    <OmniWeekView Date="Anchor" Appointments="Appointments" Label="Vue de la semaine" />
+    <OmniMonthView Date="Anchor" Appointments="Appointments" Label="Vue du mois" />
+</OmniStack>

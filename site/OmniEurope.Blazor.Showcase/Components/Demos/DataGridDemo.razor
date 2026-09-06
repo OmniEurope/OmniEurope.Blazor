@@ -1,0 +1,15 @@
+<OmniDataGrid TItem="GridRow"
+              Items="Rows"
+              Caption="Dossiers ouverts"
+              AllowSorting="true"
+              AllowFiltering="true"
+              AllowPaging="true"
+              AllowAlternatingRows="true"
+              PageSize="5">
+    <Columns>
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" />
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur" />
+        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="Pays" />
+        <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="Montant" FormatString="{0:C0}" />
+    </Columns>
+</OmniDataGrid>

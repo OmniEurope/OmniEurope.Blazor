@@ -1,0 +1,15 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniInputBase<DateOnly?>
+
+<input @attributes="AdditionalAttributes"
+       id="@Id"
+       class="@InputCss("omni-input", "omni-date-picker")"
+       type="date"
+       value="@CurrentValueAsString"
+       min="@FormatDate(Minimum)"
+       max="@FormatDate(Maximum)"
+       disabled="@Disabled"
+       readonly="@ReadOnly"
+       aria-invalid="@AriaInvalid"
+       aria-describedby="@AriaDescribedBy"
+       @onchange="HandleChange" />

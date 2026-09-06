@@ -1,0 +1,11 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<button id="@Id"
+        class="@Css("omni-appearance-toggle")"
+        type="button"
+        aria-label="@EffectiveAriaLabel"
+        @attributes="AdditionalAttributes"
+        @onclick="CycleAsync">
+    <span class="omni-appearance-toggle__label">@DisplayLabel</span>
+</button>

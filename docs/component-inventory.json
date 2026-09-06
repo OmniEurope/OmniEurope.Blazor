@@ -1,12 +1,37 @@
 {
-  "generatedAt": "2026-08-10T11:33:36+02:00",
+  "generatedAt": "2026-08-11T17:20:14+02:00",
   "workspaceRoot": "C:\\Dev",
+  "corpusManifest": "docs/radzen-corpus.json",
+  "corpusManifestSha256": "96e87a57f1b14e288c547550383ad726c47d11544e888288e3df4273ceab5474",
+  "corpusSchemaVersion": 1,
+  "statusSummary": [
+    {
+      "status": "actif",
+      "projects": 22
+    },
+    {
+      "status": "archivé",
+      "projects": 6
+    },
+    {
+      "status": "miroir",
+      "projects": 1
+    },
+    {
+      "status": "modèle",
+      "projects": 3
+    }
+  ],
   "method": "Balises Radzen* dans les fichiers .razor, commentaires Razor et HTML exclus.",
   "projects": [
     {
       "project": "Astraia.Front",
       "path": "Astraia/Astraia.Front/Astraia.Front.csproj",
       "status": "actif",
+      "revision": "unversioned",
+      "projectSha256": "a7306e912ccb5658bc920df2f5523ed17f552807912217b97aaf3af075103c83",
+      "inputSha256": "f25d1d39fac260be5d5a0282da8287b10843d0ee08a254d0f6e15e4e9f253dd7",
+      "sourceFiles": 431,
       "radzenVersion": "10.4.9",
       "distinctComponents": 77,
       "occurrences": 2691,
@@ -326,6 +351,10 @@
       "project": "Aetheus.Front",
       "path": "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
       "status": "actif",
+      "revision": "c6904e602f084452ad9678c340b7e819727750ed",
+      "projectSha256": "f4fcbded4ca600802efd33cf85e9a1d5df7adb3d24cbfe06a41163d418020b97",
+      "inputSha256": "f945c3ee26e5837cab9033f8847c37748ca9444b54affd02fdd5798b06fa2bfe",
+      "sourceFiles": 785,
       "radzenVersion": "11.1.6",
       "distinctComponents": 60,
       "occurrences": 5046,
@@ -577,9 +606,13 @@
       "project": "Lexaidos.Web",
       "path": "Lexaidos/src/Lexaidos.Web/Lexaidos.Web.csproj",
       "status": "actif",
+      "revision": "unversioned",
+      "projectSha256": "f56086ba59c6472f23bfbca5b4fe13e5b0f366ca7387e51a04da3c1e3118bffb",
+      "inputSha256": "7cc4f8c1ba4d84fb15f1a174e8e0794f4699d843e6c313e19239c1ed1913c4d5",
+      "sourceFiles": 348,
       "radzenVersion": "10.4.9",
       "distinctComponents": 56,
-      "occurrences": 3114,
+      "occurrences": 3135,
       "razorFiles": 136,
       "components": [
         {
@@ -588,7 +621,7 @@
         },
         {
           "name": "RadzenBadge",
-          "occurrences": 150
+          "occurrences": 149
         },
         {
           "name": "RadzenBody",
@@ -604,11 +637,11 @@
         },
         {
           "name": "RadzenButton",
-          "occurrences": 341
+          "occurrences": 350
         },
         {
           "name": "RadzenCard",
-          "occurrences": 171
+          "occurrences": 181
         },
         {
           "name": "RadzenCategoryAxis",
@@ -672,7 +705,7 @@
         },
         {
           "name": "RadzenIcon",
-          "occurrences": 44
+          "occurrences": 43
         },
         {
           "name": "RadzenImage",
@@ -680,7 +713,7 @@
         },
         {
           "name": "RadzenLabel",
-          "occurrences": 45
+          "occurrences": 46
         },
         {
           "name": "RadzenLayout",
@@ -756,7 +789,7 @@
         },
         {
           "name": "RadzenStack",
-          "occurrences": 584
+          "occurrences": 585
         },
         {
           "name": "RadzenSwitch",
@@ -776,7 +809,7 @@
         },
         {
           "name": "RadzenText",
-          "occurrences": 806
+          "occurrences": 807
         },
         {
           "name": "RadzenTextArea",
@@ -784,7 +817,7 @@
         },
         {
           "name": "RadzenTextBox",
-          "occurrences": 80
+          "occurrences": 81
         },
         {
           "name": "RadzenTooltip",
@@ -812,14 +845,18 @@
       "project": "Bellwether",
       "path": "Bellwether/Bellwether/Bellwether.csproj",
       "status": "actif",
+      "revision": "unversioned",
+      "projectSha256": "c2750f6609669af42f9ec071285bd2484bc5df57e8ca98b2d070e0a603cd860a",
+      "inputSha256": "e24ca5ef4a1d3241e973a669840b4753ec49719461d65bc3a1a9873a6fe97b9a",
+      "sourceFiles": 231,
       "radzenVersion": "10.4.9",
       "distinctComponents": 48,
-      "occurrences": 763,
-      "razorFiles": 24,
+      "occurrences": 767,
+      "razorFiles": 27,
       "components": [
         {
           "name": "RadzenAlert",
-          "occurrences": 12
+          "occurrences": 13
         },
         {
           "name": "RadzenAreaSeries",
@@ -839,7 +876,7 @@
         },
         {
           "name": "RadzenButton",
-          "occurrences": 78
+          "occurrences": 79
         },
         {
           "name": "RadzenCard",
@@ -923,7 +960,7 @@
         },
         {
           "name": "RadzenNumeric",
-          "occurrences": 2
+          "occurrences": 3
         },
         {
           "name": "RadzenPanelMenu",
@@ -971,7 +1008,7 @@
         },
         {
           "name": "RadzenStack",
-          "occurrences": 82
+          "occurrences": 83
         },
         {
           "name": "RadzenStackedColumnSeries",
@@ -983,7 +1020,7 @@
         },
         {
           "name": "RadzenTabs",
-          "occurrences": 2
+          "occurrences": 1
         },
         {
           "name": "RadzenTabsItem",
@@ -999,7 +1036,7 @@
         },
         {
           "name": "RadzenTextBox",
-          "occurrences": 11
+          "occurrences": 12
         },
         {
           "name": "RadzenTooltip",
@@ -1015,6 +1052,10 @@
       "project": "Astraia.Perf",
       "path": "Astraia/Astraia.Perf/Astraia.Perf.csproj",
       "status": "actif",
+      "revision": "unversioned",
+      "projectSha256": "d3b588fa812ae31f79a6dc458da473c6bd2cadcced1d7f6dd5fe8d3bf8539d1d",
+      "inputSha256": "51105a49fbce7de917a2bfba2e7098fb125d1e3371863403d64d2e79b39f0329",
+      "sourceFiles": 41,
       "radzenVersion": "10.4.9",
       "distinctComponents": 41,
       "occurrences": 327,
@@ -1190,10 +1231,14 @@
       "project": "Pronoia.Shared.Blazor",
       "path": "Pronoia/Pronoia.Shared.Blazor/Pronoia.Shared.Blazor.csproj",
       "status": "actif",
-      "radzenVersion": "10.4.9",
+      "revision": "unversioned",
+      "projectSha256": "3b0690197a9dfbacd9a0967a3a79bb68c344ec6e411069cf0500b3c338b0fd2d",
+      "inputSha256": "c9163379ab796b287e039c1f583a701a4df2376f22798014ace6eff45398bd7d",
+      "sourceFiles": 154,
+      "radzenVersion": "11.2.3",
       "distinctComponents": 39,
       "occurrences": 727,
-      "razorFiles": 35,
+      "razorFiles": 41,
       "components": [
         {
           "name": "RadzenAlert",
@@ -1209,11 +1254,11 @@
         },
         {
           "name": "RadzenButton",
-          "occurrences": 140
+          "occurrences": 142
         },
         {
           "name": "RadzenCard",
-          "occurrences": 21
+          "occurrences": 19
         },
         {
           "name": "RadzenCheckBox",
@@ -1317,7 +1362,7 @@
         },
         {
           "name": "RadzenStack",
-          "occurrences": 183
+          "occurrences": 184
         },
         {
           "name": "RadzenSwitch",
@@ -1333,7 +1378,7 @@
         },
         {
           "name": "RadzenText",
-          "occurrences": 126
+          "occurrences": 125
         },
         {
           "name": "RadzenTextArea",
@@ -1357,14 +1402,18 @@
       "project": "Orpheus",
       "path": "Orpheus/Orpheus/Orpheus.csproj",
       "status": "actif",
+      "revision": "unversioned",
+      "projectSha256": "d604a3e95d6775439b7dfac3b3775443e0aef23189c6b15aed04a618db900dfa",
+      "inputSha256": "5d6893729d233b158c9081ebd7e783975127cf41a276d8aa7e62cd2edb37a674",
+      "sourceFiles": 181,
       "radzenVersion": "10.2.0",
       "distinctComponents": 38,
-      "occurrences": 688,
-      "razorFiles": 25,
+      "occurrences": 727,
+      "razorFiles": 26,
       "components": [
         {
           "name": "RadzenAlert",
-          "occurrences": 10
+          "occurrences": 14
         },
         {
           "name": "RadzenBadge",
@@ -1376,11 +1425,11 @@
         },
         {
           "name": "RadzenButton",
-          "occurrences": 107
+          "occurrences": 120
         },
         {
           "name": "RadzenCard",
-          "occurrences": 27
+          "occurrences": 26
         },
         {
           "name": "RadzenCheckBox",
@@ -1396,11 +1445,11 @@
         },
         {
           "name": "RadzenDataGrid",
-          "occurrences": 15
+          "occurrences": 16
         },
         {
           "name": "RadzenDataGridColumn",
-          "occurrences": 84
+          "occurrences": 92
         },
         {
           "name": "RadzenDialog",
@@ -1408,11 +1457,11 @@
         },
         {
           "name": "RadzenDropDown",
-          "occurrences": 3
+          "occurrences": 5
         },
         {
           "name": "RadzenFormField",
-          "occurrences": 14
+          "occurrences": 16
         },
         {
           "name": "RadzenHeader",
@@ -1420,7 +1469,7 @@
         },
         {
           "name": "RadzenIcon",
-          "occurrences": 38
+          "occurrences": 36
         },
         {
           "name": "RadzenLayout",
@@ -1440,7 +1489,7 @@
         },
         {
           "name": "RadzenNumeric",
-          "occurrences": 4
+          "occurrences": 5
         },
         {
           "name": "RadzenPanelMenu",
@@ -1452,11 +1501,11 @@
         },
         {
           "name": "RadzenProgressBar",
-          "occurrences": 10
+          "occurrences": 14
         },
         {
           "name": "RadzenProgressBarCircular",
-          "occurrences": 15
+          "occurrences": 16
         },
         {
           "name": "RadzenRow",
@@ -1476,7 +1525,7 @@
         },
         {
           "name": "RadzenStack",
-          "occurrences": 126
+          "occurrences": 127
         },
         {
           "name": "RadzenSwitch",
@@ -1492,7 +1541,7 @@
         },
         {
           "name": "RadzenText",
-          "occurrences": 109
+          "occurrences": 114
         },
         {
           "name": "RadzenTextArea",
@@ -1520,6 +1569,10 @@
       "project": "Ats.Front",
       "path": "Ats/Ats.Front/Ats.Front.csproj",
       "status": "actif",
+      "revision": "unversioned",
+      "projectSha256": "831154518371565f26221c7e0dc0a077c3b42f774e811379ef8da9b0956b82fc",
+      "inputSha256": "8fca7f33c62ae30e65708a322ae1f7b1afcc805506e7137ecc98ea87a0df5faf",
+      "sourceFiles": 103,
       "radzenVersion": "8.4.0",
       "distinctComponents": 34,
       "occurrences": 130,
@@ -1667,6 +1720,10 @@
       "project": "Olbios.Front",
       "path": "Olbios/Olbios.Front/Olbios.Front.csproj",
       "status": "actif",
+      "revision": "unversioned",
+      "projectSha256": "ca7ce95596ff0697ef73d0311f3a0e85e3f4dc89579143824313a3a02398edb9",
+      "inputSha256": "6e31a6f7706ba5f63601ce18c989ac256d9e65ab8c4302a3e2b874e03e5e28ec",
+      "sourceFiles": 112,
       "radzenVersion": "10.4.9",
       "distinctComponents": 34,
       "occurrences": 130,
@@ -1814,6 +1871,10 @@
       "project": "Phaios.Web",
       "path": "Phaios/src/Phaios.Web/Phaios.Web.csproj",
       "status": "actif",
+      "revision": "unversioned",
+      "projectSha256": "694e4a632548a41bd7d369c6877b8f1149ce65429571686595484654cb4da650",
+      "inputSha256": "ae83ffbf42da04eacc0970d54648e7c100a9bfa1d845ec256819752d113f4611",
+      "sourceFiles": 53,
       "radzenVersion": "10.4.9",
       "distinctComponents": 34,
       "occurrences": 153,
@@ -1961,14 +2022,18 @@
       "project": "Atlas",
       "path": "Atlas/Atlas/Atlas.csproj",
       "status": "actif",
+      "revision": "3efc44ece47ca192ade48ffe36d11b6d56b0de2a",
+      "projectSha256": "9ed8d062fb3ca1b045e57dddd766f30afbe28e44c4847522ce5d0eccfb749c49",
+      "inputSha256": "d373112a07716657e42645015fd7a35ab9c8203896b52865766837e36b798b29",
+      "sourceFiles": 173,
       "radzenVersion": "11.1.6",
-      "distinctComponents": 32,
-      "occurrences": 389,
-      "razorFiles": 18,
+      "distinctComponents": 33,
+      "occurrences": 438,
+      "razorFiles": 19,
       "components": [
         {
           "name": "RadzenAlert",
-          "occurrences": 8
+          "occurrences": 9
         },
         {
           "name": "RadzenAutoComplete",
@@ -1976,7 +2041,7 @@
         },
         {
           "name": "RadzenBadge",
-          "occurrences": 4
+          "occurrences": 8
         },
         {
           "name": "RadzenBody",
@@ -1984,11 +2049,11 @@
         },
         {
           "name": "RadzenButton",
-          "occurrences": 55
+          "occurrences": 57
         },
         {
           "name": "RadzenCard",
-          "occurrences": 14
+          "occurrences": 15
         },
         {
           "name": "RadzenCheckBox",
@@ -2004,11 +2069,11 @@
         },
         {
           "name": "RadzenDataGrid",
-          "occurrences": 7
+          "occurrences": 9
         },
         {
           "name": "RadzenDataGridColumn",
-          "occurrences": 37
+          "occurrences": 45
         },
         {
           "name": "RadzenDialog",
@@ -2028,11 +2093,15 @@
         },
         {
           "name": "RadzenIcon",
-          "occurrences": 8
+          "occurrences": 14
         },
         {
           "name": "RadzenLayout",
           "occurrences": 1
+        },
+        {
+          "name": "RadzenLink",
+          "occurrences": 6
         },
         {
           "name": "RadzenNotification",
@@ -2068,7 +2137,7 @@
         },
         {
           "name": "RadzenStack",
-          "occurrences": 59
+          "occurrences": 66
         },
         {
           "name": "RadzenTabs",
@@ -2076,11 +2145,11 @@
         },
         {
           "name": "RadzenTabsItem",
-          "occurrences": 3
+          "occurrences": 5
         },
         {
           "name": "RadzenText",
-          "occurrences": 73
+          "occurrences": 80
         },
         {
           "name": "RadzenTextArea",
@@ -2088,7 +2157,7 @@
         },
         {
           "name": "RadzenTextBox",
-          "occurrences": 20
+          "occurrences": 23
         },
         {
           "name": "RadzenTooltip",
@@ -2100,6 +2169,10 @@
       "project": "Portfolio.Editor",
       "path": "Portfolio/Portfolio.Editor/Portfolio.Editor.csproj",
       "status": "actif",
+      "revision": "340f9e52af2b2642fd93dddb001397147c7a4de9",
+      "projectSha256": "c2197581d7c4c0675a637b8ee0f74f18aa9ba754ebf1079a576cb5f6d17b0db2",
+      "inputSha256": "1139f87ee582bbed680d030a475eda282f3b21c98d55276b90ace564cc508447",
+      "sourceFiles": 26,
       "radzenVersion": "10.4.9",
       "distinctComponents": 26,
       "occurrences": 196,
@@ -2215,6 +2288,10 @@
       "project": "Phaios.Desktop",
       "path": "Phaios/src/Phaios.Desktop/Phaios.Desktop.csproj",
       "status": "actif",
+      "revision": "unversioned",
+      "projectSha256": "026804bce3ceedb581a032397979cc133b6efe7a29e12dc293a2e4045f0cefba",
+      "inputSha256": "1616b0250152ac063b25afe2cdfc0f33ac21205a1b24218948ba8de499704d0e",
+      "sourceFiles": 34,
       "radzenVersion": "10.4.9",
       "distinctComponents": 21,
       "occurrences": 77,
@@ -2310,6 +2387,10 @@
       "project": "Ates.Shared.Blazor",
       "path": "Ates/Ates.Shared.Blazor/Ates.Shared.Blazor.csproj",
       "status": "actif",
+      "revision": "unversioned",
+      "projectSha256": "13324a16812cdbc818719bddbbe630b488994175a44934912b02ed4baeb0d6f3",
+      "inputSha256": "0d9dc32b21b1923bb054a694e610b4ea691313f4f1ac8fb4b5eaf8748c11106f",
+      "sourceFiles": 41,
       "radzenVersion": "10.3.2",
       "distinctComponents": 17,
       "occurrences": 175,
@@ -2389,6 +2470,10 @@
       "project": "PoeUtils",
       "path": "PoeUtils/PoeUtils/PoeUtils.csproj",
       "status": "actif",
+      "revision": "unversioned",
+      "projectSha256": "a8ad5cd6c868c1bac2020006432334ffd299505514543305c70afbbc86f78d2a",
+      "inputSha256": "c69accf379a10784022d125ae006d4a8a316254171fb17bc16b6149b039805be",
+      "sourceFiles": 73,
       "radzenVersion": "8.0.0",
       "distinctComponents": 17,
       "occurrences": 41,
@@ -2468,6 +2553,10 @@
       "project": "Ates.App",
       "path": "Ates/Ates.App/Ates.App.csproj",
       "status": "actif",
+      "revision": "unversioned",
+      "projectSha256": "11f776eac2158efd37e48e608ac73cce14b674ce48b4a3fef7f47f31b43fa00d",
+      "inputSha256": "0f0bc9fa884df92ac50003c35efc20f954602dd512277a4f71482039cbb19388",
+      "sourceFiles": 24,
       "radzenVersion": "usage transitif",
       "distinctComponents": 16,
       "occurrences": 29,
@@ -2543,6 +2632,10 @@
       "project": "Ates.Front",
       "path": "Ates/Ates.Front/Ates.Front.csproj",
       "status": "actif",
+      "revision": "unversioned",
+      "projectSha256": "843571fb7e8093d189a1fde666bdf7445668b476fecf1980b61e4318aa5eef3f",
+      "inputSha256": "28be4b5cc61640f052976375e55efebff3bfa7cba5e865b2d4955cb276499c03",
+      "sourceFiles": 35,
       "radzenVersion": "usage transitif",
       "distinctComponents": 16,
       "occurrences": 32,
@@ -2618,6 +2711,10 @@
       "project": "Hyb",
       "path": "Hyb/Hyb/Hyb.csproj",
       "status": "actif",
+      "revision": "unversioned",
+      "projectSha256": "9eb5d5f4b094c2abcfd45f74ffe18a1dd62d44623259992ebc884d906c7210e6",
+      "inputSha256": "bfb518333a7967297869b72a8a567071b13c7e44fb1d8bc65a707b13ff4aab33",
+      "sourceFiles": 55,
       "radzenVersion": "5.6.6",
       "distinctComponents": 1,
       "occurrences": 66,
@@ -2633,6 +2730,10 @@
       "project": "Astraia.Front.Tests",
       "path": "Astraia/Tests/Astraia.Front.Tests/Astraia.Front.Tests.csproj",
       "status": "actif",
+      "revision": "unversioned",
+      "projectSha256": "63ef3d5b44b7bf9442abf76a3085c7a05f8e11af0fe1388976394842712a7b44",
+      "inputSha256": "5b2c0ccf115d1357382a6cd1a948c05b7daa9ca53cf25288aebfa04bbeca519b",
+      "sourceFiles": 208,
       "radzenVersion": "10.4.9",
       "distinctComponents": 0,
       "occurrences": 0,
@@ -2643,7 +2744,11 @@
       "project": "Pronoia.App",
       "path": "Pronoia/Pronoia.App/Pronoia.App.csproj",
       "status": "actif",
-      "radzenVersion": "10.4.9",
+      "revision": "unversioned",
+      "projectSha256": "5ce2174806411bde57b3ac92fc7ce5b0408afbbca0fbeb3ff36b72bda31b4fbb",
+      "inputSha256": "c4f1c2cdf3a1d7c6acf7fce7ce947f47126cc65eacb1f43a25cc3e38a9f6f8a3",
+      "sourceFiles": 19,
+      "radzenVersion": "11.2.3",
       "distinctComponents": 0,
       "occurrences": 0,
       "razorFiles": 0,
@@ -2653,7 +2758,11 @@
       "project": "Pronoia.Front.Tests",
       "path": "Pronoia/Pronoia.Front.Tests/Pronoia.Front.Tests.csproj",
       "status": "actif",
-      "radzenVersion": "10.4.9",
+      "revision": "unversioned",
+      "projectSha256": "078c452ef3c2a1df0c5a61deb03ae776906976b48cf54104e34c8613891e091c",
+      "inputSha256": "329dbc4814d90b8f49bca6036171e411a9cb5e5cae7ba3d0f082d115bc59e049",
+      "sourceFiles": 55,
+      "radzenVersion": "11.2.3",
       "distinctComponents": 0,
       "occurrences": 0,
       "razorFiles": 0,
@@ -2663,7 +2772,11 @@
       "project": "Pronoia.Front",
       "path": "Pronoia/Pronoia.Front/Pronoia.Front.csproj",
       "status": "actif",
-      "radzenVersion": "10.4.9",
+      "revision": "unversioned",
+      "projectSha256": "415f63a83a5aacaefdc9f30143638ff3f7e506d7b548f7acbbf1af3d6d730221",
+      "inputSha256": "83ab7e2c51b50676414f37fe54a8be213d2b3f1f8723f8c1c6b1f0dd95e81d52",
+      "sourceFiles": 10,
+      "radzenVersion": "11.2.3",
       "distinctComponents": 0,
       "occurrences": 0,
       "razorFiles": 0,
@@ -2673,6 +2786,10 @@
       "project": "ExampleMaui",
       "path": "_Generic/ExampleMaui/ExampleMaui/ExampleMaui.csproj",
       "status": "modèle",
+      "revision": "unversioned",
+      "projectSha256": "d0fd0c996cfce2cbcc22deb4e515ab05df74838e1eed6e8a2952e3a05a7723de",
+      "inputSha256": "284309c052718d83442e5bdc8d4c9ea17f3862f6ca520a937eaebde342536a0d",
+      "sourceFiles": 40,
       "radzenVersion": "10.2.0",
       "distinctComponents": 23,
       "occurrences": 40,
@@ -2776,6 +2893,10 @@
       "project": "ExampleWeb.Front",
       "path": "_Generic/ExampleWeb/ExampleWeb.Front/ExampleWeb.Front.csproj",
       "status": "modèle",
+      "revision": "unversioned",
+      "projectSha256": "fada219ab3f594956398d1777b9e0ff28e5bfb9f906791bb71806e00ff8ed17d",
+      "inputSha256": "50b20efc8567d510306345b17179b5963cb22d581d087ddf4c9d54129998ae96",
+      "sourceFiles": 18,
       "radzenVersion": "10.2.0",
       "distinctComponents": 23,
       "occurrences": 44,
@@ -2879,6 +3000,10 @@
       "project": "ExampleServer",
       "path": "_Generic/ExampleServer/ExampleServer/ExampleServer.csproj",
       "status": "modèle",
+      "revision": "unversioned",
+      "projectSha256": "77a0b2744cd34da5f56f6a8c49391a7d48304d09c62822d2db68a3dae50d76c8",
+      "inputSha256": "a80547b25ae8525ae7499b14b69e1dc2bf3c63ae56143c3abb862f7b64351c16",
+      "sourceFiles": 55,
       "radzenVersion": "10.2.0",
       "distinctComponents": 18,
       "occurrences": 34,
@@ -2962,6 +3087,10 @@
       "project": "Themis.Front",
       "path": "On hold/Themis/Themis.Front/Themis.Front.csproj",
       "status": "archivé",
+      "revision": "unversioned",
+      "projectSha256": "640f90e8d8578b3f9fb37f8b626db18ecfd341793177bbce415aadf78eca6563",
+      "inputSha256": "5e7692aab828dc6f7c01bc74bf5194ebbf878066f743e08102ececa4023b746a",
+      "sourceFiles": 178,
       "radzenVersion": "9.0.4",
       "distinctComponents": 62,
       "occurrences": 1702,
@@ -3221,6 +3350,10 @@
       "project": "Astraia.Front",
       "path": "On hold/AstraiaBackup/Astraia.Front/Astraia.Front.csproj",
       "status": "archivé",
+      "revision": "unversioned",
+      "projectSha256": "d35984d83e27d210bced8f6b34379c35ee3b8a284813862b77eb5e5bfcdaa6de",
+      "inputSha256": "61d187ed4ae931793fc3918fe91caae5f929d63376753a9111ced5c5e1a16272",
+      "sourceFiles": 170,
       "radzenVersion": "9.0.5",
       "distinctComponents": 52,
       "occurrences": 675,
@@ -3440,6 +3573,10 @@
       "project": "AiNotes.FrontTwo",
       "path": "On hold/AiNotes/AiNotes.FrontTwo/AiNotes.FrontTwo.csproj",
       "status": "archivé",
+      "revision": "unversioned",
+      "projectSha256": "46979e3f198b2f45588f783867237a099ef7ba2e8df7921a73afd4cb3f41202e",
+      "inputSha256": "453ec6ae31112a06069092434fbe6c5e3fc661ffcb6b528006029cdd986aaccd",
+      "sourceFiles": 104,
       "radzenVersion": "8.6.3",
       "distinctComponents": 36,
       "occurrences": 239,
@@ -3595,6 +3732,10 @@
       "project": "Syndes",
       "path": "On hold/Syndes/Syndes/Syndes.csproj",
       "status": "archivé",
+      "revision": "unversioned",
+      "projectSha256": "0d14cac8751b38fcb76ca6adce277746f8fe5121b32a894671b1a513fe221bc5",
+      "inputSha256": "b38f06712af506f1af96acb08628147044bd7874d2f3f9ac679c0fb0f04810e8",
+      "sourceFiles": 111,
       "radzenVersion": "10.2.0",
       "distinctComponents": 32,
       "occurrences": 226,
@@ -3734,6 +3875,10 @@
       "project": "Astraia.Front.Tests",
       "path": "On hold/AstraiaBackup/Astraia.Front.Tests/Astraia.Front.Tests.csproj",
       "status": "archivé",
+      "revision": "unversioned",
+      "projectSha256": "d3dbbfee0312f41985fd98a2ed326801bdb79ec6c95b97e777ec5405f4a5ed76",
+      "inputSha256": "3ed1cc3cffd93cbb51c399d26e9f7567aadfbaa66786ab787cb6c4984374cb9a",
+      "sourceFiles": 13,
       "radzenVersion": "9.0.5",
       "distinctComponents": 0,
       "occurrences": 0,
@@ -3744,6 +3889,10 @@
       "project": "Syndes.Tests",
       "path": "On hold/Syndes/Syndes.Tests/Syndes.Tests.csproj",
       "status": "archivé",
+      "revision": "unversioned",
+      "projectSha256": "3e55276dc633fbdf643e0199b695d1a6acad419ee81fda45b03b114b646b2f24",
+      "inputSha256": "0c5897e3b632b20413f4387181b6516bf2e181bee9e2debb78da9b3144c87268",
+      "sourceFiles": 33,
       "radzenVersion": "10.2.0",
       "distinctComponents": 0,
       "occurrences": 0,
@@ -3754,6 +3903,10 @@
       "project": "Aetheus.Front",
       "path": "_github/Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
       "status": "miroir",
+      "revision": "unversioned",
+      "projectSha256": "912944a41e8c24e8ac41a1c4d21e5709f939ba39fd1bfdfcd4b5196f796b77fa",
+      "inputSha256": "aa022ecdbef70587f83d0a2307aae4ea69abda9e4f0d4eab39d905912253e808",
+      "sourceFiles": 690,
       "radzenVersion": "11.1.6",
       "distinctComponents": 59,
       "occurrences": 4384,
@@ -4003,8 +4156,8 @@
       "component": "RadzenStack",
       "activeProjects": 17,
       "allProjects": 25,
-      "activeOccurrences": 2235,
-      "occurrences": 3134,
+      "activeOccurrences": 2246,
+      "occurrences": 3145,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4037,8 +4190,8 @@
       "component": "RadzenButton",
       "activeProjects": 17,
       "allProjects": 25,
-      "activeOccurrences": 1814,
-      "occurrences": 2653,
+      "activeOccurrences": 1841,
+      "occurrences": 2680,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4170,8 +4323,8 @@
       "component": "RadzenText",
       "activeProjects": 15,
       "allProjects": 23,
-      "activeOccurrences": 2628,
-      "occurrences": 3707,
+      "activeOccurrences": 2640,
+      "occurrences": 3719,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4202,8 +4355,8 @@
       "component": "RadzenTextBox",
       "activeProjects": 15,
       "allProjects": 21,
-      "activeOccurrences": 527,
-      "occurrences": 792,
+      "activeOccurrences": 532,
+      "occurrences": 797,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4232,8 +4385,8 @@
       "component": "RadzenAlert",
       "activeProjects": 15,
       "allProjects": 23,
-      "activeOccurrences": 346,
-      "occurrences": 480,
+      "activeOccurrences": 352,
+      "occurrences": 486,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4391,8 +4544,8 @@
       "component": "RadzenIcon",
       "activeProjects": 14,
       "allProjects": 19,
-      "activeOccurrences": 691,
-      "occurrences": 1027,
+      "activeOccurrences": 694,
+      "occurrences": 1030,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4419,8 +4572,8 @@
       "component": "RadzenDropDown",
       "activeProjects": 14,
       "allProjects": 19,
-      "activeOccurrences": 308,
-      "occurrences": 470,
+      "activeOccurrences": 310,
+      "occurrences": 472,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4447,8 +4600,8 @@
       "component": "RadzenDataGridColumn",
       "activeProjects": 13,
       "allProjects": 21,
-      "activeOccurrences": 1155,
-      "occurrences": 1906,
+      "activeOccurrences": 1171,
+      "occurrences": 1922,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4477,8 +4630,8 @@
       "component": "RadzenCard",
       "activeProjects": 13,
       "allProjects": 18,
-      "activeOccurrences": 685,
-      "occurrences": 993,
+      "activeOccurrences": 693,
+      "occurrences": 1001,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4504,8 +4657,8 @@
       "component": "RadzenDataGrid",
       "activeProjects": 13,
       "allProjects": 21,
-      "activeOccurrences": 188,
-      "occurrences": 307,
+      "activeOccurrences": 191,
+      "occurrences": 310,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4534,8 +4687,8 @@
       "component": "RadzenNumeric",
       "activeProjects": 13,
       "allProjects": 16,
-      "activeOccurrences": 119,
-      "occurrences": 197,
+      "activeOccurrences": 121,
+      "occurrences": 199,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4671,8 +4824,8 @@
       "component": "RadzenFormField",
       "activeProjects": 12,
       "allProjects": 18,
-      "activeOccurrences": 712,
-      "occurrences": 1162,
+      "activeOccurrences": 714,
+      "occurrences": 1164,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4722,10 +4875,10 @@
     },
     {
       "component": "RadzenLink",
-      "activeProjects": 10,
-      "allProjects": 14,
-      "activeOccurrences": 85,
-      "occurrences": 99,
+      "activeProjects": 11,
+      "allProjects": 15,
+      "activeOccurrences": 91,
+      "occurrences": 105,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4735,6 +4888,7 @@
         "Ats/Ats.Front/Ats.Front.csproj",
         "Olbios/Olbios.Front/Olbios.Front.csproj",
         "Phaios/src/Phaios.Web/Phaios.Web.csproj",
+        "Atlas/Atlas/Atlas.csproj",
         "Ates/Ates.App/Ates.App.csproj",
         "Ates/Ates.Front/Ates.Front.csproj",
         "On hold/Themis/Themis.Front/Themis.Front.csproj",
@@ -4747,8 +4901,8 @@
       "component": "RadzenBadge",
       "activeProjects": 9,
       "allProjects": 12,
-      "activeOccurrences": 641,
-      "occurrences": 988,
+      "activeOccurrences": 644,
+      "occurrences": 991,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4768,8 +4922,8 @@
       "component": "RadzenProgressBarCircular",
       "activeProjects": 9,
       "allProjects": 16,
-      "activeOccurrences": 206,
-      "occurrences": 297,
+      "activeOccurrences": 207,
+      "occurrences": 298,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4793,8 +4947,8 @@
       "component": "RadzenLabel",
       "activeProjects": 9,
       "allProjects": 11,
-      "activeOccurrences": 152,
-      "occurrences": 184,
+      "activeOccurrences": 153,
+      "occurrences": 185,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4879,8 +5033,8 @@
       "component": "RadzenTabsItem",
       "activeProjects": 8,
       "allProjects": 12,
-      "activeOccurrences": 179,
-      "occurrences": 294,
+      "activeOccurrences": 181,
+      "occurrences": 296,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -4921,8 +5075,8 @@
       "component": "RadzenTabs",
       "activeProjects": 8,
       "allProjects": 12,
-      "activeOccurrences": 29,
-      "occurrences": 41,
+      "activeOccurrences": 28,
+      "occurrences": 40,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",
@@ -5023,8 +5177,8 @@
       "component": "RadzenProgressBar",
       "activeProjects": 6,
       "allProjects": 9,
-      "activeOccurrences": 51,
-      "occurrences": 75,
+      "activeOccurrences": 55,
+      "occurrences": 79,
       "consumers": [
         "Astraia/Astraia.Front/Astraia.Front.csproj",
         "Aetheus/src/Aetheus.Front/Aetheus.Front.csproj",

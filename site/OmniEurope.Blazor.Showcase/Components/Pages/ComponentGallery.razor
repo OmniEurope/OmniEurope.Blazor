@@ -1,0 +1,54 @@
+@page "/composants"
+@page "/composants/{DemoKey}"
+@using OmniEurope.Blazor.Showcase.Demos
+
+<PageTitle>@Text["GalleryPageTitle"]</PageTitle>
+
+<section aria-labelledby="gallery-title">
+    <OmniHeading Id="gallery-title" Level="OmniHeadingLevel.H1">@Text["GalleryTitle"]</OmniHeading>
+    <p>@Text["GalleryLead"]</p>
+</section>
+
+<div class="showcase-gallery">
+    <nav class="showcase-gallery__nav" aria-label="@Text["GalleryNavLabel"]">
+        <OmniPanelMenu Label="@Text["GalleryNavLabel"]">
+            @foreach (var demo in DemoCatalog.All)
+            {
+                <OmniPanelMenuItem Href="@($"composants/{demo.Key}")"
+                                   Text="@Text[demo.TitleKey]"
+                                   Match="OmniNavMatch.Exact" />
+            }
+        </OmniPanelMenu>
+    </nav>
+
+    <article class="showcase-gallery__detail" aria-labelledby="demo-title">
+        <OmniHeading Id="demo-title" Level="OmniHeadingLevel.H2">@Text[Current.TitleKey]</OmniHeading>
+        <p>@Text[Current.SummaryKey]</p>
+
+        <OmniHeading Level="OmniHeadingLevel.H3">@Text["GalleryCapabilities"]</OmniHeading>
+        <ul>
+            @foreach (var capability in Current.CapabilityKeys)
+            {
+                <li>@Text[capability]</li>
+            }
+        </ul>
+
+        <OmniHeading Level="OmniHeadingLevel.H3">@Text["GalleryPreview"]</OmniHeading>
+        <div class="showcase-preview">
+            <DynamicComponent Type="Current.Component" />
+        </div>
+
+        <OmniHeading Level="OmniHeadingLevel.H3">@Text["GallerySource"]</OmniHeading>
+        <p class="showcase-source-note">@Text["GallerySourceNote"]</p>
+        @if (Source is null)
+        {
+            <OmniAlert Severity="OmniAlertSeverity.Warning" Title="@Text["GallerySourceMissingTitle"]">
+                @Text["GallerySourceMissing"]
+            </OmniAlert>
+        }
+        else
+        {
+            <pre class="showcase-code"><code>@Source</code></pre>
+        }
+    </article>
+</div>

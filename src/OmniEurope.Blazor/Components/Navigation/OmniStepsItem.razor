@@ -1,0 +1,10 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-steps__item", Selected ? "omni-steps__item--selected" : null)" role="listitem">
+    <button id="@ButtonId" type="button" class="omni-steps__button" aria-current="@(Selected ? "step" : null)" aria-controls="@PanelId" disabled="@Disabled" @onclick="SelectAsync">
+        <span class="omni-steps__number">@(Index + 1)</span>
+        <span>@Title</span>
+    </button>
+    <section id="@PanelId" class="omni-steps__panel" role="region" aria-labelledby="@ButtonId" hidden="@(!Selected)">@ChildContent</section>
+</div>

@@ -1,0 +1,29 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+<EditForm Model="Model">
+    <OmniStack Gap="OmniSpacing.Medium">
+        <OmniFormField For="demo-name" Required="true" Description="Tel qu'il apparaîtra sur la facture.">
+            <Label>Nom complet</Label>
+            <ChildContent>
+                <OmniTextBox Id="demo-name" @bind-Value="Model.Name" Placeholder="Camille Durand" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField For="demo-notes">
+            <Label>Remarques</Label>
+            <ChildContent>
+                <OmniTextArea Id="demo-notes" @bind-Value="Model.Notes" Rows="3" MaxLength="200" ShowCount="true" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField For="demo-budget">
+            <Label>Budget</Label>
+            <ChildContent>
+                <OmniSlider Id="demo-budget" @bind-Value="Model.Budget" Minimum="0" Maximum="100" Step="5" ShowValue="true" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniCheckBox Id="demo-terms" @bind-Value="Model.Accepted" />
+        <OmniSwitch Id="demo-alerts" @bind-Value="Model.Alerts">Recevoir les alertes</OmniSwitch>
+    </OmniStack>
+</EditForm>

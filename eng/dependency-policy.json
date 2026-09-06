@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-08-11",
+  "packages": {
+    "bunit": {
+      "version": "2.9.0",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/bunit/"
+    },
+    "coverlet.collector": {
+      "version": "10.0.1",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/coverlet.collector/"
+    },
+    "HtmlSanitizer": {
+      "version": "9.2.995",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/HtmlSanitizer/"
+    },
+    "Microsoft.Extensions.Localization": {
+      "version": "10.0.10",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Microsoft.Extensions.Localization/"
+    },
+    "Microsoft.AspNetCore.Components.Web": {
+      "version": "10.0.10",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.Web/"
+    },
+    "Microsoft.CodeAnalysis.CSharp": {
+      "version": "5.6.0",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Microsoft.CodeAnalysis.CSharp/"
+    },
+    "Microsoft.AspNetCore.Components.WebView": {
+      "version": "10.0.10",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebView/"
+    },
+    "Microsoft.Web.WebView2": {
+      "version": "1.0.4129.50",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Microsoft.Web.WebView2/"
+    },
+    "Microsoft.AspNetCore.Components.WebView.Maui": {
+      "version": "10.0.90",
+      "status": "servicing-baseline"
+    },
+    "Microsoft.Maui.Controls": {
+      "version": "10.0.90",
+      "status": "servicing-baseline"
+    },
+    "Microsoft.AspNetCore.Components.WebAssembly": {
+      "version": "10.0.10",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly/"
+    },
+    "Microsoft.AspNetCore.Components.WebAssembly.DevServer": {
+      "version": "10.0.10",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.DevServer/"
+    },
+    "Microsoft.AspNetCore.Components.WebAssembly.Server": {
+      "version": "10.0.10",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.Server/"
+    },
+    "Microsoft.NET.Test.Sdk": {
+      "version": "18.8.1",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/Microsoft.NET.Test.Sdk/"
+    },
+    "xunit.v3": {
+      "version": "3.2.2",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/xunit.v3/"
+    },
+    "xunit.runner.visualstudio": {
+      "version": "3.1.5",
+      "status": "latest-stable",
+      "source": "https://www.nuget.org/packages/xunit.runner.visualstudio/"
+    }
+  },
+  "toolchain": {
+    "sdk": "10.0.302",
+    "workloadVersion": "10.0.302",
+    "rollForward": "disable"
+  }
+}

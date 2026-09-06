@@ -1,12 +1,17 @@
 [CmdletBinding()]
 param(
     [string]$WorkspaceRoot = 'C:\Dev',
+    [string]$ManifestPath = (Join-Path $PSScriptRoot '..\docs\radzen-corpus.json'),
     [string]$MarkdownPath = (Join-Path $PSScriptRoot '..\docs\component-inventory.md'),
     [string]$JsonPath = (Join-Path $PSScriptRoot '..\docs\component-inventory.json')
 )
 
 $ErrorActionPreference = 'Stop'
-$workspace = (Resolve-Path -LiteralPath $WorkspaceRoot).Path.TrimEnd('\')
+$psText = Import-PowerShellDataFile (Join-Path $PSScriptRoot 'PowerShellMessages.psd1')
+. (Join-Path $PSScriptRoot 'RadzenCorpus.ps1')
+$corpus = Read-RadzenCorpus -ManifestPath $ManifestPath -WorkspaceRoot $WorkspaceRoot
+$workspace = $corpus.Workspace
+$manifest = $corpus.Manifest
 $excludedSegments = '(\\|/)(bin|obj|node_modules|packages|artifacts|\.git|\.vs)(\\|/)'
 
 function Get-RelativePath {
@@ -17,11 +22,9 @@ function Get-RelativePath {
 
 function Get-ProjectStatus {
     param([string]$RelativePath)
-
-    if ($RelativePath.StartsWith('_github/', [StringComparison]::OrdinalIgnoreCase)) { return 'miroir' }
-    if ($RelativePath.StartsWith('_Generic/', [StringComparison]::OrdinalIgnoreCase)) { return 'modèle' }
-    if ($RelativePath.StartsWith('On hold/', [StringComparison]::OrdinalIgnoreCase)) { return 'archivé' }
-    return 'actif'
+    $entry = $manifest.projects | Where-Object path -eq $RelativePath | Select-Object -First 1
+    if ($null -eq $entry) { throw "Project absent from corpus manifest: $RelativePath" }
+    return [string]$entry.status
 }
 
 function Get-RadzenVersion {
@@ -53,11 +56,10 @@ function Get-RadzenVersion {
         $directory = $directory.Parent
     }
 
-    return 'non précisée'
+    return $psText.UnspecifiedVersion
 }
 
-$projectFiles = Get-ChildItem -LiteralPath $workspace -Recurse -Filter *.csproj -File -ErrorAction SilentlyContinue |
-    Where-Object { $_.FullName -notmatch $excludedSegments }
+$projectFiles = @($manifest.projects | ForEach-Object { Get-Item -LiteralPath (Join-Path $workspace ([string]$_.path).Replace('/', '\')) })
 
 $projectRoots = @($projectFiles | ForEach-Object {
     [pscustomobject]@{
@@ -70,8 +72,7 @@ $projectRoots = @($projectFiles | ForEach-Object {
 $usageByProject = @{}
 $fileCountByProject = @{}
 
-$razorFiles = Get-ChildItem -LiteralPath $workspace -Recurse -Filter *.razor -File -ErrorAction SilentlyContinue |
-    Where-Object { $_.FullName -notmatch $excludedSegments }
+$razorFiles = @($corpus.Files | Where-Object { [IO.Path]::GetExtension($_.Path) -eq '.razor' } | ForEach-Object { Get-Item -LiteralPath $_.FullPath })
 
 foreach ($razorFile in $razorFiles) {
     $owner = $null
@@ -108,6 +109,7 @@ foreach ($razorFile in $razorFiles) {
 }
 
 $projects = foreach ($project in $projectRoots) {
+    $corpusProject = $manifest.projects | Where-Object path -eq $project.RelativePath | Select-Object -First 1
     $version = Get-RadzenVersion $project.File
     $usage = if ($usageByProject.ContainsKey($project.File.FullName)) { $usageByProject[$project.File.FullName] } else { @{} }
     if ($null -eq $version -and $usage.Count -eq 0) { continue }
@@ -120,6 +122,10 @@ $projects = foreach ($project in $projectRoots) {
         project = [System.IO.Path]::GetFileNameWithoutExtension($project.File.Name)
         path = $project.RelativePath
         status = Get-ProjectStatus $project.RelativePath
+        revision = [string]$corpusProject.revision
+        projectSha256 = [string]$corpusProject.projectSha256
+        inputSha256 = [string]$corpusProject.inputSha256
+        sourceFiles = @($corpusProject.sourceFiles).Count
         radzenVersion = if ($null -eq $version) { 'usage transitif' } else { $version }
         distinctComponents = $components.Count
         occurrences = [int](($components | Measure-Object -Property occurrences -Sum).Sum)
@@ -128,8 +134,8 @@ $projects = foreach ($project in $projectRoots) {
     }
 }
 
-$projects = @($projects | Sort-Object @{ Expression = { switch ($_.status) { 'actif' { 0 } 'modèle' { 1 } 'archivé' { 2 } default { 3 } } } }, @{ Expression = 'distinctComponents'; Descending = $true }, path)
-$activeProjects = @($projects | Where-Object status -eq 'actif')
+$projects = @($projects | Sort-Object @{ Expression = { switch ($_.status) { $psText.StatusActive { 0 } $psText.StatusModel { 1 } $psText.StatusArchived { 2 } default { 3 } } } }, @{ Expression = 'distinctComponents'; Descending = $true }, path)
+$activeProjects = @($projects | Where-Object status -eq $psText.StatusActive)
 $activeUsageProjects = @($activeProjects | Where-Object distinctComponents -gt 0)
 
 $componentNames = @($projects.components.name | Sort-Object -Unique)
@@ -149,10 +155,14 @@ $catalog = foreach ($componentName in $componentNames) {
 }
 $catalog = @($catalog | Sort-Object @{ Expression = 'activeProjects'; Descending = $true }, @{ Expression = 'occurrences'; Descending = $true }, component)
 
-$generatedAt = (Get-Date).ToString('yyyy-MM-ddTHH:mm:ssK')
+$generatedAt = if ($manifest.generatedAt -is [datetime]) { $manifest.generatedAt.ToString('yyyy-MM-ddTHH:mm:ssK', [Globalization.CultureInfo]::InvariantCulture) } else { [string]$manifest.generatedAt }
 $inventory = [ordered]@{
     generatedAt = $generatedAt
     workspaceRoot = $workspace
+    corpusManifest = [IO.Path]::GetRelativePath((Join-Path $PSScriptRoot '..'), $corpus.ManifestPath).Replace('\', '/')
+    corpusManifestSha256 = $corpus.ManifestSha256
+    corpusSchemaVersion = $manifest.schemaVersion
+    statusSummary = @($projects | Group-Object status | Sort-Object Name | ForEach-Object { [pscustomobject]@{ status = $_.Name; projects = $_.Count } })
     method = 'Balises Radzen* dans les fichiers .razor, commentaires Razor et HTML exclus.'
     projects = $projects
     catalog = $catalog
@@ -161,32 +171,32 @@ $inventory = [ordered]@{
 $lines = [System.Collections.Generic.List[string]]::new()
 $lines.Add('# Inventaire des composants Radzen')
 $lines.Add('')
-$lines.Add("Généré le $generatedAt à partir de ``$workspace``.")
+$lines.Add(($psText.InventoryGenerated -f $corpus.ManifestSha256, $generatedAt))
 $lines.Add('')
-$lines.Add('Méthode : balises `Radzen*` réellement présentes dans les fichiers `.razor`; commentaires Razor et HTML exclus. Les sorties de build, dépendances et dossiers techniques ne sont pas parcourus. Les projets marqués « miroir », « modèle » ou « archivé » restent visibles mais ne déterminent pas la priorité active.')
+$lines.Add($psText.InventoryMethod)
 $lines.Add('')
 $activeComponentCount = @($catalog | Where-Object activeProjects -gt 0).Count
-$lines.Add("Résumé : **$($activeUsageProjects.Count) projets actifs avec usages Razor**, **$($activeProjects.Count) projets actifs avec usage ou dépendance**, **$activeComponentCount composants distincts actifs** et **$($catalog.Count) composants distincts** sur l'ensemble du parc observé.")
+$lines.Add(($psText.InventorySummary -f $activeUsageProjects.Count, $activeProjects.Count, $activeComponentCount, $catalog.Count))
 $lines.Add('')
 $lines.Add('## Projets')
 $lines.Add('')
-$lines.Add('| Statut | Projet | Version Radzen | Composants distincts | Occurrences | Fichiers Razor |')
-$lines.Add('|---|---|---:|---:|---:|---:|')
+$lines.Add($psText.InventoryProjectHeader)
+$lines.Add('|---|---|---|---|---:|---:|---:|---:|')
 foreach ($project in $projects) {
-    $lines.Add("| $($project.status) | ``$($project.path)`` | $($project.radzenVersion) | $($project.distinctComponents) | $($project.occurrences) | $($project.razorFiles) |")
+    $lines.Add("| $($project.status) | ``$($project.path)`` | ``$($project.revision.Substring(0, [Math]::Min(12, $project.revision.Length)))`` | ``$($project.inputSha256.Substring(0, 12))`` | $($project.radzenVersion) | $($project.distinctComponents) | $($project.occurrences) | $($project.razorFiles) |")
 }
 
 $lines.Add('')
 $lines.Add('## Catalogue global')
 $lines.Add('')
-$lines.Add('| Composant observé | Projets actifs | Tous projets | Occurrences actives | Toutes occurrences |')
+$lines.Add($psText.InventoryComponentHeader)
 $lines.Add('|---|---:|---:|---:|---:|')
 foreach ($entry in $catalog) {
     $lines.Add("| ``$($entry.component)`` | $($entry.activeProjects) | $($entry.allProjects) | $($entry.activeOccurrences) | $($entry.occurrences) |")
 }
 
 $lines.Add('')
-$lines.Add('## Détail par projet')
+$lines.Add($psText.InventoryDetailHeading)
 foreach ($project in $projects | Where-Object { $_.distinctComponents -gt 0 }) {
     $lines.Add('')
     $lines.Add("### $($project.path)")
@@ -196,13 +206,13 @@ foreach ($project in $projects | Where-Object { $_.distinctComponents -gt 0 }) {
 }
 
 $lines.Add('')
-$lines.Add('## Régénération')
+$lines.Add($psText.InventoryRegenerationHeading)
 $lines.Add('')
 $lines.Add('```powershell')
-$lines.Add('.\eng\Generate-RadzenInventory.ps1 -WorkspaceRoot C:\Dev')
+$lines.Add('.\eng\Generate-RadzenInventory.ps1 -WorkspaceRoot C:\Dev -ManifestPath .\docs\radzen-corpus.json')
 $lines.Add('```')
 $lines.Add('')
-$lines.Add('Le JSON voisin contient les mêmes données sous une forme exploitable par des outils de planification.')
+$lines.Add($psText.InventoryNeighbor)
 
 $markdownTarget = [System.IO.Path]::GetFullPath($MarkdownPath)
 $jsonTarget = [System.IO.Path]::GetFullPath($JsonPath)
@@ -210,6 +220,6 @@ $jsonTarget = [System.IO.Path]::GetFullPath($JsonPath)
 [System.IO.File]::WriteAllLines($markdownTarget, $lines, [System.Text.UTF8Encoding]::new($false))
 [System.IO.File]::WriteAllText($jsonTarget, ($inventory | ConvertTo-Json -Depth 8), [System.Text.UTF8Encoding]::new($false))
 
-Write-Host "Inventaire écrit : $markdownTarget"
-Write-Host "Données JSON écrites : $jsonTarget"
+Write-Host ($psText.InventoryWritten -f $markdownTarget)
+Write-Host ($psText.InventoryJsonWritten -f $jsonTarget)
 Write-Host "Projets actifs avec usages Razor : $($activeUsageProjects.Count); composants distincts : $($catalog.Count)."

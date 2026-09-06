@@ -8,5 +8,16 @@
     <Deterministic>true</Deterministic>
     <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(MSBuildProjectName)' != 'OmniEurope.Analyzers'">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)eng\OmniEurope.Analyzers\OmniEurope.Analyzers.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(EnforceRazorCodeBehind)' == 'true'">
+    <AdditionalFiles Include="$(MSBuildProjectDirectory)\**\*.razor"
+                     Exclude="$(MSBuildProjectDirectory)\bin\**;$(MSBuildProjectDirectory)\obj\**" />
+  </ItemGroup>
 </Project>
 

@@ -1,0 +1,51 @@
+@* The grid at full stretch: selection, grouping, editing, frozen columns and the two filter
+   controls the column header can host. *@
+<OmniDataGrid TItem="GridRow"
+              Items="Rows"
+              Caption="Dossiers, vue complète"
+              AllowSorting="true"
+              AllowFiltering="true"
+              AllowGrouping="true"
+              AllowColumnResize="true"
+              AllowRowSelectOnRowClick="true"
+              AllowVirtualization="false"
+              AllGroupsExpanded="true"
+              SelectionMode="OmniDataGridSelectionMode.Multiple"
+              EditMode="OmniDataGridEditMode.Single"
+              Value="Selection"
+              ValueChanged="@(value => Selection = value)"
+              Lines="OmniDataGridLines.Both">
+    <Columns>
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" Frozen="true" />
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur"
+                            FilterType="OmniDataGridColumnFilterType.Combo" FilterSearchable="true">
+            <FilterTemplate>
+                @* The same control the column would raise on its own, placed by hand to show that a
+                   host can take the filter over without losing what the grid provides. *@
+                <OmniDataGridFilterCombo Value="@context.Value"
+                                         ValueChanged="@(value => context.ValueChanged(value))"
+                                         Suggestions="@context.Suggestions"
+                                         Placeholder="@context.Placeholder"
+                                         MaxSuggestions="6" />
+            </FilterTemplate>
+        </OmniDataGridColumn>
+        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="Pays" Groupable="true"
+                            FilterType="OmniDataGridColumnFilterType.MultiSelect"
+                            FilterValues="CountryValues">
+            <FilterTemplate>
+                <OmniDataGridFilterMultiSelect Value="@context.Value"
+                                               ValueChanged="@(value => context.ValueChanged(value))"
+                                               Suggestions="@context.Suggestions"
+                                               Placeholder="@context.Placeholder"
+                                               Searchable="true"
+                                               MaxSuggestions="8" />
+            </FilterTemplate>
+        </OmniDataGridColumn>
+        <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="Montant" FormatString="{0:C0}"
+                            TextAlign="OmniDataGridTextAlign.End">
+            <FooterTemplate>Total : @Rows.Sum(row => row.Amount).ToString("C0")</FooterTemplate>
+        </OmniDataGridColumn>
+    </Columns>
+</OmniDataGrid>
+
+<p>Lignes retenues : @(Selection.Count == 0 ? "aucune" : string.Join(", ", Selection.Select(row => row.Reference)))</p>

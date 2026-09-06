@@ -1,0 +1,8 @@
+@namespace OmniEurope.Blazor.Components
+<g class="omni-chart__grid-lines" aria-hidden="true">
+    @for (var index = 1; index < Count; index++)
+    {
+        var position = index * 100d / Count;
+        <line x1="5" y1="@OmniChartGeometry.Number(position)" x2="95" y2="@OmniChartGeometry.Number(position)" />
+    }
+</g>

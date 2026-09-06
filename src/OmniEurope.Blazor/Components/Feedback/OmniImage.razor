@@ -1,0 +1,12 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<img id="@Id"
+     class="@Css("omni-image", $"omni-image--{Fit.ToString().ToLowerInvariant()}")"
+     src="@Source"
+     alt="@Alt"
+     width="@Width"
+     height="@Height"
+     loading="@Loading.ToString().ToLowerInvariant()"
+     decoding="async"
+     @attributes="AdditionalAttributes" />
