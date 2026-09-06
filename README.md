@@ -14,7 +14,7 @@ Bibliothèque de composants Blazor conçue selon une politique d'implémentation
 ## Installation locale
 
 ```xml
-<PackageReference Include="OmniEurope.Blazor" Version="0.1.0-alpha.1" />
+<PackageReference Include="OmniEurope.Blazor" Version="1.0.0" />
 ```
 
 Charger la feuille statique dans l'hôte :
