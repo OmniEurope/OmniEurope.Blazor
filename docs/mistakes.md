@@ -125,7 +125,17 @@ Erreurs réellement rencontrées sur ce dépôt, avec leur cause et le correctif
 - **Cause** : `eng/Test-CspFixtures.ps1` vérifie que le scanner **rejette** la fixture non sûre, donc il lance délibérément une commande qui échoue. `$LASTEXITCODE` restait à 1 et rien ne le remettait à zéro. Une étape `shell: pwsh` de GitHub se termine par `exit $LASTEXITCODE` : le code d'échec attendu était encore là plusieurs commandes plus tard et coulait toute l'étape.
 - **Correctif** : le code de sortie de l'échec attendu est capturé dans une variable, `$global:LASTEXITCODE` est remis à zéro, et le test porte sur la variable.
 - **Reproduction** : `pwsh -NoProfile -Command "./eng/Test-CspFixtures.ps1; ./eng/Test-Csp.ps1; exit $LASTEXITCODE"` rendait 1 avant, rend 0 après, avec les mêmes lignes de succès dans les deux cas.
-- **Leçon** : tout script qui provoque volontairement un échec doit nettoyer `$LASTEXITCODE` derrière lui. Sinon l'échec voyage jusqu'à la fin de l'étape et accuse une commande innocente.
+- **Deuxième occurrence, même cause** : l'étape `Package content and size` imprimait `NuGet content passed`, `NuGet symbols passed`, `Contaminated package fixture was rejected` et `Artifact budgets passed`, puis sortait en 1. `eng/Test-PackageFixtures.ps1` vérifie qu'un paquet contaminé est bien rejeté, donc il lance lui aussi une commande vouée à échouer, et laissait le même résidu.
+- **Balayage** : les 13 usages de `$LASTEXITCODE` dans `eng/*.ps1` ont été relus. Ce motif d'échec volontaire n'existait que dans `Test-CspFixtures.ps1` et `Test-PackageFixtures.ps1`, tous deux corrigés. Les autres testent `-ne 0` et ne laissent rien derrière.
+- **Leçon** : tout script qui provoque volontairement un échec doit nettoyer `$LASTEXITCODE` derrière lui. Sinon l'échec voyage jusqu'à la fin de l'étape et accuse une commande innocente. Ce bug est invisible en lecture, puisque le script fautif affiche son succès ; seul le code de sortie de l'étape entière le révèle.
+
+### Le bit exécutable des textes de licence
+
+- **Symptôme** : la garde SBOM sortait en 1 avec un diff ne contenant que des changements de mode, `old mode 100644` vers `new mode 100755`, sur douze textes de licence dont le contenu n'avait pas bougé.
+- **Cause** : NuGet extrait le contenu des paquets avec le bit exécutable sous Unix, et `Copy-Item` le conserve. Git suit ce bit. Les copies produites par `eng/Generate-Sbom.ps1` basculaient donc en 100755 alors que le dépôt les enregistre en 100644. Le défaut n'est apparu qu'une fois les paquets du host Hybrid téléchargés sur le job Linux, puisque ce sont ces douze fichiers qui ont changé de provenance.
+- **Correctif** : le mode est forcé à 0644 après la copie, hors Windows uniquement, via `File.SetUnixFileMode`. Ce sont des textes de licence, jamais des programmes.
+- **Limite de la vérification** : la branche corrective ne s'exécute pas sous Windows, donc seule la valeur du mode a pu être contrôlée en local, pas son effet. C'est le run Linux qui fait foi.
+- **Leçon** : un hash de contenu identique ne garantit pas un `git diff` vide. Les métadonnées suivies par git, mode exécutable en tête, font partie de la preuve.
 
 ## Actions GitHub
 
