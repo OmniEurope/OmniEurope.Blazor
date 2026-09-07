@@ -1,3 +1,4 @@
+@* The grid in its everyday form, with one column of each filter shape and each text alignment. *@
 <OmniDataGrid TItem="GridRow"
               Items="Rows"
               Caption="Dossiers ouverts"
@@ -7,9 +8,17 @@
               AllowAlternatingRows="true"
               PageSize="5">
     <Columns>
-        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" />
-        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur" />
-        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="Pays" />
-        <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="Montant" FormatString="{0:C0}" />
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence"
+                            FilterType="OmniDataGridColumnFilterType.Text"
+                            TextAlign="OmniDataGridTextAlign.Start" />
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur"
+                            FilterType="OmniDataGridColumnFilterType.Text"
+                            SortOrder="OmniDataGridSortOrder.Ascending" />
+        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="Pays"
+                            FilterType="OmniDataGridColumnFilterType.Select"
+                            TextAlign="OmniDataGridTextAlign.Center" />
+        <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="Montant" FormatString="{0:C0}"
+                            TextAlign="OmniDataGridTextAlign.End"
+                            SortOrder="OmniDataGridSortOrder.Descending" />
     </Columns>
 </OmniDataGrid>

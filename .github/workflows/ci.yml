@@ -50,6 +50,13 @@ jobs:
       - name: Dependency and action policy
         shell: pwsh
         run: ./eng/Test-DependencyPolicy.ps1
+      # The inventory covers every packages.lock.json in the repository, including the Hybrid smoke
+      # host, a Windows-only sample kept out of the solution and never restored by this job. This
+      # downloads its pinned packages without evaluating the project, so the SBOM can read their
+      # nuspec and licence files here rather than moving to a Windows runner.
+      - name: Download the packages the solution does not restore
+        shell: pwsh
+        run: ./eng/Restore-LockedPackages.ps1 -LockFile samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json
       - name: SBOM and license registry
         shell: pwsh
         run: |
@@ -111,7 +118,7 @@ jobs:
       - name: Restore Hybrid smoke host
         run: dotnet restore samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --locked-mode
       - name: Build Hybrid smoke host
-        run: dotnet build samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --configuration Release --no-restore
+        run: dotnet build samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --configuration Release
       - name: Hybrid WebView2 smoke test
         shell: pwsh
         run: ./eng/Test-HybridHost.ps1

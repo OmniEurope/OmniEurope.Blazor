@@ -113,7 +113,14 @@ $catalogCount = @($entries | Where-Object { $null -ne $_.evidence.catalog }).Cou
 $browserCount = @($entries | Where-Object { $_.evidence.browser.Count -gt 0 }).Count
 $document = [ordered]@{
     schemaVersion = 2
-    generatedFrom = $inventory.generatedAt
+    # ConvertFrom-Json turns an ISO timestamp into a DateTime, and writing it back renders the
+    # machine's own offset: the same instant reads +02:00 in Paris and +00:00 on the runner, and the
+    # diff guard fails on a value nothing changed. Normalising to UTC makes the evidence portable.
+    generatedFrom = if ($inventory.generatedAt -is [datetime]) {
+        $inventory.generatedAt.ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ', [Globalization.CultureInfo]::InvariantCulture)
+    } else {
+        [string]$inventory.generatedAt
+    }
     total = @($entries).Count
     targetsPresent = $presentCount
     targetsMissing = @($entries).Count - $presentCount

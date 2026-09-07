@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedFrom": "2026-08-11T17:20:14+02:00",
+  "generatedFrom": "2026-08-11T15:20:14Z",
   "total": 110,
   "targetsPresent": 110,
   "targetsMissing": 0,
@@ -39,7 +39,8 @@
           "tests/OmniEurope.Blazor.Tests/ComponentCspTests.cs",
           "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
           "tests/OmniEurope.Blazor.Tests/PerformanceBudgetTests.cs",
-          "tests/OmniEurope.Blazor.Tests/ShowcaseCoverageTests.cs"
+          "tests/OmniEurope.Blazor.Tests/ShowcaseCoverageTests.cs",
+          "tests/OmniEurope.Blazor.Tests/ShowcaseVariantCoverageTests.cs"
         ],
         "catalog": {
           "scenario": "foundations",

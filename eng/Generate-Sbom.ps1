@@ -12,7 +12,13 @@ if ([string]::IsNullOrWhiteSpace($packageVersion)) { throw 'The package project 
 $packageRoot = if ($env:NUGET_PACKAGES) {
     $env:NUGET_PACKAGES
 } else {
-    Join-Path $env:USERPROFILE '.nuget/packages'
+    # USERPROFILE only exists on Windows; GetFolderPath resolves to HOME elsewhere, so the
+    # script finds the global package folder on a Linux runner too.
+    $userProfile = [Environment]::GetFolderPath([Environment+SpecialFolder]::UserProfile)
+    if ([string]::IsNullOrWhiteSpace($userProfile)) {
+        throw 'Cannot locate the global NuGet package folder: neither NUGET_PACKAGES nor the user profile is set.'
+    }
+    Join-Path $userProfile '.nuget/packages'
 }
 
 function Get-RelativePath([string]$Path) {
@@ -85,6 +91,13 @@ foreach ($package in $packages) {
             $targetName = "$safeId--$safeVersion--$safeName"
             $targetLicense = Join-Path $licenseRoot $targetName
             Copy-Item -LiteralPath $sourceLicense -Destination $targetLicense -Force
+            # NuGet extracts package content with the executable bit set on Unix, and Copy-Item
+            # keeps it. Git tracks that bit, so the copies would flip to 100755 and fail the diff
+            # guard even though their content is identical. These are licence texts, never
+            # programs, so the mode is forced back to what the repository records.
+            if (-not $IsWindows) {
+                [IO.File]::SetUnixFileMode($targetLicense, [IO.UnixFileMode]'UserRead,UserWrite,GroupRead,OtherRead')
+            }
             [void]$expectedLicenseFiles.Add($targetName)
             $localLicense = "docs/third-party-licenses/$targetName"
             $localLicenseHash = (Get-FileHash -LiteralPath $targetLicense -Algorithm SHA256).Hash.ToLowerInvariant()

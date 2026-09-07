@@ -22,8 +22,13 @@ try {
     [IO.Compression.ZipFile]::CreateFromDirectory($expanded, $contaminated)
 
     $pwsh = (Get-Process -Id $PID).Path
+    # The contaminated fixture must be rejected, so this call is expected to fail. Its exit code has
+    # to be captured and cleared: a GitHub pwsh step ends with "exit $LASTEXITCODE", so leaving the
+    # expected failure behind fails the whole step long after every check has reported success.
     $output = & $pwsh -NoProfile -File (Join-Path $PSScriptRoot 'Test-Package.ps1') -PackagePath $contaminated 2>&1
-    if ($LASTEXITCODE -eq 0) { throw 'The contaminated package fixture unexpectedly passed.' }
+    $contaminatedExitCode = $LASTEXITCODE
+    $global:LASTEXITCODE = 0
+    if ($contaminatedExitCode -eq 0) { throw 'The contaminated package fixture unexpectedly passed.' }
     if (($output -join "`n") -notmatch 'forbidden token') {
         throw "The contaminated package failed for the wrong reason: $($output -join ' | ')"
     }

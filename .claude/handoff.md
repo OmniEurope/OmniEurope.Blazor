@@ -1,67 +1,51 @@
-# Handoff - 2026-08-29
+# Handoff - 2026-09-07
 
-> Branche `develop`, à jour avec `origin/develop` au commit `3706a8a`.
+## State
+Branch: develop · Last commit: dc807cc feat(hybrid): prove the Hybrid host from inside WebView2 instead of over CDP
 
-## État du dépôt
+Arbre de travail propre, `develop` à jour sur `origin`. Les deux jobs CI sont verts sur le runner au commit `dc807cc` : `validate` (ubuntu) et `hybrid-smoke` (windows, 2 min 21, ligne `Hybrid validé dans WebView2 par auto-test ... lang="en"` qui prouve une exécution réelle sur le runner anglais).
 
-Cinq commits publiés depuis le début du cycle grille :
+Suivis d'audit de session ouverts : `0` (`.claude/auditsession.md`). Constats de challenge : `6` selon le motif de comptage, mais `.claude/challenge-session.md` ne contient que des entrées marquées `[✅]` résolues, que le motif ne reconnaît pas comme fermées ; aucun constat réellement ouvert.
 
-- `2ea641c` menus de filtre de colonne, opérateurs multi-valeurs, thème scopé
-- `bb22013` rationalisation des filtres (`MultiCombo` retiré au profit de `MultiSelect` +
-  `FilterSearchable`), couverture des entrées nullables, correction de `_Imports.razor`, plus les
-  surfaces alerte / panel menu / multi-select d'une session parallèle
-- `814a7dd` commentaires Razor du panel menu et du multi-select réécrits en anglais ASCII
-- `e46090d` exemple `FilterTemplate` de `docs/data-components.md` réparé
-- `3706a8a` corrections panel menu et service de superposition, plus la couverture associée
+`main` est mergé localement en `fe8da4a`, périmé de douze commits. Le merge de `develop` dans `main` reste à refaire, et le push de `main` doit être lancé par l'humain (hook `guard-git-push.js`).
 
-Suite mesurée après le dernier commit : **`Failed: 1, Passed: 269, Skipped: 0, Total: 270`**, contre 253
-tests avant ce cycle. Le seul échec est `SdkDocumentation_MatchesTheExactGlobalJsonPin`, provoqué par la
-bascule temporaire de `global.json` nécessaire pour exécuter quoi que ce soit sur cette machine.
-`global.json` a été restauré à l'octet près et vérifié par `git diff`.
+## Done in this session
+- Onze commits de remise au vert de la CI, chacun avec reproduction locale et contrôle négatif avant livraison, tous journalisés dans `docs/mistakes.md`.
+- Job `validate` : dossier NuGet résolu sans `USERPROFILE` (Linux), paquets du host Hybrid téléchargés par `PackageDownload` via `eng/Restore-LockedPackages.ps1` pour que l'inventaire SBOM couvre tous les verrous sans déplacer l'étape sur Windows, bit exécutable des textes de licence forcé à 0644, horodatage de couverture normalisé en UTC.
+- Deux scripts qui provoquaient un échec volontaire (`Test-CspFixtures.ps1`, `Test-PackageFixtures.ps1`) laissaient `$LASTEXITCODE` à 1 et coulaient leur étape malgré des lignes de succès ; corrigés, et les 13 usages de `$LASTEXITCODE` sous `eng/` relus.
+- Sonde Hybrid réécrite en auto-test interne : `wwwroot/hybrid-smoke.js` chargé avant Blazor clique, lit compteur, langue, titre et erreurs console ; l'hôte publie le résultat sur stdout quand `HYBRIDSMOKE_SELFTEST` est défini ; `eng/Test-HybridHost.ps1` lit et vérifie. Plus aucune dépendance au port CDP que l'image `windows-latest` refuse quel que soit le mécanisme (variable d'environnement, bloc d'environnement du fils, clé de stratégie Edge, tous prouvés inopérants là-bas).
+- Méthode changée en cours de route : pipeline complet des deux jobs rejoué en local (`25/25`) avant chaque push, au lieu de réagir à un log de runner à la fois.
+- README, `docs/testing.md` et `docs/mistakes.md` mis à jour, dont la limite connue de la capture des erreurs console (hors protocole de débogage).
 
-## Ce qui a été corrigé dans `3706a8a`
+## In progress
+Rien d'inachevé côté code.
 
-1. **Bug de navigation, réel et non couvert.** `OmniPanelMenuItem.ReportToParent` ne rapportait l'état
-   actif que pour une feuille, donc un groupe imbriqué ne disait jamais à son propre parent qu'il
-   contenait la page courante. Sur un menu à trois niveaux dont le groupe intermédiaire ne porte pas de
-   `Href`, le groupe extérieur restait replié et masquait la branche active. Une feuille rapporte
-   désormais la route qu'elle matche, un groupe rapporte ce que ses enfants contiennent, et le rappel du
-   contexte re-rapporte vers le haut pour propager à n'importe quelle profondeur.
-2. **Attente infinie.** `OmniOverlayService.OpenDialogAsync` écrasait sa `TaskCompletionSource` en
-   attente quand la même instance de requête était rouverte avant fermeture. L'appelant déplacé reçoit
-   maintenant `null`, comme toute autre fermeture.
-3. **Couverture ajoutée** (17 tests) : cycle d'ouverture du panel menu, variantes d'`OmniAlert`, forme
-   compacte d'`OmniMultiSelect` et ses quatre ressources en `fr-FR` et `en-US`, contrat de résultat du
-   dialogue, et une garde de convention sur `@using Microsoft.AspNetCore.Components.Web` dans tous les
-   `_Imports.razor`.
+## Next step
+Refaire le merge de `develop` dans `main`, puis demander à l'humain de lancer `git push origin main` et de décider de la release NuGet `1.0.0`.
 
-Aucun changement d'API publique, `docs/public-api.txt` inchangé.
+## Key files
+- `eng/Test-HybridHost.ps1` → sonde Hybrid sans CDP : lance l'hôte avec `HYBRIDSMOKE_SELFTEST=1`, collecte stdout par `Register-ObjectEvent`, vérifie compteur, langue, titre, erreurs.
+- `samples/OmniEurope.Blazor.HybridSmoke/wwwroot/hybrid-smoke.js` → module d'auto-test, hooks d'erreurs installés au chargement de la page, clic DOM réel.
+- `samples/OmniEurope.Blazor.HybridSmoke/HybridSmoke.razor.cs` → déclenche l'auto-test après le premier rendu et publie `HYBRID-SMOKE selftest ...`.
+- `samples/OmniEurope.Blazor.HybridSmoke/SmokeTrace.cs`, `MainPage.cs` → marqueurs de démarrage sur stdout.
+- `eng/Restore-LockedPackages.ps1` → télécharge les paquets d'un `packages.lock.json` par `PackageDownload`, sans évaluer le projet ni workload.
+- `eng/Generate-Sbom.ps1` → repli `GetFolderPath`, mode 0644 des textes de licence hors Windows.
+- `eng/Generate-ComponentCoverage.ps1` → `generatedFrom` en UTC.
+- `eng/Test-CspFixtures.ps1`, `eng/Test-PackageFixtures.ps1` → `$LASTEXITCODE` nettoyé après l'échec attendu.
+- `docs/mistakes.md` → journal complet des pannes, causes, correctifs et fausses pistes de cette session.
 
-## Point ouvert, décision attendue
+## Pitfalls
+- **Une sonde de CI ne doit dépendre que de ce que le dépôt contrôle.** Quatre correctifs du port CDP, tous verts en local, tous rouges sur le runner : la cible était mauvaise dès le départ. Se demander d'abord de quelle ressource de l'environnement une preuve dépend.
+- **Réagir à un log de runner à la fois multiplie les allers-retours.** Rejouer le pipeline entier en local, en imitant `exit $LASTEXITCODE` de fin d'étape, a fait tomber trois pannes d'un coup. Le script de rejeu vit dans le scratchpad de session, pas dans le dépôt.
+- **Une preuve régénérée puis comparée par `git diff` ne doit contenir aucune valeur dépendante de la machine** : fuseau horaire, fins de ligne, mode de fichier, séparateur décimal.
+- **Tout script qui provoque volontairement un échec doit nettoyer `$LASTEXITCODE`**, sinon l'étape GitHub échoue après avoir affiché ses succès.
+- **Deux scripts hors pipeline rendent encore l'offset local** (`Generate-RadzenInventory.ps1`, `Generate-RadzenSurfaceInventory.ps1`, format `K`) ; le défaut réapparaîtra si l'un entre dans une garde.
+- **Le mécanisme `BlazorWebViewInitializing` + `EnvironmentOptions` ne fonctionne pas** dans cette version de MAUI : l'objet assigné est jeté. Ne pas retenter.
+- **Les erreurs console de l'auto-test Hybrid** sont captées par `console.error`, `error`, `unhandledrejection`, pas par le protocole de débogage ; une erreur du runtime hors de ces canaux ne serait pas vue.
+- **Le délai de 90 s de la sonde Hybrid est surdimensionné** (9 s sur le runner) mais protège un démarrage froid de WebView2 ; laissé tel quel.
+- Dette assumée inchangée : `xunit` 3.x (la 4.0 supprime VSTest), `eng/Test-DependencyPolicy.ps1` rougit seul au bout de 30 jours (revu le 2026-09-07, échéance 2026-10-07).
 
-**Le pin `global.json`.** Il fixe le SDK `10.0.302` avec `rollForward: disable`, or ce SDK n'est installé
-nulle part ici (présents : `3.1.426`, `10.0.202`, `10.0.303`). Conséquence observée et répétée : toute
-commande `dotnet` échoue avant de rien faire, et le contournement (bascule sur `10.0.303` puis
-restauration) a été rejoué à chaque exécution au lieu de traiter la cause. Le challenge de session l'a
-classé `DECISION REQUIRED` : aligner le pin sur `10.0.303` avec `rollForward: latestFeature`, ou scripter
-l'installation de `10.0.302` sous `eng/`. C'est une décision de politique de version, elle n'a pas été
-prise. Voir `.claude/challenge-session.md`.
-
-## Sujet reporté
-
-Le choix d'une bibliothèque d'icônes. `OmniIcon.razor` contient aujourd'hui 11 icônes dessinées à la
-main, grille 24, trait 2, `currentColor`. Vérifié sur les dépôts, pas de mémoire : Lucide est en ISC et
-s'aligne exactement sur cette géométrie ; Phosphor est en MIT, bien plus fourni et plus caractérisé, mais
-impose `viewBox="0 0 256 256"`, un passage de `stroke` à `fill` et des tracés environ vingt fois plus
-longs. Heroicons écarté. Les deux licences autorisent l'usage commercial et la redistribution, à la seule
-condition de conserver leur texte de licence, d'où la suggestion `S-TECH-I7K2`.
-
-## Pièges connus
-
-- Ne jamais faire passer du contenu contenant `@` ou `$` par une substitution `perl` : les sigils sont
-  interpolés et détruisent le fichier. Utiliser un heredoc quoté ou `awk`.
-- Pour lancer un build ou la suite, basculer `global.json` sur `10.0.303` puis le restaurer à l'octet
-  près. `SdkDocumentation_MatchesTheExactGlobalJsonPin` échoue pendant la bascule, c'est attendu.
-- Aucun caractère accentué sous `src/OmniEurope.Blazor/Components`, commentaires compris, et aucun tiret
-  cadratin nulle part : deux gardes de convention le vérifient.
-- Aucun outil Python, jamais.
+## Open questions
+- Le journal des modifications n'a pas été touché : faut-il ouvrir une section `[Unreleased]` pour la réécriture de la sonde Hybrid et les correctifs CI, ou les considérer comme de l'outillage hors changelog ?
+- La release NuGet `1.0.0` doit-elle partir dès que `main` est vert, ou attendre une validation supplémentaire ?
+- Le motif de comptage des constats de challenge dans `/handoff` et `/cont` ne reconnaît pas `[✅]` comme résolu et affiche `6` là où il n'y a rien d'ouvert : harmoniser le marqueur ou le motif ?

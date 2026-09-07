@@ -12,6 +12,13 @@ public partial class SchedulerDemo
             "Récurrent", "FREQ=WEEKLY;COUNT=4")
     ];
 
+    private static readonly IReadOnlyList<OmniOption<OmniSchedulerView>> ViewOptions =
+    [
+        new(OmniSchedulerView.Day, "Jour"),
+        new(OmniSchedulerView.Week, "Semaine"),
+        new(OmniSchedulerView.Month, "Mois")
+    ];
+
     private DateTimeOffset Anchor { get; set; } = Day;
 
     private OmniSchedulerView View { get; set; } = OmniSchedulerView.Week;

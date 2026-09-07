@@ -30,4 +30,6 @@ public partial class SelectionDemo
     private string City { get; set; } = "bru";
 
     private IReadOnlyList<string> SelectedTags { get; set; } = ["urgent"];
+
+    private IReadOnlyList<string> CompactTags { get; set; } = ["urgent", "interne"];
 }

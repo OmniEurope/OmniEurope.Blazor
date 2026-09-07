@@ -11,7 +11,7 @@ Ce registre relie les 110 balises inventoriées à une cible Razor OmniEurope et
 | Source inventoriée | Cible OmniEurope | Phase | Présence | Références de tests | Catalogue | Navigateur |
 | --- | --- | ---: | --- | ---: | --- | ---: |
 | `RadzenStack` | `OmniStack` | 3 | fichier présent | 1 | non | 0 |
-| `RadzenButton` | `OmniButton` | 3 | fichier présent | 4 | oui | 4 |
+| `RadzenButton` | `OmniButton` | 3 | fichier présent | 5 | oui | 4 |
 | `RadzenBody` | `OmniBody` | 3 | fichier présent | 1 | non | 0 |
 | `RadzenHeader` | `OmniHeader` | 3 | fichier présent | 1 | non | 0 |
 | `RadzenLayout` | `OmniLayout` | 3 | fichier présent | 1 | non | 0 |

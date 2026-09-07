@@ -2,7 +2,8 @@
 param(
     [int]$Port = 5190,
     [int]$BrowserPort = 9224,
-    [string]$WebRoot = (Join-Path $PSScriptRoot '..\artifacts\wasm-smoke\wwwroot')
+    [string]$WebRoot = (Join-Path $PSScriptRoot '..\artifacts\wasm-smoke\wwwroot'),
+    [string]$BrowserLanguage = 'fr'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -94,6 +95,7 @@ try {
     New-Item -ItemType Directory -Path $browserProfile | Out-Null
     $browserArguments = @(
         '--headless=new', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox',
+        "--lang=$BrowserLanguage", "--accept-lang=$BrowserLanguage",
         "--remote-debugging-port=$BrowserPort", "--user-data-dir=$browserProfile", $baseUri
     )
     $browserStart = @{ FilePath = $browserPath; ArgumentList = $browserArguments; PassThru = $true }

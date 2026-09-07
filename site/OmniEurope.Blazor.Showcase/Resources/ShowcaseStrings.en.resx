@@ -64,6 +64,7 @@
   <data name="DemoButtonsCapability1" xml:space="preserve"><value>Four intents: primary, secondary, ghost and destructive.</value></data>
   <data name="DemoButtonsCapability2" xml:space="preserve"><value>A busy state that blocks double submission and announces itself to screen readers.</value></data>
   <data name="DemoButtonsCapability3" xml:space="preserve"><value>A disabled state kept distinct from the busy one.</value></data>
+  <data name="DemoButtonsCapability4" xml:space="preserve"><value>Three sizes, and the three button types a form uses: submit, reset and plain action.</value></data>
   <data name="DemoBadgesTitle" xml:space="preserve"><value>Badges</value></data>
   <data name="DemoBadgesSummary" xml:space="preserve"><value>The short label that qualifies an item without crowding it.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Five variants aligned with the theme severities.</value></data>
@@ -120,6 +121,7 @@
   <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Progress bar, determinate or indeterminate.</value></data>
   <data name="DemoFeedbackCapability2" xml:space="preserve"><value>Tooltip reachable from the keyboard, not only on hover.</value></data>
   <data name="DemoFeedbackCapability3" xml:space="preserve"><value>Loading skeleton announced to screen readers.</value></data>
+  <data name="DemoFeedbackCapability4" xml:space="preserve"><value>A linear or circular bar in four intents, and a skeleton shaped like what it stands in for.</value></data>
   <data name="DemoGridTitle" xml:space="preserve"><value>Data grid</value></data>
   <data name="DemoGridSummary" xml:space="preserve"><value>The working table: sorting, filtering, paging and groups.</value></data>
   <data name="DemoGridCapability1" xml:space="preserve"><value>Per-column sorting and filtering, over the real data.</value></data>
@@ -139,16 +141,19 @@
   <data name="DemoLayoutCapability1" xml:space="preserve"><value>A twelve-column grid with spans per breakpoint.</value></data>
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>A card in three zones: header, body and footer.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>A field group that can be disabled in one move.</value></data>
+  <data name="DemoLayoutCapability4" xml:space="preserve"><value>The full spacing scale, and the alignments a row accepts.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Application shell</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>The frame of an application, the one this site is built from.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Header, collapsible sidebar and main region.</value></data>
   <data name="DemoShellCapability2" xml:space="preserve"><value>A navigation menu with expandable groups.</value></data>
   <data name="DemoShellCapability3" xml:space="preserve"><value>An appearance toggle and a local theme scope.</value></data>
+  <data name="DemoShellCapability4" xml:space="preserve"><value>Both arrangements: a centred reading column or full width, menu on either side.</value></data>
   <data name="DemoMediaTitle" xml:space="preserve"><value>Icons and media</value></data>
   <data name="DemoMediaSummary" xml:space="preserve"><value>Icons, images and the timeline.</value></data>
   <data name="DemoMediaCapability1" xml:space="preserve"><value>Built-in icons in three sizes.</value></data>
   <data name="DemoMediaCapability2" xml:space="preserve"><value>A host-supplied icon path, with no weight added to the package.</value></data>
   <data name="DemoMediaCapability3" xml:space="preserve"><value>An image with adjustable fit and lazy loading.</value></data>
+  <data name="DemoMediaCapability4" xml:space="preserve"><value>The whole embedded icon set, and the three ways an image can fill its box.</value></data>
   <data name="DemoInputsTitle" xml:space="preserve"><value>Advanced inputs</value></data>
   <data name="DemoInputsSummary" xml:space="preserve"><value>Numbers, passwords, dates, colours and autocomplete.</value></data>
   <data name="DemoInputsCapability1" xml:space="preserve"><value>A bounded numeric field with an adjustable step.</value></data>
@@ -179,6 +184,7 @@
   <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Multiple selection, from a click on the row.</value></data>
   <data name="DemoGridAdvancedCapability2" xml:space="preserve"><value>Combo and multi-select filters, per column.</value></data>
   <data name="DemoGridAdvancedCapability3" xml:space="preserve"><value>A frozen column, expanded groups and a computed column footer.</value></data>
+  <data name="DemoGridAdvancedCapability4" xml:space="preserve"><value>Display settings driven live: lines, density, paging, selection, editing and filters.</value></data>
   <data name="DemoDataListTitle" xml:space="preserve"><value>Lists and paging</value></data>
   <data name="DemoDataListSummary" xml:space="preserve"><value>The free-template list and its pager.</value></data>
   <data name="DemoDataListCapability1" xml:space="preserve"><value>An item template entirely supplied by the host.</value></data>

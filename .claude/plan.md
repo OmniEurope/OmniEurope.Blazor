@@ -1,7 +1,7 @@
 # Plan - Site vitrine, documentation et personnalisation
 
 > Canonical plan: `plans/PLAN-005-site-vitrine.md` (précédent : `plans/PLAN-004-grille-complete.md`)
-> Last updated: 2026-09-06
+> Last updated: 2026-09-07
 > Current scope: PLAN-005 est **clos**, ses cinq phases livrées et vérifiées. PLAN-004 et PLAN-003
 > restent ouverts derrière.
 
@@ -14,9 +14,11 @@
 ## Phase 3 - Explorateur de composants [done]
 - [x] 23 familles, 109 composants sur 109, code affiché prouvé identique au code exécuté.
 - [x] Couverture, rendu et conformité de sécurité tenus par des tests.
+- [x] Toutes les variantes exposées en paramètre sont démontrées, et un garde les verrouille.
 
 ## Phase 4 - Personnalisateur et thèmes [done]
 - [x] 66 tokens éditables, export CSS, persistance, 25 palettes en clair et sombre.
+- [x] `ThemeState` et la page de personnalisation couverts par des tests.
 - [x] Contraste WCAG vérifié sur les 50 palettes-modes.
 
 ## Phase 5 - Typographie [done]
