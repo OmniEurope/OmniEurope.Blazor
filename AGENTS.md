@@ -42,6 +42,7 @@ Add a rule below **only** when it is specific to this project or deliberately ov
 - `src/OmniEurope.Blazor`: the single production RCL and NuGet package.
 - `tests/OmniEurope.Blazor.Tests`: bUnit and contract tests.
 - `samples`: Server catalog plus WebAssembly, Interactive Auto, and Hybrid smoke hosts.
+- `site/OmniEurope.Blazor.Showcase`: the static WebAssembly showcase site (product page, documentation, component gallery, theme customizer). Its coverage of every public component and of every enumerated parameter value is enforced by guard tests in `tests/OmniEurope.Blazor.Tests`, so a new component or a new enum value is a build failure until it is demonstrated.
 - `eng`: reproducible validation, inventory, package, CSP, API, and budget gates.
 - `docs`: component contracts, compatibility, migration, security, localization, and clean-room evidence.
 - `plans`: canonical numbered plans. The active plan is indexed by `.claude/plan.md`.

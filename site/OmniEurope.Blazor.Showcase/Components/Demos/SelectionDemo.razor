@@ -19,7 +19,16 @@
         <OmniFormField For="demo-tags">
             <Label>Étiquettes</Label>
             <ChildContent>
-                <OmniMultiSelect TValue="string" Id="demo-tags" Options="Tags" @bind-Value="SelectedTags" />
+                <OmniMultiSelect TValue="string" Id="demo-tags" Options="Tags" @bind-Value="SelectedTags"
+                                 Presentation="OmniMultiSelectPresentation.List" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="demo-tags-compact">
+            <Label>Étiquettes, forme compacte</Label>
+            <ChildContent>
+                <OmniMultiSelect TValue="string" Id="demo-tags-compact" Options="Tags" @bind-Value="CompactTags"
+                                 Presentation="OmniMultiSelectPresentation.Compact"
+                                 Placeholder="Choisir des étiquettes" />
             </ChildContent>
         </OmniFormField>
     </OmniStack>

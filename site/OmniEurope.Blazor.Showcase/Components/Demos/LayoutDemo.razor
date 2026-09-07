@@ -40,4 +40,40 @@
         <Legend>Groupe désactivé</Legend>
         <ChildContent>Tout ce que ce groupe contient devient inopérant d'un seul geste.</ChildContent>
     </OmniFieldset>
+
+    @* L'échelle d'espacement, du plus serré au plus large. *@
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniRow Gap="OmniSpacing.None"><OmniBadge>Aucun</OmniBadge><OmniBadge>écart</OmniBadge></OmniRow>
+        <OmniRow Gap="OmniSpacing.XSmall"><OmniBadge>Très</OmniBadge><OmniBadge>serré</OmniBadge></OmniRow>
+        <OmniRow Gap="OmniSpacing.Small"><OmniBadge>Serré</OmniBadge><OmniBadge>petit</OmniBadge></OmniRow>
+        <OmniRow Gap="OmniSpacing.Medium"><OmniBadge>Courant</OmniBadge><OmniBadge>moyen</OmniBadge></OmniRow>
+        <OmniRow Gap="OmniSpacing.Large"><OmniBadge>Aéré</OmniBadge><OmniBadge>grand</OmniBadge></OmniRow>
+        <OmniRow Gap="OmniSpacing.XLarge"><OmniBadge>Très</OmniBadge><OmniBadge>aéré</OmniBadge></OmniRow>
+    </OmniStack>
+
+    @* Les quatre répartitions horizontales et les quatre alignements verticaux. *@
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniRow Justify="OmniJustification.Start" Gap="OmniSpacing.Small">
+            <OmniBadge Variant="OmniBadgeVariant.Accent">Aligné au début</OmniBadge>
+        </OmniRow>
+        <OmniRow Justify="OmniJustification.Center" Gap="OmniSpacing.Small">
+            <OmniBadge Variant="OmniBadgeVariant.Accent">Centré</OmniBadge>
+        </OmniRow>
+        <OmniRow Justify="OmniJustification.End" Gap="OmniSpacing.Small">
+            <OmniBadge Variant="OmniBadgeVariant.Accent">Aligné à la fin</OmniBadge>
+        </OmniRow>
+    </OmniStack>
+
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Start">
+        <OmniBadge>En haut</OmniBadge>
+        <OmniCard><ChildContent>Une carte plus haute que ses voisines.</ChildContent></OmniCard>
+    </OmniStack>
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.End">
+        <OmniBadge>En bas</OmniBadge>
+        <OmniCard><ChildContent>Le badge se cale sur le bas de la rangée.</ChildContent></OmniCard>
+    </OmniStack>
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Stretch">
+        <OmniCard><ChildContent>Étirée</ChildContent></OmniCard>
+        <OmniCard><ChildContent>Les deux cartes prennent la même hauteur.</ChildContent></OmniCard>
+    </OmniStack>
 </OmniStack>

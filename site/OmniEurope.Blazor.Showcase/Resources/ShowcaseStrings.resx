@@ -64,6 +64,7 @@
   <data name="DemoButtonsCapability1" xml:space="preserve"><value>Quatre intentions : primaire, secondaire, discrète et destructrice.</value></data>
   <data name="DemoButtonsCapability2" xml:space="preserve"><value>État occupé qui bloque le double envoi et l'annonce aux lecteurs d'écran.</value></data>
   <data name="DemoButtonsCapability3" xml:space="preserve"><value>État désactivé distinct de l'état occupé.</value></data>
+  <data name="DemoButtonsCapability4" xml:space="preserve"><value>Trois tailles, et les trois types de bouton d'un formulaire : envoi, réinitialisation, action neutre.</value></data>
   <data name="DemoBadgesTitle" xml:space="preserve"><value>Badges</value></data>
   <data name="DemoBadgesSummary" xml:space="preserve"><value>L'étiquette courte qui qualifie un élément sans le surcharger.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Cinq variantes alignées sur les sévérités du thème.</value></data>
@@ -120,6 +121,7 @@
   <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Barre de progression déterminée ou indéterminée.</value></data>
   <data name="DemoFeedbackCapability2" xml:space="preserve"><value>Infobulle atteignable au clavier, pas seulement au survol.</value></data>
   <data name="DemoFeedbackCapability3" xml:space="preserve"><value>Squelette de chargement annoncé aux lecteurs d'écran.</value></data>
+  <data name="DemoFeedbackCapability4" xml:space="preserve"><value>Barre linéaire ou circulaire en quatre intentions, et un squelette qui prend la forme de ce qu'il remplace.</value></data>
   <data name="DemoGridTitle" xml:space="preserve"><value>Grille de données</value></data>
   <data name="DemoGridSummary" xml:space="preserve"><value>Le tableau de travail : tri, filtre, pagination et groupes.</value></data>
   <data name="DemoGridCapability1" xml:space="preserve"><value>Tri et filtre par colonne, sur la donnée réelle.</value></data>
@@ -139,16 +141,19 @@
   <data name="DemoLayoutCapability1" xml:space="preserve"><value>Grille de douze colonnes avec portées par palier d'écran.</value></data>
   <data name="DemoLayoutCapability2" xml:space="preserve"><value>Carte à trois zones : entête, corps et pied.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Groupe de champs désactivable d'un seul geste.</value></data>
+  <data name="DemoLayoutCapability4" xml:space="preserve"><value>L'échelle d'espacement complète, et les répartitions et alignements qu'une rangée accepte.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Coquille applicative</value></data>
   <data name="DemoShellSummary" xml:space="preserve"><value>L'ossature d'une application, celle dont ce site est fait.</value></data>
   <data name="DemoShellCapability1" xml:space="preserve"><value>Entête, barre latérale repliable et zone principale.</value></data>
   <data name="DemoShellCapability2" xml:space="preserve"><value>Menu de navigation à groupes dépliables.</value></data>
   <data name="DemoShellCapability3" xml:space="preserve"><value>Bascule d'apparence et portée de thème locale.</value></data>
+  <data name="DemoShellCapability4" xml:space="preserve"><value>Les deux arrangements : colonne de lecture centrée ou pleine largeur, menu à gauche ou à droite.</value></data>
   <data name="DemoMediaTitle" xml:space="preserve"><value>Icônes et médias</value></data>
   <data name="DemoMediaSummary" xml:space="preserve"><value>Les icônes, les images et la frise chronologique.</value></data>
   <data name="DemoMediaCapability1" xml:space="preserve"><value>Icônes intégrées en trois tailles.</value></data>
   <data name="DemoMediaCapability2" xml:space="preserve"><value>Tracé d'icône fourni par l'hôte, sans alourdir le paquet.</value></data>
   <data name="DemoMediaCapability3" xml:space="preserve"><value>Image au cadrage réglable et chargement différé.</value></data>
+  <data name="DemoMediaCapability4" xml:space="preserve"><value>Le jeu d'icônes embarqué au complet, et les trois cadrages d'image.</value></data>
   <data name="DemoInputsTitle" xml:space="preserve"><value>Saisie avancée</value></data>
   <data name="DemoInputsSummary" xml:space="preserve"><value>Nombres, mots de passe, dates, couleurs et autocomplétion.</value></data>
   <data name="DemoInputsCapability1" xml:space="preserve"><value>Champ numérique borné, avec pas réglable.</value></data>
@@ -179,6 +184,7 @@
   <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Sélection multiple, au clic sur la ligne.</value></data>
   <data name="DemoGridAdvancedCapability2" xml:space="preserve"><value>Filtres à liste déroulante et à sélection multiple par colonne.</value></data>
   <data name="DemoGridAdvancedCapability3" xml:space="preserve"><value>Colonne figée, groupes dépliés et pied de colonne calculé.</value></data>
+  <data name="DemoGridAdvancedCapability4" xml:space="preserve"><value>Réglages d'affichage pilotés en direct : lignes, densité, pagination, sélection, édition et filtres.</value></data>
   <data name="DemoDataListTitle" xml:space="preserve"><value>Listes et pagination</value></data>
   <data name="DemoDataListSummary" xml:space="preserve"><value>La liste à gabarit libre et son paginateur.</value></data>
   <data name="DemoDataListCapability1" xml:space="preserve"><value>Gabarit d'élément entièrement fourni par l'hôte.</value></data>

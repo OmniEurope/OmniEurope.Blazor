@@ -1,5 +1,58 @@
 @* The grid at full stretch: selection, grouping, editing, frozen columns and the two filter
-   controls the column header can host. *@
+   controls the column header can host. The row of selectors above it drives the display settings
+   live, so every value the parameters accept can be seen rather than merely described. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniRow Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.End">
+        <OmniFormField For="grid-lines">
+            <Label>Lignes</Label>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridLines" Id="grid-lines" Options="LineOptions" @bind-Value="Lines" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-density">
+            <Label>Densité</Label>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDensity" Id="grid-density" Options="DensityOptions" @bind-Value="Density" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-pager">
+            <Label>Pagination</Label>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridPagerPosition" Id="grid-pager" Options="PagerOptions" @bind-Value="Pager" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-selection">
+            <Label>Sélection</Label>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridSelectionMode" Id="grid-selection" Options="SelectionOptions" @bind-Value="Mode" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-filter">
+            <Label>Filtres</Label>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridFilterMode" Id="grid-filter" Options="FilterOptions" @bind-Value="Filters" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-edit">
+            <Label>Édition</Label>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridEditMode" Id="grid-edit" Options="EditOptions" @bind-Value="Edit" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-expand">
+            <Label>Dépliage</Label>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridExpandMode" Id="grid-expand" Options="ExpandOptions" @bind-Value="Expand" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="grid-footer">
+            <Label>Pied de tableau</Label>
+            <ChildContent>
+                <OmniDropDown TValue="OmniDataGridFooterPosition" Id="grid-footer" Options="FooterOptions" @bind-Value="Footer" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniRow>
+
 <OmniDataGrid TItem="GridRow"
               Items="Rows"
               Caption="Dossiers, vue complète"
@@ -10,11 +63,18 @@
               AllowRowSelectOnRowClick="true"
               AllowVirtualization="false"
               AllGroupsExpanded="true"
-              SelectionMode="OmniDataGridSelectionMode.Multiple"
-              EditMode="OmniDataGridEditMode.Single"
+              AlwaysShowPager="true"
+              PageSize="4"
+              SelectionMode="Mode"
+              EditMode="Edit"
+              ExpandMode="Expand"
+              FooterPosition="Footer"
+              FilterMode="Filters"
+              PagerPosition="Pager"
+              Density="Density"
               Value="Selection"
               ValueChanged="@(value => Selection = value)"
-              Lines="OmniDataGridLines.Both">
+              GridLines="Lines">
     <Columns>
         <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" Frozen="true" />
         <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur"
@@ -49,3 +109,4 @@
 </OmniDataGrid>
 
 <p>Lignes retenues : @(Selection.Count == 0 ? "aucune" : string.Join(", ", Selection.Select(row => row.Reference)))</p>
+</OmniStack>

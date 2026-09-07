@@ -26,3 +26,29 @@
         </OmniBody>
     </OmniLayout>
 </OmniThemeScope>
+
+@* La même coquille dans l'autre arrangement : pleine largeur, menu à droite, densité aérée, et une
+   apparence qui suit le réglage du système au lieu d'être imposée. *@
+<OmniThemeScope Appearance="OmniAppearance.System" Density="OmniDensity.Spacious">
+    <OmniLayout Width="OmniLayoutWidth.Wide">
+        <OmniHeader>
+            <OmniHeading Level="OmniHeadingLevel.H4">Console d'exploitation</OmniHeading>
+        </OmniHeader>
+        <OmniBody>
+            <OmniSidebar Open="true" AriaLabel="Menu secondaire" Position="OmniSidebarPosition.End">
+                <OmniPanelMenu Label="Outils" DisplayStyle="OmniPanelMenuDisplayStyle.Icon">
+                    <OmniPanelMenuItem Text="Journaux" Href="composants/coquille" Match="OmniNavMatch.Prefix">
+                        <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                    </OmniPanelMenuItem>
+                    <OmniPanelMenuItem Text="Action ponctuelle" Match="OmniNavMatch.None">
+                        <Icon><OmniIcon Name="OmniIconName.Filter" /></Icon>
+                    </OmniPanelMenuItem>
+                </OmniPanelMenu>
+            </OmniSidebar>
+            <OmniMain AriaLabelledBy="shell-demo-wide-title">
+                <OmniHeading Id="shell-demo-wide-title" Level="OmniHeadingLevel.H5">Vue large</OmniHeading>
+                <p>La zone de contenu court d'un bord à l'autre, sans colonne de lecture centrée.</p>
+            </OmniMain>
+        </OmniBody>
+    </OmniLayout>
+</OmniThemeScope>
