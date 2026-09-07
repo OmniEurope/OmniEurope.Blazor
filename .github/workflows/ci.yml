@@ -111,7 +111,7 @@ jobs:
       - name: Restore Hybrid smoke host
         run: dotnet restore samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --locked-mode
       - name: Build Hybrid smoke host
-        run: dotnet build samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --configuration Release --no-restore
+        run: dotnet build samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --configuration Release
       - name: Hybrid WebView2 smoke test
         shell: pwsh
         run: ./eng/Test-HybridHost.ps1

@@ -2,7 +2,8 @@
 param(
     [int]$Port = 5189,
     [int]$BrowserPort = 9223,
-    [string]$AssemblyPath = (Join-Path $PSScriptRoot '..\artifacts\auto-smoke\OmniEurope.Blazor.AutoSmoke.dll')
+    [string]$AssemblyPath = (Join-Path $PSScriptRoot '..\artifacts\auto-smoke\OmniEurope.Blazor.AutoSmoke.dll'),
+    [string]$BrowserLanguage = 'fr'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -105,6 +106,7 @@ try {
     New-Item -ItemType Directory -Path $browserProfile | Out-Null
     $browserArguments = @(
         '--headless=new', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox',
+        "--lang=$BrowserLanguage", "--accept-lang=$BrowserLanguage",
         "--remote-debugging-port=$BrowserPort", "--user-data-dir=$browserProfile", $baseUri
     )
     $browserStart = @{ FilePath = $browserPath; ArgumentList = $browserArguments; PassThru = $true }
