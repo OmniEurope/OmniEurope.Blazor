@@ -50,6 +50,19 @@ jobs:
       - name: Dependency and action policy
         shell: pwsh
         run: ./eng/Test-DependencyPolicy.ps1
+      # The inventory covers every packages.lock.json in the repository, including the Hybrid smoke
+      # host, a Windows-only sample kept out of the solution and never restored by this job. This
+      # downloads its pinned packages without evaluating the project, so the SBOM can read their
+      # nuspec and licence files here rather than moving to a Windows runner.
+      - name: Download the packages the solution does not restore
+        shell: pwsh
+        run: ./eng/Restore-LockedPackages.ps1 -LockFile samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json
+      - name: SBOM and license registry
+        shell: pwsh
+        run: |
+          ./eng/Generate-Sbom.ps1
+          ./eng/Test-Sbom.ps1
+          git diff --exit-code -- NOTICE.md docs/sbom.cdx.json docs/third-party-packages.json docs/third-party-licenses
       - name: CSP source guard
         shell: pwsh
         run: |
@@ -106,17 +119,6 @@ jobs:
         run: dotnet restore samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --locked-mode
       - name: Build Hybrid smoke host
         run: dotnet build samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --configuration Release
-      # The SBOM covers every packages.lock.json in the repository, and the Hybrid host is a
-      # Windows-only sample kept out of the solution. Only this job restores both, so only this
-      # job can see every locked package in the NuGet cache and generate a complete inventory.
-      - name: Restore the solution for the inventory
-        run: dotnet restore OmniEurope.Blazor.slnx --locked-mode
-      - name: SBOM and license registry
-        shell: pwsh
-        run: |
-          ./eng/Generate-Sbom.ps1
-          ./eng/Test-Sbom.ps1
-          git diff --exit-code -- NOTICE.md docs/sbom.cdx.json docs/third-party-packages.json docs/third-party-licenses
       - name: Hybrid WebView2 smoke test
         shell: pwsh
         run: ./eng/Test-HybridHost.ps1
