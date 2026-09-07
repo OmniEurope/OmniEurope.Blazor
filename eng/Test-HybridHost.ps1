@@ -13,6 +13,10 @@ $resolvedExecutable = (Resolve-Path -LiteralPath $ExecutablePath).Path
 $process = $null
 $captured = $null
 $subscriptions = @()
+$policyWritten = $false
+$policyKey = $null
+$policyName = $null
+$policyPrevious = $null
 $userDataFolder = Join-Path ([IO.Path]::GetTempPath()) ("omnieurope-webview2-" + [Guid]::NewGuid().ToString('n'))
 $hostPage = Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.HybridSmoke\wwwroot\index.html'
 
@@ -48,15 +52,25 @@ try {
     }
     if ($portOccupied) { throw ($psText.HybridPortOwned -f $Port) }
 
-    # Additional browser arguments only apply when WebView2 creates a browser process. An existing
-    # process for the same user data folder is reused and the arguments are dropped, which looks
-    # exactly like the runner failure: WebView2 alive and rendering, no debugging port. A folder of
-    # its own guarantees a fresh browser process that carries the argument.
-    # On the runner the browser process started without the debugging argument on its command line
-    # although this script had set the variable, so setting $env: and trusting inheritance is not
-    # enough. The variables are written straight into the child's environment block instead, which
-    # removes inheritance from the equation entirely.
+    # Additional browser arguments only apply when WebView2 creates a browser process, so the run
+    # gets a user data folder of its own: an existing process for the same folder would be reused
+    # and the arguments dropped.
+    #
+    # The environment variable alone is not enough. On the runner the browser process started
+    # without the debugging argument on its command line even after the variable was written
+    # straight into the child's environment block, which rules inheritance out as the explanation.
+    # WebView2 also reads a per-executable value under the Edge policy key, a path that depends on
+    # no variable and no inheritance at all, and that one does reach the browser process: setting
+    # it with no environment variable whatsoever opens the port. Both are set, and the argument
+    # still appears only once on the command line.
     $browserArguments = "--remote-debugging-port=$Port --remote-allow-origins=*"
+    $policyKey = 'HKCU:\Software\Policies\Microsoft\Edge\WebView2\AdditionalBrowserArguments'
+    $policyName = Split-Path -Leaf $resolvedExecutable
+    $policyPrevious = (Get-ItemProperty -LiteralPath $policyKey -Name $policyName -ErrorAction SilentlyContinue).$policyName
+    $policyWritten = $false
+    New-Item -Path $policyKey -Force | Out-Null
+    Set-ItemProperty -LiteralPath $policyKey -Name $policyName -Value $browserArguments
+    $policyWritten = $true
     $startInfo = [Diagnostics.ProcessStartInfo]::new()
     $startInfo.FileName = $resolvedExecutable
     $startInfo.WorkingDirectory = Split-Path -Parent $resolvedExecutable
@@ -152,5 +166,13 @@ finally {
         if ($subscription) { Unregister-Event -SubscriptionId $subscription.Id -ErrorAction SilentlyContinue }
     }
     if ($process) { $process.Dispose() }
+    # The policy value belongs to the machine, not to this run: put back exactly what was there.
+    if ($policyWritten) {
+        if ($null -ne $policyPrevious) {
+            Set-ItemProperty -LiteralPath $policyKey -Name $policyName -Value $policyPrevious
+        } else {
+            Remove-ItemProperty -LiteralPath $policyKey -Name $policyName -ErrorAction SilentlyContinue
+        }
+    }
     Remove-Item -LiteralPath $userDataFolder -Recurse -Force -ErrorAction SilentlyContinue
 }
