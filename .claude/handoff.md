@@ -1,52 +1,51 @@
 # Handoff - 2026-09-07
 
 ## State
-Branch: develop · Last commit: 6d30a1c fix(tests): pin the suite culture and wait for the MAUI host before probing
+Branch: develop · Last commit: dc807cc feat(hybrid): prove the Hybrid host from inside WebView2 instead of over CDP
 
-`develop` est à jour sur `origin`. Arbre de travail propre sur le fond : `NOTICE.md`, `docs/sbom.cdx.json`, `docs/third-party-packages.json` et `src/OmniEurope.Blazor/packages.lock.json` apparaissent modifiés mais ne diffèrent que par les fins de ligne (générateurs PowerShell écrivant en CRLF sous Windows, normalisés en LF par `.gitattributes` au commit). Aucun contenu à committer.
+Arbre de travail propre, `develop` à jour sur `origin`. Les deux jobs CI sont verts sur le runner au commit `dc807cc` : `validate` (ubuntu) et `hybrid-smoke` (windows, 2 min 21, ligne `Hybrid validé dans WebView2 par auto-test ... lang="en"` qui prouve une exécution réelle sur le runner anglais).
 
-`main` est mergé **localement** en `fe8da4a`, mais ce merge date d'avant les commits `f2e1c72`, `83ea63d` et `6d30a1c`. Il est donc périmé et doit être refait.
+Suivis d'audit de session ouverts : `0` (`.claude/auditsession.md`). Constats de challenge : `6` selon le motif de comptage, mais `.claude/challenge-session.md` ne contient que des entrées marquées `[✅]` résolues, que le motif ne reconnaît pas comme fermées ; aucun constat réellement ouvert.
 
-Suivis d'audit de session ouverts : `0`. Constats de challenge ouverts : `6` (voir `.claude/challenge-session.md`).
-
-Une session parallèle a travaillé dans le même arbre pendant cette session (commits `f2e1c72` et `83ea63d`, couverture des variantes de la vitrine). Vérifier `git status` et l'horodatage des fichiers avant de committer quoi que ce soit.
+`main` est mergé localement en `fe8da4a`, périmé de douze commits. Le merge de `develop` dans `main` reste à refaire, et le push de `main` doit être lancé par l'humain (hook `guard-git-push.js`).
 
 ## Done in this session
-- Version du paquet portée à `1.0.0` (`.csproj`, `README.md`, SBOM, section `[Unreleased]` du changelog close en `[1.0.0]`).
-- Pin SDK remplacé par une bande de fonctionnalités (`10.0.300` + `rollForward: latestPatch`), `workloadVersion` retiré, et le numéro dédupliqué dans `eng/Test-SdkBand.ps1` au lieu d'être recopié dans `ci.yml` et un test de convention.
-- `.gitattributes` ajouté : LF partout, sauf `docs/third-party-licenses/` laissé sans conversion, car ces textes sont copiés octet pour octet depuis les paquets NuGet puis hachés comme preuve.
-- Actions GitHub passées en runtimes node24 (`checkout` v5.1.0, `upload-artifact` v6.0.0, runtimes vérifiés dans les `action.yml`).
-- 10 dépendances montées, 2 marquées `toolchain-bound` avec leur raison (`Microsoft.CodeAnalysis.CSharp` bloqué par CS9057, `xunit.v3` bloqué par la suppression de VSTest).
-- Pannes CI corrigées avec reproduction locale à chaque fois : lock file HybridSmoke périmé, runtime pack absent d'un runner propre (NETSDK1112), locale navigateur non fixée sur les sondes WebAssembly et Auto, culture non fixée du banc de test, sonde MAUI sans attente de son hôte.
-- `docs/mistakes.md` créé, 12 entrées, chacune avec symptôme observable, cause réelle, correctif et garde ou méthode de reproduction.
+- Onze commits de remise au vert de la CI, chacun avec reproduction locale et contrôle négatif avant livraison, tous journalisés dans `docs/mistakes.md`.
+- Job `validate` : dossier NuGet résolu sans `USERPROFILE` (Linux), paquets du host Hybrid téléchargés par `PackageDownload` via `eng/Restore-LockedPackages.ps1` pour que l'inventaire SBOM couvre tous les verrous sans déplacer l'étape sur Windows, bit exécutable des textes de licence forcé à 0644, horodatage de couverture normalisé en UTC.
+- Deux scripts qui provoquaient un échec volontaire (`Test-CspFixtures.ps1`, `Test-PackageFixtures.ps1`) laissaient `$LASTEXITCODE` à 1 et coulaient leur étape malgré des lignes de succès ; corrigés, et les 13 usages de `$LASTEXITCODE` sous `eng/` relus.
+- Sonde Hybrid réécrite en auto-test interne : `wwwroot/hybrid-smoke.js` chargé avant Blazor clique, lit compteur, langue, titre et erreurs console ; l'hôte publie le résultat sur stdout quand `HYBRIDSMOKE_SELFTEST` est défini ; `eng/Test-HybridHost.ps1` lit et vérifie. Plus aucune dépendance au port CDP que l'image `windows-latest` refuse quel que soit le mécanisme (variable d'environnement, bloc d'environnement du fils, clé de stratégie Edge, tous prouvés inopérants là-bas).
+- Méthode changée en cours de route : pipeline complet des deux jobs rejoué en local (`25/25`) avant chaque push, au lieu de réagir à un log de runner à la fois.
+- README, `docs/testing.md` et `docs/mistakes.md` mis à jour, dont la limite connue de la capture des erreurs console (hors protocole de débogage).
 
 ## In progress
-Rien d'inachevé côté code. Le seul travail suspendu est la publication : `main` doit être re-mergé puis poussé, et la release NuGet créée ensuite.
+Rien d'inachevé côté code.
 
 ## Next step
-Attendre le verdict de la CI sur `6d30a1c`, puis refaire le merge de `develop` dans `main` et demander à l'humain de lancer `git push origin main`, le hook `guard-git-push.js` bloquant cette publication côté agent.
+Refaire le merge de `develop` dans `main`, puis demander à l'humain de lancer `git push origin main` et de décider de la release NuGet `1.0.0`.
 
 ## Key files
-- `global.json` → pin SDK par bande de fonctionnalités, source unique du numéro.
-- `eng/Test-SdkBand.ps1` → garde qui lit `global.json` et applique la bande dans les deux jobs.
-- `.gitattributes` → normalisation LF, avec l'exception des textes de licence.
-- `.github/workflows/ci.yml` → actions node24, gardes SDK, et build MAUI sans `--no-restore`.
-- `eng/Test-WasmHost.ps1`, `eng/Test-AutoHost.ps1` → paramètre `-BrowserLanguage` fixant la locale du navigateur.
-- `eng/Test-HybridHost.ps1` → attente d'une cible CDP avant de sonder, paramètre `-ReadyTimeoutSeconds`.
-- `tests/OmniEurope.Blazor.Tests/TestCulture.cs` → `ModuleInitializer` fixant `fr-FR` pour tout le banc.
-- `eng/dependency-policy.json` → catalogue revu, statut `toolchain-bound` et sa raison.
-- `docs/mistakes.md` → journal des erreurs rencontrées et de leur correctif.
+- `eng/Test-HybridHost.ps1` → sonde Hybrid sans CDP : lance l'hôte avec `HYBRIDSMOKE_SELFTEST=1`, collecte stdout par `Register-ObjectEvent`, vérifie compteur, langue, titre, erreurs.
+- `samples/OmniEurope.Blazor.HybridSmoke/wwwroot/hybrid-smoke.js` → module d'auto-test, hooks d'erreurs installés au chargement de la page, clic DOM réel.
+- `samples/OmniEurope.Blazor.HybridSmoke/HybridSmoke.razor.cs` → déclenche l'auto-test après le premier rendu et publie `HYBRID-SMOKE selftest ...`.
+- `samples/OmniEurope.Blazor.HybridSmoke/SmokeTrace.cs`, `MainPage.cs` → marqueurs de démarrage sur stdout.
+- `eng/Restore-LockedPackages.ps1` → télécharge les paquets d'un `packages.lock.json` par `PackageDownload`, sans évaluer le projet ni workload.
+- `eng/Generate-Sbom.ps1` → repli `GetFolderPath`, mode 0644 des textes de licence hors Windows.
+- `eng/Generate-ComponentCoverage.ps1` → `generatedFrom` en UTC.
+- `eng/Test-CspFixtures.ps1`, `eng/Test-PackageFixtures.ps1` → `$LASTEXITCODE` nettoyé après l'échec attendu.
+- `docs/mistakes.md` → journal complet des pannes, causes, correctifs et fausses pistes de cette session.
 
 ## Pitfalls
-- **Le hook `guard-git-push.js` refuse `main` même quand l'humain le demande explicitement dans le message courant.** Sa décision est finale côté agent ; l'humain doit lancer la commande depuis son terminal.
-- **Une classe entière de bugs vient de l'environnement, pas du code** : culture, locale navigateur, fins de ligne, cache NuGet. Ces bugs sont verts sur un poste français avec un cache chaud et rouges sur un runner. Le réflexe à garder : reproduire d'abord en forçant la condition du runner (contrôle négatif), corriger ensuite. Un correctif d'environnement sans contrôle négatif ne prouve rien.
-- **Le build local est impossible sans le bon SDK** : la bande `10.0.3xx` est requise. Vérifier avec `./eng/Test-SdkBand.ps1`.
-- **`eng/Test-DependencyPolicy.ps1` rougit tout seul avec le temps** : il exige que chaque paquet `latest-stable` soit exactement la dernière version publiée sur nuget.org, et `reviewedAt` périme au bout de 30 jours (revu le 2026-09-07, donc échéance au 2026-10-07). Traiter la dérive avant tout autre travail, et marquer `toolchain-bound` ce qui ne peut structurellement pas suivre.
-- **Les scripts `eng/*.ps1` doivent rester ASCII** : tout texte français va dans `eng/PowerShellMessages.psd1`, sinon `EngineeringPowerShellScripts_AreAsciiOnly` échoue.
-- **Les preuves générées périment en silence** : après toute modification de la surface publique, de la liste des projets ou des dépendances, relancer `eng/Test-PublicApi.ps1 -Update`, `eng/Generate-ComponentCoverage.ps1` et `eng/Generate-Sbom.ps1`.
-- **Dette assumée** : `xunit` reste en 3.2.2. La 4.0.0 supprime VSTest sur le SDK .NET 10 et casse toute la chaîne de preuve de couverture (`coverlet.collector`, le `.trx`, `eng/Test-Coverage.ps1`, la commande de test de `ci.yml`). C'est une migration vers Microsoft.Testing.Platform, à mener comme un travail à part entière.
+- **Une sonde de CI ne doit dépendre que de ce que le dépôt contrôle.** Quatre correctifs du port CDP, tous verts en local, tous rouges sur le runner : la cible était mauvaise dès le départ. Se demander d'abord de quelle ressource de l'environnement une preuve dépend.
+- **Réagir à un log de runner à la fois multiplie les allers-retours.** Rejouer le pipeline entier en local, en imitant `exit $LASTEXITCODE` de fin d'étape, a fait tomber trois pannes d'un coup. Le script de rejeu vit dans le scratchpad de session, pas dans le dépôt.
+- **Une preuve régénérée puis comparée par `git diff` ne doit contenir aucune valeur dépendante de la machine** : fuseau horaire, fins de ligne, mode de fichier, séparateur décimal.
+- **Tout script qui provoque volontairement un échec doit nettoyer `$LASTEXITCODE`**, sinon l'étape GitHub échoue après avoir affiché ses succès.
+- **Deux scripts hors pipeline rendent encore l'offset local** (`Generate-RadzenInventory.ps1`, `Generate-RadzenSurfaceInventory.ps1`, format `K`) ; le défaut réapparaîtra si l'un entre dans une garde.
+- **Le mécanisme `BlazorWebViewInitializing` + `EnvironmentOptions` ne fonctionne pas** dans cette version de MAUI : l'objet assigné est jeté. Ne pas retenter.
+- **Les erreurs console de l'auto-test Hybrid** sont captées par `console.error`, `error`, `unhandledrejection`, pas par le protocole de débogage ; une erreur du runtime hors de ces canaux ne serait pas vue.
+- **Le délai de 90 s de la sonde Hybrid est surdimensionné** (9 s sur le runner) mais protège un démarrage froid de WebView2 ; laissé tel quel.
+- Dette assumée inchangée : `xunit` 3.x (la 4.0 supprime VSTest), `eng/Test-DependencyPolicy.ps1` rougit seul au bout de 30 jours (revu le 2026-09-07, échéance 2026-10-07).
 
 ## Open questions
-- Faut-il engager la migration vers Microsoft.Testing.Platform pour débloquer `xunit` 4, ou rester sur la ligne 3.x tant que la couverture VSTest suffit ?
-- Le contrôle catalogue en ligne de `eng/Test-DependencyPolicy.ps1` doit-il rester bloquant en CI, ou devenir une revue planifiée hors du chemin critique ? L'humain a choisi de monter les paquets plutôt que d'assouplir la garde ; la question se reposera à chaque publication amont.
-- La release NuGet `1.0.0` doit-elle être créée dès que la CI est verte sur `main`, ou attendre une validation supplémentaire ?
+- Le journal des modifications n'a pas été touché : faut-il ouvrir une section `[Unreleased]` pour la réécriture de la sonde Hybrid et les correctifs CI, ou les considérer comme de l'outillage hors changelog ?
+- La release NuGet `1.0.0` doit-elle partir dès que `main` est vert, ou attendre une validation supplémentaire ?
+- Le motif de comptage des constats de challenge dans `/handoff` et `/cont` ne reconnaît pas `[✅]` comme résolu et affiche `6` là où il n'y a rien d'ouvert : harmoniser le marqueur ou le motif ?
