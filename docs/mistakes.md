@@ -70,6 +70,15 @@ Erreurs réellement rencontrées sur ce dépôt, avec leur cause et le correctif
 - **Correctif** : boucle d'attente sur `/json/list` avant d'appeler la sonde, avec `-ReadyTimeoutSeconds` à 90 par défaut, et sortie immédiate si le processus meurt.
 - **Effet de bord voulu** : le message d'échec distingue désormais l'hôte mort (`L'hôte Hybrid s'est arrêté avant d'être prêt (code N)`, suivi de sa sortie) du délai dépassé. L'ancien message ne permettait pas de trancher entre les deux.
 
+### La sonde MAUI échoue encore, et attendre plus longtemps ne prouve rien
+
+- **Symptôme** : `Le host Hybrid n'a exposé aucune cible CDP sur le port 9224 en 90 secondes, alors que son processus est toujours vivant`. En local, sur session Windows interactive, le même script passe.
+- **Ce que l'échec établit déjà** : l'attente de 90 secondes ajoutée par l'entrée précédente est atteinte sans succès. Le démarrage lent est donc exclu, et rallonger encore le délai serait un correctif de façade. L'application MAUI démarre et reste vivante, mais WebView2 n'ouvre jamais de cible CDP.
+- **Trou de diagnostic** : le `catch` de la boucle d'attente avalait toutes les erreurs. Impossible de distinguer deux causes qui appellent des correctifs opposés, le port de débogage jamais ouvert d'un côté, le port ouvert mais sans cible de type `page` de l'autre.
+- **État** : non corrigé, faute de cause établie. Seule l'instrumentation a été livrée : avant de lever l'exception, la sonde imprime la version du runtime WebView2 lue dans le registre EdgeUpdate, les arguments navigateur réellement transmis à l'enfant, puis soit la dernière erreur HTTP, soit la liste brute des cibles obtenues.
+- **Contrôle négatif** : `./eng/Test-HybridHost.ps1 -ReadyTimeoutSeconds 0` doit imprimer les trois lignes de diagnostic avant l'exception, et le lancement par défaut doit rester vert.
+- **Leçon** : quand un correctif de délai ne suffit pas, le réflexe utile n'est pas d'augmenter le délai mais de rendre l'échec bavard. Un `catch` vide dans une boucle de disponibilité transforme toutes les causes en un seul message inexploitable.
+
 ### Les preuves générées périment en silence
 
 - **Symptôme** : `Public API baseline` en échec, et `Package registry count mismatch`, sur un commit qui ne touchait pourtant pas ces fichiers.
@@ -87,6 +96,14 @@ Erreurs réellement rencontrées sur ce dépôt, avec leur cause et le correctif
 - **Symptôme** : `NuGet catalog drift for ... reviewed X, latest stable Y`, sur un commit sans rapport.
 - **Cause** : `eng/Test-DependencyPolicy.ps1` interroge nuget.org et exige que chaque paquet `latest-stable` soit exactement la dernière version publiée, et `reviewedAt` périme au bout de 30 jours. La CI dépend donc du calendrier de publication des éditeurs.
 - **État** : assumé, non corrigé. Le contrôle force une revue régulière des dépendances. Il impose en contrepartie de traiter la dérive avant tout autre travail, et de marquer `toolchain-bound` ce qui ne peut structurellement pas suivre.
+
+### Un script d'ingénierie qui ne peut tourner que sous Windows
+
+- **Symptôme** : `Cannot bind argument to parameter 'Path' because it is null`, sur l'étape SBOM du job `validate`, sans aucune indication de la variable en cause.
+- **Cause** : `eng/Generate-Sbom.ps1` cherchait le dossier NuGet global via `$env:NUGET_PACKAGES`, puis se rabattait sur `Join-Path $env:USERPROFILE '.nuget/packages'`. `USERPROFILE` n'existe que sous Windows. Le job `validate` tourne sur `ubuntu-latest`, la variable y valait `$null`, et `Join-Path` refusait de lier son paramètre. Le poste de développement masquait le défaut parce que la variable y est toujours définie.
+- **Correctif** : repli par `[Environment]::GetFolderPath([Environment+SpecialFolder]::UserProfile)`, qui résout `HOME` hors Windows, plus un `throw` nommé quand rien ne se résout, au lieu d'une erreur de liaison opaque.
+- **Reproduction** : vider `USERPROFILE` dans une session PowerShell reproduit le message du runner mot pour mot, alors que `GetFolderPath` continue de résoudre le profil.
+- **Leçon** : PowerShell est multiplateforme, pas les variables d'environnement Windows. Tout script `eng/*.ps1` susceptible de tourner sur un runner Linux doit passer par `GetFolderPath` ou `$HOME`, jamais par `USERPROFILE` seul.
 
 ## Actions GitHub
 
