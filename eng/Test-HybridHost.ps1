@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [int]$Port = 9224,
-    [string]$ExecutablePath = (Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.HybridSmoke\bin\Release\net10.0-windows10.0.19041.0\win-x64\OmniEurope.Blazor.HybridSmoke.exe')
+    [string]$ExecutablePath = (Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.HybridSmoke\bin\Release\net10.0-windows10.0.19041.0\win-x64\OmniEurope.Blazor.HybridSmoke.exe'),
+    [int]$ReadyTimeoutSeconds = 90
 )
 
 $ErrorActionPreference = 'Stop'
@@ -39,6 +40,20 @@ try {
         WindowStyle = 'Hidden'
     }
     $process = Start-Process @start
+
+    $target = $null
+    for ($attempt = 1; $attempt -le ($ReadyTimeoutSeconds * 5); $attempt++) {
+        if ($process.HasExited) { throw ($psText.HostStopped -f 'Hybrid', $process.ExitCode) }
+        try {
+            $listed = Invoke-RestMethod -Uri "http://127.0.0.1:$Port/json/list" -TimeoutSec 2 -ErrorAction Stop
+            $target = @($listed | Where-Object { $_.type -eq 'page' -and $_.webSocketDebuggerUrl }) | Select-Object -First 1
+            if ($target) { break }
+        }
+        catch {
+        }
+        Start-Sleep -Milliseconds 200
+    }
+    if (-not $target) { throw ($psText.HybridNoTarget -f $Port, $ReadyTimeoutSeconds) }
 
     $expectedLanguage = [Globalization.CultureInfo]::CurrentUICulture.TwoLetterISOLanguageName
     $expectedTitle = if ($expectedLanguage -eq 'fr') { 'Test hybride OmniEurope.Blazor' } else { 'OmniEurope.Blazor hybrid test' }

@@ -55,6 +55,21 @@ Erreurs réellement rencontrées sur ce dépôt, avec leur cause et le correctif
 - **Correctif** : `--lang` et `--accept-lang` fixés au lancement du navigateur dans `eng/Test-WasmHost.ps1` et `eng/Test-AutoHost.ps1`, via un paramètre `-BrowserLanguage` qui vaut `fr` par défaut.
 - **Vérification** : lancer la sonde avec `-BrowserLanguage 'en'` doit reproduire l'échec, et sans argument doit passer. Un correctif de locale sans ce contrôle négatif ne prouve rien.
 
+### Tests dépendants de la culture de la machine
+
+- **Symptôme** : `Assert.Contains() Failure: Sub-string not found. String: "Bob30.00Modifier". Not found: "30,00"`.
+- **Cause** : les tests DataGrid attendent un séparateur décimal français, produit par `FormatString="{0:n2}"` sous `CurrentCulture`. Aucune culture n'était fixée, donc le résultat dépendait de la machine : virgule en France, point sur le runner. Même famille de cause que les sondes navigateur, sur un autre canal.
+- **Correctif** : `tests/OmniEurope.Blazor.Tests/TestCulture.cs` fixe `fr-FR` via un `ModuleInitializer`, pour tout le banc de test. `LocalizationTests` continue de basculer explicitement de culture, donc le comportement multiculturel reste couvert.
+- **Vérification** : basculer temporairement l'initialiseur sur `en-US` doit faire échouer les tests concernés, et le remettre sur `fr-FR` doit tout faire passer.
+- **À savoir** : sur le runner, `CurrentUICulture` résolvait le `.resx` neutre, donc français, pendant que `CurrentCulture` restait invariante. Les chaînes d'interface passaient et seuls les nombres cassaient, ce qui rendait le diagnostic trompeur.
+
+### La sonde MAUI n'attendait pas son hôte
+
+- **Symptôme** : `Aucune cible CDP disponible sur http://127.0.0.1:9224`, uniquement sur la CI. En local le même script passe en 2,5 secondes.
+- **Cause** : `eng/Test-HybridHost.ps1` lançait l'exécutable puis appelait immédiatement la sonde. Seule la boucle interne de 20 secondes de `Test-CdpProbe.mjs` absorbait le démarrage, ce qui suffit sur un poste tiède mais pas sur un runner froid où WebView2 s'initialise pour la première fois. Les autres scripts d'hôte ont une boucle d'attente ; celui-ci n'en avait aucune.
+- **Correctif** : boucle d'attente sur `/json/list` avant d'appeler la sonde, avec `-ReadyTimeoutSeconds` à 90 par défaut, et sortie immédiate si le processus meurt.
+- **Effet de bord voulu** : le message d'échec distingue désormais l'hôte mort (`L'hôte Hybrid s'est arrêté avant d'être prêt (code N)`, suivi de sa sortie) du délai dépassé. L'ancien message ne permettait pas de trancher entre les deux.
+
 ### Les preuves générées périment en silence
 
 - **Symptôme** : `Public API baseline` en échec, et `Package registry count mismatch`, sur un commit qui ne touchait pourtant pas ces fichiers.

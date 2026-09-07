@@ -69,6 +69,7 @@
     HybridWindowsRequired = 'La sonde Hybrid exige Windows et WebView2.'
     HybridPortOwned = 'Le port CDP {0} est déjà occupé ; la sonde refuse de réutiliser un processus non possédé.'
     HybridPassed = 'Hybrid validé dans WebView2 : rendu, interaction et console sans erreur (PID {0}).'
+    HybridNoTarget = 'Le host Hybrid n''a exposé aucune cible CDP sur le port {0} en {1} secondes, alors que son processus est toujours vivant : WebView2 n''a pas ouvert de page.'
     WasmPassed = 'WebAssembly validé : HTTP 200, démarrage navigateur, clic, progression, console sans erreur, assets et CSP stricte (PID {0}).'
 
     NoticeTitle = '# Notices et licences tierces'

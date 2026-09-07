@@ -39,7 +39,8 @@
           "tests/OmniEurope.Blazor.Tests/ComponentCspTests.cs",
           "tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs",
           "tests/OmniEurope.Blazor.Tests/PerformanceBudgetTests.cs",
-          "tests/OmniEurope.Blazor.Tests/ShowcaseCoverageTests.cs"
+          "tests/OmniEurope.Blazor.Tests/ShowcaseCoverageTests.cs",
+          "tests/OmniEurope.Blazor.Tests/ShowcaseVariantCoverageTests.cs"
         ],
         "catalog": {
           "scenario": "foundations",
