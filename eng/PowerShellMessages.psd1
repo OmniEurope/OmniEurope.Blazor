@@ -76,6 +76,8 @@
     HybridDiagNoEndpoint = 'Diagnostic Hybrid : le port de débogage n''a jamais répondu, dernière erreur « {0} ». WebView2 n''a donc pas ouvert son point de terminaison CDP.'
     HybridDiagListing = 'Diagnostic Hybrid : le port de débogage a répondu mais sans cible de type page ({0} cible(s) : {1}).'
     HybridDiagEmpty = 'liste vide'
+    HybridDiagArgumentSeen = 'Diagnostic Hybrid : {0} processus navigateur porte(nt) bien l''argument de débogage sur leur ligne de commande. Le port a donc été demandé et refusé ou filtré, le défaut est en aval de WebView2.'
+    HybridDiagArgumentLost = 'Diagnostic Hybrid : aucun processus navigateur ne porte l''argument de débogage sur sa ligne de commande. La variable d''environnement n''a pas atteint WebView2, ou un processus navigateur existant a été réutilisé sans elle.'
     LockedPackagesRestored = 'Paquets verrouillés téléchargés : {0} paquets issus de {1} fichier(s) de verrou.'
     LockedPackagesFailed = 'Le téléchargement des paquets verrouillés a échoué avec le code {0}.'
     HybridDiagBrowsers = 'Diagnostic Hybrid : {0} processus msedgewebview2 vivant(s). Zéro signifie que WebView2 n''a jamais été créé, donc que le défaut est côté application et non côté port de débogage.'

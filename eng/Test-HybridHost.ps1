@@ -14,6 +14,8 @@ $stdout = New-TemporaryFile
 $stderr = New-TemporaryFile
 $process = $null
 $previousArguments = $env:WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS
+$previousUserDataFolder = $env:WEBVIEW2_USER_DATA_FOLDER
+$userDataFolder = Join-Path ([IO.Path]::GetTempPath()) ("omnieurope-webview2-" + [Guid]::NewGuid().ToString('n'))
 $hostPage = Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.HybridSmoke\wwwroot\index.html'
 
 function Get-WebView2RuntimeVersion {
@@ -48,6 +50,11 @@ try {
     }
     if ($portOccupied) { throw ($psText.HybridPortOwned -f $Port) }
 
+    # Additional browser arguments only apply when WebView2 creates a browser process. An existing
+    # process for the same user data folder is reused and the arguments are dropped, which looks
+    # exactly like the runner failure: WebView2 alive and rendering, no debugging port. A folder of
+    # its own guarantees a fresh browser process that carries the argument.
+    $env:WEBVIEW2_USER_DATA_FOLDER = $userDataFolder
     $env:WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS = "--remote-debugging-port=$Port --remote-allow-origins=*"
     $start = @{
         FilePath = $resolvedExecutable
@@ -88,6 +95,18 @@ try {
         # that was never created from a WebView2 that ignored the debugging port.
         $browsers = @(Get-Process -Name 'msedgewebview2' -ErrorAction SilentlyContinue)
         Write-Host ($psText.HybridDiagBrowsers -f $browsers.Count)
+
+        # The count alone cannot say whether the browser process received the debugging argument.
+        # The environment variable printed above is the one this script holds, not the one the
+        # child inherited, so the command line is the only place the answer actually exists.
+        $commandLines = @(Get-CimInstance Win32_Process -Filter "Name='msedgewebview2.exe'" -ErrorAction SilentlyContinue |
+            Select-Object -ExpandProperty CommandLine)
+        $carrying = @($commandLines | Where-Object { $_ -match [regex]::Escape("--remote-debugging-port=$Port") })
+        if ($carrying.Count -gt 0) {
+            Write-Host ($psText.HybridDiagArgumentSeen -f $carrying.Count)
+        } else {
+            Write-Host $psText.HybridDiagArgumentLost
+        }
         if ($endpointAnswered) {
             $summary = if ($lastListing.Count -eq 0) {
                 $psText.HybridDiagEmpty
@@ -118,5 +137,7 @@ finally {
         $process.WaitForExit(5000) | Out-Null
     }
     $env:WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS = $previousArguments
+    $env:WEBVIEW2_USER_DATA_FOLDER = $previousUserDataFolder
+    Remove-Item -LiteralPath $userDataFolder -Recurse -Force -ErrorAction SilentlyContinue
     Remove-Item -LiteralPath $stdout.FullName, $stderr.FullName -Force -ErrorAction SilentlyContinue
 }
