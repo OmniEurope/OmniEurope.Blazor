@@ -24,9 +24,9 @@
     {
       "type": "library",
       "name": "AngleSharp",
-      "version": "1.7.1",
-      "bom-ref": "pkg:nuget/AngleSharp@1.7.1",
-      "purl": "pkg:nuget/AngleSharp@1.7.1",
+      "version": "1.7.2",
+      "bom-ref": "pkg:nuget/AngleSharp@1.7.2",
+      "purl": "pkg:nuget/AngleSharp@1.7.2",
       "licenses": [
         {
           "expression": "MIT"
@@ -46,9 +46,9 @@
     {
       "type": "library",
       "name": "AngleSharp.Css",
-      "version": "1.0.1",
-      "bom-ref": "pkg:nuget/AngleSharp.Css@1.0.1",
-      "purl": "pkg:nuget/AngleSharp.Css@1.0.1",
+      "version": "1.0.2",
+      "bom-ref": "pkg:nuget/AngleSharp.Css@1.0.2",
+      "purl": "pkg:nuget/AngleSharp.Css@1.0.2",
       "licenses": [
         {
           "expression": "MIT"
@@ -134,9 +134,9 @@
     {
       "type": "library",
       "name": "HtmlSanitizer",
-      "version": "9.2.995",
-      "bom-ref": "pkg:nuget/HtmlSanitizer@9.2.995",
-      "purl": "pkg:nuget/HtmlSanitizer@9.2.995",
+      "version": "9.2.1039",
+      "bom-ref": "pkg:nuget/HtmlSanitizer@9.2.1039",
+      "purl": "pkg:nuget/HtmlSanitizer@9.2.1039",
       "licenses": [
         {
           "expression": "MIT"
@@ -200,9 +200,9 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.Authorization",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Authorization@10.0.10",
-      "purl": "pkg:nuget/Microsoft.AspNetCore.Authorization@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Authorization@10.0.11",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Authorization@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -222,9 +222,9 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.Components",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components@10.0.10",
-      "purl": "pkg:nuget/Microsoft.AspNetCore.Components@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components@10.0.11",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -244,9 +244,9 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.Components.Analyzers",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.Analyzers@10.0.10",
-      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.Analyzers@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.Analyzers@10.0.11",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.Analyzers@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -288,9 +288,9 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.Components.Forms",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.Forms@10.0.10",
-      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.Forms@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.Forms@10.0.11",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.Forms@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -310,9 +310,9 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.Components.Web",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.Web@10.0.10",
-      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.Web@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.Web@10.0.11",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.Web@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -332,9 +332,9 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.Components.WebAssembly",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly@10.0.10",
-      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly@10.0.11",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -376,9 +376,9 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.Components.WebAssembly.DevServer",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly.DevServer@10.0.10",
-      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly.DevServer@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly.DevServer@10.0.11",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly.DevServer@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -398,9 +398,9 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.Components.WebAssembly.Server",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly.Server@10.0.10",
-      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly.Server@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly.Server@10.0.11",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.WebAssembly.Server@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -420,9 +420,9 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.Components.WebView",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.WebView@10.0.10",
-      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.WebView@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.WebView@10.0.11",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.WebView@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -464,9 +464,9 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.Metadata",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Metadata@10.0.10",
-      "purl": "pkg:nuget/Microsoft.AspNetCore.Metadata@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Metadata@10.0.11",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Metadata@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -574,9 +574,9 @@
     {
       "type": "library",
       "name": "Microsoft.CodeCoverage",
-      "version": "18.8.1",
-      "bom-ref": "pkg:nuget/Microsoft.CodeCoverage@18.8.1",
-      "purl": "pkg:nuget/Microsoft.CodeCoverage@18.8.1",
+      "version": "18.9.0",
+      "bom-ref": "pkg:nuget/Microsoft.CodeCoverage@18.9.0",
+      "purl": "pkg:nuget/Microsoft.CodeCoverage@18.9.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -640,9 +640,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Configuration",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.Configuration@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.Configuration@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -662,9 +662,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Configuration.Abstractions",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.Abstractions@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.Abstractions@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.Abstractions@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.Abstractions@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -684,9 +684,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Configuration.Binder",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.Binder@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.Binder@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.Binder@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.Binder@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -706,9 +706,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Configuration.FileExtensions",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -728,9 +728,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Configuration.Json",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.Json@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.Json@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.Json@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.Json@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -750,9 +750,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.DependencyInjection",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.DependencyInjection@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.DependencyInjection@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.DependencyInjection@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.DependencyInjection@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -772,9 +772,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.DependencyInjection.Abstractions",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.DependencyInjection.Abstractions@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.DependencyInjection.Abstractions@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.DependencyInjection.Abstractions@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.DependencyInjection.Abstractions@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -794,9 +794,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Diagnostics",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Diagnostics@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.Diagnostics@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Diagnostics@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.Diagnostics@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -816,9 +816,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Diagnostics.Abstractions",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Diagnostics.Abstractions@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.Diagnostics.Abstractions@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Diagnostics.Abstractions@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.Diagnostics.Abstractions@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -838,9 +838,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.FileProviders.Abstractions",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Abstractions@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Abstractions@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Abstractions@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Abstractions@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -860,9 +860,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.FileProviders.Composite",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Composite@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Composite@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Composite@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Composite@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -882,9 +882,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.FileProviders.Embedded",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Embedded@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Embedded@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Embedded@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Embedded@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -904,9 +904,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.FileProviders.Physical",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Physical@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Physical@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Physical@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Physical@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -926,9 +926,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.FileSystemGlobbing",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileSystemGlobbing@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.FileSystemGlobbing@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileSystemGlobbing@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.FileSystemGlobbing@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -970,9 +970,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Localization",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Localization@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.Localization@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Localization@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.Localization@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -992,9 +992,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Localization.Abstractions",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Localization.Abstractions@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.Localization.Abstractions@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Localization.Abstractions@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.Localization.Abstractions@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -1014,9 +1014,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Logging",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Logging@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.Logging@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Logging@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.Logging@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -1036,9 +1036,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Logging.Abstractions",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Logging.Abstractions@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.Logging.Abstractions@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Logging.Abstractions@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.Logging.Abstractions@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -1058,9 +1058,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Options",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Options@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.Options@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Options@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.Options@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -1080,9 +1080,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Options.ConfigurationExtensions",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Options.ConfigurationExtensions@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.Options.ConfigurationExtensions@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Options.ConfigurationExtensions@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.Options.ConfigurationExtensions@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -1102,9 +1102,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Primitives",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Primitives@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.Primitives@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Primitives@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.Primitives@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -1124,9 +1124,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Validation",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Validation@10.0.10",
-      "purl": "pkg:nuget/Microsoft.Extensions.Validation@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Validation@10.0.11",
+      "purl": "pkg:nuget/Microsoft.Extensions.Validation@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -1193,9 +1193,9 @@
     {
       "type": "library",
       "name": "Microsoft.JSInterop",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.JSInterop@10.0.10",
-      "purl": "pkg:nuget/Microsoft.JSInterop@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.JSInterop@10.0.11",
+      "purl": "pkg:nuget/Microsoft.JSInterop@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -1215,9 +1215,9 @@
     {
       "type": "library",
       "name": "Microsoft.JSInterop.WebAssembly",
-      "version": "10.0.10",
-      "bom-ref": "pkg:nuget/Microsoft.JSInterop.WebAssembly@10.0.10",
-      "purl": "pkg:nuget/Microsoft.JSInterop.WebAssembly@10.0.10",
+      "version": "10.0.11",
+      "bom-ref": "pkg:nuget/Microsoft.JSInterop.WebAssembly@10.0.11",
+      "purl": "pkg:nuget/Microsoft.JSInterop.WebAssembly@10.0.11",
       "licenses": [
         {
           "expression": "MIT"
@@ -1479,9 +1479,9 @@
     {
       "type": "library",
       "name": "Microsoft.NET.Test.Sdk",
-      "version": "18.8.1",
-      "bom-ref": "pkg:nuget/Microsoft.NET.Test.Sdk@18.8.1",
-      "purl": "pkg:nuget/Microsoft.NET.Test.Sdk@18.8.1",
+      "version": "18.9.0",
+      "bom-ref": "pkg:nuget/Microsoft.NET.Test.Sdk@18.9.0",
+      "purl": "pkg:nuget/Microsoft.NET.Test.Sdk@18.9.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1614,9 +1614,9 @@
     {
       "type": "library",
       "name": "Microsoft.TestPlatform.ObjectModel",
-      "version": "18.8.1",
-      "bom-ref": "pkg:nuget/Microsoft.TestPlatform.ObjectModel@18.8.1",
-      "purl": "pkg:nuget/Microsoft.TestPlatform.ObjectModel@18.8.1",
+      "version": "18.9.0",
+      "bom-ref": "pkg:nuget/Microsoft.TestPlatform.ObjectModel@18.9.0",
+      "purl": "pkg:nuget/Microsoft.TestPlatform.ObjectModel@18.9.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1636,9 +1636,9 @@
     {
       "type": "library",
       "name": "Microsoft.TestPlatform.TestHost",
-      "version": "18.8.1",
-      "bom-ref": "pkg:nuget/Microsoft.TestPlatform.TestHost@18.8.1",
-      "purl": "pkg:nuget/Microsoft.TestPlatform.TestHost@18.8.1",
+      "version": "18.9.0",
+      "bom-ref": "pkg:nuget/Microsoft.TestPlatform.TestHost@18.9.0",
+      "purl": "pkg:nuget/Microsoft.TestPlatform.TestHost@18.9.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1658,9 +1658,9 @@
     {
       "type": "library",
       "name": "Microsoft.Web.WebView2",
-      "version": "1.0.4129.50",
-      "bom-ref": "pkg:nuget/Microsoft.Web.WebView2@1.0.4129.50",
-      "purl": "pkg:nuget/Microsoft.Web.WebView2@1.0.4129.50",
+      "version": "1.0.4191.47",
+      "bom-ref": "pkg:nuget/Microsoft.Web.WebView2@1.0.4191.47",
+      "purl": "pkg:nuget/Microsoft.Web.WebView2@1.0.4191.47",
       "licenses": [
         {
           "license": {
@@ -1679,7 +1679,7 @@
         },
         {
           "name": "omnieurope:license-file",
-          "value": "docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4129.50--LICENSE.txt"
+          "value": "docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4191.47--LICENSE.txt"
         },
         {
           "name": "omnieurope:license-file-sha256",
