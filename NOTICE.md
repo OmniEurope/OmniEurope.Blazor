@@ -8,14 +8,11 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 
 | Package | Version | Licence déclarée | Nature | Source locale |
 |---|---:|---|---|---|
-| `AngleSharp` | `1.6.0` | MIT | `expression` | - |
 | `AngleSharp` | `1.7.1` | MIT | `expression` | - |
-| `AngleSharp.Css` | `1.0.0` | MIT | `expression` | - |
 | `AngleSharp.Css` | `1.0.1` | MIT | `expression` | - |
 | `AngleSharp.Diffing` | `1.1.1` | MIT | `expression` | - |
 | `bunit` | `2.9.0` | MIT | `expression` | - |
 | `coverlet.collector` | `10.0.1` | MIT | `expression` | - |
-| `HtmlSanitizer` | `9.1.973` | MIT | `expression` | - |
 | `HtmlSanitizer` | `9.2.995` | MIT | `expression` | - |
 | `Microsoft.ApplicationInsights` | `2.23.0` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.App.Internal.Assets` | `10.0.11` | MIT | `expression` | - |
@@ -29,7 +26,7 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Microsoft.AspNetCore.Components.WebAssembly.Authentication` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.Components.WebAssembly.DevServer` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.Components.WebAssembly.Server` | `10.0.10` | MIT | `expression` | - |
-| `Microsoft.AspNetCore.Components.WebView` | `10.0.0` | MIT | `expression` | - |
+| `Microsoft.AspNetCore.Components.WebView` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.Components.WebView.Maui` | `10.0.90` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.Metadata` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Bcl.AsyncInterfaces` | `6.0.0` | MIT | `expression` | - |
@@ -42,26 +39,20 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Microsoft.Extensions.Configuration` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.Configuration.Abstractions` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.Configuration.Binder` | `10.0.10` | MIT | `expression` | - |
-| `Microsoft.Extensions.Configuration.FileExtensions` | `10.0.0` | MIT | `expression` | - |
 | `Microsoft.Extensions.Configuration.FileExtensions` | `10.0.10` | MIT | `expression` | - |
-| `Microsoft.Extensions.Configuration.Json` | `10.0.0` | MIT | `expression` | - |
 | `Microsoft.Extensions.Configuration.Json` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.DependencyInjection` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.DependencyInjection.Abstractions` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.Diagnostics` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.Diagnostics.Abstractions` | `10.0.10` | MIT | `expression` | - |
-| `Microsoft.Extensions.FileProviders.Abstractions` | `10.0.0` | MIT | `expression` | - |
 | `Microsoft.Extensions.FileProviders.Abstractions` | `10.0.10` | MIT | `expression` | - |
-| `Microsoft.Extensions.FileProviders.Composite` | `10.0.0` | MIT | `expression` | - |
-| `Microsoft.Extensions.FileProviders.Embedded` | `10.0.0` | MIT | `expression` | - |
-| `Microsoft.Extensions.FileProviders.Physical` | `10.0.0` | MIT | `expression` | - |
+| `Microsoft.Extensions.FileProviders.Composite` | `10.0.10` | MIT | `expression` | - |
+| `Microsoft.Extensions.FileProviders.Embedded` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.FileProviders.Physical` | `10.0.10` | MIT | `expression` | - |
-| `Microsoft.Extensions.FileSystemGlobbing` | `10.0.0` | MIT | `expression` | - |
 | `Microsoft.Extensions.FileSystemGlobbing` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.Hosting.Abstractions` | `10.0.0` | MIT | `expression` | - |
 | `Microsoft.Extensions.Localization` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.Localization.Abstractions` | `10.0.10` | MIT | `expression` | - |
-| `Microsoft.Extensions.Logging` | `10.0.0` | MIT | `expression` | - |
 | `Microsoft.Extensions.Logging` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.Logging.Abstractions` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.Options` | `10.0.10` | MIT | `expression` | - |
@@ -91,7 +82,7 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Microsoft.Testing.Platform.MSBuild` | `1.9.1` | MIT | `expression` | - |
 | `Microsoft.TestPlatform.ObjectModel` | `18.8.1` | MIT | `expression` | - |
 | `Microsoft.TestPlatform.TestHost` | `18.8.1` | MIT | `expression` | - |
-| `Microsoft.Web.WebView2` | `1.0.3179.45` | LICENSE.txt | `file` | `docs/third-party-licenses/Microsoft.Web.WebView2--1.0.3179.45--LICENSE.txt` |
+| `Microsoft.Web.WebView2` | `1.0.4129.50` | LICENSE.txt | `file` | `docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4129.50--LICENSE.txt` |
 | `Microsoft.Win32.Registry` | `5.0.0` | MIT | `expression` | - |
 | `Microsoft.Windows.SDK.BuildTools` | `10.0.26100.4654` | https://aka.ms/WinSDKLicenseURL | `url` | - |
 | `Microsoft.Windows.SDK.BuildTools.MSIX` | `1.7.20250829.1` | sdk_license.txt | `file` | `docs/third-party-licenses/Microsoft.Windows.SDK.BuildTools.MSIX--1.7.20250829.1--sdk_license.txt` |

@@ -24,28 +24,6 @@
     {
       "type": "library",
       "name": "AngleSharp",
-      "version": "1.6.0",
-      "bom-ref": "pkg:nuget/AngleSharp@1.6.0",
-      "purl": "pkg:nuget/AngleSharp@1.6.0",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "AngleSharp",
       "version": "1.7.1",
       "bom-ref": "pkg:nuget/AngleSharp@1.7.1",
       "purl": "pkg:nuget/AngleSharp@1.7.1",
@@ -61,29 +39,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "AngleSharp.Css",
-      "version": "1.0.0",
-      "bom-ref": "pkg:nuget/AngleSharp.Css@1.0.0",
-      "purl": "pkg:nuget/AngleSharp.Css@1.0.0",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -105,7 +61,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -178,28 +134,6 @@
     {
       "type": "library",
       "name": "HtmlSanitizer",
-      "version": "9.1.973",
-      "bom-ref": "pkg:nuget/HtmlSanitizer@9.1.973",
-      "purl": "pkg:nuget/HtmlSanitizer@9.1.973",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "HtmlSanitizer",
       "version": "9.2.995",
       "bom-ref": "pkg:nuget/HtmlSanitizer@9.2.995",
       "purl": "pkg:nuget/HtmlSanitizer@9.2.995",
@@ -215,7 +149,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -486,9 +420,9 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.Components.WebView",
-      "version": "10.0.0",
-      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.WebView@10.0.0",
-      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.WebView@10.0.0",
+      "version": "10.0.10",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.Components.WebView@10.0.10",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.Components.WebView@10.0.10",
       "licenses": [
         {
           "expression": "MIT"
@@ -772,28 +706,6 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Configuration.FileExtensions",
-      "version": "10.0.0",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@10.0.0",
-      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@10.0.0",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "Microsoft.Extensions.Configuration.FileExtensions",
       "version": "10.0.10",
       "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@10.0.10",
       "purl": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@10.0.10",
@@ -809,29 +721,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "Microsoft.Extensions.Configuration.Json",
-      "version": "10.0.0",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.Json@10.0.0",
-      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.Json@10.0.0",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+          "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -853,7 +743,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -948,28 +838,6 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.FileProviders.Abstractions",
-      "version": "10.0.0",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Abstractions@10.0.0",
-      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Abstractions@10.0.0",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "Microsoft.Extensions.FileProviders.Abstractions",
       "version": "10.0.10",
       "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Abstractions@10.0.10",
       "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Abstractions@10.0.10",
@@ -985,16 +853,16 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
     {
       "type": "library",
       "name": "Microsoft.Extensions.FileProviders.Composite",
-      "version": "10.0.0",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Composite@10.0.0",
-      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Composite@10.0.0",
+      "version": "10.0.10",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Composite@10.0.10",
+      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Composite@10.0.10",
       "licenses": [
         {
           "expression": "MIT"
@@ -1014,31 +882,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.FileProviders.Embedded",
-      "version": "10.0.0",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Embedded@10.0.0",
-      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Embedded@10.0.0",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "Microsoft.Extensions.FileProviders.Physical",
-      "version": "10.0.0",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Physical@10.0.0",
-      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Physical@10.0.0",
+      "version": "10.0.10",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Embedded@10.0.10",
+      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Embedded@10.0.10",
       "licenses": [
         {
           "expression": "MIT"
@@ -1073,29 +919,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "Microsoft.Extensions.FileSystemGlobbing",
-      "version": "10.0.0",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileSystemGlobbing@10.0.0",
-      "purl": "pkg:nuget/Microsoft.Extensions.FileSystemGlobbing@10.0.0",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
+          "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1117,7 +941,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1190,28 +1014,6 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Logging",
-      "version": "10.0.0",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Logging@10.0.0",
-      "purl": "pkg:nuget/Microsoft.Extensions.Logging@10.0.0",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "Microsoft.Extensions.Logging",
       "version": "10.0.10",
       "bom-ref": "pkg:nuget/Microsoft.Extensions.Logging@10.0.10",
       "purl": "pkg:nuget/Microsoft.Extensions.Logging@10.0.10",
@@ -1227,7 +1029,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1856,9 +1658,9 @@
     {
       "type": "library",
       "name": "Microsoft.Web.WebView2",
-      "version": "1.0.3179.45",
-      "bom-ref": "pkg:nuget/Microsoft.Web.WebView2@1.0.3179.45",
-      "purl": "pkg:nuget/Microsoft.Web.WebView2@1.0.3179.45",
+      "version": "1.0.4129.50",
+      "bom-ref": "pkg:nuget/Microsoft.Web.WebView2@1.0.4129.50",
+      "purl": "pkg:nuget/Microsoft.Web.WebView2@1.0.4129.50",
       "licenses": [
         {
           "license": {
@@ -1877,7 +1679,7 @@
         },
         {
           "name": "omnieurope:license-file",
-          "value": "docs/third-party-licenses/Microsoft.Web.WebView2--1.0.3179.45--LICENSE.txt"
+          "value": "docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4129.50--LICENSE.txt"
         },
         {
           "name": "omnieurope:license-file-sha256",

@@ -82,8 +82,7 @@
     }
   },
   "toolchain": {
-    "sdk": "10.0.302",
-    "workloadVersion": "10.0.302",
-    "rollForward": "disable"
+    "sdk": "10.0.300",
+    "rollForward": "latestPatch"
   }
 }

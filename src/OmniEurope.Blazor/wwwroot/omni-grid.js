@@ -285,11 +285,11 @@ export function attachResize(viewport, reference, minimumWidth) {
         const tableStyle = table.getAttribute('style');
         const colStyle = col?.getAttribute('style') ?? null;
         const cellStyles = cells.map(cell => cell.getAttribute('style'));
-        const restore = (element, style) => {
-            if (style === null) {
+        const restore = (element, declaration) => {
+            if (declaration === null) {
                 element?.removeAttribute('style');
             } else {
-                element?.setAttribute('style', style);
+                element?.setAttribute('style', declaration);
             }
         };
 
