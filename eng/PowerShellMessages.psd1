@@ -70,6 +70,12 @@
     HybridPortOwned = 'Le port CDP {0} est déjà occupé ; la sonde refuse de réutiliser un processus non possédé.'
     HybridPassed = 'Hybrid validé dans WebView2 : rendu, interaction et console sans erreur (PID {0}).'
     HybridNoTarget = 'Le host Hybrid n''a exposé aucune cible CDP sur le port {0} en {1} secondes, alors que son processus est toujours vivant : WebView2 n''a pas ouvert de page.'
+    HybridDiagRuntime = 'Diagnostic Hybrid : runtime WebView2 {0}.'
+    HybridDiagRuntimeMissing = 'absent du registre EdgeUpdate'
+    HybridDiagArguments = 'Diagnostic Hybrid : arguments navigateur transmis « {0} ».'
+    HybridDiagNoEndpoint = 'Diagnostic Hybrid : le port de débogage n''a jamais répondu, dernière erreur « {0} ». WebView2 n''a donc pas ouvert son point de terminaison CDP.'
+    HybridDiagListing = 'Diagnostic Hybrid : le port de débogage a répondu mais sans cible de type page ({0} cible(s) : {1}).'
+    HybridDiagEmpty = 'liste vide'
     WasmPassed = 'WebAssembly validé : HTTP 200, démarrage navigateur, clic, progression, console sans erreur, assets et CSP stricte (PID {0}).'
 
     NoticeTitle = '# Notices et licences tierces'
