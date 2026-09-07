@@ -76,6 +76,7 @@
     HybridDiagNoEndpoint = 'Diagnostic Hybrid : le port de débogage n''a jamais répondu, dernière erreur « {0} ». WebView2 n''a donc pas ouvert son point de terminaison CDP.'
     HybridDiagListing = 'Diagnostic Hybrid : le port de débogage a répondu mais sans cible de type page ({0} cible(s) : {1}).'
     HybridDiagEmpty = 'liste vide'
+    HybridDiagBrowsers = 'Diagnostic Hybrid : {0} processus msedgewebview2 vivant(s). Zéro signifie que WebView2 n''a jamais été créé, donc que le défaut est côté application et non côté port de débogage.'
     WasmPassed = 'WebAssembly validé : HTTP 200, démarrage navigateur, clic, progression, console sans erreur, assets et CSP stricte (PID {0}).'
 
     NoticeTitle = '# Notices et licences tierces'

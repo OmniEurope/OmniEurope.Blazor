@@ -55,7 +55,6 @@ try {
         PassThru = $true
         RedirectStandardOutput = $stdout.FullName
         RedirectStandardError = $stderr.FullName
-        WindowStyle = 'Hidden'
     }
     $process = Start-Process @start
 
@@ -85,6 +84,10 @@ try {
         if (-not $runtime) { $runtime = $psText.HybridDiagRuntimeMissing }
         Write-Host ($psText.HybridDiagRuntime -f $runtime)
         Write-Host ($psText.HybridDiagArguments -f $env:WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS)
+        # The browser runs in its own process tree. Whether one exists at all separates a WebView2
+        # that was never created from a WebView2 that ignored the debugging port.
+        $browsers = @(Get-Process -Name 'msedgewebview2' -ErrorAction SilentlyContinue)
+        Write-Host ($psText.HybridDiagBrowsers -f $browsers.Count)
         if ($endpointAnswered) {
             $summary = if ($lastListing.Count -eq 0) {
                 $psText.HybridDiagEmpty

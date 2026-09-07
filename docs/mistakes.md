@@ -78,6 +78,9 @@ Erreurs réellement rencontrées sur ce dépôt, avec leur cause et le correctif
 - **État** : non corrigé, faute de cause établie. Seule l'instrumentation a été livrée : avant de lever l'exception, la sonde imprime la version du runtime WebView2 lue dans le registre EdgeUpdate, les arguments navigateur réellement transmis à l'enfant, puis soit la dernière erreur HTTP, soit la liste brute des cibles obtenues.
 - **Contrôle négatif** : `./eng/Test-HybridHost.ps1 -ReadyTimeoutSeconds 0` doit imprimer les trois lignes de diagnostic avant l'exception, et le lancement par défaut doit rester vert.
 - **Leçon** : quand un correctif de délai ne suffit pas, le réflexe utile n'est pas d'augmenter le délai mais de rendre l'échec bavard. Un `catch` vide dans une boucle de disponibilité transforme toutes les causes en un seul message inexploitable.
+- **Ce que le diagnostic a répondu** : runtime WebView2 bien installé sur le runner (`151.0.4129.101`), arguments navigateur bien transmis, et le port de débogage n'a **jamais** répondu. Le problème n'est donc ni le runtime, ni la variable d'environnement : WebView2 n'ouvre pas son point de terminaison, ou n'est pas créé du tout.
+- **Étape suivante** : la sonde ne masque plus la fenêtre (`WindowStyle Hidden` retiré, sur l'hypothèse qu'une fenêtre jamais réalisée ne déclenche pas la création de WebView2), elle compte les processus `msedgewebview2` vivants, et l'hôte trace sur sa sortie standard les marqueurs `HYBRID-SMOKE page-constructed`, `webview-initializing`, `page-loaded`, `webview-initialized`, `webview-url-loading`. Le marqueur manquant désignera l'étape qui échoue.
+- **Contrôle de l'instrumentation** : lancer l'exécutable avec redirection de la sortie standard doit produire les cinq marqueurs et un compte de processus `msedgewebview2` non nul. Vérifié en local avant livraison, sinon la trace ne prouverait rien.
 
 ### Les preuves générées périment en silence
 
@@ -104,6 +107,14 @@ Erreurs réellement rencontrées sur ce dépôt, avec leur cause et le correctif
 - **Correctif** : repli par `[Environment]::GetFolderPath([Environment+SpecialFolder]::UserProfile)`, qui résout `HOME` hors Windows, plus un `throw` nommé quand rien ne se résout, au lieu d'une erreur de liaison opaque.
 - **Reproduction** : vider `USERPROFILE` dans une session PowerShell reproduit le message du runner mot pour mot, alors que `GetFolderPath` continue de résoudre le profil.
 - **Leçon** : PowerShell est multiplateforme, pas les variables d'environnement Windows. Tout script `eng/*.ps1` susceptible de tourner sur un runner Linux doit passer par `GetFolderPath` ou `$HOME`, jamais par `USERPROFILE` seul.
+
+### L'inventaire SBOM tournait là où ses paquets n'existent pas
+
+- **Symptôme** : `NuGet metadata is missing for Microsoft.AspNetCore.Components.WebView 10.0.11: /home/runner/.nuget/packages/.../microsoft.aspnetcore.components.webview.nuspec`, uniquement sur le job `validate`.
+- **Cause** : `eng/Generate-Sbom.ps1` balaie récursivement **tous** les `packages.lock.json` du dépôt, y compris celui de `samples/OmniEurope.Blazor.HybridSmoke`. Or ce projet MAUI est volontairement hors de `OmniEurope.Blazor.slnx`, donc le job `validate` ne le restaure jamais et ses nuspec ne descendent pas dans le cache du runner. Le poste de développement masquait le défaut parce qu'on y construit aussi le host Hybrid.
+- **Fausse piste écartée** : restreindre l'inventaire aux paquets présents rendrait le SBOM dépendant du job qui le produit, et la garde `git diff --exit-code` deviendrait ininterprétable. L'inventaire doit rester déterministe et couvrir tous les verrous.
+- **Correctif** : l'étape SBOM est passée sur le job Windows, qui restaure désormais à la fois le host Hybrid et la solution. C'est le seul job où tous les verrous du dépôt peuvent être satisfaits en même temps. Elle est placée **avant** la sonde Hybrid pour qu'un échec de celle-ci ne masque plus le résultat de l'inventaire.
+- **Leçon** : une étape qui agrège tout le dépôt doit tourner là où tout le dépôt est restauré. Un projet sorti de la solution reste dans le périmètre des gardes qui balaient les fichiers, pas dans celui des jobs qui compilent la solution.
 
 ## Actions GitHub
 
