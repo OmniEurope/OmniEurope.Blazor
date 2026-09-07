@@ -86,6 +86,18 @@ Erreurs réellement rencontrées sur ce dépôt, avec leur cause et le correctif
 - **Hypothèse retenue et correctif** : les arguments navigateur supplémentaires ne s'appliquent qu'au moment où WebView2 **crée** un processus navigateur. Un processus existant pour le même dossier de données utilisateur est réutilisé et les arguments sont ignorés, ce qui produit exactement la signature observée, WebView2 vivant et rendu correct mais aucun port de débogage. La sonde impose désormais un dossier de données neuf par exécution via `WEBVIEW2_USER_DATA_FOLDER`, nettoyé à la fin.
 - **Diagnostic ajouté si cela ne suffit pas** : la sonde lit la ligne de commande réelle des processus `msedgewebview2` via `Win32_Process` et dit si l'un d'eux porte `--remote-debugging-port`. C'est le seul endroit où la réponse existe, la variable d'environnement affichée jusqu'ici étant celle du parent, pas celle héritée par l'enfant. Argument présent signifie port demandé puis refusé ou filtré ; argument absent signifie variable perdue ou processus réutilisé.
 - **Contrôles locaux** : chemin vert toujours vert avec le dossier dédié, et `-ReadyTimeoutSeconds 0` imprime bien la nouvelle ligne, en l'occurrence `1 processus navigateur porte l'argument`.
+- **Verdict du diagnostic** : sur le runner, aucun processus navigateur ne porte l'argument, et le port est « actively refused ». La variable n'atteint donc pas WebView2. Le dossier de données dédié n'était pas la cause.
+- **Correctif tenté puis retiré** : poser l'argument depuis l'application via `BlazorWebViewInitializing` et `EnvironmentOptions.AdditionalBrowserArguments`. Prouvé inopérant en local avant livraison : l'événement fournit `EnvironmentOptions` à `null`, l'objet créé se relit correctement, et MAUI le jette. Le code a été retiré plutôt que laissé en place, un correctif qui ne corrige rien étant pire que pas de correctif.
+- **Correctif retenu** : la sonde n'utilise plus `$env:` puis `Start-Process`, elle écrit les variables directement dans le bloc d'environnement du fils via `ProcessStartInfo.Environment`, ce qui retire l'héritage de l'équation. La sortie du fils est collectée par `Register-ObjectEvent` sur les deux flux, mécanisme vérifié séparément sur un processus témoin.
+- **Prochaine issue possible** : si l'échec persiste, la trace affichera l'argument bien reçu côté fils, ce qui ne laissera qu'une conclusion, WebView2 reçoit l'argument et l'ignore sur cette image de runner.
+
+### Un horodatage rendu dans le fuseau de la machine
+
+- **Symptôme** : la garde du registre de couverture échouait sur une seule ligne, `generatedFrom` passant de `2026-08-11T17:20:14+02:00` à `2026-08-11T15:20:14+00:00`. Même instant, écriture différente, et aucun contenu modifié.
+- **Cause** : `ConvertFrom-Json` convertit une chaîne ISO en `DateTime`. `eng/Generate-ComponentCoverage.ps1` recopiait cette valeur dans sa sortie, et la sérialisation rendait l'offset de la machine, `+02:00` à Paris et `+00:00` sur le runner.
+- **Correctif** : normalisation en UTC avec `ToUniversalTime()` et un format explicite se terminant par `Z`. La valeur ne dépend plus de la machine par construction.
+- **Piège restant** : `eng/Generate-RadzenInventory.ps1` et `eng/Generate-RadzenSurfaceInventory.ps1` utilisent encore le format `K`, qui rend l'offset local. Ils ne sont pas dans le pipeline, donc aucune garde ne les surveille, mais le jour où l'un y entre le même défaut réapparaîtra.
+- **Leçon** : une preuve régénérée puis comparée par `git diff` ne doit contenir aucune valeur dépendante de la machine. Fuseau horaire, séparateur décimal, fin de ligne et mode de fichier appartiennent tous à cette famille.
 
 ### Les preuves générées périment en silence
 

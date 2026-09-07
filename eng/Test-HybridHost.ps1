@@ -10,11 +10,9 @@ $psText = Import-PowerShellDataFile (Join-Path $PSScriptRoot 'PowerShellMessages
 if (-not $IsWindows) { throw $psText.HybridWindowsRequired }
 
 $resolvedExecutable = (Resolve-Path -LiteralPath $ExecutablePath).Path
-$stdout = New-TemporaryFile
-$stderr = New-TemporaryFile
 $process = $null
-$previousArguments = $env:WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS
-$previousUserDataFolder = $env:WEBVIEW2_USER_DATA_FOLDER
+$captured = $null
+$subscriptions = @()
 $userDataFolder = Join-Path ([IO.Path]::GetTempPath()) ("omnieurope-webview2-" + [Guid]::NewGuid().ToString('n'))
 $hostPage = Join-Path $PSScriptRoot '..\samples\OmniEurope.Blazor.HybridSmoke\wwwroot\index.html'
 
@@ -54,16 +52,31 @@ try {
     # process for the same user data folder is reused and the arguments are dropped, which looks
     # exactly like the runner failure: WebView2 alive and rendering, no debugging port. A folder of
     # its own guarantees a fresh browser process that carries the argument.
-    $env:WEBVIEW2_USER_DATA_FOLDER = $userDataFolder
-    $env:WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS = "--remote-debugging-port=$Port --remote-allow-origins=*"
-    $start = @{
-        FilePath = $resolvedExecutable
-        WorkingDirectory = Split-Path -Parent $resolvedExecutable
-        PassThru = $true
-        RedirectStandardOutput = $stdout.FullName
-        RedirectStandardError = $stderr.FullName
-    }
-    $process = Start-Process @start
+    # On the runner the browser process started without the debugging argument on its command line
+    # although this script had set the variable, so setting $env: and trusting inheritance is not
+    # enough. The variables are written straight into the child's environment block instead, which
+    # removes inheritance from the equation entirely.
+    $browserArguments = "--remote-debugging-port=$Port --remote-allow-origins=*"
+    $startInfo = [Diagnostics.ProcessStartInfo]::new()
+    $startInfo.FileName = $resolvedExecutable
+    $startInfo.WorkingDirectory = Split-Path -Parent $resolvedExecutable
+    $startInfo.UseShellExecute = $false
+    $startInfo.RedirectStandardOutput = $true
+    $startInfo.RedirectStandardError = $true
+    $startInfo.Environment['WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS'] = $browserArguments
+    $startInfo.Environment['WEBVIEW2_USER_DATA_FOLDER'] = $userDataFolder
+
+    $captured = [Text.StringBuilder]::new()
+    $process = [Diagnostics.Process]::new()
+    $process.StartInfo = $startInfo
+    $collect = { if ($null -ne $EventArgs.Data) { [void]$Event.MessageData.AppendLine($EventArgs.Data) } }
+    $subscriptions = @(
+        Register-ObjectEvent -InputObject $process -EventName OutputDataReceived -Action $collect -MessageData $captured
+        Register-ObjectEvent -InputObject $process -EventName ErrorDataReceived -Action $collect -MessageData $captured
+    )
+    [void]$process.Start()
+    $process.BeginOutputReadLine()
+    $process.BeginErrorReadLine()
 
     $target = $null
     $endpointAnswered = $false
@@ -90,7 +103,7 @@ try {
         $runtime = Get-WebView2RuntimeVersion
         if (-not $runtime) { $runtime = $psText.HybridDiagRuntimeMissing }
         Write-Host ($psText.HybridDiagRuntime -f $runtime)
-        Write-Host ($psText.HybridDiagArguments -f $env:WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS)
+        Write-Host ($psText.HybridDiagArguments -f $browserArguments)
         # The browser runs in its own process tree. Whether one exists at all separates a WebView2
         # that was never created from a WebView2 that ignored the debugging port.
         $browsers = @(Get-Process -Name 'msedgewebview2' -ErrorAction SilentlyContinue)
@@ -127,8 +140,7 @@ try {
     Write-Host ($psText.HybridPassed -f $process.Id)
 }
 catch {
-    if (Test-Path -LiteralPath $stdout.FullName) { Get-Content -LiteralPath $stdout.FullName | Write-Host }
-    if (Test-Path -LiteralPath $stderr.FullName) { Get-Content -LiteralPath $stderr.FullName | Write-Host }
+    if ($captured -and $captured.Length -gt 0) { Write-Host $captured.ToString() }
     throw
 }
 finally {
@@ -136,8 +148,9 @@ finally {
         Stop-Process -Id $process.Id
         $process.WaitForExit(5000) | Out-Null
     }
-    $env:WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS = $previousArguments
-    $env:WEBVIEW2_USER_DATA_FOLDER = $previousUserDataFolder
+    foreach ($subscription in @($subscriptions)) {
+        if ($subscription) { Unregister-Event -SubscriptionId $subscription.Id -ErrorAction SilentlyContinue }
+    }
+    if ($process) { $process.Dispose() }
     Remove-Item -LiteralPath $userDataFolder -Recurse -Force -ErrorAction SilentlyContinue
-    Remove-Item -LiteralPath $stdout.FullName, $stderr.FullName -Force -ErrorAction SilentlyContinue
 }

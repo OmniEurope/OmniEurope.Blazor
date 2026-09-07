@@ -7,15 +7,23 @@ namespace OmniEurope.Blazor.HybridSmoke;
 
 public sealed class MainPage : ContentPage
 {
+    // The smoke probe asks WebView2 for a debugging port through this variable. Tracing the value
+    // the process actually received is the only way to tell a variable that never arrived from a
+    // WebView2 that ignored it: setting it in the parent proves nothing about the child.
+    // Applying the arguments here through BlazorWebViewInitializing was tried and does not work:
+    // the event hands over a null EnvironmentOptions, and the object assigned to it is discarded.
+    private const string BrowserArgumentsVariable = "WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS";
+
     public MainPage(IStringLocalizer<HybridSmokeStrings> text)
     {
         Title = text["WindowTitle"];
         var webView = new BlazorWebView { HostPage = "wwwroot/index.html" };
 
-        // The smoke probe drives this host through the WebView2 debugging port. When that port
-        // never opens, the probe cannot tell a WebView2 that failed to start from one that
-        // started without honouring the port. These markers make the runner log say which.
-        webView.BlazorWebViewInitializing += (_, _) => Trace("webview-initializing");
+        webView.BlazorWebViewInitializing += (_, e) =>
+        {
+            var arguments = Environment.GetEnvironmentVariable(BrowserArgumentsVariable);
+            Trace($"webview-initializing arguments=\"{arguments}\"");
+        };
         webView.BlazorWebViewInitialized += (_, _) => Trace("webview-initialized");
         webView.UrlLoading += (_, e) => Trace($"webview-url-loading {e.Url}");
         Loaded += (_, _) => Trace("page-loaded");
