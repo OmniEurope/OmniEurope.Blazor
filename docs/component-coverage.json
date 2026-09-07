@@ -14,7 +14,7 @@
       "phase": 3,
       "status": "target-present",
       "targetFile": "src/OmniEurope.Blazor/Components/Layout/OmniStack.razor",
-      "targetSha256": "eb1348e8af14e39924ebe99921bbe5a6ae2915a8ffac3939666b825ac40134e5",
+      "targetSha256": "ec9f6c5d5c2d456c86a60f20b60a3d128607b5710a502db2a0ed804142d3a712",
       "evidence": {
         "testReferences": [
           "tests/OmniEurope.Blazor.Tests/ComponentCspTests.cs"
@@ -33,7 +33,7 @@
       "phase": 3,
       "status": "target-present",
       "targetFile": "src/OmniEurope.Blazor/Components/Actions/OmniButton.razor",
-      "targetSha256": "a5982ab540eaa8a315fbc4e35a338bfeee92273824843d7c95f8354e00c2622a",
+      "targetSha256": "5955b3b30cbfd8d97048cd63ab5222d4582534af379679b8ee57c7552c1f834f",
       "evidence": {
         "testReferences": [
           "tests/OmniEurope.Blazor.Tests/ComponentCspTests.cs",
@@ -382,7 +382,7 @@
       "phase": 3,
       "status": "target-present",
       "targetFile": "src/OmniEurope.Blazor/Components/Layout/OmniCard.razor",
-      "targetSha256": "00c703c582ad3f0ce35c8087bc6c25e40db416f88a28f1750dc6d3214e81f7e8",
+      "targetSha256": "42532a57b6b34957e4889da6d99e46346cc150a4f5e3cbf2249a5cdb7d2144dd",
       "evidence": {
         "testReferences": [
           "tests/OmniEurope.Blazor.Tests/ComponentCspTests.cs"
@@ -759,7 +759,7 @@
       "phase": 7,
       "status": "target-present",
       "targetFile": "src/OmniEurope.Blazor/Components/Navigation/OmniTabsItem.razor",
-      "targetSha256": "426ea19ed97d63362af0e06591bf02850e05c7aa8367512229fcae884f257353",
+      "targetSha256": "3cd066be14144edc2393a6fc6fff1effee402a08620d35f17b347a9afb74584b",
       "evidence": {
         "testReferences": [
           "tests/OmniEurope.Blazor.Tests/NavigationTestHost.razor"

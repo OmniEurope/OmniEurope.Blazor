@@ -13,10 +13,13 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
         with:
           global-json-file: global.json
+      - name: Verify the SDK feature band
+        shell: pwsh
+        run: ./eng/Test-SdkBand.ps1
       - name: Restore
         run: dotnet restore OmniEurope.Blazor.slnx --locked-mode
       - name: Build
@@ -84,7 +87,7 @@ jobs:
         run: |
           ./eng/New-PackageProvenance.ps1 -PackageDirectory artifacts/packages -Repository $env:GITHUB_REPOSITORY -Commit $env:GITHUB_SHA -RunId $env:GITHUB_RUN_ID -RunAttempt $env:GITHUB_RUN_ATTEMPT
           ./eng/Test-PackageProvenance.ps1 -PackageDirectory artifacts/packages -ExpectedCommit $env:GITHUB_SHA -ExpectedRepository $env:GITHUB_REPOSITORY -ExpectedRunId $env:GITHUB_RUN_ID -ExpectedRunAttempt $env:GITHUB_RUN_ATTEMPT
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: nuget-package
           path: artifacts/packages
@@ -92,23 +95,19 @@ jobs:
   hybrid-smoke:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
         with:
           global-json-file: global.json
-      - name: Record exact SDK and workload mode
-        run: |
-          dotnet --version
-          dotnet workload config --update-mode
+      - name: Verify the SDK feature band
+        shell: pwsh
+        run: ./eng/Test-SdkBand.ps1
       - name: Install MAUI Windows workload
         run: dotnet workload install maui-windows
-      - name: Verify exact SDK and workload set
-        shell: pwsh
+      - name: Record the resolved SDK and workload set
         run: |
-          $sdkVersion = dotnet --version
-          if ($sdkVersion -ne '10.0.302') { throw "Unexpected SDK version: $sdkVersion" }
-          $workloadVersion = dotnet workload --version
-          if ($workloadVersion -ne '10.0.302') { throw "Unexpected workload set: $workloadVersion" }
+          dotnet --version
+          dotnet workload --version
       - name: Restore Hybrid smoke host
         run: dotnet restore samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --locked-mode
       - name: Build Hybrid smoke host

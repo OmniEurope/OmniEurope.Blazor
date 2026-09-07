@@ -7,7 +7,7 @@ Les versions directes sont centralisées dans `Directory.Packages.props`; les r�
 - `bunit` reste en `2.8.6` : NuGet.org la publie comme dernière version stable. La version `2.9.0` indiquée par l'audit initial n'existe pas dans le catalogue officiel à cette date.
 - `coverlet.collector` est épinglé en `10.0.1`, dernière version stable, pour produire la couverture Cobertura avec `XPlat Code Coverage`.
 - les packages MAUI sont alignés sur `10.0.90`;
-- le SDK et le workload set sont tous deux figés en `10.0.302`, sans roll-forward.
+- le SDK est épinglé sur la bande de fonctionnalités `10.0.3xx` via `global.json` (`version: 10.0.300`, `rollForward: latestPatch`). Aucun workload set n'est figé : seul le job MAUI installe `maui-windows`, et `eng/Test-SdkBand.ps1` vérifie la bande dans les deux jobs plutôt que de recopier un numéro dans les workflows.
 
 ## Ressources tierces hors NuGet
 
