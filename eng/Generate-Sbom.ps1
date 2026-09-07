@@ -12,7 +12,13 @@ if ([string]::IsNullOrWhiteSpace($packageVersion)) { throw 'The package project 
 $packageRoot = if ($env:NUGET_PACKAGES) {
     $env:NUGET_PACKAGES
 } else {
-    Join-Path $env:USERPROFILE '.nuget/packages'
+    # USERPROFILE only exists on Windows; GetFolderPath resolves to HOME elsewhere, so the
+    # script finds the global package folder on a Linux runner too.
+    $userProfile = [Environment]::GetFolderPath([Environment+SpecialFolder]::UserProfile)
+    if ([string]::IsNullOrWhiteSpace($userProfile)) {
+        throw 'Cannot locate the global NuGet package folder: neither NUGET_PACKAGES nor the user profile is set.'
+    }
+    Join-Path $userProfile '.nuget/packages'
 }
 
 function Get-RelativePath([string]$Path) {
