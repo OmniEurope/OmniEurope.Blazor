@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="CatalogBadge" xml:space="preserve"><value>Catalogue de démonstration</value></data>
+  <data name="CatalogErrorTitle" xml:space="preserve"><value>Erreur du catalogue</value></data>
+  <data name="CatalogErrorMessage" xml:space="preserve"><value>Le composant de démonstration n'a pas pu être affiché.</value></data>
+  <data name="Retry" xml:space="preserve"><value>Réessayer</value></data>
+  <data name="PageTitle" xml:space="preserve"><value>Catalogue OmniEurope.Blazor</value></data>
+  <data name="CatalogHeading" xml:space="preserve"><value>Catalogue des composants</value></data>
+  <data name="HeroBefore" xml:space="preserve"><value>Hôte local illustrant un sous-ensemble des composants. Les exemples utilisent la feuille statique du paquet, une CSP sans</value></data>
+  <data name="HeroBetween" xml:space="preserve"><value>ni</value></data>
+  <data name="HeroAfter" xml:space="preserve"><value>et sans contournement CSP.</value></data>
+  <data name="CoverageLabel" xml:space="preserve"><value>balises Omni distinctes illustrées</value></data>
+  <data name="InlineStyleLabel" xml:space="preserve"><value>style inline</value></data>
+  <data name="FamilyLabel" xml:space="preserve"><value>familles fonctionnelles</value></data>
+  <data name="FoundationsTitle" xml:space="preserve"><value>Fondations et actions</value></data>
+  <data name="ButtonsStates" xml:space="preserve"><value>Boutons et états</value></data>
+  <data name="Primary" xml:space="preserve"><value>Principal</value></data>
+  <data name="Secondary" xml:space="preserve"><value>Secondaire</value></data>
+  <data name="Danger" xml:space="preserve"><value>Danger</value></data>
+  <data name="Loading" xml:space="preserve"><value>Chargement</value></data>
+  <data name="Toggle" xml:space="preserve"><value>Basculer</value></data>
+  <data name="Messages" xml:space="preserve"><value>Messages</value></data>
+  <data name="Information" xml:space="preserve"><value>Information</value></data>
+  <data name="InfoMessage" xml:space="preserve"><value>Message informatif.</value></data>
+  <data name="Success" xml:space="preserve"><value>Succès</value></data>
+  <data name="SuccessMessage" xml:space="preserve"><value>Opération terminée.</value></data>
+  <data name="Progress" xml:space="preserve"><value>Progression</value></data>
+  <data name="Overlays" xml:space="preserve"><value>Superpositions</value></data>
+  <data name="OpenDialog" xml:space="preserve"><value>Ouvrir le dialogue</value></data>
+  <data name="Notify" xml:space="preserve"><value>Notifier</value></data>
+  <data name="Close" xml:space="preserve"><value>Fermer</value></data>
+  <data name="Tooltip" xml:space="preserve"><value>Infobulle accessible</value></data>
+  <data name="TooltipTrigger" xml:space="preserve"><value>Survolez ou focalisez</value></data>
+  <data name="FormsTitle" xml:space="preserve"><value>Formulaires et sélections</value></data>
+  <data name="NameLabel" xml:space="preserve"><value>Nom du composant</value></data>
+  <data name="NamePlaceholder" xml:space="preserve"><value>Nom</value></data>
+  <data name="Notes" xml:space="preserve"><value>Notes</value></data>
+  <data name="Choice" xml:space="preserve"><value>Choix</value></data>
+  <data name="Search" xml:space="preserve"><value>Recherche</value></data>
+  <data name="Date" xml:space="preserve"><value>Date</value></data>
+  <data name="Value" xml:space="preserve"><value>Valeur</value></data>
+  <data name="Color" xml:space="preserve"><value>Couleur</value></data>
+  <data name="File" xml:space="preserve"><value>Fichier</value></data>
+  <data name="OptionFirst" xml:space="preserve"><value>Premier</value></data>
+  <data name="OptionSecond" xml:space="preserve"><value>Second</value></data>
+  <data name="NavigationTitle" xml:space="preserve"><value>Navigation et collections</value></data>
+  <data name="Home" xml:space="preserve"><value>Accueil</value></data>
+  <data name="Catalog" xml:space="preserve"><value>Catalogue</value></data>
+  <data name="List" xml:space="preserve"><value>Liste</value></data>
+  <data name="Tree" xml:space="preserve"><value>Arbre</value></data>
+  <data name="Europe" xml:space="preserve"><value>Europe</value></data>
+  <data name="Belgium" xml:space="preserve"><value>Belgique</value></data>
+  <data name="DataTitle" xml:space="preserve"><value>Données et graphiques</value></data>
+  <data name="GridCaption" xml:space="preserve"><value>Exemple de grille</value></data>
+  <data name="NameColumn" xml:space="preserve"><value>Nom</value></data>
+  <data name="ValueColumn" xml:space="preserve"><value>Valeur</value></data>
+  <data name="ChartTitle" xml:space="preserve"><value>Indicateurs</value></data>
+  <data name="ChartDescription" xml:space="preserve"><value>Trois points de démonstration</value></data>
+  <data name="Measure" xml:space="preserve"><value>Mesure</value></data>
+  <data name="ChartDataCaption" xml:space="preserve"><value>Données : A 30, B 70, C 45</value></data>
+  <data name="TimeTitle" xml:space="preserve"><value>Temps et contenu HTML</value></data>
+  <data name="SchedulerAppointment" xml:space="preserve"><value>Revue du catalogue</value></data>
+  <data name="EditorInitialHtml" xml:space="preserve"><value>&lt;p&gt;Contenu &lt;strong&gt;sanitizé&lt;/strong&gt;.&lt;/p&gt;</value></data>
+  <data name="DialogTitle" xml:space="preserve"><value>Dialogue du catalogue</value></data>
+  <data name="DialogBody" xml:space="preserve"><value>Le focus et la fermeture contrôlée peuvent être vérifiés ici.</value></data>
+  <data name="NestedOpen" xml:space="preserve"><value>Ouvrir un dialogue imbriqué</value></data>
+  <data name="NestedTitle" xml:space="preserve"><value>Dialogue imbriqué</value></data>
+  <data name="NestedBody" xml:space="preserve"><value>Seul le dialogue supérieur doit se fermer sur Échap.</value></data>
+  <data name="NotificationMessage" xml:space="preserve"><value>La notification est annoncée dans une région live.</value></data>
+  <data name="NotFoundPageTitle" xml:space="preserve"><value>Page introuvable - OmniEurope.Blazor</value></data>
+  <data name="NotFoundTitle" xml:space="preserve"><value>Page introuvable</value></data>
+  <data name="NotFoundDescription" xml:space="preserve"><value>Cette adresse ne correspond à aucune page du catalogue.</value></data>
+  <data name="BackToCatalog" xml:space="preserve"><value>Retour au catalogue</value></data>
+</root>

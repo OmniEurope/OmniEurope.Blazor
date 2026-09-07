@@ -1,0 +1,10 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<button @attributes="AdditionalAttributes"
+        id="@Id"
+        type="button"
+        class="@Css("omni-split-button__item")"
+        role="menuitem"
+        disabled="@Disabled"
+        @onclick="HandleClickAsync">@ChildContent</button>

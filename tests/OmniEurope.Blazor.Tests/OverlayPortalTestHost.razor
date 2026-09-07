@@ -1,0 +1,20 @@
+<OmniComponentsHost OverlayService="Service">
+    <OmniContextMenu @bind-Open="MenuOpen" MenuLabel="Actions" TriggerContent="Trigger">
+        <button type="button">Action</button>
+    </OmniContextMenu>
+</OmniComponentsHost>
+
+@code {
+    public OmniOverlayService Service { get; } = new();
+    public bool MenuOpen { get; set; }
+
+    private RenderFragment Trigger => builder => builder.AddContent(0, "Cible");
+
+    public void OpenNestedDialogs()
+    {
+        Service.OpenDialog(new OmniDialogRequest("Premier", Content("Un")));
+        Service.OpenDialog(new OmniDialogRequest("Second", Content("Deux")));
+    }
+
+    private static RenderFragment Content(string value) => builder => builder.AddContent(0, value);
+}

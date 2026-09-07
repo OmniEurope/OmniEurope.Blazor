@@ -1,0 +1,30 @@
+# Reproductibilité des artefacts
+
+## Texte légal officiel
+
+Le fichier `LICENSE` conserve textuellement les deux tirets cadratins du texte anglais officiel EUPL-1.2. Ils constituent l'unique exception à la gate typographique U+2014; le code, les scripts, les configurations et les autres documents doivent rester sans ce caractère. La version de référence est publiée par la Commission européenne dans les [textes officiels EUPL-1.2](https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12).
+
+La compilation active `Deterministic` dans `Directory.Build.props` et les dépendances sont verrouillées par les fichiers `packages.lock.json`. `global.json` épingle la bande de fonctionnalités du SDK (`version: 10.0.300`, `rollForward: latestPatch`) : tout correctif `10.0.3xx` convient, une autre bande est refusée. `eng/Test-SdkBand.ps1` lit `global.json` et applique cette règle dans les deux jobs de CI, sans recopier le numéro. Le workload set n'est plus figé, car `setup-dotnet` n'en installe aucun et le pin faisait échouer la résolution MSBuild de tout projet, y compris ceux qui n'utilisent aucun workload; seul le job MAUI installe `maui-windows`.
+
+`.gitattributes` impose LF à tout fichier suivi, sauf `docs/third-party-licenses/`, laissé sans conversion. Ces textes sont copiés octet pour octet depuis les paquets NuGet puis hachés comme preuve : les convertir ferait diverger le hash entre un poste Windows et la CI pour un contenu identique.
+
+## État du paquet NuGet
+
+Lors d'une vérification locale non archivée avec le SDK `10.0.302`, deux exécutions `dotnet pack --no-build --no-restore` contenaient les mêmes fichiers fonctionnels, mais les archives `.nupkg` et `.snupkg` n'étaient pas bit-à-bit identiques. NuGet régénérait notamment l'identifiant du document OPC `package/services/metadata/core-properties/*.psmdcp` et les métadonnées ZIP.
+
+La documentation officielle de [`dotnet pack`](https://learn.microsoft.com/dotnet/core/tools/dotnet-pack) expose `Deterministic` et `DeterministicTimestamp` pour les paquets à partir du SDK .NET `10.0.400`. La gate bit-à-bit doit donc rester ouverte tant que le SDK du dépôt n'a pas été mis à niveau et que le double empaquetage n'a pas produit deux SHA-256 identiques.
+
+Les contrôles actuellement rejouables dans le dépôt vérifient séparément :
+
+- la restauration `--locked-mode` ;
+- la baseline API partielle décrite dans [public-api-conventions.md](public-api-conventions.md) ;
+- le contenu du paquet principal et du paquet de symboles ;
+- la dépendance client-compatible `Microsoft.AspNetCore.Components.Web` ;
+- la licence EUPL-1.2 ;
+- les budgets CSS, assembly et NuGet.
+
+## Limites des preuves actuelles
+
+- Le contrôle CSP du catalogue vérifie les sources, les réponses HTTP et un collecteur encore vide avant interaction ; il ne remplace pas une navigation dans un navigateur réel.
+- Les métriques de comparaison de provenance annoncées lors de la revue ne sont pas accompagnées dans le dépôt de leurs versions de référence, scanner, paramètres et résultats bruts. Elles ne sont donc pas reproductibles indépendamment en l'état.
+- Le dépôt ne conserve pas les hashes, listings ou journaux de la double exécution de `dotnet pack` citée plus haut ; ce constat historique n'est donc pas reproductible indépendamment en l'état.

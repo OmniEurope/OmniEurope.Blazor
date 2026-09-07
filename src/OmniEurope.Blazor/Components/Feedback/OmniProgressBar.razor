@@ -1,0 +1,30 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<div id="@Id"
+     class="@Css("omni-progress", $"omni-progress--{Shape.ToString().ToLowerInvariant()}", $"omni-progress--{Variant.ToString().ToLowerInvariant()}", Indeterminate ? "omni-progress--indeterminate" : null)"
+     role="progressbar"
+     aria-label="@EffectiveLabel"
+     aria-valuemin="@MinimumText"
+     aria-valuemax="@MaximumText"
+     aria-valuenow="@CurrentValueText"
+     aria-valuetext="@ValueText"
+     @attributes="AdditionalAttributes">
+    @if (Shape == OmniProgressShape.Circular)
+    {
+        <svg class="omni-progress__circle" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+            <circle class="omni-progress__circle-track" cx="22" cy="22" r="18" pathLength="100" />
+            <circle class="omni-progress__circle-value" cx="22" cy="22" r="18" pathLength="100" stroke-dasharray="@DashArray" />
+        </svg>
+    }
+    else
+    {
+        <span class="omni-progress__track" aria-hidden="true">
+            <span class="@LinearIndicatorClass"></span>
+        </span>
+    }
+    @if (ShowValue)
+    {
+        <span class="omni-progress__label">@DisplayValue</span>
+    }
+</div>

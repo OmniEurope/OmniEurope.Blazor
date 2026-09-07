@@ -1,0 +1,35 @@
+<OmniStack Gap="OmniSpacing.Large">
+    @* Les quatre intentions de la barre, dans ses deux formes. *@
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniProgressBar Label="Téléversement" Value="62" ShowValue="true"
+                         Shape="OmniProgressShape.Linear" Variant="OmniProgressVariant.Accent" />
+        <OmniProgressBar Label="Dossiers traités" Value="88" ShowValue="true"
+                         Variant="OmniProgressVariant.Success" />
+        <OmniProgressBar Label="Quota bientôt atteint" Value="76" ShowValue="true"
+                         Variant="OmniProgressVariant.Warning" />
+        <OmniProgressBar Label="Échecs d'import" Value="12" ShowValue="true"
+                         Variant="OmniProgressVariant.Danger" />
+        <OmniProgressBar Label="Analyse en cours" Indeterminate="true" />
+    </OmniStack>
+
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Large" Align="OmniAlignment.Center">
+        <OmniProgressBar Label="Progression" Value="45" ShowValue="true" Shape="OmniProgressShape.Circular" />
+        <OmniProgressBar Label="Sans fin connue" Indeterminate="true" Shape="OmniProgressShape.Circular" />
+    </OmniStack>
+
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+        <OmniTooltip Text="Le quota est calculé sur trente jours glissants.">
+            <OmniBadge Variant="OmniBadgeVariant.Neutral">Quota</OmniBadge>
+        </OmniTooltip>
+        <OmniTooltip Text="Un dossier archivé reste consultable en lecture seule.">
+            <OmniBadge Variant="OmniBadgeVariant.Accent">Archivé</OmniBadge>
+        </OmniTooltip>
+    </OmniStack>
+
+    @* Le squelette prend la forme de ce qu'il remplace le temps du chargement. *@
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Start">
+        <OmniSkeleton Shape="OmniSkeletonShape.Circle" Label="Chargement de l'avatar" />
+        <OmniSkeleton Shape="OmniSkeletonShape.Rectangle" Label="Chargement de la vignette" />
+        <OmniSkeleton Shape="OmniSkeletonShape.Text" LineCount="3" Label="Chargement du dossier" />
+    </OmniStack>
+</OmniStack>

@@ -1,0 +1,8 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<header id="@Id"
+        class="@Css("omni-header", Sticky ? "omni-header--sticky" : null)"
+        @attributes="AdditionalAttributes">
+    @ChildContent
+</header>

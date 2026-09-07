@@ -1,0 +1,38 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<div class="@Css("omni-combo")">
+    <input id="@Id"
+           type="text"
+           class="omni-input omni-data-grid__filter omni-combo__input"
+           role="combobox"
+           aria-expanded="@(IsOpen ? "true" : "false")"
+           aria-controls="@ListId"
+           aria-autocomplete="list"
+           aria-activedescendant="@ActiveOptionId"
+           autocomplete="off"
+           placeholder="@Placeholder"
+           value="@Value"
+           @oninput="OnInputAsync"
+           @onkeydown="OnKeyDownAsync"
+           @onfocus="OpenList"
+           @onblur="CloseList" />
+    @if (IsOpen)
+    {
+        <ul id="@ListId" class="omni-combo__list" role="listbox">
+            @for (var index = 0; index < Matches.Count; index++)
+            {
+                var position = index;
+                var candidate = Matches[position];
+                <li id="@OptionId(position)"
+                    class="@OptionClass(position)"
+                    role="option"
+                    aria-selected="@(position == _activeIndex ? "true" : "false")"
+                    @onmousedown:preventDefault="true"
+                    @onmousedown="() => PickAsync(candidate)">
+                    @Highlighted(candidate)
+                </li>
+            }
+        </ul>
+    }
+</div>

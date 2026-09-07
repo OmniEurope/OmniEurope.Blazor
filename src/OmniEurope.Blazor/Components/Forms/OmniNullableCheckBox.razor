@@ -1,0 +1,19 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniInputBase<bool?>
+
+<button @attributes="AdditionalAttributes"
+        id="@Id"
+        class="@InputCss("omni-checkbox-nullable", CurrentValue is null ? "omni-checkbox-nullable--mixed" : CurrentValue == true ? "omni-checkbox-nullable--checked" : null)"
+        type="button"
+        role="checkbox"
+        disabled="@Disabled"
+        aria-checked="@AriaChecked"
+        aria-invalid="@AriaInvalid"
+        aria-describedby="@AriaDescribedBy"
+        @onclick="Cycle">
+    <span class="omni-checkbox-nullable__indicator" aria-hidden="true"></span>
+    @if (ChildContent is not null)
+    {
+        <span>@ChildContent</span>
+    }
+</button>

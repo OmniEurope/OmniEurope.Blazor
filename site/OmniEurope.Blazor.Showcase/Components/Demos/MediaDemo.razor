@@ -1,0 +1,36 @@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+        <OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" AriaLabel="Validé" />
+        <OmniIcon Name="OmniIconName.Warning" Size="OmniControlSize.Medium" AriaLabel="Attention" />
+        <OmniIcon Name="OmniIconName.Filter" Size="OmniControlSize.Large" AriaLabel="Filtrer" />
+        <OmniIcon Glyph="Compass" Size="OmniControlSize.Large" AriaLabel="Boussole" />
+    </OmniStack>
+
+    @* Le jeu complet embarqué, celui dans lequel les composants puisent leurs propres icônes. *@
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+        <OmniIcon Name="OmniIconName.Close" AriaLabel="Fermer" />
+        <OmniIcon Name="OmniIconName.Info" AriaLabel="Information" />
+        <OmniIcon Name="OmniIconName.Menu" AriaLabel="Menu" />
+        <OmniIcon Name="OmniIconName.ChevronDown" AriaLabel="Déplier" />
+        <OmniIcon Name="OmniIconName.SortAscending" AriaLabel="Tri croissant" />
+        <OmniIcon Name="OmniIconName.SortDescending" AriaLabel="Tri décroissant" />
+        <OmniIcon Name="OmniIconName.ThemeLight" AriaLabel="Apparence claire" />
+        <OmniIcon Name="OmniIconName.ThemeDark" AriaLabel="Apparence sombre" />
+    </OmniStack>
+
+    @* Les trois façons de faire tenir une image dans la boîte qu'on lui donne. *@
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
+        <OmniImage Source="showcase-sample.svg" Alt="Image entière, sans recadrage"
+                   Width="180" Height="120" Fit="OmniImageFit.Contain" Loading="OmniImageLoading.Lazy" />
+        <OmniImage Source="showcase-sample.svg" Alt="Image recadrée pour remplir la boîte"
+                   Width="180" Height="120" Fit="OmniImageFit.Cover" Loading="OmniImageLoading.Eager" />
+        <OmniImage Source="showcase-sample.svg" Alt="Image à sa taille naturelle"
+                   Width="180" Height="120" Fit="OmniImageFit.Natural" />
+    </OmniStack>
+
+    <OmniTimeline Label="Étapes du dossier">
+        <OmniTimelineItem Title="Dépôt" DateText="2 mars">Le dossier a été enregistré.</OmniTimelineItem>
+        <OmniTimelineItem Title="Instruction" DateText="9 mars">Un agent a été désigné.</OmniTimelineItem>
+        <OmniTimelineItem Title="Décision" DateText="24 mars">La décision a été notifiée.</OmniTimelineItem>
+    </OmniTimeline>
+</OmniStack>

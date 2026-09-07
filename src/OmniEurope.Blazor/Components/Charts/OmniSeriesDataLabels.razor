@@ -1,0 +1,11 @@
+@namespace OmniEurope.Blazor.Components
+<g class="omni-chart__labels">
+    @for (var index = 0; index < Data.Count; index++)
+    {
+        var point = Data[index];
+        var projected = Projected(index);
+        <g><text x="@OmniChartGeometry.Number(projected.X)" y="@OmniChartGeometry.Number(projected.Y - 3)" text-anchor="middle">@(point.Label ?? Formatter?.Invoke(point.Y) ?? OmniChartGeometry.Number(point.Y))</text></g>
+    }
+</g>
+
+@implements IDisposable

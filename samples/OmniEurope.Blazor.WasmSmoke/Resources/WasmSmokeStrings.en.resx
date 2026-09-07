@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="PageTitle" xml:space="preserve"><value>OmniEurope.Blazor WebAssembly test</value></data>
+  <data name="Title" xml:space="preserve"><value>OmniEurope.Blazor WebAssembly</value></data>
+  <data name="Loaded" xml:space="preserve"><value>The library is loaded in WebAssembly.</value></data>
+  <data name="Counter" xml:space="preserve"><value>Counter: {0}</value></data>
+  <data name="ProgressLabel" xml:space="preserve"><value>Test progress</value></data>
+</root>

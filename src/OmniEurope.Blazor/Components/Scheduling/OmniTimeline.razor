@@ -1,0 +1,6 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-timeline")" aria-label="@EffectiveLabel">
+    <ol class="omni-timeline__list">@ChildContent</ol>
+</section>

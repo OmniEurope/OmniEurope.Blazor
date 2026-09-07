@@ -1,0 +1,23 @@
+html {
+    color-scheme: light;
+    font-family: system-ui, sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+.wasm-shell {
+    margin-inline: auto;
+    max-width: 48rem;
+    padding: 2rem 1.25rem;
+}
+
+.wasm-probe {
+    align-items: flex-start;
+}
+
+.wasm-probe > .omni-alert,
+.wasm-probe > .omni-progress {
+    align-self: stretch;
+}

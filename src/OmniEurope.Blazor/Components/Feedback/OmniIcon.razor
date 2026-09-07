@@ -1,0 +1,18 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<svg id="@Id"
+     class="@Css("omni-icon", $"omni-icon--{Size.ToString().ToLowerInvariant()}")"
+     viewBox="@ResolvedGlyph.ViewBox"
+     fill="currentColor"
+     focusable="false"
+     role="@(string.IsNullOrWhiteSpace(AriaLabel) ? null : "img")"
+     aria-hidden="@(string.IsNullOrWhiteSpace(AriaLabel) ? "true" : null)"
+     aria-label="@AriaLabel"
+     @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrWhiteSpace(AriaLabel))
+    {
+        <title>@AriaLabel</title>
+    }
+    <path d="@ResolvedGlyph.PathData" />
+</svg>

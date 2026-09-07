@@ -1,0 +1,33 @@
+{
+  "scope": "Only interactions asserted by the referenced runtime scripts are listed.",
+  "scenarios": [
+    {
+      "id": "catalog-critical-interactions",
+      "host": "Server catalog",
+      "script": "eng/Test-CatalogProbe.mjs",
+      "components": ["OmniButton", "OmniComponentsHost", "OmniDialog", "OmniNotification"],
+      "assertions": ["five catalog families", "dialog opens and owns focus", "dialog closes", "notification live role", "zero browser console errors", "zero client CSP violations"]
+    },
+    {
+      "id": "wasm-counter-progress",
+      "host": "WebAssembly",
+      "script": "eng/Test-WasmHost.ps1",
+      "components": ["OmniButton", "OmniProgressBar"],
+      "assertions": ["counter changes to 1", "progress aria-valuenow changes to 1", "zero browser console errors"]
+    },
+    {
+      "id": "auto-counter",
+      "host": "Interactive Auto",
+      "script": "eng/Test-AutoHost.ps1",
+      "components": ["OmniButton"],
+      "assertions": ["prerender marker", "hydrated counter changes to 1", "zero browser console errors"]
+    },
+    {
+      "id": "hybrid-counter",
+      "host": "MAUI Blazor Hybrid",
+      "script": "eng/Test-HybridHost.ps1",
+      "components": ["OmniButton"],
+      "assertions": ["WebView2 counter changes to 1", "zero WebView console errors"]
+    }
+  ]
+}

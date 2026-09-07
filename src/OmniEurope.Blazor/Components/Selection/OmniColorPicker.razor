@@ -1,0 +1,18 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniInputBase<string>
+
+<div class="@InputCss("omni-color-picker")">
+    <input @attributes="AdditionalAttributes"
+           id="@Id"
+           class="omni-color-picker__input"
+           type="color"
+           value="@CurrentValueAsString"
+           disabled="@Disabled"
+           aria-invalid="@AriaInvalid"
+           aria-describedby="@AriaDescribedBy"
+           @oninput="HandleInput" />
+    @if (ShowValue)
+    {
+        <output for="@Id" class="omni-color-picker__value">@CurrentValue</output>
+    }
+</div>

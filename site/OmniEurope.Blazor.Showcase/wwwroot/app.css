@@ -1,0 +1,129 @@
+/* Layout of the showcase itself. Every value reads a library token, so the site is repainted by
+   the theme editor exactly like the components it presents. */
+
+.showcase-brand {
+    color: inherit;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.showcase-header__spacer {
+    flex: 1 1 auto;
+}
+
+.showcase-hero {
+    display: grid;
+    gap: var(--omni-space-md);
+    justify-items: start;
+    padding-block: var(--omni-space-xl);
+}
+
+.showcase-hero__lead {
+    color: var(--omni-color-text-muted);
+    font-size: var(--omni-font-size-lg);
+    margin: 0;
+    max-width: 46rem;
+}
+
+.showcase-cards,
+.showcase-presets {
+    display: grid;
+    gap: var(--omni-space-lg);
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    padding-block: var(--omni-space-md);
+}
+
+.showcase-presets__origin {
+    color: var(--omni-color-text-muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--omni-space-xs);
+    font-size: var(--omni-font-size-sm);
+}
+
+.showcase-code {
+    background: var(--omni-color-surface-muted);
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    font-size: var(--omni-font-size-sm);
+    overflow-x: auto;
+    padding: var(--omni-space-md);
+}
+
+.showcase-gallery {
+    display: grid;
+    gap: var(--omni-space-xl);
+    grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr);
+}
+
+@media (max-width: 60rem) {
+    .showcase-gallery {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.showcase-gallery__detail {
+    min-width: 0;
+}
+
+.showcase-preview {
+    background: var(--omni-color-surface);
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    display: grid;
+    gap: var(--omni-space-md);
+    padding: var(--omni-space-lg);
+}
+
+.showcase-source-note {
+    color: var(--omni-color-text-muted);
+    font-size: var(--omni-font-size-sm);
+    max-width: 46rem;
+}
+
+.showcase-tokens {
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    display: grid;
+    gap: var(--omni-space-sm);
+    margin-block: var(--omni-space-lg);
+    padding: var(--omni-space-lg);
+}
+
+.showcase-token {
+    align-items: center;
+    display: grid;
+    gap: var(--omni-space-sm);
+    grid-template-columns: minmax(10rem, 1fr) auto minmax(8rem, 2fr);
+}
+
+.showcase-token__label {
+    color: var(--omni-color-text);
+    font-size: var(--omni-font-size-sm);
+}
+
+.showcase-token__color {
+    block-size: var(--omni-control-height);
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    inline-size: 3rem;
+    padding: 0;
+}
+
+.showcase-token__text {
+    background: var(--omni-color-surface);
+    block-size: var(--omni-control-height);
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    color: var(--omni-color-text);
+    font-family: var(--omni-font-family);
+    font-size: var(--omni-font-size-base);
+    grid-column: 3;
+    padding-inline: var(--omni-space-sm);
+}
+
+.showcase-token__text:focus-visible,
+.showcase-token__color:focus-visible {
+    box-shadow: var(--omni-focus-ring);
+    outline: none;
+}
