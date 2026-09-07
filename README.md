@@ -49,7 +49,7 @@ La bibliothèque vise au minimum une politique qui n'accorde ni `unsafe-inline` 
 
 ## Développement
 
-Le dépôt requiert le SDK .NET `10.0.302`, verrouillé par `global.json`.
+Le dépôt requiert le SDK .NET `10.0.300`, verrouillé par `global.json`. Le `rollForward: latestPatch` accepte tout correctif de cette bande de fonctionnalités, donc `10.0.3xx`, et refuse toute autre bande.
 
 ```powershell
 dotnet restore OmniEurope.Blazor.slnx --locked-mode

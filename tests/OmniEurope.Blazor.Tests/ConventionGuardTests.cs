@@ -222,13 +222,15 @@ public sealed partial class ConventionGuardTests
     }
 
     [Fact]
-    public void SdkDocumentation_MatchesTheExactGlobalJsonPin()
+    public void SdkDocumentation_MatchesTheGlobalJsonPin()
     {
         using var configuration = JsonDocument.Parse(Read("global.json"));
         var sdk = configuration.RootElement.GetProperty("sdk");
-        Assert.Equal("10.0.302", sdk.GetProperty("version").GetString());
-        Assert.Equal("disable", sdk.GetProperty("rollForward").GetString());
-        Assert.Contains("SDK .NET `10.0.302`, verrouillé par `global.json`", Read("README.md"), StringComparison.Ordinal);
+        var version = sdk.GetProperty("version").GetString();
+
+        Assert.Equal("latestPatch", sdk.GetProperty("rollForward").GetString());
+        Assert.False(sdk.TryGetProperty("workloadVersion", out _));
+        Assert.Contains($"SDK .NET `{version}`, verrouillé par `global.json`", Read("README.md"), StringComparison.Ordinal);
     }
 
     [Fact]
