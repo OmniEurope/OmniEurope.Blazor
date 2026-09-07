@@ -1,0 +1,21 @@
+<OmniStack Gap="OmniSpacing.Large">
+    @* Le sélecteur pose les trois vues que l'agenda accepte ; le composant offre les siennes, mais
+       une application les pilote souvent depuis sa propre barre d'outils. *@
+    <OmniFormField For="scheduler-view">
+        <Label>Vue</Label>
+        <ChildContent>
+            <OmniDropDown TValue="OmniSchedulerView" Id="scheduler-view" Options="ViewOptions" @bind-Value="View" />
+        </ChildContent>
+    </OmniFormField>
+
+    <OmniScheduler Date="Anchor"
+                   DateChanged="@(value => Anchor = value)"
+                   View="View"
+                   ViewChanged="@(value => View = value)"
+                   Items="Appointments" />
+
+    <OmniHeading Level="OmniHeadingLevel.H4">Les trois vues, posées séparément</OmniHeading>
+    <OmniDayView Date="Anchor" Appointments="Appointments" Label="Vue du jour" />
+    <OmniWeekView Date="Anchor" Appointments="Appointments" Label="Vue de la semaine" />
+    <OmniMonthView Date="Anchor" Appointments="Appointments" Label="Vue du mois" />
+</OmniStack>

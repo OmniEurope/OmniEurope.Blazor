@@ -1,0 +1,19 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniInputBase<bool>
+
+<button @attributes="AdditionalAttributes"
+        id="@Id"
+        class="@InputCss("omni-switch", CurrentValue ? "omni-switch--checked" : null)"
+        type="button"
+        role="switch"
+        disabled="@Disabled"
+        aria-checked="@(CurrentValue ? "true" : "false")"
+        aria-invalid="@AriaInvalid"
+        aria-describedby="@AriaDescribedBy"
+        @onclick="Toggle">
+    <span class="omni-switch__track" aria-hidden="true"><span class="omni-switch__thumb"></span></span>
+    @if (ChildContent is not null)
+    {
+        <span class="omni-switch__label">@ChildContent</span>
+    }
+</button>

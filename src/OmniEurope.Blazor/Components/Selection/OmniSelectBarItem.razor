@@ -1,0 +1,11 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TValue
+@inherits OmniComponentBase
+
+<button @attributes="AdditionalAttributes"
+        type="button"
+        class="@Css("omni-select-bar__item", Selected ? "omni-select-bar__item--selected" : null)"
+        role="radio"
+        aria-checked="@(Selected ? "true" : "false")"
+        disabled="@Disabled"
+        @onclick="SelectAsync">@ChildContent</button>

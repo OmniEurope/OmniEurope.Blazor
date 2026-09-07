@@ -1,0 +1,41 @@
+@* Validation is declared next to the field it guards, so a reader sees the rule where the input is
+   rather than in a model attribute three files away. *@
+<OmniTemplateForm TModel="ValidationDemoModel" Model="Model" FocusOnFirstInvalid="true"
+                  OnValidSubmit="@(_ => Submitted = true)" OnInvalidSubmit="@(_ => Submitted = false)">
+    <OmniStack Gap="OmniSpacing.Medium">
+        <OmniFormField For="validation-name" Required="true">
+            <Label>Nom</Label>
+            <ChildContent>
+                <OmniTextBox Id="validation-name" @bind-Value="Model.Name" />
+                <OmniRequiredValidator TValue="string" For="@(() => Model.Name)" Message="Le nom est obligatoire." />
+                <OmniLengthValidator For="@(() => Model.Name)" MinimumLength="2" MaximumLength="40"
+                                     Message="Le nom fait entre 2 et 40 caractères." />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField For="validation-mail" Required="true">
+            <Label>Courriel</Label>
+            <ChildContent>
+                <OmniTextBox Id="validation-mail" @bind-Value="Model.Mail" />
+                <OmniEmailValidator For="@(() => Model.Mail)" Message="Ce courriel n'est pas valide." />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField For="validation-mail-confirm" Required="true">
+            <Label>Confirmation du courriel</Label>
+            <ChildContent>
+                <OmniTextBox Id="validation-mail-confirm" @bind-Value="Model.MailConfirmation" />
+                <OmniCompareValidator TValue="string" For="@(() => Model.MailConfirmation)"
+                                      Other="@(() => Model.Mail)"
+                                      Message="Les deux courriels diffèrent." />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniButton ButtonType="OmniButtonType.Submit" Variant="OmniButtonVariant.Primary">Envoyer</OmniButton>
+
+        @if (Submitted)
+        {
+            <OmniAlert Severity="OmniAlertSeverity.Success" Live="true">Le formulaire a été accepté.</OmniAlert>
+        }
+    </OmniStack>
+</OmniTemplateForm>

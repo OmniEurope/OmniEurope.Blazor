@@ -1,0 +1,12 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler-view", "omni-day-view")" aria-label="@EffectiveLabel">
+    <h3>@Date.ToString("D", Culture)</h3>
+    <ol class="omni-scheduler__appointments">
+        @foreach (var appointment in DayItems.OrderBy(item => item.Start))
+        {
+            <li data-start="@appointment.Start.ToString("O")" data-end="@appointment.End.ToString("O")" data-duration-minutes="@((appointment.End - appointment.Start).TotalMinutes.ToString(System.Globalization.CultureInfo.InvariantCulture))"><time datetime="@appointment.Start.ToString("O")">@appointment.Start.ToString("t", Culture)–@appointment.End.ToString("t", Culture)</time><strong>@appointment.Title</strong>@if (!string.IsNullOrWhiteSpace(appointment.Description)) { <span>@appointment.Description</span> }</li>
+        }
+    </ol>
+</section>

@@ -1,0 +1,31 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+        <OmniButton Variant="OmniButtonVariant.Primary" OnClick="@(_ => Count++)">
+            Primaire
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary">Secondaire</OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Ghost">Discret</OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Danger">Supprimer</OmniButton>
+        <OmniButton Disabled="true">Indisponible</OmniButton>
+        <OmniButton Busy="true">Enregistrement</OmniButton>
+    </OmniStack>
+
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+        <OmniButton Size="OmniControlSize.Small">Petit</OmniButton>
+        <OmniButton Size="OmniControlSize.Medium">Moyen</OmniButton>
+        <OmniButton Size="OmniControlSize.Large">Grand</OmniButton>
+    </OmniStack>
+
+    @* Dans un formulaire, le type décide de ce que le bouton déclenche. *@
+    <EditForm Model="this">
+        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+            <OmniButton ButtonType="OmniButtonType.Submit">Envoyer</OmniButton>
+            <OmniButton ButtonType="OmniButtonType.Reset" Variant="OmniButtonVariant.Ghost">Réinitialiser</OmniButton>
+            <OmniButton ButtonType="OmniButtonType.Button" Variant="OmniButtonVariant.Secondary">Sans effet sur le formulaire</OmniButton>
+        </OmniStack>
+    </EditForm>
+</OmniStack>
+
+<p>Clics sur le bouton primaire : @Count</p>

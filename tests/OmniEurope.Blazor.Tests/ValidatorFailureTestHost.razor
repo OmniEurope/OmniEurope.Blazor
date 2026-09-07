@@ -1,0 +1,22 @@
+<EditForm EditContext="@EditContext">
+    <OmniRequiredValidator TValue="string" For="@(() => Model.Value)" ValidationDelayMilliseconds="1" ValidationFailed="OnValidationFailed" />
+</EditForm>
+
+@code {
+    public ThrowingValidatorModel Model { get; } = new();
+    public EditContext EditContext { get; }
+    public Exception? ObservedException { get; private set; }
+
+    public ValidatorFailureTestHost()
+    {
+        EditContext = new EditContext(Model);
+    }
+
+    public void Trigger() => EditContext.NotifyFieldChanged(new FieldIdentifier(Model, nameof(Model.Value)));
+    private void OnValidationFailed(Exception exception) => ObservedException = exception;
+
+    public sealed class ThrowingValidatorModel
+    {
+        public string Value => throw new InvalidOperationException("validation failure");
+    }
+}

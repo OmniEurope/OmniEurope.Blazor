@@ -1,0 +1,120 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          global-json-file: global.json
+      - name: Verify the SDK feature band
+        shell: pwsh
+        run: ./eng/Test-SdkBand.ps1
+      - name: Restore
+        run: dotnet restore OmniEurope.Blazor.slnx --locked-mode
+      - name: Build
+        run: dotnet build OmniEurope.Blazor.slnx --configuration Release --no-restore
+      - name: Publish Server catalog
+        run: dotnet publish samples/OmniEurope.Blazor.Catalog/OmniEurope.Blazor.Catalog.csproj --configuration Release --no-restore --output artifacts/catalog-smoke
+      - name: Server catalog smoke test
+        shell: pwsh
+        run: ./eng/Test-CatalogHost.ps1
+      - name: Publish WebAssembly smoke host
+        run: dotnet publish samples/OmniEurope.Blazor.WasmSmoke/OmniEurope.Blazor.WasmSmoke.csproj --configuration Release --no-restore --output artifacts/wasm-smoke
+      - name: WebAssembly deployment headers
+        shell: pwsh
+        run: ./eng/Test-WasmHeaders.ps1
+      - name: WebAssembly browser smoke test
+        shell: pwsh
+        run: ./eng/Test-WasmHost.ps1
+      - name: Publish Interactive Auto smoke host
+        run: dotnet publish samples/OmniEurope.Blazor.AutoSmoke/OmniEurope.Blazor.AutoSmoke.csproj --configuration Release --no-restore --output artifacts/auto-smoke
+      - name: Interactive Auto smoke test
+        shell: pwsh
+        run: ./eng/Test-AutoHost.ps1
+      - name: Unit tests and coverage
+        run: dotnet test tests/OmniEurope.Blazor.Tests/OmniEurope.Blazor.Tests.csproj --configuration Release --no-build --collect:"XPlat Code Coverage" --logger "trx;LogFileName=tests.trx" --results-directory artifacts/coverage
+      - name: Verify coverage artifact
+        shell: pwsh
+        run: ./eng/Test-Coverage.ps1 -CoverageRoot artifacts/coverage
+      - name: Dependency and action policy
+        shell: pwsh
+        run: ./eng/Test-DependencyPolicy.ps1
+      # The inventory covers every packages.lock.json in the repository, including the Hybrid smoke
+      # host, a Windows-only sample kept out of the solution and never restored by this job. This
+      # downloads its pinned packages without evaluating the project, so the SBOM can read their
+      # nuspec and licence files here rather than moving to a Windows runner.
+      - name: Download the packages the solution does not restore
+        shell: pwsh
+        run: ./eng/Restore-LockedPackages.ps1 -LockFile samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json
+      - name: SBOM and license registry
+        shell: pwsh
+        run: |
+          ./eng/Generate-Sbom.ps1
+          ./eng/Test-Sbom.ps1
+          git diff --exit-code -- NOTICE.md docs/sbom.cdx.json docs/third-party-packages.json docs/third-party-licenses
+      - name: CSP source guard
+        shell: pwsh
+        run: |
+          ./eng/Test-CspFixtures.ps1
+          ./eng/Test-Csp.ps1
+      - name: Public API guard
+        shell: pwsh
+        run: ./eng/Test-PublicApi.ps1
+      - name: Artifact budgets
+        shell: pwsh
+        run: ./eng/Test-Budgets.ps1
+      - name: Pack
+        run: dotnet pack src/OmniEurope.Blazor/OmniEurope.Blazor.csproj --configuration Release --no-build --output artifacts/packages
+      - name: Package content and size
+        shell: pwsh
+        run: |
+          $package = Get-ChildItem artifacts/packages/*.nupkg | Where-Object Name -NotLike '*.snupkg' | Select-Object -First 1
+          $symbols = Get-ChildItem artifacts/packages/*.snupkg | Select-Object -First 1
+          ./eng/Test-Package.ps1 -PackagePath $package.FullName -SymbolPackagePath $symbols.FullName
+          ./eng/Test-PackageFixtures.ps1 -PackagePath $package.FullName
+          ./eng/Test-Budgets.ps1 -PackagePath $package.FullName
+      - name: Record validated package provenance
+        shell: pwsh
+        run: |
+          ./eng/New-PackageProvenance.ps1 -PackageDirectory artifacts/packages -Repository $env:GITHUB_REPOSITORY -Commit $env:GITHUB_SHA -RunId $env:GITHUB_RUN_ID -RunAttempt $env:GITHUB_RUN_ATTEMPT
+          ./eng/Test-PackageProvenance.ps1 -PackageDirectory artifacts/packages -ExpectedCommit $env:GITHUB_SHA -ExpectedRepository $env:GITHUB_REPOSITORY -ExpectedRunId $env:GITHUB_RUN_ID -ExpectedRunAttempt $env:GITHUB_RUN_ATTEMPT
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: nuget-package
+          path: artifacts/packages
+
+  hybrid-smoke:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          global-json-file: global.json
+      - name: Verify the SDK feature band
+        shell: pwsh
+        run: ./eng/Test-SdkBand.ps1
+      - name: Install MAUI Windows workload
+        run: dotnet workload install maui-windows
+      - name: Record the resolved SDK and workload set
+        run: |
+          dotnet --version
+          dotnet workload --version
+      - name: Restore Hybrid smoke host
+        run: dotnet restore samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --locked-mode
+      - name: Build Hybrid smoke host
+        run: dotnet build samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --configuration Release
+      - name: Hybrid WebView2 smoke test
+        shell: pwsh
+        run: ./eng/Test-HybridHost.ps1
+

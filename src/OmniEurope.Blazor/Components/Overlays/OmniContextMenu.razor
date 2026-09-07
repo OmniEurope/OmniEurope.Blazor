@@ -1,0 +1,21 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
+
+<div @attributes="AdditionalAttributes"
+     @ref="_trigger"
+     id="@Id"
+     class="@Css("omni-context-menu")"
+     tabindex="0"
+     @oncontextmenu="OpenAsync"
+     @oncontextmenu:preventDefault="true"
+     @onkeydown="HandleKeyDownAsync">
+    <div class="omni-context-menu__trigger">@TriggerContent</div>
+    @if (Open && Coordinator is null)
+    {
+        <div @ref="_popup" class="omni-context-menu__popup" role="menu" aria-label="@EffectiveMenuLabel" tabindex="-1" autofocus>
+            @ChildContent
+        </div>
+    }
+</div>

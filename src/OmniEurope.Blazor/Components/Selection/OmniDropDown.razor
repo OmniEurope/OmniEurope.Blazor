@@ -1,0 +1,35 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TValue
+@inherits OmniInputBase<TValue>
+
+<select @attributes="AdditionalAttributes"
+        id="@Id"
+        class="@InputCss("omni-input", "omni-drop-down")"
+        disabled="@Disabled"
+        aria-invalid="@AriaInvalid"
+        aria-describedby="@AriaDescribedBy"
+        @onchange="HandleChange">
+    @if (AllowEmpty)
+    {
+        <option value="">@EffectivePlaceholder</option>
+    }
+    @foreach (var group in IndexedOptions.GroupBy(entry => entry.Option.Group))
+    {
+        if (group.Key is null)
+        {
+            foreach (var entry in group)
+            {
+                @OptionMarkup(entry.Option, entry.Index)
+            }
+        }
+        else
+        {
+            <optgroup label="@group.Key">
+                @foreach (var entry in group)
+                {
+                    @OptionMarkup(entry.Option, entry.Index)
+                }
+            </optgroup>
+        }
+    }
+</select>

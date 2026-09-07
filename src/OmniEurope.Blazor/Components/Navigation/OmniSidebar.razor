@@ -1,0 +1,11 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<aside id="@Id"
+       class="@Css("omni-sidebar", $"omni-sidebar--{Position.ToString().ToLowerInvariant()}", Open ? "omni-sidebar--open" : "omni-sidebar--closed")"
+       aria-label="@EffectiveAriaLabel"
+       aria-hidden="@(Open ? null : "true")"
+       hidden="@(!Open)"
+       @attributes="AdditionalAttributes">
+    @ChildContent
+</aside>

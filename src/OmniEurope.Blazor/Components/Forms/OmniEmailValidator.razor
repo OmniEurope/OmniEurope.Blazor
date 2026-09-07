@@ -1,0 +1,7 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniValidatorBase<string>
+
+@if (ShowMessage && !string.IsNullOrWhiteSpace(CurrentError))
+{
+    <div class="omni-validation-message" role="alert">@CurrentError</div>
+}

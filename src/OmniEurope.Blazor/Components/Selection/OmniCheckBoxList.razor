@@ -1,0 +1,22 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TValue
+@inherits OmniInputBase<IReadOnlyList<TValue>>
+
+<fieldset @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-choice-list")" disabled="@Disabled">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <legend class="omni-choice-list__legend">@Label</legend>
+    }
+    @foreach (var option in Options)
+    {
+        <label class="omni-choice-list__item">
+            <input type="checkbox"
+                   class="omni-checkbox"
+                   checked="@IsSelected(option.Value)"
+                   disabled="@option.Disabled"
+                   aria-describedby="@AriaDescribedBy"
+                   @onchange="args => Toggle(option, args)" />
+            <span>@option.Text</span>
+        </label>
+    }
+</fieldset>

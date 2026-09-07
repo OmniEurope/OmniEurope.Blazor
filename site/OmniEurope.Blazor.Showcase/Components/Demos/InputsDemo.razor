@@ -1,0 +1,45 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+<EditForm Model="Model">
+    <OmniStack Gap="OmniSpacing.Medium">
+        <OmniFormField For="inputs-amount">
+            <Label>Montant</Label>
+            <ChildContent>
+                <OmniNumeric TValue="decimal" Id="inputs-amount" @bind-Value="Model.Amount"
+                             Minimum="0" Maximum="100000" Step="50" Placeholder="0" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField For="inputs-secret" Description="Le bouton révèle la saisie sans la copier ailleurs.">
+            <Label>Mot de passe</Label>
+            <ChildContent>
+                <OmniPassword Id="inputs-secret" @bind-Value="Model.Secret" Revealable="true"
+                              Autocomplete="new-password" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField For="inputs-date">
+            <Label>Date d'effet</Label>
+            <ChildContent>
+                <OmniDatePicker Id="inputs-date" @bind-Value="Model.Date"
+                                Minimum="Floor" Maximum="Ceiling" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField For="inputs-color">
+            <Label>Couleur de repère</Label>
+            <ChildContent>
+                <OmniColorPicker Id="inputs-color" @bind-Value="Model.Color" ShowValue="true" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField For="inputs-city" Description="La recherche démarre à deux caractères.">
+            <Label>Ville</Label>
+            <ChildContent>
+                <OmniAutocomplete TValue="string" Id="inputs-city" @bind-Value="Model.City"
+                                  Search="SearchCitiesAsync" MinimumLength="2"
+                                  DebounceMilliseconds="150" Placeholder="Commencez à écrire" />
+            </ChildContent>
+        </OmniFormField>
+    </OmniStack>
+</EditForm>

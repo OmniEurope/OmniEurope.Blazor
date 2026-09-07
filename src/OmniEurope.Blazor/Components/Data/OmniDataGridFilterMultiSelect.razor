@@ -1,0 +1,31 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<div class="@Css("omni-multi-select")">
+    @if (Searchable)
+    {
+        <input id="@Id"
+               type="text"
+               class="omni-input omni-multi-select__search"
+               autocomplete="off"
+               placeholder="@Placeholder"
+               value="@_search"
+               @oninput="OnSearchInput" />
+    }
+    <ul class="omni-multi-select__list" role="listbox" aria-multiselectable="true" aria-labelledby="@Id">
+        @foreach (var candidate in Matches)
+        {
+            var option = candidate;
+            var checkedNow = Selected.Contains(option);
+            <li class="omni-multi-select__option" role="option" aria-selected="@(checkedNow ? "true" : "false")">
+                <label class="omni-multi-select__label">
+                    <input type="checkbox"
+                           class="omni-multi-select__checkbox"
+                           checked="@checkedNow"
+                           @onchange="args => ToggleAsync(option, args.Value is true)" />
+                    <span>@Highlighted(option)</span>
+                </label>
+            </li>
+        }
+    </ul>
+</div>

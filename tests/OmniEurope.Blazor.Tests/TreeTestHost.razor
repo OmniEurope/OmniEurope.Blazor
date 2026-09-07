@@ -1,0 +1,11 @@
+<OmniTree TValue="string" Multiple="true" @bind-SelectedValues="Selected">
+    <OmniTreeItem TValue="string" Value="@RootValue" Text="Racine" Expanded="true">
+        <OmniTreeItem TValue="string" Value="@ChildValue" Text="Enfant" />
+    </OmniTreeItem>
+</OmniTree>
+
+@code {
+    public IReadOnlyList<string> Selected { get; set; } = Array.Empty<string>();
+    private string RootValue { get; } = "root";
+    private string ChildValue { get; } = "child";
+}

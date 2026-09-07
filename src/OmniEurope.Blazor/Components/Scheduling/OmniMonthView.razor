@@ -1,0 +1,26 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler-view", "omni-month-view")" aria-label="@EffectiveLabel">
+    @foreach (var dayName in DayNames)
+    {
+        <div class="omni-month-view__weekday" role="columnheader">@dayName</div>
+    }
+    @foreach (var day in CalendarDays)
+    {
+        if (day is null)
+        {
+            <div class="omni-month-view__day omni-month-view__day--outside" aria-hidden="true"></div>
+        }
+        else
+        {
+            <article class="omni-month-view__day" data-date="@day.Value.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)">
+                <h3>@day.Value.Day</h3>
+                @foreach (var appointment in Appointments.Where(item => DateOnly.FromDateTime(item.Start.Date) == day.Value).OrderBy(item => item.Start))
+                {
+                    <p><time datetime="@appointment.Start.ToString("O")">@appointment.Start.ToString("t", Culture)</time> @appointment.Title</p>
+                }
+            </article>
+        }
+    }
+</section>

@@ -1,0 +1,19 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TValue
+@inherits OmniInputBase<TValue>
+
+<fieldset @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-choice-list")" disabled="@Disabled">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <legend class="omni-choice-list__legend">@Label</legend>
+    }
+    @foreach (var option in Options)
+    {
+        <OmniRadioButtonListItem TValue="TValue"
+                                 Name="@GroupName"
+                                 Value="@option.Value"
+                                 Selected="@IsSelected(option.Value)"
+                                 Disabled="@option.Disabled"
+                                 SelectedValueChanged="Select" >@option.Text</OmniRadioButtonListItem>
+    }
+</fieldset>

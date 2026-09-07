@@ -1,0 +1,13 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IDisposable
+
+<CascadingValue Value="_coordinator" IsFixed="true">
+    <CascadingValue Value="Service" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+</CascadingValue>
+
+@OmniOverlayHosts.Dialog(Service, HandleDialogOpenChanged)
+@OmniOverlayHosts.Notifications(Service, name => Localize(name))
+@OmniOverlayHosts.Portal(_coordinator)

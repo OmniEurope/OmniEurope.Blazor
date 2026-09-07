@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "comment": "Non-NuGet material vendored into the repository. Generate-Sbom.ps1 folds these into NOTICE.md, the CycloneDX SBOM and the preserved licence set; Test-Sbom.ps1 verifies them.",
+  "assets": [
+    {
+      "id": "phosphor-icons",
+      "name": "Phosphor Icons",
+      "version": "2.0.8",
+      "supplier": "Phosphor Icons",
+      "homepage": "https://github.com/phosphor-icons/core",
+      "reference": "https://github.com/phosphor-icons/core/tree/v2.0.8/assets/regular",
+      "usage": "Tracés intégrés d'OmniIcon, repris tels quels du poids regular.",
+      "vendoredFiles": [
+        "src/OmniEurope.Blazor/Internal/PhosphorIconGlyphs.cs"
+      ],
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "localFile": "docs/third-party-licenses/phosphor-icons--2.0.8--LICENSE.txt",
+        "localFileSha256": "b5b1f1da112d18ea2147decfd48ddc1bf2b5aeb6c265381579340e95b15a2bb2"
+      }
+    }
+  ]
+}

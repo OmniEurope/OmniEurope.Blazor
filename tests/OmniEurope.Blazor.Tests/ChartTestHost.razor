@@ -1,0 +1,31 @@
+<OmniChart Id="sales" Title="Ventes" Description="Ventes mensuelles" DataTable="@AlternativeData">
+    <OmniGridLines />
+    <OmniCategoryAxis Labels="@Labels" />
+    <OmniValueAxis Minimum="0" Maximum="100" />
+    <OmniAxisTitle Text="Mois" />
+    <OmniLineSeries Data="@Points" Title="Réel" />
+    <OmniAreaSeries Data="@Points" Title="Zone" ColorIndex="1" />
+    <OmniMarkers Data="@Points" />
+    <OmniSeriesDataLabels Data="@Points" />
+    <OmniLegend Items="@SeriesNames" />
+    <OmniChartTooltipOptions />
+</OmniChart>
+
+<OmniChart Title="Répartition" Description="Répartition des ventes">
+    <OmniPieSeries Data="@Slices" Title="Parts" />
+    <OmniDonutSeries Data="@Slices" Title="Anneau" />
+</OmniChart>
+
+<OmniArcGauge Label="Progression">
+    <OmniArcGaugeScale Minimum="0" Maximum="100">
+        <OmniArcGaugeScaleValue Value="75" Minimum="0" Maximum="100" />
+    </OmniArcGaugeScale>
+</OmniArcGauge>
+
+@code {
+    private IReadOnlyList<OmniChartPoint> Points { get; } = [new(10, 20, "Janvier"), new(50, 65, "Février"), new(90, 40, "Mars")];
+    private IReadOnlyList<OmniChartSlice> Slices { get; } = [new("A", 60), new("B", 40)];
+    private IReadOnlyList<string> Labels { get; } = ["Jan", "Fév", "Mar"];
+    private IReadOnlyList<string> SeriesNames { get; } = ["Réel", "Prévision"];
+    private RenderFragment AlternativeData => builder => builder.AddMarkupContent(0, "<table><caption>Données des ventes</caption></table>");
+}

@@ -1,0 +1,8 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-steps")">
+    <div class="omni-steps__list" role="list" aria-label="@EffectiveLabel">
+        <CascadingValue Value="Context">@ChildContent</CascadingValue>
+    </div>
+</div>

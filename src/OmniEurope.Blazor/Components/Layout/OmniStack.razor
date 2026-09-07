@@ -1,0 +1,8 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<div id="@Id"
+     class="@Css("omni-stack", $"omni-stack--{Orientation.ToString().ToLowerInvariant()}", $"omni-stack--gap-{Gap.ToString().ToLowerInvariant()}", $"omni-stack--align-{Align.ToString().ToLowerInvariant()}", $"omni-stack--justify-{Justify.ToString().ToLowerInvariant()}")"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>

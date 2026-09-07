@@ -1,0 +1,28 @@
+@using System.Linq.Expressions
+
+<EditForm EditContext="@EditContext">
+    <OmniRequiredValidator TValue="string" For="@(() => Model.Value)" />
+    <OmniCompareValidator TValue="string" For="@(() => Model.Value)" Other="@OtherExpression" />
+</EditForm>
+
+@code {
+    public ValidatorModel Model { get; private set; } = new("same", "same", "different");
+    public EditContext EditContext { get; private set; } = default!;
+    private bool _useAlternative;
+
+    private Expression<Func<string>> OtherExpression =>
+        _useAlternative ? () => Model.Alternative : () => Model.Primary;
+
+    protected override void OnInitialized() => EditContext = new EditContext(Model);
+
+    public void UseAlternativeComparison() => _useAlternative = true;
+
+    public void ReplaceModel()
+    {
+        Model = new ValidatorModel(string.Empty, "same", "different");
+        EditContext = new EditContext(Model);
+        _useAlternative = false;
+    }
+
+    public sealed record ValidatorModel(string Value, string Primary, string Alternative);
+}

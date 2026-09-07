@@ -1,0 +1,10 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<div id="@Id"
+     class="@Css("omni-theme-scope")"
+     data-omni-theme="@Appearance.ToString().ToLowerInvariant()"
+     data-omni-density="@Density.ToString().ToLowerInvariant()"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>

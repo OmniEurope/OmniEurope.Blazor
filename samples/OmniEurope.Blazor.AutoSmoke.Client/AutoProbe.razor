@@ -1,0 +1,6 @@
+@page "/"
+
+<OmniMain>
+    <OmniHeading Level="@OmniHeadingLevel.H1">@Text["Title"]</OmniHeading>
+    <OmniButton Id="auto-action" OnClick="IncrementAsync"><OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" /> <span>@Text["Counter", Count]</span></OmniButton>
+</OmniMain>

@@ -1,0 +1,11 @@
+@namespace OmniEurope.Blazor.Components
+<g class="omni-chart__bars @ColorClass" aria-label="@Title">
+    @for (var index = 0; index < Data.Count; index++)
+    {
+        var point = Data[index];
+        var rectangle = ChartContext?.BarRect(this, index) ?? OmniChartGeometry.BarRect(Data, index);
+        <rect x="@OmniChartGeometry.Number(rectangle.X)" y="@OmniChartGeometry.Number(rectangle.Y)" width="@OmniChartGeometry.Number(rectangle.Width)" height="@OmniChartGeometry.Number(rectangle.Height)"><title>@(point.Label ?? point.Y.ToString())</title></rect>
+    }
+</g>
+
+@implements IDisposable

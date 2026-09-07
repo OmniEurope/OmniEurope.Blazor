@@ -1,0 +1,19 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TValue
+@inherits OmniInputBase<TValue>
+
+<div @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@InputCss("omni-select-bar")"
+     role="radiogroup"
+     aria-label="@Label"
+     aria-invalid="@AriaInvalid">
+    @foreach (var option in Options)
+    {
+        <OmniSelectBarItem TValue="TValue"
+                           Value="@option.Value"
+                           Selected="@IsSelected(option.Value)"
+                           Disabled="@(Disabled || option.Disabled)"
+                           SelectedValueChanged="Select">@option.Text</OmniSelectBarItem>
+    }
+</div>

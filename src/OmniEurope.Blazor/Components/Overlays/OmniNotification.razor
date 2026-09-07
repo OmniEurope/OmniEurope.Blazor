@@ -1,0 +1,20 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<article @attributes="AdditionalAttributes"
+         id="@Id"
+         class="@Css("omni-notification", SeverityClass)"
+         role="@Role"
+         aria-live="@LiveMode">
+    <div class="omni-notification__content">
+        @if (!string.IsNullOrWhiteSpace(Title))
+        {
+            <strong class="omni-notification__title">@Title</strong>
+        }
+        <span>@Message</span>
+    </div>
+    @if (Dismissible)
+    {
+        <button type="button" class="omni-notification__dismiss" aria-label="@Localize("NotificationDismiss")" @onclick="OnDismiss">×</button>
+    }
+</article>

@@ -1,0 +1,21 @@
+<OmniTreeItem TValue="string"
+              Value="@RootValue"
+              Text="Racine"
+              Expanded="@Expanded"
+              LoadChildren="LoadChildrenAsync"
+              LoadFailed="OnLoadFailed" />
+
+@code {
+    public bool Expanded { get; private set; }
+    public Exception? ObservedException { get; private set; }
+    private string RootValue { get; } = "root";
+
+    public void Expand()
+    {
+        Expanded = true;
+        StateHasChanged();
+    }
+
+    private Task LoadChildrenAsync(CancellationToken _) => throw new InvalidOperationException("load failed");
+    private void OnLoadFailed(Exception exception) => ObservedException = exception;
+}

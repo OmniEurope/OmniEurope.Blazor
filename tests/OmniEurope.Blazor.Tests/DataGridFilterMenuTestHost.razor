@@ -1,0 +1,53 @@
+<OmniDataGrid TItem="Region"
+              Id="regions"
+              Items="@Regions"
+              KeyProperty="Id"
+              AllowPaging="false"
+              ShowHeaderFilterMenu="true"
+              ShowThemeToggle="true"
+              IgnoreDiacritics="@IgnoreDiacritics">
+    <Columns>
+        <OmniDataGridColumn TItem="Region"
+                            Key="name"
+                            Title="Nom"
+                            Value="region => region.Name"
+                            Filterable="true"
+                            FilterType="OmniDataGridColumnFilterType.MultiSelect"
+                            FilterSearchable="@FilterSearchable" />
+        <OmniDataGridColumn TItem="Region"
+                            Key="code"
+                            Title="Code"
+                            Value="region => region.Code"
+                            Filterable="true"
+                            FilterType="OmniDataGridColumnFilterType.Combo" />
+        <OmniDataGridColumn TItem="Region"
+                            Key="id"
+                            Title="Id"
+                            Value="region => region.Id"
+                            Filterable="true">
+            <FilterTemplate Context="filter">
+                <input id="@filter.Id"
+                       class="omni-input custom-filter"
+                       placeholder="@filter.Placeholder"
+                       data-candidates="@filter.Suggestions.Count"
+                       value="@filter.Value"
+                       @onchange="args => filter.ValueChanged(args.Value?.ToString() ?? string.Empty)" />
+            </FilterTemplate>
+        </OmniDataGridColumn>
+    </Columns>
+</OmniDataGrid>
+
+@code {
+    public IReadOnlyList<Region> Regions { get; } =
+    [
+        new(1, "Liège", "LG"),
+        new(2, "Namur", "NA"),
+        new(3, "Anvers", "AN")
+    ];
+
+    [Parameter] public bool IgnoreDiacritics { get; set; }
+
+    [Parameter] public bool FilterSearchable { get; set; }
+
+    public sealed record Region(int Id, string Name, string Code);
+}

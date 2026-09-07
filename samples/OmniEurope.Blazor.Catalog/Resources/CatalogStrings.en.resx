@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="CatalogBadge" xml:space="preserve"><value>Demonstration catalog</value></data>
+  <data name="CatalogErrorTitle" xml:space="preserve"><value>Catalog error</value></data>
+  <data name="CatalogErrorMessage" xml:space="preserve"><value>The demonstration component could not be displayed.</value></data>
+  <data name="Retry" xml:space="preserve"><value>Retry</value></data>
+  <data name="PageTitle" xml:space="preserve"><value>OmniEurope.Blazor catalog</value></data>
+  <data name="CatalogHeading" xml:space="preserve"><value>Component catalog</value></data>
+  <data name="HeroBefore" xml:space="preserve"><value>Local host illustrating a subset of the components. Examples use the package's static stylesheet, a CSP without</value></data>
+  <data name="HeroBetween" xml:space="preserve"><value>or</value></data>
+  <data name="HeroAfter" xml:space="preserve"><value>and without CSP bypasses.</value></data>
+  <data name="CoverageLabel" xml:space="preserve"><value>distinct Omni tags illustrated</value></data>
+  <data name="InlineStyleLabel" xml:space="preserve"><value>inline style</value></data>
+  <data name="FamilyLabel" xml:space="preserve"><value>functional families</value></data>
+  <data name="FoundationsTitle" xml:space="preserve"><value>Foundations and actions</value></data>
+  <data name="ButtonsStates" xml:space="preserve"><value>Buttons and states</value></data>
+  <data name="Primary" xml:space="preserve"><value>Primary</value></data>
+  <data name="Secondary" xml:space="preserve"><value>Secondary</value></data>
+  <data name="Danger" xml:space="preserve"><value>Danger</value></data>
+  <data name="Loading" xml:space="preserve"><value>Loading</value></data>
+  <data name="Toggle" xml:space="preserve"><value>Toggle</value></data>
+  <data name="Messages" xml:space="preserve"><value>Messages</value></data>
+  <data name="Information" xml:space="preserve"><value>Information</value></data>
+  <data name="InfoMessage" xml:space="preserve"><value>Informational message.</value></data>
+  <data name="Success" xml:space="preserve"><value>Success</value></data>
+  <data name="SuccessMessage" xml:space="preserve"><value>Operation completed.</value></data>
+  <data name="Progress" xml:space="preserve"><value>Progress</value></data>
+  <data name="Overlays" xml:space="preserve"><value>Overlays</value></data>
+  <data name="OpenDialog" xml:space="preserve"><value>Open dialog</value></data>
+  <data name="Notify" xml:space="preserve"><value>Notify</value></data>
+  <data name="Close" xml:space="preserve"><value>Close</value></data>
+  <data name="Tooltip" xml:space="preserve"><value>Accessible tooltip</value></data>
+  <data name="TooltipTrigger" xml:space="preserve"><value>Hover or focus</value></data>
+  <data name="FormsTitle" xml:space="preserve"><value>Forms and selections</value></data>
+  <data name="NameLabel" xml:space="preserve"><value>Component name</value></data>
+  <data name="NamePlaceholder" xml:space="preserve"><value>Name</value></data>
+  <data name="Notes" xml:space="preserve"><value>Notes</value></data>
+  <data name="Choice" xml:space="preserve"><value>Choice</value></data>
+  <data name="Search" xml:space="preserve"><value>Search</value></data>
+  <data name="Date" xml:space="preserve"><value>Date</value></data>
+  <data name="Value" xml:space="preserve"><value>Value</value></data>
+  <data name="Color" xml:space="preserve"><value>Color</value></data>
+  <data name="File" xml:space="preserve"><value>File</value></data>
+  <data name="OptionFirst" xml:space="preserve"><value>First</value></data>
+  <data name="OptionSecond" xml:space="preserve"><value>Second</value></data>
+  <data name="NavigationTitle" xml:space="preserve"><value>Navigation and collections</value></data>
+  <data name="Home" xml:space="preserve"><value>Home</value></data>
+  <data name="Catalog" xml:space="preserve"><value>Catalog</value></data>
+  <data name="List" xml:space="preserve"><value>List</value></data>
+  <data name="Tree" xml:space="preserve"><value>Tree</value></data>
+  <data name="Europe" xml:space="preserve"><value>Europe</value></data>
+  <data name="Belgium" xml:space="preserve"><value>Belgium</value></data>
+  <data name="DataTitle" xml:space="preserve"><value>Data and charts</value></data>
+  <data name="GridCaption" xml:space="preserve"><value>Grid example</value></data>
+  <data name="NameColumn" xml:space="preserve"><value>Name</value></data>
+  <data name="ValueColumn" xml:space="preserve"><value>Value</value></data>
+  <data name="ChartTitle" xml:space="preserve"><value>Indicators</value></data>
+  <data name="ChartDescription" xml:space="preserve"><value>Three demonstration points</value></data>
+  <data name="Measure" xml:space="preserve"><value>Measure</value></data>
+  <data name="ChartDataCaption" xml:space="preserve"><value>Data: A 30, B 70, C 45</value></data>
+  <data name="TimeTitle" xml:space="preserve"><value>Time and HTML content</value></data>
+  <data name="SchedulerAppointment" xml:space="preserve"><value>Catalog review</value></data>
+  <data name="EditorInitialHtml" xml:space="preserve"><value>&lt;p&gt;&lt;strong&gt;Sanitized&lt;/strong&gt; content.&lt;/p&gt;</value></data>
+  <data name="DialogTitle" xml:space="preserve"><value>Catalog dialog</value></data>
+  <data name="DialogBody" xml:space="preserve"><value>Focus and controlled closing can be verified here.</value></data>
+  <data name="NestedOpen" xml:space="preserve"><value>Open a nested dialog</value></data>
+  <data name="NestedTitle" xml:space="preserve"><value>Nested dialog</value></data>
+  <data name="NestedBody" xml:space="preserve"><value>Only the top dialog should close when Escape is pressed.</value></data>
+  <data name="NotificationMessage" xml:space="preserve"><value>The notification is announced in a live region.</value></data>
+  <data name="NotFoundPageTitle" xml:space="preserve"><value>Page not found - OmniEurope.Blazor</value></data>
+  <data name="NotFoundTitle" xml:space="preserve"><value>Page not found</value></data>
+  <data name="NotFoundDescription" xml:space="preserve"><value>This address does not match any catalog page.</value></data>
+  <data name="BackToCatalog" xml:space="preserve"><value>Back to the catalog</value></data>
+</root>

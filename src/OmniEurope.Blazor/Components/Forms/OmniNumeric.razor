@@ -1,0 +1,18 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TValue
+@inherits OmniInputBase<TValue>
+
+<input @attributes="AdditionalAttributes"
+       id="@Id"
+       class="@InputCss("omni-input", "omni-numeric")"
+       type="number"
+       value="@CurrentValueAsString"
+       min="@Minimum"
+       max="@Maximum"
+       step="@Step"
+       placeholder="@Placeholder"
+       disabled="@Disabled"
+       readonly="@ReadOnly"
+       aria-invalid="@AriaInvalid"
+       aria-describedby="@AriaDescribedBy"
+       @onchange="HandleChange" />

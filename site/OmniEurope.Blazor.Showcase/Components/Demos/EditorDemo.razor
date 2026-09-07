@@ -1,0 +1,29 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+<EditForm Model="this">
+    <OmniStack Gap="OmniSpacing.Large">
+        <OmniHtmlEditor Id="editor-body"
+                        @bind-Value="Body"
+                        Label="Corps du courrier"
+                        Rows="8"
+                        ShowPreview="true"
+                        EnableBold="true"
+                        EnableItalic="true"
+                        EnableIndent="true"
+                        EnableOutdent="true"
+                        EnableSubscript="true"
+                        EnableSuperscript="true"
+                        CustomTools="Tools" />
+
+        <OmniUpload Multiple="true"
+                    MaximumFiles="3"
+                    MaximumFileSize="1048576"
+                    AllowedContentTypes="Accepted"
+                    InputId="editor-attachments"
+                    Upload="UploadAsync"
+                    Validate="ValidateAsync"
+                    UploadErrorMessage="Le dépôt a échoué." />
+
+        <p>Pièces déposées : @(Uploaded.Count == 0 ? "aucune" : string.Join(", ", Uploaded))</p>
+    </OmniStack>
+</EditForm>

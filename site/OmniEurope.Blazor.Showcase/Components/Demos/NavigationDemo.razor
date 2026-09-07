@@ -1,0 +1,19 @@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniBreadcrumb Label="Fil d'Ariane">
+        <OmniBreadcrumbItem Href="">Accueil</OmniBreadcrumbItem>
+        <OmniBreadcrumbItem Href="composants">Composants</OmniBreadcrumbItem>
+        <OmniBreadcrumbItem Current="true">Navigation</OmniBreadcrumbItem>
+    </OmniBreadcrumb>
+
+    <OmniTabs Label="Sections du dossier" @bind-Value="Tab" Keys="TabKeys">
+        <OmniTabsItem Key="resume" Title="Résumé">Le dossier compte 14 pièces.</OmniTabsItem>
+        <OmniTabsItem Key="pieces" Title="Pièces">Chaque pièce porte sa date de dépôt.</OmniTabsItem>
+        <OmniTabsItem Key="historique" Title="Historique">Douze mouvements enregistrés.</OmniTabsItem>
+    </OmniTabs>
+
+    <OmniSteps Label="Avancement du dossier" @bind-Value="Step">
+        <OmniStepsItem Index="0" Title="Dépôt">Les pièces ont été reçues.</OmniStepsItem>
+        <OmniStepsItem Index="1" Title="Instruction">Le dossier est en cours d'examen.</OmniStepsItem>
+        <OmniStepsItem Index="2" Title="Décision">La décision sera notifiée par courrier.</OmniStepsItem>
+    </OmniSteps>
+</OmniStack>

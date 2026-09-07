@@ -1,0 +1,19 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<div id="@Id"
+     class="@Css("omni-alert", $"omni-alert--{Severity.ToString().ToLowerInvariant()}", $"omni-alert--{Variant.ToString().ToLowerInvariant()}")"
+     role="@(Live ? "alert" : "status")"
+     @attributes="AdditionalAttributes">
+    @if (Icon is not null)
+    {
+        <span class="omni-alert__icon" aria-hidden="true">@Icon</span>
+    }
+    <div class="omni-alert__body">
+        @if (!string.IsNullOrWhiteSpace(Title))
+        {
+            <strong class="omni-alert__title">@Title</strong>
+        }
+        <div class="omni-alert__content">@ChildContent</div>
+    </div>
+</div>

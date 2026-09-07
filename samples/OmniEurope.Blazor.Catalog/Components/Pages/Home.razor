@@ -1,0 +1,139 @@
+@page "/"
+@rendermode InteractiveServer
+
+<PageTitle>@Text["PageTitle"]</PageTitle>
+
+<OmniComponentsHost OverlayService="@Overlays">
+    <header class="catalog-hero">
+        <OmniHeading Level="OmniHeadingLevel.H1">@Text["CatalogHeading"]</OmniHeading>
+        <p>@Text["HeroBefore"] <code>unsafe-inline</code> @Text["HeroBetween"] <code>unsafe-eval</code>, @Text["HeroAfter"]</p>
+        <div class="catalog-summary">
+            <div><strong>37</strong><span>@Text["CoverageLabel"]</span></div>
+            <div><strong>0</strong><span>@Text["InlineStyleLabel"]</span></div>
+            <div><strong>12</strong><span>@Text["FamilyLabel"]</span></div>
+        </div>
+    </header>
+
+    <section class="catalog-section" aria-labelledby="foundations-title">
+        <OmniHeading Level="OmniHeadingLevel.H2" Id="foundations-title">@Text["FoundationsTitle"]</OmniHeading>
+        <div class="catalog-grid">
+            <OmniCard Class="catalog-card">
+                <Header>@Text["ButtonsStates"]</Header>
+                <ChildContent>
+                    <div class="catalog-row">
+                        <OmniButton>@Text["Primary"]</OmniButton>
+                        <OmniButton Variant="OmniButtonVariant.Secondary">@Text["Secondary"]</OmniButton>
+                        <OmniButton Variant="OmniButtonVariant.Danger">@Text["Danger"]</OmniButton>
+                        <OmniButton Busy="true">@Text["Loading"]</OmniButton>
+                        <OmniToggleButton @bind-Value="ToggleValue">@Text["Toggle"]</OmniToggleButton>
+                    </div>
+                </ChildContent>
+            </OmniCard>
+            <OmniCard Class="catalog-card">
+                <Header>@Text["Messages"]</Header>
+                <ChildContent>
+                    <div class="catalog-list">
+                        <OmniAlert Severity="OmniAlertSeverity.Info" Title="@Text["Information"]">@Text["InfoMessage"]</OmniAlert>
+                        <OmniAlert Severity="OmniAlertSeverity.Success" Title="@Text["Success"]">@Text["SuccessMessage"]</OmniAlert>
+                        <OmniProgressBar Value="68" Label="@Text["Progress"]" />
+                        <OmniSkeleton LineCount="2" />
+                    </div>
+                </ChildContent>
+            </OmniCard>
+            <OmniCard Class="catalog-card">
+                <Header>@Text["Overlays"]</Header>
+                <ChildContent>
+                    <div class="catalog-row">
+                        <OmniButton Id="catalog-open-dialog" OnClick="@(_ => OpenDialog())"><OmniIcon Name="OmniIconName.Info" Size="OmniControlSize.Small" /> <span>@Text["OpenDialog"]</span></OmniButton>
+                        <OmniButton Id="catalog-notify" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Notify())"><OmniIcon Name="OmniIconName.Warning" Size="OmniControlSize.Small" /> <span>@Text["Notify"]</span></OmniButton>
+                        <OmniTooltip Text="@Text["Tooltip"]" TabIndex="0">@Text["TooltipTrigger"]</OmniTooltip>
+                    </div>
+                </ChildContent>
+            </OmniCard>
+        </div>
+    </section>
+
+    <section class="catalog-section" aria-labelledby="forms-title">
+        <OmniHeading Level="OmniHeadingLevel.H2" Id="forms-title">@Text["FormsTitle"]</OmniHeading>
+        <OmniCard Class="catalog-card">
+            <EditForm EditContext="@EditContext" class="catalog-form">
+                <OmniFormField For="catalog-name" Label="@NameLabel" Required="true">
+                    <OmniTextBox Id="catalog-name" Placeholder="@Text["NamePlaceholder"]" @bind-Value="Model.Name" />
+                    <OmniRequiredValidator TValue="string" For="@(() => Model.Name)" />
+                </OmniFormField>
+                <OmniFormField For="catalog-notes">
+                    <Label>@Text["Notes"]</Label>
+                    <ChildContent><OmniTextArea Id="catalog-notes" ShowCount="true" MaxLength="120" @bind-Value="Model.Notes" /></ChildContent>
+                </OmniFormField>
+                <OmniFormField For="catalog-choice">
+                    <Label>@Text["Choice"]</Label>
+                    <ChildContent><OmniDropDown TValue="string" Id="catalog-choice" Options="@Options" @bind-Value="Model.Choice" /></ChildContent>
+                </OmniFormField>
+                <OmniFormField For="catalog-search">
+                    <Label>@Text["Search"]</Label>
+                    <ChildContent><OmniAutocomplete TValue="string" Id="catalog-search" Search="SearchAsync" DebounceMilliseconds="100" @bind-Value="Model.Search" /></ChildContent>
+                </OmniFormField>
+                <OmniFormField For="catalog-date">
+                    <Label>@Text["Date"]</Label>
+                    <ChildContent><OmniDatePicker Id="catalog-date" @bind-Value="Model.Date" /></ChildContent>
+                </OmniFormField>
+                <OmniFormField For="catalog-slider">
+                    <Label>@Text["Value"]</Label>
+                    <ChildContent><OmniSlider Id="catalog-slider" @bind-Value="Model.Amount" /></ChildContent>
+                </OmniFormField>
+                <OmniFormField For="catalog-color">
+                    <Label>@Text["Color"]</Label>
+                    <ChildContent><OmniColorPicker Id="catalog-color" @bind-Value="Model.Color" /></ChildContent>
+                </OmniFormField>
+                <OmniFormField For="catalog-upload-input">
+                    <Label>@Text["File"]</Label>
+                    <ChildContent><OmniUpload Id="catalog-upload" InputId="catalog-upload-input" AllowedContentTypes="@AllowedTypes" /></ChildContent>
+                </OmniFormField>
+            </EditForm>
+        </OmniCard>
+    </section>
+
+    <section class="catalog-section" aria-labelledby="navigation-title">
+        <OmniHeading Level="OmniHeadingLevel.H2" Id="navigation-title">@Text["NavigationTitle"]</OmniHeading>
+        <OmniBreadcrumb><OmniBreadcrumbItem Href="/">@Text["Home"]</OmniBreadcrumbItem><OmniBreadcrumbItem Current="true">@Text["Catalog"]</OmniBreadcrumbItem></OmniBreadcrumb>
+        <OmniTabs @bind-Value="Tab" Keys="@TabKeys">
+            <OmniTabsItem Key="list" Title="@Text["List"]">
+                <OmniDataList TItem="string" Items="@Names" ItemTemplate="@NameTemplate" />
+            </OmniTabsItem>
+            <OmniTabsItem Key="tree" Title="@Text["Tree"]">
+                <OmniTree TValue="string" Multiple="true" @bind-SelectedValues="TreeSelection">
+                    <OmniTreeItem TValue="string" Value="@Alpha" Text="@Text["Europe"]" Expanded="true">
+                        <OmniTreeItem TValue="string" Value="@Beta" Text="@Text["Belgium"]" />
+                    </OmniTreeItem>
+                </OmniTree>
+            </OmniTabsItem>
+        </OmniTabs>
+    </section>
+
+    <section class="catalog-section" aria-labelledby="data-title">
+        <OmniHeading Level="OmniHeadingLevel.H2" Id="data-title">@Text["DataTitle"]</OmniHeading>
+        <OmniDataGrid TItem="CatalogRow" Items="@Rows" Caption="@Text["GridCaption"]" PageSize="5" SelectionMode="OmniDataGridSelectionMode.Multiple" KeySelector="row => row.Id" @bind-SelectedKeys="GridSelection">
+            <Columns>
+                <OmniDataGridColumn TItem="CatalogRow" Key="name" Title="@Text["NameColumn"]" Value="row => row.Name" Filterable="true" />
+                <OmniDataGridColumn TItem="CatalogRow" Key="value" Title="@Text["ValueColumn"]" Value="row => row.Value" />
+            </Columns>
+        </OmniDataGrid>
+        <div class="catalog-chart">
+            <OmniChart Id="catalog-chart" Title="@Text["ChartTitle"]" Description="@Text["ChartDescription"]" DataTable="@ChartTable">
+                <OmniGridLines />
+                <OmniCategoryAxis Labels="@ChartLabels" />
+                <OmniValueAxis />
+                <OmniLineSeries Data="@ChartPoints" Title="@Text["Measure"]" />
+                <OmniMarkers Data="@ChartPoints" />
+            </OmniChart>
+        </div>
+    </section>
+
+    <section class="catalog-section" aria-labelledby="time-title">
+        <OmniHeading Level="OmniHeadingLevel.H2" Id="time-title">@Text["TimeTitle"]</OmniHeading>
+        <OmniScheduler Date="@SchedulerDate" Items="@Appointments" TimeZone="@TimeZoneInfo.Utc" />
+        <EditForm EditContext="@EditContext">
+            <OmniHtmlEditor Id="catalog-editor" @bind-Value="Model.Html" />
+        </EditForm>
+    </section>
+</OmniComponentsHost>

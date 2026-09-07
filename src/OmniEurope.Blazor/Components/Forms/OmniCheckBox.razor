@@ -1,0 +1,12 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniInputBase<bool>
+
+<input @attributes="AdditionalAttributes"
+       id="@Id"
+       class="@InputCss("omni-checkbox")"
+       type="checkbox"
+       checked="@CurrentValue"
+       disabled="@Disabled"
+       aria-invalid="@AriaInvalid"
+       aria-describedby="@AriaDescribedBy"
+       @onchange="HandleChange" />

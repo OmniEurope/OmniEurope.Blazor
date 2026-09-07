@@ -1,0 +1,39 @@
+@page "/documentation"
+
+<PageTitle>@Text["DocsPageTitle"]</PageTitle>
+
+<section aria-labelledby="docs-title">
+    <OmniHeading Id="docs-title" Level="OmniHeadingLevel.H1">@Text["DocsTitle"]</OmniHeading>
+    <p>@Text["DocsLead"]</p>
+</section>
+
+<section aria-labelledby="docs-install-title">
+    <OmniHeading Id="docs-install-title" Level="OmniHeadingLevel.H2">@Text["DocsInstallTitle"]</OmniHeading>
+    <p>@Text["DocsInstallBody"]</p>
+    <pre class="showcase-code"><code>@InstallSnippet</code></pre>
+</section>
+
+<section aria-labelledby="docs-register-title">
+    <OmniHeading Id="docs-register-title" Level="OmniHeadingLevel.H2">@Text["DocsRegisterTitle"]</OmniHeading>
+    <p>@Text["DocsRegisterBody"]</p>
+    <pre class="showcase-code"><code>@RegisterSnippet</code></pre>
+</section>
+
+<section aria-labelledby="docs-css-title">
+    <OmniHeading Id="docs-css-title" Level="OmniHeadingLevel.H2">@Text["DocsCssTitle"]</OmniHeading>
+    <p>@Text["DocsCssBody"]</p>
+    <pre class="showcase-code"><code>@StylesheetSnippet</code></pre>
+</section>
+
+<section aria-labelledby="docs-csp-title">
+    <OmniHeading Id="docs-csp-title" Level="OmniHeadingLevel.H2">@Text["DocsCspTitle"]</OmniHeading>
+    <p>@Text["DocsCspBody"]</p>
+    <pre class="showcase-code"><code>@CspSnippet</code></pre>
+</section>
+
+<section aria-labelledby="docs-theme-title">
+    <OmniHeading Id="docs-theme-title" Level="OmniHeadingLevel.H2">@Text["DocsThemeTitle"]</OmniHeading>
+    <p>@Text["DocsThemeBody"]</p>
+    <pre class="showcase-code"><code>@ThemeSnippet</code></pre>
+    <p>@Text["DocsThemePointer"] <OmniLink Href="personnalisation">@Text["NavCustomize"]</OmniLink></p>
+</section>

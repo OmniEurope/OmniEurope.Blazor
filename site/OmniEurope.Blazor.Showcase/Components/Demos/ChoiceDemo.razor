@@ -1,0 +1,45 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+<EditForm Model="this">
+    <OmniStack Gap="OmniSpacing.Large">
+        <OmniRadioButtonList TValue="string" Label="Mode d'envoi" Name="choice-shipping"
+                             Options="Shipping" @bind-Value="Method" />
+
+        <fieldset>
+            <legend>Mode d'envoi, éléments posés un par un</legend>
+            <OmniRadioButtonListItem TValue="string" Name="choice-manual" Value="@("standard")"
+                                     Selected="@(Method == "standard")"
+                                     SelectedValueChanged="@(value => Method = value)">Standard</OmniRadioButtonListItem>
+            <OmniRadioButtonListItem TValue="string" Name="choice-manual" Value="@("express")"
+                                     Selected="@(Method == "express")"
+                                     SelectedValueChanged="@(value => Method = value)">Express</OmniRadioButtonListItem>
+            <OmniRadioButtonListItem TValue="string" Name="choice-manual" Value="@("retrait")"
+                                     Disabled="true" Selected="false"
+                                     SelectedValueChanged="@(value => Method = value)">Retrait, indisponible</OmniRadioButtonListItem>
+        </fieldset>
+
+        <OmniCheckBoxList TValue="string" Label="Options du dossier" Options="Extras" @bind-Value="Selected" />
+
+        <OmniSelectBar TValue="string" Label="Période" Options="Periods" @bind-Value="Period" />
+
+        <div>
+            <span>Période posée élément par élément :</span>
+            <OmniSelectBarItem TValue="string" Value="@("jour")" Selected="@(Period == "jour")"
+                               SelectedValueChanged="@(value => Period = value)">Jour</OmniSelectBarItem>
+            <OmniSelectBarItem TValue="string" Value="@("mois")" Selected="@(Period == "mois")"
+                               SelectedValueChanged="@(value => Period = value)">Mois</OmniSelectBarItem>
+        </div>
+
+        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+            <OmniToggleButton @bind-Value="Pinned">Épingler</OmniToggleButton>
+            <OmniToggleButton Value="false" Disabled="true">Indisponible</OmniToggleButton>
+            <OmniToggleButton Value="true" Busy="true">Enregistrement</OmniToggleButton>
+        </OmniStack>
+
+        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+            <OmniNullableCheckBox Id="choice-nullable-check" @bind-Value="Partial" />
+            <OmniNullableSwitch Id="choice-nullable-switch" @bind-Value="Partial" />
+            <span>État à trois positions : @(Partial is null ? "indéterminé" : Partial.Value ? "activé" : "désactivé")</span>
+        </OmniStack>
+    </OmniStack>
+</EditForm>

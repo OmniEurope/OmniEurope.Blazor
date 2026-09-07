@@ -1,0 +1,102 @@
+@page "/personnalisation"
+@implements IDisposable
+
+<PageTitle>@Text["CustomizePageTitle"]</PageTitle>
+
+<section aria-labelledby="customize-title">
+    <OmniHeading Id="customize-title" Level="OmniHeadingLevel.H1">@Text["CustomizeTitle"]</OmniHeading>
+    <p>@Text["CustomizeLead"]</p>
+</section>
+
+<section aria-labelledby="customize-mode-title">
+    <OmniHeading Id="customize-mode-title" Level="OmniHeadingLevel.H2">@Text["CustomizeModeTitle"]</OmniHeading>
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
+        <OmniToggleButton Value="@(Theme.Mode is ThemeMode.Light)"
+                          ValueChanged="@(_ => Theme.SetModeAsync(ThemeMode.Light))">
+            @Text["ModeLight"]
+        </OmniToggleButton>
+        <OmniToggleButton Value="@(Theme.Mode is ThemeMode.Dark)"
+                          ValueChanged="@(_ => Theme.SetModeAsync(ThemeMode.Dark))">
+            @Text["ModeDark"]
+        </OmniToggleButton>
+    </OmniStack>
+</section>
+
+<section aria-labelledby="customize-presets-title">
+    <OmniHeading Id="customize-presets-title" Level="OmniHeadingLevel.H2">@Text["CustomizePresetsTitle"]</OmniHeading>
+    <p>@Text["CustomizePresetsLead"]</p>
+    <div class="showcase-presets">
+        @foreach (var preset in ThemePresets.All)
+        {
+            <OmniCard>
+                <Header>
+                    <OmniHeading Level="OmniHeadingLevel.H3">@preset.Name</OmniHeading>
+                </Header>
+                <ChildContent>
+                    <p>@preset.Description</p>
+                    <p class="showcase-presets__origin">
+                        @preset.Origin
+                        @if (preset.DerivedMode is { } derived)
+                        {
+                            <OmniBadge Variant="OmniBadgeVariant.Warning">
+                                @(derived is ThemeMode.Dark ? Text["PresetDerivedDark"] : Text["PresetDerivedLight"])
+                            </OmniBadge>
+                        }
+                    </p>
+                </ChildContent>
+                <Footer>
+                    <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Theme.ApplyAsync(preset))">
+                        @Text["PresetApply"]
+                    </OmniButton>
+                </Footer>
+            </OmniCard>
+        }
+    </div>
+</section>
+
+<section aria-labelledby="customize-tokens-title">
+    <OmniHeading Id="customize-tokens-title" Level="OmniHeadingLevel.H2">@Text["CustomizeTokensTitle"]</OmniHeading>
+    <p>@Text["CustomizeTokensLead"]</p>
+    <OmniButton Variant="OmniButtonVariant.Ghost" OnClick="@(_ => Theme.ResetAsync())">@Text["CustomizeReset"]</OmniButton>
+
+    @foreach (var group in Theme.Tokens.GroupBy(token => token.Group))
+    {
+        <fieldset class="showcase-tokens">
+            <legend>@Text[$"TokenGroup{group.Key}"]</legend>
+            @foreach (var token in group)
+            {
+                <div class="showcase-token">
+                    <label class="showcase-token__label" for="@FieldId(token)">@token.Label</label>
+                    @if (token.IsColor)
+                    {
+                        <input class="showcase-token__color"
+                               id="@FieldId(token)"
+                               type="color"
+                               value="@Theme.ValueOf(token)"
+                               @onchange="@(args => ApplyAsync(token, args))" />
+                    }
+                    <input class="showcase-token__text"
+                           id="@(token.IsColor ? FieldId(token) + "-text" : FieldId(token))"
+                           type="text"
+                           aria-label="@token.Label"
+                           value="@Theme.ValueOf(token)"
+                           @onchange="@(args => ApplyAsync(token, args))" />
+                </div>
+            }
+        </fieldset>
+    }
+</section>
+
+<section aria-labelledby="customize-export-title">
+    <OmniHeading Id="customize-export-title" Level="OmniHeadingLevel.H2">@Text["CustomizeExportTitle"]</OmniHeading>
+    <p>@Text["CustomizeExportLead"]</p>
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
+        <OmniButton Variant="OmniButtonVariant.Primary" OnClick="@(_ => CopyAsync())">@Text["CustomizeCopy"]</OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => DownloadAsync())">@Text["CustomizeDownload"]</OmniButton>
+    </OmniStack>
+    @if (Notice is not null)
+    {
+        <OmniAlert Severity="@NoticeSeverity" Live="true">@Notice</OmniAlert>
+    }
+    <pre class="showcase-code"><code>@Theme.ExportCss()</code></pre>
+</section>

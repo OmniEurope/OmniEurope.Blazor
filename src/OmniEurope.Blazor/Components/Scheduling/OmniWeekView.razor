@@ -1,0 +1,16 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler-view", "omni-week-view")" aria-label="@EffectiveLabel">
+    @for (var offset = 0; offset < 7; offset++)
+    {
+        var day = WeekStart.AddDays(offset);
+        <article class="omni-week-view__day">
+            <h3>@day.ToString("ddd d", Culture)</h3>
+            @foreach (var appointment in Appointments.Where(item => item.Start.Date == day.Date).OrderBy(item => item.Start))
+            {
+                <p><time datetime="@appointment.Start.ToString("O")">@appointment.Start.ToString("t", Culture)</time> <strong>@appointment.Title</strong></p>
+            }
+        </article>
+    }
+</section>

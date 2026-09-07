@@ -1,0 +1,35 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniInputBase<string>
+@using OmniEurope.Blazor.Internal
+
+<section class="@InputCss("omni-html-editor")" aria-label="@EffectiveLabel">
+    <div class="omni-html-editor__toolbar" role="toolbar" aria-label="@Localize("HtmlEditorToolbar")">
+        @if (EnableBold) { <button type="button" aria-label="@Localize("HtmlEditorBold")" disabled="@Disabled" @onclick="BoldAsync"><strong>B</strong></button> }
+        @if (EnableItalic) { <button type="button" aria-label="@Localize("HtmlEditorItalic")" disabled="@Disabled" @onclick="ItalicAsync"><em>I</em></button> }
+        @if (EnableSubscript) { <button type="button" aria-label="@Localize("HtmlEditorSubscript")" disabled="@Disabled" @onclick="SubscriptAsync">x<sub>2</sub></button> }
+        @if (EnableSuperscript) { <button type="button" aria-label="@Localize("HtmlEditorSuperscript")" disabled="@Disabled" @onclick="SuperscriptAsync">x<sup>2</sup></button> }
+        @if (EnableIndent) { <button type="button" aria-label="@Localize("HtmlEditorIndent")" disabled="@Disabled" @onclick="IndentAsync">→</button> }
+        @if (EnableOutdent) { <button type="button" aria-label="@Localize("HtmlEditorOutdent")" disabled="@Disabled" @onclick="OutdentAsync">←</button> }
+        <span class="omni-html-editor__separator" role="separator"></span>
+        <button type="button" aria-label="@Localize("HtmlEditorUndo")" disabled="@(Disabled || _undo.Count == 0)" @onclick="UndoAsync">↶</button>
+        <button type="button" aria-label="@Localize("HtmlEditorRedo")" disabled="@(Disabled || _redo.Count == 0)" @onclick="RedoAsync">↷</button>
+        @foreach (var tool in CustomTools)
+        {
+            <button type="button" aria-label="@tool.Label" disabled="@Disabled" @onclick="() => ApplyAsync(tool.Transform)">@tool.Label</button>
+        }
+    </div>
+    <textarea @attributes="AdditionalAttributes"
+              id="@Id"
+              class="omni-html-editor__source"
+              value="@CurrentValue"
+              rows="@Rows"
+              disabled="@Disabled"
+              aria-invalid="@AriaInvalid"
+              aria-describedby="@AriaDescribedBy"
+              @ref="_source"
+              @oninput="HandleInputAsync"></textarea>
+    @if (ShowPreview)
+    {
+        <div class="omni-html-editor__preview" aria-label="@Localize("HtmlEditorPreview")">@((MarkupString)OmniHtmlSanitizer.Sanitize(CurrentValue))</div>
+    }
+</section>

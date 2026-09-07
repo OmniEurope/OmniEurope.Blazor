@@ -1,0 +1,30 @@
+@page "/"
+
+<PageTitle>@Text["HomePageTitle"]</PageTitle>
+
+<section class="showcase-hero" aria-labelledby="home-title">
+    <OmniBadge Variant="OmniBadgeVariant.Accent">@Text["HomeKicker"]</OmniBadge>
+    <OmniHeading Id="home-title" Level="OmniHeadingLevel.H1">@Text["HomeTitle"]</OmniHeading>
+    <p class="showcase-hero__lead">@Text["HomeLead"]</p>
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+        <OmniLink Href="composants">@Text["HomeSeeComponents"]</OmniLink>
+        <OmniLink Href="personnalisation">@Text["HomeSeeCustomize"]</OmniLink>
+    </OmniStack>
+</section>
+
+<section class="showcase-pillars" aria-labelledby="home-pillars-title">
+    <OmniHeading Id="home-pillars-title" Level="OmniHeadingLevel.H2">@Text["HomePillarsTitle"]</OmniHeading>
+    <div class="showcase-cards">
+        @foreach (var pillar in Pillars)
+        {
+            <OmniCard>
+                <Header>
+                    <OmniHeading Level="OmniHeadingLevel.H3">@Text[pillar.TitleKey]</OmniHeading>
+                </Header>
+                <ChildContent>
+                    <p>@Text[pillar.BodyKey]</p>
+                </ChildContent>
+            </OmniCard>
+        }
+    </div>
+</section>
