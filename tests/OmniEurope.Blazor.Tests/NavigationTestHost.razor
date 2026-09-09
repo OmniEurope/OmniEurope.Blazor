@@ -11,7 +11,10 @@
 
 <OmniTabs @bind-Value="Tab" Keys="@TabKeys">
     <OmniTabsItem Key="first" Title="Premier">Contenu 1</OmniTabsItem>
-    <OmniTabsItem Key="second" Title="Second">Contenu 2</OmniTabsItem>
+    <OmniTabsItem Key="second" Title="Second" OnDrop="OnTabDrop">
+        <TitleContent><span class="host-tab-count">Second (2)</span></TitleContent>
+        <ChildContent>Contenu 2</ChildContent>
+    </OmniTabsItem>
 </OmniTabs>
 
 <OmniSteps @bind-Value="Step" CanNavigate="CanNavigateAsync">
@@ -29,6 +32,8 @@
     public int Step { get; set; }
     public bool AllowStep { get; set; } = true;
     public bool SignedOut { get; set; }
+    public int Dropped { get; set; }
+    private void OnTabDrop(Microsoft.AspNetCore.Components.Web.DragEventArgs _) => Dropped++;
     private IReadOnlyList<string> TabKeys { get; } = ["first", "second"];
     private RenderFragment ProfileSummary => builder => builder.AddContent(0, "Alice");
     private Task<bool> CanNavigateAsync(int _) => Task.FromResult(AllowStep);

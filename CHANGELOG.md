@@ -2,6 +2,16 @@
 
 Les changements notables de ce projet seront documentés ici selon le format Keep a Changelog.
 
+## [Non publié]
+
+### Added
+
+- `OmniTabsItem` gagne `TitleContent` et `OnDrop` : un onglet peut afficher un compteur ou un marqueur à la place de son texte, et recevoir un glisser-déposer. Le dépôt est reçu par l'enveloppe de l'onglet, jamais par son bouton, et `OnDrop` est un paramètre parce que le contrat CSP refuse un attribut `on*` transmis par les attributs du composant.
+- Nouveau `OmniDateTimePicker` : une date et une heure dans un seul contrôle natif `datetime-local`, lié à `DateTime?` en heure locale, avec bornes `Minimum`/`Maximum` et `ShowSeconds`. Distinct d'`OmniDatePicker` parce que les deux lient des types différents.
+- `OmniButton` gagne les variantes `Success` et `Warning` : une action destructrice n'est pas la seule qui mérite une couleur, et confirmer ou suspendre ne se lisent pas comme le même risque.
+- `OmniFieldset` gagne `Collapsible` et `Collapsed` : le groupe se replie avec l'élément natif `details`, sans script ni entorse à la CSP stricte.
+- `OmniTextBox` gagne `Type` (`Text`, `Email`, `Tel`, `Url` ou `Search`). Le type est ce qui choisit le clavier mobile et le remplissage automatique du navigateur : le champ rendait auparavant `type="text"` quoi que la page demande, un champ e-mail devenant indiscernable d'un champ libre.
+
 ## [1.0.0] - 2026-09-06
 
 ### Added

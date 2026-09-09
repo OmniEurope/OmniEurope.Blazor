@@ -1,4 +1,4 @@
-# Composants de fondation
+| `OmniFieldset` | Groupe de champs natif avec `legend` obligatoire et état désactivé ; `Collapsible` le replie avec l'élément natif `details`. |# Composants de fondation
 
 Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les attributs `style` et les gestionnaires HTML sous forme de chaîne, et utilisent uniquement la feuille CSS statique de la bibliothèque.
 

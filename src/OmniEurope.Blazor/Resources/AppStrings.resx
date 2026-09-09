@@ -81,6 +81,7 @@
   <data name="DataListLoadFailed" xml:space="preserve"><value>Le chargement a échoué.</value></data>
   <data name="DataListEmpty" xml:space="preserve"><value>Aucun élément.</value></data>
   <data name="DatePickerInvalid" xml:space="preserve"><value>La date saisie n'est pas valide.</value></data>
+  <data name="DateTimePickerInvalid" xml:space="preserve"><value>La date et l'heure saisies ne sont pas valides.</value></data>
   <data name="DayViewLabel" xml:space="preserve"><value>Vue journalière</value></data>
   <data name="DialogEnd" xml:space="preserve"><value>Fin du dialogue</value></data>
   <data name="Close" xml:space="preserve"><value>Fermer</value></data>

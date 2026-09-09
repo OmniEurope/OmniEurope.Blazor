@@ -26,6 +26,14 @@
             </ChildContent>
         </OmniFormField>
 
+        <OmniFormField For="inputs-appointment" Description="Date et heure dans un seul contrôle natif.">
+            <Label>Rendez-vous</Label>
+            <ChildContent>
+                <OmniDateTimePicker Id="inputs-appointment" @bind-Value="Model.Appointment"
+                                    Minimum="AppointmentFloor" Maximum="AppointmentCeiling" />
+            </ChildContent>
+        </OmniFormField>
+
         <OmniFormField For="inputs-color">
             <Label>Couleur de repère</Label>
             <ChildContent>

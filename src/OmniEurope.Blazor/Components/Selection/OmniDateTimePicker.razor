@@ -1,15 +1,16 @@
 @namespace OmniEurope.Blazor.Components
-@inherits OmniInputBase<string>
+@inherits OmniInputBase<DateTime?>
 
 <input @attributes="AdditionalAttributes"
        id="@Id"
-       class="@InputCss("omni-input", "omni-text-box")"
-       type="@TypeAttribute"
+       class="@InputCss("omni-input", "omni-date-time-picker")"
+       type="datetime-local"
        value="@CurrentValueAsString"
-       placeholder="@Placeholder"
-       autocomplete="@Autocomplete"
+       min="@FormatDateTime(Minimum)"
+       max="@FormatDateTime(Maximum)"
+       step="@StepAttribute"
        disabled="@Disabled"
        readonly="@ReadOnly"
        aria-invalid="@AriaInvalid"
        aria-describedby="@AriaDescribedBy"
-       @oninput="HandleInput" />
+       @onchange="HandleChange" />

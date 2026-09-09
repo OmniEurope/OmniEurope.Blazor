@@ -77,6 +77,21 @@ public sealed class InteractionComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void TextBox_RendersTheRequestedInputType()
+    {
+        // The type is what selects the on-screen keyboard and the browser's own autofill, so a
+        // text box that always rendered type="text" made an email field indistinguishable from a
+        // free-text one.
+        var form = Render<FormTestHost>();
+
+        Assert.Equal("text", form.Find("#name").GetAttribute("type"));
+        Assert.Equal("email", form.Find("#email").GetAttribute("type"));
+
+        form.Find("#email").Input("alice@example.test");
+        Assert.Equal("alice@example.test", form.Instance.Model.Email);
+    }
+
+    [Fact]
     public async Task RequiredValidator_TracksValidationRequestsAndFieldChanges()
     {
         var form = Render<FormTestHost>();

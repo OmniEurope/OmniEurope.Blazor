@@ -81,6 +81,30 @@ public sealed class SelectionComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void DateTimePicker_BindsALocalMomentAndRejectsContradictoryBounds()
+    {
+        var form = Render<SelectionTestHost>();
+
+        form.Find("#date-time").Change("2026-03-02T14:30");
+        Assert.Equal(new DateTime(2026, 3, 2, 14, 30, 0, DateTimeKind.Unspecified), form.Instance.Model.Moment);
+        Assert.Equal("datetime-local", form.Find("#date-time").GetAttribute("type"));
+
+        // Out of the declared bounds: refused. The bound value is left as it was and the field is
+        // marked invalid, rather than silently clamped to the bound.
+        form.Find("#date-time").Change("2031-01-01T00:00");
+        Assert.Equal(new DateTime(2026, 3, 2, 14, 30, 0, DateTimeKind.Unspecified), form.Instance.Model.Moment);
+        Assert.Equal("true", form.Find("#date-time").GetAttribute("aria-invalid"));
+
+        DateTime? value = null;
+        var exception = Assert.Throws<InvalidOperationException>(() => Render<OmniDateTimePicker>(parameters => parameters
+            .Add(component => component.Minimum, new DateTime(2026, 8, 12, 0, 0, 0, DateTimeKind.Unspecified))
+            .Add(component => component.Maximum, new DateTime(2026, 8, 11, 0, 0, 0, DateTimeKind.Unspecified))
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)));
+        Assert.Equal("Minimum cannot be greater than Maximum.", exception.Message);
+    }
+
+    [Fact]
     public async Task Autocomplete_DebouncesAnnouncesAndSelectsAResult()
     {
         var form = Render<SelectionTestHost>();
