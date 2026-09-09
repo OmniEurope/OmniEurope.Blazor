@@ -132,15 +132,109 @@ public sealed class AlertAndMultiSelectTests : OmniBunitContext
     private IRenderedComponent<OmniMultiSelect<string>> RenderCompact(
         IReadOnlyList<string> value,
         Action<IReadOnlyList<string>> onChanged,
-        string? placeholder = null)
+        string? placeholder = null,
+        bool filterable = false,
+        Action<string?>? onFilterTextChanged = null)
     {
         var bound = value;
         return Render<OmniMultiSelect<string>>(parameters => parameters
             .Add(component => component.Options, Regions)
             .Add(component => component.Presentation, OmniMultiSelectPresentation.Compact)
             .Add(component => component.Placeholder, placeholder)
+            .Add(component => component.Filterable, filterable)
+            .Add(component => component.FilterTextChanged,
+                EventCallback.Factory.Create(this, onFilterTextChanged ?? (_ => { })))
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => bound)
             .Add(component => component.ValueChanged, EventCallback.Factory.Create(this, onChanged)));
     }
+
+    [Fact]
+    public void CompactMultiSelect_NarrowsItsListToWhatWasTypedAndSaysWhenNothingMatches()
+    {
+        IReadOnlyList<string> bound = [];
+        var select = RenderCompact(bound, value => bound = value, filterable: true);
+
+        select.Find(".omni-multi-select-compact__filter").Input("bru");
+        Assert.Equal(["Bruxelles"], OptionTexts(select));
+
+        // An empty panel would read as a control whose options never loaded.
+        select.Find(".omni-multi-select-compact__filter").Input("zzz");
+        Assert.Empty(select.FindAll(".omni-multi-select-compact__option"));
+        Assert.Equal("Aucun résultat", select.Find(".omni-multi-select-compact__empty").TextContent.Trim());
+
+        select.Find(".omni-multi-select-compact__filter").Input(string.Empty);
+        Assert.Equal(3, select.FindAll(".omni-multi-select-compact__option").Count);
+    }
+
+    [Fact]
+    public void CompactMultiSelect_StillSelectsTheOptionItNarrowedTo()
+    {
+        // Filtering renders a subset, and the toggle carries the option rather than its position in
+        // the full list: addressing it by index would select whatever sat there before the filter.
+        IReadOnlyList<string> bound = [];
+        var select = RenderCompact(bound, value => bound = value, filterable: true);
+
+        select.Find(".omni-multi-select-compact__filter").Input("flandre");
+        select.Find(".omni-multi-select-compact__option input").Change(true);
+
+        Assert.Equal(["vla"], bound);
+    }
+
+    [Fact]
+    public void CompactMultiSelect_ReportsWhatIsTypedAndTakesItBack()
+    {
+        string? reported = null;
+        IReadOnlyList<string> bound = [];
+        var select = RenderCompact(bound, value => bound = value, filterable: true,
+            onFilterTextChanged: text => reported = text);
+
+        select.Find(".omni-multi-select-compact__filter").Input("wal");
+        Assert.Equal("wal", reported);
+
+        // Handing the parameter back empties the field, which is how a page clears the search after
+        // acting on it.
+        select.Render(parameters => parameters.Add(component => component.FilterText, null));
+        Assert.True(string.IsNullOrEmpty(select.Find(".omni-multi-select-compact__filter").GetAttribute("value")));
+        Assert.Equal(3, select.FindAll(".omni-multi-select-compact__option").Count);
+    }
+
+    [Fact]
+    public void CompactMultiSelect_DrawsItsOptionsAndItsFooterFromTheTemplatesItIsGiven()
+    {
+        IReadOnlyList<string> bound = [];
+        var select = Render<OmniMultiSelect<string>>(parameters => parameters
+            .Add(component => component.Options, Regions)
+            .Add(component => component.Presentation, OmniMultiSelectPresentation.Compact)
+            .Add(component => component.Value, bound)
+            .Add(component => component.ValueExpression, () => bound)
+            .Add(component => component.OptionTemplate,
+                option => builder => builder.AddMarkupContent(0, $"<i class=\"probe-swatch\">{option.Text}</i>"))
+            .Add(component => component.FooterTemplate,
+                builder => builder.AddMarkupContent(0, "<button class=\"probe-create\">+ nouveau</button>")));
+
+        Assert.Equal(3, select.FindAll(".omni-multi-select-compact__option .probe-swatch").Count);
+        Assert.Single(select.FindAll(".omni-multi-select-compact__footer .probe-create"));
+
+        // The check box survives the template: the option is still selectable.
+        Assert.Equal(3, select.FindAll(".omni-multi-select-compact__option input[type=checkbox]").Count);
+    }
+
+    [Fact]
+    public void MultiSelect_RefusesToFilterAListPresentation()
+    {
+        // The list presentation is a native multiple select: it has nowhere to put a search field and
+        // addresses its options by position, so a silently ignored filter would be the trap.
+        IReadOnlyList<string> bound = [];
+        var failure = Assert.Throws<InvalidOperationException>(() => Render<OmniMultiSelect<string>>(parameters => parameters
+            .Add(component => component.Options, Regions)
+            .Add(component => component.Filterable, true)
+            .Add(component => component.Value, bound)
+            .Add(component => component.ValueExpression, () => bound)));
+
+        Assert.Contains("Compact", failure.Message, StringComparison.Ordinal);
+    }
+
+    private static string[] OptionTexts(IRenderedComponent<OmniMultiSelect<string>> select) =>
+        [.. select.FindAll(".omni-multi-select-compact__option").Select(option => option.TextContent.Trim())];
 }

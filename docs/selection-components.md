@@ -18,6 +18,38 @@ choisi, le texte de l'option quand il n'y en a qu'une, le décompte au-delà. Le
 le bouton de désélection proviennent des ressources `MultiSelectEmpty`, `MultiSelectSelected` et
 `MultiSelectClear`.
 
+La forme `Compact` accepte en plus une recherche et deux templates. `Filterable` ajoute un champ qui
+réduit la liste aux options dont le texte contient la saisie ; `FilterText` se lie dans les deux sens
+pour que la page sache ce qui a été tapé, et la remise à `null` vide le champ. `OptionTemplate` dessine
+une option à côté de sa case à cocher, `FooterTemplate` occupe le bas du panneau, hors de la zone
+défilante : ensemble, ils donnent le sélecteur d'étiquettes qui propose de créer celle que la recherche
+n'a pas trouvée. Le filtre porte toujours sur le texte de l'option, quoi que dessine le template, et
+`MultiSelectNoMatch` est affiché lorsque la recherche ne laisse rien, un panneau vide se lisant comme
+un contrôle qui n'a pas chargé ses options.
+
+`Filterable` exige `Presentation="OmniMultiSelectPresentation.Compact"` et lève sinon : la forme
+`List` est un `select multiple` natif, sans place pour un champ et adressant ses options par position,
+donc un filtre silencieusement ignoré y serait le vrai piège.
+
+```razor
+<OmniMultiSelect TValue="Guid" Options="tags" @bind-Value="selectedTagIds"
+                 Presentation="OmniMultiSelectPresentation.Compact"
+                 Filterable="true" @bind-FilterText="search">
+    <OptionTemplate Context="tag">
+        <svg class="tag-swatch" viewBox="0 0 10 10" aria-hidden="true" focusable="false">
+            <circle cx="5" cy="5" r="5" fill="@ColorOf(tag.Value)" />
+        </svg>
+        <span>@tag.Text</span>
+    </OptionTemplate>
+    <FooterTemplate>
+        @if (CanCreate)
+        {
+            <OmniButton Variant="OmniButtonVariant.Ghost" OnClick="CreateAsync">+ @search</OmniButton>
+        }
+    </FooterTemplate>
+</OmniMultiSelect>
+```
+
 `OmniAutocomplete<TValue>` reçoit une fonction asynchrone annulable, applique un délai de debounce et annonce le nombre de résultats dans une région live. Une option n'est engagée dans le modèle qu'après sélection explicite.
 
 ```razor

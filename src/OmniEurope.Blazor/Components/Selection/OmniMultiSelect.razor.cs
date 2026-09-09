@@ -1,7 +1,12 @@
+using Microsoft.AspNetCore.Components;
+
 namespace OmniEurope.Blazor.Components;
 
 public partial class OmniMultiSelect<TValue>
 {
+    private string? _filter;
+    private string? _boundFilterText;
+
     [Parameter, EditorRequired]
     public IReadOnlyList<OmniOption<TValue>> Options { get; set; } = Array.Empty<OmniOption<TValue>>();
 
@@ -19,6 +24,41 @@ public partial class OmniMultiSelect<TValue>
     [Parameter]
     public string? Placeholder { get; set; }
 
+    /// <summary>
+    /// Adds a search field to the compact panel and narrows the list to the options whose text
+    /// contains what was typed. Only the compact presentation can carry it: the list presentation is
+    /// a native multiple select, which has nowhere to put a field and addresses its options by
+    /// position, so filtering it would silently select the wrong ones.
+    /// </summary>
+    [Parameter]
+    public bool Filterable { get; set; }
+
+    /// <summary>
+    /// The text being searched for. Bind it when the page has to act on what was typed rather than
+    /// only see the narrowed list, such as offering to create the entry nobody matched; setting it
+    /// back to null empties the field.
+    /// </summary>
+    [Parameter]
+    public string? FilterText { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> FilterTextChanged { get; set; }
+
+    /// <summary>Replaces the default label and placeholder of the search field.</summary>
+    [Parameter]
+    public string? FilterPlaceholder { get; set; }
+
+    /// <summary>
+    /// Renders an option next to its check box, for a colour swatch or a second line. The option's
+    /// text is what the filter matches on, whatever this draws.
+    /// </summary>
+    [Parameter]
+    public RenderFragment<OmniOption<TValue>>? OptionTemplate { get; set; }
+
+    /// <summary>Sits at the bottom of the compact panel, below the list and outside its scroll.</summary>
+    [Parameter]
+    public RenderFragment? FooterTemplate { get; set; }
+
     [Parameter]
     public bool Disabled { get; set; }
 
@@ -26,6 +66,27 @@ public partial class OmniMultiSelect<TValue>
     public string? AriaDescribedBy { get; set; }
 
     private int SelectedCount => CurrentValue?.Count ?? 0;
+
+    private string? Filter => _filter;
+
+    /// <summary>
+    /// What the panel lists. Selected options are not exempt from the filter: the summary already
+    /// counts them, so keeping them visible would contradict the search that was just typed.
+    /// </summary>
+    private IReadOnlyList<OmniOption<TValue>> VisibleOptions
+    {
+        get
+        {
+            if (!Filterable || string.IsNullOrWhiteSpace(_filter))
+            {
+                return Options;
+            }
+
+            var needle = _filter.Trim();
+            return [.. Options.Where(option =>
+                option.Text.Contains(needle, StringComparison.CurrentCultureIgnoreCase))];
+        }
+    }
 
     /// <summary>
     /// One selection is named, several are counted: a control on a single line cannot grow with the
@@ -54,8 +115,44 @@ public partial class OmniMultiSelect<TValue>
         }
     }
 
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if (Filterable && Presentation != OmniMultiSelectPresentation.Compact)
+        {
+            throw new InvalidOperationException(
+                "Filterable requires OmniMultiSelectPresentation.Compact.");
+        }
+
+        // The parameter wins whenever the page changes it, which is how a caller empties the field
+        // after acting on the text; between those changes the field owns what it holds, so a render
+        // caused by anything else does not undo the keystroke being typed.
+        if (!string.Equals(_boundFilterText, FilterText, StringComparison.Ordinal))
+        {
+            _boundFilterText = FilterText;
+            _filter = FilterText;
+        }
+    }
+
     private bool IsSelected(TValue value) =>
         CurrentValue?.Contains(value, EqualityComparer<TValue>.Default) == true;
+
+    private async Task SetFilterAsync(string? value)
+    {
+        if (string.Equals(_filter, value, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        _filter = value;
+        _boundFilterText = value;
+
+        if (FilterTextChanged.HasDelegate)
+        {
+            await FilterTextChanged.InvokeAsync(value);
+        }
+    }
 
     private void Toggle(OmniOption<TValue> option, bool selected)
     {
