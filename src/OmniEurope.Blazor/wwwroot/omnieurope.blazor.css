@@ -297,7 +297,7 @@
 .omni-badge {
     align-items: center;
     border: 1px solid transparent;
-    border-radius: var(--omni-radius-pill);
+    border-radius: var(--omni-radius);
     display: inline-flex;
     font-size: var(--omni-font-size-sm);
     font-weight: 650;
