@@ -2,7 +2,7 @@
 @inherits OmniComponentBase
 
 <span id="@Id"
-      class="@Css("omni-badge", $"omni-badge--{Variant.ToString().ToLowerInvariant()}")"
+      class="@Css("omni-badge", $"omni-badge--{Variant.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}")"
       @attributes="AdditionalAttributes">
     @ChildContent
 </span>

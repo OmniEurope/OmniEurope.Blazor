@@ -3,7 +3,9 @@
 
 <nav @attributes="AdditionalAttributes"
      id="@Id"
-     class="@Css("omni-panel-menu", DisplayStyle == OmniPanelMenuDisplayStyle.Icon ? "omni-panel-menu--icons" : null)"
+     class="@Css("omni-panel-menu", EffectiveDisplayStyle == OmniPanelMenuDisplayStyle.Icon ? "omni-panel-menu--icons" : null)"
      aria-label="@EffectiveLabel">
-    @ChildContent
+    <CascadingValue Value="OwnContext">
+        @ChildContent
+    </CascadingValue>
 </nav>

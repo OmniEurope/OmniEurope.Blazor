@@ -5,6 +5,13 @@ public partial class OmniComponentsHost
     [Parameter]
     public OmniOverlayService? OverlayService { get; set; }
 
+    /// <summary>
+    /// How the notification stack behaves: where it sits, whether each card counts down, whether it
+    /// can be dismissed by hand, and whether a burst collapses into one pile.
+    /// </summary>
+    [Parameter]
+    public OmniNotificationOptions Notifications { get; set; } = new();
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 

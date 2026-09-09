@@ -28,6 +28,12 @@ const place = (tooltip, x, y) => {
         return;
     }
 
+    // Figée, une infobulle déjà posée ne bouge plus : la replacer à chaque mouvement est exactement
+    // ce que ce mode refuse.
+    if (tracked === tooltip && tooltip.dataset.omniTooltipTrack === 'pinned') {
+        return;
+    }
+
     if (tracked && tracked !== tooltip) {
         clear();
     }

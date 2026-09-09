@@ -458,6 +458,13 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public bool FixedRowHeight { get; set; }
 
+    /// <summary>
+    /// What a column title does when it is wider than its column: run onto a second line, growing
+    /// the header band, or be cut with an ellipsis and keep it one line tall.
+    /// </summary>
+    [Parameter]
+    public OmniDataGridHeaderWrap HeaderWrap { get; set; } = OmniDataGridHeaderWrap.Wrap;
+
     /// <summary>Rows fetched per remote request while virtualizing. Defaults to <see cref="PageSize"/>.</summary>
     [Parameter]
     public int VirtualBlockSize { get; set; }
@@ -1731,6 +1738,7 @@ public partial class OmniDataGrid<TItem>
         Virtualized ? "omni-data-grid--virtual" : null,
         Responsive ? "omni-data-grid--responsive" : null,
         FixedRowHeight && RowHeight is not null ? "omni-data-grid--fixed-row-height" : null,
+        HeaderWrap == OmniDataGridHeaderWrap.Truncate ? "omni-data-grid--header-truncate" : null,
         GridLines == OmniDataGridLines.Default ? null : $"omni-data-grid--lines-{GridLines.ToString().ToLowerInvariant()}");
 
     private string ViewportClass() => CssClassBuilder.Combine([

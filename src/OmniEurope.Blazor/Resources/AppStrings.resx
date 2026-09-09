@@ -140,6 +140,8 @@
   <data name="SchedulerLoadFailed" xml:space="preserve"><value>Le calendrier n'a pas pu être chargé.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>La sélection segmentée n'est pas valide.</value></data>
   <data name="SidebarLabel" xml:space="preserve"><value>Navigation</value></data>
+  <data name="SidebarClose" xml:space="preserve"><value>Fermer la navigation</value></data>
+  <data name="LoadingLabel" xml:space="preserve"><value>Chargement en cours</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Afficher ou masquer la navigation</value></data>
   <data name="SliderInvalid" xml:space="preserve"><value>La valeur du curseur n'est pas valide.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Autres actions</value></data>

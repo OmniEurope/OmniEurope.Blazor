@@ -198,6 +198,37 @@
 .omni-stack--justify-end { justify-content: flex-end; }
 .omni-stack--justify-between { justify-content: space-between; }
 
+/* Deux réponses au manque de place sur une rangée. Défiler garde chaque élément à sa taille et rend
+   la rangée atteignable au doigt, comme une table trop large. Replier garde tout à l'écran en ne
+   laissant que les icônes, ce qui suppose que les éléments en aient une. La rupture est à 480px,
+   largeur en dessous de laquelle une rangée de boutons libellés ne tient plus sur un téléphone. */
+.omni-stack--overflow-scroll { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; }
+.omni-stack--overflow-scroll > * { flex: 0 0 auto; }
+.omni-stack--overflow-collapse { flex-wrap: nowrap; min-inline-size: 0; }
+
+@media (max-width: 479.98px) {
+    /* Le libellé quitte le flux plutôt que d'être retiré du DOM : le bouton garde son nom pour les
+       technologies d'assistance, qui n'ont pas de problème de largeur. */
+    .omni-stack--overflow-collapse .omni-button > span:not(.omni-button__busy),
+    .omni-stack--overflow-collapse .omni-select-bar__item > span {
+        clip-path: inset(50%);
+        block-size: 1px;
+        inline-size: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+    }
+
+    /* Un bouton sans icône garderait une surface vide : son libellé reste. */
+    .omni-stack--overflow-collapse .omni-button:not(:has(.oe-icon)):not(:has(svg)):not(:has(img)) > span {
+        clip-path: none;
+        block-size: auto;
+        inline-size: auto;
+        overflow: visible;
+        position: static;
+    }
+}
+
 .omni-alert {
     align-items: flex-start;
     border: 1px solid currentColor;
@@ -279,6 +310,14 @@
 .omni-badge--success { background: var(--omni-color-success-subtle); color: var(--omni-color-success); }
 .omni-badge--warning { background: var(--omni-color-warning-subtle); color: var(--omni-color-warning); }
 .omni-badge--danger { background: var(--omni-color-danger-subtle); color: var(--omni-color-danger); }
+/* En contour, la couleur passe du fond au trait : la teinte reste celle de la variante, ce qui fait
+   lire les deux formes comme un même badge dans deux états, et non comme deux composants. */
+.omni-badge--outline { background: transparent; border-color: currentColor; }
+.omni-badge--outline.omni-badge--neutral { color: var(--omni-color-text); }
+.omni-badge--outline.omni-badge--accent { color: var(--omni-color-accent-strong); }
+.omni-badge--outline.omni-badge--success { color: var(--omni-color-success); }
+.omni-badge--outline.omni-badge--warning { color: var(--omni-color-warning); }
+.omni-badge--outline.omni-badge--danger { color: var(--omni-color-danger); }
 
 .omni-link { color: var(--omni-color-accent-strong); text-decoration-thickness: 0.08em; text-underline-offset: 0.15em; }
 .omni-link:hover { text-decoration-thickness: 0.14em; }
@@ -382,6 +421,72 @@
 .omni-fieldset--collapsible details[open] > .omni-fieldset__content { margin-block-start: var(--omni-space-md); }
 .omni-fieldset__content { display: grid; gap: var(--omni-space-md); }
 .omni-fieldset:disabled { opacity: 0.65; }
+
+/* Bandeau de chargement de page. Il garde sa place, chargement ou non : une barre qui apparaît
+   entre deux éléments décale tout ce qui la suit, deux fois par chargement. Seul l'indicateur va
+   et vient, et il occupe la hauteur du bandeau, pas celle de la page. */
+.omni-loading-bar {
+    background: transparent;
+    block-size: 0.1875rem;
+    flex: 0 0 auto;
+    inline-size: 100%;
+    overflow: hidden;
+    position: relative;
+}
+.omni-loading-bar--active { background: var(--omni-color-surface-muted); }
+.omni-loading-bar__indicator {
+    background: var(--omni-color-accent);
+    block-size: 100%;
+    display: block;
+    inline-size: 0;
+    transition: inline-size 160ms ease;
+}
+/* Sans chiffre rapporté, chaque mode se suffit à lui-même : le balayage traverse, le continu
+   remplit de plus en plus lentement, ce qui reste vrai tant que la durée est inconnue. */
+.omni-loading-bar--sweep .omni-loading-bar__indicator { animation: omni-loading-sweep 1.1s ease-in-out infinite; inline-size: 35%; }
+/* Le remplissage joue sur une échelle et non sur la largeur : animer inline-size laissait
+   l'indicateur à zéro, l'animation tournant sans que la valeur calculée bouge. */
+.omni-loading-bar--continuous .omni-loading-bar__indicator {
+    animation: omni-loading-fill 8s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+    inline-size: 100%;
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+/* Un chiffre rapporté l'emporte sur les deux animations : c'est une mesure, pas une estimation. */
+.omni-loading-bar__indicator[class*="omni-loading-bar__indicator--"] { animation: none; transform: none; }
+.omni-loading-bar__indicator--0 { inline-size: 0%; }
+.omni-loading-bar__indicator--5 { inline-size: 5%; }
+.omni-loading-bar__indicator--10 { inline-size: 10%; }
+.omni-loading-bar__indicator--15 { inline-size: 15%; }
+.omni-loading-bar__indicator--20 { inline-size: 20%; }
+.omni-loading-bar__indicator--25 { inline-size: 25%; }
+.omni-loading-bar__indicator--30 { inline-size: 30%; }
+.omni-loading-bar__indicator--35 { inline-size: 35%; }
+.omni-loading-bar__indicator--40 { inline-size: 40%; }
+.omni-loading-bar__indicator--45 { inline-size: 45%; }
+.omni-loading-bar__indicator--50 { inline-size: 50%; }
+.omni-loading-bar__indicator--55 { inline-size: 55%; }
+.omni-loading-bar__indicator--60 { inline-size: 60%; }
+.omni-loading-bar__indicator--65 { inline-size: 65%; }
+.omni-loading-bar__indicator--70 { inline-size: 70%; }
+.omni-loading-bar__indicator--75 { inline-size: 75%; }
+.omni-loading-bar__indicator--80 { inline-size: 80%; }
+.omni-loading-bar__indicator--85 { inline-size: 85%; }
+.omni-loading-bar__indicator--90 { inline-size: 90%; }
+.omni-loading-bar__indicator--95 { inline-size: 95%; }
+.omni-loading-bar__indicator--100 { inline-size: 100%; }
+
+@keyframes omni-loading-sweep {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(400%); }
+}
+
+@keyframes omni-loading-fill {
+    0% { transform: scaleX(0); }
+    50% { transform: scaleX(0.6); }
+    100% { transform: scaleX(0.92); }
+}
 
 .omni-progress { align-items: center; color: var(--omni-color-accent); display: flex; gap: var(--omni-space-sm); }
 .omni-progress--success { color: var(--omni-color-success); }
@@ -515,16 +620,59 @@
     font-size: var(--omni-font-size-base);
 }
 .omni-body { box-sizing: border-box; display: flex; flex: 1 1 auto; min-height: 0; min-width: 0; }
+/* Two independent axes. Reveal decides whether the open sidebar takes width in the flow (push) or
+   floats over the content (overlay), so that opening never reflows the page. Collapse decides what
+   is left once it closes: nothing, or a rail of icons. The aside is the slot in the flow, the panel
+   is what is painted, which is what lets the second take a position the first cannot. */
 .omni-sidebar {
+    --omni-sidebar-width: 18rem;
+    --omni-sidebar-rail: 4rem;
+    box-sizing: border-box;
+    color: var(--omni-color-text);
+    display: flex;
+    position: relative;
+}
+.omni-sidebar__panel {
     background: var(--omni-color-surface);
     border-inline-end: 1px solid var(--omni-color-border);
     box-sizing: border-box;
-    color: var(--omni-color-text);
-    flex: 0 0 18rem;
-    max-width: min(18rem, 90vw);
+    flex: 1 1 auto;
+    min-block-size: 0;
+    min-inline-size: 0;
     overflow: auto;
 }
-.omni-sidebar--end { border-inline-end: 0; border-inline-start: 1px solid var(--omni-color-border); order: 2; }
+.omni-sidebar--end { order: 2; }
+.omni-sidebar--end > .omni-sidebar__panel { border-inline-end: 0; border-inline-start: 1px solid var(--omni-color-border); }
+
+.omni-sidebar--push { flex: 0 0 var(--omni-sidebar-width); max-inline-size: min(var(--omni-sidebar-width), 90vw); }
+.omni-sidebar--push.omni-sidebar--closed.omni-sidebar--collapse-icons { flex-basis: var(--omni-sidebar-rail); max-inline-size: var(--omni-sidebar-rail); }
+
+/* Overlay keeps only what stays visible while closed in the flow; the open panel is lifted out of
+   it, so the content beside keeps its width and its line breaks either way. */
+.omni-sidebar--overlay { flex: 0 0 0; }
+.omni-sidebar--overlay.omni-sidebar--collapse-icons { flex-basis: var(--omni-sidebar-rail); }
+.omni-sidebar--overlay.omni-sidebar--open > .omni-sidebar__panel {
+    box-shadow: var(--omni-shadow-md);
+    inline-size: var(--omni-sidebar-width);
+    inset-block: 0;
+    inset-inline-start: 0;
+    max-inline-size: 90vw;
+    position: absolute;
+    z-index: 30;
+}
+.omni-sidebar--overlay.omni-sidebar--end.omni-sidebar--open > .omni-sidebar__panel { inset-inline-end: 0; inset-inline-start: auto; }
+
+/* The veil covers the viewport rather than the shell: a sticky header is outside the shell and would
+   otherwise stay lit and clickable behind an open menu. */
+.omni-sidebar__backdrop {
+    background: var(--omni-color-overlay);
+    border: 0;
+    cursor: pointer;
+    inset: 0;
+    padding: 0;
+    position: fixed;
+    z-index: 25;
+}
 .omni-sidebar-toggle,
 .omni-appearance-toggle {
     align-items: center;
@@ -755,8 +903,75 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-notification__dismiss { border: 0; border-radius: var(--omni-radius); font-size: var(--omni-font-size-h4); min-height: 2.75rem; min-width: 2.75rem; }
 .omni-dialog__content { padding: var(--omni-space-lg); }
 .omni-dialog__footer { border-block-start: 1px solid var(--omni-color-border); display: flex; gap: var(--omni-space-sm); justify-content: end; padding: var(--omni-space-md); }
-.omni-notification-region { display: grid; gap: var(--omni-space-sm); inset-block-start: var(--omni-space-md); inset-inline-end: var(--omni-space-md); max-width: 24rem; position: fixed; z-index: 120; }
-.omni-notification { align-items: start; background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-inline-start: 0.3rem solid var(--omni-color-accent); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-md); display: flex; gap: var(--omni-space-md); justify-content: space-between; padding: var(--omni-space-md); }
+/* La pile se pose sur un coin ou un bord, jamais au milieu de l'écran : elle recouvre la page dont
+   elle parle. Les positions sont nommées par bord de bloc puis bord en ligne, ce qui garde son sens
+   en lecture de droite à gauche. */
+.omni-notification-region { display: grid; gap: var(--omni-space-sm); max-width: min(24rem, 90vw); position: fixed; z-index: 120; }
+.omni-notification-region--topstart { inset-block-start: var(--omni-space-md); inset-inline-start: var(--omni-space-md); }
+.omni-notification-region--topcenter { inset-block-start: var(--omni-space-md); inset-inline: 0; justify-self: center; margin-inline: auto; }
+.omni-notification-region--topend { inset-block-start: var(--omni-space-md); inset-inline-end: var(--omni-space-md); }
+.omni-notification-region--bottomstart { inset-block-end: var(--omni-space-md); inset-inline-start: var(--omni-space-md); }
+.omni-notification-region--bottomcenter { inset-block-end: var(--omni-space-md); inset-inline: 0; justify-self: center; margin-inline: auto; }
+.omni-notification-region--bottomend { inset-block-end: var(--omni-space-md); inset-inline-end: var(--omni-space-md); }
+
+/* Regroupées, les cartes se rangent les unes derrière les autres et seule celle du dessus se lit :
+   la pile garde la place d'une carte, et son compte dit ce qui attend derrière. Le survol les
+   déploie, sans quoi les suivantes ne seraient plus atteignables. */
+.omni-notification-region--grouped { gap: 0; }
+.omni-notification-region--grouped .omni-notification { margin-block-start: -3.25rem; transform: scale(0.97); transition: margin-block-start 160ms ease, transform 160ms ease; }
+.omni-notification-region--grouped .omni-notification:first-of-type { margin-block-start: 0; transform: none; }
+.omni-notification-region--grouped:hover .omni-notification,
+.omni-notification-region--grouped:focus-within .omni-notification { margin-block-start: 0; transform: none; }
+.omni-notification-region__count {
+    background: var(--omni-color-accent);
+    border-radius: var(--omni-radius-pill);
+    color: var(--omni-color-on-accent);
+    font-weight: 650;
+    justify-self: end;
+    margin: 0 0 var(--omni-space-xs);
+    padding: 0 var(--omni-space-sm);
+}
+.omni-notification { background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-inline-start: 0.3rem solid var(--omni-color-accent); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-md); overflow: hidden; }
+.omni-notification__body { align-items: start; display: flex; gap: var(--omni-space-md); justify-content: space-between; padding: var(--omni-space-md); }
+/* La barre se vide sur exactement la durée que la notification a devant elle : une durée choisie
+   ici, sans rapport avec celle du message, annoncerait une disparition qui ne viendrait pas. */
+.omni-notification__countdown {
+    animation-fill-mode: forwards;
+    animation-name: omni-notification-countdown;
+    animation-timing-function: linear;
+    background: var(--omni-color-accent);
+    block-size: 0.1875rem;
+    display: block;
+    inline-size: 100%;
+}
+.omni-notification--success .omni-notification__countdown { background: var(--omni-color-success); }
+.omni-notification--warning .omni-notification__countdown { background: var(--omni-color-warning); }
+.omni-notification--error .omni-notification__countdown { background: var(--omni-color-danger); }
+.omni-notification__countdown--1s { animation-duration: 1s; }
+.omni-notification__countdown--2s { animation-duration: 2s; }
+.omni-notification__countdown--3s { animation-duration: 3s; }
+.omni-notification__countdown--4s { animation-duration: 4s; }
+.omni-notification__countdown--5s { animation-duration: 5s; }
+.omni-notification__countdown--6s { animation-duration: 6s; }
+.omni-notification__countdown--7s { animation-duration: 7s; }
+.omni-notification__countdown--8s { animation-duration: 8s; }
+.omni-notification__countdown--9s { animation-duration: 9s; }
+.omni-notification__countdown--10s { animation-duration: 10s; }
+.omni-notification__countdown--11s { animation-duration: 11s; }
+.omni-notification__countdown--12s { animation-duration: 12s; }
+.omni-notification__countdown--13s { animation-duration: 13s; }
+.omni-notification__countdown--14s { animation-duration: 14s; }
+.omni-notification__countdown--15s { animation-duration: 15s; }
+.omni-notification__countdown--16s { animation-duration: 16s; }
+.omni-notification__countdown--17s { animation-duration: 17s; }
+.omni-notification__countdown--18s { animation-duration: 18s; }
+.omni-notification__countdown--19s { animation-duration: 19s; }
+.omni-notification__countdown--20s { animation-duration: 20s; }
+
+@keyframes omni-notification-countdown {
+    from { inline-size: 100%; }
+    to { inline-size: 0; }
+}
 .omni-notification--success { border-inline-start-color: var(--omni-color-success); }
 .omni-notification--warning { border-inline-start-color: var(--omni-color-warning); }
 .omni-notification--error { border-inline-start-color: var(--omni-color-danger); }
@@ -853,8 +1068,19 @@ body:has(.omni-overlay) { overflow: hidden; }
 }
 .omni-panel-menu--icons .omni-panel-menu__link,
 .omni-panel-menu--icons .omni-panel-menu__label { justify-content: center; }
-.omni-panel-menu--icons .omni-panel-menu__toggle,
-.omni-panel-menu--icons .omni-panel-menu__children { display: none; }
+/* No room for a chevron beside an icon, so the chevron goes and the icon itself unfolds the group.
+   The children stay: hiding them would leave a whole branch of the navigation unreachable, which is
+   what a rail of icons used to do. They indent by nothing, since indenting an icon rail only makes
+   it wider. */
+.omni-panel-menu--icons .omni-panel-menu__toggle { display: none; }
+.omni-panel-menu--icons .omni-panel-menu__children {
+    border-inline-start: 0;
+    margin-inline-start: 0;
+    padding-inline-start: 0;
+}
+/* The open group keeps a mark of its own, or an unfolded rail reads as one flat list of icons. */
+.omni-panel-menu--icons .omni-panel-menu__group--open > .omni-panel-menu__summary { background: var(--omni-color-surface-muted); }
+.omni-panel-menu--icons .omni-panel-menu__group--open > .omni-panel-menu__children { border-inline-start: 2px solid var(--omni-color-accent); }
 
 @media (prefers-reduced-motion: reduce) {
     .omni-panel-menu__link,
@@ -1038,6 +1264,11 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid__filter-reset:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-data-grid__table th { position: relative; }
 .omni-data-grid__header { align-items: center; display: flex; gap: var(--omni-space-xs); min-inline-size: 0; }
+/* Deux traitements du libellé trop long pour sa colonne : le renvoyer à la ligne, ce qui grandit
+   la bande d'en-tête, ou le tronquer, ce qui la garde sur une ligne. Aucun des deux n'est bon
+   partout, d'où le réglage. */
+.omni-data-grid--header-truncate .omni-data-grid__title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-data-grid--header-truncate .omni-data-grid__sort { min-inline-size: 0; }
 /* Header affordances stay out of the way until the column is hovered or focused, so an idle header
    shows nothing but its title and, when sorted, its sort direction. */
 .omni-data-grid__header-action { opacity: 0; transition: opacity 120ms ease-in-out; }
@@ -1053,7 +1284,17 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* No separators inside the header row: the hovered cell is told apart by a darker fill, not by
    rules drawn between columns. The two fills are set as tokens so the dark palette can restate them
    instead of inheriting a mix computed for a light background. */
-.omni-data-grid__table thead th { --omni-header-fill: var(--omni-color-surface-muted); --omni-header-fill-hover: var(--omni-color-surface-hover); background: var(--omni-header-fill); border-inline: 0; transition: background-color 120ms ease-in-out; }
+/* Un en-tête doit dominer ses lignes, pas les côtoyer : tiré de surface-muted il était à deux pour
+   cent du fond de la table en thème clair, donc invisible. Il se calcule maintenant à partir du
+   texte, ce qui le fait descendre en clair et monter en sombre, et son filet inférieur se marque. */
+.omni-data-grid__table thead th {
+    --omni-header-fill: color-mix(in srgb, var(--omni-color-text) 9%, var(--omni-color-surface));
+    --omni-header-fill-hover: color-mix(in srgb, var(--omni-color-text) 15%, var(--omni-color-surface));
+    background: var(--omni-header-fill);
+    border-block-end: 2px solid color-mix(in srgb, var(--omni-color-text) 28%, transparent);
+    border-inline: 0;
+    transition: background-color 120ms ease-in-out;
+}
 .omni-data-grid__table thead th:hover { background: var(--omni-header-fill-hover); }
 .omni-data-grid__column--sortable { cursor: pointer; }
 /* A column carrying a sort or a filter stays tinted so it can be spotted without reading the icons.

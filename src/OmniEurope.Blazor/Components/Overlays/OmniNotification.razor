@@ -6,15 +6,24 @@
          class="@Css("omni-notification", SeverityClass)"
          role="@Role"
          aria-live="@LiveMode">
-    <div class="omni-notification__content">
-        @if (!string.IsNullOrWhiteSpace(Title))
+    <div class="omni-notification__body">
+        <div class="omni-notification__content">
+            @if (!string.IsNullOrWhiteSpace(Title))
+            {
+                <strong class="omni-notification__title">@Title</strong>
+            }
+            <span>@Message</span>
+        </div>
+        @if (Dismissible)
         {
-            <strong class="omni-notification__title">@Title</strong>
+            <button type="button" class="omni-notification__dismiss" aria-label="@Localize("NotificationDismiss")" @onclick="OnDismiss">×</button>
         }
-        <span>@Message</span>
     </div>
-    @if (Dismissible)
+    @* The countdown is decoration, not information: the notification already says what it says, and
+       a screen reader reading a bar drain would only repeat it. Its length comes from a class rather
+       than an inline style, so a strict content policy still lets it run. *@
+    @if (CountdownClass is not null)
     {
-        <button type="button" class="omni-notification__dismiss" aria-label="@Localize("NotificationDismiss")" @onclick="OnDismiss">×</button>
+        <span class="@CountdownClass" aria-hidden="true"></span>
     }
 </article>

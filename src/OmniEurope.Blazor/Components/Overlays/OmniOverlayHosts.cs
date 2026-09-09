@@ -47,21 +47,44 @@ internal static class OmniOverlayHosts
         }
     };
 
-    internal static RenderFragment Notifications(OmniOverlayService service, Func<string, string> localize) => builder =>
+    internal static RenderFragment Notifications(
+        OmniOverlayService service,
+        Func<string, string> localize,
+        OmniNotificationOptions options) => builder =>
     {
+        var notifications = service.Notifications;
+        var position = options.Position.ToString().ToLowerInvariant();
+        // Grouping only means something once there is a pile: one notification on its own is not a
+        // stack, and rendering it as one would put a count of 1 over it.
+        var grouped = options.Group && notifications.Count > 1;
         builder.OpenElement(0, "section");
-        builder.AddAttribute(1, "class", "omni-notification-region");
+        builder.AddAttribute(1, "class", grouped
+            ? $"omni-notification-region omni-notification-region--{position} omni-notification-region--grouped"
+            : $"omni-notification-region omni-notification-region--{position}");
         builder.AddAttribute(2, "aria-label", localize("NotificationsRegionLabel"));
         var sequence = 3;
+        if (grouped)
+        {
+            builder.OpenElement(sequence++, "p");
+            builder.AddAttribute(sequence++, "class", "omni-notification-region__count");
+            builder.AddContent(sequence++, notifications.Count);
+            builder.CloseElement();
+        }
+
         foreach (var notification in service.Notifications)
         {
             builder.OpenComponent<OmniNotification>(sequence++);
+            builder.SetKey(notification.Id);
             builder.AddAttribute(sequence++, nameof(OmniNotification.Message), notification.Message);
             builder.AddAttribute(sequence++, nameof(OmniNotification.Title), notification.Title);
             builder.AddAttribute(sequence++, nameof(OmniNotification.Severity), notification.Severity);
+            builder.AddAttribute(sequence++, nameof(OmniNotification.Dismissible), options.Dismissible);
+            builder.AddAttribute(sequence++, nameof(OmniNotification.ShowCountdown), options.ShowCountdown);
+            builder.AddAttribute(sequence++, nameof(OmniNotification.Duration), notification.Duration);
             builder.AddAttribute(sequence++, nameof(OmniNotification.OnDismiss), EventCallback.Factory.Create(service, () => { service.Dismiss(notification.Id); }));
             builder.CloseComponent();
         }
+
         builder.CloseElement();
     };
 

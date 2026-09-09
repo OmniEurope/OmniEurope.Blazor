@@ -1,11 +1,28 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
+@* Overlay mode needs the aside to hold a positioned panel while taking no width of its own, so the
+   panel is its own element rather than the aside itself. Push mode leaves both in the flow and the
+   pair renders exactly as the single element used to. *@
 <aside id="@Id"
-       class="@Css("omni-sidebar", $"omni-sidebar--{Position.ToString().ToLowerInvariant()}", Open ? "omni-sidebar--open" : "omni-sidebar--closed")"
+       class="@Css("omni-sidebar", $"omni-sidebar--{Position.ToString().ToLowerInvariant()}", $"omni-sidebar--{Reveal.ToString().ToLowerInvariant()}", $"omni-sidebar--collapse-{Collapse.ToString().ToLowerInvariant()}", Open ? "omni-sidebar--open" : "omni-sidebar--closed")"
        aria-label="@EffectiveAriaLabel"
-       aria-hidden="@(Open ? null : "true")"
-       hidden="@(!Open)"
+       aria-hidden="@(Rendered ? null : "true")"
+       hidden="@(!Rendered)"
        @attributes="AdditionalAttributes">
-    @ChildContent
+    @* The veil belongs to the sidebar and not to the page: it exists only while a floating sidebar
+       is open, and closing it is the one thing it does. *@
+    @if (ShowBackdrop)
+    {
+        <button type="button"
+                class="omni-sidebar__backdrop"
+                aria-label="@EffectiveCloseLabel"
+                title="@EffectiveCloseLabel"
+                @onclick="CloseAsync"></button>
+    }
+    <div class="omni-sidebar__panel">
+        <CascadingValue Value="State">
+            @ChildContent
+        </CascadingValue>
+    </div>
 </aside>
