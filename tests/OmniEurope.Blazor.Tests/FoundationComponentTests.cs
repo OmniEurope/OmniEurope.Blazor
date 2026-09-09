@@ -172,6 +172,28 @@ public sealed class FoundationComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void Fieldset_FoldsAwayWhenCollapsible()
+    {
+        var component = Render<OmniFieldset>(parameters => parameters
+            .Add(item => item.Legend, Content("Advanced"))
+            .Add(item => item.Collapsible, true)
+            .Add(item => item.Collapsed, true)
+            .AddChildContent("Fields"));
+
+        // The native disclosure, not a legend: the group has to be openable by keyboard with no
+        // script, which is what summary inside details gives.
+        Assert.Empty(component.FindAll("legend"));
+        Assert.Equal("Advanced", component.Find("summary").TextContent);
+        Assert.False(component.Find("details").HasAttribute("open"));
+
+        var open = Render<OmniFieldset>(parameters => parameters
+            .Add(item => item.Legend, Content("Advanced"))
+            .Add(item => item.Collapsible, true)
+            .AddChildContent("Fields"));
+        Assert.True(open.Find("details").HasAttribute("open"));
+    }
+
+    [Fact]
     public void LinearProgress_ExposesValueAndBucketClass()
     {
         var component = Render<OmniProgressBar>(parameters => parameters

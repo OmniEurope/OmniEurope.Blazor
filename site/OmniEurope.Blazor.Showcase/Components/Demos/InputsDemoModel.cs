@@ -14,6 +14,9 @@ public sealed class InputsDemoModel
     /// <summary>The date field.</summary>
     public DateOnly? Date { get; set; } = new(2026, 3, 2);
 
+    /// <summary>The date-and-time field.</summary>
+    public DateTime? Appointment { get; set; } = new(2026, 3, 2, 14, 30, 0, DateTimeKind.Unspecified);
+
     /// <summary>The colour field.</summary>
     public string Color { get; set; } = "#165dff";
 

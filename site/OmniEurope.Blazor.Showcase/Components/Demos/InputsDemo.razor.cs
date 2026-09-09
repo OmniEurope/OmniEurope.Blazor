@@ -6,6 +6,10 @@ public partial class InputsDemo
 
     private static readonly DateOnly Ceiling = new(2035, 12, 31);
 
+    private static readonly DateTime AppointmentFloor = new(2020, 1, 1, 0, 0, 0, DateTimeKind.Unspecified);
+
+    private static readonly DateTime AppointmentCeiling = new(2035, 12, 31, 23, 59, 0, DateTimeKind.Unspecified);
+
     private static readonly string[] Cities =
     [
         "Bruxelles", "Bruges", "Brasschaat", "Paris", "Pau", "Perpignan",

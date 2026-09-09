@@ -13,6 +13,7 @@ Le deuxième lot complète les landmarks de page et installe un socle de formula
 ## Formulaires
 
 - `OmniTextBox`, `OmniPassword`, `OmniTextArea` et `OmniNumeric<TValue>` héritent de `OmniInputBase<TValue>` et participent à `EditContext`.
+- `OmniTextBox` rend le type demandé par `Type` (`Text`, `Email`, `Tel`, `Url` ou `Search`), ce qui choisit le clavier mobile et le remplissage automatique du navigateur.
 - `OmniCheckBox` et `OmniSwitch` lient des valeurs booléennes ; `OmniNullableCheckBox` et `OmniNullableSwitch` ajoutent un cycle contrôlé pour l'état non défini.
 - `OmniLabel` et `OmniFormField` associent libellé, description, contrôle et erreur sans masquer la sémantique HTML.
 - `OmniTemplateForm<TModel>` accepte exactement un modèle ou un `EditContext` existant et place le focus sur le premier contrôle invalide avec le module statique `omniInterop.js`.

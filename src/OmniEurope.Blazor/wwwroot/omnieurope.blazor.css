@@ -137,6 +137,8 @@
 .omni-button--primary:hover:not(:disabled) { background: var(--omni-color-accent-strong); }
 .omni-button--secondary { background: var(--omni-color-surface); border-color: var(--omni-color-border); color: var(--omni-color-text); }
 .omni-button--ghost { background: transparent; color: var(--omni-color-accent); }
+.omni-button--success { background: var(--omni-color-success); color: var(--omni-color-on-accent); }
+.omni-button--warning { background: var(--omni-color-warning); color: var(--omni-color-on-accent); }
 .omni-button--danger { background: var(--omni-color-danger); color: var(--omni-color-on-accent); }
 
 /* The button wraps everything a consumer passes in this single element, so the gap declared on
@@ -373,6 +375,11 @@
     padding: var(--omni-space-lg);
 }
 .omni-fieldset__legend { font-weight: 650; padding-inline: var(--omni-space-xs); }
+.omni-fieldset__summary { cursor: pointer; list-style: none; }
+.omni-fieldset__summary::-webkit-details-marker { display: none; }
+.omni-fieldset__summary::before { content: "\25B8"; display: inline-block; margin-inline-end: var(--omni-space-xs); }
+.omni-fieldset--collapsible details[open] > .omni-fieldset__summary::before { transform: rotate(90deg); }
+.omni-fieldset--collapsible details[open] > .omni-fieldset__content { margin-block-start: var(--omni-space-md); }
 .omni-fieldset__content { display: grid; gap: var(--omni-space-md); }
 .omni-fieldset:disabled { opacity: 0.65; }
 

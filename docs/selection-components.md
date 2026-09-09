@@ -30,6 +30,7 @@ le bouton de désélection proviennent des ressources `MultiSelectEmpty`, `Multi
 ## Entrées spécialisées
 
 - `OmniDatePicker` lie une valeur `DateOnly?`, utilise le contrôle de date natif et valide les bornes.
+- `OmniDateTimePicker` lie une valeur `DateTime?` en heure locale, utilise le contrôle `datetime-local` natif, valide les bornes et ajoute les secondes avec `ShowSeconds`.
 - `OmniSlider` expose orientation, minimum, maximum, pas et valeur ARIA.
 - `OmniColorPicker` accepte exclusivement le format hexadécimal `#RRGGBB` sans générer de style inline.
 - `OmniUpload` valide nombre, taille et types MIME avant d'appeler le délégué applicatif.

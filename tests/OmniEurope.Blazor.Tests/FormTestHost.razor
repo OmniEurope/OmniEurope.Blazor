@@ -1,5 +1,6 @@
 <EditForm EditContext="@EditContext">
     <OmniTextBox Id="name" @bind-Value="Model.Name" />
+    <OmniTextBox Id="email" Type="OmniTextBoxType.Email" Autocomplete="email" @bind-Value="Model.Email" />
     <OmniPassword Id="password" @bind-Value="Model.Password" />
     <OmniTextArea Id="notes" MaxLength="100" ShowCount="true" @bind-Value="Model.Notes" />
     <OmniNumeric TValue="int" Id="age" @bind-Value="Model.Age" />

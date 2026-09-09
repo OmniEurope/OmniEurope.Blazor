@@ -2,6 +2,12 @@ namespace OmniEurope.Blazor.Components;
 
 public partial class OmniTextBox
 {
+    /// <summary>The input type. Defaults to <see cref="OmniTextBoxType.Text"/>.</summary>
+    [Parameter]
+    public OmniTextBoxType Type { get; set; } = OmniTextBoxType.Text;
+
+    private string TypeAttribute => Type.ToString().ToLowerInvariant();
+
     [Parameter]
     public string? Placeholder { get; set; }
 

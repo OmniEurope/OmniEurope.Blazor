@@ -16,6 +16,38 @@
             </ChildContent>
         </OmniFormField>
 
+        <OmniFormField For="demo-email" Description="Le type choisit le clavier mobile et l'autofill du navigateur.">
+            <Label>Adresse e-mail</Label>
+            <ChildContent>
+                <OmniTextBox Id="demo-email" Type="OmniTextBoxType.Email" Autocomplete="email"
+                             @bind-Value="Model.Email" Placeholder="camille@exemple.eu" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField For="demo-phone">
+            <Label>Téléphone</Label>
+            <ChildContent>
+                <OmniTextBox Id="demo-phone" Type="OmniTextBoxType.Tel" Autocomplete="tel"
+                             @bind-Value="Model.Phone" Placeholder="+32 2 000 00 00" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField For="demo-website">
+            <Label>Site web</Label>
+            <ChildContent>
+                <OmniTextBox Id="demo-website" Type="OmniTextBoxType.Url" Autocomplete="url"
+                             @bind-Value="Model.Website" Placeholder="https://exemple.eu" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField For="demo-search">
+            <Label>Rechercher</Label>
+            <ChildContent>
+                <OmniTextBox Id="demo-search" Type="OmniTextBoxType.Search" @bind-Value="Model.Search"
+                             Placeholder="Filtrer la liste" />
+            </ChildContent>
+        </OmniFormField>
+
         <OmniFormField For="demo-budget">
             <Label>Budget</Label>
             <ChildContent>

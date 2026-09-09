@@ -15,13 +15,19 @@
 }
 else
 {
-    <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tabs__item")">
+    @* The drop lands on the wrapper, never on the tab button: a button is not a valid container for
+       what a drag carries, and the wrapper covers exactly the same area. *@
+    <div @attributes="AdditionalAttributes"
+         id="@Id"
+         class="@Css("omni-tabs__item", AcceptsDrop ? "omni-tabs__item--drop-target" : null)"
+         @ondragover:preventDefault="AcceptsDrop"
+         @ondrop="HandleDropAsync">
         <button id="@TabId" type="button" class="omni-tabs__tab" role="tab" data-key="@Key" aria-selected="@(Selected ? "true" : "false")" aria-controls="@PanelId" tabindex="@(Selected ? 0 : -1)" disabled="@Disabled" @onclick="SelectAsync">
             @if (Icon is not null)
             {
                 <span class="omni-tabs__icon" aria-hidden="true">@Icon</span>
             }
-            <span class="omni-tabs__title">@Title</span>
+            <span class="omni-tabs__title">@(TitleContent ?? DefaultTitle)</span>
         </button>
     </div>
 }

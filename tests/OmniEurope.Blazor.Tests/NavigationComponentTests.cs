@@ -31,6 +31,24 @@ public sealed class NavigationComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void TabsItem_RendersACustomTitleAndAcceptsADrop()
+    {
+        var host = Render<NavigationTestHost>();
+
+        // The custom title replaces the text but not the accessible name, which stays the Title.
+        Assert.Equal("Second (2)", host.Find(".host-tab-count").TextContent);
+
+        // The drop lands on the wrapper, not on the tab button: a button cannot host a drop.
+        var target = host.FindAll(".omni-tabs__item")[1];
+        target.Drop();
+        Assert.Equal(1, host.Instance.Dropped);
+
+        // A tab with no handler is not a drop target and stays marked as such.
+        Assert.DoesNotContain("omni-tabs__item--drop-target", host.FindAll(".omni-tabs__item")[0].ClassName ?? string.Empty, StringComparison.Ordinal);
+        Assert.Contains("omni-tabs__item--drop-target", target.ClassName ?? string.Empty, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void TabsAndSteps_AreControlledAndRespectNavigationValidation()
     {
         var host = Render<NavigationTestHost>();

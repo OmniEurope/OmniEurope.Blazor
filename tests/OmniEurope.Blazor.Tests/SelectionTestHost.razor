@@ -7,6 +7,7 @@
     <OmniRadioButtonList TValue="string" Id="radio-list" Label="Choix unique" Options="@Options" @bind-Value="Model.Radio" />
     <OmniSelectBar TValue="string" Id="select-bar" Label="Vue" Options="@Options" @bind-Value="Model.Bar" />
     <OmniDatePicker Id="date" Minimum="@MinimumDate" Maximum="@MaximumDate" @bind-Value="Model.Date" />
+    <OmniDateTimePicker Id="date-time" Minimum="@MinimumMoment" Maximum="@MaximumMoment" @bind-Value="Model.Moment" />
     <OmniSlider Id="slider" Minimum="0" Maximum="10" Step="0.5" @bind-Value="Model.Amount" />
     <OmniColorPicker Id="color" @bind-Value="Model.Color" />
 </EditForm>
@@ -28,6 +29,8 @@
     public string? LastSearch { get; private set; }
     private DateOnly MinimumDate { get; } = new(2020, 1, 1);
     private DateOnly MaximumDate { get; } = new(2030, 12, 31);
+    private DateTime MinimumMoment { get; } = new(2020, 1, 1, 0, 0, 0, DateTimeKind.Unspecified);
+    private DateTime MaximumMoment { get; } = new(2030, 12, 31, 23, 59, 0, DateTimeKind.Unspecified);
 
     protected override void OnInitialized() => EditContext = new EditContext(Model);
 
@@ -52,6 +55,7 @@
         public string Radio { get; set; } = string.Empty;
         public string Bar { get; set; } = string.Empty;
         public DateOnly? Date { get; set; }
+        public DateTime? Moment { get; set; }
         public double Amount { get; set; }
         public string Color { get; set; } = "#000000";
     }
