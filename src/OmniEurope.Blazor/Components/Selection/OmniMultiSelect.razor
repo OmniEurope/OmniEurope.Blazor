@@ -19,28 +19,57 @@
             </svg>
         </summary>
         <div class="omni-multi-select-compact__panel" role="group" aria-label="@SummaryText">
+            @if (Filterable)
+            {
+                <input type="search"
+                       class="omni-input omni-multi-select-compact__filter"
+                       value="@Filter"
+                       disabled="@Disabled"
+                       placeholder="@(FilterPlaceholder ?? Localize("MultiSelectFilter"))"
+                       aria-label="@(FilterPlaceholder ?? Localize("MultiSelectFilter"))"
+                       @oninput="args => SetFilterAsync(args.Value as string)" />
+            }
             @if (SelectedCount > 0)
             {
                 <button type="button" class="omni-multi-select-compact__clear" disabled="@Disabled" @onclick="Clear">
                     @Localize("MultiSelectClear")
                 </button>
             }
-            <ul class="omni-multi-select-compact__list">
-                @for (var index = 0; index < Options.Count; index++)
-                {
-                    var option = Options[index];
-                    var selected = IsSelected(option.Value);
-                    <li class="omni-multi-select-compact__item">
-                        <label class="omni-multi-select-compact__option">
-                            <input type="checkbox"
-                                   checked="@selected"
-                                   disabled="@(Disabled || option.Disabled)"
-                                   @onchange="args => Toggle(option, args.Value is true)" />
-                            <span>@option.Text</span>
-                        </label>
-                    </li>
-                }
-            </ul>
+            @if (VisibleOptions.Count == 0)
+            {
+                @* A filter that hides everything must say so: an empty panel reads as a control
+                   that failed to load its options. *@
+                <p class="omni-multi-select-compact__empty">@Localize("MultiSelectNoMatch")</p>
+            }
+            else
+            {
+                <ul class="omni-multi-select-compact__list">
+                    @foreach (var option in VisibleOptions)
+                    {
+                        var selected = IsSelected(option.Value);
+                        <li class="omni-multi-select-compact__item">
+                            <label class="omni-multi-select-compact__option">
+                                <input type="checkbox"
+                                       checked="@selected"
+                                       disabled="@(Disabled || option.Disabled)"
+                                       @onchange="args => Toggle(option, args.Value is true)" />
+                                @if (OptionTemplate is null)
+                                {
+                                    <span>@option.Text</span>
+                                }
+                                else
+                                {
+                                    @OptionTemplate(option)
+                                }
+                            </label>
+                        </li>
+                    }
+                </ul>
+            }
+            @if (FooterTemplate is not null)
+            {
+                <div class="omni-multi-select-compact__footer">@FooterTemplate</div>
+            }
         </div>
     </details>
 }

@@ -127,3 +127,5 @@
     box-shadow: var(--omni-focus-ring);
     outline: none;
 }
+
+.demo-tag-swatch { block-size: 0.625rem; flex: 0 0 auto; inline-size: 0.625rem; }

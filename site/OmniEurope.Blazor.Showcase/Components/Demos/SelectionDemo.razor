@@ -31,5 +31,31 @@
                                  Placeholder="Choisir des étiquettes" />
             </ChildContent>
         </OmniFormField>
+        <OmniFormField For="demo-tags-filterable">
+            <Label>Étiquettes, recherche et création</Label>
+            <ChildContent>
+                <OmniMultiSelect TValue="string" Id="demo-tags-filterable" Options="EditableTags"
+                                 @bind-Value="FilterableTags"
+                                 Presentation="OmniMultiSelectPresentation.Compact"
+                                 Placeholder="Choisir des étiquettes"
+                                 Filterable="true" @bind-FilterText="TagSearch"
+                                 FilterPlaceholder="Rechercher une étiquette">
+                    <OptionTemplate Context="tag">
+                        <svg class="demo-tag-swatch" viewBox="0 0 10 10" focusable="false" aria-hidden="true">
+                            <circle cx="5" cy="5" r="5" fill="@SwatchOf(tag.Value)" />
+                        </svg>
+                        <span>@tag.Text</span>
+                    </OptionTemplate>
+                    <FooterTemplate>
+                        @if (CanCreateSearchedTag)
+                        {
+                            <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" OnClick="CreateSearchedTag">
+                                + @TagSearch
+                            </OmniButton>
+                        }
+                    </FooterTemplate>
+                </OmniMultiSelect>
+            </ChildContent>
+        </OmniFormField>
     </OmniStack>
 </EditForm>
