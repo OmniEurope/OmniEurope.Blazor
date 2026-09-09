@@ -22,6 +22,31 @@ public sealed class SchedulerComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void TimelineItem_OmitsItsHeader_WhenTheContentAlreadyNamesItself()
+    {
+        // An entry that carries its own author and date would otherwise show both twice, and an
+        // empty header is a heading with nothing under it for a screen reader.
+        var timeline = Render<OmniTimeline>(parameters => parameters
+            .AddChildContent<OmniTimelineItem>(item => item
+                .AddChildContent("<p class=\"probe\">Une entrée qui se nomme elle-même</p>")));
+
+        Assert.Empty(timeline.FindAll("header"));
+        Assert.Empty(timeline.FindAll("time"));
+        Assert.Single(timeline.FindAll(".omni-timeline__content .probe"));
+    }
+
+    [Fact]
+    public void TimelineItem_KeepsItsHeader_ForADateAlone()
+    {
+        var timeline = Render<OmniTimeline>(parameters => parameters
+            .AddChildContent<OmniTimelineItem>(item => item
+                .Add(component => component.DateText, "hier")
+                .AddChildContent("Contenu")));
+
+        Assert.Equal("hier", timeline.Find("time").TextContent);
+    }
+
+    [Fact]
     public void Scheduler_ChangesPeriodAndViewWithTimezoneAwareAppointments()
     {
         var date = new DateTimeOffset(2026, 8, 10, 0, 0, 0, TimeSpan.Zero);
