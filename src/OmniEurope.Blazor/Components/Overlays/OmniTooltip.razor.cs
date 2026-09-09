@@ -8,6 +8,12 @@ public partial class OmniTooltip
     [Parameter]
     public int? TabIndex { get; set; }
 
+    /// <summary>
+    /// Whether the open tooltip follows the pointer or stays where it first appeared.
+    /// </summary>
+    [Parameter]
+    public OmniTooltipTracking Tracking { get; set; } = OmniTooltipTracking.Pointer;
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -21,6 +27,12 @@ public partial class OmniTooltip
     private IServiceProvider Services { get; set; } = default!;
 
     private string TooltipId => $"{Id ?? "omni-tooltip"}-content";
+
+    /// <summary>
+    /// Read by omni-tooltip.js, which places the box: the choice has to reach the one script that
+    /// owns every tooltip on the page, and an attribute is the only channel it reads.
+    /// </summary>
+    private string TrackingAttribute => Tracking.ToString().ToLowerInvariant();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

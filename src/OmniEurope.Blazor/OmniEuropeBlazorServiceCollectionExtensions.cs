@@ -21,6 +21,9 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
         // Scoped: the tooltip listeners live on the document, and each circuit owns the document it
         // rendered into.
         services.TryAddScoped<OmniTooltipInterop>();
+        // Scoped for the same reason: the loading bar reflects one circuit's work, and a singleton
+        // would have one user's page load light another user's bar.
+        services.TryAddScoped<OmniLoadingState>();
         return services;
     }
 }

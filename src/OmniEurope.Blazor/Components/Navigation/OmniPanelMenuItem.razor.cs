@@ -17,6 +17,16 @@ public partial class OmniPanelMenuItem
     [CascadingParameter]
     private OmniPanelMenuGroupContext? ParentGroup { get; set; }
 
+    /// <summary>Menu this item belongs to, which is what knows whether items are down to their icon.</summary>
+    [CascadingParameter]
+    private OmniPanelMenuContext? Menu { get; set; }
+
+    /// <summary>
+    /// True while this item renders as an icon alone. A group then has no chevron to click, so its
+    /// own icon takes over the unfolding.
+    /// </summary>
+    private bool IconsOnly => Menu?.IconsOnly ?? false;
+
     [Parameter, EditorRequired]
     public string Text { get; set; } = string.Empty;
 

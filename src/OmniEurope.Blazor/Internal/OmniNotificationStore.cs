@@ -32,11 +32,16 @@ internal sealed class OmniNotificationStore : IDisposable
             Remove(_messages[0].Id, notify: false);
         }
 
-        var notification = new OmniNotificationMessage(Guid.NewGuid(), message, severity, title);
+        var effectiveDuration = duration ?? _defaultDuration;
+        var notification = new OmniNotificationMessage(
+            Guid.NewGuid(),
+            message,
+            severity,
+            title,
+            effectiveDuration > TimeSpan.Zero ? effectiveDuration : null);
         _messages.Add(notification);
         _changed();
 
-        var effectiveDuration = duration ?? _defaultDuration;
         if (effectiveDuration > TimeSpan.Zero)
         {
             var cancellation = new CancellationTokenSource();

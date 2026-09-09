@@ -1,0 +1,21 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IDisposable
+@inject OmniLoadingState State
+
+@* The strip keeps its place in the layout whether it is loading or not: a bar that appears and
+   disappears between two elements moves everything under it twice per load. Only the bar inside it
+   comes and goes, and it is the height of the strip, not of the page. *@
+<div id="@Id"
+     class="@Css("omni-loading-bar", $"omni-loading-bar--{Mode.ToString().ToLowerInvariant()}", State.Loading ? "omni-loading-bar--active" : null)"
+     role="@(State.Loading ? "progressbar" : null)"
+     aria-label="@(State.Loading ? EffectiveLabel : null)"
+     aria-valuemin="@(State.Loading && !Unmeasured ? "0" : null)"
+     aria-valuemax="@(State.Loading && !Unmeasured ? "100" : null)"
+     aria-valuenow="@ValueNow"
+     @attributes="AdditionalAttributes">
+    @if (State.Loading)
+    {
+        <span class="@IndicatorClass" aria-hidden="true"></span>
+    }
+</div>

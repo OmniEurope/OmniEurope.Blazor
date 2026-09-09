@@ -12,11 +12,13 @@
          id="@Id"
          class="@Css("omni-panel-menu__group", IsOpen ? "omni-panel-menu__group--open" : "omni-panel-menu__group--closed")">
         <div class="omni-panel-menu__summary">
-            @if (!string.IsNullOrWhiteSpace(Href))
+            @if (!string.IsNullOrWhiteSpace(Href) && !IconsOnly)
             {
                 @* A group that names a route is navigable as well as expandable, which is what a
                    section landing page needs. The chevron stays its own control, so reaching the
-                   children never costs a navigation. *@
+                   children never costs a navigation. Down to an icon there is no chevron left, so
+                   the icon unfolds instead of navigating: reaching the children matters more than
+                   reaching a landing page that every child can still lead to. *@
                 <a class="@GroupLinkClass"
                    href="@SafeHref"
                    aria-current="@(IsCurrent ? "page" : null)"

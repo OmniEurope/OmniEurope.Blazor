@@ -2,7 +2,7 @@
 @inherits OmniComponentBase
 
 <div id="@Id"
-     class="@Css("omni-stack", $"omni-stack--{Orientation.ToString().ToLowerInvariant()}", $"omni-stack--gap-{Gap.ToString().ToLowerInvariant()}", $"omni-stack--align-{Align.ToString().ToLowerInvariant()}", $"omni-stack--justify-{Justify.ToString().ToLowerInvariant()}")"
+     class="@Css("omni-stack", $"omni-stack--{Orientation.ToString().ToLowerInvariant()}", $"omni-stack--gap-{Gap.ToString().ToLowerInvariant()}", $"omni-stack--align-{Align.ToString().ToLowerInvariant()}", $"omni-stack--justify-{Justify.ToString().ToLowerInvariant()}", Overflow == OmniStackOverflow.None ? null : $"omni-stack--overflow-{Overflow.ToString().ToLowerInvariant()}")"
      @attributes="AdditionalAttributes">
     @ChildContent
 </div>
