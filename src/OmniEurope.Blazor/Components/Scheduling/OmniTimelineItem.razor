@@ -4,7 +4,13 @@
 <li @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-timeline__item")">
     <span class="omni-timeline__marker" aria-hidden="true"></span>
     <article class="omni-timeline__content">
-        <header><time datetime="@DateTimeValue">@DateLabel</time><h3>@Title</h3></header>
+        @* Omitted entirely when the item carries neither a title nor a date: an entry that already
+           names and dates itself inside its own content would otherwise show both twice, and an
+           empty header is a heading with nothing under it for a screen reader. *@
+        @if (HasHeader)
+        {
+            <header><time datetime="@DateTimeValue">@DateLabel</time><h3>@Title</h3></header>
+        }
         @ChildContent
     </article>
 </li>
