@@ -461,28 +461,30 @@
 .omni-loading-bar--sweep.omni-loading-bar--done .omni-loading-bar__indicator { animation: none; inline-size: 100%; transform: none; transition: inline-size 700ms ease-out; }
 
 /* Un chiffre rapporté l'emporte sur les animations. */
-.omni-loading-bar__indicator[class*="omni-loading-bar__indicator--"] { animation: none; transform: none; }
-.omni-loading-bar__indicator--0 { inline-size: 0%; }
-.omni-loading-bar__indicator--5 { inline-size: 5%; }
-.omni-loading-bar__indicator--10 { inline-size: 10%; }
-.omni-loading-bar__indicator--15 { inline-size: 15%; }
-.omni-loading-bar__indicator--20 { inline-size: 20%; }
-.omni-loading-bar__indicator--25 { inline-size: 25%; }
-.omni-loading-bar__indicator--30 { inline-size: 30%; }
-.omni-loading-bar__indicator--35 { inline-size: 35%; }
-.omni-loading-bar__indicator--40 { inline-size: 40%; }
-.omni-loading-bar__indicator--45 { inline-size: 45%; }
-.omni-loading-bar__indicator--50 { inline-size: 50%; }
-.omni-loading-bar__indicator--55 { inline-size: 55%; }
-.omni-loading-bar__indicator--60 { inline-size: 60%; }
-.omni-loading-bar__indicator--65 { inline-size: 65%; }
-.omni-loading-bar__indicator--70 { inline-size: 70%; }
-.omni-loading-bar__indicator--75 { inline-size: 75%; }
-.omni-loading-bar__indicator--80 { inline-size: 80%; }
-.omni-loading-bar__indicator--85 { inline-size: 85%; }
-.omni-loading-bar__indicator--90 { inline-size: 90%; }
-.omni-loading-bar__indicator--95 { inline-size: 95%; }
-.omni-loading-bar__indicator--100 { inline-size: 100%; }
+.omni-loading-bar .omni-loading-bar__indicator[class*="omni-loading-bar__indicator--"] { animation: none; transform: none; }
+/* Fini après un chiffre rapporté : la barre s'élargit de ce chiffre jusqu'au bout. */
+.omni-loading-bar.omni-loading-bar--done .omni-loading-bar__indicator[class*="omni-loading-bar__indicator--"] { animation: none; inline-size: 100%; transform: none; transition: inline-size 700ms ease-out; }
+.omni-loading-bar .omni-loading-bar__indicator--0 { inline-size: 0%; }
+.omni-loading-bar .omni-loading-bar__indicator--5 { inline-size: 5%; }
+.omni-loading-bar .omni-loading-bar__indicator--10 { inline-size: 10%; }
+.omni-loading-bar .omni-loading-bar__indicator--15 { inline-size: 15%; }
+.omni-loading-bar .omni-loading-bar__indicator--20 { inline-size: 20%; }
+.omni-loading-bar .omni-loading-bar__indicator--25 { inline-size: 25%; }
+.omni-loading-bar .omni-loading-bar__indicator--30 { inline-size: 30%; }
+.omni-loading-bar .omni-loading-bar__indicator--35 { inline-size: 35%; }
+.omni-loading-bar .omni-loading-bar__indicator--40 { inline-size: 40%; }
+.omni-loading-bar .omni-loading-bar__indicator--45 { inline-size: 45%; }
+.omni-loading-bar .omni-loading-bar__indicator--50 { inline-size: 50%; }
+.omni-loading-bar .omni-loading-bar__indicator--55 { inline-size: 55%; }
+.omni-loading-bar .omni-loading-bar__indicator--60 { inline-size: 60%; }
+.omni-loading-bar .omni-loading-bar__indicator--65 { inline-size: 65%; }
+.omni-loading-bar .omni-loading-bar__indicator--70 { inline-size: 70%; }
+.omni-loading-bar .omni-loading-bar__indicator--75 { inline-size: 75%; }
+.omni-loading-bar .omni-loading-bar__indicator--80 { inline-size: 80%; }
+.omni-loading-bar .omni-loading-bar__indicator--85 { inline-size: 85%; }
+.omni-loading-bar .omni-loading-bar__indicator--90 { inline-size: 90%; }
+.omni-loading-bar .omni-loading-bar__indicator--95 { inline-size: 95%; }
+.omni-loading-bar .omni-loading-bar__indicator--100 { inline-size: 100%; }
 
 @keyframes omni-loading-sweep {
     0% { transform: translateX(-100%); }
