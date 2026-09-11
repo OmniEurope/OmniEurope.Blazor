@@ -1286,17 +1286,18 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* No separators inside the header row: the hovered cell is told apart by a darker fill, not by
    rules drawn between columns. The two fills are set as tokens so the dark palette can restate them
    instead of inheriting a mix computed for a light background. */
-/* Fond tiré du texte, qui domine les lignes dans les deux thèmes. Une ombre et non un filet : dans
-   un tableau à bordures fusionnées, le filet d'un en-tête collant partait au défilement. */
+/* Fond tiré du texte, qui domine les lignes dans les deux thèmes. Une ombre, pas un filet (il partait
+   au défilement d'un en-tête collant), en pseudo-élément : le modèle fusionné ne peint pas l'ombre
+   d'une cellule. */
 .omni-data-grid__table thead th {
     --omni-header-fill: color-mix(in srgb, var(--omni-color-text) 9%, var(--omni-color-surface));
     --omni-header-fill-hover: color-mix(in srgb, var(--omni-color-text) 15%, var(--omni-color-surface));
     background: var(--omni-header-fill);
     border-block-end: 0;
     border-inline: 0;
-    box-shadow: 0 2px 4px -1px color-mix(in srgb, var(--omni-color-text) 30%, transparent);
     transition: background-color 120ms ease-in-out;
 }
+.omni-data-grid__table thead th::after { background: linear-gradient(color-mix(in srgb, var(--omni-color-text) 30%, transparent), transparent); block-size: 4px; content: ""; inset: 100% 0 auto; pointer-events: none; position: absolute; }
 .omni-data-grid__table thead th:hover { background: var(--omni-header-fill-hover); }
 .omni-data-grid__column--sortable { cursor: pointer; }
 /* A column carrying a sort or a filter stays tinted so it can be spotted without reading the icons.
