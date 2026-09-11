@@ -31,16 +31,25 @@ public partial class OmniLoadingBar
     {
         get
         {
-            var indicator = "omni-loading-bar__indicator";
-            if (Unmeasured || _finishing)
+            const string indicator = "omni-loading-bar__indicator";
+
+            // Finishing, a measured bar keeps the last figure it showed, which the stylesheet widens
+            // to the end from there; an unmeasured one keeps its animation, which goes on from where
+            // its curve is. Dropping the figure made a measured bar fall back to zero first.
+            if (_finishing)
             {
-                return indicator;
+                return _lastBucket is { } last ? BucketClass(indicator, last) : indicator;
             }
 
-            var bucket = Math.Clamp((int)(Math.Round(State.Value / 5, MidpointRounding.AwayFromZero) * 5), 0, 100);
-            return $"{indicator} omni-loading-bar__indicator--{bucket.ToString(CultureInfo.InvariantCulture)}";
+            return Unmeasured ? indicator : BucketClass(indicator, Bucket(State.Value));
         }
     }
+
+    private static int Bucket(double value) =>
+        Math.Clamp((int)(Math.Round(value / 5, MidpointRounding.AwayFromZero) * 5), 0, 100);
+
+    private static string BucketClass(string indicator, int bucket) =>
+        $"{indicator} omni-loading-bar__indicator--{bucket.ToString(CultureInfo.InvariantCulture)}";
 
     /// <summary>
     /// How long the bar stays once the load is over: the 700 ms it takes to reach the end, which an
@@ -51,6 +60,7 @@ public partial class OmniLoadingBar
 
     private bool _wasLoading;
     private bool _finishing;
+    private int? _lastBucket;
     private CancellationTokenSource? _finish;
 
     /// <summary>
@@ -68,6 +78,7 @@ public partial class OmniLoadingBar
     {
         var loading = State.Loading;
         var justEnded = _wasLoading && !loading;
+        var justStarted = loading && !_wasLoading;
         _wasLoading = loading;
 
         if (!justEnded)
@@ -76,6 +87,17 @@ public partial class OmniLoadingBar
             if (loading)
             {
                 CancelFinish();
+                if (justStarted)
+                {
+                    _lastBucket = null;
+                }
+
+                // The store resets its figure the moment the load ends, so the last one is kept
+                // here while it is still there to read.
+                if (!State.Unmeasured)
+                {
+                    _lastBucket = Bucket(State.Value);
+                }
             }
 
             StateHasChanged();

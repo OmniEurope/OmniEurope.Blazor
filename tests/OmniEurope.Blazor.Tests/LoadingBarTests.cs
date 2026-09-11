@@ -54,4 +54,22 @@ public sealed class LoadingBarTests : OmniBunitContext
         Assert.Contains("omni-loading-bar--active", bar.Find(".omni-loading-bar").ClassName, StringComparison.Ordinal);
         Assert.Single(bar.FindAll(".omni-loading-bar__track"));
     }
+
+    [Fact]
+    public void LoadingBar_MeasuredLoad_FinishesFromItsLastFigure()
+    {
+        var state = Services.GetRequiredService<OmniLoadingState>();
+        var bar = Render<OmniLoadingBar>(parameters => parameters.Add(component => component.Mode, OmniLoadingBarMode.Continuous));
+
+        state.Begin();
+        state.Report(62);
+        bar.WaitForAssertion(() => Assert.Contains("omni-loading-bar__indicator--60", bar.Find(".omni-loading-bar__indicator").ClassName, StringComparison.Ordinal));
+
+        state.End();
+
+        // The store forgets its figure at the end; the bar keeps the last one for its finish, rather
+        // than dropping back to the animation's start.
+        bar.WaitForAssertion(() => Assert.Contains("omni-loading-bar--done", bar.Find(".omni-loading-bar").ClassName, StringComparison.Ordinal));
+        Assert.Contains("omni-loading-bar__indicator--60", bar.Find(".omni-loading-bar__indicator").ClassName, StringComparison.Ordinal);
+    }
 }
