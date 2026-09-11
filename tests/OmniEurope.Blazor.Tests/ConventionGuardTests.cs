@@ -89,6 +89,19 @@ public sealed partial class ConventionGuardTests
     }
 
     [Fact]
+    public void BusyVeil_IsOneSharedSurfaceColouredRuleAndNoSpinner()
+    {
+        var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
+        var veil = Regex.Match(styles, @"\.omni-busy::after,\s*\.btn-busy::after\s*\{(?<body>[^}]*)\}");
+
+        Assert.True(veil.Success, "La règle partagée du voile .omni-busy::after / .btn-busy::after est absente.");
+        Assert.Contains("background: var(--omni-color-surface);", veil.Groups["body"].Value, StringComparison.Ordinal);
+        Assert.Contains("animation: omni-busy-veil 1.3s", veil.Groups["body"].Value, StringComparison.Ordinal);
+        Assert.Contains("@keyframes omni-busy-veil { 0%, 100% { opacity: 0; } 50% { opacity: 0.45; } }", styles, StringComparison.Ordinal);
+        Assert.DoesNotContain("omni-button__busy", styles, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void AuditedTypeContainers_AreSplitIntoOneTopLevelTypePerFile()
     {
         var componentRoot = Path.Combine(Root, "src", "OmniEurope.Blazor", "Components");

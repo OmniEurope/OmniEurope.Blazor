@@ -6,13 +6,13 @@
 <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-split-button")" @onkeydown="HandleKeyDownAsync">
     <button type="button"
             @ref="_toggle"
-            class="omni-split-button__main"
-            disabled="@(Disabled || Busy)"
-            aria-busy="@(Busy ? "true" : "false")"
+            class="@(Busy ? "omni-split-button__main omni-busy" : "omni-split-button__main")"
+            disabled="@Disabled"
+            aria-busy="@(Busy ? "true" : null)"
             @onclick="InvokeMainAsync">@Text</button>
     <button type="button"
-            class="omni-split-button__toggle"
-            disabled="@(Disabled || Busy)"
+            class="@(Busy ? "omni-split-button__toggle omni-busy" : "omni-split-button__toggle")"
+            disabled="@Disabled"
             aria-haspopup="menu"
             aria-expanded="@(_open ? "true" : "false")"
             aria-label="@EffectiveMenuLabel"

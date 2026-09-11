@@ -1,11 +1,13 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
+@inject NavigationManager Navigation
+@implements IDisposable
 
 @* Overlay mode needs the aside to hold a positioned panel while taking no width of its own, so the
    panel is its own element rather than the aside itself. Push mode leaves both in the flow and the
    pair renders exactly as the single element used to. *@
 <aside id="@Id"
-       class="@Css("omni-sidebar", $"omni-sidebar--{Position.ToString().ToLowerInvariant()}", $"omni-sidebar--{Reveal.ToString().ToLowerInvariant()}", $"omni-sidebar--collapse-{Collapse.ToString().ToLowerInvariant()}", Open ? "omni-sidebar--open" : "omni-sidebar--closed")"
+       class="@Css("omni-sidebar", $"omni-sidebar--{Position.ToString().ToLowerInvariant()}", $"omni-sidebar--{Reveal.ToString().ToLowerInvariant()}", $"omni-sidebar--collapse-{Collapse.ToString().ToLowerInvariant()}", Open ? "omni-sidebar--open" : "omni-sidebar--closed", Header is not null ? "omni-sidebar--has-header" : null)"
        aria-label="@EffectiveAriaLabel"
        aria-hidden="@(Rendered ? null : "true")"
        hidden="@(!Rendered)"
@@ -21,6 +23,12 @@
                 @onclick="CloseAsync"></button>
     }
     <div class="omni-sidebar__panel">
+        @* Shown only while the panel floats open, when it rises over the application header and
+           must carry what it covers. The rest of the time the header above it is the real one. *@
+        @if (Header is not null)
+        {
+            <div class="omni-sidebar__header">@Header</div>
+        }
         <CascadingValue Value="State">
             @ChildContent
         </CascadingValue>

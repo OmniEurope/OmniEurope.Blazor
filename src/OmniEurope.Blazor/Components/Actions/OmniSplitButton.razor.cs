@@ -34,7 +34,11 @@ public partial class OmniSplitButton
     private Task InvokeMainAsync() => Disabled || Busy ? Task.CompletedTask : OnClick.InvokeAsync();
     private Task ToggleMenuAsync()
     {
-        _open = !_open;
+        if (!Disabled && !Busy)
+        {
+            _open = !_open;
+        }
+
         return Task.CompletedTask;
     }
 
@@ -72,7 +76,8 @@ public partial class OmniSplitButton
         {
             if (!_open)
             {
-                _open = true;
+                // A busy button stays focusable, so the keyboard would otherwise open the menu that disabled used to block.
+                _open = !Disabled && !Busy;
             }
             else if (_focusModule is not null)
             {
