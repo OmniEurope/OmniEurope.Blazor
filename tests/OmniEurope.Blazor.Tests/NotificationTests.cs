@@ -48,6 +48,17 @@ public sealed class NotificationTests : OmniBunitContext
     }
 
     [Fact]
+    public void Service_DetailsLink_IsCarriedAndHeldToTheUriPolicy()
+    {
+        using var service = new OmniOverlayService();
+
+        service.Notify("Rapport", OmniNotificationSeverity.Information, null, null, "/journal");
+
+        Assert.Equal("/journal", Assert.Single(service.Notifications).DetailsHref);
+        Assert.Throws<InvalidOperationException>(() => service.Notify("Rapport", OmniNotificationSeverity.Information, null, null, "javascript:alert(1)"));
+    }
+
+    [Fact]
     public void Notification_Tint_SpellsItsLifeInTensAndUnits()
     {
         var notification = Render<OmniNotification>(parameters => parameters

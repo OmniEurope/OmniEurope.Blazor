@@ -21,7 +21,7 @@
         <OmniTooltip Text="Le quota est calculé sur trente jours glissants.">
             <OmniBadge Variant="OmniBadgeVariant.Neutral">Quota</OmniBadge>
         </OmniTooltip>
-        <OmniTooltip Text="Un dossier archivé reste consultable en lecture seule.">
+        <OmniTooltip Text="Un dossier archivé reste consultable en lecture seule." Tracking="OmniTooltipTracking.Pinned">
             <OmniBadge Variant="OmniBadgeVariant.Accent">Archivé</OmniBadge>
         </OmniTooltip>
     </OmniStack>
@@ -31,5 +31,11 @@
         <OmniSkeleton Shape="OmniSkeletonShape.Circle" Label="Chargement de l'avatar" />
         <OmniSkeleton Shape="OmniSkeletonShape.Rectangle" Label="Chargement de la vignette" />
         <OmniSkeleton Shape="OmniSkeletonShape.Text" LineCount="3" Label="Chargement du dossier" />
+    </OmniStack>
+    @* La barre de chargement de page, en remplissage : elle ralentit sans finir tant que dure le
+       chargement, va au bout quand il se termine, puis s'efface. *@
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniLoadingBar Mode="OmniLoadingBarMode.Continuous" Label="Chargement de la démonstration" />
+        <OmniButton Size="OmniControlSize.Small" Disabled="@Loading.Loading" OnClick="SimulateLoadAsync">Simuler un chargement</OmniButton>
     </OmniStack>
 </OmniStack>

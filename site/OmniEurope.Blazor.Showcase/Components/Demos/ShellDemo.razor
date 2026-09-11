@@ -52,3 +52,33 @@
         </OmniBody>
     </OmniLayout>
 </OmniThemeScope>
+
+@* Le menu flotte au-dessus du contenu, qui garde sa largeur, et laisse un rail d'icônes une fois
+   fermé ; une icône de groupe déplie ses entrées sous elle. *@
+<OmniThemeScope Appearance="OmniAppearance.Light" Density="OmniDensity.Compact">
+    <OmniLayout Width="OmniLayoutWidth.Content">
+        <OmniHeader>
+            <OmniSidebarToggle Open="RailOpen" OpenChanged="@(value => RailOpen = value)"
+                               Controls="shell-demo-rail" AriaLabel="Afficher ou masquer le menu flottant" />
+            <OmniHeading Level="OmniHeadingLevel.H4">Menu flottant</OmniHeading>
+        </OmniHeader>
+        <OmniBody>
+            <OmniSidebar Id="shell-demo-rail" Open="RailOpen" OpenChanged="@(value => RailOpen = value)"
+                         Reveal="OmniSidebarReveal.Overlay" Collapse="OmniSidebarCollapse.Icons" Backdrop="true"
+                         AriaLabel="Menu flottant de la démonstration">
+                <OmniPanelMenu Label="Sections" DisplayStyle="OmniPanelMenuDisplayStyle.IconAndText">
+                    <OmniPanelMenuItem Text="Journaux" Href="composants/coquille" Match="OmniNavMatch.Exact">
+                        <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                    </OmniPanelMenuItem>
+                    <OmniPanelMenuItem Text="Filtres" Match="OmniNavMatch.None">
+                        <Icon><OmniIcon Name="OmniIconName.Filter" /></Icon>
+                    </OmniPanelMenuItem>
+                </OmniPanelMenu>
+            </OmniSidebar>
+            <OmniMain AriaLabelledBy="shell-demo-rail-title">
+                <OmniHeading Id="shell-demo-rail-title" Level="OmniHeadingLevel.H5">Contenu</OmniHeading>
+                <p>Ouvrir le menu ne décale pas ce texte : le panneau passe par-dessus.</p>
+            </OmniMain>
+        </OmniBody>
+    </OmniLayout>
+</OmniThemeScope>

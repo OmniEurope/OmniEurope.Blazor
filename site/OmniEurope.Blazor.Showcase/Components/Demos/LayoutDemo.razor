@@ -81,4 +81,28 @@
         <OmniCard><ChildContent>Étirée</ChildContent></OmniCard>
         <OmniCard><ChildContent>Les deux cartes prennent la même hauteur.</ChildContent></OmniCard>
     </OmniStack>
+
+    @* Rangées trop étroites : défiler garde chaque bouton à sa taille, replier ne garde que les icônes. *@
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Overflow="OmniStackOverflow.Scroll">
+        <OmniButton><OmniIcon Name="OmniIconName.Check" /><span>Valider le dossier</span></OmniButton>
+        <OmniButton><OmniIcon Name="OmniIconName.Filter" /><span>Filtrer les pièces</span></OmniButton>
+        <OmniButton><OmniIcon Name="OmniIconName.Close" /><span>Clore la demande</span></OmniButton>
+    </OmniStack>
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Overflow="OmniStackOverflow.Collapse">
+        <OmniButton><OmniIcon Name="OmniIconName.Check" /><span>Valider le dossier</span></OmniButton>
+        <OmniButton><OmniIcon Name="OmniIconName.Filter" /><span>Filtrer les pièces</span></OmniButton>
+        <OmniButton><OmniIcon Name="OmniIconName.Close" /><span>Clore la demande</span></OmniButton>
+    </OmniStack>
+
+    @* Réglages : une carte par thème, chaque réglage dans son encadré, le contrôle sur sa ligne. *@
+    <OmniSettingsSection Title="Notifications" Description="Ce que l'application vous signale, et comment.">
+        <OmniSettingsTile Title="Alertes par courriel" Description="Un message à chaque changement de statut.">
+            <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+            <ChildContent><OmniSwitch @bind-Value="EmailAlerts" aria-label="Alertes par courriel" /></ChildContent>
+        </OmniSettingsTile>
+        <OmniSettingsTile Title="Résumé hebdomadaire" Description="Les dossiers de la semaine, le lundi matin.">
+            <Icon><OmniIcon Name="OmniIconName.Check" /></Icon>
+            <ChildContent><OmniSwitch @bind-Value="WeeklyDigest" aria-label="Résumé hebdomadaire" /></ChildContent>
+        </OmniSettingsTile>
+    </OmniSettingsSection>
 </OmniStack>

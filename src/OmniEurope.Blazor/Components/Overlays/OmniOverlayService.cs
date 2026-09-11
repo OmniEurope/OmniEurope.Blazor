@@ -88,16 +88,27 @@ public sealed class OmniOverlayService : IDisposable
         }
     }
 
-    /// <param name="detailsHref">
-    /// Where the full account can be read, offered from the notification when its message is too
-    /// long to read in one. Checked against the same URI policy as every other link.
-    /// </param>
     public Guid Notify(
         string message,
         OmniNotificationSeverity severity = OmniNotificationSeverity.Information,
         string? title = null,
-        TimeSpan? duration = null,
-        string? detailsHref = null)
+        TimeSpan? duration = null) => Notify(message, severity, title, duration, detailsHref: null);
+
+    /// <summary>
+    /// Same as the overload without it, plus where the full account can be read. A separate overload
+    /// rather than one more optional parameter, which would have changed the signature callers are
+    /// already compiled against.
+    /// </summary>
+    /// <param name="detailsHref">
+    /// Offered from the notification when its message is too long to read in one. Checked against
+    /// the same URI policy as every other link.
+    /// </param>
+    public Guid Notify(
+        string message,
+        OmniNotificationSeverity severity,
+        string? title,
+        TimeSpan? duration,
+        string? detailsHref)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(message);
         return _notifications.Add(message, severity, title, duration, OmniUriPolicy.EnsureSafe(detailsHref, nameof(detailsHref)));
