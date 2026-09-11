@@ -3,9 +3,10 @@
 @implements IDisposable
 @inject OmniLoadingState State
 
-@* The strip takes no height at all: the track is laid over whatever follows it. Reserving a strip
-   kept the layout still, but left an empty gap under the header outside of every load, which is
-   most of the time. Drawn over the content, it moves nothing and leaves no gap. *@
+@* The strip takes no height at all: the track is laid over the bottom edge of whatever precedes it.
+   Reserving a strip kept the layout still, but left an empty gap under the header outside of every
+   load, which is most of the time. Drawn in the header's edge, it moves nothing, leaves no gap and
+   covers nothing of what follows. *@
 <div id="@Id"
      class="@Css("omni-loading-bar", $"omni-loading-bar--{Mode.ToString().ToLowerInvariant()}", State.Loading ? "omni-loading-bar--active" : null, _finishing ? "omni-loading-bar--done" : null)"
      role="@(State.Loading ? "progressbar" : null)"

@@ -8,6 +8,15 @@
     <OmniShipMinifiedStylesheet Condition="'$(OmniShipMinifiedStylesheet)' == '' and '$(Configuration)' == 'Release'">true</OmniShipMinifiedStylesheet>
   </PropertyGroup>
 
+  <!--
+    A pack with NoBuild skips the target below and only drops the Content items that match the
+    build's static web assets. The minified copy is that asset now, so without this the source would
+    also be packed as content/ and contentFiles/, landing in every host's wwwroot.
+  -->
+  <ItemGroup Condition="'$(OmniShipMinifiedStylesheet)' == 'true'">
+    <Content Update="wwwroot\omnieurope.blazor.css" Pack="false" />
+  </ItemGroup>
+
   <UsingTask TaskName="OmniMinifyCss"
              TaskFactory="RoslynCodeTaskFactory"
              AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">

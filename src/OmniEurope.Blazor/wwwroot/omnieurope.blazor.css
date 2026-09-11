@@ -410,8 +410,8 @@
 .omni-fieldset__content { display: grid; gap: var(--omni-space-md); }
 .omni-fieldset:disabled { opacity: 0.65; }
 
-/* Bandeau de chargement : aucune hauteur, la piste se pose par-dessus ce qui suit (pas de vide sous
-   l'en-tête), devant un menu flottant et son voile. */
+/* Bandeau de chargement : aucune hauteur, la piste se pose dans le bas de ce qui précède (pas de vide
+   sous l'en-tête), devant un menu flottant et son voile. */
 .omni-loading-bar {
     block-size: 0;
     flex: 0 0 auto;
