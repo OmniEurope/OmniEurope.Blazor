@@ -88,17 +88,27 @@ public sealed class OmniOverlayService : IDisposable
         }
     }
 
+    /// <param name="detailsHref">
+    /// Where the full account can be read, offered from the notification when its message is too
+    /// long to read in one. Checked against the same URI policy as every other link.
+    /// </param>
     public Guid Notify(
         string message,
         OmniNotificationSeverity severity = OmniNotificationSeverity.Information,
         string? title = null,
-        TimeSpan? duration = null)
+        TimeSpan? duration = null,
+        string? detailsHref = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(message);
-        return _notifications.Add(message, severity, title, duration);
+        return _notifications.Add(message, severity, title, duration, OmniUriPolicy.EnsureSafe(detailsHref, nameof(detailsHref)));
     }
 
     public bool Dismiss(Guid id) => _notifications.Remove(id);
+
+    /// <summary>Holds a notification's countdown while it is read.</summary>
+    internal void PauseNotification(Guid id) => _notifications.Pause(id);
+
+    internal void ResumeNotification(Guid id) => _notifications.Resume(id);
 
     private void RaiseChanged() => Changed?.Invoke();
 

@@ -111,6 +111,9 @@
   <data name="MultiSelectFilter" xml:space="preserve"><value>Search</value></data>
   <data name="MultiSelectNoMatch" xml:space="preserve"><value>No match</value></data>
   <data name="NotificationDismiss" xml:space="preserve"><value>Dismiss notification</value></data>
+  <data name="NotificationExpand" xml:space="preserve"><value>Show all</value></data>
+  <data name="NotificationCollapse" xml:space="preserve"><value>Collapse</value></data>
+  <data name="NotificationOpenDetails" xml:space="preserve"><value>Open the log</value></data>
   <data name="NullableCheckBoxInvalid" xml:space="preserve"><value>The checkbox value is invalid.</value></data>
   <data name="NullableSwitchIndeterminate" xml:space="preserve"><value>Indeterminate state</value></data>
   <data name="NullableSwitchInvalid" xml:space="preserve"><value>The switch value is invalid.</value></data>
