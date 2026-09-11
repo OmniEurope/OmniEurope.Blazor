@@ -1,0 +1,120 @@
+<Project>
+  <!--
+    The stylesheet source keeps its comments, which explain why each rule exists. What a host
+    downloads is a minified copy: in Release the copy replaces the source as the static web asset,
+    so builds, publishes and the NuGet package all ship it. Debug keeps serving the readable source.
+  -->
+  <PropertyGroup>
+    <OmniShipMinifiedStylesheet Condition="'$(OmniShipMinifiedStylesheet)' == '' and '$(Configuration)' == 'Release'">true</OmniShipMinifiedStylesheet>
+  </PropertyGroup>
+
+  <UsingTask TaskName="OmniMinifyCss"
+             TaskFactory="RoslynCodeTaskFactory"
+             AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <Task>
+      <Code Type="Class" Language="cs"><![CDATA[
+using System;
+using System.IO;
+using System.Text;
+
+public sealed class OmniMinifyCss : Microsoft.Build.Utilities.Task
+{
+    [Microsoft.Build.Framework.Required]
+    public string Source { get; set; }
+
+    [Microsoft.Build.Framework.Required]
+    public string Destination { get; set; }
+
+    public override bool Execute()
+    {
+        var css = File.ReadAllText(Source);
+        var output = new StringBuilder(css.Length);
+        var pendingSpace = false;
+
+        for (var i = 0; i < css.Length; i++)
+        {
+            var c = css[i];
+            if (c == '/' && i + 1 < css.Length && css[i + 1] == '*')
+            {
+                var end = css.IndexOf("*/", i + 2, StringComparison.Ordinal);
+                if (end < 0)
+                {
+                    Log.LogError("Unterminated comment in {0} at offset {1}.", Source, i);
+                    return false;
+                }
+
+                // A comment is dropped without turning into a space: between two tokens it may be the
+                // only separator, and a space there would change what a selector matches.
+                i = end + 1;
+                continue;
+            }
+
+            if (char.IsWhiteSpace(c))
+            {
+                pendingSpace = true;
+                continue;
+            }
+
+            // Whitespace survives, as one space, unless a neighbour makes it meaningless. A space
+            // before ':' is kept: '.a :hover' and '.a:hover' select different elements.
+            if (pendingSpace && output.Length > 0 && "{};,>:".IndexOf(output[output.Length - 1]) < 0 && "{};,>".IndexOf(c) < 0)
+            {
+                output.Append(' ');
+            }
+
+            pendingSpace = false;
+            if (c == '}' && output.Length > 0 && output[output.Length - 1] == ';')
+            {
+                output.Length--;
+            }
+
+            output.Append(c);
+            if (c == '"' || c == '\'')
+            {
+                for (i++; i < css.Length; i++)
+                {
+                    output.Append(css[i]);
+                    if (css[i] == '\\' && i + 1 < css.Length)
+                    {
+                        output.Append(css[++i]);
+                    }
+                    else if (css[i] == c)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        var minified = output.ToString();
+        Directory.CreateDirectory(Path.GetDirectoryName(Destination));
+        if (!File.Exists(Destination) || File.ReadAllText(Destination) != minified)
+        {
+            File.WriteAllText(Destination, minified, new UTF8Encoding(false));
+        }
+
+        return !Log.HasLoggedErrors;
+    }
+}
+]]></Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="OmniMinifyStylesheet" BeforeTargets="ResolveProjectStaticWebAssets" Condition="'$(NoBuild)' != 'true'">
+    <PropertyGroup>
+      <_OmniStylesheetSource>$(MSBuildProjectDirectory)\wwwroot\omnieurope.blazor.css</_OmniStylesheetSource>
+      <_OmniStylesheetRoot>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\$(IntermediateOutputPath)omni-stylesheet'))\</_OmniStylesheetRoot>
+    </PropertyGroup>
+
+    <OmniMinifyCss Source="$(_OmniStylesheetSource)" Destination="$(_OmniStylesheetRoot)omnieurope.blazor.css" />
+
+    <ItemGroup Condition="'$(OmniShipMinifiedStylesheet)' == 'true'">
+      <Content Remove="wwwroot\omnieurope.blazor.css" />
+      <Content Include="$(_OmniStylesheetRoot)omnieurope.blazor.css"
+               Link="wwwroot\omnieurope.blazor.css"
+               ContentRoot="$(_OmniStylesheetRoot)"
+               CopyToPublishDirectory="Never"
+               CopyToOutputDirectory="Never" />
+    </ItemGroup>
+  </Target>
+</Project>

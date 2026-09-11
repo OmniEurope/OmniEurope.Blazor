@@ -190,7 +190,7 @@ ctor public OmniEurope.Blazor.Components.OmniMarkers()
 ctor public OmniEurope.Blazor.Components.OmniMonthView()
 ctor public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniNotification()
-ctor public OmniEurope.Blazor.Components.OmniNotificationMessage(System.Guid Id, System.String Message, OmniEurope.Blazor.Components.OmniNotificationSeverity Severity = OmniEurope.Blazor.Components.OmniNotificationSeverity.Information, System.String? Title = null, System.TimeSpan? Duration = null, System.String? DetailsHref = null)
+ctor public OmniEurope.Blazor.Components.OmniNotificationMessage(System.Guid Id, System.String Message, OmniEurope.Blazor.Components.OmniNotificationSeverity Severity = OmniEurope.Blazor.Components.OmniNotificationSeverity.Information, System.String? Title = null)
 ctor public OmniEurope.Blazor.Components.OmniNotificationOptions(OmniEurope.Blazor.Components.OmniNotificationPosition Position = OmniEurope.Blazor.Components.OmniNotificationPosition.TopEnd, System.Boolean ShowCountdown = false, System.Boolean Dismissible = true, System.Boolean Group = false)
 ctor public OmniEurope.Blazor.Components.OmniNullableCheckBox()
 ctor public OmniEurope.Blazor.Components.OmniNullableSwitch()
@@ -691,7 +691,7 @@ method public OmniEurope.Blazor.Components.OmniLocalStorageDataGridStateStore.Lo
 method public OmniEurope.Blazor.Components.OmniLocalStorageDataGridStateStore.SaveAsync(System.String key, System.String state, System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniMarkers.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniNotificationMessage.<Clone>$() : OmniEurope.Blazor.Components.OmniNotificationMessage
-method public OmniEurope.Blazor.Components.OmniNotificationMessage.Deconstruct(out System.Guid Id, out System.String Message, out OmniEurope.Blazor.Components.OmniNotificationSeverity Severity, out System.String? Title, out System.TimeSpan? Duration, out System.String? DetailsHref) : System.Void
+method public OmniEurope.Blazor.Components.OmniNotificationMessage.Deconstruct(out System.Guid Id, out System.String Message, out OmniEurope.Blazor.Components.OmniNotificationSeverity Severity, out System.String? Title) : System.Void
 method public OmniEurope.Blazor.Components.OmniNotificationMessage.Equals(OmniEurope.Blazor.Components.OmniNotificationMessage? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniNotificationOptions.<Clone>$() : OmniEurope.Blazor.Components.OmniNotificationOptions
 method public OmniEurope.Blazor.Components.OmniNotificationOptions.Deconstruct(out OmniEurope.Blazor.Components.OmniNotificationPosition Position, out System.Boolean ShowCountdown, out System.Boolean Dismissible, out System.Boolean Group) : System.Void

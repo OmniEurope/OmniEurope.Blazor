@@ -39,13 +39,11 @@ internal sealed class OmniNotificationStore : IDisposable
         }
 
         var effectiveDuration = LifeFor(message, duration ?? _defaultDuration);
-        var notification = new OmniNotificationMessage(
-            Guid.NewGuid(),
-            message,
-            severity,
-            title,
-            effectiveDuration > TimeSpan.Zero ? effectiveDuration : null,
-            detailsHref);
+        var notification = new OmniNotificationMessage(Guid.NewGuid(), message, severity, title)
+        {
+            Duration = effectiveDuration > TimeSpan.Zero ? effectiveDuration : null,
+            DetailsHref = detailsHref
+        };
         _messages.Add(notification);
         _changed();
 
