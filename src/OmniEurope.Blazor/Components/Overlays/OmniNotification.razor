@@ -1,29 +1,43 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
+@* Icon, text and close button on one grid. The countdown is the card's own tint, drained from the
+   right by the stylesheet over the notification's life: decoration, not information, since the
+   notification already says what it says. Its length comes from a class, not an inline style, so a
+   strict content policy still lets it run. *@
 <article @attributes="AdditionalAttributes"
          id="@Id"
-         class="@Css("omni-notification", SeverityClass)"
+         class="@Css("omni-notification", SeverityClass, TintClass, IsLong ? "omni-notification--long" : null)"
          role="@Role"
-         aria-live="@LiveMode">
+         aria-live="@LiveMode"
+         @onmouseenter="() => SetHeldAsync(pointer: true)"
+         @onmouseleave="() => SetHeldAsync(pointer: false)"
+         @onfocusin="() => SetHeldAsync(focus: true)"
+         @onfocusout="() => SetHeldAsync(focus: false)">
+    <OmniIcon Name="@IconName" Size="OmniControlSize.Medium" Class="omni-notification__icon" />
     <div class="omni-notification__body">
-        <div class="omni-notification__content">
-            @if (!string.IsNullOrWhiteSpace(Title))
-            {
-                <strong class="omni-notification__title">@Title</strong>
-            }
-            <span>@Message</span>
-        </div>
-        @if (Dismissible)
+        @if (!string.IsNullOrWhiteSpace(Title))
         {
-            <button type="button" class="omni-notification__dismiss" aria-label="@Localize("NotificationDismiss")" @onclick="OnDismiss">×</button>
+            <strong class="omni-notification__title">@Title</strong>
+        }
+        <div id="@MessageId" class="omni-notification__message" data-collapsed="@(Folded ? "true" : null)">@Message</div>
+        @if (IsLong)
+        {
+            <button type="button"
+                    class="omni-notification__more"
+                    aria-expanded="@(_expanded ? "true" : "false")"
+                    aria-controls="@MessageId"
+                    @onclick="ToggleExpanded">@Localize(_expanded ? "NotificationCollapse" : "NotificationExpand")</button>
+        }
+        @if (ShowDetails)
+        {
+            <a class="omni-notification__details" href="@DetailsHref">@Localize("NotificationOpenDetails")</a>
         }
     </div>
-    @* The countdown is decoration, not information: the notification already says what it says, and
-       a screen reader reading a bar drain would only repeat it. Its length comes from a class rather
-       than an inline style, so a strict content policy still lets it run. *@
-    @if (CountdownClass is not null)
+    @if (Dismissible)
     {
-        <span class="@CountdownClass" aria-hidden="true"></span>
+        <button type="button" class="omni-notification__dismiss" aria-label="@Localize("NotificationDismiss")" title="@Localize("NotificationDismiss")" @onclick="OnDismiss">
+            <OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" />
+        </button>
     }
 </article>

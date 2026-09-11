@@ -111,6 +111,9 @@
   <data name="MultiSelectFilter" xml:space="preserve"><value>Rechercher</value></data>
   <data name="MultiSelectNoMatch" xml:space="preserve"><value>Aucun résultat</value></data>
   <data name="NotificationDismiss" xml:space="preserve"><value>Ignorer la notification</value></data>
+  <data name="NotificationExpand" xml:space="preserve"><value>Tout afficher</value></data>
+  <data name="NotificationCollapse" xml:space="preserve"><value>Réduire</value></data>
+  <data name="NotificationOpenDetails" xml:space="preserve"><value>Ouvrir le journal</value></data>
   <data name="NullableCheckBoxInvalid" xml:space="preserve"><value>La valeur de case à cocher n'est pas valide.</value></data>
   <data name="NullableSwitchIndeterminate" xml:space="preserve"><value>État non défini</value></data>
   <data name="NullableSwitchInvalid" xml:space="preserve"><value>La valeur d'interrupteur n'est pas valide.</value></data>
