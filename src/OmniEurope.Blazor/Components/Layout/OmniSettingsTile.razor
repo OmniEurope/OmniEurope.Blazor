@@ -1,0 +1,23 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* One setting in a tile set on its section's card: a plain rule under it left the setting blending
+   into the card in both themes. The icon, the name and what it changes read on the left, the control
+   sits on the right, and anything taller than a control goes under the row. *@
+<div id="@Id" class="@Css("omni-settings-tile")" @attributes="AdditionalAttributes">
+    <div class="omni-settings-tile__row">
+        @if (Icon is not null)
+        {
+            <span class="omni-settings-tile__icon" aria-hidden="true">@Icon</span>
+        }
+        <div class="omni-settings-tile__text">
+            <span class="omni-settings-tile__title">@Title</span>
+            @if (!string.IsNullOrWhiteSpace(Description))
+            {
+                <span class="omni-settings-hint">@Description</span>
+            }
+        </div>
+        @ChildContent
+    </div>
+    @Details
+</div>
