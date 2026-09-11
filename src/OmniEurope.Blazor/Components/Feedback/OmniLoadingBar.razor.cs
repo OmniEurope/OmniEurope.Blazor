@@ -32,7 +32,7 @@ public partial class OmniLoadingBar
         get
         {
             var indicator = "omni-loading-bar__indicator";
-            if (Unmeasured)
+            if (Unmeasured || _finishing)
             {
                 return indicator;
             }
@@ -42,9 +42,75 @@ public partial class OmniLoadingBar
         }
     }
 
+    /// <summary>
+    /// How long the bar stays once the load is over: long enough to be seen reaching the end and
+    /// fading, short enough not to announce a load that no longer exists.
+    /// </summary>
+    internal static readonly TimeSpan FinishDuration = TimeSpan.FromMilliseconds(450);
+
+    private bool _wasLoading;
+    private bool _finishing;
+    private CancellationTokenSource? _finish;
+
+    /// <summary>
+    /// The bar is drawn while a load runs and for the short finish after it. Removing it the moment
+    /// the load ended cut a filling bar wherever it had got to, two thirds of the way on a short
+    /// load, which read as an interrupted load rather than a finished one.
+    /// </summary>
+    private bool Visible => State.Loading || _finishing;
+
     protected override void OnInitialized() => State.Changed += OnStateChanged;
 
-    private void OnStateChanged() => _ = InvokeAsync(StateHasChanged);
+    private void OnStateChanged() => _ = InvokeAsync(HandleStateChangedAsync);
 
-    public void Dispose() => State.Changed -= OnStateChanged;
+    private async Task HandleStateChangedAsync()
+    {
+        var loading = State.Loading;
+        var justEnded = _wasLoading && !loading;
+        _wasLoading = loading;
+
+        if (!justEnded)
+        {
+            // A load starting during a finish takes the bar back rather than letting it fade.
+            if (loading)
+            {
+                CancelFinish();
+            }
+
+            StateHasChanged();
+            return;
+        }
+
+        CancelFinish();
+        _finishing = true;
+        var finish = new CancellationTokenSource();
+        _finish = finish;
+        StateHasChanged();
+
+        try
+        {
+            await Task.Delay(FinishDuration, finish.Token);
+        }
+        catch (TaskCanceledException)
+        {
+            return;
+        }
+
+        _finishing = false;
+        StateHasChanged();
+    }
+
+    private void CancelFinish()
+    {
+        _finishing = false;
+        _finish?.Cancel();
+        _finish?.Dispose();
+        _finish = null;
+    }
+
+    public void Dispose()
+    {
+        State.Changed -= OnStateChanged;
+        CancelFinish();
+    }
 }
