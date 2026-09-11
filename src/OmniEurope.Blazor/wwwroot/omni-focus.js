@@ -173,17 +173,27 @@ export function disposeTabs(tablist) {
 // data-omni-overflow-start / -end, which the stylesheet turns into the fade, and the two chevron
 // buttons are unhidden with it. Both go out at the stops, so reaching an end is visible.
 export function configureTabsOverflow(strip) {
+    configureOverflow(strip, '.omni-tabs__viewport', '.omni-tabs__scroll--start', '.omni-tabs__scroll--end');
+}
+
+// A scrolling OmniStack row works the same way: no scrollbar, a chevron on each side that still
+// holds items, gone at the stop.
+export function configureScrollOverflow(strip) {
+    configureOverflow(strip, ':scope > .omni-stack-scroll__viewport', ':scope > .omni-stack-scroll__button--start', ':scope > .omni-stack-scroll__button--end');
+}
+
+function configureOverflow(strip, viewportSelector, startSelector, endSelector) {
     if (!strip || tabOverflow.has(strip)) {
         return;
     }
 
-    const viewport = strip.querySelector('.omni-tabs__viewport');
+    const viewport = strip.querySelector(viewportSelector);
     if (!viewport) {
         return;
     }
 
-    const start = strip.querySelector('.omni-tabs__scroll--start');
-    const end = strip.querySelector('.omni-tabs__scroll--end');
+    const start = strip.querySelector(startSelector);
+    const end = strip.querySelector(endSelector);
 
     const update = () => {
         // Right-to-left scrolling reports scrollLeft as negative or decreasing, so the distance to
@@ -221,6 +231,10 @@ export function configureTabsOverflow(strip) {
 
     tabOverflow.set(strip, { viewport, start, end, onStart, onEnd, update, observer, mutations });
     update();
+}
+
+export function disposeScrollOverflow(strip) {
+    disposeTabsOverflow(strip);
 }
 
 export function disposeTabsOverflow(strip) {

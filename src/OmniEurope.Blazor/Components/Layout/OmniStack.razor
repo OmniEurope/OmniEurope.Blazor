@@ -1,8 +1,44 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
 
-<div id="@Id"
-     class="@Css("omni-stack", $"omni-stack--{Orientation.ToString().ToLowerInvariant()}", $"omni-stack--gap-{Gap.ToString().ToLowerInvariant()}", $"omni-stack--align-{Align.ToString().ToLowerInvariant()}", $"omni-stack--justify-{Justify.ToString().ToLowerInvariant()}", Overflow == OmniStackOverflow.None ? null : $"omni-stack--overflow-{Overflow.ToString().ToLowerInvariant()}")"
-     @attributes="AdditionalAttributes">
-    @ChildContent
-</div>
+@if (Overflow == OmniStackOverflow.Scroll)
+{
+    @* A scrolling row shows no scrollbar: like a tab strip, it says what it hides with a chevron on
+       whichever side still holds content, and each goes out at its stop. The wrapper carries the
+       host's class and attributes, so a group label covers the chevrons as well as the items. *@
+    <div id="@Id" class="@Css("omni-stack-scroll")" @attributes="AdditionalAttributes" @ref="_strip">
+        <button type="button"
+                class="omni-stack-scroll__button omni-stack-scroll__button--start"
+                tabindex="-1"
+                aria-hidden="true"
+                hidden>
+            <svg class="omni-stack-scroll__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+                <path d="M15 6l-6 6 6 6" />
+            </svg>
+        </button>
+        <div class="@ViewportClass">
+            @ChildContent
+        </div>
+        <button type="button"
+                class="omni-stack-scroll__button omni-stack-scroll__button--end"
+                tabindex="-1"
+                aria-hidden="true"
+                hidden>
+            <svg class="omni-stack-scroll__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+                <path d="M9 6l6 6-6 6" />
+            </svg>
+        </button>
+    </div>
+}
+else
+{
+    <div id="@Id"
+         class="@Css(StackClasses)"
+         @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+}

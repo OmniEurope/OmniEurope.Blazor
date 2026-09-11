@@ -28,9 +28,11 @@ const place = (tooltip, x, y) => {
         return;
     }
 
-    // Figée, une infobulle déjà posée ne bouge plus : la replacer à chaque mouvement est exactement
-    // ce que ce mode refuse.
-    if (tracked === tooltip && tooltip.dataset.omniTooltipTrack === 'pinned') {
+    // Figée, une infobulle déjà affichée ne bouge plus : la replacer à chaque mouvement est exactement
+    // ce que ce mode refuse. Pendant son délai d'apparition, elle suit encore le pointeur, pour
+    // paraître là où il s'est posé et non là où il est entré.
+    if (tracked === tooltip && tooltip.dataset.omniTooltipTrack === 'pinned'
+        && getComputedStyle(content).visibility === 'visible') {
         return;
     }
 
