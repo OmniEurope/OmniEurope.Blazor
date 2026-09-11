@@ -118,4 +118,61 @@ public sealed class NavigationComponentTests : OmniBunitContext
 
         Assert.Equal("page", item.Find("a").GetAttribute("aria-current"));
     }
+
+    [Fact]
+    public void Sidebar_FloatingOpen_ClosesWhenAnEntryIsChosen()
+    {
+        var open = true;
+        var sidebar = Render<OmniSidebar>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Reveal, OmniSidebarReveal.Overlay)
+            .Add(component => component.Backdrop, true)
+            .Add(component => component.OpenChanged, value => open = value)
+            .AddChildContent("Navigation"));
+
+        Assert.NotNull(sidebar.Find(".omni-sidebar__backdrop"));
+
+        Services.GetRequiredService<NavigationManager>().NavigateTo("/elsewhere");
+
+        Assert.False(open);
+    }
+
+    [Fact]
+    public void Sidebar_Pushing_StaysOpenAcrossNavigation()
+    {
+        var open = true;
+        Render<OmniSidebar>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Reveal, OmniSidebarReveal.Push)
+            .Add(component => component.OpenChanged, value => open = value)
+            .AddChildContent("Navigation"));
+
+        Services.GetRequiredService<NavigationManager>().NavigateTo("/elsewhere");
+
+        Assert.True(open);
+    }
+
+    [Fact]
+    public void Sidebar_Header_RendersInsideThePanelAndMarksTheSidebar()
+    {
+        var sidebar = Render<OmniSidebar>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Reveal, OmniSidebarReveal.Overlay)
+            .Add(component => component.Header, (RenderFragment)(builder => builder.AddContent(0, "Brand")))
+            .AddChildContent("Navigation"));
+
+        Assert.Contains("omni-sidebar--has-header", sidebar.Find("aside").ClassName, StringComparison.Ordinal);
+        Assert.Equal("Brand", sidebar.Find(".omni-sidebar__panel > .omni-sidebar__header").TextContent);
+    }
+
+    [Fact]
+    public void Sidebar_WithoutHeader_RendersNoHeaderSlot()
+    {
+        var sidebar = Render<OmniSidebar>(parameters => parameters
+            .Add(component => component.Open, true)
+            .AddChildContent("Navigation"));
+
+        Assert.Empty(sidebar.FindAll(".omni-sidebar__header"));
+        Assert.DoesNotContain("omni-sidebar--has-header", sidebar.Find("aside").ClassName, StringComparison.Ordinal);
+    }
 }

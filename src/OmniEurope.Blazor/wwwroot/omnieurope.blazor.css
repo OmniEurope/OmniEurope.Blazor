@@ -151,20 +151,9 @@
     justify-content: center;
 }
 
-.omni-button__busy {
-    animation: omni-spin 800ms linear infinite;
-    border: 0.15rem solid currentColor;
-    border-right-color: transparent;
-    border-radius: var(--omni-radius-circle);
-    height: 1em;
-    width: 1em;
-}
-
-@keyframes omni-spin { to { transform: rotate(360deg); } }
 
 @media (prefers-reduced-motion: reduce) {
-    .omni-button,
-    .omni-button__busy { animation: none; transition: none; }
+    .omni-button { animation: none; transition: none; }
 }
 
 .omni-card {
@@ -209,7 +198,7 @@
 @media (max-width: 479.98px) {
     /* Le libellé quitte le flux plutôt que d'être retiré du DOM : le bouton garde son nom pour les
        technologies d'assistance, qui n'ont pas de problème de largeur. */
-    .omni-stack--overflow-collapse .omni-button > span:not(.omni-button__busy),
+    .omni-stack--overflow-collapse .omni-button > span,
     .omni-stack--overflow-collapse .omni-select-bar__item > span {
         clip-path: inset(50%);
         block-size: 1px;
@@ -422,18 +411,26 @@
 .omni-fieldset__content { display: grid; gap: var(--omni-space-md); }
 .omni-fieldset:disabled { opacity: 0.65; }
 
-/* Bandeau de chargement de page. Il garde sa place, chargement ou non : une barre qui apparaît
-   entre deux éléments décale tout ce qui la suit, deux fois par chargement. Seul l'indicateur va
-   et vient, et il occupe la hauteur du bandeau, pas celle de la page. */
+/* Bandeau de chargement de page. Il n'occupe aucune hauteur : la piste est posée par-dessus ce qui
+   le suit. Réserver sa place évitait le décalage, mais laissait un vide sous l'en-tête hors de tout
+   chargement ; posée au-dessus, la piste ne décale rien et ne laisse aucun vide. Elle passe devant
+   un menu flottant et son voile, un chargement en cours restant à dire quoi qu'il couvre. */
 .omni-loading-bar {
-    background: transparent;
-    block-size: 0.1875rem;
+    block-size: 0;
     flex: 0 0 auto;
     inline-size: 100%;
-    overflow: hidden;
     position: relative;
+    z-index: 35;
 }
-.omni-loading-bar--active { background: var(--omni-color-surface-muted); }
+.omni-loading-bar__track {
+    background: var(--omni-color-surface-muted);
+    block-size: 0.1875rem;
+    display: block;
+    inset-block-start: 0;
+    inset-inline: 0;
+    overflow: hidden;
+    position: absolute;
+}
 .omni-loading-bar__indicator {
     background: var(--omni-color-accent);
     block-size: 100%;
@@ -522,6 +519,7 @@
 .omni-progress__circle-track { stroke: var(--omni-color-surface-muted); }
 .omni-progress__circle-value { stroke: currentColor; transition: stroke-dasharray 160ms ease; }
 .omni-progress--indeterminate .omni-progress__circle { animation: omni-spin 900ms linear infinite; }
+@keyframes omni-spin { to { transform: rotate(360deg); } }
 .omni-progress__label { color: var(--omni-color-text); font-variant-numeric: tabular-nums; white-space: nowrap; }
 @keyframes omni-indeterminate { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
 
@@ -661,6 +659,19 @@
     z-index: 30;
 }
 .omni-sidebar--overlay.omni-sidebar--end.omni-sidebar--open > .omni-sidebar__panel { inset-inline-end: 0; inset-inline-start: auto; }
+
+/* Given a header, the open floating panel rises to the top of the viewport and carries the header's
+   own toggle and brand at their place, so the veil dims the rest of the header but not the menu's
+   own corner. The copy stays pinned while the entries scroll under it. */
+.omni-sidebar__header { display: none; }
+.omni-sidebar--overlay.omni-sidebar--open.omni-sidebar--has-header > .omni-sidebar__panel { inset-block: 0; position: fixed; }
+.omni-sidebar--overlay.omni-sidebar--open.omni-sidebar--has-header .omni-sidebar__header {
+    background: inherit;
+    display: block;
+    inset-block-start: 0;
+    position: sticky;
+    z-index: 1;
+}
 
 /* The veil covers the viewport rather than the shell: a sticky header is outside the shell and would
    otherwise stay lit and clickable behind an open menu. */
@@ -1066,8 +1077,9 @@ body:has(.omni-overlay) { overflow: hidden; }
     white-space: nowrap;
     width: 1px;
 }
-.omni-panel-menu--icons .omni-panel-menu__link,
-.omni-panel-menu--icons .omni-panel-menu__label { justify-content: center; }
+/* The icons keep the alignment and the inset they have in the open menu: centring them in the rail
+   moved every icon sideways by a few pixels each time the menu opened or closed. A rail as wide as
+   twice the inset plus the icon still shows them centred, and that width is the host's to set. */
 /* No room for a chevron beside an icon, so the chevron goes and the icon itself unfolds the group.
    The children stay: hiding them would leave a whole branch of the navigation unreachable, which is
    what a rail of icons used to do. They indent by nothing, since indenting an icon rail only makes
@@ -1512,3 +1524,25 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-html-editor__source:focus-visible { box-shadow: inset var(--omni-focus-ring); outline: none; }
 .omni-html-editor__preview { border-block-start: 1px solid var(--omni-color-border); min-height: 4rem; padding: var(--omni-space-md); }
 
+
+/* Busy veil (STD-BUSY). A busy control keeps its exact size and content: a surface-coloured layer
+   breathes over it instead, fading towards the page colour rather than revealing what lies behind.
+   .btn-busy is the same rule under the application-kit name, so a host's own <button> gets it too. */
+.omni-busy,
+.btn-busy { cursor: progress; overflow: hidden; pointer-events: none; position: relative; }
+.omni-busy::after,
+.btn-busy::after {
+    animation: omni-busy-veil 1.3s ease-in-out infinite;
+    background: var(--omni-color-surface);
+    border-radius: inherit;
+    content: "";
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+}
+@keyframes omni-busy-veil { 0%, 100% { opacity: 0; } 50% { opacity: 0.45; } }
+@media (prefers-reduced-motion: reduce) {
+    .omni-busy::after,
+    .btn-busy::after { animation-duration: 4s; }
+}
