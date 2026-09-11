@@ -89,6 +89,18 @@ public sealed partial class ConventionGuardTests
     }
 
     [Fact]
+    public void CollapsedStack_HidesLabelsAndKeepsIcons()
+    {
+        var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
+
+        // Hiding the button's whole content took the icon with the label, leaving empty buttons.
+        Assert.DoesNotContain(".omni-stack--overflow-collapse .omni-button > span", styles, StringComparison.Ordinal);
+        Assert.Contains(".omni-stack--overflow-collapse :is(.omni-button__content,.omni-select-bar__item) > span:not([aria-hidden=\"true\"],[role=\"img\"])", styles, StringComparison.Ordinal);
+        // No host class inside the package: an icon is recognised by what it declares, not by who drew it.
+        Assert.DoesNotContain(".oe-icon", styles, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void BusyVeil_IsOneSharedSurfaceColouredRuleAndNoSpinner()
     {
         var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");

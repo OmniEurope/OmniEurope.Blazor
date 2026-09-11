@@ -187,19 +187,17 @@
 .omni-stack--justify-end { justify-content: flex-end; }
 .omni-stack--justify-between { justify-content: space-between; }
 
-/* Deux réponses au manque de place sur une rangée. Défiler garde chaque élément à sa taille et rend
-   la rangée atteignable au doigt, comme une table trop large. Replier garde tout à l'écran en ne
-   laissant que les icônes, ce qui suppose que les éléments en aient une. La rupture est à 480px,
-   largeur en dessous de laquelle une rangée de boutons libellés ne tient plus sur un téléphone. */
-.omni-stack--overflow-scroll { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; }
+/* Rangée trop étroite : défiler (éléments à leur taille) ou replier en icônes, sous 480px. Barre fine,
+   non superposée et décalée sous les boutons : la barre flottante de Chrome les chevauchait puis
+   s'épaississait au survol, ce qui passait pour une seconde barre. */
+.omni-stack--overflow-scroll { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; padding-block-end: 0.375rem; scrollbar-width: thin; }
 .omni-stack--overflow-scroll > * { flex: 0 0 auto; }
 .omni-stack--overflow-collapse { flex-wrap: nowrap; min-inline-size: 0; }
 
 @media (max-width: 479.98px) {
-    /* Le libellé quitte le flux plutôt que d'être retiré du DOM : le bouton garde son nom pour les
-       technologies d'assistance, qui n'ont pas de problème de largeur. */
-    .omni-stack--overflow-collapse .omni-button > span,
-    .omni-stack--overflow-collapse .omni-select-bar__item > span {
+    /* Seul le libellé quitte le flux (il reste lu) ; l'icône, décorative ou nommée, reste. Viser le
+       contenu entier du bouton emportait l'icône avec lui. */
+    .omni-stack--overflow-collapse :is(.omni-button__content,.omni-select-bar__item) > span:not([aria-hidden="true"],[role="img"]) {
         clip-path: inset(50%);
         block-size: 1px;
         inline-size: 1px;
@@ -209,7 +207,7 @@
     }
 
     /* Un bouton sans icône garderait une surface vide : son libellé reste. */
-    .omni-stack--overflow-collapse .omni-button:not(:has(.oe-icon)):not(:has(svg)):not(:has(img)) > span {
+    .omni-stack--overflow-collapse :is(.omni-button__content,.omni-select-bar__item):not(:has([aria-hidden="true"],[role="img"],svg,img)) > span {
         clip-path: none;
         block-size: auto;
         inline-size: auto;
@@ -283,10 +281,12 @@
 .omni-icon--medium { height: 1.25rem; width: 1.25rem; }
 .omni-icon--large { height: 1.5rem; width: 1.5rem; }
 
+/* Demi-rayon, comme les autres petits éléments : le rayon d'une carte, posé sur un carré de 28 px,
+   le faisait paraître plus rond que la carte voisine. */
 .omni-badge {
     align-items: center;
     border: 1px solid transparent;
-    border-radius: var(--omni-radius);
+    border-radius: calc(var(--omni-radius) / 2);
     display: inline-flex;
     font-size: var(--omni-font-size-sm);
     font-weight: 650;
@@ -308,8 +308,9 @@
 .omni-badge--outline.omni-badge--warning { color: var(--omni-color-warning); }
 .omni-badge--outline.omni-badge--danger { color: var(--omni-color-danger); }
 
-.omni-link { color: var(--omni-color-accent-strong); text-decoration-thickness: 0.08em; text-underline-offset: 0.15em; }
-.omni-link:hover { text-decoration-thickness: 0.14em; }
+/* Souligné au survol seulement. */
+.omni-link { color: var(--omni-color-accent-strong); text-decoration: none; text-underline-offset: 0.15em; }
+.omni-link:hover { text-decoration: underline 0.08em; }
 .omni-link:focus-visible { border-radius: 0.15rem; box-shadow: var(--omni-focus-ring); outline: none; }
 
 .omni-image { display: block; height: auto; max-width: 100%; }
@@ -1267,9 +1268,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid__filter-reset:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-data-grid__table th { position: relative; }
 .omni-data-grid__header { align-items: center; display: flex; gap: var(--omni-space-xs); min-inline-size: 0; }
-/* Deux traitements du libellé trop long pour sa colonne : le renvoyer à la ligne, ce qui grandit
-   la bande d'en-tête, ou le tronquer, ce qui la garde sur une ligne. Aucun des deux n'est bon
-   partout, d'où le réglage. */
+/* Libellé trop long : renvoi à la ligne ou troncature, au choix. */
 .omni-data-grid--header-truncate .omni-data-grid__title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .omni-data-grid--header-truncate .omni-data-grid__sort { min-inline-size: 0; }
 /* Header affordances stay out of the way until the column is hovered or focused, so an idle header
@@ -1287,15 +1286,15 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* No separators inside the header row: the hovered cell is told apart by a darker fill, not by
    rules drawn between columns. The two fills are set as tokens so the dark palette can restate them
    instead of inheriting a mix computed for a light background. */
-/* Un en-tête doit dominer ses lignes, pas les côtoyer : tiré de surface-muted il était à deux pour
-   cent du fond de la table en thème clair, donc invisible. Il se calcule maintenant à partir du
-   texte, ce qui le fait descendre en clair et monter en sombre, et son filet inférieur se marque. */
+/* Fond tiré du texte, qui domine les lignes dans les deux thèmes. Une ombre et non un filet : dans
+   un tableau à bordures fusionnées, le filet d'un en-tête collant partait au défilement. */
 .omni-data-grid__table thead th {
     --omni-header-fill: color-mix(in srgb, var(--omni-color-text) 9%, var(--omni-color-surface));
     --omni-header-fill-hover: color-mix(in srgb, var(--omni-color-text) 15%, var(--omni-color-surface));
     background: var(--omni-header-fill);
-    border-block-end: 2px solid color-mix(in srgb, var(--omni-color-text) 28%, transparent);
+    border-block-end: 0;
     border-inline: 0;
+    box-shadow: 0 2px 4px -1px color-mix(in srgb, var(--omni-color-text) 30%, transparent);
     transition: background-color 120ms ease-in-out;
 }
 .omni-data-grid__table thead th:hover { background: var(--omni-header-fill-hover); }
