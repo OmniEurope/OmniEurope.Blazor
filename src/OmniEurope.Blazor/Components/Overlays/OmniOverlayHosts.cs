@@ -76,17 +76,11 @@ internal static class OmniOverlayHosts
 
         if (!options.Group)
         {
-            foreach (var notification in others)
-            {
-                Card(builder, 10, notification, service, options);
-            }
+            Cards(builder, 10, others, service, options);
         }
         else
         {
-            foreach (var notification in errors)
-            {
-                Card(builder, 20, notification, service, options);
-            }
+            Cards(builder, 20, errors, service, options);
 
             // The pile element is there as soon as grouping is on, even for a single card: a card
             // that changed parent when the second one arrived would be rebuilt, its tint restarting.
@@ -94,10 +88,7 @@ internal static class OmniOverlayHosts
             builder.AddAttribute(31, "class", stacked
                 ? "omni-notification-region__pile omni-notification-region__pile--stacked"
                 : "omni-notification-region__pile");
-            foreach (var notification in others)
-            {
-                Card(builder, 32, notification, service, options);
-            }
+            Cards(builder, 32, others, service, options);
 
             builder.CloseElement();
 
@@ -113,9 +104,21 @@ internal static class OmniOverlayHosts
         builder.CloseElement();
     };
 
-    private static void Card(RenderTreeBuilder builder, int sequence, OmniNotificationMessage notification, OmniOverlayService service, OmniNotificationOptions options)
+    // One region around the whole list: the keys only match cards that share a sibling range, so a
+    // region per card would rebuild every card after one that closes, restarting its tint.
+    private static void Cards(RenderTreeBuilder builder, int sequence, IEnumerable<OmniNotificationMessage> notifications, OmniOverlayService service, OmniNotificationOptions options)
     {
         builder.OpenRegion(sequence);
+        foreach (var notification in notifications)
+        {
+            Card(builder, notification, service, options);
+        }
+
+        builder.CloseRegion();
+    }
+
+    private static void Card(RenderTreeBuilder builder, OmniNotificationMessage notification, OmniOverlayService service, OmniNotificationOptions options)
+    {
         builder.OpenComponent<OmniNotification>(0);
         builder.SetKey(notification.Id);
         builder.AddAttribute(1, nameof(OmniNotification.Message), notification.Message);
@@ -138,7 +141,6 @@ internal static class OmniOverlayHosts
         }));
         builder.AddAttribute(9, nameof(OmniNotification.OnDismiss), EventCallback.Factory.Create(service, () => { service.Dismiss(notification.Id); }));
         builder.CloseComponent();
-        builder.CloseRegion();
     }
 
     internal static RenderFragment Portal(OmniOverlayCoordinator coordinator) => builder =>

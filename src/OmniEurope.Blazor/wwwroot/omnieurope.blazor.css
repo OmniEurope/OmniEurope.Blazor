@@ -951,8 +951,14 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-notification-region__pile--stacked > .omni-notification:nth-last-child(n+4) { opacity: 0; }
 .omni-notification-region__pile--stacked:is(:hover,:focus-within) { gap: var(--omni-space-sm); padding-block: 0; }
 .omni-notification-region__pile--stacked:is(:hover,:focus-within) > .omni-notification { grid-area: auto; max-block-size: none; opacity: 1; transform: none; }
+/* Ouverte en haut, la pile garde la carte de devant en tête : elle ne saute pas sous le pointeur. */
+.omni-notification-region:is(.omni-notification-region--topstart,.omni-notification-region--topcenter,.omni-notification-region--topend) .omni-notification-region__pile--stacked:is(:hover,:focus-within) { display: flex; flex-direction: column-reverse; }
+.omni-notification-region:is(.omni-notification-region--topstart,.omni-notification-region--topcenter,.omni-notification-region--topend) .omni-notification-region__pile--stacked:is(:hover,:focus-within) > .omni-notification { align-self: stretch; }
 .omni-notification-region__count { order: 1; }
 .omni-notification-region:is(.omni-notification-region--bottomstart,.omni-notification-region--bottomcenter,.omni-notification-region--bottomend) .omni-notification-region__count { order: -1; }
+/* Une erreur arrive du côté opposé au bord d'ancrage, derrière le compteur : la pile ne bouge pas. */
+.omni-notification-region--grouped > .omni-notification { order: 2; }
+.omni-notification-region--grouped:is(.omni-notification-region--bottomstart,.omni-notification-region--bottomcenter,.omni-notification-region--bottomend) > .omni-notification { order: -2; }
 .omni-notification-region__count {
     background: var(--omni-color-accent);
     border-radius: var(--omni-radius-pill);
