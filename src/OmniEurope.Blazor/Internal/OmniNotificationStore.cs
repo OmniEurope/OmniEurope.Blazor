@@ -69,7 +69,9 @@ internal sealed class OmniNotificationStore : IDisposable
             return requested;
         }
 
-        var byLength = ShortestLongLife + TimeSpan.FromSeconds(message.Length / 100d);
+        // Whole seconds: the tint that counts the life down is timed to the second, and a life of 7.5 s
+        // under an 8 s tint would close with a sliver of tint left.
+        var byLength = ShortestLongLife + TimeSpan.FromSeconds(Math.Ceiling(message.Length / 100d));
         var life = byLength > LongestLife ? LongestLife : byLength;
         return life > requested ? life : requested;
     }

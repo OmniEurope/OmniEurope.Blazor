@@ -8,7 +8,8 @@ public sealed class NotificationTests : OmniBunitContext
 {
     [Theory]
     [InlineData(300, 5, 5)]
-    [InlineData(301, 5, 7.01)]
+    [InlineData(301, 5, 8)]
+    [InlineData(350, 5, 8)]
     [InlineData(1000, 5, 14)]
     [InlineData(1000, 20, 20)]
     [InlineData(4000, 5, 30)]

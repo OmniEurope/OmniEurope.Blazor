@@ -939,7 +939,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-notification-region--grouped .omni-notification:not(:last-child) { max-block-size: 2.5rem; }
 .omni-notification-region--grouped .omni-notification:not(:last-child) :is(.omni-notification__message,.omni-notification__more,.omni-notification__details) { display: none; }
 .omni-notification-region--grouped:is(:hover,:focus-within) .omni-notification:not(:last-child) { max-block-size: none; }
-.omni-notification-region--grouped:is(:hover,:focus-within) .omni-notification:not(:last-child) :is(.omni-notification__message,.omni-notification__more) { display: block; }
+.omni-notification-region--grouped:is(:hover,:focus-within) .omni-notification:not(:last-child) :is(.omni-notification__message,.omni-notification__more,.omni-notification__details) { display: block; }
 .omni-notification-region__count {
     background: var(--omni-color-accent);
     border-radius: var(--omni-radius-pill);
@@ -949,18 +949,18 @@ body:has(.omni-overlay) { overflow: hidden; }
     margin: 0 0 var(--omni-space-xs);
     padding: 0 var(--omni-space-sm);
 }
-/* Teinte qui se retire : la carte prend la teinte pâle de son rôle, vidée par la droite sur sa durée
-   de vie ; à la fin elle est redevenue couleur surface et se ferme. Tenue au survol et au focus. */
+/* Teinte qui se retire : la teinte pâle du rôle (son encre mêlée à la surface, juste en clair comme en
+   sombre), vidée par la droite sur sa durée de vie, puis fermeture. Tenue au survol et au focus. */
 .omni-notification-region { justify-items: start; width: 16.25rem; }
 .omni-notification-region--wide { width: 22.5rem; }
 .omni-notification-region:is(.omni-notification-region--topend,.omni-notification-region--bottomend) { justify-items: end; }
 .omni-notification-region.omni-notification-region--grouped { justify-items: stretch; }
-.omni-notification { --omni-notification-ink: var(--omni-color-accent); --omni-notification-tint: var(--omni-color-accent-subtle); align-items: start; background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-radius: 0.5rem; box-shadow: var(--omni-shadow-md); box-sizing: border-box; display: grid; gap: 0.625rem; grid-template-columns: auto 1fr auto; inline-size: 16.25rem; max-inline-size: 90vw; overflow: hidden; padding: 0.75rem 0.5rem 0.75rem 0.875rem; position: relative; }
+.omni-notification { --omni-notification-ink: var(--omni-color-accent); --omni-notification-tint: color-mix(in srgb, var(--omni-notification-ink) 16%, var(--omni-color-surface)); align-items: start; background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-radius: 0.5rem; box-shadow: var(--omni-shadow-md); box-sizing: border-box; display: grid; gap: 0.625rem; grid-template-columns: auto 1fr auto; inline-size: 16.25rem; max-inline-size: 90vw; overflow: hidden; padding: 0.75rem 0.5rem 0.75rem 0.875rem; position: relative; }
 .omni-notification-region--grouped .omni-notification { inline-size: auto; }
 .omni-notification--long { inline-size: 22.5rem; }
-.omni-notification--success { --omni-notification-ink: var(--omni-color-success); --omni-notification-tint: var(--omni-color-success-subtle); }
-.omni-notification--warning { --omni-notification-ink: var(--omni-color-warning); --omni-notification-tint: var(--omni-color-warning-subtle); }
-.omni-notification--error { --omni-notification-ink: var(--omni-color-danger); --omni-notification-tint: var(--omni-color-danger-subtle); }
+.omni-notification--success { --omni-notification-ink: var(--omni-color-success); }
+.omni-notification--warning { --omni-notification-ink: var(--omni-color-warning); }
+.omni-notification--error { --omni-notification-ink: var(--omni-color-danger); }
 .omni-notification--tinted { --omni-notification-life: calc(var(--omni-nt, 0s) + var(--omni-nu, 0s)); }
 .omni-notification--t1 { --omni-nt: 10s; } .omni-notification--t2 { --omni-nt: 20s; } .omni-notification--t3 { --omni-nt: 30s; }
 .omni-notification--u1 { --omni-nu: 1s; } .omni-notification--u2 { --omni-nu: 2s; } .omni-notification--u3 { --omni-nu: 3s; }
