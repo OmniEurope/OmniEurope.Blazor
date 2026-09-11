@@ -167,6 +167,12 @@
 .omni-card__footer { padding: var(--omni-space-lg); }
 .omni-card__header { border-bottom: 1px solid var(--omni-color-border); }
 .omni-card__body { padding: var(--omni-space-lg); }
+/* Règle générale du débordement : un cadre peut devenir plus étroit que son contenu le plus large, et
+   c'est ce contenu qui défile (barre de choix, rangée, tableau) au lieu de pousser le cadre hors de sa
+   place. */
+.omni-card,
+.omni-card__body,
+.omni-settings-tile { min-inline-size: 0; }
 .omni-card__footer { border-top: 1px solid var(--omni-color-border); }
 
 .omni-stack { display: flex; }
@@ -191,6 +197,9 @@
    boutons : celle de Chrome les chevauchait puis s'épaississait, d'où deux barres apparentes. */
 .omni-stack--overflow-scroll { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; padding-block-end: 0.375rem; scrollbar-width: thin; }
 .omni-stack--overflow-scroll > * { flex: 0 0 auto; }
+/* Dernière rangée d'un conteneur : l'écart réservé à la barre se prend sur le rembourrage qui suit,
+   si bien qu'une rangée qui ne défile pas laisse l'espace ordinaire. */
+.omni-stack--overflow-scroll:last-child { margin-block-end: -0.375rem; }
 .omni-stack--overflow-collapse { flex-wrap: nowrap; min-inline-size: 0; }
 
 @media (max-width: 479.98px) {
@@ -203,6 +212,16 @@
         overflow: hidden;
         position: absolute;
         white-space: nowrap;
+    }
+
+    /* Réduit à son icône, un bouton est carré : sa largeur reprend sa hauteur de contrôle. */
+    .omni-stack--overflow-collapse .omni-button:has(> .omni-button__content > :is([aria-hidden="true"],[role="img"],svg,img)) {
+        inline-size: var(--omni-control-height);
+        padding-inline: 0;
+    }
+
+    .omni-stack--overflow-collapse .omni-button--large:has(> .omni-button__content > :is([aria-hidden="true"],[role="img"],svg,img)) {
+        inline-size: calc(var(--omni-control-height) + 0.5rem);
     }
 
     /* Un bouton sans icône garderait une surface vide : son libellé reste. */
@@ -853,15 +872,19 @@
 .omni-choice-list { border: 0; display: grid; gap: var(--omni-space-sm); margin: 0; padding: 0; }
 .omni-choice-list__legend { font-weight: 650; margin-block-end: var(--omni-space-sm); }
 .omni-choice-list__item { align-items: center; display: inline-flex; gap: var(--omni-space-sm); }
-.omni-select-bar { display: inline-flex; }
+/* Trop large pour sa place, la barre défile au lieu de se couper ; le rembourrage laisse la place à
+   l'anneau de focus, que le défilement rognerait. */
+.omni-select-bar { display: inline-flex; margin: -0.1875rem; max-inline-size: calc(100% + 0.375rem); overflow-x: auto; overscroll-behavior-x: contain; padding: 0.1875rem; scrollbar-width: thin; }
 .omni-select-bar__item {
     background: var(--omni-color-surface);
     border: 1px solid var(--omni-color-border);
     color: var(--omni-color-text);
     cursor: pointer;
+    flex: 0 0 auto;
     font: inherit;
     min-height: 2.75rem;
     padding: var(--omni-space-sm) var(--omni-space-md);
+    white-space: nowrap;
 }
 .omni-select-bar__item:first-child { border-radius: var(--omni-radius) 0 0 var(--omni-radius); }
 .omni-select-bar__item:last-child { border-radius: 0 var(--omni-radius) var(--omni-radius) 0; }
