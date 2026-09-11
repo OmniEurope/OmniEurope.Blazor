@@ -45,6 +45,30 @@ public sealed class NotificationTests : OmniBunitContext
     }
 
     [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void Dismiss_OldestCard_KeepsTheOthersAlive(bool group)
+    {
+        var service = new OmniOverlayService();
+        var host = Render<OmniComponentsHost>(parameters => parameters
+            .Add(component => component.OverlayService, service)
+            .Add(component => component.Notifications, new OmniNotificationOptions(Group: group))
+            .AddChildContent("Application"));
+
+        service.Notify("Un", OmniNotificationSeverity.Information);
+        service.Notify("Deux", OmniNotificationSeverity.Information);
+        service.Notify("Trois", OmniNotificationSeverity.Information);
+        host.WaitForAssertion(() => Assert.Equal(3, host.FindComponents<OmniNotification>().Count));
+        var survivors = host.FindComponents<OmniNotification>().Skip(1).Select(card => card.Instance).ToList();
+
+        service.Dismiss(service.Notifications[0].Id);
+
+        // A card rebuilt when an older one goes would restart its tint and forget that it is held.
+        host.WaitForAssertion(() => Assert.Equal(2, host.FindComponents<OmniNotification>().Count));
+        Assert.Equal(survivors, host.FindComponents<OmniNotification>().Select(card => card.Instance));
+    }
+
+    [Theory]
     [InlineData(300, 5, 5)]
     [InlineData(301, 5, 8)]
     [InlineData(350, 5, 8)]
