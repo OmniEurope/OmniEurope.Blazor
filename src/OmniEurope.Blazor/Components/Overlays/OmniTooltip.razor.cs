@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace OmniEurope.Blazor.Components;
 
 public partial class OmniTooltip
@@ -14,8 +16,33 @@ public partial class OmniTooltip
     [Parameter]
     public OmniTooltipTracking Tracking { get; set; } = OmniTooltipTracking.Pointer;
 
+    /// <summary>
+    /// How long the pointer rests on the trigger before the tooltip shows. Null keeps the stylesheet's
+    /// <c>--omni-tooltip-delay</c>, 300 ms unless a host redefines it. Drawn at a 100 ms step between
+    /// 0 and 2 s: the delay lives in the stylesheet, not in an inline style the content policy would
+    /// reject.
+    /// </summary>
+    [Parameter]
+    public TimeSpan? Delay { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    internal const int MaxDelayMilliseconds = 2000;
+
+    private string? DelayClass
+    {
+        get
+        {
+            if (Delay is not { } delay)
+            {
+                return null;
+            }
+
+            var steps = Math.Clamp((int)Math.Round(delay.TotalMilliseconds / 100, MidpointRounding.AwayFromZero), 0, MaxDelayMilliseconds / 100);
+            return $"omni-tooltip--delay-{(steps * 100).ToString(CultureInfo.InvariantCulture)}";
+        }
+    }
 
     /// <summary>
     /// Resolved through the provider rather than injected directly: a host that never called

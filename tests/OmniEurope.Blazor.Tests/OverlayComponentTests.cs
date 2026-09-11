@@ -138,6 +138,26 @@ public sealed class OverlayComponentTests : OmniBunitContext
             TimeSpan.FromSeconds(2));
     }
 
+    [Theory]
+    [InlineData(null, null)]
+    [InlineData(0, "omni-tooltip--delay-0")]
+    [InlineData(500, "omni-tooltip--delay-500")]
+    [InlineData(349, "omni-tooltip--delay-300")]
+    [InlineData(350, "omni-tooltip--delay-400")]
+    [InlineData(9000, "omni-tooltip--delay-2000")]
+    public void Tooltip_Delay_IsDrawnAtAHundredMillisecondStep(int? milliseconds, string? expectedClass)
+    {
+        var tooltip = Render<OmniTooltip>(parameters => parameters
+            .Add(component => component.Text, "Information")
+            .Add(component => component.Delay, milliseconds is { } ms ? TimeSpan.FromMilliseconds(ms) : null)
+            .AddChildContent("Aide"));
+
+        var delayClasses = tooltip.Find(".omni-tooltip").ClassList.Where(name => name.StartsWith("omni-tooltip--delay-", StringComparison.Ordinal)).ToList();
+        string[] expected = expectedClass is null ? [] : [expectedClass];
+        Assert.Equal(expected, delayClasses);
+        Assert.DoesNotContain("style=", tooltip.Markup, StringComparison.OrdinalIgnoreCase);
+    }
+
     [Fact]
     public void TooltipAndContextMenu_AreKeyboardAccessible()
     {

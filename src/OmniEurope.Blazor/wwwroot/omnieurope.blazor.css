@@ -193,13 +193,18 @@
 .omni-stack--justify-end { justify-content: flex-end; }
 .omni-stack--justify-between { justify-content: space-between; }
 
-/* Rangée étroite : défiler ou replier en icônes (sous 480px). Barre fine non flottante, sous les
-   boutons : celle de Chrome les chevauchait puis s'épaississait, d'où deux barres apparentes. */
-.omni-stack--overflow-scroll { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; padding-block-end: 0.375rem; scrollbar-width: thin; }
+/* Rangée étroite : défiler ou replier en icônes (sous 480px). Qui défile ne montre pas de barre :
+   comme l'en-tête des onglets, un chevron de chaque côté qui cache encore des éléments, ôté en
+   butée ; la rangée ne prend donc aucune hauteur de plus que ses boutons. */
+.omni-stack-scroll { align-items: center; display: flex; min-inline-size: 0; }
+/* Le rembourrage, repris par une marge négative, laisse sa place à l'anneau de focus que le
+   défilement rognerait. */
+.omni-stack--overflow-scroll { flex: 1 1 auto; flex-wrap: nowrap; margin: -0.1875rem; min-inline-size: 0; overflow-x: auto; overscroll-behavior-x: contain; padding: 0.1875rem; scroll-behavior: smooth; scrollbar-width: none; }
+.omni-stack--overflow-scroll::-webkit-scrollbar { display: none; }
 .omni-stack--overflow-scroll > * { flex: 0 0 auto; }
-/* Dernière rangée d'un conteneur : l'écart réservé à la barre se prend sur le rembourrage qui suit,
-   si bien qu'une rangée qui ne défile pas laisse l'espace ordinaire. */
-.omni-stack--overflow-scroll:last-child { margin-block-end: -0.375rem; }
+.omni-stack-scroll__button { align-items: center; align-self: stretch; background: transparent; border: 0; color: var(--omni-color-text); cursor: pointer; display: inline-flex; flex: 0 0 auto; padding: 0 var(--omni-space-xs); }
+.omni-stack-scroll__button[hidden] { display: none; }
+.omni-stack-scroll__chevron { block-size: 1.25em; inline-size: 1.25em; }
 .omni-stack--overflow-collapse { flex-wrap: nowrap; min-inline-size: 0; }
 
 @media (max-width: 479.98px) {
@@ -465,19 +470,21 @@
 /* Sans chiffre rapporté : le balayage traverse, le remplissage ralentit. */
 .omni-loading-bar--sweep .omni-loading-bar__indicator { animation: omni-loading-sweep 1.1s ease-in-out infinite; inline-size: 35%; }
 /* Remplissage par échelle (animer inline-size la laissait à zéro). Durée inconnue : la courbe
-   ralentit sans finir (50 % en 3 s, 92 % en 30 s) ; seule la fin réelle mène à 100 %. */
+   ralentit sans jamais s'arrêter (50 % en 3 s, 77 % en 10 s, 91 % en 30 s, 97,5 % en 2 min) ;
+   seule la fin réelle mène à 100 %. */
 .omni-loading-bar--continuous .omni-loading-bar__indicator {
-    animation: omni-loading-fill 30s linear forwards;
+    animation: omni-loading-fill 120s linear forwards;
     inline-size: 100%;
     transform: scaleX(0);
     transform-origin: left center;
 }
 /* Fini, la barre va au bout en 700 ms puis s'efface. Le remplissage garde son animation et une
    seconde, sans point de départ, s'empile dessus : elle part de la valeur courante de la première,
-   là où retirer l'animation faisait sauter la barre à 100 %. */
+   là où retirer l'animation faisait sauter la barre à 100 %. Le balayage ne se remplit pas : son
+   trait, figé là où il est, file jusqu'au bout et sort de la piste. */
 .omni-loading-bar--done .omni-loading-bar__track { opacity: 0; transition: opacity 250ms ease 700ms; }
-.omni-loading-bar--continuous.omni-loading-bar--done .omni-loading-bar__indicator { animation: omni-loading-fill 30s linear forwards, omni-loading-finish 700ms ease-out forwards; }
-.omni-loading-bar--sweep.omni-loading-bar--done .omni-loading-bar__indicator { animation: none; inline-size: 100%; transform: none; transition: inline-size 700ms ease-out; }
+.omni-loading-bar--continuous.omni-loading-bar--done .omni-loading-bar__indicator { animation: omni-loading-fill 120s linear forwards, omni-loading-finish 700ms ease-out forwards; }
+.omni-loading-bar--sweep.omni-loading-bar--done .omni-loading-bar__indicator { animation: omni-loading-sweep 1.1s ease-in-out infinite, omni-loading-sweep-out 600ms ease-in forwards; animation-play-state: paused, running; }
 
 /* Un chiffre rapporté l'emporte sur les animations. */
 .omni-loading-bar .omni-loading-bar__indicator[class*="omni-loading-bar__indicator--"] { animation: none; transform: none; }
@@ -512,12 +519,33 @@
 
 @keyframes omni-loading-finish { to { transform: scaleX(1); } }
 
+@keyframes omni-loading-sweep-out { to { transform: translateX(400%); } }
+
+/* t / (t + 3 s), relevée sur 120 s et reliée en droites : la vitesse baisse d'un segment à l'autre
+   sans jamais tomber à zéro. Un ease-out par segment arrêtait la barre à chaque jalon. */
 @keyframes omni-loading-fill {
-    0% { animation-timing-function: ease-out; transform: scaleX(0); }
-    10% { animation-timing-function: ease-out; transform: scaleX(0.5); }
-    25% { animation-timing-function: ease-out; transform: scaleX(0.7); }
-    50% { animation-timing-function: ease-out; transform: scaleX(0.83); }
-    100% { transform: scaleX(0.92); }
+    0% { transform: scaleX(0); }
+    0.4167% { transform: scaleX(0.1429); }
+    0.8333% { transform: scaleX(0.25); }
+    1.25% { transform: scaleX(0.3333); }
+    1.6667% { transform: scaleX(0.4); }
+    2.5% { transform: scaleX(0.5); }
+    3.3333% { transform: scaleX(0.5714); }
+    4.1667% { transform: scaleX(0.625); }
+    5% { transform: scaleX(0.6667); }
+    6.6667% { transform: scaleX(0.7273); }
+    8.3333% { transform: scaleX(0.7692); }
+    10.8333% { transform: scaleX(0.8125); }
+    13.3333% { transform: scaleX(0.8421); }
+    16.6667% { transform: scaleX(0.8696); }
+    20.8333% { transform: scaleX(0.8929); }
+    25% { transform: scaleX(0.9091); }
+    33.3333% { transform: scaleX(0.9302); }
+    41.6667% { transform: scaleX(0.9434); }
+    50% { transform: scaleX(0.9524); }
+    66.6667% { transform: scaleX(0.9639); }
+    83.3333% { transform: scaleX(0.9709); }
+    100% { transform: scaleX(0.9756); }
 }
 
 .omni-progress { align-items: center; color: var(--omni-color-accent); display: flex; gap: var(--omni-space-sm); }
@@ -956,30 +984,30 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-notification-region--bottomcenter { inset-block-end: var(--omni-space-md); inset-inline: 0; justify-self: center; margin-inline: auto; }
 .omni-notification-region--bottomend { inset-block-end: var(--omni-space-md); inset-inline-end: var(--omni-space-md); }
 
-/* Pile en paquet de cartes : la plus récente devant, entière ; les deux précédentes glissées dessous
-   de 6 et 12 px, les autres cachées derrière. Survol ou focus : la pile s'ouvre en liste. Les erreurs
-   restent hors de la pile, entières. Le compteur suit la pile, ou la précède quand elle part du bas,
-   pour que la première carte ne bouge pas. */
-.omni-notification-region__pile { --omni-pile-dir: 1; display: grid; gap: var(--omni-space-sm); }
-.omni-notification-region:is(.omni-notification-region--bottomstart,.omni-notification-region--bottomcenter,.omni-notification-region--bottomend) .omni-notification-region__pile { --omni-pile-dir: -1; }
-.omni-notification-region__pile--stacked { gap: 0; padding-block-end: 0.75rem; }
-.omni-notification-region:is(.omni-notification-region--bottomstart,.omni-notification-region--bottomcenter,.omni-notification-region--bottomend) .omni-notification-region__pile--stacked { padding-block: 0.75rem 0; }
-.omni-notification-region__pile--stacked > .omni-notification { align-self: end; grid-area: 1 / 1; transform-origin: center calc(50% + var(--omni-pile-dir) * 50%); transition: transform 200ms ease, opacity 200ms ease; }
-.omni-notification-region--bottomstart .omni-notification-region__pile--stacked > .omni-notification,.omni-notification-region--bottomcenter .omni-notification-region__pile--stacked > .omni-notification,.omni-notification-region--bottomend .omni-notification-region__pile--stacked > .omni-notification { align-self: start; }
-.omni-notification-region__pile--stacked > .omni-notification:last-child { z-index: 3; }
-.omni-notification-region__pile--stacked > .omni-notification:not(:last-child) { max-block-size: 3rem; }
-.omni-notification-region__pile--stacked:not(:hover,:focus-within) > .omni-notification:not(:last-child) > * { visibility: hidden; }
-.omni-notification-region__pile--stacked > .omni-notification:nth-last-child(2) { transform: translateY(calc(var(--omni-pile-dir) * 0.375rem)) scale(0.96); z-index: 2; }
-.omni-notification-region__pile--stacked > .omni-notification:nth-last-child(n+3) { transform: translateY(calc(var(--omni-pile-dir) * 0.75rem)) scale(0.92); z-index: 1; }
-.omni-notification-region__pile--stacked > .omni-notification:nth-last-child(n+4) { opacity: 0; }
-.omni-notification-region__pile--stacked:is(:hover,:focus-within) { gap: var(--omni-space-sm); padding-block: 0; }
-.omni-notification-region__pile--stacked:is(:hover,:focus-within) > .omni-notification { grid-area: auto; max-block-size: none; opacity: 1; transform: none; }
-/* Ouverte en haut, la pile garde la carte de devant en tête : elle ne saute pas sous le pointeur. */
-.omni-notification-region:is(.omni-notification-region--topstart,.omni-notification-region--topcenter,.omni-notification-region--topend) .omni-notification-region__pile--stacked:is(:hover,:focus-within) { display: flex; flex-direction: column-reverse; }
-.omni-notification-region:is(.omni-notification-region--topstart,.omni-notification-region--topcenter,.omni-notification-region--topend) .omni-notification-region__pile--stacked:is(:hover,:focus-within) > .omni-notification { align-self: stretch; }
-.omni-notification-region__count { order: 1; }
-.omni-notification-region:is(.omni-notification-region--bottomstart,.omni-notification-region--bottomcenter,.omni-notification-region--bottomend) .omni-notification-region__count { order: -1; }
-/* Une erreur arrive du côté opposé au bord d'ancrage, derrière le compteur : la pile ne bouge pas. */
+/* Pile en cascade : la plus ancienne derrière, chaque plus récente posée par-dessus juste sous le
+   titre de la précédente, la plus récente devant, entière. Trois titres au plus restent visibles
+   derrière elle, les autres sont cachés sous le plus ancien. La cascade descend toujours vers la carte
+   de devant : en haut, la plus ancienne tient le bord ; en bas, la zone ancrée pousse les titres vers
+   le haut et la plus récente tient le bord. Survol ou focus : la pile s'ouvre en liste. Les erreurs
+   restent hors de la pile, entières. */
+/* Un pas de cascade découvre le titre (jusqu'à 29 px) et couvre le message (dès 33 px). */
+.omni-notification-region__pile { --omni-pile-step: 2rem; display: grid; gap: var(--omni-space-sm); }
+.omni-notification-region__pile--stacked { --omni-pile-depth: 1; gap: 0; }
+.omni-notification-region__pile--stacked:has(> :nth-child(3)) { --omni-pile-depth: 2; }
+.omni-notification-region__pile--stacked:has(> :nth-child(4)) { --omni-pile-depth: 3; }
+.omni-notification-region__pile--stacked > .omni-notification { --omni-pile-back: 3; align-self: start; grid-area: 1 / 1; margin-block-start: calc(max(0, var(--omni-pile-depth) - var(--omni-pile-back)) * var(--omni-pile-step)); transition: margin 200ms ease, opacity 200ms ease; }
+.omni-notification-region__pile--stacked > .omni-notification:last-child { --omni-pile-back: 0; }
+.omni-notification-region__pile--stacked > .omni-notification:nth-last-child(2) { --omni-pile-back: 1; }
+.omni-notification-region__pile--stacked > .omni-notification:nth-last-child(3) { --omni-pile-back: 2; }
+/* Une carte de derrière ne montre que son titre : plus haute, elle dépasserait sous celle de devant. */
+.omni-notification-region__pile--stacked > .omni-notification:not(:last-child) { max-block-size: calc(var(--omni-pile-step) + 1rem); }
+.omni-notification-region__pile--stacked > .omni-notification:nth-last-child(n+5) { opacity: 0; }
+.omni-notification-region__pile--stacked:is(:hover,:focus-within) { gap: var(--omni-space-sm); }
+.omni-notification-region__pile--stacked:is(:hover,:focus-within) > .omni-notification { grid-area: auto; margin-block: 0; max-block-size: none; opacity: 1; }
+/* Le compteur ferme la zone, erreurs comprises : tout en bas quand la pile part du haut, tout en haut
+   quand elle part du bas. Une erreur arrive du côté opposé au bord d'ancrage : la pile ne bouge pas. */
+.omni-notification-region__count { order: 3; }
+.omni-notification-region:is(.omni-notification-region--bottomstart,.omni-notification-region--bottomcenter,.omni-notification-region--bottomend) .omni-notification-region__count { order: -3; }
 .omni-notification-region--grouped > .omni-notification { order: 2; }
 .omni-notification-region--grouped:is(.omni-notification-region--bottomstart,.omni-notification-region--bottomcenter,.omni-notification-region--bottomend) > .omni-notification { order: -2; }
 .omni-notification-region__count {
@@ -1029,6 +1057,32 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-tooltip--tracked .omni-tooltip__content { inset: auto; inset-block-start: var(--omni-tooltip-y); inset-inline-start: var(--omni-tooltip-x); position: fixed; transform: translate(-50%, -100%); }
 .omni-tooltip:hover .omni-tooltip__content,
 .omni-tooltip:focus-within .omni-tooltip__content { opacity: 1; visibility: visible; }
+/* Le pointeur doit se poser avant que l'infobulle paraisse ; elle part aussitôt qu'il s'en va. Le
+   focus clavier, lui, la montre sans attendre. */
+.omni-tooltip { --omni-tooltip-delay: 300ms; }
+.omni-tooltip:hover .omni-tooltip__content { transition: opacity 120ms ease var(--omni-tooltip-delay), visibility 0s linear var(--omni-tooltip-delay); }
+.omni-tooltip:focus-within .omni-tooltip__content { transition: opacity 120ms ease; }
+.omni-tooltip--delay-0 { --omni-tooltip-delay: 0ms; }
+.omni-tooltip--delay-100 { --omni-tooltip-delay: 100ms; }
+.omni-tooltip--delay-200 { --omni-tooltip-delay: 200ms; }
+.omni-tooltip--delay-300 { --omni-tooltip-delay: 300ms; }
+.omni-tooltip--delay-400 { --omni-tooltip-delay: 400ms; }
+.omni-tooltip--delay-500 { --omni-tooltip-delay: 500ms; }
+.omni-tooltip--delay-600 { --omni-tooltip-delay: 600ms; }
+.omni-tooltip--delay-700 { --omni-tooltip-delay: 700ms; }
+.omni-tooltip--delay-800 { --omni-tooltip-delay: 800ms; }
+.omni-tooltip--delay-900 { --omni-tooltip-delay: 900ms; }
+.omni-tooltip--delay-1000 { --omni-tooltip-delay: 1000ms; }
+.omni-tooltip--delay-1100 { --omni-tooltip-delay: 1100ms; }
+.omni-tooltip--delay-1200 { --omni-tooltip-delay: 1200ms; }
+.omni-tooltip--delay-1300 { --omni-tooltip-delay: 1300ms; }
+.omni-tooltip--delay-1400 { --omni-tooltip-delay: 1400ms; }
+.omni-tooltip--delay-1500 { --omni-tooltip-delay: 1500ms; }
+.omni-tooltip--delay-1600 { --omni-tooltip-delay: 1600ms; }
+.omni-tooltip--delay-1700 { --omni-tooltip-delay: 1700ms; }
+.omni-tooltip--delay-1800 { --omni-tooltip-delay: 1800ms; }
+.omni-tooltip--delay-1900 { --omni-tooltip-delay: 1900ms; }
+.omni-tooltip--delay-2000 { --omni-tooltip-delay: 2000ms; }
 .omni-context-menu { position: relative; }
 .omni-context-menu__popup { inset-inline-start: 0; }
 .omni-overlay-portal { inset: 0; pointer-events: none; position: fixed; z-index: 120; }
