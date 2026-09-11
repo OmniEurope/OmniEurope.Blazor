@@ -54,9 +54,15 @@ internal static class OmniOverlayHosts
     {
         var notifications = service.Notifications;
         var position = options.Position.ToString().ToLowerInvariant();
-        // Grouping only means something once there is a pile: one notification on its own is not a
-        // stack, and rendering it as one would put a count of 1 over it.
-        var grouped = options.Group && notifications.Count > 1;
+        // Errors never fold into the pile: what went wrong stays readable in full.
+        var errors = options.Group
+            ? notifications.Where(notification => notification.Severity == OmniNotificationSeverity.Error).ToList()
+            : [];
+        var others = options.Group
+            ? notifications.Where(notification => notification.Severity != OmniNotificationSeverity.Error).ToList()
+            : [.. notifications];
+        // A pile only stacks once there are two cards to stack, and only then carries a count.
+        var stacked = options.Group && others.Count > 1;
         // A long message widens its card. In a pile every card takes the width of the widest, or
         // the cards stop lining up behind one another.
         var wide = notifications.Any(notification => notification.Message.Length > OmniNotificationStore.LongMessageThreshold);
@@ -64,46 +70,76 @@ internal static class OmniOverlayHosts
         builder.AddAttribute(1, "class", CssClassBuilder.Combine([
             "omni-notification-region",
             $"omni-notification-region--{position}",
-            grouped ? "omni-notification-region--grouped" : null,
+            options.Group ? "omni-notification-region--grouped" : null,
             wide ? "omni-notification-region--wide" : null]));
         builder.AddAttribute(2, "aria-label", localize("NotificationsRegionLabel"));
-        var sequence = 3;
-        if (grouped)
-        {
-            builder.OpenElement(sequence++, "p");
-            builder.AddAttribute(sequence++, "class", "omni-notification-region__count");
-            builder.AddContent(sequence++, notifications.Count);
-            builder.CloseElement();
-        }
 
-        foreach (var notification in service.Notifications)
+        if (!options.Group)
         {
-            builder.OpenComponent<OmniNotification>(sequence++);
-            builder.SetKey(notification.Id);
-            builder.AddAttribute(sequence++, nameof(OmniNotification.Message), notification.Message);
-            builder.AddAttribute(sequence++, nameof(OmniNotification.Title), notification.Title);
-            builder.AddAttribute(sequence++, nameof(OmniNotification.Severity), notification.Severity);
-            builder.AddAttribute(sequence++, nameof(OmniNotification.Dismissible), options.Dismissible);
-            builder.AddAttribute(sequence++, nameof(OmniNotification.ShowCountdown), options.ShowCountdown);
-            builder.AddAttribute(sequence++, nameof(OmniNotification.Duration), notification.Duration);
-            builder.AddAttribute(sequence++, nameof(OmniNotification.DetailsHref), notification.DetailsHref);
-            builder.AddAttribute(sequence++, nameof(OmniNotification.OnHeldChanged), EventCallback.Factory.Create<bool>(service, held =>
+            foreach (var notification in others)
             {
-                if (held)
-                {
-                    service.PauseNotification(notification.Id);
-                }
-                else
-                {
-                    service.ResumeNotification(notification.Id);
-                }
-            }));
-            builder.AddAttribute(sequence++, nameof(OmniNotification.OnDismiss), EventCallback.Factory.Create(service, () => { service.Dismiss(notification.Id); }));
-            builder.CloseComponent();
+                Card(builder, 10, notification, service, options);
+            }
+        }
+        else
+        {
+            foreach (var notification in errors)
+            {
+                Card(builder, 20, notification, service, options);
+            }
+
+            // The pile element is there as soon as grouping is on, even for a single card: a card
+            // that changed parent when the second one arrived would be rebuilt, its tint restarting.
+            builder.OpenElement(30, "div");
+            builder.AddAttribute(31, "class", stacked
+                ? "omni-notification-region__pile omni-notification-region__pile--stacked"
+                : "omni-notification-region__pile");
+            foreach (var notification in others)
+            {
+                Card(builder, 32, notification, service, options);
+            }
+
+            builder.CloseElement();
+
+            if (stacked)
+            {
+                builder.OpenElement(40, "p");
+                builder.AddAttribute(41, "class", "omni-notification-region__count");
+                builder.AddContent(42, others.Count);
+                builder.CloseElement();
+            }
         }
 
         builder.CloseElement();
     };
+
+    private static void Card(RenderTreeBuilder builder, int sequence, OmniNotificationMessage notification, OmniOverlayService service, OmniNotificationOptions options)
+    {
+        builder.OpenRegion(sequence);
+        builder.OpenComponent<OmniNotification>(0);
+        builder.SetKey(notification.Id);
+        builder.AddAttribute(1, nameof(OmniNotification.Message), notification.Message);
+        builder.AddAttribute(2, nameof(OmniNotification.Title), notification.Title);
+        builder.AddAttribute(3, nameof(OmniNotification.Severity), notification.Severity);
+        builder.AddAttribute(4, nameof(OmniNotification.Dismissible), options.Dismissible);
+        builder.AddAttribute(5, nameof(OmniNotification.ShowCountdown), options.ShowCountdown);
+        builder.AddAttribute(6, nameof(OmniNotification.Duration), notification.Duration);
+        builder.AddAttribute(7, nameof(OmniNotification.DetailsHref), notification.DetailsHref);
+        builder.AddAttribute(8, nameof(OmniNotification.OnHeldChanged), EventCallback.Factory.Create<bool>(service, held =>
+        {
+            if (held)
+            {
+                service.PauseNotification(notification.Id);
+            }
+            else
+            {
+                service.ResumeNotification(notification.Id);
+            }
+        }));
+        builder.AddAttribute(9, nameof(OmniNotification.OnDismiss), EventCallback.Factory.Create(service, () => { service.Dismiss(notification.Id); }));
+        builder.CloseComponent();
+        builder.CloseRegion();
+    }
 
     internal static RenderFragment Portal(OmniOverlayCoordinator coordinator) => builder =>
     {

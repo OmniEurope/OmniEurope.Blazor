@@ -6,6 +6,44 @@ namespace OmniEurope.Blazor.Tests;
 
 public sealed class NotificationTests : OmniBunitContext
 {
+    [Fact]
+    public void Group_KeepsErrorsOutOfThePileAndCountsOnlyThePile()
+    {
+        var service = new OmniOverlayService();
+        var host = Render<OmniComponentsHost>(parameters => parameters
+            .Add(component => component.OverlayService, service)
+            .Add(component => component.Notifications, new OmniNotificationOptions(Group: true))
+            .AddChildContent("Application"));
+
+        service.Notify("Un", OmniNotificationSeverity.Information);
+        service.Notify("Échec", OmniNotificationSeverity.Error);
+        service.Notify("Deux", OmniNotificationSeverity.Success);
+
+        host.WaitForAssertion(() => Assert.Single(host.FindAll(".omni-notification-region__pile--stacked")));
+        var region = host.Find(".omni-notification-region");
+        Assert.Equal(2, region.QuerySelectorAll(".omni-notification-region__pile > .omni-notification").Length);
+        Assert.Single(region.QuerySelectorAll(":scope > .omni-notification.omni-notification--error"));
+        Assert.Equal("2", region.QuerySelector(":scope > .omni-notification-region__count")!.TextContent);
+    }
+
+    [Fact]
+    public void Group_OneCard_SitsInAnUnstackedPileWithoutACount()
+    {
+        var service = new OmniOverlayService();
+        var host = Render<OmniComponentsHost>(parameters => parameters
+            .Add(component => component.OverlayService, service)
+            .Add(component => component.Notifications, new OmniNotificationOptions(Group: true))
+            .AddChildContent("Application"));
+
+        service.Notify("Seule", OmniNotificationSeverity.Information);
+
+        // The pile element exists from the first card, so the second one does not move it to a new
+        // parent, which would rebuild it and restart its tint.
+        host.WaitForAssertion(() => Assert.Single(host.FindAll(".omni-notification-region__pile > .omni-notification")));
+        Assert.Empty(host.FindAll(".omni-notification-region__pile--stacked"));
+        Assert.Empty(host.FindAll(".omni-notification-region__count"));
+    }
+
     [Theory]
     [InlineData(300, 5, 5)]
     [InlineData(301, 5, 8)]
