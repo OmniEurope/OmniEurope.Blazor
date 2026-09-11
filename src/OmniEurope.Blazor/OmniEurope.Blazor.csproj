@@ -28,5 +28,7 @@
     <None Include="../../eng/vendored-assets.json" Pack="true" PackagePath="compliance/" />
     <None Include="../../docs/third-party-licenses/*" Pack="true" PackagePath="compliance/licenses/" />
   </ItemGroup>
+
+  <Import Project="../../eng/OmniEurope.Stylesheet.targets" />
 </Project>
 

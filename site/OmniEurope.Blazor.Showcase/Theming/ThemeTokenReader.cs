@@ -44,8 +44,10 @@ public sealed partial class ThemeTokenReader(HttpClient http)
             return [];
         }
 
+        // Release ships the stylesheet minified on one line, so nothing here may depend on line breaks.
+        var body = Comment().Replace(block.Groups["body"].Value, string.Empty);
         var tokens = new List<ThemeToken>();
-        foreach (Match declaration in Declaration().Matches(block.Groups["body"].Value))
+        foreach (Match declaration in Declaration().Matches(body))
         {
             var name = declaration.Groups["name"].Value;
             var value = declaration.Groups["value"].Value.Trim();
@@ -70,9 +72,12 @@ public sealed partial class ThemeTokenReader(HttpClient http)
         _ => ThemeTokenGroup.Color
     };
 
-    [GeneratedRegex(@"^:root\s*\{(?<body>[^}]*)\}", RegexOptions.Multiline)]
+    [GeneratedRegex(@"(?:^|\})\s*:root\s*\{(?<body>[^}]*)\}", RegexOptions.Multiline)]
     private static partial Regex RootBlock();
 
-    [GeneratedRegex(@"^\s*(?<name>--omni-[a-z0-9-]+)\s*:\s*(?<value>[^;]+);", RegexOptions.Multiline)]
+    [GeneratedRegex(@"/\*.*?\*/", RegexOptions.Singleline)]
+    private static partial Regex Comment();
+
+    [GeneratedRegex(@"(?:^|;)\s*(?<name>--omni-[a-z0-9-]+)\s*:\s*(?<value>[^;]+)")]
     private static partial Regex Declaration();
 }
