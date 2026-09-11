@@ -257,8 +257,15 @@ const onPointerDown = (state, event) => {
         return;
     }
 
-    event.preventDefault();
-    canvas.focus({ preventScroll: true });
+    // A mouse press focuses the canvas natively, which keeps the keyboard ring for keyboard users
+    // only. A touch or pen press does not always move the focus, so it is asked for, ring hidden.
+    if (event.button === 1) {
+        event.preventDefault();
+    }
+
+    if (event.pointerType !== 'mouse' && document.activeElement !== canvas) {
+        canvas.focus({ preventScroll: true, focusVisible: false });
+    }
     const start = canvasPoint(canvas, event);
 
     // The middle button pans wherever it is pressed, over a node or not.
