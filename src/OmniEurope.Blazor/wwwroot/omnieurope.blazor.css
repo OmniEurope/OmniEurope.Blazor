@@ -422,33 +422,46 @@
     position: relative;
     z-index: 35;
 }
+/* Couleur et épaisseur sont deux variables, à redéfinir sur la barre ou sur n'importe quel ancêtre. */
+.omni-loading-bar {
+    --omni-loading-bar-color: var(--omni-color-accent);
+    --omni-loading-bar-thickness: 0.125rem;
+}
 .omni-loading-bar__track {
     background: var(--omni-color-surface-muted);
-    block-size: 0.1875rem;
+    block-size: var(--omni-loading-bar-thickness);
     display: block;
     inset-block-start: 0;
     inset-inline: 0;
     overflow: hidden;
     position: absolute;
+    transition: opacity 200ms ease 200ms;
 }
 .omni-loading-bar__indicator {
-    background: var(--omni-color-accent);
+    background: var(--omni-loading-bar-color);
     block-size: 100%;
     display: block;
     inline-size: 0;
-    transition: inline-size 160ms ease;
+    transition: inline-size 160ms ease, transform 200ms ease;
 }
 /* Sans chiffre rapporté, chaque mode se suffit à lui-même : le balayage traverse, le continu
    remplit de plus en plus lentement, ce qui reste vrai tant que la durée est inconnue. */
 .omni-loading-bar--sweep .omni-loading-bar__indicator { animation: omni-loading-sweep 1.1s ease-in-out infinite; inline-size: 35%; }
 /* Le remplissage joue sur une échelle et non sur la largeur : animer inline-size laissait
-   l'indicateur à zéro, l'animation tournant sans que la valeur calculée bouge. */
+   l'indicateur à zéro, l'animation tournant sans que la valeur calculée bouge. La durée d'un
+   chargement étant inconnue, la courbe avance vite puis ralentit sans jamais atteindre le bout :
+   la moitié en trois secondes, 83 % en quinze, 92 % au bout de trente. Seule la fin réelle du
+   chargement la mène à 100 %. */
 .omni-loading-bar--continuous .omni-loading-bar__indicator {
-    animation: omni-loading-fill 8s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+    animation: omni-loading-fill 30s linear forwards;
     inline-size: 100%;
     transform: scaleX(0);
     transform-origin: left center;
 }
+/* Le chargement fini, la barre va au bout puis s'efface : retirée sur-le-champ, elle s'arrêtait
+   là où la courbe en était, ce qui se lisait comme un chargement interrompu. */
+.omni-loading-bar--done .omni-loading-bar__track { opacity: 0; }
+.omni-loading-bar--done .omni-loading-bar__indicator { animation: none; inline-size: 100%; transform: none; }
 
 /* Un chiffre rapporté l'emporte sur les deux animations : c'est une mesure, pas une estimation. */
 .omni-loading-bar__indicator[class*="omni-loading-bar__indicator--"] { animation: none; transform: none; }
@@ -480,8 +493,10 @@
 }
 
 @keyframes omni-loading-fill {
-    0% { transform: scaleX(0); }
-    50% { transform: scaleX(0.6); }
+    0% { animation-timing-function: ease-out; transform: scaleX(0); }
+    10% { animation-timing-function: ease-out; transform: scaleX(0.5); }
+    25% { animation-timing-function: ease-out; transform: scaleX(0.7); }
+    50% { animation-timing-function: ease-out; transform: scaleX(0.83); }
     100% { transform: scaleX(0.92); }
 }
 
