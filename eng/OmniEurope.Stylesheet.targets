@@ -113,7 +113,7 @@ public sealed class OmniMinifyCss : Microsoft.Build.Utilities.Task
       <Content Include="$(_OmniStylesheetRoot)omnieurope.blazor.css"
                Link="wwwroot\omnieurope.blazor.css"
                ContentRoot="$(_OmniStylesheetRoot)"
-               CopyToPublishDirectory="Never"
+               CopyToPublishDirectory="PreserveNewest"
                CopyToOutputDirectory="Never" />
     </ItemGroup>
   </Target>
