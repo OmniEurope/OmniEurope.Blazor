@@ -24,5 +24,8 @@ public enum ThemeTokenGroup
     Chart,
 
     /// <summary>Dark surfaces that only resolve inside the data grid.</summary>
-    Grid
+    Grid,
+
+    /// <summary>Node colour groups and links of the mind map.</summary>
+    Diagram
 }
