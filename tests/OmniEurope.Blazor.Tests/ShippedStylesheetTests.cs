@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text.RegularExpressions;
 using OmniEurope.Blazor.Showcase.Theming;
 
@@ -33,8 +34,8 @@ public sealed class ShippedStylesheetTests
         Assert.NotEmpty(fromSource);
         Assert.Equal(fromSource.Select(token => token.Name), fromShipped.Select(token => token.Name));
         Assert.Equal(
-            fromSource.Select(token => Regex.Replace(token.Value, @"\s+", string.Empty)),
-            fromShipped.Select(token => Regex.Replace(token.Value, @"\s+", string.Empty)));
+            fromSource.Select(token => Regex.Replace(token.DefaultValue, @"\s+", string.Empty)),
+            fromShipped.Select(token => Regex.Replace(token.DefaultValue, @"\s+", string.Empty)));
     }
 
     [Fact]
@@ -43,7 +44,7 @@ public sealed class ShippedStylesheetTests
         var tokens = ThemeTokenReader.Parse(":root{--omni-radius:2px;--omni-color-text:#000}.x{color:red}");
 
         Assert.Equal(["--omni-radius", "--omni-color-text"], tokens.Select(token => token.Name));
-        Assert.Equal("#000", tokens[1].Value);
+        Assert.Equal("#000", tokens[1].DefaultValue);
     }
 
     // An independent restatement of what the minifier may remove, written with regular expressions
@@ -64,7 +65,7 @@ public sealed class ShippedStylesheetTests
     // produced in every configuration even though only Release ships it.
     private static string Shipped()
     {
-        var configuration = new DirectoryInfo(AppContext.BaseDirectory).Parent!.Parent!.Name;
+        var configuration = typeof(ShippedStylesheetTests).Assembly.GetCustomAttribute<AssemblyConfigurationAttribute>()!.Configuration;
         var path = Path.Combine(Root, "src", "OmniEurope.Blazor", "obj", configuration, "net10.0", "omni-stylesheet", "omnieurope.blazor.css");
         Assert.True(File.Exists(path), $"The build did not produce the minified stylesheet at {path}.");
         return File.ReadAllText(path);

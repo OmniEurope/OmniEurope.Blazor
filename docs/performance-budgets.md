@@ -2,9 +2,13 @@
 
 Les budgets sont des plafonds de régression, pas des objectifs à atteindre.
 
+La feuille CSS a trois budgets. La source garde ses commentaires, qui expliquent chaque règle et ne coûtent rien à l'hôte : elle est plafonnée à part, largement. Ce que l'hôte télécharge est la copie minifiée que le build Release produit (`eng/OmniEurope.Stylesheet.targets`) et que le paquet embarque ; elle est plafonnée brute et compressée en brotli. Avec `-PackagePath`, `eng/Test-Budgets.ps1` lit cette copie dans le paquet lui-même et échoue si elle contient encore un commentaire.
+
 | Artefact ou scénario | Budget Release |
 |---|---:|
-| Feuille CSS statique | 96 Kio |
+| Feuille CSS source, commentaires compris | 128 Kio |
+| Feuille CSS livrée (minifiée) | 96 Kio |
+| Feuille CSS livrée, compressée en brotli | 24 Kio |
 | Assembly principal | 1,5 Mio |
 | Paquet NuGet `.nupkg` | 2 Mio |
 | Rendu de 1 000 boutons bUnit | 5 s et 160 Mio alloués |
