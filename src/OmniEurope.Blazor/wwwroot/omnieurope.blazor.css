@@ -422,7 +422,8 @@
     position: relative;
     z-index: 35;
 }
-/* Couleur et épaisseur sont deux variables, à redéfinir sur la barre ou sur n'importe quel ancêtre. */
+/* Couleur et épaisseur sont deux variables déclarées sur la barre elle-même : c'est donc sur la barre,
+   par une classe de l'hôte, qu'on les redéfinit ; posées sur un ancêtre, elles seraient masquées. */
 .omni-loading-bar {
     --omni-loading-bar-color: var(--omni-color-accent);
     --omni-loading-bar-thickness: 0.125rem;
@@ -442,7 +443,7 @@
     block-size: 100%;
     display: block;
     inline-size: 0;
-    transition: inline-size 160ms ease, transform 200ms ease;
+    transition: inline-size 160ms ease;
 }
 /* Sans chiffre rapporté, chaque mode se suffit à lui-même : le balayage traverse, le continu
    remplit de plus en plus lentement, ce qui reste vrai tant que la durée est inconnue. */
