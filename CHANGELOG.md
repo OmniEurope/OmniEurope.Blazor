@@ -13,6 +13,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - `OmniFieldset` gagne `Collapsible` et `Collapsed` : le groupe se replie avec l'élément natif `details`, sans script ni entorse à la CSP stricte.
 - `OmniTextBox` gagne `Type` (`Text`, `Email`, `Tel`, `Url` ou `Search`). Le type est ce qui choisit le clavier mobile et le remplissage automatique du navigateur : le champ rendait auparavant `type="text"` quoi que la page demande, un champ e-mail devenant indiscernable d'un champ libre.
 
+### Changed
+
+- `OmniButton`, `OmniSplitButton` et `OmniToggleButton` en `Busy` gardent exactement la taille et le contenu du repos : plus de spinner inséré ni d'état `disabled`, un voile de la couleur de surface (`--omni-color-surface`) respire par-dessus en opacité, avec `aria-busy`. Le bouton reste focalisable et ignore les clics ; un `Submit` en cours annule son action par défaut, ce qui empêche un formulaire de repartir sur Entrée. La règle est aussi publiée sous `.btn-busy`, pour qu'un `<button>` de l'application hôte l'obtienne sans CSS propre.
+
 ## [1.0.0] - 2026-09-06
 
 ### Added
