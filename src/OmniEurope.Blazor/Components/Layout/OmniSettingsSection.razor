@@ -1,0 +1,15 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* One container per theme of settings: a card carrying its title and what the theme is about, with
+   its settings inside, each in its own tile. *@
+<OmniCard Id="@Id" Class="@Css("omni-settings-section")" @attributes="AdditionalAttributes">
+    <div class="omni-settings-section__heading">
+        <h2 class="omni-settings-section__title">@Title</h2>
+        @if (!string.IsNullOrWhiteSpace(Description))
+        {
+            <p class="omni-settings-hint">@Description</p>
+        }
+    </div>
+    @ChildContent
+</OmniCard>
