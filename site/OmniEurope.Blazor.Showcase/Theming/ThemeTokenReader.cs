@@ -61,6 +61,7 @@ public sealed partial class ThemeTokenReader(HttpClient http)
     {
         _ when name.StartsWith("--omni-chart-", StringComparison.Ordinal) => ThemeTokenGroup.Chart,
         _ when name.StartsWith("--omni-grid-", StringComparison.Ordinal) => ThemeTokenGroup.Grid,
+        _ when name.StartsWith("--omni-mindmap-", StringComparison.Ordinal) => ThemeTokenGroup.Diagram,
         _ when name.StartsWith("--omni-shadow", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
         "--omni-focus-ring" or "--omni-color-overlay" => ThemeTokenGroup.Elevation,
         _ when name.StartsWith("--omni-color-", StringComparison.Ordinal) => ThemeTokenGroup.Color,

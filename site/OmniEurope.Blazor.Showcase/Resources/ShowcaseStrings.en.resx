@@ -93,6 +93,7 @@
   <data name="TokenGroupElevation" xml:space="preserve"><value>Shadows and overlays</value></data>
   <data name="TokenGroupChart" xml:space="preserve"><value>Charts</value></data>
   <data name="TokenGroupGrid" xml:space="preserve"><value>Data grid in dark mode</value></data>
+  <data name="TokenGroupDiagram" xml:space="preserve"><value>Mind map</value></data>
   <data name="CustomizeExportTitle" xml:space="preserve"><value>Export</value></data>
   <data name="CustomizeExportLead" xml:space="preserve"><value>The CSS below carries only the variables you moved, to be loaded after the library stylesheet.</value></data>
   <data name="CustomizeCopy" xml:space="preserve"><value>Copy</value></data>
@@ -205,4 +206,10 @@
   <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Lines, areas, columns, bars, stacks, pie and donut.</value></data>
   <data name="DemoChartsExtendedCapability2" xml:space="preserve"><value>Legend, markers, value labels and tooltip.</value></data>
   <data name="DemoChartsExtendedCapability3" xml:space="preserve"><value>An arc gauge, with a scale and a value format.</value></data>
+  <data name="DemoDiagramTitle" xml:space="preserve"><value>Mind map</value></data>
+  <data name="DemoDiagramSummary" xml:space="preserve"><value>A mind map edited with the mouse, touch and the keyboard.</value></data>
+  <data name="DemoDiagramCapability1" xml:space="preserve"><value>Drag, lasso, zoom with the wheel or a pinch, context menu.</value></data>
+  <data name="DemoDiagramCapability2" xml:space="preserve"><value>Every action has a keyboard shortcut, announced to screen readers.</value></data>
+  <data name="DemoDiagramCapability3" xml:space="preserve"><value>Action bar and a properties panel for the selected node.</value></data>
+  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Reads and writes back the stored graph format without losing anything.</value></data>
 </root>
