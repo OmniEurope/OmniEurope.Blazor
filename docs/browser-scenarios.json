@@ -28,6 +28,13 @@
       "script": "eng/Test-HybridHost.ps1",
       "components": ["OmniButton"],
       "assertions": ["WebView2 counter changes to 1", "zero WebView console errors"]
+    },
+    {
+      "id": "showcase-mindmap-gestures",
+      "host": "Static WebAssembly showcase with strict CSP headers, run by hand, not in CI",
+      "script": "eng/Test-ShowcaseMindMapProbe.mjs",
+      "components": ["OmniMindMap", "OmniMindMapNodeProperties"],
+      "assertions": ["trusted mouse drag moves the node and its link, committed by .NET", "wheel zooms in", "arrow keys move aria-activedescendant", "N adds a node and Ctrl+Z removes it", "context menu takes the focus, ArrowDown walks it, Escape closes it and returns the focus to the canvas", "double click on the background adds a node", "zero CSP violations", "zero inline style attributes", "zero browser console errors"]
     }
   ]
 }
