@@ -26,7 +26,7 @@ public partial class OmniMindMap
     private const double MenuItemHeight = 44;
     private const double MenuSeparatorHeight = 9;
     private const double MenuColorsHeight = 148;
-    private const double MenuPadding = 12;
+    private const double MenuPadding = 14;
     private const string ModulePath = "./_content/OmniEurope.Blazor/omni-mindmap.js";
 
     private readonly string _generatedId = $"omni-mindmap-{Guid.NewGuid():N}";
@@ -60,6 +60,7 @@ public partial class OmniMindMap
     private string _announcement = string.Empty;
     private bool _announceToggle;
     private bool _fitPending;
+    private bool _viewFollowsCanvas;
     private bool _measurePending = true;
     private bool _focusMenuPending;
     private bool _focusCanvasPending;
@@ -247,6 +248,11 @@ public partial class OmniMindMap
             _lastViewParameter = ViewState;
             if (ViewState is { } view)
             {
+                if (view != CurrentView)
+                {
+                    _viewFollowsCanvas = false;
+                }
+
                 _panX = view.PanX;
                 _panY = view.PanY;
                 _zoom = ClampZoom(view.Zoom);
@@ -311,6 +317,10 @@ public partial class OmniMindMap
             {
                 _fitPending = false;
                 rerender |= await FitViewAsync();
+
+                // The canvas may not have its final size yet (a container still laying out, a tab
+                // being shown): until the reader or the host moves the view, a resize fits again.
+                _viewFollowsCanvas = true;
             }
 
             if (_focusMenuPending)
@@ -536,15 +546,20 @@ public partial class OmniMindMap
         return Task.CompletedTask;
     }
 
-    internal Task HandleResizedAsync(double width, double height)
+    internal async Task HandleResizedAsync(double width, double height)
     {
-        if (width > 0 && height > 0)
+        if (width <= 0 || height <= 0 || (width == _canvasWidth && height == _canvasHeight))
         {
-            _canvasWidth = width;
-            _canvasHeight = height;
+            return;
         }
 
-        return Task.CompletedTask;
+        _canvasWidth = width;
+        _canvasHeight = height;
+        if (_viewFollowsCanvas)
+        {
+            await FitViewAsync();
+            _viewFollowsCanvas = true;
+        }
     }
 
     // ----- Commands, shared by the keyboard, the context menu, the toolbar and the panel -----
@@ -1361,6 +1376,7 @@ public partial class OmniMindMap
         _panX = panX;
         _panY = panY;
         _zoom = zoom;
+        _viewFollowsCanvas = false;
         NotifyStateChanged();
         await ViewStateChanged.InvokeAsync(CurrentView);
     }

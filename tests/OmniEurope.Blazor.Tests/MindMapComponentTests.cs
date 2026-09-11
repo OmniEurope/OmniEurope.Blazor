@@ -131,6 +131,31 @@ public sealed class MindMapComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task AutomaticFit_FollowsTheCanvasUntilTheReaderMovesTheView()
+    {
+        var module = JSInterop.SetupModule(ModulePath);
+        module.Setup<MindMapCanvasSize?>("attach", _ => true).SetResult(new MindMapCanvasSize(300, 150));
+        var views = new List<OmniMindMapViewState>();
+        var map = Render<OmniMindMap>(parameters => parameters
+            .Add(component => component.Document, Sample())
+            .Add(component => component.ViewStateChanged, value => views.Add(value)));
+        var bridge = new MindMapInteropBridge(map.Instance);
+        map.WaitForAssertion(() => Assert.NotEmpty(views));
+        var cramped = views[^1].Zoom;
+
+        await map.InvokeAsync(() => bridge.Resized(1000, 700));
+
+        Assert.True(views[^1].Zoom > cramped, $"The view kept the zoom {views[^1].Zoom} fitted to a 300 by 150 canvas.");
+
+        await map.InvokeAsync(() => bridge.ViewChanged(5, 5, 1));
+        var count = views.Count;
+        await map.InvokeAsync(() => bridge.Resized(1200, 800));
+
+        Assert.Equal(count, views.Count);
+        Assert.Equal(new OmniMindMapViewState(5, 5, 1), map.Instance.CurrentView);
+    }
+
+    [Fact]
     public void GivenViewState_IsAppliedAndNotRefitted()
     {
         var map = Render<OmniMindMap>(parameters => parameters
