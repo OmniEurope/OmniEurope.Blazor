@@ -43,10 +43,11 @@ public partial class OmniLoadingBar
     }
 
     /// <summary>
-    /// How long the bar stays once the load is over: long enough to be seen reaching the end and
-    /// fading, short enough not to announce a load that no longer exists.
+    /// How long the bar stays once the load is over: the 700 ms it takes to reach the end, which an
+    /// instant jump made look like no ending at all, then the 250 ms of its fade. Kept in step with the
+    /// stylesheet's omni-loading-bar--done timings.
     /// </summary>
-    internal static readonly TimeSpan FinishDuration = TimeSpan.FromMilliseconds(450);
+    internal static readonly TimeSpan FinishDuration = TimeSpan.FromMilliseconds(1000);
 
     private bool _wasLoading;
     private bool _finishing;

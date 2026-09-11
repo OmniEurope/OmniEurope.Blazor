@@ -425,15 +425,16 @@
     --omni-loading-bar-color: var(--omni-color-accent);
     --omni-loading-bar-thickness: 0.125rem;
 }
+/* La piste se loge dans le bas de ce qui précède (l'en-tête), sans fond : posée sur le haut du menu,
+   son liseré se lisait comme un écart entre l'en-tête et le menu. */
 .omni-loading-bar__track {
-    background: var(--omni-color-surface-muted);
+    background: transparent;
     block-size: var(--omni-loading-bar-thickness);
     display: block;
-    inset-block-start: 0;
+    inset-block-start: calc(-1 * var(--omni-loading-bar-thickness));
     inset-inline: 0;
     overflow: hidden;
     position: absolute;
-    transition: opacity 200ms ease 200ms;
 }
 .omni-loading-bar__indicator {
     background: var(--omni-loading-bar-color);
@@ -452,9 +453,12 @@
     transform: scaleX(0);
     transform-origin: left center;
 }
-/* Fini, la barre va au bout puis s'efface, au lieu de s'arrêter où en était la courbe. */
-.omni-loading-bar--done .omni-loading-bar__track { opacity: 0; }
-.omni-loading-bar--done .omni-loading-bar__indicator { animation: none; inline-size: 100%; transform: none; }
+/* Fini, la barre va au bout en 700 ms puis s'efface. Le remplissage garde son animation et une
+   seconde, sans point de départ, s'empile dessus : elle part de la valeur courante de la première,
+   là où retirer l'animation faisait sauter la barre à 100 %. */
+.omni-loading-bar--done .omni-loading-bar__track { opacity: 0; transition: opacity 250ms ease 700ms; }
+.omni-loading-bar--continuous.omni-loading-bar--done .omni-loading-bar__indicator { animation: omni-loading-fill 30s linear forwards, omni-loading-finish 700ms ease-out forwards; }
+.omni-loading-bar--sweep.omni-loading-bar--done .omni-loading-bar__indicator { animation: none; inline-size: 100%; transform: none; transition: inline-size 700ms ease-out; }
 
 /* Un chiffre rapporté l'emporte sur les animations. */
 .omni-loading-bar__indicator[class*="omni-loading-bar__indicator--"] { animation: none; transform: none; }
@@ -484,6 +488,8 @@
     0% { transform: translateX(-100%); }
     100% { transform: translateX(400%); }
 }
+
+@keyframes omni-loading-finish { to { transform: scaleX(1); } }
 
 @keyframes omni-loading-fill {
     0% { animation-timing-function: ease-out; transform: scaleX(0); }
