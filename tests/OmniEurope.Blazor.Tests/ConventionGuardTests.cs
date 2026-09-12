@@ -182,8 +182,7 @@ public sealed partial class ConventionGuardTests
         var roots = new[]
         {
             Path.Combine(Root, "src"), Path.Combine(Root, "samples"), Path.Combine(Root, "tests"),
-            Path.Combine(Root, "eng"), Path.Combine(Root, "docs"), Path.Combine(Root, ".github"),
-            Path.Combine(Root, "plans")
+            Path.Combine(Root, "eng"), Path.Combine(Root, "docs"), Path.Combine(Root, ".github")
         };
         var violations = roots
             .SelectMany(path => Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories))

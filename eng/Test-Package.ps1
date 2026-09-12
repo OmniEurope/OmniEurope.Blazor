@@ -45,6 +45,16 @@ try {
         if (-not ($entries -match $pattern)) { throw "Package entry missing: $pattern" }
     }
 
+    # Content files land in every consuming host's wwwroot: the stylesheet ships only as the minified
+    # static web asset, and its commented source must never ride along as content.
+    $contentEntries = @($entries | Where-Object { $_ -match '^(content|contentFiles)/' })
+    if ($contentEntries.Count -gt 0) {
+        throw "Package carries content files that would land in every host: $($contentEntries -join ', ')"
+    }
+    if ((Read-EntryText ($archive.GetEntry('staticwebassets/omnieurope.blazor.css'))).Contains('/*')) {
+        throw 'The packaged stylesheet still contains comments: it is not the minified copy.'
+    }
+
     $embeddedRegistry = Read-EntryText ($archive.GetEntry('compliance/third-party-packages.json')) | ConvertFrom-Json
     $expectedLicenseEntries = @($embeddedRegistry.packages |
         Where-Object { $_.license.kind -eq 'file' } |
