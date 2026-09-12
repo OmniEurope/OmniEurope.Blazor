@@ -195,6 +195,28 @@ function configureOverflow(strip, viewportSelector, startSelector, endSelector) 
     const start = strip.querySelector(startSelector);
     const end = strip.querySelector(endSelector);
 
+    // The browser leaves a focused item partly clipped when it is already partly in view, and a
+    // chevron that appears afterwards narrows the strip over it. The item reached by the keyboard is
+    // brought wholly inside the content box, at once rather than smoothly, so the measure after it is
+    // the final one. Only keyboard focus: a button clicked earlier must not pull the strip back while
+    // the reader scrolls by hand, so a plain scroll never calls this.
+    const reveal = () => {
+        const focused = document.activeElement;
+        if (!focused || focused === viewport || !viewport.contains(focused) || !focused.matches(':focus-visible')) {
+            return;
+        }
+
+        const box = viewport.getBoundingClientRect();
+        const style = getComputedStyle(viewport);
+        const left = box.left + parseFloat(style.paddingLeft);
+        const right = box.right - parseFloat(style.paddingRight);
+        const item = focused.getBoundingClientRect();
+        const delta = item.left < left ? item.left - left : item.right > right ? item.right - right : 0;
+        if (Math.abs(delta) > 0.5) {
+            viewport.scrollBy({ left: delta, behavior: 'instant' });
+        }
+    };
+
     const update = () => {
         // Right-to-left scrolling reports scrollLeft as negative or decreasing, so the distance to
         // each edge is measured in absolute terms rather than from the raw value.
@@ -221,15 +243,20 @@ function configureOverflow(strip, viewportSelector, startSelector, endSelector) 
     start?.addEventListener('click', onStart);
     end?.addEventListener('click', onEnd);
     viewport.addEventListener('scroll', update, { passive: true });
+    viewport.addEventListener('focusin', reveal);
 
     // The strip also overflows when the window narrows or when a tab is added, neither of which
-    // fires a scroll event.
-    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(update);
+    // fires a scroll event. A chevron appearing narrows the strip too, which is when a focused item
+    // it now covers is brought back.
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(() => {
+        update();
+        reveal();
+    });
     observer?.observe(viewport);
     const mutations = typeof MutationObserver === 'undefined' ? null : new MutationObserver(update);
     mutations?.observe(viewport, { childList: true, subtree: true });
 
-    tabOverflow.set(strip, { viewport, start, end, onStart, onEnd, update, observer, mutations });
+    tabOverflow.set(strip, { viewport, start, end, onStart, onEnd, update, reveal, observer, mutations });
     update();
 }
 
@@ -246,6 +273,7 @@ export function disposeTabsOverflow(strip) {
     state.start?.removeEventListener('click', state.onStart);
     state.end?.removeEventListener('click', state.onEnd);
     state.viewport.removeEventListener('scroll', state.update);
+    state.viewport.removeEventListener('focusin', state.reveal);
     state.observer?.disconnect();
     state.mutations?.disconnect();
     tabOverflow.delete(strip);
