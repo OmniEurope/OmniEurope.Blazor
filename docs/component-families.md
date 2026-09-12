@@ -6,16 +6,28 @@ Les familles ci-dessous regroupent les composants publics de la bibliothèque et
 - Charts : moteur SVG, axes, domaines partagés, séries projetées et empilements à baselines cumulées.
 - Data : listes, pagination, arbre et grille virtualisable avec projection locale ou chargement distant annulable par blocs.
 - Editor : édition source HTML, aperçu sanitizé, historique et outils personnalisés.
-- Feedback : alertes à deux variantes de remplissage et emplacement d'icône, progression, skeletons et indicateurs d'état.
+- Feedback : alertes à deux variantes de remplissage et emplacement d'icône, progression, barre de chargement de page (`OmniLoadingBar`, en balayage ou en remplissage continu), skeletons et indicateurs d'état.
 - Forms : champs texte, formulaires typés, validation et contrôles de saisie.
 - Foundation : primitives de texte, titres et types fondamentaux.
-- Layout : conteneurs, cartes, panneaux, barres et structure de page.
+- Layout : conteneurs, cartes, panneaux, barres, sections et encadrés de réglages, et structure de page. Une rangée `OmniStack` trop étroite défile sous un chevron de chaque côté, sans barre de défilement (`Overflow="Scroll"`), ou se replie en icônes (`Overflow="Collapse"`).
 - Navigation : fil d'Ariane, menus à groupes imbriqués qui déplient la branche portant la page courante, onglets, étapes et profil, avec icônes optionnelles et rendu icône seule du menu latéral.
-- Overlays : hôte, dialogues empilés avec ouverture attendue par `OpenDialogAsync`, notifications bornées, tooltip local et menu contextuel porté.
+- Overlays : hôte, dialogues empilés avec ouverture attendue par `OpenDialogAsync`, notifications bornées et regroupables en cascade, tooltip local avec délai d'apparition (`Delay`, 700 ms par défaut, immédiat au focus clavier) et suivi du pointeur (`Tracking`), et menu contextuel porté.
 - Scheduling : timeline et scheduler jour/semaine/mois en `DateTimeOffset`, avec fuseau explicite.
 - Selection : dropdown simple/multiple, autocomplete annulable, listes de choix, date, slider, couleur et upload.
 
 Les noms Omni décrivent des capacités, pas des implémentations.
+
+## Variables CSS propres à un composant
+
+Les variables de thème déclarées dans `:root` sont éditables dans le personnalisateur de la vitrine. Celles-ci se redéfinissent sur l'élément du composant qui les déclare, une valeur posée sur un ancêtre ne l'atteignant pas :
+
+| Variable | Déclarée sur | Défaut | Effet |
+|---|---|---|---|
+| `--omni-tooltip-delay` | `.omni-tooltip` | `700ms` | Temps de pointeur posé avant l'apparition ; `OmniTooltip.Delay` la remplace par pas de 100 ms entre 0 et 2 s. |
+| `--omni-loading-bar-color` | `.omni-loading-bar` | `var(--omni-color-accent)` | Couleur du trait de `OmniLoadingBar`. |
+| `--omni-loading-bar-thickness` | `.omni-loading-bar` | `0.125rem` | Épaisseur du trait, posé dans le bord de ce qui précède la barre. |
+
+`--omni-shadow-stack`, l'ombre qu'une notification empilée jette sur celle qu'elle recouvre, est une variable de thème de `:root` : un thème sombre peut la foncer.
 
 ## Limites fonctionnelles actuelles
 

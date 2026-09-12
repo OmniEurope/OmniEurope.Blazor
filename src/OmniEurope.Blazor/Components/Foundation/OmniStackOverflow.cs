@@ -9,8 +9,9 @@ public enum OmniStackOverflow
     None,
 
     /// <summary>
-    /// The stack scrolls sideways, the way a wide table does, so every item stays reachable at its
-    /// full size.
+    /// The stack scrolls sideways so every item stays reachable at its full size. No scrollbar shows:
+    /// a chevron on each side that still hides items scrolls the row, and goes at the end, as in the
+    /// tabs header. The row is then wrapped, and the host's class and attributes go on the wrapper.
     /// </summary>
     Scroll,
 
