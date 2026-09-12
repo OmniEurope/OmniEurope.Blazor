@@ -241,6 +241,7 @@
    défilement rognerait. */
 .omni-stack--overflow-scroll { flex: 1 1 auto; flex-wrap: nowrap; margin: -0.1875rem; min-inline-size: 0; overflow-x: auto; overscroll-behavior-x: contain; padding: 0.1875rem; scroll-behavior: smooth; scrollbar-width: none; }
 .omni-stack--overflow-scroll::-webkit-scrollbar { display: none; }
+@media (prefers-reduced-motion: reduce) { .omni-stack--overflow-scroll { scroll-behavior: auto; } }
 .omni-stack--overflow-scroll > * { flex: 0 0 auto; }
 .omni-stack-scroll__button { align-items: center; align-self: stretch; background: transparent; border: 0; color: var(--omni-color-text); cursor: pointer; display: inline-flex; flex: 0 0 auto; padding: 0 var(--omni-space-xs); }
 .omni-stack-scroll__button[hidden] { display: none; }
@@ -560,6 +561,12 @@
 @keyframes omni-loading-finish { to { transform: scaleX(1); } }
 
 @keyframes omni-loading-sweep-out { to { transform: translateX(400%); } }
+
+/* Animations réduites : le balayage ralentit comme le voile d'un bouton occupé, il dit toujours qu'un
+   chargement court ; le remplissage, déjà lent, reste une mesure de progression. */
+@media (prefers-reduced-motion: reduce) {
+    .omni-loading-bar--sweep:not(.omni-loading-bar--done) .omni-loading-bar__indicator { animation-duration: 4s; }
+}
 
 /* t / (t + 3 s), relevée sur 120 s et reliée en droites : la vitesse baisse d'un segment à l'autre
    sans jamais tomber à zéro. Un ease-out par segment arrêtait la barre à chaque jalon. */
@@ -1046,6 +1053,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* Empilée, chaque carte posée sur une autre y jette une ombre par son bord haut : la cascade se lit
    comme des cartes superposées, pas comme des bandeaux collés. */
 .omni-notification-region__pile--stacked:not(:hover,:focus-within) > .omni-notification:nth-last-child(-n+3):not(:first-child) { box-shadow: var(--omni-shadow-stack), var(--omni-shadow-md); }
+@media (prefers-reduced-motion: reduce) { .omni-notification-region__pile--stacked > .omni-notification { transition: none; } }
 .omni-notification-region__pile--stacked:is(:hover,:focus-within) { gap: var(--omni-space-sm); }
 .omni-notification-region__pile--stacked:is(:hover,:focus-within) > .omni-notification { grid-area: auto; margin-block: 0; max-block-size: none; opacity: 1; }
 /* Le compteur ferme la zone, erreurs comprises : tout en bas quand la pile part du haut, tout en haut
@@ -1108,6 +1116,12 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-tooltip { --omni-tooltip-delay: 700ms; }
 .omni-tooltip:hover .omni-tooltip__content { transition: opacity 120ms ease var(--omni-tooltip-delay), visibility 0s linear var(--omni-tooltip-delay); }
 .omni-tooltip:focus-within .omni-tooltip__content { transition: opacity 120ms ease; }
+/* Animations réduites : le délai reste (ce n'est pas un mouvement), le fondu disparaît. */
+@media (prefers-reduced-motion: reduce) {
+    .omni-tooltip__content,
+    .omni-tooltip:focus-within .omni-tooltip__content { transition: none; }
+    .omni-tooltip:hover .omni-tooltip__content { transition: opacity 0s linear var(--omni-tooltip-delay), visibility 0s linear var(--omni-tooltip-delay); }
+}
 .omni-tooltip--delay-0 { --omni-tooltip-delay: 0ms; }
 .omni-tooltip--delay-100 { --omni-tooltip-delay: 100ms; }
 .omni-tooltip--delay-200 { --omni-tooltip-delay: 200ms; }
