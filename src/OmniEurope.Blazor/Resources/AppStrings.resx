@@ -103,6 +103,59 @@
   <data name="LegendLabel" xml:space="preserve"><value>Légende</value></data>
   <data name="LengthValidatorMessage" xml:space="preserve"><value>La longueur de ce champ n'est pas valide.</value></data>
   <data name="ListBoxInvalid" xml:space="preserve"><value>La sélection de liste n'est pas valide.</value></data>
+  <data name="MindMapAddLink" xml:space="preserve"><value>Lien</value></data>
+  <data name="MindMapAddNode" xml:space="preserve"><value>Nœud</value></data>
+  <data name="MindMapAnnounceAdded" xml:space="preserve"><value>Nœud {0} ajouté.</value></data>
+  <data name="MindMapAnnounceDeleted" xml:space="preserve"><value>Nœuds supprimés : {0}.</value></data>
+  <data name="MindMapAnnounceDuplicated" xml:space="preserve"><value>Nœud {0} dupliqué.</value></data>
+  <data name="MindMapAnnounceLaidOut" xml:space="preserve"><value>Carte réorganisée.</value></data>
+  <data name="MindMapAnnounceLimit" xml:space="preserve"><value>Le nombre maximal de nœuds est atteint.</value></data>
+  <data name="MindMapAnnounceLinkCancelled" xml:space="preserve"><value>Création du lien annulée.</value></data>
+  <data name="MindMapAnnounceLinkDeleted" xml:space="preserve"><value>Lien supprimé.</value></data>
+  <data name="MindMapAnnounceLinkSelected" xml:space="preserve"><value>Lien sélectionné.</value></data>
+  <data name="MindMapAnnounceLinked" xml:space="preserve"><value>Lien créé de {0} vers {1}.</value></data>
+  <data name="MindMapAnnounceManySelected" xml:space="preserve"><value>Nœuds sélectionnés : {0}.</value></data>
+  <data name="MindMapAnnounceNoSelection" xml:space="preserve"><value>Aucune sélection.</value></data>
+  <data name="MindMapAnnounceRedone" xml:space="preserve"><value>Modification rétablie.</value></data>
+  <data name="MindMapAnnounceSelected" xml:space="preserve"><value>{0}, liens : {1}.</value></data>
+  <data name="MindMapAnnounceUndone" xml:space="preserve"><value>Modification annulée.</value></data>
+  <data name="MindMapAnnounceZoom" xml:space="preserve"><value>Zoom {0} %.</value></data>
+  <data name="MindMapAutoLayout" xml:space="preserve"><value>Réorganiser</value></data>
+  <data name="MindMapBold" xml:space="preserve"><value>Gras</value></data>
+  <data name="MindMapCanvasLabel" xml:space="preserve"><value>Carte mentale</value></data>
+  <data name="MindMapCenter" xml:space="preserve"><value>Centrer</value></data>
+  <data name="MindMapColorBlue" xml:space="preserve"><value>Bleu</value></data>
+  <data name="MindMapColorGray" xml:space="preserve"><value>Gris</value></data>
+  <data name="MindMapColorGreen" xml:space="preserve"><value>Vert</value></data>
+  <data name="MindMapColorIndigo" xml:space="preserve"><value>Indigo</value></data>
+  <data name="MindMapColorOrange" xml:space="preserve"><value>Orange</value></data>
+  <data name="MindMapColorPink" xml:space="preserve"><value>Rose</value></data>
+  <data name="MindMapColorPurple" xml:space="preserve"><value>Violet</value></data>
+  <data name="MindMapColorRed" xml:space="preserve"><value>Rouge</value></data>
+  <data name="MindMapColorTeal" xml:space="preserve"><value>Turquoise</value></data>
+  <data name="MindMapColorWhite" xml:space="preserve"><value>Blanc</value></data>
+  <data name="MindMapColorYellow" xml:space="preserve"><value>Jaune</value></data>
+  <data name="MindMapDelete" xml:space="preserve"><value>Supprimer</value></data>
+  <data name="MindMapDuplicate" xml:space="preserve"><value>Dupliquer</value></data>
+  <data name="MindMapFitView" xml:space="preserve"><value>Ajuster</value></data>
+  <data name="MindMapFontSize" xml:space="preserve"><value>Taille de police</value></data>
+  <data name="MindMapItalic" xml:space="preserve"><value>Italique</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Flèches : parcourir les nœuds, Début : nœud central, Maj+flèches : déplacer, Entrée ou F2 : renommer, N : nouveau nœud, D : dupliquer, C : centrer, Suppr : supprimer, + et - : zoom, 0 : ajuster, Ctrl+Z et Ctrl+Y : annuler et rétablir, Maj+F10 : menu, Échap : désélectionner.</value></data>
+  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Flèches : parcourir les nœuds, Début : nœud central, C : centrer, + et - : zoom, 0 : ajuster, Maj+F10 : menu, Échap : désélectionner.</value></data>
+  <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Échap pour annuler</value></data>
+  <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Cliquez sur le nœud source</value></data>
+  <data name="MindMapLinkSelectTarget" xml:space="preserve"><value>Cliquez sur le nœud cible</value></data>
+  <data name="MindMapMenuLabel" xml:space="preserve"><value>Actions de la carte</value></data>
+  <data name="MindMapNewNode" xml:space="preserve"><value>Nouveau</value></data>
+  <data name="MindMapNodeColor" xml:space="preserve"><value>Couleur</value></data>
+  <data name="MindMapNodeHeight" xml:space="preserve"><value>Hauteur</value></data>
+  <data name="MindMapNodeText" xml:space="preserve"><value>Texte</value></data>
+  <data name="MindMapNodeWidth" xml:space="preserve"><value>Largeur</value></data>
+  <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, note : {1}</value></data>
+  <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Propriétés du nœud</value></data>
+  <data name="MindMapRename" xml:space="preserve"><value>Renommer le nœud</value></data>
+  <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = taille automatique</value></data>
+  <data name="MindMapToolbarLabel" xml:space="preserve"><value>Actions de la carte mentale</value></data>
   <data name="MonthViewLabel" xml:space="preserve"><value>Vue mensuelle</value></data>
   <data name="MultiSelectInvalid" xml:space="preserve"><value>La sélection multiple n'est pas valide.</value></data>
   <data name="MultiSelectEmpty" xml:space="preserve"><value>Tout</value></data>
