@@ -37,6 +37,20 @@ public sealed class StackTests : OmniBunitContext
         Assert.DoesNotContain("style=", stack.Markup, StringComparison.OrdinalIgnoreCase);
     }
 
+    [Fact]
+    public async Task Scroll_ReleasesTheOverflowScriptWhenDisposed()
+    {
+        Render<OmniStack>(parameters => parameters
+            .Add(component => component.Orientation, OmniStackOrientation.Horizontal)
+            .Add(component => component.Overflow, OmniStackOverflow.Scroll)
+            .AddChildContent("<button>Un</button>"));
+
+        await DisposeComponentsAsync();
+
+        // The observers and listeners live in the browser: without this call they would outlive the row.
+        JSInterop.VerifyInvoke("disposeScrollOverflow");
+    }
+
     [Theory]
     [InlineData(OmniStackOverflow.None)]
     [InlineData(OmniStackOverflow.Collapse)]
