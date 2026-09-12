@@ -34,6 +34,24 @@ try {
     }
 
     Write-Host 'Contaminated package fixture was rejected by content inspection.'
+
+    # Second fixture: the commented stylesheet source packed as a content file, the defect a NoBuild
+    # pack once produced. It must be rejected even though every expected entry is still present.
+    Remove-Item -LiteralPath $payload -Force
+    $contentFile = Join-Path $expanded 'contentFiles/any/net10.0/wwwroot/omnieurope.blazor.css'
+    New-Item -ItemType Directory -Force -Path (Split-Path -Parent $contentFile) | Out-Null
+    [IO.File]::WriteAllText($contentFile, '/* source */ .omni-button { color: red; }')
+    $withContent = Join-Path $resolvedTempRoot 'with-content.nupkg'
+    [IO.Compression.ZipFile]::CreateFromDirectory($expanded, $withContent)
+    $output = & $pwsh -NoProfile -File (Join-Path $PSScriptRoot 'Test-Package.ps1') -PackagePath $withContent 2>&1
+    $contentExitCode = $LASTEXITCODE
+    $global:LASTEXITCODE = 0
+    if ($contentExitCode -eq 0) { throw 'The package fixture carrying content files unexpectedly passed.' }
+    if (($output -join "`n") -notmatch 'content files that would land in every host') {
+        throw "The package fixture carrying content files failed for the wrong reason: $($output -join ' | ')"
+    }
+
+    Write-Host 'Package fixture carrying content files was rejected by content inspection.'
 } finally {
     if (Test-Path -LiteralPath $resolvedTempRoot) {
         Remove-Item -LiteralPath $resolvedTempRoot -Recurse -Force

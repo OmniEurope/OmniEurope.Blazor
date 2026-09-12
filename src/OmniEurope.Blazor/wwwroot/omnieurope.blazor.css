@@ -1669,9 +1669,10 @@ body:has(.omni-overlay) { overflow: hidden; }
 
 /* Busy veil (STD-BUSY). A busy control keeps its exact size and content: a surface-coloured layer
    breathes over it instead, fading towards the page colour rather than revealing what lies behind.
-   .btn-busy is the same rule under the application-kit name, so a host's own <button> gets it too. */
+   .btn-busy is the same rule under the application-kit name, so a host's own <button> gets it too.
+   No cursor is set: with pointer events off the pointer never reaches the button to show one. */
 .omni-busy,
-.btn-busy { cursor: progress; overflow: hidden; pointer-events: none; position: relative; }
+.btn-busy { overflow: hidden; pointer-events: none; position: relative; }
 .omni-busy::after,
 .btn-busy::after {
     animation: omni-busy-veil 1.3s ease-in-out infinite;

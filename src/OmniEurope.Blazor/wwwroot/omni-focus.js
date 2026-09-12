@@ -207,9 +207,9 @@ function configureOverflow(strip, viewportSelector, startSelector, endSelector) 
         }
 
         const box = viewport.getBoundingClientRect();
-        const style = getComputedStyle(viewport);
-        const left = box.left + parseFloat(style.paddingLeft);
-        const right = box.right - parseFloat(style.paddingRight);
+        const padding = getComputedStyle(viewport);
+        const left = box.left + parseFloat(padding.paddingLeft);
+        const right = box.right - parseFloat(padding.paddingRight);
         const item = focused.getBoundingClientRect();
         const delta = item.left < left ? item.left - left : item.right > right ? item.right - right : 0;
         if (Math.abs(delta) > 0.5) {
