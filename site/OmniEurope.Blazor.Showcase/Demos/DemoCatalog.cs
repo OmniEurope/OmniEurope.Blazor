@@ -59,7 +59,9 @@ public static class DemoCatalog
         new("graphiques", typeof(ChartDemo), "DemoChartTitle", "DemoChartSummary",
             ["DemoChartCapability1", "DemoChartCapability2"]),
         new("graphiques-avances", typeof(ChartsExtendedDemo), "DemoChartsExtendedTitle", "DemoChartsExtendedSummary",
-            ["DemoChartsExtendedCapability1", "DemoChartsExtendedCapability2", "DemoChartsExtendedCapability3"])
+            ["DemoChartsExtendedCapability1", "DemoChartsExtendedCapability2", "DemoChartsExtendedCapability3"]),
+        new("diagramme", typeof(DiagramDemo), "DemoDiagramTitle", "DemoDiagramSummary",
+            ["DemoDiagramCapability1", "DemoDiagramCapability2", "DemoDiagramCapability3", "DemoDiagramCapability4"])
     ];
 
     /// <summary>The entry with the given key, or the first entry when the key is unknown.</summary>

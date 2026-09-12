@@ -58,6 +58,9 @@ component OmniEurope.Blazor.Components.OmniListBox<TValue>
 component OmniEurope.Blazor.Components.OmniLoadingBar
 component OmniEurope.Blazor.Components.OmniMain
 component OmniEurope.Blazor.Components.OmniMarkers
+component OmniEurope.Blazor.Components.OmniMindMap
+component OmniEurope.Blazor.Components.OmniMindMapNodeProperties
+component OmniEurope.Blazor.Components.OmniMindMapToolbar
 component OmniEurope.Blazor.Components.OmniMonthView
 component OmniEurope.Blazor.Components.OmniMultiSelect<TValue>
 component OmniEurope.Blazor.Components.OmniNotification
@@ -187,6 +190,15 @@ ctor public OmniEurope.Blazor.Components.OmniLoadingState()
 ctor public OmniEurope.Blazor.Components.OmniLocalStorageDataGridStateStore(Microsoft.JSInterop.IJSRuntime javaScript)
 ctor public OmniEurope.Blazor.Components.OmniMain()
 ctor public OmniEurope.Blazor.Components.OmniMarkers()
+ctor public OmniEurope.Blazor.Components.OmniMindMap()
+ctor public OmniEurope.Blazor.Components.OmniMindMapDocument()
+ctor public OmniEurope.Blazor.Components.OmniMindMapEdge()
+ctor public OmniEurope.Blazor.Components.OmniMindMapLabels()
+ctor public OmniEurope.Blazor.Components.OmniMindMapNode()
+ctor public OmniEurope.Blazor.Components.OmniMindMapNodeProperties()
+ctor public OmniEurope.Blazor.Components.OmniMindMapNote()
+ctor public OmniEurope.Blazor.Components.OmniMindMapToolbar()
+ctor public OmniEurope.Blazor.Components.OmniMindMapViewState(System.Double PanX, System.Double PanY, System.Double Zoom)
 ctor public OmniEurope.Blazor.Components.OmniMonthView()
 ctor public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniNotification()
@@ -368,6 +380,18 @@ field public static OmniEurope.Blazor.Components.OmniLayoutWidth.Full : OmniEuro
 field public static OmniEurope.Blazor.Components.OmniLayoutWidth.Wide : OmniEurope.Blazor.Components.OmniLayoutWidth const = 1
 field public static OmniEurope.Blazor.Components.OmniLoadingBarMode.Continuous : OmniEurope.Blazor.Components.OmniLoadingBarMode const = 1
 field public static OmniEurope.Blazor.Components.OmniLoadingBarMode.Sweep : OmniEurope.Blazor.Components.OmniLoadingBarMode const = 0
+field public static OmniEurope.Blazor.Components.OmniMindMapGroups.Blue : System.String const = "blue"
+field public static OmniEurope.Blazor.Components.OmniMindMapGroups.Gray : System.String const = "gray"
+field public static OmniEurope.Blazor.Components.OmniMindMapGroups.Green : System.String const = "green"
+field public static OmniEurope.Blazor.Components.OmniMindMapGroups.Indigo : System.String const = "indigo"
+field public static OmniEurope.Blazor.Components.OmniMindMapGroups.Orange : System.String const = "orange"
+field public static OmniEurope.Blazor.Components.OmniMindMapGroups.Pink : System.String const = "pink"
+field public static OmniEurope.Blazor.Components.OmniMindMapGroups.Purple : System.String const = "purple"
+field public static OmniEurope.Blazor.Components.OmniMindMapGroups.Red : System.String const = "red"
+field public static OmniEurope.Blazor.Components.OmniMindMapGroups.Root : System.String const = "root"
+field public static OmniEurope.Blazor.Components.OmniMindMapGroups.Teal : System.String const = "teal"
+field public static OmniEurope.Blazor.Components.OmniMindMapGroups.Yellow : System.String const = "yellow"
+field public static OmniEurope.Blazor.Components.OmniMindMapNode.DefaultFontSize : System.Int32 const = 14
 field public static OmniEurope.Blazor.Components.OmniMultiSelectPresentation.Compact : OmniEurope.Blazor.Components.OmniMultiSelectPresentation const = 1
 field public static OmniEurope.Blazor.Components.OmniMultiSelectPresentation.List : OmniEurope.Blazor.Components.OmniMultiSelectPresentation const = 0
 field public static OmniEurope.Blazor.Components.OmniNavMatch.Exact : OmniEurope.Blazor.Components.OmniNavMatch const = 1
@@ -542,6 +566,14 @@ method protected override OmniEurope.Blazor.Components.OmniLoadingBar.OnInitiali
 method protected override OmniEurope.Blazor.Components.OmniMain.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMarkers.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMarkers.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniMindMap.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniMindMap.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
+method protected override OmniEurope.Blazor.Components.OmniMindMap.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniMindMap.OnParametersSetAsync() : System.Threading.Tasks.Task
+method protected override OmniEurope.Blazor.Components.OmniMindMapNodeProperties.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniMindMapNodeProperties.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniMindMapToolbar.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniMindMapToolbar.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMonthView.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.OnParametersSet() : System.Void
@@ -691,6 +723,23 @@ method public OmniEurope.Blazor.Components.OmniLoadingState.Track() : System.IDi
 method public OmniEurope.Blazor.Components.OmniLocalStorageDataGridStateStore.LoadAsync(System.String key, System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task<System.String?>
 method public OmniEurope.Blazor.Components.OmniLocalStorageDataGridStateStore.SaveAsync(System.String key, System.String state, System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniMarkers.Dispose() : System.Void
+method public OmniEurope.Blazor.Components.OmniMindMap.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniMindMapDocument.<Clone>$() : OmniEurope.Blazor.Components.OmniMindMapDocument
+method public OmniEurope.Blazor.Components.OmniMindMapDocument.Equals(OmniEurope.Blazor.Components.OmniMindMapDocument? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniMindMapDocument.ToJson() : System.String
+method public OmniEurope.Blazor.Components.OmniMindMapEdge.<Clone>$() : OmniEurope.Blazor.Components.OmniMindMapEdge
+method public OmniEurope.Blazor.Components.OmniMindMapEdge.Equals(OmniEurope.Blazor.Components.OmniMindMapEdge? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniMindMapLabels.<Clone>$() : OmniEurope.Blazor.Components.OmniMindMapLabels
+method public OmniEurope.Blazor.Components.OmniMindMapLabels.Equals(OmniEurope.Blazor.Components.OmniMindMapLabels? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniMindMapNode.<Clone>$() : OmniEurope.Blazor.Components.OmniMindMapNode
+method public OmniEurope.Blazor.Components.OmniMindMapNode.Equals(OmniEurope.Blazor.Components.OmniMindMapNode? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniMindMapNodeProperties.Dispose() : System.Void
+method public OmniEurope.Blazor.Components.OmniMindMapNote.<Clone>$() : OmniEurope.Blazor.Components.OmniMindMapNote
+method public OmniEurope.Blazor.Components.OmniMindMapNote.Equals(OmniEurope.Blazor.Components.OmniMindMapNote? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniMindMapToolbar.Dispose() : System.Void
+method public OmniEurope.Blazor.Components.OmniMindMapViewState.<Clone>$() : OmniEurope.Blazor.Components.OmniMindMapViewState
+method public OmniEurope.Blazor.Components.OmniMindMapViewState.Deconstruct(out System.Double PanX, out System.Double PanY, out System.Double Zoom) : System.Void
+method public OmniEurope.Blazor.Components.OmniMindMapViewState.Equals(OmniEurope.Blazor.Components.OmniMindMapViewState? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniNotificationMessage.<Clone>$() : OmniEurope.Blazor.Components.OmniNotificationMessage
 method public OmniEurope.Blazor.Components.OmniNotificationMessage.Deconstruct(out System.Guid Id, out System.String Message, out OmniEurope.Blazor.Components.OmniNotificationSeverity Severity, out System.String? Title) : System.Void
 method public OmniEurope.Blazor.Components.OmniNotificationMessage.Equals(OmniEurope.Blazor.Components.OmniNotificationMessage? other) : System.Boolean
@@ -766,6 +815,24 @@ method public override OmniEurope.Blazor.Components.OmniDialogRequest.ToString()
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorTool.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorTool.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorTool.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMindMapDocument.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMindMapDocument.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMindMapDocument.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMindMapEdge.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMindMapEdge.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMindMapEdge.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMindMapLabels.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMindMapLabels.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMindMapLabels.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMindMapNode.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMindMapNode.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMindMapNode.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMindMapNote.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMindMapNote.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMindMapNote.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMindMapViewState.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMindMapViewState.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMindMapViewState.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniNotificationMessage.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniNotificationMessage.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniNotificationMessage.ToString() : System.String
@@ -810,6 +877,19 @@ method public static OmniEurope.Blazor.Components.OmniDialogRequest.op_Inequalit
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorTool.op_Equality(OmniEurope.Blazor.Components.OmniHtmlEditorTool? left, OmniEurope.Blazor.Components.OmniHtmlEditorTool? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorTool.op_Inequality(OmniEurope.Blazor.Components.OmniHtmlEditorTool? left, OmniEurope.Blazor.Components.OmniHtmlEditorTool? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniIconGlyph.Phosphor(System.String pathData) : OmniEurope.Blazor.Components.OmniIconGlyph
+method public static OmniEurope.Blazor.Components.OmniMindMapDocument.FromJson(System.String json) : OmniEurope.Blazor.Components.OmniMindMapDocument
+method public static OmniEurope.Blazor.Components.OmniMindMapDocument.op_Equality(OmniEurope.Blazor.Components.OmniMindMapDocument? left, OmniEurope.Blazor.Components.OmniMindMapDocument? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMindMapDocument.op_Inequality(OmniEurope.Blazor.Components.OmniMindMapDocument? left, OmniEurope.Blazor.Components.OmniMindMapDocument? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMindMapEdge.op_Equality(OmniEurope.Blazor.Components.OmniMindMapEdge? left, OmniEurope.Blazor.Components.OmniMindMapEdge? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMindMapEdge.op_Inequality(OmniEurope.Blazor.Components.OmniMindMapEdge? left, OmniEurope.Blazor.Components.OmniMindMapEdge? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMindMapLabels.op_Equality(OmniEurope.Blazor.Components.OmniMindMapLabels? left, OmniEurope.Blazor.Components.OmniMindMapLabels? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMindMapLabels.op_Inequality(OmniEurope.Blazor.Components.OmniMindMapLabels? left, OmniEurope.Blazor.Components.OmniMindMapLabels? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMindMapNode.op_Equality(OmniEurope.Blazor.Components.OmniMindMapNode? left, OmniEurope.Blazor.Components.OmniMindMapNode? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMindMapNode.op_Inequality(OmniEurope.Blazor.Components.OmniMindMapNode? left, OmniEurope.Blazor.Components.OmniMindMapNode? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMindMapNote.op_Equality(OmniEurope.Blazor.Components.OmniMindMapNote? left, OmniEurope.Blazor.Components.OmniMindMapNote? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMindMapNote.op_Inequality(OmniEurope.Blazor.Components.OmniMindMapNote? left, OmniEurope.Blazor.Components.OmniMindMapNote? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMindMapViewState.op_Equality(OmniEurope.Blazor.Components.OmniMindMapViewState? left, OmniEurope.Blazor.Components.OmniMindMapViewState? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMindMapViewState.op_Inequality(OmniEurope.Blazor.Components.OmniMindMapViewState? left, OmniEurope.Blazor.Components.OmniMindMapViewState? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniNotificationMessage.op_Equality(OmniEurope.Blazor.Components.OmniNotificationMessage? left, OmniEurope.Blazor.Components.OmniNotificationMessage? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniNotificationMessage.op_Inequality(OmniEurope.Blazor.Components.OmniNotificationMessage? left, OmniEurope.Blazor.Components.OmniNotificationMessage? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniNotificationOptions.op_Equality(OmniEurope.Blazor.Components.OmniNotificationOptions? left, OmniEurope.Blazor.Components.OmniNotificationOptions? right) : System.Boolean
@@ -1235,6 +1315,50 @@ property public OmniEurope.Blazor.Components.OmniMain.FocusTarget : System.Boole
 property public OmniEurope.Blazor.Components.OmniMarkers.ColorIndex : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMarkers.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartPoint> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMarkers.Radius : System.Double {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMindMap.AriaLabel : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMindMap.ContextLabels : OmniEurope.Blazor.Components.OmniMindMapLabels? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMindMap.Document : OmniEurope.Blazor.Components.OmniMindMapDocument? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMindMap.DocumentChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniMindMapDocument> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMindMap.NodeRenameRequested : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniMindMapNode> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMindMap.NodeSelected : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniMindMapNode?> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMindMap.PanelContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMindMap.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMindMap.ToolbarContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMindMap.ViewState : OmniEurope.Blazor.Components.OmniMindMapViewState? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMindMap.ViewStateChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniMindMapViewState> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMindMapDocument.AdditionalProperties : System.Collections.Generic.IReadOnlyDictionary<System.String,System.Text.Json.JsonElement> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapDocument.Edges : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniMindMapEdge> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapDocument.Nodes : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniMindMapNode> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapDocument.Notes : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniMindMapNote> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapDocument.RootId : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapEdge.AdditionalProperties : System.Collections.Generic.IReadOnlyDictionary<System.String,System.Text.Json.JsonElement> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapLabels.AddLink : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapLabels.AddNode : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapLabels.AutoLayout : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapLabels.Center : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapLabels.Delete : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapLabels.Duplicate : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapLabels.FitView : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapLabels.LinkSelectSource : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapLabels.LinkSelectTarget : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapLabels.NewNodeLabel : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapLabels.Rename : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapNode.AdditionalProperties : System.Collections.Generic.IReadOnlyDictionary<System.String,System.Text.Json.JsonElement> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapNode.Bold : System.Boolean {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapNode.FontSize : System.Int32 {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapNode.Group : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapNode.Height : System.Int32 {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapNode.Italic : System.Boolean {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapNode.Label : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapNode.Width : System.Int32 {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapNode.X : System.Double {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapNode.Y : System.Double {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapNote.AdditionalProperties : System.Collections.Generic.IReadOnlyDictionary<System.String,System.Text.Json.JsonElement> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapNote.Text : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapToolbar.AriaLabel : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMindMapViewState.PanX : System.Double {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapViewState.PanY : System.Double {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMindMapViewState.Zoom : System.Double {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniMonthView.Appointments : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniSchedulerAppointment> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMonthView.Culture : System.Globalization.CultureInfo {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMonthView.Date : System.DateTimeOffset {get(public);set(public)} [Parameter]
@@ -1558,6 +1682,12 @@ property public OmniEurope.Blazor.Components.OmniWeekView.Appointments : System.
 property public OmniEurope.Blazor.Components.OmniWeekView.Culture : System.Globalization.CultureInfo {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniWeekView.Date : System.DateTimeOffset {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniWeekView.Label : System.String {get(public);set(public)} [Parameter]
+property public required OmniEurope.Blazor.Components.OmniMindMapEdge.From : System.String {get(public);init(public)}
+property public required OmniEurope.Blazor.Components.OmniMindMapEdge.To : System.String {get(public);init(public)}
+property public required OmniEurope.Blazor.Components.OmniMindMapNode.Id : System.String {get(public);init(public)}
+property public required OmniEurope.Blazor.Components.OmniMindMapNote.AttachedTo : System.String {get(public);init(public)}
+property public static OmniEurope.Blazor.Components.OmniMindMapDocument.Empty : OmniEurope.Blazor.Components.OmniMindMapDocument {get(public)}
+property public static OmniEurope.Blazor.Components.OmniMindMapGroups.Palette : System.Collections.Generic.IReadOnlyList<System.String> {get(public)}
 type public Microsoft.Extensions.DependencyInjection.OmniEuropeBlazorServiceCollectionExtensions [static-class, static]
 type public OmniEurope.Blazor.Components.IOmniDataGridStateStore [interface, abstract]
 type public OmniEurope.Blazor.Components.OmniAlert [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
@@ -1668,6 +1798,16 @@ type public OmniEurope.Blazor.Components.OmniLoadingState [class, sealed]
 type public OmniEurope.Blazor.Components.OmniLocalStorageDataGridStateStore [class, sealed] : OmniEurope.Blazor.Components.IOmniDataGridStateStore
 type public OmniEurope.Blazor.Components.OmniMain [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniMarkers [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniMindMap [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
+type public OmniEurope.Blazor.Components.OmniMindMapDocument [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMindMapDocument>
+type public OmniEurope.Blazor.Components.OmniMindMapEdge [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMindMapEdge>
+type public OmniEurope.Blazor.Components.OmniMindMapGroups [static-class, static]
+type public OmniEurope.Blazor.Components.OmniMindMapLabels [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMindMapLabels>
+type public OmniEurope.Blazor.Components.OmniMindMapNode [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMindMapNode>
+type public OmniEurope.Blazor.Components.OmniMindMapNodeProperties [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniMindMapNote [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMindMapNote>
+type public OmniEurope.Blazor.Components.OmniMindMapToolbar [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniMindMapViewState [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMindMapViewState>
 type public OmniEurope.Blazor.Components.OmniMonthView [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniMultiSelect<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<System.Collections.Generic.IReadOnlyList<TValue>>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniMultiSelectPresentation [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32

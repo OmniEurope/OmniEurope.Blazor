@@ -93,6 +93,7 @@
   <data name="TokenGroupElevation" xml:space="preserve"><value>Ombres et superpositions</value></data>
   <data name="TokenGroupChart" xml:space="preserve"><value>Graphiques</value></data>
   <data name="TokenGroupGrid" xml:space="preserve"><value>Grille de données en mode sombre</value></data>
+  <data name="TokenGroupDiagram" xml:space="preserve"><value>Carte mentale</value></data>
   <data name="CustomizeExportTitle" xml:space="preserve"><value>Exporter</value></data>
   <data name="CustomizeExportLead" xml:space="preserve"><value>Le CSS ci-dessous ne contient que les variables que vous avez déplacées, à charger après la feuille de la bibliothèque.</value></data>
   <data name="CustomizeCopy" xml:space="preserve"><value>Copier</value></data>
@@ -205,4 +206,10 @@
   <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Lignes, aires, colonnes, barres, empilements, secteurs et anneau.</value></data>
   <data name="DemoChartsExtendedCapability2" xml:space="preserve"><value>Légende, marqueurs, étiquettes de valeur et infobulle.</value></data>
   <data name="DemoChartsExtendedCapability3" xml:space="preserve"><value>Jauge à arc, avec échelle et format de valeur.</value></data>
+  <data name="DemoDiagramTitle" xml:space="preserve"><value>Carte mentale</value></data>
+  <data name="DemoDiagramSummary" xml:space="preserve"><value>Une carte mentale éditable à la souris, au toucher et au clavier.</value></data>
+  <data name="DemoDiagramCapability1" xml:space="preserve"><value>Glisser, lasso, zoom à la molette ou au pincement, menu contextuel.</value></data>
+  <data name="DemoDiagramCapability2" xml:space="preserve"><value>Chaque action a son raccourci clavier, annoncé aux lecteurs d'écran.</value></data>
+  <data name="DemoDiagramCapability3" xml:space="preserve"><value>Barre d'actions et panneau des propriétés du nœud sélectionné.</value></data>
+  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Relit et réécrit le format de graphe enregistré sans rien perdre.</value></data>
 </root>

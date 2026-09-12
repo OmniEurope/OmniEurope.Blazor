@@ -1,0 +1,158 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
+
+<div @attributes="AdditionalAttributes"
+     id="@BaseId"
+     class="@Css("omni-mindmap", ReadOnly ? "omni-mindmap--readonly" : null)">
+    <CascadingValue Value="this" IsFixed="true">
+        @ToolbarContent
+        <div class="omni-mindmap__workspace">
+            <div class="omni-mindmap__frame">
+                @if (_linking)
+                {
+                    <div class="omni-mindmap__banner">
+                        <span>@LinkBannerText</span>
+                        <span class="omni-mindmap__banner-hint">@Localize("MindMapLinkCancelHint")</span>
+                    </div>
+                }
+                <svg @ref="_canvas"
+                     id="@CanvasId"
+                     class="@CanvasCss"
+                     role="application"
+                     tabindex="0"
+                     aria-label="@EffectiveAriaLabel"
+                     aria-describedby="@HintId"
+                     aria-activedescendant="@ActiveDescendant"
+                     data-omni-readonly="@(ReadOnly ? "true" : "false")"
+                     data-omni-linking="@(_linking ? "true" : "false")"
+                     @onkeydown="HandleKeyDownAsync">
+                    <g class="omni-mindmap__viewport"
+                       transform="@MindMapGeometry.View(_panX, _panY, _zoom)"
+                       data-pan-x="@MindMapGeometry.Format(_panX)"
+                       data-pan-y="@MindMapGeometry.Format(_panY)"
+                       data-zoom="@MindMapGeometry.Format(_zoom)">
+                        <g class="omni-mindmap__edges">
+                            @foreach (var edge in _renderedEdges)
+                            {
+                                <g @key="edge.Index"
+                                   class="@(edge.Index == _selectedEdge ? "omni-mindmap__edge omni-mindmap__edge--selected" : "omni-mindmap__edge")"
+                                   data-omni-edge="@edge.Index"
+                                   data-from="@edge.From.Id"
+                                   data-to="@edge.To.Id">
+                                    <path class="omni-mindmap__edge-hit" d="@EdgePath(edge)" />
+                                    <path class="omni-mindmap__edge-line" d="@EdgePath(edge)" />
+                                </g>
+                            }
+                        </g>
+                        <g class="omni-mindmap__nodes">
+                            @foreach (var node in _drawable)
+                            {
+                                var size = SizeOf(node);
+                                <g @key="node.Id"
+                                   id="@NodeElementId(node.Id)"
+                                   class="@NodeCss(node)"
+                                   role="img"
+                                   aria-label="@NodeAccessibleName(node)"
+                                   transform="@MindMapGeometry.Translate(node.X, node.Y)"
+                                   data-omni-node="@node.Id"
+                                   data-omni-selected="@(IsSelected(node.Id) ? "true" : null)"
+                                   data-x="@MindMapGeometry.Format(node.X)"
+                                   data-y="@MindMapGeometry.Format(node.Y)">
+                                    @foreach (var note in NotesOf(node.Id))
+                                    {
+                                        var noteSize = NoteSize(note);
+                                        <g class="omni-mindmap__note" transform="@MindMapGeometry.Translate((size.Width / 2) + 30, -40)">
+                                            <line class="omni-mindmap__note-connector" x1="0" y1="0" x2="-30" y2="40" />
+                                            <rect class="omni-mindmap__note-shape"
+                                                  x="0"
+                                                  y="@MindMapGeometry.Format((-noteSize.Height / 2) - 6)"
+                                                  width="@MindMapGeometry.Format(noteSize.Width + 16)"
+                                                  height="@MindMapGeometry.Format(noteSize.Height + 12)"
+                                                  rx="4" />
+                                            <text class="omni-mindmap__note-text" x="8" y="2" font-size="12" dominant-baseline="central" data-omni-measure="@NoteKey(note.Index)">@note.Note.Text</text>
+                                        </g>
+                                    }
+                                    <rect class="omni-mindmap__node-shape"
+                                          x="@MindMapGeometry.Format(-size.Width / 2)"
+                                          y="@MindMapGeometry.Format(-size.Height / 2)"
+                                          width="@MindMapGeometry.Format(size.Width)"
+                                          height="@MindMapGeometry.Format(size.Height)"
+                                          rx="10"
+                                          ry="10" />
+                                    <text class="@LabelCss(node)"
+                                          x="0"
+                                          y="0"
+                                          text-anchor="middle"
+                                          dominant-baseline="central"
+                                          font-size="@FontSizeOf(node)"
+                                          data-omni-measure="@NodeKey(node.Id)">@node.Label</text>
+                                </g>
+                            }
+                        </g>
+                    </g>
+                    <rect class="omni-mindmap__lasso" x="0" y="0" width="0" height="0" visibility="hidden" />
+                    @if (_menu is { } menu)
+                    {
+                        <foreignObject class="omni-mindmap__menu-host"
+                                       x="@MindMapGeometry.Format(MenuLeft(menu))"
+                                       y="@MindMapGeometry.Format(MenuTop(menu))"
+                                       width="@MindMapGeometry.Format(MenuWidth)"
+                                       height="@MindMapGeometry.Format(MenuHeight(menu))">
+                            <div class="omni-mindmap__menu"
+                                 role="menu"
+                                 tabindex="-1"
+                                 aria-label="@Localize("MindMapMenuLabel")"
+                                 @onkeydown="HandleMenuKeyDownAsync"
+                                 @onkeydown:stopPropagation="true">
+                                @if (menu.NodeId is not null)
+                                {
+                                    @if (!ReadOnly)
+                                    {
+                                        <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="MenuRenameAsync">@RenameLabel</button>
+                                        <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="MenuDuplicateAsync">@DuplicateLabel</button>
+                                        <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="MenuLinkAsync">@AddLinkLabel</button>
+                                    }
+                                    <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="MenuCenterAsync">@CenterLabel</button>
+                                    @if (!ReadOnly)
+                                    {
+                                        <div class="omni-mindmap__menu-separator" role="separator"></div>
+                                        <div class="omni-mindmap__menu-colors" role="group" aria-label="@Localize("MindMapNodeColor")">
+                                            @foreach (var group in OmniMindMapGroups.Palette)
+                                            {
+                                                <button type="button"
+                                                        class="@($"omni-mindmap__swatch omni-mindmap__swatch--{group}")"
+                                                        role="menuitemradio"
+                                                        tabindex="-1"
+                                                        aria-checked="@(IsMenuNodeGroup(menu, group) ? "true" : "false")"
+                                                        aria-label="@GroupName(group)"
+                                                        title="@GroupName(group)"
+                                                        @onclick="() => MenuColorAsync(group)"></button>
+                                            }
+                                        </div>
+                                        <div class="omni-mindmap__menu-separator" role="separator"></div>
+                                        <button type="button" class="omni-mindmap__menu-item omni-mindmap__menu-item--danger" role="menuitem" tabindex="-1" @onclick="MenuDeleteAsync">@DeleteLabel</button>
+                                    }
+                                }
+                                else
+                                {
+                                    @if (!ReadOnly)
+                                    {
+                                        <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="MenuAddNodeAsync">@AddNodeLabel</button>
+                                        <div class="omni-mindmap__menu-separator" role="separator"></div>
+                                        <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="MenuAutoLayoutAsync">@AutoLayoutLabel</button>
+                                    }
+                                    <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="MenuFitViewAsync">@FitViewLabel</button>
+                                }
+                            </div>
+                        </foreignObject>
+                    }
+                </svg>
+            </div>
+            @PanelContent
+        </div>
+        <p id="@HintId" class="omni-visually-hidden">@KeyboardHint</p>
+        <div class="omni-visually-hidden" role="status" aria-live="polite" aria-atomic="true">@_announcement</div>
+    </CascadingValue>
+</div>

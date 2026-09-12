@@ -1,0 +1,24 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IDisposable
+
+<div @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@Css("omni-mindmap-toolbar")"
+     role="group"
+     aria-label="@EffectiveAriaLabel"
+     aria-controls="@Map.CanvasId">
+    @if (!Map.ReadOnly)
+    {
+        <OmniButton Variant="OmniButtonVariant.Success" data-omni-mindmap-action="add" OnClick="AddNodeAsync">@Map.AddNodeLabel</OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Danger" data-omni-mindmap-action="delete" Disabled="@(!Map.HasSelection)" OnClick="DeleteAsync">@Map.DeleteLabel</OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" data-omni-mindmap-action="duplicate" Disabled="@(Map.SelectedNode is null)" OnClick="DuplicateAsync">@Map.DuplicateLabel</OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" data-omni-mindmap-action="link" aria-pressed="@(Map.IsLinking ? "true" : "false")" OnClick="LinkAsync">@Map.AddLinkLabel</OmniButton>
+    }
+    <OmniButton Variant="OmniButtonVariant.Secondary" data-omni-mindmap-action="center" Disabled="@(Map.SelectedNode is null)" OnClick="CenterAsync">@Map.CenterLabel</OmniButton>
+    @if (!Map.ReadOnly)
+    {
+        <OmniButton Variant="OmniButtonVariant.Secondary" data-omni-mindmap-action="layout" OnClick="AutoLayoutAsync">@Map.AutoLayoutLabel</OmniButton>
+    }
+    <OmniButton Variant="OmniButtonVariant.Secondary" data-omni-mindmap-action="fit" OnClick="FitViewAsync">@Map.FitViewLabel</OmniButton>
+</div>

@@ -1,0 +1,60 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IDisposable
+
+@if (Map.SelectedNode is { } node)
+{
+    <section @attributes="AdditionalAttributes"
+             id="@BaseId"
+             class="@Css("omni-mindmap-properties")"
+             aria-labelledby="@TitleId">
+        <div id="@TitleId" class="omni-mindmap-properties__title">@Localize("MindMapPropertiesTitle")</div>
+        <OmniFormField For="@LabelId">
+            <Label>@Localize("MindMapNodeText")</Label>
+            <ChildContent>
+                <OmniTextBox Id="@LabelId" @bind-Value:get="node.Label" @bind-Value:set="SetLabelAsync" Disabled="@Map.ReadOnly" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="@ColorId">
+            <Label>@Localize("MindMapNodeColor")</Label>
+            <ChildContent>
+                <OmniDropDown TValue="string" Id="@ColorId" Options="ColorOptions" @bind-Value:get="SelectedGroup" @bind-Value:set="SetGroupAsync" Disabled="@Map.ReadOnly" />
+            </ChildContent>
+        </OmniFormField>
+        <div class="omni-mindmap-properties__row" role="group" aria-label="@Localize("MindMapNodeColor")">
+            @foreach (var group in OmniMindMapGroups.Palette)
+            {
+                <button type="button"
+                        class="@($"omni-mindmap__swatch omni-mindmap__swatch--{group}")"
+                        aria-pressed="@(string.Equals(GroupOf(node), group, StringComparison.Ordinal) ? "true" : "false")"
+                        aria-label="@Map.GroupName(group)"
+                        title="@Map.GroupName(group)"
+                        disabled="@Map.ReadOnly"
+                        @onclick="() => SetGroupAsync(group)"></button>
+            }
+        </div>
+        <OmniFormField For="@FontSizeId">
+            <Label>@Localize("MindMapFontSize")</Label>
+            <ChildContent>
+                <OmniNumeric TValue="int" Id="@FontSizeId" Minimum="8" Maximum="48" @bind-Value:get="node.FontSize" @bind-Value:set="SetFontSizeAsync" Disabled="@Map.ReadOnly" />
+            </ChildContent>
+        </OmniFormField>
+        <div class="omni-mindmap-properties__row">
+            <OmniToggleButton Value="@node.Bold" ValueChanged="SetBoldAsync" Disabled="@Map.ReadOnly">@Localize("MindMapBold")</OmniToggleButton>
+            <OmniToggleButton Value="@node.Italic" ValueChanged="SetItalicAsync" Disabled="@Map.ReadOnly">@Localize("MindMapItalic")</OmniToggleButton>
+        </div>
+        <OmniFormField For="@WidthId">
+            <Label>@Localize("MindMapNodeWidth")</Label>
+            <ChildContent>
+                <OmniNumeric TValue="int" Id="@WidthId" Minimum="0" Maximum="500" AriaDescribedBy="@HintId" @bind-Value:get="node.Width" @bind-Value:set="SetWidthAsync" Disabled="@Map.ReadOnly" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="@HeightId">
+            <Label>@Localize("MindMapNodeHeight")</Label>
+            <ChildContent>
+                <OmniNumeric TValue="int" Id="@HeightId" Minimum="0" Maximum="300" AriaDescribedBy="@HintId" @bind-Value:get="node.Height" @bind-Value:set="SetHeightAsync" Disabled="@Map.ReadOnly" />
+            </ChildContent>
+        </OmniFormField>
+        <p id="@HintId" class="omni-mindmap-properties__hint">@Localize("MindMapSizeAutoHint")</p>
+    </section>
+}

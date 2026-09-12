@@ -1,0 +1,17 @@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniToggleButton @bind-Value="ReadOnly">Lecture seule</OmniToggleButton>
+    <OmniMindMap Id="demo-mindmap"
+                 @bind-Document="Map"
+                 @bind-ViewState="View"
+                 ReadOnly="ReadOnly"
+                 AriaLabel="Carte mentale : préparer un déménagement"
+                 ContextLabels="Labels">
+        <ToolbarContent>
+            <OmniMindMapToolbar />
+        </ToolbarContent>
+        <PanelContent>
+            <OmniMindMapNodeProperties />
+        </PanelContent>
+    </OmniMindMap>
+    <p>@Summary</p>
+</OmniStack>

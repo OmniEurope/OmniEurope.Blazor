@@ -91,6 +91,44 @@
     --omni-grid-dark-state-text: #98a2b3;
     --omni-shadow-md-strong: 0 0.5rem 1.5rem rgb(0 0 0 / 25%);
     --omni-shadow-md-dark: 0 0.5rem 1.5rem rgb(0 0 0 / 45%);
+    /* Mind map colour groups: fill, outline and text of each node colour, text at least 4.5:1 on its fill. */
+    --omni-mindmap-root-fill: #ffffff;
+    --omni-mindmap-root-stroke: #999999;
+    --omni-mindmap-root-text: #333333;
+    --omni-mindmap-green-fill: #c8e6c9;
+    --omni-mindmap-green-stroke: #66bb6a;
+    --omni-mindmap-green-text: #1b5e20;
+    --omni-mindmap-blue-fill: #bbdefb;
+    --omni-mindmap-blue-stroke: #42a5f5;
+    --omni-mindmap-blue-text: #0d47a1;
+    --omni-mindmap-yellow-fill: #fff9c4;
+    --omni-mindmap-yellow-stroke: #ffee58;
+    --omni-mindmap-yellow-text: #8a4b00;
+    --omni-mindmap-red-fill: #ffcdd2;
+    --omni-mindmap-red-stroke: #ef5350;
+    --omni-mindmap-red-text: #b71c1c;
+    --omni-mindmap-pink-fill: #f8bbd0;
+    --omni-mindmap-pink-stroke: #ec407a;
+    --omni-mindmap-pink-text: #880e4f;
+    --omni-mindmap-orange-fill: #ffe0b2;
+    --omni-mindmap-orange-stroke: #ffa726;
+    --omni-mindmap-orange-text: #9a3b00;
+    --omni-mindmap-purple-fill: #d1c4e9;
+    --omni-mindmap-purple-stroke: #ab47bc;
+    --omni-mindmap-purple-text: #6a1b9a;
+    --omni-mindmap-teal-fill: #b2dfdb;
+    --omni-mindmap-teal-stroke: #26a69a;
+    --omni-mindmap-teal-text: #00695c;
+    --omni-mindmap-indigo-fill: #c5cae9;
+    --omni-mindmap-indigo-stroke: #5c6bc0;
+    --omni-mindmap-indigo-text: #283593;
+    --omni-mindmap-gray-fill: #eceff1;
+    --omni-mindmap-gray-stroke: #90a4ae;
+    --omni-mindmap-gray-text: #37474f;
+    --omni-mindmap-note-fill: #fff8e1;
+    --omni-mindmap-note-stroke: #ffd54f;
+    --omni-mindmap-note-text: #6d4c00;
+    --omni-mindmap-edge: #7b8494;
 }
 
 [data-omni-density="compact"] {
@@ -1647,3 +1685,58 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-settings-tile__icon { align-items: center; background: color-mix(in srgb, var(--omni-color-accent) 12%, transparent); block-size: 2.5rem; border-radius: var(--omni-radius); color: var(--omni-color-accent); display: inline-flex; flex: 0 0 auto; inline-size: 2.5rem; justify-content: center; }
 .omni-settings-tile__text { display: flex; flex: 1 1 12rem; flex-direction: column; gap: 0.25rem; }
 .omni-settings-tile__title { font-weight: 650; }
+
+/* Mind map (Diagram family). Geometry is SVG attributes, colours are the group tokens above. */
+.omni-mindmap { display: flex; flex-direction: column; gap: var(--omni-space-sm); }
+.omni-mindmap__workspace { align-items: flex-start; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
+.omni-mindmap__frame { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); flex: 1 1 24rem; min-width: 0; position: relative; }
+.omni-mindmap__canvas { block-size: 32rem; display: block; font-family: var(--omni-font-family); inline-size: 100%; touch-action: none; user-select: none; }
+.omni-mindmap__canvas:focus { outline: none; }
+.omni-mindmap__canvas:focus-visible { outline: 2px solid var(--omni-color-accent); outline-offset: -2px; }
+.omni-mindmap__node { cursor: grab; }
+.omni-mindmap__canvas--readonly .omni-mindmap__node { cursor: pointer; }
+.omni-mindmap__canvas--linking .omni-mindmap__node, .omni-mindmap__canvas--selecting { cursor: crosshair; }
+.omni-mindmap__canvas--dragging, .omni-mindmap__canvas--dragging .omni-mindmap__node { cursor: grabbing; }
+.omni-mindmap__canvas--panning { cursor: move; }
+.omni-mindmap__node--root, .omni-mindmap__swatch--root { --omni-mindmap-fill: var(--omni-mindmap-root-fill); --omni-mindmap-stroke: var(--omni-mindmap-root-stroke); --omni-mindmap-text: var(--omni-mindmap-root-text); }
+.omni-mindmap__node--green, .omni-mindmap__swatch--green { --omni-mindmap-fill: var(--omni-mindmap-green-fill); --omni-mindmap-stroke: var(--omni-mindmap-green-stroke); --omni-mindmap-text: var(--omni-mindmap-green-text); }
+.omni-mindmap__node--blue, .omni-mindmap__swatch--blue { --omni-mindmap-fill: var(--omni-mindmap-blue-fill); --omni-mindmap-stroke: var(--omni-mindmap-blue-stroke); --omni-mindmap-text: var(--omni-mindmap-blue-text); }
+.omni-mindmap__node--yellow, .omni-mindmap__swatch--yellow { --omni-mindmap-fill: var(--omni-mindmap-yellow-fill); --omni-mindmap-stroke: var(--omni-mindmap-yellow-stroke); --omni-mindmap-text: var(--omni-mindmap-yellow-text); }
+.omni-mindmap__node--red, .omni-mindmap__swatch--red { --omni-mindmap-fill: var(--omni-mindmap-red-fill); --omni-mindmap-stroke: var(--omni-mindmap-red-stroke); --omni-mindmap-text: var(--omni-mindmap-red-text); }
+.omni-mindmap__node--pink, .omni-mindmap__swatch--pink { --omni-mindmap-fill: var(--omni-mindmap-pink-fill); --omni-mindmap-stroke: var(--omni-mindmap-pink-stroke); --omni-mindmap-text: var(--omni-mindmap-pink-text); }
+.omni-mindmap__node--orange, .omni-mindmap__swatch--orange { --omni-mindmap-fill: var(--omni-mindmap-orange-fill); --omni-mindmap-stroke: var(--omni-mindmap-orange-stroke); --omni-mindmap-text: var(--omni-mindmap-orange-text); }
+.omni-mindmap__node--purple, .omni-mindmap__swatch--purple { --omni-mindmap-fill: var(--omni-mindmap-purple-fill); --omni-mindmap-stroke: var(--omni-mindmap-purple-stroke); --omni-mindmap-text: var(--omni-mindmap-purple-text); }
+.omni-mindmap__node--teal, .omni-mindmap__swatch--teal { --omni-mindmap-fill: var(--omni-mindmap-teal-fill); --omni-mindmap-stroke: var(--omni-mindmap-teal-stroke); --omni-mindmap-text: var(--omni-mindmap-teal-text); }
+.omni-mindmap__node--indigo, .omni-mindmap__swatch--indigo { --omni-mindmap-fill: var(--omni-mindmap-indigo-fill); --omni-mindmap-stroke: var(--omni-mindmap-indigo-stroke); --omni-mindmap-text: var(--omni-mindmap-indigo-text); }
+.omni-mindmap__node--gray, .omni-mindmap__swatch--gray { --omni-mindmap-fill: var(--omni-mindmap-gray-fill); --omni-mindmap-stroke: var(--omni-mindmap-gray-stroke); --omni-mindmap-text: var(--omni-mindmap-gray-text); }
+.omni-mindmap__node-shape { fill: var(--omni-mindmap-fill); stroke: var(--omni-mindmap-stroke); stroke-width: 1.5; transition: stroke 120ms ease, stroke-width 120ms ease; }
+.omni-mindmap__node-label { fill: var(--omni-mindmap-text); pointer-events: none; }
+.omni-mindmap__node-label--bold { font-weight: 700; }
+.omni-mindmap__node-label--italic { font-style: italic; }
+.omni-mindmap__node--selected .omni-mindmap__node-shape { stroke: var(--omni-color-accent); stroke-width: 3; }
+.omni-mindmap__node--link-source .omni-mindmap__node-shape { stroke: var(--omni-color-success); stroke-dasharray: 6 3; stroke-width: 3; }
+.omni-mindmap__edge-hit { cursor: pointer; fill: none; stroke: transparent; stroke-width: 14; }
+.omni-mindmap__edge-line { fill: none; pointer-events: none; stroke: var(--omni-mindmap-edge); stroke-width: 2; }
+.omni-mindmap__edge--selected .omni-mindmap__edge-line { stroke: var(--omni-color-danger); stroke-dasharray: 6 3; stroke-width: 3; }
+.omni-mindmap__note { pointer-events: none; }
+.omni-mindmap__note-shape { fill: var(--omni-mindmap-note-fill); opacity: 0.85; stroke: var(--omni-mindmap-note-stroke); }
+.omni-mindmap__note-connector { opacity: 0.6; stroke: var(--omni-mindmap-note-stroke); stroke-dasharray: 3 2; }
+.omni-mindmap__note-text { fill: var(--omni-mindmap-note-text); }
+.omni-mindmap__lasso { fill: color-mix(in srgb, var(--omni-color-accent) 12%, transparent); pointer-events: none; stroke: var(--omni-color-accent); stroke-dasharray: 4 2; }
+.omni-mindmap__banner { align-items: center; background: var(--omni-color-accent); border-radius: var(--omni-radius); color: var(--omni-color-on-accent); display: flex; flex-direction: column; font-size: var(--omni-font-size-sm); inset-block-start: var(--omni-space-md); inset-inline: 0; margin-inline: auto; max-inline-size: max-content; padding: 0.375rem 0.75rem; pointer-events: none; position: absolute; }
+.omni-mindmap__menu { background: var(--omni-color-surface); border: 1px solid var(--omni-color-border); border-radius: var(--omni-radius-lg); box-shadow: var(--omni-shadow-md); box-sizing: border-box; color: var(--omni-color-text); display: flex; flex-direction: column; font-family: var(--omni-font-family); font-size: var(--omni-font-size-base); padding: 0.375rem 0; }
+.omni-mindmap__menu-item { align-items: center; background: none; border: 0; color: inherit; cursor: pointer; display: flex; font: inherit; min-height: 2.75rem; padding: 0 var(--omni-space-lg); text-align: start; }
+.omni-mindmap__menu-item:hover, .omni-mindmap__menu-item:focus-visible { background: var(--omni-color-surface-muted); outline: none; }
+.omni-mindmap__menu-item--danger { color: var(--omni-color-danger); }
+.omni-mindmap__menu-separator { border-top: 1px solid var(--omni-color-border); margin: 0.25rem 0; }
+.omni-mindmap__menu-colors { display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0.25rem 0.75rem; }
+.omni-mindmap__swatch { align-items: center; background: none; border: 0; border-radius: var(--omni-radius); cursor: pointer; display: inline-flex; justify-content: center; min-height: 2.75rem; min-width: 2.75rem; padding: 0; }
+.omni-mindmap__swatch::before { background: var(--omni-mindmap-fill); block-size: 1.5rem; border: 2px solid var(--omni-mindmap-stroke); border-radius: var(--omni-radius-circle); content: ""; inline-size: 1.5rem; }
+.omni-mindmap__swatch:is([aria-checked="true"], [aria-pressed="true"])::before { box-shadow: 0 0 0 2px var(--omni-color-surface), 0 0 0 4px var(--omni-color-accent); }
+.omni-mindmap__swatch:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-mindmap-toolbar { display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
+.omni-mindmap-properties { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex: 0 1 16rem; flex-direction: column; gap: var(--omni-space-md); min-width: 14rem; padding: var(--omni-space-md); }
+.omni-mindmap-properties__title { font-size: var(--omni-font-size-lg); font-weight: 650; margin: 0; }
+.omni-mindmap-properties__row { display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
+.omni-mindmap-properties__hint { font-size: var(--omni-font-size-sm); margin: 0; }
+@media (prefers-reduced-motion: reduce) { .omni-mindmap__node-shape { transition: none; } }
