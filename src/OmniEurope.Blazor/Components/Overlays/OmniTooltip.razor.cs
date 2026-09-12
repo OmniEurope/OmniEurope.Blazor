@@ -18,7 +18,7 @@ public partial class OmniTooltip
 
     /// <summary>
     /// How long the pointer rests on the trigger before the tooltip shows. Null keeps the stylesheet's
-    /// <c>--omni-tooltip-delay</c>, 300 ms unless a host redefines it. Drawn at a 100 ms step between
+    /// <c>--omni-tooltip-delay</c>, 700 ms unless a host redefines it. Drawn at a 100 ms step between
     /// 0 and 2 s: the delay lives in the stylesheet, not in an inline style the content policy would
     /// reject.
     /// </summary>

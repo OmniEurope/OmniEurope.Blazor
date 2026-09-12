@@ -66,6 +66,8 @@
     --omni-color-overlay: rgb(15 23 42 / 55%);
     --omni-shadow-sm: 0 1px 2px rgb(0 0 0 / 30%);
     --omni-shadow-md: 0 0.5rem 1.5rem rgb(15 23 42 / 16%);
+    /* Ombre qu'une carte empilée jette vers le haut sur celle de derrière ; un thème sombre la fonce. */
+    --omni-shadow-stack: 0 -0.375rem 0.75rem -0.25rem rgb(0 0 0 / 35%);
     --omni-shadow-lg: 0 1rem 3rem rgb(0 0 0 / 30%);
     /* Categorical series colours. Exposed as tokens so a theme can carry its own chart palette
        rather than inherit a blue that clashes with everything around it. */
@@ -990,8 +992,9 @@ body:has(.omni-overlay) { overflow: hidden; }
    de devant : en haut, la plus ancienne tient le bord ; en bas, la zone ancrée pousse les titres vers
    le haut et la plus récente tient le bord. Survol ou focus : la pile s'ouvre en liste. Les erreurs
    restent hors de la pile, entières. */
-/* Un pas de cascade découvre le titre (jusqu'à 29 px) et couvre le message (dès 33 px). */
-.omni-notification-region__pile { --omni-pile-step: 2rem; display: grid; gap: var(--omni-space-sm); }
+/* Un pas de cascade découvre le titre (jusqu'à 33 px) avec 5 px de marge, et couvre le message (dès
+   37 px). */
+.omni-notification-region__pile { --omni-pile-step: 2.375rem; display: grid; gap: var(--omni-space-sm); }
 .omni-notification-region__pile--stacked { --omni-pile-depth: 1; gap: 0; }
 .omni-notification-region__pile--stacked:has(> :nth-child(3)) { --omni-pile-depth: 2; }
 .omni-notification-region__pile--stacked:has(> :nth-child(4)) { --omni-pile-depth: 3; }
@@ -1002,6 +1005,9 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* Une carte de derrière ne montre que son titre : plus haute, elle dépasserait sous celle de devant. */
 .omni-notification-region__pile--stacked > .omni-notification:not(:last-child) { max-block-size: calc(var(--omni-pile-step) + 1rem); }
 .omni-notification-region__pile--stacked > .omni-notification:nth-last-child(n+5) { opacity: 0; }
+/* Empilée, chaque carte posée sur une autre y jette une ombre par son bord haut : la cascade se lit
+   comme des cartes superposées, pas comme des bandeaux collés. */
+.omni-notification-region__pile--stacked:not(:hover,:focus-within) > .omni-notification:nth-last-child(-n+3):not(:first-child) { box-shadow: var(--omni-shadow-stack), var(--omni-shadow-md); }
 .omni-notification-region__pile--stacked:is(:hover,:focus-within) { gap: var(--omni-space-sm); }
 .omni-notification-region__pile--stacked:is(:hover,:focus-within) > .omni-notification { grid-area: auto; margin-block: 0; max-block-size: none; opacity: 1; }
 /* Le compteur ferme la zone, erreurs comprises : tout en bas quand la pile part du haut, tout en haut
@@ -1038,15 +1044,17 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-notification--tinted::before { animation: omni-notification-drain var(--omni-notification-life) linear forwards; will-change: transform; background: var(--omni-notification-tint); content: ""; inset: 0; position: absolute; transform-origin: left; }
 .omni-notification > * { position: relative; }
 .omni-notification:is(:hover,:focus-within)::before { animation-play-state: paused; }
-.omni-notification__icon { color: var(--omni-notification-ink); margin-block-start: 1px; }
+/* L'icône et la croix se centrent sur la ligne du titre, haute comme l'icône (1,25 rem) : le titre est
+   souvent tout ce qu'une carte montre dans une pile. */
+.omni-notification__icon { color: var(--omni-notification-ink); }
 .omni-notification__body { display: grid; gap: 0.25rem; min-inline-size: 0; }
-.omni-notification__title { font-size: 0.875rem; font-weight: 600; }
+.omni-notification__title { font-size: 0.875rem; font-weight: 600; line-height: 1.25rem; }
 .omni-notification__message { color: var(--omni-color-text-muted); font-size: 0.875rem; line-height: 1.4; overflow-wrap: anywhere; }
 .omni-notification--long .omni-notification__message { max-block-size: 10.5rem; overflow-y: auto; overscroll-behavior: contain; padding-inline-end: 0.375rem; scrollbar-width: thin; }
 .omni-notification--long .omni-notification__message[data-collapsed] { mask: linear-gradient(#000 60%, transparent); max-block-size: calc(1.4em * 4); overflow: hidden; padding-inline-end: 0; }
 .omni-notification__more,.omni-notification__details { background: none; border: 0; color: var(--omni-color-accent-strong); cursor: pointer; font: inherit; font-size: 0.875rem; justify-self: start; padding: 0; text-decoration: none; }
 :is(.omni-notification__more,.omni-notification__details):hover { text-decoration: underline; }
-.omni-notification__dismiss.omni-notification__dismiss { align-items: center; background: transparent; display: inline-flex; justify-content: center; margin: -0.625rem -0.375rem 0 0; padding: 0; }
+.omni-notification__dismiss.omni-notification__dismiss { align-items: center; background: transparent; display: inline-flex; justify-content: center; margin: -0.75rem -0.375rem 0 0; padding: 0; }
 @keyframes omni-notification-drain { from { transform: scaleX(1); } to { transform: scaleX(0); } }
 @media (prefers-reduced-motion: reduce) { .omni-notification--tinted::before { animation: none; } }
 .omni-tooltip { display: inline-block; position: relative; }
@@ -1059,7 +1067,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-tooltip:focus-within .omni-tooltip__content { opacity: 1; visibility: visible; }
 /* Le pointeur doit se poser avant que l'infobulle paraisse ; elle part aussitôt qu'il s'en va. Le
    focus clavier, lui, la montre sans attendre. */
-.omni-tooltip { --omni-tooltip-delay: 300ms; }
+.omni-tooltip { --omni-tooltip-delay: 700ms; }
 .omni-tooltip:hover .omni-tooltip__content { transition: opacity 120ms ease var(--omni-tooltip-delay), visibility 0s linear var(--omni-tooltip-delay); }
 .omni-tooltip:focus-within .omni-tooltip__content { transition: opacity 120ms ease; }
 .omni-tooltip--delay-0 { --omni-tooltip-delay: 0ms; }
