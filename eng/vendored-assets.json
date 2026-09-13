@@ -5,18 +5,18 @@
     {
       "id": "phosphor-icons",
       "name": "Phosphor Icons",
-      "version": "2.0.8",
+      "version": "2.1.1",
       "supplier": "Phosphor Icons",
       "homepage": "https://github.com/phosphor-icons/core",
-      "reference": "https://github.com/phosphor-icons/core/tree/v2.0.8/assets/regular",
-      "usage": "Tracés intégrés d'OmniIcon, repris tels quels du poids regular.",
+      "reference": "https://www.npmjs.com/package/@phosphor-icons/core/v/2.1.1",
+      "usage": "Tracés intégrés d'OmniIcon, repris tels quels des poids regular et fill (StarFilled).",
       "vendoredFiles": [
         "src/OmniEurope.Blazor/Internal/PhosphorIconGlyphs.cs"
       ],
       "license": {
         "kind": "expression",
         "value": "MIT",
-        "localFile": "docs/third-party-licenses/phosphor-icons--2.0.8--LICENSE.txt",
+        "localFile": "docs/third-party-licenses/phosphor-icons--2.1.1--LICENSE.txt",
         "localFileSha256": "b5b1f1da112d18ea2147decfd48ddc1bf2b5aeb6c265381579340e95b15a2bb2"
       }
     }

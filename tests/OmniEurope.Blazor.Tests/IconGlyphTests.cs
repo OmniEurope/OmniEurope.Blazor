@@ -55,9 +55,9 @@ public sealed partial class IconGlyphTests : OmniBunitContext
         Assert.Throws<ArgumentOutOfRangeException>(() => new OmniIconGlyph("M0,0Z", 0));
 
     /// <summary>
-    /// The package embeds exactly the outlines it renders itself. Consumers reach every other
-    /// Phosphor icon through <see cref="OmniIcon.Glyph"/>, which costs the payload nothing, so a
-    /// bulk import of the catalogue must fail here rather than in a consumer's download size.
+    /// The package embeds a chosen catalogue: one outline per <see cref="OmniIconName"/> value, the
+    /// icons its applications display and nothing more. Each icon is added by name, so a bulk
+    /// import of the Phosphor set must fail here rather than in a consumer's download size.
     /// </summary>
     [Fact]
     public void EmbeddedOutlines_StayLimitedToTheBuiltInNames()

@@ -252,12 +252,12 @@ public sealed partial class ConventionGuardTests
         Assert.Contains("wrapTextSelection", editor, StringComparison.Ordinal);
         Assert.Contains("restoreTextSelection", editor, StringComparison.Ordinal);
         Assert.Contains("setSelectionRange(6, 10)", Read("eng", "Test-CatalogProbe.mjs"), StringComparison.Ordinal);
-        Assert.Contains("Microsoft.Maui.Controls\" Version=\"10.0.90", packages, StringComparison.Ordinal);
-        Assert.Contains("Microsoft.AspNetCore.Components.WebView.Maui\" Version=\"10.0.90", packages, StringComparison.Ordinal);
+        Assert.Contains("Microsoft.Maui.Controls\" Version=\"10.0.101", packages, StringComparison.Ordinal);
+        Assert.Contains("Microsoft.AspNetCore.Components.WebView.Maui\" Version=\"10.0.101", packages, StringComparison.Ordinal);
         var hybridDependencies = hybridLock.RootElement.GetProperty("dependencies").EnumerateObject()
             .First(framework => framework.Name.StartsWith("net10.0-windows10.0.19041", StringComparison.Ordinal)).Value;
-        Assert.Equal("10.0.90", hybridDependencies.GetProperty("Microsoft.Maui.Controls").GetProperty("resolved").GetString());
-        Assert.Equal("10.0.90", hybridDependencies.GetProperty("Microsoft.AspNetCore.Components.WebView.Maui").GetProperty("resolved").GetString());
+        Assert.Equal("10.0.101", hybridDependencies.GetProperty("Microsoft.Maui.Controls").GetProperty("resolved").GetString());
+        Assert.Equal("10.0.101", hybridDependencies.GetProperty("Microsoft.AspNetCore.Components.WebView.Maui").GetProperty("resolved").GetString());
     }
 
     [Fact]

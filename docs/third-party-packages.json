@@ -20,7 +20,20 @@
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
         "site/OmniEurope.Blazor.Showcase/packages.lock.json",
-        "src/OmniEurope.Blazor/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json"
+      ]
+    },
+    {
+      "id": "AngleSharp",
+      "version": "1.8.1",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
@@ -42,7 +55,20 @@
         "samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json",
         "samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json",
         "site/OmniEurope.Blazor.Showcase/packages.lock.json",
-        "src/OmniEurope.Blazor/packages.lock.json",
+        "src/OmniEurope.Blazor/packages.lock.json"
+      ]
+    },
+    {
+      "id": "AngleSharp.Css",
+      "version": "1.1.2",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
@@ -62,7 +88,7 @@
     },
     {
       "id": "bunit",
-      "version": "2.9.0",
+      "version": "2.11.3",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -145,7 +171,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Authorization",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -165,7 +191,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -185,7 +211,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components.Analyzers",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -219,7 +245,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components.Forms",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -239,7 +265,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components.Web",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -259,7 +285,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components.WebAssembly",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -291,7 +317,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components.WebAssembly.DevServer",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -306,7 +332,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components.WebAssembly.Server",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -320,7 +346,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components.WebView",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -334,7 +360,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Components.WebView.Maui",
-      "version": "10.0.90",
+      "version": "10.0.101",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -348,7 +374,7 @@
     },
     {
       "id": "Microsoft.AspNetCore.Metadata",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -428,7 +454,7 @@
     },
     {
       "id": "Microsoft.CodeCoverage",
-      "version": "18.9.0",
+      "version": "18.10.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -471,7 +497,7 @@
     },
     {
       "id": "Microsoft.Extensions.Configuration",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -491,7 +517,7 @@
     },
     {
       "id": "Microsoft.Extensions.Configuration.Abstractions",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -511,7 +537,7 @@
     },
     {
       "id": "Microsoft.Extensions.Configuration.Binder",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -531,7 +557,7 @@
     },
     {
       "id": "Microsoft.Extensions.Configuration.FileExtensions",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -549,7 +575,7 @@
     },
     {
       "id": "Microsoft.Extensions.Configuration.Json",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -567,7 +593,7 @@
     },
     {
       "id": "Microsoft.Extensions.DependencyInjection",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -587,7 +613,7 @@
     },
     {
       "id": "Microsoft.Extensions.DependencyInjection.Abstractions",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -607,7 +633,7 @@
     },
     {
       "id": "Microsoft.Extensions.Diagnostics",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -627,7 +653,7 @@
     },
     {
       "id": "Microsoft.Extensions.Diagnostics.Abstractions",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -647,7 +673,7 @@
     },
     {
       "id": "Microsoft.Extensions.FileProviders.Abstractions",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -665,7 +691,7 @@
     },
     {
       "id": "Microsoft.Extensions.FileProviders.Composite",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -679,7 +705,7 @@
     },
     {
       "id": "Microsoft.Extensions.FileProviders.Embedded",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -693,7 +719,7 @@
     },
     {
       "id": "Microsoft.Extensions.FileProviders.Physical",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -711,7 +737,7 @@
     },
     {
       "id": "Microsoft.Extensions.FileSystemGlobbing",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -743,7 +769,7 @@
     },
     {
       "id": "Microsoft.Extensions.Localization",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -763,7 +789,7 @@
     },
     {
       "id": "Microsoft.Extensions.Localization.Abstractions",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -783,7 +809,7 @@
     },
     {
       "id": "Microsoft.Extensions.Logging",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -801,7 +827,7 @@
     },
     {
       "id": "Microsoft.Extensions.Logging.Abstractions",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -821,7 +847,7 @@
     },
     {
       "id": "Microsoft.Extensions.Options",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -841,7 +867,7 @@
     },
     {
       "id": "Microsoft.Extensions.Options.ConfigurationExtensions",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -861,7 +887,7 @@
     },
     {
       "id": "Microsoft.Extensions.Primitives",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -881,7 +907,7 @@
     },
     {
       "id": "Microsoft.Extensions.Validation",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -901,7 +927,7 @@
     },
     {
       "id": "Microsoft.Graphics.Win2D",
-      "version": "1.3.2",
+      "version": "1.4.0",
       "license": {
         "kind": "url",
         "value": "http://www.microsoft.com/web/webpi/eula/eula_win2d_10012014.htm",
@@ -929,7 +955,7 @@
     },
     {
       "id": "Microsoft.JSInterop",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -949,7 +975,7 @@
     },
     {
       "id": "Microsoft.JSInterop.WebAssembly",
-      "version": "10.0.11",
+      "version": "10.0.12",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -967,7 +993,7 @@
     },
     {
       "id": "Microsoft.Maui.Controls",
-      "version": "10.0.90",
+      "version": "10.0.101",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -981,7 +1007,7 @@
     },
     {
       "id": "Microsoft.Maui.Controls.Build.Tasks",
-      "version": "10.0.90",
+      "version": "10.0.101",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -995,7 +1021,7 @@
     },
     {
       "id": "Microsoft.Maui.Controls.Core",
-      "version": "10.0.90",
+      "version": "10.0.101",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1009,7 +1035,7 @@
     },
     {
       "id": "Microsoft.Maui.Controls.Xaml",
-      "version": "10.0.90",
+      "version": "10.0.101",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1023,7 +1049,7 @@
     },
     {
       "id": "Microsoft.Maui.Core",
-      "version": "10.0.90",
+      "version": "10.0.101",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1037,7 +1063,7 @@
     },
     {
       "id": "Microsoft.Maui.Essentials",
-      "version": "10.0.90",
+      "version": "10.0.101",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1051,7 +1077,7 @@
     },
     {
       "id": "Microsoft.Maui.Graphics",
-      "version": "10.0.90",
+      "version": "10.0.101",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1065,7 +1091,7 @@
     },
     {
       "id": "Microsoft.Maui.Graphics.Win2D.WinUI.Desktop",
-      "version": "10.0.90",
+      "version": "10.0.101",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1079,7 +1105,7 @@
     },
     {
       "id": "Microsoft.Maui.Resizetizer",
-      "version": "10.0.90",
+      "version": "10.0.101",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1125,7 +1151,7 @@
     },
     {
       "id": "Microsoft.NET.Test.Sdk",
-      "version": "18.9.0",
+      "version": "18.10.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1214,7 +1240,7 @@
     },
     {
       "id": "Microsoft.TestPlatform.ObjectModel",
-      "version": "18.9.0",
+      "version": "18.10.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1229,7 +1255,7 @@
     },
     {
       "id": "Microsoft.TestPlatform.TestHost",
-      "version": "18.9.0",
+      "version": "18.10.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1273,7 +1299,7 @@
     },
     {
       "id": "Microsoft.Windows.SDK.BuildTools",
-      "version": "10.0.26100.4654",
+      "version": "10.0.26100.8249",
       "license": {
         "kind": "url",
         "value": "https://aka.ms/WinSDKLicenseURL",
@@ -1301,12 +1327,12 @@
     },
     {
       "id": "Microsoft.WindowsAppSDK",
-      "version": "1.8.260508005",
+      "version": "1.8.260529003",
       "license": {
         "kind": "file",
         "value": "license.txt",
         "url": null,
-        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK--1.8.260508005--license.txt",
+        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK--1.8.260529003--license.txt",
         "localFileSha256": "5b11e6347756e40fe0274bc08c97f89201b94f0d50181a09a00f1f4740840501"
       },
       "lockFiles": [
@@ -1357,12 +1383,12 @@
     },
     {
       "id": "Microsoft.WindowsAppSDK.Foundation",
-      "version": "1.8.260505001",
+      "version": "1.8.260527000",
       "license": {
         "kind": "file",
         "value": "license.txt",
         "url": null,
-        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.Foundation--1.8.260505001--license.txt",
+        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.Foundation--1.8.260527000--license.txt",
         "localFileSha256": "5b11e6347756e40fe0274bc08c97f89201b94f0d50181a09a00f1f4740840501"
       },
       "lockFiles": [
@@ -1371,12 +1397,12 @@
     },
     {
       "id": "Microsoft.WindowsAppSDK.InteractiveExperiences",
-      "version": "1.8.260430001",
+      "version": "1.8.260525001",
       "license": {
         "kind": "file",
         "value": "license.txt",
         "url": null,
-        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.InteractiveExperiences--1.8.260430001--license.txt",
+        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.InteractiveExperiences--1.8.260525001--license.txt",
         "localFileSha256": "5b11e6347756e40fe0274bc08c97f89201b94f0d50181a09a00f1f4740840501"
       },
       "lockFiles": [
@@ -1399,12 +1425,12 @@
     },
     {
       "id": "Microsoft.WindowsAppSDK.Runtime",
-      "version": "1.8.260508005",
+      "version": "1.8.260529003",
       "license": {
         "kind": "file",
         "value": "license.txt",
         "url": null,
-        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.Runtime--1.8.260508005--license.txt",
+        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.Runtime--1.8.260529003--license.txt",
         "localFileSha256": "5b11e6347756e40fe0274bc08c97f89201b94f0d50181a09a00f1f4740840501"
       },
       "lockFiles": [
@@ -1427,12 +1453,12 @@
     },
     {
       "id": "Microsoft.WindowsAppSDK.WinUI",
-      "version": "1.8.260505002",
+      "version": "1.8.260528001",
       "license": {
         "kind": "file",
         "value": "license.txt",
         "url": null,
-        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.WinUI--1.8.260505002--license.txt",
+        "localFile": "docs/third-party-licenses/Microsoft.WindowsAppSDK.WinUI--1.8.260528001--license.txt",
         "localFileSha256": "5b11e6347756e40fe0274bc08c97f89201b94f0d50181a09a00f1f4740840501"
       },
       "lockFiles": [
