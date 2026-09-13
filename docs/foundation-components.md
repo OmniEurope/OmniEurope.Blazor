@@ -34,26 +34,26 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 
 ## Icônes
 
-Les tracés intégrés proviennent du poids `regular` de [Phosphor Icons](https://github.com/phosphor-icons/core) `2.0.8` (MIT), repris tels quels. Le paquet n'embarque que les onze tracés qu'il dessine lui-même : le catalogue complet n'est jamais distribué.
+Les tracés intégrés proviennent du poids `regular` de [Phosphor Icons](https://github.com/phosphor-icons/core) `2.1.1` (MIT), repris tels quels. Le paquet embarque un catalogue choisi : les tracés qu'il dessine lui-même et chaque icône que ses applications affichent, un tracé par valeur d'`OmniIconName`. Le catalogue complet n'est jamais distribué ; une application à qui il manque une icône l'ajoute au catalogue, par son nom.
 
-Pour toute autre icône, Phosphor ou non, passez le tracé au paramètre `Glyph`. Il ne coûte rien au paquet puisque la donnée vit chez le consommateur.
+Pour un tracé ponctuel, Phosphor ou non, le paramètre `Glyph` reste disponible.
 
 ```razor
-@* Un des tracés intégrés. *@
-<OmniIcon Name="OmniIconName.Filter" AriaLabel="Filtrer" />
+@* Une icône du catalogue. *@
+<OmniIcon Name="OmniIconName.Save" AriaLabel="Enregistrer" />
 
-@* N'importe quel autre tracé, ici une icône Phosphor absente du jeu intégré. *@
-<OmniIcon Glyph="@Download" AriaLabel="Télécharger" />
+@* Un tracé ponctuel, ici une icône Phosphor absente du catalogue. *@
+<OmniIcon Glyph="@Compass" AriaLabel="Boussole" />
 
 @code {
-    private static readonly OmniIconGlyph Download = OmniIconGlyph.Phosphor(
-        "M224,152v56a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V152a8,8,0,0,1,16,0v56H208V152a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,132.69V40a8,8,0,0,0-16,0v92.69L93.66,106.34a8,8,0,0,0-11.32,11.32Z");
+    private static readonly OmniIconGlyph Compass = OmniIconGlyph.Phosphor(
+        "M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm50.34-138.34a8,8,0,0,0-8.68-1.73l-56,24a8,8,0,0,0-4.2,4.2l-24,56a8,8,0,0,0,10.41,10.51l56-24a8,8,0,0,0,4.2-4.2l24-56A8,8,0,0,0,178.34,77.66ZM140,140l-33.42,14.32L120.9,120.9,154.32,106.6Z");
 }
 ```
 
 `OmniIconGlyph` n'accepte que de la donnée de tracé SVG et rejette tout le reste : un glyphe porte un contour, pas du balisage. `OmniIconGlyph.Phosphor` fixe la grille de 256 unités du jeu ; le constructeur accepte une autre grille carrée.
 
-Mesure du surcoût des onze tracés Phosphor, publication WebAssembly identique avant et après : **+6656 octets bruts, +1392 octets une fois compressés en brotli**, soit +0,9 % de l'assembly livré. Une garde de test échoue si le nombre de tracés intégrés dépasse celui des valeurs d'`OmniIconName`, afin qu'un import massif du catalogue ne passe pas inaperçu.
+Mesure du surcoût des onze tracés Phosphor, publication WebAssembly identique avant et après : **+6656 octets bruts, +1392 octets une fois compressés en brotli**, soit +0,9 % de l'assembly livré. Passage du catalogue à 86 icônes, `OmniEurope.Blazor.dll` en Release avant et après (2026-09-13) : **+57 856 octets bruts, +11 318 octets en brotli** (niveau maximal), soit +5,9 % de l'assembly compressé. Une garde de test échoue si le nombre de tracés intégrés diffère de celui des valeurs d'`OmniIconName`, afin qu'un import massif du catalogue ne passe pas inaperçu.
 
 ## Exemple
 
