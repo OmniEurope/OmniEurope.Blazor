@@ -311,6 +311,10 @@
 }
 .omni-alert__icon { align-items: center; display: inline-flex; flex: 0 0 auto; }
 .omni-alert__body { display: grid; gap: var(--omni-space-xs); min-width: 0; }
+/* Present only on a Dismissible alert; it keeps the 44 px touch target and inherits the alert colour. */
+.omni-alert__dismiss { align-items: center; background: transparent; border: 0; border-radius: var(--omni-radius); color: inherit; cursor: pointer; display: inline-flex; flex: 0 0 auto; justify-content: center; margin: calc(-1 * var(--omni-space-sm)) calc(-1 * var(--omni-space-sm)) 0 auto; min-height: 2.75rem; min-width: 2.75rem; padding: 0; }
+.omni-alert__dismiss:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
+.omni-alert__dismiss:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
 
 .omni-alert--info { --omni-alert-color: var(--omni-color-accent-strong); }
 .omni-alert--success { --omni-alert-color: var(--omni-color-success); }

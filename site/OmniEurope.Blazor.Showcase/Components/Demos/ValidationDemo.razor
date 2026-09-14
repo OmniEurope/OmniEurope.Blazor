@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Components.Forms
 @* Validation is declared next to the field it guards, so a reader sees the rule where the input is
    rather than in a model attribute three files away. *@
 <OmniTemplateForm TModel="ValidationDemoModel" Model="Model" FocusOnFirstInvalid="true"
@@ -37,5 +38,35 @@
         {
             <OmniAlert Severity="OmniAlertSeverity.Success" Live="true">Le formulaire a été accepté.</OmniAlert>
         }
+    </OmniStack>
+</OmniTemplateForm>
+
+@* Même rôle, règles portées par le modèle : les attributs DataAnnotations n'ont aucun message, le
+   validateur les écrit dans la culture courante. *@
+<OmniTemplateForm TModel="AnnotatedValidationDemoModel" Model="Annotated">
+    <OmniDataAnnotationsValidator />
+    <OmniStack Gap="OmniSpacing.Medium">
+        <OmniFormField For="annotated-name" Required="true">
+            <Label>Nom du projet</Label>
+            <ChildContent>
+                <OmniTextBox Id="annotated-name" @bind-Value="Annotated.Name" />
+                <ValidationMessage For="@(() => Annotated.Name)" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="annotated-mail" Required="true">
+            <Label>Courriel du responsable</Label>
+            <ChildContent>
+                <OmniTextBox Id="annotated-mail" @bind-Value="Annotated.Mail" />
+                <ValidationMessage For="@(() => Annotated.Mail)" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="annotated-replicas">
+            <Label>Réplicas</Label>
+            <ChildContent>
+                <OmniNumeric TValue="int" Id="annotated-replicas" @bind-Value="Annotated.Replicas" />
+                <ValidationMessage For="@(() => Annotated.Replicas)" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniButton ButtonType="OmniButtonType.Submit" Variant="OmniButtonVariant.Secondary">Vérifier</OmniButton>
     </OmniStack>
 </OmniTemplateForm>

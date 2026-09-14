@@ -1,0 +1,42 @@
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.Extensions.Localization
+
+<EditForm EditContext="@EditContext">
+    <OmniDataAnnotationsValidator Localizer="@Localizer" />
+</EditForm>
+
+@code {
+    [Parameter]
+    public IStringLocalizer? Localizer { get; set; }
+
+    public AnnotatedModel Model { get; } = new();
+
+    public EditContext EditContext { get; private set; } = default!;
+
+    protected override void OnInitialized() => EditContext = new EditContext(Model);
+
+    public IReadOnlyList<string> MessagesFor(string field) =>
+        EditContext.GetValidationMessages(new FieldIdentifier(Model, field)).ToArray();
+
+    public sealed class AnnotatedModel
+    {
+        [Required]
+        [StringLength(40, MinimumLength = 2)]
+        [Display(Name = "Nom du projet")]
+        public string Name { get; set; } = string.Empty;
+
+        [EmailAddress]
+        public string Mail { get; set; } = "not-an-address";
+
+        [Range(1, 10)]
+        [Display(Name = "Réplicas")]
+        public int Replicas { get; set; }
+
+        [Compare(nameof(Mail))]
+        [Display(Name = "Confirmation")]
+        public string MailConfirmation { get; set; } = "other";
+
+        [Required(ErrorMessage = "SlugRequired")]
+        public string Slug { get; set; } = string.Empty;
+    }
+}

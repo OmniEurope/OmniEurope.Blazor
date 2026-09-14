@@ -5,4 +5,6 @@ public partial class ValidationDemo
     private ValidationDemoModel Model { get; } = new();
 
     private bool Submitted { get; set; }
+
+    private AnnotatedValidationDemoModel Annotated { get; } = new();
 }

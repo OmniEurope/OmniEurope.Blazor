@@ -18,6 +18,7 @@ Le deuxième lot complète les landmarks de page et installe un socle de formula
 - `OmniLabel` et `OmniFormField` associent libellé, description, contrôle et erreur sans masquer la sémantique HTML.
 - `OmniTemplateForm<TModel>` accepte exactement un modèle ou un `EditContext` existant et place le focus sur le premier contrôle invalide avec le module statique `omniInterop.js`.
 - `OmniRequiredValidator<TValue>`, `OmniLengthValidator`, `OmniEmailValidator` et `OmniCompareValidator<TValue>` partagent un socle `ValidationMessageStore`, prennent en charge la validation différée annulable et annoncent leur message avec `role="alert"`.
+- `OmniDataAnnotationsValidator` valide le modèle avec ses attributs DataAnnotations, comme `DataAnnotationsValidator`, mais écrit les messages des attributs standard (`Required`, `StringLength`, `MaxLength`, `MinLength`, `Range`, `EmailAddress`, `Url`, `Compare`, `RegularExpression`) dans les cultures de la bibliothèque. Le message est choisi d'après le type d'attribut, jamais déduit du texte anglais. Un modèle partagé avec une API garde donc ses attributs tels quels. Le nom du champ vient de `Display` ou `DisplayName`, sinon du nom de la propriété. Le paramètre facultatif `Localizer` (ressources de l'application) traduit ces noms et les messages personnalisés écrits comme clés de ressource. Un attribut avec `ErrorMessageResourceType`, déjà localisé par DataAnnotations, passe tel quel ; les résultats d'`IValidatableObject` aussi.
 
 ## Exemple
 

@@ -26,6 +26,7 @@ component OmniEurope.Blazor.Components.OmniCompareValidator<TValue>
 component OmniEurope.Blazor.Components.OmniComponentBase
 component OmniEurope.Blazor.Components.OmniComponentsHost
 component OmniEurope.Blazor.Components.OmniContextMenu
+component OmniEurope.Blazor.Components.OmniDataAnnotationsValidator
 component OmniEurope.Blazor.Components.OmniDataGrid<TItem>
 component OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>
 component OmniEurope.Blazor.Components.OmniDataGridFilterCombo
@@ -147,6 +148,7 @@ ctor public OmniEurope.Blazor.Components.OmniColumnSeries()
 ctor public OmniEurope.Blazor.Components.OmniCompareValidator<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniComponentsHost()
 ctor public OmniEurope.Blazor.Components.OmniContextMenu()
+ctor public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator()
 ctor public OmniEurope.Blazor.Components.OmniDataGrid<TItem>()
 ctor public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>()
 ctor public OmniEurope.Blazor.Components.OmniDataGridColumnWidthChange(System.String Key, System.String Width)
@@ -663,6 +665,7 @@ method protected override OmniEurope.Blazor.Components.OmniComponentsHost.OnPara
 method protected override OmniEurope.Blazor.Components.OmniContextMenu.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniContextMenu.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniContextMenu.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniDataAnnotationsValidator.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDataGrid<TItem>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnInitialized() : System.Void
@@ -831,6 +834,7 @@ method public OmniEurope.Blazor.Components.OmniChartSlice.Equals(OmniEurope.Blaz
 method public OmniEurope.Blazor.Components.OmniColumnSeries.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniComponentsHost.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniContextMenu.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.CancelEditAsync(TItem item) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EditRowAsync(TItem item) : System.Threading.Tasks.Task
@@ -1072,8 +1076,11 @@ property protected OmniEurope.Blazor.Components.OmniValidatorBase<TValue>.Curren
 property protected OmniEurope.Blazor.Components.OmniValidatorBase<TValue>.CurrentError : System.String? {get(protected)}
 property protected OmniEurope.Blazor.Components.OmniValidatorBase<TValue>.Field : Microsoft.AspNetCore.Components.Forms.FieldIdentifier {get(protected)}
 property public OmniEurope.Blazor.Components.OmniAlert.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniAlert.CloseLabel : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAlert.Dismissible : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAlert.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAlert.Live : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAlert.OnDismiss : Microsoft.AspNetCore.Components.EventCallback {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAlert.Severity : OmniEurope.Blazor.Components.OmniAlertSeverity {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAlert.Title : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAlert.Variant : OmniEurope.Blazor.Components.OmniAlertVariant {get(public);set(public)} [Parameter]
@@ -1173,6 +1180,7 @@ property public OmniEurope.Blazor.Components.OmniContextMenu.MenuLabel : System.
 property public OmniEurope.Blazor.Components.OmniContextMenu.Open : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniContextMenu.OpenChanged : Microsoft.AspNetCore.Components.EventCallback<System.Boolean> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniContextMenu.TriggerContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator.Localizer : Microsoft.Extensions.Localization.IStringLocalizer? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllGroupsExpanded : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowAlternatingRows : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowColumnResize : System.Boolean {get(public);set(public)} [Parameter]
@@ -1903,6 +1911,7 @@ type public OmniEurope.Blazor.Components.OmniComponentBase [class, abstract] : M
 type public OmniEurope.Blazor.Components.OmniComponentsHost [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniContextMenu [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniControlSize [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
+type public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator [class, sealed] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniDataGrid<TItem> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem> [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniDataGridColumnFilterType [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32

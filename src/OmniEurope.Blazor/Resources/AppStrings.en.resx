@@ -223,4 +223,14 @@
   <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} KB</value></data>
   <data name="UploadSizeBytes" xml:space="preserve"><value>{0} B</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Week view</value></data>
+  <data name="DataAnnotationsRequired" xml:space="preserve"><value>The {0} field is required.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>The {0} field must be between {1} and {2} characters long.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>The {0} field must be at most {1} characters long.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>The {0} field must be at least {1} characters long.</value></data>
+  <data name="DataAnnotationsRange" xml:space="preserve"><value>The {0} field must be between {1} and {2}.</value></data>
+  <data name="DataAnnotationsEmail" xml:space="preserve"><value>The {0} field is not a valid e-mail address.</value></data>
+  <data name="DataAnnotationsUrl" xml:space="preserve"><value>The {0} field is not a valid web address.</value></data>
+  <data name="DataAnnotationsCompare" xml:space="preserve"><value>{0} and {1} do not match.</value></data>
+  <data name="DataAnnotationsPattern" xml:space="preserve"><value>The {0} field does not have the expected format.</value></data>
+  <data name="DataAnnotationsInvalid" xml:space="preserve"><value>The {0} field is not valid.</value></data>
 </root>
