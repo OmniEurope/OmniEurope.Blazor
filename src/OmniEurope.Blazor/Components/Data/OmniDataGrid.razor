@@ -278,7 +278,7 @@
                     }
                     else if (IsEmpty)
                     {
-                        <tr><td colspan="@ColumnSpan" class="omni-data-grid__state">@EmptyMessage</td></tr>
+                        <tr><td colspan="@ColumnSpan" class="omni-data-grid__state">@if (EmptyTemplate is not null) { @EmptyTemplate } else { @EmptyMessage }</td></tr>
                     }
                     else
                     {
@@ -286,7 +286,7 @@
                         {
                             @foreach (var header in row.Headers)
                             {
-                                <tr class="omni-data-grid__group" data-omni-group-level="@header.Level">
+                                <tr class="omni-data-grid__group" data-omni-group-level="@header.Level" data-omni-slot="@SlotAttribute(row)">
                                     <th colspan="@ColumnSpan" scope="rowgroup">
                                         <button type="button" class="omni-data-grid__group-expand" aria-expanded="@(header.Expanded ? "true" : "false")" @onclick="() => ToggleGroup(header.Path)">@(header.Expanded ? "▾" : "▸")</button>
                                         @header.Text
@@ -307,6 +307,7 @@
                             {
                                 <tr class="@RowClass(row)"
                                     data-omni-row-index="@row.Index"
+                                    data-omni-slot="@SlotAttribute(row)"
                                     aria-rowindex="@RowIndexAttribute(row.Index)"
                                     aria-selected="@SelectionState(row.Item)"
                                     tabindex="@(RowsAreInteractive && row.Selectable ? "0" : null)"
@@ -348,7 +349,7 @@
                             }
                             @if (row.ShowDetail && DetailTemplate is not null)
                             {
-                                <tr class="omni-data-grid__detail"><td colspan="@ColumnSpan">@DetailTemplate(row.Item)</td></tr>
+                                <tr class="omni-data-grid__detail" data-omni-slot="@SlotAttribute(row)"><td colspan="@ColumnSpan">@DetailTemplate(row.Item)</td></tr>
                             }
                         }
                     }

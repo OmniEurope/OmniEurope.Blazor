@@ -3,6 +3,8 @@ namespace OmniEurope.Blazor.Internal;
 /// <summary>
 /// One entry of the grid body as the markup should emit it: the group headers that open above it,
 /// the row itself (or a placeholder while its data is still loading) and an optional detail row.
+/// In a grouped or detailed virtualized grid, <see cref="Slot"/> is the entry's position in the
+/// virtual window, carried by each of its rows so the script measures the entry as a whole.
 /// </summary>
 internal sealed record GridRenderRow<TItem>(
     int Index,
@@ -12,4 +14,5 @@ internal sealed record GridRenderRow<TItem>(
     bool ShowDetail,
     string? CssClass,
     bool Expandable,
-    bool Selectable);
+    bool Selectable,
+    int Slot = -1);

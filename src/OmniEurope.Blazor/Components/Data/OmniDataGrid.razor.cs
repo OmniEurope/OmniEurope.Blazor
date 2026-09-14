@@ -24,6 +24,9 @@ public partial class OmniDataGrid<TItem>
     private readonly List<OmniDataGridSort> _sorts = [];
     private GridProjectionResult<TItem>? _localProjection;
     private IReadOnlyList<TItem>? _virtualLocalItems;
+    private IReadOnlyList<GridRenderRow<TItem>>? _slots;
+    private bool _slotsRebuilt;
+    private int _slotShape;
     private IReadOnlyList<OmniDataGridColumnDefinition<TItem>> _visibleColumns = Array.Empty<OmniDataGridColumnDefinition<TItem>>();
     private OmniDataGridColumnDefinition<TItem>? _implicitColumn;
     private HashSet<object> _selectedKeyIndex = [];
@@ -383,6 +386,13 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public string? EmptyText { get; set; }
 
+    /// <summary>
+    /// Rendered in the empty-state cell instead of <see cref="EmptyText"/>, for an empty state with an
+    /// icon, a description or an action. Left null, the text is shown exactly as before.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? EmptyTemplate { get; set; }
+
     [Parameter]
     public bool IsLoading { get; set; }
 
@@ -492,6 +502,20 @@ public partial class OmniDataGrid<TItem>
     // ---- derived state ------------------------------------------------------------------------
 
     private bool Virtualized => AllowVirtualization;
+
+    /// <summary>
+    /// A local virtualized grid whose body is not one row per item: group header rows and detail rows
+    /// sit between the items. The virtual window then indexes "slots", an item row together with the
+    /// group headers opening above it and its detail row, and measures each slot as a whole.
+    /// </summary>
+    private bool StructuredVirtual => Virtualized && Load is null
+        && (GroupBy is not null || DetailTemplate is not null || ActiveGroups.Count > 0);
+
+    private IReadOnlyList<GridRenderRow<TItem>> Slots => _slots ??= BuildSlots();
+
+    // Rendered only for slotted rows: a null value leaves the attribute out of every other grid.
+    private static string? SlotAttribute(GridRenderRow<TItem> row) =>
+        row.Slot >= 0 ? row.Slot.ToString(CultureInfo.InvariantCulture) : null;
     private IReadOnlyList<OmniDataGridColumnDefinition<TItem>> VisibleColumns => _visibleColumns;
 
     private IReadOnlyList<OmniDataGridColumnDefinition<TItem>> EffectiveColumns =>
@@ -646,11 +670,12 @@ public partial class OmniDataGrid<TItem>
     protected override async Task OnParametersSetAsync()
     {
         base.OnParametersSet();
-        if (Virtualized && (GroupBy is not null || DetailTemplate is not null || ActiveGroups.Count > 0))
+        if (Virtualized && Load is not null && (GroupBy is not null || DetailTemplate is not null || ActiveGroups.Count > 0))
         {
             throw new InvalidOperationException(
-                "OmniDataGrid cannot virtualize a grid that also declares GroupBy, Groups or DetailTemplate: "
-                + "they break the one-row-per-index mapping the scroll geometry relies on.");
+                "OmniDataGrid cannot virtualize a remote (Load) grid that also declares GroupBy, Groups or DetailTemplate: "
+                + "groups and detail rows need the whole row set, which a remote source only loads block by block. "
+                + "Use Items for a grouped or detailed virtualized grid.");
         }
 
         _implicitColumn = null;
@@ -758,6 +783,7 @@ public partial class OmniDataGrid<TItem>
     {
         _localProjection = null;
         _virtualLocalItems = null;
+        _slots = null;
     }
 
     private object ItemKey(TItem item)
@@ -785,6 +811,7 @@ public partial class OmniDataGrid<TItem>
             + (ShowDetailColumn ? 1 : 0);
         _selectedKeyIndex = SelectedKeys.ToHashSet();
         _expandedKeyIndex = ExpandedKeys.ToHashSet();
+        _slots = null;
         if (Virtualized)
         {
             SyncVirtualWindow();
@@ -796,8 +823,57 @@ public partial class OmniDataGrid<TItem>
     private void SyncVirtualWindow()
     {
         var estimate = RowHeight ?? (EstimatedRowHeight > 0d ? EstimatedRowHeight : 40d);
-        _window.Configure(TotalCount, estimate);
+        if (StructuredVirtual)
+        {
+            var count = Slots.Count;
+            _window.Configure(count, estimate);
+            if (_slotsRebuilt)
+            {
+                // A group opened or closed, a detail row appeared: the slots moved, so the heights
+                // measured for the old ones no longer describe the new ones.
+                _slotsRebuilt = false;
+                _window.ResetMeasurements();
+            }
+        }
+        else
+        {
+            _window.Configure(TotalCount, estimate);
+        }
+
         _range = _window.Compute(_scrollTop, _viewportHeight, VirtualizationOverscanCount);
+    }
+
+    private IReadOnlyList<GridRenderRow<TItem>> BuildSlots()
+    {
+        var items = VirtualLocalItems;
+        var rows = ActiveGroups.Count > 0 ? GroupedRows(ActiveGroups, items) : FlatRows(items);
+        var slots = rows.Select((row, slot) => row with { Slot = slot }).ToArray();
+
+        // The projection is rebuilt on every parameter pass; the measured heights only go when the
+        // shape of the body really changed (another item at a slot, a header or a detail row more or less).
+        var signature = new HashCode();
+        signature.Add(slots.Length);
+        foreach (var slot in slots)
+        {
+            signature.Add(slot.Index);
+            signature.Add(slot.Headers.Count);
+            signature.Add(slot.ShowDetail);
+        }
+
+        var shape = signature.ToHashCode();
+        _slotsRebuilt |= shape != _slotShape;
+        _slotShape = shape;
+        return slots;
+    }
+
+    /// <summary>Forgets the slot layout after an expansion change and recomputes the window over the new one.</summary>
+    private void RefreshSlots()
+    {
+        _slots = null;
+        if (StructuredVirtual)
+        {
+            SyncVirtualWindow();
+        }
     }
 
     private bool TryGetVirtualItem(int index, out TItem item)
@@ -872,7 +948,9 @@ public partial class OmniDataGrid<TItem>
             _virtualAttached = true;
         }
 
-        var snapshot = await _gridModule.InvokeAsync<GridViewportSnapshot?>("sync", _viewport, RowHeight is null);
+        // A slot holds group headers and a detail row besides its item row, so it is measured even
+        // when the item rows themselves have a fixed height.
+        var snapshot = await _gridModule.InvokeAsync<GridViewportSnapshot?>("sync", _viewport, RowHeight is null || StructuredVirtual);
         var moved = ApplySnapshot(snapshot);
         var previous = _range;
         SyncVirtualWindow();
@@ -1028,7 +1106,7 @@ public partial class OmniDataGrid<TItem>
             moved = true;
         }
 
-        if (RowHeight is not null || snapshot.Rows is null)
+        if ((RowHeight is not null && !StructuredVirtual) || snapshot.Rows is null)
         {
             return moved;
         }
@@ -1074,6 +1152,19 @@ public partial class OmniDataGrid<TItem>
     /// <summary>Flattens the current view into the exact sequence of rows the markup emits.</summary>
     private IReadOnlyList<GridRenderRow<TItem>> RenderRows()
     {
+        if (StructuredVirtual)
+        {
+            var slots = Slots;
+            var end = Math.Min(_range.EndIndex, slots.Count);
+            var windowRows = new List<GridRenderRow<TItem>>(Math.Max(0, end - _range.StartIndex));
+            for (var slot = _range.StartIndex; slot < end; slot++)
+            {
+                windowRows.Add(slots[slot]);
+            }
+
+            return windowRows;
+        }
+
         if (Virtualized)
         {
             var virtualRows = new List<GridRenderRow<TItem>>(Math.Max(0, _range.Count));
@@ -1089,16 +1180,16 @@ public partial class OmniDataGrid<TItem>
         }
 
         var groups = ActiveGroups;
-        return groups.Count > 0 ? GroupedRows(groups) : FlatRows();
+        return groups.Count > 0 ? GroupedRows(groups, VisibleItems) : FlatRows(VisibleItems);
     }
 
-    private IReadOnlyList<GridRenderRow<TItem>> FlatRows()
+    private IReadOnlyList<GridRenderRow<TItem>> FlatRows(IReadOnlyList<TItem> items)
     {
-        var rows = new List<GridRenderRow<TItem>>(VisibleItems.Count);
+        var rows = new List<GridRenderRow<TItem>>(items.Count);
         var first = true;
         object? previousGroup = null;
         var index = 0;
-        foreach (var item in VisibleItems)
+        foreach (var item in items)
         {
             var headers = new List<GridGroupHeader>();
             if (GroupBy is not null)
@@ -1106,7 +1197,7 @@ public partial class OmniDataGrid<TItem>
                 var currentGroup = GroupBy(item);
                 if (first || !Equals(previousGroup, currentGroup))
                 {
-                    var count = VisibleItems.Count(candidate => Equals(GroupBy(candidate), currentGroup));
+                    var count = items.Count(candidate => Equals(GroupBy(candidate), currentGroup));
                     var text = GroupLabel?.Invoke(currentGroup, count) ?? $"{currentGroup} ({count})";
                     headers.Add(new GridGroupHeader($"{currentGroup ?? NullGroupKey}", text, 0, count, true));
                 }
@@ -1122,7 +1213,7 @@ public partial class OmniDataGrid<TItem>
         return rows;
     }
 
-    private IReadOnlyList<GridRenderRow<TItem>> GroupedRows(IReadOnlyList<OmniDataGridGroup> groups)
+    private IReadOnlyList<GridRenderRow<TItem>> GroupedRows(IReadOnlyList<OmniDataGridGroup> groups, IReadOnlyList<TItem> items)
     {
         var accessors = groups
             .Select(group => EffectiveColumns.FirstOrDefault(column => column.Key == group.Key))
@@ -1131,10 +1222,10 @@ public partial class OmniDataGrid<TItem>
             .ToArray();
         if (accessors.Length == 0)
         {
-            return FlatRows();
+            return FlatRows(items);
         }
 
-        var ordered = VisibleItems
+        var ordered = items
             .Select((item, index) => (Item: item, Index: index))
             .OrderBy(entry => 0);
         for (var level = 0; level < accessors.Length; level++)
@@ -1223,6 +1314,8 @@ public partial class OmniDataGrid<TItem>
         {
             _collapsedGroups.Add(path);
         }
+
+        RefreshSlots();
     }
 
     // ---- selection ----------------------------------------------------------------------------
@@ -1254,7 +1347,9 @@ public partial class OmniDataGrid<TItem>
         }
     }
 
-    private IEnumerable<TItem> CurrentRows() => Virtualized
+    private IEnumerable<TItem> CurrentRows() => StructuredVirtual
+        ? RenderRows().Where(row => row.HasItem).Select(row => row.Item)
+        : Virtualized
         ? Enumerable.Range(_range.StartIndex, Math.Max(0, _range.Count))
             .Select(index => TryGetVirtualItem(index, out var item) ? item : default!)
             .Where(item => item is not null)
@@ -1311,15 +1406,17 @@ public partial class OmniDataGrid<TItem>
         }
 
         _expandedKeyIndex = keys.ToHashSet();
+        RefreshSlots();
         await ExpandedKeysChanged.InvokeAsync(keys);
         await (expanding ? RowExpand.InvokeAsync(item) : RowCollapse.InvokeAsync(item));
     }
 
     private async Task ToggleAllExpandedAsync()
     {
-        var rows = VisibleItems.Select(ItemKey).ToList();
+        var rows = (Virtualized ? VirtualLocalItems : VisibleItems).Select(ItemKey).ToList();
         var keys = _expandedKeyIndex.Count >= rows.Count ? [] : rows;
         _expandedKeyIndex = keys.ToHashSet();
+        RefreshSlots();
         await ExpandedKeysChanged.InvokeAsync(keys);
     }
 

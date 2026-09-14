@@ -10,6 +10,8 @@
   <data name="Counter" xml:space="preserve"><value>Compteur : {0}</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Progression du test</value></data>
   <data name="GridCaption" xml:space="preserve"><value>Grille virtualisée</value></data>
+  <data name="GroupedGridCaption" xml:space="preserve"><value>Grille virtualisée, groupée, avec détails</value></data>
+  <data name="RowDetail" xml:space="preserve"><value>Détail de la ligne {0}</value></data>
   <data name="GridName" xml:space="preserve"><value>Nom</value></data>
   <data name="GridValue" xml:space="preserve"><value>Valeur</value></data>
   <data name="RowName" xml:space="preserve"><value>Ligne {0}</value></data>

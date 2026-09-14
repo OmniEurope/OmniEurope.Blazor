@@ -32,7 +32,7 @@ Les variables de thème déclarées dans `:root` sont éditables dans le personn
 
 ## Limites fonctionnelles actuelles
 
-- La DataGrid virtualise réellement le viewport avec un défilement continu, une hauteur de tableau paramétrable en longueur CSS et un chargement distant par blocs ; elle refuse explicitement de virtualiser en présence de groupes ou de lignes de détail. Voir [data-components.md](data-components.md).
+- La DataGrid virtualise réellement le viewport avec un défilement continu, une hauteur de tableau paramétrable en longueur CSS et un chargement distant par blocs ; avec `Items`, elle virtualise aussi les groupes et les lignes de détail ; avec `Load`, elle refuse explicitement les groupes et les détails. Voir [data-components.md](data-components.md).
 - Les séries et axes SVG partagent désormais leurs domaines et projections; la couverture visuelle navigateur reste à étendre aux combinaisons de séries et de tailles de viewport.
 - L'éditeur HTML assainit sa valeur, affiche un aperçu et conserve un historique ; ses commandes portent encore sur tout le document et ne gèrent ni sélection, ni caret, ni composition IME, ni collage spécialisé.
 - La carte mentale n'a pas de rendu alternatif hors SVG et ses gestes tactiles (pincement, appui long) n'ont pas été vérifiés sur un écran tactile réel.
