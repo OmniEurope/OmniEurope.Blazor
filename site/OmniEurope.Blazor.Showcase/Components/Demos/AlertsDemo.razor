@@ -1,14 +1,28 @@
 <OmniStack Gap="OmniSpacing.Medium">
+    @* En contour : fond teinté, barre de sévérité au début, titre et icône colorés, message dans la
+       couleur du texte. *@
     <OmniAlert Severity="OmniAlertSeverity.Info" Title="Information">
-        La bibliothèque lit toutes ses couleurs dans des variables CSS.
+        <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+        <ChildContent>La bibliothèque lit toutes ses couleurs dans des variables CSS.</ChildContent>
     </OmniAlert>
     <OmniAlert Severity="OmniAlertSeverity.Success" Title="Enregistré">
-        Les modifications ont été prises en compte.
+        <Icon><OmniIcon Name="OmniIconName.CheckCircle" /></Icon>
+        <ChildContent>Les modifications ont été prises en compte.</ChildContent>
     </OmniAlert>
     <OmniAlert Severity="OmniAlertSeverity.Warning" Title="Attention">
-        Ce réglage sera appliqué à toutes les pages.
+        <Icon><OmniIcon Name="OmniIconName.Warning" /></Icon>
+        <ChildContent>Ce réglage sera appliqué à toutes les pages.</ChildContent>
+    </OmniAlert>
+    <OmniAlert Severity="OmniAlertSeverity.Danger" Title="Refusé">
+        Le fichier dépasse la taille autorisée.
+    </OmniAlert>
+    @* Plein : la sévérité peint le fond, pour un message qu'on ne doit pas faire défiler sans le lire. *@
+    <OmniAlert Severity="OmniAlertSeverity.Info" Variant="OmniAlertVariant.Filled" Title="Maintenance">
+        <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+        <ChildContent>Le service sera indisponible dimanche de 2 h à 4 h.</ChildContent>
     </OmniAlert>
     <OmniAlert Severity="OmniAlertSeverity.Danger" Variant="OmniAlertVariant.Filled" Title="Échec">
-        La connexion au service a échoué.
+        <Icon><OmniIcon Name="OmniIconName.Error" /></Icon>
+        <ChildContent>La connexion au service a échoué.</ChildContent>
     </OmniAlert>
 </OmniStack>

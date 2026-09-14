@@ -1,10 +1,28 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<main id="@Id"
-      class="@Css("omni-main")"
-      tabindex="@(FocusTarget ? "-1" : null)"
-      aria-labelledby="@AriaLabelledBy"
-      @attributes="AdditionalAttributes">
-    @ChildContent
-</main>
+@* Scrollable wraps the landmark in a frame as wide as the main area: the landmark scrolls across the
+   whole of it, so its scrollbar sits at the window's edge and never beside a centred column, and its
+   inline padding, measured against the frame, is what centres that column. *@
+@if (Scrollable)
+{
+    <div class="omni-main-scroll">
+        <main id="@Id"
+              class="@Css("omni-main", "omni-main--scrollable", WidthClass)"
+              tabindex="@(FocusTarget ? "-1" : null)"
+              aria-labelledby="@AriaLabelledBy"
+              @attributes="AdditionalAttributes">
+            @ChildContent
+        </main>
+    </div>
+}
+else
+{
+    <main id="@Id"
+          class="@Css("omni-main", WidthClass)"
+          tabindex="@(FocusTarget ? "-1" : null)"
+          aria-labelledby="@AriaLabelledBy"
+          @attributes="AdditionalAttributes">
+        @ChildContent
+    </main>
+}

@@ -7,6 +7,15 @@
 </OmniStack>
 @* En contour, la teinte de la variante passe du fond au trait. *@
 <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
+    <OmniBadge Variant="OmniBadgeVariant.Neutral" Fill="OmniBadgeFill.Outline">Brouillon</OmniBadge>
     <OmniBadge Variant="OmniBadgeVariant.Accent" Fill="OmniBadgeFill.Outline">Contour</OmniBadge>
     <OmniBadge Variant="OmniBadgeVariant.Success" Fill="OmniBadgeFill.Outline">Validé</OmniBadge>
+    <OmniBadge Variant="OmniBadgeVariant.Warning" Fill="OmniBadgeFill.Outline">En attente</OmniBadge>
+    <OmniBadge Variant="OmniBadgeVariant.Danger" Fill="OmniBadgeFill.Outline">Rejeté</OmniBadge>
+</OmniStack>
+@* Un compteur reste au moins carré ; une icône se range devant le libellé, à sa taille. *@
+<OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
+    <OmniBadge Variant="OmniBadgeVariant.Accent">3</OmniBadge>
+    <OmniBadge Variant="OmniBadgeVariant.Danger">128</OmniBadge>
+    <OmniBadge Variant="OmniBadgeVariant.Success"><OmniIcon Name="OmniIconName.Check" /><span>Publié</span></OmniBadge>
 </OmniStack>

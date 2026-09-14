@@ -19,18 +19,18 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 | `OmniText` | Texte rendu en `span`, `p`, `strong`, `em` ou `small`, avec tons et troncature statiques. |
 | `OmniHeading` | Titres `h1` à `h6` déterminés par `OmniHeadingLevel`. |
 | `OmniIcon` | Tracés Phosphor `regular` intégrés pour les usages du paquet, décoratifs par défaut ou nommés avec `AriaLabel` ; `Glyph` accepte n'importe quel autre tracé sans alourdir le paquet. |
-| `OmniBadge` | Étiquette courte avec variantes neutre, accent, succès, avertissement et danger. |
+| `OmniBadge` | Étiquette courte avec variantes neutre, accent, succès, avertissement et danger, en pastille tonale (fond, trait et texte tirés de l'encre de la variante mêlée à la surface et au texte du thème) lisible en clair comme en sombre ; `Fill="Outline"` n'en garde que le trait. |
 | `OmniLink` | Lien natif ; un nouvel onglet ajoute automatiquement `noopener noreferrer`. |
 | `OmniImage` | Image responsive avec texte alternatif, chargement différé et dimensions natives optionnelles. |
 | `OmniSkeleton` | État de chargement décoratif ou région `status` nommée, avec une à dix lignes. |
 | `OmniRow` | Rangée flex avec espacement, alignement, justification et retour à la ligne typés. |
 | `OmniColumn` | Colonne sur douze unités avec variantes responsive `SmallSpan`, `MediumSpan` et `LargeSpan`. |
 | `OmniGrid` | Grille CSS de une à douze colonnes avec espacement typé. |
-| `OmniLayout` | Conteneur de page pleine largeur, large ou centré sur le contenu. |
-| `OmniMain` | Landmark `main`, ciblable par un lien d'évitement grâce à `FocusTarget`. |
+| `OmniLayout` | Conteneur de page pleine largeur, large ou centré sur le contenu : `Width` rétrécit toute la coquille, en-tête et barre latérale compris. |
+| `OmniMain` | Landmark `main`, ciblable par un lien d'évitement grâce à `FocusTarget`. `ContentWidth` centre le contenu seul (`Wide`, 90rem, ou `Content`, 72rem) ; `Scrollable` en fait le conteneur de défilement de la page. |
 | `OmniHeader` | Landmark `header`, avec position collante optionnelle définie dans la feuille statique. |
 | `OmniFieldset` | Groupe de champs natif avec `legend` obligatoire et état désactivé. |
-| `OmniProgressBar` | Progression linéaire ou circulaire, déterminée ou indéterminée, avec valeurs ARIA. |
+| `OmniProgressBar` | Progression linéaire ou circulaire, déterminée ou indéterminée, avec valeurs ARIA. L'indéterminée linéaire glisse d'un mouvement continu, sans arrêt ni retour ; sans mouvement demandé, la piste se remplit à demi-teinte. |
 
 ## Icônes
 
@@ -66,6 +66,22 @@ Mesure du surcoût des onze tracés Phosphor, publication WebAssembly identique 
 ```
 
 Le thème ne repeint que sa portée. Les valeurs sont des surcharges des variables de la feuille livrée, posées par le CSSOM ; les variables de forme (`--omni-button-*`, `--omni-card-*`, `--omni-heading-*`, `--omni-border-width`) valent par défaut le rendu livré, si bien qu'une application peut aussi les redéfinir elle-même.
+
+## Largeur du contenu et défilement
+
+`OmniLayout.Width` rétrécit toute la coquille. Pour garder l'en-tête et la barre latérale sur toute la largeur et ne centrer que le contenu, c'est `OmniMain.ContentWidth`. Avec `Scrollable`, l'élément principal devient le conteneur de défilement de la page : il couvre toute la zone laissée par la barre latérale, si bien que sa barre de défilement reste au bord droit de la fenêtre, jamais au bord de la colonne centrée. La colonne se centre par la marge intérieure de l'élément et comprend sa gouttière, `--omni-main-gutter` (l'espacement moyen par défaut). Un enfant à `block-size: 100%` remplit exactement la zone ; un contenu plus haut la fait défiler, marge du bas comprise.
+
+La coquille doit avoir une hauteur bornée : une `OmniLayout` dont le corps porte un élément principal défilant devient une colonne, et l'hôte lui donne sa hauteur, par exemple celle de la fenêtre. Les deux plafonds se lisent dans `--omni-layout-wide-width` et `--omni-layout-content-width`, qu'un hôte peut poser sur un ancêtre.
+
+```razor
+<OmniLayout Class="app-shell">  @* .app-shell { block-size: 100dvh; } *@
+    <OmniHeader>...</OmniHeader>
+    <OmniBody>
+        <OmniSidebar Open="true" AriaLabel="Navigation">...</OmniSidebar>
+        <OmniMain Scrollable="true" ContentWidth="OmniLayoutWidth.Content">@Body</OmniMain>
+    </OmniBody>
+</OmniLayout>
+```
 
 ## Exemple
 
