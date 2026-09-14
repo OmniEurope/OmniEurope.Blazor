@@ -258,4 +258,5 @@
   <data name="StepTimelineStatusSkipped" xml:space="preserve"><value>ignorée</value></data>
   <data name="StepTimelineStatusSuccess" xml:space="preserve"><value>réussie</value></data>
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, démarrée à {1}, durée</value></data>
+  <data name="ConfirmAction" xml:space="preserve"><value>Confirmer</value></data>
 </root>

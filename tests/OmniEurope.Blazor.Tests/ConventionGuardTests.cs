@@ -101,16 +101,44 @@ public sealed partial class ConventionGuardTests
     }
 
     [Fact]
-    public void BusyVeil_IsOneSharedSurfaceColouredRuleAndNoSpinner()
+    public void BusyVeil_IsOneSharedDarkRuleAndNoSpinner()
     {
         var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
         var veil = Regex.Match(styles, @"\.omni-busy::after,\s*\.btn-busy::after\s*\{(?<body>[^}]*)\}");
 
         Assert.True(veil.Success, "La règle partagée du voile .omni-busy::after / .btn-busy::after est absente.");
-        Assert.Contains("background: var(--omni-color-surface);", veil.Groups["body"].Value, StringComparison.Ordinal);
+        // Dark, and never fully transparent: a veil fading to nothing, or towards a light surface, let a
+        // busy button pass for a resting one on a light page.
+        Assert.Contains("background: var(--omni-busy-veil-color, #000000);", veil.Groups["body"].Value, StringComparison.Ordinal);
+        Assert.Contains("opacity: 0.25;", veil.Groups["body"].Value, StringComparison.Ordinal);
         Assert.Contains("animation: omni-busy-veil 1.3s", veil.Groups["body"].Value, StringComparison.Ordinal);
-        Assert.Contains("@keyframes omni-busy-veil { 0%, 100% { opacity: 0; } 50% { opacity: 0.45; } }", styles, StringComparison.Ordinal);
+        Assert.Contains("@keyframes omni-busy-veil { 0%, 100% { opacity: 0.25; } 50% { opacity: 0.55; } }", styles, StringComparison.Ordinal);
         Assert.DoesNotContain("omni-button__busy", styles, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void IndeterminateProgress_SlidesOneRepeatingPeriodAtConstantSpeed()
+    {
+        var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
+
+        // A pattern repeating every track width, twice the track wide, moved by exactly one period at
+        // a linear pace: the loop closes on itself, where an eased segment stopped and jumped back.
+        Assert.Contains("animation: omni-indeterminate 1.6s linear infinite;", styles, StringComparison.Ordinal);
+        Assert.Contains("0 0 / 50% 100% repeat-x;", styles, StringComparison.Ordinal);
+        Assert.Contains("@keyframes omni-indeterminate { from { transform: translateX(-50%); } to { transform: translateX(0); } }", styles, StringComparison.Ordinal);
+        Assert.DoesNotContain("omni-indeterminate 1.2s ease-in-out", styles, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ButtonSizes_AreThreeDistinctHeights()
+    {
+        var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
+        var sizes = Regex.Matches(styles, @"\.omni-split-button--(?<size>small|medium|large) \{ --omni-button-size: (?<value>[^;]+);")
+            .ToDictionary(match => match.Groups["size"].Value, match => match.Groups["value"].Value);
+
+        Assert.Equal("calc(var(--omni-control-height) - 0.5rem)", sizes["small"]);
+        Assert.Equal("var(--omni-control-height)", sizes["medium"]);
+        Assert.Equal("calc(var(--omni-control-height) + 0.5rem)", sizes["large"]);
     }
 
     [Fact]

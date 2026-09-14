@@ -8,6 +8,10 @@ public partial class OmniToggleButton
     [Parameter]
     public EventCallback<bool> ValueChanged { get; set; }
 
+    /// <summary>The same three sizes as <see cref="OmniButton"/>; with an icon alone the button is square.</summary>
+    [Parameter]
+    public OmniControlSize Size { get; set; } = OmniControlSize.Medium;
+
     [Parameter]
     public bool Disabled { get; set; }
 
