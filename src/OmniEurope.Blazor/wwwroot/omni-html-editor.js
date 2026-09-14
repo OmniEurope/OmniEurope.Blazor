@@ -1,0 +1,1012 @@
+// Visual (WYSIWYG) surface of OmniHtmlEditor.
+//
+// Blazor renders the surface empty and never diffs into it: this module owns its children. The
+// browser's editing commands are used where they produce plain elements (b, i, u, lists, headings,
+// links); alignment and text size are applied here as classes, because the commands that do them
+// natively write a style attribute. normalise() removes any style attribute the editing engine
+// still leaves behind (a merge of two paragraphs can create one), so the strict CSP holds.
+//
+// Pasted and dropped content never reaches the document raw: it goes through .NET, where the same
+// HtmlSanitizer allow-list as the value applies, and only the sanitised result is inserted. The
+// history also lives in .NET, so Ctrl+Z undoes a command and a burst of typing alike.
+const editors = new WeakMap();
+const inputDelay = 250;
+const blockSelector = 'p,h1,h2,h3,h4,h5,h6,li,blockquote,pre,td,th,div';
+const alignClasses = ['omni-align-left', 'omni-align-center', 'omni-align-right', 'omni-align-justify'];
+const sizeClasses = {
+    small: 'omni-font-size-small',
+    normal: 'omni-font-size-normal',
+    large: 'omni-font-size-large',
+    xlarge: 'omni-font-size-xlarge'
+};
+const allowedClasses = new Set([...alignClasses, ...Object.values(sizeClasses)]);
+// Underline and strikethrough are read from the elements rather than from queryCommandState, which
+// reports the underline every link is drawn with.
+const marks = [
+    ['bold', 'bold'],
+    ['italic', 'italic'],
+    ['subscript', 'subscript'],
+    ['superscript', 'superscript']
+];
+
+export function mount(surface, dotnet, html, options) {
+    if (!surface || editors.has(surface)) {
+        return;
+    }
+
+    const state = { surface, dotnet, timer: 0, range: null, key: '', sent: null, listeners: [] };
+    editors.set(surface, state);
+    surface.innerHTML = html ?? '';
+    normalise(surface);
+    state.sent = surface.innerHTML;
+    configure(surface, options);
+    listen(state, surface, 'focusin', () => prepareDocument());
+    listen(state, surface, 'input', () => schedule(state));
+    listen(state, surface, 'paste', event => paste(state, event));
+    listen(state, surface, 'drop', event => drop(state, event));
+    listen(state, surface, 'keydown', event => keydown(state, event));
+    listen(state, surface, 'beforeinput', event => beforeInput(state, event));
+    listen(state, surface, 'focusout', () => flush(state));
+    listen(state, document, 'selectionchange', () => selectionChanged(state));
+}
+
+export function configure(surface, options) {
+    const rows = Number(options?.rows);
+    if (surface && Number.isFinite(rows) && rows > 0) {
+        surface.style.setProperty('--omni-html-editor-rows', String(Math.min(Math.round(rows), 80)));
+    }
+}
+
+export function read(surface) {
+    const state = editors.get(surface);
+    if (!state) {
+        return null;
+    }
+
+    window.clearTimeout(state.timer);
+    state.timer = 0;
+    tidy(surface);
+    state.sent = surface.innerHTML;
+    return state.sent;
+}
+
+export function setHtml(surface, html) {
+    const state = editors.get(surface);
+    if (!state) {
+        return;
+    }
+
+    window.clearTimeout(state.timer);
+    state.timer = 0;
+    const focused = surface.contains(document.activeElement);
+    const offset = focused ? caretOffset(surface) : -1;
+    surface.innerHTML = html ?? '';
+    normalise(surface);
+    state.sent = surface.innerHTML;
+    state.range = null;
+    if (offset >= 0) {
+        placeCaret(surface, offset);
+    }
+
+    report(state, true);
+}
+
+export function exec(surface, action, argument) {
+    const state = editors.get(surface);
+    if (!state) {
+        return null;
+    }
+
+    prepareDocument();
+    const range = restore(state);
+    apply(surface, range, action, argument ?? '');
+    tidy(surface);
+
+    window.clearTimeout(state.timer);
+    state.timer = 0;
+    state.sent = surface.innerHTML;
+    remember(state);
+    report(state, true);
+    return state.sent;
+}
+
+export function insertHtml(surface, html) {
+    return exec(surface, 'inserthtml', html);
+}
+
+export function dispose(surface) {
+    const state = editors.get(surface);
+    if (!state) {
+        return;
+    }
+
+    window.clearTimeout(state.timer);
+    for (const [target, type, handler] of state.listeners) {
+        target.removeEventListener(type, handler);
+    }
+
+    editors.delete(surface);
+}
+
+function listen(state, target, type, handler) {
+    target.addEventListener(type, handler);
+    state.listeners.push([target, type, handler]);
+}
+
+// Both settings are document-wide. They are set again on every focus because another editor on
+// the page may have changed them: paragraphs rather than div elements on Enter, and elements
+// rather than style attributes for the formatting commands.
+function prepareDocument() {
+    document.execCommand('defaultParagraphSeparator', false, 'p');
+    document.execCommand('styleWithCSS', false, false);
+}
+
+function schedule(state) {
+    window.clearTimeout(state.timer);
+    state.timer = window.setTimeout(() => send(state), inputDelay);
+}
+
+function send(state) {
+    state.timer = 0;
+    tidy(state.surface);
+    const html = state.surface.innerHTML;
+    if (html === state.sent) {
+        return;
+    }
+
+    state.sent = html;
+    state.dotnet.invokeMethodAsync('OnVisualInput', html);
+}
+
+function flush(state) {
+    if (state.timer) {
+        window.clearTimeout(state.timer);
+        send(state);
+    }
+}
+
+async function paste(state, event) {
+    const data = event.clipboardData;
+    if (!data) {
+        return;
+    }
+
+    event.preventDefault();
+    await insertTransfer(state, data.getData('text/html'), data.getData('text/plain'));
+}
+
+async function drop(state, event) {
+    const data = event.dataTransfer;
+    if (!data) {
+        return;
+    }
+
+    event.preventDefault();
+    const html = data.getData('text/html');
+    const text = data.getData('text/plain');
+    if (!html && !text) {
+        return;
+    }
+
+    const point = caretFromPoint(event.clientX, event.clientY);
+    if (point && state.surface.contains(point.startContainer)) {
+        state.range = point;
+    }
+
+    await insertTransfer(state, html, text);
+}
+
+async function insertTransfer(state, html, text) {
+    remember(state);
+    const clean = await state.dotnet.invokeMethodAsync('SanitizePaste', html ?? '', text ?? '');
+    if (!clean || !editors.has(state.surface)) {
+        return;
+    }
+
+    prepareDocument();
+    const range = restore(state);
+    if (!insertBlocks(state.surface, range, clean)) {
+        document.execCommand('insertHTML', false, clean);
+    }
+
+    tidy(state.surface);
+    schedule(state);
+}
+
+function keydown(state, event) {
+    const command = event.ctrlKey || event.metaKey;
+    const key = event.key.toLowerCase();
+    if (command && !event.altKey && (key === 'z' || key === 'y')) {
+        event.preventDefault();
+        flush(state);
+        state.dotnet.invokeMethodAsync('OnHistoryShortcut', key === 'y' || event.shiftKey);
+        return;
+    }
+
+    if (command && !event.altKey && !event.shiftKey && key === 'k') {
+        event.preventDefault();
+        remember(state);
+        state.dotnet.invokeMethodAsync('OnLinkShortcut');
+        return;
+    }
+
+    if (event.key === 'Tab' && !command && !event.altKey && moveBetweenCells(state.surface, event.shiftKey)) {
+        event.preventDefault();
+    }
+}
+
+// The browser's own history knows nothing of the changes made by the history in .NET, so its entry
+// points (the context menu, a touch gesture) are routed there too.
+function beforeInput(state, event) {
+    if (event.inputType === 'historyUndo' || event.inputType === 'historyRedo') {
+        event.preventDefault();
+        flush(state);
+        state.dotnet.invokeMethodAsync('OnHistoryShortcut', event.inputType === 'historyRedo');
+        return;
+    }
+
+    if (joinInstead(state.surface, event)) {
+        event.preventDefault();
+        tidy(state.surface);
+        schedule(state);
+    }
+}
+
+// When two blocks are joined, by a deletion at their boundary or across them, the browser keeps the
+// look of the moved text with a styled span; under a strict style-src that span is refused and
+// reported. The common joins are therefore done here, as plain moves of nodes; a join inside a
+// list or a table is left to the browser.
+const joinable = 'p,h1,h2,h3,h4,h5,h6,blockquote,pre,div';
+
+function joinInstead(surface, event) {
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0) {
+        return false;
+    }
+
+    const range = selection.getRangeAt(0);
+    const type = event.inputType;
+    const deleting = type.startsWith('delete');
+    const typing = type === 'insertText' || type === 'insertReplacementText';
+    if (!deleting && !typing) {
+        return false;
+    }
+
+    const startBlock = topBlock(surface, range.startContainer);
+    const endBlock = topBlock(surface, range.endContainer);
+    if (!range.collapsed) {
+        if (!startBlock || !endBlock || startBlock === endBlock) {
+            return false;
+        }
+
+        range.deleteContents();
+        join(startBlock, endBlock);
+        if (typing && event.data) {
+            const text = document.createTextNode(event.data);
+            const caret = selection.getRangeAt(0);
+            caret.insertNode(text);
+            caret.setStartAfter(text);
+            caret.collapse(true);
+            selection.removeAllRanges();
+            selection.addRange(caret);
+        }
+
+        return true;
+    }
+
+    if (!startBlock || (type !== 'deleteContentBackward' && type !== 'deleteContentForward')) {
+        return false;
+    }
+
+    const backwards = type === 'deleteContentBackward';
+    const edge = document.createRange();
+    edge.selectNodeContents(startBlock);
+    if (backwards) {
+        edge.setEnd(range.startContainer, range.startOffset);
+    }
+    else {
+        edge.setStart(range.startContainer, range.startOffset);
+    }
+
+    if (edge.toString() !== '' || edge.cloneContents().querySelector('br,img,hr')) {
+        return false;
+    }
+
+    const other = backwards ? startBlock.previousElementSibling : startBlock.nextElementSibling;
+    if (!other || !other.matches(joinable)) {
+        return false;
+    }
+
+    return backwards ? join(other, startBlock) : join(startBlock, other);
+}
+
+function topBlock(surface, node) {
+    const block = elementOf(node)?.closest(joinable);
+    return block && block.parentElement === surface ? block : null;
+}
+
+// Appends the content of second to first, removes second and puts the caret at the seam.
+function join(first, second) {
+    const selection = document.getSelection();
+    if (!first.textContent && !first.querySelector('img,hr')) {
+        first.remove();
+        const start = document.createRange();
+        start.selectNodeContents(second);
+        start.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(start);
+        return true;
+    }
+
+    for (const trailing of [...first.childNodes].reverse()) {
+        if (trailing.nodeName === 'BR' || (trailing.nodeType === Node.TEXT_NODE && trailing.data === '')) {
+            trailing.remove();
+            continue;
+        }
+
+        break;
+    }
+
+    const seam = document.createRange();
+    seam.selectNodeContents(first);
+    seam.collapse(false);
+    const moved = [...second.childNodes].filter(node => node.nodeName !== 'BR' || second.childNodes.length > 1);
+    first.append(...moved);
+    second.remove();
+    selection.removeAllRanges();
+    selection.addRange(seam);
+    return true;
+}
+
+// Pasted blocks placed between the two halves of the paragraph holding the caret, rather than
+// merged into it by insertHTML, which would keep their look with styled spans. Inline content, or
+// a caret inside a list or a table, is left to insertHTML.
+function insertBlocks(surface, range, html) {
+    const template = document.createElement('template');
+    template.innerHTML = html;
+    const nodes = [...template.content.childNodes];
+    if (!nodes.some(node => node.nodeType === Node.ELEMENT_NODE && node.matches('p,h1,h2,h3,h4,h5,h6,blockquote,pre,ul,ol,table,div,hr'))) {
+        return false;
+    }
+
+    const startBlock = topBlock(surface, range.startContainer);
+    const endBlock = topBlock(surface, range.endContainer);
+    if (!startBlock || !endBlock) {
+        return false;
+    }
+
+    range.deleteContents();
+    if (startBlock !== endBlock) {
+        join(startBlock, endBlock);
+    }
+
+    const caret = document.getSelection().getRangeAt(0);
+    const tail = document.createRange();
+    tail.setStart(caret.startContainer, caret.startOffset);
+    tail.setEnd(startBlock, startBlock.childNodes.length);
+    const rest = startBlock.cloneNode(false);
+    rest.appendChild(tail.extractContents());
+    const last = nodes[nodes.length - 1];
+    startBlock.after(...nodes, rest);
+    if (!startBlock.textContent && !startBlock.querySelector('img,hr')) {
+        startBlock.remove();
+    }
+
+    if (!rest.textContent && !rest.querySelector('img,hr')) {
+        rest.remove();
+    }
+
+    const after = document.createRange();
+    if (last.nodeType === Node.ELEMENT_NODE) {
+        after.selectNodeContents(last);
+        after.collapse(false);
+    }
+    else {
+        after.setStartAfter(last);
+        after.collapse(true);
+    }
+    document.getSelection().removeAllRanges();
+    document.getSelection().addRange(after);
+    return true;
+}
+
+function selectionChanged(state) {
+    if (remember(state)) {
+        report(state, false);
+    }
+}
+
+function remember(state) {
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0) {
+        return false;
+    }
+
+    const range = selection.getRangeAt(0);
+    if (!state.surface.contains(range.commonAncestorContainer)) {
+        return false;
+    }
+
+    state.range = range.cloneRange();
+    return true;
+}
+
+// The live selection wins when it is inside the surface; the remembered one covers the moments the
+// focus is elsewhere (the link field, a list of the toolbar), since selectionchange arrives late.
+function restore(state) {
+    const { surface } = state;
+    remember(state);
+    surface.focus({ preventScroll: true });
+    const selection = document.getSelection();
+    let range = state.range;
+    if (!range || !surface.contains(range.commonAncestorContainer)) {
+        range = document.createRange();
+        range.selectNodeContents(surface);
+        range.collapse(false);
+    }
+
+    selection.removeAllRanges();
+    selection.addRange(range);
+    return range;
+}
+
+function report(state, force) {
+    const key = describe(state.surface);
+    if (!force && key === state.key) {
+        return;
+    }
+
+    state.key = key;
+    state.dotnet.invokeMethodAsync('OnVisualState', key);
+}
+
+// "marks|block|align|size": the pressed toggles, the block tag, the alignment and the text size at
+// the caret, compared as one string so .NET is only called when one of them changes.
+function describe(surface) {
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0 || !surface.contains(selection.getRangeAt(0).commonAncestorContainer)) {
+        return '|p|left|normal';
+    }
+
+    const node = elementOf(selection.getRangeAt(0).startContainer);
+    const within = selector => {
+        const found = node?.closest(selector);
+        return found && found !== surface && surface.contains(found) ? found : null;
+    };
+    const pressed = marks.filter(([command]) => document.queryCommandState(command)).map(([, name]) => name);
+    if (within('u')) {
+        pressed.push('underline');
+    }
+
+    if (within('s,strike,del')) {
+        pressed.push('strikethrough');
+    }
+
+    const pre = within('pre');
+    if (within('code') && !pre) {
+        pressed.push('inlinecode');
+    }
+
+    const list = within('ul,ol');
+    if (list) {
+        pressed.push(list.tagName === 'UL' ? 'bulletlist' : 'numberedlist');
+    }
+
+    if (within('blockquote')) {
+        pressed.push('quote');
+    }
+
+    if (pre) {
+        pressed.push('codeblock');
+    }
+
+    if (within('a[href]')) {
+        pressed.push('link');
+    }
+
+    const block = within('h1,h2,h3,h4,p,pre,blockquote,li,td,th,div');
+    const tag = block && /^h[1-4]$/i.test(block.tagName) ? block.tagName.toLowerCase() : 'p';
+    const aligned = within(alignClasses.map(name => `.${name}`).join(','));
+    const align = aligned ? alignClasses.find(name => aligned.classList.contains(name)).slice('omni-align-'.length) : 'left';
+    const sized = within(Object.values(sizeClasses).map(name => `.${name}`).join(','));
+    const size = sized ? Object.keys(sizeClasses).find(name => sized.classList.contains(sizeClasses[name])) : 'normal';
+    return `${pressed.join(' ')}|${tag}|${align}|${size}`;
+}
+
+function apply(surface, range, action, argument) {
+    const within = selector => {
+        const found = elementOf(range.startContainer)?.closest(selector);
+        return found && found !== surface && surface.contains(found) ? found : null;
+    };
+
+    switch (action) {
+        case 'bold':
+        case 'italic':
+        case 'underline':
+        case 'subscript':
+        case 'superscript':
+            document.execCommand(action);
+            break;
+        case 'strikethrough':
+            document.execCommand('strikeThrough');
+            break;
+        case 'inlinecode':
+            toggleInlineCode(range, within);
+            break;
+        case 'blockformat':
+            document.execCommand('formatBlock', false, `<${/^h[1-4]$/.test(argument) ? argument : 'p'}>`);
+            break;
+        case 'fontsize':
+            applySize(surface, argument in sizeClasses ? argument : 'normal');
+            break;
+        case 'bulletlist':
+            document.execCommand('insertUnorderedList');
+            break;
+        case 'numberedlist':
+            document.execCommand('insertOrderedList');
+            break;
+        case 'indent':
+            if (within('li')) {
+                document.execCommand('indent');
+            }
+            else {
+                document.execCommand('formatBlock', false, '<blockquote>');
+            }
+            break;
+        case 'outdent':
+            if (within('li')) {
+                document.execCommand('outdent');
+            }
+            else {
+                unwrapQuote(within('blockquote'));
+            }
+            break;
+        case 'quote':
+            if (within('blockquote')) {
+                unwrapQuote(within('blockquote'));
+            }
+            else {
+                document.execCommand('formatBlock', false, '<blockquote>');
+            }
+            break;
+        case 'codeblock':
+            document.execCommand('formatBlock', false, within('pre') ? '<p>' : '<pre>');
+            break;
+        case 'link':
+            applyLink(range, within, argument);
+            break;
+        case 'unlink':
+            if (within('a')) {
+                unwrap(within('a'));
+            }
+            else {
+                document.execCommand('unlink');
+            }
+            break;
+        case 'alignleft':
+        case 'aligncenter':
+        case 'alignright':
+        case 'alignjustify':
+            applyAlignment(surface, action.slice('align'.length));
+            break;
+        case 'inserttable':
+            document.execCommand('insertHTML', false, tableHtml(argument));
+            break;
+        case 'clearformatting':
+            clearFormatting(surface);
+            break;
+        case 'inserthtml':
+            if (argument) {
+                document.execCommand('insertHTML', false, argument);
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+function toggleInlineCode(range, within) {
+    const code = within('code');
+    if (code && !within('pre')) {
+        unwrap(code);
+        return;
+    }
+
+    if (range.collapsed) {
+        return;
+    }
+
+    // Built by hand: insertHTML turns a code element that ends a paragraph into a bare span.
+    const element = document.createElement('code');
+    element.textContent = range.toString();
+    range.deleteContents();
+    range.insertNode(element);
+    const selection = document.getSelection();
+    const inside = document.createRange();
+    inside.selectNodeContents(element);
+    selection.removeAllRanges();
+    selection.addRange(inside);
+}
+
+function applyLink(range, within, url) {
+    if (!url) {
+        return;
+    }
+
+    const anchor = within('a');
+    if (anchor && range.collapsed) {
+        anchor.setAttribute('href', url);
+    }
+    else if (range.collapsed) {
+        document.execCommand('insertHTML', false, `<a href="${escapeAttribute(url)}">${escapeHtml(url)}</a>`);
+    }
+    else {
+        document.execCommand('createLink', false, url);
+    }
+}
+
+// A quote made by formatBlock holds its text directly; unwrapping it would leave bare text in the
+// surface, so such a quote becomes a paragraph instead.
+function unwrapQuote(quote) {
+    if (!quote) {
+        return;
+    }
+
+    if ([...quote.children].some(child => child.matches(blockSelector))) {
+        unwrap(quote);
+        return;
+    }
+
+    const paragraph = document.createElement('p');
+    while (quote.firstChild) {
+        paragraph.appendChild(quote.firstChild);
+    }
+
+    quote.replaceWith(paragraph);
+}
+
+// fontSize with styleWithCSS off writes font elements, which are then turned into classed spans:
+// the one route to sized text that neither leaves a font element nor writes a style attribute.
+function applySize(surface, size) {
+    document.execCommand('fontSize', false, '7');
+    for (const font of surface.querySelectorAll('font[size="7"]')) {
+        for (const inner of font.querySelectorAll('span')) {
+            inner.classList.remove(...Object.values(sizeClasses));
+        }
+
+        // Resizing exactly what an earlier size covered changes that size rather than nesting a
+        // second one inside it.
+        const outer = font.parentElement;
+        if (outer?.tagName === 'SPAN' && outer.childNodes.length === 1 && surface.contains(outer)) {
+            unwrap(font);
+            if (size === 'normal') {
+                outer.classList.remove(...Object.values(sizeClasses));
+            }
+            else {
+                outer.classList.remove(...Object.values(sizeClasses));
+                outer.classList.add(sizeClasses[size]);
+            }
+
+            continue;
+        }
+
+        const inherited = font.parentElement?.closest(Object.values(sizeClasses).map(name => `.${name}`).join(','));
+        if (size === 'normal' && !(inherited && surface.contains(inherited))) {
+            unwrap(font);
+            continue;
+        }
+
+        const span = document.createElement('span');
+        span.className = sizeClasses[size];
+        while (font.firstChild) {
+            span.appendChild(font.firstChild);
+        }
+
+        font.replaceWith(span);
+    }
+}
+
+function applyAlignment(surface, direction) {
+    let blocks = blocksOfSelection(surface);
+    if (blocks.length === 0) {
+        document.execCommand('formatBlock', false, '<p>');
+        blocks = blocksOfSelection(surface);
+    }
+
+    for (const block of blocks) {
+        block.classList.remove(...alignClasses);
+        if (direction !== 'left') {
+            block.classList.add(`omni-align-${direction}`);
+        }
+    }
+}
+
+function clearFormatting(surface) {
+    document.execCommand('removeFormat');
+    const selection = document.getSelection();
+    const range = selection && selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+    if (!range) {
+        return;
+    }
+
+    for (const span of surface.querySelectorAll('span')) {
+        if (range.intersectsNode(span)) {
+            unwrap(span);
+        }
+    }
+
+    for (const block of blocksOfSelection(surface)) {
+        block.classList.remove(...alignClasses);
+    }
+}
+
+// The innermost blocks the selection touches, so a list item is aligned rather than its list.
+function blocksOfSelection(surface) {
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0) {
+        return [];
+    }
+
+    const range = selection.getRangeAt(0);
+    const found = new Set();
+    const add = node => {
+        const block = elementOf(node)?.closest(blockSelector);
+        if (block && block !== surface && surface.contains(block)) {
+            found.add(block);
+        }
+    };
+    add(range.startContainer);
+    add(range.endContainer);
+    for (const block of surface.querySelectorAll(blockSelector)) {
+        if (range.intersectsNode(block)) {
+            found.add(block);
+        }
+    }
+
+    return [...found].filter(block => ![...found].some(other => other !== block && block.contains(other)));
+}
+
+function tableHtml(argument) {
+    const match = /^(\d{1,2})x(\d{1,2})$/.exec(argument);
+    const rows = match ? Math.max(1, Number(match[1])) : 3;
+    const columns = match ? Math.max(1, Number(match[2])) : 3;
+    const row = `<tr>${'<td><br></td>'.repeat(columns)}</tr>`;
+    return `<table><tbody>${row.repeat(rows)}</tbody></table><p><br></p>`;
+}
+
+function moveBetweenCells(surface, backwards) {
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0) {
+        return false;
+    }
+
+    const cell = elementOf(selection.getRangeAt(0).startContainer)?.closest('td,th');
+    const table = cell?.closest('table');
+    if (!cell || !table || !surface.contains(table)) {
+        return false;
+    }
+
+    const cells = [...table.querySelectorAll('td,th')];
+    const next = cells[cells.indexOf(cell) + (backwards ? -1 : 1)];
+    if (!next) {
+        return false;
+    }
+
+    const range = document.createRange();
+    range.selectNodeContents(next);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    return true;
+}
+
+// Keeps the document equal to what the sanitiser in .NET would produce from it, so the value
+// round-trips: no style attribute, no font element, no class outside the allowed ones, no empty
+// span, the rel protection on every link, and no block inside a paragraph. Returns whether a block
+// had to be moved, since that loses the caret.
+function normalise(surface) {
+    const lifted = liftBlocks(surface);
+    const wrapped = wrapLooseContent(surface);
+    for (const element of surface.querySelectorAll('[style]')) {
+        element.removeAttribute('style');
+    }
+
+    for (const font of surface.querySelectorAll('font')) {
+        unwrap(font);
+    }
+
+    for (const element of surface.querySelectorAll('[class]')) {
+        for (const name of [...element.classList]) {
+            if (!allowedClasses.has(name)) {
+                element.classList.remove(name);
+            }
+        }
+
+        if (element.classList.length === 0) {
+            element.removeAttribute('class');
+        }
+    }
+
+    for (const span of surface.querySelectorAll('span:not([class])')) {
+        unwrap(span);
+    }
+
+    for (const anchor of surface.querySelectorAll('a[href]')) {
+        if (anchor.getAttribute('rel') !== 'noopener noreferrer') {
+            anchor.setAttribute('rel', 'noopener noreferrer');
+        }
+    }
+
+    return lifted || wrapped;
+}
+
+// normalise() keeping the caret where it was, counted in characters, when it had to move a block.
+function tidy(surface) {
+    const offset = surface.contains(document.activeElement) ? caretOffset(surface) : -1;
+    if (normalise(surface) && offset >= 0) {
+        placeCaret(surface, offset);
+    }
+}
+
+// Text left directly in the surface (the first characters typed in an empty editor, a list turned
+// back into text) becomes paragraphs, a line break ending one.
+function wrapLooseContent(surface) {
+    const blocks = 'ul,ol,table,blockquote,pre,h1,h2,h3,h4,h5,h6,div,p,hr';
+    let moved = false;
+    let run = null;
+    for (const child of [...surface.childNodes]) {
+        const isBlock = child.nodeType === Node.ELEMENT_NODE && child.matches(blocks);
+        if (isBlock || (child.nodeType === Node.TEXT_NODE && child.data.trim() === '' && !run)) {
+            run = null;
+            continue;
+        }
+
+        if (child.nodeName === 'BR') {
+            if (run) {
+                child.remove();
+            }
+            else {
+                const empty = document.createElement('p');
+                child.replaceWith(empty);
+                empty.appendChild(child);
+            }
+
+            run = null;
+            moved = true;
+            continue;
+        }
+
+        if (!run) {
+            run = document.createElement('p');
+            child.before(run);
+        }
+
+        run.appendChild(child);
+        moved = true;
+    }
+
+    return moved;
+}
+
+// A list command run inside a paragraph nests the list in it. HTML cannot parse that back (the
+// paragraph closes before the list), so the value would change on its next load: the paragraph is
+// split around its blocks instead, what surrounds them becoming paragraphs of their own.
+function liftBlocks(surface) {
+    const blocks = 'ul,ol,table,blockquote,pre,h1,h2,h3,h4,h5,h6,div,p';
+    let moved = false;
+    for (const paragraph of surface.querySelectorAll('p')) {
+        if (!paragraph.isConnected || ![...paragraph.children].some(child => child.matches(blocks))) {
+            continue;
+        }
+
+        const parts = [];
+        const created = new Set();
+        let run = null;
+        for (const child of [...paragraph.childNodes]) {
+            if (child.nodeType === Node.ELEMENT_NODE && child.matches(blocks)) {
+                run = null;
+                parts.push(child);
+                continue;
+            }
+
+            if (!run) {
+                run = document.createElement('p');
+                created.add(run);
+                parts.push(run);
+            }
+
+            run.appendChild(child);
+        }
+
+        paragraph.replaceWith(...parts.filter(part => !created.has(part) || part.textContent.trim() !== '' || part.querySelector('br')));
+        moved = true;
+    }
+
+    return moved;
+}
+
+function unwrap(element) {
+    if (!element?.parentNode) {
+        return;
+    }
+
+    while (element.firstChild) {
+        element.parentNode.insertBefore(element.firstChild, element);
+    }
+
+    element.remove();
+}
+
+function elementOf(node) {
+    return node?.nodeType === Node.ELEMENT_NODE ? node : node?.parentElement ?? null;
+}
+
+function caretFromPoint(x, y) {
+    if (document.caretRangeFromPoint) {
+        return document.caretRangeFromPoint(x, y);
+    }
+
+    const position = document.caretPositionFromPoint?.(x, y);
+    if (!position) {
+        return null;
+    }
+
+    const range = document.createRange();
+    range.setStart(position.offsetNode, position.offset);
+    range.collapse(true);
+    return range;
+}
+
+// The caret as a count of characters from the start, which survives the document being rebuilt
+// from a new value (undo, redo, a value changed by the application).
+function caretOffset(surface) {
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0) {
+        return -1;
+    }
+
+    const range = selection.getRangeAt(0);
+    if (!surface.contains(range.startContainer)) {
+        return -1;
+    }
+
+    const before = document.createRange();
+    before.selectNodeContents(surface);
+    before.setEnd(range.startContainer, range.startOffset);
+    return before.toString().length;
+}
+
+function placeCaret(surface, offset) {
+    const walker = document.createTreeWalker(surface, NodeFilter.SHOW_TEXT);
+    let remaining = offset;
+    let node = walker.nextNode();
+    while (node) {
+        if (remaining <= node.data.length) {
+            const range = document.createRange();
+            range.setStart(node, remaining);
+            range.collapse(true);
+            const selection = document.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            return;
+        }
+
+        remaining -= node.data.length;
+        node = walker.nextNode();
+    }
+
+    const end = document.createRange();
+    end.selectNodeContents(surface);
+    end.collapse(false);
+    const selection = document.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(end);
+}
+
+function escapeHtml(text) {
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function escapeAttribute(text) {
+    return escapeHtml(text).replace(/"/g, '&quot;');
+}

@@ -1,35 +1,122 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniInputBase<string>
+@implements IAsyncDisposable
 @using OmniEurope.Blazor.Internal
 
-<section class="@InputCss("omni-html-editor")" aria-label="@EffectiveLabel">
-    <div class="omni-html-editor__toolbar" role="toolbar" aria-label="@Localize("HtmlEditorToolbar")">
-        @if (EnableBold) { <button type="button" aria-label="@Localize("HtmlEditorBold")" disabled="@Disabled" @onclick="BoldAsync"><strong>B</strong></button> }
-        @if (EnableItalic) { <button type="button" aria-label="@Localize("HtmlEditorItalic")" disabled="@Disabled" @onclick="ItalicAsync"><em>I</em></button> }
-        @if (EnableSubscript) { <button type="button" aria-label="@Localize("HtmlEditorSubscript")" disabled="@Disabled" @onclick="SubscriptAsync">x<sub>2</sub></button> }
-        @if (EnableSuperscript) { <button type="button" aria-label="@Localize("HtmlEditorSuperscript")" disabled="@Disabled" @onclick="SuperscriptAsync">x<sup>2</sup></button> }
-        @if (EnableIndent) { <button type="button" aria-label="@Localize("HtmlEditorIndent")" disabled="@Disabled" @onclick="IndentAsync">→</button> }
-        @if (EnableOutdent) { <button type="button" aria-label="@Localize("HtmlEditorOutdent")" disabled="@Disabled" @onclick="OutdentAsync">←</button> }
-        <span class="omni-html-editor__separator" role="separator"></span>
-        <button type="button" aria-label="@Localize("HtmlEditorUndo")" disabled="@(Disabled || _undo.Count == 0)" @onclick="UndoAsync">↶</button>
-        <button type="button" aria-label="@Localize("HtmlEditorRedo")" disabled="@(Disabled || _redo.Count == 0)" @onclick="RedoAsync">↷</button>
+<section class="@InputCss("omni-html-editor", _mode == OmniHtmlEditorMode.Visual ? "omni-html-editor--visual" : "omni-html-editor--source")" aria-label="@EffectiveLabel">
+    <div class="omni-html-editor__toolbar" role="toolbar" aria-label="@Localize("HtmlEditorToolbar")" aria-controls="@SurfaceId">
+        @foreach (var command in ToolbarCommands)
+        {
+            @switch (command.Action)
+            {
+                case OmniHtmlEditorAction.Separator:
+                    <span class="omni-html-editor__separator" role="separator" aria-orientation="vertical"></span>
+                    break;
+                case OmniHtmlEditorAction.BlockFormat:
+                    <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="@_selection.Block" @onchange="args => ChooseAsync(command, args)">
+                        @foreach (var (value, key) in BlockFormats)
+                        {
+                            <option value="@value">@Localize(key)</option>
+                        }
+                    </select>
+                    break;
+                case OmniHtmlEditorAction.FontSize:
+                    <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="@_selection.Size" @onchange="args => ChooseAsync(command, args)">
+                        @foreach (var (value, key) in FontSizes)
+                        {
+                            <option value="@value">@Localize(key)</option>
+                        }
+                    </select>
+                    break;
+                default:
+                    var icon = IconOf(command);
+                    <button type="button"
+                            class="omni-html-editor__tool"
+                            data-command="@command.Name"
+                            aria-label="@LabelOf(command)"
+                            title="@LabelOf(command)"
+                            aria-pressed="@PressedOf(command)"
+                            disabled="@IsDisabled(command)"
+                            @onmousedown:preventDefault
+                            @onclick="() => RunAsync(command)">
+                        @if (icon is { } name)
+                        {
+                            <OmniIcon Name="name" />
+                        }
+                        else
+                        {
+                            <span>@LabelOf(command)</span>
+                        }
+                    </button>
+                    break;
+            }
+        }
         @foreach (var tool in CustomTools)
         {
-            <button type="button" aria-label="@tool.Label" disabled="@Disabled" @onclick="() => ApplyAsync(tool.Transform)">@tool.Label</button>
+            <button type="button" class="omni-html-editor__tool omni-html-editor__tool--text" aria-label="@tool.Label" disabled="@Disabled" @onmousedown:preventDefault @onclick="() => ApplyToolAsync(tool)">@tool.Label</button>
         }
     </div>
-    <textarea @attributes="AdditionalAttributes"
-              id="@Id"
-              class="omni-html-editor__source"
-              value="@CurrentValue"
-              rows="@Rows"
-              disabled="@Disabled"
-              aria-invalid="@AriaInvalid"
-              aria-describedby="@AriaDescribedBy"
-              @ref="_source"
-              @oninput="HandleInputAsync"></textarea>
-    @if (ShowPreview)
+    @if (_linkOpen)
     {
-        <div class="omni-html-editor__preview" aria-label="@Localize("HtmlEditorPreview")">@((MarkupString)OmniHtmlSanitizer.Sanitize(CurrentValue))</div>
+        <div class="omni-html-editor__link" role="group" aria-label="@Localize("HtmlEditorLink")">
+            <label class="omni-html-editor__link-label" for="@LinkInputId">@Localize("HtmlEditorLinkUrl")</label>
+            <input @ref="_linkInput"
+                   id="@LinkInputId"
+                   class="omni-html-editor__link-input"
+                   type="url"
+                   form="@(LinkInputId + "-detached")"
+                   inputmode="url"
+                   autocomplete="off"
+                   value="@_linkUrl"
+                   aria-invalid="@(_linkError is null ? null : "true")"
+                   aria-describedby="@(_linkError is null ? null : LinkInputId + "-error")"
+                   @oninput="args => _linkUrl = args.Value?.ToString() ?? string.Empty"
+                   @onkeydown="HandleLinkKeyAsync" />
+            <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small" OnClick="ApplyLinkAsync">
+                <OmniIcon Name="OmniIconName.Check" />
+                <span>@Localize("HtmlEditorLinkApply")</span>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Danger" Size="OmniControlSize.Small" OnClick="CloseLinkAsync">
+                <OmniIcon Name="OmniIconName.Close" />
+                <span>@Localize("HtmlEditorLinkCancel")</span>
+            </OmniButton>
+            @if (_linkError is not null)
+            {
+                <p id="@(LinkInputId + "-error")" class="omni-html-editor__link-error" role="alert">@_linkError</p>
+            }
+        </div>
+    }
+    @if (_mode == OmniHtmlEditorMode.Visual)
+    {
+        <div @attributes="AdditionalAttributes"
+             @ref="_surface"
+             id="@SurfaceId"
+             class="omni-html-editor__surface omni-rich-text"
+             contenteditable="@(Disabled ? "false" : "true")"
+             role="textbox"
+             aria-multiline="true"
+             aria-label="@EffectiveLabel"
+             aria-disabled="@(Disabled ? "true" : null)"
+             aria-invalid="@AriaInvalid"
+             aria-describedby="@AriaDescribedBy"
+             spellcheck="true"></div>
+    }
+    else
+    {
+        <textarea @attributes="AdditionalAttributes"
+                  id="@SurfaceId"
+                  class="omni-html-editor__source"
+                  value="@CurrentValue"
+                  rows="@Rows"
+                  disabled="@Disabled"
+                  spellcheck="false"
+                  aria-invalid="@AriaInvalid"
+                  aria-describedby="@AriaDescribedBy"
+                  @ref="_source"
+                  @oninput="HandleInputAsync"></textarea>
+        @if (ShowPreview)
+        {
+            <div class="omni-html-editor__preview omni-rich-text" aria-label="@Localize("HtmlEditorPreview")">@((MarkupString)OmniHtmlSanitizer.Sanitize(CurrentValue))</div>
+        }
     }
 </section>
