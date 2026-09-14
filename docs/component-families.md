@@ -4,9 +4,9 @@ Les familles ci-dessous regroupent les composants publics de la bibliothèque et
 
 - Actions : boutons simples, bascules, boutons scindés et actions de menu, aux trois mêmes tailles ; un bouton à icône seule est carré.
 - Charts : moteur SVG, axes, domaines partagés, séries projetées et empilements à baselines cumulées, colonnes groupées par bandes de catégories, barres horizontales sur axes tournés, légende hors du tracé et jauge en demi-cercle. Voir [chart-components.md](chart-components.md).
-- Data : listes, pagination, arbre et grille virtualisable avec projection locale ou chargement distant annulable par blocs.
+- Data : listes, pagination, arbre, grille virtualisable avec projection locale ou chargement distant annulable par blocs, et tableur simple (`OmniSpreadsheet`) avec formules et barre de formule. Voir [data-components.md](data-components.md).
 - Diagram : carte mentale SVG éditable à la souris, au toucher et au clavier, avec barre d'actions, panneau des propriétés du nœud et relecture sans perte du format de graphe stocké. Voir [diagram-components.md](diagram-components.md).
-- Editor : édition source HTML, aperçu sanitizé, historique et outils personnalisés.
+- Editor : éditeur WYSIWYG avec face source HTML et barre de commandes extensible (`OmniHtmlEditor`), traitement de texte léger avec export HTML et texte (`OmniDocumentEditor`), éditeur de code Monaco servi par l'hôte avec repli en texte brut (`OmniCodeEditor`). Voir [editor-components.md](editor-components.md).
 - Feedback : alertes à deux variantes de remplissage et emplacement d'icône, progression, barre de chargement de page (`OmniLoadingBar`, en balayage ou en remplissage continu), skeletons et indicateurs d'état.
 - Forms : champs texte, formulaires typés, validation et contrôles de saisie.
 - Foundation : primitives de texte, titres et types fondamentaux.
@@ -29,6 +29,11 @@ Les variables de thème déclarées dans `:root` sont éditables dans le personn
 | `--omni-loading-bar-color` | `.omni-loading-bar` | `var(--omni-color-accent)` | Couleur du trait de `OmniLoadingBar`. |
 | `--omni-loading-bar-thickness` | `.omni-loading-bar` | `0.125rem` | Épaisseur du trait, posé dans le bord de ce qui précède la barre. |
 | `--omni-main-max-width` | `.omni-main` | `100%`, sinon le plafond de `ContentWidth` | Largeur maximale de la colonne de contenu, gouttières comprises ; redéclarée sur chaque élément principal, elle ne fuit pas dans un élément principal imbriqué. |
+| `--omni-data-grid-column-min-width` | `.omni-data-grid` | `8rem` | Plancher d'une colonne sans largeur : sous la somme des colonnes, le tableau défile de côté. |
+| `--omni-data-grid-control-width` | `.omni-data-grid` | `2.75rem` | Largeur des colonnes de développement et de sélection. |
+| `--omni-data-grid-edit-width` | `.omni-data-grid` | `5.25rem` | Largeur de la colonne d'édition. |
+| `--omni-spreadsheet-column-width` | `.omni-spreadsheet` | `7.5rem` | Largeur des colonnes du tableur. |
+| `--omni-spreadsheet-height` | `.omni-spreadsheet` | `26rem` | Hauteur maximale de la zone qui défile. |
 
 Celles-ci ne sont déclarées nulle part et se lisent avec une valeur de repli : posées sur l'élément ou sur un ancêtre, elles s'appliquent.
 
@@ -45,6 +50,6 @@ Celles-ci ne sont déclarées nulle part et se lisent avec une valeur de repli :
 
 - La DataGrid virtualise réellement le viewport avec un défilement continu, une hauteur de tableau paramétrable en longueur CSS et un chargement distant par blocs ; avec `Items`, elle virtualise aussi les groupes et les lignes de détail ; avec `Load`, elle refuse explicitement les groupes et les détails. Voir [data-components.md](data-components.md).
 - Les séries et axes SVG partagent désormais leurs domaines et projections; la couverture visuelle navigateur reste à étendre aux combinaisons de séries et de tailles de viewport.
-- L'éditeur HTML assainit sa valeur, affiche un aperçu et conserve un historique ; ses commandes portent encore sur tout le document et ne gèrent ni sélection, ni caret, ni composition IME, ni collage spécialisé.
+- L'éditeur HTML s'appuie sur `document.execCommand` pour sa face visuelle ; la composition IME n'a pas été éprouvée sur un clavier réel. `OmniCodeEditor` n'utilise Monaco que si l'hôte le sert et autorise `style-src 'unsafe-inline'`.
 - La carte mentale n'a pas de rendu alternatif hors SVG et ses gestes tactiles (pincement, appui long) n'ont pas été vérifiés sur un écran tactile réel.
 - Le catalogue illustre un sous-ensemble de la surface. Le registre `110/110` ne remplace pas des scénarios comportementaux, navigateur et accessibilité pour chaque cible.

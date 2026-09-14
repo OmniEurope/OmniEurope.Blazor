@@ -7,11 +7,11 @@
    row when the consumer needs it reachable without scrolling past every row. *@
 @{
     RenderFragment footerRow = @<tr class="omni-data-grid__footer-row">
-        @if (ShowDetailColumn) { <td></td> }
-        @if (SelectionMode != OmniDataGridSelectionMode.None) { <td></td> }
+        @if (ShowDetailColumn) { <td class="@ControlClass("expand")" data-omni-control="expand"></td> }
+        @if (SelectionMode != OmniDataGridSelectionMode.None) { <td class="@ControlClass("select")" data-omni-control="select"></td> }
         @foreach (var column in VisibleColumns)
         {
-            <td class="@ColumnClass(column, false)">
+            <td class="@ColumnClass(column, false)" data-omni-col="@column.Key">
                 @if (column.FooterTemplate is not null)
                 {
                     @column.FooterTemplate(default!)
@@ -20,6 +20,62 @@
         }
         @if (HasEditing) { <td></td> }
     </tr>;
+
+    @* The filter editor of one column, shared by the inline filter row and the popovers: in a
+       popover it ends with its own clear action, inline the reset cross beside it does that job.
+       Advanced mode always edits in a popover, two conditions being too tall for a header row. *@
+    RenderFragment<FilterEditorRequest> filterEditor = context => @<div class="@FilterEditorClass(context.InPanel)">
+        @if (ShowsOperatorSelector)
+        {
+            <label class="omni-visually-hidden" for="@($"{context.Id}-operator")">@Localize("GridFilterOperator", context.Column.Title)</label>
+            <select id="@($"{context.Id}-operator")" class="omni-input omni-data-grid__filter-operator" value="@DraftOf(context.Column).Operator" @onchange="args => FilterOperatorChangedAsync(context.Column, args.Value?.ToString())">
+                @foreach (var candidate in FilterOperators)
+                {
+                    <option value="@candidate" selected="@(candidate == DraftOf(context.Column).Operator)">@OperatorLabel(candidate)</option>
+                }
+            </select>
+        }
+        <label class="omni-visually-hidden" for="@context.Id">@Localize("GridFilterColumn", context.Column.Title)</label>
+        @FilterValueControl(context.Column, context.Id, FilterValue(context.Column), value => FilterValueChangedAsync(context.Column, value), context.InPanel)
+        @if (UsesAdvancedFilter)
+        {
+            <label class="omni-visually-hidden" for="@($"{context.Id}-logical")">@Localize("GridFilterLogical", context.Column.Title)</label>
+            <select id="@($"{context.Id}-logical")" class="omni-input omni-data-grid__filter-logical" value="@DraftOf(context.Column).LogicalOperator" @onchange="args => LogicalOperatorChangedAsync(context.Column, args.Value?.ToString())">
+                <option value="@OmniDataGridLogicalOperator.And" selected="@(DraftOf(context.Column).LogicalOperator == OmniDataGridLogicalOperator.And)">@LogicalLabel(OmniDataGridLogicalOperator.And)</option>
+                <option value="@OmniDataGridLogicalOperator.Or" selected="@(DraftOf(context.Column).LogicalOperator == OmniDataGridLogicalOperator.Or)">@LogicalLabel(OmniDataGridLogicalOperator.Or)</option>
+            </select>
+            <label class="omni-visually-hidden" for="@($"{context.Id}-second-operator")">@Localize("GridFilterSecondOperator", context.Column.Title)</label>
+            <select id="@($"{context.Id}-second-operator")" class="omni-input omni-data-grid__filter-operator" value="@DraftOf(context.Column).SecondOperator" @onchange="args => SecondFilterOperatorChangedAsync(context.Column, args.Value?.ToString())">
+                @foreach (var candidate in FilterOperators)
+                {
+                    <option value="@candidate" selected="@(candidate == DraftOf(context.Column).SecondOperator)">@OperatorLabel(candidate)</option>
+                }
+            </select>
+            <label class="omni-visually-hidden" for="@($"{context.Id}-second")">@Localize("GridFilterSecondValue", context.Column.Title)</label>
+            @FilterValueControl(context.Column, $"{context.Id}-second", SecondFilterValue(context.Column), value => SecondFilterValueChangedAsync(context.Column, value), context.InPanel)
+            <span class="omni-data-grid__filter-actions">
+                <button type="button" class="omni-button omni-button--small omni-button--primary omni-data-grid__filter-apply" @onclick="() => ApplyFilterAsync(context.Column)">@Text(ApplyFilterText, "GridFilterApply")</button>
+                <button type="button" class="omni-button omni-button--small omni-button--secondary omni-data-grid__filter-clear" @onclick="() => ClearFilterAsync(context.Column)">@Text(ClearFilterText, "GridFilterClear")</button>
+            </span>
+        }
+        else if (context.InPanel)
+        {
+            <span class="omni-data-grid__filter-actions">
+                <button type="button" class="omni-button omni-button--small omni-button--secondary omni-data-grid__filter-clear" @onclick="() => ClearFilterAsync(context.Column)">@Text(ClearFilterText, "GridFilterClear")</button>
+            </span>
+        }
+    </div>;
+
+    @* Shortcut out of a filter: emptying one is the action worth a single click, and the cross only
+       exists while there is something to empty. *@
+    RenderFragment<OmniDataGridColumnDefinition<TItem>> filterReset = context => @<button type="button"
+            class="omni-data-grid__icon-button omni-data-grid__filter-reset"
+            aria-label="@Text(ClearFilterText, "GridFilterClear")"
+            title="@Text(ClearFilterText, "GridFilterClear")"
+            @onclick:stopPropagation="true"
+            @onclick="() => ClearFilterAsync(context)">
+        <OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" />
+    </button>;
 }
 
 <CascadingValue Value="_context" IsFixed="true">@Columns</CascadingValue>
@@ -31,7 +87,7 @@
     {
         <div class="omni-data-grid__toolbar">
             <button type="button"
-                    class="omni-button omni-data-grid__theme-toggle"
+                    class="omni-button omni-button--small omni-button--secondary omni-data-grid__theme-toggle"
                     aria-pressed="@(IsDarkTheme ? "true" : "false")"
                     title="@Localize(IsDarkTheme ? "GridThemeLight" : "GridThemeDark")"
                     @onclick="ToggleTheme">
@@ -44,7 +100,7 @@
     {
         <div class="omni-data-grid__state" role="alert">
             <span>@Localize("GridLoadFailed")</span>
-            <button type="button" class="omni-button" @onclick="ReloadAsync">@Localize("Retry")</button>
+            <button type="button" class="omni-button omni-button--small omni-button--secondary" @onclick="ReloadAsync">@Localize("Retry")</button>
         </div>
     }
     else
@@ -52,6 +108,7 @@
         @if (ShowGroupPanel && AllowGrouping)
         {
             <div class="omni-data-grid__group-panel" role="group" aria-label="@Localize("GridGroupPanel")">
+                <OmniIcon Name="OmniIconName.Layers" Size="OmniControlSize.Small" />
                 @if (ActiveGroups.Count == 0)
                 {
                     <span class="omni-data-grid__group-hint">@Localize("GridGroupPanelEmpty")</span>
@@ -62,7 +119,9 @@
                     {
                         <span class="omni-data-grid__group-chip">
                             @GroupTitle(group)
-                            <button type="button" class="omni-data-grid__group-remove" aria-label="@Localize("GridUngroupColumn", GroupTitle(group))" @onclick="() => ToggleGroupingAsync(EffectiveColumns.First(column => column.Key == group.Key))">×</button>
+                            <button type="button" class="omni-data-grid__icon-button omni-data-grid__group-remove" aria-label="@Localize("GridUngroupColumn", GroupTitle(group))" title="@Localize("GridUngroupColumn", GroupTitle(group))" @onclick="() => ToggleGroupingAsync(EffectiveColumns.First(column => column.Key == group.Key))">
+                                <OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" />
+                            </button>
                         </span>
                     }
                 }
@@ -70,7 +129,7 @@
         }
         @if (ShowPagerTop)
         {
-            <OmniPager Page="@Page"
+            <OmniPager Page="@EffectivePage"
                        PageCount="@PageCount"
                        PageChanged="ChangePageAsync"
                        PageSize="@PageSize"
@@ -98,22 +157,24 @@
                     <caption>@Caption</caption>
                 }
                 <colgroup>
-                    @if (ShowDetailColumn) { <col class="omni-data-grid__col--control" /> }
-                    @if (SelectionMode != OmniDataGridSelectionMode.None) { <col class="omni-data-grid__col--control" /> }
+                    @if (ShowDetailColumn) { <col class="omni-data-grid__col--control omni-data-grid__col--expand" /> }
+                    @if (SelectionMode != OmniDataGridSelectionMode.None) { <col class="omni-data-grid__col--control omni-data-grid__col--select" /> }
                     @foreach (var column in VisibleColumns)
                     {
                         <col class="omni-data-grid__col" data-omni-col="@column.Key" />
                     }
-                    @if (HasEditing) { <col class="omni-data-grid__col--control" /> }
+                    @if (HasEditing) { <col class="omni-data-grid__col--control omni-data-grid__col--edit" /> }
                 </colgroup>
                 <thead>
-                    <tr>
+                    <tr class="omni-data-grid__header-row">
                         @if (ShowDetailColumn)
                         {
-                            <th scope="col">
-                                @if (ShowExpandAll)
+                            <th scope="col" class="@ControlClass("expand")" data-omni-control="expand">
+                                @if (ShowsExpandAll)
                                 {
-                                    <button type="button" class="omni-data-grid__expand" aria-label="@Localize("GridExpandAll")" @onclick="ToggleAllExpandedAsync">⇕</button>
+                                    <button type="button" class="@ExpandButtonClass(AllVisibleExpanded)" aria-label="@Localize("GridExpandAll")" title="@Localize("GridExpandAll")" aria-expanded="@(AllVisibleExpanded ? "true" : "false")" @onclick="ToggleAllExpandedAsync">
+                                        <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
+                                    </button>
                                 }
                                 else
                                 {
@@ -123,7 +184,22 @@
                         }
                         @if (SelectionMode != OmniDataGridSelectionMode.None)
                         {
-                            <th scope="col"><span class="omni-visually-hidden">@Localize("GridSelectionColumn")</span></th>
+                            <th scope="col" class="@ControlClass("select")" data-omni-control="select">
+                                @if (SelectionMode == OmniDataGridSelectionMode.Multiple && !Virtualized)
+                                {
+                                    <input type="checkbox"
+                                           class="omni-checkbox omni-data-grid__select-all"
+                                           checked="@AllVisibleSelected"
+                                           disabled="@(!HasSelectableVisibleRows)"
+                                           aria-label="@Localize("GridSelectAll")"
+                                           title="@Localize("GridSelectAll")"
+                                           @onchange="ToggleAllSelectionAsync" />
+                                }
+                                else
+                                {
+                                    <span class="omni-visually-hidden">@Localize("GridSelectionColumn")</span>
+                                }
+                            </th>
                         }
                         @foreach (var column in VisibleColumns)
                         {
@@ -143,7 +219,7 @@
                                     }
                                     else if (IsSortable(column))
                                     {
-                                        <button type="button" class="omni-data-grid__sort" tabindex="0" @onclick:stopPropagation="true" @onclick="args => SortAsync(column.Key, args.ShiftKey)">
+                                        <button type="button" class="omni-data-grid__sort" @onclick:stopPropagation="true" @onclick="args => SortAsync(column.Key, args.ShiftKey)">
                                             <span class="omni-data-grid__title">@column.Title</span>
                                         </button>
                                     }
@@ -153,35 +229,26 @@
                                     }
                                     @if (IsGroupable(column))
                                     {
-                                        <button type="button" class="@HeaderActionClass("omni-data-grid__group-toggle", IsGrouped(column.Key))" aria-pressed="@(IsGrouped(column.Key) ? "true" : "false")" aria-label="@Localize("GridGroupColumn", column.Title)" @onclick:stopPropagation="true" @onclick="() => ToggleGroupingAsync(column)">⊞</button>
+                                        <button type="button" class="@HeaderActionClass("omni-data-grid__group-toggle", IsGrouped(column.Key))" aria-pressed="@(IsGrouped(column.Key) ? "true" : "false")" aria-label="@Localize("GridGroupColumn", column.Title)" title="@Localize("GridGroupColumn", column.Title)" @onclick:stopPropagation="true" @onclick="() => ToggleGroupingAsync(column)">
+                                            <OmniIcon Name="OmniIconName.Layers" Size="OmniControlSize.Small" />
+                                        </button>
                                     }
-                                    @* The header filter menu and the inline filter row are mutually exclusive:
-                                       HasFilterRow is false as soon as the menu is on, so a column never shows
+                                    @* The header filter menu and the inline filter row are two places for the same
+                                       editor: HasFilterRow is false as soon as the menu is on, so a column never shows
                                        the same value control twice. *@
                                     @if (ShowHeaderFilterMenu && IsFilterable(column))
                                     {
-                                        <details class="omni-data-grid__filter-menu" @onclick:stopPropagation="true">
-                                            <summary class="@FilterToggleClass(column)" aria-label="@Localize("GridFilterColumn", column.Title)" aria-haspopup="true">
+                                        <details class="omni-data-grid__filter-menu omni-data-grid__popover" data-omni-popover @onclick:stopPropagation="true">
+                                            <summary class="@FilterToggleClass(column)" aria-label="@Localize("GridFilterColumn", column.Title)" title="@Localize("GridFilterColumn", column.Title)" aria-haspopup="true">
                                                 <OmniIcon Name="OmniIconName.Filter" Size="OmniControlSize.Small" />
                                             </summary>
-                                            <div class="omni-data-grid__filter-menu-panel" role="group">
-                                                <label class="omni-visually-hidden" for="@HeaderFilterId(column)">@Localize("GridFilterColumn", column.Title)</label>
-                                                @FilterValueControl(column, HeaderFilterId(column), FilterValue(column), value => FilterValueChangedAsync(column, value))
-                                                <button type="button" class="omni-button omni-data-grid__filter-clear" @onclick="() => ClearFilterAsync(column)">@Text(ClearFilterText, "GridFilterClear")</button>
+                                            <div class="omni-data-grid__filter-menu-panel omni-data-grid__popover-panel" role="group" aria-label="@Localize("GridFilterColumn", column.Title)">
+                                                @filterEditor(new FilterEditorRequest(column, HeaderFilterId(column), true))
                                             </div>
                                         </details>
-                                        @* Shortcut out of the menu: emptying a filter is the one action worth a
-                                           single click, and it only exists while there is something to empty. *@
                                         @if (HasActiveFilter(column))
                                         {
-                                            <button type="button"
-                                                    class="omni-data-grid__filter-reset"
-                                                    aria-label="@Text(ClearFilterText, "GridFilterClear")"
-                                                    title="@Text(ClearFilterText, "GridFilterClear")"
-                                                    @onclick:stopPropagation="true"
-                                                    @onclick="() => ClearFilterAsync(column)">
-                                                <OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" />
-                                            </button>
+                                            @filterReset(column)
                                         }
                                     }
                                     @* Always last, and always occupying its slot: a column that gains a sort must
@@ -194,9 +261,9 @@
                                         </span>
                                     }
                                 </div>
-                                @* Drag handle straddling the column's trailing border. The pointer gesture runs
-                                   entirely in omni-grid.js and reports the final width once; the arrow keys keep
-                                   a keyboard path to the same operation. *@
+                                @* Drag handle on the column's trailing edge. The pointer gesture runs entirely in
+                                   omni-grid.js and reports the final width once; the arrow keys keep a keyboard
+                                   path to the same operation. *@
                                 @if (IsResizable(column))
                                 {
                                     <span class="omni-data-grid__resize-handle"
@@ -212,54 +279,51 @@
                         }
                         @if (HasEditing)
                         {
-                            <th scope="col"><span class="omni-visually-hidden">@Localize("GridEditColumn")</span></th>
+                            <th scope="col" class="omni-data-grid__edit-header"><span class="omni-visually-hidden">@Localize("GridEditColumn")</span></th>
                         }
                     </tr>
                     @if (HasFilterRow)
                     {
                         <tr class="omni-data-grid__filters">
-                            @if (ShowDetailColumn) { <th></th> }
-                            @if (SelectionMode != OmniDataGridSelectionMode.None) { <th></th> }
+                            @if (ShowDetailColumn) { <td class="@ControlClass("expand")" data-omni-control="expand"></td> }
+                            @if (SelectionMode != OmniDataGridSelectionMode.None) { <td class="@ControlClass("select")" data-omni-control="select"></td> }
                             @foreach (var column in VisibleColumns)
                             {
-                                <th>
+                                <td class="@FilterCellClass(column)" data-omni-col="@column.Key">
                                     @if (IsFilterable(column))
                                     {
-                                        @if (ShowsOperatorSelector)
-                                        {
-                                            <label class="omni-visually-hidden" for="@OperatorId(column)">@Localize("GridFilterOperator", column.Title)</label>
-                                            <select id="@OperatorId(column)" class="omni-input omni-data-grid__filter-operator" value="@DraftOf(column).Operator" @onchange="args => FilterOperatorChangedAsync(column, args.Value?.ToString())">
-                                                @foreach (var candidate in FilterOperators)
-                                                {
-                                                    <option value="@candidate" selected="@(candidate == DraftOf(column).Operator)">@OperatorLabel(candidate)</option>
-                                                }
-                                            </select>
-                                        }
-                                        <label class="omni-visually-hidden" for="@FilterId(column)">@Localize("GridFilterColumn", column.Title)</label>
-                                        @FilterValueControl(column, FilterId(column), FilterValue(column), value => FilterValueChangedAsync(column, value))
                                         @if (UsesAdvancedFilter)
                                         {
-                                            <label class="omni-visually-hidden" for="@LogicalId(column)">@Localize("GridFilterLogical", column.Title)</label>
-                                            <select id="@LogicalId(column)" class="omni-input omni-data-grid__filter-logical" value="@DraftOf(column).LogicalOperator" @onchange="args => LogicalOperatorChangedAsync(column, args.Value?.ToString())">
-                                                <option value="@OmniDataGridLogicalOperator.And" selected="@(DraftOf(column).LogicalOperator == OmniDataGridLogicalOperator.And)">@LogicalLabel(OmniDataGridLogicalOperator.And)</option>
-                                                <option value="@OmniDataGridLogicalOperator.Or" selected="@(DraftOf(column).LogicalOperator == OmniDataGridLogicalOperator.Or)">@LogicalLabel(OmniDataGridLogicalOperator.Or)</option>
-                                            </select>
-                                            <label class="omni-visually-hidden" for="@SecondOperatorId(column)">@Localize("GridFilterSecondOperator", column.Title)</label>
-                                            <select id="@SecondOperatorId(column)" class="omni-input omni-data-grid__filter-operator" value="@DraftOf(column).SecondOperator" @onchange="args => SecondFilterOperatorChangedAsync(column, args.Value?.ToString())">
-                                                @foreach (var candidate in FilterOperators)
+                                            <div class="omni-data-grid__filter-field">
+                                                <details class="omni-data-grid__popover omni-data-grid__advanced" data-omni-popover>
+                                                    <summary class="omni-input omni-data-grid__advanced-toggle" aria-label="@Localize("GridFilterColumn", column.Title)" aria-haspopup="true">
+                                                        <OmniIcon Name="OmniIconName.Filter" Size="OmniControlSize.Small" />
+                                                        <span class="omni-data-grid__advanced-summary">@FilterSummary(column)</span>
+                                                    </summary>
+                                                    <div class="omni-data-grid__popover-panel" role="group" aria-label="@Localize("GridFilterColumn", column.Title)">
+                                                        @filterEditor(new FilterEditorRequest(column, FilterId(column), true))
+                                                    </div>
+                                                </details>
+                                                @if (HasActiveFilter(column))
                                                 {
-                                                    <option value="@candidate" selected="@(candidate == DraftOf(column).SecondOperator)">@OperatorLabel(candidate)</option>
+                                                    @filterReset(column)
                                                 }
-                                            </select>
-                                            <label class="omni-visually-hidden" for="@SecondFilterId(column)">@Localize("GridFilterSecondValue", column.Title)</label>
-                                            @FilterValueControl(column, SecondFilterId(column), SecondFilterValue(column), value => SecondFilterValueChangedAsync(column, value))
-                                            <button type="button" class="omni-button omni-data-grid__filter-apply" @onclick="() => ApplyFilterAsync(column)">@Text(ApplyFilterText, "GridFilterApply")</button>
+                                            </div>
                                         }
-                                        <button type="button" class="omni-button omni-data-grid__filter-clear" @onclick="() => ClearFilterAsync(column)">@Text(ClearFilterText, "GridFilterClear")</button>
+                                        else
+                                        {
+                                            <div class="omni-data-grid__filter-field">
+                                                @filterEditor(new FilterEditorRequest(column, FilterId(column), false))
+                                                @if (HasActiveFilter(column))
+                                                {
+                                                    @filterReset(column)
+                                                }
+                                            </div>
+                                        }
                                     }
-                                </th>
+                                </td>
                             }
-                            @if (HasEditing) { <th></th> }
+                            @if (HasEditing) { <td></td> }
                         </tr>
                     }
                     @if (HasTopFooter)
@@ -288,8 +352,11 @@
                             {
                                 <tr class="omni-data-grid__group" data-omni-group-level="@header.Level" data-omni-slot="@SlotAttribute(row)">
                                     <th colspan="@ColumnSpan" scope="rowgroup">
-                                        <button type="button" class="omni-data-grid__group-expand" aria-expanded="@(header.Expanded ? "true" : "false")" @onclick="() => ToggleGroup(header.Path)">@(header.Expanded ? "▾" : "▸")</button>
-                                        @header.Text
+                                        @* The whole title is the toggle: a bigger target, and its text is the button's name. *@
+                                        <button type="button" class="@GroupExpandClass(header.Expanded)" aria-expanded="@(header.Expanded ? "true" : "false")" @onclick="() => ToggleGroup(header.Path)">
+                                            <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
+                                            <span>@header.Text</span>
+                                        </button>
                                     </th>
                                 </tr>
                             }
@@ -305,6 +372,7 @@
                             }
                             else
                             {
+                                var editing = IsRowEditing(row.Item);
                                 <tr class="@RowClass(row)"
                                     data-omni-row-index="@row.Index"
                                     data-omni-slot="@SlotAttribute(row)"
@@ -314,35 +382,44 @@
                                     @onclick="RowClickCallback(row)"
                                     @ondblclick="RowDoubleClickCallback(row)"
                                     @onkeydown="RowKeyDownCallback(row)">
+                                    @* The control cells and a row being edited keep their clicks and keys to
+                                       themselves: a tick in the checkbox is not also a row click, and a space typed
+                                       in an editor is not a request to select the row. *@
                                     @if (ShowDetailColumn)
                                     {
-                                        <td>
+                                        <td class="@ControlClass("expand")" data-omni-control="expand" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">
                                             @if (row.Expandable)
                                             {
-                                                <button type="button" class="omni-data-grid__expand" aria-expanded="@(IsExpanded(ItemKey(row.Item)) ? "true" : "false")" aria-label="@(IsExpanded(ItemKey(row.Item)) ? Localize("GridCollapseRow") : Text(ExpandChildItemAriaLabel, "GridExpandRow"))" @onclick="() => ToggleExpandedAsync(row.Item)">@(IsExpanded(ItemKey(row.Item)) ? "▾" : "▸")</button>
+                                                <button type="button" class="@ExpandButtonClass(IsExpanded(ItemKey(row.Item)))" aria-expanded="@(IsExpanded(ItemKey(row.Item)) ? "true" : "false")" aria-label="@(IsExpanded(ItemKey(row.Item)) ? Localize("GridCollapseRow") : Text(ExpandChildItemAriaLabel, "GridExpandRow"))" @onclick="() => ToggleExpandedAsync(row.Item)">
+                                                    <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
+                                                </button>
                                             }
                                         </td>
                                     }
                                     @if (SelectionMode != OmniDataGridSelectionMode.None)
                                     {
-                                        <td><input type="checkbox" class="omni-checkbox" disabled="@(!row.Selectable)" checked="@IsSelected(ItemKey(row.Item))" aria-label="@Localize("GridSelectRow")" @onchange="() => ToggleSelectionAsync(row.Item)" /></td>
+                                        <td class="@ControlClass("select")" data-omni-control="select" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">
+                                            <input type="checkbox" class="omni-checkbox" disabled="@(!row.Selectable)" checked="@IsSelected(ItemKey(row.Item))" aria-label="@Localize("GridSelectRow")" @onchange="() => ToggleSelectionAsync(row.Item)" />
+                                        </td>
                                     }
                                     @foreach (var column in VisibleColumns)
                                     {
-                                        <td class="@ColumnClass(column, false)" data-omni-col="@column.Key" data-omni-label="@column.Title">@Cell(column, row.Item, IsRowEditing(row.Item))</td>
+                                        <td class="@ColumnClass(column, false)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick:stopPropagation="@editing" @ondblclick:stopPropagation="@editing" @onkeydown:stopPropagation="@editing">@Cell(column, row.Item, editing)</td>
                                     }
                                     @if (HasEditing)
                                     {
-                                        <td class="omni-data-grid__actions">
-                                            @if (IsRowEditing(row.Item))
-                                            {
-                                                <button type="button" class="omni-button" @onclick="() => UpdateRowAsync(row.Item)">@Localize("Save")</button>
-                                                <button type="button" class="omni-button" @onclick="() => CancelEditAsync(row.Item)">@Localize("Cancel")</button>
-                                            }
-                                            else
-                                            {
-                                                <button type="button" class="omni-button" @onclick="() => EditRowAsync(row.Item)">@Localize("Edit")</button>
-                                            }
+                                        <td class="omni-data-grid__actions" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">
+                                            <span class="omni-data-grid__actions-group">
+                                                @if (editing)
+                                                {
+                                                    <button type="button" class="omni-data-grid__icon-button omni-data-grid__action--save" aria-label="@Localize("Save")" title="@Localize("Save")" @onclick="() => UpdateRowAsync(row.Item)"><OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" /></button>
+                                                    <button type="button" class="omni-data-grid__icon-button omni-data-grid__action--cancel" aria-label="@Localize("Cancel")" title="@Localize("Cancel")" @onclick="() => CancelEditAsync(row.Item)"><OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" /></button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="button" class="omni-data-grid__icon-button" aria-label="@Localize("Edit")" title="@Localize("Edit")" @onclick="() => EditRowAsync(row.Item)"><OmniIcon Name="OmniIconName.Edit" Size="OmniControlSize.Small" /></button>
+                                                }
+                                            </span>
                                         </td>
                                     }
                                 </tr>
@@ -370,7 +447,7 @@
         }
         @if (ShowPagerBottom)
         {
-            <OmniPager Page="@Page"
+            <OmniPager Page="@EffectivePage"
                        PageCount="@PageCount"
                        PageChanged="ChangePageAsync"
                        PageSize="@PageSize"

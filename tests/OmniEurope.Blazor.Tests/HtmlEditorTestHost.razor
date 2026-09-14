@@ -1,5 +1,5 @@
 <EditForm EditContext="@EditContext">
-    <OmniHtmlEditor Id="editor" CustomTools="@Tools" @bind-Value="Model.Html" />
+    <OmniHtmlEditor Id="editor" Mode="OmniHtmlEditorMode.Source" CustomTools="@Tools" @bind-Value="Model.Html" />
 </EditForm>
 
 @code {

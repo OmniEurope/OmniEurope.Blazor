@@ -168,11 +168,11 @@
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Required, length, email shape and comparison.</value></data>
   <data name="DemoValidationCapability2" xml:space="preserve"><value>Focus moves to the first invalid field on submit.</value></data>
   <data name="DemoValidationCapability3" xml:space="preserve"><value>No attribute on the model, everything lives in the markup.</value></data>
-  <data name="DemoEditorTitle" xml:space="preserve"><value>Editor and upload</value></data>
-  <data name="DemoEditorSummary" xml:space="preserve"><value>The rich text editor and the file upload.</value></data>
-  <data name="DemoEditorCapability1" xml:space="preserve"><value>Bold, italic, indents, superscript and subscript.</value></data>
-  <data name="DemoEditorCapability2" xml:space="preserve"><value>Extra host-supplied tools, expressed as transforms.</value></data>
-  <data name="DemoEditorCapability3" xml:space="preserve"><value>Upload bounded by count, size and type, validated before transfer.</value></data>
+  <data name="DemoEditorTitle" xml:space="preserve"><value>Editors and upload</value></data>
+  <data name="DemoEditorSummary" xml:space="preserve"><value>The WYSIWYG editor and its HTML source, the word processor, the code editor and the file upload.</value></data>
+  <data name="DemoEditorCapability1" xml:space="preserve"><value>A command toolbar the host extends or reorders, sanitised paste, source mode.</value></data>
+  <data name="DemoEditorCapability2" xml:space="preserve"><value>A word processor on a page, word count, HTML and text export.</value></data>
+  <data name="DemoEditorCapability3" xml:space="preserve"><value>Code editor (Monaco served by the host, plain text under a strict CSP) and bounded upload.</value></data>
   <data name="DemoOverlayTitle" xml:space="preserve"><value>Overlays</value></data>
   <data name="DemoOverlaySummary" xml:space="preserve"><value>Dialogs, notifications and pop-up menus.</value></data>
   <data name="DemoOverlayCapability1" xml:space="preserve"><value>A modal dialog, closable by Escape or by the backdrop.</value></data>
@@ -194,6 +194,11 @@
   <data name="DemoTreeCapability1" xml:space="preserve"><value>Multiple selection and keyboard navigation.</value></data>
   <data name="DemoTreeCapability2" xml:space="preserve"><value>A branch fetched on demand, when the node opens.</value></data>
   <data name="DemoTreeCapability3" xml:space="preserve"><value>Nodes can be disabled without breaking traversal.</value></data>
+  <data name="DemoSpreadsheetTitle" xml:space="preserve"><value>Spreadsheet</value></data>
+  <data name="DemoSpreadsheetSummary" xml:space="preserve"><value>A basic spreadsheet: cells, formulas and a formula bar.</value></data>
+  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Formulas with references, ranges, SUM, AVERAGE, MIN, MAX and error codes.</value></data>
+  <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Keyboard navigation, in-place editing and a formula bar.</value></data>
+  <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Content bound both ways and serialisable to JSON.</value></data>
   <data name="DemoSchedulerTitle" xml:space="preserve"><value>Scheduler</value></data>
   <data name="DemoSchedulerSummary" xml:space="preserve"><value>The calendar and its three views.</value></data>
   <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Day, week and month views, switchable.</value></data>

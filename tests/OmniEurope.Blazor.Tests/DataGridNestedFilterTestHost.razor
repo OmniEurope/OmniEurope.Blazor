@@ -1,0 +1,14 @@
+<OmniDataGrid TItem="DataGridRowsTestHost.Row" Items="@Items" AllowPaging="false">
+    <Columns>
+        <DataGridNestedFilterColumns />
+    </Columns>
+</OmniDataGrid>
+
+@code {
+    public IReadOnlyList<DataGridRowsTestHost.Row> Items { get; } =
+    [
+        new(1, "Alice", "Namur", 3),
+        new(2, "Bob", "Liege", 5),
+        new(3, "Chloe", "Namur", 8)
+    ];
+}

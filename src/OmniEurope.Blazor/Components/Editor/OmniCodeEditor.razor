@@ -1,0 +1,30 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniInputBase<string>
+@implements IAsyncDisposable
+
+<div @ref="_root" class="@InputCss("omni-code-editor", $"omni-code-editor--{PhaseName}")" data-engine="@Engine.ToString().ToLowerInvariant()">
+    <div @ref="_host" class="omni-code-editor__host" hidden="@(_phase != CodePhase.Ready)"></div>
+    <textarea @attributes="AdditionalAttributes"
+              id="@Id"
+              class="omni-code-editor__fallback"
+              hidden="@(_phase == CodePhase.Ready)"
+              value="@CurrentValue"
+              readonly="@ReadOnly"
+              spellcheck="false"
+              wrap="@(WordWrap ? "soft" : "off")"
+              aria-label="@EffectiveLabel"
+              aria-invalid="@AriaInvalid"
+              aria-describedby="@AriaDescribedBy"
+              @oninput="HandleFallbackInputAsync"></textarea>
+    @if (_phase == CodePhase.Failed)
+    {
+        <p class="omni-code-editor__notice omni-code-editor__status" role="status">@Localize("CodeEditorUnavailable")</p>
+    }
+    else if (ShowStatusBar && _phase != CodePhase.PlainText)
+    {
+        <div class="omni-code-editor__status">
+            <span>@(_phase == CodePhase.Ready ? Localize("CodeEditorPosition", _line, _column) : Localize("CodeEditorLoading"))</span>
+            <span>@Language</span>
+        </div>
+    }
+</div>

@@ -1,0 +1,12 @@
+@* Columns declared by a component of their own, as a page that shares them between two grids does:
+   the filter template's callbacks then belong to this component, not to the grid's parent. *@
+<OmniDataGridColumn TItem="DataGridRowsTestHost.Row" Key="name" Title="Nom" Value="row => row.Name" />
+<OmniDataGridColumn TItem="DataGridRowsTestHost.Row" Key="city" Title="Ville" Value="row => row.City" Filterable="true" FilterType="OmniDataGridColumnFilterType.MultiSelect">
+    <FilterTemplate>
+        <OmniDataGridFilterMultiSelect Id="@context.Id"
+                                       Value="@context.Value"
+                                       ValueChanged="@(value => context.ValueChanged(value))"
+                                       Suggestions="@context.Suggestions"
+                                       Placeholder="@context.Placeholder" />
+    </FilterTemplate>
+</OmniDataGridColumn>
