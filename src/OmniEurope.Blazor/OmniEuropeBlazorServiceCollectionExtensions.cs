@@ -24,6 +24,9 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
         // Scoped for the same reason: the loading bar reflects one circuit's work, and a singleton
         // would have one user's page load light another user's bar.
         services.TryAddScoped<OmniLoadingState>();
+        // Scoped: the trail follows one circuit's navigation. Its route fallback comes from the
+        // host's IOmniBreadcrumbResolver when one is registered, and is empty otherwise.
+        services.TryAddScoped<OmniBreadcrumbService>();
         return services;
     }
 }

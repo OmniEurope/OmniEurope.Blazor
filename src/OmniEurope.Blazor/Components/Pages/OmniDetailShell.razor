@@ -1,0 +1,46 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* The content is always rendered and only hidden while the entity is not there: a child that
+   triggers the load from its own lifecycle must exist for the load to start, and gating it behind
+   the state would wait forever for data nobody asks for. *@
+<div id="@Id" class="@Css("omni-detail-shell")" aria-busy="@(State == OmniDetailState.Loading ? "true" : null)" @attributes="AdditionalAttributes">
+    @if (State == OmniDetailState.NotFound)
+    {
+        if (NotFoundContent is not null)
+        {
+            @NotFoundContent
+        }
+        else
+        {
+            <OmniEmptyState Class="omni-detail-shell__not-found"
+                            Title="@EffectiveNotFoundTitle"
+                            Description="@NotFoundDescription"
+                            Level="OmniHeadingLevel.H2">
+                <Icon><OmniIcon Name="OmniIconName.Warning" Size="OmniControlSize.Large" /></Icon>
+                <Actions>
+                    <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="GoBackAsync">
+                        <OmniIcon Name="OmniIconName.ArrowLeft" />
+                        <span>@EffectiveBackText</span>
+                    </OmniButton>
+                </Actions>
+            </OmniEmptyState>
+        }
+    }
+    else
+    {
+        @Header
+        if (State == OmniDetailState.Loading)
+        {
+            if (LoadingContent is not null)
+            {
+                @LoadingContent
+            }
+            else
+            {
+                <OmniSkeleton Class="omni-detail-shell__loading" Shape="OmniSkeletonShape.Text" LineCount="4" Label="@Localize("LoadingLabel")" />
+            }
+        }
+    }
+    <div class="omni-detail-shell__content" hidden="@(State != OmniDetailState.Found)">@ChildContent</div>
+</div>

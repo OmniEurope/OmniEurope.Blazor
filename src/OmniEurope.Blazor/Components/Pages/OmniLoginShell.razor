@@ -1,0 +1,20 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* A sign-in page laid out: the logo over a card centred in the page, the title and the form in the
+   card, links or a version line in its footer. The shell carries no authentication: the form, its
+   fields and what submitting does are the host's. *@
+<div id="@Id" class="@Css("omni-login-shell")" @attributes="AdditionalAttributes">
+    @if (Logo is not null)
+    {
+        <div class="omni-login-shell__logo">@Logo</div>
+    }
+    <OmniCard Class="omni-login-shell__card" Footer="@Footer" aria-labelledby="@TitleId">
+        <OmniHeading Id="@TitleId" Level="Level" Class="omni-login-shell__title">@EffectiveTitle</OmniHeading>
+        @if (!string.IsNullOrWhiteSpace(Description))
+        {
+            <p class="omni-login-shell__description">@Description</p>
+        }
+        @ChildContent
+    </OmniCard>
+</div>

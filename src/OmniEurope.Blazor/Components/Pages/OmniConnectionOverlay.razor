@@ -1,0 +1,52 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+@* A blocking card over the whole page while the live connection is down. It says what happened,
+   when the next attempt starts, why the last one failed, and offers the one action that helps:
+   reconnect now, or reload once the server has refused the session. The countdown sits outside the
+   live region, where a screen reader would otherwise read out every second. *@
+@if (Visible)
+{
+    <div class="omni-connection-overlay" role="presentation">
+        <section @ref="_card"
+                 @attributes="AdditionalAttributes"
+                 id="@EffectiveId"
+                 class="@Css("omni-connection-overlay__card", StateClass)"
+                 role="alertdialog"
+                 aria-modal="true"
+                 aria-labelledby="@TitleId"
+                 aria-describedby="@DescriptionId"
+                 tabindex="-1">
+            <span class="omni-connection-overlay__icon" aria-hidden="true">
+                <OmniIcon Name="@(State == OmniConnectionState.Rejected ? OmniIconName.Warning : OmniIconName.Offline)" Size="OmniControlSize.Large" />
+            </span>
+            <div class="omni-connection-overlay__message" aria-live="polite">
+                <h2 id="@TitleId" class="omni-connection-overlay__title">@EffectiveTitle</h2>
+                <p id="@DescriptionId" class="omni-connection-overlay__description">@EffectiveDescription</p>
+            </div>
+            @if (State == OmniConnectionState.Reconnecting && SecondsUntilRetry > 0)
+            {
+                <p class="omni-connection-overlay__countdown">@Localize("ConnectionRetryIn", SecondsUntilRetry)</p>
+            }
+            @if (!string.IsNullOrWhiteSpace(Reason))
+            {
+                <p class="omni-connection-overlay__reason">@Localize("ConnectionReason", Reason)</p>
+            }
+            @if (State == OmniConnectionState.Reconnecting && !Busy)
+            {
+                <OmniProgressBar Class="omni-connection-overlay__progress"
+                                 Shape="OmniProgressShape.Circular"
+                                 Indeterminate="true"
+                                 Label="@Localize("ConnectionReconnecting")" />
+            }
+            <OmniButton Class="omni-connection-overlay__action"
+                        Variant="@(State == OmniConnectionState.Reconnecting ? OmniButtonVariant.Secondary : OmniButtonVariant.Primary)"
+                        Busy="Busy"
+                        OnClick="ActAsync">
+                <OmniIcon Name="OmniIconName.Refresh" />
+                <span>@ActionText</span>
+            </OmniButton>
+        </section>
+    </div>
+}

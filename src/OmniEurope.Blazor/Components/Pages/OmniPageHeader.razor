@@ -1,0 +1,81 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IDisposable
+
+@* The chrome of a page in one framed block: the ancestors on the first line, then back, title,
+   badges and actions on the second. The last crumb of the trail is the title, so nothing reads
+   twice; a page that knows better passes Title. On a phone the badges and actions fold behind a
+   toggle, since a row of them would push the content off the screen; wider screens never fold. *@
+<div id="@Id" class="@Css("omni-page-header")" @attributes="AdditionalAttributes">
+    <div class="omni-page-header__frame">
+        @if (ShowTrail)
+        {
+            <div class="omni-page-header__trail">
+                @if (TrailAncestors.Count > 0)
+                {
+                    <OmniBreadcrumb Label="@(TrailLabel ?? string.Empty)">
+                        @foreach (var entry in TrailAncestors)
+                        {
+                            if (entry.Loading)
+                            {
+                                <li class="omni-breadcrumb__item omni-page-header__crumb-loading">
+                                    <OmniSkeleton Shape="OmniSkeletonShape.Text" Label="@Localize("LoadingLabel")" />
+                                </li>
+                            }
+                            else
+                            {
+                                <OmniBreadcrumbItem Href="@entry.Href">@entry.Text</OmniBreadcrumbItem>
+                            }
+                        }
+                    </OmniBreadcrumb>
+                }
+            </div>
+        }
+        <div class="omni-page-header__row">
+            @if (ShowBack)
+            {
+                <OmniButton Variant="OmniButtonVariant.Ghost"
+                            Class="omni-page-header__back"
+                            AriaLabel="@EffectiveBackLabel"
+                            title="@EffectiveBackLabel"
+                            OnClick="GoBackAsync"><OmniIcon Name="OmniIconName.ArrowLeft" /></OmniButton>
+            }
+            @if (TitleLoading)
+            {
+                <OmniSkeleton Shape="OmniSkeletonShape.Text" Class="omni-page-header__title-loading" Label="@Localize("LoadingLabel")" />
+            }
+            else
+            {
+                <OmniHeading Level="Level" Class="omni-page-header__title">@EffectiveTitle</OmniHeading>
+            }
+            @if (HasDetails)
+            {
+                <OmniButton Variant="OmniButtonVariant.Ghost"
+                            Class="omni-page-header__toggle"
+                            AriaLabel="@ToggleLabel"
+                            title="@ToggleLabel"
+                            aria-expanded="@(_expanded ? "true" : "false")"
+                            aria-controls="@DetailsId"
+                            OnClick="ToggleDetails"><OmniIcon Name="@(_expanded ? OmniIconName.ChevronUp : OmniIconName.ChevronDown)" /></OmniButton>
+                <div id="@DetailsId" class="@DetailsClass">
+                    @if (Badges is not null)
+                    {
+                        <div class="omni-page-header__badges">@Badges</div>
+                    }
+                    @if (Actions is not null)
+                    {
+                        <div class="omni-page-header__actions">@Actions</div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Subtitle))
+    {
+        <p class="omni-page-header__subtitle">@Subtitle</p>
+    }
+    @if (Filters is not null)
+    {
+        <div class="omni-page-header__filters">@Filters</div>
+    }
+</div>

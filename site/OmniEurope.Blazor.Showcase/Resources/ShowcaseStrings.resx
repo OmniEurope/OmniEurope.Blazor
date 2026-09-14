@@ -215,4 +215,15 @@
   <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt au jour, à la semaine ou au mois, avec groupes, dépendances et aujourd'hui.</value></data>
   <data name="DemoPlanningCapability2" xml:space="preserve"><value>Déroulement d'étapes sur une échelle de temps, avec les étapes jamais démarrées.</value></data>
   <data name="DemoPlanningCapability3" xml:space="preserve"><value>Frise à droite, à gauche ou alternée, en choisissant le premier côté.</value></data>
+  <data name="DemoPagesTitle" xml:space="preserve"><value>Pages</value></data>
+  <data name="DemoPagesSummary" xml:space="preserve"><value>L'en-tête, la fiche détaillée et ce qui la remplit.</value></data>
+  <data name="DemoPagesCapability1" xml:space="preserve"><value>En-tête de page : fil d'Ariane tenu par un service, retour, titre, badges et actions repliés sur téléphone.</value></data>
+  <data name="DemoPagesCapability2" xml:space="preserve"><value>Fiche détaillée : en-tête peint avant l'arrivée des données, contenu masqué au chargement, état introuvable avec retour.</value></data>
+  <data name="DemoPagesCapability3" xml:space="preserve"><value>Liste de définitions en colonnes, avec une action par valeur.</value></data>
+  <data name="DemoPagesCapability4" xml:space="preserve"><value>Date relative avec la date exacte au survol et au focus, et état vide avec son action.</value></data>
+  <data name="DemoFlowsTitle" xml:space="preserve"><value>Parcours</value></data>
+  <data name="DemoFlowsSummary" xml:space="preserve"><value>Assistant, connexion et perte de connexion.</value></data>
+  <data name="DemoFlowsCapability1" xml:space="preserve"><value>Assistant à étapes : progression, validation par étape, dans une page ou un dialogue.</value></data>
+  <data name="DemoFlowsCapability2" xml:space="preserve"><value>Page de connexion sans authentification embarquée, et adresse de retour limitée à l'application.</value></data>
+  <data name="DemoFlowsCapability3" xml:space="preserve"><value>Voile de connexion perdue : compte à rebours, cause, reprise manuelle, échec et refus.</value></data>
 </root>

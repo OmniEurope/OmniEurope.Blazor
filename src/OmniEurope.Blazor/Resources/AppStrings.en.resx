@@ -259,4 +259,39 @@
   <data name="StepTimelineStatusSuccess" xml:space="preserve"><value>succeeded</value></data>
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, started at {1}, lasting</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Confirm</value></data>
+  <data name="GoBack" xml:space="preserve"><value>Back</value></data>
+  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Show badges and actions</value></data>
+  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Hide badges and actions</value></data>
+  <data name="DetailNotFound" xml:space="preserve"><value>Item not found</value></data>
+  <data name="SignIn" xml:space="preserve"><value>Sign in</value></data>
+  <data name="ConnectionLostTitle" xml:space="preserve"><value>Connection lost</value></data>
+  <data name="ConnectionLostDescription" xml:space="preserve"><value>The connection to the server is down. The application is trying to restore it.</value></data>
+  <data name="ConnectionFailedTitle" xml:space="preserve"><value>Unable to connect</value></data>
+  <data name="ConnectionFailedDescription" xml:space="preserve"><value>The automatic attempts have failed. Try again once the network is back.</value></data>
+  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Session ended</value></data>
+  <data name="ConnectionRejectedDescription" xml:space="preserve"><value>The server refused to resume the session. Reload the page to continue.</value></data>
+  <data name="ConnectionRetryIn" xml:space="preserve"><value>Retrying in {0} s</value></data>
+  <data name="ConnectionReason" xml:space="preserve"><value>Reason: {0}</value></data>
+  <data name="ConnectionReconnectNow" xml:space="preserve"><value>Reconnect now</value></data>
+  <data name="ConnectionReload" xml:space="preserve"><value>Reload the page</value></data>
+  <data name="ConnectionReconnecting" xml:space="preserve"><value>Reconnecting</value></data>
+  <data name="WizardLabel" xml:space="preserve"><value>Wizard steps</value></data>
+  <data name="WizardProgress" xml:space="preserve"><value>Wizard progress</value></data>
+  <data name="WizardPosition" xml:space="preserve"><value>Step {0} of {1}</value></data>
+  <data name="WizardAnnouncement" xml:space="preserve"><value>Step {0} of {1}: {2}</value></data>
+  <data name="WizardPrevious" xml:space="preserve"><value>Previous</value></data>
+  <data name="WizardNext" xml:space="preserve"><value>Next</value></data>
+  <data name="WizardFinish" xml:space="preserve"><value>Finish</value></data>
+  <data name="RelativeTimeNow" xml:space="preserve"><value>just now</value></data>
+  <data name="RelativeTimePast" xml:space="preserve"><value>{0} ago</value></data>
+  <data name="RelativeTimeFuture" xml:space="preserve"><value>in {0}</value></data>
+  <data name="RelativeTimeSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeHours" xml:space="preserve"><value>{0} h</value></data>
+  <data name="RelativeTimeDay" xml:space="preserve"><value>{0} day</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} days</value></data>
+  <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} month</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} months</value></data>
+  <data name="RelativeTimeYear" xml:space="preserve"><value>{0} year</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} years</value></data>
 </root>

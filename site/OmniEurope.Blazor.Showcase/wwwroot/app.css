@@ -126,3 +126,6 @@
    défile dedans et sa barre reste au bord droit du cadre, colonne centrée ou non. */
 .demo-shell-viewport { block-size: 14rem; border: var(--omni-border-width) solid var(--omni-color-border); }
 .demo-shell-viewport > .omni-layout { block-size: 100%; }
+
+/* La page de connexion en miniature : un fond discret la détache du reste de la démonstration. */
+.showcase-preview-frame { background: var(--omni-color-surface-muted); border: var(--omni-border-width) dashed var(--omni-color-border); border-radius: var(--omni-radius); padding-inline: var(--omni-space-md); }

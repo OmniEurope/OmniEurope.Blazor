@@ -35,3 +35,9 @@ export function setDocumentMetadata(language, title) {
     document.documentElement.lang = language;
     document.title = title;
 }
+
+// The back action of a page header or a not-found state that names no destination: one step back in
+// the history, exactly what the browser's own back button does.
+export function historyBack() {
+    window.history.back();
+}
