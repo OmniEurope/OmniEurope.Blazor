@@ -13,7 +13,57 @@
                         EnableOutdent="true"
                         EnableSubscript="true"
                         EnableSuperscript="true"
+                        Commands="Commands"
                         CustomTools="Tools" />
+
+        <OmniHtmlEditor Id="editor-source"
+                        @bind-Value="Body"
+                        Label="Source du courrier"
+                        Mode="OmniHtmlEditorMode.Source"
+                        Rows="6"
+                        ShowPreview="true" />
+
+        <OmniDocumentEditor Id="editor-document"
+                            @bind-Value="Report"
+                            Label="Rapport"
+                            FileName="rapport"
+                            Rows="12" />
+
+        @* The gallery runs under the strict policy, which Monaco cannot: the code editor is shown
+           with its plain text engine, the one it falls back to wherever Monaco is not served. *@
+        <OmniCodeEditor Id="editor-code"
+                        @bind-Value="Settings"
+                        Label="Réglages JSON"
+                        Language="json"
+                        Engine="OmniCodeEditorEngine.PlainText"
+                        Height="10rem" />
+
+        @* Les icônes des barres d'outils des éditeurs, telles que le catalogue les expose. *@
+        <OmniRow Gap="OmniSpacing.Small">
+            <OmniIcon Name="OmniIconName.TextB" AriaLabel="Gras" />
+            <OmniIcon Name="OmniIconName.TextItalic" AriaLabel="Italique" />
+            <OmniIcon Name="OmniIconName.TextUnderline" AriaLabel="Souligné" />
+            <OmniIcon Name="OmniIconName.TextStrikethrough" AriaLabel="Barré" />
+            <OmniIcon Name="OmniIconName.TextSubscript" AriaLabel="Indice" />
+            <OmniIcon Name="OmniIconName.TextSuperscript" AriaLabel="Exposant" />
+            <OmniIcon Name="OmniIconName.ListBullets" AriaLabel="Liste à puces" />
+            <OmniIcon Name="OmniIconName.TextIndent" AriaLabel="Augmenter le retrait" />
+            <OmniIcon Name="OmniIconName.TextOutdent" AriaLabel="Réduire le retrait" />
+            <OmniIcon Name="OmniIconName.Quotes" AriaLabel="Citation" />
+            <OmniIcon Name="OmniIconName.Code" AriaLabel="Code en ligne" />
+            <OmniIcon Name="OmniIconName.CodeBlock" AriaLabel="Bloc de code" />
+            <OmniIcon Name="OmniIconName.Link" AriaLabel="Lien" />
+            <OmniIcon Name="OmniIconName.LinkBreak" AriaLabel="Retirer le lien" />
+            <OmniIcon Name="OmniIconName.TextAlignLeft" AriaLabel="Aligner à gauche" />
+            <OmniIcon Name="OmniIconName.TextAlignCenter" AriaLabel="Centrer" />
+            <OmniIcon Name="OmniIconName.TextAlignRight" AriaLabel="Aligner à droite" />
+            <OmniIcon Name="OmniIconName.TextAlignJustify" AriaLabel="Justifier" />
+            <OmniIcon Name="OmniIconName.ArrowUUpLeft" AriaLabel="Annuler" />
+            <OmniIcon Name="OmniIconName.ArrowUUpRight" AriaLabel="Rétablir" />
+            <OmniIcon Name="OmniIconName.Eraser" AriaLabel="Effacer la mise en forme" />
+            <OmniIcon Name="OmniIconName.FileHtml" AriaLabel="Source HTML" />
+            <OmniIcon Name="OmniIconName.Table" AriaLabel="Tableau" />
+        </OmniRow>
 
         <OmniUpload Multiple="true"
                     MaximumFiles="3"

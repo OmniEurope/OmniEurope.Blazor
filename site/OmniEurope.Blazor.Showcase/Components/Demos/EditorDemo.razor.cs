@@ -14,6 +14,21 @@ public partial class EditorDemo
         new("reference", "Insérer la référence", html => html + "<p>Référence : D-2401</p>")
     ];
 
+    /// <summary>
+    /// The default toolbar with one command of the host at the end: a command receives a context
+    /// through which it inserts sanitised HTML at the caret, in either face of the editor.
+    /// </summary>
+    private static readonly IReadOnlyList<OmniHtmlEditorCommand> Commands =
+    [
+        .. OmniHtmlEditorCommands.Default,
+        OmniHtmlEditorCommands.Separator,
+        OmniHtmlEditorCommand.Create("signature-block", "Insérer le bloc de signature", context => context.InsertHtmlAsync("<p><strong>Le service des dossiers</strong></p>"), OmniIconName.Edit)
+    ];
+
+    private string Report { get; set; } = "<h1>Rapport</h1><p>Un paragraphe <strong>important</strong>.</p><ul><li>Premier point</li><li>Second point</li></ul>";
+
+    private string Settings { get; set; } = "{\n  \"langue\": \"fr\"\n}";
+
     private string Body { get; set; } = "<p>Madame, Monsieur,</p><p>Votre dossier a bien été reçu.</p>";
 
     private List<string> Uploaded { get; } = [];

@@ -1,0 +1,37 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+<section id="@Id" class="@Css("omni-document-editor")" aria-label="@EffectiveLabel" @attributes="AdditionalAttributes">
+    <OmniHtmlEditor @ref="_editor"
+                    Id="@EditorId"
+                    Value="@Value"
+                    ValueChanged="HandleValueChangedAsync"
+                    ValueExpression="@EffectiveValueExpression"
+                    Label="@EffectiveLabel"
+                    Rows="@Rows"
+                    Disabled="@ReadOnly"
+                    ShowPreview="false"
+                    AriaDescribedBy="@AriaDescribedBy"
+                    Commands="@(Commands ?? OmniHtmlEditorCommands.Document)" />
+    @if (ShowStatusBar)
+    {
+        <div class="omni-document-editor__status" role="group" aria-label="@Localize("DocumentEditorStatus")">
+            <span data-statistic="words">@Localize("DocumentEditorWords", _statistics.Words)</span>
+            <span data-statistic="characters">@Localize("DocumentEditorCharacters", _statistics.Characters)</span>
+            @if (ShowExport)
+            {
+                <span class="omni-document-editor__actions">
+                    <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" data-export="html" OnClick="DownloadHtmlAsync">
+                        <OmniIcon Name="OmniIconName.FileHtml" />
+                        <span>@Localize("DocumentEditorExportHtml")</span>
+                    </OmniButton>
+                    <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" data-export="text" OnClick="DownloadTextAsync">
+                        <OmniIcon Name="OmniIconName.Download" />
+                        <span>@Localize("DocumentEditorExportText")</span>
+                    </OmniButton>
+                </span>
+            }
+        </div>
+    }
+</section>
