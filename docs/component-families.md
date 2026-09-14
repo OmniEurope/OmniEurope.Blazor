@@ -4,7 +4,7 @@ Les familles ci-dessous regroupent les composants publics de la bibliothèque et
 
 - Actions : boutons simples, bascules, boutons scindés et actions de menu.
 - Charts : moteur SVG, axes, domaines partagés, séries projetées et empilements à baselines cumulées.
-- Data : listes, pagination, arbre et grille virtualisable avec projection locale ou chargement distant annulable par blocs.
+- Data : listes, pagination, arbre, grille virtualisable avec projection locale ou chargement distant annulable par blocs, et tableur simple (`OmniSpreadsheet`) avec formules et barre de formule. Voir [data-components.md](data-components.md).
 - Diagram : carte mentale SVG éditable à la souris, au toucher et au clavier, avec barre d'actions, panneau des propriétés du nœud et relecture sans perte du format de graphe stocké. Voir [diagram-components.md](diagram-components.md).
 - Editor : édition source HTML, aperçu sanitizé, historique et outils personnalisés.
 - Feedback : alertes à deux variantes de remplissage et emplacement d'icône, progression, barre de chargement de page (`OmniLoadingBar`, en balayage ou en remplissage continu), skeletons et indicateurs d'état.
@@ -27,6 +27,11 @@ Les variables de thème déclarées dans `:root` sont éditables dans le personn
 | `--omni-tooltip-delay` | `.omni-tooltip` | `700ms` | Temps de pointeur posé avant l'apparition ; `OmniTooltip.Delay` la remplace par pas de 100 ms entre 0 et 2 s. |
 | `--omni-loading-bar-color` | `.omni-loading-bar` | `var(--omni-color-accent)` | Couleur du trait de `OmniLoadingBar`. |
 | `--omni-loading-bar-thickness` | `.omni-loading-bar` | `0.125rem` | Épaisseur du trait, posé dans le bord de ce qui précède la barre. |
+| `--omni-data-grid-column-min-width` | `.omni-data-grid` | `8rem` | Plancher d'une colonne sans largeur : sous la somme des colonnes, le tableau défile de côté. |
+| `--omni-data-grid-control-width` | `.omni-data-grid` | `2.75rem` | Largeur des colonnes de développement et de sélection. |
+| `--omni-data-grid-edit-width` | `.omni-data-grid` | `5.25rem` | Largeur de la colonne d'édition. |
+| `--omni-spreadsheet-column-width` | `.omni-spreadsheet` | `7.5rem` | Largeur des colonnes du tableur. |
+| `--omni-spreadsheet-height` | `.omni-spreadsheet` | `26rem` | Hauteur maximale de la zone qui défile. |
 
 `--omni-shadow-stack`, l'ombre qu'une notification empilée jette sur celle qu'elle recouvre, est une variable de thème de `:root` : un thème sombre peut la foncer.
 

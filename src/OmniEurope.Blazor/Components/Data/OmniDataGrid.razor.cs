@@ -520,6 +520,13 @@ public partial class OmniDataGrid<TItem>
             : Load is null ? LocalView.TotalCount : _remote.TotalCount);
 
     private int PageCount => Math.Max(1, (int)Math.Ceiling(TotalCount / (double)Math.Max(1, PageSize)));
+
+    /// <summary>
+    /// The page actually shown. The local projection already clamps a page past the end to the last
+    /// one; the pager and the summary read the same value, instead of announcing "page 5 of 1" over
+    /// the rows of page 1 once the item list shrinks.
+    /// </summary>
+    private int EffectivePage => Math.Clamp(Page, 1, PageCount);
     private bool HasEditing => _hasEditing;
     private int ColumnSpan => _columnSpan;
     private bool Loading => IsLoading || _remote.Loading || (Virtualized && _virtualSource.Loading && _virtualSource.CachedItemCount == 0);
@@ -688,6 +695,16 @@ public partial class OmniDataGrid<TItem>
         if (Virtualized)
         {
             await BootstrapVirtualizationAsync();
+            return;
+        }
+
+        // A local list that shrank under the current page (rows removed, another data set) is
+        // shown from its last page; the host's bound page is told, so it never disagrees with it.
+        if (Load is null && AllowPaging && Page > PageCount)
+        {
+            Page = PageCount;
+            InvalidateLocalProjection();
+            await PageChanged.InvokeAsync(Page);
         }
     }
 
@@ -918,10 +935,15 @@ public partial class OmniDataGrid<TItem>
         await _gridModule.InvokeVoidAsync("closeFilterMenus", _viewport);
     }
 
-    /// <summary>Wires the dismissal behaviour of the header filter popovers, once.</summary>
+    /// <summary>
+    /// Wires the popovers once: the header filter menus, the advanced filter panels and the folded
+    /// checkable lists. The script closes them on an outside click or Escape and places their panel
+    /// over the page, since the scrolling viewport would otherwise clip it; the text filter with
+    /// suggestions gets the same placement for its list.
+    /// </summary>
     private async Task EnsureFilterMenuInteropAsync()
     {
-        if (_filterMenuAttached || !ShowHeaderFilterMenu || !VisibleColumns.Any(IsFilterable))
+        if (_filterMenuAttached || !HasPopovers)
         {
             return;
         }
@@ -930,6 +952,13 @@ public partial class OmniDataGrid<TItem>
         await _gridModule.InvokeVoidAsync("attachFilterMenus", _viewport, HideFilterMenuOnSelect);
         _filterMenuAttached = true;
     }
+
+    /// <summary>Whether any filter editor of this grid opens something over the rows.</summary>
+    private bool HasPopovers => VisibleColumns.Any(column => IsFilterable(column)
+        && (ShowHeaderFilterMenu
+            || UsesAdvancedFilter
+            || column.FilterTemplate is not null
+            || column.FilterType is OmniDataGridColumnFilterType.MultiSelect or OmniDataGridColumnFilterType.Combo));
 
     /// <summary>Minimum viewport height pushed to CSS, only meaningful while filling.</summary>
     private string? EffectiveMinHeight => FillAvailableHeight && !string.IsNullOrWhiteSpace(MinHeight)
@@ -951,6 +980,7 @@ public partial class OmniDataGrid<TItem>
         var rowHeight = FixedRowHeight ? RowHeight : null;
         if (HeightSignature == _appliedHeight && signature == _appliedColumnLayout && rowHeight == _appliedRowHeight)
         {
+            await ApplyFrozenOffsetsAsync();
             return;
         }
 
@@ -959,6 +989,21 @@ public partial class OmniDataGrid<TItem>
         _appliedHeight = HeightSignature;
         await ApplyColumnLayoutAsync();
         await ApplyRowHeightAsync(rowHeight);
+    }
+
+    /// <summary>
+    /// Re-anchors the frozen cells after a render that kept the column layout: the rows of a new
+    /// page, a sort or a filter are new cells, which the offsets set on the previous ones do not
+    /// reach, and a second frozen column would otherwise slide over the first.
+    /// </summary>
+    private async Task ApplyFrozenOffsetsAsync()
+    {
+        if (!HasFrozenColumns || _gridModule is null)
+        {
+            return;
+        }
+
+        await _gridModule.InvokeVoidAsync("applyFrozen", _viewport);
     }
 
     private async Task ApplyRowHeightAsync(double? rowHeight)
@@ -987,8 +1032,14 @@ public partial class OmniDataGrid<TItem>
     private async Task ApplyColumnLayoutAsync()
     {
         var signature = ColumnLayoutSignature();
-        if (signature == _appliedColumnLayout || _gridModule is null)
+        if (_gridModule is null)
         {
+            return;
+        }
+
+        if (signature == _appliedColumnLayout)
+        {
+            await ApplyFrozenOffsetsAsync();
             return;
         }
 
@@ -1000,7 +1051,56 @@ public partial class OmniDataGrid<TItem>
             minWidth = column.MinWidth,
             frozen = column.Frozen
         }).ToArray();
-        await _gridModule.InvokeVoidAsync("applyColumns", _viewport, specs);
+        await _gridModule.InvokeVoidAsync("applyColumns", _viewport, specs, TableMinimumWidth());
+    }
+
+    /// <summary>
+    /// Narrowest the table may become, as a CSS length: every column's declared width, or its
+    /// minimum, or the auto-column floor, plus the grid's own control columns. Under the fixed table
+    /// layout the columns without a width share whatever the declared ones leave, which is nothing
+    /// once the viewport is narrower than their sum: they collapsed to zero, titles and filters
+    /// piled on top of each other. Below this width the viewport scrolls sideways instead.
+    /// </summary>
+    internal string TableMinimumWidth()
+    {
+        var terms = VisibleColumns
+            .Select(column => _columnWidths.GetValueOrDefault(column.Key, column.Width ?? ColumnWidth) ?? column.MinWidth)
+            .Select(width => IsAbsoluteLength(width) ? width! : "var(--omni-data-grid-column-min-width)")
+            .ToList();
+        if (ShowDetailColumn)
+        {
+            terms.Add("var(--omni-data-grid-control-width)");
+        }
+
+        if (SelectionMode != OmniDataGridSelectionMode.None)
+        {
+            terms.Add("var(--omni-data-grid-control-width)");
+        }
+
+        if (HasEditing)
+        {
+            terms.Add("var(--omni-data-grid-edit-width)");
+        }
+
+        return terms.Count == 0 ? "0px" : $"calc({string.Join(" + ", terms)})";
+    }
+
+    /// <summary>
+    /// A percentage, or any expression the table itself resolves, cannot be added to a minimum
+    /// width without referring back to that width; such a column counts as an auto one.
+    /// </summary>
+    private static bool IsAbsoluteLength(string? width)
+    {
+        if (string.IsNullOrWhiteSpace(width) || width.Contains('%', StringComparison.Ordinal))
+        {
+            return false;
+        }
+
+        var trimmed = width.Trim();
+        var digits = trimmed.AsSpan().TrimEnd("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        return digits.Length > 0
+            && double.TryParse(digits, NumberStyles.Float, CultureInfo.InvariantCulture, out _)
+            && trimmed[digits.Length..].ToLowerInvariant() is "px" or "rem" or "em" or "ch" or "pt" or "vw";
     }
 
     private string ColumnLayoutSignature() => string.Join(
@@ -1254,6 +1354,60 @@ public partial class OmniDataGrid<TItem>
         }
     }
 
+    /// <summary>
+    /// The rows the header checkbox acts on: the ones on screen that the host lets be selected.
+    /// Rows of other pages are left as they are, which is what a reader expects from a box that sits
+    /// above the rows it can see.
+    /// </summary>
+    private IReadOnlyList<TItem> SelectableVisibleRows => VisibleItems
+        .Where(item => RowRender is null || Describe(item, 0, [], false).Selectable)
+        .ToArray();
+
+    private bool HasSelectableVisibleRows => SelectableVisibleRows.Count > 0;
+
+    private bool AllVisibleSelected
+    {
+        get
+        {
+            var rows = SelectableVisibleRows;
+            return rows.Count > 0 && rows.All(item => IsSelected(ItemKey(item)));
+        }
+    }
+
+    /// <summary>Selects every selectable row on screen, or clears them when they all already are.</summary>
+    private async Task ToggleAllSelectionAsync()
+    {
+        var rows = SelectableVisibleRows;
+        var clearing = rows.Count > 0 && rows.All(item => IsSelected(ItemKey(item)));
+        var keys = SelectedKeys.ToList();
+        var added = new List<TItem>();
+        foreach (var item in rows)
+        {
+            var key = ItemKey(item);
+            if (clearing)
+            {
+                keys.Remove(key);
+            }
+            else if (!keys.Contains(key))
+            {
+                keys.Add(key);
+                added.Add(item);
+            }
+        }
+
+        _selectedKeyIndex = keys.ToHashSet();
+        await SelectedKeysChanged.InvokeAsync(keys);
+        if (ValueChanged.HasDelegate)
+        {
+            await ValueChanged.InvokeAsync(CurrentRows().Where(candidate => _selectedKeyIndex.Contains(ItemKey(candidate))).ToArray());
+        }
+
+        foreach (var item in added)
+        {
+            await RowSelect.InvokeAsync(item);
+        }
+    }
+
     private IEnumerable<TItem> CurrentRows() => Virtualized
         ? Enumerable.Range(_range.StartIndex, Math.Max(0, _range.Count))
             .Select(index => TryGetVirtualItem(index, out var item) ? item : default!)
@@ -1315,10 +1469,49 @@ public partial class OmniDataGrid<TItem>
         await (expanding ? RowExpand.InvokeAsync(item) : RowCollapse.InvokeAsync(item));
     }
 
+    /// <summary>The expandable rows on screen, the ones the header button acts on.</summary>
+    private IReadOnlyList<object> ExpandableVisibleKeys => VisibleItems
+        .Where(item => RowRender is null || Describe(item, 0, [], false).Expandable)
+        .Select(ItemKey)
+        .ToArray();
+
+    private bool AllVisibleExpanded
+    {
+        get
+        {
+            var keys = ExpandableVisibleKeys;
+            return keys.Count > 0 && keys.All(IsExpanded);
+        }
+    }
+
+    /// <summary>
+    /// Only offered when several rows may be open at once: under a single-row expand mode the
+    /// button could only ever break the rule it sits above.
+    /// </summary>
+    private bool ShowsExpandAll => ShowExpandAll && ExpandMode == OmniDataGridExpandMode.Multiple;
+
+    /// <summary>
+    /// Opens every expandable row on screen, or closes them all when they already are open. Rows of
+    /// other pages keep their state: the previous version compared the count of every expanded key
+    /// with the rows on screen, so a row left open on another page turned the button into a no-op.
+    /// </summary>
     private async Task ToggleAllExpandedAsync()
     {
-        var rows = VisibleItems.Select(ItemKey).ToList();
-        var keys = _expandedKeyIndex.Count >= rows.Count ? [] : rows;
+        var visible = ExpandableVisibleKeys;
+        var collapsing = visible.Count > 0 && visible.All(IsExpanded);
+        var keys = ExpandedKeys.ToList();
+        foreach (var key in visible)
+        {
+            if (collapsing)
+            {
+                keys.Remove(key);
+            }
+            else if (!keys.Contains(key))
+            {
+                keys.Add(key);
+            }
+        }
+
         _expandedKeyIndex = keys.ToHashSet();
         await ExpandedKeysChanged.InvokeAsync(keys);
     }
@@ -1410,6 +1603,7 @@ public partial class OmniDataGrid<TItem>
     /// read without pointing at it.
     /// </summary>
     private static string HeaderActionClass(string baseClass, bool active) => CssClassBuilder.Combine([
+        "omni-data-grid__icon-button",
         baseClass,
         "omni-data-grid__header-action",
         active ? "omni-data-grid__header-action--active" : null
@@ -1425,8 +1619,67 @@ public partial class OmniDataGrid<TItem>
         HasActiveFilter(column) ? "omni-data-grid__filter-menu-toggle--active" : null
     ]);
 
+    /// <summary>
+    /// Whether the column is filtered right now. Read from the applied filter, not the draft: an
+    /// advanced condition typed but not yet applied filters nothing, so it offers nothing to clear.
+    /// </summary>
     private bool HasActiveFilter(OmniDataGridColumnDefinition<TItem> column) =>
-        !string.IsNullOrEmpty(FilterValue(column));
+        _filters.TryGetValue(column.Key, out var filter) && filter.IsActive;
+
+    /// <summary>What the advanced filter trigger reads: the applied condition, or the placeholder.</summary>
+    private string FilterSummary(OmniDataGridColumnDefinition<TItem> column)
+    {
+        if (!_filters.TryGetValue(column.Key, out var filter) || !filter.IsActive)
+        {
+            return Text(FilterText, "GridFilterPlaceholder");
+        }
+
+        var first = filter.HasFirst ? Condition(filter.Operator, filter.Value) : null;
+        var second = filter.HasSecond ? Condition(filter.SecondOperator, filter.SecondValue) : null;
+        return first is not null && second is not null
+            ? $"{first} {LogicalLabel(filter.LogicalOperator).ToLower(CultureInfo.CurrentCulture)} {second}"
+            : first ?? second ?? string.Empty;
+
+        string Condition(OmniDataGridFilterOperator candidate, string value) => GridColumnFilter.IsValueless(candidate)
+            ? OperatorLabel(candidate)
+            : $"{OperatorLabel(candidate)} {DisplayFilterValue(value)}";
+    }
+
+    /// <summary>A multi-valued filter travels encoded; the summary shows its values, not the encoding.</summary>
+    private static string DisplayFilterValue(string value) =>
+        string.Join(", ", OmniDataGridFilterValues.Split(value));
+
+    private sealed record FilterEditorRequest(OmniDataGridColumnDefinition<TItem> Column, string Id, bool InPanel);
+
+    private static string FilterEditorClass(bool inPanel) => inPanel
+        ? "omni-data-grid__filter-editor omni-data-grid__filter-editor--panel"
+        : "omni-data-grid__filter-editor";
+
+    private string FilterCellClass(OmniDataGridColumnDefinition<TItem> column) => CssClassBuilder.Combine([
+        "omni-data-grid__filter-cell",
+        column.Frozen ? "omni-data-grid__column--frozen" : null
+    ]);
+
+    /// <summary>
+    /// The expand and selection columns carry the grid's own controls. They are frozen with the
+    /// data columns as soon as one of those is, since a frozen column that slides over the controls
+    /// of its own row hides them.
+    /// </summary>
+    private string ControlClass(string kind) => CssClassBuilder.Combine([
+        "omni-data-grid__control",
+        $"omni-data-grid__control--{kind}",
+        HasFrozenColumns ? "omni-data-grid__column--frozen" : null
+    ]);
+
+    private static string ExpandButtonClass(bool expanded) => expanded
+        ? "omni-data-grid__expand omni-data-grid__expand--open"
+        : "omni-data-grid__expand";
+
+    private static string GroupExpandClass(bool expanded) => expanded
+        ? "omni-data-grid__icon-button omni-data-grid__group-expand omni-data-grid__expand--open"
+        : "omni-data-grid__icon-button omni-data-grid__group-expand";
+
+    private bool HasFrozenColumns => VisibleColumns.Any(column => column.Frozen);
 
     /// <summary>
     /// The sort indicator keeps its slot at all times so the header does not reflow when a column
@@ -1657,7 +1910,7 @@ public partial class OmniDataGrid<TItem>
     private string PagingSummary()
     {
         var total = TotalCount;
-        var first = total == 0 ? 0 : ((Math.Max(1, Page) - 1) * Math.Max(1, PageSize)) + 1;
+        var first = total == 0 ? 0 : ((EffectivePage - 1) * Math.Max(1, PageSize)) + 1;
         var last = total == 0 ? 0 : Math.Min(total, first + Math.Max(1, PageSize) - 1);
         return string.IsNullOrWhiteSpace(PagingSummaryFormat)
             ? Localize("GridPagingSummary", first, last, total)
@@ -1860,16 +2113,26 @@ public partial class OmniDataGrid<TItem>
     /// is added without touching the grid. Shared by the inline filter row and the header filter
     /// menu, and by the primary and secondary condition of the advanced filter mode.
     /// </summary>
-    private RenderFragment FilterValueControl(OmniDataGridColumnDefinition<TItem> column, string id, string value, Func<string, Task> onChanged) => builder =>
+    private RenderFragment FilterValueControl(OmniDataGridColumnDefinition<TItem> column, string id, string value, Func<string, Task> onChanged, bool inPanel) => builder =>
     {
         if (column.FilterTemplate is not null)
         {
+            // The template's callbacks belong to whichever component declared the column. When that
+            // is a component of its own inside Columns, the event re-renders it and not the grid, so
+            // the filter was taken and nothing was filtered: the grid renders itself here.
             builder.AddContent(0, column.FilterTemplate(new OmniDataGridFilterContext(
                 id,
                 value,
                 DistinctFilterValues(column),
                 Text(FilterText, "GridFilterPlaceholder"),
-                onChanged)));
+                async changed =>
+                {
+                    await onChanged(changed);
+                    StateHasChanged();
+                })
+            {
+                InPopover = inPanel
+            }));
             return;
         }
 
@@ -1887,6 +2150,12 @@ public partial class OmniDataGrid<TItem>
                     6,
                     nameof(OmniDataGridFilterMultiSelect.ValueChanged),
                     EventCallback.Factory.Create<string>(this, encoded => onChanged(encoded)));
+                // Inside a popover the list is already on demand; in a header row it has to fold
+                // into one line, or it stretches the header to the height of the whole list.
+                builder.AddComponentParameter(
+                    7,
+                    nameof(OmniDataGridFilterMultiSelect.Presentation),
+                    inPanel ? OmniMultiSelectPresentation.List : OmniMultiSelectPresentation.Compact);
                 builder.CloseComponent();
                 break;
 
