@@ -30,6 +30,8 @@ internal static class OmniOverlayHosts
                 string.Equals(dialog.CloseLabel, LegacyFrenchCloseLabel, StringComparison.Ordinal)
                     ? string.Empty
                     : dialog.CloseLabel);
+            builder.AddAttribute(sequence++, nameof(OmniDialog.CloseOnBackdrop), dialog.CloseOnBackdropClick);
+            builder.AddAttribute(sequence++, nameof(OmniDialog.Dismissible), dialog.Dismissible);
             builder.AddAttribute(sequence++, nameof(OmniDialog.OpenChanged), EventCallback.Factory.Create<bool>(service, openChanged));
             builder.AddAttribute(sequence++, nameof(OmniDialog.ChildContent), dialog.Content);
             builder.AddAttribute(sequence++, nameof(OmniDialog.Footer), dialog.Footer);

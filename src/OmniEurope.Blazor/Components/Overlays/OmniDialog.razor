@@ -10,17 +10,22 @@
                  @ref="_dialog"
                  id="@EffectiveId"
                  class="@Css("omni-dialog")"
-                 role="dialog"
+                 role="@(Dismissible ? "dialog" : "alertdialog")"
                  aria-modal="true"
                  aria-labelledby="@TitleId"
+                 aria-describedby="@(Dismissible ? null : ContentId)"
+                 tabindex="@(Dismissible ? null : "-1")"
                  @onclick:stopPropagation="true"
                  @onkeydown="HandleKeyDownAsync">
             <button type="button" class="omni-visually-hidden" data-focus-sentinel aria-label="@Localize("DialogEnd")" @onfocus="FocusLastAsync"></button>
             <header class="omni-dialog__header">
                 <h2 id="@TitleId" class="omni-dialog__title">@Title</h2>
-                <button type="button" class="omni-dialog__close" aria-label="@EffectiveCloseLabel" autofocus @onclick="CloseAsync">×</button>
+                @if (Dismissible)
+                {
+                    <button type="button" class="omni-dialog__close" aria-label="@EffectiveCloseLabel" autofocus @onclick="CloseAsync">×</button>
+                }
             </header>
-            <div class="omni-dialog__content" tabindex="-1">@ChildContent</div>
+            <div class="omni-dialog__content" id="@(Dismissible ? null : ContentId)" tabindex="-1">@ChildContent</div>
             @if (Footer is not null)
             {
                 <footer class="omni-dialog__footer">@Footer</footer>

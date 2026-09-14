@@ -1,0 +1,35 @@
+@* A host that binds the folded state both ways, and can stop listening on the same instance. *@
+<OmniFieldset Collapsible="true" Collapsed="Collapsed" CollapsedChanged="Callback">
+    <Legend>Avancé</Legend>
+    <ChildContent>Champs</ChildContent>
+</OmniFieldset>
+
+@code {
+    public bool Collapsed { get; set; } = true;
+
+    public bool Listening { get; set; } = true;
+
+    public List<bool> Reported { get; } = [];
+
+    private EventCallback<bool> Callback => Listening
+        ? EventCallback.Factory.Create<bool>(this, HandleChanged)
+        : default;
+
+    private void HandleChanged(bool collapsed)
+    {
+        Reported.Add(collapsed);
+        Collapsed = collapsed;
+    }
+
+    public void Fold(bool collapsed)
+    {
+        Collapsed = collapsed;
+        StateHasChanged();
+    }
+
+    public void StopListening()
+    {
+        Listening = false;
+        StateHasChanged();
+    }
+}
