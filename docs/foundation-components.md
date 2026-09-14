@@ -102,3 +102,13 @@ La coquille doit avoir une hauteur bornée : une `OmniLayout` dont le corps port
 ## Validation
 
 Les tests du lot vérifient le rendu des 15 composants, leur sémantique principale, les classes responsive, les états ARIA, les bornes numériques et l'absence de style inline. Le scanner CSP inspecte l'ensemble des sources Razor, C# et JavaScript de la bibliothèque.
+
+## Classes utilitaires `omni-u-*`
+ le balisage qu'une application écrit autour des composants, pas pour restyler un composant : chaque règle vise une seule classe utilitaire, jamais la classe d'un composant (garde `UtilityClassesTests`). Déclarées en fin de feuille, elles l'emportent sur une règle de composant de même spécificité.
+
+| Famille | Classes |
+|---|---|
+| Espacement | `omni-u-{m,mt,mb,ms,me,mx,my,p,pt,pb,px,py}-{0,xs,sm,md,lg,xl,2xl}`, `omni-u-mx-auto`. L'échelle est celle des jetons `--omni-space-*` : elle suit la densité. |
+| Texte | `omni-u-text-{muted,accent,success,warning,danger}`, `omni-u-text-center`, `omni-u-text-end`, `omni-u-bold`, `omni-u-mono`, `omni-u-truncate`, `omni-u-nowrap`, `omni-u-small` |
+| Fond | `omni-u-bg-muted`, `omni-u-bg-{accent,success,warning,danger}-subtle` |
+| Mise en page | `omni-u-w-100`, `omni-u-grow`, `omni-u-block`, `omni-u-rounded`, `omni-u-pointer` |
