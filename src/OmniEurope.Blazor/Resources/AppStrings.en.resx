@@ -223,4 +223,48 @@
   <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} KB</value></data>
   <data name="UploadSizeBytes" xml:space="preserve"><value>{0} B</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Week view</value></data>
+  <data name="HtmlEditorUnderline" xml:space="preserve"><value>Underline</value></data>
+  <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Strikethrough</value></data>
+  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Inline code</value></data>
+  <data name="HtmlEditorBlockFormat" xml:space="preserve"><value>Paragraph style</value></data>
+  <data name="HtmlEditorParagraph" xml:space="preserve"><value>Paragraph</value></data>
+  <data name="HtmlEditorHeading1" xml:space="preserve"><value>Heading 1</value></data>
+  <data name="HtmlEditorHeading2" xml:space="preserve"><value>Heading 2</value></data>
+  <data name="HtmlEditorHeading3" xml:space="preserve"><value>Heading 3</value></data>
+  <data name="HtmlEditorHeading4" xml:space="preserve"><value>Heading 4</value></data>
+  <data name="HtmlEditorFontSize" xml:space="preserve"><value>Text size</value></data>
+  <data name="HtmlEditorFontSizeSmall" xml:space="preserve"><value>Small</value></data>
+  <data name="HtmlEditorFontSizeNormal" xml:space="preserve"><value>Normal</value></data>
+  <data name="HtmlEditorFontSizeLarge" xml:space="preserve"><value>Large</value></data>
+  <data name="HtmlEditorFontSizeXLarge" xml:space="preserve"><value>Extra large</value></data>
+  <data name="HtmlEditorBulletList" xml:space="preserve"><value>Bulleted list</value></data>
+  <data name="HtmlEditorNumberedList" xml:space="preserve"><value>Numbered list</value></data>
+  <data name="HtmlEditorQuote" xml:space="preserve"><value>Quote</value></data>
+  <data name="HtmlEditorCodeBlock" xml:space="preserve"><value>Code block</value></data>
+  <data name="HtmlEditorLink" xml:space="preserve"><value>Link</value></data>
+  <data name="HtmlEditorUnlink" xml:space="preserve"><value>Remove link</value></data>
+  <data name="HtmlEditorAlignLeft" xml:space="preserve"><value>Align left</value></data>
+  <data name="HtmlEditorAlignCenter" xml:space="preserve"><value>Center</value></data>
+  <data name="HtmlEditorAlignRight" xml:space="preserve"><value>Align right</value></data>
+  <data name="HtmlEditorAlignJustify" xml:space="preserve"><value>Justify</value></data>
+  <data name="HtmlEditorInsertTable" xml:space="preserve"><value>Insert a table</value></data>
+  <data name="HtmlEditorClearFormatting" xml:space="preserve"><value>Clear formatting</value></data>
+  <data name="HtmlEditorSource" xml:space="preserve"><value>HTML source</value></data>
+  <data name="HtmlEditorCustomCommand" xml:space="preserve"><value>Command</value></data>
+  <data name="HtmlEditorLinkUrl" xml:space="preserve"><value>Link address</value></data>
+  <data name="HtmlEditorLinkApply" xml:space="preserve"><value>Apply</value></data>
+  <data name="HtmlEditorLinkCancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="HtmlEditorLinkInvalid" xml:space="preserve"><value>Address refused: use a relative, http, https, mailto or tel address.</value></data>
+  <data name="DocumentEditorLabel" xml:space="preserve"><value>Word processor</value></data>
+  <data name="DocumentEditorStatus" xml:space="preserve"><value>Document statistics</value></data>
+  <data name="DocumentEditorWords" xml:space="preserve"><value>Words: {0}</value></data>
+  <data name="DocumentEditorCharacters" xml:space="preserve"><value>Characters: {0}</value></data>
+  <data name="DocumentEditorExportHtml" xml:space="preserve"><value>Export as HTML</value></data>
+  <data name="DocumentEditorExportText" xml:space="preserve"><value>Export as text</value></data>
+  <data name="DocumentEditorDefaultTitle" xml:space="preserve"><value>Document</value></data>
+  <data name="CodeEditorLabel" xml:space="preserve"><value>Code editor</value></data>
+  <data name="CodeEditorLoading" xml:space="preserve"><value>Loading the code editor.</value></data>
+  <data name="CodeEditorUnavailable" xml:space="preserve"><value>The Monaco editor could not be loaded: the code is edited as plain text.</value></data>
+  <data name="CodeEditorPosition" xml:space="preserve"><value>Line {0}, column {1}</value></data>
+  <data name="CodeEditorLinkHint" xml:space="preserve"><value>Ctrl+click to follow the link</value></data>
 </root>

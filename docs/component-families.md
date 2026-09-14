@@ -6,7 +6,7 @@ Les familles ci-dessous regroupent les composants publics de la bibliothèque et
 - Charts : moteur SVG, axes, domaines partagés, séries projetées et empilements à baselines cumulées.
 - Data : listes, pagination, arbre et grille virtualisable avec projection locale ou chargement distant annulable par blocs.
 - Diagram : carte mentale SVG éditable à la souris, au toucher et au clavier, avec barre d'actions, panneau des propriétés du nœud et relecture sans perte du format de graphe stocké. Voir [diagram-components.md](diagram-components.md).
-- Editor : édition source HTML, aperçu sanitizé, historique et outils personnalisés.
+- Editor : éditeur WYSIWYG avec face source HTML et barre de commandes extensible (`OmniHtmlEditor`), traitement de texte léger avec export HTML et texte (`OmniDocumentEditor`), éditeur de code Monaco servi par l'hôte avec repli en texte brut (`OmniCodeEditor`). Voir [editor-components.md](editor-components.md).
 - Feedback : alertes à deux variantes de remplissage et emplacement d'icône, progression, barre de chargement de page (`OmniLoadingBar`, en balayage ou en remplissage continu), skeletons et indicateurs d'état.
 - Forms : champs texte, formulaires typés, validation et contrôles de saisie.
 - Foundation : primitives de texte, titres et types fondamentaux.
@@ -34,6 +34,6 @@ Les variables de thème déclarées dans `:root` sont éditables dans le personn
 
 - La DataGrid virtualise réellement le viewport avec un défilement continu, une hauteur de tableau paramétrable en longueur CSS et un chargement distant par blocs ; elle refuse explicitement de virtualiser en présence de groupes ou de lignes de détail. Voir [data-components.md](data-components.md).
 - Les séries et axes SVG partagent désormais leurs domaines et projections; la couverture visuelle navigateur reste à étendre aux combinaisons de séries et de tailles de viewport.
-- L'éditeur HTML assainit sa valeur, affiche un aperçu et conserve un historique ; ses commandes portent encore sur tout le document et ne gèrent ni sélection, ni caret, ni composition IME, ni collage spécialisé.
+- L'éditeur HTML s'appuie sur `document.execCommand` pour sa face visuelle ; la composition IME n'a pas été éprouvée sur un clavier réel. `OmniCodeEditor` n'utilise Monaco que si l'hôte le sert et autorise `style-src 'unsafe-inline'`.
 - La carte mentale n'a pas de rendu alternatif hors SVG et ses gestes tactiles (pincement, appui long) n'ont pas été vérifiés sur un écran tactile réel.
 - Le catalogue illustre un sous-ensemble de la surface. Le registre `110/110` ne remplace pas des scénarios comportementaux, navigateur et accessibilité pour chaque cible.
