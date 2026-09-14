@@ -133,7 +133,8 @@
         <OmniHeading Level="OmniHeadingLevel.H2" Id="time-title">@Text["TimeTitle"]</OmniHeading>
         <OmniScheduler Date="@SchedulerDate" Items="@Appointments" TimeZone="@TimeZoneInfo.Utc" />
         <EditForm EditContext="@EditContext">
-            <OmniHtmlEditor Id="catalog-editor" @bind-Value="Model.Html" />
+            @* The CDP probe (eng/Test-CatalogProbe.mjs) drives the source face: it selects text in the textarea. *@
+            <OmniHtmlEditor Id="catalog-editor" Mode="OmniHtmlEditorMode.Source" @bind-Value="Model.Html" />
         </EditForm>
     </section>
 </OmniComponentsHost>

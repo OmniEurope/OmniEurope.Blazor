@@ -1870,15 +1870,48 @@ polyline.omni-chart__line { fill: none; }
 .omni-month-view__day h3,
 .omni-month-view__day p { font-size: var(--omni-font-size-sm); margin: 0 0 var(--omni-space-xs); }
 
-.omni-html-editor { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; overflow: hidden; }
-.omni-html-editor__toolbar { align-items: center; background: var(--omni-color-surface-muted); border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); padding: var(--omni-space-xs); }
-.omni-html-editor__toolbar button { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: calc(var(--omni-radius) / 2); color: var(--omni-color-text); cursor: pointer; font: inherit; min-height: 2.75rem; min-width: 2.75rem; }
-.omni-html-editor__toolbar button:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
-.omni-html-editor__toolbar button:disabled { cursor: not-allowed; opacity: 0.5; }
+.omni-html-editor, .omni-code-editor { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; overflow: hidden; }
+.omni-html-editor__toolbar, .omni-html-editor__link { align-items: center; background: var(--omni-color-surface-muted); border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); padding: var(--omni-space-xs); }
+.omni-html-editor__toolbar button, .omni-html-editor__select, .omni-html-editor__link-input { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: calc(var(--omni-radius) / 2); color: var(--omni-color-text); cursor: pointer; font: inherit; min-height: 2.75rem; }
+.omni-html-editor__toolbar button { align-items: center; display: inline-flex; justify-content: center; min-width: 2.75rem; }
+.omni-html-editor__select, .omni-html-editor__link-input, .omni-html-editor__tool--text { padding-inline: var(--omni-space-sm); }
+.omni-html-editor__select { max-width: 11rem; }
+.omni-html-editor__toolbar button[aria-pressed="true"] { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent); }
+.omni-html-editor__toolbar :is(button, select):focus-visible, .omni-html-editor__link-input:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-html-editor__toolbar :is(button, select):disabled { cursor: not-allowed; opacity: 0.5; }
 .omni-html-editor__separator { align-self: stretch; border-inline-start: var(--omni-border-width) solid var(--omni-color-border); margin-inline: var(--omni-space-xs); }
-.omni-html-editor__source { background: var(--omni-color-surface); border: 0; color: var(--omni-color-text); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; min-height: 12rem; padding: var(--omni-space-md); resize: vertical; }
-.omni-html-editor__source:focus-visible { box-shadow: inset var(--omni-focus-ring); outline: none; }
+.omni-html-editor__link-input { cursor: text; flex: 1 1 14rem; }
+.omni-html-editor__link-error { color: var(--omni-color-danger); flex-basis: 100%; margin: 0; }
+.omni-html-editor__source, .omni-code-editor__fallback { background: var(--omni-color-surface); border: 0; color: var(--omni-color-text); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; padding: var(--omni-space-md); resize: vertical; }
+.omni-html-editor__source { min-height: 12rem; }
+:is(.omni-html-editor__source, .omni-html-editor__surface, .omni-code-editor__fallback):focus-visible { box-shadow: inset var(--omni-focus-ring); outline: none; }
+.omni-html-editor__surface { min-height: calc(var(--omni-html-editor-rows, 12) * 1.5em); overflow-wrap: anywhere; padding: var(--omni-space-md); }
+.omni-html-editor__surface[contenteditable="false"] { background: var(--omni-color-surface-muted); }
 .omni-html-editor__preview { border-block-start: var(--omni-border-width) solid var(--omni-color-border); min-height: 4rem; padding: var(--omni-space-md); }
+.omni-rich-text > :first-child { margin-block-start: 0; }
+.omni-rich-text blockquote { border-inline-start: 0.25rem solid var(--omni-color-border); margin-inline: 0; padding-inline-start: var(--omni-space-md); }
+.omni-rich-text :is(code, pre) { background: var(--omni-color-surface-muted); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+.omni-rich-text pre { padding: var(--omni-space-sm); white-space: pre-wrap; }
+.omni-rich-text table { border-collapse: collapse; width: 100%; }
+.omni-rich-text :is(td, th) { border: var(--omni-border-width) solid var(--omni-color-border); padding: var(--omni-space-xs); }
+.omni-align-center { text-align: center; }
+.omni-align-right { text-align: end; }
+.omni-align-justify { text-align: justify; }
+.omni-font-size-small { font-size: 0.85em; }
+.omni-font-size-normal { font-size: 1rem; }
+.omni-font-size-large { font-size: 1.3em; }
+.omni-font-size-xlarge { font-size: 1.7em; }
+.omni-document-editor .omni-html-editor { border-radius: var(--omni-radius) var(--omni-radius) 0 0; }
+.omni-document-editor .omni-html-editor__toolbar { inset-block-start: 0; position: sticky; z-index: 1; }
+.omni-document-editor .omni-html-editor--visual { background: var(--omni-color-surface-muted); }
+.omni-document-editor .omni-html-editor__surface { background: var(--omni-color-surface); box-shadow: var(--omni-shadow-md); box-sizing: border-box; font-family: Georgia, serif; line-height: 1.6; margin: var(--omni-space-lg) auto; max-width: calc(100% - 2 * var(--omni-space-md)); min-height: 30rem; padding: 3rem; width: 50rem; }
+.omni-document-editor__status, .omni-code-editor__status { align-items: center; background: var(--omni-color-surface-muted); color: var(--omni-color-text-muted); display: flex; flex-wrap: wrap; font-size: var(--omni-font-size-sm); gap: var(--omni-space-md); justify-content: space-between; margin: 0; padding: var(--omni-space-xs) var(--omni-space-md); }
+.omni-document-editor__status { border: var(--omni-border-width) solid var(--omni-color-border); border-block-start: 0; border-radius: 0 0 var(--omni-radius) var(--omni-radius); }
+.omni-code-editor__status { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
+.omni-document-editor__actions { display: flex; gap: var(--omni-space-xs); }
+.omni-code-editor__host, .omni-code-editor__fallback { block-size: var(--omni-code-editor-height, 20rem); }
+.omni-code-editor__fallback { white-space: pre; }
+.omni-code-editor [hidden] { display: none; }
 
 
 /* Busy veil (STD-BUSY). A busy control keeps its exact size and content: a dark layer breathes over
