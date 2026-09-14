@@ -15,7 +15,7 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `coverlet.collector` | `10.0.1` | MIT | `expression` | - |
 | `HtmlSanitizer` | `9.2.1039` | MIT | `expression` | - |
 | `Microsoft.ApplicationInsights` | `2.23.0` | MIT | `expression` | - |
-| `Microsoft.AspNetCore.App.Internal.Assets` | `10.0.11` | MIT | `expression` | - |
+| `Microsoft.AspNetCore.App.Internal.Assets` | `10.0.12` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.Authorization` | `10.0.12` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.Components` | `10.0.12` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.Components.Analyzers` | `10.0.12` | MIT | `expression` | - |
@@ -30,9 +30,9 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Microsoft.AspNetCore.Components.WebView.Maui` | `10.0.101` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.Metadata` | `10.0.12` | MIT | `expression` | - |
 | `Microsoft.Bcl.AsyncInterfaces` | `6.0.0` | MIT | `expression` | - |
-| `Microsoft.CodeAnalysis.Analyzers` | `5.3.0` | MIT | `expression` | - |
-| `Microsoft.CodeAnalysis.Common` | `5.6.0` | MIT | `expression` | - |
-| `Microsoft.CodeAnalysis.CSharp` | `5.6.0` | MIT | `expression` | - |
+| `Microsoft.CodeAnalysis.Analyzers` | `5.9.0-1.26328.17` | MIT | `expression` | - |
+| `Microsoft.CodeAnalysis.Common` | `5.9.0` | MIT | `expression` | - |
+| `Microsoft.CodeAnalysis.CSharp` | `5.9.0` | MIT | `expression` | - |
 | `Microsoft.CodeCoverage` | `18.10.0` | MIT | `expression` | - |
 | `Microsoft.Extensions.Caching.Abstractions` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.Caching.Memory` | `10.0.10` | MIT | `expression` | - |
@@ -72,8 +72,8 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Microsoft.Maui.Graphics` | `10.0.101` | MIT | `expression` | - |
 | `Microsoft.Maui.Graphics.Win2D.WinUI.Desktop` | `10.0.101` | MIT | `expression` | - |
 | `Microsoft.Maui.Resizetizer` | `10.0.101` | MIT | `expression` | - |
-| `Microsoft.NET.ILLink.Tasks` | `10.0.11` | MIT | `expression` | - |
-| `Microsoft.NET.Sdk.WebAssembly.Pack` | `10.0.11` | MIT | `expression` | - |
+| `Microsoft.NET.ILLink.Tasks` | `10.0.12` | MIT | `expression` | - |
+| `Microsoft.NET.Sdk.WebAssembly.Pack` | `10.0.12` | MIT | `expression` | - |
 | `Microsoft.NET.Test.Sdk` | `18.10.0` | MIT | `expression` | - |
 | `Microsoft.NETCore.Platforms` | `1.1.0` | http://go.microsoft.com/fwlink/?LinkId=329770 | `url` | - |
 | `Microsoft.Testing.Extensions.Telemetry` | `1.9.1` | MIT | `expression` | - |

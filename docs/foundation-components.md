@@ -12,7 +12,7 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 | Coque applicative | `OmniLayout`, `OmniBody`, `OmniMain`, `OmniHeader` |
 | Barre latérale et sa bascule | `OmniSidebar`, `OmniSidebarToggle` |
 | Progression linéaire ou circulaire | `OmniProgressBar` avec `Shape` |
-| Thème et apparence | `OmniThemeScope` et `OmniAppearanceToggle` |
+| Thème et apparence | `OmniThemeScope` (avec `Preset`, un thème de `OmniThemePresets`) et `OmniAppearanceToggle` |
 
 | Composant | Rôle |
 | --- | --- |
@@ -54,6 +54,18 @@ Pour un tracé ponctuel, Phosphor ou non, le paramètre `Glyph` reste disponible
 `OmniIconGlyph` n'accepte que de la donnée de tracé SVG et rejette tout le reste : un glyphe porte un contour, pas du balisage. `OmniIconGlyph.Phosphor` fixe la grille de 256 unités du jeu ; le constructeur accepte une autre grille carrée.
 
 Mesure du surcoût des onze tracés Phosphor, publication WebAssembly identique avant et après : **+6656 octets bruts, +1392 octets une fois compressés en brotli**, soit +0,9 % de l'assembly livré. Passage du catalogue à 86 icônes, `OmniEurope.Blazor.dll` en Release avant et après (2026-09-13) : **+57 856 octets bruts, +11 318 octets en brotli** (niveau maximal), soit +5,9 % de l'assembly compressé. Une garde de test échoue si le nombre de tracés intégrés diffère de celui des valeurs d'`OmniIconName`, afin qu'un import massif du catalogue ne passe pas inaperçu.
+
+## Thèmes
+
+`OmniThemePresets.All` livre dix thèmes : Ardoise, Galet, Néon, Papier, Terracotta, Rétro, Forêt, Lavande, Océan et Mono. Chacun a une moitié claire et une moitié sombre, et change la forme autant que les couleurs : arrondis, épaisseur des bordures, ombres, police, allure des boutons, des cartes et des titres.
+
+```razor
+<OmniThemeScope Appearance="OmniAppearance.System" Preset="@OmniThemePresets.All[0]">
+    ...
+</OmniThemeScope>
+```
+
+Le thème ne repeint que sa portée. Les valeurs sont des surcharges des variables de la feuille livrée, posées par le CSSOM ; les variables de forme (`--omni-button-*`, `--omni-card-*`, `--omni-heading-*`, `--omni-border-width`) valent par défaut le rendu livré, si bien qu'une application peut aussi les redéfinir elle-même.
 
 ## Exemple
 

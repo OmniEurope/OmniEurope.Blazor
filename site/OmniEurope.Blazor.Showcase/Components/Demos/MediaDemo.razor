@@ -19,7 +19,9 @@
     </OmniStack>
 
     @* Le catalogue choisi pour les applications : chaque icône qu'une application affiche vit ici. *@
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
+    @* OmniRow et non OmniStack : OmniStack n'a pas de retour à la ligne, et soixante-quinze icônes
+       débordaient la carte en largeur. *@
+    <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
         <OmniIcon Name="OmniIconName.Add" AriaLabel="Ajouter" />
         <OmniIcon Name="OmniIconName.Airplane" AriaLabel="Avion" />
         <OmniIcon Name="OmniIconName.AirplaneLanding" AriaLabel="Atterrissage" />
@@ -95,17 +97,17 @@
         <OmniIcon Name="OmniIconName.Upload" AriaLabel="Envoyer" />
         <OmniIcon Name="OmniIconName.User" AriaLabel="Personne" />
         <OmniIcon Name="OmniIconName.UserFocus" AriaLabel="Rechercher une personne" />
-    </OmniStack>
+    </OmniRow>
 
     @* Les trois façons de faire tenir une image dans la boîte qu'on lui donne. *@
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
+    <OmniRow Gap="OmniSpacing.Medium">
         <OmniImage Source="showcase-sample.svg" Alt="Image entière, sans recadrage"
                    Width="180" Height="120" Fit="OmniImageFit.Contain" Loading="OmniImageLoading.Lazy" />
         <OmniImage Source="showcase-sample.svg" Alt="Image recadrée pour remplir la boîte"
                    Width="180" Height="120" Fit="OmniImageFit.Cover" Loading="OmniImageLoading.Eager" />
         <OmniImage Source="showcase-sample.svg" Alt="Image à sa taille naturelle"
                    Width="180" Height="120" Fit="OmniImageFit.Natural" />
-    </OmniStack>
+    </OmniRow>
 
     <OmniTimeline Label="Étapes du dossier">
         <OmniTimelineItem Title="Dépôt" DateText="2 mars">Le dossier a été enregistré.</OmniTimelineItem>

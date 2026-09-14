@@ -1,3 +1,5 @@
+using OmniEurope.Blazor.Components;
+using OmniEurope.Blazor.Internal;
 using System.Text.RegularExpressions;
 using OmniEurope.Blazor.Showcase.Demos;
 using OmniEurope.Blazor.Showcase.Theming;
@@ -45,9 +47,9 @@ public sealed class ShowcaseThemeTests
     [Fact]
     public void EveryPalette_KeepsBodyTextReadableInBothModes()
     {
-        foreach (var preset in ThemePresets.All)
+        foreach (var preset in OmniThemePresets.All)
         {
-            foreach (var mode in new[] { ThemeMode.Light, ThemeMode.Dark })
+            foreach (var mode in new[] { OmniAppearance.Light, OmniAppearance.Dark })
             {
                 var tokens = preset.For(mode);
                 var contrast = ThemeColor.Contrast(tokens["--omni-color-text"], tokens["--omni-color-surface"]);
@@ -61,9 +63,9 @@ public sealed class ShowcaseThemeTests
     [Fact]
     public void EveryPalette_KeepsTheAccentVisibleAgainstItsSurface()
     {
-        foreach (var preset in ThemePresets.All)
+        foreach (var preset in OmniThemePresets.All)
         {
-            foreach (var mode in new[] { ThemeMode.Light, ThemeMode.Dark })
+            foreach (var mode in new[] { OmniAppearance.Light, OmniAppearance.Dark })
             {
                 var tokens = preset.For(mode);
                 var contrast = ThemeColor.Contrast(tokens["--omni-color-accent"], tokens["--omni-color-surface"]);
@@ -77,9 +79,9 @@ public sealed class ShowcaseThemeTests
     [Fact]
     public void EveryPalette_KeepsTextReadableOnFilledSurfaces()
     {
-        foreach (var preset in ThemePresets.All)
+        foreach (var preset in OmniThemePresets.All)
         {
-            foreach (var mode in new[] { ThemeMode.Light, ThemeMode.Dark })
+            foreach (var mode in new[] { OmniAppearance.Light, OmniAppearance.Dark })
             {
                 var tokens = preset.For(mode);
                 foreach (var (fill, over) in new[]
@@ -98,21 +100,31 @@ public sealed class ShowcaseThemeTests
         }
     }
 
+    /// <summary>
+    /// Ten themes that differ only by their colours would be one theme ten times: every pair must
+    /// also differ in how things are drawn.
+    /// </summary>
     [Fact]
-    public void EveryPalette_DeclaresWhichHalfWasDerived()
+    public void EveryTheme_DrawsThingsDifferentlyFromEveryOther()
     {
-        Assert.NotEmpty(ThemePresets.All);
-        foreach (var preset in ThemePresets.All)
-        {
-            Assert.NotNull(preset.DerivedMode);
-            Assert.Contains("MIT", preset.Origin, StringComparison.Ordinal);
-        }
+        string[] shapeTokens =
+        [
+            "--omni-radius", "--omni-button-radius", "--omni-card-radius", "--omni-border-width",
+            "--omni-button-shadow", "--omni-card-shadow", "--omni-font-family", "--omni-button-text-transform",
+            "--omni-card-border-width", "--omni-heading-font-family"
+        ];
+        var shapes = OmniThemePresets.All.ToDictionary(
+            preset => preset.Name,
+            preset => string.Join("|", shapeTokens.Select(token => preset.Light.TryGetValue(token, out var value) ? value : "default")));
+
+        Assert.Equal(10, shapes.Count);
+        Assert.Equal(shapes.Count, shapes.Values.Distinct(StringComparer.Ordinal).Count());
     }
 
     [Fact]
     public void PaletteNames_AreUnique()
     {
-        var names = ThemePresets.All.Select(preset => preset.Name).ToArray();
+        var names = OmniThemePresets.All.Select(preset => preset.Name).ToArray();
         Assert.Equal(names.Length, names.Distinct(StringComparer.Ordinal).Count());
     }
 

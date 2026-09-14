@@ -1,3 +1,4 @@
+using OmniEurope.Blazor.Components;
 using System.Net;
 using System.Text.Json;
 using Microsoft.JSInterop;
@@ -192,13 +193,11 @@ public sealed class ShowcaseThemeStateTests
         return new ThemeState(new ThemeTokenReader(http), js);
     }
 
-    private static ThemePreset Palette() => new(
+    private static OmniThemePreset Palette() => new(
         "Essai",
         "Palette de test.",
         new Dictionary<string, string> { ["--omni-color-surface"] = "#111111" },
-        new Dictionary<string, string> { ["--omni-color-surface"] = "#000000" },
-        "Tests",
-        null);
+        new Dictionary<string, string> { ["--omni-color-surface"] = "#000000" });
 
     private sealed class StubHandler(string body) : HttpMessageHandler
     {

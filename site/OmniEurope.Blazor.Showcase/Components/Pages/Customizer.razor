@@ -26,7 +26,7 @@
     <OmniHeading Id="customize-presets-title" Level="OmniHeadingLevel.H2">@Text["CustomizePresetsTitle"]</OmniHeading>
     <p>@Text["CustomizePresetsLead"]</p>
     <div class="showcase-presets">
-        @foreach (var preset in ThemePresets.All)
+        @foreach (var preset in OmniThemePresets.All)
         {
             <OmniCard>
                 <Header>
@@ -34,15 +34,6 @@
                 </Header>
                 <ChildContent>
                     <p>@preset.Description</p>
-                    <p class="showcase-presets__origin">
-                        @preset.Origin
-                        @if (preset.DerivedMode is { } derived)
-                        {
-                            <OmniBadge Variant="OmniBadgeVariant.Warning">
-                                @(derived is ThemeMode.Dark ? Text["PresetDerivedDark"] : Text["PresetDerivedLight"])
-                            </OmniBadge>
-                        }
-                    </p>
                 </ChildContent>
                 <Footer>
                     <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Theme.ApplyAsync(preset))">

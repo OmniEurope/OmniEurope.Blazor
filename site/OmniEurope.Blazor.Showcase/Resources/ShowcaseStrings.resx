@@ -79,9 +79,7 @@
   <data name="CustomizeLead" xml:space="preserve"><value>Chaque variable de la feuille de style est éditable ici, et le site entier se repeint à mesure que vous la changez.</value></data>
   <data name="CustomizeModeTitle" xml:space="preserve"><value>Mode</value></data>
   <data name="CustomizePresetsTitle" xml:space="preserve"><value>Thèmes prêts à l'emploi</value></data>
-  <data name="CustomizePresetsLead" xml:space="preserve"><value>Palettes transposées depuis Bootswatch, sous licence MIT. Chaque palette n'existe en amont que dans un seul mode : l'autre a été dérivé pour ce site et porte la mention correspondante.</value></data>
-  <data name="PresetDerivedDark" xml:space="preserve"><value>Mode sombre dérivé</value></data>
-  <data name="PresetDerivedLight" xml:space="preserve"><value>Mode clair dérivé</value></data>
+  <data name="CustomizePresetsLead" xml:space="preserve"><value>Dix thèmes dessinés pour la bibliothèque, chacun en clair et en sombre. Ils changent plus que les couleurs : arrondis, bordures, ombres, polices et allure des boutons.</value></data>
   <data name="PresetApply" xml:space="preserve"><value>Appliquer</value></data>
   <data name="CustomizeTokensTitle" xml:space="preserve"><value>Variables</value></data>
   <data name="CustomizeTokensLead" xml:space="preserve"><value>Cette liste est lue dans la feuille de style livrée, elle ne peut donc pas s'écarter de ce que la bibliothèque expose réellement.</value></data>

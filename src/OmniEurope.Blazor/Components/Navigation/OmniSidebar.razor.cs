@@ -28,6 +28,14 @@ public partial class OmniSidebar
     public OmniSidebarCollapse Collapse { get; set; } = OmniSidebarCollapse.Hidden;
 
     /// <summary>
+    /// Whether a pushing sidebar opens and closes at once or slides. Smooth keeps a closed sidebar in
+    /// the page, reduced to no width and hidden from assistive technology, so the width it gives back
+    /// can be animated.
+    /// </summary>
+    [Parameter]
+    public OmniSidebarTransition Transition { get; set; } = OmniSidebarTransition.Instant;
+
+    /// <summary>
     /// Dims the content behind an open floating sidebar and closes it on click. Meaningless while
     /// the sidebar pushes, since nothing is covered then.
     /// </summary>
@@ -55,7 +63,13 @@ public partial class OmniSidebar
     /// A closed sidebar still renders when it leaves a rail behind: the rail is what is left of it,
     /// not a separate control.
     /// </summary>
-    private bool Rendered => Open || Collapse == OmniSidebarCollapse.Icons;
+    private bool Rendered => Open || Collapse == OmniSidebarCollapse.Icons || Smooth;
+
+    /// <summary>The smooth transition applies to the push mode only.</summary>
+    private bool Smooth => Transition == OmniSidebarTransition.Smooth && Reveal == OmniSidebarReveal.Push;
+
+    /// <summary>A closed sidebar that leaves no rail is out of reach, even while it stays in the page to slide.</summary>
+    private bool Concealed => !Open && Collapse == OmniSidebarCollapse.Hidden;
 
     private bool ShowBackdrop => Open && Backdrop && Reveal == OmniSidebarReveal.Overlay;
 

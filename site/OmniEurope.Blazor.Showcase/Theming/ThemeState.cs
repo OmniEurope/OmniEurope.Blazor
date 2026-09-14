@@ -1,3 +1,4 @@
+using OmniEurope.Blazor.Components;
 using System.Text;
 using System.Text.Json;
 using Microsoft.JSInterop;
@@ -29,7 +30,7 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     public ThemeMode Mode { get; private set; } = ThemeMode.Light;
 
     /// <summary>The palette currently applied, or null once the visitor edits freely.</summary>
-    public ThemePreset? Preset { get; private set; }
+    public OmniThemePreset? Preset { get; private set; }
 
     /// <summary>The tokens the visitor moved away from their shipped value.</summary>
     public IReadOnlyDictionary<string, string> Overrides => _overrides;
@@ -79,10 +80,10 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     }
 
     /// <summary>Applies a ready-made palette in the mode being previewed.</summary>
-    public async Task ApplyAsync(ThemePreset preset, CancellationToken cancellationToken = default)
+    public async Task ApplyAsync(OmniThemePreset preset, CancellationToken cancellationToken = default)
     {
         _overrides.Clear();
-        foreach (var (name, value) in preset.For(Mode))
+        foreach (var (name, value) in preset.For(ToAppearance(Mode)))
         {
             _overrides[name] = value;
         }
@@ -98,7 +99,7 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
         if (Preset is { } preset)
         {
             _overrides.Clear();
-            foreach (var (name, value) in preset.For(mode))
+            foreach (var (name, value) in preset.For(ToAppearance(mode)))
             {
                 _overrides[name] = value;
             }
@@ -130,6 +131,8 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
         builder.AppendLine("}");
         return builder.ToString();
     }
+
+    private static OmniAppearance ToAppearance(ThemeMode mode) => mode is ThemeMode.Dark ? OmniAppearance.Dark : OmniAppearance.Light;
 
     private void Restore(string stored)
     {
