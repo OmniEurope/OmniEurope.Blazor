@@ -59,9 +59,9 @@ public sealed class ThemeScopePresetTests : OmniBunitContext
     }
 
     [Fact]
-    public void The_catalogue_ships_ten_themes_with_both_halves()
+    public void The_catalogue_ships_twenty_themes_with_both_halves()
     {
-        Assert.Equal(10, OmniThemePresets.All.Count);
+        Assert.Equal(20, OmniThemePresets.All.Count);
         Assert.All(OmniThemePresets.All, preset =>
         {
             Assert.NotEmpty(preset.Light);
