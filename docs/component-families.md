@@ -12,7 +12,7 @@ Les familles ci-dessous regroupent les composants publics de la bibliothèque et
 - Foundation : primitives de texte, titres et types fondamentaux.
 - Layout : conteneurs, cartes, panneaux, barres, sections et encadrés de réglages, et structure de page. Une rangée `OmniStack` trop étroite défile sous un chevron de chaque côté, sans barre de défilement (`Overflow="Scroll"`), ou se replie en icônes (`Overflow="Collapse"`).
 - Navigation : fil d'Ariane, menus à groupes imbriqués qui déplient la branche portant la page courante, onglets, étapes et profil, avec icônes optionnelles et rendu icône seule du menu latéral.
-- Overlays : hôte, dialogues empilés avec ouverture attendue par `OpenDialogAsync`, notifications bornées et regroupables en cascade, tooltip local avec délai d'apparition (`Delay`, 700 ms par défaut, immédiat au focus clavier) et suivi du pointeur (`Tracking`), et menu contextuel porté.
+- Overlays : hôte, dialogues empilés avec ouverture attendue par `OpenDialogAsync`, notifications bornées et regroupables en cascade, tooltip local avec délai d'apparition (`Delay`, 700 ms par défaut, immédiat au focus clavier) et suivi du pointeur (`Tracking`), menu contextuel porté, et panneau ancré non modal (`OmniPopover` : un clic ailleurs ou Échap le ferme, Échap rend le focus au bouton, sans piège de focus).
 - Scheduling : timeline et scheduler jour/semaine/mois en `DateTimeOffset`, avec fuseau explicite.
 - Selection : dropdown simple/multiple, autocomplete annulable, listes de choix, date, slider, couleur et upload.
 
