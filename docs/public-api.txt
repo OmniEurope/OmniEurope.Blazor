@@ -1217,6 +1217,7 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.DoesNotContainT
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EditCancelled : Microsoft.AspNetCore.Components.EventCallback<TItem> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EditMode : OmniEurope.Blazor.Components.OmniDataGridEditMode {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EditRequested : Microsoft.AspNetCore.Components.EventCallback<TItem> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EmptyTemplate : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EmptyText : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EndsWithText : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EqualsText : System.String? {get(public);set(public)} [Parameter]

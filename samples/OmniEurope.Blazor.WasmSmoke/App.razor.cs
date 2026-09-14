@@ -16,7 +16,17 @@ public partial class App
     [Inject]
     private OmniOverlayService Overlays { get; set; } = default!;
 
+    // A grouped grid with detail rows, virtualized over its whole set: one group per hundred rows,
+    // one detail row opened every fifty.
+    private const int GroupedRowCount = 10_000;
+
     private IReadOnlyList<SmokeRow> Rows { get; set; } = Array.Empty<SmokeRow>();
+
+    private IReadOnlyList<SmokeRow> GroupedSource { get; set; } = Array.Empty<SmokeRow>();
+
+    private IReadOnlyList<object> ExpandedValues { get; set; } = Array.Empty<object>();
+
+    private static Func<SmokeRow, object?> GroupOf => row => row.Value / 100;
 
     private int _count;
 
@@ -25,6 +35,10 @@ public partial class App
         Rows = Enumerable.Range(1, RowCount)
             .Select(index => new SmokeRow(Text["RowName", index].Value, index))
             .ToArray();
+        GroupedSource = Enumerable.Range(0, GroupedRowCount)
+            .Select(index => new SmokeRow(Text["RowName", index].Value, index))
+            .ToArray();
+        ExpandedValues = Enumerable.Range(0, GroupedRowCount).Where(index => index % 50 == 0).Cast<object>().ToArray();
     }
 
     private Task IncrementAsync()

@@ -296,16 +296,104 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
     }
 
     [Fact]
-    public void VirtualizedGrid_RefusesGroupingAndDetailRows()
+    public void RemoteVirtualizedGrid_StillRefusesGroupingAndDetailRows()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
 
         var grouping = Assert.Throws<InvalidOperationException>(() => Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.Items, new[] { 1, 2 })
             .Add(component => component.AllowVirtualization, true)
+            .Add(component => component.Load, request => Task.FromResult(new OmniDataGridResult<int>([1, 2], 2)))
             .Add(component => component.GroupBy, item => (object?)item)));
 
         Assert.Contains("GroupBy", grouping.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void LocalVirtualizedGrid_WithGroups_RendersAWindowOfGroupHeadersAndRows()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var items = Enumerable.Range(0, 10_000).ToArray();
+
+        var grid = Render<OmniDataGrid<int>>(parameters => parameters
+            .Add(component => component.Items, items)
+            .Add(component => component.AllowVirtualization, true)
+            .Add(component => component.EstimatedRowHeight, 40d)
+            .Add(component => component.GroupBy, item => (object?)(item / 100)));
+
+        var rows = grid.FindAll("tbody tr[data-omni-row-index]");
+        Assert.InRange(rows.Count, 1, 64);
+        Assert.NotEmpty(grid.FindAll("tbody tr.omni-data-grid__group"));
+        // Every row of a slot carries the slot, so the script measures group headers with their row.
+        Assert.All(grid.FindAll("tbody tr.omni-data-grid__group"), header => Assert.NotNull(header.GetAttribute("data-omni-slot")));
+        Assert.All(rows, row => Assert.NotNull(row.GetAttribute("data-omni-slot")));
+        Assert.DoesNotContain("style=", grid.Markup, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void LocalVirtualizedGrid_CollapsingAGroup_LeavesItsHeaderAsOneSlotAndBringsTheNextGroupIn()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+
+        var grid = Render<DataGridVirtualGroupsTestHost>();
+
+        Assert.Single(grid.FindAll("tbody tr.omni-data-grid__group"));
+        Assert.InRange(grid.FindAll("tbody tr[data-omni-row-index]").Count, 1, 64);
+
+        grid.Find("tbody tr.omni-data-grid__group .omni-data-grid__group-expand").Click();
+
+        // The collapsed group keeps its header, alone in slot 0, and its hundred rows leave the window,
+        // so the next group's header and rows come in right below it.
+        var headers = grid.FindAll("tbody tr.omni-data-grid__group");
+        Assert.True(headers.Count >= 2, "The next group must come into the window once the first one is collapsed.");
+        Assert.Equal("0", headers[0].GetAttribute("data-omni-slot"));
+        Assert.Equal("false", headers[0].QuerySelector(".omni-data-grid__group-expand")!.GetAttribute("aria-expanded"));
+        var rows = grid.FindAll("tbody tr[data-omni-row-index]");
+        Assert.InRange(rows.Count, 1, 64);
+        Assert.DoesNotContain(rows, row => row.GetAttribute("data-omni-slot") == "0");
+        Assert.Contains(">100</td>", grid.Markup, StringComparison.Ordinal);
+        Assert.DoesNotContain(">99</td>", grid.Markup, StringComparison.Ordinal);
+    }
+
+    public sealed record Line(int Value, int Bucket);
+
+    [Fact]
+    public async Task LocalVirtualizedGrid_WithDetail_MovesItsWindowAndShowsTheExpandedDetail()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var items = Enumerable.Range(0, 10_000).ToArray();
+
+        var grid = Render<OmniDataGrid<int>>(parameters => parameters
+            .Add(component => component.Items, items)
+            .Add(component => component.AllowVirtualization, true)
+            .Add(component => component.EstimatedRowHeight, 40d)
+            .Add(component => component.ExpandedKeys, new object[] { 1000 })
+            .Add(component => component.DetailTemplate, item => builder => builder.AddContent(0, $"Détail {item}")));
+
+        Assert.DoesNotContain("Détail 1000", grid.Markup, StringComparison.Ordinal);
+
+        await grid.InvokeAsync(() => grid.Instance.OnViewportChangedAsync(40_000d, 400d));
+
+        Assert.Contains(">1000</td>", grid.Markup, StringComparison.Ordinal);
+        Assert.Contains("Détail 1000", grid.Markup, StringComparison.Ordinal);
+        Assert.Single(grid.FindAll("tr.omni-data-grid__detail"));
+    }
+
+    [Fact]
+    public void Grid_EmptyTemplate_ReplacesTheEmptyText_AndTheTextStaysWithoutIt()
+    {
+        var withTemplate = Render<OmniDataGrid<int>>(parameters => parameters
+            .Add(component => component.Items, Array.Empty<int>())
+            .Add(component => component.EmptyText, "Rien ici")
+            .Add(component => component.EmptyTemplate, builder => builder.AddMarkupContent(0, "<strong class=\"empty-probe\">Aucun serveur</strong>")));
+
+        Assert.Single(withTemplate.FindAll(".omni-data-grid__state .empty-probe"));
+        Assert.DoesNotContain("Rien ici", withTemplate.Markup, StringComparison.Ordinal);
+
+        var withText = Render<OmniDataGrid<int>>(parameters => parameters
+            .Add(component => component.Items, Array.Empty<int>())
+            .Add(component => component.EmptyText, "Rien ici"));
+
+        Assert.Equal("Rien ici", withText.Find(".omni-data-grid__state").TextContent.Trim());
     }
 
     private static double SpannedHeight(GridVirtualWindow window, GridVirtualRange range) =>

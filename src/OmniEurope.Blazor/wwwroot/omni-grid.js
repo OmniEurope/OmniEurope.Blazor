@@ -9,6 +9,21 @@ function metrics(viewport) {
 }
 
 function collectRows(viewport) {
+    // A grouped or detailed virtualized grid tags every row of an entry (its group headers, the item
+    // row, its detail row) with the entry's slot: the slot is measured as the sum of its rows.
+    const slotted = viewport.querySelectorAll('[data-omni-slot]');
+    if (slotted.length > 0) {
+        const heights = new Map();
+        for (const row of slotted) {
+            const slot = Number.parseInt(row.getAttribute('data-omni-slot') ?? '', 10);
+            if (!Number.isNaN(slot)) {
+                heights.set(slot, (heights.get(slot) ?? 0) + row.getBoundingClientRect().height);
+            }
+        }
+
+        return [...heights].map(([index, height]) => ({ index, height }));
+    }
+
     const rows = [];
     for (const row of viewport.querySelectorAll('[data-omni-row-index]')) {
         const index = Number.parseInt(row.getAttribute('data-omni-row-index') ?? '', 10);

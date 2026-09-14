@@ -13,6 +13,14 @@
                     <OmniDataGridColumn TItem="SmokeRow" Property="Value" Title="@Text["GridValue"]" />
                 </Columns>
             </OmniDataGrid>
+            <OmniDataGrid TItem="SmokeRow" Id="wasm-grouped-grid" Items="@GroupedSource" AllowVirtualization="true" Height="16rem"
+                          KeyProperty="Value" GroupBy="@GroupOf" ExpandedKeys="@ExpandedValues" Caption="@Text["GroupedGridCaption"]">
+                <Columns>
+                    <OmniDataGridColumn TItem="SmokeRow" Property="Name" Title="@Text["GridName"]" />
+                    <OmniDataGridColumn TItem="SmokeRow" Property="Value" Title="@Text["GridValue"]" />
+                </Columns>
+                <DetailTemplate Context="row">@Text["RowDetail", row.Value]</DetailTemplate>
+            </OmniDataGrid>
             <OmniDataList TItem="SmokeRow" Id="wasm-list" Items="@Rows" Virtualize="true" Class="wasm-list">
                 <ItemTemplate Context="row">@row.Name</ItemTemplate>
             </OmniDataList>

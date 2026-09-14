@@ -1,0 +1,18 @@
+<OmniDataGrid TItem="DataGridVirtualizationTests.Line"
+              Items="@Lines"
+              AllowVirtualization="true"
+              EstimatedRowHeight="40"
+              AllowGrouping="true"
+              Groups="@Groups">
+    <Columns>
+        <OmniDataGridColumn TItem="DataGridVirtualizationTests.Line" Key="bucket" Title="Groupe" Property="Bucket" />
+        <OmniDataGridColumn TItem="DataGridVirtualizationTests.Line" Key="value" Title="Valeur" Property="Value" />
+    </Columns>
+</OmniDataGrid>
+
+@code {
+    public IReadOnlyList<DataGridVirtualizationTests.Line> Lines { get; } =
+        Enumerable.Range(0, 10_000).Select(value => new DataGridVirtualizationTests.Line(value, value / 100)).ToArray();
+
+    public IReadOnlyList<OmniDataGridGroup> Groups { get; } = [new("bucket")];
+}

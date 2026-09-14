@@ -83,9 +83,19 @@ Mécanique :
 - La table porte `aria-rowcount` et chaque ligne `aria-rowindex`, puisque le DOM ne contient qu'une
   fenêtre.
 
-Limites assumées : la virtualisation refuse `GroupBy`, `Groups` et `DetailTemplate` par une exception
-explicite, car ces rendus rompent la correspondance « une ligne pour un index » dont dépend la
-géométrie de défilement. La pagination est ignorée dans ce mode.
+Groupes et détails virtualisés : avec `Items`, la grille virtualise aussi en présence de `GroupBy`,
+`Groups` ou `DetailTemplate`. L'unité de défilement devient la « case » d'un élément : ses en-têtes
+de groupe ouverts avant lui, sa ligne, et sa ligne de détail si elle est ouverte. Chaque `tr` porte
+`data-omni-slot`, le script additionne les hauteurs d'une même case, et replier un groupe ou ouvrir
+un détail recalcule les cases puis remet les mesures à zéro. Un groupe replié devient une case
+réduite à ses en-têtes.
+
+Limites assumées : avec `Load`, la virtualisation refuse `GroupBy`, `Groups` et `DetailTemplate` par
+une exception explicite, car le serveur ne livre que des blocs de lignes et aucun groupe ne se
+calcule sans l'ensemble. La pagination est ignorée dans ce mode.
+
+`EmptyTemplate` remplace le texte `EmptyText` quand la grille n'a aucune ligne ; sans lui, le
+texte reste affiché comme avant.
 
 `OmniDataList` avec `Virtualize` applique la même mécanique sans viewport propre : il suit l'ancêtre
 qui défile, ou la page, ne rend que les éléments proches de la zone visible, mesure leur hauteur
