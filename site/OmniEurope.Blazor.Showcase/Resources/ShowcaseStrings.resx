@@ -168,11 +168,11 @@
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Obligation, longueur, format de courriel et comparaison.</value></data>
   <data name="DemoValidationCapability2" xml:space="preserve"><value>Le focus part sur le premier champ invalide à l'envoi.</value></data>
   <data name="DemoValidationCapability3" xml:space="preserve"><value>Aucune annotation sur le modèle, tout est dans le balisage.</value></data>
-  <data name="DemoEditorTitle" xml:space="preserve"><value>Éditeur et dépôt</value></data>
-  <data name="DemoEditorSummary" xml:space="preserve"><value>L'éditeur de texte enrichi et le dépôt de fichiers.</value></data>
-  <data name="DemoEditorCapability1" xml:space="preserve"><value>Gras, italique, retraits, exposant et indice.</value></data>
-  <data name="DemoEditorCapability2" xml:space="preserve"><value>Outils supplémentaires fournis par l'hôte, sous forme de transformations.</value></data>
-  <data name="DemoEditorCapability3" xml:space="preserve"><value>Dépôt borné en nombre, en taille et en type, validé avant transfert.</value></data>
+  <data name="DemoEditorTitle" xml:space="preserve"><value>Éditeurs et dépôt</value></data>
+  <data name="DemoEditorSummary" xml:space="preserve"><value>L'éditeur WYSIWYG et sa source HTML, le traitement de texte, l'éditeur de code et le dépôt de fichiers.</value></data>
+  <data name="DemoEditorCapability1" xml:space="preserve"><value>Barre de commandes que l'hôte complète ou réordonne, collage assaini, mode source.</value></data>
+  <data name="DemoEditorCapability2" xml:space="preserve"><value>Traitement de texte sur une page, décompte des mots, export HTML et texte.</value></data>
+  <data name="DemoEditorCapability3" xml:space="preserve"><value>Éditeur de code (Monaco chez l'hôte, texte brut sous CSP stricte) et dépôt borné.</value></data>
   <data name="DemoOverlayTitle" xml:space="preserve"><value>Superpositions</value></data>
   <data name="DemoOverlaySummary" xml:space="preserve"><value>Boîtes de dialogue, notifications et menus surgissants.</value></data>
   <data name="DemoOverlayCapability1" xml:space="preserve"><value>Dialogue modal, fermable par Échap ou par l'arrière-plan.</value></data>
@@ -194,6 +194,11 @@
   <data name="DemoTreeCapability1" xml:space="preserve"><value>Sélection multiple et navigation au clavier.</value></data>
   <data name="DemoTreeCapability2" xml:space="preserve"><value>Branche chargée à la demande, à l'ouverture du nœud.</value></data>
   <data name="DemoTreeCapability3" xml:space="preserve"><value>Nœuds désactivables sans casser le parcours.</value></data>
+  <data name="DemoSpreadsheetTitle" xml:space="preserve"><value>Tableur</value></data>
+  <data name="DemoSpreadsheetSummary" xml:space="preserve"><value>Une feuille de calcul simple : cellules, formules et barre de formule.</value></data>
+  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Formules avec références, plages, SOMME, MOYENNE, MIN, MAX et codes d'erreur.</value></data>
+  <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Navigation au clavier, saisie en place et barre de formule.</value></data>
+  <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Contenu lié dans les deux sens et sérialisable en JSON.</value></data>
   <data name="DemoSchedulerTitle" xml:space="preserve"><value>Agenda</value></data>
   <data name="DemoSchedulerSummary" xml:space="preserve"><value>Le calendrier et ses trois vues.</value></data>
   <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Vues jour, semaine et mois, commutables.</value></data>

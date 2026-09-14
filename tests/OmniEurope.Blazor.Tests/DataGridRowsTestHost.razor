@@ -1,0 +1,57 @@
+<OmniDataGrid TItem="Row"
+              Id="rows"
+              Items="@Items"
+              KeySelector="row => row.Id"
+              PageSize="@PageSize"
+              @bind-Page="Page"
+              SelectionMode="@SelectionMode"
+              @bind-SelectedKeys="SelectedKeys"
+              AllowRowSelectOnRowClick="@SelectOnRowClick"
+              RowClick="OnRowClick"
+              RowRender="@RowRender"
+              @bind-ExpandedKeys="ExpandedKeys"
+              ExpandMode="@ExpandMode"
+              ShowExpandAll="true"
+              DetailTemplate="@Detail"
+              FilterMode="@FilterMode"
+              ShowHeaderFilterMenu="@ShowHeaderFilterMenu"
+              EditMode="OmniDataGridEditMode.Single">
+    <Columns>
+        <OmniDataGridColumn TItem="Row" Key="name" Title="Nom" Value="row => row.Name" Frozen="@FreezeName" Width="10rem" Filterable="true">
+            <EditTemplate Context="row"><input class="rows-edit" value="@row.Name" /></EditTemplate>
+        </OmniDataGridColumn>
+        <OmniDataGridColumn TItem="Row" Key="city" Title="Ville" Value="row => row.City" Filterable="true" FilterType="OmniDataGridColumnFilterType.MultiSelect" />
+        <OmniDataGridColumn TItem="Row" Key="score" Title="Score" Value="row => row.Score" MinWidth="6rem" TextAlign="OmniDataGridTextAlign.End" />
+    </Columns>
+</OmniDataGrid>
+
+@code {
+    [Parameter] public IReadOnlyList<Row> Items { get; set; } =
+    [
+        new(1, "Alice", "Namur", 3),
+        new(2, "Bob", "Liege", 5),
+        new(3, "Chloe", "Namur", 8),
+        new(4, "David", "Mons", 1),
+        new(5, "Emma", "Liege", 6)
+    ];
+
+    [Parameter] public int PageSize { get; set; } = 2;
+    [Parameter] public OmniDataGridSelectionMode SelectionMode { get; set; } = OmniDataGridSelectionMode.Multiple;
+    [Parameter] public bool SelectOnRowClick { get; set; }
+    [Parameter] public bool FreezeName { get; set; }
+    [Parameter] public OmniDataGridExpandMode ExpandMode { get; set; } = OmniDataGridExpandMode.Multiple;
+    [Parameter] public OmniDataGridFilterMode FilterMode { get; set; } = OmniDataGridFilterMode.Simple;
+    [Parameter] public bool ShowHeaderFilterMenu { get; set; }
+    [Parameter] public Action<OmniDataGridRowRenderArgs<Row>>? RowRender { get; set; }
+
+    public int Page { get; set; } = 1;
+    public IReadOnlyList<object> SelectedKeys { get; set; } = [];
+    public IReadOnlyList<object> ExpandedKeys { get; set; } = [];
+    public int RowClicks { get; private set; }
+
+    private RenderFragment<Row> Detail => row => builder => builder.AddContent(0, $"Detail {row.Name}");
+
+    private void OnRowClick(Row row) => RowClicks++;
+
+    public sealed record Row(int Id, string Name, string City, int Score);
+}

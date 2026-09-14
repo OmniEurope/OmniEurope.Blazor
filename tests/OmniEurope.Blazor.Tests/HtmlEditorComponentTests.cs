@@ -12,6 +12,7 @@ public sealed class HtmlEditorComponentTests : OmniBunitContext
         var value = "<p onclick=\"steal()\">Sain</p><script>alert(1)</script>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
             .Add(component => component.Value, value)
+            .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.ValueExpression, () => value));
 
         var preview = editor.Find(".omni-html-editor__preview");
@@ -93,6 +94,7 @@ public sealed class HtmlEditorComponentTests : OmniBunitContext
             .Add(component => component.ValueChanged, updated => value = updated)
             .Add(component => component.ValueExpression, () => value)
             .Add(component => component.Disabled, true)
+            .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.CustomTools,
                 [new OmniHtmlEditorTool("heading", "Titre", current => $"<h2>{current}</h2>")]));
 
