@@ -54,6 +54,8 @@ public static class DemoCatalog
             ["DemoDataListCapability1", "DemoDataListCapability2", "DemoDataListCapability3"]),
         new("arborescence", typeof(TreeDemo), "DemoTreeTitle", "DemoTreeSummary",
             ["DemoTreeCapability1", "DemoTreeCapability2", "DemoTreeCapability3"]),
+        new("tableur", typeof(SpreadsheetDemo), "DemoSpreadsheetTitle", "DemoSpreadsheetSummary",
+            ["DemoSpreadsheetCapability1", "DemoSpreadsheetCapability2", "DemoSpreadsheetCapability3"]),
         new("agenda", typeof(SchedulerDemo), "DemoSchedulerTitle", "DemoSchedulerSummary",
             ["DemoSchedulerCapability1", "DemoSchedulerCapability2", "DemoSchedulerCapability3"]),
         new("graphiques", typeof(ChartDemo), "DemoChartTitle", "DemoChartSummary",

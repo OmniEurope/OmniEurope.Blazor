@@ -75,6 +75,15 @@
   <data name="GridCollapseRow" xml:space="preserve"><value>Collapse row</value></data>
   <data name="GridExpandRow" xml:space="preserve"><value>Expand row</value></data>
   <data name="GridSelectRow" xml:space="preserve"><value>Select row</value></data>
+  <data name="GridSelectAll" xml:space="preserve"><value>Select every displayed row</value></data>
+  <data name="SpreadsheetLabel" xml:space="preserve"><value>Spreadsheet</value></data>
+  <data name="SpreadsheetAddRow" xml:space="preserve"><value>Row</value></data>
+  <data name="SpreadsheetAddRowLabel" xml:space="preserve"><value>Add a row</value></data>
+  <data name="SpreadsheetAddColumn" xml:space="preserve"><value>Column</value></data>
+  <data name="SpreadsheetAddColumnLabel" xml:space="preserve"><value>Add a column</value></data>
+  <data name="SpreadsheetActiveCell" xml:space="preserve"><value>Active cell</value></data>
+  <data name="SpreadsheetFormulaBar" xml:space="preserve"><value>Content of cell {0}</value></data>
+  <data name="SpreadsheetCell" xml:space="preserve"><value>Cell {0}</value></data>
   <data name="Save" xml:space="preserve"><value>Save</value></data>
   <data name="Cancel" xml:space="preserve"><value>Cancel</value></data>
   <data name="Edit" xml:space="preserve"><value>Edit</value></data>

@@ -16,4 +16,12 @@ public sealed record OmniDataGridFilterContext(
     string Value,
     IReadOnlyList<string> Suggestions,
     string Placeholder,
-    Func<string, Task> ValueChanged);
+    Func<string, Task> ValueChanged)
+{
+    /// <summary>
+    /// True when the editor is drawn inside a popover (the header filter menu, or the advanced
+    /// filter panel), false when it sits in the inline filter row. An editor that can unfold, such
+    /// as a checkable list, stays folded on one line in the row and opens in full in a popover.
+    /// </summary>
+    public bool InPopover { get; init; }
+}
