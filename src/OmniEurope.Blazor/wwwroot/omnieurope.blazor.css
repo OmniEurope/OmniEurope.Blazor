@@ -265,7 +265,7 @@
 .omni-stack-scroll { align-items: center; display: flex; min-inline-size: 0; }
 /* Le rembourrage, repris par une marge négative, laisse sa place à l'anneau de focus que le
    défilement rognerait. */
-.omni-stack--overflow-scroll { flex: 1 1 auto; flex-wrap: nowrap; margin: -0.1875rem; min-inline-size: 0; overflow-x: auto; overscroll-behavior-x: contain; padding: 0.1875rem; scroll-behavior: smooth; scrollbar-width: none; }
+.omni-stack--overflow-scroll { flex: 1 1 auto; flex-wrap: nowrap; margin: -0.1875rem; min-inline-size: 0; overflow-x: auto; overscroll-behavior-x: contain; padding: 0.1875rem; scrollbar-width: none; }
 .omni-stack--overflow-scroll::-webkit-scrollbar { display: none; }
 @media (prefers-reduced-motion: reduce) { .omni-stack--overflow-scroll { scroll-behavior: auto; } }
 .omni-stack--overflow-scroll > * { flex: 0 0 auto; }
@@ -1002,12 +1002,22 @@
 }
 .omni-autocomplete__option:hover,
 .omni-autocomplete__option:focus-visible { background: var(--omni-color-surface-muted); outline: none; }
+.omni-autocomplete__option:disabled { background: transparent; color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
+/* Les lettres cherchées, en gras sur un fond d'accent. */
+.omni-autocomplete__match { background: color-mix(in srgb, var(--omni-color-accent) 24%, transparent); border-radius: 0.125rem; color: inherit; font-weight: 700; }
 .omni-choice-list { border: 0; display: grid; gap: var(--omni-space-sm); margin: 0; padding: 0; }
 .omni-choice-list__legend { font-weight: 650; margin-block-end: var(--omni-space-sm); }
-.omni-choice-list__item { align-items: center; display: inline-flex; gap: var(--omni-space-sm); }
-/* Trop large pour sa place, la barre défile au lieu de se couper ; le rembourrage laisse la place à
-   l'anneau de focus, que le défilement rognerait. */
-.omni-select-bar { display: inline-flex; margin: -0.1875rem; max-inline-size: calc(100% + 0.375rem); overflow-x: auto; overscroll-behavior-x: contain; padding: 0.1875rem; scrollbar-width: thin; }
+.omni-choice-list__item { align-items: center; cursor: pointer; display: inline-flex; gap: var(--omni-space-sm); }
+.omni-choice-list__item > input { accent-color: var(--omni-color-accent); cursor: inherit; margin: 0; }
+/* Une option indisponible se lit comme telle avant qu'on essaie de la choisir. */
+.omni-choice-list__item:is(.omni-choice-list__item--disabled, :has(> input:disabled)) { color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
+/* Trop large pour sa place, la barre défile sous un chevron de chaque côté qui cache encore des
+   options, comme les onglets, sans barre de défilement ; le rembourrage garde l'anneau de focus. */
+.omni-select-bar { align-items: center; display: inline-flex; max-inline-size: 100%; min-inline-size: 0; vertical-align: middle; }
+.omni-select-bar__viewport { display: flex; margin: -0.1875rem; min-inline-size: 0; overflow-x: auto; overscroll-behavior-x: contain; padding: 0.1875rem; scroll-behavior: smooth; scrollbar-width: none; }
+.omni-select-bar__viewport::-webkit-scrollbar { display: none; }
+/* Les chevrons sont ceux d'une pile qui défile (.omni-stack-scroll__button). */
+.omni-select-bar__scroll { position: relative; z-index: 2; }
 .omni-select-bar__item {
     background: var(--omni-color-surface);
     border: var(--omni-border-width) solid var(--omni-color-border);
@@ -1024,6 +1034,11 @@
 .omni-select-bar__item + .omni-select-bar__item { border-inline-start: 0; }
 .omni-select-bar__item--selected { background: var(--omni-color-accent); border-color: var(--omni-color-accent); color: var(--omni-color-on-accent); }
 .omni-select-bar__item:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; z-index: 1; }
+/* Une option indisponible est hachurée ; la barre entière désactivée s'éteint d'un bloc. */
+.omni-select-bar__item:disabled { background: repeating-linear-gradient(135deg, var(--omni-color-surface-muted) 0 0.375rem, var(--omni-color-surface) 0.375rem 0.75rem); color: var(--omni-color-text-muted); cursor: not-allowed; }
+.omni-select-bar__item--selected:disabled { background: color-mix(in srgb, var(--omni-color-accent) 45%, var(--omni-color-surface)); border-color: transparent; color: var(--omni-color-on-accent); }
+.omni-select-bar--disabled .omni-select-bar__item:not(.omni-select-bar__item--selected) { background: var(--omni-color-surface-muted); }
+.omni-select-bar--disabled .omni-select-bar__item { opacity: 0.6; }
 .omni-slider { align-items: center; display: flex; gap: var(--omni-space-sm); }
 .omni-slider__input { accent-color: var(--omni-color-accent); flex: 1; }
 .omni-slider--vertical { align-items: center; flex-direction: column; }
@@ -1032,11 +1047,40 @@
 .omni-color-picker__value { color: var(--omni-color-text); font-variant-numeric: tabular-nums; }
 .omni-color-picker { align-items: center; display: inline-flex; gap: var(--omni-space-sm); }
 .omni-color-picker__input { background: transparent; border: 0; height: 2.5rem; width: 3.5rem; }
+/* Envoi : une zone de dépôt en pointillés que le contrôle natif couvre, invisible, puis la liste des
+   fichiers, chacun sur sa ligne avec son icône, son nom, sa taille et, liée, sa croix. */
 .omni-upload { display: grid; gap: var(--omni-space-sm); }
-.omni-upload__files { display: grid; gap: var(--omni-space-xs); list-style: none; margin: 0; padding: 0; }
-.omni-upload__files li { display: flex; gap: var(--omni-space-md); justify-content: space-between; }
+.omni-upload__zone { align-items: center; background: var(--omni-color-surface-muted); border: calc(var(--omni-border-width) * 2) dashed var(--omni-color-border); border-radius: var(--omni-radius); display: grid; gap: var(--omni-space-xs); justify-items: center; padding: var(--omni-space-lg) var(--omni-space-md); position: relative; text-align: center; }
+.omni-upload__input { block-size: 100%; cursor: pointer; inline-size: 100%; inset: 0; opacity: 0; position: absolute; }
+.omni-upload__icon { color: var(--omni-color-accent); }
+.omni-upload__prompt { font-weight: 600; }
+.omni-upload__browse { color: var(--omni-color-accent-strong); text-decoration: underline; }
+.omni-upload__hint { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
+.omni-upload__zone:hover,
+.omni-upload--dragging .omni-upload__zone { background: color-mix(in srgb, var(--omni-color-accent) 10%, var(--omni-color-surface)); border-color: var(--omni-color-accent); }
+.omni-upload__zone:has(> .omni-upload__input:focus-visible) { border-color: var(--omni-color-accent); box-shadow: var(--omni-focus-ring); }
+.omni-upload--disabled .omni-upload__zone { background: var(--omni-color-surface-muted); border-color: var(--omni-color-border); opacity: 0.55; }
+.omni-upload--disabled .omni-upload__input { cursor: not-allowed; }
+.omni-upload__list { display: grid; gap: var(--omni-space-xs); list-style: none; margin: 0; padding: 0; }
+.omni-upload__file { align-items: center; background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; gap: var(--omni-space-sm); min-block-size: 2.5rem; min-inline-size: 0; padding: 0 var(--omni-space-xs) 0 var(--omni-space-sm); }
+.omni-upload__file-icon { color: var(--omni-color-text-muted); flex: 0 0 auto; }
+.omni-upload__file-name { flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-upload__file-size { color: var(--omni-color-text-muted); flex: 0 0 auto; font-size: var(--omni-font-size-sm); }
+.omni-upload__remove { background: transparent; border: 0; border-radius: var(--omni-radius); color: var(--omni-color-text-muted); cursor: pointer; display: inline-grid; flex: 0 0 auto; place-items: center; min-block-size: 2rem; min-inline-size: 2rem; }
+.omni-upload__remove:hover { background: color-mix(in srgb, var(--omni-color-danger) 14%, transparent); color: var(--omni-color-danger); }
+.omni-upload__remove:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-upload__remove:disabled { cursor: not-allowed; opacity: 0.5; }
+.omni-upload__cancel,
+.omni-upload__retry { justify-self: start; }
 .omni-upload__message { margin: 0; }
 .omni-upload__message--error { color: var(--omni-color-danger); }
+
+/* Dates : le contrôle natif suit le thème de sa portée, clair compris, son icône de calendrier
+   prend le texte atténué, l'accent au survol. */
+[data-omni-theme="light"] { color-scheme: light; }
+.omni-date-input { accent-color: var(--omni-color-accent); }
+.omni-date-input::-webkit-calendar-picker-indicator { background: var(--omni-color-text-muted); block-size: 1.125rem; cursor: pointer; inline-size: 1.125rem; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Cpath fill-rule=%27evenodd%27 d=%27M3 5h18v17H3zm2 6v9h14v-9zM7 2h2v5H7zm8 0h2v5h-2z%27/%3E%3C/svg%3E") center / contain no-repeat; opacity: 1; padding: 0; }
+.omni-date-input:not(:disabled)::-webkit-calendar-picker-indicator:hover { background: var(--omni-color-accent); }
 
 .omni-toggle-button,
 .omni-split-button__main,
@@ -1205,7 +1249,11 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-context-menu__popup { inset-inline-start: 0; }
 .omni-overlay-portal { inset: 0; pointer-events: none; position: fixed; z-index: 120; }
 .omni-overlay-portal__entry { pointer-events: auto; position: relative; }
-.omni-overlay-portal__entry--contextmenu .omni-context-menu__popup { position: fixed; }
+/* Posé par omni-focus.js au pointeur, ou sous le déclencheur au clavier, et ramené dans la fenêtre.
+   Porté hors de la page, le menu sans position (script absent) reste en haut à gauche plutôt que
+   sous le bord de l'écran, où « 100 % » de la fenêtre l'envoyait. */
+.omni-context-menu__popup[data-omni-placed],
+.omni-overlay-portal__entry--contextmenu .omni-context-menu__popup { inset: auto; left: var(--omni-menu-x, var(--omni-space-md)); position: fixed; top: var(--omni-menu-y, var(--omni-space-md)); }
 
 .omni-breadcrumb__list { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); list-style: none; margin: 0; padding: 0; }
 .omni-breadcrumb__item + .omni-breadcrumb__item::before { color: var(--omni-color-text-muted); content: "/"; margin-inline-end: var(--omni-space-xs); }
@@ -1396,6 +1444,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-profile-menu__item { background: transparent; border: 0; border-radius: calc(var(--omni-radius) / 2); font: inherit; padding: var(--omni-space-sm); text-align: start; text-decoration: none; }
 .omni-profile-menu__item:hover,
 .omni-profile-menu__item:focus-visible { background: var(--omni-color-surface-muted); outline: none; }
+.omni-profile-menu__item:disabled { background: transparent; color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
 
 .omni-data-list { display: grid; gap: var(--omni-space-sm); }
 .omni-data-list__item { border-block-end: var(--omni-border-width) solid var(--omni-color-border); padding: var(--omni-space-md); }
@@ -1587,6 +1636,8 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-multi-select-compact__option { align-items: center; border-radius: calc(var(--omni-radius) / 2); cursor: pointer; display: flex; gap: var(--omni-space-xs); padding: 0.25rem 0.375rem; white-space: nowrap; }
 .omni-multi-select-compact__option:hover { background: var(--omni-color-surface-muted); }
 .omni-multi-select-compact__option input { accent-color: var(--omni-color-accent); flex: 0 0 auto; }
+.omni-multi-select-compact__option:has(> input:disabled) { background: transparent; color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
+.omni-multi-select-compact__summary[aria-disabled="true"] { cursor: not-allowed; opacity: 0.65; }
 
 @media (prefers-reduced-motion: reduce) {
     .omni-multi-select-compact__chevron { transition: none; }

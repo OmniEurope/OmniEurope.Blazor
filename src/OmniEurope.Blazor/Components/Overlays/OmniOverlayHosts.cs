@@ -153,12 +153,17 @@ internal static class OmniOverlayHosts
         builder.OpenElement(0, "div");
         builder.AddAttribute(1, "class", "omni-overlay-portal");
         builder.AddAttribute(2, "data-overlay-count", coordinator.Entries.Count);
-        var sequence = 3;
+        // Keyed by owner: without a key, a menu opening in the place another just left reused its
+        // element, so the new menu's element reference was never captured.
         foreach (var entry in coordinator.Entries)
         {
-            builder.OpenElement(sequence++, "div");
-            builder.AddAttribute(sequence++, "class", $"omni-overlay-portal__entry omni-overlay-portal__entry--{entry.Kind.ToString().ToLowerInvariant()}");
-            builder.AddContent(sequence++, entry.Content);
+            builder.OpenElement(3, "div");
+            builder.SetKey(entry.Owner);
+            builder.AddAttribute(4, "class", $"omni-overlay-portal__entry omni-overlay-portal__entry--{entry.Kind.ToString().ToLowerInvariant()}");
+            builder.OpenComponent<OmniPortalSlot>(5);
+            builder.AddAttribute(6, nameof(OmniPortalSlot.Coordinator), coordinator);
+            builder.AddAttribute(7, nameof(OmniPortalSlot.Owner), entry.Owner);
+            builder.CloseComponent();
             builder.CloseElement();
         }
         builder.CloseElement();

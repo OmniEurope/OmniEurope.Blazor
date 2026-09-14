@@ -1,7 +1,9 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
 
-<details @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-profile-menu")">
+<details @attributes="AdditionalAttributes" @ref="_details" id="@Id" class="@Css("omni-profile-menu")">
     <summary class="omni-profile-menu__summary" aria-label="@EffectiveLabel">@Summary</summary>
     <div class="omni-profile-menu__items" role="menu">@ChildContent</div>
 </details>

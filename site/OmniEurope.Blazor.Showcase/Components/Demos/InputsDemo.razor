@@ -46,7 +46,8 @@
             <ChildContent>
                 <OmniAutocomplete TValue="string" Id="inputs-city" @bind-Value="Model.City"
                                   Search="SearchCitiesAsync" MinimumLength="2"
-                                  DebounceMilliseconds="150" Placeholder="Commencez à écrire" />
+                                  DebounceMilliseconds="150" Placeholder="Commencez à écrire"
+                                  HighlightMatches="true" />
             </ChildContent>
         </OmniFormField>
     </OmniStack>
