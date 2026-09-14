@@ -1,10 +1,20 @@
 @namespace OmniEurope.Blazor.Components
 <g class="omni-chart__axis omni-chart__axis--category">
-    <line x1="5" y1="95" x2="95" y2="95" />
-    @for (var index = 0; index < Labels.Count; index++)
+    @if (Context.Horizontal)
     {
-        var x = ChartContext?.CategoryPosition(index, Labels.Count) ?? (Labels.Count == 1 ? 50 : 5 + index * 90d / (Labels.Count - 1));
-        <g><text x="@OmniChartGeometry.Number(x)" y="99" text-anchor="middle">@Labels[index]</text></g>
+        <line x1="@N(OmniChartContext.PlotLeft)" y1="@N(OmniChartContext.PlotTop)" x2="@N(OmniChartContext.PlotLeft)" y2="@N(OmniChartContext.PlotBottom)" />
+        @for (var index = 0; index < Labels.Count; index++)
+        {
+            <g><text x="@N(OmniChartContext.PlotLeft - 1.5)" y="@N(Context.CategoryPosition(index, Labels.Count))" text-anchor="end" dominant-baseline="central">@Labels[index]</text></g>
+        }
+    }
+    else
+    {
+        <line x1="@N(OmniChartContext.PlotLeft)" y1="@N(OmniChartContext.PlotBottom)" x2="@N(Context.PlotRight)" y2="@N(OmniChartContext.PlotBottom)" />
+        @for (var index = 0; index < Labels.Count; index++)
+        {
+            <g><text x="@N(Context.CategoryPosition(index, Labels.Count))" y="@N(OmniChartContext.PlotBottom + 4.5)" text-anchor="middle">@Labels[index]</text></g>
+        }
     }
 </g>
 

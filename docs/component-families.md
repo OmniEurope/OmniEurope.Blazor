@@ -3,7 +3,7 @@
 Les familles ci-dessous regroupent les composants publics de la bibliothèque et décrivent leurs limites actuelles.
 
 - Actions : boutons simples, bascules, boutons scindés et actions de menu.
-- Charts : moteur SVG, axes, domaines partagés, séries projetées et empilements à baselines cumulées.
+- Charts : moteur SVG, axes, domaines partagés, séries projetées et empilements à baselines cumulées, colonnes groupées par bandes de catégories, barres horizontales sur axes tournés, légende hors du tracé et jauge en demi-cercle. Voir [chart-components.md](chart-components.md).
 - Data : listes, pagination, arbre et grille virtualisable avec projection locale ou chargement distant annulable par blocs.
 - Diagram : carte mentale SVG éditable à la souris, au toucher et au clavier, avec barre d'actions, panneau des propriétés du nœud et relecture sans perte du format de graphe stocké. Voir [diagram-components.md](diagram-components.md).
 - Editor : édition source HTML, aperçu sanitizé, historique et outils personnalisés.
@@ -13,7 +13,7 @@ Les familles ci-dessous regroupent les composants publics de la bibliothèque et
 - Layout : conteneurs, cartes, panneaux, barres, sections et encadrés de réglages, et structure de page. Une rangée `OmniStack` trop étroite défile sous un chevron de chaque côté, sans barre de défilement (`Overflow="Scroll"`), ou se replie en icônes (`Overflow="Collapse"`).
 - Navigation : fil d'Ariane, menus à groupes imbriqués qui déplient la branche portant la page courante, onglets, étapes et profil, avec icônes optionnelles et rendu icône seule du menu latéral.
 - Overlays : hôte, dialogues empilés avec ouverture attendue par `OpenDialogAsync`, notifications bornées et regroupables en cascade, tooltip local avec délai d'apparition (`Delay`, 700 ms par défaut, immédiat au focus clavier) et suivi du pointeur (`Tracking`), menu contextuel porté, et panneau ancré non modal (`OmniPopover` : un clic ailleurs ou Échap le ferme, Échap rend le focus au bouton, sans piège de focus).
-- Scheduling : timeline et scheduler jour/semaine/mois en `DateTimeOffset`, avec fuseau explicite.
+- Scheduling : scheduler jour/semaine/mois en `DateTimeOffset` avec fuseau explicite, frise à droite, à gauche ou alternée, diagramme de Gantt (`OmniGantt`) et déroulement d'étapes sur une échelle de temps (`OmniStepTimeline`). Voir [scheduling-components.md](scheduling-components.md).
 - Selection : dropdown simple/multiple, autocomplete annulable, listes de choix, date, slider, couleur et upload.
 
 Les noms Omni décrivent des capacités, pas des implémentations.
