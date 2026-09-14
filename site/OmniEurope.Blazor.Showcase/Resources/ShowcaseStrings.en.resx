@@ -79,7 +79,7 @@
   <data name="CustomizeLead" xml:space="preserve"><value>Every variable of the stylesheet can be edited here, and the whole site repaints as you move it.</value></data>
   <data name="CustomizeModeTitle" xml:space="preserve"><value>Mode</value></data>
   <data name="CustomizePresetsTitle" xml:space="preserve"><value>Ready-made themes</value></data>
-  <data name="CustomizePresetsLead" xml:space="preserve"><value>Ten themes drawn for the library, each in light and dark. They change more than colours: radii, borders, shadows, fonts and the way buttons are drawn.</value></data>
+  <data name="CustomizePresetsLead" xml:space="preserve"><value>Twenty themes drawn for the library, each in light and dark. They change more than colours: radii, borders, shadows, fonts and the way buttons are drawn.</value></data>
   <data name="PresetApply" xml:space="preserve"><value>Apply</value></data>
   <data name="CustomizeTokensTitle" xml:space="preserve"><value>Variables</value></data>
   <data name="CustomizeTokensLead" xml:space="preserve"><value>This list is read from the shipped stylesheet, so it cannot drift away from what the library actually exposes.</value></data>
