@@ -156,6 +156,52 @@ public sealed class MindMapComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task APressOnTheMap_EndsTheAutomaticFit_SoAPanelOpeningOnSelectionNeverZooms()
+    {
+        // The properties panel appears beside the canvas when a node is selected and goes when the
+        // selection is cleared; each time the canvas changed width, and the automatic fit, still
+        // following the canvas because the reader had not panned or zoomed, zoomed the map again.
+        // Every click zoomed it in or out.
+        var module = JSInterop.SetupModule(ModulePath);
+        module.Setup<MindMapCanvasSize?>("attach", _ => true).SetResult(new MindMapCanvasSize(1000, 700));
+        var views = new List<OmniMindMapViewState>();
+        var map = Render<OmniMindMap>(parameters => parameters
+            .Add(component => component.Document, Sample())
+            .Add(component => component.ViewStateChanged, value => views.Add(value)));
+        var bridge = new MindMapInteropBridge(map.Instance);
+        map.WaitForAssertion(() => Assert.NotEmpty(views));
+        var fitted = map.Instance.CurrentView;
+        var reported = views.Count;
+
+        await map.InvokeAsync(() => bridge.NodePressed("right"));
+        await map.InvokeAsync(() => bridge.Resized(760, 700));
+        await map.InvokeAsync(() => bridge.BackgroundPressed());
+        await map.InvokeAsync(() => bridge.Resized(1000, 700));
+
+        Assert.Equal(fitted, map.Instance.CurrentView);
+        Assert.Equal(reported, views.Count);
+    }
+
+    [Fact]
+    public async Task AKeyOnTheCanvas_AlsoEndsTheAutomaticFit()
+    {
+        var module = JSInterop.SetupModule(ModulePath);
+        module.Setup<MindMapCanvasSize?>("attach", _ => true).SetResult(new MindMapCanvasSize(1000, 700));
+        var views = new List<OmniMindMapViewState>();
+        var map = Render<OmniMindMap>(parameters => parameters
+            .Add(component => component.Document, Sample())
+            .Add(component => component.ViewStateChanged, value => views.Add(value)));
+        var bridge = new MindMapInteropBridge(map.Instance);
+        map.WaitForAssertion(() => Assert.NotEmpty(views));
+        var fitted = map.Instance.CurrentView;
+
+        map.Find("svg").KeyDown(new KeyboardEventArgs { Key = "ArrowRight" });
+        await map.InvokeAsync(() => bridge.Resized(760, 700));
+
+        Assert.Equal(fitted, map.Instance.CurrentView);
+    }
+
+    [Fact]
     public void GivenViewState_IsAppliedAndNotRefitted()
     {
         var map = Render<OmniMindMap>(parameters => parameters

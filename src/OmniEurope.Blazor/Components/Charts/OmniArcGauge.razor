@@ -2,5 +2,6 @@
 @inherits OmniComponentBase
 
 <figure @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-arc-gauge")">
-    <svg class="omni-arc-gauge__svg" viewBox="0 0 100 60" role="img" aria-label="@EffectiveLabel">@ChildContent</svg>
+    @* A half circle of radius 40 centred on (50, 50), its bounds written under both ends. *@
+    <svg class="omni-arc-gauge__svg" viewBox="0 0 100 62" role="img" aria-label="@EffectiveLabel">@ChildContent</svg>
 </figure>

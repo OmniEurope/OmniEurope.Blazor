@@ -1653,21 +1653,29 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-arc-gauge { margin: 0; }
 .omni-chart__svg,
 .omni-arc-gauge__svg { display: block; height: auto; overflow: visible; width: 100%; }
-.omni-chart__line { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
-.omni-chart__area { fill: currentColor; fill-opacity: 0.24; stroke: currentColor; stroke-width: 1; }
+/* Strokes are measured in screen pixels rather than in view box units, so a line keeps its weight
+   whether the chart is drawn small in a card or large across a page. */
+.omni-chart__line { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5px; }
+.omni-chart__area { fill: currentColor; fill-opacity: 0.24; stroke: currentColor; stroke-width: 1.5px; }
 .omni-chart__area--stacked,
 .omni-chart__columns--stacked { opacity: 0.75; }
 .omni-chart__columns,
 .omni-chart__bars,
 .omni-chart__pie,
 .omni-chart__donut { fill: currentColor; }
-.omni-chart__axis line { stroke: var(--omni-color-border); stroke-width: 0.5; }
+.omni-chart__axis line { stroke: var(--omni-color-border); stroke-width: 1px; }
 .omni-chart__axis text,
 .omni-chart__axis-title,
 .omni-chart__legend text,
 .omni-chart__labels { fill: var(--omni-color-text); font-size: 3px; }
-.omni-chart__grid-lines line { stroke: var(--omni-color-border); stroke-dasharray: 1 1; stroke-width: 0.25; }
-.omni-chart__markers { fill: var(--omni-color-surface); stroke: currentColor; stroke-width: 0.75; }
+.omni-chart__axis text { fill: var(--omni-color-text-muted); }
+.omni-chart__grid-lines line { stroke: var(--omni-color-border); stroke-dasharray: 4 4; stroke-width: 1px; }
+.omni-chart__markers { stroke: currentColor; stroke-width: 2px; }
+.omni-chart__line,
+.omni-chart__area,
+.omni-chart__axis line,
+.omni-chart__grid-lines line,
+.omni-chart__markers circle { vector-effect: non-scaling-stroke; }
 .omni-chart-color-0 { color: var(--omni-chart-color-0); fill: var(--omni-chart-color-0); stroke: var(--omni-chart-color-0); }
 .omni-chart-color-1 { color: var(--omni-chart-color-1); fill: var(--omni-chart-color-1); stroke: var(--omni-chart-color-1); }
 .omni-chart-color-2 { color: var(--omni-chart-color-2); fill: var(--omni-chart-color-2); stroke: var(--omni-chart-color-2); }
@@ -1676,18 +1684,85 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-chart-color-5 { color: var(--omni-chart-color-5); fill: var(--omni-chart-color-5); stroke: var(--omni-chart-color-5); }
 .omni-chart-color-6 { color: var(--omni-chart-color-6); fill: var(--omni-chart-color-6); stroke: var(--omni-chart-color-6); }
 .omni-chart-color-7 { color: var(--omni-chart-color-7); fill: var(--omni-chart-color-7); stroke: var(--omni-chart-color-7); }
-.omni-arc-gauge__track { fill: none; stroke: var(--omni-color-surface-muted); stroke-linecap: round; stroke-width: 8; }
+/* The colour classes also set fill, which a line and a marker must not take: an element plus class
+   selector outranks them, where the class alone, declared before them, lost and filled the line as
+   a polygon. */
+polyline.omni-chart__line { fill: none; }
+.omni-chart__markers circle { fill: var(--omni-color-surface); }
+.omni-arc-gauge__track { fill: none; stroke: var(--omni-color-border); stroke-linecap: round; stroke-width: 8; }
 .omni-arc-gauge__value path { fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 8; }
-.omni-arc-gauge text { fill: var(--omni-color-text); font-size: 5px; }
+.omni-arc-gauge text { fill: var(--omni-color-text); stroke: none; }
+.omni-arc-gauge .omni-arc-gauge__limit { fill: var(--omni-color-text-muted); font-size: 5px; }
+.omni-arc-gauge__value-text { font-size: 10px; font-variant-numeric: tabular-nums; font-weight: 650; }
 
 .omni-timeline__list { display: grid; gap: var(--omni-space-md); list-style: none; margin: 0; padding: 0; }
 .omni-timeline__item { display: grid; gap: var(--omni-space-md); grid-template-columns: 1rem 1fr; position: relative; }
-.omni-timeline__item::before { background: var(--omni-color-border); content: ""; inset-block: 1rem -1rem; inset-inline-start: 0.45rem; position: absolute; width: 1px; }
+.omni-timeline__item::before { background: var(--omni-color-border); content: ""; inset-block: 1rem -1rem; inset-inline-start: calc(0.5rem - 0.5px); position: absolute; width: 1px; }
 .omni-timeline__item:last-child::before { display: none; }
-.omni-timeline__marker { background: var(--omni-color-accent); border: 0.2rem solid var(--omni-color-surface); border-radius: var(--omni-radius-circle); height: 0.9rem; position: relative; width: 0.9rem; z-index: 1; }
-.omni-timeline__content header { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
+.omni-timeline__marker { background: var(--omni-color-accent); border: 0.2rem solid var(--omni-color-surface); border-radius: var(--omni-radius-circle); grid-column: 1; grid-row: 1; height: 0.9rem; justify-self: center; position: relative; width: 0.9rem; z-index: 1; }
+.omni-timeline__content { grid-column: 2; grid-row: 1; min-width: 0; }
+.omni-timeline__content header { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: var(--omni-timeline-align, flex-start); }
 .omni-timeline__content h3,
 .omni-timeline__content p { margin: 0; }
+/* Start: the line runs down the end edge, each entry before it and aligned against it. */
+.omni-timeline--start .omni-timeline__item { grid-template-columns: 1fr 1rem; }
+.omni-timeline--start .omni-timeline__item::before { inset-inline-end: calc(0.5rem - 0.5px); inset-inline-start: auto; }
+.omni-timeline--start .omni-timeline__marker { grid-column: 2; }
+.omni-timeline--start .omni-timeline__content { --omni-timeline-align: flex-end; grid-column: 1; text-align: end; }
+/* Alternate: the line runs down the middle, and each entry takes the side its rank gives it. The
+   timeline is its own container, so a narrow column stacks the entries whatever the window width. */
+.omni-timeline--alternate { container-type: inline-size; }
+@container (min-width: 30rem) {
+    .omni-timeline--alternate .omni-timeline__item { grid-template-columns: 1fr 1rem 1fr; }
+    .omni-timeline--alternate .omni-timeline__item::before { inset-inline-start: calc(50% - 0.5px); }
+    .omni-timeline--alternate .omni-timeline__marker { grid-column: 2; }
+    .omni-timeline--alternate .omni-timeline__content { grid-column: 3; }
+    .omni-timeline--first-start .omni-timeline__item:nth-child(odd) .omni-timeline__content,
+    .omni-timeline--first-end .omni-timeline__item:nth-child(even) .omni-timeline__content { --omni-timeline-align: flex-end; grid-column: 1; text-align: end; }
+}
+/* OmniGantt. The names and the SVG beside them share row heights in pixels (GanttLayout.RowHeight
+   and HeaderHeight); the SVG's fixed sizes, strokes and fonts are its own presentation attributes. */
+.omni-gantt { display: grid; gap: var(--omni-space-sm); }
+.omni-gantt__toolbar { display: flex; justify-content: flex-end; }
+.omni-gantt__empty { color: var(--omni-color-text-muted); margin: 0; text-align: center; }
+.omni-gantt__body { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; grid-template-columns: minmax(8rem, 14rem) minmax(0, 1fr); overflow: hidden; }
+.omni-gantt__names { border-inline-end: 1px solid var(--omni-color-border); font-size: var(--omni-font-size-sm); }
+.omni-gantt__names > div { align-items: center; display: flex; height: 36px; overflow: hidden; padding-inline: var(--omni-space-sm); white-space: nowrap; }
+.omni-gantt__names > .omni-gantt__names-head { border-block-end: 1px solid var(--omni-color-border); height: 43px; }
+.omni-gantt__names-head, .omni-gantt__name--group { font-weight: 650; }
+.omni-gantt__chart { overflow-x: auto; }
+.omni-gantt__svg { display: block; }
+.omni-gantt__row { fill: none; }
+.omni-gantt__row--odd, .omni-gantt__weekend { fill: var(--omni-color-surface-muted); }
+.omni-gantt__row--group { fill: var(--omni-color-surface-hover); }
+.omni-gantt__grid line { stroke: var(--omni-color-border); }
+.omni-gantt__header text, .omni-gantt__label { fill: var(--omni-color-text); }
+.omni-gantt__today { stroke: var(--omni-color-danger); }
+.omni-gantt__dependencies, .omni-gantt__arrow { fill: var(--omni-color-text-muted); stroke: var(--omni-color-text-muted); }
+.omni-gantt__dependencies path { fill: none; }
+.omni-gantt__summary { fill: var(--omni-color-text-muted); }
+.omni-gantt__bar-shape { fill-opacity: 0.3; }
+/* The halo, drawn under the text, keeps a label readable over the filled part, the empty part and the grid. */
+.omni-gantt__label { stroke: var(--omni-color-surface); }
+.omni-gantt__hit { background: none; border: 0; cursor: pointer; display: block; height: 100%; padding: 0; width: 100%; }
+.omni-gantt__hit:focus-visible { outline: 2px solid var(--omni-color-accent); }
+/* OmniStepTimeline: every row has the same gutters, so the tracks start and end on the same x and bars compare. */
+.omni-step-timeline { display: grid; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); }
+.omni-step-timeline__steps { display: grid; gap: var(--omni-space-xs); list-style: none; margin: 0; padding: 0; }
+.omni-step-timeline__row { align-items: center; display: grid; gap: var(--omni-space-sm); grid-template-columns: minmax(0, 10rem) minmax(0, 1fr) 3.5rem; }
+.omni-step-timeline__scale { display: flex; justify-content: space-between; }
+.omni-step-timeline__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-step-timeline__head, .omni-step-timeline__duration, .omni-step-timeline__never, .omni-step-timeline__step--secondary .omni-step-timeline__name { color: var(--omni-color-text-muted); }
+.omni-step-timeline__step--secondary .omni-step-timeline__name { font-style: italic; }
+.omni-step-timeline__track { display: block; height: 0.75rem; width: 100%; }
+.omni-step-timeline__rail { fill: var(--omni-color-surface-muted); stroke: var(--omni-color-border); }
+.omni-step-timeline__bar { fill: var(--omni-color-border); }
+.omni-step-timeline__step--success .omni-step-timeline__bar { fill: var(--omni-color-success); }
+.omni-step-timeline__step--failed .omni-step-timeline__bar { fill: var(--omni-color-danger); }
+.omni-step-timeline__step--running .omni-step-timeline__bar { fill: var(--omni-color-accent); }
+.omni-step-timeline__duration { text-align: end; }
+.omni-step-timeline__never { margin: 0; }
+.omni-step-timeline__never-label { font-weight: 650; }
 .omni-scheduler { display: grid; gap: var(--omni-space-md); }
 .omni-scheduler__header { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: space-between; }
 .omni-scheduler__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }

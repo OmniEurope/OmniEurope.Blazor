@@ -54,6 +54,11 @@ internal static class OmniChartGeometry
 
     public static string Arc(double startAngle, double endAngle, double radius, bool donut)
     {
+        if (endAngle - startAngle >= 359.99)
+        {
+            return FullRing(radius, donut ? radius * 0.58 : 0);
+        }
+
         var start = Polar(startAngle, radius);
         var end = Polar(endAngle, radius);
         var large = endAngle - startAngle > 180 ? 1 : 0;
@@ -68,13 +73,33 @@ internal static class OmniChartGeometry
         return $"M {start} A {Number(radius)} {Number(radius)} 0 {large} 1 {end} L {innerEnd} A {Number(inner)} {Number(inner)} 0 {large} 0 {innerStart} Z";
     }
 
+    /// <summary>
+    /// The arc of a gauge filled to <paramref name="value"/> percent: a half circle that starts at its
+    /// left end and runs over the top, clockwise, towards its right end.
+    /// </summary>
     public static string Gauge(double value, double radius = 40)
     {
-        var endAngle = 180 + Math.Clamp(value, 0, 100) * 1.8;
-        var start = Polar(180, radius);
+        const double LeftEnd = 270;
+        var endAngle = LeftEnd + (Math.Clamp(value, 0, 100) * 1.8);
+        var start = Polar(LeftEnd, radius);
         var end = Polar(endAngle, radius);
-        var large = endAngle - 180 > 180 ? 1 : 0;
-        return $"M {start} A {Number(radius)} {Number(radius)} 0 {large} 1 {end}";
+        return $"M {start} A {Number(radius)} {Number(radius)} 0 0 1 {end}";
+    }
+
+    /// <summary>
+    /// A whole disc, or a whole ring when <paramref name="inner"/> is positive, drawn as two half
+    /// arcs: a single arc cannot start and end on the same point, and 359.999 degrees left a notch.
+    /// </summary>
+    private static string FullRing(double radius, double inner)
+    {
+        var outer = $"M 50 {Number(50 - radius)} A {Number(radius)} {Number(radius)} 0 1 1 50 {Number(50 + radius)} A {Number(radius)} {Number(radius)} 0 1 1 50 {Number(50 - radius)} Z";
+        if (inner <= 0)
+        {
+            return outer;
+        }
+
+        // The inner circle runs the other way round, so the non-zero fill rule leaves it empty.
+        return $"{outer} M 50 {Number(50 - inner)} A {Number(inner)} {Number(inner)} 0 1 0 50 {Number(50 + inner)} A {Number(inner)} {Number(inner)} 0 1 0 50 {Number(50 - inner)} Z";
     }
 
     private static string Polar(double angle, double radius)

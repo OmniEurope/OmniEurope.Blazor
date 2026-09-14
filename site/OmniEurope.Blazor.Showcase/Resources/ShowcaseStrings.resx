@@ -210,4 +210,9 @@
   <data name="DemoDiagramCapability2" xml:space="preserve"><value>Chaque action a son raccourci clavier, annoncé aux lecteurs d'écran.</value></data>
   <data name="DemoDiagramCapability3" xml:space="preserve"><value>Barre d'actions et panneau des propriétés du nœud sélectionné.</value></data>
   <data name="DemoDiagramCapability4" xml:space="preserve"><value>Relit et réécrit le format de graphe enregistré sans rien perdre.</value></data>
+  <data name="DemoPlanningTitle" xml:space="preserve"><value>Planification</value></data>
+  <data name="DemoPlanningSummary" xml:space="preserve"><value>Un Gantt, le déroulement d'une exécution et une frise à placer.</value></data>
+  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt au jour, à la semaine ou au mois, avec groupes, dépendances et aujourd'hui.</value></data>
+  <data name="DemoPlanningCapability2" xml:space="preserve"><value>Déroulement d'étapes sur une échelle de temps, avec les étapes jamais démarrées.</value></data>
+  <data name="DemoPlanningCapability3" xml:space="preserve"><value>Frise à droite, à gauche ou alternée, en choisissant le premier côté.</value></data>
 </root>
