@@ -48,6 +48,7 @@ public partial class OmniDataGrid<TItem>
     private bool _resizeAttached;
     private bool _filterMenuAttached;
     private string? _appliedHeight;
+    private string? _appliedMaxHeight;
     private string? _appliedColumnLayout;
     private double? _appliedRowHeight;
     private IOmniDataGridStateStore? _fallbackStateStore;
@@ -439,6 +440,17 @@ public partial class OmniDataGrid<TItem>
     /// </summary>
     [Parameter]
     public string MinHeight { get; set; } = "30rem";
+
+    /// <summary>
+    /// Ceiling of the scrolling area as a CSS length, for example <c>24rem</c> or <c>50vh</c>. Set,
+    /// the table takes the height of its content up to this length, then scrolls: a virtualized grid
+    /// of three rows is three rows tall instead of the fixed virtual height, and a long one still
+    /// scrolls and renders only its window. Pushed as a CSS custom property by the grid script, never
+    /// as a style attribute. Ignored when <see cref="Height"/> or <see cref="FillAvailableHeight"/>
+    /// already sizes the table. Unset by default: the table is sized as before.
+    /// </summary>
+    [Parameter]
+    public string? MaxHeight { get; set; }
 
     // ---- virtualization -----------------------------------------------------------------------
 
@@ -950,6 +962,7 @@ public partial class OmniDataGrid<TItem>
         {
             await DetachViewportAsync();
             await ApplyLayoutAsync();
+            await ApplyMaxHeightAsync();
             await EnsureResizeInteropAsync();
         await EnsureFilterMenuInteropAsync();
             return;
@@ -973,6 +986,7 @@ public partial class OmniDataGrid<TItem>
         SyncVirtualWindow();
         await _gridModule.InvokeVoidAsync("applyLayout", _viewport, _range.TopSpacer, _range.BottomSpacer, Height, EffectiveMinHeight);
         _appliedHeight = HeightSignature;
+        await ApplyMaxHeightAsync();
         await ApplyColumnLayoutAsync();
         await ApplyRowHeightAsync(FixedRowHeight ? RowHeight : null);
         await EnsureVirtualDataAsync();
@@ -1045,6 +1059,28 @@ public partial class OmniDataGrid<TItem>
 
     /// <summary>Both height inputs in one value, so a change to either re-runs the layout interop.</summary>
     private string HeightSignature => $"{Height}|{EffectiveMinHeight}";
+
+    /// <summary>The ceiling pushed to CSS: only when no other height input already sizes the table.</summary>
+    private string? EffectiveMaxHeight => string.IsNullOrWhiteSpace(MaxHeight) || Height is not null || FillAvailableHeight
+        ? null
+        : MaxHeight.Trim();
+
+    /// <summary>
+    /// Pushes <see cref="MaxHeight"/> on its own call, only once a ceiling was asked for, so a grid
+    /// without one runs exactly the interop it ran before the parameter existed.
+    /// </summary>
+    private async Task ApplyMaxHeightAsync()
+    {
+        var maxHeight = EffectiveMaxHeight;
+        if (string.Equals(maxHeight, _appliedMaxHeight, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        _gridModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
+        await _gridModule.InvokeVoidAsync("applyMaxHeight", _viewport, maxHeight);
+        _appliedMaxHeight = maxHeight;
+    }
 
     /// <summary>Applies the table height and the column widths outside the virtualized path.</summary>
     private async Task ApplyLayoutAsync()
@@ -2095,7 +2131,8 @@ public partial class OmniDataGrid<TItem>
         "omni-data-grid__viewport",
         Virtualized ? "omni-data-grid__viewport--virtual" : null,
         FillAvailableHeight ? "omni-data-grid__viewport--fill" : null,
-        Height is null ? null : "omni-data-grid__viewport--sized"
+        Height is null ? null : "omni-data-grid__viewport--sized",
+        EffectiveMaxHeight is null ? null : "omni-data-grid__viewport--capped"
     ]);
 
     private string ColumnClass(OmniDataGridColumnDefinition<TItem> column, bool header) => CssClassBuilder.Combine([

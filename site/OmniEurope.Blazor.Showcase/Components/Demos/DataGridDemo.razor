@@ -23,3 +23,27 @@
                             SortOrder="OmniDataGridSortOrder.Descending" />
     </Columns>
 </OmniDataGrid>
+
+@* Virtualisée avec MaxHeight : la grille prend la hauteur de ses lignes jusqu'au plafond, puis
+   défile en ne rendant que sa fenêtre. Trois lignes restent courtes, dix mille défilent. *@
+<OmniDataGrid TItem="GridRow" Id="demo-grid-capped-short"
+              Items="FewRows"
+              Caption="Trois dossiers, hauteur de contenu"
+              AllowVirtualization="true"
+              MaxHeight="18rem">
+    <Columns>
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" />
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur" />
+    </Columns>
+</OmniDataGrid>
+
+<OmniDataGrid TItem="GridRow" Id="demo-grid-capped-long"
+              Items="ManyRows"
+              Caption="Dix mille dossiers, plafond de 18rem"
+              AllowVirtualization="true"
+              MaxHeight="18rem">
+    <Columns>
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" />
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur" />
+    </Columns>
+</OmniDataGrid>

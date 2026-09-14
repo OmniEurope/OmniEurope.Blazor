@@ -59,6 +59,16 @@ retombe sur la hauteur par défaut de la feuille de styles. Dès que le viewport
 `FillAvailableHeight` ou virtualisation), l'en-tête entier (titres, rangée de filtres, ligne de
 total en haut) reste collé en haut.
 
+`MaxHeight` (longueur CSS, non défini par défaut) plafonne le viewport au lieu de le fixer : le
+tableau prend la hauteur de son contenu jusqu'à ce plafond, puis défile. Une grille virtualisée de
+trois lignes n'occupe donc que trois lignes au lieu de la hauteur virtuelle par défaut (30rem), et
+une grille de dix mille lignes défile toujours en ne rendant que sa fenêtre, les espaceurs comptant
+dans la hauteur du contenu. Une grille non virtualisée grandit de même jusqu'au plafond. Le plafond
+passe par la propriété `--omni-grid-viewport-max`, posée par `omni-grid.js` (`applyMaxHeight`) et
+lue par la classe `omni-data-grid__viewport--capped`. Il est ignoré quand `Height` ou
+`FillAvailableHeight` dimensionne déjà le tableau. Sans `MaxHeight`, rien ne change : ni classe, ni
+appel de script supplémentaire.
+
 Le script observe le viewport avec un `ResizeObserver` : une hauteur en pourcentage ou dépendante de
 la mise en page suit les changements de taille du conteneur sans recharger la grille.
 

@@ -3,13 +3,13 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JavaScript
 
-<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-split-button", $"omni-split-button--{Size.ToString().ToLowerInvariant()}")" @onkeydown="HandleKeyDownAsync">
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-split-button", $"omni-split-button--{Size.ToString().ToLowerInvariant()}", VariantClass)" @onkeydown="HandleKeyDownAsync">
     <button type="button"
             @ref="_toggle"
             class="@(Busy ? "omni-split-button__main omni-busy" : "omni-split-button__main")"
             disabled="@Disabled"
             aria-busy="@(Busy ? "true" : null)"
-            @onclick="InvokeMainAsync">@Text</button>
+            @onclick="InvokeMainAsync">@if (Icon is { } icon) { <OmniIcon Name="icon" Size="IconSize" /> }@Text</button>
     <button type="button"
             class="@(Busy ? "omni-split-button__toggle omni-busy" : "omni-split-button__toggle")"
             disabled="@Disabled"

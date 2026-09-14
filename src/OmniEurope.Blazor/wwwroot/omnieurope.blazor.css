@@ -1112,6 +1112,15 @@
 .omni-split-button { display: inline-flex; position: relative; }
 .omni-split-button__main { border-radius: var(--omni-button-radius, var(--omni-radius)) 0 0 var(--omni-button-radius, var(--omni-radius)); }
 .omni-split-button__toggle { border-inline-start: 0; border-radius: 0 var(--omni-button-radius, var(--omni-radius)) var(--omni-button-radius, var(--omni-radius)) 0; min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding: 0; }
+/* Variantes : Secondary est l'apparence d'origine, sans classe ; un filet sépare les deux parties d'un aplat. */
+.omni-split-button--primary { --omni-split-fill: var(--omni-color-accent); --omni-split-ink: var(--omni-color-on-accent); }
+.omni-split-button--success { --omni-split-fill: var(--omni-color-success); --omni-split-ink: var(--omni-color-on-success); }
+.omni-split-button--warning { --omni-split-fill: var(--omni-color-warning); --omni-split-ink: var(--omni-color-on-warning); }
+.omni-split-button--danger { --omni-split-fill: var(--omni-color-danger); --omni-split-ink: var(--omni-color-on-danger); }
+:is(.omni-split-button--primary, .omni-split-button--success, .omni-split-button--warning, .omni-split-button--danger) > :is(.omni-split-button__main, .omni-split-button__toggle) { background: var(--omni-split-fill); border-color: var(--omni-split-fill); color: var(--omni-split-ink); }
+:is(.omni-split-button--primary, .omni-split-button--success, .omni-split-button--warning, .omni-split-button--danger) > .omni-split-button__toggle { border-inline-start: var(--omni-border-width) solid color-mix(in srgb, var(--omni-split-ink) 40%, transparent); }
+.omni-split-button--primary > :is(.omni-split-button__main, .omni-split-button__toggle):hover:not(:disabled) { background: var(--omni-color-accent-strong); }
+.omni-split-button--ghost > :is(.omni-split-button__main, .omni-split-button__toggle) { --omni-button-shadow: 0 0 #0000; background: transparent; border-color: transparent; color: var(--omni-color-accent-strong); }
 .omni-split-button__menu,
 .omni-context-menu__popup {
     background: var(--omni-color-surface);
@@ -1604,6 +1613,9 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid:is(.omni-data-grid--lines-vertical, .omni-data-grid--lines-both) :is(th, td) { border-inline-end: var(--omni-border-width) solid var(--omni-color-border); }
 .omni-data-grid__viewport--sized { block-size: var(--omni-grid-viewport, auto); }
 .omni-data-grid__viewport--virtual { block-size: var(--omni-grid-viewport, 30rem); overscroll-behavior: contain; }
+/* MaxHeight: the viewport takes the height of its content, spacers included, up to the cap. */
+.omni-data-grid__viewport--capped { max-block-size: var(--omni-grid-viewport-max, 30rem); }
+.omni-data-grid__viewport--virtual.omni-data-grid__viewport--capped { block-size: auto; }
 /* FillAvailableHeight: the grid takes the free height of its sized parent, never under the minimum. */
 .omni-data-grid--fill { block-size: 100%; display: flex; flex-direction: column; min-block-size: 0; }
 .omni-data-grid--fill .omni-data-grid__viewport--fill { flex: auto; min-block-size: var(--omni-grid-viewport-min, 30rem); }
