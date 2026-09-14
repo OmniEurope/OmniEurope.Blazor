@@ -2,7 +2,7 @@
 
 Les familles ci-dessous regroupent les composants publics de la bibliothèque et décrivent leurs limites actuelles.
 
-- Actions : boutons simples, bascules, boutons scindés et actions de menu.
+- Actions : boutons simples, bascules, boutons scindés et actions de menu, aux trois mêmes tailles ; un bouton à icône seule est carré.
 - Charts : moteur SVG, axes, domaines partagés, séries projetées et empilements à baselines cumulées.
 - Data : listes, pagination, arbre et grille virtualisable avec projection locale ou chargement distant annulable par blocs.
 - Diagram : carte mentale SVG éditable à la souris, au toucher et au clavier, avec barre d'actions, panneau des propriétés du nœud et relecture sans perte du format de graphe stocké. Voir [diagram-components.md](diagram-components.md).
@@ -12,7 +12,7 @@ Les familles ci-dessous regroupent les composants publics de la bibliothèque et
 - Foundation : primitives de texte, titres et types fondamentaux.
 - Layout : conteneurs, cartes, panneaux, barres, sections et encadrés de réglages, et structure de page. Une rangée `OmniStack` trop étroite défile sous un chevron de chaque côté, sans barre de défilement (`Overflow="Scroll"`), ou se replie en icônes (`Overflow="Collapse"`).
 - Navigation : fil d'Ariane, menus à groupes imbriqués qui déplient la branche portant la page courante, onglets, étapes et profil, avec icônes optionnelles et rendu icône seule du menu latéral.
-- Overlays : hôte, dialogues empilés avec ouverture attendue par `OpenDialogAsync`, notifications bornées et regroupables en cascade, tooltip local avec délai d'apparition (`Delay`, 700 ms par défaut, immédiat au focus clavier) et suivi du pointeur (`Tracking`), et menu contextuel porté.
+- Overlays : hôte, dialogues empilés avec ouverture attendue par `OpenDialogAsync`, confirmation `ConfirmAsync` à la convention des boutons de dialogue (action, puis Annuler en Danger), notifications bornées et regroupables en cascade, tooltip local avec délai d'apparition (`Delay`, 700 ms par défaut, immédiat au focus clavier) et suivi du pointeur (`Tracking`), et menu contextuel porté.
 - Scheduling : timeline et scheduler jour/semaine/mois en `DateTimeOffset`, avec fuseau explicite.
 - Selection : dropdown simple/multiple, autocomplete annulable, listes de choix, date, slider, couleur et upload.
 
@@ -27,6 +27,15 @@ Les variables de thème déclarées dans `:root` sont éditables dans le personn
 | `--omni-tooltip-delay` | `.omni-tooltip` | `700ms` | Temps de pointeur posé avant l'apparition ; `OmniTooltip.Delay` la remplace par pas de 100 ms entre 0 et 2 s. |
 | `--omni-loading-bar-color` | `.omni-loading-bar` | `var(--omni-color-accent)` | Couleur du trait de `OmniLoadingBar`. |
 | `--omni-loading-bar-thickness` | `.omni-loading-bar` | `0.125rem` | Épaisseur du trait, posé dans le bord de ce qui précède la barre. |
+
+Celles-ci ne sont déclarées nulle part et se lisent avec une valeur de repli : posées sur l'élément ou sur un ancêtre, elles s'appliquent.
+
+| Variable | Lue par | Défaut | Effet |
+|---|---|---|---|
+| `--omni-layout-wide-width` | `OmniLayout`, `OmniMain` | `90rem` | Plafond de la largeur `Wide`. |
+| `--omni-layout-content-width` | `OmniLayout`, `OmniMain` | `72rem` | Plafond de la largeur `Content`. |
+| `--omni-main-gutter` | `OmniMain` défilant | `var(--omni-space-md)` | Marge intérieure de l'élément principal, gouttière de la colonne comprise. |
+| `--omni-busy-veil-color` | `.omni-busy`, `.btn-busy` | `#000000` | Couleur du voile d'un bouton occupé. |
 
 `--omni-shadow-stack`, l'ombre qu'une notification empilée jette sur celle qu'elle recouvre, est une variable de thème de `:root` : un thème sombre peut la foncer.
 

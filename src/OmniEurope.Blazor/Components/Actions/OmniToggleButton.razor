@@ -4,7 +4,7 @@
 <button @attributes="AdditionalAttributes"
         id="@Id"
         type="button"
-        class="@Css("omni-toggle-button", Value ? "omni-toggle-button--pressed" : null, Busy ? "omni-busy" : null)"
+        class="@Css("omni-toggle-button", $"omni-toggle-button--{Size.ToString().ToLowerInvariant()}", Value ? "omni-toggle-button--pressed" : null, Busy ? "omni-busy" : null)"
         aria-pressed="@(Value ? "true" : "false")"
         disabled="@Disabled"
         aria-busy="@(Busy ? "true" : null)"

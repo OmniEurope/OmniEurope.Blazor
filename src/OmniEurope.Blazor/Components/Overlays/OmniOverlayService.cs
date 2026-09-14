@@ -69,6 +69,35 @@ public sealed class OmniOverlayService : IDisposable
         return completion.Task;
     }
 
+    /// <summary>
+    /// Asks a yes-or-no question in a dialog built to the package's button convention: the action
+    /// first, cancelling after it in <see cref="OmniButtonVariant.Danger"/>, both at the end of the
+    /// footer and each with its icon. True only when the action is chosen; cancelling, the close
+    /// button, Escape and the backdrop all answer false.
+    /// </summary>
+    public async Task<bool> ConfirmAsync(OmniConfirmRequest request)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        var dialog = new OmniDialogRequest(request.Title, content =>
+        {
+            content.OpenElement(0, "p");
+            content.AddAttribute(1, "class", "omni-confirm__message");
+            content.AddContent(2, request.Message);
+            content.CloseElement();
+        })
+        {
+            Footer = footer =>
+            {
+                footer.OpenComponent<OmniConfirmFooter>(0);
+                footer.AddComponentParameter(1, nameof(OmniConfirmFooter.Request), request);
+                footer.AddComponentParameter(2, nameof(OmniConfirmFooter.Service), this);
+                footer.CloseComponent();
+            }
+        };
+
+        return await OpenDialogAsync(dialog) is true;
+    }
+
     /// <summary>Closes the current dialog and hands <paramref name="result"/> to whoever awaits it.</summary>
     public void CloseDialog(object? result)
     {

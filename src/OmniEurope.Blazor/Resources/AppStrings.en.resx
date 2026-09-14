@@ -223,4 +223,5 @@
   <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} KB</value></data>
   <data name="UploadSizeBytes" xml:space="preserve"><value>{0} B</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Week view</value></data>
+  <data name="ConfirmAction" xml:space="preserve"><value>Confirm</value></data>
 </root>

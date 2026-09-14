@@ -24,10 +24,23 @@
         <OmniToggleButton Id="demo-toggle" @bind-Value="Pinned" Busy="Saving">Épingler</OmniToggleButton>
     </OmniStack>
 
+    @* Trois tailles réellement distinctes : hauteur, marge et corps de texte changent ensemble. Une
+       icône seule rend le bouton carré à sa taille ; le bouton bascule et le bouton partagé suivent. *@
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
         <OmniButton Size="OmniControlSize.Small">Petit</OmniButton>
         <OmniButton Size="OmniControlSize.Medium">Moyen</OmniButton>
         <OmniButton Size="OmniControlSize.Large">Grand</OmniButton>
+        <OmniButton Size="OmniControlSize.Small" Variant="OmniButtonVariant.Secondary" AriaLabel="Rechercher"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
+        <OmniButton Size="OmniControlSize.Medium" Variant="OmniButtonVariant.Secondary" AriaLabel="Rechercher"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
+        <OmniButton Size="OmniControlSize.Large" Variant="OmniButtonVariant.Secondary" AriaLabel="Rechercher"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
+    </OmniStack>
+
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+        <OmniToggleButton Size="OmniControlSize.Small" @bind-Value="Pinned">Épingler</OmniToggleButton>
+        <OmniToggleButton Size="OmniControlSize.Large" @bind-Value="Pinned">Épingler</OmniToggleButton>
+        <OmniToggleButton @bind-Value="Pinned" aria-label="Épingler"><OmniIcon Name="OmniIconName.Pin" /></OmniToggleButton>
+        <OmniSplitButton Size="OmniControlSize.Small" Text="Publier" OnClick="SaveAsync" />
+        <OmniSplitButton Size="OmniControlSize.Large" Text="Publier" OnClick="SaveAsync" />
     </OmniStack>
 
     @* Dans un formulaire, le type décide de ce que le bouton déclenche. *@

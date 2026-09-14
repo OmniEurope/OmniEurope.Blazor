@@ -84,3 +84,31 @@
         </OmniBody>
     </OmniLayout>
 </OmniThemeScope>
+
+@* L'élément principal défile de lui-même : la coquille garde toute la largeur, le contenu se centre
+   (ContentWidth) et la barre de défilement reste au bord droit, jamais au bord de la colonne. *@
+<OmniThemeScope Appearance="OmniAppearance.Light" Density="OmniDensity.Compact">
+    <div class="demo-shell-viewport">
+        <OmniLayout>
+            <OmniHeader>
+                <OmniHeading Level="OmniHeadingLevel.H4">Contenu centré, défilement au bord</OmniHeading>
+            </OmniHeader>
+            <OmniBody>
+                <OmniSidebar Open="true" AriaLabel="Menu de la démonstration défilante">
+                    <OmniPanelMenu Label="Sections" DisplayStyle="OmniPanelMenuDisplayStyle.Icon">
+                        <OmniPanelMenuItem Text="Journaux" Href="composants/coquille" Match="OmniNavMatch.Exact">
+                            <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+                        </OmniPanelMenuItem>
+                    </OmniPanelMenu>
+                </OmniSidebar>
+                <OmniMain Scrollable="true" ContentWidth="OmniLayoutWidth.Content" AriaLabelledBy="shell-demo-scroll-title">
+                    <OmniHeading Id="shell-demo-scroll-title" Level="OmniHeadingLevel.H5">Colonne de lecture</OmniHeading>
+                    @foreach (var paragraph in ScrollParagraphs)
+                    {
+                        <p>@paragraph</p>
+                    }
+                </OmniMain>
+            </OmniBody>
+        </OmniLayout>
+    </div>
+</OmniThemeScope>
