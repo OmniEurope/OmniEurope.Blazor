@@ -1,0 +1,126 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+<div @attributes="AdditionalAttributes" id="@Id" class="@RootClass()" @ref="_root">
+    @if (ShowToolbar)
+    {
+        <div class="omni-spreadsheet__toolbar" role="toolbar" aria-label="@Label">
+            @if (AllowAddRows)
+            {
+                <button type="button" class="omni-button omni-button--small omni-button--secondary omni-spreadsheet__add-row" aria-label="@Localize("SpreadsheetAddRowLabel")" title="@Localize("SpreadsheetAddRowLabel")" @onclick="AddRowAsync">
+                    <OmniIcon Name="OmniIconName.Add" Size="OmniControlSize.Small" />
+                    <span>@Localize("SpreadsheetAddRow")</span>
+                </button>
+            }
+            @if (AllowAddColumns)
+            {
+                <button type="button" class="omni-button omni-button--small omni-button--secondary omni-spreadsheet__add-column" aria-label="@Localize("SpreadsheetAddColumnLabel")" title="@Localize("SpreadsheetAddColumnLabel")" @onclick="AddColumnAsync">
+                    <OmniIcon Name="OmniIconName.Add" Size="OmniControlSize.Small" />
+                    <span>@Localize("SpreadsheetAddColumn")</span>
+                </button>
+            }
+        </div>
+    }
+    @if (ShowFormulaBar)
+    {
+        <div class="omni-spreadsheet__formula-bar">
+            <span class="omni-spreadsheet__address" aria-label="@Localize("SpreadsheetActiveCell")" title="@Localize("SpreadsheetActiveCell")">@ActiveAddress</span>
+            <OmniIcon Name="OmniIconName.Function" Size="OmniControlSize.Small" />
+            <input id="@FormulaBarId"
+                   type="text"
+                   class="omni-input omni-spreadsheet__formula-input"
+                   data-omni-sheet-bar
+                   autocomplete="off"
+                   spellcheck="false"
+                   readonly="@ReadOnly"
+                   aria-label="@Localize("SpreadsheetFormulaBar", ActiveAddress)"
+                   value="@FormulaBarText"
+                   @onfocus="BeginBarEdit"
+                   @oninput="OnDraftInput"
+                   @onkeydown="OnBarKeyDownAsync"
+                   @onblur="OnBarBlurAsync" />
+        </div>
+    }
+    @* One focus stop for the whole sheet: the arrow keys move the active cell, which the grid names
+       through aria-activedescendant, rather than moving the browser focus cell by cell. *@
+    <div @ref="_grid"
+         class="omni-spreadsheet__viewport"
+         role="grid"
+         tabindex="0"
+         data-omni-sheet-grid
+         data-active-column="@_column"
+         data-column-count="@Sheet.ColumnCount"
+         aria-label="@Label"
+         aria-readonly="@(ReadOnly ? "true" : null)"
+         aria-rowcount="@(Sheet.RowCount + 1)"
+         aria-colcount="@(Sheet.ColumnCount + 1)"
+         aria-activedescendant="@(HasCells ? CellId(_row, _column) : null)"
+         @onkeydown="OnGridKeyDownAsync">
+        <table class="omni-spreadsheet__table" role="presentation">
+            <colgroup>
+                <col class="omni-spreadsheet__col omni-spreadsheet__col--header" />
+                @for (var column = 0; column < Sheet.ColumnCount; column++)
+                {
+                    <col class="omni-spreadsheet__col" />
+                }
+            </colgroup>
+            <thead>
+                <tr role="row">
+                    <td class="omni-spreadsheet__corner" aria-hidden="true"></td>
+                    @for (var column = 0; column < Sheet.ColumnCount; column++)
+                    {
+                        <th scope="col" role="columnheader" class="@ColumnHeaderClass(column)">@OmniSpreadsheetData.ColumnName(column)</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @for (var row = 0; row < Sheet.RowCount; row++)
+                {
+                    var rowIndex = row;
+                    <tr role="row">
+                        <th scope="row" role="rowheader" class="@RowHeaderClass(rowIndex)">@(rowIndex + 1)</th>
+                        @for (var column = 0; column < Sheet.ColumnCount; column++)
+                        {
+                            var columnIndex = column;
+                            var value = ValueOf(rowIndex, columnIndex);
+                            <td id="@CellId(rowIndex, columnIndex)"
+                                role="gridcell"
+                                class="@CellClass(rowIndex, columnIndex, value)"
+                                aria-selected="@(IsActive(rowIndex, columnIndex) ? "true" : "false")"
+                                @onclick="() => SelectAsync(rowIndex, columnIndex)"
+                                @ondblclick="() => BeginCellEditAsync(rowIndex, columnIndex, keepInput: true)">
+                                @if (IsEditingCell(rowIndex, columnIndex))
+                                {
+                                    <input @ref="_editor"
+                                           type="text"
+                                           class="omni-spreadsheet__editor"
+                                           data-omni-sheet-editor
+                                           data-omni-sheet-mode="@(_replacing ? "replace" : "edit")"
+                                           autocomplete="off"
+                                           spellcheck="false"
+                                           aria-label="@Localize("SpreadsheetCell", ActiveAddress)"
+                                           value="@_draft"
+                                           @oninput="OnDraftInput"
+                                           @onkeydown="OnEditorKeyDownAsync"
+                                           @onkeydown:stopPropagation="true"
+                                           @onclick:stopPropagation="true"
+                                           @ondblclick:stopPropagation="true"
+                                           @onblur="OnEditorBlurAsync" />
+                                }
+                                else if (IsDraftShownIn(rowIndex, columnIndex))
+                                {
+                                    @_draft
+                                }
+                                else
+                                {
+                                    @value.ToDisplayString()
+                                }
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

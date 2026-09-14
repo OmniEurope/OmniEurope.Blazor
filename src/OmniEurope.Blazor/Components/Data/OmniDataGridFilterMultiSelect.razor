@@ -1,31 +1,56 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<div class="@Css("omni-multi-select")">
-    @if (Searchable)
-    {
-        <input id="@Id"
-               type="text"
-               class="omni-input omni-multi-select__search"
-               autocomplete="off"
-               placeholder="@Placeholder"
-               value="@_search"
-               @oninput="OnSearchInput" />
-    }
-    <ul class="omni-multi-select__list" role="listbox" aria-multiselectable="true" aria-labelledby="@Id">
-        @foreach (var candidate in Matches)
+@* The search box and the list are the same in both presentations; only their frame changes. *@
+@{
+    RenderFragment list = @<text>
+        @if (Searchable)
         {
-            var option = candidate;
-            var checkedNow = Selected.Contains(option);
-            <li class="omni-multi-select__option" role="option" aria-selected="@(checkedNow ? "true" : "false")">
-                <label class="omni-multi-select__label">
-                    <input type="checkbox"
-                           class="omni-multi-select__checkbox"
-                           checked="@checkedNow"
-                           @onchange="args => ToggleAsync(option, args.Value is true)" />
-                    <span>@Highlighted(option)</span>
-                </label>
-            </li>
+            <input id="@Id"
+                   type="text"
+                   class="omni-input omni-multi-select__search"
+                   autocomplete="off"
+                   placeholder="@Placeholder"
+                   value="@_search"
+                   @oninput="OnSearchInput" />
         }
-    </ul>
-</div>
+        <ul class="omni-multi-select__list" role="listbox" aria-multiselectable="true" aria-labelledby="@Id">
+            @foreach (var candidate in Matches)
+            {
+                var option = candidate;
+                var checkedNow = Selected.Contains(option);
+                <li class="omni-multi-select__option" role="option" aria-selected="@(checkedNow ? "true" : "false")">
+                    <label class="omni-multi-select__label">
+                        <input type="checkbox"
+                               class="omni-multi-select__checkbox"
+                               checked="@checkedNow"
+                               @onchange="args => ToggleAsync(option, args.Value is true)" />
+                        <span>@Highlighted(option)</span>
+                    </label>
+                </li>
+            }
+        </ul>
+    </text>;
+}
+
+@if (Presentation == OmniMultiSelectPresentation.Compact)
+{
+    @* Folded on one line: the summary reads the ticked values and the list opens on demand over the
+       rows. Outside click, Escape and placement past the grid's scroll box are the behaviour the
+       grid gives every [data-omni-popover]. *@
+    <details class="@Css("omni-data-grid__popover", "omni-data-grid__multi")" data-omni-popover>
+        <summary id="@(Searchable ? null : Id)" class="omni-input omni-data-grid__multi-summary" aria-haspopup="listbox">
+            <span class="@SummaryClass">@SummaryText</span>
+            <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
+        </summary>
+        <div class="omni-data-grid__popover-panel omni-data-grid__multi-panel">
+            @list
+        </div>
+    </details>
+}
+else
+{
+    <div class="@Css("omni-multi-select")">
+        @list
+    </div>
+}

@@ -1,0 +1,29 @@
+<OmniSpreadsheet Id="sheet"
+                 @bind-Value="Data"
+                 ReadOnly="@ReadOnly"
+                 ShowFormulaBar="@ShowFormulaBar"
+                 ShowGridLines="@ShowGridLines"
+                 AllowAddRows="@AllowAddRows"
+                 AllowAddColumns="@AllowAddColumns"
+                 ActiveCellChanged="OnActiveCellChanged" />
+
+@code {
+    [Parameter] public OmniSpreadsheetData Data { get; set; } = OmniSpreadsheetData.FromRows(
+    [
+        ["Poste", "Janvier", "Février"],
+        ["Loyer", "800", "800"],
+        ["Courses", "320,5", "298"],
+        ["Total", "=SUM(B2:B3)", "=SOMME(C2:C3)"]
+    ]);
+
+    [Parameter] public bool ReadOnly { get; set; }
+    [Parameter] public bool ShowFormulaBar { get; set; } = true;
+    [Parameter] public bool ShowGridLines { get; set; } = true;
+    [Parameter] public bool AllowAddRows { get; set; } = true;
+    [Parameter] public bool AllowAddColumns { get; set; } = true;
+
+    public List<string> ActiveCells { get; } = [];
+
+    private void OnActiveCellChanged(string address) => ActiveCells.Add(address);
+
+}
