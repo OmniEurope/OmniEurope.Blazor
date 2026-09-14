@@ -326,13 +326,14 @@
 .omni-alert__content > :first-child { margin-block-start: 0; }
 .omni-alert__content > :last-child { margin-block-end: 0; }
 
-.omni-alert--info { --omni-alert-color: var(--omni-color-accent); }
-.omni-alert--success { --omni-alert-color: var(--omni-color-success); }
-.omni-alert--warning { --omni-alert-color: var(--omni-color-warning); }
-.omni-alert--danger { --omni-alert-color: var(--omni-color-danger); }
+.omni-alert--info { --omni-alert-color: var(--omni-color-accent); --omni-alert-on: var(--omni-color-on-accent); }
+.omni-alert--success { --omni-alert-color: var(--omni-color-success); --omni-alert-on: var(--omni-color-on-success); }
+.omni-alert--warning { --omni-alert-color: var(--omni-color-warning); --omni-alert-on: var(--omni-color-on-warning); }
+.omni-alert--danger { --omni-alert-color: var(--omni-color-danger); --omni-alert-on: var(--omni-color-on-danger); }
 .omni-alert--outline { background: color-mix(in srgb, var(--omni-alert-color) 9%, var(--omni-color-surface)); color: var(--omni-color-text); }
-/* Plein : texte blanc sur l'encre assombrie, lisible même sur une sévérité claire. */
-.omni-alert--filled { background: color-mix(in srgb, var(--omni-alert-color) 65%, #000000); border-color: transparent; box-shadow: var(--omni-shadow-sm); color: var(--omni-color-on-accent); }
+/* Plein : la couleur de sévérité telle que le thème l'a réglée, et le texte que le thème a choisi pour ce
+   fond ; un thème peut vouloir un texte sombre sur une sévérité claire et clair sur une autre. */
+.omni-alert--filled { background: var(--omni-alert-color); border-color: transparent; box-shadow: var(--omni-shadow-sm); color: var(--omni-alert-on); }
 .omni-alert--filled .omni-alert__icon,
 .omni-alert--filled .omni-alert__title { color: inherit; }
 .omni-alert--filled a { color: inherit; }
