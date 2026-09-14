@@ -57,7 +57,9 @@ Mesure du surcoût des onze tracés Phosphor, publication WebAssembly identique 
 
 ## Thèmes
 
-`OmniThemePresets.All` livre dix thèmes : Ardoise, Galet, Néon, Papier, Terracotta, Rétro, Forêt, Lavande, Océan et Mono. Chacun a une moitié claire et une moitié sombre, et change la forme autant que les couleurs : arrondis, épaisseur des bordures, ombres, police, allure des boutons, des cartes et des titres.
+`OmniThemePresets.All` livre vingt thèmes : Ardoise, Galet, Néon, Papier, Terracotta, Rétro, Forêt, Lavande, Océan, Mono, Bonbon, Gravure, Affiche, Cahier, Nénuphar, Velours, Sable, Béton, Givre et Octet. Chacun a une moitié claire et une moitié sombre, et change la forme autant que les couleurs : arrondis, épaisseur des bordures, ombres, police (piles système seulement), allure des boutons, des cartes et des titres.
+
+Les couleurs de chaque moitié sont dérivées puis déplacées jusqu'aux ratios WCAG : 4,5 pour tout texte que la feuille écrit (texte courant et discret, accent fort, sévérités sur la page et sur leur teinte pâle, texte posé sur un aplat, chaque aplat ayant sa propre couleur de texte `--omni-color-on-*`), 3 pour l'accent contre la page. Une bordure teintée ne descend jamais sous la bordure dérivée, et une ombre qui doit rester visible en sombre porte un filet ou vient d'une couleur du mode : les tests de `ShowcaseThemeTests` tiennent ces lignes pour les quarante moitiés.
 
 ```razor
 <OmniThemeScope Appearance="OmniAppearance.System" Preset="@OmniThemePresets.All[0]">

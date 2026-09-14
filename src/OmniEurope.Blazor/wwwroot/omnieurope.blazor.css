@@ -53,6 +53,7 @@
     --omni-color-on-accent: #ffffff;
     --omni-color-on-danger: #ffffff;
     --omni-color-on-success: #ffffff;
+    --omni-color-on-warning: #ffffff;
     --omni-color-on-inverse: #ffffff;
     --omni-color-inverse-surface: #111827;
     --omni-color-text-muted: #5c667a;
@@ -196,10 +197,14 @@
 .omni-button--primary { background: var(--omni-color-accent); color: var(--omni-color-on-accent); }
 .omni-button--primary:hover:not(:disabled) { background: var(--omni-color-accent-strong); }
 .omni-button--secondary { background: var(--omni-color-surface); border-color: var(--omni-color-border); color: var(--omni-color-text); }
-.omni-button--ghost { background: transparent; color: var(--omni-color-accent); }
-.omni-button--success { background: var(--omni-color-success); color: var(--omni-color-on-accent); }
-.omni-button--warning { background: var(--omni-color-warning); color: var(--omni-color-on-accent); }
-.omni-button--danger { background: var(--omni-color-danger); color: var(--omni-color-on-accent); }
+/* Ghost stays chromeless whatever the theme draws around buttons, or it would read as a second
+   secondary; its text is the strong accent, like every other accent text. */
+.omni-button--ghost { --omni-button-shadow: 0 0 #0000; background: transparent; border-color: transparent; color: var(--omni-color-accent-strong); }
+/* Each fill carries the text colour picked for it: a theme may need dark text on one severity and
+   light text on another. */
+.omni-button--success { background: var(--omni-color-success); color: var(--omni-color-on-success); }
+.omni-button--warning { background: var(--omni-color-warning); color: var(--omni-color-on-warning); }
+.omni-button--danger { background: var(--omni-color-danger); color: var(--omni-color-on-danger); }
 
 /* The button wraps everything a consumer passes in this single element, so the gap declared on
    .omni-button never separated an icon from its label: it applied between the button and its one
@@ -316,14 +321,15 @@
 .omni-alert__dismiss:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
 .omni-alert__dismiss:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
 
-.omni-alert--info { --omni-alert-color: var(--omni-color-accent-strong); }
-.omni-alert--success { --omni-alert-color: var(--omni-color-success); }
-.omni-alert--warning { --omni-alert-color: var(--omni-color-warning); }
-.omni-alert--danger { --omni-alert-color: var(--omni-color-danger); }
+.omni-alert--info { --omni-alert-color: var(--omni-color-accent-strong); --omni-alert-on: var(--omni-color-on-accent); }
+.omni-alert--success { --omni-alert-color: var(--omni-color-success); --omni-alert-on: var(--omni-color-on-success); }
+.omni-alert--warning { --omni-alert-color: var(--omni-color-warning); --omni-alert-on: var(--omni-color-on-warning); }
+.omni-alert--danger { --omni-alert-color: var(--omni-color-danger); --omni-alert-on: var(--omni-color-on-danger); }
 .omni-alert--outline { color: var(--omni-alert-color); }
-/* Le texte est forcé en blanc plutôt qu'hérité : sur un fond plein de sévérité, la couleur de
-   texte du thème n'a plus le contraste nécessaire dans les deux apparences. */
-.omni-alert--filled { background: var(--omni-alert-color); border-color: transparent; color: var(--omni-color-on-accent); }
+/* Le texte prend la couleur choisie pour ce fond plutôt que celle du texte du thème : sur un fond
+   plein de sévérité, cette dernière n'a plus le contraste nécessaire dans les deux apparences, et un
+   thème peut demander un texte sombre sur une sévérité et clair sur une autre. */
+.omni-alert--filled { background: var(--omni-alert-color); border-color: transparent; color: var(--omni-alert-on); }
 .omni-alert--filled a { color: inherit; }
 .omni-alert__title { display: block; }
 
@@ -1156,7 +1162,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 @keyframes omni-notification-drain { from { transform: scaleX(1); } to { transform: scaleX(0); } }
 @media (prefers-reduced-motion: reduce) { .omni-notification--tinted::before { animation: none; } }
 .omni-tooltip { display: inline-block; position: relative; }
-.omni-tooltip__content { background: var(--omni-color-inverse-surface); border-radius: var(--omni-radius); color: var(--omni-color-on-accent); inset-block-end: calc(100% + var(--omni-space-xs)); inset-inline-start: 50%; max-width: 18rem; opacity: 0; padding: var(--omni-space-xs) var(--omni-space-sm); pointer-events: none; position: absolute; transform: translateX(-50%); transition: opacity 120ms ease; visibility: hidden; white-space: normal; width: max-content; overflow-wrap: anywhere; z-index: 40; }
+.omni-tooltip__content { background: var(--omni-color-inverse-surface); border-radius: var(--omni-radius); color: var(--omni-color-on-inverse); inset-block-end: calc(100% + var(--omni-space-xs)); inset-inline-start: 50%; max-width: 18rem; opacity: 0; padding: var(--omni-space-xs) var(--omni-space-sm); pointer-events: none; position: absolute; transform: translateX(-50%); transition: opacity 120ms ease; visibility: hidden; white-space: normal; width: max-content; overflow-wrap: anywhere; z-index: 40; }
 /* Placed on the pointer by omni-tooltip.js, which also keeps it inside the viewport. Fixed rather
    than absolute so a tooltip raised from inside a scrolling grid is not clipped by it. The class
    only appears once that script is running, so without it the anchored position above stays. */
