@@ -4,7 +4,16 @@
     {
         var point = Data[index];
         var projected = Projected(index);
-        <g><text x="@OmniChartGeometry.Number(projected.X)" y="@OmniChartGeometry.Number(projected.Y - 3)" text-anchor="middle">@(point.Label ?? Formatter?.Invoke(point.Y) ?? OmniChartGeometry.Number(point.Y))</text></g>
+        var text = point.Label ?? Formatter?.Invoke(point.Y) ?? OmniChartGeometry.Number(point.Y);
+        @* Above the point, or past the end of a horizontal bar. *@
+        if (ChartContext?.Horizontal == true)
+        {
+            <g><text x="@OmniChartGeometry.Number(projected.X + 1.5)" y="@OmniChartGeometry.Number(projected.Y)" dominant-baseline="central">@text</text></g>
+        }
+        else
+        {
+            <g><text x="@OmniChartGeometry.Number(projected.X)" y="@OmniChartGeometry.Number(projected.Y - 3)" text-anchor="middle">@text</text></g>
+        }
     }
 </g>
 

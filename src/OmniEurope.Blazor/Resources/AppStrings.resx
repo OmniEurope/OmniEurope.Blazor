@@ -223,4 +223,21 @@
   <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} Ko</value></data>
   <data name="UploadSizeBytes" xml:space="preserve"><value>{0} o</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Vue hebdomadaire</value></data>
+  <data name="GanttEmpty" xml:space="preserve"><value>Aucune tâche à afficher.</value></data>
+  <data name="GanttLabel" xml:space="preserve"><value>Diagramme de Gantt</value></data>
+  <data name="GanttScale" xml:space="preserve"><value>Échelle de temps</value></data>
+  <data name="GanttScaleDay" xml:space="preserve"><value>Jour</value></data>
+  <data name="GanttScaleMonth" xml:space="preserve"><value>Mois</value></data>
+  <data name="GanttScaleWeek" xml:space="preserve"><value>Semaine</value></data>
+  <data name="GanttTaskAfter" xml:space="preserve"><value>après {0}</value></data>
+  <data name="GanttTaskColumn" xml:space="preserve"><value>Tâche</value></data>
+  <data name="GanttTaskDescription" xml:space="preserve"><value>{0}, du {1} au {2}, {3} fait</value></data>
+  <data name="StepTimelineLabel" xml:space="preserve"><value>Déroulement</value></data>
+  <data name="StepTimelineNeverStarted" xml:space="preserve"><value>Jamais démarrées :</value></data>
+  <data name="StepTimelineStatusCancelled" xml:space="preserve"><value>annulée</value></data>
+  <data name="StepTimelineStatusFailed" xml:space="preserve"><value>en échec</value></data>
+  <data name="StepTimelineStatusRunning" xml:space="preserve"><value>en cours</value></data>
+  <data name="StepTimelineStatusSkipped" xml:space="preserve"><value>ignorée</value></data>
+  <data name="StepTimelineStatusSuccess" xml:space="preserve"><value>réussie</value></data>
+  <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, démarrée à {1}, durée</value></data>
 </root>
