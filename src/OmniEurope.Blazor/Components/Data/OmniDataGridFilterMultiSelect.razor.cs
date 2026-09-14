@@ -31,6 +31,29 @@ public partial class OmniDataGridFilterMultiSelect
     [Parameter]
     public int MaxSuggestions { get; set; } = 200;
 
+    /// <summary>
+    /// <see cref="OmniMultiSelectPresentation.Compact"/>, the default, folds the list behind a
+    /// one-line summary so a header filter row keeps the height of one control;
+    /// <see cref="OmniMultiSelectPresentation.List"/> shows it open, for a place that is already
+    /// on demand such as a filter popover.
+    /// </summary>
+    [Parameter]
+    public OmniMultiSelectPresentation Presentation { get; set; } = OmniMultiSelectPresentation.Compact;
+
+    /// <summary>The ticked values joined, or the placeholder while none is.</summary>
+    private string SummaryText
+    {
+        get
+        {
+            var selected = OmniDataGridFilterValues.Split(Value);
+            return selected.Count == 0 ? Placeholder ?? string.Empty : string.Join(", ", selected);
+        }
+    }
+
+    private string SummaryClass => string.IsNullOrEmpty(Value)
+        ? "omni-data-grid__multi-text omni-data-grid__multi-text--empty"
+        : "omni-data-grid__multi-text";
+
     private HashSet<string> Selected => [.. OmniDataGridFilterValues.Split(Value)];
 
     private IReadOnlyList<string> Matches => (string.IsNullOrEmpty(_search)

@@ -194,6 +194,11 @@
   <data name="DemoTreeCapability1" xml:space="preserve"><value>Sélection multiple et navigation au clavier.</value></data>
   <data name="DemoTreeCapability2" xml:space="preserve"><value>Branche chargée à la demande, à l'ouverture du nœud.</value></data>
   <data name="DemoTreeCapability3" xml:space="preserve"><value>Nœuds désactivables sans casser le parcours.</value></data>
+  <data name="DemoSpreadsheetTitle" xml:space="preserve"><value>Tableur</value></data>
+  <data name="DemoSpreadsheetSummary" xml:space="preserve"><value>Une feuille de calcul simple : cellules, formules et barre de formule.</value></data>
+  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Formules avec références, plages, SOMME, MOYENNE, MIN, MAX et codes d'erreur.</value></data>
+  <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Navigation au clavier, saisie en place et barre de formule.</value></data>
+  <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Contenu lié dans les deux sens et sérialisable en JSON.</value></data>
   <data name="DemoSchedulerTitle" xml:space="preserve"><value>Agenda</value></data>
   <data name="DemoSchedulerSummary" xml:space="preserve"><value>Le calendrier et ses trois vues.</value></data>
   <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Vues jour, semaine et mois, commutables.</value></data>

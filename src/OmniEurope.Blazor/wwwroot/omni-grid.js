@@ -145,15 +145,13 @@ export function applyRowHeight(viewport, height) {
  * Applies the CSS length of every column and the sticky offset of the frozen ones. Widths land on
  * the matching <col> element and offsets on each cell, again through custom properties only.
  */
-export function applyColumns(viewport, columns) {
+export function applyColumns(viewport, columns, tableMinimum) {
     if (!(viewport instanceof HTMLElement) || !Array.isArray(columns)) {
         return;
     }
 
-    let frozenOffset = 0;
     for (const column of columns) {
-        const selector = `[data-omni-col="${CSS.escape(column.key)}"]`;
-        const col = viewport.querySelector(`col${selector}`);
+        const col = viewport.querySelector(`col[data-omni-col="${CSS.escape(column.key)}"]`);
         if (col) {
             if (column.width) {
                 col.style.setProperty('--omni-col-width', column.width);
@@ -167,20 +165,51 @@ export function applyColumns(viewport, columns) {
                 col.style.removeProperty('--omni-col-min');
             }
         }
+    }
 
-        const cells = viewport.querySelectorAll(`th${selector}, td${selector}`);
-        for (const cell of cells) {
-            if (column.frozen) {
-                cell.style.setProperty('--omni-col-offset', `${frozenOffset}px`);
-            } else {
-                cell.style.removeProperty('--omni-col-offset');
-            }
+    // The narrowest the table may get: below it the viewport scrolls sideways rather than squeezing
+    // the columns without a width down to nothing.
+    if (typeof tableMinimum === 'string' && tableMinimum.length > 0) {
+        viewport.style.setProperty('--omni-grid-table-min', tableMinimum);
+    } else {
+        viewport.style.removeProperty('--omni-grid-table-min');
+    }
+
+    applyFrozen(viewport);
+}
+
+/**
+ * Sticky offset of every frozen cell: the width of the frozen header cells before it, the grid's
+ * own control columns included. Measured from the header row and applied to every row, so it is
+ * re-run after each render: a new page, a sort or a filter brings new cells the previous offsets
+ * never reached.
+ */
+export function applyFrozen(viewport) {
+    if (!(viewport instanceof HTMLElement)) {
+        return;
+    }
+
+    const header = viewport.querySelector('thead > tr.omni-data-grid__header-row');
+    if (!header) {
+        return;
+    }
+
+    let offset = 0;
+    for (const cell of header.children) {
+        if (!cell.classList.contains('omni-data-grid__column--frozen')) {
+            continue;
         }
 
-        if (column.frozen) {
-            const header = viewport.querySelector(`th${selector}`);
-            frozenOffset += header ? header.getBoundingClientRect().width : 0;
+        const key = cell.getAttribute('data-omni-col');
+        const control = cell.getAttribute('data-omni-control');
+        const selector = key !== null
+            ? `[data-omni-col="${CSS.escape(key)}"].omni-data-grid__column--frozen`
+            : `[data-omni-control="${CSS.escape(control ?? '')}"].omni-data-grid__column--frozen`;
+        for (const target of viewport.querySelectorAll(selector)) {
+            target.style.setProperty('--omni-col-offset', `${offset}px`);
         }
+
+        offset += cell.getBoundingClientRect().width;
     }
 }
 
@@ -377,11 +406,53 @@ export function detachResize(viewport) {
 
 const menuAttachments = new Map();
 
+const popoverSelector = 'details[data-omni-popover]';
+
 /**
- * Dismissal behaviour of the per-column filter popovers. A <details> element only closes on its own
- * summary, so a click anywhere else, or the Escape key, is handled here; with hideOnSelect the menu
- * also closes as soon as a value is picked. All of it stays in the browser: opening and closing a
- * popover is not state .NET needs to hear about.
+ * Places a popover panel under its trigger. The panel is position: fixed, so the viewport that
+ * scrolls the table cannot clip it; it is kept inside the window and flips above the trigger when
+ * there is no room below. Custom properties only, never the style attribute.
+ */
+function placePopover(popover) {
+    const trigger = popover.querySelector(':scope > summary');
+    const panel = popover.querySelector(':scope > .omni-data-grid__popover-panel');
+    if (!trigger || !panel) {
+        return;
+    }
+
+    const anchor = trigger.getBoundingClientRect();
+    popover.style.setProperty('--omni-popover-min', `${Math.round(anchor.width)}px`);
+    const width = panel.offsetWidth;
+    const height = panel.offsetHeight;
+    const margin = 8;
+    const left = Math.max(margin, Math.min(anchor.left, window.innerWidth - width - margin));
+    const below = anchor.bottom + 4;
+    const top = below + height > window.innerHeight - margin && anchor.top - height - 4 > margin
+        ? anchor.top - height - 4
+        : below;
+    popover.style.setProperty('--omni-popover-x', `${Math.round(left)}px`);
+    popover.style.setProperty('--omni-popover-y', `${Math.round(top)}px`);
+}
+
+/** Places the suggestion list of a text filter under its input, for the same reason. */
+function placeCombo(combo) {
+    const input = combo.querySelector('.omni-combo__input');
+    if (!input) {
+        return;
+    }
+
+    const anchor = input.getBoundingClientRect();
+    combo.style.setProperty('--omni-anchor-x', `${Math.round(anchor.left)}px`);
+    combo.style.setProperty('--omni-anchor-y', `${Math.round(anchor.bottom + 2)}px`);
+    combo.style.setProperty('--omni-anchor-w', `${Math.round(anchor.width)}px`);
+}
+
+/**
+ * Behaviour of the grid's popovers: header filter menus, advanced filter panels and folded
+ * checkable lists, all <details data-omni-popover>. A <details> only closes on its own summary, so a
+ * click anywhere else or the Escape key is handled here, one popover open at a time; with
+ * hideOnSelect a header menu also closes as soon as a value is picked. Opening and closing is not
+ * state .NET needs to hear about, so all of it stays in the browser.
  */
 export function attachFilterMenus(viewport, hideOnSelect) {
     if (!(viewport instanceof HTMLElement)) {
@@ -390,22 +461,51 @@ export function attachFilterMenus(viewport, hideOnSelect) {
 
     detachFilterMenus(viewport);
 
-    const close = except => {
-        for (const menu of viewport.querySelectorAll('details.omni-data-grid__filter-menu[open]')) {
-            if (menu !== except) {
-                menu.open = false;
+    // A popover nested in another (a checkable list inside a menu) keeps its parent open.
+    const close = keep => {
+        for (const popover of viewport.querySelectorAll(`${popoverSelector}[open]`)) {
+            if (!keep || !popover.contains(keep)) {
+                popover.open = false;
             }
         }
     };
 
     const onDocumentPointerDown = event => {
         const target = event.target instanceof Element ? event.target : null;
-        close(target?.closest('details.omni-data-grid__filter-menu') ?? null);
+        close(target?.closest(popoverSelector) ? target : null);
     };
 
     const onKeyDown = event => {
-        if (event.key === 'Escape') {
+        if (event.key === 'Escape' && viewport.querySelector(`${popoverSelector}[open]`)) {
             close(null);
+        }
+    };
+
+    // toggle does not bubble: listened to in the capture phase, for every popover present or future.
+    const onToggle = event => {
+        const popover = event.target;
+        if (popover instanceof HTMLDetailsElement && popover.matches(popoverSelector) && popover.open) {
+            close(popover);
+            placePopover(popover);
+        }
+    };
+
+    const onFocusIn = event => {
+        const combo = event.target instanceof Element ? event.target.closest('.omni-combo') : null;
+        if (combo && viewport.contains(combo)) {
+            placeCombo(combo);
+        }
+    };
+
+    // The trigger moves with any scroll, the page's or the grid's own: the open panels follow it.
+    const onMove = () => {
+        for (const popover of viewport.querySelectorAll(`${popoverSelector}[open]`)) {
+            placePopover(popover);
+        }
+
+        const combo = document.activeElement instanceof Element ? document.activeElement.closest('.omni-combo') : null;
+        if (combo && viewport.contains(combo)) {
+            placeCombo(combo);
         }
     };
 
@@ -413,19 +513,36 @@ export function attachFilterMenus(viewport, hideOnSelect) {
     // that disappears on selection, so its own pick is reported from .NET through closeFilterMenus.
     const onPicked = event => {
         const target = event.target instanceof Element ? event.target : null;
-        // A checkable list is meant to take several ticks, so it never closes the menu by itself.
-        if (target?.closest('.omni-multi-select')) {
+        // A checkable list takes several ticks, and an advanced filter waits for its apply button.
+        if (!target || target.closest('.omni-multi-select, .omni-data-grid__multi') || target.closest('.omni-data-grid__filter-editor')?.querySelector('.omni-data-grid__filter-apply')) {
             return;
         }
 
-        const menu = target?.closest('details.omni-data-grid__filter-menu');
+        const menu = target.closest('details.omni-data-grid__filter-menu');
         if (menu) {
             menu.open = false;
         }
     };
 
+    // Applying or clearing from a panel is the end of the task the panel was opened for.
+    const onClick = event => {
+        const target = event.target instanceof Element ? event.target : null;
+        const action = target?.closest('.omni-data-grid__filter-apply, .omni-data-grid__filter-clear');
+        const popover = action?.closest(popoverSelector);
+        if (popover) {
+            popover.open = false;
+        }
+    };
+
     document.addEventListener('pointerdown', onDocumentPointerDown, true);
     document.addEventListener('keydown', onKeyDown, true);
+    viewport.addEventListener('toggle', onToggle, true);
+    viewport.addEventListener('focusin', onFocusIn);
+    // Typing also opens the list: placed again on input, whatever the focus events did.
+    viewport.addEventListener('input', onFocusIn);
+    viewport.addEventListener('click', onClick);
+    window.addEventListener('scroll', onMove, true);
+    window.addEventListener('resize', onMove);
     if (hideOnSelect) {
         viewport.addEventListener('change', onPicked);
     }
@@ -434,6 +551,12 @@ export function attachFilterMenus(viewport, hideOnSelect) {
         dispose: () => {
             document.removeEventListener('pointerdown', onDocumentPointerDown, true);
             document.removeEventListener('keydown', onKeyDown, true);
+            viewport.removeEventListener('toggle', onToggle, true);
+            viewport.removeEventListener('focusin', onFocusIn);
+            viewport.removeEventListener('input', onFocusIn);
+            viewport.removeEventListener('click', onClick);
+            window.removeEventListener('scroll', onMove, true);
+            window.removeEventListener('resize', onMove);
             viewport.removeEventListener('change', onPicked);
         }
     });
@@ -445,8 +568,8 @@ export function closeFilterMenus(viewport) {
         return;
     }
 
-    for (const menu of viewport.querySelectorAll('details.omni-data-grid__filter-menu[open]')) {
-        menu.open = false;
+    for (const popover of viewport.querySelectorAll(`${popoverSelector}[open]`)) {
+        popover.open = false;
     }
 }
 

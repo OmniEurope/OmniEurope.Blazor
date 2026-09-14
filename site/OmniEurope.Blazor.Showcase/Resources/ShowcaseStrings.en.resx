@@ -194,6 +194,11 @@
   <data name="DemoTreeCapability1" xml:space="preserve"><value>Multiple selection and keyboard navigation.</value></data>
   <data name="DemoTreeCapability2" xml:space="preserve"><value>A branch fetched on demand, when the node opens.</value></data>
   <data name="DemoTreeCapability3" xml:space="preserve"><value>Nodes can be disabled without breaking traversal.</value></data>
+  <data name="DemoSpreadsheetTitle" xml:space="preserve"><value>Spreadsheet</value></data>
+  <data name="DemoSpreadsheetSummary" xml:space="preserve"><value>A basic spreadsheet: cells, formulas and a formula bar.</value></data>
+  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Formulas with references, ranges, SUM, AVERAGE, MIN, MAX and error codes.</value></data>
+  <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Keyboard navigation, in-place editing and a formula bar.</value></data>
+  <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Content bound both ways and serialisable to JSON.</value></data>
   <data name="DemoSchedulerTitle" xml:space="preserve"><value>Scheduler</value></data>
   <data name="DemoSchedulerSummary" xml:space="preserve"><value>The calendar and its three views.</value></data>
   <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Day, week and month views, switchable.</value></data>
