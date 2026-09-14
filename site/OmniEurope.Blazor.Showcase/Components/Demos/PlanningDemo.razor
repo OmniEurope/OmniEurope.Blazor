@@ -1,0 +1,28 @@
+<OmniStack Gap="OmniSpacing.Large">
+    @* Le Gantt tient son échelle lui-même ; la vitrine la lie pour montrer les trois zooms. *@
+    <OmniGantt Tasks="Tasks"
+               @bind-Scale="Scale"
+               Today="Today"
+               SelectedTaskId="@SelectedTaskId"
+               TaskClicked="@(task => SelectedTaskId = task.Id)"
+               Label="Planning du projet" />
+    <OmniText Tone="OmniTextTone.Muted">Échelle affichée : @ScaleName</OmniText>
+
+    <OmniHeading Level="OmniHeadingLevel.H4">Le même planning, au mois et sans groupes</OmniHeading>
+    <OmniGantt Tasks="Tasks" Scale="OmniGanttScale.Month" ShowGroups="false" ShowScalePicker="false" Today="Today" Label="Planning mensuel" />
+    <OmniGantt Tasks="Tasks" Scale="OmniGanttScale.Day" ShowDependencies="false" ShowToday="false" ShowScalePicker="false" Label="Planning au jour" />
+
+    <OmniHeading Level="OmniHeadingLevel.H4">Déroulement d'une exécution</OmniHeading>
+    <OmniStepTimeline Steps="Steps" Now="RunNow" Label="Exécution 42" />
+
+    <OmniHeading Level="OmniHeadingLevel.H4">Frise, à gauche puis en alterné</OmniHeading>
+    <OmniTimeline Label="Frise à gauche" Layout="OmniTimelineLayout.Start">
+        <OmniTimelineItem Title="Dépôt" DateText="2 mars">Le dossier a été enregistré.</OmniTimelineItem>
+        <OmniTimelineItem Title="Décision" DateText="24 mars">La décision a été notifiée.</OmniTimelineItem>
+    </OmniTimeline>
+    <OmniTimeline Label="Frise alternée" Layout="OmniTimelineLayout.Alternate" FirstSide="OmniTimelineSide.Start">
+        <OmniTimelineItem Title="Dépôt" DateText="2 mars">Le dossier a été enregistré.</OmniTimelineItem>
+        <OmniTimelineItem Title="Instruction" DateText="9 mars">Un agent a été désigné.</OmniTimelineItem>
+        <OmniTimelineItem Title="Décision" DateText="24 mars">La décision a été notifiée.</OmniTimelineItem>
+    </OmniTimeline>
+</OmniStack>
