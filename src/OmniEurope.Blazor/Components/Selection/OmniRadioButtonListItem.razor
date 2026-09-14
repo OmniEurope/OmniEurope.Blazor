@@ -2,8 +2,9 @@
 @typeparam TValue
 @inherits OmniComponentBase
 
-<label @attributes="AdditionalAttributes" class="@Css("omni-choice-list__item")">
+<label @attributes="AdditionalAttributes" class="@Css("omni-choice-list__item", Disabled ? "omni-choice-list__item--disabled" : null)">
     <input type="radio"
+           class="omni-radio"
            name="@Name"
            checked="@Selected"
            disabled="@Disabled"

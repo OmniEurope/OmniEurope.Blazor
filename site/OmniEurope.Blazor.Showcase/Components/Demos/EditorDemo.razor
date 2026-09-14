@@ -16,10 +16,11 @@
                         CustomTools="Tools" />
 
         <OmniUpload Multiple="true"
-                    MaximumFiles="3"
+                    MaximumFiles="5"
                     MaximumFileSize="1048576"
                     AllowedContentTypes="Accepted"
                     InputId="editor-attachments"
+                    @bind-Files="Attachments"
                     Upload="UploadAsync"
                     Validate="ValidateAsync"
                     UploadErrorMessage="Le dépôt a échoué." />

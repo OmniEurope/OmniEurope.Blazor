@@ -222,5 +222,13 @@
   <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0:0.##} MB</value></data>
   <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} KB</value></data>
   <data name="UploadSizeBytes" xml:space="preserve"><value>{0} B</value></data>
+  <data name="UploadDropOne" xml:space="preserve"><value>Drop a file here or</value></data>
+  <data name="UploadDropMany" xml:space="preserve"><value>Drop files here or</value></data>
+  <data name="UploadBrowse" xml:space="preserve"><value>browse</value></data>
+  <data name="UploadHintMaximumSize" xml:space="preserve"><value>Up to {0} per file</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Up to {0} files</value></data>
+  <data name="UploadAttachedFiles" xml:space="preserve"><value>Attached files</value></data>
+  <data name="UploadRemove" xml:space="preserve"><value>Remove {0}</value></data>
+  <data name="UploadRemoved" xml:space="preserve"><value>{0} removed from the list.</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Week view</value></data>
 </root>
