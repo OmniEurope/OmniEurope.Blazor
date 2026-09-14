@@ -33,14 +33,6 @@
     padding-block: var(--omni-space-md);
 }
 
-.showcase-presets__origin {
-    color: var(--omni-color-text-muted);
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--omni-space-xs);
-    font-size: var(--omni-font-size-sm);
-}
-
 .showcase-code {
     background: var(--omni-color-surface-muted);
     border: var(--omni-border-width) solid var(--omni-color-border);

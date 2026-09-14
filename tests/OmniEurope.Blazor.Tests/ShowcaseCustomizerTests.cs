@@ -1,3 +1,4 @@
+using OmniEurope.Blazor.Components;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using OmniEurope.Blazor.Showcase.Components.Pages;
@@ -36,7 +37,7 @@ public sealed class ShowcaseCustomizerTests : OmniBunitContext
     {
         var page = Render<Customizer>();
 
-        foreach (var preset in ThemePresets.All)
+        foreach (var preset in OmniThemePresets.All)
         {
             Assert.Contains(preset.Name, page.Markup, StringComparison.Ordinal);
         }

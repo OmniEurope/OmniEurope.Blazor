@@ -222,9 +222,9 @@
     {
       "type": "library",
       "name": "Microsoft.AspNetCore.App.Internal.Assets",
-      "version": "10.0.11",
-      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.App.Internal.Assets@10.0.11",
-      "purl": "pkg:nuget/Microsoft.AspNetCore.App.Internal.Assets@10.0.11",
+      "version": "10.0.12",
+      "bom-ref": "pkg:nuget/Microsoft.AspNetCore.App.Internal.Assets@10.0.12",
+      "purl": "pkg:nuget/Microsoft.AspNetCore.App.Internal.Assets@10.0.12",
       "licenses": [
         {
           "expression": "MIT"
@@ -552,9 +552,9 @@
     {
       "type": "library",
       "name": "Microsoft.CodeAnalysis.Analyzers",
-      "version": "5.3.0",
-      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Analyzers@5.3.0",
-      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Analyzers@5.3.0",
+      "version": "5.9.0-1.26328.17",
+      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Analyzers@5.9.0-1.26328.17",
+      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Analyzers@5.9.0-1.26328.17",
       "licenses": [
         {
           "expression": "MIT"
@@ -574,9 +574,9 @@
     {
       "type": "library",
       "name": "Microsoft.CodeAnalysis.Common",
-      "version": "5.6.0",
-      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Common@5.6.0",
-      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Common@5.6.0",
+      "version": "5.9.0",
+      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Common@5.9.0",
+      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Common@5.9.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -596,9 +596,9 @@
     {
       "type": "library",
       "name": "Microsoft.CodeAnalysis.CSharp",
-      "version": "5.6.0",
-      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.CSharp@5.6.0",
-      "purl": "pkg:nuget/Microsoft.CodeAnalysis.CSharp@5.6.0",
+      "version": "5.9.0",
+      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.CSharp@5.9.0",
+      "purl": "pkg:nuget/Microsoft.CodeAnalysis.CSharp@5.9.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1479,9 +1479,9 @@
     {
       "type": "library",
       "name": "Microsoft.NET.ILLink.Tasks",
-      "version": "10.0.11",
-      "bom-ref": "pkg:nuget/Microsoft.NET.ILLink.Tasks@10.0.11",
-      "purl": "pkg:nuget/Microsoft.NET.ILLink.Tasks@10.0.11",
+      "version": "10.0.12",
+      "bom-ref": "pkg:nuget/Microsoft.NET.ILLink.Tasks@10.0.12",
+      "purl": "pkg:nuget/Microsoft.NET.ILLink.Tasks@10.0.12",
       "licenses": [
         {
           "expression": "MIT"
@@ -1501,9 +1501,9 @@
     {
       "type": "library",
       "name": "Microsoft.NET.Sdk.WebAssembly.Pack",
-      "version": "10.0.11",
-      "bom-ref": "pkg:nuget/Microsoft.NET.Sdk.WebAssembly.Pack@10.0.11",
-      "purl": "pkg:nuget/Microsoft.NET.Sdk.WebAssembly.Pack@10.0.11",
+      "version": "10.0.12",
+      "bom-ref": "pkg:nuget/Microsoft.NET.Sdk.WebAssembly.Pack@10.0.12",
+      "purl": "pkg:nuget/Microsoft.NET.Sdk.WebAssembly.Pack@10.0.12",
       "licenses": [
         {
           "expression": "MIT"

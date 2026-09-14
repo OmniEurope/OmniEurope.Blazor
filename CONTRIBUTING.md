@@ -4,7 +4,7 @@ Thank you for considering a contribution. This library exists to give Blazor app
 
 ## Toolchain
 
-The repository requires the .NET SDK feature band pinned in `global.json` (`10.0.300`, `rollForward: latestPatch`): any `10.0.3xx` patch works, any other band is refused. Restore with the lock files, then build and test in Release:
+The repository requires the .NET SDK feature band pinned in `global.json` (`10.0.401`, `rollForward: latestPatch`): any `10.0.4xx` patch from `10.0.401` works, any other band is refused. Restore with the lock files, then build and test in Release:
 
 ```powershell
 dotnet restore OmniEurope.Blazor.slnx --locked-mode

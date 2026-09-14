@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace OmniEurope.Blazor.Showcase.Theming;
+namespace OmniEurope.Blazor.Internal;
 
 /// <summary>
 /// The colour arithmetic the palette generator needs.
@@ -10,7 +10,7 @@ namespace OmniEurope.Blazor.Showcase.Theming;
 /// these operations, so a palette can be checked by reading the rule that produced it rather than
 /// by trusting a table of hand-picked values.
 /// </remarks>
-public static class ThemeColor
+internal static class ThemeColor
 {
     /// <summary>Parses <c>#rgb</c> or <c>#rrggbb</c> into its three channels.</summary>
     public static (int R, int G, int B) Parse(string hex)

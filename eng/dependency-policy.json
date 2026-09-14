@@ -28,7 +28,7 @@
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.Web/"
     },
     "Microsoft.CodeAnalysis.CSharp": {
-      "version": "5.6.0",
+      "version": "5.9.0",
       "status": "toolchain-bound",
       "reason": "A Roslyn analyzer cannot reference a compiler newer than the one the pinned SDK band runs (CS9057), so this tracks the SDK rather than the newest published version.",
       "source": "https://www.nuget.org/packages/Microsoft.CodeAnalysis.CSharp/"
@@ -85,7 +85,7 @@
     }
   },
   "toolchain": {
-    "sdk": "10.0.300",
+    "sdk": "10.0.401",
     "rollForward": "latestPatch"
   }
 }

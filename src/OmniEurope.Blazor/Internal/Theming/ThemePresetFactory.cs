@@ -1,69 +1,47 @@
-namespace OmniEurope.Blazor.Showcase.Theming;
+using OmniEurope.Blazor.Components;
+
+namespace OmniEurope.Blazor.Internal;
 
 /// <summary>
-/// Turns an upstream palette into the two modes the catalogue offers.
+/// Turns a theme definition into the two modes the catalogue offers.
 /// </summary>
 /// <remarks>
-/// <para>
-/// Upstream ships a single mode per palette. The other mode is derived here, by keeping the accent
-/// and the severities and rebuilding the surfaces around them. The result is this project's work,
-/// not the upstream one, which is why <see cref="ThemePreset.DerivedMode"/> records which half was
-/// derived.
-/// </para>
-/// <para>
-/// Values are then moved until they clear the WCAG ratios: 4.5 for body text and for text laid over
-/// a filled surface, 3.0 for the accent against its background. Some upstream palettes do not clear
-/// those ratios on their own, so a palette here can differ from its published colours. Legibility
-/// wins over fidelity, and the tests hold that line.
-/// </para>
+/// Colours are moved until they clear the WCAG ratios: 4.5 for body text and for text laid over a
+/// filled surface, 3.0 for the accent against its background. A definition can therefore come out a
+/// little darker or lighter than written; legibility wins, and the tests hold that line. The shape of
+/// the theme (radii, borders, shadows, fonts, buttons) is laid over both modes unchanged.
 /// </remarks>
-public static class ThemePresetFactory
+internal static class ThemePresetFactory
 {
     private const double BodyTextRatio = 4.5;
     private const double OverlaidTextRatio = 4.5;
     private const double AccentRatio = 3.0;
-    private const string DarkSurface = "#14181f";
-    private const string LightSurface = "#ffffff";
-    private const string DarkText = "#e8ecf4";
-    private const string LightText = "#172033";
 
-    /// <summary>Builds the light and dark halves of one palette.</summary>
-    public static ThemePreset Create(ThemePalette palette)
+    /// <summary>Builds the light and dark halves of one theme.</summary>
+    public static OmniThemePreset Create(ThemeDefinition theme)
     {
-        ArgumentNullException.ThrowIfNull(palette);
-        var upstream = palette.UpstreamMode;
-        var light = upstream is ThemeMode.Light
-            ? Build(palette, palette.Background, palette.Foreground, ThemeMode.Light)
-            : Build(palette, LightSurface, LightText, ThemeMode.Light);
-        var dark = upstream is ThemeMode.Dark
-            ? Build(palette, palette.Background, palette.Foreground, ThemeMode.Dark)
-            : Build(palette, DarkSurface, DarkText, ThemeMode.Dark);
-
-        return new ThemePreset(
-            palette.Name,
-            palette.Description,
-            light,
-            dark,
-            "Bootswatch, licence MIT",
-            upstream is ThemeMode.Light ? ThemeMode.Dark : ThemeMode.Light);
+        ArgumentNullException.ThrowIfNull(theme);
+        var light = Build(theme, theme.Accent, theme.LightSurface, theme.LightText, OmniAppearance.Light);
+        var dark = Build(theme, theme.DarkAccent ?? theme.Accent, theme.DarkSurface, theme.DarkText, OmniAppearance.Dark);
+        return new OmniThemePreset(theme.Name, theme.Description, light, dark);
     }
 
-    /// <summary>Every palette of the catalogue, both modes built.</summary>
-    public static IReadOnlyList<ThemePreset> CreateAll(IEnumerable<ThemePalette> palettes)
+    /// <summary>Every theme of the catalogue, both modes built.</summary>
+    public static IReadOnlyList<OmniThemePreset> CreateAll(IEnumerable<ThemeDefinition> themes)
     {
-        ArgumentNullException.ThrowIfNull(palettes);
-        return [.. palettes.Select(Create)];
+        ArgumentNullException.ThrowIfNull(themes);
+        return [.. themes.Select(Create)];
     }
 
-    private static Dictionary<string, string> Build(ThemePalette palette, string surface, string upstreamText, ThemeMode mode)
+    private static Dictionary<string, string> Build(ThemeDefinition theme, string accentColor, string surface, string authoredText, OmniAppearance mode)
     {
-        var text = PushApart(upstreamText, surface, BodyTextRatio);
-        var (accent, onAccent) = Fill(palette.Primary, surface);
-        var (success, onSuccess) = Fill(palette.Success, surface);
-        var (danger, onDanger) = Fill(palette.Danger, surface);
-        var (warning, _) = Fill(palette.Warning, surface);
-        var info = Visible(palette.Info, surface);
-        var dark = mode is ThemeMode.Dark;
+        var text = PushApart(authoredText, surface, BodyTextRatio);
+        var (accent, onAccent) = Fill(accentColor, surface);
+        var (success, onSuccess) = Fill(theme.Success, surface);
+        var (danger, onDanger) = Fill(theme.Danger, surface);
+        var (warning, _) = Fill(theme.Warning, surface);
+        var info = Visible(theme.Info, surface);
+        var dark = mode is OmniAppearance.Dark;
 
         var tokens = new Dictionary<string, string>(StringComparer.Ordinal)
         {
@@ -95,6 +73,10 @@ public static class ThemePresetFactory
             ["--omni-chart-color-4"] = danger
         };
 
+        foreach (var (name, value) in theme.Shape)
+        {
+            tokens[name] = value;
+        }
 
         return tokens;
     }

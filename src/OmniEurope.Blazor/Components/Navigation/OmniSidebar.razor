@@ -7,9 +7,10 @@
    panel is its own element rather than the aside itself. Push mode leaves both in the flow and the
    pair renders exactly as the single element used to. *@
 <aside id="@Id"
-       class="@Css("omni-sidebar", $"omni-sidebar--{Position.ToString().ToLowerInvariant()}", $"omni-sidebar--{Reveal.ToString().ToLowerInvariant()}", $"omni-sidebar--collapse-{Collapse.ToString().ToLowerInvariant()}", Open ? "omni-sidebar--open" : "omni-sidebar--closed", Header is not null ? "omni-sidebar--has-header" : null)"
+       class="@Css("omni-sidebar", $"omni-sidebar--{Position.ToString().ToLowerInvariant()}", $"omni-sidebar--{Reveal.ToString().ToLowerInvariant()}", $"omni-sidebar--collapse-{Collapse.ToString().ToLowerInvariant()}", Open ? "omni-sidebar--open" : "omni-sidebar--closed", Header is not null ? "omni-sidebar--has-header" : null, Smooth ? "omni-sidebar--smooth" : null)"
        aria-label="@EffectiveAriaLabel"
-       aria-hidden="@(Rendered ? null : "true")"
+       aria-hidden="@(Concealed ? "true" : null)"
+       inert="@Concealed"
        hidden="@(!Rendered)"
        @attributes="AdditionalAttributes">
     @* The veil belongs to the sidebar and not to the page: it exists only while a floating sidebar

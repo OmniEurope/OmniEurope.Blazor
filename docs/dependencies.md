@@ -7,9 +7,9 @@ Les versions directes sont centralisées dans `Directory.Packages.props`; les r�
 - les packages ASP.NET Core et `Microsoft.Extensions.Localization` sont en `10.0.12`, `bunit` en `2.11.3` et `Microsoft.NET.Test.Sdk` en `18.10.0`, dernières versions stables publiées par NuGet.org.
 - `coverlet.collector` est épinglé en `10.0.1`, dernière version stable, pour produire la couverture Cobertura avec `XPlat Code Coverage`.
 - les packages MAUI sont alignés sur `10.0.101`;
-- `Microsoft.CodeAnalysis.CSharp` reste en `5.6.0`, compilateur du SDK `10.0.3xx` : la `5.9.0` publiée exige un compilateur plus récent que le dernier SDK stable et déclencherait `CS9057`.
+- `Microsoft.CodeAnalysis.CSharp` est en `5.9.0`, le compilateur du SDK `10.0.4xx` : un analyseur ne peut pas référencer un compilateur plus récent que celui du SDK (`CS9057`), cette version suit donc la bande épinglée.
 - `xunit.v3` `3.2.2` et `xunit.runner.visualstudio` `3.1.5` restent en place : la ligne 4 impose de migrer la chaîne de tests et de couverture vers Microsoft.Testing.Platform (voir `eng/dependency-policy.json`).
-- le SDK est épinglé sur la bande de fonctionnalités `10.0.3xx` via `global.json` (`version: 10.0.300`, `rollForward: latestPatch`). Aucun workload set n'est figé : seul le job MAUI installe `maui-windows`, et `eng/Test-SdkBand.ps1` vérifie la bande dans les deux jobs plutôt que de recopier un numéro dans les workflows.
+- le SDK est épinglé sur la bande de fonctionnalités `10.0.4xx` via `global.json` (`version: 10.0.401`, `rollForward: latestPatch`). Aucun workload set n'est figé : seul le job MAUI installe `maui-windows`, et `eng/Test-SdkBand.ps1` vérifie la bande dans les deux jobs plutôt que de recopier un numéro dans les workflows.
 
 ## Ressources tierces hors NuGet
 
