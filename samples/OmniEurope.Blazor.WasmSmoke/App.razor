@@ -1,10 +1,21 @@
 <PageTitle>@Text["PageTitle"]</PageTitle>
 
-<OmniMain Class="wasm-shell">
-    <OmniHeading Level="@OmniHeadingLevel.H1">@Text["Title"]</OmniHeading>
-    <OmniStack Class="wasm-probe" Gap="@OmniSpacing.Medium">
-        <OmniAlert Severity="OmniAlertSeverity.Success">@Text["Loaded"]</OmniAlert>
-        <OmniButton Id="wasm-action" OnClick="IncrementAsync"><OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" /> <span>@Text["Counter", _count]</span></OmniButton>
-        <OmniProgressBar Value="@_count" Maximum="10" Label="@Text["ProgressLabel"]" />
-    </OmniStack>
-</OmniMain>
+<OmniComponentsHost OverlayService="@Overlays">
+    <OmniMain Class="wasm-shell">
+        <OmniHeading Level="@OmniHeadingLevel.H1">@Text["Title"]</OmniHeading>
+        <OmniStack Class="wasm-probe" Gap="@OmniSpacing.Medium">
+            <OmniAlert Severity="OmniAlertSeverity.Success">@Text["Loaded"]</OmniAlert>
+            <OmniButton Id="wasm-action" OnClick="IncrementAsync"><OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" /> <span>@Text["Counter", _count]</span></OmniButton>
+            <OmniProgressBar Value="@_count" Maximum="10" Label="@Text["ProgressLabel"]" />
+            <OmniDataGrid TItem="SmokeRow" Id="wasm-grid" Items="@Rows" AllowVirtualization="true" Height="12rem" Caption="@Text["GridCaption"]">
+                <Columns>
+                    <OmniDataGridColumn TItem="SmokeRow" Property="Name" Title="@Text["GridName"]" />
+                    <OmniDataGridColumn TItem="SmokeRow" Property="Value" Title="@Text["GridValue"]" />
+                </Columns>
+            </OmniDataGrid>
+            <OmniDataList TItem="SmokeRow" Id="wasm-list" Items="@Rows" Virtualize="true" Class="wasm-list">
+                <ItemTemplate Context="row">@row.Name</ItemTemplate>
+            </OmniDataList>
+        </OmniStack>
+    </OmniMain>
+</OmniComponentsHost>

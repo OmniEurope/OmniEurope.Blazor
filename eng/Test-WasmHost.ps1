@@ -111,7 +111,8 @@ try {
         --assert-attribute 'aria-valuenow' `
         --assert-expected '1' `
         --assert-language 'fr' `
-        --assert-title 'Test WebAssembly OmniEurope.Blazor'
+        --assert-title 'Test WebAssembly OmniEurope.Blazor' `
+        --assert-present '#wasm-grid .omni-data-grid__table tbody tr||#wasm-list .omni-data-list__item||[role="dialog"]||.omni-notification__message'
     if ($LASTEXITCODE -ne 0) { throw ($psText.CdpFailed -f 'WebAssembly', $LASTEXITCODE) }
 
     Write-Host ($psText.WasmPassed -f $server.Id)

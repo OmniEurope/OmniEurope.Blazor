@@ -597,6 +597,7 @@ method protected override OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>
 method protected override OmniEurope.Blazor.Components.OmniDataGridFilterCombo.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDataGridFilterMultiSelect.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDataList<TItem>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniDataList<TItem>.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniDataList<TItem>.OnParametersSetAsync() : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniDatePicker.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDatePicker.FormatValueAsString(System.DateOnly? value) : System.String?
@@ -785,6 +786,7 @@ method public OmniEurope.Blazor.Components.OmniDataGridSort.<Clone>$() : OmniEur
 method public OmniEurope.Blazor.Components.OmniDataGridSort.Deconstruct(out System.String Key, out System.Boolean Descending) : System.Void
 method public OmniEurope.Blazor.Components.OmniDataGridSort.Equals(OmniEurope.Blazor.Components.OmniDataGridSort? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniDataList<TItem>.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniDataList<TItem>.OnViewportChangedAsync(System.Double scrollTop, System.Double viewportHeight) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataList<TItem>.ReloadAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDialog.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniDialogRequest.<Clone>$() : OmniEurope.Blazor.Components.OmniDialogRequest

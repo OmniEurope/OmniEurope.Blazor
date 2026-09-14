@@ -87,6 +87,11 @@ Limites assumées : la virtualisation refuse `GroupBy`, `Groups` et `DetailTempl
 explicite, car ces rendus rompent la correspondance « une ligne pour un index » dont dépend la
 géométrie de défilement. La pagination est ignorée dans ce mode.
 
+`OmniDataList` avec `Virtualize` applique la même mécanique sans viewport propre : il suit l'ancêtre
+qui défile, ou la page, ne rend que les éléments proches de la zone visible, mesure leur hauteur
+(écart de la grille compris) et dimensionne ses deux espaceurs par la propriété personnalisée
+`--omni-data-list-spacer`, posée depuis `omni-grid.js`. Aucun attribut `style` n'est rendu.
+
 ## Tri, filtres et regroupements
 
 - `AllowSorting`, `AllowFiltering`, `AllowPaging`, `AllowColumnResize` et `AllowGrouping` coupent les
@@ -186,6 +191,7 @@ sous 40 rem.
   `GridLines`, `Density` et les largeurs de colonnes.
 - Le glisser-déposer d'en-têtes vers le panneau de regroupement : le regroupement se pilote par le
   bouton d'en-tête et par `Groups`.
-- Le choix de rendu d'une fenêtre surgissante de filtre : les filtres sont rendus en ligne, pilotés
-  par `FilterMode`.
+- Une fenêtre surgissante de filtre avec choix de l'opérateur : l'édition complète (opérateur, deux
+  conditions) reste dans la ligne de filtre pilotée par `FilterMode`. `ShowHeaderFilterMenu` ajoute
+  seulement, dans l'en-tête, une fenêtre limitée à la valeur.
 - Le sélecteur de colonnes visibles : `Visible` reste piloté par l'hôte.

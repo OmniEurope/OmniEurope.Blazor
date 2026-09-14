@@ -12,6 +12,9 @@ const assertAttribute = options.get('--assert-attribute');
 const assertExpected = options.get('--assert-expected');
 const assertLanguage = options.get('--assert-language');
 const assertTitle = options.get('--assert-title');
+// Optional: selectors that must match at least one element once the interaction has run, separated
+// by "||" (a CSS selector list cannot express "each of these must exist").
+const assertPresent = (options.get('--assert-present') ?? '').split('||').map(value => value.trim()).filter(Boolean);
 if (!endpoint || !selector || !expected) {
   throw new Error('Usage: node Test-CdpProbe.mjs --endpoint <url> --selector <css> --output <css> --expected <text>');
 }
@@ -103,6 +106,17 @@ if (assertSelector || assertAttribute || assertExpected) {
   }
   asserted = await evaluate(`document.querySelector(${JSON.stringify(assertSelector)})?.getAttribute(${JSON.stringify(assertAttribute)}) ?? ''`);
 }
+const missing = [];
+for (const presentSelector of assertPresent) {
+  let found = false;
+  const presentDeadline = Date.now() + 5_000;
+  while (Date.now() < presentDeadline) {
+    found = await evaluate(`Boolean(document.querySelector(${JSON.stringify(presentSelector)}))`);
+    if (found) break;
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+  if (!found) missing.push(presentSelector);
+}
 const observedLanguage = assertLanguage == null ? null : await evaluate('document.documentElement.lang');
 const observedTitle = assertTitle == null ? null : await evaluate('document.title');
 
@@ -112,6 +126,9 @@ if (!String(observed).includes(expected)) {
 }
 if (consoleErrors.length > 0) {
   throw new Error(`Console navigateur en erreur : ${consoleErrors.join(' | ')}`);
+}
+if (missing.length > 0) {
+  throw new Error(`Éléments attendus absents après l'interaction : ${missing.join(' | ')}`);
 }
 if (assertSelector && String(asserted) !== assertExpected) {
   throw new Error(`Attribut interactif inattendu : ${assertSelector}[${assertAttribute}]=${JSON.stringify(asserted)} (attendu : ${JSON.stringify(assertExpected)}).`);
@@ -126,6 +143,7 @@ if (assertTitle != null && String(observedTitle) !== assertTitle) {
 const assertionSummary = [
   assertSelector ? `${assertSelector}[${assertAttribute}]=${JSON.stringify(asserted)}` : '',
   assertLanguage != null ? `lang=${JSON.stringify(observedLanguage)}` : '',
-  assertTitle != null ? `title=${JSON.stringify(observedTitle)}` : ''
+  assertTitle != null ? `title=${JSON.stringify(observedTitle)}` : '',
+  assertPresent.length > 0 ? `présents=${assertPresent.length}` : ''
 ].filter(Boolean).map(value => `, ${value}`).join('');
 console.log(`Sonde CDP validée : ${selector}, résultat ${JSON.stringify(observed)}${assertionSummary}, console sans erreur.`);

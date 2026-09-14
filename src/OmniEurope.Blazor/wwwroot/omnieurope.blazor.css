@@ -1386,6 +1386,12 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-list__item { border-block-end: var(--omni-border-width) solid var(--omni-color-border); padding: var(--omni-space-md); }
 .omni-data-list__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
 .omni-data-list__state--error { color: var(--omni-color-danger); display: grid; gap: var(--omni-space-sm); justify-items: center; }
+/* Virtualised list: the spacers stand in for the items outside the window. Their height comes from
+   omni-grid.js through a custom property; the negative margins cancel the grid gap next to them, so
+   a spacer adds exactly the height of the items it replaces. */
+.omni-data-list__spacer { block-size: var(--omni-data-list-spacer, 0px); }
+.omni-data-list__spacer[data-omni-spacer="top"] { margin-block-end: calc(-1 * var(--omni-space-sm)); }
+.omni-data-list__spacer[data-omni-spacer="bottom"] { margin-block-start: calc(-1 * var(--omni-space-sm)); }
 .omni-pager { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: center; }
 .omni-pager__button { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); color: var(--omni-color-text); cursor: pointer; font: inherit; min-height: 2.75rem; min-width: 2.75rem; }
 .omni-pager__button:disabled { cursor: not-allowed; opacity: 0.55; }
