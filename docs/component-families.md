@@ -27,6 +27,7 @@ Les variables de thème déclarées dans `:root` sont éditables dans le personn
 | `--omni-tooltip-delay` | `.omni-tooltip` | `700ms` | Temps de pointeur posé avant l'apparition ; `OmniTooltip.Delay` la remplace par pas de 100 ms entre 0 et 2 s. |
 | `--omni-loading-bar-color` | `.omni-loading-bar` | `var(--omni-color-accent)` | Couleur du trait de `OmniLoadingBar`. |
 | `--omni-loading-bar-thickness` | `.omni-loading-bar` | `0.125rem` | Épaisseur du trait, posé dans le bord de ce qui précède la barre. |
+| `--omni-main-max-width` | `.omni-main` | `100%`, sinon le plafond de `ContentWidth` | Largeur maximale de la colonne de contenu, gouttières comprises ; redéclarée sur chaque élément principal, elle ne fuit pas dans un élément principal imbriqué. |
 
 Celles-ci ne sont déclarées nulle part et se lisent avec une valeur de repli : posées sur l'élément ou sur un ancêtre, elles s'appliquent.
 

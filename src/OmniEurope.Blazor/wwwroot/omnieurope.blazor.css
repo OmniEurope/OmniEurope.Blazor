@@ -473,7 +473,7 @@
 .omni-layout { box-sizing: border-box; margin-inline: auto; width: 100%; }
 .omni-layout--wide { max-width: var(--omni-layout-wide-width, 90rem); }
 .omni-layout--content { max-width: var(--omni-layout-content-width, 72rem); }
-.omni-main { display: block; min-width: 0; }
+.omni-main { --omni-main-max-width: 100%; display: block; min-width: 0; }
 .omni-main:focus { outline: none; }
 /* Largeur du contenu seul ; sans défilement propre, l'élément principal lui-même se centre. */
 .omni-main--wide { --omni-main-max-width: var(--omni-layout-wide-width, 90rem); }
@@ -482,7 +482,7 @@
 /* Défilement propre : l'élément principal couvre toute la zone et défile, sa barre au bord de la
    fenêtre ; la colonne se centre par la marge intérieure, mesurée sur le cadre de même largeur. */
 .omni-main-scroll { display: flex; flex: 1 1 auto; min-block-size: 0; min-inline-size: 0; }
-.omni-main--scrollable { --omni-main-pad: var(--omni-main-gutter, var(--omni-space-md)); box-sizing: border-box; display: flex; flex: 1 1 auto; flex-direction: column; min-block-size: 0; min-inline-size: 0; overflow: auto; padding: var(--omni-main-pad) max(var(--omni-main-pad), calc((100% - var(--omni-main-max-width, 100%)) / 2 + var(--omni-main-pad))); }
+.omni-main--scrollable { --omni-main-pad: var(--omni-main-gutter, var(--omni-space-md)); box-sizing: border-box; display: flex; flex: 1 1 auto; flex-direction: column; min-block-size: 0; min-inline-size: 0; overflow: auto; padding: var(--omni-main-pad) max(var(--omni-main-pad), calc((100% - var(--omni-main-max-width)) / 2 + var(--omni-main-pad))); }
 .omni-layout:has(> .omni-body > .omni-main-scroll) { display: flex; flex-direction: column; min-block-size: 0; }
 .omni-header { background: var(--omni-color-surface); color: var(--omni-color-text); }
 .omni-header--sticky { position: sticky; top: 0; z-index: 10; }
