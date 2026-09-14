@@ -1,0 +1,46 @@
+<OmniWizard @bind-Value="Step" FinishText="Créer" OnFinish="@(() => Finished++)" OnCancel="@(() => Cancelled++)">
+    <OmniWizardStep Title="Nom" CanContinue="NameReady"><span class="host-step-1">Contenu 1</span></OmniWizardStep>
+    <OmniWizardStep Title="@OptionsTitle" Validate="ValidateAsync"><span class="host-step-2">Contenu 2</span></OmniWizardStep>
+    <OmniWizardStep Title="Fin"><span class="host-step-3">Contenu 3</span></OmniWizardStep>
+</OmniWizard>
+
+@if (InDialog)
+{
+    <OmniDialog Title="Invitation" Open="true">
+        <OmniWizard Label="Étapes de l'invitation">
+            <OmniWizardStep Title="Adresse"><span class="host-dialog-step">Adresse</span></OmniWizardStep>
+            <OmniWizardStep Title="Rôle"><span class="host-dialog-step">Rôle</span></OmniWizardStep>
+        </OmniWizard>
+    </OmniDialog>
+}
+
+@code {
+    public int Step { get; set; }
+
+    public bool NameReady { get; set; } = true;
+
+    public bool Accept { get; set; } = true;
+
+    [Parameter]
+    public bool InDialog { get; set; }
+
+    public string OptionsTitle { get; set; } = "Options";
+
+    public int Validations { get; private set; }
+
+    public int Finished { get; private set; }
+
+    public int Cancelled { get; private set; }
+
+    public void Update(Action change)
+    {
+        change();
+        StateHasChanged();
+    }
+
+    private Task<bool> ValidateAsync()
+    {
+        Validations++;
+        return Task.FromResult(Accept);
+    }
+}

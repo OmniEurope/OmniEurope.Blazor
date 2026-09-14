@@ -1,0 +1,91 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+<OmniStack Gap="OmniSpacing.Large">
+    @* Suivant reste grisé tant que le nom manque (CanContinue) ; l'étape des options répond au clic
+       par une validation qui peut refuser (Validate). Une étape déjà atteinte se rouvre d'un clic. *@
+    <EditForm Model="Model">
+        <OmniWizard Id="flows-demo-wizard" @bind-Value="Step" FinishText="Créer le serveur"
+                    OnFinish="Finish" OnCancel="Reset">
+            <OmniWizardStep Title="Identité" CanContinue="@(!string.IsNullOrWhiteSpace(Model.Name))">
+                <OmniFormField For="flows-demo-name" Required="true" Description="Suivant s'active dès que le nom est saisi.">
+                    <Label>Nom du serveur</Label>
+                    <ChildContent>
+                        <OmniTextBox Id="flows-demo-name" @bind-Value="Model.Name" Placeholder="srv-paris-02" />
+                    </ChildContent>
+                </OmniFormField>
+            </OmniWizardStep>
+            <OmniWizardStep Title="Options" Validate="ValidateOptionsAsync">
+                <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+                    <OmniCheckBox Id="flows-demo-backup" @bind-Value="Model.Backup" />
+                    <OmniLabel For="flows-demo-backup">Sauvegarde quotidienne</OmniLabel>
+                </OmniStack>
+                @if (OptionsRefused)
+                {
+                    <OmniAlert Severity="OmniAlertSeverity.Warning" Live="true">Cochez la sauvegarde quotidienne pour un serveur de production.</OmniAlert>
+                }
+            </OmniWizardStep>
+            <OmniWizardStep Title="Récapitulatif">
+                <OmniDescriptionList>
+                    <OmniDescriptionItem Label="Nom">@Model.Name</OmniDescriptionItem>
+                    <OmniDescriptionItem Label="Sauvegarde">@(Model.Backup ? "Quotidienne" : "Aucune")</OmniDescriptionItem>
+                </OmniDescriptionList>
+            </OmniWizardStep>
+        </OmniWizard>
+    </EditForm>
+    <p id="flows-demo-outcome">Résultat : @Outcome</p>
+
+    @* Dans un dialogue, Échap et la croix sont ceux du dialogue ; l'assistant n'y ajoute rien. *@
+    <OmniButton Id="flows-demo-open" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => DialogOpen = true)">
+        <OmniIcon Name="OmniIconName.Add" /><span>Assistant dans un dialogue</span>
+    </OmniButton>
+    <OmniDialog Title="Inviter un membre" Open="DialogOpen" OpenChanged="@(value => DialogOpen = value)">
+        <OmniWizard Label="Étapes de l'invitation" FinishText="Inviter" OnFinish="@(() => DialogOpen = false)">
+            <OmniWizardStep Title="Adresse"><p>L'adresse de la personne invitée.</p></OmniWizardStep>
+            <OmniWizardStep Title="Rôle"><p>Le rôle qu'elle recevra.</p></OmniWizardStep>
+        </OmniWizard>
+    </OmniDialog>
+
+    @* La coquille ne porte aucune authentification : le formulaire et son envoi sont ceux de l'hôte.
+       OmniReturnUrl ne rend qu'un chemin de l'application, jamais une adresse extérieure. *@
+    <div class="showcase-preview-frame">
+        <OmniLoginShell Description="Espace d'administration">
+            <Logo><OmniIcon Name="OmniIconName.ShieldCheck" Size="OmniControlSize.Large" AriaLabel="Exploitation" /></Logo>
+            <ChildContent>
+                <EditForm Model="Credentials" OnSubmit="SubmitSignIn">
+                    <OmniStack Gap="OmniSpacing.Medium">
+                        <OmniFormField For="flows-demo-user">
+                            <Label>Identifiant</Label>
+                            <ChildContent><OmniTextBox Id="flows-demo-user" @bind-Value="Credentials.Name" Autocomplete="username" /></ChildContent>
+                        </OmniFormField>
+                        <OmniFormField For="flows-demo-password">
+                            <Label>Mot de passe</Label>
+                            <ChildContent><OmniPassword Id="flows-demo-password" @bind-Value="Credentials.Secret" Revealable="true" Autocomplete="current-password" /></ChildContent>
+                        </OmniFormField>
+                        <OmniButton ButtonType="OmniButtonType.Submit"><OmniIcon Name="OmniIconName.SignIn" /><span>Se connecter</span></OmniButton>
+                    </OmniStack>
+                </EditForm>
+            </ChildContent>
+            <Footer>
+                @if (SignInNote is not null)
+                {
+                    <p role="status">@SignInNote</p>
+                }
+                <p>Retour après connexion : @OmniReturnUrl.Resolve("/projets/12?onglet=journal")</p>
+                <p>Adresse extérieure refusée : @OmniReturnUrl.Resolve("//exemple.invalid/piege")</p>
+            </Footer>
+        </OmniLoginShell>
+    </div>
+
+    @* L'hôte pilote l'état, le compte à rebours et les rappels ; le composant ne tient aucune connexion. *@
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
+        <OmniButton Id="flows-demo-drop" Variant="OmniButtonVariant.Warning" OnClick="DropAsync">
+            <OmniIcon Name="OmniIconName.Offline" /><span>Simuler une coupure</span>
+        </OmniButton>
+        <OmniButton Id="flows-demo-reject" Variant="OmniButtonVariant.Danger" OnClick="Reject">
+            <OmniIcon Name="OmniIconName.Prohibit" /><span>Simuler un refus</span>
+        </OmniButton>
+    </OmniStack>
+    <OmniConnectionOverlay Id="flows-demo-connection" State="Connection" SecondsUntilRetry="Countdown" Busy="Reconnecting"
+                           Reason="@Reason" OnReconnect="ReconnectAsync" OnReload="@(() => Connection = OmniConnectionState.Connected)" />
+    <p id="flows-demo-connection-state">Connexion : @ConnectionText</p>
+</OmniStack>

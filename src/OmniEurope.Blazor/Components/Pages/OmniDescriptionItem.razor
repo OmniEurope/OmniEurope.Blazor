@@ -1,0 +1,13 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<div id="@Id" class="@Css("omni-description-list__item")" @attributes="AdditionalAttributes">
+    <dt class="omni-description-list__label">@Label</dt>
+    <dd class="omni-description-list__value">
+        <div class="omni-description-list__content">@ChildContent</div>
+        @if (Actions is not null)
+        {
+            <div class="omni-description-list__actions">@Actions</div>
+        }
+    </dd>
+</div>

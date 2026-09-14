@@ -1,0 +1,8 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IDisposable
+
+@if (Context?.IsCurrent(this) == true)
+{
+    <div id="@Id" class="@Css("omni-wizard-step")" @attributes="AdditionalAttributes">@ChildContent</div>
+}

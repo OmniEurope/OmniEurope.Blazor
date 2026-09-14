@@ -259,4 +259,39 @@
   <data name="StepTimelineStatusSuccess" xml:space="preserve"><value>réussie</value></data>
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, démarrée à {1}, durée</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Confirmer</value></data>
+  <data name="GoBack" xml:space="preserve"><value>Retour</value></data>
+  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Afficher les badges et les actions</value></data>
+  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Masquer les badges et les actions</value></data>
+  <data name="DetailNotFound" xml:space="preserve"><value>Élément introuvable</value></data>
+  <data name="SignIn" xml:space="preserve"><value>Connexion</value></data>
+  <data name="ConnectionLostTitle" xml:space="preserve"><value>Connexion perdue</value></data>
+  <data name="ConnectionLostDescription" xml:space="preserve"><value>La connexion au serveur est interrompue. L'application tente de la rétablir.</value></data>
+  <data name="ConnectionFailedTitle" xml:space="preserve"><value>Connexion impossible</value></data>
+  <data name="ConnectionFailedDescription" xml:space="preserve"><value>Les tentatives automatiques ont échoué. Réessayez quand le réseau est revenu.</value></data>
+  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Session interrompue</value></data>
+  <data name="ConnectionRejectedDescription" xml:space="preserve"><value>Le serveur a refusé de reprendre la session. Rechargez la page pour continuer.</value></data>
+  <data name="ConnectionRetryIn" xml:space="preserve"><value>Nouvelle tentative dans {0} s</value></data>
+  <data name="ConnectionReason" xml:space="preserve"><value>Cause : {0}</value></data>
+  <data name="ConnectionReconnectNow" xml:space="preserve"><value>Se reconnecter maintenant</value></data>
+  <data name="ConnectionReload" xml:space="preserve"><value>Recharger la page</value></data>
+  <data name="ConnectionReconnecting" xml:space="preserve"><value>Reconnexion en cours</value></data>
+  <data name="WizardLabel" xml:space="preserve"><value>Étapes de l'assistant</value></data>
+  <data name="WizardProgress" xml:space="preserve"><value>Progression de l'assistant</value></data>
+  <data name="WizardPosition" xml:space="preserve"><value>Étape {0} sur {1}</value></data>
+  <data name="WizardAnnouncement" xml:space="preserve"><value>Étape {0} sur {1} : {2}</value></data>
+  <data name="WizardPrevious" xml:space="preserve"><value>Précédent</value></data>
+  <data name="WizardNext" xml:space="preserve"><value>Suivant</value></data>
+  <data name="WizardFinish" xml:space="preserve"><value>Terminer</value></data>
+  <data name="RelativeTimeNow" xml:space="preserve"><value>à l'instant</value></data>
+  <data name="RelativeTimePast" xml:space="preserve"><value>il y a {0}</value></data>
+  <data name="RelativeTimeFuture" xml:space="preserve"><value>dans {0}</value></data>
+  <data name="RelativeTimeSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeHours" xml:space="preserve"><value>{0} h</value></data>
+  <data name="RelativeTimeDay" xml:space="preserve"><value>{0} jour</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} jours</value></data>
+  <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} mois</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} mois</value></data>
+  <data name="RelativeTimeYear" xml:space="preserve"><value>{0} an</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} ans</value></data>
 </root>
