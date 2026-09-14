@@ -65,9 +65,11 @@
         <ChildContent>
             <p>Cette action retire le dossier de la liste. Elle est réversible pendant trente jours.</p>
         </ChildContent>
+        @* Convention du paquet : l'action d'abord, Annuler (Danger) après elle, au bout du pied,
+           chacun avec son icône. OmniOverlayService.ConfirmAsync la suit d'office. *@
         <Footer>
-            <OmniButton Variant="OmniButtonVariant.Ghost" OnClick="@(_ => DialogOpen = false)">Annuler</OmniButton>
-            <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => Confirm())">Supprimer</OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => Confirm())"><OmniIcon Name="OmniIconName.Delete" /><span>Supprimer</span></OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => DialogOpen = false)"><OmniIcon Name="OmniIconName.Close" /><span>Annuler</span></OmniButton>
         </Footer>
     </OmniDialog>
 </OmniStack>

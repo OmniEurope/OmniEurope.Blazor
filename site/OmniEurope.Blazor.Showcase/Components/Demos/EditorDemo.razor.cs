@@ -19,6 +19,16 @@ public partial class EditorDemo
     private List<string> Uploaded { get; } = [];
 
     /// <summary>
+    /// The attachments the letter already has, listed under the drop zone with a remove button; a
+    /// deposited file joins them once the transfer succeeds.
+    /// </summary>
+    private IReadOnlyList<OmniUploadFile> Attachments { get; set; } =
+    [
+        new("accuse-de-reception.pdf", 184_320, "application/pdf"),
+        new("plan-acces.png", 96_256, "image/png")
+    ];
+
+    /// <summary>
     /// Refuses what the demonstration will not keep, before any transfer starts. Returning a message
     /// rejects the file, returning null accepts it.
     /// </summary>

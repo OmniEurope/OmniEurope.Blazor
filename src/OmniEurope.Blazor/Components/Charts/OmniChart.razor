@@ -5,7 +5,9 @@
     <svg class="omni-chart__svg" viewBox="0 0 100 100" role="img" aria-labelledby="@TitleId @DescriptionId" preserveAspectRatio="xMidYMid meet">
         <title id="@TitleId">@Title</title>
         <desc id="@DescriptionId">@Description</desc>
-        <CascadingValue Value="_context" IsFixed="true">@ChildContent</CascadingValue>
+        @* Not fixed: every render of the chart refreshes every part, so a part registered late (a legend
+           narrowing the plot, a series turning it into bands) moves the parts that rendered before it. *@
+        <CascadingValue Value="_context" IsFixed="false">@ChildContent</CascadingValue>
     </svg>
     @if (DataTable is not null)
     {

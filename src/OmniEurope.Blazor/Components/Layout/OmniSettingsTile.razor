@@ -3,21 +3,32 @@
 
 @* One setting in a tile set on its section's card: a plain rule under it left the setting blending
    into the card in both themes. The icon, the name and what it changes read on the left, the control
-   sits on the right, and anything taller than a control goes under the row. *@
-<div id="@Id" class="@Css("omni-settings-tile")" @attributes="AdditionalAttributes">
+   sits on the right, and anything taller than a control goes under the row.
+   A switch or a check box beside the name joins the tile: the name becomes its label, and that
+   label's hit area is stretched over the whole tile, so a click anywhere on it toggles the control
+   through the browser's own label activation. The control and the details sit above that area, so
+   a click on them reaches them directly and never toggles twice. *@
+<div id="@Id" class="@Css("omni-settings-tile", _context.ControlId is null ? null : "omni-settings-tile--toggle")" @attributes="AdditionalAttributes">
     <div class="omni-settings-tile__row">
         @if (Icon is not null)
         {
             <span class="omni-settings-tile__icon" aria-hidden="true">@Icon</span>
         }
         <div class="omni-settings-tile__text">
-            <span class="omni-settings-tile__title">@Title</span>
+            @if (_context.ControlId is { } controlId)
+            {
+                <label class="omni-settings-tile__title" for="@controlId">@Title</label>
+            }
+            else
+            {
+                <span class="omni-settings-tile__title">@Title</span>
+            }
             @if (!string.IsNullOrWhiteSpace(Description))
             {
                 <span class="omni-settings-hint">@Description</span>
             }
         </div>
-        @ChildContent
+        <CascadingValue Value="_context" IsFixed="true">@ChildContent</CascadingValue>
     </div>
     @Details
 </div>

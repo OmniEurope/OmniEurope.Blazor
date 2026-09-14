@@ -113,7 +113,7 @@ public sealed class ChartComponentTests : OmniBunitContext
         var charts = Render<ChartProjectionTestHost>();
 
         charts.WaitForAssertion(() =>
-            Assert.Equal("5,95 95,5", charts.Find("#projection-domain .omni-chart__line").GetAttribute("points")));
+            Assert.Equal("14,86 96,4", charts.Find("#projection-domain .omni-chart__line").GetAttribute("points")));
     }
 
     [Fact]

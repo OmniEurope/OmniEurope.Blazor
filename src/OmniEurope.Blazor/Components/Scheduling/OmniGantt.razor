@@ -1,0 +1,119 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<section @attributes="AdditionalAttributes" id="@BaseId" class="@Css("omni-gantt", ScaleCss)" aria-label="@EffectiveLabel">
+    @if (ShowScalePicker)
+    {
+        <div class="omni-gantt__toolbar">
+            <OmniSelectBar TValue="OmniGanttScale" Options="@ScaleOptions" Value="@_scale" ValueChanged="@SetScaleAsync" ValueExpression="@(() => _scale)" Label="@ScaleLabel" />
+        </div>
+    }
+    @if (Tasks.Count == 0)
+    {
+        <p class="omni-gantt__empty">@EmptyText</p>
+    }
+    else
+    {
+        <div class="omni-gantt__body">
+            @* The names stay put while the chart scrolls beside them; both use the same fixed row height
+               (GanttLayout.RowHeight, mirrored in the stylesheet) so each name faces its bar. *@
+            <div class="omni-gantt__names" aria-hidden="true">
+                <div class="omni-gantt__names-head">@TaskColumnText</div>
+                @foreach (var row in Layout.Rows)
+                {
+                    <div class="@NameCss(row)">@row.Label</div>
+                }
+            </div>
+            <div class="omni-gantt__chart">
+                <svg class="omni-gantt__svg" width="@N(Layout.Width)" height="@N(Layout.Height)" focusable="false">
+                    <defs>
+                        <marker id="@ArrowId" class="omni-gantt__arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto">
+                            <path d="M 0 0 L 8 4 L 0 8 Z" />
+                        </marker>
+                    </defs>
+                    <g class="omni-gantt__grid" aria-hidden="true">
+                        @for (var index = 0; index < Layout.Rows.Count; index++)
+                        {
+                            var row = Layout.Rows[index];
+                            <rect class="@RowCss(row, index)" x="0" y="@N(row.Top)" width="100%" height="@N(GanttLayout.RowHeight)" />
+                        }
+                        @foreach (var x in Layout.WeekEnds)
+                        {
+                            <rect class="omni-gantt__weekend" x="@N(x)" y="@N(GanttLayout.HeaderHeight)" width="@N(Layout.PixelsPerDay)" height="@N(Layout.Height - GanttLayout.HeaderHeight)" />
+                        }
+                        @foreach (var cell in Layout.BottomTier)
+                        {
+                            <line class="omni-gantt__tick" x1="@N(cell.X)" y1="@N(GanttLayout.TierHeight)" x2="@N(cell.X)" y2="@N(Layout.Height)" stroke-opacity="0.6" />
+                        }
+                        @foreach (var cell in Layout.TopTier)
+                        {
+                            <line class="omni-gantt__tick omni-gantt__tick--major" x1="@N(cell.X)" y1="0" x2="@N(cell.X)" y2="@N(Layout.Height)" />
+                        }
+                        <line class="omni-gantt__header-rule" x1="0" y1="@N(GanttLayout.HeaderHeight)" x2="100%" y2="@N(GanttLayout.HeaderHeight)" />
+                    </g>
+                    <g class="omni-gantt__header" aria-hidden="true">
+                        @foreach (var cell in Layout.TopTier)
+                        {
+                            @* A nested svg clips its text to the period, so a period cut by the chart's edge never spills over the next. *@
+                            <svg x="@N(cell.X)" y="0" width="@N(cell.Width)" height="@N(GanttLayout.TierHeight)">
+                                <text class="omni-gantt__period" x="6" y="@N(GanttLayout.TierHeight / 2)" dominant-baseline="central" font-size="12" font-weight="650">@cell.Label</text>
+                            </svg>
+                        }
+                        @foreach (var cell in Layout.BottomTier)
+                        {
+                            <svg x="@N(cell.X)" y="@N(GanttLayout.TierHeight)" width="@N(cell.Width)" height="@N(GanttLayout.TierHeight)">
+                                <text class="omni-gantt__unit" x="@N(cell.Width / 2)" y="@N(GanttLayout.TierHeight / 2)" text-anchor="middle" dominant-baseline="central" font-size="11" fill-opacity="0.7">@cell.Label</text>
+                            </svg>
+                        }
+                    </g>
+                    @if (ShowToday && Layout.TodayX is { } today)
+                    {
+                        <line class="omni-gantt__today" x1="@N(today)" y1="@N(GanttLayout.TierHeight)" x2="@N(today)" y2="@N(Layout.Height)" stroke-width="2" stroke-dasharray="4 3"><title>@TodayText</title></line>
+                    }
+                    @if (ShowDependencies)
+                    {
+                        <g class="omni-gantt__dependencies" aria-hidden="true" stroke-width="1.5">
+                            @foreach (var path in Layout.Dependencies)
+                            {
+                                <path d="@path" marker-end="@ArrowReference" />
+                            }
+                        </g>
+                    }
+                    @foreach (var row in Layout.Rows.Where(row => row.IsGroup))
+                    {
+                        var summary = row.Bar!;
+                        <rect class="omni-gantt__summary" x="@N(summary.X)" y="@N(summary.Y)" width="@N(summary.Width)" height="@N(summary.Height)" rx="2" aria-hidden="true" />
+                    }
+                    @foreach (var row in Layout.Rows.Where(row => !row.IsGroup))
+                    {
+                        var task = row.Task!;
+                        var bar = row.Bar!;
+                        <g class="@TaskCss(task)" aria-hidden="true">
+                            <rect class="omni-gantt__bar-shape" x="@N(bar.X)" y="@N(bar.Y)" width="@N(bar.Width)" height="@N(bar.Height)" rx="4" stroke-width="@(IsSelected(task) ? "2.5" : "1")" />
+                            @if (bar.ProgressWidth > 0)
+                            {
+                                <rect class="omni-gantt__bar-progress" x="@N(bar.X)" y="@N(bar.Y)" width="@N(bar.ProgressWidth)" height="@N(bar.Height)" rx="4" />
+                            }
+                            <text class="@LabelCss(bar)" x="@N(LabelX(bar))" y="@N(bar.Y + (bar.Height / 2))" dominant-baseline="central" font-size="12" stroke-width="3" stroke-linejoin="round" paint-order="stroke">@task.Title</text>
+                        </g>
+                    }
+                    @* A real button over each bar: focusable, named, and activated by Enter and Space
+                       natively, which a focusable SVG group is not. *@
+                    @foreach (var row in Layout.Rows.Where(row => !row.IsGroup))
+                    {
+                        var task = row.Task!;
+                        var bar = row.Bar!;
+                        <foreignObject x="@N(bar.X - 2)" y="@N(bar.Y - 2)" width="@N(bar.Width + 4)" height="@N(bar.Height + 4)">
+                            <button type="button"
+                                    class="omni-gantt__hit"
+                                    data-task-id="@task.Id"
+                                    aria-label="@Describe(task)"
+                                    aria-pressed="@Pressed(task)"
+                                    @onclick="() => OnTaskClickedAsync(task)"></button>
+                        </foreignObject>
+                    }
+                </svg>
+            </div>
+        </div>
+    }
+</section>

@@ -168,6 +168,7 @@
     border: var(--omni-button-border-width) solid var(--omni-button-border-color);
     border-radius: var(--omni-button-radius, var(--omni-radius));
     box-shadow: var(--omni-button-shadow);
+    box-sizing: border-box;
     cursor: pointer;
     display: inline-flex;
     font: inherit;
@@ -184,16 +185,28 @@
     outline: none;
 }
 
-.omni-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.58;
-}
+/* Désactivé : éteint et assombri, une opacité seule l'éclaircissait sur fond clair. */
+.omni-button:disabled,
+.omni-toggle-button:disabled,
+.omni-split-button__main:disabled,
+.omni-split-button__toggle:disabled { box-shadow: none; cursor: not-allowed; filter: grayscale(0.75) brightness(0.68); opacity: 0.8; }
 
-/* Every size is derived from the one control height, so a button always lines up with the input
-   beside it; only the horizontal padding tells the sizes apart, and only large adds height. */
-.omni-button--small { min-height: var(--omni-control-height); padding: var(--omni-space-xs) var(--omni-space-sm); }
-.omni-button--medium { min-height: var(--omni-control-height); padding: var(--omni-space-xs) var(--omni-space-lg); }
-.omni-button--large { min-height: calc(var(--omni-control-height) + 0.5rem); padding: var(--omni-space-sm) var(--omni-space-xl); }
+/* Trois tailles distinctes (hauteur, marge, corps) ; le moyen garde la hauteur du champ voisin.
+   --omni-button-size est aussi le côté d'un bouton à icône seule. */
+.omni-button--small,
+.omni-toggle-button--small,
+.omni-split-button--small { --omni-button-size: calc(var(--omni-control-height) - 0.5rem); --omni-button-padding-inline: var(--omni-space-sm); --omni-button-font-size: var(--omni-font-size-sm); }
+.omni-button--medium,
+.omni-toggle-button--medium,
+.omni-split-button--medium { --omni-button-size: var(--omni-control-height); --omni-button-padding-inline: var(--omni-space-lg); }
+.omni-button--large,
+.omni-toggle-button--large,
+.omni-split-button--large { --omni-button-size: calc(var(--omni-control-height) + 0.5rem); --omni-button-padding-inline: var(--omni-space-xl); --omni-button-font-size: var(--omni-font-size-lg); }
+.omni-button { font-size: var(--omni-button-font-size, inherit); min-height: var(--omni-button-size, var(--omni-control-height)); padding: var(--omni-space-xs) var(--omni-button-padding-inline, var(--omni-space-lg)); }
+.omni-button--small .omni-button__content { gap: var(--omni-space-xs); }
+.omni-button--small .omni-icon--medium { height: 1rem; width: 1rem; }
+/* Icône seule : carré. :where laisse un hôte qui retaille ses boutons l'emporter. */
+.omni-button:where(:has(> .omni-button__content > .omni-icon:only-child)) { min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding-inline: 0; }
 .omni-button--primary { background: var(--omni-color-accent); color: var(--omni-color-on-accent); }
 .omni-button--primary:hover:not(:disabled) { background: var(--omni-color-accent-strong); }
 .omni-button--secondary { background: var(--omni-color-surface); border-color: var(--omni-color-border); color: var(--omni-color-text); }
@@ -265,7 +278,7 @@
 .omni-stack-scroll { align-items: center; display: flex; min-inline-size: 0; }
 /* Le rembourrage, repris par une marge négative, laisse sa place à l'anneau de focus que le
    défilement rognerait. */
-.omni-stack--overflow-scroll { flex: 1 1 auto; flex-wrap: nowrap; margin: -0.1875rem; min-inline-size: 0; overflow-x: auto; overscroll-behavior-x: contain; padding: 0.1875rem; scroll-behavior: smooth; scrollbar-width: none; }
+.omni-stack--overflow-scroll { flex: 1 1 auto; flex-wrap: nowrap; margin: -0.1875rem; min-inline-size: 0; overflow-x: auto; overscroll-behavior-x: contain; padding: 0.1875rem; scrollbar-width: none; }
 .omni-stack--overflow-scroll::-webkit-scrollbar { display: none; }
 @media (prefers-reduced-motion: reduce) { .omni-stack--overflow-scroll { scroll-behavior: auto; } }
 .omni-stack--overflow-scroll > * { flex: 0 0 auto; }
@@ -286,14 +299,10 @@
         white-space: nowrap;
     }
 
-    /* Réduit à son icône, un bouton est carré : sa largeur reprend sa hauteur de contrôle. */
+    /* Réduit à son icône, un bouton est carré : sa largeur reprend la hauteur de sa taille. */
     .omni-stack--overflow-collapse .omni-button:has(> .omni-button__content > :is([aria-hidden="true"],[role="img"],svg,img)) {
-        inline-size: var(--omni-control-height);
+        inline-size: var(--omni-button-size, var(--omni-control-height));
         padding-inline: 0;
-    }
-
-    .omni-stack--overflow-collapse .omni-button--large:has(> .omni-button__content > :is([aria-hidden="true"],[role="img"],svg,img)) {
-        inline-size: calc(var(--omni-control-height) + 0.5rem);
     }
 
     /* Un bouton sans icône garderait une surface vide : son libellé reste. */
@@ -306,32 +315,28 @@
     }
 }
 
-.omni-alert {
-    align-items: flex-start;
-    border: 1px solid currentColor;
-    border-radius: var(--omni-radius);
-    display: flex;
-    gap: var(--omni-space-sm);
-    padding: var(--omni-space-md) var(--omni-space-lg);
-}
-.omni-alert__icon { align-items: center; display: inline-flex; flex: 0 0 auto; }
+/* Contour : fond teinté, barre de sévérité, titre et icône colorés, message dans le texte du thème. */
+.omni-alert { --omni-alert-color: var(--omni-color-accent); --omni-alert-ink: color-mix(in srgb, var(--omni-alert-color) 42%, var(--omni-color-text)); align-items: flex-start; border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-alert-color) 40%, transparent); border-inline-start: 0.25rem solid var(--omni-alert-color); border-radius: var(--omni-radius); box-sizing: border-box; display: flex; gap: var(--omni-space-md); line-height: 1.45; padding: var(--omni-space-md) var(--omni-space-lg); }
+.omni-alert__icon { align-items: center; color: var(--omni-alert-ink); display: inline-flex; flex: 0 0 auto; min-block-size: 1.45em; }
 .omni-alert__body { display: grid; gap: var(--omni-space-xs); min-width: 0; }
 /* Present only on a Dismissible alert; it keeps the 44 px touch target and inherits the alert colour. */
 .omni-alert__dismiss { align-items: center; background: transparent; border: 0; border-radius: var(--omni-radius); color: inherit; cursor: pointer; display: inline-flex; flex: 0 0 auto; justify-content: center; margin: calc(-1 * var(--omni-space-sm)) calc(-1 * var(--omni-space-sm)) 0 auto; min-height: 2.75rem; min-width: 2.75rem; padding: 0; }
 .omni-alert__dismiss:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
 .omni-alert__dismiss:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.omni-alert__content > :first-child { margin-block-start: 0; }
+.omni-alert__content > :last-child { margin-block-end: 0; }
 
-.omni-alert--info { --omni-alert-color: var(--omni-color-accent-strong); --omni-alert-on: var(--omni-color-on-accent); }
-.omni-alert--success { --omni-alert-color: var(--omni-color-success); --omni-alert-on: var(--omni-color-on-success); }
-.omni-alert--warning { --omni-alert-color: var(--omni-color-warning); --omni-alert-on: var(--omni-color-on-warning); }
-.omni-alert--danger { --omni-alert-color: var(--omni-color-danger); --omni-alert-on: var(--omni-color-on-danger); }
-.omni-alert--outline { color: var(--omni-alert-color); }
-/* Le texte prend la couleur choisie pour ce fond plutôt que celle du texte du thème : sur un fond
-   plein de sévérité, cette dernière n'a plus le contraste nécessaire dans les deux apparences, et un
-   thème peut demander un texte sombre sur une sévérité et clair sur une autre. */
-.omni-alert--filled { background: var(--omni-alert-color); border-color: transparent; color: var(--omni-alert-on); }
+.omni-alert--info { --omni-alert-color: var(--omni-color-accent); }
+.omni-alert--success { --omni-alert-color: var(--omni-color-success); }
+.omni-alert--warning { --omni-alert-color: var(--omni-color-warning); }
+.omni-alert--danger { --omni-alert-color: var(--omni-color-danger); }
+.omni-alert--outline { background: color-mix(in srgb, var(--omni-alert-color) 9%, var(--omni-color-surface)); color: var(--omni-color-text); }
+/* Plein : texte blanc sur l'encre assombrie, lisible même sur une sévérité claire. */
+.omni-alert--filled { background: color-mix(in srgb, var(--omni-alert-color) 65%, #000000); border-color: transparent; box-shadow: var(--omni-shadow-sm); color: var(--omni-color-on-accent); }
+.omni-alert--filled .omni-alert__icon,
+.omni-alert--filled .omni-alert__title { color: inherit; }
 .omni-alert--filled a { color: inherit; }
-.omni-alert__title { display: block; }
+.omni-alert__title { color: var(--omni-alert-ink); display: block; font-weight: 650; }
 
 .omni-visually-hidden {
     clip: rect(0 0 0 0);
@@ -383,31 +388,16 @@
 .omni-icon--medium { height: 1.25rem; width: 1.25rem; }
 .omni-icon--large { height: 1.5rem; width: 1.5rem; }
 
-/* Demi-rayon, comme les autres petits éléments : le rayon d'une carte, posé sur un carré de 28 px,
-   le faisait paraître plus rond que la carte voisine. */
-.omni-badge {
-    align-items: center;
-    border: 1px solid transparent;
-    border-radius: calc(var(--omni-radius) / 2);
-    display: inline-flex;
-    font-size: var(--omni-font-size-sm);
-    font-weight: 650;
-    line-height: 1;
-    min-height: 1.5rem;
-    padding: var(--omni-space-xs) var(--omni-space-sm);
-}
-.omni-badge--neutral { background: var(--omni-color-surface-muted); color: var(--omni-color-text); }
-.omni-badge--accent { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); }
-.omni-badge--success { background: var(--omni-color-success-subtle); color: var(--omni-color-success); }
-.omni-badge--warning { background: var(--omni-color-warning-subtle); color: var(--omni-color-warning); }
-.omni-badge--danger { background: var(--omni-color-danger-subtle); color: var(--omni-color-danger); }
-/* En contour, la teinte de la variante passe du fond au trait. */
-.omni-badge--outline { background: transparent; border-color: currentColor; }
-.omni-badge--outline.omni-badge--neutral { color: var(--omni-color-text); }
-.omni-badge--outline.omni-badge--accent { color: var(--omni-color-accent-strong); }
-.omni-badge--outline.omni-badge--success { color: var(--omni-color-success); }
-.omni-badge--outline.omni-badge--warning { color: var(--omni-color-warning); }
-.omni-badge--outline.omni-badge--danger { color: var(--omni-color-danger); }
+/* Pastille tonale : l'encre de la variante mêlée à la surface et au texte, lisible en clair et en sombre. */
+.omni-badge { --omni-badge-ink: var(--omni-color-text-muted); align-items: center; background: color-mix(in srgb, var(--omni-badge-ink) 14%, var(--omni-color-surface)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-badge-ink) 32%, transparent); border-radius: calc(var(--omni-radius) / 2); box-sizing: border-box; color: color-mix(in srgb, var(--omni-badge-ink) 40%, var(--omni-color-text)); display: inline-flex; font-size: var(--omni-font-size-sm); font-variant-numeric: tabular-nums; font-weight: 650; gap: var(--omni-space-xs); justify-content: center; line-height: 1; min-height: 1.375rem; min-width: 1.375rem; padding: 0.1875rem 0.5rem; white-space: nowrap; }
+.omni-badge .omni-icon { height: 0.875rem; width: 0.875rem; }
+.omni-badge--neutral { --omni-badge-ink: var(--omni-color-text-muted); }
+.omni-badge--accent { --omni-badge-ink: var(--omni-color-accent); }
+.omni-badge--success { --omni-badge-ink: var(--omni-color-success); }
+.omni-badge--warning { --omni-badge-ink: var(--omni-color-warning); }
+.omni-badge--danger { --omni-badge-ink: var(--omni-color-danger); }
+
+.omni-badge--outline { background: transparent; border-color: color-mix(in srgb, var(--omni-badge-ink) 78%, transparent); }
 
 /* Souligné au survol seulement. */
 .omni-link { color: var(--omni-color-accent-strong); text-decoration: none; text-underline-offset: 0.15em; }
@@ -490,10 +480,19 @@
 .omni-grid--gap-xlarge { gap: var(--omni-space-xl); }
 
 .omni-layout { box-sizing: border-box; margin-inline: auto; width: 100%; }
-.omni-layout--wide { max-width: 90rem; }
-.omni-layout--content { max-width: 72rem; }
-.omni-main { display: block; min-width: 0; }
+.omni-layout--wide { max-width: var(--omni-layout-wide-width, 90rem); }
+.omni-layout--content { max-width: var(--omni-layout-content-width, 72rem); }
+.omni-main { --omni-main-max-width: 100%; display: block; min-width: 0; }
 .omni-main:focus { outline: none; }
+/* Largeur du contenu seul ; sans défilement propre, l'élément principal lui-même se centre. */
+.omni-main--wide { --omni-main-max-width: var(--omni-layout-wide-width, 90rem); }
+.omni-main--content { --omni-main-max-width: var(--omni-layout-content-width, 72rem); }
+.omni-main:is(.omni-main--wide, .omni-main--content):not(.omni-main--scrollable) { box-sizing: border-box; flex: 1 1 auto; margin-inline: auto; max-inline-size: var(--omni-main-max-width); }
+/* Défilement propre : l'élément principal couvre toute la zone et défile, sa barre au bord de la
+   fenêtre ; la colonne se centre par la marge intérieure, mesurée sur le cadre de même largeur. */
+.omni-main-scroll { display: flex; flex: 1 1 auto; min-block-size: 0; min-inline-size: 0; }
+.omni-main--scrollable { --omni-main-pad: var(--omni-main-gutter, var(--omni-space-md)); box-sizing: border-box; display: flex; flex: 1 1 auto; flex-direction: column; min-block-size: 0; min-inline-size: 0; overflow: auto; padding: var(--omni-main-pad) max(var(--omni-main-pad), calc((100% - var(--omni-main-max-width)) / 2 + var(--omni-main-pad))); }
+.omni-layout:has(> .omni-body > .omni-main-scroll) { display: flex; flex-direction: column; min-block-size: 0; }
 .omni-header { background: var(--omni-color-surface); color: var(--omni-color-text); }
 .omni-header--sticky { position: sticky; top: 0; z-index: 10; }
 
@@ -660,7 +659,13 @@
 .omni-progress__indicator--90 { width: 90%; }
 .omni-progress__indicator--95 { width: 95%; }
 .omni-progress__indicator--100 { width: 100%; }
-.omni-progress--indeterminate .omni-progress__indicator { animation: omni-indeterminate 1.2s ease-in-out infinite; width: 35%; }
+/* Indéterminée : un motif de période égale à la piste glisse d'une période à vitesse constante. */
+.omni-progress--indeterminate .omni-progress__indicator {
+    animation: omni-indeterminate 1.6s linear infinite;
+    background: linear-gradient(90deg, transparent 0%, currentColor 14%, currentColor 36%, transparent 50%) 0 0 / 50% 100% repeat-x;
+    transition: none;
+    width: 200%;
+}
 .omni-progress__circle { height: 3rem; overflow: visible; transform: rotate(-90deg); width: 3rem; }
 .omni-progress__circle-track,
 .omni-progress__circle-value { fill: none; stroke-width: 5; }
@@ -669,7 +674,7 @@
 .omni-progress--indeterminate .omni-progress__circle { animation: omni-spin 900ms linear infinite; }
 @keyframes omni-spin { to { transform: rotate(360deg); } }
 .omni-progress__label { color: var(--omni-color-text); font-variant-numeric: tabular-nums; white-space: nowrap; }
-@keyframes omni-indeterminate { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
+@keyframes omni-indeterminate { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 
 @media (min-width: 40rem) {
     .omni-column--sm-1 { flex: 0 0 calc(100% * 1 / 12 - var(--omni-row-gap, 0px) * 11 / 12); max-width: calc(100% * 1 / 12 - var(--omni-row-gap, 0px) * 11 / 12); }
@@ -721,6 +726,7 @@
     .omni-progress__indicator,
     .omni-progress__circle,
     .omni-progress__circle-value { animation: none; transition: none; }
+    .omni-progress--indeterminate .omni-progress__indicator { background: currentColor; opacity: 0.45; transform: none; width: 100%; }
 }
 
 [data-omni-theme="light"] {
@@ -1002,12 +1008,22 @@
 }
 .omni-autocomplete__option:hover,
 .omni-autocomplete__option:focus-visible { background: var(--omni-color-surface-muted); outline: none; }
+.omni-autocomplete__option:disabled { background: transparent; color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
+/* Les lettres cherchées, en gras sur un fond d'accent. */
+.omni-autocomplete__match { background: color-mix(in srgb, var(--omni-color-accent) 24%, transparent); border-radius: 0.125rem; color: inherit; font-weight: 700; }
 .omni-choice-list { border: 0; display: grid; gap: var(--omni-space-sm); margin: 0; padding: 0; }
 .omni-choice-list__legend { font-weight: 650; margin-block-end: var(--omni-space-sm); }
-.omni-choice-list__item { align-items: center; display: inline-flex; gap: var(--omni-space-sm); }
-/* Trop large pour sa place, la barre défile au lieu de se couper ; le rembourrage laisse la place à
-   l'anneau de focus, que le défilement rognerait. */
-.omni-select-bar { display: inline-flex; margin: -0.1875rem; max-inline-size: calc(100% + 0.375rem); overflow-x: auto; overscroll-behavior-x: contain; padding: 0.1875rem; scrollbar-width: thin; }
+.omni-choice-list__item { align-items: center; cursor: pointer; display: inline-flex; gap: var(--omni-space-sm); }
+.omni-choice-list__item > input { accent-color: var(--omni-color-accent); cursor: inherit; margin: 0; }
+/* Une option indisponible se lit comme telle avant qu'on essaie de la choisir. */
+.omni-choice-list__item:is(.omni-choice-list__item--disabled, :has(> input:disabled)) { color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
+/* Trop large pour sa place, la barre défile sous un chevron de chaque côté qui cache encore des
+   options, comme les onglets, sans barre de défilement ; le rembourrage garde l'anneau de focus. */
+.omni-select-bar { align-items: center; display: inline-flex; max-inline-size: 100%; min-inline-size: 0; vertical-align: middle; }
+.omni-select-bar__viewport { display: flex; margin: -0.1875rem; min-inline-size: 0; overflow-x: auto; overscroll-behavior-x: contain; padding: 0.1875rem; scroll-behavior: smooth; scrollbar-width: none; }
+.omni-select-bar__viewport::-webkit-scrollbar { display: none; }
+/* Les chevrons sont ceux d'une pile qui défile (.omni-stack-scroll__button). */
+.omni-select-bar__scroll { position: relative; z-index: 2; }
 .omni-select-bar__item {
     background: var(--omni-color-surface);
     border: var(--omni-border-width) solid var(--omni-color-border);
@@ -1024,6 +1040,11 @@
 .omni-select-bar__item + .omni-select-bar__item { border-inline-start: 0; }
 .omni-select-bar__item--selected { background: var(--omni-color-accent); border-color: var(--omni-color-accent); color: var(--omni-color-on-accent); }
 .omni-select-bar__item:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; z-index: 1; }
+/* Une option indisponible est hachurée ; la barre entière désactivée s'éteint d'un bloc. */
+.omni-select-bar__item:disabled { background: repeating-linear-gradient(135deg, var(--omni-color-surface-muted) 0 0.375rem, var(--omni-color-surface) 0.375rem 0.75rem); color: var(--omni-color-text-muted); cursor: not-allowed; }
+.omni-select-bar__item--selected:disabled { background: color-mix(in srgb, var(--omni-color-accent) 45%, var(--omni-color-surface)); border-color: transparent; color: var(--omni-color-on-accent); }
+.omni-select-bar--disabled .omni-select-bar__item:not(.omni-select-bar__item--selected) { background: var(--omni-color-surface-muted); }
+.omni-select-bar--disabled .omni-select-bar__item { opacity: 0.6; }
 .omni-slider { align-items: center; display: flex; gap: var(--omni-space-sm); }
 .omni-slider__input { accent-color: var(--omni-color-accent); flex: 1; }
 .omni-slider--vertical { align-items: center; flex-direction: column; }
@@ -1032,11 +1053,40 @@
 .omni-color-picker__value { color: var(--omni-color-text); font-variant-numeric: tabular-nums; }
 .omni-color-picker { align-items: center; display: inline-flex; gap: var(--omni-space-sm); }
 .omni-color-picker__input { background: transparent; border: 0; height: 2.5rem; width: 3.5rem; }
+/* Envoi : une zone de dépôt en pointillés que le contrôle natif couvre, invisible, puis la liste des
+   fichiers, chacun sur sa ligne avec son icône, son nom, sa taille et, liée, sa croix. */
 .omni-upload { display: grid; gap: var(--omni-space-sm); }
-.omni-upload__files { display: grid; gap: var(--omni-space-xs); list-style: none; margin: 0; padding: 0; }
-.omni-upload__files li { display: flex; gap: var(--omni-space-md); justify-content: space-between; }
+.omni-upload__zone { align-items: center; background: var(--omni-color-surface-muted); border: calc(var(--omni-border-width) * 2) dashed var(--omni-color-border); border-radius: var(--omni-radius); display: grid; gap: var(--omni-space-xs); justify-items: center; padding: var(--omni-space-lg) var(--omni-space-md); position: relative; text-align: center; }
+.omni-upload__input { block-size: 100%; cursor: pointer; inline-size: 100%; inset: 0; opacity: 0; position: absolute; }
+.omni-upload__icon { color: var(--omni-color-accent); }
+.omni-upload__prompt { font-weight: 600; }
+.omni-upload__browse { color: var(--omni-color-accent-strong); text-decoration: underline; }
+.omni-upload__hint { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
+.omni-upload__zone:hover,
+.omni-upload--dragging .omni-upload__zone { background: color-mix(in srgb, var(--omni-color-accent) 10%, var(--omni-color-surface)); border-color: var(--omni-color-accent); }
+.omni-upload__zone:has(> .omni-upload__input:focus-visible) { border-color: var(--omni-color-accent); box-shadow: var(--omni-focus-ring); }
+.omni-upload--disabled .omni-upload__zone { background: var(--omni-color-surface-muted); border-color: var(--omni-color-border); opacity: 0.55; }
+.omni-upload--disabled .omni-upload__input { cursor: not-allowed; }
+.omni-upload__list { display: grid; gap: var(--omni-space-xs); list-style: none; margin: 0; padding: 0; }
+.omni-upload__file { align-items: center; background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; gap: var(--omni-space-sm); min-block-size: 2.5rem; min-inline-size: 0; padding: 0 var(--omni-space-xs) 0 var(--omni-space-sm); }
+.omni-upload__file-icon { color: var(--omni-color-text-muted); flex: 0 0 auto; }
+.omni-upload__file-name { flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-upload__file-size { color: var(--omni-color-text-muted); flex: 0 0 auto; font-size: var(--omni-font-size-sm); }
+.omni-upload__remove { background: transparent; border: 0; border-radius: var(--omni-radius); color: var(--omni-color-text-muted); cursor: pointer; display: inline-grid; flex: 0 0 auto; place-items: center; min-block-size: 2rem; min-inline-size: 2rem; }
+.omni-upload__remove:hover { background: color-mix(in srgb, var(--omni-color-danger) 14%, transparent); color: var(--omni-color-danger); }
+.omni-upload__remove:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-upload__remove:disabled { cursor: not-allowed; opacity: 0.5; }
+.omni-upload__cancel,
+.omni-upload__retry { justify-self: start; }
 .omni-upload__message { margin: 0; }
 .omni-upload__message--error { color: var(--omni-color-danger); }
+
+/* Dates : le contrôle natif suit le thème de sa portée, clair compris, son icône de calendrier
+   prend le texte atténué, l'accent au survol. */
+[data-omni-theme="light"] { color-scheme: light; }
+.omni-date-input { accent-color: var(--omni-color-accent); }
+.omni-date-input::-webkit-calendar-picker-indicator { background: var(--omni-color-text-muted); block-size: 1.125rem; cursor: pointer; inline-size: 1.125rem; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Cpath fill-rule=%27evenodd%27 d=%27M3 5h18v17H3zm2 6v9h14v-9zM7 2h2v5H7zm8 0h2v5h-2z%27/%3E%3C/svg%3E") center / contain no-repeat; opacity: 1; padding: 0; }
+.omni-date-input:not(:disabled)::-webkit-calendar-picker-indicator:hover { background: var(--omni-color-accent); }
 
 .omni-toggle-button,
 .omni-split-button__main,
@@ -1049,11 +1099,18 @@
     cursor: pointer;
     font: inherit;
 }
-.omni-toggle-button { border-radius: var(--omni-radius); min-height: 2.75rem; padding: var(--omni-space-sm) var(--omni-space-md); }
+/* Bouton bascule et bouton partagé : le gabarit d'OmniButton, tailles et forme du thème comprises. */
+.omni-toggle-button,
+.omni-split-button__main,
+.omni-split-button__toggle { align-items: center; box-shadow: var(--omni-button-shadow); box-sizing: border-box; display: inline-flex; font-size: var(--omni-button-font-size, inherit); font-weight: var(--omni-button-font-weight); gap: var(--omni-space-sm); justify-content: center; letter-spacing: var(--omni-button-letter-spacing); min-height: var(--omni-button-size, var(--omni-control-height)); text-transform: var(--omni-button-text-transform); }
+.omni-toggle-button,
+.omni-split-button__main { padding: var(--omni-space-xs) var(--omni-button-padding-inline, var(--omni-space-lg)); }
+.omni-toggle-button { border-radius: var(--omni-button-radius, var(--omni-radius)); }
+.omni-toggle-button:where(:has(> .omni-icon:only-child)) { min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding-inline: 0; }
 .omni-toggle-button--pressed { background: var(--omni-color-accent); border-color: var(--omni-color-accent); color: var(--omni-color-on-accent); }
 .omni-split-button { display: inline-flex; position: relative; }
-.omni-split-button__main { border-radius: var(--omni-radius) 0 0 var(--omni-radius); min-height: 2.75rem; padding: var(--omni-space-sm) var(--omni-space-md); }
-.omni-split-button__toggle { border-inline-start: 0; border-radius: 0 var(--omni-radius) var(--omni-radius) 0; min-height: 2.75rem; min-width: 2.75rem; }
+.omni-split-button__main { border-radius: var(--omni-button-radius, var(--omni-radius)) 0 0 var(--omni-button-radius, var(--omni-radius)); }
+.omni-split-button__toggle { border-inline-start: 0; border-radius: 0 var(--omni-button-radius, var(--omni-radius)) var(--omni-button-radius, var(--omni-radius)) 0; min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding: 0; }
 .omni-split-button__menu,
 .omni-context-menu__popup {
     background: var(--omni-color-surface);
@@ -1079,7 +1136,9 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-dialog__close,
 .omni-notification__dismiss { border: 0; border-radius: var(--omni-radius); font-size: var(--omni-font-size-h4); min-height: 2.75rem; min-width: 2.75rem; }
 .omni-dialog__content { padding: var(--omni-space-lg); }
-.omni-dialog__footer { border-block-start: var(--omni-border-width) solid var(--omni-color-border); display: flex; gap: var(--omni-space-sm); justify-content: end; padding: var(--omni-space-md); }
+/* Boutons de dialogue : au bout du pied, l'action puis Annuler (Danger), chacun avec son icône. */
+.omni-dialog__footer { align-items: center; border-block-start: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: end; padding: var(--omni-space-md); }
+.omni-confirm__message { margin: 0; }
 /* La pile se pose sur un coin ou un bord, nommés en logique (lecture de droite à gauche). */
 .omni-notification-region { display: grid; gap: var(--omni-space-sm); max-width: min(24rem, 90vw); position: fixed; z-index: 120; }
 .omni-notification-region--topstart { inset-block-start: var(--omni-space-md); inset-inline-start: var(--omni-space-md); }
@@ -1205,7 +1264,11 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-context-menu__popup { inset-inline-start: 0; }
 .omni-overlay-portal { inset: 0; pointer-events: none; position: fixed; z-index: 120; }
 .omni-overlay-portal__entry { pointer-events: auto; position: relative; }
-.omni-overlay-portal__entry--contextmenu .omni-context-menu__popup { position: fixed; }
+/* Posé par omni-focus.js au pointeur, ou sous le déclencheur au clavier, et ramené dans la fenêtre.
+   Porté hors de la page, le menu sans position (script absent) reste en haut à gauche plutôt que
+   sous le bord de l'écran, où « 100 % » de la fenêtre l'envoyait. */
+.omni-context-menu__popup[data-omni-placed],
+.omni-overlay-portal__entry--contextmenu .omni-context-menu__popup { inset: auto; left: var(--omni-menu-x, var(--omni-space-md)); position: fixed; top: var(--omni-menu-y, var(--omni-space-md)); }
 
 .omni-breadcrumb__list { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); list-style: none; margin: 0; padding: 0; }
 .omni-breadcrumb__item + .omni-breadcrumb__item::before { color: var(--omni-color-text-muted); content: "/"; margin-inline-end: var(--omni-space-xs); }
@@ -1325,6 +1388,9 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-tabs__viewport::-webkit-scrollbar { display: none; }
 .omni-tabs__icon { align-items: center; display: inline-flex; flex: 0 0 auto; }
 .omni-tabs__tab { align-items: center; display: inline-flex; flex: 0 0 auto; gap: var(--omni-space-sm); white-space: nowrap; }
+/* Un compteur d'onglet reste sous la hauteur de ligne : l'onglet garde sa hauteur. */
+.omni-tabs__title { align-items: center; display: inline-flex; gap: var(--omni-space-xs); }
+.omni-tabs__title .omni-badge { font-size: 0.6875rem; min-height: 1rem; min-width: 1rem; padding: 0 0.3125rem; }
 .omni-tabs__item { display: contents; }
 
 /* Opaque, and above the fade: a transparent button let a sliver of the tab it covers show
@@ -1396,6 +1462,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-profile-menu__item { background: transparent; border: 0; border-radius: calc(var(--omni-radius) / 2); font: inherit; padding: var(--omni-space-sm); text-align: start; text-decoration: none; }
 .omni-profile-menu__item:hover,
 .omni-profile-menu__item:focus-visible { background: var(--omni-color-surface-muted); outline: none; }
+.omni-profile-menu__item:disabled { background: transparent; color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
 
 .omni-data-list { display: grid; gap: var(--omni-space-sm); }
 .omni-data-list__item { border-block-end: var(--omni-border-width) solid var(--omni-color-border); padding: var(--omni-space-md); }
@@ -1587,6 +1654,8 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-multi-select-compact__option { align-items: center; border-radius: calc(var(--omni-radius) / 2); cursor: pointer; display: flex; gap: var(--omni-space-xs); padding: 0.25rem 0.375rem; white-space: nowrap; }
 .omni-multi-select-compact__option:hover { background: var(--omni-color-surface-muted); }
 .omni-multi-select-compact__option input { accent-color: var(--omni-color-accent); flex: 0 0 auto; }
+.omni-multi-select-compact__option:has(> input:disabled) { background: transparent; color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
+.omni-multi-select-compact__summary[aria-disabled="true"] { cursor: not-allowed; opacity: 0.65; }
 
 @media (prefers-reduced-motion: reduce) {
     .omni-multi-select-compact__chevron { transition: none; }
@@ -1674,21 +1743,29 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-arc-gauge { margin: 0; }
 .omni-chart__svg,
 .omni-arc-gauge__svg { display: block; height: auto; overflow: visible; width: 100%; }
-.omni-chart__line { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
-.omni-chart__area { fill: currentColor; fill-opacity: 0.24; stroke: currentColor; stroke-width: 1; }
+/* Strokes are measured in screen pixels rather than in view box units, so a line keeps its weight
+   whether the chart is drawn small in a card or large across a page. */
+.omni-chart__line { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5px; }
+.omni-chart__area { fill: currentColor; fill-opacity: 0.24; stroke: currentColor; stroke-width: 1.5px; }
 .omni-chart__area--stacked,
 .omni-chart__columns--stacked { opacity: 0.75; }
 .omni-chart__columns,
 .omni-chart__bars,
 .omni-chart__pie,
 .omni-chart__donut { fill: currentColor; }
-.omni-chart__axis line { stroke: var(--omni-color-border); stroke-width: 0.5; }
+.omni-chart__axis line { stroke: var(--omni-color-border); stroke-width: 1px; }
 .omni-chart__axis text,
 .omni-chart__axis-title,
 .omni-chart__legend text,
 .omni-chart__labels { fill: var(--omni-color-text); font-size: 3px; }
-.omni-chart__grid-lines line { stroke: var(--omni-color-border); stroke-dasharray: 1 1; stroke-width: 0.25; }
-.omni-chart__markers { fill: var(--omni-color-surface); stroke: currentColor; stroke-width: 0.75; }
+.omni-chart__axis text { fill: var(--omni-color-text-muted); }
+.omni-chart__grid-lines line { stroke: var(--omni-color-border); stroke-dasharray: 4 4; stroke-width: 1px; }
+.omni-chart__markers { stroke: currentColor; stroke-width: 2px; }
+.omni-chart__line,
+.omni-chart__area,
+.omni-chart__axis line,
+.omni-chart__grid-lines line,
+.omni-chart__markers circle { vector-effect: non-scaling-stroke; }
 .omni-chart-color-0 { color: var(--omni-chart-color-0); fill: var(--omni-chart-color-0); stroke: var(--omni-chart-color-0); }
 .omni-chart-color-1 { color: var(--omni-chart-color-1); fill: var(--omni-chart-color-1); stroke: var(--omni-chart-color-1); }
 .omni-chart-color-2 { color: var(--omni-chart-color-2); fill: var(--omni-chart-color-2); stroke: var(--omni-chart-color-2); }
@@ -1697,18 +1774,85 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-chart-color-5 { color: var(--omni-chart-color-5); fill: var(--omni-chart-color-5); stroke: var(--omni-chart-color-5); }
 .omni-chart-color-6 { color: var(--omni-chart-color-6); fill: var(--omni-chart-color-6); stroke: var(--omni-chart-color-6); }
 .omni-chart-color-7 { color: var(--omni-chart-color-7); fill: var(--omni-chart-color-7); stroke: var(--omni-chart-color-7); }
-.omni-arc-gauge__track { fill: none; stroke: var(--omni-color-surface-muted); stroke-linecap: round; stroke-width: 8; }
+/* The colour classes also set fill, which a line and a marker must not take: an element plus class
+   selector outranks them, where the class alone, declared before them, lost and filled the line as
+   a polygon. */
+polyline.omni-chart__line { fill: none; }
+.omni-chart__markers circle { fill: var(--omni-color-surface); }
+.omni-arc-gauge__track { fill: none; stroke: var(--omni-color-border); stroke-linecap: round; stroke-width: 8; }
 .omni-arc-gauge__value path { fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 8; }
-.omni-arc-gauge text { fill: var(--omni-color-text); font-size: 5px; }
+.omni-arc-gauge text { fill: var(--omni-color-text); stroke: none; }
+.omni-arc-gauge .omni-arc-gauge__limit { fill: var(--omni-color-text-muted); font-size: 5px; }
+.omni-arc-gauge__value-text { font-size: 10px; font-variant-numeric: tabular-nums; font-weight: 650; }
 
 .omni-timeline__list { display: grid; gap: var(--omni-space-md); list-style: none; margin: 0; padding: 0; }
 .omni-timeline__item { display: grid; gap: var(--omni-space-md); grid-template-columns: 1rem 1fr; position: relative; }
-.omni-timeline__item::before { background: var(--omni-color-border); content: ""; inset-block: 1rem -1rem; inset-inline-start: 0.45rem; position: absolute; width: 1px; }
+.omni-timeline__item::before { background: var(--omni-color-border); content: ""; inset-block: 1rem -1rem; inset-inline-start: calc(0.5rem - 0.5px); position: absolute; width: 1px; }
 .omni-timeline__item:last-child::before { display: none; }
-.omni-timeline__marker { background: var(--omni-color-accent); border: 0.2rem solid var(--omni-color-surface); border-radius: var(--omni-radius-circle); height: 0.9rem; position: relative; width: 0.9rem; z-index: 1; }
-.omni-timeline__content header { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
+.omni-timeline__marker { background: var(--omni-color-accent); border: 0.2rem solid var(--omni-color-surface); border-radius: var(--omni-radius-circle); grid-column: 1; grid-row: 1; height: 0.9rem; justify-self: center; position: relative; width: 0.9rem; z-index: 1; }
+.omni-timeline__content { grid-column: 2; grid-row: 1; min-width: 0; }
+.omni-timeline__content header { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: var(--omni-timeline-align, flex-start); }
 .omni-timeline__content h3,
 .omni-timeline__content p { margin: 0; }
+/* Start: the line runs down the end edge, each entry before it and aligned against it. */
+.omni-timeline--start .omni-timeline__item { grid-template-columns: 1fr 1rem; }
+.omni-timeline--start .omni-timeline__item::before { inset-inline-end: calc(0.5rem - 0.5px); inset-inline-start: auto; }
+.omni-timeline--start .omni-timeline__marker { grid-column: 2; }
+.omni-timeline--start .omni-timeline__content { --omni-timeline-align: flex-end; grid-column: 1; text-align: end; }
+/* Alternate: the line runs down the middle, and each entry takes the side its rank gives it. The
+   timeline is its own container, so a narrow column stacks the entries whatever the window width. */
+.omni-timeline--alternate { container-type: inline-size; }
+@container (min-width: 30rem) {
+    .omni-timeline--alternate .omni-timeline__item { grid-template-columns: 1fr 1rem 1fr; }
+    .omni-timeline--alternate .omni-timeline__item::before { inset-inline-start: calc(50% - 0.5px); }
+    .omni-timeline--alternate .omni-timeline__marker { grid-column: 2; }
+    .omni-timeline--alternate .omni-timeline__content { grid-column: 3; }
+    .omni-timeline--first-start .omni-timeline__item:nth-child(odd) .omni-timeline__content,
+    .omni-timeline--first-end .omni-timeline__item:nth-child(even) .omni-timeline__content { --omni-timeline-align: flex-end; grid-column: 1; text-align: end; }
+}
+/* OmniGantt. The names and the SVG beside them share row heights in pixels (GanttLayout.RowHeight
+   and HeaderHeight); the SVG's fixed sizes, strokes and fonts are its own presentation attributes. */
+.omni-gantt { display: grid; gap: var(--omni-space-sm); }
+.omni-gantt__toolbar { display: flex; justify-content: flex-end; }
+.omni-gantt__empty { color: var(--omni-color-text-muted); margin: 0; text-align: center; }
+.omni-gantt__body { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; grid-template-columns: minmax(8rem, 14rem) minmax(0, 1fr); overflow: hidden; }
+.omni-gantt__names { border-inline-end: 1px solid var(--omni-color-border); font-size: var(--omni-font-size-sm); }
+.omni-gantt__names > div { align-items: center; display: flex; height: 36px; overflow: hidden; padding-inline: var(--omni-space-sm); white-space: nowrap; }
+.omni-gantt__names > .omni-gantt__names-head { border-block-end: 1px solid var(--omni-color-border); height: 43px; }
+.omni-gantt__names-head, .omni-gantt__name--group { font-weight: 650; }
+.omni-gantt__chart { overflow-x: auto; }
+.omni-gantt__svg { display: block; }
+.omni-gantt__row { fill: none; }
+.omni-gantt__row--odd, .omni-gantt__weekend { fill: var(--omni-color-surface-muted); }
+.omni-gantt__row--group { fill: var(--omni-color-surface-hover); }
+.omni-gantt__grid line { stroke: var(--omni-color-border); }
+.omni-gantt__header text, .omni-gantt__label { fill: var(--omni-color-text); }
+.omni-gantt__today { stroke: var(--omni-color-danger); }
+.omni-gantt__dependencies, .omni-gantt__arrow { fill: var(--omni-color-text-muted); stroke: var(--omni-color-text-muted); }
+.omni-gantt__dependencies path { fill: none; }
+.omni-gantt__summary { fill: var(--omni-color-text-muted); }
+.omni-gantt__bar-shape { fill-opacity: 0.3; }
+/* The halo, drawn under the text, keeps a label readable over the filled part, the empty part and the grid. */
+.omni-gantt__label { stroke: var(--omni-color-surface); }
+.omni-gantt__hit { background: none; border: 0; cursor: pointer; display: block; height: 100%; padding: 0; width: 100%; }
+.omni-gantt__hit:focus-visible { outline: 2px solid var(--omni-color-accent); }
+/* OmniStepTimeline: every row has the same gutters, so the tracks start and end on the same x and bars compare. */
+.omni-step-timeline { display: grid; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); }
+.omni-step-timeline__steps { display: grid; gap: var(--omni-space-xs); list-style: none; margin: 0; padding: 0; }
+.omni-step-timeline__row { align-items: center; display: grid; gap: var(--omni-space-sm); grid-template-columns: minmax(0, 10rem) minmax(0, 1fr) 3.5rem; }
+.omni-step-timeline__scale { display: flex; justify-content: space-between; }
+.omni-step-timeline__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-step-timeline__head, .omni-step-timeline__duration, .omni-step-timeline__never, .omni-step-timeline__step--secondary .omni-step-timeline__name { color: var(--omni-color-text-muted); }
+.omni-step-timeline__step--secondary .omni-step-timeline__name { font-style: italic; }
+.omni-step-timeline__track { display: block; height: 0.75rem; width: 100%; }
+.omni-step-timeline__rail { fill: var(--omni-color-surface-muted); stroke: var(--omni-color-border); }
+.omni-step-timeline__bar { fill: var(--omni-color-border); }
+.omni-step-timeline__step--success .omni-step-timeline__bar { fill: var(--omni-color-success); }
+.omni-step-timeline__step--failed .omni-step-timeline__bar { fill: var(--omni-color-danger); }
+.omni-step-timeline__step--running .omni-step-timeline__bar { fill: var(--omni-color-accent); }
+.omni-step-timeline__duration { text-align: end; }
+.omni-step-timeline__never { margin: 0; }
+.omni-step-timeline__never-label { font-weight: 650; }
 .omni-scheduler { display: grid; gap: var(--omni-space-md); }
 .omni-scheduler__header { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: space-between; }
 .omni-scheduler__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
@@ -1736,39 +1880,48 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-html-editor__preview { border-block-start: var(--omni-border-width) solid var(--omni-color-border); min-height: 4rem; padding: var(--omni-space-md); }
 
 
-/* Busy veil (STD-BUSY). A busy control keeps its exact size and content: a surface-coloured layer
-   breathes over it instead, fading towards the page colour rather than revealing what lies behind.
-   .btn-busy is the same rule under the application-kit name, so a host's own <button> gets it too.
-   No cursor is set: with pointer events off the pointer never reaches the button to show one. */
+/* Busy veil (STD-BUSY). A busy control keeps its exact size and content: a dark layer breathes over
+   it (--omni-busy-veil-color), from a quarter to over half, so it reads as occupied in both
+   appearances. .btn-busy is the same rule under the application-kit name. No cursor: with pointer
+   events off the pointer never reaches the button. */
 .omni-busy,
 .btn-busy { overflow: hidden; pointer-events: none; position: relative; }
 .omni-busy::after,
 .btn-busy::after {
     animation: omni-busy-veil 1.3s ease-in-out infinite;
-    background: var(--omni-color-surface);
+    background: var(--omni-busy-veil-color, #000000);
     border-radius: inherit;
     content: "";
     inset: 0;
-    opacity: 0;
+    opacity: 0.25;
     pointer-events: none;
     position: absolute;
 }
-@keyframes omni-busy-veil { 0%, 100% { opacity: 0; } 50% { opacity: 0.45; } }
+@keyframes omni-busy-veil { 0%, 100% { opacity: 0.25; } 50% { opacity: 0.55; } }
 @media (prefers-reduced-motion: reduce) {
     .omni-busy::after,
-    .btn-busy::after { animation-duration: 4s; }
+    .btn-busy::after { animation: none; opacity: 0.4; }
 }
 
 /* Réglages : une carte par thème, chaque réglage en encadré. */
 .omni-settings-section > .omni-card__body { display: flex; flex-direction: column; gap: 1rem; }
 .omni-settings-section__heading { display: grid; gap: 0.35rem; }
 .omni-settings-section__title { font-size: 1rem; font-weight: 650; margin: 0; }
-.omni-settings-hint { font-size: 0.8125rem; margin: 0; opacity: 0.9; }
+.omni-settings-hint { color: color-mix(in srgb, currentColor 90%, transparent); font-size: 0.8125rem; margin: 0; }
 .omni-settings-tile { background: color-mix(in srgb, var(--omni-color-text) 4%, var(--omni-color-surface)); border: 1px solid color-mix(in srgb, var(--omni-color-text) 18%, transparent); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); padding: var(--omni-space-md); }
 .omni-settings-tile__row { align-items: center; display: flex; flex-wrap: wrap; gap: 0.75rem; }
 .omni-settings-tile__icon { align-items: center; background: color-mix(in srgb, var(--omni-color-accent) 12%, transparent); block-size: 2.5rem; border-radius: var(--omni-radius); color: var(--omni-color-accent); display: inline-flex; flex: 0 0 auto; inline-size: 2.5rem; justify-content: center; }
 .omni-settings-tile__text { display: flex; flex: 1 1 12rem; flex-direction: column; gap: 0.25rem; }
 .omni-settings-tile__title { font-weight: 650; }
+/* Tuile à interrupteur : le libellé couvre la tuile ; contrôle et détails, positionnés après lui, passent
+   au-dessus sans z-index ni contexte d'empilement. L'indice n'a pas d'opacité, qui le passerait devant. */
+.omni-settings-tile--toggle { cursor: pointer; position: relative; transition: background-color 120ms ease; }
+.omni-settings-tile--toggle:hover { background: color-mix(in srgb, var(--omni-color-text) 8%, var(--omni-color-surface)); }
+.omni-settings-tile--toggle .omni-settings-tile__title { cursor: pointer; }
+.omni-settings-tile--toggle .omni-settings-tile__title::after { content: ""; inset: 0; position: absolute; }
+.omni-settings-tile--toggle .omni-settings-tile__row > :not(.omni-settings-tile__icon, .omni-settings-tile__text),
+.omni-settings-tile--toggle > :not(.omni-settings-tile__row) { position: relative; }
+@media (prefers-reduced-motion: reduce) { .omni-settings-tile--toggle { transition: none; } }
 
 /* Mind map (Diagram family). Geometry is SVG attributes, colours are the group tokens above. */
 .omni-mindmap { display: flex; flex-direction: column; gap: var(--omni-space-sm); }

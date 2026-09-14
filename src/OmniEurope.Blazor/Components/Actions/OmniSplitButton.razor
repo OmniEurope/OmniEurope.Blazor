@@ -3,7 +3,7 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JavaScript
 
-<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-split-button")" @onkeydown="HandleKeyDownAsync">
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-split-button", $"omni-split-button--{Size.ToString().ToLowerInvariant()}")" @onkeydown="HandleKeyDownAsync">
     <button type="button"
             @ref="_toggle"
             class="@(Busy ? "omni-split-button__main omni-busy" : "omni-split-button__main")"
@@ -16,7 +16,7 @@
             aria-haspopup="menu"
             aria-expanded="@(_open ? "true" : "false")"
             aria-label="@EffectiveMenuLabel"
-            @onclick="ToggleMenuAsync">▾</button>
+            @onclick="ToggleMenuAsync"><OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" /></button>
     @if (_open)
     {
         <div @ref="_menu" class="omni-split-button__menu" role="menu" tabindex="-1" autofocus>@ChildContent</div>

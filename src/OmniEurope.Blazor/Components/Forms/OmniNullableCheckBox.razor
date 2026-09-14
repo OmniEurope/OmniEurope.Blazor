@@ -2,7 +2,7 @@
 @inherits OmniInputBase<bool?>
 
 <button @attributes="AdditionalAttributes"
-        id="@Id"
+        id="@EffectiveId"
         class="@InputCss("omni-checkbox-nullable", CurrentValue is null ? "omni-checkbox-nullable--mixed" : CurrentValue == true ? "omni-checkbox-nullable--checked" : null)"
         type="button"
         role="checkbox"

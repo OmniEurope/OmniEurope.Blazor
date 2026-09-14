@@ -1,8 +1,18 @@
 @namespace OmniEurope.Blazor.Components
 <g class="omni-chart__grid-lines" aria-hidden="true">
-    @for (var index = 1; index < Count; index++)
+    @* One line per band boundary of the plot, the axis itself excepted: with as many grid lines as
+       value ticks, each line runs through a tick. *@
+    @for (var index = 1; index <= Count; index++)
     {
-        var position = index * 100d / Count;
-        <line x1="5" y1="@OmniChartGeometry.Number(position)" x2="95" y2="@OmniChartGeometry.Number(position)" />
+        if (Context.Horizontal)
+        {
+            var x = OmniChartContext.PlotLeft + (index * (Context.PlotRight - OmniChartContext.PlotLeft) / Count);
+            <line x1="@N(x)" y1="@N(OmniChartContext.PlotTop)" x2="@N(x)" y2="@N(OmniChartContext.PlotBottom)" />
+        }
+        else
+        {
+            var y = OmniChartContext.PlotBottom - (index * (OmniChartContext.PlotBottom - OmniChartContext.PlotTop) / Count);
+            <line x1="@N(OmniChartContext.PlotLeft)" y1="@N(y)" x2="@N(Context.PlotRight)" y2="@N(y)" />
+        }
     }
 </g>

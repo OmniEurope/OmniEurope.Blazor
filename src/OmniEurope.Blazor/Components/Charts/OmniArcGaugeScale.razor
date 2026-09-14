@@ -1,7 +1,8 @@
 @namespace OmniEurope.Blazor.Components
 <g class="omni-arc-gauge__scale">
     <path class="omni-arc-gauge__track" d="@OmniChartGeometry.Gauge(100)" />
-    @ChildContent
-    <text x="10" y="58">@Minimum</text>
-    <text x="90" y="58" text-anchor="end">@Maximum</text>
+    @* Values left without bounds take the scale's, so the bounds are written once. *@
+    <CascadingValue Value="this" IsFixed="false">@ChildContent</CascadingValue>
+    <text class="omni-arc-gauge__limit" x="10" y="60" text-anchor="middle">@Minimum</text>
+    <text class="omni-arc-gauge__limit" x="90" y="60" text-anchor="middle">@Maximum</text>
 </g>
