@@ -168,6 +168,7 @@
     border: var(--omni-button-border-width) solid var(--omni-button-border-color);
     border-radius: var(--omni-button-radius, var(--omni-radius));
     box-shadow: var(--omni-button-shadow);
+    box-sizing: border-box;
     cursor: pointer;
     display: inline-flex;
     font: inherit;
@@ -184,16 +185,28 @@
     outline: none;
 }
 
-.omni-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.58;
-}
+/* Désactivé : éteint et assombri, une opacité seule l'éclaircissait sur fond clair. */
+.omni-button:disabled,
+.omni-toggle-button:disabled,
+.omni-split-button__main:disabled,
+.omni-split-button__toggle:disabled { box-shadow: none; cursor: not-allowed; filter: grayscale(0.75) brightness(0.68); opacity: 0.8; }
 
-/* Every size is derived from the one control height, so a button always lines up with the input
-   beside it; only the horizontal padding tells the sizes apart, and only large adds height. */
-.omni-button--small { min-height: var(--omni-control-height); padding: var(--omni-space-xs) var(--omni-space-sm); }
-.omni-button--medium { min-height: var(--omni-control-height); padding: var(--omni-space-xs) var(--omni-space-lg); }
-.omni-button--large { min-height: calc(var(--omni-control-height) + 0.5rem); padding: var(--omni-space-sm) var(--omni-space-xl); }
+/* Trois tailles distinctes (hauteur, marge, corps) ; le moyen garde la hauteur du champ voisin.
+   --omni-button-size est aussi le côté d'un bouton à icône seule. */
+.omni-button--small,
+.omni-toggle-button--small,
+.omni-split-button--small { --omni-button-size: calc(var(--omni-control-height) - 0.5rem); --omni-button-padding-inline: var(--omni-space-sm); --omni-button-font-size: var(--omni-font-size-sm); }
+.omni-button--medium,
+.omni-toggle-button--medium,
+.omni-split-button--medium { --omni-button-size: var(--omni-control-height); --omni-button-padding-inline: var(--omni-space-lg); }
+.omni-button--large,
+.omni-toggle-button--large,
+.omni-split-button--large { --omni-button-size: calc(var(--omni-control-height) + 0.5rem); --omni-button-padding-inline: var(--omni-space-xl); --omni-button-font-size: var(--omni-font-size-lg); }
+.omni-button { font-size: var(--omni-button-font-size, inherit); min-height: var(--omni-button-size, var(--omni-control-height)); padding: var(--omni-space-xs) var(--omni-button-padding-inline, var(--omni-space-lg)); }
+.omni-button--small .omni-button__content { gap: var(--omni-space-xs); }
+.omni-button--small .omni-icon--medium { height: 1rem; width: 1rem; }
+/* Icône seule : carré. :where laisse un hôte qui retaille ses boutons l'emporter. */
+.omni-button:where(:has(> .omni-button__content > .omni-icon:only-child)) { min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding-inline: 0; }
 .omni-button--primary { background: var(--omni-color-accent); color: var(--omni-color-on-accent); }
 .omni-button--primary:hover:not(:disabled) { background: var(--omni-color-accent-strong); }
 .omni-button--secondary { background: var(--omni-color-surface); border-color: var(--omni-color-border); color: var(--omni-color-text); }
@@ -286,14 +299,10 @@
         white-space: nowrap;
     }
 
-    /* Réduit à son icône, un bouton est carré : sa largeur reprend sa hauteur de contrôle. */
+    /* Réduit à son icône, un bouton est carré : sa largeur reprend la hauteur de sa taille. */
     .omni-stack--overflow-collapse .omni-button:has(> .omni-button__content > :is([aria-hidden="true"],[role="img"],svg,img)) {
-        inline-size: var(--omni-control-height);
+        inline-size: var(--omni-button-size, var(--omni-control-height));
         padding-inline: 0;
-    }
-
-    .omni-stack--overflow-collapse .omni-button--large:has(> .omni-button__content > :is([aria-hidden="true"],[role="img"],svg,img)) {
-        inline-size: calc(var(--omni-control-height) + 0.5rem);
     }
 
     /* Un bouton sans icône garderait une surface vide : son libellé reste. */
@@ -306,32 +315,28 @@
     }
 }
 
-.omni-alert {
-    align-items: flex-start;
-    border: 1px solid currentColor;
-    border-radius: var(--omni-radius);
-    display: flex;
-    gap: var(--omni-space-sm);
-    padding: var(--omni-space-md) var(--omni-space-lg);
-}
-.omni-alert__icon { align-items: center; display: inline-flex; flex: 0 0 auto; }
+/* Contour : fond teinté, barre de sévérité, titre et icône colorés, message dans le texte du thème. */
+.omni-alert { --omni-alert-color: var(--omni-color-accent); --omni-alert-ink: color-mix(in srgb, var(--omni-alert-color) 42%, var(--omni-color-text)); align-items: flex-start; border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-alert-color) 40%, transparent); border-inline-start: 0.25rem solid var(--omni-alert-color); border-radius: var(--omni-radius); box-sizing: border-box; display: flex; gap: var(--omni-space-md); line-height: 1.45; padding: var(--omni-space-md) var(--omni-space-lg); }
+.omni-alert__icon { align-items: center; color: var(--omni-alert-ink); display: inline-flex; flex: 0 0 auto; min-block-size: 1.45em; }
 .omni-alert__body { display: grid; gap: var(--omni-space-xs); min-width: 0; }
 /* Present only on a Dismissible alert; it keeps the 44 px touch target and inherits the alert colour. */
 .omni-alert__dismiss { align-items: center; background: transparent; border: 0; border-radius: var(--omni-radius); color: inherit; cursor: pointer; display: inline-flex; flex: 0 0 auto; justify-content: center; margin: calc(-1 * var(--omni-space-sm)) calc(-1 * var(--omni-space-sm)) 0 auto; min-height: 2.75rem; min-width: 2.75rem; padding: 0; }
 .omni-alert__dismiss:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
 .omni-alert__dismiss:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.omni-alert__content > :first-child { margin-block-start: 0; }
+.omni-alert__content > :last-child { margin-block-end: 0; }
 
-.omni-alert--info { --omni-alert-color: var(--omni-color-accent-strong); --omni-alert-on: var(--omni-color-on-accent); }
-.omni-alert--success { --omni-alert-color: var(--omni-color-success); --omni-alert-on: var(--omni-color-on-success); }
-.omni-alert--warning { --omni-alert-color: var(--omni-color-warning); --omni-alert-on: var(--omni-color-on-warning); }
-.omni-alert--danger { --omni-alert-color: var(--omni-color-danger); --omni-alert-on: var(--omni-color-on-danger); }
-.omni-alert--outline { color: var(--omni-alert-color); }
-/* Le texte prend la couleur choisie pour ce fond plutôt que celle du texte du thème : sur un fond
-   plein de sévérité, cette dernière n'a plus le contraste nécessaire dans les deux apparences, et un
-   thème peut demander un texte sombre sur une sévérité et clair sur une autre. */
-.omni-alert--filled { background: var(--omni-alert-color); border-color: transparent; color: var(--omni-alert-on); }
+.omni-alert--info { --omni-alert-color: var(--omni-color-accent); }
+.omni-alert--success { --omni-alert-color: var(--omni-color-success); }
+.omni-alert--warning { --omni-alert-color: var(--omni-color-warning); }
+.omni-alert--danger { --omni-alert-color: var(--omni-color-danger); }
+.omni-alert--outline { background: color-mix(in srgb, var(--omni-alert-color) 9%, var(--omni-color-surface)); color: var(--omni-color-text); }
+/* Plein : texte blanc sur l'encre assombrie, lisible même sur une sévérité claire. */
+.omni-alert--filled { background: color-mix(in srgb, var(--omni-alert-color) 65%, #000000); border-color: transparent; box-shadow: var(--omni-shadow-sm); color: var(--omni-color-on-accent); }
+.omni-alert--filled .omni-alert__icon,
+.omni-alert--filled .omni-alert__title { color: inherit; }
 .omni-alert--filled a { color: inherit; }
-.omni-alert__title { display: block; }
+.omni-alert__title { color: var(--omni-alert-ink); display: block; font-weight: 650; }
 
 .omni-visually-hidden {
     clip: rect(0 0 0 0);
@@ -383,31 +388,16 @@
 .omni-icon--medium { height: 1.25rem; width: 1.25rem; }
 .omni-icon--large { height: 1.5rem; width: 1.5rem; }
 
-/* Demi-rayon, comme les autres petits éléments : le rayon d'une carte, posé sur un carré de 28 px,
-   le faisait paraître plus rond que la carte voisine. */
-.omni-badge {
-    align-items: center;
-    border: 1px solid transparent;
-    border-radius: calc(var(--omni-radius) / 2);
-    display: inline-flex;
-    font-size: var(--omni-font-size-sm);
-    font-weight: 650;
-    line-height: 1;
-    min-height: 1.5rem;
-    padding: var(--omni-space-xs) var(--omni-space-sm);
-}
-.omni-badge--neutral { background: var(--omni-color-surface-muted); color: var(--omni-color-text); }
-.omni-badge--accent { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); }
-.omni-badge--success { background: var(--omni-color-success-subtle); color: var(--omni-color-success); }
-.omni-badge--warning { background: var(--omni-color-warning-subtle); color: var(--omni-color-warning); }
-.omni-badge--danger { background: var(--omni-color-danger-subtle); color: var(--omni-color-danger); }
-/* En contour, la teinte de la variante passe du fond au trait. */
-.omni-badge--outline { background: transparent; border-color: currentColor; }
-.omni-badge--outline.omni-badge--neutral { color: var(--omni-color-text); }
-.omni-badge--outline.omni-badge--accent { color: var(--omni-color-accent-strong); }
-.omni-badge--outline.omni-badge--success { color: var(--omni-color-success); }
-.omni-badge--outline.omni-badge--warning { color: var(--omni-color-warning); }
-.omni-badge--outline.omni-badge--danger { color: var(--omni-color-danger); }
+/* Pastille tonale : l'encre de la variante mêlée à la surface et au texte, lisible en clair et en sombre. */
+.omni-badge { --omni-badge-ink: var(--omni-color-text-muted); align-items: center; background: color-mix(in srgb, var(--omni-badge-ink) 14%, var(--omni-color-surface)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-badge-ink) 32%, transparent); border-radius: calc(var(--omni-radius) / 2); box-sizing: border-box; color: color-mix(in srgb, var(--omni-badge-ink) 40%, var(--omni-color-text)); display: inline-flex; font-size: var(--omni-font-size-sm); font-variant-numeric: tabular-nums; font-weight: 650; gap: var(--omni-space-xs); justify-content: center; line-height: 1; min-height: 1.375rem; min-width: 1.375rem; padding: 0.1875rem 0.5rem; white-space: nowrap; }
+.omni-badge .omni-icon { height: 0.875rem; width: 0.875rem; }
+.omni-badge--neutral { --omni-badge-ink: var(--omni-color-text-muted); }
+.omni-badge--accent { --omni-badge-ink: var(--omni-color-accent); }
+.omni-badge--success { --omni-badge-ink: var(--omni-color-success); }
+.omni-badge--warning { --omni-badge-ink: var(--omni-color-warning); }
+.omni-badge--danger { --omni-badge-ink: var(--omni-color-danger); }
+
+.omni-badge--outline { background: transparent; border-color: color-mix(in srgb, var(--omni-badge-ink) 78%, transparent); }
 
 /* Souligné au survol seulement. */
 .omni-link { color: var(--omni-color-accent-strong); text-decoration: none; text-underline-offset: 0.15em; }
@@ -490,10 +480,19 @@
 .omni-grid--gap-xlarge { gap: var(--omni-space-xl); }
 
 .omni-layout { box-sizing: border-box; margin-inline: auto; width: 100%; }
-.omni-layout--wide { max-width: 90rem; }
-.omni-layout--content { max-width: 72rem; }
-.omni-main { display: block; min-width: 0; }
+.omni-layout--wide { max-width: var(--omni-layout-wide-width, 90rem); }
+.omni-layout--content { max-width: var(--omni-layout-content-width, 72rem); }
+.omni-main { --omni-main-max-width: 100%; display: block; min-width: 0; }
 .omni-main:focus { outline: none; }
+/* Largeur du contenu seul ; sans défilement propre, l'élément principal lui-même se centre. */
+.omni-main--wide { --omni-main-max-width: var(--omni-layout-wide-width, 90rem); }
+.omni-main--content { --omni-main-max-width: var(--omni-layout-content-width, 72rem); }
+.omni-main:is(.omni-main--wide, .omni-main--content):not(.omni-main--scrollable) { box-sizing: border-box; flex: 1 1 auto; margin-inline: auto; max-inline-size: var(--omni-main-max-width); }
+/* Défilement propre : l'élément principal couvre toute la zone et défile, sa barre au bord de la
+   fenêtre ; la colonne se centre par la marge intérieure, mesurée sur le cadre de même largeur. */
+.omni-main-scroll { display: flex; flex: 1 1 auto; min-block-size: 0; min-inline-size: 0; }
+.omni-main--scrollable { --omni-main-pad: var(--omni-main-gutter, var(--omni-space-md)); box-sizing: border-box; display: flex; flex: 1 1 auto; flex-direction: column; min-block-size: 0; min-inline-size: 0; overflow: auto; padding: var(--omni-main-pad) max(var(--omni-main-pad), calc((100% - var(--omni-main-max-width)) / 2 + var(--omni-main-pad))); }
+.omni-layout:has(> .omni-body > .omni-main-scroll) { display: flex; flex-direction: column; min-block-size: 0; }
 .omni-header { background: var(--omni-color-surface); color: var(--omni-color-text); }
 .omni-header--sticky { position: sticky; top: 0; z-index: 10; }
 
@@ -660,7 +659,13 @@
 .omni-progress__indicator--90 { width: 90%; }
 .omni-progress__indicator--95 { width: 95%; }
 .omni-progress__indicator--100 { width: 100%; }
-.omni-progress--indeterminate .omni-progress__indicator { animation: omni-indeterminate 1.2s ease-in-out infinite; width: 35%; }
+/* Indéterminée : un motif de période égale à la piste glisse d'une période à vitesse constante. */
+.omni-progress--indeterminate .omni-progress__indicator {
+    animation: omni-indeterminate 1.6s linear infinite;
+    background: linear-gradient(90deg, transparent 0%, currentColor 14%, currentColor 36%, transparent 50%) 0 0 / 50% 100% repeat-x;
+    transition: none;
+    width: 200%;
+}
 .omni-progress__circle { height: 3rem; overflow: visible; transform: rotate(-90deg); width: 3rem; }
 .omni-progress__circle-track,
 .omni-progress__circle-value { fill: none; stroke-width: 5; }
@@ -669,7 +674,7 @@
 .omni-progress--indeterminate .omni-progress__circle { animation: omni-spin 900ms linear infinite; }
 @keyframes omni-spin { to { transform: rotate(360deg); } }
 .omni-progress__label { color: var(--omni-color-text); font-variant-numeric: tabular-nums; white-space: nowrap; }
-@keyframes omni-indeterminate { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
+@keyframes omni-indeterminate { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 
 @media (min-width: 40rem) {
     .omni-column--sm-1 { flex: 0 0 calc(100% * 1 / 12 - var(--omni-row-gap, 0px) * 11 / 12); max-width: calc(100% * 1 / 12 - var(--omni-row-gap, 0px) * 11 / 12); }
@@ -721,6 +726,7 @@
     .omni-progress__indicator,
     .omni-progress__circle,
     .omni-progress__circle-value { animation: none; transition: none; }
+    .omni-progress--indeterminate .omni-progress__indicator { background: currentColor; opacity: 0.45; transform: none; width: 100%; }
 }
 
 [data-omni-theme="light"] {
@@ -1093,11 +1099,18 @@
     cursor: pointer;
     font: inherit;
 }
-.omni-toggle-button { border-radius: var(--omni-radius); min-height: 2.75rem; padding: var(--omni-space-sm) var(--omni-space-md); }
+/* Bouton bascule et bouton partagé : le gabarit d'OmniButton, tailles et forme du thème comprises. */
+.omni-toggle-button,
+.omni-split-button__main,
+.omni-split-button__toggle { align-items: center; box-shadow: var(--omni-button-shadow); box-sizing: border-box; display: inline-flex; font-size: var(--omni-button-font-size, inherit); font-weight: var(--omni-button-font-weight); gap: var(--omni-space-sm); justify-content: center; letter-spacing: var(--omni-button-letter-spacing); min-height: var(--omni-button-size, var(--omni-control-height)); text-transform: var(--omni-button-text-transform); }
+.omni-toggle-button,
+.omni-split-button__main { padding: var(--omni-space-xs) var(--omni-button-padding-inline, var(--omni-space-lg)); }
+.omni-toggle-button { border-radius: var(--omni-button-radius, var(--omni-radius)); }
+.omni-toggle-button:where(:has(> .omni-icon:only-child)) { min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding-inline: 0; }
 .omni-toggle-button--pressed { background: var(--omni-color-accent); border-color: var(--omni-color-accent); color: var(--omni-color-on-accent); }
 .omni-split-button { display: inline-flex; position: relative; }
-.omni-split-button__main { border-radius: var(--omni-radius) 0 0 var(--omni-radius); min-height: 2.75rem; padding: var(--omni-space-sm) var(--omni-space-md); }
-.omni-split-button__toggle { border-inline-start: 0; border-radius: 0 var(--omni-radius) var(--omni-radius) 0; min-height: 2.75rem; min-width: 2.75rem; }
+.omni-split-button__main { border-radius: var(--omni-button-radius, var(--omni-radius)) 0 0 var(--omni-button-radius, var(--omni-radius)); }
+.omni-split-button__toggle { border-inline-start: 0; border-radius: 0 var(--omni-button-radius, var(--omni-radius)) var(--omni-button-radius, var(--omni-radius)) 0; min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding: 0; }
 .omni-split-button__menu,
 .omni-context-menu__popup {
     background: var(--omni-color-surface);
@@ -1123,7 +1136,9 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-dialog__close,
 .omni-notification__dismiss { border: 0; border-radius: var(--omni-radius); font-size: var(--omni-font-size-h4); min-height: 2.75rem; min-width: 2.75rem; }
 .omni-dialog__content { padding: var(--omni-space-lg); }
-.omni-dialog__footer { border-block-start: var(--omni-border-width) solid var(--omni-color-border); display: flex; gap: var(--omni-space-sm); justify-content: end; padding: var(--omni-space-md); }
+/* Boutons de dialogue : au bout du pied, l'action puis Annuler (Danger), chacun avec son icône. */
+.omni-dialog__footer { align-items: center; border-block-start: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: end; padding: var(--omni-space-md); }
+.omni-confirm__message { margin: 0; }
 /* La pile se pose sur un coin ou un bord, nommés en logique (lecture de droite à gauche). */
 .omni-notification-region { display: grid; gap: var(--omni-space-sm); max-width: min(24rem, 90vw); position: fixed; z-index: 120; }
 .omni-notification-region--topstart { inset-block-start: var(--omni-space-md); inset-inline-start: var(--omni-space-md); }
@@ -1373,6 +1388,9 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-tabs__viewport::-webkit-scrollbar { display: none; }
 .omni-tabs__icon { align-items: center; display: inline-flex; flex: 0 0 auto; }
 .omni-tabs__tab { align-items: center; display: inline-flex; flex: 0 0 auto; gap: var(--omni-space-sm); white-space: nowrap; }
+/* Un compteur d'onglet reste sous la hauteur de ligne : l'onglet garde sa hauteur. */
+.omni-tabs__title { align-items: center; display: inline-flex; gap: var(--omni-space-xs); }
+.omni-tabs__title .omni-badge { font-size: 0.6875rem; min-height: 1rem; min-width: 1rem; padding: 0 0.3125rem; }
 .omni-tabs__item { display: contents; }
 
 /* Opaque, and above the fade: a transparent button let a sliver of the tab it covers show
@@ -1862,39 +1880,48 @@ polyline.omni-chart__line { fill: none; }
 .omni-html-editor__preview { border-block-start: var(--omni-border-width) solid var(--omni-color-border); min-height: 4rem; padding: var(--omni-space-md); }
 
 
-/* Busy veil (STD-BUSY). A busy control keeps its exact size and content: a surface-coloured layer
-   breathes over it instead, fading towards the page colour rather than revealing what lies behind.
-   .btn-busy is the same rule under the application-kit name, so a host's own <button> gets it too.
-   No cursor is set: with pointer events off the pointer never reaches the button to show one. */
+/* Busy veil (STD-BUSY). A busy control keeps its exact size and content: a dark layer breathes over
+   it (--omni-busy-veil-color), from a quarter to over half, so it reads as occupied in both
+   appearances. .btn-busy is the same rule under the application-kit name. No cursor: with pointer
+   events off the pointer never reaches the button. */
 .omni-busy,
 .btn-busy { overflow: hidden; pointer-events: none; position: relative; }
 .omni-busy::after,
 .btn-busy::after {
     animation: omni-busy-veil 1.3s ease-in-out infinite;
-    background: var(--omni-color-surface);
+    background: var(--omni-busy-veil-color, #000000);
     border-radius: inherit;
     content: "";
     inset: 0;
-    opacity: 0;
+    opacity: 0.25;
     pointer-events: none;
     position: absolute;
 }
-@keyframes omni-busy-veil { 0%, 100% { opacity: 0; } 50% { opacity: 0.45; } }
+@keyframes omni-busy-veil { 0%, 100% { opacity: 0.25; } 50% { opacity: 0.55; } }
 @media (prefers-reduced-motion: reduce) {
     .omni-busy::after,
-    .btn-busy::after { animation-duration: 4s; }
+    .btn-busy::after { animation: none; opacity: 0.4; }
 }
 
 /* Réglages : une carte par thème, chaque réglage en encadré. */
 .omni-settings-section > .omni-card__body { display: flex; flex-direction: column; gap: 1rem; }
 .omni-settings-section__heading { display: grid; gap: 0.35rem; }
 .omni-settings-section__title { font-size: 1rem; font-weight: 650; margin: 0; }
-.omni-settings-hint { font-size: 0.8125rem; margin: 0; opacity: 0.9; }
+.omni-settings-hint { color: color-mix(in srgb, currentColor 90%, transparent); font-size: 0.8125rem; margin: 0; }
 .omni-settings-tile { background: color-mix(in srgb, var(--omni-color-text) 4%, var(--omni-color-surface)); border: 1px solid color-mix(in srgb, var(--omni-color-text) 18%, transparent); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); padding: var(--omni-space-md); }
 .omni-settings-tile__row { align-items: center; display: flex; flex-wrap: wrap; gap: 0.75rem; }
 .omni-settings-tile__icon { align-items: center; background: color-mix(in srgb, var(--omni-color-accent) 12%, transparent); block-size: 2.5rem; border-radius: var(--omni-radius); color: var(--omni-color-accent); display: inline-flex; flex: 0 0 auto; inline-size: 2.5rem; justify-content: center; }
 .omni-settings-tile__text { display: flex; flex: 1 1 12rem; flex-direction: column; gap: 0.25rem; }
 .omni-settings-tile__title { font-weight: 650; }
+/* Tuile à interrupteur : le libellé couvre la tuile ; contrôle et détails, positionnés après lui, passent
+   au-dessus sans z-index ni contexte d'empilement. L'indice n'a pas d'opacité, qui le passerait devant. */
+.omni-settings-tile--toggle { cursor: pointer; position: relative; transition: background-color 120ms ease; }
+.omni-settings-tile--toggle:hover { background: color-mix(in srgb, var(--omni-color-text) 8%, var(--omni-color-surface)); }
+.omni-settings-tile--toggle .omni-settings-tile__title { cursor: pointer; }
+.omni-settings-tile--toggle .omni-settings-tile__title::after { content: ""; inset: 0; position: absolute; }
+.omni-settings-tile--toggle .omni-settings-tile__row > :not(.omni-settings-tile__icon, .omni-settings-tile__text),
+.omni-settings-tile--toggle > :not(.omni-settings-tile__row) { position: relative; }
+@media (prefers-reduced-motion: reduce) { .omni-settings-tile--toggle { transition: none; } }
 
 /* Mind map (Diagram family). Geometry is SVG attributes, colours are the group tokens above. */
 .omni-mindmap { display: flex; flex-direction: column; gap: var(--omni-space-sm); }

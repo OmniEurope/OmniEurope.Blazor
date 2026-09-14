@@ -121,3 +121,8 @@
 }
 
 .demo-tag-swatch { block-size: 0.625rem; flex: 0 0 auto; inline-size: 0.625rem; }
+
+/* Coquille à défilement propre, en miniature : la coquille reçoit une hauteur, l'élément principal
+   défile dedans et sa barre reste au bord droit du cadre, colonne centrée ou non. */
+.demo-shell-viewport { block-size: 14rem; border: var(--omni-border-width) solid var(--omni-color-border); }
+.demo-shell-viewport > .omni-layout { block-size: 100%; }

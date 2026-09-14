@@ -19,6 +19,10 @@ public partial class OmniSplitButton
         ? Localize("SplitButtonMenuLabel")
         : MenuLabel;
 
+    /// <summary>The same three sizes as <see cref="OmniButton"/>, main part and menu part together.</summary>
+    [Parameter]
+    public OmniControlSize Size { get; set; } = OmniControlSize.Medium;
+
     [Parameter]
     public bool Disabled { get; set; }
 
