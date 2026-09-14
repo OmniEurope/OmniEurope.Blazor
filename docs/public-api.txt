@@ -418,6 +418,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.Code : OmniEurope.
 field public static OmniEurope.Blazor.Components.OmniIconName.Columns : OmniEurope.Blazor.Components.OmniIconName const = 149
 field public static OmniEurope.Blazor.Components.OmniIconName.Copy : OmniEurope.Blazor.Components.OmniIconName const = 27
 field public static OmniEurope.Blazor.Components.OmniIconName.CornersOut : OmniEurope.Blazor.Components.OmniIconName const = 150
+field public static OmniEurope.Blazor.Components.OmniIconName.Cpu : OmniEurope.Blazor.Components.OmniIconName const = 162
 field public static OmniEurope.Blazor.Components.OmniIconName.Database : OmniEurope.Blazor.Components.OmniIconName const = 28
 field public static OmniEurope.Blazor.Components.OmniIconName.Delete : OmniEurope.Blazor.Components.OmniIconName const = 29
 field public static OmniEurope.Blazor.Components.OmniIconName.Diamond : OmniEurope.Blazor.Components.OmniIconName const = 30
@@ -429,6 +430,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.Edit : OmniEurope.
 field public static OmniEurope.Blazor.Components.OmniIconName.Error : OmniEurope.Blazor.Components.OmniIconName const = 35
 field public static OmniEurope.Blazor.Components.OmniIconName.Eye : OmniEurope.Blazor.Components.OmniIconName const = 86
 field public static OmniEurope.Blazor.Components.OmniIconName.EyeSlash : OmniEurope.Blazor.Components.OmniIconName const = 152
+field public static OmniEurope.Blazor.Components.OmniIconName.FilePlus : OmniEurope.Blazor.Components.OmniIconName const = 163
 field public static OmniEurope.Blazor.Components.OmniIconName.Filter : OmniEurope.Blazor.Components.OmniIconName const = 6
 field public static OmniEurope.Blazor.Components.OmniIconName.Flask : OmniEurope.Blazor.Components.OmniIconName const = 36
 field public static OmniEurope.Blazor.Components.OmniIconName.Folder : OmniEurope.Blazor.Components.OmniIconName const = 93
@@ -445,6 +447,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.Globe : OmniEurope
 field public static OmniEurope.Blazor.Components.OmniIconName.GlobeHemisphereWest : OmniEurope.Blazor.Components.OmniIconName const = 39
 field public static OmniEurope.Blazor.Components.OmniIconName.GraduationCap : OmniEurope.Blazor.Components.OmniIconName const = 40
 field public static OmniEurope.Blazor.Components.OmniIconName.Graph : OmniEurope.Blazor.Components.OmniIconName const = 41
+field public static OmniEurope.Blazor.Components.OmniIconName.HandTap : OmniEurope.Blazor.Components.OmniIconName const = 164
 field public static OmniEurope.Blazor.Components.OmniIconName.HardDrive : OmniEurope.Blazor.Components.OmniIconName const = 154
 field public static OmniEurope.Blazor.Components.OmniIconName.Heartbeat : OmniEurope.Blazor.Components.OmniIconName const = 100
 field public static OmniEurope.Blazor.Components.OmniIconName.Home : OmniEurope.Blazor.Components.OmniIconName const = 42
@@ -478,6 +481,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.PaperPlaneRight : 
 field public static OmniEurope.Blazor.Components.OmniIconName.Password : OmniEurope.Blazor.Components.OmniIconName const = 134
 field public static OmniEurope.Blazor.Components.OmniIconName.Path : OmniEurope.Blazor.Components.OmniIconName const = 55
 field public static OmniEurope.Blazor.Components.OmniIconName.Pattern : OmniEurope.Blazor.Components.OmniIconName const = 56
+field public static OmniEurope.Blazor.Components.OmniIconName.Pause : OmniEurope.Blazor.Components.OmniIconName const = 165
 field public static OmniEurope.Blazor.Components.OmniIconName.PictureInPicture : OmniEurope.Blazor.Components.OmniIconName const = 57
 field public static OmniEurope.Blazor.Components.OmniIconName.Pin : OmniEurope.Blazor.Components.OmniIconName const = 58
 field public static OmniEurope.Blazor.Components.OmniIconName.Play : OmniEurope.Blazor.Components.OmniIconName const = 59
@@ -523,6 +527,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.ThemeLight : OmniE
 field public static OmniEurope.Blazor.Components.OmniIconName.ThemeSystem : OmniEurope.Blazor.Components.OmniIconName const = 80
 field public static OmniEurope.Blazor.Components.OmniIconName.Timer : OmniEurope.Blazor.Components.OmniIconName const = 81
 field public static OmniEurope.Blazor.Components.OmniIconName.ToggleLeft : OmniEurope.Blazor.Components.OmniIconName const = 160
+field public static OmniEurope.Blazor.Components.OmniIconName.ToggleRight : OmniEurope.Blazor.Components.OmniIconName const = 166
 field public static OmniEurope.Blazor.Components.OmniIconName.Tray : OmniEurope.Blazor.Components.OmniIconName const = 161
 field public static OmniEurope.Blazor.Components.OmniIconName.Upgrade : OmniEurope.Blazor.Components.OmniIconName const = 82
 field public static OmniEurope.Blazor.Components.OmniIconName.Upload : OmniEurope.Blazor.Components.OmniIconName const = 83
@@ -531,7 +536,10 @@ field public static OmniEurope.Blazor.Components.OmniIconName.UserFocus : OmniEu
 field public static OmniEurope.Blazor.Components.OmniIconName.UserPlus : OmniEurope.Blazor.Components.OmniIconName const = 103
 field public static OmniEurope.Blazor.Components.OmniIconName.Users : OmniEurope.Blazor.Components.OmniIconName const = 90
 field public static OmniEurope.Blazor.Components.OmniIconName.Warning : OmniEurope.Blazor.Components.OmniIconName const = 3
+field public static OmniEurope.Blazor.Components.OmniIconName.Webhook : OmniEurope.Blazor.Components.OmniIconName const = 167
 field public static OmniEurope.Blazor.Components.OmniIconName.WifiHigh : OmniEurope.Blazor.Components.OmniIconName const = 138
+field public static OmniEurope.Blazor.Components.OmniIconName.WifiSlash : OmniEurope.Blazor.Components.OmniIconName const = 168
+field public static OmniEurope.Blazor.Components.OmniIconName.WindowsLogo : OmniEurope.Blazor.Components.OmniIconName const = 169
 field public static OmniEurope.Blazor.Components.OmniIconName.Wrench : OmniEurope.Blazor.Components.OmniIconName const = 97
 field public static OmniEurope.Blazor.Components.OmniImageFit.Contain : OmniEurope.Blazor.Components.OmniImageFit const = 1
 field public static OmniEurope.Blazor.Components.OmniImageFit.Cover : OmniEurope.Blazor.Components.OmniImageFit const = 2
