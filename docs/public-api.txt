@@ -73,6 +73,7 @@ component OmniEurope.Blazor.Components.OmniPanelMenu
 component OmniEurope.Blazor.Components.OmniPanelMenuItem
 component OmniEurope.Blazor.Components.OmniPassword
 component OmniEurope.Blazor.Components.OmniPieSeries
+component OmniEurope.Blazor.Components.OmniPopover
 component OmniEurope.Blazor.Components.OmniProfileMenu
 component OmniEurope.Blazor.Components.OmniProfileMenuItem
 component OmniEurope.Blazor.Components.OmniProgressBar
@@ -216,6 +217,7 @@ ctor public OmniEurope.Blazor.Components.OmniPanelMenu()
 ctor public OmniEurope.Blazor.Components.OmniPanelMenuItem()
 ctor public OmniEurope.Blazor.Components.OmniPassword()
 ctor public OmniEurope.Blazor.Components.OmniPieSeries()
+ctor public OmniEurope.Blazor.Components.OmniPopover()
 ctor public OmniEurope.Blazor.Components.OmniProfileMenu()
 ctor public OmniEurope.Blazor.Components.OmniProfileMenuItem()
 ctor public OmniEurope.Blazor.Components.OmniProgressBar()
@@ -563,6 +565,8 @@ field public static OmniEurope.Blazor.Components.OmniNotificationSeverity.Succes
 field public static OmniEurope.Blazor.Components.OmniNotificationSeverity.Warning : OmniEurope.Blazor.Components.OmniNotificationSeverity const = 2
 field public static OmniEurope.Blazor.Components.OmniPanelMenuDisplayStyle.Icon : OmniEurope.Blazor.Components.OmniPanelMenuDisplayStyle const = 1
 field public static OmniEurope.Blazor.Components.OmniPanelMenuDisplayStyle.IconAndText : OmniEurope.Blazor.Components.OmniPanelMenuDisplayStyle const = 0
+field public static OmniEurope.Blazor.Components.OmniPopoverPlacement.BottomEnd : OmniEurope.Blazor.Components.OmniPopoverPlacement const = 0
+field public static OmniEurope.Blazor.Components.OmniPopoverPlacement.BottomStart : OmniEurope.Blazor.Components.OmniPopoverPlacement const = 1
 field public static OmniEurope.Blazor.Components.OmniProgressShape.Circular : OmniEurope.Blazor.Components.OmniProgressShape const = 1
 field public static OmniEurope.Blazor.Components.OmniProgressShape.Linear : OmniEurope.Blazor.Components.OmniProgressShape const = 0
 field public static OmniEurope.Blazor.Components.OmniProgressVariant.Accent : OmniEurope.Blazor.Components.OmniProgressVariant const = 0
@@ -750,6 +754,8 @@ method protected override OmniEurope.Blazor.Components.OmniPanelMenuItem.OnIniti
 method protected override OmniEurope.Blazor.Components.OmniPassword.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniPassword.TryParseValueFromString(System.String? value, out System.String result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniPieSeries.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniPopover.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniPopover.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniProfileMenu.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniProfileMenuItem.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniProgressBar.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -919,6 +925,9 @@ method public OmniEurope.Blazor.Components.OmniOverlayService.Notify(System.Stri
 method public OmniEurope.Blazor.Components.OmniOverlayService.OpenDialog(OmniEurope.Blazor.Components.OmniDialogRequest request) : System.Void
 method public OmniEurope.Blazor.Components.OmniOverlayService.OpenDialogAsync(OmniEurope.Blazor.Components.OmniDialogRequest request) : System.Threading.Tasks.Task<System.Object?>
 method public OmniEurope.Blazor.Components.OmniPanelMenuItem.Dispose() : System.Void
+method public OmniEurope.Blazor.Components.OmniPopover.CloseAsync() : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniPopover.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniPopover.OnDismissRequestedAsync(System.Boolean fromKeyboard) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniScheduler.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniScheduler.ReloadAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniSchedulerAppointment.<Clone>$() : OmniEurope.Blazor.Components.OmniSchedulerAppointment
@@ -1636,6 +1645,15 @@ property public OmniEurope.Blazor.Components.OmniPassword.RevealText : System.St
 property public OmniEurope.Blazor.Components.OmniPassword.Revealable : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPieSeries.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartSlice> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPieSeries.Title : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPopover.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPopover.Label : System.String {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniPopover.Open : System.Boolean? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPopover.OpenChanged : Microsoft.AspNetCore.Components.EventCallback<System.Boolean> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPopover.Placement : OmniEurope.Blazor.Components.OmniPopoverPlacement {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPopover.TriggerContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniPopover.TriggerLabel : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPopover.TriggerSize : OmniEurope.Blazor.Components.OmniControlSize {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPopover.TriggerVariant : OmniEurope.Blazor.Components.OmniButtonVariant {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniProfileMenu.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniProfileMenu.Label : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniProfileMenu.Summary : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
@@ -2011,6 +2029,8 @@ type public OmniEurope.Blazor.Components.OmniPanelMenuDisplayStyle [enum, sealed
 type public OmniEurope.Blazor.Components.OmniPanelMenuItem [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniPassword [class] : OmniEurope.Blazor.Components.OmniInputBase<System.String>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniPieSeries [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
+type public OmniEurope.Blazor.Components.OmniPopover [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
+type public OmniEurope.Blazor.Components.OmniPopoverPlacement [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniProfileMenu [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniProfileMenuItem [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniProgressBar [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent

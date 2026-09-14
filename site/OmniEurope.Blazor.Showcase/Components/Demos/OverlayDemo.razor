@@ -20,6 +20,24 @@
             </ChildContent>
         </OmniContextMenu>
 
+        @* Panneau non modal : un clic ailleurs ou Échap le ferme, Échap rend le focus au bouton. *@
+        <OmniPopover Label="Tâches en cours" TriggerLabel="Tâches en cours">
+            <TriggerContent><OmniIcon Name="OmniIconName.Hourglass" /> <span>3</span></TriggerContent>
+            <ChildContent>
+                <p>Sauvegarde nocturne, étape 2 sur 4.</p>
+                <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small"
+                            OnClick="@(_ => Last = "Suivi ouvert")">Voir le suivi</OmniButton>
+            </ChildContent>
+        </OmniPopover>
+
+        <OmniPopover Label="Filtre rapide" Placement="OmniPopoverPlacement.BottomStart"
+                     TriggerVariant="OmniButtonVariant.Secondary">
+            <TriggerContent>Filtrer</TriggerContent>
+            <ChildContent>
+                <p>Le panneau s'aligne sur le début du bouton.</p>
+            </ChildContent>
+        </OmniPopover>
+
         <OmniProfileMenu Label="Menu du compte">
             <Summary>Camille Durand</Summary>
             <ChildContent>

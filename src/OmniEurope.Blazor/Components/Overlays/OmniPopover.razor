@@ -1,0 +1,23 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
+
+<div @ref="_root"
+     @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@Css("omni-popover", PlacementClass)">
+    <OmniButton Variant="@TriggerVariant"
+                Size="@TriggerSize"
+                AriaLabel="@TriggerLabel"
+                OnClick="ToggleAsync"
+                aria-haspopup="dialog"
+                aria-expanded="@(IsOpen ? "true" : "false")"
+                aria-controls="@PanelId">@TriggerContent</OmniButton>
+    @if (IsOpen)
+    {
+        <div @ref="_panel" id="@PanelId" class="omni-popover__panel" role="dialog" aria-label="@Label" tabindex="-1">
+            @ChildContent
+        </div>
+    }
+</div>
