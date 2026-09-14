@@ -6,6 +6,8 @@ public partial class OmniMultiSelect<TValue>
 {
     private string? _filter;
     private string? _boundFilterText;
+    private ElementReference _details;
+    private OmniDisclosureDismissal? _dismissal;
 
     [Parameter, EditorRequired]
     public IReadOnlyList<OmniOption<TValue>> Options { get; set; } = Array.Empty<OmniOption<TValue>>();
@@ -64,6 +66,15 @@ public partial class OmniMultiSelect<TValue>
 
     [Parameter]
     public string? AriaDescribedBy { get; set; }
+
+    /// <summary>
+    /// Closes the open compact panel when a press lands outside it. On by default; a page that drives
+    /// the field from controls of its own can turn it off, or mark those controls with
+    /// <c>data-omni-keep-open</c> so a press on them never counts as outside. Escape closes the panel
+    /// either way. The list presentation is always open and ignores it.
+    /// </summary>
+    [Parameter]
+    public bool CloseOnOutsideClick { get; set; } = true;
 
     private int SelectedCount => CurrentValue?.Count ?? 0;
 
@@ -191,5 +202,26 @@ public partial class OmniMultiSelect<TValue>
         result = Array.Empty<TValue>();
         validationErrorMessage = Localize("MultiSelectInvalid");
         return false;
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Presentation != OmniMultiSelectPresentation.Compact)
+        {
+            return Task.CompletedTask;
+        }
+
+        _dismissal ??= new OmniDisclosureDismissal(JavaScript);
+        return _dismissal.ApplyAsync(_details, CloseOnOutsideClick, closeOnItem: false);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_dismissal is not null)
+        {
+            await _dismissal.DisposeAsync();
+        }
+
+        GC.SuppressFinalize(this);
     }
 }

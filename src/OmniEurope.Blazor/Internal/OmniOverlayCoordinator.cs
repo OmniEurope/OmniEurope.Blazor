@@ -7,7 +7,14 @@ internal sealed class OmniOverlayCoordinator
     private readonly List<OmniPortalEntry> _entries = [];
 
     internal event Action? Changed;
+
+    /// <summary>An entry already shown got new content: only its slot has to follow.</summary>
+    internal event Action<object>? EntryUpdated;
+
     internal IReadOnlyList<OmniPortalEntry> Entries => _entries;
+
+    internal OmniPortalEntry? Find(object owner) =>
+        _entries.Find(entry => ReferenceEquals(entry.Owner, owner));
 
     internal void Register(object owner, OmniPortalKind kind, RenderFragment content, Func<Task> closeAsync)
     {
@@ -16,6 +23,7 @@ internal sealed class OmniOverlayCoordinator
         if (index >= 0)
         {
             _entries[index] = entry;
+            EntryUpdated?.Invoke(owner);
             return;
         }
 

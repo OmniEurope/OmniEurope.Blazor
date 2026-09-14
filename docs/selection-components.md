@@ -31,6 +31,20 @@ un contrôle qui n'a pas chargé ses options.
 `List` est un `select multiple` natif, sans place pour un champ et adressant ses options par position,
 donc un filtre silencieusement ignoré y serait le vrai piège.
 
+Le panneau compact se ferme sur Échap (le focus revient au résumé) et, tant que `CloseOnOutsideClick`
+reste à `true`, sa valeur par défaut, sur un appui ailleurs dans la page. Un appui dans un élément
+marqué `data-omni-keep-open` ne compte jamais comme extérieur : une colonne de réglages qui modifie le
+champ ouvert porte cet attribut et ne le referme pas. La fermeture passe par `omni-focus.js`, le seul
+à voir un appui hors du composant ; l'écouteur de document n'existe que pendant que le panneau est
+ouvert. Désactivé (`Disabled`), le résumé ne s'ouvre plus et sort de l'ordre de tabulation.
+
+Une option désactivée (`OmniOption.Disabled`) se lit comme telle avant qu'on essaie de la choisir :
+atténuée avec un curseur interdit dans les listes de choix, la forme compacte et les suggestions,
+hachurée dans `OmniSelectBar`. Une barre entièrement désactivée porte `.omni-select-bar--disabled` et
+`aria-disabled`, et garde son option choisie d'un accent pâli. Trop large pour sa place, la barre
+défile sous un chevron de chaque côté qui cache encore des options, comme les onglets, sans barre de
+défilement ; les chevrons sont hors de l'ordre de tabulation, chaque option restant atteignable.
+
 ```razor
 <OmniMultiSelect TValue="Guid" Options="tags" @bind-Value="selectedTagIds"
                  Presentation="OmniMultiSelectPresentation.Compact"
@@ -59,10 +73,30 @@ donc un filtre silencieusement ignoré y serait le vrai piège.
                   @bind-Value="personId" />
 ```
 
+`HighlightMatches`, vrai par défaut, marque dans chaque suggestion les lettres qui correspondent à la
+saisie (`mark.omni-autocomplete__match`), sans tenir compte de la casse ni des accents dans la culture
+courante : « liege » marque « Liège ». Le texte lu par un lecteur d'écran reste celui de l'option.
+
+## Menus : profil et contextuel
+
+`OmniProfileMenu` repose sur l'élément natif `details`. Il se ferme sur Échap, une fois une entrée
+choisie et, avec `CloseOnOutsideClick` (vrai par défaut), sur un appui ailleurs dans la page, avec la
+même exception `data-omni-keep-open` que la sélection multiple.
+
+`OmniContextMenu` s'ouvre au pointeur sur un clic droit, sous son déclencheur à la touche Menu ou à
+Maj+F10, et un second clic droit le déplace. `omni-focus.js` pose sa position par le CSSOM
+(`--omni-menu-x`, `--omni-menu-y`, attribut `data-omni-placed`) et le ramène dans la fenêtre près
+d'un bord. Rendu par le portail d'`OmniComponentsHost`, le menu est retrouvé par son identifiant
+(`{Id}-menu`) et non par une référence d'élément ; chaque entrée du portail est indexée par son
+propriétaire et suit les entrées du menu quand elles changent pendant qu'il est ouvert. Flèches,
+Début et Fin parcourent les entrées `role="menuitem"`, Échap ferme et rend le focus au déclencheur ;
+un appui ailleurs ferme le menu et laisse le focus là où il a été posé.
+
 ## Entrées spécialisées
 
 - `OmniDatePicker` lie une valeur `DateOnly?`, utilise le contrôle de date natif et valide les bornes.
 - `OmniDateTimePicker` lie une valeur `DateTime?` en heure locale, utilise le contrôle `datetime-local` natif, valide les bornes et ajoute les secondes avec `ShowSeconds`.
+- Les deux portent `omni-date-input` et suivent le thème de leur portée, pas celui du système : la portée claire déclare `color-scheme: light` et la sombre `color-scheme: dark`, ce qui règle le calendrier natif ; l'icône de calendrier est redessinée dans le texte atténué et le segment édité prend l'accent.
 - `OmniSlider` expose orientation, minimum, maximum, pas et valeur ARIA.
 - `OmniColorPicker` accepte exclusivement le format hexadécimal `#RRGGBB` sans générer de style inline.
 - `OmniUpload` valide nombre, taille et types MIME avant d'appeler le délégué applicatif.
@@ -70,6 +104,20 @@ donc un filtre silencieusement ignoré y serait le vrai piège.
 ## Téléversement
 
 Les propriétés `MaximumFiles`, `MaximumFileSize` et `AllowedContentTypes` filtrent l'interface à partir de métadonnées fournies par le client. Elles ne constituent jamais une validation de sécurité du contenu reçu.
+
+Le champ est une zone de dépôt : le contrôle natif la couvre, invisible, si bien qu'un clic ouvre le sélecteur et qu'un fichier déposé n'importe où sur la zone y arrive sans script. La zone annonce ses limites (types, taille par fichier, nombre) et les relie au champ par `aria-describedby`.
+
+Lié par `@bind-Files`, le champ tient une liste d'`OmniUploadFile` (nom, taille, type) : les fichiers que l'application a déjà, puis ceux que l'utilisateur ajoute. Chaque ligne a son icône, sa taille et un bouton de retrait qui lève `FileRemoved` avec l'entrée, puis `FilesChanged` avec la liste sans elle. Une sélection acceptée s'ajoute à la liste avec `Multiple`, la remplace sinon, et seulement après la réussite d'`Upload` quand ce délégué est fourni ; `MaximumFiles` compte alors la liste entière. Non lié, le champ montre la dernière sélection, sans retrait.
+
+```razor
+<OmniUpload Multiple="true" MaximumFiles="5" @bind-Files="attachments" FileRemoved="DeleteAsync" />
+
+@code {
+    private IReadOnlyList<OmniUploadFile> attachments = [new("rapport.pdf", 1_258_291, "application/pdf")];
+
+    private Task DeleteAsync(OmniUploadFile file) => storage.DeleteAsync(file.Name);
+}
+```
 
 Le délégué `Validate` reçoit un `OmniUploadRequest` avant `Upload`. L'hôte doit ouvrir chaque fichier avec `request.OpenReadStream(file)`, contrôler sa signature réelle, son format, sa taille effectivement lue et les règles métier, puis retourner un message public lorsqu'il refuse le lot. `OpenReadStream` applique la limite configurée et le jeton d'annulation. Le délégué `Upload` reçoit ensuite la même requête avec `CancellationToken` et `ReportProgress`. Le composant n'envoie rien seul et la validation doit être répétée à la frontière serveur qui persiste le contenu.
 
