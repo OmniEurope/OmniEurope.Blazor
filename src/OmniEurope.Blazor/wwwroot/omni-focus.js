@@ -128,6 +128,56 @@ export function restoreFocus(key) {
     });
 }
 
+// ---- non-modal popover -----------------------------------------------------------------------
+// The panel does not trap focus: Tab may leave it. What closes it is a pointer press outside the
+// popover (focus stays where the user clicked) or Escape inside it (focus returns to the trigger).
+
+const popoverHandlers = new Map();
+
+export function attachPopover(root, panel, dotnet, key) {
+    if (!(root instanceof HTMLElement) || !dotnet || popoverHandlers.has(key)) {
+        return;
+    }
+
+    rememberTarget(key);
+    const items = focusableElements(panel);
+    (items[0] ?? panel)?.focus({ preventScroll: true });
+
+    const onPointerDown = event => {
+        if (event.target instanceof Node && !root.contains(event.target)) {
+            void dotnet.invokeMethodAsync('OnDismissRequestedAsync', false);
+        }
+    };
+    const onKeyDown = event => {
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            event.stopPropagation();
+            void dotnet.invokeMethodAsync('OnDismissRequestedAsync', true);
+        }
+    };
+
+    document.addEventListener('pointerdown', onPointerDown, true);
+    root.addEventListener('keydown', onKeyDown);
+    popoverHandlers.set(key, { root, onPointerDown, onKeyDown });
+}
+
+export function detachPopover(key, restore) {
+    const state = popoverHandlers.get(key);
+    if (state) {
+        document.removeEventListener('pointerdown', state.onPointerDown, true);
+        state.root.removeEventListener('keydown', state.onKeyDown);
+        popoverHandlers.delete(key);
+    }
+
+    // The trigger never leaves the page while its panel closes, so focus goes back at once, without
+    // the animation frames restoreFocus waits for (a background tab would not deliver them).
+    const target = returnTargets.get(key);
+    returnTargets.delete(key);
+    if (restore && target?.isConnected && !target.closest('[inert]')) {
+        target.focus({ preventScroll: true });
+    }
+}
+
 export function configureTabs(tablist, dotnet) {
     if (!tablist || tabHandlers.has(tablist)) {
         return;
