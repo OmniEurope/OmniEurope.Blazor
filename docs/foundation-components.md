@@ -53,7 +53,7 @@ Pour un tracé ponctuel, Phosphor ou non, le paramètre `Glyph` reste disponible
 
 `OmniIconGlyph` n'accepte que de la donnée de tracé SVG et rejette tout le reste : un glyphe porte un contour, pas du balisage. `OmniIconGlyph.Phosphor` fixe la grille de 256 unités du jeu ; le constructeur accepte une autre grille carrée.
 
-Mesure du surcoût des onze tracés Phosphor, publication WebAssembly identique avant et après : **+6656 octets bruts, +1392 octets une fois compressés en brotli**, soit +0,9 % de l'assembly livré. Passage du catalogue à 86 icônes, `OmniEurope.Blazor.dll` en Release avant et après (2026-09-13) : **+57 856 octets bruts, +11 318 octets en brotli** (niveau maximal), soit +5,9 % de l'assembly compressé. Passage à 162 icônes (2026-09-14) : l'assembly Release mesuré par `eng/Test-Budgets.ps1` passe de 778 240 à 839 168 octets bruts, **+60 928 octets** ; la taille brotli n'a pas été mesurée à cette étape. Une garde de test échoue si le nombre de tracés intégrés diffère de celui des valeurs d'`OmniIconName`, afin qu'un import massif du catalogue ne passe pas inaperçu.
+Mesure du surcoût des onze tracés Phosphor, publication WebAssembly identique avant et après : **+6656 octets bruts, +1392 octets une fois compressés en brotli**, soit +0,9 % de l'assembly livré. Passage du catalogue à 86 icônes, `OmniEurope.Blazor.dll` en Release avant et après (2026-09-13) : **+57 856 octets bruts, +11 318 octets en brotli** (niveau maximal), soit +5,9 % de l'assembly compressé. Passage à 162 icônes (2026-09-14) : l'assembly Release mesuré par `eng/Test-Budgets.ps1` passe de 778 240 à 839 168 octets bruts, **+60 928 octets** ; la taille brotli n'a pas été mesurée à cette étape. Passage à 170 icônes (2026-09-14) : huit tracés de plus ; `OmniEurope.Blazor.dll` de `bin/Release` à 966 144 octets bruts, mesure qui inclut tout ce qui a été fusionné depuis l'étape précédente et ne s'y compare donc pas. Une garde de test échoue si le nombre de tracés intégrés diffère de celui des valeurs d'`OmniIconName`, afin qu'un import massif du catalogue ne passe pas inaperçu.
 
 ## Thèmes
 
@@ -102,3 +102,13 @@ La coquille doit avoir une hauteur bornée : une `OmniLayout` dont le corps port
 ## Validation
 
 Les tests du lot vérifient le rendu des 15 composants, leur sémantique principale, les classes responsive, les états ARIA, les bornes numériques et l'absence de style inline. Le scanner CSP inspecte l'ensemble des sources Razor, C# et JavaScript de la bibliothèque.
+
+## Classes utilitaires `omni-u-*`
+ le balisage qu'une application écrit autour des composants, pas pour restyler un composant : chaque règle vise une seule classe utilitaire, jamais la classe d'un composant (garde `UtilityClassesTests`). Déclarées en fin de feuille, elles l'emportent sur une règle de composant de même spécificité.
+
+| Famille | Classes |
+|---|---|
+| Espacement | `omni-u-{m,mt,mb,ms,me,mx,my,p,pt,pb,px,py}-{0,xs,sm,md,lg,xl,2xl}`, `omni-u-mx-auto`. L'échelle est celle des jetons `--omni-space-*` : elle suit la densité. |
+| Texte | `omni-u-text-{muted,accent,success,warning,danger}`, `omni-u-text-center`, `omni-u-text-end`, `omni-u-bold`, `omni-u-mono`, `omni-u-truncate`, `omni-u-nowrap`, `omni-u-small` |
+| Fond | `omni-u-bg-muted`, `omni-u-bg-{accent,success,warning,danger}-subtle` |
+| Mise en page | `omni-u-w-100`, `omni-u-grow`, `omni-u-block`, `omni-u-rounded`, `omni-u-pointer` |

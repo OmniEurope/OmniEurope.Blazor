@@ -163,5 +163,13 @@ public enum OmniIconName
     SignIn,
     Target,
     ToggleLeft,
-    Tray
+    Tray,
+    Cpu,
+    FilePlus,
+    HandTap,
+    Pause,
+    ToggleRight,
+    Webhook,
+    WifiSlash,
+    WindowsLogo
 }
