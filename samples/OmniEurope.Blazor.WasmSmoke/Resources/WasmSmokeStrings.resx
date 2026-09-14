@@ -9,4 +9,11 @@
   <data name="Loaded" xml:space="preserve"><value>La bibliothèque est chargée dans WebAssembly.</value></data>
   <data name="Counter" xml:space="preserve"><value>Compteur : {0}</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Progression du test</value></data>
+  <data name="GridCaption" xml:space="preserve"><value>Grille virtualisée</value></data>
+  <data name="GridName" xml:space="preserve"><value>Nom</value></data>
+  <data name="GridValue" xml:space="preserve"><value>Valeur</value></data>
+  <data name="RowName" xml:space="preserve"><value>Ligne {0}</value></data>
+  <data name="Notified" xml:space="preserve"><value>Notification affichée.</value></data>
+  <data name="DialogTitle" xml:space="preserve"><value>Dialogue de test</value></data>
+  <data name="DialogBody" xml:space="preserve"><value>Le dialogue est rendu sous la CSP stricte.</value></data>
 </root>

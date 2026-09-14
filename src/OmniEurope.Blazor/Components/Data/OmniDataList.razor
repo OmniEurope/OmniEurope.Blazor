@@ -2,9 +2,8 @@
 @typeparam TItem
 @inherits OmniComponentBase
 @implements IAsyncDisposable
-@using Microsoft.AspNetCore.Components.Web.Virtualization
 
-<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-data-list")" aria-busy="@(_loading ? "true" : "false")">
+<section @ref="_root" @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-data-list")" aria-busy="@(_loading ? "true" : "false")">
     @if (_loading)
     {
         <div class="omni-data-list__state" role="status">@(LoadingContent ?? DefaultLoading)</div>
@@ -29,9 +28,13 @@
     }
     else if (Virtualize)
     {
-        <Virtualize TItem="TItem" Items="@_items.ToArray()" Context="item">
-            <div class="omni-data-list__item">@ItemTemplate(item)</div>
-        </Virtualize>
+        <div class="omni-data-list__spacer" data-omni-spacer="top" aria-hidden="true"></div>
+        @for (var index = _range.StartIndex; index < _range.EndIndex; index++)
+        {
+            var item = _items[index];
+            <div @key="index" class="omni-data-list__item" data-omni-row-index="@index">@ItemTemplate(item)</div>
+        }
+        <div class="omni-data-list__spacer" data-omni-spacer="bottom" aria-hidden="true"></div>
     }
     else
     {
