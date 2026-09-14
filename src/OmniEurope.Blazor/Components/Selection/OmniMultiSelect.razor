@@ -1,17 +1,23 @@
 @namespace OmniEurope.Blazor.Components
 @typeparam TValue
 @inherits OmniInputBase<IReadOnlyList<TValue>>
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
 
 @if (Presentation == OmniMultiSelectPresentation.Compact)
 {
-    @* Native disclosure: the panel closes on Escape and on a second click on the summary, with
-       no global listener. This is the same mechanism as the grid filter menus. *@
+    @* Native disclosure: a second click on the summary closes it; Escape and a press outside it
+       close it through omni-focus.js (CloseOnOutsideClick). Disabled, the summary does not open. *@
     <details @attributes="AdditionalAttributes"
+             @ref="_details"
              id="@Id"
              class="@InputCss("omni-multi-select-compact")">
         <summary class="omni-input omni-multi-select-compact__summary"
                  aria-invalid="@AriaInvalid"
-                 aria-describedby="@AriaDescribedBy">
+                 aria-describedby="@AriaDescribedBy"
+                 aria-disabled="@(Disabled ? "true" : null)"
+                 tabindex="@(Disabled ? "-1" : null)"
+                 @onclick:preventDefault="Disabled">
             <span class="omni-multi-select-compact__text">@SummaryText</span>
             <svg class="omni-multi-select-compact__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">

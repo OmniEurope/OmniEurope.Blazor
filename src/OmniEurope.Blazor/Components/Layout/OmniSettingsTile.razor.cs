@@ -2,7 +2,11 @@ namespace OmniEurope.Blazor.Components;
 
 public partial class OmniSettingsTile
 {
-    /// <summary>The name of the setting.</summary>
+    private readonly OmniSettingsTileContext _context;
+
+    public OmniSettingsTile() => _context = new OmniSettingsTileContext(StateHasChanged);
+
+    /// <summary>The name of the setting, and the label of the switch or check box beside it.</summary>
     [Parameter, EditorRequired]
     public string Title { get; set; } = string.Empty;
 
@@ -14,7 +18,11 @@ public partial class OmniSettingsTile
     [Parameter]
     public RenderFragment? Icon { get; set; }
 
-    /// <summary>The control, on the row beside the name.</summary>
+    /// <summary>
+    /// The control, on the row beside the name. An <see cref="OmniSwitch"/>, <see cref="OmniCheckBox"/>,
+    /// <see cref="OmniNullableSwitch"/> or <see cref="OmniNullableCheckBox"/> placed here is labelled by
+    /// the name and toggled by a click anywhere on the tile; it receives a generated id when it has none.
+    /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 

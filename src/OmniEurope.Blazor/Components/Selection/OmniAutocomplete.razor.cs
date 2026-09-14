@@ -6,6 +6,7 @@ public partial class OmniAutocomplete<TValue>
     private int _searchGeneration;
     private IReadOnlyList<OmniOption<TValue>> _results = Array.Empty<OmniOption<TValue>>();
     private string _searchText = string.Empty;
+    private string _resultsQuery = string.Empty;
     private string _announcement = string.Empty;
     private Exception? _error;
 
@@ -38,6 +39,14 @@ public partial class OmniAutocomplete<TValue>
 
     [Parameter]
     public EventCallback<Exception> SearchFailed { get; set; }
+
+    /// <summary>
+    /// Marks, in each suggestion, the letters that match what was typed, ignoring case and accents
+    /// so that "liege" marks the accented city name. On by default: a list the eye has to read in
+    /// full to see why each entry is there is slower to choose from. The text read aloud is unchanged.
+    /// </summary>
+    [Parameter]
+    public bool HighlightMatches { get; set; } = true;
 
     private string ResultsId => $"{Id ?? FieldIdentifier.FieldName}-results";
     private string ErrorId => $"{Id ?? FieldIdentifier.FieldName}-error";
@@ -85,6 +94,7 @@ public partial class OmniAutocomplete<TValue>
             }
 
             _results = results;
+            _resultsQuery = _searchText;
             _announcement = _results.Count == 1
                 ? Localize("AutocompleteOneResult")
                 : Localize("AutocompleteManyResults", _results.Count);

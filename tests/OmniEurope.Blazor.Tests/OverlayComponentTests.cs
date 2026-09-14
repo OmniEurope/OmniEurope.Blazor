@@ -119,6 +119,86 @@ public sealed class OverlayComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task ConfirmAsync_PutsTheActionFirstAndCancelAfterItInDanger_EachWithAnIcon()
+    {
+        using var service = new OmniOverlayService();
+        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+
+        var pending = service.ConfirmAsync(new OmniConfirmRequest("Supprimer le dossier", "Le dossier sera retiré.")
+        {
+            ConfirmText = "Supprimer",
+            ConfirmVariant = OmniButtonVariant.Danger,
+            ConfirmIcon = OmniIconName.Delete
+        });
+
+        host.WaitForAssertion(() => Assert.Equal(2, host.FindAll(".omni-dialog__footer .omni-button").Count));
+        var buttons = host.FindAll(".omni-dialog__footer .omni-button");
+        Assert.Equal("Le dossier sera retiré.", host.Find(".omni-dialog__content .omni-confirm__message").TextContent);
+        Assert.Contains("omni-confirm__action", buttons[0].ClassList);
+        Assert.Contains("omni-button--danger", buttons[0].ClassList);
+        Assert.Equal("Supprimer", buttons[0].QuerySelector("span.omni-button__content > span")!.TextContent);
+        Assert.NotNull(buttons[0].QuerySelector("svg.omni-icon"));
+        Assert.Contains("omni-confirm__cancel", buttons[1].ClassList);
+        Assert.Contains("omni-button--danger", buttons[1].ClassList);
+        Assert.Equal("Annuler", buttons[1].QuerySelector("span.omni-button__content > span")!.TextContent);
+        Assert.NotNull(buttons[1].QuerySelector("svg.omni-icon"));
+
+        buttons[0].Click();
+
+        Assert.True(await pending);
+        Assert.Null(service.Dialog);
+    }
+
+    [Fact]
+    public async Task ConfirmAsync_DefaultsToAPrimaryConfirmAndAnswersFalseOnCancel()
+    {
+        using var service = new OmniOverlayService();
+        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+
+        var pending = service.ConfirmAsync(new OmniConfirmRequest("Publier", "Publier la page ?"));
+
+        host.WaitForAssertion(() => Assert.NotNull(host.Find(".omni-confirm__cancel")));
+        var action = host.Find(".omni-confirm__action");
+        Assert.Contains("omni-button--primary", action.ClassList);
+        Assert.Equal("Confirmer", action.QuerySelector("span.omni-button__content > span")!.TextContent);
+
+        host.Find(".omni-confirm__cancel").Click();
+
+        Assert.False(await pending);
+    }
+
+    [Fact]
+    public async Task ConfirmAsync_ClosedAnyOtherWay_AnswersFalse()
+    {
+        using var service = new OmniOverlayService();
+        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+
+        var pending = service.ConfirmAsync(new OmniConfirmRequest("Publier", "Publier la page ?"));
+        host.WaitForAssertion(() => Assert.NotNull(host.Find(".omni-dialog__close")));
+        host.Find(".omni-dialog__close").Click();
+
+        Assert.False(await pending);
+    }
+
+    [Fact]
+    public void ToggleAndSplitButtons_TakeTheButtonSizes()
+    {
+        var toggle = Render<OmniToggleButton>(parameters => parameters
+            .Add(component => component.Size, OmniControlSize.Small)
+            .AddChildContent("Épingler"));
+        var split = Render<OmniSplitButton>(parameters => parameters
+            .Add(component => component.Text, "Publier")
+            .Add(component => component.Size, OmniControlSize.Large));
+        var resting = Render<OmniToggleButton>(parameters => parameters.AddChildContent("Épingler"));
+
+        Assert.Contains("omni-toggle-button--small", toggle.Find("button").ClassList);
+        Assert.Contains("omni-split-button--large", split.Find(".omni-split-button").ClassList);
+        Assert.Contains("omni-toggle-button--medium", resting.Find("button").ClassList);
+        // The menu part carries an icon of the catalogue rather than a text glyph.
+        Assert.NotNull(split.Find(".omni-split-button__toggle svg.omni-icon"));
+    }
+
+    [Fact]
     public void OverlayService_BoundsAndExpiresNotifications()
     {
         using var service = new OmniOverlayService(notificationCapacity: 2, defaultNotificationDuration: TimeSpan.FromMilliseconds(20));

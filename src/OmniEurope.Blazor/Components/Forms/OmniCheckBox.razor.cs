@@ -2,6 +2,15 @@ namespace OmniEurope.Blazor.Components;
 
 public partial class OmniCheckBox
 {
+    private readonly string _generatedId = $"omni-checkbox-{Guid.NewGuid():N}";
+
+    /// <summary>The settings tile around the control, whose name labels it and whose whole surface toggles it.</summary>
+    [CascadingParameter]
+    private OmniSettingsTileContext? SettingsTile { get; set; }
+
+    // Only a control inside a settings tile needs an id of its own: the label of the tile points at it.
+    private string? EffectiveId => Id ?? (SettingsTile is null ? null : _generatedId);
+
     [Parameter]
     public bool Disabled { get; set; }
 
@@ -26,5 +35,21 @@ public partial class OmniCheckBox
 
         validationErrorMessage = Localize("CheckBoxInvalid");
         return false;
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        SettingsTile?.Join(this, EffectiveId!);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            SettingsTile?.Leave(this);
+        }
+
+        base.Dispose(disposing);
     }
 }

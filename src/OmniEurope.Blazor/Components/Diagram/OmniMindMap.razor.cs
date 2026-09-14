@@ -319,7 +319,8 @@ public partial class OmniMindMap
                 rerender |= await FitViewAsync();
 
                 // The canvas may not have its final size yet (a container still laying out, a tab
-                // being shown): until the reader or the host moves the view, a resize fits again.
+                // being shown): until the reader acts on the map or the host moves the view, a resize
+                // fits again (see TakeViewFromCanvas).
                 _viewFollowsCanvas = true;
             }
 
@@ -400,6 +401,7 @@ public partial class OmniMindMap
 
     internal async Task HandleNodePressedAsync(string nodeId)
     {
+        TakeViewFromCanvas();
         _menu = null;
         if (!_byId.ContainsKey(nodeId))
         {
@@ -438,6 +440,7 @@ public partial class OmniMindMap
 
     internal async Task HandleEdgePressedAsync(int index)
     {
+        TakeViewFromCanvas();
         _menu = null;
         if (_linking || !_renderedEdges.Any(edge => edge.Index == index))
         {
@@ -458,6 +461,7 @@ public partial class OmniMindMap
 
     internal async Task HandleBackgroundPressedAsync()
     {
+        TakeViewFromCanvas();
         _menu = null;
         if (HasSelection)
         {
@@ -467,6 +471,7 @@ public partial class OmniMindMap
 
     internal async Task HandleLassoAsync(double left, double top, double right, double bottom)
     {
+        TakeViewFromCanvas();
         var inside = _drawable
             .Where(node => node.X >= left && node.X <= right && node.Y >= top && node.Y <= bottom)
             .Select(node => node.Id)
@@ -501,6 +506,7 @@ public partial class OmniMindMap
 
     internal async Task HandleNodeDoubleClickedAsync(string nodeId)
     {
+        TakeViewFromCanvas();
         if (!_byId.ContainsKey(nodeId))
         {
             return;
@@ -510,13 +516,17 @@ public partial class OmniMindMap
         await RequestRenameAsync();
     }
 
-    internal Task HandleCanvasDoubleClickedAsync(double mapX, double mapY) =>
-        ReadOnly || !double.IsFinite(mapX) || !double.IsFinite(mapY)
+    internal Task HandleCanvasDoubleClickedAsync(double mapX, double mapY)
+    {
+        TakeViewFromCanvas();
+        return ReadOnly || !double.IsFinite(mapX) || !double.IsFinite(mapY)
             ? Task.CompletedTask
             : AddNodeAtAsync(mapX, mapY, OmniMindMapGroups.Rotation[_nextId % OmniMindMapGroups.Rotation.Count]);
+    }
 
     internal async Task HandleContextMenuRequestedAsync(string? nodeId, double left, double top, double mapX, double mapY)
     {
+        TakeViewFromCanvas();
         if (nodeId is not null && _byId.ContainsKey(nodeId))
         {
             if (!_multi.Contains(nodeId))
@@ -854,6 +864,7 @@ public partial class OmniMindMap
 
     internal async Task HandleKeyDownAsync(KeyboardEventArgs args)
     {
+        TakeViewFromCanvas();
         if (args.CtrlKey || args.MetaKey)
         {
             if (args.AltKey)
@@ -1259,6 +1270,7 @@ public partial class OmniMindMap
 
     private async Task CommitAsync(OmniMindMapDocument next, string? announcement)
     {
+        TakeViewFromCanvas();
         SetDocument(next);
         if (_undo.Count == 0 || !ReferenceEquals(_undo[^1], next))
         {
@@ -1297,6 +1309,7 @@ public partial class OmniMindMap
 
     private async Task SelectNodeAsync(string? nodeId)
     {
+        TakeViewFromCanvas();
         _multi.Clear();
         _selectedEdge = -1;
         if (nodeId is not null && !_byId.ContainsKey(nodeId))
@@ -1319,6 +1332,7 @@ public partial class OmniMindMap
 
     private async Task ClearSelectionAsync()
     {
+        TakeViewFromCanvas();
         var hadNode = _selectedId is not null;
         _selectedId = null;
         _multi.Clear();
@@ -1380,6 +1394,15 @@ public partial class OmniMindMap
         NotifyStateChanged();
         await ViewStateChanged.InvokeAsync(CurrentView);
     }
+
+    /// <summary>
+    /// The reader has acted on the map, so the view is theirs from now on. Until then a resized canvas
+    /// refits the map, because a container still laying out must not leave it cramped; after, it must
+    /// not: selecting a node opens a properties panel beside the canvas and clearing the selection
+    /// closes it, and each of those resizes used to refit, so every click zoomed the map in or out.
+    /// The view then changes only by the wheel, a pinch, the zoom keys and the toolbar or menu actions.
+    /// </summary>
+    private void TakeViewFromCanvas() => _viewFollowsCanvas = false;
 
     private static double ClampZoom(double zoom) =>
         double.IsFinite(zoom) ? Math.Clamp(zoom, MinZoom, MaxZoom) : 1;

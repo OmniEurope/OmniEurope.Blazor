@@ -222,6 +222,14 @@
   <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0:0.##} Mo</value></data>
   <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} Ko</value></data>
   <data name="UploadSizeBytes" xml:space="preserve"><value>{0} o</value></data>
+  <data name="UploadDropOne" xml:space="preserve"><value>Déposez un fichier ici ou</value></data>
+  <data name="UploadDropMany" xml:space="preserve"><value>Déposez des fichiers ici ou</value></data>
+  <data name="UploadBrowse" xml:space="preserve"><value>parcourez</value></data>
+  <data name="UploadHintMaximumSize" xml:space="preserve"><value>{0} au plus par fichier</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>{0} fichiers au plus</value></data>
+  <data name="UploadAttachedFiles" xml:space="preserve"><value>Fichiers joints</value></data>
+  <data name="UploadRemove" xml:space="preserve"><value>Retirer {0}</value></data>
+  <data name="UploadRemoved" xml:space="preserve"><value>{0} retiré de la liste.</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Vue hebdomadaire</value></data>
   <data name="DataAnnotationsRequired" xml:space="preserve"><value>Le champ {0} est obligatoire.</value></data>
   <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Le champ {0} doit contenir entre {1} et {2} caractères.</value></data>
@@ -233,4 +241,22 @@
   <data name="DataAnnotationsCompare" xml:space="preserve"><value>{0} et {1} ne correspondent pas.</value></data>
   <data name="DataAnnotationsPattern" xml:space="preserve"><value>Le champ {0} n&apos;a pas le format attendu.</value></data>
   <data name="DataAnnotationsInvalid" xml:space="preserve"><value>Le champ {0} n&apos;est pas valide.</value></data>
+  <data name="GanttEmpty" xml:space="preserve"><value>Aucune tâche à afficher.</value></data>
+  <data name="GanttLabel" xml:space="preserve"><value>Diagramme de Gantt</value></data>
+  <data name="GanttScale" xml:space="preserve"><value>Échelle de temps</value></data>
+  <data name="GanttScaleDay" xml:space="preserve"><value>Jour</value></data>
+  <data name="GanttScaleMonth" xml:space="preserve"><value>Mois</value></data>
+  <data name="GanttScaleWeek" xml:space="preserve"><value>Semaine</value></data>
+  <data name="GanttTaskAfter" xml:space="preserve"><value>après {0}</value></data>
+  <data name="GanttTaskColumn" xml:space="preserve"><value>Tâche</value></data>
+  <data name="GanttTaskDescription" xml:space="preserve"><value>{0}, du {1} au {2}, {3} fait</value></data>
+  <data name="StepTimelineLabel" xml:space="preserve"><value>Déroulement</value></data>
+  <data name="StepTimelineNeverStarted" xml:space="preserve"><value>Jamais démarrées :</value></data>
+  <data name="StepTimelineStatusCancelled" xml:space="preserve"><value>annulée</value></data>
+  <data name="StepTimelineStatusFailed" xml:space="preserve"><value>en échec</value></data>
+  <data name="StepTimelineStatusRunning" xml:space="preserve"><value>en cours</value></data>
+  <data name="StepTimelineStatusSkipped" xml:space="preserve"><value>ignorée</value></data>
+  <data name="StepTimelineStatusSuccess" xml:space="preserve"><value>réussie</value></data>
+  <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, démarrée à {1}, durée</value></data>
+  <data name="ConfirmAction" xml:space="preserve"><value>Confirmer</value></data>
 </root>

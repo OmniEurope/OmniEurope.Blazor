@@ -20,7 +20,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
         form.Find("#list-box").Change("2");
         form.Find("#checkbox-list input[type=checkbox]").Change(true);
         form.Find("#radio-list input[value=beta]").Change(true);
-        form.FindAll("#select-bar button")[2].Click();
+        form.FindAll("#select-bar .omni-select-bar__item")[2].Click();
 
         Assert.Equal("beta", form.Instance.Model.Single);
         Assert.Equal(["alpha", "gamma"], form.Instance.Model.Multiple);

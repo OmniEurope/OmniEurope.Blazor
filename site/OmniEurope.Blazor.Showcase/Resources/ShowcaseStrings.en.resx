@@ -210,4 +210,9 @@
   <data name="DemoDiagramCapability2" xml:space="preserve"><value>Every action has a keyboard shortcut, announced to screen readers.</value></data>
   <data name="DemoDiagramCapability3" xml:space="preserve"><value>Action bar and a properties panel for the selected node.</value></data>
   <data name="DemoDiagramCapability4" xml:space="preserve"><value>Reads and writes back the stored graph format without losing anything.</value></data>
+  <data name="DemoPlanningTitle" xml:space="preserve"><value>Planning</value></data>
+  <data name="DemoPlanningSummary" xml:space="preserve"><value>A Gantt chart, the steps of a run and a timeline to place.</value></data>
+  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt by day, week or month, with groups, dependencies and today.</value></data>
+  <data name="DemoPlanningCapability2" xml:space="preserve"><value>Run steps on a time scale, with the steps that never started.</value></data>
+  <data name="DemoPlanningCapability3" xml:space="preserve"><value>Timeline on the right, on the left or alternating, choosing the first side.</value></data>
 </root>

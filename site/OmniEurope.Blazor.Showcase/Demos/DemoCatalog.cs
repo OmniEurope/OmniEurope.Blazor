@@ -56,6 +56,8 @@ public static class DemoCatalog
             ["DemoTreeCapability1", "DemoTreeCapability2", "DemoTreeCapability3"]),
         new("agenda", typeof(SchedulerDemo), "DemoSchedulerTitle", "DemoSchedulerSummary",
             ["DemoSchedulerCapability1", "DemoSchedulerCapability2", "DemoSchedulerCapability3"]),
+        new("planification", typeof(PlanningDemo), "DemoPlanningTitle", "DemoPlanningSummary",
+            ["DemoPlanningCapability1", "DemoPlanningCapability2", "DemoPlanningCapability3"]),
         new("graphiques", typeof(ChartDemo), "DemoChartTitle", "DemoChartSummary",
             ["DemoChartCapability1", "DemoChartCapability2"]),
         new("graphiques-avances", typeof(ChartsExtendedDemo), "DemoChartsExtendedTitle", "DemoChartsExtendedSummary",

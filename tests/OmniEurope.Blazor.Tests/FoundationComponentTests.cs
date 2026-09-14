@@ -141,6 +141,47 @@ public sealed class FoundationComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void Main_ByDefault_RendersTheLandmarkAloneWithTheFullContentWidth()
+    {
+        var component = Render<OmniMain>(parameters => parameters.AddChildContent("Main"));
+
+        var main = component.Find("main");
+        Assert.Equal("omni-main", main.ClassName);
+        Assert.Empty(component.FindAll(".omni-main-scroll"));
+    }
+
+    [Theory]
+    [InlineData(OmniLayoutWidth.Wide, "omni-main--wide")]
+    [InlineData(OmniLayoutWidth.Content, "omni-main--content")]
+    public void Main_ContentWidth_CentresTheContentOnly(OmniLayoutWidth width, string expected)
+    {
+        var component = Render<OmniMain>(parameters => parameters
+            .Add(item => item.ContentWidth, width)
+            .AddChildContent("Main"));
+
+        Assert.Contains(expected, component.Find("main").ClassList);
+    }
+
+    [Fact]
+    public void Main_Scrollable_WrapsTheLandmarkInAFrameAndKeepsItsAttributesOnTheLandmark()
+    {
+        var component = Render<OmniMain>(parameters => parameters
+            .Add(item => item.Id, "content")
+            .Add(item => item.Scrollable, true)
+            .Add(item => item.ContentWidth, OmniLayoutWidth.Content)
+            .Add(item => item.Class, "host-page")
+            .AddChildContent("<p>Texte</p>"));
+
+        var frame = component.Find("div.omni-main-scroll");
+        var main = frame.QuerySelector(":scope > main")!;
+        Assert.Equal("content", main.Id);
+        Assert.Equal("-1", main.GetAttribute("tabindex"));
+        Assert.Equal(["omni-main", "omni-main--scrollable", "omni-main--content", "host-page"], main.ClassList);
+        Assert.NotNull(main.QuerySelector("p"));
+        Assert.False(frame.HasAttribute("id"));
+    }
+
+    [Fact]
     public void Header_RendersStickyClass()
     {
         var component = Render<OmniHeader>(parameters => parameters
