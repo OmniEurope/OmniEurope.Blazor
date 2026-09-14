@@ -41,7 +41,26 @@
                     <button type="button"
                             class="omni-autocomplete__option"
                             disabled="@option.Disabled"
-                            @onclick="() => Select(option)">@option.Text</button>
+                            @onclick="() => Select(option)">
+                        @if (HighlightMatches)
+                        {
+                            @foreach (var segment in OmniTextMatch.Split(option.Text, _resultsQuery))
+                            {
+                                if (segment.Matched)
+                                {
+                                    <mark class="omni-autocomplete__match">@segment.Text</mark>
+                                }
+                                else
+                                {
+                                    @segment.Text
+                                }
+                            }
+                        }
+                        else
+                        {
+                            @option.Text
+                        }
+                    </button>
                 </li>
             }
         </ul>

@@ -1,19 +1,48 @@
 @namespace OmniEurope.Blazor.Components
 @typeparam TValue
 @inherits OmniInputBase<TValue>
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
 
+@* Too wide for its place, the bar scrolls under a chevron on each side that still hides options, as
+   a tab strip does, rather than showing a scrollbar. The chevrons are hidden from assistive
+   technologies and out of the tab order: every option stays reachable with Tab. *@
 <div @attributes="AdditionalAttributes"
+     @ref="_strip"
      id="@Id"
-     class="@InputCss("omni-select-bar")"
+     class="@InputCss("omni-select-bar", Disabled ? "omni-select-bar--disabled" : null)"
      role="radiogroup"
      aria-label="@Label"
+     aria-disabled="@(Disabled ? "true" : null)"
      aria-invalid="@AriaInvalid">
-    @foreach (var option in Options)
-    {
-        <OmniSelectBarItem TValue="TValue"
-                           Value="@option.Value"
-                           Selected="@IsSelected(option.Value)"
-                           Disabled="@(Disabled || option.Disabled)"
-                           SelectedValueChanged="Select">@option.Text</OmniSelectBarItem>
-    }
+    <button type="button"
+            class="omni-stack-scroll__button omni-select-bar__scroll omni-select-bar__scroll--start"
+            tabindex="-1"
+            aria-hidden="true"
+            hidden>
+        <svg class="omni-stack-scroll__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+            <path d="M15 6l-6 6 6 6" />
+        </svg>
+    </button>
+    <div class="omni-select-bar__viewport">
+        @foreach (var option in Options)
+        {
+            <OmniSelectBarItem TValue="TValue"
+                               Value="@option.Value"
+                               Selected="@IsSelected(option.Value)"
+                               Disabled="@(Disabled || option.Disabled)"
+                               SelectedValueChanged="Select">@option.Text</OmniSelectBarItem>
+        }
+    </div>
+    <button type="button"
+            class="omni-stack-scroll__button omni-select-bar__scroll omni-select-bar__scroll--end"
+            tabindex="-1"
+            aria-hidden="true"
+            hidden>
+        <svg class="omni-stack-scroll__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+            <path d="M9 6l6 6-6 6" />
+        </svg>
+    </button>
 </div>

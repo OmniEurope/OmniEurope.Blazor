@@ -1,0 +1,48 @@
+<OmniComponentsHost OverlayService="Service">
+    @foreach (var name in Names)
+    {
+        <OmniContextMenu Id="@($"menu-{name}")"
+                         Open="@(OpenName == name)"
+                         OpenChanged="@(open => OnOpenChanged(name, open))"
+                         MenuLabel="@name"
+                         TriggerContent="@Trigger(name)">
+            <button type="button" role="menuitem">@($"{name} {Revision}")</button>
+        </OmniContextMenu>
+    }
+</OmniComponentsHost>
+
+@code {
+    public static readonly string[] Names = ["a", "b"];
+
+    public OmniOverlayService Service { get; } = new();
+
+    public string? OpenName { get; set; }
+
+    public int Revision { get; set; }
+
+    public void Open(string? name)
+    {
+        OpenName = name;
+        StateHasChanged();
+    }
+
+    public void Bump()
+    {
+        Revision++;
+        StateHasChanged();
+    }
+
+    private void OnOpenChanged(string name, bool open)
+    {
+        if (open)
+        {
+            OpenName = name;
+        }
+        else if (OpenName == name)
+        {
+            OpenName = null;
+        }
+    }
+
+    private static RenderFragment Trigger(string name) => builder => builder.AddContent(0, $"Cible {name}");
+}
