@@ -41,3 +41,36 @@ export function setDocumentMetadata(language, title) {
 export function historyBack() {
     window.history.back();
 }
+
+// Puts a text on the clipboard. The asynchronous clipboard API needs a secure context and the
+// clipboard-write permission; when it is missing or refuses, a hidden text area and the copy command
+// take over, the way a user would select and copy. True only when one of the two succeeded.
+export async function copyText(text) {
+    const value = typeof text === 'string' ? text : '';
+    if (navigator.clipboard?.writeText && window.isSecureContext) {
+        try {
+            await navigator.clipboard.writeText(value);
+            return true;
+        } catch {
+            // Refused (no focus, no permission): fall back to the selection below.
+        }
+    }
+
+    const area = document.createElement('textarea');
+    area.value = value;
+    area.setAttribute('readonly', '');
+    area.className = 'omni-visually-hidden';
+    const previous = document.activeElement;
+    document.body.appendChild(area);
+    try {
+        area.select();
+        return document.execCommand('copy');
+    } catch {
+        return false;
+    } finally {
+        area.remove();
+        if (previous instanceof HTMLElement) {
+            previous.focus({ preventScroll: true });
+        }
+    }
+}

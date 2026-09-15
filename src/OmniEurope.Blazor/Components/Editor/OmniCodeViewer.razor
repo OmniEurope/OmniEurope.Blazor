@@ -1,0 +1,74 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+@* Read-only code with its line numbers, without Monaco: plain markup, valid under the strict policy.
+   Line numbers are drawn beside the text, never inside it, so selecting and copying the code by hand
+   does not pick them up. *@
+<section id="@Id" class="@Css("omni-code-viewer", SidePanel is not null ? "omni-code-viewer--with-panel" : null, _wrap ? "omni-code-viewer--wrap" : null)"
+         aria-labelledby="@TitleId" @attributes="AdditionalAttributes">
+    <header class="omni-code-viewer__header">
+        <span id="@TitleId" class="omni-code-viewer__title">@EffectiveTitle</span>
+        @if (!string.IsNullOrWhiteSpace(Language))
+        {
+            <span class="omni-code-viewer__language">@Language</span>
+        }
+        <span class="omni-code-viewer__actions">
+            @if (ShowWrapToggle)
+            {
+                <OmniButton Class="omni-code-viewer__wrap" Variant="@(_wrap ? OmniButtonVariant.Secondary : OmniButtonVariant.Ghost)" Size="OmniControlSize.Small"
+                            aria-pressed="@(_wrap ? "true" : "false")" OnClick="ToggleWrap">
+                    <OmniIcon Name="OmniIconName.TextAlignLeft" Size="OmniControlSize.Small" />
+                    <span>@Localize("CodeViewerWrap")</span>
+                </OmniButton>
+            }
+            @if (ShowCopy)
+            {
+                <OmniButton Class="omni-code-viewer__copy" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" OnClick="CopyAsync">
+                    <OmniIcon Name="@(CopyResult == true ? OmniIconName.Check : OmniIconName.Copy)" Size="OmniControlSize.Small" />
+                    <span>@CopyLabel</span>
+                </OmniButton>
+            }
+            @Actions
+        </span>
+    </header>
+    <div class="omni-code-viewer__body">
+        <div class="omni-code-viewer__code" role="region" aria-labelledby="@TitleId" tabindex="0">
+            @if (_lines.Count == 0 || (_lines.Count == 1 && _lines[0].Length == 0))
+            {
+                <p class="omni-code-viewer__empty">@EffectiveEmptyText</p>
+            }
+            else
+            {
+                @for (var index = 0; index < _lines.Count; index++)
+                {
+                    var number = index + 1;
+                    <div class="@LineClass(number)">
+                        @if (ShowLineNumbers)
+                        {
+                            <span class="omni-code-viewer__number" aria-hidden="true">@number</span>
+                        }
+                        <code class="omni-code-viewer__text">
+                            @foreach (var segment in Segments(_lines[index], number))
+                            {
+                                if (segment.Link is { } link)
+                                {
+                                    <button type="button" class="omni-code-viewer__link" title="@link.Tooltip" @onclick="() => ActivateLinkAsync(link)">@segment.Text</button>
+                                }
+                                else
+                                {
+                                    @segment.Text
+                                }
+                            }
+                        </code>
+                    </div>
+                }
+            }
+        </div>
+        @if (SidePanel is not null)
+        {
+            <aside class="omni-code-viewer__panel" aria-label="@SidePanelLabel">@SidePanel</aside>
+        }
+    </div>
+    <span class="omni-visually-hidden" role="status" aria-live="polite">@CopyAnnouncement</span>
+</section>

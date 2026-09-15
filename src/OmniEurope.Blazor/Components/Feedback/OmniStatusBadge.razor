@@ -1,0 +1,26 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TValue
+@inherits OmniComponentBase
+@implements IDisposable
+
+@* The badge of a status value, drawn from the host's map. A stale value keeps its colour, outlined,
+   and says it is stale in words beside it: a dimmed badge alone would not tell why. *@
+<span id="@Id"
+      class="@Css("omni-status-badge", IsStale ? "omni-status-badge--stale" : null)"
+      title="@DescriptionText"
+      @attributes="AdditionalAttributes">
+    <OmniBadge Variant="@Status.Variant" Fill="@(IsStale ? OmniBadgeFill.Outline : Status.Fill)">
+        @if (ShowIcon && Status.Icon is { } icon)
+        {
+            <OmniIcon Name="icon" Size="OmniControlSize.Small" Class="omni-status-badge__icon" />
+        }
+        <span class="omni-status-badge__text">@LabelText</span>
+    </OmniBadge>
+    @if (IsStale)
+    {
+        <span class="omni-status-badge__stale" title="@TimestampText">
+            <OmniIcon Name="OmniIconName.Hourglass" Size="OmniControlSize.Small" />
+            <span>@EffectiveStaleText</span>
+        </span>
+    }
+</span>
