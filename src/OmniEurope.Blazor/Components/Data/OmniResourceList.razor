@@ -1,0 +1,79 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TItem
+@inherits OmniComponentBase
+@implements IDisposable
+
+@* The body of a list page: a toolbar (search, the host's filters and actions, refresh, create), then
+   the grid, which shows the empty state when there is nothing, and a retry state in its place when
+   loading failed. *@
+<section id="@Id" class="@Css("omni-resource-list")" aria-label="@Label" @attributes="AdditionalAttributes">
+    <div class="omni-resource-list__toolbar">
+        @if (ShowSearch)
+        {
+            <OmniTextBox Type="OmniTextBoxType.Search"
+                         Class="omni-resource-list__search"
+                         Placeholder="@EffectiveSearchPlaceholder"
+                         aria-label="@EffectiveSearchPlaceholder"
+                         @bind-Value:get="_searchText"
+                         @bind-Value:set="SearchChangedAsync" />
+        }
+        @Filters
+        @if (HasSearch)
+        {
+            <OmniButton Class="omni-resource-list__clear" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" OnClick="ClearSearchAsync">
+                <OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" /><span>@Localize("ResourceListClearSearch")</span>
+            </OmniButton>
+        }
+        <span class="omni-resource-list__spacer"></span>
+        @if (ShowCount && CountValue is { } count)
+        {
+            <OmniBadge Class="omni-resource-list__count" Variant="OmniBadgeVariant.Neutral">@CountText(count)</OmniBadge>
+        }
+        @Actions
+        @if (ShowRefresh)
+        {
+            <OmniButton Class="omni-resource-list__refresh" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small"
+                        AriaLabel="@Localize("ResourceListRefresh")" title="@Localize("ResourceListRefresh")" OnClick="RefreshAsync">
+                <OmniIcon Name="OmniIconName.Refresh" Size="OmniControlSize.Small" />
+            </OmniButton>
+        }
+        @if (HasCreate)
+        {
+            @CreateButton("omni-resource-list__create")
+        }
+    </div>
+    @if (FailureMessage is { } failure)
+    {
+        <div class="omni-resource-list__error">
+            <OmniAlert Severity="OmniAlertSeverity.Danger" Live="true">
+                <ChildContent>
+                    <span class="omni-resource-list__error-text">@failure</span>
+                    <OmniButton Class="omni-resource-list__retry" Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="RetryAsync">
+                        <OmniIcon Name="OmniIconName.Refresh" Size="OmniControlSize.Small" /><span>@Localize("Retry")</span>
+                    </OmniButton>
+                </ChildContent>
+            </OmniAlert>
+        </div>
+    }
+    else
+    {
+        <OmniDataGrid @ref="_grid"
+                      TItem="TItem"
+                      Class="omni-resource-list__grid"
+                      Items="@VisibleItems"
+                      Load="@GridLoad"
+                      Columns="@Columns"
+                      Page="_page"
+                      PageChanged="PageChangedAsync"
+                      PageSize="@PageSize"
+                      AllowPaging="@AllowPaging"
+                      AllowSorting="@AllowSorting"
+                      Height="@Height"
+                      FillAvailableHeight="@FillAvailableHeight"
+                      Density="@Density"
+                      KeySelector="@KeySelector"
+                      RowClick="@RowClick"
+                      IsLoading="@IsLoading"
+                      EmptyTemplate="@EmptyTemplate" />
+    }
+</section>

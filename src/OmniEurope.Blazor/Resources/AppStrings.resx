@@ -347,4 +347,77 @@
   <data name="CodeEditorUnavailable" xml:space="preserve"><value>L'éditeur Monaco n'a pas pu être chargé : le code se modifie en texte brut.</value></data>
   <data name="CodeEditorPosition" xml:space="preserve"><value>Ligne {0}, colonne {1}</value></data>
   <data name="CodeEditorLinkHint" xml:space="preserve"><value>Ctrl+clic pour suivre le lien</value></data>
+  <data name="StatusBadgeStale" xml:space="preserve"><value>périmé</value></data>
+  <data name="StatusBadgeStaleSince" xml:space="preserve"><value>Dernière mise à jour : {0}</value></data>
+  <data name="LogViewerLabel" xml:space="preserve"><value>Journal</value></data>
+  <data name="LogViewerEmpty" xml:space="preserve"><value>Aucune ligne pour le moment.</value></data>
+  <data name="LogViewerSearch" xml:space="preserve"><value>Rechercher dans le journal</value></data>
+  <data name="LogViewerAllLevels" xml:space="preserve"><value>Tous les niveaux</value></data>
+  <data name="LogViewerLevelFilter" xml:space="preserve"><value>Niveau minimal</value></data>
+  <data name="LogViewerFromLevel" xml:space="preserve"><value>{0} et plus graves</value></data>
+  <data name="LogViewerPreviousMatch" xml:space="preserve"><value>Correspondance précédente</value></data>
+  <data name="LogViewerNextMatch" xml:space="preserve"><value>Correspondance suivante</value></data>
+  <data name="LogViewerNoMatch" xml:space="preserve"><value>Aucune correspondance</value></data>
+  <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} sur {1}</value></data>
+  <data name="LogViewerFollow" xml:space="preserve"><value>Suivre</value></data>
+  <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Aller aux dernières lignes</value></data>
+  <data name="LogViewerNewLines" xml:space="preserve"><value>{0} nouvelles lignes</value></data>
+  <data name="LogViewerLevelPrefix" xml:space="preserve"><value>{0} : </value></data>
+  <data name="LogLevelTrace" xml:space="preserve"><value>Trace</value></data>
+  <data name="LogLevelDebug" xml:space="preserve"><value>Débogage</value></data>
+  <data name="LogLevelInformation" xml:space="preserve"><value>Information</value></data>
+  <data name="LogLevelWarning" xml:space="preserve"><value>Avertissement</value></data>
+  <data name="LogLevelError" xml:space="preserve"><value>Erreur</value></data>
+  <data name="LogLevelCritical" xml:space="preserve"><value>Critique</value></data>
+  <data name="CodeBlockCopy" xml:space="preserve"><value>Copier</value></data>
+  <data name="CodeBlockCopied" xml:space="preserve"><value>Copié dans le presse-papiers</value></data>
+  <data name="CodeBlockCopyFailed" xml:space="preserve"><value>La copie a échoué</value></data>
+  <data name="CodeBlockReveal" xml:space="preserve"><value>Afficher la valeur</value></data>
+  <data name="CodeBlockHide" xml:space="preserve"><value>Masquer la valeur</value></data>
+  <data name="CodeViewerLabel" xml:space="preserve"><value>Code</value></data>
+  <data name="CodeViewerEmpty" xml:space="preserve"><value>Rien à afficher.</value></data>
+  <data name="CodeViewerWrap" xml:space="preserve"><value>Retour à la ligne</value></data>
+  <data name="CodeViewerLinkHint" xml:space="preserve"><value>Suivre le lien</value></data>
+  <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Aucune modification.</value></data>
+  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0} lignes ajoutées, {1} lignes supprimées</value></data>
+  <data name="UnifiedDiffBinary" xml:space="preserve"><value>Fichier binaire : aucune ligne à comparer.</value></data>
+  <data name="UnifiedDiffNoLines" xml:space="preserve"><value>Aucune ligne modifiée.</value></data>
+  <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Ligne avant</value></data>
+  <data name="UnifiedDiffNewLine" xml:space="preserve"><value>Ligne après</value></data>
+  <data name="UnifiedDiffContent" xml:space="preserve"><value>Contenu</value></data>
+  <data name="UnifiedDiffAdded" xml:space="preserve"><value>Ajoutée : </value></data>
+  <data name="UnifiedDiffRemoved" xml:space="preserve"><value>Supprimée : </value></data>
+  <data name="UnifiedDiffRenamedPath" xml:space="preserve"><value>{0} vers {1}</value></data>
+  <data name="UnifiedDiffUntitled" xml:space="preserve"><value>Modification</value></data>
+  <data name="UnifiedDiffStatusModified" xml:space="preserve"><value>Modifié</value></data>
+  <data name="UnifiedDiffStatusAdded" xml:space="preserve"><value>Ajouté</value></data>
+  <data name="UnifiedDiffStatusDeleted" xml:space="preserve"><value>Supprimé</value></data>
+  <data name="UnifiedDiffStatusRenamed" xml:space="preserve"><value>Renommé</value></data>
+  <data name="DynamicFormRequired" xml:space="preserve"><value>{0} est obligatoire.</value></data>
+  <data name="DynamicFormNumber" xml:space="preserve"><value>{0} doit être un nombre.</value></data>
+  <data name="DynamicFormMinimum" xml:space="preserve"><value>{0} doit valoir au moins {1}.</value></data>
+  <data name="DynamicFormMaximum" xml:space="preserve"><value>{0} doit valoir au plus {1}.</value></data>
+  <data name="DynamicFormChoice" xml:space="preserve"><value>{0} doit être l&apos;une des valeurs proposées.</value></data>
+  <data name="EntityPickerLabel" xml:space="preserve"><value>Sélection</value></data>
+  <data name="EntityPickerSearch" xml:space="preserve"><value>Rechercher</value></data>
+  <data name="EntityPickerAvailable" xml:space="preserve"><value>Disponibles</value></data>
+  <data name="EntityPickerSelected" xml:space="preserve"><value>Choisis</value></data>
+  <data name="EntityPickerNoResults" xml:space="preserve"><value>Aucun résultat.</value></data>
+  <data name="EntityPickerNoneSelected" xml:space="preserve"><value>Aucun élément choisi.</value></data>
+  <data name="EntityPickerSearchFailed" xml:space="preserve"><value>La recherche a échoué.</value></data>
+  <data name="EntityPickerOneSelected" xml:space="preserve"><value>{0} choisi</value></data>
+  <data name="EntityPickerManySelected" xml:space="preserve"><value>{0} choisis</value></data>
+  <data name="EntityPickerAdded" xml:space="preserve"><value>{0} ajouté à la sélection</value></data>
+  <data name="EntityPickerRemoved" xml:space="preserve"><value>{0} retiré de la sélection</value></data>
+  <data name="EntityPickerRemove" xml:space="preserve"><value>Retirer {0}</value></data>
+  <data name="EntityPickerShowAll" xml:space="preserve"><value>Tout afficher (+{0})</value></data>
+  <data name="ResourceListSearch" xml:space="preserve"><value>Rechercher</value></data>
+  <data name="ResourceListClearSearch" xml:space="preserve"><value>Effacer la recherche</value></data>
+  <data name="ResourceListRefresh" xml:space="preserve"><value>Actualiser</value></data>
+  <data name="ResourceListLoadFailed" xml:space="preserve"><value>La liste n&apos;a pas pu être chargée.</value></data>
+  <data name="ResourceListOneItem" xml:space="preserve"><value>{0} élément</value></data>
+  <data name="ResourceListManyItems" xml:space="preserve"><value>{0} éléments</value></data>
+  <data name="ResourceListEmpty" xml:space="preserve"><value>Rien pour le moment</value></data>
+  <data name="ResourceListNoMatch" xml:space="preserve"><value>Aucun résultat</value></data>
+  <data name="ResourceListNoMatchDescription" xml:space="preserve"><value>Rien ne correspond à « {0} ».</value></data>
 </root>

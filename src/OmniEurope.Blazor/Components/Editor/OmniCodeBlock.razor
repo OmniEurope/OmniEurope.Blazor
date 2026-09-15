@@ -1,0 +1,39 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+@* A command, a snippet or a secret to copy. The copy always takes the real value, even while a
+   secret is masked on screen; the result is announced in words, never by a colour change alone. *@
+<figure id="@Id" class="@Css("omni-code-block", Inline ? "omni-code-block--inline" : null, Wrap ? "omni-code-block--wrap" : null)" @attributes="AdditionalAttributes">
+    <figcaption class="omni-code-block__header">
+        @if (!string.IsNullOrWhiteSpace(Label))
+        {
+            <span class="omni-code-block__label">@Label</span>
+        }
+        @if (!string.IsNullOrWhiteSpace(Language))
+        {
+            <span class="omni-code-block__language">@Language</span>
+        }
+        <span class="omni-code-block__actions">
+            @if (Secret)
+            {
+                <OmniButton Class="omni-code-block__reveal" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small"
+                            AriaLabel="@(_revealed ? Localize("CodeBlockHide") : Localize("CodeBlockReveal"))"
+                            aria-pressed="@(_revealed ? "true" : "false")"
+                            title="@(_revealed ? Localize("CodeBlockHide") : Localize("CodeBlockReveal"))"
+                            OnClick="ToggleReveal">
+                    <OmniIcon Name="@(_revealed ? OmniIconName.EyeSlash : OmniIconName.Eye)" Size="OmniControlSize.Small" />
+                </OmniButton>
+            }
+            @if (ShowCopy)
+            {
+                <OmniButton Class="omni-code-block__copy" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small"
+                            AriaLabel="@CopyLabel" title="@CopyLabel" OnClick="CopyAsync">
+                    <OmniIcon Name="@(CopyResult == true ? OmniIconName.Check : OmniIconName.Copy)" Size="OmniControlSize.Small" />
+                </OmniButton>
+            }
+        </span>
+    </figcaption>
+    <pre class="omni-code-block__pre" tabindex="0"><code class="@CodeClass">@DisplayedCode</code></pre>
+    <span class="omni-visually-hidden" role="status" aria-live="polite">@CopyAnnouncement</span>
+</figure>

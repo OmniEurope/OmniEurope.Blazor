@@ -1,0 +1,101 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* Each file is a section whose header button folds its lines away. Added and removed lines are
+   tinted and also say what they are to a screen reader, the tint alone carrying nothing. *@
+<div id="@Id" class="@Css("omni-unified-diff", Wrap ? "omni-unified-diff--wrap" : null)" @attributes="AdditionalAttributes">
+    @if (_files.Count == 0)
+    {
+        <p class="omni-unified-diff__empty">@EffectiveEmptyText</p>
+    }
+    @for (var fileIndex = 0; fileIndex < _files.Count; fileIndex++)
+    {
+        var index = fileIndex;
+        var file = _files[index];
+        var collapsed = IsCollapsed(index);
+        <section class="omni-unified-diff__file" aria-labelledby="@HeaderId(index)">
+            <header class="omni-unified-diff__file-header">
+                @if (Collapsible)
+                {
+                    <button type="button" id="@HeaderId(index)" class="omni-unified-diff__toggle"
+                            aria-expanded="@(collapsed ? "false" : "true")" aria-controls="@BodyId(index)"
+                            @onclick="() => Toggle(index)">
+                        <OmniIcon Name="@(collapsed ? OmniIconName.ChevronRight : OmniIconName.ChevronDown)" Size="OmniControlSize.Small" />
+                        <code class="omni-unified-diff__path">@PathText(file)</code>
+                    </button>
+                }
+                else
+                {
+                    <span id="@HeaderId(index)" class="omni-unified-diff__toggle"><code class="omni-unified-diff__path">@PathText(file)</code></span>
+                }
+                @if (file.Status != OmniDiffFileStatus.Modified)
+                {
+                    <OmniBadge Variant="@StatusVariant(file.Status)" Fill="OmniBadgeFill.Outline">@StatusText(file.Status)</OmniBadge>
+                }
+                <span class="omni-unified-diff__stats">
+                    <span class="omni-unified-diff__stat omni-unified-diff__stat--added" aria-hidden="true">+@file.Additions</span>
+                    <span class="omni-unified-diff__stat omni-unified-diff__stat--removed" aria-hidden="true">-@file.Deletions</span>
+                    <span class="omni-visually-hidden">@Localize("UnifiedDiffStats", file.Additions, file.Deletions)</span>
+                </span>
+                @if (FileActions is not null)
+                {
+                    <span class="omni-unified-diff__file-actions">@FileActions(file)</span>
+                }
+            </header>
+            <div id="@BodyId(index)" class="omni-unified-diff__body" hidden="@collapsed">
+                @if (file.IsBinary)
+                {
+                    <p class="omni-unified-diff__note">@Localize("UnifiedDiffBinary")</p>
+                }
+                else if (file.Hunks.Count == 0)
+                {
+                    <p class="omni-unified-diff__note">@Localize("UnifiedDiffNoLines")</p>
+                }
+                else
+                {
+                    <div class="omni-unified-diff__scroll" tabindex="0" role="region" aria-labelledby="@HeaderId(index)">
+                        <table class="omni-unified-diff__table">
+                            <thead class="omni-visually-hidden">
+                                <tr>
+                                    <th scope="col">@Localize("UnifiedDiffOldLine")</th>
+                                    <th scope="col">@Localize("UnifiedDiffNewLine")</th>
+                                    <th scope="col">@Localize("UnifiedDiffContent")</th>
+                                </tr>
+                            </thead>
+                            @foreach (var hunk in file.Hunks)
+                            {
+                                <tbody>
+                                    <tr class="omni-unified-diff__hunk">
+                                        <td colspan="3">@hunk.Header</td>
+                                    </tr>
+                                    @foreach (var line in hunk.Lines)
+                                    {
+                                        <tr class="@LineClass(line.Kind)">
+                                            <td class="omni-unified-diff__number">@line.OldNumber</td>
+                                            <td class="omni-unified-diff__number">@line.NewNumber</td>
+                                            <td class="omni-unified-diff__code">
+                                                @if (line.Kind == OmniDiffLineKind.Added)
+                                                {
+                                                    <span class="omni-unified-diff__marker" aria-hidden="true">+</span><span class="omni-visually-hidden">@Localize("UnifiedDiffAdded")</span>
+                                                }
+                                                else if (line.Kind == OmniDiffLineKind.Removed)
+                                                {
+                                                    <span class="omni-unified-diff__marker" aria-hidden="true">-</span><span class="omni-visually-hidden">@Localize("UnifiedDiffRemoved")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="omni-unified-diff__marker" aria-hidden="true"></span>
+                                                }
+                                                <span class="omni-unified-diff__text">@line.Text</span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            }
+                        </table>
+                    </div>
+                }
+            </div>
+        </section>
+    }
+</div>
