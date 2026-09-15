@@ -259,14 +259,13 @@ public sealed class LocalizationTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData("fr-FR", "Navigation", "Menu du profil", "Afficher le mot de passe", "Afficher", "Progression", "50 %")]
-    [InlineData("en-US", "Navigation", "Profile menu", "Show password", "Show", "Progress", "50%")]
+    [InlineData("fr-FR", "Navigation", "Menu du profil", "Afficher le mot de passe", "Progression", "50 %")]
+    [InlineData("en-US", "Navigation", "Profile menu", "Show password", "Progress", "50%")]
     public void Lot10NavigationFormAndProgressDefaultsFollowCurrentUiCulture(
         string cultureName,
         string navigationLabel,
         string profileLabel,
         string revealLabel,
-        string revealText,
         string progressLabel,
         string progressValue)
     {
@@ -289,7 +288,9 @@ public sealed class LocalizationTests : OmniBunitContext
             Assert.Equal(navigationLabel, panel.Find("nav").GetAttribute("aria-label"));
             Assert.Equal(profileLabel, profile.Find("summary").GetAttribute("aria-label"));
             Assert.Equal(revealLabel, password.Find("button").GetAttribute("aria-label"));
-            Assert.Equal(revealText, password.Find("button").TextContent.Trim());
+            // The button is an eye by default: its name is the localized label, it carries no word.
+            Assert.Empty(password.Find("button").TextContent.Trim());
+            Assert.NotNull(password.Find("button.omni-password__toggle--icon svg"));
             Assert.Equal(progressLabel, progress.Find("[role=progressbar]").GetAttribute("aria-label"));
             Assert.Equal(progressValue, progress.Find(".omni-progress__label").TextContent);
         }

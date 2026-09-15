@@ -496,6 +496,16 @@
 .omni-layout:has(> .omni-body > .omni-main-scroll) { display: flex; flex-direction: column; min-block-size: 0; }
 .omni-header { background: var(--omni-color-surface); color: var(--omni-color-text); }
 .omni-header--sticky { position: sticky; top: 0; z-index: 10; }
+/* Bandeau d'accent : le fond prend l'accent du thème et le texte son contraste ; les boutons
+   fantômes, liens, titres et bascules posés dessus suivent la couleur du bandeau au lieu de garder
+   des couleurs pensées pour la surface, illisibles sur l'accent. */
+.omni-header--accent { background: var(--omni-color-accent); color: var(--omni-color-on-accent); }
+.omni-header--accent .omni-heading,
+.omni-header--accent .omni-link,
+.omni-header--accent .omni-button--ghost { color: inherit; }
+.omni-header--accent .omni-button--ghost:hover { background: color-mix(in srgb, currentColor 14%, transparent); }
+.omni-header--accent .omni-sidebar-toggle,
+.omni-header--accent .omni-appearance-toggle { background: transparent; border-color: color-mix(in srgb, currentColor 45%, transparent); color: inherit; }
 
 .omni-fieldset {
     border: var(--omni-border-width) solid var(--omni-color-border);
@@ -905,6 +915,9 @@
     padding-inline: var(--omni-space-md);
 }
 .omni-password__toggle:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+/* L'oeil : un carré aussi haut que le champ, étiré par la rangée, collé au champ par sa bordure
+   commune ; le glyphe change sans que le bouton change de taille. */
+.omni-password__toggle--icon { align-items: center; aspect-ratio: 1; display: inline-flex; flex: 0 0 auto; justify-content: center; padding: 0; }
 .omni-text-area { display: grid; gap: var(--omni-space-xs); }
 .omni-text-area__input { min-height: 6rem; resize: vertical; }
 .omni-text-area__count { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); justify-self: end; }

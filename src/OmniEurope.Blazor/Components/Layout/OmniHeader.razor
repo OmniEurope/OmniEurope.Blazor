@@ -2,7 +2,7 @@
 @inherits OmniComponentBase
 
 <header id="@Id"
-        class="@Css("omni-header", Sticky ? "omni-header--sticky" : null)"
+        class="@Css("omni-header", Sticky ? "omni-header--sticky" : null, Tone == OmniHeaderTone.Accent ? "omni-header--accent" : null)"
         @attributes="AdditionalAttributes">
     @ChildContent
 </header>

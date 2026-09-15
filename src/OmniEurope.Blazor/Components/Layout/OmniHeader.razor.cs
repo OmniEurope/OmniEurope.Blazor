@@ -7,4 +7,8 @@ public partial class OmniHeader
 
     [Parameter]
     public bool Sticky { get; set; }
+
+    /// <summary>The header's colour: the surface by default, or the theme's accent band.</summary>
+    [Parameter]
+    public OmniHeaderTone Tone { get; set; } = OmniHeaderTone.Surface;
 }
