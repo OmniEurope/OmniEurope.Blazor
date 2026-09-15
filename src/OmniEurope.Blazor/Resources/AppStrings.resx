@@ -347,4 +347,22 @@
   <data name="CodeEditorUnavailable" xml:space="preserve"><value>L'éditeur Monaco n'a pas pu être chargé : le code se modifie en texte brut.</value></data>
   <data name="CodeEditorPosition" xml:space="preserve"><value>Ligne {0}, colonne {1}</value></data>
   <data name="CodeEditorLinkHint" xml:space="preserve"><value>Ctrl+clic pour suivre le lien</value></data>
+  <data name="StatusStripLabel" xml:space="preserve"><value>Historique des états</value></data>
+  <data name="StatusStripEmpty" xml:space="preserve"><value>Aucun état à afficher</value></data>
+  <data name="KanbanLabel" xml:space="preserve"><value>Tableau de cartes</value></data>
+  <data name="KanbanInstructions" xml:space="preserve"><value>Espace ou Entrée pour saisir la carte, flèches pour la déplacer, Espace ou Entrée pour la déposer, Échap pour annuler.</value></data>
+  <data name="KanbanGrabbed" xml:space="preserve"><value>{0} saisie, colonne {1}, position {2} sur {3}.</value></data>
+  <data name="KanbanMoved" xml:space="preserve"><value>{0} : colonne {1}, position {2} sur {3}.</value></data>
+  <data name="KanbanDropped" xml:space="preserve"><value>{0} déposée, colonne {1}, position {2} sur {3}.</value></data>
+  <data name="KanbanCancelled" xml:space="preserve"><value>Déplacement annulé : {0} reste dans la colonne {1}.</value></data>
+  <data name="KanbanEmptyColumn" xml:space="preserve"><value>Aucune carte</value></data>
+  <data name="KanbanCardCount" xml:space="preserve"><value>Cartes : {0}</value></data>
+  <data name="GitGraphLabel" xml:space="preserve"><value>Historique des commits</value></data>
+  <data name="GitGraphEmpty" xml:space="preserve"><value>Aucun commit</value></data>
+  <data name="StepTimelineExpected" xml:space="preserve"><value>{0} % de la durée habituelle écoulés</value></data>
+  <data name="StepTimelineOverrun" xml:space="preserve"><value>au-delà de la durée habituelle</value></data>
+  <data name="DiffViewerLabel" xml:space="preserve"><value>Comparaison</value></data>
+  <data name="DiffViewerOriginal" xml:space="preserve"><value>Avant</value></data>
+  <data name="DiffViewerModified" xml:space="preserve"><value>Après</value></data>
+  <data name="DiffViewerUnavailable" xml:space="preserve"><value>L'éditeur Monaco n'a pas pu être chargé : les deux versions sont affichées en texte brut, sans les différences marquées.</value></data>
 </root>

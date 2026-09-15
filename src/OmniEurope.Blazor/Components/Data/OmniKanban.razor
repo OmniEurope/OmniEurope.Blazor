@@ -1,0 +1,61 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@typeparam TItem
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
+
+<div @ref="_root"
+     @attributes="AdditionalAttributes"
+     id="@BaseId"
+     class="@Css("omni-kanban", ReadOnly ? "omni-kanban--readonly" : null)"
+     role="region"
+     aria-label="@EffectiveLabel"
+     data-omni-kanban-grabbed="@(IsGrabbing ? "true" : null)">
+    <p id="@HelpId" class="omni-visually-hidden">@Localize("KanbanInstructions")</p>
+    <div class="omni-kanban__columns">
+        @foreach (var column in Columns)
+        {
+            var entries = Entries(column.Key);
+            <section class="@ColumnCss(column)" data-omni-kanban-column="@column.Key" aria-labelledby="@HeaderId(column)">
+                <div id="@HeaderId(column)" class="omni-kanban__header">
+                    @if (ColumnHeaderTemplate is not null)
+                    {
+                        @ColumnHeaderTemplate(column)
+                    }
+                    else
+                    {
+                        <span class="omni-kanban__title">@column.Title</span>
+                        <span class="omni-kanban__count" aria-label="@Localize("KanbanCardCount", entries.Count)">@entries.Count</span>
+                    }
+                </div>
+                <ul class="omni-kanban__cards"
+                    aria-labelledby="@HeaderId(column)"
+                    @ondragenter="() => DragEnterColumn(column.Key)"
+                    @ondragover:preventDefault="true"
+                    @ondrop="() => DropDraggedAsync()"
+                    @ondrop:preventDefault="true">
+                    @foreach (var entry in entries)
+                    {
+                        <li @key="ItemKey(entry.Item)"
+                            class="@CardCss(entry.Index)"
+                            tabindex="0"
+                            draggable="@(ReadOnly ? "false" : "true")"
+                            aria-describedby="@(ReadOnly ? null : HelpId)"
+                            data-omni-kanban-card="@entry.Index.ToString(CultureInfo.InvariantCulture)"
+                            @ondragstart="() => StartDrag(entry.Index)"
+                            @ondragend="EndDrag"
+                            @ondragenter="() => DragEnterCard(column.Key, entry.Index)"
+                            @ondragenter:stopPropagation="true">
+                            @CardTemplate(entry.Item)
+                        </li>
+                    }
+                    @if (entries.Count == 0)
+                    {
+                        <li class="omni-kanban__empty">@EffectiveEmptyColumnText</li>
+                    }
+                </ul>
+            </section>
+        }
+    </div>
+    <div class="omni-visually-hidden" role="status" aria-live="polite" aria-atomic="true">@_announcement</div>
+</div>
