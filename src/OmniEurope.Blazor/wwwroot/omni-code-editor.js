@@ -217,6 +217,124 @@ export function dispose(host) {
     editors.delete(host);
 }
 
+// Diff side, for OmniDiffViewer: Monaco's diff editor over two models, the original never editable,
+// the modified one editable unless read-only, its edits reported like the code editor's.
+const diffs = new WeakMap();
+
+export function mountDiff(host, dotnet, options) {
+    const monaco = window.monaco;
+    if (!monaco?.editor?.createDiffEditor || !host || diffs.has(host)) {
+        return false;
+    }
+
+    const language = options?.language || 'plaintext';
+    const state = { host, dotnet, editor: null, timer: 0, applying: false, disposables: [], observer: null, media: null };
+    diffs.set(host, state);
+    applyTheme(state);
+    state.editor = monaco.editor.createDiffEditor(host, {
+        readOnly: Boolean(options?.readOnly),
+        originalEditable: false,
+        renderSideBySide: !options?.inline,
+        useInlineViewWhenSpaceIsLimited: false,
+        originalAriaLabel: options?.originalLabel ?? '',
+        modifiedAriaLabel: options?.modifiedLabel ?? '',
+        automaticLayout: true,
+        minimap: { enabled: false },
+        scrollBeyondLastLine: false,
+        fontSize: 14,
+        theme: themeName(state)
+    });
+    state.editor.setModel({
+        original: monaco.editor.createModel(options?.original ?? '', language),
+        modified: monaco.editor.createModel(options?.modified ?? '', language)
+    });
+    const modified = state.editor.getModifiedEditor();
+    state.disposables.push(modified.onDidChangeModelContent(() => {
+        if (!state.applying) {
+            window.clearTimeout(state.timer);
+            state.timer = window.setTimeout(() => sendDiff(state), changeDelay);
+        }
+    }));
+    state.disposables.push(modified.onDidBlurEditorText(() => {
+        if (state.timer) {
+            window.clearTimeout(state.timer);
+            sendDiff(state);
+        }
+    }));
+    watchTheme(state);
+    return true;
+}
+
+export function setDiff(host, original, modified) {
+    const state = diffs.get(host);
+    if (!state) {
+        return;
+    }
+
+    const models = state.editor.getModel();
+    state.applying = true;
+    try {
+        if (models.original.getValue() !== (original ?? '')) {
+            models.original.setValue(original ?? '');
+        }
+
+        if (models.modified.getValue() !== (modified ?? '')) {
+            models.modified.setValue(modified ?? '');
+        }
+    }
+    finally {
+        state.applying = false;
+    }
+}
+
+export function configureDiff(host, options) {
+    const state = diffs.get(host);
+    if (!state) {
+        return;
+    }
+
+    const monaco = window.monaco;
+    const models = state.editor.getModel();
+    const language = options?.language || 'plaintext';
+    for (const model of [models.original, models.modified]) {
+        if (model.getLanguageId() !== language) {
+            monaco.editor.setModelLanguage(model, language);
+        }
+    }
+
+    state.editor.updateOptions({
+        readOnly: Boolean(options?.readOnly),
+        renderSideBySide: !options?.inline,
+        originalAriaLabel: options?.originalLabel ?? '',
+        modifiedAriaLabel: options?.modifiedLabel ?? ''
+    });
+}
+
+export function disposeDiff(host) {
+    const state = diffs.get(host);
+    if (!state) {
+        return;
+    }
+
+    window.clearTimeout(state.timer);
+    state.observer?.disconnect();
+    state.media?.removeEventListener('change', state.repaint);
+    for (const disposable of state.disposables) {
+        disposable.dispose();
+    }
+
+    const models = state.editor.getModel();
+    state.editor.dispose();
+    models?.original?.dispose();
+    models?.modified?.dispose();
+    diffs.delete(host);
+}
+
+function sendDiff(state) {
+    state.timer = 0;
+    state.dotnet.invokeMethodAsync('OnModifiedChanged', state.editor.getModifiedEditor().getValue());
+}
+
 function schedule(state) {
     window.clearTimeout(state.timer);
     state.timer = window.setTimeout(() => send(state), changeDelay);
@@ -278,7 +396,7 @@ function isDark(state) {
 
 function applyTheme(state) {
     const monaco = window.monaco;
-    const frame = state.host.closest('.omni-code-editor') ?? state.host;
+    const frame = state.host.closest('.omni-code-editor, .omni-diff-viewer') ?? state.host;
     const background = hexColor(getComputedStyle(frame).backgroundColor);
     const colors = background ? { 'editor.background': background, 'editorGutter.background': background } : {};
     monaco.editor.defineTheme('omni-light', { base: 'vs', inherit: true, rules: [], colors: isDark(state) ? {} : colors });

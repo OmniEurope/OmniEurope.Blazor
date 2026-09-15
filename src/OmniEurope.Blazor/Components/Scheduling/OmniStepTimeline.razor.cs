@@ -23,7 +23,15 @@ public partial class OmniStepTimeline
     /// <summary>Accessible name of the section; the localized StepTimelineLabel by default.</summary>
     [Parameter] public string Label { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Columns of values to the right of the durations, aligned from row to row; a column no drawn
+    /// step has a value for is left out. Empty by default, which draws the rows as before.
+    /// </summary>
+    [Parameter] public IReadOnlyList<OmniStepTimelineColumn> Columns { get; set; } = Array.Empty<OmniStepTimelineColumn>();
+
     internal StepTimelineLayout Layout { get; private set; } = StepTimelineLayout.Build([], DateTimeOffset.MinValue);
+
+    internal IReadOnlyList<OmniStepTimelineColumn> VisibleColumns { get; private set; } = Array.Empty<OmniStepTimelineColumn>();
 
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Localize("StepTimelineLabel") : Label;
 
@@ -31,7 +39,12 @@ public partial class OmniStepTimeline
     {
         base.OnParametersSet();
         Layout = StepTimelineLayout.Build(Steps, Now ?? DateTimeOffset.UtcNow);
+        VisibleColumns = [.. (Columns ?? []).Where(column => Layout.Bars.Any(bar => !string.IsNullOrEmpty(column.Value(bar.Step))))];
     }
+
+    private string DescribeProgress(StepTimelineProgress progress) => progress.Overrun > 0
+        ? Localize("StepTimelineOverrun")
+        : Localize("StepTimelineExpected", Math.Round(progress.Fill * 100).ToString(CultureInfo.CurrentCulture));
 
     private static string RowCss(OmniStepTimelineStep step) => CssClassBuilder.Combine(
     [

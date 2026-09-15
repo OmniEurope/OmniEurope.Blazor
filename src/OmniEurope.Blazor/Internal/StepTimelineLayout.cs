@@ -5,6 +5,12 @@ namespace OmniEurope.Blazor.Internal;
 /// <summary>One bar of an <see cref="OmniStepTimeline"/>, as percentages of the run.</summary>
 internal sealed record StepTimelineBar(OmniStepTimelineStep Step, double OffsetPercent, double WidthPercent, TimeSpan Offset, TimeSpan Duration);
 
+/// <summary>
+/// How far a running step is through its usual duration, as shares of its bar: <c>Fill</c> up to the
+/// usual duration, capped at 1, then <c>Overrun</c> for the time beyond it, full at twice that duration.
+/// </summary>
+internal readonly record struct StepTimelineProgress(double Fill, double Overrun);
+
 /// <summary>The bars of a run, the span they are measured against, and the steps that never started.</summary>
 internal sealed record StepTimelineLayout(
     IReadOnlyList<StepTimelineBar> Bars,
@@ -67,6 +73,22 @@ internal sealed record StepTimelineLayout(
         }
 
         return new StepTimelineLayout(bars, total, neverStarted);
+    }
+
+    /// <summary>
+    /// The fill of a bar: only a step still running that has a positive
+    /// <see cref="OmniStepTimelineStep.ExpectedDuration"/> gets one. A finished step has its duration
+    /// written beside it, and a fill there would read as progress that is not happening.
+    /// </summary>
+    internal static StepTimelineProgress? ProgressOf(StepTimelineBar bar)
+    {
+        if (bar.Step.Status != OmniStepTimelineStatus.Running || bar.Step.ExpectedDuration is not { } expected || expected <= TimeSpan.Zero)
+        {
+            return null;
+        }
+
+        var ratio = Math.Max(0, bar.Duration / expected);
+        return new StepTimelineProgress(Math.Min(ratio, 1), Math.Clamp(ratio - 1, 0, 1));
     }
 
     /// <summary>A duration the way a run log reads: 42s, 3m05, 1h20.</summary>
