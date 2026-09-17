@@ -62,13 +62,15 @@ public sealed partial class ThemeTokenReader(HttpClient http)
         _ when name.StartsWith("--omni-chart-", StringComparison.Ordinal) => ThemeTokenGroup.Chart,
         _ when name.StartsWith("--omni-grid-", StringComparison.Ordinal) => ThemeTokenGroup.Grid,
         _ when name.StartsWith("--omni-mindmap-", StringComparison.Ordinal) => ThemeTokenGroup.Diagram,
-        _ when name.StartsWith("--omni-shadow", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
+        _ when name.StartsWith("--omni-shadow", StringComparison.Ordinal) || name.EndsWith("-shadow", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
         "--omni-focus-ring" or "--omni-color-overlay" => ThemeTokenGroup.Elevation,
         _ when name.StartsWith("--omni-color-", StringComparison.Ordinal) => ThemeTokenGroup.Color,
         _ when name.StartsWith("--omni-font", StringComparison.Ordinal) => ThemeTokenGroup.Typography,
+        // How buttons and headings set their text: weight, case, tracking and the heading face.
+        _ when name.Contains("-font-", StringComparison.Ordinal) || name.EndsWith("-text-transform", StringComparison.Ordinal) || name.EndsWith("-letter-spacing", StringComparison.Ordinal) => ThemeTokenGroup.Typography,
         _ when name.StartsWith("--omni-space-", StringComparison.Ordinal) => ThemeTokenGroup.Spacing,
         "--omni-control-height" => ThemeTokenGroup.Spacing,
-        _ when name.StartsWith("--omni-radius", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
+        _ when name.StartsWith("--omni-radius", StringComparison.Ordinal) || name.Contains("-border-", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
         "--omni-border-width" => ThemeTokenGroup.Shape,
         _ => ThemeTokenGroup.Color
     };

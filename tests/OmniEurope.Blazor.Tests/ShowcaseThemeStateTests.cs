@@ -152,9 +152,35 @@ public sealed class ShowcaseThemeStateTests
         await state.SetAsync(accent, "#ff0000", TestContext.Current.CancellationToken);
         var css = state.ExportCss();
 
-        Assert.Contains(":root {", css, StringComparison.Ordinal);
+        Assert.Contains(":root, [data-omni-theme=\"light\"] {", css, StringComparison.Ordinal);
         Assert.Contains("--omni-color-accent: #ff0000;", css, StringComparison.Ordinal);
         Assert.DoesNotContain("--omni-color-surface", css, StringComparison.Ordinal);
+    }
+
+    /// <summary>
+    /// A theme sets the button and card radii and the card border width, which the stylesheet
+    /// resolves at the point of use and never declares at the root: the export must carry them all
+    /// the same, after the catalogue tokens, or a theme of pill buttons exports as square ones.
+    /// </summary>
+    [Fact]
+    public async Task Export_WritesTheTokensAThemeSetsBeyondTheCatalogue()
+    {
+        var js = new RecordingJsRuntime();
+        var state = StateOver(js);
+        await state.InitializeAsync(TestContext.Current.CancellationToken);
+        var theme = new OmniThemePreset(
+            "Galets",
+            "Boutons en pilule.",
+            new Dictionary<string, string> { ["--omni-button-radius"] = "999px", ["--omni-color-accent"] = "#336699" },
+            new Dictionary<string, string> { ["--omni-button-radius"] = "999px", ["--omni-color-accent"] = "#99bbdd" });
+        await state.ApplyAsync(theme, TestContext.Current.CancellationToken);
+
+        var css = state.ExportCss();
+
+        Assert.Contains("--omni-button-radius: 999px;", css, StringComparison.Ordinal);
+        Assert.True(
+            css.IndexOf("--omni-color-accent", StringComparison.Ordinal) < css.IndexOf("--omni-button-radius", StringComparison.Ordinal),
+            "The catalogue tokens come first, in stylesheet order.");
     }
 
     [Fact]
@@ -169,7 +195,10 @@ public sealed class ShowcaseThemeStateTests
         var css = state.ExportCss();
 
         Assert.Contains("[data-omni-theme=\"dark\"] {", css, StringComparison.Ordinal);
-        Assert.DoesNotContain(":root {", css, StringComparison.Ordinal);
+        Assert.Contains("@media (prefers-color-scheme: dark) {", css, StringComparison.Ordinal);
+        Assert.Contains("[data-omni-theme=\"system\"] {", css, StringComparison.Ordinal);
+        Assert.Equal(2, css.Split("--omni-color-surface: #000000;").Length - 1);
+        Assert.DoesNotContain(":root", css, StringComparison.Ordinal);
     }
 
     [Fact]

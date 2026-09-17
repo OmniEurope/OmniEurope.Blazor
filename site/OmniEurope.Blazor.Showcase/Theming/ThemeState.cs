@@ -111,8 +111,16 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     /// <summary>
     /// The stylesheet the visitor can paste into their own application. Only the tokens actually
     /// moved are written, so the export stays a patch over the shipped theme rather than a copy of
-    /// it that would freeze every future change.
+    /// it that would freeze every future change. Every override is written, the catalogue ones in
+    /// stylesheet order and then those a theme sets without the stylesheet declaring them (the
+    /// button and card radii, the card border width): a theme of pill buttons must export as one.
     /// </summary>
+    /// <remarks>
+    /// The selectors mirror the ones the stylesheet uses for its own modes. A light theme written to
+    /// <c>:root</c> alone is shadowed inside an <c>OmniThemeScope</c>, whose <c>[data-omni-theme]</c>
+    /// block redeclares the surface, text and border colours; naming that block too, after the
+    /// stylesheet, wins. A dark theme also covers the scope that follows the system setting.
+    /// </remarks>
     public string ExportCss()
     {
         if (_overrides.Count == 0)
@@ -120,15 +128,39 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
             return "/* No token changed: the shipped theme is already in force. */";
         }
 
-        var builder = new StringBuilder();
-        builder.AppendLine("/* OmniEurope.Blazor theme overrides. Load after omnieurope.blazor.css. */");
-        builder.AppendLine(Mode is ThemeMode.Dark ? "[data-omni-theme=\"dark\"] {" : ":root {");
-        foreach (var token in _tokens.Where(token => _overrides.ContainsKey(token.Name)))
+        var known = _tokens.Select(token => token.Name).Where(_overrides.ContainsKey);
+        var unknown = _overrides.Keys.Except(_tokens.Select(token => token.Name), StringComparer.Ordinal).Order(StringComparer.Ordinal);
+        var declarations = new StringBuilder();
+        foreach (var name in known.Concat(unknown))
         {
-            builder.Append("    ").Append(token.Name).Append(": ").Append(_overrides[token.Name]).AppendLine(";");
+            declarations.Append("    ").Append(name).Append(": ").Append(_overrides[name]).AppendLine(";");
         }
 
-        builder.AppendLine("}");
+        var builder = new StringBuilder();
+        builder.AppendLine("/* OmniEurope.Blazor theme overrides. Load after omnieurope.blazor.css. */");
+        if (Mode is ThemeMode.Dark)
+        {
+            builder.AppendLine("[data-omni-theme=\"dark\"] {");
+            builder.Append(declarations);
+            builder.AppendLine("}");
+            builder.AppendLine();
+            builder.AppendLine("@media (prefers-color-scheme: dark) {");
+            builder.AppendLine("    [data-omni-theme=\"system\"] {");
+            foreach (var line in declarations.ToString().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
+            {
+                builder.Append("    ").AppendLine(line);
+            }
+
+            builder.AppendLine("    }");
+            builder.AppendLine("}");
+        }
+        else
+        {
+            builder.AppendLine(":root, [data-omni-theme=\"light\"] {");
+            builder.Append(declarations);
+            builder.AppendLine("}");
+        }
+
         return builder.ToString();
     }
 
