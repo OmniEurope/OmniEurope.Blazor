@@ -48,6 +48,20 @@
         </OmniProfileMenu>
     </OmniStack>
 
+    @* Dialogues ouverts par OmniOverlayService : CloseOnBackdropClick="false" ignore le clic sur le
+       voile (la croix et Échap ferment toujours) ; Dismissible="false" retire la croix, ignore Échap
+       et le voile, annonce un alertdialog, et seul son contenu le ferme par CloseDialog. *@
+    <OmniComponentsHost OverlayService="Overlays">
+        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+            <OmniButton Id="demo-dialog-sticky" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenStickyDialog())">
+                Dialogue qui ignore le voile
+            </OmniButton>
+            <OmniButton Id="demo-dialog-blocking" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenBlockingDialog())">
+                Dialogue à fermeture imposée
+            </OmniButton>
+        </OmniStack>
+    </OmniComponentsHost>
+
     <p>Dernière action : @(Last ?? "aucune")</p>
 
     <OmniNotification Severity="OmniNotificationSeverity.Information" Title="Information"

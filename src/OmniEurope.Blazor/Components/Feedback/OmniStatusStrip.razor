@@ -1,0 +1,33 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@if (Items.Count == 0)
+{
+    <span @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-status-strip__empty")">@EffectiveEmptyText</span>
+}
+else
+{
+    <ul @attributes="AdditionalAttributes"
+        id="@Id"
+        class="@Css("omni-status-strip", $"omni-status-strip--{Shape.ToString().ToLowerInvariant()}")"
+        role="list"
+        aria-label="@EffectiveLabel">
+        @foreach (var item in Items)
+        {
+            <li class="omni-status-strip__cell">
+                @if (SafeHref(item) is { } href)
+                {
+                    <a class="@ItemCss(item)" href="@href" title="@item.Label" aria-label="@item.Label" data-omni-status="@item.Status"></a>
+                }
+                else if (OnItemClick.HasDelegate)
+                {
+                    <button type="button" class="@ItemCss(item)" title="@item.Label" aria-label="@item.Label" data-omni-status="@item.Status" @onclick="() => OnItemClick.InvokeAsync(item)"></button>
+                }
+                else
+                {
+                    <span class="@ItemCss(item)" role="img" title="@item.Label" aria-label="@item.Label" data-omni-status="@item.Status"></span>
+                }
+            </li>
+        }
+    </ul>
+}

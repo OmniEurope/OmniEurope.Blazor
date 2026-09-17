@@ -13,5 +13,9 @@
             <OmniMindMapNodeProperties />
         </PanelContent>
     </OmniMindMap>
+    <OmniGitGraph TItem="string" Items="RecentCommits" IdOf="CommitId" ParentsOf="CommitParents"
+                  Label="Historique de trois commits">
+        <RowTemplate Context="commit"><code>@commit</code></RowTemplate>
+    </OmniGitGraph>
     <p>@Summary</p>
 </OmniStack>

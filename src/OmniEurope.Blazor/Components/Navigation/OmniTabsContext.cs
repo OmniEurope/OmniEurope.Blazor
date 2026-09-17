@@ -4,5 +4,7 @@ internal sealed class OmniTabsContext
 {
     public required string? Value { get; init; }
     public required Func<string, Task> SelectAsync { get; init; }
+    public required Func<string, string> RegisterKey { get; init; }
     public required OmniTabsPhase Phase { get; init; }
+    public bool RenderAllPanels { get; init; }
 }

@@ -1,13 +1,13 @@
 :root {
-    --omni-color-accent: #165dff;
-    --omni-color-accent-strong: #0f46c7;
+    --omni-color-accent: #0d47b5;
+    --omni-color-accent-strong: #0b378f;
     --omni-color-surface: #ffffff;
     --omni-color-surface-muted: #f4f6fa;
     --omni-color-border: #cbd3e1;
     --omni-color-text: #172033;
-    --omni-color-danger: #b42318;
+    --omni-color-danger: #991b1b;
     --omni-color-warning: #a15c00;
-    --omni-color-success: #087443;
+    --omni-color-success: #05603a;
     --omni-radius: 0.1875rem;
     /* Derived from the accent so a theme scope that repaints the palette repaints the ring with
        it; a fixed blue would survive the override and mismatch every custom theme. */
@@ -41,6 +41,7 @@
        webfont ships with the package, so a theme never waits on a network fetch and never falls
        back to a face the reader does not have. */
     --omni-font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    --omni-font-family-monospace: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     --omni-border-width: 1px;
     /* Rounded shapes that are geometric rather than stylistic keep their own tokens: a pill and a
        disc must stay a pill and a disc whatever the theme does to --omni-radius. */
@@ -56,7 +57,7 @@
     --omni-color-on-warning: #ffffff;
     --omni-color-on-inverse: #ffffff;
     --omni-color-inverse-surface: #111827;
-    --omni-color-text-muted: #5c667a;
+    --omni-color-text-muted: #475267;
     --omni-color-surface-hover: #e2e7f0;
     --omni-color-surface-highlight: #e1e6ef;
     /* Tinted backgrounds for badges and soft alerts, one per severity. */
@@ -739,7 +740,7 @@
 
 [data-omni-theme="dark"] {
     --omni-color-accent: #78a2ff;
-    --omni-color-accent-strong: #a8c1ff;
+    --omni-color-accent-strong: #dbeafe;
     --omni-color-surface: #111827;
     --omni-color-surface-muted: #1f2937;
     /* Without a dark value of its own this fell back to the light one, and every hover built on it,
@@ -747,18 +748,44 @@
     --omni-color-surface-hover: #243044;
     --omni-color-border: #475569;
     --omni-color-text: #f3f4f6;
+    --omni-color-text-muted: #cbd5e1;
+    --omni-color-surface-highlight: #334155;
+    --omni-color-accent-subtle: #172554;
+    --omni-color-success-subtle: #052e16;
+    --omni-color-warning-subtle: #422006;
+    --omni-color-danger-subtle: #450a0a;
+    --omni-color-success: #4ade80;
+    --omni-color-warning: #fbbf24;
+    --omni-color-danger: #f87171;
+    --omni-color-on-accent: #0f172a;
+    --omni-color-on-success: #0f172a;
+    --omni-color-on-warning: #0f172a;
+    --omni-color-on-danger: #0f172a;
     color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
     [data-omni-theme="system"] {
         --omni-color-accent: #78a2ff;
-        --omni-color-accent-strong: #a8c1ff;
+        --omni-color-accent-strong: #dbeafe;
         --omni-color-surface: #111827;
         --omni-color-surface-muted: #1f2937;
         --omni-color-surface-hover: #243044;
         --omni-color-border: #475569;
         --omni-color-text: #f3f4f6;
+        --omni-color-text-muted: #cbd5e1;
+        --omni-color-surface-highlight: #334155;
+        --omni-color-accent-subtle: #172554;
+        --omni-color-success-subtle: #052e16;
+        --omni-color-warning-subtle: #422006;
+        --omni-color-danger-subtle: #450a0a;
+        --omni-color-success: #4ade80;
+        --omni-color-warning: #fbbf24;
+        --omni-color-danger: #f87171;
+        --omni-color-on-accent: #0f172a;
+        --omni-color-on-success: #0f172a;
+        --omni-color-on-warning: #0f172a;
+        --omni-color-on-danger: #0f172a;
         color-scheme: dark;
     }
 }
@@ -781,8 +808,10 @@
     box-sizing: border-box;
     color: var(--omni-color-text);
     display: flex;
+    min-inline-size: 0;
     position: relative;
 }
+.omni-sidebar[hidden] { display: none; }
 .omni-sidebar__panel {
     background: var(--omni-color-surface);
     border-inline-end: var(--omni-border-width) solid var(--omni-color-border);
@@ -1112,6 +1141,15 @@
 .omni-split-button { display: inline-flex; position: relative; }
 .omni-split-button__main { border-radius: var(--omni-button-radius, var(--omni-radius)) 0 0 var(--omni-button-radius, var(--omni-radius)); }
 .omni-split-button__toggle { border-inline-start: 0; border-radius: 0 var(--omni-button-radius, var(--omni-radius)) var(--omni-button-radius, var(--omni-radius)) 0; min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding: 0; }
+/* Variantes : Secondary est l'apparence d'origine, sans classe ; un filet sépare les deux parties d'un aplat. */
+.omni-split-button--primary { --omni-split-fill: var(--omni-color-accent); --omni-split-ink: var(--omni-color-on-accent); }
+.omni-split-button--success { --omni-split-fill: var(--omni-color-success); --omni-split-ink: var(--omni-color-on-success); }
+.omni-split-button--warning { --omni-split-fill: var(--omni-color-warning); --omni-split-ink: var(--omni-color-on-warning); }
+.omni-split-button--danger { --omni-split-fill: var(--omni-color-danger); --omni-split-ink: var(--omni-color-on-danger); }
+:is(.omni-split-button--primary, .omni-split-button--success, .omni-split-button--warning, .omni-split-button--danger) > :is(.omni-split-button__main, .omni-split-button__toggle) { background: var(--omni-split-fill); border-color: var(--omni-split-fill); color: var(--omni-split-ink); }
+:is(.omni-split-button--primary, .omni-split-button--success, .omni-split-button--warning, .omni-split-button--danger) > .omni-split-button__toggle { border-inline-start: var(--omni-border-width) solid color-mix(in srgb, var(--omni-split-ink) 40%, transparent); }
+.omni-split-button--primary > :is(.omni-split-button__main, .omni-split-button__toggle):hover:not(:disabled) { background: var(--omni-color-accent-strong); }
+.omni-split-button--ghost > :is(.omni-split-button__main, .omni-split-button__toggle) { --omni-button-shadow: 0 0 #0000; background: transparent; border-color: transparent; color: var(--omni-color-accent-strong); }
 .omni-split-button__menu,
 .omni-context-menu__popup {
     background: var(--omni-color-surface);
@@ -1132,6 +1170,8 @@
 .omni-overlay:has(.omni-dialog[inert]) { pointer-events: none; }
 body:has(.omni-overlay) { overflow: hidden; }
 .omni-dialog { background: var(--omni-color-surface); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-lg); color: var(--omni-color-text); max-height: calc(100vh - 2rem); max-width: 40rem; overflow: auto; width: 100%; }
+.omni-dialog--resizable { min-height: 12rem; min-width: 18rem; resize: both; }
+.omni-dialog--draggable .omni-dialog__header { cursor: move; touch-action: none; user-select: none; }
 .omni-dialog__header { align-items: center; border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: flex; justify-content: space-between; padding: var(--omni-space-md); }
 .omni-dialog__title { font-size: var(--omni-font-size-h4); margin: 0; }
 .omni-dialog__close,
@@ -1604,9 +1644,12 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid:is(.omni-data-grid--lines-vertical, .omni-data-grid--lines-both) :is(th, td) { border-inline-end: var(--omni-border-width) solid var(--omni-color-border); }
 .omni-data-grid__viewport--sized { block-size: var(--omni-grid-viewport, auto); }
 .omni-data-grid__viewport--virtual { block-size: var(--omni-grid-viewport, 30rem); overscroll-behavior: contain; }
+/* MaxHeight: the viewport takes the height of its content, spacers included, up to the cap. */
+.omni-data-grid__viewport--capped { max-block-size: var(--omni-grid-viewport-max, 30rem); }
+.omni-data-grid__viewport--virtual.omni-data-grid__viewport--capped { block-size: auto; }
 /* FillAvailableHeight: the grid takes the free height of its sized parent, never under the minimum. */
 .omni-data-grid--fill { block-size: 100%; display: flex; flex-direction: column; min-block-size: 0; }
-.omni-data-grid--fill .omni-data-grid__viewport--fill { flex: auto; min-block-size: var(--omni-grid-viewport-min, 30rem); }
+.omni-data-grid--fill .omni-data-grid__viewport--fill { flex: auto; min-block-size: var(--omni-grid-viewport-min, 22.5rem); }
 /* The spacers stand in for the rows outside the rendered window: never clamp them to one row. */
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer),
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td { block-size: var(--omni-row-height); }
@@ -2236,3 +2279,4 @@ span.omni-unified-diff__toggle { cursor: default; }
 .omni-u-bg-muted { background: var(--omni-color-surface-muted); } .omni-u-bg-accent-subtle { background: var(--omni-color-accent-subtle); } .omni-u-bg-success-subtle { background: var(--omni-color-success-subtle); } .omni-u-bg-warning-subtle { background: var(--omni-color-warning-subtle); } .omni-u-bg-danger-subtle { background: var(--omni-color-danger-subtle); }
 .omni-u-text-center { text-align: center; } .omni-u-text-end { text-align: end; } .omni-u-bold { font-weight: 650; } .omni-u-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; } .omni-u-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .omni-u-nowrap { white-space: nowrap; } .omni-u-small { font-size: var(--omni-font-size-sm); }
 .omni-u-w-100 { inline-size: 100%; } .omni-u-grow { flex: 1 1 auto; min-inline-size: 0; } .omni-u-block { display: block; } .omni-u-rounded { border-radius: var(--omni-radius); } .omni-u-pointer { cursor: pointer; }
+.omni-u-border-accent { border-color: var(--omni-color-accent); }

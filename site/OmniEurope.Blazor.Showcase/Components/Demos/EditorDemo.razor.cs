@@ -2,6 +2,13 @@ namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class EditorDemo
 {
+    private const string ViewerCode = "{\n  \"mode\": \"lecture\",\n  \"actif\": true\n}";
+    private static readonly IReadOnlyCollection<int> ViewerHighlights = [2];
+    private const string ExampleDiff = "--- a/config.json\n+++ b/config.json\n@@ -1 +1 @@\n-ancien\n+nouveau\n";
+
+    private const string OriginalConfiguration = "{\n  \"mode\": \"ancien\"\n}";
+    private const string ChangedConfiguration = "{\n  \"mode\": \"nouveau\"\n}";
+
     private static readonly IReadOnlyList<string> Accepted = ["image/png", "image/jpeg", "application/pdf"];
 
     /// <summary>

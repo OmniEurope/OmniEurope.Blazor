@@ -2,6 +2,14 @@ namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class DiagramDemo
 {
+    private static readonly IReadOnlyList<string> RecentCommits = ["c3", "c2", "c1"];
+    private static string CommitId(string commit) => commit;
+    private static IReadOnlyList<string> CommitParents(string commit) => commit switch
+    {
+        "c3" => ["c2"],
+        "c2" => ["c1"],
+        _ => []
+    };
     /// <summary>
     /// The map starts from the stored graph format, the text a host keeps in its database, so the
     /// demonstration reads it exactly as a real page would.

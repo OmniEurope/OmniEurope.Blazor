@@ -8,6 +8,19 @@ namespace OmniEurope.Blazor.Tests;
 public sealed class SelectionComponentTests : OmniBunitContext
 {
     [Fact]
+    public void DropDown_PreservesAStandardAriaLabelAttribute()
+    {
+        var value = string.Empty;
+        var dropDown = Render<OmniDropDown<string>>(parameters => parameters
+            .Add(component => component.Options, [new OmniOption<string>("alpha", "Alpha")])
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .AddUnmatched("aria-label", "Project"));
+
+        Assert.Equal("Project", dropDown.Find("select").GetAttribute("aria-label"));
+    }
+
+    [Fact]
     public void NativeSelectors_UpdateTheirBoundValues()
     {
         var form = Render<SelectionTestHost>();
