@@ -25,6 +25,28 @@ public sealed class ShowcaseThemeTests
         Assert.Equal(declared, parsed);
     }
 
+    /// <summary>
+    /// The shape tokens of buttons, cards and headings are typography, elevation and shape, not
+    /// colours: the editor must file them where a visitor looks for them.
+    /// </summary>
+    [Theory]
+    [InlineData("--omni-button-shadow", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-card-shadow", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-button-font-weight", ThemeTokenGroup.Typography)]
+    [InlineData("--omni-button-text-transform", ThemeTokenGroup.Typography)]
+    [InlineData("--omni-button-letter-spacing", ThemeTokenGroup.Typography)]
+    [InlineData("--omni-heading-font-family", ThemeTokenGroup.Typography)]
+    [InlineData("--omni-heading-text-transform", ThemeTokenGroup.Typography)]
+    [InlineData("--omni-button-border-width", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-button-border-color", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-color-accent", ThemeTokenGroup.Color)]
+    [InlineData("--omni-font-family", ThemeTokenGroup.Typography)]
+    public void TokenReader_FilesTheShapeTokensUnderTheirFamily(string name, ThemeTokenGroup expected)
+    {
+        var token = Assert.Single(ThemeTokenReader.Parse($":root {{ {name}: x; }}"));
+        Assert.Equal(expected, token.Group);
+    }
+
     [Fact]
     public void EveryDemo_ShipsTheSourceItExecutes()
     {
