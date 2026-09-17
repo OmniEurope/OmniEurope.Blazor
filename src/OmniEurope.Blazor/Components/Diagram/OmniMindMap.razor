@@ -28,6 +28,14 @@
                      data-omni-readonly="@(ReadOnly ? "true" : "false")"
                      data-omni-linking="@(_linking ? "true" : "false")"
                      @onkeydown="HandleKeyDownAsync">
+                    @if (Directed)
+                    {
+                        <defs>
+                            <marker id="@ArrowId" class="omni-mindmap__arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+                                <path class="omni-mindmap__arrow-head" d="M 0 0 L 10 5 L 0 10 z" />
+                            </marker>
+                        </defs>
+                    }
                     <g class="omni-mindmap__viewport"
                        transform="@MindMapGeometry.View(_panX, _panY, _zoom)"
                        data-pan-x="@MindMapGeometry.Format(_panX)"
@@ -40,9 +48,10 @@
                                    class="@(edge.Index == _selectedEdge ? "omni-mindmap__edge omni-mindmap__edge--selected" : "omni-mindmap__edge")"
                                    data-omni-edge="@edge.Index"
                                    data-from="@edge.From.Id"
-                                   data-to="@edge.To.Id">
+                                   data-to="@edge.To.Id"
+                                   data-omni-directed="@(Directed ? "true" : null)">
                                     <path class="omni-mindmap__edge-hit" d="@EdgePath(edge)" />
-                                    <path class="omni-mindmap__edge-line" d="@EdgePath(edge)" />
+                                    <path class="omni-mindmap__edge-line" d="@EdgePath(edge)" marker-end="@ArrowReference" />
                                 </g>
                             }
                         </g>
@@ -81,13 +90,27 @@
                                           height="@MindMapGeometry.Format(size.Height)"
                                           rx="10"
                                           ry="10" />
-                                    <text class="@LabelCss(node)"
-                                          x="0"
-                                          y="0"
-                                          text-anchor="middle"
-                                          dominant-baseline="central"
-                                          font-size="@FontSizeOf(node)"
-                                          data-omni-measure="@NodeKey(node.Id)">@node.Label</text>
+                                    @if (NodeTemplate is not null)
+                                    {
+                                        @* The host's content, sized by the box; the node keeps its label as its accessible name. *@
+                                        <foreignObject class="omni-mindmap__node-content"
+                                                       x="@MindMapGeometry.Format(-size.Width / 2)"
+                                                       y="@MindMapGeometry.Format(-size.Height / 2)"
+                                                       width="@MindMapGeometry.Format(size.Width)"
+                                                       height="@MindMapGeometry.Format(size.Height)">
+                                            <div class="omni-mindmap__node-template">@NodeTemplate(node)</div>
+                                        </foreignObject>
+                                    }
+                                    else
+                                    {
+                                        <g><text class="@LabelCss(node)"
+                                              x="0"
+                                              y="0"
+                                              text-anchor="middle"
+                                              dominant-baseline="central"
+                                              font-size="@FontSizeOf(node)"
+                                              data-omni-measure="@NodeKey(node.Id)">@node.Label</text></g>
+                                    }
                                 </g>
                             }
                         </g>

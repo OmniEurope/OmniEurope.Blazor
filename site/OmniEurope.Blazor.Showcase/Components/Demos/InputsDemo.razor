@@ -10,6 +10,16 @@
             </ChildContent>
         </OmniFormField>
 
+        @* Clamp ramène une saisie hors bornes à la borne la plus proche, dans le modèle comme dans le
+           champ. Sans lui, la valeur est prise telle quelle, comme avant. *@
+        <OmniFormField For="inputs-quantity" Description="Entre 0 et 20 : une saisie hors bornes est ramenée à la borne la plus proche.">
+            <Label>Quantité</Label>
+            <ChildContent>
+                <OmniNumeric TValue="int" Id="inputs-quantity" @bind-Value="Model.Quantity"
+                             Minimum="0" Maximum="20" Clamp="true" />
+            </ChildContent>
+        </OmniFormField>
+
         <OmniFormField For="inputs-secret" Description="Le bouton révèle la saisie sans la copier ailleurs.">
             <Label>Mot de passe</Label>
             <ChildContent>

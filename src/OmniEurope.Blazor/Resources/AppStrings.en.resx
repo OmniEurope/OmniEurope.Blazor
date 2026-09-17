@@ -420,4 +420,22 @@
   <data name="ResourceListEmpty" xml:space="preserve"><value>Nothing here yet</value></data>
   <data name="ResourceListNoMatch" xml:space="preserve"><value>No result</value></data>
   <data name="ResourceListNoMatchDescription" xml:space="preserve"><value>Nothing matches &quot;{0}&quot;.</value></data>
+  <data name="StatusStripLabel" xml:space="preserve"><value>Status history</value></data>
+  <data name="StatusStripEmpty" xml:space="preserve"><value>No status to show</value></data>
+  <data name="KanbanLabel" xml:space="preserve"><value>Card board</value></data>
+  <data name="KanbanInstructions" xml:space="preserve"><value>Space or Enter to pick the card up, arrow keys to move it, Space or Enter to drop it, Escape to cancel.</value></data>
+  <data name="KanbanGrabbed" xml:space="preserve"><value>{0} picked up, column {1}, position {2} of {3}.</value></data>
+  <data name="KanbanMoved" xml:space="preserve"><value>{0}: column {1}, position {2} of {3}.</value></data>
+  <data name="KanbanDropped" xml:space="preserve"><value>{0} dropped, column {1}, position {2} of {3}.</value></data>
+  <data name="KanbanCancelled" xml:space="preserve"><value>Move cancelled: {0} stays in column {1}.</value></data>
+  <data name="KanbanEmptyColumn" xml:space="preserve"><value>No card</value></data>
+  <data name="KanbanCardCount" xml:space="preserve"><value>Cards: {0}</value></data>
+  <data name="GitGraphLabel" xml:space="preserve"><value>Commit history</value></data>
+  <data name="GitGraphEmpty" xml:space="preserve"><value>No commit</value></data>
+  <data name="StepTimelineExpected" xml:space="preserve"><value>{0}% of the usual duration elapsed</value></data>
+  <data name="StepTimelineOverrun" xml:space="preserve"><value>beyond the usual duration</value></data>
+  <data name="DiffViewerLabel" xml:space="preserve"><value>Comparison</value></data>
+  <data name="DiffViewerOriginal" xml:space="preserve"><value>Before</value></data>
+  <data name="DiffViewerModified" xml:space="preserve"><value>After</value></data>
+  <data name="DiffViewerUnavailable" xml:space="preserve"><value>The Monaco editor could not be loaded: both versions are shown as plain text, without the changes marked.</value></data>
 </root>

@@ -12,4 +12,9 @@ public partial class DataGridDemo
         new("D-2406", "Piet de Vries", "Pays-Bas", 9100),
         new("D-2407", "Marie Lambert", "Belgique", 15200)
     ];
+
+    private static readonly IReadOnlyList<GridRow> FewRows = [.. Rows.Take(3)];
+
+    private static readonly IReadOnlyList<GridRow> ManyRows = [.. Enumerable.Range(1, 10_000)
+        .Select(index => Rows[index % Rows.Count] with { Reference = $"D-{index:00000}" })];
 }

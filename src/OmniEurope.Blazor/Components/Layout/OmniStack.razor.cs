@@ -30,6 +30,12 @@ public partial class OmniStack
     [Parameter]
     public OmniStackOverflow Overflow { get; set; } = OmniStackOverflow.None;
 
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    [Parameter]
+    public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
+
     private string?[] StackClasses =>
     [
         "omni-stack",

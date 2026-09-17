@@ -8,6 +8,9 @@ public sealed class InputsDemoModel
     /// <summary>The numeric field.</summary>
     public decimal Amount { get; set; } = 1250;
 
+    /// <summary>The clamped numeric field, held between 0 and 20.</summary>
+    public int Quantity { get; set; } = 4;
+
     /// <summary>The password field.</summary>
     public string Secret { get; set; } = string.Empty;
 

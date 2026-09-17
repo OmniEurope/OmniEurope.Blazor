@@ -78,3 +78,14 @@
         <p>Pièces déposées : @(Uploaded.Count == 0 ? "aucune" : string.Join(", ", Uploaded))</p>
     </OmniStack>
 </EditForm>
+
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniCodeBlock Code="dotnet test OmniEurope.Blazor.slnx" Label="Commande de test" Language="shell" />
+    <OmniCodeViewer Code="@ViewerCode" Title="Exemple de configuration" Language="json"
+                    HighlightedLines="ViewerHighlights" />
+    <OmniUnifiedDiff Diff="@ExampleDiff" />
+</OmniStack>
+
+<OmniDiffViewer Original="@OriginalConfiguration" Modified="@ChangedConfiguration"
+                Engine="OmniCodeEditorEngine.PlainText" Language="json"
+                Label="Comparer deux configurations" Height="18rem" />

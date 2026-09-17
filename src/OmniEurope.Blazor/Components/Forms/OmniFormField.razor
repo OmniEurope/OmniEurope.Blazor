@@ -4,12 +4,21 @@
 <div id="@Id"
      class="@Css("omni-form-field", Disabled ? "omni-form-field--disabled" : null, !string.IsNullOrWhiteSpace(Error) ? "omni-form-field--invalid" : null)"
      @attributes="AdditionalAttributes">
-    <OmniLabel For="@For" Required="@Required">@Label</OmniLabel>
+    <OmniLabel For="@For" Required="@Required">
+        @if (Label is not null) { @Label } else { @Text }
+    </OmniLabel>
     @if (!string.IsNullOrWhiteSpace(Description))
     {
         <div id="@DescriptionId" class="omni-form-field__description">@Description</div>
     }
-    <div class="omni-form-field__control">@ChildContent</div>
+    <div class="omni-form-field__control">
+        @ChildContent
+        @End
+    </div>
+    @if (Helper is not null)
+    {
+        <div class="omni-form-field__description">@Helper</div>
+    }
     @if (!string.IsNullOrWhiteSpace(Error))
     {
         <div id="@ErrorId" class="omni-form-field__error" role="alert">@Error</div>

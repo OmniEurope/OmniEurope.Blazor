@@ -1,0 +1,29 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@typeparam TItem
+
+@if (Items.Count == 0)
+{
+    <p @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-git-graph__empty")">@EffectiveEmptyText</p>
+}
+else
+{
+    <ol @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-git-graph")" aria-label="@EffectiveLabel">
+        @for (var index = 0; index < Items.Count; index++)
+        {
+            var item = Items[index];
+            var row = Layout.Rows[index];
+            <li @key="IdOf(item)" class="omni-git-graph__row" data-omni-lane="@row.Lane.ToString(CultureInfo.InvariantCulture)">
+                @* Geometry is SVG attributes in the drawing's own units; the row's height scales it. *@
+                <svg class="omni-git-graph__lanes" viewBox="@ViewBox" preserveAspectRatio="xMinYMid meet" aria-hidden="true" focusable="false">
+                    @foreach (var segment in row.Segments)
+                    {
+                        <path class="@($"omni-git-graph__edge omni-git-graph__lane--{LaneTone(segment.ColorLane)}")" d="@GitGraphLayout.PathOf(segment)" />
+                    }
+                    <circle class="@NodeCss(row)" cx="@MindMapGeometry.Format(GitGraphLayout.LaneX(row.Lane))" cy="@MindMapGeometry.Format(GitGraphLayout.RowHeight / 2)" r="@MindMapGeometry.Format(GitGraphLayout.NodeRadius)" />
+                </svg>
+                <div class="omni-git-graph__content">@RowTemplate?.Invoke(item)</div>
+            </li>
+        }
+    </ol>
+}

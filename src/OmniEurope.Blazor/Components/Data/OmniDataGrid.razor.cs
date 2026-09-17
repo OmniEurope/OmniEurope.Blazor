@@ -21,6 +21,7 @@ public partial class OmniDataGrid<TItem>
     private readonly GridRemoteState<TItem> _remote = new();
     private readonly GridVirtualWindow _window = new();
     private readonly GridVirtualDataSource<TItem> _virtualSource = new();
+    private readonly SemaphoreSlim _lifecycleGate = new(1, 1);
     private readonly List<OmniDataGridSort> _sorts = [];
     private GridProjectionResult<TItem>? _localProjection;
     private IReadOnlyList<TItem>? _virtualLocalItems;
@@ -35,6 +36,7 @@ public partial class OmniDataGrid<TItem>
     private readonly HashSet<string> _initialSortKeys = new(StringComparer.Ordinal);
     private int _columnSpan;
     private Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<TItem>>>? _observedLoader;
+    private bool _externalRequested;
     private static readonly object NullGroupKey = new();
 
     private ElementReference _viewport;
@@ -47,7 +49,9 @@ public partial class OmniDataGrid<TItem>
     private bool _virtualBootstrapped;
     private bool _resizeAttached;
     private bool _filterMenuAttached;
+    private bool _disposeRequested;
     private string? _appliedHeight;
+    private string? _appliedMaxHeight;
     private string? _appliedColumnLayout;
     private double? _appliedRowHeight;
     private IOmniDataGridStateStore? _fallbackStateStore;
@@ -63,6 +67,10 @@ public partial class OmniDataGrid<TItem>
 
     [Parameter]
     public Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<TItem>>>? Load { get; set; }
+
+    /// <summary>Requests data from a parent that supplies <see cref="Items"/> and <see cref="Count"/> on its next render.</summary>
+    [Parameter]
+    public EventCallback<OmniDataGridLoadRequest> LoadRequested { get; set; }
 
     [Parameter]
     public RenderFragment? Columns { get; set; }
@@ -438,7 +446,18 @@ public partial class OmniDataGrid<TItem>
     /// Floor of the scrolling area as a CSS length while <see cref="FillAvailableHeight"/> is on.
     /// </summary>
     [Parameter]
-    public string MinHeight { get; set; } = "30rem";
+    public string MinHeight { get; set; } = "22.5rem";
+
+    /// <summary>
+    /// Ceiling of the scrolling area as a CSS length, for example <c>24rem</c> or <c>50vh</c>. Set,
+    /// the table takes the height of its content up to this length, then scrolls: a virtualized grid
+    /// of three rows is three rows tall instead of the fixed virtual height, and a long one still
+    /// scrolls and renders only its window. Pushed as a CSS custom property by the grid script, never
+    /// as a style attribute. Ignored when <see cref="Height"/> or <see cref="FillAvailableHeight"/>
+    /// already sizes the table. Unset by default: the table is sized as before.
+    /// </summary>
+    [Parameter]
+    public string? MaxHeight { get; set; }
 
     // ---- virtualization -----------------------------------------------------------------------
 
@@ -502,6 +521,7 @@ public partial class OmniDataGrid<TItem>
     // ---- derived state ------------------------------------------------------------------------
 
     private bool Virtualized => AllowVirtualization;
+    private bool ExternalData => LoadRequested.HasDelegate;
 
     /// <summary>
     /// A local virtualized grid whose body is not one row per item: group header rows and detail rows
@@ -536,12 +556,12 @@ public partial class OmniDataGrid<TItem>
 
     private IReadOnlyList<TItem> VisibleItems => Virtualized
         ? Array.Empty<TItem>()
-        : Load is null ? LocalView.Items : _remote.Items;
+        : ExternalData ? Items : Load is null ? LocalView.Items : _remote.Items;
 
     private int TotalCount => Count
         ?? (Virtualized
             ? Load is null ? VirtualLocalItems.Count : _virtualSource.TotalCount
-            : Load is null ? LocalView.TotalCount : _remote.TotalCount);
+            : ExternalData ? Items.Count : Load is null ? LocalView.TotalCount : _remote.TotalCount);
 
     private int PageCount => Math.Max(1, (int)Math.Ceiling(TotalCount / (double)Math.Max(1, PageSize)));
 
@@ -553,8 +573,8 @@ public partial class OmniDataGrid<TItem>
     private int EffectivePage => Math.Clamp(Page, 1, PageCount);
     private bool HasEditing => _hasEditing;
     private int ColumnSpan => _columnSpan;
-    private bool Loading => IsLoading || _remote.Loading || (Virtualized && _virtualSource.Loading && _virtualSource.CachedItemCount == 0);
-    private Exception? Failure => Virtualized ? _virtualSource.Error : _remote.Error;
+    private bool Loading => IsLoading || (!ExternalData && _remote.Loading) || (Virtualized && _virtualSource.Loading && _virtualSource.CachedItemCount == 0);
+    private Exception? Failure => ExternalData ? null : Virtualized ? _virtualSource.Error : _remote.Error;
     private bool ShowPager => AllowPaging && !Virtualized && (PageCount > 1 || AlwaysShowPager);
     private bool ShowPagerTop => ShowPager && PagerPosition is OmniDataGridPagerPosition.Top or OmniDataGridPagerPosition.TopAndBottom;
     private bool ShowPagerBottom => ShowPager && PagerPosition is OmniDataGridPagerPosition.Bottom or OmniDataGridPagerPosition.TopAndBottom;
@@ -677,6 +697,14 @@ public partial class OmniDataGrid<TItem>
     protected override async Task OnParametersSetAsync()
     {
         base.OnParametersSet();
+        if (Load is not null && ExternalData)
+        {
+            throw new InvalidOperationException("OmniDataGrid accepts either Load or LoadRequested, not both.");
+        }
+        if (Virtualized && ExternalData)
+        {
+            throw new InvalidOperationException("LoadRequested is a paged external-data contract and cannot be virtualized. Use Load for remote virtualization.");
+        }
         if (Virtualized && Load is not null && (GroupBy is not null || DetailTemplate is not null || ActiveGroups.Count > 0))
         {
             throw new InvalidOperationException(
@@ -725,7 +753,7 @@ public partial class OmniDataGrid<TItem>
 
         // A local list that shrank under the current page (rows removed, another data set) is
         // shown from its last page; the host's bound page is told, so it never disagrees with it.
-        if (Load is null && AllowPaging && Page > PageCount)
+        if (Load is null && !ExternalData && AllowPaging && Page > PageCount)
         {
             Page = PageCount;
             InvalidateLocalProjection();
@@ -787,7 +815,7 @@ public partial class OmniDataGrid<TItem>
         RebuildRenderSnapshot();
         _ = InvokeAsync(async () =>
         {
-            if (Load is not null)
+            if (Load is not null || ExternalData)
             {
                 await ReloadAsync();
             }
@@ -946,39 +974,58 @@ public partial class OmniDataGrid<TItem>
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!Virtualized)
+        await _lifecycleGate.WaitAsync();
+        try
         {
-            await DetachViewportAsync();
-            await ApplyLayoutAsync();
+            if (_disposeRequested)
+            {
+                return;
+            }
+
+            if (!Virtualized)
+            {
+                await DetachViewportAsync();
+                await ApplyLayoutAsync();
+                await ApplyMaxHeightAsync();
+                await EnsureResizeInteropAsync();
+                await EnsureFilterMenuInteropAsync();
+                if (ExternalData && !_externalRequested)
+                {
+                    await RequestExternalDataAsync();
+                }
+                return;
+            }
+
+            _gridModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
             await EnsureResizeInteropAsync();
-        await EnsureFilterMenuInteropAsync();
-            return;
-        }
+            await EnsureFilterMenuInteropAsync();
+            if (!_virtualAttached)
+            {
+                _selfReference ??= DotNetObjectReference.Create(this);
+                await _gridModule.InvokeVoidAsync("attach", _viewport, _selfReference);
+                _virtualAttached = true;
+            }
 
-        _gridModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
-        await EnsureResizeInteropAsync();
-        await EnsureFilterMenuInteropAsync();
-        if (!_virtualAttached)
-        {
-            _selfReference ??= DotNetObjectReference.Create(this);
-            await _gridModule.InvokeVoidAsync("attach", _viewport, _selfReference);
-            _virtualAttached = true;
+            // A slot holds group headers and a detail row besides its item row, so it is measured even
+            // when the item rows themselves have a fixed height.
+            var snapshot = await _gridModule.InvokeAsync<GridViewportSnapshot?>("sync", _viewport, RowHeight is null || StructuredVirtual);
+            var moved = ApplySnapshot(snapshot);
+            var previous = _range;
+            SyncVirtualWindow();
+            await _gridModule.InvokeVoidAsync("applyLayout", _viewport, _range.TopSpacer, _range.BottomSpacer, Height, EffectiveMinHeight);
+            _appliedHeight = HeightSignature;
+            await ApplyMaxHeightAsync();
+            await ApplyColumnLayoutAsync();
+            await ApplyRowHeightAsync(FixedRowHeight ? RowHeight : null);
+            await EnsureVirtualDataAsync();
+            if (moved || previous != _range)
+            {
+                StateHasChanged();
+            }
         }
-
-        // A slot holds group headers and a detail row besides its item row, so it is measured even
-        // when the item rows themselves have a fixed height.
-        var snapshot = await _gridModule.InvokeAsync<GridViewportSnapshot?>("sync", _viewport, RowHeight is null || StructuredVirtual);
-        var moved = ApplySnapshot(snapshot);
-        var previous = _range;
-        SyncVirtualWindow();
-        await _gridModule.InvokeVoidAsync("applyLayout", _viewport, _range.TopSpacer, _range.BottomSpacer, Height, EffectiveMinHeight);
-        _appliedHeight = HeightSignature;
-        await ApplyColumnLayoutAsync();
-        await ApplyRowHeightAsync(FixedRowHeight ? RowHeight : null);
-        await EnsureVirtualDataAsync();
-        if (moved || previous != _range)
+        finally
         {
-            StateHasChanged();
+            _lifecycleGate.Release();
         }
     }
 
@@ -1045,6 +1092,28 @@ public partial class OmniDataGrid<TItem>
 
     /// <summary>Both height inputs in one value, so a change to either re-runs the layout interop.</summary>
     private string HeightSignature => $"{Height}|{EffectiveMinHeight}";
+
+    /// <summary>The ceiling pushed to CSS: only when no other height input already sizes the table.</summary>
+    private string? EffectiveMaxHeight => string.IsNullOrWhiteSpace(MaxHeight) || Height is not null || FillAvailableHeight
+        ? null
+        : MaxHeight.Trim();
+
+    /// <summary>
+    /// Pushes <see cref="MaxHeight"/> on its own call, only once a ceiling was asked for, so a grid
+    /// without one runs exactly the interop it ran before the parameter existed.
+    /// </summary>
+    private async Task ApplyMaxHeightAsync()
+    {
+        var maxHeight = EffectiveMaxHeight;
+        if (string.Equals(maxHeight, _appliedMaxHeight, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        _gridModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
+        await _gridModule.InvokeVoidAsync("applyMaxHeight", _viewport, maxHeight);
+        _appliedMaxHeight = maxHeight;
+    }
 
     /// <summary>Applies the table height and the column widths outside the virtualized path.</summary>
     private async Task ApplyLayoutAsync()
@@ -1941,7 +2010,7 @@ public partial class OmniDataGrid<TItem>
             return;
         }
 
-        if (Load is not null)
+        if (Load is not null || ExternalData)
         {
             await ReloadAsync();
         }
@@ -1990,7 +2059,7 @@ public partial class OmniDataGrid<TItem>
         Page = page;
         InvalidateLocalProjection();
         await PageChanged.InvokeAsync(page);
-        if (Load is not null && !Virtualized) await ReloadAsync();
+        if ((Load is not null || ExternalData) && !Virtualized) await ReloadAsync();
         RebuildRenderSnapshot();
     }
 
@@ -2000,7 +2069,7 @@ public partial class OmniDataGrid<TItem>
         InvalidateLocalProjection();
         await PageSizeChanged.InvokeAsync(pageSize);
         await ResetToFirstPageAsync();
-        if (Load is not null && !Virtualized) await ReloadAsync();
+        if ((Load is not null || ExternalData) && !Virtualized) await ReloadAsync();
         RebuildRenderSnapshot();
     }
 
@@ -2016,6 +2085,12 @@ public partial class OmniDataGrid<TItem>
 
     public async Task ReloadAsync()
     {
+        if (ExternalData)
+        {
+            await RequestExternalDataAsync();
+            RebuildRenderSnapshot();
+            return;
+        }
         if (Load is null) return;
         if (Virtualized)
         {
@@ -2033,11 +2108,28 @@ public partial class OmniDataGrid<TItem>
         RebuildRenderSnapshot();
     }
 
+    private async Task RequestExternalDataAsync()
+    {
+        if (!ExternalData) return;
+        _externalRequested = true;
+        await LoadRequested.InvokeAsync(new OmniDataGridLoadRequest(
+            Page,
+            PageSize,
+            CurrentSorts(),
+            CurrentFilters(),
+            CancellationToken.None));
+    }
+
     // ---- presentation -------------------------------------------------------------------------
 
     private bool IsSortable(OmniDataGridColumnDefinition<TItem> column) => AllowSorting && column.Sortable;
     private bool IsFilterable(OmniDataGridColumnDefinition<TItem> column) => AllowFiltering && column.Filterable;
     private bool IsResizable(OmniDataGridColumnDefinition<TItem> column) => AllowColumnResize && column.Resizable != false;
+
+    private int ResizeAriaValueNow(OmniDataGridColumnDefinition<TItem> column) => (int)Math.Round(Math.Clamp(
+        ParseWidth(_columnWidths.GetValueOrDefault(column.Key, column.Width ?? ColumnWidth)),
+        MinimumColumnWidth,
+        2000d));
     private bool IsGroupable(OmniDataGridColumnDefinition<TItem> column) => AllowGrouping && column.Groupable;
     /// <summary>
     /// The inline filter row and the per-column header menu are two entry points to the same
@@ -2095,7 +2187,8 @@ public partial class OmniDataGrid<TItem>
         "omni-data-grid__viewport",
         Virtualized ? "omni-data-grid__viewport--virtual" : null,
         FillAvailableHeight ? "omni-data-grid__viewport--fill" : null,
-        Height is null ? null : "omni-data-grid__viewport--sized"
+        Height is null ? null : "omni-data-grid__viewport--sized",
+        EffectiveMaxHeight is null ? null : "omni-data-grid__viewport--capped"
     ]);
 
     private string ColumnClass(OmniDataGridColumnDefinition<TItem> column, bool header) => CssClassBuilder.Combine([
@@ -2112,6 +2205,7 @@ public partial class OmniDataGrid<TItem>
         || (_filters.TryGetValue(column.Key, out var filter) && filter.IsActive);
 
     private string RowClass(GridRenderRow<TItem> row) => CssClassBuilder.Combine([
+        "omni-data-grid__row",
         row.HasItem && IsSelected(ItemKey(row.Item)) ? "omni-data-grid__row--selected" : null,
         AllowAlternatingRows && row.Index % 2 == 1 ? "omni-data-grid__row--alternate" : null,
         RowsAreInteractive && row.Selectable ? "omni-data-grid__row--interactive" : null,
@@ -2358,32 +2452,41 @@ public partial class OmniDataGrid<TItem>
 
     public async ValueTask DisposeAsync()
     {
+        _disposeRequested = true;
+        await _lifecycleGate.WaitAsync();
         try
         {
-            await DetachViewportAsync();
-            if (_resizeAttached && _gridModule is not null)
+            try
             {
-                _resizeAttached = false;
-                await _gridModule.InvokeVoidAsync("detachResize", _viewport);
+                await DetachViewportAsync();
+                if (_resizeAttached && _gridModule is not null)
+                {
+                    _resizeAttached = false;
+                    await _gridModule.InvokeVoidAsync("detachResize", _viewport);
+                }
+
+                if (_filterMenuAttached && _gridModule is not null)
+                {
+                    _filterMenuAttached = false;
+                    await _gridModule.InvokeVoidAsync("detachFilterMenus", _viewport);
+                }
+
+                if (_gridModule is not null)
+                {
+                    await _gridModule.DisposeAsync();
+                }
+            }
+            catch (JSDisconnectedException)
+            {
             }
 
-            if (_filterMenuAttached && _gridModule is not null)
-            {
-                _filterMenuAttached = false;
-                await _gridModule.InvokeVoidAsync("detachFilterMenus", _viewport);
-            }
-
-            if (_gridModule is not null)
-            {
-                await _gridModule.DisposeAsync();
-            }
+            _selfReference?.Dispose();
+            await _virtualSource.DisposeAsync();
+            await _remote.DisposeAsync();
         }
-        catch (JSDisconnectedException)
+        finally
         {
+            _lifecycleGate.Release();
         }
-
-        _selfReference?.Dispose();
-        await _virtualSource.DisposeAsync();
-        await _remote.DisposeAsync();
     }
 }

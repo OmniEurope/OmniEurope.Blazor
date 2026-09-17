@@ -59,3 +59,13 @@
         </OmniFormField>
     </OmniStack>
 </EditForm>
+
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniEntityPicker TItem="OmniOption<string>" TKey="string" Search="SearchRolesAsync"
+                      KeySelector="RoleKey" TextSelector="RoleText" @bind-Selected="ChosenRoles"
+                      Layout="OmniEntityPickerLayout.Stacked" Label="Rôles, liste compacte" />
+    <OmniEntityPicker TItem="OmniOption<string>" TKey="string" Search="SearchRolesAsync"
+                      KeySelector="RoleKey" TextSelector="RoleText" @bind-Selected="ChosenRoles"
+                      Layout="OmniEntityPickerLayout.TwoColumns" Label="Rôles, deux colonnes"
+                      AvailableTitle="Disponibles" SelectedTitle="Sélectionnés" />
+</OmniStack>

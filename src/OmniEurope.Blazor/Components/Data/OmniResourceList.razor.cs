@@ -247,6 +247,7 @@ public partial class OmniResourceList<TItem> : IDisposable
             var result = await Load!(request);
             _loadError = null;
             _loadedTotal = result.TotalCount;
+            await InvokeAsync(StateHasChanged);
             return result;
         }
         catch (OperationCanceledException) when (request.CancellationToken.IsCancellationRequested)

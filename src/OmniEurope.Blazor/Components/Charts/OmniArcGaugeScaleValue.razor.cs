@@ -18,6 +18,7 @@ public partial class OmniArcGaugeScaleValue
 
     [Parameter] public int ColorIndex { get; set; }
     [Parameter] public Func<double, string>? Formatter { get; set; }
+    [Parameter] public bool ShowValue { get; set; } = true;
 
     public override Task SetParametersAsync(ParameterView parameters)
     {

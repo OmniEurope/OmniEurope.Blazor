@@ -41,6 +41,14 @@
         <ChildContent>Un groupe replié à l'ouverture, que le lecteur déplie s'il en a besoin.</ChildContent>
     </OmniFieldset>
 
+    @* Lié dans les deux sens : CollapsedChanged rapporte ce que fait le lecteur. Sans lui, le groupe
+       ne charge aucun script, comme avant. *@
+    <OmniFieldset Id="demo-fieldset-bound" Collapsible="true" @bind-Collapsed="OptionsCollapsed">
+        <Legend>Options suivies</Legend>
+        <ChildContent>L'état replié est connu de la page, qui peut le retenir.</ChildContent>
+    </OmniFieldset>
+    <p id="demo-fieldset-state">Options suivies : @(OptionsCollapsed ? "repliées" : "dépliées")</p>
+
     <OmniFieldset Disabled="true">
         <Legend>Groupe désactivé</Legend>
         <ChildContent>Tout ce que ce groupe contient devient inopérant d'un seul geste.</ChildContent>

@@ -132,6 +132,31 @@ public partial class OmniMindMap
     [Parameter]
     public RenderFragment? PanelContent { get; set; }
 
+    /// <summary>
+    /// Draws every link as a directed edge: it stops on the border of the node it points to, under an
+    /// arrowhead. Off by default, the links then being drawn centre to centre as before.
+    /// </summary>
+    [Parameter]
+    public bool Directed { get; set; }
+
+    /// <summary>
+    /// The host's content for each node, drawn inside its box in place of the label: a card with an
+    /// icon, a status, a count. The box keeps its size rules, so a node a template draws should carry
+    /// its <see cref="OmniMindMapNode.Width"/> and <see cref="OmniMindMapNode.Height"/>. The content is
+    /// visual: the node is still announced by its label and selected, moved and linked as any node,
+    /// so it should hold no control of its own. Null draws the label.
+    /// </summary>
+    [Parameter]
+    public RenderFragment<OmniMindMapNode>? NodeTemplate { get; set; }
+
+    /// <summary>
+    /// Makes the automatic layout, applied to a document without positions and by the auto layout
+    /// action, the layered one of <see cref="OmniGraphLayout"/> with these options, for a map read as
+    /// a directed graph. Null keeps the radial layout around the root.
+    /// </summary>
+    [Parameter]
+    public OmniGraphLayoutOptions? LayeredLayout { get; set; }
+
     /// <summary>Raised after any change a toolbar or panel of this map has to reflect.</summary>
     internal event Action? StateChanged;
 
@@ -190,6 +215,10 @@ public partial class OmniMindMap
     private string BaseId => Id ?? _generatedId;
 
     private string HintId => $"{BaseId}-hint";
+
+    private string ArrowId => $"{BaseId}-arrow";
+
+    private string? ArrowReference => Directed ? $"url(#{ArrowId})" : null;
 
     private string EffectiveAriaLabel => string.IsNullOrWhiteSpace(AriaLabel) ? Localize("MindMapCanvasLabel") : AriaLabel;
 
@@ -729,7 +758,7 @@ public partial class OmniMindMap
             return;
         }
 
-        var positions = MindMapLayout.Radial(_drawable, _document.Edges, _document.RootId, _canvasWidth, _canvasHeight, SizeOf);
+        var positions = AutomaticLayout(_document.Edges);
         await CommitAsync(ReplaceNodes(node => positions.TryGetValue(node.Id, out var position)
             ? node with { X = Math.Round(position.X), Y = Math.Round(position.Y) }
             : node), Text("MindMapAnnounceLaidOut"));
@@ -1149,7 +1178,7 @@ public partial class OmniMindMap
             {
                 // A graph that carries no positions yet gets laid out once, without being reported
                 // as a change: it becomes one when the reader first edits the map.
-                var positions = MindMapLayout.Radial(_drawable, document.Edges, document.RootId, _canvasWidth, _canvasHeight, SizeOf);
+                var positions = AutomaticLayout(document.Edges);
                 SetDocument(ReplaceNodes(node => positions.TryGetValue(node.Id, out var position)
                     ? node with { X = Math.Round(position.X), Y = Math.Round(position.Y) }
                     : node));
@@ -1541,6 +1570,42 @@ public partial class OmniMindMap
             : Text("MindMapNodeWithNote", node.Label, string.Join(" ", notes.Select(note => note.Note.Text)));
     }
 
-    private static string EdgePath((int Index, OmniMindMapNode From, OmniMindMapNode To) edge) =>
-        MindMapGeometry.EdgePath(edge.From.X, edge.From.Y, edge.To.X, edge.To.Y);
+    private string EdgePath((int Index, OmniMindMapNode From, OmniMindMapNode To) edge)
+    {
+        if (!Directed)
+        {
+            return MindMapGeometry.EdgePath(edge.From.X, edge.From.Y, edge.To.X, edge.To.Y);
+        }
+
+        var (fromWidth, fromHeight) = SizeOf(edge.From);
+        var (toWidth, toHeight) = SizeOf(edge.To);
+        return MindMapGeometry.DirectedEdgePath(edge.From.X, edge.From.Y, fromWidth, fromHeight, edge.To.X, edge.To.Y, toWidth, toHeight);
+    }
+
+    /// <summary>
+    /// New centres for every drawn node: the layered layout when <see cref="LayeredLayout"/> is set,
+    /// centred on the canvas, otherwise the radial one.
+    /// </summary>
+    private Dictionary<string, (double X, double Y)> AutomaticLayout(IReadOnlyList<OmniMindMapEdge> edges)
+    {
+        if (LayeredLayout is null)
+        {
+            return MindMapLayout.Radial(_drawable, edges, _document.RootId, _canvasWidth, _canvasHeight, SizeOf);
+        }
+
+        var result = OmniGraphLayout.Layered(
+            [.. _drawable.Select(node =>
+            {
+                var (width, height) = SizeOf(node);
+                return new OmniGraphLayoutNode(node.Id, width, height);
+            })],
+            [.. edges.Select(edge => new OmniGraphLayoutEdge(edge.From, edge.To))],
+            LayeredLayout);
+        var offsetX = (_canvasWidth - result.Width) / 2;
+        var offsetY = (_canvasHeight - result.Height) / 2;
+        return result.Positions.ToDictionary(
+            entry => entry.Key,
+            entry => (entry.Value.X + offsetX, entry.Value.Y + offsetY),
+            StringComparer.Ordinal);
+    }
 }
