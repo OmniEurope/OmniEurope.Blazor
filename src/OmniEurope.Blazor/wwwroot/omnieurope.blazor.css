@@ -1463,6 +1463,8 @@
 .omni-choice-list__legend { color: var(--omni-color-text); font-size: 0.8125rem; font-weight: 600; inline-size: 100%; margin-block-end: 6px; padding: 0; }
 .omni-choice-list__item { align-items: center; cursor: pointer; display: inline-flex; gap: 7px; }
 .omni-choice-list__item > input { cursor: inherit; margin: 0; }
+/* With an Error, every radio of the list takes the danger border, as an invalid field does. */
+.omni-choice-list--invalid .omni-radio { border-color: var(--omni-color-danger); }
 /* Une option indisponible se lit comme telle avant qu'on essaie de la choisir. */
 .omni-choice-list__item:is(.omni-choice-list__item--disabled, :has(> input:disabled)) { color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
 /* Trop large pour sa place, la barre défile sous un chevron de chaque côté qui cache encore des

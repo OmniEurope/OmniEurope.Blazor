@@ -2585,6 +2585,7 @@ property public OmniEurope.Blazor.Components.OmniProgressBar.Value : System.Doub
 property public OmniEurope.Blazor.Components.OmniProgressBar.ValueText : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniProgressBar.Variant : OmniEurope.Blazor.Components.OmniProgressVariant {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniRadioButtonList<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniRadioButtonList<TValue>.Error : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniRadioButtonList<TValue>.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniRadioButtonList<TValue>.Name : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniRadioButtonList<TValue>.Options : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniOption<TValue>> {get(public);set(public)} [Parameter, EditorRequired]
