@@ -1,15 +1,41 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniInputBase<DateOnly?>
 
-<input @attributes="AdditionalAttributes"
-       id="@Id"
-       class="@InputCss("omni-input", "omni-date-input", "omni-date-picker")"
-       type="date"
-       value="@CurrentValueAsString"
-       min="@FormatDate(Minimum)"
-       max="@FormatDate(Maximum)"
-       disabled="@Disabled"
-       readonly="@ReadOnly"
-       aria-invalid="@AriaInvalid"
-       aria-describedby="@AriaDescribedBy"
-       @onchange="HandleChange" />
+<div @ref="_root" class="omni-date omni-date--date">
+    <div class="omni-date__field">
+        <input @attributes="AdditionalAttributes"
+               id="@Id"
+               class="@InputCss("omni-input", "omni-date-input", "omni-date-picker")"
+               type="text"
+               inputmode="numeric"
+               autocomplete="off"
+               placeholder="@EffectivePlaceholder"
+               value="@CurrentValueAsString"
+               disabled="@Disabled"
+               readonly="@ReadOnly"
+               aria-invalid="@AriaInvalid"
+               aria-describedby="@AriaDescribedBy"
+               @onchange="HandleChange" />
+        <button @ref="_toggle"
+                type="button"
+                class="omni-date__toggle"
+                aria-label="@ToggleLabel"
+                aria-haspopup="dialog"
+                aria-expanded="@(Popup.IsOpen ? "true" : "false")"
+                aria-controls="@(Popup.IsOpen ? PanelId : null)"
+                disabled="@(Disabled || ReadOnly)"
+                @onclick="Toggle">
+            <svg class="omni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" focusable="false" aria-hidden="true"><rect height="16" rx="2" width="18" x="3" y="5"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>
+        </button>
+    </div>
+    @if (Popup.IsOpen)
+    {
+        <div @ref="_panel" id="@PanelId" class="omni-calendar" role="dialog" aria-label="@ToggleLabel">
+            @CalendarContent
+            <div class="omni-calendar__foot">
+                <OmniButton Variant="OmniButtonVariant.Ghost" Disabled="@TodayIsOutside" OnClick="SelectToday">@Localize("DatePickerToday")</OmniButton>
+                <OmniButton Variant="OmniButtonVariant.Ghost" OnClick="Clear">@Localize("DatePickerClear")</OmniButton>
+            </div>
+        </div>
+    }
+</div>

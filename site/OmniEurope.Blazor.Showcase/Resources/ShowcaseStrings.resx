@@ -154,10 +154,11 @@
   <data name="DemoMediaCapability3" xml:space="preserve"><value>Image au cadrage réglable et chargement différé.</value></data>
   <data name="DemoMediaCapability4" xml:space="preserve"><value>Le jeu d'icônes embarqué au complet, et les trois cadrages d'image.</value></data>
   <data name="DemoInputsTitle" xml:space="preserve"><value>Saisie avancée</value></data>
-  <data name="DemoInputsSummary" xml:space="preserve"><value>Nombres, mots de passe, dates, couleurs et autocomplétion.</value></data>
+  <data name="DemoInputsSummary" xml:space="preserve"><value>Nombres, mots de passe, dates, heures, couleurs et autocomplétion.</value></data>
   <data name="DemoInputsCapability1" xml:space="preserve"><value>Champ numérique borné, avec pas réglable.</value></data>
   <data name="DemoInputsCapability2" xml:space="preserve"><value>Mot de passe révélable, sans copie ailleurs.</value></data>
   <data name="DemoInputsCapability3" xml:space="preserve"><value>Autocomplétion asynchrone, temporisée et à longueur minimale.</value></data>
+  <data name="DemoInputsCapability4" xml:space="preserve"><value>Date, heure, date et heure : calendrier et colonnes maison sur le calque flottant, clavier de grille, bornes et densité.</value></data>
   <data name="DemoChoiceTitle" xml:space="preserve"><value>Choix</value></data>
   <data name="DemoChoiceSummary" xml:space="preserve"><value>Boutons radio, cases multiples, barres de sélection et bascules.</value></data>
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Listes pilotées par options ou posées élément par élément.</value></data>

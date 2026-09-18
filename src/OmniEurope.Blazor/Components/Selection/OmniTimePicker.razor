@@ -1,11 +1,11 @@
 @namespace OmniEurope.Blazor.Components
-@inherits OmniInputBase<DateTime?>
+@inherits OmniInputBase<TimeOnly?>
 
-<div @ref="_root" class="omni-date omni-date--datetime">
+<div @ref="_root" class="omni-date omni-date--time">
     <div class="omni-date__field">
         <input @attributes="AdditionalAttributes"
                id="@Id"
-               class="@InputCss("omni-input", "omni-date-input", "omni-date-time-picker")"
+               class="@InputCss("omni-input", "omni-time-picker")"
                type="text"
                inputmode="numeric"
                autocomplete="off"
@@ -25,16 +25,13 @@
                 aria-controls="@(Popup.IsOpen ? PanelId : null)"
                 disabled="@(Disabled || ReadOnly)"
                 @onclick="Toggle">
-            <svg class="omni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" focusable="false" aria-hidden="true"><rect height="16" rx="2" width="18" x="3" y="5"></rect><path d="M3 10h18M8 3v4M16 3v4"></path><circle cx="16.5" cy="16.5" r="3.5"></circle><path d="M16.5 15v1.5l1 .7"></path></svg>
+            <svg class="omni-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" focusable="false" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
         </button>
     </div>
     @if (Popup.IsOpen)
     {
-        <div @ref="_panel" id="@PanelId" class="omni-calendar omni-calendar--datetime" role="dialog" aria-label="@ToggleLabel">
-            <div class="omni-picker__body">
-                @CalendarContent
-                @TimeContent
-            </div>
+        <div @ref="_panel" id="@PanelId" class="omni-calendar omni-calendar--time" role="dialog" aria-label="@ToggleLabel">
+            @TimeContent
             <div class="omni-calendar__foot">
                 <OmniButton Variant="OmniButtonVariant.Ghost" Disabled="@NowIsOutside" OnClick="SelectNow">@Localize("TimePickerNow")</OmniButton>
                 <OmniButton Variant="OmniButtonVariant.Primary" OnClick="Confirm">@Localize("TimePickerConfirm")</OmniButton>

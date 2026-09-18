@@ -154,10 +154,11 @@
   <data name="DemoMediaCapability3" xml:space="preserve"><value>An image with adjustable fit and lazy loading.</value></data>
   <data name="DemoMediaCapability4" xml:space="preserve"><value>The whole embedded icon set, and the three ways an image can fill its box.</value></data>
   <data name="DemoInputsTitle" xml:space="preserve"><value>Advanced inputs</value></data>
-  <data name="DemoInputsSummary" xml:space="preserve"><value>Numbers, passwords, dates, colours and autocomplete.</value></data>
+  <data name="DemoInputsSummary" xml:space="preserve"><value>Numbers, passwords, dates, times, colours and autocomplete.</value></data>
   <data name="DemoInputsCapability1" xml:space="preserve"><value>A bounded numeric field with an adjustable step.</value></data>
   <data name="DemoInputsCapability2" xml:space="preserve"><value>A revealable password that is never copied elsewhere.</value></data>
   <data name="DemoInputsCapability3" xml:space="preserve"><value>Asynchronous autocomplete, debounced and length-gated.</value></data>
+  <data name="DemoInputsCapability4" xml:space="preserve"><value>Date, time, date and time: the house calendar and columns on the floating layer, grid keyboard, bounds and density.</value></data>
   <data name="DemoChoiceTitle" xml:space="preserve"><value>Choice</value></data>
   <data name="DemoChoiceSummary" xml:space="preserve"><value>Radio buttons, multi-checkboxes, select bars and toggles.</value></data>
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Lists driven by options, or laid out item by item.</value></data>
