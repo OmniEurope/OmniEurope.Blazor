@@ -1274,6 +1274,11 @@
 .omni-input:focus-visible { border-color: var(--omni-color-accent-fill); box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-input[aria-invalid="true"] { background: color-mix(in srgb, var(--omni-color-danger) 4%, var(--omni-color-surface)); border-color: var(--omni-color-danger); }
 .omni-input[aria-invalid="true"]:focus-visible { box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--omni-color-danger) 25%, transparent); }
+/* A text box with an Icon: the icon lies over the start padding of the field, muted and
+   click-through, and the text starts after it (the magnifier of a search field). */
+.omni-text-box-field { display: block; min-inline-size: 0; position: relative; }
+.omni-text-box-field__icon { color: var(--omni-color-text-muted); display: flex; inset-block-start: 50%; inset-inline-start: 9px; pointer-events: none; position: absolute; transform: translateY(-50%); }
+.omni-input.omni-text-box--icon { padding-inline-start: 30px; }
 /* Two distinct states. Disabled: a muted fill, muted text and the not-allowed pointer. Read-only:
    readable as a value, on no fill of its own, and only its dashed rule says it cannot be edited. */
 .omni-input:disabled { background: var(--omni-color-surface-muted); color: var(--omni-color-text-muted); cursor: not-allowed; }

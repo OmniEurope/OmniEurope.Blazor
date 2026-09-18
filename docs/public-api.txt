@@ -2835,6 +2835,7 @@ property public OmniEurope.Blazor.Components.OmniTextArea.ShowCount : System.Boo
 property public OmniEurope.Blazor.Components.OmniTextBox.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.Autocomplete : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTextBox.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.Placeholder : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.Type : OmniEurope.Blazor.Components.OmniTextBoxType {get(public);set(public)} [Parameter]

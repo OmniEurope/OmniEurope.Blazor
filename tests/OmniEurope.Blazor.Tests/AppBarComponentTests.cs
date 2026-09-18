@@ -57,4 +57,59 @@ public sealed class AppBarComponentTests : OmniBunitContext
         Assert.Equal("calc(5px - var(--omni-button-border-width, 1px))", ShippedLookTests.Value(dot, "inset-inline-end"));
         Assert.Equal("none", ShippedLookTests.Value(dot, "pointer-events"));
     }
+
+    // ---- OmniTextBox.Icon ----
+
+    [Fact]
+    public void TextBoxIcon_LiesOverTheStartOfTheField_Decoratively()
+    {
+        var value = string.Empty;
+        var box = Render<OmniTextBox>(parameters => parameters
+            .Add(component => component.Id, "search")
+            .Add(component => component.Type, OmniTextBoxType.Search)
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.AriaDescribedBy, "search-help")
+            .AddUnmatched("aria-label", "Rechercher")
+            .Add(component => component.Icon, builder =>
+            {
+                builder.OpenComponent<OmniIcon>(0);
+                builder.AddComponentParameter(1, nameof(OmniIcon.Name), OmniIconName.Search);
+                builder.CloseComponent();
+            }));
+
+        var field = box.Find(".omni-text-box-field");
+        var icon = field.QuerySelector(":scope > .omni-text-box-field__icon");
+        Assert.NotNull(icon);
+        Assert.Equal("true", icon!.GetAttribute("aria-hidden"));
+        Assert.NotNull(icon.QuerySelector("svg.omni-icon"));
+
+        var input = field.QuerySelector(":scope > input")!;
+        Assert.Equal("search", input.Id);
+        Assert.Equal("search", input.GetAttribute("type"));
+        Assert.Equal("Rechercher", input.GetAttribute("aria-label"));
+        Assert.Equal("search-help", input.GetAttribute("aria-describedby"));
+        Assert.Contains("omni-text-box--icon", input.ClassName, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void TextBoxIcon_IsAbsentByDefault_AndTheInputStandsAlone()
+    {
+        var value = string.Empty;
+        var box = Render<OmniTextBox>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value));
+
+        Assert.Equal("INPUT", box.Nodes.OfType<AngleSharp.Dom.IElement>().Single().TagName);
+        Assert.DoesNotContain("omni-text-box--icon", box.Find("input").ClassName, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void TextBoxIcon_IsMutedAndClickThrough_AndTheTextStartsAfterIt()
+    {
+        var icon = ShippedLookTests.Body(".omni-text-box-field__icon");
+        Assert.Equal("var(--omni-color-text-muted)", ShippedLookTests.Value(icon, "color"));
+        Assert.Equal("none", ShippedLookTests.Value(icon, "pointer-events"));
+        Assert.Equal("30px", ShippedLookTests.Value(ShippedLookTests.Body(".omni-input.omni-text-box--icon"), "padding-inline-start"));
+    }
 }
