@@ -1735,6 +1735,7 @@ property public OmniEurope.Blazor.Components.OmniButton.ButtonType : OmniEurope.
 property public OmniEurope.Blazor.Components.OmniButton.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniButton.Density : OmniEurope.Blazor.Components.OmniDensity? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniButton.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniButton.Indicator : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniButton.OnClick : Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniButton.Size : OmniEurope.Blazor.Components.OmniControlSize {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniButton.Variant : OmniEurope.Blazor.Components.OmniButtonVariant {get(public);set(public)} [Parameter]
