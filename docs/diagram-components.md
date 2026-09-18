@@ -143,7 +143,7 @@ de la page, plus ancien, garde sa voie jusqu'en bas. Les voies prennent tour à 
 graphique (`--omni-chart-color-0` à `-7`) ; un commit de fusion est un point évidé.
 
 - Chaque ligne porte son propre petit dessin SVG, masqué aux technologies d'assistance ; toutes les
-  lignes ont la même hauteur, `--omni-git-graph-row-height` (2rem par défaut), pour que les traits d'une
+  lignes ont la même hauteur, `--omni-git-graph-row-height` (par défaut la hauteur de contrôle moins 0,25 rem, 2rem en densité confortable), pour que les traits d'une
   ligne rejoignent ceux de la suivante, et un texte plus long est coupé d'une ellipse.
 - La liste est une `ol` nommée par `Label` (« Historique des commits » par défaut) ; un commit de
   fusion est annoncé par une phrase masquée à l'œil (« Commit de fusion. »), seule information du dessin
