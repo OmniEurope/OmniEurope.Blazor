@@ -2,7 +2,7 @@
   <PropertyGroup>
     <EnforceRazorCodeBehind>true</EnforceRazorCodeBehind>
     <PackageId>OmniEurope.Blazor</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>OmniEurope contributors</Authors>
     <Company>OmniEurope</Company>
     <Description>Accessible, themeable Blazor components that run under a strict Content Security Policy, on Server, WebAssembly, Interactive Auto and MAUI Blazor Hybrid.</Description>
