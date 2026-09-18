@@ -181,5 +181,13 @@ public enum OmniIconName
     ArrowUUpLeft,
     Eraser,
     FileHtml,
-    Table
+    Table,
+    Cpu,
+    FilePlus,
+    HandTap,
+    Pause,
+    ToggleRight,
+    Webhook,
+    WifiSlash,
+    WindowsLogo
 }

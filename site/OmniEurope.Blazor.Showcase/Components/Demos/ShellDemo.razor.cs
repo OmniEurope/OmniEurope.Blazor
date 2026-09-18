@@ -2,6 +2,7 @@ namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class ShellDemo
 {
+    private bool? SplashFound { get; set; }
     private static readonly string[] ScrollParagraphs =
     [
         "La colonne est plafonnée à 72rem et centrée ; le reste de la largeur appartient encore à l'élément principal.",

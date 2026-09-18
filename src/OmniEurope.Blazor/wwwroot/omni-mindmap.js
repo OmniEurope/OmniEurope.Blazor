@@ -27,6 +27,35 @@ const edgePath = (fromX, fromY, toX, toY) => {
     return `M ${format(fromX)} ${format(fromY)} C ${format(fromX + (dx * 0.4))} ${format(fromY)}, ${format(fromX + (dx * 0.6))} ${format(toY)}, ${format(toX)} ${format(toY)}`;
 };
 
+// Mirror of MindMapGeometry.DirectedEdgePath: from the border of one box to the border of the other,
+// horizontally when the boxes are further apart across than down, vertically otherwise.
+const directedEdgePath = (from, to) => {
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const gapAcross = Math.abs(dx) - ((from.width + to.width) / 2);
+    const gapDown = Math.abs(dy) - ((from.height + to.height) / 2);
+    if (gapAcross >= gapDown) {
+        const sign = dx >= 0 ? 1 : -1;
+        const startX = from.x + (sign * from.width / 2);
+        const endX = to.x - (sign * to.width / 2);
+        const bend = (endX - startX) / 2;
+        return `M ${format(startX)} ${format(from.y)} C ${format(startX + bend)} ${format(from.y)}, ${format(endX - bend)} ${format(to.y)}, ${format(endX)} ${format(to.y)}`;
+    }
+
+    const down = dy >= 0 ? 1 : -1;
+    const startY = from.y + (down * from.height / 2);
+    const endY = to.y - (down * to.height / 2);
+    const curve = (endY - startY) / 2;
+    return `M ${format(from.x)} ${format(startY)} C ${format(from.x)} ${format(startY + curve)}, ${format(to.x)} ${format(endY - curve)}, ${format(to.x)} ${format(endY)}`;
+};
+
+// The box of a node, read from the shape .NET drew, for the directed links that end on its border.
+const nodeBox = element => {
+    const shape = element.querySelector('.omni-mindmap__node-shape');
+    const size = name => Number.parseFloat(shape?.getAttribute(name) ?? '0') || 0;
+    return { ...nodePosition(element), width: size('width'), height: size('height') };
+};
+
 const notify = (state, method, ...args) => {
     try {
         const pending = state.bridge.invokeMethodAsync(method, ...args);
@@ -122,7 +151,9 @@ const redrawEdges = (canvas, moving) => {
 
         const start = nodePosition(fromElement);
         const end = nodePosition(toElement);
-        const path = edgePath(start.x, start.y, end.x, end.y);
+        const path = edge.getAttribute('data-omni-directed') === 'true'
+            ? directedEdgePath(nodeBox(fromElement), nodeBox(toElement))
+            : edgePath(start.x, start.y, end.x, end.y);
         for (const line of edge.querySelectorAll('path')) {
             line.setAttribute('d', path);
         }

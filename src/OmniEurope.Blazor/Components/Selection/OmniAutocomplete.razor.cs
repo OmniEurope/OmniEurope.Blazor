@@ -23,6 +23,9 @@ public partial class OmniAutocomplete<TValue>
     public string? Placeholder { get; set; }
 
     [Parameter]
+    public string? AriaLabel { get; set; }
+
+    [Parameter]
     public bool Disabled { get; set; }
 
     [Parameter]

@@ -43,6 +43,20 @@
         <OmniSplitButton Size="OmniControlSize.Large" Text="Publier" OnClick="SaveAsync" />
     </OmniStack>
 
+    @* Le bouton partagé prend les variantes d'OmniButton, les deux parties ensemble ; Secondary, son
+       apparence d'origine, reste la valeur par défaut. Une icône peut précéder le texte de la partie
+       principale, le chevron du menu ne change pas. *@
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+        <OmniSplitButton Id="demo-split-primary" Text="Publier" Variant="OmniButtonVariant.Primary" Icon="OmniIconName.RocketLaunch" OnClick="@(() => Count++)">
+            <OmniSplitButtonItem OnClick="@(() => Count++)">Publier plus tard</OmniSplitButtonItem>
+        </OmniSplitButton>
+        <OmniSplitButton Text="Brouillon" Variant="OmniButtonVariant.Secondary" Icon="OmniIconName.Save" OnClick="@(() => Count++)" />
+        <OmniSplitButton Text="Aperçu" Variant="OmniButtonVariant.Ghost" OnClick="@(() => Count++)" />
+        <OmniSplitButton Text="Valider" Variant="OmniButtonVariant.Success" Icon="OmniIconName.Check" OnClick="@(() => Count++)" />
+        <OmniSplitButton Text="Suspendre" Variant="OmniButtonVariant.Warning" Icon="OmniIconName.Pause" OnClick="@(() => Count++)" />
+        <OmniSplitButton Text="Supprimer" Variant="OmniButtonVariant.Danger" Icon="OmniIconName.Delete" OnClick="@(() => Count++)" />
+    </OmniStack>
+
     @* Dans un formulaire, le type décide de ce que le bouton déclenche. *@
     <EditForm Model="this" OnValidSubmit="SendAsync">
         <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">

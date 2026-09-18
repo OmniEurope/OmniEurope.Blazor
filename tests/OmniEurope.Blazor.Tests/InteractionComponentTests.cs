@@ -198,6 +198,50 @@ public sealed class InteractionComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void Numeric_ParsesTheBrowserNumberValueWithADotInFrenchCulture()
+    {
+        var previousCulture = CultureInfo.CurrentCulture;
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
+            var holder = new NumericHolder();
+            var numeric = Render<OmniNumeric<decimal>>(parameters => parameters
+                .Add(component => component.Value, holder.Value)
+                .Add(component => component.ValueChanged, value => holder.Value = value)
+                .Add(component => component.ValueExpression, () => holder.Value));
+
+            numeric.Find("input").Change("3.5");
+
+            Assert.Equal(3.5m, holder.Value);
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = previousCulture;
+        }
+    }
+
+    [Fact]
+    public void Numeric_FormatsTheInitialBrowserValueWithADotInFrenchCulture()
+    {
+        var previousCulture = CultureInfo.CurrentCulture;
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
+            var holder = new NumericHolder { Value = 2.5m };
+            var numeric = Render<OmniNumeric<decimal>>(parameters => parameters
+                .Add(component => component.Value, holder.Value)
+                .Add(component => component.ValueChanged, value => holder.Value = value)
+                .Add(component => component.ValueExpression, () => holder.Value));
+
+            Assert.Equal("2.5", numeric.Find("input").GetAttribute("value"));
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = previousCulture;
+        }
+    }
+
+    [Fact]
     public void TemplateForm_RequiresExactlyOneModelSource()
     {
         Assert.Throws<InvalidOperationException>(() => Render<OmniTemplateForm<FormTestHost.FormTestModel>>());

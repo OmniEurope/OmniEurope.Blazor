@@ -1,5 +1,7 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
 
 <fieldset id="@Id"
           class="@Css("omni-fieldset", Collapsible ? "omni-fieldset--collapsible" : null)"
@@ -9,8 +11,9 @@
     {
         @* Native disclosure: it opens and closes without script, keeps its keyboard and screen
            reader semantics, and survives a strict CSP. The same mechanism as the compact
-           multi-select and the grid filter menus. *@
-        <details open="@(!Collapsed)">
+           multi-select and the grid filter menus. Script only listens to it when the host asks
+           through CollapsedChanged. *@
+        <details @ref="_details" open="@(!Collapsed)">
             <summary class="omni-fieldset__legend omni-fieldset__summary">@Legend</summary>
             <div class="omni-fieldset__content">@ChildContent</div>
         </details>

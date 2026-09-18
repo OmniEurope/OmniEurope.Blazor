@@ -1,0 +1,55 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* A guided sequence: the progress, the list of steps (a step already reached can be clicked back
+   to), the current step in one body the step buttons control, and the navigation at the foot. The
+   wizard draws no overlay of its own, so it sits as well in a page as in an OmniDialog. *@
+<div id="@EffectiveId" class="@Css("omni-wizard")" @attributes="AdditionalAttributes">
+    <OmniProgressBar Class="omni-wizard__progress" Value="Progress" Label="@Localize("WizardProgress")" ValueText="@PositionText" />
+    <OmniSteps Class="omni-wizard__steps" Label="@EffectiveLabel" Value="_current" ValueChanged="GoToAsync" CanNavigate="CanNavigateAsync">
+        @for (var index = 0; index < _context.Steps.Count; index++)
+        {
+            var position = index;
+            <OmniStepsItem Index="position"
+                           Id="@StepItemId(position)"
+                           Title="@_context.Steps[position].Title"
+                           Disabled="@(position > _highest)"
+                           PanelId="@BodyId" />
+        }
+    </OmniSteps>
+    <section @ref="_body" id="@BodyId" class="omni-wizard__body" role="region" aria-labelledby="@CurrentButtonId" tabindex="-1">
+        <CascadingValue Value="_context" IsFixed="true">@ChildContent</CascadingValue>
+    </section>
+    <p class="omni-visually-hidden" role="status">@Announcement</p>
+    @* The package's button convention: the actions, then cancelling in Danger with its icon, last. *@
+    <div class="omni-wizard__actions">
+        @if (_current > 0)
+        {
+            <OmniButton Class="omni-wizard__previous" Variant="OmniButtonVariant.Secondary" OnClick="PreviousAsync">
+                <OmniIcon Name="OmniIconName.ArrowLeft" />
+                <span>@Localize("WizardPrevious")</span>
+            </OmniButton>
+        }
+        @if (IsLast)
+        {
+            <OmniButton Class="omni-wizard__finish" Disabled="@(!CurrentCanContinue)" Busy="_validating" OnClick="FinishAsync">
+                <OmniIcon Name="OmniIconName.Check" />
+                <span>@EffectiveFinishText</span>
+            </OmniButton>
+        }
+        else
+        {
+            <OmniButton Class="omni-wizard__next" Disabled="@(!CurrentCanContinue)" Busy="_validating" OnClick="NextAsync">
+                <span>@Localize("WizardNext")</span>
+                <OmniIcon Name="OmniIconName.ArrowRight" />
+            </OmniButton>
+        }
+        @if (OnCancel.HasDelegate)
+        {
+            <OmniButton Class="omni-wizard__cancel" Variant="OmniButtonVariant.Danger" OnClick="CancelAsync">
+                <OmniIcon Name="OmniIconName.Close" />
+                <span>@Localize("Cancel")</span>
+            </OmniButton>
+        }
+    </div>
+</div>

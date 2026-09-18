@@ -268,6 +268,41 @@
   <data name="StepTimelineStatusSuccess" xml:space="preserve"><value>succeeded</value></data>
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, started at {1}, lasting</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Confirm</value></data>
+  <data name="GoBack" xml:space="preserve"><value>Back</value></data>
+  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Show badges and actions</value></data>
+  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Hide badges and actions</value></data>
+  <data name="DetailNotFound" xml:space="preserve"><value>Item not found</value></data>
+  <data name="SignIn" xml:space="preserve"><value>Sign in</value></data>
+  <data name="ConnectionLostTitle" xml:space="preserve"><value>Connection lost</value></data>
+  <data name="ConnectionLostDescription" xml:space="preserve"><value>The connection to the server is down. The application is trying to restore it.</value></data>
+  <data name="ConnectionFailedTitle" xml:space="preserve"><value>Unable to connect</value></data>
+  <data name="ConnectionFailedDescription" xml:space="preserve"><value>The automatic attempts have failed. Try again once the network is back.</value></data>
+  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Session ended</value></data>
+  <data name="ConnectionRejectedDescription" xml:space="preserve"><value>The server refused to resume the session. Reload the page to continue.</value></data>
+  <data name="ConnectionRetryIn" xml:space="preserve"><value>Retrying in {0} s</value></data>
+  <data name="ConnectionReason" xml:space="preserve"><value>Reason: {0}</value></data>
+  <data name="ConnectionReconnectNow" xml:space="preserve"><value>Reconnect now</value></data>
+  <data name="ConnectionReload" xml:space="preserve"><value>Reload the page</value></data>
+  <data name="ConnectionReconnecting" xml:space="preserve"><value>Reconnecting</value></data>
+  <data name="WizardLabel" xml:space="preserve"><value>Wizard steps</value></data>
+  <data name="WizardProgress" xml:space="preserve"><value>Wizard progress</value></data>
+  <data name="WizardPosition" xml:space="preserve"><value>Step {0} of {1}</value></data>
+  <data name="WizardAnnouncement" xml:space="preserve"><value>Step {0} of {1}: {2}</value></data>
+  <data name="WizardPrevious" xml:space="preserve"><value>Previous</value></data>
+  <data name="WizardNext" xml:space="preserve"><value>Next</value></data>
+  <data name="WizardFinish" xml:space="preserve"><value>Finish</value></data>
+  <data name="RelativeTimeNow" xml:space="preserve"><value>just now</value></data>
+  <data name="RelativeTimePast" xml:space="preserve"><value>{0} ago</value></data>
+  <data name="RelativeTimeFuture" xml:space="preserve"><value>in {0}</value></data>
+  <data name="RelativeTimeSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeHours" xml:space="preserve"><value>{0} h</value></data>
+  <data name="RelativeTimeDay" xml:space="preserve"><value>{0} day</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} days</value></data>
+  <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} month</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} months</value></data>
+  <data name="RelativeTimeYear" xml:space="preserve"><value>{0} year</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} years</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Underline</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Strikethrough</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Inline code</value></data>
@@ -312,4 +347,95 @@
   <data name="CodeEditorUnavailable" xml:space="preserve"><value>The Monaco editor could not be loaded: the code is edited as plain text.</value></data>
   <data name="CodeEditorPosition" xml:space="preserve"><value>Line {0}, column {1}</value></data>
   <data name="CodeEditorLinkHint" xml:space="preserve"><value>Ctrl+click to follow the link</value></data>
+  <data name="StatusBadgeStale" xml:space="preserve"><value>stale</value></data>
+  <data name="StatusBadgeStaleSince" xml:space="preserve"><value>Last updated: {0}</value></data>
+  <data name="LogViewerLabel" xml:space="preserve"><value>Log</value></data>
+  <data name="LogViewerEmpty" xml:space="preserve"><value>No line yet.</value></data>
+  <data name="LogViewerSearch" xml:space="preserve"><value>Search the log</value></data>
+  <data name="LogViewerAllLevels" xml:space="preserve"><value>All levels</value></data>
+  <data name="LogViewerLevelFilter" xml:space="preserve"><value>Minimum level</value></data>
+  <data name="LogViewerFromLevel" xml:space="preserve"><value>{0} and above</value></data>
+  <data name="LogViewerPreviousMatch" xml:space="preserve"><value>Previous match</value></data>
+  <data name="LogViewerNextMatch" xml:space="preserve"><value>Next match</value></data>
+  <data name="LogViewerNoMatch" xml:space="preserve"><value>No match</value></data>
+  <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} of {1}</value></data>
+  <data name="LogViewerFollow" xml:space="preserve"><value>Follow</value></data>
+  <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Jump to latest</value></data>
+  <data name="LogViewerNewLines" xml:space="preserve"><value>{0} new lines</value></data>
+  <data name="LogViewerLevelPrefix" xml:space="preserve"><value>{0}: </value></data>
+  <data name="LogLevelTrace" xml:space="preserve"><value>Trace</value></data>
+  <data name="LogLevelDebug" xml:space="preserve"><value>Debug</value></data>
+  <data name="LogLevelInformation" xml:space="preserve"><value>Information</value></data>
+  <data name="LogLevelWarning" xml:space="preserve"><value>Warning</value></data>
+  <data name="LogLevelError" xml:space="preserve"><value>Error</value></data>
+  <data name="LogLevelCritical" xml:space="preserve"><value>Critical</value></data>
+  <data name="CodeBlockCopy" xml:space="preserve"><value>Copy</value></data>
+  <data name="CodeBlockCopied" xml:space="preserve"><value>Copied to the clipboard</value></data>
+  <data name="CodeBlockCopyFailed" xml:space="preserve"><value>Copy failed</value></data>
+  <data name="CodeBlockReveal" xml:space="preserve"><value>Show the value</value></data>
+  <data name="CodeBlockHide" xml:space="preserve"><value>Hide the value</value></data>
+  <data name="CodeViewerLabel" xml:space="preserve"><value>Code</value></data>
+  <data name="CodeViewerEmpty" xml:space="preserve"><value>Nothing to show.</value></data>
+  <data name="CodeViewerWrap" xml:space="preserve"><value>Wrap lines</value></data>
+  <data name="CodeViewerLinkHint" xml:space="preserve"><value>Follow the link</value></data>
+  <data name="UnifiedDiffEmpty" xml:space="preserve"><value>No change.</value></data>
+  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0} lines added, {1} lines removed</value></data>
+  <data name="UnifiedDiffBinary" xml:space="preserve"><value>Binary file: no line to compare.</value></data>
+  <data name="UnifiedDiffNoLines" xml:space="preserve"><value>No changed line.</value></data>
+  <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Old line</value></data>
+  <data name="UnifiedDiffNewLine" xml:space="preserve"><value>New line</value></data>
+  <data name="UnifiedDiffContent" xml:space="preserve"><value>Content</value></data>
+  <data name="UnifiedDiffAdded" xml:space="preserve"><value>Added: </value></data>
+  <data name="UnifiedDiffRemoved" xml:space="preserve"><value>Removed: </value></data>
+  <data name="UnifiedDiffRenamedPath" xml:space="preserve"><value>{0} to {1}</value></data>
+  <data name="UnifiedDiffUntitled" xml:space="preserve"><value>Change</value></data>
+  <data name="UnifiedDiffStatusModified" xml:space="preserve"><value>Modified</value></data>
+  <data name="UnifiedDiffStatusAdded" xml:space="preserve"><value>Added</value></data>
+  <data name="UnifiedDiffStatusDeleted" xml:space="preserve"><value>Deleted</value></data>
+  <data name="UnifiedDiffStatusRenamed" xml:space="preserve"><value>Renamed</value></data>
+  <data name="DynamicFormRequired" xml:space="preserve"><value>{0} is required.</value></data>
+  <data name="DynamicFormNumber" xml:space="preserve"><value>{0} must be a number.</value></data>
+  <data name="DynamicFormMinimum" xml:space="preserve"><value>{0} must be at least {1}.</value></data>
+  <data name="DynamicFormMaximum" xml:space="preserve"><value>{0} must be at most {1}.</value></data>
+  <data name="DynamicFormChoice" xml:space="preserve"><value>{0} must be one of the offered values.</value></data>
+  <data name="EntityPickerLabel" xml:space="preserve"><value>Selection</value></data>
+  <data name="EntityPickerSearch" xml:space="preserve"><value>Search</value></data>
+  <data name="EntityPickerAvailable" xml:space="preserve"><value>Available</value></data>
+  <data name="EntityPickerSelected" xml:space="preserve"><value>Chosen</value></data>
+  <data name="EntityPickerNoResults" xml:space="preserve"><value>No result.</value></data>
+  <data name="EntityPickerNoneSelected" xml:space="preserve"><value>Nothing chosen.</value></data>
+  <data name="EntityPickerSearchFailed" xml:space="preserve"><value>The search failed.</value></data>
+  <data name="EntityPickerOneSelected" xml:space="preserve"><value>{0} chosen</value></data>
+  <data name="EntityPickerManySelected" xml:space="preserve"><value>{0} chosen</value></data>
+  <data name="EntityPickerAdded" xml:space="preserve"><value>{0} added to the selection</value></data>
+  <data name="EntityPickerRemoved" xml:space="preserve"><value>{0} removed from the selection</value></data>
+  <data name="EntityPickerRemove" xml:space="preserve"><value>Remove {0}</value></data>
+  <data name="EntityPickerShowAll" xml:space="preserve"><value>Show all (+{0})</value></data>
+  <data name="ResourceListSearch" xml:space="preserve"><value>Search</value></data>
+  <data name="ResourceListClearSearch" xml:space="preserve"><value>Clear search</value></data>
+  <data name="ResourceListRefresh" xml:space="preserve"><value>Refresh</value></data>
+  <data name="ResourceListLoadFailed" xml:space="preserve"><value>The list could not be loaded.</value></data>
+  <data name="ResourceListOneItem" xml:space="preserve"><value>{0} item</value></data>
+  <data name="ResourceListManyItems" xml:space="preserve"><value>{0} items</value></data>
+  <data name="ResourceListEmpty" xml:space="preserve"><value>Nothing here yet</value></data>
+  <data name="ResourceListNoMatch" xml:space="preserve"><value>No result</value></data>
+  <data name="ResourceListNoMatchDescription" xml:space="preserve"><value>Nothing matches &quot;{0}&quot;.</value></data>
+  <data name="StatusStripLabel" xml:space="preserve"><value>Status history</value></data>
+  <data name="StatusStripEmpty" xml:space="preserve"><value>No status to show</value></data>
+  <data name="KanbanLabel" xml:space="preserve"><value>Card board</value></data>
+  <data name="KanbanInstructions" xml:space="preserve"><value>Space or Enter to pick the card up, arrow keys to move it, Space or Enter to drop it, Escape to cancel.</value></data>
+  <data name="KanbanGrabbed" xml:space="preserve"><value>{0} picked up, column {1}, position {2} of {3}.</value></data>
+  <data name="KanbanMoved" xml:space="preserve"><value>{0}: column {1}, position {2} of {3}.</value></data>
+  <data name="KanbanDropped" xml:space="preserve"><value>{0} dropped, column {1}, position {2} of {3}.</value></data>
+  <data name="KanbanCancelled" xml:space="preserve"><value>Move cancelled: {0} stays in column {1}.</value></data>
+  <data name="KanbanEmptyColumn" xml:space="preserve"><value>No card</value></data>
+  <data name="KanbanCardCount" xml:space="preserve"><value>Cards: {0}</value></data>
+  <data name="GitGraphLabel" xml:space="preserve"><value>Commit history</value></data>
+  <data name="GitGraphEmpty" xml:space="preserve"><value>No commit</value></data>
+  <data name="StepTimelineExpected" xml:space="preserve"><value>{0}% of the usual duration elapsed</value></data>
+  <data name="StepTimelineOverrun" xml:space="preserve"><value>beyond the usual duration</value></data>
+  <data name="DiffViewerLabel" xml:space="preserve"><value>Comparison</value></data>
+  <data name="DiffViewerOriginal" xml:space="preserve"><value>Before</value></data>
+  <data name="DiffViewerModified" xml:space="preserve"><value>After</value></data>
+  <data name="DiffViewerUnavailable" xml:space="preserve"><value>The Monaco editor could not be loaded: both versions are shown as plain text, without the changes marked.</value></data>
 </root>

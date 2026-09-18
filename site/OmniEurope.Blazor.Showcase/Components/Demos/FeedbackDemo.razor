@@ -39,3 +39,12 @@
         <OmniButton Size="OmniControlSize.Small" Disabled="@Loading.Loading" OnClick="SimulateLoadAsync">Simuler un chargement</OmniButton>
     </OmniStack>
 </OmniStack>
+
+<OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+    <OmniStatusBadge TValue="string" Value="@("ready")" Map="DemoStatuses" />
+    <OmniStatusBadge TValue="string" Value="@("failed")" Map="DemoStatuses" />
+</OmniStack>
+
+<OmniStatusStrip Items="RecentRuns" Tones="RunTones" Label="Dernières exécutions" />
+<OmniStatusStrip Items="RecentRuns" Tones="RunTones" Shape="OmniStatusStripShape.Segment"
+                 Label="Disponibilité sur les dernières heures" />

@@ -1,0 +1,111 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+<div id="@Id" class="@Css("omni-log-viewer", WrapLines ? "omni-log-viewer--wrap" : null)" @attributes="AdditionalAttributes">
+    @if (HasToolbar)
+    {
+        <div class="omni-log-viewer__toolbar">
+            @if (ShowLevelFilter)
+            {
+                <OmniDropDown TValue="OmniLogLevel?"
+                              Class="omni-log-viewer__level"
+                              Options="LevelOptions"
+                              AllowEmpty="true"
+                              Placeholder="@Localize("LogViewerAllLevels")"
+                              aria-label="@Localize("LogViewerLevelFilter")"
+                              @bind-Value:get="CurrentMinimumLevel"
+                              @bind-Value:set="SetMinimumLevelAsync" />
+            }
+            @if (ShowSearch)
+            {
+                <OmniTextBox Type="OmniTextBoxType.Search"
+                             Class="omni-log-viewer__search"
+                             Placeholder="@EffectiveSearchPlaceholder"
+                             aria-label="@EffectiveSearchPlaceholder"
+                             @bind-Value:get="CurrentSearch"
+                             @bind-Value:set="SetSearchAsync" />
+                @if (HasSearch)
+                {
+                    <span class="omni-log-viewer__matches" role="status" aria-live="polite">@MatchSummary</span>
+                    <OmniButton Class="omni-log-viewer__previous" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small"
+                                Disabled="@(_matches.Count == 0)" AriaLabel="@Localize("LogViewerPreviousMatch")" OnClick="PreviousMatchAsync">
+                        <OmniIcon Name="OmniIconName.ChevronUp" Size="OmniControlSize.Small" />
+                    </OmniButton>
+                    <OmniButton Class="omni-log-viewer__next" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small"
+                                Disabled="@(_matches.Count == 0)" AriaLabel="@Localize("LogViewerNextMatch")" OnClick="NextMatchAsync">
+                        <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
+                    </OmniButton>
+                }
+            }
+            <OmniButton Class="omni-log-viewer__follow" Variant="@(_following ? OmniButtonVariant.Secondary : OmniButtonVariant.Ghost)" Size="OmniControlSize.Small"
+                        aria-pressed="@(_following ? "true" : "false")" OnClick="ToggleFollowAsync">
+                <OmniIcon Name="OmniIconName.ArrowLineDown" Size="OmniControlSize.Small" />
+                <span>@Localize("LogViewerFollow")</span>
+            </OmniButton>
+        </div>
+    }
+    <div class="omni-log-viewer__frame">
+        <div @ref="_viewport" class="omni-log-viewer__viewport" role="log" aria-live="off" aria-label="@EffectiveLabel" tabindex="0">
+            @if (_visible.Count == 0)
+            {
+                <p class="omni-log-viewer__empty">@EffectiveEmptyText</p>
+            }
+            else
+            {
+                <div class="omni-log-viewer__spacer" data-omni-spacer="top" aria-hidden="true"></div>
+                @for (var position = _range.StartIndex; position < _range.EndIndex; position++)
+                {
+                    var index = _visible[position];
+                    var line = Lines[index];
+                    <div @key="index" class="@LineClass(line, position)" data-omni-row-index="@position">
+                        @if (ShowLineNumbers)
+                        {
+                            <span class="omni-log-viewer__number" aria-hidden="true">@(index + 1)</span>
+                        }
+                        @if (ShowTimestamps && line.Timestamp is { } timestamp)
+                        {
+                            <time class="omni-log-viewer__time" datetime="@MachineTime(timestamp)">@DisplayTime(timestamp)</time>
+                        }
+                        @if (ShowLevels)
+                        {
+                            <span class="omni-log-viewer__level-name">@LevelName(line.Level)</span>
+                        }
+                        else if (line.Level >= OmniLogLevel.Warning)
+                        {
+                            <span class="omni-visually-hidden">@Localize("LogViewerLevelPrefix", LevelName(line.Level))</span>
+                        }
+                        <span class="omni-log-viewer__text">
+                            @if (HasSearch)
+                            {
+                                @foreach (var segment in OmniTextMatch.Split(line.Text, CurrentSearch))
+                                {
+                                    if (segment.Matched)
+                                    {
+                                        <mark class="omni-log-viewer__match">@segment.Text</mark>
+                                    }
+                                    else
+                                    {
+                                        @segment.Text
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                @line.Text
+                            }
+                        </span>
+                    </div>
+                }
+                <div class="omni-log-viewer__spacer" data-omni-spacer="bottom" aria-hidden="true"></div>
+            }
+        </div>
+        @if (ShowJump)
+        {
+            <OmniButton Class="omni-log-viewer__jump" Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small" OnClick="JumpToLatestAsync">
+                <OmniIcon Name="OmniIconName.ArrowLineDown" Size="OmniControlSize.Small" />
+                <span>@JumpText</span>
+            </OmniButton>
+        }
+    </div>
+</div>

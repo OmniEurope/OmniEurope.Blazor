@@ -1,0 +1,44 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
+
+<div @ref="_root"
+     @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@Css("omni-diff-viewer", $"omni-diff-viewer--{PhaseName}", Inline ? "omni-diff-viewer--inline" : null)"
+     role="group"
+     aria-label="@EffectiveLabel"
+     data-engine="@Engine.ToString().ToLowerInvariant()">
+    <div @ref="_host" class="omni-diff-viewer__host" hidden="@(_phase != DiffPhase.Ready)"></div>
+    @if (_phase != DiffPhase.Ready)
+    {
+        @* Until Monaco is ready, and for good without it: the two texts side by side, or one above the other. *@
+        <div class="omni-diff-viewer__panes">
+            <section class="omni-diff-viewer__pane" aria-label="@EffectiveOriginalLabel">
+                <div class="omni-diff-viewer__pane-title" aria-hidden="true">@EffectiveOriginalLabel</div>
+                <pre class="omni-diff-viewer__text" tabindex="0">@Original</pre>
+            </section>
+            <section class="omni-diff-viewer__pane" aria-label="@EffectiveModifiedLabel">
+                <div class="omni-diff-viewer__pane-title" aria-hidden="true">@EffectiveModifiedLabel</div>
+                @if (ReadOnly)
+                {
+                    <pre class="omni-diff-viewer__text" tabindex="0">@Modified</pre>
+                }
+                else
+                {
+                    <textarea class="omni-diff-viewer__text omni-diff-viewer__input"
+                              value="@Modified"
+                              spellcheck="false"
+                              wrap="off"
+                              aria-label="@EffectiveModifiedLabel"
+                              @oninput="HandleFallbackInputAsync"></textarea>
+                }
+            </section>
+        </div>
+        @if (_phase == DiffPhase.Failed)
+        {
+            <p class="omni-diff-viewer__notice" role="status">@Localize("DiffViewerUnavailable")</p>
+        }
+    }
+</div>

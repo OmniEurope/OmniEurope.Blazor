@@ -112,3 +112,7 @@
         </OmniLayout>
     </div>
 </OmniThemeScope>
+
+@* A host-owned startup splash sits outside Blazor's root. This demo exercises the safe absence path. *@
+<OmniBootSplash SplashId="showcase-shell-splash" OnHidden="@(found => SplashFound = found)" />
+<p>@(SplashFound is null ? "Vérification de l'écran de démarrage" : SplashFound.Value ? "Écran de démarrage retiré" : "Aucun écran de démarrage dans cette démonstration")</p>

@@ -9,7 +9,7 @@ public partial class OmniTabsItem
     [CascadingParameter]
     private OmniTabsContext? Context { get; set; }
 
-    [Parameter, EditorRequired]
+    [Parameter]
     public string Key { get; set; } = string.Empty;
 
     [Parameter, EditorRequired]
@@ -20,6 +20,9 @@ public partial class OmniTabsItem
     /// </summary>
     [Parameter]
     public RenderFragment? Icon { get; set; }
+
+    [Parameter]
+    public OmniIconName? IconName { get; set; }
 
     [Parameter]
     public bool Disabled { get; set; }
@@ -44,20 +47,27 @@ public partial class OmniTabsItem
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    private bool Selected => Context?.Value == Key;
+    private string EffectiveKey => string.IsNullOrWhiteSpace(Key) ? Title : Key;
+    private string RegisteredKey => Context?.RegisterKey(EffectiveKey) ?? EffectiveKey;
+    private bool Selected => Context?.Value == RegisteredKey;
 
-    protected override void OnParametersSet() => _visited |= Selected;
+    protected override void OnParametersSet() => _visited |= Selected || Context?.RenderAllPanels == true;
 
     // The tabs render their content once per phase; this instance emits only the half it is asked
     // for, so the button lives in the scrolling strip and the panel below it.
     private bool IsPanelPhase => Context?.Phase == OmniTabsPhase.Panel;
-    private string TabId => $"{Id ?? $"omni-tab-{Key}"}-tab";
-    private string PanelId => $"{Id ?? $"omni-tab-{Key}"}-panel";
-    private Task SelectAsync() => Disabled || Context is null ? Task.CompletedTask : Context.SelectAsync(Key);
+    private string TabId => $"{SafeDomId(Id ?? $"omni-tab-{RegisteredKey}")}-tab";
+    private string PanelId => $"{SafeDomId(Id ?? $"omni-tab-{RegisteredKey}")}-panel";
+    private Task SelectAsync() => Disabled || Context is null ? Task.CompletedTask : Context.SelectAsync(RegisteredKey);
 
     private bool AcceptsDrop => OnDrop.HasDelegate;
 
     private Task HandleDropAsync(DragEventArgs args) => OnDrop.InvokeAsync(args);
 
     private RenderFragment DefaultTitle => builder => builder.AddContent(0, Title);
+
+    private static string SafeDomId(string value) => string.Concat(value.Select(character =>
+        char.IsAsciiLetterOrDigit(character) || character is '-' or '_' or ':' or '.'
+            ? character.ToString()
+            : $"-{(int)character:x}-"));
 }
