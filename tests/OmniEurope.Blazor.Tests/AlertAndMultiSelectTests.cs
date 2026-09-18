@@ -36,8 +36,10 @@ public sealed class AlertAndMultiSelectTests : OmniBunitContext
         Assert.Equal("status", root.GetAttribute("role"));
     }
 
+    // Updated to the PLAN-008 spec (T22): an alert without an Icon no longer renders without one, its
+    // disc carries the severity's own glyph. The title slot is still omitted when empty.
     [Fact]
-    public void Alert_DefaultsToOutlineAndOmitsTheTitleAndIconSlots()
+    public void Alert_DefaultsToOutlineOmitsTheTitleAndDrawsTheSeverityGlyph()
     {
         var alert = Render<OmniAlert>(parameters => parameters
             .Add(component => component.Live, true)
@@ -47,7 +49,7 @@ public sealed class AlertAndMultiSelectTests : OmniBunitContext
         Assert.Contains("omni-alert--outline", root.ClassName);
         Assert.Contains("omni-alert--info", root.ClassName);
         Assert.Empty(alert.FindAll(".omni-alert__title"));
-        Assert.Empty(alert.FindAll(".omni-alert__icon"));
+        Assert.Single(alert.FindAll(".omni-alert__icon > svg.omni-alert__glyph"));
         Assert.Equal("alert", root.GetAttribute("role"));
     }
 

@@ -104,10 +104,17 @@
     --omni-button-border-width: 1px;
     --omni-button-border-color: transparent;
     --omni-button-text-transform: none;
-    --omni-button-letter-spacing: normal;
+    /* 0em rather than normal: buttons and tabs subtract it from their end padding, and a calc()
+       reading "normal" would be invalid and drop the whole padding. */
+    --omni-button-letter-spacing: 0em;
     --omni-heading-font-family: inherit;
     --omni-heading-letter-spacing: normal;
     --omni-heading-text-transform: none;
+    /* Alert icon disc and the glyph drawn in it, per density (comfortable here, the other two in the
+       density blocks). Whole pixels of the same parity, so the glyph never sits on a half pixel; the
+       title line and the close button take the disc size, so all three share one axis. */
+    --omni-alert-icon: 1.5rem;
+    --omni-alert-glyph: 1rem;
 }
 
 /* omni:theme-tokens:start */
@@ -374,6 +381,8 @@
     --omni-space-md: 0.5rem;
     --omni-space-lg: 0.75rem;
     --omni-control-height: 2rem;
+    --omni-alert-icon: 1.125rem;
+    --omni-alert-glyph: 0.75rem;
 }
 
 [data-omni-density="spacious"] {
@@ -381,28 +390,49 @@
     --omni-space-md: 1rem;
     --omni-space-lg: 1.25rem;
     --omni-control-height: 3rem;
+    --omni-alert-icon: 1.75rem;
+    --omni-alert-glyph: 1.125rem;
 }
 
+/* Every variant names four colours and nothing else: its fill, the two shades the factory derives
+   from that fill for hover and press, and the ink picked for it. The rules below read them, so all
+   the variants hover and press the same way. Primary is the default. */
 .omni-button {
+    --omni-button-fill: var(--omni-color-accent-fill);
+    --omni-button-fill-hover: var(--omni-color-accent-fill-hover);
+    --omni-button-fill-active: var(--omni-color-accent-fill-active);
+    --omni-button-ink: var(--omni-color-on-accent-fill);
     align-items: center;
+    background: var(--omni-button-fill);
     border: var(--omni-button-border-width) solid var(--omni-button-border-color);
     border-radius: var(--omni-button-radius, var(--omni-radius));
     box-shadow: var(--omni-button-shadow);
     box-sizing: border-box;
+    color: var(--omni-button-ink);
     cursor: pointer;
     display: inline-flex;
     font: inherit;
     font-weight: var(--omni-button-font-weight);
     gap: var(--omni-space-sm);
-    letter-spacing: var(--omni-button-letter-spacing);
+    letter-spacing: var(--omni-button-letter-spacing, 0em);
     text-transform: var(--omni-button-text-transform);
     justify-content: center;
-    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease, box-shadow 120ms ease, transform 80ms ease;
 }
 
 .omni-button:focus-visible {
     box-shadow: var(--omni-focus-ring), var(--omni-button-shadow);
     outline: none;
+}
+
+/* Hover and press move the fill away from the ink laid on it, so the contrast can only rise and the
+   change shows on every fill. The press also carries the theme's own gesture: without the two press
+   tokens the button sinks one pixel and keeps its shadow, the press of the theme Défaut. */
+.omni-button:hover:not(:disabled) { background: var(--omni-button-fill-hover); }
+.omni-button:active:not(:disabled) {
+    background: var(--omni-button-fill-active);
+    box-shadow: var(--omni-button-press-shadow, var(--omni-button-shadow));
+    transform: var(--omni-button-press-transform, translateY(1px));
 }
 
 /* Désactivé : éteint et assombri, une opacité seule l'éclaircissait sur fond clair. */
@@ -422,23 +452,33 @@
 .omni-button--large,
 .omni-toggle-button--large,
 .omni-split-button--large { --omni-button-size: calc(var(--omni-control-height) + 0.5rem); --omni-button-padding-inline: var(--omni-space-xl); --omni-button-font-size: var(--omni-font-size-lg); }
-.omni-button { font-size: var(--omni-button-font-size, inherit); min-height: var(--omni-button-size, var(--omni-control-height)); padding: var(--omni-space-xs) var(--omni-button-padding-inline, var(--omni-space-lg)); }
+/* Letter spacing adds its width after the last letter too, which pushes the label visibly off
+   centre in a widely tracked theme: the end padding gives that width back. */
+.omni-button { font-size: var(--omni-button-font-size, inherit); min-height: var(--omni-button-size, var(--omni-control-height)); padding-block: var(--omni-space-xs); padding-inline: var(--omni-button-padding-inline, var(--omni-space-lg)) calc(var(--omni-button-padding-inline, var(--omni-space-lg)) - var(--omni-button-letter-spacing, 0em)); }
 .omni-button--small .omni-button__content { gap: var(--omni-space-xs); }
 .omni-button--small .omni-icon--medium { height: 1rem; width: 1rem; }
 /* Icône seule : carré. :where laisse un hôte qui retaille ses boutons l'emporter. */
 .omni-button:where(:has(> .omni-button__content > .omni-icon:only-child)) { min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding-inline: 0; }
-.omni-button--primary { background: var(--omni-color-accent); color: var(--omni-color-on-accent); }
-.omni-button--primary:hover:not(:disabled) { background: var(--omni-color-accent-strong); }
-.omni-button--secondary { background: var(--omni-color-surface); border-color: var(--omni-color-border); color: var(--omni-color-text); }
-/* Ghost stays chromeless whatever the theme draws around buttons, or it would read as a second
-   secondary; its text is the strong accent, like every other accent text. */
-.omni-button--ghost { --omni-button-shadow: 0 0 #0000; background: transparent; border-color: transparent; color: var(--omni-color-accent-strong); }
-/* Each fill carries the text colour picked for it: a theme may need dark text on one severity and
-   light text on another. */
-.omni-button--success { background: var(--omni-color-success); color: var(--omni-color-on-success); }
-.omni-button--warning { background: var(--omni-color-warning); color: var(--omni-color-on-warning); }
-.omni-button--info { background: var(--omni-color-info-bright); color: var(--omni-color-on-bright); }
-.omni-button--danger { background: var(--omni-color-danger); color: var(--omni-color-on-danger); }
+.omni-button--primary { --omni-button-fill: var(--omni-color-accent-fill); --omni-button-fill-hover: var(--omni-color-accent-fill-hover); --omni-button-fill-active: var(--omni-color-accent-fill-active); --omni-button-ink: var(--omni-color-on-accent-fill); }
+/* Secondary is a plain grey drawn from the palette's text and surface, with the page text and no
+   border: in dark mode a border read as a frame around it. It keeps the theme's relief
+   (--omni-button-shadow), or the stepped frames and offset shadows of some themes would vanish from
+   the very buttons that sit beside the others. */
+.omni-button--secondary { --omni-button-fill: var(--omni-color-neutral-fill); --omni-button-fill-hover: var(--omni-color-neutral-fill-hover); --omni-button-fill-active: var(--omni-color-neutral-fill-active); --omni-button-ink: var(--omni-color-text); }
+/* The one justified exception to the shared relief: a ghost button deliberately has no body, so it
+   stays flat whatever the theme draws around buttons, at rest and pressed, or it would read as a
+   second secondary. Its hover and press tint the page like any other hovered surface; its text is the
+   strong accent, like every other accent text. */
+.omni-button--ghost { --omni-button-fill: transparent; --omni-button-fill-hover: var(--omni-color-surface-hover); --omni-button-fill-active: var(--omni-color-surface-highlight); --omni-button-ink: var(--omni-color-accent-strong); --omni-button-shadow: 0 0 #0000; border-color: transparent; }
+.omni-button--ghost:active:not(:disabled) { box-shadow: 0 0 #0000; }
+/* One rule for buttons, solid badges, notification marks and alerts. Information and success take
+   the bright fill, lightened until the dark ink holds 4.5:1; warning and danger take the deep fill,
+   darkened until the light ink does, since dark text on a vivid orange or red passed the ratio but
+   read poorly. Their hover and press shades move away from the ink as well. */
+.omni-button--info { --omni-button-fill: var(--omni-color-info-bright); --omni-button-fill-hover: var(--omni-color-info-bright-hover); --omni-button-fill-active: var(--omni-color-info-bright-active); --omni-button-ink: var(--omni-color-on-bright); }
+.omni-button--success { --omni-button-fill: var(--omni-color-success-bright); --omni-button-fill-hover: var(--omni-color-success-bright-hover); --omni-button-fill-active: var(--omni-color-success-bright-active); --omni-button-ink: var(--omni-color-on-bright); }
+.omni-button--warning { --omni-button-fill: var(--omni-color-warning-deep); --omni-button-fill-hover: var(--omni-color-warning-deep-hover); --omni-button-fill-active: var(--omni-color-warning-deep-active); --omni-button-ink: var(--omni-color-on-deep); }
+.omni-button--danger { --omni-button-fill: var(--omni-color-danger-deep); --omni-button-fill-hover: var(--omni-color-danger-deep-hover); --omni-button-fill-active: var(--omni-color-danger-deep-active); --omni-button-ink: var(--omni-color-on-deep); }
 
 /* The button wraps everything a consumer passes in this single element, so the gap declared on
    .omni-button never separated an icon from its label: it applied between the button and its one
@@ -455,9 +495,11 @@
     .omni-button { animation: none; transition: none; }
 }
 
+/* Layer: a theme may give cards a fill and a rule of their own (--omni-card-background,
+   --omni-card-border-color); without them a card keeps the palette's surface and border. */
 .omni-card {
-    background: var(--omni-color-surface);
-    border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-color-border);
+    background: var(--omni-card-background, var(--omni-color-surface));
+    border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border));
     border-radius: var(--omni-card-radius, var(--omni-radius));
     box-shadow: var(--omni-card-shadow);
     color: var(--omni-color-text);
@@ -474,6 +516,24 @@
 .omni-card__body,
 .omni-settings-tile { min-inline-size: 0; }
 .omni-card__footer { border-top: var(--omni-border-width) solid var(--omni-color-border); }
+
+/* Icon disc of a tile or a menu item: a grey disc of the palette, rounded by a highlight and a soft
+   shadow. */
+.omni-disc {
+    align-items: center;
+    background: var(--omni-color-neutral-fill);
+    block-size: 2.25rem;
+    border-radius: var(--omni-radius-circle);
+    box-shadow: inset 0 1px 0 var(--omni-elevation-highlight, transparent), 0 1px 2px var(--omni-elevation-shadow-soft, transparent);
+    color: var(--omni-color-text-muted);
+    display: inline-grid;
+    flex: none;
+    inline-size: 2.25rem;
+    place-content: center;
+}
+.omni-disc svg { block-size: 1.125rem; inline-size: 1.125rem; }
+.omni-disc--lg { block-size: 3.5rem; inline-size: 3.5rem; }
+.omni-disc--lg svg { block-size: 1.625rem; inline-size: 1.625rem; }
 
 .omni-stack { display: flex; }
 .omni-stack--horizontal { flex-direction: row; }
@@ -536,29 +596,40 @@
     }
 }
 
-/* Contour : fond teinté, barre de sévérité, titre et icône colorés, message dans le texte du thème. */
-.omni-alert { --omni-alert-color: var(--omni-color-accent); --omni-alert-ink: color-mix(in srgb, var(--omni-alert-color) 42%, var(--omni-color-text)); align-items: flex-start; border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-alert-color) 40%, transparent); border-inline-start: 0.25rem solid var(--omni-alert-color); border-radius: var(--omni-radius); box-sizing: border-box; display: flex; gap: var(--omni-space-md); line-height: 1.45; padding: var(--omni-space-md) var(--omni-space-lg); }
-.omni-alert__icon { align-items: center; color: var(--omni-alert-ink); display: inline-flex; flex: 0 0 auto; min-block-size: 1.45em; }
-.omni-alert__body { display: grid; gap: var(--omni-space-xs); min-width: 0; }
-/* Present only on a Dismissible alert; it keeps the 44 px touch target and inherits the alert colour. */
-.omni-alert__dismiss { align-items: center; background: transparent; border: 0; border-radius: var(--omni-radius); color: inherit; cursor: pointer; display: inline-flex; flex: 0 0 auto; justify-content: center; margin: calc(-1 * var(--omni-space-sm)) calc(-1 * var(--omni-space-sm)) 0 auto; min-height: 2.75rem; min-width: 2.75rem; padding: 0; }
-.omni-alert__dismiss:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
+/* Alerts. Each intention names its fill and the ink picked for it, with the rule shared by buttons,
+   solid badges and notification marks: information and success on the bright fill with the dark
+   ink, warning and danger on the deep fill with the light ink. No side bar marks the intention: the
+   fill, the icon disc and the glyph do. */
+.omni-alert { --omni-alert-fill: var(--omni-color-info-bright); --omni-alert-on: var(--omni-color-on-bright); align-items: flex-start; border-radius: var(--omni-alert-radius, var(--omni-radius)); box-sizing: border-box; display: flex; gap: var(--omni-space-md); line-height: 1.45; padding: var(--omni-space-md) var(--omni-space-lg); }
+.omni-alert--info { --omni-alert-fill: var(--omni-color-info-bright); --omni-alert-on: var(--omni-color-on-bright); }
+.omni-alert--success { --omni-alert-fill: var(--omni-color-success-bright); --omni-alert-on: var(--omni-color-on-bright); }
+.omni-alert--warning { --omni-alert-fill: var(--omni-color-warning-deep); --omni-alert-on: var(--omni-color-on-deep); }
+.omni-alert--danger { --omni-alert-fill: var(--omni-color-danger-deep); --omni-alert-on: var(--omni-color-on-deep); }
+/* Filled, drawn like a button: the intention's fill and its ink, a white highlight on the top edge,
+   a neutral shadow and one tinted by the fill. No pale tint and no gradient. */
+.omni-alert--filled { background: var(--omni-alert-fill); border: 0; box-shadow: inset 0 1px 0 rgb(255 255 255 / 14%), 0 1px 2px var(--omni-elevation-shadow, rgb(0 0 0 / 20%)), 0 6px 16px -6px color-mix(in srgb, var(--omni-alert-fill) 60%, transparent); color: var(--omni-alert-on); }
+.omni-alert--filled a { color: inherit; }
+/* Outline keeps the message light on the page: the card's surface, a rule in the intention, the page
+   text. The intention is carried by the disc, painted with the same fill and ink as the filled alert. */
+.omni-alert--outline { background: var(--omni-card-background, var(--omni-color-surface)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-alert-fill) 55%, transparent); color: var(--omni-color-text); }
+/* The icon is a glyph alone in a disc. The title's line height is the disc size, and so is the close
+   button: disc, title and close share one axis in every density. */
+.omni-alert__icon { align-items: center; background: color-mix(in srgb, var(--omni-alert-on) 18%, transparent); block-size: var(--omni-alert-icon); border-radius: var(--omni-radius-circle); box-sizing: border-box; color: var(--omni-alert-on); display: inline-flex; flex: none; inline-size: var(--omni-alert-icon); justify-content: center; }
+.omni-alert--outline .omni-alert__icon { background: var(--omni-alert-fill); }
+.omni-alert__icon svg { block-size: var(--omni-alert-glyph); display: block; flex: none; inline-size: var(--omni-alert-glyph); }
+.omni-alert__body { display: grid; flex: 1 1 auto; gap: 0.125rem; min-width: 0; }
+.omni-alert__title { color: inherit; display: block; font-weight: 600; line-height: var(--omni-alert-icon); }
+/* Without a title, the first line of the message is centred on the disc instead. */
+.omni-alert__content:first-child { padding-block-start: max(0px, calc((var(--omni-alert-icon) - 1.45em) / 2)); }
+/* Present only on a Dismissible alert. The visible box is the disc size; the pointer target is widened
+   to 44 px around it by a transparent layer, so the target stays auditable without a larger button. */
+.omni-alert__dismiss { align-items: center; background: transparent; block-size: var(--omni-alert-icon); border: 0; border-radius: var(--omni-radius-sm, var(--omni-radius)); color: inherit; cursor: pointer; display: inline-flex; flex: none; inline-size: var(--omni-alert-icon); justify-content: center; margin-inline-start: auto; padding: 0; position: relative; }
+.omni-alert__dismiss::before { content: ""; inset: min(0px, calc((var(--omni-alert-icon) - 2.75rem) / 2)); position: absolute; }
+.omni-alert__dismiss .omni-icon { height: 0.875rem; width: 0.875rem; }
+.omni-alert__dismiss:hover { background: color-mix(in srgb, currentColor 16%, transparent); }
 .omni-alert__dismiss:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
 .omni-alert__content > :first-child { margin-block-start: 0; }
 .omni-alert__content > :last-child { margin-block-end: 0; }
-
-.omni-alert--info { --omni-alert-color: var(--omni-color-accent); --omni-alert-on: var(--omni-color-on-accent); }
-.omni-alert--success { --omni-alert-color: var(--omni-color-success); --omni-alert-on: var(--omni-color-on-success); }
-.omni-alert--warning { --omni-alert-color: var(--omni-color-warning); --omni-alert-on: var(--omni-color-on-warning); }
-.omni-alert--danger { --omni-alert-color: var(--omni-color-danger); --omni-alert-on: var(--omni-color-on-danger); }
-.omni-alert--outline { background: color-mix(in srgb, var(--omni-alert-color) 9%, var(--omni-color-surface)); color: var(--omni-color-text); }
-/* Plein : la couleur de sévérité telle que le thème l'a réglée, et le texte que le thème a choisi pour ce
-   fond ; un thème peut vouloir un texte sombre sur une sévérité claire et clair sur une autre. */
-.omni-alert--filled { background: var(--omni-alert-color); border-color: transparent; box-shadow: var(--omni-shadow-sm); color: var(--omni-alert-on); }
-.omni-alert--filled .omni-alert__icon,
-.omni-alert--filled .omni-alert__title { color: inherit; }
-.omni-alert--filled a { color: inherit; }
-.omni-alert__title { color: var(--omni-alert-ink); display: block; font-weight: 650; }
 
 .omni-visually-hidden {
     clip: rect(0 0 0 0);
@@ -611,15 +682,25 @@
 .omni-icon--large { height: 1.5rem; width: 1.5rem; }
 
 /* Pastille tonale : l'encre de la variante mêlée à la surface et au texte, lisible en clair et en sombre. */
-.omni-badge { --omni-badge-ink: var(--omni-color-text-muted); align-items: center; background: color-mix(in srgb, var(--omni-badge-ink) 14%, var(--omni-color-surface)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-badge-ink) 32%, transparent); border-radius: calc(var(--omni-radius) / 2); box-sizing: border-box; color: color-mix(in srgb, var(--omni-badge-ink) 40%, var(--omni-color-text)); display: inline-flex; font-size: var(--omni-font-size-sm); font-variant-numeric: tabular-nums; font-weight: 650; gap: var(--omni-space-xs); justify-content: center; line-height: 1; min-height: 1.375rem; min-width: 1.375rem; padding: 0.1875rem 0.5rem; white-space: nowrap; }
+.omni-badge { --omni-badge-ink: var(--omni-color-text-muted); align-items: center; background: color-mix(in srgb, var(--omni-badge-ink) 14%, var(--omni-color-surface)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-badge-ink) 32%, transparent); border-radius: var(--omni-radius-sm, calc(var(--omni-radius) / 2)); box-sizing: border-box; color: color-mix(in srgb, var(--omni-badge-ink) 40%, var(--omni-color-text)); display: inline-flex; font-size: var(--omni-font-size-sm); font-variant-numeric: tabular-nums; font-weight: 650; gap: var(--omni-space-xs); justify-content: center; line-height: 1; min-height: 1.375rem; min-width: 1.375rem; padding: 0.1875rem 0.5rem; white-space: nowrap; }
 .omni-badge .omni-icon { height: 0.875rem; width: 0.875rem; }
 .omni-badge--neutral { --omni-badge-ink: var(--omni-color-text-muted); }
-.omni-badge--accent { --omni-badge-ink: var(--omni-color-accent); }
+.omni-badge--accent { --omni-badge-ink: var(--omni-color-accent-strong); }
+.omni-badge--info { --omni-badge-ink: var(--omni-color-info); }
 .omni-badge--success { --omni-badge-ink: var(--omni-color-success); }
 .omni-badge--warning { --omni-badge-ink: var(--omni-color-warning); }
 .omni-badge--danger { --omni-badge-ink: var(--omni-color-danger); }
 
 .omni-badge--outline { background: transparent; border-color: color-mix(in srgb, var(--omni-badge-ink) 78%, transparent); }
+
+/* Solid: exactly the fill and the ink of the button of the same intention, so a status and the
+   action that concerns it carry the same colour. */
+.omni-badge--solid { background: var(--omni-color-accent-fill); border-color: transparent; color: var(--omni-color-on-accent-fill); }
+.omni-badge--solid.omni-badge--neutral { background: var(--omni-color-neutral-fill); color: var(--omni-color-text); }
+.omni-badge--solid.omni-badge--info { background: var(--omni-color-info-bright); color: var(--omni-color-on-bright); }
+.omni-badge--solid.omni-badge--success { background: var(--omni-color-success-bright); color: var(--omni-color-on-bright); }
+.omni-badge--solid.omni-badge--warning { background: var(--omni-color-warning-deep); color: var(--omni-color-on-deep); }
+.omni-badge--solid.omni-badge--danger { background: var(--omni-color-danger-deep); color: var(--omni-color-on-deep); }
 
 /* Souligné au survol seulement. */
 .omni-link { color: var(--omni-color-accent-strong); text-decoration: none; text-underline-offset: 0.15em; }
@@ -903,9 +984,17 @@
 .omni-progress__circle-value { fill: none; stroke-width: 5; }
 .omni-progress__circle-track { stroke: var(--omni-color-surface-muted); }
 .omni-progress__circle-value { stroke: currentColor; transition: stroke-dasharray 160ms ease; }
-.omni-progress--indeterminate .omni-progress__circle { animation: omni-spin 900ms linear infinite; }
+/* The circle rests at rotate(-90deg) so its stroke starts at twelve o'clock. A turn animated only to
+   360deg started from that rest, covered 450 degrees and jumped 90 back at every loop: the turn has
+   its own keyframes, from the rest to one full turn past it. */
+.omni-progress--indeterminate .omni-progress__circle { animation: omni-spin-circle 900ms linear infinite; }
+@keyframes omni-spin-circle { from { transform: rotate(-90deg); } to { transform: rotate(270deg); } }
 @keyframes omni-spin { to { transform: rotate(360deg); } }
 .omni-progress__label { color: var(--omni-color-text); font-variant-numeric: tabular-nums; white-space: nowrap; }
+/* The track takes 100% of the row: the label and the circle must not shrink under their content, or
+   the percentage overflows onto the bar. */
+.omni-progress__label,
+.omni-progress__circle { flex: none; }
 @keyframes omni-indeterminate { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 
 @media (min-width: 40rem) {
@@ -1129,7 +1218,8 @@
     align-items: center;
     background: var(--omni-color-surface);
     border: var(--omni-border-width) solid var(--omni-color-border);
-    border-radius: var(--omni-radius);
+    /* The theme's small radius, as on badges; the half radius stays as the fallback. */
+    border-radius: var(--omni-radius-sm, calc(var(--omni-radius) / 2));
     display: inline-flex;
     height: 1rem;
     justify-content: center;
@@ -1185,10 +1275,11 @@
 .omni-list-box { min-height: 7rem; }
 .omni-autocomplete { position: relative; }
 .omni-autocomplete__results {
-    background: var(--omni-color-surface);
-    border: var(--omni-border-width) solid var(--omni-color-border);
-    border-radius: var(--omni-radius);
-    box-shadow: var(--omni-shadow-md);
+    backdrop-filter: var(--omni-overlay-filter, none);
+    background: var(--omni-overlay-background, var(--omni-color-surface));
+    border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border));
+    border-radius: var(--omni-card-radius, var(--omni-radius));
+    box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md));
     display: grid;
     list-style: none;
     margin: var(--omni-space-xs) 0 0;
@@ -1307,30 +1398,46 @@
 .omni-toggle-button,
 .omni-split-button__main,
 .omni-split-button__toggle { align-items: center; box-shadow: var(--omni-button-shadow); box-sizing: border-box; display: inline-flex; font-size: var(--omni-button-font-size, inherit); font-weight: var(--omni-button-font-weight); gap: var(--omni-space-sm); justify-content: center; letter-spacing: var(--omni-button-letter-spacing); min-height: var(--omni-button-size, var(--omni-control-height)); text-transform: var(--omni-button-text-transform); }
+/* The end padding gives the letter spacing back, as on OmniButton. */
 .omni-toggle-button,
-.omni-split-button__main { padding: var(--omni-space-xs) var(--omni-button-padding-inline, var(--omni-space-lg)); }
+.omni-split-button__main { padding-block: var(--omni-space-xs); padding-inline: var(--omni-button-padding-inline, var(--omni-space-lg)) calc(var(--omni-button-padding-inline, var(--omni-space-lg)) - var(--omni-button-letter-spacing, 0em)); }
 .omni-toggle-button { border-radius: var(--omni-button-radius, var(--omni-radius)); }
 .omni-toggle-button:where(:has(> .omni-icon:only-child)) { min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding-inline: 0; }
 .omni-toggle-button--pressed { background: var(--omni-color-accent); border-color: var(--omni-color-accent); color: var(--omni-color-on-accent); }
 .omni-split-button { display: inline-flex; position: relative; }
 .omni-split-button__main { border-radius: var(--omni-button-radius, var(--omni-radius)) 0 0 var(--omni-button-radius, var(--omni-radius)); }
 .omni-split-button__toggle { border-inline-start: 0; border-radius: 0 var(--omni-button-radius, var(--omni-radius)) var(--omni-button-radius, var(--omni-radius)) 0; min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding: 0; }
-/* Variantes : Secondary est l'apparence d'origine, sans classe ; un filet sépare les deux parties d'un aplat. */
-.omni-split-button--primary { --omni-split-fill: var(--omni-color-accent); --omni-split-ink: var(--omni-color-on-accent); }
-.omni-split-button--success { --omni-split-fill: var(--omni-color-success); --omni-split-ink: var(--omni-color-on-success); }
-.omni-split-button--warning { --omni-split-fill: var(--omni-color-warning); --omni-split-ink: var(--omni-color-on-warning); }
-.omni-split-button--info { --omni-split-fill: var(--omni-color-info-bright); --omni-split-ink: var(--omni-color-on-bright); }
-.omni-split-button--danger { --omni-split-fill: var(--omni-color-danger); --omni-split-ink: var(--omni-color-on-danger); }
-:is(.omni-split-button--primary, .omni-split-button--success, .omni-split-button--warning, .omni-split-button--danger, .omni-split-button--info) > :is(.omni-split-button__main, .omni-split-button__toggle) { background: var(--omni-split-fill); border-color: var(--omni-split-fill); color: var(--omni-split-ink); }
-:is(.omni-split-button--primary, .omni-split-button--success, .omni-split-button--warning, .omni-split-button--danger, .omni-split-button--info) > .omni-split-button__toggle { border-inline-start: var(--omni-border-width) solid color-mix(in srgb, var(--omni-split-ink) 40%, transparent); }
-.omni-split-button--primary > :is(.omni-split-button__main, .omni-split-button__toggle):hover:not(:disabled) { background: var(--omni-color-accent-strong); }
-.omni-split-button--ghost > :is(.omni-split-button__main, .omni-split-button__toggle) { --omni-button-shadow: 0 0 #0000; background: transparent; border-color: transparent; color: var(--omni-color-accent-strong); }
+/* Variants: the four colours of OmniButton, read by both parts together. Secondary is the default
+   and renders without a class, so the component root holds its neutral fill. */
+.omni-split-button { --omni-button-fill: var(--omni-color-neutral-fill); --omni-button-fill-hover: var(--omni-color-neutral-fill-hover); --omni-button-fill-active: var(--omni-color-neutral-fill-active); --omni-button-ink: var(--omni-color-text); }
+.omni-split-button--primary { --omni-button-fill: var(--omni-color-accent-fill); --omni-button-fill-hover: var(--omni-color-accent-fill-hover); --omni-button-fill-active: var(--omni-color-accent-fill-active); --omni-button-ink: var(--omni-color-on-accent-fill); }
+.omni-split-button--info { --omni-button-fill: var(--omni-color-info-bright); --omni-button-fill-hover: var(--omni-color-info-bright-hover); --omni-button-fill-active: var(--omni-color-info-bright-active); --omni-button-ink: var(--omni-color-on-bright); }
+.omni-split-button--success { --omni-button-fill: var(--omni-color-success-bright); --omni-button-fill-hover: var(--omni-color-success-bright-hover); --omni-button-fill-active: var(--omni-color-success-bright-active); --omni-button-ink: var(--omni-color-on-bright); }
+.omni-split-button--warning { --omni-button-fill: var(--omni-color-warning-deep); --omni-button-fill-hover: var(--omni-color-warning-deep-hover); --omni-button-fill-active: var(--omni-color-warning-deep-active); --omni-button-ink: var(--omni-color-on-deep); }
+.omni-split-button--danger { --omni-button-fill: var(--omni-color-danger-deep); --omni-button-fill-hover: var(--omni-color-danger-deep-hover); --omni-button-fill-active: var(--omni-color-danger-deep-active); --omni-button-ink: var(--omni-color-on-deep); }
+.omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle) { background: var(--omni-button-fill); border-color: var(--omni-button-border-color); color: var(--omni-button-ink); transition: background-color 120ms ease, color 120ms ease, box-shadow 120ms ease, transform 80ms ease; }
+.omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle):hover:not(:disabled) { background: var(--omni-button-fill-hover); }
+.omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle):active:not(:disabled) { background: var(--omni-button-fill-active); box-shadow: var(--omni-button-press-shadow, var(--omni-button-shadow)); transform: var(--omni-button-press-transform, translateY(1px)); }
+/* A rule in the ink separates the two parts of one fill. */
+.omni-split-button:not(.omni-split-button--ghost) > .omni-split-button__toggle { border-inline-start: var(--omni-border-width) solid color-mix(in srgb, var(--omni-button-ink) 40%, transparent); }
+/* Ghost stays flat, at rest and pressed, for the reason given on .omni-button--ghost. */
+.omni-split-button--ghost { --omni-button-fill: transparent; --omni-button-fill-hover: var(--omni-color-surface-hover); --omni-button-fill-active: var(--omni-color-surface-highlight); --omni-button-ink: var(--omni-color-accent-strong); }
+.omni-split-button--ghost > :is(.omni-split-button__main, .omni-split-button__toggle) { --omni-button-shadow: 0 0 #0000; border-color: transparent; }
+.omni-split-button--ghost > :is(.omni-split-button__main, .omni-split-button__toggle):active:not(:disabled) { box-shadow: 0 0 #0000; }
+@media (prefers-reduced-motion: reduce) {
+    .omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle) { transition: none; }
+}
+/* Floating surfaces (menus, popovers, lists, notifications) share one layer: a theme may give them a
+   translucent blurred fill (--omni-overlay-background, --omni-overlay-filter), the card's rule and a
+   deeper shadow than a card's (--omni-overlay-shadow). Without those tokens each keeps its previous
+   surface, border and shadow. */
 .omni-split-button__menu,
 .omni-context-menu__popup {
-    background: var(--omni-color-surface);
-    border: var(--omni-border-width) solid var(--omni-color-border);
-    border-radius: var(--omni-radius);
-    box-shadow: var(--omni-shadow-md);
+    backdrop-filter: var(--omni-overlay-filter, none);
+    background: var(--omni-overlay-background, var(--omni-color-surface));
+    border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border));
+    border-radius: var(--omni-card-radius, var(--omni-radius));
+    box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md));
     display: grid;
     min-width: 12rem;
     padding: var(--omni-space-xs);
@@ -1344,7 +1451,12 @@
 .omni-overlay { align-items: center; background: var(--omni-color-overlay); display: flex; inset: 0; justify-content: center; padding: var(--omni-space-lg); position: fixed; z-index: 100; }
 .omni-overlay:has(.omni-dialog[inert]) { pointer-events: none; }
 body:has(.omni-overlay) { overflow: hidden; }
-.omni-dialog { background: var(--omni-color-surface); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-lg); color: var(--omni-color-text); max-height: calc(100vh - 2rem); max-width: 40rem; overflow: auto; width: 100%; }
+/* The dialog takes the layer's opaque fill, its rule (drawn as an inset ring, so a dialog without the
+   token keeps its size) and the floating shadow. Deliberate exception to the floating layer: no
+   backdrop-filter here. A filter makes the dialog the containing block of its position: fixed
+   descendants (grid filter popovers, tracked tooltips), which would then be moved and clipped by it;
+   the dialog already sits on the modal scrim, so the opaque fill replaces the blurred one. */
+.omni-dialog { background: var(--omni-card-background, var(--omni-color-surface)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: inset 0 0 0 var(--omni-border-width) var(--omni-card-border-color, transparent), var(--omni-overlay-shadow, var(--omni-shadow-lg)); color: var(--omni-color-text); max-height: calc(100vh - 2rem); max-width: 40rem; overflow: auto; width: 100%; }
 .omni-dialog--resizable { min-height: 12rem; min-width: 18rem; resize: both; }
 .omni-dialog--draggable .omni-dialog__header { cursor: move; touch-action: none; user-select: none; }
 .omni-dialog__header { align-items: center; border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: flex; justify-content: space-between; padding: var(--omni-space-md); }
@@ -1385,7 +1497,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-notification-region__pile--stacked > .omni-notification:nth-last-child(n+5) { opacity: 0; }
 /* Empilée, chaque carte posée sur une autre y jette une ombre par son bord haut : la cascade se lit
    comme des cartes superposées, pas comme des bandeaux collés. */
-.omni-notification-region__pile--stacked:not(:hover,:focus-within) > .omni-notification:nth-last-child(-n+3):not(:first-child) { box-shadow: var(--omni-shadow-stack), var(--omni-shadow-md); }
+.omni-notification-region__pile--stacked:not(:hover,:focus-within) > .omni-notification:nth-last-child(-n+3):not(:first-child) { box-shadow: var(--omni-shadow-stack), var(--omni-overlay-shadow, var(--omni-shadow-md)); }
 @media (prefers-reduced-motion: reduce) { .omni-notification-region__pile--stacked > .omni-notification { transition: none; } }
 .omni-notification-region__pile--stacked:is(:hover,:focus-within) { gap: var(--omni-space-sm); }
 .omni-notification-region__pile--stacked:is(:hover,:focus-within) > .omni-notification { grid-area: auto; margin-block: 0; max-block-size: none; opacity: 1; }
@@ -1409,7 +1521,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-notification-region--wide { width: 22.5rem; }
 .omni-notification-region:is(.omni-notification-region--topend,.omni-notification-region--bottomend) { justify-items: end; }
 .omni-notification-region.omni-notification-region--grouped { justify-items: stretch; }
-.omni-notification { --omni-notification-ink: var(--omni-color-accent); --omni-notification-tint: color-mix(in srgb, var(--omni-notification-ink) 16%, var(--omni-color-surface)); align-items: start; background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-md); box-sizing: border-box; display: grid; gap: 0.625rem; grid-template-columns: auto 1fr auto; inline-size: 16.25rem; max-inline-size: 90vw; overflow: hidden; padding: 0.75rem 0.5rem 0.75rem 0.875rem; position: relative; }
+.omni-notification { --omni-notification-ink: var(--omni-color-accent); --omni-notification-tint: color-mix(in srgb, var(--omni-notification-ink) 16%, var(--omni-color-surface)); align-items: start; backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); box-sizing: border-box; display: grid; gap: 0.625rem; grid-template-columns: auto 1fr auto; inline-size: 16.25rem; max-inline-size: 90vw; overflow: hidden; padding: 0.75rem 0.5rem 0.75rem 0.875rem; position: relative; }
 .omni-notification-region--grouped .omni-notification { inline-size: auto; }
 .omni-notification--long { inline-size: 22.5rem; }
 .omni-notification--success { --omni-notification-ink: var(--omni-color-success); }
@@ -1650,6 +1762,9 @@ body:has(.omni-overlay) { overflow: hidden; }
 }
 .omni-tabs__tab,
 .omni-steps__button { background: transparent; border: 0; border-block-end: 2px solid transparent; color: var(--omni-color-text); cursor: pointer; font: inherit; padding: var(--omni-space-sm) var(--omni-space-md); }
+/* A tab is tracked like a button, and its end padding gives the letter spacing back for the same
+   reason: without it the label sits visibly off centre in a widely tracked theme. */
+.omni-tabs__tab { letter-spacing: var(--omni-button-letter-spacing, 0em); padding-inline: var(--omni-space-md) calc(var(--omni-space-md) - var(--omni-button-letter-spacing, 0em)); }
 .omni-tabs__tab[aria-selected="true"] { border-block-end-color: var(--omni-color-accent); color: var(--omni-color-accent-strong); font-weight: 650; }
 /* A flex column that may shrink: a grid inside asking for the height its parent leaves free needs
    a parent that is itself bounded, or it overflows the panel and runs off the bottom of the page. */
@@ -1668,13 +1783,13 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-steps__item--selected .omni-steps__number { background: var(--omni-color-accent); color: var(--omni-color-on-accent); }
 .omni-steps__panel { flex-basis: 100%; order: 2; padding-block: var(--omni-space-lg); }
 .omni-popover { display: inline-block; position: relative; }
-.omni-popover__panel { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-md); color: var(--omni-color-text); inset-block-start: calc(100% + var(--omni-space-xs)); max-inline-size: min(24rem, calc(100vw - 2 * var(--omni-space-md))); min-inline-size: 16rem; padding: var(--omni-space-md); position: absolute; z-index: 30; }
+.omni-popover__panel { backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); color: var(--omni-color-text); inset-block-start: calc(100% + var(--omni-space-xs)); max-inline-size: min(24rem, calc(100vw - 2 * var(--omni-space-md))); min-inline-size: 16rem; padding: var(--omni-space-md); position: absolute; z-index: 30; }
 .omni-popover__panel:focus-visible { outline: none; }
 .omni-popover--bottom-end .omni-popover__panel { inset-inline-end: 0; }
 .omni-popover--bottom-start .omni-popover__panel { inset-inline-start: 0; }
 .omni-profile-menu { display: inline-block; position: relative; }
 .omni-profile-menu__summary { cursor: pointer; list-style: none; }
-.omni-profile-menu__items { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-md); display: grid; inset-inline-end: 0; min-width: 12rem; padding: var(--omni-space-xs); position: absolute; z-index: 30; }
+.omni-profile-menu__items { backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); display: grid; inset-inline-end: 0; min-width: 12rem; padding: var(--omni-space-xs); position: absolute; z-index: 30; }
 .omni-profile-menu__item { background: transparent; border: 0; border-radius: calc(var(--omni-radius) / 2); font: inherit; padding: var(--omni-space-sm); text-align: start; text-decoration: none; }
 .omni-profile-menu__item:hover,
 .omni-profile-menu__item:focus-visible { background: var(--omni-color-surface-muted); outline: none; }
@@ -1763,7 +1878,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid__popover { min-inline-size: 0; position: relative; }
 .omni-data-grid__popover > summary { cursor: pointer; list-style: none; }
 .omni-data-grid__popover > summary::-webkit-details-marker { display: none; }
-.omni-data-grid__popover-panel { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-md); box-sizing: border-box; display: grid; font-weight: normal; gap: var(--omni-space-sm); left: var(--omni-popover-x, auto); max-block-size: min(24rem, 100vh - 1rem); max-inline-size: min(22rem, 100vw - 1rem); min-inline-size: max(12rem, var(--omni-popover-min, 0px)); overflow: auto; padding: var(--omni-space-sm); position: fixed; top: var(--omni-popover-y, auto); z-index: 40; }
+.omni-data-grid__popover-panel { backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); box-sizing: border-box; display: grid; font-weight: normal; gap: var(--omni-space-sm); left: var(--omni-popover-x, auto); max-block-size: min(24rem, 100vh - 1rem); max-inline-size: min(22rem, 100vw - 1rem); min-inline-size: max(12rem, var(--omni-popover-min, 0px)); overflow: auto; padding: var(--omni-space-sm); position: fixed; top: var(--omni-popover-y, auto); z-index: 40; }
 .omni-data-grid__filter-menu { display: inline-block; }
 .omni-data-grid__filter-menu-toggle { border-radius: var(--omni-radius); display: inline-flex; padding: var(--omni-space-xs); }
 .omni-data-grid__filter-menu-toggle:hover { background: color-mix(in srgb, var(--omni-color-text) 8%, transparent); }
@@ -1838,7 +1953,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 }
 .omni-combo { display: block; position: relative; }
 .omni-combo__input { inline-size: 100%; }
-.omni-combo__list { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-md); inset-block-start: calc(100% + 0.125rem); inset-inline: 0; list-style: none; margin: 0; max-block-size: 14rem; overflow-y: auto; padding: 0.25rem; position: absolute; z-index: 40; }
+.omni-combo__list { backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); inset-block-start: calc(100% + 0.125rem); inset-inline: 0; list-style: none; margin: 0; max-block-size: 14rem; overflow-y: auto; padding: 0.25rem; position: absolute; z-index: 40; }
 .omni-combo__option { border-radius: calc(var(--omni-radius) / 2); cursor: pointer; padding: 0.25rem 0.5rem; white-space: nowrap; }
 .omni-combo__option:hover,
 .omni-combo__option--active { background: var(--omni-color-surface-muted); }
@@ -1860,10 +1975,11 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-multi-select-compact__chevron { flex: 0 0 auto; height: 1.25em; transition: transform 150ms ease; width: 1.25em; }
 .omni-multi-select-compact[open] .omni-multi-select-compact__chevron { transform: rotate(180deg); }
 .omni-multi-select-compact__panel {
-    background: var(--omni-color-surface);
-    border: var(--omni-border-width) solid var(--omni-color-border);
-    border-radius: var(--omni-radius);
-    box-shadow: var(--omni-shadow-md-strong);
+    backdrop-filter: var(--omni-overlay-filter, none);
+    background: var(--omni-overlay-background, var(--omni-color-surface));
+    border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border));
+    border-radius: var(--omni-card-radius, var(--omni-radius));
+    box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md-strong));
     display: flex;
     flex-direction: column;
     inset-block-start: calc(100% + var(--omni-space-xs));
@@ -2126,16 +2242,18 @@ polyline.omni-chart__line { fill: none; }
 /* Busy veil (STD-BUSY). A busy control keeps its exact size and content: a dark layer breathes over
    it (--omni-busy-veil-color), from a quarter to over half, so it reads as occupied in both
    appearances. .btn-busy is the same rule under the application-kit name. No cursor: with pointer
-   events off the pointer never reaches the button. */
+   events off the pointer never reaches the button. The veil covers the border too, with its own
+   inherited radius for the corners: laid inside the padding box under overflow: hidden, it left the
+   one-pixel border outside, read as a light rim around a darkened button, worst in dark mode. */
 .omni-busy,
-.btn-busy { overflow: hidden; pointer-events: none; position: relative; }
+.btn-busy { pointer-events: none; position: relative; }
 .omni-busy::after,
 .btn-busy::after {
     animation: omni-busy-veil 1.3s ease-in-out infinite;
     background: var(--omni-busy-veil-color, #000000);
     border-radius: inherit;
     content: "";
-    inset: 0;
+    inset: calc(-1 * var(--omni-button-border-width, 1px));
     opacity: 0.25;
     pointer-events: none;
     position: absolute;
@@ -2208,7 +2326,7 @@ polyline.omni-chart__line { fill: none; }
 .omni-mindmap__note-text { fill: var(--omni-mindmap-note-text); }
 .omni-mindmap__lasso { fill: color-mix(in srgb, var(--omni-color-accent) 12%, transparent); pointer-events: none; stroke: var(--omni-color-accent); stroke-dasharray: 4 2; }
 .omni-mindmap__banner { align-items: center; background: var(--omni-color-accent); border-radius: var(--omni-radius); color: var(--omni-color-on-accent); display: flex; flex-direction: column; font-size: var(--omni-font-size-sm); inset-block-start: var(--omni-space-md); inset-inline: 0; margin-inline: auto; max-inline-size: max-content; padding: 0.375rem 0.75rem; pointer-events: none; position: absolute; }
-.omni-mindmap__menu { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-lg); box-shadow: var(--omni-shadow-md); box-sizing: border-box; color: var(--omni-color-text); display: flex; flex-direction: column; font-family: var(--omni-font-family); font-size: var(--omni-font-size-base); padding: 0.375rem 0; }
+.omni-mindmap__menu { backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius-lg)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); box-sizing: border-box; color: var(--omni-color-text); display: flex; flex-direction: column; font-family: var(--omni-font-family); font-size: var(--omni-font-size-base); padding: 0.375rem 0; }
 .omni-mindmap__menu-item { align-items: center; background: none; border: 0; color: inherit; cursor: pointer; display: flex; font: inherit; min-height: 2.75rem; padding: 0 var(--omni-space-lg); text-align: start; }
 .omni-mindmap__menu-item:hover, .omni-mindmap__menu-item:focus-visible { background: var(--omni-color-surface-muted); outline: none; }
 .omni-mindmap__menu-item--danger { color: var(--omni-color-danger); }
