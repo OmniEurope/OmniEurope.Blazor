@@ -618,9 +618,9 @@
     {
       "type": "library",
       "name": "Microsoft.CodeCoverage",
-      "version": "18.10.0",
-      "bom-ref": "pkg:nuget/Microsoft.CodeCoverage@18.10.0",
-      "purl": "pkg:nuget/Microsoft.CodeCoverage@18.10.0",
+      "version": "18.10.1",
+      "bom-ref": "pkg:nuget/Microsoft.CodeCoverage@18.10.1",
+      "purl": "pkg:nuget/Microsoft.CodeCoverage@18.10.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -1523,9 +1523,9 @@
     {
       "type": "library",
       "name": "Microsoft.NET.Test.Sdk",
-      "version": "18.10.0",
-      "bom-ref": "pkg:nuget/Microsoft.NET.Test.Sdk@18.10.0",
-      "purl": "pkg:nuget/Microsoft.NET.Test.Sdk@18.10.0",
+      "version": "18.10.1",
+      "bom-ref": "pkg:nuget/Microsoft.NET.Test.Sdk@18.10.1",
+      "purl": "pkg:nuget/Microsoft.NET.Test.Sdk@18.10.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -1658,9 +1658,9 @@
     {
       "type": "library",
       "name": "Microsoft.TestPlatform.ObjectModel",
-      "version": "18.10.0",
-      "bom-ref": "pkg:nuget/Microsoft.TestPlatform.ObjectModel@18.10.0",
-      "purl": "pkg:nuget/Microsoft.TestPlatform.ObjectModel@18.10.0",
+      "version": "18.10.1",
+      "bom-ref": "pkg:nuget/Microsoft.TestPlatform.ObjectModel@18.10.1",
+      "purl": "pkg:nuget/Microsoft.TestPlatform.ObjectModel@18.10.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -1680,9 +1680,9 @@
     {
       "type": "library",
       "name": "Microsoft.TestPlatform.TestHost",
-      "version": "18.10.0",
-      "bom-ref": "pkg:nuget/Microsoft.TestPlatform.TestHost@18.10.0",
-      "purl": "pkg:nuget/Microsoft.TestPlatform.TestHost@18.10.0",
+      "version": "18.10.1",
+      "bom-ref": "pkg:nuget/Microsoft.TestPlatform.TestHost@18.10.1",
+      "purl": "pkg:nuget/Microsoft.TestPlatform.TestHost@18.10.1",
       "licenses": [
         {
           "expression": "MIT"

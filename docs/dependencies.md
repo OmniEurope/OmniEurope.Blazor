@@ -4,7 +4,7 @@ Les versions directes sont centralisées dans `Directory.Packages.props`; les r�
 
 ## Décisions vérifiées le 13 septembre 2026
 
-- les packages ASP.NET Core et `Microsoft.Extensions.Localization` sont en `10.0.12`, `bunit` en `2.11.3` et `Microsoft.NET.Test.Sdk` en `18.10.0`, dernières versions stables publiées par NuGet.org.
+- les packages ASP.NET Core et `Microsoft.Extensions.Localization` sont en `10.0.12`, `bunit` en `2.11.3` et `Microsoft.NET.Test.Sdk` en `18.10.1`, dernières versions stables publiées par NuGet.org.
 - `coverlet.collector` est épinglé en `10.0.1`, dernière version stable, pour produire la couverture Cobertura avec `XPlat Code Coverage`.
 - les packages MAUI sont alignés sur `10.0.101`;
 - `Microsoft.CodeAnalysis.CSharp` est en `5.0.0`, le compilateur du premier SDK .NET 10 (`10.0.100`). Un analyseur ne peut pas référencer un compilateur plus récent que celui du SDK qui le charge (`CS9057`), et un projet qui référence ce dépôt par `ProjectReference` charge les analyseurs avec son propre SDK : en visant le plus ancien compilateur .NET 10, tout SDK `10.0` les charge. Vérifié le 2026-09-18 sous `10.0.202`, `10.0.303` et `10.0.401` ; avec `5.9.0`, `10.0.202` échoue en `CS9057`. Un test de convention fige cette version.

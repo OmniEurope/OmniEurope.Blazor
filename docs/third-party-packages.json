@@ -454,7 +454,7 @@
     },
     {
       "id": "Microsoft.CodeCoverage",
-      "version": "18.10.0",
+      "version": "18.10.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1151,7 +1151,7 @@
     },
     {
       "id": "Microsoft.NET.Test.Sdk",
-      "version": "18.10.0",
+      "version": "18.10.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1240,7 +1240,7 @@
     },
     {
       "id": "Microsoft.TestPlatform.ObjectModel",
-      "version": "18.10.0",
+      "version": "18.10.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1255,7 +1255,7 @@
     },
     {
       "id": "Microsoft.TestPlatform.TestHost",
-      "version": "18.10.0",
+      "version": "18.10.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
