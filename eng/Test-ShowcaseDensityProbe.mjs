@@ -29,9 +29,10 @@ const EXEMPT = [
   // Text: a line of text keeps the height of its font, and density sets fonts on controls, not on
   // prose. Text for screen readers only is one pixel by construction.
   ['.omni-visually-hidden', 'texte réservé aux technologies d\'assistance, 1 px par construction'],
-  // Icon glyphs are text marks: the mockup keeps them at a fixed size in every density (the date
-  // toggle's glyph stays 1.05rem) while the box around them (disc, button, toggle) follows it. This
-  // is read as part of the plan's text exemption; the owner may overrule it.
+  // Icon glyphs are text marks: the mockup (plans/PLAN-008-maquette-themes.html) sizes every glyph
+  // in fixed rem outside the density blocks (button, tab, menu, upload, dialog close, date toggle at
+  // 1.05rem), the alert glyph being the one token of its own, while the box around a glyph (disc,
+  // button, toggle) follows the density. OmniIcon's size is also the consumer's explicit choice.
   ['.omni-icon, .omni-date__toggle svg', 'glyphe d\'icône, marque de texte gardée fixe par la maquette ; sa boîte suit la densité'],
   // Status dots: a mark the size of a letter, not a control; the plan exempts them. The status strip
   // is a row of them (or, in its segment form, a status bar).
@@ -40,10 +41,21 @@ const EXEMPT = [
   ['.omni-progress, .omni-loading-bar, [role="progressbar"]', 'barre de progression : épaisseur fixe par dessin'],
   // Separators: a rule of one border width.
   ['hr, [role="separator"], .omni-separator', 'séparateur : un trait d\'une épaisseur de bordure'],
-  // STD-BTN: these targets keep 44 px whatever the density, by rule. Beyond this list, any
-  // interactive element measured at exactly 44 px in both densities is taken as a target held at the
-  // STD-BTN minimum (see TARGET below).
-  ['.omni-pager__button, .omni-notification__dismiss', 'cible de 44 px exigée par STD-BTN'],
+  // STD-BTN: these targets keep 44 px whatever the density, by rule; the tree's toggle and row are in
+  // the audited list of ConventionGuardTests.AuditedInteractiveTargets_MeetTheMinimumTouchSize. Only
+  // the ones named here: an element that merely measures 44 px in both densities is not exempted, it
+  // is a size to derive.
+  ['.omni-pager__button, .omni-notification__dismiss, .omni-tree__toggle, .omni-tree__select', 'cible de 44 px exigée par STD-BTN'],
+  // A height the consumer sets through a Height parameter (applied by the component's module as an
+  // inline custom property) is the consumer's explicit length, as a Density of its own would be: the
+  // page density must not override it. Only such an explicit height is exempted; without it the
+  // element keeps being measured.
+  ['.omni-log-viewer__viewport[style*="--omni-grid-viewport:"], [style*="--omni-code-editor-height:"] .omni-diff-viewer__text', 'hauteur explicite du consommateur (paramètre Height), que la densité ne remplace pas'],
+  // The Gantt chart is drawn in pixels computed in C# (GanttLayout.RowHeight 36, HeaderHeight 44,
+  // BarHeight 20), because a dependency arrow's path cannot mix units, and the name column mirrors
+  // that row height so each name faces its bar. The density is an inherited CSS value the render does
+  // not know, so the drawing cannot follow it without breaking the name-to-bar alignment.
+  ['.omni-gantt__body', 'géométrie du Gantt calculée en pixels en C# (GanttLayout), la colonne des noms la reflète'],
   // A section with a Density of its own keeps it by contract (T21): the page density does not reach it.
   ['[data-omni-density]:not(#showcase-theme)', 'densité propre au composant (T21), qui l\'emporte sur celle de la page']
 ];
@@ -162,8 +174,7 @@ window.__omniDensityMeasure = (density, exempt) => {
     if (style.display === 'none' || style.visibility === 'hidden' || box.width === 0 || box.height === 0) continue;
     const key = element.getAttribute('data-omni-density-probe') ?? String(index++ + '-' + Math.random().toString(36).slice(2, 7));
     element.setAttribute('data-omni-density-probe', key);
-    const interactive = element.matches('button, select, input, a[href], [role="option"], [role="tab"], [role="menuitem"], [tabindex]');
-    result[key] = { height: Math.round(box.height * 100) / 100, selector, interactive, tag: element.tagName.toLowerCase() + (element.className && typeof element.className === 'string' ? '.' + element.className.trim().split(/\\s+/).join('.') : '') };
+    result[key] = { height: Math.round(box.height * 100) / 100, selector, tag: element.tagName.toLowerCase() + (element.className && typeof element.className === 'string' ? '.' + element.className.trim().split(/\\s+/).join('.') : '') };
   }
   return result;
 };`;
@@ -185,8 +196,6 @@ await waitFor('la galerie', "document.querySelectorAll('a[href*=\"composants/\"]
 const demoPaths = await evaluate(`[...new Set([...document.querySelectorAll('a[href*="composants/"]')].map(link => new URL(link.href).pathname))]`);
 const paths = ['/', '/personnalisation', ...demoPaths];
 
-// STD-BTN: the minimum target, in CSS pixels.
-const TARGET = 44;
 const exemptSelectors = EXEMPT.map(([selector]) => selector);
 const failures = [];
 let measured = 0;
@@ -202,8 +211,7 @@ for (const path of paths) {
     const large = spacious[key];
     if (!large) continue;
     measured++;
-    const heldTarget = small.interactive && Math.abs(small.height - TARGET) < 0.5 && Math.abs(large.height - TARGET) < 0.5;
-    if (Math.abs(large.height - small.height) < 0.5 && !heldTarget) {
+    if (Math.abs(large.height - small.height) < 0.5) {
       failures.push({ path, selector: small.selector, element: small.tag, height: small.height });
     }
   }
