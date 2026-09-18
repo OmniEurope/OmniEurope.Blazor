@@ -265,6 +265,20 @@ public sealed partial class ConventionGuardTests
         Assert.False(sdk.TryGetProperty("workloadVersion", out _));
     }
 
+    /// <summary>
+    /// A project that references this repository by ProjectReference loads the analyzers with its own
+    /// SDK. They reference the compiler of the first .NET 10 SDK (10.0.100), so any 10.0 SDK loads
+    /// them; one version higher and an older SDK fails with CS9057 (PLAN-008 lot 3).
+    /// </summary>
+    [Fact]
+    public void Analyzers_ReferenceTheCompilerOfTheFirstDotNet10Sdk()
+    {
+        Assert.Contains(
+            "<PackageVersion Include=\"Microsoft.CodeAnalysis.CSharp\" Version=\"5.0.0\" />",
+            Read("Directory.Packages.props"),
+            StringComparison.Ordinal);
+    }
+
     [Fact]
     public void AuthenticityGateWiring_ReferencesExecutableProbesAndCurrentHybridDependencies()
     {
