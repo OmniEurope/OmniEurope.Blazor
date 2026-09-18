@@ -4,6 +4,12 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Non publié]
 
+### Changed
+
+- **L'apparence livrée change.** Le thème `Défaut` avec la palette `Défaut` (indigo `#4340d2` en clair, violet `#bb86fc` en sombre, sévérités `#2196f3`, `#4caf50`, `#ff9800`, `#f44336`, rayon unique de 2,5 px, élévation discrète) devient l'aspect de toute page, qu'elle pose un `OmniThemeScope` ou non. Ses jetons ne sont plus écrits à la main : ils sont générés par la fabrique de thèmes entre les marqueurs `omni:theme-tokens` de la feuille, pour le clair (`:root`, `[data-omni-theme="light"]`), le sombre et le mode système, et un test refuse toute retouche manuelle. Chaque jeton de couleur a donc une valeur sombre : la classe de défaut du survol qui virait au blanc en sombre disparaît. Pour retrouver l'aspect précédent, poser un scope avec un preset qui porte les anciennes valeurs, par exemple `new OmniThemePreset("Classique", "Aspect antérieur", light, dark)` avec en clair `--omni-color-accent: #0d47b5`, `--omni-color-accent-strong: #0b378f`, `--omni-color-surface-muted: #f4f6fa`, `--omni-color-border: #cbd3e1`, `--omni-color-text: #172033`, `--omni-color-danger: #991b1b`, `--omni-color-warning: #a15c00`, `--omni-color-success: #05603a`, `--omni-radius: 0.1875rem`, et en sombre `--omni-color-accent: #78a2ff`, `--omni-color-surface: #111827`, `--omni-color-surface-muted: #1f2937`, `--omni-color-border: #475569`, `--omni-color-text: #f3f4f6`.
+- Thèmes et palettes séparés : dix thèmes de forme (Défaut, Ardoise, Galet, Halo, Néon, Papier, Rétro, Octet, Nénuphar, Velours) et dix palettes (Défaut, Océan, Forêt, Lavande, Électrique, Or ancien, Braise, Mono, Lagune, Prune), combinables librement, remplacent les vingt thèmes où couleur et forme étaient soudées. Nouveaux `OmniThemePalette`, `OmniThemePalettes.All`, `OmniThemePreset.Shape`, `OmniThemePreset.DarkShape`, `OmniThemePreset.With(palette)` et `OmniThemeScope.Palette` ; `OmniButtonVariant.Info` est ajouté en fin d'énumération.
+- Analyseurs : `Microsoft.CodeAnalysis.CSharp` passe de `5.9.0` à `5.0.0`, le compilateur du premier SDK .NET 10 : un projet qui référence ce dépôt par `ProjectReference` se construit avec n'importe quel SDK `10.0`.
+
 ### Added
 
 - `OmniHeader` gagne `Tone` (`Surface` par défaut, ou `Accent`) : l'en-tête peut devenir le bandeau d'accent du thème, texte en contraste ; boutons fantômes, liens, titres et bascules posés dessus en prennent la couleur.

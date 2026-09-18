@@ -33,25 +33,40 @@ public sealed partial class ThemeTokenReader(HttpClient http)
     }
 
     /// <summary>
-    /// Extracts the declarations of the first <c>:root</c> block, in the order the file declares
-    /// them so the editor presents them the way the stylesheet is written.
+    /// Extracts the declarations of every top-level block whose selector list names <c>:root</c>, in
+    /// the order the file declares them so the editor presents them the way the stylesheet is
+    /// written. The shipped colours and shape live in generated blocks that also name the theme
+    /// scopes (<c>:root, [data-omni-theme="light"]</c>); a token declared twice keeps its last value,
+    /// as the cascade does.
     /// </summary>
     public static IReadOnlyList<ThemeToken> Parse(string css)
     {
-        var block = RootBlock().Match(css);
-        if (!block.Success)
-        {
-            return [];
-        }
-
         // Release ships the stylesheet minified on one line, so nothing here may depend on line breaks.
-        var body = Comment().Replace(block.Groups["body"].Value, string.Empty);
+        var uncommented = Comment().Replace(css, string.Empty);
         var tokens = new List<ThemeToken>();
-        foreach (Match declaration in Declaration().Matches(body))
+        var positions = new Dictionary<string, int>(StringComparer.Ordinal);
+        foreach (Match block in RootBlock().Matches(uncommented))
         {
-            var name = declaration.Groups["name"].Value;
-            var value = declaration.Groups["value"].Value.Trim();
-            tokens.Add(new ThemeToken(name, value, GroupOf(name)));
+            var selectors = block.Groups["selector"].Value.Split(',', StringSplitOptions.TrimEntries);
+            if (!selectors.Contains(":root", StringComparer.Ordinal))
+            {
+                continue;
+            }
+
+            foreach (Match declaration in Declaration().Matches(block.Groups["body"].Value))
+            {
+                var name = declaration.Groups["name"].Value;
+                var token = new ThemeToken(name, declaration.Groups["value"].Value.Trim(), GroupOf(name));
+                if (positions.TryGetValue(name, out var index))
+                {
+                    tokens[index] = token;
+                }
+                else
+                {
+                    positions[name] = tokens.Count;
+                    tokens.Add(token);
+                }
+            }
         }
 
         return tokens;
@@ -75,7 +90,9 @@ public sealed partial class ThemeTokenReader(HttpClient http)
         _ => ThemeTokenGroup.Color
     };
 
-    [GeneratedRegex(@"(?:^|\})\s*:root\s*\{(?<body>[^}]*)\}", RegexOptions.Multiline)]
+    // The brace before a selector is looked behind, not consumed: it closes the previous block, and a
+    // minified stylesheet has no line start to anchor the next one on.
+    [GeneratedRegex(@"(?<=^|\})\s*(?<selector>[^{}]*?)\s*\{(?<body>[^{}]*)\}", RegexOptions.Multiline)]
     private static partial Regex RootBlock();
 
     [GeneratedRegex(@"/\*.*?\*/", RegexOptions.Singleline)]
