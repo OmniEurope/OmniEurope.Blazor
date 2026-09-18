@@ -93,6 +93,7 @@ internal static class ThemePresetFactory
             accentSubtle,
             BodyTextRatio);
         var surfaceMuted = dark ? ThemeColor.Lighten(surface, 0.06) : ThemeColor.Darken(surface, 0.04);
+        var surfaceHover = dark ? ThemeColor.Lighten(surface, 0.12) : ThemeColor.Darken(surface, 0.08);
         var neutralFill = ThemeColor.Mix(accent, ThemeColor.Mix(text, surface, dark ? 0.12 : 0.1), 0.05);
 
         var tokens = new Dictionary<string, string>(StringComparer.Ordinal)
@@ -101,13 +102,14 @@ internal static class ThemePresetFactory
             ["--omni-color-accent-strong"] = accentStrong,
             ["--omni-color-surface"] = surface,
             ["--omni-color-surface-muted"] = surfaceMuted,
-            ["--omni-color-surface-hover"] = dark ? ThemeColor.Lighten(surface, 0.12) : ThemeColor.Darken(surface, 0.08),
+            ["--omni-color-surface-hover"] = surfaceHover,
             ["--omni-color-surface-highlight"] = dark ? ThemeColor.Lighten(surface, 0.16) : ThemeColor.Darken(surface, 0.1),
             ["--omni-color-border"] = ThemeColor.Mix(text, surface, 0.3),
             ["--omni-color-text"] = text,
-            // Measured against the muted surface, the darker of the two in light mode and the lighter
-            // in dark mode, so the discreet text stays readable on both.
-            ["--omni-color-text-muted"] = PushApart(ThemeColor.Mix(text, surface, 0.65), surfaceMuted, BodyTextRatio),
+            // Measured against the hovered surface, the furthest from the page of the three it sits on
+            // (page, muted, hovered: darker in light mode, lighter in dark mode), so the discreet text of
+            // a hovered row or menu item stays readable, and on the two others with it (PLAN-008 lot 8).
+            ["--omni-color-text-muted"] = PushApart(ThemeColor.Mix(text, surface, 0.65), surfaceHover, BodyTextRatio),
             ["--omni-color-success"] = success,
             ["--omni-color-warning"] = warning,
             ["--omni-color-danger"] = danger,

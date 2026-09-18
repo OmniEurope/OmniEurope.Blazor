@@ -169,7 +169,7 @@
     --omni-color-surface-hover: #ebebeb;
     --omni-color-surface-muted: #f5f5f5;
     --omni-color-text: #424242;
-    --omni-color-text-muted: #6b6b6b;
+    --omni-color-text-muted: #666666;
     --omni-color-warning: #925600;
     --omni-color-warning-deep: #a26000;
     --omni-color-warning-deep-active: #6b3f00;
@@ -265,7 +265,7 @@
     --omni-color-surface-hover: #393939;
     --omni-color-surface-muted: #2c2c2c;
     --omni-color-text: #e0e0e0;
-    --omni-color-text-muted: #9c9c9c;
+    --omni-color-text-muted: #a6a6a6;
     --omni-color-warning: #ff9800;
     --omni-color-warning-deep: #a26000;
     --omni-color-warning-deep-active: #6b3f00;
@@ -344,7 +344,7 @@
         --omni-color-surface-hover: #393939;
         --omni-color-surface-muted: #2c2c2c;
         --omni-color-text: #e0e0e0;
-        --omni-color-text-muted: #9c9c9c;
+        --omni-color-text-muted: #a6a6a6;
         --omni-color-warning: #ff9800;
         --omni-color-warning-deep: #a26000;
         --omni-color-warning-deep-active: #6b3f00;
