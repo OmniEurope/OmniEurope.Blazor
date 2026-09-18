@@ -1,0 +1,16 @@
+@* Repos, survol et appui côte à côte, pour comparer les trois états d'une variante d'un coup d'œil.
+   Un navigateur ne sait pas figer :hover ni :active : les classes demo-state-hover et
+   demo-state-press de la feuille de la vitrine (app.css) rejouent les deux règles du paquet en
+   lisant les mêmes jetons (--omni-button-fill-hover, --omni-button-fill-active, la pression du
+   thème). Ce sont des aides de comparaison, pas des états du paquet. *@
+<OmniStack Gap="OmniSpacing.Small">
+    @foreach (var (variant, key) in Variants)
+    {
+        <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+            <span class="demo-state-label">@Text[key]</span>
+            <OmniButton Variant="variant"><span>@Text["StatesRest"]</span></OmniButton>
+            <OmniButton Variant="variant" Class="demo-state-hover"><span>@Text["StatesHover"]</span></OmniButton>
+            <OmniButton Variant="variant" Class="demo-state-press"><span>@Text["StatesPress"]</span></OmniButton>
+        </OmniRow>
+    }
+</OmniStack>

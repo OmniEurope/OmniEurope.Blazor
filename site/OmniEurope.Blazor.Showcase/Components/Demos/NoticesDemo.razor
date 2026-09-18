@@ -1,0 +1,77 @@
+@* Notifications, dialogue et voile, comme la maquette les montre. Chaque notification se ferme par sa
+   croix. Les deux dialogues s'ouvrent sur le voile du paquet ; leur pied suit la convention du paquet
+   (docs/ui-conventions.md) : l'action d'abord, puis Annuler en Danger, chacun avec son icône. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <div class="demo-notices">
+        @if (ShowDone)
+        {
+            <OmniNotification Severity="OmniNotificationSeverity.Success" Title="@Text["NoticeDoneTitle"]"
+                              Message="@Text["NoticeDoneMessage"]" OnDismiss="@(() => ShowDone = false)" />
+        }
+        @if (ShowRefused)
+        {
+            <OmniNotification Severity="OmniNotificationSeverity.Error" Title="@Text["NoticeRefusedTitle"]"
+                              Message="@Text["NoticeRefusedMessage"]" OnDismiss="@(() => ShowRefused = false)" />
+        }
+        @if (!ShowDone && !ShowRefused)
+        {
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => ShowDone = ShowRefused = true)">
+                <OmniIcon Name="OmniIconName.Refresh" />
+                <span>@Text["NoticeShowAgain"]</span>
+            </OmniButton>
+        }
+    </div>
+
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true">
+        <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => UnlistOpen = true)">
+            <OmniIcon Name="OmniIconName.Archive" />
+            <span>@Text["NoticeUnlistOpen"]</span>
+        </OmniButton>
+        <OmniButton OnClick="@(_ => RerunOpen = true)">
+            <OmniIcon Name="OmniIconName.Refresh" />
+            <span>@Text["NoticeRerunOpen"]</span>
+        </OmniButton>
+    </OmniRow>
+    @if (Last is not null)
+    {
+        <p aria-live="polite">@Text["NoticeLast", Last]</p>
+    }
+
+    <OmniDialog Title="@Text["NoticeUnlistTitle"]" Open="UnlistOpen" OpenChanged="@(value => UnlistOpen = value)"
+                CloseLabel="@Text["NoticeClose"]">
+        <ChildContent>
+            <p>@Text["NoticeUnlistBody"]</p>
+            <span class="demo-check">
+                <OmniCheckBox Id="notice-unlist-alpha" @bind-Value="UnlistAlpha" />
+                <OmniLabel For="notice-unlist-alpha">@Text["NoticeUnlistAlpha"]</OmniLabel>
+            </span>
+        </ChildContent>
+        <Footer>
+            <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => Close(Text["NoticeUnlistDone"]))">
+                <OmniIcon Name="OmniIconName.Archive" /><span>@Text["NoticeUnlist"]</span>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => Close(null))">
+                <OmniIcon Name="OmniIconName.Close" /><span>@Text["NoticeCancel"]</span>
+            </OmniButton>
+        </Footer>
+    </OmniDialog>
+
+    <OmniDialog Title="@Text["NoticeRerunTitle"]" Open="RerunOpen" OpenChanged="@(value => RerunOpen = value)"
+                CloseLabel="@Text["NoticeClose"]">
+        <ChildContent>
+            <p>@Text["NoticeRerunBody"]</p>
+            <span class="demo-check">
+                <OmniCheckBox Id="notice-rerun-notify" @bind-Value="RerunNotify" />
+                <OmniLabel For="notice-rerun-notify">@Text["NoticeRerunNotify"]</OmniLabel>
+            </span>
+        </ChildContent>
+        <Footer>
+            <OmniButton Variant="OmniButtonVariant.Info" OnClick="@(_ => Close(Text["NoticeRerunDone"]))">
+                <OmniIcon Name="OmniIconName.Refresh" /><span>@Text["NoticeRerun"]</span>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => Close(null))">
+                <OmniIcon Name="OmniIconName.Close" /><span>@Text["NoticeCancel"]</span>
+            </OmniButton>
+        </Footer>
+    </OmniDialog>
+</OmniStack>

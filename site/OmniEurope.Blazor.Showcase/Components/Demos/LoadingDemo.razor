@@ -1,0 +1,35 @@
+@* Le chargement tel que la maquette le montre : le bandeau collé sous un en-tête, en balayage ou en
+   remplissage ; il suit un vrai chargement (OmniLoadingState) et, à la fin, va au bout puis
+   s'efface. Puis l'attente sans fin connue, les boutons occupés (un voile respire par-dessus, taille
+   et contenu inchangés), une progression connue et le squelette. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <div class="demo-loading-frame">
+        <div class="demo-loading-frame__head">
+            <strong>@Text["LoadingFrameBrand"]</strong>
+            <span>@Text["LoadingFramePage"]</span>
+        </div>
+        <OmniLoadingBar Mode="Mode" Label="@Text["LoadingBarLabel"]" />
+    </div>
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@Loading.Loading"
+                    OnClick="@(_ => LoadAsync(OmniLoadingBarMode.Sweep))">
+            <OmniIcon Name="OmniIconName.ArrowRight" />
+            <span>@Text["LoadingSweep"]</span>
+        </OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@Loading.Loading"
+                    OnClick="@(_ => LoadAsync(OmniLoadingBarMode.Continuous))">
+            <OmniIcon Name="OmniIconName.Hourglass" />
+            <span>@Text["LoadingFill"]</span>
+        </OmniButton>
+        <span class="demo-hint">@Text["LoadingHint"]</span>
+    </OmniRow>
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniProgressBar Shape="OmniProgressShape.Circular" Indeterminate="true" Label="@Text["LoadingWaiting"]" />
+        <OmniButton Busy="true"><OmniIcon Name="OmniIconName.RocketLaunch" /><span>@Text["LoadingDeploying"]</span></OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary" Busy="true"><OmniIcon Name="OmniIconName.ListChecks" /><span>@Text["LoadingChecking"]</span></OmniButton>
+        <OmniButton Busy="true" AriaLabel="@Text["LoadingSaving"]"><OmniIcon Name="OmniIconName.Check" /></OmniButton>
+    </OmniRow>
+    <OmniProgressBar Indeterminate="true" Label="@Text["LoadingAnalysis"]" />
+    <OmniProgressBar Value="87" ShowValue="true" Label="@Text["LoadingCoverage"]" />
+    <OmniSkeleton Shape="OmniSkeletonShape.Text" LineCount="3" Label="@Text["LoadingContent"]" />
+</OmniStack>

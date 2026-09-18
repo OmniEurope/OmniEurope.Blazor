@@ -1,0 +1,101 @@
+@* Les surfaces de la maquette : des cartes à disque d'icône et chiffre, un menu flottant sur le calque
+   des surfaces flottantes, des onglets, un menu latéral, un lien et une infobulle. *@
+<OmniStack Gap="OmniSpacing.Large">
+    <div class="demo-cards">
+        <OmniCard>
+            <Header>
+                <span class="demo-card-head">
+                    <span class="omni-disc"><OmniIcon Name="OmniIconName.HardDrive" /></span>
+                    <OmniHeading Level="OmniHeadingLevel.H4">@Text["SurfServers"]</OmniHeading>
+                </span>
+            </Header>
+            <ChildContent>
+                <span class="demo-figure">1</span>
+                <p>@Text["SurfServersText"]</p>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard>
+            <Header>
+                <span class="demo-card-head">
+                    <span class="omni-disc"><OmniIcon Name="OmniIconName.GitFork" /></span>
+                    <OmniHeading Level="OmniHeadingLevel.H4">@Text["SurfPipelines"]</OmniHeading>
+                </span>
+            </Header>
+            <ChildContent>
+                <span class="demo-figure">@Text["SurfPipelinesFigure"]</span>
+                <p>@Text["SurfPipelinesText"]</p>
+            </ChildContent>
+        </OmniCard>
+        <OmniCard>
+            <Header>
+                <span class="demo-card-head">
+                    <span class="omni-disc"><OmniIcon Name="OmniIconName.ShieldCheck" /></span>
+                    <OmniHeading Level="OmniHeadingLevel.H4">@Text["SurfCoverage"]</OmniHeading>
+                </span>
+            </Header>
+            <ChildContent>
+                <span class="demo-figure">@Text["SurfCoverageFigure"]</span>
+                <OmniProgressBar Value="87" Label="@Text["SurfCoverage"]" />
+            </ChildContent>
+        </OmniCard>
+    </div>
+
+    @* Le menu de compte s'ouvre sur le calque des surfaces flottantes : fond acrylique, filet et ombre
+       profonde du thème. *@
+    <OmniProfileMenu Label="@Text["SurfAccount"]">
+        <Summary>
+            <span class="demo-menu-item">
+                <span class="omni-disc"><OmniIcon Name="OmniIconName.User" /></span>
+                <span>@Text["SurfPerson"]<small>@Text["SurfPersonRole"]</small></span>
+            </span>
+        </Summary>
+        <ChildContent>
+            <OmniProfileMenuItem OnClick="@(() => Last = Text["SurfSettings"])">
+                <span class="demo-menu-item">
+                    <span class="omni-disc"><OmniIcon Name="OmniIconName.Settings" /></span>
+                    <span>@Text["SurfSettings"]<small>@Text["SurfSettingsHint"]</small></span>
+                </span>
+            </OmniProfileMenuItem>
+            <OmniProfileMenuItem OnClick="@(() => Last = Text["SurfSwitch"])">
+                <span class="demo-menu-item">
+                    <span class="omni-disc"><OmniIcon Name="OmniIconName.Swap" /></span>
+                    <span>@Text["SurfSwitch"]<small>@Text["SurfSwitchHint"]</small></span>
+                </span>
+            </OmniProfileMenuItem>
+            <OmniProfileMenuItem OnClick="@(() => Last = Text["SurfSignOut"])">
+                <span class="demo-menu-item">
+                    <span class="omni-disc"><OmniIcon Name="OmniIconName.SignOut" /></span>
+                    <span>@Text["SurfSignOut"]</span>
+                </span>
+            </OmniProfileMenuItem>
+        </ChildContent>
+    </OmniProfileMenu>
+
+    <OmniTabs Label="@Text["SurfTabsLabel"]" Keys="TabKeys" @bind-Value="Tab">
+        <OmniTabsItem Key="overview" Title="@Text["SurfTabOverview"]">@Text["SurfTabOverviewText"]</OmniTabsItem>
+        <OmniTabsItem Key="logs" Title="@Text["SurfTabLogs"]">@Text["SurfTabLogsText"]</OmniTabsItem>
+        <OmniTabsItem Key="artifacts" Title="@Text["SurfTabArtifacts"]">@Text["SurfTabArtifactsText"]</OmniTabsItem>
+        <OmniTabsItem Key="settings" Title="@Text["SurfTabSettings"]">@Text["SurfTabSettingsText"]</OmniTabsItem>
+    </OmniTabs>
+
+    <div class="demo-surfaces-row">
+        <OmniPanelMenu Label="@Text["SurfMenuLabel"]">
+            @foreach (var (key, textKey) in MenuEntries)
+            {
+                <OmniPanelMenuItem Text="@Text[textKey]" Href="@($"composants/surfaces#{key}")"
+                                   Current="@(MenuCurrent == key)" Match="OmniNavMatch.None"
+                                   CanNavigate="@(_ => SelectAsync(key))" />
+            }
+        </OmniPanelMenu>
+        <OmniStack Gap="OmniSpacing.Small">
+            <p>@Text["SurfLinkBefore"] <OmniLink Href="documentation">@Text["SurfLink"]</OmniLink> @Text["SurfLinkAfter"]</p>
+            <OmniTooltip Text="@Text["SurfTooltip"]">
+                <OmniBadge Variant="OmniBadgeVariant.Neutral">@Text["SurfTooltipTrigger"]</OmniBadge>
+            </OmniTooltip>
+            @if (Last is not null)
+            {
+                <p aria-live="polite">@Text["SurfLast", Last]</p>
+            }
+        </OmniStack>
+    </div>
+</OmniStack>

@@ -1,0 +1,45 @@
+@* Les deux grilles de la maquette (PLAN-008 T15, T17 b). La première, sans alternance, triée par
+   pipeline : la colonne triée est teintée (HighlightActiveColumn), plus légèrement que la ligne
+   choisie, pour qu'elles se distinguent là où elles se croisent ; la ligne survolée se teinte aussi.
+   La seconde alterne ses lignes et garde son en-tête collé en haut quand elle défile (MaxHeight). La
+   durée, un nombre, s'aligne à la fin ; le statut est une pastille compacte (classe omni-status). *@
+<OmniStack Gap="OmniSpacing.Large">
+    <OmniDataGrid TItem="PipelineRun" Id="runs-sorted"
+                  Items="Recent"
+                  Caption="@Text["RunsSortedCaption"]"
+                  AllowSorting="true"
+                  HighlightActiveColumn="true"
+                  HighlightRowOnHover="true"
+                  SelectionMode="OmniDataGridSelectionMode.Single"
+                  KeySelector="run => run.Run"
+                  @bind-SelectedKeys="SortedSelection">
+        <Columns>
+            <OmniDataGridColumn TItem="PipelineRun" Property="Run" Title="@Text["RunsRun"]" />
+            <OmniDataGridColumn TItem="PipelineRun" Property="Pipeline" Title="@Text["RunsPipeline"]" SortOrder="OmniDataGridSortOrder.Ascending" />
+            <OmniDataGridColumn TItem="PipelineRun" Property="Seconds" Title="@Text["RunsSeconds"]" />
+            <OmniDataGridColumn TItem="PipelineRun" Property="Status" Title="@Text["RunsStatus"]">
+                <Template Context="run"><span class="@($"omni-status omni-status--{run.Tone}")">@run.Status</span></Template>
+            </OmniDataGridColumn>
+        </Columns>
+    </OmniDataGrid>
+
+    <OmniDataGrid TItem="PipelineRun" Id="runs-striped"
+                  Items="History"
+                  Caption="@Text["RunsStripedCaption"]"
+                  AllowAlternatingRows="true"
+                  HighlightRowOnHover="true"
+                  MaxHeight="15rem"
+                  SelectionMode="OmniDataGridSelectionMode.Single"
+                  KeySelector="run => run.Run"
+                  @bind-SelectedKeys="StripedSelection">
+        <Columns>
+            <OmniDataGridColumn TItem="PipelineRun" Property="Run" Title="@Text["RunsRun"]" />
+            <OmniDataGridColumn TItem="PipelineRun" Property="Pipeline" Title="@Text["RunsPipeline"]" />
+            <OmniDataGridColumn TItem="PipelineRun" Property="Trigger" Title="@Text["RunsTrigger"]" />
+            <OmniDataGridColumn TItem="PipelineRun" Property="Seconds" Title="@Text["RunsSeconds"]" />
+            <OmniDataGridColumn TItem="PipelineRun" Property="Status" Title="@Text["RunsStatus"]">
+                <Template Context="run"><span class="@($"omni-status omni-status--{run.Tone}")">@run.Status</span></Template>
+            </OmniDataGridColumn>
+        </Columns>
+    </OmniDataGrid>
+</OmniStack>
