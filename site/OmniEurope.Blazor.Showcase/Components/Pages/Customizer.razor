@@ -8,47 +8,116 @@
     <p>@Text["CustomizeLead"]</p>
 </section>
 
-<section aria-labelledby="customize-mode-title">
-    <OmniHeading Id="customize-mode-title" Level="OmniHeadingLevel.H2">@Text["CustomizeModeTitle"]</OmniHeading>
-    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
-        <OmniToggleButton Value="@(Theme.Mode is ThemeMode.Light)"
-                          ValueChanged="@(_ => Theme.SetModeAsync(ThemeMode.Light))">
-            @Text["ModeLight"]
-        </OmniToggleButton>
-        <OmniToggleButton Value="@(Theme.Mode is ThemeMode.Dark)"
-                          ValueChanged="@(_ => Theme.SetModeAsync(ThemeMode.Dark))">
-            @Text["ModeDark"]
-        </OmniToggleButton>
-    </OmniStack>
+@* The control bar of the reference mockup: a theme, then a palette to paint it with, the theme's own
+   palette back in one press, the mode, the density of the whole page and the forced hover. *@
+<section class="showcase-workshop-bar" aria-labelledby="customize-bar-title">
+    <OmniHeading Id="customize-bar-title" Level="OmniHeadingLevel.H2" Class="omni-visually-hidden">@Text["WorkshopBarTitle"]</OmniHeading>
+    <OmniFormField For="workshop-theme">
+        <Label>@Text["WorkshopTheme"]</Label>
+        <ChildContent>
+            <OmniDropDown TValue="string" Id="workshop-theme" Options="ThemeOptions"
+                          @bind-Value:get="Theme.Theme.Name" @bind-Value:set="SelectThemeAsync" />
+        </ChildContent>
+    </OmniFormField>
+    <OmniFormField For="workshop-palette">
+        <Label>@Text["WorkshopPalette"]</Label>
+        <ChildContent>
+            <OmniDropDown TValue="string" Id="workshop-palette" Options="PaletteOptions"
+                          @bind-Value:get="Theme.Palette.Name" @bind-Value:set="SelectPaletteAsync" />
+        </ChildContent>
+    </OmniFormField>
+    <OmniFormField For="workshop-reset-palette">
+        <Label>@Text["WorkshopThemePalette"]</Label>
+        <ChildContent>
+            <OmniButton Id="workshop-reset-palette" Variant="OmniButtonVariant.Secondary"
+                        Disabled="@Theme.HasThemePalette" OnClick="@(_ => Theme.ResetPaletteAsync())">
+                <OmniIcon Name="OmniIconName.Reset" />
+                <span>@Text["WorkshopDefault"]</span>
+            </OmniButton>
+        </ChildContent>
+    </OmniFormField>
+    <div class="showcase-workshop-bar__field">
+        <span class="omni-label" id="workshop-mode-label">@Text["WorkshopMode"]</span>
+        <OmniSelectBar TValue="ThemeMode" Id="workshop-mode" Label="@Text["WorkshopMode"]" Options="ModeOptions"
+                       @bind-Value:get="Theme.Mode" @bind-Value:set="SetModeAsync" />
+    </div>
+    <OmniFormField For="workshop-density">
+        <Label>@Text["WorkshopDensity"]</Label>
+        <ChildContent>
+            <OmniDropDown TValue="OmniDensity" Id="workshop-density" Options="DensityOptions"
+                          @bind-Value:get="Theme.Density" @bind-Value:set="SetDensityAsync" />
+        </ChildContent>
+    </OmniFormField>
+    <OmniFormField For="workshop-hover">
+        <Label>@Text["WorkshopHover"]</Label>
+        <ChildContent>
+            <OmniToggleButton Id="workshop-hover" @bind-Value="ForceHover">
+                @(ForceHover ? Text["WorkshopHoverForced"] : Text["WorkshopHoverForce"])
+            </OmniToggleButton>
+        </ChildContent>
+    </OmniFormField>
 </section>
 
-<section aria-labelledby="customize-presets-title">
-    <OmniHeading Id="customize-presets-title" Level="OmniHeadingLevel.H2">@Text["CustomizePresetsTitle"]</OmniHeading>
-    <p>@Text["CustomizePresetsLead"]</p>
-    <div class="showcase-presets">
-        @foreach (var preset in OmniThemePresets.All)
-        {
-            <OmniCard>
-                <Header>
-                    <OmniHeading Level="OmniHeadingLevel.H3">@preset.Name</OmniHeading>
-                </Header>
-                <ChildContent>
-                    <p>@preset.Description</p>
-                </ChildContent>
-                <Footer>
-                    <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Theme.ApplyAsync(preset))">
-                        @Text["PresetApply"]
-                    </OmniButton>
-                </Footer>
-            </OmniCard>
-        }
-    </div>
-</section>
+<div class="showcase-workshop">
+    <section class="showcase-workshop__stage" aria-labelledby="customize-stage-title">
+        <OmniHeading Id="customize-stage-title" Level="OmniHeadingLevel.H2">@Text["WorkshopStageTitle"]</OmniHeading>
+        <p id="workshop-stage-description">@Text["WorkshopStageLead", Theme.Theme.Name, Theme.Theme.Description, Theme.Palette.Name, Theme.Palette.Description]</p>
+        <div class="@(ForceHover ? "showcase-stage showcase-force-hover" : "showcase-stage")">
+            @foreach (var section in Sections)
+            {
+                var demo = section.Demo;
+                <section class="showcase-stage__block" aria-labelledby="@($"stage-{demo.Key}-title")"
+                         data-omni-density="@(section.Density.Length == 0 ? null : section.Density)">
+                    <div class="showcase-stage__head">
+                        <OmniHeading Id="@($"stage-{demo.Key}-title")" Level="OmniHeadingLevel.H3">@Text[demo.TitleKey]</OmniHeading>
+                        <span class="showcase-stage__density">
+                            <OmniLabel For="@($"stage-{demo.Key}-density")">@Text["WorkshopSectionDensity"]</OmniLabel>
+                            <OmniDropDown TValue="string" Id="@($"stage-{demo.Key}-density")" Options="SectionDensityOptions"
+                                          @bind-Value="section.Density" />
+                        </span>
+                    </div>
+                    <DynamicComponent Type="demo.Component" />
+                </section>
+            }
+        </div>
+    </section>
+
+    <aside class="showcase-workshop__rail" aria-labelledby="customize-contrast-title">
+        <OmniHeading Id="customize-contrast-title" Level="OmniHeadingLevel.H2">@Text["WorkshopContrastTitle"]</OmniHeading>
+        <p>@Text[Theme.Mode is ThemeMode.System ? "WorkshopContrastSystem" : "WorkshopContrastLead"]</p>
+        <OmniAlert Severity="@(Failures == 0 ? OmniAlertSeverity.Success : OmniAlertSeverity.Warning)">
+            @Text["WorkshopContrastVerdict", Contrasts.Count - Failures, Contrasts.Count]
+        </OmniAlert>
+        <ul class="showcase-contrasts">
+            @foreach (var result in Contrasts)
+            {
+                <li class="@(result.Passes ? "showcase-contrast" : "showcase-contrast showcase-contrast--failed")">
+                    <span>@Text[result.Pair.LabelKey]</span>
+                    <span class="showcase-contrast__ratio">@FormatRatio(result)</span>
+                </li>
+            }
+        </ul>
+        <OmniHeading Level="OmniHeadingLevel.H2">@Text["WorkshopSwatchesTitle"]</OmniHeading>
+        <ul class="showcase-swatches">
+            @foreach (var name in ContrastAudit.Swatches)
+            {
+                <li class="showcase-swatch">
+                    <span class="@($"showcase-swatch__chip showcase-swatch__chip{name["--omni-color".Length..]}")" aria-hidden="true"></span>
+                    <span class="showcase-swatch__name">@name["--omni-color-".Length..]</span>
+                    <code class="showcase-swatch__value">@SwatchValue(name)</code>
+                </li>
+            }
+        </ul>
+    </aside>
+</div>
 
 <section aria-labelledby="customize-tokens-title">
     <OmniHeading Id="customize-tokens-title" Level="OmniHeadingLevel.H2">@Text["CustomizeTokensTitle"]</OmniHeading>
     <p>@Text["CustomizeTokensLead"]</p>
-    <OmniButton Variant="OmniButtonVariant.Ghost" OnClick="@(_ => Theme.ResetAsync())">@Text["CustomizeReset"]</OmniButton>
+    <OmniButton Variant="OmniButtonVariant.Ghost" Disabled="@(Theme.Edits.Count == 0)" OnClick="@(_ => Theme.ResetAsync())">
+        <OmniIcon Name="OmniIconName.Reset" />
+        <span>@Text["CustomizeReset"]</span>
+    </OmniButton>
 
     @foreach (var group in Theme.Tokens.GroupBy(token => token.Group))
     {
@@ -58,7 +127,7 @@
             {
                 <div class="showcase-token">
                     <label class="showcase-token__label" for="@FieldId(token)">@token.Label</label>
-                    @if (token.IsColor)
+                    @if (token.IsColor && IsHex(Theme.ValueOf(token)))
                     {
                         <input class="showcase-token__color"
                                id="@FieldId(token)"
@@ -67,7 +136,7 @@
                                @onchange="@(args => ApplyAsync(token, args))" />
                     }
                     <input class="showcase-token__text"
-                           id="@(token.IsColor ? FieldId(token) + "-text" : FieldId(token))"
+                           id="@(token.IsColor && IsHex(Theme.ValueOf(token)) ? FieldId(token) + "-text" : FieldId(token))"
                            type="text"
                            aria-label="@token.Label"
                            value="@Theme.ValueOf(token)"
@@ -82,12 +151,18 @@
     <OmniHeading Id="customize-export-title" Level="OmniHeadingLevel.H2">@Text["CustomizeExportTitle"]</OmniHeading>
     <p>@Text["CustomizeExportLead"]</p>
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
-        <OmniButton Variant="OmniButtonVariant.Primary" OnClick="@(_ => CopyAsync())">@Text["CustomizeCopy"]</OmniButton>
-        <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => DownloadAsync())">@Text["CustomizeDownload"]</OmniButton>
+        <OmniButton Id="workshop-copy" Variant="OmniButtonVariant.Primary" OnClick="@(_ => CopyAsync())">
+            <OmniIcon Name="OmniIconName.Copy" />
+            <span>@Text["CustomizeCopy"]</span>
+        </OmniButton>
+        <OmniButton Id="workshop-download" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => DownloadAsync())">
+            <OmniIcon Name="OmniIconName.Download" />
+            <span>@Text["CustomizeDownload"]</span>
+        </OmniButton>
     </OmniStack>
     @if (Notice is not null)
     {
         <OmniAlert Severity="@NoticeSeverity" Live="true">@Notice</OmniAlert>
     }
-    <pre class="showcase-code"><code>@Theme.ExportCss()</code></pre>
+    <pre class="showcase-code" id="workshop-export"><code>@Theme.ExportCss()</code></pre>
 </section>

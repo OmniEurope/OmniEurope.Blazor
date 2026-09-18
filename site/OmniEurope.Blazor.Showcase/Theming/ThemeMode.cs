@@ -1,7 +1,8 @@
 namespace OmniEurope.Blazor.Showcase.Theming;
 
 /// <summary>
-/// The two modes every palette of the catalogue provides.
+/// The modes the visitor can preview: the two halves every palette provides, or the one the
+/// system setting picks.
 /// </summary>
 public enum ThemeMode
 {
@@ -9,5 +10,8 @@ public enum ThemeMode
     Light,
 
     /// <summary>Dark surfaces carrying light text.</summary>
-    Dark
+    Dark,
+
+    /// <summary>The light or the dark half, whichever the system setting asks for, as it changes.</summary>
+    System
 }
