@@ -1,8 +1,23 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
+@* The brand opens the header in the source; a sidebar toggle among the children is drawn before it
+   (CSS order), since the toggle belongs at the very edge. The mark is decorative, the name is text. *@
 <header id="@Id"
-        class="@Css("omni-header", Sticky ? "omni-header--sticky" : null, Tone == OmniHeaderTone.Accent ? "omni-header--accent" : null)"
+        class="@Css("omni-header", Sticky ? "omni-header--sticky" : null, Tone == OmniHeaderTone.Accent ? "omni-header--accent" : null, HasBrand ? "omni-header--branded" : null)"
         @attributes="AdditionalAttributes">
+    @if (HasBrand)
+    {
+        <span class="omni-header__brand">
+            @if (!string.IsNullOrWhiteSpace(BrandMark))
+            {
+                <span class="omni-header__logo" aria-hidden="true">@BrandMark</span>
+            }
+            @if (!string.IsNullOrWhiteSpace(Brand))
+            {
+                <span class="omni-header__brand-name">@Brand</span>
+            }
+        </span>
+    }
     @ChildContent
 </header>
