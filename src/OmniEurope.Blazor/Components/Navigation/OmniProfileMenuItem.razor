@@ -4,9 +4,9 @@
 
 @if (!string.IsNullOrWhiteSpace(Href))
 {
-    <a @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-profile-menu__item")" role="menuitem" href="@SafeHref">@ChildContent</a>
+    <a @attributes="AdditionalAttributes" id="@Id" class="@ItemCss" role="menuitem" href="@SafeHref">@Content</a>
 }
 else
 {
-    <button @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-profile-menu__item")" role="menuitem" type="button" disabled="@Disabled" @onclick="OnClick">@ChildContent</button>
+    <button @attributes="AdditionalAttributes" id="@Id" class="@ItemCss" role="menuitem" type="button" disabled="@Disabled" @onclick="OnClick">@Content</button>
 }

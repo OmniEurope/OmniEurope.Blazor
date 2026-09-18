@@ -155,4 +155,178 @@ public sealed class AppBarComponentTests : OmniBunitContext
 
         Assert.Equal("-1", ShippedLookTests.Value(ShippedLookTests.Body(".omni-header--branded > .omni-sidebar-toggle"), "order"));
     }
+
+    // ---- OmniProfileMenu: avatar trigger and header ----
+
+    [Fact]
+    public void ProfileMenu_WithoutSummary_DrawsTheAvatar_NamedByTheLabel()
+    {
+        var menu = Render<OmniProfileMenu>(parameters => parameters
+            .Add(component => component.Label, "Compte de Sony Tumen"));
+
+        Assert.Contains("omni-profile-menu--avatar", menu.Find("details").ClassName, StringComparison.Ordinal);
+        var summary = menu.Find("summary.omni-profile-menu__summary");
+        Assert.Equal("Compte de Sony Tumen", summary.GetAttribute("aria-label"));
+        var avatar = summary.QuerySelector(":scope > .omni-disc.omni-profile-menu__avatar")!;
+        Assert.Equal("true", avatar.GetAttribute("aria-hidden"));
+        Assert.NotNull(avatar.QuerySelector("svg.omni-icon"));
+        Assert.Null(avatar.QuerySelector(".omni-profile-menu__initials"));
+    }
+
+    [Fact]
+    public void ProfileMenu_Initials_ReplaceTheUserGlyph()
+    {
+        var menu = Render<OmniProfileMenu>(parameters => parameters
+            .Add(component => component.Initials, " ST ")
+            .Add(component => component.Label, "Compte"));
+
+        var avatar = menu.Find("summary > .omni-profile-menu__avatar");
+        Assert.Equal("ST", avatar.QuerySelector(".omni-profile-menu__initials")!.TextContent);
+        Assert.Null(avatar.QuerySelector("svg"));
+    }
+
+    [Fact]
+    public void ProfileMenu_WithASummary_KeepsItAndDrawsNoAvatar()
+    {
+        var menu = Render<OmniProfileMenu>(parameters => parameters
+            .Add(component => component.Summary, (RenderFragment)(builder => builder.AddContent(0, "Camille")))
+            .Add(component => component.Initials, "CA"));
+
+        Assert.DoesNotContain("omni-profile-menu--avatar", menu.Find("details").ClassName, StringComparison.Ordinal);
+        Assert.Equal("Camille", menu.Find("summary").TextContent);
+        Assert.Empty(menu.FindAll(".omni-profile-menu__avatar"));
+    }
+
+    [Fact]
+    public void ProfileMenuHeader_SitsOutsideTheMenuRole_BesideALargeAvatar()
+    {
+        var menu = Render<OmniProfileMenu>(parameters => parameters
+            .Add(component => component.Initials, "ST")
+            .Add(component => component.Header, (RenderFragment)(builder =>
+            {
+                builder.OpenElement(0, "strong");
+                builder.AddContent(1, "Sony Tumen");
+                builder.CloseElement();
+                builder.OpenElement(2, "span");
+                builder.AddContent(3, "Administrateur");
+                builder.CloseElement();
+            }))
+            .AddChildContent<OmniProfileMenuItem>(item => item.AddChildContent("Profil")));
+
+        var panel = menu.Find("details > .omni-profile-menu__panel");
+        var header = panel.QuerySelector(":scope > .omni-profile-menu__header")!;
+        var list = panel.QuerySelector(":scope > .omni-profile-menu__items")!;
+        Assert.Equal("menu", list.GetAttribute("role"));
+        Assert.Null(header.GetAttribute("role"));
+        Assert.Null(list.QuerySelector(".omni-profile-menu__header"));
+        Assert.Single(list.QuerySelectorAll("[role=menuitem]"));
+
+        var avatar = header.QuerySelector(":scope > .omni-disc.omni-disc--lg.omni-profile-menu__avatar")!;
+        Assert.Equal("true", avatar.GetAttribute("aria-hidden"));
+        Assert.Equal("ST", avatar.TextContent);
+        Assert.Equal("Sony Tumen", header.QuerySelector(".omni-profile-menu__identity > strong")!.TextContent);
+    }
+
+    [Fact]
+    public void ProfileMenuHeader_IsAbsentByDefault_AndTheListStaysTheFloatingSurface()
+    {
+        var menu = Render<OmniProfileMenu>(parameters => parameters
+            .Add(component => component.Summary, (RenderFragment)(builder => builder.AddContent(0, "AB"))));
+
+        Assert.Empty(menu.FindAll(".omni-profile-menu__panel"));
+        Assert.Empty(menu.FindAll(".omni-profile-menu__header"));
+        Assert.NotNull(menu.Find("details > .omni-profile-menu__items[role=menu]"));
+    }
+
+    [Fact]
+    public void ProfileMenu_AvatarKeepsA44PixelTarget_TheFocusRing_AndTheInitialsInThePageText()
+    {
+        var summary = ShippedLookTests.Body(".omni-profile-menu--avatar > .omni-profile-menu__summary");
+        Assert.Equal("var(--omni-radius-circle)", ShippedLookTests.Value(summary, "border-radius"));
+        Assert.Equal("relative", ShippedLookTests.Value(summary, "position"));
+        Assert.Equal(
+            "min(0px, calc((var(--omni-icon-box) * 0.9 - 2.75rem) / 2))",
+            ShippedLookTests.Value(ShippedLookTests.Body(".omni-profile-menu--avatar > .omni-profile-menu__summary::before"), "inset"));
+        Assert.Equal("var(--omni-focus-ring)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-profile-menu--avatar > .omni-profile-menu__summary:focus-visible"), "box-shadow"));
+        Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(".omni-profile-menu--avatar > .omni-profile-menu__summary::-webkit-details-marker"), "display"));
+
+        // The initials are text on the palette grey: the pair text on neutral-fill of the contrast matrix.
+        Assert.Equal("var(--omni-color-text)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-profile-menu__initials"), "color"));
+        Assert.Equal("var(--omni-color-neutral-fill)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-disc"), "background"));
+        Assert.Contains(ThemeContrastMatrixTests.Pairs, pair => pair is ("--omni-color-text", "--omni-color-neutral-fill", _));
+    }
+
+    [Fact]
+    public void ProfileMenuPanel_TakesTheFloatingSurface_AndTheListInsideShedsIt()
+    {
+        var panel = ShippedLookTests.Body(".omni-profile-menu__panel");
+        Assert.Equal("var(--omni-overlay-background, var(--omni-color-surface))", ShippedLookTests.Value(panel, "background"));
+        Assert.Equal("var(--omni-overlay-shadow, var(--omni-shadow-md))", ShippedLookTests.Value(panel, "box-shadow"));
+        Assert.Equal("absolute", ShippedLookTests.Value(panel, "position"));
+
+        var inner = ShippedLookTests.Body(".omni-profile-menu__panel > .omni-profile-menu__items");
+        Assert.Equal("static", ShippedLookTests.Value(inner, "position"));
+        Assert.Equal("none", ShippedLookTests.Value(inner, "box-shadow"));
+        Assert.Equal("0", ShippedLookTests.Value(inner, "border"));
+    }
+
+    // ---- OmniProfileMenuItem.Icon, Description ----
+
+    private static readonly RenderFragment SettingsIcon = builder =>
+    {
+        builder.OpenComponent<OmniIcon>(0);
+        builder.AddComponentParameter(1, nameof(OmniIcon.Name), OmniIconName.Settings);
+        builder.CloseComponent();
+    };
+
+    [Fact]
+    public void ProfileMenuItem_IconAndDescription_DrawADiscAndAMutedLine()
+    {
+        var item = Render<OmniProfileMenuItem>(parameters => parameters
+            .Add(component => component.Icon, SettingsIcon)
+            .Add(component => component.Description, "Thème, langue, notifications")
+            .AddChildContent("Paramètres"));
+
+        var button = item.Find("button[role=menuitem]");
+        Assert.Contains("omni-profile-menu__item--rich", button.ClassName, StringComparison.Ordinal);
+        var disc = button.QuerySelector(":scope > .omni-disc.omni-profile-menu__item-icon")!;
+        Assert.Equal("true", disc.GetAttribute("aria-hidden"));
+        Assert.NotNull(disc.QuerySelector("svg.omni-icon"));
+        var text = button.QuerySelector(":scope > .omni-profile-menu__item-text")!;
+        Assert.Equal("Thème, langue, notifications", text.QuerySelector("small.omni-profile-menu__item-description")!.TextContent);
+        Assert.StartsWith("Paramètres", text.TextContent, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ProfileMenuItem_DescriptionAlone_DrawsNoDisc_AndALinkItemTakesItToo()
+    {
+        var item = Render<OmniProfileMenuItem>(parameters => parameters
+            .Add(component => component.Href, "/profil")
+            .Add(component => component.Description, "Nom et photo")
+            .AddChildContent("Profil"));
+
+        var link = item.Find("a[role=menuitem]");
+        Assert.Empty(link.QuerySelectorAll(".omni-disc"));
+        Assert.Equal("Nom et photo", link.QuerySelector(".omni-profile-menu__item-description")!.TextContent);
+    }
+
+    [Fact]
+    public void ProfileMenuItem_WithoutIconOrDescription_RendersItsContentAlone()
+    {
+        var item = Render<OmniProfileMenuItem>(parameters => parameters
+            .Add(component => component.Description, "  ")
+            .AddChildContent("<span class=\"own\">Profil</span>"));
+
+        var button = item.Find("button");
+        Assert.DoesNotContain("omni-profile-menu__item--rich", button.ClassName, StringComparison.Ordinal);
+        Assert.Single(button.Children);
+        Assert.Equal("own", button.Children[0].ClassName);
+    }
+
+    [Fact]
+    public void ProfileMenuItem_DescriptionIsMutedText()
+    {
+        Assert.Equal("var(--omni-color-text-muted)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-profile-menu__item-description"), "color"));
+        Assert.Equal("flex", ShippedLookTests.Value(ShippedLookTests.Body(".omni-profile-menu__item--rich"), "display"));
+    }
 }
