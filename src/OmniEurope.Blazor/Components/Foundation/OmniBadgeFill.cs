@@ -9,5 +9,11 @@ public enum OmniBadgeFill
     Filled,
 
     /// <summary>An outline in the same colour, with the page showing through.</summary>
-    Outline
+    Outline,
+
+    /// <summary>
+    /// The fill and the text of the button of the same intention, so a status and the action that
+    /// concerns it carry the same colour. Appended, so the published values keep their numbers.
+    /// </summary>
+    Solid
 }

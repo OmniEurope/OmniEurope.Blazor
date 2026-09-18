@@ -366,8 +366,10 @@ field public static OmniEurope.Blazor.Components.OmniAppearance.Light : OmniEuro
 field public static OmniEurope.Blazor.Components.OmniAppearance.System : OmniEurope.Blazor.Components.OmniAppearance const = 0
 field public static OmniEurope.Blazor.Components.OmniBadgeFill.Filled : OmniEurope.Blazor.Components.OmniBadgeFill const = 0
 field public static OmniEurope.Blazor.Components.OmniBadgeFill.Outline : OmniEurope.Blazor.Components.OmniBadgeFill const = 1
+field public static OmniEurope.Blazor.Components.OmniBadgeFill.Solid : OmniEurope.Blazor.Components.OmniBadgeFill const = 2
 field public static OmniEurope.Blazor.Components.OmniBadgeVariant.Accent : OmniEurope.Blazor.Components.OmniBadgeVariant const = 1
 field public static OmniEurope.Blazor.Components.OmniBadgeVariant.Danger : OmniEurope.Blazor.Components.OmniBadgeVariant const = 4
+field public static OmniEurope.Blazor.Components.OmniBadgeVariant.Info : OmniEurope.Blazor.Components.OmniBadgeVariant const = 5
 field public static OmniEurope.Blazor.Components.OmniBadgeVariant.Neutral : OmniEurope.Blazor.Components.OmniBadgeVariant const = 0
 field public static OmniEurope.Blazor.Components.OmniBadgeVariant.Success : OmniEurope.Blazor.Components.OmniBadgeVariant const = 2
 field public static OmniEurope.Blazor.Components.OmniBadgeVariant.Warning : OmniEurope.Blazor.Components.OmniBadgeVariant const = 3
