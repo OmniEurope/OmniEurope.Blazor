@@ -134,7 +134,15 @@ public partial class OmniKanban<TItem>
         {
             if (firstRender)
             {
-                _module = await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
+                var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
+                if (_disposed)
+                {
+                    // Disposed while the module loaded: nothing was attached, and no reference is created.
+                    await module.DisposeAsync();
+                    return;
+                }
+
+                _module = module;
                 _bridge = DotNetObjectReference.Create(new KanbanInteropBridge(HandleCardKeyAsync));
                 await _module.InvokeVoidAsync("attach", _root, _bridge);
             }
@@ -182,10 +190,12 @@ public partial class OmniKanban<TItem>
             return;
         }
 
+        var abandoned = false;
         if (_grabbed >= 0 && _grabbed != index)
         {
             // The focus left the card being carried: that move is abandoned before anything else.
             CancelGrab();
+            abandoned = true;
         }
 
         switch (key)
@@ -212,6 +222,12 @@ public partial class OmniKanban<TItem>
                 MoveAcrossColumns(1);
                 break;
             default:
+                if (abandoned)
+                {
+                    // Nothing else to do with this key, but the abandoned card goes back and says so.
+                    StateHasChanged();
+                }
+
                 return;
         }
 
@@ -404,6 +420,12 @@ public partial class OmniKanban<TItem>
     private int PlaceWithout(string column, int card, int excluded)
     {
         var others = Others(column, excluded);
+        if (card == excluded)
+        {
+            // The card itself: as many places as the cards of its column listed before it.
+            return others.Count(other => other < card);
+        }
+
         var place = others.IndexOf(card);
         return place >= 0 ? place : others.Count;
     }

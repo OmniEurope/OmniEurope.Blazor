@@ -5,9 +5,11 @@ namespace OmniEurope.Blazor.Components;
 /// parent identifiers alone and drawn beside the host's own row (subject, author, date).
 /// </summary>
 /// <remarks>
-/// Each row carries its own small drawing, so the graph stays aligned with the text whatever the row
-/// height. A parent that is not among <see cref="Items"/>, older than the page shown, keeps its lane
-/// running to the bottom. Lanes take the eight chart colours in turn.
+/// Each row carries its own small drawing and every row has the same height, the CSS variable
+/// <c>--omni-git-graph-row-height</c> (2rem by default), so the lines of one row meet those of the next
+/// and the drawing scales with the row; a text longer than the row is cut with an ellipsis. A merge is
+/// announced by a visually hidden sentence. A parent that is not among <see cref="Items"/>, older than
+/// the page shown, keeps its lane running to the bottom. Lanes take the eight chart colours in turn.
 /// </remarks>
 /// <typeparam name="TItem">The type of the commits.</typeparam>
 public partial class OmniGitGraph<TItem>

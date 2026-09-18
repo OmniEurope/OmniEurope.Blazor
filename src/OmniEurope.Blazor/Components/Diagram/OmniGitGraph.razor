@@ -22,7 +22,14 @@ else
                     }
                     <circle class="@NodeCss(row)" cx="@MindMapGeometry.Format(GitGraphLayout.LaneX(row.Lane))" cy="@MindMapGeometry.Format(GitGraphLayout.RowHeight / 2)" r="@MindMapGeometry.Format(GitGraphLayout.NodeRadius)" />
                 </svg>
-                <div class="omni-git-graph__content">@RowTemplate?.Invoke(item)</div>
+                <div class="omni-git-graph__content">
+                    @if (row.IsMerge)
+                    {
+                        @* The drawing is hidden from assistive technology; a merge is the one thing it says that the row may not. *@
+                        <span class="omni-visually-hidden">@Localize("GitGraphMerge")</span>
+                    }
+                    @RowTemplate?.Invoke(item)
+                </div>
             </li>
         }
     </ol>

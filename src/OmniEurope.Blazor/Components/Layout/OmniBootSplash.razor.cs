@@ -22,6 +22,7 @@ public partial class OmniBootSplash
     private const string ModulePath = "./_content/OmniEurope.Blazor/omniInterop.js";
 
     private IJSObjectReference? _module;
+    private bool _disposed;
 
     /// <summary>The id of the splash element in the page; <c>omni-boot-splash</c> by default.</summary>
     [Parameter]
@@ -40,8 +41,17 @@ public partial class OmniBootSplash
 
         try
         {
-            _module = await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
-            var hidden = await _module.InvokeAsync<bool>("hideBootSplash", SplashId);
+            var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
+
+            // The splash is removed even when this component went away meanwhile: nothing else would.
+            var hidden = await module.InvokeAsync<bool>("hideBootSplash", SplashId);
+            if (_disposed)
+            {
+                await module.DisposeAsync();
+                return;
+            }
+
+            _module = module;
             await OnHidden.InvokeAsync(hidden);
         }
         catch (JSDisconnectedException)
@@ -52,6 +62,7 @@ public partial class OmniBootSplash
 
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_module is not null)
         {
             try

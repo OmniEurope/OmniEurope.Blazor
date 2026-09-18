@@ -25,7 +25,9 @@
                     else
                     {
                         <span class="omni-kanban__title">@column.Title</span>
-                        <span class="omni-kanban__count" aria-label="@Localize("KanbanCardCount", entries.Count)">@entries.Count</span>
+                        @* The badge is seen, the sentence is heard: a generic span may not carry an aria-label. *@
+                        <span class="omni-kanban__count" aria-hidden="true">@entries.Count</span>
+                        <span class="omni-visually-hidden">@Localize("KanbanCardCount", entries.Count)</span>
                     }
                 </div>
                 <ul class="omni-kanban__cards"
