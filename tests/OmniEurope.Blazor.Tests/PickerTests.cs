@@ -549,6 +549,38 @@ public sealed class PickerTests : OmniBunitContext
         }
     }
 
+    // ---- inside a dialog ----
+
+    [Theory]
+    [InlineData("date")]
+    [InlineData("time")]
+    [InlineData("moment")]
+    public async Task Pickers_InADialog_EscapeInThePanel_ClosesThePanelAndNotTheDialog(string id)
+    {
+        var host = Render<PickerDialogTestHost>(parameters => parameters.Add(component => component.Clock, Clock));
+        host.Find($"#{id} ~ .omni-date__toggle").Click();
+        host.WaitForAssertion(() => Assert.Single(_module.Invocations["attachPicker"]));
+        var panel = host.Find(".omni-calendar");
+
+        // The key as Blazor sees it: pressed on the focused item of the panel, it must not bubble up to
+        // the dialog, which closes on Escape.
+        panel.QuerySelector("[tabindex='0']")!.KeyDown(new KeyboardEventArgs { Key = "Escape" });
+        Assert.True(host.Instance.Open);
+        Assert.Single(host.FindAll(".omni-dialog"));
+
+        // The key as omni-focus.js handles it on the picker: it closes the panel through the bridge and
+        // gives the focus back to the toggle.
+        var bridge = (DotNetObjectReference<PickerPopupBridge>)_module.Invocations["attachPicker"][0].Arguments[3]!;
+        await host.InvokeAsync(() => bridge.Value.OnDismissRequestedAsync(true));
+
+        Assert.Empty(host.FindAll(".omni-calendar"));
+        Assert.Equal("false", host.Find($"#{id} ~ .omni-date__toggle").GetAttribute("aria-expanded"));
+        host.WaitForAssertion(() => Assert.Single(_module.Invocations["detachPicker"]));
+        Assert.Equal(true, _module.Invocations["detachPicker"][0].Arguments[1]);
+        Assert.True(host.Instance.Open);
+        Assert.Single(host.FindAll(".omni-dialog"));
+    }
+
     // ---- helpers ----
 
     private IRenderedComponent<PickerTestHost> RenderHost(

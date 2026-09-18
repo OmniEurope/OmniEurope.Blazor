@@ -1,7 +1,10 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniInputBase<DateTime?>
 
-<div @ref="_root" class="omni-date omni-date--datetime">
+@* While the panel is open, no key pressed in the picker goes up to a Blazor handler around it:
+   omni-focus.js already keeps Escape in the panel, and this keeps it there too before the script is
+   attached, so a dialog holding the picker never closes on the Escape meant for the panel. *@
+<div @ref="_root" class="omni-date omni-date--datetime" @onkeydown:stopPropagation="@Popup.IsOpen">
     <div class="omni-date__field">
         <input @attributes="AdditionalAttributes"
                id="@Id"
