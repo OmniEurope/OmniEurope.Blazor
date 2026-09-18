@@ -47,8 +47,12 @@ public partial class EditorDemo
     private IReadOnlyList<OmniUploadFile> Attachments { get; set; } =
     [
         new("accuse-de-reception.pdf", 184_320, "application/pdf"),
-        new("plan-acces.png", 96_256, "image/png")
+        new("plan-acces.png", 96_256, "image/png"),
+        new("releve-de-compteur.pdf", 212_992, "application/pdf"),
+        new("photo-facade.png", 348_160, "image/png")
     ];
+
+    private IReadOnlyList<OmniUploadFile> Manifest { get; set; } = [];
 
     /// <summary>
     /// Refuses what the demonstration will not keep, before any transfer starts. Returning a message

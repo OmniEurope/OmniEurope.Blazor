@@ -4,65 +4,126 @@
 @inject Microsoft.Extensions.Logging.ILogger<OmniUpload> Logger
 
 <div @attributes="AdditionalAttributes" id="@Id" class="@RootClass" data-omni-density="@OmniDensityAttribute.Of(Density)">
-    @* The native file control covers the whole zone, invisible: a click opens the picker and a file
-       dropped anywhere on the zone lands in it, with no script. The drag events only paint the zone. *@
-    <div class="omni-upload__zone"
-         @ondragenter="() => SetDragging(true)"
-         @ondragleave="() => SetDragging(false)"
-         @ondrop="() => SetDragging(false)">
-        <InputFile class="omni-upload__input"
-                   id="@InputId"
-                   OnChange="HandleFilesAsync"
-                   multiple="@Multiple"
-                   accept="@Accept"
-                   disabled="@(Disabled || _uploading)"
-                   aria-describedby="@HintId" />
-        <OmniIcon Name="OmniIconName.Upload" Size="OmniControlSize.Large" Class="omni-upload__icon" />
-        <span class="omni-upload__prompt">
-            @Localize(Multiple ? "UploadDropMany" : "UploadDropOne")
-            <span class="omni-upload__browse">@Localize("UploadBrowse")</span>
-        </span>
-        <span id="@HintId" class="omni-upload__hint">@Hint</span>
-    </div>
-
-    @if (IsBound)
+    @if (IsField)
     {
-        @if (Files.Count > 0)
+        @* A read-only field welded to a Browse button. The native file control covers both, invisible,
+           as it covers the zone: a click on the field or on the button opens the picker, Enter or
+           Space on the focused control too, and a file dropped on them lands in it, with no script.
+           The field and the button only paint what the control holds and offers. *@
+        <div class="omni-upload__field"
+             @ondragenter="() => SetDragging(true)"
+             @ondragleave="() => SetDragging(false)"
+             @ondrop="() => SetDragging(false)">
+            <span id="@FieldValueId" class="@FieldValueClass">@(FieldText ?? Localize("UploadNoFile"))</span>
+            <span class="omni-button omni-button--secondary omni-button--medium omni-upload__field-button" aria-hidden="true">
+                <span class="omni-button__content">
+                    <OmniIcon Name="OmniIconName.Document" />
+                    <span>@Localize("UploadBrowseButton")</span>
+                </span>
+            </span>
+            <InputFile class="omni-upload__input"
+                       id="@InputId"
+                       OnChange="HandleFilesAsync"
+                       accept="@Accept"
+                       disabled="@(Disabled || _uploading)"
+                       aria-describedby="@($"{FieldValueId} {HintId}")" />
+        </div>
+        <span id="@HintId" class="omni-upload__hint">@Hint</span>
+    }
+    else
+    {
+        @* The native file control covers the whole zone, invisible: a click opens the picker and a file
+           dropped anywhere on the zone lands in it, with no script. The drag events only paint the zone. *@
+        <div class="omni-upload__zone"
+             @ondragenter="() => SetDragging(true)"
+             @ondragleave="() => SetDragging(false)"
+             @ondrop="() => SetDragging(false)">
+            <InputFile class="omni-upload__input"
+                       id="@InputId"
+                       OnChange="HandleFilesAsync"
+                       multiple="@Multiple"
+                       accept="@Accept"
+                       disabled="@(Disabled || _uploading)"
+                       aria-describedby="@HintId" />
+            <span class="omni-disc omni-upload__disc" aria-hidden="true"><OmniIcon Name="OmniIconName.Upload" Class="omni-upload__icon" /></span>
+            <span class="omni-upload__prompt">
+                @Localize(Multiple ? "UploadDropMany" : "UploadDropOne")
+                <span class="omni-upload__browse">@Localize("UploadBrowse")</span>
+            </span>
+            <span id="@HintId" class="omni-upload__hint">@Hint</span>
+        </div>
+
+        @if (IsBound)
         {
-            <ul class="omni-upload__list" aria-label="@Localize("UploadAttachedFiles")">
-                @for (var index = 0; index < Files.Count; index++)
+            @if (Files.Count > 0)
+            {
+                <ul id="@ListId" class="omni-upload__list" aria-label="@Localize("UploadAttachedFiles")">
+                    @for (var index = FirstShown; index < Files.Count; index++)
+                    {
+                        var file = Files[index];
+                        var position = index;
+                        <li class="omni-upload__file">
+                            <span class="omni-upload__file-icon" aria-hidden="true"><OmniIcon Name="@IconFor(file.Name, file.ContentType)" /></span>
+                            <span class="omni-upload__file-name">@file.Name</span>
+                            <span class="omni-upload__file-meta"><span class="omni-upload__file-size">@FormatSize(file.Size)</span></span>
+                            <span class="omni-upload__actions">
+                                <button type="button"
+                                        class="omni-upload__remove"
+                                        aria-label="@Localize("UploadRemove", file.Name)"
+                                        title="@Localize("UploadRemove", file.Name)"
+                                        disabled="@(Disabled || _uploading)"
+                                        @onclick="() => RemoveAsync(position)">
+                                    <OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" />
+                                </button>
+                            </span>
+                        </li>
+                    }
+                </ul>
+            }
+        }
+        else if (_files.Count > 0)
+        {
+            <ul id="@ListId" class="omni-upload__files omni-upload__list" aria-label="@Localize("UploadSelectedFiles")">
+                @for (var index = FirstShown; index < _files.Count; index++)
                 {
-                    var file = Files[index];
-                    var position = index;
+                    var file = _files[index];
                     <li class="omni-upload__file">
-                        <OmniIcon Name="@IconFor(file.Name, file.ContentType)" Class="omni-upload__file-icon" />
+                        <span class="omni-upload__file-icon" aria-hidden="true"><OmniIcon Name="@IconFor(file.Name, file.ContentType)" /></span>
                         <span class="omni-upload__file-name">@file.Name</span>
-                        <span class="omni-upload__file-size">@FormatSize(file.Size)</span>
-                        <button type="button"
-                                class="omni-upload__remove"
-                                aria-label="@Localize("UploadRemove", file.Name)"
-                                title="@Localize("UploadRemove", file.Name)"
-                                disabled="@(Disabled || _uploading)"
-                                @onclick="() => RemoveAsync(position)">
-                            <OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" />
-                        </button>
+                        <span class="omni-upload__file-meta"><span class="omni-upload__file-size">@FormatSize(file.Size)</span></span>
                     </li>
                 }
             </ul>
         }
-    }
-    else if (_files.Count > 0)
-    {
-        <ul class="omni-upload__files omni-upload__list" aria-label="@Localize("UploadSelectedFiles")">
-            @foreach (var file in _files)
-            {
-                <li class="omni-upload__file">
-                    <OmniIcon Name="@IconFor(file.Name, file.ContentType)" Class="omni-upload__file-icon" />
-                    <span class="omni-upload__file-name">@file.Name</span>
-                    <span class="omni-upload__file-size">@FormatSize(file.Size)</span>
-                </li>
-            }
-        </ul>
+
+        @if (ReducedList)
+        {
+            @* Always under the list: the count, Show all or Show less when more than the three most
+               recent files are held, and Remove all pushed to the end. *@
+            <div class="omni-upload__toolbar">
+                <span class="omni-upload__count" aria-live="polite">@CountText</span>
+                @if (Collapsible)
+                {
+                    <OmniButton Variant="OmniButtonVariant.Ghost"
+                                Size="OmniControlSize.Small"
+                                Class="omni-upload__show-all"
+                                aria-expanded="@(_showAll ? "true" : "false")"
+                                aria-controls="@ListId"
+                                OnClick="ToggleShowAll">
+                        <span class="omni-upload__chevron" aria-hidden="true"><OmniIcon Name="OmniIconName.ChevronDown" /></span>
+                        <span>@(_showAll ? Localize("UploadShowLess") : Localize("UploadShowAll", ListedCount))</span>
+                    </OmniButton>
+                }
+                <OmniButton Variant="OmniButtonVariant.Ghost"
+                            Size="OmniControlSize.Small"
+                            Class="omni-upload__clear"
+                            Disabled="@(ListedCount == 0 || Disabled || _uploading)"
+                            OnClick="RemoveAllAsync">
+                    <OmniIcon Name="OmniIconName.Delete" />
+                    <span>@Localize("UploadRemoveAll")</span>
+                </OmniButton>
+            </div>
+        }
     }
 
     @if (_uploading || _progress > 0)

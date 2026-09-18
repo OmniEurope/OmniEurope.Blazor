@@ -819,6 +819,8 @@ field public static OmniEurope.Blazor.Components.OmniTimelineSide.End : OmniEuro
 field public static OmniEurope.Blazor.Components.OmniTimelineSide.Start : OmniEurope.Blazor.Components.OmniTimelineSide const = 0
 field public static OmniEurope.Blazor.Components.OmniTooltipTracking.Pinned : OmniEurope.Blazor.Components.OmniTooltipTracking const = 1
 field public static OmniEurope.Blazor.Components.OmniTooltipTracking.Pointer : OmniEurope.Blazor.Components.OmniTooltipTracking const = 0
+field public static OmniEurope.Blazor.Components.OmniUploadDisplay.Field : OmniEurope.Blazor.Components.OmniUploadDisplay const = 1
+field public static OmniEurope.Blazor.Components.OmniUploadDisplay.Zone : OmniEurope.Blazor.Components.OmniUploadDisplay const = 0
 method protected OmniEurope.Blazor.Components.OmniComponentBase.Css(params System.String?[] values) : System.String
 method protected OmniEurope.Blazor.Components.OmniComponentBase.Localize(System.String name, params System.Object[] arguments) : System.String
 method protected OmniEurope.Blazor.Components.OmniInputBase<TValue>.InputCss(params System.String?[] values) : System.String
@@ -2878,6 +2880,7 @@ property public OmniEurope.Blazor.Components.OmniUnifiedDiff.Wrap : System.Boole
 property public OmniEurope.Blazor.Components.OmniUpload.AllowedContentTypes : System.Collections.Generic.IReadOnlyList<System.String> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.Density : OmniEurope.Blazor.Components.OmniDensity? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniUpload.Display : OmniEurope.Blazor.Components.OmniUploadDisplay {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.FileRemoved : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniUploadFile> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.Files : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniUploadFile> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.FilesChanged : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniUploadFile>> {get(public);set(public)} [Parameter]
@@ -2886,6 +2889,7 @@ property public OmniEurope.Blazor.Components.OmniUpload.InputId : System.String?
 property public OmniEurope.Blazor.Components.OmniUpload.MaximumFileSize : System.Int64 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.MaximumFiles : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.Multiple : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniUpload.ReducedList : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.Upload : System.Func<OmniEurope.Blazor.Components.OmniUploadRequest,System.Threading.Tasks.Task>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.UploadErrorMessage : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.Validate : System.Func<OmniEurope.Blazor.Components.OmniUploadRequest,System.Threading.Tasks.Task<System.String?>>? {get(public);set(public)} [Parameter]
@@ -3241,6 +3245,7 @@ type public OmniEurope.Blazor.Components.OmniTreeLevel [class] : OmniEurope.Blaz
 type public OmniEurope.Blazor.Components.OmniUnifiedDiff [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniUnifiedDiffParser [static-class, static]
 type public OmniEurope.Blazor.Components.OmniUpload [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
+type public OmniEurope.Blazor.Components.OmniUploadDisplay [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniUploadFile [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniUploadFile>
 type public OmniEurope.Blazor.Components.OmniUploadRequest [class, sealed]
 type public OmniEurope.Blazor.Components.OmniValidatorBase<TValue> [class, abstract] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable

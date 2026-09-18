@@ -65,15 +65,28 @@
             <OmniIcon Name="OmniIconName.Table" AriaLabel="Tableau" />
         </OmniRow>
 
+        @* Un seul fichier : le champ en lecture seule soudé au bouton Parcourir ; un clic sur l'un ou
+           l'autre, ou Entrée, ouvre la fenêtre de sélection. *@
+        <OmniFormField For="editor-manifest" Text="Manifeste de déploiement" Description="Un seul fichier, ouvre la fenêtre de sélection du système.">
+            <OmniUpload Display="OmniUploadDisplay.Field"
+                        InputId="editor-manifest"
+                        MaximumFileSize="1048576"
+                        @bind-Files="Manifest"
+                        Upload="UploadAsync" />
+        </OmniFormField>
+
+        @* Liste réduite : les trois pièces les plus récentes, le compte, Afficher tout et Tout retirer. *@
         <OmniUpload Multiple="true"
-                    MaximumFiles="5"
+                    MaximumFiles="6"
                     MaximumFileSize="1048576"
                     AllowedContentTypes="Accepted"
                     InputId="editor-attachments"
                     @bind-Files="Attachments"
                     Upload="UploadAsync"
                     Validate="ValidateAsync"
-                    UploadErrorMessage="Le dépôt a échoué." />
+                    UploadErrorMessage="Le dépôt a échoué."
+                    ReducedList="true"
+                    Density="OmniDensity.Comfortable" />
 
         <p>Pièces déposées : @(Uploaded.Count == 0 ? "aucune" : string.Join(", ", Uploaded))</p>
     </OmniStack>
