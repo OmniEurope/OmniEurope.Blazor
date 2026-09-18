@@ -84,7 +84,8 @@ public sealed partial class ThemeTokenReader(HttpClient http)
         // How buttons and headings set their text: weight, case, tracking and the heading face.
         _ when name.Contains("-font-", StringComparison.Ordinal) || name.EndsWith("-text-transform", StringComparison.Ordinal) || name.EndsWith("-letter-spacing", StringComparison.Ordinal) => ThemeTokenGroup.Typography,
         _ when name.StartsWith("--omni-space-", StringComparison.Ordinal) => ThemeTokenGroup.Spacing,
-        "--omni-control-height" => ThemeTokenGroup.Spacing,
+        // Sizes that follow the density, like the control height: the alert's icon disc and glyph.
+        "--omni-control-height" or "--omni-alert-icon" or "--omni-alert-glyph" => ThemeTokenGroup.Spacing,
         _ when name.StartsWith("--omni-radius", StringComparison.Ordinal) || name.Contains("-border-", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
         "--omni-border-width" => ThemeTokenGroup.Shape,
         _ => ThemeTokenGroup.Color

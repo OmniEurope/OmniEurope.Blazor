@@ -7,10 +7,17 @@
          class="@Css("omni-alert", $"omni-alert--{Severity.ToString().ToLowerInvariant()}", $"omni-alert--{Variant.ToString().ToLowerInvariant()}")"
          role="@(Live ? "alert" : "status")"
          @attributes="AdditionalAttributes">
-        @if (Icon is not null)
-        {
-            <span class="omni-alert__icon" aria-hidden="true">@Icon</span>
-        }
+        @* The icon is a glyph alone in a disc: the severity's own glyph, or the consumer's icon in its place. *@
+        <span class="omni-alert__icon" aria-hidden="true">
+            @if (Icon is not null)
+            {
+                @Icon
+            }
+            else
+            {
+                <svg class="omni-alert__glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="@GlyphPath" /></svg>
+            }
+        </span>
         <div class="omni-alert__body">
             @if (!string.IsNullOrWhiteSpace(Title))
             {

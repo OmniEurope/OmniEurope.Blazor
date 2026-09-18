@@ -229,21 +229,27 @@ public sealed class ShowcaseThemeTests
 
     /// <summary>
     /// The pairs above only protect what the stylesheet actually draws: every filled surface must
-    /// take the text colour the generator picked for that very fill, never the accent's.
+    /// take the text colour the generator picked for that very fill, never the accent's. Information
+    /// and success sit on the bright fill with its dark ink, warning and danger on the deep fill with
+    /// its light ink: the one rule buttons and alerts share (PLAN-008, T22 and T24).
     /// </summary>
     [Fact]
     public void FilledSurfaces_UseTheTextColourPickedForThem()
     {
         var css = File.ReadAllText(Path.Combine(Root, "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
 
-        Assert.Matches(@"\.omni-button--success \{[^}]*color: var\(--omni-color-on-success\)", css);
-        Assert.Matches(@"\.omni-button--warning \{[^}]*color: var\(--omni-color-on-warning\)", css);
-        Assert.Matches(@"\.omni-button--danger \{[^}]*color: var\(--omni-color-on-danger\)", css);
-        Assert.Matches(@"\.omni-button--ghost \{[^}]*color: var\(--omni-color-accent-strong\)", css);
-        Assert.Matches(@"\.omni-alert--success \{[^}]*--omni-alert-on: var\(--omni-color-on-success\)", css);
-        Assert.Matches(@"\.omni-alert--warning \{[^}]*--omni-alert-on: var\(--omni-color-on-warning\)", css);
-        Assert.Matches(@"\.omni-alert--danger \{[^}]*--omni-alert-on: var\(--omni-color-on-danger\)", css);
-        Assert.Matches(@"\.omni-alert--filled \{[^}]*color: var\(--omni-alert-on\)", css);
+        Assert.Matches(@"\.omni-button \{[^}]*background: var\(--omni-button-fill\)[^}]*color: var\(--omni-button-ink\)", css);
+        Assert.Matches(@"\.omni-button--primary \{[^}]*--omni-button-fill: var\(--omni-color-accent-fill\)[^}]*--omni-button-ink: var\(--omni-color-on-accent-fill\)", css);
+        Assert.Matches(@"\.omni-button--info \{[^}]*--omni-button-fill: var\(--omni-color-info-bright\)[^}]*--omni-button-ink: var\(--omni-color-on-bright\)", css);
+        Assert.Matches(@"\.omni-button--success \{[^}]*--omni-button-fill: var\(--omni-color-success-bright\)[^}]*--omni-button-ink: var\(--omni-color-on-bright\)", css);
+        Assert.Matches(@"\.omni-button--warning \{[^}]*--omni-button-fill: var\(--omni-color-warning-deep\)[^}]*--omni-button-ink: var\(--omni-color-on-deep\)", css);
+        Assert.Matches(@"\.omni-button--danger \{[^}]*--omni-button-fill: var\(--omni-color-danger-deep\)[^}]*--omni-button-ink: var\(--omni-color-on-deep\)", css);
+        Assert.Matches(@"\.omni-button--ghost \{[^}]*--omni-button-ink: var\(--omni-color-accent-strong\)", css);
+        Assert.Matches(@"\.omni-alert--info \{[^}]*--omni-alert-fill: var\(--omni-color-info-bright\)[^}]*--omni-alert-on: var\(--omni-color-on-bright\)", css);
+        Assert.Matches(@"\.omni-alert--success \{[^}]*--omni-alert-fill: var\(--omni-color-success-bright\)[^}]*--omni-alert-on: var\(--omni-color-on-bright\)", css);
+        Assert.Matches(@"\.omni-alert--warning \{[^}]*--omni-alert-fill: var\(--omni-color-warning-deep\)[^}]*--omni-alert-on: var\(--omni-color-on-deep\)", css);
+        Assert.Matches(@"\.omni-alert--danger \{[^}]*--omni-alert-fill: var\(--omni-color-danger-deep\)[^}]*--omni-alert-on: var\(--omni-color-on-deep\)", css);
+        Assert.Matches(@"\.omni-alert--filled \{[^}]*background: var\(--omni-alert-fill\)[^}]*color: var\(--omni-alert-on\)", css);
         Assert.Matches(@"\.omni-tooltip__content \{[^}]*color: var\(--omni-color-on-inverse\)", css);
     }
 
