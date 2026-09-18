@@ -2,7 +2,7 @@
 
 Procédure opérationnelle pour publier `OmniEurope.Blazor` sur NuGet.org. La politique de versionnement est dans [versioning.md](versioning.md); ce guide ne décrit que les gestes et les liens.
 
-Dépôt : `OmniEurope/OmniEurope.Blazor`. Version déclarée dans `src/OmniEurope.Blazor/OmniEurope.Blazor.csproj` : `1.0.0`.
+Dépôt : `OmniEurope/OmniEurope.Blazor`. Version déclarée dans `src/OmniEurope.Blazor/OmniEurope.Blazor.csproj` : `1.0.1`.
 
 ## Principe
 
@@ -34,7 +34,7 @@ Conséquence : un paquet ne peut être publié que s'il provient d'un run CI ré
 
    https://github.com/OmniEurope/OmniEurope.Blazor/releases/new
 
-   Tag : la version exacte du `.csproj`, sans préfixe (`1.0.0`). Cible : `main`. Le workflow compare le tag à la version du paquet et échoue en cas d'écart.
+   Tag : la version exacte du `.csproj`, sans préfixe (`1.0.1`). Cible : `main`. Le workflow compare le tag à la version du paquet et échoue en cas d'écart.
 
 4. **Suivre la publication.**
 
