@@ -329,4 +329,78 @@ public sealed class AppBarComponentTests : OmniBunitContext
         Assert.Equal("var(--omni-color-text-muted)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-profile-menu__item-description"), "color"));
         Assert.Equal("flex", ShippedLookTests.Value(ShippedLookTests.Body(".omni-profile-menu__item--rich"), "display"));
     }
+
+    // ---- OmniRadioButtonList.Error ----
+
+    [Fact]
+    public void RadioListError_MarksTheGroupInvalid_AndDescribesItAfterTheConsumersOwnDescription()
+    {
+        var value = "a";
+        var list = Render<OmniRadioButtonList<string>>(parameters => parameters
+            .Add(component => component.Id, "strategy")
+            .Add(component => component.Label, "Stratégie")
+            .Add(component => component.Options, [new OmniOption<string>("a", "Progressif"), new OmniOption<string>("b", "Bleu vert")])
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Error, "Choisissez une stratégie.")
+            .AddUnmatched("aria-describedby", "strategy-help"));
+
+        var fieldset = list.Find("fieldset");
+        Assert.Equal("true", fieldset.GetAttribute("aria-invalid"));
+        Assert.Equal("strategy-help strategy-error", fieldset.GetAttribute("aria-describedby"));
+        Assert.Contains("omni-choice-list--invalid", fieldset.ClassName, StringComparison.Ordinal);
+
+        var error = fieldset.QuerySelector(":scope > #strategy-error.omni-form-field__error")!;
+        Assert.Equal("alert", error.GetAttribute("role"));
+        Assert.Equal("true", error.QuerySelector("svg.omni-form-field__error-icon")!.GetAttribute("aria-hidden"));
+        Assert.Equal("Choisissez une stratégie.", error.TextContent.Trim());
+        Assert.Same(fieldset.LastElementChild, error);
+    }
+
+    [Fact]
+    public void RadioListError_WithoutAnId_IsNamedAfterTheGroup()
+    {
+        string? value = null;
+        var list = Render<OmniRadioButtonList<string?>>(parameters => parameters
+            .Add(component => component.Name, "delivery")
+            .Add(component => component.Options, [new OmniOption<string?>("a", "Standard")])
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Error, "Obligatoire"));
+
+        Assert.Equal("delivery-error", list.Find("fieldset").GetAttribute("aria-describedby"));
+        Assert.NotNull(list.Find("#delivery-error"));
+    }
+
+    [Fact]
+    public void RadioListError_IsAbsentByDefault_AndTheConsumersAttributesPassThrough()
+    {
+        var value = "a";
+        var list = Render<OmniRadioButtonList<string>>(parameters => parameters
+            .Add(component => component.Id, "strategy")
+            .Add(component => component.Options, [new OmniOption<string>("a", "Progressif")])
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .AddUnmatched("aria-describedby", "own-error")
+            .AddUnmatched("aria-invalid", "true"));
+
+        var fieldset = list.Find("fieldset");
+        Assert.Empty(list.FindAll(".omni-form-field__error"));
+        Assert.Equal("own-error", fieldset.GetAttribute("aria-describedby"));
+        Assert.Equal("true", fieldset.GetAttribute("aria-invalid"));
+        Assert.DoesNotContain("omni-choice-list--invalid", fieldset.ClassName, StringComparison.Ordinal);
+
+        var plain = Render<OmniRadioButtonList<string>>(parameters => parameters
+            .Add(component => component.Options, [new OmniOption<string>("a", "Progressif")])
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value));
+        Assert.False(plain.Find("fieldset").HasAttribute("aria-describedby"));
+        Assert.False(plain.Find("fieldset").HasAttribute("aria-invalid"));
+    }
+
+    [Fact]
+    public void RadioListError_GivesEveryRadioTheDangerBorder()
+    {
+        Assert.Equal("var(--omni-color-danger)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-choice-list--invalid .omni-radio"), "border-color"));
+    }
 }
