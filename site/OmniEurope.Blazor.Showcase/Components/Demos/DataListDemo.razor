@@ -41,7 +41,7 @@
                ShowLevelFilter="true" ShowSearch="true" Height="14rem" />
 
 <OmniKanban TItem="GridRow" Columns="WorkflowColumns" Items="KanbanRows"
-            ColumnOf="WorkflowColumnOf" KeyOf="WorkflowKeyOf" OnItemMoved="MoveWorkflowRow"
+            ColumnOf="WorkflowColumnOf" KeyOf="WorkflowKeyOf" ItemLabel="WorkflowLabelOf" OnItemMoved="MoveWorkflowRow"
             Label="Suivi des dossiers">
     <CardTemplate Context="row">
         <strong>@row.Reference</strong> : @row.Applicant
