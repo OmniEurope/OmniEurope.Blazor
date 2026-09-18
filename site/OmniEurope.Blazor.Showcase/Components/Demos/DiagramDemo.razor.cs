@@ -2,12 +2,18 @@ namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class DiagramDemo
 {
-    private static readonly IReadOnlyList<string> RecentCommits = ["c3", "c2", "c1"];
+    /// <summary>
+    /// Newest first: a feature branch (f4, f2) opened from c1 and merged back by m5, so the graph shows a
+    /// second lane, its merge point and its return to the main line.
+    /// </summary>
+    private static readonly IReadOnlyList<string> RecentCommits = ["m5", "f4", "c3", "f2", "c1"];
     private static string CommitId(string commit) => commit;
     private static IReadOnlyList<string> CommitParents(string commit) => commit switch
     {
-        "c3" => ["c2"],
-        "c2" => ["c1"],
+        "m5" => ["c3", "f4"],
+        "f4" => ["f2"],
+        "c3" => ["c1"],
+        "f2" => ["c1"],
         _ => []
     };
     /// <summary>

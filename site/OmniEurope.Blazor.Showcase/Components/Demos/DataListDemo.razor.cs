@@ -15,6 +15,8 @@ public partial class DataListDemo
 
     private static object WorkflowKeyOf(GridRow row) => row.Reference;
 
+    private static string WorkflowLabelOf(GridRow row) => row.Reference;
+
     private void MoveWorkflowRow(OmniKanbanMove<GridRow> move) =>
         WorkflowPositions[move.Item.Reference] = move.ToColumn;
 
