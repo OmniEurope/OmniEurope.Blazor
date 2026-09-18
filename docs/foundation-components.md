@@ -12,14 +12,14 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 | Coque applicative | `OmniLayout`, `OmniBody`, `OmniMain`, `OmniHeader` |
 | Barre latérale et sa bascule | `OmniSidebar`, `OmniSidebarToggle` |
 | Progression linéaire ou circulaire | `OmniProgressBar` avec `Shape` |
-| Thème et apparence | `OmniThemeScope` (avec `Preset`, un thème de `OmniThemePresets`) et `OmniAppearanceToggle` |
+| Thème, palette, densité et apparence | `OmniThemeScope` (`Preset`, un thème de `OmniThemePresets`, `Palette`, une palette de `OmniThemePalettes`, et `Density`) et `OmniAppearanceToggle` |
 
 | Composant | Rôle |
 | --- | --- |
 | `OmniText` | Texte rendu en `span`, `p`, `strong`, `em` ou `small`, avec tons et troncature statiques. |
 | `OmniHeading` | Titres `h1` à `h6` déterminés par `OmniHeadingLevel`. |
 | `OmniIcon` | Tracés Phosphor `regular` intégrés pour les usages du paquet, décoratifs par défaut ou nommés avec `AriaLabel` ; `Glyph` accepte n'importe quel autre tracé sans alourdir le paquet. |
-| `OmniBadge` | Étiquette courte avec variantes neutre, accent, succès, avertissement et danger, en pastille tonale (fond, trait et texte tirés de l'encre de la variante mêlée à la surface et au texte du thème) lisible en clair comme en sombre ; `Fill="Outline"` n'en garde que le trait. |
+| `OmniBadge` | Étiquette courte avec variantes neutre, accent, information, succès, avertissement et danger, en pastille tonale (fond, trait et texte tirés de l'encre de la variante mêlée à la surface et au texte du thème) lisible en clair comme en sombre ; `Fill="Outline"` n'en garde que le trait, `Fill="Solid"` prend le fond et l'encre du bouton de même intention. |
 | `OmniLink` | Lien natif ; un nouvel onglet ajoute automatiquement `noopener noreferrer`. |
 | `OmniImage` | Image responsive avec texte alternatif, chargement différé et dimensions natives optionnelles. |
 | `OmniSkeleton` | État de chargement décoratif ou région `status` nommée, avec une à dix lignes. |
@@ -55,20 +55,79 @@ Pour un tracé ponctuel, Phosphor ou non, le paramètre `Glyph` reste disponible
 
 Mesure du surcoût des onze tracés Phosphor, publication WebAssembly identique avant et après : **+6656 octets bruts, +1392 octets une fois compressés en brotli**, soit +0,9 % de l'assembly livré. Passage du catalogue à 86 icônes, `OmniEurope.Blazor.dll` en Release avant et après (2026-09-13) : **+57 856 octets bruts, +11 318 octets en brotli** (niveau maximal), soit +5,9 % de l'assembly compressé. Passage à 162 icônes (2026-09-14) : l'assembly Release mesuré par `eng/Test-Budgets.ps1` passe de 778 240 à 839 168 octets bruts, **+60 928 octets** ; la taille brotli n'a pas été mesurée à cette étape. Passage à 170 icônes (2026-09-14) : huit tracés de plus ; `OmniEurope.Blazor.dll` de `bin/Release` à 966 144 octets bruts, mesure qui inclut tout ce qui a été fusionné depuis l'étape précédente et ne s'y compare donc pas. Une garde de test échoue si le nombre de tracés intégrés diffère de celui des valeurs d'`OmniIconName`, afin qu'un import massif du catalogue ne passe pas inaperçu.
 
-## Thèmes
+## Thèmes, palettes et densité
 
-`OmniThemePresets.All` livre vingt thèmes : Ardoise, Galet, Néon, Papier, Terracotta, Rétro, Forêt, Lavande, Océan, Mono, Bonbon, Gravure, Affiche, Cahier, Nénuphar, Velours, Sable, Béton, Givre et Octet. Chacun a une moitié claire et une moitié sombre, et change la forme autant que les couleurs : arrondis, épaisseur des bordures, ombres, police (piles système seulement), allure des boutons, des cartes et des titres.
+Un **thème** décide la forme : arrondis, épaisseur et couleur relative des bordures, ombres et lueurs, polices (piles système seulement, aucune webfont), dessin des boutons, des cartes et des titres, et l'effet d'appui des boutons. Il n'écrit aucune couleur en dur : une bordure ou une lueur colorée se dit par rapport à un jeton (`var(--omni-color-accent)`, `color-mix(...)`), si bien qu'elle suit n'importe quelle palette. Une **palette** décide les couleurs : accent (et accent sombre), succès, information, avertissement, danger, surface et texte des deux modes. La fabrique du paquet en dérive les jetons de chaque mode et les déplace jusqu'aux ratios WCAG.
 
-Les couleurs de chaque moitié sont dérivées puis déplacées jusqu'aux ratios WCAG : 4,5 pour tout texte que la feuille écrit (texte courant et discret, accent fort, sévérités sur la page et sur leur teinte pâle, texte posé sur un aplat, chaque aplat ayant sa propre couleur de texte `--omni-color-on-*`), 3 pour l'accent contre la page. Une bordure teintée ne descend jamais sous la bordure dérivée, et une ombre qui doit rester visible en sombre porte un filet ou vient d'une couleur du mode : les tests de `ShowcaseThemeTests` tiennent ces lignes pour les quarante moitiés.
+Toute palette peint tout thème : dix thèmes par dix palettes, cent combinaisons, deux cents jeux de jetons avec les deux modes.
+
+| Thème | Signature de forme | Palette par défaut |
+|---|---|---|
+| Défaut | Un seul arrondi de 2,5 px partout, bordure de 1 px, élévation discrète, sans empattement, titres en 600 | Défaut |
+| Ardoise | Angles vifs, aucune ombre, boutons et titres en capitales espacées | Océan |
+| Galet | Boutons pilule, grandes cartes sans bordure, liseré et ombre diffuse, police arrondie | Forêt |
+| Halo | Grandes rondeurs, boutons pilule, halo coloré tiré de l'accent, bordure teintée | Lavande |
+| Néon | Rayon court, lueurs d'accent, bordure à 45 % d'accent, capitales très espacées | Électrique |
+| Papier | Angles vifs, filets de 2 px couleur du texte, aucune ombre, empattements | Or ancien |
+| Rétro | Contours de 2 px, ombres dures décalées sans flou, capitales grasses | Braise |
+| Octet | Angles vifs, cadres en escalier, police d'écran, titres console en capitales | Mono |
+| Nénuphar | Coins asymétriques en feuille, lueur douce d'accent, cartes sans bordure | Lagune |
+| Velours | Biseaux à reflet interne, ombres profondes, titres à empattements | Prune |
+
+| Palette | Accent clair | Allure |
+|---|---|---|
+| Défaut | `#4340d2` | Indigo en clair, violet en sombre, sévérités franches |
+| Océan | `#0b63ce` | Bleu franc sur fond d'écume, nuit marine en sombre |
+| Forêt | `#2f6f4f` | Vert sapin sur fond de mousse, sous-bois en sombre |
+| Lavande | `#7c5cbf` | Violet lavande sur blanc lilas, nuit mauve en sombre |
+| Électrique | `#008c9e` | Cyan électrique et violet, nuit d'encre en sombre |
+| Or ancien | `#8a6a1c` | Or bruni sur papier crème, brun chaud en sombre |
+| Braise | `#c2410c` | Orange braise sur fond pêche, rougeoiement en sombre |
+| Mono | `#000000` | Noir et blanc purs, seules les sévérités en couleur |
+| Lagune | `#0e8a7a` | Turquoise de lagune, bleu-vert profond en sombre |
+| Prune | `#7b2d6e` | Prune et rose, velours sombre en sombre |
+
+### Combiner un thème et une palette
+
+`OmniThemePresets.All` donne les dix thèmes, chacun peint de sa palette par défaut, Défaut en premier ; `OmniThemePalettes.All` donne les dix palettes. Sur une `OmniThemeScope` :
+
+- `Preset` seul : le thème avec sa palette par défaut ;
+- `Preset` et `Palette` : la forme du thème, les couleurs de la palette ;
+- `Palette` seule : les couleurs de la palette sur la forme livrée ;
+- ni l'un ni l'autre : l'apparence livrée, sans aucun script.
+
+`OmniThemePreset.With(palette)` fait la même combinaison en code : les jetons de la palette, puis `Shape` (la forme, posée sur les deux modes), puis `DarkShape` (les réglages propres au sombre, posés sur le seul mode sombre ; Galet, Halo, Papier et Nénuphar y relèvent leurs cartes, les six autres thèmes n'en ont pas). Le nom et la description restent ceux du thème. Un preset écrit à la main (`new OmniThemePreset(nom, description, clair, sombre)`) a une `Shape` et une `DarkShape` vides.
 
 ```razor
-<OmniThemeScope Appearance="OmniAppearance.System" Preset="@OmniThemePresets.All[0]">
+<OmniThemeScope Appearance="OmniAppearance.System"
+                Preset="@Halo"
+                Palette="@Braise"
+                Density="OmniDensity.Compact">
     ...
 </OmniThemeScope>
+
+@code {
+    private static readonly OmniThemePreset Halo = OmniThemePresets.All.Single(theme => theme.Name == "Halo");
+    private static readonly OmniThemePalette Braise = OmniThemePalettes.All.Single(palette => palette.Name == "Braise");
+
+    // Même combinaison, calculée une fois : Preset="@HaloBraise", sans Palette.
+    private static readonly OmniThemePreset HaloBraise = Halo.With(Braise);
+}
 ```
 
-Le thème ne repeint que sa portée. Les valeurs sont des surcharges des variables de la feuille livrée, posées par le CSSOM ; les variables de forme (`--omni-button-*`, `--omni-card-*`, `--omni-heading-*`, `--omni-border-width`) valent par défaut le rendu livré, si bien qu'une application peut aussi les redéfinir elle-même.
+Le thème ne repeint que sa portée. Les valeurs sont des surcharges des variables de la feuille, écrites par le CSSOM (`omni-theme.js`), jamais par un attribut `style` ; le mode suit `Appearance`, et `System` suit le réglage du système quand il change. Les variables de forme (`--omni-button-*`, `--omni-card-*`, `--omni-heading-*`, `--omni-border-width`) valent par défaut l'apparence livrée : une application peut aussi les redéfinir elle-même.
 
+### L'apparence livrée
+
+Sans `OmniThemeScope`, ou avec une portée sans thème ni palette, la page a l'aspect du thème Défaut avec la palette Défaut. Ces jetons ne sont pas écrits à la main : ils sont générés par la fabrique entre les marqueurs `omni:theme-tokens` de la feuille, pour le clair (`:root`, `[data-omni-theme="light"]`), le sombre et le mode système, et `ShippedThemeTokensTests` refuse toute retouche manuelle. Chaque jeton de couleur a donc sa valeur sombre.
+
+### Jetons de couleur
+
+Chaque sévérité (succès, information, avertissement, danger) et l'accent ont un jeton de texte (`--omni-color-X`, tenu à 4,5 sur la page et sur sa teinte pâle `-subtle`) et un jeton de remplissage (`--omni-color-X-fill`, avec `-fill-hover`, `-fill-active` et son encre `--omni-color-on-X-fill`) : le remplissage ne bouge que jusqu'à 3 contre la page, et c'est l'encre posée dessus qu'on pousse à 4,5, si bien que la couleur de marque reste reconnaissable. Les intentions ont en plus leurs fonds pleins : `--omni-color-info-bright` et `--omni-color-success-bright` avec l'encre `--omni-color-on-bright`, `--omni-color-warning-deep` et `--omni-color-danger-deep` avec `--omni-color-on-deep`, chacun avec son survol et son appui. Le bouton secondaire lit `--omni-color-neutral-fill`. La règle d'usage est dans [ui-conventions.md](ui-conventions.md). `ThemeContrastMatrixTests` vérifie 64 paires sur chacun des 200 jeux (4,5 pour un texte, 3 pour un remplissage ou l'accent contre la page, plancher de 1,7 pour une bordure).
+
+### Densité
+
+`OmniDensity` a trois valeurs : `Compact`, `Comfortable` (par défaut) et `Spacious`. `OmniThemeScope.Density` règle toute la portée ; `OmniButton`, `OmniFormField`, `OmniCard`, `OmniAlert`, `OmniTabs`, `OmniPanelMenu`, `OmniProfileMenu`, `OmniContextMenu`, `OmniSettingsTile` et `OmniUpload` ont leur propre `Density`, nulle par défaut pour hériter, qui l'emporte pour le composant et tout ce qu'il contient. `OmniDataGrid.Density` et `OmniResourceList.Density` gardent leur valeur propre, non nulle. La densité est un attribut `data-omni-density` qui pose des jetons hérités (hauteur de contrôle de 1,625, 2,25 ou 2,75 rem, marges, cases du calendrier, taille des cases à cocher, des interrupteurs et des icônes d'alerte), lus par chaque composant qui a une taille propre.
 ## Largeur du contenu et défilement
 
 `OmniLayout.Width` rétrécit toute la coquille. Pour garder l'en-tête et la barre latérale sur toute la largeur et ne centrer que le contenu, c'est `OmniMain.ContentWidth`. Avec `Scrollable`, l'élément principal devient le conteneur de défilement de la page : il couvre toute la zone laissée par la barre latérale, si bien que sa barre de défilement reste au bord droit de la fenêtre, jamais au bord de la colonne centrée. La colonne se centre par la marge intérieure de l'élément et comprend sa gouttière, `--omni-main-gutter` (l'espacement moyen par défaut). Un enfant à `block-size: 100%` remplit exactement la zone ; un contenu plus haut la fait défiler, marge du bas comprise.
