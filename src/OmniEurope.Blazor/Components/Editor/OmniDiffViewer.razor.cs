@@ -116,8 +116,12 @@ public partial class OmniDiffViewer
             if (!string.Equals(Height, _appliedHeight, StringComparison.Ordinal))
             {
                 _appliedHeight = Height;
-                _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
-                await _module.InvokeVoidAsync("setHeight", _root, Height);
+                if (!await EnsureModuleAsync())
+                {
+                    return;
+                }
+
+                await _module!.InvokeVoidAsync("setHeight", _root, Height);
             }
 
             if (_startedEngine != Engine)
@@ -131,7 +135,7 @@ public partial class OmniDiffViewer
                 }
             }
 
-            if (_phase != DiffPhase.Ready || _module is null)
+            if (_disposed || _phase != DiffPhase.Ready || _module is null)
             {
                 return;
             }
@@ -176,8 +180,12 @@ public partial class OmniDiffViewer
     private async Task LoadAsync()
     {
         _phase = DiffPhase.Loading;
-        _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
-        var loaded = await _module.InvokeAsync<bool>("load", MonacoPath, CultureInfo.CurrentUICulture.Name, LoadTimeoutMilliseconds);
+        if (!await EnsureModuleAsync())
+        {
+            return;
+        }
+
+        var loaded = await _module!.InvokeAsync<bool>("load", MonacoPath, CultureInfo.CurrentUICulture.Name, LoadTimeoutMilliseconds);
         if (_disposed || Engine != OmniCodeEditorEngine.Monaco)
         {
             return;
@@ -185,6 +193,28 @@ public partial class OmniDiffViewer
 
         _phase = loaded ? DiffPhase.Ready : DiffPhase.Failed;
         StateHasChanged();
+    }
+
+    /// <summary>
+    /// Imports the script once. A viewer disposed while the import was pending releases the module at
+    /// once rather than keeping one nothing will dispose; false then tells the caller to stop.
+    /// </summary>
+    private async Task<bool> EnsureModuleAsync()
+    {
+        if (_module is not null)
+        {
+            return !_disposed;
+        }
+
+        var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
+        if (_disposed)
+        {
+            await module.DisposeAsync();
+            return false;
+        }
+
+        _module = module;
+        return true;
     }
 
     private async Task UnmountAsync()

@@ -438,4 +438,6 @@
   <data name="DiffViewerOriginal" xml:space="preserve"><value>Before</value></data>
   <data name="DiffViewerModified" xml:space="preserve"><value>After</value></data>
   <data name="DiffViewerUnavailable" xml:space="preserve"><value>The Monaco editor could not be loaded: both versions are shown as plain text, without the changes marked.</value></data>
+  <data name="GitGraphMerge" xml:space="preserve"><value>Merge commit.</value></data>
+  <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
 </root>

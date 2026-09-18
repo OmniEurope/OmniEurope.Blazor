@@ -52,7 +52,15 @@
                         <span class="omni-step-timeline__columns">
                             @foreach (var column in VisibleColumns)
                             {
-                                <span class="omni-step-timeline__column">@column.Value(bar.Step)</span>
+                                var cell = column.Value(bar.Step);
+                                @* The header row is hidden from assistive technology, so each value is heard with its title. *@
+                                <span class="omni-step-timeline__column">
+                                    <span aria-hidden="true">@cell</span>
+                                    @if (!string.IsNullOrEmpty(cell))
+                                    {
+                                        <span class="omni-visually-hidden">@Localize("StepTimelineColumnValue", column.Title, cell)</span>
+                                    }
+                                </span>
                             }
                         </span>
                     }
