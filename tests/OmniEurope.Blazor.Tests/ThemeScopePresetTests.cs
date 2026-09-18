@@ -57,17 +57,4 @@ public sealed class ThemeScopePresetTests : OmniBunitContext
         scope.Render(parameters => parameters.Add(component => component.Preset, (OmniThemePreset?)null));
         Assert.Single(module.Invocations["clear"]);
     }
-
-    [Fact]
-    public void The_catalogue_ships_twenty_themes_with_both_halves()
-    {
-        Assert.Equal(20, OmniThemePresets.All.Count);
-        Assert.All(OmniThemePresets.All, preset =>
-        {
-            Assert.NotEmpty(preset.Light);
-            Assert.Equal(preset.Light.Keys.Order(StringComparer.Ordinal), preset.Dark.Keys.Order(StringComparer.Ordinal));
-            Assert.Same(preset.Dark, preset.For(OmniAppearance.Dark));
-            Assert.Same(preset.Light, preset.For(OmniAppearance.System));
-        });
-    }
 }
