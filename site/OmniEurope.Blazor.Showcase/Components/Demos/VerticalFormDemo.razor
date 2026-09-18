@@ -1,0 +1,196 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+@* Le formulaire vertical de la maquette (PLAN-008 T17 c) : libellé au-dessus, astérisque
+   d'obligation, aide, erreur avec icône, récapitulatif des erreurs en tête, tous les types de champ,
+   puis les états désactivé et lecture seule, distincts. Les deux erreurs sont de vraies erreurs de
+   validation posées dans le contexte d'édition : chaque champ en tire aria-invalid lui-même, et les
+   corriger les retire du récapitulatif. *@
+<EditForm EditContext="Context">
+    <OmniStack Gap="OmniSpacing.Medium">
+        @if (Errors.Count > 0)
+        {
+            <OmniAlert Severity="OmniAlertSeverity.Danger" Variant="OmniAlertVariant.Filled"
+                       Title="@Text["VFormSummaryTitle", Errors.Count]">
+                <ul class="demo-form-errors">
+                    @foreach (var error in Errors)
+                    {
+                        <li>@error</li>
+                    }
+                </ul>
+            </OmniAlert>
+        }
+
+        <OmniFormField For="vform-name" Required="true" Description="@Text["VFormNameHelp"]">
+            <Label>@Text["VFormName"]</Label>
+            <ChildContent>
+                <OmniTextBox Id="vform-name" @bind-Value="Model.Name" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField Id="vform-mail-field" For="vform-mail" Required="true" Error="@ErrorOf(nameof(Model.Email))">
+            <Label>@Text["VFormMail"]</Label>
+            <ChildContent>
+                <OmniTextBox Id="vform-mail" Type="OmniTextBoxType.Email" Autocomplete="email"
+                             AriaDescribedBy="@(ErrorOf(nameof(Model.Email)) is null ? null : "vform-mail-field-error")"
+                             @bind-Value="Model.Email" />
+            </ChildContent>
+        </OmniFormField>
+
+        <div class="demo-form-row">
+            <OmniFormField For="vform-token">
+                <Label>@Text["VFormToken"]</Label>
+                <ChildContent>
+                    <OmniPassword Id="vform-token" Autocomplete="off" Revealable="true" @bind-Value="Model.Token" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniFormField For="vform-replicas">
+                <Label>@Text["VFormReplicas"]</Label>
+                <ChildContent>
+                    <OmniNumeric TValue="int" Id="vform-replicas" Minimum="1" Maximum="12" Clamp="true" @bind-Value="Model.Replicas" />
+                </ChildContent>
+            </OmniFormField>
+        </div>
+
+        <div class="demo-form-row">
+            <OmniFormField For="vform-environment">
+                <Label>@Text["VFormEnvironment"]</Label>
+                <ChildContent>
+                    <OmniDropDown TValue="string" Id="vform-environment" Options="Environments" @bind-Value="Model.Environment" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniFormField For="vform-date">
+                <Label>@Text["VFormDate"]</Label>
+                <ChildContent>
+                    <OmniDatePicker Id="vform-date" @bind-Value="Model.Date" />
+                </ChildContent>
+            </OmniFormField>
+        </div>
+
+        <div class="demo-form-row">
+            <OmniFormField For="vform-time">
+                <Label>@Text["VFormTime"]</Label>
+                <ChildContent>
+                    <OmniTimePicker Id="vform-time" Step="5" @bind-Value="Model.Time" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniFormField For="vform-moment">
+                <Label>@Text["VFormMoment"]</Label>
+                <ChildContent>
+                    <OmniDateTimePicker Id="vform-moment" @bind-Value="Model.Moment" />
+                </ChildContent>
+            </OmniFormField>
+        </div>
+
+        <OmniFormField For="vform-description">
+            <Label>@Text["VFormDescription"]</Label>
+            <ChildContent>
+                <OmniTextArea Id="vform-description" Rows="3" @bind-Value="Model.Description" />
+            </ChildContent>
+        </OmniFormField>
+
+        @* La liste de choix porte elle-même aria-invalid tant que l'erreur est posée ; la ligne
+           d'erreur lui est reliée par aria-describedby. *@
+        <div class="demo-choice">
+            <OmniRadioButtonList TValue="string" Id="vform-strategy" Name="vform-strategy"
+                                 Label="@Text["VFormStrategy"]" Options="Strategies"
+                                 aria-describedby="@(ErrorOf(nameof(Model.Strategy)) is null ? null : "vform-strategy-error")"
+                                 @bind-Value="Model.Strategy" />
+            @if (ErrorOf(nameof(Model.Strategy)) is { } strategyError)
+            {
+                <p id="vform-strategy-error" class="demo-choice__error">
+                    <OmniIcon Name="OmniIconName.Error" />
+                    <span>@strategyError</span>
+                </p>
+            }
+        </div>
+
+        <OmniFieldset>
+            <Legend>@Text["VFormOptions"]</Legend>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Small">
+                    <span class="demo-check">
+                        <OmniCheckBox Id="vform-locked" @bind-Value="Model.LockedRestore" />
+                        <OmniLabel For="vform-locked">@Text["VFormLocked"]</OmniLabel>
+                    </span>
+                    <span class="demo-check">
+                        <OmniCheckBox Id="vform-symbols" @bind-Value="Model.Symbols" />
+                        <OmniLabel For="vform-symbols">@Text["VFormSymbols"]</OmniLabel>
+                    </span>
+                    <span class="demo-check">
+                        <OmniCheckBox Id="vform-signing" Disabled="true" @bind-Value="Model.Signing" />
+                        <OmniLabel For="vform-signing">@Text["VFormSigning"]</OmniLabel>
+                    </span>
+                    <OmniSwitch Id="vform-notify" @bind-Value="Model.Notify">@Text["VFormNotify"]</OmniSwitch>
+                    <OmniSwitch Id="vform-auto" Disabled="true" @bind-Value="Model.AutoDeploy">@Text["VFormAutoDeploy"]</OmniSwitch>
+                </OmniStack>
+            </ChildContent>
+        </OmniFieldset>
+
+        @* Les trois formes d'OmniUpload : le champ soudé à son bouton, la zone d'un seul fichier, la zone
+           de plusieurs fichiers en liste réduite (les trois plus récents, le compte, Afficher tout,
+           Tout retirer). Rien ne quitte le navigateur : le dépôt ne fait que garder le nom. *@
+        <OmniFieldset>
+            <Legend>@Text["VFormFiles"]</Legend>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Medium">
+                    <OmniFormField For="vform-manifest" Description="@Text["VFormManifestHelp"]">
+                        <Label>@Text["VFormManifest"]</Label>
+                        <ChildContent>
+                            <OmniUpload Display="OmniUploadDisplay.Field" InputId="vform-manifest"
+                                        MaximumFileSize="1048576" Upload="KeepAsync" @bind-Files="Manifest" />
+                        </ChildContent>
+                    </OmniFormField>
+                    <OmniFormField For="vform-archive" Description="@Text["VFormArchiveHelp"]">
+                        <Label>@Text["VFormArchive"]</Label>
+                        <ChildContent>
+                            <OmniUpload InputId="vform-archive" MaximumFiles="1" MaximumFileSize="52428800"
+                                        Upload="KeepAsync" @bind-Files="Archive" />
+                        </ChildContent>
+                    </OmniFormField>
+                    <OmniFormField For="vform-attachments" Description="@Text["VFormAttachmentsHelp"]">
+                        <Label>@Text["VFormAttachments"]</Label>
+                        <ChildContent>
+                            <OmniUpload Multiple="true" InputId="vform-attachments" MaximumFiles="10"
+                                        MaximumFileSize="20971520" ReducedList="true"
+                                        Upload="KeepAsync" @bind-Files="Attachments" />
+                        </ChildContent>
+                    </OmniFormField>
+                </OmniStack>
+            </ChildContent>
+        </OmniFieldset>
+
+        <div class="demo-form-row">
+            <OmniFormField For="vform-server" Disabled="true" Description="@Text["VFormServerHelp"]">
+                <Label>@Text["VFormServer"]</Label>
+                <ChildContent>
+                    <OmniTextBox Id="vform-server" Disabled="true" @bind-Value="Model.Server" />
+                </ChildContent>
+            </OmniFormField>
+            <OmniFormField For="vform-identifier" Description="@Text["VFormIdentifierHelp"]">
+                <Label>@Text["VFormIdentifier"]</Label>
+                <ChildContent>
+                    <OmniTextBox Id="vform-identifier" ReadOnly="true" @bind-Value="Model.Identifier" />
+                </ChildContent>
+            </OmniFormField>
+        </div>
+
+        <OmniFormField For="vform-agent" Disabled="true">
+            <Label>@Text["VFormAgent"]</Label>
+            <ChildContent>
+                <OmniDropDown TValue="string" Id="vform-agent" Disabled="true" Options="Agents" @bind-Value="Model.Agent" />
+            </ChildContent>
+        </OmniFormField>
+
+        <div class="demo-form-actions">
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Reset())">
+                <OmniIcon Name="OmniIconName.Close" />
+                <span>@Text["VFormCancel"]</span>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Primary" OnClick="@(_ => Save())">
+                <OmniIcon Name="OmniIconName.Save" />
+                <span>@Text["VFormSave"]</span>
+            </OmniButton>
+        </div>
+        <p class="demo-form-status" aria-live="polite">@Status</p>
+    </OmniStack>
+</EditForm>

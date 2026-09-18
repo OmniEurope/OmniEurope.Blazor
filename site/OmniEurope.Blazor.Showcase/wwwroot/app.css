@@ -129,3 +129,112 @@
 
 /* La page de connexion en miniature : un fond discret la détache du reste de la démonstration. */
 .showcase-preview-frame { background: var(--omni-color-surface-muted); border: var(--omni-border-width) dashed var(--omni-color-border); border-radius: var(--omni-radius); padding-inline: var(--omni-space-md); }
+
+/* Personnalisateur : la barre de réglages de la maquette, puis l'aperçu et son rail de contrastes. */
+.showcase-workshop-bar { align-items: end; background: var(--omni-color-surface-muted); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-wrap: wrap; gap: var(--omni-space-md) var(--omni-space-lg); margin-block: var(--omni-space-lg); padding: var(--omni-space-md) var(--omni-space-lg); }
+.showcase-workshop-bar > * { min-inline-size: 10rem; }
+.showcase-workshop-bar__field { display: grid; gap: var(--omni-field-gap); }
+.showcase-workshop { align-items: start; display: grid; gap: var(--omni-space-xl); grid-template-columns: minmax(0, 1fr) minmax(16rem, 20rem); }
+@media (max-width: 70rem) { .showcase-workshop { grid-template-columns: minmax(0, 1fr); } }
+.showcase-workshop__stage { min-inline-size: 0; }
+.showcase-workshop__rail { display: grid; gap: var(--omni-space-md); min-inline-size: 0; }
+.showcase-stage { display: grid; gap: var(--omni-space-lg); grid-template-columns: minmax(0, 1fr); }
+/* L'aperçu est plus étroit que la galerie : ses rangées de boutons et de badges passent à la ligne,
+   comme dans la maquette, au lieu de courir sous le rail des contrastes. */
+.showcase-stage .omni-stack--horizontal { flex-wrap: wrap; }
+.showcase-stage__block { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; gap: var(--omni-space-md); min-inline-size: 0; padding: var(--omni-section-pad); }
+.showcase-stage__head { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm) var(--omni-space-md); justify-content: space-between; }
+.showcase-stage__head .omni-heading { margin: 0; }
+.showcase-stage__density { align-items: center; display: inline-flex; gap: var(--omni-space-sm); }
+
+/* « Forcer le survol » : un navigateur ne fige pas :hover, ces règles rejouent celles du paquet sur
+   l'aperçu, avec les mêmes jetons, le temps de comparer les survols d'un thème d'un coup d'œil. */
+.showcase-force-hover .omni-button:not(:disabled),
+.showcase-force-hover .omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle):not(:disabled) { background: var(--omni-button-fill-hover); }
+.showcase-force-hover .omni-tabs__tab { background: var(--omni-color-surface-hover); color: var(--omni-color-text); }
+.showcase-force-hover :is(.omni-panel-menu__link, .omni-panel-menu__summary, .omni-profile-menu__item) { background: var(--omni-color-surface-hover); }
+.showcase-force-hover .omni-data-grid--row-hover tbody > tr { --omni-row-fill: color-mix(in srgb, var(--omni-color-text) 7%, transparent); }
+.showcase-force-hover .omni-data-grid thead > tr > .omni-data-grid__column--sortable { background: var(--omni-header-fill-hover); color: var(--omni-color-text); }
+
+.showcase-contrasts,
+.showcase-swatches { display: grid; gap: 2px; list-style: none; margin: 0; padding: 0; }
+.showcase-contrast { align-items: baseline; display: flex; font-size: var(--omni-font-size-sm); gap: var(--omni-space-sm); justify-content: space-between; padding-block: 2px; }
+.showcase-contrast > :first-child { min-inline-size: 0; }
+.showcase-contrast__ratio { flex: none; font-family: var(--omni-font-family-monospace); white-space: nowrap; }
+.showcase-contrast--failed { color: var(--omni-color-danger); font-weight: 600; }
+.showcase-swatch { align-items: center; display: grid; font-size: var(--omni-font-size-sm); gap: var(--omni-space-sm); grid-template-columns: auto minmax(0, 1fr) auto; }
+.showcase-swatch__chip { block-size: 1.25rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-sm, var(--omni-radius)); inline-size: 1.25rem; }
+.showcase-swatch__value { font-family: var(--omni-font-family-monospace); max-inline-size: 9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.showcase-swatch__chip-accent-fill { background: var(--omni-color-accent-fill); }
+.showcase-swatch__chip-success-fill { background: var(--omni-color-success-fill); }
+.showcase-swatch__chip-info-fill { background: var(--omni-color-info-fill); }
+.showcase-swatch__chip-warning-fill { background: var(--omni-color-warning-fill); }
+.showcase-swatch__chip-danger-fill { background: var(--omni-color-danger-fill); }
+.showcase-swatch__chip-accent { background: var(--omni-color-accent); }
+.showcase-swatch__chip-accent-strong { background: var(--omni-color-accent-strong); }
+.showcase-swatch__chip-success { background: var(--omni-color-success); }
+.showcase-swatch__chip-info { background: var(--omni-color-info); }
+.showcase-swatch__chip-warning { background: var(--omni-color-warning); }
+.showcase-swatch__chip-danger { background: var(--omni-color-danger); }
+.showcase-swatch__chip-text { background: var(--omni-color-text); }
+.showcase-swatch__chip-text-muted { background: var(--omni-color-text-muted); }
+.showcase-swatch__chip-border { background: var(--omni-color-border); }
+.showcase-swatch__chip-surface { background: var(--omni-color-surface); }
+.showcase-swatch__chip-surface-muted { background: var(--omni-color-surface-muted); }
+.showcase-swatch__chip-surface-hover { background: var(--omni-color-surface-hover); }
+.showcase-swatch__chip-surface-highlight { background: var(--omni-color-surface-highlight); }
+
+/* Compositions de la maquette. Ce que le paquet ne dessine pas y est dessiné ici, et signalé dans la
+   démonstration qui s'en sert. */
+.demo-hint { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
+.demo-form-errors { margin: 0; padding-inline-start: 1.25rem; }
+.demo-form-row { display: grid; gap: var(--omni-form-gap); grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+.demo-form-actions { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: flex-end; }
+.demo-form-status { color: var(--omni-color-text-muted); margin: 0; min-block-size: 1.25em; }
+.demo-choice { display: grid; gap: var(--omni-field-gap); }
+.demo-choice__error { align-items: center; color: var(--omni-color-danger); display: flex; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); margin: 0; }
+.demo-check { align-items: center; display: inline-flex; gap: var(--omni-space-sm); }
+.demo-check .omni-label { font-weight: 400; }
+/* Le contrôle d'une tuile se tient à droite du nom, comme dans la maquette : sans cadre, un champ
+   pleine largeur passait sous le nom. */
+.demo-tile-control { align-items: center; display: flex; flex: 0 1 20rem; gap: var(--omni-space-sm); min-inline-size: 0; }
+.demo-tile-control > .omni-input { flex: 1 1 auto; min-inline-size: 0; }
+
+.demo-loading-frame { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); overflow: hidden; }
+.demo-loading-frame__head { align-items: baseline; background: var(--omni-color-surface); display: flex; gap: var(--omni-space-md); padding: var(--omni-space-sm) var(--omni-space-md); }
+.demo-loading-frame__head span { color: var(--omni-color-text-muted); }
+
+.demo-notices { display: grid; gap: var(--omni-space-sm); justify-items: start; }
+
+.demo-cards { display: grid; gap: var(--omni-space-md); grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); }
+.demo-card-head { align-items: center; display: flex; gap: var(--omni-space-sm); }
+.demo-card-head .omni-heading { margin: 0; }
+.demo-figure { display: block; font-size: var(--omni-font-size-h3); font-weight: 700; }
+.demo-surfaces-row { align-items: start; display: grid; gap: var(--omni-space-lg); grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr); }
+.demo-menu-item { align-items: center; display: flex; gap: var(--omni-space-sm); }
+.demo-menu-item small { color: var(--omni-color-text-muted); display: block; font-size: var(--omni-font-size-sm); }
+
+.demo-state-label { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); inline-size: 6rem; }
+.demo-state-hover.omni-button:not(:disabled) { background: var(--omni-button-fill-hover); }
+.demo-state-press.omni-button:not(:disabled) { background: var(--omni-button-fill-active); box-shadow: var(--omni-button-press-shadow, var(--omni-button-shadow)); transform: var(--omni-button-press-transform, translateY(1px)); }
+.demo-state-press.omni-button--ghost:not(:disabled) { box-shadow: 0 0 #0000; }
+
+.demo-themes { display: grid; gap: var(--omni-space-md); grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+
+/* Coquille d'application : logo, loupe, pastille de la cloche et avatar, que le paquet n'a pas. */
+.demo-appshell { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); overflow: hidden; }
+.demo-appbar__brand { align-items: center; display: inline-flex; font-weight: var(--omni-heading-font-weight, 700); gap: var(--omni-space-sm); }
+.demo-appbar__logo { background: var(--omni-color-accent-fill); block-size: calc(var(--omni-icon-box) * 0.72); border-radius: var(--omni-radius); color: var(--omni-color-on-accent-fill); display: grid; font-size: 0.75rem; font-weight: 800; inline-size: calc(var(--omni-icon-box) * 0.72); place-content: center; }
+.demo-appbar__search { flex: 1 1 11rem; margin: 0 0 0 auto; max-inline-size: 17rem; position: relative; }
+.demo-appbar__search > .omni-icon { color: var(--omni-color-text-muted); inset-block-start: 50%; inset-inline-start: 9px; pointer-events: none; position: absolute; transform: translateY(-50%); }
+.demo-appbar__search .omni-input { box-sizing: border-box; inline-size: 100%; padding-inline-start: 30px; }
+.demo-appbar__actions { align-items: center; display: flex; gap: 6px; }
+.demo-appbar__bell { position: relative; }
+.demo-appbar__dot { background: var(--omni-color-danger-fill); block-size: 0.5rem; border-radius: var(--omni-radius-circle); box-shadow: 0 0 0 2px var(--omni-color-surface); inline-size: 0.5rem; inset-block-start: 5px; inset-inline-end: 5px; pointer-events: none; position: absolute; }
+.demo-appbar__account .omni-profile-menu__summary { border-radius: var(--omni-radius-circle); display: block; }
+.demo-appbar__account .omni-profile-menu__summary::-webkit-details-marker { display: none; }
+.demo-appbar__account .omni-profile-menu__summary:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.demo-appbar__avatar { block-size: calc(var(--omni-icon-box) * 0.9); inline-size: calc(var(--omni-icon-box) * 0.9); }
+.demo-appshell .omni-main { align-content: start; display: grid; flex: 1 1 auto; gap: var(--omni-space-md); padding: var(--omni-section-pad); }
+.demo-appshell__tiles { display: grid; gap: var(--omni-space-sm); grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); }
+.demo-appshell__tiles .omni-heading { margin: 0; }

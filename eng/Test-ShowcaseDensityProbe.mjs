@@ -33,7 +33,9 @@ const EXEMPT = [
   // in fixed rem outside the density blocks (button, tab, menu, upload, dialog close, date toggle at
   // 1.05rem), the alert glyph being the one token of its own, while the box around a glyph (disc,
   // button, toggle) follows the density. OmniIcon's size is also the consumer's explicit choice.
-  ['.omni-icon, .omni-date__toggle svg', 'glyphe d\'icône, marque de texte gardée fixe par la maquette ; sa boîte suit la densité'],
+  // The field error glyph is one of them: 0.875rem beside an error line of fixed 0.75rem text in the
+  // mockup (.omni-field__error svg), which no density rule of the mockup resizes.
+  ['.omni-icon, .omni-date__toggle svg, .omni-form-field__error-icon', 'glyphe d\'icône, marque de texte gardée fixe par la maquette ; sa boîte suit la densité'],
   // Status dots: a mark the size of a letter, not a control; the plan exempts them. The status strip
   // is a row of them (or, in its segment form, a status bar).
   ['.omni-status, .omni-status-strip', 'pastille de statut : repère de la taille d\'une lettre, pas un contrôle'],

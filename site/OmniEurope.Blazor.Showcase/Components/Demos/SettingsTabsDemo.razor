@@ -1,0 +1,73 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+@* Des réglages en onglets à icône, sur le modèle de la page de réglages d'Orpheus (PLAN-008 T17 c) :
+   un onglet par thème, une section par onglet, une tuile par réglage, le contrôle à droite. Un
+   interrupteur posé dans une tuile prend le nom de la tuile pour libellé, et un clic n'importe où sur
+   la tuile le bascule. *@
+<EditForm Model="Model">
+    <OmniTabs Label="@Text["SettingsTabsLabel"]" Keys="Keys" @bind-Value="Tab">
+        <OmniTabsItem Key="general" Title="@Text["SettingsGeneral"]" IconName="OmniIconName.Settings">
+            <OmniSettingsSection Title="@Text["SettingsGeneral"]" Description="@Text["SettingsGeneralLead"]">
+                <OmniSettingsTile Title="@Text["SettingsFolder"]" Description="@Text["SettingsFolderHint"]">
+                    <Icon><OmniIcon Name="OmniIconName.FolderOpen" /></Icon>
+                    <ChildContent>
+                        <span class="demo-tile-control">
+                            <OmniTextBox Id="settings-folder" aria-label="@Text["SettingsFolder"]" @bind-Value="Model.Folder" />
+                            <OmniButton Variant="OmniButtonVariant.Secondary">
+                                <OmniIcon Name="OmniIconName.Folder" />
+                                <span>@Text["SettingsBrowse"]</span>
+                            </OmniButton>
+                        </span>
+                    </ChildContent>
+                </OmniSettingsTile>
+                <OmniSettingsTile Title="@Text["SettingsStartup"]" Description="@Text["SettingsStartupHint"]">
+                    <Icon><OmniIcon Name="OmniIconName.Play" /></Icon>
+                    <ChildContent><OmniSwitch Id="settings-startup" @bind-Value="Model.StartWithSystem" /></ChildContent>
+                </OmniSettingsTile>
+                <OmniSettingsTile Title="@Text["SettingsLanguage"]" Description="@Text["SettingsLanguageHint"]">
+                    <Icon><OmniIcon Name="OmniIconName.Globe" /></Icon>
+                    <ChildContent>
+                        <span class="demo-tile-control">
+                            <OmniDropDown TValue="string" Id="settings-language" AriaLabel="@Text["SettingsLanguage"]"
+                                          Options="Languages" @bind-Value="Model.Language" />
+                        </span>
+                    </ChildContent>
+                </OmniSettingsTile>
+            </OmniSettingsSection>
+        </OmniTabsItem>
+        <OmniTabsItem Key="display" Title="@Text["SettingsDisplay"]" IconName="OmniIconName.Palette">
+            <OmniSettingsSection Title="@Text["SettingsDisplay"]" Description="@Text["SettingsDisplayLead"]">
+                <OmniSettingsTile Title="@Text["SettingsDarkMode"]" Description="@Text["SettingsDarkModeHint"]">
+                    <Icon><OmniIcon Name="OmniIconName.ThemeDark" /></Icon>
+                    <ChildContent>
+                        <span class="demo-tile-control">
+                            <OmniDropDown TValue="string" Id="settings-mode" AriaLabel="@Text["SettingsDarkMode"]"
+                                          Options="Modes" @bind-Value="Model.Mode" />
+                        </span>
+                    </ChildContent>
+                </OmniSettingsTile>
+                <OmniSettingsTile Title="@Text["SettingsCompact"]" Description="@Text["SettingsCompactHint"]">
+                    <Icon><OmniIcon Name="OmniIconName.Rows" /></Icon>
+                    <ChildContent><OmniSwitch Id="settings-compact" @bind-Value="Model.Compact" /></ChildContent>
+                </OmniSettingsTile>
+            </OmniSettingsSection>
+        </OmniTabsItem>
+        <OmniTabsItem Key="notifications" Title="@Text["SettingsNotifications"]" IconName="OmniIconName.Bell">
+            <OmniSettingsSection Title="@Text["SettingsNotifications"]" Description="@Text["SettingsNotificationsLead"]">
+                <OmniSettingsTile Title="@Text["SettingsFailures"]" Description="@Text["SettingsFailuresHint"]">
+                    <Icon><OmniIcon Name="OmniIconName.Warning" /></Icon>
+                    <ChildContent><OmniSwitch Id="settings-failures" @bind-Value="Model.Failures" /></ChildContent>
+                </OmniSettingsTile>
+                <OmniSettingsTile Title="@Text["SettingsDigest"]" Description="@Text["SettingsDigestHint"]">
+                    <Icon><OmniIcon Name="OmniIconName.At" /></Icon>
+                    <ChildContent>
+                        <span class="demo-tile-control">
+                            <OmniTextBox Id="settings-digest" Type="OmniTextBoxType.Email" aria-label="@Text["SettingsDigestAddress"]"
+                                         @bind-Value="Model.DigestAddress" />
+                        </span>
+                    </ChildContent>
+                </OmniSettingsTile>
+            </OmniSettingsSection>
+        </OmniTabsItem>
+    </OmniTabs>
+</EditForm>

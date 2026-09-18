@@ -1,0 +1,27 @@
+@* Un thème donne la forme, une palette les couleurs, et toute palette peint tout thème : Preset et
+   Palette d'OmniThemeScope, ou OmniThemePreset.With pour composer soi-même. Seul le scope et son
+   contenu changent. Une palette seule garde la forme livrée. Le personnalisateur applique la même
+   combinaison à tout le site. *@
+<div class="demo-themes">
+    @foreach (var sample in Samples)
+    {
+        <OmniThemeScope Appearance="sample.Appearance" Preset="sample.Theme" Palette="sample.Palette">
+            <OmniCard>
+                <Header>
+                    <OmniHeading Level="OmniHeadingLevel.H4">@Caption(sample)</OmniHeading>
+                </Header>
+                <ChildContent>
+                    <OmniStack Gap="OmniSpacing.Small">
+                        <p>@(sample.Theme?.Description ?? sample.Palette?.Description)</p>
+                        <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+                            <OmniButton><OmniIcon Name="OmniIconName.Save" /><span>@Text["ThemesSave"]</span></OmniButton>
+                            <OmniButton Variant="OmniButtonVariant.Secondary"><OmniIcon Name="OmniIconName.Close" /><span>@Text["ThemesCancel"]</span></OmniButton>
+                            <OmniBadge Variant="OmniBadgeVariant.Success" Fill="OmniBadgeFill.Solid">@Text["ThemesBadge"]</OmniBadge>
+                        </OmniRow>
+                        <OmniAlert Severity="OmniAlertSeverity.Info" Variant="OmniAlertVariant.Filled">@Text["ThemesAlert"]</OmniAlert>
+                    </OmniStack>
+                </ChildContent>
+            </OmniCard>
+        </OmniThemeScope>
+    }
+</div>

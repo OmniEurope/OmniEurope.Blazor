@@ -76,24 +76,20 @@
   <data name="DemoAlertsCapability3" xml:space="preserve"><value>A live mode that announces the message to assistive technology.</value></data>
   <data name="CustomizePageTitle" xml:space="preserve"><value>Customization</value></data>
   <data name="CustomizeTitle" xml:space="preserve"><value>Customization</value></data>
-  <data name="CustomizeLead" xml:space="preserve"><value>Every variable of the stylesheet can be edited here, and the whole site repaints as you move it.</value></data>
-  <data name="CustomizeModeTitle" xml:space="preserve"><value>Mode</value></data>
-  <data name="CustomizePresetsTitle" xml:space="preserve"><value>Ready-made themes</value></data>
-  <data name="CustomizePresetsLead" xml:space="preserve"><value>Twenty themes drawn for the library, each in light and dark. They change more than colours: radii, borders, shadows, fonts and the way buttons are drawn.</value></data>
-  <data name="PresetApply" xml:space="preserve"><value>Apply</value></data>
+  <data name="CustomizeLead" xml:space="preserve"><value>Pick a theme, which gives the shape, then a palette, which gives the colours: any palette paints any theme, and the whole site repaints as you go. The preview takes up the compositions of the reference mockup.</value></data>
   <data name="CustomizeTokensTitle" xml:space="preserve"><value>Variables</value></data>
-  <data name="CustomizeTokensLead" xml:space="preserve"><value>This list is read from the shipped stylesheet, so it cannot drift away from what the library actually exposes.</value></data>
-  <data name="CustomizeReset" xml:space="preserve"><value>Reset everything</value></data>
+  <data name="CustomizeTokensLead" xml:space="preserve"><value>This list is read from the shipped stylesheet, so it cannot drift away from what the library actually exposes. An edited variable is laid over the combination, in both modes; picking another theme or palette clears it.</value></data>
+  <data name="CustomizeReset" xml:space="preserve"><value>Clear the edits</value></data>
   <data name="TokenGroupColor" xml:space="preserve"><value>Colours</value></data>
   <data name="TokenGroupTypography" xml:space="preserve"><value>Typography</value></data>
-  <data name="TokenGroupSpacing" xml:space="preserve"><value>Spacing</value></data>
-  <data name="TokenGroupShape" xml:space="preserve"><value>Shape and borders</value></data>
-  <data name="TokenGroupElevation" xml:space="preserve"><value>Shadows and overlays</value></data>
+  <data name="TokenGroupSpacing" xml:space="preserve"><value>Spacing and density</value></data>
+  <data name="TokenGroupShape" xml:space="preserve"><value>Shape, borders and press</value></data>
+  <data name="TokenGroupElevation" xml:space="preserve"><value>Shadows, layer and overlays</value></data>
   <data name="TokenGroupChart" xml:space="preserve"><value>Charts</value></data>
   <data name="TokenGroupGrid" xml:space="preserve"><value>Data grid in dark mode</value></data>
   <data name="TokenGroupDiagram" xml:space="preserve"><value>Mind map</value></data>
   <data name="CustomizeExportTitle" xml:space="preserve"><value>Export</value></data>
-  <data name="CustomizeExportLead" xml:space="preserve"><value>The CSS below carries only the variables you moved, to be loaded after the library stylesheet.</value></data>
+  <data name="CustomizeExportLead" xml:space="preserve"><value>The CSS below carries the whole combination, edited variables included, in light, in dark and for the system mode. It targets the theme scope (OmniThemeScope, data-omni-theme), where the stylesheet redeclares its variables; load it after the library stylesheet.</value></data>
   <data name="CustomizeCopy" xml:space="preserve"><value>Copy</value></data>
   <data name="CustomizeDownload" xml:space="preserve"><value>Download</value></data>
   <data name="CustomizeCopied" xml:space="preserve"><value>The CSS was copied to the clipboard.</value></data>
@@ -232,4 +228,313 @@
   <data name="DemoFlowsCapability1" xml:space="preserve"><value>Step wizard: progress, per-step validation, in a page or in a dialog.</value></data>
   <data name="DemoFlowsCapability2" xml:space="preserve"><value>A sign-in page with no authentication built in, and a return address kept inside the application.</value></data>
   <data name="DemoFlowsCapability3" xml:space="preserve"><value>Lost connection overlay: countdown, reason, manual retry, failure and refusal.</value></data>
+  <data name="WorkshopBarTitle" xml:space="preserve"><value>Preview settings</value></data>
+  <data name="WorkshopTheme" xml:space="preserve"><value>Theme (shape)</value></data>
+  <data name="WorkshopPalette" xml:space="preserve"><value>Palette (colours)</value></data>
+  <data name="WorkshopThemePalette" xml:space="preserve"><value>Theme's palette</value></data>
+  <data name="WorkshopDefault" xml:space="preserve"><value>Default</value></data>
+  <data name="WorkshopMode" xml:space="preserve"><value>Mode</value></data>
+  <data name="WorkshopModeLight" xml:space="preserve"><value>Light</value></data>
+  <data name="WorkshopModeDark" xml:space="preserve"><value>Dark</value></data>
+  <data name="WorkshopModeSystem" xml:space="preserve"><value>System</value></data>
+  <data name="WorkshopDensity" xml:space="preserve"><value>Global density</value></data>
+  <data name="WorkshopDensityCompact" xml:space="preserve"><value>Compact</value></data>
+  <data name="WorkshopDensityComfortable" xml:space="preserve"><value>Comfortable</value></data>
+  <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Spacious</value></data>
+  <data name="WorkshopDensityInherited" xml:space="preserve"><value>Inherited</value></data>
+  <data name="WorkshopSectionDensity" xml:space="preserve"><value>Density</value></data>
+  <data name="WorkshopHover" xml:space="preserve"><value>Hover</value></data>
+  <data name="WorkshopHoverForce" xml:space="preserve"><value>Force</value></data>
+  <data name="WorkshopHoverForced" xml:space="preserve"><value>Forced</value></data>
+  <data name="WorkshopStageTitle" xml:space="preserve"><value>Preview</value></data>
+  <data name="WorkshopStageLead" xml:space="preserve"><value>Theme {0}: {1} Palette {2}: {3}</value></data>
+  <data name="WorkshopContrastTitle" xml:space="preserve"><value>Computed contrasts</value></data>
+  <data name="WorkshopContrastLead" xml:space="preserve"><value>Ratio measured on the tokens of the mode shown, then the threshold to reach.</value></data>
+  <data name="WorkshopContrastSystem" xml:space="preserve"><value>System mode: the ratios are measured on the light half, since the half the browser picks is only known in the page.</value></data>
+  <data name="WorkshopContrastVerdict" xml:space="preserve"><value>{0} pairs out of {1} reach their threshold.</value></data>
+  <data name="WorkshopSwatchesTitle" xml:space="preserve"><value>Colour tokens</value></data>
+  <data name="ContrastPair01" xml:space="preserve"><value>text / surface</value></data>
+  <data name="ContrastPair02" xml:space="preserve"><value>text / muted surface</value></data>
+  <data name="ContrastPair03" xml:space="preserve"><value>text / hovered surface</value></data>
+  <data name="ContrastPair04" xml:space="preserve"><value>muted text / surface</value></data>
+  <data name="ContrastPair05" xml:space="preserve"><value>muted text / muted surface</value></data>
+  <data name="ContrastPair06" xml:space="preserve"><value>muted text / hovered surface</value></data>
+  <data name="ContrastPair07" xml:space="preserve"><value>strong accent / surface</value></data>
+  <data name="ContrastPair08" xml:space="preserve"><value>strong accent / subtle accent</value></data>
+  <data name="ContrastPair09" xml:space="preserve"><value>strong accent / hovered surface</value></data>
+  <data name="ContrastPair10" xml:space="preserve"><value>on accent / accent</value></data>
+  <data name="ContrastPair11" xml:space="preserve"><value>on success / success</value></data>
+  <data name="ContrastPair12" xml:space="preserve"><value>on warning / warning</value></data>
+  <data name="ContrastPair13" xml:space="preserve"><value>on danger / danger</value></data>
+  <data name="ContrastPair14" xml:space="preserve"><value>on inverse / inverse</value></data>
+  <data name="ContrastPair15" xml:space="preserve"><value>success / surface</value></data>
+  <data name="ContrastPair16" xml:space="preserve"><value>success / subtle success</value></data>
+  <data name="ContrastPair17" xml:space="preserve"><value>warning / surface</value></data>
+  <data name="ContrastPair18" xml:space="preserve"><value>danger / surface</value></data>
+  <data name="ContrastPair19" xml:space="preserve"><value>danger / subtle danger</value></data>
+  <data name="ContrastPair20" xml:space="preserve"><value>text on accent fill</value></data>
+  <data name="ContrastPair21" xml:space="preserve"><value>text on success fill</value></data>
+  <data name="ContrastPair22" xml:space="preserve"><value>text on info fill</value></data>
+  <data name="ContrastPair23" xml:space="preserve"><value>ink on bright info (alert)</value></data>
+  <data name="ContrastPair24" xml:space="preserve"><value>ink on bright success (alert)</value></data>
+  <data name="ContrastPair25" xml:space="preserve"><value>ink on hovered bright info</value></data>
+  <data name="ContrastPair26" xml:space="preserve"><value>ink on pressed bright info</value></data>
+  <data name="ContrastPair27" xml:space="preserve"><value>ink on hovered bright success</value></data>
+  <data name="ContrastPair28" xml:space="preserve"><value>ink on pressed bright success</value></data>
+  <data name="ContrastPair29" xml:space="preserve"><value>ink on deep warning (button)</value></data>
+  <data name="ContrastPair30" xml:space="preserve"><value>ink on hovered deep warning</value></data>
+  <data name="ContrastPair31" xml:space="preserve"><value>ink on pressed deep warning</value></data>
+  <data name="ContrastPair32" xml:space="preserve"><value>ink on deep danger (button)</value></data>
+  <data name="ContrastPair33" xml:space="preserve"><value>ink on hovered deep danger</value></data>
+  <data name="ContrastPair34" xml:space="preserve"><value>ink on pressed deep danger</value></data>
+  <data name="ContrastPair35" xml:space="preserve"><value>text on accent fill, hover</value></data>
+  <data name="ContrastPair36" xml:space="preserve"><value>text on accent fill, press</value></data>
+  <data name="ContrastPair37" xml:space="preserve"><value>secondary at rest</value></data>
+  <data name="ContrastPair38" xml:space="preserve"><value>secondary on hover</value></data>
+  <data name="ContrastPair39" xml:space="preserve"><value>secondary on press</value></data>
+  <data name="ContrastPair40" xml:space="preserve"><value>ghost on press</value></data>
+  <data name="ContrastPair41" xml:space="preserve"><value>accent fill / surface</value></data>
+  <data name="ContrastPair42" xml:space="preserve"><value>success fill / surface</value></data>
+  <data name="ContrastPair43" xml:space="preserve"><value>info fill / surface</value></data>
+  <data name="ContrastPair44" xml:space="preserve"><value>warning fill / surface</value></data>
+  <data name="ContrastPair45" xml:space="preserve"><value>danger fill / surface</value></data>
+  <data name="ContrastPair46" xml:space="preserve"><value>accent / surface</value></data>
+  <data name="ContrastPair47" xml:space="preserve"><value>border / surface (OE floor 1.7)</value></data>
+  <data name="DemoStatesTitle" xml:space="preserve"><value>Rest, hover and press</value></data>
+  <data name="DemoStatesSummary" xml:space="preserve"><value>The three states of a button variant side by side.</value></data>
+  <data name="DemoStatesCapability1" xml:space="preserve"><value>Hover and press read the theme's tokens: hovered fill, pressed fill and press gesture.</value></data>
+  <data name="DemoStatesCapability2" xml:space="preserve"><value>A comparison aid of the showcase: a browser cannot freeze :hover or :active.</value></data>
+  <data name="DemoAppShellTitle" xml:space="preserve"><value>Application shell</value></data>
+  <data name="DemoAppShellSummary" xml:space="preserve"><value>Top bar, side menu that collapses to an icon rail, content.</value></data>
+  <data name="DemoAppShellCapability1" xml:space="preserve"><value>Collapse button, search, help, bell with a dot and an account menu closed at rest.</value></data>
+  <data name="DemoAppShellCapability2" xml:space="preserve"><value>The side menu keeps its icons once collapsed (Collapse Icons).</value></data>
+  <data name="DemoAppShellCapability3" xml:space="preserve"><value>The dot, the magnifier, the logo and the avatar are drawn by the showcase: the package has no component for them.</value></data>
+  <data name="DemoThemesTitle" xml:space="preserve"><value>Themes and palettes</value></data>
+  <data name="DemoThemesSummary" xml:space="preserve"><value>A theme gives the shape, a palette the colours; any palette paints any theme.</value></data>
+  <data name="DemoThemesCapability1" xml:space="preserve"><value>OmniThemeScope.Preset and OmniThemeScope.Palette repaint the scope and its content, and nothing else.</value></data>
+  <data name="DemoThemesCapability2" xml:space="preserve"><value>A palette alone changes the colours and keeps the shipped shape.</value></data>
+  <data name="DemoThemesCapability3" xml:space="preserve"><value>Ten themes and ten palettes, a hundred combinations, each in light and dark.</value></data>
+  <data name="DemoSurfacesTitle" xml:space="preserve"><value>Surfaces</value></data>
+  <data name="DemoSurfacesSummary" xml:space="preserve"><value>Cards, floating menu, tabs, side menu, link and tooltip.</value></data>
+  <data name="DemoSurfacesCapability1" xml:space="preserve"><value>Cards and the floating menu read the theme's shape: fill, stroke, radius and shadow.</value></data>
+  <data name="DemoSurfacesCapability2" xml:space="preserve"><value>The floating menu opens on the floating-surface layer.</value></data>
+  <data name="DemoSurfacesCapability3" xml:space="preserve"><value>A menu's current item is marked by its fill and text weight, never by a side bar.</value></data>
+  <data name="DemoVerticalFormTitle" xml:space="preserve"><value>Vertical form</value></data>
+  <data name="DemoVerticalFormSummary" xml:space="preserve"><value>Every field type, the errors and their summary, the disabled and read-only states.</value></data>
+  <data name="DemoVerticalFormCapability1" xml:space="preserve"><value>Label above, required asterisk, help and error with an icon.</value></data>
+  <data name="DemoVerticalFormCapability2" xml:space="preserve"><value>The errors are those of the edit context: the field takes aria-invalid from them, fixing them removes them from the summary.</value></data>
+  <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Welded file field, single-file zone, multiple-file zone with a reduced list.</value></data>
+  <data name="DemoVerticalFormCapability4" xml:space="preserve"><value>Disabled and read-only stay distinct, in the three densities.</value></data>
+  <data name="DemoSettingsTabsTitle" xml:space="preserve"><value>Settings in tabs</value></data>
+  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>One icon tab per theme, one section per tab, one tile per setting.</value></data>
+  <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>A switch in a tile takes the tile's name as its label; a click on the tile toggles it.</value></data>
+  <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>The control stands on the right, the name, hint and icon on the left.</value></data>
+  <data name="DemoNoticesTitle" xml:space="preserve"><value>Notifications and dialogs</value></data>
+  <data name="DemoNoticesSummary" xml:space="preserve"><value>Dismissible notifications, dialogs on the backdrop.</value></data>
+  <data name="DemoNoticesCapability1" xml:space="preserve"><value>Each notification closes with its cross.</value></data>
+  <data name="DemoNoticesCapability2" xml:space="preserve"><value>The dialogs' footer follows the package convention: the action first, then Cancel.</value></data>
+  <data name="DemoLoadingTitle" xml:space="preserve"><value>Loading</value></data>
+  <data name="DemoLoadingSummary" xml:space="preserve"><value>Loading bar, waiting, busy buttons, progress and skeleton.</value></data>
+  <data name="DemoLoadingCapability1" xml:space="preserve"><value>The bar follows a real load, sweeping or filling, reaches the end then fades.</value></data>
+  <data name="DemoLoadingCapability2" xml:space="preserve"><value>A busy button keeps its size and content: a veil breathes over it.</value></data>
+  <data name="DemoLoadingCapability3" xml:space="preserve"><value>The skeleton takes the shape of what it replaces.</value></data>
+  <data name="DemoRunGridsTitle" xml:space="preserve"><value>Run grids</value></data>
+  <data name="DemoRunGridsSummary" xml:space="preserve"><value>The mockup's two grids: sorted with an active column, striped with a sticky header.</value></data>
+  <data name="DemoRunGridsCapability1" xml:space="preserve"><value>The sorted column is tinted more lightly than the chosen row, so they tell apart.</value></data>
+  <data name="DemoRunGridsCapability2" xml:space="preserve"><value>The header stays visible as the grid scrolls; the duration aligns at the end.</value></data>
+  <data name="DemoRunGridsCapability3" xml:space="preserve"><value>The status is a compact dot (omni-status).</value></data>
+  <data name="LoadingFrameBrand" xml:space="preserve"><value>Aetheus</value></data>
+  <data name="LoadingFramePage" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="LoadingBarLabel" xml:space="preserve"><value>Page loading</value></data>
+  <data name="LoadingSweep" xml:space="preserve"><value>Sweeping bar</value></data>
+  <data name="LoadingFill" xml:space="preserve"><value>Filling bar</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>The bar sits under the header above. At the end it reaches the end, then fades.</value></data>
+  <data name="LoadingWaiting" xml:space="preserve"><value>Waiting</value></data>
+  <data name="LoadingDeploying" xml:space="preserve"><value>Deploying</value></data>
+  <data name="LoadingChecking" xml:space="preserve"><value>Checking</value></data>
+  <data name="LoadingSaving" xml:space="preserve"><value>Saving</value></data>
+  <data name="LoadingAnalysis" xml:space="preserve"><value>Analysis in progress</value></data>
+  <data name="LoadingCoverage" xml:space="preserve"><value>Coverage</value></data>
+  <data name="LoadingContent" xml:space="preserve"><value>Loading the content</value></data>
+  <data name="NoticeDoneTitle" xml:space="preserve"><value>Deployment finished</value></data>
+  <data name="NoticeDoneMessage" xml:space="preserve"><value>aetheus-deploy-prod #2399 in 1 min 48 s.</value></data>
+  <data name="NoticeRefusedTitle" xml:space="preserve"><value>Locked restore refused</value></data>
+  <data name="NoticeRefusedMessage" xml:space="preserve"><value>The NuGet graph diverged from the lock file.</value></data>
+  <data name="NoticeShowAgain" xml:space="preserve"><value>Show the notifications again</value></data>
+  <data name="NoticeUnlistOpen" xml:space="preserve"><value>Unlist version 1.0.0</value></data>
+  <data name="NoticeUnlistTitle" xml:space="preserve"><value>Unlist version 1.0.0</value></data>
+  <data name="NoticeUnlistBody" xml:space="preserve"><value>The version will disappear from search and floating ranges. It stays downloadable by exact number.</value></data>
+  <data name="NoticeUnlistAlpha" xml:space="preserve"><value>Also unlist 0.1.0-alpha.1</value></data>
+  <data name="NoticeUnlist" xml:space="preserve"><value>Unlist</value></data>
+  <data name="NoticeUnlistDone" xml:space="preserve"><value>Version unlisted</value></data>
+  <data name="NoticeRerunOpen" xml:space="preserve"><value>Rerun the pipeline</value></data>
+  <data name="NoticeRerunTitle" xml:space="preserve"><value>Rerun the pipeline?</value></data>
+  <data name="NoticeRerunBody" xml:space="preserve"><value>aetheus-deploy-prod #2399 will run again on server vps2577917, with the same variables.</value></data>
+  <data name="NoticeRerunNotify" xml:space="preserve"><value>Notify me at the end</value></data>
+  <data name="NoticeRerun" xml:space="preserve"><value>Rerun</value></data>
+  <data name="NoticeRerunDone" xml:space="preserve"><value>Pipeline rerun</value></data>
+  <data name="NoticeCancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="NoticeClose" xml:space="preserve"><value>Close</value></data>
+  <data name="NoticeLast" xml:space="preserve"><value>Last action: {0}</value></data>
+  <data name="RunsSortedCaption" xml:space="preserve"><value>Runs, sorted by pipeline</value></data>
+  <data name="RunsStripedCaption" xml:space="preserve"><value>Run history</value></data>
+  <data name="RunsRun" xml:space="preserve"><value>Run</value></data>
+  <data name="RunsPipeline" xml:space="preserve"><value>Pipeline</value></data>
+  <data name="RunsTrigger" xml:space="preserve"><value>Trigger</value></data>
+  <data name="RunsSeconds" xml:space="preserve"><value>Duration (s)</value></data>
+  <data name="RunsStatus" xml:space="preserve"><value>Status</value></data>
+  <data name="RunsTriggerPush" xml:space="preserve"><value>Push</value></data>
+  <data name="RunsTriggerManual" xml:space="preserve"><value>Manual</value></data>
+  <data name="RunsTriggerScheduled" xml:space="preserve"><value>Scheduled</value></data>
+  <data name="RunsStatusSuccess" xml:space="preserve"><value>Success</value></data>
+  <data name="RunsStatusInfo" xml:space="preserve"><value>Running</value></data>
+  <data name="RunsStatusWarning" xml:space="preserve"><value>Cancelled</value></data>
+  <data name="RunsStatusDanger" xml:space="preserve"><value>Failed</value></data>
+  <data name="SettingsTabsLabel" xml:space="preserve"><value>Settings</value></data>
+  <data name="SettingsGeneral" xml:space="preserve"><value>General</value></data>
+  <data name="SettingsGeneralLead" xml:space="preserve"><value>Working locations and startup behaviour.</value></data>
+  <data name="SettingsFolder" xml:space="preserve"><value>Artifact folder</value></data>
+  <data name="SettingsFolderHint" xml:space="preserve"><value>Where the builds drop their packages.</value></data>
+  <data name="SettingsBrowse" xml:space="preserve"><value>Browse</value></data>
+  <data name="SettingsStartup" xml:space="preserve"><value>Start with Windows</value></data>
+  <data name="SettingsStartupHint" xml:space="preserve"><value>Starts the agent when the session opens.</value></data>
+  <data name="SettingsLanguage" xml:space="preserve"><value>Language</value></data>
+  <data name="SettingsLanguageHint" xml:space="preserve"><value>Language of the interface and notifications.</value></data>
+  <data name="SettingsLanguageFrench" xml:space="preserve"><value>Français</value></data>
+  <data name="SettingsLanguageEnglish" xml:space="preserve"><value>English</value></data>
+  <data name="SettingsDisplay" xml:space="preserve"><value>Display</value></data>
+  <data name="SettingsDisplayLead" xml:space="preserve"><value>Appearance and density of the interface.</value></data>
+  <data name="SettingsDarkMode" xml:space="preserve"><value>Dark mode</value></data>
+  <data name="SettingsDarkModeHint" xml:space="preserve"><value>Follow the system or force a mode.</value></data>
+  <data name="SettingsModeSystem" xml:space="preserve"><value>Follow the system</value></data>
+  <data name="SettingsModeLight" xml:space="preserve"><value>Light</value></data>
+  <data name="SettingsModeDark" xml:space="preserve"><value>Dark</value></data>
+  <data name="SettingsCompact" xml:space="preserve"><value>Compact interface</value></data>
+  <data name="SettingsCompactHint" xml:space="preserve"><value>Reduces the margins of grids and forms.</value></data>
+  <data name="SettingsNotifications" xml:space="preserve"><value>Notifications</value></data>
+  <data name="SettingsNotificationsLead" xml:space="preserve"><value>What you are told about, and through which channel.</value></data>
+  <data name="SettingsFailures" xml:space="preserve"><value>Pipeline failures</value></data>
+  <data name="SettingsFailuresHint" xml:space="preserve"><value>A notification for each failed run.</value></data>
+  <data name="SettingsDigest" xml:space="preserve"><value>Daily digest</value></data>
+  <data name="SettingsDigestHint" xml:space="preserve"><value>Sent every morning at 8.</value></data>
+  <data name="SettingsDigestAddress" xml:space="preserve"><value>Digest address</value></data>
+  <data name="ShellToggle" xml:space="preserve"><value>Collapse or expand the menu</value></data>
+  <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
+  <data name="ShellBrand" xml:space="preserve"><value>Aetheus</value></data>
+  <data name="ShellSearch" xml:space="preserve"><value>Search</value></data>
+  <data name="ShellSearchPlaceholder" xml:space="preserve"><value>Search a pipeline</value></data>
+  <data name="ShellHelp" xml:space="preserve"><value>Help</value></data>
+  <data name="ShellNotifications" xml:space="preserve"><value>Notifications, {0} unread</value></data>
+  <data name="ShellAccount" xml:space="preserve"><value>Account</value></data>
+  <data name="ShellSettings" xml:space="preserve"><value>Settings</value></data>
+  <data name="ShellSettingsHint" xml:space="preserve"><value>Theme, language, notifications</value></data>
+  <data name="ShellAppearance" xml:space="preserve"><value>Appearance</value></data>
+  <data name="ShellAppearanceHint" xml:space="preserve"><value>Light, dark or system</value></data>
+  <data name="ShellSignOut" xml:space="preserve"><value>Sign out</value></data>
+  <data name="ShellMenu" xml:space="preserve"><value>Main menu</value></data>
+  <data name="ShellDashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="ShellPipelines" xml:space="preserve"><value>Pipelines</value></data>
+  <data name="ShellServers" xml:space="preserve"><value>Servers</value></data>
+  <data name="ShellProjects" xml:space="preserve"><value>Projects</value></data>
+  <data name="ShellHelpCenter" xml:space="preserve"><value>Help centre</value></data>
+  <data name="ShellAdministration" xml:space="preserve"><value>Administration</value></data>
+  <data name="ShellServersOnline" xml:space="preserve"><value>Server online</value></data>
+  <data name="ShellAppsTracked" xml:space="preserve"><value>Applications tracked</value></data>
+  <data name="ShellPipelinesRunning" xml:space="preserve"><value>Pipelines running</value></data>
+  <data name="ShellLoading" xml:space="preserve"><value>Loading the dashboard</value></data>
+  <data name="ShellLastAction" xml:space="preserve"><value>Last action: {0}</value></data>
+  <data name="StatesRest" xml:space="preserve"><value>Rest</value></data>
+  <data name="StatesHover" xml:space="preserve"><value>Hover</value></data>
+  <data name="StatesPress" xml:space="preserve"><value>Press</value></data>
+  <data name="StatesPrimary" xml:space="preserve"><value>Primary</value></data>
+  <data name="StatesSuccess" xml:space="preserve"><value>Success</value></data>
+  <data name="StatesSecondary" xml:space="preserve"><value>Secondary</value></data>
+  <data name="StatesGhost" xml:space="preserve"><value>Ghost</value></data>
+  <data name="SurfServers" xml:space="preserve"><value>Servers</value></data>
+  <data name="SurfServersText" xml:space="preserve"><value>Last heartbeat 4 minutes ago.</value></data>
+  <data name="SurfPipelines" xml:space="preserve"><value>Pipelines</value></data>
+  <data name="SurfPipelinesFigure" xml:space="preserve"><value>2,400</value></data>
+  <data name="SurfPipelinesText" xml:space="preserve"><value>Three failed runs out of the last ten.</value></data>
+  <data name="SurfCoverage" xml:space="preserve"><value>Coverage</value></data>
+  <data name="SurfCoverageFigure" xml:space="preserve"><value>87%</value></data>
+  <data name="SurfAccount" xml:space="preserve"><value>Account</value></data>
+  <data name="SurfPerson" xml:space="preserve"><value>Camille Durand</value></data>
+  <data name="SurfPersonRole" xml:space="preserve"><value>Administrator, OmniEurope</value></data>
+  <data name="SurfSettings" xml:space="preserve"><value>Settings</value></data>
+  <data name="SurfSettingsHint" xml:space="preserve"><value>Theme, language, notifications</value></data>
+  <data name="SurfSwitch" xml:space="preserve"><value>Switch workspace</value></data>
+  <data name="SurfSwitchHint" xml:space="preserve"><value>Aetheus, Atlas, Portfolio</value></data>
+  <data name="SurfSignOut" xml:space="preserve"><value>Sign out</value></data>
+  <data name="SurfTabsLabel" xml:space="preserve"><value>Run sections</value></data>
+  <data name="SurfTabOverview" xml:space="preserve"><value>Overview</value></data>
+  <data name="SurfTabOverviewText" xml:space="preserve"><value>Run #2399, finished in 1 min 48 s.</value></data>
+  <data name="SurfTabLogs" xml:space="preserve"><value>Logs</value></data>
+  <data name="SurfTabLogsText" xml:space="preserve"><value>412 lines, no error.</value></data>
+  <data name="SurfTabArtifacts" xml:space="preserve"><value>Artifacts</value></data>
+  <data name="SurfTabArtifactsText" xml:space="preserve"><value>Two packages and their symbols.</value></data>
+  <data name="SurfTabSettings" xml:space="preserve"><value>Settings</value></data>
+  <data name="SurfTabSettingsText" xml:space="preserve"><value>Locked restore, signing imposed.</value></data>
+  <data name="SurfMenuLabel" xml:space="preserve"><value>Sections</value></data>
+  <data name="SurfMenuDashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="SurfMenuServers" xml:space="preserve"><value>Servers</value></data>
+  <data name="SurfMenuProjects" xml:space="preserve"><value>Projects</value></data>
+  <data name="SurfMenuAdministration" xml:space="preserve"><value>Administration</value></data>
+  <data name="SurfLinkBefore" xml:space="preserve"><value>Read the</value></data>
+  <data name="SurfLink" xml:space="preserve"><value>publishing procedure</value></data>
+  <data name="SurfLinkAfter" xml:space="preserve"><value>before unlisting a version.</value></data>
+  <data name="SurfTooltip" xml:space="preserve"><value>Inverse surface, inverse text</value></data>
+  <data name="SurfTooltipTrigger" xml:space="preserve"><value>Tooltip</value></data>
+  <data name="SurfLast" xml:space="preserve"><value>Last action: {0}</value></data>
+  <data name="ThemesThemeWithPalette" xml:space="preserve"><value>Theme {0}, palette {1}</value></data>
+  <data name="ThemesThemeAlone" xml:space="preserve"><value>Theme {0}, its own palette</value></data>
+  <data name="ThemesPaletteAlone" xml:space="preserve"><value>Palette {0}, shipped shape</value></data>
+  <data name="ThemesShipped" xml:space="preserve"><value>Shipped look</value></data>
+  <data name="ThemesSave" xml:space="preserve"><value>Save</value></data>
+  <data name="ThemesCancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="ThemesBadge" xml:space="preserve"><value>Published</value></data>
+  <data name="ThemesAlert" xml:space="preserve"><value>Any palette paints any theme.</value></data>
+  <data name="VFormSummaryTitle" xml:space="preserve"><value>{0} field(s) to fix.</value></data>
+  <data name="VFormName" xml:space="preserve"><value>Pipeline name</value></data>
+  <data name="VFormNameHelp" xml:space="preserve"><value>Lowercase letters, digits and hyphens.</value></data>
+  <data name="VFormMail" xml:space="preserve"><value>Notification address</value></data>
+  <data name="VFormMailError" xml:space="preserve"><value>Add a full domain, for example team@example.com.</value></data>
+  <data name="VFormToken" xml:space="preserve"><value>Access token</value></data>
+  <data name="VFormReplicas" xml:space="preserve"><value>Replicas</value></data>
+  <data name="VFormEnvironment" xml:space="preserve"><value>Environment</value></data>
+  <data name="VFormEnvironmentProduction" xml:space="preserve"><value>Production</value></data>
+  <data name="VFormEnvironmentAcceptance" xml:space="preserve"><value>Acceptance</value></data>
+  <data name="VFormEnvironmentDevelopment" xml:space="preserve"><value>Development</value></data>
+  <data name="VFormDate" xml:space="preserve"><value>Deployment date</value></data>
+  <data name="VFormTime" xml:space="preserve"><value>Deployment time</value></data>
+  <data name="VFormMoment" xml:space="preserve"><value>Maintenance window</value></data>
+  <data name="VFormDescription" xml:space="preserve"><value>Description</value></data>
+  <data name="VFormStrategy" xml:space="preserve"><value>Deployment strategy</value></data>
+  <data name="VFormStrategyRolling" xml:space="preserve"><value>Rolling replacement</value></data>
+  <data name="VFormStrategyBlueGreen" xml:space="preserve"><value>Blue green</value></data>
+  <data name="VFormStrategyCanary" xml:space="preserve"><value>Canary (coming soon)</value></data>
+  <data name="VFormStrategyError" xml:space="preserve"><value>Choose a deployment strategy.</value></data>
+  <data name="VFormOptions" xml:space="preserve"><value>Options</value></data>
+  <data name="VFormLocked" xml:space="preserve"><value>Locked restore</value></data>
+  <data name="VFormSymbols" xml:space="preserve"><value>Publish the symbols</value></data>
+  <data name="VFormSigning" xml:space="preserve"><value>Package signing (imposed)</value></data>
+  <data name="VFormNotify" xml:space="preserve"><value>Notify at the end</value></data>
+  <data name="VFormAutoDeploy" xml:space="preserve"><value>Automatic deployment (disabled)</value></data>
+  <data name="VFormFiles" xml:space="preserve"><value>Files</value></data>
+  <data name="VFormManifest" xml:space="preserve"><value>Deployment manifest</value></data>
+  <data name="VFormManifestHelp" xml:space="preserve"><value>A single file, opens the system's file picker.</value></data>
+  <data name="VFormArchive" xml:space="preserve"><value>Application archive</value></data>
+  <data name="VFormArchiveHelp" xml:space="preserve"><value>ZIP or TAR, 50 MB at most.</value></data>
+  <data name="VFormAttachments" xml:space="preserve"><value>Attachments</value></data>
+  <data name="VFormAttachmentsHelp" xml:space="preserve"><value>Up to 10 files, 20 MB each. Nothing is sent: the demonstration keeps the files in the list.</value></data>
+  <data name="VFormServer" xml:space="preserve"><value>Target server</value></data>
+  <data name="VFormServerHelp" xml:space="preserve"><value>Disabled: set by the environment.</value></data>
+  <data name="VFormIdentifier" xml:space="preserve"><value>Identifier</value></data>
+  <data name="VFormIdentifierHelp" xml:space="preserve"><value>Read-only: copyable, not editable.</value></data>
+  <data name="VFormAgent" xml:space="preserve"><value>Agent</value></data>
+  <data name="VFormAgentShared" xml:space="preserve"><value>Shared agent</value></data>
+  <data name="VFormCancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="VFormSave" xml:space="preserve"><value>Save</value></data>
+  <data name="VFormSaved" xml:space="preserve"><value>Pipeline saved.</value></data>
+  <data name="VFormNotSaved" xml:space="preserve"><value>Fix the fields reported before saving.</value></data>
+  <data name="VFormDescriptionValue" xml:space="preserve"><value>Deploys the main branch once the acceptance tests pass.</value></data>
 </root>

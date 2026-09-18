@@ -1,0 +1,89 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+@* La coquille d'application de la maquette (PLAN-008 T18 b) : barre supérieure avec bouton de repli,
+   recherche, cloche à pastille et menu de compte fermé au repos ; menu latéral à icônes qui se replie
+   en rail d'icônes ; contenu. Le menu ne navigue pas : il marque la section choisie.
+   La pastille de la cloche, la loupe du champ de recherche, le logo et l'avatar sont dessinés par la
+   feuille de la vitrine (app.css) : le paquet n'a pas de composant pour eux. *@
+<div class="demo-appshell">
+    <OmniLayout>
+        <OmniHeader>
+            <OmniSidebarToggle Controls="appshell-menu" Open="MenuOpen" OpenChanged="@(value => MenuOpen = value)"
+                               AriaLabel="@Text["ShellToggle"]" />
+            <span class="demo-appbar__brand">
+                <span class="demo-appbar__logo" aria-hidden="true">@Text["ShellLogo"]</span>
+                <span>@Text["ShellBrand"]</span>
+            </span>
+            <EditForm Model="this" class="demo-appbar__search" role="search">
+                <OmniIcon Name="OmniIconName.Search" />
+                <OmniTextBox Id="appshell-search" Type="OmniTextBoxType.Search" aria-label="@Text["ShellSearch"]"
+                             Placeholder="@Text["ShellSearchPlaceholder"]" @bind-Value="Search" />
+            </EditForm>
+            <span class="demo-appbar__actions">
+                <OmniButton Variant="OmniButtonVariant.Ghost" AriaLabel="@Text["ShellHelp"]">
+                    <OmniIcon Name="OmniIconName.Question" />
+                </OmniButton>
+                <span class="demo-appbar__bell">
+                    <OmniButton Variant="OmniButtonVariant.Ghost" AriaLabel="@Text["ShellNotifications", Unread]">
+                        <OmniIcon Name="OmniIconName.Bell" />
+                    </OmniButton>
+                    <span class="demo-appbar__dot" aria-hidden="true"></span>
+                </span>
+                <OmniProfileMenu Label="@Text["ShellAccount"]" Class="demo-appbar__account">
+                    <Summary>
+                        <span class="omni-disc demo-appbar__avatar"><OmniIcon Name="OmniIconName.User" /></span>
+                    </Summary>
+                    <ChildContent>
+                        <OmniProfileMenuItem OnClick="@(() => Last = Text["ShellSettings"])">
+                            <span class="demo-menu-item">
+                                <span class="omni-disc"><OmniIcon Name="OmniIconName.Settings" /></span>
+                                <span>@Text["ShellSettings"]<small>@Text["ShellSettingsHint"]</small></span>
+                            </span>
+                        </OmniProfileMenuItem>
+                        <OmniProfileMenuItem OnClick="@(() => Last = Text["ShellAppearance"])">
+                            <span class="demo-menu-item">
+                                <span class="omni-disc"><OmniIcon Name="OmniIconName.Palette" /></span>
+                                <span>@Text["ShellAppearance"]<small>@Text["ShellAppearanceHint"]</small></span>
+                            </span>
+                        </OmniProfileMenuItem>
+                        <OmniProfileMenuItem OnClick="@(() => Last = Text["ShellSignOut"])">
+                            <span class="demo-menu-item">
+                                <span class="omni-disc"><OmniIcon Name="OmniIconName.SignOut" /></span>
+                                <span>@Text["ShellSignOut"]</span>
+                            </span>
+                        </OmniProfileMenuItem>
+                    </ChildContent>
+                </OmniProfileMenu>
+            </span>
+        </OmniHeader>
+        <OmniBody>
+            <OmniSidebar Id="appshell-menu" Open="MenuOpen" OpenChanged="@(value => MenuOpen = value)"
+                         Collapse="OmniSidebarCollapse.Icons" Transition="OmniSidebarTransition.Smooth"
+                         AriaLabel="@Text["ShellMenu"]">
+                <OmniPanelMenu Label="@Text["ShellMenu"]" DisplayStyle="OmniPanelMenuDisplayStyle.IconAndText">
+                    @foreach (var section in Sections)
+                    {
+                        <OmniPanelMenuItem Text="@Text[section.TextKey]" Href="@($"composants/coquille-application#{section.Key}")"
+                                           Current="@(Selected == section.Key)" Match="OmniNavMatch.None"
+                                           CanNavigate="@(_ => SelectAsync(section.Key))">
+                            <Icon><OmniIcon Name="section.Icon" /></Icon>
+                        </OmniPanelMenuItem>
+                    }
+                </OmniPanelMenu>
+            </OmniSidebar>
+            <OmniMain AriaLabelledBy="appshell-title">
+                <OmniHeading Id="appshell-title" Level="OmniHeadingLevel.H3">@Text[Sections.Single(section => section.Key == Selected).TextKey]</OmniHeading>
+                <div class="demo-appshell__tiles">
+                    <OmniCard><OmniHeading Level="OmniHeadingLevel.H4">1</OmniHeading><p>@Text["ShellServersOnline"]</p></OmniCard>
+                    <OmniCard><OmniHeading Level="OmniHeadingLevel.H4">2</OmniHeading><p>@Text["ShellAppsTracked"]</p></OmniCard>
+                    <OmniCard><OmniHeading Level="OmniHeadingLevel.H4">0</OmniHeading><p>@Text["ShellPipelinesRunning"]</p></OmniCard>
+                </div>
+                <OmniSkeleton Shape="OmniSkeletonShape.Text" LineCount="2" Label="@Text["ShellLoading"]" />
+                @if (Last is not null)
+                {
+                    <p>@Text["ShellLastAction", Last]</p>
+                }
+            </OmniMain>
+        </OmniBody>
+    </OmniLayout>
+</div>
