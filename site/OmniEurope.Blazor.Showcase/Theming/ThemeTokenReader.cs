@@ -43,9 +43,11 @@ public sealed partial class ThemeTokenReader(HttpClient http)
     {
         // Release ships the stylesheet minified on one line, so nothing here may depend on line breaks.
         var uncommented = Comment().Replace(css, string.Empty);
+        var blocks = RootBlock().Matches(uncommented);
+        var scaled = DensityScaled(blocks);
         var tokens = new List<ThemeToken>();
         var positions = new Dictionary<string, int>(StringComparer.Ordinal);
-        foreach (Match block in RootBlock().Matches(uncommented))
+        foreach (Match block in blocks)
         {
             var selectors = block.Groups["selector"].Value.Split(',', StringSplitOptions.TrimEntries);
             if (!selectors.Contains(":root", StringComparer.Ordinal))
@@ -56,7 +58,8 @@ public sealed partial class ThemeTokenReader(HttpClient http)
             foreach (Match declaration in Declaration().Matches(block.Groups["body"].Value))
             {
                 var name = declaration.Groups["name"].Value;
-                var token = new ThemeToken(name, declaration.Groups["value"].Value.Trim(), GroupOf(name));
+                var group = scaled.Contains(name) ? ThemeTokenGroup.Spacing : GroupOf(name);
+                var token = new ThemeToken(name, declaration.Groups["value"].Value.Trim(), group);
                 if (positions.TryGetValue(name, out var index))
                 {
                     tokens[index] = token;
@@ -72,22 +75,53 @@ public sealed partial class ThemeTokenReader(HttpClient http)
         return tokens;
     }
 
+    /// <summary>
+    /// The tokens a density block declares: every size the density scales, whatever its name. Read
+    /// from the stylesheet like the rest, so a size added to the density blocks is filed with the
+    /// others without a list to keep in step here.
+    /// </summary>
+    private static HashSet<string> DensityScaled(MatchCollection blocks)
+    {
+        var names = new HashSet<string>(StringComparer.Ordinal);
+        foreach (Match block in blocks)
+        {
+            if (!block.Groups["selector"].Value.Contains("[data-omni-density=", StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            foreach (Match declaration in Declaration().Matches(block.Groups["body"].Value))
+            {
+                names.Add(declaration.Groups["name"].Value);
+            }
+        }
+
+        return names;
+    }
+
+    /// <summary>
+    /// The family of a token the density does not scale. A theme's shape (radii, borders, the card
+    /// fill, the button press, fonts, shadows and the floating layer) never lands among the colours:
+    /// the colours are the palette's, and a visitor looking for the shape of a theme looks elsewhere.
+    /// </summary>
     private static ThemeTokenGroup GroupOf(string name) => name switch
     {
         _ when name.StartsWith("--omni-chart-", StringComparison.Ordinal) => ThemeTokenGroup.Chart,
         _ when name.StartsWith("--omni-grid-", StringComparison.Ordinal) => ThemeTokenGroup.Grid,
         _ when name.StartsWith("--omni-mindmap-", StringComparison.Ordinal) => ThemeTokenGroup.Diagram,
+        _ when name.StartsWith("--omni-space-", StringComparison.Ordinal) => ThemeTokenGroup.Spacing,
+        // How surfaces stand off the page: shadows, the floating layer and its acrylic, the overlay.
         _ when name.StartsWith("--omni-shadow", StringComparison.Ordinal) || name.EndsWith("-shadow", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
+        _ when name.StartsWith("--omni-layer-", StringComparison.Ordinal) || name.StartsWith("--omni-elevation-", StringComparison.Ordinal) || name.StartsWith("--omni-overlay-", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
         "--omni-focus-ring" or "--omni-color-overlay" => ThemeTokenGroup.Elevation,
         _ when name.StartsWith("--omni-color-", StringComparison.Ordinal) => ThemeTokenGroup.Color,
         _ when name.StartsWith("--omni-font", StringComparison.Ordinal) => ThemeTokenGroup.Typography,
         // How buttons and headings set their text: weight, case, tracking and the heading face.
         _ when name.Contains("-font-", StringComparison.Ordinal) || name.EndsWith("-text-transform", StringComparison.Ordinal) || name.EndsWith("-letter-spacing", StringComparison.Ordinal) => ThemeTokenGroup.Typography,
-        _ when name.StartsWith("--omni-space-", StringComparison.Ordinal) => ThemeTokenGroup.Spacing,
-        // Sizes that follow the density, like the control height: the alert's icon disc and glyph.
-        "--omni-control-height" or "--omni-alert-icon" or "--omni-alert-glyph" => ThemeTokenGroup.Spacing,
-        _ when name.StartsWith("--omni-radius", StringComparison.Ordinal) || name.Contains("-border-", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
-        "--omni-border-width" => ThemeTokenGroup.Shape,
+        // How parts are drawn: radii, borders, the card fill and the movement of a pressed button.
+        _ when name.StartsWith("--omni-radius", StringComparison.Ordinal) || name.EndsWith("-radius", StringComparison.Ordinal) || name.Contains("-border-", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
+        _ when name.EndsWith("-transform", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
+        "--omni-border-width" or "--omni-card-background" => ThemeTokenGroup.Shape,
         _ => ThemeTokenGroup.Color
     };
 

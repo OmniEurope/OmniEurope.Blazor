@@ -41,10 +41,66 @@ public sealed class ShowcaseThemeTests
     [InlineData("--omni-button-border-color", ThemeTokenGroup.Shape)]
     [InlineData("--omni-color-accent", ThemeTokenGroup.Color)]
     [InlineData("--omni-font-family", ThemeTokenGroup.Typography)]
+    [InlineData("--omni-button-press-shadow", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-button-press-transform", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-card-background", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-card-border-color", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-card-radius", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-alert-radius", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-overlay-background", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-overlay-filter", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-overlay-shadow", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-layer-fill", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-layer-acrylic", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-layer-stroke", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-elevation-highlight", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-elevation-shadow-soft", ThemeTokenGroup.Elevation)]
     public void TokenReader_FilesTheShapeTokensUnderTheirFamily(string name, ThemeTokenGroup expected)
     {
         var token = Assert.Single(ThemeTokenReader.Parse($":root {{ {name}: x; }}"));
         Assert.Equal(expected, token.Group);
+    }
+
+    /// <summary>
+    /// Every size a density block declares is filed with the spacing, whatever its name: the alert's
+    /// disc and glyph, the paddings, the gaps, the control height and font.
+    /// </summary>
+    [Fact]
+    public void TokenReader_FilesEveryDensityScaledSizeUnderSpacing()
+    {
+        var css = File.ReadAllText(Path.Combine(Root, "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var tokens = ThemeTokenReader.Parse(css);
+        var compact = Regex.Match(css, @"\[data-omni-density=""compact""\] \{(?<body>[^}]*)\}").Groups["body"].Value;
+        var scaled = Regex.Matches(compact, @"(?<name>--omni-[a-z0-9-]+)\s*:").Select(match => match.Groups["name"].Value).ToArray();
+
+        Assert.Contains("--omni-alert-icon", scaled);
+        Assert.Contains("--omni-alert-glyph", scaled);
+        Assert.Contains("--omni-control-font", scaled);
+        foreach (var name in scaled)
+        {
+            Assert.Equal(ThemeTokenGroup.Spacing, tokens.Single(token => token.Name == name).Group);
+        }
+    }
+
+    /// <summary>
+    /// A theme's shape is never filed with the colours: those are the palette's. The one exception is
+    /// a token the palettes declare too (the border colour, which some themes derive differently),
+    /// since it is a palette colour a theme retints.
+    /// </summary>
+    [Fact]
+    public void TokenReader_KeepsEveryShapeTokenOfEveryThemeOutOfTheColours()
+    {
+        var css = File.ReadAllText(Path.Combine(Root, "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var catalogue = ThemeTokenReader.Parse(css).ToDictionary(token => token.Name, token => token.Group, StringComparer.Ordinal);
+        var paletteTokens = OmniThemePalettes.All.SelectMany(palette => palette.Light.Keys.Concat(palette.Dark.Keys)).ToHashSet(StringComparer.Ordinal);
+        var shapeTokens = OmniThemePresets.All.SelectMany(theme => theme.Shape.Keys.Concat(theme.DarkShape.Keys)).Distinct(StringComparer.Ordinal).ToArray();
+
+        Assert.NotEmpty(shapeTokens);
+        var misfiled = shapeTokens
+            .Where(name => !paletteTokens.Contains(name))
+            .Where(name => (catalogue.TryGetValue(name, out var group) ? group : Assert.Single(ThemeTokenReader.Parse($":root {{ {name}: x; }}")).Group) == ThemeTokenGroup.Color)
+            .ToArray();
+        Assert.True(misfiled.Length == 0, $"Shape tokens filed as colours: {string.Join(", ", misfiled)}");
     }
 
     [Fact]
