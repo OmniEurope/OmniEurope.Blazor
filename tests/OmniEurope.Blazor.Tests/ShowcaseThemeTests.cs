@@ -265,7 +265,7 @@ public sealed class ShowcaseThemeTests
     /// <c>color-mix</c> of two of them in sRGB. Anything else fails the test rather than being
     /// guessed, so a new form has to be taught here before it can ship.
     /// </summary>
-    private static string Resolve(IReadOnlyDictionary<string, string> tokens, string value)
+    internal static string Resolve(IReadOnlyDictionary<string, string> tokens, string value)
     {
         if (Regex.IsMatch(value, "^#[0-9a-f]{6}$", RegexOptions.IgnoreCase))
         {
