@@ -30,6 +30,7 @@
     HybridSelfTestErrors = 'Console WebView2 en erreur ({0}) : {1}'
     LockedPackagesRestored = 'Paquets verrouillés téléchargés : {0} paquets issus de {1} fichier(s) de verrou.'
     LockedPackagesFailed = 'Le téléchargement des paquets verrouillés a échoué avec le code {0}.'
+    ShowcasePassed = 'Vitrine publiée validée : sondes {0} (PID {1}).'
     WasmPassed = 'WebAssembly validé : HTTP 200, démarrage navigateur, clic, progression, console sans erreur, assets et CSP stricte (PID {0}).'
 
     NoticeTitle = '# Notices et licences tierces'

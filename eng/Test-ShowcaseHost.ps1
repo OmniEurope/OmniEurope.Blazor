@@ -91,7 +91,7 @@ try {
     }
     if ($failed.Count -gt 0) { throw ($psText.CdpFailed -f ('vitrine (' + ($failed -join ', ') + ')'), 1) }
 
-    Write-Host "Vitrine validée : sondes $($Probe -join ', ') (PID $($server.Id))."
+    Write-Host ($psText.ShowcasePassed -f ($Probe -join ', '), $server.Id)
 }
 catch {
     if (Test-Path -LiteralPath $stderr.FullName) { Get-Content -LiteralPath $stderr.FullName | Write-Host }
