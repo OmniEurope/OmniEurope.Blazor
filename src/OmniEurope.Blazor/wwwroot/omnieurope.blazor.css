@@ -218,6 +218,7 @@
    light text on another. */
 .omni-button--success { background: var(--omni-color-success); color: var(--omni-color-on-success); }
 .omni-button--warning { background: var(--omni-color-warning); color: var(--omni-color-on-warning); }
+.omni-button--info { background: var(--omni-color-info-bright); color: var(--omni-color-on-bright); }
 .omni-button--danger { background: var(--omni-color-danger); color: var(--omni-color-on-danger); }
 
 /* The button wraps everything a consumer passes in this single element, so the gap declared on
@@ -1158,9 +1159,10 @@
 .omni-split-button--primary { --omni-split-fill: var(--omni-color-accent); --omni-split-ink: var(--omni-color-on-accent); }
 .omni-split-button--success { --omni-split-fill: var(--omni-color-success); --omni-split-ink: var(--omni-color-on-success); }
 .omni-split-button--warning { --omni-split-fill: var(--omni-color-warning); --omni-split-ink: var(--omni-color-on-warning); }
+.omni-split-button--info { --omni-split-fill: var(--omni-color-info-bright); --omni-split-ink: var(--omni-color-on-bright); }
 .omni-split-button--danger { --omni-split-fill: var(--omni-color-danger); --omni-split-ink: var(--omni-color-on-danger); }
-:is(.omni-split-button--primary, .omni-split-button--success, .omni-split-button--warning, .omni-split-button--danger) > :is(.omni-split-button__main, .omni-split-button__toggle) { background: var(--omni-split-fill); border-color: var(--omni-split-fill); color: var(--omni-split-ink); }
-:is(.omni-split-button--primary, .omni-split-button--success, .omni-split-button--warning, .omni-split-button--danger) > .omni-split-button__toggle { border-inline-start: var(--omni-border-width) solid color-mix(in srgb, var(--omni-split-ink) 40%, transparent); }
+:is(.omni-split-button--primary, .omni-split-button--success, .omni-split-button--warning, .omni-split-button--danger, .omni-split-button--info) > :is(.omni-split-button__main, .omni-split-button__toggle) { background: var(--omni-split-fill); border-color: var(--omni-split-fill); color: var(--omni-split-ink); }
+:is(.omni-split-button--primary, .omni-split-button--success, .omni-split-button--warning, .omni-split-button--danger, .omni-split-button--info) > .omni-split-button__toggle { border-inline-start: var(--omni-border-width) solid color-mix(in srgb, var(--omni-split-ink) 40%, transparent); }
 .omni-split-button--primary > :is(.omni-split-button__main, .omni-split-button__toggle):hover:not(:disabled) { background: var(--omni-color-accent-strong); }
 .omni-split-button--ghost > :is(.omni-split-button__main, .omni-split-button__toggle) { --omni-button-shadow: 0 0 #0000; background: transparent; border-color: transparent; color: var(--omni-color-accent-strong); }
 .omni-split-button__menu,

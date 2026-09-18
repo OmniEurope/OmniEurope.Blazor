@@ -16,5 +16,9 @@ public enum OmniButtonVariant
     // Appended rather than slotted in beside Danger: the values are already published, and
     // renumbering one would silently change what a compiled consumer means.
     Success,
-    Warning
+    Warning,
+
+    // Information, the fourth severity: an action that opens or explains rather than commits.
+    // Appended for the same reason as the two above.
+    Info
 }

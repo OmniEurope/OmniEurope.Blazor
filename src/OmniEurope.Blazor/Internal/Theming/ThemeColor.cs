@@ -69,9 +69,9 @@ internal static class ThemeColor
         var (r2, g2, b2) = Parse(second);
         var share = Math.Clamp(weight, 0, 1);
         return ToHex(
-            (int)Math.Round((r1 * share) + (r2 * (1 - share))),
-            (int)Math.Round((g1 * share) + (g2 * (1 - share))),
-            (int)Math.Round((b1 * share) + (b2 * (1 - share))));
+            (int)Math.Round((r1 * share) + (r2 * (1 - share)), MidpointRounding.AwayFromZero),
+            (int)Math.Round((g1 * share) + (g2 * (1 - share)), MidpointRounding.AwayFromZero),
+            (int)Math.Round((b1 * share) + (b2 * (1 - share)), MidpointRounding.AwayFromZero));
     }
 
     /// <summary>Moves a colour towards black by the given amount.</summary>

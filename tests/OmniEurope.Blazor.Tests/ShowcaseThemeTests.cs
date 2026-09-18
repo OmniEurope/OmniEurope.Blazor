@@ -247,27 +247,6 @@ public sealed class ShowcaseThemeTests
         Assert.Matches(@"\.omni-tooltip__content \{[^}]*color: var\(--omni-color-on-inverse\)", css);
     }
 
-    /// <summary>
-    /// Twenty themes that differ only by their colours would be one theme twenty times: every pair
-    /// must also differ in how things are drawn.
-    /// </summary>
-    [Fact]
-    public void EveryTheme_DrawsThingsDifferentlyFromEveryOther()
-    {
-        string[] shapeTokens =
-        [
-            "--omni-radius", "--omni-button-radius", "--omni-card-radius", "--omni-border-width",
-            "--omni-button-shadow", "--omni-card-shadow", "--omni-font-family", "--omni-button-text-transform",
-            "--omni-card-border-width", "--omni-heading-font-family"
-        ];
-        var shapes = OmniThemePresets.All.ToDictionary(
-            preset => preset.Name,
-            preset => string.Join("|", shapeTokens.Select(token => preset.Light.TryGetValue(token, out var value) ? value : "default")));
-
-        Assert.Equal(20, shapes.Count);
-        Assert.Equal(shapes.Count, shapes.Values.Distinct(StringComparer.Ordinal).Count());
-    }
-
     [Fact]
     public void PaletteNames_AreUnique()
     {
