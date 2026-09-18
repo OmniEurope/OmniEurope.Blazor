@@ -134,7 +134,11 @@ public sealed class ThemePaletteTests : OmniBunitContext
         Assert.All(defaults, name => Assert.Contains(OmniThemePalettes.All, palette => palette.Name == name));
         Assert.All(OmniThemePresets.All, preset =>
         {
+            Assert.NotEmpty(preset.Light);
             Assert.All(preset.Light.Keys, key => Assert.True(preset.Dark.ContainsKey(key), $"{preset.Name}: {key} has no dark value."));
+            Assert.All(preset.Dark.Keys, key => Assert.True(
+                preset.Light.ContainsKey(key) || preset.DarkShape.ContainsKey(key),
+                $"{preset.Name}: {key} has no light value and is not a dark-only shape token."));
             Assert.Same(preset.Dark, preset.For(OmniAppearance.Dark));
             Assert.Same(preset.Light, preset.For(OmniAppearance.System));
         });
