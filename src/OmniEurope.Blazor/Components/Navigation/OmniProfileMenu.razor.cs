@@ -5,6 +5,10 @@ public partial class OmniProfileMenu
     private ElementReference _details;
     private OmniDisclosureDismissal? _dismissal;
 
+    /// <summary>
+    /// The accessible name of the trigger. Empty, the localized default ("Profile menu") is used.
+    /// With the avatar trigger it is the only name the trigger has, so it should name the account.
+    /// </summary>
     [Parameter]
     public string Label { get; set; } = string.Empty;
 
@@ -12,8 +16,27 @@ public partial class OmniProfileMenu
         ? Localize("ProfileMenuLabel")
         : Label;
 
-    [Parameter, EditorRequired]
+    /// <summary>
+    /// What the closed menu shows. Null, the default, draws the avatar: a round disc holding
+    /// <see cref="Initials"/>, or the user glyph without them.
+    /// </summary>
+    [Parameter]
     public RenderFragment? Summary { get; set; }
+
+    /// <summary>
+    /// A few letters (typically one to three) drawn in the avatar disc, of the trigger and of the <see cref="Header"/>,
+    /// in place of the user glyph. Decorative: the trigger is named by <see cref="Label"/>.
+    /// </summary>
+    [Parameter]
+    public string? Initials { get; set; }
+
+    /// <summary>
+    /// The identity shown at the top of the open menu, beside a large avatar disc: its first element
+    /// reads as the name, the next ones as muted details (a role, an organisation, a link to the
+    /// profile). Rendered outside the <c>role="menu"</c> list. Null, the default, renders no header.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Header { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -26,6 +49,24 @@ public partial class OmniProfileMenu
     /// </summary>
     [Parameter]
     public bool CloseOnOutsideClick { get; set; } = true;
+
+    /// <summary>The avatar disc's content: the initials, or the user glyph.</summary>
+    private RenderFragment AvatarContent => builder =>
+    {
+        if (string.IsNullOrWhiteSpace(Initials))
+        {
+            builder.OpenComponent<OmniIcon>(0);
+            builder.AddComponentParameter(1, nameof(OmniIcon.Name), OmniIconName.User);
+            builder.CloseComponent();
+        }
+        else
+        {
+            builder.OpenElement(2, "span");
+            builder.AddAttribute(3, "class", "omni-profile-menu__initials");
+            builder.AddContent(4, Initials.Trim());
+            builder.CloseElement();
+        }
+    };
 
     protected override Task OnAfterRenderAsync(bool firstRender)
     {

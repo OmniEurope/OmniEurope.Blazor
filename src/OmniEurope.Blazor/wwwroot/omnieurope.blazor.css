@@ -2042,6 +2042,26 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-profile-menu__item:hover,
 .omni-profile-menu__item:focus-visible { background: var(--omni-color-surface-hover); outline: none; }
 .omni-profile-menu__item:disabled { background: transparent; color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
+/* Avatar trigger (no Summary): a round disc of the palette grey, the user glyph or the initials in the
+   page text, no disclosure marker, the focus ring on the circle. The pointer target reaches 44 px
+   around the disc through a transparent layer, as the dismiss button of an alert does. */
+.omni-profile-menu--avatar > .omni-profile-menu__summary { border-radius: var(--omni-radius-circle); display: block; position: relative; }
+.omni-profile-menu--avatar > .omni-profile-menu__summary::-webkit-details-marker { display: none; }
+.omni-profile-menu--avatar > .omni-profile-menu__summary::before { content: ""; inset: min(0px, calc((var(--omni-icon-box) * 0.9 - 2.75rem) / 2)); position: absolute; }
+.omni-profile-menu--avatar > .omni-profile-menu__summary:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-profile-menu__summary > .omni-profile-menu__avatar { block-size: calc(var(--omni-icon-box) * 0.9); inline-size: calc(var(--omni-icon-box) * 0.9); }
+.omni-profile-menu__initials { color: var(--omni-color-text); font-size: var(--omni-font-size-sm); font-weight: 650; line-height: 1; }
+/* With a Header the panel is the floating surface and holds the identity, then the list of items,
+   which sheds its own surface. */
+.omni-profile-menu__panel { backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); display: grid; inset-inline-end: 0; min-inline-size: 16rem; padding: calc(var(--omni-pop-pad) - 2px); position: absolute; z-index: 30; }
+.omni-profile-menu__panel > .omni-profile-menu__items { backdrop-filter: none; background: transparent; border: 0; box-shadow: none; min-width: 0; padding: 0; position: static; }
+.omni-profile-menu__header { align-items: center; display: flex; gap: 14px; padding: var(--omni-pop-pad) var(--omni-pop-pad) calc(var(--omni-pop-pad) + 4px); }
+.omni-profile-menu__identity { color: var(--omni-color-text-muted); display: grid; font-size: 0.8125rem; min-inline-size: 0; }
+.omni-profile-menu__identity > :first-child { color: var(--omni-color-text); font-size: 1.0625rem; font-weight: 700; }
+/* An item with an Icon or a Description: the icon in a disc, the text with its muted line under it. */
+.omni-profile-menu__item--rich { align-items: center; display: flex; gap: var(--omni-space-sm); }
+.omni-profile-menu__item-text { display: grid; min-inline-size: 0; }
+.omni-profile-menu__item-description { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
 
 .omni-data-list { display: grid; gap: var(--omni-space-sm); }
 .omni-data-list__item { border-block-end: var(--omni-border-width) solid var(--omni-color-border); padding: var(--omni-space-md); }

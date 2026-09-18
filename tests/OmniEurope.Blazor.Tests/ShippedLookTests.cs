@@ -310,6 +310,7 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     [InlineData(".omni-split-button__menu,\n.omni-context-menu__popup")]
     [InlineData(".omni-popover__panel")]
     [InlineData(".omni-profile-menu__items")]
+    [InlineData(".omni-profile-menu__panel")]
     [InlineData(".omni-data-grid__popover-panel")]
     [InlineData(".omni-combo__list")]
     [InlineData(".omni-autocomplete__results")]

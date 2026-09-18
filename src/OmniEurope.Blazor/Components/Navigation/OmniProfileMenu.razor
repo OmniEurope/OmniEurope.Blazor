@@ -3,7 +3,32 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JavaScript
 
-<details @attributes="AdditionalAttributes" @ref="_details" id="@Id" class="@Css("omni-profile-menu")" data-omni-density="@OmniDensityAttribute.Of(Density)">
-    <summary class="omni-profile-menu__summary" aria-label="@EffectiveLabel">@Summary</summary>
-    <div class="omni-profile-menu__items" role="menu">@ChildContent</div>
+@* Without a Summary the trigger is the avatar: a disc with the Initials, or the user glyph, named by
+   Label. A Header puts the identity above the items, outside role="menu", which may only hold
+   menu items: the panel then carries the floating surface and the list sits inside it. *@
+<details @attributes="AdditionalAttributes" @ref="_details" id="@Id" class="@Css("omni-profile-menu", Summary is null ? "omni-profile-menu--avatar" : null)" data-omni-density="@OmniDensityAttribute.Of(Density)">
+    <summary class="omni-profile-menu__summary" aria-label="@EffectiveLabel">
+        @if (Summary is not null)
+        {
+            @Summary
+        }
+        else
+        {
+            <span class="omni-disc omni-profile-menu__avatar" aria-hidden="true">@AvatarContent</span>
+        }
+    </summary>
+    @if (Header is not null)
+    {
+        <div class="omni-profile-menu__panel">
+            <div class="omni-profile-menu__header">
+                <span class="omni-disc omni-disc--lg omni-profile-menu__avatar" aria-hidden="true">@AvatarContent</span>
+                <div class="omni-profile-menu__identity">@Header</div>
+            </div>
+            <div class="omni-profile-menu__items" role="menu">@ChildContent</div>
+        </div>
+    }
+    else
+    {
+        <div class="omni-profile-menu__items" role="menu">@ChildContent</div>
+    }
 </details>
