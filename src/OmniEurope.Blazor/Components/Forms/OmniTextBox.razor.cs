@@ -23,6 +23,14 @@ public partial class OmniTextBox
     [Parameter]
     public string? AriaDescribedBy { get; set; }
 
+    /// <summary>
+    /// A decorative icon laid over the start of the field, muted and click-through, such as the
+    /// magnifier of a search field: <c>&lt;Icon&gt;&lt;OmniIcon Name="OmniIconName.Search" /&gt;&lt;/Icon&gt;</c>.
+    /// The field keeps its own accessible name. Null, the default, renders the input alone.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Icon { get; set; }
+
     private void HandleInput(ChangeEventArgs args) => CurrentValueAsString = args.Value?.ToString();
 
     protected override bool TryParseValueFromString(string? value, out string result, out string validationErrorMessage)

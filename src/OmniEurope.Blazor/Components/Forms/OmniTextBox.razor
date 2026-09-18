@@ -1,15 +1,39 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniInputBase<string>
 
-<input @attributes="AdditionalAttributes"
-       id="@Id"
-       class="@InputCss("omni-input", "omni-text-box")"
-       type="@TypeAttribute"
-       value="@CurrentValueAsString"
-       placeholder="@Placeholder"
-       autocomplete="@Autocomplete"
-       disabled="@Disabled"
-       readonly="@ReadOnly"
-       aria-invalid="@AriaInvalid"
-       aria-describedby="@AriaDescribedBy"
-       @oninput="HandleInput" />
+@* With an Icon the input sits in a positioning wrapper and the icon is laid over its start padding,
+   decorative and click-through, like the magnifier of a search field. Without one the input is
+   rendered alone, as it always was. *@
+@if (Icon is null)
+{
+    <input @attributes="AdditionalAttributes"
+           id="@Id"
+           class="@InputCss("omni-input", "omni-text-box")"
+           type="@TypeAttribute"
+           value="@CurrentValueAsString"
+           placeholder="@Placeholder"
+           autocomplete="@Autocomplete"
+           disabled="@Disabled"
+           readonly="@ReadOnly"
+           aria-invalid="@AriaInvalid"
+           aria-describedby="@AriaDescribedBy"
+           @oninput="HandleInput" />
+}
+else
+{
+    <span class="omni-text-box-field">
+        <span class="omni-text-box-field__icon" aria-hidden="true">@Icon</span>
+        <input @attributes="AdditionalAttributes"
+               id="@Id"
+               class="@InputCss("omni-input", "omni-text-box", "omni-text-box--icon")"
+               type="@TypeAttribute"
+               value="@CurrentValueAsString"
+               placeholder="@Placeholder"
+               autocomplete="@Autocomplete"
+               disabled="@Disabled"
+               readonly="@ReadOnly"
+               aria-invalid="@AriaInvalid"
+               aria-describedby="@AriaDescribedBy"
+               @oninput="HandleInput" />
+    </span>
+}
