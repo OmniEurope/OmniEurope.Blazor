@@ -73,12 +73,15 @@
     max-width: 46rem;
 }
 
+/* A fieldset is at least as wide as its content by default: without min-inline-size, the token
+   rows widened the page on a phone. */
 .showcase-tokens {
     border: var(--omni-border-width) solid var(--omni-color-border);
     border-radius: var(--omni-radius);
     display: grid;
     gap: var(--omni-space-sm);
     margin-block: var(--omni-space-lg);
+    min-inline-size: 0;
     padding: var(--omni-space-lg);
 }
 
@@ -120,6 +123,19 @@
     outline: none;
 }
 
+/* On a phone the label and the swatch share a row and the value takes the next one. */
+@media (max-width: 36rem) {
+    .showcase-token { grid-template-columns: minmax(0, 1fr) auto; }
+    .showcase-token__text { grid-column: 1 / -1; }
+}
+
+/* On a narrow screen the site menu goes above the page instead of taking 18rem beside it, which left
+   the page a sliver and made it scroll sideways at 375 px (RET-002 n°28, PLAN-008 lot 10). */
+@media (max-width: 47.99rem) {
+    #showcase-theme > .omni-layout > .omni-body { flex-direction: column; }
+    #showcase-theme > .omni-layout > .omni-body > .omni-sidebar { flex: 0 0 auto; max-inline-size: none; }
+}
+
 .demo-tag-swatch { block-size: 0.625rem; flex: 0 0 auto; inline-size: 0.625rem; }
 
 /* Coquille à défilement propre, en miniature : la coquille reçoit une hauteur, l'élément principal
@@ -142,7 +158,9 @@
 /* L'aperçu est plus étroit que la galerie : ses rangées de boutons et de badges passent à la ligne,
    comme dans la maquette, au lieu de courir sous le rail des contrastes. */
 .showcase-stage .omni-stack--horizontal { flex-wrap: wrap; }
-.showcase-stage__block { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; gap: var(--omni-space-md); min-inline-size: 0; padding: var(--omni-section-pad); }
+/* One track that may shrink: an auto track took the widest demo's minimum width and widened the page on
+   a phone under the themes with spaced capitals. */
+.showcase-stage__block { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; gap: var(--omni-space-md); grid-template-columns: minmax(0, 1fr); min-inline-size: 0; padding: var(--omni-section-pad); }
 .showcase-stage__head { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm) var(--omni-space-md); justify-content: space-between; }
 .showcase-stage__head .omni-heading { margin: 0; }
 .showcase-stage__density { align-items: center; display: inline-flex; gap: var(--omni-space-sm); }
@@ -211,6 +229,7 @@
 .demo-card-head .omni-heading { margin: 0; }
 .demo-figure { display: block; font-size: var(--omni-font-size-h3); font-weight: 700; }
 .demo-surfaces-row { align-items: start; display: grid; gap: var(--omni-space-lg); grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr); }
+@media (max-width: 36rem) { .demo-surfaces-row { grid-template-columns: minmax(0, 1fr); } }
 .demo-menu-item { align-items: center; display: flex; gap: var(--omni-space-sm); }
 .demo-menu-item small { color: var(--omni-color-text-muted); display: block; font-size: var(--omni-font-size-sm); }
 
