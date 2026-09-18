@@ -48,6 +48,48 @@ public sealed class ShowcaseThemeTests
     }
 
     [Fact]
+    public void ShippedDarkTheme_OverridesItsTintedAndHighlightedSurfaces()
+    {
+        var css = File.ReadAllText(Path.Combine(Root, "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var darkTheme = Regex.Match(css, @"\[data-omni-theme=""dark""\]\s*\{(?<body>[^}]*)\}");
+
+        Assert.True(darkTheme.Success, "The shipped stylesheet has no explicit dark theme block.");
+        foreach (var token in new[]
+                 {
+                     "--omni-color-surface-highlight",
+                     "--omni-color-accent-subtle",
+                     "--omni-color-success-subtle",
+                     "--omni-color-warning-subtle",
+                     "--omni-color-danger-subtle"
+                 })
+        {
+            Assert.Contains(token, darkTheme.Groups["body"].Value, StringComparison.Ordinal);
+        }
+    }
+
+    [Fact]
+    public void ShippedLightTheme_KeepsRenderingMarginForFilledControls()
+    {
+        var css = File.ReadAllText(Path.Combine(Root, "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var tokens = ThemeTokenReader.Parse(css).ToDictionary(token => token.Name, token => token.DefaultValue);
+
+        foreach (var (fill, over) in new[]
+                 {
+                     ("--omni-color-accent", "--omni-color-on-accent"),
+                     ("--omni-color-accent-strong", "--omni-color-on-accent"),
+                     ("--omni-color-danger", "--omni-color-on-danger"),
+                     ("--omni-color-success", "--omni-color-on-success"),
+                     ("--omni-color-warning", "--omni-color-on-warning")
+                 })
+        {
+            var contrast = ThemeColor.Contrast(tokens[fill], tokens[over]);
+            Assert.True(
+                contrast >= 5.0,
+                $"Shipped light theme: {over} over {fill} is {contrast:F2}, below the 5.0 rendering margin.");
+        }
+    }
+
+    [Fact]
     public void EveryDemo_ShipsTheSourceItExecutes()
     {
         Assert.NotEmpty(DemoCatalog.All);

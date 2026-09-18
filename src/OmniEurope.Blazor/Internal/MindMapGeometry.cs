@@ -43,4 +43,47 @@ internal static class MindMapGeometry
     /// </summary>
     public static (double Width, double Height) EstimateText(string label, int fontSize, bool bold) =>
         (label.Length * fontSize * (bold ? 0.6 : 0.55), fontSize * 1.2);
+
+    /// <summary>
+    /// The box of a node before the browser has measured its label: its fixed size when it has one,
+    /// otherwise the estimated label plus padding, never narrower than <see cref="MinimumAutoWidth"/>.
+    /// </summary>
+    public static (double Width, double Height) BoxOf(Components.OmniMindMapNode node)
+    {
+        var fontSize = node.FontSize > 0 ? node.FontSize : Components.OmniMindMapNode.DefaultFontSize;
+        var (textWidth, textHeight) = EstimateText(node.Label, fontSize, node.Bold);
+        return (
+            node.Width > 0 ? node.Width : Math.Max(textWidth + (PaddingX * 2), MinimumAutoWidth),
+            node.Height > 0 ? node.Height : textHeight + (PaddingY * 2));
+    }
+
+    /// <summary>
+    /// The curve of a directed link: it leaves the border of the first box and stops on the border of
+    /// the second, where the arrowhead sits, so the head is never hidden under the box it points to.
+    /// It runs horizontally when the boxes are further apart across than down, vertically otherwise,
+    /// with its control points halfway along that axis. <c>omni-mindmap.js</c> mirrors it.
+    /// </summary>
+    public static string DirectedEdgePath(
+        double fromX, double fromY, double fromWidth, double fromHeight,
+        double toX, double toY, double toWidth, double toHeight)
+    {
+        var dx = toX - fromX;
+        var dy = toY - fromY;
+        var gapAcross = Math.Abs(dx) - ((fromWidth + toWidth) / 2);
+        var gapDown = Math.Abs(dy) - ((fromHeight + toHeight) / 2);
+        if (gapAcross >= gapDown)
+        {
+            var sign = dx >= 0 ? 1 : -1;
+            var startX = fromX + (sign * fromWidth / 2);
+            var endX = toX - (sign * toWidth / 2);
+            var bend = (endX - startX) / 2;
+            return $"M {Format(startX)} {Format(fromY)} C {Format(startX + bend)} {Format(fromY)}, {Format(endX - bend)} {Format(toY)}, {Format(endX)} {Format(toY)}";
+        }
+
+        var down = dy >= 0 ? 1 : -1;
+        var startY = fromY + (down * fromHeight / 2);
+        var endY = toY - (down * toHeight / 2);
+        var curve = (endY - startY) / 2;
+        return $"M {Format(fromX)} {Format(startY)} C {Format(fromX)} {Format(startY + curve)}, {Format(toX)} {Format(endY - curve)}, {Format(toX)} {Format(endY)}";
+    }
 }

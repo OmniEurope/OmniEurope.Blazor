@@ -6,6 +6,7 @@ public partial class OmniDialog
     private readonly string _generatedId = $"omni-dialog-{Guid.NewGuid():N}";
     private ElementReference _dialog;
     private IJSObjectReference? _focusModule;
+    private IJSObjectReference? _dialogModule;
     private bool _focusActivated;
 
     [Parameter]
@@ -30,6 +31,25 @@ public partial class OmniDialog
     [Parameter]
     public bool CloseOnEscape { get; set; } = true;
 
+    /// <summary>
+    /// Whether the reader can dismiss the dialog. True by default, as before. False removes the
+    /// close button, ignores Escape and the backdrop whatever <see cref="CloseOnEscape"/> and
+    /// <see cref="CloseOnBackdrop"/> say, and announces the panel as an <c>alertdialog</c>
+    /// described by its content: only the host, through <see cref="Open"/>, closes it. Focus stays
+    /// trapped inside it; with nothing focusable in its content, the panel itself takes focus.
+    /// </summary>
+    [Parameter]
+    public bool Dismissible { get; set; } = true;
+
+    [Parameter]
+    public bool ShowClose { get; set; } = true;
+
+    [Parameter]
+    public bool Draggable { get; set; }
+
+    [Parameter]
+    public bool Resizable { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -41,6 +61,7 @@ public partial class OmniDialog
 
     private string EffectiveId => Id ?? _generatedId;
     private string TitleId => $"{EffectiveId}-title";
+    private string ContentId => $"{EffectiveId}-content";
 
     private async Task CloseAsync()
     {
@@ -60,6 +81,11 @@ public partial class OmniDialog
         if (firstRender)
         {
             _focusModule = await JavaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omni-focus.js");
+            if (Draggable)
+            {
+                _dialogModule = await JavaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omni-dialog.js");
+                await _dialogModule.InvokeVoidAsync("attach", _dialog);
+            }
         }
 
         if (_focusModule is null)
@@ -70,7 +96,17 @@ public partial class OmniDialog
         if (Open && !_focusActivated)
         {
             _focusActivated = true;
-            await _focusModule.InvokeVoidAsync("activateDialog", _dialog, _focusKey);
+
+            // A backdrop that closes nothing must not take focus out of the trap either. Only such a
+            // dialog passes the flag: a dialog whose backdrop closes it makes the call it always made.
+            if (CloseOnBackdrop && Dismissible)
+            {
+                await _focusModule.InvokeVoidAsync("activateDialog", _dialog, _focusKey);
+            }
+            else
+            {
+                await _focusModule.InvokeVoidAsync("activateDialog", _dialog, _focusKey, true);
+            }
         }
         else if (!Open && _focusActivated)
         {
@@ -79,10 +115,10 @@ public partial class OmniDialog
         }
     }
 
-    private Task HandleBackdropAsync() => CloseOnBackdrop ? CloseAsync() : Task.CompletedTask;
+    private Task HandleBackdropAsync() => CloseOnBackdrop && Dismissible ? CloseAsync() : Task.CompletedTask;
     private async Task HandleKeyDownAsync(KeyboardEventArgs args)
     {
-        if (args.Key == "Escape" && CloseOnEscape)
+        if (args.Key == "Escape" && CloseOnEscape && Dismissible)
         {
             await CloseAsync();
         }
@@ -97,6 +133,7 @@ public partial class OmniDialog
         {
             await _focusModule.InvokeVoidAsync("focusBoundary", _dialog, last);
         }
+
     }
 
     public async ValueTask DisposeAsync()
@@ -107,6 +144,18 @@ public partial class OmniDialog
             {
                 await _focusModule.InvokeVoidAsync("restoreFocus", _focusKey);
                 await _focusModule.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+            }
+        }
+
+        if (_dialogModule is not null)
+        {
+            try
+            {
+                await _dialogModule.InvokeVoidAsync("detach", _dialog);
+                await _dialogModule.DisposeAsync();
             }
             catch (JSDisconnectedException)
             {

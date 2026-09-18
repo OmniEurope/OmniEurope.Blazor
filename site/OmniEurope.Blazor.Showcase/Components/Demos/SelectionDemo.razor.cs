@@ -2,6 +2,22 @@ namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class SelectionDemo
 {
+    private static readonly IReadOnlyList<OmniOption<string>> Roles =
+    [
+        new("reader", "Lecture"),
+        new("editor", "Édition"),
+        new("owner", "Propriétaire")
+    ];
+
+    private IReadOnlyList<OmniOption<string>> ChosenRoles { get; set; } = [Roles[0]];
+
+    private static Task<IReadOnlyList<OmniOption<string>>> SearchRolesAsync(string query, CancellationToken cancellationToken) =>
+        Task.FromResult<IReadOnlyList<OmniOption<string>>>([.. Roles.Where(role => role.Text.Contains(query, StringComparison.OrdinalIgnoreCase))]);
+
+    private static string RoleKey(OmniOption<string> role) => role.Value;
+
+    private static string RoleText(OmniOption<string> role) => role.Text;
+
     private static readonly IReadOnlyList<OmniOption<string>> Countries =
     [
         new("be", "Belgique"),

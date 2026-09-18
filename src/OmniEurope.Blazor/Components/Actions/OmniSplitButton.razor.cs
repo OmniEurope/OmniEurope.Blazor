@@ -23,6 +23,28 @@ public partial class OmniSplitButton
     [Parameter]
     public OmniControlSize Size { get; set; } = OmniControlSize.Medium;
 
+    /// <summary>
+    /// What the button means, main part and menu part together, with the fills of
+    /// <see cref="OmniButton"/>. <see cref="OmniButtonVariant.Secondary"/> by default: the surface,
+    /// border and text colours the split button has always had, rendered without a variant class,
+    /// exactly as before.
+    /// </summary>
+    [Parameter]
+    public OmniButtonVariant Variant { get; set; } = OmniButtonVariant.Secondary;
+
+    /// <summary>
+    /// Icon drawn before <see cref="Text"/> in the main part. None by default, as before; the menu
+    /// part keeps its chevron either way.
+    /// </summary>
+    [Parameter]
+    public OmniIconName? Icon { get; set; }
+
+    private string? VariantClass => Variant == OmniButtonVariant.Secondary
+        ? null
+        : $"omni-split-button--{Variant.ToString().ToLowerInvariant()}";
+
+    private OmniControlSize IconSize => Size == OmniControlSize.Small ? OmniControlSize.Small : OmniControlSize.Medium;
+
     [Parameter]
     public bool Disabled { get; set; }
 

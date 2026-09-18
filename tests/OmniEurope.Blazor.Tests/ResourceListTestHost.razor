@@ -1,0 +1,85 @@
+@if (UseLoad)
+{
+    <OmniResourceList TItem="Server" Id="list" Label="Serveurs" Load="LoadAsync" @bind-SearchText="Search" SearchDelay="TimeSpan.Zero"
+                      CreateText="Nouveau" OnCreate="@(() => Created++)" ShowCount="true" ShowRefresh="true" OnRefresh="@(() => Refreshed++)"
+                      EmptyTitle="Aucun serveur">
+        <Columns>
+            <OmniDataGridColumn TItem="Server" Property="Name" Title="Nom" />
+        </Columns>
+    </OmniResourceList>
+}
+else
+{
+    <OmniResourceList TItem="Server" Id="list" Label="Serveurs" Items="Servers" SearchFilter="Matches" @bind-SearchText="Search"
+                      CreateText="Nouveau" OnCreate="@(() => Created++)" CanCreate="CanCreate" CreateDisabledReason="Droits insuffisants"
+                      ShowCount="true" EmptyTitle="Aucun serveur" EmptyDescription="Ajoutez le premier serveur."
+                      ErrorMessage="@Error" OnRetry="RetryAsync" RowClick="@(server => Clicked = server)">
+        <Filters><span class="host-filter">Filtre</span></Filters>
+        <Actions><span class="host-action">Action</span></Actions>
+        <Columns>
+            <OmniDataGridColumn TItem="Server" Property="Name" Title="Nom" />
+        </Columns>
+    </OmniResourceList>
+}
+
+@code {
+    public sealed record Server(string Name);
+
+    [Parameter]
+    public bool UseLoad { get; set; }
+
+    [Parameter]
+    public List<Server> Servers { get; set; } = [new("alpha"), new("beta"), new("gamma")];
+
+    [Parameter]
+    public bool CanCreate { get; set; } = true;
+
+    public string? Search { get; set; }
+
+    public string? Error { get; set; }
+
+    public Exception? LoadFailure { get; set; }
+
+    public int Created { get; private set; }
+
+    public int Refreshed { get; private set; }
+
+    public int Retries { get; private set; }
+
+    public int Loads { get; private set; }
+
+    public string? LastLoadSearch { get; private set; }
+
+    public int LastLoadPage { get; private set; }
+
+    public Server? Clicked { get; private set; }
+
+    public void Update(Action change)
+    {
+        change();
+        StateHasChanged();
+    }
+
+    private static bool Matches(Server server, string text) => server.Name.Contains(text, StringComparison.OrdinalIgnoreCase);
+
+    private Task RetryAsync()
+    {
+        Retries++;
+        Error = null;
+        return Task.CompletedTask;
+    }
+
+    private Task<OmniDataGridResult<Server>> LoadAsync(OmniDataGridLoadRequest request)
+    {
+        Loads++;
+        LastLoadSearch = Search;
+        LastLoadPage = request.Page;
+        if (LoadFailure is { } failure)
+        {
+            throw failure;
+        }
+
+        List<Server> rows = [.. Servers.Where(server => string.IsNullOrEmpty(Search) || Matches(server, Search))];
+        return Task.FromResult(new OmniDataGridResult<Server>(rows, rows.Count));
+    }
+}

@@ -1,0 +1,54 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IDisposable
+
+@* Each field is an ordinary form field of the package, bound to a small state object so that the edit
+   context, and with it aria-invalid and the validation classes, sees one model member per field. *@
+<CascadingValue Value="_context" IsFixed="true">
+    <div id="@Id" class="@Css("omni-dynamic-form")" @attributes="AdditionalAttributes">
+        @for (var fieldIndex = 0; fieldIndex < Fields.Count; fieldIndex++)
+        {
+            var field = Fields[fieldIndex];
+            var state = _states[field.Name];
+            var fieldId = FieldId(fieldIndex);
+            var inputId = $"{fieldId}-input";
+            var error = ErrorOf(field);
+            var describedBy = DescribedBy(fieldId, field, error);
+            <OmniFormField Id="@fieldId" For="@inputId" Required="@field.Required" Description="@field.Description" Error="@error" Disabled="@Disabled"
+                           Class="@($"omni-dynamic-form__field omni-dynamic-form__field--{KindName(field.Kind)}")">
+                <Label>@field.Label</Label>
+                <ChildContent>
+                    @switch (field.Kind)
+                    {
+                        case OmniDynamicFieldKind.Boolean:
+                            <OmniSwitch Id="@inputId" Disabled="@Disabled" AriaDescribedBy="@describedBy"
+                                        @bind-Value="state.Flag" @bind-Value:after="() => AnsweredAsync(field, state)" />
+                            break;
+                        case OmniDynamicFieldKind.Choice:
+                            <OmniDropDown TValue="string" Id="@inputId" Options="@field.Options" Disabled="@Disabled" AriaDescribedBy="@describedBy"
+                                          AllowEmpty="@(!field.Required || string.IsNullOrEmpty(state.Text))" Placeholder="@(field.Placeholder ?? string.Empty)"
+                                          aria-required="@RequiredAttribute(field)"
+                                          @bind-Value="state.Text" @bind-Value:after="() => ChangedAsync(field)" />
+                            break;
+                        case OmniDynamicFieldKind.Number:
+                            <OmniNumeric TValue="decimal?" Id="@inputId" Disabled="@Disabled" AriaDescribedBy="@describedBy"
+                                         Minimum="@Invariant(field.Minimum)" Maximum="@Invariant(field.Maximum)" Step="@Invariant(field.Step)"
+                                         Placeholder="@field.Placeholder" aria-required="@RequiredAttribute(field)"
+                                         @bind-Value="state.Number" @bind-Value:after="() => ChangedAsync(field)" />
+                            break;
+                        case OmniDynamicFieldKind.MultilineText:
+                            <OmniTextArea Id="@inputId" Rows="@Math.Max(1, field.Rows)" Disabled="@Disabled" AriaDescribedBy="@describedBy"
+                                          Placeholder="@field.Placeholder" aria-required="@RequiredAttribute(field)"
+                                          @bind-Value="state.Text" @bind-Value:after="() => ChangedAsync(field)" />
+                            break;
+                        default:
+                            <OmniTextBox Id="@inputId" Disabled="@Disabled" AriaDescribedBy="@describedBy"
+                                         Placeholder="@field.Placeholder" aria-required="@RequiredAttribute(field)"
+                                         @bind-Value="state.Text" @bind-Value:after="() => ChangedAsync(field)" />
+                            break;
+                    }
+                </ChildContent>
+            </OmniFormField>
+        }
+    </div>
+</CascadingValue>

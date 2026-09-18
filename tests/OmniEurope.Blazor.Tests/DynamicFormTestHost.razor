@@ -1,0 +1,47 @@
+@if (InEditForm)
+{
+    <EditForm Model="Model" OnValidSubmit="@(() => ValidSubmits++)" OnInvalidSubmit="@(() => InvalidSubmits++)">
+        <OmniDynamicForm Id="form" Fields="Fields" @bind-Values="Values" Errors="Errors" />
+        <button type="submit" class="host-submit">Envoyer</button>
+    </EditForm>
+}
+else
+{
+    <OmniDynamicForm @ref="Form" Id="form" Fields="Fields" @bind-Values="Values" Errors="Errors" />
+}
+
+@code {
+    public OmniDynamicForm? Form { get; private set; }
+
+    [Parameter]
+    public bool InEditForm { get; set; }
+
+    public object Model { get; } = new();
+
+    public IReadOnlyDictionary<string, string>? Values { get; set; }
+
+    public IReadOnlyDictionary<string, string>? Errors { get; set; }
+
+    public int ValidSubmits { get; private set; }
+
+    public int InvalidSubmits { get; private set; }
+
+    public IReadOnlyList<OmniDynamicField> Fields { get; set; } =
+    [
+        new("name", "Nom", OmniDynamicFieldKind.Text) { Required = true, Description = "Le nom affiché." },
+        new("notes", "Notes", OmniDynamicFieldKind.MultilineText) { Rows = 3 },
+        new("replicas", "Répliques", OmniDynamicFieldKind.Number) { Minimum = 1, Maximum = 5, DefaultValue = "2" },
+        new("confirm", "Confirmer", OmniDynamicFieldKind.Boolean) { Required = true },
+        new("region", "Région", OmniDynamicFieldKind.Choice)
+        {
+            Required = true,
+            Options = [new("eu-west", "Europe ouest"), new("eu-central", "Europe centre")]
+        }
+    ];
+
+    public void Update(Action change)
+    {
+        change();
+        StateHasChanged();
+    }
+}

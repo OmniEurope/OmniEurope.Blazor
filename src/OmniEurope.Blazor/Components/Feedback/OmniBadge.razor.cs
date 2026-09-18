@@ -2,8 +2,14 @@ namespace OmniEurope.Blazor.Components;
 
 public partial class OmniBadge
 {
-    [Parameter, EditorRequired]
+    [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Text { get; set; }
+
+    [Parameter]
+    public OmniIconName? Icon { get; set; }
 
     [Parameter]
     public OmniBadgeVariant Variant { get; set; }

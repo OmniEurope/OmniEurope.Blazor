@@ -22,3 +22,28 @@
                ShowFirstLast="true"
                HorizontalAlign="OmniJustification.Center" />
 </OmniStack>
+
+<OmniResourceList TItem="GridRow" Label="Dossiers" Items="Rows" ShowCount="true"
+                  SearchFilter="MatchesReference" SearchPlaceholder="Rechercher une référence"
+                  CreateText="Nouveau dossier" OnCreate="CreateDraft">
+    <Columns>
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" />
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur" />
+    </Columns>
+</OmniResourceList>
+
+@if (DraftCreated)
+{
+    <p>Un nouveau dossier a été demandé.</p>
+}
+
+<OmniLogViewer Lines="LogLines" Label="Journal de traitement" ShowLevels="true"
+               ShowLevelFilter="true" ShowSearch="true" Height="14rem" />
+
+<OmniKanban TItem="GridRow" Columns="WorkflowColumns" Items="KanbanRows"
+            ColumnOf="WorkflowColumnOf" KeyOf="WorkflowKeyOf" OnItemMoved="MoveWorkflowRow"
+            Label="Suivi des dossiers">
+    <CardTemplate Context="row">
+        <strong>@row.Reference</strong> : @row.Applicant
+    </CardTemplate>
+</OmniKanban>

@@ -2,34 +2,53 @@
 @typeparam TValue
 @inherits OmniInputBase<TValue>
 
-<select @attributes="AdditionalAttributes"
-        id="@Id"
-        class="@InputCss("omni-input", "omni-drop-down")"
-        disabled="@Disabled"
-        aria-invalid="@AriaInvalid"
-        aria-describedby="@AriaDescribedBy"
-        @onchange="HandleChange">
-    @if (AllowEmpty)
-    {
-        <option value="">@EffectivePlaceholder</option>
-    }
-    @foreach (var group in IndexedOptions.GroupBy(entry => entry.Option.Group))
-    {
-        if (group.Key is null)
+@if (AllowFiltering)
+{
+    <OmniAutocomplete TValue="TValue"
+                      Value="@CurrentValue"
+                      ValueChanged="HandleAutocompleteChangeAsync"
+                      ValueExpression="@ValueExpression"
+                      Search="SearchOptionsAsync"
+                      FormatValue="FormatValue"
+                      MinimumLength="0"
+                      Placeholder="@EffectivePlaceholder"
+                      AriaLabel="@EffectiveAriaLabel"
+                      Disabled="@Disabled"
+                      AriaDescribedBy="@AriaDescribedBy"
+                      @attributes="AdditionalAttributes" />
+}
+else
+{
+    <select @attributes="AdditionalAttributes"
+            id="@Id"
+            class="@InputCss("omni-input", "omni-drop-down")"
+            disabled="@Disabled"
+            aria-label="@EffectiveAriaLabel"
+            aria-invalid="@AriaInvalid"
+            aria-describedby="@AriaDescribedBy"
+            @onchange="HandleChange">
+        @if (AllowsEmpty)
         {
-            foreach (var entry in group)
-            {
-                @OptionMarkup(entry.Option, entry.Index)
-            }
+            <option value="">@EffectivePlaceholder</option>
         }
-        else
+        @foreach (var group in IndexedOptions.GroupBy(entry => entry.Option.Group))
         {
-            <optgroup label="@group.Key">
+            if (group.Key is null)
+            {
                 @foreach (var entry in group)
                 {
                     @OptionMarkup(entry.Option, entry.Index)
                 }
-            </optgroup>
+            }
+            else
+            {
+                <optgroup label="@group.Key">
+                    @foreach (var entry in group)
+                    {
+                        @OptionMarkup(entry.Option, entry.Index)
+                    }
+                </optgroup>
+            }
         }
-    }
-</select>
+    </select>
+}

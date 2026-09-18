@@ -16,4 +16,12 @@ public sealed record OmniStepTimelineStep(
     DateTimeOffset? StartedAt,
     DateTimeOffset? CompletedAt,
     OmniStepTimelineStatus Status = OmniStepTimelineStatus.Success,
-    bool Secondary = false);
+    bool Secondary = false)
+{
+    /// <summary>
+    /// How long the step usually takes, over its last runs. A step still running then fills its bar up
+    /// to that duration, and a second, stronger layer restarts from the left for the time spent beyond
+    /// it, full at twice the usual duration. Null, or a finished step, draws the bar alone.
+    /// </summary>
+    public TimeSpan? ExpectedDuration { get; init; }
+}

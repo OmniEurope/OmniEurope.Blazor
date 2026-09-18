@@ -27,6 +27,10 @@ else
             {
                 <span class="omni-tabs__icon" aria-hidden="true">@Icon</span>
             }
+            else if (IconName.HasValue)
+            {
+                <span class="omni-tabs__icon" aria-hidden="true"><OmniIcon Name="@IconName.Value" /></span>
+            }
             <span class="omni-tabs__title">@(TitleContent ?? DefaultTitle)</span>
         </button>
     </div>

@@ -2,14 +2,24 @@ namespace OmniEurope.Blazor.Components;
 
 public partial class OmniFormField
 {
-    [Parameter, EditorRequired]
+    [Parameter]
     public string For { get; set; } = string.Empty;
 
-    [Parameter, EditorRequired]
+    [Parameter]
     public RenderFragment? Label { get; set; }
+
+    /// <summary>Plain-text label shorthand for markup-driven forms.</summary>
+    [Parameter]
+    public string? Text { get; set; }
 
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? End { get; set; }
+
+    [Parameter]
+    public RenderFragment? Helper { get; set; }
 
     [Parameter]
     public string? Description { get; set; }

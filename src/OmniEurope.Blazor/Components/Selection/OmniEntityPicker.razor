@@ -1,0 +1,144 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TItem
+@typeparam TKey
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+@* The chosen items are the value; the list is only where they come from. Every option is a real
+   toggle button (aria-pressed) reached with Tab, every chip has its own remove button named after the
+   item, and each change is announced in words. *@
+@{
+    RenderFragment selection = @<div @ref="_selectionRegion" class="omni-entity-picker__selection" tabindex="-1"
+                                     aria-labelledby="@(Layout == OmniEntityPickerLayout.TwoColumns ? ChosenTitleId : LabelId)">
+        @if (Selected.Count == 0)
+        {
+            <p class="omni-entity-picker__none">@EffectiveNoneSelectedText</p>
+        }
+        else
+        {
+            <ul class="omni-entity-picker__chips">
+                @foreach (var item in VisibleChips)
+                {
+                    var text = TextSelector(item);
+                    <li @key="KeySelector(item)" class="omni-entity-picker__chip">
+                        <span class="omni-entity-picker__chip-text">@text</span>
+                        <button type="button"
+                                class="omni-entity-picker__remove"
+                                aria-label="@Localize("EntityPickerRemove", text)"
+                                title="@Localize("EntityPickerRemove", text)"
+                                disabled="@Disabled"
+                                @onclick="() => RemoveAsync(item)">
+                            <OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" />
+                        </button>
+                    </li>
+                }
+                @if (HiddenChipCount > 0)
+                {
+                    <li class="omni-entity-picker__chip omni-entity-picker__chip--more">
+                        <button type="button" class="omni-entity-picker__more" @onclick="ShowAllChips">@Localize("EntityPickerShowAll", HiddenChipCount)</button>
+                    </li>
+                }
+            </ul>
+        }
+    </div>;
+}
+<div id="@RootId" class="@Css("omni-entity-picker", $"omni-entity-picker--{LayoutName}", Disabled ? "omni-entity-picker--disabled" : null)"
+     role="group" aria-labelledby="@LabelId" @attributes="AdditionalAttributes">
+    <div class="omni-entity-picker__header">
+        <span id="@LabelId" class="omni-entity-picker__label">@EffectiveLabel</span>
+        <OmniBadge Variant="OmniBadgeVariant.Neutral" Class="omni-entity-picker__count">@SelectedCountText</OmniBadge>
+    </div>
+    @if (Layout == OmniEntityPickerLayout.Stacked)
+    {
+        @selection
+    }
+    <div class="omni-entity-picker__columns">
+        <div class="omni-entity-picker__available">
+            @if (Layout == OmniEntityPickerLayout.TwoColumns)
+            {
+                <p id="@AvailableTitleId" class="omni-entity-picker__column-title">@EffectiveAvailableTitle</p>
+            }
+            <OmniTextBox Type="OmniTextBoxType.Search"
+                         Class="omni-entity-picker__search"
+                         Disabled="@Disabled"
+                         Placeholder="@EffectiveSearchPlaceholder"
+                         aria-label="@EffectiveSearchPlaceholder"
+                         aria-controls="@ResultsId"
+                         @bind-Value:get="_query"
+                         @bind-Value:set="SearchChangedAsync" />
+            @if (_error is not null)
+            {
+                <div class="omni-entity-picker__state omni-entity-picker__state--error" role="alert">
+                    <span>@EffectiveErrorText</span>
+                    <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="RetryAsync">
+                        <OmniIcon Name="OmniIconName.Refresh" Size="OmniControlSize.Small" /><span>@Localize("Retry")</span>
+                    </OmniButton>
+                </div>
+            }
+            else if (_loading && _results.Count == 0)
+            {
+                <p class="omni-entity-picker__state" role="status">@Localize("Loading")</p>
+            }
+            else if (AvailableItems.Count == 0)
+            {
+                <p class="omni-entity-picker__state">@EffectiveNoResultsText</p>
+            }
+            else
+            {
+                <ul id="@ResultsId" class="omni-entity-picker__results"
+                    aria-labelledby="@(Layout == OmniEntityPickerLayout.TwoColumns ? AvailableTitleId : LabelId)"
+                    aria-busy="@(_loading ? "true" : "false")">
+                    @foreach (var item in AvailableItems)
+                    {
+                        var chosen = IsSelected(item);
+                        <li @key="KeySelector(item)">
+                            <button type="button"
+                                    class="@OptionClass(chosen)"
+                                    aria-pressed="@(chosen ? "true" : "false")"
+                                    disabled="@Disabled"
+                                    @onclick="() => ToggleAsync(item)">
+                                <span class="omni-entity-picker__check" aria-hidden="true">
+                                    <OmniIcon Name="@(chosen ? OmniIconName.Check : OmniIconName.Add)" Size="OmniControlSize.Small" />
+                                </span>
+                                <span class="omni-entity-picker__option-body">
+                                    @if (ItemTemplate is not null)
+                                    {
+                                        @ItemTemplate(item)
+                                    }
+                                    else
+                                    {
+                                        <span class="omni-entity-picker__option-text">
+                                            @foreach (var segment in OmniTextMatch.Split(TextSelector(item), _resultsQuery))
+                                            {
+                                                if (segment.Matched)
+                                                {
+                                                    <mark class="omni-entity-picker__match">@segment.Text</mark>
+                                                }
+                                                else
+                                                {
+                                                    @segment.Text
+                                                }
+                                            }
+                                        </span>
+                                        @if (DescriptionSelector?.Invoke(item) is { Length: > 0 } description)
+                                        {
+                                            <span class="omni-entity-picker__option-description">@description</span>
+                                        }
+                                    }
+                                </span>
+                            </button>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+        @if (Layout == OmniEntityPickerLayout.TwoColumns)
+        {
+            <div class="omni-entity-picker__chosen">
+                <p id="@ChosenTitleId" class="omni-entity-picker__column-title">@EffectiveSelectedTitle</p>
+                @selection
+            </div>
+        }
+    </div>
+    <span class="omni-visually-hidden" role="status" aria-live="polite">@_announcement</span>
+</div>

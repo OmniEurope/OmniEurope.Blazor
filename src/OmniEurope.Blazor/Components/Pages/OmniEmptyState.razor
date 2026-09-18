@@ -1,0 +1,37 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* What stands in for a list, a search or a section with nothing to show: an icon, what is missing,
+   why, and the way out. The title is a paragraph by default, since an empty state inside a section
+   is not a new section of the page outline; Level makes it a heading when it is one. *@
+<div id="@Id" class="@Css("omni-empty-state")" @attributes="AdditionalAttributes">
+    <span class="omni-empty-state__icon" aria-hidden="true">
+        @if (Icon is not null)
+        {
+            @Icon
+        }
+        else
+        {
+            <OmniIcon Name="OmniIconName.Tray" Size="OmniControlSize.Large" />
+        }
+    </span>
+    @if (!string.IsNullOrWhiteSpace(Title))
+    {
+        if (Level is { } level)
+        {
+            <OmniHeading Level="level" Class="omni-empty-state__title">@Title</OmniHeading>
+        }
+        else
+        {
+            <p class="omni-empty-state__title">@Title</p>
+        }
+    }
+    @if (!string.IsNullOrWhiteSpace(Description))
+    {
+        <p class="omni-empty-state__description">@Description</p>
+    }
+    @if (Actions is not null)
+    {
+        <div class="omni-empty-state__actions">@Actions</div>
+    }
+</div>

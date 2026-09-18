@@ -13,6 +13,7 @@ Le deuxième lot complète les landmarks de page et installe un socle de formula
 ## Formulaires
 
 - `OmniTextBox`, `OmniPassword`, `OmniTextArea` et `OmniNumeric<TValue>` héritent de `OmniInputBase<TValue>` et participent à `EditContext`.
+- `OmniNumeric<TValue>` gagne `Clamp` (désactivé par défaut) : une valeur validée hors de `Minimum` ou `Maximum` est ramenée à la borne la plus proche, et c'est la borne que reçoit `ValueChanged` et qu'affiche ensuite le champ. Les bornes se lisent comme le navigateur lit `min` et `max`, en culture invariante ; une borne absente ou illisible pour `TValue` est ignorée. Valable pour `int`, `long`, `decimal`, `double` et leurs formes nullables ; un champ vidé reste `null`. Sans `Clamp`, la valeur est prise telle quelle, comme avant.
 - `OmniTextBox` rend le type demandé par `Type` (`Text`, `Email`, `Tel`, `Url` ou `Search`), ce qui choisit le clavier mobile et le remplissage automatique du navigateur.
 - `OmniCheckBox` et `OmniSwitch` lient des valeurs booléennes ; `OmniNullableCheckBox` et `OmniNullableSwitch` ajoutent un cycle contrôlé pour l'état non défini.
 - `OmniLabel` et `OmniFormField` associent libellé, description, contrôle et erreur sans masquer la sémantique HTML.

@@ -43,7 +43,7 @@ export function moveMenuFocus(menu, key) {
     items[next].focus();
 }
 
-export function activateDialog(dialog, key) {
+export function activateDialog(dialog, key, holdBackdrop) {
     rememberTarget(key);
     const items = focusableElements(dialog);
     (items[0] ?? dialog)?.focus({ preventScroll: true });
@@ -70,7 +70,17 @@ export function activateDialog(dialog, key) {
     };
 
     dialog.addEventListener('keydown', handler);
-    dialogHandlers.set(key, { dialog, handler });
+
+    // A press on a backdrop that closes nothing would otherwise move focus to the body, out of the
+    // trap, where Escape and Tab no longer reach the dialog. Only asked for by such a dialog.
+    const overlay = holdBackdrop === true ? dialog.parentElement : null;
+    const onBackdropDown = event => {
+        if (event.target === overlay) {
+            event.preventDefault();
+        }
+    };
+    overlay?.addEventListener('mousedown', onBackdropDown);
+    dialogHandlers.set(key, { dialog, handler, overlay, onBackdropDown });
 }
 
 export function trapDialogTab(dialog, shiftKey) {
@@ -98,6 +108,7 @@ export function restoreFocus(key) {
     const dialogState = dialogHandlers.get(key);
     if (dialogState) {
         dialogState.dialog.removeEventListener('keydown', dialogState.handler);
+        dialogState.overlay?.removeEventListener('mousedown', dialogState.onBackdropDown);
         dialogHandlers.delete(key);
     }
 
@@ -393,6 +404,28 @@ export function disposeDisclosure(details) {
     details.removeEventListener('click', state.onClick);
     details.removeEventListener('toggle', state.onToggle);
     disclosures.delete(details);
+}
+
+const fieldsetToggles = new WeakMap();
+
+// Blazor delivers no toggle event, so a collapsible OmniFieldset that reports its state hears the
+// native one here and hands the new open state back. Only added when the host asked for it.
+export function observeFieldsetToggle(details, dotnet) {
+    if (!(details instanceof HTMLDetailsElement) || !dotnet || fieldsetToggles.has(details)) {
+        return;
+    }
+
+    const onToggle = () => void dotnet.invokeMethodAsync('OmniFieldset.Toggled', details.open);
+    details.addEventListener('toggle', onToggle);
+    fieldsetToggles.set(details, onToggle);
+}
+
+export function disposeFieldsetToggle(details) {
+    const onToggle = details ? fieldsetToggles.get(details) : undefined;
+    if (onToggle) {
+        details.removeEventListener('toggle', onToggle);
+        fieldsetToggles.delete(details);
+    }
 }
 
 const contextMenus = new Map();

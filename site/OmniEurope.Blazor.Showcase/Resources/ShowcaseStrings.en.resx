@@ -220,4 +220,15 @@
   <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt by day, week or month, with groups, dependencies and today.</value></data>
   <data name="DemoPlanningCapability2" xml:space="preserve"><value>Run steps on a time scale, with the steps that never started.</value></data>
   <data name="DemoPlanningCapability3" xml:space="preserve"><value>Timeline on the right, on the left or alternating, choosing the first side.</value></data>
+  <data name="DemoPagesTitle" xml:space="preserve"><value>Pages</value></data>
+  <data name="DemoPagesSummary" xml:space="preserve"><value>The header, the detail page and what fills it.</value></data>
+  <data name="DemoPagesCapability1" xml:space="preserve"><value>Page header: a breadcrumb held by a service, back, title, badges and actions folded on a phone.</value></data>
+  <data name="DemoPagesCapability2" xml:space="preserve"><value>Detail page: the header painted before the data arrives, the content hidden while loading, a not-found state with a way back.</value></data>
+  <data name="DemoPagesCapability3" xml:space="preserve"><value>A description list in columns, with an action per value.</value></data>
+  <data name="DemoPagesCapability4" xml:space="preserve"><value>A relative time with the exact date on hover and focus, and an empty state with its action.</value></data>
+  <data name="DemoFlowsTitle" xml:space="preserve"><value>Flows</value></data>
+  <data name="DemoFlowsSummary" xml:space="preserve"><value>A wizard, a sign-in page and a lost connection.</value></data>
+  <data name="DemoFlowsCapability1" xml:space="preserve"><value>Step wizard: progress, per-step validation, in a page or in a dialog.</value></data>
+  <data name="DemoFlowsCapability2" xml:space="preserve"><value>A sign-in page with no authentication built in, and a return address kept inside the application.</value></data>
+  <data name="DemoFlowsCapability3" xml:space="preserve"><value>Lost connection overlay: countdown, reason, manual retry, failure and refusal.</value></data>
 </root>

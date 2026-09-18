@@ -1,7 +1,7 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-step-timeline")" aria-label="@EffectiveLabel">
+<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-step-timeline", VisibleColumns.Count > 0 ? "omni-step-timeline--columns" : null)" aria-label="@EffectiveLabel">
     @if (Layout.Bars.Count > 0)
     {
         @* The axis every track shares: the start of the run on the left, its length on the right. *@
@@ -12,19 +12,50 @@
                 <span>@StepTimelineLayout.Format(Layout.Total)</span>
             </span>
             <span></span>
+            @if (VisibleColumns.Count > 0)
+            {
+                <span class="omni-step-timeline__columns">
+                    @foreach (var column in VisibleColumns)
+                    {
+                        <span class="omni-step-timeline__column" title="@column.Description">@column.Title</span>
+                    }
+                </span>
+            }
         </div>
         <ol class="omni-step-timeline__steps">
             @foreach (var bar in Layout.Bars)
             {
+                var progress = StepTimelineLayout.ProgressOf(bar);
                 <li class="@RowCss(bar.Step)">
                     <span class="omni-step-timeline__name">@bar.Step.Name</span>
                     @* Percentages are SVG lengths: the bar is placed by geometry attributes, never by a style. *@
                     <svg class="omni-step-timeline__track" aria-hidden="true" focusable="false">
                         <rect class="omni-step-timeline__rail" x="0" y="0" width="100%" height="100%" rx="3" />
                         <rect class="omni-step-timeline__bar" x="@Percent(bar.OffsetPercent)" y="0" width="@Percent(bar.WidthPercent)" height="100%" rx="3" />
+                        @if (progress is { } fill)
+                        {
+                            <rect class="omni-step-timeline__progress" x="@Percent(bar.OffsetPercent)" y="0" width="@Percent(bar.WidthPercent * fill.Fill)" height="100%" rx="3" />
+                            @if (fill.Overrun > 0)
+                            {
+                                <rect class="omni-step-timeline__overrun" x="@Percent(bar.OffsetPercent)" y="0" width="@Percent(bar.WidthPercent * fill.Overrun)" height="100%" rx="3" />
+                            }
+                        }
                     </svg>
                     <span class="omni-visually-hidden">@Describe(bar)</span>
                     <span class="omni-step-timeline__duration">@StepTimelineLayout.Format(bar.Duration)</span>
+                    @if (progress is { } described)
+                    {
+                        <span class="omni-visually-hidden">@DescribeProgress(described)</span>
+                    }
+                    @if (VisibleColumns.Count > 0)
+                    {
+                        <span class="omni-step-timeline__columns">
+                            @foreach (var column in VisibleColumns)
+                            {
+                                <span class="omni-step-timeline__column">@column.Value(bar.Step)</span>
+                            }
+                        </span>
+                    }
                 </li>
             }
         </ol>
