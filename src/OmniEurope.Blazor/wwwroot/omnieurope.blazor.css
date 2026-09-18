@@ -1880,6 +1880,13 @@ polyline.omni-chart__line { fill: none; }
 .omni-step-timeline__duration { text-align: end; }
 .omni-step-timeline__never { margin: 0; }
 .omni-step-timeline__never-label { font-weight: 650; }
+/* Columns: every cell has the same width, so the fourth track is as wide in every row and they align. */
+.omni-step-timeline--columns .omni-step-timeline__row { grid-template-columns: minmax(0, 10rem) minmax(0, 1fr) 3.5rem auto; }
+.omni-step-timeline__columns { display: flex; gap: var(--omni-space-sm); }
+.omni-step-timeline__column { font-variant-numeric: tabular-nums; inline-size: 5rem; overflow: hidden; text-align: end; text-overflow: ellipsis; white-space: nowrap; }
+/* A running step against its usual duration: the stronger fill up to it, then the overrun from the left. */
+.omni-step-timeline__progress { fill: var(--omni-color-accent-strong); }
+.omni-step-timeline__overrun { fill: var(--omni-color-warning); }
 .omni-scheduler { display: grid; gap: var(--omni-space-md); }
 .omni-scheduler__header { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: space-between; }
 .omni-scheduler__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
@@ -1938,6 +1945,20 @@ polyline.omni-chart__line { fill: none; }
 .omni-code-editor__host, .omni-code-editor__fallback { block-size: var(--omni-code-editor-height, 20rem); }
 .omni-code-editor__fallback { white-space: pre; }
 .omni-code-editor [hidden] { display: none; }
+/* OmniDiffViewer: Monaco's diff editor, or the two texts in two panes split by a hairline (the border
+   colour showing through the gap), side by side or, inline, one above the other at half height each. */
+.omni-diff-viewer { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; overflow: hidden; }
+.omni-diff-viewer [hidden] { display: none; }
+.omni-diff-viewer__host { block-size: var(--omni-code-editor-height, 20rem); }
+.omni-diff-viewer__panes { background: var(--omni-color-border); display: grid; gap: var(--omni-border-width); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.omni-diff-viewer--inline .omni-diff-viewer__panes { grid-template-columns: minmax(0, 1fr); }
+.omni-diff-viewer__pane { background: var(--omni-color-surface); display: grid; grid-template-rows: auto 1fr; min-inline-size: 0; }
+.omni-diff-viewer__pane-title { background: var(--omni-color-surface-muted); color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); font-weight: 650; padding: var(--omni-space-xs) var(--omni-space-md); }
+.omni-diff-viewer__text { background: var(--omni-color-surface); block-size: var(--omni-code-editor-height, 20rem); border: 0; box-sizing: border-box; color: var(--omni-color-text); font-family: var(--omni-font-family-monospace); font-size: var(--omni-font-size-base); inline-size: 100%; margin: 0; overflow: auto; padding: var(--omni-space-md); resize: none; white-space: pre; }
+.omni-diff-viewer--inline .omni-diff-viewer__text { block-size: calc(var(--omni-code-editor-height, 20rem) / 2); }
+.omni-diff-viewer__text:focus-visible { box-shadow: inset var(--omni-focus-ring); outline: none; }
+.omni-diff-viewer__notice { background: var(--omni-color-warning-subtle); color: var(--omni-color-text); font-size: var(--omni-font-size-sm); margin: 0; padding: var(--omni-space-xs) var(--omni-space-md); }
+@media (max-width: 40rem) { .omni-diff-viewer__panes { grid-template-columns: minmax(0, 1fr); } }
 
 
 /* Busy veil (STD-BUSY). A busy control keeps its exact size and content: a dark layer breathes over
@@ -2015,6 +2036,10 @@ polyline.omni-chart__line { fill: none; }
 .omni-mindmap__edge-hit { cursor: pointer; fill: none; stroke: transparent; stroke-width: 14; }
 .omni-mindmap__edge-line { fill: none; pointer-events: none; stroke: var(--omni-mindmap-edge); stroke-width: 2; }
 .omni-mindmap__edge--selected .omni-mindmap__edge-line { stroke: var(--omni-color-danger); stroke-dasharray: 6 3; stroke-width: 3; }
+.omni-mindmap__arrow-head { fill: var(--omni-mindmap-edge); }
+/* NodeTemplate content: drawn inside the box, never a target of its own, so the node still drags and selects. */
+.omni-mindmap__node-content { overflow: visible; pointer-events: none; }
+.omni-mindmap__node-template { align-items: center; block-size: 100%; box-sizing: border-box; color: var(--omni-mindmap-text); display: flex; font-family: var(--omni-font-family); font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); justify-content: center; overflow: hidden; padding: var(--omni-space-xs) var(--omni-space-sm); }
 .omni-mindmap__note { pointer-events: none; }
 .omni-mindmap__note-shape { fill: var(--omni-mindmap-note-fill); opacity: 0.85; stroke: var(--omni-mindmap-note-stroke); }
 .omni-mindmap__note-connector { opacity: 0.6; stroke: var(--omni-mindmap-note-stroke); stroke-dasharray: 3 2; }
@@ -2269,6 +2294,70 @@ span.omni-unified-diff__toggle { cursor: default; }
 .omni-unified-diff__line--removed { background: var(--omni-color-danger-subtle); }
 .omni-unified-diff__line--note .omni-unified-diff__code { color: var(--omni-color-text-muted); font-style: italic; }
 .omni-unified-diff__note, .omni-unified-diff__empty { color: var(--omni-color-text-muted); margin: 0; padding: var(--omni-space-md); }
+
+/* OmniKanban: columns side by side that scroll sideways when the board is narrower than they are. A
+   state is marked by a background, a dashed slot or a shadow, never by a bar on one edge. */
+.omni-kanban { display: grid; min-inline-size: 0; }
+.omni-kanban__columns { align-items: start; display: grid; gap: var(--omni-space-md); grid-auto-columns: minmax(12rem, 1fr); grid-auto-flow: column; overflow-x: auto; padding-block-end: var(--omni-space-xs); }
+.omni-kanban__column { background: var(--omni-color-surface-muted); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; gap: var(--omni-space-sm); min-inline-size: 0; padding: var(--omni-space-sm); }
+.omni-kanban__column--drop { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent); }
+.omni-kanban__header { align-items: center; display: flex; gap: var(--omni-space-sm); justify-content: space-between; min-block-size: 2rem; }
+.omni-kanban__title { font-weight: 650; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-kanban__count { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-pill); color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); min-inline-size: 1.5rem; padding: 0 var(--omni-space-xs); text-align: center; }
+.omni-kanban__cards { display: grid; gap: var(--omni-space-sm); list-style: none; margin: 0; min-block-size: 3rem; padding: 0; }
+.omni-kanban__card { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-sm); color: var(--omni-color-text); cursor: grab; padding: var(--omni-space-sm) var(--omni-space-md); position: relative; }
+.omni-kanban--readonly .omni-kanban__card { cursor: default; }
+.omni-kanban__card:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-kanban__card--grabbed { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent); box-shadow: var(--omni-shadow-md), var(--omni-focus-ring); }
+.omni-kanban__card--dragging { opacity: 0.5; }
+/* Where a dragged card would land: an empty dashed slot opened before the card it would precede. */
+.omni-kanban__card--drop-before { margin-block-start: 3rem; }
+.omni-kanban__card--drop-before::before { block-size: 2.5rem; border: var(--omni-border-width) dashed var(--omni-color-accent); border-radius: var(--omni-radius); box-sizing: border-box; content: ""; inset-block-start: calc(-3rem - var(--omni-border-width)); inset-inline: calc(-1 * var(--omni-border-width)); pointer-events: none; position: absolute; }
+.omni-kanban__empty { border: var(--omni-border-width) dashed var(--omni-color-border); border-radius: var(--omni-radius); color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); padding: var(--omni-space-sm); text-align: center; }
+
+/* OmniGitGraph: every row is the same height and draws its own lanes edge to edge, so the lines of one
+   row meet those of the next. The drawing scales with the row, its width following its lane count. */
+.omni-git-graph { display: grid; list-style: none; margin: 0; padding: 0; }
+.omni-git-graph__row { align-items: center; block-size: var(--omni-git-graph-row-height, 2rem); display: flex; gap: var(--omni-space-sm); }
+.omni-git-graph__lanes { block-size: 100%; display: block; flex: none; inline-size: auto; overflow: visible; }
+.omni-git-graph__content { flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-git-graph__edge { fill: none; stroke: var(--omni-git-graph-lane); stroke-linecap: round; stroke-width: 2; }
+.omni-git-graph__node { fill: var(--omni-git-graph-lane); stroke: var(--omni-color-surface); stroke-width: 2; }
+.omni-git-graph__node--merge { fill: var(--omni-color-surface); stroke: var(--omni-git-graph-lane); stroke-width: 2.5; }
+.omni-git-graph__lane--0 { --omni-git-graph-lane: var(--omni-chart-color-0); } .omni-git-graph__lane--1 { --omni-git-graph-lane: var(--omni-chart-color-1); } .omni-git-graph__lane--2 { --omni-git-graph-lane: var(--omni-chart-color-2); } .omni-git-graph__lane--3 { --omni-git-graph-lane: var(--omni-chart-color-3); }
+.omni-git-graph__lane--4 { --omni-git-graph-lane: var(--omni-chart-color-4); } .omni-git-graph__lane--5 { --omni-git-graph-lane: var(--omni-chart-color-5); } .omni-git-graph__lane--6 { --omni-git-graph-lane: var(--omni-chart-color-6); } .omni-git-graph__lane--7 { --omni-git-graph-lane: var(--omni-chart-color-7); }
+.omni-git-graph__empty { color: var(--omni-color-text-muted); margin: 0; }
+
+/* OmniStatusStrip: the item is the target, the visible point or segment is its ::before. A link or a
+   button keeps a 44 px target; segments share the width of the strip, so theirs is only 44 px high. */
+.omni-status-strip { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); list-style: none; margin: 0; padding: 0; }
+.omni-status-strip__cell { display: flex; }
+.omni-status-strip__item { --omni-status-ink: var(--omni-color-text-muted); align-items: center; background: none; border: 0; border-radius: var(--omni-radius); color: inherit; display: inline-flex; justify-content: center; padding: 0; }
+.omni-status-strip__item::before { background: var(--omni-status-ink); block-size: 0.75rem; border-radius: var(--omni-radius-pill); content: ""; inline-size: 0.75rem; }
+:is(a, button).omni-status-strip__item { cursor: pointer; min-block-size: 2.75rem; min-inline-size: 2.75rem; }
+:is(a, button).omni-status-strip__item:hover { background: var(--omni-color-surface-hover); }
+:is(a, button).omni-status-strip__item:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-status-strip__item--accent { --omni-status-ink: var(--omni-color-accent); }
+.omni-status-strip__item--success { --omni-status-ink: var(--omni-color-success); }
+.omni-status-strip__item--warning { --omni-status-ink: var(--omni-color-warning); }
+.omni-status-strip__item--danger { --omni-status-ink: var(--omni-color-danger); }
+.omni-status-strip--segment { flex-wrap: nowrap; gap: 0; inline-size: 100%; }
+.omni-status-strip--segment .omni-status-strip__cell { flex: 1 1 0; min-inline-size: 0; }
+.omni-status-strip--segment .omni-status-strip__item { inline-size: 100%; min-inline-size: 0; }
+.omni-status-strip--segment .omni-status-strip__item::before { block-size: 1.5rem; border-radius: 0; inline-size: 100%; }
+.omni-status-strip--segment .omni-status-strip__cell:first-child .omni-status-strip__item::before { border-end-start-radius: var(--omni-radius); border-start-start-radius: var(--omni-radius); }
+.omni-status-strip--segment .omni-status-strip__cell:last-child .omni-status-strip__item::before { border-end-end-radius: var(--omni-radius); border-start-end-radius: var(--omni-radius); }
+.omni-status-strip__item--pulse::before { animation: omni-status-pulse 1.6s ease-in-out infinite; }
+@keyframes omni-status-pulse { 50% { opacity: 0.35; } }
+.omni-status-strip__empty { color: var(--omni-color-text-muted); }
+@media (prefers-reduced-motion: reduce) { .omni-status-strip__item--pulse::before { animation: none; } }
+
+/* Boot splash: written by the host outside the Blazor root, drawn over the page from the first paint in
+   the appearance omni-boot.js applied, faded out then removed by OmniBootSplash. */
+.omni-boot-splash { align-items: center; background: var(--omni-color-surface); color: var(--omni-color-text); display: flex; inset: 0; justify-content: center; position: fixed; transition: opacity 300ms ease; z-index: 2147483000; }
+.omni-boot-splash--leaving { opacity: 0; pointer-events: none; }
+.omni-boot-splash__spinner { animation: omni-spin 900ms linear infinite; block-size: 2.5rem; border: 0.25rem solid var(--omni-color-border); border-block-start-color: var(--omni-color-accent); border-radius: 50%; box-sizing: border-box; inline-size: 2.5rem; }
+@media (prefers-reduced-motion: reduce) { .omni-boot-splash { transition: none; } .omni-boot-splash__spinner { animation: none; } }
 
 /* Utilities (omni-u-*): spacing, text and layout helpers on the design tokens, for the markup an
    application writes around the components. New classes only, one class per selector: none of them
