@@ -11,6 +11,7 @@ public partial class OmniUpload
     private double _progress;
     private string? _message;
     private bool _hasError;
+    private bool _showAll;
 
     [Parameter]
     public bool Multiple { get; set; }
@@ -303,4 +304,91 @@ public partial class OmniUpload
     /// </summary>
     [Parameter]
     public OmniDensity? Density { get; set; }
+
+    /// <summary>
+    /// How the picker is offered: the drop zone (the default), or, for a single file, a read-only field
+    /// welded to a Browse button, which a click on either or Enter opens. With <see cref="Multiple"/>
+    /// the zone is kept. The field shows the chosen file and has no list under it.
+    /// </summary>
+    [Parameter]
+    public OmniUploadDisplay Display { get; set; }
+
+    /// <summary>
+    /// Keeps a long list short: only the three most recent files are shown, and under the list, always,
+    /// the count, "Show all (n)" or "Show less" when more files are held, and "Remove all". Off by
+    /// default: every file is listed, as before.
+    /// </summary>
+    [Parameter]
+    public bool ReducedList { get; set; }
+
+    /// <summary>How many of the most recent files a reduced list shows.</summary>
+    private const int ReducedCount = 3;
+
+    private bool IsField => Display == OmniUploadDisplay.Field && !Multiple;
+    private string BaseId => InputId ?? Id ?? _generatedId;
+    private string ListId => $"{BaseId}-list";
+    private string FieldValueId => $"{BaseId}-value";
+    private int ListedCount => IsBound ? Files.Count : _files.Count;
+    private bool Collapsible => ReducedList && ListedCount > ReducedCount;
+
+    /// <summary>The index of the first file listed: the most recent ones are the last appended.</summary>
+    private int FirstShown => Collapsible && !_showAll ? ListedCount - ReducedCount : 0;
+
+    private string CountText => ListedCount switch
+    {
+        0 => Localize("UploadFileCountNone"),
+        1 => Localize("UploadFileCountOne"),
+        var count => Localize("UploadFileCountMany", count)
+    };
+
+    /// <summary>The chosen file, name and size, or null when the field holds none.</summary>
+    private string? FieldText
+    {
+        get
+        {
+            if (IsBound)
+            {
+                return Files.Count == 0 ? null : Localize("UploadFieldValue", Files[^1].Name, FormatSize(Files[^1].Size));
+            }
+
+            return _files.Count == 0 ? null : Localize("UploadFieldValue", _files[0].Name, FormatSize(_files[0].Size));
+        }
+    }
+
+    private string FieldValueClass => CssClassBuilder.Combine([
+        "omni-input",
+        "omni-upload__field-value",
+        FieldText is null ? "omni-upload__field-value--empty" : null]);
+
+    private void ToggleShowAll() => _showAll = !_showAll;
+
+    /// <summary>
+    /// Empties the list. Bound, each entry is reported through <see cref="FileRemoved"/> before the
+    /// empty list is sent, as a removal one by one would; unbound, the listed selection is cleared.
+    /// </summary>
+    private async Task RemoveAllAsync()
+    {
+        if (Disabled || _uploading || ListedCount == 0)
+        {
+            return;
+        }
+
+        _showAll = false;
+        _hasError = false;
+        _progress = 0;
+        _message = Localize("UploadRemovedAll");
+        if (!IsBound)
+        {
+            _files = Array.Empty<IBrowserFile>();
+            return;
+        }
+
+        var removed = Files;
+        foreach (var file in removed)
+        {
+            await FileRemoved.InvokeAsync(file);
+        }
+
+        await FilesChanged.InvokeAsync(Array.Empty<OmniUploadFile>());
+    }
 }

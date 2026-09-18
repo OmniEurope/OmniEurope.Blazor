@@ -72,6 +72,9 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     [InlineData(".omni-tabs__tab", "padding-block", "var(--omni-item-pad-y)")]
     [InlineData(".omni-settings-tile", "padding", "var(--omni-tile-pad-y)")]
     [InlineData(".omni-settings-tile__icon", "block-size", "var(--omni-icon-box)")]
+    [InlineData(".omni-upload__file", "padding", "var(--omni-item-pad-y)")]
+    [InlineData(".omni-upload__file-icon", "inline-size", "var(--omni-icon-box)")]
+    [InlineData(".omni-upload__zone", "padding", "var(--omni-section-pad)")]
     [InlineData(".omni-badge", "padding", "var(--omni-badge-pad-y)")]
     [InlineData(".omni-notification", "padding", "var(--omni-alert-pad-y)")]
     [InlineData(".omni-dialog__content", "padding", "var(--omni-card-pad)")]
@@ -355,6 +358,129 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
             "color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface)))",
             ShippedLookTests.Value(ShippedLookTests.Body(".omni-settings-tile"), "background"));
         Assert.Equal("var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border))", ShippedLookTests.Value(ShippedLookTests.Body(".omni-settings-tile"), "border"));
+    }
+
+    // ---- T20, T21: the file field and the reduced list ----
+
+    [Fact]
+    public void UploadField_WeldsAReadOnlyFieldToABrowseButton_UnderOneNativeControl()
+    {
+        IReadOnlyList<OmniUploadFile> files = [];
+        var upload = Render<OmniUpload>(parameters => parameters
+            .Add(component => component.Display, OmniUploadDisplay.Field)
+            .Add(component => component.InputId, "manifest")
+            .Add(component => component.Files, files)
+            .Add(component => component.FilesChanged, next => files = next));
+
+        Assert.Empty(upload.FindAll(".omni-upload__zone"));
+        var field = upload.Find(".omni-upload__field");
+        Assert.Equal("Aucun fichier choisi", field.QuerySelector(".omni-upload__field-value")!.TextContent);
+        Assert.Contains("Parcourir", field.QuerySelector(".omni-upload__field-button")!.TextContent, StringComparison.Ordinal);
+        // The native control sits in the field and covers it: a click or Enter on it opens the picker.
+        var input = field.QuerySelector("input[type=file]")!;
+        Assert.Equal("manifest", input.Id);
+        Assert.Contains("omni-upload__input", input.ClassList);
+        Assert.Contains("manifest-value", input.GetAttribute("aria-describedby"), StringComparison.Ordinal);
+
+        upload.FindComponent<InputFile>().UploadFiles(InputFileContent.CreateFromText("hello", "deploy.yml", contentType: "text/yaml"));
+        upload.Render(parameters => parameters.Add(component => component.Files, files));
+
+        Assert.Equal("deploy.yml (5 o)", upload.Find(".omni-upload__field-value").TextContent);
+        Assert.Empty(upload.FindAll(".omni-upload__list"));
+
+        Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-upload__field-value"), "border-end-end-radius"));
+        Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-upload__field-button"), "border-start-start-radius"));
+        Assert.DoesNotMatch(@"(?:^|;)\s*gap\s*:", ShippedLookTests.Body(".omni-upload__field"));
+    }
+
+    [Fact]
+    public void UploadField_KeepsTheZone_ForASelectionOfSeveralFiles()
+    {
+        var upload = Render<OmniUpload>(parameters => parameters
+            .Add(component => component.Display, OmniUploadDisplay.Field)
+            .Add(component => component.Multiple, true));
+
+        Assert.NotNull(upload.Find(".omni-upload__zone"));
+        Assert.Empty(upload.FindAll(".omni-upload__field"));
+    }
+
+    [Fact]
+    public void ReducedList_ShowsTheThreeMostRecent_WithTheCountShowAllAndRemoveAll()
+    {
+        IReadOnlyList<OmniUploadFile> files = Enumerable.Range(1, 5).Select(index => new OmniUploadFile($"f{index}.pdf", 1024)).ToList();
+        var removed = new List<string>();
+        var upload = Render<OmniUpload>(parameters => parameters
+            .Add(component => component.Multiple, true)
+            .Add(component => component.ReducedList, true)
+            .Add(component => component.Files, files)
+            .Add(component => component.FilesChanged, next => files = next)
+            .Add(component => component.FileRemoved, file => removed.Add(file.Name)));
+
+        Assert.Equal(["f3.pdf", "f4.pdf", "f5.pdf"], upload.FindAll(".omni-upload__file-name").Select(name => name.TextContent));
+        Assert.Equal("5 fichiers", upload.Find(".omni-upload__count").TextContent);
+        var showAll = upload.Find(".omni-upload__show-all");
+        Assert.Equal("false", showAll.GetAttribute("aria-expanded"));
+        Assert.Equal(upload.Find(".omni-upload__list").Id, showAll.GetAttribute("aria-controls"));
+        Assert.Contains("Afficher tout (5)", showAll.TextContent, StringComparison.Ordinal);
+
+        showAll.Click();
+        Assert.Equal(5, upload.FindAll(".omni-upload__file").Count);
+        Assert.Equal("true", upload.Find(".omni-upload__show-all").GetAttribute("aria-expanded"));
+        Assert.Contains("Réduire", upload.Find(".omni-upload__show-all").TextContent, StringComparison.Ordinal);
+
+        upload.Find(".omni-upload__clear").Click();
+        Assert.Equal(["f1.pdf", "f2.pdf", "f3.pdf", "f4.pdf", "f5.pdf"], removed);
+        Assert.Empty(files);
+
+        Assert.Equal("auto", ShippedLookTests.Value(ShippedLookTests.Body(".omni-upload__clear"), "margin-inline-start"));
+        Assert.Equal("rotate(180deg)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-upload__show-all[aria-expanded=\"true\"] .omni-upload__chevron"), "transform"));
+    }
+
+    [Fact]
+    public void ReducedList_HidesShowAll_AtThreeFilesOrFewer_AndDisablesRemoveAll_WhenEmpty()
+    {
+        IReadOnlyList<OmniUploadFile> files = [new("a.pdf", 10), new("b.pdf", 10), new("c.pdf", 10)];
+        var upload = Render<OmniUpload>(parameters => parameters
+            .Add(component => component.Multiple, true)
+            .Add(component => component.ReducedList, true)
+            .Add(component => component.Files, files)
+            .Add(component => component.FilesChanged, next => files = next));
+
+        Assert.Equal(3, upload.FindAll(".omni-upload__file").Count);
+        Assert.Empty(upload.FindAll(".omni-upload__show-all"));
+        Assert.Equal("3 fichiers", upload.Find(".omni-upload__count").TextContent);
+
+        upload.Render(parameters => parameters.Add(component => component.Files, (IReadOnlyList<OmniUploadFile>)[]));
+        Assert.Equal("Aucun fichier", upload.Find(".omni-upload__count").TextContent);
+        Assert.True(upload.Find(".omni-upload__clear").HasAttribute("disabled"));
+
+        var plain = Render<OmniUpload>(parameters => parameters
+            .Add(component => component.Multiple, true)
+            .Add(component => component.Files, files)
+            .Add(component => component.FilesChanged, next => files = next));
+        Assert.Empty(plain.FindAll(".omni-upload__toolbar"));
+    }
+
+    [Fact]
+    public void UploadProgress_IsTheProgressTheUploadReports_NotATimer()
+    {
+        // The bar shows what the upload reports while it runs, then 100 once it has succeeded; nothing
+        // moves it on its own.
+        string? during = null;
+        IRenderedComponent<OmniUpload>? upload = null;
+        upload = Render<OmniUpload>(parameters => parameters
+            .Add(component => component.Display, OmniUploadDisplay.Field)
+            .Add(component => component.Upload, async request =>
+            {
+                request.ReportProgress(37);
+                await Task.Yield();
+                during = upload!.Markup;
+            }));
+
+        upload.FindComponent<InputFile>().UploadFiles(InputFileContent.CreateFromText("hello", "note.txt", contentType: "text/plain"));
+
+        Assert.Contains("aria-valuenow=\"37\"", during, StringComparison.Ordinal);
+        upload.WaitForAssertion(() => Assert.Contains("aria-valuenow=\"100\"", upload.Markup, StringComparison.Ordinal));
     }
 
     // ---- 7B: the notification mark ----

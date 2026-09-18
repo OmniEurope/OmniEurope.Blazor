@@ -1477,28 +1477,49 @@
 .omni-color-picker { align-items: center; display: inline-flex; gap: var(--omni-space-sm); }
 .omni-color-picker__input { background: transparent; border: 0; height: 2.5rem; width: 3.5rem; }
 /* Envoi : une zone de dépôt en pointillés que le contrôle natif couvre, invisible, puis la liste des
-   fichiers, chacun sur sa ligne avec son icône, son nom, sa taille et, liée, sa croix. */
+   fichiers, chacun sur sa ligne avec son icône dans une case, son nom, sa taille et, liée, sa croix. */
 .omni-upload { display: grid; gap: var(--omni-space-sm); }
-.omni-upload__zone { align-items: center; background: var(--omni-color-surface-muted); border: calc(var(--omni-border-width) * 2) dashed var(--omni-color-border); border-radius: var(--omni-radius); display: grid; gap: var(--omni-space-xs); justify-items: center; padding: var(--omni-space-lg) var(--omni-space-md); position: relative; text-align: center; }
+.omni-upload__zone { align-items: center; background: color-mix(in srgb, var(--omni-color-accent) 3%, var(--omni-color-surface)); border: 1.5px dashed color-mix(in srgb, var(--omni-color-text) 28%, transparent); border-radius: var(--omni-card-radius, var(--omni-radius)); display: grid; gap: 6px; justify-items: center; padding: calc(var(--omni-section-pad) - 2px) var(--omni-section-pad); position: relative; text-align: center; transition: background-color 120ms ease, border-color 120ms ease; }
 .omni-upload__input { block-size: 100%; cursor: pointer; inline-size: 100%; inset: 0; opacity: 0; position: absolute; }
-.omni-upload__icon { color: var(--omni-color-accent); }
+.omni-upload__zone .omni-disc { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); }
 .omni-upload__prompt { font-weight: 600; }
 .omni-upload__browse { color: var(--omni-color-accent-strong); text-decoration: underline; }
 .omni-upload__hint { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
-.omni-upload__zone:hover,
-.omni-upload--dragging .omni-upload__zone { background: color-mix(in srgb, var(--omni-color-accent) 10%, var(--omni-color-surface)); border-color: var(--omni-color-accent); }
+.omni-upload__zone:hover { border-color: color-mix(in srgb, var(--omni-color-accent) 55%, transparent); }
+.omni-upload--dragging .omni-upload__zone { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent-fill); border-style: solid; }
 .omni-upload__zone:has(> .omni-upload__input:focus-visible) { border-color: var(--omni-color-accent); box-shadow: var(--omni-focus-ring); }
-.omni-upload--disabled .omni-upload__zone { background: var(--omni-color-surface-muted); border-color: var(--omni-color-border); opacity: 0.55; }
+.omni-upload--disabled :is(.omni-upload__zone, .omni-upload__field) { opacity: 0.55; }
+.omni-upload--disabled .omni-upload__zone { background: var(--omni-color-surface-muted); border-color: var(--omni-color-border); }
 .omni-upload--disabled .omni-upload__input { cursor: not-allowed; }
-.omni-upload__list { display: grid; gap: var(--omni-space-xs); list-style: none; margin: 0; padding: 0; }
-.omni-upload__file { align-items: center; background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; gap: var(--omni-space-sm); min-block-size: 2.5rem; min-inline-size: 0; padding: 0 var(--omni-space-xs) 0 var(--omni-space-sm); }
-.omni-upload__file-icon { color: var(--omni-color-text-muted); flex: 0 0 auto; }
-.omni-upload__file-name { flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.omni-upload__file-size { color: var(--omni-color-text-muted); flex: 0 0 auto; font-size: var(--omni-font-size-sm); }
-.omni-upload__remove { background: transparent; border: 0; border-radius: var(--omni-radius); color: var(--omni-color-text-muted); cursor: pointer; display: inline-grid; flex: 0 0 auto; place-items: center; min-block-size: 2rem; min-inline-size: 2rem; }
+/* A single file as a field and a button welded into one control: inner corners square, no gap. The
+   native control covers both, so the pointer, the focus and the drop all reach it; the field shows
+   the focus ring and the button the hover of the pair. */
+.omni-upload__field { display: flex; min-inline-size: 0; position: relative; }
+.omni-upload__field-value { align-items: center; border-end-end-radius: 0; border-start-end-radius: 0; display: flex; flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-upload__field-value--empty { color: var(--omni-color-text-muted); }
+.omni-upload__field-button { border-end-start-radius: 0; border-start-start-radius: 0; flex: none; }
+.omni-upload__field:hover > .omni-upload__field-value { border-color: color-mix(in srgb, var(--omni-color-text) 45%, var(--omni-color-border)); }
+.omni-upload__field:hover > .omni-upload__field-button { background: var(--omni-button-fill-hover); }
+.omni-upload__field:has(> .omni-upload__input:focus-visible) > .omni-upload__field-value { border-color: var(--omni-color-accent-fill); box-shadow: var(--omni-focus-ring); }
+.omni-upload--dragging .omni-upload__field-value { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent-fill); }
+.omni-upload__list { display: grid; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.omni-upload__file { align-items: center; background: var(--omni-card-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-radius); display: grid; gap: 4px 10px; grid-template-columns: auto minmax(0, 1fr) auto; min-inline-size: 0; padding: var(--omni-item-pad-y) 10px; }
+.omni-upload__file-icon { align-items: center; background: var(--omni-color-neutral-fill); block-size: var(--omni-icon-box); border-radius: var(--omni-radius); color: var(--omni-color-text-muted); display: grid; grid-row: span 2; inline-size: var(--omni-icon-box); overflow: hidden; place-content: center; }
+.omni-upload__file-name { font-weight: 500; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-upload__file-meta { align-items: center; color: var(--omni-color-text-muted); display: flex; font-size: 0.75rem; gap: 8px; grid-column: 2; }
+.omni-upload__actions { display: flex; gap: 2px; grid-column: 3; grid-row: 1 / span 2; }
+.omni-upload__remove { background: transparent; border: 0; border-radius: var(--omni-radius); color: var(--omni-color-text-muted); cursor: pointer; display: inline-grid; flex: 0 0 auto; place-items: center; min-block-size: calc(var(--omni-control-height) - 0.25rem); min-inline-size: calc(var(--omni-control-height) - 0.25rem); }
 .omni-upload__remove:hover { background: color-mix(in srgb, var(--omni-color-danger) 14%, transparent); color: var(--omni-color-danger); }
 .omni-upload__remove:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-upload__remove:disabled { cursor: not-allowed; opacity: 0.5; }
+/* Reduced list: under it, the count, Show all or Show less with a chevron that turns, and Remove all
+   pushed to the end. */
+.omni-upload__toolbar { align-items: center; display: flex; flex-wrap: wrap; gap: 4px 8px; }
+.omni-upload__count { color: var(--omni-color-text-muted); font-size: 0.8125rem; }
+.omni-upload__clear { margin-inline-start: auto; }
+.omni-upload__chevron { display: inline-grid; transition: transform 160ms ease; }
+.omni-upload__show-all[aria-expanded="true"] .omni-upload__chevron { transform: rotate(180deg); }
+@media (prefers-reduced-motion: reduce) { .omni-upload__zone, .omni-upload__chevron { transition: none; } }
 .omni-upload__cancel,
 .omni-upload__retry { justify-self: start; }
 .omni-upload__message { margin: 0; }

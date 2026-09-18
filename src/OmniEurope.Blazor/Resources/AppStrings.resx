@@ -238,6 +238,16 @@
   <data name="UploadHintMaximumFiles" xml:space="preserve"><value>{0} fichiers au plus</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Fichiers joints</value></data>
   <data name="UploadRemove" xml:space="preserve"><value>Retirer {0}</value></data>
+  <data name="UploadBrowseButton" xml:space="preserve"><value>Parcourir</value></data>
+  <data name="UploadNoFile" xml:space="preserve"><value>Aucun fichier choisi</value></data>
+  <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
+  <data name="UploadFileCountNone" xml:space="preserve"><value>Aucun fichier</value></data>
+  <data name="UploadFileCountOne" xml:space="preserve"><value>1 fichier</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} fichiers</value></data>
+  <data name="UploadShowAll" xml:space="preserve"><value>Afficher tout ({0})</value></data>
+  <data name="UploadShowLess" xml:space="preserve"><value>Réduire</value></data>
+  <data name="UploadRemoveAll" xml:space="preserve"><value>Tout retirer</value></data>
+  <data name="UploadRemovedAll" xml:space="preserve"><value>Tous les fichiers ont été retirés de la liste.</value></data>
   <data name="UploadRemoved" xml:space="preserve"><value>{0} retiré de la liste.</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Vue hebdomadaire</value></data>
   <data name="DataAnnotationsRequired" xml:space="preserve"><value>Le champ {0} est obligatoire.</value></data>
