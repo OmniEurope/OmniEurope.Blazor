@@ -67,6 +67,16 @@ courir jusqu'à `Now` (l'horloge par défaut), `Secondary` met son nom en italiq
 danger, `Running` accent, `Skipped` et
 `Cancelled` bordure.
 
+`Columns` ajoute à droite des durées des colonnes de valeurs alignées d'une ligne à l'autre
+(`OmniStepTimelineColumn(Title, Value)`, avec `Description` en infobulle de l'en-tête) : la durée
+habituelle d'une étape, sa dernière durée, ce qu'elle a consommé. Une cellule sans valeur reste vide à sa
+place ; une colonne qu'aucune étape ne remplit n'est pas dessinée. L'en-tête étant masqué aux
+technologies d'assistance, chaque valeur est lue avec son titre (« Habituelle : 1m40 »).
+`OmniStepTimelineStep.ExpectedDuration` fait remplir la barre d'une étape en cours jusqu'à sa durée
+habituelle, puis une seconde couche repartant de la gauche mesure le dépassement, pleine au double ; la
+proportion est lue (« 50 % de la durée habituelle écoulés », « au-delà de la durée habituelle »). Une
+étape terminée n'a pas de remplissage.
+
 L'axe va du premier début à la dernière fin. Une étape trop brève garde 0,6 % de largeur pour rester
 visible, une fin antérieure à son début (horloges en désaccord) est ramenée à une durée nulle, et une
 exécution sans durée donne à chaque barre toute la largeur. Les durées s'écrivent comme dans un
@@ -77,7 +87,8 @@ aux lecteurs d'écran (« en échec, démarrée à 1m00, durée 2m00 »).
 
 - Tests bUnit : `TimelineLayoutTests`, `GanttComponentTests` (plage, lignes et groupes, barres,
   flèches, en-têtes, ligne du jour, boutons nommés, zoom non lié), `StepTimelineComponentTests`
-  (placement, largeur minimale, cas dégénérés, formats, rendu).
+  (placement, largeur minimale, cas dégénérés, formats, rendu), `StepTimelineColumnsTests` (colonnes,
+  remplissage et dépassement, statuts).
 - Rendus vérifiés dans Chromium sans serveur, sur des pages statiques produites par bUnit avec la
   feuille réelle : les quatre dispositions de la frise (et leur repli sous 30rem), le Gantt au zoom
   semaine en clair et en sombre, le déroulement réussi.

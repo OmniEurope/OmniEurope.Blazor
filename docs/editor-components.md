@@ -163,6 +163,29 @@ C'est le fournisseur de liens YAML d'Aetheus (`pipeline: nom`) rendu générique
                 LinkActivated="OpenPipeline" />
 ```
 
+## OmniDiffViewer
+
+`OmniDiffViewer` compare deux versions d'un texte avec l'éditeur de différences de Monaco, côte à côte
+ou en une colonne (`Inline`), les changements marqués ligne par ligne et dans la ligne. Il partage le
+Monaco d'`OmniCodeEditor` et ses conditions : l'hôte sert `min/vs` à `MonacoPath` et autorise
+`style-src 'unsafe-inline'`. Sous la politique stricte, `Engine="OmniCodeEditorEngine.PlainText"` montre
+les deux textes dans deux volets nommés, sans les différences marquées ; c'est aussi ce qui s'affiche
+pendant le chargement de Monaco et, avec un message d'état, s'il ne se charge pas.
+
+- `Original`, `Modified` et `ModifiedChanged` : le texte modifié n'est éditable que si `ReadOnly` est
+  faux (vrai par défaut) ; l'original ne l'est jamais. Une modification remonte comme dans
+  `OmniCodeEditor`, sans écho.
+- `Language`, `Inline`, `Height` (longueur CSS posée par le CSSOM, toute autre valeur lève), `Label`
+  (« Comparaison »), `OriginalLabel` (« Avant ») et `ModifiedLabel` (« Après ») ; textes et options
+  changent à chaud.
+- Le composant est un `group` nommé ; chaque volet de repli est une `section` nommée dont le texte prend
+  le focus pour défiler au clavier. Le thème suit l'`OmniThemeScope` englobant.
+- La référence `DotNetObjectReference` du pont est libérée et l'éditeur détruit à la destruction du
+  composant ; un composant détruit pendant le chargement du script libère aussitôt le module.
+- Preuves : `DiffViewerComponentTests` (volets, saisie de repli, hauteur, chargement, échec, montage,
+  mises à jour, passage au texte brut, libération). Monaco lui-même n'a pas été exercé dans un
+  navigateur pour ce composant : la vitrine le montre en texte brut.
+
 ## Limites connues
 
 - La surface visuelle s'appuie sur `document.execCommand`, déprécié mais sans remplaçant ; le

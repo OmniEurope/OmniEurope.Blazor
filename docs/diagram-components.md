@@ -4,6 +4,8 @@ La famille Diagram fournit une carte mentale interactive dessinée en SVG : `Omn
 d'actions `OmniMindMapToolbar` et son panneau `OmniMindMapNodeProperties`. Le comportement est celui de
 l'éditeur de cartes mentales de Pronoia, porté sans dépendance ni emprunt à une autre bibliothèque de
 composants ; seuls le clavier et l'accessibilité ont été ajoutés, parce que le contrat les exige.
+S'y ajoutent la disposition en couches d'un graphe orienté (`OmniGraphLayout`) et l'historique de
+commits en graphe (`OmniGitGraph`), décrits plus bas.
 
 ## Document
 
@@ -96,10 +98,68 @@ Chaque couleur de nœud est un groupe de trois jetons, `--omni-mindmap-{groupe}-
 4,5:1 sur son fond. La sélection, le lien en cours et le lasso reprennent les jetons d'accent, de succès
 et de danger du thème. `prefers-reduced-motion` coupe la transition du contour des nœuds.
 
+## Liens orientés, contenu des nœuds et disposition en couches
+
+Trois paramètres, tous inactifs par défaut, font de la carte un graphe orienté :
+
+- `Directed` : chaque lien part du bord de sa source et s'arrête sur le bord de sa cible, sous une pointe
+  de flèche (un `marker` SVG, teinte `--omni-mindmap-edge`) ; il court à l'horizontale quand les boîtes
+  sont plus éloignées en largeur qu'en hauteur, à la verticale sinon. `omni-mindmap.js` recalcule le
+  même tracé pendant un glisser.
+- `NodeTemplate` : le contenu de l'hôte (icône, état, compteur) dessiné dans la boîte à la place du
+  libellé, dans un `foreignObject` qui ne capte pas le pointeur. Le nœud reste annoncé par son libellé
+  et se sélectionne, se déplace et se relie comme un autre ; le contenu ne doit donc porter aucun
+  contrôle. Un nœud dessiné ainsi devrait fixer `Width` et `Height`.
+- `LayeredLayout` (`OmniGraphLayoutOptions`) : la disposition automatique, appliquée à un document sans
+  positions et par l'action « Réorganiser », devient la disposition en couches ci-dessous, centrée sur le
+  canevas, au lieu de la disposition radiale autour de la racine.
+
+## Disposition en couches : `OmniGraphLayout`
+
+`OmniGraphLayout.Layered(nodes, edges, options)` place un graphe orienté en couches, à la manière de
+Sugiyama, en .NET, pour la carte mentale ou pour un hôte qui dessine son propre graphe. Chaque lien va
+d'une couche vers une couche ultérieure (un cycle est rompu en retournant l'un de ses liens), un long lien
+traverse les couches intermédiaires, l'ordre dans chaque couche est choisi pour réduire les croisements
+et chaque nœud est centré sur ses voisins autant que l'espacement le permet. Le résultat
+(`OmniGraphLayoutResult`) donne le centre de chaque nœud (`OmniGraphPoint`) et la taille du dessin ; le
+même graphe, dans le même ordre, donne toujours le même dessin.
+
+- `OmniGraphLayoutNode(Id, Width, Height)` : un identifiant répété est ignoré, une taille négative ou non
+  finie compte pour zéro. `OmniGraphLayoutEdge(From, To)` : un lien vers un nœud inconnu, une boucle ou
+  un lien répété sont ignorés.
+- `OmniGraphLayoutOptions` : `Direction` (`OmniGraphDirection.LeftToRight` par défaut, ou
+  `TopToBottom`), `NodeSpacing` (40) et `LayerSpacing` (80).
+- `OmniGraphLayout.Layered(document, options)` rend le document de carte mentale avec chaque nœud placé,
+  positions arrondies à l'unité, rien d'autre ne changeant.
+
+## Historique de commits : `OmniGitGraph`
+
+`OmniGitGraph<TItem>` dessine un historique de commits en graphe : une ligne par commit, du plus récent
+au plus ancien, ses voies calculées à partir des seuls identifiants de parents (`IdOf`, `ParentsOf`, le
+premier parent d'abord) et dessinées à côté de la ligne de l'hôte (`RowTemplate`). Chaque commit
+prolonge la voie du premier enfant qui l'attend ; son premier parent la reprend, tout autre parent en
+ouvre une (ou rejoint la sienne), et les voies des autres enfants se referment sur lui. Un parent absent
+de la page, plus ancien, garde sa voie jusqu'en bas. Les voies prennent tour à tour les huit couleurs de
+graphique (`--omni-chart-color-0` à `-7`) ; un commit de fusion est un point évidé.
+
+- Chaque ligne porte son propre petit dessin SVG, masqué aux technologies d'assistance ; toutes les
+  lignes ont la même hauteur, `--omni-git-graph-row-height` (2rem par défaut), pour que les traits d'une
+  ligne rejoignent ceux de la suivante, et un texte plus long est coupé d'une ellipse.
+- La liste est une `ol` nommée par `Label` (« Historique des commits » par défaut) ; un commit de
+  fusion est annoncé par une phrase masquée à l'œil (« Commit de fusion. »), seule information du dessin
+  que la ligne de l'hôte pourrait ne pas donner. Sans commit, `EmptyText` (« Aucun commit »).
+- Géométrie en attributs SVG uniquement, aucun script.
+
 ## Preuves et limites
 
 - Tests bUnit : format et aller-retour, rendu, événements, clavier, lecture seule, menu, mode lien,
   historique borné, barre et panneau, ressources fr et en.
+- `MindMapLayeredTests` (liens orientés, contenu de nœud, disposition en couches à l'ouverture et par
+  l'action), `GraphLayeredLayoutTests` (positions exactes calculées à la main sur une chaîne, un losange
+  et les deux directions, cycle, croisements, entrées invalides, et sur un graphe de trente nœuds :
+  liens vers l'avant, aucun chevauchement dans une couche, même dessin à chaque appel),
+  `GitGraphComponentTests` (voies d'un historique linéaire, d'une branche fusionnée, d'un parent absent,
+  tracés, couleurs, fusion annoncée).
 - `eng/Test-ShowcaseMindMapProbe.mjs` pilote la démonstration de la vitrine publiée dans Chromium avec des
   événements de confiance (glisser, molette, clavier, menu contextuel, double clic) et échoue sur toute
   violation CSP ou erreur console. Il n'est pas encore branché dans la CI : l'hôte le lance à la main

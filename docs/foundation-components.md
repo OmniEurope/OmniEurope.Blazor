@@ -99,6 +99,43 @@ La coquille doit avoir une hauteur bornée : une `OmniLayout` dont le corps port
 </OmniMain>
 ```
 
+## Bande d'états et écran de démarrage
+
+`OmniStatusStrip` (famille Feedback) aligne des états : les dernières exécutions d'une tâche en points
+(`Shape="OmniStatusStripShape.Dot"`, par défaut) ou les tranches d'une fenêtre de disponibilité en
+segments qui se partagent la largeur (`Segment`). Les états sont les mots de l'hôte (`success`,
+`failed`, `up`...) : `Tones` associe à chacun une `OmniBadgeVariant` (`Neutral` pour un état absent),
+`Pulsing` nomme ceux qui pulsent (ce qui est encore en cours ; le mouvement réduit l'arrête). Chaque
+`OmniStatusStripItem` porte son `Label`, nom accessible et infobulle, et peut mener quelque part :
+`Href` en fait un lien (adresse vérifiée, un schéma dangereux lève), `OnItemClick` fait des autres des
+boutons natifs, sinon ce sont des marques `role="img"`. La liste est nommée par `Label` (« Historique des
+états ») ; sans élément, `EmptyText` (« Aucun état à afficher »). Un lien ou un bouton garde une cible
+de 44 px ; en segments, qui se partagent la largeur, la cible ne garde que ses 44 px de hauteur.
+
+`OmniBootSplash` (famille Layout) retire l'écran de démarrage de la page une fois l'application rendue.
+L'écran est écrit par l'hôte dans sa page, hors de l'élément où Blazor rend, pour paraître dès la
+première image :
+
+```html
+<div id="omni-boot-splash" class="omni-boot-splash" role="status">
+    <span class="omni-boot-splash__spinner" aria-hidden="true"></span>
+    <span class="omni-visually-hidden">Chargement</span>
+</div>
+```
+
+La feuille du paquet le dessine par-dessus la page, aux couleurs de l'apparence que `omni-boot.js` a
+posée. Placé une fois dans la mise en page, `<OmniBootSplash />` l'efface en fondu puis le supprime après
+le premier rendu, `OnHidden` recevant vrai s'il y en avait un (`SplashId`, `omni-boot-splash` par
+défaut). Le retrait ne dépend pas de la fin de la transition : un minuteur de 600 ms le garantit dans un
+onglet en arrière-plan, et le mouvement réduit supprime l'écran sans fondu. `omni-boot.js`, script
+classique à inclure dans le `head` avant Blazor (aucun script en ligne, donc compatible
+`script-src 'self'`), applique avant la première image l'apparence, le thème et la langue enregistrés
+sous les clés que l'hôte nomme (`data-appearance-key`, `data-theme-key`, `data-language-key`) et
+publie `window.OmniBoot` (`culture`, `hideSplash(id)`).
+
+Preuves : `StatusStripAndBootSplashTests` (rôles et noms, tons, formes, liens, boutons, textes, appel du
+retrait et son résultat).
+
 ## Validation
 
 Les tests du lot vérifient le rendu des 15 composants, leur sémantique principale, les classes responsive, les états ARIA, les bornes numériques et l'absence de style inline. Le scanner CSP inspecte l'ensemble des sources Razor, C# et JavaScript de la bibliothèque.

@@ -309,3 +309,43 @@ des formules calculées sur la feuille.
 Hors périmètre, délibérément : sélection de plages, copier-coller, recopie de formules, formats de
 nombre par cellule, largeur propre à une colonne, insertion ou suppression au milieu de la feuille,
 fonctions conditionnelles et opérateurs de comparaison.
+
+## Tableau de cartes : `OmniKanban`
+
+`OmniKanban<TItem>` range des cartes en colonnes et laisse le lecteur déplacer une carte d'une colonne
+ou d'une place à une autre, à la souris ou entièrement au clavier. Le tableau ne modifie jamais
+`Items` : un déplacement est rapporté par `OnItemMoved` (`OmniKanbanMove<TItem>(Item, FromColumn,
+ToColumn, Index)`, `Index` compté parmi les autres cartes de la colonne d'arrivée) et l'hôte l'applique
+puis le sauvegarde ; sans cela la carte reste où elle était.
+
+```razor
+<OmniKanban TItem="Dossier" Columns="Colonnes" Items="Dossiers" ColumnOf="@(d => d.Etat)"
+            KeyOf="@(d => d.Id)" ItemLabel="@(d => d.Reference)" OnItemMoved="DeplacerAsync">
+    <CardTemplate Context="d"><strong>@d.Reference</strong> : @d.Demandeur</CardTemplate>
+</OmniKanban>
+```
+
+- **Paramètres.** `Columns` (`OmniKanbanColumn(Key, Title)`, dans l'ordre de dessin), `Items`, `ColumnOf`
+  (une carte dont la clé ne nomme aucune colonne n'est pas dessinée), `CardTemplate`, `KeyOf` (identité
+  stable des éléments, l'élément lui-même par défaut), `ItemLabel` (nom de la carte dans les annonces,
+  son texte par défaut), `ColumnHeaderTemplate` (remplace le titre et le compteur), `ReadOnly`, `Label`
+  (« Tableau de cartes » par défaut) et `EmptyColumnText` (« Aucune carte »).
+- **Clavier.** Chaque carte prend le focus. Espace ou Entrée la saisit ; les flèches la portent le long
+  de sa colonne et d'une colonne à l'autre, la carte étant dessinée là où elle tomberait ; Espace ou
+  Entrée la dépose et Échap la remet en place. Sans carte saisie, les flèches déplacent le focus d'une
+  carte à l'autre (une colonne vide est sautée). Une touche frappée sur un contrôle placé dans une carte
+  reste à ce contrôle. Une touche sur une autre carte abandonne le déplacement en cours.
+- **Annonces.** Une région live polie annonce la saisie, chaque position (« A : colonne En cours,
+  position 2 sur 3. »), le dépôt et l'annulation ; une annonce répétée est rendue différente pour être
+  relue. L'aide clavier est reliée à chaque carte par `aria-describedby`.
+- **Accessibilité.** Le tableau est une `region` nommée ; chaque colonne est une `section` et une liste
+  nommées par leur en-tête, dont le compteur est lu en toutes lettres (« Cartes : 2 »).
+- **Souris.** Glisser-déposer natif : la colonne visée se teinte et un emplacement en pointillé s'ouvre
+  avant la carte que la carte glissée précéderait. Un dépôt à sa propre place ne rapporte rien.
+- **Script et CSP.** `omni-kanban.js` ne fait que ce que Razor ne peut pas : garder les touches des
+  contrôles internes, annuler le défilement des flèches et de l'espace, transmettre les touches de la
+  carte à .NET par une référence `DotNetObjectReference` libérée à la destruction, déplacer le focus et
+  fournir aux navigateurs qui l'exigent la donnée d'un glisser. Il n'écrit aucun style et ne dépend
+  d'aucune image d'animation. Aucun état ne se marque par un trait latéral : fond, pointillé et ombre.
+- **Preuves.** `KanbanComponentTests` (rendu, rôles et noms, déplacement clavier complet, annulation,
+  abandon, lecture seule, glisser-déposer, libération du pont).
