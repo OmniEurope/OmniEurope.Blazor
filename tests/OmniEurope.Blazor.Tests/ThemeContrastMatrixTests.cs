@@ -30,8 +30,8 @@ public sealed class ThemeContrastMatrixTests
     /// Arbitration (PLAN-008 lot 8): WCAG 1.4.11 asks 3.0 for the boundary of a component only when
     /// that boundary is the one thing that identifies it. The OE controls that draw a border are also
     /// told apart by their fill, their label or their focus ring, and a 3.0 hairline on every card,
-    /// table cell and separator would weigh on every palette. The floor stays 1.7 until the owner
-    /// rules otherwise; raising it is this one constant.
+    /// table cell and separator would weigh on every palette. The owner kept 1.7 on 2026-09-18;
+    /// raising it is this one constant.
     /// </remarks>
     private const double BorderFloor = 1.7;
 

@@ -18,6 +18,12 @@
 // stylesheet. Geometry is checked too: grid cells stay table cells, an icon-only button shows its icon
 // whole (RET-002 n°48, n°53), and no page overflows horizontally at 375 px (RET-002 n°28).
 //
+// The busy veil is the one declared exception (owner decision, 2026-09-18): its black veil
+// (#000000 at a peak of at most 0.55, the STD-BUSY rendering) may take the content of a busy control
+// below its ratio. Those readings are measured, counted and written to the registry under
+// acceptedBusyVeil, and they do not fail the probe. A veil of another colour or a higher peak is not
+// covered: it fails as before, so changing the veil reopens the question.
+//
 // Every failure goes into a JSON registry (artifacts/theme-contrast-registry.json), written even when
 // empty, and the probe exits non-zero when it is not empty (RET-002 n°50). Screenshots go to
 // artifacts/theme-probe/ for a human look: ratios do not see a glow that vanished or a card that lost
@@ -591,6 +597,9 @@ const lib = (call) => evaluate(`window.__omniContrast.${call}`);
 const failures = [];
 const observations = [];
 const busyReadings = [];
+const acceptedBusyVeil = [];
+// The veil the owner accepted on 2026-09-18; anything else under the ratio is a failure.
+const ACCEPTED_VEIL = { color: '#000000', peak: 0.55 };
 let measures = 0;
 let marginMeasures = 0;
 let combinations = 0;
@@ -761,7 +770,9 @@ const measureBusy = async combo => {
     measures++;
     busyReadings.push({ ...combo, ...result });
     if (result.ratio < result.required) {
-      fail(combo, { page: CUSTOMIZER, check: 'voile d\'occupation', target: `${result.node} « ${result.label} »`, foreground: result.foreground, background: result.background, veil: result.veil, peakOpacity: Math.round(result.peak * 100) / 100, ratio: Math.round(result.ratio * 100) / 100, restRatio: Math.round(result.restRatio * 100) / 100, required: result.required });
+      const entry = { page: CUSTOMIZER, check: 'voile d\'occupation', target: `${result.node} « ${result.label} »`, foreground: result.foreground, background: result.background, veil: result.veil, peakOpacity: Math.round(result.peak * 100) / 100, ratio: Math.round(result.ratio * 100) / 100, restRatio: Math.round(result.restRatio * 100) / 100, required: result.required };
+      if (result.veil === ACCEPTED_VEIL.color && result.peak <= ACCEPTED_VEIL.peak + 0.005) { acceptedBusyVeil.push({ ...combo, ...entry }); continue; }
+      fail(combo, entry);
     }
   }
 };
@@ -905,6 +916,7 @@ await writeFile(registryPath, JSON.stringify({
   expected,
   measures,
   failures,
+  acceptedBusyVeil,
   busyVeil: busyReadings.map(({ theme, palette, mode, label, veil, peak, foreground, background, ratio, restRatio, veilShift }) => ({ theme, palette, mode, label, veil, peak, foreground, background, ratio: Math.round(ratio * 100) / 100, restRatio: Math.round(restRatio * 100) / 100, veilShift: Math.round(veilShift * 100) / 100 })),
   cards: observations.map(({ theme, palette, mode, target, background, foreground, fillRatio, borderRatio, shadow }) => ({ theme, palette, mode, target, page: background, card: foreground, fillRatio: Math.round(fillRatio * 100) / 100, borderRatio: Math.round(borderRatio * 100) / 100, shadow })),
   screenshots: shots
@@ -928,5 +940,5 @@ if (failures.length > 0) {
   console.error(`Contrastes : ${failures.length} échec(s) sur ${measures} mesures, ${combinations} combinaison(s). Registre : ${registryPath}\n${lines.join('\n')}${grouped.size > 60 ? `\n  ... ${grouped.size - 60} groupe(s) de plus dans le registre` : ''}`);
   process.exitCode = 1;
 } else {
-  console.log(`Sonde de contraste validée : ${measures} mesures sur ${combinations} combinaison(s) thème x palette x mode${partial ? ' (passage partiel)' : ''}, repos, survol forcé et focus, voile d'occupation, géométrie, 375 px ; registre vide (${registryPath}), ${shots.length} capture(s) dans ${shotDirectory}, aucune violation CSP, console sans erreur.`);
+  console.log(`Sonde de contraste validée : ${measures} mesures sur ${combinations} combinaison(s) thème x palette x mode${partial ? ' (passage partiel)' : ''}, repos, survol forcé et focus, voile d'occupation (${acceptedBusyVeil.length} mesure(s) sous le ratio acceptée(s) par décision du 2026-09-18, voir acceptedBusyVeil), géométrie, 375 px ; registre vide (${registryPath}), ${shots.length} capture(s) dans ${shotDirectory}, aucune violation CSP, console sans erreur.`);
 }
