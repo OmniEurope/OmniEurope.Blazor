@@ -28,9 +28,41 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 | `OmniGrid` | Grille CSS de une à douze colonnes avec espacement typé. |
 | `OmniLayout` | Conteneur de page pleine largeur, large ou centré sur le contenu : `Width` rétrécit toute la coquille, en-tête et barre latérale compris. |
 | `OmniMain` | Landmark `main`, ciblable par un lien d'évitement grâce à `FocusTarget`. `ContentWidth` centre le contenu seul (`Wide`, 90rem, ou `Content`, 72rem) ; `Scrollable` en fait le conteneur de défilement de la page. |
-| `OmniHeader` | Landmark `header`, avec position collante optionnelle définie dans la feuille statique. |
+| `OmniHeader` | Landmark `header`, avec position collante optionnelle définie dans la feuille statique. `Brand` (nom de l'application, en gras) et `BrandMark` (logo : un texte court dans un carré arrondi du remplissage d'accent, décoratif) ouvrent la barre ; une bascule de barre latérale posée dans l'en-tête reste dessinée au bord, avant eux. |
 | `OmniFieldset` | Groupe de champs natif avec `legend` obligatoire et état désactivé ; `Collapsible` le replie avec l'élément natif `details`. `CollapsedChanged` (facultatif) rapporte l'état replié quand le lecteur ouvre ou ferme le groupe, ce qui permet `@bind-Collapsed` : l'événement natif `toggle` est écouté par `omni-focus.js`, sans gestionnaire en ligne, et seulement si le paramètre a un délégué ; sans lui, le groupe est rendu et se comporte comme avant, sans script. |
 | `OmniProgressBar` | Progression linéaire ou circulaire, déterminée ou indéterminée, avec valeurs ARIA. L'indéterminée linéaire glisse d'un mouvement continu, sans arrêt ni retour ; sans mouvement demandé, la piste se remplit à demi-teinte. |
+
+## Barre d'application
+
+Les pièces de la barre supérieure de la maquette PLAN-008 sont dans le paquet, sans feuille de l'hôte :
+
+- logo et nom : `OmniHeader.BrandMark` et `OmniHeader.Brand` ; sur le bandeau d'accent (`Tone="Accent"`), le logo inverse son fond et son encre ;
+- recherche : `OmniTextBox` avec `Icon` (voir `docs/form-components.md`) ;
+- pastille de la cloche : `OmniButton.Indicator` pose un point du remplissage de danger au coin haut de fin du bouton, cerné de la surface (de l'accent sur le bandeau). Il est décoratif (`aria-hidden`) : ce qu'il signale va dans le nom accessible, par exemple `AriaLabel="Notifications, 3 non lues"` ;
+- avatar et menu de compte : `OmniProfileMenu` sans `Summary`, avec `Initials` et `Header`, et `OmniProfileMenuItem` avec `Icon` et `Description` (voir `docs/selection-components.md`).
+
+```razor
+<OmniHeader Brand="Aetheus" BrandMark="Ae">
+    <OmniSidebarToggle Controls="menu" Open="open" OpenChanged="@(value => open = value)" AriaLabel="Menu" />
+    <OmniTextBox Type="OmniTextBoxType.Search" aria-label="Rechercher" @bind-Value="search">
+        <Icon><OmniIcon Name="OmniIconName.Search" /></Icon>
+    </OmniTextBox>
+    <OmniButton Variant="OmniButtonVariant.Ghost" Indicator="true" AriaLabel="Notifications, 3 non lues">
+        <OmniIcon Name="OmniIconName.Bell" />
+    </OmniButton>
+    <OmniProfileMenu Label="Compte de Sony Tumen" Initials="ST">
+        <Header><strong>Sony Tumen</strong><span>Administrateur</span></Header>
+        <ChildContent>
+            <OmniProfileMenuItem Description="Thème, langue, notifications">
+                <Icon><OmniIcon Name="OmniIconName.Settings" /></Icon>
+                <ChildContent>Paramètres</ChildContent>
+            </OmniProfileMenuItem>
+        </ChildContent>
+    </OmniProfileMenu>
+</OmniHeader>
+```
+
+La mise en page de la barre (où la recherche se place, l'écart entre les actions) reste celle de l'hôte.
 
 ## Icônes
 

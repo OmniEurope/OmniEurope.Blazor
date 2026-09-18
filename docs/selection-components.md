@@ -8,7 +8,7 @@ Ce lot fournit des contrôles typés reliés à `EditContext`, avec sémantique 
 
 - `OmniDropDown<TValue>` et `OmniMultiSelect<TValue>` ;
 - `OmniListBox<TValue>` et `OmniCheckBoxList<TValue>` ;
-- `OmniRadioButtonList<TValue>` et `OmniRadioButtonListItem<TValue>` ;
+- `OmniRadioButtonList<TValue>` et `OmniRadioButtonListItem<TValue>` ; `Error` (facultatif) dessine sous les choix, dans le `fieldset`, la ligne d'erreur d'`OmniFormField` (glyphe décoratif, `role="alert"`, identifiant `{Id}-error`, ou `{Name}-error` sans identifiant), marque le groupe `aria-invalid="true"`, le fait décrire par cette ligne après l'`aria-describedby` passé par l'hôte et borde chaque bouton radio de la couleur de danger ;
 - `OmniSelectBar<TValue>` et `OmniSelectBarItem<TValue>`.
 
 `OmniMultiSelect<TValue>` expose deux formes par `Presentation`. `List`, la valeur par défaut, reste
@@ -82,6 +82,8 @@ courante : « liege » marque « Liège ». Le texte lu par un lecteur d'écran 
 `OmniProfileMenu` repose sur l'élément natif `details`. Il se ferme sur Échap, une fois une entrée
 choisie et, avec `CloseOnOutsideClick` (vrai par défaut), sur un appui ailleurs dans la page, avec la
 même exception `data-omni-keep-open` que la sélection multiple.
+
+Sans `Summary`, le déclencheur est l'avatar : un disque du gris de la palette qui porte `Initials` (quelques lettres, dans le texte de la page) ou, sans elles, le glyphe d'utilisateur. Il est décoratif, le déclencheur est nommé par `Label`, qui doit donc nommer le compte ; sa cible atteint 44 px par une zone transparente autour du disque, et le focus y dessine l'anneau sur le cercle. `Header` (facultatif) place l'identité en haut du menu ouvert, à côté d'un grand avatar : son premier élément se lit comme le nom, les suivants en détails atténués (rôle, organisation, lien vers le profil). L'en-tête est rendu hors de la liste `role="menu"`, qui ne contient que des entrées ; le panneau `omni-profile-menu__panel` porte alors la surface flottante. `OmniProfileMenuItem` gagne `Icon` (un disque décoratif avant le texte) et `Description` (une ligne atténuée sous le texte, lue avec lui) ; sans l'un ni l'autre, l'entrée rend son contenu seul, comme avant.
 
 `OmniContextMenu` s'ouvre au pointeur sur un clic droit, sous son déclencheur à la touche Menu ou à
 Maj+F10, et un second clic droit le déplace. `omni-focus.js` pose sa position par le CSSOM
