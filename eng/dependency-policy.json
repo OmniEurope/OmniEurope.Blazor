@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-09-13",
+  "reviewedAt": "2026-09-18",
   "packages": {
     "bunit": {
       "version": "2.11.3",
@@ -67,7 +67,7 @@
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.Server/"
     },
     "Microsoft.NET.Test.Sdk": {
-      "version": "18.10.0",
+      "version": "18.10.1",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.NET.Test.Sdk/"
     },

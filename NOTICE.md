@@ -33,7 +33,7 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Microsoft.CodeAnalysis.Analyzers` | `3.11.0` | MIT | `expression` | - |
 | `Microsoft.CodeAnalysis.Common` | `5.0.0` | MIT | `expression` | - |
 | `Microsoft.CodeAnalysis.CSharp` | `5.0.0` | MIT | `expression` | - |
-| `Microsoft.CodeCoverage` | `18.10.0` | MIT | `expression` | - |
+| `Microsoft.CodeCoverage` | `18.10.1` | MIT | `expression` | - |
 | `Microsoft.Extensions.Caching.Abstractions` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.Caching.Memory` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.Configuration` | `10.0.12` | MIT | `expression` | - |
@@ -74,14 +74,14 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Microsoft.Maui.Resizetizer` | `10.0.101` | MIT | `expression` | - |
 | `Microsoft.NET.ILLink.Tasks` | `10.0.12` | MIT | `expression` | - |
 | `Microsoft.NET.Sdk.WebAssembly.Pack` | `10.0.12` | MIT | `expression` | - |
-| `Microsoft.NET.Test.Sdk` | `18.10.0` | MIT | `expression` | - |
+| `Microsoft.NET.Test.Sdk` | `18.10.1` | MIT | `expression` | - |
 | `Microsoft.NETCore.Platforms` | `1.1.0` | http://go.microsoft.com/fwlink/?LinkId=329770 | `url` | - |
 | `Microsoft.Testing.Extensions.Telemetry` | `1.9.1` | MIT | `expression` | - |
 | `Microsoft.Testing.Extensions.TrxReport.Abstractions` | `1.9.1` | MIT | `expression` | - |
 | `Microsoft.Testing.Platform` | `1.9.1` | MIT | `expression` | - |
 | `Microsoft.Testing.Platform.MSBuild` | `1.9.1` | MIT | `expression` | - |
-| `Microsoft.TestPlatform.ObjectModel` | `18.10.0` | MIT | `expression` | - |
-| `Microsoft.TestPlatform.TestHost` | `18.10.0` | MIT | `expression` | - |
+| `Microsoft.TestPlatform.ObjectModel` | `18.10.1` | MIT | `expression` | - |
+| `Microsoft.TestPlatform.TestHost` | `18.10.1` | MIT | `expression` | - |
 | `Microsoft.Web.WebView2` | `1.0.4191.47` | LICENSE.txt | `file` | `docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4191.47--LICENSE.txt` |
 | `Microsoft.Win32.Registry` | `5.0.0` | MIT | `expression` | - |
 | `Microsoft.Windows.SDK.BuildTools` | `10.0.26100.8249` | https://aka.ms/WinSDKLicenseURL | `url` | - |
