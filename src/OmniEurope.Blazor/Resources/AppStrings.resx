@@ -91,6 +91,28 @@
   <data name="DataListEmpty" xml:space="preserve"><value>Aucun élément.</value></data>
   <data name="DatePickerInvalid" xml:space="preserve"><value>La date saisie n'est pas valide.</value></data>
   <data name="DateTimePickerInvalid" xml:space="preserve"><value>La date et l'heure saisies ne sont pas valides.</value></data>
+  <data name="DatePickerToggle" xml:space="preserve"><value>Choisir une date</value></data>
+  <data name="DatePickerToday" xml:space="preserve"><value>Aujourd'hui</value></data>
+  <data name="DatePickerClear" xml:space="preserve"><value>Effacer</value></data>
+  <data name="CalendarPreviousMonth" xml:space="preserve"><value>Mois précédent</value></data>
+  <data name="CalendarNextMonth" xml:space="preserve"><value>Mois suivant</value></data>
+  <data name="TimePickerToggle" xml:space="preserve"><value>Choisir une heure</value></data>
+  <data name="DateTimePickerToggle" xml:space="preserve"><value>Choisir une date et une heure</value></data>
+  <data name="TimePickerNow" xml:space="preserve"><value>Maintenant</value></data>
+  <data name="TimePickerConfirm" xml:space="preserve"><value>Valider</value></data>
+  <data name="TimePickerHours" xml:space="preserve"><value>Heures</value></data>
+  <data name="TimePickerMinutes" xml:space="preserve"><value>Minutes</value></data>
+  <data name="TimePickerSeconds" xml:space="preserve"><value>Secondes</value></data>
+  <data name="TimePickerHourCaption" xml:space="preserve"><value>h</value></data>
+  <data name="TimePickerMinuteCaption" xml:space="preserve"><value>min</value></data>
+  <data name="TimePickerSecondCaption" xml:space="preserve"><value>s</value></data>
+  <data name="TimePickerInvalid" xml:space="preserve"><value>L'heure saisie n'est pas valide.</value></data>
+  <data name="PickerLetterDay" xml:space="preserve"><value>j</value></data>
+  <data name="PickerLetterMonth" xml:space="preserve"><value>m</value></data>
+  <data name="PickerLetterYear" xml:space="preserve"><value>a</value></data>
+  <data name="PickerLetterHour" xml:space="preserve"><value>h</value></data>
+  <data name="PickerLetterMinute" xml:space="preserve"><value>m</value></data>
+  <data name="PickerLetterSecond" xml:space="preserve"><value>s</value></data>
   <data name="DayViewLabel" xml:space="preserve"><value>Vue journalière</value></data>
   <data name="DialogEnd" xml:space="preserve"><value>Fin du dialogue</value></data>
   <data name="Close" xml:space="preserve"><value>Fermer</value></data>

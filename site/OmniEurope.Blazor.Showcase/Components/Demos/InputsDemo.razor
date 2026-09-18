@@ -28,7 +28,9 @@
             </ChildContent>
         </OmniFormField>
 
-        <OmniFormField For="inputs-date">
+        @* Les trois sélecteurs ouvrent leur panneau sur le calque des surfaces flottantes ; un seul
+           panneau est ouvert à la fois. *@
+        <OmniFormField For="inputs-date" Description="Saisie au clavier ou calendrier ; les jours hors bornes ne se choisissent pas.">
             <Label>Date d'effet</Label>
             <ChildContent>
                 <OmniDatePicker Id="inputs-date" @bind-Value="Model.Date"
@@ -36,13 +38,21 @@
             </ChildContent>
         </OmniFormField>
 
-        <OmniFormField For="inputs-appointment" Description="Date et heure dans un seul contrôle natif.">
+        <OmniFormField For="inputs-start" Description="Heures de 00 à 23, minutes par pas de 5.">
+            <Label>Heure de début</Label>
+            <ChildContent>
+                <OmniTimePicker Id="inputs-start" @bind-Value="Model.Start" Step="5" />
+            </ChildContent>
+        </OmniFormField>
+
+        <OmniFormField For="inputs-appointment" Description="Calendrier et colonnes d'heure dans un même panneau.">
             <Label>Rendez-vous</Label>
             <ChildContent>
                 <OmniDateTimePicker Id="inputs-appointment" @bind-Value="Model.Appointment"
                                     Minimum="AppointmentFloor" Maximum="AppointmentCeiling" />
             </ChildContent>
         </OmniFormField>
+        <p id="inputs-picked">@PickedSummary</p>
 
         <OmniFormField For="inputs-color">
             <Label>Couleur de repère</Label>

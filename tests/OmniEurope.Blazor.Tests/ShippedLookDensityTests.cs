@@ -87,6 +87,21 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     [InlineData(".omni-radio::before", "block-size", "0.5rem")]
     [InlineData(".omni-header", "padding", "var(--omni-item-pad-y)")]
     [InlineData(".omni-settings-section > .omni-card__body", "padding", "var(--omni-section-pad)")]
+    [InlineData(".omni-calendar", "padding", "var(--omni-pop-pad)")]
+    [InlineData(".omni-calendar", "--omni-button-size", "var(--omni-control-height)")]
+    [InlineData(".omni-calendar", "background", "var(--omni-overlay-background")]
+    [InlineData(".omni-calendar", "box-shadow", "var(--omni-overlay-shadow")]
+    [InlineData(".omni-calendar__grid", "grid-template-columns", "var(--omni-cal-cell)")]
+    [InlineData(".omni-calendar__day", "block-size", "var(--omni-cal-cell)")]
+    [InlineData(".omni-calendar__day", "inline-size", "var(--omni-cal-cell)")]
+    [InlineData(".omni-calendar__day", "font-size", "var(--omni-control-font)")]
+    [InlineData(".omni-calendar__weekday", "padding-block", "var(--omni-item-pad-y)")]
+    [InlineData(".omni-calendar__title", "font-size", "var(--omni-control-font)")]
+    [InlineData(".omni-date__toggle", "block-size", "var(--omni-control-height)")]
+    [InlineData(".omni-date__field .omni-input", "padding-inline-end", "var(--omni-control-height)")]
+    [InlineData(".omni-time__col", "inline-size", "var(--omni-cal-cell)")]
+    [InlineData(".omni-time__list", "max-block-size", "var(--omni-cal-cell)")]
+    [InlineData(".omni-time__item", "padding", "var(--omni-item-pad-y)")]
     public void SizedComponents_ReadTheirSizeFromTheDensity(string selector, string property, string expected)
     {
         var rule = ShippedLookTests.Rules().Where(rule => rule.Selector == selector)

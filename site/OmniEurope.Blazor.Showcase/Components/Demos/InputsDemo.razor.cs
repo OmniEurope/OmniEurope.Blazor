@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class InputsDemo
@@ -17,6 +19,11 @@ public partial class InputsDemo
     ];
 
     private InputsDemoModel Model { get; } = new();
+
+    /// <summary>The three bound values, read back from the model so a choice is visibly applied.</summary>
+    private string PickedSummary => string.Create(
+        CultureInfo.CurrentCulture,
+        $"Date : {Model.Date?.ToString("d", CultureInfo.CurrentCulture) ?? "aucune"} ; heure : {Model.Start?.ToString("HH:mm", CultureInfo.InvariantCulture) ?? "aucune"} ; rendez-vous : {Model.Appointment?.ToString("g", CultureInfo.CurrentCulture) ?? "aucun"}");
 
     /// <summary>
     /// Stands in for a remote lookup: the component only asks for matches, it does not care where

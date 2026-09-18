@@ -17,6 +17,9 @@ public sealed class InputsDemoModel
     /// <summary>The date field.</summary>
     public DateOnly? Date { get; set; } = new(2026, 3, 2);
 
+    /// <summary>The time field.</summary>
+    public TimeOnly? Start { get; set; } = new(14, 30);
+
     /// <summary>The date-and-time field.</summary>
     public DateTime? Appointment { get; set; } = new(2026, 3, 2, 14, 30, 0, DateTimeKind.Unspecified);
 

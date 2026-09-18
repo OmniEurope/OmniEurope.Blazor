@@ -189,6 +189,85 @@ export function detachPopover(key, restore) {
     }
 }
 
+// ---- date and time pickers ------------------------------------------------------------------
+// One picker panel is open at a time: opening one asks the others to close. A press outside the
+// picker closes it and leaves the focus where it was put; Escape closes it and gives the focus back
+// to its toggle, and goes no further, so a dialog holding the picker stays open. While a day of the
+// grid or an item of a time column has the focus, the arrow, page, Home and End keys move inside the
+// panel (.NET does it) instead of scrolling the page.
+
+const pickerHandlers = new Map();
+const pickerKeys = new Set(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'PageUp', 'PageDown', 'Home', 'End']);
+
+function centrePickerLists(panel) {
+    for (const list of panel.querySelectorAll('.omni-time__list')) {
+        const chosen = list.querySelector('[aria-selected="true"]');
+        if (chosen) {
+            list.scrollTop = chosen.offsetTop - list.offsetTop - (list.clientHeight / 2) + (chosen.offsetHeight / 2);
+        }
+    }
+}
+
+export function attachPicker(root, panel, toggle, dotnet, key) {
+    if (!(root instanceof HTMLElement) || !(panel instanceof HTMLElement) || !dotnet || pickerHandlers.has(key)) {
+        return;
+    }
+
+    for (const [otherKey, other] of pickerHandlers) {
+        if (otherKey !== key) {
+            void other.dotnet.invokeMethodAsync('OnDismissRequestedAsync', false);
+        }
+    }
+
+    if (toggle instanceof HTMLElement) {
+        returnTargets.set(key, toggle);
+    }
+
+    const onPointerDown = event => {
+        if (event.target instanceof Node && !root.contains(event.target)) {
+            void dotnet.invokeMethodAsync('OnDismissRequestedAsync', false);
+        }
+    };
+    const onKeyDown = event => {
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            event.stopPropagation();
+            void dotnet.invokeMethodAsync('OnDismissRequestedAsync', true);
+            return;
+        }
+        if (pickerKeys.has(event.key) && event.target instanceof Element && event.target.closest('[role="grid"], [role="listbox"]')) {
+            event.preventDefault();
+        }
+    };
+
+    document.addEventListener('pointerdown', onPointerDown, true);
+    root.addEventListener('keydown', onKeyDown);
+    pickerHandlers.set(key, { root, dotnet, onPointerDown, onKeyDown });
+    centrePickerLists(panel);
+}
+
+export function detachPicker(key, restore) {
+    const state = pickerHandlers.get(key);
+    if (state) {
+        document.removeEventListener('pointerdown', state.onPointerDown, true);
+        state.root.removeEventListener('keydown', state.onKeyDown);
+        pickerHandlers.delete(key);
+    }
+
+    const target = returnTargets.get(key);
+    returnTargets.delete(key);
+    if (restore && target?.isConnected && !target.closest('[inert]')) {
+        target.focus({ preventScroll: true });
+    }
+}
+
+export function focusPickerItem(panel, selector) {
+    const item = panel?.querySelector(selector);
+    if (item instanceof HTMLElement) {
+        item.focus({ preventScroll: false });
+    }
+}
+
 export function configureTabs(tablist, dotnet) {
     if (!tablist || tabHandlers.has(tablist)) {
         return;

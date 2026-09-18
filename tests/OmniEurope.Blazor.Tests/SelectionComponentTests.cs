@@ -100,7 +100,10 @@ public sealed class SelectionComponentTests : OmniBunitContext
 
         form.Find("#date-time").Change("2026-03-02T14:30");
         Assert.Equal(new DateTime(2026, 3, 2, 14, 30, 0, DateTimeKind.Unspecified), form.Instance.Model.Moment);
-        Assert.Equal("datetime-local", form.Find("#date-time").GetAttribute("type"));
+        // A text field with the house panel now, written in the culture (fr-FR here), and still
+        // reading the ISO shape the native control used to send.
+        Assert.Equal("text", form.Find("#date-time").GetAttribute("type"));
+        Assert.Equal("02/03/2026 14:30", form.Find("#date-time").GetAttribute("value"));
 
         // Out of the declared bounds: refused. The bound value is left as it was and the field is
         // marked invalid, rather than silently clamped to the bound.

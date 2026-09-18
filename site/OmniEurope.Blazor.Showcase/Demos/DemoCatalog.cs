@@ -31,7 +31,7 @@ public static class DemoCatalog
         new("formulaires", typeof(FormDemo), "DemoFormTitle", "DemoFormSummary",
             ["DemoFormCapability1", "DemoFormCapability2", "DemoFormCapability3"]),
         new("saisie-avancee", typeof(InputsDemo), "DemoInputsTitle", "DemoInputsSummary",
-            ["DemoInputsCapability1", "DemoInputsCapability2", "DemoInputsCapability3"]),
+            ["DemoInputsCapability1", "DemoInputsCapability2", "DemoInputsCapability3", "DemoInputsCapability4"]),
         new("selection", typeof(SelectionDemo), "DemoSelectionTitle", "DemoSelectionSummary",
             ["DemoSelectionCapability1", "DemoSelectionCapability2", "DemoSelectionCapability3"]),
         new("choix", typeof(ChoiceDemo), "DemoChoiceTitle", "DemoChoiceSummary",

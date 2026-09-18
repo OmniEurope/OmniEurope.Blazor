@@ -1,0 +1,31 @@
+@using Microsoft.AspNetCore.Components.Forms
+
+<EditForm EditContext="@EditContext">
+    <OmniDatePicker Id="date" Minimum="@DateMinimum" Maximum="@DateMaximum" TimeProvider="@Clock" @bind-Value="Model.Date" />
+    <OmniTimePicker Id="time" Minimum="@TimeMinimum" Maximum="@TimeMaximum" Step="@Step" TimeProvider="@Clock" @bind-Value="Model.Time" />
+    <OmniDateTimePicker Id="moment" Minimum="@MomentMinimum" Maximum="@MomentMaximum" ShowSeconds="@ShowSeconds" TimeProvider="@Clock" @bind-Value="Model.Moment" />
+</EditForm>
+
+@code {
+    [Parameter] public TimeProvider Clock { get; set; } = TimeProvider.System;
+    [Parameter] public DateOnly? DateMinimum { get; set; }
+    [Parameter] public DateOnly? DateMaximum { get; set; }
+    [Parameter] public TimeOnly? TimeMinimum { get; set; }
+    [Parameter] public TimeOnly? TimeMaximum { get; set; }
+    [Parameter] public DateTime? MomentMinimum { get; set; }
+    [Parameter] public DateTime? MomentMaximum { get; set; }
+    [Parameter] public int Step { get; set; } = 5;
+    [Parameter] public bool ShowSeconds { get; set; }
+    [Parameter] public PickerTestModel Model { get; set; } = new();
+
+    public EditContext EditContext { get; private set; } = default!;
+
+    protected override void OnParametersSet() => EditContext ??= new EditContext(Model);
+
+    public sealed class PickerTestModel
+    {
+        public DateOnly? Date { get; set; }
+        public TimeOnly? Time { get; set; }
+        public DateTime? Moment { get; set; }
+    }
+}

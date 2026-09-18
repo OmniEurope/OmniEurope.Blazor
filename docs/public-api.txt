@@ -131,6 +131,7 @@ component OmniEurope.Blazor.Components.OmniText
 component OmniEurope.Blazor.Components.OmniTextArea
 component OmniEurope.Blazor.Components.OmniTextBox
 component OmniEurope.Blazor.Components.OmniThemeScope
+component OmniEurope.Blazor.Components.OmniTimePicker
 component OmniEurope.Blazor.Components.OmniTimeline
 component OmniEurope.Blazor.Components.OmniTimelineItem
 component OmniEurope.Blazor.Components.OmniToggleButton
@@ -332,6 +333,7 @@ ctor public OmniEurope.Blazor.Components.OmniTextBox()
 ctor public OmniEurope.Blazor.Components.OmniThemePalette(System.String Name, System.String Description, System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> Light, System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> Dark)
 ctor public OmniEurope.Blazor.Components.OmniThemePreset(System.String Name, System.String Description, System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> Light, System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> Dark)
 ctor public OmniEurope.Blazor.Components.OmniThemeScope()
+ctor public OmniEurope.Blazor.Components.OmniTimePicker()
 ctor public OmniEurope.Blazor.Components.OmniTimeline()
 ctor public OmniEurope.Blazor.Components.OmniTimelineItem()
 ctor public OmniEurope.Blazor.Components.OmniToggleButton()
@@ -903,11 +905,15 @@ method protected override OmniEurope.Blazor.Components.OmniDataList<TItem>.Build
 method protected override OmniEurope.Blazor.Components.OmniDataList<TItem>.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniDataList<TItem>.OnParametersSetAsync() : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniDatePicker.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniDatePicker.Dispose(System.Boolean disposing) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDatePicker.FormatValueAsString(System.DateOnly? value) : System.String?
+method protected override OmniEurope.Blazor.Components.OmniDatePicker.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniDatePicker.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDatePicker.TryParseValueFromString(System.String? value, out System.DateOnly? result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniDateTimePicker.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniDateTimePicker.Dispose(System.Boolean disposing) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDateTimePicker.FormatValueAsString(System.DateTime? value) : System.String?
+method protected override OmniEurope.Blazor.Components.OmniDateTimePicker.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniDateTimePicker.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDateTimePicker.TryParseValueFromString(System.String? value, out System.DateTime? result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniDayView.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -1089,6 +1095,12 @@ method protected override OmniEurope.Blazor.Components.OmniTextBox.BuildRenderTr
 method protected override OmniEurope.Blazor.Components.OmniTextBox.TryParseValueFromString(System.String? value, out System.String result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniThemeScope.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniThemeScope.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
+method protected override OmniEurope.Blazor.Components.OmniTimePicker.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniTimePicker.Dispose(System.Boolean disposing) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniTimePicker.FormatValueAsString(System.TimeOnly? value) : System.String?
+method protected override OmniEurope.Blazor.Components.OmniTimePicker.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
+method protected override OmniEurope.Blazor.Components.OmniTimePicker.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniTimePicker.TryParseValueFromString(System.String? value, out System.TimeOnly? result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniTimeline.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniTimelineItem.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniToggleButton.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -2036,13 +2048,18 @@ property public OmniEurope.Blazor.Components.OmniDatePicker.AriaDescribedBy : Sy
 property public OmniEurope.Blazor.Components.OmniDatePicker.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDatePicker.Maximum : System.DateOnly? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDatePicker.Minimum : System.DateOnly? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDatePicker.Placeholder : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDatePicker.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDatePicker.TimeProvider : System.TimeProvider {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDateTimePicker.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDateTimePicker.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDateTimePicker.Maximum : System.DateTime? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDateTimePicker.Minimum : System.DateTime? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDateTimePicker.Placeholder : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDateTimePicker.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDateTimePicker.ShowSeconds : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDateTimePicker.Step : System.Int32 {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDateTimePicker.TimeProvider : System.TimeProvider {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDayView.Appointments : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniSchedulerAppointment> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDayView.Culture : System.Globalization.CultureInfo {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDayView.Date : System.DateTimeOffset {get(public);set(public)} [Parameter]
@@ -2835,6 +2852,14 @@ property public OmniEurope.Blazor.Components.OmniThemeScope.ChildContent : Micro
 property public OmniEurope.Blazor.Components.OmniThemeScope.Density : OmniEurope.Blazor.Components.OmniDensity {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniThemeScope.Palette : OmniEurope.Blazor.Components.OmniThemePalette? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniThemeScope.Preset : OmniEurope.Blazor.Components.OmniThemePreset? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTimePicker.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTimePicker.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTimePicker.Maximum : System.TimeOnly? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTimePicker.Minimum : System.TimeOnly? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTimePicker.Placeholder : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTimePicker.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTimePicker.Step : System.Int32 {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTimePicker.TimeProvider : System.TimeProvider {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimeline.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimeline.FirstSide : OmniEurope.Blazor.Components.OmniTimelineSide {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimeline.Label : System.String {get(public);set(public)} [Parameter]
@@ -3232,6 +3257,7 @@ type public OmniEurope.Blazor.Components.OmniThemePalettes [static-class, static
 type public OmniEurope.Blazor.Components.OmniThemePreset [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniThemePreset>
 type public OmniEurope.Blazor.Components.OmniThemePresets [static-class, static]
 type public OmniEurope.Blazor.Components.OmniThemeScope [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
+type public OmniEurope.Blazor.Components.OmniTimePicker [class] : OmniEurope.Blazor.Components.OmniInputBase<System.TimeOnly?>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniTimeline [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniTimelineItem [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniTimelineLayout [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
