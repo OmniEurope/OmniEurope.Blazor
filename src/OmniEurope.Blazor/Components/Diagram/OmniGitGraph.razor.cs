@@ -6,7 +6,8 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 /// <remarks>
 /// Each row carries its own small drawing and every row has the same height, the CSS variable
-/// <c>--omni-git-graph-row-height</c> (2rem by default), so the lines of one row meet those of the next
+/// <c>--omni-git-graph-row-height</c> (by default the control height less 0.25rem, 2rem in the comfortable
+/// density, so it follows the density), so the lines of one row meet those of the next
 /// and the drawing scales with the row; a text longer than the row is cut with an ellipsis. A merge is
 /// announced by a visually hidden sentence. A parent that is not among <see cref="Items"/>, older than
 /// the page shown, keeps its lane running to the bottom. Lanes take the eight chart colours in turn.
