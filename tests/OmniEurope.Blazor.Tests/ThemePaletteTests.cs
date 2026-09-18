@@ -94,6 +94,58 @@ public sealed class ThemePaletteTests : OmniBunitContext
     }
 
     /// <summary>
+    /// PLAN-008 T23: the dark shape reaches the dark half only. Galet, Halo, Papier and Nénuphar give
+    /// their cards other tokens in dark mode than in light mode; the six other themes give the same.
+    /// </summary>
+    [Fact]
+    public void Only_the_four_themes_with_a_dark_shape_change_their_card_tokens_in_dark_mode()
+    {
+        string[] withDarkCards = ["Galet", "Halo", "Papier", "Nénuphar"];
+
+        Assert.Equal(10, OmniThemePresets.All.Count);
+        foreach (var preset in OmniThemePresets.All)
+        {
+            var cardTokens = preset.Light.Keys.Concat(preset.Dark.Keys)
+                .Where(key => key.StartsWith("--omni-card-", StringComparison.Ordinal))
+                .Distinct(StringComparer.Ordinal)
+                .ToArray();
+            Assert.NotEmpty(cardTokens);
+            var differs = cardTokens.Any(key => preset.Light.GetValueOrDefault(key) != preset.Dark.GetValueOrDefault(key));
+
+            Assert.True(differs == withDarkCards.Contains(preset.Name), $"{preset.Name}: card tokens differ between light and dark = {differs}.");
+        }
+    }
+
+    /// <summary>
+    /// PLAN-008 T5: Rétro's hard shadow starts with a ring of the surface colour, so a button filled
+    /// with the text colour does not merge with its offset shadow of the same colour.
+    /// </summary>
+    [Fact]
+    public void Retro_button_shadow_rings_the_surface_before_its_offset_shadow()
+    {
+        var retro = OmniThemePresets.All.Single(entry => entry.Name == "Rétro");
+
+        Assert.StartsWith("0 0 0 2px var(--omni-color-surface),", retro.Shape["--omni-button-shadow"], StringComparison.Ordinal);
+    }
+
+    /// <summary>
+    /// PLAN-008 T9: each of the ten themes presses its buttons its own way. The stylesheet's defaults
+    /// (<c>translateY(1px)</c>, and the button's own shadow) stand in for a token a theme omits.
+    /// </summary>
+    [Fact]
+    public void The_ten_themes_give_ten_distinct_press_couples()
+    {
+        var couples = OmniThemePresets.All
+            .Select(preset => (
+                Transform: preset.Light.GetValueOrDefault("--omni-button-press-transform", "translateY(1px)"),
+                Shadow: preset.Light.GetValueOrDefault("--omni-button-press-shadow") ?? preset.Light.GetValueOrDefault("--omni-button-shadow", string.Empty)))
+            .ToArray();
+
+        Assert.Equal(10, couples.Length);
+        Assert.Equal(10, couples.Distinct().Count());
+    }
+
+    /// <summary>
     /// The values the reference mockup produces for the palette <c>Défaut</c> in light mode. A
     /// difference means the generator was not ported faithfully (PLAN-008 lot 4 control).
     /// </summary>
