@@ -113,4 +113,61 @@
             <ChildContent><OmniSwitch @bind-Value="WeeklyDigest" aria-label="Résumé hebdomadaire" /></ChildContent>
         </OmniSettingsTile>
     </OmniSettingsSection>
+
+    @* Densité : chaque carte porte la sienne (Density), qui l'emporte sur celle de la page pour tout ce
+       qu'elle contient. Hauteur des contrôles, marges, cases et interrupteurs la suivent ; un champ
+       désactivé et un champ en lecture seule restent distincts dans les trois. *@
+    <OmniRow Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.Start">
+        @foreach (var level in Densities)
+        {
+            <OmniColumn Span="12" LargeSpan="4">
+                <OmniCard Id="@($"demo-density-{level.Key}")" Density="level.Density">
+                    <Header><OmniHeading Level="OmniHeadingLevel.H4">@level.Title</OmniHeading></Header>
+                    <ChildContent>
+                        <OmniStack Gap="OmniSpacing.Small">
+                            <OmniFormField For="@($"density-{level.Key}-name")" Text="Nom du serveur" Required="true" Description="Visible dans la console.">
+                                <OmniTextBox Id="@($"density-{level.Key}-name")" @bind-Value="ServerName" />
+                            </OmniFormField>
+                            <OmniFormField For="@($"density-{level.Key}-id")" Text="Identifiant, lecture seule">
+                                <OmniTextBox Id="@($"density-{level.Key}-id")" @bind-Value="ServerId" ReadOnly="true" />
+                            </OmniFormField>
+                            <OmniFormField For="@($"density-{level.Key}-zone")" Text="Zone, désactivée" Disabled="true">
+                                <OmniTextBox Id="@($"density-{level.Key}-zone")" @bind-Value="ServerZone" Disabled="true" />
+                            </OmniFormField>
+                            <OmniCheckBox Id="@($"density-{level.Key}-lock")" @bind-Value="LockedRestore" aria-label="Restauration verrouillée" />
+                            <OmniRow Gap="OmniSpacing.Small" Wrap="true">
+                                <OmniButton><OmniIcon Name="OmniIconName.Save" /><span>Enregistrer</span></OmniButton>
+                                <OmniButton Variant="OmniButtonVariant.Secondary"><OmniIcon Name="OmniIconName.Close" /><span>Annuler</span></OmniButton>
+                                <OmniBadge Variant="OmniBadgeVariant.Info">3 alertes</OmniBadge>
+                            </OmniRow>
+                            <OmniAlert Severity="OmniAlertSeverity.Success" Title="Déploiement terminé">La version 1.0.1 est en ligne.</OmniAlert>
+                            <OmniSettingsTile Title="Alertes par courriel" Description="À chaque changement.">
+                                <Icon><OmniIcon Name="OmniIconName.Bell" /></Icon>
+                                <ChildContent><OmniSwitch @bind-Value="EmailAlerts" /></ChildContent>
+                            </OmniSettingsTile>
+                        </OmniStack>
+                    </ChildContent>
+                </OmniCard>
+            </OmniColumn>
+        }
+    </OmniRow>
+
+    @* Densité propre à un composant : dans une page confortable, chacun de ces composants porte la sienne. *@
+    <OmniStack Gap="OmniSpacing.Small">
+        <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+            <OmniButton Density="OmniDensity.Compact"><span>Bouton compact</span></OmniButton>
+            <OmniButton Density="OmniDensity.Spacious"><span>Bouton aéré</span></OmniButton>
+        </OmniRow>
+        <OmniFormField For="density-own-field" Text="Champ compact" Density="OmniDensity.Compact">
+            <OmniTextBox Id="density-own-field" @bind-Value="ServerName" />
+        </OmniFormField>
+        <OmniAlert Severity="OmniAlertSeverity.Info" Density="OmniDensity.Spacious">Une alerte aérée dans une page confortable.</OmniAlert>
+        <OmniTabs Label="Onglets compacts" Density="OmniDensity.Compact" @bind-Value="DensityTab" Keys="DensityTabKeys">
+            <OmniTabsItem Key="general" Title="Général">Réglages généraux.</OmniTabsItem>
+            <OmniTabsItem Key="securite" Title="Sécurité">Accès et jetons.</OmniTabsItem>
+        </OmniTabs>
+        <OmniSettingsTile Title="Tuile aérée" Description="Sa propre densité." Density="OmniDensity.Spacious">
+            <ChildContent><OmniSwitch @bind-Value="WeeklyDigest" /></ChildContent>
+        </OmniSettingsTile>
+    </OmniStack>
 </OmniStack>

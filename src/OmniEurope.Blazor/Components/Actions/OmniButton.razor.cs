@@ -28,4 +28,11 @@ public partial class OmniButton
 
     private Task HandleClickAsync(MouseEventArgs args) =>
         Disabled || Busy ? Task.CompletedTask : OnClick.InvokeAsync(args);
+
+    /// <summary>
+    /// The density of this component and of what it holds (control heights, paddings, gaps), over
+    /// the one it inherits from its theme scope or section. Null, the default, inherits it.
+    /// </summary>
+    [Parameter]
+    public OmniDensity? Density { get; set; }
 }

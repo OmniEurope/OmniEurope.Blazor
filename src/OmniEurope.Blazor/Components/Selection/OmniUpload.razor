@@ -3,7 +3,7 @@
 @implements IAsyncDisposable
 @inject Microsoft.Extensions.Logging.ILogger<OmniUpload> Logger
 
-<div @attributes="AdditionalAttributes" id="@Id" class="@RootClass">
+<div @attributes="AdditionalAttributes" id="@Id" class="@RootClass" data-omni-density="@OmniDensityAttribute.Of(Density)">
     @* The native file control covers the whole zone, invisible: a click opens the picker and a file
        dropped anywhere on the zone lands in it, with no script. The drag events only paint the zone. *@
     <div class="omni-upload__zone"

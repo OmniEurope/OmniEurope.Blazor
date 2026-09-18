@@ -37,6 +37,8 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public string? Width { get; init; }
     public string? MinWidth { get; init; }
     public OmniDataGridTextAlign TextAlign { get; init; }
+    /// <summary>The property read is a number: the column aligns at the end unless its alignment was set.</summary>
+    public bool Numeric { get; init; }
     public string? CssClass { get; init; }
     public string? HeaderCssClass { get; init; }
     public bool Groupable { get; init; } = true;

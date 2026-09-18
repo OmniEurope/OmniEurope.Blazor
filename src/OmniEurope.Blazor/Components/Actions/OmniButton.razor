@@ -8,6 +8,7 @@
         disabled="@Disabled"
         aria-busy="@(Busy ? "true" : null)"
         aria-label="@AriaLabel"
+        data-omni-density="@OmniDensityAttribute.Of(Density)"
         @attributes="AdditionalAttributes"
         @onclick="HandleClickAsync"
         @onclick:preventDefault="Busy">

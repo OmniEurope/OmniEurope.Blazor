@@ -61,12 +61,13 @@ public partial class OmniNotification
     private string LiveMode => Severity == OmniNotificationSeverity.Error ? "assertive" : "polite";
     private string MessageId => _messageId;
 
-    private OmniIconName IconName => Severity switch
+    // The mark is the alert disc: the same glyph per severity, on the same bright or deep fill.
+    private string GlyphPath => Severity switch
     {
-        OmniNotificationSeverity.Success => OmniIconName.Check,
-        OmniNotificationSeverity.Warning => OmniIconName.Warning,
-        OmniNotificationSeverity.Error => OmniIconName.Close,
-        _ => OmniIconName.Info
+        OmniNotificationSeverity.Success => OmniSeverityGlyph.Success,
+        OmniNotificationSeverity.Warning => OmniSeverityGlyph.Warning,
+        OmniNotificationSeverity.Error => OmniSeverityGlyph.Danger,
+        _ => OmniSeverityGlyph.Information
     };
 
     private bool IsLong => Message.Length > OmniNotificationStore.LongMessageThreshold;

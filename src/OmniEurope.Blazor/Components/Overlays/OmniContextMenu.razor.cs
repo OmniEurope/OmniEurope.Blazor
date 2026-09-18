@@ -67,10 +67,12 @@ public partial class OmniContextMenu
         builder.AddAttribute(3, "role", "menu");
         builder.AddAttribute(4, "aria-label", EffectiveMenuLabel);
         builder.AddAttribute(5, "tabindex", "-1");
-        builder.AddAttribute(6, "onkeydown", EventCallback.Factory.Create<KeyboardEventArgs>(this, HandleKeyDownAsync));
+        // Carried by the popup as well: in the overlay portal it no longer sits inside the trigger.
+        builder.AddAttribute(6, "data-omni-density", OmniDensityAttribute.Of(Density));
+        builder.AddAttribute(7, "onkeydown", EventCallback.Factory.Create<KeyboardEventArgs>(this, HandleKeyDownAsync));
         // Rendered in place, the popup sits inside the trigger: one key must not be handled twice.
-        builder.AddEventStopPropagationAttribute(7, "onkeydown", true);
-        builder.AddContent(8, ChildContent);
+        builder.AddEventStopPropagationAttribute(8, "onkeydown", true);
+        builder.AddContent(9, ChildContent);
         builder.CloseElement();
     }
 
@@ -175,4 +177,11 @@ public partial class OmniContextMenu
         [JSInvokable("OmniContextMenu.Dismiss")]
         public Task DismissAsync() => dismiss();
     }
+
+    /// <summary>
+    /// The density of this component and of what it holds (control heights, paddings, gaps), over
+    /// the one it inherits from its theme scope or section. Null, the default, inherits it.
+    /// </summary>
+    [Parameter]
+    public OmniDensity? Density { get; set; }
 }

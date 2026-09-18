@@ -2191,8 +2191,15 @@ public partial class OmniDataGrid<TItem>
         EffectiveMaxHeight is null ? null : "omni-data-grid__viewport--capped"
     ]);
 
+    // A numeric column left at the default alignment takes the end, in figures of one width, so its
+    // values compare at a glance; an alignment the consumer set (Center, End) is kept as is.
+    private static bool IsNumericCell(OmniDataGridColumnDefinition<TItem> column) =>
+        column.Numeric && column.TextAlign == OmniDataGridTextAlign.Start;
+
     private string ColumnClass(OmniDataGridColumnDefinition<TItem> column, bool header) => CssClassBuilder.Combine([
-        $"omni-data-grid__column--align-{column.TextAlign.ToString().ToLowerInvariant()}",
+        IsNumericCell(column)
+            ? "omni-data-grid__column--align-end omni-data-grid__cell--numeric"
+            : $"omni-data-grid__column--align-{column.TextAlign.ToString().ToLowerInvariant()}",
         column.Frozen ? "omni-data-grid__column--frozen" : null,
         HighlightActiveColumn && IsColumnActive(column) ? "omni-data-grid__column--active" : null,
         header && IsSortable(column) ? "omni-data-grid__column--sortable" : null,

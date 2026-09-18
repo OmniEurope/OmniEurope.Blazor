@@ -146,18 +146,21 @@ public sealed class NotificationTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData(OmniNotificationSeverity.Success, "omni-notification--success")]
-    [InlineData(OmniNotificationSeverity.Warning, "omni-notification--warning")]
-    [InlineData(OmniNotificationSeverity.Error, "omni-notification--error")]
-    [InlineData(OmniNotificationSeverity.Information, "omni-notification--information")]
-    public void Notification_CarriesItsRoleIconAndClass(OmniNotificationSeverity severity, string expectedClass)
+    [InlineData(OmniNotificationSeverity.Success, "omni-notification--success", "m6.5 12.5 3.5 3.5 7.5-8")]
+    [InlineData(OmniNotificationSeverity.Warning, "omni-notification--warning", "M12 7v6M12 17h.01")]
+    [InlineData(OmniNotificationSeverity.Error, "omni-notification--error", "M8 8l8 8M16 8l-8 8")]
+    [InlineData(OmniNotificationSeverity.Information, "omni-notification--information", "M12 11v6M12 7h.01")]
+    public void Notification_CarriesItsRoleMarkAndClass(OmniNotificationSeverity severity, string expectedClass, string expectedGlyph)
     {
         var notification = Render<OmniNotification>(parameters => parameters
             .Add(component => component.Message, "Saved")
             .Add(component => component.Severity, severity));
 
         Assert.Contains(expectedClass, notification.Find("article").ClassList);
-        Assert.NotNull(notification.Find("article > svg.omni-notification__icon"));
+        // The severity mark is a disc holding the glyph of the alerts, decorative: the role says it.
+        var mark = notification.Find("article > span.omni-notification__mark");
+        Assert.Equal("true", mark.GetAttribute("aria-hidden"));
+        Assert.Equal(expectedGlyph, mark.QuerySelector("svg.omni-notification__glyph path")!.GetAttribute("d"));
     }
 
     [Fact]

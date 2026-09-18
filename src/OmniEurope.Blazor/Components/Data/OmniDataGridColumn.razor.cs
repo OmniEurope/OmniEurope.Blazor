@@ -183,6 +183,7 @@ public partial class OmniDataGridColumn<TItem>
             Width = Width,
             MinWidth = MinWidth,
             TextAlign = TextAlign,
+            Numeric = GridPropertyAccessor.IsNumeric<TItem>(Property),
             CssClass = CssClass,
             HeaderCssClass = HeaderCssClass,
             Groupable = Groupable

@@ -6,7 +6,7 @@
 @* The strip and the panels are separate boxes: a tab row that never wraps has to scroll, and it
    cannot scroll while the panel it controls shares its container. The child content is therefore
    rendered twice, each pass emitting only its half, which is what the phase in the context says. *@
-<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tabs")">
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tabs")" data-omni-density="@OmniDensityAttribute.Of(Density)">
     <div class="omni-tabs__strip" @ref="_strip">
         <button type="button"
                 class="omni-tabs__scroll omni-tabs__scroll--start"

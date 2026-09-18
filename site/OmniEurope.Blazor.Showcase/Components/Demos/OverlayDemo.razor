@@ -11,7 +11,7 @@
             <OmniSplitButtonItem Disabled="true">Publier, indisponible</OmniSplitButtonItem>
         </OmniSplitButton>
 
-        <OmniContextMenu MenuLabel="Actions du dossier" Open="MenuOpen"
+        <OmniContextMenu MenuLabel="Actions du dossier" Open="MenuOpen" Density="OmniDensity.Compact"
                          OpenChanged="@(value => MenuOpen = value)">
             <TriggerContent>Actions</TriggerContent>
             <ChildContent>
@@ -38,7 +38,7 @@
             </ChildContent>
         </OmniPopover>
 
-        <OmniProfileMenu Label="Menu du compte">
+        <OmniProfileMenu Label="Menu du compte" Density="OmniDensity.Compact">
             <Summary>Camille Durand</Summary>
             <ChildContent>
                 <OmniProfileMenuItem Href="documentation">Mon profil</OmniProfileMenuItem>

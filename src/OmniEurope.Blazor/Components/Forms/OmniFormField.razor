@@ -3,6 +3,7 @@
 
 <div id="@Id"
      class="@Css("omni-form-field", Disabled ? "omni-form-field--disabled" : null, !string.IsNullOrWhiteSpace(Error) ? "omni-form-field--invalid" : null)"
+     data-omni-density="@OmniDensityAttribute.Of(Density)"
      @attributes="AdditionalAttributes">
     <OmniLabel For="@For" Required="@Required">
         @if (Label is not null) { @Label } else { @Text }
@@ -21,6 +22,6 @@
     }
     @if (!string.IsNullOrWhiteSpace(Error))
     {
-        <div id="@ErrorId" class="omni-form-field__error" role="alert">@Error</div>
+        <div id="@ErrorId" class="omni-form-field__error" role="alert"><svg class="omni-form-field__error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7.5v5m0 3.5h.01" /></svg><span>@Error</span></div>
     }
 </div>

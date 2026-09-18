@@ -35,4 +35,11 @@ public partial class OmniFormField
 
     private string? DescriptionId => string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(Description) ? null : $"{Id}-description";
     private string? ErrorId => string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(Error) ? null : $"{Id}-error";
+
+    /// <summary>
+    /// The density of this component and of what it holds (control heights, paddings, gaps), over
+    /// the one it inherits from its theme scope or section. Null, the default, inherits it.
+    /// </summary>
+    [Parameter]
+    public OmniDensity? Density { get; set; }
 }

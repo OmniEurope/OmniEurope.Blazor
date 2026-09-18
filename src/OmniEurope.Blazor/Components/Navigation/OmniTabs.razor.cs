@@ -138,4 +138,11 @@ public partial class OmniTabs
         [JSInvokable("OmniTabs.SelectFromKeyboard")]
         public Task SelectFromKeyboardAsync(string key) => selectAsync(key);
     }
+
+    /// <summary>
+    /// The density of this component and of what it holds (control heights, paddings, gaps), over
+    /// the one it inherits from its theme scope or section. Null, the default, inherits it.
+    /// </summary>
+    [Parameter]
+    public OmniDensity? Density { get; set; }
 }
