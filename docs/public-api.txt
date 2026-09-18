@@ -2261,6 +2261,8 @@ property public OmniEurope.Blazor.Components.OmniGrid.ChildContent : Microsoft.A
 property public OmniEurope.Blazor.Components.OmniGrid.Columns : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniGrid.Gap : OmniEurope.Blazor.Components.OmniSpacing {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniGridLines.Count : System.Int32 {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniHeader.Brand : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniHeader.BrandMark : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHeader.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniHeader.Sticky : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHeader.Tone : OmniEurope.Blazor.Components.OmniHeaderTone {get(public);set(public)} [Parameter]

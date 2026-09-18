@@ -112,4 +112,47 @@ public sealed class AppBarComponentTests : OmniBunitContext
         Assert.Equal("none", ShippedLookTests.Value(icon, "pointer-events"));
         Assert.Equal("30px", ShippedLookTests.Value(ShippedLookTests.Body(".omni-input.omni-text-box--icon"), "padding-inline-start"));
     }
+
+    // ---- OmniHeader.Brand, BrandMark ----
+
+    [Fact]
+    public void HeaderBrand_ShowsADecorativeLogoAndTheNameAsText()
+    {
+        var header = Render<OmniHeader>(parameters => parameters
+            .Add(component => component.Brand, "Aetheus")
+            .Add(component => component.BrandMark, "Ae")
+            .AddChildContent("<button type=\"button\" class=\"omni-sidebar-toggle\">menu</button>"));
+
+        var root = header.Find("header");
+        Assert.Contains("omni-header--branded", root.ClassName, StringComparison.Ordinal);
+        var logo = header.Find(".omni-header__brand > .omni-header__logo");
+        Assert.Equal("Ae", logo.TextContent);
+        Assert.Equal("true", logo.GetAttribute("aria-hidden"));
+        Assert.Equal("Aetheus", header.Find(".omni-header__brand > .omni-header__brand-name").TextContent);
+        Assert.Null(header.Find(".omni-header__brand-name").GetAttribute("aria-hidden"));
+    }
+
+    [Fact]
+    public void HeaderBrand_IsAbsentByDefault()
+    {
+        var header = Render<OmniHeader>(parameters => parameters.AddChildContent("Titre"));
+
+        Assert.Empty(header.FindAll(".omni-header__brand"));
+        Assert.DoesNotContain("omni-header--branded", header.Find("header").ClassName, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void HeaderBrand_LogoIsTheAccentFill_AndSwapsOnTheAccentBand_AndTheToggleStaysAtTheEdge()
+    {
+        var logo = ShippedLookTests.Body(".omni-header__logo");
+        Assert.Equal("var(--omni-color-accent-fill)", ShippedLookTests.Value(logo, "background"));
+        Assert.Equal("var(--omni-color-on-accent-fill)", ShippedLookTests.Value(logo, "color"));
+        Assert.Equal("calc(var(--omni-icon-box) * 0.72)", ShippedLookTests.Value(logo, "block-size"));
+
+        var onBand = ShippedLookTests.Body(".omni-header--accent .omni-header__logo");
+        Assert.Equal("var(--omni-color-on-accent)", ShippedLookTests.Value(onBand, "background"));
+        Assert.Equal("var(--omni-color-accent)", ShippedLookTests.Value(onBand, "color"));
+
+        Assert.Equal("-1", ShippedLookTests.Value(ShippedLookTests.Body(".omni-header--branded > .omni-sidebar-toggle"), "order"));
+    }
 }

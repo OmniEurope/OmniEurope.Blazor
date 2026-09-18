@@ -889,6 +889,14 @@
 .omni-header--accent .omni-appearance-toggle { background: transparent; border-color: color-mix(in srgb, currentColor 45%, transparent); color: inherit; }
 .omni-header--accent .omni-sidebar-toggle { color: inherit; }
 .omni-header--accent .omni-sidebar-toggle:hover { background: color-mix(in srgb, currentColor 14%, transparent); }
+/* Brand of the app bar (Brand, BrandMark): the logo, a rounded square of the accent fill sized from the
+   density, then the name in the heading weight. A sidebar toggle among the children is drawn before
+   it, at the edge, although the brand opens the source. On the accent band the logo swaps its fill
+   and ink, or it would vanish into the band. */
+.omni-header__brand { align-items: center; display: inline-flex; font-weight: var(--omni-heading-font-weight, 700); gap: var(--omni-space-sm); }
+.omni-header__logo { background: var(--omni-color-accent-fill); block-size: calc(var(--omni-icon-box) * 0.72); border-radius: var(--omni-radius); color: var(--omni-color-on-accent-fill); display: grid; flex: none; font-size: 0.75rem; font-weight: 800; inline-size: calc(var(--omni-icon-box) * 0.72); place-content: center; }
+.omni-header--branded > .omni-sidebar-toggle { order: -1; }
+.omni-header--accent .omni-header__logo { background: var(--omni-color-on-accent); color: var(--omni-color-accent); }
 
 /* A fieldset sizes to its minimal content, not to its container: without an explicit width it shrank
    beside other controls and its legend wrapped. */
