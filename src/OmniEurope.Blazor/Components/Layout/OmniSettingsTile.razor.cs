@@ -29,4 +29,11 @@ public partial class OmniSettingsTile
     /// <summary>Content under the row, for what does not fit beside the name: a slider, a list of actions.</summary>
     [Parameter]
     public RenderFragment? Details { get; set; }
+
+    /// <summary>
+    /// The density of this component and of what it holds (control heights, paddings, gaps), over
+    /// the one it inherits from its theme scope or section. Null, the default, inherits it.
+    /// </summary>
+    [Parameter]
+    public OmniDensity? Density { get; set; }
 }

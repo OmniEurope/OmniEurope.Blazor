@@ -4,7 +4,8 @@
 <nav @attributes="AdditionalAttributes"
      id="@Id"
      class="@Css("omni-panel-menu", EffectiveDisplayStyle == OmniPanelMenuDisplayStyle.Icon ? "omni-panel-menu--icons" : null)"
-     aria-label="@EffectiveLabel">
+     aria-label="@EffectiveLabel"
+     data-omni-density="@OmniDensityAttribute.Of(Density)">
     <CascadingValue Value="OwnContext">
         @ChildContent
     </CascadingValue>

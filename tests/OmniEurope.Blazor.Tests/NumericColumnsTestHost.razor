@@ -1,0 +1,22 @@
+@* Columns of every alignment case for the numeric cell: a text property, a numeric property left at
+   the default alignment, a numeric property aligned explicitly, and a numeric value read by a lambda. *@
+<OmniDataGrid TItem="NumericRun"
+              Items="@Runs"
+              SelectionMode="OmniDataGridSelectionMode.Single"
+              KeySelector="run => run.Name"
+              SelectedKeys="@Selected">
+    <Columns>
+        <OmniDataGridColumn TItem="NumericRun" Key="name" Title="Nom" Property="Name" />
+        <OmniDataGridColumn TItem="NumericRun" Key="duration" Title="Durée" Property="Duration" />
+        <OmniDataGridColumn TItem="NumericRun" Key="cost" Title="Coût" Property="Cost" TextAlign="OmniDataGridTextAlign.Center" />
+        <OmniDataGridColumn TItem="NumericRun" Key="lambda" Title="Calcul" Value="run => run.Duration * 2" />
+    </Columns>
+</OmniDataGrid>
+
+@code {
+    public IReadOnlyList<NumericRun> Runs { get; } = [new("a", 12, 1.5m), new("b", 7, 2m)];
+
+    public IReadOnlyList<object> Selected { get; } = ["b"];
+
+    public sealed record NumericRun(string Name, int Duration, decimal? Cost);
+}

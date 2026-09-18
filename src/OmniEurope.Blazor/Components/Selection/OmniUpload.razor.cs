@@ -296,4 +296,11 @@ public partial class OmniUpload
         _uploadCancellation?.Dispose();
         return ValueTask.CompletedTask;
     }
+
+    /// <summary>
+    /// The density of this component and of what it holds (control heights, paddings, gaps), over
+    /// the one it inherits from its theme scope or section. Null, the default, inherits it.
+    /// </summary>
+    [Parameter]
+    public OmniDensity? Density { get; set; }
 }

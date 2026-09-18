@@ -24,6 +24,29 @@
     </Columns>
 </OmniDataGrid>
 
+@* Le dessin de la maquette : un cadre habillé comme une carte, un en-tête fin et collant, la durée
+   (un nombre) alignée à la fin en chiffres de même chasse sans rien demander, le statut en pastille
+   compacte (classe omni-status), la ligne choisie teintée et en gras, la colonne triée teintée plus
+   légèrement (HighlightActiveColumn), des séparateurs de lignes faute d'alternance. *@
+<OmniDataGrid TItem="RunRow" Id="demo-grid-runs"
+              Items="Runs"
+              Caption="Exécutions récentes"
+              AllowSorting="true"
+              HighlightActiveColumn="true"
+              MaxHeight="17rem"
+              SelectionMode="OmniDataGridSelectionMode.Single"
+              KeySelector="run => run.Run"
+              @bind-SelectedKeys="SelectedRuns">
+    <Columns>
+        <OmniDataGridColumn TItem="RunRow" Property="Run" Title="Exécution" />
+        <OmniDataGridColumn TItem="RunRow" Property="Pipeline" Title="Pipeline" SortOrder="OmniDataGridSortOrder.Ascending" />
+        <OmniDataGridColumn TItem="RunRow" Property="Seconds" Title="Durée (s)" />
+        <OmniDataGridColumn TItem="RunRow" Property="Status" Title="Statut">
+            <Template Context="run"><span class="@StatusClass(run.Status)">@run.Status</span></Template>
+        </OmniDataGridColumn>
+    </Columns>
+</OmniDataGrid>
+
 @* Virtualisée avec MaxHeight : la grille prend la hauteur de ses lignes jusqu'au plafond, puis
    défile en ne rendant que sa fenêtre. Trois lignes restent courtes, dix mille défilent. *@
 <OmniDataGrid TItem="GridRow" Id="demo-grid-capped-short"

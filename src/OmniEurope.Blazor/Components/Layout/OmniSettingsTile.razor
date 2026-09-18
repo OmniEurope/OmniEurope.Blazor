@@ -8,7 +8,7 @@
    label's hit area is stretched over the whole tile, so a click anywhere on it toggles the control
    through the browser's own label activation. The control and the details sit above that area, so
    a click on them reaches them directly and never toggles twice. *@
-<div id="@Id" class="@Css("omni-settings-tile", _context.ControlId is null ? null : "omni-settings-tile--toggle")" @attributes="AdditionalAttributes">
+<div id="@Id" class="@Css("omni-settings-tile", _context.ControlId is null ? null : "omni-settings-tile--toggle")" data-omni-density="@OmniDensityAttribute.Of(Density)" @attributes="AdditionalAttributes">
     <div class="omni-settings-tile__row">
         @if (Icon is not null)
         {

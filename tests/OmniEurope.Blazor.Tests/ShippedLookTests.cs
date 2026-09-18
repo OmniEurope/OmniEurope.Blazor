@@ -13,7 +13,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed partial class ShippedLookTests : OmniBunitContext
 {
-    private static readonly string Css = Uncommented(File.ReadAllText(Path.Combine(RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css")));
+    internal static readonly string Css = Uncommented(File.ReadAllText(Path.Combine(RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css")));
 
     [GeneratedRegex(@"(?<selector>[^{}]+)\{(?<body>[^{}]*)\}")]
     private static partial Regex Rule();
@@ -114,7 +114,7 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     {
         Assert.Equal("0em", Value(Body(":root"), "--omni-button-letter-spacing"));
         Assert.Equal(
-            "var(--omni-button-padding-inline, var(--omni-space-lg)) calc(var(--omni-button-padding-inline, var(--omni-space-lg)) - var(--omni-button-letter-spacing, 0em))",
+            "var(--omni-button-padding-inline, var(--omni-button-pad-x)) calc(var(--omni-button-padding-inline, var(--omni-button-pad-x)) - var(--omni-button-letter-spacing, 0em))",
             Value(Rules().Single(rule => rule.Selector == ".omni-button" && rule.Body.Contains("padding-inline", StringComparison.Ordinal)).Body, "padding-inline"));
         Assert.Equal(
             "var(--omni-space-md) calc(var(--omni-space-md) - var(--omni-button-letter-spacing, 0em))",
@@ -245,7 +245,7 @@ public sealed partial class ShippedLookTests : OmniBunitContext
 
         foreach (var (selector, icon, glyph) in new[]
                  {
-                     (":root", "1.5rem", "1rem"),
+                     (":root,\n[data-omni-density=\"comfortable\"]", "1.5rem", "1rem"),
                      ("[data-omni-density=\"compact\"]", "1.125rem", "0.75rem"),
                      ("[data-omni-density=\"spacious\"]", "1.75rem", "1.125rem")
                  })
@@ -350,18 +350,18 @@ public sealed partial class ShippedLookTests : OmniBunitContext
 
     // ---- helpers ----
 
-    private static IEnumerable<(string Selector, string Body)> Rules() =>
+    internal static IEnumerable<(string Selector, string Body)> Rules() =>
         Rule().Matches(Css).Select(match => (Selector: Normalise(match.Groups["selector"].Value), Body: match.Groups["body"].Value));
 
     /// <summary>The body of the first rule whose whole selector list is exactly <paramref name="selector"/>.</summary>
-    private static string Body(string selector)
+    internal static string Body(string selector)
     {
         var match = Rules().FirstOrDefault(rule => rule.Selector == selector);
         Assert.True(match.Body is not null, $"No rule for {selector.Replace("\n", " ", StringComparison.Ordinal)}.");
         return match.Body;
     }
 
-    private static string Value(string body, string property)
+    internal static string Value(string body, string property)
     {
         var match = Regex.Match(body, @"(?:^|;|\{)\s*" + Regex.Escape(property) + @"\s*:\s*(?<value>[^;]+)");
         Assert.True(match.Success, $"No {property} declaration in: {body.Trim()}");
@@ -380,10 +380,10 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         return match.Body;
     }
 
-    private static string Uncommented(string css) =>
+    internal static string Uncommented(string css) =>
         Regex.Replace(css, @"/\*.*?\*/", string.Empty, RegexOptions.Singleline).ReplaceLineEndings("\n");
 
-    private static string RepositoryRoot()
+    internal static string RepositoryRoot()
     {
         var directory = new DirectoryInfo(AppContext.BaseDirectory);
         while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "OmniEurope.Blazor.slnx")))

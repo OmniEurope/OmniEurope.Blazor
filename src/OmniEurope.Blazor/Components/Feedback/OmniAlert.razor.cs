@@ -46,14 +46,12 @@ public partial class OmniAlert
     [Parameter]
     public EventCallback OnDismiss { get; set; }
 
-    // The glyph alone, without a circle or a triangle around it (the disc is the frame), drawn
-    // centred on (12, 12) of a 24-unit box so it sits in the middle of the disc.
     private string GlyphPath => Severity switch
     {
-        OmniAlertSeverity.Success => "m6.5 12.5 3.5 3.5 7.5-8",
-        OmniAlertSeverity.Warning => "M12 7v6M12 17h.01",
-        OmniAlertSeverity.Danger => "M8 8l8 8M16 8l-8 8",
-        _ => "M12 11v6M12 7h.01"
+        OmniAlertSeverity.Success => OmniSeverityGlyph.Success,
+        OmniAlertSeverity.Warning => OmniSeverityGlyph.Warning,
+        OmniAlertSeverity.Danger => OmniSeverityGlyph.Danger,
+        _ => OmniSeverityGlyph.Information
     };
 
     private string EffectiveCloseLabel => string.IsNullOrWhiteSpace(CloseLabel) ? Localize("Close") : CloseLabel;
@@ -63,4 +61,11 @@ public partial class OmniAlert
         _dismissed = true;
         await OnDismiss.InvokeAsync();
     }
+
+    /// <summary>
+    /// The density of this component and of what it holds (control heights, paddings, gaps), over
+    /// the one it inherits from its theme scope or section. Null, the default, inherits it.
+    /// </summary>
+    [Parameter]
+    public OmniDensity? Density { get; set; }
 }

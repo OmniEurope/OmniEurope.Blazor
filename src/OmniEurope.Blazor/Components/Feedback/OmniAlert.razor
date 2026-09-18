@@ -6,6 +6,7 @@
     <div id="@Id"
          class="@Css("omni-alert", $"omni-alert--{Severity.ToString().ToLowerInvariant()}", $"omni-alert--{Variant.ToString().ToLowerInvariant()}")"
          role="@(Live ? "alert" : "status")"
+         data-omni-density="@OmniDensityAttribute.Of(Density)"
          @attributes="AdditionalAttributes">
         @* The icon is a glyph alone in a disc: the severity's own glyph, or the consumer's icon in its place. *@
         <span class="omni-alert__icon" aria-hidden="true">
