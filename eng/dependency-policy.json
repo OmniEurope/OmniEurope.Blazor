@@ -28,9 +28,9 @@
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.Web/"
     },
     "Microsoft.CodeAnalysis.CSharp": {
-      "version": "5.9.0",
+      "version": "5.0.0",
       "status": "toolchain-bound",
-      "reason": "A Roslyn analyzer cannot reference a compiler newer than the one the pinned SDK band runs (CS9057), so this tracks the SDK rather than the newest published version.",
+      "reason": "The compiler of the first .NET 10 SDK (10.0.100). A Roslyn analyzer cannot reference a compiler newer than the SDK that loads it (CS9057); a project that references this repository by ProjectReference loads the analyzer with its own SDK, so the analyzer references the oldest .NET 10 compiler and any 10.0 SDK loads it.",
       "source": "https://www.nuget.org/packages/Microsoft.CodeAnalysis.CSharp/"
     },
     "Microsoft.AspNetCore.Components.WebView": {

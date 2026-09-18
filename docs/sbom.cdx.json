@@ -552,9 +552,9 @@
     {
       "type": "library",
       "name": "Microsoft.CodeAnalysis.Analyzers",
-      "version": "5.9.0-1.26328.17",
-      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Analyzers@5.9.0-1.26328.17",
-      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Analyzers@5.9.0-1.26328.17",
+      "version": "3.11.0",
+      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Analyzers@3.11.0",
+      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Analyzers@3.11.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -574,9 +574,9 @@
     {
       "type": "library",
       "name": "Microsoft.CodeAnalysis.Common",
-      "version": "5.9.0",
-      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Common@5.9.0",
-      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Common@5.9.0",
+      "version": "5.0.0",
+      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Common@5.0.0",
+      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Common@5.0.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -596,9 +596,9 @@
     {
       "type": "library",
       "name": "Microsoft.CodeAnalysis.CSharp",
-      "version": "5.9.0",
-      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.CSharp@5.9.0",
-      "purl": "pkg:nuget/Microsoft.CodeAnalysis.CSharp@5.9.0",
+      "version": "5.0.0",
+      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.CSharp@5.0.0",
+      "purl": "pkg:nuget/Microsoft.CodeAnalysis.CSharp@5.0.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -2158,9 +2158,9 @@
     {
       "type": "library",
       "name": "System.Buffers",
-      "version": "4.6.1",
-      "bom-ref": "pkg:nuget/System.Buffers@4.6.1",
-      "purl": "pkg:nuget/System.Buffers@4.6.1",
+      "version": "4.6.0",
+      "bom-ref": "pkg:nuget/System.Buffers@4.6.0",
+      "purl": "pkg:nuget/System.Buffers@4.6.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -2180,9 +2180,9 @@
     {
       "type": "library",
       "name": "System.Collections.Immutable",
-      "version": "10.0.1",
-      "bom-ref": "pkg:nuget/System.Collections.Immutable@10.0.1",
-      "purl": "pkg:nuget/System.Collections.Immutable@10.0.1",
+      "version": "9.0.0",
+      "bom-ref": "pkg:nuget/System.Collections.Immutable@9.0.0",
+      "purl": "pkg:nuget/System.Collections.Immutable@9.0.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -2202,9 +2202,9 @@
     {
       "type": "library",
       "name": "System.Memory",
-      "version": "4.6.3",
-      "bom-ref": "pkg:nuget/System.Memory@4.6.3",
-      "purl": "pkg:nuget/System.Memory@4.6.3",
+      "version": "4.6.0",
+      "bom-ref": "pkg:nuget/System.Memory@4.6.0",
+      "purl": "pkg:nuget/System.Memory@4.6.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -2246,9 +2246,9 @@
     {
       "type": "library",
       "name": "System.Numerics.Vectors",
-      "version": "4.6.1",
-      "bom-ref": "pkg:nuget/System.Numerics.Vectors@4.6.1",
-      "purl": "pkg:nuget/System.Numerics.Vectors@4.6.1",
+      "version": "4.6.0",
+      "bom-ref": "pkg:nuget/System.Numerics.Vectors@4.6.0",
+      "purl": "pkg:nuget/System.Numerics.Vectors@4.6.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -2268,9 +2268,9 @@
     {
       "type": "library",
       "name": "System.Reflection.Metadata",
-      "version": "10.0.1",
-      "bom-ref": "pkg:nuget/System.Reflection.Metadata@10.0.1",
-      "purl": "pkg:nuget/System.Reflection.Metadata@10.0.1",
+      "version": "9.0.0",
+      "bom-ref": "pkg:nuget/System.Reflection.Metadata@9.0.0",
+      "purl": "pkg:nuget/System.Reflection.Metadata@9.0.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -2290,9 +2290,9 @@
     {
       "type": "library",
       "name": "System.Runtime.CompilerServices.Unsafe",
-      "version": "6.1.2",
-      "bom-ref": "pkg:nuget/System.Runtime.CompilerServices.Unsafe@6.1.2",
-      "purl": "pkg:nuget/System.Runtime.CompilerServices.Unsafe@6.1.2",
+      "version": "6.1.0",
+      "bom-ref": "pkg:nuget/System.Runtime.CompilerServices.Unsafe@6.1.0",
+      "purl": "pkg:nuget/System.Runtime.CompilerServices.Unsafe@6.1.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -2334,9 +2334,9 @@
     {
       "type": "library",
       "name": "System.Threading.Tasks.Extensions",
-      "version": "4.6.3",
-      "bom-ref": "pkg:nuget/System.Threading.Tasks.Extensions@4.6.3",
-      "purl": "pkg:nuget/System.Threading.Tasks.Extensions@4.6.3",
+      "version": "4.6.0",
+      "bom-ref": "pkg:nuget/System.Threading.Tasks.Extensions@4.6.0",
+      "purl": "pkg:nuget/System.Threading.Tasks.Extensions@4.6.0",
       "licenses": [
         {
           "expression": "MIT"

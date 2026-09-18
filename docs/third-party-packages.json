@@ -409,7 +409,7 @@
     },
     {
       "id": "Microsoft.CodeAnalysis.Analyzers",
-      "version": "5.9.0-1.26328.17",
+      "version": "3.11.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -424,7 +424,7 @@
     },
     {
       "id": "Microsoft.CodeAnalysis.Common",
-      "version": "5.9.0",
+      "version": "5.0.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -439,7 +439,7 @@
     },
     {
       "id": "Microsoft.CodeAnalysis.CSharp",
-      "version": "5.9.0",
+      "version": "5.0.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1481,7 +1481,7 @@
     },
     {
       "id": "System.Buffers",
-      "version": "4.6.1",
+      "version": "4.6.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1495,7 +1495,7 @@
     },
     {
       "id": "System.Collections.Immutable",
-      "version": "10.0.1",
+      "version": "9.0.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1509,7 +1509,7 @@
     },
     {
       "id": "System.Memory",
-      "version": "4.6.3",
+      "version": "4.6.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1537,7 +1537,7 @@
     },
     {
       "id": "System.Numerics.Vectors",
-      "version": "4.6.1",
+      "version": "4.6.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1551,7 +1551,7 @@
     },
     {
       "id": "System.Reflection.Metadata",
-      "version": "10.0.1",
+      "version": "9.0.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1565,7 +1565,7 @@
     },
     {
       "id": "System.Runtime.CompilerServices.Unsafe",
-      "version": "6.1.2",
+      "version": "6.1.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1593,7 +1593,7 @@
     },
     {
       "id": "System.Threading.Tasks.Extensions",
-      "version": "4.6.3",
+      "version": "4.6.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
