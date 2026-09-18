@@ -15,7 +15,7 @@ More than a hundred components, one static stylesheet, no inline style, no `unsa
 
 - **Strict CSP by design.** Components never emit `style` attributes, `<style>` tags, or inline event handlers. `default-src 'self'; script-src 'self'; style-src 'self'` is a tested target, not an aspiration.
 - **Accessibility built in.** Keyboard navigation, focus containment and restoration, ARIA states, 44 px interactive targets, and reduced-motion support are part of every component, not an option you enable.
-- **Fully tokenised theme.** Colours, type, spacing, radii, shadows, and the chart palette are CSS variables. Light and dark modes ship out of the box; your own palette is a stylesheet away.
+- **Fully tokenised theme.** Colours, type, spacing, radii, shadows, and the chart palette are CSS variables. Light and dark modes ship out of the box, with ten themes (shape) and ten palettes (colour) that combine freely and a three-step density; your own palette is a stylesheet away.
 - **Localised from the start.** French and English are included; add any culture through standard .NET resources, or pass your own text to any component.
 - **Every Blazor host.** Server, WebAssembly, Interactive Auto, and MAUI Blazor Hybrid, verified on each in continuous integration.
 - **No JavaScript framework.** A single static stylesheet and a small interop module. Nothing to bundle, nothing to trust.
@@ -44,7 +44,7 @@ Requires .NET 10.
 Install the package:
 
 ```xml
-<PackageReference Include="OmniEurope.Blazor" Version="1.0.0" />
+<PackageReference Include="OmniEurope.Blazor" Version="1.0.1" />
 ```
 
 Register the services:
