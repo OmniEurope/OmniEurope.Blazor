@@ -278,12 +278,45 @@ public sealed class ShowcaseThemeTests
         return ThemeColor.Mix(Resolve(tokens, mix.Groups["first"].Value), Resolve(tokens, mix.Groups["second"].Value), share);
     }
 
+    /// <summary>
+    /// Every custom property declared in a top-level block whose selector list starts with
+    /// <c>:root</c>, first occurrence order, read line by line from the unminified source: an
+    /// independent reading of what the token reader parses from the same text.
+    /// </summary>
     private static string[] DeclaredRootTokens(string css)
     {
-        var block = Regex.Match(css, @"^:root\s*\{(?<body>[^}]*)\}", RegexOptions.Multiline);
-        Assert.True(block.Success, "The stylesheet no longer opens with a :root block.");
-        return [.. Regex.Matches(block.Groups["body"].Value, @"^\s*(?<name>--omni-[a-z0-9-]+)\s*:", RegexOptions.Multiline)
-            .Select(match => match.Groups["name"].Value)];
+        var names = new List<string>();
+        var inRootBlock = false;
+        var selectorNamesRoot = false;
+        foreach (var line in css.ReplaceLineEndings("\n").Split('\n'))
+        {
+            if (!inRootBlock && line.StartsWith(":root", StringComparison.Ordinal))
+            {
+                selectorNamesRoot = true;
+            }
+
+            if (selectorNamesRoot && line.EndsWith('{'))
+            {
+                inRootBlock = true;
+                selectorNamesRoot = false;
+                continue;
+            }
+
+            if (inRootBlock && line == "}")
+            {
+                inRootBlock = false;
+                continue;
+            }
+
+            var declaration = Regex.Match(line, @"^\s*(?<name>--omni-[a-z0-9-]+)\s*:");
+            if (inRootBlock && declaration.Success && !names.Contains(declaration.Groups["name"].Value))
+            {
+                names.Add(declaration.Groups["name"].Value);
+            }
+        }
+
+        Assert.NotEmpty(names);
+        return [.. names];
     }
 
     private static string RepositoryRoot()
