@@ -722,12 +722,15 @@
     white-space: nowrap;
 }
 
+/* A long word breaks rather than widen the page: a theme with spaced capitals (Néon, Ardoise, Octet)
+   pushed "Personnalisation" past a 375 px screen (RET-002 n°28, PLAN-008 lot 10). */
 .omni-heading {
     font-family: var(--omni-heading-font-family);
     font-weight: var(--omni-heading-font-weight);
     letter-spacing: var(--omni-heading-letter-spacing);
     line-height: 1.2;
     margin-block: 0 0.5em;
+    overflow-wrap: break-word;
     text-transform: var(--omni-heading-text-transform);
 }
 .omni-heading--h1 { font-size: var(--omni-font-size-h1); }
@@ -1774,6 +1777,10 @@ body:has(.omni-overlay) { overflow: hidden; }
    than absolute so a tooltip raised from inside a scrolling grid is not clipped by it. The class
    only appears once that script is running, so without it the anchored position above stays. */
 .omni-tooltip--tracked .omni-tooltip__content { inset: auto; inset-block-start: var(--omni-tooltip-y); inset-inline-start: var(--omni-tooltip-x); position: fixed; transform: translate(-50%, -100%); }
+/* At rest the hidden bubble keeps within its trigger: centred and up to 18rem wide, a hidden bubble
+   still counts in the page's scrollable width, and one near the edge of a 375 px screen made the page
+   scroll sideways (RET-002 n°28, PLAN-008 lot 10). It hides at once, so the jump back is never seen. */
+.omni-tooltip:not(:hover):not(:focus-within):not(.omni-tooltip--tracked) .omni-tooltip__content { inset-inline-start: 0; max-width: 100%; transform: none; }
 .omni-tooltip:hover .omni-tooltip__content,
 .omni-tooltip:focus-within .omni-tooltip__content { opacity: 1; visibility: visible; }
 /* Le pointeur doit se poser avant que l'infobulle paraisse ; elle part aussitôt qu'il s'en va. Le
@@ -2235,7 +2242,9 @@ body:has(.omni-overlay) { overflow: hidden; }
     position: absolute;
     z-index: 30;
 }
-.omni-multi-select-compact__clear { background: transparent; border: 0; color: var(--omni-color-accent); cursor: pointer; font: inherit; padding: calc(var(--omni-item-pad-y) - 3px) 0.375rem; }
+/* The clear action is text: the text-grade accent, not the 3.0 mark colour, which fell to 4.24 on the
+   light Électrique palette (PLAN-008 lot 10, T1). */
+.omni-multi-select-compact__clear { background: transparent; border: 0; color: var(--omni-color-accent-strong); cursor: pointer; font: inherit; padding: calc(var(--omni-item-pad-y) - 3px) 0.375rem; }
 .omni-multi-select-compact__list { list-style: none; margin: 0; min-block-size: 0; overflow-y: auto; padding: 0; }
 .omni-multi-select-compact__filter { flex: 0 0 auto; margin-block-end: var(--omni-space-xs); }
 .omni-multi-select-compact__empty { color: var(--omni-color-text-muted); margin: 0; padding: calc(var(--omni-item-pad-y) - 3px) 0.375rem; }
