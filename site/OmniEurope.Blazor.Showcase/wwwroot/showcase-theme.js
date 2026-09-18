@@ -10,38 +10,56 @@
 // that attribute: a value written higher up, on <html>, is shadowed by those declarations and the
 // page keeps the shipped palette whatever theme was applied. An inline value on the scope itself
 // beats them.
+//
+// Both halves arrive with every push. The light or the dark one is painted according to the mode;
+// in the system mode the choice follows the system setting, and changes with it.
 const previous = new Set();
+const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
 let painted = null;
+let current = null;
 
 function target() {
     return document.getElementById('showcase-theme') ?? document.documentElement;
 }
 
-window.omniShowcaseTheme = {
-    apply(overrides, mode, storageKey, serialized) {
-        const root = target();
-        if (painted && painted !== root) {
-            for (const name of previous) {
-                painted.style.removeProperty(name);
-            }
+function paint() {
+    if (!current) {
+        return;
+    }
 
-            previous.clear();
-        }
-
-        // Clear tokens dropped since the last push, otherwise a removed override would stay lit.
+    const root = target();
+    const dark = current.mode === 'dark' || (current.mode === 'system' && darkQuery.matches);
+    const tokens = dark ? current.dark : current.light;
+    if (painted && painted !== root) {
         for (const name of previous) {
-            if (!(name in overrides)) {
-                root.style.removeProperty(name);
-            }
+            painted.style.removeProperty(name);
         }
 
         previous.clear();
-        for (const [name, value] of Object.entries(overrides)) {
-            root.style.setProperty(name, value);
-            previous.add(name);
-        }
+    }
 
-        painted = root;
+    // Clear tokens dropped since the last push, otherwise a removed value would stay lit.
+    for (const name of previous) {
+        if (!(name in tokens)) {
+            root.style.removeProperty(name);
+        }
+    }
+
+    previous.clear();
+    for (const [name, value] of Object.entries(tokens)) {
+        root.style.setProperty(name, value);
+        previous.add(name);
+    }
+
+    painted = root;
+}
+
+darkQuery.addEventListener('change', paint);
+
+window.omniShowcaseTheme = {
+    apply(light, dark, mode, storageKey, serialized) {
+        current = { light, dark, mode };
+        paint();
         document.documentElement.setAttribute('data-omni-theme', mode);
 
         try {

@@ -14,7 +14,12 @@ public partial class MainLayout : IDisposable
     [Inject]
     private ThemeState Theme { get; set; } = default!;
 
-    private OmniAppearance CurrentAppearance => Theme.Mode is ThemeMode.Dark ? OmniAppearance.Dark : OmniAppearance.Light;
+    private OmniAppearance CurrentAppearance => Theme.Mode switch
+    {
+        ThemeMode.Dark => OmniAppearance.Dark,
+        ThemeMode.System => OmniAppearance.System,
+        _ => OmniAppearance.Light
+    };
 
     protected override void OnInitialized() => Theme.Changed += OnThemeChanged;
 
