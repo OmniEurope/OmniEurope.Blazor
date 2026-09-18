@@ -23,6 +23,15 @@ public partial class OmniButton
     [Parameter]
     public string? AriaLabel { get; set; }
 
+    /// <summary>
+    /// Draws a small dot in the danger fill at the button's top end corner, ringed by the surface: the
+    /// mark of something waiting, such as unread notifications on a bell. The dot is decorative
+    /// (<c>aria-hidden</c>), so what it signals belongs in the accessible name, for instance an
+    /// <see cref="AriaLabel"/> of "Notifications, 3 unread". False, the default, draws nothing.
+    /// </summary>
+    [Parameter]
+    public bool Indicator { get; set; }
+
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 

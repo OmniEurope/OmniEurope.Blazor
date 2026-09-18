@@ -555,6 +555,13 @@
     justify-content: center;
 }
 
+/* Indicator: a danger dot at the top end corner, ringed by the surface so it detaches from the icon it
+   overlaps (the bell of an app bar). Decorative, the accessible name says what it means. On the
+   accent band the ring takes the band. */
+.omni-button--indicator { position: relative; }
+.omni-button__indicator { background: var(--omni-color-danger-fill); block-size: 0.5rem; border-radius: var(--omni-radius-circle); box-shadow: 0 0 0 2px var(--omni-color-surface); inline-size: 0.5rem; inset-block-start: calc(5px - var(--omni-button-border-width, 1px)); inset-inline-end: calc(5px - var(--omni-button-border-width, 1px)); pointer-events: none; position: absolute; }
+.omni-header--accent .omni-button__indicator { box-shadow: 0 0 0 2px var(--omni-color-accent); }
+
 
 @media (prefers-reduced-motion: reduce) {
     .omni-button { animation: none; transition: none; }

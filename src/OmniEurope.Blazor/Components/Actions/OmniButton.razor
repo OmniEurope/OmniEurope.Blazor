@@ -3,7 +3,7 @@
 
 @* Busy is not disabled (it would change size and colours); preventDefault stops a form resubmitting on Enter. *@
 <button id="@Id"
-        class="@Css("omni-button", $"omni-button--{Variant.ToString().ToLowerInvariant()}", $"omni-button--{Size.ToString().ToLowerInvariant()}", Busy ? "omni-busy" : null)"
+        class="@Css("omni-button", $"omni-button--{Variant.ToString().ToLowerInvariant()}", $"omni-button--{Size.ToString().ToLowerInvariant()}", Busy ? "omni-busy" : null, Indicator ? "omni-button--indicator" : null)"
         type="@ButtonType.ToString().ToLowerInvariant()"
         disabled="@Disabled"
         aria-busy="@(Busy ? "true" : null)"
@@ -13,4 +13,8 @@
         @onclick="HandleClickAsync"
         @onclick:preventDefault="Busy">
     <span class="omni-button__content">@ChildContent</span>
+    @if (Indicator)
+    {
+        <span class="omni-button__indicator" aria-hidden="true"></span>
+    }
 </button>
