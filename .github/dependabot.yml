@@ -1,0 +1,21 @@
+# Version guard (STD-SDKPIN): one PR per newer version, never a build failure.
+# Kit model (_Generic .github/dependabot.yml) without the docker ecosystem: this repository ships
+# no container image. A dotnet-sdk PR that leaves the pinned feature band fails eng/Test-SdkBand.ps1
+# on purpose (the band pin is a documented decision, see docs/dependencies.md); a nuget PR must also
+# update eng/dependency-policy.json, which eng/Test-DependencyPolicy.ps1 checks.
+version: 2
+updates:
+  - package-ecosystem: "dotnet-sdk"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels: ["dependencies", "sdk"]
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels: ["dependencies", "nuget"]
+    groups:
+      minor-and-patch:
+        update-types: ["minor", "patch"]
