@@ -17,4 +17,4 @@ coverage/
 /docs/agents.md
 /docs/code-rules.md
 /docs/test-config.md
-/docs/mistakes.md
+/docs/build-and-ci-pitfalls.md
