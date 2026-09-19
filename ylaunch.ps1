@@ -1,0 +1,102 @@
+#!/usr/bin/env pwsh
+<#
+.SYNOPSIS
+    Build and launch the OmniEurope.Blazor hosts (Server catalog + WebAssembly showcase), run the tests.
+.DESCRIPTION
+    Reduced web launcher of the _Generic kit (PLAN-001, decision 7): a component library has no
+    back end and no database, so only the two browsable hosts are started. This file holds only
+    what is specific to the repository: the parameters, the PowerShell 7 trampoline, $LaunchConfig
+    and the ownership extension below. All the mechanics live in scripts\ylaunch-core.ps1, a
+    verbatim copy of the kit's versioned core (never edit the copy).
+    Contract: _Generic docs/contracts/deployment.md, "Launcher contract". .\ylaunch.ps1 -hl for the workflow.
+
+    Not covered here (still run by hand or by CI, see docs/testing.md and .github/workflows/ci.yml):
+    the Release gates of eng/ (Test-SdkBand, Test-CatalogHost, Test-WasmHost, Test-AutoHost,
+    Test-HybridHost, Test-ShowcaseHost, Test-Csp, Test-PublicApi, Test-Budgets, Test-Package,
+    Test-DependencyPolicy, SBOM). The launcher builds and tests in Debug; CI validates in Release.
+.EXAMPLE
+    .\ylaunch.ps1 -s          Build + start the catalog and the showcase, no browser
+    .\ylaunch.ps1 -t          Build + every unit suite (library and analyzers) + exit
+    .\ylaunch.ps1 -tl         Build + the library suite only + exit
+    .\ylaunch.ps1 -w          Give this worktree its own ports, then start
+#>
+[CmdletBinding(PositionalBinding = $false)]
+param(
+    [Alias("s")]   [switch]$Silent,
+    [Alias("r")]   [switch]$Reset,
+    [Alias("t")]   [switch]$TestUnit,
+    [Alias("ta")]  [switch]$TestAll,
+    [Alias("tl")]  [switch]$TestLibrary,
+    [Alias("tg")]  [switch]$TestAnalyzers,
+    [Alias("c")]   [switch]$Coverage,
+    [Alias("hr")]  [switch]$HotReload,
+    [Alias("w")]   [switch]$Worktree,
+    [Alias("h")]   [switch]$Help,
+    [Alias("hl")]  [switch]$HelpLong
+)
+
+# PowerShell 5.1 parses the whole file before running it, so the core (PS 7 syntax) is only
+# dot-sourced after this gate.
+if ($PSVersionTable.PSVersion -lt [version]"7.2") {
+    $pwshPath = Get-Command pwsh -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
+    if (-not $pwshPath -or $PSVersionTable.PSEdition -ne "Desktop") {
+        Write-Host "ERROR: PowerShell 7.2+ required. Install from https://aka.ms/powershell" -ForegroundColor Red
+        exit 1
+    }
+    $boundArgs = @()
+    foreach ($key in $PSBoundParameters.Keys) {
+        $val = $PSBoundParameters[$key]
+        if ($val -is [switch]) { if ($val) { $boundArgs += "-$key" } }
+        else { $boundArgs += "-$key"; $boundArgs += ($(if ($val -is [array]) { [string]::Join(',', $val) } else { "$val" })) }
+    }
+    & $pwshPath -NoLogo -NoProfile -File $PSCommandPath @boundArgs
+    exit $LASTEXITCODE
+}
+
+# ---------- project configuration (the only project-specific part) ----------
+# Paths are relative to this file. {KEY} expands to the port of that .ylaunch.local key and
+# {URL:Component} to a component's first URL. No Database block: -r has nothing to reset.
+$LaunchConfig = @{
+    Name     = "OmniEurope.Blazor"
+    Solution = "OmniEurope.Blazor.slnx"
+    Web = @{
+        Components = @(
+            @{ Key = "Catalog"; Project = "samples\OmniEurope.Blazor.Catalog\OmniEurope.Blazor.Catalog.csproj"; Health = "/"
+               Urls = @(@{ Key = "CATALOG_PORT"; Default = 5270; Scheme = "http" }) }
+            @{ Key = "Showcase"; Project = "site\OmniEurope.Blazor.Showcase\OmniEurope.Blazor.Showcase.csproj"; Health = "/"; Browser = $true
+               Urls = @(@{ Key = "SHOWCASE_PORT"; Default = 5280; Scheme = "http" }) }
+        )
+    }
+    Tests = @(
+        @{ Key = "Library"; Flag = "TestLibrary"; Alias = "tl"; Kind = "Unit"; Coverage = $true; Project = "tests\OmniEurope.Blazor.Tests\OmniEurope.Blazor.Tests.csproj" }
+        @{ Key = "Analyzers"; Flag = "TestAnalyzers"; Alias = "tg"; Kind = "Unit"; Coverage = $true; Project = "eng\OmniEurope.Analyzers.Tests\OmniEurope.Analyzers.Tests.csproj" }
+    )
+}
+
+$ErrorActionPreference = "Stop"
+$corePath = Join-Path $PSScriptRoot "scripts\ylaunch-core.ps1"
+try { . $corePath } catch { Write-Host "ERROR: cannot load ${corePath}: $($_.Exception.Message)" -ForegroundColor Red; exit 1 }
+
+# ---------- ownership extension (repository-specific, see docs/plans/PLAN-001) ----------
+# Core 1.0.0 owns only <root>\src\. The two hosts of this repository live in samples\ and site\,
+# so without this extension a relaunch cannot stop the previous instance and the shutdown leaves
+# the hosts running. The extension keeps the core's test unchanged and only applies it to three
+# sibling prefixes of the same checkout: toolchain processes stay excluded, and a worktree nested
+# under .claude\worktrees\ still never matches. To be removed once the kit core accepts a list of
+# owned directories.
+$script:OeOwnedDirs = @('src', 'samples', 'site')
+$script:CoreTestOwnedProcess = ${function:Test-YOwnedProcess}
+function Get-YOwnPrefix([string]$Root) {
+    return [IO.Path]::GetFullPath($Root).TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
+}
+function Test-YOwnedProcess($Info, [string]$OwnPrefix) {
+    foreach ($dir in $script:OeOwnedDirs) {
+        if (& $script:CoreTestOwnedProcess $Info ((Join-Path $OwnPrefix $dir) + [IO.Path]::DirectorySeparatorChar)) { return $true }
+    }
+    return $false
+}
+
+$options = @{}
+foreach ($key in $PSBoundParameters.Keys) { $options[$key] = $PSBoundParameters[$key] }
+Invoke-YLaunch -Config $LaunchConfig -Root $PSScriptRoot -Options $options
+exit $script:YLaunchExitCode

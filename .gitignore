@@ -18,3 +18,4 @@ coverage/
 /docs/code-rules.md
 /docs/test-config.md
 /docs/build-and-ci-pitfalls.md
+.ylaunch.local
