@@ -17,5 +17,6 @@ valide que si un ADR de ce dépôt la porte.
 
 | ADR | Titre | Statut |
 |---|---|---|
+| [ADR-001](ADR-001-global-json-rollforward-latestpatch.md) | `global.json` garde `rollForward: latestPatch` (dérogation à `STD-SDKPIN` du kit) | Accepté |
 
-Aucun ADR pour l'instant. Prochain numéro libre : `ADR-001`.
+Prochain numéro libre : `ADR-002`.
