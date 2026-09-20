@@ -1,4 +1,4 @@
-# ylaunch-core 1.0.0
+# ylaunch-core 1.0.1
 #
 # Shared launcher core of the _Generic kit. DO NOT EDIT A COPY: this file is maintained in the kit
 # (deploy/scripts/ylaunch-core.ps1), copied verbatim into scripts/ of every repository, and its
@@ -13,10 +13,15 @@
 # Contract: docs/contracts/deployment.md, "Launcher contract". Canonical flags: -s Silent, -r Reset,
 # -t unit suites, -ta everything, -tb/-tf/-ti/-te/-tec, -c Coverage, -hr HotReload, -w Worktree,
 # -cdp DebugPort (desktop host), -h/-hl. No test flag ever resets the database: only -r does.
+#
+# 1.0.1: $LaunchConfig.OwnedFolders (default @('src')) replaces the hard-coded src\ ownership prefix;
+# every component runs in its own project folder (WorkingDirectory to override); test flags that
+# start no application skip the occupied-port check; a config with both Web and Maui starts the web
+# components first, then the desktop app, and stops them together.
 
 Set-StrictMode -Off
 
-$script:YLaunchCoreVersion = '1.0.0'
+$script:YLaunchCoreVersion = '1.0.1'
 $script:YLaunchExitCode = 0
 # Components started by this run, so an unexpected error still stops them instead of orphaning them.
 $script:YActiveJobs = $null
@@ -69,7 +74,7 @@ function Show-YHelp([hashtable]$Config, [switch]$Long) {
     Write-Host "  .\ylaunch.ps1 [OPTIONS]"
     Write-Host ""
     Write-Host "OPTIONS:" -ForegroundColor Yellow
-    Write-Host "  -s,   -Silent           Start without opening a browser; a desktop app returns once its window is up"
+    Write-Host "  -s,   -Silent           Start without opening a browser; a desktop app alone returns once its window is up"
     Write-Host "  -r,   -Reset            Snapshot then reset the local database (the only flag that resets it)"
     Write-Host "  -t,   -TestUnit         Run every unit suite, then exit"
     Write-Host "  -ta,  -TestAll          Run every suite: unit + integration + E2E, then exit"
@@ -91,10 +96,12 @@ function Show-YHelp([hashtable]$Config, [switch]$Long) {
     if (-not $Long) { return }
     Write-Host "WORKFLOW:" -ForegroundColor Yellow
     Write-Host "  1. Preflight: SDK guard and mechanised code rules (report only, never blocking)"
-    Write-Host "  2. Stops the previous instance of THIS checkout only (image path or command line under src\)"
+    $owned = (Get-YOwnedFolders $Config | ForEach-Object { "$_\" }) -join ', '
+    Write-Host "  2. Stops the previous instance of THIS checkout only (image path or command line under $owned)"
     Write-Host "  3. Builds (skipped with -hr), runs the requested tests and exits on any test flag"
     Write-Host "  4. -r snapshots the database, then resets it; otherwise the database is only started"
-    Write-Host "  5. Starts every component, waits for readiness (a timeout is a failure), opens the browser"
+    Write-Host "  5. Starts every component in its project folder (web first, then the desktop app), waits for"
+    Write-Host "     readiness (a timeout is a failure), opens the browser"
     Write-Host "  6. Streams output; when one component stops, every component is stopped"
     Write-Host ""
     Write-Host "  .ylaunch.local (gitignored, KEY=VALUE): port keys of this checkout, LABEL, WORKTREE." -ForegroundColor DarkGray
@@ -313,43 +320,72 @@ function Show-YRulesPreflight([string]$Root) {
 #  Process ownership: only ever this checkout's
 # ============================================================
 
-# The single definition of "this checkout": <root>\src\. A bare project name would match every
-# checkout on the machine, and <root> alone would let a parent checkout claim the worktrees nested
-# under it (.claude\worktrees\...). Shared toolchain processes are never the application.
+# The single definition of "this checkout": the owned folders of $LaunchConfig.OwnedFolders under the
+# checkout root, <root>\src\ by default. A bare project name would match every checkout on the
+# machine, and <root> alone would let a parent checkout claim the worktrees nested under it
+# (.claude\worktrees\...), so the root itself is never an owned folder. Shared toolchain processes are
+# never the application.
 $script:YToolchainPattern = '(?i)MSBuild\.dll|VBCSCompiler|LanguageServer|\brzc\.dll|testhost|vstest\.console|dotnet-ef|ServiceHub|Roslyn'
 
-function Get-YOwnPrefix([string]$Root) {
-    return (Join-Path ([IO.Path]::GetFullPath($Root)) 'src') + [IO.Path]::DirectorySeparatorChar
+# Owned folders, relative to the checkout root. A flat repository lists its project folders
+# (@('Themis.Back', 'Themis.Front')); an absent key keeps the standard layout's @('src').
+function Get-YOwnedFolders([hashtable]$Config) {
+    $folders = @()
+    if ($Config -and $Config.ContainsKey('OwnedFolders')) { $folders = @($Config.OwnedFolders | Where-Object { $_ }) }
+    if ($folders.Count -eq 0) { return @('src') }
+    foreach ($folder in $folders) {
+        $text = ([string]$folder).Trim()
+        if ([IO.Path]::IsPathRooted($text) -or $text -match '(^|[\\/])\.\.?([\\/]|$)' -or $text -match '^[\\/]*$') {
+            throw "OwnedFolders entry '$folder' is not a sub-folder of the checkout (relative, no '.' or '..' segment): ownership would reach beyond this checkout."
+        }
+    }
+    return @($folders | ForEach-Object { ([string]$_).Trim().Trim('\', '/').Replace('/', '\') })
 }
 
-function Test-YOwnedProcess($Info, [string]$OwnPrefix) {
+function Get-YOwnPrefixes([string]$Root, [hashtable]$Config) {
+    $full = [IO.Path]::GetFullPath($Root)
+    return @(Get-YOwnedFolders $Config | ForEach-Object { [IO.Path]::GetFullPath((Join-Path $full $_)).TrimEnd('\') + [IO.Path]::DirectorySeparatorChar })
+}
+
+# The owned prefix a path or command line falls under, or $null.
+function Get-YMatchedPrefix([string]$Text, [string[]]$OwnPrefixes, [switch]$Contains) {
+    if (-not $Text) { return $null }
+    foreach ($prefix in $OwnPrefixes) {
+        if ($Contains) { if ($Text.IndexOf($prefix, [StringComparison]::OrdinalIgnoreCase) -ge 0) { return $prefix } }
+        elseif ($Text.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) { return $prefix }
+    }
+    return $null
+}
+
+function Test-YOwnedProcess($Info, [string[]]$OwnPrefixes) {
     if (-not $Info) { return $false }
     $image = [string]$Info.ExecutablePath
     $commandLine = [string]$Info.CommandLine
     if ($commandLine -match $script:YToolchainPattern) { return $false }
-    if ($image -and $image.StartsWith($OwnPrefix, [StringComparison]::OrdinalIgnoreCase)) { return $true }
+    if (Get-YMatchedPrefix $image $OwnPrefixes) { return $true }
     # dotnet run / dotnet watch / the Blazor dev server: the launcher always passes the absolute
-    # project path, so the command line carries this checkout's src\ prefix. A plain `dotnet build`
-    # of the same project is not the application and is left alone.
-    if ([string]$Info.Name -ieq 'dotnet.exe' -and $commandLine.IndexOf($OwnPrefix, [StringComparison]::OrdinalIgnoreCase) -ge 0) {
+    # project path, so the command line carries an owned prefix of this checkout. A plain
+    # `dotnet build` of the same project is not the application and is left alone.
+    if ([string]$Info.Name -ieq 'dotnet.exe' -and (Get-YMatchedPrefix $commandLine $OwnPrefixes -Contains)) {
         return $commandLine -match '(?i)\s(run|watch)\s|\.dll\b'
     }
     return $false
 }
 
-function Get-YOwnedProcesses([string]$Root) {
-    $prefix = Get-YOwnPrefix $Root
+function Get-YOwnedProcesses([string]$Root, [hashtable]$Config) {
+    $prefixes = Get-YOwnPrefixes $Root $Config
     return @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue |
-        Where-Object { $_.ProcessId -ne $PID -and (Test-YOwnedProcess $_ $prefix) })
+        Where-Object { $_.ProcessId -ne $PID -and (Test-YOwnedProcess $_ $prefixes) })
 }
 
-function Stop-YOwnedProcesses([string]$Root, [string]$Label) {
-    $owned = Get-YOwnedProcesses $Root
+function Stop-YOwnedProcesses([string]$Root, [string]$Label, [hashtable]$Config = @{}) {
+    $owned = Get-YOwnedProcesses $Root $Config
     if ($owned.Count -eq 0) { return }
     Write-YStep "Stopping the previous $Label instance of this checkout..."
-    $prefix = Get-YOwnPrefix $Root
+    $prefixes = Get-YOwnPrefixes $Root $Config
     foreach ($p in $owned) {
-        $why = if ($p.ExecutablePath -and $p.ExecutablePath.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) { "image under $prefix" } else { "command line under $prefix" }
+        $imagePrefix = Get-YMatchedPrefix ([string]$p.ExecutablePath) $prefixes
+        $why = if ($imagePrefix) { "image under $imagePrefix" } else { "command line under $(Get-YMatchedPrefix ([string]$p.CommandLine) $prefixes -Contains)" }
         Write-Host "  Stopping $($p.Name) (PID $($p.ProcessId)): $why" -ForegroundColor Yellow
         Stop-Process -Id $p.ProcessId -Force -ErrorAction SilentlyContinue
     }
@@ -363,7 +399,7 @@ function Stop-YOwnedProcesses([string]$Root, [string]$Label) {
 # same project from another checkout, this checkout takes its own ports; otherwise the launch fails
 # and names the holder.
 function Resolve-YPortCollision([hashtable]$Config, [string]$Root, [hashtable]$Runtime) {
-    $prefix = Get-YOwnPrefix $Root
+    $prefixes = Get-YOwnPrefixes $Root $Config
     $foreign = @()
     foreach ($key in $Runtime.Ports.Keys) {
         $port = $Runtime.Ports[$key]
@@ -372,7 +408,7 @@ function Resolve-YPortCollision([hashtable]$Config, [string]$Root, [hashtable]$R
         foreach ($holderId in $holders) {
             if ($holderId -eq 0 -or $holderId -eq 4) { continue }
             $info = Get-CimInstance Win32_Process -Filter "ProcessId=$holderId" -ErrorAction SilentlyContinue
-            if (Test-YOwnedProcess $info $prefix) { continue }
+            if (Test-YOwnedProcess $info $prefixes) { continue }
             $foreign += [pscustomobject]@{ Key = $key; Port = $port; Id = $holderId; Name = [string]$info.Name; CommandLine = [string]$info.CommandLine; Image = [string]$info.ExecutablePath }
         }
     }
@@ -706,6 +742,7 @@ function Start-YWebComponents([hashtable]$Config, [string]$Root, [hashtable]$Run
     $dbEnv = Get-YDatabaseEnv $Config.Database
     foreach ($component in @($Config.Web.Components)) {
         $project = Resolve-YPath $Root $component.Project
+        $workDir = Resolve-YWorkingDirectory -Root $Root -Project $project -Override $component.WorkingDirectory -Label $component.Key
         $urls = @(0..(@($component.Urls).Count - 1) | ForEach-Object { Get-YComponentUrl $component $Runtime $_ })
         $envMap = @{ ASPNETCORE_ENVIRONMENT = 'Development'; ASPNETCORE_URLS = ($urls -join ';'); DOTNET_DISABLE_GUI_ERRORS = '1' }
         if ($component.UsesDatabase) { foreach ($k in $dbEnv.Keys) { $envMap[$k] = $dbEnv[$k] } }
@@ -715,20 +752,38 @@ function Start-YWebComponents([hashtable]$Config, [string]$Root, [hashtable]$Run
         Write-YStep "Starting $($component.Key) ($($urls -join ', '), $mode)..."
         # The absolute project path is on the command line on purpose: it is what proves ownership
         # when the next launch stops this checkout's previous instance.
+        # The working directory is the content root of an ASP.NET host started with
+        # --no-launch-profile, and the base of every relative path it reads (appsettings, SQLite file,
+        # keys): the project folder unless configured, never wherever the launcher was called from.
+        # `dotnet run` starts the app in the project's RunWorkingDirectory (the Web SDK sets it to the
+        # project folder, other SDKs leave it empty, i.e. the caller's folder), so the launcher both
+        # moves the job there and passes the property: the configured folder wins for every SDK.
+        Write-Host "  Working directory: $workDir" -ForegroundColor DarkGray
         $jobs[$component.Key] = Start-Job -ScriptBlock {
-            param($ProjectPath, $EnvMap, $Watch)
+            param($ProjectPath, $EnvMap, $Watch, $WorkDir)
+            Set-Location -LiteralPath $WorkDir
             foreach ($entry in $EnvMap.GetEnumerator()) { Set-Item -Path "env:$($entry.Key)" -Value $entry.Value }
             if ($Watch) {
                 $env:DOTNET_WATCH_RESTART_ON_RUDE_EDIT = '1'
-                dotnet watch run --project $ProjectPath --no-launch-profile 2>&1
+                dotnet watch run --project $ProjectPath --no-launch-profile "--property:RunWorkingDirectory=$WorkDir" 2>&1
             } else {
-                dotnet run --project $ProjectPath --no-build --configuration Debug --no-launch-profile 2>&1
+                dotnet run --project $ProjectPath --no-build --configuration Debug --no-launch-profile "--property:RunWorkingDirectory=$WorkDir" 2>&1
             }
             "##YEXIT##$LASTEXITCODE"
-        } -ArgumentList $project, $envMap, $HotReload
+        } -ArgumentList $project, $envMap, $HotReload, $workDir
         $script:YActiveJobs = $jobs
     }
     return $jobs
+}
+
+# A component's working directory: its WorkingDirectory setting (relative to the checkout root) when
+# given, else the folder of its project file. A missing folder fails the launch instead of silently
+# running somewhere else.
+function Resolve-YWorkingDirectory([string]$Root, [string]$Project, [string]$Override, [string]$Label) {
+    $dir = if ($Override) { Resolve-YPath $Root $Override } else { Split-Path $Project -Parent }
+    if (-not (Test-Path -LiteralPath $dir -PathType Container)) { throw "Working directory of $Label not found: $dir" }
+    # No trailing separator: it would escape the closing quote of the --property argument.
+    return $dir.TrimEnd('\', '/')
 }
 
 function Wait-YEndpoint([string]$Url, [string]$Label, [int]$MaxSeconds, [hashtable]$Jobs) {
@@ -776,14 +831,15 @@ function Get-YDescendantIds([int]$RootId) {
 
 # Stops only what THIS launcher started (its descendants that belong to the checkout). A checkout-wide
 # sweep here would kill the new instance when a relaunch replaces this one.
-function Stop-YWebComponents([hashtable]$Jobs, [string]$Root, [bool]$DumpLogs) {
+function Stop-YWebComponents([hashtable]$Jobs, [hashtable]$Config, [string]$Root, [bool]$DumpLogs) {
     Write-YStep "Shutting down..."
-    $prefix = Get-YOwnPrefix $Root
+    $prefixes = Get-YOwnPrefixes $Root $Config
     $mine = Get-YDescendantIds $PID
     $targets = @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue |
-        Where-Object { $mine.Contains([int]$_.ProcessId) -and (Test-YOwnedProcess $_ $prefix) })
+        Where-Object { $mine.Contains([int]$_.ProcessId) -and (Test-YOwnedProcess $_ $prefixes) })
     # Application processes first, while their `dotnet run` jobs are still alive: disposing the jobs
-    # first orphans the grandchildren (the Blazor dev server, the apphosts).
+    # first orphans the grandchildren (the Blazor dev server, the apphosts). A desktop app started
+    # alongside the web host is a direct child of this launcher, so it is stopped here too.
     foreach ($p in $targets) {
         Write-Host "  Stopping $($p.Name) (PID $($p.ProcessId))" -ForegroundColor Yellow
         Stop-Process -Id $p.ProcessId -Force -ErrorAction SilentlyContinue
@@ -801,19 +857,26 @@ function Stop-YWebComponents([hashtable]$Jobs, [string]$Root, [bool]$DumpLogs) {
     $script:YActiveJobs = $null
     foreach ($id in $mine) {
         $left = Get-CimInstance Win32_Process -Filter "ProcessId=$id" -ErrorAction SilentlyContinue
-        if ($left -and (Test-YOwnedProcess $left $prefix)) { Stop-Process -Id $id -Force -ErrorAction SilentlyContinue }
+        if ($left -and (Test-YOwnedProcess $left $prefixes)) { Stop-Process -Id $id -Force -ErrorAction SilentlyContinue }
     }
     Write-Host "  Done." -ForegroundColor Green
 }
 
-# Streams every component's output; the components live and die together.
-function Watch-YWebComponents([hashtable]$Jobs, [string]$Root) {
+# Streams every component's output; the components live and die together. $Desktop is the desktop
+# app started alongside the web host (a process): closing its window stops every component.
+function Watch-YWebComponents([hashtable]$Jobs, [hashtable]$Config, [string]$Root, $Desktop = $null) {
     $colors = @('DarkCyan', 'DarkGreen', 'DarkYellow', 'DarkMagenta')
     $exitCodes = @{}
     Write-Host ""
     Write-Host "Press Ctrl+C to stop every component." -ForegroundColor Magenta
     try {
         while ($true) {
+            if ($Desktop -and $Desktop.HasExited) {
+                $code = $Desktop.ExitCode
+                Write-Host "$($Config.Name) desktop app exited (code $code): stopping every component." -ForegroundColor $(if ($code -eq 0) { 'Yellow' } else { 'Red' })
+                if ($code -ne 0) { $script:YLaunchExitCode = 1 }
+                break
+            }
             $i = 0
             foreach ($key in @($Jobs.Keys)) {
                 $color = $colors[$i % $colors.Count]; $i++
@@ -834,7 +897,7 @@ function Watch-YWebComponents([hashtable]$Jobs, [string]$Root) {
             Start-Sleep -Milliseconds 500
         }
     } finally {
-        Stop-YWebComponents -Jobs $Jobs -Root $Root -DumpLogs $false
+        Stop-YWebComponents -Jobs $Jobs -Config $Config -Root $Root -DumpLogs $false
     }
 }
 
@@ -851,28 +914,48 @@ function Find-YMauiExe([hashtable]$Maui, [string]$Root) {
         Sort-Object LastWriteTime -Descending | Select-Object -First 1
 }
 
-function Start-YMauiApp([hashtable]$Config, [string]$Root, [bool]$HotReload, [int]$DebugPort, [bool]$Silent) {
+# -Companion: the desktop app runs alongside web components started by this launcher. It never
+# detaches (the web components live in this launcher) and returns a handle for the watch loop instead
+# of blocking: @{ Process = ... } for the built executable, @{ Job = ... } under hot reload.
+function Start-YMauiApp([hashtable]$Config, [string]$Root, [hashtable]$Runtime, [bool]$HotReload, [int]$DebugPort, [bool]$Silent, [switch]$Companion) {
     $maui = $Config.Maui
     $project = Resolve-YPath $Root $maui.Project
     $envMap = Get-YDatabaseEnv $Config.Database
-    foreach ($k in (Get-YKeys $maui.Env)) { $envMap[$k] = [string]$maui.Env[$k] }
+    foreach ($k in (Get-YKeys $maui.Env)) { $envMap[$k] = Expand-YValue ([string]$maui.Env[$k]) $Config $Runtime }
     # WebView2 reads its extra switches from this variable when it is created, so it must be in the
     # app's environment before start, not on its command line.
     if ($DebugPort -gt 0) { $envMap['WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS'] = "--remote-debugging-port=$DebugPort" }
+
+    if ($HotReload -and $Companion) {
+        $workDir = Resolve-YWorkingDirectory -Root $Root -Project $project -Override $maui.WorkingDirectory -Label 'the desktop app'
+        Write-YStep "Launching $($Config.Name) desktop app with hot reload (dotnet watch, $workDir)..."
+        $job = Start-Job -ScriptBlock {
+            param($ProjectPath, $Tfm, $EnvMap, $WorkDir)
+            Set-Location -LiteralPath $WorkDir
+            foreach ($entry in $EnvMap.GetEnumerator()) { Set-Item -Path "env:$($entry.Key)" -Value $entry.Value }
+            dotnet watch run --project $ProjectPath -f $Tfm "--property:RunWorkingDirectory=$WorkDir" 2>&1
+            "##YEXIT##$LASTEXITCODE"
+        } -ArgumentList $project, $maui.Tfm, $envMap, $workDir
+        return @{ Job = $job }
+    }
 
     $saved = @{}
     foreach ($k in $envMap.Keys) { $saved[$k] = [Environment]::GetEnvironmentVariable($k); [Environment]::SetEnvironmentVariable($k, [string]$envMap[$k]) }
     try {
         if ($HotReload) {
-            Write-YStep "Launching $($Config.Name) with hot reload (dotnet watch)..."
-            Push-Location -LiteralPath $Root
-            try { & dotnet watch run --project $project -f $maui.Tfm } finally { Pop-Location }
+            $workDir = Resolve-YWorkingDirectory -Root $Root -Project $project -Override $maui.WorkingDirectory -Label 'the desktop app'
+            Write-YStep "Launching $($Config.Name) with hot reload (dotnet watch, $workDir)..."
+            Push-Location -LiteralPath $workDir
+            try { & dotnet watch run --project $project -f $maui.Tfm "--property:RunWorkingDirectory=$workDir" } finally { Pop-Location }
             return
         }
         $exe = Find-YMauiExe $maui $Root
         if (-not $exe) { throw "Executable $($maui.ExeName).exe not found under the Debug output of $project." }
+        # The built executable runs from its output folder, as it does once installed, unless the
+        # configuration names another folder.
+        $workDir = if ($maui.WorkingDirectory) { Resolve-YWorkingDirectory -Root $Root -Project $project -Override $maui.WorkingDirectory -Label 'the desktop app' } else { $exe.DirectoryName }
         Write-YStep "Launching $($Config.Name) ($($exe.FullName))..."
-        $proc = Start-Process -FilePath $exe.FullName -WorkingDirectory $exe.DirectoryName -PassThru
+        $proc = Start-Process -FilePath $exe.FullName -WorkingDirectory $workDir -PassThru
     } finally {
         foreach ($k in $saved.Keys) { [Environment]::SetEnvironmentVariable($k, $saved[$k]) }
     }
@@ -896,6 +979,7 @@ function Start-YMauiApp([hashtable]$Config, [string]$Root, [bool]$HotReload, [in
         }
         Write-Host "  CDP: http://127.0.0.1:$DebugPort/json/list" -ForegroundColor Green
     }
+    if ($Companion) { return @{ Process = $proc } }
     if ($Silent) {
         Write-Host "  Running detached (PID $($proc.Id)); the next launch stops it." -ForegroundColor DarkGray
         return
@@ -947,8 +1031,11 @@ function Invoke-YLaunchCore([hashtable]$Config, [string]$Root, [hashtable]$Optio
     Show-YRulesPreflight -Root $Root
 
     # ---------- 1. stop the previous instance (always first) ----------
-    Stop-YOwnedProcesses -Root $Root -Label $Config.Name
-    if ($hasWeb) { $runtime = Resolve-YPortCollision -Config $Config -Root $Root -Runtime $runtime }
+    Stop-YOwnedProcesses -Root $Root -Label $Config.Name -Config $Config
+    # Ports matter only to a run that starts the web components: a unit-test run starts none, so a
+    # port held by anything (another checkout, another project) is none of its business.
+    $startsWeb = $hasWeb -and (-not $anyTest -or $runE2e)
+    if ($startsWeb) { $runtime = Resolve-YPortCollision -Config $Config -Root $Root -Runtime $runtime }
     if ($hasWeb) { Write-YFrontSettings -Config $Config -Root $Root -Runtime $runtime }
 
     # ---------- 2. build ----------
@@ -1002,7 +1089,7 @@ function Invoke-YLaunchCore([hashtable]$Config, [string]$Root, [hashtable]$Optio
             if ($e2e.Database) { foreach ($kv in (Get-YDatabaseEnv $e2e.Database).GetEnumerator()) { $e2eEnv[$kv.Key] = $kv.Value } }
             $jobs = Start-YWebComponents -Config $Config -Root $Root -Runtime $runtime -HotReload $false -ExtraEnv $e2eEnv
             if (-not (Wait-YWebReady -Config $Config -Runtime $runtime -Jobs $jobs)) {
-                Stop-YWebComponents -Jobs $jobs -Root $Root -DumpLogs $true
+                Stop-YWebComponents -Jobs $jobs -Config $Config -Root $Root -DumpLogs $true
                 Write-YFail "Servers not ready: E2E aborted."
                 return
             }
@@ -1011,7 +1098,7 @@ function Invoke-YLaunchCore([hashtable]$Config, [string]$Root, [hashtable]$Optio
             try {
                 $results += Invoke-YTestRun -Root $Root -Target (Resolve-YPath $Root $e2e.Project) -Label $label -Runner $runner -ResultsDir (Join-Path $Root 'TestResults\Launcher') -ExtraArgs $extra -Env $testEnv
             } finally {
-                Stop-YWebComponents -Jobs $jobs -Root $Root -DumpLogs ($results[-1].Failed -gt 0)
+                Stop-YWebComponents -Jobs $jobs -Config $Config -Root $Root -DumpLogs ($results[-1].Failed -gt 0)
             }
         }
         Write-YCombinedSummary $results
@@ -1022,38 +1109,48 @@ function Invoke-YLaunchCore([hashtable]$Config, [string]$Root, [hashtable]$Optio
     if (Get-YOption $Options 'Reset') { Reset-YDatabase $Config.Database $Root } else { Start-YDatabase $Config.Database $Root }
 
     # ---------- 5. start ----------
-    if ($hasMaui) {
-        Start-YMauiApp -Config $Config -Root $Root -HotReload $hotReload -DebugPort $debugPort -Silent $silent
+    if ($hasMaui -and -not $hasWeb) {
+        Start-YMauiApp -Config $Config -Root $Root -Runtime $runtime -HotReload $hotReload -DebugPort $debugPort -Silent $silent
         return
     }
     if ($hasWeb) {
+        # Web first: a desktop app started alongside reads the web host's URL ({URL:Key} in Maui.Env)
+        # and must find it answering.
         $jobs = Start-YWebComponents -Config $Config -Root $Root -Runtime $runtime -HotReload $hotReload -ExtraEnv @{}
         if (-not (Wait-YWebReady -Config $Config -Runtime $runtime -Jobs $jobs)) {
-            Stop-YWebComponents -Jobs $jobs -Root $Root -DumpLogs $true
+            Stop-YWebComponents -Jobs $jobs -Config $Config -Root $Root -DumpLogs $true
             Write-YFail "Startup failed: every component stopped."
             return
+        }
+        $desktop = $null
+        if ($hasMaui) {
+            $handle = Start-YMauiApp -Config $Config -Root $Root -Runtime $runtime -HotReload $hotReload -DebugPort $debugPort -Silent $silent -Companion
+            if ($handle.Job) { $jobs['Desktop'] = $handle.Job; $script:YActiveJobs = $jobs }
+            $desktop = $handle.Process
         }
         $browserComponent = @($Config.Web.Components | Where-Object { $_.Browser }) | Select-Object -First 1
         if ($browserComponent -and -not $silent) {
             $url = Get-YComponentUrl $browserComponent $runtime
             Write-YStep "Opening the browser -> $url"
             Start-Process $url
+        } elseif ($hasMaui) {
+            Write-YStep "Ready (web and desktop hosts; the launcher stays attached because the web components live in it)"
         } else {
             Write-YStep "Ready (no browser with -s)"
         }
-        Watch-YWebComponents -Jobs $jobs -Root $Root
+        Watch-YWebComponents -Jobs $jobs -Config $Config -Root $Root -Desktop $desktop
     }
 }
 
 # Entry point called by the root ylaunch.ps1. Sets $script:YLaunchExitCode; never exits itself.
 function Invoke-YLaunch([hashtable]$Config, [string]$Root, [hashtable]$Options) {
     $ErrorActionPreference = 'Stop'
-    if (Get-YOption $Options 'Help') { Show-YHelp $Config; return }
-    if (Get-YOption $Options 'HelpLong') { Show-YHelp $Config -Long; return }
     try {
+        if (Get-YOption $Options 'Help') { Show-YHelp $Config; return }
+        if (Get-YOption $Options 'HelpLong') { Show-YHelp $Config -Long; return }
         Invoke-YLaunchCore -Config $Config -Root $Root -Options $Options
     } catch {
         Write-YFail "ylaunch: $($_.Exception.Message)"
-        if ($script:YActiveJobs) { Stop-YWebComponents -Jobs $script:YActiveJobs -Root $Root -DumpLogs $true }
+        if ($script:YActiveJobs) { Stop-YWebComponents -Jobs $script:YActiveJobs -Config $Config -Root $Root -DumpLogs $true }
     }
 }

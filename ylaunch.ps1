@@ -5,9 +5,9 @@
 .DESCRIPTION
     Reduced web launcher of the _Generic kit (PLAN-001, decision 7): a component library has no
     back end and no database, so only the two browsable hosts are started. This file holds only
-    what is specific to the repository: the parameters, the PowerShell 7 trampoline, $LaunchConfig
-    and the ownership extension below. All the mechanics live in scripts\ylaunch-core.ps1, a
-    verbatim copy of the kit's versioned core (never edit the copy).
+    what is specific to the repository: the parameters, the PowerShell 7 trampoline and
+    $LaunchConfig. All the mechanics live in scripts\ylaunch-core.ps1, a verbatim copy of the
+    kit's versioned core (never edit the copy).
     Contract: _Generic docs/contracts/deployment.md, "Launcher contract". .\ylaunch.ps1 -hl for the workflow.
 
     Not covered here (still run by hand or by CI, see docs/testing.md and .github/workflows/ci.yml):
@@ -59,6 +59,11 @@ if ($PSVersionTable.PSVersion -lt [version]"7.2") {
 $LaunchConfig = @{
     Name     = "OmniEurope.Blazor"
     Solution = "OmniEurope.Blazor.slnx"
+    # Folders whose processes belong to this checkout (image path or `dotnet run` project path under
+    # them): the next launch stops them, nothing else. The library lives in src\, but the two
+    # browsable hosts live in samples\ and site\, so all three are owned; the root itself never is
+    # (a worktree nested under .claude\worktrees\ would then be claimed by its parent checkout).
+    OwnedFolders = @("src", "samples", "site")
     Web = @{
         Components = @(
             @{ Key = "Catalog"; Project = "samples\OmniEurope.Blazor.Catalog\OmniEurope.Blazor.Catalog.csproj"; Health = "/"
@@ -76,26 +81,6 @@ $LaunchConfig = @{
 $ErrorActionPreference = "Stop"
 $corePath = Join-Path $PSScriptRoot "scripts\ylaunch-core.ps1"
 try { . $corePath } catch { Write-Host "ERROR: cannot load ${corePath}: $($_.Exception.Message)" -ForegroundColor Red; exit 1 }
-
-# ---------- ownership extension (repository-specific, see docs/plans/PLAN-001) ----------
-# Core 1.0.0 owns only <root>\src\. The two hosts of this repository live in samples\ and site\,
-# so without this extension a relaunch cannot stop the previous instance and the shutdown leaves
-# the hosts running. The extension keeps the core's test unchanged and only applies it to three
-# sibling prefixes of the same checkout: toolchain processes stay excluded, and a worktree nested
-# under .claude\worktrees\ still never matches. To be removed once the kit core accepts a list of
-# owned directories.
-$script:OeOwnedDirs = @('src', 'samples', 'site')
-$script:CoreTestOwnedProcess = ${function:Test-YOwnedProcess}
-function Get-YOwnPrefix([string]$Root) {
-    return [IO.Path]::GetFullPath($Root).TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
-}
-function Test-YOwnedProcess($Info, [string]$OwnPrefix) {
-    foreach ($dir in $script:OeOwnedDirs) {
-        if (& $script:CoreTestOwnedProcess $Info ((Join-Path $OwnPrefix $dir) + [IO.Path]::DirectorySeparatorChar)) { return $true }
-    }
-    return $false
-}
-
 $options = @{}
 foreach ($key in $PSBoundParameters.Keys) { $options[$key] = $PSBoundParameters[$key] }
 Invoke-YLaunch -Config $LaunchConfig -Root $PSScriptRoot -Options $options

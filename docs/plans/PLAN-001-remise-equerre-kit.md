@@ -2,7 +2,8 @@
 # PLAN-001 : Remise d'équerre d'OmniEurope.Blazor au standard du kit (phase A)
 
 > Statut : **ouvert**. Plan fils du lot 7 du plan maître `_Generic` PLAN-001, établi le 2026-09-19.
-> Lot 1 livré le 2026-09-19 ; lots 2 à 4 en attente de validation de l'utilisateur.
+> Lot 1 livré le 2026-09-19, lot 2 livré le 2026-09-20 avec le cœur de lanceur 1.0.1 et les
+> exceptions mécanisées. Restent le lot 3 (contrats) et le lot 4 (`STD-I18N` de la vitrine).
 
 ## Objectif
 
@@ -41,7 +42,29 @@ exception justifiée.
 - Constats de règles : tri entre vrais constats et faux positifs propres à une bibliothèque ; un
   ajustement de `verify-rules.ps1` se fait dans le kit, pas dans ce dépôt.
 
+## Décisions tranchées le 2026-09-20 (décisions du plan maître du 2026-09-19)
+
+1. **`global.json` et `STD-SDKPIN`** : `latestPatch` conservé, exception portée par
+   [ADR-001](../adr/ADR-001-global-json-rollforward-latestpatch.md) et déclarée dans
+   `.config/verify-rules.json`. Les quatre gardes restent en place, inchangées.
+2. **Extension de propriété dans `ylaunch.ps1`** : retirée. Le cœur du kit 1.0.1 accepte
+   `$LaunchConfig.OwnedFolders`, le lanceur déclare `@("src", "samples", "site")` et ne redéfinit plus
+   `Get-YOwnPrefix` ni `Test-YOwnedProcess`.
+3. **Publication de la documentation de travail** : publiée. `plans/` quitte le `.gitignore`, les cinq
+   documents sont suivis dans `docs/plans/`. Le dépôt reste local (aucun push vers GitHub).
+4. **`STD-FOCUS` (2)** : classés faux positifs de bibliothèque, documentés dans la section « Focus
+   d'ouverture d'une surcouche » de `docs/accessibility-contract.md` et exclus dans
+   `.config/verify-rules.json`. Les attributs et les tests sont inchangés.
+7. **`CHANGELOG.md`** : une section « Outillage du dépôt (sans effet sur le paquet publié) » est
+   ajoutée sous `[Non publié]`.
+
 ## Décisions ouvertes
+
+5. **`.github/dependabot.yml`** : l'écosystème `github-actions` reste absent (actions épinglées par
+   SHA, vérifiées par `Test-DependencyPolicy.ps1`). À rouvrir si la vérification change.
+6. **Documents privés ignorés** : `docs/build-and-ci-pitfalls.md` reste privé, non tranché.
+
+### Historique des décisions 1 à 4 et 7 (énoncé d'origine du 2026-09-19)
 
 1. **`global.json` et `STD-SDKPIN`** (1 constat restant). La règle veut `rollForward: latestFeature`.
    Quatre gardes du dépôt imposent `latestPatch` : `ConventionGuardTests.GlobalJson_PinsTheFeatureBandWithoutAWorkloadVersion`,
@@ -75,12 +98,6 @@ exception justifiée.
    `OptInEvolutionTests` (ligne 64). Classement : faux positifs de bibliothèque. Choix : documenter
    l'exception dans `docs/accessibility-contract.md` et adopter l'exclusion proposée au lot 4, ou
    retirer les attributs (changement de comportement et de test, hors phase A).
-5. **`.github/dependabot.yml`** : modèle du kit sans l'écosystème `docker` (aucune image). L'écosystème
-   `github-actions` n'est pas ajouté ; les actions sont épinglées par SHA et `Test-DependencyPolicy.ps1`
-   le vérifie. Choix : l'ajouter ou non.
-6. **Documents privés ignorés** : `docs/build-and-ci-pitfalls.md` est de nature rétrospective (cause,
-   correctif, garde) mais ignoré par Git. Choix : le garder privé, ou le suivre en
-   `docs/retrospectives/RET-001-build-and-ci-pitfalls.md` (retrait de la ligne du `.gitignore`).
 7. **`CHANGELOG.md`** : non modifié. Il documente le paquet NuGet ; ce plan ne change que l'outillage
    du dépôt. Choix : y ajouter une ligne d'outillage sous `[Non publié]` ou non.
 
@@ -93,7 +110,8 @@ Chaque lot se termine par un contrôle mesurable avant de passer au suivant.
 - [x] `ylaunch.ps1` depuis le gabarit web du kit : composants `Catalog` (port 5270) et `Showcase`
   (port 5280), suites `Library` (`-tl`) et `Analyzers` (`-tg`), sans base de données, extension de
   propriété (décision ouverte 2). `.ylaunch.local` ajouté au `.gitignore`.
-- [x] `.gitmessage` (modèle du kit), `.github/dependabot.yml` (décision ouverte 5).
+- [x] `.github/dependabot.yml` (décision ouverte 5). Le `.gitmessage` ajouté ce jour-là a été retiré
+  depuis : le plan maître abandonne cette exigence partout (décisions complémentaires du 2026-09-19).
 - [x] `docs/adr/README.md`, `docs/plans/README.md`, `docs/retrospectives/README.md`,
   `docs/contracts/README.md`, ce plan.
 Controle : `verify-launcher-core.ps1 -Path <dépôt>` : `OK version 1.0.0`. `ylaunch.ps1 -t -s` : garde
@@ -108,26 +126,41 @@ comportement du cœur quand un composant s'arrête). `verify-rules.ps1` : `STD-S
 ouverte 1 ; `plans/`, lot 2). Après le lot, restore verrouillé, build Release à 0 avertissement et
 tests Release : 1477/1477 et 9/9, identiques à l'avant.
 
-### Lot 2 - Plans de `plans/` vers `docs/plans/` (à valider)
+### Lot 2 - Plans, exceptions mécanisées et cœur de lanceur 1.0.1 (livré le 2026-09-20)
 Déplacement de fichiers non suivis (ignorés) vers un dossier suivi : ils deviennent publics au prochain
-push (décision ouverte 3). Correspondance proposée, numérotation dense après ce plan :
+push (décision 3, tranchée : publiés). Correspondance appliquée, numérotation dense après ce plan :
 
-| Actuel (`plans/`) | Proposé (`docs/plans/`) | État constaté |
+| Avant (`plans/`) | Après (`docs/plans/`) | État constaté |
 |---|---|---|
 | `PLAN-004-grille-complete.md` | `PLAN-002-grille-complete.md` | 22 cases cochées sur 22 : terminé |
-| `PLAN-007-besoins-aetheus.md` | `PLAN-003-besoins-aetheus.md` | statut « ouvert, aucun lot démarré » du 2026-09-14, probablement couvert depuis : à confirmer |
+| `PLAN-007-besoins-aetheus.md` | `PLAN-003-besoins-aetheus.md` | statut « ouvert, aucun lot démarré » du 2026-09-14, à confirmer contre l'état livré |
 | `PLAN-008-themes-palettes-sdk.md` | `PLAN-004-themes-palettes-sdk.md` | 11 lots faits selon le journal : terminé |
 | `PLAN-008-execution-log.md` | `PLAN-004-execution-log.md` | annexe de PLAN-004 |
 | `PLAN-008-maquette-themes.html` | `PLAN-004-maquette-themes.html` | annexe de PLAN-004 (référence visuelle validée) |
 
-- [ ] Déplacer les 5 fichiers selon la table, mettre à jour leurs références internes
-  (`plans/PLAN-008-...` dans PLAN-008 et son journal) et celles des documents actifs.
-- [ ] Un plan terminé n'entre pas au registre : variante recommandée, ne déplacer que les plans encore
-  ouverts et archiver hors du dépôt les plans terminés, puisque Git n'en a aucun historique.
-- [ ] Retirer `/plans/` du `.gitignore` une fois le dossier vide ; mettre à jour la carte
-  documentaire d'`AGENTS.md` (fichier local ignoré), qui cite `plans/`.
-Controle : `audit-projects.ps1 -Structure` ne signale plus « plans hors docs/plans » ; `git grep "plans/PLAN-"`
-ne renvoie que des chemins `docs/plans/`.
+- [x] Les 5 fichiers déplacés et renumérotés, titres et références internes mis à jour
+  (`plans/PLAN-008-*` devient `PLAN-004-*`), en-tête SPDX ajouté aux trois fichiers qui n'en avaient
+  pas. Les plans terminés sont conservés : Git n'a aucun historique d'eux, les supprimer perdrait la
+  trace du travail livré.
+- [x] `/plans/` retiré du `.gitignore` ; registre `docs/plans/README.md` réécrit (plans actifs et
+  plans livrés) ; carte documentaire d'`AGENTS.md` et `docs/agents.md` (fichiers locaux ignorés)
+  mises à jour, ainsi que `.claude/plan.md`.
+- [x] `docs/adr/ADR-001-global-json-rollforward-latestpatch.md` écrit et indexé ;
+  `.config/verify-rules.json` déclare l'exclusion `STD-SDKPIN` (raison : cet ADR) et l'exclusion
+  `STD-FOCUS` des deux composants, documentée par une section de `docs/accessibility-contract.md`.
+- [x] `scripts/ylaunch-core.ps1` passé au cœur du kit 1.0.1 (copie verbatim) ; l'extension de
+  propriété du `ylaunch.ps1` racine (`Get-YOwnPrefix`, `Test-YOwnedProcess`) est remplacée par
+  `OwnedFolders = @("src", "samples", "site")` dans `$LaunchConfig`.
+
+Controle du 2026-09-20 : `verify-launcher-core.ps1 -Path <dépôt>` : `OK version 1.0.1`, 1 conforme,
+0 écart. `ylaunch.ps1 -t` : `Library` 1477/1477, `Analyzers` 9/9, total 1486, 0 échec, 0 ignoré (TRX),
+identiques au décompte d'avant le lot, code de sortie 0. `ylaunch.ps1 -s` : `Catalog ready`,
+`Showcase ready`, `GET /` en 200 sur 5270 et 5280. Seconde exécution `-s` : elle nomme et arrête les
+4 processus de la première (`dotnet.exe` PID 27092 sous `samples\`, `dotnet.exe` PID 4932 et 19732
+sous `site\`, `OmniEurope.Blazor.Catalog.exe` PID 3364 sous `samples\`), la première sort en 1
+(`Showcase stopped (state Completed, exit code -1)`) et la seconde répond 200 sur les deux ports.
+`verify-rules.ps1 -Warn` : 128 constats avant, 125 après (les 3 exclusions sont imprimées avec leur
+raison) ; le reliquat est entièrement `STD-I18N` (lot 4).
 
 ### Lot 3 - Contrats vers `docs/contracts/` (à valider)
 - [ ] `git mv docs/csp-contract.md docs/contracts/csp-contract.md` et
@@ -138,12 +171,13 @@ Controle : build Release et tests avec le même décompte (1477 + 9) ; `git grep
 0 hors `CHANGELOG.md` et documents datés.
 
 ### Lot 4 - Constats `verify-rules.ps1` restants
-Tri des 128 constats restants (après le lot 1) :
+Tri des 128 constats d'après le lot 1. Le lot 2 en a réglé 3 par exclusion déclarée : il en reste 125,
+tous `STD-I18N`.
 
 | Règle | Nombre | Où | Classement |
 |---|---|---|---|
-| `STD-SDKPIN` | 1 | `global.json` | décision ouverte 1 |
-| `STD-FOCUS` | 2 | `src/.../OmniSplitButton.razor:22`, `src/.../OmniDialog.razor:25` | faux positifs de bibliothèque (décision ouverte 4) |
+| `STD-SDKPIN` | 1 | `global.json` | exclu au lot 2, raison ADR-001 |
+| `STD-FOCUS` | 2 | `src/.../OmniSplitButton.razor:22`, `src/.../OmniDialog.razor:25` | exclus au lot 2, raison `docs/accessibility-contract.md` |
 | `STD-I18N` | 9 | `tests/OmniEurope.Blazor.Tests/*TestHost.razor` (`ChartProjectionTestHost` 2, `ChartTestHost` 2, `NumericColumnsTestHost` 2, `NavigationTestHost` 1, `SelectionTestHost` 1, `WizardTestHost` 1) | faux positifs : hôtes de test bUnit, jamais livrés |
 | `STD-I18N` | 2 | `site/.../Demos/FormDemo.razor:8` (`Camille Durand`), `:39` (`https://exemple.eu`) | faux positifs : nom propre et URL d'exemple, valeurs non traduisibles |
 | `STD-I18N` | 114 | 24 démos de `site/OmniEurope.Blazor.Showcase/Components/Demos/` | vrais constats |
@@ -158,21 +192,20 @@ la vitrine s'affiche en anglais. Le message du kit (`IStringLocalizer<AppStrings
 - [ ] Localiser les 114 textes des démos dans `ShowcaseStrings.resx` / `.en.resx`, par lots de 15
   fichiers au plus (pages `.razor` : hors phase A, règle 7 du plan maître ; OE n'est pas réécrit par la
   phase B, ce lot reste donc ici).
-- [ ] Exclusions proposées au kit (`_Generic/verify-rules.ps1`, non modifié par ce plan) :
+- [x] `STD-FOCUS` : réglé au lot 2 par `.config/verify-rules.json`, le mécanisme d'exclusion par
+  dépôt livré dans le kit le 2026-09-19 (voir les `.NOTES` de `verify-rules.ps1`).
+- [ ] Reste à proposer au kit (`_Generic/verify-rules.ps1`, non modifié par ce plan) :
   - `STD-I18N` (et les autres règles d'interface sur `*.razor`) : ignorer les projets de test, par
     exemple `Get-SourceFiles @('*.razor') | Where-Object { $_.FullName -notmatch '\\tests\\|\.Tests\\' }`.
   - `STD-I18N` : ignorer une valeur qui est une URL (`^[a-z]+://`).
-  - `STD-FOCUS` : ignorer `autofocus` dans un fichier dont le balisage porte `role="menu"`,
-    `role="dialog"`, `role="alertdialog"` ou `aria-modal="true"` (focus d'interaction d'une
-    surcouche), à condition que l'exception soit documentée dans le dépôt.
   - Nom propre (`Camille Durand`) : pas d'exclusion mécanique sûre ; exception consignée ici.
 Controle : `verify-rules.ps1 -Warn` : 0 constat, ou uniquement ceux couverts par une exclusion du
 kit ou un ADR de ce dépôt.
 
 ## Ordre et dépendances
 
-Lot 1 sans prérequis. Le lot 2 attend la décision ouverte 3. Les lots 3 et 4 sont indépendants ; les
-exclusions du lot 4 dépendent d'une évolution du kit.
+Lots 1 et 2 livrés. Les lots 3 et 4 sont indépendants ; le reliquat du lot 4 (les 125 constats
+`STD-I18N`) dépend soit de la localisation des démos de la vitrine, soit d'une évolution du kit.
 
 ## Critère de clôture
 
