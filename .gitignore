@@ -13,7 +13,6 @@ coverage/
 .claude/
 /AGENTS.md
 /CLAUDE.md
-/plans/
 /docs/agents.md
 /docs/code-rules.md
 /docs/test-config.md
