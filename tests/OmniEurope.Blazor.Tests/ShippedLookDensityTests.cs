@@ -219,7 +219,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     }
 
     [Fact]
-    public void GridHeader_IsThinStickyAndMuted_WithARuleAndNoFillOfItsOwn()
+    public void GridHeader_IsThinStickyAndMuted_WithARuleAndATintOfItsOwn()
     {
         Assert.Equal("sticky", ShippedLookTests.Value(ShippedLookTests.Body(".omni-data-grid__table thead"), "position"));
         var head = ShippedLookTests.Body(".omni-data-grid thead > tr > *");
@@ -227,15 +227,15 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         Assert.Equal("var(--omni-color-text-muted)", ShippedLookTests.Value(head, "color"));
         Assert.Equal("var(--omni-border-width) solid var(--omni-color-border)", ShippedLookTests.Value(head, "border-block-end"));
         Assert.Equal("600", ShippedLookTests.Value(ShippedLookTests.Body(".omni-data-grid__table th"), "font-weight"));
-        Assert.Contains("--omni-header-fill: var(--omni-grid-frame)", ShippedLookTests.Rules().Single(rule => rule.Selector == ".omni-data-grid" && rule.Body.Contains("--omni-header-fill:", StringComparison.Ordinal)).Body, StringComparison.Ordinal);
+        Assert.Contains("--omni-header-fill: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-grid-frame))", ShippedLookTests.Rules().Single(rule => rule.Selector == ".omni-data-grid" && rule.Body.Contains("--omni-header-fill:", StringComparison.Ordinal)).Body, StringComparison.Ordinal);
         // The shadow gradient drawn under the header by a pseudo-element is gone: the rule replaces it.
         Assert.DoesNotContain(ShippedLookTests.Rules(), rule => rule.Selector.Contains("thead > tr:last-child", StringComparison.Ordinal) && rule.Selector.Contains("::after", StringComparison.Ordinal));
     }
 
     [Fact]
-    public void GridRows_AreSeparatedOnlyWithoutStriping_AndTheSelectedRowIsTintedAndBoldWithoutASideBar()
+    public void GridRows_AreSeparatedStripedOrNot_AndTheSelectedRowIsTintedAndBoldWithoutASideBar()
     {
-        var separators = ShippedLookTests.Rules().Single(rule => rule.Selector.Contains(":not(.omni-data-grid--striped)", StringComparison.Ordinal));
+        var separators = ShippedLookTests.Rules().Single(rule => rule.Selector.Contains(":not(.omni-data-grid--lines-none)", StringComparison.Ordinal));
         Assert.StartsWith(":where(", separators.Selector, StringComparison.Ordinal);
         Assert.Contains("color-mix(in srgb, var(--omni-color-border) 55%, transparent)", separators.Body, StringComparison.Ordinal);
 

@@ -77,7 +77,15 @@ internal static class ThemePresetFactory
         var (infoText, onInfo) = Severity(palette.Info, surface, tint);
         var accentSubtle = ThemeColor.Mix(accent, surface, tint);
 
-        var accentFill = ReadableFill(Visible(accentColor, surface));
+        // A button keeps one colour in both modes unless the palette gives dark mode an accent of its
+        // own: the fill is the authored accent moved until it clears the non-text ratio on BOTH
+        // surfaces, so it can be the same in light and dark (an indigo too deep for a dark page is
+        // lightened once, for both). ReadableFill then keeps its label readable.
+        var ownDarkAccent = palette.DarkAccent is not null
+            && !string.Equals(palette.DarkAccent, palette.Accent, StringComparison.OrdinalIgnoreCase);
+        var accentFill = ReadableFill(ownDarkAccent
+            ? Visible(accentColor, surface)
+            : Visible(Visible(palette.Accent, palette.LightSurface), palette.DarkSurface));
         var successFill = ReadableFill(Visible(palette.Success, surface));
         var infoFill = ReadableFill(Visible(palette.Info, surface));
         var warningFill = ReadableFill(Visible(palette.Warning, surface));
@@ -88,12 +96,18 @@ internal static class ThemePresetFactory
         var infoBright = PushApart(infoFill, OnBright, BodyTextRatio);
         var successBright = PushApart(successFill, OnBright, BodyTextRatio);
 
-        var accentStrong = PushApart(
-            PushApart(dark ? ThemeColor.Lighten(accent, 0.25) : ThemeColor.Darken(accent, 0.2), surface, BodyTextRatio),
-            accentSubtle,
-            BodyTextRatio);
         var surfaceMuted = dark ? ThemeColor.Lighten(surface, 0.06) : ThemeColor.Darken(surface, 0.04);
         var surfaceHover = dark ? ThemeColor.Lighten(surface, 0.12) : ThemeColor.Darken(surface, 0.08);
+        var surfaceHighlight = dark ? ThemeColor.Lighten(surface, 0.16) : ThemeColor.Darken(surface, 0.1);
+        // The strong accent is text on the page and on its hover and highlight rows: it clears the body
+        // ratio against the furthest of them, the highlight, and not only against the plain surface.
+        var accentStrong = PushApart(
+            PushApart(
+                PushApart(dark ? ThemeColor.Lighten(accent, 0.25) : ThemeColor.Darken(accent, 0.2), surface, BodyTextRatio),
+                surfaceHighlight,
+                BodyTextRatio),
+            accentSubtle,
+            BodyTextRatio);
         var neutralFill = ThemeColor.Mix(accent, ThemeColor.Mix(text, surface, dark ? 0.12 : 0.1), 0.05);
 
         var tokens = new Dictionary<string, string>(StringComparer.Ordinal)
@@ -103,7 +117,7 @@ internal static class ThemePresetFactory
             ["--omni-color-surface"] = surface,
             ["--omni-color-surface-muted"] = surfaceMuted,
             ["--omni-color-surface-hover"] = surfaceHover,
-            ["--omni-color-surface-highlight"] = dark ? ThemeColor.Lighten(surface, 0.16) : ThemeColor.Darken(surface, 0.1),
+            ["--omni-color-surface-highlight"] = surfaceHighlight,
             ["--omni-color-border"] = ThemeColor.Mix(text, surface, 0.3),
             ["--omni-color-text"] = text,
             // Measured against the hovered surface, the furthest from the page of the three it sits on

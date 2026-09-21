@@ -113,6 +113,27 @@ public sealed class AppBarComponentTests : OmniBunitContext
         Assert.Equal("30px", ShippedLookTests.Value(ShippedLookTests.Body(".omni-input.omni-text-box--icon"), "padding-inline-start"));
     }
 
+    // ---- OmniIcon tooltip ----
+
+    [Fact]
+    public void IconTitleAttribute_BecomesTheSvgTitle_SoTheTooltipShows()
+    {
+        // A title attribute on an svg shows no tooltip; a <title> child does (Aetheus recette R-077).
+        var icon = Render<OmniIcon>(parameters => parameters
+            .Add(component => component.Name, OmniIconName.WifiHigh)
+            .AddUnmatched("title", "Connected to backend"));
+
+        Assert.Equal("Connected to backend", icon.Find("svg > title").TextContent);
+    }
+
+    [Fact]
+    public void IconWithoutTitleOrName_HasNoSvgTitle()
+    {
+        var icon = Render<OmniIcon>(parameters => parameters.Add(component => component.Name, OmniIconName.WifiHigh));
+
+        Assert.Empty(icon.FindAll("svg > title"));
+    }
+
     // ---- OmniTextBox.DebounceMilliseconds ----
 
     [Fact]

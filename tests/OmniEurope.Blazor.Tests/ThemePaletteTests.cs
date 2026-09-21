@@ -150,13 +150,15 @@ public sealed class ThemePaletteTests : OmniBunitContext
     /// difference means the generator was not ported faithfully (PLAN-008 lot 4 control).
     /// </summary>
     [Theory]
-    [InlineData("--omni-color-accent-fill", "#4340d2")]
+    // The accent fill is one colour for both modes since Aetheus recette R-053 (decided 2026-09-21):
+    // #4340d2 lightened until it clears 3:1 on the dark surface too, so it departs from the mockup.
+    [InlineData("--omni-color-accent-fill", "#5e5cd8")]
     [InlineData("--omni-color-info-fill", "#2196f3")]
     [InlineData("--omni-color-danger-fill", "#f44336")]
     [InlineData("--omni-color-success-fill", "#48a64c")]
     [InlineData("--omni-color-warning-fill", "#d07c00")]
-    [InlineData("--omni-color-accent-fill-hover", "#3633a8")]
-    [InlineData("--omni-color-accent-fill-active", "#2c2a8b")]
+    [InlineData("--omni-color-accent-fill-hover", "#4b4aad")]
+    [InlineData("--omni-color-accent-fill-active", "#3e3d8f")]
     [InlineData("--omni-color-neutral-fill", "#e4e3eb")]
     [InlineData("--omni-color-neutral-fill-hover", "#d4d3da")]
     [InlineData("--omni-color-neutral-fill-active", "#c7c6cd")]
@@ -291,5 +293,15 @@ public sealed class ThemePaletteTests : OmniBunitContext
         }
 
         static double Pivot(double value) => value > 0.008856 ? Math.Cbrt(value) : (7.787 * value) + (16d / 116);
+    }
+
+    [Fact]
+    public void A_palette_without_a_dark_accent_of_its_own_paints_its_buttons_one_colour_in_both_modes()
+    {
+        // Aetheus recette R-053: the primary button is the same colour in light and dark by default.
+        foreach (var palette in OmniThemePalettes.All.Where(entry => entry.Name != "Mono"))
+        {
+            Assert.Equal(palette.Light["--omni-color-accent-fill"], palette.Dark["--omni-color-accent-fill"]);
+        }
     }
 }

@@ -22,4 +22,8 @@ public partial class OmniIcon
     public string? AriaLabel { get; set; }
 
     private OmniIconGlyph ResolvedGlyph => Glyph ?? PhosphorIconGlyphs.For(Name);
+
+    private string? TooltipText => !string.IsNullOrWhiteSpace(AriaLabel)
+        ? AriaLabel
+        : AdditionalAttributes is not null && AdditionalAttributes.TryGetValue("title", out var title) ? title?.ToString() : null;
 }

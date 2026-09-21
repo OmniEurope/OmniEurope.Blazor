@@ -730,3 +730,111 @@ export function scrollToOffset(viewport, offset) {
         viewport.scrollTop = Math.max(0, offset);
     }
 }
+
+const fills = new Map();
+
+function scrollParent(element) {
+    // The scrolling areas the package itself lays out come first: an ancestor can be overflow:auto
+    // without having a height of its own (it grows with the grid), and sizing the grid from it
+    // measured nothing, the grid collapsed to 0.
+    const owned = element.closest('.omni-main--scrollable, .omni-dialog__content');
+    if (owned) {
+        return owned;
+    }
+
+    for (let node = element.parentElement; node; node = node.parentElement) {
+        const overflow = getComputedStyle(node).overflowY;
+        if (overflow === 'auto' || overflow === 'scroll') {
+            return node;
+        }
+    }
+
+    return document.scrollingElement ?? document.documentElement;
+}
+
+/**
+ * Fill mode sized from what is really left: the distance from the top of the grid to the bottom of
+ * the area that scrolls it, less that area's bottom padding. A height of 100% only works when every
+ * ancestor has a definite height, which a grid nested in tabs or a detail layout rarely has, so it
+ * fell back to its minimum. The value is measured from the top of the scrolled content, so it does
+ * not change while the page scrolls, and it is pushed as a custom property for the strict CSP.
+ */
+export function attachFill(viewport) {
+    if (!(viewport instanceof HTMLElement)) {
+        return;
+    }
+
+    detachFill(viewport);
+    const grid = viewport.closest('.omni-data-grid');
+    if (!grid) {
+        return;
+    }
+
+    const container = scrollParent(grid);
+    let frame = 0;
+    const measure = () => {
+        frame = 0;
+        // Not laid out yet (a detail layout keeps its body hidden while it loads): its top would read
+        // as 0 and the grid would be sized for a place it is not in. The parent observer measures
+        // again as soon as it shows.
+        if (grid.getClientRects().length === 0) {
+            return;
+        }
+
+        const page = container === document.scrollingElement || container === document.documentElement;
+        const top = page ? 0 : container.getBoundingClientRect().top + container.clientTop;
+        const visible = page ? window.innerHeight : container.clientHeight;
+        const style = getComputedStyle(container);
+        const bottom = Number.parseFloat(style.paddingBottom) || 0;
+        const offset = grid.getBoundingClientRect().top - top + (page ? 0 : container.scrollTop);
+        // What the boxes between the grid and the scrolling area add under it (their bottom margin,
+        // padding and border): left out, the grid reached the bottom and the page still scrolled by it.
+        let trailing = 0;
+        for (let node = grid; node && node !== container; node = node.parentElement) {
+            trailing += Number.parseFloat(getComputedStyle(node).marginBottom) || 0;
+            const parent = node.parentElement;
+            if (parent && parent !== container) {
+                const parentStyle = getComputedStyle(parent);
+                trailing += (Number.parseFloat(parentStyle.paddingBottom) || 0) + (Number.parseFloat(parentStyle.borderBottomWidth) || 0);
+            }
+        }
+        const available = Math.floor(visible - offset - bottom - trailing);
+        grid.style.setProperty('--omni-grid-fill-height', `${Math.max(0, available)}px`);
+    };
+    const schedule = () => {
+        if (frame === 0) {
+            frame = window.requestAnimationFrame(measure);
+        }
+    };
+
+    const observer = typeof ResizeObserver === 'function' ? new ResizeObserver(schedule) : null;
+    observer?.observe(container);
+    if (container.firstElementChild instanceof HTMLElement) {
+        observer?.observe(container.firstElementChild);
+    }
+    if (grid.parentElement) {
+        observer?.observe(grid.parentElement);
+    }
+    window.addEventListener('resize', schedule);
+    measure();
+
+    fills.set(viewport, {
+        dispose: () => {
+            if (frame !== 0) {
+                window.cancelAnimationFrame(frame);
+            }
+
+            observer?.disconnect();
+            window.removeEventListener('resize', schedule);
+            grid.style.removeProperty('--omni-grid-fill-height');
+        }
+    });
+}
+
+export function detachFill(viewport) {
+    const fill = fills.get(viewport);
+    if (fill) {
+        fill.dispose();
+        fills.delete(viewport);
+    }
+}

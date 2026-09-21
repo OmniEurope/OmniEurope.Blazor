@@ -10,9 +10,11 @@
      aria-hidden="@(string.IsNullOrWhiteSpace(AriaLabel) ? "true" : null)"
      aria-label="@AriaLabel"
      @attributes="AdditionalAttributes">
-    @if (!string.IsNullOrWhiteSpace(AriaLabel))
+    @* An SVG shows no tooltip for a title attribute, only for a <title> child: the accessible name,
+       or else a title the caller passed as an attribute, becomes that child. *@
+    @if (!string.IsNullOrWhiteSpace(TooltipText))
     {
-        <title>@AriaLabel</title>
+        <title>@TooltipText</title>
     }
     <path d="@ResolvedGlyph.PathData" />
 </svg>
