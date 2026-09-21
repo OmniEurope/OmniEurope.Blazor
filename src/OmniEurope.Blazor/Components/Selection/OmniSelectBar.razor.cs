@@ -14,6 +14,10 @@ public partial class OmniSelectBar<TValue>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>An icon before an option's text (a sun, a moon, a screen); null for none.</summary>
+    [Parameter]
+    public Func<TValue, OmniIconName?>? IconFor { get; set; }
+
     private bool IsSelected(TValue value) => EqualityComparer<TValue>.Default.Equals(CurrentValue, value);
 
     private void Select(TValue? value)

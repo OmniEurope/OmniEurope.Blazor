@@ -93,3 +93,129 @@ export function install() {
     // describe anything; dropping it is truer than dragging a stale box along.
     document.addEventListener('scroll', clear, { capture: true, passive: true });
 }
+
+// ---- title tooltips -----------------------------------------------------------------------------
+// A host that opts in (OmniTitleTooltips) gets the package tooltip for every element carrying a title
+// attribute, instead of the browser's own box, which cannot be styled. One floating element serves the
+// whole page: it shows after a short delay at the pointer, never wider than 12rem, with a pointer
+// (chevron) toward the cursor. The title moves to data-omni-title only while the element is hovered or
+// focused, so the native tooltip never shows, and comes back as soon as it is left: the accessible name
+// and every title selector stay intact.
+
+const TITLE_DELAY = 450;
+let titleInstalled = false;
+let titleBox = null;
+let titleTarget = null;
+let titleTimer = 0;
+let titlePointer = { x: 0, y: 0 };
+
+const titleOf = element => element.getAttribute('title') || element.getAttribute('data-omni-title') || '';
+
+const adoptTitle = element => {
+    const title = element.getAttribute('title');
+    if (title) {
+        element.setAttribute('data-omni-title', title);
+        element.removeAttribute('title');
+    }
+};
+
+const restoreTitle = element => {
+    const title = element?.getAttribute('data-omni-title');
+    if (title && !element.hasAttribute('title')) {
+        element.setAttribute('title', title);
+    }
+    element?.removeAttribute('data-omni-title');
+};
+
+const hideTitle = () => {
+    window.clearTimeout(titleTimer);
+    titleTimer = 0;
+    restoreTitle(titleTarget);
+    titleTarget = null;
+    titleBox?.classList.remove('omni-title-tooltip--visible');
+};
+
+const showTitle = (text, x, y) => {
+    if (!titleBox) {
+        titleBox = document.createElement('div');
+        titleBox.className = 'omni-title-tooltip';
+        titleBox.setAttribute('role', 'tooltip');
+        document.body.appendChild(titleBox);
+    }
+
+    titleBox.textContent = text;
+    titleBox.classList.remove('omni-title-tooltip--below');
+    const box = titleBox.getBoundingClientRect();
+    const half = box.width / 2;
+    const left = Math.min(Math.max(x, half + EDGE), window.innerWidth - half - EDGE);
+    const below = y - GAP - box.height < EDGE;
+    const top = below ? y + GAP : y - GAP - box.height;
+    titleBox.classList.toggle('omni-title-tooltip--below', below);
+    titleBox.style.setProperty('--omni-title-tooltip-x', `${left}px`);
+    titleBox.style.setProperty('--omni-title-tooltip-y', `${top}px`);
+    // The chevron points at the pointer even when the box was pushed back inside the window.
+    titleBox.style.setProperty('--omni-title-tooltip-arrow', `${x - left + half}px`);
+    titleBox.classList.add('omni-title-tooltip--visible');
+};
+
+const onTitleOver = event => {
+    const element = event.target instanceof Element ? event.target.closest('[title], [data-omni-title]') : null;
+    if (element === titleTarget) {
+        return;
+    }
+
+    hideTitle();
+    if (!element || element.closest('.omni-tooltip')) {
+        return;
+    }
+
+    adoptTitle(element);
+    const text = titleOf(element);
+    if (!text) {
+        return;
+    }
+
+    titleTarget = element;
+    titleTimer = window.setTimeout(() => {
+        if (titleTarget === element && element.isConnected) {
+            showTitle(text, titlePointer.x, titlePointer.y);
+        }
+    }, TITLE_DELAY);
+};
+
+const onTitleMove = event => {
+    titlePointer = { x: event.clientX, y: event.clientY };
+};
+
+const onTitleFocus = event => {
+    const element = event.target instanceof Element ? event.target.closest('[title], [data-omni-title]') : null;
+    hideTitle();
+    if (!element || !event.target.matches(':focus-visible')) {
+        return;
+    }
+
+    adoptTitle(element);
+    const text = titleOf(element);
+    if (!text) {
+        return;
+    }
+
+    titleTarget = element;
+    const box = element.getBoundingClientRect();
+    showTitle(text, box.left + box.width / 2, box.top);
+};
+
+export function installTitleTooltips() {
+    if (titleInstalled) {
+        return;
+    }
+
+    titleInstalled = true;
+    document.addEventListener('pointerover', onTitleOver, { capture: true, passive: true });
+    document.addEventListener('pointermove', onTitleMove, { capture: true, passive: true });
+    document.addEventListener('pointerdown', hideTitle, { capture: true, passive: true });
+    document.addEventListener('focusin', onTitleFocus, { capture: true, passive: true });
+    document.addEventListener('focusout', hideTitle, { capture: true, passive: true });
+    document.addEventListener('scroll', hideTitle, { capture: true, passive: true });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') hideTitle(); }, { capture: true });
+}

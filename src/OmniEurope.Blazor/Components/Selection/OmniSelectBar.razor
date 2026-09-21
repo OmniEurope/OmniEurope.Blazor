@@ -32,7 +32,10 @@
                                Value="@option.Value"
                                Selected="@IsSelected(option.Value)"
                                Disabled="@(Disabled || option.Disabled)"
-                               SelectedValueChanged="Select">@option.Text</OmniSelectBarItem>
+                               SelectedValueChanged="Select">@if (IconFor?.Invoke(option.Value) is { } icon)
+                               {
+                                   <OmniIcon Name="@icon" />
+                               }@option.Text</OmniSelectBarItem>
         }
     </div>
     <button type="button"
