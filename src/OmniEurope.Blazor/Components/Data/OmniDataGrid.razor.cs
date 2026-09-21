@@ -49,6 +49,7 @@ public partial class OmniDataGrid<TItem>
     private bool _virtualBootstrapped;
     private bool _resizeAttached;
     private bool _filterMenuAttached;
+    private bool _fillAttached;
     private bool _disposeRequested;
     private string? _appliedHeight;
     private string? _appliedMaxHeight;
@@ -989,6 +990,7 @@ public partial class OmniDataGrid<TItem>
                 await ApplyMaxHeightAsync();
                 await EnsureResizeInteropAsync();
                 await EnsureFilterMenuInteropAsync();
+                await EnsureFillInteropAsync();
                 if (ExternalData && !_externalRequested)
                 {
                     await RequestExternalDataAsync();
@@ -999,6 +1001,7 @@ public partial class OmniDataGrid<TItem>
             _gridModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
             await EnsureResizeInteropAsync();
             await EnsureFilterMenuInteropAsync();
+            await EnsureFillInteropAsync();
             if (!_virtualAttached)
             {
                 _selfReference ??= DotNetObjectReference.Create(this);
@@ -1076,6 +1079,22 @@ public partial class OmniDataGrid<TItem>
         _gridModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
         await _gridModule.InvokeVoidAsync("attachFilterMenus", _viewport, HideFilterMenuOnSelect);
         _filterMenuAttached = true;
+    }
+
+    /// <summary>
+    /// In fill mode the script sizes the grid to what is left below it in its scrolling area, and
+    /// follows that area as it resizes; leaving fill mode hands the height back to the stylesheet.
+    /// </summary>
+    private async Task EnsureFillInteropAsync()
+    {
+        if (FillAvailableHeight == _fillAttached)
+        {
+            return;
+        }
+
+        _gridModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
+        await _gridModule.InvokeVoidAsync(FillAvailableHeight ? "attachFill" : "detachFill", _viewport);
+        _fillAttached = FillAvailableHeight;
     }
 
     /// <summary>Whether any filter editor of this grid opens something over the rows.</summary>
@@ -2478,6 +2497,12 @@ public partial class OmniDataGrid<TItem>
                 {
                     _filterMenuAttached = false;
                     await _gridModule.InvokeVoidAsync("detachFilterMenus", _viewport);
+                }
+
+                if (_fillAttached && _gridModule is not null)
+                {
+                    _fillAttached = false;
+                    await _gridModule.InvokeVoidAsync("detachFill", _viewport);
                 }
 
                 if (_gridModule is not null)

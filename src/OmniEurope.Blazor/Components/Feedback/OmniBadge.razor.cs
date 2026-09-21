@@ -20,4 +20,7 @@ public partial class OmniBadge
     /// </summary>
     [Parameter]
     public OmniBadgeFill Fill { get; set; } = OmniBadgeFill.Filled;
+
+    /// <summary>An icon and nothing else: the badge is then a square as tall as a text badge.</summary>
+    private bool IconOnly => Icon is not null && string.IsNullOrEmpty(Text) && ChildContent is null;
 }
