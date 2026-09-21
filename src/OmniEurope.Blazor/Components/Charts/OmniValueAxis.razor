@@ -2,7 +2,7 @@
 <g class="omni-chart__axis omni-chart__axis--value">
     @if (Context.Horizontal)
     {
-        <line x1="@N(OmniChartContext.PlotLeft)" y1="@N(OmniChartContext.PlotBottom)" x2="@N(Context.PlotRight)" y2="@N(OmniChartContext.PlotBottom)" />
+        <line x1="@N(Context.PlotLeft)" y1="@N(OmniChartContext.PlotBottom)" x2="@N(Context.PlotRight)" y2="@N(OmniChartContext.PlotBottom)" />
         @foreach (var value in Ticks)
         {
             <g><text x="@N(Context.ValueToX(value))" y="@N(OmniChartContext.PlotBottom + 4.5)" text-anchor="middle">@Format(value)</text></g>
@@ -10,10 +10,10 @@
     }
     else
     {
-        <line x1="@N(OmniChartContext.PlotLeft)" y1="@N(OmniChartContext.PlotTop)" x2="@N(OmniChartContext.PlotLeft)" y2="@N(OmniChartContext.PlotBottom)" />
+        <line x1="@N(Context.PlotLeft)" y1="@N(OmniChartContext.PlotTop)" x2="@N(Context.PlotLeft)" y2="@N(OmniChartContext.PlotBottom)" />
         @foreach (var value in Ticks)
         {
-            <g><text x="@N(OmniChartContext.PlotLeft - 1.5)" y="@N(Context.ValueToY(value))" text-anchor="end" dominant-baseline="central">@Format(value)</text></g>
+            <g><text x="@N(Context.PlotLeft - 1.5)" y="@N(Context.ValueToY(value))" text-anchor="end" dominant-baseline="central">@Format(value)</text></g>
         }
     }
 </g>
