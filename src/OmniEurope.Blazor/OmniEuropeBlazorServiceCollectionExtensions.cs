@@ -56,4 +56,25 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
         }));
         return services;
     }
+
+    /// <summary>
+    /// Registers a preset: <paramref name="values"/> (parameter name to value) applied to every
+    /// <paramref name="componentType"/> that asks for <paramref name="name"/> through <c>PresetName</c>,
+    /// or to all of them when <paramref name="isDefault"/>. A generic component is registered by its
+    /// definition (<c>typeof(OmniDataGrid&lt;&gt;)</c>). Explicit parameters always win. An unknown
+    /// parameter, a wrongly typed value or a duplicate name or default throws here, at startup.
+    /// </summary>
+    public static IServiceCollection AddOmniEuropePreset(this IServiceCollection services, Type componentType, string name,
+        IReadOnlyDictionary<string, object?> values, bool isDefault = false)
+    {
+        ArgumentNullException.ThrowIfNull(services);
+        var registry = services.FirstOrDefault(d => d.ServiceType == typeof(OmniPresetRegistry))?.ImplementationInstance as OmniPresetRegistry;
+        if (registry is null)
+        {
+            registry = new OmniPresetRegistry();
+            services.AddSingleton(registry);
+        }
+        registry.Add(componentType, name, values, isDefault);
+        return services;
+    }
 }
