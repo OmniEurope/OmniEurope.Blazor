@@ -31,6 +31,14 @@ public partial class OmniPopover
     [Parameter]
     public OmniButtonVariant TriggerVariant { get; set; } = OmniButtonVariant.Ghost;
 
+    /// <summary>Classes added to the trigger button, for a host that sizes or places it.</summary>
+    [Parameter]
+    public string? TriggerClass { get; set; }
+
+    /// <summary>Tooltip of the trigger button.</summary>
+    [Parameter]
+    public string? TriggerTitle { get; set; }
+
     [Parameter]
     public OmniControlSize TriggerSize { get; set; } = OmniControlSize.Medium;
 

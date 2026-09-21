@@ -21,6 +21,9 @@ public sealed record OmniConfirmRequest(string Title, string Message)
     /// </summary>
     public OmniButtonVariant ConfirmVariant { get; init; } = OmniButtonVariant.Primary;
 
+    /// <summary>Variant of the cancel button; a host whose cancel buttons are neutral sets Secondary.</summary>
+    public OmniButtonVariant CancelVariant { get; init; } = OmniButtonVariant.Danger;
+
     /// <summary>The action's icon; cancelling always carries <see cref="OmniIconName.Close"/>.</summary>
     public OmniIconName ConfirmIcon { get; init; } = OmniIconName.Check;
 }
