@@ -46,11 +46,18 @@ export function attach(viewport, reference) {
 
     detach(viewport);
 
+    let live = true;
     let frame = 0;
     const notify = () => {
         frame = 0;
+        // Removed from the page: .NET is disposing the grid and cannot name this element any more
+        // (its detach call resolves to null), so the attachment ends itself instead of calling back.
+        if (!viewport.isConnected) {
+            detach(viewport);
+            return;
+        }
         const current = metrics(viewport);
-        reference.invokeMethodAsync('OnViewportChangedAsync', current.scrollTop, current.viewportHeight);
+        notifyDotNet(() => live, reference, 'OnViewportChangedAsync', current.scrollTop, current.viewportHeight);
     };
     const schedule = () => {
         if (frame === 0) {
@@ -64,6 +71,7 @@ export function attach(viewport, reference) {
 
     attachments.set(viewport, {
         dispose: () => {
+            live = false;
             if (frame !== 0) {
                 window.cancelAnimationFrame(frame);
             }
@@ -246,6 +254,7 @@ export function attachResize(viewport, reference, minimumWidth) {
 
     const floor = typeof minimumWidth === 'number' && minimumWidth > 0 ? minimumWidth : 48;
     let drag = null;
+    let live = true;
 
     const onPointerDown = event => {
         const handle = event.target instanceof Element
@@ -298,7 +307,7 @@ export function attachResize(viewport, reference, minimumWidth) {
         drag = null;
         viewport.classList.remove('omni-data-grid__viewport--resizing');
         if (typeof finished.width === 'number') {
-            reference.invokeMethodAsync('OnColumnResizedAsync', finished.key, finished.width);
+            notifyDotNet(() => live, reference, 'OnColumnResizedAsync', finished.key, finished.width);
         }
     };
 
@@ -390,7 +399,7 @@ export function attachResize(viewport, reference, minimumWidth) {
 
         const width = Math.max(floor, Math.ceil(widest) + 1);
         col?.style.setProperty('--omni-col-width', `${width}px`);
-        reference.invokeMethodAsync('OnColumnResizedAsync', key, width);
+        notifyDotNet(() => live, reference, 'OnColumnResizedAsync', key, width);
         event.preventDefault();
     };
 
@@ -402,6 +411,7 @@ export function attachResize(viewport, reference, minimumWidth) {
 
     resizeAttachments.set(viewport, {
         dispose: () => {
+            live = false;
             viewport.removeEventListener('pointerdown', onPointerDown);
             viewport.removeEventListener('dblclick', onDoubleClick);
             window.removeEventListener('pointermove', onPointerMove);
@@ -647,6 +657,20 @@ function collectListItems(root) {
 }
 
 /**
+ * Calls .NET for an attachment that may be detached before the call lands: the grid disposes its
+ * reference right after detaching, so a notification already in flight (an animation frame that fired,
+ * a resize released just before navigation) rejects with "no tracked object". That rejection only
+ * means the grid is gone and is dropped; while the attachment is live, a failure still surfaces.
+ */
+function notifyDotNet(isLive, reference, method, ...args) {
+    reference.invokeMethodAsync(method, ...args).catch(error => {
+        if (isLive()) {
+            throw error;
+        }
+    });
+}
+
+/**
  * Starts following the scroll area of a virtualised list. Notifications are coalesced on the next
  * animation frame, one .NET round trip per frame at most.
  */
@@ -659,11 +683,16 @@ export function attachList(root, reference) {
 
     const container = scrollContainerOf(root);
     const target = container ?? window;
+    let live = true;
     let frame = 0;
     const notify = () => {
         frame = 0;
+        if (!root.isConnected) {
+            detachList(root);
+            return;
+        }
         const current = listGeometry(root, container);
-        reference.invokeMethodAsync('OnViewportChangedAsync', current.scrollTop, current.viewportHeight);
+        notifyDotNet(() => live, reference, 'OnViewportChangedAsync', current.scrollTop, current.viewportHeight);
     };
     const schedule = () => {
         if (frame === 0) {
@@ -679,6 +708,7 @@ export function attachList(root, reference) {
     listAttachments.set(root, {
         container,
         dispose: () => {
+            live = false;
             if (frame !== 0) {
                 window.cancelAnimationFrame(frame);
             }
