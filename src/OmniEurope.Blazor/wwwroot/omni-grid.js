@@ -199,7 +199,39 @@ export function applyColumns(viewport, columns, tableMinimum) {
         viewport.style.removeProperty('--omni-grid-table-min');
     }
 
+    fitHeaders(viewport);
     applyFrozen(viewport);
+}
+
+/**
+ * A column is never narrower than its header: a title that is one word ("Exécuteur") cannot wrap, so a
+ * declared width smaller than the title and its sort and filter icons cut it. The title's own
+ * overflow says by how much; the column grows by that, and a wider width is left alone.
+ */
+function fitHeaders(viewport) {
+    const header = viewport.querySelector('thead > tr.omni-data-grid__header-row');
+    const cols = viewport.querySelectorAll('colgroup > col');
+    if (!header || cols.length !== header.children.length) {
+        return;
+    }
+
+    // The title shrinks inside the header's flex row, so its own overflow is the one that shows; the
+    // row's other items take part of any width added, hence a few passes until nothing is cut.
+    for (let pass = 0; pass < 4; pass++) {
+        let grown = false;
+        [...header.children].forEach((cell, index) => {
+            const overflow = Math.max(0, ...[...cell.querySelectorAll('.omni-data-grid__header, .omni-data-grid__title')]
+                .map(element => element.scrollWidth - element.clientWidth));
+            if (overflow > 0) {
+                const width = Math.ceil(cell.getBoundingClientRect().width + overflow);
+                cols[index].style.setProperty('--omni-col-width', `${width}px`);
+                grown = true;
+            }
+        });
+        if (!grown) {
+            break;
+        }
+    }
 }
 
 /**

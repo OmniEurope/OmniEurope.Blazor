@@ -26,6 +26,11 @@
         </OmniTooltip>
     </OmniStack>
 
+    @* OmniTitleTooltips, placé une fois dans la mise en page, remplace l'infobulle du navigateur de tout
+       attribut title par celle du paquet : 12rem au plus, avec une pointe vers la souris. *@
+    <OmniTitleTooltips />
+    <OmniButton Variant="OmniButtonVariant.Secondary" title="Infobulle du paquet sur un simple attribut title.">Survoler</OmniButton>
+
     @* Le squelette prend la forme de ce qu'il remplace le temps du chargement. *@
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Start">
         <OmniSkeleton Shape="OmniSkeletonShape.Circle" Label="Chargement de l'avatar" />

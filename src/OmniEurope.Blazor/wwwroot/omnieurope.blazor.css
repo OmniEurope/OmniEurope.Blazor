@@ -1840,6 +1840,12 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* Le pointeur doit se poser avant que l'infobulle paraisse ; elle part aussitôt qu'il s'en va. Le
    focus clavier, lui, la montre sans attendre. */
 .omni-tooltip { --omni-tooltip-delay: 700ms; }
+/* Title tooltips (OmniTitleTooltips): one floating box for every title attribute of the page. */
+.omni-title-tooltip { background: var(--omni-color-inverse-surface); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-md); color: var(--omni-color-on-inverse); font-size: var(--omni-font-size-sm); inset-block-start: var(--omni-title-tooltip-y, 0); inset-inline-start: var(--omni-title-tooltip-x, 0); line-height: 1.35; max-width: 12rem; opacity: 0; overflow-wrap: anywhere; padding: 0.3125rem 0.5rem; pointer-events: none; position: fixed; transform: translateX(-50%); transition: opacity 120ms ease; visibility: hidden; white-space: normal; width: max-content; z-index: 1100; }
+.omni-title-tooltip--visible { opacity: 1; visibility: visible; }
+.omni-title-tooltip::after { border: 0.3125rem solid transparent; border-top-color: var(--omni-color-inverse-surface); content: ""; inset-block-start: 100%; inset-inline-start: clamp(0.5rem, var(--omni-title-tooltip-arrow, 50%), calc(100% - 0.5rem)); position: absolute; transform: translateX(-50%); }
+.omni-title-tooltip--below::after { border-bottom-color: var(--omni-color-inverse-surface); border-top-color: transparent; inset-block-end: 100%; inset-block-start: auto; }
+@media (prefers-reduced-motion: reduce) { .omni-title-tooltip { transition: none; } }
 .omni-tooltip:hover .omni-tooltip__content { transition: opacity 120ms ease var(--omni-tooltip-delay), visibility 0s linear var(--omni-tooltip-delay); }
 .omni-tooltip:focus-within .omni-tooltip__content { transition: opacity 120ms ease; }
 /* Animations réduites : le délai reste (ce n'est pas un mouvement), le fondu disparaît. */
