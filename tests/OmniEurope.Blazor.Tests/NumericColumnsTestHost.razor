@@ -1,5 +1,6 @@
 @* Columns of every alignment case for the numeric cell: a text property, a numeric property left at
-   the default alignment, a numeric property aligned explicitly, and a numeric value read by a lambda. *@
+   the default alignment, a numeric property aligned explicitly, a numeric value read by a lambda, and a
+   numeric property drawn by its own template. *@
 <OmniDataGrid TItem="NumericRun"
               Items="@Runs"
               SelectionMode="OmniDataGridSelectionMode.Single"
@@ -10,6 +11,9 @@
         <OmniDataGridColumn TItem="NumericRun" Key="duration" Title="Durée" Property="Duration" />
         <OmniDataGridColumn TItem="NumericRun" Key="cost" Title="Coût" Property="Cost" TextAlign="OmniDataGridTextAlign.Center" />
         <OmniDataGridColumn TItem="NumericRun" Key="lambda" Title="Calcul" Value="run => run.Duration * 2" />
+        <OmniDataGridColumn TItem="NumericRun" Key="templated" Title="Numéro" Property="Duration">
+            <Template Context="run"><a href="#">#@run.Duration</a></Template>
+        </OmniDataGridColumn>
     </Columns>
 </OmniDataGrid>
 

@@ -113,6 +113,45 @@ public sealed class AppBarComponentTests : OmniBunitContext
         Assert.Equal("30px", ShippedLookTests.Value(ShippedLookTests.Body(".omni-input.omni-text-box--icon"), "padding-inline-start"));
     }
 
+    // ---- OmniTextBox.DebounceMilliseconds ----
+
+    [Fact]
+    public async Task TextBoxDebounce_RaisesOnlyTheLastValue_AfterThePause()
+    {
+        var raised = new List<string>();
+        var value = string.Empty;
+        var box = Render<OmniTextBox>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.ValueChanged, (string next) => raised.Add(next))
+            .Add(component => component.DebounceMilliseconds, 150));
+
+        var input = box.Find("input");
+        var first = input.InputAsync(new ChangeEventArgs { Value = "a" });
+        var second = input.InputAsync(new ChangeEventArgs { Value = "ab" });
+        var third = input.InputAsync(new ChangeEventArgs { Value = "abc" });
+
+        Assert.Empty(raised);
+        await Task.WhenAll(first, second, third);
+        Assert.Equal(["abc"], raised);
+    }
+
+    [Fact]
+    public async Task TextBoxDebounce_IsOffByDefault_EveryKeystrokeRaises()
+    {
+        var raised = new List<string>();
+        var value = string.Empty;
+        var box = Render<OmniTextBox>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.ValueChanged, (string next) => raised.Add(next)));
+
+        await box.Find("input").InputAsync(new ChangeEventArgs { Value = "a" });
+        await box.Find("input").InputAsync(new ChangeEventArgs { Value = "ab" });
+
+        Assert.Equal(["a", "ab"], raised);
+    }
+
     // ---- OmniHeader.Brand, BrandMark ----
 
     [Fact]

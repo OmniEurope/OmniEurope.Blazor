@@ -63,7 +63,12 @@ public partial class OmniPanelMenuItem
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    private bool IsCurrent => Current || IsActive;
+    /// <summary>
+    /// One current entry per menu: a group whose address prefixes the route gives way when one of its
+    /// own entries is the current page, or the menu lit the section and the page together (a server
+    /// group and that server's overview). An explicit <see cref="Current"/> still wins.
+    /// </summary>
+    private bool IsCurrent => Current || (IsActive && !(_ownContext?.HasActiveChild ?? false));
 
     private bool IsOpen => _open ?? (Expanded || IsWithin);
 

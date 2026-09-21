@@ -295,10 +295,10 @@ public partial class OmniDataGrid<TItem>
     public OmniDataGridFilterMode FilterMode { get; set; } = OmniDataGridFilterMode.Simple;
 
     /// <summary>
-    /// Adds a per-column filter popover anchored to its header, alongside the inline filter row.
-    /// Useful when the inline row is kept for its "always visible" quick-filter role but a header
-    /// entry point is also wanted; the popover offers only the value control (no dual-condition
-    /// editing, which stays inline-only in <see cref="OmniDataGridFilterMode.Advanced"/>).
+    /// Moves each column's filter into a popover anchored to its header, in place of the inline filter
+    /// row, which is then not rendered: the header stays one row. The popover holds the same editor
+    /// the row would, for the current <see cref="FilterMode"/> (two conditions with apply and clear in
+    /// <see cref="OmniDataGridFilterMode.Advanced"/>).
     /// </summary>
     [Parameter]
     public bool ShowHeaderFilterMenu { get; set; }
@@ -2192,9 +2192,11 @@ public partial class OmniDataGrid<TItem>
     ]);
 
     // A numeric column left at the default alignment takes the end, in figures of one width, so its
-    // values compare at a glance; an alignment the consumer set (Center, End) is kept as is.
+    // values compare at a glance; an alignment the consumer set (Center, End) is kept as is. A column
+    // with its own Template is not the bare figure any more (a link, a label, buttons laid out from
+    // the start), so it keeps the start: aligning only its header at the end split the two apart.
     private static bool IsNumericCell(OmniDataGridColumnDefinition<TItem> column) =>
-        column.Numeric && column.TextAlign == OmniDataGridTextAlign.Start;
+        column.Numeric && column.Template is null && column.TextAlign == OmniDataGridTextAlign.Start;
 
     private string ColumnClass(OmniDataGridColumnDefinition<TItem> column, bool header) => CssClassBuilder.Combine([
         IsNumericCell(column)

@@ -273,7 +273,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         var header = grid.FindAll("thead th").Single(cell => cell.TextContent.Contains("Durée", StringComparison.Ordinal));
 
         Assert.Contains("omni-data-grid__cell--numeric", header.ClassList);
-        Assert.All(new[] { "name", "duration", "cost", "lambda" }, key => Assert.Equal(2, Classes(key).Length));
+        Assert.All(new[] { "name", "duration", "cost", "lambda", "templated" }, key => Assert.Equal(2, Classes(key).Length));
         Assert.All(Classes("duration"), value => Assert.Contains("omni-data-grid__cell--numeric", value, StringComparison.Ordinal));
         Assert.All(Classes("name"), value => Assert.DoesNotContain("omni-data-grid__cell--numeric", value, StringComparison.Ordinal));
         Assert.All(Classes("cost"), value =>
@@ -282,6 +282,11 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
             Assert.DoesNotContain("omni-data-grid__cell--numeric", value, StringComparison.Ordinal);
         });
         Assert.All(Classes("lambda"), value => Assert.DoesNotContain("omni-data-grid__cell--numeric", value, StringComparison.Ordinal));
+        // A template lays the cell out itself (here a link from the start): header and cells keep the
+        // start instead of splitting the header to the end over start-aligned content.
+        var templatedHeader = grid.FindAll("thead th").Single(cell => cell.TextContent.Contains("Numéro", StringComparison.Ordinal));
+        Assert.DoesNotContain("omni-data-grid__cell--numeric", templatedHeader.ClassList);
+        Assert.All(Classes("templated"), value => Assert.Contains("omni-data-grid__column--align-start", value, StringComparison.Ordinal));
         Assert.Equal("end", ShippedLookTests.Value(ShippedLookTests.Body(".omni-data-grid .omni-data-grid__cell--numeric"), "text-align"));
         Assert.Equal("tabular-nums", ShippedLookTests.Value(ShippedLookTests.Body(".omni-data-grid .omni-data-grid__cell--numeric"), "font-variant-numeric"));
 

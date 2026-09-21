@@ -873,6 +873,9 @@
 .omni-main-scroll { display: flex; flex: 1 1 auto; min-block-size: 0; min-inline-size: 0; }
 .omni-main--scrollable { --omni-main-pad: var(--omni-main-gutter, var(--omni-space-md)); box-sizing: border-box; display: flex; flex: 1 1 auto; flex-direction: column; min-block-size: 0; min-inline-size: 0; overflow: auto; padding: var(--omni-main-pad) max(var(--omni-main-pad), calc((100% - var(--omni-main-max-width)) / 2 + var(--omni-main-pad))); }
 .omni-layout:has(> .omni-body > .omni-main-scroll) { display: flex; flex-direction: column; min-block-size: 0; }
+/* A shell whose main area scrolls on its own owns the window: the browser's default 8px body margin
+   would otherwise frame the app bar and the sidebar in a gap on every side. */
+body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 /* The app bar: one row that wraps, on the surface, closed by the card rule and a soft shadow; its
    height follows the density. Headings in it lose their bottom margin, which a row does not need. */
 .omni-header { align-items: center; background: var(--omni-color-surface); border-block-end: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); box-shadow: 0 1px 3px var(--omni-elevation-shadow-soft, transparent); box-sizing: border-box; color: var(--omni-color-text); display: flex; flex-wrap: wrap; gap: 10px 16px; padding: calc(var(--omni-item-pad-y) + 1px) 12px; position: relative; }
@@ -1306,8 +1309,11 @@
 }
 .omni-password__toggle:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 /* L'oeil : un carré aussi haut que le champ, étiré par la rangée, collé au champ par sa bordure
-   commune ; le glyphe change sans que le bouton change de taille. */
-.omni-password__toggle--icon { align-items: center; aspect-ratio: 1; display: inline-flex; flex: 0 0 auto; justify-content: center; padding: 0; }
+   commune ; le glyphe change sans que le bouton change de taille. La largeur est donnée : étiré en
+   hauteur par la rangée, le bouton ne tirait pas sa largeur de aspect-ratio et restait à la largeur
+   de l'icône (21 px sous un champ de 28, mesuré le 2026-09-21). Une application qui change la
+   hauteur des champs règle --omni-password-toggle-size. */
+.omni-password__toggle--icon { align-items: center; aspect-ratio: 1; display: inline-flex; flex: 0 0 auto; inline-size: var(--omni-password-toggle-size, var(--omni-control-height)); justify-content: center; padding: 0; }
 .omni-text-area { display: grid; gap: var(--omni-space-xs); }
 .omni-text-area__input { line-height: 1.45; min-height: calc(var(--omni-control-height) * 2.3); resize: vertical; }
 .omni-text-area__count { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); justify-self: end; }
@@ -1932,7 +1938,21 @@ body:has(.omni-overlay) { overflow: hidden; }
 }
 /* An open group keeps a mark in the rail, by fill and never by an edge bar: its row takes the hover
    fill and its unindented children sit on a faint accent tint, so they read as one group. */
-.omni-panel-menu--icons .omni-panel-menu__group--open > .omni-panel-menu__summary { background: var(--omni-color-surface-hover); }
+.omni-panel-menu--icons .omni-panel-menu__group--open > .omni-panel-menu__summary > .omni-panel-menu__link { background: var(--omni-color-surface-hover); }
+/* A rail entry is a square centred in the rail, as tall as it is wide, its icon in the middle: a
+   full-width row 34px tall read as a stretched bar under a lone icon. */
+.omni-panel-menu--icons .omni-panel-menu__link {
+    aspect-ratio: 1;
+    block-size: auto;
+    flex: 0 0 auto;
+    inline-size: calc(var(--omni-sidebar-rail, 4rem) - 2 * var(--omni-space-sm));
+    justify-content: center;
+    margin-inline: auto;
+    padding: 0;
+}
+/* The group row itself stays bare in the rail: its square link carries the fills. */
+.omni-panel-menu--icons .omni-panel-menu__summary,
+.omni-panel-menu--icons .omni-panel-menu__summary:hover { background: transparent; }
 .omni-panel-menu--icons .omni-panel-menu__group--open > .omni-panel-menu__children { background: color-mix(in srgb, var(--omni-color-accent) 6%, transparent); border-radius: var(--omni-radius); }
 
 @media (prefers-reduced-motion: reduce) {
