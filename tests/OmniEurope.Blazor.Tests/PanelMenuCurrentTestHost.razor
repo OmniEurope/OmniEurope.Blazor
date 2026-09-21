@@ -1,0 +1,10 @@
+@namespace OmniEurope.Blazor.Tests
+@using OmniEurope.Blazor.Components
+
+@* A group that names a route which prefixes its own entries' routes, as a section does: under the
+   default Prefix match it would be current on every page below it. *@
+<OmniPanelMenu>
+    <OmniPanelMenuItem Text="Serveurs" Href="/servers" Id="group-servers">
+        <OmniPanelMenuItem Text="Vue d'ensemble" Href="/servers/4/overview" Id="leaf-overview" />
+    </OmniPanelMenuItem>
+</OmniPanelMenu>

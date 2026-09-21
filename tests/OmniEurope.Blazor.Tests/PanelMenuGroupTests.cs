@@ -89,4 +89,29 @@ public sealed class PanelMenuGroupTests : OmniBunitContext
         Services.GetRequiredService<NavigationManager>().NavigateTo("/reports/detail");
         host.WaitForAssertion(() => Assert.Contains(Open, host.Find("#group-outer").ClassName));
     }
+
+    [Fact]
+    public void AGroupGivesWayToItsCurrentEntry_OneCurrentEntryPerMenu()
+    {
+        Services.GetRequiredService<NavigationManager>().NavigateTo("/servers/4/overview");
+
+        var host = Render<PanelMenuCurrentTestHost>();
+
+        host.WaitForAssertion(() =>
+        {
+            Assert.Equal("page", host.Find("#leaf-overview").GetAttribute("aria-current"));
+            Assert.Single(host.FindAll("[aria-current='page']"));
+            Assert.Empty(host.FindAll("#group-servers .omni-panel-menu__summary .omni-panel-menu__link--current"));
+        });
+    }
+
+    [Fact]
+    public void AGroupStaysCurrentBelowItsAddress_WhenNoEntryOfItsOwnIsThePage()
+    {
+        Services.GetRequiredService<NavigationManager>().NavigateTo("/servers/add-agent");
+
+        var host = Render<PanelMenuCurrentTestHost>();
+
+        Assert.Equal("page", host.Find("#group-servers .omni-panel-menu__summary a").GetAttribute("aria-current"));
+    }
 }
