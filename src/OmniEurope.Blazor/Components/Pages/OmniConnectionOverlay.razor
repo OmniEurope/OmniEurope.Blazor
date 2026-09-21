@@ -25,21 +25,19 @@
                 <h2 id="@TitleId" class="omni-connection-overlay__title">@EffectiveTitle</h2>
                 <p id="@DescriptionId" class="omni-connection-overlay__description">@EffectiveDescription</p>
             </div>
-            @if (State == OmniConnectionState.Reconnecting && SecondsUntilRetry > 0)
-            {
-                <p class="omni-connection-overlay__countdown">@Localize("ConnectionRetryIn", SecondsUntilRetry)</p>
-            }
-            @if (!string.IsNullOrWhiteSpace(Reason))
-            {
-                <p class="omni-connection-overlay__reason">@Localize("ConnectionReason", Reason)</p>
-            }
-            @if (State == OmniConnectionState.Reconnecting && !Busy)
-            {
-                <OmniProgressBar Class="omni-connection-overlay__progress"
-                                 Shape="OmniProgressShape.Circular"
-                                 Indeterminate="true"
-                                 Label="@Localize("ConnectionReconnecting")" />
-            }
+            @* The countdown, the reason and the spinner keep their place whether shown or not, so the card
+               never changes height and nothing in it moves while the host updates them. *@
+            <p class="omni-connection-overlay__countdown" aria-hidden="@(ShowsCountdown ? null : "true")">@(ShowsCountdown ? Localize("ConnectionRetryIn", SecondsUntilRetry) : "\u00a0")</p>
+            <p class="omni-connection-overlay__reason" aria-hidden="@(ShowsReason ? null : "true")" title="@(ShowsReason ? Reason : null)">@(ShowsReason ? Localize("ConnectionReason", Reason!) : "\u00a0")</p>
+            <div class="@(ShowsSpinner ? "omni-connection-overlay__spinner" : "omni-connection-overlay__spinner omni-connection-overlay__spinner--idle")">
+                @if (ShowsSpinner)
+                {
+                    <OmniProgressBar Class="omni-connection-overlay__progress"
+                                     Shape="OmniProgressShape.Circular"
+                                     Indeterminate="true"
+                                     Label="@Localize("ConnectionReconnecting")" />
+                }
+            </div>
             <OmniButton Class="omni-connection-overlay__action"
                         Variant="@(State == OmniConnectionState.Reconnecting ? OmniButtonVariant.Secondary : OmniButtonVariant.Primary)"
                         Busy="Busy"

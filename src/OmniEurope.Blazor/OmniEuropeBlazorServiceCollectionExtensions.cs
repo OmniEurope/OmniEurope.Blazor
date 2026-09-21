@@ -1,5 +1,8 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Localization;
 using OmniEurope.Blazor.Components;
+using OmniEurope.Blazor.Localization;
+using OmniEurope.Blazor.Resources;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -27,6 +30,30 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
         // Scoped: the trail follows one circuit's navigation. Its route fallback comes from the
         // host's IOmniBreadcrumbResolver when one is registered, and is empty otherwise.
         services.TryAddScoped<OmniBreadcrumbService>();
+        return services;
+    }
+
+    /// <summary>
+    /// Lets the host replace any package text from its own resources: a key named
+    /// <paramref name="prefix"/> plus the package key (<c>Omni_ConnectionReconnectNow</c>) wins over the
+    /// package text, in every culture the host translates; a key the host does not define keeps the
+    /// package text. Call after <see cref="AddOmniEuropeBlazor"/>.
+    /// </summary>
+    public static IServiceCollection AddOmniEuropeTextOverrides<THostResource>(this IServiceCollection services, string prefix = "Omni_")
+    {
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentException.ThrowIfNullOrEmpty(prefix);
+        services.AddLocalization();
+        // A closed registration wins over the open IStringLocalizer<> one, so every package component
+        // that injects IStringLocalizer<AppStrings> reads through the override.
+        services.Replace(ServiceDescriptor.Transient<IStringLocalizer<AppStrings>>(provider =>
+        {
+            var factory = provider.GetRequiredService<IStringLocalizerFactory>();
+            return new OmniTextOverrideLocalizer(
+                factory.Create(typeof(AppStrings)),
+                provider.GetRequiredService<IStringLocalizer<THostResource>>(),
+                prefix);
+        }));
         return services;
     }
 }

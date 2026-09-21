@@ -68,8 +68,10 @@ public sealed class ConnectionOverlayTests : OmniBunitContext
 
         Assert.Equal("true", overlay.Find(".omni-connection-overlay__action").GetAttribute("aria-busy"));
         Assert.Empty(overlay.FindAll("[role=progressbar]"));
-        Assert.Empty(overlay.FindAll(".omni-connection-overlay__countdown"));
-        Assert.Empty(overlay.FindAll(".omni-connection-overlay__reason"));
+        // Recette R-129: the slots stay, empty and hidden from assistive technology, so nothing moves.
+        AssertReservedAndEmpty(overlay, ".omni-connection-overlay__countdown");
+        AssertReservedAndEmpty(overlay, ".omni-connection-overlay__reason");
+        Assert.Single(overlay.FindAll(".omni-connection-overlay__spinner--idle"));
         overlay.Find(".omni-connection-overlay__action").Click();
         Assert.Equal(0, reconnects);
     }
@@ -84,7 +86,7 @@ public sealed class ConnectionOverlayTests : OmniBunitContext
             .Add(component => component.OnReconnect, () => reconnects++));
 
         Assert.Equal("Connexion impossible", overlay.Find(".omni-connection-overlay__title").TextContent);
-        Assert.Empty(overlay.FindAll(".omni-connection-overlay__countdown"));
+        AssertReservedAndEmpty(overlay, ".omni-connection-overlay__countdown");
         Assert.Empty(overlay.FindAll("[role=progressbar]"));
         overlay.Find(".omni-connection-overlay__action").Click();
         Assert.Equal(1, reconnects);
@@ -146,5 +148,22 @@ public sealed class ConnectionOverlayTests : OmniBunitContext
         {
             CultureInfo.CurrentUICulture = previous;
         }
+    }
+
+    [Fact]
+    public void ActionLabel_ComesFromTheHost_WhenGiven()
+    {
+        var overlay = Render<OmniConnectionOverlay>(parameters => parameters
+            .Add(component => component.State, OmniConnectionState.Reconnecting)
+            .Add(component => component.ReconnectText, "Se reconnecter"));
+
+        Assert.Equal("Se reconnecter", overlay.Find(".omni-connection-overlay__action span:not(.omni-icon)").TextContent.Trim());
+    }
+
+    private static void AssertReservedAndEmpty(IRenderedComponent<OmniConnectionOverlay> overlay, string selector)
+    {
+        var slot = overlay.Find(selector);
+        Assert.Equal("true", slot.GetAttribute("aria-hidden"));
+        Assert.Equal("\u00a0", slot.TextContent);
     }
 }

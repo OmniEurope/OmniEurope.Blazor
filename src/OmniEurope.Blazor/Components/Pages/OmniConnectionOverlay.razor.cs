@@ -50,6 +50,14 @@ public partial class OmniConnectionOverlay
     [Parameter]
     public string? Description { get; set; }
 
+    /// <summary>Label of the action while reconnecting or failed; the package text when empty.</summary>
+    [Parameter]
+    public string? ReconnectText { get; set; }
+
+    /// <summary>Label of the action once the session is rejected; the package text when empty.</summary>
+    [Parameter]
+    public string? ReloadText { get; set; }
+
     /// <summary>Raised by the action while reconnecting or failed: try to reconnect now.</summary>
     [Parameter]
     public EventCallback OnReconnect { get; set; }
@@ -85,7 +93,15 @@ public partial class OmniConnectionOverlay
         _ => Localize("ConnectionLostDescription")
     };
 
-    private string ActionText => Localize(State == OmniConnectionState.Rejected ? "ConnectionReload" : "ConnectionReconnectNow");
+    private string ActionText => State == OmniConnectionState.Rejected
+        ? (!string.IsNullOrWhiteSpace(ReloadText) ? ReloadText : Localize("ConnectionReload"))
+        : (!string.IsNullOrWhiteSpace(ReconnectText) ? ReconnectText : Localize("ConnectionReconnectNow"));
+
+    private bool ShowsCountdown => State == OmniConnectionState.Reconnecting && SecondsUntilRetry > 0;
+
+    private bool ShowsReason => !string.IsNullOrWhiteSpace(Reason);
+
+    private bool ShowsSpinner => State == OmniConnectionState.Reconnecting && !Busy;
 
     private async Task ActAsync()
     {

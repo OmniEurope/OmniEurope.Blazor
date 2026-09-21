@@ -30,9 +30,9 @@
        disc must stay a pill and a disc whatever the theme does to --omni-radius. */
     --omni-radius-pill: 999px;
     --omni-radius-circle: 50%;
-    --omni-color-overlay: rgb(15 23 42 / 55%);
+    --omni-color-overlay: rgb(0 0 0 / 55%);
     --omni-shadow-sm: 0 1px 2px rgb(0 0 0 / 30%);
-    --omni-shadow-md: 0 0.5rem 1.5rem rgb(15 23 42 / 16%);
+    --omni-shadow-md: 0 0.5rem 1.5rem rgb(0 0 0 / 16%);
     /* Ombre qu'une carte empilée jette vers le haut sur celle de derrière ; un thème sombre la fonce. */
     --omni-shadow-stack: 0 -0.375rem 0.75rem -0.25rem rgb(0 0 0 / 35%);
     --omni-shadow-lg: 0 1rem 3rem rgb(0 0 0 / 30%);
@@ -1735,10 +1735,11 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-dialog__footer { align-items: center; border-block-start: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: end; padding: calc(var(--omni-card-pad) - 2px) calc(var(--omni-card-pad) + 2px); }
 .omni-confirm__message { margin: 0; }
 /* La pile se pose sur un coin ou un bord, nommés en logique (lecture de droite à gauche). */
+/* --omni-notification-top: a host with a fixed top bar starts the top regions under it. */
 .omni-notification-region { display: grid; gap: var(--omni-space-sm); max-width: min(24rem, 90vw); position: fixed; z-index: 120; }
-.omni-notification-region--topstart { inset-block-start: var(--omni-space-md); inset-inline-start: var(--omni-space-md); }
-.omni-notification-region--topcenter { inset-block-start: var(--omni-space-md); inset-inline: 0; justify-self: center; margin-inline: auto; }
-.omni-notification-region--topend { inset-block-start: var(--omni-space-md); inset-inline-end: var(--omni-space-md); }
+.omni-notification-region--topstart { inset-block-start: var(--omni-notification-top, var(--omni-space-md)); inset-inline-start: var(--omni-space-md); }
+.omni-notification-region--topcenter { inset-block-start: var(--omni-notification-top, var(--omni-space-md)); inset-inline: 0; justify-self: center; margin-inline: auto; }
+.omni-notification-region--topend { inset-block-start: var(--omni-notification-top, var(--omni-space-md)); inset-inline-end: var(--omni-space-md); }
 .omni-notification-region--bottomstart { inset-block-end: var(--omni-space-md); inset-inline-start: var(--omni-space-md); }
 .omni-notification-region--bottomcenter { inset-block-end: var(--omni-space-md); inset-inline: 0; justify-self: center; margin-inline: auto; }
 .omni-notification-region--bottomend { inset-block-end: var(--omni-space-md); inset-inline-end: var(--omni-space-md); }
@@ -2268,7 +2269,10 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid--lines-vertical tbody td { border-block-end: 0; }
 .omni-data-grid:is(.omni-data-grid--lines-vertical, .omni-data-grid--lines-both) :is(th, td) { border-inline-end: var(--omni-border-width) solid var(--omni-color-border); }
 .omni-data-grid__viewport--sized { block-size: var(--omni-grid-viewport, auto); }
-.omni-data-grid__viewport--virtual { block-size: var(--omni-grid-viewport, 30rem); overscroll-behavior: contain; }
+/* Vertical scroll chains to the page (Aetheus recette R-143): a grid with nothing left to scroll no
+   longer swallows the wheel over its rows. Sideways it stays contained, so a wide grid never turns
+   into a browser back gesture. */
+.omni-data-grid__viewport--virtual { block-size: var(--omni-grid-viewport, 30rem); overscroll-behavior-x: contain; }
 /* MaxHeight: the viewport takes the height of its content, spacers included, up to the cap. */
 .omni-data-grid__viewport--capped { max-block-size: var(--omni-grid-viewport-max, 30rem); }
 .omni-data-grid__viewport--virtual.omni-data-grid__viewport--capped { block-size: auto; }
@@ -2749,6 +2753,10 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 .omni-connection-overlay__reason { color: var(--omni-color-text-muted); }
 .omni-connection-overlay__reason { font-size: var(--omni-font-size-sm); overflow-wrap: anywhere; }
 .omni-connection-overlay__countdown { font-variant-numeric: tabular-nums; }
+/* Fixed slots (see the markup): the reason keeps two lines, the spinner its own height, shown or not. */
+.omni-connection-overlay__reason { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; min-block-size: calc(2lh); overflow: hidden; }
+.omni-connection-overlay__spinner { align-items: center; block-size: 3rem; display: flex; justify-content: center; }
+.omni-connection-overlay__spinner--idle { visibility: hidden; }
 .omni-connection-overlay__action { margin-block-start: var(--omni-space-sm); }
 
 .omni-wizard { display: flex; flex-direction: column; gap: var(--omni-space-md); min-inline-size: 0; }
