@@ -1,25 +1,37 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// The layout every part of one <see cref="OmniChart"/> shares: the plot rectangle inside the 100 by
-/// 100 view box, the value and X domains, and the category bands columns and bars sit in. Series,
+/// The layout every part of one <see cref="OmniChart"/> shares: the plot rectangle inside the view box
+/// (100 high, 100 wide times the chart's aspect ratio, centred on x = 50 so a pie stays in the middle), the value and X domains, and the category bands columns and bars sit in. Series,
 /// axes, grid lines, legend and titles all read their coordinates here, so they line up by
 /// construction rather than by each repeating the same constants.
 /// </summary>
 internal sealed class OmniChartContext
 {
+    /// <summary>
+    /// Extra view-box width on each side of the 0-100 square when the chart is wider than high: the
+    /// plot stretches into it while text keeps its size and pies stay centred.
+    /// </summary>
+    internal double Spread { get; private set; }
+
+    /// <summary>Left edge of the view box.</summary>
+    internal double ViewLeft => Spread == 0 ? 0 : -Spread;
+
+    /// <summary>Width of the view box.</summary>
+    internal double ViewWidth => 100 + (2 * Spread);
+
     /// <summary>Left edge of the plot; the value labels and a vertical axis title live to its left.</summary>
-    internal const double PlotLeft = 14;
+    internal double PlotLeft => ViewLeft + 14;
 
     internal const double PlotTop = 4;
 
     /// <summary>Bottom edge of the plot; the category labels and a horizontal axis title live below it.</summary>
     internal const double PlotBottom = 86;
 
-    private const double PlotRightAlone = 96;
+    private double PlotRightAlone => ViewLeft + ViewWidth - 4;
 
     /// <summary>With a legend the plot stops here, and the legend takes the column to its right.</summary>
-    private const double PlotRightWithLegend = 76;
+    private double PlotRightWithLegend => ViewLeft + ViewWidth - 24;
 
     /// <summary>Share of a category band the columns of that category occupy together.</summary>
     private const double BandFill = 0.8;
@@ -39,7 +51,16 @@ internal sealed class OmniChartContext
     internal double PlotRight => _legends.Count > 0 ? PlotRightWithLegend : PlotRightAlone;
 
     /// <summary>The legend column starts just right of the plot.</summary>
-    internal static double LegendLeft => PlotRightWithLegend + 3;
+    internal double LegendLeft => PlotRightWithLegend + 3;
+
+    /// <summary>Widens the view box to <paramref name="aspectRatio"/> (width over height, 1 = square).</summary>
+    internal void SetAspectRatio(double aspectRatio)
+    {
+        var spread = (100 * Math.Max(1, aspectRatio) - 100) / 2;
+        if (Math.Abs(spread - Spread) < 0.0001) return;
+        Spread = spread;
+        Changed?.Invoke();
+    }
 
     /// <summary>Horizontal bars turn the chart: values run along the bottom, categories down the left.</summary>
     internal bool Horizontal => _series.Any(item => item.Kind == OmniChartSeriesKind.Bar);

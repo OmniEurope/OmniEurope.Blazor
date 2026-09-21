@@ -12,6 +12,40 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class ChartLayoutTests : OmniBunitContext
 {
+    /// <summary>The plot's left edge in a square chart (the default aspect ratio).</summary>
+    private const double SquarePlotLeft = 14;
+
+    [Fact]
+    public void AspectRatio_WidensThePlot_KeepsTheLeftMarginAndCentresTheSquare()
+    {
+        // Aetheus recette R-177: a chart in a wide, low card drew a square and left the card empty.
+        var chart = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Title, "Tendance")
+            .Add(component => component.AspectRatio, 3)
+            .AddChildContent<OmniLineSeries>(series => series
+                .Add(line => line.Title, "Réussis")
+                .Add(line => line.Data, [new OmniChartPoint(0, 1), new OmniChartPoint(1, 3)])));
+
+        // 300 wide, centred on the former square: x runs from -100 to 200.
+        Assert.Equal("-100 0 300 100", chart.Find("svg.omni-chart__svg").GetAttribute("viewBox"));
+        var xs = chart.Find(".omni-chart__line").GetAttribute("points")!
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+            .Select(point => double.Parse(point.Split(',')[0], CultureInfo.InvariantCulture)).ToList();
+        // Left margin of 14 from the view box edge, right margin of 4: the plot spans -86 to 196.
+        Assert.Equal(-86, xs.Min(), 3);
+        Assert.Equal(196, xs.Max(), 3);
+    }
+
+    [Fact]
+    public void AspectRatio_BelowOne_KeepsTheSquare()
+    {
+        var chart = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Title, "Tendance")
+            .Add(component => component.AspectRatio, 0.5));
+
+        Assert.Equal("0 0 100 100", chart.Find("svg.omni-chart__svg").GetAttribute("viewBox"));
+    }
+
     [Fact]
     public void ArcGauge_DrawsAHalfCircleFromItsLeftEndOverTheTop()
     {
@@ -122,7 +156,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
             var bars = chart.FindAll(".omni-chart__bars rect");
             var categories = chart.FindAll(".omni-chart__axis--category text");
             var values = chart.FindAll(".omni-chart__axis--value text");
-            Assert.All(categories, label => Assert.True(Number(label, "x") < OmniChartContext.PlotLeft));
+            Assert.All(categories, label => Assert.True(Number(label, "x") < SquarePlotLeft));
             Assert.All(values, label => Assert.True(Number(label, "y") > OmniChartContext.PlotBottom));
             for (var index = 0; index < 2; index++)
             {
@@ -130,7 +164,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
                 Assert.InRange(label, Number(bars[index], "y"), Number(bars[index], "y") + Number(bars[index], "height"));
             }
 
-            Assert.Equal(0.4 * (96 - OmniChartContext.PlotLeft), Number(bars[0], "width"), 3);
+            Assert.Equal(0.4 * (96 - SquarePlotLeft), Number(bars[0], "width"), 3);
         });
     }
 

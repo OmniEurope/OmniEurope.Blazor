@@ -6,13 +6,13 @@
     {
         if (Context.Horizontal)
         {
-            var x = OmniChartContext.PlotLeft + (index * (Context.PlotRight - OmniChartContext.PlotLeft) / Count);
+            var x = Context.PlotLeft + (index * (Context.PlotRight - Context.PlotLeft) / Count);
             <line x1="@N(x)" y1="@N(OmniChartContext.PlotTop)" x2="@N(x)" y2="@N(OmniChartContext.PlotBottom)" />
         }
         else
         {
             var y = OmniChartContext.PlotBottom - (index * (OmniChartContext.PlotBottom - OmniChartContext.PlotTop) / Count);
-            <line x1="@N(OmniChartContext.PlotLeft)" y1="@N(y)" x2="@N(Context.PlotRight)" y2="@N(y)" />
+            <line x1="@N(Context.PlotLeft)" y1="@N(y)" x2="@N(Context.PlotRight)" y2="@N(y)" />
         }
     }
 </g>

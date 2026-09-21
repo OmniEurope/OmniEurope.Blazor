@@ -5,8 +5,8 @@
     @for (var index = 0; index < Items.Count; index++)
     {
         var top = OmniChartContext.PlotTop + (index * 5);
-        <rect class="omni-chart-color-@ColorOf(index)" x="@N(OmniChartContext.LegendLeft)" y="@N(top)" width="3" height="3" rx="0.5" />
-        <g><text x="@N(OmniChartContext.LegendLeft + 4.5)" y="@N(top + 1.5)" dominant-baseline="central">@Items[index]</text></g>
+        <rect class="omni-chart-color-@ColorOf(index)" x="@N(LegendLeft)" y="@N(top)" width="3" height="3" rx="0.5" />
+        <g><text x="@N(LegendLeft + 4.5)" y="@N(top + 1.5)" dominant-baseline="central">@Items[index]</text></g>
     }
 </g>
 
