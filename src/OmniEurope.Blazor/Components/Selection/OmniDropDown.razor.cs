@@ -88,6 +88,28 @@ public partial class OmniDropDown<TValue>
         builder.CloseElement();
     };
 
+    /// <summary>
+    /// The value of the option that shows the current value, or "" for the empty one. Bound on the select
+    /// itself: the options' selected attributes alone do not move a selection the user already made, so a
+    /// value reset from code (a Clear filters button) left the old choice displayed.
+    /// </summary>
+    private string SelectedOptionValue
+    {
+        get
+        {
+            var options = EffectiveOptions;
+            for (var index = 0; index < options.Count; index++)
+            {
+                if (EqualityComparer<TValue>.Default.Equals(CurrentValue, options[index].Value))
+                {
+                    return index.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                }
+            }
+
+            return string.Empty;
+        }
+    }
+
     private async Task HandleChange(ChangeEventArgs args)
     {
         var raw = args.Value?.ToString();

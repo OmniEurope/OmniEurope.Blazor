@@ -481,7 +481,9 @@
     letter-spacing: var(--omni-button-letter-spacing, 0em);
     text-transform: var(--omni-button-text-transform);
     justify-content: center;
-    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease, box-shadow 120ms ease, transform 80ms ease;
+    /* inline-size: a button whose width changes with its content (a counter appearing) grows and
+       shrinks smoothly instead of jumping; a button without an explicit width never animates. */
+    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease, box-shadow 120ms ease, transform 80ms ease, inline-size 200ms ease, width 200ms ease;
 }
 
 .omni-button:focus-visible {
@@ -2244,6 +2246,10 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid tbody td.omni-data-grid__column--active { background: linear-gradient(var(--omni-column-active-fill), var(--omni-column-active-fill)), linear-gradient(var(--omni-row-fill), var(--omni-row-fill)); }
 .omni-data-grid__table .omni-data-grid__column--frozen { inset-inline-start: var(--omni-col-offset, 0px); position: sticky; z-index: 2; }
 .omni-data-grid :is(tbody, tfoot) td.omni-data-grid__column--frozen { background-color: var(--omni-grid-frame); }
+/* The last frozen column casts a shadow on its trailing edge only while rows scroll under it, so it
+   reads as lying above them; at rest the grid stays flat. */
+.omni-data-grid__viewport--scrolled-x .omni-data-grid__column--frozen-last { box-shadow: 0.375rem 0 0.375rem -0.25rem rgb(0 0 0 / 28%); }
+.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__viewport--scrolled-x .omni-data-grid__column--frozen-last { box-shadow: 0.375rem 0 0.5rem -0.25rem rgb(0 0 0 / 60%); }
 .omni-data-grid__row--interactive { cursor: pointer; }
 .omni-data-grid__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
 .omni-data-grid__expand { background: transparent; border: 0; color: var(--omni-color-text); cursor: pointer; min-height: 2.75rem; min-width: 2.75rem; }

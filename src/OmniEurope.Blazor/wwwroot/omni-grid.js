@@ -218,7 +218,13 @@ export function applyFrozen(viewport) {
         return;
     }
 
+    followHorizontalScroll(viewport);
+    for (const previous of viewport.querySelectorAll('.omni-data-grid__column--frozen-last')) {
+        previous.classList.remove('omni-data-grid__column--frozen-last');
+    }
+
     let offset = 0;
+    let lastSelector = null;
     for (const cell of header.children) {
         if (!cell.classList.contains('omni-data-grid__column--frozen')) {
             continue;
@@ -233,8 +239,33 @@ export function applyFrozen(viewport) {
             target.style.setProperty('--omni-col-offset', `${offset}px`);
         }
 
+        lastSelector = selector;
         offset += cell.getBoundingClientRect().width;
     }
+
+    // The last frozen column draws the edge shadow while rows scroll under it.
+    if (lastSelector !== null) {
+        for (const target of viewport.querySelectorAll(lastSelector)) {
+            target.classList.add('omni-data-grid__column--frozen-last');
+        }
+    }
+}
+
+const scrollFollowers = new WeakSet();
+
+/**
+ * Marks the viewport while its content is scrolled sideways, so frozen columns can show that the rest
+ * of the row passes under them. One passive listener per viewport; it dies with the element.
+ */
+function followHorizontalScroll(viewport) {
+    const update = () => viewport.classList.toggle('omni-data-grid__viewport--scrolled-x', viewport.scrollLeft > 0);
+    update();
+    if (scrollFollowers.has(viewport)) {
+        return;
+    }
+
+    scrollFollowers.add(viewport);
+    viewport.addEventListener('scroll', update, { passive: true });
 }
 
 const resizeAttachments = new Map();

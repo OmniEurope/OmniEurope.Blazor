@@ -20,7 +20,7 @@ internal sealed class OmniConfirmFooter : OmniComponentBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         Button(builder, 0, Request.ConfirmVariant, Request.ConfirmIcon, ConfirmText, "omni-confirm__action", confirmed: true);
-        Button(builder, 10, OmniButtonVariant.Danger, OmniIconName.Close, CancelText, "omni-confirm__cancel", confirmed: false);
+        Button(builder, 10, Request.CancelVariant, OmniIconName.Close, CancelText, "omni-confirm__cancel", confirmed: false);
     }
 
     private void Button(RenderTreeBuilder builder, int sequence, OmniButtonVariant variant, OmniIconName icon, string text, string cssClass, bool confirmed)
