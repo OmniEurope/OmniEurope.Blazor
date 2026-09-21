@@ -640,7 +640,7 @@
 .omni-stack-scroll__chevron { block-size: 1.25em; inline-size: 1.25em; }
 .omni-stack--overflow-collapse { flex-wrap: nowrap; min-inline-size: 0; }
 
-@media (max-width: 479.98px) {
+@media (max-width: 39.99rem) {
     /* Seul le libellé quitte le flux (il reste lu) ; l'icône, décorative ou nommée, reste. Viser le
        contenu entier du bouton emportait l'icône avec lui. */
     .omni-stack--overflow-collapse :is(.omni-button__content,.omni-select-bar__item) > span:not([aria-hidden="true"],[role="img"]) {
@@ -2348,7 +2348,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-pager--align-end { justify-content: flex-end; }
 .omni-pager--align-between { justify-content: space-between; }
 .omni-pager__page-size { max-inline-size: 6rem; }
-@media (max-width: 40rem) {
+@media (max-width: 39.99rem) {
     .omni-data-grid--responsive .omni-data-grid__table thead { display: none; }
     .omni-data-grid--responsive .omni-data-grid__table tr { display: block; margin-block-end: var(--omni-space-sm); }
     .omni-data-grid--responsive .omni-data-grid__table td { display: flex; gap: var(--omni-space-sm); justify-content: space-between; }
@@ -2577,7 +2577,7 @@ polyline.omni-chart__line { fill: none; }
 .omni-diff-viewer--inline .omni-diff-viewer__text { block-size: calc(var(--omni-code-editor-height, 20rem) / 2); }
 .omni-diff-viewer__text:focus-visible { box-shadow: inset var(--omni-focus-ring); outline: none; }
 .omni-diff-viewer__notice { background: var(--omni-color-warning-subtle); color: var(--omni-color-text); font-size: var(--omni-font-size-sm); margin: 0; padding: var(--omni-space-xs) var(--omni-space-md); }
-@media (max-width: 40rem) { .omni-diff-viewer__panes { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 39.99rem) { .omni-diff-viewer__panes { grid-template-columns: minmax(0, 1fr); } }
 
 
 /* Busy veil (STD-BUSY). A busy control keeps its exact size and content: a dark layer breathes over
@@ -2730,7 +2730,7 @@ polyline.omni-chart__line { fill: none; }
 .omni-login-shell__card { min-inline-size: 0; }
 .omni-login-shell .omni-login-shell__title { font-size: var(--omni-font-size-h3); margin: 0 0 var(--omni-space-md); }
 .omni-login-shell__description { color: var(--omni-color-text-muted); margin: 0 0 var(--omni-space-lg); }
-@media (max-width: 29.99rem) {
+@media (max-width: 39.99rem) {
     .omni-login-shell { margin-block: var(--omni-space-md); }
     .omni-login-shell__card > .omni-card__body { padding: var(--omni-space-md); }
 }
