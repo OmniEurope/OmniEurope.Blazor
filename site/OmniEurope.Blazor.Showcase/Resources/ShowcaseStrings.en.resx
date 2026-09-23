@@ -537,4 +537,5 @@
   <data name="VFormSaved" xml:space="preserve"><value>Pipeline saved.</value></data>
   <data name="VFormNotSaved" xml:space="preserve"><value>Fix the fields reported before saving.</value></data>
   <data name="VFormDescriptionValue" xml:space="preserve"><value>Deploys the main branch once the acceptance tests pass.</value></data>
+  <data name="GridFiledColumn" xml:space="preserve"><value>Filed on</value></data>
 </root>

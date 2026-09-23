@@ -1,0 +1,55 @@
+<OmniDataGrid @ref="Grid"
+              TItem="Ticket"
+              Id="tickets"
+              Items="@(Load is null ? Tickets : Array.Empty<Ticket>())"
+              Load="@Load"
+              KeyProperty="Id"
+              AllowPaging="false"
+              FilterMode="@FilterMode"
+              ShowHeaderFilterMenu="true">
+    <Columns>
+        <OmniDataGridColumn TItem="Ticket" Property="Id" Title="N°" Filterable="true" />
+        <OmniDataGridColumn TItem="Ticket"
+                            Property="Status"
+                            Title="Statut"
+                            Filterable="true"
+                            FilterType="OmniDataGridColumnFilterType.MultiSelect"
+                            FilterValueText="@(value => $"T:{value}")"
+                            DefaultFilterValue="@StatusDefault" />
+        <OmniDataGridColumn TItem="Ticket"
+                            Property="Opened"
+                            Title="Ouvert le"
+                            Filterable="true"
+                            FilterType="OmniDataGridColumnFilterType.DateRange"
+                            FilterIncludesTime="@IncludesTime" />
+    </Columns>
+</OmniDataGrid>
+
+@code {
+    public OmniDataGrid<Ticket>? Grid { get; private set; }
+
+    public IReadOnlyList<Ticket> Tickets { get; } =
+    [
+        new(1, TicketStatus.Open, new DateTime(2026, 8, 24, 0, 0, 0)),
+        new(2, TicketStatus.Closed, new DateTime(2026, 8, 24, 23, 30, 0)),
+        new(3, TicketStatus.Open, new DateTime(2026, 8, 25, 0, 0, 0)),
+        new(4, TicketStatus.Closed, new DateTime(2026, 8, 30, 12, 0, 0))
+    ];
+
+    [Parameter] public string? StatusDefault { get; set; }
+
+    [Parameter] public bool IncludesTime { get; set; }
+
+    [Parameter] public OmniDataGridFilterMode FilterMode { get; set; } = OmniDataGridFilterMode.Simple;
+
+    [Parameter] public Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<Ticket>>>? Load { get; set; }
+
+    public enum TicketStatus
+    {
+        Open,
+        Pending,
+        Closed
+    }
+
+    public sealed record Ticket(int Id, TicketStatus Status, DateTime Opened);
+}

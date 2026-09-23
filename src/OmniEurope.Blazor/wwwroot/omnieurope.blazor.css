@@ -2207,6 +2207,12 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid :is(.omni-data-grid__filter-operator, .omni-data-grid__filter-logical) { flex: 0 1 7rem; }
 .omni-data-grid__filters .omni-input { min-block-size: calc(var(--omni-control-height) - 0.25rem); padding-inline: var(--omni-space-sm); }
 .omni-data-grid__filter-actions { display: flex; gap: var(--omni-space-xs); justify-content: flex-end; }
+/* A row a live refresh brought in reads bold for the grid's NewRowHighlight, then settles. */
+.omni-data-grid__row--new > td { font-weight: 600; }
+/* A date range stacks its two pickers, each under its own short label. */
+.omni-data-grid__date-range { display: grid; gap: var(--omni-space-xs); min-inline-size: 12rem; }
+.omni-data-grid__date-range-field { display: grid; gap: 0.125rem; }
+.omni-data-grid__date-range-label { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
 /* Popovers are fixed so the scrolling viewport cannot clip them; omni-grid.js places them. */
 .omni-data-grid__popover { min-inline-size: 0; position: relative; }
 .omni-data-grid__popover > summary { cursor: pointer; list-style: none; }

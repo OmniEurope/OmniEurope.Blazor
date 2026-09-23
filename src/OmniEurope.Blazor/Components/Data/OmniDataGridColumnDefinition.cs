@@ -27,6 +27,16 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public IEnumerable<string>? FilterValues { get; init; }
     /// <summary>Column-supplied filter editor, overriding <see cref="FilterType"/>.</summary>
     public RenderFragment<OmniDataGridFilterContext>? FilterTemplate { get; init; }
+    /// <summary>Display text of a filter candidate; null shows the value itself.</summary>
+    public Func<string, string>? FilterValueText { get; init; }
+    /// <summary>Filter applied when the column first registers, unless saved state restored one.</summary>
+    public string? DefaultFilterValue { get; init; }
+    /// <summary>A DateRange filter picks hours too.</summary>
+    public bool FilterIncludesTime { get; init; }
+    /// <summary>The enum the column reads, when it reads one: its members are the filter candidates.</summary>
+    public Type? EnumType { get; init; }
+    /// <summary>The type the column reads (nullable unwrapped), or null when it is not known from a property.</summary>
+    public Type? ValueType { get; init; }
     public OmniDataGridFilterOperator FilterOperator { get; init; }
     public OmniDataGridFilterOperator SecondFilterOperator { get; init; }
     public OmniDataGridLogicalOperator LogicalFilterOperator { get; init; }

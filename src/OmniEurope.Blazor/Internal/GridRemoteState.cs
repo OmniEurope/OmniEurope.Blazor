@@ -13,14 +13,19 @@ internal sealed class GridRemoteState<TItem> : IAsyncDisposable
     internal Exception? Error { get; private set; }
     internal bool HasLoaded { get; private set; }
 
-    internal async Task LoadAsync(Func<CancellationToken, Task<OmniDataGridResult<TItem>>> loader)
+    /// <summary>
+    /// Loads the rows. A <paramref name="quiet"/> load keeps the rows held and raises no loading
+    /// state while it runs: the new rows replace the old ones when they arrive, which is what a
+    /// live refresh wants rather than a table blanking under a loader.
+    /// </summary>
+    internal async Task LoadAsync(Func<CancellationToken, Task<OmniDataGridResult<TItem>>> loader, bool quiet = false)
     {
         _cancellation?.Cancel();
         _cancellation?.Dispose();
         _cancellation = new CancellationTokenSource();
         var token = _cancellation.Token;
         var generation = ++_generation;
-        Loading = true;
+        Loading = !quiet;
         Error = null;
         try
         {

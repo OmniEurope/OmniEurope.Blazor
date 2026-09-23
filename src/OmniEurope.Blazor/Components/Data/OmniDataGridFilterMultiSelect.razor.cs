@@ -20,6 +20,10 @@ public partial class OmniDataGridFilterMultiSelect
     [Parameter]
     public IReadOnlyList<string> Suggestions { get; set; } = [];
 
+    /// <summary>What a candidate reads as (a translated enum name); null shows the value itself.</summary>
+    [Parameter]
+    public Func<string, string>? TextFor { get; set; }
+
     /// <summary>Adds a box that narrows the list as it is typed into.</summary>
     [Parameter]
     public bool Searchable { get; set; }
@@ -46,7 +50,7 @@ public partial class OmniDataGridFilterMultiSelect
         get
         {
             var selected = OmniDataGridFilterValues.Split(Value);
-            return selected.Count == 0 ? Placeholder ?? string.Empty : string.Join(", ", selected);
+            return selected.Count == 0 ? Placeholder ?? string.Empty : string.Join(", ", selected.Select(Display));
         }
     }
 
@@ -58,9 +62,11 @@ public partial class OmniDataGridFilterMultiSelect
 
     private IReadOnlyList<string> Matches => (string.IsNullOrEmpty(_search)
             ? Suggestions
-            : Suggestions.Where(candidate => candidate.Contains(_search, StringComparison.OrdinalIgnoreCase)))
+            : Suggestions.Where(candidate => Display(candidate).Contains(_search, StringComparison.OrdinalIgnoreCase)))
         .Take(Math.Max(1, MaxSuggestions))
         .ToArray();
+
+    private string Display(string candidate) => TextFor?.Invoke(candidate) ?? candidate;
 
     private void OnSearchInput(ChangeEventArgs args) => _search = args.Value?.ToString() ?? string.Empty;
 
@@ -85,8 +91,9 @@ public partial class OmniDataGridFilterMultiSelect
     /// Renders an option with the searched fragment wrapped in a mark element, built by hand so the
     /// candidate is never treated as markup.
     /// </summary>
-    private RenderFragment Highlighted(string candidate) => builder =>
+    private RenderFragment Highlighted(string value) => builder =>
     {
+        var candidate = Display(value);
         var index = string.IsNullOrEmpty(_search)
             ? -1
             : candidate.IndexOf(_search, StringComparison.OrdinalIgnoreCase);

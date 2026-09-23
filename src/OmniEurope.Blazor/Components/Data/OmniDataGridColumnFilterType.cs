@@ -19,5 +19,13 @@ public enum OmniDataGridColumnFilterType
     /// Checkable list of the column's values; a row matches any of the checked ones. Add the
     /// column's <c>FilterSearchable</c> to put a narrowing box above the list.
     /// </summary>
-    MultiSelect
+    MultiSelect,
+
+    /// <summary>
+    /// A start and an end date, either optional. A day alone covers the whole day, and a range
+    /// runs from the start of its first day to the end of its last one; the column's
+    /// <c>FilterIncludesTime</c> lets the user pick the hours too. Read by the grid through
+    /// <see cref="OmniDataGridDateRange"/>, and sent to a remote loader as two bounds.
+    /// </summary>
+    DateRange
 }

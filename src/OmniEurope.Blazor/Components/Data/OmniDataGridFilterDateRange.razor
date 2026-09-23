@@ -1,0 +1,25 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* Two native pickers, start and end, either left empty. The grid reads the pair through
+   OmniDataGridDateRange, so a day alone already covers the whole day. *@
+<div class="@Css("omni-data-grid__date-range")">
+    <label class="omni-data-grid__date-range-field">
+        <span class="omni-data-grid__date-range-label">@Localize("GridFilterDateFrom")</span>
+        <input id="@Id"
+               type="@InputType"
+               class="omni-input omni-data-grid__filter omni-data-grid__date-range-start"
+               value="@Start"
+               max="@EndLimit"
+               @onchange="OnStartChangedAsync" />
+    </label>
+    <label class="omni-data-grid__date-range-field">
+        <span class="omni-data-grid__date-range-label">@Localize("GridFilterDateTo")</span>
+        <input id="@($"{Id}-end")"
+               type="@InputType"
+               class="omni-input omni-data-grid__filter omni-data-grid__date-range-end"
+               value="@End"
+               min="@StartLimit"
+               @onchange="OnEndChangedAsync" />
+    </label>
+</div>
