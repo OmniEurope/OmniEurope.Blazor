@@ -537,4 +537,5 @@
   <data name="VFormSaved" xml:space="preserve"><value>Pipeline enregistré.</value></data>
   <data name="VFormNotSaved" xml:space="preserve"><value>Corrigez les champs signalés avant d'enregistrer.</value></data>
   <data name="VFormDescriptionValue" xml:space="preserve"><value>Déploie la branche principale après validation des tests de recette.</value></data>
+  <data name="GridFiledColumn" xml:space="preserve"><value>Déposé le</value></data>
 </root>

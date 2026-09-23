@@ -114,6 +114,80 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         return changed;
     }
 
+    /// <summary>The rows held right now, whatever their block.</summary>
+    internal IEnumerable<TItem> CachedItems => _items.Values;
+
+    /// <summary>
+    /// Fetches again the blocks covering <paramref name="start"/>..<paramref name="start"/> +
+    /// <paramref name="count"/> without leaving the rows held: no loading state while it runs, and
+    /// the cache is swapped for the fresh blocks only once they are all in. A reset or a newer
+    /// query during the fetch wins; the fetched rows are then dropped. Returns <c>true</c> when the
+    /// cache changed.
+    /// </summary>
+    internal async Task<bool> RefreshAsync(
+        int start,
+        int count,
+        int blockSize,
+        Func<int, int, CancellationToken, Task<OmniDataGridResult<TItem>>> loader)
+    {
+        var size = Math.Max(1, blockSize);
+        var firstBlock = Math.Max(0, start) / size;
+        var lastBlock = Math.Max(0, start + Math.Max(1, count) - 1) / size;
+        _cancellation ??= new CancellationTokenSource();
+        var token = _cancellation.Token;
+        var generation = _generation;
+        var fresh = new Dictionary<int, TItem>();
+        var total = TotalCount;
+        try
+        {
+            for (var block = firstBlock; block <= lastBlock; block++)
+            {
+                var result = await loader(block * size, size, token);
+                if (generation != _generation || token.IsCancellationRequested)
+                {
+                    return false;
+                }
+
+                total = result.TotalCount;
+                for (var offset = 0; offset < result.Items.Count; offset++)
+                {
+                    fresh[(block * size) + offset] = result.Items[offset];
+                }
+            }
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+            return false;
+        }
+        catch (Exception exception)
+        {
+            if (generation != _generation)
+            {
+                return false;
+            }
+
+            Error = exception;
+            return true;
+        }
+
+        _items.Clear();
+        _loadedBlocks.Clear();
+        foreach (var (index, item) in fresh)
+        {
+            _items[index] = item;
+        }
+
+        for (var block = firstBlock; block <= lastBlock; block++)
+        {
+            _loadedBlocks.Add(block);
+        }
+
+        TotalCount = total;
+        HasLoaded = true;
+        Error = null;
+        return true;
+    }
+
     private void Evict(int firstBlock, int lastBlock, int size)
     {
         if (_loadedBlocks.Count <= MaxCachedBlocks)

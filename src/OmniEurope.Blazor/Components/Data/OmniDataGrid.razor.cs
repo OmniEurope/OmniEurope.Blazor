@@ -34,6 +34,12 @@ public partial class OmniDataGrid<TItem>
     private HashSet<object> _expandedKeyIndex = [];
     private bool _hasEditing;
     private readonly HashSet<string> _initialSortKeys = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _defaultFilterKeys = new(StringComparer.Ordinal);
+    private readonly Dictionary<object, long> _newRowKeys = [];
+    private readonly CancellationTokenSource _highlightLifetime = new();
+    // Keys held when a refresh of host-supplied rows was asked for; the next Items change is compared to them.
+    private HashSet<object>? _refreshBaseline;
+    private IReadOnlyList<TItem>? _observedItems;
     private int _columnSpan;
     private Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<TItem>>>? _observedLoader;
     private bool _externalRequested;
@@ -170,6 +176,14 @@ public partial class OmniDataGrid<TItem>
 
     [Parameter]
     public Func<TItem, object>? KeySelector { get; set; }
+
+    /// <summary>
+    /// How long a row brought in by <see cref="RefreshAsync"/> reads as new (bold), for live data;
+    /// null, the default, marks nothing. Rows are told apart by <see cref="KeySelector"/> or
+    /// <see cref="KeyProperty"/>, so without one of them nothing is marked either.
+    /// </summary>
+    [Parameter]
+    public TimeSpan? NewRowHighlight { get; set; }
 
     /// <summary>Property path identifying a row when no <see cref="KeySelector"/> is supplied.</summary>
     [Parameter]
@@ -716,6 +730,15 @@ public partial class OmniDataGrid<TItem>
 
         _implicitColumn = null;
         InvalidateLocalProjection();
+        if (!ReferenceEquals(_observedItems, Items))
+        {
+            _observedItems = Items;
+            if (_refreshBaseline is { } baseline)
+            {
+                _refreshBaseline = null;
+                MarkNewRows(baseline, Items);
+            }
+        }
 
         if (Load is null)
         {
@@ -788,6 +811,63 @@ public partial class OmniDataGrid<TItem>
         InvalidateLocalProjection();
     }
 
+    /// <summary>
+    /// Applies a column's declared <c>DefaultFilterValue</c> the first time that column registers,
+    /// the way <see cref="ApplyInitialSort"/> does for its sort. A filter already held for the key
+    /// (restored state, or set from code before the column rendered) wins.
+    /// </summary>
+    private void ApplyDefaultFilter(OmniDataGridColumnDefinition<TItem> column)
+    {
+        if (string.IsNullOrEmpty(column.DefaultFilterValue) || !_defaultFilterKeys.Add(column.Key)
+            || _filters.ContainsKey(column.Key))
+        {
+            return;
+        }
+
+        _filters[column.Key] = DefaultFilter(column) with { Value = column.DefaultFilterValue };
+    }
+
+    /// <summary>
+    /// Sets column filters from code (a summary shortcut, a link) exactly as the user would in the
+    /// column headers, then reloads once. A null or empty value clears that column. With
+    /// <paramref name="replace"/> every other filter is cleared too. A key whose column has not
+    /// rendered yet is kept and applies when it does.
+    /// </summary>
+    public async Task SetFiltersAsync(IReadOnlyDictionary<string, string?> values, bool replace = false)
+    {
+        ArgumentNullException.ThrowIfNull(values);
+        if (replace)
+        {
+            _filters.Clear();
+            _draftFilters.Clear();
+        }
+
+        foreach (var (key, value) in values)
+        {
+            _draftFilters.Remove(key);
+            var column = _columns.FirstOrDefault(candidate => candidate.Key == key);
+            if (string.IsNullOrEmpty(value))
+            {
+                _filters.Remove(key);
+            }
+            else
+            {
+                _filters[key] = column is null
+                    ? GridColumnFilter.Empty with { Operator = OmniDataGridFilterOperator.Equals, Value = value }
+                    : DefaultFilter(column) with { Value = value };
+            }
+
+            // Set from code, a key must not be overwritten by its column's default when it renders.
+            _defaultFilterKeys.Add(key);
+        }
+
+        await ResetToFirstPageAsync();
+        InvalidateLocalProjection();
+        await RefreshAfterQueryChangeAsync();
+        await PersistStateAsync();
+        StateHasChanged();
+    }
+
     private void RegisterColumn(OmniDataGridColumnDefinition<TItem> definition)
     {
         var index = _columns.FindIndex(column => column.Key == definition.Key);
@@ -800,6 +880,7 @@ public partial class OmniDataGrid<TItem>
             _columns.Add(definition);
         }
         ApplyInitialSort(definition);
+        ApplyDefaultFilter(definition);
         InvalidateLocalProjection();
         RebuildRenderSnapshot();
         _ = InvokeAsync(StateHasChanged);
@@ -1827,12 +1908,18 @@ public partial class OmniDataGrid<TItem>
 
         string Condition(OmniDataGridFilterOperator candidate, string value) => GridColumnFilter.IsValueless(candidate)
             ? OperatorLabel(candidate)
-            : $"{OperatorLabel(candidate)} {DisplayFilterValue(value)}";
+            : $"{OperatorLabel(candidate)} {DisplayFilterValue(column, value)}";
     }
 
     /// <summary>A multi-valued filter travels encoded; the summary shows its values, not the encoding.</summary>
-    private static string DisplayFilterValue(string value) =>
-        string.Join(", ", OmniDataGridFilterValues.Split(value));
+    private static string DisplayFilterValue(OmniDataGridColumnDefinition<TItem> column, string value) =>
+        column.FilterType == OmniDataGridColumnFilterType.DateRange
+            ? string.Join(" - ", OmniDataGridDateRange.Split(value).Start, OmniDataGridDateRange.Split(value).End)
+            : string.Join(", ", OmniDataGridFilterValues.Split(value).Select(candidate => CandidateText(column, candidate)));
+
+    /// <summary>What one filter candidate reads as: the column's text for it, or the value itself.</summary>
+    private static string CandidateText(OmniDataGridColumnDefinition<TItem> column, string candidate) =>
+        column.FilterValueText?.Invoke(candidate) ?? candidate;
 
     private sealed record FilterEditorRequest(OmniDataGridColumnDefinition<TItem> Column, string Id, bool InPanel);
 
@@ -1887,7 +1974,7 @@ public partial class OmniDataGrid<TItem>
         DefaultOperator(column),
         string.Empty,
         column.LogicalFilterOperator,
-        column.SecondFilterOperator,
+        column.FilterType == OmniDataGridColumnFilterType.Text ? Offered(column, column.SecondFilterOperator) : column.SecondFilterOperator,
         string.Empty);
 
     /// <summary>
@@ -1897,8 +1984,9 @@ public partial class OmniDataGrid<TItem>
     /// </summary>
     private static OmniDataGridFilterOperator DefaultOperator(OmniDataGridColumnDefinition<TItem> column) => column.FilterType switch
     {
-        OmniDataGridColumnFilterType.Select => OmniDataGridFilterOperator.Equals,
+        OmniDataGridColumnFilterType.Select or OmniDataGridColumnFilterType.DateRange => OmniDataGridFilterOperator.Equals,
         OmniDataGridColumnFilterType.MultiSelect => OmniDataGridFilterOperator.In,
+        OmniDataGridColumnFilterType.Text => Offered(column, column.FilterOperator),
         _ => column.FilterOperator
     };
 
@@ -1915,7 +2003,13 @@ public partial class OmniDataGrid<TItem>
                 .ToArray()
             : DerivedFilterValues(column);
 
-    private IReadOnlyList<string> DerivedFilterValues(OmniDataGridColumnDefinition<TItem> column) => Items
+    /// <summary>
+    /// A column reading an enum offers every member, in declaration order, whatever rows are held:
+    /// a remote grid only holds a page, and a member absent from it is still a valid choice.
+    /// </summary>
+    private IReadOnlyList<string> DerivedFilterValues(OmniDataGridColumnDefinition<TItem> column) => column.EnumType is { } enumType
+        ? Enum.GetNames(enumType)
+        : Items
         .Select(item => column.Value(item)?.ToString())
         .Where(value => !string.IsNullOrEmpty(value))
         .Select(value => value!)
@@ -1954,8 +2048,23 @@ public partial class OmniDataGrid<TItem>
     private Task StageAsync(OmniDataGridColumnDefinition<TItem> column, GridColumnFilter filter)
     {
         _draftFilters[column.Key] = filter;
-        return UsesAdvancedFilter ? Task.CompletedTask : ApplyFilterAsync(column);
+        return UsesAdvancedEditor(column) ? Task.CompletedTask : ApplyFilterAsync(column);
     }
+
+    /// <summary>
+    /// Whether this column's editor is the two-condition one of the advanced mode. A checkable list
+    /// and a date range already express their whole condition (any of these values, between these
+    /// dates), so they keep their single editor and apply as they change, in every mode.
+    /// </summary>
+    private bool UsesAdvancedEditor(OmniDataGridColumnDefinition<TItem> column) =>
+        UsesAdvancedFilter && !HasSelfContainedEditor(column);
+
+    private bool ShowsOperatorSelectorFor(OmniDataGridColumnDefinition<TItem> column) =>
+        ShowsOperatorSelector && !HasSelfContainedEditor(column);
+
+    private static bool HasSelfContainedEditor(OmniDataGridColumnDefinition<TItem> column) =>
+        column.FilterTemplate is null
+        && column.FilterType is OmniDataGridColumnFilterType.MultiSelect or OmniDataGridColumnFilterType.DateRange;
 
     private async Task ApplyFilterAsync(OmniDataGridColumnDefinition<TItem> column)
     {
@@ -1994,16 +2103,46 @@ public partial class OmniDataGrid<TItem>
     private IReadOnlyList<OmniDataGridFilter> CurrentFilters()
     {
         var keys = EffectiveColumns.Select(column => column.Key).ToHashSet(StringComparer.Ordinal);
+        var dateRanges = EffectiveColumns
+            .Where(column => column.FilterType == OmniDataGridColumnFilterType.DateRange && column.FilterPredicate is null)
+            .Select(column => column.Key)
+            .ToHashSet(StringComparer.Ordinal);
         return _filters
             .Where(pair => keys.Contains(pair.Key) && pair.Value.IsActive)
-            .Select(pair => new OmniDataGridFilter(
-                pair.Key,
-                pair.Value.Operator,
-                pair.Value.Value,
-                pair.Value.LogicalOperator,
-                pair.Value.HasSecond ? pair.Value.SecondOperator : null,
-                pair.Value.HasSecond ? pair.Value.SecondValue : null))
+            .Select(pair => dateRanges.Contains(pair.Key)
+                ? DateRangeFilter(pair.Key, pair.Value.Value)
+                : new OmniDataGridFilter(
+                    pair.Key,
+                    pair.Value.Operator,
+                    pair.Value.Value,
+                    pair.Value.LogicalOperator,
+                    pair.Value.HasSecond ? pair.Value.SecondOperator : null,
+                    pair.Value.HasSecond ? pair.Value.SecondValue : null))
+            .OfType<OmniDataGridFilter>()
             .ToArray();
+    }
+
+    /// <summary>
+    /// A date range reaches a loader already resolved, so no loader has to know the whole-day rule:
+    /// an inclusive lower bound (GreaterThanOrEquals) and an exclusive upper one (LessThan), in
+    /// invariant ISO form. A range with neither side readable sends nothing.
+    /// </summary>
+    private static OmniDataGridFilter? DateRangeFilter(string key, string value)
+    {
+        var (start, endExclusive) = OmniDataGridDateRange.Resolve(value);
+        return (start, endExclusive) switch
+        {
+            ({ } from, { } to) => new OmniDataGridFilter(
+                key,
+                OmniDataGridFilterOperator.GreaterThanOrEquals,
+                OmniDataGridDateRange.FormatBound(from),
+                OmniDataGridLogicalOperator.And,
+                OmniDataGridFilterOperator.LessThan,
+                OmniDataGridDateRange.FormatBound(to)),
+            ({ } from, null) => new OmniDataGridFilter(key, OmniDataGridFilterOperator.GreaterThanOrEquals, OmniDataGridDateRange.FormatBound(from)),
+            (null, { } to) => new OmniDataGridFilter(key, OmniDataGridFilterOperator.LessThan, OmniDataGridDateRange.FormatBound(to)),
+            _ => null
+        };
     }
 
     /// <summary>Restarts the row set after a sort or filter changed, discarding measurements and cached rows.</summary>
@@ -2102,6 +2241,115 @@ public partial class OmniDataGrid<TItem>
             : string.Format(CultureInfo.CurrentCulture, PagingSummaryFormat, first, last, total);
     }
 
+    /// <summary>
+    /// Fetches the rows again without leaving them, for live data (a row created, changed or
+    /// removed on the server): no loading state, the scroll position and the page stay, and the
+    /// rows on screen are replaced only once the new ones are in, so a new row slides in and moves
+    /// the others down. A sort or filter change still restarts from the top through
+    /// <see cref="ReloadAsync"/>. With <see cref="NewRowHighlight"/>, rows that were not held
+    /// before read as new for that long. For a grid fed through <c>Items</c> or
+    /// <c>LoadRequested</c>, call it before handing the new rows: they are compared to the ones
+    /// held at the call.
+    /// </summary>
+    public async Task RefreshAsync()
+    {
+        if (ExternalData)
+        {
+            _refreshBaseline = HeldKeys(Items);
+            await RequestExternalDataAsync();
+            RebuildRenderSnapshot();
+            return;
+        }
+
+        if (Load is null)
+        {
+            _refreshBaseline = HeldKeys(Items);
+            return;
+        }
+
+        if (Virtualized)
+        {
+            var before = HeldKeys(_virtualSource.CachedItems);
+            var changed = await _virtualSource.RefreshAsync(_range.StartIndex, Math.Max(1, _range.Count), BlockSize, LoadWindowAsync);
+            if (!changed)
+            {
+                return;
+            }
+
+            MarkNewRows(before, _virtualSource.CachedItems);
+            SyncVirtualWindow();
+            await EnsureVirtualDataAsync();
+            StateHasChanged();
+            return;
+        }
+
+        var held = HeldKeys(_remote.Items);
+        var sorts = CurrentSorts();
+        var filters = CurrentFilters();
+        await _remote.LoadAsync(token => Load(new OmniDataGridLoadRequest(Page, PageSize, sorts, filters, token)), quiet: true);
+        MarkNewRows(held, _remote.Items);
+        RebuildRenderSnapshot();
+        StateHasChanged();
+    }
+
+    private bool HighlightsNewRows => NewRowHighlight is { } duration && duration > TimeSpan.Zero
+        && (KeySelector is not null || GridPropertyAccessor.Create<TItem>(KeyProperty) is not null);
+
+    private HashSet<object>? HeldKeys(IEnumerable<TItem> items) =>
+        HighlightsNewRows ? items.Select(ItemKey).ToHashSet() : null;
+
+    /// <summary>Marks the rows of <paramref name="now"/> whose key <paramref name="before"/> did not hold.</summary>
+    private void MarkNewRows(HashSet<object>? before, IEnumerable<TItem> now)
+    {
+        if (before is null || NewRowHighlight is not { } duration)
+        {
+            return;
+        }
+
+        var until = Environment.TickCount64 + (long)duration.TotalMilliseconds;
+        var marked = false;
+        foreach (var key in now.Select(ItemKey).Where(key => !before.Contains(key)))
+        {
+            _newRowKeys[key] = until;
+            marked = true;
+        }
+
+        if (marked)
+        {
+            _ = ExpireNewRowsAsync(until);
+        }
+    }
+
+    /// <summary>
+    /// Clears the marks set with <paramref name="until"/> once it has passed. The system tick is
+    /// coarser than a short delay, so the wait repeats until the clock agrees; a row marked again
+    /// since holds a later deadline and is left to its own call.
+    /// </summary>
+    private async Task ExpireNewRowsAsync(long until)
+    {
+        try
+        {
+            long remaining;
+            while ((remaining = until - Environment.TickCount64) > 0)
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(remaining), _highlightLifetime.Token);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+
+        foreach (var key in _newRowKeys.Where(pair => pair.Value <= until).Select(pair => pair.Key).ToArray())
+        {
+            _newRowKeys.Remove(key);
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private bool IsNewRow(TItem item) => _newRowKeys.Count > 0 && _newRowKeys.ContainsKey(ItemKey(item));
+
     public async Task ReloadAsync()
     {
         if (ExternalData)
@@ -2188,8 +2436,53 @@ public partial class OmniDataGrid<TItem>
         ? Text(OrOperatorText, "GridFilterOr")
         : Text(AndOperatorText, "GridFilterAnd");
 
-    private static IReadOnlyList<OmniDataGridFilterOperator> FilterOperators { get; } =
-        Enum.GetValues<OmniDataGridFilterOperator>();
+    private static IReadOnlyList<OmniDataGridFilterOperator> TextOperators { get; } =
+    [
+        OmniDataGridFilterOperator.Contains, OmniDataGridFilterOperator.DoesNotContain,
+        OmniDataGridFilterOperator.Equals, OmniDataGridFilterOperator.NotEquals,
+        OmniDataGridFilterOperator.StartsWith, OmniDataGridFilterOperator.EndsWith,
+        OmniDataGridFilterOperator.IsNull, OmniDataGridFilterOperator.IsNotNull,
+        OmniDataGridFilterOperator.IsEmpty, OmniDataGridFilterOperator.IsNotEmpty
+    ];
+
+    private static IReadOnlyList<OmniDataGridFilterOperator> OrderedOperators { get; } =
+    [
+        OmniDataGridFilterOperator.Equals, OmniDataGridFilterOperator.NotEquals,
+        OmniDataGridFilterOperator.GreaterThan, OmniDataGridFilterOperator.GreaterThanOrEquals,
+        OmniDataGridFilterOperator.LessThan, OmniDataGridFilterOperator.LessThanOrEquals,
+        OmniDataGridFilterOperator.IsNull, OmniDataGridFilterOperator.IsNotNull
+    ];
+
+    private static IReadOnlyList<OmniDataGridFilterOperator> EqualityOperators { get; } =
+    [
+        OmniDataGridFilterOperator.Equals, OmniDataGridFilterOperator.NotEquals,
+        OmniDataGridFilterOperator.IsNull, OmniDataGridFilterOperator.IsNotNull
+    ];
+
+    /// <summary>
+    /// The operators a column's condition can use, from the type it reads: text compares as text, a
+    /// number or a date is ordered, an enum or a boolean is only equal or not. Offering "contains" on
+    /// a number, or "greater than" on a name, only let the user build a condition that a remote
+    /// loader must refuse. A column read through a function has no known type and keeps the text set.
+    /// The multi-valued operators belong to the checkable list, never to this menu.
+    /// </summary>
+    private static IReadOnlyList<OmniDataGridFilterOperator> OperatorsFor(OmniDataGridColumnDefinition<TItem> column) =>
+        column.ValueType switch
+        {
+            null => TextOperators,
+            var type when type == typeof(string) => TextOperators,
+            var type when type.IsEnum || type == typeof(bool) || type == typeof(Guid) => EqualityOperators,
+            var type when column.Numeric || type == typeof(DateTime) || type == typeof(DateTimeOffset)
+                || type == typeof(DateOnly) || type == typeof(TimeOnly) || type == typeof(TimeSpan) => OrderedOperators,
+            _ => TextOperators
+        };
+
+    /// <summary>A column's declared operator when its type offers it, else the first one it does offer.</summary>
+    private static OmniDataGridFilterOperator Offered(OmniDataGridColumnDefinition<TItem> column, OmniDataGridFilterOperator declared)
+    {
+        var offered = OperatorsFor(column);
+        return offered.Contains(declared) ? declared : offered[0];
+    }
 
     private string GridClass() => Css(
         "omni-data-grid",
@@ -2235,6 +2528,7 @@ public partial class OmniDataGrid<TItem>
     private string RowClass(GridRenderRow<TItem> row) => CssClassBuilder.Combine([
         "omni-data-grid__row",
         row.HasItem && IsSelected(ItemKey(row.Item)) ? "omni-data-grid__row--selected" : null,
+        row.HasItem && IsNewRow(row.Item) ? "omni-data-grid__row--new" : null,
         AllowAlternatingRows && row.Index % 2 == 1 ? "omni-data-grid__row--alternate" : null,
         RowsAreInteractive && row.Selectable ? "omni-data-grid__row--interactive" : null,
         row.CssClass
@@ -2358,6 +2652,18 @@ public partial class OmniDataGrid<TItem>
         var onChange = EventCallback.Factory.Create<ChangeEventArgs>(this, args => onChanged(args.Value?.ToString() ?? string.Empty));
         switch (column.FilterType)
         {
+            case OmniDataGridColumnFilterType.DateRange:
+                builder.OpenComponent<OmniDataGridFilterDateRange>(0);
+                builder.AddComponentParameter(1, nameof(OmniDataGridFilterDateRange.Id), id);
+                builder.AddComponentParameter(2, nameof(OmniDataGridFilterDateRange.Value), value);
+                builder.AddComponentParameter(3, nameof(OmniDataGridFilterDateRange.IncludesTime), column.FilterIncludesTime);
+                builder.AddComponentParameter(
+                    4,
+                    nameof(OmniDataGridFilterDateRange.ValueChanged),
+                    EventCallback.Factory.Create<string>(this, encoded => onChanged(encoded)));
+                builder.CloseComponent();
+                break;
+
             case OmniDataGridColumnFilterType.MultiSelect:
                 builder.OpenComponent<OmniDataGridFilterMultiSelect>(0);
                 builder.AddComponentParameter(1, nameof(OmniDataGridFilterMultiSelect.Id), id);
@@ -2365,6 +2671,7 @@ public partial class OmniDataGrid<TItem>
                 builder.AddComponentParameter(3, nameof(OmniDataGridFilterMultiSelect.Suggestions), DistinctFilterValues(column));
                 builder.AddComponentParameter(4, nameof(OmniDataGridFilterMultiSelect.Placeholder), Text(FilterText, "GridFilterPlaceholder"));
                 builder.AddComponentParameter(5, nameof(OmniDataGridFilterMultiSelect.Searchable), column.FilterSearchable);
+                builder.AddComponentParameter(8, nameof(OmniDataGridFilterMultiSelect.TextFor), column.FilterValueText);
                 builder.AddComponentParameter(
                     6,
                     nameof(OmniDataGridFilterMultiSelect.ValueChanged),
@@ -2394,7 +2701,7 @@ public partial class OmniDataGrid<TItem>
                     builder.OpenElement(selectSeq++, "option");
                     builder.AddAttribute(selectSeq++, "value", candidate);
                     builder.AddAttribute(selectSeq++, "selected", string.Equals(candidate, value, StringComparison.Ordinal));
-                    builder.AddContent(selectSeq++, candidate);
+                    builder.AddContent(selectSeq++, CandidateText(column, candidate));
                     builder.CloseElement();
                 }
                 builder.CloseElement();
@@ -2515,6 +2822,8 @@ public partial class OmniDataGrid<TItem>
             }
 
             _selfReference?.Dispose();
+            await _highlightLifetime.CancelAsync();
+            _highlightLifetime.Dispose();
             await _virtualSource.DisposeAsync();
             await _remote.DisposeAsync();
         }

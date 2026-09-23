@@ -25,11 +25,11 @@
        popover it ends with its own clear action, inline the reset cross beside it does that job.
        Advanced mode always edits in a popover, two conditions being too tall for a header row. *@
     RenderFragment<FilterEditorRequest> filterEditor = context => @<div class="@FilterEditorClass(context.InPanel)">
-        @if (ShowsOperatorSelector)
+        @if (ShowsOperatorSelectorFor(context.Column))
         {
             <label class="omni-visually-hidden" for="@($"{context.Id}-operator")">@Localize("GridFilterOperator", context.Column.Title)</label>
             <select id="@($"{context.Id}-operator")" class="omni-input omni-data-grid__filter-operator" value="@DraftOf(context.Column).Operator" @onchange="args => FilterOperatorChangedAsync(context.Column, args.Value?.ToString())">
-                @foreach (var candidate in FilterOperators)
+                @foreach (var candidate in OperatorsFor(context.Column))
                 {
                     <option value="@candidate" selected="@(candidate == DraftOf(context.Column).Operator)">@OperatorLabel(candidate)</option>
                 }
@@ -37,7 +37,7 @@
         }
         <label class="omni-visually-hidden" for="@context.Id">@Localize("GridFilterColumn", context.Column.Title)</label>
         @FilterValueControl(context.Column, context.Id, FilterValue(context.Column), value => FilterValueChangedAsync(context.Column, value), context.InPanel)
-        @if (UsesAdvancedFilter)
+        @if (UsesAdvancedEditor(context.Column))
         {
             <label class="omni-visually-hidden" for="@($"{context.Id}-logical")">@Localize("GridFilterLogical", context.Column.Title)</label>
             <select id="@($"{context.Id}-logical")" class="omni-input omni-data-grid__filter-logical" value="@DraftOf(context.Column).LogicalOperator" @onchange="args => LogicalOperatorChangedAsync(context.Column, args.Value?.ToString())">
@@ -46,7 +46,7 @@
             </select>
             <label class="omni-visually-hidden" for="@($"{context.Id}-second-operator")">@Localize("GridFilterSecondOperator", context.Column.Title)</label>
             <select id="@($"{context.Id}-second-operator")" class="omni-input omni-data-grid__filter-operator" value="@DraftOf(context.Column).SecondOperator" @onchange="args => SecondFilterOperatorChangedAsync(context.Column, args.Value?.ToString())">
-                @foreach (var candidate in FilterOperators)
+                @foreach (var candidate in OperatorsFor(context.Column))
                 {
                     <option value="@candidate" selected="@(candidate == DraftOf(context.Column).SecondOperator)">@OperatorLabel(candidate)</option>
                 }

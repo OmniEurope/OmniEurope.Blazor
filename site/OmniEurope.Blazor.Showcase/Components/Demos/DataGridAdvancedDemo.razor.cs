@@ -1,7 +1,12 @@
+using OmniEurope.Blazor.Showcase.Resources;
+
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class DataGridAdvancedDemo
 {
+    [Inject]
+    private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
+
     private static readonly IReadOnlyList<string> CountryValues = ["Belgique", "France", "Luxembourg", "Pays-Bas"];
 
     private static readonly IReadOnlyList<OmniOption<OmniDataGridLines>> LineOptions =
@@ -61,13 +66,13 @@ public partial class DataGridAdvancedDemo
 
     private static readonly IReadOnlyList<GridRow> Rows =
     [
-        new("D-2401", "Camille Durand", "Belgique", 12400),
-        new("D-2402", "Jonas Meyer", "Luxembourg", 8600),
-        new("D-2403", "Sofia Rossi", "France", 21500),
-        new("D-2404", "Lars Jansen", "Pays-Bas", 4300),
-        new("D-2405", "Ana Silva", "France", 17800),
-        new("D-2406", "Piet de Vries", "Pays-Bas", 9100),
-        new("D-2407", "Marie Lambert", "Belgique", 15200)
+        new("D-2401", "Camille Durand", "Belgique", 12400, new DateTime(2026, 3, 2, 9, 15, 0)),
+        new("D-2402", "Jonas Meyer", "Luxembourg", 8600, new DateTime(2026, 3, 2, 17, 40, 0)),
+        new("D-2403", "Sofia Rossi", "France", 21500, new DateTime(2026, 3, 9, 11, 5, 0)),
+        new("D-2404", "Lars Jansen", "Pays-Bas", 4300, new DateTime(2026, 3, 12, 8, 30, 0)),
+        new("D-2405", "Ana Silva", "France", 17800, new DateTime(2026, 3, 16, 14, 0, 0)),
+        new("D-2406", "Piet de Vries", "Pays-Bas", 9100, new DateTime(2026, 3, 20, 10, 45, 0)),
+        new("D-2407", "Marie Lambert", "Belgique", 15200, new DateTime(2026, 3, 23, 16, 20, 0))
     ];
 
     private IReadOnlyList<GridRow> Selection { get; set; } = [];

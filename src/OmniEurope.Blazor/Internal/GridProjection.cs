@@ -69,6 +69,11 @@ internal static class GridProjection<TItem>
         StringComparison comparison,
         bool ignoreDiacritics)
     {
+        if (column.FilterType == OmniDataGridColumnFilterType.DateRange && column.FilterPredicate is null)
+        {
+            return OmniDataGridDateRange.Contains(filter.Value, column.Value(item));
+        }
+
         var first = !filter.HasFirst
             || (column.FilterPredicate?.Invoke(item, filter.Value)
                 ?? MatchesFilter(column.Value(item), filter.Value, filter.Operator, comparison, ignoreDiacritics));

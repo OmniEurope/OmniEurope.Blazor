@@ -88,6 +88,64 @@ internal static class GridPropertyAccessor
                 || type == typeof(decimal) || type == typeof(double) || type == typeof(float);
         });
     }
+    /// <summary>
+    /// The value type the dotted path ends on, nullable unwrapped, or null for an unknown path. The
+    /// filter menu offers the operators that type can be compared with.
+    /// </summary>
+    internal static Type? ValueType<TItem>(string? path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return null;
+        }
+
+        var current = typeof(TItem);
+        foreach (var segment in path.Split('.', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var member = FindMember(current, segment);
+            if (member is null)
+            {
+                return null;
+            }
+
+            current = member is PropertyInfo property ? property.PropertyType : ((FieldInfo)member).FieldType;
+        }
+
+        return Nullable.GetUnderlyingType(current) ?? current;
+    }
+
+    private static readonly ConcurrentDictionary<(Type Type, string Path), Type?> EnumCache = new();
+
+    /// <summary>
+    /// The enum type the dotted path ends on (nullable or not), or null. A filter uses it to offer
+    /// every member as a candidate, which a remote grid could not derive from the rows it holds.
+    /// </summary>
+    internal static Type? EnumType<TItem>(string? path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return null;
+        }
+
+        return EnumCache.GetOrAdd((typeof(TItem), path), static key =>
+        {
+            var current = key.Type;
+            foreach (var segment in key.Path.Split('.', StringSplitOptions.RemoveEmptyEntries))
+            {
+                var member = FindMember(current, segment);
+                if (member is null)
+                {
+                    return null;
+                }
+
+                current = member is PropertyInfo property ? property.PropertyType : ((FieldInfo)member).FieldType;
+            }
+
+            var type = Nullable.GetUnderlyingType(current) ?? current;
+            return type.IsEnum ? type : null;
+        });
+    }
+
     private static bool CanBeNull(Type type) => !type.IsValueType || Nullable.GetUnderlyingType(type) is not null;
 
     private static MemberInfo? FindMember(Type type, string name) =>

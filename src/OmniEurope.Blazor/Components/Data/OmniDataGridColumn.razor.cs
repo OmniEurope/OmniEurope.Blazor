@@ -89,6 +89,26 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public bool FilterSearchable { get; set; }
 
+    /// <summary>
+    /// The text a filter shows for one candidate value (an enum member's translated name, for
+    /// example). The value itself is what the filter keeps and sends; only its display changes.
+    /// </summary>
+    [Parameter]
+    public Func<string, string>? FilterValueText { get; set; }
+
+    /// <summary>
+    /// Filter applied when the grid first shows this column, so a default narrowing (open items
+    /// only, say) is visible and removable in the column's own filter instead of hidden in the
+    /// query. A filter restored from the grid's saved state wins over it. For a MultiSelect it is
+    /// the encoded list of <see cref="OmniDataGridFilterValues"/>.
+    /// </summary>
+    [Parameter]
+    public string? DefaultFilterValue { get; set; }
+
+    /// <summary>A DateRange filter also picks the hours; without it a day covers all of it.</summary>
+    [Parameter]
+    public bool FilterIncludesTime { get; set; }
+
     [Parameter]
     public OmniDataGridFilterOperator FilterOperator { get; set; }
 
@@ -174,6 +194,11 @@ public partial class OmniDataGridColumn<TItem>
             Filterable = Filterable,
             FilterType = FilterType,
             FilterSearchable = FilterSearchable,
+            FilterValueText = FilterValueText,
+            DefaultFilterValue = DefaultFilterValue,
+            FilterIncludesTime = FilterIncludesTime,
+            EnumType = GridPropertyAccessor.EnumType<TItem>(Property),
+            ValueType = GridPropertyAccessor.ValueType<TItem>(Property),
             FilterOperator = FilterOperator,
             SecondFilterOperator = SecondFilterOperator,
             LogicalFilterOperator = LogicalFilterOperator,
@@ -220,6 +245,9 @@ public partial class OmniDataGridColumn<TItem>
         && left.Filterable == right.Filterable
         && left.FilterType == right.FilterType
         && left.FilterSearchable == right.FilterSearchable
+        && Equals(left.FilterValueText, right.FilterValueText)
+        && string.Equals(left.DefaultFilterValue, right.DefaultFilterValue, StringComparison.Ordinal)
+        && left.FilterIncludesTime == right.FilterIncludesTime
         && left.FilterOperator == right.FilterOperator
         && left.SecondFilterOperator == right.SecondFilterOperator
         && left.LogicalFilterOperator == right.LogicalFilterOperator

@@ -7,4 +7,5 @@ namespace OmniEurope.Blazor.Showcase.Components.Demos;
 /// <param name="Applicant">The applicant name.</param>
 /// <param name="Country">The country the file belongs to.</param>
 /// <param name="Amount">The amount claimed.</param>
-public sealed record GridRow(string Reference, string Applicant, string Country, decimal Amount);
+/// <param name="Filed">When the file was filed.</param>
+public sealed record GridRow(string Reference, string Applicant, string Country, decimal Amount, DateTime Filed = default);

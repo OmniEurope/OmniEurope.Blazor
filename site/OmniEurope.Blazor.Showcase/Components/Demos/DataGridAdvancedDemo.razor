@@ -102,6 +102,14 @@
                                                MaxSuggestions="8" />
             </FilterTemplate>
         </OmniDataGridColumn>
+        <OmniDataGridColumn TItem="GridRow" Property="Filed" Title="@Text["GridFiledColumn"]" FormatString="{0:g}"
+                            FilterType="OmniDataGridColumnFilterType.DateRange">
+            <FilterTemplate>
+                @* A day alone covers the whole day; IncludesTime would pick the hours too. *@
+                <OmniDataGridFilterDateRange Value="@context.Value"
+                                             ValueChanged="@(value => context.ValueChanged(value))" />
+            </FilterTemplate>
+        </OmniDataGridColumn>
         <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="Montant" FormatString="{0:C0}"
                             TextAlign="OmniDataGridTextAlign.End">
             <FooterTemplate>Total : @Rows.Sum(row => row.Amount).ToString("C0")</FooterTemplate>
