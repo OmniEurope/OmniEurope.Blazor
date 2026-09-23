@@ -103,7 +103,15 @@ export function sync(viewport, measureRows = true) {
 
     // Measuring every rendered row forces a layout on each scroll frame. A grid with a known row
     // height throws those measurements away anyway, so it does not pay for them.
-    return { ...metrics(viewport), rows: measureRows ? collectRows(viewport) : null };
+    const rawEstimate = getComputedStyle(viewport).getPropertyValue('--omni-grid-row-estimate').trim();
+    const match = /^(\d+(?:\.\d+)?)(px|rem)$/.exec(rawEstimate);
+    const rootSize = match?.[2] === 'rem' ? Number.parseFloat(getComputedStyle(document.documentElement).fontSize) : 1;
+    const estimate = match ? Number(match[1]) * rootSize : null;
+    return {
+        ...metrics(viewport),
+        rowEstimate: Number.isFinite(estimate) && estimate > 0 ? estimate : null,
+        rows: measureRows ? collectRows(viewport) : null
+    };
 }
 
 /**
@@ -877,8 +885,8 @@ export function attachFill(viewport) {
         const page = container === document.scrollingElement || container === document.documentElement;
         const top = page ? 0 : container.getBoundingClientRect().top + container.clientTop;
         const visible = page ? window.innerHeight : container.clientHeight;
-        const style = getComputedStyle(container);
-        const bottom = Number.parseFloat(style.paddingBottom) || 0;
+        const computedStyle = getComputedStyle(container);
+        const bottom = Number.parseFloat(computedStyle.paddingBottom) || 0;
         const offset = grid.getBoundingClientRect().top - top + (page ? 0 : container.scrollTop);
         // What the boxes between the grid and the scrolling area add under it (their bottom margin,
         // padding and border): left out, the grid reached the bottom and the page still scrolled by it.
@@ -930,4 +938,20 @@ export function detachFill(viewport) {
         fill.dispose();
         fills.delete(viewport);
     }
+}
+
+/** Wait for the visible initial row images and a completed browser layout. */
+export async function waitForReady(viewport) {
+    if (!viewport?.isConnected || !viewport.getClientRects().length) return false;
+    const bounds = viewport.getBoundingClientRect();
+    const visible = [...viewport.querySelectorAll('img')].filter(image => {
+        const rect = image.getBoundingClientRect();
+        return rect.bottom > bounds.top && rect.top < bounds.bottom;
+    });
+    await Promise.all(visible.map(image => image.complete ? Promise.resolve() : new Promise(resolve => {
+        image.addEventListener('load', resolve, { once: true });
+        image.addEventListener('error', resolve, { once: true });
+    })));
+    await new Promise(requestAnimationFrame);
+    return viewport.isConnected;
 }

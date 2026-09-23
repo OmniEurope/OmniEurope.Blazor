@@ -9,5 +9,7 @@ internal sealed class GridViewportSnapshot
 
     public double ScrollHeight { get; set; }
 
+    public double? RowEstimate { get; set; }
+
     public IReadOnlyList<GridRowMeasurement>? Rows { get; set; }
 }

@@ -42,7 +42,7 @@ public sealed class ShowcaseThemeStateTests
         Assert.Equal(3, state.Tokens.Count);
         Assert.Empty(state.Edits);
         Assert.Same(OmniThemePresets.All[0], state.Theme);
-        Assert.Equal("Défaut", state.Palette.Name);
+        Assert.Equal("Essentiel", state.Palette.Name);
         Assert.True(state.HasThemePalette);
         var (identifier, arguments) = js.Calls[^1];
         Assert.Equal("omniShowcaseTheme.apply", identifier);

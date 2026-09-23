@@ -2,6 +2,8 @@ namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class ChoiceDemo
 {
+    private int? Rating { get; set; } = 3;
+    private int? ReadonlyRating { get; set; } = 3;
     private static readonly IReadOnlyList<OmniOption<string>> Shipping =
     [
         new("standard", "Standard"),

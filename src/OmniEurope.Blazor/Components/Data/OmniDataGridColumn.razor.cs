@@ -192,7 +192,7 @@ public partial class OmniDataGridColumn<TItem>
             Sortable = Sortable,
             SortOrder = SortOrder,
             Filterable = Filterable,
-            FilterType = FilterType,
+            FilterType = ResolveFilterType(),
             FilterSearchable = FilterSearchable,
             FilterValueText = FilterValueText,
             DefaultFilterValue = DefaultFilterValue,
@@ -222,6 +222,14 @@ public partial class OmniDataGridColumn<TItem>
         }
     }
 
+    private OmniDataGridColumnFilterType ResolveFilterType()
+    {
+        var type = GridPropertyAccessor.ValueType<TItem>(Property);
+        return FilterType == OmniDataGridColumnFilterType.Text
+            && (type == typeof(DateTime) || type == typeof(DateTimeOffset) || type == typeof(DateOnly))
+            ? OmniDataGridColumnFilterType.DateRange
+            : FilterType;
+    }
     public void Dispose() => _registeredContext?.Unregister(_registeredKey!);
 
     private static bool Matches(OmniDataGridColumnDefinition<TItem>? left, OmniDataGridColumnDefinition<TItem> right) =>

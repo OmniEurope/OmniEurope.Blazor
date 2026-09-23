@@ -41,5 +41,7 @@
             <OmniNullableSwitch Id="choice-nullable-switch" @bind-Value="Partial" />
             <span>État à trois positions : @(Partial is null ? "indéterminé" : Partial.Value ? "activé" : "désactivé")</span>
         </OmniStack>
+        <OmniRating @bind-Value="Rating" Label="Notation" />
+        <OmniRating Value="ReadonlyRating" ValueExpression="@(() => ReadonlyRating)" ReadOnly="true" Label="Notation en lecture seule" />
     </OmniStack>
 </EditForm>

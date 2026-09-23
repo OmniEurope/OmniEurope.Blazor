@@ -4,6 +4,11 @@ Ce lot fournit des contrôles typés reliés à `EditContext`, avec sémantique 
 
 ## Options et sélections
 
+`OmniRating` lie une valeur entière nullable par `Value`/`ValueChanged`/`ValueExpression`.
+`Maximum` vaut cinq et doit être positif ; cliquer une étoile choisit son rang et remplit les
+étoiles précédentes. `ReadOnly` conserve l'affichage sans modification, `Disabled` désactive
+la saisie, et `Label` nomme le groupe et chaque choix. L'édition participe à `EditContext`.
+
 `OmniOption<TValue>` porte la valeur, le texte, l'état désactivé et le groupe éventuel. Ce modèle alimente :
 
 - `OmniDropDown<TValue>` et `OmniMultiSelect<TValue>` ;

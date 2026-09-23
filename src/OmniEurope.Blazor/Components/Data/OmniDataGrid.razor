@@ -81,6 +81,10 @@
 <CascadingValue Value="_context" IsFixed="true">@Columns</CascadingValue>
 
 <div @attributes="AdditionalAttributes" id="@Id" class="@GridClass()" data-omni-density="@Density.ToString().ToLowerInvariant()" data-omni-grid-theme="@GridTheme" aria-busy="@(Loading ? "true" : "false")">
+    @if (Preparing || (Loading && LoadingTemplate is not null))
+    {
+        <div class="omni-data-grid__preparation" role="status">@LoadingTemplate</div>
+    }
     @* Scoped to this grid only: the attribute above redefines the colour tokens inside the
        component, the surrounding page keeps whatever theme it already had. *@
     @if (ShowThemeToggle)
@@ -341,7 +345,7 @@
                     }
                     @if (ShowLoadingRow)
                     {
-                        <tr><td colspan="@ColumnSpan" class="omni-data-grid__state">@Localize("Loading")</td></tr>
+                        <tr><td colspan="@ColumnSpan" class="omni-data-grid__state omni-data-grid__state--loading" role="status">@if (LoadingTemplate is not null) { @LoadingTemplate } else { @Localize("Loading") }</td></tr>
                     }
                     else if (IsEmpty)
                     {

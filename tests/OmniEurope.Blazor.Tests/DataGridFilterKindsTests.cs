@@ -11,6 +11,18 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DataGridFilterKindsTests : OmniBunitContext
 {
+    [Fact]
+    public void NumericColumn_UsesNumberInput_AndFiltersOnEachKeystroke()
+    {
+        var grid = Render<DataGridFilterKindsTestHost>();
+        var input = grid.Find("th[data-omni-col=\"Id\"] input[type=number]");
+        input.Input("2");
+        var row = Assert.Single(grid.FindAll("tbody tr"));
+        Assert.Contains("Closed", row.TextContent, StringComparison.Ordinal);
+        Assert.Empty(grid.FindAll(".omni-data-grid__filter-apply"));
+        input.Input("999");
+        Assert.NotEmpty(grid.Find(".omni-data-grid__state").TextContent.Trim());
+    }
     private const string StatusOptions = "th[data-omni-col=\"Status\"] .omni-multi-select__option";
 
     [Fact]

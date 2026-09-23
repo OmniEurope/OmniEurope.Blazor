@@ -21,7 +21,6 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniCodeEditor
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-code-editor.js";
     private const int LoadTimeoutMilliseconds = 30000;
 
     private ElementReference _root;
@@ -51,6 +50,9 @@ public partial class OmniCodeEditor
 
     /// <summary>Where the host serves the <c>min/vs</c> folder of monaco-editor, relative to the base address of the page.</summary>
     [Parameter] public string MonacoPath { get; set; } = "lib/monaco-editor/min/vs";
+
+    /// <summary>Same-origin JavaScript module implementing editor interop. The default uses Monaco in this document.</summary>
+    [Parameter] public string InteropModulePath { get; set; } = "./_content/OmniEurope.Blazor/omni-code-editor.js";
 
     [Parameter] public OmniCodeEditorEngine Engine { get; set; }
 
@@ -91,6 +93,11 @@ public partial class OmniCodeEditor
             throw new ArgumentException($"{nameof(MonacoPath)} must be a path on the origin of the page: the package never loads a script from another origin.", nameof(MonacoPath));
         }
 
+        if (string.IsNullOrWhiteSpace(InteropModulePath) || Uri.TryCreate(InteropModulePath, UriKind.Absolute, out _) || InteropModulePath.StartsWith("//", StringComparison.Ordinal) || InteropModulePath.Contains('\\'))
+        {
+            throw new ArgumentException($"{nameof(InteropModulePath)} must be a path on the origin of the page.", nameof(InteropModulePath));
+        }
+
         if (Engine == OmniCodeEditorEngine.PlainText)
         {
             _phase = CodePhase.PlainText;
@@ -111,7 +118,7 @@ public partial class OmniCodeEditor
         if (!string.Equals(Height, _appliedHeight, StringComparison.Ordinal))
         {
             _appliedHeight = Height;
-            _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", ModulePath);
+            _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
             await _module.InvokeVoidAsync("setHeight", _root, Height);
         }
 
@@ -165,7 +172,7 @@ public partial class OmniCodeEditor
     private async Task LoadAsync()
     {
         _phase = CodePhase.Loading;
-        _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", ModulePath);
+        _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
         var loaded = await _module.InvokeAsync<bool>("load", MonacoPath, CultureInfo.CurrentUICulture.Name, LoadTimeoutMilliseconds);
         if (_disposed || Engine != OmniCodeEditorEngine.Monaco)
         {
@@ -237,6 +244,9 @@ public partial class OmniCodeEditor
     private object Options(string? value) => new
     {
         value,
+        monacoPath = MonacoPath,
+        culture = CultureInfo.CurrentUICulture.Name,
+        loadTimeoutMilliseconds = LoadTimeoutMilliseconds,
         language = string.IsNullOrWhiteSpace(Language) ? "plaintext" : Language,
         readOnly = ReadOnly,
         lineNumbers = ShowLineNumbers,

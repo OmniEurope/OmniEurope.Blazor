@@ -2,7 +2,29 @@
    Palette d'OmniThemeScope, ou OmniThemePreset.With pour composer soi-même. Seul le scope et son
    contenu changent. Une palette seule garde la forme livrée. Le personnalisateur applique la même
    combinaison à tout le site. *@
+@implements IAsyncDisposable
+
 <div class="demo-themes">
+    <OmniThemeScope Appearance="_appearance" Preset="_preset" Palette="_palette" Density="@DemoDensity" Class="demo-themes__live">
+        <OmniAppearanceSettings Appearance="_appearance" AppearanceChanged="@(value => _appearance = value)"
+                                Preset="_preset" PresetChanged="@(value => _preset = value)"
+                                Palette="_palette" PaletteChanged="@(value => _palette = value)"
+                                TextSizeLevel="_textSizeLevel" TextSizeLevelChanged="@(value => _textSizeLevel = value)"
+                                DensityLevel="_densityLevel" DensityLevelChanged="@(value => _densityLevel = value)" />
+        <OmniCard>
+            <Header><OmniHeading Level="OmniHeadingLevel.H4">@Text["ThemesLivePreview", Caption(LiveSample)]</OmniHeading></Header>
+            <ChildContent>
+                <OmniStack Gap="OmniSpacing.Small">
+                    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+                        <OmniButton><OmniIcon Name="OmniIconName.Save" /><span>@Text["ThemesSave"]</span></OmniButton>
+                        <OmniButton Variant="OmniButtonVariant.Secondary"><OmniIcon Name="OmniIconName.Close" /><span>@Text["ThemesCancel"]</span></OmniButton>
+                        <OmniBadge Variant="OmniBadgeVariant.Success" Fill="OmniBadgeFill.Solid">@Text["ThemesBadge"]</OmniBadge>
+                    </OmniRow>
+                    <OmniAlert Severity="OmniAlertSeverity.Info" Variant="OmniAlertVariant.Filled">@Text["ThemesAlert"]</OmniAlert>
+                </OmniStack>
+            </ChildContent>
+        </OmniCard>
+    </OmniThemeScope>
     @foreach (var sample in Samples)
     {
         <OmniThemeScope Appearance="sample.Appearance" Preset="sample.Theme" Palette="sample.Palette">

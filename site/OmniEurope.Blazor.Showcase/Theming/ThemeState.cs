@@ -266,7 +266,7 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
         }
 
         if (saved.TryGetValue(ThemeKey, out var themeName)
-            && OmniThemePresets.All.FirstOrDefault(theme => theme.Name == themeName) is { } theme)
+            && OmniThemePresets.All.FirstOrDefault(theme => theme.Name == (themeName == "Défaut" ? "Essentiel" : themeName)) is { } theme)
         {
             Theme = theme;
             Palette = DefaultPaletteOf(theme);

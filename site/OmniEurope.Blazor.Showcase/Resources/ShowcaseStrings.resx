@@ -418,6 +418,11 @@
   <data name="SettingsDigest" xml:space="preserve"><value>Résumé quotidien</value></data>
   <data name="SettingsDigestHint" xml:space="preserve"><value>Envoyé chaque matin à 8 h.</value></data>
   <data name="SettingsDigestAddress" xml:space="preserve"><value>Adresse du résumé</value></data>
+  <data name="DemoShellDashboard" xml:space="preserve"><value>Tableau de bord</value></data>
+  <data name="DemoShellInProgress" xml:space="preserve"><value>En cours</value></data>
+  <data name="DemoShellArchived" xml:space="preserve"><value>Archivés</value></data>
+  <data name="DemoShellSettings" xml:space="preserve"><value>Réglages</value></data>
+  <data name="DemoShellOneOffAction" xml:space="preserve"><value>Action ponctuelle</value></data>
   <data name="ShellToggle" xml:space="preserve"><value>Replier ou déplier le menu</value></data>
   <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
   <data name="ShellBrand" xml:space="preserve"><value>Aetheus</value></data>
@@ -489,6 +494,7 @@
   <data name="ThemesThemeAlone" xml:space="preserve"><value>Thème {0}, sa palette</value></data>
   <data name="ThemesPaletteAlone" xml:space="preserve"><value>Palette {0}, forme livrée</value></data>
   <data name="ThemesShipped" xml:space="preserve"><value>Apparence livrée</value></data>
+  <data name="ThemesLivePreview" xml:space="preserve"><value>Aperçu : {0}</value></data>
   <data name="ThemesSave" xml:space="preserve"><value>Enregistrer</value></data>
   <data name="ThemesCancel" xml:space="preserve"><value>Annuler</value></data>
   <data name="ThemesBadge" xml:space="preserve"><value>Publié</value></data>

@@ -1,0 +1,13 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniInputBase<int?>
+
+<span @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-rating")" role="group" aria-label="@Label">
+    @foreach (var star in Enumerable.Range(1, Maximum))
+    {
+        <button type="button" class="omni-rating__star" disabled="@(Disabled || ReadOnly)"
+                aria-label="@StarLabel(star)" aria-pressed="@(CurrentValue == star ? "true" : "false")"
+                @onclick="() => Select(star)">
+            <OmniIcon Name="@(star <= CurrentValue ? OmniIconName.StarFilled : OmniIconName.Star)" Size="OmniControlSize.Small" />
+        </button>
+    }
+</span>

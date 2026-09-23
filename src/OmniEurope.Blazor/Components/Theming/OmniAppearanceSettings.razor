@@ -1,0 +1,53 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+<div class="@Css("omni-appearance-settings", Compact ? "omni-appearance-settings--compact" : null)">
+    <div class="omni-appearance-settings__row">
+        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Palette" /> @Localize("SettingsMode")</span>
+        <div class="omni-appearance-settings__actions">
+            <OmniButton Variant="@ModeVariant(OmniAppearance.Light)" OnClick="@(() => AppearanceChanged.InvokeAsync(OmniAppearance.Light))"><OmniIcon Name="OmniIconName.ThemeLight" /><span>@Localize("AppearanceLight")</span></OmniButton>
+            <OmniButton Variant="@ModeVariant(OmniAppearance.Dark)" OnClick="@(() => AppearanceChanged.InvokeAsync(OmniAppearance.Dark))"><OmniIcon Name="OmniIconName.ThemeDark" /><span>@Localize("AppearanceDark")</span></OmniButton>
+            <OmniButton Variant="@ModeVariant(OmniAppearance.System)" OnClick="@(() => AppearanceChanged.InvokeAsync(OmniAppearance.System))"><OmniIcon Name="OmniIconName.ThemeSystem" /><span>@Localize("AppearanceSystem")</span></OmniButton>
+        </div>
+    </div>
+    <div class="omni-appearance-settings__row">
+        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Layers" /> @Localize("SettingsTheme")</span>
+        <div class="omni-appearance-settings__actions">
+            <OmniDropDown TValue="string" Options="@ThemeOptions" @bind-Value:get="ThemeName" @bind-Value:set="SetThemeAsync" AriaLabel="@Localize("SettingsTheme")" />
+            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Preset is null)" OnClick="@(() => PresetChanged.InvokeAsync(null))"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
+        </div>
+    </div>
+    <div class="omni-appearance-settings__row">
+        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Palette" /> @Localize("SettingsPalette")</span>
+        <div class="omni-appearance-settings__actions">
+            <OmniDropDown TValue="string" Options="@PaletteOptions" @bind-Value:get="PaletteName" @bind-Value:set="SetPaletteAsync" AriaLabel="@Localize("SettingsPalette")" />
+            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Palette is null)" OnClick="@(() => PaletteChanged.InvokeAsync(null))"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
+        </div>
+    </div>
+    <div class="omni-appearance-settings__row">
+        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.TextSize" /> @ScaleTitle</span>
+        <OmniButton AriaLabel="@Localize("Edit")" Variant="OmniButtonVariant.Secondary" OnClick="OpenScaleAsync"><OmniIcon Name="OmniIconName.Edit" /><span>@Localize("Edit")</span></OmniButton>
+    </div>
+</div>
+<OmniDialog Open="@_scaleOpen" OpenChanged="SetScaleOpenAsync" Modal="false" Draggable="true" FreezeScale="true" Title="@ScaleTitle" Class="omni-appearance-window">
+    <ChildContent><div class="omni-appearance-settings omni-appearance-settings--scale">
+    <div class="omni-appearance-settings__row">
+        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.TextSize" /> @Localize("SettingsTextSize")</span>
+        <div class="omni-appearance-settings__actions">
+            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(TextSizeLevel <= 1)" AriaLabel="@Localize("SettingsDecrease")" OnClick="@(() => TextSizeLevelChanged.InvokeAsync(Math.Max(1, TextSizeLevel - 1)))"><OmniIcon Name="OmniIconName.Remove" /></OmniButton>
+            <OmniBadge Variant="OmniBadgeVariant.Neutral">@TextSizeLevel/10</OmniBadge>
+            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(TextSizeLevel >= 10)" AriaLabel="@Localize("SettingsIncrease")" OnClick="@(() => TextSizeLevelChanged.InvokeAsync(Math.Min(10, TextSizeLevel + 1)))"><OmniIcon Name="OmniIconName.Add" /></OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(TextSizeLevel == 5)" OnClick="@(() => TextSizeLevelChanged.InvokeAsync(5))"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
+        </div>
+    </div>
+    <div class="omni-appearance-settings__row">
+        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Rows" /> @Localize("SettingsDensity")</span>
+        <div class="omni-appearance-settings__actions">
+            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(DensityLevel <= 1)" AriaLabel="@Localize("SettingsDecrease")" OnClick="@(() => DensityLevelChanged.InvokeAsync(Math.Max(1, DensityLevel - 1)))"><OmniIcon Name="OmniIconName.Remove" /></OmniButton>
+            <OmniBadge Variant="OmniBadgeVariant.Neutral">@DensityLevel/10</OmniBadge>
+            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(DensityLevel >= 10)" AriaLabel="@Localize("SettingsIncrease")" OnClick="@(() => DensityLevelChanged.InvokeAsync(Math.Min(10, DensityLevel + 1)))"><OmniIcon Name="OmniIconName.Add" /></OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(DensityLevel == 5)" OnClick="@(() => DensityLevelChanged.InvokeAsync(5))"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
+        </div>
+    </div>
+    </div></ChildContent>
+</OmniDialog>

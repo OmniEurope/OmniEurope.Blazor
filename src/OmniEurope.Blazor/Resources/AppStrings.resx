@@ -12,6 +12,15 @@
   <data name="AppearanceLight" xml:space="preserve"><value>Clair</value></data>
   <data name="AppearanceDark" xml:space="preserve"><value>Sombre</value></data>
   <data name="AppearanceSystem" xml:space="preserve"><value>Système</value></data>
+  <data name="SettingsMode" xml:space="preserve"><value>Mode</value></data>
+  <data name="SettingsTheme" xml:space="preserve"><value>Thème</value></data>
+  <data name="SettingsPalette" xml:space="preserve"><value>Palette</value></data>
+  <data name="SettingsTextSize" xml:space="preserve"><value>Taille du texte</value></data>
+  <data name="SettingsDensity" xml:space="preserve"><value>Densité</value></data>
+  <data name="SettingsDefault" xml:space="preserve"><value>Défaut</value></data>
+  <data name="SettingsDefaultSuffix" xml:space="preserve"><value>défaut</value></data>
+  <data name="SettingsDecrease" xml:space="preserve"><value>Réduire</value></data>
+  <data name="SettingsIncrease" xml:space="preserve"><value>Augmenter</value></data>
   <data name="ArcGaugeLabel" xml:space="preserve"><value>Jauge</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>La recherche a échoué. Modifiez la saisie pour réessayer.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>1 résultat disponible.</value></data>

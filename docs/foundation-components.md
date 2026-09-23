@@ -95,7 +95,7 @@ Toute palette peint tout thème : dix thèmes par dix palettes, cent combinaison
 
 | Thème | Signature de forme | Palette par défaut |
 |---|---|---|
-| Défaut | Un seul arrondi de 2,5 px partout, bordure de 1 px, élévation discrète, sans empattement, titres en 600 | Défaut |
+| Essentiel | Un seul arrondi de 2,5 px partout, bordure de 1 px, élévation discrète, sans empattement, titres en 600 | Défaut |
 | Ardoise | Angles vifs, aucune ombre, boutons et titres en capitales espacées | Océan |
 | Galet | Boutons pilule, grandes cartes sans bordure, liseré et ombre diffuse, police arrondie | Forêt |
 | Halo | Grandes rondeurs, boutons pilule, halo coloré tiré de l'accent, bordure teintée | Lavande |
@@ -121,7 +121,7 @@ Toute palette peint tout thème : dix thèmes par dix palettes, cent combinaison
 
 ### Combiner un thème et une palette
 
-`OmniThemePresets.All` donne les dix thèmes, chacun peint de sa palette par défaut, Défaut en premier ; `OmniThemePalettes.All` donne les dix palettes. Sur une `OmniThemeScope` :
+`OmniThemePresets.All` donne les dix thèmes, chacun peint de sa palette par défaut, Essentiel en premier ; `OmniThemePalettes.All` donne les dix palettes. Sur une `OmniThemeScope` :
 
 - `Preset` seul : le thème avec sa palette par défaut ;
 - `Preset` et `Palette` : la forme du thème, les couleurs de la palette ;
@@ -160,6 +160,31 @@ Chaque sévérité (succès, information, avertissement, danger) et l'accent ont
 ### Densité
 
 `OmniDensity` a trois valeurs : `Compact`, `Comfortable` (par défaut) et `Spacious`. `OmniThemeScope.Density` règle toute la portée ; `OmniButton`, `OmniFormField`, `OmniCard`, `OmniAlert`, `OmniTabs`, `OmniPanelMenu`, `OmniProfileMenu`, `OmniContextMenu`, `OmniSettingsTile` et `OmniUpload` ont leur propre `Density`, nulle par défaut pour hériter, qui l'emporte pour le composant et tout ce qu'il contient. `OmniDataGrid.Density` et `OmniResourceList.Density` gardent leur valeur propre, non nulle. La densité est un attribut `data-omni-density` qui pose des jetons hérités (hauteur de contrôle de 1,625, 2,25 ou 2,75 rem, marges, cases du calendrier, taille des cases à cocher, des interrupteurs et des icônes d'alerte), lus par chaque composant qui a une taille propre.
+
+### Réglages d'apparence réutilisables
+
+`OmniAppearanceSettings` rassemble mode clair/sombre/système, thème, palette, taille du texte et
+densité. Modifier ouvre les deux derniers réglages dans une fenêtre déplaçable sans voile.
+Ses mesures sont capturées à l'ouverture : les commandes restent stables pendant les changements,
+puis prennent la nouvelle échelle à la prochaine ouverture. `ScaleEditorOpenChanged` informe l'hôte
+afin qu'il puisse retirer son éventuel voile de menu. Le reste de l'application garde son échelle active.
+Le thème et la palette de référence se nomment « Essentiel » ; les hôtes qui ont stocké l'ancien nom « Défaut »
+doivent le traiter comme un alias lors de la restauration de leurs préférences.
+La taille du texte et la densité proposent les niveaux 1 à 10. Le contrôle reçoit les valeurs
+et émet leurs changements ; l'application conserve
+la responsabilité du stockage et les applique à sa portée. Le mode Système et les boutons Défaut
+restaurent les valeurs initiales.
+La palette du thème est nommée dans le sélecteur, par exemple « Océan (défaut) » pour Ardoise ;
+`OmniThemePresets.DefaultPaletteFor(preset)` fournit cette valeur. `Compact` réduit le panneau pour
+un menu d'en-tête. Pour la densité, l'application peut associer les niveaux 1 à 3 à `Compact`,
+4 à 7 à `Comfortable` et 8 à 10 à `Spacious`. La taille du texte se pilote par les jetons de police
+du site ; le composant ne modifie pas la racine du document à l'insu de son hôte. Pour reproduire
+l'échelle d'Atlas sans CSS propre à l'application, l'hôte pose `data-oe-text-size` (1 à 10) sur
+`<html>` : la feuille OE applique alors 75 % à 131,25 % à la taille racine, 5 valant 100 %.
+Le module `./_content/OmniEurope.Blazor/omni-appearance.js` expose `setTextSizeLevel(level)` et
+`clearTextSizeLevel()` pour poser ou retirer cet attribut. La démonstration du paquet applique
+le niveau choisi et le retire en quittant la page ; un aperçu vivant montre aussi le thème,
+la palette et la densité sélectionnés, à côté des exemples de combinaisons fixes.
 ## Largeur du contenu et défilement
 
 `OmniLayout.Width` rétrécit toute la coquille. Pour garder l'en-tête et la barre latérale sur toute la largeur et ne centrer que le contenu, c'est `OmniMain.ContentWidth`. Avec `Scrollable`, l'élément principal devient le conteneur de défilement de la page : il couvre toute la zone laissée par la barre latérale, si bien que sa barre de défilement reste au bord droit de la fenêtre, jamais au bord de la colonne centrée. La colonne se centre par la marge intérieure de l'élément et comprend sa gouttière, `--omni-main-gutter` (l'espacement moyen par défaut). Un enfant à `block-size: 100%` remplit exactement la zone ; un contenu plus haut la fait défiler, marge du bas comprise.

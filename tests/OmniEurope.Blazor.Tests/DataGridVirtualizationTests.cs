@@ -230,6 +230,29 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task VirtualizedGrid_UsesTheCssRowEstimateForScrollOffsets()
+    {
+        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-grid.js");
+        var sync = module.Setup<GridViewportSnapshot?>("sync", _ => true);
+        sync.SetResult(new GridViewportSnapshot
+        {
+            ViewportHeight = 320d,
+            RowEstimate = 32d
+        });
+
+        var grid = Render<OmniDataGrid<int>>(parameters => parameters
+            .Add(component => component.Items, Enumerable.Range(0, 10_000).ToArray())
+            .Add(component => component.AllowVirtualization, true)
+            .Add(component => component.EstimatedRowHeight, 40d));
+
+        sync.SetResult(new GridViewportSnapshot { ScrollTop = 32_000d, ViewportHeight = 320d, RowEstimate = 32d });
+        await grid.InvokeAsync(() => grid.Instance.OnViewportChangedAsync(32_000d, 320d));
+
+        Assert.Contains(">1000</td>", grid.Markup, StringComparison.Ordinal);
+        Assert.DoesNotContain(">800</td>", grid.Markup, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public async Task VirtualizedGrid_LoadsFurtherWindowsFromTheRemoteLoaderWhileScrolling()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;

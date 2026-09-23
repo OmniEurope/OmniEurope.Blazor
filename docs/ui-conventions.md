@@ -1,5 +1,10 @@
 # Conventions d'interface
 
+`OmniDialog.Modal=false` ouvre une fenêtre sans voile ni piège de focus. `Draggable=true`
+permet de la déplacer par son en-tête ; `FreezeScale=true` capture les mesures de son contenu
+à l'ouverture pour stabiliser ses commandes pendant un changement d'échelle externe. Fermer
+puis rouvrir recalcule ces mesures. Les dialogues restent modaux par défaut.
+
 - Les actions hors grille associent un libellé localisé et une icône Omni décorative lorsque la convention d'action l'exige.
 - Boutons : trois tailles réellement distinctes, `Small` (hauteur de contrôle moins 0,5 rem, petit corps), `Medium` (hauteur de contrôle, celle du champ voisin) et `Large` (plus 0,5 rem, grand corps), communes à `OmniButton`, `OmniToggleButton` et `OmniSplitButton`. Un bouton qui ne porte qu'une `OmniIcon` est carré à sa taille ; la feuille de style le reconnaît à l'icône seul élément de son contenu, un libellé posé à côté d'elle va donc dans un élément (`<span>`), un texte nu passant inaperçu et privant le bouton de sa marge. Désactivé, un bouton s'éteint et s'assombrit ; occupé (`Busy`), un voile sombre respire par-dessus, sans changer sa taille ni son contenu.
 - Couleurs, règle des jetons : un jeton de remplissage ne sert jamais de couleur de texte, et un jeton de texte ne remplit jamais une surface. `--omni-color-X` (accent, succès, information, avertissement, danger) est une couleur d'écriture, tenue à 4,5 sur la page ; `--omni-color-X-fill`, `-fill-hover` et `-fill-active` sont des fonds, tenus à 3 contre la page, et le texte posé dessus est toujours leur encre `--omni-color-on-X-fill`. Mélanger les deux fait perdre l'un ou l'autre : un remplissage écrit en texte tombe sous 4,5, un texte peint en fond force la fabrique à assombrir la couleur de marque jusqu'à la perdre.

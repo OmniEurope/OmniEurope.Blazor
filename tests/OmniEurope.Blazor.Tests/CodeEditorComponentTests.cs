@@ -171,4 +171,21 @@ public sealed class CodeEditorComponentTests : OmniBunitContext
 
         Assert.Equal(nameof(OmniCodeEditor.MonacoPath), exception.ParamName);
     }
+
+    [Theory]
+    [InlineData("https://cdn.example.test/editor.js")]
+    [InlineData("//cdn.example.test/editor.js")]
+    [InlineData("data:text/javascript,export%20default%200")]
+    [InlineData(@"\\evil.example.test\editor.js")]
+    public void InteropModulePath_OnAnotherOrigin_IsRefused(string path)
+    {
+        var value = string.Empty;
+
+        var exception = Assert.Throws<ArgumentException>(() => Render<OmniCodeEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.InteropModulePath, path)));
+
+        Assert.Equal(nameof(OmniCodeEditor.InteropModulePath), exception.ParamName);
+    }
 }

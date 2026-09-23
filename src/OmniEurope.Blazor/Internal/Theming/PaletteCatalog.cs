@@ -10,7 +10,7 @@ internal static class PaletteCatalog
 {
     public static IReadOnlyList<PaletteDefinition> All { get; } =
     [
-        new("Défaut", "Indigo dans les deux modes, sévérités franches.",
+        new("Essentiel", "Indigo dans les deux modes, sévérités franches.",
             "#4340d2", "#4caf50", "#2196f3", "#ff9800", "#f44336", "#ffffff", "#424242", "#1e1e1e", "#e0e0e0", "#4340d2"),
         new("Océan", "Bleu franc sur fond d'écume, nuit marine en sombre.",
             "#0b63ce", "#0f8f7d", "#0891b2", "#b97f00", "#d33a3a", "#f1f7fc", "#0f2a44", "#0a1a2e", "#d6e8f7", "#0b63ce"),
