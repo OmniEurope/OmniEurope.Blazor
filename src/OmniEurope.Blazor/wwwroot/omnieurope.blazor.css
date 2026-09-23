@@ -1306,19 +1306,34 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-input:disabled { background: var(--omni-color-surface-muted); color: var(--omni-color-text-muted); cursor: not-allowed; }
 .omni-input[readonly] { background: transparent; border-style: dashed; }
 
-.omni-password { align-items: stretch; display: flex; }
-.omni-password__input { border-end-end-radius: 0; border-start-end-radius: 0; }
+.omni-password {
+    align-items: stretch;
+    background: var(--omni-color-surface);
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius);
+    box-sizing: border-box;
+    display: flex;
+    min-height: var(--omni-control-height);
+    width: 100%;
+}
+.omni-password:focus-within { border-color: var(--omni-color-accent-fill); box-shadow: var(--omni-focus-ring); }
+.omni-password--invalid { border-color: var(--omni-color-danger); }
+.omni-password--invalid:focus-within { border-color: var(--omni-color-danger); box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--omni-color-danger) 25%, transparent); }
+.omni-password__input.omni-input { background: transparent; border: 0; border-radius: var(--omni-radius) 0 0 var(--omni-radius); box-shadow: none; flex: 1 1 auto; min-height: 0; min-width: 0; }
+.omni-password__input.omni-input[aria-invalid="true"] { background: color-mix(in srgb, var(--omni-color-danger) 4%, var(--omni-color-surface)); }
+.omni-password__input.omni-input[aria-invalid="true"]:focus-visible { box-shadow: none; }
+.omni-password__input.omni-input:disabled { background: var(--omni-color-surface-muted); }
 .omni-password__toggle {
     background: var(--omni-color-surface-muted);
-    border: var(--omni-border-width) solid var(--omni-color-border);
-    border-inline-start: 0;
+    border: 0;
+    border-inline-start: var(--omni-border-width) solid var(--omni-color-border);
     border-radius: 0 var(--omni-radius) var(--omni-radius) 0;
     color: var(--omni-color-text);
     cursor: pointer;
     font: inherit;
     padding-inline: var(--omni-space-md);
 }
-.omni-password__toggle:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-password__toggle:focus-visible { box-shadow: none; outline: none; }
 /* L'oeil : un carré aussi haut que le champ, étiré par la rangée, collé au champ par sa bordure
    commune ; le glyphe change sans que le bouton change de taille. La largeur est donnée : étiré en
    hauteur par la rangée, le bouton ne tirait pas sa largeur de aspect-ratio et restait à la largeur

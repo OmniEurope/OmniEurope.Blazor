@@ -112,6 +112,33 @@ public sealed class InteractionComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task PasswordGroup_UsesOneInvalidStateForTheInputAndRevealButton()
+    {
+        var form = Render<FormTestHost>();
+        var context = form.Instance.EditContext;
+        var messages = new ValidationMessageStore(context);
+
+        await form.InvokeAsync(() =>
+        {
+            messages.Add(new FieldIdentifier(form.Instance.Model, nameof(FormTestHost.FormTestModel.Password)), "Required");
+            context.NotifyValidationStateChanged();
+        });
+
+        form.WaitForAssertion(() =>
+        {
+            Assert.Equal("true", form.Find("#password").GetAttribute("aria-invalid"));
+            Assert.Contains("omni-password--invalid", form.Find(".omni-password").ClassList);
+        });
+
+        await form.InvokeAsync(() =>
+        {
+            messages.Clear();
+            context.NotifyValidationStateChanged();
+        });
+
+        form.WaitForAssertion(() => Assert.DoesNotContain("omni-password--invalid", form.Find(".omni-password").ClassList));
+    }
+    [Fact]
     public void PasswordReveal_ChangesOnlyTheInputType()
     {
         var form = Render<FormTestHost>();
