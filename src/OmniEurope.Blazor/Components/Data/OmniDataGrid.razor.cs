@@ -594,7 +594,9 @@ public partial class OmniDataGrid<TItem>
     private bool ShowPagerTop => ShowPager && PagerPosition is OmniDataGridPagerPosition.Top or OmniDataGridPagerPosition.TopAndBottom;
     private bool ShowPagerBottom => ShowPager && PagerPosition is OmniDataGridPagerPosition.Bottom or OmniDataGridPagerPosition.TopAndBottom;
     private int BlockSize => VirtualBlockSize > 0 ? VirtualBlockSize : Math.Max(1, PageSize);
-    private string EmptyMessage => string.IsNullOrWhiteSpace(EmptyText) ? Localize("GridEmpty") : EmptyText;
+    private string EmptyMessage => _filters.Values.Any(filter => filter.IsActive)
+        ? Localize("GridEmptyFiltered")
+        : string.IsNullOrWhiteSpace(EmptyText) ? Localize("GridEmpty") : EmptyText;
     private bool RowsAreInteractive => AllowRowSelectOnRowClick || RowClick.HasDelegate || RowDoubleClick.HasDelegate;
     private bool ShowDetailColumn => DetailTemplate is not null && ShowExpandColumn;
     private bool ShowLoadingRow => Virtualized ? Loading && TotalCount == 0 : Loading;

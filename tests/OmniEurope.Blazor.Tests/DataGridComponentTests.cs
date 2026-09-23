@@ -81,6 +81,16 @@ public sealed class DataGridComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void DataGrid_ExplainsWhenFiltersLeaveNoRows()
+    {
+        var grid = Render<DataGridTestHost>();
+
+        grid.Find(".omni-data-grid__filter").Input("Nobody");
+
+        Assert.Contains("Aucun résultat ne correspond aux filtres.",
+            grid.Find("tbody .omni-data-grid__state").TextContent, StringComparison.Ordinal);
+    }
+    [Fact]
     public void DataGrid_PaginatesToTheNextSubset()
     {
         var grid = Render<DataGridTestHost>();

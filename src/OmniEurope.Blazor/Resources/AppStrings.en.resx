@@ -34,6 +34,7 @@
   <data name="GridEditColumn" xml:space="preserve"><value>Editing</value></data>
   <data name="GridFilterColumn" xml:space="preserve"><value>Filter {0}</value></data>
   <data name="GridEmpty" xml:space="preserve"><value>No data.</value></data>
+  <data name="GridEmptyFiltered" xml:space="preserve"><value>No results match the filters.</value></data>
   <data name="GridValueColumn" xml:space="preserve"><value>Value</value></data>
   <data name="GridFilterPlaceholder" xml:space="preserve"><value>Filter</value></data>
   <data name="GridFilterOperator" xml:space="preserve"><value>Filter operator for {0}</value></data>
