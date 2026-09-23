@@ -9,6 +9,13 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 public static class OmniThemePresets
 {
+    /// <summary>The palette shipped with the selected theme, or with the first theme when unset.</summary>
+    public static OmniThemePalette DefaultPaletteFor(OmniThemePreset? theme)
+    {
+        var name = ThemeCatalog.All.First(item => item.Name == (theme ?? All[0]).Name).DefaultPalette;
+        return OmniThemePalettes.All.First(item => item.Name == name);
+    }
+
     /// <summary>Every theme of the catalogue with its default palette, the default one first.</summary>
     public static IReadOnlyList<OmniThemePreset> All { get; } =
     [

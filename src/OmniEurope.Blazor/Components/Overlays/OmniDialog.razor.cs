@@ -8,6 +8,13 @@ public partial class OmniDialog
     private IJSObjectReference? _focusModule;
     private IJSObjectReference? _dialogModule;
     private bool _focusActivated;
+    private bool _attached;
+
+    /// <summary>False opens a modeless window: no veil, inert page, or focus trap.</summary>
+    [Parameter] public bool Modal { get; set; } = true;
+
+    /// <summary>Capture the current text scale and density until this window closes.</summary>
+    [Parameter] public bool FreezeScale { get; set; }
 
     [Parameter]
     public bool Open { get; set; }
@@ -81,11 +88,19 @@ public partial class OmniDialog
         if (firstRender)
         {
             _focusModule = await JavaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omni-focus.js");
-            if (Draggable)
-            {
-                _dialogModule = await JavaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omni-dialog.js");
-                await _dialogModule.InvokeVoidAsync("attach", _dialog);
-            }
+        }
+
+        if (Open && !_attached && (Draggable || FreezeScale))
+        {
+            _dialogModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omni-dialog.js");
+            await _dialogModule.InvokeVoidAsync("attach", _dialog);
+            if (FreezeScale) await _dialogModule.InvokeVoidAsync("freezeScale", _dialog);
+            _attached = true;
+        }
+        else if (!Open && _attached)
+        {
+            if (_dialogModule is not null) await _dialogModule.InvokeVoidAsync("detach", _dialog);
+            _attached = false;
         }
 
         if (_focusModule is null)
@@ -99,7 +114,11 @@ public partial class OmniDialog
 
             // A backdrop that closes nothing must not take focus out of the trap either. Only such a
             // dialog passes the flag: a dialog whose backdrop closes it makes the call it always made.
-            if (CloseOnBackdrop && Dismissible)
+            if (!Modal)
+            {
+                await _focusModule.InvokeVoidAsync("activateWindow", _dialog, _focusKey);
+            }
+            else if (CloseOnBackdrop && Dismissible)
             {
                 await _focusModule.InvokeVoidAsync("activateDialog", _dialog, _focusKey);
             }

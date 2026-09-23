@@ -25,7 +25,7 @@ public partial class OmniSidebar
 
     /// <summary>Whether closing removes the sidebar or leaves a rail of icons.</summary>
     [Parameter]
-    public OmniSidebarCollapse Collapse { get; set; } = OmniSidebarCollapse.Hidden;
+    public OmniSidebarCollapse Collapse { get; set; } = OmniSidebarCollapse.Icons;
 
     /// <summary>
     /// Whether a pushing sidebar opens and closes at once or slides. Smooth keeps a closed sidebar in
@@ -33,7 +33,7 @@ public partial class OmniSidebar
     /// can be animated.
     /// </summary>
     [Parameter]
-    public OmniSidebarTransition Transition { get; set; } = OmniSidebarTransition.Instant;
+    public OmniSidebarTransition Transition { get; set; } = OmniSidebarTransition.Smooth;
 
     /// <summary>
     /// Dims the content behind an open floating sidebar and closes it on click. Meaningless while

@@ -17,6 +17,11 @@ La grille accepte deux sources exclusives.
 
 `Count` impose le total lorsque l'hôte le connaît déjà. `IsLoading` force l'état occupé.
 
+Avec `LoadingTemplate`, la préparation initiale couvre la grille entière jusqu'à stabilisation
+de la plage virtualisée et chargement des images visibles. La grille conserve sa géométrie pendant
+cette attente et révèle ensuite son contenu en une fois. Une instance déjà préparée ne réaffiche
+pas ce voile lorsqu'elle redevient visible ; un nouveau `IsLoading` reste affiché normalement.
+
 ## Colonnes
 
 Une colonne se déclare par lambda ou par nom de propriété.

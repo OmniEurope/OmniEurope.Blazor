@@ -107,6 +107,19 @@
     --omni-heading-text-transform: none;
 }
 
+/* A host may set data-oe-text-size on <html> so rem-based controls, headings and spacing all
+   scale together. Level 5 preserves the browser's normal root size. */
+html[data-oe-text-size="1"] { font-size: 75%; }
+html[data-oe-text-size="2"] { font-size: 81.25%; }
+html[data-oe-text-size="3"] { font-size: 87.5%; }
+html[data-oe-text-size="4"] { font-size: 93.75%; }
+html[data-oe-text-size="5"] { font-size: 100%; }
+html[data-oe-text-size="6"] { font-size: 106.25%; }
+html[data-oe-text-size="7"] { font-size: 112.5%; }
+html[data-oe-text-size="8"] { font-size: 118.75%; }
+html[data-oe-text-size="9"] { font-size: 125%; }
+html[data-oe-text-size="10"] { font-size: 131.25%; }
+
 /* omni:theme-tokens:start */
 /* Generated from the theme and the palette Défaut by ShippedThemeTokensTests: do not edit by hand. */
 :root,
@@ -386,6 +399,7 @@
     --omni-button-pad-x: 0.875rem;
     --omni-input-pad-y: 7px;
     --omni-cell-pad-y: 8px;
+    --omni-grid-row-estimate: 2.25rem;
     --omni-card-pad: 14px;
     --omni-alert-pad-y: 12px;
     --omni-alert-pad-x: 14px;
@@ -413,6 +427,7 @@
     --omni-button-pad-x: 0.5rem;
     --omni-input-pad-y: 2px;
     --omni-cell-pad-y: 2px;
+    --omni-grid-row-estimate: 1.5rem;
     --omni-card-pad: 8px;
     --omni-alert-pad-y: 6px;
     --omni-alert-pad-x: 10px;
@@ -440,6 +455,7 @@
     --omni-button-pad-x: 1.125rem;
     --omni-input-pad-y: 10px;
     --omni-cell-pad-y: 12px;
+    --omni-grid-row-estimate: 2.75rem;
     --omni-card-pad: 18px;
     --omni-alert-pad-y: 16px;
     --omni-alert-pad-x: 18px;
@@ -525,7 +541,7 @@
 .omni-button--small .omni-button__content { gap: var(--omni-space-xs); }
 .omni-button--small .omni-icon--medium { height: 1rem; width: 1rem; }
 /* Icône seule : carré. :where laisse un hôte qui retaille ses boutons l'emporter. */
-.omni-button:where(:has(> .omni-button__content > .omni-icon:only-child)) { min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding-inline: 0; }
+.omni-button[aria-label]:where(:has(> .omni-button__content > .omni-icon:only-child)) { min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding-inline: 0; }
 .omni-button--primary { --omni-button-fill: var(--omni-color-accent-fill); --omni-button-fill-hover: var(--omni-color-accent-fill-hover); --omni-button-fill-active: var(--omni-color-accent-fill-active); --omni-button-ink: var(--omni-color-on-accent-fill); }
 /* Secondary is a plain grey drawn from the palette's text and surface, with the page text and no
    border: in dark mode a border read as a frame around it. It keeps the theme's relief
@@ -868,7 +884,7 @@
 .omni-grid--gap-large { gap: var(--omni-space-lg); }
 .omni-grid--gap-xlarge { gap: var(--omni-space-xl); }
 
-.omni-layout { box-sizing: border-box; margin-inline: auto; width: 100%; }
+.omni-layout { --omni-sidebar-rail: calc(22px + 1.25rem); box-sizing: border-box; margin-inline: auto; width: 100%; }
 .omni-layout--wide { max-width: var(--omni-layout-wide-width, 90rem); }
 .omni-layout--content { max-width: var(--omni-layout-content-width, 72rem); }
 .omni-main { --omni-main-max-width: 100%; display: block; min-width: 0; }
@@ -908,6 +924,9 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-header__brand { align-items: center; display: inline-flex; font-weight: var(--omni-heading-font-weight, 700); gap: var(--omni-space-sm); }
 .omni-header__logo { background: var(--omni-color-accent-fill); block-size: calc(var(--omni-icon-box) * 0.72); border-radius: var(--omni-radius); color: var(--omni-color-on-accent-fill); display: grid; flex: none; font-size: 0.75rem; font-weight: 800; inline-size: calc(var(--omni-icon-box) * 0.72); place-content: center; }
 .omni-header--branded > .omni-sidebar-toggle { order: -1; }
+/* The header control shares the same horizontal axis as the collapsed sidebar icons. */
+.omni-header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); margin-inline-start: -12px; }
+.omni-sidebar__header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); }
 .omni-header--accent .omni-header__logo { background: var(--omni-color-on-accent); color: var(--omni-color-accent); }
 
 /* A fieldset sizes to its minimal content, not to its container: without an explicit width it shrank
@@ -1268,6 +1287,18 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
    in the bar, the hover fill of the page. */
 .omni-sidebar-toggle { background: transparent; border-color: transparent; box-sizing: border-box; justify-content: center; min-inline-size: var(--omni-control-height); padding: 0; }
 .omni-sidebar-toggle:hover { background: var(--omni-color-surface-hover); }
+
+.omni-appearance-settings { display: grid; gap: var(--omni-space-md); min-inline-size: 0; }
+.omni-appearance-settings__row { align-items: center; background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); min-inline-size: 0; padding: var(--omni-space-md); }
+.omni-appearance-settings__label { align-items: center; display: inline-flex; font-weight: 650; gap: var(--omni-space-xs); margin-inline-end: auto; }
+.omni-appearance-settings__label .omni-icon { color: var(--omni-color-accent); }
+.omni-appearance-settings__actions { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); min-inline-size: 0; }
+.omni-appearance-settings__actions .omni-drop-down { min-inline-size: min(208px, 100%); }
+.omni-appearance-settings__actions:has(.omni-drop-down) { display: grid; grid-template-columns: minmax(0, 1fr) auto; inline-size: min(100%, 320px); }
+.omni-appearance-settings__actions:has(.omni-drop-down) .omni-drop-down { min-inline-size: 0; }
+.omni-appearance-settings__row > .omni-slider { flex: 1 1 100%; }
+.omni-appearance-settings__row > .omni-slider .omni-slider__input { inline-size: 100%; }
+.omni-appearance-settings--compact .omni-appearance-settings__row { background: transparent; border: 0; padding: 0; }
 
 .omni-label { color: var(--omni-color-text); display: inline-flex; font-size: 0.8125rem; font-weight: 600; gap: var(--omni-space-xs); }
 .omni-label__required { color: var(--omni-color-danger); }
@@ -2279,6 +2310,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__viewport--scrolled-x .omni-data-grid__column--frozen-last { box-shadow: 0.375rem 0 0.5rem -0.25rem rgb(0 0 0 / 60%); }
 .omni-data-grid__row--interactive { cursor: pointer; }
 .omni-data-grid__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
+.omni-data-grid__state--loading { block-size: 10rem; vertical-align: middle; }
 .omni-data-grid__expand { background: transparent; border: 0; color: var(--omni-color-text); cursor: pointer; min-height: 2.75rem; min-width: 2.75rem; }
 .omni-data-grid__expand { align-items: center; border-radius: var(--omni-radius); display: inline-flex; justify-content: center; padding: 0; vertical-align: middle; }
 .omni-data-grid :is(.omni-data-grid__expand, .omni-data-grid__group-expand) > svg { transform: rotate(-90deg); }
@@ -3047,3 +3079,22 @@ span.omni-unified-diff__toggle { cursor: default; }
 .omni-u-text-center { text-align: center; } .omni-u-text-end { text-align: end; } .omni-u-bold { font-weight: 650; } .omni-u-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; } .omni-u-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .omni-u-nowrap { white-space: nowrap; } .omni-u-small { font-size: var(--omni-font-size-sm); }
 .omni-u-w-100 { inline-size: 100%; } .omni-u-grow { flex: 1 1 auto; min-inline-size: 0; } .omni-u-block { display: block; } .omni-u-rounded { border-radius: var(--omni-radius); } .omni-u-pointer { cursor: pointer; }
 .omni-u-border-accent { border-color: var(--omni-color-accent); }
+
+.omni-window-layer { position: fixed; inset: 0; z-index: 1200; pointer-events: none; display: grid; place-items: center; }
+.omni-window-layer > .omni-dialog { pointer-events: auto; font-size: 1rem; }
+.omni-appearance-window { inline-size: 28rem; max-inline-size: calc(100vw - 2rem); }
+.omni-appearance-settings--scale .omni-appearance-settings__row { flex-wrap: nowrap; }
+.omni-appearance-settings--scale .omni-appearance-settings__actions { flex-wrap: nowrap; }
+.omni-appearance-settings--scale .omni-badge { inline-size: 3.25em; min-height: var(--omni-control-height); }
+.omni-appearance-settings--scale .omni-appearance-settings__label { min-inline-size: 6em; }
+/* Glyph boxes and labels share one centre line, independently of a font's baseline. */
+.omni-button__content { align-items: center; line-height: 1.2; }
+.omni-icon { vertical-align: middle; flex-shrink: 0; }
+
+.omni-data-grid--preparing { position: relative; }
+.omni-data-grid__preparation { position: absolute; inset: 0; z-index: 4; display: grid; place-items: center; background: var(--omni-color-surface); }
+.omni-data-grid--preparing .omni-data-grid__viewport { visibility: hidden; }
+.omni-rating { display: inline-flex; align-items: center; gap: 0; white-space: nowrap; color: var(--omni-color-warning); }
+.omni-rating__star { display: inline-grid; place-items: center; inline-size: 1.25rem; block-size: 1.75rem; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
+.omni-rating__star:disabled { cursor: default; opacity: 1; }
+.omni-rating__star:focus-visible { outline: 2px solid var(--omni-color-accent); outline-offset: 1px; }

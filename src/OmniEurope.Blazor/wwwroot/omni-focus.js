@@ -83,6 +83,12 @@ export function activateDialog(dialog, key, holdBackdrop) {
     dialogHandlers.set(key, { dialog, handler, overlay, onBackdropDown });
 }
 
+// Explicitly opened modeless windows restore focus, but let Tab leave and the page remain usable.
+export function activateWindow(dialog, key) {
+    rememberTarget(key);
+    (focusableElements(dialog)[0] ?? dialog)?.focus({ preventScroll: true });
+}
+
 export function trapDialogTab(dialog, shiftKey) {
     const items = focusableElements(dialog);
     if (items.length === 0) {

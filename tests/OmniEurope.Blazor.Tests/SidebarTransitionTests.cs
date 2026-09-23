@@ -10,10 +10,25 @@ namespace OmniEurope.Blazor.Tests;
 public sealed class SidebarTransitionTests : OmniBunitContext
 {
     [Fact]
+    public void The_default_sidebar_keeps_an_icon_rail_and_animates_push()
+    {
+        var sidebar = Render<OmniSidebar>(parameters => parameters
+            .Add(component => component.Open, false)
+            .AddChildContent("Menu"));
+
+        var aside = sidebar.Find("aside");
+        Assert.False(aside.HasAttribute("hidden"));
+        Assert.Contains("omni-sidebar--collapse-icons", aside.ClassName, StringComparison.Ordinal);
+        Assert.Contains("omni-sidebar--smooth", aside.ClassName, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void A_closed_instant_sidebar_is_removed_from_the_page()
     {
         var sidebar = Render<OmniSidebar>(parameters => parameters
             .Add(component => component.Open, false)
+            .Add(component => component.Collapse, OmniSidebarCollapse.Hidden)
+            .Add(component => component.Transition, OmniSidebarTransition.Instant)
             .AddChildContent("Menu"));
 
         var aside = sidebar.Find("aside");
@@ -26,6 +41,7 @@ public sealed class SidebarTransitionTests : OmniBunitContext
     {
         var sidebar = Render<OmniSidebar>(parameters => parameters
             .Add(component => component.Open, false)
+            .Add(component => component.Collapse, OmniSidebarCollapse.Hidden)
             .Add(component => component.Transition, OmniSidebarTransition.Smooth)
             .AddChildContent("Menu"));
 
@@ -46,6 +62,7 @@ public sealed class SidebarTransitionTests : OmniBunitContext
     {
         var sidebar = Render<OmniSidebar>(parameters => parameters
             .Add(component => component.Open, false)
+            .Add(component => component.Collapse, OmniSidebarCollapse.Hidden)
             .Add(component => component.Reveal, OmniSidebarReveal.Overlay)
             .Add(component => component.Transition, OmniSidebarTransition.Smooth)
             .AddChildContent("Menu"));

@@ -10,6 +10,18 @@ namespace OmniEurope.Blazor.Tests;
 public sealed class DataGridSurfaceTests : OmniBunitContext
 {
     [Fact]
+    public void Loading_template_stays_inside_the_table_below_its_header()
+    {
+        var grid = Render<OmniDataGrid<string>>(parameters => parameters
+            .Add(component => component.IsLoading, true)
+            .Add(component => component.LoadingTemplate, builder => builder.AddContent(0, "Brand loading")));
+
+        Assert.NotEmpty(grid.FindAll("thead th"));
+        Assert.Equal("Brand loading", grid.Find("tbody .omni-data-grid__state--loading").TextContent);
+        Assert.Equal("true", grid.Find(".omni-data-grid").GetAttribute("aria-busy"));
+    }
+
+    [Fact]
     public void PropertyAccessor_ReadsNestedPathsAndToleratesNullLinks()
     {
         var accessor = GridPropertyAccessor.Create<Order>("Customer.Name");

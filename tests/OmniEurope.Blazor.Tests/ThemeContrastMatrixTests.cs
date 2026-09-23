@@ -169,7 +169,7 @@ public sealed class ThemeContrastMatrixTests
             checks.Add(Check(tokens, foreground, background, ratio));
         }
 
-        if (themeName == "Défaut" && paletteName == "Défaut" && mode is OmniAppearance.Light)
+        if (themeName == "Essentiel" && paletteName == "Essentiel" && mode is OmniAppearance.Light)
         {
             foreach (var (text, background) in RenderingMarginPairs)
             {

@@ -57,7 +57,7 @@ public sealed class ShippedThemeTokensTests
         Assert.NotEqual(generated, Extract(Replace(File.ReadAllText(StylesheetPath).ReplaceLineEndings("\n"), edited)));
     }
 
-    private static OmniThemePreset Shipped() => OmniThemePresets.All.Single(preset => preset.Name == "Défaut");
+    private static OmniThemePreset Shipped() => OmniThemePresets.All.Single(preset => preset.Name == "Essentiel");
 
     /// <summary>
     /// Light values on the root and on a light scope, dark values on a dark scope and on a system scope

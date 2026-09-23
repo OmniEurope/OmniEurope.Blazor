@@ -51,6 +51,7 @@ public partial class OmniDataGrid<TItem>
     private GridVirtualRange _range;
     private double _scrollTop;
     private double _viewportHeight;
+    private double? _cssRowEstimate;
     private bool _virtualAttached;
     private bool _virtualBootstrapped;
     private bool _resizeAttached;
@@ -416,6 +417,10 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public RenderFragment? EmptyTemplate { get; set; }
 
+    /// <summary>Content displayed inside the table while data is loading, with the column headers kept visible.</summary>
+    [Parameter]
+    public RenderFragment? LoadingTemplate { get; set; }
+
     [Parameter]
     public bool IsLoading { get; set; }
 
@@ -588,6 +593,8 @@ public partial class OmniDataGrid<TItem>
     private int EffectivePage => Math.Clamp(Page, 1, PageCount);
     private bool HasEditing => _hasEditing;
     private int ColumnSpan => _columnSpan;
+    private bool _renderReady;
+    private bool Preparing => LoadingTemplate is not null && !_renderReady;
     private bool Loading => IsLoading || (!ExternalData && _remote.Loading) || (Virtualized && _virtualSource.Loading && _virtualSource.CachedItemCount == 0);
     private Exception? Failure => ExternalData ? null : Virtualized ? _virtualSource.Error : _remote.Error;
     private bool ShowPager => AllowPaging && !Virtualized && (PageCount > 1 || AlwaysShowPager);
@@ -951,7 +958,7 @@ public partial class OmniDataGrid<TItem>
 
     private void SyncVirtualWindow()
     {
-        var estimate = RowHeight ?? (EstimatedRowHeight > 0d ? EstimatedRowHeight : 40d);
+        var estimate = RowHeight ?? _cssRowEstimate ?? (EstimatedRowHeight > 0d ? EstimatedRowHeight : 40d);
         if (StructuredVirtual)
         {
             var count = Slots.Count;
@@ -1074,6 +1081,7 @@ public partial class OmniDataGrid<TItem>
                 await EnsureResizeInteropAsync();
                 await EnsureFilterMenuInteropAsync();
                 await EnsureFillInteropAsync();
+                await CompletePreparationAsync();
                 if (ExternalData && !_externalRequested)
                 {
                     await RequestExternalDataAsync();
@@ -1108,10 +1116,26 @@ public partial class OmniDataGrid<TItem>
             {
                 StateHasChanged();
             }
+            else
+            {
+                await CompletePreparationAsync();
+            }
         }
         finally
         {
             _lifecycleGate.Release();
+        }
+    }
+
+    private async Task CompletePreparationAsync()
+    {
+        if (!Preparing || Loading || _disposeRequested) return;
+        _gridModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
+        var ready = await _gridModule.InvokeAsync<bool>("waitForReady", _viewport);
+        if (ready && !_disposeRequested)
+        {
+            _renderReady = true;
+            StateHasChanged();
         }
     }
 
@@ -1365,6 +1389,11 @@ public partial class OmniDataGrid<TItem>
         }
 
         var moved = false;
+        if (snapshot.RowEstimate is > 0d && snapshot.RowEstimate != _cssRowEstimate)
+        {
+            _cssRowEstimate = snapshot.RowEstimate;
+            moved = true;
+        }
         if (Math.Abs(snapshot.ViewportHeight - _viewportHeight) > 0.5d)
         {
             _viewportHeight = snapshot.ViewportHeight;
@@ -2488,6 +2517,7 @@ public partial class OmniDataGrid<TItem>
 
     private string GridClass() => Css(
         "omni-data-grid",
+        Preparing || (Loading && LoadingTemplate is not null) ? "omni-data-grid--preparing" : null,
         FillAvailableHeight ? "omni-data-grid--fill" : null,
         HighlightRowOnHover ? "omni-data-grid--row-hover" : null,
         AllowAlternatingRows ? "omni-data-grid--striped" : null,
@@ -2734,6 +2764,8 @@ public partial class OmniDataGrid<TItem>
                 builder.AddAttribute(4, "value", value);
                 // Filters as the user types rather than on blur, so the table follows the keystrokes.
                 builder.AddAttribute(5, "oninput", onChange);
+                builder.AddAttribute(6, "type", column.Numeric ? "number" : "text");
+                if (column.Numeric) builder.AddAttribute(7, "step", "any");
                 builder.CloseElement();
                 break;
         }

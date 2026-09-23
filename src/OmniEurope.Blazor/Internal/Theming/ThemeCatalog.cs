@@ -29,7 +29,7 @@ internal static class ThemeCatalog
 
     public static IReadOnlyList<ThemeDefinition> All { get; } =
     [
-        new("Défaut", "Allure sobre d'application de gestion, rayon de 2,5 px, élévation discrète, sans empattement.", "Défaut",
+        new("Essentiel", "Allure sobre d'application de gestion, rayon de 2,5 px, élévation discrète, sans empattement.", "Essentiel",
             Shape(
                 ("--omni-radius", DefaultRadius), ("--omni-radius-sm", DefaultRadius), ("--omni-radius-lg", DefaultRadius),
                 ("--omni-button-radius", DefaultRadius),

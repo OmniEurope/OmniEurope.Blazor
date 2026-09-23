@@ -5,6 +5,7 @@ namespace OmniEurope.Blazor.Components;
 public partial class OmniTabsItem
 {
     private bool _visited;
+    private bool _wasSelected;
 
     [CascadingParameter]
     private OmniTabsContext? Context { get; set; }
@@ -52,6 +53,12 @@ public partial class OmniTabsItem
     private bool Selected => Context?.Value == RegisteredKey;
 
     protected override void OnParametersSet() => _visited |= Selected || Context?.RenderAllPanels == true;
+
+    // Retain inactive panels without rebuilding their grids on every click. The latest parameters
+    // are rendered on selection; one final render on deselection applies the hidden attribute.
+    protected override bool ShouldRender() => !IsPanelPhase || Selected || _wasSelected;
+
+    protected override void OnAfterRender(bool firstRender) => _wasSelected = Selected;
 
     // The tabs render their content once per phase; this instance emits only the half it is asked
     // for, so the button lives in the scrolling strip and the panel below it.

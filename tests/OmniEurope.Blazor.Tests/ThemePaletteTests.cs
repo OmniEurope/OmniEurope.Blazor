@@ -168,7 +168,7 @@ public sealed class ThemePaletteTests : OmniBunitContext
     [InlineData("--omni-color-danger-deep", "#d13a2e")]
     public void The_default_palette_matches_the_reference_mockup_in_light_mode(string token, string expected)
     {
-        var palette = OmniThemePalettes.All.Single(entry => entry.Name == "Défaut");
+        var palette = OmniThemePalettes.All.Single(entry => entry.Name == "Essentiel");
 
         Assert.Equal(expected, palette.Light[token]);
     }
@@ -178,8 +178,8 @@ public sealed class ThemePaletteTests : OmniBunitContext
     {
         Assert.Equal(10, OmniThemePresets.All.Count);
         Assert.Equal(10, OmniThemePalettes.All.Count);
-        Assert.Equal("Défaut", OmniThemePresets.All[0].Name);
-        Assert.Equal("Défaut", OmniThemePalettes.All[0].Name);
+        Assert.Equal("Essentiel", OmniThemePresets.All[0].Name);
+        Assert.Equal("Essentiel", OmniThemePalettes.All[0].Name);
         Assert.Equal(10, OmniThemePresets.All.Select(preset => preset.Name).Distinct(StringComparer.Ordinal).Count());
         Assert.Equal(10, OmniThemePalettes.All.Select(palette => palette.Name).Distinct(StringComparer.Ordinal).Count());
 

@@ -10,15 +10,21 @@
                                   AriaLabel="Changer l'apparence" />
         </OmniHeader>
         <OmniBody>
-            <OmniSidebar Open="SidebarOpen" AriaLabel="Menu de la démonstration" Position="OmniSidebarPosition.Start"
-                         Transition="OmniSidebarTransition.Smooth">
+            <OmniSidebar Id="shell-demo-sidebar" Open="SidebarOpen" AriaLabel="Menu de la démonstration" Position="OmniSidebarPosition.Start">
                 <OmniPanelMenu Label="Sections" DisplayStyle="OmniPanelMenuDisplayStyle.IconAndText">
-                    <OmniPanelMenuItem Text="Tableau de bord" Href="composants/coquille" Match="OmniNavMatch.Exact" />
-                    <OmniPanelMenuItem Text="Dossiers" Expanded="true">
-                        <OmniPanelMenuItem Text="En cours" Href="composants/coquille/en-cours" />
-                        <OmniPanelMenuItem Text="Archivés" Href="composants/coquille/archives" />
+                    <OmniPanelMenuItem Text="@Text["DemoShellDashboard"]" Href="composants/coquille" Match="OmniNavMatch.Exact">
+                        <Icon><OmniIcon Name="OmniIconName.Home" /></Icon>
                     </OmniPanelMenuItem>
-                    <OmniPanelMenuItem Text="Réglages" Href="composants/coquille/reglages" />
+                    <OmniPanelMenuItem Text="Dossiers" Expanded="true">
+                        <Icon><OmniIcon Name="OmniIconName.Folder" /></Icon>
+                        <ChildContent>
+                            <OmniPanelMenuItem Text="@Text["DemoShellInProgress"]" Href="composants/coquille/en-cours" />
+                            <OmniPanelMenuItem Text="@Text["DemoShellArchived"]" Href="composants/coquille/archives" />
+                        </ChildContent>
+                    </OmniPanelMenuItem>
+                    <OmniPanelMenuItem Text="@Text["DemoShellSettings"]" Href="composants/coquille/reglages">
+                        <Icon><OmniIcon Name="OmniIconName.Settings" /></Icon>
+                    </OmniPanelMenuItem>
                 </OmniPanelMenu>
             </OmniSidebar>
             <OmniMain AriaLabelledBy="shell-demo-title">
@@ -35,14 +41,19 @@
     <OmniLayout Width="OmniLayoutWidth.Wide">
         <OmniHeader Tone="OmniHeaderTone.Accent">
             <OmniHeading Level="OmniHeadingLevel.H4">Console d'exploitation</OmniHeading>
+            <OmniButton Size="OmniControlSize.Small" Variant="OmniButtonVariant.Secondary"
+                        aria-controls="shell-demo-right-sidebar" aria-expanded="@RightSidebarOpen.ToString().ToLowerInvariant()"
+                        OnClick="@(() => RightSidebarOpen = !RightSidebarOpen)">@Text["ShellToggle"]</OmniButton>
         </OmniHeader>
         <OmniBody>
-            <OmniSidebar Open="true" AriaLabel="Menu secondaire" Position="OmniSidebarPosition.End">
+            <OmniSidebar Id="shell-demo-right-sidebar" Open="RightSidebarOpen" AriaLabel="Menu secondaire"
+                         Position="OmniSidebarPosition.End" Collapse="OmniSidebarCollapse.Hidden"
+                         Transition="OmniSidebarTransition.Instant">
                 <OmniPanelMenu Label="Outils" DisplayStyle="OmniPanelMenuDisplayStyle.Icon">
                     <OmniPanelMenuItem Text="Journaux" Href="composants/coquille" Match="OmniNavMatch.Prefix">
                         <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
                     </OmniPanelMenuItem>
-                    <OmniPanelMenuItem Text="Action ponctuelle" Match="OmniNavMatch.None">
+                    <OmniPanelMenuItem Text="@Text["DemoShellOneOffAction"]" Match="OmniNavMatch.None">
                         <Icon><OmniIcon Name="OmniIconName.Filter" /></Icon>
                     </OmniPanelMenuItem>
                 </OmniPanelMenu>

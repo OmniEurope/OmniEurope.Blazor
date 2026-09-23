@@ -327,7 +327,8 @@ public sealed partial class ConventionGuardTests
         // A dismissible dialog (the default) is a dialog; one only its content closes is an alertdialog.
         Assert.Contains("role=\"@(Dismissible ? \"dialog\" : \"alertdialog\")\"", source, StringComparison.Ordinal);
         Assert.Contains("public bool Dismissible { get; set; } = true;", source, StringComparison.Ordinal);
-        Assert.Contains("aria-modal=\"true\"", source, StringComparison.Ordinal);
+        Assert.Contains("aria-modal=\"@(Modal ? \"true\" : \"false\")\"", source, StringComparison.Ordinal);
+        Assert.Contains("@if (Modal)", source, StringComparison.Ordinal);
         Assert.Contains("args.Key == \"Escape\"", source, StringComparison.Ordinal);
         Assert.Contains("activateDialog", source, StringComparison.Ordinal);
         Assert.Contains("restoreFocus", source, StringComparison.Ordinal);

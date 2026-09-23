@@ -1,4 +1,25 @@
 const attached = new WeakMap();
+const scaleLocks = new WeakMap();
+
+export function freezeScale(dialog) {
+    if (!dialog || scaleLocks.has(dialog)) return;
+    // Capture computed geometry before writing anything: rem lengths and density tokens are
+    // resolved once, so mixed pixel/rem rules cannot drift when the application scale changes.
+    const properties = ['font-size', 'line-height', 'letter-spacing', 'width', 'height',
+        'min-width', 'min-height', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
+        'margin-top', 'margin-right', 'margin-bottom', 'margin-left', 'row-gap', 'column-gap',
+        'border-top-width', 'border-right-width', 'border-bottom-width', 'border-left-width'];
+    const snapshots = [dialog, ...dialog.querySelectorAll('*')].map(element => {
+        const computed = getComputedStyle(element);
+        return [element, properties.map(name => [name, computed.getPropertyValue(name)])];
+    });
+    for (const [element, values] of snapshots) {
+        for (const [name, value] of values) {
+            if (value.endsWith('px')) element.style.setProperty(name, value);
+        }
+    }
+    scaleLocks.set(dialog, true);
+}
 
 export function attach(dialog) {
     if (!dialog || attached.has(dialog)) return;
@@ -37,6 +58,7 @@ export function attach(dialog) {
 }
 
 export function detach(dialog) {
+    scaleLocks.delete(dialog);
     const state = attached.get(dialog);
     if (!state) return;
     state.handle.removeEventListener('pointerdown', state.onPointerDown);
