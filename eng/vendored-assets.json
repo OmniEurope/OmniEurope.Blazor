@@ -19,6 +19,82 @@
         "localFile": "docs/third-party-licenses/phosphor-icons--2.1.1--LICENSE.txt",
         "localFileSha256": "b5b1f1da112d18ea2147decfd48ddc1bf2b5aeb6c265381579340e95b15a2bb2"
       }
+    },
+    {
+      "id": "font-inter",
+      "name": "Inter",
+      "version": "5.3.0",
+      "supplier": "Fontsource",
+      "homepage": "https://github.com/rsms/inter",
+      "reference": "https://www.npmjs.com/package/@fontsource-variable/inter/v/5.3.0",
+      "usage": "Police web variable (sous-ensemble latin) du catalogue OmniThemeFonts, servie par le paquet.",
+      "vendoredFiles": [
+        "src/OmniEurope.Blazor/wwwroot/fonts/inter-latin-wght-normal.woff2",
+        "src/OmniEurope.Blazor/wwwroot/fonts/OFL-inter.txt"
+      ],
+      "license": {
+        "kind": "expression",
+        "value": "OFL-1.1",
+        "localFile": "docs/third-party-licenses/fontsource-inter--5.3.0--OFL.txt",
+        "localFileSha256": "3b0a5fca3d17942cde889069889dedbbbd075e9b599968c82a95f4d944e9b345"
+      }
+    },
+    {
+      "id": "font-lexend",
+      "name": "Lexend",
+      "version": "5.3.0",
+      "supplier": "Fontsource",
+      "homepage": "https://github.com/googlefonts/lexend",
+      "reference": "https://www.npmjs.com/package/@fontsource-variable/lexend/v/5.3.0",
+      "usage": "Police web variable (sous-ensemble latin) du catalogue OmniThemeFonts, servie par le paquet.",
+      "vendoredFiles": [
+        "src/OmniEurope.Blazor/wwwroot/fonts/lexend-latin-wght-normal.woff2",
+        "src/OmniEurope.Blazor/wwwroot/fonts/OFL-lexend.txt"
+      ],
+      "license": {
+        "kind": "expression",
+        "value": "OFL-1.1",
+        "localFile": "docs/third-party-licenses/fontsource-lexend--5.3.0--OFL.txt",
+        "localFileSha256": "cdfed8f91b0660b004befb744757918b7c7d40dc2201b6c6d0a86b2fab9408f8"
+      }
+    },
+    {
+      "id": "font-source-serif-4",
+      "name": "Source Serif 4",
+      "version": "5.3.0",
+      "supplier": "Fontsource",
+      "homepage": "https://github.com/adobe-fonts/source-serif",
+      "reference": "https://www.npmjs.com/package/@fontsource-variable/source-serif-4/v/5.3.0",
+      "usage": "Police web variable (sous-ensemble latin) du catalogue OmniThemeFonts, servie par le paquet.",
+      "vendoredFiles": [
+        "src/OmniEurope.Blazor/wwwroot/fonts/source-serif-4-latin-wght-normal.woff2",
+        "src/OmniEurope.Blazor/wwwroot/fonts/OFL-source-serif-4.txt"
+      ],
+      "license": {
+        "kind": "expression",
+        "value": "OFL-1.1",
+        "localFile": "docs/third-party-licenses/fontsource-source-serif-4--5.3.0--OFL.txt",
+        "localFileSha256": "18aabf190848725e2576eefb5c29ba06aac1029d02132252a7f312eac2e50cf3"
+      }
+    },
+    {
+      "id": "font-jetbrains-mono",
+      "name": "JetBrains Mono",
+      "version": "5.3.0",
+      "supplier": "Fontsource",
+      "homepage": "https://github.com/JetBrains/JetBrainsMono",
+      "reference": "https://www.npmjs.com/package/@fontsource-variable/jetbrains-mono/v/5.3.0",
+      "usage": "Police web variable (sous-ensemble latin) du catalogue OmniThemeFonts, servie par le paquet.",
+      "vendoredFiles": [
+        "src/OmniEurope.Blazor/wwwroot/fonts/jetbrains-mono-latin-wght-normal.woff2",
+        "src/OmniEurope.Blazor/wwwroot/fonts/OFL-jetbrains-mono.txt"
+      ],
+      "license": {
+        "kind": "expression",
+        "value": "OFL-1.1",
+        "localFile": "docs/third-party-licenses/fontsource-jetbrains-mono--5.3.0--OFL.txt",
+        "localFileSha256": "403581b69dac5cff4079205e01c6b467e56af449ecbd7247693ddb1baafa005b"
+      }
     }
   ]
 }

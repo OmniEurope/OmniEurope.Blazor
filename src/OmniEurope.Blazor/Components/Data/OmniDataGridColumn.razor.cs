@@ -109,6 +109,14 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public bool FilterIncludesTime { get; set; }
 
+    /// <summary>
+    /// The operators this column offers, in this order, when the grid shows an operator choice.
+    /// Null keeps every operator the column's value type allows; a list narrows that set, and an
+    /// operator the type cannot use is dropped rather than offered.
+    /// </summary>
+    [Parameter]
+    public IReadOnlyList<OmniDataGridFilterOperator>? FilterOperators { get; set; }
+
     [Parameter]
     public OmniDataGridFilterOperator FilterOperator { get; set; }
 
@@ -199,6 +207,7 @@ public partial class OmniDataGridColumn<TItem>
             FilterIncludesTime = FilterIncludesTime,
             EnumType = GridPropertyAccessor.EnumType<TItem>(Property),
             ValueType = GridPropertyAccessor.ValueType<TItem>(Property),
+            FilterOperators = FilterOperators,
             FilterOperator = FilterOperator,
             SecondFilterOperator = SecondFilterOperator,
             LogicalFilterOperator = LogicalFilterOperator,
@@ -256,6 +265,7 @@ public partial class OmniDataGridColumn<TItem>
         && Equals(left.FilterValueText, right.FilterValueText)
         && string.Equals(left.DefaultFilterValue, right.DefaultFilterValue, StringComparison.Ordinal)
         && left.FilterIncludesTime == right.FilterIncludesTime
+        && ReferenceEquals(left.FilterOperators, right.FilterOperators)
         && left.FilterOperator == right.FilterOperator
         && left.SecondFilterOperator == right.SecondFilterOperator
         && left.LogicalFilterOperator == right.LogicalFilterOperator

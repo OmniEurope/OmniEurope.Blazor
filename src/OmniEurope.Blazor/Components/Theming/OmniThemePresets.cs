@@ -16,6 +16,19 @@ public static class OmniThemePresets
         return OmniThemePalettes.All.First(item => item.Name == name);
     }
 
+    /// <summary>
+    /// The font the selected theme is drawn with, or the first theme's when unset: the catalogue font
+    /// whose stack the theme sets as its text font.
+    /// </summary>
+    public static OmniThemeFont DefaultFontFor(OmniThemePreset? theme)
+    {
+        var definition = ThemeCatalog.All.First(item => item.Name == (theme ?? All[0]).Name);
+        return definition.Shape.TryGetValue("--omni-font-family", out var family)
+            && OmniThemeFonts.All.FirstOrDefault(font => font.Family == family) is { } font
+                ? font
+                : OmniThemeFonts.All[0];
+    }
+
     /// <summary>Every theme of the catalogue with its default palette, the default one first.</summary>
     public static IReadOnlyList<OmniThemePreset> All { get; } =
     [

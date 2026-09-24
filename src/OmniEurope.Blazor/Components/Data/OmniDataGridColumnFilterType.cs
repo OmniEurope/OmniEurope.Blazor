@@ -27,5 +27,12 @@ public enum OmniDataGridColumnFilterType
     /// <c>FilterIncludesTime</c> lets the user pick the hours too. Read by the grid through
     /// <see cref="OmniDataGridDateRange"/>, and sent to a remote loader as two bounds.
     /// </summary>
-    DateRange
+    DateRange,
+
+    /// <summary>
+    /// A number input with the ordered operators (equal, greater than, less than...), for a column
+    /// whose value is a number read through a function, where the grid cannot learn its type from a
+    /// property. Appended, so the published values keep their numbers.
+    /// </summary>
+    Number
 }

@@ -338,6 +338,7 @@ ctor public OmniEurope.Blazor.Components.OmniTemplateForm<TModel>()
 ctor public OmniEurope.Blazor.Components.OmniText()
 ctor public OmniEurope.Blazor.Components.OmniTextArea()
 ctor public OmniEurope.Blazor.Components.OmniTextBox()
+ctor public OmniEurope.Blazor.Components.OmniThemeFont(System.String Name, System.String Description, System.String Family)
 ctor public OmniEurope.Blazor.Components.OmniThemePalette(System.String Name, System.String Description, System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> Light, System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> Dark)
 ctor public OmniEurope.Blazor.Components.OmniThemePreset(System.String Name, System.String Description, System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> Light, System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> Dark)
 ctor public OmniEurope.Blazor.Components.OmniThemeScope()
@@ -407,6 +408,7 @@ field public static OmniEurope.Blazor.Components.OmniControlSize.Small : OmniEur
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Combo : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 2
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.DateRange : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 4
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.MultiSelect : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 3
+field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Number : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 5
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Select : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 1
 field public static OmniEurope.Blazor.Components.OmniDataGridColumnFilterType.Text : OmniEurope.Blazor.Components.OmniDataGridColumnFilterType const = 0
 field public static OmniEurope.Blazor.Components.OmniDataGridEditMode.Multiple : OmniEurope.Blazor.Components.OmniDataGridEditMode const = 1
@@ -1391,6 +1393,9 @@ method public OmniEurope.Blazor.Components.OmniStepTimelineStep.Deconstruct(out 
 method public OmniEurope.Blazor.Components.OmniStepTimelineStep.Equals(OmniEurope.Blazor.Components.OmniStepTimelineStep? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniTabs.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniTemplateForm<TModel>.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniThemeFont.<Clone>$() : OmniEurope.Blazor.Components.OmniThemeFont
+method public OmniEurope.Blazor.Components.OmniThemeFont.Deconstruct(out System.String Name, out System.String Description, out System.String Family) : System.Void
+method public OmniEurope.Blazor.Components.OmniThemeFont.Equals(OmniEurope.Blazor.Components.OmniThemeFont? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniThemePalette.<Clone>$() : OmniEurope.Blazor.Components.OmniThemePalette
 method public OmniEurope.Blazor.Components.OmniThemePalette.Deconstruct(out System.String Name, out System.String Description, out System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> Light, out System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> Dark) : System.Void
 method public OmniEurope.Blazor.Components.OmniThemePalette.Equals(OmniEurope.Blazor.Components.OmniThemePalette? other) : System.Boolean
@@ -1557,6 +1562,9 @@ method public override OmniEurope.Blazor.Components.OmniStepTimelineColumn.ToStr
 method public override OmniEurope.Blazor.Components.OmniStepTimelineStep.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniStepTimelineStep.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniStepTimelineStep.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniThemeFont.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniThemeFont.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniThemeFont.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniThemePalette.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniThemePalette.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniThemePalette.ToString() : System.String
@@ -1687,10 +1695,13 @@ method public static OmniEurope.Blazor.Components.OmniStepTimelineColumn.op_Equa
 method public static OmniEurope.Blazor.Components.OmniStepTimelineColumn.op_Inequality(OmniEurope.Blazor.Components.OmniStepTimelineColumn? left, OmniEurope.Blazor.Components.OmniStepTimelineColumn? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniStepTimelineStep.op_Equality(OmniEurope.Blazor.Components.OmniStepTimelineStep? left, OmniEurope.Blazor.Components.OmniStepTimelineStep? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniStepTimelineStep.op_Inequality(OmniEurope.Blazor.Components.OmniStepTimelineStep? left, OmniEurope.Blazor.Components.OmniStepTimelineStep? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniThemeFont.op_Equality(OmniEurope.Blazor.Components.OmniThemeFont? left, OmniEurope.Blazor.Components.OmniThemeFont? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniThemeFont.op_Inequality(OmniEurope.Blazor.Components.OmniThemeFont? left, OmniEurope.Blazor.Components.OmniThemeFont? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniThemePalette.op_Equality(OmniEurope.Blazor.Components.OmniThemePalette? left, OmniEurope.Blazor.Components.OmniThemePalette? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniThemePalette.op_Inequality(OmniEurope.Blazor.Components.OmniThemePalette? left, OmniEurope.Blazor.Components.OmniThemePalette? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniThemePreset.op_Equality(OmniEurope.Blazor.Components.OmniThemePreset? left, OmniEurope.Blazor.Components.OmniThemePreset? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniThemePreset.op_Inequality(OmniEurope.Blazor.Components.OmniThemePreset? left, OmniEurope.Blazor.Components.OmniThemePreset? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniThemePresets.DefaultFontFor(OmniEurope.Blazor.Components.OmniThemePreset? theme) : OmniEurope.Blazor.Components.OmniThemeFont
 method public static OmniEurope.Blazor.Components.OmniThemePresets.DefaultPaletteFor(OmniEurope.Blazor.Components.OmniThemePreset? theme) : OmniEurope.Blazor.Components.OmniThemePalette
 method public static OmniEurope.Blazor.Components.OmniUnifiedDiffParser.Parse(System.String? diff) : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniDiffFile>
 method public static OmniEurope.Blazor.Components.OmniUploadFile.op_Equality(OmniEurope.Blazor.Components.OmniUploadFile? left, OmniEurope.Blazor.Components.OmniUploadFile? right) : System.Boolean
@@ -1714,6 +1725,8 @@ property public OmniEurope.Blazor.Components.OmniAppearanceSettings.AppearanceCh
 property public OmniEurope.Blazor.Components.OmniAppearanceSettings.Compact : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppearanceSettings.DensityLevel : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppearanceSettings.DensityLevelChanged : Microsoft.AspNetCore.Components.EventCallback<System.Int32> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAppearanceSettings.Font : OmniEurope.Blazor.Components.OmniThemeFont? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAppearanceSettings.FontChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniThemeFont?> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppearanceSettings.Palette : OmniEurope.Blazor.Components.OmniThemePalette? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppearanceSettings.PaletteChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniThemePalette?> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppearanceSettings.Preset : OmniEurope.Blazor.Components.OmniThemePreset? {get(public);set(public)} [Parameter]
@@ -2021,6 +2034,7 @@ property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.DefaultFi
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.EditTemplate : Microsoft.AspNetCore.Components.RenderFragment<TItem>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.FilterIncludesTime : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.FilterOperator : OmniEurope.Blazor.Components.OmniDataGridFilterOperator {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.FilterOperators : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniDataGridFilterOperator>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.FilterPredicate : System.Func<TItem,System.String,System.Boolean>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.FilterSearchable : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.FilterTemplate : Microsoft.AspNetCore.Components.RenderFragment<OmniEurope.Blazor.Components.OmniDataGridFilterContext>? {get(public);set(public)} [Parameter]
@@ -2411,6 +2425,7 @@ property public OmniEurope.Blazor.Components.OmniLink.AriaLabel : System.String?
 property public OmniEurope.Blazor.Components.OmniLink.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniLink.Href : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniLink.NewTab : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniLink.ShowNewTabIcon : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniListBox<TValue>.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniListBox<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniListBox<TValue>.Options : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniOption<TValue>> {get(public);set(public)} [Parameter, EditorRequired]
@@ -2771,6 +2786,7 @@ property public OmniEurope.Blazor.Components.OmniSidebarToggle.ChildContent : Mi
 property public OmniEurope.Blazor.Components.OmniSidebarToggle.Controls : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniSidebarToggle.Open : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSidebarToggle.OpenChanged : Microsoft.AspNetCore.Components.EventCallback<System.Boolean> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSidebarToggle.OpenIcon : OmniEurope.Blazor.Components.OmniIconName {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSkeleton.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSkeleton.LineCount : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSkeleton.Shape : OmniEurope.Blazor.Components.OmniSkeletonShape {get(public);set(public)} [Parameter]
@@ -2921,6 +2937,9 @@ property public OmniEurope.Blazor.Components.OmniTextBox.Icon : Microsoft.AspNet
 property public OmniEurope.Blazor.Components.OmniTextBox.Placeholder : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTextBox.Type : OmniEurope.Blazor.Components.OmniTextBoxType {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniThemeFont.Description : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniThemeFont.Family : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniThemeFont.Name : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniThemePalette.Dark : System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniThemePalette.Description : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniThemePalette.Light : System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> {get(public);init(public)}
@@ -2934,6 +2953,7 @@ property public OmniEurope.Blazor.Components.OmniThemePreset.Shape : System.Coll
 property public OmniEurope.Blazor.Components.OmniThemeScope.Appearance : OmniEurope.Blazor.Components.OmniAppearance {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniThemeScope.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniThemeScope.Density : OmniEurope.Blazor.Components.OmniDensity {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniThemeScope.Font : OmniEurope.Blazor.Components.OmniThemeFont? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniThemeScope.Palette : OmniEurope.Blazor.Components.OmniThemePalette? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniThemeScope.Preset : OmniEurope.Blazor.Components.OmniThemePreset? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimePicker.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
@@ -3074,6 +3094,7 @@ property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Unlin
 property public static OmniEurope.Blazor.Components.OmniMindMapDocument.Empty : OmniEurope.Blazor.Components.OmniMindMapDocument {get(public)}
 property public static OmniEurope.Blazor.Components.OmniMindMapGroups.Palette : System.Collections.Generic.IReadOnlyList<System.String> {get(public)}
 property public static OmniEurope.Blazor.Components.OmniSpreadsheetValue.Empty : OmniEurope.Blazor.Components.OmniSpreadsheetValue {get(public)}
+property public static OmniEurope.Blazor.Components.OmniThemeFonts.All : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniThemeFont> {get(public)}
 property public static OmniEurope.Blazor.Components.OmniThemePalettes.All : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniThemePalette> {get(public)}
 property public static OmniEurope.Blazor.Components.OmniThemePresets.All : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniThemePreset> {get(public)}
 type public Microsoft.Extensions.DependencyInjection.OmniEuropeBlazorServiceCollectionExtensions [static-class, static]
@@ -3343,6 +3364,8 @@ type public OmniEurope.Blazor.Components.OmniTextBox [class] : OmniEurope.Blazor
 type public OmniEurope.Blazor.Components.OmniTextBoxType [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniTextElement [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniTextTone [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
+type public OmniEurope.Blazor.Components.OmniThemeFont [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniThemeFont>
+type public OmniEurope.Blazor.Components.OmniThemeFonts [static-class, static]
 type public OmniEurope.Blazor.Components.OmniThemePalette [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniThemePalette>
 type public OmniEurope.Blazor.Components.OmniThemePalettes [static-class, static]
 type public OmniEurope.Blazor.Components.OmniThemePreset [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniThemePreset>

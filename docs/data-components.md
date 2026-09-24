@@ -139,6 +139,11 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
 - La rangée de filtres garde la hauteur d'un contrôle quelle que soit la forme du filtre. Une croix
   « Effacer » apparaît à côté d'un filtre, et seulement tant qu'il filtre ; les panneaux gardent un
   bouton « Effacer » explicite.
+- `OmniDataGridColumnFilterType.Number` donne une saisie numérique et les opérateurs ordonnés à une
+  colonne lue par `Value`, dont la grille ne connaît pas le type. `FilterOperators` restreint et ordonne
+  les opérateurs proposés par une colonne ; un opérateur que son type ne permet pas est écarté.
+- Dans un panneau, une condition simple garde opérateur, valeur et « Effacer » sur une même ligne ; la
+  liste cochable, la plage de dates et le filtre avancé restent empilés.
 - `ShowHeaderFilterMenu` range le même éditeur que la rangée (opérateur en `SimpleWithMenu`, les deux
   conditions en `Advanced`) dans un menu ouvert par l'entonnoir du titre, et retire la rangée.
 - Les panneaux (menu d'en-tête, filtre avancé, liste cochable repliée) et la liste de suggestions

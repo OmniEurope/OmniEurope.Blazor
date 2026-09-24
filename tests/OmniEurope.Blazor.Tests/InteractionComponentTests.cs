@@ -31,6 +31,25 @@ public sealed class InteractionComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void SidebarToggle_ShowsACloseCrossWhileOpen()
+    {
+        string PathOf(OmniIconName name) => Render<OmniIcon>(parameters => parameters.Add(icon => icon.Name, name)).Find("path").GetAttribute("d")!;
+
+        var closed = Render<OmniSidebarToggle>(parameters => parameters.Add(component => component.Controls, "sidebar"));
+        var open = Render<OmniSidebarToggle>(parameters => parameters
+            .Add(component => component.Controls, "sidebar")
+            .Add(component => component.Open, true));
+        var keepsMenu = Render<OmniSidebarToggle>(parameters => parameters
+            .Add(component => component.Controls, "sidebar")
+            .Add(component => component.Open, true)
+            .Add(component => component.OpenIcon, OmniIconName.Menu));
+
+        Assert.Equal(PathOf(OmniIconName.Menu), closed.Find("path").GetAttribute("d"));
+        Assert.Equal(PathOf(OmniIconName.Close), open.Find("path").GetAttribute("d"));
+        Assert.Equal(PathOf(OmniIconName.Menu), keepsMenu.Find("path").GetAttribute("d"));
+    }
+
+    [Fact]
     public void ControlledToggles_ReportTheirNextState()
     {
         var sidebarState = false;

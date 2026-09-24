@@ -1,3 +1,10 @@
+/* The four web fonts of OmniThemeFonts, served from the package itself (font-src 'self'): variable,
+   Latin subset, SIL Open Font License 1.1, licences beside them in fonts/. Loaded only when used. */
+@font-face { font-display: swap; font-family: "Inter"; font-style: normal; font-weight: 100 900; src: url("fonts/inter-latin-wght-normal.woff2") format("woff2-variations"), url("fonts/inter-latin-wght-normal.woff2") format("woff2"); }
+@font-face { font-display: swap; font-family: "Lexend"; font-style: normal; font-weight: 100 900; src: url("fonts/lexend-latin-wght-normal.woff2") format("woff2-variations"), url("fonts/lexend-latin-wght-normal.woff2") format("woff2"); }
+@font-face { font-display: swap; font-family: "Source Serif 4"; font-style: normal; font-weight: 100 900; src: url("fonts/source-serif-4-latin-wght-normal.woff2") format("woff2-variations"), url("fonts/source-serif-4-latin-wght-normal.woff2") format("woff2"); }
+@font-face { font-display: swap; font-family: "JetBrains Mono"; font-style: normal; font-weight: 100 900; src: url("fonts/jetbrains-mono-latin-wght-normal.woff2") format("woff2-variations"), url("fonts/jetbrains-mono-latin-wght-normal.woff2") format("woff2"); }
+
 :root {
     /* Derived from the accent so a theme scope that repaints the palette repaints the ring with
        it; a fixed blue would survive the override and mismatch every custom theme. */
@@ -801,6 +808,8 @@ html[data-oe-text-size="10"] { font-size: 131.25%; }
 .omni-link { color: var(--omni-color-accent-strong); text-decoration: none; text-underline-offset: 0.15em; }
 .omni-link:hover { text-decoration: underline 0.08em; }
 .omni-link:focus-visible { border-radius: calc(var(--omni-radius) / 2); box-shadow: var(--omni-focus-ring); outline: none; }
+/* A link that opens a new tab says so with the external-link icon after its text, on the same baseline. */
+.omni-link__external { display: inline-block; height: 0.875em; margin-inline-start: 0.25em; vertical-align: -0.0625em; width: 0.875em; }
 
 .omni-image { display: block; height: auto; max-width: 100%; }
 .omni-image--contain { object-fit: contain; }
@@ -1258,6 +1267,9 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     z-index: 1;
 }
 
+/* The veil covers the viewport. Without a header copy in the panel, the app bar stays above the veil,
+   unchanged and usable, so its toggle (now a close cross) dismisses the menu where it opened it. */
+.omni-layout:has(.omni-sidebar--overlay.omni-sidebar--open:not(.omni-sidebar--has-header) > .omni-sidebar__backdrop) > .omni-header { z-index: 26; }
 /* The veil covers the viewport, sticky header included. */
 .omni-sidebar__backdrop {
     background: var(--omni-color-overlay);
@@ -1322,6 +1334,10 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     padding: var(--omni-input-pad-y) 9px;
     width: 100%;
 }
+/* A one-line field sits exactly at the control height, like the buttons beside it: the default
+   'normal' line height added a pixel over it. A select ignores line-height, so it takes the height. */
+input.omni-input { line-height: 1.25; }
+select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-height); padding-block: 0; }
 .omni-input::placeholder { color: var(--omni-color-text-muted); }
 .omni-input:hover:not(:disabled):not([readonly]) { border-color: color-mix(in srgb, var(--omni-color-text) 45%, var(--omni-color-border)); }
 .omni-input:focus-visible { border-color: var(--omni-color-accent-fill); box-shadow: var(--omni-focus-ring); outline: none; }
@@ -2250,8 +2266,12 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid__filter-editor { flex: auto; flex-wrap: wrap; }
 .omni-data-grid__filter-editor > :not(label) { flex: 1 1 5rem; min-inline-size: 0; }
 .omni-data-grid__filter-editor--panel { display: grid; }
+/* One condition in a popover: operator, value and Clear on one line, the value taking the room left. */
+.omni-data-grid__filter-editor--panel.omni-data-grid__filter-editor--row { display: flex; flex-wrap: nowrap; }
+.omni-data-grid__filter-editor--row > .omni-data-grid__filter-actions { flex: 0 0 auto; }
 .omni-data-grid :is(.omni-data-grid__filter-operator, .omni-data-grid__filter-logical) { flex: 0 1 7rem; }
 .omni-data-grid__filters .omni-input { min-block-size: calc(var(--omni-control-height) - 0.25rem); padding-inline: var(--omni-space-sm); }
+.omni-data-grid__filters select.omni-input:not([multiple]):not([size]) { block-size: calc(var(--omni-control-height) - 0.25rem); }
 .omni-data-grid__filter-actions { display: flex; gap: var(--omni-space-xs); justify-content: flex-end; }
 /* A row a live refresh brought in reads bold for the grid's NewRowHighlight, then settles. */
 .omni-data-grid__row--new > td { font-weight: 600; }
@@ -3083,7 +3103,8 @@ span.omni-unified-diff__toggle { cursor: default; }
 .omni-window-layer { position: fixed; inset: 0; z-index: 1200; pointer-events: none; display: grid; place-items: center; }
 .omni-window-layer > .omni-dialog { pointer-events: auto; font-size: 1rem; }
 .omni-appearance-window { inline-size: 28rem; max-inline-size: calc(100vw - 2rem); }
-.omni-appearance-settings--scale .omni-appearance-settings__row { flex-wrap: nowrap; }
+/* The label and its buttons share a line; the slider under them takes the whole row. */
+.omni-appearance-settings--scale .omni-appearance-settings__row { flex-wrap: wrap; }
 .omni-appearance-settings--scale .omni-appearance-settings__actions { flex-wrap: nowrap; }
 .omni-appearance-settings--scale .omni-badge { inline-size: 3.25em; min-height: var(--omni-control-height); }
 .omni-appearance-settings--scale .omni-appearance-settings__label { min-inline-size: 6em; }

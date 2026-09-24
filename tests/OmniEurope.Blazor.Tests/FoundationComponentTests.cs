@@ -68,6 +68,29 @@ public sealed class FoundationComponentTests : OmniBunitContext
         Assert.Equal("noopener noreferrer", component.Find("a").GetAttribute("rel"));
     }
 
+    [Fact]
+    public void Link_NewTabShowsTheExternalIconUnlessTurnedOff()
+    {
+        var external = Render<OmniLink>(parameters => parameters
+            .Add(item => item.Href, "https://example.test")
+            .Add(item => item.NewTab, true)
+            .AddChildContent("External"));
+        Assert.Single(external.FindAll("a > .omni-link__external"));
+        Assert.Single(external.FindAll("a > .omni-visually-hidden"));
+
+        var plain = Render<OmniLink>(parameters => parameters
+            .Add(item => item.Href, "https://example.test")
+            .Add(item => item.NewTab, true)
+            .Add(item => item.ShowNewTabIcon, false)
+            .AddChildContent("External"));
+        Assert.Empty(plain.FindAll(".omni-link__external"));
+
+        var sameTab = Render<OmniLink>(parameters => parameters
+            .Add(item => item.Href, "/local")
+            .AddChildContent("Local"));
+        Assert.Empty(sameTab.FindAll(".omni-link__external"));
+    }
+
     [Theory]
     [InlineData("javascript:alert(1)")]
     [InlineData("data:text/html,<script>alert(1)</script>")]

@@ -8,19 +8,19 @@ namespace OmniEurope.Blazor.Internal;
 /// <remarks>
 /// A shape writes no colour of its own: a coloured shadow or border is drawn from a colour token, so it
 /// follows any palette. Only neutral shadows (<c>rgb(0 0 0 / x%)</c>, <c>rgb(255 255 255 / x%)</c>) are
-/// literal. Fonts are system stacks only: the package ships no webfont.
+/// literal. Fonts come from <see cref="FontCatalog"/>: system stacks and four web fonts the package serves itself.
 /// </remarks>
 internal static class ThemeCatalog
 {
-    private const string Sans = "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif";
-    private const string Serif = "Georgia, \"Iowan Old Style\", \"Palatino Linotype\", \"Times New Roman\", serif";
-    private const string Rounded = "ui-rounded, \"SF Pro Rounded\", Nunito, \"Segoe UI\", system-ui, sans-serif";
-    private const string Technical = "Bahnschrift, \"DIN Alternate\", \"Roboto Condensed\", \"Arial Narrow\", sans-serif";
-    private const string Geometric = "\"Century Gothic\", Futura, \"Avenir Next\", \"Segoe UI\", sans-serif";
-    private const string Soft = "Corbel, \"Avenir Next\", Avenir, \"Segoe UI\", sans-serif";
-    private const string Transitional = "Cambria, Constantia, \"Hoefler Text\", \"Iowan Old Style\", Georgia, serif";
-    private const string Screen = "Verdana, Tahoma, \"DejaVu Sans\", \"Bitstream Vera Sans\", sans-serif";
-    private const string Console = "\"Lucida Console\", \"Courier New\", ui-monospace, monospace";
+    private const string Sans = FontCatalog.Sans;
+    private const string Serif = FontCatalog.Serif;
+    private const string Rounded = FontCatalog.Rounded;
+    private const string Technical = FontCatalog.Technical;
+    private const string Geometric = FontCatalog.Geometric;
+    private const string Soft = FontCatalog.Soft;
+    private const string Transitional = FontCatalog.Transitional;
+    private const string Screen = FontCatalog.Screen;
+    private const string Console = FontCatalog.Console;
     private const string NoShadow = "0 0 #0000";
 
     // One radius everywhere for Défaut, the button's: small, medium, large, cards, alerts and floating

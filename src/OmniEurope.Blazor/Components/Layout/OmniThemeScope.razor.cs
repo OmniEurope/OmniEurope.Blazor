@@ -6,6 +6,7 @@ public partial class OmniThemeScope
     private IJSObjectReference? _themeModule;
     private OmniThemePreset? _appliedPreset;
     private OmniThemePalette? _appliedPalette;
+    private OmniThemeFont? _appliedFont;
     private OmniAppearance _appliedAppearance;
 
     [Parameter, EditorRequired]
@@ -40,10 +41,17 @@ public partial class OmniThemeScope
     [Parameter]
     public OmniThemePalette? Palette { get; set; }
 
+    /// <summary>
+    /// A font from <see cref="OmniThemeFonts"/> for the text and the headings of this scope, laid over
+    /// the theme's own. Null keeps the font the theme is drawn with.
+    /// </summary>
+    [Parameter]
+    public OmniThemeFont? Font { get; set; }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var unchanged = ReferenceEquals(Preset, _appliedPreset) && ReferenceEquals(Palette, _appliedPalette);
-        if (unchanged && ((Preset is null && Palette is null) || Appearance == _appliedAppearance))
+        var unchanged = ReferenceEquals(Preset, _appliedPreset) && ReferenceEquals(Palette, _appliedPalette) && ReferenceEquals(Font, _appliedFont);
+        if (unchanged && ((Preset is null && Palette is null && Font is null) || Appearance == _appliedAppearance))
         {
             return;
         }
@@ -61,10 +69,33 @@ public partial class OmniThemeScope
 
         _appliedPreset = Preset;
         _appliedPalette = Palette;
+        _appliedFont = Font;
         _appliedAppearance = Appearance;
     }
 
     private (IReadOnlyDictionary<string, string>? Light, IReadOnlyDictionary<string, string>? Dark) Resolve()
+    {
+        var (light, dark) = ResolveColours();
+        if (Font is null)
+        {
+            return (light, dark);
+        }
+
+        return (WithFont(light), WithFont(dark));
+    }
+
+    /// <summary>The chosen font sets the text and the headings, over whatever the theme said.</summary>
+    private Dictionary<string, string> WithFont(IReadOnlyDictionary<string, string>? tokens)
+    {
+        var merged = tokens is null
+            ? new Dictionary<string, string>(StringComparer.Ordinal)
+            : new Dictionary<string, string>(tokens, StringComparer.Ordinal);
+        merged["--omni-font-family"] = Font!.Family;
+        merged["--omni-heading-font-family"] = Font.Family;
+        return merged;
+    }
+
+    private (IReadOnlyDictionary<string, string>? Light, IReadOnlyDictionary<string, string>? Dark) ResolveColours()
     {
         if (Preset is not null)
         {

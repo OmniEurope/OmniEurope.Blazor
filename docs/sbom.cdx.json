@@ -2575,6 +2575,158 @@
     },
     {
       "type": "file",
+      "name": "font-inter",
+      "version": "5.3.0",
+      "bom-ref": "pkg:generic/font-inter@5.3.0",
+      "purl": "pkg:generic/font-inter@5.3.0",
+      "licenses": [
+        {
+          "expression": "OFL-1.1"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:origin",
+          "value": "vendored"
+        },
+        {
+          "name": "omnieurope:display-name",
+          "value": "Inter"
+        },
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:license-file",
+          "value": "docs/third-party-licenses/fontsource-inter--5.3.0--OFL.txt"
+        },
+        {
+          "name": "omnieurope:license-file-sha256",
+          "value": "3b0a5fca3d17942cde889069889dedbbbd075e9b599968c82a95f4d944e9b345"
+        },
+        {
+          "name": "omnieurope:vendored-files",
+          "value": "src/OmniEurope.Blazor/wwwroot/fonts/inter-latin-wght-normal.woff2;src/OmniEurope.Blazor/wwwroot/fonts/OFL-inter.txt"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "name": "font-jetbrains-mono",
+      "version": "5.3.0",
+      "bom-ref": "pkg:generic/font-jetbrains-mono@5.3.0",
+      "purl": "pkg:generic/font-jetbrains-mono@5.3.0",
+      "licenses": [
+        {
+          "expression": "OFL-1.1"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:origin",
+          "value": "vendored"
+        },
+        {
+          "name": "omnieurope:display-name",
+          "value": "JetBrains Mono"
+        },
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:license-file",
+          "value": "docs/third-party-licenses/fontsource-jetbrains-mono--5.3.0--OFL.txt"
+        },
+        {
+          "name": "omnieurope:license-file-sha256",
+          "value": "403581b69dac5cff4079205e01c6b467e56af449ecbd7247693ddb1baafa005b"
+        },
+        {
+          "name": "omnieurope:vendored-files",
+          "value": "src/OmniEurope.Blazor/wwwroot/fonts/jetbrains-mono-latin-wght-normal.woff2;src/OmniEurope.Blazor/wwwroot/fonts/OFL-jetbrains-mono.txt"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "name": "font-lexend",
+      "version": "5.3.0",
+      "bom-ref": "pkg:generic/font-lexend@5.3.0",
+      "purl": "pkg:generic/font-lexend@5.3.0",
+      "licenses": [
+        {
+          "expression": "OFL-1.1"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:origin",
+          "value": "vendored"
+        },
+        {
+          "name": "omnieurope:display-name",
+          "value": "Lexend"
+        },
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:license-file",
+          "value": "docs/third-party-licenses/fontsource-lexend--5.3.0--OFL.txt"
+        },
+        {
+          "name": "omnieurope:license-file-sha256",
+          "value": "cdfed8f91b0660b004befb744757918b7c7d40dc2201b6c6d0a86b2fab9408f8"
+        },
+        {
+          "name": "omnieurope:vendored-files",
+          "value": "src/OmniEurope.Blazor/wwwroot/fonts/lexend-latin-wght-normal.woff2;src/OmniEurope.Blazor/wwwroot/fonts/OFL-lexend.txt"
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "name": "font-source-serif-4",
+      "version": "5.3.0",
+      "bom-ref": "pkg:generic/font-source-serif-4@5.3.0",
+      "purl": "pkg:generic/font-source-serif-4@5.3.0",
+      "licenses": [
+        {
+          "expression": "OFL-1.1"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:origin",
+          "value": "vendored"
+        },
+        {
+          "name": "omnieurope:display-name",
+          "value": "Source Serif 4"
+        },
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:license-file",
+          "value": "docs/third-party-licenses/fontsource-source-serif-4--5.3.0--OFL.txt"
+        },
+        {
+          "name": "omnieurope:license-file-sha256",
+          "value": "18aabf190848725e2576eefb5c29ba06aac1029d02132252a7f312eac2e50cf3"
+        },
+        {
+          "name": "omnieurope:vendored-files",
+          "value": "src/OmniEurope.Blazor/wwwroot/fonts/source-serif-4-latin-wght-normal.woff2;src/OmniEurope.Blazor/wwwroot/fonts/OFL-source-serif-4.txt"
+        }
+      ]
+    },
+    {
+      "type": "file",
       "name": "phosphor-icons",
       "version": "2.1.1",
       "bom-ref": "pkg:generic/phosphor-icons@2.1.1",

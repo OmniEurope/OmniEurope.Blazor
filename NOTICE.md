@@ -125,4 +125,8 @@ Ces ressources ne proviennent pas de NuGet : elles sont recopiées dans le dép�
 
 | Ressource | Version | Licence | Usage | Source locale |
 |---|---:|---|---|---|
+| [Inter](https://github.com/rsms/inter) | `5.3.0` | OFL-1.1 | Police web variable (sous-ensemble latin) du catalogue OmniThemeFonts, servie par le paquet. | `docs/third-party-licenses/fontsource-inter--5.3.0--OFL.txt` |
+| [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) | `5.3.0` | OFL-1.1 | Police web variable (sous-ensemble latin) du catalogue OmniThemeFonts, servie par le paquet. | `docs/third-party-licenses/fontsource-jetbrains-mono--5.3.0--OFL.txt` |
+| [Lexend](https://github.com/googlefonts/lexend) | `5.3.0` | OFL-1.1 | Police web variable (sous-ensemble latin) du catalogue OmniThemeFonts, servie par le paquet. | `docs/third-party-licenses/fontsource-lexend--5.3.0--OFL.txt` |
+| [Source Serif 4](https://github.com/adobe-fonts/source-serif) | `5.3.0` | OFL-1.1 | Police web variable (sous-ensemble latin) du catalogue OmniThemeFonts, servie par le paquet. | `docs/third-party-licenses/fontsource-source-serif-4--5.3.0--OFL.txt` |
 | [Phosphor Icons](https://github.com/phosphor-icons/core) | `2.1.1` | MIT | Tracés intégrés d'OmniIcon, repris tels quels des poids regular et fill (StarFilled). | `docs/third-party-licenses/phosphor-icons--2.1.1--LICENSE.txt` |

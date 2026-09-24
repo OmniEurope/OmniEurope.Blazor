@@ -20,7 +20,7 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 | `OmniHeading` | Titres `h1` à `h6` déterminés par `OmniHeadingLevel`. |
 | `OmniIcon` | Tracés Phosphor `regular` intégrés pour les usages du paquet, décoratifs par défaut ou nommés avec `AriaLabel` ; `Glyph` accepte n'importe quel autre tracé sans alourdir le paquet. |
 | `OmniBadge` | Étiquette courte avec variantes neutre, accent, information, succès, avertissement et danger, en pastille tonale (fond, trait et texte tirés de l'encre de la variante mêlée à la surface et au texte du thème) lisible en clair comme en sombre ; `Fill="Outline"` n'en garde que le trait, `Fill="Solid"` prend le fond et l'encre du bouton de même intention. |
-| `OmniLink` | Lien natif ; un nouvel onglet ajoute automatiquement `noopener noreferrer`. |
+| `OmniLink` | Lien natif ; un nouvel onglet ajoute automatiquement `noopener noreferrer`, une icône de lien externe et une mention pour les technologies d'assistance (`ShowNewTabIcon="false"` retire l'icône). |
 | `OmniImage` | Image responsive avec texte alternatif, chargement différé et dimensions natives optionnelles. |
 | `OmniSkeleton` | État de chargement décoratif ou région `status` nommée, avec une à dix lignes. |
 | `OmniRow` | Rangée flex avec espacement, alignement, justification et retour à la ligne typés. |
@@ -174,6 +174,13 @@ La taille du texte et la densité proposent les niveaux 1 à 10. Le contrôle re
 et émet leurs changements ; l'application conserve
 la responsabilité du stockage et les applique à sa portée. Le mode Système et les boutons Défaut
 restaurent les valeurs initiales.
+Dans la fenêtre, un curseur de 1 à 10 suit les boutons moins et plus de chaque réglage.
+Le réglage Police propose les dix polices d'`OmniThemeFonts.All` : six piles système et quatre polices web
+libres (Inter, Lexend, Source Serif 4, JetBrains Mono, OFL 1.1) servies par le paquet depuis `fonts/`, avec repli système ;
+celle du thème est marquée « (défaut) » et `OmniThemePresets.DefaultFontFor(preset)` la fournit.
+`Font` et `FontChanged` la pilotent, `OmniThemeScope.Font` l'applique au texte et aux titres de la portée.
+Changer de thème renvoie `null` pour la palette et la police choisies : le nouveau thème s'affiche avec
+les siennes.
 La palette du thème est nommée dans le sélecteur, par exemple « Océan (défaut) » pour Ardoise ;
 `OmniThemePresets.DefaultPaletteFor(preset)` fournit cette valeur. `Compact` réduit le panneau pour
 un menu d'en-tête. Pour la densité, l'application peut associer les niveaux 1 à 3 à `Compact`,

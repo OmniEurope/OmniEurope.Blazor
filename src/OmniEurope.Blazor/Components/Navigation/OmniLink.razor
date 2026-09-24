@@ -3,11 +3,16 @@
 @using OmniEurope.Blazor.Internal
 
 <a id="@Id"
-   class="@Css("omni-link")"
+   class="@Css("omni-link", ShowsExternalIcon ? "omni-link--external" : null)"
    href="@SafeHref"
    target="@(NewTab ? "_blank" : null)"
    rel="@(NewTab ? "noopener noreferrer" : null)"
    aria-label="@AriaLabel"
    @attributes="AdditionalAttributes">
     @ChildContent
+    @if (ShowsExternalIcon)
+    {
+        <OmniIcon Name="OmniIconName.OpenExternal" Size="OmniControlSize.Small" Class="omni-link__external" />
+        <span class="omni-visually-hidden">@StringLocalizer["LinkOpensInNewTab"]</span>
+    }
 </a>
