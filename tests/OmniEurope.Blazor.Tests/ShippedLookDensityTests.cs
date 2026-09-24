@@ -43,8 +43,9 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData("--omni-control-height", "2.25rem", "1.625rem", "2.75rem")]
-    [InlineData("--omni-control-font", "0.875rem", "0.75rem", "0.9375rem")]
+    // The control tokens keep the mockup values at the drawn control size (scale 1).
+    [InlineData("--omni-control-height", "calc(2.25rem * var(--omni-control-scale, 1))", "calc(1.625rem * var(--omni-control-scale, 1))", "calc(2.75rem * var(--omni-control-scale, 1))")]
+    [InlineData("--omni-control-font", "calc(0.875rem * var(--omni-control-scale, 1))", "calc(0.75rem * var(--omni-control-scale, 1))", "calc(0.9375rem * var(--omni-control-scale, 1))")]
     [InlineData("--omni-cell-pad-y", "8px", "2px", "12px")]
     [InlineData("--omni-card-pad", "14px", "8px", "18px")]
     [InlineData("--omni-switch-h", "1.25rem", "1rem", "1.5rem")]

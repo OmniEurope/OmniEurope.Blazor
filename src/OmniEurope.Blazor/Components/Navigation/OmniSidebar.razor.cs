@@ -2,6 +2,11 @@ namespace OmniEurope.Blazor.Components;
 
 public partial class OmniSidebar
 {
+    private IJSObjectReference? _focusModule;
+    private DotNetObjectReference<OmniSidebar>? _selfReference;
+    private bool _escapeAttached;
+    private readonly string _escapeKey = Guid.NewGuid().ToString("N");
+
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
@@ -9,9 +14,9 @@ public partial class OmniSidebar
     public bool Open { get; set; }
 
     /// <summary>
-    /// Raised when the sidebar closes itself, which today means the veil was clicked. Without a
-    /// handler the veil still renders and still swallows the click, so a floating sidebar that can
-    /// be dismissed needs this bound.
+    /// Raised when the sidebar closes itself: the veil was clicked, Escape was pressed while it floats
+    /// open, or an entry was chosen. Without a handler the veil still renders and still swallows the
+    /// click, so a floating sidebar that can be dismissed needs this bound.
     /// </summary>
     [Parameter]
     public EventCallback<bool> OpenChanged { get; set; }
@@ -85,6 +90,40 @@ public partial class OmniSidebar
 
     private Task CloseAsync() => OpenChanged.InvokeAsync(false);
 
+    /// <summary>A floating sidebar listens for Escape on the whole document while it is open.</summary>
+    private bool Floating => Open && Reveal == OmniSidebarReveal.Overlay;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Floating == _escapeAttached)
+        {
+            return;
+        }
+
+        try
+        {
+            _focusModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omni-focus.js");
+            if (Floating)
+            {
+                _selfReference ??= DotNetObjectReference.Create(this);
+                await _focusModule.InvokeVoidAsync("attachEscape", _escapeKey, _selfReference);
+            }
+            else
+            {
+                await _focusModule.InvokeVoidAsync("detachEscape", _escapeKey);
+            }
+
+            _escapeAttached = Floating;
+        }
+        catch (JSDisconnectedException)
+        {
+        }
+    }
+
+    /// <summary>Called by the document listener; closes only a sidebar that still floats open.</summary>
+    [JSInvokable]
+    public Task CloseFromEscapeAsync() => Floating ? InvokeAsync(CloseAsync) : Task.CompletedTask;
+
     protected override void OnInitialized() => Navigation.LocationChanged += HandleLocationChanged;
 
     /// <summary>
@@ -100,4 +139,27 @@ public partial class OmniSidebar
     }
 
     public void Dispose() => Navigation.LocationChanged -= HandleLocationChanged;
+
+    public async ValueTask DisposeAsync()
+    {
+        Dispose();
+        try
+        {
+            if (_focusModule is not null)
+            {
+                if (_escapeAttached)
+                {
+                    await _focusModule.InvokeVoidAsync("detachEscape", _escapeKey);
+                }
+
+                await _focusModule.DisposeAsync();
+            }
+        }
+        catch (JSDisconnectedException)
+        {
+        }
+
+        _selfReference?.Dispose();
+        GC.SuppressFinalize(this);
+    }
 }

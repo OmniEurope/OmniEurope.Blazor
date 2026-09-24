@@ -138,6 +138,49 @@ public sealed class NavigationComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Sidebar_FloatingOpen_ClosesOnTheBackdropAndOnEscapeFromAnywhere()
+    {
+        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-focus.js");
+        var open = true;
+        var sidebar = Render<OmniSidebar>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Reveal, OmniSidebarReveal.Overlay)
+            .Add(component => component.Backdrop, true)
+            .Add(component => component.OpenChanged, value => open = value)
+            .AddChildContent("Navigation"));
+
+        // Escape is heard on the whole document, since the focus usually stays on the toggle.
+        var attached = Assert.Single(module.Invocations["attachEscape"]);
+        Assert.IsType<string>(attached.Arguments[0]);
+
+        sidebar.Find(".omni-sidebar__backdrop").Click();
+        Assert.False(open);
+
+        open = true;
+        await sidebar.InvokeAsync(sidebar.Instance.CloseFromEscapeAsync);
+        Assert.False(open);
+
+        // Closed, it stops listening; a late Escape does nothing.
+        sidebar.Render(parameters => parameters.Add(component => component.Open, false));
+        Assert.Single(module.Invocations["detachEscape"]);
+        open = true;
+        await sidebar.InvokeAsync(sidebar.Instance.CloseFromEscapeAsync);
+        Assert.True(open);
+    }
+
+    [Fact]
+    public void Sidebar_Pushing_NeverListensForEscape()
+    {
+        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-focus.js");
+        Render<OmniSidebar>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Reveal, OmniSidebarReveal.Push)
+            .AddChildContent("Navigation"));
+
+        Assert.Empty(module.Invocations["attachEscape"]);
+    }
+
+    [Fact]
     public void Sidebar_Pushing_StaysOpenAcrossNavigation()
     {
         var open = true;

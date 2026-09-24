@@ -89,7 +89,7 @@ Mesure du surcoût des onze tracés Phosphor, publication WebAssembly identique 
 
 ## Thèmes, palettes et densité
 
-Un **thème** décide la forme : arrondis, épaisseur et couleur relative des bordures, ombres et lueurs, polices (piles système seulement, aucune webfont), dessin des boutons, des cartes et des titres, et l'effet d'appui des boutons. Il n'écrit aucune couleur en dur : une bordure ou une lueur colorée se dit par rapport à un jeton (`var(--omni-color-accent)`, `color-mix(...)`), si bien qu'elle suit n'importe quelle palette. Une **palette** décide les couleurs : accent (et accent sombre), succès, information, avertissement, danger, surface et texte des deux modes. La fabrique du paquet en dérive les jetons de chaque mode et les déplace jusqu'aux ratios WCAG.
+Un **thème** décide la forme : arrondis, épaisseur et couleur relative des bordures, ombres et lueurs, polices (piles système ou polices web servies par le paquet, voir le réglage Police), dessin des boutons, des cartes et des titres, et l'effet d'appui des boutons. Il n'écrit aucune couleur en dur : une bordure ou une lueur colorée se dit par rapport à un jeton (`var(--omni-color-accent)`, `color-mix(...)`), si bien qu'elle suit n'importe quelle palette. Une **palette** décide les couleurs : accent (et accent sombre), succès, information, avertissement, danger, surface et texte des deux modes. La fabrique du paquet en dérive les jetons de chaque mode et les déplace jusqu'aux ratios WCAG.
 
 Toute palette peint tout thème : dix thèmes par dix palettes, cent combinaisons, deux cents jeux de jetons avec les deux modes.
 
@@ -189,10 +189,21 @@ du site ; le composant ne modifie pas la racine du document à l'insu de son hô
 l'échelle d'Atlas sans CSS propre à l'application, l'hôte pose `data-oe-text-size` (1 à 10) sur
 `<html>` : la feuille OE applique alors 75 % à 131,25 % à la taille racine, 5 valant 100 %.
 Le module `./_content/OmniEurope.Blazor/omni-appearance.js` expose `setTextSizeLevel(level)` et
-`clearTextSizeLevel()` pour poser ou retirer cet attribut. La démonstration du paquet applique
+`clearTextSizeLevel()` pour poser ou retirer cet attribut. La taille des contrôles suit le même
+principe : `data-oe-control-size` (1 à 10) sur `<html>` règle `--omni-control-scale` de 0,75 à 1,3125,
+que lisent `--omni-control-height`, `--omni-control-font` et `--omni-button-pad-x` dans les trois
+densités, sans toucher au texte de la page ; `setControlSizeLevel(level)` et
+`clearControlSizeLevel()` le posent ou le retirent. `OmniAppearanceSettings` n'affiche ce réglage
+que si l'hôte fournit `ControlSizeLevelChanged`, puisque c'est lui qui l'applique. La démonstration du paquet applique
 le niveau choisi et le retire en quittant la page ; un aperçu vivant montre aussi le thème,
 la palette et la densité sélectionnés, à côté des exemples de combinaisons fixes.
 ## Largeur du contenu et défilement
+
+`OmniTabs.ScrollablePanels` (désactivé par défaut) fait du panneau sélectionné la zone qui défile :
+les onglets prennent toute la hauteur de leur parent, qui doit donc être dimensionné (élément flex
+à minimum nul ou hauteur fixe), et la barre d'onglets reste en place pendant que le contenu défile
+sous elle. Le défilement s'arrête au bord du panneau au lieu de passer à la page. Un onglet placé
+dans un tel panneau ne porte pas de défilement propre.
 
 `OmniLayout.Width` rétrécit toute la coquille. Pour garder l'en-tête et la barre latérale sur toute la largeur et ne centrer que le contenu, c'est `OmniMain.ContentWidth`. Avec `Scrollable`, l'élément principal devient le conteneur de défilement de la page : il couvre toute la zone laissée par la barre latérale, si bien que sa barre de défilement reste au bord droit de la fenêtre, jamais au bord de la colonne centrée. La colonne se centre par la marge intérieure de l'élément et comprend sa gouttière, `--omni-main-gutter` (l'espacement moyen par défaut). Un enfant à `block-size: 100%` remplit exactement la zone ; un contenu plus haut la fait défiler, marge du bas comprise.
 

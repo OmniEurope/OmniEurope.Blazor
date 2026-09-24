@@ -41,6 +41,15 @@ public partial class OmniTabs
     [Parameter]
     public bool RenderAllPanels { get; set; }
 
+    /// <summary>
+    /// Makes the selected panel the vertical scroll container: the tab strip, and whatever sits above
+    /// the tabs, stay in place while the panel content scrolls under them. The tabs take the full height
+    /// of their parent, which must therefore be sized (a flex item with a zero minimum, or a fixed height).
+    /// Off by default: the panel then grows with its content and the page scrolls.
+    /// </summary>
+    [Parameter]
+    public bool ScrollablePanels { get; set; }
+
     private RenderFragment? EffectiveContent => ChildContent ?? Tabs;
 
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label)

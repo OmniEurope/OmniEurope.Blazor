@@ -13,9 +13,9 @@
     --omni-space-xl: 1.5rem;
     /* The spacing steps sm to lg, the control height and every other size a component reads live
        in the density blocks below the generated tokens, comfortable being the default. */
-    /* 14px, the base body size the host Atlas pages already set. This package sets no base
-       font-size anywhere, so without this token a component dropped into one of those pages
-       renders visibly larger at the browser's 1rem default. */
+    /* 14px, the base body size of the hosts this package was drawn for. This package sets no
+       base font-size anywhere, so without this token a component dropped into a page that sets
+       14px renders visibly larger at the browser's 1rem default. */
     --omni-font-size-base: 0.875rem;
     /* Sizes above the base, so a host that repaints the scale moves every component with it
        instead of leaving the small print behind. */
@@ -30,7 +30,7 @@
     --omni-font-size-h5: 1.125rem;
     --omni-font-size-h6: 1rem;
     /* Colours, radii, the body font and the elevation of the shipped look are generated from the
-       theme Défaut (block omni:theme-tokens below). No webfont ships with the package. */
+       theme Défaut (block omni:theme-tokens below). The only webfonts are the four @font-face above. */
     --omni-font-family-monospace: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     --omni-border-width: 1px;
     /* Rounded shapes that are geometric rather than stylistic keep their own tokens: a pill and a
@@ -126,6 +126,20 @@ html[data-oe-text-size="7"] { font-size: 112.5%; }
 html[data-oe-text-size="8"] { font-size: 118.75%; }
 html[data-oe-text-size="9"] { font-size: 125%; }
 html[data-oe-text-size="10"] { font-size: 131.25%; }
+
+/* A host may set data-oe-control-size on <html> to scale the controls alone (buttons, fields, lists:
+   their height, their text and their side padding) without touching the text of the page. Level 5 is
+   the drawn size; the steps are those of the text size. */
+html[data-oe-control-size="1"] { --omni-control-scale: 0.75; }
+html[data-oe-control-size="2"] { --omni-control-scale: 0.8125; }
+html[data-oe-control-size="3"] { --omni-control-scale: 0.875; }
+html[data-oe-control-size="4"] { --omni-control-scale: 0.9375; }
+html[data-oe-control-size="5"] { --omni-control-scale: 1; }
+html[data-oe-control-size="6"] { --omni-control-scale: 1.0625; }
+html[data-oe-control-size="7"] { --omni-control-scale: 1.125; }
+html[data-oe-control-size="8"] { --omni-control-scale: 1.1875; }
+html[data-oe-control-size="9"] { --omni-control-scale: 1.25; }
+html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
 
 /* omni:theme-tokens:start */
 /* Generated from the theme and the palette Défaut by ShippedThemeTokensTests: do not edit by hand. */
@@ -401,9 +415,9 @@ html[data-oe-text-size="10"] { font-size: 131.25%; }
     --omni-space-sm: 0.5rem;
     --omni-space-md: 0.75rem;
     --omni-space-lg: 1rem;
-    --omni-control-height: 2.25rem;
-    --omni-control-font: 0.875rem;
-    --omni-button-pad-x: 0.875rem;
+    --omni-control-height: calc(2.25rem * var(--omni-control-scale, 1));
+    --omni-control-font: calc(0.875rem * var(--omni-control-scale, 1));
+    --omni-button-pad-x: calc(0.875rem * var(--omni-control-scale, 1));
     --omni-input-pad-y: 7px;
     --omni-cell-pad-y: 8px;
     --omni-grid-row-estimate: 2.25rem;
@@ -429,9 +443,9 @@ html[data-oe-text-size="10"] { font-size: 131.25%; }
     --omni-space-sm: 0.375rem;
     --omni-space-md: 0.5rem;
     --omni-space-lg: 0.75rem;
-    --omni-control-height: 1.625rem;
-    --omni-control-font: 0.75rem;
-    --omni-button-pad-x: 0.5rem;
+    --omni-control-height: calc(1.625rem * var(--omni-control-scale, 1));
+    --omni-control-font: calc(0.75rem * var(--omni-control-scale, 1));
+    --omni-button-pad-x: calc(0.5rem * var(--omni-control-scale, 1));
     --omni-input-pad-y: 2px;
     --omni-cell-pad-y: 2px;
     --omni-grid-row-estimate: 1.5rem;
@@ -457,9 +471,9 @@ html[data-oe-text-size="10"] { font-size: 131.25%; }
     --omni-space-sm: 0.625rem;
     --omni-space-md: 1rem;
     --omni-space-lg: 1.25rem;
-    --omni-control-height: 2.75rem;
-    --omni-control-font: 0.9375rem;
-    --omni-button-pad-x: 1.125rem;
+    --omni-control-height: calc(2.75rem * var(--omni-control-scale, 1));
+    --omni-control-font: calc(0.9375rem * var(--omni-control-scale, 1));
+    --omni-button-pad-x: calc(1.125rem * var(--omni-control-scale, 1));
     --omni-input-pad-y: 10px;
     --omni-cell-pad-y: 12px;
     --omni-grid-row-estimate: 2.75rem;
@@ -1301,9 +1315,12 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-sidebar-toggle:hover { background: var(--omni-color-surface-hover); }
 
 .omni-appearance-settings { display: grid; gap: var(--omni-space-md); min-inline-size: 0; }
-.omni-appearance-settings__row { align-items: center; background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); min-inline-size: 0; padding: var(--omni-space-md); }
-.omni-appearance-settings__label { align-items: center; display: inline-flex; font-weight: 650; gap: var(--omni-space-xs); margin-inline-end: auto; }
-.omni-appearance-settings__label .omni-icon { color: var(--omni-color-accent); }
+/* Outside the compact menu, each setting is drawn as a settings tile (fill, rule, padding, icon box and
+ hover), so a page that shows the appearance next to other settings sections reads as one set. */
+.omni-appearance-settings__row { align-items: center; background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-radius); display: flex; flex-wrap: wrap; gap: 12px 16px; min-inline-size: 0; padding: var(--omni-tile-pad-y) 14px; transition: background-color 120ms ease; }
+.omni-appearance-settings__row:hover { background: color-mix(in srgb, var(--omni-color-text) 10%, var(--omni-card-background, var(--omni-color-surface))); }
+.omni-appearance-settings__label { align-items: center; display: inline-flex; font-weight: 600; gap: 16px; margin-inline-end: auto; }
+.omni-appearance-settings__label .omni-icon { align-items: center; background: var(--omni-color-accent-subtle); block-size: var(--omni-icon-box); border-radius: var(--omni-radius); box-sizing: border-box; color: var(--omni-color-accent-strong); display: inline-flex; flex: 0 0 auto; inline-size: var(--omni-icon-box); justify-content: center; padding: calc((var(--omni-icon-box) - 1.25rem) / 2); }
 .omni-appearance-settings__actions { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); min-inline-size: 0; }
 .omni-appearance-settings__actions .omni-drop-down { min-inline-size: min(208px, 100%); }
 .omni-appearance-settings__actions:has(.omni-drop-down) { display: grid; grid-template-columns: minmax(0, 1fr) auto; inline-size: min(100%, 320px); }
@@ -1311,6 +1328,8 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-appearance-settings__row > .omni-slider { flex: 1 1 100%; }
 .omni-appearance-settings__row > .omni-slider .omni-slider__input { inline-size: 100%; }
 .omni-appearance-settings--compact .omni-appearance-settings__row { background: transparent; border: 0; padding: 0; }
+.omni-appearance-settings--compact .omni-appearance-settings__label { font-weight: 650; gap: var(--omni-space-xs); }
+.omni-appearance-settings--compact .omni-appearance-settings__label .omni-icon { background: none; block-size: auto; color: var(--omni-color-accent); inline-size: auto; padding: 0; }
 
 .omni-label { color: var(--omni-color-text); display: inline-flex; font-size: 0.8125rem; font-weight: 600; gap: var(--omni-space-xs); }
 .omni-label__required { color: var(--omni-color-danger); }
@@ -1899,9 +1918,13 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-tooltip:not(:hover):not(:focus-within):not(.omni-tooltip--tracked) .omni-tooltip__content { inset-inline-start: 0; max-width: 100%; transform: none; }
 .omni-tooltip:hover .omni-tooltip__content,
 .omni-tooltip:focus-within .omni-tooltip__content { opacity: 1; visibility: visible; }
+/* A small arrow ties the box to what it describes: centred under a box placed over its trigger, on
+   the pointer for a tracked one (omni-tooltip.js), turned upward when the box is flipped below. */
+.omni-tooltip__content::after { border: 0.3125rem solid transparent; border-top-color: var(--omni-color-inverse-surface); content: ""; inset-block-start: 100%; inset-inline-start: clamp(0.5rem, var(--omni-tooltip-arrow, 50%), calc(100% - 0.5rem)); position: absolute; transform: translateX(-50%); }
+.omni-tooltip--below .omni-tooltip__content::after { border-bottom-color: var(--omni-color-inverse-surface); border-top-color: transparent; inset-block-end: 100%; inset-block-start: auto; }
 /* Le pointeur doit se poser avant que l'infobulle paraisse ; elle part aussitôt qu'il s'en va. Le
    focus clavier, lui, la montre sans attendre. */
-.omni-tooltip { --omni-tooltip-delay: 700ms; }
+.omni-tooltip { --omni-tooltip-delay: 300ms; }
 /* Title tooltips (OmniTitleTooltips): one floating box for every title attribute of the page. */
 .omni-title-tooltip { background: var(--omni-color-inverse-surface); border-radius: var(--omni-radius); box-shadow: var(--omni-shadow-md); color: var(--omni-color-on-inverse); font-size: var(--omni-font-size-sm); inset-block-start: var(--omni-title-tooltip-y, 0); inset-inline-start: var(--omni-title-tooltip-x, 0); line-height: 1.35; max-width: 12rem; opacity: 0; overflow-wrap: anywhere; padding: 0.3125rem 0.5rem; pointer-events: none; position: fixed; transform: translateX(-50%); transition: opacity 120ms ease; visibility: hidden; white-space: normal; width: max-content; z-index: 1100; }
 .omni-title-tooltip--visible { opacity: 1; visibility: visible; }
@@ -2133,6 +2156,10 @@ body:has(.omni-overlay) { overflow: hidden; }
     min-block-size: 0;
     padding: var(--omni-space-lg) 0;
 }
+/* ScrollablePanels: the tabs fill their sized parent and only the selected panel scrolls, so the strip
+   stays put. The scroll stops at the panel's edge rather than chaining to the page behind it. */
+.omni-tabs--scrollable-panels { block-size: 100%; min-block-size: 0; }
+.omni-tabs--scrollable-panels > .omni-tabs__panel { flex: 1 1 auto; min-block-size: 0; overflow-y: auto; overscroll-behavior-y: contain; }
 .omni-tabs__panel[hidden],
 .omni-steps__panel[hidden] { display: none; }
 .omni-steps__list { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
@@ -2266,9 +2293,10 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid__filter-editor { flex: auto; flex-wrap: wrap; }
 .omni-data-grid__filter-editor > :not(label) { flex: 1 1 5rem; min-inline-size: 0; }
 .omni-data-grid__filter-editor--panel { display: grid; }
-/* One condition in a popover: operator, value and Clear on one line, the value taking the room left. */
-.omni-data-grid__filter-editor--panel.omni-data-grid__filter-editor--row { display: flex; flex-wrap: nowrap; }
-.omni-data-grid__filter-editor--row > .omni-data-grid__filter-actions { flex: 0 0 auto; }
+/* One condition in a popover: the operator on the first line, the value and a square Clear on the second. */
+.omni-data-grid__filter-entry { align-items: center; display: flex; gap: var(--omni-space-xs); min-inline-size: 0; }
+.omni-data-grid__filter-entry > :not(.omni-data-grid__filter-clear) { flex: 1 1 auto; min-inline-size: 0; }
+.omni-data-grid__filter-clear--icon { flex: 0 0 auto; inline-size: var(--omni-control-height); padding-inline: 0; }
 .omni-data-grid :is(.omni-data-grid__filter-operator, .omni-data-grid__filter-logical) { flex: 0 1 7rem; }
 .omni-data-grid__filters .omni-input { min-block-size: calc(var(--omni-control-height) - 0.25rem); padding-inline: var(--omni-space-sm); }
 .omni-data-grid__filters select.omni-input:not([multiple]):not([size]) { block-size: calc(var(--omni-control-height) - 0.25rem); }
@@ -2702,20 +2730,21 @@ polyline.omni-chart__line { fill: none; }
 /* The tile stands out from its card on a fill of its own: identical to the card in light mode, it
    vanished. Six hundredths of the text in the card's fill, which darkens in light mode and lightens in
    dark mode; otherwise drawn like the card (its rule, the radius). */
-.omni-settings-tile { background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); padding: var(--omni-tile-pad-y) 14px; }
+.omni-settings-tile { background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); padding: var(--omni-tile-pad-y) 14px; transition: background-color 120ms ease; }
+/* Every tile answers the pointer, an informative one included: the hover says which setting the eye is on. */
+.omni-settings-tile:hover { background: color-mix(in srgb, var(--omni-color-text) 10%, var(--omni-card-background, var(--omni-color-surface))); }
 .omni-settings-tile__row { align-items: center; display: flex; flex-wrap: wrap; gap: 12px 16px; }
 .omni-settings-tile__icon { align-items: center; background: var(--omni-color-accent-subtle); block-size: var(--omni-icon-box); border-radius: var(--omni-radius); color: var(--omni-color-accent-strong); display: inline-flex; flex: 0 0 auto; inline-size: var(--omni-icon-box); justify-content: center; }
 .omni-settings-tile__text { display: flex; flex: 1 1 12rem; flex-direction: column; gap: 0.25rem; }
 .omni-settings-tile__title { font-weight: 600; }
 /* Tuile à interrupteur : le libellé couvre la tuile ; contrôle et détails, positionnés après lui, passent
    au-dessus sans z-index ni contexte d'empilement. L'indice n'a pas d'opacité, qui le passerait devant. */
-.omni-settings-tile--toggle { cursor: pointer; position: relative; transition: background-color 120ms ease; }
-.omni-settings-tile--toggle:hover { background: color-mix(in srgb, var(--omni-color-text) 10%, var(--omni-card-background, var(--omni-color-surface))); }
+.omni-settings-tile--toggle { cursor: pointer; position: relative; }
 .omni-settings-tile--toggle .omni-settings-tile__title { cursor: pointer; }
 .omni-settings-tile--toggle .omni-settings-tile__title::after { content: ""; inset: 0; position: absolute; }
 .omni-settings-tile--toggle .omni-settings-tile__row > :not(.omni-settings-tile__icon, .omni-settings-tile__text),
 .omni-settings-tile--toggle > :not(.omni-settings-tile__row) { position: relative; }
-@media (prefers-reduced-motion: reduce) { .omni-settings-tile--toggle { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .omni-settings-tile, .omni-appearance-settings__row { transition: none; } }
 
 /* Mind map (Diagram family). Geometry is SVG attributes, colours are the group tokens above. */
 .omni-mindmap { display: flex; flex-direction: column; gap: var(--omni-space-sm); }
@@ -3105,6 +3134,8 @@ span.omni-unified-diff__toggle { cursor: default; }
 .omni-appearance-window { inline-size: 28rem; max-inline-size: calc(100vw - 2rem); }
 /* The label and its buttons share a line; the slider under them takes the whole row. */
 .omni-appearance-settings--scale .omni-appearance-settings__row { flex-wrap: wrap; }
+/* In the scale window every setting reads the same: the name on its line, the steps under it, then the slider. */
+.omni-appearance-settings--scale .omni-appearance-settings__label { flex: 1 1 100%; }
 .omni-appearance-settings--scale .omni-appearance-settings__actions { flex-wrap: nowrap; }
 .omni-appearance-settings--scale .omni-badge { inline-size: 3.25em; min-height: var(--omni-control-height); }
 .omni-appearance-settings--scale .omni-appearance-settings__label { min-inline-size: 6em; }

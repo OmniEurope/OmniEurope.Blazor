@@ -58,5 +58,18 @@
         </div>
         <OmniSlider Minimum="1" Maximum="10" Step="1" ShowValue="false" @bind-Value:get="DensityValue" @bind-Value:set="OnDensitySlider" aria-label="@Localize("SettingsDensity")" />
     </div>
+    @if (ShowsControlSize)
+    {
+    <div class="omni-appearance-settings__row">
+        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.CornersOut" /> @Localize("SettingsControlSize")</span>
+        <div class="omni-appearance-settings__actions">
+            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(ControlSizeLevel <= 1)" AriaLabel="@Localize("SettingsDecrease")" OnClick="@(() => ControlSizeLevelChanged.InvokeAsync(Math.Max(1, ControlSizeLevel - 1)))"><OmniIcon Name="OmniIconName.Remove" /></OmniButton>
+            <OmniBadge Variant="OmniBadgeVariant.Accent" Fill="OmniBadgeFill.Solid">@ControlSizeLevel/10</OmniBadge>
+            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(ControlSizeLevel >= 10)" AriaLabel="@Localize("SettingsIncrease")" OnClick="@(() => ControlSizeLevelChanged.InvokeAsync(Math.Min(10, ControlSizeLevel + 1)))"><OmniIcon Name="OmniIconName.Add" /></OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(ControlSizeLevel == 5)" OnClick="@(() => ControlSizeLevelChanged.InvokeAsync(5))"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
+        </div>
+        <OmniSlider Minimum="1" Maximum="10" Step="1" ShowValue="false" @bind-Value:get="ControlSizeValue" @bind-Value:set="OnControlSizeSlider" aria-label="@Localize("SettingsControlSize")" />
+    </div>
+    }
     </div></ChildContent>
 </OmniDialog>

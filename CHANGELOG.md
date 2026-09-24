@@ -44,6 +44,9 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Added
 
+- `OmniTabs.ScrollablePanels` (désactivé par défaut) : les onglets prennent la hauteur de leur parent et seul le panneau sélectionné défile, la barre d'onglets et ce qui est au-dessus restant en place.
+- `OmniDataGrid.WheelScrollScope` (sélecteur CSS d'un ancêtre, non défini par défaut) : la molette au-dessus de cet ancêtre fait défiler les lignes de la grille, sauf au-dessus de la grille elle-même, d'une autre zone qui peut encore défiler, avec Maj ou avec Ctrl.
+- Taille des contrôles : l'hôte pose `data-oe-control-size` (1 à 10, 5 = taille dessinée) sur `<html>`, ce qui règle `--omni-control-scale` ; hauteur, texte et marge latérale des contrôles le lisent dans les trois densités. `omni-appearance.js` expose `setControlSizeLevel` et `clearControlSizeLevel`. `OmniAppearanceSettings.ControlSizeLevel` et `ControlSizeLevelChanged` ajoutent le réglage à la fenêtre d'échelle, seulement quand l'hôte branche le rappel.
 - `OmniThemeFont`, `OmniThemeFonts.All` (dix polices : six piles système, quatre polices web libres Inter, Lexend, Source Serif 4 et JetBrains Mono sous OFL 1.1, variables et limitées au latin, servies par le paquet et déclarées dans `eng/vendored-assets.json`). Les thèmes Papier et Octet affichent désormais Source Serif 4, Lexend et JetBrains Mono quand elles sont chargées et `OmniThemePresets.DefaultFontFor` ; `OmniThemeScope.Font` applique une police au texte et aux titres d'une portée, `OmniAppearanceSettings.Font`/`FontChanged` ajoutent le réglage Police. Changer de thème dans `OmniAppearanceSettings` remet palette et police à celles du thème.
 - `OmniAppearanceSettings` : un curseur sous la taille du texte et sous la densité dans la fenêtre d'échelle ; les valeurs affichées sont des badges pleins.
 - `OmniDataGridColumnFilterType.Number` (saisie numérique et opérateurs ordonnés pour une colonne lue par `Value`) et `OmniDataGridColumn.FilterOperators` (opérateurs proposés, dans l'ordre). Dans un panneau, une condition simple garde « Effacer » sur la ligne de sa saisie.
@@ -142,6 +145,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Fixed
 
+- `OmniSidebar` : un menu superposé ouvert se ferme par Échap, où que soit le focus (la poignée qui l'a ouvert garde souvent le focus, hors du panneau).
+- `OmniTooltip` : délai par défaut ramené de 700 à 300 ms, et une flèche relie l'infobulle à ce qu'elle décrit, sur le pointeur quand elle le suit, tournée vers le haut quand elle passe dessous.
+- `OmniDataGrid` : un filtre `Number` n'affiche plus un opérateur vide ; il propose « Contient » en tête (le nombre tel qu'il est affiché) puis les opérateurs ordonnés, et démarre sur « Contient ». Dans une fenêtre de filtre à une condition, l'opérateur occupe la première ligne, la saisie et un bouton Effacer carré, réduit à son icône et de la taille d'un contrôle, la seconde.
+- `OmniSettingsTile` répond au survol, tuile informative comprise ; hors mode compact, chaque ligne d'`OmniAppearanceSettings` est dessinée comme une tuile de réglage (fond, liseré, pavé d'icône, survol). Dans la fenêtre d'échelle, chaque réglage met son nom sur une ligne et ses pas dessous.
 - `OmniDataGrid` : un titre de colonne n'est plus tronqué après un changement de taille du texte ou de densité (les colonnes se réajustent), et `HeaderWrap="Truncate"` tronque réellement au lieu d'élargir la colonne.
 - Les listes déroulantes (`select`) ont exactement la hauteur de contrôle, comme les boutons voisins, au lieu d'un pixel de plus.
 

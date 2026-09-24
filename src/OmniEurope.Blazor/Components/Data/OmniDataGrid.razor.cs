@@ -57,6 +57,7 @@ public partial class OmniDataGrid<TItem>
     private bool _resizeAttached;
     private bool _filterMenuAttached;
     private bool _fillAttached;
+    private string? _wheelScopeAttached;
     private bool _disposeRequested;
     private string? _appliedHeight;
     private string? _appliedMaxHeight;
@@ -467,6 +468,16 @@ public partial class OmniDataGrid<TItem>
     /// </summary>
     [Parameter]
     public string MinHeight { get; set; } = "22.5rem";
+
+    /// <summary>
+    /// Opt-in: a CSS selector naming an ancestor of the grid, for example <c>.page-content</c>. A vertical
+    /// wheel turn anywhere over that ancestor scrolls the grid's rows, so a reader does not have to aim
+    /// at the table first. A turn over the grid itself, over another area that can still scroll that
+    /// way, with Shift held (horizontal intent) or with Ctrl held (zoom) keeps its native behavior, and
+    /// once the rows reach their end the page is left alone rather than scrolled. Unset by default.
+    /// </summary>
+    [Parameter]
+    public string? WheelScrollScope { get; set; }
 
     /// <summary>
     /// Ceiling of the scrolling area as a CSS length, for example <c>24rem</c> or <c>50vh</c>. Set,
@@ -1081,6 +1092,7 @@ public partial class OmniDataGrid<TItem>
                 await EnsureResizeInteropAsync();
                 await EnsureFilterMenuInteropAsync();
                 await EnsureFillInteropAsync();
+                await EnsureWheelScopeInteropAsync();
                 await CompletePreparationAsync();
                 if (ExternalData && !_externalRequested)
                 {
@@ -1093,6 +1105,7 @@ public partial class OmniDataGrid<TItem>
             await EnsureResizeInteropAsync();
             await EnsureFilterMenuInteropAsync();
             await EnsureFillInteropAsync();
+            await EnsureWheelScopeInteropAsync();
             if (!_virtualAttached)
             {
                 _selfReference ??= DotNetObjectReference.Create(this);
@@ -1192,6 +1205,28 @@ public partial class OmniDataGrid<TItem>
     /// In fill mode the script sizes the grid to what is left below it in its scrolling area, and
     /// follows that area as it resizes; leaving fill mode hands the height back to the stylesheet.
     /// </summary>
+    /// <summary>Follows <see cref="WheelScrollScope"/>: attached once per selector, detached when cleared.</summary>
+    private async Task EnsureWheelScopeInteropAsync()
+    {
+        var scope = string.IsNullOrWhiteSpace(WheelScrollScope) ? null : WheelScrollScope.Trim();
+        if (string.Equals(scope, _wheelScopeAttached, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        _gridModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
+        if (scope is null)
+        {
+            await _gridModule.InvokeVoidAsync("detachWheelScope", _viewport);
+        }
+        else
+        {
+            await _gridModule.InvokeVoidAsync("attachWheelScope", _viewport, scope);
+        }
+
+        _wheelScopeAttached = scope;
+    }
+
     private async Task EnsureFillInteropAsync()
     {
         if (FillAvailableHeight == _fillAttached)
@@ -1955,14 +1990,18 @@ public partial class OmniDataGrid<TItem>
     private sealed record FilterEditorRequest(OmniDataGridColumnDefinition<TItem> Column, string Id, bool InPanel);
 
     /// <summary>
-    /// In a popover, a one-condition editor keeps its operator, its value and its clear action on
-    /// one line; the two-condition editor and the self-contained ones (a list, a range) stack.
+    /// In a popover, a one-condition editor puts its operator on the first line and its value with
+    /// the square clear action on the second; the two-condition editor and the self-contained ones
+    /// (a list, a range) stack their parts.
     /// </summary>
     private string FilterEditorClass(OmniDataGridColumnDefinition<TItem> column, bool inPanel) => !inPanel
         ? "omni-data-grid__filter-editor"
-        : UsesAdvancedEditor(column) || HasSelfContainedEditor(column)
-            ? "omni-data-grid__filter-editor omni-data-grid__filter-editor--panel"
-            : "omni-data-grid__filter-editor omni-data-grid__filter-editor--panel omni-data-grid__filter-editor--row";
+        : IsOneConditionPanel(column)
+            ? "omni-data-grid__filter-editor omni-data-grid__filter-editor--panel omni-data-grid__filter-editor--row"
+            : "omni-data-grid__filter-editor omni-data-grid__filter-editor--panel";
+
+    private bool IsOneConditionPanel(OmniDataGridColumnDefinition<TItem> column) =>
+        !UsesAdvancedEditor(column) && !HasSelfContainedEditor(column);
 
     private string FilterCellClass(OmniDataGridColumnDefinition<TItem> column) => CssClassBuilder.Combine([
         "omni-data-grid__filter-cell",
@@ -2023,7 +2062,7 @@ public partial class OmniDataGrid<TItem>
     {
         OmniDataGridColumnFilterType.Select or OmniDataGridColumnFilterType.DateRange => OmniDataGridFilterOperator.Equals,
         OmniDataGridColumnFilterType.MultiSelect => OmniDataGridFilterOperator.In,
-        OmniDataGridColumnFilterType.Text => Offered(column, column.FilterOperator),
+        OmniDataGridColumnFilterType.Text or OmniDataGridColumnFilterType.Number => Offered(column, column.FilterOperator),
         _ => column.FilterOperator
     };
 
@@ -2490,6 +2529,15 @@ public partial class OmniDataGrid<TItem>
         OmniDataGridFilterOperator.IsNull, OmniDataGridFilterOperator.IsNotNull
     ];
 
+    /// <summary>
+    /// A declared number filter reads the figure as shown: "contains" finds 12 in 112 and 120, which is how
+    /// a list numbered on screen is searched, and it comes first so an untouched filter never shows an
+    /// empty operator. The ordered comparisons follow. Declared after <see cref="OrderedOperators"/>,
+    /// which static initialization reads in textual order.
+    /// </summary>
+    private static IReadOnlyList<OmniDataGridFilterOperator> NumberOperators { get; } =
+        [OmniDataGridFilterOperator.Contains, .. OrderedOperators];
+
     private static IReadOnlyList<OmniDataGridFilterOperator> EqualityOperators { get; } =
     [
         OmniDataGridFilterOperator.Equals, OmniDataGridFilterOperator.NotEquals,
@@ -2500,12 +2548,13 @@ public partial class OmniDataGrid<TItem>
     /// The operators a column's condition can use, from the type it reads: text compares as text, a
     /// number or a date is ordered, an enum or a boolean is only equal or not. Offering "contains" on
     /// a number, or "greater than" on a name, only let the user build a condition that a remote
-    /// loader must refuse. A column read through a function has no known type and keeps the text set.
+    /// loader must refuse. A column read through a function has no known type and keeps the text set;
+    /// a declared Number filter takes <see cref="NumberOperators"/>, the figure as shown included.
     /// The multi-valued operators belong to the checkable list, never to this menu.
     /// </summary>
     private static IReadOnlyList<OmniDataGridFilterOperator> OperatorsFor(OmniDataGridColumnDefinition<TItem> column)
     {
-        var allowed = column.FilterType == OmniDataGridColumnFilterType.Number ? OrderedOperators : OperatorsForType(column);
+        var allowed = column.FilterType == OmniDataGridColumnFilterType.Number ? NumberOperators : OperatorsForType(column);
         if (column.FilterOperators is not { Count: > 0 } chosen)
         {
             return allowed;
@@ -2859,6 +2908,12 @@ public partial class OmniDataGrid<TItem>
                 {
                     _filterMenuAttached = false;
                     await _gridModule.InvokeVoidAsync("detachFilterMenus", _viewport);
+                }
+
+                if (_wheelScopeAttached is not null && _gridModule is not null)
+                {
+                    _wheelScopeAttached = null;
+                    await _gridModule.InvokeVoidAsync("detachWheelScope", _viewport);
                 }
 
                 if (_fillAttached && _gridModule is not null)

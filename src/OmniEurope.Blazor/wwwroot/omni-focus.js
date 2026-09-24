@@ -624,3 +624,26 @@ export function disposeTabsOverflow(strip) {
     state.mutations?.disconnect();
     tabOverflow.delete(strip);
 }
+
+// A floating sidebar closes on Escape wherever the focus is: after the toggle opened it, the focus
+// stays on the toggle in the header, outside the panel, where a key handler on the panel never hears.
+const escapeListeners = new Map();
+
+export function attachEscape(owner, dotnet) {
+    detachEscape(owner);
+    const listener = event => {
+        if (event.key === 'Escape' && !event.defaultPrevented) {
+            dotnet.invokeMethodAsync('CloseFromEscapeAsync');
+        }
+    };
+    document.addEventListener('keydown', listener);
+    escapeListeners.set(owner, listener);
+}
+
+export function detachEscape(owner) {
+    const listener = escapeListeners.get(owner);
+    if (listener) {
+        document.removeEventListener('keydown', listener);
+        escapeListeners.delete(owner);
+    }
+}
