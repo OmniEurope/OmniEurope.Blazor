@@ -77,7 +77,7 @@
               ValueChanged="@(value => Selection = value)"
               GridLines="Lines">
     <Columns>
-        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" Frozen="true" />
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" Frozen="true" FilterOperators="ReferenceOperators" />
         <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur"
                             FilterType="OmniDataGridColumnFilterType.Combo" FilterSearchable="true">
             <FilterTemplate>
@@ -110,7 +110,7 @@
                                              ValueChanged="@(value => context.ValueChanged(value))" />
             </FilterTemplate>
         </OmniDataGridColumn>
-        <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="Montant" FormatString="{0:C0}"
+        <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="Montant" FormatString="{0:C0}" FilterType="OmniDataGridColumnFilterType.Number"
                             TextAlign="OmniDataGridTextAlign.End">
             <FooterTemplate>Total : @Rows.Sum(row => row.Amount).ToString("C0")</FooterTemplate>
         </OmniDataGridColumn>

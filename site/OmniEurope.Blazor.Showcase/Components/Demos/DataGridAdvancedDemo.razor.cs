@@ -9,6 +9,13 @@ public partial class DataGridAdvancedDemo
 
     private static readonly IReadOnlyList<string> CountryValues = ["Belgique", "France", "Luxembourg", "Pays-Bas"];
 
+    // A text column can narrow its operator menu to the conditions that make sense for it.
+    private static readonly IReadOnlyList<OmniDataGridFilterOperator> ReferenceOperators =
+    [
+        OmniDataGridFilterOperator.Contains, OmniDataGridFilterOperator.StartsWith,
+        OmniDataGridFilterOperator.EndsWith, OmniDataGridFilterOperator.DoesNotContain
+    ];
+
     private static readonly IReadOnlyList<OmniOption<OmniDataGridLines>> LineOptions =
     [
         new(OmniDataGridLines.Default, "Réglage du thème"),

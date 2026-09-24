@@ -37,6 +37,8 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public Type? EnumType { get; init; }
     /// <summary>The type the column reads (nullable unwrapped), or null when it is not known from a property.</summary>
     public Type? ValueType { get; init; }
+    /// <summary>Operators offered, in order; null keeps the value type's whole set.</summary>
+    public IReadOnlyList<OmniDataGridFilterOperator>? FilterOperators { get; init; }
     public OmniDataGridFilterOperator FilterOperator { get; init; }
     public OmniDataGridFilterOperator SecondFilterOperator { get; init; }
     public OmniDataGridLogicalOperator LogicalFilterOperator { get; init; }

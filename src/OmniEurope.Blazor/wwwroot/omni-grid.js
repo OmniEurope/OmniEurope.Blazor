@@ -208,6 +208,7 @@ export function applyColumns(viewport, columns, tableMinimum) {
     }
 
     fitHeaders(viewport);
+    watchHeaders(viewport);
     applyFrozen(viewport);
 }
 
@@ -217,6 +218,10 @@ export function applyColumns(viewport, columns, tableMinimum) {
  * overflow says by how much; the column grows by that, and a wider width is left alone.
  */
 function fitHeaders(viewport) {
+    // Truncate is a choice: those titles are meant to end in an ellipsis, not to widen the column.
+    if (viewport.closest('.omni-data-grid--header-truncate')) {
+        return;
+    }
     const header = viewport.querySelector('thead > tr.omni-data-grid__header-row');
     const cols = viewport.querySelectorAll('colgroup > col');
     if (!header || cols.length !== header.children.length) {
@@ -240,6 +245,39 @@ function fitHeaders(viewport) {
             break;
         }
     }
+}
+
+const headerWatchers = new WeakMap();
+
+/**
+ * A title fitted once can be cut later: a larger text size or another density widens it without a new
+ * column layout. Watching the size of the titles refits the columns whenever that happens.
+ */
+function watchHeaders(viewport) {
+    if (typeof ResizeObserver !== 'function') {
+        return;
+    }
+    let observer = headerWatchers.get(viewport);
+    if (!observer) {
+        let frame = 0;
+        observer = new ResizeObserver(() => {
+            if (!viewport.isConnected) {
+                observer.disconnect();
+                headerWatchers.delete(viewport);
+                return;
+            }
+            if (frame === 0) {
+                frame = window.requestAnimationFrame(() => {
+                    frame = 0;
+                    fitHeaders(viewport);
+                });
+            }
+        });
+        headerWatchers.set(viewport, observer);
+    }
+    // A new column layout can bring new title elements: watch the ones on the page now.
+    observer.disconnect();
+    viewport.querySelectorAll('thead .omni-data-grid__title').forEach(title => observer.observe(title));
 }
 
 /**
@@ -610,8 +648,10 @@ export function attachFilterMenus(viewport, hideOnSelect) {
     // that disappears on selection, so its own pick is reported from .NET through closeFilterMenus.
     const onPicked = event => {
         const target = event.target instanceof Element ? event.target : null;
-        // A checkable list takes several ticks, and an advanced filter waits for its apply button.
-        if (!target || target.closest('.omni-multi-select, .omni-data-grid__multi') || target.closest('.omni-data-grid__filter-editor')?.querySelector('.omni-data-grid__filter-apply')) {
+        // A checkable list takes several ticks, an advanced filter waits for its apply button, and an
+        // operator is only the first half of a condition whose value is still to be typed.
+        if (!target || target.matches('.omni-data-grid__filter-operator, .omni-data-grid__filter-logical')
+            || target.closest('.omni-multi-select, .omni-data-grid__multi') || target.closest('.omni-data-grid__filter-editor')?.querySelector('.omni-data-grid__filter-apply')) {
             return;
         }
 

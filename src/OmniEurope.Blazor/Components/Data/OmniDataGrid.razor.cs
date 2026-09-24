@@ -1954,9 +1954,15 @@ public partial class OmniDataGrid<TItem>
 
     private sealed record FilterEditorRequest(OmniDataGridColumnDefinition<TItem> Column, string Id, bool InPanel);
 
-    private static string FilterEditorClass(bool inPanel) => inPanel
-        ? "omni-data-grid__filter-editor omni-data-grid__filter-editor--panel"
-        : "omni-data-grid__filter-editor";
+    /// <summary>
+    /// In a popover, a one-condition editor keeps its operator, its value and its clear action on
+    /// one line; the two-condition editor and the self-contained ones (a list, a range) stack.
+    /// </summary>
+    private string FilterEditorClass(OmniDataGridColumnDefinition<TItem> column, bool inPanel) => !inPanel
+        ? "omni-data-grid__filter-editor"
+        : UsesAdvancedEditor(column) || HasSelfContainedEditor(column)
+            ? "omni-data-grid__filter-editor omni-data-grid__filter-editor--panel"
+            : "omni-data-grid__filter-editor omni-data-grid__filter-editor--panel omni-data-grid__filter-editor--row";
 
     private string FilterCellClass(OmniDataGridColumnDefinition<TItem> column) => CssClassBuilder.Combine([
         "omni-data-grid__filter-cell",
@@ -2497,7 +2503,21 @@ public partial class OmniDataGrid<TItem>
     /// loader must refuse. A column read through a function has no known type and keeps the text set.
     /// The multi-valued operators belong to the checkable list, never to this menu.
     /// </summary>
-    private static IReadOnlyList<OmniDataGridFilterOperator> OperatorsFor(OmniDataGridColumnDefinition<TItem> column) =>
+    private static IReadOnlyList<OmniDataGridFilterOperator> OperatorsFor(OmniDataGridColumnDefinition<TItem> column)
+    {
+        var allowed = column.FilterType == OmniDataGridColumnFilterType.Number ? OrderedOperators : OperatorsForType(column);
+        if (column.FilterOperators is not { Count: > 0 } chosen)
+        {
+            return allowed;
+        }
+
+        // The column's own list narrows the set and orders it; an operator its type cannot use is
+        // dropped rather than offered, and a list left empty by that falls back to the whole set.
+        var narrowed = chosen.Distinct().Where(allowed.Contains).ToArray();
+        return narrowed.Length > 0 ? narrowed : allowed;
+    }
+
+    private static IReadOnlyList<OmniDataGridFilterOperator> OperatorsForType(OmniDataGridColumnDefinition<TItem> column) =>
         column.ValueType switch
         {
             null => TextOperators,
@@ -2764,8 +2784,9 @@ public partial class OmniDataGrid<TItem>
                 builder.AddAttribute(4, "value", value);
                 // Filters as the user types rather than on blur, so the table follows the keystrokes.
                 builder.AddAttribute(5, "oninput", onChange);
-                builder.AddAttribute(6, "type", column.Numeric ? "number" : "text");
-                if (column.Numeric) builder.AddAttribute(7, "step", "any");
+                var numeric = column.Numeric || column.FilterType == OmniDataGridColumnFilterType.Number;
+                builder.AddAttribute(6, "type", numeric ? "number" : "text");
+                if (numeric) builder.AddAttribute(7, "step", "any");
                 builder.CloseElement();
                 break;
         }

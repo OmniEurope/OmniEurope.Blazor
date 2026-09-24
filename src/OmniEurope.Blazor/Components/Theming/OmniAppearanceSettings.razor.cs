@@ -22,6 +22,9 @@ public partial class OmniAppearanceSettings
     [Parameter] public EventCallback<OmniThemePreset?> PresetChanged { get; set; }
     [Parameter] public OmniThemePalette? Palette { get; set; }
     [Parameter] public EventCallback<OmniThemePalette?> PaletteChanged { get; set; }
+    /// <summary>The chosen font, or null for the one the theme is drawn with.</summary>
+    [Parameter] public OmniThemeFont? Font { get; set; }
+    [Parameter] public EventCallback<OmniThemeFont?> FontChanged { get; set; }
     [Parameter] public int TextSizeLevel { get; set; } = 5;
     [Parameter] public EventCallback<int> TextSizeLevelChanged { get; set; }
     [Parameter] public int DensityLevel { get; set; } = 5;
@@ -41,11 +44,38 @@ public partial class OmniAppearanceSettings
         [.. OmniThemePalettes.All.Select(palette => new OmniOption<string>(palette.Name,
             palette.Name == DefaultPalette.Name ? $"{palette.Name} ({Localize("SettingsDefaultSuffix")})" : palette.Name))];
 
+    private OmniThemeFont DefaultFont => OmniThemePresets.DefaultFontFor(EffectivePreset);
+    private string FontName => (Font ?? DefaultFont).Name;
+    private IReadOnlyList<OmniOption<string>> FontOptions =>
+        [.. OmniThemeFonts.All.Select(font => new OmniOption<string>(font.Name,
+            font.Name == DefaultFont.Name ? $"{font.Name} ({Localize("SettingsDefaultSuffix")})" : font.Name))];
+
+    private Task SetFontAsync(string? name) => FontChanged.InvokeAsync(
+        name == DefaultFont.Name ? null : OmniThemeFonts.All.FirstOrDefault(font => font.Name == name));
+
     private OmniButtonVariant ModeVariant(OmniAppearance mode) =>
         Appearance == mode ? OmniButtonVariant.Primary : OmniButtonVariant.Secondary;
 
-    private Task SetThemeAsync(string? name) => PresetChanged.InvokeAsync(
-        name == DefaultThemeChoice ? null : OmniThemePresets.All.FirstOrDefault(theme => theme.Name == name));
+    private Task SetThemeAsync(string? name) =>
+        ChangeThemeAsync(name == DefaultThemeChoice ? null : OmniThemePresets.All.FirstOrDefault(theme => theme.Name == name));
+
+    /// <summary>
+    /// A new theme comes with its own palette and font: a palette or a font picked for the previous
+    /// theme is dropped, so the new one shows as it was drawn.
+    /// </summary>
+    private async Task ChangeThemeAsync(OmniThemePreset? preset)
+    {
+        await PresetChanged.InvokeAsync(preset);
+        if (Palette is not null)
+        {
+            await PaletteChanged.InvokeAsync(null);
+        }
+
+        if (Font is not null)
+        {
+            await FontChanged.InvokeAsync(null);
+        }
+    }
 
     private Task SetPaletteAsync(string? name) => PaletteChanged.InvokeAsync(
         name == DefaultPalette.Name ? null : OmniThemePalettes.All.FirstOrDefault(palette => palette.Name == name));
