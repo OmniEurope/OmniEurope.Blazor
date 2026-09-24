@@ -77,6 +77,14 @@ appel de script supplémentaire.
 Le script observe le viewport avec un `ResizeObserver` : une hauteur en pourcentage ou dépendante de
 la mise en page suit les changements de taille du conteneur sans recharger la grille.
 
+`WheelScrollScope` (sélecteur CSS, non défini par défaut) nomme un ancêtre de la grille, par exemple
+la page qui la contient. Un tour de molette vertical au-dessus de cet ancêtre fait alors défiler les
+lignes, sans viser le tableau. La molette garde son comportement natif au-dessus de la grille, au-dessus
+d'une autre zone qui peut encore défiler dans ce sens, avec Maj (défilement horizontal) ou avec Ctrl
+(zoom). Une grille non affichée, par exemple dans un onglet masqué qui partage le même ancêtre, laisse
+passer l'événement. Arrivées en bout de liste, les lignes s'arrêtent sans faire défiler la page.
+`attachWheelScope` et `detachWheelScope` d'`omni-grid.js` portent l'écoute ; aucun attribut `style`.
+
 ## Virtualisation et défilement continu
 
 `AllowVirtualization` remplace la pagination par un défilement sur l'intégralité du jeu de lignes.

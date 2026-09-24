@@ -13,9 +13,10 @@ const clear = () => {
         return;
     }
 
-    tracked.classList.remove('omni-tooltip--tracked');
+    tracked.classList.remove('omni-tooltip--tracked', 'omni-tooltip--below');
     tracked.style.removeProperty('--omni-tooltip-x');
     tracked.style.removeProperty('--omni-tooltip-y');
+    tracked.style.removeProperty('--omni-tooltip-arrow');
     tracked = null;
 };
 
@@ -47,10 +48,15 @@ const place = (tooltip, x, y) => {
     const half = box.width / 2;
     const left = Math.min(Math.max(x, half + EDGE), window.innerWidth - half - EDGE);
     // Above the pointer by default; flipped below it when there is no room left overhead.
-    const top = y - GAP - box.height < EDGE ? y + GAP + box.height : y - GAP;
+    const below = y - GAP - box.height < EDGE;
+    const top = below ? y + GAP + box.height : y - GAP;
 
     tooltip.style.setProperty('--omni-tooltip-x', `${left}px`);
     tooltip.style.setProperty('--omni-tooltip-y', `${top}px`);
+    // The arrow keeps pointing at the pointer when the box is held inside the viewport, and turns
+    // upward when the box is flipped below it.
+    tooltip.style.setProperty('--omni-tooltip-arrow', `${x - left + half}px`);
+    tooltip.classList.toggle('omni-tooltip--below', below);
 };
 
 const onPointerMove = event => {

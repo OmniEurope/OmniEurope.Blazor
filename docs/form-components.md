@@ -6,7 +6,7 @@ Le deuxième lot complète les landmarks de page et installe un socle de formula
 
 - `OmniBody` structure la zone flexible située entre les landmarks de page.
 - `OmniSidebar` rend un landmark `aside` contrôlé par les paramètres `Open` et `Position`.
-- `OmniSidebarToggle` expose `aria-controls`, `aria-expanded` et `OpenChanged` ; menu ouvert, son icône devient une croix (`OpenIcon`, `Menu` pour garder le même glyphe). Sans `Header` dans `OmniSidebar`, la barre d'application reste au-dessus du voile d'un menu superposé.
+- `OmniSidebarToggle` expose `aria-controls`, `aria-expanded` et `OpenChanged` ; menu ouvert, son icône devient une croix (`OpenIcon`, `Menu` pour garder le même glyphe). Sans `Header` dans `OmniSidebar`, la barre d'application reste au-dessus du voile d'un menu superposé. Un menu superposé ouvert se ferme par un clic sur le voile, par le choix d'une entrée et par Échap, écouté sur tout le document tant qu'il est ouvert (`omni-focus.js`, `attachEscape`) puisque le focus reste souvent sur la poignée.
 - `OmniThemeScope` applique les tokens `system`, `light` ou `dark` avec `data-omni-theme`.
 - `OmniAppearanceToggle` parcourt ces trois apparences par un événement contrôlé.
 

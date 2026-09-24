@@ -42,17 +42,25 @@ public sealed class DataGridTypedFilterTests : OmniBunitContext
         })));
 
     [Fact]
-    public void Number_filter_is_a_number_input_with_the_ordered_operators()
+    public void Number_filter_is_a_number_input_that_starts_on_contains_then_offers_the_ordered_operators()
     {
         var grid = RenderGrid();
         var cell = grid.Find("thead td[data-omni-col='number']");
         var input = cell.QuerySelector("input.omni-data-grid__filter")!;
         Assert.Equal("number", input.GetAttribute("type"));
-        var operators = cell.QuerySelectorAll(".omni-data-grid__filter-operator option").Select(option => option.GetAttribute("value")).ToArray();
+        var options = cell.QuerySelectorAll(".omni-data-grid__filter-operator option");
+        var operators = options.Select(option => option.GetAttribute("value")).ToArray();
+        // The figure as shown comes first and is what an untouched filter selects: never an empty operator.
+        Assert.Equal(nameof(OmniDataGridFilterOperator.Contains), operators[0]);
+        Assert.Equal(nameof(OmniDataGridFilterOperator.Contains), options.Single(option => option.HasAttribute("selected")).GetAttribute("value"));
         Assert.Contains(nameof(OmniDataGridFilterOperator.GreaterThan), operators);
-        Assert.DoesNotContain(nameof(OmniDataGridFilterOperator.Contains), operators);
+        Assert.DoesNotContain(nameof(OmniDataGridFilterOperator.StartsWith), operators);
 
-        cell.QuerySelector(".omni-data-grid__filter-operator")!.Change(nameof(OmniDataGridFilterOperator.GreaterThan));
+        grid.Find("thead td[data-omni-col='number'] input.omni-data-grid__filter").Input("2");
+        Assert.Equal(2, grid.FindAll("tbody tr").Count);
+        grid.Find("thead td[data-omni-col='number'] input.omni-data-grid__filter").Input(string.Empty);
+
+        grid.Find("thead td[data-omni-col='number'] .omni-data-grid__filter-operator").Change(nameof(OmniDataGridFilterOperator.GreaterThan));
         grid.Find("thead td[data-omni-col='number'] input.omni-data-grid__filter").Input("10");
         Assert.Equal(2, grid.FindAll("tbody tr").Count);
     }

@@ -4,7 +4,9 @@ namespace OmniEurope.Blazor.Components;
 public partial class OmniAppearanceSettings
 {
     private bool _scaleOpen;
-    private string ScaleTitle => $"{Localize("SettingsTextSize")} / {Localize("SettingsDensity")}";
+    private string ScaleTitle => ShowsControlSize
+        ? $"{Localize("SettingsTextSize")} / {Localize("SettingsDensity")} / {Localize("SettingsControlSizeShort")}"
+        : $"{Localize("SettingsTextSize")} / {Localize("SettingsDensity")}";
     /// <summary>Notifies the host so an enclosing menu can release its outside-click shield.</summary>
     [Parameter] public EventCallback<bool> ScaleEditorOpenChanged { get; set; }
     private Task OpenScaleAsync() => SetScaleOpenAsync(true);
@@ -30,6 +32,16 @@ public partial class OmniAppearanceSettings
     [Parameter] public int DensityLevel { get; set; } = 5;
     [Parameter] public EventCallback<int> DensityLevelChanged { get; set; }
 
+    /// <summary>
+    /// Size of the controls (buttons, fields, lists), 1 to 10 with 5 as drawn. The host applies it, for
+    /// example through <c>data-oe-control-size</c> on the document root, which the control tokens read.
+    /// The setting only shows once <see cref="ControlSizeLevelChanged"/> is bound, so a host that does not
+    /// apply it never offers a control that does nothing.
+    /// </summary>
+    [Parameter] public int ControlSizeLevel { get; set; } = 5;
+    [Parameter] public EventCallback<int> ControlSizeLevelChanged { get; set; }
+    private bool ShowsControlSize => ControlSizeLevelChanged.HasDelegate;
+
     private OmniThemePreset EffectivePreset => Preset ?? OmniThemePresets.All[0];
     private OmniThemePalette DefaultPalette => OmniThemePresets.DefaultPaletteFor(EffectivePreset);
     private string ThemeName => Preset is null || ReferenceEquals(Preset, OmniThemePresets.All[0])
@@ -37,6 +49,7 @@ public partial class OmniAppearanceSettings
     private string PaletteName => (Palette ?? DefaultPalette).Name;
     private double TextSizeValue => TextSizeLevel;
     private double DensityValue => DensityLevel;
+    private double ControlSizeValue => ControlSizeLevel;
     private IReadOnlyList<OmniOption<string>> ThemeOptions =>
         [new(DefaultThemeChoice, $"{OmniThemePresets.All[0].Name} ({Localize("SettingsDefaultSuffix")})"),
             .. OmniThemePresets.All.Skip(1).Select(theme => new OmniOption<string>(theme.Name, theme.Name))];
@@ -82,4 +95,5 @@ public partial class OmniAppearanceSettings
 
     private Task OnTextSizeSlider(double value) => TextSizeLevelChanged.InvokeAsync((int)value);
     private Task OnDensitySlider(double value) => DensityLevelChanged.InvokeAsync((int)value);
+    private Task OnControlSizeSlider(double value) => ControlSizeLevelChanged.InvokeAsync((int)value);
 }

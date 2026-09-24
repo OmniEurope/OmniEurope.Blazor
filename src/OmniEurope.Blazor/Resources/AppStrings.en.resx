@@ -18,6 +18,8 @@
   <data name="SettingsFont" xml:space="preserve"><value>Font</value></data>
   <data name="SettingsTextSize" xml:space="preserve"><value>Text size</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Density</value></data>
+  <data name="SettingsControlSize" xml:space="preserve"><value>Control size</value></data>
+  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Controls</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Default</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>default</value></data>
   <data name="SettingsDecrease" xml:space="preserve"><value>Decrease</value></data>

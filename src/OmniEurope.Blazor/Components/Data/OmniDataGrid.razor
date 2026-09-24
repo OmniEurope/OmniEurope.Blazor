@@ -36,7 +36,21 @@
             </select>
         }
         <label class="omni-visually-hidden" for="@context.Id">@Localize("GridFilterColumn", context.Column.Title)</label>
-        @FilterValueControl(context.Column, context.Id, FilterValue(context.Column), value => FilterValueChangedAsync(context.Column, value), context.InPanel)
+        @* One condition in a popover: the value and its clear action share the second line, the clear
+           action a square icon button of the standard control size. *@
+        @if (context.InPanel && IsOneConditionPanel(context.Column))
+        {
+            <span class="omni-data-grid__filter-entry">
+                @FilterValueControl(context.Column, context.Id, FilterValue(context.Column), value => FilterValueChangedAsync(context.Column, value), context.InPanel)
+                <button type="button" class="omni-button omni-button--secondary omni-data-grid__filter-clear omni-data-grid__filter-clear--icon"
+                        aria-label="@Text(ClearFilterText, "GridFilterClear")" title="@Text(ClearFilterText, "GridFilterClear")"
+                        @onclick="() => ClearFilterAsync(context.Column)"><span class="omni-button__content"><OmniIcon Name="OmniIconName.Close" /></span></button>
+            </span>
+        }
+        else
+        {
+            @FilterValueControl(context.Column, context.Id, FilterValue(context.Column), value => FilterValueChangedAsync(context.Column, value), context.InPanel)
+        }
         @if (UsesAdvancedEditor(context.Column))
         {
             <label class="omni-visually-hidden" for="@($"{context.Id}-logical")">@Localize("GridFilterLogical", context.Column.Title)</label>
@@ -58,7 +72,7 @@
                 <button type="button" class="omni-button omni-button--small omni-button--secondary omni-data-grid__filter-clear" @onclick="() => ClearFilterAsync(context.Column)">@Text(ClearFilterText, "GridFilterClear")</button>
             </span>
         }
-        else if (context.InPanel)
+        else if (context.InPanel && !IsOneConditionPanel(context.Column))
         {
             <span class="omni-data-grid__filter-actions">
                 <button type="button" class="omni-button omni-button--small omni-button--secondary omni-data-grid__filter-clear" @onclick="() => ClearFilterAsync(context.Column)">@Text(ClearFilterText, "GridFilterClear")</button>

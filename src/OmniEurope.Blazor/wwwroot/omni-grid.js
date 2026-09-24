@@ -980,6 +980,72 @@ export function detachFill(viewport) {
     }
 }
 
+const wheelScopes = new Map();
+
+function canScrollVertically(element, deltaY) {
+    if (!/(auto|scroll)/.test(getComputedStyle(element).overflowY) || element.scrollHeight <= element.clientHeight) {
+        return false;
+    }
+
+    return deltaY < 0
+        ? element.scrollTop > 0
+        : element.scrollTop + element.clientHeight < element.scrollHeight - 1;
+}
+
+/**
+ * WheelScrollScope: a vertical wheel turn over the named ancestor scrolls the grid's rows. The grid
+ * keeps its own wheel, and so does any other area under the pointer that can still scroll that way;
+ * Shift (horizontal intent) and Ctrl (zoom) are never taken. A grid that is not laid out, such as one
+ * in a hidden tab sharing the same ancestor, lets the event through for the visible one.
+ */
+export function attachWheelScope(viewport, selector) {
+    if (!(viewport instanceof HTMLElement)) {
+        return;
+    }
+
+    detachWheelScope(viewport);
+    const scope = typeof selector === 'string' && selector ? viewport.closest(selector) : null;
+    if (!scope) {
+        return;
+    }
+
+    const onWheel = event => {
+        if (event.defaultPrevented || event.ctrlKey || event.shiftKey || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+            return;
+        }
+
+        if (!viewport.isConnected || viewport.getClientRects().length === 0) {
+            return;
+        }
+
+        const target = event.target instanceof Element ? event.target : null;
+        if (target && viewport.contains(target)) {
+            return;
+        }
+
+        for (let node = target; node && node !== scope; node = node.parentElement) {
+            if (canScrollVertically(node, event.deltaY)) {
+                return;
+            }
+        }
+
+        const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? viewport.clientHeight : 1;
+        event.preventDefault();
+        viewport.scrollTop += event.deltaY * unit;
+    };
+
+    scope.addEventListener('wheel', onWheel, { passive: false });
+    wheelScopes.set(viewport, () => scope.removeEventListener('wheel', onWheel));
+}
+
+export function detachWheelScope(viewport) {
+    const dispose = wheelScopes.get(viewport);
+    if (dispose) {
+        dispose();
+        wheelScopes.delete(viewport);
+    }
+}
+
 /** Wait for the visible initial row images and a completed browser layout. */
 export async function waitForReady(viewport) {
     if (!viewport?.isConnected || !viewport.getClientRects().length) return false;
