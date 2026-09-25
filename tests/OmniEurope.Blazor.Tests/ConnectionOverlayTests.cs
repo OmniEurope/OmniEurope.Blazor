@@ -30,6 +30,16 @@ public sealed class ConnectionOverlayTests : OmniBunitContext
     }
 
     [Fact]
+    public void FirstRender_LoadsTheFocusScript_WhileTheConnectionIsUp()
+    {
+        // The overlay shows when the server may be unreachable; the script is fetched before that.
+        Render<OmniConnectionOverlay>();
+
+        Assert.Contains(JSInterop.Invocations, invocation => invocation.Identifier == "import"
+            && Equals(invocation.Arguments[0], FocusModule));
+    }
+
+    [Fact]
     public void Reconnecting_SaysWhatHappenedWhenTheNextAttemptStartsAndWhyTheLastFailed()
     {
         var reconnects = 0;
@@ -165,5 +175,34 @@ public sealed class ConnectionOverlayTests : OmniBunitContext
         var slot = overlay.Find(selector);
         Assert.Equal("true", slot.GetAttribute("aria-hidden"));
         Assert.Equal("\u00a0", slot.TextContent);
+    }
+}
+
+/// <summary>
+/// The focus script cannot be fetched (the static files are down with the rest of the server): the
+/// overlay still shows and acts, and nothing escapes as an unhandled error (the host's fatal bar).
+/// </summary>
+public sealed class ConnectionOverlayUnreachableScriptTests : OmniBunitContext
+{
+    [Fact]
+    public void ImportFailure_StillShowsTheOverlay_WithoutThrowing()
+    {
+        Services.AddSingleton<Microsoft.JSInterop.IJSRuntime>(new UnreachableScriptRuntime());
+
+        var overlay = Render<OmniConnectionOverlay>(parameters => parameters
+            .Add(component => component.State, OmniConnectionState.Reconnecting));
+
+        Assert.NotEmpty(overlay.FindAll(".omni-connection-overlay__card--reconnecting"));
+        overlay.Render(parameters => parameters.Add(component => component.SecondsUntilRetry, 5));
+        Assert.NotEmpty(overlay.FindAll(".omni-connection-overlay__card--reconnecting"));
+    }
+
+    private sealed class UnreachableScriptRuntime : Microsoft.JSInterop.IJSRuntime
+    {
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
+            throw new Microsoft.JSInterop.JSException("Failed to fetch dynamically imported module");
+
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
+            throw new Microsoft.JSInterop.JSException("Failed to fetch dynamically imported module");
     }
 }

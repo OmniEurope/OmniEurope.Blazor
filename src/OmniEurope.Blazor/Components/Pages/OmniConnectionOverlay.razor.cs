@@ -121,16 +121,49 @@ public partial class OmniConnectionOverlay
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (Visible && !_focusActivated)
+        // The overlay shows when the server may be unreachable, the static files included: importing
+        // the focus script only then failed ("Failed to fetch dynamically imported module"), the
+        // exception went unhandled and the host showed its fatal error bar over a page that only had
+        // to wait. The script is fetched on the first render, while the connection is still up.
+        if (firstRender || (Visible && _focusModule is null))
         {
-            _focusModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", FocusModulePath);
-            _focusActivated = true;
-            await _focusModule.InvokeVoidAsync("activateDialog", _card, _focusKey);
+            await TryLoadFocusModuleAsync();
+        }
+
+        if (Visible && !_focusActivated && _focusModule is not null)
+        {
+            // Focus handling is a comfort: without the script the overlay still shows and still acts.
+            _focusActivated = await TryInvokeFocusAsync("activateDialog", _card, _focusKey);
         }
         else if (!Visible && _focusActivated && _focusModule is not null)
         {
             _focusActivated = false;
-            await _focusModule.InvokeVoidAsync("restoreFocus", _focusKey);
+            await TryInvokeFocusAsync("restoreFocus", _focusKey);
+        }
+    }
+
+    private async Task TryLoadFocusModuleAsync()
+    {
+        try
+        {
+            _focusModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", FocusModulePath);
+        }
+        catch (JSException)
+        {
+            // Unreachable for now; the next render tries again.
+        }
+    }
+
+    private async Task<bool> TryInvokeFocusAsync(string identifier, params object?[] arguments)
+    {
+        try
+        {
+            await _focusModule!.InvokeVoidAsync(identifier, arguments);
+            return true;
+        }
+        catch (JSException)
+        {
+            return false;
         }
     }
 
