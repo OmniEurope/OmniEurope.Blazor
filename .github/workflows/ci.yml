@@ -43,7 +43,14 @@ jobs:
         shell: pwsh
         run: ./eng/Test-AutoHost.ps1
       - name: Unit tests and coverage
-        run: dotnet test tests/OmniEurope.Blazor.Tests/OmniEurope.Blazor.Tests.csproj --configuration Release --no-build --collect:"XPlat Code Coverage" --logger "trx;LogFileName=tests.trx" --results-directory artifacts/coverage
+        # global.json runs dotnet test on Microsoft.Testing.Platform: the runner is xunit.v3 itself,
+        # the TRX comes from Microsoft.Testing.Extensions.TrxReport and the Cobertura from coverlet.MTP.
+        # Coverage is restricted to the published library; bUnit and the showcase are not the subject.
+        run: >-
+          dotnet test --project tests/OmniEurope.Blazor.Tests/OmniEurope.Blazor.Tests.csproj
+          --configuration Release --no-build --no-progress
+          --report-trx --report-trx-filename tests.trx --results-directory artifacts/coverage
+          --coverlet --coverlet-output-format cobertura --coverlet-include "[OmniEurope.Blazor]*"
       - name: Verify coverage artifact
         shell: pwsh
         run: ./eng/Test-Coverage.ps1 -CoverageRoot artifacts/coverage

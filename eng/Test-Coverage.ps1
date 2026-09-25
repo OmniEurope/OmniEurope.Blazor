@@ -10,7 +10,9 @@ param(
 $ErrorActionPreference = 'Stop'
 $messages = Import-PowerShellDataFile (Join-Path $PSScriptRoot 'PowerShellMessages.psd1')
 $resolvedRoot = Resolve-Path -LiteralPath $CoverageRoot
-$reports = @(Get-ChildItem -LiteralPath $resolvedRoot -Recurse -File -Filter 'coverage.cobertura.xml' |
+# coverlet.MTP timestamps its report (coverage.cobertura.<yyMMddHHmmssfff>.xml), so the name is matched
+# by pattern. Exactly one report is still required: two would mean two runs landed in the same folder.
+$reports = @(Get-ChildItem -LiteralPath $resolvedRoot -Recurse -File -Filter 'coverage.cobertura*.xml' |
     Where-Object FullName -NotMatch '[\\/](In|Out)[\\/]')
 if ($reports.Count -ne 1) {
     throw "Expected exactly one coverage.cobertura.xml, found $($reports.Count)."

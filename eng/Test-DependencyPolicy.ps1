@@ -50,7 +50,7 @@ if ([string]$global.sdk.version -ne [string]$policy.toolchain.sdk -or
 
 $testLock = Get-Content -LiteralPath (Join-Path $repoRoot 'tests/OmniEurope.Blazor.Tests/packages.lock.json') -Raw | ConvertFrom-Json
 $testFramework = @($testLock.dependencies.PSObject.Properties)[0].Value
-foreach ($id in @('bunit', 'coverlet.collector')) {
+foreach ($id in @('bunit', 'coverlet.MTP')) {
     $entry = $testFramework.PSObject.Properties[$id]
     if ($null -eq $entry -or [string]$entry.Value.resolved -ne [string]$policy.packages.$id.version) {
         throw "Test lock does not resolve $id at the reviewed version."
