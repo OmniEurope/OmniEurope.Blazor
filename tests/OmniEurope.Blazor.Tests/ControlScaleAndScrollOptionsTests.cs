@@ -123,6 +123,32 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
         Assert.Equal(".page-content", invocation.Arguments[1]);
     }
 
+    [Fact]
+    public void Tabs_hand_their_wheel_scope_to_the_script_only_with_scrollable_panels()
+    {
+        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-focus.js");
+        RenderFragment panels = builder =>
+        {
+            builder.OpenComponent<OmniTabsItem>(0);
+            builder.AddComponentParameter(1, nameof(OmniTabsItem.Key), "one");
+            builder.AddComponentParameter(2, nameof(OmniTabsItem.Title), "Un");
+            builder.CloseComponent();
+        };
+
+        Render<OmniTabs>(parameters => parameters
+            .Add(component => component.WheelScrollScope, ".page")
+            .Add(component => component.ChildContent, panels));
+        Assert.Empty(module.Invocations["attachTabsWheelScope"]);
+
+        Render<OmniTabs>(parameters => parameters
+            .Add(component => component.ScrollablePanels, true)
+            .Add(component => component.WheelScrollScope, " .page ")
+            .Add(component => component.ChildContent, panels));
+
+        var invocation = Assert.Single(module.Invocations["attachTabsWheelScope"]);
+        Assert.Equal(".page", invocation.Arguments[1]);
+    }
+
     // ---- one-condition filter popover ----
 
     [Fact]

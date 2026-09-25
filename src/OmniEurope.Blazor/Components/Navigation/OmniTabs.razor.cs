@@ -5,6 +5,8 @@ public partial class OmniTabs
     private readonly List<string> _registeredKeys = [];
     private ElementReference _root;
     private ElementReference _strip;
+    private ElementReference _container;
+    private string? _wheelScopeAttached;
     private IJSObjectReference? _module;
     private KeyboardInterop? _keyboardInterop;
     private DotNetObjectReference<KeyboardInterop>? _selfReference;
@@ -49,6 +51,16 @@ public partial class OmniTabs
     /// </summary>
     [Parameter]
     public bool ScrollablePanels { get; set; }
+
+    /// <summary>
+    /// With <see cref="ScrollablePanels"/>, a CSS selector naming an ancestor (the page's content
+    /// area, margins included) over which a vertical wheel turn scrolls the selected panel, and not
+    /// only over the panel itself. The panel keeps its own wheel, so does any area under the pointer
+    /// that can still scroll that way, and a panel that cannot scroll further lets the event go (to a
+    /// grid's own <see cref="OmniDataGrid{TItem}.WheelScrollScope"/>, for one). Unset by default.
+    /// </summary>
+    [Parameter]
+    public string? WheelScrollScope { get; set; }
 
     private RenderFragment? EffectiveContent => ChildContent ?? Tabs;
 
@@ -105,6 +117,13 @@ public partial class OmniTabs
                 StateHasChanged();
             }
         }
+
+        var scope = ScrollablePanels && !string.IsNullOrWhiteSpace(WheelScrollScope) ? WheelScrollScope.Trim() : null;
+        if (_module is not null && !string.Equals(scope, _wheelScopeAttached, StringComparison.Ordinal))
+        {
+            await _module.InvokeVoidAsync(scope is null ? "detachTabsWheelScope" : "attachTabsWheelScope", _container, scope);
+            _wheelScopeAttached = scope;
+        }
     }
 
     private Task HandleKeyDownAsync(KeyboardEventArgs args)
@@ -131,6 +150,7 @@ public partial class OmniTabs
         {
             try
             {
+                await _module.InvokeVoidAsync("detachTabsWheelScope", _container, null);
                 await _module.InvokeVoidAsync("disposeTabsOverflow", _strip);
                 await _module.InvokeVoidAsync("disposeTabs", _root);
                 await _module.DisposeAsync();

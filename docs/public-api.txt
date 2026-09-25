@@ -2914,6 +2914,7 @@ property public OmniEurope.Blazor.Components.OmniTabs.SelectedIndexChanged : Mic
 property public OmniEurope.Blazor.Components.OmniTabs.Tabs : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTabs.Value : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTabs.ValueChanged : Microsoft.AspNetCore.Components.EventCallback<System.String?> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTabs.WheelScrollScope : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTabsItem.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTabsItem.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTabsItem.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
