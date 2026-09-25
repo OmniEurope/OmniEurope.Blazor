@@ -21,7 +21,10 @@ jobs:
         shell: pwsh
         run: ./eng/Test-SdkBand.ps1
       - name: Restore
-        run: dotnet restore OmniEurope.Blazor.slnx --locked-mode
+        # Release, like every step after it. A Debug restore under SDK 10.0.1xx/2xx injects
+        # Microsoft.DotNet.HotReload.WebAssembly.Browser into the WebAssembly hosts at the SDK version,
+        # which no pin can fix and which breaks the locks with NU1004 (ADR-002).
+        run: dotnet restore OmniEurope.Blazor.slnx --locked-mode -p:Configuration=Release
       - name: Build
         run: dotnet build OmniEurope.Blazor.slnx --configuration Release --no-restore
       - name: Publish Server catalog

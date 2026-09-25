@@ -256,27 +256,79 @@ public sealed partial class ConventionGuardTests
     }
 
     [Fact]
-    public void GlobalJson_PinsTheFeatureBandWithoutAWorkloadVersion()
+    public void GlobalJson_DeclaresTheSdkFloorWithoutAWorkloadVersion()
     {
         using var configuration = JsonDocument.Parse(Read("global.json"));
         var sdk = configuration.RootElement.GetProperty("sdk");
 
-        Assert.Equal("latestPatch", sdk.GetProperty("rollForward").GetString());
+        // STD-SDKPIN: one floor, any later 10.0 feature band accepted (ADR-002).
+        Assert.Equal("latestFeature", sdk.GetProperty("rollForward").GetString());
         Assert.False(sdk.TryGetProperty("workloadVersion", out _));
     }
 
     /// <summary>
-    /// A project that references this repository by ProjectReference loads the analyzers with its own
-    /// SDK. They reference the compiler of the first .NET 10 SDK (10.0.100), so any 10.0 SDK loads
-    /// them; one version higher and an older SDK fails with CS9057 (PLAN-008 lot 3).
+    /// The SDK injects Microsoft.NET.ILLink.Tasks, Microsoft.NET.Sdk.WebAssembly.Pack and
+    /// Microsoft.AspNetCore.App.Internal.Assets into the WebAssembly hosts at the version of the runtime
+    /// it bundles. Directory.Build.targets pins them so every SDK from the floor writes the same locks
+    /// (ADR-002); the pin follows the ASP.NET Core packages of Directory.Packages.props, never the SDK.
     /// </summary>
     [Fact]
-    public void Analyzers_ReferenceTheCompilerOfTheFirstDotNet10Sdk()
+    public void ImplicitSdkPacks_ArePinnedToTheCentralAspNetCoreVersion()
     {
-        Assert.Contains(
-            "<PackageVersion Include=\"Microsoft.CodeAnalysis.CSharp\" Version=\"5.0.0\" />",
+        var targets = Read("Directory.Build.targets");
+        var pin = Regex.Match(targets, "<OmniImplicitSdkPackVersion>([^<]+)</OmniImplicitSdkPackVersion>");
+        var central = Regex.Match(
             Read("Directory.Packages.props"),
-            StringComparison.Ordinal);
+            "<PackageVersion Include=\"Microsoft\\.AspNetCore\\.Components\\.Web\" Version=\"([^\"]+)\" />");
+
+        Assert.True(pin.Success, "Directory.Build.targets must declare OmniImplicitSdkPackVersion.");
+        Assert.True(central.Success, "Directory.Packages.props must pin Microsoft.AspNetCore.Components.Web.");
+        Assert.Equal(central.Groups[1].Value, pin.Groups[1].Value);
+        foreach (var pack in new[] { "KnownILLinkPack", "KnownWebAssemblySdkPack", "KnownAspNetCorePack" })
+        {
+            Assert.Contains($"<{pack} Update=", targets, StringComparison.Ordinal);
+        }
+    }
+
+    /// <summary>SDK feature band of the global.json floor, and the Roslyn version its compiler ships (kit STD-SDKPIN table).</summary>
+    private static readonly (string Band, string Roslyn)[] RoslynBySdkBand =
+    [
+        ("9.0.1", "4.12.0"),
+        ("10.0.1", "5.0.0"),
+        ("10.0.2", "5.3.0"),
+        ("10.0.3", "5.6.0"),
+        ("10.0.4", "5.9.0"),
+    ];
+
+    /// <summary>
+    /// STD-SDKPIN: the Microsoft.CodeAnalysis packages stay on the compiler of the global.json floor. A
+    /// project that references this repository by ProjectReference loads the analyzers with its own SDK;
+    /// one Roslyn version above the floor and an SDK still at the floor fails with CS9057 (PLAN-008 lot 3).
+    /// The guard checks the pin against the floor, never the floor itself: moving global.json is a
+    /// deliberate commit that moves both.
+    /// </summary>
+    [Fact]
+    public void CodeAnalysisPackages_MatchTheCompilerOfTheSdkFloor()
+    {
+        using var configuration = JsonDocument.Parse(Read("global.json"));
+        var floor = configuration.RootElement.GetProperty("sdk").GetProperty("version").GetString()!;
+        var expected = RoslynBySdkBand.FirstOrDefault(entry => floor.StartsWith(entry.Band, StringComparison.Ordinal)).Roslyn;
+        Assert.True(expected is not null, $"SDK floor {floor} is missing from the STD-SDKPIN table.");
+
+        var packages = Read("Directory.Packages.props");
+        foreach (var package in new[]
+        {
+            "Microsoft.CodeAnalysis.CSharp",
+            "Microsoft.CodeAnalysis.CSharp.Workspaces",
+            "Microsoft.CodeAnalysis.Workspaces.Common",
+        })
+        {
+            var match = Regex.Match(packages, $"<PackageVersion Include=\"{Regex.Escape(package)}\" Version=\"([^\"]+)\" />");
+            if (match.Success)
+            {
+                Assert.True(expected == match.Groups[1].Value, $"{package} = {match.Groups[1].Value}, expected {expected} for SDK floor {floor}.");
+            }
+        }
     }
 
     [Fact]

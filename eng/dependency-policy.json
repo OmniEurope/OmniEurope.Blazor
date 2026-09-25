@@ -78,7 +78,7 @@
     }
   },
   "toolchain": {
-    "sdk": "10.0.401",
-    "rollForward": "latestPatch"
+    "sdk": "10.0.100",
+    "rollForward": "latestFeature"
   }
 }
