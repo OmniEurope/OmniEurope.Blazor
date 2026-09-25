@@ -644,6 +644,76 @@ export function closeContextMenu(key) {
     return restoreFocus(key);
 }
 
+const tabsWheelScopes = new Map();
+
+function scrollsVertically(element, deltaY) {
+    if (!/(auto|scroll)/.test(getComputedStyle(element).overflowY) || element.scrollHeight <= element.clientHeight) {
+        return false;
+    }
+
+    return deltaY < 0
+        ? element.scrollTop > 0
+        : element.scrollTop + element.clientHeight < element.scrollHeight - 1;
+}
+
+/**
+ * OmniTabs WheelScrollScope: a vertical wheel turn over the named ancestor, outside the selected
+ * panel, scrolls that panel. Anything under the pointer that can still scroll that way keeps the
+ * wheel, Shift and Ctrl are never taken, and a panel that cannot scroll further lets the event go.
+ */
+export function attachTabsWheelScope(tabs, selector) {
+    if (!(tabs instanceof HTMLElement)) {
+        return;
+    }
+
+    detachTabsWheelScope(tabs);
+    const scope = typeof selector === 'string' && selector ? tabs.closest(selector) : null;
+    if (!scope) {
+        return;
+    }
+
+    const onWheel = event => {
+        if (event.defaultPrevented || event.ctrlKey || event.shiftKey || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+            return;
+        }
+
+        const panel = [...tabs.children].find(child => child.classList.contains('omni-tabs__panel') && !child.hidden);
+        if (!panel || !tabs.isConnected || panel.getClientRects().length === 0) {
+            return;
+        }
+
+        const target = event.target instanceof Element ? event.target : null;
+        if (target && panel.contains(target)) {
+            return;
+        }
+
+        for (let node = target; node && node !== scope; node = node.parentElement) {
+            if (scrollsVertically(node, event.deltaY)) {
+                return;
+            }
+        }
+
+        if (!scrollsVertically(panel, event.deltaY)) {
+            return;
+        }
+
+        const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? panel.clientHeight : 1;
+        event.preventDefault();
+        panel.scrollTop += event.deltaY * unit;
+    };
+
+    scope.addEventListener('wheel', onWheel, { passive: false });
+    tabsWheelScopes.set(tabs, () => scope.removeEventListener('wheel', onWheel));
+}
+
+export function detachTabsWheelScope(tabs) {
+    const dispose = tabsWheelScopes.get(tabs);
+    if (dispose) {
+        dispose();
+        tabsWheelScopes.delete(tabs);
+    }
+}
+
 export function disposeTabsOverflow(strip) {
     const state = tabOverflow.get(strip);
     if (!state) {

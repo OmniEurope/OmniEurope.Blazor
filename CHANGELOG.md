@@ -49,6 +49,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Added
 
+- `OmniTabs.WheelScrollScope` (avec `ScrollablePanels`, sélecteur d'un ancêtre, non défini par défaut) : la molette au-dessus de cet ancêtre, marges comprises, fait défiler le panneau sélectionné ; un panneau qui ne peut plus défiler laisse l'événement à une grille munie de sa propre `WheelScrollScope`.
 - `OmniTooltip.MaxWidth` (`OmniTooltipWidth` : `Standard` 18 rem par défaut, `Narrow` 12 rem, `Wide` 28 rem), par classes, sans style en ligne. Le texte passe à la ligne, il n'est jamais coupé par la largeur.
 - `OmniTooltip.CompactLength` (240 caractères par défaut, 0 ou null pour désactiver) : au-delà, l'infobulle s'ouvre sur un aperçu terminé par une ellipse et une action « Afficher plus » (« Show more ») qui déplie le texte complet. Le pointeur peut entrer dans l'infobulle pour l'atteindre (la boîte ne le suit plus alors), le clavier l'atteint par Tab, et le texte complet reste la description accessible. Déplié, le texte défile au-delà de 55 % de la fenêtre et la boîte reste dans la fenêtre.
 - `OmniAutocomplete.OptionIcon` : une icône ou un drapeau dessiné avant le texte de chaque suggestion, décoratif, le surlignage des lettres cherchées étant conservé.
@@ -154,6 +155,8 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Fixed
 
+- `OmniPopover` : le panneau reste dans la fenêtre. Près d'un bord il est décalé latéralement, et il s'ouvre au-dessus de son bouton quand la place manque en dessous (`omni-focus.js`, recalculé au redimensionnement) ; sa hauteur est bornée à la fenêtre, le surplus défile.
+- `OmniSplitButtonItem` : un élément qui commence par une icône aligne icône et libellé sur une ligne centrée.
 - `OmniDataGrid` : le cadre qui défile est désormais le bloc conteneur de son contenu positionné (`position: relative`). Un libellé masqué pour les lecteurs d'écran, dans une cellule, s'en échappait et agrandissait la zone défilante de la page : la page entière pouvait défiler derrière une grille arrivée à sa fin.
 - `OmniSidebar` : un menu superposé ouvert se ferme par Échap, où que soit le focus (la poignée qui l'a ouvert garde souvent le focus, hors du panneau).
 - `OmniTooltip` : délai par défaut ramené de 700 à 300 ms, et une flèche relie l'infobulle à ce qu'elle décrit, sur le pointeur quand elle le suit, tournée vers le haut quand elle passe dessous.
