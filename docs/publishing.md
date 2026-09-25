@@ -48,4 +48,4 @@ Les symboles (`.snupkg`) partent dans le même appel `dotnet nuget push`; NuGet.
 
 ## Dépendances
 
-Aucune mise à jour automatique n'est configurée : `.github/dependabot.yml` a été supprimé après que des montées de version fusionnées aient cassé `main`. Les paquets gelés et leurs motifs sont dans `eng/dependency-policy.json`, et `eng/Test-DependencyPolicy.ps1` en fait une garde CI. Toute réactivation doit exclure les paquets marqués `toolchain-bound`.
+Les mises à jour automatiques sont hebdomadaires : `.github/dependabot.yml` a été retiré après que des montées de version fusionnées aient cassé `main`, puis réintroduit le 2026-09-19 avec le modèle du kit. Les paquets gelés et leurs motifs sont dans `eng/dependency-policy.json`, et `eng/Test-DependencyPolicy.ps1` en fait une garde CI. Ceux marqués `toolchain-bound` sont exclus par le bloc `ignore` de la configuration : une proposition sur l'un d'eux ne se fusionne pas, elle se ferme.
