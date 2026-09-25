@@ -19,3 +19,11 @@ updates:
     groups:
       minor-and-patch:
         update-types: ["minor", "patch"]
+    # The packages marked toolchain-bound in eng/dependency-policy.json are frozen on purpose, each
+    # with its reason. A Dependabot PR on one of them cannot be merged, only closed: it fails
+    # eng/Test-DependencyPolicy.ps1, and the xunit 4.x line drops the VSTest chain the coverage proof
+    # relies on. Lifting one of these is a migration, tracked in the policy, never a version bump.
+    ignore:
+      - dependency-name: "Microsoft.CodeAnalysis.CSharp"
+      - dependency-name: "xunit.v3"
+      - dependency-name: "xunit.runner.visualstudio"
