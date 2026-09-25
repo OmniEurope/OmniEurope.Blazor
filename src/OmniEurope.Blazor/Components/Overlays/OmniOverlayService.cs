@@ -71,7 +71,7 @@ public sealed class OmniOverlayService : IDisposable
 
     /// <summary>
     /// Asks a yes-or-no question in a dialog built to the package's button convention: the action
-    /// first, cancelling after it in <see cref="OmniButtonVariant.Danger"/>, both at the end of the
+    /// first, cancelling after it in the neutral <see cref="OmniButtonVariant.Secondary"/>, both at the end of the
     /// footer and each with its icon. True only when the action is chosen; cancelling, the close
     /// button, Escape and the backdrop all answer false.
     /// </summary>

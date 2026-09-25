@@ -106,7 +106,7 @@ paragraphe ; `Level` en fait un titre quand l'état vide ouvre une section.
 
 La progression (`OmniProgressBar`, « Étape 2 sur 3 »), la liste des étapes (`OmniSteps`), l'étape
 courante dans un corps unique que les boutons d'étape contrôlent, puis Précédent, Suivant ou
-`FinishText`, et Annuler en `Danger` si `OnCancel` a un gestionnaire. Revenir en arrière est libre.
+`FinishText`, et Annuler en `Secondary` si `OnCancel` a un gestionnaire. Revenir en arrière est libre.
 Avancer, par Suivant, Terminer ou une étape déjà atteinte de la liste, demande d'abord l'étape courante :
 `CanContinue` à faux désactive le bouton, `Validate` répond au clic et garde l'étape s'il rend faux
 (l'étape dit pourquoi). Une étape non atteinte ne se clique pas. Quand l'utilisateur change d'étape, le
@@ -124,6 +124,17 @@ contrôle, l'élément ne rendant alors pas de panneau à lui. Laissé nul, rien
 Un `dl` dont chaque `OmniDescriptionItem` (`Label`, la valeur en `ChildContent`, `Actions` après elle)
 est un groupe `dt`/`dd`. `Columns` range les éléments sur 1 à 4 colonnes (borné) ; sous 40rem, une
 seule colonne.
+
+## Infobulle : largeur et texte long
+
+`OmniTooltip.MaxWidth` borne la largeur de la boîte ouverte : `Standard` (18 rem, défaut), `Narrow`
+(12 rem) ou `Wide` (28 rem). Au-delà, le texte passe à la ligne ; il n'est jamais coupé par la largeur.
+Un texte plus long que `CompactLength` (240 caractères par défaut) s'ouvre sur un aperçu coupé à la
+dernière frontière de mot, terminé par une ellipse, et une action « Afficher plus » qui déplie tout ;
+« Afficher moins » le replie, et quitter l'infobulle la replie aussi. La boîte d'un tel texte prend le
+pointeur : un pont transparent couvre l'écart entre elle et le pointeur, et elle cesse de le suivre dès
+qu'il y entre. Le texte complet reste la description accessible du déclencheur. `CompactLength` à 0
+ou null garde toujours le texte entier.
 
 ## Date relative : `OmniRelativeTime`
 

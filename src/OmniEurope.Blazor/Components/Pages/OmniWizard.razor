@@ -21,7 +21,7 @@
         <CascadingValue Value="_context" IsFixed="true">@ChildContent</CascadingValue>
     </section>
     <p class="omni-visually-hidden" role="status">@Announcement</p>
-    @* The package's button convention: the actions, then cancelling in Danger with its icon, last. *@
+    @* The package's button convention: the actions, then cancelling in Secondary (neutral) with its icon, last. *@
     <div class="omni-wizard__actions">
         @if (_current > 0)
         {
@@ -46,7 +46,7 @@
         }
         @if (OnCancel.HasDelegate)
         {
-            <OmniButton Class="omni-wizard__cancel" Variant="OmniButtonVariant.Danger" OnClick="CancelAsync">
+            <OmniButton Class="omni-wizard__cancel" Variant="OmniButtonVariant.Secondary" OnClick="CancelAsync">
                 <OmniIcon Name="OmniIconName.Close" />
                 <span>@Localize("Cancel")</span>
             </OmniButton>

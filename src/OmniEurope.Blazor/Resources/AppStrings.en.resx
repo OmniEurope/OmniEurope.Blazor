@@ -20,6 +20,9 @@
   <data name="SettingsDensity" xml:space="preserve"><value>Density</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Control size</value></data>
   <data name="SettingsControlSizeShort" xml:space="preserve"><value>Controls</value></data>
+  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Text</value></data>
+  <data name="SettingsDensityShort" xml:space="preserve"><value>Density</value></data>
+  <data name="SettingsScale" xml:space="preserve"><value>Sizes</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Default</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>default</value></data>
   <data name="SettingsDecrease" xml:space="preserve"><value>Decrease</value></data>
@@ -55,6 +58,8 @@
   <data name="GridFilterLogical" xml:space="preserve"><value>Logical operator for {0}</value></data>
   <data name="GridFilterApply" xml:space="preserve"><value>Apply</value></data>
   <data name="GridFilterClear" xml:space="preserve"><value>Clear</value></data>
+  <data name="TooltipShowMore" xml:space="preserve"><value>Show more</value></data>
+  <data name="TooltipShowLess" xml:space="preserve"><value>Show less</value></data>
   <data name="GridFilterDateFrom" xml:space="preserve"><value>From</value></data>
   <data name="GridFilterDateTo" xml:space="preserve"><value>To</value></data>
   <data name="GridFilterContains" xml:space="preserve"><value>Contains</value></data>

@@ -79,7 +79,7 @@
         <ChildContent>
             <p>Cette action retire le dossier de la liste. Elle est réversible pendant trente jours.</p>
         </ChildContent>
-        @* Convention du paquet : l'action d'abord, Annuler (Danger) après elle, au bout du pied,
+        @* Convention du paquet : l'action d'abord, Annuler (Secondary) après elle, au bout du pied,
            chacun avec son icône. OmniOverlayService.ConfirmAsync la suit d'office. *@
         <Footer>
             <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => Confirm())"><OmniIcon Name="OmniIconName.Delete" /><span>Supprimer</span></OmniButton>

@@ -24,6 +24,15 @@
         <OmniTooltip Text="Un dossier archivé reste consultable en lecture seule." Tracking="OmniTooltipTracking.Pinned">
             <OmniBadge Variant="OmniBadgeVariant.Accent">Archivé</OmniBadge>
         </OmniTooltip>
+        <OmniTooltip Text="Brouillon." MaxWidth="OmniTooltipWidth.Narrow">
+            <OmniBadge Variant="OmniBadgeVariant.Neutral">Étroite</OmniBadge>
+        </OmniTooltip>
+        @* Au-delà de CompactLength (240 caractères par défaut), l'infobulle s'ouvre sur un aperçu et
+           une action « Afficher plus » que le pointeur peut atteindre ; le texte n'est jamais coupé en silence. *@
+        <OmniTooltip MaxWidth="OmniTooltipWidth.Wide" Tracking="OmniTooltipTracking.Pinned"
+                     Text="Un dossier archivé reste consultable en lecture seule. Il ne compte plus dans les quotas, n'apparaît plus dans les recherches par défaut et ne reçoit plus de notifications. Pour le rouvrir, un administrateur le restaure depuis l'onglet Archives ; son historique, ses pièces jointes et ses commentaires reviennent alors intacts, avec la date de restauration.">
+            <OmniBadge Variant="OmniBadgeVariant.Accent">Texte long</OmniBadge>
+        </OmniTooltip>
     </OmniStack>
 
     @* OmniTitleTooltips, placé une fois dans la mise en page, remplace l'infobulle du navigateur de tout

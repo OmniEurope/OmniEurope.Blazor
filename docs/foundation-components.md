@@ -17,7 +17,7 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 | Composant | Rôle |
 | --- | --- |
 | `OmniText` | Texte rendu en `span`, `p`, `strong`, `em` ou `small`, avec tons et troncature statiques. |
-| `OmniHeading` | Titres `h1` à `h6` déterminés par `OmniHeadingLevel`. |
+| `OmniHeading` | Titres `h1` à `h6` déterminés par `OmniHeadingLevel`, sur l'échelle `--omni-font-size-h1` à `h6` (2, 1,5, 1,25, 1,125, 1 et 0,875 rem), nettement décroissante. Le titre d'`OmniPageHeader` suit son niveau, h1 par défaut. |
 | `OmniIcon` | Tracés Phosphor `regular` intégrés pour les usages du paquet, décoratifs par défaut ou nommés avec `AriaLabel` ; `Glyph` accepte n'importe quel autre tracé sans alourdir le paquet. |
 | `OmniBadge` | Étiquette courte avec variantes neutre, accent, information, succès, avertissement et danger, en pastille tonale (fond, trait et texte tirés de l'encre de la variante mêlée à la surface et au texte du thème) lisible en clair comme en sombre ; `Fill="Outline"` n'en garde que le trait, `Fill="Solid"` prend le fond et l'encre du bouton de même intention. |
 | `OmniLink` | Lien natif ; un nouvel onglet ajoute automatiquement `noopener noreferrer`, une icône de lien externe et une mention pour les technologies d'assistance (`ShowNewTabIcon="false"` retire l'icône). |
@@ -164,7 +164,9 @@ Chaque sévérité (succès, information, avertissement, danger) et l'accent ont
 ### Réglages d'apparence réutilisables
 
 `OmniAppearanceSettings` rassemble mode clair/sombre/système, thème, palette, taille du texte et
-densité. Modifier ouvre les deux derniers réglages dans une fenêtre déplaçable sans voile.
+densité. Modifier (bouton `Success`) ouvre les deux derniers réglages dans une fenêtre déplaçable sans voile.
+En `Compact`, libellés et commandes s'alignent sur deux colonnes et la ligne des tailles lit « Tailles »
+suivi du résumé des niveaux (« Texte 5 · Densité 5 · Contrôles 5 »).
 Ses mesures sont capturées à l'ouverture : les commandes restent stables pendant les changements,
 puis prennent la nouvelle échelle à la prochaine ouverture. `ScaleEditorOpenChanged` informe l'hôte
 afin qu'il puisse retirer son éventuel voile de menu. Le reste de l'application garde son échelle active.

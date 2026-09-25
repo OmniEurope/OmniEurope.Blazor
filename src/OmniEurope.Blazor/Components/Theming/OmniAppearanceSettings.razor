@@ -31,9 +31,18 @@
             <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Font is null)" OnClick="@(() => FontChanged.InvokeAsync(null))"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
         </div>
     </div>
-    <div class="omni-appearance-settings__row">
-        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.TextSize" /> @ScaleTitle</span>
-        <OmniButton AriaLabel="@Localize("Edit")" Variant="OmniButtonVariant.Secondary" OnClick="OpenScaleAsync"><OmniIcon Name="OmniIconName.Edit" /><span>@Localize("Edit")</span></OmniButton>
+    @* Compact, the three scales read as one short label and a summary of their levels beside the
+       edit action, instead of a title wrapped over three lines. Edit is the one action of the row:
+       Success, the package's green. *@
+    <div class="omni-appearance-settings__row omni-appearance-settings__row--scale">
+        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.TextSize" /> @(Compact ? Localize("SettingsScale") : ScaleTitle)</span>
+        <div class="omni-appearance-settings__actions">
+            @if (Compact)
+            {
+                <span class="omni-appearance-settings__summary">@ScaleSummary</span>
+            }
+            <OmniButton AriaLabel="@Localize("Edit")" Variant="OmniButtonVariant.Success" OnClick="OpenScaleAsync"><OmniIcon Name="OmniIconName.Edit" /><span>@Localize("Edit")</span></OmniButton>
+        </div>
     </div>
 </div>
 <OmniDialog Open="@_scaleOpen" OpenChanged="SetScaleOpenAsync" Modal="false" Draggable="true" FreezeScale="true" Title="@ScaleTitle" Class="omni-appearance-window">

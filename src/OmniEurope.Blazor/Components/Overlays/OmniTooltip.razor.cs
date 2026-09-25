@@ -29,7 +29,57 @@ public partial class OmniTooltip
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// The widest the open tooltip grows before its text wraps: 18rem by default, 12rem narrow, 28rem
+    /// wide. The text is never cut by the width, it wraps.
+    /// </summary>
+    [Parameter]
+    public OmniTooltipWidth MaxWidth { get; set; } = OmniTooltipWidth.Standard;
+
+    /// <summary>
+    /// Beyond this many characters the tooltip opens on a preview ending with an ellipsis and a
+    /// "Show more" action that unfolds the full text; the pointer can then move into the tooltip to
+    /// reach it. Null or zero never shortens the text. The full text remains the accessible
+    /// description either way.
+    /// </summary>
+    [Parameter]
+    public int? CompactLength { get; set; } = DefaultCompactLength;
+
+    internal const int DefaultCompactLength = 240;
+
     internal const int MaxDelayMilliseconds = 2000;
+
+    private bool _expanded;
+
+    private bool IsExpandable => CompactLength is > 0 and var limit && Text.Length > limit;
+
+    /// <summary>
+    /// The preview cut at the last word boundary before the limit, so a word is never split in two.
+    /// </summary>
+    private string CompactText
+    {
+        get
+        {
+            var limit = CompactLength ?? Text.Length;
+            var cut = Text.LastIndexOf(' ', Math.Min(limit, Text.Length - 1));
+            var end = cut > limit / 2 ? cut : limit;
+            return string.Concat(Text.AsSpan(0, end).TrimEnd(), "…");
+        }
+    }
+
+    private string? WidthClass => MaxWidth switch
+    {
+        OmniTooltipWidth.Narrow => "omni-tooltip--narrow",
+        OmniTooltipWidth.Wide => "omni-tooltip--wide",
+        _ => null
+    };
+
+    private string FullTextId => $"{TooltipId}-full";
+
+    private void ToggleExpanded() => _expanded = !_expanded;
+
+    // Leaving the tooltip folds it back, so the next visit opens on the short preview again.
+    private void Collapse() => _expanded = false;
 
     private string? DelayClass
     {
