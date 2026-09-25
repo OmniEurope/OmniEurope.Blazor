@@ -1,0 +1,25 @@
+<Project>
+  <!--
+    STD-SDKPIN: the SDK injects three implicit package references into the WebAssembly hosts, at the
+    version of the runtime it bundles (Microsoft.NETCoreSdk.BundledVersions.props): 10.0.6 under SDK
+    10.0.202, 10.0.11 under 10.0.303, 10.0.12 under 10.0.401. Left implicit, each packages.lock.json
+    only restores in locked mode under the band that wrote it (NU1004 under any other, ADR-001).
+    Pinned here, they no longer follow the SDK: every 10.0 SDK from the global.json floor resolves
+    the same versions and the locks stay valid. Moving this pin is a deliberate commit, aligned with
+    the Microsoft.AspNetCore.* versions of Directory.Packages.props, followed by a Release restore.
+  -->
+  <!-- The items are updated by name, every target framework row at once: MSBuild forbids a metadata
+       condition outside a target, and this repository only targets net10.0. -->
+  <PropertyGroup>
+    <OmniImplicitSdkPackVersion>10.0.12</OmniImplicitSdkPackVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <KnownILLinkPack Update="Microsoft.NET.ILLink.Tasks"
+                     ILLinkPackVersion="$(OmniImplicitSdkPackVersion)" />
+    <KnownWebAssemblySdkPack Update="Microsoft.NET.Sdk.WebAssembly.Pack"
+                             WebAssemblySdkPackVersion="$(OmniImplicitSdkPackVersion)" />
+    <KnownAspNetCorePack Update="Microsoft.AspNetCore.App.Internal.Assets"
+                         AspNetCorePackVersion="$(OmniImplicitSdkPackVersion)" />
+  </ItemGroup>
+</Project>

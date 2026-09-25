@@ -3,7 +3,7 @@
 
 ## Statut
 
-Accepté
+Remplacé par [ADR-002](ADR-002-sdk-floor-latestfeature-pinned-implicit-packs.md) le 2026-09-25 : sa condition de sortie est remplie, les paquets implicites du SDK sont épinglés dans `Directory.Build.targets`.
 
 ## Date
 

@@ -2,11 +2,6 @@
   "$comment": "Exclusions par depot du controle mecanise du kit _Generic (verify-rules.ps1, section .NOTES). Chaque entree nomme une regle, au moins un chemin et une raison qui renvoie a la piece justificative du depot.",
   "exclusions": [
     {
-      "rule": "STD-SDKPIN",
-      "paths": [ "global.json" ],
-      "reason": "docs/adr/ADR-001-global-json-rollforward-latestpatch.md : rollForward latestPatch est impose par quatre gardes du depot (ConventionGuardTests.GlobalJson_PinsTheFeatureBandWithoutAWorkloadVersion, eng/Test-SdkBand.ps1, eng/dependency-policy.json, eng/Test-DependencyPolicy.ps1), parce que la restauration verrouillee des hotes WebAssembly echoue en NU1004 sous une autre bande SDK."
-    },
-    {
       "rule": "STD-FOCUS",
       "paths": [
         "src/OmniEurope.Blazor/Components/Actions/OmniSplitButton.razor",

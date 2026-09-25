@@ -1,8 +1,8 @@
 # Version guard (STD-SDKPIN): one PR per newer version, never a build failure.
 # Kit model (_Generic .github/dependabot.yml) without the docker ecosystem: this repository ships
-# no container image. A dotnet-sdk PR that leaves the pinned feature band fails eng/Test-SdkBand.ps1
-# on purpose (the band pin is a documented decision, see docs/dependencies.md); a nuget PR must also
-# update eng/dependency-policy.json, which eng/Test-DependencyPolicy.ps1 checks.
+# no container image. A dotnet-sdk PR proposes moving the global.json floor (latestFeature already
+# accepts later bands, ADR-002); a nuget PR must also update eng/dependency-policy.json, which
+# eng/Test-DependencyPolicy.ps1 checks.
 version: 2
 updates:
   - package-ecosystem: "dotnet-sdk"
@@ -19,11 +19,11 @@ updates:
     groups:
       minor-and-patch:
         update-types: ["minor", "patch"]
-    # The packages marked toolchain-bound in eng/dependency-policy.json are frozen on purpose, each
-    # with its reason. A Dependabot PR on one of them cannot be merged, only closed: it fails
-    # eng/Test-DependencyPolicy.ps1, and the xunit 4.x line drops the VSTest chain the coverage proof
-    # relies on. Lifting one of these is a migration, tracked in the policy, never a version bump.
+    # STD-SDKPIN (ADR-002): the three Microsoft.CodeAnalysis packages follow the compiler of the
+    # global.json SDK floor, never the latest release. An analyzer built against a newer Roslyn than
+    # the loading SDK fails with CS9057 in every project that references this repository. They are
+    # the only packages excluded from updates; moving them is a deliberate commit with the floor.
     ignore:
       - dependency-name: "Microsoft.CodeAnalysis.CSharp"
-      - dependency-name: "xunit.v3"
-      - dependency-name: "xunit.runner.visualstudio"
+      - dependency-name: "Microsoft.CodeAnalysis.CSharp.Workspaces"
+      - dependency-name: "Microsoft.CodeAnalysis.Workspaces.Common"
