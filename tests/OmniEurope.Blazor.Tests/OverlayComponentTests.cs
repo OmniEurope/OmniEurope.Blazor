@@ -119,7 +119,7 @@ public sealed class OverlayComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public async Task ConfirmAsync_PutsTheActionFirstAndCancelAfterItInDanger_EachWithAnIcon()
+    public async Task ConfirmAsync_PutsTheActionFirstAndCancelAfterItInNeutralSecondary_EachWithAnIcon()
     {
         using var service = new OmniOverlayService();
         var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
@@ -139,7 +139,8 @@ public sealed class OverlayComponentTests : OmniBunitContext
         Assert.Equal("Supprimer", buttons[0].QuerySelector("span.omni-button__content > span")!.TextContent);
         Assert.NotNull(buttons[0].QuerySelector("svg.omni-icon"));
         Assert.Contains("omni-confirm__cancel", buttons[1].ClassList);
-        Assert.Contains("omni-button--danger", buttons[1].ClassList);
+        Assert.Contains("omni-button--secondary", buttons[1].ClassList);
+        Assert.DoesNotContain("omni-button--danger", buttons[1].ClassList);
         Assert.Equal("Annuler", buttons[1].QuerySelector("span.omni-button__content > span")!.TextContent);
         Assert.NotNull(buttons[1].QuerySelector("svg.omni-icon"));
 

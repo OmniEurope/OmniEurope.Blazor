@@ -19,7 +19,8 @@ public sealed class WizardTests : OmniBunitContext
         Assert.Equal("Étape 1 sur 3 : Nom", host.Find(".omni-wizard [role=status]").TextContent);
         Assert.Empty(host.FindAll(".omni-wizard__previous"));
         Assert.Single(host.FindAll(".omni-wizard__next"));
-        Assert.Contains("omni-button--danger", host.Find(".omni-wizard__cancel").ClassName, StringComparison.Ordinal);
+        Assert.Contains("omni-button--secondary", host.Find(".omni-wizard__cancel").ClassName, StringComparison.Ordinal);
+        Assert.DoesNotContain("omni-button--danger", host.Find(".omni-wizard__cancel").ClassName, StringComparison.Ordinal);
 
         // One body shows every step: the step buttons control it and the current one names it.
         var body = host.Find(".omni-wizard__body");

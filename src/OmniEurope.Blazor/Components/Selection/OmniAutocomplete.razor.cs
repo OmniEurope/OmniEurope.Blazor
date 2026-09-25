@@ -51,6 +51,14 @@ public partial class OmniAutocomplete<TValue>
     [Parameter]
     public bool HighlightMatches { get; set; } = true;
 
+    /// <summary>
+    /// Drawn before each suggestion's text, for an icon or a flag that says what the entry is. It is
+    /// decoration: the text, with its match highlighting, still names the entry for assistive
+    /// technology.
+    /// </summary>
+    [Parameter]
+    public RenderFragment<OmniOption<TValue>>? OptionIcon { get; set; }
+
     private string ResultsId => $"{Id ?? FieldIdentifier.FieldName}-results";
     private string ErrorId => $"{Id ?? FieldIdentifier.FieldName}-error";
     private string EffectiveSearchErrorMessage => string.IsNullOrWhiteSpace(SearchErrorMessage)

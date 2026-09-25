@@ -22,13 +22,14 @@
     --omni-font-size-sm: 0.75rem;
     --omni-font-size-lg: 1rem;
     /* Heading scale. Exposed so a theme can retune the whole hierarchy from one place rather than
-       leave six sizes frozen while the body text moves. */
-    --omni-font-size-h1: 2.25rem;
-    --omni-font-size-h2: 1.875rem;
-    --omni-font-size-h3: 1.5rem;
-    --omni-font-size-h4: 1.25rem;
-    --omni-font-size-h5: 1.125rem;
-    --omni-font-size-h6: 1rem;
+       leave six sizes frozen while the body text moves. Each step is clearly below the one above it,
+       and a page title (OmniPageHeader, level 1 by default) takes the h1 size, above every section title. */
+    --omni-font-size-h1: 2rem;
+    --omni-font-size-h2: 1.5rem;
+    --omni-font-size-h3: 1.25rem;
+    --omni-font-size-h4: 1.125rem;
+    --omni-font-size-h5: 1rem;
+    --omni-font-size-h6: 0.875rem;
     /* Colours, radii, the body font and the elevation of the shipped look are generated from the
        theme Défaut (block omni:theme-tokens below). The only webfonts are the four @font-face above. */
     --omni-font-family-monospace: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -539,10 +540,11 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
 }
 
 /* Désactivé : éteint et assombri, une opacité seule l'éclaircissait sur fond clair. */
+/* A disabled button keeps a faded tint of its colour (a blue action stays blue) instead of turning grey-brown. */
 .omni-button:disabled,
 .omni-toggle-button:disabled,
 .omni-split-button__main:disabled,
-.omni-split-button__toggle:disabled { box-shadow: none; cursor: not-allowed; filter: grayscale(0.75) brightness(0.68); opacity: 0.8; }
+.omni-split-button__toggle:disabled { box-shadow: none; cursor: not-allowed; filter: saturate(0.6); opacity: 0.55; }
 
 /* Trois tailles distinctes (hauteur, marge, corps) ; le moyen garde la hauteur du champ voisin.
    --omni-button-size est aussi le côté d'un bouton à icône seule. */
@@ -1329,7 +1331,15 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-appearance-settings__row > .omni-slider .omni-slider__input { inline-size: 100%; }
 .omni-appearance-settings--compact .omni-appearance-settings__row { background: transparent; border: 0; padding: 0; }
 .omni-appearance-settings--compact .omni-appearance-settings__label { font-weight: 650; gap: var(--omni-space-xs); }
-.omni-appearance-settings--compact .omni-appearance-settings__label .omni-icon { background: none; block-size: auto; color: var(--omni-color-accent); inline-size: auto; padding: 0; }
+.omni-appearance-settings--compact .omni-appearance-settings__label .omni-icon { background: none; block-size: 1.25rem; color: var(--omni-color-accent); inline-size: 1.25rem; padding: 0; }
+/* Compact: one column of labels and one of controls, shared by every row through a subgrid, so the
+   controls line up whatever the length of each label. */
+.omni-appearance-settings--compact { column-gap: var(--omni-space-md); grid-template-columns: max-content minmax(0, 1fr); row-gap: var(--omni-space-sm); }
+.omni-appearance-settings--compact .omni-appearance-settings__row { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; }
+.omni-appearance-settings--compact .omni-appearance-settings__label { margin-inline-end: 0; }
+.omni-appearance-settings--compact .omni-appearance-settings__actions:has(.omni-drop-down) { inline-size: 100%; }
+.omni-appearance-settings--compact .omni-appearance-settings__row--scale .omni-appearance-settings__actions { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+.omni-appearance-settings__summary { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); font-variant-numeric: tabular-nums; min-inline-size: 0; }
 
 .omni-label { color: var(--omni-color-text); display: inline-flex; font-size: 0.8125rem; font-weight: 600; gap: var(--omni-space-xs); }
 .omni-label__required { color: var(--omni-color-danger); }
@@ -1552,6 +1562,8 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
 .omni-autocomplete__option:hover,
 .omni-autocomplete__option:focus-visible { background: var(--omni-color-surface-muted); outline: none; }
 .omni-autocomplete__option:disabled { background: transparent; color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
+/* OptionIcon: the icon sits on the first line of the text, a fixed gap before it. */
+.omni-autocomplete__option-icon { align-items: center; display: inline-flex; margin-inline-end: var(--omni-space-sm); vertical-align: -0.125em; }
 /* Les lettres cherchées, en gras sur un fond d'accent. */
 .omni-autocomplete__match { background: color-mix(in srgb, var(--omni-color-accent) 24%, transparent); border-radius: 0.125rem; color: inherit; font-weight: 700; }
 /* A fieldset sizes to its minimal content, not to its container: an explicit width, or it shrank
@@ -1795,7 +1807,8 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
         position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
     }
 }
-.omni-split-button__item { background: transparent; border: 0; border-radius: calc(var(--omni-radius) / 2); color: var(--omni-color-text); font: inherit; font-size: var(--omni-control-font); padding: var(--omni-item-pad-y) 10px; text-align: start; }
+/* An item may start with an icon: icon and label sit on one centred line. */
+.omni-split-button__item { align-items: center; background: transparent; border: 0; border-radius: calc(var(--omni-radius) / 2); color: var(--omni-color-text); display: flex; font: inherit; font-size: var(--omni-control-font); gap: var(--omni-space-sm); padding: var(--omni-item-pad-y) 10px; text-align: start; }
 .omni-split-button__item:hover,
 .omni-split-button__item:focus-visible { background: var(--omni-color-surface-hover); outline: none; }
 .omni-overlay { align-items: center; background: var(--omni-color-overlay); display: flex; inset: 0; justify-content: center; padding: var(--omni-space-lg); position: fixed; z-index: 100; }
@@ -1814,7 +1827,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-dialog__close,
 .omni-notification__dismiss { border: 0; border-radius: var(--omni-radius); font-size: var(--omni-font-size-h4); min-height: 2.75rem; min-width: 2.75rem; }
 .omni-dialog__content { padding: calc(var(--omni-card-pad) + 2px); }
-/* Boutons de dialogue : au bout du pied, l'action puis Annuler (Danger), chacun avec son icône. */
+/* Boutons de dialogue : au bout du pied, l'action puis Annuler (Secondary, neutre), chacun avec son icône. */
 .omni-dialog__footer { align-items: center; border-block-start: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: end; padding: calc(var(--omni-card-pad) - 2px) calc(var(--omni-card-pad) + 2px); }
 .omni-confirm__message { margin: 0; }
 /* La pile se pose sur un coin ou un bord, nommés en logique (lecture de droite à gauche). */
@@ -1922,6 +1935,20 @@ body:has(.omni-overlay) { overflow: hidden; }
    the pointer for a tracked one (omni-tooltip.js), turned upward when the box is flipped below. */
 .omni-tooltip__content::after { border: 0.3125rem solid transparent; border-top-color: var(--omni-color-inverse-surface); content: ""; inset-block-start: 100%; inset-inline-start: clamp(0.5rem, var(--omni-tooltip-arrow, 50%), calc(100% - 0.5rem)); position: absolute; transform: translateX(-50%); }
 .omni-tooltip--below .omni-tooltip__content::after { border-bottom-color: var(--omni-color-inverse-surface); border-top-color: transparent; inset-block-end: 100%; inset-block-start: auto; }
+/* MaxWidth: the widest the open box grows before it wraps; the text wraps, it is never cut. */
+.omni-tooltip--narrow:is(:hover, :focus-within, .omni-tooltip--tracked) .omni-tooltip__content { max-width: 12rem; }
+.omni-tooltip--wide:is(:hover, :focus-within, .omni-tooltip--tracked) .omni-tooltip__content { max-width: min(28rem, 100vw - 1rem); }
+/* A long text opens on a preview and a "Show more" action. The box then takes the pointer, and a
+   transparent bridge over the gap between it and the pointer keeps the hover alive on the way up
+   (or down when it is flipped below), so the action can be reached. Unfolded, the box scrolls
+   rather than overflow the window. */
+.omni-tooltip--expandable:is(:hover, :focus-within) .omni-tooltip__content { pointer-events: auto; }
+.omni-tooltip--expandable .omni-tooltip__content::before { block-size: 0.875rem; content: ""; inset-block-start: 100%; inset-inline: 0; position: absolute; }
+.omni-tooltip--expandable.omni-tooltip--below .omni-tooltip__content::before { inset-block-end: 100%; inset-block-start: auto; }
+.omni-tooltip--expanded .omni-tooltip__text { max-block-size: min(20rem, 55vh); overflow-y: auto; overscroll-behavior: contain; }
+.omni-tooltip__text { display: block; }
+.omni-tooltip__more { background: none; border: 0; border-radius: var(--omni-radius); color: inherit; cursor: pointer; display: block; font: inherit; font-weight: 650; margin-block-start: var(--omni-space-xs); padding: 0; text-decoration: underline; text-underline-offset: 0.15em; }
+.omni-tooltip__more:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 /* Le pointeur doit se poser avant que l'infobulle paraisse ; elle part aussitôt qu'il s'en va. Le
    focus clavier, lui, la montre sans attendre. */
 .omni-tooltip { --omni-tooltip-delay: 300ms; }
@@ -2173,6 +2200,9 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-popover__panel:focus-visible { outline: none; }
 .omni-popover--bottom-end .omni-popover__panel { inset-inline-end: 0; }
 .omni-popover--bottom-start .omni-popover__panel { inset-inline-start: 0; }
+/* Kept inside the window by omni-focus.js: shifted sideways near an edge, above the trigger when there is no room below. */
+.omni-popover__panel { max-block-size: calc(100vh - 2 * var(--omni-space-md)); overflow: auto; translate: var(--omni-popover-shift-x, 0) 0; }
+.omni-popover__panel--above { inset-block-end: calc(100% + var(--omni-space-xs)); inset-block-start: auto; }
 .omni-profile-menu { display: inline-block; position: relative; }
 .omni-profile-menu__summary { cursor: pointer; list-style: none; }
 .omni-profile-menu__items { backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); display: grid; inset-inline-end: 0; min-width: 12rem; padding: calc(var(--omni-pop-pad) - 2px); position: absolute; z-index: 30; }
@@ -2229,7 +2259,8 @@ body:has(.omni-overlay) { overflow: hidden; }
    and shadow. Its scrollbar is thin and tinted from the text, so it follows the scope's mode instead of
    the host page's. */
 .omni-data-grid { --omni-data-grid-column-min-width: 8rem; --omni-data-grid-control-width: 2.75rem; --omni-data-grid-edit-width: 5.25rem; --omni-grid-frame: var(--omni-card-background, var(--omni-color-surface)); --omni-column-active-fill: color-mix(in srgb, var(--omni-color-accent) 6%, transparent); display: grid; font-size: var(--omni-font-size-base); gap: var(--omni-space-md); min-inline-size: 0; }
-.omni-data-grid__viewport { background: var(--omni-grid-frame); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); overflow: auto; scrollbar-color: color-mix(in srgb, var(--omni-color-text) 28%, transparent) transparent; scrollbar-width: thin; }
+/* position: relative keeps an absolutely placed descendant (a visually hidden label in a cell) inside the scrolled rows: without it the box escaped the viewport clip and made the page scroll. */
+.omni-data-grid__viewport { background: var(--omni-grid-frame); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); overflow: auto; position: relative; scrollbar-color: color-mix(in srgb, var(--omni-color-text) 28%, transparent) transparent; scrollbar-width: thin; }
 .omni-data-grid__toolbar { display: flex; justify-content: flex-end; }
 .omni-data-grid__theme-toggle { align-items: center; display: inline-flex; gap: var(--omni-space-xs); }
 /* Palette scoped to one grid: only the tokens the component reads. */
@@ -2300,7 +2331,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid :is(.omni-data-grid__filter-operator, .omni-data-grid__filter-logical) { flex: 0 1 7rem; }
 .omni-data-grid__filters .omni-input { min-block-size: calc(var(--omni-control-height) - 0.25rem); padding-inline: var(--omni-space-sm); }
 .omni-data-grid__filters select.omni-input:not([multiple]):not([size]) { block-size: calc(var(--omni-control-height) - 0.25rem); }
-.omni-data-grid__filter-actions { display: flex; gap: var(--omni-space-xs); justify-content: flex-end; }
+.omni-data-grid__filter-actions { align-items: center; display: flex; gap: var(--omni-space-xs); justify-content: flex-end; }
 /* A row a live refresh brought in reads bold for the grid's NewRowHighlight, then settles. */
 .omni-data-grid__row--new > td { font-weight: 600; }
 /* A date range stacks its two pickers, each under its own short label. */
@@ -2814,7 +2845,7 @@ polyline.omni-chart__line { fill: none; }
 .omni-page-header__trail .omni-breadcrumb__item { color: var(--omni-color-text-muted); }
 .omni-page-header__crumb-loading .omni-skeleton { inline-size: 5.5rem; }
 .omni-page-header__row { align-items: center; display: flex; gap: var(--omni-space-sm); min-inline-size: 0; }
-.omni-page-header .omni-page-header__title { flex: 0 1 auto; font-size: var(--omni-font-size-h3); line-height: var(--omni-control-height); margin: 0; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-page-header .omni-page-header__title { flex: 0 1 auto; line-height: max(var(--omni-control-height), 1.25em); margin: 0; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .omni-page-header__title-loading { flex: 0 1 16rem; }
 .omni-page-header__title-loading .omni-skeleton__item { min-height: calc(var(--omni-control-height) - 0.75rem); }
 .omni-page-header__details { align-items: center; display: flex; flex: 1 1 auto; gap: var(--omni-space-sm); min-inline-size: 0; }

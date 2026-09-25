@@ -7,6 +7,9 @@ public partial class OmniAppearanceSettings
     private string ScaleTitle => ShowsControlSize
         ? $"{Localize("SettingsTextSize")} / {Localize("SettingsDensity")} / {Localize("SettingsControlSizeShort")}"
         : $"{Localize("SettingsTextSize")} / {Localize("SettingsDensity")}";
+    private string ScaleSummary => ShowsControlSize
+        ? $"{Localize("SettingsTextSizeShort")} {TextSizeLevel} · {Localize("SettingsDensityShort")} {DensityLevel} · {Localize("SettingsControlSizeShort")} {ControlSizeLevel}"
+        : $"{Localize("SettingsTextSizeShort")} {TextSizeLevel} · {Localize("SettingsDensityShort")} {DensityLevel}";
     /// <summary>Notifies the host so an enclosing menu can release its outside-click shield.</summary>
     [Parameter] public EventCallback<bool> ScaleEditorOpenChanged { get; set; }
     private Task OpenScaleAsync() => SetScaleOpenAsync(true);

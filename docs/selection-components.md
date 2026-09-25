@@ -82,6 +82,9 @@ défilement ; les chevrons sont hors de l'ordre de tabulation, chaque option res
 saisie (`mark.omni-autocomplete__match`), sans tenir compte de la casse ni des accents dans la culture
 courante : « liege » marque « Liège ». Le texte lu par un lecteur d'écran reste celui de l'option.
 
+`OptionIcon` dessine, avant le texte de chaque suggestion, une icône ou un drapeau qui dit ce qu'est
+l'entrée ; il est décoratif (`aria-hidden`), le texte et son surlignage nommant toujours l'option.
+
 ## Menus : profil et contextuel
 
 `OmniProfileMenu` repose sur l'élément natif `details`. Il se ferme sur Échap, une fois une entrée

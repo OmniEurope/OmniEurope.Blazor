@@ -8,6 +8,29 @@ const EDGE = 8;
 let installed = false;
 let tracked = null;
 
+// An unfolded long tooltip grows after it was placed: it is pushed back inside the window instead
+// of spilling over its top or bottom edge.
+const keepInside = content => {
+    const tooltip = content.closest('.omni-tooltip');
+    if (!tooltip || tooltip !== tracked) {
+        return;
+    }
+
+    const box = content.getBoundingClientRect();
+    const y = Number.parseFloat(tooltip.style.getPropertyValue('--omni-tooltip-y'));
+    if (!Number.isFinite(y)) {
+        return;
+    }
+
+    const shift = box.top < EDGE ? EDGE - box.top : box.bottom > window.innerHeight - EDGE ? window.innerHeight - EDGE - box.bottom : 0;
+    if (shift !== 0) {
+        tooltip.style.setProperty('--omni-tooltip-y', `${y + shift}px`);
+    }
+};
+const resizeObserver = typeof ResizeObserver === 'function'
+    ? new ResizeObserver(entries => entries.forEach(entry => keepInside(entry.target)))
+    : null;
+
 const clear = () => {
     if (!tracked) {
         return;
@@ -17,6 +40,10 @@ const clear = () => {
     tracked.style.removeProperty('--omni-tooltip-x');
     tracked.style.removeProperty('--omni-tooltip-y');
     tracked.style.removeProperty('--omni-tooltip-arrow');
+    const content = tracked.querySelector('.omni-tooltip__content');
+    if (content) {
+        resizeObserver?.unobserve(content);
+    }
     tracked = null;
 };
 
@@ -43,6 +70,7 @@ const place = (tooltip, x, y) => {
 
     tooltip.classList.add('omni-tooltip--tracked');
     tracked = tooltip;
+    resizeObserver?.observe(content);
 
     const box = content.getBoundingClientRect();
     const half = box.width / 2;
@@ -66,6 +94,12 @@ const onPointerMove = event => {
         return;
     }
 
+    // Over the box of a long tooltip (only such a box takes the pointer): it holds still so its
+    // "Show more" action can be reached.
+    if (tooltip === tracked && event.target.closest('.omni-tooltip__content')) {
+        return;
+    }
+
     place(tooltip, event.clientX, event.clientY);
 };
 
@@ -76,6 +110,12 @@ const onFocusIn = event => {
     const tooltip = event.target instanceof Element ? event.target.closest('.omni-tooltip') : null;
     if (!tooltip) {
         clear();
+        return;
+    }
+
+    // The "Show more" action of a long tooltip is inside the box already placed: focusing it keeps
+    // the box where it is.
+    if (tooltip === tracked && event.target.closest('.omni-tooltip__content')) {
         return;
     }
 
@@ -94,10 +134,28 @@ export function install() {
     // tracked state, since nothing else would ever clear it.
     document.addEventListener('pointermove', onPointerMove, { capture: true, passive: true });
     document.addEventListener('focusin', onFocusIn, { capture: true, passive: true });
-    document.addEventListener('focusout', clear, { capture: true, passive: true });
+    document.addEventListener('focusout', event => {
+        const next = event.relatedTarget instanceof Element ? event.relatedTarget.closest('.omni-tooltip') : null;
+        if (!next || next !== tracked) {
+            clear();
+        }
+    }, { capture: true, passive: true });
     // A page that scrolls under a held pointer would leave the tooltip at coordinates that no longer
     // describe anything; dropping it is truer than dragging a stale box along.
-    document.addEventListener('scroll', clear, { capture: true, passive: true });
+    // A pointer press on "Show more" must not move the focus into the tooltip: the focus would keep
+    // it open (focus-within) after the pointer has left. The click still fires; the keyboard still
+    // reaches the action with Tab.
+    document.addEventListener('mousedown', event => {
+        if (event.target instanceof Element && event.target.closest('.omni-tooltip__more')) {
+            event.preventDefault();
+        }
+    }, { capture: true });
+    // Scrolling the unfolded text of a long tooltip is not a page scroll: that one stays open.
+    document.addEventListener('scroll', event => {
+        if (!(event.target instanceof Element && event.target.closest('.omni-tooltip__content'))) {
+            clear();
+        }
+    }, { capture: true, passive: true });
 }
 
 // ---- title tooltips -----------------------------------------------------------------------------

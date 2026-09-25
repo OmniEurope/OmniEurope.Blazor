@@ -1,7 +1,7 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// The footer of a confirmation: the action, then cancelling in <see cref="OmniButtonVariant.Danger"/>,
+/// The footer of a confirmation: the action, then cancelling in <see cref="OmniConfirmRequest.CancelVariant"/>,
 /// each with an icon and a label. Internal and built in code, so the convention ships with the
 /// service rather than as one more public component to place by hand.
 /// </summary>

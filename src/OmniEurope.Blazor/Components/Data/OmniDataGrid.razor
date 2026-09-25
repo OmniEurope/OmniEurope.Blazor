@@ -21,6 +21,12 @@
         @if (HasEditing) { <td></td> }
     </tr>;
 
+    @* Every clear action of a filter editor is the same square icon button of the standard control
+       size, whatever the editor: one condition, two conditions or a list of checkboxes. *@
+    RenderFragment<OmniDataGridColumnDefinition<TItem>> clearIcon = column => @<button type="button" class="omni-button omni-button--secondary omni-data-grid__filter-clear omni-data-grid__filter-clear--icon"
+            aria-label="@Text(ClearFilterText, "GridFilterClear")" title="@Text(ClearFilterText, "GridFilterClear")"
+            @onclick="() => ClearFilterAsync(column)"><span class="omni-button__content"><OmniIcon Name="OmniIconName.Close" /></span></button>;
+
     @* The filter editor of one column, shared by the inline filter row and the popovers: in a
        popover it ends with its own clear action, inline the reset cross beside it does that job.
        Advanced mode always edits in a popover, two conditions being too tall for a header row. *@
@@ -42,9 +48,7 @@
         {
             <span class="omni-data-grid__filter-entry">
                 @FilterValueControl(context.Column, context.Id, FilterValue(context.Column), value => FilterValueChangedAsync(context.Column, value), context.InPanel)
-                <button type="button" class="omni-button omni-button--secondary omni-data-grid__filter-clear omni-data-grid__filter-clear--icon"
-                        aria-label="@Text(ClearFilterText, "GridFilterClear")" title="@Text(ClearFilterText, "GridFilterClear")"
-                        @onclick="() => ClearFilterAsync(context.Column)"><span class="omni-button__content"><OmniIcon Name="OmniIconName.Close" /></span></button>
+                @clearIcon(context.Column)
             </span>
         }
         else
@@ -68,14 +72,14 @@
             <label class="omni-visually-hidden" for="@($"{context.Id}-second")">@Localize("GridFilterSecondValue", context.Column.Title)</label>
             @FilterValueControl(context.Column, $"{context.Id}-second", SecondFilterValue(context.Column), value => SecondFilterValueChangedAsync(context.Column, value), context.InPanel)
             <span class="omni-data-grid__filter-actions">
-                <button type="button" class="omni-button omni-button--small omni-button--primary omni-data-grid__filter-apply" @onclick="() => ApplyFilterAsync(context.Column)">@Text(ApplyFilterText, "GridFilterApply")</button>
-                <button type="button" class="omni-button omni-button--small omni-button--secondary omni-data-grid__filter-clear" @onclick="() => ClearFilterAsync(context.Column)">@Text(ClearFilterText, "GridFilterClear")</button>
+                <button type="button" class="omni-button omni-button--primary omni-data-grid__filter-apply" @onclick="() => ApplyFilterAsync(context.Column)">@Text(ApplyFilterText, "GridFilterApply")</button>
+                @clearIcon(context.Column)
             </span>
         }
         else if (context.InPanel && !IsOneConditionPanel(context.Column))
         {
             <span class="omni-data-grid__filter-actions">
-                <button type="button" class="omni-button omni-button--small omni-button--secondary omni-data-grid__filter-clear" @onclick="() => ClearFilterAsync(context.Column)">@Text(ClearFilterText, "GridFilterClear")</button>
+                @clearIcon(context.Column)
             </span>
         }
     </div>;

@@ -43,6 +43,10 @@
                             class="omni-autocomplete__option"
                             disabled="@option.Disabled"
                             @onclick="() => Select(option)">
+                        @if (OptionIcon is not null)
+                        {
+                            <span class="omni-autocomplete__option-icon" aria-hidden="true">@OptionIcon(option)</span>
+                        }
                         @if (HighlightMatches)
                         {
                             @foreach (var segment in OmniTextMatch.Split(option.Text, _resultsQuery))

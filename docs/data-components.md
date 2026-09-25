@@ -145,8 +145,9 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
   En `Advanced`, la rangée de filtres montre un déclencheur qui résume la condition appliquée et
   ouvre un panneau ; deux conditions n'y tiennent pas sur la hauteur d'un contrôle.
 - La rangée de filtres garde la hauteur d'un contrôle quelle que soit la forme du filtre. Une croix
-  « Effacer » apparaît à côté d'un filtre, et seulement tant qu'il filtre ; les panneaux gardent un
-  bouton « Effacer » explicite.
+  « Effacer » apparaît à côté d'un filtre, et seulement tant qu'il filtre ; dans les panneaux,
+  « Effacer » est toujours le même bouton carré réduit à sa croix, de la taille standard d'un contrôle,
+  nommé « Effacer » pour les lecteurs d'écran, quelle que soit la forme du filtre.
 - `OmniDataGridColumnFilterType.Number` donne une saisie numérique et les opérateurs ordonnés à une
   colonne lue par `Value`, dont la grille ne connaît pas le type. `FilterOperators` restreint et ordonne
   les opérateurs proposés par une colonne ; un opérateur que son type ne permet pas est écarté.

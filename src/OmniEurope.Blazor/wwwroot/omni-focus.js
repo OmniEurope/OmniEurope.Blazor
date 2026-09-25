@@ -150,6 +150,36 @@ export function restoreFocus(key) {
 // popover (focus stays where the user clicked) or Escape inside it (focus returns to the trigger).
 
 const popoverHandlers = new Map();
+const viewportMargin = 8;
+
+// The panel is anchored to its trigger by CSS; near an edge of the window it is shifted sideways, and
+// opened above its trigger when there is no room below, so it never leaves the window.
+function keepInViewport(panel) {
+    if (!(panel instanceof HTMLElement)) {
+        return;
+    }
+
+    panel.style.removeProperty('--omni-popover-shift-x');
+    panel.classList.remove('omni-popover__panel--above');
+    const rect = panel.getBoundingClientRect();
+    const width = document.documentElement.clientWidth;
+    const height = document.documentElement.clientHeight;
+    let shift = 0;
+    if (rect.right > width - viewportMargin) {
+        shift = width - viewportMargin - rect.right;
+    }
+    if (rect.left + shift < viewportMargin) {
+        shift = viewportMargin - rect.left;
+    }
+    if (shift !== 0) {
+        panel.style.setProperty('--omni-popover-shift-x', `${Math.round(shift)}px`);
+    }
+
+    const trigger = panel.parentElement?.getBoundingClientRect();
+    if (trigger && rect.bottom > height - viewportMargin && trigger.top - rect.height > viewportMargin) {
+        panel.classList.add('omni-popover__panel--above');
+    }
+}
 
 export function attachPopover(root, panel, dotnet, key) {
     if (!(root instanceof HTMLElement) || !dotnet || popoverHandlers.has(key)) {
@@ -157,8 +187,10 @@ export function attachPopover(root, panel, dotnet, key) {
     }
 
     rememberTarget(key);
+    keepInViewport(panel);
     const items = focusableElements(panel);
     (items[0] ?? panel)?.focus({ preventScroll: true });
+    const onResize = () => keepInViewport(panel);
 
     const onPointerDown = event => {
         if (event.target instanceof Node && !root.contains(event.target)) {
@@ -175,7 +207,8 @@ export function attachPopover(root, panel, dotnet, key) {
 
     document.addEventListener('pointerdown', onPointerDown, true);
     root.addEventListener('keydown', onKeyDown);
-    popoverHandlers.set(key, { root, onPointerDown, onKeyDown });
+    window.addEventListener('resize', onResize);
+    popoverHandlers.set(key, { root, onPointerDown, onKeyDown, onResize });
 }
 
 export function detachPopover(key, restore) {
@@ -183,6 +216,7 @@ export function detachPopover(key, restore) {
     if (state) {
         document.removeEventListener('pointerdown', state.onPointerDown, true);
         state.root.removeEventListener('keydown', state.onKeyDown);
+        window.removeEventListener('resize', state.onResize);
         popoverHandlers.delete(key);
     }
 
