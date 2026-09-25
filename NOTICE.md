@@ -12,7 +12,7 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `AngleSharp.Css` | `1.1.2` | MIT | `expression` | - |
 | `AngleSharp.Diffing` | `1.1.1` | MIT | `expression` | - |
 | `bunit` | `2.11.3` | MIT | `expression` | - |
-| `coverlet.collector` | `10.0.1` | MIT | `expression` | - |
+| `coverlet.MTP` | `10.0.1` | MIT | `expression` | - |
 | `HtmlSanitizer` | `9.2.1039` | MIT | `expression` | - |
 | `Microsoft.ApplicationInsights` | `2.23.0` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.App.Internal.Assets` | `10.0.12` | MIT | `expression` | - |
@@ -33,7 +33,6 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Microsoft.CodeAnalysis.Analyzers` | `3.11.0` | MIT | `expression` | - |
 | `Microsoft.CodeAnalysis.Common` | `5.0.0` | MIT | `expression` | - |
 | `Microsoft.CodeAnalysis.CSharp` | `5.0.0` | MIT | `expression` | - |
-| `Microsoft.CodeCoverage` | `18.10.1` | MIT | `expression` | - |
 | `Microsoft.Extensions.Caching.Abstractions` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.Caching.Memory` | `10.0.10` | MIT | `expression` | - |
 | `Microsoft.Extensions.Configuration` | `10.0.12` | MIT | `expression` | - |
@@ -74,14 +73,12 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Microsoft.Maui.Resizetizer` | `10.0.101` | MIT | `expression` | - |
 | `Microsoft.NET.ILLink.Tasks` | `10.0.12` | MIT | `expression` | - |
 | `Microsoft.NET.Sdk.WebAssembly.Pack` | `10.0.12` | MIT | `expression` | - |
-| `Microsoft.NET.Test.Sdk` | `18.10.1` | MIT | `expression` | - |
 | `Microsoft.NETCore.Platforms` | `1.1.0` | http://go.microsoft.com/fwlink/?LinkId=329770 | `url` | - |
-| `Microsoft.Testing.Extensions.Telemetry` | `1.9.1` | MIT | `expression` | - |
-| `Microsoft.Testing.Extensions.TrxReport.Abstractions` | `1.9.1` | MIT | `expression` | - |
-| `Microsoft.Testing.Platform` | `1.9.1` | MIT | `expression` | - |
-| `Microsoft.Testing.Platform.MSBuild` | `1.9.1` | MIT | `expression` | - |
-| `Microsoft.TestPlatform.ObjectModel` | `18.10.1` | MIT | `expression` | - |
-| `Microsoft.TestPlatform.TestHost` | `18.10.1` | MIT | `expression` | - |
+| `Microsoft.Testing.Extensions.Telemetry` | `2.4.0` | MIT | `expression` | - |
+| `Microsoft.Testing.Extensions.TrxReport` | `2.4.1` | MIT | `expression` | - |
+| `Microsoft.Testing.Extensions.TrxReport.Abstractions` | `2.4.1` | MIT | `expression` | - |
+| `Microsoft.Testing.Platform` | `2.4.1` | MIT | `expression` | - |
+| `Microsoft.Testing.Platform.MSBuild` | `2.4.0` | MIT | `expression` | - |
 | `Microsoft.Web.WebView2` | `1.0.4191.47` | LICENSE.txt | `file` | `docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4191.47--LICENSE.txt` |
 | `Microsoft.Win32.Registry` | `5.0.0` | MIT | `expression` | - |
 | `Microsoft.Windows.SDK.BuildTools` | `10.0.26100.8249` | https://aka.ms/WinSDKLicenseURL | `url` | - |
@@ -104,18 +101,18 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `System.Numerics.Vectors` | `4.6.0` | MIT | `expression` | - |
 | `System.Reflection.Metadata` | `9.0.0` | MIT | `expression` | - |
 | `System.Runtime.CompilerServices.Unsafe` | `6.1.0` | MIT | `expression` | - |
+| `System.Security.AccessControl` | `6.0.1` | MIT | `expression` | - |
 | `System.Text.Encoding.CodePages` | `8.0.0` | MIT | `expression` | - |
 | `System.Threading.Tasks.Extensions` | `4.6.0` | MIT | `expression` | - |
-| `xunit.analyzers` | `1.27.0` | Apache-2.0 | `expression` | - |
-| `xunit.runner.visualstudio` | `3.1.5` | Apache-2.0 | `expression` | - |
-| `xunit.v3` | `3.2.2` | Apache-2.0 | `expression` | - |
-| `xunit.v3.assert` | `3.2.2` | Apache-2.0 | `expression` | - |
-| `xunit.v3.common` | `3.2.2` | Apache-2.0 | `expression` | - |
-| `xunit.v3.core.mtp-v1` | `3.2.2` | Apache-2.0 | `expression` | - |
-| `xunit.v3.extensibility.core` | `3.2.2` | Apache-2.0 | `expression` | - |
-| `xunit.v3.mtp-v1` | `3.2.2` | Apache-2.0 | `expression` | - |
-| `xunit.v3.runner.common` | `3.2.2` | Apache-2.0 | `expression` | - |
-| `xunit.v3.runner.inproc.console` | `3.2.2` | Apache-2.0 | `expression` | - |
+| `xunit.analyzers` | `2.1.0` | Apache-2.0 | `expression` | - |
+| `xunit.v3` | `4.0.1` | Apache-2.0 | `expression` | - |
+| `xunit.v3.assert` | `4.0.1` | Apache-2.0 | `expression` | - |
+| `xunit.v3.common` | `4.0.1` | Apache-2.0 | `expression` | - |
+| `xunit.v3.core.mtp-v2` | `4.0.1` | Apache-2.0 | `expression` | - |
+| `xunit.v3.extensibility.core` | `4.0.1` | Apache-2.0 | `expression` | - |
+| `xunit.v3.mtp-v2` | `4.0.1` | Apache-2.0 | `expression` | - |
+| `xunit.v3.runner.common` | `4.0.1` | Apache-2.0 | `expression` | - |
+| `xunit.v3.runner.inproc.console` | `4.0.1` | Apache-2.0 | `expression` | - |
 
 Pour les licences par URL, la valeur affichée est la déclaration publiée par le paquet NuGet. Les conditions propriétaires, notamment celles de Windows App SDK et des SDK Windows, ne sont pas remplacées par une classification SPDX supposée.
 

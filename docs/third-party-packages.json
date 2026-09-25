@@ -101,7 +101,7 @@
       ]
     },
     {
-      "id": "coverlet.collector",
+      "id": "coverlet.MTP",
       "version": "10.0.1",
       "license": {
         "kind": "expression",
@@ -450,21 +450,6 @@
       "lockFiles": [
         "eng/OmniEurope.Analyzers.Tests/packages.lock.json",
         "eng/OmniEurope.Analyzers/packages.lock.json"
-      ]
-    },
-    {
-      "id": "Microsoft.CodeCoverage",
-      "version": "18.10.1",
-      "license": {
-        "kind": "expression",
-        "value": "MIT",
-        "url": null,
-        "localFile": null,
-        "localFileSha256": null
-      },
-      "lockFiles": [
-        "eng/OmniEurope.Analyzers.Tests/packages.lock.json",
-        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
     {
@@ -1150,21 +1135,6 @@
       ]
     },
     {
-      "id": "Microsoft.NET.Test.Sdk",
-      "version": "18.10.1",
-      "license": {
-        "kind": "expression",
-        "value": "MIT",
-        "url": null,
-        "localFile": null,
-        "localFileSha256": null
-      },
-      "lockFiles": [
-        "eng/OmniEurope.Analyzers.Tests/packages.lock.json",
-        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
-      ]
-    },
-    {
       "id": "Microsoft.NETCore.Platforms",
       "version": "1.1.0",
       "license": {
@@ -1180,7 +1150,22 @@
     },
     {
       "id": "Microsoft.Testing.Extensions.Telemetry",
-      "version": "1.9.1",
+      "version": "2.4.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers.Tests/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.Testing.Extensions.TrxReport",
+      "version": "2.4.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1195,7 +1180,7 @@
     },
     {
       "id": "Microsoft.Testing.Extensions.TrxReport.Abstractions",
-      "version": "1.9.1",
+      "version": "2.4.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1210,7 +1195,7 @@
     },
     {
       "id": "Microsoft.Testing.Platform",
-      "version": "1.9.1",
+      "version": "2.4.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1225,37 +1210,7 @@
     },
     {
       "id": "Microsoft.Testing.Platform.MSBuild",
-      "version": "1.9.1",
-      "license": {
-        "kind": "expression",
-        "value": "MIT",
-        "url": null,
-        "localFile": null,
-        "localFileSha256": null
-      },
-      "lockFiles": [
-        "eng/OmniEurope.Analyzers.Tests/packages.lock.json",
-        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
-      ]
-    },
-    {
-      "id": "Microsoft.TestPlatform.ObjectModel",
-      "version": "18.10.1",
-      "license": {
-        "kind": "expression",
-        "value": "MIT",
-        "url": null,
-        "localFile": null,
-        "localFileSha256": null
-      },
-      "lockFiles": [
-        "eng/OmniEurope.Analyzers.Tests/packages.lock.json",
-        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
-      ]
-    },
-    {
-      "id": "Microsoft.TestPlatform.TestHost",
-      "version": "18.10.1",
+      "version": "2.4.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1578,6 +1533,21 @@
       ]
     },
     {
+      "id": "System.Security.AccessControl",
+      "version": "6.0.1",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers.Tests/packages.lock.json",
+        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+      ]
+    },
+    {
       "id": "System.Text.Encoding.CodePages",
       "version": "8.0.0",
       "license": {
@@ -1607,22 +1577,7 @@
     },
     {
       "id": "xunit.analyzers",
-      "version": "1.27.0",
-      "license": {
-        "kind": "expression",
-        "value": "Apache-2.0",
-        "url": null,
-        "localFile": null,
-        "localFileSha256": null
-      },
-      "lockFiles": [
-        "eng/OmniEurope.Analyzers.Tests/packages.lock.json",
-        "tests/OmniEurope.Blazor.Tests/packages.lock.json"
-      ]
-    },
-    {
-      "id": "xunit.runner.visualstudio",
-      "version": "3.1.5",
+      "version": "2.1.0",
       "license": {
         "kind": "expression",
         "value": "Apache-2.0",
@@ -1637,7 +1592,7 @@
     },
     {
       "id": "xunit.v3",
-      "version": "3.2.2",
+      "version": "4.0.1",
       "license": {
         "kind": "expression",
         "value": "Apache-2.0",
@@ -1652,7 +1607,7 @@
     },
     {
       "id": "xunit.v3.assert",
-      "version": "3.2.2",
+      "version": "4.0.1",
       "license": {
         "kind": "expression",
         "value": "Apache-2.0",
@@ -1667,7 +1622,7 @@
     },
     {
       "id": "xunit.v3.common",
-      "version": "3.2.2",
+      "version": "4.0.1",
       "license": {
         "kind": "expression",
         "value": "Apache-2.0",
@@ -1681,8 +1636,8 @@
       ]
     },
     {
-      "id": "xunit.v3.core.mtp-v1",
-      "version": "3.2.2",
+      "id": "xunit.v3.core.mtp-v2",
+      "version": "4.0.1",
       "license": {
         "kind": "expression",
         "value": "Apache-2.0",
@@ -1697,7 +1652,7 @@
     },
     {
       "id": "xunit.v3.extensibility.core",
-      "version": "3.2.2",
+      "version": "4.0.1",
       "license": {
         "kind": "expression",
         "value": "Apache-2.0",
@@ -1711,8 +1666,8 @@
       ]
     },
     {
-      "id": "xunit.v3.mtp-v1",
-      "version": "3.2.2",
+      "id": "xunit.v3.mtp-v2",
+      "version": "4.0.1",
       "license": {
         "kind": "expression",
         "value": "Apache-2.0",
@@ -1727,7 +1682,7 @@
     },
     {
       "id": "xunit.v3.runner.common",
-      "version": "3.2.2",
+      "version": "4.0.1",
       "license": {
         "kind": "expression",
         "value": "Apache-2.0",
@@ -1742,7 +1697,7 @@
     },
     {
       "id": "xunit.v3.runner.inproc.console",
-      "version": "3.2.2",
+      "version": "4.0.1",
       "license": {
         "kind": "expression",
         "value": "Apache-2.0",

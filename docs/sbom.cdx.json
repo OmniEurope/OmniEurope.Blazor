@@ -155,10 +155,10 @@
     },
     {
       "type": "library",
-      "name": "coverlet.collector",
+      "name": "coverlet.MTP",
       "version": "10.0.1",
-      "bom-ref": "pkg:nuget/coverlet.collector@10.0.1",
-      "purl": "pkg:nuget/coverlet.collector@10.0.1",
+      "bom-ref": "pkg:nuget/coverlet.MTP@10.0.1",
+      "purl": "pkg:nuget/coverlet.MTP@10.0.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -612,28 +612,6 @@
         {
           "name": "omnieurope:lock-files",
           "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "Microsoft.CodeCoverage",
-      "version": "18.10.1",
-      "bom-ref": "pkg:nuget/Microsoft.CodeCoverage@18.10.1",
-      "purl": "pkg:nuget/Microsoft.CodeCoverage@18.10.1",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1522,28 +1500,6 @@
     },
     {
       "type": "library",
-      "name": "Microsoft.NET.Test.Sdk",
-      "version": "18.10.1",
-      "bom-ref": "pkg:nuget/Microsoft.NET.Test.Sdk@18.10.1",
-      "purl": "pkg:nuget/Microsoft.NET.Test.Sdk@18.10.1",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
       "name": "Microsoft.NETCore.Platforms",
       "version": "1.1.0",
       "bom-ref": "pkg:nuget/Microsoft.NETCore.Platforms@1.1.0",
@@ -1570,9 +1526,31 @@
     {
       "type": "library",
       "name": "Microsoft.Testing.Extensions.Telemetry",
-      "version": "1.9.1",
-      "bom-ref": "pkg:nuget/Microsoft.Testing.Extensions.Telemetry@1.9.1",
-      "purl": "pkg:nuget/Microsoft.Testing.Extensions.Telemetry@1.9.1",
+      "version": "2.4.0",
+      "bom-ref": "pkg:nuget/Microsoft.Testing.Extensions.Telemetry@2.4.0",
+      "purl": "pkg:nuget/Microsoft.Testing.Extensions.Telemetry@2.4.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.Testing.Extensions.TrxReport",
+      "version": "2.4.1",
+      "bom-ref": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport@2.4.1",
+      "purl": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport@2.4.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -1592,9 +1570,9 @@
     {
       "type": "library",
       "name": "Microsoft.Testing.Extensions.TrxReport.Abstractions",
-      "version": "1.9.1",
-      "bom-ref": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport.Abstractions@1.9.1",
-      "purl": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport.Abstractions@1.9.1",
+      "version": "2.4.1",
+      "bom-ref": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport.Abstractions@2.4.1",
+      "purl": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport.Abstractions@2.4.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -1614,9 +1592,9 @@
     {
       "type": "library",
       "name": "Microsoft.Testing.Platform",
-      "version": "1.9.1",
-      "bom-ref": "pkg:nuget/Microsoft.Testing.Platform@1.9.1",
-      "purl": "pkg:nuget/Microsoft.Testing.Platform@1.9.1",
+      "version": "2.4.1",
+      "bom-ref": "pkg:nuget/Microsoft.Testing.Platform@2.4.1",
+      "purl": "pkg:nuget/Microsoft.Testing.Platform@2.4.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -1636,53 +1614,9 @@
     {
       "type": "library",
       "name": "Microsoft.Testing.Platform.MSBuild",
-      "version": "1.9.1",
-      "bom-ref": "pkg:nuget/Microsoft.Testing.Platform.MSBuild@1.9.1",
-      "purl": "pkg:nuget/Microsoft.Testing.Platform.MSBuild@1.9.1",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "Microsoft.TestPlatform.ObjectModel",
-      "version": "18.10.1",
-      "bom-ref": "pkg:nuget/Microsoft.TestPlatform.ObjectModel@18.10.1",
-      "purl": "pkg:nuget/Microsoft.TestPlatform.ObjectModel@18.10.1",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "Microsoft.TestPlatform.TestHost",
-      "version": "18.10.1",
-      "bom-ref": "pkg:nuget/Microsoft.TestPlatform.TestHost@18.10.1",
-      "purl": "pkg:nuget/Microsoft.TestPlatform.TestHost@18.10.1",
+      "version": "2.4.0",
+      "bom-ref": "pkg:nuget/Microsoft.Testing.Platform.MSBuild@2.4.0",
+      "purl": "pkg:nuget/Microsoft.Testing.Platform.MSBuild@2.4.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -2311,6 +2245,28 @@
     },
     {
       "type": "library",
+      "name": "System.Security.AccessControl",
+      "version": "6.0.1",
+      "bom-ref": "pkg:nuget/System.Security.AccessControl@6.0.1",
+      "purl": "pkg:nuget/System.Security.AccessControl@6.0.1",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
       "name": "System.Text.Encoding.CodePages",
       "version": "8.0.0",
       "bom-ref": "pkg:nuget/System.Text.Encoding.CodePages@8.0.0",
@@ -2356,31 +2312,9 @@
     {
       "type": "library",
       "name": "xunit.analyzers",
-      "version": "1.27.0",
-      "bom-ref": "pkg:nuget/xunit.analyzers@1.27.0",
-      "purl": "pkg:nuget/xunit.analyzers@1.27.0",
-      "licenses": [
-        {
-          "expression": "Apache-2.0"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "xunit.runner.visualstudio",
-      "version": "3.1.5",
-      "bom-ref": "pkg:nuget/xunit.runner.visualstudio@3.1.5",
-      "purl": "pkg:nuget/xunit.runner.visualstudio@3.1.5",
+      "version": "2.1.0",
+      "bom-ref": "pkg:nuget/xunit.analyzers@2.1.0",
+      "purl": "pkg:nuget/xunit.analyzers@2.1.0",
       "licenses": [
         {
           "expression": "Apache-2.0"
@@ -2400,9 +2334,9 @@
     {
       "type": "library",
       "name": "xunit.v3",
-      "version": "3.2.2",
-      "bom-ref": "pkg:nuget/xunit.v3@3.2.2",
-      "purl": "pkg:nuget/xunit.v3@3.2.2",
+      "version": "4.0.1",
+      "bom-ref": "pkg:nuget/xunit.v3@4.0.1",
+      "purl": "pkg:nuget/xunit.v3@4.0.1",
       "licenses": [
         {
           "expression": "Apache-2.0"
@@ -2422,9 +2356,9 @@
     {
       "type": "library",
       "name": "xunit.v3.assert",
-      "version": "3.2.2",
-      "bom-ref": "pkg:nuget/xunit.v3.assert@3.2.2",
-      "purl": "pkg:nuget/xunit.v3.assert@3.2.2",
+      "version": "4.0.1",
+      "bom-ref": "pkg:nuget/xunit.v3.assert@4.0.1",
+      "purl": "pkg:nuget/xunit.v3.assert@4.0.1",
       "licenses": [
         {
           "expression": "Apache-2.0"
@@ -2444,9 +2378,9 @@
     {
       "type": "library",
       "name": "xunit.v3.common",
-      "version": "3.2.2",
-      "bom-ref": "pkg:nuget/xunit.v3.common@3.2.2",
-      "purl": "pkg:nuget/xunit.v3.common@3.2.2",
+      "version": "4.0.1",
+      "bom-ref": "pkg:nuget/xunit.v3.common@4.0.1",
+      "purl": "pkg:nuget/xunit.v3.common@4.0.1",
       "licenses": [
         {
           "expression": "Apache-2.0"
@@ -2465,10 +2399,10 @@
     },
     {
       "type": "library",
-      "name": "xunit.v3.core.mtp-v1",
-      "version": "3.2.2",
-      "bom-ref": "pkg:nuget/xunit.v3.core.mtp-v1@3.2.2",
-      "purl": "pkg:nuget/xunit.v3.core.mtp-v1@3.2.2",
+      "name": "xunit.v3.core.mtp-v2",
+      "version": "4.0.1",
+      "bom-ref": "pkg:nuget/xunit.v3.core.mtp-v2@4.0.1",
+      "purl": "pkg:nuget/xunit.v3.core.mtp-v2@4.0.1",
       "licenses": [
         {
           "expression": "Apache-2.0"
@@ -2488,9 +2422,9 @@
     {
       "type": "library",
       "name": "xunit.v3.extensibility.core",
-      "version": "3.2.2",
-      "bom-ref": "pkg:nuget/xunit.v3.extensibility.core@3.2.2",
-      "purl": "pkg:nuget/xunit.v3.extensibility.core@3.2.2",
+      "version": "4.0.1",
+      "bom-ref": "pkg:nuget/xunit.v3.extensibility.core@4.0.1",
+      "purl": "pkg:nuget/xunit.v3.extensibility.core@4.0.1",
       "licenses": [
         {
           "expression": "Apache-2.0"
@@ -2509,10 +2443,10 @@
     },
     {
       "type": "library",
-      "name": "xunit.v3.mtp-v1",
-      "version": "3.2.2",
-      "bom-ref": "pkg:nuget/xunit.v3.mtp-v1@3.2.2",
-      "purl": "pkg:nuget/xunit.v3.mtp-v1@3.2.2",
+      "name": "xunit.v3.mtp-v2",
+      "version": "4.0.1",
+      "bom-ref": "pkg:nuget/xunit.v3.mtp-v2@4.0.1",
+      "purl": "pkg:nuget/xunit.v3.mtp-v2@4.0.1",
       "licenses": [
         {
           "expression": "Apache-2.0"
@@ -2532,9 +2466,9 @@
     {
       "type": "library",
       "name": "xunit.v3.runner.common",
-      "version": "3.2.2",
-      "bom-ref": "pkg:nuget/xunit.v3.runner.common@3.2.2",
-      "purl": "pkg:nuget/xunit.v3.runner.common@3.2.2",
+      "version": "4.0.1",
+      "bom-ref": "pkg:nuget/xunit.v3.runner.common@4.0.1",
+      "purl": "pkg:nuget/xunit.v3.runner.common@4.0.1",
       "licenses": [
         {
           "expression": "Apache-2.0"
@@ -2554,9 +2488,9 @@
     {
       "type": "library",
       "name": "xunit.v3.runner.inproc.console",
-      "version": "3.2.2",
-      "bom-ref": "pkg:nuget/xunit.v3.runner.inproc.console@3.2.2",
-      "purl": "pkg:nuget/xunit.v3.runner.inproc.console@3.2.2",
+      "version": "4.0.1",
+      "bom-ref": "pkg:nuget/xunit.v3.runner.inproc.console@4.0.1",
+      "purl": "pkg:nuget/xunit.v3.runner.inproc.console@4.0.1",
       "licenses": [
         {
           "expression": "Apache-2.0"
