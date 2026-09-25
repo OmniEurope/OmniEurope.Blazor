@@ -1399,6 +1399,8 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
 .omni-password__input.omni-input[aria-invalid="true"] { background: color-mix(in srgb, var(--omni-color-danger) 4%, var(--omni-color-surface)); }
 .omni-password__input.omni-input[aria-invalid="true"]:focus-visible { box-shadow: none; }
 .omni-password__input.omni-input:disabled { background: var(--omni-color-surface-muted); }
+/* IgnorePasswordManagers: a text input drawn as dots, so no password manager treats it as a login field. */
+.omni-password__input--masked { -webkit-text-security: disc; }
 .omni-password__toggle {
     background: var(--omni-color-surface-muted);
     border: 0;

@@ -2638,6 +2638,7 @@ property public OmniEurope.Blazor.Components.OmniPassword.Autocomplete : System.
 property public OmniEurope.Blazor.Components.OmniPassword.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPassword.HideLabel : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPassword.HideText : System.String {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPassword.IgnorePasswordManagers : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPassword.Placeholder : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPassword.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPassword.RevealLabel : System.String {get(public);set(public)} [Parameter]

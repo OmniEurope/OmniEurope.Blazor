@@ -19,6 +19,19 @@ public partial class OmniPassword
     [Parameter]
     public bool Revealable { get; set; } = true;
 
+    /// <summary>
+    /// For a secret that is not the user's own password (a vault value, an API key): the field is a text
+    /// input masked by the stylesheet and marked for password managers to leave alone, so the browser
+    /// neither offers to save it nor fills the login name into the fields around it. The eye still
+    /// reveals it. False, the default, keeps a real password field.
+    /// </summary>
+    [Parameter]
+    public bool IgnorePasswordManagers { get; set; }
+
+    private string InputType => _revealed || IgnorePasswordManagers ? "text" : "password";
+
+    private bool MaskedByStyle => IgnorePasswordManagers && !_revealed;
+
     [Parameter]
     public string RevealLabel { get; set; } = string.Empty;
 
