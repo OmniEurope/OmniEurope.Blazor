@@ -315,6 +315,7 @@ sous 40 rem.
   le menu d'en-tête (`ShowHeaderFilterMenu`) ; `FilterTemplate` remplace le contrôle, pas son cadre.
 - Le sélecteur de colonnes visibles : `Visible` reste piloté par l'hôte.
 
+## Arbre : ligne enrichie`OmniTreeItem.TextContent` remplace le texte de la ligne par un fragment (icône, libellé mis en forme,mention), indépendamment des éléments enfants de `ChildContent`. Il est rendu dans le bouton de laligne, donc sans élément interactif, et `Text` devient alors le nom accessible de la ligne. Sans lui,la ligne affiche `Text` comme avant.
 ## Tableur
 
 `OmniSpreadsheet` est un tableur simple, pas un Excel : une grille de cellules nommées par des lettres

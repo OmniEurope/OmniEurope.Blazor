@@ -19,6 +19,15 @@ public partial class OmniTreeItem<TValue>
     [Parameter, EditorRequired]
     public string Text { get; set; } = string.Empty;
 
+    /// <summary>
+    /// What the row shows in place of <see cref="Text"/> (an icon, a badge, a styled label), apart
+    /// from the child items in <c>ChildContent</c>. It sits inside the row's button, so it holds no
+    /// interactive element; <see cref="Text"/> then becomes the row's accessible name. Null shows
+    /// <see cref="Text"/>, as before.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? TextContent { get; set; }
+
     [Parameter]
     public bool Expanded { get; set; }
 

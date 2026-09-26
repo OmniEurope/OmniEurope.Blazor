@@ -3179,6 +3179,7 @@ property public OmniEurope.Blazor.Components.OmniTreeItem<TValue>.LoadChildren :
 property public OmniEurope.Blazor.Components.OmniTreeItem<TValue>.LoadFailed : Microsoft.AspNetCore.Components.EventCallback<System.Exception> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTreeItem<TValue>.TabIndex : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTreeItem<TValue>.Text : System.String {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniTreeItem<TValue>.TextContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTreeItem<TValue>.Value : TValue {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTreeLevel.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUnifiedDiff.CollapsedByDefault : System.Boolean {get(public);set(public)} [Parameter]
