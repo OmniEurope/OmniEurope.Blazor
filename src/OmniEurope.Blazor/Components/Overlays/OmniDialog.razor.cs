@@ -57,6 +57,13 @@ public partial class OmniDialog
     [Parameter]
     public bool Resizable { get; set; }
 
+    /// <summary>
+    /// How wide the dialog may grow. <see cref="OmniDialogSize.Medium"/> by default, the 40rem it
+    /// always had; every size stays capped by the viewport, and full width below a 40rem viewport.
+    /// </summary>
+    [Parameter]
+    public OmniDialogSize Size { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -69,6 +76,17 @@ public partial class OmniDialog
     private string EffectiveId => Id ?? _generatedId;
     private string TitleId => $"{EffectiveId}-title";
     private string ContentId => $"{EffectiveId}-content";
+
+    // Medium carries no modifier: the base rule is its width, so a dialog that never set a size
+    // renders exactly the classes it always had.
+    private string? SizeClass => Size switch
+    {
+        OmniDialogSize.Small => "omni-dialog--small",
+        OmniDialogSize.Large => "omni-dialog--large",
+        OmniDialogSize.ExtraLarge => "omni-dialog--xlarge",
+        OmniDialogSize.FullWidth => "omni-dialog--full",
+        _ => null
+    };
 
     private async Task CloseAsync()
     {
