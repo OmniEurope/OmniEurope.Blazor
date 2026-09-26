@@ -511,6 +511,10 @@ field public static OmniEurope.Blazor.Components.OmniHeadingLevel.H3 : OmniEurop
 field public static OmniEurope.Blazor.Components.OmniHeadingLevel.H4 : OmniEurope.Blazor.Components.OmniHeadingLevel const = 4
 field public static OmniEurope.Blazor.Components.OmniHeadingLevel.H5 : OmniEurope.Blazor.Components.OmniHeadingLevel const = 5
 field public static OmniEurope.Blazor.Components.OmniHeadingLevel.H6 : OmniEurope.Blazor.Components.OmniHeadingLevel const = 6
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.AddColumnAfter : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 36
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.AddColumnBefore : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 35
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.AddRowAbove : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 32
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.AddRowBelow : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 33
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.AlignCenter : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 20
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.AlignJustify : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 22
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.AlignLeft : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 19
@@ -520,18 +524,28 @@ field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Bold : Omn
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.BulletList : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 11
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.ClearFormatting : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 24
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.CodeBlock : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 16
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Copy : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 29
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Custom : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 0
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Cut : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 28
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.DeleteColumn : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 37
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.DeleteRow : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 34
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.FontSize : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 10
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Indent : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 13
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.InlineCode : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 8
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.InsertParagraph : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 31
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.InsertTable : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 23
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Italic : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 3
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Link : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 17
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.MergeCellDown : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 39
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.MergeCellRight : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 38
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.NumberedList : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 12
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Outdent : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 14
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Paste : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 30
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Quote : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 15
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Redo : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 26
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Separator : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 1
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.SetCellSpan : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 41
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.SplitCell : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 40
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Strikethrough : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 5
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Subscript : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 6
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Superscript : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 7
@@ -3229,6 +3243,10 @@ property public required OmniEurope.Blazor.Components.OmniMindMapNode.Id : Syste
 property public required OmniEurope.Blazor.Components.OmniMindMapNote.AttachedTo : System.String {get(public);init(public)}
 property public required OmniEurope.Blazor.Components.OmniStatusStripItem.Label : System.String {get(public);init(public)}
 property public required OmniEurope.Blazor.Components.OmniStatusStripItem.Status : System.String {get(public);init(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.AddColumnAfter : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.AddColumnBefore : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.AddRowAbove : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.AddRowBelow : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.AlignCenter : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.AlignJustify : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.AlignLeft : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
@@ -3237,23 +3255,34 @@ property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Block
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Bold : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.BulletList : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.ClearFormatting : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Clipboard : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand> {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.CodeBlock : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Copy : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Cut : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Default : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand> {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.DeleteColumn : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.DeleteRow : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Document : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand> {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.FontSize : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Indent : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.InlineCode : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.InsertParagraph : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.InsertTable : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Italic : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Link : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.MergeCellDown : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.MergeCellRight : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.NumberedList : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Outdent : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Paste : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Quote : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Redo : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Separator : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.SplitCell : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Strikethrough : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Subscript : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Superscript : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Table : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand> {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.ToggleSource : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Underline : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Undo : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}

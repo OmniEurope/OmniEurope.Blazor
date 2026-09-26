@@ -30,6 +30,20 @@ public static class OmniHtmlEditorCommands
     public static OmniHtmlEditorCommand Redo { get; } = new("redo", OmniHtmlEditorAction.Redo);
     public static OmniHtmlEditorCommand ToggleSource { get; } = new("toggle-source", OmniHtmlEditorAction.ToggleSource);
 
+    public static OmniHtmlEditorCommand Cut { get; } = new("cut", OmniHtmlEditorAction.Cut);
+    public static OmniHtmlEditorCommand Copy { get; } = new("copy", OmniHtmlEditorAction.Copy);
+    public static OmniHtmlEditorCommand Paste { get; } = new("paste", OmniHtmlEditorAction.Paste);
+    public static OmniHtmlEditorCommand InsertParagraph { get; } = new("insert-paragraph", OmniHtmlEditorAction.InsertParagraph);
+    public static OmniHtmlEditorCommand AddRowAbove { get; } = new("add-row-above", OmniHtmlEditorAction.AddRowAbove);
+    public static OmniHtmlEditorCommand AddRowBelow { get; } = new("add-row-below", OmniHtmlEditorAction.AddRowBelow);
+    public static OmniHtmlEditorCommand DeleteRow { get; } = new("delete-row", OmniHtmlEditorAction.DeleteRow);
+    public static OmniHtmlEditorCommand AddColumnBefore { get; } = new("add-column-before", OmniHtmlEditorAction.AddColumnBefore);
+    public static OmniHtmlEditorCommand AddColumnAfter { get; } = new("add-column-after", OmniHtmlEditorAction.AddColumnAfter);
+    public static OmniHtmlEditorCommand DeleteColumn { get; } = new("delete-column", OmniHtmlEditorAction.DeleteColumn);
+    public static OmniHtmlEditorCommand MergeCellRight { get; } = new("merge-cell-right", OmniHtmlEditorAction.MergeCellRight);
+    public static OmniHtmlEditorCommand MergeCellDown { get; } = new("merge-cell-down", OmniHtmlEditorAction.MergeCellDown);
+    public static OmniHtmlEditorCommand SplitCell { get; } = new("split-cell", OmniHtmlEditorAction.SplitCell);
+
     /// <summary>A separator. Separators carry no state, so the same instance can appear several times.</summary>
     public static OmniHtmlEditorCommand Separator { get; } = new("separator", OmniHtmlEditorAction.Separator);
 
@@ -63,4 +77,19 @@ public static class OmniHtmlEditorCommands
         InsertTable, Link, ClearFormatting, Separator,
         Undo, Redo
     ];
+
+    /// <summary>
+    /// The table commands, to append to a toolbar: insert a table, add and delete rows and
+    /// columns, merge and split cells. Every one but the first acts on the cell at the caret.
+    /// </summary>
+    public static IReadOnlyList<OmniHtmlEditorCommand> Table { get; } =
+    [
+        InsertTable, Separator,
+        AddRowAbove, AddRowBelow, DeleteRow, Separator,
+        AddColumnBefore, AddColumnAfter, DeleteColumn, Separator,
+        MergeCellRight, MergeCellDown, SplitCell
+    ];
+
+    /// <summary>The clipboard commands: cut, copy and paste.</summary>
+    public static IReadOnlyList<OmniHtmlEditorCommand> Clipboard { get; } = [Cut, Copy, Paste];
 }

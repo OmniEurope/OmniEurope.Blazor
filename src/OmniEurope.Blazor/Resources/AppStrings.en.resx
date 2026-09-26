@@ -385,6 +385,20 @@
   <data name="HtmlEditorClearFormatting" xml:space="preserve"><value>Clear formatting</value></data>
   <data name="HtmlEditorSource" xml:space="preserve"><value>HTML source</value></data>
   <data name="HtmlEditorCustomCommand" xml:space="preserve"><value>Command</value></data>
+<data name="HtmlEditorCut" xml:space="preserve"><value>Cut</value></data>
+  <data name="HtmlEditorCopy" xml:space="preserve"><value>Copy</value></data>
+  <data name="HtmlEditorPaste" xml:space="preserve"><value>Paste</value></data>
+  <data name="HtmlEditorInsertParagraph" xml:space="preserve"><value>New paragraph</value></data>
+  <data name="HtmlEditorAddRowAbove" xml:space="preserve"><value>Insert row above</value></data>
+  <data name="HtmlEditorAddRowBelow" xml:space="preserve"><value>Insert row below</value></data>
+  <data name="HtmlEditorDeleteRow" xml:space="preserve"><value>Delete row</value></data>
+  <data name="HtmlEditorAddColumnBefore" xml:space="preserve"><value>Insert column before</value></data>
+  <data name="HtmlEditorAddColumnAfter" xml:space="preserve"><value>Insert column after</value></data>
+  <data name="HtmlEditorDeleteColumn" xml:space="preserve"><value>Delete column</value></data>
+  <data name="HtmlEditorMergeCellRight" xml:space="preserve"><value>Merge with the cell on the right</value></data>
+  <data name="HtmlEditorMergeCellDown" xml:space="preserve"><value>Merge with the cell below</value></data>
+  <data name="HtmlEditorSplitCell" xml:space="preserve"><value>Split cell</value></data>
+  <data name="HtmlEditorSetCellSpan" xml:space="preserve"><value>Span cell</value></data>
   <data name="HtmlEditorLinkUrl" xml:space="preserve"><value>Link address</value></data>
   <data name="HtmlEditorLinkApply" xml:space="preserve"><value>Apply</value></data>
   <data name="HtmlEditorLinkCancel" xml:space="preserve"><value>Cancel</value></data>
