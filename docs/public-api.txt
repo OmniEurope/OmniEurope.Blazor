@@ -1308,6 +1308,7 @@ method public OmniEurope.Blazor.Components.OmniHtmlEditor.DisposeAsync() : Syste
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.<Clone>$() : OmniEurope.Blazor.Components.OmniHtmlEditorCommand
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Deconstruct(out System.String Name, out OmniEurope.Blazor.Components.OmniHtmlEditorAction Action) : System.Void
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Equals(OmniEurope.Blazor.Components.OmniHtmlEditorCommand? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.CommitDomAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.ExecuteAsync(OmniEurope.Blazor.Components.OmniHtmlEditorAction action, System.String? argument = null) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.InsertHtmlAsync(System.String html) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.SetHtmlAsync(System.String html) : System.Threading.Tasks.Task
@@ -2497,6 +2498,7 @@ property public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.Comman
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.Html : System.String {get(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.Mode : OmniEurope.Blazor.Components.OmniHtmlEditorMode {get(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.Selection : OmniEurope.Blazor.Components.OmniHtmlEditorSelection? {get(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.SurfaceElement : Microsoft.AspNetCore.Components.ElementReference? {get(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorSelection.Ancestors : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorSelection.IsCollapsed : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode.CssClasses : System.Collections.Generic.IReadOnlyList<System.String> {get(public);init(public)}

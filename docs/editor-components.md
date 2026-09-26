@@ -46,6 +46,13 @@ de l'éditeur, et `Label` ou `Icon` les remplacent. Une commande `Custom` reçoi
 l'historique. Une commande `Custom` sans `Execute` lève `InvalidOperationException`. Les séparateurs
 en tête, en fin ou répétés ne sont pas dessinés.
 
+Un hôte qui modifie lui-même le document par son propre script (structure, numérotation) passe
+`context.SurfaceElement` (l'`ElementReference` de la surface, null en face source) à ce script, puis
+appelle `context.CommitDomAsync()` : l'éditeur relit la surface, l'assainit avec la liste blanche et
+`SanitizerPolicy`, en fait une étape d'historique et lève `ValueChanged` si la valeur change. Ce que
+l'assainissement a retiré disparaît aussi de la surface, redessinée depuis la valeur. En face source,
+`CommitDomAsync` ne fait rien.
+
 Les interrupteurs `EnableBold`, `EnableItalic`, `EnableSubscript`, `EnableSuperscript`, `EnableIndent`
 et `EnableOutdent` masquent toujours leur commande, quelle que soit la barre, et `CustomTools`
 (transformations de toute la valeur) s'affiche toujours après elle.
