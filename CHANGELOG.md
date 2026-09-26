@@ -4,11 +4,16 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Non publié]
 
+### Changed
+
+- Plancher SDK unique, sans effet sur le paquet publié : `global.json` déclare `10.0.100` en `rollForward: latestFeature` (règle `STD-SDKPIN` du kit, ADR-002 remplace ADR-001), donc toute bande `10.0` à partir de `10.0.100` construit le dépôt. Les trois paquets que le SDK injecte dans les hôtes WebAssembly à la version de son runtime (`Microsoft.NET.ILLink.Tasks`, `Microsoft.NET.Sdk.WebAssembly.Pack`, `Microsoft.AspNetCore.App.Internal.Assets`) sont épinglés dans `Directory.Build.targets`, ce qui supprime le `NU1004` qui imposait jusqu'ici la bande `10.0.4xx`. La restauration verrouillée se fait en Release. Seuls les trois paquets `Microsoft.CodeAnalysis` restent exclus de Dependabot.
+
+## [1.0.1] - 2026-09-25
+
 **Version `1.0.1`, exception à la règle de versionnement.** Cette version change l'apparence livrée et quelques comportements par défaut, ce qui demanderait une version majeure. Elle reste un correctif parce que les deux versions publiées auparavant, `0.1.0-alpha.1` et `1.0.0`, sont délistées de NuGet.org : `1.0.1` devient la seule version installable. Délister n'est pas supprimer, un projet qui épingle `1.0.0` la restaure toujours, avec l'ancien aspect. Le numéro ne se justifie qu'une fois ces deux versions délistées ; motif et limites dans `docs/versioning.md`.
 
 ### Changed
 
-- Plancher SDK unique, sans effet sur le paquet publié : `global.json` déclare `10.0.100` en `rollForward: latestFeature` (règle `STD-SDKPIN` du kit, ADR-002 remplace ADR-001), donc toute bande `10.0` à partir de `10.0.100` construit le dépôt. Les trois paquets que le SDK injecte dans les hôtes WebAssembly à la version de son runtime (`Microsoft.NET.ILLink.Tasks`, `Microsoft.NET.Sdk.WebAssembly.Pack`, `Microsoft.AspNetCore.App.Internal.Assets`) sont épinglés dans `Directory.Build.targets`, ce qui supprime le `NU1004` qui imposait jusqu'ici la bande `10.0.4xx`. La restauration verrouillée se fait en Release. Seuls les trois paquets `Microsoft.CodeAnalysis` restent exclus de Dependabot.
 - Chaîne de tests migrée de VSTest vers Microsoft.Testing.Platform, sans effet sur le paquet publié : `xunit.v3` `4.0.1` (qui supprime VSTest) est son propre exécuteur, `global.json` déclare le runner, `coverlet.MTP` remplace `coverlet.collector` et `Microsoft.Testing.Extensions.TrxReport` produit le TRX. `Microsoft.NET.Test.Sdk` et `xunit.runner.visualstudio` disparaissent du dépôt. La couverture est désormais restreinte à l'assembly publié : 91 % des lignes et 79,7 % des branches sur 12 852 lignes, contre une mesure qui incluait bUnit et la vitrine.
 - Échelle des titres resserrée et nettement décroissante : `--omni-font-size-h1` à `h6` valent 2, 1,5, 1,25, 1,125, 1 et 0,875 rem (au lieu de 2,25, 1,875, 1,5, 1,25, 1,125 et 1). Le titre d'`OmniPageHeader` suit son niveau (h1 par défaut) au lieu d'être forcé à la taille h3 : un titre de page reste au-dessus de tout titre de section, ce qui n'était pas le cas quand un h2 de section (1,875 rem) dépassait le titre de page (1,5 rem). Les titres de dialogue (h4), d'état vide (h5) et de connexion (h3) baissent d'un cran avec l'échelle.
 - `OmniAppearanceSettings` : le bouton Modifier des tailles est `Success` (vert). En `Compact`, les libellés et les commandes s'alignent sur deux colonnes, les icônes ont une taille fixe de 1,25 rem, et la ligne des tailles lit « Tailles » suivi d'un résumé des niveaux (« Texte 5 · Densité 5 · Contrôles 5 ») au lieu d'un titre sur trois lignes.
