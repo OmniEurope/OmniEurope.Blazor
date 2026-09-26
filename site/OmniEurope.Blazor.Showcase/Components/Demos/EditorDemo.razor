@@ -27,7 +27,9 @@
                         @bind-Value="Annotated"
                         Label="Article annoté"
                         Rows="6"
-                        SanitizerPolicy="AnnotationPolicy" />
+                        SanitizerPolicy="AnnotationPolicy"
+                        SelectionChanged="ShowSelection" />
+        <p id="editor-annotated-path" aria-live="polite">Position : @SelectionPath</p>
 
         <OmniDocumentEditor Id="editor-document"
                             @bind-Value="Report"

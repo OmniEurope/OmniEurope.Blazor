@@ -49,6 +49,19 @@ public partial class EditorDemo
         "<p>Article 1. Le présent règlement s'applique aux dossiers reçus.</p>" +
         "<aside class=\"demo-note\" data-marker=\"1\" contenteditable=\"false\">Note : texte consolidé au 1er janvier.</aside>";
 
+    private string SelectionPath { get; set; } = "hors du texte";
+
+    /// <summary>
+    /// Shows where the caret is, outermost element first, as the host of a structured editor
+    /// would to enable the commands that fit there.
+    /// </summary>
+    private void ShowSelection(OmniHtmlEditorSelection selection) =>
+        SelectionPath = selection.Ancestors.Count == 0
+            ? "racine"
+            : string.Join(" › ", selection.Ancestors.Reverse().Select(node =>
+                node.TagName + string.Concat(node.CssClasses.Select(name => "." + name)) +
+                string.Concat(node.DataAttributes.Select(entry => $"[{entry.Key}={entry.Value}]"))));
+
     private string Report { get; set; } = "<h1>Rapport</h1><p>Un paragraphe <strong>important</strong>.</p><ul><li>Premier point</li><li>Second point</li></ul>";
 
     private string Settings { get; set; } = "{\n  \"langue\": \"fr\"\n}";

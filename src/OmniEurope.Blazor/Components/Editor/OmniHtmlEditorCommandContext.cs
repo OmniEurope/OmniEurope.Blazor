@@ -24,6 +24,12 @@ public sealed class OmniHtmlEditorCommandContext
     /// <summary>The mode the editor is in.</summary>
     public OmniHtmlEditorMode Mode => _editor.CurrentMode;
 
+    /// <summary>
+    /// The last selection the visual face reported, or null in the source face or while nothing
+    /// listens to <see cref="OmniHtmlEditor.SelectionChanged"/> (the surface only reports it then).
+    /// </summary>
+    public OmniHtmlEditorSelection? Selection => _editor.CurrentSelection;
+
     /// <summary>Inserts <paramref name="html"/> at the caret, replacing the selection.</summary>
     public Task InsertHtmlAsync(string html) => _editor.InsertHtmlAsync(html);
 

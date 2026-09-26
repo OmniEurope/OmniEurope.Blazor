@@ -55,6 +55,18 @@ souligné, barré, indice, exposant, code, listes, citation, bloc de code, lien,
 listes de style et de taille montrent la valeur au curseur. Ils ne prennent pas le focus à la souris,
 pour que la sélection reste dans le document.
 
+### Position du curseur
+
+`SelectionChanged` (`EventCallback<OmniHtmlEditorSelection>`) est levé dans la face visuelle quand le
+curseur ou la sélection s'arrête ailleurs (après 120 ms de calme, et seulement si la réponse
+change). `OmniHtmlEditorSelection` porte `IsCollapsed` (un simple curseur) et `Ancestors`, les
+éléments qui contiennent le début de la sélection, du plus proche au plus lointain, la surface
+exclue : chaque `OmniHtmlEditorSelectionNode` donne `TagName` (minuscules), `CssClasses` et
+`DataAttributes` (clés complètes, `data-eid`). `Closest("aside")` et `ClosestWithClass("akn-note")`
+cherchent dans cette chaîne. La surface ne calcule rien tant que personne n'écoute ; la face source ne
+lève jamais l'événement. Une commande `Custom` lit la dernière position par
+`OmniHtmlEditorCommandContext.Selection` (null en face source ou sans écouteur).
+
 ### Clavier
 
 Dans la surface : Ctrl+B, Ctrl+I, Ctrl+U (navigateur), Ctrl+Z pour annuler, Ctrl+Y ou Ctrl+Maj+Z pour
