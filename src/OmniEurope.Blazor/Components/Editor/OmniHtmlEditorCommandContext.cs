@@ -42,7 +42,7 @@ public sealed class OmniHtmlEditorCommandContext
     /// allow-list and policy, and commits it: one undo step, and <c>ValueChanged</c> when it differs.
     /// What the sanitiser removed is also removed from the surface. Does nothing in the source face.
     /// </summary>
-    public Task CommitDomAsync() => _editor.CommitDomAsync();
+    public Task CommitDomAsync() => _editor.CommitSurfaceAsync();
 
     /// <summary>Inserts <paramref name="html"/> at the caret, replacing the selection.</summary>
     public Task InsertHtmlAsync(string html) => _editor.InsertHtmlAsync(html);

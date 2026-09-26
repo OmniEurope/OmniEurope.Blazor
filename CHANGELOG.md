@@ -6,6 +6,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Added
 
+- `OmniHtmlEditor.CommitDomAsync()` : même effet que `OmniHtmlEditorCommandContext.CommitDomAsync` hors d'une commande (clic sur une note en ligne, suggestion acceptée) : relit la surface, l'assainit (politique comprise), en fait une étape d'historique et lève `ValueChanged`. Passe par le répartiteur du rendu, donc appelable depuis un rappel JS ; sans effet en face source. Documenté dans `docs/editor-components.md`.
 - `OmniTreeItem.TextContent` (`RenderFragment?`) : contenu de la ligne à la place de `Text` (icône, libellé mis en forme), indépendant des enfants de `ChildContent` ; `Text` devient alors le nom accessible (`aria-label`) du bouton de la ligne. Sans lui, la ligne est inchangée. Démontré dans la vitrine (Arbre), documenté dans `docs/data-components.md`.
 - `OmniStepsItem.Icon` (`OmniIconName?`) : icône dans la pastille de l'étape à la place du numéro, qui reste lu par les technologies d'assistance. Sans elle, la pastille est inchangée. Démontré dans la vitrine (Navigation), documenté dans `docs/page-components.md`.
 - `OmniToggleButton.AriaLabel` : nom accessible d'une bascule à icône seule. Un `aria-label` passé en attribut supplémentaire reste prioritaire, et sans l'un ni l'autre aucun attribut n'est rendu, comme avant. Démontré dans la vitrine (Boutons), mentionné dans `docs/ui-conventions.md`.

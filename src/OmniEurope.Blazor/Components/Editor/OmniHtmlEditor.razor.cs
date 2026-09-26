@@ -540,11 +540,26 @@ public partial class OmniHtmlEditor
     }
 
     /// <summary>
-    /// Takes in a surface the host changed through its own script: the document is read, sanitised
-    /// with the policy and committed as one undo step. When the sanitiser removed something, the
-    /// surface is redrawn from the sanitised value, so it never shows what the value does not hold.
+    /// Takes in a surface the host changed through its own script, outside a command (a click on
+    /// an inline note, an accepted suggestion): the document is read, sanitised with the allow-list
+    /// and <see cref="SanitizerPolicy"/>, committed as one undo step and raised through
+    /// <c>ValueChanged</c> when it differs. What the sanitiser removed is also removed from the
+    /// surface. Does nothing in the source face, while disabled, or before the surface is mounted.
+    /// Safe to call from any thread: the work runs on the renderer's dispatcher.
     /// </summary>
-    internal async Task CommitDomAsync()
+    public Task CommitDomAsync() => InvokeAsync(async () =>
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        await CommitSurfaceAsync();
+        StateHasChanged();
+    });
+
+    /// <summary>The body of <see cref="CommitDomAsync"/>, already on the dispatcher (a command's context calls it).</summary>
+    internal async Task CommitSurfaceAsync()
     {
         if (Disabled || _mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
         {
