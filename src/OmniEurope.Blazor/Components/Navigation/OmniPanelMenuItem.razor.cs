@@ -60,6 +60,14 @@ public partial class OmniPanelMenuItem
     [Parameter]
     public Func<string, Task<bool>>? CanNavigate { get; set; }
 
+    /// <summary>
+    /// Makes an entry without <see cref="Href"/> and without children an action: a button of the menu's look
+    /// (switching an account, copying a snippet) rather than an inert label. Ignored when the entry
+    /// navigates or holds children.
+    /// </summary>
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 

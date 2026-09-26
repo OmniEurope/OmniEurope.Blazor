@@ -2723,6 +2723,7 @@ property public OmniEurope.Blazor.Components.OmniPanelMenuItem.Expanded : System
 property public OmniEurope.Blazor.Components.OmniPanelMenuItem.Href : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPanelMenuItem.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPanelMenuItem.Match : OmniEurope.Blazor.Components.OmniNavMatch {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPanelMenuItem.OnClick : Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPanelMenuItem.Text : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniPassword.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPassword.Autocomplete : System.String? {get(public);set(public)} [Parameter]
