@@ -3187,6 +3187,7 @@ property public OmniEurope.Blazor.Components.OmniUnifiedDiff.FileActions : Micro
 property public OmniEurope.Blazor.Components.OmniUnifiedDiff.Files : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniDiffFile>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUnifiedDiff.ShownFiles : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniDiffFile> {get(public)}
 property public OmniEurope.Blazor.Components.OmniUnifiedDiff.Wrap : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniUpload.Accept : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.AllowedContentTypes : System.Collections.Generic.IReadOnlyList<System.String> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.Density : OmniEurope.Blazor.Components.OmniDensity? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.Disabled : System.Boolean {get(public);set(public)} [Parameter]

@@ -24,7 +24,7 @@
             <InputFile class="omni-upload__input"
                        id="@InputId"
                        OnChange="HandleFilesAsync"
-                       accept="@Accept"
+                       accept="@EffectiveAccept"
                        disabled="@(Disabled || _uploading)"
                        aria-describedby="@($"{FieldValueId} {HintId}")" />
         </div>
@@ -42,7 +42,7 @@
                        id="@InputId"
                        OnChange="HandleFilesAsync"
                        multiple="@Multiple"
-                       accept="@Accept"
+                       accept="@EffectiveAccept"
                        disabled="@(Disabled || _uploading)"
                        aria-describedby="@HintId" />
             <span class="omni-disc omni-upload__disc" aria-hidden="true"><OmniIcon Name="OmniIconName.Upload" Class="omni-upload__icon" /></span>
