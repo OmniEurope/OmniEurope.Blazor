@@ -112,6 +112,50 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Pressed_MakesACommandAToggle_FollowingTheSelection()
+    {
+        var module = JSInterop.SetupModule(ModulePath);
+        module.SetupVoid("dispose", _ => true).SetVoidResult();
+        module.Setup<string?>("read", _ => true).SetResult(null);
+        var value = "<p>A</p>";
+        var note = OmniHtmlEditorCommand.Create("note", "Note", _ => Task.CompletedTask) with
+        {
+            Pressed = selection => selection?.Closest("aside") is not null
+        };
+        var editor = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Commands, [note, OmniHtmlEditorCommands.Bold, OmniHtmlEditorCommands.ToggleSource]));
+
+        // No SelectionChanged listener: the toggle alone asks the surface to report.
+        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        Assert.True(options.GetProperty("selection").GetBoolean());
+        Assert.Equal("false", editor.Find("button[data-command=note]").GetAttribute("aria-pressed"));
+
+        await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnSelectionChanged(CaretInANote));
+
+        Assert.Equal("true", editor.Find("button[data-command=note]").GetAttribute("aria-pressed"));
+        Assert.Equal("false", editor.Find("button[data-command=bold]").GetAttribute("aria-pressed"));
+
+        await editor.Find("button[data-command=toggle-source]").ClickAsync(new Microsoft.AspNetCore.Components.Web.MouseEventArgs());
+
+        Assert.Equal("false", editor.Find("button[data-command=note]").GetAttribute("aria-pressed"));
+    }
+
+    [Fact]
+    public void WithoutPressed_ACustomCommandHasNoPressedState()
+    {
+        JSInterop.SetupModule(ModulePath);
+        var value = "<p>A</p>";
+        var editor = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Commands, [OmniHtmlEditorCommand.Create("plain", "Simple", _ => Task.CompletedTask)]));
+
+        Assert.Null(editor.Find("button[data-command=plain]").GetAttribute("aria-pressed"));
+    }
+
+    [Fact]
     public async Task SourceFace_NeverRaisesSelectionChanged()
     {
         var value = "<p>A</p>";

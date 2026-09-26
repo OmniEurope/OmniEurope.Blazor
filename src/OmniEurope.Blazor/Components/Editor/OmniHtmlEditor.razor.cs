@@ -140,9 +140,9 @@ public partial class OmniHtmlEditor
 
     /// <summary>
     /// Whether the surface reports where the selection is: only when someone listens, through
-    /// <see cref="SelectionChanged"/>.
+    /// <see cref="SelectionChanged"/> or a command whose <see cref="OmniHtmlEditorCommand.Pressed"/> depends on it.
     /// </summary>
-    private bool TracksSelection => SelectionChanged.HasDelegate;
+    private bool TracksSelection => SelectionChanged.HasDelegate || (Commands ?? []).Any(command => command.Pressed is not null);
 
     private string Clean(string? html) => OmniHtmlSanitizer.Sanitize(html, SanitizerPolicy);
 
@@ -768,6 +768,11 @@ public partial class OmniHtmlEditor
     /// <summary>The pressed state of a toggle, from the formatting at the caret; null for a plain action.</summary>
     private string? PressedOf(OmniHtmlEditorCommand command)
     {
+        if (command.Pressed is { } pressed)
+        {
+            return pressed(_mode == OmniHtmlEditorMode.Visual ? _caret : null) ? "true" : "false";
+        }
+
         if (command.Action == OmniHtmlEditorAction.ToggleSource)
         {
             return _mode == OmniHtmlEditorMode.Source ? "true" : "false";

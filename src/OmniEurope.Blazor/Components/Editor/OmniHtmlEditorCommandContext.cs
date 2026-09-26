@@ -26,7 +26,8 @@ public sealed class OmniHtmlEditorCommandContext
 
     /// <summary>
     /// The last selection the visual face reported, or null in the source face or while nothing
-    /// listens to <see cref="OmniHtmlEditor.SelectionChanged"/> (the surface only reports it then).
+    /// listens: the surface reports it only for <see cref="OmniHtmlEditor.SelectionChanged"/> or a
+    /// command with <see cref="OmniHtmlEditorCommand.Pressed"/>.
     /// </summary>
     public OmniHtmlEditorSelection? Selection => _editor.CurrentSelection;
 

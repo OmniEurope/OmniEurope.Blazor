@@ -51,7 +51,13 @@ public partial class EditorDemo
     /// </summary>
     private static readonly IReadOnlyList<OmniHtmlEditorCommand> AnnotatedCommands =
     [
-        OmniHtmlEditorCommands.Bold, OmniHtmlEditorCommands.Italic, OmniHtmlEditorCommands.Separator,
+        OmniHtmlEditorCommands.Bold, OmniHtmlEditorCommands.Italic,
+        OmniHtmlEditorCommand.Create(
+            "demo-note",
+            "Ajouter une note",
+            context => context.InsertHtmlAsync("<aside class=\"demo-note\" data-marker=\"2\">Nouvelle note.</aside>"),
+            OmniIconName.Chat) with { Pressed = selection => selection?.ClosestWithClass("demo-note") is not null },
+        OmniHtmlEditorCommands.Separator,
         .. OmniHtmlEditorCommands.Clipboard, OmniHtmlEditorCommands.InsertParagraph, OmniHtmlEditorCommands.Separator,
         .. OmniHtmlEditorCommands.Table, OmniHtmlEditorCommands.Separator,
         OmniHtmlEditorCommands.Undo, OmniHtmlEditorCommands.Redo

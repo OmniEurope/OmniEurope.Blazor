@@ -95,6 +95,19 @@ cherchent dans cette chaîne. La surface ne calcule rien tant que personne n'éc
 lève jamais l'événement. Une commande `Custom` lit la dernière position par
 `OmniHtmlEditorCommandContext.Selection` (null en face source ou sans écouteur).
 
+`OmniHtmlEditorCommand.Pressed` (`Func<OmniHtmlEditorSelection?, bool>?`) fait d'une commande une
+bascule : son bouton porte `aria-pressed`, vrai quand la fonction répond vrai pour la position
+courante (null en face source ou avant le premier rapport). Une telle commande suffit à faire
+rapporter la position par la surface, même sans `SelectionChanged`, et remplace l'état enfoncé
+intégré d'une action.
+
+```csharp
+OmniHtmlEditorCommand.Create("note", "Note", InsertNoteAsync) with
+{
+    Pressed = selection => selection?.ClosestWithClass("akn-authorial-note") is not null
+};
+```
+
 ### Clavier
 
 Dans la surface : Ctrl+B, Ctrl+I, Ctrl+U (navigateur), Ctrl+Z pour annuler, Ctrl+Y ou Ctrl+Maj+Z pour
