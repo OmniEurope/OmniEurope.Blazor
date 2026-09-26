@@ -12,6 +12,16 @@ public partial class OverlayDemo : IDisposable
 
     private OmniOverlayService Overlays { get; } = new();
 
+    private bool SizedOpen { get; set; }
+
+    private OmniDialogSize SizedDialog { get; set; }
+
+    private void OpenSized(OmniDialogSize size)
+    {
+        SizedDialog = size;
+        SizedOpen = true;
+    }
+
     private void Confirm()
     {
         Last = "Suppression confirmée";

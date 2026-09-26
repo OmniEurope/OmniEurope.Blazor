@@ -62,6 +62,20 @@
         </OmniStack>
     </OmniComponentsHost>
 
+    @* Largeur : OmniDialogSize plafonne la largeur (Medium, 40rem, par défaut), toujours bornée par
+       l'écran ; sous 40rem d'écran, tout dialogue prend la largeur entière. *@
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Overflow="OmniStackOverflow.Scroll">
+        <OmniButton Id="demo-dialog-size-small" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.Small))">Petit</OmniButton>
+        <OmniButton Id="demo-dialog-size-medium" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.Medium))">Moyen</OmniButton>
+        <OmniButton Id="demo-dialog-size-large" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.Large))">Large</OmniButton>
+        <OmniButton Id="demo-dialog-size-xlarge" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.ExtraLarge))">Très large</OmniButton>
+        <OmniButton Id="demo-dialog-size-full" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.FullWidth))">Pleine largeur</OmniButton>
+    </OmniStack>
+
+    <OmniDialog Title="Largeur du dialogue" Open="SizedOpen" OpenChanged="@(value => SizedOpen = value)" Size="SizedDialog">
+        <p>Ce dialogue est ouvert en taille @SizedDialog.</p>
+    </OmniDialog>
+
     <p>Dernière action : @(Last ?? "aucune")</p>
 
     <OmniNotification Severity="OmniNotificationSeverity.Information" Title="Information"

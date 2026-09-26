@@ -475,6 +475,11 @@ field public static OmniEurope.Blazor.Components.OmniDensity.Spacious : OmniEuro
 field public static OmniEurope.Blazor.Components.OmniDetailState.Found : OmniEurope.Blazor.Components.OmniDetailState const = 1
 field public static OmniEurope.Blazor.Components.OmniDetailState.Loading : OmniEurope.Blazor.Components.OmniDetailState const = 0
 field public static OmniEurope.Blazor.Components.OmniDetailState.NotFound : OmniEurope.Blazor.Components.OmniDetailState const = 2
+field public static OmniEurope.Blazor.Components.OmniDialogSize.ExtraLarge : OmniEurope.Blazor.Components.OmniDialogSize const = 3
+field public static OmniEurope.Blazor.Components.OmniDialogSize.FullWidth : OmniEurope.Blazor.Components.OmniDialogSize const = 4
+field public static OmniEurope.Blazor.Components.OmniDialogSize.Large : OmniEurope.Blazor.Components.OmniDialogSize const = 2
+field public static OmniEurope.Blazor.Components.OmniDialogSize.Medium : OmniEurope.Blazor.Components.OmniDialogSize const = 0
+field public static OmniEurope.Blazor.Components.OmniDialogSize.Small : OmniEurope.Blazor.Components.OmniDialogSize const = 1
 field public static OmniEurope.Blazor.Components.OmniDiffFileStatus.Added : OmniEurope.Blazor.Components.OmniDiffFileStatus const = 1
 field public static OmniEurope.Blazor.Components.OmniDiffFileStatus.Deleted : OmniEurope.Blazor.Components.OmniDiffFileStatus const = 2
 field public static OmniEurope.Blazor.Components.OmniDiffFileStatus.Modified : OmniEurope.Blazor.Components.OmniDiffFileStatus const = 0
@@ -1369,6 +1374,7 @@ method public OmniEurope.Blazor.Components.OmniOverlayService.Notify(System.Stri
 method public OmniEurope.Blazor.Components.OmniOverlayService.OpenDialog(OmniEurope.Blazor.Components.OmniDialogRequest request) : System.Void
 method public OmniEurope.Blazor.Components.OmniOverlayService.OpenDialogAsync(OmniEurope.Blazor.Components.OmniDialogRequest request) : System.Threading.Tasks.Task<System.Object?>
 method public OmniEurope.Blazor.Components.OmniOverlayService.OpenDialogAsync<TComponent>(System.String title, System.Collections.Generic.IReadOnlyDictionary<System.String,System.Object?>? parameters = null, System.String closeLabel = "") : System.Threading.Tasks.Task<System.Object?> where TComponent : Microsoft.AspNetCore.Components.IComponent
+method public OmniEurope.Blazor.Components.OmniOverlayService.OpenDialogAsync<TComponent>(System.String title, System.Collections.Generic.IReadOnlyDictionary<System.String,System.Object?>? parameters, OmniEurope.Blazor.Components.OmniDialogSize size, System.String closeLabel = "") : System.Threading.Tasks.Task<System.Object?> where TComponent : Microsoft.AspNetCore.Components.IComponent
 method public OmniEurope.Blazor.Components.OmniPageHeader.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniPanelMenuItem.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniPopover.CloseAsync() : System.Threading.Tasks.Task
@@ -2243,6 +2249,7 @@ property public OmniEurope.Blazor.Components.OmniDialog.OpenChanged : Microsoft.
 property public OmniEurope.Blazor.Components.OmniDialog.Resizable : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDialog.ReturnFocusTo : Microsoft.AspNetCore.Components.ElementReference? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDialog.ShowClose : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDialog.Size : OmniEurope.Blazor.Components.OmniDialogSize {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDialog.Title : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniDialogRequest.CloseLabel : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDialogRequest.CloseOnBackdropClick : System.Boolean {get(public);init(public)}
@@ -2253,6 +2260,7 @@ property public OmniEurope.Blazor.Components.OmniDialogRequest.Draggable : Syste
 property public OmniEurope.Blazor.Components.OmniDialogRequest.Footer : Microsoft.AspNetCore.Components.RenderFragment? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDialogRequest.Resizable : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDialogRequest.ShowClose : System.Boolean {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniDialogRequest.Size : OmniEurope.Blazor.Components.OmniDialogSize {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDialogRequest.Title : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDiffFile.Additions : System.Int32 {get(public)}
 property public OmniEurope.Blazor.Components.OmniDiffFile.Deletions : System.Int32 {get(public)}
@@ -3310,6 +3318,7 @@ type public OmniEurope.Blazor.Components.OmniDetailShell [class] : OmniEurope.Bl
 type public OmniEurope.Blazor.Components.OmniDetailState [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDialog [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniDialogRequest [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDialogRequest>
+type public OmniEurope.Blazor.Components.OmniDialogSize [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDiffFile [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDiffFile>
 type public OmniEurope.Blazor.Components.OmniDiffFileStatus [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDiffHunk [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDiffHunk>

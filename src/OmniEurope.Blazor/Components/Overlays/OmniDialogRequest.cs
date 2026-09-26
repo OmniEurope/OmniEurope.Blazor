@@ -31,4 +31,10 @@ public sealed record OmniDialogRequest(string Title, RenderFragment Content, str
     public bool Draggable { get; init; }
 
     public bool Resizable { get; init; }
+
+    /// <summary>
+    /// How wide the dialog may grow, passed to <see cref="OmniDialog.Size"/>.
+    /// <see cref="OmniDialogSize.Medium"/> by default, as before.
+    /// </summary>
+    public OmniDialogSize Size { get; init; }
 }

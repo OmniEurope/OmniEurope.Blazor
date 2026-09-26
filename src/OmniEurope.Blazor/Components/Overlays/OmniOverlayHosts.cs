@@ -36,6 +36,7 @@ internal static class OmniOverlayHosts
             builder.AddAttribute(sequence++, nameof(OmniDialog.CloseOnEscape), dialog.CloseOnEscape);
             builder.AddAttribute(sequence++, nameof(OmniDialog.Draggable), dialog.Draggable);
             builder.AddAttribute(sequence++, nameof(OmniDialog.Resizable), dialog.Resizable);
+            builder.AddAttribute(sequence++, nameof(OmniDialog.Size), dialog.Size);
             builder.AddAttribute(sequence++, nameof(OmniDialog.OpenChanged), EventCallback.Factory.Create<bool>(service, openChanged));
             builder.AddAttribute(sequence++, nameof(OmniDialog.ChildContent), dialog.Content);
             builder.AddAttribute(sequence++, nameof(OmniDialog.Footer), dialog.Footer);

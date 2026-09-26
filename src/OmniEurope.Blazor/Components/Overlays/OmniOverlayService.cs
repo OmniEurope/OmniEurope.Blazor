@@ -79,6 +79,19 @@ public sealed class OmniOverlayService : IDisposable
         string title,
         IReadOnlyDictionary<string, object?>? parameters = null,
         string closeLabel = "")
+        where TComponent : Microsoft.AspNetCore.Components.IComponent =>
+        OpenDialogAsync<TComponent>(title, parameters, OmniDialogSize.Medium, closeLabel);
+
+    /// <summary>
+    /// Same as <see cref="OpenDialogAsync{TComponent}(string, IReadOnlyDictionary{string, object?}?, string)"/>,
+    /// plus how wide the dialog may grow. A separate overload rather than one more optional parameter,
+    /// which would have changed the signature callers are already compiled against.
+    /// </summary>
+    public Task<object?> OpenDialogAsync<TComponent>(
+        string title,
+        IReadOnlyDictionary<string, object?>? parameters,
+        OmniDialogSize size,
+        string closeLabel = "")
         where TComponent : Microsoft.AspNetCore.Components.IComponent
     {
         ArgumentNullException.ThrowIfNull(title);
@@ -94,7 +107,10 @@ public sealed class OmniOverlayService : IDisposable
             }
 
             builder.CloseComponent();
-        }, closeLabel));
+        }, closeLabel)
+        {
+            Size = size
+        });
     }
 
     /// <summary>

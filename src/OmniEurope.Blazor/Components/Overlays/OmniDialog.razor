@@ -9,7 +9,7 @@
         <section @attributes="AdditionalAttributes"
                  @ref="_dialog"
                  id="@EffectiveId"
-                 class="@Css("omni-dialog", Draggable ? "omni-dialog--draggable" : null, Resizable ? "omni-dialog--resizable" : null)"
+                 class="@Css("omni-dialog", SizeClass, Draggable ? "omni-dialog--draggable" : null, Resizable ? "omni-dialog--resizable" : null)"
                  role="@(Dismissible ? "dialog" : "alertdialog")"
                  aria-modal="@(Modal ? "true" : "false")"
                  aria-labelledby="@TitleId"
