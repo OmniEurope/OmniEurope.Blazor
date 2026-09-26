@@ -14,6 +14,13 @@ public partial class OmniStepsItem
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>
+    /// An icon shown in the step's marker instead of its number, which stays readable by assistive
+    /// technologies. Null, the default, shows the number.
+    /// </summary>
+    [Parameter]
+    public OmniIconName? Icon { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 

@@ -6,6 +6,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Added
 
+- `OmniStepsItem.Icon` (`OmniIconName?`) : icône dans la pastille de l'étape à la place du numéro, qui reste lu par les technologies d'assistance. Sans elle, la pastille est inchangée. Démontré dans la vitrine (Navigation), documenté dans `docs/page-components.md`.
 - `OmniToggleButton.AriaLabel` : nom accessible d'une bascule à icône seule. Un `aria-label` passé en attribut supplémentaire reste prioritaire, et sans l'un ni l'autre aucun attribut n'est rendu, comme avant. Démontré dans la vitrine (Boutons), mentionné dans `docs/ui-conventions.md`.
 - `OmniUpload.Accept` : valeur de l'attribut `accept` du champ fichier (`.csv,text/csv`), qui ne filtre que la fenêtre de sélection ; les fichiers restent contrôlés par `AllowedContentTypes`. Sans lui, l'attribut est tiré de `AllowedContentTypes` comme avant. Démontré dans la vitrine (Éditeurs, manifeste), documenté dans `docs/selection-components.md`.
 - `OmniLink.OnClick` (`EventCallback<MouseEventArgs>`) : action exécutée au clic en plus de la navigation, qui n'est pas empêchée. Sans lui, aucun gestionnaire n'est attaché et le lien est inchangé. Documenté dans `docs/foundation-components.md`.

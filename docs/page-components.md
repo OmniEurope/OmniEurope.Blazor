@@ -127,6 +127,9 @@ condition passe en fin de liste. Un assistant aux étapes variables les déclare
 `OmniStepsItem` gagne pour cela `PanelId` : l'identifiant d'un panneau rendu ailleurs, que le bouton
 contrôle, l'élément ne rendant alors pas de panneau à lui. Laissé nul, rien ne change.
 
+`OmniStepsItem.Icon` (`OmniIconName?`) affiche une icône dans la pastille de l'étape à la place de son
+numéro (une étape franchie, par exemple) ; le numéro reste lu par les technologies d'assistance.
+
 ## Liste de définitions : `OmniDescriptionList` et `OmniDescriptionItem`
 
 Un `dl` dont chaque `OmniDescriptionItem` (`Label`, la valeur en `ChildContent`, `Actions` après elle)
