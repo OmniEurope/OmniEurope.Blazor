@@ -32,6 +32,23 @@ public partial class EditorDemo
         OmniHtmlEditorCommand.Create("signature-block", "Insérer le bloc de signature", context => context.InsertHtmlAsync("<p><strong>Le service des dossiers</strong></p>"), OmniIconName.Edit)
     ];
 
+    /// <summary>
+    /// The host's own markup kept by the editor: a note carried by an aside, its marker and
+    /// identifier in data attributes, and a class the host styles. Scripts, handlers and styles
+    /// stay out whatever the policy says.
+    /// </summary>
+    private static readonly OmniHtmlSanitizerPolicy AnnotationPolicy = new()
+    {
+        AdditionalTags = ["aside"],
+        AdditionalAttributes = ["contenteditable"],
+        AdditionalCssClasses = ["demo-note"],
+        AllowDataAttributes = true
+    };
+
+    private string Annotated { get; set; } =
+        "<p>Article 1. Le présent règlement s'applique aux dossiers reçus.</p>" +
+        "<aside class=\"demo-note\" data-marker=\"1\" contenteditable=\"false\">Note : texte consolidé au 1er janvier.</aside>";
+
     private string Report { get; set; } = "<h1>Rapport</h1><p>Un paragraphe <strong>important</strong>.</p><ul><li>Premier point</li><li>Second point</li></ul>";
 
     private string Settings { get; set; } = "{\n  \"langue\": \"fr\"\n}";

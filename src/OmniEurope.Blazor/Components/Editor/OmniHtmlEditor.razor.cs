@@ -45,6 +45,7 @@ public partial class OmniHtmlEditor
     private bool _mounted;
     private string? _visualValue;
     private int _mountedRows;
+    private OmniHtmlSanitizerPolicy? _mountedPolicy;
     private SelectionState _selection = SelectionState.Empty;
     private int _selectGeneration;
     private bool _linkOpen;
@@ -91,7 +92,28 @@ public partial class OmniHtmlEditor
     [Parameter] public OmniHtmlEditorMode Mode { get; set; }
     [Parameter] public EventCallback<OmniHtmlEditorMode> ModeChanged { get; set; }
 
+    /// <summary>
+    /// Elements, attributes and classes kept beyond the built-in allow-list, wherever the editor
+    /// sanitises: the bound value, typing, a paste or a drop, an insertion and a command's result.
+    /// Null keeps the built-in allow-list alone. A policy that names something never allowed (a
+    /// script, an event handler, <c>style</c>) throws <see cref="ArgumentException"/>.
+    /// </summary>
+    [Parameter] public OmniHtmlSanitizerPolicy? SanitizerPolicy { get; set; }
+
     internal string CurrentHtml => CurrentValue ?? string.Empty;
+
+    /// <summary>
+    /// What the surface script needs besides the rows: the classes it keeps while tidying (null
+    /// for any), and whether a policy is in force, in which case a span carrying an allowed
+    /// attribute is kept rather than unwrapped.
+    /// </summary>
+    private object SurfaceOptions => SanitizerPolicy is null
+        ? new { rows = Rows }
+        : new { rows = Rows, policy = true, classes = OmniHtmlSanitizer.ClassesOf(SanitizerPolicy) };
+
+    private string Clean(string? html) => OmniHtmlSanitizer.Sanitize(html, SanitizerPolicy);
+
+    internal string CleanPaste(string? html, string? text) => OmniHtmlSanitizer.SanitizePaste(html, text, SanitizerPolicy);
     internal OmniHtmlEditorMode CurrentMode => _mode;
     private string SurfaceId => Id ?? _generatedId;
     private string LinkInputId => SurfaceId + "-link";
@@ -130,6 +152,7 @@ public partial class OmniHtmlEditor
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        OmniHtmlSanitizer.Validate(SanitizerPolicy);
         var incomplete = (Commands ?? []).FirstOrDefault(command => command.Action == OmniHtmlEditorAction.Custom && command.Execute is null);
         if (incomplete is not null)
         {
@@ -172,20 +195,22 @@ public partial class OmniHtmlEditor
                 _visualModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", VisualModulePath);
                 _bridge ??= DotNetObjectReference.Create(new HtmlEditorInteropBridge(this));
                 _visualValue = CurrentValue;
-                await _visualModule.InvokeVoidAsync("mount", _surface, _bridge, OmniHtmlSanitizer.Sanitize(CurrentValue), new { rows = Rows });
+                _mountedPolicy = SanitizerPolicy;
+                await _visualModule.InvokeVoidAsync("mount", _surface, _bridge, Clean(CurrentValue), SurfaceOptions);
             }
             else if (_visualModule is not null)
             {
                 if (!string.Equals(CurrentValue, _visualValue, StringComparison.Ordinal))
                 {
                     _visualValue = CurrentValue;
-                    await _visualModule!.InvokeVoidAsync("setHtml", _surface, OmniHtmlSanitizer.Sanitize(CurrentValue));
+                    await _visualModule!.InvokeVoidAsync("setHtml", _surface, Clean(CurrentValue));
                 }
 
-                if (_mountedRows != Rows)
+                if (_mountedRows != Rows || !ReferenceEquals(_mountedPolicy, SanitizerPolicy))
                 {
                     _mountedRows = Rows;
-                    await _visualModule!.InvokeVoidAsync("configure", _surface, new { rows = Rows });
+                    _mountedPolicy = SanitizerPolicy;
+                    await _visualModule!.InvokeVoidAsync("configure", _surface, SurfaceOptions);
                 }
             }
         }
@@ -221,7 +246,7 @@ public partial class OmniHtmlEditor
             return Task.CompletedTask;
         }
 
-        var clean = OmniHtmlSanitizer.Sanitize(html);
+        var clean = Clean(html);
         _visualValue = clean;
         return CommitAsync(clean);
     }
@@ -230,7 +255,7 @@ public partial class OmniHtmlEditor
 
     private Task HandleInputAsync(ChangeEventArgs args) => Disabled
         ? Task.CompletedTask
-        : CommitAsync(OmniHtmlSanitizer.Sanitize(args.Value?.ToString()));
+        : CommitAsync(Clean(args.Value?.ToString()));
 
     private async Task RunAsync(OmniHtmlEditorCommand command)
     {
@@ -301,7 +326,7 @@ public partial class OmniHtmlEditor
         var html = await _visualModule.InvokeAsync<string?>("exec", _surface, action, argument);
         if (html is not null)
         {
-            var clean = OmniHtmlSanitizer.Sanitize(html);
+            var clean = Clean(html);
             _visualValue = clean;
             await CommitAsync(clean);
         }
@@ -358,7 +383,7 @@ public partial class OmniHtmlEditor
         var value = result.GetProperty("value").GetString() ?? string.Empty;
         var start = result.GetProperty("selectionStart").GetInt32();
         var end = result.GetProperty("selectionEnd").GetInt32();
-        await CommitAsync(OmniHtmlSanitizer.Sanitize(value));
+        await CommitAsync(Clean(value));
         await InvokeAsync(StateHasChanged);
         await module.InvokeVoidAsync("restoreTextSelection", _source, start, end);
     }
@@ -376,7 +401,7 @@ public partial class OmniHtmlEditor
 
     private Task ApplyAsync(Func<string, string> transform) => Disabled
         ? Task.CompletedTask
-        : CommitAsync(OmniHtmlSanitizer.Sanitize(transform(CurrentValue ?? string.Empty)));
+        : CommitAsync(Clean(transform(CurrentValue ?? string.Empty)));
 
     internal async Task InsertHtmlAsync(string html)
     {
@@ -385,7 +410,7 @@ public partial class OmniHtmlEditor
             return;
         }
 
-        var clean = OmniHtmlSanitizer.Sanitize(html);
+        var clean = Clean(html);
         if (_mode == OmniHtmlEditorMode.Visual)
         {
             await ExecuteVisualAsync("inserthtml", clean);
@@ -404,7 +429,7 @@ public partial class OmniHtmlEditor
         }
 
         await CaptureVisualAsync();
-        await CommitAsync(OmniHtmlSanitizer.Sanitize(html));
+        await CommitAsync(Clean(html));
     }
 
     private Task CommitAsync(string value)
@@ -462,7 +487,7 @@ public partial class OmniHtmlEditor
         var html = await _visualModule.InvokeAsync<string?>("read", _surface);
         if (html is not null)
         {
-            var clean = OmniHtmlSanitizer.Sanitize(html);
+            var clean = Clean(html);
             _visualValue = clean;
             await CommitAsync(clean);
         }
@@ -675,7 +700,7 @@ public partial class OmniHtmlEditor
 
     protected override bool TryParseValueFromString(string? value, out string result, out string validationErrorMessage)
     {
-        result = OmniHtmlSanitizer.Sanitize(value);
+        result = Clean(value);
         validationErrorMessage = null!;
         return true;
     }

@@ -87,6 +87,37 @@ Pour afficher ailleurs la valeur avec ses alignements et tailles, placez-la dans
 `omni-rich-text` : la feuille du paquet y porte les règles des classes ci-dessus et des tableaux,
 citations et blocs de code.
 
+### Politique d'assainissement de l'hôte
+
+`SanitizerPolicy` (`OmniHtmlSanitizerPolicy`, null par défaut) élargit la liste blanche pour le
+balisage propre à l'hôte, partout où l'éditeur assainit : valeur liée, frappe, collage et dépôt,
+`InsertHtmlAsync`, `SetHtmlAsync`, résultat des commandes, face source et son aperçu.
+
+```csharp
+private static readonly OmniHtmlSanitizerPolicy Policy = new()
+{
+    AdditionalTags = ["aside", "img", "colgroup", "col"],
+    AdditionalAttributes = ["contenteditable"],
+    AdditionalTagAttributes = new Dictionary<string, IReadOnlyList<string>> { ["img"] = ["src", "alt"] },
+    AdditionalCssClasses = ["akn-authorial-note"],   // ou AllowAnyClass = true
+    AllowDataAttributes = true                       // tous les data-*
+};
+```
+
+- `AdditionalAttributes` vaut pour tout élément admis ; `AdditionalTagAttributes` pour les seuls
+  éléments nommés (ci-dessus, `src` reste retiré d'un paragraphe).
+- Le script de la surface suit la même politique en rangeant le document : il garde les classes
+  admises (toutes avec `AllowAnyClass`) et ne déballe plus un `span` porteur d'un autre attribut.
+  Un élément de section admis (`aside`, `figure`...) n'est jamais laissé dans un paragraphe.
+- La politique ne peut jamais rouvrir ce que la CSP et la sûreté interdisent : `script`, `style`,
+  `iframe`, `frame`, `object`, `embed`, `base`, `link`, `meta`, `template`, `svg`, `math`, contrôles et
+  formulaires, attributs `on*`, `style`, `srcdoc`, `action`, `formaction`, `http-equiv` et noms à
+  espace de noms. Les nommer lève `ArgumentException` au rendu de l'éditeur plutôt que d'être ignoré.
+- Les adresses de `href`, `src`, `cite`, `poster` et `longdesc` restent limitées à `http`, `https`,
+  `mailto`, `tel` ou relatives : une adresse `javascript:` ou `data:` est retirée.
+- L'éditeur garde le sanitiseur construit pour une instance de politique : une instance statique
+  évite de le reconstruire.
+
 ## OmniDocumentEditor
 
 Un traitement de texte léger : une page blanche centrée sur un fond gris, la barre

@@ -116,7 +116,7 @@
                   @oninput="HandleInputAsync"></textarea>
         @if (ShowPreview)
         {
-            <div class="omni-html-editor__preview omni-rich-text" aria-label="@Localize("HtmlEditorPreview")">@((MarkupString)OmniHtmlSanitizer.Sanitize(CurrentValue))</div>
+            <div class="omni-html-editor__preview omni-rich-text" aria-label="@Localize("HtmlEditorPreview")">@((MarkupString)Clean(CurrentValue))</div>
         }
     }
 </section>

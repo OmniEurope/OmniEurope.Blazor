@@ -23,6 +23,12 @@
                         Rows="6"
                         ShowPreview="true" />
 
+        <OmniHtmlEditor Id="editor-annotated"
+                        @bind-Value="Annotated"
+                        Label="Article annoté"
+                        Rows="6"
+                        SanitizerPolicy="AnnotationPolicy" />
+
         <OmniDocumentEditor Id="editor-document"
                             @bind-Value="Report"
                             Label="Rapport"
