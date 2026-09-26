@@ -1365,6 +1365,7 @@ method public OmniEurope.Blazor.Components.OmniOverlayService.Notify(System.Stri
 method public OmniEurope.Blazor.Components.OmniOverlayService.Notify(System.String message, OmniEurope.Blazor.Components.OmniNotificationSeverity severity, System.String? title, System.TimeSpan? duration, System.String? detailsHref) : System.Guid
 method public OmniEurope.Blazor.Components.OmniOverlayService.OpenDialog(OmniEurope.Blazor.Components.OmniDialogRequest request) : System.Void
 method public OmniEurope.Blazor.Components.OmniOverlayService.OpenDialogAsync(OmniEurope.Blazor.Components.OmniDialogRequest request) : System.Threading.Tasks.Task<System.Object?>
+method public OmniEurope.Blazor.Components.OmniOverlayService.OpenDialogAsync<TComponent>(System.String title, System.Collections.Generic.IReadOnlyDictionary<System.String,System.Object?>? parameters = null, System.String closeLabel = "") : System.Threading.Tasks.Task<System.Object?> where TComponent : Microsoft.AspNetCore.Components.IComponent
 method public OmniEurope.Blazor.Components.OmniPageHeader.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniPanelMenuItem.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniPopover.CloseAsync() : System.Threading.Tasks.Task
