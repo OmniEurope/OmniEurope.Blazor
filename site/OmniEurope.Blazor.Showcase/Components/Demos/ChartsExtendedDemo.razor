@@ -9,7 +9,18 @@
         <OmniAreaSeries Title="Décisions" ColorIndex="1" Data="Decisions" />
         <OmniSeriesDataLabels Data="Deposits" />
         <OmniChartTooltipOptions Enabled="true" Description="Valeur au survol et au clavier" />
-        <OmniLegend Label="Séries" Items="LineLegend" />
+        <OmniLegend Label="Séries" Items="LineLegend" Position="OmniLegendPosition.Right" />
+    </OmniChart>
+
+    @* Thirty days: the chart widens on its own, the day labels thin out without overlapping, and the
+       long series names go below the drawing. *@
+    <OmniChart Title="Audience quotidienne sur trente jours">
+        <OmniGridLines />
+        <OmniCategoryAxis Labels="Days" />
+        <OmniValueAxis Maximum="400" TickCount="4" />
+        <OmniColumnSeries Title="Pages vues par jour" ColorIndex="1" Data="PageViews" />
+        <OmniLineSeries Title="Visiteurs uniques par jour" ColorIndex="0" Data="Visitors" />
+        <OmniLegend Items="AudienceLegend" ColorIndexes="AudienceColors" Position="OmniLegendPosition.Bottom" />
     </OmniChart>
 
     <OmniChart Title="Répartition empilée">

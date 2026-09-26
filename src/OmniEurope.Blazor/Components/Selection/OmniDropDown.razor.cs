@@ -16,9 +16,18 @@ public partial class OmniDropDown<TValue>
     [Parameter]
     public IEnumerable? Data { get; set; }
 
+    /// <summary>
+    /// Public property of each <see cref="Data"/> item that gives the option text. Unset, the item's own text is
+    /// used; set, a null property value gives an empty text and an unknown name throws.
+    /// </summary>
     [Parameter]
     public string? TextProperty { get; set; }
 
+    /// <summary>
+    /// Public property of each <see cref="Data"/> item that gives the option value. Unset, the item itself is the
+    /// value; set, a null property value gives <c>default</c> (null for a nullable <typeparamref name="TValue"/>)
+    /// and an unknown name throws <see cref="InvalidOperationException"/>.
+    /// </summary>
     [Parameter]
     public string? ValueProperty { get; set; }
 
@@ -166,7 +175,7 @@ public partial class OmniDropDown<TValue>
 
     private OmniOption<TValue> ToOption(object? item)
     {
-        var rawValue = Read(item, ValueProperty) ?? item;
+        var rawValue = Read(item, ValueProperty);
         var targetType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
         var value = rawValue is null
             ? default!
@@ -175,10 +184,16 @@ public partial class OmniDropDown<TValue>
                 : targetType.IsEnum
                     ? (TValue)Enum.Parse(targetType, rawValue.ToString()!, ignoreCase: true)
                     : (TValue)Convert.ChangeType(rawValue, targetType, CultureInfo.InvariantCulture);
-        var text = Read(item, TextProperty)?.ToString() ?? item?.ToString() ?? string.Empty;
+        var text = Read(item, TextProperty)?.ToString() ?? string.Empty;
         return new OmniOption<TValue>(value, text);
     }
 
+    /// <summary>
+    /// The item itself when no property is named; otherwise the named property's value, null included.
+    /// A null property value never falls back to the item: converting the whole model to <typeparamref name="TValue"/>
+    /// threw "Object must implement IConvertible". A name the item's type does not declare as a public instance
+    /// property throws, instead of silently using the item.
+    /// </summary>
     private static object? Read(object? item, string? property)
     {
         if (item is null || string.IsNullOrWhiteSpace(property))
@@ -186,6 +201,9 @@ public partial class OmniDropDown<TValue>
             return item;
         }
 
-        return item.GetType().GetProperty(property, BindingFlags.Instance | BindingFlags.Public)?.GetValue(item);
+        var accessor = item.GetType().GetProperty(property, BindingFlags.Instance | BindingFlags.Public)
+            ?? throw new InvalidOperationException(
+                $"OmniDropDown: '{item.GetType().Name}' has no public instance property '{property}'.");
+        return accessor.GetValue(item);
     }
 }

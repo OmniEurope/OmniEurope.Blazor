@@ -327,6 +327,124 @@ export function applyFrozen(viewport) {
             target.classList.add('omni-data-grid__column--frozen-last');
         }
     }
+
+    placeFrozenToggle(viewport);
+}
+
+/**
+ * Whether the viewport has left its horizontal start. Right-to-left content scrolls to negative
+ * values, and a sub-pixel remainder after a zoom does not count as scrolled.
+ */
+function isScrolledSideways(scrollLeft) {
+    return Math.abs(Number(scrollLeft) || 0) >= 1;
+}
+
+/**
+ * Where the detach control of the frozen columns sits, relative to the grid root: on the trailing
+ * edge of the frozen block, halfway down the header row. Pure arithmetic on measured boxes, so the
+ * right-to-left mirror is one branch.
+ */
+function frozenTogglePosition(rootRect, viewportRect, borderStart, borderTop, frozenWidth, headerHeight, rtl) {
+    const start = (rtl ? rootRect.right - viewportRect.right : viewportRect.left - rootRect.left) + borderStart + frozenWidth;
+    const top = viewportRect.top - rootRect.top + borderTop + headerHeight / 2;
+    return { start: Math.round(start), top: Math.round(top) };
+}
+
+/**
+ * Places the detach control of the frozen columns, again through custom properties only. The
+ * control lives outside the scrolled viewport, so it stays at the same spot whether the columns are
+ * frozen or detached, and a second click lands on it.
+ */
+function placeFrozenToggle(viewport) {
+    const root = viewport.closest('.omni-data-grid');
+    const toggle = root?.querySelector(':scope > .omni-data-grid__frozen-toggle');
+    const header = viewport.querySelector('thead > tr.omni-data-grid__header-row');
+    if (!toggle || !header) {
+        return;
+    }
+
+    let frozenWidth = 0;
+    for (const cell of header.children) {
+        if (cell.classList.contains('omni-data-grid__column--frozen')) {
+            frozenWidth += cell.getBoundingClientRect().width;
+        }
+    }
+
+    const style = getComputedStyle(viewport);
+    const rtl = style.direction === 'rtl';
+    const borderStart = Number.parseFloat(rtl ? style.borderRightWidth : style.borderLeftWidth) || 0;
+    const position = frozenTogglePosition(
+        root.getBoundingClientRect(),
+        viewport.getBoundingClientRect(),
+        borderStart,
+        viewport.clientTop,
+        frozenWidth,
+        header.getBoundingClientRect().height,
+        rtl);
+    toggle.style.setProperty('--omni-frozen-toggle-start', `${position.start}px`);
+    toggle.style.setProperty('--omni-frozen-toggle-top', `${position.top}px`);
+}
+
+const frozenScrollAttachments = new Map();
+
+/**
+ * Follows the horizontal scroll of a grid with frozen columns for the detach cycle documented in
+ * docs/data-components.md. .NET owns the state; the script only reports the viewport leaving or
+ * reaching its start, once per crossing, and keeps the control on the frozen edge meanwhile.
+ * Returns whether the viewport is already scrolled sideways.
+ */
+export function attachFrozenScroll(viewport, reference) {
+    if (!(viewport instanceof HTMLElement) || !reference) {
+        return false;
+    }
+
+    detachFrozenScroll(viewport);
+
+    let live = true;
+    let frame = 0;
+    let scrolled = isScrolledSideways(viewport.scrollLeft);
+    const onScroll = () => {
+        if (!viewport.isConnected) {
+            detachFrozenScroll(viewport);
+            return;
+        }
+
+        const now = isScrolledSideways(viewport.scrollLeft);
+        if (now !== scrolled) {
+            scrolled = now;
+            notifyDotNet(() => live, reference, 'OnHorizontalScrollChangedAsync', now);
+        }
+
+        if (now && frame === 0) {
+            frame = window.requestAnimationFrame(() => {
+                frame = 0;
+                placeFrozenToggle(viewport);
+            });
+        }
+    };
+
+    viewport.addEventListener('scroll', onScroll, { passive: true });
+    placeFrozenToggle(viewport);
+    frozenScrollAttachments.set(viewport, {
+        dispose: () => {
+            live = false;
+            if (frame !== 0) {
+                window.cancelAnimationFrame(frame);
+            }
+
+            viewport.removeEventListener('scroll', onScroll);
+        }
+    });
+
+    return scrolled;
+}
+
+export function detachFrozenScroll(viewport) {
+    const attachment = frozenScrollAttachments.get(viewport);
+    if (attachment) {
+        attachment.dispose();
+        frozenScrollAttachments.delete(viewport);
+    }
 }
 
 const scrollFollowers = new WeakSet();

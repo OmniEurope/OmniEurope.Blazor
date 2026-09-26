@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -9,10 +11,76 @@ namespace OmniEurope.Blazor.Components;
 internal sealed class OmniChartContext
 {
     /// <summary>
+    /// More categories than this make a time series: without an explicit aspect ratio the chart
+    /// widens to <see cref="TimeSeriesAspectRatio"/> so a month of days is not drawn in a tall square.
+    /// </summary>
+    internal const int TimeSeriesThreshold = 12;
+
+    internal const double TimeSeriesAspectRatio = 2;
+
+    /// <summary>Font size of every chart text, in view-box units (the stylesheet's 3px).</summary>
+    internal const double FontSize = 3;
+
+    /// <summary>
+    /// Axis text of a wide chart on a narrow screen (the stylesheet's 4.5px under 40rem): the wide
+    /// drawing shrinks more than a square one, so its axis text is drawn larger there, and labels are
+    /// thinned for that size.
+    /// </summary>
+    internal const double WideAxisFontSize = 4.5;
+
+    /// <summary>Wider than high: the stylesheet enlarges axis text on narrow screens.</summary>
+    internal bool IsWide => Spread > 0;
+
+    private double AxisFontSize => IsWide ? WideAxisFontSize : FontSize;
+
+    /// <summary>
+    /// Estimated advance of one character at <see cref="FontSize"/>: 0.57 em, a little above the
+    /// average glyph of a sans-serif face, so an estimate errs towards more room.
+    /// </summary>
+    internal const double CharacterWidth = 1.7;
+
+    /// <summary>The legend column right of the plot, from the plot's edge to the view box's edge.</summary>
+    private const double DefaultLegendColumn = 24;
+
+    /// <summary>From the plot's edge to the legend text: 3 of gap, a 3-wide swatch and 1.5 of gap.</summary>
+    private const double LegendTextOffset = 7.5;
+
+    private double? _explicitAspectRatio;
+
+    /// <summary>
+    /// Width over height of the drawing: the one the chart sets, else <see cref="TimeSeriesAspectRatio"/>
+    /// for a time series and 1 otherwise.
+    /// </summary>
+    internal double AspectRatio => _explicitAspectRatio ?? (IsTimeSeries ? TimeSeriesAspectRatio : 1);
+
+    /// <summary>
     /// Extra view-box width on each side of the 0-100 square when the chart is wider than high: the
     /// plot stretches into it while text keeps its size and pies stay centred.
     /// </summary>
-    internal double Spread { get; private set; }
+    internal double Spread => (100 * Math.Max(1, AspectRatio) - 100) / 2;
+
+    /// <summary>
+    /// A vertical chart with more categories (labels or points of a series) than
+    /// <see cref="TimeSeriesThreshold"/>. Horizontal bars grow downwards and never count.
+    /// </summary>
+    internal bool IsTimeSeries
+    {
+        get
+        {
+            if (Horizontal)
+            {
+                return false;
+            }
+
+            var labels = _categoryAxes.Values.Select(item => item.Count).DefaultIfEmpty(0).Max();
+            var points = _series
+                .Where(item => item.Kind != OmniChartSeriesKind.Auxiliary)
+                .Select(item => item.Data.Count)
+                .DefaultIfEmpty(0)
+                .Max();
+            return Math.Max(labels, points) > TimeSeriesThreshold;
+        }
+    }
 
     /// <summary>Left edge of the view box.</summary>
     internal double ViewLeft => Spread == 0 ? 0 : -Spread;
@@ -30,8 +98,24 @@ internal sealed class OmniChartContext
 
     private double PlotRightAlone => ViewLeft + ViewWidth - 4;
 
-    /// <summary>With a legend the plot stops here, and the legend takes the column to its right.</summary>
-    private double PlotRightWithLegend => ViewLeft + ViewWidth - 24;
+    /// <summary>
+    /// With a legend on the right the plot stops here, and the legend takes the column to its right:
+    /// 24 wide, widened to the longest entry up to 40 % of the view box.
+    /// </summary>
+    private double PlotRightWithLegend => ViewLeft + ViewWidth - LegendColumn;
+
+    private double LegendColumn
+    {
+        get
+        {
+            var needed = _legends.Values
+                .Where(item => !IsBelow(item))
+                .Select(ColumnNeeded)
+                .DefaultIfEmpty(DefaultLegendColumn)
+                .Max();
+            return Math.Clamp(needed, DefaultLegendColumn, Math.Max(DefaultLegendColumn, 0.4 * ViewWidth));
+        }
+    }
 
     /// <summary>Share of a category band the columns of that category occupy together.</summary>
     private const double BandFill = 0.8;
@@ -39,7 +123,7 @@ internal sealed class OmniChartContext
     private readonly List<SeriesRegistration> _series = [];
     private readonly Dictionary<object, (double Minimum, double Maximum)> _valueAxes = [];
     private readonly Dictionary<object, IReadOnlyList<string>> _categoryAxes = [];
-    private readonly HashSet<object> _legends = [];
+    private readonly Dictionary<object, LegendRegistration> _legends = [];
     private bool _domainsDirty = true;
     private (double Minimum, double Maximum) _xDomain = (0, 1);
     private (double Minimum, double Maximum) _valueDomain = (0, 1);
@@ -48,18 +132,81 @@ internal sealed class OmniChartContext
 
     internal event Action? Changed;
 
-    internal double PlotRight => _legends.Count > 0 ? PlotRightWithLegend : PlotRightAlone;
+    internal double PlotRight => _legends.Values.Any(item => !IsBelow(item)) ? PlotRightWithLegend : PlotRightAlone;
 
     /// <summary>The legend column starts just right of the plot.</summary>
     internal double LegendLeft => PlotRightWithLegend + 3;
 
-    /// <summary>Widens the view box to <paramref name="aspectRatio"/> (width over height, 1 = square).</summary>
-    internal void SetAspectRatio(double aspectRatio)
+    /// <summary>The legends drawn below the chart, in HTML, in the order they registered.</summary>
+    internal IEnumerable<LegendRegistration> LegendsBelow => _legends.Values.Where(IsBelow);
+
+    /// <summary>Whether the legend <paramref name="owner"/> registered is drawn below the chart.</summary>
+    internal bool IsLegendBelow(object owner) => _legends.TryGetValue(owner, out var legend) && IsBelow(legend);
+
+    /// <summary>
+    /// Widens the view box to <paramref name="aspectRatio"/> (width over height, 1 = square); null
+    /// lets the chart choose, wide for a time series and square otherwise.
+    /// </summary>
+    internal void SetAspectRatio(double? aspectRatio)
     {
-        var spread = (100 * Math.Max(1, aspectRatio) - 100) / 2;
-        if (Math.Abs(spread - Spread) < 0.0001) return;
-        Spread = spread;
+        if (Nullable.Equals(_explicitAspectRatio, aspectRatio)) return;
+        _explicitAspectRatio = aspectRatio;
         Changed?.Invoke();
+    }
+
+    /// <summary>The label the category axis gives category <paramref name="index"/>, if any.</summary>
+    internal string? CategoryLabel(int index)
+    {
+        var labels = _categoryAxes.Values.MaxBy(item => item.Count);
+        return labels is not null && index >= 0 && index < labels.Count ? labels[index] : null;
+    }
+
+    /// <summary>
+    /// The hover text of one point: its own label, else its category and value, so a category whose
+    /// axis label was thinned out still names its date or name.
+    /// </summary>
+    internal string PointTitle(int index, OmniChartPoint point) =>
+        point.Label ?? (CategoryLabel(index) is { } category
+            ? string.Create(CultureInfo.CurrentCulture, $"{category} · {point.Y}")
+            : point.Y.ToString(CultureInfo.CurrentCulture));
+
+    /// <summary>
+    /// The categories whose label is drawn: all of them when they fit, otherwise one every so many so
+    /// that no two labels overlap, the first and the last always kept. Label widths are estimated
+    /// from their length, so the step errs towards more room.
+    /// </summary>
+    internal IReadOnlyList<int> VisibleCategoryIndexes(IReadOnlyList<string> labels)
+    {
+        var count = labels.Count;
+        if (count <= 2)
+        {
+            return [.. Enumerable.Range(0, count)];
+        }
+
+        var pitch = Math.Abs(CategoryPosition(1, count) - CategoryPosition(0, count));
+        var needed = Horizontal
+            ? AxisFontSize * 1.3
+            : labels.Max(label => (label?.Length ?? 0) * CharacterWidth * AxisFontSize / FontSize) + 1.5;
+        var step = pitch <= 0 ? count : Math.Max(1, (int)Math.Ceiling(needed / pitch));
+        if (step == 1)
+        {
+            return [.. Enumerable.Range(0, count)];
+        }
+
+        var visible = new List<int>();
+        for (var index = 0; index < count - 1; index += step)
+        {
+            visible.Add(index);
+        }
+
+        // The last label replaces the one before it when the two would be closer than a step.
+        if (visible.Count > 1 && count - 1 - visible[^1] < step)
+        {
+            visible.RemoveAt(visible.Count - 1);
+        }
+
+        visible.Add(count - 1);
+        return visible;
     }
 
     /// <summary>Horizontal bars turn the chart: values run along the bottom, categories down the left.</summary>
@@ -156,12 +303,14 @@ internal sealed class OmniChartContext
         }
     }
 
-    internal void RegisterLegend(object owner)
+    internal void RegisterLegend(object owner, LegendRegistration legend)
     {
-        if (_legends.Add(owner))
+        if (_legends.TryGetValue(owner, out var current) && current.SameAs(legend))
         {
-            Changed?.Invoke();
+            return;
         }
+        _legends[owner] = legend;
+        Changed?.Invoke();
     }
 
     internal void UnregisterLegend(object owner)
@@ -419,6 +568,37 @@ internal sealed class OmniChartContext
         domain.Minimum.Equals(domain.Maximum)
             ? (domain.Minimum - 0.5, domain.Maximum + 0.5)
             : domain;
+
+    /// <summary>
+    /// Below when asked, or, for <see cref="OmniLegendPosition.Auto"/>, when the longest entry needs a
+    /// wider column than the default one and than a fifth of the view box.
+    /// </summary>
+    private bool IsBelow(LegendRegistration legend) => legend.Position switch
+    {
+        OmniLegendPosition.Bottom => true,
+        OmniLegendPosition.Right => false,
+        _ => ColumnNeeded(legend) > Math.Max(DefaultLegendColumn, 0.2 * ViewWidth)
+    };
+
+    private static double ColumnNeeded(LegendRegistration legend) =>
+        LegendTextOffset + legend.Items.Select(item => (item?.Length ?? 0) * CharacterWidth).DefaultIfEmpty(0).Max() + 1;
+
+    /// <summary>What one <see cref="OmniLegend"/> shows, which the chart needs to draw it below the plot.</summary>
+    internal sealed record LegendRegistration(
+        string Label,
+        IReadOnlyList<string> Items,
+        IReadOnlyList<int> ColorIndexes,
+        OmniLegendPosition Position)
+    {
+        /// <summary>The colour class index of entry <paramref name="index"/>, as the legend draws it.</summary>
+        internal int ColorOf(int index) => Math.Abs(index < ColorIndexes.Count ? ColorIndexes[index] : index) % 8;
+
+        internal bool SameAs(LegendRegistration other) =>
+            Label == other.Label
+            && Position == other.Position
+            && Items.SequenceEqual(other.Items)
+            && ColorIndexes.SequenceEqual(other.ColorIndexes);
+    }
 
     private sealed record SeriesRegistration(object Owner, OmniChartSeriesKind Kind, IReadOnlyList<OmniChartPoint> Data);
 }

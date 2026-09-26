@@ -55,6 +55,48 @@ Une colonne se déclare par lambda ou par nom de propriété.
   correspondantes.
 - Sans aucune colonne déclarée, la grille rend une colonne unique portant la valeur de l'élément.
 
+### Détacher les colonnes figées
+
+Des colonnes figées larges mangent la place des colonnes qui défilent. Dès que le tableau défile de
+côté, un bouton posé sur le bord de fin des colonnes figées, au niveau de l'en-tête, permet de les
+détacher le temps de lire le reste de la ligne. Le cycle est une machine à trois états tenue par la
+grille elle-même : état propre à chaque instance, jamais persisté (ni paramètre, ni stockage du
+navigateur), perdu quand la grille est retirée de la page.
+
+| État | Défilement horizontal | Colonnes figées | Bouton |
+|---|---|---|---|
+| **Figé, au début** | `scrollLeft` à 0 | collées au bord de début | masqué (`hidden`) |
+| **Figé, défilé** | `scrollLeft` différent de 0 | collées, les lignes passent dessous | visible, `aria-pressed="false"`, icône cadenas ouvert, infobulle « Détacher les colonnes figées » |
+| **Détaché** | `scrollLeft` différent de 0 | défilent avec le reste de la ligne (plus de `position: sticky`, plus d'ombre) | visible au même endroit, `aria-pressed="true"`, icône cadenas fermé, infobulle « Refiger les colonnes » |
+
+Transitions :
+
+1. Figé, au début → Figé, défilé : le tableau quitte le début.
+2. Figé, défilé → Figé, au début : retour au début.
+3. Figé, défilé → Détaché : clic, Entrée ou Espace sur le bouton.
+4. Détaché → Figé, défilé : second clic sur le bouton, sans toucher au défilement.
+5. Détaché → Figé, au début : retour au début. Le bouton se masque ; le défilement de côté suivant
+   repart de la transition 1, colonnes figées (le détachement ne survit pas au retour au début).
+
+Un nouveau défilement horizontal en état Détaché **ne refige pas** les colonnes. C'est le choix le
+moins surprenant : on détache précisément pour faire défiler le reste de la ligne, refiger au premier
+cran de molette annulerait le geste qui vient d'être demandé, et l'inertie d'un pavé tactile, qui
+prolonge le défilement juste après le clic, refigerait les colonnes sans action de l'utilisateur.
+Seuls le bouton et le retour au début referment le cycle, et aucun état n'est ambigu : un
+détachement n'existe jamais au début du tableau. Le défilement vertical n'a aucun effet.
+
+Accessibilité : un vrai `<button type="button">` hors de la zone défilante, atteint à la tabulation
+juste avant le tableau et activé par Entrée ou Espace. Son nom accessible reste « Détacher les
+colonnes figées » dans les deux états (motif du bouton bascule : `aria-pressed` dit si le
+détachement est actif) ; l'infobulle et l'icône décrivent l'action suivante. Les textes viennent des
+ressources localisées (`GridDetachFrozen`, `GridRefreezeFrozen`). Masqué au début du tableau, il sort
+de l'ordre de tabulation ; s'il avait le focus à ce moment (retour au début à la molette juste après
+un clic), le focus retombe sur le document, comme pour tout élément masqué.
+
+Mise en oeuvre : le script ne prévient .NET qu'au franchissement de la position de début, jamais à
+chaque image de défilement ; il replace le bouton pendant le défilement et après chaque rendu. En
+écriture de droite à gauche, un `scrollLeft` négatif compte comme défilé.
+
 ## Hauteur du tableau
 
 `Height` accepte n'importe quelle longueur CSS : `600px`, `50vh`, `100%`. La valeur est posée sur le

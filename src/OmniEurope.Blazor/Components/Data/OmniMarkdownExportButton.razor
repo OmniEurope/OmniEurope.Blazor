@@ -1,0 +1,11 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TItem
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+@* Busy, not disabled, while the rows are read: the button keeps its size (STD-BUSY). *@
+<OmniButton Id="@Id" Class="@Class" Variant="Variant" Size="Size" Disabled="Disabled" Busy="_busy"
+            OnClick="ExportAsync" @attributes="AdditionalAttributes">
+    <OmniIcon Name="OmniIconName.Download" />
+    <span>@EffectiveText</span>
+</OmniButton>

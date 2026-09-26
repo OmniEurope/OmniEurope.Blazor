@@ -9,9 +9,24 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
 - La zone de tracé va de 14 à 96 en largeur et de 4 à 86 en hauteur. Les valeurs de l'axe vertical
   se placent à sa gauche, centrées sur leur graduation ; les catégories dessous ; un titre d'axe
   horizontal en bas, un titre vertical tout à gauche, tourné.
-- Une `OmniLegend` occupe la colonne à droite du tracé, que le graphique rétrécit à 76 tant qu'une
-  légende est présente : une entrée ne couvre plus un point. `ColorIndexes` donne à chaque entrée la
-  teinte de la série qu'elle nomme ; sans lui, les entrées prennent 0, 1, 2 dans l'ordre.
+- `AspectRatio` non posé, le graphique choisit : 2 pour une série temporelle (plus de 12 catégories,
+  libellés ou points d'une série, sur un graphique vertical), 1 (carré) sinon. Toute valeur posée,
+  1 compris, est respectée. Un dessin plus large que haut porte `omni-chart__svg--wide` : sous
+  40 rem de fenêtre, le texte de ses axes passe de 3 à 4,5 unités, et l'axe des catégories est
+  éclairci pour cette taille.
+- `OmniLegend.Position` vaut `Auto` par défaut : la légende occupe la colonne à droite du tracé (24
+  de large, le tracé s'arrête à 76 dans un carré) tant que son entrée la plus longue y tient ou tient
+  dans un cinquième du dessin ; au-delà, elle passe sous le graphique. `Right` la garde à droite et
+  élargit la colonne à l'entrée la plus longue, jusqu'à 40 % du dessin. `Bottom` (ou `Auto` avec des
+  entrées longues) la dessine sous le SVG en liste HTML (`ul.omni-chart__legend--below`) : elle
+  garde la taille de texte de la page au lieu de rétrécir avec le dessin, passe à la ligne sur un
+  écran étroit, et le tracé reprend toute la largeur. `ColorIndexes` donne à chaque entrée la teinte
+  de la série qu'elle nomme ; sans lui, les entrées prennent 0, 1, 2 dans l'ordre.
+- `OmniCategoryAxis` n'écrit que les libellés qui tiennent sans se chevaucher : quand tous ne
+  tiennent pas, un sur N, le premier et le dernier toujours gardés. La largeur d'un libellé est
+  estimée à 1,7 unité par caractère (0,57 em), ce qui laisse un peu de marge. Le texte de survol de
+  chaque colonne, barre ou marqueur sans `Label` propre nomme sa catégorie et sa valeur
+  (« 05/09 · 123 »), et le `DataTable` du graphique reste l'alternative accessible complète.
 - Des colonnes ou des barres découpent l'axe des catégories en bandes, une par catégorie, et chaque
   libellé se place au milieu de sa bande. Plusieurs `OmniColumnSeries` se rangent côte à côte dans la
   bande ; toutes les séries empilées y partagent une place. Une ligne tracée avec des colonnes passe

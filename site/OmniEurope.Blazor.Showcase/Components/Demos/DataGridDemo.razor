@@ -24,6 +24,10 @@
     </Columns>
 </OmniDataGrid>
 
+@* Export Markdown pour une IA : toutes les lignes annoncées, lues page par page par le fournisseur,
+   pas seulement la page affichée ; en-tête avec le titre, le tri, la limite, l'heure et le compte. *@
+<OmniMarkdownExportButton TItem="GridRow" Export="CreateExport" FileName="dossiers-ouverts" />
+
 @* Le dessin de la maquette : un cadre habillé comme une carte, un en-tête fin et collant, la durée
    (un nombre) alignée à la fin en chiffres de même chasse sans rien demander, le statut en pastille
    compacte (classe omni-status), la ligne choisie teintée et en gras, la colonne triée teintée plus

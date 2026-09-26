@@ -4,7 +4,7 @@
     {
         var point = Data[index];
         var rectangle = ChartContext?.ColumnRect(this, index, true) ?? OmniChartGeometry.ColumnRect(Data, index);
-        <rect x="@OmniChartGeometry.Number(rectangle.X)" y="@OmniChartGeometry.Number(rectangle.Y)" width="@OmniChartGeometry.Number(rectangle.Width)" height="@OmniChartGeometry.Number(rectangle.Height)"><title>@(point.Label ?? point.Y.ToString())</title></rect>
+        <rect x="@OmniChartGeometry.Number(rectangle.X)" y="@OmniChartGeometry.Number(rectangle.Y)" width="@OmniChartGeometry.Number(rectangle.Width)" height="@OmniChartGeometry.Number(rectangle.Height)"><title>@(ChartContext?.PointTitle(index, point) ?? point.Label ?? point.Y.ToString())</title></rect>
     }
 </g>
 

@@ -30,6 +30,11 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
         // Scoped: the trail follows one circuit's navigation. Its route fallback comes from the
         // host's IOmniBreadcrumbResolver when one is registered, and is empty otherwise.
         services.TryAddScoped<OmniBreadcrumbService>();
+        // Markdown table exports: the texts are the package resources, the generation time comes from
+        // the host's TimeProvider when it registers one, the system clock otherwise.
+        services.TryAddScoped(provider => new OmniMarkdownTableExporter(
+            provider.GetRequiredService<IStringLocalizer<AppStrings>>(),
+            provider.GetService<TimeProvider>() ?? TimeProvider.System));
         return services;
     }
 

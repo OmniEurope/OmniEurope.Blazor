@@ -18,11 +18,22 @@ public partial class OmniLegend
     /// or shorter than the items, the remaining items take the colours 0, 1, 2 and on by position.
     /// </summary>
     [Parameter] public IReadOnlyList<int> ColorIndexes { get; set; } = Array.Empty<int>();
-    protected override void OnParametersSet() => ChartContext?.RegisterLegend(this);
+
+    /// <summary>
+    /// Right of the plot, below the chart, or <see cref="OmniLegendPosition.Auto"/> (the default):
+    /// right while the longest entry fits a narrow column, below otherwise. Outside a chart the
+    /// legend is always drawn on the right.
+    /// </summary>
+    [Parameter] public OmniLegendPosition Position { get; set; } = OmniLegendPosition.Auto;
+
+    private OmniChartContext.LegendRegistration Registration =>
+        new(EffectiveLabel, Items, ColorIndexes, Position);
+
+    protected override void OnParametersSet() => ChartContext?.RegisterLegend(this, Registration);
+    private bool Below => ChartContext?.IsLegendBelow(this) == true;
     // The legend column right of the plot; it moves with the plot when the chart is wide.
     private double LegendLeft => ChartContext?.LegendLeft ?? 79;
     private string Localize(string name) => StringLocalizer[name].Value;
-    private int ColorOf(int index) => Math.Abs(index < ColorIndexes.Count ? ColorIndexes[index] : index) % 8;
     private static string N(double value) => OmniChartGeometry.Number(value);
     public void Dispose() { ChartContext?.UnregisterLegend(this); GC.SuppressFinalize(this); }
 }
