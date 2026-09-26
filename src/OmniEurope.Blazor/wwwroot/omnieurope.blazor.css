@@ -1939,8 +1939,9 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-tooltip--tracked .omni-tooltip__content { inset: auto; inset-block-start: var(--omni-tooltip-y); inset-inline-start: var(--omni-tooltip-x); position: fixed; transform: translate(-50%, -100%); }
 /* At rest the hidden bubble keeps within its trigger: centred and up to 18rem wide, a hidden bubble
    still counts in the page's scrollable width, and one near the edge of a 375 px screen made the page
-   scroll sideways (RET-002 n°28, PLAN-008 lot 10). It hides at once, so the jump back is never seen. */
-.omni-tooltip:not(:hover):not(:focus-within):not(.omni-tooltip--tracked) .omni-tooltip__content { inset-inline-start: 0; max-width: 100%; transform: none; }
+   scroll sideways (RET-002 n°28, PLAN-008 lot 10). Border-box, so its padding does not reach past the trigger
+   either. It hides at once, so the jump back is never seen. */
+.omni-tooltip:not(:hover):not(:focus-within):not(.omni-tooltip--tracked) .omni-tooltip__content { box-sizing: border-box; inset-inline-start: 0; max-width: 100%; transform: none; }
 .omni-tooltip:hover .omni-tooltip__content,
 .omni-tooltip:focus-within .omni-tooltip__content { opacity: 1; visibility: visible; }
 /* A small arrow ties the box to what it describes: centred under a box placed over its trigger, on
@@ -2892,11 +2893,12 @@ polyline.omni-chart__line { fill: none; }
    at the same height; the title gives way (ellipsis) rather than wrapping the row. */
 .omni-page-header { display: flex; flex-direction: column; gap: var(--omni-space-sm); margin-block-end: var(--omni-space-lg); min-inline-size: 0; }
 .omni-page-header__frame { background: var(--omni-color-surface); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-color-accent) 24%, var(--omni-color-border)); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-xs); min-inline-size: 0; padding: var(--omni-space-sm) var(--omni-space-md); }
+.omni-page-header__frame--plain { background: transparent; border: 0; border-radius: 0; padding: 0; }
 .omni-page-header__trail { font-size: var(--omni-font-size-sm); min-block-size: calc(var(--omni-control-height) / 2 + 0.125rem); min-inline-size: 0; overflow-x: auto; scrollbar-width: none; }
 .omni-page-header__trail .omni-breadcrumb__list { flex-wrap: nowrap; white-space: nowrap; }
 .omni-page-header__trail .omni-breadcrumb__item { color: var(--omni-color-text-muted); }
 .omni-page-header__crumb-loading .omni-skeleton { inline-size: 5.5rem; }
-.omni-page-header__row { align-items: center; display: flex; gap: var(--omni-space-sm); min-inline-size: 0; }
+.omni-page-header__row { align-items: center; display: flex; gap: var(--omni-space-sm); min-block-size: var(--omni-control-height); min-inline-size: 0; }
 .omni-page-header .omni-page-header__title { flex: 0 1 auto; line-height: max(var(--omni-control-height), 1.25em); margin: 0; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .omni-page-header__icon { align-items: center; color: var(--omni-color-primary); display: inline-flex; flex: none; }
 .omni-page-header__row:has(> .omni-page-header__icon) > .omni-page-header__title { overflow: clip; overflow-clip-margin: 0.3em; text-box: trim-both cap alphabetic; }
