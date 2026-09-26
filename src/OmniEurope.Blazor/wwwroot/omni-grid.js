@@ -370,9 +370,9 @@ function placeFrozenToggle(viewport) {
         }
     }
 
-    const style = getComputedStyle(viewport);
-    const rtl = style.direction === 'rtl';
-    const borderStart = Number.parseFloat(rtl ? style.borderRightWidth : style.borderLeftWidth) || 0;
+    const viewportStyle = getComputedStyle(viewport);
+    const rtl = viewportStyle.direction === 'rtl';
+    const borderStart = Number.parseFloat(rtl ? viewportStyle.borderRightWidth : viewportStyle.borderLeftWidth) || 0;
     const position = frozenTogglePosition(
         root.getBoundingClientRect(),
         viewport.getBoundingClientRect(),
