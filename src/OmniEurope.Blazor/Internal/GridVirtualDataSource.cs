@@ -73,7 +73,7 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         {
             foreach (var block in missing)
             {
-                var result = await loader(block * size, size, token);
+                var result = await loader(block * size, size, token).WaitAsync(token);
                 if (generation != _generation || token.IsCancellationRequested)
                 {
                     return changed;
@@ -142,7 +142,7 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         {
             for (var block = firstBlock; block <= lastBlock; block++)
             {
-                var result = await loader(block * size, size, token);
+                var result = await loader(block * size, size, token).WaitAsync(token);
                 if (generation != _generation || token.IsCancellationRequested)
                 {
                     return false;

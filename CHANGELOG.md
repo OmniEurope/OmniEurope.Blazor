@@ -18,6 +18,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - `OmniPanelMenuItem.OnClick` : une entrée sans `Href` ni enfants devient une action, un `button type="button"` à l'allure des liens du menu (changer de compte, copier un extrait), au lieu d'un libellé inerte. Ignoré par une entrée qui navigue ou qui porte des enfants.
 - `OmniStatTile` : tuile de statistique (icône sur carré teinté, valeur, libellé, ligne de détail facultative) sur la surface des cartes. Avec `OnClick`, la tuile entière est un vrai bouton nommé par `AriaLabel` ou par « libellé : valeur », avec anneau de focus et survol des tuiles de réglage. Démontrée dans la vitrine (Pages), documentée dans `docs/page-components.md`.
 
+### Fixed
+
+- `OmniDataGrid` : disposer une grille dont un `Load` est en cours ne bloque plus. La disposition annule le chargement avant d'attendre le rendu qui l'attendait, et un chargement annulé n'est plus attendu même si le chargeur ignore son `CancellationToken` (auparavant, un `Load` jamais terminé figeait la disposition, par exemple au démontage d'un test bUnit).
+
 ## [1.1.0] - 2026-09-26
 
 ### Breaking changes

@@ -29,7 +29,8 @@ internal sealed class GridRemoteState<TItem> : IAsyncDisposable
         Error = null;
         try
         {
-            var result = await loader(token);
+            // WaitAsync: a cancelled load stops being awaited even when the loader ignores its token.
+            var result = await loader(token).WaitAsync(token);
             if (generation == _generation)
             {
                 Items = result.Items;

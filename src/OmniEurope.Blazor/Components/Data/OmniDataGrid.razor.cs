@@ -2973,6 +2973,10 @@ public partial class OmniDataGrid<TItem>
     public async ValueTask DisposeAsync()
     {
         _disposeRequested = true;
+        // Cancelled before waiting for the gate: a render holding it may be awaiting a load that only
+        // this cancellation ends, and a loader that ignores its token is no longer awaited once cancelled.
+        _remote.Reset();
+        _virtualSource.Reset();
         await _lifecycleGate.WaitAsync();
         try
         {
