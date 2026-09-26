@@ -122,6 +122,7 @@ internal sealed class OmniChartContext
 
     private readonly List<SeriesRegistration> _series = [];
     private readonly Dictionary<object, (double Minimum, double Maximum)> _valueAxes = [];
+    private readonly Dictionary<object, int> _automaticValueAxes = [];
     private readonly Dictionary<object, IReadOnlyList<string>> _categoryAxes = [];
     private readonly Dictionary<object, LegendRegistration> _legends = [];
     private bool _domainsDirty = true;
@@ -265,8 +266,9 @@ internal sealed class OmniChartContext
 
     internal void RegisterValueAxis(object owner, double minimum, double maximum)
     {
+        var wasAutomatic = _automaticValueAxes.Remove(owner);
         var bounds = (minimum, maximum);
-        if (_valueAxes.TryGetValue(owner, out var current) && current == bounds)
+        if (!wasAutomatic && _valueAxes.TryGetValue(owner, out var current) && current == bounds)
         {
             return;
         }
@@ -275,9 +277,25 @@ internal sealed class OmniChartContext
         Changed?.Invoke();
     }
 
+    /// <summary>An axis whose bounds follow the series, rounded outward for <paramref name="tickCount"/> graduations.</summary>
+    internal void RegisterAutomaticValueAxis(object owner, int tickCount)
+    {
+        _valueAxes.Remove(owner);
+        if (_automaticValueAxes.TryGetValue(owner, out var current) && current == tickCount)
+        {
+            return;
+        }
+        _automaticValueAxes[owner] = tickCount;
+        _domainsDirty = true;
+        Changed?.Invoke();
+    }
+
+    /// <summary>The value bounds the plot uses, for an automatic axis to draw its graduations on.</summary>
+    internal (double Minimum, double Maximum) ValueBounds => ValueDomain;
+
     internal void UnregisterValueAxis(object owner)
     {
-        if (_valueAxes.Remove(owner))
+        if (_valueAxes.Remove(owner) | _automaticValueAxes.Remove(owner))
         {
             _domainsDirty = true;
             Changed?.Invoke();
@@ -529,7 +547,9 @@ internal sealed class OmniChartContext
                     values.Add(negative);
                 }
             }
-            _valueDomain = Expand((values.Min(), values.Max()));
+            _valueDomain = _automaticValueAxes.Count > 0
+                ? RoundOutward(values.Min(), values.Max(), _automaticValueAxes.Values.Max())
+                : Expand((values.Min(), values.Max()));
         }
 
         DomainCalculationCount++;
@@ -563,6 +583,31 @@ internal sealed class OmniChartContext
 
     private static double Ratio(double value, (double Minimum, double Maximum) domain) =>
         Math.Clamp((value - domain.Minimum) / (domain.Maximum - domain.Minimum), 0, 1);
+
+    // Bounds rounded outward to a step of 1, 2, 2.5 or 5 times a power of ten, the step chosen so that tickCount
+    // graduations from the rounded minimum reach the maximum: every graduation lands on a round number.
+    internal static (double Minimum, double Maximum) RoundOutward(double minimum, double maximum, int tickCount)
+    {
+        var ticks = Math.Max(1, tickCount);
+        if (maximum <= minimum)
+        {
+            maximum = minimum + 1;
+        }
+        var magnitude = Math.Pow(10, Math.Floor(Math.Log10((maximum - minimum) / ticks)));
+        for (var attempt = 0; attempt < 4; attempt++, magnitude *= 10)
+        {
+            foreach (var multiplier in new[] { 1d, 2d, 2.5d, 5d })
+            {
+                var step = multiplier * magnitude;
+                var low = Math.Floor(minimum / step) * step;
+                if (low + (step * ticks) >= maximum - (step * 1e-9))
+                {
+                    return (low, low + (step * ticks));
+                }
+            }
+        }
+        return (minimum, maximum);
+    }
 
     private static (double Minimum, double Maximum) Expand((double Minimum, double Maximum) domain) =>
         domain.Minimum.Equals(domain.Maximum)

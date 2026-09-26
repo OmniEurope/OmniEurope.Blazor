@@ -40,6 +40,11 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
   page garde le même trait. Une `OmniLineSeries` n'est jamais remplie, et un marqueur est un cercle de
   la couleur de surface cerclé de la teinte de sa série.
 
+- `OmniValueAxis.Automatic` cale l'axe sur les séries : bornes arrondies vers l'extérieur (pas de 1, 2, 2,5 ou 5
+  fois une puissance de dix) pour `TickCount` graduations, de zéro (ou de la plus basse valeur) à la plus
+  haute valeur, piles comprises. Sans lui, un axe garde `Minimum` et `Maximum` (0 et 100 par défaut) et un
+  graphique sans axe se cale sur les données sans graduations écrites.
+
 ## Jauge
 
 `OmniArcGauge` dessine un demi-cercle qui part de son extrémité gauche et passe par le haut ;
