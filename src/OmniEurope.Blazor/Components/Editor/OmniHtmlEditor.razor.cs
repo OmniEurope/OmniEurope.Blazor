@@ -46,6 +46,8 @@ public partial class OmniHtmlEditor
     private string? _visualValue;
     private int _mountedRows;
     private OmniHtmlSanitizerPolicy? _mountedPolicy;
+    private bool _mountedTracking;
+    private OmniHtmlEditorSelection? _caret;
     private SelectionState _selection = SelectionState.Empty;
     private int _selectGeneration;
     private bool _linkOpen;
@@ -100,6 +102,15 @@ public partial class OmniHtmlEditor
     /// </summary>
     [Parameter] public OmniHtmlSanitizerPolicy? SanitizerPolicy { get; set; }
 
+    /// <summary>
+    /// Raised, a moment after the caret or the selection stops moving in the visual face, with the
+    /// elements around it. Not raised in the source face, nor for a move that changes nothing.
+    /// </summary>
+    [Parameter] public EventCallback<OmniHtmlEditorSelection> SelectionChanged { get; set; }
+
+    /// <summary>The last selection the visual face reported, or null before the first one.</summary>
+    internal OmniHtmlEditorSelection? CurrentSelection => _caret;
+
     internal string CurrentHtml => CurrentValue ?? string.Empty;
 
     /// <summary>
@@ -107,9 +118,31 @@ public partial class OmniHtmlEditor
     /// for any), and whether a policy is in force, in which case a span carrying an allowed
     /// attribute is kept rather than unwrapped.
     /// </summary>
-    private object SurfaceOptions => SanitizerPolicy is null
-        ? new { rows = Rows }
-        : new { rows = Rows, policy = true, classes = OmniHtmlSanitizer.ClassesOf(SanitizerPolicy) };
+    private Dictionary<string, object?> SurfaceOptions
+    {
+        get
+        {
+            var options = new Dictionary<string, object?>(StringComparer.Ordinal) { ["rows"] = Rows };
+            if (SanitizerPolicy is not null)
+            {
+                options["policy"] = true;
+                options["classes"] = OmniHtmlSanitizer.ClassesOf(SanitizerPolicy);
+            }
+
+            if (TracksSelection)
+            {
+                options["selection"] = true;
+            }
+
+            return options;
+        }
+    }
+
+    /// <summary>
+    /// Whether the surface reports where the selection is: only when someone listens, through
+    /// <see cref="SelectionChanged"/>.
+    /// </summary>
+    private bool TracksSelection => SelectionChanged.HasDelegate;
 
     private string Clean(string? html) => OmniHtmlSanitizer.Sanitize(html, SanitizerPolicy);
 
@@ -196,6 +229,7 @@ public partial class OmniHtmlEditor
                 _bridge ??= DotNetObjectReference.Create(new HtmlEditorInteropBridge(this));
                 _visualValue = CurrentValue;
                 _mountedPolicy = SanitizerPolicy;
+                _mountedTracking = TracksSelection;
                 await _visualModule.InvokeVoidAsync("mount", _surface, _bridge, Clean(CurrentValue), SurfaceOptions);
             }
             else if (_visualModule is not null)
@@ -206,10 +240,11 @@ public partial class OmniHtmlEditor
                     await _visualModule!.InvokeVoidAsync("setHtml", _surface, Clean(CurrentValue));
                 }
 
-                if (_mountedRows != Rows || !ReferenceEquals(_mountedPolicy, SanitizerPolicy))
+                if (_mountedRows != Rows || !ReferenceEquals(_mountedPolicy, SanitizerPolicy) || _mountedTracking != TracksSelection)
                 {
                     _mountedRows = Rows;
                     _mountedPolicy = SanitizerPolicy;
+                    _mountedTracking = TracksSelection;
                     await _visualModule!.InvokeVoidAsync("configure", _surface, SurfaceOptions);
                 }
             }
@@ -252,6 +287,17 @@ public partial class OmniHtmlEditor
     }
 
     internal void HandleVisualState(string state) => _selection = SelectionState.Parse(state);
+
+    internal Task HandleSelectionAsync(string json)
+    {
+        if (_mode != OmniHtmlEditorMode.Visual)
+        {
+            return Task.CompletedTask;
+        }
+
+        _caret = OmniHtmlEditorSelection.Parse(json);
+        return SelectionChanged.InvokeAsync(_caret);
+    }
 
     private Task HandleInputAsync(ChangeEventArgs args) => Disabled
         ? Task.CompletedTask
@@ -515,6 +561,7 @@ public partial class OmniHtmlEditor
 
         _mode = target;
         _selection = SelectionState.Empty;
+        _caret = null;
         _linkOpen = false;
         // The parameter is only followed when the parent changes it: a parent that re-renders
         // without binding Mode must not switch the face back.

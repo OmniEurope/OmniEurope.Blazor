@@ -16,6 +16,10 @@ internal sealed class HtmlEditorInteropBridge(OmniHtmlEditor owner)
     [JSInvokable]
     public Task OnVisualState(string state) => owner.DispatchAsync(() => owner.HandleVisualState(state));
 
+    /// <summary>The caret or the selection settled somewhere new, as the JSON read by <see cref="OmniHtmlEditorSelection"/>.</summary>
+    [JSInvokable]
+    public Task OnSelectionChanged(string selection) => owner.DispatchAsync(() => owner.HandleSelectionAsync(selection));
+
     /// <summary>Ctrl+Z, Ctrl+Y or Ctrl+Shift+Z inside the surface.</summary>
     [JSInvokable]
     public Task OnHistoryShortcut(bool redo) => owner.DispatchAsync(() => redo ? owner.RedoAsync() : owner.UndoAsync());

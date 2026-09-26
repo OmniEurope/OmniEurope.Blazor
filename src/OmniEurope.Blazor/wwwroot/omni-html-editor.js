@@ -11,6 +11,7 @@
 // history also lives in .NET, so Ctrl+Z undoes a command and a burst of typing alike.
 const editors = new WeakMap();
 const inputDelay = 250;
+const selectionDelay = 120;
 const blockSelector = 'p,h1,h2,h3,h4,h5,h6,li,blockquote,pre,td,th,div';
 const alignClasses = ['omni-align-left', 'omni-align-center', 'omni-align-right', 'omni-align-justify'];
 const sizeClasses = {
@@ -39,7 +40,10 @@ export function mount(surface, dotnet, html, options) {
         return;
     }
 
-    const state = { surface, dotnet, timer: 0, range: null, key: '', sent: null, listeners: [], classes: allowedClasses, policy: false };
+    const state = {
+        surface, dotnet, timer: 0, range: null, key: '', sent: null, listeners: [], classes: allowedClasses, policy: false,
+        selection: false, selectionTimer: 0, selectionKey: ''
+    };
     editors.set(surface, state);
     configure(surface, options);
     surface.innerHTML = html ?? '';
@@ -65,6 +69,7 @@ export function configure(surface, options) {
     // classes it allows (null for any class), and spans that carry an allowed attribute.
     const state = editors.get(surface);
     if (state) {
+        state.selection = options?.selection === true;
         state.policy = options?.policy === true;
         state.classes = !state.policy
             ? allowedClasses
@@ -136,6 +141,7 @@ export function dispose(surface) {
     }
 
     window.clearTimeout(state.timer);
+    window.clearTimeout(state.selectionTimer);
     for (const [target, type, handler] of state.listeners) {
         target.removeEventListener(type, handler);
     }
@@ -466,6 +472,7 @@ function restore(state) {
 }
 
 function report(state, force) {
+    scheduleSelection(state);
     const key = describe(state.surface);
     if (!force && key === state.key) {
         return;
@@ -473,6 +480,60 @@ function report(state, force) {
 
     state.key = key;
     state.dotnet.invokeMethodAsync('OnVisualState', key);
+}
+
+// Where the selection is, for the host: sent only when the host listens, once the caret has been
+// still for a moment, and only when the answer differs from the last one sent.
+function scheduleSelection(state) {
+    if (!state.selection) {
+        return;
+    }
+
+    window.clearTimeout(state.selectionTimer);
+    state.selectionTimer = window.setTimeout(() => sendSelection(state), selectionDelay);
+}
+
+function sendSelection(state) {
+    state.selectionTimer = 0;
+    if (!editors.has(state.surface)) {
+        return;
+    }
+
+    const payload = describeSelection(state.surface);
+    if (payload === null || payload === state.selectionKey) {
+        return;
+    }
+
+    state.selectionKey = payload;
+    state.dotnet.invokeMethodAsync('OnSelectionChanged', payload);
+}
+
+// {"collapsed":bool,"ancestors":[{"tag","classes","data"}]}: the elements holding the start of the
+// selection, innermost first, up to the surface, which is left out; null outside the surface.
+function describeSelection(surface) {
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0) {
+        return null;
+    }
+
+    const range = selection.getRangeAt(0);
+    if (!surface.contains(range.commonAncestorContainer)) {
+        return null;
+    }
+
+    const ancestors = [];
+    for (let node = elementOf(range.startContainer); node && node !== surface && surface.contains(node); node = node.parentElement) {
+        const data = {};
+        for (const attribute of node.attributes) {
+            if (attribute.name.startsWith('data-')) {
+                data[attribute.name] = attribute.value;
+            }
+        }
+
+        ancestors.push({ tag: node.tagName.toLowerCase(), classes: [...node.classList], data });
+    }
+
+    return JSON.stringify({ collapsed: range.collapsed, ancestors });
 }
 
 // "marks|block|align|size": the pressed toggles, the block tag, the alignment and the text size at
