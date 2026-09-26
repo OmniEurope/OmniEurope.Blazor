@@ -120,6 +120,8 @@ un appui ailleurs ferme le menu et laisse le focus là où il a été posé.
 
 Les propriétés `MaximumFiles`, `MaximumFileSize` et `AllowedContentTypes` filtrent l'interface à partir de métadonnées fournies par le client. Elles ne constituent jamais une validation de sécurité du contenu reçu.
 
+`Accept` fixe l'attribut `accept` du champ fichier (`.csv,text/csv`) : il ne filtre que la fenêtre de sélection du système, les fichiers restant contrôlés par `AllowedContentTypes`. Sans lui, l'attribut est tiré de `AllowedContentTypes`, comme avant.
+
 Le champ est une zone de dépôt : le contrôle natif la couvre, invisible, si bien qu'un clic ouvre le sélecteur et qu'un fichier déposé n'importe où sur la zone y arrive sans script. La zone annonce ses limites (types, taille par fichier, nombre) et les relie au champ par `aria-describedby`.
 
 Lié par `@bind-Files`, le champ tient une liste d'`OmniUploadFile` (nom, taille, type) : les fichiers que l'application a déjà, puis ceux que l'utilisateur ajoute. Chaque ligne a son icône, sa taille et un bouton de retrait qui lève `FileRemoved` avec l'entrée, puis `FilesChanged` avec la liste sans elle. Une sélection acceptée s'ajoute à la liste avec `Multiple`, la remplace sinon, et seulement après la réussite d'`Upload` quand ce délégué est fourni ; `MaximumFiles` compte alors la liste entière. Non lié, le champ montre la dernière sélection, sans retrait.

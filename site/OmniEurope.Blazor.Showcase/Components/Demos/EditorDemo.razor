@@ -79,6 +79,7 @@
         <OmniFormField For="editor-manifest" Text="Manifeste de déploiement" Description="Un seul fichier, ouvre la fenêtre de sélection du système.">
             <OmniUpload Display="OmniUploadDisplay.Field"
                         InputId="editor-manifest"
+                        Accept=".json,.yaml,.yml"
                         MaximumFileSize="1048576"
                         @bind-Files="Manifest"
                         Upload="UploadAsync" />

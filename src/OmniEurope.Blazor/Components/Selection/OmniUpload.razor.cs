@@ -31,6 +31,14 @@ public partial class OmniUpload
     [Parameter]
     public IReadOnlyList<string> AllowedContentTypes { get; set; } = Array.Empty<string>();
 
+    /// <summary>
+    /// The <c>accept</c> attribute of the file input, as the browser reads it: extensions and types,
+    /// comma separated (<c>.csv,text/csv</c>). It only filters the file picker; the files are still
+    /// checked against <see cref="AllowedContentTypes"/>. Null or blank derives it from that list, as before.
+    /// </summary>
+    [Parameter]
+    public string? Accept { get; set; }
+
     [Parameter]
     public Func<OmniUploadRequest, Task>? Upload { get; set; }
 
@@ -71,7 +79,9 @@ public partial class OmniUpload
         ? Localize("UploadFailed")
         : UploadErrorMessage;
 
-    private string? Accept => AllowedContentTypes.Count == 0 ? null : string.Join(',', AllowedContentTypes);
+    private string? EffectiveAccept => !string.IsNullOrWhiteSpace(Accept)
+        ? Accept
+        : AllowedContentTypes.Count == 0 ? null : string.Join(',', AllowedContentTypes);
     private string MessageClass => CssClassBuilder.Combine(["omni-upload__message", _hasError ? "omni-upload__message--error" : null]);
     private string HintId => $"{InputId ?? Id ?? _generatedId}-hint";
 
