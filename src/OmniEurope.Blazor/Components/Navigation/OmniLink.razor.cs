@@ -26,6 +26,13 @@ public partial class OmniLink
     [Parameter]
     public string? AriaLabel { get; set; }
 
+    /// <summary>
+    /// Runs when the link is clicked, besides following <see cref="Href"/>: an action that goes with
+    /// the navigation (recording a choice, closing a panel). The navigation itself is unchanged.
+    /// </summary>
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
     private bool ShowsExternalIcon => NewTab && ShowNewTabIcon;
 
     private string? SafeHref => OmniUriPolicy.EnsureSafe(Href, nameof(Href));
