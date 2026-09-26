@@ -8,6 +8,7 @@
    target="@(NewTab ? "_blank" : null)"
    rel="@(NewTab ? "noopener noreferrer" : null)"
    aria-label="@AriaLabel"
+   @onclick="OnClick"
    @attributes="AdditionalAttributes">
     @ChildContent
     @if (ShowsExternalIcon)
