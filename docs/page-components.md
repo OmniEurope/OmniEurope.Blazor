@@ -29,6 +29,7 @@ et les filtres viennent sous le cadre.
 | `ShowTrail`, `TrailLabel` | La ligne des ancêtres (par défaut) et son nom accessible. Sans ancêtre, la ligne garde sa hauteur sans rendre de repère vide, pour que toutes les pages commencent leur contenu à la même hauteur. |
 | `ShowBack`, `BackHref`, `BackLabel` | Le bouton retour : vers `BackHref`, sinon vers l'ancêtre le plus proche qui porte un lien, sinon un pas en arrière dans l'historique du navigateur. |
 | `Badges`, `Actions` | Après le titre. Sous 40rem de large, ils se replient derrière un bouton (`aria-expanded`, `aria-controls`) et prennent une ligne entière une fois ouverts. |
+| `Icon` | Icône avant le titre (`aria-hidden`, couleur primaire). Le titre est alors rogné à ses capitales, si bien que le centre de l'icône tombe sur le centre du texte quelle que soit la police. |
 
 `OmniBreadcrumbService` (inscrit par `AddOmniEuropeBlazor`, portée scoped) tient le fil de la page
 affichée. La bibliothèque ne connaît aucune route : l'hôte inscrit un `IOmniBreadcrumbResolver`, dont
@@ -93,6 +94,13 @@ lecteur d'écran lirait sinon à chaque seconde. L'hôte tient le compte : le co
 
 `Icon` (un plateau vide par défaut, décoratif), `Title`, `Description` et `Actions`. Le titre est un
 paragraphe ; `Level` en fait un titre quand l'état vide ouvre une section.
+
+## Tuile de statistique : `OmniStatTile`
+
+`Value` (déjà formatée), `Label` (obligatoire), `Detail` (ligne atténuée facultative) et `Icon` (carré
+teinté, décoratif). Avec `OnClick`, la tuile entière devient un bouton, nommé par `AriaLabel` ou, à
+défaut, par « libellé : valeur » ; sans lui, un simple bloc que rien n'active. La valeur ne passe pas
+à la ligne, le libellé et le détail peuvent se couper.
 
 ## Assistant : `OmniWizard` et `OmniWizardStep`
 

@@ -2800,6 +2800,19 @@ polyline.omni-chart__line { fill: none; }
 .omni-settings-tile { background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); padding: var(--omni-tile-pad-y) 14px; transition: background-color 120ms ease; }
 /* Every tile answers the pointer, an informative one included: the hover says which setting the eye is on. */
 .omni-settings-tile:hover { background: color-mix(in srgb, var(--omni-color-text) 10%, var(--omni-card-background, var(--omni-color-surface))); }
+
+/* Stat tile: a key figure on the card surface. The icon square takes the accent tint of the settings
+   tiles; the value is the largest text of the tile and never wraps; label and detail stay muted.
+   Clickable, it is a real button that keeps the card look, with the settings-tile hover. */
+.omni-stat-tile { align-items: center; background: var(--omni-card-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); color: var(--omni-color-text); display: flex; font: inherit; gap: var(--omni-space-sm); min-inline-size: 0; padding: var(--omni-tile-pad-y) 14px; text-align: start; }
+.omni-stat-tile__icon { align-items: center; background: var(--omni-color-accent-subtle); block-size: var(--omni-icon-box); border-radius: var(--omni-radius); color: var(--omni-color-accent-strong); display: inline-flex; flex: none; inline-size: var(--omni-icon-box); justify-content: center; }
+.omni-stat-tile__text { display: flex; flex-direction: column; min-inline-size: 0; }
+.omni-stat-tile__value { font-size: 1.375rem; font-weight: 600; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-stat-tile__label,
+.omni-stat-tile__detail { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); overflow-wrap: anywhere; }
+.omni-stat-tile--action { cursor: pointer; transition: background-color 120ms ease; }
+.omni-stat-tile--action:hover { background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); }
+.omni-stat-tile--action:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-settings-tile__row { align-items: center; display: flex; flex-wrap: wrap; gap: 12px 16px; }
 .omni-settings-tile__icon { align-items: center; background: var(--omni-color-accent-subtle); block-size: var(--omni-icon-box); border-radius: var(--omni-radius); color: var(--omni-color-accent-strong); display: inline-flex; flex: 0 0 auto; inline-size: var(--omni-icon-box); justify-content: center; }
 .omni-settings-tile__text { display: flex; flex: 1 1 12rem; flex-direction: column; gap: 0.25rem; }

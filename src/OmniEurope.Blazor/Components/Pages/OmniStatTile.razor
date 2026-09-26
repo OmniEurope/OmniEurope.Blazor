@@ -1,0 +1,42 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* One figure on a card: the icon on its tinted square, the value large, what it measures under it,
+   and an optional detail line (a reset time, a trend). With OnClick the whole tile is one real
+   button, named by its label, so it answers Enter and Space and shows the focus ring; without it,
+   a plain block that nothing can activate. *@
+@if (OnClick.HasDelegate)
+{
+    <button id="@Id" type="button" class="@Css("omni-stat-tile", "omni-stat-tile--action")"
+            aria-label="@AccessibleName" @onclick="OnClick" @attributes="AdditionalAttributes">
+        @if (Icon is not null)
+        {
+            <span class="omni-stat-tile__icon" aria-hidden="true">@Icon</span>
+        }
+        <span class="omni-stat-tile__text">
+            <span class="omni-stat-tile__value">@Value</span>
+            <span class="omni-stat-tile__label">@Label</span>
+            @if (!string.IsNullOrWhiteSpace(Detail))
+            {
+                <span class="omni-stat-tile__detail">@Detail</span>
+            }
+        </span>
+    </button>
+}
+else
+{
+    <div id="@Id" class="@Css("omni-stat-tile")" @attributes="AdditionalAttributes">
+        @if (Icon is not null)
+        {
+            <span class="omni-stat-tile__icon" aria-hidden="true">@Icon</span>
+        }
+        <span class="omni-stat-tile__text">
+            <span class="omni-stat-tile__value">@Value</span>
+            <span class="omni-stat-tile__label">@Label</span>
+            @if (!string.IsNullOrWhiteSpace(Detail))
+            {
+                <span class="omni-stat-tile__detail">@Detail</span>
+            }
+        </span>
+    </div>
+}
