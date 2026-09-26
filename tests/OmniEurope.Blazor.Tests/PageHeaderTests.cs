@@ -92,6 +92,21 @@ public sealed class PageHeaderTests : OmniBunitContext
     }
 
     [Fact]
+    public void Header_Framed_IsTheDefault_AndFalseDrawsThePlainVariant()
+    {
+        var framed = Render<OmniPageHeader>(parameters => parameters
+            .Add(component => component.Title, "Projets")
+            .Add(component => component.ShowTrail, false));
+        var plain = Render<OmniPageHeader>(parameters => parameters
+            .Add(component => component.Title, "Projets")
+            .Add(component => component.ShowTrail, false)
+            .Add(component => component.Framed, false));
+
+        Assert.False(framed.Find(".omni-page-header__frame").ClassList.Contains("omni-page-header__frame--plain"));
+        Assert.True(plain.Find(".omni-page-header__frame").ClassList.Contains("omni-page-header__frame--plain"));
+    }
+
+    [Fact]
     public void Header_Icon_IsDrawnBeforeTheTitle_AndHiddenFromAssistiveTechnology()
     {
         var header = Render<OmniPageHeader>(parameters => parameters

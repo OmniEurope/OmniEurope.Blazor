@@ -32,6 +32,14 @@ public partial class OmniPageHeader : IDisposable
     [Parameter]
     public string? Subtitle { get; set; }
 
+    /// <summary>
+    /// Whether the back action, title, badges and actions sit in a bordered block on the surface
+    /// colour. True, the default, keeps that frame; false draws them straight on the page, without
+    /// border, background or inner padding.
+    /// </summary>
+    [Parameter]
+    public bool Framed { get; set; } = true;
+
     /// <summary>Heading level of the title; the header of a page is its first heading.</summary>
     [Parameter]
     public OmniHeadingLevel Level { get; set; } = OmniHeadingLevel.H1;

@@ -7,7 +7,7 @@
    twice; a page that knows better passes Title. On a phone the badges and actions fold behind a
    toggle, since a row of them would push the content off the screen; wider screens never fold. *@
 <div id="@Id" class="@Css("omni-page-header")" @attributes="AdditionalAttributes">
-    <div class="omni-page-header__frame">
+    <div class="@(Framed ? "omni-page-header__frame" : "omni-page-header__frame omni-page-header__frame--plain")">
         @if (ShowTrail)
         {
             <div class="omni-page-header__trail">
