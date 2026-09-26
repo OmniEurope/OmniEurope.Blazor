@@ -775,7 +775,9 @@ public partial class OmniDataGrid<TItem>
         }
         else
         {
-            var loaderChanged = !ReferenceEquals(_observedLoader, Load);
+            // Delegate equality (same method, same target): a parent binding a method group passes a
+            // new delegate on every render, which is not a new loader.
+            var loaderChanged = !Equals(_observedLoader, Load);
             _observedLoader = Load;
             if (Virtualized)
             {
