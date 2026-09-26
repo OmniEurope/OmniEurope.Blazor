@@ -122,6 +122,7 @@ component OmniEurope.Blazor.Components.OmniSpreadsheet
 component OmniEurope.Blazor.Components.OmniStack
 component OmniEurope.Blazor.Components.OmniStackedAreaSeries
 component OmniEurope.Blazor.Components.OmniStackedColumnSeries
+component OmniEurope.Blazor.Components.OmniStatTile
 component OmniEurope.Blazor.Components.OmniStatusBadge<TValue>
 component OmniEurope.Blazor.Components.OmniStatusStrip
 component OmniEurope.Blazor.Components.OmniStepTimeline
@@ -329,6 +330,7 @@ ctor public OmniEurope.Blazor.Components.OmniSpreadsheetData()
 ctor public OmniEurope.Blazor.Components.OmniStack()
 ctor public OmniEurope.Blazor.Components.OmniStackedAreaSeries()
 ctor public OmniEurope.Blazor.Components.OmniStackedColumnSeries()
+ctor public OmniEurope.Blazor.Components.OmniStatTile()
 ctor public OmniEurope.Blazor.Components.OmniStatus(OmniEurope.Blazor.Components.OmniBadgeVariant Variant, System.String Text)
 ctor public OmniEurope.Blazor.Components.OmniStatusBadge<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniStatusMap<TValue>(System.Collections.Generic.IEqualityComparer<TValue>? comparer = null)
@@ -1105,6 +1107,7 @@ method protected override OmniEurope.Blazor.Components.OmniStackedAreaSeries.Bui
 method protected override OmniEurope.Blazor.Components.OmniStackedAreaSeries.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStackedColumnSeries.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStackedColumnSeries.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniStatTile.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStatusBadge<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStatusBadge<TValue>.OnAfterRender(System.Boolean firstRender) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStatusBadge<TValue>.OnParametersSet() : System.Void
@@ -2939,6 +2942,12 @@ property public OmniEurope.Blazor.Components.OmniStackedAreaSeries.Title : Syste
 property public OmniEurope.Blazor.Components.OmniStackedColumnSeries.ColorIndex : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStackedColumnSeries.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartPoint> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStackedColumnSeries.Title : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniStatTile.AriaLabel : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniStatTile.Detail : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniStatTile.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniStatTile.Label : System.String {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniStatTile.OnClick : Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniStatTile.Value : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStatus.Description : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniStatus.Fill : OmniEurope.Blazor.Components.OmniBadgeFill {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniStatus.Icon : OmniEurope.Blazor.Components.OmniIconName? {get(public);init(public)}
@@ -3456,6 +3465,7 @@ type public OmniEurope.Blazor.Components.OmniStackOrientation [enum, sealed] : S
 type public OmniEurope.Blazor.Components.OmniStackOverflow [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniStackedAreaSeries [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniStackedColumnSeries [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniStatTile [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniStatus [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniStatus>
 type public OmniEurope.Blazor.Components.OmniStatusBadge<TValue> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniStatusMap<TValue> [class, sealed] : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TValue,OmniEurope.Blazor.Components.OmniStatus>>, System.Collections.IEnumerable

@@ -71,6 +71,55 @@ public sealed class PageLayoutTests : OmniBunitContext
     }
 
     [Fact]
+    public void StatTile_WithoutOnClick_IsAPlainBlockWithValueLabelAndDetail()
+    {
+        var tile = Render<OmniStatTile>(parameters => parameters
+            .Add(component => component.Value, "12,4 k")
+            .Add(component => component.Label, "Tokens aujourd'hui")
+            .Add(component => component.Detail, "Réinitialisation à 18:00")
+            .Add(component => component.Icon, (RenderFragment)(icon =>
+            {
+                icon.OpenComponent<OmniIcon>(0);
+                icon.AddComponentParameter(1, nameof(OmniIcon.Name), OmniIconName.Database);
+                icon.CloseComponent();
+            })));
+
+        var root = tile.Find(".omni-stat-tile");
+        Assert.Equal("DIV", root.TagName);
+        Assert.Empty(tile.FindAll("button"));
+        Assert.Equal("true", tile.Find(".omni-stat-tile__icon").GetAttribute("aria-hidden"));
+        Assert.Equal("12,4 k", tile.Find(".omni-stat-tile__value").TextContent);
+        Assert.Equal("Tokens aujourd'hui", tile.Find(".omni-stat-tile__label").TextContent);
+        Assert.Equal("Réinitialisation à 18:00", tile.Find(".omni-stat-tile__detail").TextContent);
+        Assert.DoesNotContain("style=", tile.Markup, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void StatTile_WithOnClick_IsOneNamedButton_AndOmitsAMissingDetail()
+    {
+        var clicks = 0;
+        var tile = Render<OmniStatTile>(parameters => parameters
+            .Add(component => component.Value, "83 %")
+            .Add(component => component.Label, "Hebdomadaire")
+            .Add(component => component.OnClick, () => clicks++));
+
+        var button = tile.Find("button.omni-stat-tile.omni-stat-tile--action");
+        Assert.Equal("button", button.GetAttribute("type"));
+        Assert.Equal("Hebdomadaire : 83 %", button.GetAttribute("aria-label"));
+        Assert.Empty(tile.FindAll(".omni-stat-tile__detail"));
+        Assert.Empty(tile.FindAll(".omni-stat-tile__icon"));
+
+        button.Click();
+        Assert.Equal(1, clicks);
+
+        var named = Render<OmniStatTile>(parameters => parameters
+            .Add(component => component.Label, "Tokens")
+            .Add(component => component.AriaLabel, "Ouvrir le détail des tokens")
+            .Add(component => component.OnClick, () => { }));
+        Assert.Equal("Ouvrir le détail des tokens", named.Find("button").GetAttribute("aria-label"));
+    }
+
+    [Fact]
     public void EmptyState_DefaultsToADecorativeTrayAndAParagraphTitle()
     {
         var empty = Render<OmniEmptyState>(parameters => parameters

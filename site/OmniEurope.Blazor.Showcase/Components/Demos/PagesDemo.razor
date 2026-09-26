@@ -61,4 +61,14 @@
     <OmniEmptyState Level="OmniHeadingLevel.H3" Title="Aucun résultat" Description="Aucun serveur ne correspond au filtre.">
         <Icon><OmniIcon Name="OmniIconName.Search" Size="OmniControlSize.Large" /></Icon>
     </OmniEmptyState>
+
+    @* Tuiles de statistique : la seconde, cliquable, est un vrai bouton nommé par son libellé et sa valeur. *@
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
+        <OmniStatTile Value="12,4 k" Label="Tokens aujourd'hui" Detail="Réinitialisation à 18:00">
+            <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
+        </OmniStatTile>
+        <OmniStatTile Value="83 %" Label="Hebdomadaire" OnClick="@(() => { })">
+            <Icon><OmniIcon Name="OmniIconName.CalendarCheck" /></Icon>
+        </OmniStatTile>
+    </OmniStack>
 </OmniStack>
