@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class DataGridDemo
@@ -24,6 +26,23 @@ public partial class DataGridDemo
         new("#2394", "aetheus-candidate", 125, "Succès"),
         new("#2393", "portfolio-build", 47, "Annulé")
     ];
+
+    /// <summary>The export of the first grid: every file, read page by page as a remote source would serve it.</summary>
+    private static OmniMarkdownTableExport<GridRow> CreateExport() => new()
+    {
+        Title = "Dossiers ouverts",
+        Columns =
+        [
+            new("Référence", row => row.Reference),
+            new("Demandeur", row => row.Applicant),
+            new("Pays", row => row.Country),
+            new("Montant", row => row.Amount.ToString("C0", CultureInfo.CurrentCulture))
+        ],
+        Fields = [new("Tri", "référence, croissant")],
+        PageSize = 3,
+        LoadPage = request => Task.FromResult(new OmniDataGridResult<GridRow>(
+            [.. Rows.OrderBy(row => row.Reference, StringComparer.Ordinal).Skip(request.Skip).Take(request.PageSize)], Rows.Count))
+    };
 
     private static readonly IReadOnlyList<GridRow> FewRows = [.. Rows.Take(3)];
 

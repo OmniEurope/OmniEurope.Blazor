@@ -143,6 +143,31 @@ public sealed class ThemeContrastMatrixTests
         Assert.True(failures.Length == 0, $"{theme} + {palette} in {mode}:\n{string.Join('\n', failures)}");
     }
 
+    /// <summary>
+    /// Aetheus recette R-347: the solid neutral badge (muted text as fill, surface as ink) stands out as a
+    /// component from the grid and card frames it sits on, which a theme may tint away from the page
+    /// (<c>--omni-card-background</c>, the grid's <c>--omni-grid-frame</c>, else the surface) and from the layer
+    /// fill. Its ink on it is the muted-text-on-surface pair of <see cref="Pairs"/>.
+    /// </summary>
+    [Theory]
+    [MemberData(nameof(Sets))]
+    public void Solid_neutral_badge_stands_out_from_grid_and_card_frames(string themeName, string paletteName, OmniAppearance mode)
+    {
+        var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
+        var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
+        var tokens = theme.With(palette).For(mode);
+        var fill = ShowcaseThemeTests.Resolve(tokens, tokens["--omni-color-text-muted"]);
+
+        foreach (var frame in new[] { "--omni-card-background", "--omni-layer-fill" })
+        {
+            var value = ShowcaseThemeTests.Resolve(tokens, tokens.TryGetValue(frame, out var own) ? own : tokens["--omni-color-surface"]);
+            var contrast = ThemeColor.Contrast(fill, value);
+            Assert.True(
+                contrast >= Component,
+                string.Create(CultureInfo.InvariantCulture, $"{themeName} + {paletteName} in {mode}: badge fill {fill} on {frame} ({value}): {contrast:F2}, below {Component:F1}"));
+        }
+    }
+
     /// <summary>The size of the matrix, so that a shrinking catalogue or pair list cannot pass unseen.</summary>
     [Fact]
     public void The_matrix_covers_200_sets_and_every_pair_of_each()

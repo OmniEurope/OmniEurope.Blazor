@@ -2,13 +2,24 @@
 @inherits OmniComponentBase
 
 <figure @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-chart")">
-    <svg class="omni-chart__svg" viewBox="@ViewBox" role="img" aria-labelledby="@TitleId @DescriptionId" preserveAspectRatio="xMidYMid meet">
+    <svg class="@SvgClass" viewBox="@ViewBox" role="img" aria-labelledby="@TitleId @DescriptionId" preserveAspectRatio="xMidYMid meet">
         <title id="@TitleId">@Title</title>
         <desc id="@DescriptionId">@Description</desc>
         @* Not fixed: every render of the chart refreshes every part, so a part registered late (a legend
            narrowing the plot, a series turning it into bands) moves the parts that rendered before it. *@
         <CascadingValue Value="_context" IsFixed="false">@ChildContent</CascadingValue>
     </svg>
+    @* A legend below the chart is HTML: it wraps on a narrow screen and keeps the page's text size,
+       where text inside the drawing shrinks with it. *@
+    @foreach (var legend in _context.LegendsBelow)
+    {
+        <ul class="omni-chart__legend omni-chart__legend--below" aria-label="@legend.Label">
+            @for (var index = 0; index < legend.Items.Count; index++)
+            {
+                <li class="omni-chart__legend-item"><span class="omni-chart__swatch omni-chart-color-@legend.ColorOf(index)" aria-hidden="true"></span>@legend.Items[index]</li>
+            }
+        </ul>
+    }
     @if (DataTable is not null)
     {
         <div class="omni-chart__data">@DataTable</div>

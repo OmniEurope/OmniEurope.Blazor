@@ -25,7 +25,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         "--omni-cell-pad-y", "--omni-card-pad", "--omni-alert-pad-y", "--omni-alert-pad-x",
         "--omni-item-pad-y", "--omni-tile-pad-y", "--omni-form-gap", "--omni-cal-cell", "--omni-pop-pad",
         "--omni-field-gap", "--omni-check-size", "--omni-switch-h", "--omni-icon-box",
-        "--omni-badge-pad-y", "--omni-section-pad", "--omni-alert-icon", "--omni-alert-glyph"
+        "--omni-badge-pad-y", "--omni-badge-height", "--omni-section-pad", "--omni-alert-icon", "--omni-alert-glyph"
     ];
 
     // ---- T21, T22: the density tokens ----
@@ -77,6 +77,8 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     [InlineData(".omni-upload__file-icon", "inline-size", "var(--omni-icon-box)")]
     [InlineData(".omni-upload__zone", "padding", "var(--omni-section-pad)")]
     [InlineData(".omni-badge", "padding", "var(--omni-badge-pad-y)")]
+    [InlineData(".omni-badge", "min-height", "var(--omni-badge-height)")]
+    [InlineData(".omni-badge", "min-width", "var(--omni-badge-height)")]
     [InlineData(".omni-notification", "padding", "var(--omni-alert-pad-y)")]
     [InlineData(".omni-dialog__content", "padding", "var(--omni-card-pad)")]
     [InlineData(".omni-form-field", "gap", "var(--omni-field-gap)")]
@@ -110,6 +112,24 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
             .FirstOrDefault(body => Regex.IsMatch(body, @"(?:^|;|\{)\s*" + Regex.Escape(property) + @"\s*:"));
         Assert.True(rule is not null, $"No {property} on {selector}.");
         Assert.Contains(expected, ShippedLookTests.Value(rule, property), StringComparison.Ordinal);
+    }
+
+    /// <summary>
+    /// Aetheus recette R-345: in a data row, an icon-only button (the host's or the grid's own edit
+    /// actions) is a square of the badge height, the token the status badges of the same row read.
+    /// </summary>
+    [Fact]
+    public void GridRowIconButtons_AreSquaresOfTheBadgeHeight()
+    {
+        var rule = ShippedLookTests.Body(
+            ".omni-data-grid__row > td :is(.omni-button:has(> .omni-button__content > .omni-icon:only-child), .omni-data-grid__icon-button)");
+
+        foreach (var property in new[] { "--omni-button-size", "block-size", "inline-size", "min-inline-size" })
+        {
+            Assert.Equal("var(--omni-badge-height)", ShippedLookTests.Value(rule, property));
+        }
+
+        Assert.Equal("0", ShippedLookTests.Value(rule, "padding"));
     }
 
     [Fact]

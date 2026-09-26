@@ -199,6 +199,134 @@ public sealed class ChartLayoutTests : OmniBunitContext
     }
 
     [Fact]
+    public void AspectRatio_Unset_WidensATimeSeries_ButKeepsAnExplicitSquareAndShortSeries()
+    {
+        // Aetheus recette R-353: thirty days drawn in a tall square left a card mostly empty.
+        var wide = RenderDaily(aspectRatio: null, legend: null);
+        var square = RenderDaily(aspectRatio: 1, legend: null);
+        var shortSeries = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Title, "Trimestre")
+            .AddChildContent<OmniLineSeries>(series => series.Add(line => line.Data, Points((0, 1), (1, 2), (2, 3)))));
+
+        wide.WaitForAssertion(() => Assert.Equal("-50 0 200 100", wide.Find("svg.omni-chart__svg").GetAttribute("viewBox")));
+        square.WaitForAssertion(() => Assert.Equal("0 0 100 100", square.Find("svg.omni-chart__svg").GetAttribute("viewBox")));
+        Assert.Equal("0 0 100 100", shortSeries.Find("svg.omni-chart__svg").GetAttribute("viewBox"));
+        // Only the wide drawing takes the class that enlarges its axis text on a narrow screen.
+        Assert.Contains("omni-chart__svg--wide", wide.Find("svg.omni-chart__svg").ClassList);
+        Assert.DoesNotContain("omni-chart__svg--wide", square.Find("svg.omni-chart__svg").ClassList);
+    }
+
+    [Fact]
+    public void WideChart_ThinsItsLabelsForTheLargerAxisTextOfNarrowScreens()
+    {
+        var chart = RenderDaily(aspectRatio: null, legend: null);
+
+        chart.WaitForAssertion(() =>
+        {
+            var xs = chart.FindAll(".omni-chart__axis--category text").Select(label => Number(label, "x")).ToList();
+            Assert.Equal(10, xs.Count);
+            Assert.All(xs.Zip(xs.Skip(1)), pair => Assert.True(
+                pair.Second - pair.First >= (5 * OmniChartContext.CharacterWidth * OmniChartContext.WideAxisFontSize / OmniChartContext.FontSize) + 1.5));
+        });
+
+        var css = File.ReadAllText(Path.Combine(RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        Assert.Contains(
+            FormattableString.Invariant($".omni-chart__svg--wide .omni-chart__axis text {{ font-size: {OmniChartContext.WideAxisFontSize}px; }}"),
+            css,
+            StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void CategoryAxis_ThinsLabelsThatWouldOverlap_KeepingTheFirstAndTheLast()
+    {
+        // Aetheus recette R-354: thirty dates under a square plot ran into one unreadable block.
+        var chart = RenderDaily(aspectRatio: 1, legend: null);
+
+        chart.WaitForAssertion(() =>
+        {
+            var labels = chart.FindAll(".omni-chart__axis--category text");
+            Assert.InRange(labels.Count, 2, 29);
+            Assert.Equal("01/09", labels[0].TextContent);
+            Assert.Equal("30/09", labels[^1].TextContent);
+            // Five characters of 1.7 units each, plus a gap: no two drawn labels can touch.
+            var xs = labels.Select(label => Number(label, "x")).ToList();
+            Assert.All(xs.Zip(xs.Skip(1)), pair => Assert.True(pair.Second - pair.First >= (5 * OmniChartContext.CharacterWidth) + 1.5));
+        });
+    }
+
+    [Fact]
+    public void CategoryAxis_DrawsEveryLabelThatFits()
+    {
+        var chart = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Title, "Semestre")
+            .AddChildContent<OmniCategoryAxis>(axis => axis.Add(component => component.Labels, Labels("Jan", "Fév", "Mar", "Avr", "Mai", "Jui"))));
+
+        Assert.Equal(["Jan", "Fév", "Mar", "Avr", "Mai", "Jui"], chart.FindAll(".omni-chart__axis--category text").Select(text => text.TextContent));
+    }
+
+    [Fact]
+    public void ColumnHoverText_NamesItsCategory_SoAThinnedOutDateStaysReachable()
+    {
+        var chart = RenderDaily(aspectRatio: 1, legend: null);
+
+        chart.WaitForAssertion(() =>
+        {
+            var titles = chart.FindAll(".omni-chart__columns rect title").Select(title => title.TextContent).ToList();
+            Assert.Equal(30, titles.Count);
+            Assert.Equal($"02/09 · {101.ToString(CultureInfo.CurrentCulture)}", titles[1]);
+        });
+    }
+
+    [Fact]
+    public void Legend_Auto_GoesBelowTheChartWhenItsEntriesAreLong_AndThePlotTakesTheFullWidth()
+    {
+        var chart = RenderDaily(aspectRatio: 1, legend: OmniLegendPosition.Auto);
+
+        chart.WaitForAssertion(() =>
+        {
+            Assert.Empty(chart.FindAll("svg .omni-chart__legend"));
+            var list = chart.Find("figure > ul.omni-chart__legend--below");
+            Assert.False(string.IsNullOrWhiteSpace(list.GetAttribute("aria-label")));
+            var items = list.QuerySelectorAll("li");
+            Assert.Equal(["Visiteurs uniques par jour", "Pages vues par jour"], items.Select(item => item.TextContent));
+            Assert.Contains("omni-chart-color-0", items[0].QuerySelector(".omni-chart__swatch")!.ClassList);
+            Assert.Contains("omni-chart-color-1", items[1].QuerySelector(".omni-chart__swatch")!.ClassList);
+            Assert.Equal("true", items[0].QuerySelector(".omni-chart__swatch")!.GetAttribute("aria-hidden"));
+            Assert.All(chart.FindAll(".omni-chart__grid-lines line"), line => Assert.Equal("96", line.GetAttribute("x2")));
+        });
+    }
+
+    [Fact]
+    public void Legend_Right_WidensItsColumnToTheLongestEntry_UpToTwoFifthsOfTheDrawing()
+    {
+        var chart = RenderDaily(aspectRatio: 1, legend: OmniLegendPosition.Right);
+
+        chart.WaitForAssertion(() =>
+        {
+            Assert.Empty(chart.FindAll("ul.omni-chart__legend--below"));
+            Assert.Equal(2, chart.FindAll("svg .omni-chart__legend text").Count);
+            // "Visiteurs uniques par jour" needs more than the 24 default; the column stops at 40.
+            Assert.All(chart.FindAll(".omni-chart__grid-lines line"), line => Assert.Equal("60", line.GetAttribute("x2")));
+        });
+    }
+
+    [Fact]
+    public void Legend_Bottom_LeavesNothingInsideTheDrawing()
+    {
+        var chart = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Title, "Légende")
+            .AddChildContent<OmniLegend>(legend => legend
+                .Add(component => component.Items, Labels("A"))
+                .Add(component => component.Position, OmniLegendPosition.Bottom)));
+
+        chart.WaitForAssertion(() =>
+        {
+            Assert.Empty(chart.FindAll("svg .omni-chart__legend"));
+            Assert.Equal("A", chart.Find("ul.omni-chart__legend--below li").TextContent);
+        });
+    }
+
+    [Fact]
     public void SingleSlice_IsAWholeDiscWithoutANotch()
     {
         var pie = Render<OmniPieSeries>(parameters => parameters.Add(component => component.Data, [new OmniChartSlice("Tout", 10)]));
@@ -220,6 +348,48 @@ public sealed class ChartLayoutTests : OmniBunitContext
         Assert.True(lastColour > 0);
         Assert.True(css.IndexOf("polyline.omni-chart__line { fill: none; }", StringComparison.Ordinal) > lastColour);
         Assert.True(css.IndexOf(".omni-chart__markers circle { fill: var(--omni-color-surface); }", StringComparison.Ordinal) > lastColour);
+    }
+
+    /// <summary>
+    /// The Aetheus daily audience: thirty dates, a column and a line series, and a legend with long
+    /// entries when <paramref name="legend"/> is given.
+    /// </summary>
+    private IRenderedComponent<OmniChart> RenderDaily(double? aspectRatio, OmniLegendPosition? legend)
+    {
+        var days = Enumerable.Range(1, 30).Select(day => $"{day:00}/09").ToArray();
+        var views = Enumerable.Range(0, 30).Select(day => new OmniChartPoint(day, 100 + day)).ToArray();
+        var visitors = Enumerable.Range(0, 30).Select(day => new OmniChartPoint(day, 40 + day)).ToArray();
+        return Render<OmniChart>(parameters =>
+        {
+            parameters.Add(component => component.Title, "Audience");
+            if (aspectRatio is { } ratio)
+            {
+                parameters.Add(component => component.AspectRatio, ratio);
+            }
+
+            parameters.AddChildContent(builder =>
+            {
+                builder.OpenComponent<OmniGridLines>(0);
+                builder.CloseComponent();
+                builder.OpenComponent<OmniCategoryAxis>(1);
+                builder.AddAttribute(2, nameof(OmniCategoryAxis.Labels), (IReadOnlyList<string>)days);
+                builder.CloseComponent();
+                builder.OpenComponent<OmniColumnSeries>(3);
+                builder.AddAttribute(4, nameof(OmniColumnSeries.Data), (IReadOnlyList<OmniChartPoint>)views);
+                builder.AddAttribute(5, nameof(OmniColumnSeries.ColorIndex), 1);
+                builder.CloseComponent();
+                builder.OpenComponent<OmniLineSeries>(6);
+                builder.AddAttribute(7, nameof(OmniLineSeries.Data), (IReadOnlyList<OmniChartPoint>)visitors);
+                builder.CloseComponent();
+                if (legend is { } position)
+                {
+                    builder.OpenComponent<OmniLegend>(8);
+                    builder.AddAttribute(9, nameof(OmniLegend.Items), Labels("Visiteurs uniques par jour", "Pages vues par jour"));
+                    builder.AddAttribute(10, nameof(OmniLegend.Position), position);
+                    builder.CloseComponent();
+                }
+            });
+        });
     }
 
     private static IReadOnlyList<string> Labels(params string[] labels) => labels;

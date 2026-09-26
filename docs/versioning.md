@@ -17,3 +17,7 @@ Aucune promesse de compatibilité binaire avec une autre bibliothèque de compos
 L'exception est admise pour un seul motif : les deux versions publiées auparavant, `0.1.0-alpha.1` et `1.0.0`, sont délistées de NuGet.org, si bien que `1.0.1` devient la seule version installable et donc la version par défaut. Aucun consommateur connu ne dépend du paquet publié : les applications de l'organisation référencent la bibliothèque par `ProjectReference`.
 
 Délister n'est pas supprimer : un projet qui épingle `1.0.0` continue de la restaurer, avec l'ancien aspect. Le numéro `1.0.1` ne se justifie qu'une fois les deux versions antérieures délistées ; tant que ce n'est pas fait, la règle générale s'applique. L'exception ne crée pas de précédent : toute autre rupture suit la règle de la version majeure.
+
+## Rupture assumée : `1.1.0`
+
+`1.1.0` porte une rupture dans une version mineure : `OmniDropDown` lève `InvalidOperationException` quand `ValueProperty` ou `TextProperty` désigne une propriété que l'élément ne possède pas, au lieu de se rabattre en silence sur l'élément. Décision du 2026-09-26 : aucune couche de compatibilité n'est maintenue pour l'ancien comportement. La rupture est listée sous « Breaking changes » dans `CHANGELOG.md`, avec la migration.

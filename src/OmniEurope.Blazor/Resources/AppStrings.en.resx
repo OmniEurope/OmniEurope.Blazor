@@ -83,6 +83,8 @@
   <data name="GridGroupColumn" xml:space="preserve"><value>Group by {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Remove the {0} grouping</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Expand or collapse every row</value></data>
+  <data name="GridDetachFrozen" xml:space="preserve"><value>Detach the frozen columns</value></data>
+  <data name="GridRefreezeFrozen" xml:space="preserve"><value>Freeze the columns again</value></data>
   <data name="GridShrinkColumn" xml:space="preserve"><value>Shrink the {0} column</value></data>
   <data name="GridGrowColumn" xml:space="preserve"><value>Grow the {0} column</value></data>
   <data name="GridThemeDark" xml:space="preserve"><value>Dark theme</value></data>
@@ -493,4 +495,12 @@
   <data name="GitGraphMerge" xml:space="preserve"><value>Merge commit.</value></data>
   <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(opens in a new tab)</value></data>
+  <data name="MarkdownExportButton" xml:space="preserve"><value>Export Markdown</value></data>
+  <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limit: {0} rows at most</value></data>
+  <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Generated at (UTC): {0}</value></data>
+  <data name="MarkdownExportRowCount" xml:space="preserve"><value>Rows exported: {0} of {1} announced</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Truncated export: {0} rows exported of {1}, the limit of {2} rows was reached.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Incomplete export: {0} rows exported of {1} announced, the data changed while it was being read.</value></data>
+  <data name="MarkdownExportEmpty" xml:space="preserve"><value>No rows.</value></data>
 </root>

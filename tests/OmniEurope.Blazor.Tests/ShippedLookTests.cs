@@ -160,7 +160,6 @@ public sealed partial class ShippedLookTests : OmniBunitContext
 
     [Theory]
     [InlineData(OmniBadgeVariant.Accent, OmniButtonVariant.Primary)]
-    [InlineData(OmniBadgeVariant.Neutral, OmniButtonVariant.Secondary)]
     [InlineData(OmniBadgeVariant.Info, OmniButtonVariant.Info)]
     [InlineData(OmniBadgeVariant.Success, OmniButtonVariant.Success)]
     [InlineData(OmniBadgeVariant.Warning, OmniButtonVariant.Warning)]
@@ -172,6 +171,21 @@ public sealed partial class ShippedLookTests : OmniBunitContext
 
         Assert.Equal(Value(fills, "--omni-button-fill"), Value(solid, "background"));
         Assert.Equal(Value(fills, "--omni-button-ink"), Value(solid, "color"));
+    }
+
+    /// <summary>
+    /// Aetheus recette R-347: the solid neutral badge took the secondary button's grey, 1.25:1 against a dark
+    /// grid surface, so a status badge vanished into its row. It is the one solid badge that departs from its
+    /// button: muted text as fill, surface as ink, a pair <see cref="ThemeContrastMatrixTests"/> holds at 4.5:1
+    /// on every surface of the 200 sets (above the 3:1 of a component and the 4.5:1 of its text).
+    /// </summary>
+    [Fact]
+    public void SolidNeutralBadge_StandsOutFromEverySurface()
+    {
+        var solid = Body(".omni-badge--solid.omni-badge--neutral");
+
+        Assert.Equal("var(--omni-color-text-muted)", Value(solid, "background"));
+        Assert.Equal("var(--omni-color-surface)", Value(solid, "color"));
     }
 
     [Fact]

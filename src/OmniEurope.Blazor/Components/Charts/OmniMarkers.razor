@@ -4,7 +4,7 @@
     {
         var point = Data[index];
         var projected = Projected(index);
-        <circle cx="@OmniChartGeometry.Number(projected.X)" cy="@OmniChartGeometry.Number(projected.Y)" r="@OmniChartGeometry.Number(Radius)"><title>@(point.Label ?? point.Y.ToString())</title></circle>
+        <circle cx="@OmniChartGeometry.Number(projected.X)" cy="@OmniChartGeometry.Number(projected.Y)" r="@OmniChartGeometry.Number(Radius)"><title>@(ChartContext?.PointTitle(index, point) ?? point.Label ?? point.Y.ToString())</title></circle>
     }
 </g>
 

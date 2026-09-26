@@ -83,6 +83,8 @@
   <data name="GridGroupColumn" xml:space="preserve"><value>Regrouper par {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Retirer le regroupement {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Développer ou réduire toutes les lignes</value></data>
+  <data name="GridDetachFrozen" xml:space="preserve"><value>Détacher les colonnes figées</value></data>
+  <data name="GridRefreezeFrozen" xml:space="preserve"><value>Refiger les colonnes</value></data>
   <data name="GridShrinkColumn" xml:space="preserve"><value>Réduire la largeur de {0}</value></data>
   <data name="GridGrowColumn" xml:space="preserve"><value>Augmenter la largeur de {0}</value></data>
   <data name="GridThemeDark" xml:space="preserve"><value>Thème sombre</value></data>
@@ -493,4 +495,12 @@
   <data name="GitGraphMerge" xml:space="preserve"><value>Commit de fusion.</value></data>
   <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0} : {1}</value></data>
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(s'ouvre dans un nouvel onglet)</value></data>
+  <data name="MarkdownExportButton" xml:space="preserve"><value>Exporter en .md</value></data>
+  <data name="MarkdownExportField" xml:space="preserve"><value>{0} : {1}</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limite : {0} lignes au plus</value></data>
+  <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Généré le (UTC) : {0}</value></data>
+  <data name="MarkdownExportRowCount" xml:space="preserve"><value>Lignes exportées : {0} sur {1} annoncées</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Export tronqué : {0} lignes exportées sur {1}, la limite de {2} lignes est atteinte.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export incomplet : {0} lignes exportées sur {1} annoncées, les données ont changé pendant la lecture.</value></data>
+  <data name="MarkdownExportEmpty" xml:space="preserve"><value>Aucune ligne.</value></data>
 </root>

@@ -10,6 +10,19 @@ public partial class ChartsExtendedDemo
 
     private static readonly string[] LineLegend = ["Dépôts", "Décisions"];
 
+    private static readonly string[] AudienceLegend = ["Visiteurs uniques par jour", "Pages vues par jour"];
+
+    private static readonly int[] AudienceColors = [0, 1];
+
+    private static readonly string[] Days =
+        [.. Enumerable.Range(1, 30).Select(day => new DateOnly(2026, 9, day).ToString("dd/MM", CultureInfo.InvariantCulture))];
+
+    private static readonly IReadOnlyList<OmniChartPoint> Visitors =
+        [.. Enumerable.Range(0, 30).Select(day => new OmniChartPoint(day, 60 + (day * 7 % 45)))];
+
+    private static readonly IReadOnlyList<OmniChartPoint> PageViews =
+        [.. Enumerable.Range(0, 30).Select(day => new OmniChartPoint(day, 180 + (day * 37 % 170)))];
+
     private static readonly IReadOnlyList<OmniChartPoint> Deposits =
     [
         new(1, 42), new(2, 58), new(3, 39), new(4, 61), new(5, 55), new(6, 68)

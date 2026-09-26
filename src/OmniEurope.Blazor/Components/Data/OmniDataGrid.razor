@@ -172,6 +172,19 @@
                        PageAriaLabelFormat="@PageAriaLabelFormat"
                        NumericPageCount="@NumericPageCount" />
         }
+        @* Detach control of the frozen columns: outside the scrolled area so it stays put, placed on
+           their trailing edge by omni-grid.js. Its name is stable, aria-pressed carries the state and
+           the tooltip names the next action (cycle in docs/data-components.md). *@
+        @if (HasFrozenColumns)
+        {
+            <button type="button" class="omni-data-grid__frozen-toggle" hidden="@(!ShowsFrozenToggle)"
+                    aria-pressed="@(FrozenDetached ? "true" : "false")"
+                    aria-label="@Localize("GridDetachFrozen")"
+                    title="@Localize(FrozenDetached ? "GridRefreezeFrozen" : "GridDetachFrozen")"
+                    @onclick="ToggleFrozenDetached">
+                <OmniIcon Name="@(FrozenDetached ? OmniIconName.Lock : OmniIconName.LockOpen)" Size="OmniControlSize.Small" />
+            </button>
+        }
         <div @ref="_viewport" class="@ViewportClass()">
             <table class="omni-data-grid__table" aria-rowcount="@RowCountAttribute()">
                 @if (!string.IsNullOrWhiteSpace(Caption))

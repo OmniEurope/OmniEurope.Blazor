@@ -78,6 +78,7 @@ component OmniEurope.Blazor.Components.OmniLoadingBar
 component OmniEurope.Blazor.Components.OmniLogViewer
 component OmniEurope.Blazor.Components.OmniLoginShell
 component OmniEurope.Blazor.Components.OmniMain
+component OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>
 component OmniEurope.Blazor.Components.OmniMarkers
 component OmniEurope.Blazor.Components.OmniMindMap
 component OmniEurope.Blazor.Components.OmniMindMapNodeProperties
@@ -264,6 +265,13 @@ ctor public OmniEurope.Blazor.Components.OmniLogLine(System.String Text, OmniEur
 ctor public OmniEurope.Blazor.Components.OmniLogViewer()
 ctor public OmniEurope.Blazor.Components.OmniLoginShell()
 ctor public OmniEurope.Blazor.Components.OmniMain()
+ctor public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>()
+ctor public OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>(System.String Title, System.Func<TItem,System.String?> Value)
+ctor public OmniEurope.Blazor.Components.OmniMarkdownTableDocument(System.String Markdown, System.Int32 RowCount, System.Int32 TotalCount, System.Boolean Truncated, System.DateTimeOffset GeneratedAt)
+ctor public OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>()
+ctor public OmniEurope.Blazor.Components.OmniMarkdownTableExporter(Microsoft.Extensions.Localization.IStringLocalizer<OmniEurope.Blazor.Resources.AppStrings> text, System.TimeProvider time)
+ctor public OmniEurope.Blazor.Components.OmniMarkdownTableField(System.String Label, System.String Value)
+ctor public OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest(System.Int32 Page, System.Int32 PageSize, System.Threading.CancellationToken CancellationToken)
 ctor public OmniEurope.Blazor.Components.OmniMarkers()
 ctor public OmniEurope.Blazor.Components.OmniMindMap()
 ctor public OmniEurope.Blazor.Components.OmniMindMapDocument()
@@ -723,6 +731,9 @@ field public static OmniEurope.Blazor.Components.OmniJustification.Start : OmniE
 field public static OmniEurope.Blazor.Components.OmniLayoutWidth.Content : OmniEurope.Blazor.Components.OmniLayoutWidth const = 2
 field public static OmniEurope.Blazor.Components.OmniLayoutWidth.Full : OmniEurope.Blazor.Components.OmniLayoutWidth const = 0
 field public static OmniEurope.Blazor.Components.OmniLayoutWidth.Wide : OmniEurope.Blazor.Components.OmniLayoutWidth const = 1
+field public static OmniEurope.Blazor.Components.OmniLegendPosition.Auto : OmniEurope.Blazor.Components.OmniLegendPosition const = 0
+field public static OmniEurope.Blazor.Components.OmniLegendPosition.Bottom : OmniEurope.Blazor.Components.OmniLegendPosition const = 2
+field public static OmniEurope.Blazor.Components.OmniLegendPosition.Right : OmniEurope.Blazor.Components.OmniLegendPosition const = 1
 field public static OmniEurope.Blazor.Components.OmniLoadingBarMode.Continuous : OmniEurope.Blazor.Components.OmniLoadingBarMode const = 1
 field public static OmniEurope.Blazor.Components.OmniLoadingBarMode.Sweep : OmniEurope.Blazor.Components.OmniLoadingBarMode const = 0
 field public static OmniEurope.Blazor.Components.OmniLogLevel.Critical : OmniEurope.Blazor.Components.OmniLogLevel const = 5
@@ -1003,6 +1014,7 @@ method protected override OmniEurope.Blazor.Components.OmniLogViewer.OnAfterRend
 method protected override OmniEurope.Blazor.Components.OmniLogViewer.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniLoginShell.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMain.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMarkers.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMarkers.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMindMap.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -1196,6 +1208,7 @@ method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.CancelEditAsync(T
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EditRowAsync(TItem item) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnColumnResizedAsync(System.String key, System.Double width) : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnHorizontalScrollChangedAsync(System.Boolean scrolled) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnViewportChangedAsync(System.Double scrollTop, System.Double viewportHeight) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.RefreshAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ReloadAsync() : System.Threading.Tasks.Task
@@ -1298,6 +1311,23 @@ method public OmniEurope.Blazor.Components.OmniLogLine.Equals(OmniEurope.Blazor.
 method public OmniEurope.Blazor.Components.OmniLogViewer.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniLogViewer.JumpToLatestAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniLogViewer.OnViewportChangedAsync(System.Double scrollTop, System.Double viewportHeight, System.Boolean atBottom, System.Boolean following) : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.<Clone>$() : OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>
+method public OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.Deconstruct(out System.String Title, out System.Func<TItem,System.String?> Value) : System.Void
+method public OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.Equals(OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.<Clone>$() : OmniEurope.Blazor.Components.OmniMarkdownTableDocument
+method public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.Deconstruct(out System.String Markdown, out System.Int32 RowCount, out System.Int32 TotalCount, out System.Boolean Truncated, out System.DateTimeOffset GeneratedAt) : System.Void
+method public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.Equals(OmniEurope.Blazor.Components.OmniMarkdownTableDocument? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.<Clone>$() : OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>
+method public OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.Equals(OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniMarkdownTableExporter.Build<TItem>(OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem> export, System.Collections.Generic.IReadOnlyList<TItem> rows, System.Int32 totalCount, System.DateTimeOffset generatedAt) : System.String
+method public OmniEurope.Blazor.Components.OmniMarkdownTableExporter.ExportAsync<TItem>(OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem> export, System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task<OmniEurope.Blazor.Components.OmniMarkdownTableDocument>
+method public OmniEurope.Blazor.Components.OmniMarkdownTableField.<Clone>$() : OmniEurope.Blazor.Components.OmniMarkdownTableField
+method public OmniEurope.Blazor.Components.OmniMarkdownTableField.Deconstruct(out System.String Label, out System.String Value) : System.Void
+method public OmniEurope.Blazor.Components.OmniMarkdownTableField.Equals(OmniEurope.Blazor.Components.OmniMarkdownTableField? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest.<Clone>$() : OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest
+method public OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest.Deconstruct(out System.Int32 Page, out System.Int32 PageSize, out System.Threading.CancellationToken CancellationToken) : System.Void
+method public OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest.Equals(OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniMarkers.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniMindMap.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniMindMapDocument.<Clone>$() : OmniEurope.Blazor.Components.OmniMindMapDocument
@@ -1431,6 +1461,7 @@ method public override OmniEurope.Blazor.Components.OmniArcGaugeScaleValue.SetPa
 method public override OmniEurope.Blazor.Components.OmniBreadcrumbEntry.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniBreadcrumbEntry.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniBreadcrumbEntry.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniChart.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView parameters) : System.Threading.Tasks.Task
 method public override OmniEurope.Blazor.Components.OmniChartPoint.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniChartPoint.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniChartPoint.ToString() : System.String
@@ -1517,6 +1548,21 @@ method public override OmniEurope.Blazor.Components.OmniKanbanMove<TItem>.ToStri
 method public override OmniEurope.Blazor.Components.OmniLogLine.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniLogLine.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniLogLine.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMarkdownTableDocument.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMarkdownTableDocument.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMarkdownTableDocument.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMarkdownTableField.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMarkdownTableField.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMarkdownTableField.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniMindMapDocument.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniMindMapDocument.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniMindMapDocument.ToString() : System.String
@@ -1655,6 +1701,18 @@ method public static OmniEurope.Blazor.Components.OmniKanbanMove<TItem>.op_Equal
 method public static OmniEurope.Blazor.Components.OmniKanbanMove<TItem>.op_Inequality(OmniEurope.Blazor.Components.OmniKanbanMove<TItem>? left, OmniEurope.Blazor.Components.OmniKanbanMove<TItem>? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniLogLine.op_Equality(OmniEurope.Blazor.Components.OmniLogLine? left, OmniEurope.Blazor.Components.OmniLogLine? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniLogLine.op_Inequality(OmniEurope.Blazor.Components.OmniLogLine? left, OmniEurope.Blazor.Components.OmniLogLine? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.op_Equality(OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>? left, OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.op_Inequality(OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>? left, OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMarkdownTableDocument.op_Equality(OmniEurope.Blazor.Components.OmniMarkdownTableDocument? left, OmniEurope.Blazor.Components.OmniMarkdownTableDocument? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMarkdownTableDocument.op_Inequality(OmniEurope.Blazor.Components.OmniMarkdownTableDocument? left, OmniEurope.Blazor.Components.OmniMarkdownTableDocument? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.op_Equality(OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>? left, OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.op_Inequality(OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>? left, OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMarkdownTableExporter.EscapeCell(System.String? value) : System.String
+method public static OmniEurope.Blazor.Components.OmniMarkdownTableExporter.EscapeInline(System.String? value) : System.String
+method public static OmniEurope.Blazor.Components.OmniMarkdownTableField.op_Equality(OmniEurope.Blazor.Components.OmniMarkdownTableField? left, OmniEurope.Blazor.Components.OmniMarkdownTableField? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMarkdownTableField.op_Inequality(OmniEurope.Blazor.Components.OmniMarkdownTableField? left, OmniEurope.Blazor.Components.OmniMarkdownTableField? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest.op_Equality(OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest? left, OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest.op_Inequality(OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest? left, OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniMindMapDocument.FromJson(System.String json) : OmniEurope.Blazor.Components.OmniMindMapDocument
 method public static OmniEurope.Blazor.Components.OmniMindMapDocument.op_Equality(OmniEurope.Blazor.Components.OmniMindMapDocument? left, OmniEurope.Blazor.Components.OmniMindMapDocument? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniMindMapDocument.op_Inequality(OmniEurope.Blazor.Components.OmniMindMapDocument? left, OmniEurope.Blazor.Components.OmniMindMapDocument? right) : System.Boolean
@@ -2425,6 +2483,7 @@ property public OmniEurope.Blazor.Components.OmniLayout.Width : OmniEurope.Blazo
 property public OmniEurope.Blazor.Components.OmniLegend.ColorIndexes : System.Collections.Generic.IReadOnlyList<System.Int32> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLegend.Items : System.Collections.Generic.IReadOnlyList<System.String> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLegend.Label : System.String {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniLegend.Position : OmniEurope.Blazor.Components.OmniLegendPosition {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLengthValidator.MaximumLength : System.Int32? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLengthValidator.Message : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLengthValidator.MinimumLength : System.Int32? {get(public);set(public)} [Parameter]
@@ -2479,6 +2538,33 @@ property public OmniEurope.Blazor.Components.OmniMain.ChildContent : Microsoft.A
 property public OmniEurope.Blazor.Components.OmniMain.ContentWidth : OmniEurope.Blazor.Components.OmniLayoutWidth {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMain.FocusTarget : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMain.Scrollable : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.Export : System.Func<OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>>? {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.FileName : System.String {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.OnError : Microsoft.AspNetCore.Components.EventCallback<System.Exception> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.OnExported : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniMarkdownTableDocument> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.Size : OmniEurope.Blazor.Components.OmniControlSize {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.Text : System.String {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.Variant : OmniEurope.Blazor.Components.OmniButtonVariant {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.Title : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>.Value : System.Func<TItem,System.String?> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.GeneratedAt : System.DateTimeOffset {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.IsComplete : System.Boolean {get(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.Markdown : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.RowCount : System.Int32 {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.TotalCount : System.Int32 {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.Truncated : System.Boolean {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.EmptyText : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.Fields : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniMarkdownTableField> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.PageSize : System.Int32 {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.RowKey : System.Func<TItem,System.Object>? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.RowLimit : System.Int32 {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTableField.Label : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTableField.Value : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest.CancellationToken : System.Threading.CancellationToken {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest.Page : System.Int32 {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest.PageSize : System.Int32 {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest.Skip : System.Int32 {get(public)}
 property public OmniEurope.Blazor.Components.OmniMarkers.ColorIndex : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMarkers.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartPoint> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMarkers.Radius : System.Double {get(public);set(public)} [Parameter]
@@ -3071,6 +3157,9 @@ property public required OmniEurope.Blazor.Components.OmniGanttTask.End : System
 property public required OmniEurope.Blazor.Components.OmniGanttTask.Id : System.String {get(public);init(public)}
 property public required OmniEurope.Blazor.Components.OmniGanttTask.Start : System.DateOnly {get(public);init(public)}
 property public required OmniEurope.Blazor.Components.OmniGanttTask.Title : System.String {get(public);init(public)}
+property public required OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.Columns : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>> {get(public);init(public)}
+property public required OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.LoadPage : System.Func<OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest,System.Threading.Tasks.Task<OmniEurope.Blazor.Components.OmniDataGridResult<TItem>>> {get(public);init(public)}
+property public required OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.Title : System.String {get(public);init(public)}
 property public required OmniEurope.Blazor.Components.OmniMindMapEdge.From : System.String {get(public);init(public)}
 property public required OmniEurope.Blazor.Components.OmniMindMapEdge.To : System.String {get(public);init(public)}
 property public required OmniEurope.Blazor.Components.OmniMindMapNode.Id : System.String {get(public);init(public)}
@@ -3266,6 +3355,7 @@ type public OmniEurope.Blazor.Components.OmniLabel [class] : OmniEurope.Blazor.C
 type public OmniEurope.Blazor.Components.OmniLayout [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniLayoutWidth [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniLegend [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniLegendPosition [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniLengthValidator [class] : OmniEurope.Blazor.Components.OmniValidatorBase<System.String>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniLineSeries [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniLink [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
@@ -3279,6 +3369,13 @@ type public OmniEurope.Blazor.Components.OmniLogLine [class, sealed] : System.IE
 type public OmniEurope.Blazor.Components.OmniLogViewer [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniLoginShell [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniMain [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
+type public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
+type public OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem> [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMarkdownTableColumn<TItem>>
+type public OmniEurope.Blazor.Components.OmniMarkdownTableDocument [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMarkdownTableDocument>
+type public OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem> [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>>
+type public OmniEurope.Blazor.Components.OmniMarkdownTableExporter [class, sealed]
+type public OmniEurope.Blazor.Components.OmniMarkdownTableField [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMarkdownTableField>
+type public OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMarkdownTablePageRequest>
 type public OmniEurope.Blazor.Components.OmniMarkers [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniMindMap [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniMindMapDocument [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMindMapDocument>

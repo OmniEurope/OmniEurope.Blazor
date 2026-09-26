@@ -57,6 +57,9 @@ public partial class OmniDataGrid<TItem>
     private bool _resizeAttached;
     private bool _filterMenuAttached;
     private bool _fillAttached;
+    private bool _frozenScrollAttached;
+    private bool _horizontallyScrolled;
+    private bool _frozenDetached;
     private string? _wheelScopeAttached;
     private bool _disposeRequested;
     private string? _appliedHeight;
@@ -1093,6 +1096,7 @@ public partial class OmniDataGrid<TItem>
                 await EnsureFilterMenuInteropAsync();
                 await EnsureFillInteropAsync();
                 await EnsureWheelScopeInteropAsync();
+                await EnsureFrozenScrollInteropAsync();
                 await CompletePreparationAsync();
                 if (ExternalData && !_externalRequested)
                 {
@@ -1106,6 +1110,7 @@ public partial class OmniDataGrid<TItem>
             await EnsureFilterMenuInteropAsync();
             await EnsureFillInteropAsync();
             await EnsureWheelScopeInteropAsync();
+            await EnsureFrozenScrollInteropAsync();
             if (!_virtualAttached)
             {
                 _selfReference ??= DotNetObjectReference.Create(this);
@@ -1167,6 +1172,80 @@ public partial class OmniDataGrid<TItem>
         _selfReference ??= DotNetObjectReference.Create(this);
         await _gridModule.InvokeVoidAsync("attachResize", _viewport, _selfReference, MinimumColumnWidth);
         _resizeAttached = true;
+    }
+
+    /// <summary>
+    /// Watches the horizontal scroll once a column is frozen, so the detach control can follow the
+    /// cycle documented in docs/data-components.md. The script reports only when the viewport leaves
+    /// or reaches its start, never on every scrolled frame.
+    /// </summary>
+    private async Task EnsureFrozenScrollInteropAsync()
+    {
+        // Columns that stop being frozen end a detachment, so freezing one again starts frozen.
+        if (!HasFrozenColumns)
+        {
+            _frozenDetached = false;
+        }
+
+        if (_frozenScrollAttached || !HasFrozenColumns)
+        {
+            return;
+        }
+
+        _gridModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
+        _selfReference ??= DotNetObjectReference.Create(this);
+        _frozenScrollAttached = true;
+        var scrolled = await _gridModule.InvokeAsync<bool>("attachFrozenScroll", _viewport, _selfReference);
+        if (scrolled != _horizontallyScrolled)
+        {
+            ApplyHorizontalScroll(scrolled);
+            StateHasChanged();
+        }
+    }
+
+    /// <summary>
+    /// Invoked by the grid script when the viewport leaves its horizontal start or comes back to it.
+    /// Coming back ends a detachment: the frozen columns are frozen again and the control hides.
+    /// </summary>
+    [JSInvokable]
+    public Task OnHorizontalScrollChangedAsync(bool scrolled)
+    {
+        if (scrolled != _horizontallyScrolled)
+        {
+            ApplyHorizontalScroll(scrolled);
+            StateHasChanged();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private void ApplyHorizontalScroll(bool scrolled)
+    {
+        _horizontallyScrolled = scrolled;
+        if (!scrolled)
+        {
+            _frozenDetached = false;
+        }
+    }
+
+    /// <summary>The detach control is offered only while frozen columns have rows passing under them.</summary>
+    private bool ShowsFrozenToggle => HasFrozenColumns && _horizontallyScrolled;
+
+    /// <summary>Whether the frozen columns currently scroll with the rest of the row.</summary>
+    private bool FrozenDetached => ShowsFrozenToggle && _frozenDetached;
+
+    /// <summary>
+    /// Detaches the frozen columns, or freezes them again. A detachment never exists at the start of
+    /// the table, so the control does nothing there (it is hidden anyway).
+    /// </summary>
+    private void ToggleFrozenDetached()
+    {
+        if (!ShowsFrozenToggle)
+        {
+            return;
+        }
+
+        _frozenDetached = !_frozenDetached;
     }
 
     /// <summary>
@@ -2594,6 +2673,8 @@ public partial class OmniDataGrid<TItem>
         Responsive ? "omni-data-grid--responsive" : null,
         FixedRowHeight && RowHeight is not null ? "omni-data-grid--fixed-row-height" : null,
         HeaderWrap == OmniDataGridHeaderWrap.Truncate ? "omni-data-grid--header-truncate" : null,
+        HasFrozenColumns ? "omni-data-grid--has-frozen" : null,
+        FrozenDetached ? "omni-data-grid--frozen-detached" : null,
         GridLines == OmniDataGridLines.Default ? null : $"omni-data-grid--lines-{GridLines.ToString().ToLowerInvariant()}");
 
     private string ViewportClass() => CssClassBuilder.Combine([
@@ -2920,6 +3001,12 @@ public partial class OmniDataGrid<TItem>
                 {
                     _fillAttached = false;
                     await _gridModule.InvokeVoidAsync("detachFill", _viewport);
+                }
+
+                if (_frozenScrollAttached && _gridModule is not null)
+                {
+                    _frozenScrollAttached = false;
+                    await _gridModule.InvokeVoidAsync("detachFrozenScroll", _viewport);
                 }
 
                 if (_gridModule is not null)

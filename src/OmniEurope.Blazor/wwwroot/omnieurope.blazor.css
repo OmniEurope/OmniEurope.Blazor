@@ -435,6 +435,7 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
     --omni-switch-h: 1.25rem;
     --omni-icon-box: 2.25rem;
     --omni-badge-pad-y: 3px;
+    --omni-badge-height: max(1.375rem, calc(var(--omni-control-font) - 0.0625rem + 2 * var(--omni-badge-pad-y) + 2 * var(--omni-border-width, 1px)));
     --omni-section-pad: 18px;
     --omni-alert-icon: 1.5rem;
     --omni-alert-glyph: 1rem;
@@ -463,6 +464,7 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
     --omni-switch-h: 1rem;
     --omni-icon-box: 1.625rem;
     --omni-badge-pad-y: 1px;
+    --omni-badge-height: max(1.375rem, calc(var(--omni-control-font) - 0.0625rem + 2 * var(--omni-badge-pad-y) + 2 * var(--omni-border-width, 1px)));
     --omni-section-pad: 10px;
     --omni-alert-icon: 1.125rem;
     --omni-alert-glyph: 0.75rem;
@@ -491,6 +493,7 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
     --omni-switch-h: 1.5rem;
     --omni-icon-box: 2.75rem;
     --omni-badge-pad-y: 5px;
+    --omni-badge-height: max(1.375rem, calc(var(--omni-control-font) - 0.0625rem + 2 * var(--omni-badge-pad-y) + 2 * var(--omni-border-width, 1px)));
     --omni-section-pad: 24px;
     --omni-alert-icon: 1.75rem;
     --omni-alert-glyph: 1.125rem;
@@ -798,7 +801,7 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
 .omni-icon--large { height: 1.5rem; width: 1.5rem; }
 
 /* Pastille tonale : l'encre de la variante mêlée à la surface et au texte, lisible en clair et en sombre. */
-.omni-badge { --omni-badge-ink: var(--omni-color-text-muted); align-items: center; background: color-mix(in srgb, var(--omni-badge-ink) 14%, var(--omni-color-surface)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-badge-ink) 32%, transparent); border-radius: var(--omni-radius-sm, calc(var(--omni-radius) / 2)); box-sizing: border-box; color: color-mix(in srgb, var(--omni-badge-ink) 40%, var(--omni-color-text)); display: inline-flex; font-size: calc(var(--omni-control-font) - 0.0625rem); font-variant-numeric: tabular-nums; font-weight: 650; gap: var(--omni-space-xs); justify-content: center; line-height: 1; min-height: 1.375rem; min-width: 1.375rem; padding: var(--omni-badge-pad-y) 0.5rem; white-space: nowrap; }
+.omni-badge { --omni-badge-ink: var(--omni-color-text-muted); align-items: center; background: color-mix(in srgb, var(--omni-badge-ink) 14%, var(--omni-color-surface)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-badge-ink) 32%, transparent); border-radius: var(--omni-radius-sm, calc(var(--omni-radius) / 2)); box-sizing: border-box; color: color-mix(in srgb, var(--omni-badge-ink) 40%, var(--omni-color-text)); display: inline-flex; font-size: calc(var(--omni-control-font) - 0.0625rem); font-variant-numeric: tabular-nums; font-weight: 650; gap: var(--omni-space-xs); justify-content: center; line-height: 1; min-height: var(--omni-badge-height); min-width: var(--omni-badge-height); padding: var(--omni-badge-pad-y) 0.5rem; white-space: nowrap; }
 .omni-badge .omni-icon { height: 0.875rem; width: 0.875rem; }
 /* An icon-only badge is a square as tall as the text badges beside it, its glyph in the middle. */
 .omni-badge--icon { aspect-ratio: 1; padding-inline: 0; }
@@ -814,7 +817,11 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
 /* Solid: exactly the fill and the ink of the button of the same intention, so a status and the
    action that concerns it carry the same colour. */
 .omni-badge--solid { background: var(--omni-color-accent-fill); border-color: transparent; color: var(--omni-color-on-accent-fill); }
-.omni-badge--solid.omni-badge--neutral { background: var(--omni-color-neutral-fill); color: var(--omni-color-text); }
+/* Neutral is the exception: the secondary button's grey sits within a few percent of the page and of a
+   grid or card surface (1.25:1 on a dark grid), and a solid badge has no shape of its own to be told apart by.
+   It takes the muted text as fill and the surface as ink: 4.5:1 or more on the page, muted and hovered
+   surfaces, 3:1 or more on grid, card and layer frames, in every set (ThemeContrastMatrixTests). */
+.omni-badge--solid.omni-badge--neutral { background: var(--omni-color-text-muted); color: var(--omni-color-surface); }
 .omni-badge--solid.omni-badge--info { background: var(--omni-color-info-bright); color: var(--omni-color-on-bright); }
 .omni-badge--solid.omni-badge--success { background: var(--omni-color-success-bright); color: var(--omni-color-on-bright); }
 .omni-badge--solid.omni-badge--warning { background: var(--omni-color-warning-deep); color: var(--omni-color-on-deep); }
@@ -2389,6 +2396,17 @@ body:has(.omni-overlay) { overflow: hidden; }
    reads as lying above them; at rest the grid stays flat. */
 .omni-data-grid__viewport--scrolled-x .omni-data-grid__column--frozen-last { box-shadow: 0.375rem 0 0.375rem -0.25rem rgb(0 0 0 / 28%); }
 .omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__viewport--scrolled-x .omni-data-grid__column--frozen-last { box-shadow: 0.375rem 0 0.5rem -0.25rem rgb(0 0 0 / 60%); }
+/* Detach control of the frozen columns: a round chip centred on their trailing edge, at the height of
+   the header row (placed by omni-grid.js). Detached, the columns scroll with the row and lose the
+   shadow; the chip stays where it was so the next click freezes them again. */
+.omni-data-grid--has-frozen { position: relative; }
+.omni-data-grid__frozen-toggle { align-items: center; background: var(--omni-grid-frame); block-size: 1.75rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: 50%; box-shadow: 0 0.125rem 0.375rem rgb(0 0 0 / 22%); color: var(--omni-color-text); cursor: pointer; display: inline-flex; inline-size: 1.75rem; inset-block-start: var(--omni-frozen-toggle-top, 0px); inset-inline-start: var(--omni-frozen-toggle-start, 0px); justify-content: center; margin-block-start: -0.875rem; margin-inline-start: -0.875rem; padding: 0; position: absolute; z-index: 4; }
+.omni-data-grid__frozen-toggle[hidden] { display: none; }
+.omni-data-grid__frozen-toggle:hover { border-color: var(--omni-color-accent); }
+.omni-data-grid__frozen-toggle:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-data-grid__frozen-toggle[aria-pressed="true"] { background: var(--omni-color-accent-fill); border-color: var(--omni-color-accent-fill); color: var(--omni-color-on-accent-fill); }
+.omni-data-grid--frozen-detached .omni-data-grid__table .omni-data-grid__column--frozen { inset-inline-start: auto; position: relative; z-index: auto; }
+.omni-data-grid.omni-data-grid--frozen-detached .omni-data-grid__viewport .omni-data-grid__column--frozen-last { box-shadow: none; }
 .omni-data-grid__row--interactive { cursor: pointer; }
 .omni-data-grid__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
 .omni-data-grid__state--loading { block-size: 10rem; vertical-align: middle; }
@@ -2401,6 +2419,11 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid__actions { white-space: nowrap; }
 .omni-data-grid__action--save { color: var(--omni-color-success); }
 .omni-data-grid__action--cancel { color: var(--omni-color-danger); }
+/* Row actions: in a data row, an icon-only button (the host's OmniButton or the grid's own edit
+   actions) is a square as tall and as wide as the status badges of the same row, one density token
+   for both (--omni-badge-height), so a row of statuses and actions reads as one line of equal marks. */
+.omni-data-grid__row > td :is(.omni-button:has(> .omni-button__content > .omni-icon:only-child), .omni-data-grid__icon-button) { --omni-button-size: var(--omni-badge-height); block-size: var(--omni-badge-height); inline-size: var(--omni-badge-height); justify-content: center; min-inline-size: var(--omni-badge-height); padding: 0; vertical-align: middle; }
+.omni-data-grid__row > td .omni-button:has(> .omni-button__content > .omni-icon:only-child) .omni-icon { height: 0.875rem; width: 0.875rem; }
 .omni-data-grid__group th { background: var(--omni-color-surface-muted); color: var(--omni-color-text); padding-block: 0; }
 .omni-data-grid__group[data-omni-group-level="1"] th { padding-inline-start: var(--omni-space-lg); }
 .omni-data-grid__group[data-omni-group-level="2"] th { padding-inline-start: var(--omni-space-xl, 3rem); }
@@ -2573,6 +2596,17 @@ body:has(.omni-overlay) { overflow: hidden; }
    a polygon. */
 polyline.omni-chart__line { fill: none; }
 .omni-chart__markers circle { fill: var(--omni-color-surface); }
+/* A legend below the chart is an HTML list: it keeps the page's text size, which text inside the
+   drawing loses as the drawing shrinks, and wraps on a narrow screen. The swatch takes the series
+   colour from its colour class through currentColor. */
+.omni-chart__legend--below { color: var(--omni-color-text); display: flex; flex-wrap: wrap; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs) var(--omni-space-md); justify-content: center; list-style: none; margin: var(--omni-space-xs) 0 0; padding: 0; }
+.omni-chart__legend-item { align-items: center; display: inline-flex; gap: var(--omni-space-xs); }
+.omni-chart__swatch { background: currentColor; block-size: 0.75em; border-radius: 2px; flex: none; inline-size: 0.75em; }
+/* A wide chart shrinks more than a square one on a phone, so its axis text is drawn half as large
+   again there; the category axis thins its labels for this size (OmniChartContext.WideAxisFontSize). */
+@media (max-width: 39.99rem) {
+    .omni-chart__svg--wide .omni-chart__axis text { font-size: 4.5px; }
+}
 .omni-arc-gauge__track { fill: none; stroke: var(--omni-color-border); stroke-linecap: round; stroke-width: 8; }
 .omni-arc-gauge__value path { fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 8; }
 .omni-arc-gauge text { fill: var(--omni-color-text); stroke: none; }
