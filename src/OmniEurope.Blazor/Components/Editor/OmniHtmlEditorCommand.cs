@@ -22,6 +22,13 @@ public sealed record OmniHtmlEditorCommand(string Name, OmniHtmlEditorAction Act
     /// <summary>The handler of a <see cref="OmniHtmlEditorAction.Custom"/> command.</summary>
     public Func<OmniHtmlEditorCommandContext, Task>? Execute { get; init; }
 
+    /// <summary>
+    /// Makes the command a toggle: its button carries <c>aria-pressed</c>, true when this returns
+    /// true for the selection at hand (null in the source face or before the first report). Setting
+    /// it makes the surface report the selection, and it replaces the built-in pressed state.
+    /// </summary>
+    public Func<OmniHtmlEditorSelection?, bool>? Pressed { get; init; }
+
     /// <summary>A command that runs <paramref name="execute"/> when chosen.</summary>
     public static OmniHtmlEditorCommand Create(
         string name,

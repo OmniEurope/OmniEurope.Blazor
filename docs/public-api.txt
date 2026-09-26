@@ -2494,6 +2494,7 @@ property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Execute : Sys
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Icon : OmniEurope.Blazor.Components.OmniIconName? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Label : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Name : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Pressed : System.Func<OmniEurope.Blazor.Components.OmniHtmlEditorSelection?,System.Boolean>? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.Command : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.Html : System.String {get(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.Mode : OmniEurope.Blazor.Components.OmniHtmlEditorMode {get(public)}
