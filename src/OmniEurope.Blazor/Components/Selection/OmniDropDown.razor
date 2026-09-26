@@ -5,6 +5,7 @@
 @if (AllowFiltering)
 {
     <OmniAutocomplete TValue="TValue"
+                      Id="@Id"
                       Value="@CurrentValue"
                       ValueChanged="HandleAutocompleteChangeAsync"
                       ValueExpression="@ValueExpression"

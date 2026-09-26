@@ -20,6 +20,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Fixed
 
+- `OmniDropDown` avec `AllowFiltering` : l'`Id` est transmis au champ de l'`OmniAutocomplete` interne, qu'un `<OmniLabel For="…">` peut donc cibler comme la liste simple ; `AriaLabel` et `AriaDescribedBy` y étaient déjà transmis.
 - `OmniDataGrid` : un `Load` lié à un groupe de méthodes (`Load="LoadAsync"`) ne recharge plus la grille à chaque rendu du parent. Le chargeur est comparé par égalité de délégué (même méthode, même cible) au lieu de l'identité de l'instance, que chaque rendu renouvelle ; un chargeur réellement différent recharge toujours.
 - `OmniDataGrid` : disposer une grille dont un `Load` est en cours ne bloque plus. La disposition annule le chargement avant d'attendre le rendu qui l'attendait, et un chargement annulé n'est plus attendu même si le chargeur ignore son `CancellationToken` (auparavant, un `Load` jamais terminé figeait la disposition, par exemple au démontage d'un test bUnit).
 
