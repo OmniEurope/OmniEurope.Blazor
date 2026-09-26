@@ -1,7 +1,8 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<button @attributes="AdditionalAttributes"
+<button aria-label="@AriaLabel"
+        @attributes="AdditionalAttributes"
         id="@Id"
         type="button"
         class="@Css("omni-toggle-button", $"omni-toggle-button--{Size.ToString().ToLowerInvariant()}", Value ? "omni-toggle-button--pressed" : null, Busy ? "omni-busy" : null)"
