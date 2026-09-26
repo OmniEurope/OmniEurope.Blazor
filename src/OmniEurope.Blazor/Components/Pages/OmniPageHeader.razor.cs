@@ -64,6 +64,13 @@ public partial class OmniPageHeader : IDisposable
     [Parameter]
     public string? BackLabel { get; set; }
 
+    /// <summary>
+    /// Icon drawn before the title, its centre on the centre of the title's capital letters. Null, the
+    /// default, renders the title alone.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Icon { get; set; }
+
     /// <summary>Status badges right after the title. Folded with the actions on a phone.</summary>
     [Parameter]
     public RenderFragment? Badges { get; set; }
