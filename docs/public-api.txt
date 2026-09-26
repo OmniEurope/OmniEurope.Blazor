@@ -3151,6 +3151,7 @@ property public OmniEurope.Blazor.Components.OmniTimelineItem.ChildContent : Mic
 property public OmniEurope.Blazor.Components.OmniTimelineItem.Date : System.DateTimeOffset? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimelineItem.DateText : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTimelineItem.Title : System.String {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniToggleButton.AriaLabel : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniToggleButton.Busy : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniToggleButton.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniToggleButton.Disabled : System.Boolean {get(public);set(public)} [Parameter]
