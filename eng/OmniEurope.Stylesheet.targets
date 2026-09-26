@@ -112,7 +112,7 @@ public sealed class OmniMinifyCss : Microsoft.Build.Utilities.Task
   <Target Name="OmniMinifyStylesheet" BeforeTargets="ResolveProjectStaticWebAssets" Condition="'$(NoBuild)' != 'true'">
     <PropertyGroup>
       <_OmniStylesheetSource>$(MSBuildProjectDirectory)\wwwroot\omnieurope.blazor.css</_OmniStylesheetSource>
-      <_OmniStylesheetRoot>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\$(IntermediateOutputPath)omni-stylesheet'))\</_OmniStylesheetRoot>
+      <_OmniStylesheetRoot>$([System.IO.Path]::GetFullPath($([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(IntermediateOutputPath)omni-stylesheet'))))\</_OmniStylesheetRoot>
     </PropertyGroup>
 
     <OmniMinifyCss Source="$(_OmniStylesheetSource)" Destination="$(_OmniStylesheetRoot)omnieurope.blazor.css" />
