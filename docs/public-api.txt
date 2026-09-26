@@ -1304,6 +1304,7 @@ method public OmniEurope.Blazor.Components.OmniGraphLayoutResult.Deconstruct(out
 method public OmniEurope.Blazor.Components.OmniGraphLayoutResult.Equals(OmniEurope.Blazor.Components.OmniGraphLayoutResult? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniGraphPoint.Deconstruct(out System.Double X, out System.Double Y) : System.Void
 method public OmniEurope.Blazor.Components.OmniGraphPoint.Equals(OmniEurope.Blazor.Components.OmniGraphPoint other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniHtmlEditor.CommitDomAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniHtmlEditor.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.<Clone>$() : OmniEurope.Blazor.Components.OmniHtmlEditorCommand
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Deconstruct(out System.String Name, out OmniEurope.Blazor.Components.OmniHtmlEditorAction Action) : System.Void

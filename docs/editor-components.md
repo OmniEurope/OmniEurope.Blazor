@@ -51,7 +51,10 @@ Un hôte qui modifie lui-même le document par son propre script (structure, num
 appelle `context.CommitDomAsync()` : l'éditeur relit la surface, l'assainit avec la liste blanche et
 `SanitizerPolicy`, en fait une étape d'historique et lève `ValueChanged` si la valeur change. Ce que
 l'assainissement a retiré disparaît aussi de la surface, redessinée depuis la valeur. En face source,
-`CommitDomAsync` ne fait rien.
+`CommitDomAsync` ne fait rien. Hors d'une commande (clic sur une note en ligne, suggestion acceptée),
+l'hôte appelle `OmniHtmlEditor.CommitDomAsync()` sur la référence du composant (`@ref`), avec le même
+effet ; la méthode passe elle-même par le répartiteur du rendu et peut donc être appelée d'un rappel JS.
+Le script de l'hôte trouve alors la surface par l'`Id` de l'éditeur.
 
 Les interrupteurs `EnableBold`, `EnableItalic`, `EnableSubscript`, `EnableSuperscript`, `EnableIndent`
 et `EnableOutdent` masquent toujours leur commande, quelle que soit la barre, et `CustomTools`
