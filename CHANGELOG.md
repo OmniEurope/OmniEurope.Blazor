@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Non publié]
 
+### Added
+
+- `OmniOverlayService.OpenDialogAsync<TComponent>(title, parameters, closeLabel)` : ouvre un composant comme contenu de dialogue, chaque entrée de `parameters` devenant le paramètre de ce nom, et attend le résultat que le composant remet par `CloseDialog(object?)` (null pour toute autre fermeture). Évite à chaque hôte de réécrire le `RenderFragment` d'ouverture (migration Bellwether).
+
 ## [1.1.0] - 2026-09-26
 
 ### Breaking changes

@@ -70,6 +70,34 @@ public sealed class OmniOverlayService : IDisposable
     }
 
     /// <summary>
+    /// Opens <typeparamref name="TComponent"/> as the content of a dialog and waits for its outcome, like
+    /// <see cref="OpenDialogAsync(OmniDialogRequest)"/>. Each entry of <paramref name="parameters"/> is
+    /// passed to the component as the parameter of that name. The component reports its outcome with
+    /// <see cref="CloseDialog(object?)"/>; any other dismissal answers null.
+    /// </summary>
+    public Task<object?> OpenDialogAsync<TComponent>(
+        string title,
+        IReadOnlyDictionary<string, object?>? parameters = null,
+        string closeLabel = "")
+        where TComponent : Microsoft.AspNetCore.Components.IComponent
+    {
+        ArgumentNullException.ThrowIfNull(title);
+        return OpenDialogAsync(new OmniDialogRequest(title, builder =>
+        {
+            builder.OpenComponent<TComponent>(0);
+            if (parameters is not null)
+            {
+                foreach (var (name, value) in parameters)
+                {
+                    builder.AddComponentParameter(1, name, value);
+                }
+            }
+
+            builder.CloseComponent();
+        }, closeLabel));
+    }
+
+    /// <summary>
     /// Asks a yes-or-no question in a dialog built to the package's button convention: the action
     /// first, cancelling after it in the neutral <see cref="OmniButtonVariant.Secondary"/>, both at the end of the
     /// footer and each with its icon. True only when the action is chosen; cancelling, the close

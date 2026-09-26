@@ -169,6 +169,29 @@ public sealed class OverlayComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task OpenDialogAsyncOfComponent_RendersTheComponentWithItsParameters_AndAnswersItsResult()
+    {
+        using var service = new OmniOverlayService();
+        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+
+        var pending = service.OpenDialogAsync<OmniText>(
+            "Renommer",
+            new Dictionary<string, object?>
+            {
+                [nameof(OmniText.ChildContent)] = (RenderFragment)(content => content.AddContent(0, "Contenu du dialogue")),
+                [nameof(OmniText.Class)] = "dialog-probe",
+            });
+
+        host.WaitForAssertion(() => Assert.Equal("Contenu du dialogue", host.Find(".dialog-probe").TextContent));
+        Assert.Equal("Renommer", service.Dialog!.Title);
+
+        service.CloseDialog("fait");
+
+        Assert.Equal("fait", await pending);
+        Assert.Null(service.Dialog);
+    }
+
+    [Fact]
     public async Task ConfirmAsync_ClosedAnyOtherWay_AnswersFalse()
     {
         using var service = new OmniOverlayService();
