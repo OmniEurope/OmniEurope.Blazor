@@ -246,6 +246,7 @@ ctor public OmniEurope.Blazor.Components.OmniHeading()
 ctor public OmniEurope.Blazor.Components.OmniHtmlEditor()
 ctor public OmniEurope.Blazor.Components.OmniHtmlEditorCommand(System.String Name, OmniEurope.Blazor.Components.OmniHtmlEditorAction Action)
 ctor public OmniEurope.Blazor.Components.OmniHtmlEditorTool(System.String Name, System.String Label, System.Func<System.String,System.String> Transform)
+ctor public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy()
 ctor public OmniEurope.Blazor.Components.OmniIcon()
 ctor public OmniEurope.Blazor.Components.OmniIconGlyph(System.String pathData, System.Int32 viewBoxSize)
 ctor public OmniEurope.Blazor.Components.OmniImage()
@@ -1297,6 +1298,8 @@ method public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.SetHtmlA
 method public OmniEurope.Blazor.Components.OmniHtmlEditorTool.<Clone>$() : OmniEurope.Blazor.Components.OmniHtmlEditorTool
 method public OmniEurope.Blazor.Components.OmniHtmlEditorTool.Deconstruct(out System.String Name, out System.String Label, out System.Func<System.String,System.String> Transform) : System.Void
 method public OmniEurope.Blazor.Components.OmniHtmlEditorTool.Equals(OmniEurope.Blazor.Components.OmniHtmlEditorTool? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.<Clone>$() : OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy
+method public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.Equals(OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniKanban<TItem>.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniKanbanColumn.<Clone>$() : OmniEurope.Blazor.Components.OmniKanbanColumn
 method public OmniEurope.Blazor.Components.OmniKanbanColumn.Deconstruct(out System.String Key, out System.String Title) : System.Void
@@ -1548,6 +1551,9 @@ method public override OmniEurope.Blazor.Components.OmniHtmlEditorCommand.ToStri
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorTool.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorTool.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorTool.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniInputBase<TValue>.SetParametersAsync(Microsoft.AspNetCore.Components.ParameterView parameters) : System.Threading.Tasks.Task
 method public override OmniEurope.Blazor.Components.OmniKanbanColumn.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniKanbanColumn.GetHashCode() : System.Int32
@@ -1704,6 +1710,8 @@ method public static OmniEurope.Blazor.Components.OmniHtmlEditorCommand.op_Equal
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorCommand.op_Inequality(OmniEurope.Blazor.Components.OmniHtmlEditorCommand? left, OmniEurope.Blazor.Components.OmniHtmlEditorCommand? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorTool.op_Equality(OmniEurope.Blazor.Components.OmniHtmlEditorTool? left, OmniEurope.Blazor.Components.OmniHtmlEditorTool? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorTool.op_Inequality(OmniEurope.Blazor.Components.OmniHtmlEditorTool? left, OmniEurope.Blazor.Components.OmniHtmlEditorTool? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.op_Equality(OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? left, OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.op_Inequality(OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? left, OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniIconGlyph.Phosphor(System.String pathData) : OmniEurope.Blazor.Components.OmniIconGlyph
 method public static OmniEurope.Blazor.Components.OmniKanbanColumn.op_Equality(OmniEurope.Blazor.Components.OmniKanbanColumn? left, OmniEurope.Blazor.Components.OmniKanbanColumn? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniKanbanColumn.op_Inequality(OmniEurope.Blazor.Components.OmniKanbanColumn? left, OmniEurope.Blazor.Components.OmniKanbanColumn? right) : System.Boolean
@@ -2443,6 +2451,7 @@ property public OmniEurope.Blazor.Components.OmniHtmlEditor.Label : System.Strin
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.Mode : OmniEurope.Blazor.Components.OmniHtmlEditorMode {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.ModeChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniHtmlEditorMode> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.Rows : System.Int32 {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniHtmlEditor.SanitizerPolicy : OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.ShowPreview : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Action : OmniEurope.Blazor.Components.OmniHtmlEditorAction {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Execute : System.Func<OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext,System.Threading.Tasks.Task>? {get(public);init(public)}
@@ -2455,6 +2464,12 @@ property public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.Mode :
 property public OmniEurope.Blazor.Components.OmniHtmlEditorTool.Label : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorTool.Name : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorTool.Transform : System.Func<System.String,System.String> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.AdditionalAttributes : System.Collections.Generic.IReadOnlyList<System.String> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.AdditionalCssClasses : System.Collections.Generic.IReadOnlyList<System.String> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.AdditionalTagAttributes : System.Collections.Generic.IReadOnlyDictionary<System.String,System.Collections.Generic.IReadOnlyList<System.String>> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.AdditionalTags : System.Collections.Generic.IReadOnlyList<System.String> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.AllowAnyClass : System.Boolean {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.AllowDataAttributes : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniIcon.AriaLabel : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniIcon.Glyph : OmniEurope.Blazor.Components.OmniIconGlyph? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniIcon.Name : OmniEurope.Blazor.Components.OmniIconName {get(public);set(public)} [Parameter]
@@ -3362,6 +3377,7 @@ type public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext [class, se
 type public OmniEurope.Blazor.Components.OmniHtmlEditorCommands [static-class, static]
 type public OmniEurope.Blazor.Components.OmniHtmlEditorMode [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniHtmlEditorTool [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniHtmlEditorTool>
+type public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy>
 type public OmniEurope.Blazor.Components.OmniIcon [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniIconGlyph [class, sealed]
 type public OmniEurope.Blazor.Components.OmniIconName [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32

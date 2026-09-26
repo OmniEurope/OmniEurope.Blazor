@@ -29,17 +29,22 @@ const marks = [
     ['superscript', 'superscript']
 ];
 
+// The elements a paragraph cannot hold: text next to them is wrapped in its own paragraph, and one
+// found inside a paragraph is lifted out of it. The sectioning elements only ever reach the surface
+// when a host policy allows them (an aside holding a note, a figure).
+const hostBlocks = 'ul,ol,table,blockquote,pre,h1,h2,h3,h4,h5,h6,div,p,aside,section,article,figure,header,footer,nav,address,dl';
+
 export function mount(surface, dotnet, html, options) {
     if (!surface || editors.has(surface)) {
         return;
     }
 
-    const state = { surface, dotnet, timer: 0, range: null, key: '', sent: null, listeners: [] };
+    const state = { surface, dotnet, timer: 0, range: null, key: '', sent: null, listeners: [], classes: allowedClasses, policy: false };
     editors.set(surface, state);
+    configure(surface, options);
     surface.innerHTML = html ?? '';
     normalise(surface);
     state.sent = surface.innerHTML;
-    configure(surface, options);
     listen(state, surface, 'focusin', () => prepareDocument());
     listen(state, surface, 'input', () => schedule(state));
     listen(state, surface, 'paste', event => paste(state, event));
@@ -54,6 +59,16 @@ export function configure(surface, options) {
     const rows = Number(options?.rows);
     if (surface && Number.isFinite(rows) && rows > 0) {
         surface.style.setProperty('--omni-html-editor-rows', String(Math.min(Math.round(rows), 80)));
+    }
+
+    // The sanitiser policy of the host, mirrored so that tidying keeps what .NET would keep: the
+    // classes it allows (null for any class), and spans that carry an allowed attribute.
+    const state = editors.get(surface);
+    if (state) {
+        state.policy = options?.policy === true;
+        state.classes = !state.policy
+            ? allowedClasses
+            : Array.isArray(options?.classes) ? new Set(options.classes) : null;
     }
 }
 
@@ -815,9 +830,11 @@ function normalise(surface) {
         unwrap(font);
     }
 
+    const state = editors.get(surface);
+    const classes = state ? state.classes : allowedClasses;
     for (const element of surface.querySelectorAll('[class]')) {
         for (const name of [...element.classList]) {
-            if (!allowedClasses.has(name)) {
+            if (classes && !classes.has(name)) {
                 element.classList.remove(name);
             }
         }
@@ -827,8 +844,12 @@ function normalise(surface) {
         }
     }
 
+    // Under a host policy a span may carry its meaning in another attribute (data-*, a title), so
+    // only a bare span is unwrapped; the sanitiser in .NET still has the last word on the value.
     for (const span of surface.querySelectorAll('span:not([class])')) {
-        unwrap(span);
+        if (!state?.policy || span.attributes.length === 0) {
+            unwrap(span);
+        }
     }
 
     for (const anchor of surface.querySelectorAll('a[href]')) {
@@ -851,7 +872,7 @@ function tidy(surface) {
 // Text left directly in the surface (the first characters typed in an empty editor, a list turned
 // back into text) becomes paragraphs, a line break ending one.
 function wrapLooseContent(surface) {
-    const blocks = 'ul,ol,table,blockquote,pre,h1,h2,h3,h4,h5,h6,div,p,hr';
+    const blocks = `${hostBlocks},hr`;
     let moved = false;
     let run = null;
     for (const child of [...surface.childNodes]) {
@@ -892,7 +913,7 @@ function wrapLooseContent(surface) {
 // paragraph closes before the list), so the value would change on its next load: the paragraph is
 // split around its blocks instead, what surrounds them becoming paragraphs of their own.
 function liftBlocks(surface) {
-    const blocks = 'ul,ol,table,blockquote,pre,h1,h2,h3,h4,h5,h6,div,p';
+    const blocks = hostBlocks;
     let moved = false;
     for (const paragraph of surface.querySelectorAll('p')) {
         if (!paragraph.isConnected || ![...paragraph.children].some(child => child.matches(blocks))) {

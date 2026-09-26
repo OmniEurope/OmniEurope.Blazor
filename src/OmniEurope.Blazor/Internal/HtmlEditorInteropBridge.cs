@@ -26,5 +26,5 @@ internal sealed class HtmlEditorInteropBridge(OmniHtmlEditor owner)
 
     /// <summary>What a paste or a drop may insert, through the same allow-list as the value.</summary>
     [JSInvokable]
-    public string SanitizePaste(string html, string text) => OmniHtmlSanitizer.SanitizePaste(html, text);
+    public string SanitizePaste(string html, string text) => owner.CleanPaste(html, text);
 }
