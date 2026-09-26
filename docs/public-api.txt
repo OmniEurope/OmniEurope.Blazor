@@ -2680,6 +2680,7 @@ property public OmniEurope.Blazor.Components.OmniPageHeader.BackHref : System.St
 property public OmniEurope.Blazor.Components.OmniPageHeader.BackLabel : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.Badges : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.Filters : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPageHeader.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.Level : OmniEurope.Blazor.Components.OmniHeadingLevel {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.ShowBack : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.ShowTrail : System.Boolean {get(public);set(public)} [Parameter]

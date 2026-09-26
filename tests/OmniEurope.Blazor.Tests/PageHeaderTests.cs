@@ -92,6 +92,29 @@ public sealed class PageHeaderTests : OmniBunitContext
     }
 
     [Fact]
+    public void Header_Icon_IsDrawnBeforeTheTitle_AndHiddenFromAssistiveTechnology()
+    {
+        var header = Render<OmniPageHeader>(parameters => parameters
+            .Add(component => component.Title, "Tableau de bord")
+            .Add(component => component.ShowTrail, false)
+            .Add(component => component.Icon, (RenderFragment)(icon =>
+            {
+                icon.OpenComponent<OmniIcon>(0);
+                icon.AddComponentParameter(1, nameof(OmniIcon.Name), OmniIconName.Home);
+                icon.CloseComponent();
+            })));
+
+        var row = header.Find(".omni-page-header__row");
+        Assert.Equal(["omni-page-header__icon", "omni-page-header__title"],
+            row.Children.Select(child => child.ClassList.First(name => name.StartsWith("omni-page-header__", StringComparison.Ordinal))));
+        Assert.Equal("true", row.Children[0].GetAttribute("aria-hidden"));
+        Assert.NotNull(row.Children[0].QuerySelector("svg.omni-icon"));
+
+        var bare = Render<OmniPageHeader>(parameters => parameters.Add(component => component.Title, "Sans icône"));
+        Assert.Empty(bare.FindAll(".omni-page-header__icon"));
+    }
+
+    [Fact]
     public async Task Header_ExplicitTitleWins_AndARenamedCrumbRedrawsTheHeader()
     {
         Services.GetRequiredService<NavigationManager>().NavigateTo("projects/12/overview");

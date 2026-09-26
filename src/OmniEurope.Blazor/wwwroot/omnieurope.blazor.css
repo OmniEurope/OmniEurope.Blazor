@@ -2882,6 +2882,8 @@ polyline.omni-chart__line { fill: none; }
 .omni-page-header__crumb-loading .omni-skeleton { inline-size: 5.5rem; }
 .omni-page-header__row { align-items: center; display: flex; gap: var(--omni-space-sm); min-inline-size: 0; }
 .omni-page-header .omni-page-header__title { flex: 0 1 auto; line-height: max(var(--omni-control-height), 1.25em); margin: 0; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-page-header__icon { align-items: center; color: var(--omni-color-primary); display: inline-flex; flex: none; }
+.omni-page-header__row:has(> .omni-page-header__icon) > .omni-page-header__title { overflow: clip; overflow-clip-margin: 0.3em; text-box: trim-both cap alphabetic; }
 .omni-page-header__title-loading { flex: 0 1 16rem; }
 .omni-page-header__title-loading .omni-skeleton__item { min-height: calc(var(--omni-control-height) - 0.75rem); }
 .omni-page-header__details { align-items: center; display: flex; flex: 1 1 auto; gap: var(--omni-space-sm); min-inline-size: 0; }

@@ -40,6 +40,10 @@
                             title="@EffectiveBackLabel"
                             OnClick="GoBackAsync"><OmniIcon Name="OmniIconName.ArrowLeft" /></OmniButton>
             }
+            @if (Icon is not null)
+            {
+                <span class="omni-page-header__icon" aria-hidden="true">@Icon</span>
+            }
             @if (TitleLoading)
             {
                 <OmniSkeleton Shape="OmniSkeletonShape.Text" Class="omni-page-header__title-loading" Label="@Localize("LoadingLabel")" />
