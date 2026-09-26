@@ -12,7 +12,8 @@
               readonly="@ReadOnly"
               aria-invalid="@AriaInvalid"
               aria-describedby="@AriaDescribedBy"
-              @oninput="HandleInput">@CurrentValueAsString</textarea>
+              value="@CurrentValueAsString"
+              @oninput="HandleInput"></textarea>
     @if (ShowCount && MaxLength is not null)
     {
         <span class="omni-text-area__count" aria-live="polite">@CurrentLength / @MaxLength</span>

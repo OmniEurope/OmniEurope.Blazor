@@ -96,6 +96,22 @@ public sealed class InteractionComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void TextArea_BindsItsValueProperty_SoTheHostCanResetWhatWasTyped()
+    {
+        // Text between the tags only sets the default value, which a browser ignores once the user has
+        // typed: the value must go through the value property for a reset by the host to show.
+        var form = Render<FormTestHost>();
+        form.Find("#notes").Input("typed");
+        Assert.Equal("typed", form.Find("#notes").GetAttribute("value"));
+
+        form.Instance.Model.Notes = string.Empty;
+        form.Render();
+
+        Assert.Equal(string.Empty, form.Find("#notes").GetAttribute("value"));
+        Assert.Equal(string.Empty, form.Find("#notes").TextContent);
+    }
+
+    [Fact]
     public void TextBox_RendersTheRequestedInputType()
     {
         // The type is what selects the on-screen keyboard and the browser's own autofill, so a
