@@ -86,8 +86,15 @@ export function read(surface) {
     window.clearTimeout(state.timer);
     state.timer = 0;
     tidy(surface);
-    state.sent = surface.innerHTML;
-    return state.sent;
+    // A surface untouched since it was drawn or last reported is not a change: the browser's own
+    // serialisation of the value must not come back as an edit the user never made.
+    const html = surface.innerHTML;
+    if (html === state.sent) {
+        return null;
+    }
+
+    state.sent = html;
+    return html;
 }
 
 export function setHtml(surface, html) {
