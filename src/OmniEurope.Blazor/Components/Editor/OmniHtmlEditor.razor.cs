@@ -649,8 +649,14 @@ public partial class OmniHtmlEditor
         OmniHtmlEditorAction.Undo => _undo.Count == 0,
         OmniHtmlEditorAction.Redo => _redo.Count == 0,
         OmniHtmlEditorAction.Unlink or OmniHtmlEditorAction.ClearFormatting => _mode == OmniHtmlEditorMode.Source,
+        OmniHtmlEditorAction.Cut or OmniHtmlEditorAction.Copy or OmniHtmlEditorAction.Paste
+            or OmniHtmlEditorAction.InsertParagraph => _mode == OmniHtmlEditorMode.Source,
+        _ when IsTableAction(command.Action) => _mode == OmniHtmlEditorMode.Source || !_selection.Marks.Contains("intable"),
         _ => false
     };
+
+    private static bool IsTableAction(OmniHtmlEditorAction action) =>
+        action is >= OmniHtmlEditorAction.AddRowAbove and <= OmniHtmlEditorAction.SetCellSpan;
 
     private string LabelOf(OmniHtmlEditorCommand command) =>
         !string.IsNullOrWhiteSpace(command.Label) ? command.Label! : Localize(command.Action switch
@@ -681,6 +687,20 @@ public partial class OmniHtmlEditor
             OmniHtmlEditorAction.Undo => "HtmlEditorUndo",
             OmniHtmlEditorAction.Redo => "HtmlEditorRedo",
             OmniHtmlEditorAction.ToggleSource => "HtmlEditorSource",
+            OmniHtmlEditorAction.Cut => "HtmlEditorCut",
+            OmniHtmlEditorAction.Copy => "HtmlEditorCopy",
+            OmniHtmlEditorAction.Paste => "HtmlEditorPaste",
+            OmniHtmlEditorAction.InsertParagraph => "HtmlEditorInsertParagraph",
+            OmniHtmlEditorAction.AddRowAbove => "HtmlEditorAddRowAbove",
+            OmniHtmlEditorAction.AddRowBelow => "HtmlEditorAddRowBelow",
+            OmniHtmlEditorAction.DeleteRow => "HtmlEditorDeleteRow",
+            OmniHtmlEditorAction.AddColumnBefore => "HtmlEditorAddColumnBefore",
+            OmniHtmlEditorAction.AddColumnAfter => "HtmlEditorAddColumnAfter",
+            OmniHtmlEditorAction.DeleteColumn => "HtmlEditorDeleteColumn",
+            OmniHtmlEditorAction.MergeCellRight => "HtmlEditorMergeCellRight",
+            OmniHtmlEditorAction.MergeCellDown => "HtmlEditorMergeCellDown",
+            OmniHtmlEditorAction.SplitCell => "HtmlEditorSplitCell",
+            OmniHtmlEditorAction.SetCellSpan => "HtmlEditorSetCellSpan",
             _ => "HtmlEditorCustomCommand"
         });
 
@@ -710,6 +730,7 @@ public partial class OmniHtmlEditor
         OmniHtmlEditorAction.Undo => OmniIconName.ArrowUUpLeft,
         OmniHtmlEditorAction.Redo => OmniIconName.ArrowUUpRight,
         OmniHtmlEditorAction.ToggleSource => OmniIconName.FileHtml,
+        OmniHtmlEditorAction.Copy => OmniIconName.Copy,
         _ => null
     };
 

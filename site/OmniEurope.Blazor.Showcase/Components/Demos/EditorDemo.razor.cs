@@ -45,8 +45,21 @@ public partial class EditorDemo
         AllowDataAttributes = true
     };
 
+    /// <summary>
+    /// Inline formatting, the clipboard, a paragraph break and the table commands, which act on
+    /// the cell at the caret and stay disabled elsewhere.
+    /// </summary>
+    private static readonly IReadOnlyList<OmniHtmlEditorCommand> AnnotatedCommands =
+    [
+        OmniHtmlEditorCommands.Bold, OmniHtmlEditorCommands.Italic, OmniHtmlEditorCommands.Separator,
+        .. OmniHtmlEditorCommands.Clipboard, OmniHtmlEditorCommands.InsertParagraph, OmniHtmlEditorCommands.Separator,
+        .. OmniHtmlEditorCommands.Table, OmniHtmlEditorCommands.Separator,
+        OmniHtmlEditorCommands.Undo, OmniHtmlEditorCommands.Redo
+    ];
+
     private string Annotated { get; set; } =
         "<p>Article 1. Le présent règlement s'applique aux dossiers reçus.</p>" +
+        "<table><tbody><tr><th>Délai</th><th>Pièce</th></tr><tr><td>30 jours</td><td>Formulaire</td></tr></tbody></table>" +
         "<aside class=\"demo-note\" data-marker=\"1\" contenteditable=\"false\">Note : texte consolidé au 1er janvier.</aside>";
 
     private string SelectionPath { get; set; } = "hors du texte";

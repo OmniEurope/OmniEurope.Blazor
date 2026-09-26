@@ -55,6 +55,27 @@ souligné, barré, indice, exposant, code, listes, citation, bloc de code, lien,
 listes de style et de taille montrent la valeur au curseur. Ils ne prennent pas le focus à la souris,
 pour que la sélection reste dans le document.
 
+### Presse-papiers, paragraphe et tableaux
+
+Actions intégrées de la seule face visuelle (désactivées en face source), utilisables dans `Commands`
+ou par `OmniHtmlEditorCommandContext.ExecuteAsync` :
+
+- `Cut`, `Copy`, `Paste` (liste `OmniHtmlEditorCommands.Clipboard`). Couper et copier passent par le
+  navigateur, avec repli sur le presse-papiers asynchrone (texte seul) s'il refuse. Coller lit le
+  presse-papiers asynchrone : le navigateur peut demander l'autorisation, un refus ne colle rien, et le
+  contenu passe par le même assainissement (politique comprise) que Ctrl+V.
+- `InsertParagraph` : coupe le bloc au curseur en deux paragraphes, comme Entrée.
+- Tableaux (liste `OmniHtmlEditorCommands.Table`, qui commence par `InsertTable`) : `AddRowAbove`,
+  `AddRowBelow`, `DeleteRow`, `AddColumnBefore`, `AddColumnAfter`, `DeleteColumn`, `MergeCellRight`,
+  `MergeCellDown`, `SplitCell` et `SetCellSpan` (argument `lignesxcolonnes`, `2x3` ; sans argument,
+  la cellule revient à `1x1`). Elles agissent sur la cellule au curseur, tiennent compte des
+  `rowspan`/`colspan` existants, et ne sont actives que le curseur dans une cellule. Une fusion qui
+  couperait une autre cellule fusionnée ne change rien ; le contenu des cellules absorbées rejoint la
+  cellule, séparé par un saut de ligne. Supprimer la dernière ligne ou colonne retire le tableau.
+
+Seule `Copy` a une icône par défaut ; les autres affichent leur libellé localisé, et `Icon`
+en pose une.
+
 ### Position du curseur
 
 `SelectionChanged` (`EventCallback<OmniHtmlEditorSelection>`) est levé dans la face visuelle quand le
