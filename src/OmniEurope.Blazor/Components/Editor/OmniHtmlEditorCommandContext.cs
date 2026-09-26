@@ -30,6 +30,19 @@ public sealed class OmniHtmlEditorCommandContext
     /// </summary>
     public OmniHtmlEditorSelection? Selection => _editor.CurrentSelection;
 
+    /// <summary>
+    /// The editable surface of the visual face, for a host script that changes the document itself
+    /// (then calls <see cref="CommitDomAsync"/>); null in the source face.
+    /// </summary>
+    public ElementReference? SurfaceElement => _editor.SurfaceReference;
+
+    /// <summary>
+    /// Reads the visual surface after a host script changed it, sanitises it with the editor's
+    /// allow-list and policy, and commits it: one undo step, and <c>ValueChanged</c> when it differs.
+    /// What the sanitiser removed is also removed from the surface. Does nothing in the source face.
+    /// </summary>
+    public Task CommitDomAsync() => _editor.CommitDomAsync();
+
     /// <summary>Inserts <paramref name="html"/> at the caret, replacing the selection.</summary>
     public Task InsertHtmlAsync(string html) => _editor.InsertHtmlAsync(html);
 

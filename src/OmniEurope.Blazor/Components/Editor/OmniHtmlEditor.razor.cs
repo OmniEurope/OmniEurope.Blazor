@@ -539,6 +539,37 @@ public partial class OmniHtmlEditor
         }
     }
 
+    /// <summary>
+    /// Takes in a surface the host changed through its own script: the document is read, sanitised
+    /// with the policy and committed as one undo step. When the sanitiser removed something, the
+    /// surface is redrawn from the sanitised value, so it never shows what the value does not hold.
+    /// </summary>
+    internal async Task CommitDomAsync()
+    {
+        if (Disabled || _mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
+        {
+            return;
+        }
+
+        var html = await _visualModule.InvokeAsync<string?>("read", _surface);
+        if (html is null)
+        {
+            return;
+        }
+
+        var clean = Clean(html);
+        // A surface that differs from its sanitised value is redrawn after the next render.
+        _visualValue = html;
+        await CommitAsync(clean);
+        if (!string.Equals(clean, html, StringComparison.Ordinal))
+        {
+            StateHasChanged();
+        }
+    }
+
+    /// <summary>The surface element of the visual face, or null in the source face.</summary>
+    internal ElementReference? SurfaceReference => _mode == OmniHtmlEditorMode.Visual && _mounted ? _surface : null;
+
     /// <summary>The value, once what the visual surface still holds back has been taken in.</summary>
     internal async Task<string> CaptureAsync()
     {
