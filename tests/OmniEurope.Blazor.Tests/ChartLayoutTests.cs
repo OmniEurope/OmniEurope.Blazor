@@ -134,6 +134,43 @@ public sealed class ChartLayoutTests : OmniBunitContext
     }
 
     [Fact]
+    public void AutomaticValueAxis_FollowsTheSeries_WithRoundGraduationsAndNoValueCutOff()
+    {
+        var chart = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Title, "Tokens")
+            .AddChildContent(builder =>
+            {
+                builder.OpenComponent<OmniCategoryAxis>(0);
+                builder.AddAttribute(1, nameof(OmniCategoryAxis.Labels), Labels("A", "B", "C"));
+                builder.CloseComponent();
+                builder.OpenComponent<OmniValueAxis>(2);
+                builder.AddAttribute(3, nameof(OmniValueAxis.Automatic), true);
+                builder.CloseComponent();
+                builder.OpenComponent<OmniLineSeries>(4);
+                builder.AddAttribute(5, nameof(OmniLineSeries.Data), Points((0, 120_000), (1, 431_700), (2, 9_000)));
+                builder.CloseComponent();
+            }));
+
+        chart.WaitForAssertion(() =>
+        {
+            // 431 700 over five graduations: a step of 100 000, so 0 to 500 000.
+            Assert.Equal(6, chart.FindAll(".omni-chart__axis--value text").Count);
+            // The highest point stays inside the plot instead of being drawn above it.
+            var ys = chart.Find("polyline.omni-chart__line").GetAttribute("points")!.Split(' ')
+                .Select(point => double.Parse(point.Split(',')[1], CultureInfo.InvariantCulture)).ToArray();
+            Assert.All(ys, y => Assert.InRange(y, OmniChartContext.PlotTop, OmniChartContext.PlotBottom));
+            Assert.Contains(ys, y => y > OmniChartContext.PlotTop + 5);
+        });
+
+        Assert.Equal((0d, 500_000d), OmniChartContext.RoundOutward(0, 431_700, 5));
+        Assert.Equal((0d, 5d), OmniChartContext.RoundOutward(0, 4.2, 5));
+        Assert.Equal((0d, 1.25d), OmniChartContext.RoundOutward(0, 1.1, 5));
+        Assert.Equal((-20d, 30d), OmniChartContext.RoundOutward(-12, 27, 5));
+        // All zero: a unit scale, graduated by 0.2, rather than an empty or inverted one.
+        Assert.Equal((0d, 1d), OmniChartContext.RoundOutward(0, 0, 5));
+    }
+
+    [Fact]
     public void BarSeries_TurnTheChart_CategoriesDownTheLeftAndValuesAlongTheBottom()
     {
         var chart = Render<OmniChart>(parameters => parameters

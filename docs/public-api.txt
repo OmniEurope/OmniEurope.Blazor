@@ -3152,6 +3152,7 @@ property public OmniEurope.Blazor.Components.OmniValidatorBase<TValue>.For : Sys
 property public OmniEurope.Blazor.Components.OmniValidatorBase<TValue>.ShowMessage : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniValidatorBase<TValue>.ValidationDelayMilliseconds : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniValidatorBase<TValue>.ValidationFailed : Microsoft.AspNetCore.Components.EventCallback<System.Exception> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniValueAxis.Automatic : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniValueAxis.Formatter : System.Func<System.Double,System.String>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniValueAxis.Maximum : System.Double {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniValueAxis.Minimum : System.Double {get(public);set(public)} [Parameter]
