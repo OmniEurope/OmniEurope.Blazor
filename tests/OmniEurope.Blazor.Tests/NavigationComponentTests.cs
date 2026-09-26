@@ -120,6 +120,33 @@ public sealed class NavigationComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void PanelMenu_OnClickWithoutHref_IsAnActionButton_AndALinkIgnoresIt()
+    {
+        var clicks = 0;
+        var action = Render<OmniPanelMenuItem>(parameters => parameters
+            .Add(component => component.Text, "Copier")
+            .Add(component => component.OnClick, () => clicks++));
+
+        var button = action.Find("button.omni-panel-menu__link");
+        Assert.Equal("button", button.GetAttribute("type"));
+        Assert.Equal("Copier", button.QuerySelector(".omni-panel-menu__text")!.TextContent);
+        Assert.Empty(action.FindAll(".omni-panel-menu__label"));
+
+        button.Click();
+        Assert.Equal(1, clicks);
+
+        var link = Render<OmniPanelMenuItem>(parameters => parameters
+            .Add(component => component.Text, "Page")
+            .Add(component => component.Href, "/page")
+            .Add(component => component.OnClick, () => clicks++));
+        Assert.NotNull(link.Find("a.omni-panel-menu__link"));
+        Assert.Empty(link.FindAll("button"));
+
+        var label = Render<OmniPanelMenuItem>(parameters => parameters.Add(component => component.Text, "Libellé"));
+        Assert.NotNull(label.Find("span.omni-panel-menu__label"));
+    }
+
+    [Fact]
     public void Sidebar_FloatingOpen_ClosesWhenAnEntryIsChosen()
     {
         var open = true;

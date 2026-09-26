@@ -82,6 +82,16 @@ else if (!string.IsNullOrWhiteSpace(Href))
         <span class="omni-panel-menu__text">@Text</span>
     </a>
 }
+else if (OnClick.HasDelegate)
+{
+    <button @attributes="AdditionalAttributes" type="button" id="@Id" class="@LinkClass" @onclick="OnClick">
+        @if (Icon is not null)
+        {
+            <span class="omni-panel-menu__icon" aria-hidden="true">@Icon</span>
+        }
+        <span class="omni-panel-menu__text">@Text</span>
+    </button>
+}
 else
 {
     <span @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-panel-menu__label")">
