@@ -52,7 +52,7 @@ export function attach(viewport, reference) {
     // measured: a jump to the end (the scrollbar dragged down, End) renders the last rows, which then
     // prove taller than estimated, the content grows and the end moves away while the scroll stays
     // put, leaving the last row out of sight. applyLayout keeps such a viewport at its end.
-    const state = { atEnd: false };
+    const state = { atEnd: false, reported: new Map() };
     const track = () => {
         state.atEnd = viewport.scrollTop > 0
             && viewport.scrollTop + viewport.clientHeight >= viewport.scrollHeight - 2;
@@ -74,10 +74,45 @@ export function attach(viewport, reference) {
         }
     };
 
+    // A viewport at its end follows the end whatever moves it: rows measured taller, a row that grows
+    // after it was drawn (an image, a font, a column made narrower), or the viewport itself made
+    // shorter. Done here, at once, rather than after a .NET round trip that may not come: when the
+    // rows in view do not change, .NET has nothing to render and would never move the scroll.
+    const stick = () => {
+        if (state.atEnd) {
+            const end = viewport.scrollHeight - viewport.clientHeight;
+            if (end - viewport.scrollTop > 1) {
+                viewport.scrollTop = end;
+            }
+        }
+    };
+
+    // The rows in view changed size without any scroll: .NET measures them again on its next render,
+    // so it is asked for one. Their new heights move the spacers, and the end with them.
+    let contentFrame = 0;
+    const remeasure = () => {
+        contentFrame = 0;
+        if (viewport.isConnected) {
+            notifyDotNet(() => live, reference, 'OnContentResizedAsync');
+        }
+    };
+
     viewport.addEventListener('scroll', track, { passive: true });
     viewport.addEventListener('scroll', schedule, { passive: true });
-    const resizeObserver = typeof ResizeObserver === 'function' ? new ResizeObserver(schedule) : null;
+    const table = viewport.querySelector('table');
+    const resizeObserver = typeof ResizeObserver === 'function'
+        ? new ResizeObserver(entries => {
+            stick();
+            schedule();
+            if (entries.some(entry => entry.target === table) && contentFrame === 0 && rowsChanged(state.reported, viewport)) {
+                contentFrame = window.requestAnimationFrame(remeasure);
+            }
+        })
+        : null;
     resizeObserver?.observe(viewport);
+    if (table) {
+        resizeObserver?.observe(table);
+    }
 
     attachments.set(viewport, {
         state,
@@ -85,6 +120,9 @@ export function attach(viewport, reference) {
             live = false;
             if (frame !== 0) {
                 window.cancelAnimationFrame(frame);
+            }
+            if (contentFrame !== 0) {
+                window.cancelAnimationFrame(contentFrame);
             }
 
             viewport.removeEventListener('scroll', track);
@@ -119,11 +157,34 @@ export function sync(viewport, measureRows = true) {
     const match = /^(\d+(?:\.\d+)?)(px|rem)$/.exec(rawEstimate);
     const rootSize = match?.[2] === 'rem' ? Number.parseFloat(getComputedStyle(document.documentElement).fontSize) : 1;
     const estimate = match ? Number(match[1]) * rootSize : null;
+    const rows = measureRows ? collectRows(viewport) : null;
+    // What .NET now knows, so a later change of size is only reported when a row really moved.
+    const reported = attachments.get(viewport)?.state.reported;
+    if (reported && rows) {
+        reported.clear();
+        for (const row of rows) {
+            reported.set(row.index, row.height);
+        }
+    }
+
     return {
         ...metrics(viewport),
         rowEstimate: Number.isFinite(estimate) && estimate > 0 ? estimate : null,
-        rows: measureRows ? collectRows(viewport) : null
+        rows
     };
+}
+
+// Whether a row already measured by .NET is no longer that height. A row not measured yet is left to
+// the sync that follows its render.
+function rowsChanged(reported, viewport) {
+    if (!reported || reported.size === 0) {
+        return false;
+    }
+
+    return collectRows(viewport).some(row => {
+        const known = reported.get(row.index);
+        return known !== undefined && Math.abs(known - row.height) > 0.5;
+    });
 }
 
 /**

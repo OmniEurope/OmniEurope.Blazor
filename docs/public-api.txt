@@ -1262,6 +1262,7 @@ method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EditRowAsync(TIte
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.GetColumnAutoFitTexts(System.String key) : System.String[]?
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnColumnAutoFitAsync(System.String key, System.Double width) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnColumnResizedAsync(System.String key, System.Double width) : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnContentResizedAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnHorizontalScrollChangedAsync(System.Boolean scrolled) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnViewportChangedAsync(System.Double scrollTop, System.Double viewportHeight) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.RefreshAsync() : System.Threading.Tasks.Task

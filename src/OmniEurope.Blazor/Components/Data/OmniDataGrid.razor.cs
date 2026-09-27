@@ -1595,6 +1595,23 @@ public partial class OmniDataGrid<TItem>
         return moved;
     }
 
+    /// <summary>
+    /// Invoked by the grid script when the rendered rows changed size without any scroll (an image or a
+    /// font arrived, a column was narrowed). Rows are only measured after a render, so one is asked for:
+    /// the new heights move the spacers and the end of the list. A render that changes nothing leaves the
+    /// table the same size, so the script does not ask again.
+    /// </summary>
+    [JSInvokable]
+    public Task OnContentResizedAsync()
+    {
+        if (Virtualized)
+        {
+            StateHasChanged();
+        }
+
+        return Task.CompletedTask;
+    }
+
     /// <summary>Invoked by the grid script when the viewport is scrolled or resized.</summary>
     [JSInvokable]
     public async Task OnViewportChangedAsync(double scrollTop, double viewportHeight)
