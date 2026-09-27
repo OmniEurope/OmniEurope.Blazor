@@ -502,6 +502,7 @@
   <data name="VFormSummaryTitle" xml:space="preserve"><value>{0} field(s) to fix.</value></data>
   <data name="VFormName" xml:space="preserve"><value>Pipeline name</value></data>
   <data name="VFormNameHelp" xml:space="preserve"><value>Lowercase letters, digits and hyphens.</value></data>
+  <data name="VFormNameError" xml:space="preserve"><value>The pipeline name is required.</value></data>
   <data name="VFormMail" xml:space="preserve"><value>Notification address</value></data>
   <data name="VFormMailError" xml:space="preserve"><value>Add a full domain, for example team@example.com.</value></data>
   <data name="VFormToken" xml:space="preserve"><value>Access token</value></data>

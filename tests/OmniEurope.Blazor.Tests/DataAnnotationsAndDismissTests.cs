@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using Bunit;
 using Microsoft.AspNetCore.Components;
@@ -44,6 +45,20 @@ public sealed class DataAnnotationsAndDismissTests : OmniBunitContext
 
         Assert.Equal(["Le champ Nom du projet doit contenir entre 2 et 40 caractères."], host.Instance.MessagesFor("Name"));
         Assert.Empty(host.Instance.MessagesFor("Replicas"));
+    }
+
+    [Fact]
+    public void Validator_ReportsARuleCarriedByTheModelTypeOnTheMembersItNames()
+    {
+        var booking = new Booking { Start = new DateOnly(2026, 9, 30), End = new DateOnly(2026, 9, 27) };
+        var context = new EditContext(booking);
+        Render<OmniDataAnnotationsValidator>(parameters => parameters.AddCascadingValue(context));
+
+        Assert.False(context.Validate());
+        Assert.Equal(["La fin précède le début."], context.GetValidationMessages(new FieldIdentifier(booking, nameof(Booking.End))));
+
+        booking.End = new DateOnly(2026, 10, 2);
+        Assert.True(context.Validate());
     }
 
     [Fact]
@@ -113,6 +128,20 @@ public sealed class DataAnnotationsAndDismissTests : OmniBunitContext
             CultureInfo.CurrentUICulture = previous;
             CultureInfo.CurrentCulture = previousCulture;
         }
+    }
+
+    /// <summary>A model whose consistency rule sits on the type, not on one property.</summary>
+    [CustomValidation(typeof(Booking), nameof(CheckDates))]
+    public sealed class Booking
+    {
+        public DateOnly Start { get; set; }
+
+        public DateOnly End { get; set; }
+
+        public static ValidationResult? CheckDates(Booking booking, ValidationContext context) =>
+            booking.End < booking.Start
+                ? new ValidationResult("La fin précède le début.", [nameof(End)])
+                : ValidationResult.Success;
     }
 
     private sealed class DictionaryLocalizer(IReadOnlyDictionary<string, string> values) : IStringLocalizer

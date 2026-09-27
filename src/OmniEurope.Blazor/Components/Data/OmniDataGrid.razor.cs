@@ -37,6 +37,10 @@ public partial class OmniDataGrid<TItem>
     private readonly HashSet<string> _defaultFilterKeys = new(StringComparer.Ordinal);
     private readonly Dictionary<object, long> _newRowKeys = [];
     private readonly CancellationTokenSource _highlightLifetime = new();
+    private readonly CancellationTokenSource _preparationLifetime = new();
+
+    // Longer than the image wait of omni-grid.js, so the script normally answers first.
+    private static readonly TimeSpan PreparationTimeout = TimeSpan.FromSeconds(5);
     // Keys held when a refresh of host-supplied rows was asked for; the next Items change is compared to them.
     private HashSet<object>? _refreshBaseline;
     private IReadOnlyList<TItem>? _observedItems;
@@ -200,7 +204,12 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public EventCallback<IReadOnlyList<object>> SelectedKeysChanged { get; set; }
 
-    /// <summary>Currently selected rows. Kept in step with <see cref="SelectedKeys"/>.</summary>
+    /// <summary>
+    /// Currently selected rows. Kept in step with <see cref="SelectedKeys"/>, which stays the selection
+    /// when the host binds or sets it; bound alone (<c>@bind-Value</c>), it is the selection itself,
+    /// matched to the rows through <see cref="KeySelector"/> or <see cref="KeyProperty"/>. A change
+    /// keeps the selected rows of other pages.
+    /// </summary>
     [Parameter]
     public IReadOnlyList<TItem> Value { get; set; } = Array.Empty<TItem>();
 
@@ -545,7 +554,10 @@ public partial class OmniDataGrid<TItem>
 
     /// <summary>
     /// Opaque key this grid's filters, sorts and column widths are saved under. Persistence is
-    /// inert until this is set: that is the option's activation switch.
+    /// inert until this is set: that is the option's activation switch. The default browser store
+    /// cannot be read while the grid is prerendered; the state is then restored by the interactive
+    /// render. A saved entry missing a part, or holding an incomplete filter or sort, restores what
+    /// is valid and drops the rest.
     /// </summary>
     [Parameter]
     public string? StateKey { get; set; }
@@ -671,12 +683,19 @@ public partial class OmniDataGrid<TItem>
     private async Task LoadPersistedStateAsync(string key)
     {
         string? json;
+        var store = EffectiveStateStore;
         try
         {
-            json = await EffectiveStateStore.LoadAsync(key);
+            json = await store.LoadAsync(key);
         }
         catch (JSDisconnectedException)
         {
+            return;
+        }
+        catch (InvalidOperationException) when (store is OmniLocalStorageDataGridStateStore)
+        {
+            // Prerendering: browser storage cannot be reached yet. The interactive render creates the
+            // grid again and restores its state then.
             return;
         }
 
@@ -701,17 +720,25 @@ public partial class OmniDataGrid<TItem>
             return;
         }
 
+        // Valid JSON can still miss a part or hold entries of an older shape: a missing part restores
+        // nothing, an incomplete entry is dropped, and a missing filter text is an empty one.
         _filters.Clear();
-        foreach (var (columnKey, filter) in state.Filters)
+        foreach (var (columnKey, filter) in state.Filters ?? [])
         {
-            _filters[columnKey] = filter;
+            if (filter is not null
+                && Enum.IsDefined(filter.Operator)
+                && Enum.IsDefined(filter.LogicalOperator)
+                && Enum.IsDefined(filter.SecondOperator))
+            {
+                _filters[columnKey] = filter with { Value = filter.Value ?? string.Empty, SecondValue = filter.SecondValue ?? string.Empty };
+            }
         }
 
         _sorts.Clear();
-        _sorts.AddRange(state.Sorts);
+        _sorts.AddRange((state.Sorts ?? []).Where(sort => sort is { Key: not null }));
 
         _columnWidths.Clear();
-        foreach (var (columnKey, width) in state.ColumnWidths)
+        foreach (var (columnKey, width) in state.ColumnWidths ?? [])
         {
             _columnWidths[columnKey] = width;
         }
@@ -796,8 +823,10 @@ public partial class OmniDataGrid<TItem>
                     _virtualBootstrapped = false;
                 }
             }
-            else if ((loaderChanged || !_remote.HasLoaded) && !_remote.Loading && _remote.Error is null)
+            else if (loaderChanged || (!_remote.HasLoaded && !_remote.Loading && _remote.Error is null))
             {
+                // A new loader replaces the load in progress, or the failed one, at once: the remote
+                // state cancels the previous load and ignores its late answer.
                 await ReloadAsync();
             }
         }
@@ -970,7 +999,7 @@ public partial class OmniDataGrid<TItem>
             + (SelectionMode == OmniDataGridSelectionMode.None ? 0 : 1)
             + (_hasEditing ? 1 : 0)
             + (ShowDetailColumn ? 1 : 0);
-        _selectedKeyIndex = SelectedKeys.ToHashSet();
+        _selectedKeyIndex = SelectionKeys().ToHashSet();
         _expandedKeyIndex = ExpandedKeys.ToHashSet();
         _slots = null;
         if (Virtualized)
@@ -1160,7 +1189,25 @@ public partial class OmniDataGrid<TItem>
     {
         if (!Preparing || Loading || _disposeRequested) return;
         _gridModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", GridModulePath);
-        var ready = await _gridModule.InvokeAsync<bool>("waitForReady", _viewport);
+
+        // Bounded, and cancelled by disposal: an image whose request never ends must neither keep the
+        // grid hidden nor hold the lifecycle gate. A wait that times out or fails shows the grid as it is.
+        bool ready;
+        using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(_preparationLifetime.Token);
+        cancellation.CancelAfter(PreparationTimeout);
+        try
+        {
+            ready = await _gridModule.InvokeAsync<bool>("waitForReady", cancellation.Token, _viewport);
+        }
+        catch (OperationCanceledException)
+        {
+            ready = true;
+        }
+        catch (JSException)
+        {
+            ready = true;
+        }
+
         if (ready && !_disposeRequested)
         {
             _renderReady = true;
@@ -1748,7 +1795,7 @@ public partial class OmniDataGrid<TItem>
     private async Task ToggleSelectionAsync(TItem item)
     {
         var key = ItemKey(item);
-        var keys = SelectedKeys.ToList();
+        var keys = SelectionKeys().ToList();
         var selecting = !keys.Remove(key);
         if (selecting)
         {
@@ -1763,7 +1810,7 @@ public partial class OmniDataGrid<TItem>
         await SelectedKeysChanged.InvokeAsync(keys);
         if (ValueChanged.HasDelegate)
         {
-            await ValueChanged.InvokeAsync(CurrentRows().Where(candidate => _selectedKeyIndex.Contains(ItemKey(candidate))).ToArray());
+            await ValueChanged.InvokeAsync(SelectedItems());
         }
 
         if (selecting)
@@ -1797,7 +1844,7 @@ public partial class OmniDataGrid<TItem>
     {
         var rows = SelectableVisibleRows;
         var clearing = rows.Count > 0 && rows.All(item => IsSelected(ItemKey(item)));
-        var keys = SelectedKeys.ToList();
+        var keys = SelectionKeys().ToList();
         var added = new List<TItem>();
         foreach (var item in rows)
         {
@@ -1817,7 +1864,7 @@ public partial class OmniDataGrid<TItem>
         await SelectedKeysChanged.InvokeAsync(keys);
         if (ValueChanged.HasDelegate)
         {
-            await ValueChanged.InvokeAsync(CurrentRows().Where(candidate => _selectedKeyIndex.Contains(ItemKey(candidate))).ToArray());
+            await ValueChanged.InvokeAsync(SelectedItems());
         }
 
         foreach (var item in added)
@@ -1833,6 +1880,31 @@ public partial class OmniDataGrid<TItem>
             .Select(index => TryGetVirtualItem(index, out var item) ? item : default!)
             .Where(item => item is not null)
         : VisibleItems;
+
+    /// <summary>
+    /// The keys of the selected rows. <see cref="SelectedKeys"/> is the selection when the host binds
+    /// or sets it; a host that binds <see cref="Value"/> alone selects through the keys of its rows.
+    /// </summary>
+    private IReadOnlyList<object> SelectionKeys() =>
+        !SelectedKeysChanged.HasDelegate && SelectedKeys.Count == 0 && (ValueChanged.HasDelegate || Value.Count > 0)
+            ? Value.Select(ItemKey).ToArray()
+            : SelectedKeys;
+
+    /// <summary>
+    /// The selected rows once the keys changed: the rows of <see cref="Value"/> still selected, rows
+    /// of other pages included, then the rows on screen newly selected.
+    /// </summary>
+    private TItem[] SelectedItems()
+    {
+        var reported = new HashSet<object>();
+        return Value.Concat(CurrentRows())
+            .Where(candidate =>
+            {
+                var key = ItemKey(candidate);
+                return _selectedKeyIndex.Contains(key) && reported.Add(key);
+            })
+            .ToArray();
+    }
 
     private async Task ActivateRowAsync(GridRenderRow<TItem> row)
     {
@@ -3049,6 +3121,7 @@ public partial class OmniDataGrid<TItem>
         // this cancellation ends, and a loader that ignores its token is no longer awaited once cancelled.
         _remote.Reset();
         _virtualSource.Reset();
+        await _preparationLifetime.CancelAsync();
         await _lifecycleGate.WaitAsync();
         try
         {
@@ -3097,6 +3170,7 @@ public partial class OmniDataGrid<TItem>
             _selfReference?.Dispose();
             await _highlightLifetime.CancelAsync();
             _highlightLifetime.Dispose();
+            _preparationLifetime.Dispose();
             await _virtualSource.DisposeAsync();
             await _remote.DisposeAsync();
         }

@@ -211,6 +211,43 @@ public sealed class SchedulerComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void Scheduler_DateChangedWhileLoading_OrAfterAFailure_LoadsTheNewRange()
+    {
+        var date = new DateTimeOffset(2026, 8, 10, 0, 0, 0, TimeSpan.Zero);
+        var pending = new TaskCompletionSource<IReadOnlyList<OmniSchedulerAppointment>>();
+        var starts = new List<DateTimeOffset>();
+        Func<DateTimeOffset, DateTimeOffset, CancellationToken, Task<IReadOnlyList<OmniSchedulerAppointment>>> load = (start, _, _) =>
+        {
+            starts.Add(start);
+            return starts.Count switch
+            {
+                1 => pending.Task,
+                2 => Task.FromException<IReadOnlyList<OmniSchedulerAppointment>>(new InvalidOperationException("offline")),
+                _ => Task.FromResult<IReadOnlyList<OmniSchedulerAppointment>>([new("next", "Suivant", start.AddHours(9), start.AddHours(10))])
+            };
+        };
+        void RenderOn(IRenderedComponent<OmniScheduler> scheduler, DateTimeOffset day) => scheduler.Render(parameters => parameters
+            .Add(component => component.Date, day)
+            .Add(component => component.View, OmniSchedulerView.Day)
+            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
+            .Add(component => component.Load, load));
+
+        var scheduler = Render<OmniScheduler>(parameters => parameters
+            .Add(component => component.Date, date)
+            .Add(component => component.View, OmniSchedulerView.Day)
+            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
+            .Add(component => component.Load, load));
+
+        RenderOn(scheduler, date.AddDays(1));
+        Assert.Equal([date, date.AddDays(1)], starts);
+        Assert.Equal("alert", scheduler.Find(".omni-scheduler__state").GetAttribute("role"));
+
+        RenderOn(scheduler, date.AddDays(2));
+        Assert.Equal([date, date.AddDays(1), date.AddDays(2)], starts);
+        Assert.Contains("Suivant", scheduler.Markup, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public async Task Scheduler_IgnoresAnOlderLoadThatCompletesLast()
     {
         var date = new DateTimeOffset(2026, 8, 10, 0, 0, 0, TimeSpan.Zero);

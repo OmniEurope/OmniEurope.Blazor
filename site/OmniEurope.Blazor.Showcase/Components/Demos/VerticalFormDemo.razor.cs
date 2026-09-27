@@ -38,7 +38,7 @@ public partial class VerticalFormDemo : IDisposable
     /// <summary>The messages of the summary, in field order.</summary>
     private IReadOnlyList<string> Errors =>
     [
-        .. new[] { nameof(VerticalFormDemoModel.Email), nameof(VerticalFormDemoModel.Strategy) }
+        .. new[] { nameof(VerticalFormDemoModel.Name), nameof(VerticalFormDemoModel.Email), nameof(VerticalFormDemoModel.Strategy) }
             .SelectMany(name => Context.GetValidationMessages(Context.Field(name)))
     ];
 
@@ -80,12 +80,17 @@ public partial class VerticalFormDemo : IDisposable
     }
 
     /// <summary>
-    /// The two rules of the form: an address with a full domain, and a strategy. Each failure is a
+    /// The three rules of the form: a name, an address with a full domain, and a strategy. Each failure is a
     /// message of the edit context, which the field reads for its error line and aria-invalid.
     /// </summary>
     private void Validate()
     {
         Messages.Clear();
+        if (string.IsNullOrWhiteSpace(Model.Name))
+        {
+            Messages.Add(Context.Field(nameof(VerticalFormDemoModel.Name)), Text["VFormNameError"]);
+        }
+
         var at = Model.Email.IndexOf('@', StringComparison.Ordinal);
         if (at <= 0 || !Model.Email[(at + 1)..].Contains('.', StringComparison.Ordinal))
         {

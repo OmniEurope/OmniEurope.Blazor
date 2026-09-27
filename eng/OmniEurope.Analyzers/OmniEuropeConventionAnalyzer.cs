@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -20,6 +21,8 @@ public sealed class OmniEuropeConventionAnalyzer : DiagnosticAnalyzer
     private static readonly DiagnosticDescriptor Gen006 = Rule("GEN006", "Potentially unbounded materialization", "Guard {0} with Where or Take", "Performance", DiagnosticSeverity.Info);
     private static readonly DiagnosticDescriptor Gen007 = Rule("GEN007", "Controller must declare authorization", "Controller '{0}' must declare Authorize or AllowAnonymous", "Security", DiagnosticSeverity.Warning);
     private static readonly DiagnosticDescriptor Gen008 = Rule("GEN008", "Avoid partial types", "Type '{0}' is partial without an allowed generated-code reason", "Structure", DiagnosticSeverity.Warning);
+
+    private static readonly string[] CodeDirectives = ["functions", "code"];
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
         ImmutableArray.Create(Gen001, Gen002, Gen003, Gen004, Gen005, Gen006, Gen007, Gen008);
@@ -55,42 +58,63 @@ public sealed class OmniEuropeConventionAnalyzer : DiagnosticAnalyzer
         var inComment = false;
         foreach (var line in text.Lines)
         {
-            var value = RemoveRazorComments(line.ToString(), ref inComment).TrimStart();
-            if (!value.StartsWith("@code", StringComparison.Ordinal)
-                || value.Length > 5 && !char.IsWhiteSpace(value[5]) && value[5] != '{') continue;
+            var value = RemoveRazorComments(line.ToString(), ref inComment);
+            var (column, length) = FindCodeDirective(value);
+            if (column < 0) continue;
+            var start = line.Start + column;
             context.ReportDiagnostic(Diagnostic.Create(
                 Gen004,
                 Location.Create(
                     context.AdditionalFile.Path,
-                    TextSpan.FromBounds(line.Start, line.End),
-                    new LinePositionSpan(new LinePosition(line.LineNumber, 0), new LinePosition(line.LineNumber, value.Length)))));
+                    new TextSpan(start, length),
+                    new LinePositionSpan(new LinePosition(line.LineNumber, column), new LinePosition(line.LineNumber, column + length)))));
             return;
         }
     }
 
+    // Finds an @code or @functions directive anywhere on the line, including after markup, while ignoring
+    // e-mail addresses (a@code.org), escaped transitions (@@code) and longer identifiers (@codeValue).
+    private static (int Column, int Length) FindCodeDirective(string value)
+    {
+        for (var index = value.IndexOf('@'); index >= 0; index = value.IndexOf('@', index + 1))
+        {
+            if (index > 0 && (char.IsLetterOrDigit(value[index - 1]) || value[index - 1] is '@' or '_' or '.')) continue;
+            foreach (var keyword in CodeDirectives)
+            {
+                if (string.CompareOrdinal(value, index + 1, keyword, 0, keyword.Length) != 0) continue;
+                var end = index + 1 + keyword.Length;
+                if (end == value.Length || char.IsWhiteSpace(value[end]) || value[end] == '{') return (index, keyword.Length + 1);
+            }
+        }
+
+        return (-1, 0);
+    }
+
+    // Replaces Razor comments with spaces so that columns in the returned text match the source line.
     private static string RemoveRazorComments(string value, ref bool inComment)
     {
-        var result = string.Empty;
+        var result = new StringBuilder(value.Length);
         var index = 0;
         while (index < value.Length)
         {
             if (inComment)
             {
                 var end = value.IndexOf("*@", index, StringComparison.Ordinal);
-                if (end < 0) return result;
+                if (end < 0) return result.Append(' ', value.Length - index).ToString();
                 inComment = false;
+                result.Append(' ', end + 2 - index);
                 index = end + 2;
                 continue;
             }
 
             var start = value.IndexOf("@*", index, StringComparison.Ordinal);
-            if (start < 0) return result + value.Substring(index);
-            result += value.Substring(index, start - index);
+            if (start < 0) return result.Append(value, index, value.Length - index).ToString();
+            result.Append(value, index, start - index).Append(' ', 2);
             inComment = true;
             index = start + 2;
         }
 
-        return result;
+        return result.ToString();
     }
 
     private static void AnalyzeMethod(SymbolAnalysisContext context)

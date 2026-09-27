@@ -77,9 +77,13 @@ public partial class OmniDataList<TItem>
             return;
         }
 
-        if ((!_hasLoaded || !ReferenceEquals(_observedLoader, Load)) && !_loading && _error is null)
+        // A new loader replaces the load in progress, or the failed one, at once. Delegate equality
+        // (same method, same target): a parent binding a method group passes a new delegate on every
+        // render, which is not a new loader.
+        var loaderChanged = !Equals(_observedLoader, Load);
+        _observedLoader = Load;
+        if (loaderChanged || (!_hasLoaded && !_loading && _error is null))
         {
-            _observedLoader = Load;
             await LoadAsync();
         }
 

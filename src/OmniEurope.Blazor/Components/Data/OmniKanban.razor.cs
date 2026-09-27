@@ -109,18 +109,43 @@ public partial class OmniKanban<TItem>
         base.OnParametersSet();
         ArgumentNullException.ThrowIfNull(ColumnOf);
         ArgumentNullException.ThrowIfNull(CardTemplate);
+        var previous = _rendered;
         _rendered = Items ?? [];
 
-        // A refresh that removed the card being carried, or a board turned read-only, ends the move.
-        if (_grabbed >= _rendered.Count || (ReadOnly && _grabbed >= 0))
-        {
-            _grabbed = -1;
-        }
-
-        if (_dragged >= _rendered.Count || ReadOnly)
+        // A refresh can reorder the cards: the card being carried is found again by its key. A refresh
+        // that removed it, or a board turned read-only, ends the move.
+        _grabbed = ReadOnly ? -1 : Relocate(previous, _grabbed);
+        var dragged = ReadOnly ? -1 : Relocate(previous, _dragged);
+        if (dragged < 0)
         {
             ClearDrag();
         }
+        else if (!ReferenceEquals(previous, _rendered))
+        {
+            // The slot marker names a card by its index, which the refresh may have given to another.
+            _dragged = dragged;
+            _dropBefore = -1;
+        }
+    }
+
+    /// <summary>The index in the current items of the card that was at <paramref name="index"/> in <paramref name="previous"/>, or -1.</summary>
+    private int Relocate(IReadOnlyList<TItem> previous, int index)
+    {
+        if (index < 0 || index >= previous.Count)
+        {
+            return -1;
+        }
+
+        var key = ItemKey(previous[index]);
+        for (var candidate = 0; candidate < _rendered.Count; candidate++)
+        {
+            if (Equals(ItemKey(_rendered[candidate]), key))
+            {
+                return candidate;
+            }
+        }
+
+        return -1;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

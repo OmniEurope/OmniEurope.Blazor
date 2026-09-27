@@ -190,6 +190,25 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task VirtualDataSource_OlderRefreshFinishingLast_DoesNotOverwriteTheNewerOne()
+    {
+        await using var source = new GridVirtualDataSource<int>();
+        var older = new TaskCompletionSource<OmniDataGridResult<int>>();
+        var newer = new TaskCompletionSource<OmniDataGridResult<int>>();
+        var pending = new Queue<TaskCompletionSource<OmniDataGridResult<int>>>([older, newer]);
+
+        var first = source.RefreshAsync(0, 1, 50, (_, _, _) => pending.Dequeue().Task);
+        var second = source.RefreshAsync(0, 1, 50, (_, _, _) => pending.Dequeue().Task);
+        newer.SetResult(new OmniDataGridResult<int>([2], 1));
+        Assert.True(await second);
+        older.SetResult(new OmniDataGridResult<int>([1], 1));
+
+        Assert.False(await first);
+        Assert.True(source.TryGet(0, out var item));
+        Assert.Equal(2, item);
+    }
+
+    [Fact]
     public void VirtualizedGrid_RendersOnlyAWindowOfAVeryLargeLocalCollection()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;

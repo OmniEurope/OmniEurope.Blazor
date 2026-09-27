@@ -21,6 +21,38 @@ public sealed class CollectionComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void TreeItem_ExpandedInitially_LoadsItsChildrenOnce()
+    {
+        var loads = 0;
+        var item = Render<OmniTreeItem<string>>(parameters => parameters
+            .Add(component => component.Value, "root")
+            .Add(component => component.Text, "Racine")
+            .Add(component => component.Expanded, true)
+            .Add(component => component.LoadChildren, _ => { loads++; return Task.CompletedTask; }));
+
+        Assert.Equal(1, loads);
+        item.Render();
+        Assert.Equal(1, loads);
+    }
+
+    [Fact]
+    public void TreeItem_ExpandedByTheParent_LoadsItsChildren()
+    {
+        var loads = 0;
+        Func<CancellationToken, Task> loader = _ => { loads++; return Task.CompletedTask; };
+        var item = Render<OmniTreeItem<string>>(parameters => parameters
+            .Add(component => component.Value, "root")
+            .Add(component => component.Text, "Racine")
+            .Add(component => component.LoadChildren, loader));
+        Assert.Equal(0, loads);
+
+        item.Render(parameters => parameters.Add(component => component.Expanded, true));
+
+        Assert.Equal(1, loads);
+        Assert.Equal("true", item.Find("[role=treeitem]").GetAttribute("aria-expanded"));
+    }
+
+    [Fact]
     public void DataList_RendersItemsAndEmptyState()
     {
         var list = Render<OmniDataList<int>>(parameters => parameters
@@ -54,6 +86,36 @@ public sealed class CollectionComponentTests : OmniBunitContext
 
         Assert.Equal(2, attempts);
         Assert.Contains("Élément 7", list.Markup, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task DataList_NewLoaderWhileTheFirstIsStillLoading_ReplacesIt()
+    {
+        var pending = new TaskCompletionSource<IReadOnlyList<int>>();
+        var list = Render<OmniDataList<int>>(parameters => parameters
+            .Add(component => component.Load, _ => pending.Task)
+            .Add(component => component.ItemTemplate, ItemTemplate));
+
+        list.Render(parameters => parameters
+            .Add(component => component.Load, _ => Task.FromResult<IReadOnlyList<int>>([8])));
+        Assert.Contains("Élément 8", list.Markup, StringComparison.Ordinal);
+
+        await list.InvokeAsync(() => pending.SetResult([1]));
+        Assert.Contains("Élément 8", list.Markup, StringComparison.Ordinal);
+        Assert.DoesNotContain("Élément 1", list.Markup, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void DataList_NewLoaderAfterAFailedLoad_Loads()
+    {
+        var list = Render<OmniDataList<int>>(parameters => parameters
+            .Add(component => component.Load, _ => Task.FromException<IReadOnlyList<int>>(new InvalidOperationException("offline")))
+            .Add(component => component.ItemTemplate, ItemTemplate));
+
+        list.Render(parameters => parameters
+            .Add(component => component.Load, _ => Task.FromResult<IReadOnlyList<int>>([8])));
+
+        Assert.Contains("Élément 8", list.Markup, StringComparison.Ordinal);
     }
 
     [Fact]

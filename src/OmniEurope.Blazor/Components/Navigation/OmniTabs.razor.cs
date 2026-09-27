@@ -3,6 +3,7 @@ namespace OmniEurope.Blazor.Components;
 public partial class OmniTabs
 {
     private readonly List<string> _registeredKeys = [];
+    private readonly string _generatedId = $"omni-tabs-{Guid.NewGuid():N}";
     private ElementReference _root;
     private ElementReference _strip;
     private ElementReference _container;
@@ -77,9 +78,9 @@ public partial class OmniTabs
 
     private IReadOnlyList<string> EffectiveKeys => Keys.Count > 0 ? Keys : _registeredKeys;
 
-    private OmniTabsContext TabContext => new() { Value = EffectiveValue, SelectAsync = SelectAsync, RegisterKey = RegisterKey, Phase = OmniTabsPhase.Tab };
+    private OmniTabsContext TabContext => new() { Value = EffectiveValue, SelectAsync = SelectAsync, RegisterKey = RegisterKey, Phase = OmniTabsPhase.Tab, IdPrefix = _generatedId };
 
-    private OmniTabsContext PanelContext => new() { Value = EffectiveValue, SelectAsync = SelectAsync, RegisterKey = RegisterKey, Phase = OmniTabsPhase.Panel, RenderAllPanels = RenderAllPanels };
+    private OmniTabsContext PanelContext => new() { Value = EffectiveValue, SelectAsync = SelectAsync, RegisterKey = RegisterKey, Phase = OmniTabsPhase.Panel, RenderAllPanels = RenderAllPanels, IdPrefix = _generatedId };
 
     private string RegisterKey(string key)
     {

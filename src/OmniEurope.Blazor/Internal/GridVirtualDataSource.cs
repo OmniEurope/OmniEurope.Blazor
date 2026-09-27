@@ -15,6 +15,7 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
     private readonly HashSet<int> _loadedBlocks = [];
     private CancellationTokenSource? _cancellation;
     private int _generation;
+    private int _refreshGeneration;
 
     internal int TotalCount { get; private set; }
 
@@ -121,8 +122,8 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
     /// Fetches again the blocks covering <paramref name="start"/>..<paramref name="start"/> +
     /// <paramref name="count"/> without leaving the rows held: no loading state while it runs, and
     /// the cache is swapped for the fresh blocks only once they are all in. A reset or a newer
-    /// query during the fetch wins; the fetched rows are then dropped. Returns <c>true</c> when the
-    /// cache changed.
+    /// query during the fetch wins, and so does a later refresh: the fetched rows are then dropped.
+    /// Returns <c>true</c> when the cache changed.
     /// </summary>
     internal async Task<bool> RefreshAsync(
         int start,
@@ -136,6 +137,7 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         _cancellation ??= new CancellationTokenSource();
         var token = _cancellation.Token;
         var generation = _generation;
+        var refresh = ++_refreshGeneration;
         var fresh = new Dictionary<int, TItem>();
         var total = TotalCount;
         try
@@ -143,7 +145,7 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
             for (var block = firstBlock; block <= lastBlock; block++)
             {
                 var result = await loader(block * size, size, token).WaitAsync(token);
-                if (generation != _generation || token.IsCancellationRequested)
+                if (generation != _generation || refresh != _refreshGeneration || token.IsCancellationRequested)
                 {
                     return false;
                 }
@@ -161,7 +163,7 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         }
         catch (Exception exception)
         {
-            if (generation != _generation)
+            if (generation != _generation || refresh != _refreshGeneration)
             {
                 return false;
             }

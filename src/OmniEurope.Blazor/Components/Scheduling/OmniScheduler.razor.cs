@@ -5,7 +5,7 @@ public partial class OmniScheduler
     private CancellationTokenSource? _loadCancellation;
     private int _loadGeneration;
     private IReadOnlyList<OmniSchedulerAppointment> _loadedItems = Array.Empty<OmniSchedulerAppointment>();
-    private SchedulerLoadKey? _loadedKey;
+    private SchedulerLoadKey? _requestedKey;
     private bool _loading;
     private Exception? _error;
 
@@ -38,7 +38,10 @@ public partial class OmniScheduler
     protected override async Task OnParametersSetAsync()
     {
         base.OnParametersSet();
-        if (Load is not null && !_loading && _error is null && _loadedKey != CreateLoadKey())
+        // Keyed on the last load started, not the last one that succeeded: a range, view or loader
+        // changed while a load runs, or after it failed, loads again at once (the previous load is
+        // cancelled), while the same key waits for its load or for Retry.
+        if (Load is not null && _requestedKey != CreateLoadKey())
         {
             await ReloadAsync();
         }
@@ -94,6 +97,7 @@ public partial class OmniScheduler
         var generation = ++_loadGeneration;
         var range = Range();
         var key = new SchedulerLoadKey(range.Start, range.End, Load);
+        _requestedKey = key;
         _loading = true;
         _error = null;
         try
@@ -102,7 +106,6 @@ public partial class OmniScheduler
             if (generation == _loadGeneration)
             {
                 _loadedItems = items;
-                _loadedKey = key;
             }
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested) { }

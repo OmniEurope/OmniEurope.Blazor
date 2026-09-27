@@ -28,30 +28,44 @@ internal static class GridPropertyAccessor
     private static Delegate? Compile(Type itemType, string path)
     {
         var parameter = Expression.Parameter(itemType, "item");
-        Expression current = parameter;
-        foreach (var segment in path.Split('.', StringSplitOptions.RemoveEmptyEntries))
+        var body = Access(parameter, path.Split('.', StringSplitOptions.RemoveEmptyEntries), 0);
+        if (body is null)
         {
-            var member = FindMember(current.Type, segment);
-            if (member is null)
-            {
-                return null;
-            }
-
-            Expression access = Expression.MakeMemberAccess(current, member);
-            if (CanBeNull(current.Type))
-            {
-                access = Expression.Condition(
-                    Expression.Equal(current, Expression.Constant(null, current.Type)),
-                    Expression.Default(access.Type),
-                    access);
-            }
-
-            current = access;
+            return null;
         }
 
-        var body = Expression.Convert(current, typeof(object));
         var delegateType = typeof(Func<,>).MakeGenericType(itemType, typeof(object));
         return Expression.Lambda(delegateType, body, parameter).Compile();
+    }
+
+    /// <summary>
+    /// The rest of the path from <paramref name="current"/>, boxed. A null link returns a null object
+    /// rather than the default of the member after it, so <c>Customer.Age</c> of an order without a
+    /// customer is null, not 0. Null for an unknown segment.
+    /// </summary>
+    private static Expression? Access(Expression current, string[] segments, int index)
+    {
+        if (index == segments.Length)
+        {
+            return Expression.Convert(current, typeof(object));
+        }
+
+        var member = FindMember(current.Type, segments[index]);
+        if (member is null)
+        {
+            return null;
+        }
+
+        var rest = Access(Expression.MakeMemberAccess(current, member), segments, index + 1);
+        if (rest is null || !CanBeNull(current.Type))
+        {
+            return rest;
+        }
+
+        return Expression.Condition(
+            Expression.Equal(current, Expression.Constant(null, current.Type)),
+            Expression.Constant(null, typeof(object)),
+            rest);
     }
 
 

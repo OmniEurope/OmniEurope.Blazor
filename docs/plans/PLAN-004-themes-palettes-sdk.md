@@ -248,6 +248,12 @@ n'est pas une copie de code : ce sont des données, pas une expression protégea
 attribution n'est requise. Si l'utilisateur préfère la prudence, il peut demander une mention dans
 `NOTICE.md` ; ne pas en ajouter une de sa propre initiative, cela laisserait croire à une copie.
 
+Décision du propriétaire, 2026-09-27 (audit 360, DOC-007) : ces valeurs restent. Le thème `Défaut`, devenu
+`Essentiel`, garde l'indigo `#4340d2` de la production Aetheus et les couleurs de sévérité publiques de
+Material Design. La règle d'indépendance d'`AGENTS.md` le dit désormais : des valeurs isolées (quelques
+codes couleur, un rayon) posées dans nos propres jetons sont des données, jamais un fichier, une règle ou
+un extrait copié.
+
 ## Cible fonctionnelle
 
 Un **thème** décide la forme : rayons, épaisseur et couleur relative des bordures, ombres et lueurs,

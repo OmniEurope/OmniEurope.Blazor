@@ -1,3 +1,5 @@
+using Microsoft.CodeAnalysis.Text;
+
 namespace OmniEurope.Analyzers.Tests;
 
 public sealed class OmniEuropeConventionAnalyzerTests
@@ -51,6 +53,27 @@ public sealed class OmniEuropeConventionAnalyzerTests
             ("Safe.razor", "@*\n@code { ignored }\n*@\n<p>@codependent</p>"));
         Assert.Single(diagnostics, diagnostic => diagnostic.Id == "GEN004");
         Assert.EndsWith("Unsafe.razor", diagnostics.Single(diagnostic => diagnostic.Id == "GEN004").Location.SourceTree?.FilePath ?? diagnostics.Single(diagnostic => diagnostic.Id == "GEN004").Location.GetLineSpan().Path, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task Gen004_RecognizesFunctionsBlocksAndDirectivesAfterMarkupWithTheirSpans()
+    {
+        var diagnostics = await AnalyzerTestHarness.AnalyzeAsync(
+            "class Fixture { }",
+            ("Functions.razor", "<p>Text</p>\n  @functions { private int value; }"),
+            ("Inline.razor", "<p>Text</p> @* note *@ @code { private int value; }"),
+            ("Text.razor", "<a href=\"mailto:a@code.org\">a@code.org</a>\n<p>@codeValue @functionsCount @@code</p>\n@* <p></p> @functions { } *@"));
+        var gen004 = diagnostics.Where(diagnostic => diagnostic.Id == "GEN004")
+            .ToDictionary(diagnostic => Path.GetFileName(diagnostic.Location.GetLineSpan().Path), diagnostic => diagnostic.Location);
+        Assert.Equal(["Functions.razor", "Inline.razor"], gen004.Keys.Order(StringComparer.Ordinal));
+
+        var functions = gen004["Functions.razor"];
+        Assert.Equal(new TextSpan(14, "@functions".Length), functions.SourceSpan);
+        Assert.Equal(new LinePositionSpan(new LinePosition(1, 2), new LinePosition(1, 12)), functions.GetLineSpan().Span);
+
+        var inline = gen004["Inline.razor"];
+        Assert.Equal(new TextSpan(23, "@code".Length), inline.SourceSpan);
+        Assert.Equal(new LinePositionSpan(new LinePosition(0, 23), new LinePosition(0, 28)), inline.GetLineSpan().Span);
     }
 
     [Fact]

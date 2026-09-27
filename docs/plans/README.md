@@ -19,9 +19,9 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 | Plan | Travail restant | ADR |
 |---|---|---|
 | [PLAN-001](PLAN-001-remise-equerre-kit.md) | Phase A du plan maître `_Generic` PLAN-001 (lot 7) : lots 1 et 2 livrés, lot 3 (contrats) et lot 4 (`STD-I18N` de la vitrine) ouverts | [ADR-001](../adr/ADR-001-global-json-rollforward-latestpatch.md) |
-| [PLAN-003](PLAN-003-besoins-aetheus.md) | Ajouts OE demandés par la migration d'Aetheus ; statut « aucun lot démarré » du 2026-09-14, à confirmer contre l'état livré par PLAN-004 | - |
+| [PLAN-005](PLAN-005-remediation-audit-2026-09-27.md) | Remédiation de l'audit 360 du 2026-09-27 : lots 1 à 4 livrés ; reste SCR-001, à corriger dans le kit `_Generic` | - |
 
-Total comparable : **2 lots ouverts** dans PLAN-001 (3 et 4), plus PLAN-003 à confirmer.
+Total comparable : **2 lots ouverts** dans PLAN-001 (3 et 4), plus SCR-001 de PLAN-005, hors dépôt.
 
 ## Plans livrés (conservés pour la traçabilité)
 
@@ -31,4 +31,5 @@ en dense (PLAN-001, lot 2). Leurs anciens numéros locaux étaient respectivemen
 | Plan | Objet | État |
 |---|---|---|
 | [PLAN-002](PLAN-002-grille-complete.md) | Grille complète et virtualisation d'`OmniDataGrid` | Terminé, 22 cases sur 22 |
+| [PLAN-003](PLAN-003-besoins-aetheus.md) | Ajouts OE demandés par la migration d'Aetheus | Terminé, lots 2 à 9 livrés, constaté contre `src/` le 2026-09-27 |
 | [PLAN-004](PLAN-004-themes-palettes-sdk.md) | Réunion des branches Aetheus, bande SDK libre, 10 thèmes et 10 palettes | Terminé, 11 lots ; annexes [journal d'exécution](PLAN-004-execution-log.md) et [maquette de référence](PLAN-004-maquette-themes.html) |

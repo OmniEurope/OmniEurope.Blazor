@@ -15,18 +15,33 @@ internal sealed class OmniDisclosureDismissal(IJSRuntime javaScript) : IAsyncDis
     private string? _configuredId;
     private bool _closeOnOutsideClick;
     private bool _closeOnItem;
+    private bool _disposed;
 
     internal async Task ApplyAsync(ElementReference details, bool closeOnOutsideClick, bool closeOnItem)
     {
-        if (string.IsNullOrEmpty(details.Id)
+        if (_disposed
+            || string.IsNullOrEmpty(details.Id)
             || (details.Id == _configuredId && closeOnOutsideClick == _closeOnOutsideClick && closeOnItem == _closeOnItem))
         {
             return;
         }
 
-        _module ??= await javaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omni-focus.js");
-        await _module.InvokeVoidAsync("configureDisclosure", details, closeOnOutsideClick, closeOnItem);
+        if (_module is null)
+        {
+            var module = await javaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omni-focus.js");
+            if (_disposed)
+            {
+                // The owner left the page during the import: configure nothing, release the module.
+                await ReleaseAsync(module);
+                return;
+            }
+
+            _module = module;
+        }
+
+        // Recorded before the call, so that a disposal during it releases this element.
         _element = details;
+        await _module.InvokeVoidAsync("configureDisclosure", details, closeOnOutsideClick, closeOnItem);
         _configuredId = details.Id;
         _closeOnOutsideClick = closeOnOutsideClick;
         _closeOnItem = closeOnItem;
@@ -34,6 +49,7 @@ internal sealed class OmniDisclosureDismissal(IJSRuntime javaScript) : IAsyncDis
 
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_module is null)
         {
             return;
@@ -43,6 +59,17 @@ internal sealed class OmniDisclosureDismissal(IJSRuntime javaScript) : IAsyncDis
         {
             await _module.InvokeVoidAsync("disposeDisclosure", _element);
             await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+        }
+    }
+
+    private static async Task ReleaseAsync(IJSObjectReference module)
+    {
+        try
+        {
+            await module.DisposeAsync();
         }
         catch (JSDisconnectedException)
         {

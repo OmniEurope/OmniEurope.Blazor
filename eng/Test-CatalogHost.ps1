@@ -1,7 +1,6 @@
 [CmdletBinding()]
 param(
     [int]$Port = 5187,
-    [int]$BrowserPort = 9222,
     [string]$AssemblyPath = (Join-Path $PSScriptRoot '..\artifacts\catalog-smoke\OmniEurope.Blazor.Catalog.dll'),
     [ValidateRange(1, 60)]
     [int]$RequestTimeoutSeconds = 10
@@ -112,13 +111,14 @@ try {
     New-Item -ItemType Directory -Path $browserProfile | Out-Null
     $browserArguments = @(
         '--headless=new', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox',
-        "--remote-debugging-port=$BrowserPort", "--user-data-dir=$browserProfile", 'about:blank'
+        '--remote-debugging-port=0', "--user-data-dir=$browserProfile", 'about:blank'
     )
     $browserStart = @{ FilePath = $browserPath; ArgumentList = $browserArguments; PassThru = $true }
     if ($IsWindows) { $browserStart.WindowStyle = 'Hidden' }
     $browser = Start-Process @browserStart
+    $browserPort = & (Join-Path $PSScriptRoot 'Get-BrowserDebugPort.ps1') -BrowserProfile $browserProfile -Browser $browser
 
-    & node (Join-Path $PSScriptRoot 'Test-CatalogProbe.mjs') --endpoint "http://127.0.0.1:$BrowserPort" --url $baseUri
+    & node (Join-Path $PSScriptRoot 'Test-CatalogProbe.mjs') --endpoint "http://127.0.0.1:$browserPort" --url $baseUri
     if ($LASTEXITCODE -ne 0) { throw ($psText.CdpFailed -f 'Catalog', $LASTEXITCODE) }
 
     $status = Invoke-WebRequest -UseBasicParsing -Uri "$baseUri/csp-status" -TimeoutSec $RequestTimeoutSeconds

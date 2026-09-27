@@ -21,8 +21,10 @@ namespace OmniEurope.Blazor.Components;
 /// when one is given (so a bare resource key is translated). An attribute with an
 /// <c>ErrorMessageResourceType</c> is already localized by DataAnnotations and passes through.
 /// Field names come from <see cref="DisplayAttribute"/> or <see cref="DisplayNameAttribute"/>, then the
-/// property name, each looked up in <see cref="Localizer"/>. <see cref="IValidatableObject"/> results
-/// are added as they are.
+/// property name, each looked up in <see cref="Localizer"/>. A <see cref="ValidationAttribute"/> on
+/// the model type itself (a <see cref="CustomValidationAttribute"/> comparing two dates, say) and the
+/// <see cref="IValidatableObject"/> results are added on the members they name, or on the model when
+/// they name none, with their own message.
 /// </remarks>
 public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
 {
@@ -72,15 +74,12 @@ public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
             AddPropertyErrors(model, property);
         }
 
+        AddModelErrors(model);
         if (model is IValidatableObject validatable)
         {
             foreach (var result in validatable.Validate(new ValidationContext(model)))
             {
-                var members = result.MemberNames.Any() ? result.MemberNames : [string.Empty];
-                foreach (var member in members)
-                {
-                    _messages.Add(new FieldIdentifier(model, member), result.ErrorMessage ?? string.Empty);
-                }
+                AddResult(model, result, result.ErrorMessage ?? string.Empty);
             }
         }
 
@@ -140,6 +139,35 @@ public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
             }
 
             _messages.Add(field, Message(attribute, result, displayName, model));
+        }
+    }
+
+    /// <summary>The rules carried by the model type rather than by one of its properties.</summary>
+    private void AddModelErrors(object model)
+    {
+        var context = new ValidationContext(model);
+        foreach (var attribute in model.GetType().GetCustomAttributes<ValidationAttribute>(inherit: true))
+        {
+            var result = attribute.GetValidationResult(model, context);
+            if (result is null || result == ValidationResult.Success)
+            {
+                continue;
+            }
+
+            // A custom message may be a resource key of the host; otherwise the rule's own text.
+            var message = attribute.ErrorMessageResourceType is null && HasCustomMessage(attribute)
+                ? Lookup(attribute.ErrorMessage!) ?? result.ErrorMessage
+                : result.ErrorMessage;
+            AddResult(model, result, message ?? string.Empty);
+        }
+    }
+
+    private void AddResult(object model, ValidationResult result, string message)
+    {
+        var members = result.MemberNames.Any() ? result.MemberNames : [string.Empty];
+        foreach (var member in members)
+        {
+            _messages!.Add(new FieldIdentifier(model, member), message);
         }
     }
 

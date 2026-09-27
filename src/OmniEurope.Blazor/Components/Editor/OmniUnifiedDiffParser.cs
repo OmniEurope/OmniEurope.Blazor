@@ -101,13 +101,19 @@ public static partial class OmniUnifiedDiffParser
 
             if (HunkHeader().Match(line) is { Success: true } header)
             {
+                // The numbers come from external text: a range that does not fit an int, line numbers
+                // included, makes the header malformed, and the hunk is skipped rather than thrown on.
+                if (!TryRange(header.Groups[1], header.Groups[2], out var oldStart, out var oldCount)
+                    || !TryRange(header.Groups[3], header.Groups[4], out var newStart, out var newCount))
+                {
+                    hunk = null;
+                    oldLeft = 0;
+                    newLeft = 0;
+                    continue;
+                }
+
                 file ??= new FileBuilder();
-                hunk = file.StartHunk(
-                    line,
-                    Number(header.Groups[1]),
-                    header.Groups[2].Success ? Number(header.Groups[2]) : 1,
-                    Number(header.Groups[3]),
-                    header.Groups[4].Success ? Number(header.Groups[4]) : 1);
+                hunk = file.StartHunk(line, oldStart, oldCount, newStart, newCount);
                 oldLeft = hunk.OldCount;
                 newLeft = hunk.NewCount;
                 continue;
@@ -141,7 +147,17 @@ public static partial class OmniUnifiedDiffParser
         return files;
     }
 
-    private static int Number(Group group) => int.Parse(group.ValueSpan, NumberStyles.None, CultureInfo.InvariantCulture);
+    /// <summary>
+    /// The start and count of one side of a hunk header, a missing count meaning 1; false when either
+    /// does not fit an int or the last line of the range would not.
+    /// </summary>
+    private static bool TryRange(Group startGroup, Group countGroup, out int start, out int count)
+    {
+        count = 1;
+        return int.TryParse(startGroup.ValueSpan, NumberStyles.None, CultureInfo.InvariantCulture, out start)
+            && (!countGroup.Success || int.TryParse(countGroup.ValueSpan, NumberStyles.None, CultureInfo.InvariantCulture, out count))
+            && (long)start + count <= int.MaxValue;
+    }
 
     /// <summary>The path of a <c>---</c> or <c>+++</c> header: quotes, the timestamp of <c>diff -u</c> and the <c>a/</c> or <c>b/</c> prefix removed.</summary>
     private static string? PathOf(string value)

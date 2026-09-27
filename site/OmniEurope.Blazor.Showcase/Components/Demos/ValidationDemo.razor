@@ -18,6 +18,7 @@
             <Label>Courriel</Label>
             <ChildContent>
                 <OmniTextBox Id="validation-mail" @bind-Value="Model.Mail" />
+                <OmniRequiredValidator TValue="string" For="@(() => Model.Mail)" Message="Le courriel est obligatoire." />
                 <OmniEmailValidator For="@(() => Model.Mail)" Message="Ce courriel n'est pas valide." />
             </ChildContent>
         </OmniFormField>
@@ -26,6 +27,7 @@
             <Label>Confirmation du courriel</Label>
             <ChildContent>
                 <OmniTextBox Id="validation-mail-confirm" @bind-Value="Model.MailConfirmation" />
+                <OmniRequiredValidator TValue="string" For="@(() => Model.MailConfirmation)" Message="La confirmation du courriel est obligatoire." />
                 <OmniCompareValidator TValue="string" For="@(() => Model.MailConfirmation)"
                                       Other="@(() => Model.Mail)"
                                       Message="Les deux courriels diffèrent." />

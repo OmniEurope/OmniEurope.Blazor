@@ -1,7 +1,6 @@
 [CmdletBinding()]
 param(
     [int]$Port = 5189,
-    [int]$BrowserPort = 9223,
     [string]$AssemblyPath = (Join-Path $PSScriptRoot '..\artifacts\auto-smoke\OmniEurope.Blazor.AutoSmoke.dll'),
     [string]$BrowserLanguage = 'fr'
 )
@@ -107,13 +106,14 @@ try {
     $browserArguments = @(
         '--headless=new', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox',
         "--lang=$BrowserLanguage", "--accept-lang=$BrowserLanguage",
-        "--remote-debugging-port=$BrowserPort", "--user-data-dir=$browserProfile", $baseUri
+        '--remote-debugging-port=0', "--user-data-dir=$browserProfile", $baseUri
     )
     $browserStart = @{ FilePath = $browserPath; ArgumentList = $browserArguments; PassThru = $true }
     if ($IsWindows) { $browserStart.WindowStyle = 'Hidden' }
     $browser = Start-Process @browserStart
+    $browserPort = & (Join-Path $PSScriptRoot 'Get-BrowserDebugPort.ps1') -BrowserProfile $browserProfile -Browser $browser
 
-    & node (Join-Path $PSScriptRoot 'Test-CdpProbe.mjs') --endpoint "http://127.0.0.1:$BrowserPort" --selector '#auto-action' --output '#auto-action' --expected 'Compteur Auto : 1'
+    & node (Join-Path $PSScriptRoot 'Test-CdpProbe.mjs') --endpoint "http://127.0.0.1:$browserPort" --selector '#auto-action' --output '#auto-action' --expected 'Compteur Auto : 1'
     if ($LASTEXITCODE -ne 0) { throw ($psText.CdpFailed -f 'Interactive Auto', $LASTEXITCODE) }
 
     Write-Host ($psText.AutoPassed -f $process.Id)

@@ -9,10 +9,13 @@ function focusableElements(container) {
     }
 
     return Array.from(container.querySelectorAll(
-        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'))
-        .filter(element => !element.hidden
+        'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+        // An element under a hidden or inert ancestor, or not laid out at all (display: none), cannot
+        // take the focus: keeping it would make the trap retry it on every Tab.
+        .filter(element => !element.closest('[hidden], [inert]')
             && element.getAttribute('aria-hidden') !== 'true'
-            && !element.hasAttribute('data-focus-sentinel'));
+            && !element.hasAttribute('data-focus-sentinel')
+            && element.getClientRects().length > 0);
 }
 
 function rememberTarget(key) {

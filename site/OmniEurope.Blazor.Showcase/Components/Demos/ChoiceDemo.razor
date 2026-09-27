@@ -37,8 +37,8 @@
         </OmniStack>
 
         <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
-            <OmniNullableCheckBox Id="choice-nullable-check" @bind-Value="Partial" />
-            <OmniNullableSwitch Id="choice-nullable-switch" @bind-Value="Partial" />
+            <OmniNullableCheckBox Id="choice-nullable-check" @bind-Value="Partial">Case à trois états</OmniNullableCheckBox>
+            <OmniNullableSwitch Id="choice-nullable-switch" @bind-Value="Partial">Interrupteur à trois états</OmniNullableSwitch>
             <span>État à trois positions : @(Partial is null ? "indéterminé" : Partial.Value ? "activé" : "désactivé")</span>
         </OmniStack>
         <OmniRating @bind-Value="Rating" Label="Notation" />

@@ -391,6 +391,35 @@ public sealed class KanbanComponentTests : OmniBunitContext
         Assert.Equal(["A"], CardsOf(board, "todo"));
     }
 
+    [Fact]
+    public async Task ItemsReorderedWhileACardIsHeld_KeepCarryingThatCard()
+    {
+        JSInterop.SetupModule(ModulePath);
+        var board = RenderBoard();
+        await KeyAsync(board, 0, " ");
+        await KeyAsync(board, 0, "ArrowRight");
+
+        board.Render(parameters => parameters.Add(component => component.Items, [Cards[1], Cards[0], Cards[2], Cards[3]]));
+        Assert.True(board.Instance.IsGrabbing);
+        Assert.Contains("omni-kanban__card--grabbed", board.Find("[data-omni-kanban-card='1']").ClassList);
+        await KeyAsync(board, 1, "Enter");
+
+        Assert.Equal(new OmniKanbanMove<Card>(Cards[0], "todo", "doing", 0), Assert.Single(_moves));
+    }
+
+    [Fact]
+    public void ItemsReorderedDuringADrag_DropTheDraggedCard_NotTheOneNowAtItsIndex()
+    {
+        var board = RenderBoard();
+        board.Find("[data-omni-kanban-card='0']").DragStart();
+        board.Find("[data-omni-kanban-column='doing'] ul").DragEnter();
+
+        board.Render(parameters => parameters.Add(component => component.Items, [Cards[1], Cards[0], Cards[2], Cards[3]]));
+        board.Find("[data-omni-kanban-column='doing'] ul").Drop();
+
+        Assert.Equal(new OmniKanbanMove<Card>(Cards[0], "todo", "doing", 1), Assert.Single(_moves));
+    }
+
     private IRenderedComponent<OmniKanban<Card>> RenderBoard(Action<ComponentParameterCollectionBuilder<OmniKanban<Card>>>? configure = null) =>
         Render<OmniKanban<Card>>(parameters =>
         {

@@ -12,7 +12,8 @@ namespace OmniEurope.Blazor.Components;
 /// <para>
 /// Lines come in by <see cref="Lines"/>; the component opens no connection. A host that streams
 /// appends to the list it passes, a new list or the same one: an appended tail keeps the measured
-/// heights of the lines before it, any other change measures again.
+/// heights of the lines before it. <see cref="Lines"/> is append-only: see its contract for how an
+/// append is told from a replaced history.
 /// </para>
 /// <para>
 /// Only the lines near the visible part of the viewport are rendered, with the mechanics of the data
@@ -61,6 +62,14 @@ public partial class OmniLogViewer : IAsyncDisposable
     private IJSRuntime JavaScript { get; set; } = default!;
 
     /// <summary>The lines, oldest first.</summary>
+    /// <remarks>
+    /// Append-only: a line once passed is never changed, reordered or removed in place. A list at least
+    /// as long as the previous one, whose line at the previous last position is still the same line
+    /// (record equality), is read as that list with a tail appended, whether it is the same instance or
+    /// a new one: only the new lines are filtered and searched, and a line replaced before that position
+    /// keeps its former filtering and search result. A shorter list, or one whose line at that position
+    /// differs, starts over; a replaced history that meets neither condition is not detected.
+    /// </remarks>
     [Parameter, EditorRequired]
     public IReadOnlyList<OmniLogLine> Lines { get; set; } = Array.Empty<OmniLogLine>();
 
@@ -205,7 +214,8 @@ public partial class OmniLogViewer : IAsyncDisposable
 
     /// <summary>
     /// Brings the visible lines up to date with <see cref="Lines"/>, the level filter and the search.
-    /// An appended tail is filtered and searched on its own; anything else starts over.
+    /// An appended tail is filtered and searched on its own; a shorter list, or one whose previous
+    /// last line changed, starts over. Earlier lines are not compared: see the contract of <see cref="Lines"/>.
     /// </summary>
     private void SyncLines()
     {

@@ -2,6 +2,8 @@ namespace OmniEurope.Blazor.Components;
 
 public partial class OmniRadioButtonList<TValue>
 {
+    private readonly string _generatedName = $"omni-radio-{Guid.NewGuid():N}";
+
     [Parameter, EditorRequired]
     public IReadOnlyList<OmniOption<TValue>> Options { get; set; } = Array.Empty<OmniOption<TValue>>();
 
@@ -23,7 +25,7 @@ public partial class OmniRadioButtonList<TValue>
     [Parameter]
     public string? Error { get; set; }
 
-    private string GroupName => Name ?? Id ?? $"omni-radio-{FieldIdentifier.FieldName}";
+    private string GroupName => Name ?? Id ?? _generatedName;
     private bool HasError => !string.IsNullOrWhiteSpace(Error);
     private string ErrorId => $"{Id ?? GroupName}-error";
 

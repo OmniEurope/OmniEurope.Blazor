@@ -8,8 +8,8 @@
 > Aide-mémoire du dépôt, déplacé de `plans/` (ignoré par Git) vers `docs/plans/` et renuméroté le 2026-09-20 (PLAN-001, lot 2).
 > Réécrit le 2026-09-14, en remplacement de la version du 2026-09-13, qui listait des évolutions
 > abandonnées depuis.
-> Statut : ouvert. Aucun lot démarré. Travail en commits courts sur `develop`, sans jamais toucher
-> les fichiers non commités d'une autre session.
+> Statut : terminé. Lots 2 à 9 livrés sur `develop`, constaté contre `src/` le 2026-09-27 ; aucun
+> reliquat côté OE.
 
 ## Règles de l'utilisateur
 
@@ -24,25 +24,37 @@
 
 ## Ajouts retenus
 
-- Lot 2 : `WasmSmoke` étendu à une grille, un dialogue et un toast, publié trimmé sous CSP stricte.
-  Vérifier aussi que la virtualisation d'`OmniDataList` ne pose pas d'attribut `style`. Corriger les
-  dérives de doc (popup de filtre, onglets).
-- Lot 3 : 76 glyphes Phosphor ajoutés en fin d'`OmniIconName`. Couche `omni-u-*`, en classes
-  nouvelles uniquement.
-- Lot 4 : pont DataAnnotations vers des messages localisés, et `OmniAlert.Dismissible` (faux par
-  défaut).
-- Lot 5 : `OmniPopover`, panneau ancré non modal.
-- Lot 6 : `OmniDataGrid.EmptyTemplate`, et la virtualisation avec lignes de groupe et de détail en
-  mode `Items`. Fait : `4d24139`, fusionné dans `develop` (`886b057`).
-- Lot 7 : `OmniPageHeader` et son service de fil d'Ariane, `OmniDetailShell`, `OmniLoginShell`,
-  `OmniConnectionOverlay`, `OmniEmptyState`, `OmniWizard`, `OmniDescriptionList`, `OmniRelativeTime`.
-- Lot 8 : `OmniResourceList`, `OmniEntityPicker`, `OmniDynamicForm`, `OmniStatusBadge` et sa table,
-  `OmniLogViewer`, `OmniCodeBlock`, `OmniCodeViewer`, `OmniUnifiedDiff`.
-- Lot 9 :
+Tous livrés sur `develop` ; revérifiés contre `src/` le 2026-09-27.
+
+- Lot 2 : fait. `WasmSmoke` rend une grille et une liste virtualisées, un dialogue et une
+  notification, exigés par `eng/Test-WasmHost.ps1` (`--assert-present`) sur l'artefact publié en
+  Release sous CSP stricte. `OmniDataList` virtualisée ne pose plus d'attribut `style` (espaceurs
+  dimensionnés par `omni-grid.js`). Dérives de doc (popup de filtre, onglets) corrigées. Preuve :
+  `7516925`.
+- Lot 3 : fait. `OmniIconName` passé de 86 à 162 glyphes Phosphor (`71929dc`), et couche
+  `omni-u-*` en classes nouvelles (`bf59aa0`).
+- Lot 4 : fait. `OmniDataAnnotationsValidator` (messages localisés) et `OmniAlert.Dismissible`,
+  faux par défaut (`5d40c25`).
+- Lot 5 : fait. `OmniPopover` (`a3ead9e`).
+- Lot 6 : fait. `OmniDataGrid.EmptyTemplate`, et la virtualisation avec lignes de groupe et de
+  détail en mode `Items` : `4d24139`, fusionné dans `develop` (`886b057`).
+- Lot 7 : fait. `OmniPageHeader` et `OmniBreadcrumbService`, `OmniDetailShell`, `OmniLoginShell`,
+  `OmniConnectionOverlay`, `OmniEmptyState`, `OmniWizard`, `OmniDescriptionList`,
+  `OmniRelativeTime`, dans la famille `Pages` (`0ef620d`).
+- Lot 8 : fait. `OmniResourceList`, `OmniEntityPicker`, `OmniDynamicForm`, `OmniStatusBadge` et sa
+  table `OmniStatusMap`, `OmniLogViewer`, `OmniCodeBlock`, `OmniCodeViewer`, `OmniUnifiedDiff`
+  (`02da73f`, terminé par `ec5405f`).
+- Lot 9 : fait (`ec5405f`, `07e658a`) :
   - `OmniStatusStrip`, `OmniKanban`, `omni-boot.js` et l'écran de démarrage ;
-  - l'extension d'`OmniMindMap` en graphe, avec une disposition en couches en C# et sans dagre ;
+  - l'extension d'`OmniMindMap` en graphe, avec la disposition en couches C# `OmniGraphLayout`,
+    sans dagre ;
   - `OmniGitGraph`, `OmniGantt` ;
-  - `OmniCodeEditor` et `OmniDiffViewer` (Monaco en iframe).
+  - `OmniCodeEditor` et `OmniDiffViewer`. Écart assumé avec la demande : Monaco n'est pas chargé
+    en iframe mais servi par l'hôte depuis sa propre origine, avec le moteur `PlainText` sous CSP
+    stricte (voir `docs/csp-contract.md`).
+
+Reliquat côté OE : aucun. La vérification de bout en bout reste celle d'Aetheus
+(`PLAN-005-verification-oe.md`).
 
 ## Abandonné (OE couvre déjà ou design OE accepté)
 

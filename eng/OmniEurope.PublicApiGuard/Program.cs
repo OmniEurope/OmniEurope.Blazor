@@ -132,20 +132,20 @@ internal static class ApiSurfaceExtractor
                 ? string.Empty
                 : $" [Parameter{(property.GetCustomAttribute<EditorRequiredAttribute>() is null ? string.Empty : ", EditorRequired")}]";
             var required = property.GetCustomAttributesData().Any(attribute => attribute.AttributeType.FullName == "System.Runtime.CompilerServices.RequiredMemberAttribute") ? " required" : string.Empty;
-            var propertyType = TypeName(property.PropertyType, Nullability.Create(property));
+            var propertyType = TypeName(property.PropertyType, Nullability.Create(property), NullableFlags.For(property, property));
             signatures.Add($"property {Access(property)}{MemberModifiers(property.GetMethod ?? property.SetMethod!)}{required} {typeName}.{property.Name}{(index.Length == 0 ? string.Empty : "[" + Parameters(index) + "]")} : {propertyType} {{{string.Join(';', accessors)}}}{parameterAttribute}");
         }
 
         foreach (var field in type.GetFields(ApiDeclared).Where(field => !field.IsSpecialName && IsApiMember(field)).OrderBy(field => field.Name, StringComparer.Ordinal))
         {
             var modifier = field.IsLiteral ? $" const = {DefaultValue(field.GetRawConstantValue())}" : field.IsInitOnly ? " readonly" : string.Empty;
-            signatures.Add($"field {Access(field)}{(field.IsStatic ? " static" : string.Empty)} {typeName}.{field.Name} : {TypeName(field.FieldType, Nullability.Create(field))}{modifier}");
+            signatures.Add($"field {Access(field)}{(field.IsStatic ? " static" : string.Empty)} {typeName}.{field.Name} : {TypeName(field.FieldType, Nullability.Create(field), NullableFlags.For(field, field))}{modifier}");
         }
 
         foreach (var @event in type.GetEvents(ApiDeclared).Where(IsApiEvent).OrderBy(value => value.Name, StringComparer.Ordinal))
         {
             var accessor = @event.AddMethod ?? @event.RemoveMethod!;
-            signatures.Add($"event {Access(accessor)}{MemberModifiers(accessor)} {typeName}.{@event.Name} : {TypeName(@event.EventHandlerType!, Nullability.Create(@event))}");
+            signatures.Add($"event {Access(accessor)}{MemberModifiers(accessor)} {typeName}.{@event.Name} : {TypeName(@event.EventHandlerType!, Nullability.Create(@event), NullableFlags.For(@event, @event))}");
         }
 
         foreach (var method in type.GetMethods(ApiDeclared)
@@ -153,7 +153,7 @@ internal static class ApiSurfaceExtractor
                      .OrderBy(MemberKey, StringComparer.Ordinal))
         {
             var genericArguments = method.IsGenericMethodDefinition ? method.GetGenericArguments() : [];
-            signatures.Add($"method {Access(method)}{MemberModifiers(method)} {typeName}.{method.Name}{GenericList(genericArguments)}({Parameters(method.GetParameters())}) : {TypeName(method.ReturnType, Nullability.Create(method.ReturnParameter))}{Constraints(genericArguments)}");
+            signatures.Add($"method {Access(method)}{MemberModifiers(method)} {typeName}.{method.Name}{GenericList(genericArguments)}({Parameters(method.GetParameters())}) : {TypeName(method.ReturnType, Nullability.Create(method.ReturnParameter), NullableFlags.For(method.ReturnParameter))}{Constraints(genericArguments)}");
         }
     }
 
@@ -162,7 +162,7 @@ internal static class ApiSurfaceExtractor
         var modifier = parameter.IsOut ? "out " : parameter.IsIn && parameter.ParameterType.IsByRef ? "in " : parameter.ParameterType.IsByRef ? "ref " : parameter.GetCustomAttribute<ParamArrayAttribute>() is null ? string.Empty : "params ";
         var type = parameter.ParameterType.IsByRef ? parameter.ParameterType.GetElementType()! : parameter.ParameterType;
         var optional = parameter.HasDefaultValue ? $" = {DefaultValue(parameter.DefaultValue)}" : string.Empty;
-        return $"{modifier}{TypeName(type, Nullability.Create(parameter))} {parameter.Name}{optional}";
+        return $"{modifier}{TypeName(type, Nullability.Create(parameter), NullableFlags.For(parameter))} {parameter.Name}{optional}";
     }));
 
     private static string DefaultValue(object? value) => value switch
@@ -197,24 +197,81 @@ internal static class ApiSurfaceExtractor
         return names.Length == 0 ? string.Empty : $"<{string.Join(",", names)}>";
     }
 
-    private static string TypeName(Type type, NullabilityInfo? nullability = null)
+    // The flags cursor mirrors the compiler's pre-order [Nullable] encoding: every reference type and every
+    // generic value type consumes one flag, a non-generic value type none, Nullable<T> only its argument's.
+    private static string TypeName(Type type, NullabilityInfo? nullability = null, NullableFlags? flags = null)
     {
-        if (type.IsByRef) return TypeName(type.GetElementType()!, nullability?.ElementType) + "&";
+        if (type.IsByRef) return TypeName(type.GetElementType()!, nullability?.ElementType, flags) + "&";
         if (type.IsArray)
         {
-            var arrayName = TypeName(type.GetElementType()!, nullability?.ElementType) + "[" + new string(',', type.GetArrayRank() - 1) + "]";
+            flags?.Next();
+            var arrayName = TypeName(type.GetElementType()!, nullability?.ElementType, flags) + "[" + new string(',', type.GetArrayRank() - 1) + "]";
             return NullableSuffix(type, nullability, arrayName);
         }
-        if (type.IsGenericParameter) return type.Name;
+        if (type.IsGenericParameter)
+        {
+            // NullabilityInfoContext replaces an unannotated open type parameter with the parameter's declared
+            // nullability, which makes an unconstrained T read as T?. The member's own flag keeps them apart.
+            if (flags is null || type.IsValueType) return NullableSuffix(type, nullability, type.Name);
+            return flags.Next() == NullableFlags.Annotated ? type.Name + "?" : type.Name;
+        }
         var nullable = Nullable.GetUnderlyingType(type);
-        if (nullable is not null) return TypeName(nullable) + "?";
-        if (!type.IsGenericType) return NullableSuffix(type, nullability, (type.FullName ?? type.Name).Replace('+', '.'));
+        if (nullable is not null) return TypeName(nullable, null, flags) + "?";
+        if (!type.IsGenericType)
+        {
+            if (!type.IsValueType) flags?.Next();
+            return NullableSuffix(type, nullability, (type.FullName ?? type.Name).Replace('+', '.'));
+        }
+        flags?.Next();
         var definition = type.GetGenericTypeDefinition();
         var name = (definition.FullName ?? definition.Name).Split('`')[0].Replace('+', '.');
         var arguments = type.GetGenericArguments();
         var nullabilityArguments = nullability?.GenericTypeArguments ?? [];
-        var values = arguments.Select((argument, index) => TypeName(argument, index < nullabilityArguments.Length ? nullabilityArguments[index] : null));
+        var values = new string[arguments.Length];
+        for (var index = 0; index < arguments.Length; index++)
+        {
+            values[index] = TypeName(arguments[index], index < nullabilityArguments.Length ? nullabilityArguments[index] : null, flags);
+        }
         return NullableSuffix(type, nullability, $"{name}<{string.Join(",", values)}>");
+    }
+
+    // Reads the compiler-emitted NullableAttribute of a member, falling back to the nearest NullableContextAttribute.
+    private sealed class NullableFlags(IReadOnlyList<byte> flags, byte context)
+    {
+        internal const byte Annotated = 2;
+        private int index;
+
+        internal static NullableFlags For(ParameterInfo parameter) => For(parameter.GetCustomAttributesData(), parameter.Member);
+        internal static NullableFlags For(MemberInfo member, MemberInfo contextMember) => For(member.GetCustomAttributesData(), contextMember);
+
+        private static NullableFlags For(IList<CustomAttributeData> attributes, MemberInfo contextMember)
+        {
+            var nullable = attributes.FirstOrDefault(attribute => attribute.AttributeType.FullName == "System.Runtime.CompilerServices.NullableAttribute");
+            IReadOnlyList<byte> flags = nullable?.ConstructorArguments[0].Value switch
+            {
+                byte single => [single],
+                IReadOnlyCollection<CustomAttributeTypedArgument> values => values.Select(value => (byte)value.Value!).ToArray(),
+                _ => []
+            };
+            return new NullableFlags(flags, Context(contextMember));
+        }
+
+        private static byte Context(MemberInfo? member)
+        {
+            for (; member is not null; member = member.DeclaringType)
+            {
+                var context = member.GetCustomAttributesData().FirstOrDefault(attribute => attribute.AttributeType.FullName == "System.Runtime.CompilerServices.NullableContextAttribute");
+                if (context is not null) return (byte)context.ConstructorArguments[0].Value!;
+            }
+            return 0;
+        }
+
+        internal byte Next()
+        {
+            var value = flags.Count == 0 ? context : flags.Count == 1 ? flags[0] : index < flags.Count ? flags[index] : context;
+            index++;
+            return value;
+        }
     }
 
     private static string NullableSuffix(Type type, NullabilityInfo? nullability, string value) =>
@@ -259,7 +316,9 @@ internal static class ApiSurfaceExtractor
             "field public static ApiFixture<T>.Version : System.Int32 const = 2",
             "method protected virtual ApiFixture<T>.Transform(System.String? value) : System.String?",
             "property public required ApiFixture<T>.Name : System.String? {get(public);init(public)}",
-            "property public ApiFixture<T>.Matrix : System.Int32[,] {get(public);set(public)}"
+            "property public ApiFixture<T>.Matrix : System.Int32[,] {get(public);set(public)}",
+            "property public ApiFixture<T>.Value : T {get(public);set(public)}",
+            "property public ApiFixture<T>.Fallback : T? {get(public);set(public)}"
         };
         foreach (var signature in required)
         {
@@ -282,6 +341,7 @@ public class ApiFixture<T> where T : class, new()
     public const int Version = 2;
     public ApiFixture(T value) => Value = value;
     public T Value { get; set; }
+    public T? Fallback { get; set; }
     public required string? Name { get; init; }
     public int[,] Matrix { get; set; } = new int[0, 0];
     public event EventHandler? Changed;

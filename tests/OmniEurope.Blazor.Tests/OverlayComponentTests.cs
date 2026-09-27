@@ -499,5 +499,27 @@ public sealed class OverlayComponentTests : OmniBunitContext
         Assert.Null(await pending);
     }
 
+    [Fact]
+    public void ComponentsHost_SwappedService_ReachesTheChildrenAlreadyOnThePage()
+    {
+        using var first = new OmniOverlayService();
+        using var second = new OmniOverlayService();
+        var host = Render<OmniComponentsHost>(parameters => parameters
+            .Add(component => component.OverlayService, first)
+            .AddChildContent<OverlayServiceProbe>());
+        Assert.Same(first, host.FindComponent<OverlayServiceProbe>().Instance.Service);
+
+        host.Render(parameters => parameters.Add(component => component.OverlayService, second));
+
+        Assert.Same(second, host.FindComponent<OverlayServiceProbe>().Instance.Service);
+    }
+
+    /// <summary>A child that only reads the service its host cascades.</summary>
+    public sealed class OverlayServiceProbe : ComponentBase
+    {
+        [CascadingParameter]
+        public OmniOverlayService? Service { get; set; }
+    }
+
     private static RenderFragment Content(string value) => builder => builder.AddContent(0, value);
 }

@@ -14,6 +14,7 @@ internal sealed class PickerPopup(IJSRuntime javaScript, Func<bool, Task> dismis
     private IJSObjectReference? _module;
     private DotNetObjectReference<PickerPopupBridge>? _bridge;
     private bool _attached;
+    private bool _released;
     private bool _restoreOnClose;
     private string? _focusSelector;
 
@@ -46,9 +47,26 @@ internal sealed class PickerPopup(IJSRuntime javaScript, Func<bool, Task> dismis
 
     internal async Task AfterRenderAsync(ElementReference root, ElementReference panel, ElementReference toggle)
     {
+        if (_released)
+        {
+            return;
+        }
+
         if (IsOpen && !_attached)
         {
-            _module ??= await javaScript.InvokeAsync<IJSObjectReference>("import", FocusModulePath);
+            if (_module is null)
+            {
+                var module = await javaScript.InvokeAsync<IJSObjectReference>("import", FocusModulePath);
+                if (_released)
+                {
+                    // The picker left the page during the import: nothing is attached, the module goes.
+                    await ReleaseAsync(module, null, attached: false, Key);
+                    return;
+                }
+
+                _module = module;
+            }
+
             _bridge ??= DotNetObjectReference.Create(new PickerPopupBridge(dismissed));
             _attached = true;
             await _module.InvokeVoidAsync("attachPicker", root, panel, toggle, _bridge, Key);
@@ -78,6 +96,7 @@ internal sealed class PickerPopup(IJSRuntime javaScript, Func<bool, Task> dismis
         var module = _module;
         var bridge = _bridge;
         var attached = _attached;
+        _released = true;
         _module = null;
         _bridge = null;
         _attached = false;

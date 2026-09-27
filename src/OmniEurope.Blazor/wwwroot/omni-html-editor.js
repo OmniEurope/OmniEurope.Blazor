@@ -148,7 +148,11 @@ export async function exec(surface, action, argument) {
         }
     }
     else {
-        apply(surface, range, action, argument ?? '');
+        // Only cut and copy wait: for the clipboard, where the browser refuses its own command.
+        await apply(surface, range, action, argument ?? '');
+        if (!editors.has(surface)) {
+            return null;
+        }
     }
 
     tidy(surface);
@@ -714,8 +718,7 @@ function apply(surface, range, action, argument) {
             break;
         case 'cut':
         case 'copy':
-            copySelection(range, action === 'cut');
-            break;
+            return copySelection(range, action === 'cut');
         case 'insertparagraph':
             document.execCommand('insertParagraph');
             break;
@@ -902,8 +905,10 @@ function blocksOfSelection(surface) {
 }
 
 // The browser's own cut and copy, which need the click that ran the command; where the browser
-// refuses them, the text of the selection goes through the asynchronous clipboard instead.
-function copySelection(range, cut) {
+// refuses them, the text of the selection goes through the asynchronous clipboard instead. A cut
+// removes the selection only once the clipboard holds it: without a clipboard, or on a refused
+// permission, the text stays where it was.
+async function copySelection(range, cut) {
     if (range.collapsed) {
         return;
     }
@@ -912,7 +917,17 @@ function copySelection(range, cut) {
         return;
     }
 
-    navigator.clipboard?.writeText(range.toString()).catch(() => { });
+    if (!navigator.clipboard) {
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(range.toString());
+    }
+    catch {
+        return;
+    }
+
     if (cut) {
         range.deleteContents();
     }

@@ -30,13 +30,16 @@ $reviewedAt = [DateTime]::ParseExact([string]$policy.reviewedAt, 'yyyy-MM-dd', [
 if (([DateTime]::UtcNow.Date - $reviewedAt.Date).TotalDays -gt 30) {
     throw "Dependency catalog evidence is older than 30 days: $($policy.reviewedAt)."
 }
+# STD-SDKPIN: a newer NuGet release is reported, never turned into a build failure. The pins, the
+# policy entries and reviewedAt above stay blocking; Dependabot opens the upgrade proposal.
 if (-not $SkipCatalogCheck) {
     foreach ($package in @($policy.packages.PSObject.Properties | Where-Object { $_.Value.status -eq 'latest-stable' })) {
         $id = $package.Name.ToLowerInvariant()
         $catalog = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$id/index.json" -TimeoutSec 15
         $latest = @($catalog.versions | Where-Object { $_ -notmatch '-' } | Select-Object -Last 1)
         if ($latest.Count -ne 1 -or [string]$latest[0] -cne [string]$package.Value.version) {
-            throw "NuGet catalog drift for $($package.Name): reviewed $($package.Value.version), latest stable $latest."
+            $drift = "NuGet catalog drift for $($package.Name): reviewed $($package.Value.version), latest stable $latest."
+            if ($env:GITHUB_ACTIONS -eq 'true') { Write-Host "::warning::$drift" } else { Write-Warning $drift }
         }
     }
 }

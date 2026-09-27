@@ -502,6 +502,7 @@
   <data name="VFormSummaryTitle" xml:space="preserve"><value>{0} champ(s) à corriger.</value></data>
   <data name="VFormName" xml:space="preserve"><value>Nom du pipeline</value></data>
   <data name="VFormNameHelp" xml:space="preserve"><value>Lettres minuscules, chiffres et tirets.</value></data>
+  <data name="VFormNameError" xml:space="preserve"><value>Le nom du pipeline est obligatoire.</value></data>
   <data name="VFormMail" xml:space="preserve"><value>Adresse de notification</value></data>
   <data name="VFormMailError" xml:space="preserve"><value>Ajoutez un domaine complet, par exemple equipe@exemple.fr.</value></data>
   <data name="VFormToken" xml:space="preserve"><value>Jeton d'accès</value></data>

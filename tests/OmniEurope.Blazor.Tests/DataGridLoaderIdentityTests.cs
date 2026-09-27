@@ -30,14 +30,47 @@ public sealed class DataGridLoaderIdentityTests : OmniBunitContext
         Assert.Equal(1, other.Calls);
     }
 
-    private sealed class CountingSource
+    [Fact]
+    public async Task NewLoader_WhileTheFirstIsStillLoading_ReplacesIt()
     {
+        var pending = new TaskCompletionSource<OmniDataGridResult<int>>();
+        var grid = Render<OmniDataGrid<int>>(parameters => parameters
+            .Add(component => component.Load, _ => pending.Task));
+
+        var other = new CountingSource([42]);
+        grid.Render(parameters => parameters.Add(component => component.Load, other.LoadAsync));
+
+        Assert.Equal(1, other.Calls);
+        grid.WaitForAssertion(() => Assert.Contains(grid.FindAll("tbody td"), cell => cell.TextContent.Trim() == "42"));
+
+        // The first loader answering late is ignored.
+        await grid.InvokeAsync(() => pending.SetResult(new OmniDataGridResult<int>([7], 1)));
+        Assert.DoesNotContain(grid.FindAll("tbody td"), cell => cell.TextContent.Trim() == "7");
+    }
+
+    [Fact]
+    public void NewLoader_AfterAFailedLoad_Loads()
+    {
+        var grid = Render<OmniDataGrid<int>>(parameters => parameters
+            .Add(component => component.Load, _ => Task.FromException<OmniDataGridResult<int>>(new InvalidOperationException("refused"))));
+
+        var other = new CountingSource([42]);
+        grid.Render(parameters => parameters.Add(component => component.Load, other.LoadAsync));
+
+        Assert.Equal(1, other.Calls);
+        Assert.Contains(grid.FindAll("tbody td"), cell => cell.TextContent.Trim() == "42");
+    }
+
+    private sealed class CountingSource(int[]? rows = null)
+    {
+        private readonly int[] _rows = rows ?? [1, 2, 3];
+
         public int Calls { get; private set; }
 
         public Task<OmniDataGridResult<int>> LoadAsync(OmniDataGridLoadRequest request)
         {
             Calls++;
-            return Task.FromResult(new OmniDataGridResult<int>([1, 2, 3], 3));
+            return Task.FromResult(new OmniDataGridResult<int>(_rows, _rows.Length));
         }
     }
 }

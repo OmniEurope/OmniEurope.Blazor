@@ -31,7 +31,7 @@
         }
         @if (ShowDetails)
         {
-            <a class="omni-notification__details" href="@DetailsHref">@Localize("NotificationOpenDetails")</a>
+            <a class="omni-notification__details" href="@SafeDetailsHref">@Localize("NotificationOpenDetails")</a>
         }
     </div>
     @if (Dismissible)

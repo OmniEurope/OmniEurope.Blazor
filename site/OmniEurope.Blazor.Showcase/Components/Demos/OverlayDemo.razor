@@ -97,7 +97,7 @@
            chacun avec son icône. OmniOverlayService.ConfirmAsync la suit d'office. *@
         <Footer>
             <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => Confirm())"><OmniIcon Name="OmniIconName.Delete" /><span>Supprimer</span></OmniButton>
-            <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => DialogOpen = false)"><OmniIcon Name="OmniIconName.Close" /><span>Annuler</span></OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => DialogOpen = false)"><OmniIcon Name="OmniIconName.Close" /><span>Annuler</span></OmniButton>
         </Footer>
     </OmniDialog>
 </OmniStack>

@@ -54,10 +54,13 @@ public partial class OmniTreeItem<TValue>
 
     protected override void OnParametersSet()
     {
+        base.OnParametersSet();
+        var load = false;
         if (_observedExpanded is null || _observedExpanded.Value != Expanded)
         {
             _expanded = Expanded;
             _observedExpanded = Expanded;
+            load = _expanded;
         }
         if (!Equals(_observedLoader, LoadChildren))
         {
@@ -65,13 +68,45 @@ public partial class OmniTreeItem<TValue>
             _loaded = false;
             _loadError = false;
             _observedLoader = LoadChildren;
+            load |= _expanded;
         }
+
+        // Opened by the parent (initially or later), or given another loader while open: the branch
+        // loads as it would when opened from its toggle.
+        if (load)
+        {
+            _ = LoadOpenedBranchAsync();
+        }
+    }
+
+    /// <summary>
+    /// Loads the children of a branch opened through its parameters, then renders them. A failure of
+    /// the <see cref="LoadFailed"/> handler reaches the renderer as it would from a lifecycle method.
+    /// </summary>
+    private async Task LoadOpenedBranchAsync()
+    {
+        try
+        {
+            await EnsureChildrenLoadedAsync();
+        }
+        catch (Exception exception)
+        {
+            await DispatchExceptionAsync(exception);
+            return;
+        }
+
+        StateHasChanged();
     }
 
     private async Task ToggleExpandedAsync()
     {
         _expanded = !_expanded;
         await ExpandedChanged.InvokeAsync(_expanded);
+        await EnsureChildrenLoadedAsync();
+    }
+
+    private async Task EnsureChildrenLoadedAsync()
+    {
         if (!_expanded || _loaded || LoadChildren is null)
         {
             return;
