@@ -1597,14 +1597,17 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
 /* Les chevrons sont ceux d'une pile qui défile (.omni-stack-scroll__button). */
 .omni-select-bar__scroll { position: relative; z-index: 2; }
 .omni-select-bar__item {
+    align-items: center;
     background: var(--omni-color-surface);
     border: var(--omni-border-width) solid var(--omni-color-border);
+    box-sizing: border-box;
     color: var(--omni-color-text);
     cursor: pointer;
+    display: inline-flex;
     flex: 0 0 auto;
     font: inherit;
     min-height: var(--omni-control-height);
-    padding: var(--omni-space-sm) var(--omni-space-md);
+    padding: 0 var(--omni-space-md);
     white-space: nowrap;
 }
 .omni-select-bar__item:first-child { border-radius: var(--omni-radius) 0 0 var(--omni-radius); }
