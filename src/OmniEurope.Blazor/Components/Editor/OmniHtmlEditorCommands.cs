@@ -43,6 +43,10 @@ public static class OmniHtmlEditorCommands
     public static OmniHtmlEditorCommand MergeCellRight { get; } = new("merge-cell-right", OmniHtmlEditorAction.MergeCellRight);
     public static OmniHtmlEditorCommand MergeCellDown { get; } = new("merge-cell-down", OmniHtmlEditorAction.MergeCellDown);
     public static OmniHtmlEditorCommand SplitCell { get; } = new("split-cell", OmniHtmlEditorAction.SplitCell);
+    public static OmniHtmlEditorCommand ChangeCase { get; } = new("change-case", OmniHtmlEditorAction.ChangeCase);
+    public static OmniHtmlEditorCommand InsertSpecialCharacter { get; } = new("insert-special-character", OmniHtmlEditorAction.InsertSpecialCharacter);
+    public static OmniHtmlEditorCommand ImportTable { get; } = new("import-table", OmniHtmlEditorAction.ImportTable);
+    public static OmniHtmlEditorCommand ShowBlocks { get; } = new("show-blocks", OmniHtmlEditorAction.ShowBlocks);
 
     /// <summary>A separator. Separators carry no state, so the same instance can appear several times.</summary>
     public static OmniHtmlEditorCommand Separator { get; } = new("separator", OmniHtmlEditorAction.Separator);

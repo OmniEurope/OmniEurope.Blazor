@@ -153,6 +153,7 @@ component OmniEurope.Blazor.Components.OmniWeekView
 component OmniEurope.Blazor.Components.OmniWizard
 component OmniEurope.Blazor.Components.OmniWizardStep
 ctor protected OmniEurope.Blazor.Components.OmniComponentBase()
+ctor protected OmniEurope.Blazor.Components.OmniHtmlEditorExtension()
 ctor protected OmniEurope.Blazor.Components.OmniInputBase<TValue>()
 ctor protected OmniEurope.Blazor.Components.OmniValidatorBase<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniAlert()
@@ -245,8 +246,11 @@ ctor public OmniEurope.Blazor.Components.OmniHeader()
 ctor public OmniEurope.Blazor.Components.OmniHeading()
 ctor public OmniEurope.Blazor.Components.OmniHtmlEditor()
 ctor public OmniEurope.Blazor.Components.OmniHtmlEditorCommand(System.String Name, OmniEurope.Blazor.Components.OmniHtmlEditorAction Action)
+ctor public OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement(System.String Selector, System.Func<OmniEurope.Blazor.Components.OmniHtmlEditorElementContext,System.Threading.Tasks.Task> Activate)
 ctor public OmniEurope.Blazor.Components.OmniHtmlEditorSelection(System.Boolean IsCollapsed, System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode> Ancestors)
 ctor public OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode(System.String TagName, System.Collections.Generic.IReadOnlyList<System.String> CssClasses, System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> DataAttributes)
+ctor public OmniEurope.Blazor.Components.OmniHtmlEditorShortcut(System.String Keys, System.String Command)
+ctor public OmniEurope.Blazor.Components.OmniHtmlEditorTableReader(System.Collections.Generic.IReadOnlyList<System.String> Extensions, System.Func<System.String,System.IO.Stream,System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<System.Collections.Generic.IReadOnlyList<System.String>>>> Read)
 ctor public OmniEurope.Blazor.Components.OmniHtmlEditorTool(System.String Name, System.String Label, System.Func<System.String,System.String> Transform)
 ctor public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy()
 ctor public OmniEurope.Blazor.Components.OmniIcon()
@@ -522,6 +526,7 @@ field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.AlignRight
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.BlockFormat : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 9
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Bold : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 2
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.BulletList : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 11
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.ChangeCase : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 42
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.ClearFormatting : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 24
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.CodeBlock : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 16
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Copy : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 29
@@ -530,9 +535,11 @@ field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Cut : Omni
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.DeleteColumn : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 37
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.DeleteRow : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 34
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.FontSize : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 10
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.ImportTable : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 44
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Indent : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 13
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.InlineCode : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 8
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.InsertParagraph : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 31
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.InsertSpecialCharacter : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 43
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.InsertTable : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 23
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Italic : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 3
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Link : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 17
@@ -545,6 +552,7 @@ field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Quote : Om
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Redo : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 26
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Separator : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 1
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.SetCellSpan : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 41
+field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.ShowBlocks : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 45
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.SplitCell : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 40
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Strikethrough : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 5
 field public static OmniEurope.Blazor.Components.OmniHtmlEditorAction.Subscript : OmniEurope.Blazor.Components.OmniHtmlEditorAction const = 6
@@ -1328,8 +1336,16 @@ method public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Deconstruct(out
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Equals(OmniEurope.Blazor.Components.OmniHtmlEditorCommand? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.CommitDomAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.ExecuteAsync(OmniEurope.Blazor.Components.OmniHtmlEditorAction action, System.String? argument = null) : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.GetSelectedTextAsync() : System.Threading.Tasks.Task<System.String>
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.InsertHtmlAsync(System.String html) : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.InsertTextAsync(System.String text) : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.ReplaceClosestAsync(System.String selector, System.String html) : System.Threading.Tasks.Task<System.Boolean>
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.SetHtmlAsync(System.String html) : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniHtmlEditorElementContext.RemoveAsync() : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniHtmlEditorElementContext.ReplaceAsync(System.String html) : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement.<Clone>$() : OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement
+method public OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement.Deconstruct(out System.String Selector, out System.Func<OmniEurope.Blazor.Components.OmniHtmlEditorElementContext,System.Threading.Tasks.Task> Activate) : System.Void
+method public OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement.Equals(OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniHtmlEditorSelection.<Clone>$() : OmniEurope.Blazor.Components.OmniHtmlEditorSelection
 method public OmniEurope.Blazor.Components.OmniHtmlEditorSelection.Closest(System.String tagName) : OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode?
 method public OmniEurope.Blazor.Components.OmniHtmlEditorSelection.ClosestWithClass(System.String cssClass) : OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode?
@@ -1338,6 +1354,12 @@ method public OmniEurope.Blazor.Components.OmniHtmlEditorSelection.Equals(OmniEu
 method public OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode.<Clone>$() : OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode
 method public OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode.Deconstruct(out System.String TagName, out System.Collections.Generic.IReadOnlyList<System.String> CssClasses, out System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> DataAttributes) : System.Void
 method public OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode.Equals(OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniHtmlEditorShortcut.<Clone>$() : OmniEurope.Blazor.Components.OmniHtmlEditorShortcut
+method public OmniEurope.Blazor.Components.OmniHtmlEditorShortcut.Deconstruct(out System.String Keys, out System.String Command) : System.Void
+method public OmniEurope.Blazor.Components.OmniHtmlEditorShortcut.Equals(OmniEurope.Blazor.Components.OmniHtmlEditorShortcut? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniHtmlEditorTableReader.<Clone>$() : OmniEurope.Blazor.Components.OmniHtmlEditorTableReader
+method public OmniEurope.Blazor.Components.OmniHtmlEditorTableReader.Deconstruct(out System.Collections.Generic.IReadOnlyList<System.String> Extensions, out System.Func<System.String,System.IO.Stream,System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<System.Collections.Generic.IReadOnlyList<System.String>>>> Read) : System.Void
+method public OmniEurope.Blazor.Components.OmniHtmlEditorTableReader.Equals(OmniEurope.Blazor.Components.OmniHtmlEditorTableReader? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniHtmlEditorTool.<Clone>$() : OmniEurope.Blazor.Components.OmniHtmlEditorTool
 method public OmniEurope.Blazor.Components.OmniHtmlEditorTool.Deconstruct(out System.String Name, out System.String Label, out System.Func<System.String,System.String> Transform) : System.Void
 method public OmniEurope.Blazor.Components.OmniHtmlEditorTool.Equals(OmniEurope.Blazor.Components.OmniHtmlEditorTool? other) : System.Boolean
@@ -1591,12 +1613,21 @@ method public override OmniEurope.Blazor.Components.OmniGraphPoint.ToString() : 
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorCommand.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorCommand.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorSelection.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorSelection.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorSelection.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniHtmlEditorShortcut.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniHtmlEditorShortcut.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniHtmlEditorShortcut.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniHtmlEditorTableReader.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniHtmlEditorTableReader.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniHtmlEditorTableReader.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorTool.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorTool.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniHtmlEditorTool.ToString() : System.String
@@ -1757,12 +1788,19 @@ method public static OmniEurope.Blazor.Components.OmniGraphPoint.op_Inequality(O
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Create(System.String name, System.String label, System.Func<OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext,System.Threading.Tasks.Task> execute, OmniEurope.Blazor.Components.OmniIconName? icon = null) : OmniEurope.Blazor.Components.OmniHtmlEditorCommand
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorCommand.op_Equality(OmniEurope.Blazor.Components.OmniHtmlEditorCommand? left, OmniEurope.Blazor.Components.OmniHtmlEditorCommand? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorCommand.op_Inequality(OmniEurope.Blazor.Components.OmniHtmlEditorCommand? left, OmniEurope.Blazor.Components.OmniHtmlEditorCommand? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement.op_Equality(OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement? left, OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement.op_Inequality(OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement? left, OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorSelection.op_Equality(OmniEurope.Blazor.Components.OmniHtmlEditorSelection? left, OmniEurope.Blazor.Components.OmniHtmlEditorSelection? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorSelection.op_Inequality(OmniEurope.Blazor.Components.OmniHtmlEditorSelection? left, OmniEurope.Blazor.Components.OmniHtmlEditorSelection? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode.op_Equality(OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode? left, OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode.op_Inequality(OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode? left, OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniHtmlEditorShortcut.op_Equality(OmniEurope.Blazor.Components.OmniHtmlEditorShortcut? left, OmniEurope.Blazor.Components.OmniHtmlEditorShortcut? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniHtmlEditorShortcut.op_Inequality(OmniEurope.Blazor.Components.OmniHtmlEditorShortcut? left, OmniEurope.Blazor.Components.OmniHtmlEditorShortcut? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniHtmlEditorTableReader.op_Equality(OmniEurope.Blazor.Components.OmniHtmlEditorTableReader? left, OmniEurope.Blazor.Components.OmniHtmlEditorTableReader? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniHtmlEditorTableReader.op_Inequality(OmniEurope.Blazor.Components.OmniHtmlEditorTableReader? left, OmniEurope.Blazor.Components.OmniHtmlEditorTableReader? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorTool.op_Equality(OmniEurope.Blazor.Components.OmniHtmlEditorTool? left, OmniEurope.Blazor.Components.OmniHtmlEditorTool? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniHtmlEditorTool.op_Inequality(OmniEurope.Blazor.Components.OmniHtmlEditorTool? left, OmniEurope.Blazor.Components.OmniHtmlEditorTool? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.Merge(OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? first, OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? second) : OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy?
 method public static OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.op_Equality(OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? left, OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.op_Inequality(OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? left, OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniIconGlyph.Phosphor(System.String pathData) : OmniEurope.Blazor.Components.OmniIconGlyph
@@ -1841,6 +1879,8 @@ method public static OmniEurope.Blazor.Components.OmniThemePresets.DefaultPalett
 method public static OmniEurope.Blazor.Components.OmniUnifiedDiffParser.Parse(System.String? diff) : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniDiffFile>
 method public static OmniEurope.Blazor.Components.OmniUploadFile.op_Equality(OmniEurope.Blazor.Components.OmniUploadFile? left, OmniEurope.Blazor.Components.OmniUploadFile? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniUploadFile.op_Inequality(OmniEurope.Blazor.Components.OmniUploadFile? left, OmniEurope.Blazor.Components.OmniUploadFile? right) : System.Boolean
+method public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.ArrangeToolbar(System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand> toolbar) : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand>
+method public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.OnSelectionChangedAsync(OmniEurope.Blazor.Components.OmniHtmlEditorSelection selection) : System.Threading.Tasks.Task
 property protected OmniEurope.Blazor.Components.OmniInputBase<TValue>.AriaInvalid : System.String? {get(protected)}
 property protected OmniEurope.Blazor.Components.OmniValidatorBase<TValue>.CurrentEditContext : Microsoft.AspNetCore.Components.Forms.EditContext? {get(protected);set(protected)}
 property protected OmniEurope.Blazor.Components.OmniValidatorBase<TValue>.CurrentError : System.String? {get(protected)}
@@ -2504,6 +2544,7 @@ property public OmniEurope.Blazor.Components.OmniHtmlEditor.EnableItalic : Syste
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.EnableOutdent : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.EnableSubscript : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.EnableSuperscript : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniHtmlEditor.Extensions : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorExtension>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.Label : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.Mode : OmniEurope.Blazor.Components.OmniHtmlEditorMode {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.ModeChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniHtmlEditorMode> {get(public);set(public)} [Parameter]
@@ -2523,11 +2564,22 @@ property public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.Html :
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.Mode : OmniEurope.Blazor.Components.OmniHtmlEditorMode {get(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.Selection : OmniEurope.Blazor.Components.OmniHtmlEditorSelection? {get(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.SurfaceElement : Microsoft.AspNetCore.Components.ElementReference? {get(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorElementContext.Editor : OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext {get(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorElementContext.Element : OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode {get(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorElementContext.Text : System.String {get(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement.Activate : System.Func<OmniEurope.Blazor.Components.OmniHtmlEditorElementContext,System.Threading.Tasks.Task> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement.Selector : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorSelection.Ancestors : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorSelection.IsCollapsed : System.Boolean {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode.ColumnSpan : System.Int32 {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode.CssClasses : System.Collections.Generic.IReadOnlyList<System.String> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode.DataAttributes : System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode.RowSpan : System.Int32 {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode.TagName : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorShortcut.Command : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorShortcut.Keys : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorTableReader.Extensions : System.Collections.Generic.IReadOnlyList<System.String> {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorTableReader.Read : System.Func<System.String,System.IO.Stream,System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<System.Collections.Generic.IReadOnlyList<System.String>>>> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorTool.Label : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorTool.Name : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorTool.Transform : System.Func<System.String,System.String> {get(public);init(public)}
@@ -3287,6 +3339,7 @@ property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Align
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.BlockFormat : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Bold : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.BulletList : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.ChangeCase : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.ClearFormatting : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Clipboard : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand> {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.CodeBlock : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
@@ -3297,9 +3350,11 @@ property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Delet
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.DeleteRow : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Document : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand> {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.FontSize : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.ImportTable : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Indent : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.InlineCode : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.InsertParagraph : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.InsertSpecialCharacter : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.InsertTable : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Italic : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Link : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
@@ -3311,6 +3366,7 @@ property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Paste
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Quote : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Redo : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Separator : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
+property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.ShowBlocks : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.SplitCell : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Strikethrough : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
 property public static OmniEurope.Blazor.Components.OmniHtmlEditorCommands.Subscript : OmniEurope.Blazor.Components.OmniHtmlEditorCommand {get(public)}
@@ -3326,6 +3382,13 @@ property public static OmniEurope.Blazor.Components.OmniSpreadsheetValue.Empty :
 property public static OmniEurope.Blazor.Components.OmniThemeFonts.All : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniThemeFont> {get(public)}
 property public static OmniEurope.Blazor.Components.OmniThemePalettes.All : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniThemePalette> {get(public)}
 property public static OmniEurope.Blazor.Components.OmniThemePresets.All : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniThemePreset> {get(public)}
+property public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.Commands : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand> {get(public)}
+property public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.ContextMenu : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand> {get(public)}
+property public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.InlineElements : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement> {get(public)}
+property public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.SanitizerPolicy : OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? {get(public)}
+property public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.Shortcuts : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorShortcut> {get(public)}
+property public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.TableReaders : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorTableReader> {get(public)}
+property public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.TracksSelection : System.Boolean {get(public)}
 type public Microsoft.Extensions.DependencyInjection.OmniEuropeBlazorServiceCollectionExtensions [static-class, static]
 type public OmniEurope.Blazor.Components.IOmniBreadcrumbResolver [interface, abstract]
 type public OmniEurope.Blazor.Components.IOmniDataGridStateStore [interface, abstract]
@@ -3464,9 +3527,14 @@ type public OmniEurope.Blazor.Components.OmniHtmlEditorAction [enum, sealed] : S
 type public OmniEurope.Blazor.Components.OmniHtmlEditorCommand [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniHtmlEditorCommand>
 type public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext [class, sealed]
 type public OmniEurope.Blazor.Components.OmniHtmlEditorCommands [static-class, static]
+type public OmniEurope.Blazor.Components.OmniHtmlEditorElementContext [class, sealed]
+type public OmniEurope.Blazor.Components.OmniHtmlEditorExtension [class, abstract]
+type public OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement>
 type public OmniEurope.Blazor.Components.OmniHtmlEditorMode [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniHtmlEditorSelection [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniHtmlEditorSelection>
 type public OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniHtmlEditorSelectionNode>
+type public OmniEurope.Blazor.Components.OmniHtmlEditorShortcut [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniHtmlEditorShortcut>
+type public OmniEurope.Blazor.Components.OmniHtmlEditorTableReader [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniHtmlEditorTableReader>
 type public OmniEurope.Blazor.Components.OmniHtmlEditorTool [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniHtmlEditorTool>
 type public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy>
 type public OmniEurope.Blazor.Components.OmniIcon [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent

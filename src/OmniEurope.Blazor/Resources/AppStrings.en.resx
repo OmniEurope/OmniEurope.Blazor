@@ -144,6 +144,123 @@
   <data name="EmailValidatorMessage" xml:space="preserve"><value>The email address is invalid.</value></data>
   <data name="HtmlEditorLabel" xml:space="preserve"><value>HTML editor</value></data>
   <data name="HtmlEditorToolbar" xml:space="preserve"><value>Formatting tools</value></data>
+  <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Editor actions</value></data>
+  <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Text case</value></data>
+  <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>UPPERCASE</value></data>
+  <data name="HtmlEditorCaseLower" xml:space="preserve"><value>lowercase</value></data>
+  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Title Case</value></data>
+  <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Special character</value></data>
+  <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Search a character</value></data>
+  <data name="HtmlEditorCharNone" xml:space="preserve"><value>No character matches.</value></data>
+  <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Common</value></data>
+  <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Currency</value></data>
+  <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Arrows</value></data>
+  <data name="HtmlEditorCharCategoryMath" xml:space="preserve"><value>Math</value></data>
+  <data name="HtmlEditorCharCategoryGreek" xml:space="preserve"><value>Greek</value></data>
+  <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Legal</value></data>
+  <data name="HtmlEditorImportTable" xml:space="preserve"><value>Import a table</value></data>
+  <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>{0} file, at most 100 rows and 50 columns.</value></data>
+  <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>First row as header</value></data>
+  <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Insert</value></data>
+  <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Table preview</value></data>
+  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0} rows, {1} columns</value></data>
+  <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>The file could not be read.</value></data>
+  <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>The file holds no row.</value></data>
+  <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>This file type is not supported.</value></data>
+  <data name="HtmlEditorClosePanel" xml:space="preserve"><value>Close</value></data>
+  <data name="HtmlEditorShowBlocks" xml:space="preserve"><value>Show blocks</value></data>
+  <data name="HtmlEditorChar00A9" xml:space="preserve"><value>Copyright</value></data>
+  <data name="HtmlEditorChar00AE" xml:space="preserve"><value>Registered</value></data>
+  <data name="HtmlEditorChar2122" xml:space="preserve"><value>Trademark</value></data>
+  <data name="HtmlEditorChar00A7" xml:space="preserve"><value>Section</value></data>
+  <data name="HtmlEditorChar00B6" xml:space="preserve"><value>Pilcrow</value></data>
+  <data name="HtmlEditorChar2020" xml:space="preserve"><value>Dagger</value></data>
+  <data name="HtmlEditorChar2021" xml:space="preserve"><value>Double dagger</value></data>
+  <data name="HtmlEditorChar2022" xml:space="preserve"><value>Bullet</value></data>
+  <data name="HtmlEditorChar2026" xml:space="preserve"><value>Ellipsis</value></data>
+  <data name="HtmlEditorChar2013" xml:space="preserve"><value>En dash</value></data>
+  <data name="HtmlEditorChar2014" xml:space="preserve"><value>Em dash</value></data>
+  <data name="HtmlEditorChar00AB" xml:space="preserve"><value>Left guillemet</value></data>
+  <data name="HtmlEditorChar00BB" xml:space="preserve"><value>Right guillemet</value></data>
+  <data name="HtmlEditorChar2039" xml:space="preserve"><value>Single left guillemet</value></data>
+  <data name="HtmlEditorChar203A" xml:space="preserve"><value>Single right guillemet</value></data>
+  <data name="HtmlEditorChar2018" xml:space="preserve"><value>Left single quote</value></data>
+  <data name="HtmlEditorChar2019" xml:space="preserve"><value>Right single quote</value></data>
+  <data name="HtmlEditorChar201C" xml:space="preserve"><value>Left double quote</value></data>
+  <data name="HtmlEditorChar201D" xml:space="preserve"><value>Right double quote</value></data>
+  <data name="HtmlEditorChar00B0" xml:space="preserve"><value>Degree</value></data>
+  <data name="HtmlEditorChar00B1" xml:space="preserve"><value>Plus-minus</value></data>
+  <data name="HtmlEditorChar00D7" xml:space="preserve"><value>Multiplication</value></data>
+  <data name="HtmlEditorChar00F7" xml:space="preserve"><value>Division</value></data>
+  <data name="HtmlEditorChar00A0" xml:space="preserve"><value>Non-breaking space</value></data>
+  <data name="HtmlEditorChar20AC" xml:space="preserve"><value>Euro</value></data>
+  <data name="HtmlEditorChar00A3" xml:space="preserve"><value>Pound</value></data>
+  <data name="HtmlEditorChar00A5" xml:space="preserve"><value>Yen</value></data>
+  <data name="HtmlEditorChar00A2" xml:space="preserve"><value>Cent</value></data>
+  <data name="HtmlEditorChar20BD" xml:space="preserve"><value>Ruble</value></data>
+  <data name="HtmlEditorChar20B9" xml:space="preserve"><value>Rupee</value></data>
+  <data name="HtmlEditorChar20A9" xml:space="preserve"><value>Won</value></data>
+  <data name="HtmlEditorChar20AA" xml:space="preserve"><value>Shekel</value></data>
+  <data name="HtmlEditorChar20B1" xml:space="preserve"><value>Peso</value></data>
+  <data name="HtmlEditorChar20BA" xml:space="preserve"><value>Lira</value></data>
+  <data name="HtmlEditorChar2190" xml:space="preserve"><value>Left arrow</value></data>
+  <data name="HtmlEditorChar2192" xml:space="preserve"><value>Right arrow</value></data>
+  <data name="HtmlEditorChar2191" xml:space="preserve"><value>Up arrow</value></data>
+  <data name="HtmlEditorChar2193" xml:space="preserve"><value>Down arrow</value></data>
+  <data name="HtmlEditorChar2194" xml:space="preserve"><value>Left right arrow</value></data>
+  <data name="HtmlEditorChar2195" xml:space="preserve"><value>Up down arrow</value></data>
+  <data name="HtmlEditorChar21D0" xml:space="preserve"><value>Left double arrow</value></data>
+  <data name="HtmlEditorChar21D2" xml:space="preserve"><value>Right double arrow</value></data>
+  <data name="HtmlEditorChar21D1" xml:space="preserve"><value>Up double arrow</value></data>
+  <data name="HtmlEditorChar21D3" xml:space="preserve"><value>Down double arrow</value></data>
+  <data name="HtmlEditorChar21B5" xml:space="preserve"><value>Return arrow</value></data>
+  <data name="HtmlEditorChar21B6" xml:space="preserve"><value>Anticlockwise arrow</value></data>
+  <data name="HtmlEditorChar2200" xml:space="preserve"><value>For all</value></data>
+  <data name="HtmlEditorChar2203" xml:space="preserve"><value>There exists</value></data>
+  <data name="HtmlEditorChar2205" xml:space="preserve"><value>Empty set</value></data>
+  <data name="HtmlEditorChar2208" xml:space="preserve"><value>Element of</value></data>
+  <data name="HtmlEditorChar2209" xml:space="preserve"><value>Not element of</value></data>
+  <data name="HtmlEditorChar2282" xml:space="preserve"><value>Subset of</value></data>
+  <data name="HtmlEditorChar2283" xml:space="preserve"><value>Superset of</value></data>
+  <data name="HtmlEditorChar222A" xml:space="preserve"><value>Union</value></data>
+  <data name="HtmlEditorChar2229" xml:space="preserve"><value>Intersection</value></data>
+  <data name="HtmlEditorChar2227" xml:space="preserve"><value>Logical and</value></data>
+  <data name="HtmlEditorChar2228" xml:space="preserve"><value>Logical or</value></data>
+  <data name="HtmlEditorChar00AC" xml:space="preserve"><value>Not</value></data>
+  <data name="HtmlEditorChar2248" xml:space="preserve"><value>Almost equal</value></data>
+  <data name="HtmlEditorChar2260" xml:space="preserve"><value>Not equal</value></data>
+  <data name="HtmlEditorChar2264" xml:space="preserve"><value>Less than or equal</value></data>
+  <data name="HtmlEditorChar2265" xml:space="preserve"><value>Greater than or equal</value></data>
+  <data name="HtmlEditorChar221E" xml:space="preserve"><value>Infinity</value></data>
+  <data name="HtmlEditorChar221A" xml:space="preserve"><value>Square root</value></data>
+  <data name="HtmlEditorChar2211" xml:space="preserve"><value>Summation</value></data>
+  <data name="HtmlEditorChar220F" xml:space="preserve"><value>Product</value></data>
+  <data name="HtmlEditorChar2202" xml:space="preserve"><value>Partial differential</value></data>
+  <data name="HtmlEditorChar222B" xml:space="preserve"><value>Integral</value></data>
+  <data name="HtmlEditorChar03B1" xml:space="preserve"><value>Alpha</value></data>
+  <data name="HtmlEditorChar03B2" xml:space="preserve"><value>Beta</value></data>
+  <data name="HtmlEditorChar03B3" xml:space="preserve"><value>Gamma</value></data>
+  <data name="HtmlEditorChar03B4" xml:space="preserve"><value>Delta</value></data>
+  <data name="HtmlEditorChar03B5" xml:space="preserve"><value>Epsilon</value></data>
+  <data name="HtmlEditorChar03B6" xml:space="preserve"><value>Zeta</value></data>
+  <data name="HtmlEditorChar03B7" xml:space="preserve"><value>Eta</value></data>
+  <data name="HtmlEditorChar03B8" xml:space="preserve"><value>Theta</value></data>
+  <data name="HtmlEditorChar03B9" xml:space="preserve"><value>Iota</value></data>
+  <data name="HtmlEditorChar03BA" xml:space="preserve"><value>Kappa</value></data>
+  <data name="HtmlEditorChar03BB" xml:space="preserve"><value>Lambda</value></data>
+  <data name="HtmlEditorChar03BC" xml:space="preserve"><value>Mu</value></data>
+  <data name="HtmlEditorChar03BD" xml:space="preserve"><value>Nu</value></data>
+  <data name="HtmlEditorChar03BE" xml:space="preserve"><value>Xi</value></data>
+  <data name="HtmlEditorChar03C0" xml:space="preserve"><value>Pi</value></data>
+  <data name="HtmlEditorChar03C1" xml:space="preserve"><value>Rho</value></data>
+  <data name="HtmlEditorChar03C3" xml:space="preserve"><value>Sigma</value></data>
+  <data name="HtmlEditorChar03C4" xml:space="preserve"><value>Tau</value></data>
+  <data name="HtmlEditorChar03C5" xml:space="preserve"><value>Upsilon</value></data>
+  <data name="HtmlEditorChar03C6" xml:space="preserve"><value>Phi</value></data>
+  <data name="HtmlEditorChar03C7" xml:space="preserve"><value>Chi</value></data>
+  <data name="HtmlEditorChar03C8" xml:space="preserve"><value>Psi</value></data>
+  <data name="HtmlEditorChar03C9" xml:space="preserve"><value>Omega</value></data>
+  <data name="HtmlEditorChar2116" xml:space="preserve"><value>Numero</value></data>
   <data name="HtmlEditorBold" xml:space="preserve"><value>Bold</value></data>
   <data name="HtmlEditorItalic" xml:space="preserve"><value>Italic</value></data>
   <data name="HtmlEditorSubscript" xml:space="preserve"><value>Subscript</value></data>

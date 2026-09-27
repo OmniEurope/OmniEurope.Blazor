@@ -32,6 +32,16 @@
                         SelectionChanged="ShowSelection" />
         <p id="editor-annotated-path" aria-live="polite">Position : @SelectionPath</p>
 
+        @* Une extension : ses commandes et raccourci (Ctrl+Maj+N), sa politique, un clic sur une note
+           qui la marque relue, un menu contextuel ; la casse, les caractères spéciaux, l'import de
+           tableau et l'affichage des blocs sont des commandes intégrées. *@
+        <OmniHtmlEditor Id="editor-extended"
+                        @bind-Value="Extended"
+                        Label="Avis commenté"
+                        Rows="6"
+                        Commands="ExtendedCommands"
+                        Extensions="[NoteExtension]" />
+
         <OmniDocumentEditor Id="editor-document"
                             @bind-Value="Report"
                             Label="Rapport"

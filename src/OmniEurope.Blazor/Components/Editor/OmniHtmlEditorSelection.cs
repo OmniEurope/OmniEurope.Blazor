@@ -56,7 +56,11 @@ public sealed record OmniHtmlEditorSelection(bool IsCollapsed, IReadOnlyList<Omn
                         }
                     }
 
-                    ancestors.Add(new(tag.GetString()!, classes, data));
+                    ancestors.Add(new(tag.GetString()!, classes, data)
+                    {
+                        ColumnSpan = SpanOf(entry, "colspan"),
+                        RowSpan = SpanOf(entry, "rowspan")
+                    });
                 }
             }
 
@@ -67,6 +71,11 @@ public sealed record OmniHtmlEditorSelection(bool IsCollapsed, IReadOnlyList<Omn
             return new(true, []);
         }
     }
+
+    private static int SpanOf(JsonElement entry, string name) =>
+        entry.TryGetProperty(name, out var span) && span.ValueKind == JsonValueKind.Number && span.TryGetInt32(out var value) && value > 0
+            ? value
+            : 1;
 }
 
 /// <summary>One element around the selection of an <see cref="OmniHtmlEditor"/>.</summary>
@@ -76,4 +85,11 @@ public sealed record OmniHtmlEditorSelection(bool IsCollapsed, IReadOnlyList<Omn
 public sealed record OmniHtmlEditorSelectionNode(
     string TagName,
     IReadOnlyList<string> CssClasses,
-    IReadOnlyDictionary<string, string> DataAttributes);
+    IReadOnlyDictionary<string, string> DataAttributes)
+{
+    /// <summary>For a table cell (<c>td</c>, <c>th</c>), the columns it spans; 1 for any other element.</summary>
+    public int ColumnSpan { get; init; } = 1;
+
+    /// <summary>For a table cell (<c>td</c>, <c>th</c>), the rows it spans; 1 for any other element.</summary>
+    public int RowSpan { get; init; } = 1;
+}

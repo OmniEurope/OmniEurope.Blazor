@@ -36,4 +36,34 @@ public sealed record OmniHtmlSanitizerPolicy
 
     /// <summary>Whether every <c>data-*</c> attribute is kept on the allowed elements.</summary>
     public bool AllowDataAttributes { get; init; }
+
+    /// <summary>
+    /// The policy that keeps what either of the two keeps. A null side is the built-in allow-list alone,
+    /// so merging with null returns the other policy itself.
+    /// </summary>
+    public static OmniHtmlSanitizerPolicy? Merge(OmniHtmlSanitizerPolicy? first, OmniHtmlSanitizerPolicy? second)
+    {
+        if (first is null || second is null)
+        {
+            return first ?? second;
+        }
+
+        var tagAttributes = new Dictionary<string, IReadOnlyList<string>>(StringComparer.OrdinalIgnoreCase);
+        foreach (var (tag, attributes) in first.AdditionalTagAttributes.Concat(second.AdditionalTagAttributes))
+        {
+            tagAttributes[tag] = tagAttributes.TryGetValue(tag, out var kept)
+                ? [.. kept.Union(attributes, StringComparer.OrdinalIgnoreCase)]
+                : attributes;
+        }
+
+        return new OmniHtmlSanitizerPolicy
+        {
+            AdditionalTags = [.. first.AdditionalTags.Union(second.AdditionalTags, StringComparer.OrdinalIgnoreCase)],
+            AdditionalAttributes = [.. first.AdditionalAttributes.Union(second.AdditionalAttributes, StringComparer.OrdinalIgnoreCase)],
+            AdditionalTagAttributes = tagAttributes,
+            AdditionalCssClasses = [.. first.AdditionalCssClasses.Union(second.AdditionalCssClasses, StringComparer.Ordinal)],
+            AllowAnyClass = first.AllowAnyClass || second.AllowAnyClass,
+            AllowDataAttributes = first.AllowDataAttributes || second.AllowDataAttributes
+        };
+    }
 }

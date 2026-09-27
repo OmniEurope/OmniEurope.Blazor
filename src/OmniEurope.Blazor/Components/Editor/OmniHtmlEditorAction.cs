@@ -108,5 +108,25 @@ public enum OmniHtmlEditorAction
     /// (<c>2x3</c>), absorbing the cells it then covers; without argument, splits it to <c>1x1</c>.
     /// Nothing changes when a covered cell reaches outside the new area.
     /// </summary>
-    SetCellSpan
+    SetCellSpan,
+
+    /// <summary>
+    /// Rewrites the selected text in capitals (<c>upper</c>), small letters (<c>lower</c>) or with a capital
+    /// at the start of each word (<c>title</c>); shown as a list of the three. The text only changes case,
+    /// its formatting stays.
+    /// </summary>
+    ChangeCase,
+
+    /// <summary>Opens a panel of special characters by category, with a search; the chosen one is typed at the caret.</summary>
+    InsertSpecialCharacter,
+
+    /// <summary>
+    /// Opens a panel that reads a table file (CSV and TSV, plus the formats of the extensions'
+    /// <see cref="OmniHtmlEditorExtension.TableReaders"/>), shows a preview and inserts it at the caret,
+    /// its first row as a header or not. At most 100 rows and 50 columns are kept.
+    /// </summary>
+    ImportTable,
+
+    /// <summary>A toggle that outlines every block of the document (paragraphs, lists, quotes, tables), to see its structure.</summary>
+    ShowBlocks
 }

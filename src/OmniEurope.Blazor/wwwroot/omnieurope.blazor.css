@@ -2724,8 +2724,27 @@ polyline.omni-chart__line { fill: none; }
 .omni-html-editor__toolbar :is(button, select):focus-visible, .omni-html-editor__link-input:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-html-editor__toolbar :is(button, select):disabled { cursor: not-allowed; opacity: 0.5; }
 .omni-html-editor__separator { align-self: stretch; border-inline-start: var(--omni-border-width) solid var(--omni-color-border); margin-inline: var(--omni-space-xs); }
+/* The context menu of the extensions: its entries look like those of a split button's menu, and a
+   disabled one stays in place, dimmed. */
+.omni-html-editor__menu-item { align-items: center; background: transparent; border: 0; border-radius: calc(var(--omni-radius) / 2); color: var(--omni-color-text); cursor: pointer; display: flex; font: inherit; font-size: var(--omni-control-font); gap: var(--omni-space-sm); padding: var(--omni-item-pad-y) 10px; text-align: start; }
+.omni-html-editor__menu-item:hover:not(:disabled), .omni-html-editor__menu-item:focus-visible { background: var(--omni-color-surface-hover); outline: none; }
+.omni-html-editor__menu-item:disabled { cursor: default; opacity: 0.5; }
+.omni-html-editor__menu-separator { border-block-start: var(--omni-border-width) solid var(--omni-color-border); margin-block: var(--omni-space-xs); }
 .omni-html-editor__link-input { cursor: text; flex: 1 1 14rem; }
 .omni-html-editor__link-error { color: var(--omni-color-danger); flex-basis: 100%; margin: 0; }
+/* The panels of the built-in special characters and table import sit where the link field does. */
+.omni-html-editor__panel { background: var(--omni-color-surface-muted); border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: grid; gap: var(--omni-space-sm); padding: var(--omni-space-sm); }
+.omni-html-editor__panel-bar, .omni-html-editor__categories { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
+.omni-html-editor__panel-bar > .omni-html-editor__char-search, .omni-html-editor__table-file { flex: 1 1 14rem; }
+.omni-html-editor__panel-note { color: var(--omni-color-text-muted); font-size: var(--omni-control-font); margin: 0; }
+.omni-html-editor__characters { display: grid; gap: var(--omni-space-xs); grid-template-columns: repeat(auto-fill, minmax(2.5rem, 1fr)); max-height: 12rem; overflow-y: auto; }
+.omni-html-editor__character { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: calc(var(--omni-radius) / 2); color: var(--omni-color-text); cursor: pointer; font: inherit; font-size: 1.125rem; min-height: 2.5rem; }
+.omni-html-editor__character:hover { background: var(--omni-color-surface-hover); }
+.omni-html-editor__character:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-html-editor__table-preview { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: calc(var(--omni-radius) / 2); max-height: 14rem; overflow: auto; padding: var(--omni-space-xs); }
+.omni-html-editor__check { align-items: center; display: inline-flex; flex: 1 1 auto; gap: var(--omni-space-xs); }
+/* Show blocks: every block of the document gets a dashed outline, its structure visible while writing. */
+.omni-html-editor--show-blocks .omni-html-editor__surface :is(p, h1, h2, h3, h4, h5, h6, ul, ol, li, blockquote, pre, table, td, th, div, aside, section, figure) { outline: 1px dashed var(--omni-color-border-strong, var(--omni-color-border)); outline-offset: 2px; }
 .omni-html-editor__source, .omni-code-editor__fallback { background: var(--omni-color-surface); border: 0; color: var(--omni-color-text); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; padding: var(--omni-space-md); resize: vertical; }
 .omni-html-editor__source { min-height: 12rem; }
 :is(.omni-html-editor__source, .omni-html-editor__surface, .omni-code-editor__fallback):focus-visible { box-shadow: inset var(--omni-focus-ring); outline: none; }
