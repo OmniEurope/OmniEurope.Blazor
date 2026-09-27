@@ -243,5 +243,6 @@ public enum OmniIconName
     IdentificationBadge,
     FilePdf,
     Headset,
-    Handshake
+    Handshake,
+    ArrowUp
 }
