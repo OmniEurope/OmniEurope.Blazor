@@ -296,13 +296,17 @@
                                         </span>
                                     }
                                 </div>
-                                @* Drag handle on the column's trailing edge. The pointer gesture runs entirely in
-                                   omni-grid.js and reports the final width once; the arrow keys keep a keyboard
-                                   path to the same operation. *@
-                                @if (IsResizable(column))
+                                @* Handle on the column's trailing edge, for two separate gestures: the drag
+                                   (data-omni-drag) and the double click that fits the column to its content
+                                   (data-omni-autofit). Both run in omni-grid.js and report the final width once;
+                                   the arrow keys and Enter are their keyboard paths. *@
+                                @if (HasEdgeHandle(column))
                                 {
                                     <span class="omni-data-grid__resize-handle"
                                           data-omni-resize="@column.Key"
+                                          data-omni-drag="@IsResizable(column)"
+                                          data-omni-autofit="@IsAutoFit(column)"
+                                          aria-keyshortcuts="@(IsAutoFit(column) ? "Enter" : null)"
                                           role="separator"
                                           aria-orientation="vertical"
                                           aria-valuemin="@MinimumColumnWidth"

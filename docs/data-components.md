@@ -53,6 +53,15 @@ Une colonne se déclare par lambda ou par nom de propriété.
 - `TextAlign`, `CssClass`, `HeaderCssClass`, `Visible`, `Resizable`, `Sortable`, `Filterable` et
   `Groupable` complètent la déclaration. `FooterTemplate` et `HeaderTemplate` remplacent les cellules
   correspondantes.
+- `AllowColumnAutoFit` (désactivé par défaut) donne au double clic sur le bord droit d'une colonne,
+  ou à Entrée sur sa poignée, le comportement d'Excel : la colonne prend la largeur de son contenu le
+  plus large. `AutoFit` sur la colonne l'emporte dans les deux sens ; sans valeur, elle suit la grille.
+  Le geste est distinct du glisser d'`AllowColumnResize` : une colonne peut s'ajuster sans se glisser,
+  et l'inverse. La mesure prend le titre, les lignes affichées et le texte de toutes les autres lignes
+  chargées, fourni par .NET (valeur, `Format` ou `FormatString`), y compris les lignes virtualisées
+  hors écran. Une colonne à `Template` n'est mesurée que sur ses lignes affichées, son rendu n'étant
+  pas un texte connu de .NET. La largeur retenue respecte le plancher de la grille et le `MinWidth` de
+  la colonne, est persistée avec l'état (`StateKey`) et annoncée une seule fois par `ColumnWidthChanged`.
 - Sans aucune colonne déclarée, la grille rend une colonne unique portant la valeur de l'élément.
 
 ### Détacher les colonnes figées

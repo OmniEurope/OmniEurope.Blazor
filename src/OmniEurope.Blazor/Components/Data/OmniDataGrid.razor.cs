@@ -379,6 +379,15 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public bool AllowColumnResize { get; set; } = true;
 
+    /// <summary>
+    /// Excel's double click on a column's trailing edge: the column takes the width of its widest
+    /// content, header included, measured over every loaded row, the virtualized rows off screen
+    /// included. Off by default. A column's own <c>AutoFit</c> overrides this in either direction, and
+    /// the drag governed by <see cref="AllowColumnResize"/> stays separate.
+    /// </summary>
+    [Parameter]
+    public bool AllowColumnAutoFit { get; set; }
+
     [Parameter]
     public EventCallback<OmniDataGridColumnWidthChange> ColumnWidthChanged { get; set; }
 
@@ -1161,11 +1170,11 @@ public partial class OmniDataGrid<TItem>
 
     /// <summary>
     /// Wires the pointer gesture of the column resize handles once, and only when at least one
-    /// column can actually be resized, so a read-only grid still needs no script.
+    /// column can actually be resized or auto-fitted, so a read-only grid still needs no script.
     /// </summary>
     private async Task EnsureResizeInteropAsync()
     {
-        if (_resizeAttached || !VisibleColumns.Any(IsResizable))
+        if (_resizeAttached || !VisibleColumns.Any(HasEdgeHandle))
         {
             return;
         }
@@ -2549,6 +2558,10 @@ public partial class OmniDataGrid<TItem>
     private bool IsSortable(OmniDataGridColumnDefinition<TItem> column) => AllowSorting && column.Sortable;
     private bool IsFilterable(OmniDataGridColumnDefinition<TItem> column) => AllowFiltering && column.Filterable;
     private bool IsResizable(OmniDataGridColumnDefinition<TItem> column) => AllowColumnResize && column.Resizable != false;
+    private bool IsAutoFit(OmniDataGridColumnDefinition<TItem> column) => column.AutoFit ?? AllowColumnAutoFit;
+
+    // The trailing-edge handle serves both gestures, so it is there as soon as either one is allowed.
+    private bool HasEdgeHandle(OmniDataGridColumnDefinition<TItem> column) => IsResizable(column) || IsAutoFit(column);
 
     private int ResizeAriaValueNow(OmniDataGridColumnDefinition<TItem> column) => (int)Math.Round(Math.Clamp(
         ParseWidth(_columnWidths.GetValueOrDefault(column.Key, column.Width ?? ColumnWidth)),
@@ -2732,13 +2745,68 @@ public partial class OmniDataGrid<TItem>
         await ApplyColumnWidthAsync(column.Key, current + (step * 32d));
     }
 
-    /// <summary>Keyboard equivalent of the drag handle, one step per arrow press.</summary>
+    /// <summary>
+    /// Keyboard equivalents of the edge handle: one drag step per arrow press, and Enter for the
+    /// double click's fit to content. Each follows its own option.
+    /// </summary>
     private Task ResizeKeyDownAsync(OmniDataGridColumnDefinition<TItem> column, string key) => key switch
     {
-        "ArrowLeft" => ResizeColumnAsync(column, -1),
-        "ArrowRight" => ResizeColumnAsync(column, 1),
+        "ArrowLeft" when IsResizable(column) => ResizeColumnAsync(column, -1),
+        "ArrowRight" when IsResizable(column) => ResizeColumnAsync(column, 1),
+        "Enter" when IsAutoFit(column) && _gridModule is not null && _resizeAttached
+            => _gridModule.InvokeVoidAsync("autoFitColumn", _viewport, column.Key).AsTask(),
         _ => Task.CompletedTask
     };
+
+    /// <summary>
+    /// Text of the column for every loaded row, so omni-grid.js can size the column on rows the
+    /// virtualization never put in the page. Null for a templated column: its rendering is not a
+    /// text .NET can produce, so only its rendered rows are measured. Distinct values only, the
+    /// width depends on the text and not on how many rows carry it.
+    /// </summary>
+    [JSInvokable]
+    public string[]? GetColumnAutoFitTexts(string key)
+    {
+        var column = VisibleColumns.FirstOrDefault(candidate => candidate.Key == key);
+        if (column is null || !IsAutoFit(column) || column.Template is not null)
+        {
+            return null;
+        }
+
+        return LoadedItems()
+            .Select(item => CellText(column, item))
+            .Where(text => !string.IsNullOrEmpty(text))
+            .Distinct(StringComparer.Ordinal)
+            .ToArray()!;
+    }
+
+    /// <summary>
+    /// Every item the grid holds in memory, whatever part of it is on screen: the whole filtered and
+    /// sorted local set (all pages, all virtual rows), the external or remote page, or the blocks a
+    /// remote virtualized grid has fetched so far.
+    /// </summary>
+    private IEnumerable<TItem> LoadedItems() => ExternalData
+        ? Items
+        : Load is null
+            ? VirtualLocalItems
+            : Virtualized ? _virtualSource.CachedItems : _remote.Items;
+
+    /// <summary>
+    /// Width chosen by a fit to content, in CSS pixels measured by omni-grid.js. Reported once per
+    /// gesture, then applied, persisted and announced like the end of a drag.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnColumnAutoFitAsync(string key, double width)
+    {
+        var column = VisibleColumns.FirstOrDefault(candidate => candidate.Key == key);
+        if (column is null || !IsAutoFit(column))
+        {
+            return;
+        }
+
+        await ApplyColumnWidthAsync(key, width);
+        StateHasChanged();
+    }
 
     /// <summary>
     /// Final width of a pointer drag on a column's resize handle, in CSS pixels measured by
@@ -2938,20 +3006,22 @@ public partial class OmniDataGrid<TItem>
             return;
         }
 
+        builder.AddContent(2, CellText(column, item));
+    };
+
+    /// <summary>What a column without a template shows for an item; the fit to content measures the same text.</summary>
+    private static string? CellText(OmniDataGridColumnDefinition<TItem> column, TItem item)
+    {
         var value = column.Value(item);
         if (column.Format is not null)
         {
-            builder.AddContent(2, column.Format(value));
+            return column.Format(value);
         }
-        else if (!string.IsNullOrWhiteSpace(column.FormatString))
-        {
-            builder.AddContent(3, string.Format(CultureInfo.CurrentCulture, column.FormatString, value));
-        }
-        else
-        {
-            builder.AddContent(4, value?.ToString());
-        }
-    };
+
+        return !string.IsNullOrWhiteSpace(column.FormatString)
+            ? string.Format(CultureInfo.CurrentCulture, column.FormatString, value)
+            : value?.ToString();
+    }
 
     // ---- lifecycle ----------------------------------------------------------------------------
 

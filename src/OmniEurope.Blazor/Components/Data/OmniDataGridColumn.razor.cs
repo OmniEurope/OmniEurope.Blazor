@@ -137,6 +137,15 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public bool? Resizable { get; set; }
 
+    /// <summary>
+    /// Whether a double click on this column's trailing edge (or Enter on its handle) sizes it to its
+    /// widest content, as in Excel. Left unset it follows the grid's <c>AllowColumnAutoFit</c>; true or
+    /// false decides for this column alone, whatever the grid says. Independent of
+    /// <see cref="Resizable"/>, which only governs the drag.
+    /// </summary>
+    [Parameter]
+    public bool? AutoFit { get; set; }
+
     /// <summary>Keeps the column visible against the inline start edge while the grid scrolls sideways.</summary>
     [Parameter]
     public bool Frozen { get; set; }
@@ -213,6 +222,7 @@ public partial class OmniDataGridColumn<TItem>
             LogicalFilterOperator = LogicalFilterOperator,
             Visible = Visible,
             Resizable = Resizable,
+            AutoFit = AutoFit,
             Frozen = Frozen,
             Width = Width,
             MinWidth = MinWidth,
@@ -271,6 +281,7 @@ public partial class OmniDataGridColumn<TItem>
         && left.LogicalFilterOperator == right.LogicalFilterOperator
         && left.Visible == right.Visible
         && left.Resizable == right.Resizable
+        && left.AutoFit == right.AutoFit
         && left.Frozen == right.Frozen
         && string.Equals(left.Width, right.Width, StringComparison.Ordinal)
         && string.Equals(left.MinWidth, right.MinWidth, StringComparison.Ordinal)
