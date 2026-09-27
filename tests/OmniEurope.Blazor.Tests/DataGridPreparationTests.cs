@@ -48,6 +48,19 @@ public sealed class DataGridPreparationTests : OmniBunitContext
         Assert.True(invocation.CancellationToken is { CanBeCanceled: true });
     }
 
+    [Fact]
+    public void WhileTheImagesAreAwaited_TheHeadersStayAndTheTemplateTakesTheFirstRow()
+    {
+        var module = JSInterop.SetupModule(ModulePath);
+        module.Setup<bool>("waitForReady", _ => true);
+
+        var grid = RenderPreparedGrid();
+
+        Assert.NotEmpty(grid.FindAll(".omni-data-grid--preparing"));
+        Assert.NotEmpty(grid.FindAll("thead th"));
+        Assert.Equal("Chargement", grid.Find("tbody > tr.omni-data-grid__preparation").TextContent);
+    }
+
     private IRenderedComponent<OmniDataGrid<int>> RenderPreparedGrid() =>
         Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, [1, 2])
