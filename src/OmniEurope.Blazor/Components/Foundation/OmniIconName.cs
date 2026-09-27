@@ -233,5 +233,15 @@ public enum OmniIconName
     SealCheck,
     CheckSquare,
     ArrowBendUpRight,
-    Stethoscope
+    Stethoscope,
+    ChevronLeft,
+    Envelope,
+    CurrencyEur,
+    ShareNetwork,
+    Bank,
+    Briefcase,
+    IdentificationBadge,
+    FilePdf,
+    Headset,
+    Handshake
 }
