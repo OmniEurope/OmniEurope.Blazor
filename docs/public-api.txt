@@ -1474,6 +1474,7 @@ method public OmniEurope.Blazor.Components.OmniOverlayService.ConfirmAsync(OmniE
 method public OmniEurope.Blazor.Components.OmniOverlayService.Dismiss(System.Guid id) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniOverlayService.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniOverlayService.Notify(System.String message, OmniEurope.Blazor.Components.OmniNotificationSeverity severity = OmniEurope.Blazor.Components.OmniNotificationSeverity.Information, System.String? title = null, System.TimeSpan? duration = null) : System.Guid
+method public OmniEurope.Blazor.Components.OmniOverlayService.Notify(System.String message, OmniEurope.Blazor.Components.OmniNotificationSeverity severity, System.String? title, System.TimeSpan? duration, System.String actionText, System.Func<System.Threading.Tasks.Task> action) : System.Guid
 method public OmniEurope.Blazor.Components.OmniOverlayService.Notify(System.String message, OmniEurope.Blazor.Components.OmniNotificationSeverity severity, System.String? title, System.TimeSpan? duration, System.String? detailsHref) : System.Guid
 method public OmniEurope.Blazor.Components.OmniOverlayService.OpenDialog(OmniEurope.Blazor.Components.OmniDialogRequest request) : System.Void
 method public OmniEurope.Blazor.Components.OmniOverlayService.OpenDialogAsync(OmniEurope.Blazor.Components.OmniDialogRequest request) : System.Threading.Tasks.Task<System.Object?>
@@ -2819,15 +2820,19 @@ property public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.Options : S
 property public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.Placeholder : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.Presentation : OmniEurope.Blazor.Components.OmniMultiSelectPresentation {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.VisibleRows : System.Int32 {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniNotification.ActionText : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNotification.DetailsHref : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNotification.Dismissible : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNotification.Duration : System.TimeSpan? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNotification.Message : System.String {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniNotification.OnAction : Microsoft.AspNetCore.Components.EventCallback {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNotification.OnDismiss : Microsoft.AspNetCore.Components.EventCallback {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNotification.OnHeldChanged : Microsoft.AspNetCore.Components.EventCallback<System.Boolean> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNotification.Severity : OmniEurope.Blazor.Components.OmniNotificationSeverity {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNotification.ShowCountdown : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNotification.Title : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniNotificationMessage.Action : System.Func<System.Threading.Tasks.Task>? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniNotificationMessage.ActionText : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniNotificationMessage.DetailsHref : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniNotificationMessage.Duration : System.TimeSpan? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniNotificationMessage.Id : System.Guid {get(public);init(public)}

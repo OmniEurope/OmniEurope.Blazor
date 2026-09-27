@@ -187,6 +187,25 @@ public sealed class OmniOverlayService : IDisposable
         return _notifications.Add(message, severity, title, duration, OmniUriPolicy.EnsureSafe(detailsHref, nameof(detailsHref)));
     }
 
+    /// <summary>
+    /// Same as the overload without it, plus one action offered from the notification as a button
+    /// (undoing what was just done, retrying). Choosing it runs <paramref name="action"/> once and
+    /// closes the notification. A separate overload, so compiled callers keep their signatures.
+    /// </summary>
+    public Guid Notify(
+        string message,
+        OmniNotificationSeverity severity,
+        string? title,
+        TimeSpan? duration,
+        string actionText,
+        Func<Task> action)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(message);
+        ArgumentException.ThrowIfNullOrWhiteSpace(actionText);
+        ArgumentNullException.ThrowIfNull(action);
+        return _notifications.Add(message, severity, title, duration, detailsHref: null, actionText, action);
+    }
+
     public bool Dismiss(Guid id) => _notifications.Remove(id);
 
     /// <summary>Holds a notification's countdown while it is read.</summary>

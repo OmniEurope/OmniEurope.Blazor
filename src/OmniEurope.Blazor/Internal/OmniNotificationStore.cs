@@ -30,7 +30,7 @@ internal sealed class OmniNotificationStore : IDisposable
 
     internal IReadOnlyList<OmniNotificationMessage> Messages => _messages;
 
-    internal Guid Add(string message, OmniNotificationSeverity severity, string? title, TimeSpan? duration, string? detailsHref = null)
+    internal Guid Add(string message, OmniNotificationSeverity severity, string? title, TimeSpan? duration, string? detailsHref = null, string? actionText = null, Func<Task>? action = null)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
         if (_messages.Count == _capacity)
@@ -42,7 +42,9 @@ internal sealed class OmniNotificationStore : IDisposable
         var notification = new OmniNotificationMessage(Guid.NewGuid(), message, severity, title)
         {
             Duration = effectiveDuration > TimeSpan.Zero ? effectiveDuration : null,
-            DetailsHref = detailsHref
+            DetailsHref = detailsHref,
+            ActionText = actionText,
+            Action = action
         };
         _messages.Add(notification);
         _changed();

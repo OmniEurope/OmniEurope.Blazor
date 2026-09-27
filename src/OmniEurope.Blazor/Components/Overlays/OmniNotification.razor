@@ -29,6 +29,10 @@
                     aria-controls="@MessageId"
                     @onclick="ToggleExpanded">@Localize(_expanded ? "NotificationCollapse" : "NotificationExpand")</button>
         }
+        @if (!string.IsNullOrWhiteSpace(ActionText) && OnAction.HasDelegate)
+        {
+            <button type="button" class="omni-notification__action" @onclick="OnAction">@ActionText</button>
+        }
         @if (ShowDetails)
         {
             <a class="omni-notification__details" href="@SafeDetailsHref">@Localize("NotificationOpenDetails")</a>

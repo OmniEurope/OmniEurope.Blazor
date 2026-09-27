@@ -7,6 +7,43 @@ namespace OmniEurope.Blazor.Tests;
 public sealed class NotificationTests : OmniBunitContext
 {
     [Fact]
+    public void Action_RunsOnceAndClosesTheNotification()
+    {
+        var service = new OmniOverlayService();
+        var host = Render<OmniComponentsHost>(parameters => parameters
+            .Add(component => component.OverlayService, service)
+            .AddChildContent("Application"));
+        var runs = 0;
+
+        service.Notify("Déplacé", OmniNotificationSeverity.Success, "Succès", null, "Annuler", () =>
+        {
+            runs++;
+            return Task.CompletedTask;
+        });
+
+        host.WaitForAssertion(() => Assert.Equal("Annuler", host.Find(".omni-notification__action").TextContent));
+        host.Find(".omni-notification__action").Click();
+
+        Assert.Equal(1, runs);
+        host.WaitForAssertion(() => Assert.Empty(host.FindAll(".omni-notification")));
+        Assert.Empty(service.Notifications);
+    }
+
+    [Fact]
+    public void WithoutAction_NoActionButton()
+    {
+        var service = new OmniOverlayService();
+        var host = Render<OmniComponentsHost>(parameters => parameters
+            .Add(component => component.OverlayService, service)
+            .AddChildContent("Application"));
+
+        service.Notify("Rien à annuler", OmniNotificationSeverity.Information);
+
+        host.WaitForAssertion(() => Assert.Single(host.FindAll(".omni-notification")));
+        Assert.Empty(host.FindAll(".omni-notification__action"));
+    }
+
+    [Fact]
     public void Group_KeepsErrorsOutOfThePileAndCountsOnlyThePile()
     {
         var service = new OmniOverlayService();
