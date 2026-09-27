@@ -29,6 +29,14 @@ public sealed record OmniHtmlEditorCommand(string Name, OmniHtmlEditorAction Act
     /// </summary>
     public Func<OmniHtmlEditorSelection?, bool>? Pressed { get; init; }
 
+    /// <summary>
+    /// When the command can run: its button is disabled while this returns false for the selection at hand
+    /// (null in the source face or before the first report), so a contextual tool (table rows, a formula)
+    /// keeps its place in the toolbar instead of appearing and vanishing as the caret moves. Setting it makes
+    /// the surface report the selection. Null: enabled as before.
+    /// </summary>
+    public Func<OmniHtmlEditorSelection?, bool>? Enabled { get; init; }
+
     /// <summary>A command that runs <paramref name="execute"/> when chosen.</summary>
     public static OmniHtmlEditorCommand Create(
         string name,
