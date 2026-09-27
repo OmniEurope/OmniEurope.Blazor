@@ -31,4 +31,24 @@ internal sealed class HtmlEditorInteropBridge(OmniHtmlEditor owner)
     /// <summary>What a paste or a drop may insert, through the same allow-list as the value.</summary>
     [JSInvokable]
     public string SanitizePaste(string html, string text) => owner.CleanPaste(html, text);
+
+    /// <summary>A key combination of an extension, by its position among the editor's shortcuts.</summary>
+    [JSInvokable]
+    public Task OnShortcut(int index) => owner.DispatchAsync(() => owner.HandleShortcutAsync(index));
+
+    /// <summary>A click on an inline element of an extension: its position, the element as a selection node, and its text.</summary>
+    [JSInvokable]
+    public Task OnElementActivated(int index, string element, string text) =>
+        owner.DispatchAsync(() => owner.HandleElementActivatedAsync(index, element, text));
+
+    /// <summary>A right-click or the context-menu key in the surface, at this point of the viewport, with the selection there.</summary>
+    [JSInvokable]
+    public Task OnContextMenu(double x, double y, string? selection) => owner.DispatchAsync(() => owner.HandleContextMenu(x, y, selection));
+}
+
+/// <summary>What omni-focus.js calls when a press lands outside the editor's open context menu.</summary>
+internal sealed class HtmlEditorMenuDismissBridge(OmniHtmlEditor owner)
+{
+    [JSInvokable("OmniContextMenu.Dismiss")]
+    public Task DismissAsync() => owner.DispatchAsync(owner.CloseMenuAsync);
 }

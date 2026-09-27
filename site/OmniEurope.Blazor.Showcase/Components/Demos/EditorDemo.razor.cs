@@ -70,6 +70,55 @@ public partial class EditorDemo
 
     private string SelectionPath { get; set; } = "hors du texte";
 
+    /// <summary>The built-in commands that applications used to write themselves, then the extension's.</summary>
+    private static readonly IReadOnlyList<OmniHtmlEditorCommand> ExtendedCommands =
+    [
+        OmniHtmlEditorCommands.Bold, OmniHtmlEditorCommands.Italic, OmniHtmlEditorCommands.ChangeCase, OmniHtmlEditorCommands.Separator,
+        OmniHtmlEditorCommands.InsertSpecialCharacter, OmniHtmlEditorCommands.ImportTable, OmniHtmlEditorCommands.ShowBlocks, OmniHtmlEditorCommands.Separator,
+        OmniHtmlEditorCommands.Undo, OmniHtmlEditorCommands.Redo
+    ];
+
+    private DemoNoteExtension NoteExtension { get; } = new();
+
+    private string Extended { get; set; } =
+        "<p>Avis favorable sous réserve<span class=\"demo-note\" data-state=\"new\" contenteditable=\"false\">vérifier le délai</span>.</p>";
+
+    /// <summary>
+    /// A note extension: a command and its shortcut insert a note, a click on a note marks it as read,
+    /// and the context menu removes the note at the caret. It never touches the surface itself.
+    /// </summary>
+    private sealed class DemoNoteExtension : OmniHtmlEditorExtension
+    {
+        private static readonly OmniHtmlEditorCommand AddNote = OmniHtmlEditorCommand.Create(
+            "demo-add-note", "Ajouter une note",
+            context => context.InsertHtmlAsync("<span class=\"demo-note\" data-state=\"new\" contenteditable=\"false\">Nouvelle note</span>"),
+            OmniIconName.Chat);
+
+        private static readonly OmniHtmlEditorCommand RemoveNote = OmniHtmlEditorCommand.Create(
+            "demo-remove-note", "Retirer la note",
+            context => context.ReplaceClosestAsync(".demo-note", string.Empty),
+            OmniIconName.Delete) with { Enabled = selection => selection?.ClosestWithClass("demo-note") is not null };
+
+        public override IReadOnlyList<OmniHtmlEditorCommand> Commands => [AddNote];
+
+        public override OmniHtmlSanitizerPolicy SanitizerPolicy { get; } = new()
+        {
+            AdditionalAttributes = ["contenteditable"],
+            AdditionalCssClasses = ["demo-note"],
+            AllowDataAttributes = true
+        };
+
+        public override IReadOnlyList<OmniHtmlEditorShortcut> Shortcuts { get; } = [new("Ctrl+Shift+N", "demo-add-note")];
+
+        public override IReadOnlyList<OmniHtmlEditorInlineElement> InlineElements { get; } =
+        [
+            new(".demo-note", context => context.ReplaceAsync(
+                $"<span class=\"demo-note\" data-state=\"read\" contenteditable=\"false\">{System.Net.WebUtility.HtmlEncode(context.Text)}</span>"))
+        ];
+
+        public override IReadOnlyList<OmniHtmlEditorCommand> ContextMenu => [AddNote, RemoveNote];
+    }
+
     /// <summary>
     /// Shows where the caret is, outermost element first, as the host of a structured editor
     /// would to enable the commands that fit there.

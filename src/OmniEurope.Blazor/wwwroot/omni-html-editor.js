@@ -42,7 +42,7 @@ export function mount(surface, dotnet, html, options) {
 
     const state = {
         surface, dotnet, timer: 0, range: null, key: '', sent: null, listeners: [], classes: allowedClasses, policy: false,
-        selection: false, selectionTimer: 0, selectionKey: ''
+        selection: false, selectionTimer: 0, selectionKey: '', shortcuts: new Map(), inline: [], menu: false, activated: null
     };
     editors.set(surface, state);
     configure(surface, options);
@@ -57,6 +57,8 @@ export function mount(surface, dotnet, html, options) {
     listen(state, surface, 'beforeinput', event => beforeInput(state, event));
     listen(state, surface, 'focusout', () => flush(state));
     listen(state, document, 'selectionchange', () => selectionChanged(state));
+    listen(state, surface, 'click', event => activate(state, event));
+    listen(state, surface, 'contextmenu', event => contextMenu(state, event));
 }
 
 export function configure(surface, options) {
@@ -74,6 +76,11 @@ export function configure(surface, options) {
         state.classes = !state.policy
             ? allowedClasses
             : Array.isArray(options?.classes) ? new Set(options.classes) : null;
+        // What the extensions of the host added: their shortcuts (combination to position), the
+        // selectors of their inline elements, and whether they have a context menu.
+        state.shortcuts = new Map((Array.isArray(options?.shortcuts) ? options.shortcuts : []).map((keys, index) => [keys, index]));
+        state.inline = Array.isArray(options?.inline) ? options.inline : [];
+        state.menu = options?.menu === true;
     }
 }
 
@@ -155,18 +162,222 @@ export async function exec(surface, action, argument) {
         }
     }
 
-    tidy(surface);
+    return settle(state);
+}
 
+export function insertHtml(surface, html) {
+    return exec(surface, 'inserthtml', html);
+}
+
+// Replaces the innermost element around the selection (or the one kept while a dialog was open)
+// that matches the selector, with HTML .NET has already sanitised. Null when there is none.
+export function replaceClosest(surface, selector, html) {
+    const state = editors.get(surface);
+    if (!state) {
+        return null;
+    }
+
+    prepareDocument();
+    const range = restore(state);
+    let target = null;
+    try {
+        target = startElement(range)?.closest(selector);
+    }
+    catch {
+        return null;
+    }
+
+    if (!target || target === surface || !surface.contains(target)) {
+        return null;
+    }
+
+    replaceNode(target, html);
+    return settle(state);
+}
+
+// Replaces, or removes with an empty HTML, the inline element the last click activated.
+export function replaceActivated(surface, html) {
+    const state = editors.get(surface);
+    const target = state?.activated;
+    if (!state || !target || !surface.contains(target)) {
+        return null;
+    }
+
+    state.activated = null;
+    surface.focus({ preventScroll: true });
+    replaceNode(target, html);
+    return settle(state);
+}
+
+// Puts back the selection the context menu opened on: closing the menu returns the focus to the
+// surface, which may move the caret, and its command must act where the menu was asked for.
+export function restoreMenuSelection(surface) {
+    const state = editors.get(surface);
+    const range = state?.menuRange;
+    if (!state || !range || !surface.contains(range.commonAncestorContainer)) {
+        return;
+    }
+
+    state.menuRange = null;
+    surface.focus({ preventScroll: true });
+    const selection = document.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    state.range = range.cloneRange();
+}
+
+// The text of the selection, or of the one kept while the focus was elsewhere (a dialog).
+export function selectedText(surface) {
+    const state = editors.get(surface);
+    if (!state) {
+        return '';
+    }
+
+    remember(state);
+    return state.range && surface.contains(state.range.commonAncestorContainer) ? state.range.toString() : '';
+}
+
+// The new nodes take the place of the old one and the caret goes after them, so typing continues
+// where the replaced element was.
+function replaceNode(target, html) {
+    const template = document.createElement('template');
+    template.innerHTML = html ?? '';
+    const last = template.content.lastChild;
+    target.replaceWith(template.content);
+    const selection = document.getSelection();
+    if (last && last.isConnected) {
+        const after = document.createRange();
+        after.setStartAfter(last);
+        after.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(after);
+    }
+}
+
+// The tail of every change made here rather than typed: tidied, reported as sent, selection kept.
+function settle(state) {
+    tidy(state.surface);
     window.clearTimeout(state.timer);
     state.timer = 0;
-    state.sent = surface.innerHTML;
+    state.sent = state.surface.innerHTML;
     remember(state);
     report(state, true);
     return state.sent;
 }
 
-export function insertHtml(surface, html) {
-    return exec(surface, 'inserthtml', html);
+// A click on an inline element of an extension: the innermost element matching one of their
+// selectors is kept as the activated one and described to .NET, with its text.
+function activate(state, event) {
+    if (state.inline.length === 0 || !(event.target instanceof Element)) {
+        return;
+    }
+
+    for (let node = event.target; node && node !== state.surface && state.surface.contains(node); node = node.parentElement) {
+        const index = state.inline.findIndex(selector => matchesSafely(node, selector));
+        if (index >= 0) {
+            event.preventDefault();
+            flush(state);
+            state.activated = node;
+            state.dotnet.invokeMethodAsync('OnElementActivated', index, JSON.stringify(describeNode(node)), node.textContent ?? '');
+            return;
+        }
+    }
+}
+
+// The extensions' menu replaces the browser's. From the keyboard (the context-menu key, Shift+F10)
+// the event has no pointer position, so the menu opens at the caret.
+function contextMenu(state, event) {
+    if (!state.menu) {
+        return;
+    }
+
+    event.preventDefault();
+    flush(state);
+    // A right-click on an inline element selects it, so the menu's commands act on it: the caret
+    // never enters an element that is not editable.
+    const element = event.target instanceof Element ? inlineElementAt(state, event.target) : null;
+    if (element) {
+        const range = document.createRange();
+        range.selectNode(element);
+        const selection = document.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+
+    remember(state);
+    state.menuRange = state.range?.cloneRange() ?? null;
+    let x = event.clientX;
+    let y = event.clientY;
+    if (!x && !y && state.range) {
+        const box = state.range.getBoundingClientRect();
+        x = box.left;
+        y = box.bottom;
+    }
+
+    // The selection goes with the request, so the entries are enabled for where the menu opens
+    // rather than for where the caret was a moment ago.
+    state.dotnet.invokeMethodAsync('OnContextMenu', x, y, describeSelection(state.surface));
+}
+
+// The innermost element from the target up that matches the selector of an inline element.
+function inlineElementAt(state, target) {
+    for (let node = target; node && node !== state.surface && state.surface.contains(node); node = node.parentElement) {
+        if (state.inline.some(selector => matchesSafely(node, selector))) {
+            return node;
+        }
+    }
+
+    return null;
+}
+
+function matchesSafely(node, selector) {
+    try {
+        return node.matches(selector);
+    }
+    catch {
+        return false;
+    }
+}
+
+// The element a range starts in; a range that selects exactly one element (a right-clicked note)
+// starts in that element rather than in its parent.
+function startElement(range) {
+    if (range.startContainer === range.endContainer && range.endOffset - range.startOffset === 1) {
+        const selected = range.startContainer.childNodes[range.startOffset];
+        if (selected?.nodeType === Node.ELEMENT_NODE) {
+            return selected;
+        }
+    }
+
+    return elementOf(range.startContainer);
+}
+
+// "ctrl+alt+shift+key", as OmniHtmlEditorShortcut normalises it. Letters and digits are read from the
+// physical key, so a layout or Alt that changes the character still matches.
+function combination(event) {
+    let key = event.key.toLowerCase();
+    if (/^Key[A-Z]$/.test(event.code)) {
+        key = event.code.slice(3).toLowerCase();
+    }
+    else if (/^Digit[0-9]$/.test(event.code)) {
+        key = event.code.slice(5);
+    }
+
+    const parts = [];
+    if (event.ctrlKey || event.metaKey) {
+        parts.push('ctrl');
+    }
+
+    if (event.altKey) {
+        parts.push('alt');
+    }
+
+    if (event.shiftKey) {
+        parts.push('shift');
+    }
+
+    parts.push(key);
+    return parts.join('+');
 }
 
 export function dispose(surface) {
@@ -283,6 +494,15 @@ function keydown(state, event) {
         event.preventDefault();
         remember(state);
         state.dotnet.invokeMethodAsync('OnLinkShortcut');
+        return;
+    }
+
+    const shortcut = state.shortcuts.get(combination(event));
+    if (shortcut !== undefined) {
+        event.preventDefault();
+        flush(state);
+        remember(state);
+        state.dotnet.invokeMethodAsync('OnShortcut', shortcut);
         return;
     }
 
@@ -557,18 +777,29 @@ function describeSelection(surface) {
     }
 
     const ancestors = [];
-    for (let node = elementOf(range.startContainer); node && node !== surface && surface.contains(node); node = node.parentElement) {
-        const data = {};
-        for (const attribute of node.attributes) {
-            if (attribute.name.startsWith('data-')) {
-                data[attribute.name] = attribute.value;
-            }
-        }
-
-        ancestors.push({ tag: node.tagName.toLowerCase(), classes: [...node.classList], data });
+    for (let node = startElement(range); node && node !== surface && surface.contains(node); node = node.parentElement) {
+        ancestors.push(describeNode(node));
     }
 
     return JSON.stringify({ collapsed: range.collapsed, ancestors });
+}
+
+// One element as .NET reads a selection node: tag, classes, data-* attributes, and a cell's spans.
+function describeNode(node) {
+    const data = {};
+    for (const attribute of node.attributes) {
+        if (attribute.name.startsWith('data-')) {
+            data[attribute.name] = attribute.value;
+        }
+    }
+
+    const described = { tag: node.tagName.toLowerCase(), classes: [...node.classList], data };
+    if (node.matches('td,th')) {
+        described.colspan = node.colSpan || 1;
+        described.rowspan = node.rowSpan || 1;
+    }
+
+    return described;
 }
 
 // "marks|block|align|size": the pressed toggles, the block tag, the alignment and the text size at
@@ -716,6 +947,14 @@ function apply(surface, range, action, argument) {
                 document.execCommand('insertHTML', false, argument);
             }
             break;
+        case 'inserttext':
+            if (argument) {
+                document.execCommand('insertText', false, argument);
+            }
+            break;
+        case 'changecase':
+            changeCase(surface, range, argument);
+            break;
         case 'cut':
         case 'copy':
             return copySelection(range, action === 'cut');
@@ -741,6 +980,69 @@ function apply(surface, range, action, argument) {
         default:
             break;
     }
+}
+
+// Rewrites the case of the selected text in place, text node by text node, so every bold, link or
+// note around it stays. Title case capitalises a letter that follows a space, including across nodes.
+function changeCase(surface, range, mode) {
+    if (range.collapsed || !['upper', 'lower', 'title'].includes(mode)) {
+        return;
+    }
+
+    const root = range.commonAncestorContainer;
+    const nodes = [];
+    if (root.nodeType === Node.TEXT_NODE) {
+        nodes.push(root);
+    }
+    else {
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        while (walker.nextNode()) {
+            if (range.intersectsNode(walker.currentNode) && surface.contains(walker.currentNode)) {
+                nodes.push(walker.currentNode);
+            }
+        }
+    }
+
+    if (nodes.length === 0) {
+        return;
+    }
+
+    const first = nodes[0];
+    const last = nodes[nodes.length - 1];
+    const firstStart = first === range.startContainer ? range.startOffset : 0;
+    let wordStart = firstStart === 0 || /\s/.test(first.data[firstStart - 1]);
+    let lastEnd = 0;
+    for (const node of nodes) {
+        const start = node === range.startContainer ? range.startOffset : 0;
+        const end = node === range.endContainer ? range.endOffset : node.data.length;
+        let text = node.data.slice(start, end);
+        if (mode === 'upper') {
+            text = text.toUpperCase();
+        }
+        else if (mode === 'lower') {
+            text = text.toLowerCase();
+        }
+        else {
+            text = [...text].map(character => {
+                const changed = wordStart ? character.toUpperCase() : character.toLowerCase();
+                wordStart = /\s/.test(character);
+                return changed;
+            }).join('');
+        }
+
+        node.data = node.data.slice(0, start) + text + node.data.slice(end);
+        if (node === last) {
+            lastEnd = start + text.length;
+        }
+    }
+
+    // The selection keeps covering the rewritten text, whose length a case change may alter (ß).
+    const selected = document.createRange();
+    selected.setStart(first, Math.min(firstStart, first.data.length));
+    selected.setEnd(last, Math.min(lastEnd, last.data.length));
+    const selection = document.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(selected);
 }
 
 function toggleInlineCode(range, within) {

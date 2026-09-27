@@ -174,6 +174,60 @@ private static readonly OmniHtmlSanitizerPolicy Policy = new()
 - L'éditeur garde le sanitiseur construit pour une instance de politique : une instance statique
   évite de le reconstruire.
 
+### Casse, caractères spéciaux, import de tableau, blocs
+
+Quatre commandes intégrées, à placer dans `Commands` comme les autres :
+
+- `ChangeCase` : une liste (majuscules, minuscules, casse de titre) qui réécrit le texte sélectionné
+  nœud de texte par nœud de texte, donc sans toucher au gras, aux liens ni aux éléments autour.
+- `InsertSpecialCharacter` : un panneau de caractères par catégorie (courants, monnaies, flèches,
+  mathématiques, grec, juridique), avec une recherche sur le nom localisé ; le caractère choisi est tapé
+  au curseur (échappé en face source).
+- `ImportTable` : un panneau de fichier qui lit un CSV ou un TSV (cellules entre guillemets, guillemets
+  doublés, sauts de ligne dans une cellule), plus les formats des lecteurs d'extension, montre un aperçu,
+  propose la première ligne en en-tête (cochée d'office quand elle ne contient aucun nombre) et insère le
+  tableau au curseur. 100 lignes (plus l'en-tête) et 50 colonnes au plus, 10 Mo.
+- `ShowBlocks` : une bascule qui dessine en pointillé le contour de chaque bloc du document.
+
+`ChangeCase` et `ShowBlocks` sont désactivées en face source.
+
+### Extensions
+
+`Extensions` (`IReadOnlyList<OmniHtmlEditorExtension>`) : ce qu'une application ajoute à l'éditeur, sans
+jamais toucher la surface elle-même. Une extension est une classe qui dérive
+d'`OmniHtmlEditorExtension` et ne redéfinit que ce qu'il lui faut ; plusieurs s'appliquent dans l'ordre.
+Les extensions sont comparées par instance : un parent peut repasser une nouvelle liste à chaque rendu.
+
+| Membre | Rôle |
+|---|---|
+| `Commands`, `ArrangeToolbar(toolbar)` | Commandes apportées ; par défaut ajoutées après un séparateur, `ArrangeToolbar` peut réordonner toute la barre. |
+| `SanitizerPolicy` | Fusionnée avec celle de l'éditeur (`OmniHtmlSanitizerPolicy.Merge`) ; n'élargit que dans les limites de toute politique. |
+| `Shortcuts` | `new OmniHtmlEditorShortcut("Ctrl+Shift+N", "nom-de-commande")` ; Ctrl vaut aussi Cmd. Ctrl+Z, Ctrl+Y, Ctrl+Maj+Z et Ctrl+K restent à l'éditeur ; une combinaison en double ou une commande introuvable lève une exception au rendu. |
+| `InlineElements` | `new OmniHtmlEditorInlineElement(".note[data-marker]", context => ...)` : un clic sur l'élément (le plus proche qui correspond) appelle la fonction avec l'élément (`Element`, `Text`) ; `ReplaceAsync` et `RemoveAsync` le changent en une étape d'historique. |
+| `ContextMenu` | Commandes du menu ouvert au clic droit ou à la touche menu dans la face visuelle, à la place de celui du navigateur. Un clic droit sur un élément en ligne le sélectionne, pour que les commandes agissent sur lui ; `Enabled` est évalué pour la sélection où le menu s'ouvre. |
+| `TableReaders` | `new OmniHtmlEditorTableReader([".xlsx"], (nom, flux) => ...)` : lignes de cellules pour un format que `ImportTable` ne lit pas lui-même (une feuille lue par un serveur). |
+| `TracksSelection`, `OnSelectionChangedAsync` | Reçoit la position du curseur, comme `SelectionChanged`. |
+
+Le contexte d'une commande (`OmniHtmlEditorCommandContext`) offre aussi, en face visuelle :
+`ReplaceClosestAsync(selecteur, html)` (remplace l'élément le plus proche autour de la sélection, par
+exemple une formule, et dit s'il l'a trouvé), `GetSelectedTextAsync()` et `InsertTextAsync(texte)` (texte
+brut tapé sur la sélection). La sélection gardée pendant qu'un dialogue était ouvert compte. Pour une
+cellule, `OmniHtmlEditorSelectionNode.ColumnSpan` et `RowSpan` donnent sa fusion.
+
+```csharp
+public sealed class NoteExtension : OmniHtmlEditorExtension
+{
+    private static readonly OmniHtmlEditorCommand AddNote = OmniHtmlEditorCommand.Create(
+        "add-note", "Ajouter une note", context => context.InsertHtmlAsync("<span class=\"note\">Note</span>"));
+
+    public override IReadOnlyList<OmniHtmlEditorCommand> Commands => [AddNote];
+    public override OmniHtmlSanitizerPolicy SanitizerPolicy { get; } = new() { AdditionalCssClasses = ["note"], AllowDataAttributes = true };
+    public override IReadOnlyList<OmniHtmlEditorShortcut> Shortcuts { get; } = [new("Ctrl+Shift+N", "add-note")];
+    public override IReadOnlyList<OmniHtmlEditorInlineElement> InlineElements { get; } =
+        [new(".note", context => context.ReplaceAsync($"<span class=\"note\">{WebUtility.HtmlEncode(context.Text)} (relue)</span>"))];
+}
+```
+
 ## OmniDocumentEditor
 
 Un traitement de texte léger : une page blanche centrée sur un fond gris, la barre

@@ -20,6 +20,7 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 |---|---|---|
 | [PLAN-001](PLAN-001-remise-equerre-kit.md) | Phase A du plan maître `_Generic` PLAN-001 (lot 7) : lots 1 et 2 livrés, lot 3 (contrats) et lot 4 (`STD-I18N` de la vitrine) ouverts | [ADR-001](../adr/ADR-001-global-json-rollforward-latestpatch.md) |
 | [PLAN-005](PLAN-005-remediation-audit-2026-09-27.md) | Remédiation de l'audit 360 du 2026-09-27 : lots 1 à 4 livrés ; reste SCR-001, à corriger dans le kit `_Generic` | - |
+| [PLAN-006](PLAN-006-editeur-html-extensible.md) | Éditeur HTML extensible : lots 1 à 4 livrés ; reste la consommation par Astraia (PLAN-009 d'Astraia) | - |
 
 Total comparable : **2 lots ouverts** dans PLAN-001 (3 et 4), plus SCR-001 de PLAN-005, hors dépôt.
 

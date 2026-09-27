@@ -55,4 +55,21 @@ public sealed class OmniHtmlEditorCommandContext
     /// <param name="argument">The block tag for <see cref="OmniHtmlEditorAction.BlockFormat"/> (<c>p</c>, <c>h1</c> to <c>h4</c>), the size for <see cref="OmniHtmlEditorAction.FontSize"/> (<c>small</c>, <c>normal</c>, <c>large</c>, <c>xlarge</c>) or the address for <see cref="OmniHtmlEditorAction.Link"/>.</param>
     public Task ExecuteAsync(OmniHtmlEditorAction action, string? argument = null) =>
         _editor.RunBuiltInAsync(action, argument);
+
+    /// <summary>
+    /// Replaces the innermost element around the selection that matches <paramref name="selector"/> (a
+    /// formula, a note) with <paramref name="html"/>, sanitised like any insertion, as one step of the
+    /// history. The selection kept while a dialog was open counts. Returns whether such an element was
+    /// found; in the source face nothing changes and the result is false.
+    /// </summary>
+    public Task<bool> ReplaceClosestAsync(string selector, string html) => _editor.ReplaceClosestAsync(selector, html);
+
+    /// <summary>The text of the selection (or of the one kept while a dialog was open); empty for a caret or in the source face.</summary>
+    public Task<string> GetSelectedTextAsync() => _editor.GetSelectedTextAsync();
+
+    /// <summary>
+    /// Types <paramref name="text"/> over the selection as plain text, never markup, as one step of the
+    /// history: how a command rewrites the selected words. Visual face only.
+    /// </summary>
+    public Task InsertTextAsync(string text) => _editor.InsertTextAsync(text);
 }
