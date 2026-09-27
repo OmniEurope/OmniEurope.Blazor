@@ -203,10 +203,11 @@ Les extensions sont comparées par instance : un parent peut repasser une nouvel
 | `Commands`, `ArrangeToolbar(toolbar)` | Commandes apportées ; par défaut ajoutées après un séparateur, `ArrangeToolbar` peut réordonner toute la barre. |
 | `SanitizerPolicy` | Fusionnée avec celle de l'éditeur (`OmniHtmlSanitizerPolicy.Merge`) ; n'élargit que dans les limites de toute politique. |
 | `Shortcuts` | `new OmniHtmlEditorShortcut("Ctrl+Shift+N", "nom-de-commande")` ; Ctrl vaut aussi Cmd. Ctrl+Z, Ctrl+Y, Ctrl+Maj+Z et Ctrl+K restent à l'éditeur ; une combinaison en double ou une commande introuvable lève une exception au rendu. |
-| `InlineElements` | `new OmniHtmlEditorInlineElement(".note[data-marker]", context => ...)` : un clic sur l'élément (le plus proche qui correspond) appelle la fonction avec l'élément (`Element`, `Text`) ; `ReplaceAsync` et `RemoveAsync` le changent en une étape d'historique. |
+| `InlineElements` | `new OmniHtmlEditorInlineElement(".note[data-marker]", context => ...)` : un clic sur l'élément (le plus proche qui correspond) appelle la fonction avec l'élément (`Element`, `Text`) ; `SetTextAsync` (texte brut, l'élément et ses attributs gardés), `ReplaceAsync` et `RemoveAsync` le changent en une étape d'historique. |
 | `ContextMenu` | Commandes du menu ouvert au clic droit ou à la touche menu dans la face visuelle, à la place de celui du navigateur. Un clic droit sur un élément en ligne le sélectionne, pour que les commandes agissent sur lui ; `Enabled` est évalué pour la sélection où le menu s'ouvre. |
 | `TableReaders` | `new OmniHtmlEditorTableReader([".xlsx"], (nom, flux) => ...)` : lignes de cellules pour un format que `ImportTable` ne lit pas lui-même (une feuille lue par un serveur). |
 | `TracksSelection`, `OnSelectionChangedAsync` | Reçoit la position du curseur, comme `SelectionChanged`. |
+| `SuggestsText`, `SuggestAsync(texteAvant)` | Propose la suite après le curseur quand la frappe marque une pause (au moins cinq caractères avant lui dans son texte) : affichée en grisé, Tab la tape, Échap ou toute autre touche l'écarte ; elle n'entre jamais dans la valeur. La première extension qui propose l'emporte. |
 
 Le contexte d'une commande (`OmniHtmlEditorCommandContext`) offre aussi, en face visuelle :
 `ReplaceClosestAsync(selecteur, html)` (remplace l'élément le plus proche autour de la sélection, par

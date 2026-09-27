@@ -41,6 +41,12 @@ public sealed class OmniHtmlEditorElementContext
     /// </summary>
     public Task ReplaceAsync(string html) => _editor.ReplaceActivatedAsync(html);
 
+    /// <summary>
+    /// Replaces what the element holds with <paramref name="text"/>, as plain text, keeping the element and
+    /// every attribute it carries, as one step of the history.
+    /// </summary>
+    public Task SetTextAsync(string text) => _editor.SetActivatedTextAsync(text);
+
     /// <summary>Removes the element, as one step of the history.</summary>
     public Task RemoveAsync() => _editor.ReplaceActivatedAsync(string.Empty);
 }

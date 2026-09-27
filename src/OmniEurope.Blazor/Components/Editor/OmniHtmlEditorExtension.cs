@@ -58,4 +58,16 @@ public abstract class OmniHtmlEditorExtension
 
     /// <summary>Raised, like <see cref="OmniHtmlEditor.SelectionChanged"/>, once the caret or the selection settles somewhere new.</summary>
     public virtual Task OnSelectionChangedAsync(OmniHtmlEditorSelection selection) => Task.CompletedTask;
+
+    /// <summary>Whether this extension proposes the rest of a sentence through <see cref="SuggestAsync"/>.</summary>
+    public virtual bool SuggestsText => false;
+
+    /// <summary>
+    /// The text proposed after the caret, once typing has paused for a moment with at least five characters
+    /// before the caret in its text: shown dimmed after the caret, Tab types it, Escape or any other key drops
+    /// it. It is never part of the value. Null or empty proposes nothing; the first extension that proposes
+    /// something wins. An exception is the extension's to handle: an unhandled one only drops the proposal.
+    /// </summary>
+    /// <param name="textBeforeCaret">Up to the last 200 characters of the text before the caret.</param>
+    public virtual Task<string?> SuggestAsync(string textBeforeCaret) => Task.FromResult<string?>(null);
 }

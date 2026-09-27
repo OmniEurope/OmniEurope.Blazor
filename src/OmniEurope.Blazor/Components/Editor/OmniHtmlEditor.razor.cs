@@ -156,6 +156,11 @@ public partial class OmniHtmlEditor
                 options["menu"] = true;
             }
 
+            if (_extensionSet.Source.Any(extension => extension.SuggestsText))
+            {
+                options["suggest"] = true;
+            }
+
             if (TracksSelection)
             {
                 options["selection"] = true;
@@ -689,6 +694,41 @@ public partial class OmniHtmlEditor
 
         await CaptureVisualAsync();
         var result = await _visualModule.InvokeAsync<string?>("replaceActivated", _surface, Clean(html));
+        if (result is not null)
+        {
+            await CommitVisualResultAsync(result);
+        }
+    }
+
+    /// <summary>The first proposal of the extensions that suggest text, or null.</summary>
+    internal async Task<string?> SuggestAsync(string textBeforeCaret)
+    {
+        if (Disabled || _mode != OmniHtmlEditorMode.Visual || string.IsNullOrWhiteSpace(textBeforeCaret))
+        {
+            return null;
+        }
+
+        foreach (var extension in _extensionSet.Source.Where(extension => extension.SuggestsText))
+        {
+            var proposal = await extension.SuggestAsync(textBeforeCaret);
+            if (!string.IsNullOrEmpty(proposal))
+            {
+                return proposal;
+            }
+        }
+
+        return null;
+    }
+
+    internal async Task SetActivatedTextAsync(string text)
+    {
+        if (Disabled || _mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
+        {
+            return;
+        }
+
+        await CaptureVisualAsync();
+        var result = await _visualModule.InvokeAsync<string?>("setActivatedText", _surface, text ?? string.Empty);
         if (result is not null)
         {
             await CommitVisualResultAsync(result);

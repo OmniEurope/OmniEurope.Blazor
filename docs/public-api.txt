@@ -1343,6 +1343,7 @@ method public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.ReplaceC
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext.SetHtmlAsync(System.String html) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniHtmlEditorElementContext.RemoveAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniHtmlEditorElementContext.ReplaceAsync(System.String html) : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniHtmlEditorElementContext.SetTextAsync(System.String text) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement.<Clone>$() : OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement
 method public OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement.Deconstruct(out System.String Selector, out System.Func<OmniEurope.Blazor.Components.OmniHtmlEditorElementContext,System.Threading.Tasks.Task> Activate) : System.Void
 method public OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement.Equals(OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement? other) : System.Boolean
@@ -1881,6 +1882,7 @@ method public static OmniEurope.Blazor.Components.OmniUploadFile.op_Equality(Omn
 method public static OmniEurope.Blazor.Components.OmniUploadFile.op_Inequality(OmniEurope.Blazor.Components.OmniUploadFile? left, OmniEurope.Blazor.Components.OmniUploadFile? right) : System.Boolean
 method public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.ArrangeToolbar(System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand> toolbar) : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand>
 method public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.OnSelectionChangedAsync(OmniEurope.Blazor.Components.OmniHtmlEditorSelection selection) : System.Threading.Tasks.Task
+method public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.SuggestAsync(System.String textBeforeCaret) : System.Threading.Tasks.Task<System.String?>
 property protected OmniEurope.Blazor.Components.OmniInputBase<TValue>.AriaInvalid : System.String? {get(protected)}
 property protected OmniEurope.Blazor.Components.OmniValidatorBase<TValue>.CurrentEditContext : Microsoft.AspNetCore.Components.Forms.EditContext? {get(protected);set(protected)}
 property protected OmniEurope.Blazor.Components.OmniValidatorBase<TValue>.CurrentError : System.String? {get(protected)}
@@ -3387,6 +3389,7 @@ property public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.Con
 property public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.InlineElements : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorInlineElement> {get(public)}
 property public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.SanitizerPolicy : OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy? {get(public)}
 property public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.Shortcuts : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorShortcut> {get(public)}
+property public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.SuggestsText : System.Boolean {get(public)}
 property public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.TableReaders : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorTableReader> {get(public)}
 property public virtual OmniEurope.Blazor.Components.OmniHtmlEditorExtension.TracksSelection : System.Boolean {get(public)}
 type public Microsoft.Extensions.DependencyInjection.OmniEuropeBlazorServiceCollectionExtensions [static-class, static]
