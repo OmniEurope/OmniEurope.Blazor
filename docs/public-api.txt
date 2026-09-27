@@ -573,6 +573,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.At : OmniEurope.Bl
 field public static OmniEurope.Blazor.Components.OmniIconName.Bed : OmniEurope.Blazor.Components.OmniIconName const = 18
 field public static OmniEurope.Blazor.Components.OmniIconName.Bell : OmniEurope.Blazor.Components.OmniIconName const = 19
 field public static OmniEurope.Blazor.Components.OmniIconName.BellSlash : OmniEurope.Blazor.Components.OmniIconName const = 144
+field public static OmniEurope.Blazor.Components.OmniIconName.Bookmark : OmniEurope.Blazor.Components.OmniIconName const = 199
 field public static OmniEurope.Blazor.Components.OmniIconName.Books : OmniEurope.Blazor.Components.OmniIconName const = 145
 field public static OmniEurope.Blazor.Components.OmniIconName.BracketsCurly : OmniEurope.Blazor.Components.OmniIconName const = 20
 field public static OmniEurope.Blazor.Components.OmniIconName.Brain : OmniEurope.Blazor.Components.OmniIconName const = 114
@@ -586,8 +587,10 @@ field public static OmniEurope.Blazor.Components.OmniIconName.CalendarCheck : Om
 field public static OmniEurope.Blazor.Components.OmniIconName.Cards : OmniEurope.Blazor.Components.OmniIconName const = 22
 field public static OmniEurope.Blazor.Components.OmniIconName.CellTower : OmniEurope.Blazor.Components.OmniIconName const = 115
 field public static OmniEurope.Blazor.Components.OmniIconName.ChartBarHorizontal : OmniEurope.Blazor.Components.OmniIconName const = 23
+field public static OmniEurope.Blazor.Components.OmniIconName.ChartDonut : OmniEurope.Blazor.Components.OmniIconName const = 197
 field public static OmniEurope.Blazor.Components.OmniIconName.ChartLine : OmniEurope.Blazor.Components.OmniIconName const = 129
 field public static OmniEurope.Blazor.Components.OmniIconName.ChartLineUp : OmniEurope.Blazor.Components.OmniIconName const = 107
+field public static OmniEurope.Blazor.Components.OmniIconName.ChartPie : OmniEurope.Blazor.Components.OmniIconName const = 196
 field public static OmniEurope.Blazor.Components.OmniIconName.Chat : OmniEurope.Blazor.Components.OmniIconName const = 24
 field public static OmniEurope.Blazor.Components.OmniIconName.Check : OmniEurope.Blazor.Components.OmniIconName const = 0
 field public static OmniEurope.Blazor.Components.OmniIconName.CheckCircle : OmniEurope.Blazor.Components.OmniIconName const = 25
@@ -595,6 +598,8 @@ field public static OmniEurope.Blazor.Components.OmniIconName.Checks : OmniEurop
 field public static OmniEurope.Blazor.Components.OmniIconName.ChevronDown : OmniEurope.Blazor.Components.OmniIconName const = 4
 field public static OmniEurope.Blazor.Components.OmniIconName.ChevronRight : OmniEurope.Blazor.Components.OmniIconName const = 130
 field public static OmniEurope.Blazor.Components.OmniIconName.ChevronUp : OmniEurope.Blazor.Components.OmniIconName const = 26
+field public static OmniEurope.Blazor.Components.OmniIconName.Circle : OmniEurope.Blazor.Components.OmniIconName const = 198
+field public static OmniEurope.Blazor.Components.OmniIconName.Clipboard : OmniEurope.Blazor.Components.OmniIconName const = 189
 field public static OmniEurope.Blazor.Components.OmniIconName.Close : OmniEurope.Blazor.Components.OmniIconName const = 1
 field public static OmniEurope.Blazor.Components.OmniIconName.Cloud : OmniEurope.Blazor.Components.OmniIconName const = 116
 field public static OmniEurope.Blazor.Components.OmniIconName.CloudArrowDown : OmniEurope.Blazor.Components.OmniIconName const = 148
@@ -620,6 +625,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.EyeSlash : OmniEur
 field public static OmniEurope.Blazor.Components.OmniIconName.FileHtml : OmniEurope.Blazor.Components.OmniIconName const = 178
 field public static OmniEurope.Blazor.Components.OmniIconName.FilePlus : OmniEurope.Blazor.Components.OmniIconName const = 181
 field public static OmniEurope.Blazor.Components.OmniIconName.Filter : OmniEurope.Blazor.Components.OmniIconName const = 6
+field public static OmniEurope.Blazor.Components.OmniIconName.Flag : OmniEurope.Blazor.Components.OmniIconName const = 194
 field public static OmniEurope.Blazor.Components.OmniIconName.Flask : OmniEurope.Blazor.Components.OmniIconName const = 36
 field public static OmniEurope.Blazor.Components.OmniIconName.Folder : OmniEurope.Blazor.Components.OmniIconName const = 93
 field public static OmniEurope.Blazor.Components.OmniIconName.FolderOpen : OmniEurope.Blazor.Components.OmniIconName const = 108
@@ -638,13 +644,16 @@ field public static OmniEurope.Blazor.Components.OmniIconName.Graph : OmniEurope
 field public static OmniEurope.Blazor.Components.OmniIconName.HandTap : OmniEurope.Blazor.Components.OmniIconName const = 182
 field public static OmniEurope.Blazor.Components.OmniIconName.HardDrive : OmniEurope.Blazor.Components.OmniIconName const = 154
 field public static OmniEurope.Blazor.Components.OmniIconName.Heartbeat : OmniEurope.Blazor.Components.OmniIconName const = 100
+field public static OmniEurope.Blazor.Components.OmniIconName.Highlighter : OmniEurope.Blazor.Components.OmniIconName const = 195
 field public static OmniEurope.Blazor.Components.OmniIconName.Home : OmniEurope.Blazor.Components.OmniIconName const = 42
 field public static OmniEurope.Blazor.Components.OmniIconName.Hourglass : OmniEurope.Blazor.Components.OmniIconName const = 43
 field public static OmniEurope.Blazor.Components.OmniIconName.Image : OmniEurope.Blazor.Components.OmniIconName const = 44
 field public static OmniEurope.Blazor.Components.OmniIconName.Info : OmniEurope.Blazor.Components.OmniIconName const = 2
 field public static OmniEurope.Blazor.Components.OmniIconName.Key : OmniEurope.Blazor.Components.OmniIconName const = 98
+field public static OmniEurope.Blazor.Components.OmniIconName.Keyboard : OmniEurope.Blazor.Components.OmniIconName const = 193
 field public static OmniEurope.Blazor.Components.OmniIconName.Layers : OmniEurope.Blazor.Components.OmniIconName const = 45
 field public static OmniEurope.Blazor.Components.OmniIconName.Layout : OmniEurope.Blazor.Components.OmniIconName const = 104
+field public static OmniEurope.Blazor.Components.OmniIconName.Lightbulb : OmniEurope.Blazor.Components.OmniIconName const = 192
 field public static OmniEurope.Blazor.Components.OmniIconName.Lightning : OmniEurope.Blazor.Components.OmniIconName const = 155
 field public static OmniEurope.Blazor.Components.OmniIconName.Link : OmniEurope.Blazor.Components.OmniIconName const = 102
 field public static OmniEurope.Blazor.Components.OmniIconName.LinkBreak : OmniEurope.Blazor.Components.OmniIconName const = 119
@@ -688,7 +697,9 @@ field public static OmniEurope.Blazor.Components.OmniIconName.RocketLaunch : Omn
 field public static OmniEurope.Blazor.Components.OmniIconName.Rows : OmniEurope.Blazor.Components.OmniIconName const = 65
 field public static OmniEurope.Blazor.Components.OmniIconName.Ruler : OmniEurope.Blazor.Components.OmniIconName const = 66
 field public static OmniEurope.Blazor.Components.OmniIconName.Save : OmniEurope.Blazor.Components.OmniIconName const = 67
+field public static OmniEurope.Blazor.Components.OmniIconName.Scissors : OmniEurope.Blazor.Components.OmniIconName const = 188
 field public static OmniEurope.Blazor.Components.OmniIconName.Search : OmniEurope.Blazor.Components.OmniIconName const = 68
+field public static OmniEurope.Blazor.Components.OmniIconName.SelectionSlash : OmniEurope.Blazor.Components.OmniIconName const = 201
 field public static OmniEurope.Blazor.Components.OmniIconName.Settings : OmniEurope.Blazor.Components.OmniIconName const = 69
 field public static OmniEurope.Blazor.Components.OmniIconName.ShieldCheck : OmniEurope.Blazor.Components.OmniIconName const = 70
 field public static OmniEurope.Blazor.Components.OmniIconName.ShieldSlash : OmniEurope.Blazor.Components.OmniIconName const = 135
@@ -697,6 +708,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.Sidebar : OmniEuro
 field public static OmniEurope.Blazor.Components.OmniIconName.SignIn : OmniEurope.Blazor.Components.OmniIconName const = 158
 field public static OmniEurope.Blazor.Components.OmniIconName.SignOut : OmniEurope.Blazor.Components.OmniIconName const = 125
 field public static OmniEurope.Blazor.Components.OmniIconName.Sliders : OmniEurope.Blazor.Components.OmniIconName const = 72
+field public static OmniEurope.Blazor.Components.OmniIconName.Smiley : OmniEurope.Blazor.Components.OmniIconName const = 202
 field public static OmniEurope.Blazor.Components.OmniIconName.SortAscending : OmniEurope.Blazor.Components.OmniIconName const = 7
 field public static OmniEurope.Blazor.Components.OmniIconName.SortDescending : OmniEurope.Blazor.Components.OmniIconName const = 8
 field public static OmniEurope.Blazor.Components.OmniIconName.Sparkle : OmniEurope.Blazor.Components.OmniIconName const = 73
@@ -727,6 +739,8 @@ field public static OmniEurope.Blazor.Components.OmniIconName.TextUnderline : Om
 field public static OmniEurope.Blazor.Components.OmniIconName.ThemeDark : OmniEurope.Blazor.Components.OmniIconName const = 9
 field public static OmniEurope.Blazor.Components.OmniIconName.ThemeLight : OmniEurope.Blazor.Components.OmniIconName const = 10
 field public static OmniEurope.Blazor.Components.OmniIconName.ThemeSystem : OmniEurope.Blazor.Components.OmniIconName const = 80
+field public static OmniEurope.Blazor.Components.OmniIconName.ThumbsDown : OmniEurope.Blazor.Components.OmniIconName const = 191
+field public static OmniEurope.Blazor.Components.OmniIconName.ThumbsUp : OmniEurope.Blazor.Components.OmniIconName const = 190
 field public static OmniEurope.Blazor.Components.OmniIconName.Timer : OmniEurope.Blazor.Components.OmniIconName const = 81
 field public static OmniEurope.Blazor.Components.OmniIconName.ToggleLeft : OmniEurope.Blazor.Components.OmniIconName const = 160
 field public static OmniEurope.Blazor.Components.OmniIconName.ToggleRight : OmniEurope.Blazor.Components.OmniIconName const = 184
@@ -735,6 +749,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.Upgrade : OmniEuro
 field public static OmniEurope.Blazor.Components.OmniIconName.Upload : OmniEurope.Blazor.Components.OmniIconName const = 83
 field public static OmniEurope.Blazor.Components.OmniIconName.User : OmniEurope.Blazor.Components.OmniIconName const = 84
 field public static OmniEurope.Blazor.Components.OmniIconName.UserFocus : OmniEurope.Blazor.Components.OmniIconName const = 85
+field public static OmniEurope.Blazor.Components.OmniIconName.UserMinus : OmniEurope.Blazor.Components.OmniIconName const = 200
 field public static OmniEurope.Blazor.Components.OmniIconName.UserPlus : OmniEurope.Blazor.Components.OmniIconName const = 103
 field public static OmniEurope.Blazor.Components.OmniIconName.Users : OmniEurope.Blazor.Components.OmniIconName const = 90
 field public static OmniEurope.Blazor.Components.OmniIconName.Warning : OmniEurope.Blazor.Components.OmniIconName const = 3
@@ -2752,6 +2767,7 @@ property public OmniEurope.Blazor.Components.OmniPageHeader.BackHref : System.St
 property public OmniEurope.Blazor.Components.OmniPageHeader.BackLabel : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.Badges : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.Filters : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPageHeader.Framed : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.Level : OmniEurope.Blazor.Components.OmniHeadingLevel {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPageHeader.ShowBack : System.Boolean {get(public);set(public)} [Parameter]

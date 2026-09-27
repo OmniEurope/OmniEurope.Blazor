@@ -189,5 +189,20 @@ public enum OmniIconName
     ToggleRight,
     Webhook,
     WifiSlash,
-    WindowsLogo
+    WindowsLogo,
+    Scissors,
+    Clipboard,
+    ThumbsUp,
+    ThumbsDown,
+    Lightbulb,
+    Keyboard,
+    Flag,
+    Highlighter,
+    ChartPie,
+    ChartDonut,
+    Circle,
+    Bookmark,
+    UserMinus,
+    SelectionSlash,
+    Smiley
 }
