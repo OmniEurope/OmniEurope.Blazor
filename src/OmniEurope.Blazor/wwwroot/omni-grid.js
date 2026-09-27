@@ -48,6 +48,15 @@ export function attach(viewport, reference) {
 
     let live = true;
     let frame = 0;
+    // Whether the last scroll reached the end. Rows are placed on estimated heights until they are
+    // measured: a jump to the end (the scrollbar dragged down, End) renders the last rows, which then
+    // prove taller than estimated, the content grows and the end moves away while the scroll stays
+    // put, leaving the last row out of sight. applyLayout keeps such a viewport at its end.
+    const state = { atEnd: false };
+    const track = () => {
+        state.atEnd = viewport.scrollTop > 0
+            && viewport.scrollTop + viewport.clientHeight >= viewport.scrollHeight - 2;
+    };
     const notify = () => {
         frame = 0;
         // Removed from the page: .NET is disposing the grid and cannot name this element any more
@@ -65,17 +74,20 @@ export function attach(viewport, reference) {
         }
     };
 
+    viewport.addEventListener('scroll', track, { passive: true });
     viewport.addEventListener('scroll', schedule, { passive: true });
     const resizeObserver = typeof ResizeObserver === 'function' ? new ResizeObserver(schedule) : null;
     resizeObserver?.observe(viewport);
 
     attachments.set(viewport, {
+        state,
         dispose: () => {
             live = false;
             if (frame !== 0) {
                 window.cancelAnimationFrame(frame);
             }
 
+            viewport.removeEventListener('scroll', track);
             viewport.removeEventListener('scroll', schedule);
             resizeObserver?.disconnect();
         }
@@ -137,6 +149,15 @@ export function applyLayout(viewport, topSpacer, bottomSpacer, height, minHeight
         viewport.style.setProperty('--omni-grid-viewport-min', minHeight.trim());
     } else {
         viewport.style.removeProperty('--omni-grid-viewport-min');
+    }
+
+    // A viewport scrolled to its end stays there while the rows it reached are measured: the scroll
+    // this sets notifies .NET again, which renders what the new end shows, until nothing grows.
+    if (attachments.get(viewport)?.state.atEnd) {
+        const end = viewport.scrollHeight - viewport.clientHeight;
+        if (end - viewport.scrollTop > 1) {
+            viewport.scrollTop = end;
+        }
     }
 }
 
