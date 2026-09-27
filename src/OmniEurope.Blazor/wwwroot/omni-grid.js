@@ -643,17 +643,18 @@ function measureRenderedColumn(viewport, selector, col) {
         return 0;
     }
 
-    // First pass, constraints still in place: a cell clipped by overflow reports the width its
-    // content wanted through scrollWidth, which is the only reading that sees through an inner
-    // flex box whose items were told they may shrink. It omits the trailing padding, added back
-    // from the computed style.
+    // First pass, constraints still in place, on the clipped cells only: their scrollWidth is the
+    // width their content wanted, the only reading that sees through an inner flex box whose items
+    // were told they may shrink. It already counts the padding. A cell that is not clipped reports
+    // the current column width there, which would forbid the fit from ever narrowing the column,
+    // so it is left to the second pass.
     let widest = 0;
-    if (cells.length > 0) {
-        const cellStyle = getComputedStyle(cells[0]);
-        const cellPadding = parseFloat(cellStyle.paddingInlineStart || '0')
-            + parseFloat(cellStyle.paddingInlineEnd || '0');
-        for (const cell of cells) {
-            widest = Math.max(widest, cell.scrollWidth + cellPadding);
+    for (const cell of cells) {
+        if (cell.scrollWidth > cell.clientWidth) {
+            const style = getComputedStyle(cell);
+            const borders = parseFloat(style.borderInlineStartWidth || '0')
+                + parseFloat(style.borderInlineEndWidth || '0');
+            widest = Math.max(widest, cell.scrollWidth + borders);
         }
     }
 
@@ -661,8 +662,11 @@ function measureRenderedColumn(viewport, selector, col) {
     const colStyle = col?.getAttribute('style') ?? null;
     const cellStyles = cells.map(cell => cell.getAttribute('style'));
 
+    // The table keeps a minimum width made of the widths already applied, this column's included:
+    // left in place, it hands the column its old width back and a fit could never narrow it.
     table.style.tableLayout = 'auto';
     table.style.width = 'max-content';
+    table.style.minWidth = '0';
     col?.style.setProperty('--omni-col-width', 'auto');
     col?.style.setProperty('--omni-col-min', '0');
     for (const cell of cells) {
@@ -676,8 +680,9 @@ function measureRenderedColumn(viewport, selector, col) {
         widest = Math.max(widest, cell.getBoundingClientRect().width);
     }
 
-    // The header is measured through its title alone: counting the sort button and the filter
-    // icon would make a short column grow on a gesture meant to shrink it.
+    // The header is measured through the text of its title alone: counting the sort button and the
+    // filter icon would make a short column grow on a gesture meant to shrink it. The text, not the
+    // title's box, which stretches with the column and would make every new fit a little wider.
     const title = viewport.querySelector(`th${selector} .omni-data-grid__title`);
     if (title) {
         const header = title.closest('th');
@@ -685,7 +690,9 @@ function measureRenderedColumn(viewport, selector, col) {
             ? parseFloat(getComputedStyle(header).paddingInlineStart || '0')
                 + parseFloat(getComputedStyle(header).paddingInlineEnd || '0')
             : 0;
-        widest = Math.max(widest, title.getBoundingClientRect().width + padding);
+        const text = document.createRange();
+        text.selectNodeContents(title);
+        widest = Math.max(widest, text.getBoundingClientRect().width + padding);
     }
 
     cells.forEach((cell, index) => restoreStyle(cell, cellStyles[index]));
@@ -723,6 +730,9 @@ function measureTexts(viewport, selector, texts) {
     probeTable.style.pointerEvents = 'none';
     probeTable.style.tableLayout = 'auto';
     probeTable.style.width = 'max-content';
+    // Same class, so same minimum width as the grid's table: left in place, it stretches the probe
+    // cell to the widths already applied instead of the text.
+    probeTable.style.minWidth = '0';
     const row = probeTable.createTBody().insertRow();
     const cell = template ? template.cloneNode(false) : document.createElement('td');
     cell.removeAttribute('id');
