@@ -14,6 +14,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Added
 
+- `OmniIconName` : vingt-neuf icônes Phosphor `regular` 2.1.1 pour un lecteur audio (une application cliente) : `SkipBack`, `SkipForward`, `Shuffle`, `Repeat`, `RepeatOnce`, `SpeakerHigh`, `SpeakerLow`, `SpeakerNone`, `SpeakerX`, `Queue`, `Playlist`, `ListPlus`, `MusicNote`, `Disc`, `Waveform`, `DotsSixVertical`, `CornersIn`, `PlayCircle`, `PauseCircle`, `XCircle`, `ChartBar`, `BookOpen`, `ArrowsDownUp`, `FolderPlus`, `Television`, `SealCheck`, `CheckSquare`, `ArrowBendUpRight`, `Stethoscope`. Valeurs ajoutées en fin d'énumération : les valeurs existantes ne changent pas.
 - `OmniHeader.BrandHref` : avec une adresse, le logo et le nom de la marque forment un seul lien (retour à l'accueil) ; sans elle, la marque reste un libellé. `OmniHeader.BrandLogo` : le logo en image, à la place de `BrandMark` quand les deux sont posés.
 - `OmniSidebarState.Expand` : une barre latérale dont `OpenChanged` est lié le transmet à la navigation qu'elle contient.
 - `OmniWindowControls` : boutons de légende d'une fenêtre de bureau sans bordure (réduire dans la zone de notification, réduire, agrandir ou restaurer, fermer), carrés, à pleine hauteur de l'`OmniHeader`, collés, fermer dans le coin et rouge au survol ; un bouton n'est dessiné que si son rappel est posé ; `Actions` accueille d'autres boutons carrés (bascule de thème) avant eux.
