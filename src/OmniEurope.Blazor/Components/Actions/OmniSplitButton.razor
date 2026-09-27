@@ -9,6 +9,7 @@
             class="@(Busy ? "omni-split-button__main omni-busy" : "omni-split-button__main")"
             disabled="@Disabled"
             aria-busy="@(Busy ? "true" : null)"
+            aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? null : AriaLabel)"
             @onclick="InvokeMainAsync">@if (Icon is { } icon) { <OmniIcon Name="icon" Size="IconSize" /> }@Text</button>
     <button type="button"
             class="@(Busy ? "omni-split-button__toggle omni-busy" : "omni-split-button__toggle")"

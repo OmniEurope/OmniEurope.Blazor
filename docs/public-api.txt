@@ -2992,6 +2992,7 @@ property public OmniEurope.Blazor.Components.OmniSlider.Minimum : System.Double 
 property public OmniEurope.Blazor.Components.OmniSlider.ShowValue : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSlider.Step : System.Double {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSlider.Vertical : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSplitButton.AriaLabel : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSplitButton.Busy : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSplitButton.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSplitButton.Disabled : System.Boolean {get(public);set(public)} [Parameter]
