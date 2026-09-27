@@ -17,7 +17,8 @@
            aria-valuenow="@Format(CurrentValue)"
            aria-valuetext="@ValueText"
            aria-describedby="@AriaDescribedBy"
-           @oninput="HandleInput" />
+           @oninput="HandleInput"
+           @onchange="ChangeCallback" />
     @if (ShowValue)
     {
         <output for="@Id" class="omni-slider__value">@ValueText</output>
