@@ -3236,9 +3236,7 @@ span.omni-unified-diff__toggle { cursor: default; }
 .omni-button__content { align-items: center; line-height: 1.2; }
 .omni-icon { vertical-align: middle; flex-shrink: 0; }
 
-.omni-data-grid--preparing { position: relative; }
-.omni-data-grid__preparation { position: absolute; inset: 0; z-index: 4; display: grid; place-items: center; background: var(--omni-color-surface); }
-.omni-data-grid--preparing .omni-data-grid__viewport { visibility: hidden; }
+.omni-data-grid--preparing tbody > tr:not(.omni-data-grid__preparation, .omni-data-grid__spacer) { visibility: hidden; }
 .omni-rating { display: inline-flex; align-items: center; gap: 0; white-space: nowrap; color: var(--omni-color-warning); }
 /* A star is a button around a fixed glyph: its box follows the density like a small button
    (--omni-button-size of .omni-button--small, the control height less 0.5rem, 1.75rem when comfortable). */

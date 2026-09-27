@@ -630,9 +630,9 @@ public partial class OmniDataGrid<TItem>
     private int ColumnSpan => _columnSpan;
     private bool _renderReady;
     private bool Preparing => LoadingTemplate is not null && !_renderReady;
-    // The veil only covers the wait for the images of rows already there. While the rows themselves load,
-    // the headers stay and the LoadingTemplate sits in the loading row under them: a veil then hid the
-    // whole grid, headers included, against the shared acceptance rule (RET-002 §3.8, a client application).
+    // Waiting for the images of rows already there. The headers always stay and the LoadingTemplate sits in
+    // a row under them, while the rows load and while their images do: a veil over the whole grid hid the
+    // headers, against the shared acceptance rule (RET-002 §3.8, a client application).
     private bool Veiled => Preparing && !Loading;
     private bool Loading => IsLoading || (!ExternalData && _remote.Loading) || (Virtualized && _virtualSource.Loading && _virtualSource.CachedItemCount == 0);
     private Exception? Failure => ExternalData ? null : Virtualized ? _virtualSource.Error : _remote.Error;
