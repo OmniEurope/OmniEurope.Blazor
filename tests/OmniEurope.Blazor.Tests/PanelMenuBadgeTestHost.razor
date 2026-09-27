@@ -1,0 +1,23 @@
+@namespace OmniEurope.Blazor.Tests
+@using OmniEurope.Blazor.Components
+
+@* A badge on each kind of entry: a group with an address, a link, an action and a plain label. *@
+<OmniPanelMenu DisplayStyle="@DisplayStyle">
+    <OmniPanelMenuItem Text="Suivi" Href="/tracking" Id="badge-group">
+        <Badge><span class="test-badge">3</span></Badge>
+        <ChildContent>
+            <OmniPanelMenuItem Text="Détail" Href="/tracking/detail" Id="badge-link">
+                <Badge><span class="test-badge">12</span></Badge>
+            </OmniPanelMenuItem>
+        </ChildContent>
+    </OmniPanelMenuItem>
+    <OmniPanelMenuItem Text="Action" OnClick="@(() => { })" Id="badge-action">
+        <Badge><span class="test-badge">1</span></Badge>
+    </OmniPanelMenuItem>
+    <OmniPanelMenuItem Text="Libellé" Id="plain-label" />
+</OmniPanelMenu>
+
+@code {
+    [Parameter]
+    public OmniPanelMenuDisplayStyle DisplayStyle { get; set; } = OmniPanelMenuDisplayStyle.IconAndText;
+}

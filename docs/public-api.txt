@@ -2940,6 +2940,7 @@ property public OmniEurope.Blazor.Components.OmniPanelMenu.ChildContent : Micros
 property public OmniEurope.Blazor.Components.OmniPanelMenu.Density : OmniEurope.Blazor.Components.OmniDensity? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPanelMenu.DisplayStyle : OmniEurope.Blazor.Components.OmniPanelMenuDisplayStyle {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPanelMenu.Label : System.String {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPanelMenuItem.Badge : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPanelMenuItem.CanNavigate : System.Func<System.String,System.Threading.Tasks.Task<System.Boolean>>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPanelMenuItem.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPanelMenuItem.Current : System.Boolean {get(public);set(public)} [Parameter]
