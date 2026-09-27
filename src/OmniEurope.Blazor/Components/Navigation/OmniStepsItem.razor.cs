@@ -2,6 +2,8 @@ namespace OmniEurope.Blazor.Components;
 
 public partial class OmniStepsItem
 {
+    private readonly string _generatedId = $"omni-step-{Guid.NewGuid():N}";
+
     [CascadingParameter]
     private OmniStepsContext? Context { get; set; }
 
@@ -33,8 +35,8 @@ public partial class OmniStepsItem
     public string? PanelId { get; set; }
 
     private bool Selected => Context?.Value == Index;
-    private string ButtonId => $"{Id ?? $"omni-step-{Index}"}-button";
-    private string OwnPanelId => $"{Id ?? $"omni-step-{Index}"}-panel";
+    private string ButtonId => $"{Id ?? _generatedId}-button";
+    private string OwnPanelId => $"{Id ?? _generatedId}-panel";
     private string ControlledPanelId => PanelId ?? OwnPanelId;
     private Task SelectAsync() => Disabled || Context is null ? Task.CompletedTask : Context.SelectAsync(Index);
 }

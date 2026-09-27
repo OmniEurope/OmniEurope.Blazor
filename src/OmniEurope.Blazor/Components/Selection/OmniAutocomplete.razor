@@ -41,7 +41,7 @@
                 <li role="option" aria-selected="@(IsSelected(option.Value) ? "true" : "false")">
                     <button type="button"
                             class="omni-autocomplete__option"
-                            disabled="@option.Disabled"
+                            disabled="@(option.Disabled || Disabled)"
                             @onclick="() => Select(option)">
                         @if (OptionIcon is not null)
                         {

@@ -2,8 +2,10 @@
 @inherits OmniComponentBase
 @implements IDisposable
 
+@* The coordinator lives as long as the host; the service can be swapped through OverlayService,
+   so its cascade is not fixed and reaches the children already on the page. *@
 <CascadingValue Value="_coordinator" IsFixed="true">
-    <CascadingValue Value="Service" IsFixed="true">
+    <CascadingValue Value="Service">
         @ChildContent
     </CascadingValue>
 </CascadingValue>

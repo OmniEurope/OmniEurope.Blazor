@@ -217,6 +217,9 @@ public partial class OmniMultiSelect<TValue>
 
     public async ValueTask DisposeAsync()
     {
+        // Blazor calls only DisposeAsync on a component that has both: the form subscription of
+        // InputBase is released through its own Dispose.
+        ((IDisposable)this).Dispose();
         if (_dismissal is not null)
         {
             await _dismissal.DisposeAsync();

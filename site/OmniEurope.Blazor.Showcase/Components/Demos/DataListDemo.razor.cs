@@ -32,13 +32,19 @@ public partial class DataListDemo
         new("D-2406", "Piet de Vries", "Pays-Bas", 9100)
     ];
 
-    private int PageIndex { get; set; }
+    private int PageNumber { get; set; } = 1;
 
     private int PageSize { get; set; } = 2;
 
     private int PageCount => (int)Math.Ceiling(Rows.Count / (double)PageSize);
 
-    private IReadOnlyList<GridRow> Page => [.. Rows.Skip(PageIndex * PageSize).Take(PageSize)];
+    private IReadOnlyList<GridRow> Page => [.. Rows.Skip((PageNumber - 1) * PageSize).Take(PageSize)];
+
+    private void ChangePageSize(int size)
+    {
+        PageSize = size;
+        PageNumber = Math.Clamp(PageNumber, 1, PageCount);
+    }
 
     private static readonly IReadOnlyList<OmniLogLine> LogLines =
     [

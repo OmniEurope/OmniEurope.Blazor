@@ -4,6 +4,8 @@ namespace OmniEurope.Blazor.Components;
 
 public partial class OmniTooltip
 {
+    private readonly string _generatedId = $"omni-tooltip-{Guid.NewGuid():N}";
+
     [Parameter, EditorRequired]
     public string Text { get; set; } = string.Empty;
 
@@ -104,7 +106,7 @@ public partial class OmniTooltip
     [Inject]
     private IServiceProvider Services { get; set; } = default!;
 
-    private string TooltipId => $"{Id ?? "omni-tooltip"}-content";
+    private string TooltipId => $"{Id ?? _generatedId}-content";
 
     /// <summary>
     /// Read by omni-tooltip.js, which places the box: the choice has to reach the one script that

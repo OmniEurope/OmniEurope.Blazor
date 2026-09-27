@@ -22,7 +22,19 @@ internal sealed class OmniClipboardCopy(IJSRuntime javaScript, Func<Task> redraw
         bool copied;
         try
         {
-            _module ??= await javaScript.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
+            if (_module is null)
+            {
+                var module = await javaScript.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
+                if (_disposed)
+                {
+                    // The owner left the page during the import: copy nothing, release the module.
+                    await ReleaseAsync(module);
+                    return false;
+                }
+
+                _module = module;
+            }
+
             copied = await _module.InvokeAsync<bool>("copyText", text);
         }
         catch (JSException)
@@ -65,13 +77,18 @@ internal sealed class OmniClipboardCopy(IJSRuntime javaScript, Func<Task> redraw
         _feedback?.Dispose();
         if (_module is not null)
         {
-            try
-            {
-                await _module.DisposeAsync();
-            }
-            catch (JSDisconnectedException)
-            {
-            }
+            await ReleaseAsync(_module);
+        }
+    }
+
+    private static async Task ReleaseAsync(IJSObjectReference module)
+    {
+        try
+        {
+            await module.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
         }
     }
 }

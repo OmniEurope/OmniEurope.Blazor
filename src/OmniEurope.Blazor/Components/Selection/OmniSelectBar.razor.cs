@@ -50,6 +50,9 @@ public partial class OmniSelectBar<TValue>
 
     public async ValueTask DisposeAsync()
     {
+        // Blazor calls only DisposeAsync on a component that has both: the form subscription of
+        // InputBase is released through its own Dispose.
+        ((IDisposable)this).Dispose();
         if (_module is not null)
         {
             try

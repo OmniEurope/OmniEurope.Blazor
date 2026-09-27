@@ -20,7 +20,7 @@
             </OmniAlert>
         }
 
-        <OmniFormField For="vform-name" Required="true" Description="@Text["VFormNameHelp"]">
+        <OmniFormField For="vform-name" Required="true" Description="@Text["VFormNameHelp"]" Error="@ErrorOf(nameof(Model.Name))">
             <Label>@Text["VFormName"]</Label>
             <ChildContent>
                 <OmniTextBox Id="vform-name" @bind-Value="Model.Name" />

@@ -386,6 +386,26 @@ public sealed partial class ConventionGuardTests
         Assert.Contains("restoreFocus", source, StringComparison.Ordinal);
         Assert.Contains("focusableElements", focusModule, StringComparison.Ordinal);
         Assert.Contains("event.key !== 'Tab'", focusModule, StringComparison.Ordinal);
+        // The trap only counts what can take the focus: no hidden input, nothing under a hidden or
+        // inert ancestor, nothing left out of the layout.
+        Assert.Contains(":not([type=\"hidden\"])", focusModule, StringComparison.Ordinal);
+        Assert.Contains("!element.closest('[hidden], [inert]')", focusModule, StringComparison.Ordinal);
+        Assert.Contains("element.getClientRects().length > 0", focusModule, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void HtmlEditorCutFallback_RemovesTheSelectionOnlyOnceTheClipboardHoldsIt()
+    {
+        var editor = Read("src", "OmniEurope.Blazor", "wwwroot", "omni-html-editor.js").ReplaceLineEndings("\n");
+        var fallback = editor[editor.IndexOf("async function copySelection", StringComparison.Ordinal)..];
+        fallback = fallback[..fallback.IndexOf("\n}\n", StringComparison.Ordinal)];
+
+        Assert.Contains("await apply(surface, range, action, argument ?? '');", editor, StringComparison.Ordinal);
+        Assert.Contains("return copySelection(range, action === 'cut');", editor, StringComparison.Ordinal);
+        var written = fallback.IndexOf("await navigator.clipboard.writeText(range.toString());", StringComparison.Ordinal);
+        var refused = fallback.IndexOf("catch {", StringComparison.Ordinal);
+        var deleted = fallback.IndexOf("range.deleteContents();", StringComparison.Ordinal);
+        Assert.True(written >= 0 && refused > written && deleted > refused, fallback);
     }
 
     [Fact]

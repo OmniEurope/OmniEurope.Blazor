@@ -1,7 +1,6 @@
 [CmdletBinding()]
 param(
     [int]$Port = 5190,
-    [int]$BrowserPort = 9224,
     [string]$WebRoot = (Join-Path $PSScriptRoot '..\artifacts\wasm-smoke\wwwroot'),
     [string]$BrowserLanguage = 'fr'
 )
@@ -96,14 +95,15 @@ try {
     $browserArguments = @(
         '--headless=new', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox',
         "--lang=$BrowserLanguage", "--accept-lang=$BrowserLanguage",
-        "--remote-debugging-port=$BrowserPort", "--user-data-dir=$browserProfile", $baseUri
+        '--remote-debugging-port=0', "--user-data-dir=$browserProfile", $baseUri
     )
     $browserStart = @{ FilePath = $browserPath; ArgumentList = $browserArguments; PassThru = $true }
     if ($IsWindows) { $browserStart.WindowStyle = 'Hidden' }
     $browser = Start-Process @browserStart
+    $browserPort = & (Join-Path $PSScriptRoot 'Get-BrowserDebugPort.ps1') -BrowserProfile $browserProfile -Browser $browser
 
     & node (Join-Path $PSScriptRoot 'Test-CdpProbe.mjs') `
-        --endpoint "http://127.0.0.1:$BrowserPort" `
+        --endpoint "http://127.0.0.1:$browserPort" `
         --selector '#wasm-action' `
         --output '#wasm-action' `
         --expected 'Compteur : 1' `

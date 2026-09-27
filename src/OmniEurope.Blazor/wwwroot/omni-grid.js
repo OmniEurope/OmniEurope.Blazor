@@ -1321,7 +1321,9 @@ export function detachWheelScope(viewport) {
     }
 }
 
-/** Wait for the visible initial row images and a completed browser layout. */
+const readyImageTimeout = 2000;
+
+/** Wait for the visible initial row images, at most readyImageTimeout ms, and a completed browser layout. */
 export async function waitForReady(viewport) {
     if (!viewport?.isConnected || !viewport.getClientRects().length) return false;
     const bounds = viewport.getBoundingClientRect();
@@ -1329,10 +1331,14 @@ export async function waitForReady(viewport) {
         const rect = image.getBoundingClientRect();
         return rect.bottom > bounds.top && rect.top < bounds.bottom;
     });
-    await Promise.all(visible.map(image => image.complete ? Promise.resolve() : new Promise(resolve => {
+    // An image whose request never ends must not keep the grid hidden: past the timeout it shows as it is.
+    let timer;
+    const images = Promise.all(visible.map(image => image.complete ? Promise.resolve() : new Promise(resolve => {
         image.addEventListener('load', resolve, { once: true });
         image.addEventListener('error', resolve, { once: true });
     })));
+    await Promise.race([images, new Promise(resolve => { timer = setTimeout(resolve, readyImageTimeout); })]);
+    clearTimeout(timer);
     await new Promise(requestAnimationFrame);
     return viewport.isConnected;
 }

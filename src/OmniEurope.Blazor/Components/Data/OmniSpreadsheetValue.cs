@@ -10,7 +10,7 @@ namespace OmniEurope.Blazor.Components;
 /// the sheet, <c>#DIV/0!</c> for a division by zero, <c>#NAME?</c> for an unknown function,
 /// <c>#VALUE!</c> for text where a number is expected, <c>#NUM!</c> for a result too large to hold,
 /// <c>#CIRC!</c> for a formula that depends on itself and <c>#ERROR!</c> for a formula that cannot be
-/// read.
+/// read or that nests too deeply to compute.
 /// </remarks>
 public sealed record OmniSpreadsheetValue
 {
@@ -32,7 +32,7 @@ public sealed record OmniSpreadsheetValue
     /// <summary>A formula that reaches back to its own cell.</summary>
     public const string CircularError = "#CIRC!";
 
-    /// <summary>A formula that cannot be read.</summary>
+    /// <summary>A formula that cannot be read, or that nests too deeply to compute.</summary>
     public const string SyntaxError = "#ERROR!";
 
     private OmniSpreadsheetValue(OmniSpreadsheetValueKind kind, double number, string text)

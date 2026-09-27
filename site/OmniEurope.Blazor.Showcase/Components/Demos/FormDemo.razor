@@ -55,7 +55,10 @@
             </ChildContent>
         </OmniFormField>
 
-        <OmniCheckBox Id="demo-terms" @bind-Value="Model.Accepted" />
+        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
+            <OmniCheckBox Id="demo-terms" @bind-Value="Model.Accepted" />
+            <OmniLabel For="demo-terms">J'accepte les conditions d'utilisation</OmniLabel>
+        </OmniStack>
         <OmniSwitch Id="demo-alerts" @bind-Value="Model.Alerts">Recevoir les alertes</OmniSwitch>
     </OmniStack>
 </EditForm>

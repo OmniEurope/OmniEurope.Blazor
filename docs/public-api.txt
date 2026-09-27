@@ -1079,7 +1079,7 @@ method protected override OmniEurope.Blazor.Components.OmniNullableSwitch.Dispos
 method protected override OmniEurope.Blazor.Components.OmniNullableSwitch.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniNullableSwitch.TryParseValueFromString(System.String? value, out System.Boolean? result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniNumeric<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniNumeric<TValue>.FormatValueAsString(TValue value) : System.String?
+method protected override OmniEurope.Blazor.Components.OmniNumeric<TValue>.FormatValueAsString(TValue? value) : System.String?
 method protected override OmniEurope.Blazor.Components.OmniNumeric<TValue>.OnAfterRender(System.Boolean firstRender) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniNumeric<TValue>.TryParseValueFromString(System.String? value, out TValue result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniPageHeader.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -1473,7 +1473,7 @@ method public OmniEurope.Blazor.Components.OmniStatusMap<TValue>.Add(TValue valu
 method public OmniEurope.Blazor.Components.OmniStatusMap<TValue>.Add(TValue value, OmniEurope.Blazor.Components.OmniStatus status) : OmniEurope.Blazor.Components.OmniStatusMap<TValue>
 method public OmniEurope.Blazor.Components.OmniStatusMap<TValue>.GetEnumerator() : System.Collections.Generic.IEnumerator<System.Collections.Generic.KeyValuePair<TValue,OmniEurope.Blazor.Components.OmniStatus>>
 method public OmniEurope.Blazor.Components.OmniStatusMap<TValue>.Localize(System.String? text) : System.String
-method public OmniEurope.Blazor.Components.OmniStatusMap<TValue>.Resolve(TValue value) : OmniEurope.Blazor.Components.OmniStatus
+method public OmniEurope.Blazor.Components.OmniStatusMap<TValue>.Resolve(TValue? value) : OmniEurope.Blazor.Components.OmniStatus
 method public OmniEurope.Blazor.Components.OmniStatusMap<TValue>.TryGet(TValue value, out OmniEurope.Blazor.Components.OmniStatus status) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniStatusStripItem.<Clone>$() : OmniEurope.Blazor.Components.OmniStatusStripItem
 method public OmniEurope.Blazor.Components.OmniStatusStripItem.Equals(OmniEurope.Blazor.Components.OmniStatusStripItem? other) : System.Boolean
@@ -2872,8 +2872,8 @@ property public OmniEurope.Blazor.Components.OmniRadioButtonListItem<TValue>.Chi
 property public OmniEurope.Blazor.Components.OmniRadioButtonListItem<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniRadioButtonListItem<TValue>.Name : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniRadioButtonListItem<TValue>.Selected : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniRadioButtonListItem<TValue>.SelectedValueChanged : Microsoft.AspNetCore.Components.EventCallback<TValue> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniRadioButtonListItem<TValue>.Value : TValue {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniRadioButtonListItem<TValue>.SelectedValueChanged : Microsoft.AspNetCore.Components.EventCallback<TValue?> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniRadioButtonListItem<TValue>.Value : TValue? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniRating.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniRating.Label : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniRating.Maximum : System.Int32 {get(public);set(public)} [Parameter]
@@ -2949,8 +2949,8 @@ property public OmniEurope.Blazor.Components.OmniSelectBar<TValue>.Options : Sys
 property public OmniEurope.Blazor.Components.OmniSelectBarItem<TValue>.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSelectBarItem<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSelectBarItem<TValue>.Selected : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniSelectBarItem<TValue>.SelectedValueChanged : Microsoft.AspNetCore.Components.EventCallback<TValue> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniSelectBarItem<TValue>.Value : TValue {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSelectBarItem<TValue>.SelectedValueChanged : Microsoft.AspNetCore.Components.EventCallback<TValue?> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSelectBarItem<TValue>.Value : TValue? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSeriesDataLabels.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartPoint> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSeriesDataLabels.Formatter : System.Func<System.Double,System.String>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSettingsSection.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
@@ -3055,7 +3055,7 @@ property public OmniEurope.Blazor.Components.OmniStatusBadge<TValue>.StaleAfter 
 property public OmniEurope.Blazor.Components.OmniStatusBadge<TValue>.StaleText : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStatusBadge<TValue>.TimeProvider : System.TimeProvider {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStatusBadge<TValue>.Timestamp : System.DateTimeOffset? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniStatusBadge<TValue>.Value : TValue {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniStatusBadge<TValue>.Value : TValue? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStatusMap<TValue>.Count : System.Int32 {get(public)}
 property public OmniEurope.Blazor.Components.OmniStatusMap<TValue>.Empty : OmniEurope.Blazor.Components.OmniStatus? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniStatusMap<TValue>.Fallback : OmniEurope.Blazor.Components.OmniStatus? {get(public);init(public)}
@@ -3120,7 +3120,7 @@ property public OmniEurope.Blazor.Components.OmniTemplateForm<TModel>.ChildConte
 property public OmniEurope.Blazor.Components.OmniTemplateForm<TModel>.EditContext : Microsoft.AspNetCore.Components.Forms.EditContext? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTemplateForm<TModel>.FocusOnFirstInvalid : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTemplateForm<TModel>.FormName : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniTemplateForm<TModel>.Model : TModel {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniTemplateForm<TModel>.Model : TModel? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTemplateForm<TModel>.OnInvalidSubmit : Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Forms.EditContext> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTemplateForm<TModel>.OnValidSubmit : Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Forms.EditContext> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniText.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]

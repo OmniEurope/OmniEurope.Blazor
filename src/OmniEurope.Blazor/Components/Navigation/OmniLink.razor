@@ -2,14 +2,15 @@
 @inherits OmniComponentBase
 @using OmniEurope.Blazor.Internal
 
+@* The validated href comes after the attributes, so that none of them can replace it. *@
 <a id="@Id"
    class="@Css("omni-link", ShowsExternalIcon ? "omni-link--external" : null)"
-   href="@SafeHref"
    target="@(NewTab ? "_blank" : null)"
    rel="@(NewTab ? "noopener noreferrer" : null)"
    aria-label="@AriaLabel"
    @onclick="OnClick"
-   @attributes="AdditionalAttributes">
+   @attributes="AdditionalAttributes"
+   href="@SafeHref">
     @ChildContent
     @if (ShowsExternalIcon)
     {

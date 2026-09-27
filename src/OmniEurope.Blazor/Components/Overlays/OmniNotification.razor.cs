@@ -74,6 +74,9 @@ public partial class OmniNotification
     private bool Folded => IsLong && !_expanded;
     private bool ShowDetails => Message.Length > DetailsThreshold && !string.IsNullOrWhiteSpace(DetailsHref);
 
+    // The same policy as OmniOverlayService.Notify applies to the same link given directly.
+    private string? SafeDetailsHref => OmniUriPolicy.EnsureSafe(DetailsHref, nameof(DetailsHref));
+
     /// <summary>
     /// Null when there is nothing to count down. Otherwise the tint plus the classes giving its life,
     /// rounded to the second: an inline style would be dropped by the content policy of a host that

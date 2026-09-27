@@ -39,6 +39,9 @@ const EXEMPT = [
   // Status dots: a mark the size of a letter, not a control; the plan exempts them. The status strip
   // is a row of them (or, in its segment form, a status bar).
   ['.omni-status, .omni-status-strip', 'pastille de statut : repère de la taille d\'une lettre, pas un contrôle'],
+  // A chart legend swatch is the same kind of mark: a 0.75em square in the legend's text, which keeps
+  // the fixed small font (--omni-font-size-sm) outside the density blocks, so it is text by the plan.
+  ['.omni-chart__swatch', 'pastille de légende en em du texte de légende, marque de texte que la densité ne redimensionne pas'],
   // Progress bars: the track is a hairline whose thickness is the drawing, the plan exempts them.
   ['.omni-progress, .omni-loading-bar, [role="progressbar"]', 'barre de progression : épaisseur fixe par dessin'],
   // Separators: a rule of one border width.
@@ -200,6 +203,7 @@ const paths = ['/', '/personnalisation', ...demoPaths];
 
 const exemptSelectors = EXEMPT.map(([selector]) => selector);
 const failures = [];
+const missing = [];
 let measured = 0;
 for (const path of paths) {
   await evaluate(`Blazor.navigateTo(${JSON.stringify(path)})`);
@@ -211,7 +215,10 @@ for (const path of paths) {
   await evaluate("document.getElementById('showcase-theme').setAttribute('data-omni-density', 'comfortable')");
   for (const [key, small] of Object.entries(compact)) {
     const large = spacious[key];
-    if (!large) continue;
+    if (!large) {
+      missing.push({ path, selector: small.selector, element: small.tag });
+      continue;
+    }
     measured++;
     if (Math.abs(large.height - small.height) < 0.5) {
       failures.push({ path, selector: small.selector, element: small.tag, height: small.height });
@@ -220,6 +227,14 @@ for (const path of paths) {
 }
 
 const csp = await evaluate('window.__omniCsp');
+if (measured === 0) {
+  console.error(`Densité : aucune comparaison mesurée sur ${paths.length} pages ; la découverte ne renvoie plus de cible, la sonde ne prouve rien.`);
+  process.exitCode = 1;
+}
+if (missing.length > 0) {
+  const lines = missing.map(entry => `  ${entry.selector} sur ${entry.path} (${entry.element})`);
+  console.error(`Densité : ${missing.length} élément(s) mesuré(s) en compacte absent(s) de la passe aérée, donc non comparé(s) :\n${lines.join('\n')}`);
+}
 socket.close();
 
 if (failures.length > 0) {
@@ -244,5 +259,5 @@ if (consoleErrors.length > 0) {
   process.exitCode = 1;
 }
 if (!process.exitCode) {
-  console.log(`Sonde de densité validée : ${measured} éléments à dimension propre mesurés sur ${paths.length} pages, tous changent de hauteur entre compacte et aérée ; aucune violation CSP, console sans erreur.`);
+  console.log(`Sonde de densité validée : ${measured} éléments à dimension propre mesurés sur ${paths.length} pages, tous changent de hauteur entre compacte et aérée (${missing.length} absent(s) de la passe aérée, non comparé(s)) ; aucune violation CSP, console sans erreur.`);
 }

@@ -58,8 +58,16 @@ const contentTypes = new Map([
 ]);
 
 const server = createServer(async (request, response) => {
+  let pathname;
   try {
-    const pathname = decodeURIComponent(new URL(request.url ?? '/', 'http://127.0.0.1').pathname);
+    pathname = decodeURIComponent(new URL(request.url ?? '/', 'http://127.0.0.1').pathname);
+  } catch {
+    // Malformed percent-encoding: answer once, never decode the same path again.
+    response.writeHead(400).end('Bad request');
+    return;
+  }
+
+  try {
     const relative = pathname === '/' ? 'index.html' : pathname.replace(/^\/+/, '');
     const deploymentPath = `/${relative}`;
     const deploymentHeaders = headersFor(deploymentPath);
@@ -76,9 +84,12 @@ const server = createServer(async (request, response) => {
       'Content-Type': contentTypes.get(extname(file).toLowerCase()) ?? 'application/octet-stream',
       'Content-Length': details.size
     });
-    createReadStream(file).pipe(response);
+    const stream = createReadStream(file);
+    // Headers are already sent, so a read failure can only abort the response.
+    stream.on('error', () => response.destroy());
+    stream.pipe(response);
   } catch {
-    response.writeHead(404, headersFor(decodeURIComponent(new URL(request.url ?? '/', 'http://127.0.0.1').pathname))).end('Not found');
+    response.writeHead(404, headersFor(pathname)).end('Not found');
   }
 });
 

@@ -3,6 +3,7 @@ namespace OmniEurope.Blazor.Components;
 public partial class OmniChart
 {
     private readonly OmniChartContext _context = new();
+    private readonly string _generatedId = $"omni-chart-{Guid.NewGuid():N}";
     private bool _aspectRatioSet;
     [Parameter, EditorRequired] public string Title { get; set; } = string.Empty;
     [Parameter] public string Description { get; set; } = string.Empty;
@@ -33,8 +34,8 @@ public partial class OmniChart
         // A preset may set the ratio without the markup naming it: a value other than the default counts as set.
         _context.SetAspectRatio(_aspectRatioSet || AspectRatio != 1 ? AspectRatio : null);
     }
-    private string TitleId => $"{Id ?? "omni-chart"}-title";
-    private string DescriptionId => $"{Id ?? "omni-chart"}-description";
+    private string TitleId => $"{Id ?? _generatedId}-title";
+    private string DescriptionId => $"{Id ?? _generatedId}-description";
 
     protected override void OnInitialized() => _context.Changed += HandleProjectionChanged;
     private void HandleProjectionChanged() => _ = InvokeAsync(StateHasChanged);

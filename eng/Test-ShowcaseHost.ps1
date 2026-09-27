@@ -1,7 +1,6 @@
 [CmdletBinding()]
 param(
     [int]$Port = 5195,
-    [int]$BrowserPort = 9229,
     [string]$WebRoot = (Join-Path $PSScriptRoot '..\artifacts\showcase-smoke\wwwroot'),
     # Pickers: the date, time and date and time pickers (PLAN-008 T18 a, T19).
     # Density: the T22 control, every sized element changes height between compact and spacious.
@@ -82,15 +81,16 @@ try {
     $browserArguments = @(
         '--headless=new', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox',
         '--lang=fr', '--accept-lang=fr',
-        "--remote-debugging-port=$BrowserPort", "--user-data-dir=$browserProfile", 'about:blank'
+        '--remote-debugging-port=0', "--user-data-dir=$browserProfile", 'about:blank'
     )
     $browserStart = @{ FilePath = $browserPath; ArgumentList = $browserArguments; PassThru = $true }
     if ($IsWindows) { $browserStart.WindowStyle = 'Hidden' }
     $browser = Start-Process @browserStart
+    $browserPort = & (Join-Path $PSScriptRoot 'Get-BrowserDebugPort.ps1') -BrowserProfile $browserProfile -Browser $browser
 
     $failed = @()
     foreach ($name in $Probe) {
-        & node (Join-Path $PSScriptRoot $scripts[$name]) --endpoint "http://127.0.0.1:$BrowserPort" --url "$baseUri/"
+        & node (Join-Path $PSScriptRoot $scripts[$name]) --endpoint "http://127.0.0.1:$browserPort" --url "$baseUri/"
         if ($LASTEXITCODE -ne 0) { $failed += $name }
     }
     if ($failed.Count -gt 0) { throw ($psText.CdpFailed -f ('vitrine (' + ($failed -join ', ') + ')'), 1) }

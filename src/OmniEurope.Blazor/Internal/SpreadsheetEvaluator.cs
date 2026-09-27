@@ -15,7 +15,16 @@ internal sealed class SpreadsheetEvaluator
     private readonly Dictionary<(int Row, int Column), OmniSpreadsheetValue> _values = [];
     private readonly HashSet<(int Row, int Column)> _pending = [];
 
+    /// <summary>
+    /// How deep a computation may nest, counting brackets, signs and arguments within a formula and
+    /// the chain of cells formulas read: far past any sheet written by hand, far below the stack.
+    /// </summary>
+    internal const int MaxDepth = 256;
+
     internal SpreadsheetEvaluator(OmniSpreadsheetData sheet) => _sheet = sheet;
+
+    /// <summary>The current nesting of the computation in progress, kept by <see cref="SpreadsheetFormula"/>.</summary>
+    internal int Depth { get; set; }
 
     internal bool Contains(int row, int column) =>
         row >= 0 && column >= 0 && row < _sheet.RowCount && column < _sheet.ColumnCount;

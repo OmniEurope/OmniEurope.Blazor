@@ -175,4 +175,27 @@ public sealed class WizardTests : OmniBunitContext
             CultureInfo.CurrentUICulture = former;
         }
     }
+
+    [Fact]
+    public async Task Finish_WhoseValidationResolvesAfterGoingBack_DoesNotRaiseOnFinish()
+    {
+        var pending = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var finished = 0;
+        var wizard = Render<OmniWizard>(parameters => parameters
+            .Add(component => component.Value, 1)
+            .Add(component => component.OnFinish, () => finished++)
+            .AddChildContent<OmniWizardStep>(step => step.Add(component => component.Title, "Nom"))
+            .AddChildContent<OmniWizardStep>(step => step
+                .Add(component => component.Title, "Fin")
+                .Add(component => component.Validate, () => pending.Task)));
+
+        var finishing = wizard.Find(".omni-wizard__finish").ClickAsync(new());
+        wizard.Find(".omni-wizard__previous").Click();
+        await wizard.InvokeAsync(() => pending.SetResult(true));
+        await finishing;
+
+        // The answer came for a step the user has left: the wizard stays where the user went.
+        Assert.Equal(0, finished);
+        Assert.Single(wizard.FindAll(".omni-wizard__next"));
+    }
 }

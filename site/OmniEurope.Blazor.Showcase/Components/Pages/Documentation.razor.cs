@@ -18,7 +18,9 @@ public partial class Documentation
         "default-src 'self'; style-src 'self'; script-src 'self' 'wasm-unsafe-eval'";
 
     private const string ThemeSnippet = """
-        :root {
+        /* Load after omnieurope.blazor.css: the stylesheet redeclares its tokens on every theme scope. */
+        :root,
+        [data-omni-theme] {
             --omni-color-accent: #6d28d9;
             --omni-radius: 0.5rem;
         }

@@ -12,10 +12,10 @@
     </OmniDataList>
 
     <OmniPager Label="Pagination des dossiers"
-               Page="PageIndex"
-               PageChanged="@(value => PageIndex = value)"
+               Page="PageNumber"
+               PageChanged="@(value => PageNumber = value)"
                PageSize="PageSize"
-               PageSizeChanged="@(value => PageSize = value)"
+               PageSizeChanged="ChangePageSize"
                PageSizeOptions="Sizes"
                PageCount="PageCount"
                NumericPageCount="5"

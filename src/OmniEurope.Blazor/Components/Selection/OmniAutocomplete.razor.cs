@@ -9,6 +9,8 @@ public partial class OmniAutocomplete<TValue>
     private string _resultsQuery = string.Empty;
     private string _announcement = string.Empty;
     private Exception? _error;
+    private TValue? _shownValue;
+    private bool _hasShownValue;
 
     [Parameter, EditorRequired]
     public Func<string, CancellationToken, Task<IReadOnlyList<OmniOption<TValue>>>>? Search { get; set; }
@@ -72,9 +74,34 @@ public partial class OmniAutocomplete<TValue>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (string.IsNullOrEmpty(_searchText) && CurrentValue is not null)
+
+        // Only a value the parent replaced rewrites the text: what the user types leaves the value as
+        // it is, and a choice made here is already shown with its option's text.
+        if (_hasShownValue && EqualityComparer<TValue>.Default.Equals(CurrentValue, _shownValue))
+        {
+            return;
+        }
+
+        var replaced = _hasShownValue;
+        _shownValue = CurrentValue;
+        _hasShownValue = true;
+        if (CurrentValue is not null)
         {
             _searchText = FormatValue?.Invoke(CurrentValue) ?? CurrentValue.ToString() ?? string.Empty;
+        }
+        else if (replaced)
+        {
+            _searchText = string.Empty;
+        }
+
+        if (replaced)
+        {
+            // The suggestions and any search still on its way were for the former text.
+            _searchGeneration++;
+            _searchCancellation?.Cancel();
+            _results = Array.Empty<OmniOption<TValue>>();
+            _announcement = string.Empty;
+            _error = null;
         }
     }
 
@@ -127,11 +154,13 @@ public partial class OmniAutocomplete<TValue>
 
     private void Select(OmniOption<TValue> option)
     {
-        if (option.Disabled)
+        if (option.Disabled || Disabled)
         {
             return;
         }
 
+        _shownValue = option.Value;
+        _hasShownValue = true;
         CurrentValue = option.Value;
         _searchText = option.Text;
         _results = Array.Empty<OmniOption<TValue>>();
@@ -147,6 +176,9 @@ public partial class OmniAutocomplete<TValue>
 
     public ValueTask DisposeAsync()
     {
+        // Blazor calls only DisposeAsync on a component that has both: the form subscription of
+        // InputBase is released through its own Dispose.
+        ((IDisposable)this).Dispose();
         _searchGeneration++;
         _searchCancellation?.Cancel();
         _searchCancellation?.Dispose();

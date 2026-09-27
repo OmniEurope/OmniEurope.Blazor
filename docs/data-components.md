@@ -317,9 +317,6 @@ sous 40 rem.
   `GridLines`, `Density` et les largeurs de colonnes.
 - Le glisser-déposer d'en-têtes vers le panneau de regroupement : le regroupement se pilote par le
   bouton d'en-tête et par `Groups`.
-- Une fenêtre surgissante de filtre avec choix de l'opérateur : l'édition complète (opérateur, deux
-  conditions) reste dans la ligne de filtre pilotée par `FilterMode`. `ShowHeaderFilterMenu` ajoute
-  seulement, dans l'en-tête, une fenêtre limitée à la valeur.
 - Un rendu de filtre au choix de l'hôte hors des deux emplacements fournis : la rangée de filtres, ou
   le menu d'en-tête (`ShowHeaderFilterMenu`) ; `FilterTemplate` remplace le contrôle, pas son cadre.
 - Le sélecteur de colonnes visibles : `Visible` reste piloté par l'hôte.
@@ -365,7 +362,7 @@ des formules calculées sur la feuille.
   point. Dans une plage, le texte et le vide sont ignorés ; en arithmétique, le vide vaut zéro.
 - **Erreurs.** `#REF!` (référence hors de la feuille), `#DIV/0!`, `#NAME?` (fonction inconnue),
   `#VALUE!` (texte ou plage là où un nombre est attendu), `#NUM!` (résultat non fini), `#CIRC!`
-  (formule qui dépend d'elle-même) et `#ERROR!` (formule illisible). Une erreur se propage aux
+  (formule qui dépend d'elle-même) et `#ERROR!` (formule illisible, ou imbrication de parenthèses, de signes ou de références de cellules au-delà de 256 niveaux). Une erreur se propage aux
   cellules qui la lisent. Chaque cellule est calculée une fois par version de la feuille.
 - **Clavier.** Flèches (Ctrl pour aller au bord), Tab et Maj+Tab le long de la ligne, la feuille
   étant quittée au bord de la ligne ; Entrée ou F2 ouvre la cellule, taper la remplace, Entrée

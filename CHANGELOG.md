@@ -4,6 +4,12 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Non publié]
 
+### Breaking changes
+
+- `OmniNotification.DetailsHref` donné directement au composant passe désormais par la même politique d'URI que `OmniOverlayService.Notify` : un schéma non admis (`javascript:`, `data:`…) lève `InvalidOperationException` au rendu au lieu d'être écrit dans le lien.
+- `OmniTabsItem` et `OmniTreeItem` appliquent enfin la garde CSP de leurs attributs supplémentaires : un attribut `style` ou `on*` lève `InvalidOperationException`, comme sur les autres composants, au lieu d'être rendu.
+- Identifiants générés : sans `Id`, `OmniTooltip`, `OmniChart`, `OmniStepsItem` et `OmniTabsItem` dérivent les identifiants de leurs références ARIA d'un identifiant propre à chaque instance (ou à chaque `OmniTabs`), et `OmniRadioButtonList` sans `Name` ni `Id` prend un nom de groupe propre à l'instance. Les valeurs fixes d'avant (`omni-tooltip-content`, `omni-chart-title`, `omni-step-0-button`, `omni-tab-{clé}-tab`, `omni-radio-{champ}`) ne sont plus produites ; un `Id` ou un `Name` donné est utilisé tel quel.
+
 ### Added
 
 - `OmniDataGrid.AllowColumnAutoFit` (désactivé par défaut) et `OmniDataGridColumn.AutoFit` (`bool?`) : le double clic sur le bord droit d'une colonne, ou Entrée sur sa poignée, lui donne la largeur de son contenu le plus large, comme dans Excel. Sans valeur, la colonne suit la grille ; `true` ou `false` décide pour elle seule. La mesure couvre le titre et toutes les lignes chargées, y compris les lignes virtualisées hors écran (leur texte vient de .NET : valeur, `Format` ou `FormatString`) ; une colonne à `Template` n'est mesurée que sur ses lignes affichées. Le résultat respecte le plancher de la grille et le `MinWidth` de la colonne, est persisté et n'est annoncé qu'une fois. Indépendant d'`AllowColumnResize`, qui ne gouverne plus que le glisser et les flèches. Démontré dans la vitrine (Grille avancée), documenté dans `docs/data-components.md`.
@@ -28,12 +34,35 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 ### Changed
 
 - `OmniDataGrid` : le double clic sur la poignée d'une colonne ne l'ajuste plus à son contenu par défaut. Ce geste était lié implicitement à `AllowColumnResize` ; il faut désormais `AllowColumnAutoFit="true"` sur la grille ou `AutoFit="true"` sur la colonne. Le glisser et les flèches du clavier sont inchangés.
+- Densité : les entrées de menu d'un `OmniSidebar` (et la largeur du rail replié, dont elles gardent la hauteur) et les étoiles d'`OmniRating` suivent désormais la densité, par la marge des éléments (`--omni-item-pad-y`) et la hauteur de contrôle (`--omni-control-height`) ; la densité confortable garde les mesures actuelles (42 px et 1,75 rem).
 
 ### Fixed
 
 - `OmniDropDown` avec `AllowFiltering` : l'`Id` est transmis au champ de l'`OmniAutocomplete` interne, qu'un `<OmniLabel For="…">` peut donc cibler comme la liste simple ; `AriaLabel` et `AriaDescribedBy` y étaient déjà transmis.
 - `OmniDataGrid` : un `Load` lié à un groupe de méthodes (`Load="LoadAsync"`) ne recharge plus la grille à chaque rendu du parent. Le chargeur est comparé par égalité de délégué (même méthode, même cible) au lieu de l'identité de l'instance, que chaque rendu renouvelle ; un chargeur réellement différent recharge toujours.
+- `OmniDataGrid` avec `LoadingTemplate` : une image visible dont la requête ne se termine jamais ne masque plus la grille indéfiniment. L'attente des images est bornée à 2 s côté script et à 5 s côté .NET, annulée par la disposition, et une attente expirée ou en échec affiche la grille telle quelle.
+- `OmniDataGrid` avec `StateKey` : le prérendu ne lève plus d'exception quand le magasin par défaut (`localStorage`) est inaccessible ; l'état est restauré au rendu interactif.
+- `OmniDataGrid` avec `StateKey` : un état enregistré valide mais incomplet (`{}`, parties nulles, filtre ou tri incomplet) ne fait plus échouer la grille au démarrage ; ce qui est valide est restauré, le reste ignoré.
+- `OmniDataGrid.Value` : lié seul (`@bind-Value`), il porte la sélection (présélection cochée, retour du parent respecté) ; `ValueChanged` conserve les lignes sélectionnées des autres pages au lieu de ne renvoyer que celles de la page affichée.
+- `OmniDataGrid` virtualisé : deux `RefreshAsync` qui se chevauchent ne laissent plus le plus ancien écraser le plus récent en finissant après lui.
+- `OmniDataGrid` : un chemin `Property` comme `Customer.Age` dont un maillon est nul donne `null` au lieu de la valeur par défaut du type (`0`), si bien que la cellule reste vide et que le filtre `IsNull` retient la ligne.
+- `OmniDataGrid`, `OmniDataList` et `OmniScheduler` : un nouveau `Load` (ou, pour le planning, une autre date ou vue) pendant un chargement ou après un échec est chargé aussitôt, le chargement précédent étant annulé et sa réponse tardive ignorée ; auparavant il était ignoré jusqu'à un `Retry`. `OmniDataList` compare désormais le chargeur par égalité de délégué, comme la grille, et ne recharge plus à chaque rendu du parent pour un groupe de méthodes.
+- `OmniTreeItem` : une branche ouverte par `Expanded="true"`, au départ ou imposé ensuite par le parent, charge ses enfants par `LoadChildren` au lieu de rester vide jusqu'à une fermeture puis réouverture.
+- `OmniKanban` : si `Items` est réordonné pendant une saisie au clavier ou un glisser, la carte portée est retrouvée par sa clé (`KeyOf`) au lieu de déplacer la carte arrivée à son ancien index ; une carte retirée termine le déplacement.
+- `OmniUnifiedDiff` et `OmniUnifiedDiffParser` : un en-tête de bloc `@@` dont les nombres dépassent un `int` est ignoré comme malformé au lieu de lever `OverflowException`.
+- `OmniLogViewer.Lines` : la documentation décrit le contrat réel, en ajout seul ; une ligne remplacée avant la dernière position déjà vue n'est pas détectée, seule une liste plus courte ou dont cette ligne a changé repart de zéro.
 - `OmniDataGrid` : disposer une grille dont un `Load` est en cours ne bloque plus. La disposition annule le chargement avant d'attendre le rendu qui l'attendait, et un chargement annulé n'est plus attendu même si le chargeur ignore son `CancellationToken` (auparavant, un `Load` jamais terminé figeait la disposition, par exemple au démontage d'un test bUnit).
+- `OmniSpreadsheet` : une formule trop imbriquée (parenthèses, signes, arguments) ou une chaîne de cellules trop longue affiche `#ERROR!` au-delà de 256 niveaux au lieu d'épuiser la pile, ce qui provoquait une `StackOverflowException` irrécupérable capable d'arrêter un processus Server.
+- `OmniDatePicker`, `OmniTimePicker`, `OmniDateTimePicker`, `OmniMultiSelect`, `OmniProfileMenu`, `OmniCodeBlock` et `OmniCodeViewer` : un composant retiré de la page pendant le chargement de son module JavaScript ne branche plus d'écouteurs ni de référence .NET sur le module arrivé en retard, qui est libéré aussitôt.
+- Piège de focus des dialogues : Tab ne vise plus un champ `type="hidden"`, un élément sous un ancêtre `hidden` ou `inert`, ni un élément non affiché, qui bloquaient la navigation au clavier en retentant le même élément à chaque appui.
+- `OmniHtmlEditor` : quand le navigateur refuse sa propre commande Couper, la sélection n'est supprimée qu'une fois le texte écrit dans le presse-papiers ; sans presse-papiers ou sur refus de permission, le texte reste en place au lieu d'être perdu.
+- `OmniWizard` : une validation (`Validate`) qui répond après un retour en arrière, un clic dans la liste des étapes, un changement de `Value` ou une annulation ne fait plus avancer l'assistant ni lever `OnFinish` ; une seconde validation n'est plus lancée tant que la première est en cours.
+- `OmniDataAnnotationsValidator` : les `ValidationAttribute` portés par le type du modèle (par exemple un `CustomValidation` qui compare deux dates) sont évalués et leurs messages rattachés aux membres qu'ils nomment, au lieu d'être ignorés.
+- `OmniComponentsHost` : un `OverlayService` remplacé atteint aussi les enfants déjà affichés, qui gardaient l'ancien service en cascade.
+- `OmniLink` : un `href` glissé dans le dictionnaire `AdditionalAttributes` ne remplace plus le `Href` validé par la politique d'URI.
+- `OmniSelectBar`, `OmniAutocomplete` et `OmniMultiSelect` : retirés d'un formulaire, ils se désabonnent de son `EditContext` ; seul `DisposeAsync` était appelé et l'abonnement d'`InputBase` survivait.
+- `OmniAutocomplete` : une `Value` remplacée par le parent (autre valeur ou `null`) met à jour le texte affiché et abandonne les suggestions en cours au lieu de garder l'ancien libellé.
+- `OmniAutocomplete` avec `Disabled` : les suggestions encore affichées sont désactivées et ne changent plus la valeur.
 
 ## [1.1.0] - 2026-09-26
 

@@ -121,9 +121,9 @@ jobs:
           dotnet --version
           dotnet workload --version
       - name: Restore Hybrid smoke host
-        run: dotnet restore samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --locked-mode
+        run: dotnet restore samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --locked-mode -p:Configuration=Release
       - name: Build Hybrid smoke host
-        run: dotnet build samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --configuration Release
+        run: dotnet build samples/OmniEurope.Blazor.HybridSmoke/OmniEurope.Blazor.HybridSmoke.csproj --configuration Release --no-restore
       - name: Hybrid WebView2 smoke test
         shell: pwsh
         run: ./eng/Test-HybridHost.ps1

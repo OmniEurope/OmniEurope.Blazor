@@ -227,7 +227,24 @@ public sealed class DataGridSurfaceTests : OmniBunitContext
         Assert.NotEmpty(grid.FindAll(".omni-pager"));
     }
 
+    [Fact]
+    public void PropertyAccessor_NullLinkBeforeAValueTypeYieldsNull_NotItsDefault()
+    {
+        var age = GridPropertyAccessor.Create<Holder>("Account.Age");
+        var nullableAge = GridPropertyAccessor.Create<Holder>("Account.Bonus");
+
+        Assert.NotNull(age);
+        Assert.Equal(42, age!(new Holder(new Account(42, 3))));
+        Assert.Null(age(new Holder(null)));
+        Assert.Null(nullableAge!(new Holder(null)));
+        Assert.Null(age(null!));
+    }
+
     public sealed record Customer(string Name);
 
     public sealed record Order(int Id, Customer? Customer, decimal Total);
+
+    public sealed record Account(int Age, int? Bonus);
+
+    public sealed record Holder(Account? Account);
 }

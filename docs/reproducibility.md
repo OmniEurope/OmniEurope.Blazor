@@ -21,10 +21,10 @@ Les contrôles actuellement rejouables dans le dépôt vérifient séparément :
 - le contenu du paquet principal et du paquet de symboles ;
 - la dépendance client-compatible `Microsoft.AspNetCore.Components.Web` ;
 - la licence EUPL-1.2 ;
-- les budgets CSS, assembly et NuGet.
+- les budgets de taille de l'assembly et du paquet NuGet, et la minification de la feuille livrée.
 
 ## Limites des preuves actuelles
 
-- Le contrôle CSP du catalogue vérifie les sources, les réponses HTTP et un collecteur encore vide avant interaction ; il ne remplace pas une navigation dans un navigateur réel.
+- Le contrôle CSP du catalogue vérifie les sources et les réponses HTTP, puis `eng/Test-CatalogProbe.mjs` pilote Chromium par CDP (navigation, dialogue, focus, notification, éditeur) et exige une console sans erreur et aucune violation CSP ; il ne couvre que ces parcours, pas chaque composant.
 - Les métriques de comparaison de provenance annoncées lors de la revue ne sont pas accompagnées dans le dépôt de leurs versions de référence, scanner, paramètres et résultats bruts. Elles ne sont donc pas reproductibles indépendamment en l'état.
 - Le dépôt ne conserve pas les hashes, listings ou journaux de la double exécution de `dotnet pack` citée plus haut ; ce constat historique n'est donc pas reproductible indépendamment en l'état.

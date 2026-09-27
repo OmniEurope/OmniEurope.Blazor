@@ -100,6 +100,29 @@ public sealed class SpreadsheetTests : OmniBunitContext
     }
 
     [Fact]
+    public void Formula_NestedPastTheDepthBudgetIsAnErrorAndJustBelowItStillComputes()
+    {
+        static string Nested(int depth) => "=" + new string('(', depth) + "1" + new string(')', depth);
+        static string Signs(int depth) => "=" + new string('-', depth) + "1";
+
+        Assert.Equal(1d, Compute(Nested(200)).Number);
+        Assert.Equal(OmniSpreadsheetValue.SyntaxError, Compute(Nested(300)).Text);
+        Assert.Equal(1d, Compute(Signs(200)).Number);
+        Assert.Equal(OmniSpreadsheetValue.SyntaxError, Compute(Signs(301)).Text);
+    }
+
+    [Fact]
+    public void Formula_ChainOfReferencesPastTheDepthBudgetIsAnErrorAndJustBelowItStillComputes()
+    {
+        // Each cell reads the one below it, so computing the top cell walks the whole chain.
+        static OmniSpreadsheetData Chain(int length) => Sheet([.. Enumerable.Range(1, length)
+            .Select(row => new[] { row == length ? "1" : $"=A{row + 1}+1" })]);
+
+        Assert.Equal(200d, Chain(200).Evaluate("A1").Number);
+        Assert.Equal(OmniSpreadsheetValue.SyntaxError, Chain(300).Evaluate("A1").Text);
+    }
+
+    [Fact]
     public void Formula_PassesAnErrorOnToEveryCellThatReadsIt()
     {
         var sheet = Sheet(["=1/0", "=A1+1", "=SUM(A1:B1)"]);

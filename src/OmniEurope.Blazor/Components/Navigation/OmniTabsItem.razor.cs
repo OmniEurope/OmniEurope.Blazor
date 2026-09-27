@@ -52,7 +52,11 @@ public partial class OmniTabsItem
     private string RegisteredKey => Context?.RegisterKey(EffectiveKey) ?? EffectiveKey;
     private bool Selected => Context?.Value == RegisteredKey;
 
-    protected override void OnParametersSet() => _visited |= Selected || Context?.RenderAllPanels == true;
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _visited |= Selected || Context?.RenderAllPanels == true;
+    }
 
     // Retain inactive panels without rebuilding their grids on every click. The latest parameters
     // are rendered on selection; one final render on deselection applies the hidden attribute.
@@ -63,8 +67,8 @@ public partial class OmniTabsItem
     // The tabs render their content once per phase; this instance emits only the half it is asked
     // for, so the button lives in the scrolling strip and the panel below it.
     private bool IsPanelPhase => Context?.Phase == OmniTabsPhase.Panel;
-    private string TabId => $"{SafeDomId(Id ?? $"omni-tab-{RegisteredKey}")}-tab";
-    private string PanelId => $"{SafeDomId(Id ?? $"omni-tab-{RegisteredKey}")}-panel";
+    private string TabId => $"{SafeDomId(Id ?? $"{Context?.IdPrefix ?? "omni-tab"}-{RegisteredKey}")}-tab";
+    private string PanelId => $"{SafeDomId(Id ?? $"{Context?.IdPrefix ?? "omni-tab"}-{RegisteredKey}")}-panel";
     private Task SelectAsync() => Disabled || Context is null ? Task.CompletedTask : Context.SelectAsync(RegisteredKey);
 
     private bool AcceptsDrop => OnDrop.HasDelegate;

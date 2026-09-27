@@ -916,7 +916,7 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
 .omni-grid--gap-large { gap: var(--omni-space-lg); }
 .omni-grid--gap-xlarge { gap: var(--omni-space-xl); }
 
-.omni-layout { --omni-sidebar-rail: calc(22px + 1.25rem); box-sizing: border-box; margin-inline: auto; width: 100%; }
+.omni-layout { --omni-sidebar-inset: calc(var(--omni-item-pad-y) + var(--omni-space-xs)); --omni-sidebar-rail: calc(2 * var(--omni-sidebar-inset) + 1.25rem); box-sizing: border-box; margin-inline: auto; width: 100%; }
 .omni-layout--wide { max-width: var(--omni-layout-wide-width, 90rem); }
 .omni-layout--content { max-width: var(--omni-layout-content-width, 72rem); }
 .omni-main { --omni-main-max-width: 100%; display: block; min-width: 0; }
@@ -1221,8 +1221,11 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-sidebar {
     --omni-sidebar-width: 18rem;
     /* The rail is the icon column of the open menu, not a wider band: an entry's start inset on
-       both sides of its icon, so an icon stays where it was when the menu folds into the rail. */
-    --omni-sidebar-rail: calc(22px + 1.25rem);
+       both sides of its icon, so an icon stays where it was when the menu folds into the rail. The
+       inset follows the density (the item padding plus the extra-small space, 11px when comfortable),
+       so the rail, and every entry as tall as it, grows and shrinks with the page. */
+    --omni-sidebar-inset: calc(var(--omni-item-pad-y) + var(--omni-space-xs));
+    --omni-sidebar-rail: calc(2 * var(--omni-sidebar-inset) + 1.25rem);
     box-sizing: border-box;
     color: var(--omni-color-text);
     display: flex;
@@ -2101,7 +2104,7 @@ body:has(.omni-overlay) { overflow: hidden; }
    a square filling the rail from edge to edge, its fills cover the whole row, and neither the icons
    nor the rows move between the two states. */
 .omni-sidebar .omni-panel-menu__link,
-.omni-sidebar .omni-panel-menu__label { min-block-size: var(--omni-sidebar-rail); }
+.omni-sidebar .omni-panel-menu__label { min-block-size: var(--omni-sidebar-rail); padding-inline: var(--omni-sidebar-inset); }
 /* The group row itself stays bare in the rail: its square link carries the fills. */
 .omni-panel-menu--icons .omni-panel-menu__summary,
 .omni-panel-menu--icons .omni-panel-menu__summary:hover { background: transparent; }
@@ -3234,6 +3237,8 @@ span.omni-unified-diff__toggle { cursor: default; }
 .omni-data-grid__preparation { position: absolute; inset: 0; z-index: 4; display: grid; place-items: center; background: var(--omni-color-surface); }
 .omni-data-grid--preparing .omni-data-grid__viewport { visibility: hidden; }
 .omni-rating { display: inline-flex; align-items: center; gap: 0; white-space: nowrap; color: var(--omni-color-warning); }
-.omni-rating__star { display: inline-grid; place-items: center; inline-size: 1.25rem; block-size: 1.75rem; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
+/* A star is a button around a fixed glyph: its box follows the density like a small button
+   (--omni-button-size of .omni-button--small, the control height less 0.5rem, 1.75rem when comfortable). */
+.omni-rating__star { display: inline-grid; place-items: center; inline-size: 1.25rem; block-size: calc(var(--omni-control-height) - 0.5rem); padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
 .omni-rating__star:disabled { cursor: default; opacity: 1; }
 .omni-rating__star:focus-visible { outline: 2px solid var(--omni-color-accent); outline-offset: 1px; }

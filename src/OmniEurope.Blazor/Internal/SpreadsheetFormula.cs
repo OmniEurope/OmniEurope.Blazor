@@ -13,7 +13,9 @@ namespace OmniEurope.Blazor.Internal;
 /// is only an argument: anywhere else it is <see cref="OmniSpreadsheetValue.ValueError"/>.
 /// Arguments are separated by a comma or a semicolon, so a formula written with either spreadsheet
 /// convention reads the same. Functions: SUM, AVERAGE, MIN, MAX, COUNT, ROUND and ABS, also under
-/// their French names SOMME, MOYENNE, NB and ARRONDI.
+/// their French names SOMME, MOYENNE, NB and ARRONDI. Nesting, through brackets, signs, arguments
+/// and the cells a formula reads, is bounded by <see cref="SpreadsheetEvaluator.MaxDepth"/>: past it
+/// the formula reads <see cref="OmniSpreadsheetValue.SyntaxError"/> instead of exhausting the stack.
 /// </remarks>
 internal sealed class SpreadsheetFormula
 {
@@ -86,21 +88,36 @@ internal sealed class SpreadsheetFormula
         return left;
     }
 
+    // Every nesting (a bracket, a sign, an argument, a referenced cell's formula) passes through
+    // here, so this one count bounds the depth of the whole descent.
     private OmniSpreadsheetValue Unary()
     {
-        if (TryConsume('-', '+', out var sign))
+        if (++_cells.Depth > SpreadsheetEvaluator.MaxDepth)
         {
-            var operand = Unary();
-            return sign == '-' ? Arithmetic(OmniSpreadsheetValue.FromNumber(0d), operand, '-') : Arithmetic(operand, OmniSpreadsheetValue.FromNumber(0d), '+');
+            _cells.Depth--;
+            throw new FormatException();
         }
 
-        var value = Primary();
-        while (TryConsume('%', '%', out _))
+        try
         {
-            value = Arithmetic(value, OmniSpreadsheetValue.FromNumber(100d), '/');
-        }
+            if (TryConsume('-', '+', out var sign))
+            {
+                var operand = Unary();
+                return sign == '-' ? Arithmetic(OmniSpreadsheetValue.FromNumber(0d), operand, '-') : Arithmetic(operand, OmniSpreadsheetValue.FromNumber(0d), '+');
+            }
 
-        return value;
+            var value = Primary();
+            while (TryConsume('%', '%', out _))
+            {
+                value = Arithmetic(value, OmniSpreadsheetValue.FromNumber(100d), '/');
+            }
+
+            return value;
+        }
+        finally
+        {
+            _cells.Depth--;
+        }
     }
 
     private OmniSpreadsheetValue Primary()

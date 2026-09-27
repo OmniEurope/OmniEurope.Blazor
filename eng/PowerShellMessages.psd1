@@ -11,6 +11,8 @@
     HeaderInvalid = 'En-tête {0} invalide : {1}'
     ChromiumMissing = 'Aucun navigateur Chromium compatible CDP n''est installé.'
     CdpFailed = 'La vérification CDP {0} a échoué avec le code {1}.'
+    BrowserExitedBeforePort = 'Le navigateur s''est arrêté avant de publier son port de débogage (code {0}).'
+    BrowserPortTimeout = 'Le navigateur n''a pas publié son port de débogage dans {0} en {1} secondes.'
     AutoPassed = 'Interactive Auto validé : HTTP 200, prérendu, hydratation, interaction, console sans erreur, assets client et CSP stricte (PID {0}).'
     AutoStopFailed = 'Le processus Interactive Auto {0} n''a pas pu être arrêté.'
     CatalogStopped = 'Le catalogue s''est arrêté avant d''être prêt (code {0}).'

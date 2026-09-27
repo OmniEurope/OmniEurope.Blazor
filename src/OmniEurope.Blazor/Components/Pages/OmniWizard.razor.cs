@@ -18,6 +18,9 @@ public partial class OmniWizard
     private bool _validating;
     private bool _focusBody;
 
+    // Counts the moves and cancellations: a validation answered after one of them is stale.
+    private int _navigation;
+
     /// <summary>Creates the wizard and the context its steps register with.</summary>
     public OmniWizard() => _context = new OmniWizardContext(StateHasChanged);
 
@@ -86,6 +89,7 @@ public partial class OmniWizard
         if (_lastValue != Value)
         {
             _lastValue = Value;
+            _navigation++;
             _current = Math.Max(0, Value);
             _highest = Math.Max(_highest, _current);
             _context.CurrentIndex = _current;
@@ -126,7 +130,11 @@ public partial class OmniWizard
         }
     }
 
-    private Task CancelAsync() => OnCancel.InvokeAsync();
+    private Task CancelAsync()
+    {
+        _navigation++;
+        return OnCancel.InvokeAsync();
+    }
 
     /// <summary>The step list's gate: back is free, forward past the current step asks it first.</summary>
     private async Task<bool> CanNavigateAsync(int target) =>
@@ -151,11 +159,19 @@ public partial class OmniWizard
             return true;
         }
 
+        // One validation at a time; and an answer that comes after the user moved or cancelled is
+        // for a step they have left, so it lets nothing go on.
+        if (_validating)
+        {
+            return false;
+        }
+
+        var navigation = _navigation;
         _validating = true;
         StateHasChanged();
         try
         {
-            return await step.Validate();
+            return await step.Validate() && navigation == _navigation;
         }
         finally
         {
@@ -166,6 +182,7 @@ public partial class OmniWizard
 
     private async Task MoveAsync(int target, bool focus)
     {
+        _navigation++;
         _current = Math.Clamp(target, 0, Math.Max(Count - 1, 0));
         _highest = Math.Max(_highest, _current);
         _context.CurrentIndex = _current;
