@@ -1,8 +1,17 @@
 const attachments = new Map();
 
+// Reported instead of the scroll position by a viewport held at its end; .NET clamps it to the end of
+// its own row model.
+const endOfContent = Number.MAX_VALUE;
+
 function metrics(viewport) {
+    // A render that drops the first rows of the window shortens the content until applyLayout grows the
+    // top spacer: a viewport at its end is pulled back meanwhile (Firefox does so at once). Read then,
+    // that position would bring the rows back, whose render pulls the end away again, endlessly. A
+    // viewport at its end therefore reports the end itself, which no transient height can move.
+    const atEnd = attachments.get(viewport)?.state.atEnd === true;
     return {
-        scrollTop: viewport.scrollTop,
+        scrollTop: atEnd ? endOfContent : viewport.scrollTop,
         viewportHeight: viewport.clientHeight,
         scrollHeight: viewport.scrollHeight
     };

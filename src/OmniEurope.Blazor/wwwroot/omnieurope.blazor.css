@@ -1350,8 +1350,9 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 
 .omni-appearance-settings { display: grid; gap: var(--omni-space-md); min-inline-size: 0; }
 /* Full width, two settings side by side (mode and font, theme and palette, then the scales) as soon as
-   two 30rem columns fit; one column below that. The compact form and the scale window keep theirs. */
-.omni-appearance-settings:not(.omni-appearance-settings--compact, .omni-appearance-settings--scale) { grid-template-columns: repeat(auto-fit, minmax(min(100%, 30rem), 1fr)); inline-size: 100%; }
+   two 30rem columns fit, never more than two; one column below that. The compact form and the scale
+   window keep theirs. */
+.omni-appearance-settings:not(.omni-appearance-settings--compact, .omni-appearance-settings--scale) { grid-template-columns: repeat(auto-fit, minmax(min(100%, max(30rem, calc((100% - var(--omni-space-md)) / 2))), 1fr)); inline-size: 100%; }
 /* Outside the compact menu, each setting is drawn as a settings tile (fill, rule, padding, icon box and
  hover), so a page that shows the appearance next to other settings sections reads as one set. */
 .omni-appearance-settings__row { align-items: center; background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-radius); display: flex; flex-wrap: wrap; gap: 12px 16px; min-inline-size: 0; padding: var(--omni-tile-pad-y) 14px; transition: background-color 120ms ease; }
