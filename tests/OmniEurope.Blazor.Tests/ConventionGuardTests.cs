@@ -78,6 +78,16 @@ public sealed partial class ConventionGuardTests
     }
 
     [Fact]
+    public void SelectBarOptions_TakeTheControlHeight_LikeTheButtonsBesideThem()
+    {
+        // 0.5rem taller than a button, a select bar pushed the page title it sits beside by 8 px.
+        var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
+        var item = System.Text.RegularExpressions.Regex.Match(styles, @"\.omni-select-bar__item \{[^}]*\}").Value;
+
+        Assert.Contains("min-height: var(--omni-control-height);", item, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void AuditedInteractiveTargets_MeetTheMinimumTouchSize()
     {
         var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
