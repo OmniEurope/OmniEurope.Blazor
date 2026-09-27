@@ -580,7 +580,6 @@ field public static OmniEurope.Blazor.Components.OmniIconName.ArrowLineUp : Omni
 field public static OmniEurope.Blazor.Components.OmniIconName.ArrowRight : OmniEurope.Blazor.Components.OmniIconName const = 17
 field public static OmniEurope.Blazor.Components.OmniIconName.ArrowUUpLeft : OmniEurope.Blazor.Components.OmniIconName const = 176
 field public static OmniEurope.Blazor.Components.OmniIconName.ArrowUUpRight : OmniEurope.Blazor.Components.OmniIconName const = 142
-field public static OmniEurope.Blazor.Components.OmniIconName.ArrowUp : OmniEurope.Blazor.Components.OmniIconName const = 242
 field public static OmniEurope.Blazor.Components.OmniIconName.ArrowsDownUp : OmniEurope.Blazor.Components.OmniIconName const = 225
 field public static OmniEurope.Blazor.Components.OmniIconName.At : OmniEurope.Blazor.Components.OmniIconName const = 143
 field public static OmniEurope.Blazor.Components.OmniIconName.Bank : OmniEurope.Blazor.Components.OmniIconName const = 236
