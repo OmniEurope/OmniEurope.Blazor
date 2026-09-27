@@ -117,6 +117,12 @@ public partial class EditorDemo
         ];
 
         public override IReadOnlyList<OmniHtmlEditorCommand> ContextMenu => [AddNote, RemoveNote];
+
+        public override bool SuggestsText => true;
+
+        /// <summary>Proposes the end of a stock phrase, as a writing assistant would; Tab types it.</summary>
+        public override Task<string?> SuggestAsync(string textBeforeCaret) =>
+            Task.FromResult<string?>(textBeforeCaret.EndsWith("sous réserve", StringComparison.OrdinalIgnoreCase) ? " de vérification" : null);
     }
 
     /// <summary>

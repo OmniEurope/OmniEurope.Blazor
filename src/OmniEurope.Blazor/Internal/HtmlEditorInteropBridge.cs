@@ -44,6 +44,10 @@ internal sealed class HtmlEditorInteropBridge(OmniHtmlEditor owner)
     /// <summary>A right-click or the context-menu key in the surface, at this point of the viewport, with the selection there.</summary>
     [JSInvokable]
     public Task OnContextMenu(double x, double y, string? selection) => owner.DispatchAsync(() => owner.HandleContextMenu(x, y, selection));
+
+    /// <summary>Typing paused: what an extension proposes after the caret, given the text before it, or null.</summary>
+    [JSInvokable]
+    public Task<string?> OnSuggestionRequested(string textBeforeCaret) => owner.SuggestAsync(textBeforeCaret);
 }
 
 /// <summary>What omni-focus.js calls when a press lands outside the editor's open context menu.</summary>

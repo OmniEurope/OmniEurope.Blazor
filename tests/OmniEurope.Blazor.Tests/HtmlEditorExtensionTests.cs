@@ -218,6 +218,74 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task InlineElement_SetText_KeepsTheElement_AndCommitsTheSurfaceResult()
+    {
+        var module = JSInterop.SetupModule(ModulePath);
+        module.Setup<string?>("read", _ => true).SetResult(null);
+        module.Setup<string?>("setActivatedText", _ => true).SetResult("<p><span class=\"note\" data-marker=\"1\">Revue</span></p>");
+        var extension = new TestExtension
+        {
+            Policy = new OmniHtmlSanitizerPolicy { AdditionalCssClasses = ["note"], AllowDataAttributes = true },
+            Inline = [new OmniHtmlEditorInlineElement(".note", context => context.SetTextAsync("Revue <b>"))]
+        };
+        string? bound = "<p><span class=\"note\" data-marker=\"1\">Ancienne</span></p>";
+        var editor = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, bound)
+            .Add(component => component.ValueExpression, () => bound)
+            .Add(component => component.ValueChanged, value => bound = value)
+            .Add(component => component.Extensions, [extension]));
+
+        await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnElementActivated(
+            0, "{\"tag\":\"span\",\"classes\":[\"note\"],\"data\":{\"data-marker\":\"1\"}}", "Ancienne"));
+
+        // The text goes to the surface as text: the script sets textContent, never markup.
+        Assert.Equal("Revue <b>", Assert.Single(module.Invocations["setActivatedText"]).Arguments[1]);
+        Assert.Equal("<p><span class=\"note\" data-marker=\"1\">Revue</span></p>", bound);
+    }
+
+    [Fact]
+    public async Task Suggestion_AsksTheSurfaceToOffer_AndReturnsTheFirstExtensionsProposal()
+    {
+        var module = JSInterop.SetupModule(ModulePath);
+        var silent = new SuggestingExtension(_ => null);
+        var proposing = new SuggestingExtension(text => text.EndsWith("sous", StringComparison.Ordinal) ? " réserve" : null);
+        var editor = RenderEditor([silent, proposing], null);
+
+        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        Assert.True(options.GetProperty("suggest").GetBoolean());
+        var bridge = new HtmlEditorInteropBridge(editor.Instance);
+
+        Assert.Equal(" réserve", await editor.InvokeAsync(() => bridge.OnSuggestionRequested("Avis favorable sous")));
+        Assert.Null(await editor.InvokeAsync(() => bridge.OnSuggestionRequested("Autre chose")));
+        Assert.Equal(["Avis favorable sous", "Autre chose"], silent.Asked);
+    }
+
+    [Fact]
+    public void Suggestion_WithoutAnExtensionThatSuggests_IsNotOffered()
+    {
+        var module = JSInterop.SetupModule(ModulePath);
+        RenderEditor(new TestExtension(), null);
+
+        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        Assert.False(options.TryGetProperty("suggest", out _));
+    }
+
+    [Fact]
+    public async Task Suggestion_InTheSourceFace_OrDisabled_IsNull()
+    {
+        var extension = new SuggestingExtension(_ => "suite");
+        var value = "<p>A</p>";
+        var editor = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Mode, OmniHtmlEditorMode.Source)
+            .Add(component => component.Extensions, [extension]));
+
+        Assert.Null(await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnSuggestionRequested("Avis favorable")));
+        Assert.Empty(extension.Asked);
+    }
+
+    [Fact]
     public async Task InlineElement_WithAnUnknownPosition_OrMalformedElement_DoesNothing()
     {
         JSInterop.SetupModule(ModulePath);
@@ -415,6 +483,19 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
 
     private static List<string?> ToolbarNames(IRenderedComponent<OmniHtmlEditor> editor) =>
         editor.FindAll(".omni-html-editor__toolbar [data-command]").Select(element => element.GetAttribute("data-command")).ToList();
+
+    private sealed class SuggestingExtension(Func<string, string?> propose) : OmniHtmlEditorExtension
+    {
+        public List<string> Asked { get; } = [];
+
+        public override bool SuggestsText => true;
+
+        public override Task<string?> SuggestAsync(string textBeforeCaret)
+        {
+            Asked.Add(textBeforeCaret);
+            return Task.FromResult(propose(textBeforeCaret));
+        }
+    }
 
     private sealed class TestExtension : OmniHtmlEditorExtension
     {

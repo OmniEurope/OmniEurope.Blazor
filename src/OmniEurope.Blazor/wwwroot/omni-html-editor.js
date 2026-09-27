@@ -12,6 +12,7 @@
 const editors = new WeakMap();
 const inputDelay = 250;
 const selectionDelay = 120;
+const suggestionDelay = 1200;
 const blockSelector = 'p,h1,h2,h3,h4,h5,h6,li,blockquote,pre,td,th,div';
 const alignClasses = ['omni-align-left', 'omni-align-center', 'omni-align-right', 'omni-align-justify'];
 const sizeClasses = {
@@ -42,7 +43,8 @@ export function mount(surface, dotnet, html, options) {
 
     const state = {
         surface, dotnet, timer: 0, range: null, key: '', sent: null, listeners: [], classes: allowedClasses, policy: false,
-        selection: false, selectionTimer: 0, selectionKey: '', shortcuts: new Map(), inline: [], menu: false, activated: null
+        selection: false, selectionTimer: 0, selectionKey: '', shortcuts: new Map(), inline: [], menu: false, activated: null,
+        suggest: false, suggestion: null, suggestTimer: 0, suggestTicket: 0
     };
     editors.set(surface, state);
     configure(surface, options);
@@ -50,7 +52,11 @@ export function mount(surface, dotnet, html, options) {
     normalise(surface);
     state.sent = surface.innerHTML;
     listen(state, surface, 'focusin', () => prepareDocument());
-    listen(state, surface, 'input', () => schedule(state));
+    listen(state, surface, 'input', () => {
+        schedule(state);
+        requestSuggestion(state);
+    });
+    listen(state, surface, 'mousedown', () => clearSuggestion(state));
     listen(state, surface, 'paste', event => paste(state, event));
     listen(state, surface, 'drop', event => drop(state, event));
     listen(state, surface, 'keydown', event => keydown(state, event));
@@ -81,6 +87,7 @@ export function configure(surface, options) {
         state.shortcuts = new Map((Array.isArray(options?.shortcuts) ? options.shortcuts : []).map((keys, index) => [keys, index]));
         state.inline = Array.isArray(options?.inline) ? options.inline : [];
         state.menu = options?.menu === true;
+        state.suggest = options?.suggest === true;
     }
 }
 
@@ -224,6 +231,107 @@ export function restoreMenuSelection(surface) {
     selection.removeAllRanges();
     selection.addRange(range);
     state.range = range.cloneRange();
+}
+
+// ── Text proposed by an extension after the caret: shown dimmed, never part of the value ──
+
+// Once typing pauses with a caret at the end of at least five characters of a text, the extensions
+// are asked for the rest; the answer only shows if the caret has not moved meanwhile.
+function requestSuggestion(state) {
+    clearSuggestion(state);
+    window.clearTimeout(state.suggestTimer);
+    if (!state.suggest) {
+        return;
+    }
+
+    const ticket = ++state.suggestTicket;
+    state.suggestTimer = window.setTimeout(async () => {
+        const selection = document.getSelection();
+        if (!selection || selection.rangeCount === 0 || !selection.isCollapsed) {
+            return;
+        }
+
+        const node = selection.anchorNode;
+        const offset = selection.anchorOffset;
+        if (!node || node.nodeType !== Node.TEXT_NODE || !state.surface.contains(node)) {
+            return;
+        }
+
+        const before = node.data.slice(0, offset);
+        if (before.length < 5) {
+            return;
+        }
+
+        let text = null;
+        try {
+            text = await state.dotnet.invokeMethodAsync('OnSuggestionRequested', before.slice(-200));
+        }
+        catch {
+            return;
+        }
+
+        const now = document.getSelection();
+        if (!text || ticket !== state.suggestTicket || !editors.has(state.surface)
+            || !now || now.rangeCount === 0 || !now.isCollapsed || now.anchorNode !== node || now.anchorOffset !== offset) {
+            return;
+        }
+
+        const ghost = document.createElement('span');
+        ghost.className = 'omni-html-editor__suggestion';
+        ghost.setAttribute('contenteditable', 'false');
+        ghost.setAttribute('aria-hidden', 'true');
+        ghost.textContent = text;
+        const at = document.createRange();
+        at.setStart(node, offset);
+        at.collapse(true);
+        at.insertNode(ghost);
+        const caret = document.createRange();
+        caret.setStartBefore(ghost);
+        caret.collapse(true);
+        now.removeAllRanges();
+        now.addRange(caret);
+        state.suggestion = { element: ghost, text };
+    }, suggestionDelay);
+}
+
+function clearSuggestion(state) {
+    if (!state?.suggestion) {
+        return false;
+    }
+
+    const { element } = state.suggestion;
+    state.suggestion = null;
+    const parent = element.parentNode;
+    element.remove();
+    parent?.normalize();
+    return true;
+}
+
+// Tab types the proposal where it stood, as text, and the caret goes after it.
+function acceptSuggestion(state) {
+    const { element, text } = state.suggestion;
+    state.suggestion = null;
+    const typed = document.createTextNode(text);
+    element.replaceWith(typed);
+    const caret = document.createRange();
+    caret.setStartAfter(typed);
+    caret.collapse(true);
+    const selection = document.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(caret);
+    schedule(state);
+}
+
+// Replaces the text of the inline element the last click activated, keeping the element itself.
+export function setActivatedText(surface, text) {
+    const state = editors.get(surface);
+    const target = state?.activated;
+    if (!state || !target || !surface.contains(target)) {
+        return null;
+    }
+
+    target.textContent = text ?? '';
+    return settle(state);
 }
 
 // The text of the selection, or of the one kept while the focus was elsewhere (a dialog).
@@ -388,6 +496,8 @@ export function dispose(surface) {
 
     window.clearTimeout(state.timer);
     window.clearTimeout(state.selectionTimer);
+    window.clearTimeout(state.suggestTimer);
+    clearSuggestion(state);
     for (const [target, type, handler] of state.listeners) {
         target.removeEventListener(type, handler);
     }
@@ -426,6 +536,7 @@ function send(state) {
 }
 
 function flush(state) {
+    clearSuggestion(state);
     if (state.timer) {
         window.clearTimeout(state.timer);
         send(state);
@@ -481,6 +592,20 @@ async function insertTransfer(state, html, text) {
 }
 
 function keydown(state, event) {
+    if (state.suggestion) {
+        if (event.key === 'Tab' && !event.ctrlKey && !event.metaKey && !event.altKey && !event.shiftKey) {
+            event.preventDefault();
+            acceptSuggestion(state);
+            return;
+        }
+
+        const dismissed = clearSuggestion(state);
+        if (dismissed && event.key === 'Escape') {
+            event.preventDefault();
+            return;
+        }
+    }
+
     const command = event.ctrlKey || event.metaKey;
     const key = event.key.toLowerCase();
     if (command && !event.altKey && (key === 'z' || key === 'y')) {
@@ -1687,6 +1812,11 @@ function normalise(surface) {
 
 // normalise() keeping the caret where it was, counted in characters, when it had to move a block.
 function tidy(surface) {
+    const owner = editors.get(surface);
+    if (owner) {
+        clearSuggestion(owner);
+    }
+
     const offset = surface.contains(document.activeElement) ? caretOffset(surface) : -1;
     if (normalise(surface) && offset >= 0) {
         placeCaret(surface, offset);

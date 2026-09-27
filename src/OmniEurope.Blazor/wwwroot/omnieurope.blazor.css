@@ -1325,6 +1325,12 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
    in the bar, the hover fill of the page. */
 .omni-sidebar-toggle { background: transparent; border-color: transparent; box-sizing: border-box; justify-content: center; min-inline-size: var(--omni-control-height); padding: 0; }
 .omni-sidebar-toggle:hover { background: var(--omni-color-surface-hover); }
+/* The open toggle carries both glyphs and shows the one that fits the width (OmniSidebarToggle.OpenIcon unset). */
+.omni-sidebar-toggle .omni-sidebar-toggle__narrow { display: none; }
+@media (max-width: 39.99rem) {
+    .omni-sidebar-toggle .omni-sidebar-toggle__wide { display: none; }
+    .omni-sidebar-toggle .omni-sidebar-toggle__narrow { display: inline-flex; }
+}
 
 .omni-appearance-settings { display: grid; gap: var(--omni-space-md); min-inline-size: 0; }
 /* Outside the compact menu, each setting is drawn as a settings tile (fill, rule, padding, icon box and
@@ -2732,6 +2738,8 @@ polyline.omni-chart__line { fill: none; }
 .omni-html-editor__menu-separator { border-block-start: var(--omni-border-width) solid var(--omni-color-border); margin-block: var(--omni-space-xs); }
 .omni-html-editor__link-input { cursor: text; flex: 1 1 14rem; }
 .omni-html-editor__link-error { color: var(--omni-color-danger); flex-basis: 100%; margin: 0; }
+/* The text an extension proposes after the caret: dimmed, not selectable, gone at the next key. */
+.omni-html-editor__suggestion { color: var(--omni-color-text-muted); opacity: 0.75; pointer-events: none; user-select: none; }
 /* The panels of the built-in special characters and table import sit where the link field does. */
 .omni-html-editor__panel { background: var(--omni-color-surface-muted); border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: grid; gap: var(--omni-space-sm); padding: var(--omni-space-sm); }
 .omni-html-editor__panel-bar, .omni-html-editor__categories { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
