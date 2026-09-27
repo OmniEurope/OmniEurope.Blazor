@@ -6,8 +6,9 @@ param(
     # Pickers: the date, time and date and time pickers (PLAN-008 T18 a, T19).
     # Density: the T22 control, every sized element changes height between compact and spacious.
     # Contrast: the lot 10 control, contrasts and geometry measured on the 200 theme x palette x mode.
-    [ValidateSet('Pickers', 'Density', 'Contrast')]
-    [string[]]$Probe = @('Pickers', 'Density', 'Contrast')
+    # AutoFit: the fit to content of a grid column, double click, off-screen virtual row and Enter.
+    [ValidateSet('Pickers', 'Density', 'Contrast', 'AutoFit')]
+    [string[]]$Probe = @('Pickers', 'Density', 'Contrast', 'AutoFit')
 )
 
 # Serves the published showcase (dotnet publish site/OmniEurope.Blazor.Showcase -o artifacts/showcase-smoke)
@@ -28,6 +29,7 @@ $scripts = @{
     Pickers = 'Test-ShowcasePickerProbe.mjs'
     Density = 'Test-ShowcaseDensityProbe.mjs'
     Contrast = 'Test-ThemeContrastProbe.mjs'
+    AutoFit = 'Test-ShowcaseGridAutoFitProbe.mjs'
 }
 
 try {

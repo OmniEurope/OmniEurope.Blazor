@@ -1247,6 +1247,8 @@ method public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator.Dispose(
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.CancelEditAsync(TItem item) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EditRowAsync(TItem item) : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.GetColumnAutoFitTexts(System.String key) : System.String[]?
+method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnColumnAutoFitAsync(System.String key, System.Double width) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnColumnResizedAsync(System.String key, System.Double width) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnHorizontalScrollChangedAsync(System.Boolean scrolled) : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.OnViewportChangedAsync(System.Double scrollTop, System.Double viewportHeight) : System.Threading.Tasks.Task
@@ -2055,6 +2057,7 @@ property public OmniEurope.Blazor.Components.OmniContextMenu.TriggerContent : Mi
 property public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator.Localizer : Microsoft.Extensions.Localization.IStringLocalizer? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllGroupsExpanded : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowAlternatingRows : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowColumnAutoFit : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowColumnResize : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowFiltering : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowGrouping : System.Boolean {get(public);set(public)} [Parameter]
@@ -2166,6 +2169,7 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ValueChanged : 
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.VirtualBlockSize : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.VirtualizationOverscanCount : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.WheelScrollScope : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.AutoFit : System.Boolean? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.CssClass : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.DefaultFilterValue : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGridColumn<TItem>.EditTemplate : Microsoft.AspNetCore.Components.RenderFragment<TItem>? {get(public);set(public)} [Parameter]

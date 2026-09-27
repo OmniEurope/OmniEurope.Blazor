@@ -59,5 +59,10 @@ public partial class DataGridDemo
     };
 
     private static readonly IReadOnlyList<GridRow> ManyRows = [.. Enumerable.Range(1, 10_000)
-        .Select(index => Rows[index % Rows.Count] with { Reference = $"D-{index:00000}" })];
+        .Select(index => Rows[index % Rows.Count] with
+        {
+            Reference = $"D-{index:00000}",
+            // Far outside the first window: the fit to content still has to see it.
+            Applicant = index == 7_777 ? "Établissement public de coopération intercommunale du Grand Est" : Rows[index % Rows.Count].Applicant
+        })];
 }

@@ -6,6 +6,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Added
 
+- `OmniDataGrid.AllowColumnAutoFit` (désactivé par défaut) et `OmniDataGridColumn.AutoFit` (`bool?`) : le double clic sur le bord droit d'une colonne, ou Entrée sur sa poignée, lui donne la largeur de son contenu le plus large, comme dans Excel. Sans valeur, la colonne suit la grille ; `true` ou `false` décide pour elle seule. La mesure couvre le titre et toutes les lignes chargées, y compris les lignes virtualisées hors écran (leur texte vient de .NET : valeur, `Format` ou `FormatString`) ; une colonne à `Template` n'est mesurée que sur ses lignes affichées. Le résultat respecte le plancher de la grille et le `MinWidth` de la colonne, est persisté et n'est annoncé qu'une fois. Indépendant d'`AllowColumnResize`, qui ne gouverne plus que le glisser et les flèches. Démontré dans la vitrine (Grille avancée), documenté dans `docs/data-components.md`.
 - `OmniHtmlEditor.CommitDomAsync()` : même effet que `OmniHtmlEditorCommandContext.CommitDomAsync` hors d'une commande (clic sur une note en ligne, suggestion acceptée) : relit la surface, l'assainit (politique comprise), en fait une étape d'historique et lève `ValueChanged`. Passe par le répartiteur du rendu, donc appelable depuis un rappel JS ; sans effet en face source. Documenté dans `docs/editor-components.md`.
 - `OmniTreeItem.TextContent` (`RenderFragment?`) : contenu de la ligne à la place de `Text` (icône, libellé mis en forme), indépendant des enfants de `ChildContent` ; `Text` devient alors le nom accessible (`aria-label`) du bouton de la ligne. Sans lui, la ligne est inchangée. Démontré dans la vitrine (Arbre), documenté dans `docs/data-components.md`.
 - `OmniStepsItem.Icon` (`OmniIconName?`) : icône dans la pastille de l'étape à la place du numéro, qui reste lu par les technologies d'assistance. Sans elle, la pastille est inchangée. Démontré dans la vitrine (Navigation), documenté dans `docs/page-components.md`.
@@ -23,6 +24,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - `OmniValueAxis.Automatic` : l'axe des valeurs prend ses bornes dans les séries au lieu de `Minimum` et `Maximum` (100 par défaut, qui coupait toute série plus haute) : de zéro, ou de la plus basse valeur négative, jusqu'à la plus haute valeur, arrondies vers l'extérieur à un pas de 1, 2, 2,5 ou 5 fois une puissance de dix, si bien que chaque graduation tombe sur un nombre rond et qu'aucune valeur ne sort du tracé (piles comprises). Désactivé par défaut, sans effet sur un axe à bornes fixes.
 - `OmniPanelMenuItem.OnClick` : une entrée sans `Href` ni enfants devient une action, un `button type="button"` à l'allure des liens du menu (changer de compte, copier un extrait), au lieu d'un libellé inerte. Ignoré par une entrée qui navigue ou qui porte des enfants.
 - `OmniStatTile` : tuile de statistique (icône sur carré teinté, valeur, libellé, ligne de détail facultative) sur la surface des cartes. Avec `OnClick`, la tuile entière est un vrai bouton nommé par `AriaLabel` ou par « libellé : valeur », avec anneau de focus et survol des tuiles de réglage. Démontrée dans la vitrine (Pages), documentée dans `docs/page-components.md`.
+
+### Changed
+
+- `OmniDataGrid` : le double clic sur la poignée d'une colonne ne l'ajuste plus à son contenu par défaut. Ce geste était lié implicitement à `AllowColumnResize` ; il faut désormais `AllowColumnAutoFit="true"` sur la grille ou `AutoFit="true"` sur la colonne. Le glisser et les flèches du clavier sont inchangés.
 
 ### Fixed
 
