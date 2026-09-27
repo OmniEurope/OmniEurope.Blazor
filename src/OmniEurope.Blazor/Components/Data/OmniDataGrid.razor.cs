@@ -630,6 +630,10 @@ public partial class OmniDataGrid<TItem>
     private int ColumnSpan => _columnSpan;
     private bool _renderReady;
     private bool Preparing => LoadingTemplate is not null && !_renderReady;
+    // The veil only covers the wait for the images of rows already there. While the rows themselves load,
+    // the headers stay and the LoadingTemplate sits in the loading row under them: a veil then hid the
+    // whole grid, headers included, against the shared acceptance rule (RET-002 §3.8, a client application).
+    private bool Veiled => Preparing && !Loading;
     private bool Loading => IsLoading || (!ExternalData && _remote.Loading) || (Virtualized && _virtualSource.Loading && _virtualSource.CachedItemCount == 0);
     private Exception? Failure => ExternalData ? null : Virtualized ? _virtualSource.Error : _remote.Error;
     private bool ShowPager => AllowPaging && !Virtualized && (PageCount > 1 || AlwaysShowPager);
@@ -2752,7 +2756,7 @@ public partial class OmniDataGrid<TItem>
 
     private string GridClass() => Css(
         "omni-data-grid",
-        Preparing || (Loading && LoadingTemplate is not null) ? "omni-data-grid--preparing" : null,
+        Veiled ? "omni-data-grid--preparing" : null,
         FillAvailableHeight ? "omni-data-grid--fill" : null,
         HighlightRowOnHover ? "omni-data-grid--row-hover" : null,
         AllowAlternatingRows ? "omni-data-grid--striped" : null,
