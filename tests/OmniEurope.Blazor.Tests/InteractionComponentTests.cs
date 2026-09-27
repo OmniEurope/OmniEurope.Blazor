@@ -31,7 +31,7 @@ public sealed class InteractionComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public void SidebarToggle_ShowsACloseCrossWhileOpen()
+    public void SidebarToggle_KeepsTheMenuBesideTheContentAndShowsACrossOnAPhone()
     {
         string PathOf(OmniIconName name) => Render<OmniIcon>(parameters => parameters.Add(icon => icon.Name, name)).Find("path").GetAttribute("d")!;
 
@@ -44,9 +44,18 @@ public sealed class InteractionComponentTests : OmniBunitContext
             .Add(component => component.Open, true)
             .Add(component => component.OpenIcon, OmniIconName.Menu));
 
+        var forcedCross = Render<OmniSidebarToggle>(parameters => parameters
+            .Add(component => component.Controls, "sidebar")
+            .Add(component => component.Open, true)
+            .Add(component => component.OpenIcon, OmniIconName.Close));
+
         Assert.Equal(PathOf(OmniIconName.Menu), closed.Find("path").GetAttribute("d"));
-        Assert.Equal(PathOf(OmniIconName.Close), open.Find("path").GetAttribute("d"));
+        // Unset, the open toggle carries both glyphs; the stylesheet shows the cross only under 39.99rem.
+        Assert.Equal(PathOf(OmniIconName.Menu), open.Find(".omni-sidebar-toggle__wide path").GetAttribute("d"));
+        Assert.Equal(PathOf(OmniIconName.Close), open.Find(".omni-sidebar-toggle__narrow path").GetAttribute("d"));
         Assert.Equal(PathOf(OmniIconName.Menu), keepsMenu.Find("path").GetAttribute("d"));
+        Assert.Single(forcedCross.FindAll("path"));
+        Assert.Equal(PathOf(OmniIconName.Close), forcedCross.Find("path").GetAttribute("d"));
     }
 
     [Fact]

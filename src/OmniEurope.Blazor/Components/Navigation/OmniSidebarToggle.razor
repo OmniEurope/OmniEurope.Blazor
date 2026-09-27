@@ -9,12 +9,23 @@
         aria-label="@EffectiveAriaLabel"
         @attributes="AdditionalAttributes"
         @onclick="ToggleAsync">
-    @if (ChildContent is null)
+    @if (ChildContent is not null)
     {
-        <OmniIcon Name="@(Open ? OpenIcon : OmniIconName.Menu)" />
+        @ChildContent
+    }
+    else if (!Open)
+    {
+        <OmniIcon Name="OmniIconName.Menu" />
+    }
+    else if (OpenIcon is { } openIcon)
+    {
+        <OmniIcon Name="@openIcon" />
     }
     else
     {
-        @ChildContent
+        @* Both glyphs, one shown per width: the menu while the sidebar sits beside the content, the cross
+           on a phone where it covers the page. *@
+        <OmniIcon Name="OmniIconName.Menu" Class="omni-sidebar-toggle__wide" />
+        <OmniIcon Name="OmniIconName.Close" Class="omni-sidebar-toggle__narrow" />
     }
 </button>

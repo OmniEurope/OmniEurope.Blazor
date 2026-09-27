@@ -19,12 +19,13 @@ public partial class OmniSidebarToggle
         : AriaLabel;
 
     /// <summary>
-    /// The glyph shown while the sidebar is open, when no content replaces the default one: a close
-    /// cross, so an open menu says how to dismiss it. Pass <see cref="OmniIconName.Menu"/> to keep
-    /// the same glyph in both states, as a pushing sidebar beside the content usually does.
+    /// The glyph shown while the sidebar is open, when no content replaces the default one. Left unset,
+    /// the toggle keeps the menu glyph while there is room for the sidebar beside the content, and turns
+    /// into a close cross only under the phone threshold (39.99rem), where the open menu covers the page
+    /// and has to say how to dismiss it. Set it to force one glyph at every width.
     /// </summary>
     [Parameter]
-    public OmniIconName OpenIcon { get; set; } = OmniIconName.Close;
+    public OmniIconName? OpenIcon { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

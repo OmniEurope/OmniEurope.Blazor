@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Components;
 /// not read as one stack.
 /// </summary>
 /// <param name="Position">Which corner or edge the stack grows from.</param>
-/// <param name="ShowCountdown">Whether each notification drains a bar for the time it has left.</param>
+/// <param name="ShowCountdown">Whether each notification drains a bar for the time it has left. On by default; the option turns it off.</param>
 /// <param name="Dismissible">Whether each notification carries a close button.</param>
 /// <param name="Group">
 /// Whether several notifications collapse into one stack of cards behind a count, instead of a full
@@ -14,6 +14,6 @@ namespace OmniEurope.Blazor.Components;
 /// </param>
 public sealed record OmniNotificationOptions(
     OmniNotificationPosition Position = OmniNotificationPosition.TopEnd,
-    bool ShowCountdown = false,
+    bool ShowCountdown = true,
     bool Dismissible = true,
     bool Group = false);

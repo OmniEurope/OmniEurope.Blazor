@@ -1,5 +1,6 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
+@implements IAsyncDisposable
 
 @* Scrollable wraps the landmark in a frame as wide as the main area: the landmark scrolls across the
    whole of it, so its scrollbar sits at the window's edge and never beside a centred column, and its
@@ -7,8 +8,9 @@
 @if (Scrollable)
 {
     <div class="omni-main-scroll">
-        <main id="@Id"
-              class="@Css("omni-main", "omni-main--scrollable", WidthClass)"
+        <main @ref="_main"
+              id="@Id"
+              class="@Css("omni-main", "omni-main--scrollable", WidthClass, AutoHideScrollbar ? "omni-main--scrollbar-autohide" : null)"
               tabindex="@(FocusTarget ? "-1" : null)"
               aria-labelledby="@AriaLabelledBy"
               @attributes="AdditionalAttributes">

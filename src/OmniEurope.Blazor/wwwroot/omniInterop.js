@@ -97,3 +97,34 @@ export function hideBootSplash(id) {
     window.setTimeout(remove, 600);
     return true;
 }
+
+// OmniMain.AutoHideScrollbar: marks the scroll container while it moves, and for a short while after, so the
+// stylesheet shows its scrollbar only then.
+const scrollWatchers = new WeakMap();
+
+export function watchScrolling(element, className) {
+    if (!element || scrollWatchers.has(element)) {
+        return;
+    }
+
+    let timer = 0;
+    const onScroll = () => {
+        element.classList.add(className);
+        clearTimeout(timer);
+        timer = setTimeout(() => element.classList.remove(className), 900);
+    };
+    element.addEventListener('scroll', onScroll, { passive: true });
+    scrollWatchers.set(element, () => {
+        clearTimeout(timer);
+        element.removeEventListener('scroll', onScroll);
+        element.classList.remove(className);
+    });
+}
+
+export function unwatchScrolling(element) {
+    const stop = element && scrollWatchers.get(element);
+    if (stop) {
+        stop();
+        scrollWatchers.delete(element);
+    }
+}
