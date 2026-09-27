@@ -25,6 +25,14 @@ public partial class OmniDialog
     [Parameter, EditorRequired]
     public string Title { get; set; } = string.Empty;
 
+    /// <summary>
+    /// What the title heading shows in place of <see cref="Title"/> (an icon next to the text, a
+    /// badge). It stays inside the heading that names the dialog, so it must carry readable text.
+    /// Null shows <see cref="Title"/>, as before.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? TitleContent { get; set; }
+
     [Parameter]
     public string CloseLabel { get; set; } = string.Empty;
 

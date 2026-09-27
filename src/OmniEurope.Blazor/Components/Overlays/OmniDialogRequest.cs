@@ -8,6 +8,9 @@ public sealed record OmniDialogRequest(string Title, RenderFragment Content, str
 {
     public RenderFragment? Footer { get; init; }
 
+    /// <summary>What the title heading shows in place of <c>Title</c>, passed to <see cref="OmniDialog.TitleContent"/>. Null shows <c>Title</c>, as before.</summary>
+    public RenderFragment? TitleContent { get; init; }
+
     /// <summary>
     /// Whether a click on the backdrop closes the dialog. True by default, as before: false keeps
     /// the dialog open when the reader clicks beside it, while the close button and Escape still
