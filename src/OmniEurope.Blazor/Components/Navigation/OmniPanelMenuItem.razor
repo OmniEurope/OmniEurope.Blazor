@@ -37,7 +37,7 @@
                         class="@GroupLinkClass"
                         aria-expanded="@(IsOpen ? "true" : "false")"
                         aria-controls="@ChildrenId"
-                        @onclick="Toggle">
+                        @onclick="HandleGroupClickAsync">
                     @if (Icon is not null)
                     {
                         <span class="omni-panel-menu__icon" aria-hidden="true">@Icon</span>

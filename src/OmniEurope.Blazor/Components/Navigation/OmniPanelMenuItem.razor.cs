@@ -185,6 +185,23 @@ public partial class OmniPanelMenuItem
 
     private void Toggle() => _open = !IsOpen;
 
+    /// <summary>
+    /// On the rail a group has no room to show its entries, so its icon opens the sidebar on the
+    /// group, unfolded. Without a sidebar that can be opened, it unfolds in place as before.
+    /// </summary>
+    private async Task HandleGroupClickAsync()
+    {
+        var expand = Menu?.ExpandSidebar;
+        if (IconsOnly && expand is not null)
+        {
+            _open = true;
+            await expand();
+            return;
+        }
+
+        Toggle();
+    }
+
     private async Task HandleNavigateAsync()
     {
         var href = SafeHref;

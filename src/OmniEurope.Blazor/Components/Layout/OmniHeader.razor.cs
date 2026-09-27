@@ -27,5 +27,21 @@ public partial class OmniHeader
     [Parameter]
     public string? BrandMark { get; set; }
 
-    private bool HasBrand => !string.IsNullOrWhiteSpace(Brand) || !string.IsNullOrWhiteSpace(BrandMark);
+    /// <summary>
+    /// The logo as an image, before <see cref="Brand"/>, in place of <see cref="BrandMark"/> when both
+    /// are set. Decorative like the mark: the name says what it stands for.
+    /// </summary>
+    [Parameter]
+    public string? BrandLogo { get; set; }
+
+    /// <summary>
+    /// Where the brand leads: given an address, the logo and the name are one link, typically to the
+    /// application's home page. Null or blank, the default, leaves the brand a plain label.
+    /// </summary>
+    [Parameter]
+    public string? BrandHref { get; set; }
+
+    private bool HasBrand => !string.IsNullOrWhiteSpace(Brand) || !string.IsNullOrWhiteSpace(BrandMark) || !string.IsNullOrWhiteSpace(BrandLogo);
+
+    private string? SafeBrandHref => string.IsNullOrWhiteSpace(BrandHref) ? null : OmniUriPolicy.EnsureSafe(BrandHref, nameof(BrandHref));
 }

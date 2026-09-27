@@ -16,7 +16,8 @@ public partial class OmniSidebar
     /// <summary>
     /// Raised when the sidebar closes itself: the veil was clicked, Escape was pressed while it floats
     /// open, or an entry was chosen. Without a handler the veil still renders and still swallows the
-    /// click, so a floating sidebar that can be dismissed needs this bound.
+    /// click, so a floating sidebar that can be dismissed needs this bound. Raised with true when a
+    /// group is clicked on the rail: the sidebar opens on that group, unfolded.
     /// </summary>
     [Parameter]
     public EventCallback<bool> OpenChanged { get; set; }
@@ -78,7 +79,13 @@ public partial class OmniSidebar
 
     private bool ShowBackdrop => Open && Backdrop && Reveal == OmniSidebarReveal.Overlay;
 
-    private OmniSidebarState State => new(Open, Collapse);
+    /// <summary>
+    /// Cached so the cascaded state compares equal between renders while nothing changed: a new
+    /// delegate on every render would re-render the whole menu for nothing.
+    /// </summary>
+    private Func<Task>? _expand;
+
+    private OmniSidebarState State => new(Open, Collapse) { Expand = OpenChanged.HasDelegate ? _expand ??= () => OpenChanged.InvokeAsync(true) : null };
 
     private string EffectiveAriaLabel => string.IsNullOrWhiteSpace(AriaLabel)
         ? Localize("SidebarLabel")

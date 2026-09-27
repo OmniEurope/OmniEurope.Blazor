@@ -24,7 +24,7 @@ public partial class OmniPanelMenu
         ? OmniPanelMenuDisplayStyle.Icon
         : DisplayStyle;
 
-    private OmniPanelMenuContext OwnContext => new(EffectiveDisplayStyle);
+    private OmniPanelMenuContext OwnContext => new(EffectiveDisplayStyle) { ExpandSidebar = Sidebar?.Expand };
 
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label)
         ? Localize("PanelMenuLabel")
