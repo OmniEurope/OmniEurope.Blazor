@@ -1603,7 +1603,7 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
     cursor: pointer;
     flex: 0 0 auto;
     font: inherit;
-    min-height: calc(var(--omni-control-height) + 0.5rem);
+    min-height: var(--omni-control-height);
     padding: var(--omni-space-sm) var(--omni-space-md);
     white-space: nowrap;
 }

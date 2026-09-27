@@ -38,6 +38,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Fixed
 
+- `OmniSelectBar` : ses options prennent la hauteur des contrôles (`--omni-control-height`, 36 px en densité par défaut) au lieu de 0,5 rem de plus (44 px). Posée à côté d'un bouton, la barre dépassait de 8 px et décalait la ligne qui la porte (titre de page) ; les projets devaient la ramener eux-mêmes (une application cliente).
 - `OmniDropDown` avec `AllowFiltering` : l'`Id` est transmis au champ de l'`OmniAutocomplete` interne, qu'un `<OmniLabel For="…">` peut donc cibler comme la liste simple ; `AriaLabel` et `AriaDescribedBy` y étaient déjà transmis.
 - `OmniDataGrid` : un `Load` lié à un groupe de méthodes (`Load="LoadAsync"`) ne recharge plus la grille à chaque rendu du parent. Le chargeur est comparé par égalité de délégué (même méthode, même cible) au lieu de l'identité de l'instance, que chaque rendu renouvelle ; un chargeur réellement différent recharge toujours.
 - `OmniDataGrid` avec `LoadingTemplate` : une image visible dont la requête ne se termine jamais ne masque plus la grille indéfiniment. L'attente des images est bornée à 2 s côté script et à 5 s côté .NET, annulée par la disposition, et une attente expirée ou en échec affiche la grille telle quelle.
