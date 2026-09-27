@@ -38,6 +38,13 @@ public sealed record OmniHtmlSanitizerPolicy
     public bool AllowDataAttributes { get; init; }
 
     /// <summary>
+    /// Whether an image may carry itself in its <c>src</c> as a <c>data:</c> address, for a document that must stay
+    /// whole without a server to fetch its pictures from. Only on <c>img src</c> (so <c>img</c> must be allowed as
+    /// well), only PNG, JPEG, GIF and WebP in base 64: an SVG image, which can hold a script, stays refused.
+    /// </summary>
+    public bool AllowImageDataUris { get; init; }
+
+    /// <summary>
     /// The policy that keeps what either of the two keeps. A null side is the built-in allow-list alone,
     /// so merging with null returns the other policy itself.
     /// </summary>
@@ -63,7 +70,8 @@ public sealed record OmniHtmlSanitizerPolicy
             AdditionalTagAttributes = tagAttributes,
             AdditionalCssClasses = [.. first.AdditionalCssClasses.Union(second.AdditionalCssClasses, StringComparer.Ordinal)],
             AllowAnyClass = first.AllowAnyClass || second.AllowAnyClass,
-            AllowDataAttributes = first.AllowDataAttributes || second.AllowDataAttributes
+            AllowDataAttributes = first.AllowDataAttributes || second.AllowDataAttributes,
+            AllowImageDataUris = first.AllowImageDataUris || second.AllowImageDataUris
         };
     }
 }

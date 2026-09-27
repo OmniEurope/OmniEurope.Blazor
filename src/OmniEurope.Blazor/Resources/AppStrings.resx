@@ -169,6 +169,7 @@
   <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Ce type de fichier n&apos;est pas pris en charge.</value></data>
   <data name="HtmlEditorClosePanel" xml:space="preserve"><value>Fermer</value></data>
   <data name="HtmlEditorShowBlocks" xml:space="preserve"><value>Afficher les blocs</value></data>
+  <data name="HtmlEditorHighlight" xml:space="preserve"><value>Surligner</value></data>
   <data name="HtmlEditorChar00A9" xml:space="preserve"><value>Copyright</value></data>
   <data name="HtmlEditorChar00AE" xml:space="preserve"><value>Marque déposée</value></data>
   <data name="HtmlEditorChar2122" xml:space="preserve"><value>Marque commerciale</value></data>

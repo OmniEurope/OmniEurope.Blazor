@@ -52,6 +52,28 @@ public sealed class HtmlEditorSanitizerPolicyTests : OmniBunitContext
     public void Policy_NeverReopensScriptsHandlersStylesOrScriptAddresses(string input, string expected) =>
         Assert.Equal(expected, OmniHtmlSanitizer.Sanitize(input, AknPolicy));
 
+    private const string Png = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==";
+
+    [Fact]
+    public void AllowImageDataUris_KeepsARasterImageInItsSource_AndNothingElse()
+    {
+        var policy = AknPolicy with { AllowImageDataUris = true };
+
+        Assert.Equal($"<img src=\"{Png}\" alt=\"Plan\">", OmniHtmlSanitizer.Sanitize($"<img src=\"{Png}\" alt=\"Plan\">", policy));
+        // Without the option, the same image loses its source.
+        Assert.Equal("<img alt=\"Plan\">", OmniHtmlSanitizer.Sanitize($"<img src=\"{Png}\" alt=\"Plan\">", AknPolicy));
+        // An SVG, a document or a data address on a link stay refused even with the option.
+        Assert.Equal("<img alt=\"x\">", OmniHtmlSanitizer.Sanitize("<img src=\"data:image/svg+xml;base64,PHN2Zz48L3N2Zz4=\" alt=\"x\">", policy));
+        Assert.Equal("<img alt=\"x\">", OmniHtmlSanitizer.Sanitize("<img src=\"data:text/html;base64,PHNjcmlwdD4=\" alt=\"x\">", policy));
+        Assert.DoesNotContain("data:", OmniHtmlSanitizer.Sanitize($"<a href=\"{Png}\">lien</a>", policy), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void AMark_IsKeptByTheBuiltInList()
+    {
+        Assert.Equal("<p>A <mark>B</mark></p>", OmniHtmlSanitizer.Sanitize("<p>A <mark>B</mark></p>"));
+    }
+
     [Fact]
     public void AllowAnyClass_KeepsEveryClass_AndTheBuiltInListStillDropsThem()
     {
