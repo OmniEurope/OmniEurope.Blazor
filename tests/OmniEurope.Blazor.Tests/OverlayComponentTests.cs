@@ -444,6 +444,33 @@ public sealed class OverlayComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void DialogTitleContent_ReplacesTheTextInsideTheNamingHeading_AndTitleStaysTheDefault()
+    {
+        var service = new OmniOverlayService();
+        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+
+        service.OpenDialog(new OmniDialogRequest("Raccourcis", Content("Liste"))
+        {
+            TitleContent = builder =>
+            {
+                builder.OpenElement(0, "span");
+                builder.AddAttribute(1, "class", "title-marker");
+                builder.AddContent(2, "Raccourcis clavier");
+                builder.CloseElement();
+            }
+        });
+
+        host.WaitForAssertion(() => Assert.NotNull(host.Find(".omni-dialog__title .title-marker")));
+        var dialog = host.Find(".omni-dialog");
+        var heading = host.Find(".omni-dialog__title");
+        Assert.Equal(heading.Id, dialog.GetAttribute("aria-labelledby"));
+        Assert.Equal("Raccourcis clavier", heading.TextContent.Trim());
+
+        service.CloseDialog();
+        service.OpenDialog(new OmniDialogRequest("Confirmation", Content("Continuer ?")));
+        host.WaitForAssertion(() => Assert.Equal("Confirmation", host.Find(".omni-dialog__title").TextContent.Trim()));
+    }
+    [Fact]
     public async Task ReopeningTheSameRequestAnswersTheCallerItDisplaces()
     {
         using var service = new OmniOverlayService();

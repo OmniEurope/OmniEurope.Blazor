@@ -2310,6 +2310,7 @@ property public OmniEurope.Blazor.Components.OmniDialog.ReturnFocusTo : Microsof
 property public OmniEurope.Blazor.Components.OmniDialog.ShowClose : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDialog.Size : OmniEurope.Blazor.Components.OmniDialogSize {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDialog.Title : System.String {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniDialog.TitleContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDialogRequest.CloseLabel : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDialogRequest.CloseOnBackdropClick : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDialogRequest.CloseOnEscape : System.Boolean {get(public);init(public)}
@@ -2321,6 +2322,7 @@ property public OmniEurope.Blazor.Components.OmniDialogRequest.Resizable : Syste
 property public OmniEurope.Blazor.Components.OmniDialogRequest.ShowClose : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDialogRequest.Size : OmniEurope.Blazor.Components.OmniDialogSize {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDialogRequest.Title : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniDialogRequest.TitleContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDiffFile.Additions : System.Int32 {get(public)}
 property public OmniEurope.Blazor.Components.OmniDiffFile.Deletions : System.Int32 {get(public)}
 property public OmniEurope.Blazor.Components.OmniDiffFile.Hunks : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniDiffHunk> {get(public);init(public)}

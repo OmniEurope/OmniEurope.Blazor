@@ -19,7 +19,7 @@
                  @onkeydown="HandleKeyDownAsync">
             @if (Modal) { <button type="button" class="omni-visually-hidden" data-focus-sentinel aria-label="@Localize("DialogEnd")" @onfocus="FocusLastAsync"></button> }
             <header class="omni-dialog__header" data-omni-dialog-drag-handle="@(Draggable ? string.Empty : null)">
-                <h2 id="@TitleId" class="omni-dialog__title">@Title</h2>
+                <h2 id="@TitleId" class="omni-dialog__title">@(TitleContent ?? (RenderFragment)(builder => builder.AddContent(0, Title)))</h2>
                 @if (Dismissible && ShowClose)
                 {
                     <button type="button" class="omni-dialog__close" aria-label="@EffectiveCloseLabel" autofocus @onclick="CloseAsync">×</button>

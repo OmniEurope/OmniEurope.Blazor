@@ -40,6 +40,7 @@ internal static class OmniOverlayHosts
             builder.AddAttribute(sequence++, nameof(OmniDialog.OpenChanged), EventCallback.Factory.Create<bool>(service, openChanged));
             builder.AddAttribute(sequence++, nameof(OmniDialog.ChildContent), dialog.Content);
             builder.AddAttribute(sequence++, nameof(OmniDialog.Footer), dialog.Footer);
+            builder.AddAttribute(sequence++, nameof(OmniDialog.TitleContent), dialog.TitleContent);
             builder.AddAttribute(
                 sequence++,
                 nameof(OmniDialog.AdditionalAttributes),
