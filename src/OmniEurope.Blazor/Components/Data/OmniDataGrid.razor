@@ -425,6 +425,8 @@
                                     tabindex="@(RowsAreInteractive && row.Selectable ? "0" : null)"
                                     @onclick="RowClickCallback(row)"
                                     @ondblclick="RowDoubleClickCallback(row)"
+                                    @oncontextmenu="RowContextMenuCallback(row)"
+                                    @oncontextmenu:preventDefault="RowContextMenu.HasDelegate"
                                     @onkeydown="RowKeyDownCallback(row)">
                                     @* The control cells and a row being edited keep their clicks and keys to
                                        themselves: a tick in the checkbox is not also a row click, and a space typed

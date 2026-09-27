@@ -2233,9 +2233,11 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.PrevPageTitle :
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Responsive : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.RowClick : Microsoft.AspNetCore.Components.EventCallback<TItem> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.RowCollapse : Microsoft.AspNetCore.Components.EventCallback<TItem> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.RowContextMenu : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniDataGridRowMouseEventArgs<TItem>> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.RowDoubleClick : Microsoft.AspNetCore.Components.EventCallback<TItem> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.RowExpand : Microsoft.AspNetCore.Components.EventCallback<TItem> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.RowHeight : System.Double? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.RowMouseClick : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniDataGridRowMouseEventArgs<TItem>> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.RowRender : System.Action<OmniEurope.Blazor.Components.OmniDataGridRowRenderArgs<TItem>>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.RowSelect : Microsoft.AspNetCore.Components.EventCallback<TItem> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.RowUpdated : Microsoft.AspNetCore.Components.EventCallback<TItem> {get(public);set(public)} [Parameter]
@@ -2337,6 +2339,14 @@ property public OmniEurope.Blazor.Components.OmniDataGridLoadRequest.Sorts : Sys
 property public OmniEurope.Blazor.Components.OmniDataGridLoadRequest.Top : System.Int32 {get(public)}
 property public OmniEurope.Blazor.Components.OmniDataGridResult<TItem>.Items : System.Collections.Generic.IReadOnlyList<TItem> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniDataGridResult<TItem>.TotalCount : System.Int32 {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniDataGridRowMouseEventArgs<TItem>.AltKey : System.Boolean {get(public)}
+property public OmniEurope.Blazor.Components.OmniDataGridRowMouseEventArgs<TItem>.ClientX : System.Double {get(public)}
+property public OmniEurope.Blazor.Components.OmniDataGridRowMouseEventArgs<TItem>.ClientY : System.Double {get(public)}
+property public OmniEurope.Blazor.Components.OmniDataGridRowMouseEventArgs<TItem>.CtrlKey : System.Boolean {get(public)}
+property public OmniEurope.Blazor.Components.OmniDataGridRowMouseEventArgs<TItem>.Index : System.Int32 {get(public)}
+property public OmniEurope.Blazor.Components.OmniDataGridRowMouseEventArgs<TItem>.Item : TItem {get(public)}
+property public OmniEurope.Blazor.Components.OmniDataGridRowMouseEventArgs<TItem>.MetaKey : System.Boolean {get(public)}
+property public OmniEurope.Blazor.Components.OmniDataGridRowMouseEventArgs<TItem>.ShiftKey : System.Boolean {get(public)}
 property public OmniEurope.Blazor.Components.OmniDataGridRowRenderArgs<TItem>.CssClass : System.String? {get(public);set(public)}
 property public OmniEurope.Blazor.Components.OmniDataGridRowRenderArgs<TItem>.Expandable : System.Boolean {get(public);set(public)}
 property public OmniEurope.Blazor.Components.OmniDataGridRowRenderArgs<TItem>.Index : System.Int32 {get(public)}
@@ -3539,6 +3549,7 @@ type public OmniEurope.Blazor.Components.OmniDataGridLoadRequest [class, sealed]
 type public OmniEurope.Blazor.Components.OmniDataGridLogicalOperator [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDataGridPagerPosition [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDataGridResult<TItem> [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDataGridResult<TItem>>
+type public OmniEurope.Blazor.Components.OmniDataGridRowMouseEventArgs<TItem> [class, sealed]
 type public OmniEurope.Blazor.Components.OmniDataGridRowRenderArgs<TItem> [class, sealed]
 type public OmniEurope.Blazor.Components.OmniDataGridSelectionMode [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDataGridSort [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDataGridSort>
