@@ -957,8 +957,8 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-header__logo { background: var(--omni-color-accent-fill); block-size: calc(var(--omni-icon-box) * 0.72); border-radius: var(--omni-radius); color: var(--omni-color-on-accent-fill); display: grid; flex: none; font-size: 0.75rem; font-weight: 800; inline-size: calc(var(--omni-icon-box) * 0.72); place-content: center; }
 .omni-header--branded > .omni-sidebar-toggle { order: -1; }
 /* The header control shares the same horizontal axis as the collapsed sidebar icons. */
-.omni-header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); margin-inline-start: -12px; }
-.omni-sidebar__header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); }
+.omni-header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); margin-inline-start: -12px; min-inline-size: var(--omni-sidebar-rail); }
+.omni-sidebar__header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); min-inline-size: var(--omni-sidebar-rail); }
 .omni-header--accent .omni-header__logo { background: var(--omni-color-on-accent); color: var(--omni-color-accent); }
 
 /* A fieldset sizes to its minimal content, not to its container: without an explicit width it shrank
