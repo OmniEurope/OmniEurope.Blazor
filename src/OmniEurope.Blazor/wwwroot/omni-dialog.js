@@ -33,14 +33,21 @@ export function attach(dialog) {
         const matrix = new DOMMatrixReadOnly(getComputedStyle(dialog).transform);
         const originX = matrix.m41;
         const originY = matrix.m42;
+        // The limits are the room around the dialog where the gesture starts, read once. Read again at
+        // every move, the box has already travelled: the room left shrinks as the dialog advances and it
+        // stops half way, against an invisible wall.
+        const bounds = dialog.getBoundingClientRect();
+        const minX = originX - bounds.left + 8;
+        const maxX = originX + innerWidth - bounds.right - 8;
+        const minY = originY - bounds.top + 8;
+        const maxY = originY + innerHeight - bounds.bottom - 8;
         handle.setPointerCapture(event.pointerId);
 
         const onMove = move => {
-            const bounds = dialog.getBoundingClientRect();
             const nextX = originX + move.clientX - startX;
             const nextY = originY + move.clientY - startY;
-            const limitedX = Math.min(Math.max(nextX, originX - bounds.left + 8), originX + innerWidth - bounds.right - 8);
-            const limitedY = Math.min(Math.max(nextY, originY - bounds.top + 8), originY + innerHeight - bounds.bottom - 8);
+            const limitedX = Math.min(Math.max(nextX, minX), Math.max(minX, maxX));
+            const limitedY = Math.min(Math.max(nextY, minY), Math.max(minY, maxY));
             dialog.style.transform = `translate(${limitedX}px, ${limitedY}px)`;
         };
         const onUp = () => {
