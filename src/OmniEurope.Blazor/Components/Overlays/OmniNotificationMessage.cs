@@ -23,4 +23,13 @@ public sealed record OmniNotificationMessage(
     /// Offered from the notification only when its text is too long to read in one.
     /// </summary>
     public string? DetailsHref { get; init; }
+
+    /// <summary>
+    /// The label of the action the notification offers (undo, retry), shown as a button.
+    /// Null, the default, offers none.
+    /// </summary>
+    public string? ActionText { get; init; }
+
+    /// <summary>What the action does. Run once when chosen; the notification then closes.</summary>
+    public Func<Task>? Action { get; init; }
 }

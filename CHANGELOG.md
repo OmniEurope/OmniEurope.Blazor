@@ -14,6 +14,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Added
 
+- `OmniOverlayService.Notify(message, severity, title, duration, actionText, action)` et `OmniNotificationMessage.ActionText` / `Action` : une notification propose une action (annuler ce qui vient d'être fait, réessayer) sous forme de bouton ; la choisir ferme la notification puis exécute l'action une seule fois. `OmniNotification.ActionText` et `OnAction` rendent le bouton `omni-notification__action`. Sans action, la notification est inchangée.
 - `OmniIconName` : vingt-neuf icônes Phosphor `regular` 2.1.1 pour un lecteur audio (Orpheus) : `SkipBack`, `SkipForward`, `Shuffle`, `Repeat`, `RepeatOnce`, `SpeakerHigh`, `SpeakerLow`, `SpeakerNone`, `SpeakerX`, `Queue`, `Playlist`, `ListPlus`, `MusicNote`, `Disc`, `Waveform`, `DotsSixVertical`, `CornersIn`, `PlayCircle`, `PauseCircle`, `XCircle`, `ChartBar`, `BookOpen`, `ArrowsDownUp`, `FolderPlus`, `Television`, `SealCheck`, `CheckSquare`, `ArrowBendUpRight`, `Stethoscope`. Valeurs ajoutées en fin d'énumération : les valeurs existantes ne changent pas.
 - `OmniHeader.BrandHref` : avec une adresse, le logo et le nom de la marque forment un seul lien (retour à l'accueil) ; sans elle, la marque reste un libellé. `OmniHeader.BrandLogo` : le logo en image, à la place de `BrandMark` quand les deux sont posés.
 - `OmniSidebarState.Expand` : une barre latérale dont `OpenChanged` est lié le transmet à la navigation qu'elle contient.

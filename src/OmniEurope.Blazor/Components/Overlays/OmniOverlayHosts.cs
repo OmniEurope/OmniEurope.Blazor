@@ -148,6 +148,18 @@ internal static class OmniOverlayHosts
             }
         }));
         builder.AddAttribute(9, nameof(OmniNotification.OnDismiss), EventCallback.Factory.Create(service, () => { service.Dismiss(notification.Id); }));
+        if (notification.Action is { } action && !string.IsNullOrWhiteSpace(notification.ActionText))
+        {
+            builder.AddAttribute(10, nameof(OmniNotification.ActionText), notification.ActionText);
+            builder.AddAttribute(11, nameof(OmniNotification.OnAction), EventCallback.Factory.Create(service, async () =>
+            {
+                // Closed first: the action runs once, even if the reader clicks again while it works.
+                if (service.Dismiss(notification.Id))
+                {
+                    await action();
+                }
+            }));
+        }
         builder.CloseComponent();
     }
 

@@ -45,6 +45,14 @@ public partial class OmniNotification
     [Parameter]
     public string? DetailsHref { get; set; }
 
+    /// <summary>The label of the action offered as a button; with <see cref="OnAction"/>, the button shows.</summary>
+    [Parameter]
+    public string? ActionText { get; set; }
+
+    /// <summary>Raised when the reader chooses the action.</summary>
+    [Parameter]
+    public EventCallback OnAction { get; set; }
+
     [Parameter]
     public EventCallback OnDismiss { get; set; }
 

@@ -1958,8 +1958,8 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-notification__message { color: var(--omni-color-text-muted); font-size: 0.875rem; line-height: 1.4; overflow-wrap: anywhere; }
 .omni-notification--long .omni-notification__message { max-block-size: 10.5rem; overflow-y: auto; overscroll-behavior: contain; padding-inline-end: 0.375rem; scrollbar-width: thin; }
 .omni-notification--long .omni-notification__message[data-collapsed] { mask: linear-gradient(#000 60%, transparent); max-block-size: calc(1.4em * 4); overflow: hidden; padding-inline-end: 0; }
-.omni-notification__more,.omni-notification__details { background: none; border: 0; color: var(--omni-color-accent-strong); cursor: pointer; font: inherit; font-size: 0.875rem; justify-self: start; padding: 0; text-decoration: none; }
-:is(.omni-notification__more,.omni-notification__details):hover { text-decoration: underline; }
+.omni-notification__more,.omni-notification__details,.omni-notification__action { background: none; border: 0; color: var(--omni-color-accent-strong); cursor: pointer; font: inherit; font-size: 0.875rem; justify-self: start; padding: 0; text-decoration: none; }
+:is(.omni-notification__more,.omni-notification__details,.omni-notification__action):hover { text-decoration: underline; }
 .omni-notification__dismiss.omni-notification__dismiss { align-items: center; background: transparent; display: inline-flex; justify-content: center; margin: calc((var(--omni-alert-icon) - 2.75rem) / 2) -0.375rem 0 0; padding: 0; }
 @keyframes omni-notification-drain { from { transform: scaleX(1); } to { transform: scaleX(0); } }
 @media (prefers-reduced-motion: reduce) { .omni-notification--tinted::before { animation: none; } }
