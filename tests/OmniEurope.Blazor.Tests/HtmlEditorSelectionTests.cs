@@ -143,6 +143,33 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Enabled_DisablesAContextualCommand_WithoutRemovingItFromTheToolbar()
+    {
+        var module = JSInterop.SetupModule(ModulePath);
+        module.SetupVoid("dispose", _ => true).SetVoidResult();
+        module.Setup<string?>("read", _ => true).SetResult(null);
+        var value = "<p>A</p>";
+        var note = OmniHtmlEditorCommand.Create("note", "Note", _ => Task.CompletedTask) with
+        {
+            Enabled = selection => selection?.Closest("aside") is not null
+        };
+        var editor = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Commands, [note, OmniHtmlEditorCommands.Bold]));
+
+        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        Assert.True(options.GetProperty("selection").GetBoolean());
+        var buttonsBefore = editor.FindAll(".omni-html-editor__toolbar button").Count;
+        Assert.True(editor.Find("button[data-command=note]").HasAttribute("disabled"));
+
+        await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnSelectionChanged(CaretInANote));
+
+        Assert.False(editor.Find("button[data-command=note]").HasAttribute("disabled"));
+        Assert.Equal(buttonsBefore, editor.FindAll(".omni-html-editor__toolbar button").Count);
+    }
+
+    [Fact]
     public void WithoutPressed_ACustomCommandHasNoPressedState()
     {
         JSInterop.SetupModule(ModulePath);

@@ -2512,6 +2512,7 @@ property public OmniEurope.Blazor.Components.OmniHtmlEditor.SanitizerPolicy : Om
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.SelectionChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniHtmlEditorSelection> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.ShowPreview : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Action : OmniEurope.Blazor.Components.OmniHtmlEditorAction {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Enabled : System.Func<OmniEurope.Blazor.Components.OmniHtmlEditorSelection?,System.Boolean>? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Execute : System.Func<OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext,System.Threading.Tasks.Task>? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Icon : OmniEurope.Blazor.Components.OmniIconName? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Label : System.String? {get(public);init(public)}

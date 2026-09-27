@@ -140,9 +140,11 @@ public partial class OmniHtmlEditor
 
     /// <summary>
     /// Whether the surface reports where the selection is: only when someone listens, through
-    /// <see cref="SelectionChanged"/> or a command whose <see cref="OmniHtmlEditorCommand.Pressed"/> depends on it.
+    /// <see cref="SelectionChanged"/> or a command whose <see cref="OmniHtmlEditorCommand.Pressed"/> or
+    /// <see cref="OmniHtmlEditorCommand.Enabled"/> depends on it.
     /// </summary>
-    private bool TracksSelection => SelectionChanged.HasDelegate || (Commands ?? []).Any(command => command.Pressed is not null);
+    private bool TracksSelection => SelectionChanged.HasDelegate
+        || (Commands ?? []).Any(command => command.Pressed is not null || command.Enabled is not null);
 
     private string Clean(string? html) => OmniHtmlSanitizer.Sanitize(html, SanitizerPolicy);
 
@@ -690,7 +692,9 @@ public partial class OmniHtmlEditor
         _ => true
     };
 
-    private bool IsDisabled(OmniHtmlEditorCommand command) => Disabled || command.Action switch
+    private bool IsDisabled(OmniHtmlEditorCommand command) => Disabled
+        || (command.Enabled is { } enabled && !enabled(_mode == OmniHtmlEditorMode.Visual ? _caret : null))
+        || command.Action switch
     {
         OmniHtmlEditorAction.Undo => _undo.Count == 0,
         OmniHtmlEditorAction.Redo => _redo.Count == 0,
