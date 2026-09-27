@@ -228,6 +228,20 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public EventCallback<TItem> RowDoubleClick { get; set; }
 
+    /// <summary>
+    /// Raised with <see cref="RowClick"/>, carrying the modifier keys held (Ctrl, Shift…), so a host can
+    /// select with Ctrl or Shift and act on a plain click. Unset, rows behave as before.
+    /// </summary>
+    [Parameter]
+    public EventCallback<OmniDataGridRowMouseEventArgs<TItem>> RowMouseClick { get; set; }
+
+    /// <summary>
+    /// Raised by a right-click on a data row; the browser menu is then not shown there. The event still
+    /// bubbles, so an enclosing context menu opens at the pointer. Unset, rows keep the browser menu.
+    /// </summary>
+    [Parameter]
+    public EventCallback<OmniDataGridRowMouseEventArgs<TItem>> RowContextMenu { get; set; }
+
     /// <summary>Called for every rendered row so the host can add a class or veto its controls.</summary>
     [Parameter]
     public Action<OmniDataGridRowRenderArgs<TItem>>? RowRender { get; set; }
@@ -643,7 +657,7 @@ public partial class OmniDataGrid<TItem>
     private string EmptyMessage => _filters.Values.Any(filter => filter.IsActive)
         ? Localize("GridEmptyFiltered")
         : string.IsNullOrWhiteSpace(EmptyText) ? Localize("GridEmpty") : EmptyText;
-    private bool RowsAreInteractive => AllowRowSelectOnRowClick || RowClick.HasDelegate || RowDoubleClick.HasDelegate;
+    private bool RowsAreInteractive => AllowRowSelectOnRowClick || RowClick.HasDelegate || RowMouseClick.HasDelegate || RowDoubleClick.HasDelegate;
     private bool ShowDetailColumn => DetailTemplate is not null && ShowExpandColumn;
     private bool ShowLoadingRow => Virtualized ? Loading && TotalCount == 0 : Loading;
     private bool IsEmpty => Virtualized ? TotalCount == 0 : VisibleItems.Count == 0;
@@ -1163,8 +1177,9 @@ public partial class OmniDataGrid<TItem>
             }
 
             // A slot holds group headers and a detail row besides its item row, so it is measured even
-            // when the item rows themselves have a fixed height.
-            var snapshot = await _gridModule.InvokeAsync<GridViewportSnapshot?>("sync", _viewport, RowHeight is null || StructuredVirtual);
+            // when the item rows themselves have a fixed height. The spacers of the rows just rendered
+            // are set before anything is read, so the scroll is never measured on a shortened content.
+            var snapshot = await _gridModule.InvokeAsync<GridViewportSnapshot?>("sync", _viewport, RowHeight is null || StructuredVirtual, _range.TopSpacer, _range.BottomSpacer);
             var moved = ApplySnapshot(snapshot);
             var previous = _range;
             SyncVirtualWindow();
@@ -1927,7 +1942,7 @@ public partial class OmniDataGrid<TItem>
             .ToArray();
     }
 
-    private async Task ActivateRowAsync(GridRenderRow<TItem> row)
+    private async Task ActivateRowAsync(GridRenderRow<TItem> row, MouseEventArgs? mouse = null)
     {
         if (!row.Selectable)
         {
@@ -1940,13 +1955,22 @@ public partial class OmniDataGrid<TItem>
         }
 
         await RowClick.InvokeAsync(row.Item);
+        if (RowMouseClick.HasDelegate)
+        {
+            await RowMouseClick.InvokeAsync(new OmniDataGridRowMouseEventArgs<TItem>(row.Item, row.Index, mouse));
+        }
     }
 
     private Task RowKeyDownAsync(KeyboardEventArgs args, GridRenderRow<TItem> row) =>
         args.Key is "Enter" or " " ? ActivateRowAsync(row) : Task.CompletedTask;
 
-    private EventCallback RowClickCallback(GridRenderRow<TItem> row) => RowsAreInteractive
-        ? EventCallback.Factory.Create(this, () => ActivateRowAsync(row))
+    private EventCallback<MouseEventArgs> RowClickCallback(GridRenderRow<TItem> row) => RowsAreInteractive
+        ? EventCallback.Factory.Create<MouseEventArgs>(this, mouse => ActivateRowAsync(row, mouse))
+        : default;
+
+    private EventCallback<MouseEventArgs> RowContextMenuCallback(GridRenderRow<TItem> row) => RowContextMenu.HasDelegate
+        ? EventCallback.Factory.Create<MouseEventArgs>(this, mouse =>
+            RowContextMenu.InvokeAsync(new OmniDataGridRowMouseEventArgs<TItem>(row.Item, row.Index, mouse)))
         : default;
 
     private EventCallback RowDoubleClickCallback(GridRenderRow<TItem> row) => RowDoubleClick.HasDelegate

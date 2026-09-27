@@ -278,6 +278,11 @@ comme n'importe quel autre filtre.
   et Espace. Les cellules de contrôle (case, chevron, boutons d'édition) et les cellules d'une ligne
   en édition gardent leurs clics et leurs touches : cocher une case n'est pas aussi un clic de
   ligne qui la décocherait, et un espace tapé dans un éditeur ne sélectionne pas la ligne.
+- `RowMouseClick` accompagne `RowClick` avec un `OmniDataGridRowMouseEventArgs<TItem>` : l'élément, sa
+  position et les touches Ctrl, Maj, Alt et Méta tenues (toutes fausses quand la ligne est activée au
+  clavier), pour sélectionner au Ctrl ou Maj clic et agir sur un clic simple. `RowContextMenu` reçoit le
+  même objet au clic droit d'une ligne, sans le menu du navigateur ; l'événement remonte, si bien qu'un
+  `OmniContextMenu` qui englobe la grille s'ouvre au pointeur.
 - `RowRender` reçoit un `OmniDataGridRowRenderArgs<TItem>` : classe CSS supplémentaire, ligne non
   sélectionnable, ligne non dépliable. Il ne peut pas produire de style inline.
 - `ShowEditColumn`, actif par défaut, ajoute la colonne d'actions d'édition dès qu'au moins une
