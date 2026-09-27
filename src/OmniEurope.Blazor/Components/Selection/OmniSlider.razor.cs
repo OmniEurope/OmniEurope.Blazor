@@ -26,10 +26,28 @@ public partial class OmniSlider
     [Parameter]
     public Func<double, string>? FormatValue { get; set; }
 
+    /// <summary>
+    /// Raised once when the reader lets go of the thumb (or commits a key press), with the final value.
+    /// <c>ValueChanged</c> still follows every step of the drag; this one suits an action that must run
+    /// once, such as seeking a media position. Unset, nothing more happens on release.
+    /// </summary>
+    [Parameter]
+    public EventCallback<double> ValueCommitted { get; set; }
+
     private string OrientationText => Vertical ? "vertical" : "horizontal";
     private string ValueText => FormatValue?.Invoke(CurrentValue) ?? Format(CurrentValue);
     private static string Format(double value) => value.ToString(System.Globalization.CultureInfo.InvariantCulture);
     private void HandleInput(ChangeEventArgs args) => CurrentValueAsString = args.Value?.ToString();
+
+    // No change handler at all without ValueCommitted: a slider that does not ask for it renders as before.
+    private EventCallback<ChangeEventArgs> ChangeCallback => ValueCommitted.HasDelegate
+        ? EventCallback.Factory.Create<ChangeEventArgs>(this, HandleChangeAsync)
+        : default;
+
+    private Task HandleChangeAsync(ChangeEventArgs args) =>
+        double.TryParse(args.Value?.ToString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var value)
+            ? ValueCommitted.InvokeAsync(value)
+            : Task.CompletedTask;
 
     protected override void OnParametersSet()
     {

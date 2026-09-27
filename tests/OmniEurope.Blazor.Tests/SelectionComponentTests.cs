@@ -63,6 +63,39 @@ public sealed class SelectionComponentTests : OmniBunitContext
             .Add(component => component.Vertical, true)).Find("input").GetAttribute("aria-orientation"));
     }
 
+    [Fact]
+    public void Slider_ValueCommitted_FiresOnceOnReleaseWhileValueChangedFollowsTheDrag()
+    {
+        var holder = new SliderHolder { Value = 0 };
+        var steps = new List<double>();
+        double? committed = null;
+        var slider = Render<OmniSlider>(parameters => parameters
+            .Add(component => component.Value, holder.Value)
+            .Add(component => component.ValueExpression, () => holder.Value)
+            .Add(component => component.ValueChanged, value => steps.Add(value))
+            .Add(component => component.ValueCommitted, value => committed = value));
+
+        slider.Find("input").Input("10");
+        slider.Find("input").Input("20");
+        Assert.Null(committed);
+
+        slider.Find("input").Change("20");
+
+        Assert.Equal([10, 20], steps);
+        Assert.Equal(20, committed);
+    }
+
+    [Fact]
+    public void Slider_WithoutValueCommitted_AttachesNoChangeHandler()
+    {
+        var holder = new SliderHolder { Value = 3 };
+        var slider = Render<OmniSlider>(parameters => parameters
+            .Add(component => component.Value, holder.Value)
+            .Add(component => component.ValueExpression, () => holder.Value));
+
+        Assert.Throws<Bunit.MissingEventHandlerException>(() => slider.Find("input").Change("4"));
+    }
+
     [Theory]
     [InlineData(10, 0, 1, 5)]
     [InlineData(0, 10, 0, 5)]
