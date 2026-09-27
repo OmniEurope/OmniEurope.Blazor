@@ -187,6 +187,15 @@ await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Enter', code: 'Enter
 await waitFor('l\'ajustement au clavier', `document.querySelector('${grid} th[data-omni-col="Applicant"]').getBoundingClientRect().width >= ${needed}`);
 results.push(`glisser ${Math.round(dragged)} px puis Entrée ${Math.round(await headerWidth('Applicant'))} px`);
 
+// A second fit of a column already fitted keeps its width: the measurement reads the content, never
+// the width the column has now.
+const refitBefore = await headerWidth('Applicant');
+await doubleClick(await handleCenter('Applicant'));
+await pause(800);
+const refitAfter = await headerWidth('Applicant');
+check(Math.abs(refitAfter - refitBefore) < 1, `Un nouvel ajustement a changé la largeur : ${refitBefore} puis ${refitAfter} px.`);
+results.push(`nouvel ajustement stable à ${Math.round(refitAfter)} px`);
+
 await pause(300);
 const csp = await evaluate('window.__omniCsp');
 const probes = await evaluate(`document.querySelectorAll('${grid} table:not(.omni-data-grid__table), ${grid} div[aria-hidden="true"]').length`);
