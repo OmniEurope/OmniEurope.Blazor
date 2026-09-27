@@ -78,6 +78,17 @@ public sealed partial class ConventionGuardTests
     }
 
     [Fact]
+    public void SidebarToggle_KeepsTheRailWidth_AtEveryControlSize()
+    {
+        // Its control-height floor made it wider than the rail from control size 7 and moved it off the
+        // axis of the rail icons (+2.6 px at size 10, a client application).
+        var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
+
+        Assert.Contains(".omni-header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); margin-inline-start: -12px; min-inline-size: var(--omni-sidebar-rail); }", styles, StringComparison.Ordinal);
+        Assert.Contains(".omni-sidebar__header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); min-inline-size: var(--omni-sidebar-rail); }", styles, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void SelectBarOptions_TakeTheControlHeight_LikeTheButtonsBesideThem()
     {
         // 0.5rem taller than a button, a select bar pushed the page title it sits beside by 8 px.
