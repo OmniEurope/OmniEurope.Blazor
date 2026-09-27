@@ -27,6 +27,8 @@ public partial class AppShellDemo
 
     private string? Last { get; set; }
 
+    private bool Maximized { get; set; }
+
     /// <summary>The unread notifications the bell announces.</summary>
     private static int Unread => 3;
 

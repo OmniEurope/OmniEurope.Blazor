@@ -32,10 +32,10 @@ public partial class OmniNotification
     /// <summary>
     /// Tints the card in the colour of its severity and drains the tint over the time it has left.
     /// Needs <see cref="Duration"/>: a notification that stays until dismissed has nothing to count
-    /// down. Off, the card stays the surface colour and still closes on time.
+    /// down. On by default; off, the card stays the surface colour and still closes on time.
     /// </summary>
     [Parameter]
-    public bool ShowCountdown { get; set; }
+    public bool ShowCountdown { get; set; } = true;
 
     /// <summary>How long the notification stays, when it goes on its own.</summary>
     [Parameter]

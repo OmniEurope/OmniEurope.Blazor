@@ -1,7 +1,19 @@
+using Microsoft.JSInterop;
+
 namespace OmniEurope.Blazor.Components;
 
 public partial class OmniMain
 {
+    private const string InteropModulePath = "./_content/OmniEurope.Blazor/omniInterop.js";
+
+    private ElementReference _main;
+    private IJSObjectReference? _module;
+    private bool _watching;
+    private bool _disposed;
+
+    [Inject]
+    private IJSRuntime JavaScript { get; set; } = default!;
+
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
@@ -32,6 +44,53 @@ public partial class OmniMain
     /// </summary>
     [Parameter]
     public bool Scrollable { get; set; }
+
+    /// <summary>
+    /// With <see cref="Scrollable"/>, hides the page scrollbar until the page moves: it shows while the
+    /// user scrolls and fades out shortly after, like an overlay scrollbar. Off by default.
+    /// </summary>
+    [Parameter]
+    public bool AutoHideScrollbar { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_watching || !Scrollable || !AutoHideScrollbar)
+        {
+            return;
+        }
+
+        _watching = true;
+        try
+        {
+            _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
+            if (!_disposed)
+            {
+                await _module.InvokeVoidAsync("watchScrolling", _main, "omni-main--scrolling");
+            }
+        }
+        catch (JSDisconnectedException)
+        {
+            // The page is gone; nothing left to watch.
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        _disposed = true;
+        if (_module is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await _module.InvokeVoidAsync("unwatchScrolling", _main);
+            await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+        }
+    }
 
     private string? WidthClass => ContentWidth == OmniLayoutWidth.Full
         ? null

@@ -1,0 +1,46 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* The caption buttons of a borderless desktop window (MAUI, Electron, WebView2 host): square, the full
+   height of the header, side by side without a gap, the close button in the very corner. Extra header
+   actions (a theme toggle) sit before them, square too, with a small gap. *@
+<div id="@Id" class="@Css("omni-window-controls")" role="group" aria-label="@EffectiveLabel" @attributes="AdditionalAttributes">
+    @if (Actions is not null)
+    {
+        <div class="omni-window-controls__actions">@Actions</div>
+    }
+    <div class="omni-window-controls__buttons">
+        @if (OnMinimizeToTray.HasDelegate)
+        {
+            <OmniTooltip Text="@EffectiveMinimizeToTrayLabel">
+                <button type="button" class="omni-window-controls__button" aria-label="@EffectiveMinimizeToTrayLabel" @onclick="OnMinimizeToTray">
+                    <OmniIcon Name="OmniIconName.Tray" />
+                </button>
+            </OmniTooltip>
+        }
+        @if (OnMinimize.HasDelegate)
+        {
+            <OmniTooltip Text="@EffectiveMinimizeLabel">
+                <button type="button" class="omni-window-controls__button" aria-label="@EffectiveMinimizeLabel" @onclick="OnMinimize">
+                    <OmniIcon Name="OmniIconName.Remove" />
+                </button>
+            </OmniTooltip>
+        }
+        @if (OnMaximizeRestore.HasDelegate)
+        {
+            <OmniTooltip Text="@EffectiveMaximizeLabel">
+                <button type="button" class="omni-window-controls__button" aria-label="@EffectiveMaximizeLabel" @onclick="OnMaximizeRestore">
+                    <OmniIcon Name="@(IsMaximized ? OmniIconName.FrameCorners : OmniIconName.CornersOut)" />
+                </button>
+            </OmniTooltip>
+        }
+        @if (OnClose.HasDelegate)
+        {
+            <OmniTooltip Text="@EffectiveCloseLabel">
+                <button type="button" class="omni-window-controls__button omni-window-controls__button--close" aria-label="@EffectiveCloseLabel" @onclick="OnClose">
+                    <OmniIcon Name="OmniIconName.Close" />
+                </button>
+            </OmniTooltip>
+        }
+    </div>
+</div>

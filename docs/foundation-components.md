@@ -209,6 +209,10 @@ dans un tel panneau ne porte pas de défilement propre.
 
 `OmniLayout.Width` rétrécit toute la coquille. Pour garder l'en-tête et la barre latérale sur toute la largeur et ne centrer que le contenu, c'est `OmniMain.ContentWidth`. Avec `Scrollable`, l'élément principal devient le conteneur de défilement de la page : il couvre toute la zone laissée par la barre latérale, si bien que sa barre de défilement reste au bord droit de la fenêtre, jamais au bord de la colonne centrée. La colonne se centre par la marge intérieure de l'élément et comprend sa gouttière, `--omni-main-gutter` (l'espacement moyen par défaut). Un enfant à `block-size: 100%` remplit exactement la zone ; un contenu plus haut la fait défiler, marge du bas comprise.
 
+`OmniMain.AutoHideScrollbar` (désactivé par défaut, avec `Scrollable`) garde la place de la barre de défilement mais la laisse transparente : elle n'apparaît que pendant le défilement et s'efface peu après, comme une barre en surimpression.
+
+`OmniWindowControls`, dernier enfant d'un `OmniHeader`, dessine les boutons de légende d'une fenêtre de bureau sans bordure (MAUI, WebView2) : réduire dans la zone de notification (`OnMinimizeToTray`), réduire (`OnMinimize`), agrandir ou restaurer (`OnMaximizeRestore`, `IsMaximized`) et fermer (`OnClose`). Seuls les boutons dont le rappel est posé sont rendus. Ils sont carrés, prennent toute la hauteur de l'en-tête en traversant sa marge intérieure, se touchent, et fermer occupe le coin supérieur droit, rouge au survol. `Actions` accueille d'autres boutons d'en-tête (une bascule de thème), carrés à la même hauteur, avant les boutons de légende et séparés d'eux par un petit espace. Libellés localisés par défaut, remplaçables par `MinimizeToTrayLabel`, `MinimizeLabel`, `MaximizeLabel`, `RestoreLabel` et `CloseLabel`.
+
 La coquille doit avoir une hauteur bornée : une `OmniLayout` dont le corps porte un élément principal défilant devient une colonne, et l'hôte lui donne sa hauteur, par exemple celle de la fenêtre. Les deux plafonds se lisent dans `--omni-layout-wide-width` et `--omni-layout-content-width`, qu'un hôte peut poser sur un ancêtre.
 
 ```razor

@@ -135,6 +135,17 @@ public sealed class NotificationTests : OmniBunitContext
     }
 
     [Fact]
+    public void Notification_CountsDownByDefault()
+    {
+        var notification = Render<OmniNotification>(parameters => parameters
+            .Add(component => component.Message, "Saved")
+            .Add(component => component.Duration, TimeSpan.FromSeconds(5)));
+
+        Assert.Contains("omni-notification--tinted", notification.Find("article").ClassList);
+        Assert.True(new OmniNotificationOptions().ShowCountdown);
+    }
+
+    [Fact]
     public void Notification_WithoutTint_KeepsTheSurface()
     {
         var notification = Render<OmniNotification>(parameters => parameters
