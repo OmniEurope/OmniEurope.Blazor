@@ -47,6 +47,7 @@ public static class OmniHtmlEditorCommands
     public static OmniHtmlEditorCommand InsertSpecialCharacter { get; } = new("insert-special-character", OmniHtmlEditorAction.InsertSpecialCharacter);
     public static OmniHtmlEditorCommand ImportTable { get; } = new("import-table", OmniHtmlEditorAction.ImportTable);
     public static OmniHtmlEditorCommand ShowBlocks { get; } = new("show-blocks", OmniHtmlEditorAction.ShowBlocks);
+    public static OmniHtmlEditorCommand Highlight { get; } = new("highlight", OmniHtmlEditorAction.Highlight);
 
     /// <summary>A separator. Separators carry no state, so the same instance can appear several times.</summary>
     public static OmniHtmlEditorCommand Separator { get; } = new("separator", OmniHtmlEditorAction.Separator);

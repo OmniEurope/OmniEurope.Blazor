@@ -128,5 +128,8 @@ public enum OmniHtmlEditorAction
     ImportTable,
 
     /// <summary>A toggle that outlines every block of the document (paragraphs, lists, quotes, tables), to see its structure.</summary>
-    ShowBlocks
+    ShowBlocks,
+
+    /// <summary>Highlights the selected text (a <c>mark</c> element); with the caret in a highlight, removes it.</summary>
+    Highlight
 }

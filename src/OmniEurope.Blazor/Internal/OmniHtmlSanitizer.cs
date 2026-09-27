@@ -13,7 +13,7 @@ internal static class OmniHtmlSanitizer
     [
         "p", "br", "div", "strong", "b", "em", "i", "u", "s", "strike", "del", "sub", "sup", "blockquote",
         "ul", "ol", "li", "a", "h1", "h2", "h3", "h4", "h5", "h6", "code", "pre", "span", "hr",
-        "table", "thead", "tbody", "tfoot", "tr", "th", "td", "caption"
+        "table", "thead", "tbody", "tfoot", "tr", "th", "td", "caption", "mark"
     ];
 
     private static readonly string[] AllowedAttributeNames = ["href", "rel", "class", "colspan", "rowspan"];
@@ -37,7 +37,7 @@ internal static class OmniHtmlSanitizer
     private static readonly HashSet<string> TransparentTagNames = new(StringComparer.OrdinalIgnoreCase)
     {
         "font", "section", "article", "header", "footer", "main", "aside", "nav", "address", "center",
-        "label", "small", "big", "mark", "abbr", "cite", "dfn", "kbd", "samp", "var", "time", "ins",
+        "label", "small", "big", "abbr", "cite", "dfn", "kbd", "samp", "var", "time", "ins",
         "figure", "figcaption", "dl", "dt", "dd", "q", "bdi", "bdo", "wbr", "o:p"
     };
 
@@ -56,6 +56,14 @@ internal static class OmniHtmlSanitizer
 
     /// <summary>Attributes whose value is an address, so it is held to the allowed schemes.</summary>
     private static readonly string[] UriAttributeNames = ["href", "src", "cite", "poster", "longdesc"];
+
+    /// <summary>
+    /// An image carried in the document itself, which <see cref="OmniHtmlSanitizerPolicy.AllowImageDataUris"/> lets
+    /// through on <c>img src</c> only: a raster format in base 64, never SVG, which can hold a script.
+    /// </summary>
+    private static readonly System.Text.RegularExpressions.Regex ImageDataUri = new(
+        @"^data:image/(png|jpeg|gif|webp);base64,[A-Za-z0-9+/]+={0,2}$",
+        System.Text.RegularExpressions.RegexOptions.CultureInvariant | System.Text.RegularExpressions.RegexOptions.NonBacktracking);
 
     private static readonly HtmlSanitizer Sanitizer = CreateSanitizer(null);
     private static readonly ConditionalWeakTable<OmniHtmlSanitizerPolicy, HtmlSanitizer> PolicySanitizers = new();
@@ -167,6 +175,19 @@ internal static class OmniHtmlSanitizer
             .Where(name => !globalAttributes.Contains(name))
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
         sanitizer.AllowedAttributes.UnionWith(scopedAttributes);
+
+        if (policy?.AllowImageDataUris == true)
+        {
+            sanitizer.FilterUrl += static (_, eventArgs) =>
+            {
+                if (eventArgs.SanitizedUrl is null
+                    && eventArgs.Tag is IHtmlImageElement
+                    && ImageDataUri.IsMatch(eventArgs.OriginalUrl.Trim()))
+                {
+                    eventArgs.SanitizedUrl = eventArgs.OriginalUrl.Trim();
+                }
+            };
+        }
 
         sanitizer.RemovingTag += static (_, eventArgs) =>
         {

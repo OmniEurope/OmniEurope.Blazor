@@ -460,6 +460,7 @@ public partial class OmniHtmlEditor
             case OmniHtmlEditorAction.Italic: return WrapSelectionAsync("<em>", "</em>");
             case OmniHtmlEditorAction.Underline: return WrapSelectionAsync("<u>", "</u>");
             case OmniHtmlEditorAction.Strikethrough: return WrapSelectionAsync("<s>", "</s>");
+            case OmniHtmlEditorAction.Highlight: return WrapSelectionAsync("<mark>", "</mark>");
             case OmniHtmlEditorAction.Subscript: return WrapSelectionAsync("<sub>", "</sub>");
             case OmniHtmlEditorAction.Superscript: return WrapSelectionAsync("<sup>", "</sup>");
             case OmniHtmlEditorAction.InlineCode: return WrapSelectionAsync("<code>", "</code>");
@@ -733,6 +734,23 @@ public partial class OmniHtmlEditor
         {
             await CommitVisualResultAsync(result);
         }
+    }
+
+    internal async Task<OmniHtmlCaretSplit> GetHtmlAroundCaretAsync()
+    {
+        if (_mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
+        {
+            return new(CurrentValue ?? string.Empty, string.Empty);
+        }
+
+        var json = await _visualModule.InvokeAsync<string?>("aroundCaret", _surface);
+        if (string.IsNullOrEmpty(json))
+        {
+            return new(CurrentValue ?? string.Empty, string.Empty);
+        }
+
+        using var parts = JsonDocument.Parse(json);
+        return new(Clean(parts.RootElement.GetProperty("before").GetString()), Clean(parts.RootElement.GetProperty("after").GetString()));
     }
 
     internal async Task<string> GetSelectedTextAsync() =>
@@ -1155,6 +1173,7 @@ public partial class OmniHtmlEditor
             OmniHtmlEditorAction.InsertSpecialCharacter => "HtmlEditorInsertSpecialCharacter",
             OmniHtmlEditorAction.ImportTable => "HtmlEditorImportTable",
             OmniHtmlEditorAction.ShowBlocks => "HtmlEditorShowBlocks",
+            OmniHtmlEditorAction.Highlight => "HtmlEditorHighlight",
             _ => "HtmlEditorCustomCommand"
         });
 
@@ -1188,6 +1207,7 @@ public partial class OmniHtmlEditor
         OmniHtmlEditorAction.InsertSpecialCharacter => OmniIconName.Smiley,
         OmniHtmlEditorAction.ImportTable => OmniIconName.Upload,
         OmniHtmlEditorAction.ShowBlocks => OmniIconName.Rows,
+        OmniHtmlEditorAction.Highlight => OmniIconName.Highlighter,
         _ => null
     };
 
@@ -1224,6 +1244,7 @@ public partial class OmniHtmlEditor
                 or OmniHtmlEditorAction.Strikethrough or OmniHtmlEditorAction.Subscript or OmniHtmlEditorAction.Superscript
                 or OmniHtmlEditorAction.InlineCode or OmniHtmlEditorAction.BulletList or OmniHtmlEditorAction.NumberedList
                 or OmniHtmlEditorAction.Quote or OmniHtmlEditorAction.CodeBlock or OmniHtmlEditorAction.Link
+                or OmniHtmlEditorAction.Highlight
                 => Pressed(_selection.Marks.Contains(ScriptName(command.Action))),
             _ => null
         };

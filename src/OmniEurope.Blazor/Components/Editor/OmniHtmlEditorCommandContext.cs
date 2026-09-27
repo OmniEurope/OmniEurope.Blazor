@@ -64,6 +64,14 @@ public sealed class OmniHtmlEditorCommandContext
     /// </summary>
     public Task<bool> ReplaceClosestAsync(string selector, string html) => _editor.ReplaceClosestAsync(selector, html);
 
+    /// <summary>
+    /// The content before and after the caret (the start of the selection, or of the one kept while a dialog
+    /// was open), each as balanced, sanitised HTML: an element the caret sits in ends in the first part and
+    /// starts again in the second, as when a paragraph is split in two. The value is left as it is. In the
+    /// source face, the whole value comes first and the second part is empty.
+    /// </summary>
+    public Task<OmniHtmlCaretSplit> GetHtmlAroundCaretAsync() => _editor.GetHtmlAroundCaretAsync();
+
     /// <summary>The text of the selection (or of the one kept while a dialog was open); empty for a caret or in the source face.</summary>
     public Task<string> GetSelectedTextAsync() => _editor.GetSelectedTextAsync();
 

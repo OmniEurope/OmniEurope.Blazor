@@ -334,6 +334,36 @@ export function setActivatedText(surface, text) {
     return settle(state);
 }
 
+// The content before and after the caret (the start of the kept selection), each as balanced HTML:
+// the ranges are cloned from the document, so an element the caret sits in is closed on one side and
+// reopened on the other. Nothing changes in the surface.
+export function aroundCaret(surface) {
+    const state = editors.get(surface);
+    if (!state) {
+        return null;
+    }
+
+    remember(state);
+    const caret = state.range && surface.contains(state.range.commonAncestorContainer) ? state.range : null;
+    const serialize = fragment => {
+        const holder = document.createElement('div');
+        holder.appendChild(fragment);
+        return holder.innerHTML;
+    };
+    const before = document.createRange();
+    before.selectNodeContents(surface);
+    const after = before.cloneRange();
+    if (caret) {
+        before.setEnd(caret.startContainer, caret.startOffset);
+        after.setStart(caret.startContainer, caret.startOffset);
+    } else {
+        before.collapse(false);
+        after.collapse(false);
+    }
+
+    return JSON.stringify({ before: serialize(before.cloneContents()), after: serialize(after.cloneContents()) });
+}
+
 // The text of the selection, or of the one kept while the focus was elsewhere (a dialog).
 export function selectedText(surface) {
     const state = editors.get(surface);
@@ -949,6 +979,10 @@ function describe(surface) {
         pressed.push('strikethrough');
     }
 
+    if (within('mark')) {
+        pressed.push('highlight');
+    }
+
     const pre = within('pre');
     if (within('code') && !pre) {
         pressed.push('inlinecode');
@@ -1001,6 +1035,9 @@ function apply(surface, range, action, argument) {
             break;
         case 'strikethrough':
             document.execCommand('strikeThrough');
+            break;
+        case 'highlight':
+            toggleHighlight(range, within);
             break;
         case 'inlinecode':
             toggleInlineCode(range, within);
@@ -1109,6 +1146,27 @@ function apply(surface, range, action, argument) {
 
 // Rewrites the case of the selected text in place, text node by text node, so every bold, link or
 // note around it stays. Title case capitalises a letter that follows a space, including across nodes.
+// A mark around the selection, or none: the caret in a mark unwraps it, keeping its text.
+function toggleHighlight(range, within) {
+    const existing = within('mark');
+    if (existing) {
+        existing.replaceWith(...existing.childNodes);
+        return;
+    }
+
+    if (range.collapsed) {
+        return;
+    }
+
+    const mark = document.createElement('mark');
+    mark.appendChild(range.extractContents());
+    range.insertNode(mark);
+    range.selectNodeContents(mark);
+    const selection = document.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+}
+
 function changeCase(surface, range, mode) {
     if (range.collapsed || !['upper', 'lower', 'title'].includes(mode)) {
         return;
