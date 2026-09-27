@@ -1,8 +1,9 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-006 : Éditeur HTML extensible
 
-> Statut : **ouvert**. Établi le 2026-09-27 à la demande du propriétaire (découpage de l'éditeur d'Astraia) ;
-> lots 1 à 4 livrés le 2026-09-27, reste la consommation par Astraia (son PLAN-009).
+> Statut : Établi le 2026-09-27 à la demande du propriétaire (découpage de l'éditeur d'Astraia) ;
+> **terminé** le 2026-09-27 : lots 1 à 4 livrés et consommés par Astraia (son PLAN-009), qui n'a plus aucun script
+> sur la surface de l'éditeur.
 
 ## Objectif
 
@@ -83,3 +84,4 @@ guide décrit l'extension telle qu'elle est codée.
 | 1 et 2 | fait | `HtmlEditorExtensionTests` ; vitrine : clic sur une note, raccourci Ctrl+Maj+N, menu contextuel qui retire la note puis annulation, vérifiés dans le navigateur |
 | 3 | fait | `HtmlEditorBuiltInPanelTests` ; vitrine : casse, caractère €, contour des blocs, import d'un CSV avec en-tête, vérifiés dans le navigateur |
 | 4 | fait | guide `editor-components.md`, CHANGELOG, API publique (3711 signatures) ; suite OE 2007/2007 |
+| Suite | fait | Ajouts demandés par la consommation d'Astraia : `SetTextAsync` (texte d'un élément activé, attributs gardés) et suggestion de suite (`SuggestsText`/`SuggestAsync`, texte fantôme, Tab) ; vitrine : suggestion affichée puis acceptée, vérifiée dans le navigateur ; suite OE 2011/2011 |
