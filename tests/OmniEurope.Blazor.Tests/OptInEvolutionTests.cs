@@ -373,6 +373,20 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     // ---- split button ----------------------------------------------------------------------------
 
     [Fact]
+    public void SplitButton_IconOnly_NamesItsMainPartThroughAriaLabel()
+    {
+        var split = Render<OmniSplitButton>(parameters => parameters
+            .Add(component => component.Text, string.Empty)
+            .Add(component => component.Icon, OmniIconName.Eye)
+            .Add(component => component.AriaLabel, "Aperçu")
+            .Add(component => component.MenuLabel, "Autres actions"));
+
+        var main = split.Find(".omni-split-button__main");
+        Assert.Equal("Aperçu", main.GetAttribute("aria-label"));
+        Assert.Equal(string.Empty, main.TextContent.Trim());
+        Assert.NotNull(main.QuerySelector("svg"));
+    }
+    [Fact]
     public void SplitButton_WithoutVariantOrIcon_RendersTheMarkupItAlwaysHad()
     {
         var split = Render<OmniSplitButton>(parameters => parameters

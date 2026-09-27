@@ -15,6 +15,13 @@ public partial class OmniSplitButton
     [Parameter]
     public string MenuLabel { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Accessible name of the main part, for an icon-only split button (an empty <see cref="Text"/> in a grid
+    /// action column). Null by default: the main part is named by its <see cref="Text"/>, as before.
+    /// </summary>
+    [Parameter]
+    public string? AriaLabel { get; set; }
+
     private string EffectiveMenuLabel => string.IsNullOrWhiteSpace(MenuLabel)
         ? Localize("SplitButtonMenuLabel")
         : MenuLabel;
