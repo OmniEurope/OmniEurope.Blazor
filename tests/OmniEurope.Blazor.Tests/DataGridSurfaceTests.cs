@@ -19,6 +19,9 @@ public sealed class DataGridSurfaceTests : OmniBunitContext
         Assert.NotEmpty(grid.FindAll("thead th"));
         Assert.Equal("Brand loading", grid.Find("tbody .omni-data-grid__state--loading").TextContent);
         Assert.Equal("true", grid.Find(".omni-data-grid").GetAttribute("aria-busy"));
+        // No veil over it while the rows load: it hid the headers the markup keeps.
+        Assert.Empty(grid.FindAll(".omni-data-grid__preparation"));
+        Assert.DoesNotContain("omni-data-grid--preparing", grid.Find(".omni-data-grid").ClassName, StringComparison.Ordinal);
     }
 
     [Fact]

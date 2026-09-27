@@ -38,6 +38,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Fixed
 
+- `OmniDataGrid` avec un `LoadingTemplate` : pendant le chargement des lignes, la grille garde ses en-têtes et affiche le gabarit dans la ligne de chargement sous eux, au lieu d'un voile qui masquait toute la grille, en-têtes compris (règle commune RET-002, relevé dans Pronoia). Le voile ne couvre plus que l'attente des images de lignes déjà là.
 - `OmniSelectBar` : ses options prennent la hauteur des contrôles (`--omni-control-height`, 36 px en densité par défaut) au lieu de 0,5 rem de plus (44 px), et comme un bouton sans marge intérieure verticale, contenu centré : 36 px exactement, mesuré à côté d'un bouton. Posée à côté d'un bouton, la barre dépassait de 8 px et décalait la ligne qui la porte (titre de page) ; les projets devaient la ramener eux-mêmes (Pronoia).
 - `OmniDropDown` avec `AllowFiltering` : l'`Id` est transmis au champ de l'`OmniAutocomplete` interne, qu'un `<OmniLabel For="…">` peut donc cibler comme la liste simple ; `AriaLabel` et `AriaDescribedBy` y étaient déjà transmis.
 - `OmniDataGrid` : un `Load` lié à un groupe de méthodes (`Load="LoadAsync"`) ne recharge plus la grille à chaque rendu du parent. Le chargeur est comparé par égalité de délégué (même méthode, même cible) au lieu de l'identité de l'instance, que chaque rendu renouvelle ; un chargeur réellement différent recharge toujours.

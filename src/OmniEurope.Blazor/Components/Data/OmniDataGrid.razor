@@ -99,7 +99,7 @@
 <CascadingValue Value="_context" IsFixed="true">@Columns</CascadingValue>
 
 <div @attributes="AdditionalAttributes" id="@Id" class="@GridClass()" data-omni-density="@Density.ToString().ToLowerInvariant()" data-omni-grid-theme="@GridTheme" aria-busy="@(Loading ? "true" : "false")">
-    @if (Preparing || (Loading && LoadingTemplate is not null))
+    @if (Veiled)
     {
         <div class="omni-data-grid__preparation" role="status">@LoadingTemplate</div>
     }
