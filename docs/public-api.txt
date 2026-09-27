@@ -2535,6 +2535,8 @@ property public OmniEurope.Blazor.Components.OmniGrid.Columns : System.Int32 {ge
 property public OmniEurope.Blazor.Components.OmniGrid.Gap : OmniEurope.Blazor.Components.OmniSpacing {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniGridLines.Count : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHeader.Brand : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniHeader.BrandHref : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniHeader.BrandLogo : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHeader.BrandMark : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHeader.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniHeader.Sticky : System.Boolean {get(public);set(public)} [Parameter]
@@ -3035,6 +3037,7 @@ property public OmniEurope.Blazor.Components.OmniSidebar.Position : OmniEurope.B
 property public OmniEurope.Blazor.Components.OmniSidebar.Reveal : OmniEurope.Blazor.Components.OmniSidebarReveal {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSidebar.Transition : OmniEurope.Blazor.Components.OmniSidebarTransition {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSidebarState.Collapse : OmniEurope.Blazor.Components.OmniSidebarCollapse {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniSidebarState.Expand : System.Func<System.Threading.Tasks.Task>? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSidebarState.IconsOnly : System.Boolean {get(public)}
 property public OmniEurope.Blazor.Components.OmniSidebarState.Open : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSidebarToggle.AriaLabel : System.String {get(public);set(public)} [Parameter]

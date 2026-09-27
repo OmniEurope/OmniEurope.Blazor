@@ -9,4 +9,7 @@ namespace OmniEurope.Blazor.Components;
 internal sealed record OmniPanelMenuContext(OmniPanelMenuDisplayStyle DisplayStyle)
 {
     public bool IconsOnly => DisplayStyle == OmniPanelMenuDisplayStyle.Icon;
+
+    /// <summary>Opens the sidebar the menu is nested in, when there is one that can be opened.</summary>
+    public Func<Task>? ExpandSidebar { get; init; }
 }

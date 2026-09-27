@@ -8,6 +8,23 @@ const EDGE = 8;
 let installed = false;
 let tracked = null;
 
+// The top a tooltip may reach: the window's, or the bottom of a sticky application header, which is
+// drawn above the page and would cover the part of a tooltip placed under it. A tooltip inside that
+// header is not covered by it and keeps the window's edge.
+const ceilingFor = tooltip => {
+    let ceiling = EDGE;
+    for (const header of document.querySelectorAll('.omni-header--sticky')) {
+        if (!header.contains(tooltip)) {
+            const bottom = header.getBoundingClientRect().bottom;
+            if (bottom > 0) {
+                ceiling = Math.max(ceiling, bottom + EDGE);
+            }
+        }
+    }
+
+    return ceiling;
+};
+
 // An unfolded long tooltip grows after it was placed: it is pushed back inside the window instead
 // of spilling over its top or bottom edge.
 const keepInside = content => {
@@ -22,7 +39,8 @@ const keepInside = content => {
         return;
     }
 
-    const shift = box.top < EDGE ? EDGE - box.top : box.bottom > window.innerHeight - EDGE ? window.innerHeight - EDGE - box.bottom : 0;
+    const ceiling = ceilingFor(tooltip);
+    const shift = box.top < ceiling ? ceiling - box.top : box.bottom > window.innerHeight - EDGE ? window.innerHeight - EDGE - box.bottom : 0;
     if (shift !== 0) {
         tooltip.style.setProperty('--omni-tooltip-y', `${y + shift}px`);
     }
@@ -76,7 +94,8 @@ const place = (tooltip, x, y) => {
     const half = box.width / 2;
     const left = Math.min(Math.max(x, half + EDGE), window.innerWidth - half - EDGE);
     // Above the pointer by default; flipped below it when there is no room left overhead.
-    const below = y - GAP - box.height < EDGE;
+    // Under a sticky header, overhead ends at its bottom edge.
+    const below = y - GAP - box.height < ceilingFor(tooltip);
     const top = below ? y + GAP + box.height : y - GAP;
 
     tooltip.style.setProperty('--omni-tooltip-x', `${left}px`);

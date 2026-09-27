@@ -614,7 +614,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         var burger = ShippedLookTests.Body(".omni-sidebar-toggle");
         Assert.Equal("transparent", ShippedLookTests.Value(burger, "background"));
         Assert.Equal("var(--omni-control-height)", ShippedLookTests.Value(burger, "min-inline-size"));
-        Assert.Equal("var(--omni-color-surface-hover)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-sidebar-toggle:hover"), "background"));
+        Assert.Equal("color-mix(in srgb, currentColor 14%, transparent)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-sidebar-toggle:hover"), "background"));
 
         // The account menu is a disclosure: closed at rest.
         var menu = Render<OmniProfileMenu>(parameters => parameters
