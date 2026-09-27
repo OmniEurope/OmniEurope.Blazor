@@ -36,6 +36,14 @@ public partial class OmniPanelMenuItem
     [Parameter]
     public RenderFragment? Icon { get; set; }
 
+    /// <summary>
+    /// Rendered after the text, at the end of the entry: a count or a state the entry carries (unread
+    /// items, a running timer). Hidden with the text when the menu is down to its icons. Null renders
+    /// nothing, as before.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Badge { get; set; }
+
     [Parameter]
     public string? Href { get; set; }
 

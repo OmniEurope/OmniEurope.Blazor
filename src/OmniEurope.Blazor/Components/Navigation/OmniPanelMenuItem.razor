@@ -29,6 +29,10 @@
                         <span class="omni-panel-menu__icon" aria-hidden="true">@Icon</span>
                     }
                     <span class="omni-panel-menu__text">@Text</span>
+                    @if (Badge is not null)
+                    {
+                        <span class="omni-panel-menu__badge">@Badge</span>
+                    }
                 </a>
             }
             else
@@ -43,6 +47,10 @@
                         <span class="omni-panel-menu__icon" aria-hidden="true">@Icon</span>
                     }
                     <span class="omni-panel-menu__text">@Text</span>
+                    @if (Badge is not null)
+                    {
+                        <span class="omni-panel-menu__badge">@Badge</span>
+                    }
                 </button>
             }
 
@@ -80,6 +88,10 @@ else if (!string.IsNullOrWhiteSpace(Href))
             <span class="omni-panel-menu__icon" aria-hidden="true">@Icon</span>
         }
         <span class="omni-panel-menu__text">@Text</span>
+        @if (Badge is not null)
+        {
+            <span class="omni-panel-menu__badge">@Badge</span>
+        }
     </a>
 }
 else if (OnClick.HasDelegate)
@@ -90,6 +102,10 @@ else if (OnClick.HasDelegate)
             <span class="omni-panel-menu__icon" aria-hidden="true">@Icon</span>
         }
         <span class="omni-panel-menu__text">@Text</span>
+        @if (Badge is not null)
+        {
+            <span class="omni-panel-menu__badge">@Badge</span>
+        }
     </button>
 }
 else
@@ -100,5 +116,9 @@ else
             <span class="omni-panel-menu__icon" aria-hidden="true">@Icon</span>
         }
         <span class="omni-panel-menu__text">@Text</span>
+        @if (Badge is not null)
+        {
+            <span class="omni-panel-menu__badge">@Badge</span>
+        }
     </span>
 }

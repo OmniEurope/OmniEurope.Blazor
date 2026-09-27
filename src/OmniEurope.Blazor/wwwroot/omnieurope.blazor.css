@@ -2086,6 +2086,8 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-panel-menu__toggle:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-panel-menu__icon { align-items: center; display: inline-flex; flex: 0 0 auto; justify-content: center; }
 .omni-panel-menu__text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* An entry badge sits at the end of the row, after the text that may shrink before it. */
+.omni-panel-menu__badge { align-items: center; display: inline-flex; flex: 0 0 auto; margin-inline-start: auto; }
 
 .omni-panel-menu__toggle {
     align-items: center;
@@ -2118,6 +2120,8 @@ body:has(.omni-overlay) { overflow: hidden; }
     white-space: nowrap;
     width: 1px;
 }
+/* Down to its icon, an entry has no room for its badge: the count is read on the full menu. */
+.omni-panel-menu--icons .omni-panel-menu__badge { display: none; }
 /* Rail icons keep their open-menu inset (centring moved them); size the rail to 2 insets + icon. */
 /* Rail: no chevron, the icon unfolds its group; children stay reachable and unindented. */
 .omni-panel-menu--icons .omni-panel-menu__toggle { display: none; }
