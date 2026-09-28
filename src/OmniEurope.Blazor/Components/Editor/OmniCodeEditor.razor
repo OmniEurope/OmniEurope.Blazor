@@ -2,7 +2,7 @@
 @inherits OmniInputBase<string>
 @implements IAsyncDisposable
 
-<div @ref="_root" class="@InputCss("omni-code-editor", $"omni-code-editor--{PhaseName}")" data-engine="@Engine.ToString().ToLowerInvariant()">
+<div @ref="_root" class="@InputCss("omni-code-editor", $"omni-code-editor--{PhaseName}", Disabled ? "omni-code-editor--disabled" : null)" data-engine="@Engine.ToString().ToLowerInvariant()">
     <div @ref="_host" class="omni-code-editor__host" hidden="@(_phase != CodePhase.Ready)"></div>
     <textarea @attributes="AdditionalAttributes"
               id="@Id"
@@ -10,6 +10,7 @@
               hidden="@(_phase == CodePhase.Ready)"
               value="@CurrentValue"
               readonly="@ReadOnly"
+              disabled="@Disabled"
               spellcheck="false"
               wrap="@(WordWrap ? "soft" : "off")"
               aria-label="@EffectiveLabel"

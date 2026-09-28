@@ -34,8 +34,6 @@
   <data name="AutocompleteSelected" xml:space="preserve"><value>{0} selected.</value></data>
   <data name="AutocompleteInvalid" xml:space="preserve"><value>The autocomplete value is invalid.</value></data>
   <data name="BreadcrumbLabel" xml:space="preserve"><value>Breadcrumb</value></data>
-  <data name="ChartTooltipDisabled" xml:space="preserve"><value>Tooltips are disabled.</value></data>
-  <data name="ChartTooltipDescription" xml:space="preserve"><value>Detailed values are available when focusing or hovering over the series.</value></data>
   <data name="CheckBoxInvalid" xml:space="preserve"><value>The checkbox value is invalid.</value></data>
   <data name="CheckBoxListInvalid" xml:space="preserve"><value>The checkbox list is invalid.</value></data>
   <data name="ColorPickerInvalid" xml:space="preserve"><value>The color must use the #RRGGBB format.</value></data>
@@ -351,8 +349,6 @@
   <data name="PanelMenuToggle" xml:space="preserve"><value>Expand or collapse {0}</value></data>
   <data name="PasswordRevealLabel" xml:space="preserve"><value>Show password</value></data>
   <data name="PasswordHideLabel" xml:space="preserve"><value>Hide password</value></data>
-  <data name="PasswordRevealText" xml:space="preserve"><value>Show</value></data>
-  <data name="PasswordHideText" xml:space="preserve"><value>Hide</value></data>
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Profile menu</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Progress</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>

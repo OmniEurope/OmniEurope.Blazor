@@ -14,6 +14,7 @@ public partial class OmniWizard
     private ElementReference _body;
     private int _current;
     private int _highest;
+    private OmniStepsSharedPanel? _sharedPanel;
     private int? _lastValue;
     private bool _validating;
     private bool _focusBody;
@@ -65,6 +66,11 @@ public partial class OmniWizard
     private string EffectiveId => Id ?? _generatedId;
 
     private string BodyId => $"{EffectiveId}-body";
+
+    /// <summary>The body, cascaded to the step items so their buttons control it; kept while its id holds.</summary>
+    private OmniStepsSharedPanel SharedPanel => _sharedPanel is { } panel && panel.Id == BodyId
+        ? panel
+        : _sharedPanel = new OmniStepsSharedPanel(BodyId);
 
     private string CurrentButtonId => $"{StepItemId(_current)}-button";
 

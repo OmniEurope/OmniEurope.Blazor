@@ -199,8 +199,10 @@ public sealed class SchedulerComponentTests : OmniBunitContext
     [Fact]
     public void MonthView_AlignsDaysWithTheCulturesFirstWeekday()
     {
-        var month = Render<OmniMonthView>(parameters => parameters
+        var month = Render<OmniScheduler>(parameters => parameters
             .Add(component => component.Date, new DateTimeOffset(2026, 8, 1, 0, 0, 0, TimeSpan.Zero))
+            .Add(component => component.View, OmniSchedulerView.Month)
+            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
             .Add(component => component.Culture, CultureInfo.GetCultureInfo("fr-FR")));
 
         var cells = month.FindAll(".omni-month-view__day");

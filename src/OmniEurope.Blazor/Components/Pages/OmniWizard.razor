@@ -6,17 +6,18 @@
    wizard draws no overlay of its own, so it sits as well in a page as in an OmniDialog. *@
 <div id="@EffectiveId" class="@Css("omni-wizard")" @attributes="AdditionalAttributes">
     <OmniProgressBar Class="omni-wizard__progress" Value="Progress" Label="@Localize("WizardProgress")" ValueText="@PositionText" />
-    <OmniSteps Class="omni-wizard__steps" Label="@EffectiveLabel" Value="_current" ValueChanged="GoToAsync" CanNavigate="CanNavigateAsync">
-        @for (var index = 0; index < _context.Steps.Count; index++)
-        {
-            var position = index;
-            <OmniStepsItem Index="position"
-                           Id="@StepItemId(position)"
-                           Title="@_context.Steps[position].Title"
-                           Disabled="@(position > _highest)"
-                           PanelId="@BodyId" />
-        }
-    </OmniSteps>
+    <CascadingValue Value="SharedPanel">
+        <OmniSteps Class="omni-wizard__steps" Label="@EffectiveLabel" Value="_current" ValueChanged="GoToAsync" CanNavigate="CanNavigateAsync">
+            @for (var index = 0; index < _context.Steps.Count; index++)
+            {
+                var position = index;
+                <OmniStepsItem Index="position"
+                               Id="@StepItemId(position)"
+                               Title="@_context.Steps[position].Title"
+                               Disabled="@(position > _highest)" />
+            }
+        </OmniSteps>
+    </CascadingValue>
     <section @ref="_body" id="@BodyId" class="omni-wizard__body" role="region" aria-labelledby="@CurrentButtonId" tabindex="-1">
         <CascadingValue Value="_context" IsFixed="true">@ChildContent</CascadingValue>
     </section>

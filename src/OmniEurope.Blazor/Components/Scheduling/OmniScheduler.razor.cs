@@ -150,6 +150,44 @@ public partial class OmniScheduler
             System.Globalization.CultureInfo.CurrentUICulture = previous;
         }
     }
+    /// <summary>The appointments starting on a local day, in the order they start.</summary>
+    private static IEnumerable<OmniSchedulerAppointment> AppointmentsOn(IReadOnlyList<OmniSchedulerAppointment> appointments, DateTime day) =>
+        appointments.Where(item => item.Start.Date == day).OrderBy(item => item.Start);
+
+    private static string DurationMinutes(OmniSchedulerAppointment appointment) =>
+        (appointment.End - appointment.Start).TotalMinutes.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+    /// <summary>The seven days of the week holding a date, from the first day of the week of the culture.</summary>
+    private IEnumerable<DateTimeOffset> WeekDays(DateTimeOffset date)
+    {
+        var start = date.AddDays(-((7 + (int)date.DayOfWeek - (int)Culture.DateTimeFormat.FirstDayOfWeek) % 7));
+        return Enumerable.Range(0, 7).Select(offset => start.AddDays(offset));
+    }
+
+    private IReadOnlyList<string> MonthDayNames
+    {
+        get
+        {
+            var names = Culture.DateTimeFormat.AbbreviatedDayNames;
+            var first = (int)Culture.DateTimeFormat.FirstDayOfWeek;
+            return Enumerable.Range(0, 7).Select(index => names[(first + index) % 7]).ToArray();
+        }
+    }
+
+    /// <summary>The cells of a month grid: whole weeks, null outside the month.</summary>
+    private IReadOnlyList<DateOnly?> MonthCells(DateTimeOffset date)
+    {
+        var first = new DateOnly(date.Year, date.Month, 1);
+        var leading = (7 + (int)first.DayOfWeek - (int)Culture.DateTimeFormat.FirstDayOfWeek) % 7;
+        var days = DateTime.DaysInMonth(date.Year, date.Month);
+        var cellCount = (int)Math.Ceiling((leading + days) / 7d) * 7;
+        return Enumerable.Range(0, cellCount)
+            .Select(index => index < leading || index >= leading + days
+                ? (DateOnly?)null
+                : first.AddDays(index - leading))
+            .ToArray();
+    }
+
     private string ViewLabel(OmniSchedulerView view) => view switch
     {
         OmniSchedulerView.Day => Text("SchedulerDay"),

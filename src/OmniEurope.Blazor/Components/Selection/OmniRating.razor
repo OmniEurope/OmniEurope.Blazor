@@ -1,13 +1,29 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniInputBase<int?>
 
-<span @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-rating")" role="group" aria-label="@Label">
-    @foreach (var star in Enumerable.Range(1, Maximum))
-    {
-        <button type="button" class="omni-rating__star" disabled="@(Disabled || ReadOnly)"
-                aria-label="@StarLabel(star)" aria-pressed="@(CurrentValue == star ? "true" : "false")"
-                @onclick="() => Select(star)">
-            <OmniIcon Name="@(star <= CurrentValue ? OmniIconName.StarFilled : OmniIconName.Star)" Size="OmniControlSize.Small" />
-        </button>
-    }
-</span>
+@if (IsReadOnlyDisplay)
+{
+    @* Read-only: one focusable image that announces the value, with the stars drawn inside it; nothing
+       to press, and not dimmed like a disabled control. *@
+    <span @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-rating", "omni-rating--readonly")" role="img" tabindex="0" aria-label="@ValueLabel">
+        @foreach (var star in Enumerable.Range(1, Maximum))
+        {
+            <span class="omni-rating__star" aria-hidden="true">
+                <OmniIcon Name="@(star <= CurrentValue ? OmniIconName.StarFilled : OmniIconName.Star)" Size="OmniControlSize.Small" />
+            </span>
+        }
+    </span>
+}
+else
+{
+    <span @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-rating", Disabled ? "omni-rating--disabled" : null)" role="group" aria-label="@Label">
+        @foreach (var star in Enumerable.Range(1, Maximum))
+        {
+            <button type="button" class="omni-rating__star" disabled="@Disabled"
+                    aria-label="@StarLabel(star)" aria-pressed="@(CurrentValue == star ? "true" : "false")"
+                    @onclick="() => Select(star)">
+                <OmniIcon Name="@(star <= CurrentValue ? OmniIconName.StarFilled : OmniIconName.Star)" Size="OmniControlSize.Small" />
+            </button>
+        }
+    </span>
+}

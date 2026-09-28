@@ -8,8 +8,7 @@ public partial class SchedulerDemo
     [
         new("a1", "Instruction du dossier", Day.AddHours(9), Day.AddHours(10).AddMinutes(30)),
         new("a2", "Comité de lecture", Day.AddHours(14), Day.AddHours(15), "Salle 2"),
-        new("a3", "Point hebdomadaire", Day.AddDays(2).AddHours(11), Day.AddDays(2).AddHours(12),
-            "Récurrent", "FREQ=WEEKLY;COUNT=4")
+        new("a3", "Point hebdomadaire", Day.AddDays(2).AddHours(11), Day.AddDays(2).AddHours(12), "Salle 1")
     ];
 
     private static readonly IReadOnlyList<OmniOption<OmniSchedulerView>> ViewOptions =

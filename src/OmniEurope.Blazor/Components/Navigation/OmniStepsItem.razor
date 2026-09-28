@@ -14,7 +14,7 @@
         }
         <span>@Title</span>
     </button>
-    @if (PanelId is null)
+    @if (SharedPanel is null)
     {
         <section id="@OwnPanelId" class="omni-steps__panel" role="region" aria-labelledby="@ButtonId" hidden="@(!Selected)">@ChildContent</section>
     }

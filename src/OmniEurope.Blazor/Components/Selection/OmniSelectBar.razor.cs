@@ -20,11 +20,11 @@ public partial class OmniSelectBar<TValue>
 
     private bool IsSelected(TValue value) => EqualityComparer<TValue>.Default.Equals(CurrentValue, value);
 
-    private void Select(TValue? value)
+    private void SelectOption(OmniOption<TValue> option)
     {
-        if (!Disabled)
+        if (!Disabled && !option.Disabled)
         {
-            CurrentValue = value!;
+            CurrentValue = option.Value;
         }
     }
 

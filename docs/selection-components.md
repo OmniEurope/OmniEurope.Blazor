@@ -6,15 +6,17 @@ Ce lot fournit des contrôles typés reliés à `EditContext`, avec sémantique 
 
 `OmniRating` lie une valeur entière nullable par `Value`/`ValueChanged`/`ValueExpression`.
 `Maximum` vaut cinq et doit être positif ; cliquer une étoile choisit son rang et remplit les
-étoiles précédentes. `ReadOnly` conserve l'affichage sans modification, `Disabled` désactive
-la saisie, et `Label` nomme le groupe et chaque choix. L'édition participe à `EditContext`.
+étoiles précédentes. `ReadOnly` rend une seule image focalisable (`role="img"`, `tabindex="0"`) qui
+annonce la valeur (« Note 3/5 ») et dessine ses étoiles sans les estomper, sans bouton à presser ;
+`Disabled` garde les boutons, désactivés et estompés, et l'emporte sur `ReadOnly`. `Label` nomme le
+groupe et chaque choix. L'édition participe à `EditContext`.
 
 `OmniOption<TValue>` porte la valeur, le texte, l'état désactivé et le groupe éventuel. Ce modèle alimente :
 
 - `OmniDropDown<TValue>` et `OmniMultiSelect<TValue>` ;
 - `OmniListBox<TValue>` et `OmniCheckBoxList<TValue>` ;
-- `OmniRadioButtonList<TValue>` et `OmniRadioButtonListItem<TValue>` ; `Error` (facultatif) dessine sous les choix, dans le `fieldset`, la ligne d'erreur d'`OmniFormField` (glyphe décoratif, `role="alert"`, identifiant `{Id}-error`, ou `{Name}-error` sans identifiant), marque le groupe `aria-invalid="true"`, le fait décrire par cette ligne après l'`aria-describedby` passé par l'hôte et borde chaque bouton radio de la couleur de danger ;
-- `OmniSelectBar<TValue>` et `OmniSelectBarItem<TValue>`.
+- `OmniRadioButtonList<TValue>`, qui dessine lui-même chaque bouton radio ; `Error` (facultatif) dessine sous les choix, dans le `fieldset`, la ligne d'erreur d'`OmniFormField` (glyphe décoratif, `role="alert"`, identifiant `{Id}-error`, ou `{Name}-error` sans identifiant), marque le groupe `aria-invalid="true"`, le fait décrire par cette ligne après l'`aria-describedby` passé par l'hôte et borde chaque bouton radio de la couleur de danger ;
+- `OmniSelectBar<TValue>`, qui dessine lui-même chaque option.
 
 `OmniMultiSelect<TValue>` expose deux formes par `Presentation`. `List`, la valeur par défaut, reste
 une liste native toujours ouverte dont la hauteur est donnée par `VisibleRows`. `Compact` tient sur

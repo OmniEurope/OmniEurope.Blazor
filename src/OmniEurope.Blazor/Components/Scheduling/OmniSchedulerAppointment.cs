@@ -5,5 +5,4 @@ public sealed record OmniSchedulerAppointment(
     string Title,
     DateTimeOffset Start,
     DateTimeOffset End,
-    string? Description = null,
-    string? RecurrenceRule = null);
+    string? Description = null);
