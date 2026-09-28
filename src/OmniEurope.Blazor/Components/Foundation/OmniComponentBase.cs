@@ -47,7 +47,7 @@ public abstract class OmniComponentBase : ComponentBase
 
     protected override void OnParametersSet()
     {
-        CspAttributeGuard.EnsureSafe(AdditionalAttributes);
+        CspAttributeGuard.EnsureSafe(AdditionalAttributes, GetType());
     }
 
     protected string Css(params string?[] values) => CssClassBuilder.Combine(values.Append(Class));

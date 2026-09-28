@@ -27,6 +27,8 @@ public partial class OmniComponentsHost
 
     protected override void OnParametersSet()
     {
+        // The base holds the attribute guard; the early returns below would otherwise skip it.
+        base.OnParametersSet();
         var requested = OverlayService;
         if (requested is null && _ownsService && _service is not null)
         {
