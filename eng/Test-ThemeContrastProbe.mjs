@@ -28,8 +28,8 @@
 // covered: it fails as before, so changing the veil reopens the question.
 //
 // A theme may also declare a contrast waiver (owner decision, 2026-09-28): its style wins over the
-// thresholds. It is measured like any other; its shortfalls go to acceptedContrastWaiver, except in the
-// focus state, which stays mandatory in every theme.
+// thresholds. It is measured like any other; its shortfalls go to acceptedContrastWaiver, focus state
+// included. Only the focus ring stays mandatory, checked by ThemePaletteTests in every theme.
 //
 // Every failure goes into a JSON registry (artifacts/theme-contrast-registry.json), written even when
 // empty, and the probe exits non-zero when it is not empty (RET-002 n°50). Screenshots go to
@@ -662,15 +662,17 @@ const shots = [];
 // Themes that declare a contrast waiver (ThemeDefinition.ContrastWaiver, owner decision of 2026-09-28),
 // read from the customizer's data-contrast-waiver note when the theme is picked: the catalogue stays the
 // only source. Their contrast shortfalls (text, border, non-text mark, content under the busy veil, at
-// rest or hovered) are counted under acceptedContrastWaiver instead of failing. The focus state is never
-// waived, nor geometry, overflow, CSP, console or coverage.
+// rest, hovered or focused) are counted under acceptedContrastWaiver instead of failing. The focus ring
+// itself is not measured here: ThemePaletteTests.The_style_themes_draw_a_solid_focus_ring keeps it at
+// 3:1 in every theme with every palette, waiver or not (owner decision of 2026-09-28: only the ring
+// stays mandatory). Geometry, overflow, CSP, console and coverage are never waived.
 const waivers = {};
 const acceptedContrastWaiver = [];
 const WAIVABLE_CHECKS = new Set(['texte', 'bordure', 'marque non textuelle', 'voile d\'occupation']);
 
 const fail = (combo, entry) => {
   const record = { theme: combo.theme, palette: combo.palette, mode: combo.mode, ...entry };
-  if (waivers[combo.theme] && entry.ratio !== undefined && WAIVABLE_CHECKS.has(entry.check) && entry.state !== 'focus') {
+  if (waivers[combo.theme] && entry.ratio !== undefined && WAIVABLE_CHECKS.has(entry.check)) {
     acceptedContrastWaiver.push(record);
     return;
   }
