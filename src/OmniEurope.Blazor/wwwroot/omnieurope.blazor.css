@@ -2836,7 +2836,7 @@ polyline.omni-chart__line { fill: none; }
 .omni-rich-text :is(code, pre) { background: var(--omni-color-surface-muted); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
 .omni-rich-text pre { padding: var(--omni-space-sm); white-space: pre-wrap; }
 .omni-rich-text table { border-collapse: collapse; width: 100%; }
-.omni-rich-text :is(td, th) { border: var(--omni-border-width) solid var(--omni-color-border); padding: var(--omni-space-xs); }
+.omni-rich-text :is(td, th) { border: var(--omni-border-width) solid var(--omni-color-border); padding: calc(var(--omni-cell-pad-y) / 2) var(--omni-space-xs); }
 .omni-align-center { text-align: center; }
 .omni-align-right { text-align: end; }
 .omni-align-justify { text-align: justify; }
@@ -2870,7 +2870,7 @@ polyline.omni-chart__line { fill: none; }
 .omni-diff-viewer__panes { background: var(--omni-color-border); display: grid; gap: var(--omni-border-width); grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .omni-diff-viewer--inline .omni-diff-viewer__panes { grid-template-columns: minmax(0, 1fr); }
 .omni-diff-viewer__pane { background: var(--omni-color-surface); display: grid; grid-template-rows: auto 1fr; min-inline-size: 0; }
-.omni-diff-viewer__pane-title { background: var(--omni-color-surface-muted); color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); font-weight: 650; padding: var(--omni-space-xs) var(--omni-space-md); }
+.omni-diff-viewer__pane-title { background: var(--omni-color-surface-muted); color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); font-weight: 650; padding: calc(var(--omni-cell-pad-y) / 2) var(--omni-space-md); }
 .omni-diff-viewer__text { background: var(--omni-color-surface); block-size: var(--omni-code-editor-height, 20rem); border: 0; box-sizing: border-box; color: var(--omni-color-text); font-family: var(--omni-font-family-monospace); font-size: var(--omni-font-size-base); inline-size: 100%; margin: 0; overflow: auto; padding: var(--omni-space-md); resize: none; white-space: pre; }
 .omni-diff-viewer--inline .omni-diff-viewer__text { block-size: calc(var(--omni-code-editor-height, 20rem) / 2); }
 .omni-diff-viewer__text:focus-visible { box-shadow: inset var(--omni-focus-ring); outline: none; }
@@ -3154,7 +3154,7 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 .omni-code-viewer__actions { align-items: center; display: inline-flex; flex-wrap: wrap; gap: 0.125rem; margin-inline-start: auto; }
 .omni-code-viewer__body { display: grid; min-inline-size: 0; }
 .omni-code-viewer--with-panel .omni-code-viewer__body { grid-template-columns: minmax(0, 1fr) minmax(12rem, var(--omni-code-viewer-panel-width, 20rem)); }
-.omni-code-viewer__code { line-height: 1.25rem; max-block-size: var(--omni-code-viewer-height, 32rem); min-inline-size: 0; overflow: auto; padding-block: var(--omni-space-xs); }
+.omni-code-viewer__code { line-height: 1.25rem; max-block-size: var(--omni-code-viewer-height, 32rem); min-inline-size: 0; overflow: auto; padding-block: calc(var(--omni-cell-pad-y) / 2); }
 .omni-code-viewer__line { display: flex; inline-size: max-content; min-inline-size: 100%; }
 .omni-code-viewer--wrap .omni-code-viewer__line { inline-size: auto; }
 .omni-code-viewer__line--highlighted { background: var(--omni-color-warning-subtle); }
@@ -3186,7 +3186,7 @@ span.omni-unified-diff__toggle { cursor: default; }
 .omni-unified-diff__body { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
 .omni-unified-diff__scroll { overflow-x: auto; }
 .omni-unified-diff__table { border-collapse: collapse; line-height: 1.25rem; min-inline-size: 100%; }
-.omni-unified-diff__hunk td { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); padding: 0.125rem var(--omni-space-sm); white-space: pre; }
+.omni-unified-diff__hunk td { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); padding: calc(var(--omni-cell-pad-y) / 4) var(--omni-space-sm); white-space: pre; }
 .omni-unified-diff__number { inline-size: 1%; vertical-align: top; white-space: nowrap; }
 .omni-unified-diff__code { padding-inline-end: var(--omni-space-md); white-space: pre; }
 .omni-unified-diff--wrap .omni-unified-diff__code { overflow-wrap: anywhere; white-space: pre-wrap; }
