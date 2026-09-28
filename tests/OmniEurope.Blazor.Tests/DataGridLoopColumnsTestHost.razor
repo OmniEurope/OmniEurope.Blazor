@@ -1,0 +1,21 @@
+<OmniDataGrid TItem="DataGridLoopColumnsTestHost.Row" Items="@Rows">
+    <Columns>
+        @foreach (var column in Columns)
+        {
+            @if (CaptureValue)
+            {
+                <OmniDataGridColumn TItem="DataGridLoopColumnsTestHost.Row" Key="@column.Key" Title="@column.Title"
+                                    Width="@column.Width" Value="row => ReadValue(column, row)" />
+            }
+            else
+            {
+                <OmniDataGridColumn TItem="DataGridLoopColumnsTestHost.Row" Key="@column.Key" Title="@column.Title"
+                                    Property="@column.Property" Width="@column.Width">
+                    <Template Context="row">
+                        <span class="loop-cell">@Cell(column, row)</span>
+                    </Template>
+                </OmniDataGridColumn>
+            }
+        }
+    </Columns>
+</OmniDataGrid>

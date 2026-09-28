@@ -15,7 +15,7 @@
             <OmniToggleButton Value="true" Busy="true">Enregistrement</OmniToggleButton>
         </OmniStack>
 
-        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
+        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
             <OmniCheckBox Id="choice-labelled-check" @bind-Value="Pinned">Case avec son libellé</OmniCheckBox>
             <OmniCheckBox Id="choice-nullable-check" @bind-Value="Partial">Case à trois états</OmniCheckBox>
             <OmniSwitch Id="choice-nullable-switch" @bind-Value="Partial">Interrupteur à trois états</OmniSwitch>

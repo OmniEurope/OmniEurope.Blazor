@@ -53,6 +53,12 @@ Une colonne se déclare par lambda ou par nom de propriété.
 - `TextAlign`, `CssClass`, `HeaderCssClass`, `Visible`, `Resizable`, `Sortable`, `Filterable` et
   `Groupable` complètent la déclaration. `FooterTemplate` et `HeaderTemplate` remplacent les cellules
   correspondantes.
+- Une cellule de texte (colonne sans `Template`) tient sur une ligne et se termine par des points de
+  suspension au lieu de déborder sur la colonne voisine. Une cellule à gabarit n'est pas rognée, pour
+  ses badges, boutons, menus et champs d'édition ; `CssClass="omni-data-grid__cell--text"` l'inscrit
+  à la même règle. En affichage en cartes (`Responsive`), le texte revient à la ligne.
+- Des colonnes déclarées dans un `@foreach` peuvent capturer la variable de boucle dans leur
+  `Template` ou leur `Value` : un délégué issu de la même lambda ne réinscrit pas la colonne.
 - `AllowColumnAutoFit` (désactivé par défaut) donne au double clic sur le bord droit d'une colonne,
   ou à Entrée sur sa poignée, le comportement d'Excel : la colonne prend la largeur de son contenu le
   plus large. `AutoFit` sur la colonne l'emporte dans les deux sens ; sans valeur, elle suit la grille.

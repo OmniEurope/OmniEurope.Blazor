@@ -53,6 +53,22 @@
     </Columns>
 </OmniDataGrid>
 
+@* Une valeur longue dans une colonne étroite : la cellule de texte tient sur une ligne et finit par
+   des points de suspension au lieu de déborder sur la colonne voisine ; la cellule à gabarit (le
+   badge du pays) n'est pas rognée. *@
+<OmniDataGrid TItem="GridRow" Id="demo-grid-narrow"
+              Items="NarrowRows"
+              Caption="Texte long dans une colonne étroite"
+              ScrollMode="OmniDataGridScrollMode.All">
+    <Columns>
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" Width="7rem" />
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur" Width="11rem" />
+        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="Pays">
+            <Template Context="row"><OmniBadge Variant="OmniBadgeVariant.Info">@row.Country</OmniBadge></Template>
+        </OmniDataGridColumn>
+    </Columns>
+</OmniDataGrid>
+
 @* Virtualisée avec MaxHeight : la grille prend la hauteur de ses lignes jusqu'au plafond, puis
    défile en ne rendant que sa fenêtre. Trois lignes restent courtes, dix mille défilent. La seconde
    ajuste Demandeur à son contenu au double clic sur son bord (AllowColumnAutoFit), en mesurant aussi

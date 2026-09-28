@@ -2,19 +2,24 @@ using Microsoft.AspNetCore.Components;
 
 namespace OmniEurope.Blazor.Components;
 
+/// <remarks>
+/// The delegate members are settable: a column declared in a <c>@foreach</c> hands over a new,
+/// equivalent delegate on every render, which replaces the stored one in place instead of
+/// re-registering the column (see <see cref="OmniDataGridColumn{TItem}"/>).
+/// </remarks>
 internal sealed class OmniDataGridColumnDefinition<TItem>
 {
     public required string Key { get; init; }
     public required string Title { get; init; }
-    public required Func<TItem, object?> Value { get; init; }
+    public required Func<TItem, object?> Value { get; set; }
     public string? Property { get; init; }
     public string? SortProperty { get; init; }
     public Func<TItem, object?>? SortValue { get; init; }
-    public RenderFragment<TItem>? Template { get; init; }
-    public RenderFragment<TItem>? EditTemplate { get; init; }
-    public RenderFragment<TItem>? FooterTemplate { get; init; }
-    public RenderFragment? HeaderTemplate { get; init; }
-    public Func<TItem, string, bool>? FilterPredicate { get; init; }
+    public RenderFragment<TItem>? Template { get; set; }
+    public RenderFragment<TItem>? EditTemplate { get; set; }
+    public RenderFragment<TItem>? FooterTemplate { get; set; }
+    public RenderFragment? HeaderTemplate { get; set; }
+    public Func<TItem, string, bool>? FilterPredicate { get; set; }
     public string? FormatString { get; init; }
     public bool Sortable { get; init; } = true;
     public OmniDataGridSortOrder? SortOrder { get; init; }
@@ -25,9 +30,9 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     /// <summary>Explicit Select/Combo suggestions; null derives them from the column's own values.</summary>
     public IEnumerable<string>? FilterValues { get; init; }
     /// <summary>Column-supplied filter editor, overriding <see cref="FilterType"/>.</summary>
-    public RenderFragment<OmniDataGridFilterContext>? FilterTemplate { get; init; }
+    public RenderFragment<OmniDataGridFilterContext>? FilterTemplate { get; set; }
     /// <summary>Display text of a filter candidate; null shows the value itself.</summary>
-    public Func<string, string>? FilterValueText { get; init; }
+    public Func<string, string>? FilterValueText { get; set; }
     /// <summary>Filter applied when the column first registers, unless saved state restored one.</summary>
     public string? DefaultFilterValue { get; init; }
     /// <summary>A DateRange filter picks hours too.</summary>
