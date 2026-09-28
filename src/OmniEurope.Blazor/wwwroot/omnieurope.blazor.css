@@ -2752,7 +2752,9 @@ polyline.omni-chart__line { fill: none; }
 .omni-month-view__day h3 { font-size: var(--omni-font-size-sm); margin: 0 0 var(--omni-space-xs); }
 /* OmniScheduler: today is tinted; an appointment in a week, month or time-grid cell is a tinted block
    with its time, its title and, when appointments move, a move button; while one is carried, every
-   slot or day shows the dashed button that puts it there. */
+   slot or day shows the dashed button that puts it there. The time grid is a table positioned by
+   its rows, not by pixels: its cells, their appointments and the move and place buttons read the
+   table cell token (--omni-cell-pad-y), so a slot holding an appointment follows the density too. */
 .omni-week-view__day--today,
 .omni-month-view__day--today,
 .omni-scheduler-grid__day--today,
@@ -2761,14 +2763,14 @@ polyline.omni-chart__line { fill: none; }
 .omni-scheduler-grid { overflow: auto; }
 .omni-scheduler-grid__table { border-collapse: collapse; inline-size: 100%; min-inline-size: 42rem; table-layout: fixed; }
 .omni-scheduler-grid__table th,
-.omni-scheduler-grid__table td { border: var(--omni-border-width) solid var(--omni-color-border); padding: var(--omni-space-xs); vertical-align: top; }
+.omni-scheduler-grid__table td { border: var(--omni-border-width) solid var(--omni-color-border); padding: calc(var(--omni-cell-pad-y) / 2) var(--omni-space-xs); vertical-align: top; }
 .omni-scheduler-grid__table thead th { background: var(--omni-color-surface-muted); font-size: var(--omni-font-size-sm); font-weight: 650; text-align: center; }
 .omni-scheduler-grid__table thead th.omni-scheduler-grid__day--today { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); }
 .omni-scheduler-grid__time { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); font-weight: 400; inline-size: 4.5rem; text-align: end; white-space: nowrap; }
 .omni-scheduler-grid__cell { block-size: calc(var(--omni-control-height) + var(--omni-space-sm)); }
 .omni-scheduler-grid .omni-scheduler__appointment,
 .omni-week-view .omni-scheduler__appointment,
-.omni-month-view .omni-scheduler__appointment { align-items: flex-start; background: color-mix(in srgb, var(--omni-color-accent) 12%, var(--omni-color-surface)); border-radius: var(--omni-radius); display: flex; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); margin-block-end: var(--omni-space-xs); min-inline-size: 0; padding: 0.125rem var(--omni-space-xs); }
+.omni-month-view .omni-scheduler__appointment { align-items: flex-start; background: color-mix(in srgb, var(--omni-color-accent) 12%, var(--omni-color-surface)); border-radius: var(--omni-radius); display: flex; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); margin-block-end: var(--omni-space-xs); min-inline-size: 0; padding: calc(var(--omni-cell-pad-y) / 4) var(--omni-space-xs); }
 .omni-scheduler__appointment[draggable="true"] { cursor: grab; }
 .omni-scheduler__appointment--moving { opacity: 0.55; }
 .omni-scheduler__appointment strong { font-weight: 600; min-inline-size: 0; overflow-wrap: anywhere; }
@@ -2778,10 +2780,10 @@ polyline.omni-chart__line { fill: none; }
 .omni-scheduler__open:focus-visible,
 .omni-scheduler__move:focus-visible,
 .omni-scheduler__place:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
-.omni-scheduler__move { background: none; border: 0; border-radius: calc(var(--omni-radius) / 2); color: var(--omni-color-text-muted); cursor: pointer; flex: none; font: inherit; line-height: 1; margin-inline-start: auto; padding: 0.125rem; }
+.omni-scheduler__move { background: none; border: 0; border-radius: calc(var(--omni-radius) / 2); color: var(--omni-color-text-muted); cursor: pointer; flex: none; font: inherit; line-height: 1; margin-inline-start: auto; padding: calc(var(--omni-cell-pad-y) / 4); }
 .omni-scheduler__move:hover,
 .omni-scheduler__move[aria-pressed="true"] { color: var(--omni-color-accent-strong); }
-.omni-scheduler__place { background: var(--omni-color-surface); border: var(--omni-border-width) dashed var(--omni-color-accent); border-radius: var(--omni-radius); color: var(--omni-color-accent-strong); cursor: pointer; display: block; font: inherit; font-size: var(--omni-font-size-sm); inline-size: 100%; overflow: hidden; padding: 0.125rem var(--omni-space-xs); text-overflow: ellipsis; white-space: nowrap; }
+.omni-scheduler__place { background: var(--omni-color-surface); border: var(--omni-border-width) dashed var(--omni-color-accent); border-radius: var(--omni-radius); color: var(--omni-color-accent-strong); cursor: pointer; display: block; font: inherit; font-size: var(--omni-font-size-sm); inline-size: 100%; overflow: hidden; padding: calc(var(--omni-cell-pad-y) / 4) var(--omni-space-xs); text-overflow: ellipsis; white-space: nowrap; }
 .omni-scheduler__place:hover { background: var(--omni-color-accent-subtle); }
 
 .omni-html-editor, .omni-code-editor { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; overflow: hidden; }
