@@ -105,6 +105,13 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     [InlineData(".omni-time__col", "inline-size", "var(--omni-cal-cell)")]
     [InlineData(".omni-time__list", "max-block-size", "var(--omni-cal-cell)")]
     [InlineData(".omni-time__item", "padding", "var(--omni-item-pad-y)")]
+    // The scheduler's time grid is a table: its cells, the appointments they hold and an
+    // appointment's move and place buttons read the table cell token, so a slot holding an
+    // appointment grows with the density like an empty one (the comfortable values are unchanged).
+    [InlineData(".omni-scheduler-grid__table th,\n.omni-scheduler-grid__table td", "padding", "calc(var(--omni-cell-pad-y) / 2)")]
+    [InlineData(".omni-scheduler-grid .omni-scheduler__appointment,\n.omni-week-view .omni-scheduler__appointment,\n.omni-month-view .omni-scheduler__appointment", "padding", "calc(var(--omni-cell-pad-y) / 4)")]
+    [InlineData(".omni-scheduler__move", "padding", "calc(var(--omni-cell-pad-y) / 4)")]
+    [InlineData(".omni-scheduler__place", "padding", "calc(var(--omni-cell-pad-y) / 4)")]
     public void SizedComponents_ReadTheirSizeFromTheDensity(string selector, string property, string expected)
     {
         var rule = ShippedLookTests.Rules().Where(rule => rule.Selector == selector)
