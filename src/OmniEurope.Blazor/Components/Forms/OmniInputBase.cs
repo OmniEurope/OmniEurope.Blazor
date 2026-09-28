@@ -50,7 +50,7 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        CspAttributeGuard.EnsureSafe(AdditionalAttributes);
+        CspAttributeGuard.EnsureSafe(AdditionalAttributes, GetType());
     }
 
     protected string InputCss(params string?[] values) =>

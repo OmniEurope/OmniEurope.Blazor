@@ -16,7 +16,7 @@
 ## HTML, attributs et CSS
 
 - Les composants fondés sur `OmniComponentBase` partagent `Id`, `Class` et `AdditionalAttributes`. Les contrôles de formulaire héritent de `OmniInputBase<TValue>`, qui déclare `Id` et `Class` et garde les `AdditionalAttributes` fournis par `InputBase<TValue>`.
-- `AdditionalAttributes` refuse les gestionnaires HTML `on*` et l'attribut `style` afin de préserver le contrat CSP.
+- `AdditionalAttributes` refuse les gestionnaires HTML `on*` et l'attribut `style` afin de préserver le contrat CSP, ainsi que tout nom qui commence par une majuscule ASCII : un attribut HTML est en minuscules, un nom en PascalCase est un paramètre que le composant n'a pas (`OmniBadge has no parameter 'IconName'.`). L'analyseur livré `OE0001` le signale dès la compilation ([analyzers.md](analyzers.md)).
 - Les états visuels sont des classes CSS finies. Les données SVG emploient des attributs géométriques, jamais un style inline.
 - Les chaînes affichées par défaut sont en français et peuvent être remplacées par paramètres lorsque le contexte l'exige.
 
