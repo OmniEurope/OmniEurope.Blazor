@@ -6,6 +6,48 @@ dessine lui-même ses trois vues jour, semaine et mois), la frise `OmniTimeline`
 `style` ni par un script : la frise se place par des classes, le Gantt et le déroulement par des
 attributs géométriques SVG.
 
+## Agenda : `OmniScheduler`
+
+```razor
+<OmniScheduler Items="Rendezvous" @bind-Date="Jour" @bind-View="Vue"
+               DayStart="new TimeOnly(6, 0)" DayEnd="new TimeOnly(22, 0)"
+               AppointmentClicked="Ouvrir" AppointmentMoved="Deplacer" />
+```
+
+Un rendez-vous est un `OmniSchedulerAppointment` : `Id`, `Title`, `Start`, `End` (`DateTimeOffset`),
+`Description` (sous le titre, dans la liste du jour) et `CssClass` (classes ajoutées à son élément,
+pour qu'un hôte en distingue certains, par exemple les heures facturables).
+
+| Paramètre | Rôle |
+| --- | --- |
+| `Items` ou `Load` | Les rendez-vous, donnés en liste ou chargés pour la période visible (annulable, chargement et échec affichés, bouton Réessayer). |
+| `Date` / `DateChanged`, `View` / `ViewChanged` | Le jour affiché et la vue (`Day`, `Week`, `Month`, défaut `Month`) ; les boutons de l'en-tête les changent. |
+| `TimeZone`, `Culture` | Le fuseau où les rendez-vous sont dessinés, et la culture des dates et du premier jour de la semaine. |
+| `DayStart`, `DayEnd`, `SlotMinutes` | Avec les deux bornes, les vues jour et semaine deviennent une grille horaire de créneaux de `SlotMinutes` minutes (60 par défaut). |
+| `AppointmentClicked` | Fait de chaque rendez-vous un bouton ; reçoit le rendez-vous tel que l'hôte l'a donné. |
+| `AppointmentMoved` | Rend les rendez-vous déplaçables ; reçoit un `OmniSchedulerAppointmentMove` (le rendez-vous d'origine, son nouveau début et sa nouvelle fin). |
+
+La grille horaire est un tableau : une ligne par créneau, une colonne par jour. Un rendez-vous se
+place dans le créneau où il commence, ses heures écrites dessus ; celui qui commence avant le premier
+créneau ou après le dernier se range dans ce créneau, rien n'est caché. Le jour courant est teinté et
+porte `aria-current="date"` dans toutes les vues.
+
+L'agenda ne modifie jamais `Items` : un déplacement est rapporté et l'hôte l'applique (et
+l'enregistre), le rendez-vous restant à sa place sinon. Il se fait de deux façons :
+
+- **Glisser-déposer** sur un créneau de la grille, ou sur un jour de la semaine en liste ou du mois.
+- **Sans glisser**, au clavier, au doigt ou à la souris : le bouton ⇄ du rendez-vous (« Déplacer
+  Revue ») le saisit, chaque créneau ou jour affiche alors un bouton « Placer ici » (nommé « Placer
+  ici : Revue, mercredi 10 juin 2026 10:00 ») qui l'y dépose ; Échap ou « Annuler le déplacement » le remet. La saisie reste active quand on change de
+  période, si bien qu'un rendez-vous peut changer de semaine. Chaque étape est annoncée par une
+  région live.
+
+Un créneau donne le nouveau début ; un jour garde l'heure du rendez-vous. La durée ne change jamais,
+et un dépôt à l'endroit où il commence déjà ne rapporte rien. La vue jour sans grille n'offre pas de
+destination. `omni-scheduler.js` n'est chargé que si `AppointmentMoved` est posé, et ne fait que
+donner au glisser les données que certains navigateurs exigent pour le commencer ; il n'écrit aucun
+style.
+
 ## Frise : `OmniTimeline`
 
 | Paramètre | Rôle |

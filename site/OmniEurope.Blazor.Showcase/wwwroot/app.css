@@ -259,3 +259,5 @@
 .demo-appshell .omni-main { align-content: start; display: grid; flex: 1 1 auto; gap: var(--omni-space-md); padding: var(--omni-section-pad); }
 .demo-appshell__tiles { display: grid; gap: var(--omni-space-sm); grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); }
 .demo-appshell__tiles .omni-heading { margin: 0; }
+/* Scheduler demo: an appointment the host marks apart through OmniSchedulerAppointment.CssClass. */
+.omni-scheduler__appointment.showcase-appointment--decision { background: var(--omni-color-warning-subtle); }

@@ -8,9 +8,17 @@
         </ChildContent>
     </OmniFormField>
 
+    @* De 8 h à 18 h, les vues jour et semaine sont une grille horaire. Un rendez-vous se glisse sur un
+       autre créneau, ou se déplace par son bouton ⇄ ; l'agenda rapporte le déplacement et la démo
+       l'applique. Un clic sur un rendez-vous le nomme sous l'agenda. *@
     <OmniScheduler Date="Anchor"
                    DateChanged="@(value => Anchor = value)"
                    View="View"
                    ViewChanged="@(value => View = value)"
-                   Items="Appointments" />
+                   Items="Appointments"
+                   DayStart="new TimeOnly(8, 0)"
+                   DayEnd="new TimeOnly(18, 0)"
+                   AppointmentClicked="Open"
+                   AppointmentMoved="Move" />
+    <p role="status">@Chosen</p>
 </OmniStack>

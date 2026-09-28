@@ -1,12 +1,61 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 @implements IAsyncDisposable
+@inject IJSRuntime JavaScript
 
-<section @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler")" aria-busy="@(_loading ? "true" : "false")">
+@{
+    // The time and title of an appointment, as a button when the host listens for clicks, then its
+    // move button when appointments can be moved. The day list adds the end time and the description.
+    void AppointmentBody(OmniSchedulerAppointment appointment, bool detailed)
+    {
+        var time = detailed
+            ? $"{appointment.Start.ToString("t", Culture)}–{appointment.End.ToString("t", Culture)}"
+            : appointment.Start.ToString("t", Culture);
+        if (Clickable)
+        {
+            <button type="button" class="omni-scheduler__open" @onclick="() => ClickAsync(appointment)"><time datetime="@appointment.Start.ToString("O")">@time</time> <strong>@appointment.Title</strong></button>
+        }
+        else
+        {
+            <time datetime="@appointment.Start.ToString("O")">@time</time><strong>@appointment.Title</strong>
+        }
+        if (detailed && !string.IsNullOrWhiteSpace(appointment.Description))
+        {
+            <span>@appointment.Description</span>
+        }
+        if (Movable)
+        {
+            <button type="button" class="omni-scheduler__move" aria-label="@Text("SchedulerMoveAppointment", appointment.Title)" aria-pressed="@(_moving?.Local.Id == appointment.Id ? "true" : "false")" @onclick="() => PickUp(appointment)"><span aria-hidden="true">⇄</span></button>
+        }
+    }
+
+    // An appointment in a week day, a month day or a time-grid cell.
+    void AppointmentItem(OmniSchedulerAppointment appointment)
+    {
+        <div class="@AppointmentCss(appointment)" data-omni-scheduler-appointment="@appointment.Id" draggable="@(Movable ? "true" : null)" @ondragstart="() => StartDrag(appointment)" @ondragend="EndDrag">
+            @{ AppointmentBody(appointment, false); }
+        </div>
+    }
+
+    // While an appointment is picked up, the button that puts it in this cell.
+    void PlaceButton(MoveTarget target)
+    {
+        if (_moving is { } moving && CanPlace(target))
+        {
+            <button type="button" class="omni-scheduler__place" aria-label="@Text("SchedulerMoveHere", moving.Local.Title, TargetLabel(moving, target))" @onclick="() => PlaceAsync(target)">@Text("SchedulerMoveHereShort")</button>
+        }
+    }
+}
+
+<section @ref="_root" @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-scheduler", _moving is null ? null : "omni-scheduler--moving")" aria-busy="@(_loading ? "true" : "false")" @onkeydown="OnKeyDown">
     <header class="omni-scheduler__header">
         <button type="button" class="omni-button" aria-label="@Text("SchedulerPreviousPeriod")" @onclick="PreviousAsync">‹</button>
         <button type="button" class="omni-button" @onclick="TodayAsync">@Text("Today")</button>
         <button type="button" class="omni-button" aria-label="@Text("SchedulerNextPeriod")" @onclick="NextAsync">›</button>
+        @if (_moving is not null)
+        {
+            <button type="button" class="omni-button omni-scheduler__cancel" @onclick="CancelMove">@Text("SchedulerMoveCancel")</button>
+        }
         <div class="omni-select-bar" role="radiogroup" aria-label="@Text("SchedulerViewLabel")">
             @foreach (var view in Enum.GetValues<OmniSchedulerView>())
             {
@@ -26,58 +75,120 @@
     {
         var date = LocalDate;
         var appointments = LocalAppointments;
-        @switch (View)
+        var today = LocalToday;
+        @if (View != OmniSchedulerView.Month && HasTimeGrid)
         {
-            case OmniSchedulerView.Day:
-                <section class="omni-scheduler-view omni-day-view" aria-label="@Localize("DayViewLabel")">
-                    <h3>@date.ToString("D", Culture)</h3>
-                    <ol class="omni-scheduler__appointments">
-                        @foreach (var appointment in AppointmentsOn(appointments, date.Date))
-                        {
-                            <li data-start="@appointment.Start.ToString("O")" data-end="@appointment.End.ToString("O")" data-duration-minutes="@DurationMinutes(appointment)"><time datetime="@appointment.Start.ToString("O")">@appointment.Start.ToString("t", Culture)–@appointment.End.ToString("t", Culture)</time><strong>@appointment.Title</strong>@if (!string.IsNullOrWhiteSpace(appointment.Description)) { <span>@appointment.Description</span> }</li>
-                        }
-                    </ol>
-                </section>
-                break;
-            case OmniSchedulerView.Week:
-                <section class="omni-scheduler-view omni-week-view" aria-label="@Localize("WeekViewLabel")">
-                    @foreach (var day in WeekDays(date))
-                    {
-                        <article class="omni-week-view__day">
-                            <h3>@day.ToString("ddd d", Culture)</h3>
-                            @foreach (var appointment in AppointmentsOn(appointments, day.Date))
+            var days = View == OmniSchedulerView.Day
+                ? new[] { DateOnly.FromDateTime(date.Date) }
+                : WeekDays(date).Select(day => DateOnly.FromDateTime(day.Date)).ToArray();
+            <div class="omni-scheduler-view omni-scheduler-grid" role="region" aria-label="@Localize(View == OmniSchedulerView.Day ? "DayViewLabel" : "WeekViewLabel")">
+                <table class="omni-scheduler-grid__table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="omni-scheduler-grid__time"><span class="omni-visually-hidden">@Text("SchedulerTimeColumn")</span></th>
+                            @foreach (var day in days)
                             {
-                                <p><time datetime="@appointment.Start.ToString("O")">@appointment.Start.ToString("t", Culture)</time> <strong>@appointment.Title</strong></p>
+                                <th scope="col" class="@DayCss("omni-scheduler-grid__day", day, today)" aria-current="@(day == today ? "date" : null)">@day.ToString("ddd d", Culture)</th>
                             }
-                        </article>
-                    }
-                </section>
-                break;
-            default:
-                <section class="omni-scheduler-view omni-month-view" aria-label="@Localize("MonthViewLabel")">
-                    @foreach (var dayName in MonthDayNames)
-                    {
-                        <div class="omni-month-view__weekday" role="columnheader">@dayName</div>
-                    }
-                    @foreach (var day in MonthCells(date))
-                    {
-                        if (day is null)
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var slot = 0; slot < SlotCount; slot++)
                         {
-                            <div class="omni-month-view__day omni-month-view__day--outside" aria-hidden="true"></div>
-                        }
-                        else
-                        {
-                            <article class="omni-month-view__day" data-date="@day.Value.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)">
-                                <h3>@day.Value.Day</h3>
-                                @foreach (var appointment in AppointmentsOn(appointments, day.Value.ToDateTime(TimeOnly.MinValue)))
+                            var slotIndex = slot;
+                            var slotStart = SlotStart(slotIndex);
+                            <tr>
+                                <th scope="row" class="omni-scheduler-grid__time"><time datetime="@slotStart.ToString("HH:mm", System.Globalization.CultureInfo.InvariantCulture)">@slotStart.ToString("t", Culture)</time></th>
+                                @foreach (var day in days)
                                 {
-                                    <p><time datetime="@appointment.Start.ToString("O")">@appointment.Start.ToString("t", Culture)</time> @appointment.Title</p>
+                                    var target = new MoveTarget(day, slotIndex);
+                                    <td class="@TargetCss(DayCss("omni-scheduler-grid__cell", day, today), target)"
+                                        @ondragenter="() => DragEnter(target)"
+                                        @ondragover:preventDefault="@Movable"
+                                        @ondrop="() => DropAsync(target)"
+                                        @ondrop:preventDefault="@Movable">
+                                        @foreach (var appointment in AppointmentsInSlot(appointments, day, slotIndex))
+                                        {
+                                            AppointmentItem(appointment);
+                                        }
+                                        @{ PlaceButton(target); }
+                                    </td>
                                 }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            @switch (View)
+            {
+                case OmniSchedulerView.Day:
+                    <section class="omni-scheduler-view omni-day-view" aria-label="@Localize("DayViewLabel")">
+                        <h3>@date.ToString("D", Culture)</h3>
+                        <ol class="omni-scheduler__appointments">
+                            @foreach (var appointment in AppointmentsOn(appointments, date.Date))
+                            {
+                                <li class="@AppointmentCss(appointment)" data-omni-scheduler-appointment="@appointment.Id" data-start="@appointment.Start.ToString("O")" data-end="@appointment.End.ToString("O")" data-duration-minutes="@DurationMinutes(appointment)">@{ AppointmentBody(appointment, true); }</li>
+                            }
+                        </ol>
+                    </section>
+                    break;
+                case OmniSchedulerView.Week:
+                    <section class="omni-scheduler-view omni-week-view" aria-label="@Localize("WeekViewLabel")">
+                        @foreach (var weekDay in WeekDays(date))
+                        {
+                            var day = DateOnly.FromDateTime(weekDay.Date);
+                            var target = new MoveTarget(day, null);
+                            <article class="@TargetCss(DayCss("omni-week-view__day", day, today), target)" aria-current="@(day == today ? "date" : null)"
+                                     @ondragenter="() => DragEnter(target)"
+                                     @ondragover:preventDefault="@Movable"
+                                     @ondrop="() => DropAsync(target)"
+                                     @ondrop:preventDefault="@Movable">
+                                <h3>@weekDay.ToString("ddd d", Culture)</h3>
+                                @foreach (var appointment in AppointmentsOn(appointments, weekDay.Date))
+                                {
+                                    AppointmentItem(appointment);
+                                }
+                                @{ PlaceButton(target); }
                             </article>
                         }
-                    }
-                </section>
-                break;
+                    </section>
+                    break;
+                default:
+                    <section class="omni-scheduler-view omni-month-view" aria-label="@Localize("MonthViewLabel")">
+                        @foreach (var dayName in MonthDayNames)
+                        {
+                            <div class="omni-month-view__weekday" role="columnheader">@dayName</div>
+                        }
+                        @foreach (var cell in MonthCells(date))
+                        {
+                            if (cell is not { } day)
+                            {
+                                <div class="omni-month-view__day omni-month-view__day--outside" aria-hidden="true"></div>
+                            }
+                            else
+                            {
+                                var target = new MoveTarget(day, null);
+                                <article class="@TargetCss(DayCss("omni-month-view__day", day, today), target)" aria-current="@(day == today ? "date" : null)" data-date="@day.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)"
+                                         @ondragenter="() => DragEnter(target)"
+                                         @ondragover:preventDefault="@Movable"
+                                         @ondrop="() => DropAsync(target)"
+                                         @ondrop:preventDefault="@Movable">
+                                    <h3>@day.Day</h3>
+                                    @foreach (var appointment in AppointmentsOn(appointments, day.ToDateTime(TimeOnly.MinValue)))
+                                    {
+                                        AppointmentItem(appointment);
+                                    }
+                                    @{ PlaceButton(target); }
+                                </article>
+                            }
+                        }
+                    </section>
+                    break;
+            }
         }
     }
+    <div class="omni-visually-hidden" role="status" aria-live="polite" aria-atomic="true">@_announcement</div>
 </section>
