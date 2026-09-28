@@ -67,6 +67,17 @@ jobs:
         shell: pwsh
         run: |
           if (-not (Get-ChildItem artifacts/analyzer-tests -Filter analyzer-tests.trx -Recurse -File)) { throw 'The shipped analyzer suite produced no TRX.' }
+      - name: Convention analyzer tests
+        # GEN001 to GEN008 guard the repository's own sources and are not shipped: each diagnostic runs
+        # against a positive and a negative case on a real Roslyn compilation (docs/analyzers.md).
+        run: >-
+          dotnet test --project eng/OmniEurope.Analyzers.Tests/OmniEurope.Analyzers.Tests.csproj
+          --configuration Release --no-build --no-progress
+          --report-trx --report-trx-filename convention-analyzer-tests.trx --results-directory artifacts/convention-analyzer-tests
+      - name: Verify convention analyzer test results
+        shell: pwsh
+        run: |
+          if (-not (Get-ChildItem artifacts/convention-analyzer-tests -Filter convention-analyzer-tests.trx -Recurse -File)) { throw 'The convention analyzer suite produced no TRX.' }
       - name: Dependency and action policy
         shell: pwsh
         run: ./eng/Test-DependencyPolicy.ps1
