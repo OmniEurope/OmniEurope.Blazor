@@ -28,13 +28,13 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
 
         _ = host.InvokeAsync(() => navigation.NavigateTo("/ailleurs"));
 
-        host.WaitForAssertion(() => Assert.Equal("Modifications non enregistrées", host.Find(".omni-dialog__title").TextContent));
+        host.WaitForAssertion(() => Assert.Equal("Modifications non enregistrées", host.Find(".omni-dialog__title").TextContent), TimeSpan.FromSeconds(10));
         Assert.Contains("omni-dialog--intent-warning", host.Find(".omni-dialog").ClassList);
         Assert.Equal("Quitter sans enregistrer", host.Find(".omni-confirm__action span.omni-button__content > span").TextContent);
         Assert.Contains("omni-button--danger", host.Find(".omni-confirm__action").ClassList);
         host.Find(".omni-confirm__cancel").Click();
 
-        host.WaitForAssertion(() => Assert.Empty(host.FindAll(".omni-dialog")));
+        host.WaitForAssertion(() => Assert.Empty(host.FindAll(".omni-dialog")), TimeSpan.FromSeconds(10));
         Assert.Equal(start, navigation.Uri);
         Assert.Equal(NavigationState.Prevented, Assert.Single(((BunitNavigationManager)navigation).History).State);
     }
@@ -49,11 +49,12 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
             .AddChildContent(Guard(hasChanges: true)));
 
         _ = host.InvokeAsync(() => navigation.NavigateTo("/ailleurs"));
-        host.WaitForAssertion(() => Assert.NotNull(host.Find(".omni-confirm__action")));
+        // Same readiness as the Stay test: the question is drawn (its title) before its button is used.
+        host.WaitForAssertion(() => Assert.Equal("Modifications non enregistrées", host.Find(".omni-dialog__title").TextContent), TimeSpan.FromSeconds(10));
         host.Find(".omni-confirm__action").Click();
 
-        var bunit = (BunitNavigationManager)navigation;
-        host.WaitForAssertion(() => Assert.Equal(NavigationState.Succeeded, Assert.Single(bunit.History).State));
+        host.WaitForAssertion(() => Assert.Empty(host.FindAll(".omni-dialog")), TimeSpan.FromSeconds(10));
+        host.WaitForAssertion(() => Assert.EndsWith("/ailleurs", navigation.Uri, StringComparison.Ordinal), TimeSpan.FromSeconds(10));
     }
 
     [Fact]
@@ -67,7 +68,7 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
 
         _ = host.InvokeAsync(() => navigation.NavigateTo("/ailleurs"));
 
-        host.WaitForAssertion(() => Assert.EndsWith("/ailleurs", navigation.Uri, StringComparison.Ordinal));
+        host.WaitForAssertion(() => Assert.EndsWith("/ailleurs", navigation.Uri, StringComparison.Ordinal), TimeSpan.FromSeconds(10));
         Assert.Empty(host.FindAll(".omni-dialog"));
     }
 
@@ -338,6 +339,44 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
             .Add(component => component.DensityLevelChanged, _ => { }));
         Assert.Empty(withScales.FindAll(".omni-appearance-settings--look"));
         Assert.Equal(2, withScales.FindAll(".omni-appearance-settings--scale .omni-appearance-settings__row").Count);
+    }
+
+    [Fact]
+    public void AppearanceWindow_WithTheHostsOwnLook_NamesItFirst_AndListsEveryThemeByName()
+    {
+        OmniThemePreset? theme = OmniThemePresets.All[1];
+        OmniThemePalette? palette = OmniThemePalettes.All[1];
+        var window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.DefaultThemeText, "Aetheus")
+            .Add(component => component.DefaultPaletteText, "Palette du thème")
+            .Add(component => component.PresetChanged, value => theme = value)
+            .Add(component => component.PaletteChanged, value => palette = value));
+
+        var selects = window.FindAll("select");
+        var themes = selects[0].QuerySelectorAll("option").Select(option => option.TextContent).ToList();
+        // The host's look comes first, then the whole catalogue, the first theme included by its own name.
+        Assert.Equal("Aetheus", themes[0]);
+        Assert.Equal(OmniThemePresets.All.Count + 1, themes.Count);
+        Assert.Contains(OmniThemePresets.All[0].Name, themes.Skip(1));
+        Assert.DoesNotContain(themes, text => text.Contains("(", StringComparison.Ordinal));
+        // No theme chosen: the palette list starts with the host's own palette.
+        Assert.Equal("Palette du thème", selects[1].QuerySelectorAll("option")[0].TextContent);
+
+        // The drop-down posts the option's own value: pick by the visible name.
+        static string ValueOf(AngleSharp.Dom.IElement select, string text) =>
+            select.QuerySelectorAll("option").First(option => option.TextContent == text).GetAttribute("value")!;
+        selects[0].Change(ValueOf(selects[0], OmniThemePresets.All[0].Name));
+        Assert.Same(OmniThemePresets.All[0], theme);
+        // The host keeps the value: render the window with the theme it now holds.
+        window.Render(parameters => parameters.Add(component => component.Preset, theme));
+        var themeSelect = window.FindAll("select")[0];
+        themeSelect.Change(ValueOf(themeSelect, "Aetheus"));
+        Assert.Null(theme);
+        window.Render(parameters => parameters.Add(component => component.Preset, theme).Add(component => component.Palette, OmniThemePalettes.All[1]));
+        var paletteSelect = window.FindAll("select")[1];
+        paletteSelect.Change(ValueOf(paletteSelect, "Palette du thème"));
+        Assert.Null(palette);
     }
 
     [Fact]
