@@ -1647,7 +1647,7 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
 .omni-select-bar--disabled .omni-select-bar__item:not(.omni-select-bar__item--selected) { background: var(--omni-color-surface-muted); }
 .omni-select-bar--disabled .omni-select-bar__item { opacity: 0.6; }
 .omni-slider { align-items: center; display: flex; gap: var(--omni-space-sm); }
-.omni-slider__input { accent-color: var(--omni-color-accent); flex: 1; }
+.omni-slider__input { accent-color: var(--omni-color-accent); flex: 1; min-inline-size: 0; }
 .omni-slider--vertical { align-items: center; flex-direction: column; }
 .omni-slider--vertical .omni-slider__input { writing-mode: vertical-lr; }
 .omni-slider__value,
