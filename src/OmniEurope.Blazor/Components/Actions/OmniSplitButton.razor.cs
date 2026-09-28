@@ -40,17 +40,17 @@ public partial class OmniSplitButton
     public OmniButtonVariant Variant { get; set; } = OmniButtonVariant.Secondary;
 
     /// <summary>
-    /// Icon drawn before <see cref="Text"/> in the main part. None by default, as before; the menu
-    /// part keeps its chevron either way.
+    /// Icon drawn before <see cref="Text"/> in the main part, in general an <see cref="OmniIcon"/>, like the
+    /// <c>Icon</c> of the other components. None by default; the menu part keeps its chevron either way.
+    /// The split button sizes it to its own size (small in a small split button, medium otherwise); a
+    /// size set on the icon wins.
     /// </summary>
     [Parameter]
-    public OmniIconName? Icon { get; set; }
+    public RenderFragment? Icon { get; set; }
 
     private string? VariantClass => Variant == OmniButtonVariant.Secondary
         ? null
         : $"omni-split-button--{Variant.ToString().ToLowerInvariant()}";
-
-    private OmniControlSize IconSize => Size == OmniControlSize.Small ? OmniControlSize.Small : OmniControlSize.Medium;
 
     [Parameter]
     public bool Disabled { get; set; }

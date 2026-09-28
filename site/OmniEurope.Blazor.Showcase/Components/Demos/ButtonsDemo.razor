@@ -40,23 +40,26 @@
         <OmniToggleButton Size="OmniControlSize.Small" @bind-Value="Pinned">Épingler</OmniToggleButton>
         <OmniToggleButton Size="OmniControlSize.Large" @bind-Value="Pinned">Épingler</OmniToggleButton>
         <OmniToggleButton @bind-Value="Pinned" AriaLabel="Épingler"><OmniIcon Name="OmniIconName.Pin" /></OmniToggleButton>
-        <OmniSplitButton Size="OmniControlSize.Small" Text="Publier" OnClick="SaveAsync" />
-        <OmniSplitButton Size="OmniControlSize.Large" Text="Publier" OnClick="SaveAsync" />
+        <OmniSplitButton Size="OmniControlSize.Small" Text="Publier" OnClick="SaveAsync"><Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon></OmniSplitButton>
+        <OmniSplitButton Size="OmniControlSize.Large" Text="Publier" OnClick="SaveAsync"><Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon></OmniSplitButton>
     </OmniStack>
 
     @* Le bouton partagé prend les variantes d'OmniButton, les deux parties ensemble ; Secondary, son
        apparence d'origine, reste la valeur par défaut. Une icône peut précéder le texte de la partie
        principale, le chevron du menu ne change pas. *@
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
-        <OmniSplitButton Id="demo-split-primary" Text="Publier" Variant="OmniButtonVariant.Primary" Icon="OmniIconName.RocketLaunch" OnClick="@(() => Count++)">
-            <OmniSplitButtonItem OnClick="@(() => Count++)">Publier plus tard</OmniSplitButtonItem>
+        <OmniSplitButton Id="demo-split-primary" Text="Publier" Variant="OmniButtonVariant.Primary" OnClick="@(() => Count++)">
+            <Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon>
+            <ChildContent>
+                <OmniSplitButtonItem OnClick="@(() => Count++)">Publier plus tard</OmniSplitButtonItem>
+            </ChildContent>
         </OmniSplitButton>
-        <OmniSplitButton Text="Brouillon" Variant="OmniButtonVariant.Secondary" Icon="OmniIconName.Save" OnClick="@(() => Count++)" />
+        <OmniSplitButton Text="Brouillon" Variant="OmniButtonVariant.Secondary" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Save" /></Icon></OmniSplitButton>
         <OmniSplitButton Text="Aperçu" Variant="OmniButtonVariant.Ghost" OnClick="@(() => Count++)" />
-        <OmniSplitButton Text="Valider" Variant="OmniButtonVariant.Success" Icon="OmniIconName.Check" OnClick="@(() => Count++)" />
-        <OmniSplitButton Text="Suspendre" Variant="OmniButtonVariant.Warning" Icon="OmniIconName.Pause" OnClick="@(() => Count++)" />
-        <OmniSplitButton Text="Consulter" Variant="OmniButtonVariant.Info" Icon="OmniIconName.Info" OnClick="@(() => Count++)" />
-        <OmniSplitButton Text="Supprimer" Variant="OmniButtonVariant.Danger" Icon="OmniIconName.Delete" OnClick="@(() => Count++)" />
+        <OmniSplitButton Text="Valider" Variant="OmniButtonVariant.Success" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Check" /></Icon></OmniSplitButton>
+        <OmniSplitButton Text="Suspendre" Variant="OmniButtonVariant.Warning" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Pause" /></Icon></OmniSplitButton>
+        <OmniSplitButton Text="Consulter" Variant="OmniButtonVariant.Info" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Info" /></Icon></OmniSplitButton>
+        <OmniSplitButton Text="Supprimer" Variant="OmniButtonVariant.Danger" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Delete" /></Icon></OmniSplitButton>
     </OmniStack>
 
     @* Dans un formulaire, le type décide de ce que le bouton déclenche. *@

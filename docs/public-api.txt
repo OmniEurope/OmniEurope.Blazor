@@ -1899,7 +1899,7 @@ property public OmniEurope.Blazor.Components.OmniAxisTitle.Text : System.String 
 property public OmniEurope.Blazor.Components.OmniAxisTitle.Vertical : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Fill : OmniEurope.Blazor.Components.OmniBadgeFill {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniBadge.Icon : OmniEurope.Blazor.Components.OmniIconName? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniBadge.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Text : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Variant : OmniEurope.Blazor.Components.OmniBadgeVariant {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBarSeries.ColorIndex : System.Int32 {get(public);set(public)} [Parameter]
@@ -2485,7 +2485,7 @@ property public OmniEurope.Blazor.Components.OmniHtmlSanitizerPolicy.AllowImageD
 property public OmniEurope.Blazor.Components.OmniIcon.AriaLabel : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniIcon.Glyph : OmniEurope.Blazor.Components.OmniIconGlyph? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniIcon.Name : OmniEurope.Blazor.Components.OmniIconName {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniIcon.Size : OmniEurope.Blazor.Components.OmniControlSize {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniIcon.Size : OmniEurope.Blazor.Components.OmniControlSize? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniIconGlyph.PathData : System.String {get(public)}
 property public OmniEurope.Blazor.Components.OmniIconGlyph.ViewBoxSize : System.Int32 {get(public)}
 property public OmniEurope.Blazor.Components.OmniImage.Alt : System.String {get(public);set(public)} [Parameter, EditorRequired]
@@ -2875,7 +2875,7 @@ property public OmniEurope.Blazor.Components.OmniSplitButton.AriaLabel : System.
 property public OmniEurope.Blazor.Components.OmniSplitButton.Busy : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSplitButton.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSplitButton.Disabled : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniSplitButton.Icon : OmniEurope.Blazor.Components.OmniIconName? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSplitButton.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSplitButton.MenuLabel : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSplitButton.OnClick : Microsoft.AspNetCore.Components.EventCallback {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSplitButton.Size : OmniEurope.Blazor.Components.OmniControlSize {get(public);set(public)} [Parameter]

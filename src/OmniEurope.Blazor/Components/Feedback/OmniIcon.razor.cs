@@ -15,8 +15,15 @@ public partial class OmniIcon
     [Parameter]
     public OmniIconGlyph? Glyph { get; set; }
 
+    /// <summary>
+    /// Fixed size of the glyph. Null by default: the icon takes the size its container gives its icons
+    /// (a badge, a split button, a small button), and the medium size elsewhere. A size set here, or a
+    /// class of the consumer that sizes the icon, wins over the container.
+    /// </summary>
     [Parameter]
-    public OmniControlSize Size { get; set; } = OmniControlSize.Medium;
+    public OmniControlSize? Size { get; set; }
+
+    private string? SizeClass => Size is { } size ? $"omni-icon--{size.ToString().ToLowerInvariant()}" : null;
 
     [Parameter]
     public string? AriaLabel { get; set; }

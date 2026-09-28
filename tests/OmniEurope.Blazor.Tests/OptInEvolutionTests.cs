@@ -377,7 +377,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     {
         var split = Render<OmniSplitButton>(parameters => parameters
             .Add(component => component.Text, string.Empty)
-            .Add(component => component.Icon, OmniIconName.Eye)
+            .Add(component => component.Icon, Icon(OmniIconName.Eye))
             .Add(component => component.AriaLabel, "Aperçu")
             .Add(component => component.MenuLabel, "Autres actions"));
 
@@ -426,20 +426,21 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData(OmniControlSize.Small, "omni-icon--small")]
-    [InlineData(OmniControlSize.Medium, "omni-icon--medium")]
-    [InlineData(OmniControlSize.Large, "omni-icon--medium")]
-    public void SplitButton_Icon_IsDrawnBeforeTheTextOfTheMainPartOnly(OmniControlSize size, string iconClass)
+    [InlineData(OmniControlSize.Small)]
+    [InlineData(OmniControlSize.Medium)]
+    [InlineData(OmniControlSize.Large)]
+    public void SplitButton_Icon_IsDrawnBeforeTheTextOfTheMainPartOnly(OmniControlSize size)
     {
         var split = Render<OmniSplitButton>(parameters => parameters
             .Add(component => component.Text, "Publier")
             .Add(component => component.Size, size)
-            .Add(component => component.Icon, OmniIconName.RocketLaunch));
+            .Add(component => component.Icon, Icon(OmniIconName.RocketLaunch)));
 
         var main = split.Find(".omni-split-button__main");
         var icon = Assert.Single(main.QuerySelectorAll("svg"));
         Assert.Same(icon, main.FirstElementChild);
-        Assert.Contains(iconClass, icon.ClassList);
+        // No size of its own: the split button sizes it (IconContainerSizingTests).
+        Assert.Equal(["omni-icon"], icon.ClassList);
         Assert.Equal("true", icon.GetAttribute("aria-hidden"));
         Assert.Equal("Publier", main.TextContent.Trim());
         Assert.EndsWith("Publier", main.InnerHtml, StringComparison.Ordinal);
@@ -629,6 +630,13 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     // ---- helpers ---------------------------------------------------------------------------------
 
     private static RenderFragment Content(string value) => builder => builder.AddContent(0, value);
+
+    private static RenderFragment Icon(OmniIconName name) => builder =>
+    {
+        builder.OpenComponent<OmniIcon>(0);
+        builder.AddComponentParameter(1, nameof(OmniIcon.Name), name);
+        builder.CloseComponent();
+    };
 
     private static void WithCulture(CultureInfo culture, Action action)
     {
