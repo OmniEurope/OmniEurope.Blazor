@@ -236,34 +236,37 @@ public partial class OmniHtmlEditor
     private string SurfaceId => Id ?? _generatedId;
     private string LinkInputId => SurfaceId + "-link";
 
-    private IEnumerable<OmniHtmlEditorCommand> ToolbarCommands
+    /// <summary>
+    /// The toolbar cut at its separators into groups of commands, none empty: a separator at either end
+    /// or next to another one draws nothing. Each group after the first is drawn with its separator
+    /// before it, so a separator always stays with the group it opens and never ends a row of a wrapped
+    /// toolbar; the one that would start a row falls outside the toolbar and is clipped.
+    /// </summary>
+    private List<List<OmniHtmlEditorCommand>> ToolbarGroups
     {
         get
         {
-            var previousWasSeparator = true;
-            OmniHtmlEditorCommand? pendingSeparator = null;
+            var groups = new List<List<OmniHtmlEditorCommand>>();
+            var current = new List<OmniHtmlEditorCommand>();
             foreach (var command in ArrangedCommands)
             {
-                if (command.Action == OmniHtmlEditorAction.Separator)
+                if (command.Action != OmniHtmlEditorAction.Separator)
                 {
-                    if (!previousWasSeparator)
-                    {
-                        pendingSeparator = command;
-                    }
-
-                    previousWasSeparator = true;
-                    continue;
+                    current.Add(command);
                 }
-
-                if (pendingSeparator is not null)
+                else if (current.Count > 0)
                 {
-                    yield return pendingSeparator;
-                    pendingSeparator = null;
+                    groups.Add(current);
+                    current = [];
                 }
-
-                previousWasSeparator = false;
-                yield return command;
             }
+
+            if (current.Count > 0)
+            {
+                groups.Add(current);
+            }
+
+            return groups;
         }
     }
 

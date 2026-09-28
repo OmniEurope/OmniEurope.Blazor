@@ -9,8 +9,11 @@
             }
             else
             {
+                @* A collection literal is a new list on every render, as a consumer writes it in a loop. *@
                 <OmniDataGridColumn TItem="DataGridLoopColumnsTestHost.Row" Key="@column.Key" Title="@column.Title"
-                                    Property="@column.Property" Width="@column.Width">
+                                    Property="@column.Property" Width="@column.Width"
+                                    FilterValues="@(LiteralFilterValues ? new[] { "Alice", "Bob" } : null)"
+                                    FilterOperators="@(LiteralFilterOperators ? new[] { OmniDataGridFilterOperator.Contains, OmniDataGridFilterOperator.Equals } : null)">
                     <Template Context="row">
                         <span class="loop-cell">@Cell(column, row)</span>
                     </Template>

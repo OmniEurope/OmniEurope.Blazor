@@ -227,7 +227,11 @@ public partial class OmniDataGridColumn<TItem>
 
         if (Matches(_definition, definition))
         {
-            AdoptDelegates(_definition!, definition);
+            if (AdoptDelegates(_definition!, definition))
+            {
+                Context.DelegatesAdopted();
+            }
+
             return;
         }
 
@@ -238,14 +242,24 @@ public partial class OmniDataGridColumn<TItem>
     }
 
     /// <summary>
-    /// Keeps the latest delegates of an unchanged column without re-registering it. A column
-    /// declared in a <c>@foreach</c> receives new template and accessor delegates on every render,
-    /// because each captures the loop variable; re-registering on each of them re-rendered the grid,
-    /// which rendered its columns again, without end. The swap is silent: the grid reads the new
-    /// delegates on its next render.
+    /// Keeps the latest delegates and filter lists of an unchanged column without re-registering it.
+    /// A column declared in a <c>@foreach</c> receives new template and accessor delegates on every
+    /// render, because each captures the loop variable, and a new list for a collection literal;
+    /// re-registering on each of them re-rendered the grid, which rendered its columns again, without
+    /// end. Returns whether a delegate now has another target (a closure over another loop value), so
+    /// that the grid renders once more with it in the same render batch; a delegate that only captures
+    /// the component is equal to the stored one and asks for nothing.
     /// </summary>
-    private static void AdoptDelegates(OmniDataGridColumnDefinition<TItem> registered, OmniDataGridColumnDefinition<TItem> latest)
+    private static bool AdoptDelegates(OmniDataGridColumnDefinition<TItem> registered, OmniDataGridColumnDefinition<TItem> latest)
     {
+        var changed = !Equals(registered.Value, latest.Value)
+            || !Equals(registered.Template, latest.Template)
+            || !Equals(registered.EditTemplate, latest.EditTemplate)
+            || !Equals(registered.FooterTemplate, latest.FooterTemplate)
+            || !Equals(registered.HeaderTemplate, latest.HeaderTemplate)
+            || !Equals(registered.FilterPredicate, latest.FilterPredicate)
+            || !Equals(registered.FilterTemplate, latest.FilterTemplate)
+            || !Equals(registered.FilterValueText, latest.FilterValueText);
         registered.Value = latest.Value;
         registered.Template = latest.Template;
         registered.EditTemplate = latest.EditTemplate;
@@ -254,7 +268,19 @@ public partial class OmniDataGridColumn<TItem>
         registered.FilterPredicate = latest.FilterPredicate;
         registered.FilterTemplate = latest.FilterTemplate;
         registered.FilterValueText = latest.FilterValueText;
+        registered.FilterValues = latest.FilterValues;
+        registered.FilterOperators = latest.FilterOperators;
+        return changed;
     }
+
+    /// <summary>
+    /// Whether two filter lists hold the same values in the same order. A collection literal written
+    /// in a <c>@foreach</c> is a new list on every render; comparing it by reference would see a change
+    /// each time and re-register the column without end.
+    /// </summary>
+    private static bool SameContent<T>(IEnumerable<T>? left, IEnumerable<T>? right) =>
+        ReferenceEquals(left, right)
+        || (left is not null && right is not null && left.SequenceEqual(right));
 
     /// <summary>
     /// Whether two delegates come from the same lambda: same method and a target of the same type.
@@ -290,7 +316,7 @@ public partial class OmniDataGridColumn<TItem>
         && Equivalent(left.FooterTemplate, right.FooterTemplate)
         && Equivalent(left.HeaderTemplate, right.HeaderTemplate)
         && Equivalent(left.FilterPredicate, right.FilterPredicate)
-        && ReferenceEquals(left.FilterValues, right.FilterValues)
+        && SameContent(left.FilterValues, right.FilterValues)
         && Equivalent(left.FilterTemplate, right.FilterTemplate)
         && string.Equals(left.FormatString, right.FormatString, StringComparison.Ordinal)
         && left.Sortable == right.Sortable
@@ -301,7 +327,7 @@ public partial class OmniDataGridColumn<TItem>
         && Equivalent(left.FilterValueText, right.FilterValueText)
         && string.Equals(left.DefaultFilterValue, right.DefaultFilterValue, StringComparison.Ordinal)
         && left.FilterIncludesTime == right.FilterIncludesTime
-        && ReferenceEquals(left.FilterOperators, right.FilterOperators)
+        && SameContent(left.FilterOperators, right.FilterOperators)
         && left.FilterOperator == right.FilterOperator
         && left.Visible == right.Visible
         && left.Resizable == right.Resizable

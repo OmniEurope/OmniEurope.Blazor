@@ -143,6 +143,28 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
     }
 
     [Fact]
+    public void Separators_OpenTheGroupThatFollowsThem_SoAWrappedRowNeverEndsWithOne()
+    {
+        JSInterop.SetupModule(ModulePath);
+        var value = string.Empty;
+        var separator = OmniHtmlEditorCommands.Separator;
+
+        var editor = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Commands, [OmniHtmlEditorCommands.Bold, separator, OmniHtmlEditorCommands.Italic, OmniHtmlEditorCommands.Underline, separator, OmniHtmlEditorCommands.Link]));
+
+        var groups = editor.Find(".omni-html-editor__toolbar").Children;
+        Assert.All(groups, group => Assert.Equal("omni-html-editor__group", group.ClassName));
+        Assert.Equal(
+            ["bold", "italic underline", "link"],
+            groups.Select(group => string.Join(" ", group.QuerySelectorAll("[data-command]").Select(control => control.GetAttribute("data-command")))));
+        Assert.Null(groups[0].QuerySelector(".omni-html-editor__separator"));
+        Assert.All(groups.Skip(1), group => Assert.Equal("omni-html-editor__separator", group.FirstElementChild?.ClassName));
+        Assert.Equal(2, editor.FindAll(".omni-html-editor__separator").Count);
+    }
+
+    [Fact]
     public void DefaultToolbar_OffersTheExpectedCommands()
     {
         JSInterop.SetupModule(ModulePath);

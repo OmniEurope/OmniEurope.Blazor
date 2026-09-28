@@ -44,7 +44,9 @@ de l'éditeur, et `Label` ou `Icon` les remplacent. Une commande `Custom` reçoi
 `InsertHtmlAsync` (au curseur, en remplaçant la sélection), `SetHtmlAsync` (toute la valeur) et
 `ExecuteAsync` (une action intégrée). Tout ce qu'une commande écrit passe par l'assainissement et
 l'historique. Une commande `Custom` sans `Execute` lève `InvalidOperationException`. Les séparateurs
-en tête, en fin ou répétés ne sont pas dessinés.
+en tête, en fin ou répétés ne sont pas dessinés. La barre passe à la ligne par groupes d'outils : un
+séparateur ouvre le groupe qui le suit et reste avec lui, si bien qu'aucune ligne ne se termine par un
+séparateur, et celui d'un groupe qui commence une ligne n'est pas dessiné.
 
 Un hôte qui modifie lui-même le document par son propre script (structure, numérotation) passe
 `context.SurfaceElement` (l'`ElementReference` de la surface, null en face source) à ce script, puis

@@ -2,6 +2,11 @@
   <PropertyGroup>
     <EnforceRazorCodeBehind>true</EnforceRazorCodeBehind>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- STD-WASMOPT: the showcase runs in fr-FR (Program.cs), so only the ICU shard of the European
+         languages (English, French, Italian, German, Spanish) is shipped, loaded whatever the browser
+         language; invariant globalization would format amounts with the generic currency sign. -->
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <BlazorIcuDataFileName>icudt_EFIGS.dat</BlazorIcuDataFileName>
   </PropertyGroup>
 
   <ItemGroup>

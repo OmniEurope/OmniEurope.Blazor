@@ -14,6 +14,15 @@ public partial class DataGridLoopColumnsTestHost
 
     [Parameter]
     public bool CaptureValue { get; set; }
+
+    /// <summary>Gives every column a new <c>FilterValues</c> array of the same content on each render.</summary>
+    [Parameter]
+    public bool LiteralFilterValues { get; set; }
+
+    /// <summary>Gives every column a new <c>FilterOperators</c> array of the same content on each render.</summary>
+    [Parameter]
+    public bool LiteralFilterOperators { get; set; }
+
     public int CellRenders { get; private set; }
 
     public List<ColumnSpec> Columns { get; } =
@@ -39,7 +48,7 @@ public partial class DataGridLoopColumnsTestHost
     private string Cell(ColumnSpec column, Row row)
     {
         CountRender();
-        return row.Read(column.Property)?.ToString() ?? string.Empty;
+        return (row.Read(column.Property)?.ToString() ?? string.Empty) + column.Suffix;
     }
 
     private object? ReadValue(ColumnSpec column, Row row)
@@ -57,7 +66,8 @@ public partial class DataGridLoopColumnsTestHost
         }
     }
 
-    public sealed record ColumnSpec(string Key, string Title, string Property, string? Width);
+    // Suffix is appended to the cell text: captured state that is not part of the column's identity.
+    public sealed record ColumnSpec(string Key, string Title, string Property, string? Width, string Suffix = "");
 
     public sealed record Row(int Id, string Name, string City)
     {
