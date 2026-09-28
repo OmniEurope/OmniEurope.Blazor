@@ -76,6 +76,9 @@ $LaunchConfig = @{
         @{ Key = "Library"; Flag = "TestLibrary"; Alias = "tl"; Kind = "Unit"; Coverage = $true; Project = "tests\OmniEurope.Blazor.Tests\OmniEurope.Blazor.Tests.csproj" }
         @{ Key = "Analyzers"; Flag = "TestAnalyzers"; Alias = "tg"; Kind = "Unit"; Coverage = $true; Project = "eng\OmniEurope.Analyzers.Tests\OmniEurope.Analyzers.Tests.csproj" }
     )
+    # Declared exception (owner decision 2026-09-28): the kit recommends an E2E suite, this package has
+    # none. Its hosts are covered by the browser probes of eng\ (Test-*Host.ps1), not by Playwright.
+    Exceptions = @{ E2E = "component library: no application to drive, browser probes in eng\ replace a Playwright suite" }
 }
 
 $ErrorActionPreference = "Stop"

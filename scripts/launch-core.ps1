@@ -1,4 +1,4 @@
-# launch-core 1.0.1
+# launch-core 1.0.4
 #
 # Shared launcher core of the kit kit. DO NOT EDIT A COPY: this file is maintained in the kit
 # (deploy/le lanceur local), copied verbatim into scripts/ of every repository, and its
@@ -21,7 +21,7 @@
 
 Set-StrictMode -Off
 
-$script:launchCoreVersion = '1.0.1'
+$script:launchCoreVersion = '1.0.4'
 $script:launchExitCode = 0
 # Components started by this run, so an unexpected error still stops them instead of orphaning them.
 $script:YActiveJobs = $null
@@ -60,6 +60,27 @@ function Test-YInteractive {
 }
 
 # ============================================================
+#  Declared exceptions
+# ============================================================
+
+# $LaunchConfig.Exceptions declares a launcher capability the project deliberately does not have, with
+# its reason: @{ E2E = 'component library, no application to drive' }. Returns the reason, or $null
+# when nothing is declared. A declaration that is empty, unknown or contradicted by the configuration
+# is refused, so an exception cannot hide a typo or outlive the capability it excused.
+$script:YKnownExceptions = @('E2E')
+function Get-YDeclaredException([hashtable]$Config, [string]$Key) {
+    if (-not $Config.ContainsKey('Exceptions') -or $null -eq $Config.Exceptions) { return $null }
+    if ($Config.Exceptions -isnot [hashtable]) { throw "`$LaunchConfig.Exceptions must be a hashtable: @{ E2E = '<reason>' }." }
+    foreach ($name in $Config.Exceptions.Keys) {
+        if ($script:YKnownExceptions -notcontains $name) { throw "Unknown launcher exception '$name'. Known: $($script:YKnownExceptions -join ', ')." }
+        if ([string]::IsNullOrWhiteSpace([string]$Config.Exceptions[$name])) { throw "Launcher exception '$name' has no reason." }
+        if ($Config.ContainsKey($name)) { throw "Launcher exception '$name' is declared but `$LaunchConfig.$name exists: remove one of them." }
+    }
+    if ($Config.Exceptions.ContainsKey($Key)) { return [string]$Config.Exceptions[$Key] }
+    return $null
+}
+
+# ============================================================
 #  Help
 # ============================================================
 
@@ -85,6 +106,8 @@ function Show-YHelp([hashtable]$Config, [switch]$Long) {
         Write-Host "  -te,  -TestE2e          Start the app, run the E2E suite, stop, exit"
         Write-Host "  -tec, -TestE2eFilter    E2E categories by number or name (? = picker), implies -te"
     }
+    $e2eException = Get-YDeclaredException -Config $Config -Key 'E2E'
+    if ($e2eException) { Write-Host "  (declared exception: no E2E suite, $e2eException)" -ForegroundColor DarkYellow }
     Write-Host "  -c,   -Coverage         Unit suites with coverage + HTML report, then exit"
     Write-Host "  -hr,  -HotReload        Start under dotnet watch"
     if ($hasWeb)  { Write-Host "  -w,   -Worktree         Give this checkout fresh ports (.launch.local), then launch" }
@@ -440,21 +463,27 @@ function Resolve-YPortCollision([hashtable]$Config, [string]$Root, [hashtable]$R
 #  dotnet invocation (with the MAUI workload self-repair)
 # ============================================================
 
-function Test-YMauiWorkload {
-    $listed = @(& dotnet workload list 2>&1 | ForEach-Object { "$_" })
-    return ($LASTEXITCODE -eq 0) -and ($listed -match 'maui')
-}
-
 # Returns nothing: the verdict is $script:YDotnetSucceeded. dotnet writes to the output stream, so a
 # boolean return value would be buried behind its log lines and read as truthy.
 $script:YDotnetSucceeded = $false
 function Invoke-YDotnet([string[]]$Arguments, [string]$Root, [switch]$WorkloadRepair) {
     Push-Location -LiteralPath $Root
+    # The errors go to a side file logger: piping dotnet (to read its output) would switch off the
+    # MSBuild terminal logger on every build.
+    $errorLog = Join-Path ([IO.Path]::GetTempPath()) "launch-build-errors-$PID.log"
     try {
-        & dotnet @Arguments
+        $firstAttempt = if ($WorkloadRepair) { @($Arguments) + "-flp:ErrorsOnly;LogFile=$errorLog" } else { $Arguments }
+        & dotnet @firstAttempt
         if ($LASTEXITCODE -eq 0) { $script:YDotnetSucceeded = $true; return }
-        if (-not $WorkloadRepair -or (Test-YMauiWorkload)) { $script:YDotnetSucceeded = $false; return }
-        Write-Host "  Missing .NET workloads: running 'dotnet workload restore'..." -ForegroundColor Yellow
+        # Repair ONLY a build that failed because a workload is missing (NETSDK1147). 'dotnet workload
+        # restore' needs an elevated prompt when the SDK lives under Program Files: running it on any
+        # other failure (a compile error, a file locked by another build) raised a UAC prompt for
+        # nothing, and 'dotnet workload list' is no proof either (MAUI on Windows builds from its
+        # NuGet packages without the 'maui' workload being listed).
+        $missingWorkload = $WorkloadRepair -and (Test-Path -LiteralPath $errorLog) -and
+            (Select-String -LiteralPath $errorLog -Pattern 'NETSDK1147' -Quiet)
+        if (-not $missingWorkload) { $script:YDotnetSucceeded = $false; return }
+        Write-Host "  Missing .NET workloads (NETSDK1147): running 'dotnet workload restore'..." -ForegroundColor Yellow
         & dotnet workload restore | Out-Host
         if ($LASTEXITCODE -ne 0) {
             Write-Host "  'dotnet workload restore' FAILED (an elevated prompt may be required)." -ForegroundColor Red
@@ -465,6 +494,7 @@ function Invoke-YDotnet([string[]]$Arguments, [string]$Root, [switch]$WorkloadRe
         & dotnet @Arguments
         $script:YDotnetSucceeded = ($LASTEXITCODE -eq 0)
     } finally {
+        Remove-Item -LiteralPath $errorLog -Force -ErrorAction SilentlyContinue
         Pop-Location
     }
 }
@@ -1012,14 +1042,25 @@ function Invoke-launchCore([hashtable]$Config, [string]$Root, [hashtable]$Option
     $runAll = [bool](Get-YOption $Options 'TestAll')
     $runUnit = [bool](Get-YOption $Options 'TestUnit') -or $runAll
     $coverage = [bool](Get-YOption $Options 'Coverage')
-    if ($runAll) { $runE2e = $true }
-    if ($runE2e -and -not $Config.ContainsKey('E2E')) { throw "This project has no E2E suite (-te/-tec)." }
+    # A capability the project does not have is either declared ($LaunchConfig.Exceptions, printed on
+    # every run) or an error: an absence is never skipped silently.
+    $e2eException = Get-YDeclaredException -Config $Config -Key 'E2E'
+    if ($runAll) {
+        if ($Config.ContainsKey('E2E')) { $runE2e = $true }
+        elseif ($e2eException) { Write-Host "  Declared exception: no E2E suite ($e2eException). -ta runs the other suites." -ForegroundColor Yellow }
+        else { throw "This project has no E2E suite. If that is intended, declare it: `$LaunchConfig.Exceptions = @{ E2E = '<reason>' }." }
+    }
+    if ($runE2e -and -not $Config.ContainsKey('E2E')) {
+        $why = if ($e2eException) { " (declared exception: $e2eException)" } else { '' }
+        throw "This project has no E2E suite$why (-te/-tec)."
+    }
     $selected = @($suites | Where-Object {
         ($runUnit -and $_.Kind -eq 'Unit') -or
         ($runAll -and $_.Kind -eq 'Integration') -or
         ($coverage -and $_.Kind -eq 'Unit' -and $_.Coverage) -or
         [bool](Get-YOption $Options $_.Flag)
     })
+    if ($runAll -and $selected.Count -eq 0 -and -not $runE2e) { throw "-ta found no suite to run: declare Tests or E2E in `$LaunchConfig." }
     $anyTest = $selected.Count -gt 0 -or $runE2e
     $hotReload = [bool](Get-YOption $Options 'HotReload')
     $silent = [bool](Get-YOption $Options 'Silent')
