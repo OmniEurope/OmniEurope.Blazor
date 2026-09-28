@@ -12,7 +12,7 @@
     <OmniBadge Variant="@Status.Variant" Fill="@(IsStale ? OmniBadgeFill.Outline : Status.Fill)">
         @if (ShowIcon && Status.Icon is { } icon)
         {
-            <OmniIcon Name="icon" Size="OmniControlSize.Small" Class="omni-status-badge__icon" />
+            <OmniIcon Name="icon" Class="omni-status-badge__icon" />
         }
         <span class="omni-status-badge__text">@LabelText</span>
     </OmniBadge>

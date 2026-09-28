@@ -4,10 +4,7 @@
 <span id="@Id"
       class="@Css("omni-badge", $"omni-badge--{Variant.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}", IconOnly ? "omni-badge--icon" : null)"
       @attributes="AdditionalAttributes">
-    @if (Icon is { } icon)
-    {
-        <OmniIcon Name="@icon" Size="OmniControlSize.Small" />
-    }
+    @Icon
     @Text
     @ChildContent
 </span>

@@ -555,7 +555,7 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
    height is the density's control height, which a padding around the icon pushed past in compact. */
 .omni-button { font-size: var(--omni-button-font-size, var(--omni-control-font)); min-height: var(--omni-button-size, var(--omni-control-height)); padding-block: 0; padding-inline: var(--omni-button-padding-inline, var(--omni-button-pad-x)) calc(var(--omni-button-padding-inline, var(--omni-button-pad-x)) - var(--omni-button-letter-spacing, 0em)); }
 .omni-button--small .omni-button__content { gap: var(--omni-space-xs); }
-.omni-button--small .omni-icon--medium { height: 1rem; width: 1rem; }
+.omni-button--small { --omni-icon-size: 1rem; }
 /* Icône seule : carré. :where laisse un hôte qui retaille ses boutons l'emporter. */
 .omni-button[aria-label]:where(:has(> .omni-button__content > .omni-icon:only-child)) { min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding-inline: 0; }
 .omni-button--primary { --omni-button-fill: var(--omni-color-accent-fill); --omni-button-fill-hover: var(--omni-color-accent-fill-hover); --omni-button-fill-active: var(--omni-color-accent-fill-active); --omni-button-ink: var(--omni-color-on-accent-fill); }
@@ -787,13 +787,17 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
     flex: 0 0 auto;
     vertical-align: middle;
 }
+/* An icon without a Size of its own takes the size its container hands down through --omni-icon-size
+   (badge, split button, small button), the medium size elsewhere. :where keeps this at no specificity,
+   so a Size class, or any class of the consumer that sizes the icon, wins over the container. */
+:where(.omni-icon) { height: var(--omni-icon-size, 1.25rem); width: var(--omni-icon-size, 1.25rem); }
 .omni-icon--small { height: 1rem; width: 1rem; }
 .omni-icon--medium { height: 1.25rem; width: 1.25rem; }
 .omni-icon--large { height: 1.5rem; width: 1.5rem; }
 
 /* Pastille tonale : l'encre de la variante mêlée à la surface et au texte, lisible en clair et en sombre. */
 .omni-badge { --omni-badge-ink: var(--omni-color-text-muted); align-items: center; background: color-mix(in srgb, var(--omni-badge-ink) 14%, var(--omni-color-surface)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-badge-ink) 32%, transparent); border-radius: var(--omni-radius-sm, calc(var(--omni-radius) / 2)); box-sizing: border-box; color: color-mix(in srgb, var(--omni-badge-ink) 40%, var(--omni-color-text)); display: inline-flex; font-size: calc(var(--omni-control-font) - 0.0625rem); font-variant-numeric: tabular-nums; font-weight: 650; gap: var(--omni-space-xs); justify-content: center; line-height: 1; min-height: var(--omni-badge-height); min-width: var(--omni-badge-height); padding: var(--omni-badge-pad-y) 0.5rem; white-space: nowrap; }
-.omni-badge .omni-icon { height: 0.875rem; width: 0.875rem; }
+.omni-badge { --omni-icon-size: 0.875rem; }
 /* An icon-only badge is a square as tall as the text badges beside it, its glyph in the middle. */
 .omni-badge--icon { aspect-ratio: 1; padding-inline: 0; }
 .omni-badge--neutral { --omni-badge-ink: var(--omni-color-text-muted); }
@@ -1755,6 +1759,8 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
 .omni-toggle-button--pressed { background: var(--omni-color-accent); border-color: var(--omni-color-accent); color: var(--omni-color-on-accent); }
 .omni-split-button { display: inline-flex; position: relative; }
 .omni-split-button__main { border-radius: var(--omni-button-radius, var(--omni-radius)) 0 0 var(--omni-button-radius, var(--omni-radius)); }
+/* The icon of the main part follows the split button: small in a small one, medium otherwise. */
+.omni-split-button--small > .omni-split-button__main { --omni-icon-size: 1rem; }
 .omni-split-button__toggle { border-inline-start: 0; border-radius: 0 var(--omni-button-radius, var(--omni-radius)) var(--omni-button-radius, var(--omni-radius)) 0; min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding: 0; }
 /* Variants: the four colours of OmniButton, read by both parts together. Secondary is the default
    and renders without a class, so the component root holds its neutral fill. */

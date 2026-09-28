@@ -8,8 +8,12 @@ public partial class OmniBadge
     [Parameter]
     public string? Text { get; set; }
 
+    /// <summary>
+    /// Icon drawn before the text, in general an <see cref="OmniIcon"/>, like the <c>Icon</c> of the other
+    /// components. The badge sizes it to its own text; a size set on the icon wins.
+    /// </summary>
     [Parameter]
-    public OmniIconName? Icon { get; set; }
+    public RenderFragment? Icon { get; set; }
 
     [Parameter]
     public OmniBadgeVariant Variant { get; set; }
