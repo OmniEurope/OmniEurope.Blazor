@@ -27,6 +27,10 @@
 // acceptedBusyVeil, and they do not fail the probe. A veil of another colour or a higher peak is not
 // covered: it fails as before, so changing the veil reopens the question.
 //
+// A theme may also declare a contrast waiver (owner decision, 2026-09-28): its style wins over the
+// thresholds. It is measured like any other; its shortfalls go to acceptedContrastWaiver, except in the
+// focus state, which stays mandatory in every theme.
+//
 // Every failure goes into a JSON registry (artifacts/theme-contrast-registry.json), written even when
 // empty, and the probe exits non-zero when it is not empty (RET-002 n°50). Screenshots go to
 // artifacts/theme-probe/ for a human look: ratios do not see a glow that vanished or a card that lost
@@ -655,7 +659,23 @@ let marginMeasures = 0;
 let combinations = 0;
 const shots = [];
 
-const fail = (combo, entry) => failures.push({ theme: combo.theme, palette: combo.palette, mode: combo.mode, ...entry });
+// Themes that declare a contrast waiver (ThemeDefinition.ContrastWaiver, owner decision of 2026-09-28),
+// read from the customizer's data-contrast-waiver note when the theme is picked: the catalogue stays the
+// only source. Their contrast shortfalls (text, border, non-text mark, content under the busy veil, at
+// rest or hovered) are counted under acceptedContrastWaiver instead of failing. The focus state is never
+// waived, nor geometry, overflow, CSP, console or coverage.
+const waivers = {};
+const acceptedContrastWaiver = [];
+const WAIVABLE_CHECKS = new Set(['texte', 'bordure', 'marque non textuelle', 'voile d\'occupation']);
+
+const fail = (combo, entry) => {
+  const record = { theme: combo.theme, palette: combo.palette, mode: combo.mode, ...entry };
+  if (waivers[combo.theme] && entry.ratio !== undefined && WAIVABLE_CHECKS.has(entry.check) && entry.state !== 'focus') {
+    acceptedContrastWaiver.push(record);
+    return;
+  }
+  failures.push(record);
+};
 
 await send('Runtime.enable');
 await send('Log.enable');
@@ -906,6 +926,7 @@ for (const theme of chosenThemes) {
   await pick('workshop-theme', theme);
   await waitFor(`le thème ${theme}`, `document.getElementById('workshop-theme').selectedOptions[0]?.textContent.trim() === ${JSON.stringify(theme)}`);
   defaultPalette[theme] = (await readState()).palette;
+  waivers[theme] = await evaluate(`document.querySelector('[data-contrast-waiver]')?.dataset.contrastWaiver ?? null`);
   for (const mode of chosenModes) {
     for (const palette of chosenPalettes) {
       const combo = { theme, palette, mode };
@@ -967,6 +988,8 @@ await writeFile(registryPath, JSON.stringify({
   measures,
   failures,
   acceptedBusyVeil,
+  contrastWaivers: Object.fromEntries(Object.entries(waivers).filter(([, reason]) => reason)),
+  acceptedContrastWaiver,
   busyVeil: busyReadings.map(({ theme, palette, mode, label, veil, peak, foreground, background, ratio, restRatio, veilShift }) => ({ theme, palette, mode, label, veil, peak, foreground, background, ratio: Math.round(ratio * 100) / 100, restRatio: Math.round(restRatio * 100) / 100, veilShift: Math.round(veilShift * 100) / 100 })),
   cards: observations.map(({ theme, palette, mode, target, background, foreground, fillRatio, borderRatio, shadow }) => ({ theme, palette, mode, target, page: background, card: foreground, fillRatio: Math.round(fillRatio * 100) / 100, borderRatio: Math.round(borderRatio * 100) / 100, shadow })),
   screenshots: shots
@@ -990,5 +1013,6 @@ if (failures.length > 0) {
   console.error(`Contrastes : ${failures.length} échec(s) sur ${measures} mesures, ${combinations} combinaison(s). Registre : ${registryPath}\n${lines.join('\n')}${grouped.size > 60 ? `\n  ... ${grouped.size - 60} groupe(s) de plus dans le registre` : ''}`);
   process.exitCode = 1;
 } else {
-  console.log(`Sonde de contraste validée : ${measures} mesures sur ${combinations} combinaison(s) thème x palette x mode${partial ? ' (passage partiel)' : ''}, repos, survol forcé et focus, voile d'occupation (${acceptedBusyVeil.length} mesure(s) sous le ratio acceptée(s) par décision du 2026-09-18, voir acceptedBusyVeil), géométrie, 375 px ; registre vide (${registryPath}), ${shots.length} capture(s) dans ${shotDirectory}, aucune violation CSP, console sans erreur.`);
+  const waived = Object.entries(Object.groupBy(acceptedContrastWaiver, entry => entry.theme)).map(([theme, entries]) => `${theme} ${entries.length}`).join(', ');
+  console.log(`Sonde de contraste validée : ${measures} mesures sur ${combinations} combinaison(s) thème x palette x mode${partial ? ' (passage partiel)' : ''}, repos, survol forcé et focus, voile d'occupation (${acceptedBusyVeil.length} mesure(s) sous le ratio acceptée(s) par décision du 2026-09-18, voir acceptedBusyVeil), contraste non garanti (${acceptedContrastWaiver.length} mesure(s) sous le ratio acceptée(s) par décision du 2026-09-28${waived ? ` : ${waived}` : ''}, voir acceptedContrastWaiver), géométrie, 375 px ; registre vide (${registryPath}), ${shots.length} capture(s) dans ${shotDirectory}, aucune violation CSP, console sans erreur.`);
 }

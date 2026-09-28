@@ -5,7 +5,8 @@ namespace OmniEurope.Blazor.Internal;
 /// borders, shadows, fonts and the way buttons are drawn and pressed. The first ten take the values of
 /// the reference mockup (<c>plans/PLAN-008-maquette-themes.html</c>, constant <c>THEMES</c>); Relief,
 /// Givre, Aplat and Épure recreate four interface styles (neumorphism, glassmorphism, flat design and
-/// minimalism) from our own tokens, within the same contrast guarantees.
+/// minimalism) from our own tokens. Relief, Givre and Aplat declare a <see cref="ThemeDefinition.ContrastWaiver"/>:
+/// their style wins over the contrast thresholds (owner decision of 2026-09-28), Épure keeps them.
 /// </summary>
 /// <remarks>
 /// A shape writes no colour of its own: a coloured shadow or border is drawn from a colour token, so it
@@ -212,7 +213,8 @@ internal static class ThemeCatalog
                 ("--omni-card-shadow", "-0.375rem -0.375rem 0.875rem rgb(255 255 255 / 5%), 0.375rem 0.375rem 1rem rgb(0 0 0 / 55%)"),
                 ("--omni-button-shadow", "-0.1875rem -0.1875rem 0.5rem rgb(255 255 255 / 5%), 0.1875rem 0.1875rem 0.5rem rgb(0 0 0 / 50%)"),
                 ("--omni-input-shadow", "inset 0.125rem 0.125rem 0.3125rem rgb(0 0 0 / 45%), inset -0.125rem -0.125rem 0.3125rem rgb(255 255 255 / 5%)"),
-                ("--omni-overlay-shadow", "-0.25rem -0.25rem 0.75rem rgb(255 255 255 / 5%), 0.5rem 0.75rem 1.75rem rgb(0 0 0 / 55%)"))),
+                ("--omni-overlay-shadow", "-0.25rem -0.25rem 0.75rem rgb(255 255 255 / 5%), 0.5rem 0.75rem 1.75rem rgb(0 0 0 / 55%)")),
+            ContrastWaiver: "Relief par ombres douces : bordures et marques non textuelles sous les seuils WCAG."),
 
         // Glassmorphism: translucent panels over a colour field painted by the theme scope. Kept to the
         // library's ratios: the field is a pale gradient of the palette (every text of the page must
@@ -256,7 +258,8 @@ internal static class ThemeCatalog
                 ("--omni-card-border-color", "rgb(255 255 255 / 14%)"),
                 ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 10%), 0 0.75rem 2rem rgb(0 0 0 / 40%)"),
                 ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 18%), 0 0.25rem 1rem rgb(0 0 0 / 35%)"),
-                ("--omni-overlay-shadow", "inset 0 1px 0 rgb(255 255 255 / 10%), 0 1rem 2.5rem rgb(0 0 0 / 50%)"))),
+                ("--omni-overlay-shadow", "inset 0 1px 0 rgb(255 255 255 / 10%), 0 1rem 2.5rem rgb(0 0 0 / 50%)")),
+            ContrastWaiver: "Panneaux translucides sur un fond coloré : la lisibilité dépend du fond, les seuils WCAG ne sont pas garantis."),
 
         // Flat design: no shadow, no gradient, no relief anywhere; solid blocks, pill buttons, large
         // rounded cards told apart by their fill alone, and a press that only darkens.
@@ -279,7 +282,8 @@ internal static class ThemeCatalog
                 ("--omni-focus-ring", FocusRing),
                 ("--omni-button-font-weight", "600"), ("--omni-heading-font-weight", "700"),
                 ("--omni-font-family", Geometric)),
-            Shape()),
+            Shape(),
+            ContrastWaiver: "Aplats de couleur vifs : certaines paires de texte et de fond passent sous les seuils WCAG."),
 
         // Minimalism: black on white, no shadow, no radius, hairlines, very large bold headings. The
         // primary action is drawn in ink and the palette's accent is kept for one discreet place: the

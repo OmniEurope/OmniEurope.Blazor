@@ -62,6 +62,11 @@
     <section class="showcase-workshop__stage" aria-labelledby="customize-stage-title">
         <OmniHeading Id="customize-stage-title" Level="OmniHeadingLevel.H2">@Text["WorkshopStageTitle"]</OmniHeading>
         <p id="workshop-stage-description">@Text["WorkshopStageLead", Theme.Theme.Name, Theme.Theme.Description, Theme.Palette.Name, Theme.Palette.Description]</p>
+        @if (Theme.Theme.ContrastWaiver is { } waiver)
+        {
+            @* The contrast probe reads data-contrast-waiver to count this theme's shortfalls as accepted. *@
+            <OmniAlert Id="workshop-contrast-waiver" Severity="OmniSeverity.Warning" data-contrast-waiver="@waiver">@Text["WorkshopContrastWaiver", waiver]</OmniAlert>
+        }
         <div class="@(ForceHover ? "showcase-stage showcase-force-hover" : "showcase-stage")">
             @foreach (var section in Sections)
             {
