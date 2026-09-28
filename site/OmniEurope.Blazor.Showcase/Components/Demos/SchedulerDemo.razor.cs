@@ -22,6 +22,8 @@ public partial class SchedulerDemo
 
     private OmniSchedulerView View { get; set; } = OmniSchedulerView.Week;
 
+    private bool TimeGrid { get; set; } = true;
+
     private string Chosen { get; set; } = string.Empty;
 
     private void Open(OmniSchedulerAppointment appointment) =>
