@@ -2742,7 +2742,7 @@ polyline.omni-chart__line { fill: none; }
 .omni-scheduler__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
 .omni-scheduler-view h3 { margin-block-start: 0; }
 .omni-scheduler__appointments { display: grid; gap: var(--omni-space-sm); list-style: none; margin: 0; padding: 0; }
-.omni-scheduler__appointments li { border-inline-start: 0.25rem solid var(--omni-color-accent); display: grid; gap: var(--omni-space-xs); padding: var(--omni-space-sm); }
+.omni-scheduler__appointments li { background: color-mix(in srgb, var(--omni-color-accent) 12%, var(--omni-color-surface)); border-radius: var(--omni-radius); display: grid; gap: var(--omni-space-xs); padding: var(--omni-space-sm); }
 .omni-week-view { display: grid; gap: var(--omni-space-sm); grid-template-columns: repeat(7, minmax(8rem, 1fr)); overflow: auto; }
 .omni-week-view__day { border: var(--omni-border-width) solid var(--omni-color-border); min-height: 10rem; padding: var(--omni-space-sm); }
 .omni-month-view { display: grid; gap: 1px; grid-template-columns: repeat(7, minmax(7rem, 1fr)); overflow: auto; }

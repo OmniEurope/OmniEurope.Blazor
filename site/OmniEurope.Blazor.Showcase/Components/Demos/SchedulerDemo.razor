@@ -7,17 +7,19 @@
             <OmniDropDown TValue="OmniSchedulerView" Id="scheduler-view" Options="ViewOptions" @bind-Value="View" />
         </ChildContent>
     </OmniFormField>
+    <OmniSwitch Id="scheduler-time-grid" @bind-Value="TimeGrid">Grille horaire de 8 h à 18 h</OmniSwitch>
 
-    @* De 8 h à 18 h, les vues jour et semaine sont une grille horaire. Un rendez-vous se glisse sur un
-       autre créneau, ou se déplace par son bouton ⇄ ; l'agenda rapporte le déplacement et la démo
-       l'applique. Un clic sur un rendez-vous le nomme sous l'agenda. *@
+    @* De 8 h à 18 h, les vues jour et semaine sont une grille horaire ; sans ces heures, la vue jour
+       est une liste des rendez-vous et la vue semaine une colonne par jour. Un rendez-vous se glisse
+       sur un autre créneau, ou se déplace par son bouton ⇄ ; l'agenda rapporte le déplacement et la
+       démo l'applique. Un clic sur un rendez-vous le nomme sous l'agenda. *@
     <OmniScheduler Date="Anchor"
                    DateChanged="@(value => Anchor = value)"
                    View="View"
                    ViewChanged="@(value => View = value)"
                    Items="Appointments"
-                   DayStart="new TimeOnly(8, 0)"
-                   DayEnd="new TimeOnly(18, 0)"
+                   DayStart="@(TimeGrid ? new TimeOnly(8, 0) : null)"
+                   DayEnd="@(TimeGrid ? new TimeOnly(18, 0) : null)"
                    AppointmentClicked="Open"
                    AppointmentMoved="Move" />
     <p role="status">@Chosen</p>

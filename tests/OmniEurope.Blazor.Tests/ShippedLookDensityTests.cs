@@ -553,6 +553,20 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         Assert.DoesNotContain(ShippedLookTests.Rules(), rule => rule.Selector.Contains("omni-notification", StringComparison.Ordinal) && Regex.IsMatch(rule.Body, @"border-inline-start|border-left\b"));
     }
 
+    /// <summary>
+    /// An appointment of the scheduler's day list is marked by the accent tint the week, month and
+    /// time-grid appointments already carry, never by a side accent bar.
+    /// </summary>
+    [Fact]
+    public void SchedulerDayList_TintsItsAppointmentsWithoutASideBar()
+    {
+        var item = ShippedLookTests.Body(".omni-scheduler__appointments li");
+
+        Assert.Equal("color-mix(in srgb, var(--omni-color-accent) 12%, var(--omni-color-surface))", ShippedLookTests.Value(item, "background"));
+        Assert.Equal("var(--omni-radius)", ShippedLookTests.Value(item, "border-radius"));
+        Assert.DoesNotContain(ShippedLookTests.Rules(), rule => rule.Selector.Contains("omni-scheduler", StringComparison.Ordinal) && Regex.IsMatch(rule.Body, @"border-inline-start|border-left\b"));
+    }
+
     [Theory]
     [InlineData(OmniSeverity.Info)]
     [InlineData(OmniSeverity.Success)]
