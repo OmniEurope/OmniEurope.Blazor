@@ -44,9 +44,6 @@ public partial class OmniTreeItem<TValue>
     public bool Disabled { get; set; }
 
     [Parameter]
-    public int TabIndex { get; set; }
-
-    [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
     private bool HasChildren => ChildContent is not null || LoadChildren is not null;

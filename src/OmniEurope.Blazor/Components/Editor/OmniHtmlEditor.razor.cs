@@ -73,18 +73,7 @@ public partial class OmniHtmlEditor
     /// <summary>Whether the source face shows a sanitised preview under the textarea. The visual face is its own preview.</summary>
     [Parameter] public bool ShowPreview { get; set; } = true;
 
-    // The six switches below predate Commands. They still hide their command from whichever toolbar
-    // is in use, so an application written against them keeps its toolbar.
-    [Parameter] public bool EnableBold { get; set; } = true;
-    [Parameter] public bool EnableItalic { get; set; } = true;
-    [Parameter] public bool EnableSubscript { get; set; } = true;
-    [Parameter] public bool EnableSuperscript { get; set; } = true;
-    [Parameter] public bool EnableIndent { get; set; } = true;
-    [Parameter] public bool EnableOutdent { get; set; } = true;
     [Parameter] public string? AriaDescribedBy { get; set; }
-
-    /// <summary>Whole-value transforms shown after the toolbar, as text buttons. <see cref="Commands"/> is the richer successor.</summary>
-    [Parameter] public IReadOnlyList<OmniHtmlEditorTool> CustomTools { get; set; } = Array.Empty<OmniHtmlEditorTool>();
 
     /// <summary>
     /// The toolbar, in order. Null uses <see cref="OmniHtmlEditorCommands.Default"/>; an application
@@ -97,21 +86,16 @@ public partial class OmniHtmlEditor
     [Parameter] public EventCallback<OmniHtmlEditorMode> ModeChanged { get; set; }
 
     /// <summary>
-    /// Elements, attributes and classes kept beyond the built-in allow-list, wherever the editor
-    /// sanitises: the bound value, typing, a paste or a drop, an insertion and a command's result.
-    /// Null keeps the built-in allow-list alone. A policy that names something never allowed (a
-    /// script, an event handler, <c>style</c>) throws <see cref="ArgumentException"/>.
-    /// </summary>
-    [Parameter] public OmniHtmlSanitizerPolicy? SanitizerPolicy { get; set; }
-
-    /// <summary>
     /// What applications add to this editor, in order: commands placed in the toolbar, markup kept by the
     /// sanitiser, shortcuts, inline elements that act when clicked, a context menu and table readers.
     /// A parent may pass a new list on every render: the extensions are compared by instance.
     /// </summary>
     [Parameter] public IReadOnlyList<OmniHtmlEditorExtension>? Extensions { get; set; }
 
-    /// <summary><see cref="SanitizerPolicy"/> widened by every extension's policy.</summary>
+    /// <summary>
+    /// Elements, attributes and classes kept beyond the built-in allow-list, wherever the editor sanitises:
+    /// the policies of the <see cref="Extensions"/> merged. Null keeps the built-in allow-list alone.
+    /// </summary>
     private OmniHtmlSanitizerPolicy? EffectivePolicy => _extensionSet.Policy;
 
     /// <summary>
@@ -183,7 +167,7 @@ public partial class OmniHtmlEditor
 
     internal string CleanPaste(string? html, string? text) => OmniHtmlSanitizer.SanitizePaste(html, text, EffectivePolicy);
 
-    /// <summary>The toolbar before the enable switches and the tidying of separators: the editor's own, arranged by each extension.</summary>
+    /// <summary>The toolbar before the tidying of separators: the editor's own, arranged by each extension.</summary>
     private IReadOnlyList<OmniHtmlEditorCommand> ArrangedCommands => _extensionSet.Arrange(Commands ?? OmniHtmlEditorCommands.Default);
     internal OmniHtmlEditorMode CurrentMode => _mode;
     private string SurfaceId => Id ?? _generatedId;
@@ -195,7 +179,7 @@ public partial class OmniHtmlEditor
         {
             var previousWasSeparator = true;
             OmniHtmlEditorCommand? pendingSeparator = null;
-            foreach (var command in ArrangedCommands.Where(IsShown))
+            foreach (var command in ArrangedCommands)
             {
                 if (command.Action == OmniHtmlEditorAction.Separator)
                 {
@@ -223,9 +207,9 @@ public partial class OmniHtmlEditor
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (!_extensionSet.Matches(SanitizerPolicy, Extensions))
+        if (!_extensionSet.Matches(Extensions))
         {
-            _extensionSet = HtmlEditorExtensionSet.For(SanitizerPolicy, Extensions);
+            _extensionSet = HtmlEditorExtensionSet.For(Extensions);
         }
 
         OmniHtmlSanitizer.Validate(EffectivePolicy);
@@ -509,17 +493,6 @@ public partial class OmniHtmlEditor
         await module.InvokeVoidAsync("restoreTextSelection", _source, start, end);
     }
 
-    private async Task ApplyToolAsync(OmniHtmlEditorTool tool)
-    {
-        if (Disabled)
-        {
-            return;
-        }
-
-        await CaptureVisualAsync();
-        await ApplyAsync(tool.Transform);
-    }
-
     private Task ApplyAsync(Func<string, string> transform) => Disabled
         ? Task.CompletedTask
         : CommitAsync(Clean(transform(CurrentValue ?? string.Empty)));
@@ -617,7 +590,7 @@ public partial class OmniHtmlEditor
     /// <summary>
     /// Takes in a surface the host changed through its own script, outside a command (a click on
     /// an inline note, an accepted suggestion): the document is read, sanitised with the allow-list
-    /// and <see cref="SanitizerPolicy"/>, committed as one undo step and raised through
+    /// and the extensions' policies, committed as one undo step and raised through
     /// <c>ValueChanged</c> when it differs. What the sanitiser removed is also removed from the
     /// surface. Does nothing in the source face, while disabled, or before the surface is mounted.
     /// Safe to call from any thread: the work runs on the renderer's dispatcher.
@@ -1096,17 +1069,6 @@ public partial class OmniHtmlEditor
         "Enter" => ApplyLinkAsync(),
         "Escape" => CloseLinkAsync(),
         _ => Task.CompletedTask
-    };
-
-    private bool IsShown(OmniHtmlEditorCommand command) => command.Action switch
-    {
-        OmniHtmlEditorAction.Bold => EnableBold,
-        OmniHtmlEditorAction.Italic => EnableItalic,
-        OmniHtmlEditorAction.Subscript => EnableSubscript,
-        OmniHtmlEditorAction.Superscript => EnableSuperscript,
-        OmniHtmlEditorAction.Indent => EnableIndent,
-        OmniHtmlEditorAction.Outdent => EnableOutdent,
-        _ => true
     };
 
     private bool IsDisabled(OmniHtmlEditorCommand command) => Disabled

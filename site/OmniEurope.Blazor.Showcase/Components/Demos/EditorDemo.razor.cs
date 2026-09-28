@@ -12,24 +12,17 @@ public partial class EditorDemo
     private static readonly IReadOnlyList<string> Accepted = ["image/png", "image/jpeg", "application/pdf"];
 
     /// <summary>
-    /// Extra buttons the host adds to the toolbar. A tool is a pure transform over the markup, so
-    /// the editor never has to know what the host wanted to insert.
-    /// </summary>
-    private static readonly IReadOnlyList<OmniHtmlEditorTool> Tools =
-    [
-        new("signature", "Ajouter la signature", html => html + "<p>Le service des dossiers</p>"),
-        new("reference", "Insérer la référence", html => html + "<p>Référence : D-2401</p>")
-    ];
-
-    /// <summary>
-    /// The default toolbar with one command of the host at the end: a command receives a context
-    /// through which it inserts sanitised HTML at the caret, in either face of the editor.
+    /// The default toolbar with commands of the host at the end: a command receives a context through
+    /// which it inserts sanitised HTML at the caret, or rewrites the whole value, in either face of the
+    /// editor. A command without an icon shows its label as text.
     /// </summary>
     private static readonly IReadOnlyList<OmniHtmlEditorCommand> Commands =
     [
         .. OmniHtmlEditorCommands.Default,
         OmniHtmlEditorCommands.Separator,
-        OmniHtmlEditorCommand.Create("signature-block", "Insérer le bloc de signature", context => context.InsertHtmlAsync("<p><strong>Le service des dossiers</strong></p>"), OmniIconName.Edit)
+        OmniHtmlEditorCommand.Create("signature-block", "Insérer le bloc de signature", context => context.InsertHtmlAsync("<p><strong>Le service des dossiers</strong></p>"), OmniIconName.Edit),
+        OmniHtmlEditorCommand.Create("signature", "Ajouter la signature", context => context.SetHtmlAsync(context.Html + "<p>Le service des dossiers</p>")),
+        OmniHtmlEditorCommand.Create("reference", "Insérer la référence", context => context.SetHtmlAsync(context.Html + "<p>Référence : D-2401</p>"))
     ];
 
     /// <summary>
@@ -44,6 +37,9 @@ public partial class EditorDemo
         AdditionalCssClasses = ["demo-note"],
         AllowDataAttributes = true
     };
+
+    /// <summary>The policy handed to the editor: an extension that only widens the allow-list.</summary>
+    private static readonly AnnotationPolicyExtension AnnotationExtension = new();
 
     /// <summary>
     /// Inline formatting, the clipboard, a paragraph break and the table commands, which act on
@@ -87,6 +83,12 @@ public partial class EditorDemo
     /// A note extension: a command and its shortcut insert a note, a click on a note marks it as read,
     /// and the context menu removes the note at the caret. It never touches the surface itself.
     /// </summary>
+    /// <summary>An extension whose only member is a policy: the markup of the annotated article.</summary>
+    private sealed class AnnotationPolicyExtension : OmniHtmlEditorExtension
+    {
+        public override OmniHtmlSanitizerPolicy SanitizerPolicy => AnnotationPolicy;
+    }
+
     private sealed class DemoNoteExtension : OmniHtmlEditorExtension
     {
         private static readonly OmniHtmlEditorCommand AddNote = OmniHtmlEditorCommand.Create(
@@ -159,17 +161,17 @@ public partial class EditorDemo
     private IReadOnlyList<OmniUploadFile> Manifest { get; set; } = [];
 
     /// <summary>
-    /// Refuses what the demonstration will not keep, before any transfer starts. Returning a message
-    /// rejects the file, returning null accepts it.
-    /// </summary>
-    private static Task<string?> ValidateAsync(OmniUploadRequest request) =>
-        Task.FromResult<string?>(request.Files.Any(file => file.Size == 0) ? "Un fichier est vide." : null);
-
-    /// <summary>
     /// Stands in for a transfer: nothing leaves the browser, the demonstration only records the name.
+    /// It first refuses what it will not keep: a rejected selection is neither stored nor listed.
     /// </summary>
     private Task UploadAsync(OmniUploadRequest request)
     {
+        if (request.Files.Any(file => file.Size == 0))
+        {
+            request.Reject("Un fichier est vide.");
+            return Task.CompletedTask;
+        }
+
         Uploaded.AddRange(request.Files.Select(file => file.Name));
         return Task.CompletedTask;
     }

@@ -32,7 +32,7 @@ public sealed class HtmlEditorCommitDomTests : OmniBunitContext
             .Add(component => component.Value, value)
             .Add(component => component.ValueChanged, updated => value = updated)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.SanitizerPolicy, NotePolicy)
+            .Add(component => component.Extensions, [new PolicyExtension(NotePolicy)])
             .Add(component => component.Commands, [command, OmniHtmlEditorCommands.Undo]));
 
         editor.Find("button[data-command=note]").Click();
@@ -56,7 +56,7 @@ public sealed class HtmlEditorCommitDomTests : OmniBunitContext
             .Add(component => component.Value, value)
             .Add(component => component.ValueChanged, updated => value = updated)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.SanitizerPolicy, NotePolicy)
+            .Add(component => component.Extensions, [new PolicyExtension(NotePolicy)])
             .Add(component => component.Commands, [OmniHtmlEditorCommands.Undo]));
         Assert.True(editor.Find("button[data-command=undo]").HasAttribute("disabled"));
 

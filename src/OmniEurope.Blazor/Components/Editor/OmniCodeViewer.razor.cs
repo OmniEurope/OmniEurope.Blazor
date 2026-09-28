@@ -102,10 +102,6 @@ public partial class OmniCodeViewer : IAsyncDisposable
     [Parameter]
     public TimeSpan CopiedFeedbackDuration { get; set; } = TimeSpan.FromSeconds(2);
 
-    /// <summary>The clock the copy feedback is timed on.</summary>
-    [Parameter]
-    public TimeProvider TimeProvider { get; set; } = TimeProvider.System;
-
     private string TitleId => $"{Id ?? _generatedId}-title";
 
     private string EffectiveTitle => string.IsNullOrWhiteSpace(Title) ? Localize("CodeViewerLabel") : Title;
@@ -134,7 +130,6 @@ public partial class OmniCodeViewer : IAsyncDisposable
     {
         base.OnParametersSet();
         ArgumentNullException.ThrowIfNull(Links);
-        ArgumentNullException.ThrowIfNull(TimeProvider);
         if (Wrap != _observedWrap)
         {
             _observedWrap = Wrap;
@@ -240,7 +235,7 @@ public partial class OmniCodeViewer : IAsyncDisposable
     /// <summary>Copies <see cref="Code"/> to the clipboard; true when the clipboard accepted it.</summary>
     public async Task<bool> CopyAsync()
     {
-        var copied = await Clipboard.CopyAsync(Code ?? string.Empty, CopiedFeedbackDuration, TimeProvider);
+        var copied = await Clipboard.CopyAsync(Code ?? string.Empty, CopiedFeedbackDuration, Clock);
         StateHasChanged();
         return copied;
     }

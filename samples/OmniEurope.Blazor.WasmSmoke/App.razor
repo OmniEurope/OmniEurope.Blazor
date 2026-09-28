@@ -7,15 +7,16 @@
             <OmniAlert Severity="OmniAlertSeverity.Success">@Text["Loaded"]</OmniAlert>
             <OmniButton Id="wasm-action" OnClick="IncrementAsync"><OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" /> <span>@Text["Counter", _count]</span></OmniButton>
             <OmniProgressBar Value="@_count" Maximum="10" Label="@Text["ProgressLabel"]" />
-            <OmniDataGrid TItem="SmokeRow" Id="wasm-grid" Items="@Rows" AllowVirtualization="true" Height="12rem" Caption="@Text["GridCaption"]">
+            <OmniDataGrid TItem="SmokeRow" Id="wasm-grid" Items="@Rows" ScrollMode="OmniDataGridScrollMode.Virtual" Height="12rem" Caption="@Text["GridCaption"]">
                 <Columns>
                     <OmniDataGridColumn TItem="SmokeRow" Property="Name" Title="@Text["GridName"]" />
                     <OmniDataGridColumn TItem="SmokeRow" Property="Value" Title="@Text["GridValue"]" />
                 </Columns>
             </OmniDataGrid>
-            <OmniDataGrid TItem="SmokeRow" Id="wasm-grouped-grid" Items="@GroupedSource" AllowVirtualization="true" Height="16rem"
-                          KeyProperty="Value" GroupBy="@GroupOf" ExpandedKeys="@ExpandedValues" Caption="@Text["GroupedGridCaption"]">
+            <OmniDataGrid TItem="SmokeRow" Id="wasm-grouped-grid" Items="@GroupedSource" ScrollMode="OmniDataGridScrollMode.Virtual" Height="16rem"
+                          KeyProperty="Value" AllowGrouping="true" Groups="@Groups" ExpandedKeys="@ExpandedValues" Caption="@Text["GroupedGridCaption"]">
                 <Columns>
+                    <OmniDataGridColumn TItem="SmokeRow" Key="hundred" Title="@Text["GridGroup"]" Value="@HundredOf" />
                     <OmniDataGridColumn TItem="SmokeRow" Property="Name" Title="@Text["GridName"]" />
                     <OmniDataGridColumn TItem="SmokeRow" Property="Value" Title="@Text["GridValue"]" />
                 </Columns>

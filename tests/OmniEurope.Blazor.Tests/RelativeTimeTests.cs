@@ -1,5 +1,6 @@
 using System.Globalization;
 using Bunit;
+using Microsoft.Extensions.DependencyInjection;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
@@ -7,6 +8,10 @@ namespace OmniEurope.Blazor.Tests;
 public sealed class RelativeTimeTests : OmniBunitContext
 {
     private static readonly DateTimeOffset Now = new(2026, 9, 14, 10, 30, 0, TimeSpan.Zero);
+
+    private readonly ManualTimeProvider _clock = new(Now);
+
+    public RelativeTimeTests() => Services.AddSingleton<TimeProvider>(_clock);
 
     [Theory]
     [InlineData(-3, "à l'instant")]
@@ -57,7 +62,6 @@ public sealed class RelativeTimeTests : OmniBunitContext
         var value = new DateTimeOffset(2026, 9, 14, 10, 28, 0, TimeSpan.FromHours(2));
         var time = Render<OmniRelativeTime>(parameters => parameters
             .Add(component => component.Value, value)
-            .Add(component => component.Now, Now)
             .Add(component => component.TimeZone, TimeZoneInfo.Utc)
             .Add(component => component.Format, "yyyy-MM-dd HH:mm"));
 
@@ -81,12 +85,11 @@ public sealed class RelativeTimeTests : OmniBunitContext
     }
 
     [Fact]
-    public async Task WithoutNow_ReadsTheTimeProvider_AndRefreshesOnItsOwnTimerUntilDisposed()
+    public async Task ReadsTheRegisteredTimeProvider_AndRefreshesOnItsOwnTimerUntilDisposed()
     {
-        var clock = new ManualTimeProvider(Now);
+        var clock = _clock;
         var time = Render<OmniRelativeTime>(parameters => parameters
             .Add(component => component.Value, Now.AddSeconds(-90))
-            .Add(component => component.TimeProvider, clock)
             .Add(component => component.RefreshInterval, TimeSpan.FromSeconds(30)));
 
         Assert.Equal("il y a 1 min", time.Find("time").TextContent);
@@ -102,25 +105,19 @@ public sealed class RelativeTimeTests : OmniBunitContext
     }
 
     [Fact]
-    public void PinnedNowOrNoInterval_RunsNoTimer()
+    public void NoInterval_RunsNoTimer()
     {
-        var clock = new ManualTimeProvider(Now);
+        Render<OmniRelativeTime>(parameters => parameters
+            .Add(component => component.Value, Now));
         Render<OmniRelativeTime>(parameters => parameters
             .Add(component => component.Value, Now)
-            .Add(component => component.Now, Now)
-            .Add(component => component.TimeProvider, clock)
-            .Add(component => component.RefreshInterval, TimeSpan.FromSeconds(30)));
-        Render<OmniRelativeTime>(parameters => parameters
-            .Add(component => component.Value, Now)
-            .Add(component => component.TimeProvider, clock));
+            .Add(component => component.RefreshInterval, TimeSpan.Zero));
 
-        Assert.Empty(clock.Timers);
+        Assert.Empty(_clock.Timers);
     }
 
     private IRenderedComponent<OmniRelativeTime> RenderAt(DateTimeOffset value) =>
-        Render<OmniRelativeTime>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.Now, Now));
+        Render<OmniRelativeTime>(parameters => parameters.Add(component => component.Value, value));
 
     private sealed class ManualTimeProvider(DateTimeOffset now) : TimeProvider
     {

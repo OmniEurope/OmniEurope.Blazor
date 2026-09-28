@@ -7,7 +7,7 @@
     <OmniAutocomplete TValue="TValue"
                       Id="@Id"
                       Value="@CurrentValue"
-                      ValueChanged="HandleAutocompleteChangeAsync"
+                      ValueChanged="HandleAutocompleteChange"
                       ValueExpression="@ValueExpression"
                       Search="SearchOptionsAsync"
                       FormatValue="FormatValue"
@@ -29,7 +29,7 @@ else
             aria-describedby="@AriaDescribedBy"
             value="@SelectedOptionValue"
             @onchange="HandleChange">
-        @if (AllowsEmpty)
+        @if (AllowEmpty)
         {
             <option value="">@EffectivePlaceholder</option>
         }

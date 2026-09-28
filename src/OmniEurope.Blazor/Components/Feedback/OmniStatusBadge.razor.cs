@@ -8,8 +8,9 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 /// <typeparam name="TValue">The status type; a nullable type lets a missing value be drawn.</typeparam>
 /// <remarks>
-/// The component keeps no clock of its own: now is <see cref="Now"/> when given, else
-/// <see cref="TimeProvider"/>, whose timer also redraws the badge at the moment it turns stale.
+/// The component keeps no clock of its own: now is the host's registered <see cref="TimeProvider"/>
+/// (the system clock when it registers none), whose timer also redraws the badge at the moment it
+/// turns stale.
 /// </remarks>
 public partial class OmniStatusBadge<TValue> : IDisposable
 {
@@ -37,14 +38,6 @@ public partial class OmniStatusBadge<TValue> : IDisposable
     [Parameter]
     public TimeSpan? StaleAfter { get; set; }
 
-    /// <summary>The reference instant; <see cref="TimeProvider"/>'s current time when null.</summary>
-    [Parameter]
-    public DateTimeOffset? Now { get; set; }
-
-    /// <summary>The clock read when <see cref="Now"/> is null, and the one the stale timer runs on.</summary>
-    [Parameter]
-    public TimeProvider TimeProvider { get; set; } = TimeProvider.System;
-
     /// <summary>The word shown beside a stale badge; the localized "stale" when empty.</summary>
     [Parameter]
     public string? StaleText { get; set; }
@@ -57,7 +50,7 @@ public partial class OmniStatusBadge<TValue> : IDisposable
 
     private string EffectiveStaleText => string.IsNullOrWhiteSpace(StaleText) ? Localize("StatusBadgeStale") : StaleText;
 
-    private DateTimeOffset Reference => Now ?? TimeProvider.GetUtcNow();
+    private DateTimeOffset Reference => Clock.GetUtcNow();
 
     private string? TimestampText => Timestamp is { } timestamp
         ? Localize("StatusBadgeStaleSince", TimeZoneInfo.ConvertTime(timestamp, TimeZoneInfo.Local).ToString("g", CultureInfo.CurrentCulture))
@@ -74,32 +67,31 @@ public partial class OmniStatusBadge<TValue> : IDisposable
     {
         base.OnParametersSet();
         ArgumentNullException.ThrowIfNull(Map);
-        ArgumentNullException.ThrowIfNull(TimeProvider);
     }
 
     /// <summary>
     /// A fresh value read against the live clock gets a one-shot timer set at the moment it turns
-    /// stale, so a list left open does not keep showing yesterday's state as current. A pinned
-    /// <see cref="Now"/> never moves and runs no timer.
+    /// stale, so a list left open does not keep showing yesterday's state as current.
     /// </summary>
     protected override void OnAfterRender(bool firstRender)
     {
-        if (Now is not null || StaleDue is not { } due || IsStale)
+        if (StaleDue is not { } due || IsStale)
         {
             StopTimer();
             return;
         }
 
-        if (_timer is not null && due == _timerDue && ReferenceEquals(_timerProvider, TimeProvider))
+        if (_timer is not null && due == _timerDue && ReferenceEquals(_timerProvider, Clock))
         {
             return;
         }
 
         StopTimer();
         _timerDue = due;
-        _timerProvider = TimeProvider;
-        var delay = due - TimeProvider.GetUtcNow();
-        _timer = TimeProvider.CreateTimer(_ => _ = InvokeAsync(StateHasChanged), null, delay < TimeSpan.Zero ? TimeSpan.Zero : delay, Timeout.InfiniteTimeSpan);
+        var clock = Clock;
+        _timerProvider = clock;
+        var delay = due - clock.GetUtcNow();
+        _timer = clock.CreateTimer(_ => _ = InvokeAsync(StateHasChanged), null, delay < TimeSpan.Zero ? TimeSpan.Zero : delay, Timeout.InfiniteTimeSpan);
     }
 
     private void StopTimer()

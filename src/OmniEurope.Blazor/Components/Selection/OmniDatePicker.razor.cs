@@ -46,10 +46,6 @@ public partial class OmniDatePicker
     [Parameter]
     public string? Placeholder { get; set; }
 
-    /// <summary>The clock that says which day is today.</summary>
-    [Parameter]
-    public TimeProvider TimeProvider { get; set; } = TimeProvider.System;
-
     private PickerPopup Popup => _popup ??= new PickerPopup(JavaScript, DismissAsync);
 
     private static CultureInfo Culture => CultureInfo.CurrentCulture;
@@ -58,7 +54,7 @@ public partial class OmniDatePicker
 
     private string ToggleLabel => Localize("DatePickerToggle");
 
-    private DateOnly Today => DateOnly.FromDateTime(TimeProvider.GetLocalNow().DateTime);
+    private DateOnly Today => DateOnly.FromDateTime(Clock.GetLocalNow().DateTime);
 
     private bool TodayIsOutside => PickerCalendar.IsOutside(Today, Minimum, Maximum);
 
@@ -86,7 +82,6 @@ public partial class OmniDatePicker
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        ArgumentNullException.ThrowIfNull(TimeProvider);
         if (Minimum is not null && Maximum is not null && Minimum > Maximum)
         {
             throw new InvalidOperationException("Minimum cannot be greater than Maximum.");

@@ -135,8 +135,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         var editor = Render<OmniHtmlEditor>(parameters => parameters
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.EnableItalic, false)
-            .Add(component => component.Commands, [separator, OmniHtmlEditorCommands.Bold, separator, OmniHtmlEditorCommands.Italic, separator, separator, OmniHtmlEditorCommands.Underline, separator]));
+            .Add(component => component.Commands, [separator, OmniHtmlEditorCommands.Bold, separator, separator, separator, OmniHtmlEditorCommands.Underline, separator]));
 
         var toolbar = editor.Find(".omni-html-editor__toolbar");
         Assert.Equal(["bold", "underline"], toolbar.QuerySelectorAll("[data-command]").Select(control => control.GetAttribute("data-command") ?? string.Empty).ToArray());
@@ -144,25 +143,21 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
     }
 
     [Fact]
-    public void DefaultToolbar_OffersTheExpectedCommands_AndTheLegacySwitchesStillHideTheirs()
+    public void DefaultToolbar_OffersTheExpectedCommands()
     {
         JSInterop.SetupModule(ModulePath);
         var value = string.Empty;
 
         var editor = Render<OmniHtmlEditor>(parameters => parameters
             .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.EnableSubscript, false)
-            .Add(component => component.EnableOutdent, false));
+            .Add(component => component.ValueExpression, () => value));
 
         var names = editor.FindAll(".omni-html-editor__toolbar [data-command]").Select(control => control.GetAttribute("data-command")).ToHashSet();
-        foreach (var expected in new[] { "block-format", "bold", "italic", "underline", "strikethrough", "sup", "inline-code", "bullet-list", "numbered-list", "indent", "quote", "code-block", "link", "unlink", "align-left", "align-center", "align-right", "align-justify", "clear-formatting", "undo", "redo", "toggle-source" })
+        foreach (var expected in new[] { "block-format", "bold", "italic", "underline", "strikethrough", "sub", "sup", "inline-code", "bullet-list", "numbered-list", "outdent", "indent", "quote", "code-block", "link", "unlink", "align-left", "align-center", "align-right", "align-justify", "clear-formatting", "undo", "redo", "toggle-source" })
         {
             Assert.Contains(expected, names);
         }
 
-        Assert.DoesNotContain("sub", names);
-        Assert.DoesNotContain("outdent", names);
         Assert.Equal("bold", editor.Find(".omni-html-editor__toolbar button").GetAttribute("data-command"));
         Assert.All(editor.FindAll(".omni-html-editor__toolbar button"), button => Assert.False(string.IsNullOrWhiteSpace(button.GetAttribute("aria-label"))));
     }

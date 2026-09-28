@@ -187,7 +187,6 @@ public sealed partial class ConventionGuardTests
             ("Data", "OmniDataGridLines"), ("Data", "OmniDataGridFilterMode"), ("Data", "OmniDataGridEditMode"),
             ("Data", "OmniDataGridExpandMode"), ("Data", "OmniDataGridPagerPosition"), ("Data", "OmniDataGridSortOrder"),
             ("Data", "OmniDataGridLogicalOperator"), ("Data", "OmniDataGridGroup"), ("Data", "OmniDataGridRowRenderArgs"),
-            ("Data", "OmniDataGridFilterCaseSensitivity"),
             ("Data", "OmniDataGridLoadRequest"), ("Data", "OmniDataGridResult"), ("Data", "OmniDataGridColumnDefinition"),
             ("Data", "OmniDataGridContext"), ("Foundation", "OmniTextElement"), ("Foundation", "OmniTextTone"),
             ("Foundation", "OmniHeadingLevel"), ("Foundation", "OmniIconName"), ("Foundation", "OmniBadgeVariant"),

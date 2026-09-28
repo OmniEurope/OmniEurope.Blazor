@@ -1,7 +1,7 @@
 @* The application shell, shown in miniature: the same components this site is itself built from.
    Its menu slides open and shut (Transition Smooth); the next ones switch at once. *@
 <OmniThemeScope Appearance="Appearance" Density="OmniDensity.Compact">
-    <OmniLayout Width="OmniLayoutWidth.Content">
+    <OmniLayout>
         <OmniHeader>
             <OmniSidebarToggle Open="SidebarOpen" OpenChanged="@(value => SidebarOpen = value)"
                                Controls="shell-demo-sidebar" AriaLabel="Afficher ou masquer le menu" />
@@ -27,7 +27,7 @@
                     </OmniPanelMenuItem>
                 </OmniPanelMenu>
             </OmniSidebar>
-            <OmniMain AriaLabelledBy="shell-demo-title">
+            <OmniMain ContentWidth="OmniLayoutWidth.Content" AriaLabelledBy="shell-demo-title">
                 <OmniHeading Id="shell-demo-title" Level="OmniHeadingLevel.H5">Contenu principal</OmniHeading>
                 <p>L'apparence retenue ici est @(Appearance is OmniAppearance.Dark ? "sombre" : "claire").</p>
             </OmniMain>
@@ -38,7 +38,7 @@
 @* La même coquille dans l'autre arrangement : pleine largeur, menu à droite, densité aérée, une
    apparence qui suit le réglage du système au lieu d'être imposée, et l'en-tête en bandeau d'accent. *@
 <OmniThemeScope Appearance="OmniAppearance.System" Density="OmniDensity.Spacious">
-    <OmniLayout Width="OmniLayoutWidth.Wide">
+    <OmniLayout>
         <OmniHeader Tone="OmniHeaderTone.Accent">
             <OmniHeading Level="OmniHeadingLevel.H4">Console d'exploitation</OmniHeading>
             <OmniButton Size="OmniControlSize.Small" Variant="OmniButtonVariant.Secondary"
@@ -58,9 +58,9 @@
                     </OmniPanelMenuItem>
                 </OmniPanelMenu>
             </OmniSidebar>
-            <OmniMain AriaLabelledBy="shell-demo-wide-title">
+            <OmniMain ContentWidth="OmniLayoutWidth.Wide" AriaLabelledBy="shell-demo-wide-title">
                 <OmniHeading Id="shell-demo-wide-title" Level="OmniHeadingLevel.H5">Vue large</OmniHeading>
-                <p>La zone de contenu court d'un bord à l'autre, sans colonne de lecture centrée.</p>
+                <p>La zone de contenu court d'un bord à l'autre, plafonnée à la largeur large (90 rem) sans colonne de lecture étroite.</p>
             </OmniMain>
         </OmniBody>
     </OmniLayout>
@@ -69,7 +69,7 @@
 @* Le menu flotte au-dessus du contenu, qui garde sa largeur, et laisse un rail d'icônes une fois
    fermé ; un clic sur le voile le referme. *@
 <OmniThemeScope Appearance="OmniAppearance.Light" Density="OmniDensity.Compact">
-    <OmniLayout Width="OmniLayoutWidth.Content">
+    <OmniLayout>
         <OmniHeader>
             <OmniSidebarToggle Open="RailOpen" OpenChanged="@(value => RailOpen = value)"
                                Controls="shell-demo-rail" AriaLabel="Afficher ou masquer le menu flottant" />
@@ -88,7 +88,7 @@
                     </OmniPanelMenuItem>
                 </OmniPanelMenu>
             </OmniSidebar>
-            <OmniMain AriaLabelledBy="shell-demo-rail-title">
+            <OmniMain ContentWidth="OmniLayoutWidth.Content" AriaLabelledBy="shell-demo-rail-title">
                 <OmniHeading Id="shell-demo-rail-title" Level="OmniHeadingLevel.H5">Contenu</OmniHeading>
                 <p>Ouvrir le menu ne décale pas ce texte : le panneau passe par-dessus.</p>
             </OmniMain>

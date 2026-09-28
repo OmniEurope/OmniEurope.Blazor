@@ -3,18 +3,17 @@ namespace OmniEurope.Blazor.Components;
 /// <summary>
 /// The extensions of one <see cref="OmniHtmlEditor"/> taken together: the policy they merge into, the
 /// toolbar they arrange, and their shortcuts, inline elements, context menu and table readers, in order.
-/// Built again only when the editor's extensions or own policy change, so the merged policy stays the
-/// same instance and its sanitiser is cached.
+/// Built again only when the editor's extensions change, so the merged policy stays the same instance
+/// and its sanitiser is cached.
 /// </summary>
 internal sealed class HtmlEditorExtensionSet
 {
-    internal static HtmlEditorExtensionSet Empty { get; } = new(null, []);
+    internal static HtmlEditorExtensionSet Empty { get; } = new([]);
 
-    private HtmlEditorExtensionSet(OmniHtmlSanitizerPolicy? ownPolicy, IReadOnlyList<OmniHtmlEditorExtension> extensions)
+    private HtmlEditorExtensionSet(IReadOnlyList<OmniHtmlEditorExtension> extensions)
     {
-        OwnPolicy = ownPolicy;
         Source = extensions;
-        Policy = extensions.Aggregate(ownPolicy, (policy, extension) => OmniHtmlSanitizerPolicy.Merge(policy, extension.SanitizerPolicy));
+        Policy = extensions.Aggregate((OmniHtmlSanitizerPolicy?)null, (policy, extension) => OmniHtmlSanitizerPolicy.Merge(policy, extension.SanitizerPolicy));
         Shortcuts = [.. extensions.SelectMany(extension => extension.Shortcuts)];
         InlineElements = [.. extensions.SelectMany(extension => extension.InlineElements)];
         ContextMenu = [.. extensions.SelectMany(extension => extension.ContextMenu)];
@@ -29,11 +28,9 @@ internal sealed class HtmlEditorExtensionSet
         ShortcutKeys = keys;
     }
 
-    internal OmniHtmlSanitizerPolicy? OwnPolicy { get; }
-
     internal IReadOnlyList<OmniHtmlEditorExtension> Source { get; }
 
-    /// <summary>The editor's own policy widened by every extension's; null when none widens the allow-list.</summary>
+    /// <summary>Every extension's policy merged; null when none widens the allow-list.</summary>
     internal OmniHtmlSanitizerPolicy? Policy { get; }
 
     internal IReadOnlyList<OmniHtmlEditorShortcut> Shortcuts { get; }
@@ -50,18 +47,15 @@ internal sealed class HtmlEditorExtensionSet
     internal bool TracksSelection => Source.Any(extension => extension.TracksSelection)
         || ContextMenu.Any(command => command.Pressed is not null || command.Enabled is not null);
 
-    internal static HtmlEditorExtensionSet For(OmniHtmlSanitizerPolicy? ownPolicy, IReadOnlyList<OmniHtmlEditorExtension>? extensions) =>
-        ownPolicy is null && (extensions is null || extensions.Count == 0)
-            ? Empty
-            : new(ownPolicy, extensions ?? []);
+    internal static HtmlEditorExtensionSet For(IReadOnlyList<OmniHtmlEditorExtension>? extensions) =>
+        extensions is null || extensions.Count == 0 ? Empty : new(extensions);
 
     /// <summary>
-    /// Whether this set still describes the editor: same own policy, same extension instances in the same
+    /// Whether this set still describes the editor: the same extension instances in the same
     /// order. A parent that passes a new list holding the same extensions on every render keeps the set.
     /// </summary>
-    internal bool Matches(OmniHtmlSanitizerPolicy? ownPolicy, IReadOnlyList<OmniHtmlEditorExtension>? extensions) =>
-        ReferenceEquals(OwnPolicy, ownPolicy)
-        && Source.SequenceEqual(extensions ?? [], ReferenceEqualityComparer.Instance);
+    internal bool Matches(IReadOnlyList<OmniHtmlEditorExtension>? extensions) =>
+        Source.SequenceEqual(extensions ?? [], ReferenceEqualityComparer.Instance);
 
     internal IReadOnlyList<OmniHtmlEditorCommand> Arrange(IReadOnlyList<OmniHtmlEditorCommand> toolbar) =>
         Source.Aggregate(toolbar, (current, extension) => extension.ArrangeToolbar(current));

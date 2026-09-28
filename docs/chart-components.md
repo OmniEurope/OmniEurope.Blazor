@@ -49,8 +49,8 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
 
 `OmniArcGauge` dessine un demi-cercle qui part de son extrémité gauche et passe par le haut ;
 `OmniArcGaugeScale` y inscrit ses bornes sous les deux extrémités, et chaque `OmniArcGaugeScaleValue`
-son arc et sa valeur au centre, en gras. Une valeur sans `Minimum` ni `Maximum` prend ceux de son
-échelle ; une valeur qui en fixe garde les siens. La valeur est bornée : au-delà du maximum l'arc est
+son arc et sa valeur au centre, en gras. Une valeur prend les bornes de son échelle (0 à 100 hors
+d'une échelle). La valeur est bornée : au-delà du maximum l'arc est
 plein, en deçà du minimum il est vide.
 
 ## Secteurs

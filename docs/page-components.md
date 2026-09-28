@@ -6,7 +6,7 @@ l'assistant à étapes, la liste de définitions et la date relative. Elles sont
 base du paquet (`OmniBreadcrumb`, `OmniHeading`, `OmniButton`, `OmniIcon`, `OmniSkeleton`,
 `OmniSteps`, `OmniProgressBar`, `OmniTooltip`, `OmniCard`) et restent du côté du navigateur : aucune
 ne fait d'appel réseau, ne tient de connexion, d'authentification ni d'horloge. Les données arrivent
-par paramètres, délégués et fragments ; le temps, par un paramètre ou un `TimeProvider`.
+par paramètres, délégués et fragments ; le temps, par le `TimeProvider` enregistré par l'hôte (l'horloge système sinon).
 
 ## En-tête de page : `OmniPageHeader` et `OmniBreadcrumbService`
 
@@ -30,7 +30,7 @@ et les filtres viennent sous le cadre.
 | `ShowBack`, `BackHref`, `BackLabel` | Le bouton retour : vers `BackHref`, sinon vers l'ancêtre le plus proche qui porte un lien, sinon un pas en arrière dans l'historique du navigateur. |
 | `Badges`, `Actions` | Après le titre. Sous 40rem de large, ils se replient derrière un bouton (`aria-expanded`, `aria-controls`) et prennent une ligne entière une fois ouverts. |
 | `Icon` | Icône avant le titre (`aria-hidden`, couleur primaire). Le titre est alors rogné à ses capitales, si bien que le centre de l'icône tombe sur le centre du texte quelle que soit la police. |
-| `Framed` | `true` par défaut : titre, badges et actions dans un bloc bordé sur la surface. `false` les pose directement sur la page, sans bordure, fond ni marge intérieure. |
+| `Framed` | `false` par défaut : titre, badges et actions posés directement sur la page, sans bordure, fond ni marge intérieure. `true` les met dans un bloc bordé sur la surface. |
 
 `OmniBreadcrumbService` (inscrit par `AddOmniEuropeBlazor`, portée scoped) tient le fil de la page
 affichée. La bibliothèque ne connaît aucune route : l'hôte inscrit un `IOmniBreadcrumbResolver`, dont
@@ -157,6 +157,6 @@ absolue (`Format`, date et heure complètes de la culture par défaut, dans `Tim
 par défaut) s'affiche dans une infobulle au survol et au focus clavier, et décrit l'élément aux lecteurs
 d'écran. L'unité est la plus grande contenue au moins une fois, arrondie vers le bas : secondes,
 minutes, heures, jours, mois de trente jours, années de 365 jours ; moins de cinq secondes donne « à
-l'instant », une date future « dans 5 min ». Maintenant vaut `Now`, sinon l'heure de `TimeProvider`
-(`TimeProvider.System` par défaut). `RefreshInterval` redessine l'étiquette sur un minuteur créé par ce
-`TimeProvider`, démarré après le rendu, détruit avec le composant ; un `Now` fixé n'en crée aucun.
+l'instant », une date future « dans 5 min ». Maintenant est l'heure du `TimeProvider` enregistré dans les services de l'hôte
+(`TimeProvider.System` s'il n'en enregistre aucun). `RefreshInterval` redessine l'étiquette sur un
+minuteur créé par cette horloge, démarré après le rendu, détruit avec le composant.

@@ -2,6 +2,7 @@ using System.Globalization;
 using AngleSharp.Dom;
 using Bunit;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Internal;
@@ -27,6 +28,7 @@ public sealed class PickerTests : OmniBunitContext
     {
         _module = JSInterop.SetupModule(FocusModule);
         _module.Mode = JSRuntimeMode.Loose;
+        Services.AddSingleton<TimeProvider>(Clock);
     }
 
     // ---- OmniDatePicker ----
@@ -557,7 +559,7 @@ public sealed class PickerTests : OmniBunitContext
     [InlineData("moment")]
     public async Task Pickers_InADialog_EscapeInThePanel_ClosesThePanelAndNotTheDialog(string id)
     {
-        var host = Render<PickerDialogTestHost>(parameters => parameters.Add(component => component.Clock, Clock));
+        var host = Render<PickerDialogTestHost>();
         host.Find($"#{id} ~ .omni-date__toggle").Click();
         host.WaitForAssertion(() => Assert.Single(_module.Invocations["attachPicker"]));
         var panel = host.Find(".omni-calendar");
@@ -591,7 +593,7 @@ public sealed class PickerTests : OmniBunitContext
         arrange?.Invoke(model);
         return Render<PickerTestHost>(builder =>
         {
-            builder.Add(component => component.Clock, Clock).Add(component => component.Model, model);
+            builder.Add(component => component.Model, model);
             parameters?.Invoke(builder);
         });
     }

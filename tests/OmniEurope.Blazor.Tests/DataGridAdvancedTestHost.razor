@@ -1,12 +1,12 @@
 <OmniDataGrid TItem="AdvancedRow"
               Items="@Rows"
               KeySelector="row => row.Id"
-              GroupBy="row => row.Group"
+              AllowGrouping="true"
+              Groups="@Groups"
               GroupLabel="FormatGroup"
               DetailTemplate="DetailTemplate"
               ExpandedKeys="@ExpandedKeys"
               ExpandedKeysChanged="OnExpandedKeysChanged"
-              IsEditing="row => row.Id == EditingId"
               EditRequested="OnEditRequested"
               RowUpdated="OnRowUpdated"
               EditCancelled="OnEditCancelled"
@@ -15,6 +15,7 @@
         <OmniDataGridColumn TItem="AdvancedRow" Key="name" Title="Nom" Value="row => row.Name" Resizable="true" Width="160px">
             <EditTemplate Context="row"><input class="advanced-edit" value="@row.Name" /></EditTemplate>
         </OmniDataGridColumn>
+        <OmniDataGridColumn TItem="AdvancedRow" Key="group" Title="Groupe" Value="row => row.Group" />
     </Columns>
 </OmniDataGrid>
 
@@ -25,6 +26,7 @@
         new(2, "Aline", "A"),
         new(3, "Bob", "B")
     ];
+    public IReadOnlyList<OmniDataGridGroup> Groups { get; } = [new("group")];
     public IReadOnlyList<object> ExpandedKeys { get; private set; } = [];
     public int? EditingId { get; private set; }
     public string? UpdatedName { get; private set; }

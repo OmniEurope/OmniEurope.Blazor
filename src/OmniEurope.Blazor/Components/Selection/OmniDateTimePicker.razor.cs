@@ -60,10 +60,6 @@ public partial class OmniDateTimePicker
     [Parameter]
     public string? Placeholder { get; set; }
 
-    /// <summary>The clock that says which day is today and what Now is.</summary>
-    [Parameter]
-    public TimeProvider TimeProvider { get; set; } = TimeProvider.System;
-
     private PickerPopup Popup => _popup ??= new PickerPopup(JavaScript, DismissAsync);
 
     private static CultureInfo Culture => CultureInfo.CurrentCulture;
@@ -75,7 +71,7 @@ public partial class OmniDateTimePicker
     private string EffectivePlaceholder => Placeholder
         ?? PickerFormat.Placeholder(PickerFormat.DateTimePattern(Culture, ShowSeconds), PickerLetters.From(key => Localize(key)));
 
-    private DateTime LocalNow => TimeProvider.GetLocalNow().DateTime;
+    private DateTime LocalNow => Clock.GetLocalNow().DateTime;
 
     private DateOnly Today => DateOnly.FromDateTime(LocalNow);
 
@@ -132,7 +128,6 @@ public partial class OmniDateTimePicker
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        ArgumentNullException.ThrowIfNull(TimeProvider);
         ArgumentOutOfRangeException.ThrowIfLessThan(Step, 1, nameof(Step));
         ArgumentOutOfRangeException.ThrowIfGreaterThan(Step, 30, nameof(Step));
         if (Minimum is not null && Maximum is not null && Minimum > Maximum)

@@ -31,14 +31,12 @@ public partial class OmniDropDown<TValue>
     [Parameter]
     public string? ValueProperty { get; set; }
 
+    /// <summary>
+    /// Adds an empty first option that clears the value (<c>default</c>, null for a nullable
+    /// <typeparamref name="TValue"/>). Off by default.
+    /// </summary>
     [Parameter]
     public bool AllowEmpty { get; set; }
-
-    [Parameter]
-    public bool AllowClear { get; set; }
-
-    [Parameter]
-    public EventCallback<TValue> Change { get; set; }
 
     [Parameter]
     public bool AllowFiltering { get; set; }
@@ -82,7 +80,6 @@ public partial class OmniDropDown<TValue>
         ? Options
         : Data.Cast<object?>().Select(ToOption).ToArray();
 
-    private bool AllowsEmpty => AllowEmpty || AllowClear;
 
     private IEnumerable<(OmniOption<TValue> Option, int Index)> IndexedOptions =>
         EffectiveOptions.Select((option, index) => (option, index));
@@ -119,21 +116,16 @@ public partial class OmniDropDown<TValue>
         }
     }
 
-    private async Task HandleChange(ChangeEventArgs args)
+    private void HandleChange(ChangeEventArgs args)
     {
         var raw = args.Value?.ToString();
-        if (string.IsNullOrEmpty(raw) && AllowsEmpty)
+        if (string.IsNullOrEmpty(raw) && AllowEmpty)
         {
             CurrentValue = default!;
         }
         else if (int.TryParse(raw, out var index) && index >= 0 && index < EffectiveOptions.Count && !EffectiveOptions[index].Disabled)
         {
             CurrentValue = EffectiveOptions[index].Value;
-        }
-
-        if (Change.HasDelegate)
-        {
-            await Change.InvokeAsync(CurrentValue);
         }
     }
 
@@ -145,14 +137,7 @@ public partial class OmniDropDown<TValue>
         return Task.FromResult(result);
     }
 
-    private async Task HandleAutocompleteChangeAsync(TValue value)
-    {
-        CurrentValue = value;
-        if (Change.HasDelegate)
-        {
-            await Change.InvokeAsync(value);
-        }
-    }
+    private void HandleAutocompleteChange(TValue value) => CurrentValue = value;
 
     private string FormatValue(TValue value) => EffectiveOptions
         .FirstOrDefault(option => EqualityComparer<TValue>.Default.Equals(option.Value, value))?.Text

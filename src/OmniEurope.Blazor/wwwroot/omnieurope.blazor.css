@@ -48,16 +48,6 @@
     --omni-chart-color-5: #db2777;
     --omni-chart-color-6: #65a30d;
     --omni-chart-color-7: #4f46e5;
-    /* Dark surfaces of the data grid. Held as tokens so the theme editor reaches them like any
-       other colour; they only ever resolve inside the grid's own dark scope. */
-    --omni-grid-dark-header: #1c2230;
-    --omni-grid-dark-header-hover: #2a3446;
-    --omni-grid-dark-header-active: #23304a;
-    --omni-grid-dark-header-active-hover: #2e3e5e;
-    --omni-grid-dark-column-active: #1d2942;
-    --omni-grid-dark-row-alternate: #171d29;
-    --omni-grid-dark-row-hover: #232b3b;
-    --omni-grid-dark-state-text: #98a2b3;
     --omni-shadow-md-strong: 0 0.5rem 1.5rem rgb(0 0 0 / 25%);
     --omni-shadow-md-dark: 0 0.5rem 1.5rem rgb(0 0 0 / 45%);
     /* Mind map colour groups: fill, outline and text of each node colour, text at least 4.5:1 on its fill. */
@@ -917,8 +907,6 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
 .omni-grid--gap-xlarge { gap: var(--omni-space-xl); }
 
 .omni-layout { --omni-sidebar-inset: calc(var(--omni-item-pad-y) + var(--omni-space-xs)); --omni-sidebar-rail: calc(2 * var(--omni-sidebar-inset) + 1.25rem); box-sizing: border-box; margin-inline: auto; width: 100%; }
-.omni-layout--wide { max-width: var(--omni-layout-wide-width, 90rem); }
-.omni-layout--content { max-width: var(--omni-layout-content-width, 72rem); }
 .omni-main { --omni-main-max-width: 100%; display: block; min-width: 0; }
 .omni-main:focus { outline: none; }
 /* Largeur du contenu seul ; sans défilement propre, l'élément principal lui-même se centre. */
@@ -960,20 +948,17 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-window-controls__button:focus-visible { outline: 2px solid var(--omni-color-accent); outline-offset: -2px; }
 .omni-window-controls__button--close:hover { background: var(--omni-color-danger-deep); color: var(--omni-color-on-deep); }
 .omni-header--accent .omni-sidebar-toggle { color: inherit; }
-/* Brand of the app bar (Brand, BrandMark): the logo, a rounded square of the accent fill sized from the
-   density, then the name in the heading weight. A sidebar toggle among the children is drawn before
-   it, at the edge, although the brand opens the source. On the accent band the logo swaps its fill
-   and ink, or it would vanish into the band. */
+/* Brand of the app bar (Brand, BrandLogo): the logo image, then the name in the heading weight. A
+   sidebar toggle among the children is drawn before it, at the edge, although the brand opens the
+   source. */
 .omni-header__brand { align-items: center; display: inline-flex; font-weight: var(--omni-heading-font-weight, 700); gap: var(--omni-space-sm); }
 .omni-header__brand--link { color: inherit; text-decoration: none; }
 .omni-header__brand--link:focus-visible { border-radius: var(--omni-radius); box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-header__logo-image { block-size: calc(var(--omni-icon-box) * 0.8); flex: none; inline-size: auto; }
-.omni-header__logo { background: var(--omni-color-accent-fill); block-size: calc(var(--omni-icon-box) * 0.72); border-radius: var(--omni-radius); color: var(--omni-color-on-accent-fill); display: grid; flex: none; font-size: 0.75rem; font-weight: 800; inline-size: calc(var(--omni-icon-box) * 0.72); place-content: center; }
 .omni-header--branded > .omni-sidebar-toggle { order: -1; }
 /* The header control shares the same horizontal axis as the collapsed sidebar icons. */
 .omni-header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); margin-inline-start: -12px; min-inline-size: var(--omni-sidebar-rail); }
 .omni-sidebar__header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); min-inline-size: var(--omni-sidebar-rail); }
-.omni-header--accent .omni-header__logo { background: var(--omni-color-on-accent); color: var(--omni-color-accent); }
 
 /* A fieldset sizes to its minimal content, not to its container: without an explicit width it shrank
    beside other controls and its legend wrapped. */
@@ -2278,7 +2263,6 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* An item with an Icon or a Description: the icon in a disc, the text with its muted line under it. */
 .omni-profile-menu__item--rich { align-items: center; display: flex; gap: var(--omni-space-sm); }
 .omni-profile-menu__item-text { display: grid; min-inline-size: 0; }
-.omni-profile-menu__item-description { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
 
 .omni-data-list { display: grid; gap: var(--omni-space-sm); }
 .omni-data-list__item { border-block-end: var(--omni-border-width) solid var(--omni-color-border); padding: var(--omni-space-md); }
@@ -2310,16 +2294,6 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid { --omni-data-grid-column-min-width: 8rem; --omni-data-grid-control-width: 2.75rem; --omni-data-grid-edit-width: 5.25rem; --omni-grid-frame: var(--omni-card-background, var(--omni-color-surface)); --omni-column-active-fill: color-mix(in srgb, var(--omni-color-accent) 6%, transparent); display: grid; font-size: var(--omni-font-size-base); gap: var(--omni-space-md); min-inline-size: 0; }
 /* position: relative keeps an absolutely placed descendant (a visually hidden label in a cell) inside the scrolled rows: without it the box escaped the viewport clip and made the page scroll. */
 .omni-data-grid__viewport { background: var(--omni-grid-frame); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); overflow: auto; position: relative; scrollbar-color: color-mix(in srgb, var(--omni-color-text) 28%, transparent) transparent; scrollbar-width: thin; }
-.omni-data-grid__toolbar { display: flex; justify-content: flex-end; }
-.omni-data-grid__theme-toggle { align-items: center; display: inline-flex; gap: var(--omni-space-xs); }
-/* Palette scoped to one grid: only the tokens the component reads. */
-.omni-data-grid[data-omni-grid-theme="dark"] { --omni-color-surface: #12161f; --omni-color-surface-muted: #1c2230; --omni-color-border: #2c3444; --omni-color-text: #e8ecf4; --omni-color-accent: #7aa2ff; --omni-color-accent-strong: #5b86ee; --omni-focus-ring: 0 0 0 0.2rem rgb(122 162 255 / 32%); --omni-column-active-fill: var(--omni-grid-dark-column-active); --omni-grid-frame: var(--omni-color-surface); --omni-header-fill-hover: var(--omni-grid-dark-header-hover); background: var(--omni-color-surface); color: var(--omni-color-text); }
-.omni-data-grid[data-omni-grid-theme="dark"] thead .omni-data-grid__column--active { --omni-header-fill: var(--omni-grid-dark-header-active); --omni-header-fill-hover: var(--omni-grid-dark-header-active-hover); }
-.omni-data-grid[data-omni-grid-theme="dark"].omni-data-grid--striped .omni-data-grid__row--alternate { --omni-row-fill: var(--omni-grid-dark-row-alternate); }
-.omni-data-grid[data-omni-grid-theme="dark"].omni-data-grid--row-hover tbody > tr:hover { --omni-row-fill: var(--omni-grid-dark-row-hover); }
-.omni-data-grid[data-omni-grid-theme="dark"] :is(.omni-data-grid__popover-panel, .omni-combo__list, .omni-input, .omni-button) { background: var(--omni-color-surface-muted); border-color: var(--omni-color-border); color: var(--omni-color-text); }
-.omni-data-grid[data-omni-grid-theme="dark"] :is(.omni-combo__option:hover, .omni-combo__option--active, .omni-multi-select__option:hover) { background: var(--omni-grid-dark-header-hover); }
-.omni-data-grid[data-omni-grid-theme="dark"] :is(.omni-data-grid__group-hint, .omni-data-grid__summary, .omni-data-grid__state) { color: var(--omni-grid-dark-state-text); }
 /* Fixed layout: virtualization swapping rows never moves the columns. The minimum, pushed by
    omni-grid.js, keeps columns without a width from collapsing on a narrow screen: the viewport
    scrolls sideways instead. The separate border model with no spacing: a sticky header keeps its own
@@ -2332,7 +2306,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* Row separators only without striping, which already says the same thing; asked for explicitly
    (Horizontal, Both), they stay. :where keeps them below the GridLines rules. */
 /* Rows keep a thin rule even when striped: the alternating tint alone was too faint to follow a row. */
-:where(.omni-data-grid:not(.omni-data-grid--lines-none):not(.omni-data-grid--lines-vertical), .omni-data-grid--lines-horizontal, .omni-data-grid--lines-both) tbody :is(td, th) { border-block-end: var(--omni-border-width) solid color-mix(in srgb, var(--omni-color-border) 55%, transparent); }
+:where(.omni-data-grid:not(.omni-data-grid--lines-none):not(.omni-data-grid--lines-vertical), .omni-data-grid--lines-both) tbody :is(td, th) { border-block-end: var(--omni-border-width) solid color-mix(in srgb, var(--omni-color-border) 55%, transparent); }
 :where(.omni-data-grid) tbody > tr:last-child > :is(td, th) { border-block-end: 0; }
 :where(.omni-data-grid) tfoot td { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
 /* Numbers align at the end in figures of one width, to be compared at a glance. A column whose
@@ -2419,7 +2393,6 @@ body:has(.omni-overlay) { overflow: hidden; }
    aria-selected on the row. No side bar. */
 .omni-data-grid tbody > .omni-data-grid__row--selected { --omni-row-fill: color-mix(in srgb, var(--omni-color-accent) 14%, transparent); }
 .omni-data-grid tbody > .omni-data-grid__row--selected > td { font-weight: 600; }
-.omni-data-grid[data-omni-grid-theme="dark"] tbody > .omni-data-grid__row--selected { --omni-row-fill: color-mix(in srgb, var(--omni-color-accent) 22%, var(--omni-color-surface)); }
 /* Compact status for lists (a CSS utility, no component): a dot in the fill colour of the intention
    before the page text. Solid badges stay for a status that stands alone. */
 .omni-status { align-items: center; display: inline-flex; gap: 7px; white-space: nowrap; }
@@ -2435,7 +2408,6 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* The last frozen column casts a shadow on its trailing edge only while rows scroll under it, so it
    reads as lying above them; at rest the grid stays flat. */
 .omni-data-grid__viewport--scrolled-x .omni-data-grid__column--frozen-last { box-shadow: 0.375rem 0 0.375rem -0.25rem rgb(0 0 0 / 28%); }
-.omni-data-grid[data-omni-grid-theme="dark"] .omni-data-grid__viewport--scrolled-x .omni-data-grid__column--frozen-last { box-shadow: 0.375rem 0 0.5rem -0.25rem rgb(0 0 0 / 60%); }
 /* Detach control of the frozen columns: a round chip centred on their trailing edge, at the height of
    the header row (placed by omni-grid.js). Detached, the columns scroll with the row and lose the
    shadow; the chip stays where it was so the next click freezes them again. */

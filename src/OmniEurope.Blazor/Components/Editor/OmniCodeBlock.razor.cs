@@ -57,10 +57,6 @@ public partial class OmniCodeBlock : IAsyncDisposable
     [Parameter]
     public TimeSpan CopiedFeedbackDuration { get; set; } = TimeSpan.FromSeconds(2);
 
-    /// <summary>The clock the copy feedback is timed on.</summary>
-    [Parameter]
-    public TimeProvider TimeProvider { get; set; } = TimeProvider.System;
-
     /// <summary>Raised after a copy, with whether the clipboard accepted it.</summary>
     [Parameter]
     public EventCallback<bool> OnCopied { get; set; }
@@ -93,7 +89,6 @@ public partial class OmniCodeBlock : IAsyncDisposable
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        ArgumentNullException.ThrowIfNull(TimeProvider);
         ArgumentOutOfRangeException.ThrowIfNegative(VisibleCharacters);
     }
 
@@ -120,7 +115,7 @@ public partial class OmniCodeBlock : IAsyncDisposable
     /// <summary>Copies <see cref="Code"/> to the clipboard; true when the clipboard accepted it.</summary>
     public async Task<bool> CopyAsync()
     {
-        var copied = await Clipboard.CopyAsync(Code, CopiedFeedbackDuration, TimeProvider);
+        var copied = await Clipboard.CopyAsync(Code, CopiedFeedbackDuration, Clock);
         StateHasChanged();
         await OnCopied.InvokeAsync(copied);
         return copied;

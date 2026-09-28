@@ -1,14 +1,14 @@
 @inherits LayoutComponentBase
 
 <OmniThemeScope Appearance="OmniAppearance.Light" Density="OmniDensity.Comfortable">
-    <OmniLayout Width="OmniLayoutWidth.Wide">
+    <OmniLayout>
         <OmniHeader><a class="catalog-brand" href="/">OmniEurope.Blazor</a><OmniBadge Variant="OmniBadgeVariant.Accent">@Text["CatalogBadge"]</OmniBadge></OmniHeader>
         <ErrorBoundary @ref="_errorBoundary">
             <ChildContent>
-                <OmniMain>@Body</OmniMain>
+                <OmniMain ContentWidth="OmniLayoutWidth.Wide">@Body</OmniMain>
             </ChildContent>
             <ErrorContent Context="error">
-                <OmniMain>
+                <OmniMain ContentWidth="OmniLayoutWidth.Wide">
                     <OmniAlert Severity="OmniAlertSeverity.Danger" Title="@Text["CatalogErrorTitle"]">
                         @Text["CatalogErrorMessage"]
                         <OmniButton OnClick="@(_ => RecoverAsync())">@Text["Retry"]</OmniButton>

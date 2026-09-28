@@ -17,7 +17,6 @@ public partial class OmniScheduler
     [Parameter] public EventCallback<OmniSchedulerView> ViewChanged { get; set; }
     [Parameter] public TimeZoneInfo TimeZone { get; set; } = TimeZoneInfo.Local;
     [Parameter] public System.Globalization.CultureInfo Culture { get; set; } = System.Globalization.CultureInfo.CurrentCulture;
-    [Parameter] public TimeProvider TimeProvider { get; set; } = TimeProvider.System;
 
     private DateTimeOffset LocalDate => TimeZoneInfo.ConvertTime(Date, TimeZone);
     private IReadOnlyList<OmniSchedulerAppointment> SourceItems => Load is null ? Items : _loadedItems;
@@ -31,7 +30,7 @@ public partial class OmniScheduler
     {
         if (Date == default)
         {
-            Date = TimeProvider.GetUtcNow();
+            Date = Clock.GetUtcNow();
         }
     }
 
@@ -134,7 +133,7 @@ public partial class OmniScheduler
 
     private Task PreviousAsync() => NavigateAsync(-1);
     private Task NextAsync() => NavigateAsync(1);
-    private async Task TodayAsync() { Date = TimeZoneInfo.ConvertTime(TimeProvider.GetUtcNow(), TimeZone); await DateChanged.InvokeAsync(Date); if (Load is not null) await ReloadAsync(); }
+    private async Task TodayAsync() { Date = TimeZoneInfo.ConvertTime(Clock.GetUtcNow(), TimeZone); await DateChanged.InvokeAsync(Date); if (Load is not null) await ReloadAsync(); }
     private async Task ChangeViewAsync(OmniSchedulerView view) { View = view; await ViewChanged.InvokeAsync(view); if (Load is not null) await ReloadAsync(); }
     private string ViewClass(OmniSchedulerView view) => View == view ? "omni-select-bar__item omni-select-bar__item--selected" : "omni-select-bar__item";
     private string Text(string key, params object[] arguments)

@@ -119,7 +119,7 @@ public sealed class HtmlEditorSanitizerPolicyTests : OmniBunitContext
         Assert.Throws<ArgumentException>(() => Render<OmniHtmlEditor>(parameters => parameters
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.SanitizerPolicy, policy)));
+            .Add(component => component.Extensions, [new PolicyExtension(policy)])));
     }
 
     [Fact]
@@ -139,7 +139,7 @@ public sealed class HtmlEditorSanitizerPolicyTests : OmniBunitContext
             .Add(component => component.Value, value)
             .Add(component => component.ValueChanged, updated => value = updated)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.SanitizerPolicy, AknPolicy)
+            .Add(component => component.Extensions, [new PolicyExtension(AknPolicy)])
             .Add(component => component.Commands, [OmniHtmlEditorCommands.Bold, insert]));
         var bridge = new HtmlEditorInteropBridge(editor.Instance);
 
@@ -173,7 +173,7 @@ public sealed class HtmlEditorSanitizerPolicyTests : OmniBunitContext
             .Add(component => component.ValueChanged, updated => value = updated)
             .Add(component => component.ValueExpression, () => value)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
-            .Add(component => component.SanitizerPolicy, AknPolicy));
+            .Add(component => component.Extensions, [new PolicyExtension(AknPolicy)]));
 
         editor.Find("textarea").Input("<aside class=\"akn-authorial-note\" data-marker=\"1\">Note</aside><script>x()</script>");
 
@@ -204,11 +204,17 @@ public sealed class HtmlEditorSanitizerPolicyTests : OmniBunitContext
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value));
 
-        editor.Render(parameters => parameters.Add(component => component.SanitizerPolicy, new OmniHtmlSanitizerPolicy { AllowAnyClass = true }));
+        editor.Render(parameters => parameters.Add(component => component.Extensions, [new PolicyExtension(new OmniHtmlSanitizerPolicy { AllowAnyClass = true })]));
 
         var configure = Assert.Single(module.Invocations["configure"]);
         var options = JsonSerializer.SerializeToElement(configure.Arguments[1]);
         Assert.True(options.GetProperty("policy").GetBoolean());
         Assert.Equal(JsonValueKind.Null, options.GetProperty("classes").ValueKind);
     }
+}
+
+/// <summary>An extension that only widens the allow-list: how a host gives the editor a policy.</summary>
+internal sealed class PolicyExtension(OmniHtmlSanitizerPolicy policy) : OmniHtmlEditorExtension
+{
+    public override OmniHtmlSanitizerPolicy? SanitizerPolicy => policy;
 }

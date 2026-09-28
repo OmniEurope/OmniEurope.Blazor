@@ -9,7 +9,7 @@
      role="treeitem"
      aria-selected="@(Selected ? "true" : "false")"
      aria-expanded="@(HasChildren ? (_expanded ? "true" : "false") : null)"
-     tabindex="@TabIndex"
+     tabindex="0"
      @onkeydown="HandleKeyDownAsync"
      @onkeydown:stopPropagation="true">
     <div class="omni-tree__row">

@@ -78,9 +78,6 @@ public partial class OmniDialog
     [Parameter]
     public RenderFragment? Footer { get; set; }
 
-    [Parameter]
-    public ElementReference? ReturnFocusTo { get; set; }
-
     private string EffectiveId => Id ?? _generatedId;
     private string TitleId => $"{EffectiveId}-title";
     private string ContentId => $"{EffectiveId}-content";
@@ -99,11 +96,7 @@ public partial class OmniDialog
     private async Task CloseAsync()
     {
         await OpenChanged.InvokeAsync(false);
-        if (ReturnFocusTo is { } target)
-        {
-            await target.FocusAsync();
-        }
-        else if (_focusModule is not null)
+        if (_focusModule is not null)
         {
             await _focusModule.InvokeVoidAsync("restoreFocus", _focusKey);
         }

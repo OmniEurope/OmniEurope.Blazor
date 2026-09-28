@@ -39,11 +39,14 @@ public partial class OmniUpload
     [Parameter]
     public string? Accept { get; set; }
 
+    /// <summary>
+    /// Stores an accepted selection: it reads the files through the request, may report progress,
+    /// and refuses them with <see cref="OmniUploadRequest.Reject"/> when a check of the application
+    /// fails. An exception shows <see cref="UploadErrorMessage"/> and offers a retry. Null, the default,
+    /// only lists the selection.
+    /// </summary>
     [Parameter]
     public Func<OmniUploadRequest, Task>? Upload { get; set; }
-
-    [Parameter]
-    public Func<OmniUploadRequest, Task<string?>>? Validate { get; set; }
 
     [Parameter]
     public EventCallback<IReadOnlyList<IBrowserFile>> FilesSelected { get; set; }
@@ -227,16 +230,13 @@ public partial class OmniUpload
         try
         {
             var request = new OmniUploadRequest(_files, _uploadCancellation.Token, MaximumFileSize, ReportProgress);
-            if (Validate is not null)
-            {
-                var validationMessage = await Validate(request);
-                if (!string.IsNullOrWhiteSpace(validationMessage))
-                {
-                    SetError(validationMessage);
-                    return false;
-                }
-            }
             await Upload(request);
+            if (request.Rejection is { } rejection)
+            {
+                SetError(rejection);
+                return false;
+            }
+
             _progress = 100;
             _message = Localize("UploadCompleted");
             return true;
@@ -307,13 +307,6 @@ public partial class OmniUpload
         _uploadCancellation?.Dispose();
         return ValueTask.CompletedTask;
     }
-
-    /// <summary>
-    /// The density of this component and of what it holds (control heights, paddings, gaps), over
-    /// the one it inherits from its theme scope or section. Null, the default, inherits it.
-    /// </summary>
-    [Parameter]
-    public OmniDensity? Density { get; set; }
 
     /// <summary>
     /// How the picker is offered: the drop zone (the default), or, for a single file, a read-only field

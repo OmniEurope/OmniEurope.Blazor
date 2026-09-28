@@ -18,7 +18,6 @@ public partial class DataGridAdvancedDemo
 
     private static readonly IReadOnlyList<OmniOption<OmniDataGridLines>> LineOptions =
     [
-        new(OmniDataGridLines.Default, "Réglage du thème"),
         new(OmniDataGridLines.None, "Aucune"),
         new(OmniDataGridLines.Horizontal, "Horizontales"),
         new(OmniDataGridLines.Vertical, "Verticales"),

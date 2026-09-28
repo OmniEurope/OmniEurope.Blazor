@@ -95,8 +95,8 @@ public sealed class HtmlEditorComponentTests : OmniBunitContext
             .Add(component => component.ValueExpression, () => value)
             .Add(component => component.Disabled, true)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
-            .Add(component => component.CustomTools,
-                [new OmniHtmlEditorTool("heading", "Titre", current => $"<h2>{current}</h2>")]));
+            .Add(component => component.Commands,
+                [OmniHtmlEditorCommand.Create("heading", "Titre", context => context.SetHtmlAsync($"<h2>{context.Html}</h2>"))]));
 
         Assert.All(editor.FindAll("button"), button => Assert.True(button.HasAttribute("disabled")));
         Assert.True(editor.Find("textarea").HasAttribute("disabled"));

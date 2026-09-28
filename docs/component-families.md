@@ -39,8 +39,8 @@ Celles-ci ne sont déclarées nulle part et se lisent avec une valeur de repli :
 
 | Variable | Lue par | Défaut | Effet |
 |---|---|---|---|
-| `--omni-layout-wide-width` | `OmniLayout`, `OmniMain` | `90rem` | Plafond de la largeur `Wide`. |
-| `--omni-layout-content-width` | `OmniLayout`, `OmniMain` | `72rem` | Plafond de la largeur `Content`. |
+| `--omni-layout-wide-width` | `OmniMain` | `90rem` | Plafond de la largeur `Wide`. |
+| `--omni-layout-content-width` | `OmniMain` | `72rem` | Plafond de la largeur `Content`. |
 | `--omni-main-gutter` | `OmniMain` défilant | `var(--omni-space-md)` | Marge intérieure de l'élément principal, gouttière de la colonne comprise. |
 | `--omni-busy-veil-color` | `.omni-busy`, `.btn-busy` | `#000000` | Couleur du voile d'un bouton occupé. |
 | `--omni-git-graph-row-height` | `OmniGitGraph` | hauteur de contrôle moins `0.25rem` (`2rem` en densité confortable) | Hauteur de chaque ligne, dessin compris ; suit la densité. |

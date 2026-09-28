@@ -39,7 +39,7 @@ Une colonne se déclare par lambda ou par nom de propriété.
 - `Property` accepte un chemin pointé (`Customer.Name`). Un maillon nul rend `null` au lieu de lever.
   `SortProperty` sépare la valeur triée de la valeur affichée.
 - `Key` est facultatif : il retombe sur `Property`, puis sur `Title`.
-- `FormatString` applique un format composite, `Format` un délégué, `Template` un rendu libre.
+- `FormatString` applique un format composite, `Template` un rendu libre.
 - `Width` et `MinWidth` sont des longueurs CSS. `Frozen` colle la colonne au bord de début ; les
   colonnes de développement et de sélection qui la précèdent sont alors figées avec elle, et le
   décalage de chaque cellule figée est recalculé après chaque rendu (nouvelle page, tri, filtre).
@@ -58,7 +58,7 @@ Une colonne se déclare par lambda ou par nom de propriété.
   plus large. `AutoFit` sur la colonne l'emporte dans les deux sens ; sans valeur, elle suit la grille.
   Le geste est distinct du glisser d'`AllowColumnResize` : une colonne peut s'ajuster sans se glisser,
   et l'inverse. La mesure prend le titre, les lignes affichées et le texte de toutes les autres lignes
-  chargées, fourni par .NET (valeur, `Format` ou `FormatString`), y compris les lignes virtualisées
+  chargées, fourni par .NET (valeur ou `FormatString`), y compris les lignes virtualisées
   hors écran. Une colonne à `Template` n'est mesurée que sur ses lignes affichées, son rendu n'étant
   pas un texte connu de .NET. La largeur retenue respecte le plancher de la grille et le `MinWidth` de
   la colonne, est persistée avec l'état (`StateKey`) et annoncée une seule fois par `ColumnWidthChanged`.
@@ -138,12 +138,14 @@ passer l'événement. Arrivées en bout de liste, les lignes s'arrêtent sans fa
 
 ## Virtualisation et défilement continu
 
-`AllowVirtualization` remplace la pagination par un défilement sur l'intégralité du jeu de lignes.
+`ScrollMode` choisit comment atteindre les lignes hors écran : `Paged` (par défaut) rend `PageSize` lignes sous
+une barre de pagination, `Virtual` remplace la pagination par un défilement sur l'intégralité du jeu de lignes,
+`All` rend toutes les lignes d'un coup, sans pagination ni virtualisation.
 
 ```razor
 <OmniDataGrid TItem="LogLine"
               Load="LoadWindowAsync"
-              AllowVirtualization="true"
+              ScrollMode="OmniDataGridScrollMode.Virtual"
               Height="70vh"
               EstimatedRowHeight="36"
               VirtualBlockSize="200"
@@ -156,7 +158,9 @@ Mécanique :
   `EstimatedRowHeight`, puis sa hauteur réelle mesurée dans le navigateur remplace l'estimation ; les
   lignes suivantes se décalent en conséquence. Recherche de position et mise à jour restent
   logarithmiques, y compris sur des millions de lignes.
-- `RowHeight` fige la hauteur des lignes et supprime toute mesure, pour les jeux homogènes.
+- `FixedRowHeight` fait d'`EstimatedRowHeight` la hauteur exacte de chaque ligne : aucune mesure, et les
+  lignes sont dessinées à cette hauteur (débordement coupé), pour les jeux homogènes.
+- `VirtualizationOverscanCount` (3 par défaut) rend autant de lignes au-delà de chaque bord du viewport.
 - Deux lignes d'espacement encadrent la fenêtre rendue. Leur hauteur est posée en propriété
   personnalisée par le script, ce qui donne une barre de défilement couvrant tout le total sans
   rendre les lignes absentes.
@@ -168,14 +172,14 @@ Mécanique :
 - La table porte `aria-rowcount` et chaque ligne `aria-rowindex`, puisque le DOM ne contient qu'une
   fenêtre.
 
-Groupes et détails virtualisés : avec `Items`, la grille virtualise aussi en présence de `GroupBy`,
-`Groups` ou `DetailTemplate`. L'unité de défilement devient la « case » d'un élément : ses en-têtes
+Groupes et détails virtualisés : avec `Items`, la grille virtualise aussi en présence de `Groups`
+ou `DetailTemplate`. L'unité de défilement devient la « case » d'un élément : ses en-têtes
 de groupe ouverts avant lui, sa ligne, et sa ligne de détail si elle est ouverte. Chaque `tr` porte
 `data-omni-slot`, le script additionne les hauteurs d'une même case, et replier un groupe ou ouvrir
 un détail recalcule les cases puis remet les mesures à zéro. Un groupe replié devient une case
 réduite à ses en-têtes.
 
-Limites assumées : avec `Load`, la virtualisation refuse `GroupBy`, `Groups` et `DetailTemplate` par
+Limites assumées : avec `Load`, la virtualisation refuse `Groups` et `DetailTemplate` par
 une exception explicite, car le serveur ne livre que des blocs de lignes et aucun groupe ne se
 calcule sans l'ensemble. La pagination est ignorée dans ce mode.
 
@@ -189,7 +193,7 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
 
 ## Tri, filtres et regroupements
 
-- `AllowSorting`, `AllowFiltering`, `AllowPaging`, `AllowColumnResize` et `AllowGrouping` coupent les
+- `AllowSorting`, `AllowFiltering`, `AllowColumnResize` et `AllowGrouping` coupent les
   fonctions au niveau de la grille ; les paramètres de colonne affinent au niveau de la colonne.
 - `FilterMode` vaut `Simple` (une saisie par colonne), `SimpleWithMenu` (saisie plus sélecteur
   d'opérateur) ou `Advanced` (deux conditions jointes par `Et`/`Ou`, appliquées sur action explicite).
@@ -212,7 +216,7 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
   ferme, appliquer ou effacer aussi.
 - `OmniDataGridFilterOperator` couvre contient, ne contient pas, égal, différent, commence par, finit
   par, supérieur, supérieur ou égal, inférieur, inférieur ou égal, est nul, n'est pas nul, est vide
-  et n'est pas vide. `FilterCaseSensitivity` choisit la comparaison.
+  et n'est pas vide. Les filtres ignorent la casse ; `CaseSensitiveFilters` la fait compter.
 ### Forme du contrôle de filtre
 
 `FilterType` choisit la forme du contrôle, sur un seul axe :
@@ -273,7 +277,7 @@ comme n'importe quel autre filtre.
   `KeyProperty`.
 - En sélection multiple, une case d'en-tête coche ou décoche les lignes sélectionnables de la page
   affichée ; les sélections des autres pages restent en place. Elle n'existe pas en virtualisation.
-- `RowClick`, `RowDoubleClick`, `RowSelect`, `RowExpand`, `RowCollapse` et
+- `RowClick`, `RowDoubleClick`, `RowExpand`, `RowCollapse` et
   `AllowRowSelectOnRowClick`. Une ligne cliquable devient atteignable au clavier et répond à Entrée
   et Espace. Les cellules de contrôle (case, chevron, boutons d'édition) et les cellules d'une ligne
   en édition gardent leurs clics et leurs touches : cocher une case n'est pas aussi un clic de
@@ -290,8 +294,8 @@ comme n'importe quel autre filtre.
   déclencher l'édition lui-même. Ses actions sont des boutons icône (crayon, coche, croix) nommés et
   titrés « Modifier », « Enregistrer » et « Annuler », dans une vraie cellule de tableau.
 - `EditMode` vaut `Single` ou `Multiple`. La grille tient son propre état d'édition via
-  `EditRowAsync`, `UpdateRowAsync` et `CancelEditAsync` ; `IsEditing` reprend la main quand l'hôte
-  préfère gérer l'état lui-même.
+  `EditRowAsync`, `UpdateRowAsync` et `CancelEditAsync`, et le signale par `EditRequested`, `RowUpdated`
+  et `EditCancelled`.
 - `DetailTemplate` avec `ExpandMode`, `ShowExpandColumn`, `ShowExpandAll` et
   `ExpandChildItemAriaLabel`. Le bouton d'en-tête de `ShowExpandAll` ouvre ou ferme les lignes de la
   page affichée, sans toucher aux autres pages, et n'est proposé qu'en `ExpandMode.Multiple`.
@@ -301,18 +305,18 @@ comme n'importe quel autre filtre.
 `OmniPager` sert la grille et reste utilisable seul : boutons première, précédente, numéros de page,
 suivante et dernière, sélecteur `PageSizeOptions`, libellés et titres par bouton,
 `PageTitleFormat`/`PageAriaLabelFormat` pour les numéros, alignement `PagerHorizontalAlign`.
-`PagerPosition` place la barre en haut, en bas ou aux deux. `ShowPagingSummary` et
-`PagingSummaryFormat` produisent le résumé « premier à dernier sur total ».
+`PagerPosition` place la barre en haut, en bas ou aux deux. `ShowPagingSummary` produit le résumé
+localisé « premier à dernier sur total ».
 
-Dans la grille, la barre n'apparaît que si `AllowPaging` est actif, que la virtualisation ne l'a pas
-remplacée et qu'il existe plus d'une page. `AlwaysShowPager` la maintient visible même sur une page
+Dans la grille, la barre n'apparaît qu'en `ScrollMode` `Paged` et s'il existe plus d'une page. `AlwaysShowPager` la maintient visible même sur une page
 unique, pour une mise en page qui ne doit pas se réorganiser au fil des filtres. Une liste locale
 qui rétrécit sous la page courante est montrée depuis sa dernière page, et `PageChanged` le dit à
 l'hôte : la barre et le résumé n'annoncent plus « page 5 sur 1 ».
 
 ## Présentation
 
-`GridLines`, `Density`, `AllowAlternatingRows` et `Responsive`. En mode responsive, chaque cellule
+`GridLines` (`Horizontal` par défaut, `None`, `Vertical`, `Both`), `Density`, `AllowAlternatingRows` et
+`Responsive`. En mode responsive, chaque cellule
 porte son intitulé en attribut `data-omni-label` et la feuille de styles empile la ligne en carte
 sous 40 rem.
 

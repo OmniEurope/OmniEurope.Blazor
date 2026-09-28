@@ -65,9 +65,6 @@ public partial class OmniPanelMenuItem
     [Parameter]
     public bool Expanded { get; set; }
 
-    [Parameter]
-    public Func<string, Task<bool>>? CanNavigate { get; set; }
-
     /// <summary>
     /// Makes an entry without <see cref="Href"/> and without children an action: a button of the menu's look
     /// (switching an account, copying a snippet) rather than an inert label. Ignored when the entry
@@ -213,7 +210,8 @@ public partial class OmniPanelMenuItem
     private async Task HandleNavigateAsync()
     {
         var href = SafeHref;
-        if (CanNavigate is not null && href is not null && await CanNavigate(href))
+        var canNavigate = Menu?.CanNavigate;
+        if (canNavigate is not null && href is not null && await canNavigate(href))
         {
             Navigation.NavigateTo(href);
         }
@@ -224,6 +222,8 @@ public partial class OmniPanelMenuItem
         ParentGroup?.Remove(this);
         Navigation.LocationChanged -= HandleLocationChanged;
     }
+
+    private bool GuardsNavigation => Menu?.CanNavigate is not null;
 
     private string? SafeHref => OmniUriPolicy.EnsureSafe(Href, nameof(Href));
 }

@@ -29,9 +29,9 @@ public abstract class OmniHtmlEditorExtension
         Commands.Count == 0 ? toolbar : [.. toolbar, OmniHtmlEditorCommands.Separator, .. Commands];
 
     /// <summary>
-    /// Markup kept beyond the built-in allow-list, merged with the editor's own
-    /// <see cref="OmniHtmlEditor.SanitizerPolicy"/> and those of the other extensions. It can only widen the
-    /// allow-list, within the limits every <see cref="OmniHtmlSanitizerPolicy"/> keeps.
+    /// Markup kept beyond the built-in allow-list, merged with the policies of the other extensions; an
+    /// extension may carry nothing else, which is how a host gives an editor its policy. It can only widen
+    /// the allow-list, within the limits every <see cref="OmniHtmlSanitizerPolicy"/> keeps.
     /// </summary>
     public virtual OmniHtmlSanitizerPolicy? SanitizerPolicy => null;
 

@@ -10,13 +10,13 @@ internal static class GridProjection<TItem>
         IReadOnlyList<OmniDataGridColumnDefinition<TItem>> columns,
         IReadOnlyDictionary<string, GridColumnFilter> filters,
         IReadOnlyList<OmniDataGridSort> sorts,
-        OmniDataGridFilterCaseSensitivity caseSensitivity,
+        bool caseSensitive,
         bool ignoreDiacritics,
         int page,
         int pageSize)
     {
         IEnumerable<(TItem Item, int Index)> query = items.Select((item, index) => (item, index));
-        var comparison = OmniDataGridFilterText.Comparison(caseSensitivity);
+        var comparison = OmniDataGridFilterText.Comparison(caseSensitive);
 
         foreach (var filter in filters.Where(pair => pair.Value.IsActive))
         {

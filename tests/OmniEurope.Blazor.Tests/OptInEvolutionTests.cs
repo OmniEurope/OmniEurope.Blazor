@@ -32,7 +32,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
             builder.AddAttribute(5, nameof(OmniTabsItem.ChildContent), (RenderFragment)(content => content.AddContent(0, "Second panel")));
             builder.CloseComponent();
         };
-        var cut = Render<OmniTabs>(parameters => parameters.Add(component => component.Tabs, tabs));
+        var cut = Render<OmniTabs>(parameters => parameters.Add(component => component.ChildContent, tabs));
 
         cut.WaitForAssertion(() => Assert.Equal("true", cut.FindAll("[role='tab']")[0].GetAttribute("aria-selected")));
         cut.FindAll("[role='tab']")[1].Click();
@@ -544,7 +544,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
 
         var virtualized = Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, new[] { 1, 2, 3 })
-            .Add(component => component.AllowVirtualization, true));
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual));
 
         virtualized.WaitForAssertion(() => Assert.NotEmpty(module.Invocations["applyLayout"]));
         Assert.Equal(
@@ -575,7 +575,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
 
         var grid = Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, Enumerable.Range(0, 10_000).ToArray())
-            .Add(component => component.AllowVirtualization, true)
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.MaxHeight, " 20rem "));
 
         grid.WaitForAssertion(() => Assert.Single(module.Invocations["applyMaxHeight"]));
@@ -612,7 +612,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
 
         var sized = Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, new[] { 1, 2, 3 })
-            .Add(component => component.AllowVirtualization, true)
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.Height, "480px")
             .Add(component => component.MaxHeight, "20rem"));
         var filling = Render<OmniDataGrid<int>>(parameters => parameters

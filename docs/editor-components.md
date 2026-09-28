@@ -49,16 +49,15 @@ en tête, en fin ou répétés ne sont pas dessinés.
 Un hôte qui modifie lui-même le document par son propre script (structure, numérotation) passe
 `context.SurfaceElement` (l'`ElementReference` de la surface, null en face source) à ce script, puis
 appelle `context.CommitDomAsync()` : l'éditeur relit la surface, l'assainit avec la liste blanche et
-`SanitizerPolicy`, en fait une étape d'historique et lève `ValueChanged` si la valeur change. Ce que
+la politique des extensions, en fait une étape d'historique et lève `ValueChanged` si la valeur change. Ce que
 l'assainissement a retiré disparaît aussi de la surface, redessinée depuis la valeur. En face source,
 `CommitDomAsync` ne fait rien. Hors d'une commande (clic sur une note en ligne, suggestion acceptée),
 l'hôte appelle `OmniHtmlEditor.CommitDomAsync()` sur la référence du composant (`@ref`), avec le même
 effet ; la méthode passe elle-même par le répartiteur du rendu et peut donc être appelée d'un rappel JS.
 Le script de l'hôte trouve alors la surface par l'`Id` de l'éditeur.
 
-Les interrupteurs `EnableBold`, `EnableItalic`, `EnableSubscript`, `EnableSuperscript`, `EnableIndent`
-et `EnableOutdent` masquent toujours leur commande, quelle que soit la barre, et `CustomTools`
-(transformations de toute la valeur) s'affiche toujours après elle.
+Une commande sans icône affiche son libellé en texte ; `context.SetHtmlAsync(...)` réécrit toute la
+valeur, ce qui couvre une transformation de l'ensemble du document.
 
 Les boutons bascules portent `aria-pressed` selon la mise en forme au curseur (gras, italique,
 souligné, barré, indice, exposant, code, listes, citation, bloc de code, lien, alignement), et les
@@ -145,8 +144,9 @@ citations et blocs de code.
 
 ### Politique d'assainissement de l'hôte
 
-`SanitizerPolicy` (`OmniHtmlSanitizerPolicy`, null par défaut) élargit la liste blanche pour le
-balisage propre à l'hôte, partout où l'éditeur assainit : valeur liée, frappe, collage et dépôt,
+La politique d'une extension (`OmniHtmlEditorExtension.SanitizerPolicy`, un `OmniHtmlSanitizerPolicy`)
+élargit la liste blanche pour le balisage propre à l'hôte ; une extension peut ne porter que cela,
+et les politiques de plusieurs extensions se fusionnent. Elle s'applique partout où l'éditeur assainit : valeur liée, frappe, collage et dépôt,
 `InsertHtmlAsync`, `SetHtmlAsync`, résultat des commandes, face source et son aperçu.
 
 ```csharp
@@ -158,6 +158,13 @@ private static readonly OmniHtmlSanitizerPolicy Policy = new()
     AdditionalCssClasses = ["akn-authorial-note"],   // ou AllowAnyClass = true
     AllowDataAttributes = true                       // tous les data-*
 };
+
+
+private sealed class PolicyExtension : OmniHtmlEditorExtension
+{
+    public override OmniHtmlSanitizerPolicy SanitizerPolicy => Policy;
+}
+// <OmniHtmlEditor Extensions="[new PolicyExtension()]" ... />
 ```
 
 - `AdditionalAttributes` vaut pour tout élément admis ; `AdditionalTagAttributes` pour les seuls
@@ -201,7 +208,7 @@ Les extensions sont comparées par instance : un parent peut repasser une nouvel
 | Membre | Rôle |
 |---|---|
 | `Commands`, `ArrangeToolbar(toolbar)` | Commandes apportées ; par défaut ajoutées après un séparateur, `ArrangeToolbar` peut réordonner toute la barre. |
-| `SanitizerPolicy` | Fusionnée avec celle de l'éditeur (`OmniHtmlSanitizerPolicy.Merge`) ; n'élargit que dans les limites de toute politique. |
+| `SanitizerPolicy` | Fusionnée avec celles des autres extensions (`OmniHtmlSanitizerPolicy.Merge`) ; n'élargit que dans les limites de toute politique. |
 | `Shortcuts` | `new OmniHtmlEditorShortcut("Ctrl+Shift+N", "nom-de-commande")` ; Ctrl vaut aussi Cmd. Ctrl+Z, Ctrl+Y, Ctrl+Maj+Z et Ctrl+K restent à l'éditeur ; une combinaison en double ou une commande introuvable lève une exception au rendu. |
 | `InlineElements` | `new OmniHtmlEditorInlineElement(".note[data-marker]", context => ...)` : un clic sur l'élément (le plus proche qui correspond) appelle la fonction avec l'élément (`Element`, `Text`) ; `SetTextAsync` (texte brut, l'élément et ses attributs gardés), `ReplaceAsync` et `RemoveAsync` le changent en une étape d'historique. |
 | `ContextMenu` | Commandes du menu ouvert au clic droit ou à la touche menu dans la face visuelle, à la place de celui du navigateur. Un clic droit sur un élément en ligne le sélectionne, pour que les commandes agissent sur lui ; `Enabled` est évalué pour la sélection où le menu s'ouvre. |
@@ -248,7 +255,7 @@ et deux boutons d'export.
   numérotées en `1. `, cellules séparées par des tabulations.
 - Les boutons de la barre d'état téléchargent `FileName.html` et `FileName.txt` par
   `omni-document-editor.js` (un `Blob` et un lien de téléchargement).
-- `ReadOnly`, `Rows` (hauteur minimale de la page), `ShowStatusBar`, `ShowExport`, `Commands`.
+- `ReadOnly`, `Rows` (hauteur minimale de la page), `ShowStatusBar` (comptes et téléchargements), `Commands`.
 
 ## OmniCodeEditor
 

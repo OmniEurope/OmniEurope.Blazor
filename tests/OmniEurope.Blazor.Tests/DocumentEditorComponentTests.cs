@@ -123,6 +123,7 @@ public sealed class DocumentEditorComponentTests : OmniBunitContext
 
         Assert.Equal("false", document.Find(".omni-html-editor__surface").GetAttribute("contenteditable"));
         Assert.Empty(document.FindAll(".omni-document-editor__status"));
+        Assert.Empty(document.FindAll("[data-export]"));
     }
 
     [Theory]

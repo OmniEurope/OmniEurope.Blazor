@@ -165,14 +165,13 @@ public sealed class DataGridSurfaceTests : OmniBunitContext
     }
 
     [Fact]
-    public void Grid_HonoursACustomPagingSummaryFormat()
+    public void Grid_PagingSummary_ReadsTheLocalizedRange()
     {
         var grid = Render<DataGridSurfaceTestHost>(parameters => parameters
             .Add(component => component.PageSize, 2)
-            .Add(component => component.ShowPagingSummary, true)
-            .Add(component => component.PagingSummaryFormat, "{0}-{1}/{2}"));
+            .Add(component => component.ShowPagingSummary, true));
 
-        Assert.Equal("1-2/3", grid.Find(".omni-data-grid__summary").TextContent);
+        Assert.Equal("1 à 2 sur 3", grid.Find(".omni-data-grid__summary").TextContent);
     }
 
     [Fact]
@@ -182,7 +181,7 @@ public sealed class DataGridSurfaceTests : OmniBunitContext
             .Add(component => component.PageSize, 1)
             .Add(component => component.AllowSorting, false)
             .Add(component => component.AllowFiltering, false)
-            .Add(component => component.AllowPaging, false));
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.All));
 
         Assert.Empty(grid.FindAll(".omni-data-grid__sort"));
         Assert.Empty(grid.FindAll(".omni-data-grid__filter"));

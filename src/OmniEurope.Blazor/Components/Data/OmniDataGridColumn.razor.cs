@@ -62,9 +62,6 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public RenderFragment<OmniDataGridFilterContext>? FilterTemplate { get; set; }
 
-    [Parameter]
-    public Func<object?, string>? Format { get; set; }
-
     /// <summary>Composite format applied to the cell value, for example <c>{0:n2}</c>.</summary>
     [Parameter]
     public string? FormatString { get; set; }
@@ -119,12 +116,6 @@ public partial class OmniDataGridColumn<TItem>
 
     [Parameter]
     public OmniDataGridFilterOperator FilterOperator { get; set; }
-
-    [Parameter]
-    public OmniDataGridFilterOperator SecondFilterOperator { get; set; }
-
-    [Parameter]
-    public OmniDataGridLogicalOperator LogicalFilterOperator { get; set; }
 
     [Parameter]
     public bool Visible { get; set; } = true;
@@ -204,7 +195,6 @@ public partial class OmniDataGridColumn<TItem>
             FilterPredicate = FilterPredicate,
             FilterValues = FilterValues,
             FilterTemplate = FilterTemplate,
-            Format = Format,
             FormatString = FormatString,
             Sortable = Sortable,
             SortOrder = SortOrder,
@@ -218,8 +208,6 @@ public partial class OmniDataGridColumn<TItem>
             ValueType = GridPropertyAccessor.ValueType<TItem>(Property),
             FilterOperators = FilterOperators,
             FilterOperator = FilterOperator,
-            SecondFilterOperator = SecondFilterOperator,
-            LogicalFilterOperator = LogicalFilterOperator,
             Visible = Visible,
             Resizable = Resizable,
             AutoFit = AutoFit,
@@ -265,7 +253,6 @@ public partial class OmniDataGridColumn<TItem>
         && Equals(left.FilterPredicate, right.FilterPredicate)
         && ReferenceEquals(left.FilterValues, right.FilterValues)
         && Equals(left.FilterTemplate, right.FilterTemplate)
-        && Equals(left.Format, right.Format)
         && string.Equals(left.FormatString, right.FormatString, StringComparison.Ordinal)
         && left.Sortable == right.Sortable
         && left.SortOrder == right.SortOrder
@@ -277,8 +264,6 @@ public partial class OmniDataGridColumn<TItem>
         && left.FilterIncludesTime == right.FilterIncludesTime
         && ReferenceEquals(left.FilterOperators, right.FilterOperators)
         && left.FilterOperator == right.FilterOperator
-        && left.SecondFilterOperator == right.SecondFilterOperator
-        && left.LogicalFilterOperator == right.LogicalFilterOperator
         && left.Visible == right.Visible
         && left.Resizable == right.Resizable
         && left.AutoFit == right.AutoFit

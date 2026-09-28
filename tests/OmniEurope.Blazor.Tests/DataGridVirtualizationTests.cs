@@ -216,7 +216,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
 
         var grid = Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, items)
-            .Add(component => component.AllowVirtualization, true)
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.EstimatedRowHeight, 40d)
             .Add(component => component.VirtualizationOverscanCount, 2));
 
@@ -235,7 +235,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
         var items = Enumerable.Range(0, 10_000).ToArray();
         var grid = Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, items)
-            .Add(component => component.AllowVirtualization, true)
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.EstimatedRowHeight, 40d));
 
         Assert.Contains(">0</td>", grid.Markup, StringComparison.Ordinal);
@@ -244,8 +244,8 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
 
         Assert.DoesNotContain(">0</td>", grid.Markup, StringComparison.Ordinal);
         Assert.Contains(">1000</td>", grid.Markup, StringComparison.Ordinal);
-        // The default overscan of 4 keeps four rows above the viewport rendered.
-        Assert.Equal("997", grid.FindAll("tbody tr[data-omni-row-index]")[0].GetAttribute("aria-rowindex"));
+        // The default overscan of 3 keeps three rows above the viewport rendered.
+        Assert.Equal("998", grid.FindAll("tbody tr[data-omni-row-index]")[0].GetAttribute("aria-rowindex"));
     }
 
     [Fact]
@@ -261,7 +261,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
 
         var grid = Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, Enumerable.Range(0, 10_000).ToArray())
-            .Add(component => component.AllowVirtualization, true)
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.EstimatedRowHeight, 40d));
 
         sync.SetResult(new GridViewportSnapshot { ScrollTop = 32_000d, ViewportHeight = 320d, RowEstimate = 32d });
@@ -278,7 +278,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
         var requests = new List<OmniDataGridLoadRequest>();
 
         var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.AllowVirtualization, true)
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.EstimatedRowHeight, 40d)
             .Add(component => component.VirtualBlockSize, 100)
             .Add(component => component.Load, request =>
@@ -322,7 +322,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
 
         var grid = Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, Enumerable.Range(0, 5_000).ToArray())
-            .Add(component => component.AllowVirtualization, true)
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.EstimatedRowHeight, 40d)
             .Add(component => component.Height, "50vh"));
 
@@ -343,24 +343,19 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
         JSInterop.Mode = JSRuntimeMode.Loose;
 
         var grouping = Assert.Throws<InvalidOperationException>(() => Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.AllowVirtualization, true)
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.Load, request => Task.FromResult(new OmniDataGridResult<int>([1, 2], 2)))
-            .Add(component => component.GroupBy, item => (object?)item)));
+            .Add(component => component.AllowGrouping, true)
+            .Add(component => component.Groups, [new OmniDataGridGroup("value")])));
 
-        Assert.Contains("GroupBy", grouping.Message, StringComparison.Ordinal);
+        Assert.Contains("Groups", grouping.Message, StringComparison.Ordinal);
     }
 
     [Fact]
     public void LocalVirtualizedGrid_WithGroups_RendersAWindowOfGroupHeadersAndRows()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
-        var items = Enumerable.Range(0, 10_000).ToArray();
-
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.Items, items)
-            .Add(component => component.AllowVirtualization, true)
-            .Add(component => component.EstimatedRowHeight, 40d)
-            .Add(component => component.GroupBy, item => (object?)(item / 100)));
+        var grid = Render<DataGridVirtualGroupsTestHost>();
 
         var rows = grid.FindAll("tbody tr[data-omni-row-index]");
         Assert.InRange(rows.Count, 1, 64);
@@ -406,7 +401,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
 
         var grid = Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, items)
-            .Add(component => component.AllowVirtualization, true)
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.EstimatedRowHeight, 40d)
             .Add(component => component.ExpandedKeys, new object[] { 1000 })
             .Add(component => component.DetailTemplate, item => builder => builder.AddContent(0, $"Détail {item}")));

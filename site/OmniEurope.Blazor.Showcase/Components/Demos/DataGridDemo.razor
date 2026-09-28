@@ -4,7 +4,7 @@
               Caption="Dossiers ouverts"
               AllowSorting="true"
               AllowFiltering="true"
-              AllowPaging="true"
+              ScrollMode="OmniDataGridScrollMode.Paged"
               AllowAlternatingRows="true"
               PageSize="5"
               HeaderWrap="OmniDataGridHeaderWrap.Truncate">
@@ -31,9 +31,11 @@
 @* Le dessin de la maquette : un cadre habillé comme une carte, un en-tête fin et collant, la durée
    (un nombre) alignée à la fin en chiffres de même chasse sans rien demander, le statut en pastille
    compacte (classe omni-status), la ligne choisie teintée et en gras, la colonne triée teintée plus
-   légèrement (HighlightActiveColumn), des séparateurs de lignes faute d'alternance. *@
+   légèrement (HighlightActiveColumn), des séparateurs de lignes faute d'alternance, et toutes les lignes sans pagination (ScrollMode All)
+   sous un plafond de hauteur. *@
 <OmniDataGrid TItem="RunRow" Id="demo-grid-runs"
               Items="Runs"
+              ScrollMode="OmniDataGridScrollMode.All"
               Caption="Exécutions récentes"
               AllowSorting="true"
               HighlightActiveColumn="true"
@@ -59,7 +61,7 @@
 <OmniDataGrid TItem="GridRow" Id="demo-grid-capped-short"
               Items="FewRows"
               Caption="Trois dossiers, hauteur de contenu"
-              AllowVirtualization="true"
+              ScrollMode="OmniDataGridScrollMode.Virtual"
               MaxHeight="18rem">
     <Columns>
         <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" />
@@ -71,7 +73,7 @@
               Items="ManyRows"
               Caption="Dix mille dossiers, plafond de 18rem"
               AllowColumnAutoFit="true"
-              AllowVirtualization="true"
+              ScrollMode="OmniDataGridScrollMode.Virtual"
               MaxHeight="18rem">
     <Columns>
         <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" AutoFit="false" />

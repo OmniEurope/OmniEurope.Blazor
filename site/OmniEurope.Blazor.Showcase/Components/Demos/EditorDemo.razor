@@ -7,14 +7,7 @@
                         Label="Corps du courrier"
                         Rows="8"
                         ShowPreview="true"
-                        EnableBold="true"
-                        EnableItalic="true"
-                        EnableIndent="true"
-                        EnableOutdent="true"
-                        EnableSubscript="true"
-                        EnableSuperscript="true"
-                        Commands="Commands"
-                        CustomTools="Tools" />
+                        Commands="Commands" />
 
         <OmniHtmlEditor Id="editor-source"
                         @bind-Value="Body"
@@ -27,7 +20,7 @@
                         @bind-Value="Annotated"
                         Label="Article annoté"
                         Rows="6"
-                        SanitizerPolicy="AnnotationPolicy"
+                        Extensions="[AnnotationExtension]"
                         Commands="AnnotatedCommands"
                         SelectionChanged="ShowSelection" />
         <p id="editor-annotated-path" aria-live="polite">Position : @SelectionPath</p>
@@ -103,10 +96,8 @@
                     InputId="editor-attachments"
                     @bind-Files="Attachments"
                     Upload="UploadAsync"
-                    Validate="ValidateAsync"
                     UploadErrorMessage="Le dépôt a échoué."
-                    ReducedList="true"
-                    Density="OmniDensity.Comfortable" />
+                    ReducedList="true" />
 
         <p>Pièces déposées : @(Uploaded.Count == 0 ? "aucune" : string.Join(", ", Uploaded))</p>
     </OmniStack>

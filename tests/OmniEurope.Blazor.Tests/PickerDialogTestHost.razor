@@ -1,13 +1,11 @@
 @* The three pickers inside an open dialog, to check that Escape in a panel stays in the panel. *@
 <OmniDialog @bind-Open="Open" Title="Rendez-vous">
-    <OmniDatePicker Id="date" TimeProvider="@Clock" @bind-Value="Date" />
-    <OmniTimePicker Id="time" TimeProvider="@Clock" @bind-Value="Time" />
-    <OmniDateTimePicker Id="moment" TimeProvider="@Clock" @bind-Value="Moment" />
+    <OmniDatePicker Id="date" @bind-Value="Date" />
+    <OmniTimePicker Id="time" @bind-Value="Time" />
+    <OmniDateTimePicker Id="moment" @bind-Value="Moment" />
 </OmniDialog>
 
 @code {
-    [Parameter] public TimeProvider Clock { get; set; } = TimeProvider.System;
-
     public bool Open { get; set; } = true;
 
     public DateOnly? Date { get; set; }

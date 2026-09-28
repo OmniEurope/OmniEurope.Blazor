@@ -47,10 +47,6 @@ public partial class OmniTimePicker
     [Parameter]
     public string? Placeholder { get; set; }
 
-    /// <summary>The clock Now reads.</summary>
-    [Parameter]
-    public TimeProvider TimeProvider { get; set; } = TimeProvider.System;
-
     private PickerPopup Popup => _popup ??= new PickerPopup(JavaScript, DismissAsync);
 
     private static CultureInfo Culture => CultureInfo.CurrentCulture;
@@ -62,7 +58,7 @@ public partial class OmniTimePicker
     private string EffectivePlaceholder => Placeholder
         ?? PickerFormat.Placeholder(PickerFormat.TimePattern(seconds: false), PickerLetters.From(key => Localize(key)));
 
-    private TimeOnly Now => RoundDown(TimeOnly.FromDateTime(TimeProvider.GetLocalNow().DateTime), Step);
+    private TimeOnly Now => RoundDown(TimeOnly.FromDateTime(Clock.GetLocalNow().DateTime), Step);
 
     private bool NowIsOutside => IsOutside(Now);
 
@@ -83,7 +79,6 @@ public partial class OmniTimePicker
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        ArgumentNullException.ThrowIfNull(TimeProvider);
         ArgumentOutOfRangeException.ThrowIfLessThan(Step, 1, nameof(Step));
         ArgumentOutOfRangeException.ThrowIfGreaterThan(Step, 30, nameof(Step));
         if (Minimum is not null && Maximum is not null && Minimum > Maximum)

@@ -15,6 +15,12 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
     private IServiceProvider PresetServices { get; set; } = default!;
 
     /// <summary>
+    /// The clock a time-aware component reads: the host's registered <see cref="TimeProvider"/>, the
+    /// system clock when it registers none. Resolved on each read, so a test swaps it in the container.
+    /// </summary>
+    private protected TimeProvider Clock => PresetServices.GetService(typeof(TimeProvider)) as TimeProvider ?? TimeProvider.System;
+
+    /// <summary>
     /// The preset (named parameter set registered by the host) this component takes: its type's default
     /// when unset, none with <c>"none"</c>. Parameters written explicitly win over the preset.
     /// </summary>

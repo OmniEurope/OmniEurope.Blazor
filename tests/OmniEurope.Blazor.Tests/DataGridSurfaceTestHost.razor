@@ -4,7 +4,7 @@
               PageSize="@PageSize"
               AllowSorting="@AllowSorting"
               AllowFiltering="@AllowFiltering"
-              AllowPaging="@AllowPaging"
+              ScrollMode="@ScrollMode"
               AllowGrouping="@AllowGrouping"
               ShowGroupPanel="@ShowGroupPanel"
               Groups="@Groups"
@@ -17,7 +17,6 @@
               Responsive="@Responsive"
               Count="@Count"
               ShowPagingSummary="@ShowPagingSummary"
-              PagingSummaryFormat="@PagingSummaryFormat"
               PageSizeOptions="@PageSizeOptions"
               PageSizeChanged="OnPageSizeChanged"
               RowRender="@RowRender">
@@ -40,18 +39,17 @@
     [Parameter] public int PageSize { get; set; } = 20;
     [Parameter] public bool AllowSorting { get; set; } = true;
     [Parameter] public bool AllowFiltering { get; set; } = true;
-    [Parameter] public bool AllowPaging { get; set; } = true;
+    [Parameter] public OmniDataGridScrollMode ScrollMode { get; set; } = OmniDataGridScrollMode.Paged;
     [Parameter] public bool AllowGrouping { get; set; }
     [Parameter] public bool ShowGroupPanel { get; set; }
     [Parameter] public OmniDataGridFilterMode FilterMode { get; set; } = OmniDataGridFilterMode.Simple;
     [Parameter] public OmniDataGridSelectionMode SelectionMode { get; set; }
     [Parameter] public OmniDataGridEditMode EditMode { get; set; } = OmniDataGridEditMode.Single;
-    [Parameter] public OmniDataGridLines GridLines { get; set; } = OmniDataGridLines.Default;
+    [Parameter] public OmniDataGridLines GridLines { get; set; } = OmniDataGridLines.Horizontal;
     [Parameter] public OmniDensity Density { get; set; } = OmniDensity.Comfortable;
     [Parameter] public bool Responsive { get; set; }
     [Parameter] public int? Count { get; set; }
     [Parameter] public bool ShowPagingSummary { get; set; }
-    [Parameter] public string? PagingSummaryFormat { get; set; }
     [Parameter] public IReadOnlyList<int> PageSizeOptions { get; set; } = Array.Empty<int>();
     [Parameter] public Action<OmniDataGridRowRenderArgs<DataGridSurfaceTests.Order>>? RowRender { get; set; }
 

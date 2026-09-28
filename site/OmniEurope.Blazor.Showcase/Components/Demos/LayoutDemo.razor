@@ -154,13 +154,6 @@
 
     @* Densité propre à un composant : dans une page confortable, chacun de ces composants porte la sienne. *@
     <OmniStack Gap="OmniSpacing.Small">
-        <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
-            <OmniButton Density="OmniDensity.Compact"><span>Bouton compact</span></OmniButton>
-            <OmniButton Density="OmniDensity.Spacious"><span>Bouton aéré</span></OmniButton>
-        </OmniRow>
-        <OmniFormField For="density-own-field" Text="Champ compact" Density="OmniDensity.Compact">
-            <OmniTextBox Id="density-own-field" @bind-Value="ServerName" />
-        </OmniFormField>
         <OmniAlert Severity="OmniAlertSeverity.Info" Density="OmniDensity.Spacious">Une alerte aérée dans une page confortable.</OmniAlert>
         <OmniTabs Label="Onglets compacts" Density="OmniDensity.Compact" @bind-Value="DensityTab" Keys="DensityTabKeys">
             <OmniTabsItem Key="general" Title="Général">Réglages généraux.</OmniTabsItem>

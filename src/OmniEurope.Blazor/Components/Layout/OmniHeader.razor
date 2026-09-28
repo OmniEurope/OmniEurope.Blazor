@@ -2,7 +2,7 @@
 @inherits OmniComponentBase
 
 @* The brand opens the header in the source; a sidebar toggle among the children is drawn before it
-   (CSS order), since the toggle belongs at the very edge. The mark is decorative, the name is text.
+   (CSS order), since the toggle belongs at the very edge. The logo is decorative, the name is text.
    Given BrandHref, the brand is a link, which is how an application's name leads back home. *@
 <header id="@Id"
         class="@Css("omni-header", Sticky ? "omni-header--sticky" : null, Tone == OmniHeaderTone.Accent ? "omni-header--accent" : null, HasBrand ? "omni-header--branded" : null)"
@@ -13,10 +13,6 @@
             @if (!string.IsNullOrWhiteSpace(BrandLogo))
             {
                 <img class="omni-header__logo-image" src="@BrandLogo" alt="" aria-hidden="true" />
-            }
-            else if (!string.IsNullOrWhiteSpace(BrandMark))
-            {
-                <span class="omni-header__logo" aria-hidden="true">@BrandMark</span>
             }
             @if (!string.IsNullOrWhiteSpace(Brand))
             {
@@ -30,10 +26,6 @@
             @if (!string.IsNullOrWhiteSpace(BrandLogo))
             {
                 <img class="omni-header__logo-image" src="@BrandLogo" alt="" aria-hidden="true" />
-            }
-            else if (!string.IsNullOrWhiteSpace(BrandMark))
-            {
-                <span class="omni-header__logo" aria-hidden="true">@BrandMark</span>
             }
             @if (!string.IsNullOrWhiteSpace(Brand))
             {

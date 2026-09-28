@@ -30,7 +30,7 @@ public sealed class DataGridSelectionValueTests : OmniBunitContext
         IReadOnlyList<int>? reported = null;
         var grid = Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, [1, 2, 3, 4])
-            .Add(component => component.AllowPaging, true)
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Paged)
             .Add(component => component.PageSize, 2)
             .Add(component => component.Page, 2)
             .Add(component => component.SelectionMode, OmniDataGridSelectionMode.Multiple)
