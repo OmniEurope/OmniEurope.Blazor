@@ -2430,9 +2430,11 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid__group th { background: var(--omni-color-surface-muted); color: var(--omni-color-text); padding-block: 0; }
 .omni-data-grid__group[data-omni-group-level="1"] th { padding-inline-start: var(--omni-space-lg); }
 .omni-data-grid__group[data-omni-group-level="2"] th { padding-inline-start: var(--omni-space-xl, 3rem); }
-.omni-data-grid__column--align-start { text-align: start; }
-.omni-data-grid__column--align-center { text-align: center; }
-.omni-data-grid__column--align-end { text-align: end; }
+/* The column alignment (TextAlign) names the table so it outranks the cell default above
+   (.omni-data-grid__table :is(th, td), 0,1,1): a bare class (0,1,0) lost to it on every header and cell. */
+.omni-data-grid__table .omni-data-grid__column--align-start { text-align: start; }
+.omni-data-grid__table .omni-data-grid__column--align-center { text-align: center; }
+.omni-data-grid__table .omni-data-grid__column--align-end { text-align: end; }
 .omni-data-grid th.omni-data-grid__column--align-center .omni-data-grid__header { justify-content: center; }
 .omni-data-grid th.omni-data-grid__column--align-end .omni-data-grid__header { flex-direction: row-reverse; }
 .omni-data-grid th.omni-data-grid__column--align-end .omni-data-grid__sort-icon { margin-inline: 0 auto; }
