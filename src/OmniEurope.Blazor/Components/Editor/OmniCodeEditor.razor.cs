@@ -43,7 +43,14 @@ public partial class OmniCodeEditor
     /// <summary>The Monaco language identifier: <c>yaml</c>, <c>json</c>, <c>csharp</c>, <c>javascript</c>, <c>html</c>, <c>sql</c>...</summary>
     [Parameter] public string Language { get; set; } = "plaintext";
 
+    /// <summary>Whether the code can be read and selected but not changed.</summary>
     [Parameter] public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// Whether the editor is disabled: Monaco is read-only and the fallback text area is disabled, so
+    /// the value can no longer be changed. The editor is drawn dimmed.
+    /// </summary>
+    [Parameter] public bool Disabled { get; set; }
 
     /// <summary>The height, as a CSS length (<c>20rem</c>, <c>320px</c>, <c>50vh</c>). Null keeps 20rem.</summary>
     [Parameter] public string? Height { get; set; }
@@ -77,6 +84,9 @@ public partial class OmniCodeEditor
     [Parameter] public string? AriaDescribedBy { get; set; }
 
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Localize("CodeEditorLabel") : Label;
+
+    /// <summary>Whether the value is closed to editing, read-only or disabled.</summary>
+    private bool IsLocked => ReadOnly || Disabled;
 
     private string PhaseName => _phase.ToString().ToLowerInvariant();
 
@@ -213,7 +223,7 @@ public partial class OmniCodeEditor
 
     internal Task HandleCodeChangedAsync(string value)
     {
-        if (ReadOnly)
+        if (IsLocked)
         {
             return Task.CompletedTask;
         }
@@ -233,7 +243,7 @@ public partial class OmniCodeEditor
 
     private Task HandleFallbackInputAsync(ChangeEventArgs args)
     {
-        if (!ReadOnly)
+        if (!IsLocked)
         {
             CurrentValue = args.Value?.ToString() ?? string.Empty;
         }
@@ -248,7 +258,7 @@ public partial class OmniCodeEditor
         culture = CultureInfo.CurrentUICulture.Name,
         loadTimeoutMilliseconds = LoadTimeoutMilliseconds,
         language = string.IsNullOrWhiteSpace(Language) ? "plaintext" : Language,
-        readOnly = ReadOnly,
+        readOnly = IsLocked,
         lineNumbers = ShowLineNumbers,
         wordWrap = WordWrap,
         tabSize = TabSize,
@@ -263,7 +273,7 @@ public partial class OmniCodeEditor
 
     private string OptionsSignature() => string.Join(
         '',
-        new[] { Language, ReadOnly.ToString(), ShowLineNumbers.ToString(), WordWrap.ToString(), TabSize.ToString(CultureInfo.InvariantCulture), EffectiveLabel }
+        new[] { Language, IsLocked.ToString(), ShowLineNumbers.ToString(), WordWrap.ToString(), TabSize.ToString(CultureInfo.InvariantCulture), EffectiveLabel }
             .Concat(Links.Select(link => $"{link.Name}{link.Pattern}{link.Tooltip}")));
 
     protected override bool TryParseValueFromString(string? value, out string result, out string validationErrorMessage)

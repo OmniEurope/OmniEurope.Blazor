@@ -2,7 +2,8 @@ namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Removes the boot splash of the page once the application has rendered: place it once, in the
-/// layout or the root component. It renders nothing.
+/// layout or the root component. It renders nothing, so it takes no id, class, preset or other
+/// attribute: an attribute passed to it is refused rather than silently dropped.
 /// </summary>
 /// <remarks>
 /// The splash is written by the host in its page, outside the element Blazor renders into, so it is

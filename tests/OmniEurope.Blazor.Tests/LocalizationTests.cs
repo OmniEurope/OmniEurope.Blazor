@@ -114,11 +114,10 @@ public sealed class LocalizationTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData("fr-FR", "Les valeurs détaillées sont disponibles au focus ou au survol des séries.", "Aucun élément.", "Vue journalière", "Sélectionner", "Éditeur HTML")]
-    [InlineData("en-US", "Detailed values are available when focusing or hovering over the series.", "No items.", "Day view", "Select", "HTML editor")]
+    [InlineData("fr-FR", "Aucun élément.", "Vue journalière", "Sélectionner", "Éditeur HTML")]
+    [InlineData("en-US", "No items.", "Day view", "Select", "HTML editor")]
     public void Lot09DataAndEditorDefaultsFollowCurrentUiCulture(
         string cultureName,
-        string tooltipDescription,
         string emptyList,
         string dayViewLabel,
         string dropDownPlaceholder,
@@ -131,10 +130,9 @@ public sealed class LocalizationTests : OmniBunitContext
             var value = string.Empty;
             var selection = 0;
 
-            var tooltip = Render<OmniChartTooltipOptions>();
             var list = Render<OmniDataList<int>>(parameters => parameters
                 .Add(component => component.ItemTemplate, item => builder => builder.AddContent(0, item)));
-            var day = Render<OmniDayView>(parameters => parameters.Add(component => component.Date, DateTimeOffset.Now));
+            var day = Render<OmniScheduler>(parameters => parameters.Add(component => component.View, OmniSchedulerView.Day).Add(component => component.TimeZone, TimeZoneInfo.Utc));
             var dropDown = Render<OmniDropDown<int>>(parameters => parameters
                 .Add(component => component.Options, [new OmniOption<int>(1, "One")])
                 .Add(component => component.AllowEmpty, true)
@@ -143,9 +141,8 @@ public sealed class LocalizationTests : OmniBunitContext
                 .Add(component => component.Value, value)
                 .Add(component => component.ValueExpression, () => value));
 
-            Assert.Equal(tooltipDescription, tooltip.Find("desc").TextContent);
             Assert.Contains(emptyList, list.Markup, StringComparison.Ordinal);
-            Assert.Equal(dayViewLabel, day.Find("section").GetAttribute("aria-label"));
+            Assert.Equal(dayViewLabel, day.Find("section.omni-day-view").GetAttribute("aria-label"));
             Assert.Equal(dropDownPlaceholder, dropDown.Find("option").TextContent);
             Assert.Equal(editorLabel, editor.Find("section").GetAttribute("aria-label"));
         }
@@ -236,7 +233,7 @@ public sealed class LocalizationTests : OmniBunitContext
             bool? nullable = null;
 
             var legend = Render<OmniLegend>();
-            var month = Render<OmniMonthView>(parameters => parameters.Add(component => component.Date, DateTimeOffset.Now));
+            var month = Render<OmniScheduler>(parameters => parameters.Add(component => component.View, OmniSchedulerView.Month).Add(component => component.TimeZone, TimeZoneInfo.Utc));
             var notification = Render<OmniNotification>(parameters => parameters.Add(component => component.Message, "Message"));
             var nullableSwitch = Render<OmniNullableSwitch>(parameters => parameters
                 .Add(component => component.Value, nullable)
@@ -246,7 +243,7 @@ public sealed class LocalizationTests : OmniBunitContext
                 .Add(component => component.PageCount, 4));
 
             Assert.Equal(legendLabel, legend.Find("g").GetAttribute("aria-label"));
-            Assert.Equal(monthLabel, month.Find("section").GetAttribute("aria-label"));
+            Assert.Equal(monthLabel, month.Find("section.omni-month-view").GetAttribute("aria-label"));
             Assert.Equal(dismissLabel, notification.Find("button").GetAttribute("aria-label"));
             Assert.Equal(indeterminateDescription, nullableSwitch.Find("button").GetAttribute("aria-description"));
             Assert.Equal(previousPage, pager.FindAll("button")[0].GetAttribute("aria-label"));
@@ -379,13 +376,13 @@ public sealed class LocalizationTests : OmniBunitContext
             var steps = Render<OmniSteps>();
             var timeline = Render<OmniTimeline>();
             var tree = Render<OmniTree<int>>();
-            var week = Render<OmniWeekView>(parameters => parameters.Add(component => component.Date, DateTimeOffset.Now));
+            var week = Render<OmniScheduler>(parameters => parameters.Add(component => component.View, OmniSchedulerView.Week).Add(component => component.TimeZone, TimeZoneInfo.Utc));
 
             Assert.Equal(splitLabel, split.Find(".omni-split-button__toggle").GetAttribute("aria-label"));
             Assert.Equal(stepsLabel, steps.Find("[role=list]").GetAttribute("aria-label"));
             Assert.Equal(timelineLabel, timeline.Find("section").GetAttribute("aria-label"));
             Assert.Equal(treeLabel, tree.Find("[role=tree]").GetAttribute("aria-label"));
-            Assert.Equal(weekLabel, week.Find("section").GetAttribute("aria-label"));
+            Assert.Equal(weekLabel, week.Find("section.omni-week-view").GetAttribute("aria-label"));
         }
         finally
         {

@@ -188,4 +188,28 @@ public sealed class CodeEditorComponentTests : OmniBunitContext
 
         Assert.Equal(nameof(OmniCodeEditor.InteropModulePath), exception.ParamName);
     }
+
+    [Fact]
+    public async Task Disabled_MakesMonacoReadOnly_DisablesTheFallback_AndKeepsTheValue()
+    {
+        var module = JSInterop.SetupModule(ModulePath);
+        module.Setup<bool>("load", _ => true).SetResult(true);
+        module.Setup<bool>("mount", _ => true).SetResult(true);
+        var value = "a: 1";
+        var editor = Render<OmniCodeEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueChanged, updated => value = updated)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Disabled, true));
+
+        editor.WaitForAssertion(() => Assert.Single(module.Invocations["mount"]));
+        var options = System.Text.Json.JsonSerializer.SerializeToElement(module.Invocations["mount"][0].Arguments[2]);
+        Assert.True(options.GetProperty("readOnly").GetBoolean());
+        Assert.True(editor.Find("textarea").HasAttribute("disabled"));
+        Assert.Contains("omni-code-editor--disabled", editor.Find(".omni-code-editor").ClassList);
+
+        await editor.InvokeAsync(() => new CodeEditorInteropBridge(editor.Instance).OnCodeChanged("a: 2"));
+
+        Assert.Equal("a: 1", value);
+    }
 }

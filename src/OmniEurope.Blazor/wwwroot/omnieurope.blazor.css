@@ -2809,6 +2809,8 @@ polyline.omni-chart__line { fill: none; }
 .omni-code-editor__host, .omni-code-editor__fallback { block-size: var(--omni-code-editor-height, 20rem); }
 .omni-code-editor__fallback { white-space: pre; }
 .omni-code-editor [hidden] { display: none; }
+/* Disabled: Monaco is read-only and the fallback disabled; the editor is dimmed like a disabled fieldset. */
+.omni-code-editor--disabled { opacity: 0.65; }
 /* OmniDiffViewer: Monaco's diff editor, or the two texts in two panes split by a hairline (the border
    colour showing through the gap), side by side or, inline, one above the other at half height each. */
 .omni-diff-viewer { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; overflow: hidden; }
@@ -3292,5 +3294,9 @@ span.omni-unified-diff__toggle { cursor: default; }
 /* A star is a button around a fixed glyph: its box follows the density like a small button
    (--omni-button-size of .omni-button--small, the control height less 0.5rem, 1.75rem when comfortable). */
 .omni-rating__star { display: inline-grid; place-items: center; inline-size: 1.25rem; block-size: calc(var(--omni-control-height) - 0.5rem); padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
-.omni-rating__star:disabled { cursor: default; opacity: 1; }
+/* Disabled: the stars are dimmed buttons. Read-only: one focusable image, its stars at full strength. */
+.omni-rating--disabled { opacity: 0.55; }
+.omni-rating__star:disabled { cursor: not-allowed; }
+.omni-rating--readonly .omni-rating__star { cursor: default; }
+.omni-rating--readonly:focus-visible { outline: 2px solid var(--omni-color-accent); outline-offset: 1px; }
 .omni-rating__star:focus-visible { outline: 2px solid var(--omni-color-accent); outline-offset: 1px; }

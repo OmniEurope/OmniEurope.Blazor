@@ -163,4 +163,21 @@ public sealed class StatusStripAndBootSplashTests : OmniBunitContext
         splash.Render(parameters => parameters.Add(component => component.SplashId, "other"));
         Assert.Single(module.Invocations["hideBootSplash"]);
     }
+
+    [Fact]
+    public void BootSplash_RefusesAttributesItHasNoElementToCarry()
+    {
+        var module = JSInterop.SetupModule(InteropPath);
+        module.Setup<bool>("hideBootSplash", _ => true).SetResult(true);
+
+        foreach (var attribute in new[] { "class", "id", "data-zone" })
+        {
+            Assert.Throws<InvalidOperationException>(() => Render(builder =>
+            {
+                builder.OpenComponent<OmniBootSplash>(0);
+                builder.AddAttribute(1, attribute, "splash");
+                builder.CloseComponent();
+            }));
+        }
+    }
 }

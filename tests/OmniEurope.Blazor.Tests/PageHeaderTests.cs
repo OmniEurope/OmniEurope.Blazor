@@ -273,7 +273,7 @@ public sealed class PageHeaderTests : OmniBunitContext
         var item = Render<OmniStepsItem>(parameters => parameters
             .Add(component => component.Index, 0)
             .Add(component => component.Title, "Début")
-            .Add(component => component.PanelId, "corps-assistant"));
+            .AddCascadingValue(new OmniStepsSharedPanel("corps-assistant")));
 
         Assert.Equal("corps-assistant", item.Find("button").GetAttribute("aria-controls"));
         Assert.Empty(item.FindAll("section"));

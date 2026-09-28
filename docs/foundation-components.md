@@ -266,7 +266,8 @@ première image :
 La feuille du paquet le dessine par-dessus la page, aux couleurs de l'apparence que `omni-boot.js` a
 posée. Placé une fois dans la mise en page, `<OmniBootSplash />` l'efface en fondu puis le supprime après
 le premier rendu, `OnHidden` recevant vrai s'il y en avait un (`SplashId`, `omni-boot-splash` par
-défaut). Le retrait ne dépend pas de la fin de la transition : un minuteur de 600 ms le garantit dans un
+défaut). Le composant ne rend aucun élément : il ne prend ni `Id`, ni `Class`, ni préréglage, et un
+attribut qu'on lui passe est refusé au rendu plutôt qu'ignoré. Le retrait ne dépend pas de la fin de la transition : un minuteur de 600 ms le garantit dans un
 onglet en arrière-plan, et le mouvement réduit supprime l'écran sans fondu. `omni-boot.js`, script
 classique à inclure dans le `head` avant Blazor (aucun script en ligne, donc compatible
 `script-src 'self'`), applique avant la première image l'apparence, le thème et la langue enregistrés

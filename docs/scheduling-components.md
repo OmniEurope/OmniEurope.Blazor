@@ -1,7 +1,7 @@
 # Planification (famille Scheduling)
 
-La famille Scheduling réunit ce qui place des éléments dans le temps : l'agenda (`OmniScheduler` et ses
-trois vues), la frise `OmniTimeline`, le diagramme de Gantt `OmniGantt` et le déroulement d'étapes
+La famille Scheduling réunit ce qui place des éléments dans le temps : l'agenda (`OmniScheduler`, qui
+dessine lui-même ses trois vues jour, semaine et mois), la frise `OmniTimeline`, le diagramme de Gantt `OmniGantt` et le déroulement d'étapes
 `OmniStepTimeline`. Tout est dessiné en HTML et en SVG ; aucune position n'est posée par un attribut
 `style` ni par un script : la frise se place par des classes, le Gantt et le déroulement par des
 attributs géométriques SVG.

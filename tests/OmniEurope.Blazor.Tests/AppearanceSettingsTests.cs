@@ -96,4 +96,18 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.True(paletteReset);
         Assert.True(fontReset);
     }
+
+    [Fact]
+    public void Id_and_additional_attributes_reach_the_root()
+    {
+        var settings = Render<OmniAppearanceSettings>(parameters => parameters
+            .Add(component => component.Id, "reglages")
+            .AddUnmatched("data-zone", "entete")
+            .AddUnmatched("aria-label", "Apparence"));
+
+        var root = settings.Find(".omni-appearance-settings");
+        Assert.Equal("reglages", root.GetAttribute("id"));
+        Assert.Equal("entete", root.GetAttribute("data-zone"));
+        Assert.Equal("Apparence", root.GetAttribute("aria-label"));
+    }
 }

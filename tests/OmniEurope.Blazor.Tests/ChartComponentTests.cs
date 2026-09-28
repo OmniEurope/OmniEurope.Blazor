@@ -40,7 +40,7 @@ public sealed class ChartComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public void PublicBarColumnAreaAndOptions_RenderNegativeEmptyAndStackedStates()
+    public void PublicBarColumnAndArea_RenderNegativeEmptyAndStackedStates()
     {
         var points = new[] { new OmniChartPoint(0, -5, "Loss"), new OmniChartPoint(1, 10, "Gain") };
         var bars = Render<OmniBarSeries>(parameters => parameters
@@ -53,10 +53,6 @@ public sealed class ChartComponentTests : OmniBunitContext
             .Add(component => component.Data, points)
             .Add(component => component.Title, "Area"));
         var empty = Render<OmniBarSeries>();
-        var options = Render<OmniBarOptions>(parameters => parameters
-            .Add(component => component.Orientation, "vertical")
-            .Add(component => component.Stacked, true)
-            .AddChildContent("Series"));
 
         Assert.Equal(2, bars.FindAll("rect").Count);
         Assert.All(bars.FindAll("rect"), rectangle => Assert.True(Number(rectangle, "width") >= 0));
@@ -69,9 +65,6 @@ public sealed class ChartComponentTests : OmniBunitContext
         Assert.StartsWith("5,95", area.Find("polygon").GetAttribute("points"), StringComparison.Ordinal);
         Assert.Contains("Area", area.Markup, StringComparison.Ordinal);
         Assert.Empty(empty.FindAll("rect"));
-        Assert.Equal("vertical", options.Find("g").GetAttribute("data-orientation"));
-        Assert.Contains("omni-chart__bar-options--stacked", options.Find("g").ClassList);
-        Assert.Contains("Series", options.Markup, StringComparison.Ordinal);
     }
 
     [Theory]

@@ -1,5 +1,5 @@
 <OmniStack Gap="OmniSpacing.Large">
-    <OmniChart Title="Évolution mensuelle">
+    <OmniChart Title="Évolution mensuelle" Description="Valeur au survol et au clavier">
         <OmniGridLines />
         <OmniCategoryAxis Labels="Months" />
         <OmniValueAxis TickCount="5" />
@@ -8,7 +8,6 @@
         <OmniMarkers ColorIndex="0" Data="Deposits" Radius="3" />
         <OmniAreaSeries Title="Décisions" ColorIndex="1" Data="Decisions" />
         <OmniSeriesDataLabels Data="Deposits" />
-        <OmniChartTooltipOptions Enabled="true" Description="Valeur au survol et au clavier" />
         <OmniLegend Label="Séries" Items="LineLegend" Position="OmniLegendPosition.Right" />
     </OmniChart>
 
@@ -32,7 +31,6 @@
     </OmniChart>
 
     <OmniChart Title="Comparatif horizontal">
-        <OmniBarOptions Orientation="horizontal" Stacked="false" />
         <OmniCategoryAxis Labels="Countries" />
         <OmniValueAxis />
         <OmniBarSeries Title="Dossiers par pays" ColorIndex="4" Data="ByCountry" />

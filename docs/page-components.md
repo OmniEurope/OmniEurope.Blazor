@@ -125,8 +125,9 @@ voile : dans un `OmniDialog`, Échap et la croix restent ceux du dialogue.
 Les étapes prennent leur rang dans l'ordre de leur premier rendu : une étape affichée plus tard sous
 condition passe en fin de liste. Un assistant aux étapes variables les déclare toutes.
 
-`OmniStepsItem` gagne pour cela `PanelId` : l'identifiant d'un panneau rendu ailleurs, que le bouton
-contrôle, l'élément ne rendant alors pas de panneau à lui. Laissé nul, rien ne change.
+L'assistant transmet à ses `OmniStepsItem`, par une valeur en cascade interne, l'identifiant de son
+corps : le bouton de chaque étape contrôle ce panneau et l'élément ne rend pas de panneau à lui. Hors
+d'un assistant, chaque étape garde son propre panneau.
 
 `OmniStepsItem.Icon` (`OmniIconName?`) affiche une icône dans la pastille de l'étape à la place de son
 numéro (une étape franchie, par exemple) ; le numéro reste lu par les technologies d'assistance.

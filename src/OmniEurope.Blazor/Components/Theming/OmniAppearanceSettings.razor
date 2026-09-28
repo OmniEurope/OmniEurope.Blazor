@@ -1,7 +1,7 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<div class="@Css("omni-appearance-settings", Compact ? "omni-appearance-settings--compact" : null)">
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-appearance-settings", Compact ? "omni-appearance-settings--compact" : null)">
     <div class="omni-appearance-settings__row">
         <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Palette" /> @Localize("SettingsMode")</span>
         <div class="omni-appearance-settings__actions">

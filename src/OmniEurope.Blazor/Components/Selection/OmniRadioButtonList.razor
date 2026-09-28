@@ -12,12 +12,16 @@
     }
     @foreach (var option in Options)
     {
-        <OmniRadioButtonListItem TValue="TValue"
-                                 Name="@GroupName"
-                                 Value="@option.Value"
-                                 Selected="@IsSelected(option.Value)"
-                                 Disabled="@option.Disabled"
-                                 SelectedValueChanged="Select" >@option.Text</OmniRadioButtonListItem>
+        <label class="@(option.Disabled ? "omni-choice-list__item omni-choice-list__item--disabled" : "omni-choice-list__item")">
+            <input type="radio"
+                   class="omni-radio"
+                   name="@GroupName"
+                   checked="@IsSelected(option.Value)"
+                   disabled="@option.Disabled"
+                   value="@option.Value?.ToString()"
+                   @onchange="() => SelectOption(option)" />
+            <span>@option.Text</span>
+        </label>
     }
     @if (HasError)
     {

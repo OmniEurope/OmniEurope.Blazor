@@ -34,8 +34,6 @@
   <data name="AutocompleteSelected" xml:space="preserve"><value>{0} sélectionné.</value></data>
   <data name="AutocompleteInvalid" xml:space="preserve"><value>La valeur de saisie assistée n'est pas valide.</value></data>
   <data name="BreadcrumbLabel" xml:space="preserve"><value>Fil d'Ariane</value></data>
-  <data name="ChartTooltipDisabled" xml:space="preserve"><value>Les infobulles sont désactivées.</value></data>
-  <data name="ChartTooltipDescription" xml:space="preserve"><value>Les valeurs détaillées sont disponibles au focus ou au survol des séries.</value></data>
   <data name="CheckBoxInvalid" xml:space="preserve"><value>La valeur de case à cocher n'est pas valide.</value></data>
   <data name="CheckBoxListInvalid" xml:space="preserve"><value>La liste de cases à cocher n'est pas valide.</value></data>
   <data name="ColorPickerInvalid" xml:space="preserve"><value>La couleur doit être au format #RRGGBB.</value></data>
@@ -351,8 +349,6 @@
   <data name="PanelMenuToggle" xml:space="preserve"><value>Déplier ou replier {0}</value></data>
   <data name="PasswordRevealLabel" xml:space="preserve"><value>Afficher le mot de passe</value></data>
   <data name="PasswordHideLabel" xml:space="preserve"><value>Masquer le mot de passe</value></data>
-  <data name="PasswordRevealText" xml:space="preserve"><value>Afficher</value></data>
-  <data name="PasswordHideText" xml:space="preserve"><value>Masquer</value></data>
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Menu du profil</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Progression</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0} %</value></data>

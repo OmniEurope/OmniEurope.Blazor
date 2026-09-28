@@ -280,6 +280,8 @@ composant garde sa zone de texte et le dit dans un message d'état ; la valeur r
 - `Language` : identifiant Monaco (`yaml`, `json`, `csharp`, `javascript`, `html`, `css`, `sql`,
   `markdown`, `plaintext`...), changeable à chaud.
 - `ReadOnly`, `ShowLineNumbers`, `WordWrap`, `TabSize`, `Label`, `AriaDescribedBy`.
+- `Disabled` : Monaco passe en lecture seule, la zone de texte de repli est désactivée et l'éditeur est
+  estompé ; la valeur ne change plus, que Monaco soit chargé ou non.
 - `Height` : longueur CSS (`20rem`, `320px`, `50vh`, `%`), posée par le CSSOM ; toute autre valeur lève.
 - `ShowStatusBar` : ligne, colonne et langage sous l'éditeur.
 - Valeur liée dans les deux sens : la frappe remonte au quart de seconde (et à la perte du focus), une
