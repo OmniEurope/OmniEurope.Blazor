@@ -33,6 +33,13 @@ public sealed record OmniThemePreset(
     public IReadOnlyDictionary<string, string> DarkShape { get; init; } = NoTokens;
 
     /// <summary>
+    /// Null when the theme holds the contrast thresholds of the library (WCAG 2.2 AA) with every palette.
+    /// Otherwise the reason it does not: the theme favours its style, and an application that needs the
+    /// guarantee picks another one. The focus ring stays visible in every theme.
+    /// </summary>
+    public string? ContrastWaiver { get; init; }
+
+    /// <summary>
     /// The overrides for one mode. <see cref="OmniAppearance.System"/> has no half of its own and
     /// yields the light one: a caller that follows the system resolves the mode first.
     /// </summary>

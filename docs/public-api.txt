@@ -3014,6 +3014,7 @@ property public OmniEurope.Blazor.Components.OmniThemePalette.Dark : System.Coll
 property public OmniEurope.Blazor.Components.OmniThemePalette.Description : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniThemePalette.Light : System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniThemePalette.Name : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniThemePreset.ContrastWaiver : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniThemePreset.Dark : System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniThemePreset.DarkShape : System.Collections.Generic.IReadOnlyDictionary<System.String,System.String> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniThemePreset.Description : System.String {get(public);init(public)}

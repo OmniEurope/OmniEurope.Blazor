@@ -159,7 +159,11 @@ Le thème ne repeint que sa portée. Les valeurs sont des surcharges des variabl
 
 ### Relief, Givre, Aplat et Épure
 
-Ces quatre thèmes reprennent l'esprit de quatre styles d'interface (néomorphisme, verre dépoli, design plat, minimalisme), redessinés avec les jetons du paquet, et tiennent les mêmes garanties de contraste que les dix autres, avec toutes les palettes et dans les deux modes. Ils lisent quatre crochets de la feuille, neutres pour tout autre thème et remis à zéro sur chaque portée (`[data-omni-theme]`) pour qu'une portée imbriquée ne les hérite pas :
+Ces quatre thèmes reprennent l'esprit de quatre styles d'interface (néomorphisme, verre dépoli, design plat, minimalisme), redessinés avec les jetons du paquet.
+
+Relief, Givre et Aplat sont marqués **contraste non garanti** (décision du propriétaire du 2026-09-28) : leur style prime sur les seuils de contraste. La raison est déclarée dans le catalogue (`ThemeDefinition.ContrastWaiver`) et exposée par `OmniThemePreset.ContrastWaiver`, que la vitrine affiche sous l'aperçu. Ces thèmes restent mesurés : `ThemeContrastMatrixTests` écrit leurs écarts dans la sortie du test au lieu d'échouer, et la sonde de contraste les compte sous `acceptedContrastWaiver`. L'anneau de focus n'est jamais couvert : il reste mesuré et obligatoire dans tous les thèmes. La liste des thèmes marqués est figée dans le test : en marquer un de plus est une modification délibérée, et l'apparence livrée (Essentiel) ne peut pas l'être. Une application qui doit garantir les contrastes choisit un thème non marqué. Épure garde les garanties complètes.
+
+Ils lisent quatre crochets de la feuille, neutres pour tout autre thème et remis à zéro sur chaque portée (`[data-omni-theme]`) pour qu'une portée imbriquée ne les hérite pas :
 
 - `--omni-backdrop` : calques d'image peints par la portée derrière tout son contenu, fixés à la fenêtre (`none` par défaut) ; Givre y pose un dégradé entre `--omni-backdrop-start`, `--omni-backdrop-middle` et `--omni-backdrop-end`, teintes pâles de l'accent, de l'information et de l'avertissement ;
 - `--omni-input-shadow` : ombre des champs (`.omni-input`, `.omni-password`), gardée sous l'anneau de focus ; Relief y creuse ses champs ;

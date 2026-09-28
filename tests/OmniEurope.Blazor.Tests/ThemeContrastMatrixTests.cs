@@ -140,7 +140,7 @@ public sealed class ThemeContrastMatrixTests
                 $"{check.Foreground} ({check.ForegroundValue}) on {check.Background} ({check.BackgroundValue}): {check.Contrast:F2}, below {check.Required:F1}"))
             .ToArray();
 
-        Assert.True(failures.Length == 0, $"{theme} + {palette} in {mode}:\n{string.Join('\n', failures)}");
+        AssertOrAccept(theme, palette, mode, failures);
     }
 
     /// <summary>
@@ -158,14 +158,18 @@ public sealed class ThemeContrastMatrixTests
         var tokens = theme.With(palette).For(mode);
         var fill = ShowcaseThemeTests.Resolve(tokens, tokens["--omni-color-text-muted"]);
 
+        var failures = new List<string>();
         foreach (var frame in new[] { "--omni-card-background", "--omni-layer-fill" })
         {
             var value = ShowcaseThemeTests.Resolve(tokens, tokens.TryGetValue(frame, out var own) ? own : tokens["--omni-color-surface"]);
             var contrast = ThemeColor.Contrast(fill, value);
-            Assert.True(
-                contrast >= Component,
-                string.Create(CultureInfo.InvariantCulture, $"{themeName} + {paletteName} in {mode}: badge fill {fill} on {frame} ({value}): {contrast:F2}, below {Component:F1}"));
+            if (contrast < Component)
+            {
+                failures.Add(string.Create(CultureInfo.InvariantCulture, $"badge fill {fill} on {frame} ({value}): {contrast:F2}, below {Component:F1}"));
+            }
         }
+
+        AssertOrAccept(themeName, paletteName, mode, failures);
     }
 
     /// <summary>
@@ -229,7 +233,41 @@ public sealed class ThemeContrastMatrixTests
             }
         }
 
-        Assert.True(failures.Count == 0, $"{themeName} + {paletteName} in {mode}:\n{string.Join('\n', failures)}");
+        AssertOrAccept(themeName, paletteName, mode, failures);
+    }
+
+    /// <summary>
+    /// The themes whose style wins over the contrast thresholds (owner decision of 2026-09-28). The list
+    /// is written here on purpose: waiving one more theme is a deliberate edit of this test, never a
+    /// side effect, and the shipped look (Essentiel) can never be waived.
+    /// </summary>
+    [Fact]
+    public void Only_the_declared_themes_waive_the_contrast_thresholds_and_each_says_why()
+    {
+        var waived = OmniThemePresets.All.Where(theme => theme.ContrastWaiver is not null).ToArray();
+
+        Assert.Equal(["Relief", "Givre", "Aplat"], waived.Select(theme => theme.Name));
+        Assert.All(waived, theme => Assert.False(string.IsNullOrWhiteSpace(theme.ContrastWaiver)));
+        Assert.Null(OmniThemePresets.All[0].ContrastWaiver);
+    }
+
+    /// <summary>
+    /// A theme without a waiver fails on any shortfall. A waived theme is still measured: its shortfalls
+    /// are written to the test output as accepted, so the gap stays visible, and the test passes.
+    /// </summary>
+    private static void AssertOrAccept(string themeName, string paletteName, OmniAppearance mode, IReadOnlyCollection<string> failures)
+    {
+        var report = $"{themeName} + {paletteName} in {mode}:\n{string.Join('\n', failures)}";
+        if (OmniThemePresets.All.Single(entry => entry.Name == themeName).ContrastWaiver is null)
+        {
+            Assert.True(failures.Count == 0, report);
+            return;
+        }
+
+        if (failures.Count > 0)
+        {
+            TestContext.Current.TestOutputHelper?.WriteLine($"Accepted by contrast waiver ({failures.Count}): {report}");
+        }
     }
 
     private static readonly string[] BackdropStops = ["--omni-backdrop-start", "--omni-backdrop-middle", "--omni-backdrop-end"];

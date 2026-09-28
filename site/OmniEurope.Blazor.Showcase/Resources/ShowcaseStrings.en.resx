@@ -248,6 +248,7 @@
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Forced</value></data>
   <data name="WorkshopStageTitle" xml:space="preserve"><value>Preview</value></data>
   <data name="WorkshopStageLead" xml:space="preserve"><value>Theme {0}: {1} Palette {2}: {3}</value></data>
+  <data name="WorkshopContrastWaiver" xml:space="preserve"><value>Contrast not guaranteed: {0}</value></data>
   <data name="WorkshopContrastTitle" xml:space="preserve"><value>Computed contrasts</value></data>
   <data name="WorkshopContrastLead" xml:space="preserve"><value>Ratio measured on the tokens of the mode shown, then the threshold to reach.</value></data>
   <data name="WorkshopContrastSystem" xml:space="preserve"><value>System mode: the ratios are measured on the light half, since the half the browser picks is only known in the page.</value></data>
