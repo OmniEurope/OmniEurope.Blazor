@@ -2314,7 +2314,9 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid thead .omni-data-grid__column--active { --omni-header-fill: color-mix(in srgb, var(--omni-color-accent) 9%, var(--omni-grid-frame)); --omni-header-fill-hover: color-mix(in srgb, var(--omni-color-accent) 15%, var(--omni-grid-frame)); color: var(--omni-color-accent-strong); }
 .omni-data-grid__column--sortable { cursor: pointer; }
 .omni-data-grid__header { align-items: center; display: flex; gap: var(--omni-space-xs); min-inline-size: 0; }
-.omni-data-grid__sort { align-items: center; background: none; border: 0; color: inherit; cursor: pointer; display: inline-flex; font: inherit; min-inline-size: 0; padding: 0; text-align: start; }
+/* The sort button follows the column alignment (TextAlign reaches the th): a wrapped title of a centred
+   or end-aligned column keeps its lines on that side. */
+.omni-data-grid__sort { align-items: center; background: none; border: 0; color: inherit; cursor: pointer; display: inline-flex; font: inherit; min-inline-size: 0; padding: 0; text-align: inherit; }
 .omni-data-grid--header-truncate .omni-data-grid__title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .omni-data-grid__sort-icon { block-size: 0.9em; display: inline-flex; flex: none; inline-size: 0.9em; margin-inline-start: auto; opacity: 0.7; }
 .omni-data-grid__sort-icon > svg { block-size: 100%; inline-size: 100%; }
@@ -2437,7 +2439,13 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-data-grid__table .omni-data-grid__column--align-end { text-align: end; }
 .omni-data-grid th.omni-data-grid__column--align-center .omni-data-grid__header { justify-content: center; }
 .omni-data-grid th.omni-data-grid__column--align-end .omni-data-grid__header { flex-direction: row-reverse; }
-.omni-data-grid th.omni-data-grid__column--align-end .omni-data-grid__sort-icon { margin-inline: 0 auto; }
+/* Centred and end-aligned sortable headers: the sort icon margin-inline-start: auto (start columns pin
+   the icon to the cell end) took all the free room, so a centred title stayed at the start and an end
+   title had its icon at the far start of the cell, by the previous column. The icon drops that margin and
+   stays beside the title; in a centred column a blank of the icon width before the title (the header gap
+   on each side) balances it, so the title centre is the column centre. */
+.omni-data-grid th:is(.omni-data-grid__column--align-center, .omni-data-grid__column--align-end) .omni-data-grid__sort-icon { margin-inline-start: 0; }
+.omni-data-grid th.omni-data-grid__column--align-center .omni-data-grid__header:has(> .omni-data-grid__sort-icon)::before { content: ""; flex: none; inline-size: 0.9em; }
 .omni-data-grid__summary { color: var(--omni-color-text-muted); margin: 0; }
 .omni-data-grid--lines-none .omni-data-grid__table :is(th, td) { border: 0; }
 .omni-data-grid--lines-vertical tbody td { border-block-end: 0; }

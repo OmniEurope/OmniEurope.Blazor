@@ -26,6 +26,63 @@ public sealed class DataGridColumnAlignmentCssTests
             $"'{rule.Selector}' {Specificity(rule.Selector)} does not outrank '{CellDefault}' {Specificity(CellDefault)}.");
     }
 
+    private const string SortIcon = ".omni-data-grid__sort-icon";
+
+    /// <summary>
+    /// The sort icon's <c>margin-inline-start: auto</c> pins it to the cell end of a start column. In a
+    /// centred column it took all the free room of the header, so <c>justify-content: center</c> had
+    /// nothing to share and the title stayed at the start; in an end column it put the icon at the far
+    /// start of the cell, by the previous column. Both alignments drop it, with no other auto margin, so
+    /// the icon stays beside the title.
+    /// </summary>
+    [Theory]
+    [InlineData("center")]
+    [InlineData("end")]
+    public void AlignedSortableHeader_KeepsTheIconBesideTheTitle(string alignment)
+    {
+        Assert.Equal("auto", ShippedLookTests.Value(ShippedLookTests.Body(SortIcon), "margin-inline-start"));
+
+        var column = ".omni-data-grid__column--align-" + alignment;
+        var icon = ShippedLookTests.Rules()
+            .Where(rule => rule.Selector.Contains(column, StringComparison.Ordinal) && rule.Selector.EndsWith(SortIcon, StringComparison.Ordinal))
+            .ToList();
+        var margin = Assert.Single(icon);
+        Assert.Equal("0", ShippedLookTests.Value(margin.Body, "margin-inline-start"));
+        Assert.DoesNotContain("auto", margin.Body, StringComparison.Ordinal);
+        Assert.True(
+            Specificity(margin.Selector).CompareTo(Specificity(SortIcon)) > 0,
+            $"'{margin.Selector}' {Specificity(margin.Selector)} does not outrank '{SortIcon}' {Specificity(SortIcon)}.");
+    }
+
+    /// <summary>
+    /// A centred sortable header balances the icon after the title with a blank of the same width before
+    /// it (the header gap falls on both sides), so the title's centre is the column's.
+    /// </summary>
+    [Fact]
+    public void CentredSortableHeader_BalancesTheIconBeforeTheTitle()
+    {
+        var header = Assert.Single(ShippedLookTests.Rules(), rule =>
+            rule.Selector.EndsWith(".omni-data-grid__column--align-center .omni-data-grid__header", StringComparison.Ordinal));
+        Assert.Equal("center", ShippedLookTests.Value(header.Body, "justify-content"));
+
+        var balance = Assert.Single(ShippedLookTests.Rules(), rule =>
+            rule.Selector.Contains(".omni-data-grid__column--align-center", StringComparison.Ordinal)
+            && rule.Selector.EndsWith(".omni-data-grid__header:has(> " + SortIcon + ")::before", StringComparison.Ordinal));
+        Assert.Equal("\"\"", ShippedLookTests.Value(balance.Body, "content"));
+        Assert.Equal("none", ShippedLookTests.Value(balance.Body, "flex"));
+        Assert.Equal(
+            ShippedLookTests.Value(ShippedLookTests.Body(SortIcon), "inline-size"),
+            ShippedLookTests.Value(balance.Body, "inline-size"));
+    }
+
+    /// <summary>
+    /// The sort button follows the column alignment: with <c>text-align: start</c> of its own, a wrapped
+    /// title of a centred or end-aligned column kept its lines at the start of the button.
+    /// </summary>
+    [Fact]
+    public void SortButton_InheritsTheColumnAlignment() =>
+        Assert.Equal("inherit", ShippedLookTests.Value(ShippedLookTests.Body(".omni-data-grid__sort"), "text-align"));
+
     [Theory]
     [InlineData(CellDefault, 0, 1, 1)]
     [InlineData(".omni-data-grid__column--align-end", 0, 1, 0)]
