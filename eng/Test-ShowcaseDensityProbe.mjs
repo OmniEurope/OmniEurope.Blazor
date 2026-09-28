@@ -144,12 +144,39 @@ window.__omniDensityMeasure = (density, exempt) => {
   const blockProperties = ['height', 'min-height', 'block-size', 'min-block-size', 'padding-top', 'padding-bottom', 'padding-block-start', 'padding-block-end'];
   // A declaration that sets nothing (padding: 0, height: auto) gives the element no size of its own.
   const neutral = new Set(['', '0', '0px', 'auto', 'none', 'initial', 'inherit', 'unset']);
+  // A shorthand holding var() (padding: var(--x) 1rem) leaves its longhands empty in the CSSOM, so
+  // the vertical parts are read from the shorthand itself: the first and third values of padding
+  // (the first alone when it has one or two), every value of padding-block.
+  const values = text => {
+    const parts = [];
+    let depth = 0;
+    let current = '';
+    for (const character of text.trim()) {
+      if (character === '(') depth++;
+      if (character === ')') depth--;
+      if (depth === 0 && /\\s/.test(character)) {
+        if (current) parts.push(current);
+        current = '';
+      } else {
+        current += character;
+      }
+    }
+    if (current) parts.push(current);
+    return parts;
+  };
+  const verticalShorthand = style => {
+    const padding = values(style.getPropertyValue('padding'));
+    const block = values(style.getPropertyValue('padding-block'));
+    return [...(padding.length > 2 ? [padding[0], padding[2]] : padding.slice(0, 1)), ...block];
+  };
+  const sized = style => blockProperties.some(property => !neutral.has(style.getPropertyValue(property).trim()))
+    || verticalShorthand(style).some(value => !neutral.has(value));
   const sheet = [...document.styleSheets].find(candidate => (candidate.href ?? '').includes('omnieurope.blazor'));
   const rules = [];
   const walk = list => {
     for (const rule of list) {
       if (rule instanceof CSSStyleRule) {
-        if (blockProperties.some(property => !neutral.has(rule.style.getPropertyValue(property).trim()))) rules.push(rule.selectorText);
+        if (sized(rule.style)) rules.push(rule.selectorText);
         if (rule.cssRules?.length) walk(rule.cssRules);
       } else if (rule.cssRules) {
         walk(rule.cssRules);
