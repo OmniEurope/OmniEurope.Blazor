@@ -2,36 +2,36 @@
     @* Plein : la sévérité peint le fond, dessiné comme un bouton. Information et succès sur un fond
        clair à texte sombre, attention et danger sur un fond profond à texte clair. Le disque porte le
        glyphe de la sévérité. *@
-    <OmniAlert Severity="OmniAlertSeverity.Info" Variant="OmniAlertVariant.Filled" Title="Maintenance">
+    <OmniAlert Severity="OmniSeverity.Info" Variant="OmniAlertVariant.Filled" Title="Maintenance">
         Le service sera indisponible dimanche de 2 h à 4 h.
     </OmniAlert>
-    <OmniAlert Severity="OmniAlertSeverity.Success" Variant="OmniAlertVariant.Filled" Title="Paquet publié">
+    <OmniAlert Severity="OmniSeverity.Success" Variant="OmniAlertVariant.Filled" Title="Paquet publié">
         OmniEurope.Blazor est disponible sur NuGet.org.
     </OmniAlert>
-    <OmniAlert Severity="OmniAlertSeverity.Warning" Variant="OmniAlertVariant.Filled" Title="Certificat bientôt expiré" Dismissible="true">
+    <OmniAlert Severity="OmniSeverity.Warning" Variant="OmniAlertVariant.Filled" Title="Certificat bientôt expiré" Dismissible="true">
         Le certificat de signature expire dans 12 jours.
     </OmniAlert>
-    <OmniAlert Severity="OmniAlertSeverity.Danger" Variant="OmniAlertVariant.Filled" Title="Échec">
+    <OmniAlert Severity="OmniSeverity.Danger" Variant="OmniAlertVariant.Filled" Title="Échec">
         La connexion au service a échoué.
     </OmniAlert>
     @* En contour : la surface de la page, un filet de la sévérité, le texte de la page ; le disque
        garde le fond et le glyphe de la sévérité. *@
-    <OmniAlert Severity="OmniAlertSeverity.Info" Title="Information">
+    <OmniAlert Severity="OmniSeverity.Info" Title="Information">
         La bibliothèque lit toutes ses couleurs dans des variables CSS.
     </OmniAlert>
-    <OmniAlert Severity="OmniAlertSeverity.Success" Title="Enregistré">
+    <OmniAlert Severity="OmniSeverity.Success" Title="Enregistré">
         Les modifications ont été prises en compte.
     </OmniAlert>
     @* Icon remplace le glyphe dans le disque par une icône de l'application. *@
-    <OmniAlert Severity="OmniAlertSeverity.Warning" Title="Attention">
+    <OmniAlert Severity="OmniSeverity.Warning" Title="Attention">
         <Icon><OmniIcon Name="OmniIconName.Warning" /></Icon>
         <ChildContent>Ce réglage sera appliqué à toutes les pages.</ChildContent>
     </OmniAlert>
-    <OmniAlert Severity="OmniAlertSeverity.Danger">
+    <OmniAlert Severity="OmniSeverity.Danger">
         Le fichier dépasse la taille autorisée.
     </OmniAlert>
     @* Dismissible ajoute la croix ; sans lui, une alerte reste affichée. *@
-    <OmniAlert Severity="OmniAlertSeverity.Info" Title="Astuce" Dismissible="true">
+    <OmniAlert Severity="OmniSeverity.Info" Title="Astuce" Dismissible="true">
         Cette alerte se ferme avec sa croix.
     </OmniAlert>
 </OmniStack>

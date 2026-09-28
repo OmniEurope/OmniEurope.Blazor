@@ -18,10 +18,11 @@ public partial class OmniStepsItem
 
     /// <summary>
     /// An icon shown in the step's marker instead of its number, which stays readable by assistive
-    /// technologies. Null, the default, shows the number.
+    /// technologies. A slot, as on the other components that take an icon, usually an
+    /// <see cref="OmniIcon"/>. Null, the default, shows the number.
     /// </summary>
     [Parameter]
-    public OmniIconName? Icon { get; set; }
+    public RenderFragment? Icon { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

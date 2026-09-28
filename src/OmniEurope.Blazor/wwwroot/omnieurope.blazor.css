@@ -2196,6 +2196,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-steps__item { display: contents; }
 .omni-steps__button { align-items: center; display: inline-flex; gap: var(--omni-space-xs); }
 .omni-steps__number { align-items: center; background: var(--omni-color-surface-muted); border-radius: var(--omni-radius-circle); display: inline-flex; height: calc(var(--omni-control-height) - 0.5rem); justify-content: center; width: calc(var(--omni-control-height) - 0.5rem); }
+.omni-steps__icon { align-items: center; display: inline-flex; }
 .omni-steps__item--selected .omni-steps__number { background: var(--omni-color-accent); color: var(--omni-color-on-accent); }
 .omni-steps__panel { flex-basis: 100%; order: 2; padding-block: var(--omni-space-lg); }
 .omni-popover { display: inline-block; position: relative; }

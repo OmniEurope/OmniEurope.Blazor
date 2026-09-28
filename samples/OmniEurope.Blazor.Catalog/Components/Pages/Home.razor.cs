@@ -80,7 +80,7 @@ public partial class Home : IDisposable
         builder.AddAttribute(4, nameof(OmniButton.ChildContent), (RenderFragment)(content => content.AddContent(0, Text["NestedOpen"])));
         builder.CloseComponent();
     };
-    private void Notify() => Overlays.Notify(Text["NotificationMessage"], OmniNotificationSeverity.Success);
+    private void Notify() => Overlays.Notify(Text["NotificationMessage"], OmniSeverity.Success);
 
     public void Dispose() => Overlays.Dispose();
 

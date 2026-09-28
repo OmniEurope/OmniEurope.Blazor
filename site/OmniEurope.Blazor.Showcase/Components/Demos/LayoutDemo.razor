@@ -140,7 +140,7 @@
                                 <OmniButton Variant="OmniButtonVariant.Secondary"><OmniIcon Name="OmniIconName.Close" /><span>Annuler</span></OmniButton>
                                 <OmniBadge Variant="OmniBadgeVariant.Info">3 alertes</OmniBadge>
                             </OmniRow>
-                            <OmniAlert Severity="OmniAlertSeverity.Success" Title="Déploiement terminé">La version 1.0.1 est en ligne.</OmniAlert>
+                            <OmniAlert Severity="OmniSeverity.Success" Title="Déploiement terminé">La version 1.0.1 est en ligne.</OmniAlert>
                             <OmniSettingsTile Title="Alertes par courriel" Description="À chaque changement.">
                                 <Icon><OmniIcon Name="OmniIconName.Bell" /></Icon>
                                 <ChildContent><OmniSwitch @bind-Value="EmailAlerts" /></ChildContent>
@@ -154,7 +154,7 @@
 
     @* Densité propre à un composant : dans une page confortable, chacun de ces composants porte la sienne. *@
     <OmniStack Gap="OmniSpacing.Small">
-        <OmniAlert Severity="OmniAlertSeverity.Info" Density="OmniDensity.Spacious">Une alerte aérée dans une page confortable.</OmniAlert>
+        <OmniAlert Severity="OmniSeverity.Info" Density="OmniDensity.Spacious">Une alerte aérée dans une page confortable.</OmniAlert>
         <OmniTabs Label="Onglets compacts" Density="OmniDensity.Compact" @bind-Value="DensityTab" Keys="DensityTabKeys">
             <OmniTabsItem Key="general" Title="Général">Réglages généraux.</OmniTabsItem>
             <OmniTabsItem Key="securite" Title="Sécurité">Accès et jetons.</OmniTabsItem>

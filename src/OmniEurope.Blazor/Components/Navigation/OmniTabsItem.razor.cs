@@ -23,9 +23,6 @@ public partial class OmniTabsItem
     public RenderFragment? Icon { get; set; }
 
     [Parameter]
-    public OmniIconName? IconName { get; set; }
-
-    [Parameter]
     public bool Disabled { get; set; }
 
     /// <summary>

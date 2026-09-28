@@ -30,7 +30,7 @@ internal static class OmniOverlayHosts
                 string.Equals(dialog.CloseLabel, LegacyFrenchCloseLabel, StringComparison.Ordinal)
                     ? string.Empty
                     : dialog.CloseLabel);
-            builder.AddAttribute(sequence++, nameof(OmniDialog.CloseOnBackdrop), dialog.CloseOnBackdropClick);
+            builder.AddAttribute(sequence++, nameof(OmniDialog.CloseOnBackdrop), dialog.CloseOnBackdrop);
             builder.AddAttribute(sequence++, nameof(OmniDialog.Dismissible), dialog.Dismissible);
             builder.AddAttribute(sequence++, nameof(OmniDialog.ShowClose), dialog.ShowClose);
             builder.AddAttribute(sequence++, nameof(OmniDialog.CloseOnEscape), dialog.CloseOnEscape);
@@ -64,10 +64,10 @@ internal static class OmniOverlayHosts
         var position = options.Position.ToString().ToLowerInvariant();
         // Errors never fold into the pile: what went wrong stays readable in full.
         var errors = options.Group
-            ? notifications.Where(notification => notification.Severity == OmniNotificationSeverity.Error).ToList()
+            ? notifications.Where(notification => notification.Severity == OmniSeverity.Danger).ToList()
             : [];
         var others = options.Group
-            ? notifications.Where(notification => notification.Severity != OmniNotificationSeverity.Error).ToList()
+            ? notifications.Where(notification => notification.Severity != OmniSeverity.Danger).ToList()
             : [.. notifications];
         // A pile only stacks once there are two cards to stack, and only then carries a count.
         var stacked = options.Group && others.Count > 1;

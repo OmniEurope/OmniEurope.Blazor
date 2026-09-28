@@ -5,12 +5,12 @@
     <div class="demo-notices">
         @if (ShowDone)
         {
-            <OmniNotification Severity="OmniNotificationSeverity.Success" Title="@Text["NoticeDoneTitle"]"
+            <OmniNotification Severity="OmniSeverity.Success" Title="@Text["NoticeDoneTitle"]"
                               Message="@Text["NoticeDoneMessage"]" OnDismiss="@(() => ShowDone = false)" />
         }
         @if (ShowRefused)
         {
-            <OmniNotification Severity="OmniNotificationSeverity.Error" Title="@Text["NoticeRefusedTitle"]"
+            <OmniNotification Severity="OmniSeverity.Danger" Title="@Text["NoticeRefusedTitle"]"
                               Message="@Text["NoticeRefusedMessage"]" OnDismiss="@(() => ShowRefused = false)" />
         }
         @if (!ShowDone && !ShowRefused)

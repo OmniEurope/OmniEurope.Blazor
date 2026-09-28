@@ -9,7 +9,7 @@
     <OmniStack Gap="OmniSpacing.Medium">
         @if (Errors.Count > 0)
         {
-            <OmniAlert Severity="OmniAlertSeverity.Danger" Variant="OmniAlertVariant.Filled"
+            <OmniAlert Severity="OmniSeverity.Danger" Variant="OmniAlertVariant.Filled"
                        Title="@Text["VFormSummaryTitle", Errors.Count]">
                 <ul class="demo-form-errors">
                     @foreach (var error in Errors)

@@ -194,7 +194,7 @@ public sealed partial class ConventionGuardTests
             ("Foundation", "OmniLayoutWidth"), ("Foundation", "OmniProgressVariant"), ("Foundation", "OmniProgressShape"),
             ("Foundation", "OmniSidebarPosition"), ("Foundation", "OmniAppearance"), ("Foundation", "OmniDensity"),
             ("Navigation", "OmniTabsContext"), ("Navigation", "OmniStepsContext"),
-            ("Overlays", "OmniNotificationSeverity"), ("Overlays", "OmniDialogRequest"),
+            ("Feedback", "OmniSeverity"), ("Overlays", "OmniDialogRequest"),
             ("Overlays", "OmniNotificationMessage"), ("Overlays", "OmniOverlayService"),
             ("Scheduling", "OmniSchedulerView"), ("Scheduling", "OmniSchedulerAppointment"),
             ("Selection", "OmniOption"), ("Selection", "OmniUploadRequest"),

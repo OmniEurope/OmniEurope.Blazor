@@ -42,7 +42,7 @@
         <p class="showcase-source-note">@Text["GallerySourceNote"]</p>
         @if (Source is null)
         {
-            <OmniAlert Severity="OmniAlertSeverity.Warning" Title="@Text["GallerySourceMissingTitle"]">
+            <OmniAlert Severity="OmniSeverity.Warning" Title="@Text["GallerySourceMissingTitle"]">
                 @Text["GallerySourceMissing"]
             </OmniAlert>
         }

@@ -9,7 +9,7 @@
             </ChildContent>
             <ErrorContent Context="error">
                 <OmniMain ContentWidth="OmniLayoutWidth.Wide">
-                    <OmniAlert Severity="OmniAlertSeverity.Danger" Title="@Text["CatalogErrorTitle"]">
+                    <OmniAlert Severity="OmniSeverity.Danger" Title="@Text["CatalogErrorTitle"]">
                         @Text["CatalogErrorMessage"]
                         <OmniButton OnClick="@(_ => RecoverAsync())">@Text["Retry"]</OmniButton>
                     </OmniAlert>

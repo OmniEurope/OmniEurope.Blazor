@@ -1,4 +1,5 @@
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
@@ -12,10 +13,15 @@ public sealed class StepsItemIconTests : OmniBunitContext
         var item = Render<OmniStepsItem>(parameters => parameters
             .Add(component => component.Index, 1)
             .Add(component => component.Title, "Validation")
-            .Add(component => component.Icon, OmniIconName.Check));
+            .Add(component => component.Icon, (RenderFragment)(builder =>
+            {
+                builder.OpenComponent<OmniIcon>(0);
+                builder.AddAttribute(1, nameof(OmniIcon.Name), OmniIconName.Check);
+                builder.CloseComponent();
+            })));
 
         var marker = item.Find(".omni-steps__number");
-        Assert.NotNull(marker.QuerySelector("svg"));
+        Assert.NotNull(marker.QuerySelector(".omni-steps__icon[aria-hidden=true] svg"));
         Assert.Equal("2", marker.QuerySelector(".omni-visually-hidden")!.TextContent);
     }
 

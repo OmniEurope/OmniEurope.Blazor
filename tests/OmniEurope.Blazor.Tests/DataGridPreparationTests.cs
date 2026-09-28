@@ -5,7 +5,7 @@ using OmniEurope.Blazor.Components;
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
-/// A grid with a <see cref="OmniDataGrid{TItem}.LoadingTemplate"/> stays hidden until
+/// A grid with a <see cref="OmniDataGrid{TItem}.LoadingContent"/> stays hidden until
 /// <c>omni-grid.js</c> says its visible images are ready. That wait is bounded: when it times out or
 /// fails, the grid is shown as it is rather than left hidden. The script's own image timeout runs in
 /// a browser; here the .NET side receives what a timeout or a failure hands it.
@@ -64,5 +64,5 @@ public sealed class DataGridPreparationTests : OmniBunitContext
     private IRenderedComponent<OmniDataGrid<int>> RenderPreparedGrid() =>
         Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, [1, 2])
-            .Add(component => component.LoadingTemplate, builder => builder.AddContent(0, "Chargement")));
+            .Add(component => component.LoadingContent, builder => builder.AddContent(0, "Chargement")));
 }

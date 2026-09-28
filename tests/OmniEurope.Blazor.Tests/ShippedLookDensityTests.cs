@@ -541,17 +541,17 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData(OmniNotificationSeverity.Information, OmniAlertSeverity.Info)]
-    [InlineData(OmniNotificationSeverity.Success, OmniAlertSeverity.Success)]
-    [InlineData(OmniNotificationSeverity.Warning, OmniAlertSeverity.Warning)]
-    [InlineData(OmniNotificationSeverity.Error, OmniAlertSeverity.Danger)]
-    public void NotificationMark_DrawsTheGlyphOfTheAlertOfTheSameSeverity(OmniNotificationSeverity notificationSeverity, OmniAlertSeverity alertSeverity)
+    [InlineData(OmniSeverity.Info)]
+    [InlineData(OmniSeverity.Success)]
+    [InlineData(OmniSeverity.Warning)]
+    [InlineData(OmniSeverity.Danger)]
+    public void NotificationMark_DrawsTheGlyphOfTheAlertOfTheSameSeverity(OmniSeverity severity)
     {
         var notification = Render<OmniNotification>(parameters => parameters
             .Add(component => component.Message, "Message")
-            .Add(component => component.Severity, notificationSeverity));
+            .Add(component => component.Severity, severity));
         var alert = Render<OmniAlert>(parameters => parameters
-            .Add(component => component.Severity, alertSeverity)
+            .Add(component => component.Severity, severity)
             .AddChildContent("Message"));
 
         Assert.Equal(

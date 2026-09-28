@@ -85,7 +85,7 @@
     <aside class="showcase-workshop__rail" aria-labelledby="customize-contrast-title">
         <OmniHeading Id="customize-contrast-title" Level="OmniHeadingLevel.H2">@Text["WorkshopContrastTitle"]</OmniHeading>
         <p>@Text[Theme.Mode is ThemeMode.System ? "WorkshopContrastSystem" : "WorkshopContrastLead"]</p>
-        <OmniAlert Severity="@(Failures == 0 ? OmniAlertSeverity.Success : OmniAlertSeverity.Warning)">
+        <OmniAlert Severity="@(Failures == 0 ? OmniSeverity.Success : OmniSeverity.Warning)">
             @Text["WorkshopContrastVerdict", Contrasts.Count - Failures, Contrasts.Count]
         </OmniAlert>
         <ul class="showcase-contrasts">

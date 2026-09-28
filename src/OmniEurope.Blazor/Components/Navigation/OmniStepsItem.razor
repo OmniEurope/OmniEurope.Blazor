@@ -3,10 +3,10 @@
 
 <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-steps__item", Selected ? "omni-steps__item--selected" : null)" role="listitem">
     <button id="@ButtonId" type="button" class="omni-steps__button" aria-current="@(Selected ? "step" : null)" aria-controls="@ControlledPanelId" disabled="@Disabled" @onclick="SelectAsync">
-        @if (Icon is { } icon)
+        @if (Icon is not null)
         {
             @* The icon replaces the number on screen; the number stays for assistive technologies. *@
-            <span class="omni-steps__number"><OmniIcon Name="icon" /><span class="omni-visually-hidden">@(Index + 1)</span></span>
+            <span class="omni-steps__number"><span class="omni-steps__icon" aria-hidden="true">@Icon</span><span class="omni-visually-hidden">@(Index + 1)</span></span>
         }
         else
         {

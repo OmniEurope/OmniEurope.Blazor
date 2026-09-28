@@ -24,7 +24,7 @@ public partial class OmniNotification
     public string? Title { get; set; }
 
     [Parameter]
-    public OmniNotificationSeverity Severity { get; set; }
+    public OmniSeverity Severity { get; set; }
 
     [Parameter]
     public bool Dismissible { get; set; } = true;
@@ -64,17 +64,24 @@ public partial class OmniNotification
     [Parameter]
     public EventCallback<bool> OnHeldChanged { get; set; }
 
-    private string SeverityClass => $"omni-notification--{Severity.ToString().ToLowerInvariant()}";
-    private string Role => Severity == OmniNotificationSeverity.Error ? "alert" : "status";
-    private string LiveMode => Severity == OmniNotificationSeverity.Error ? "assertive" : "polite";
+    // The classes keep the names they had before the severities were merged with those of the alert.
+    private string SeverityClass => Severity switch
+    {
+        OmniSeverity.Success => "omni-notification--success",
+        OmniSeverity.Warning => "omni-notification--warning",
+        OmniSeverity.Danger => "omni-notification--error",
+        _ => "omni-notification--information"
+    };
+    private string Role => Severity == OmniSeverity.Danger ? "alert" : "status";
+    private string LiveMode => Severity == OmniSeverity.Danger ? "assertive" : "polite";
     private string MessageId => _messageId;
 
     // The mark is the alert disc: the same glyph per severity, on the same bright or deep fill.
     private string GlyphPath => Severity switch
     {
-        OmniNotificationSeverity.Success => OmniSeverityGlyph.Success,
-        OmniNotificationSeverity.Warning => OmniSeverityGlyph.Warning,
-        OmniNotificationSeverity.Error => OmniSeverityGlyph.Danger,
+        OmniSeverity.Success => OmniSeverityGlyph.Success,
+        OmniSeverity.Warning => OmniSeverityGlyph.Warning,
+        OmniSeverity.Danger => OmniSeverityGlyph.Danger,
         _ => OmniSeverityGlyph.Information
     };
 

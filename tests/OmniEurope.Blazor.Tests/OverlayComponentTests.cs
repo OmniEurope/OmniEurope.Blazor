@@ -60,7 +60,7 @@ public sealed class OverlayComponentTests : OmniBunitContext
             .AddChildContent("Application"));
 
         service.OpenDialog(new OmniDialogRequest("Confirmation", Content("Continuer ?")));
-        service.Notify("Enregistré", OmniNotificationSeverity.Success, "Succès");
+        service.Notify("Enregistré", OmniSeverity.Success, "Succès");
 
         host.WaitForAssertion(() => Assert.Contains("Confirmation", host.Markup, StringComparison.Ordinal));
         Assert.Contains("Enregistré", host.Markup, StringComparison.Ordinal);
@@ -317,7 +317,7 @@ public sealed class OverlayComponentTests : OmniBunitContext
 
         var notification = Render<OmniNotification>(parameters => parameters
             .Add(component => component.Message, "Échec")
-            .Add(component => component.Severity, OmniNotificationSeverity.Error));
+            .Add(component => component.Severity, OmniSeverity.Danger));
         Assert.Equal("alert", notification.Find("article").GetAttribute("role"));
         Assert.Equal("assertive", notification.Find("article").GetAttribute("aria-live"));
     }

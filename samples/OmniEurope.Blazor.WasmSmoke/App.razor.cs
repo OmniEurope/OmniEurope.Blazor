@@ -50,7 +50,7 @@ public partial class App
         {
             // The first click also exercises the overlay service under the strict CSP: a toast and a
             // modal dialog, both rendered by the host from the injected service.
-            Overlays.Notify(Text["Notified"], OmniNotificationSeverity.Success);
+            Overlays.Notify(Text["Notified"], OmniSeverity.Success);
             Overlays.OpenDialog(new OmniDialogRequest(
                 Text["DialogTitle"],
                 builder => builder.AddContent(0, Text["DialogBody"].Value)));

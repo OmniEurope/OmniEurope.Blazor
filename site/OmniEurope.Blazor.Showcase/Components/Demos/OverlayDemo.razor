@@ -48,7 +48,7 @@
         </OmniProfileMenu>
     </OmniStack>
 
-    @* Dialogues ouverts par OmniOverlayService : CloseOnBackdropClick="false" ignore le clic sur le
+    @* Dialogues ouverts par OmniOverlayService : CloseOnBackdrop="false" ignore le clic sur le
        voile (la croix et Échap ferment toujours) ; Dismissible="false" retire la croix, ignore Échap
        et le voile, annonce un alertdialog, et seul son contenu le ferme par CloseDialog. *@
     <OmniComponentsHost OverlayService="Overlays">
@@ -78,13 +78,13 @@
 
     <p>Dernière action : @(Last ?? "aucune")</p>
 
-    <OmniNotification Severity="OmniNotificationSeverity.Information" Title="Information"
+    <OmniNotification Severity="OmniSeverity.Info" Title="Information"
                       Message="Le traitement de nuit démarrera à 23 h." />
-    <OmniNotification Severity="OmniNotificationSeverity.Success" Title="Terminé"
+    <OmniNotification Severity="OmniSeverity.Success" Title="Terminé"
                       Message="Les 14 pièces ont été importées." Dismissible="true"
                       OnDismiss="@(() => Last = "Notification fermée")" />
-    <OmniNotification Severity="OmniNotificationSeverity.Warning" Message="Le quota est presque atteint." />
-    <OmniNotification Severity="OmniNotificationSeverity.Error" Title="Échec"
+    <OmniNotification Severity="OmniSeverity.Warning" Message="Le quota est presque atteint." />
+    <OmniNotification Severity="OmniSeverity.Danger" Title="Échec"
                       Message="La connexion au service a échoué." />
 
     <OmniDialog Title="Confirmer la suppression" Open="DialogOpen"

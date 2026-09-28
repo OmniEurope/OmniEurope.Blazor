@@ -17,7 +17,7 @@ La grille accepte deux sources exclusives.
 
 `Count` impose le total lorsque l'hôte le connaît déjà. `IsLoading` force l'état occupé.
 
-Avec `LoadingTemplate`, la préparation initiale couvre la grille entière jusqu'à stabilisation
+Avec `LoadingContent`, la préparation initiale couvre la grille entière jusqu'à stabilisation
 de la plage virtualisée et chargement des images visibles. La grille conserve sa géométrie pendant
 cette attente et révèle ensuite son contenu en une fois. Une instance déjà préparée ne réaffiche
 pas ce voile lorsqu'elle redevient visible ; un nouveau `IsLoading` reste affiché normalement.
@@ -183,7 +183,7 @@ Limites assumées : avec `Load`, la virtualisation refuse `Groups` et `DetailTem
 une exception explicite, car le serveur ne livre que des blocs de lignes et aucun groupe ne se
 calcule sans l'ensemble. La pagination est ignorée dans ce mode.
 
-`EmptyTemplate` remplace le texte `EmptyText` quand la grille n'a aucune ligne ; sans lui, le
+`EmptyContent` remplace le texte `EmptyText` quand la grille n'a aucune ligne ; sans lui, le
 texte reste affiché comme avant.
 
 `OmniDataList` avec `Virtualize` applique la même mécanique sans viewport propre : il suit l'ancêtre
