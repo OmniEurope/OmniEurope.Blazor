@@ -304,7 +304,7 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     [Theory]
     [InlineData(".omni-card", "background", "var(--omni-card-background, var(--omni-color-surface))")]
     [InlineData(".omni-card", "border", "var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border))")]
-    [InlineData(".omni-dialog", "background", "var(--omni-card-background, var(--omni-color-surface))")]
+    [InlineData(".omni-dialog", "background", "var(--omni-dialog-background, var(--omni-card-background, var(--omni-color-surface)))")]
     [InlineData(".omni-dialog", "box-shadow", "inset 0 0 0 var(--omni-border-width) var(--omni-card-border-color, transparent), var(--omni-overlay-shadow, var(--omni-shadow-lg))")]
     [InlineData(".omni-split-button__menu,\n.omni-context-menu__popup", "box-shadow", "var(--omni-overlay-shadow, var(--omni-shadow-md))")]
     [InlineData(".omni-popover__panel", "box-shadow", "var(--omni-overlay-shadow, var(--omni-shadow-md))")]
@@ -317,6 +317,36 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     public void LayerTokens_FallBackToThePreviousLook(string selector, string property, string expected)
     {
         Assert.Equal(expected, Value(Body(selector), property));
+    }
+
+    // ---- The hooks of Relief and Givre, each neutral when a theme does not set it ----
+
+    [Theory]
+    [InlineData(".omni-theme-scope", "background-image", "var(--omni-backdrop, none)")]
+    [InlineData(".omni-input", "box-shadow", "var(--omni-input-shadow, 0 0 #0000)")]
+    [InlineData(".omni-input:focus-visible", "box-shadow", "var(--omni-focus-ring), var(--omni-input-shadow, 0 0 #0000)")]
+    [InlineData(".omni-overlay", "backdrop-filter", "var(--omni-scrim-filter, none)")]
+    public void ThemeHooks_AreNeutralWithoutATheme(string selector, string property, string expected)
+    {
+        Assert.Equal(expected, Value(Body(selector), property));
+    }
+
+    [Fact]
+    public void ThemeHooks_AreResetOnEveryScope()
+    {
+        var body = Body("[data-omni-theme]");
+        Assert.Equal("none", Value(body, "--omni-backdrop"));
+        Assert.Equal("0 0 #0000", Value(body, "--omni-input-shadow"));
+        Assert.Equal("none", Value(body, "--omni-scrim-filter"));
+        Assert.Equal("initial", Value(body, "--omni-dialog-background"));
+    }
+
+    [Fact]
+    public void TranslucentFloatingLayers_FallBackToTheOpaqueSurfaceWithoutBackdropFilter()
+    {
+        Assert.Matches(
+            @"@supports not \(\(backdrop-filter: blur\(1px\)\) or \(-webkit-backdrop-filter: blur\(1px\)\)\) \{\s*\* \{ --omni-overlay-background: var\(--omni-color-surface\); \}",
+            Uncommented(Css));
     }
 
     [Theory]

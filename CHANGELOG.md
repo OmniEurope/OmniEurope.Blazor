@@ -76,6 +76,8 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Added
 
+- Quatre thèmes et quatre palettes, soit quatorze de chaque (392 jeux de jetons avec les deux modes) : Relief (néomorphisme, palette Nuage), Givre (verre dépoli, palette Crépuscule), Aplat (design plat, palette Pastel) et Épure (minimalisme, palette Encre). Toute palette peint tout thème et les garanties de contraste tiennent sur chaque combinaison, ces quatre thèmes compris ; les compromis de style consentis pour cela sont décrits dans `docs/foundation-components.md`. Démontrés dans le personnalisateur de la vitrine.
+- Crochets de thème neutres par défaut et remis à zéro sur chaque portée : `--omni-backdrop` (fond peint par `OmniThemeScope` derrière son contenu), `--omni-input-shadow` (ombre des champs, sous l'anneau de focus), `--omni-scrim-filter` (filtre du voile d'un dialogue) et `--omni-dialog-background` (fond du dialogue, repli sur `--omni-card-background`). Sans `backdrop-filter`, un calque flottant translucide retombe sur la surface opaque.
 - `OmniStack.Wrap` (désactivé par défaut) : les éléments passent à la ligne (`flex-wrap: wrap`, classe `omni-stack--wrap`), l'espacement séparant aussi les lignes ; ignoré quand `Overflow` garde une seule ligne. Remplace une `OmniRow` sans `OmniColumn`. Démontré dans la vitrine (Mise en page), documenté dans `docs/foundation-components.md`.
 - `OmniCheckBox.ChildContent` : le texte de la case, qui la nomme et la bascule au clic ; liée à un `bool`, un `label.omni-checkbox-label` enveloppe la case et son texte. Sans lui, la case est rendue seule, comme avant.
 - `OmniListBox.Multiple` : la liste devient un `select multiple` et lie les valeurs choisies (`IReadOnlyList<TValue>`), options désactivées exclues.
