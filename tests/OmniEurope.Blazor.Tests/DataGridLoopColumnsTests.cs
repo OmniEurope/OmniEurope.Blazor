@@ -25,7 +25,8 @@ public sealed class DataGridLoopColumnsTests : OmniBunitContext
 
         host.InvokeAsync(host.Instance.Rerender);
 
-        // One parent render re-renders the grid once, not in a loop.
+        // One parent render re-renders the grid at most twice (its own render, then the one the adopted
+        // delegates queue in the same batch), not in a loop.
         Assert.InRange(host.Instance.CellRenders - afterFirstRender, 0, CellsPerRender * 2);
     }
 
@@ -41,9 +42,49 @@ public sealed class DataGridLoopColumnsTests : OmniBunitContext
 
         host.InvokeAsync(host.Instance.Rerender);
 
+        // At most two grid renders: the parent's, and the one the adopted delegates queue in the same batch.
         Assert.True(
-            host.Instance.CellRenders - afterFirstRender <= afterFirstRender,
+            host.Instance.CellRenders - afterFirstRender <= afterFirstRender * 2,
             $"A parent render read {host.Instance.CellRenders - afterFirstRender} values after a first render that read {afterFirstRender}.");
+    }
+
+    [Theory]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    public void LoopFilterLists_OfTheSameContent_DoNotReRenderTheGridWithoutEnd(bool literalValues, bool literalOperators)
+    {
+        var host = Render<DataGridLoopColumnsTestHost>(parameters => parameters
+            .Add(component => component.LiteralFilterValues, literalValues)
+            .Add(component => component.LiteralFilterOperators, literalOperators));
+
+        host.WaitForAssertion(() => Assert.Equal(2, host.FindAll("tbody tr").Count));
+        var afterFirstRender = host.Instance.CellRenders;
+        Assert.InRange(afterFirstRender, CellsPerRender, CellsPerRender * 3);
+
+        host.InvokeAsync(host.Instance.Rerender);
+
+        Assert.InRange(host.Instance.CellRenders - afterFirstRender, 0, CellsPerRender * 2);
+    }
+
+    [Fact]
+    public void LoopTemplate_ShowsCapturedStateOfTheParentRenderInThatRender()
+    {
+        var host = Render<DataGridLoopColumnsTestHost>();
+        host.WaitForAssertion(() => Assert.Equal(2, host.FindAll("tbody tr").Count));
+        var afterFirstRender = host.Instance.CellRenders;
+
+        // Same key, title, property and width: the column keeps its registration, only the state its
+        // template captures changes.
+        host.InvokeAsync(() => host.Instance.ChangeColumn(0, host.Instance.Columns[0] with { Suffix = " (modifié)" }));
+
+        // No wait: the cells show the new state once the parent render is done, not one render later.
+        Assert.Equal(["Alice (modifié)", "Bruxelles", "Bob (modifié)", "Namur"], host.FindAll(".loop-cell").Select(cell => cell.TextContent));
+        Assert.InRange(host.Instance.CellRenders - afterFirstRender, 0, CellsPerRender * 2);
+
+        // The render the adoption queued does not queue another.
+        var afterChange = host.Instance.CellRenders;
+        host.InvokeAsync(host.Instance.Rerender);
+        Assert.InRange(host.Instance.CellRenders - afterChange, 0, CellsPerRender * 2);
     }
 
     [Fact]

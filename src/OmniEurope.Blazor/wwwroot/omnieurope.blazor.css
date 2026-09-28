@@ -1464,6 +1464,9 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
     display: inline-flex;
     font: inherit;
     gap: var(--omni-space-sm);
+    /* The padding keeps the focus ring off the box and the text; the negative margin gives it back
+       on both sides, so the box starts where a two-state check box stacked with it starts. */
+    margin-inline: calc(-1 * var(--omni-space-xs));
     padding: var(--omni-space-xs);
     text-align: start;
 }
@@ -1492,6 +1495,8 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
     display: inline-flex;
     font: inherit;
     gap: var(--omni-space-sm);
+    /* Same compensation as the tri-state check box: the track starts where a two-state box does. */
+    margin-inline: calc(-1 * var(--omni-space-xs));
     padding: var(--omni-space-xs);
     text-align: start;
 }
@@ -2713,7 +2718,13 @@ polyline.omni-chart__line { fill: none; }
 .omni-html-editor__toolbar button[aria-pressed="true"] { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent); }
 .omni-html-editor__toolbar :is(button, select):focus-visible, .omni-html-editor__link-input:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-html-editor__toolbar :is(button, select):disabled { cursor: not-allowed; opacity: 0.5; }
-.omni-html-editor__separator { align-self: stretch; border-inline-start: var(--omni-border-width) solid var(--omni-color-border); margin-inline: var(--omni-space-xs); }
+/* The toolbar wraps by groups of tools. Each group after the first carries its separator, drawn in the
+   middle of the wider gap before it: a separator stays with the group it opens, so none ends a row,
+   and the one of a group that starts a row falls left of the toolbar, which clips it. The toolbar's
+   padding (0.25rem) keeps the focus rings (0.2rem) inside the clip. */
+.omni-html-editor__toolbar { column-gap: calc(var(--omni-space-xs) * 4 + var(--omni-border-width)); overflow: hidden; }
+.omni-html-editor__group { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); position: relative; }
+.omni-html-editor__separator { border-inline-start: var(--omni-border-width) solid var(--omni-color-border); inset-block: 0; inset-inline-start: calc(-2 * var(--omni-space-xs) - var(--omni-border-width)); position: absolute; }
 /* The context menu of the extensions: its entries look like those of a split button's menu, and a
    disabled one stays in place, dimmed. */
 .omni-html-editor__menu-item { align-items: center; background: transparent; border: 0; border-radius: calc(var(--omni-radius) / 2); color: var(--omni-color-text); cursor: pointer; display: flex; font: inherit; font-size: var(--omni-control-font); gap: var(--omni-space-sm); padding: var(--omni-item-pad-y) 10px; text-align: start; }

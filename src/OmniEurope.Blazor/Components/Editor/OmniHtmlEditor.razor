@@ -9,60 +9,66 @@
     RenderFragment editor =
         @<section class="@InputCss("omni-html-editor", _mode == OmniHtmlEditorMode.Visual ? "omni-html-editor--visual" : "omni-html-editor--source", _showBlocks && _mode == OmniHtmlEditorMode.Visual ? "omni-html-editor--show-blocks" : null)" aria-label="@EffectiveLabel">
             <div class="omni-html-editor__toolbar" role="toolbar" aria-label="@Localize("HtmlEditorToolbar")" aria-controls="@SurfaceId">
-                @foreach (var command in ToolbarCommands)
+                @foreach (var (group, groupIndex) in ToolbarGroups.Select((group, index) => (group, index)))
                 {
-                    @switch (command.Action)
-                    {
-                        case OmniHtmlEditorAction.Separator:
+                    <span class="omni-html-editor__group">
+                        @if (groupIndex > 0)
+                        {
                             <span class="omni-html-editor__separator" role="separator" aria-orientation="vertical"></span>
-                            break;
-                        case OmniHtmlEditorAction.BlockFormat:
-                            <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="@_selection.Block" @onchange="args => ChooseAsync(command, args)">
-                                @foreach (var (value, key) in BlockFormats)
-                                {
-                                    <option value="@value">@Localize(key)</option>
-                                }
-                            </select>
-                            break;
-                        case OmniHtmlEditorAction.FontSize:
-                            <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="@_selection.Size" @onchange="args => ChooseAsync(command, args)">
-                                @foreach (var (value, key) in FontSizes)
-                                {
-                                    <option value="@value">@Localize(key)</option>
-                                }
-                            </select>
-                            break;
-                        case OmniHtmlEditorAction.ChangeCase:
-                            @* An action rather than a state: the list shows its name and comes back to it once a case is chosen. *@
-                            <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="" @onchange="args => ChooseAsync(command, args)">
-                                <option value="" disabled>@LabelOf(command)</option>
-                                <option value="upper">@Localize("HtmlEditorCaseUpper")</option>
-                                <option value="lower">@Localize("HtmlEditorCaseLower")</option>
-                                <option value="title">@Localize("HtmlEditorCaseTitle")</option>
-                            </select>
-                            break;
-                        default:
-                            var icon = IconOf(command);
-                            <button type="button"
-                                    class="@(icon is null ? "omni-html-editor__tool omni-html-editor__tool--text" : "omni-html-editor__tool")"
-                                    data-command="@command.Name"
-                                    aria-label="@LabelOf(command)"
-                                    title="@LabelOf(command)"
-                                    aria-pressed="@PressedOf(command)"
-                                    disabled="@IsDisabled(command)"
-                                    @onmousedown:preventDefault
-                                    @onclick="() => RunAsync(command)">
-                                @if (icon is { } name)
-                                {
-                                    <OmniIcon Name="name" />
-                                }
-                                else
-                                {
-                                    <span>@LabelOf(command)</span>
-                                }
-                            </button>
-                            break;
-                    }
+                        }
+                        @foreach (var command in group)
+                        {
+                            @switch (command.Action)
+                            {
+                                case OmniHtmlEditorAction.BlockFormat:
+                                    <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="@_selection.Block" @onchange="args => ChooseAsync(command, args)">
+                                        @foreach (var (value, key) in BlockFormats)
+                                        {
+                                            <option value="@value">@Localize(key)</option>
+                                        }
+                                    </select>
+                                    break;
+                                case OmniHtmlEditorAction.FontSize:
+                                    <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="@_selection.Size" @onchange="args => ChooseAsync(command, args)">
+                                        @foreach (var (value, key) in FontSizes)
+                                        {
+                                            <option value="@value">@Localize(key)</option>
+                                        }
+                                    </select>
+                                    break;
+                                case OmniHtmlEditorAction.ChangeCase:
+                                    @* An action rather than a state: the list shows its name and comes back to it once a case is chosen. *@
+                                    <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="" @onchange="args => ChooseAsync(command, args)">
+                                        <option value="" disabled>@LabelOf(command)</option>
+                                        <option value="upper">@Localize("HtmlEditorCaseUpper")</option>
+                                        <option value="lower">@Localize("HtmlEditorCaseLower")</option>
+                                        <option value="title">@Localize("HtmlEditorCaseTitle")</option>
+                                    </select>
+                                    break;
+                                default:
+                                    var icon = IconOf(command);
+                                    <button type="button"
+                                            class="@(icon is null ? "omni-html-editor__tool omni-html-editor__tool--text" : "omni-html-editor__tool")"
+                                            data-command="@command.Name"
+                                            aria-label="@LabelOf(command)"
+                                            title="@LabelOf(command)"
+                                            aria-pressed="@PressedOf(command)"
+                                            disabled="@IsDisabled(command)"
+                                            @onmousedown:preventDefault
+                                            @onclick="() => RunAsync(command)">
+                                        @if (icon is { } name)
+                                        {
+                                            <OmniIcon Name="name" />
+                                        }
+                                        else
+                                        {
+                                            <span>@LabelOf(command)</span>
+                                        }
+                                    </button>
+                                    break;
+                            }
+                        }
+                    </span>
                 }
             </div>
             @if (_linkOpen)

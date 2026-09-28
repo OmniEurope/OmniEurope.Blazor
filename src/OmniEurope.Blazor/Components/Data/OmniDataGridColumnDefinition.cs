@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Components;
 namespace OmniEurope.Blazor.Components;
 
 /// <remarks>
-/// The delegate members are settable: a column declared in a <c>@foreach</c> hands over a new,
-/// equivalent delegate on every render, which replaces the stored one in place instead of
-/// re-registering the column (see <see cref="OmniDataGridColumn{TItem}"/>).
+/// The delegate members and the two filter lists are settable: a column declared in a <c>@foreach</c>
+/// hands over a new, equivalent delegate (and a new list of the same content, for a collection
+/// literal) on every render, which replaces the stored one in place instead of re-registering the
+/// column (see <see cref="OmniDataGridColumn{TItem}"/>).
 /// </remarks>
 internal sealed class OmniDataGridColumnDefinition<TItem>
 {
@@ -28,7 +29,7 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     /// <summary>Adds a narrowing box above a MultiSelect filter; ignored by the other types.</summary>
     public bool FilterSearchable { get; init; }
     /// <summary>Explicit Select/Combo suggestions; null derives them from the column's own values.</summary>
-    public IEnumerable<string>? FilterValues { get; init; }
+    public IEnumerable<string>? FilterValues { get; set; }
     /// <summary>Column-supplied filter editor, overriding <see cref="FilterType"/>.</summary>
     public RenderFragment<OmniDataGridFilterContext>? FilterTemplate { get; set; }
     /// <summary>Display text of a filter candidate; null shows the value itself.</summary>
@@ -42,7 +43,7 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     /// <summary>The type the column reads (nullable unwrapped), or null when it is not known from a property.</summary>
     public Type? ValueType { get; init; }
     /// <summary>Operators offered, in order; null keeps the value type's whole set.</summary>
-    public IReadOnlyList<OmniDataGridFilterOperator>? FilterOperators { get; init; }
+    public IReadOnlyList<OmniDataGridFilterOperator>? FilterOperators { get; set; }
     public OmniDataGridFilterOperator FilterOperator { get; init; }
     public bool Visible { get; init; } = true;
     /// <summary>Null follows the grid's own AllowColumnResize; false pins this column.</summary>

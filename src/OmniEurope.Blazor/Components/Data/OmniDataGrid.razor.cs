@@ -18,6 +18,8 @@ public partial class OmniDataGrid<TItem>
     private readonly HashSet<string> _collapsedGroups = new(StringComparer.Ordinal);
     private readonly HashSet<object> _editedKeys = [];
     private OmniDataGridContext<TItem> _context = default!;
+    // The columns fragment whose adopted delegates already queued a render (see RenderAdoptedDelegates).
+    private RenderFragment? _adoptedFor;
     private readonly GridRemoteState<TItem> _remote = new();
     private readonly GridVirtualWindow _window = new();
     private readonly GridVirtualDataSource<TItem> _virtualSource = new();
@@ -637,7 +639,7 @@ public partial class OmniDataGrid<TItem>
 
     protected override void OnInitialized()
     {
-        _context = new OmniDataGridContext<TItem> { Register = RegisterColumn, Unregister = UnregisterColumn };
+        _context = new OmniDataGridContext<TItem> { Register = RegisterColumn, Unregister = UnregisterColumn, DelegatesAdopted = RenderAdoptedDelegates };
     }
 
     /// <summary>
@@ -911,6 +913,9 @@ public partial class OmniDataGrid<TItem>
 
     private void RegisterColumn(OmniDataGridColumnDefinition<TItem> definition)
     {
+        // The render this registration asks for runs the columns fragment it came from: delegates
+        // adopted during it are equivalent and need no render of their own.
+        _adoptedFor = Columns;
         var index = _columns.FindIndex(column => column.Key == definition.Key);
         if (index >= 0)
         {
@@ -925,6 +930,24 @@ public partial class OmniDataGrid<TItem>
         InvalidateLocalProjection();
         RebuildRenderSnapshot();
         _ = InvokeAsync(StateHasChanged);
+    }
+
+    /// <summary>
+    /// The grid renders its cells before its columns receive their parameters, so a column declared in a
+    /// <c>@foreach</c> hands over the delegates of the new parent render only after the cells were drawn
+    /// with the previous ones. One more render, queued in the same batch, draws them with the new ones.
+    /// It is asked once per columns fragment: a parent render brings a new fragment, while the grid's
+    /// own render runs the same one again, so the render it queues does not queue another.
+    /// </summary>
+    private void RenderAdoptedDelegates()
+    {
+        if (ReferenceEquals(_adoptedFor, Columns))
+        {
+            return;
+        }
+
+        _adoptedFor = Columns;
+        StateHasChanged();
     }
 
     private void UnregisterColumn(string key)
