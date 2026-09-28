@@ -391,14 +391,19 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
 }
 /* omni:theme-tokens:end */
 
-/* Theme hooks that only some themes set (Relief's hollow fields, Givre's colour field and frosted
-   scrim). Declared again on every scope with their neutral value, so a nested scope with another
-   theme does not inherit them from the scope around it. */
+/* Theme hooks that only some themes set (Relief's hollow fields without a rule, Givre's colour field,
+   translucent fields and frosted scrim, Aplat's plain grids and flat alerts). Declared again on every
+   scope with their neutral value, so a nested scope with another theme does not inherit them from the
+   scope around it. */
 [data-omni-theme] {
     --omni-backdrop: none;
     --omni-input-shadow: 0 0 #0000;
     --omni-scrim-filter: none;
     --omni-dialog-background: initial;
+    --omni-input-background: initial;
+    --omni-input-border-color: initial;
+    --omni-grid-background: initial;
+    --omni-alert-shadow: initial;
 }
 
 /* Without backdrop-filter, a translucent floating layer would show the page through it unblurred:
@@ -729,8 +734,9 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
 .omni-alert--warning { --omni-alert-fill: var(--omni-color-warning-deep); --omni-alert-on: var(--omni-color-on-deep); }
 .omni-alert--danger { --omni-alert-fill: var(--omni-color-danger-deep); --omni-alert-on: var(--omni-color-on-deep); }
 /* Filled, drawn like a button: the intention's fill and its ink, a white highlight on the top edge,
-   a neutral shadow and one tinted by the fill. No pale tint and no gradient. */
-.omni-alert--filled { background: var(--omni-alert-fill); border: 0; box-shadow: inset 0 1px 0 rgb(255 255 255 / 14%), 0 1px 2px var(--omni-elevation-shadow, rgb(0 0 0 / 20%)), 0 6px 16px -6px color-mix(in srgb, var(--omni-alert-fill) 60%, transparent); color: var(--omni-alert-on); }
+   a neutral shadow and one tinted by the fill. No pale tint and no gradient. A theme may flatten it
+   (--omni-alert-shadow, Aplat). */
+.omni-alert--filled { background: var(--omni-alert-fill); border: 0; box-shadow: var(--omni-alert-shadow, inset 0 1px 0 rgb(255 255 255 / 14%), 0 1px 2px var(--omni-elevation-shadow, rgb(0 0 0 / 20%)), 0 6px 16px -6px color-mix(in srgb, var(--omni-alert-fill) 60%, transparent)); color: var(--omni-alert-on); }
 .omni-alert--filled a { color: inherit; }
 /* Outline keeps the message light on the page: the card's surface, a rule in the intention, the page
    text. The intention is carried by the disc, painted with the same fill and ink as the filled alert. */
@@ -1365,8 +1371,8 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-form-field--disabled { opacity: 0.65; }
 
 .omni-input {
-    background: var(--omni-color-surface);
-    border: var(--omni-border-width) solid var(--omni-color-border);
+    background: var(--omni-input-background, var(--omni-color-surface));
+    border: var(--omni-border-width) solid var(--omni-input-border-color, var(--omni-color-border));
     border-radius: var(--omni-radius);
     box-sizing: border-box;
     color: var(--omni-color-text);
@@ -1375,7 +1381,9 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     min-height: var(--omni-control-height);
     padding: var(--omni-input-pad-y) 9px;
     width: 100%;
-    /* A theme may hollow its fields (--omni-input-shadow, Relief); transparent otherwise. */
+    /* A theme may hollow its fields (--omni-input-shadow) and drop their rule (--omni-input-border-color),
+       Relief, or let its colour field through them (--omni-input-background), Givre; the surface,
+       no shadow and the palette border otherwise. */
     box-shadow: var(--omni-input-shadow, 0 0 #0000);
 }
 /* A one-line field sits exactly at the control height, like the buttons beside it: the default
@@ -1399,8 +1407,8 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
 
 .omni-password {
     align-items: stretch;
-    background: var(--omni-color-surface);
-    border: var(--omni-border-width) solid var(--omni-color-border);
+    background: var(--omni-input-background, var(--omni-color-surface));
+    border: var(--omni-border-width) solid var(--omni-input-border-color, var(--omni-color-border));
     border-radius: var(--omni-radius);
     box-sizing: border-box;
     display: flex;
@@ -2302,9 +2310,9 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-tree__item:focus-visible { border-radius: var(--omni-radius); box-shadow: var(--omni-focus-ring); outline: none; }
 
 /* The frame of the grid is its scrolling viewport, dressed like a card: the card's fill, rule, radius
-   and shadow. Its scrollbar is thin and tinted from the text, so it follows the scope's mode instead of
-   the host page's. */
-.omni-data-grid { --omni-data-grid-column-min-width: 8rem; --omni-data-grid-control-width: 2.75rem; --omni-data-grid-edit-width: 5.25rem; --omni-grid-frame: var(--omni-card-background, var(--omni-color-surface)); --omni-column-active-fill: color-mix(in srgb, var(--omni-color-accent) 6%, transparent); display: grid; font-size: var(--omni-font-size-base); gap: var(--omni-space-md); min-inline-size: 0; }
+   and shadow, unless a theme gives grids a fill of their own (--omni-grid-background, Aplat). Its
+   scrollbar is thin and tinted from the text, so it follows the scope's mode instead of the host page's. */
+.omni-data-grid { --omni-data-grid-column-min-width: 8rem; --omni-data-grid-control-width: 2.75rem; --omni-data-grid-edit-width: 5.25rem; --omni-grid-frame: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); --omni-column-active-fill: color-mix(in srgb, var(--omni-color-accent) 6%, transparent); display: grid; font-size: var(--omni-font-size-base); gap: var(--omni-space-md); min-inline-size: 0; }
 /* position: relative keeps an absolutely placed descendant (a visually hidden label in a cell) inside the scrolled rows: without it the box escaped the viewport clip and made the page scroll. */
 .omni-data-grid__viewport { background: var(--omni-grid-frame); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); overflow: auto; position: relative; scrollbar-color: color-mix(in srgb, var(--omni-color-text) 28%, transparent) transparent; scrollbar-width: thin; }
 /* Fixed layout: virtualization swapping rows never moves the columns. The minimum, pushed by

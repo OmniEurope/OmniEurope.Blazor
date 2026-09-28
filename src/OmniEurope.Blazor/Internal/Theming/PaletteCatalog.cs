@@ -36,7 +36,7 @@ internal static class PaletteCatalog
         new("Crépuscule", "Orange ambré sur gris froid, nuit d'ardoise en sombre.",
             "#e8741c", "#3f9d6b", "#4a86c7", "#d9a21b", "#d9453b", "#eceef2", "#1f2530", "#16181d", "#e6e8ec", "#e8741c"),
         new("Pastel", "Lilas et rose sur blanc, bleu marine en sombre, ciel en information.",
-            "#c77ddf", "#3aa876", "#5bb8e8", "#e6a23c", "#e2556b", "#fbf8fd", "#1b2233", "#1b2233", "#ece8f5", "#c77ddf"),
+            "#b04fd0", "#3aa876", "#5bb8e8", "#e6a23c", "#e2556b", "#fbf8fd", "#1b2233", "#1b2233", "#ece8f5", "#b04fd0"),
         new("Encre", "Encre noire sur blanc cassé, un seul bleu d'encre discret.",
             "#27466f", "#2f7d4f", "#3a6ea5", "#9a6a00", "#b3261e", "#fbfbfa", "#141414", "#111111", "#ededed", "#27466f"),
     ];

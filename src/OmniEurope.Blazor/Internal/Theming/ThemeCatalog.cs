@@ -190,99 +190,139 @@ internal static class ThemeCatalog
 
         // Neumorphism: the surfaces are the colour of the page and stand out by a pair of soft shadows,
         // a light one up and to the left, a dark one down and to the right; a press turns them inward.
-        // Kept to the library's ratios: the fields keep the palette's border under their hollow, since
-        // the shadows alone come nowhere near 3:1, and the focus ring is a solid accent ring.
+        // Below the contrast thresholds (waiver): the fields lose their rule and are creased into the
+        // page by inset shadows alone, and the secondary button is moulded in the page colour. The
+        // dark shadow is the page darkened, so it keeps the palette's hue. The focus state keeps its
+        // guarantee: a solid accent ring, and the focused field takes the accent rule.
         new("Relief", "Surfaces modelées dans la page : ombres douces claire et sombre, appui en creux.", "Nuage",
             Shape(
                 // Press: the key sinks, its two shadows turn inward.
-                ("--omni-button-press-transform", "scale(0.98)"), ("--omni-button-press-shadow", "inset 0.1875rem 0.1875rem 0.375rem rgb(0 0 0 / 18%), inset -0.1875rem -0.1875rem 0.375rem rgb(255 255 255 / 60%)"),
+                ("--omni-button-press-transform", "scale(0.98)"),
+                ("--omni-button-press-shadow", $"inset 0.25rem 0.25rem 0.5rem {ReliefShade}, inset -0.25rem -0.25rem 0.5rem rgb(255 255 255 / 90%)"),
                 ("--omni-radius", "0.75rem"), ("--omni-radius-sm", "0.5rem"), ("--omni-radius-lg", "1.25rem"),
-                ("--omni-button-radius", "0.875rem"), ("--omni-card-radius", "1.25rem"), ("--omni-alert-radius", "1rem"),
+                ("--omni-button-radius", "0.875rem"), ("--omni-card-radius", "1.5rem"), ("--omni-alert-radius", "1rem"),
                 ("--omni-card-border-width", "0"),
                 ("--omni-card-background", "var(--omni-color-surface)"),
-                ("--omni-card-shadow", "-0.375rem -0.375rem 0.875rem rgb(255 255 255 / 75%), 0.375rem 0.375rem 0.875rem rgb(0 0 0 / 14%)"),
-                ("--omni-button-shadow", "-0.1875rem -0.1875rem 0.5rem rgb(255 255 255 / 70%), 0.1875rem 0.1875rem 0.5rem rgb(0 0 0 / 16%)"),
-                ("--omni-input-shadow", "inset 0.125rem 0.125rem 0.3125rem rgb(0 0 0 / 12%), inset -0.125rem -0.125rem 0.3125rem rgb(255 255 255 / 70%)"),
+                ("--omni-card-shadow", $"-0.5625rem -0.5625rem 1.25rem rgb(255 255 255 / 95%), 0.5625rem 0.5625rem 1.25rem {ReliefShade}"),
+                ("--omni-button-shadow", $"-0.3125rem -0.3125rem 0.75rem rgb(255 255 255 / 95%), 0.3125rem 0.3125rem 0.75rem {ReliefShade}"),
+                ("--omni-input-shadow", $"inset 0.1875rem 0.1875rem 0.4375rem {ReliefShade}, inset -0.1875rem -0.1875rem 0.4375rem rgb(255 255 255 / 95%)"),
+                ("--omni-input-border-color", "var(--omni-color-surface)"),
+                // The secondary button is the page itself, raised by its shadows; hovered it dips a
+                // little, pressed it is hollowed.
+                ("--omni-color-neutral-fill", "var(--omni-color-surface)"),
+                ("--omni-color-neutral-fill-hover", "var(--omni-color-surface-muted)"),
+                ("--omni-color-neutral-fill-active", "var(--omni-color-surface-muted)"),
                 ("--omni-overlay-background", "var(--omni-color-surface)"), ("--omni-overlay-filter", "none"),
-                ("--omni-overlay-shadow", "-0.25rem -0.25rem 0.75rem rgb(255 255 255 / 60%), 0.5rem 0.75rem 1.75rem rgb(0 0 0 / 18%)"),
+                ("--omni-overlay-shadow", $"-0.375rem -0.375rem 1rem rgb(255 255 255 / 80%), 0.625rem 0.75rem 1.75rem {ReliefShade}"),
                 ("--omni-focus-ring", FocusRing),
                 ("--omni-button-font-weight", "600"), ("--omni-heading-font-weight", "700"),
                 ("--omni-font-family", Rounded)),
             Shape(
-                ("--omni-button-press-shadow", "inset 0.1875rem 0.1875rem 0.375rem rgb(0 0 0 / 50%), inset -0.1875rem -0.1875rem 0.375rem rgb(255 255 255 / 5%)"),
-                ("--omni-card-shadow", "-0.375rem -0.375rem 0.875rem rgb(255 255 255 / 5%), 0.375rem 0.375rem 1rem rgb(0 0 0 / 55%)"),
-                ("--omni-button-shadow", "-0.1875rem -0.1875rem 0.5rem rgb(255 255 255 / 5%), 0.1875rem 0.1875rem 0.5rem rgb(0 0 0 / 50%)"),
-                ("--omni-input-shadow", "inset 0.125rem 0.125rem 0.3125rem rgb(0 0 0 / 45%), inset -0.125rem -0.125rem 0.3125rem rgb(255 255 255 / 5%)"),
-                ("--omni-overlay-shadow", "-0.25rem -0.25rem 0.75rem rgb(255 255 255 / 5%), 0.5rem 0.75rem 1.75rem rgb(0 0 0 / 55%)")),
+                // Charcoal: the light shadow is a faint white, the dark one close to black.
+                ("--omni-button-press-shadow", "inset 0.25rem 0.25rem 0.5rem rgb(0 0 0 / 60%), inset -0.25rem -0.25rem 0.5rem rgb(255 255 255 / 7%)"),
+                ("--omni-card-shadow", "-0.5625rem -0.5625rem 1.25rem rgb(255 255 255 / 9%), 0.5625rem 0.5625rem 1.25rem rgb(0 0 0 / 62%)"),
+                ("--omni-button-shadow", "-0.3125rem -0.3125rem 0.75rem rgb(255 255 255 / 7%), 0.3125rem 0.3125rem 0.75rem rgb(0 0 0 / 60%)"),
+                ("--omni-input-shadow", "inset 0.1875rem 0.1875rem 0.4375rem rgb(0 0 0 / 55%), inset -0.1875rem -0.1875rem 0.4375rem rgb(255 255 255 / 7%)"),
+                ("--omni-overlay-shadow", "-0.375rem -0.375rem 1rem rgb(255 255 255 / 6%), 0.625rem 0.75rem 1.75rem rgb(0 0 0 / 60%)")),
             ContrastWaiver: "Relief par ombres douces : bordures et marques non textuelles sous les seuils WCAG."),
 
-        // Glassmorphism: translucent panels over a colour field painted by the theme scope. Kept to the
-        // library's ratios: the field is a pale gradient of the palette (every text of the page must
-        // read on each of its stops, checked stop by stop), the cards are translucent without a blur of
-        // their own (a filter would make them the containing block of the positioned popovers and
-        // tooltips they hold, the reason the dialog has none), and the frosted blur goes to the floating
-        // layers and the dialog scrim, which cover what they blur.
+        // Glassmorphism: translucent panels over a colour field painted by the theme scope. Below the
+        // contrast thresholds (waiver): the field is a saturated gradient of the palette (accent,
+        // danger, information) in both modes, and the cards let it through, rimmed by a light edge and
+        // a highlight. What the page writes directly on the field and a keyboard user focuses (tabs,
+        // links, grid headers) must still read there, so the muted text and the strong accent are drawn
+        // from the text. The cards have no blur of their own: a filter would make them the containing
+        // block of the positioned popovers and tooltips they hold (the reason the dialog has none), so
+        // the frosted blur goes to the floating layers and the dialog scrim, which cover what they blur.
         new("Givre", "Panneaux de verre dépoli sur un fond de couleurs fondues, liseré clair et grands arrondis.", "Crépuscule",
             Shape(
                 // Press: the pane gives a little under the finger and frosts from inside.
                 ("--omni-button-press-transform", "scale(0.96)"), ("--omni-button-press-shadow", "inset 0 0.125rem 0.5rem rgb(0 0 0 / 22%)"),
                 ("--omni-radius", "0.75rem"), ("--omni-radius-sm", "0.5rem"), ("--omni-radius-lg", "1.25rem"),
                 ("--omni-button-radius", "999px"), ("--omni-card-radius", "1.25rem"), ("--omni-alert-radius", "1rem"),
-                ("--omni-backdrop-start", "color-mix(in srgb, var(--omni-color-accent) 16%, var(--omni-color-surface))"),
-                ("--omni-backdrop-middle", "color-mix(in srgb, var(--omni-color-info) 12%, var(--omni-color-surface))"),
-                ("--omni-backdrop-end", "color-mix(in srgb, var(--omni-color-warning) 14%, var(--omni-color-surface))"),
-                // Muted text drawn nearer the body text than the palette draws it: the colour field darkens
-                // (or lightens) the page under it, and the palette leaves the muted text no margin for that.
-                ("--omni-color-text-muted", "color-mix(in srgb, var(--omni-color-text) 86%, var(--omni-color-surface))"),
-                // The field borders sit on the colour field too: drawn with more of the text than the palette's.
-                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 45%, var(--omni-color-surface))"),
+                ("--omni-backdrop-start", "color-mix(in srgb, var(--omni-color-accent) 34%, var(--omni-color-surface))"),
+                ("--omni-backdrop-middle", "color-mix(in srgb, var(--omni-color-danger) 28%, var(--omni-color-surface))"),
+                ("--omni-backdrop-end", "color-mix(in srgb, var(--omni-color-info) 30%, var(--omni-color-surface))"),
                 ("--omni-backdrop", "linear-gradient(135deg, var(--omni-backdrop-start), var(--omni-backdrop-middle) 50%, var(--omni-backdrop-end))"),
-                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-surface) 58%, transparent)"),
+                ("--omni-color-text-muted", "color-mix(in srgb, var(--omni-color-text) 94%, var(--omni-color-surface))"),
+                ("--omni-color-accent-strong", "color-mix(in srgb, var(--omni-color-accent) 36%, var(--omni-color-text))"),
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 40%, transparent)"),
+                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-surface) 45%, transparent)"),
                 // The dialog sits on the scrim, not on the colour field: it keeps an opaque pane.
                 ("--omni-dialog-background", "var(--omni-color-surface)"),
-                ("--omni-card-border-color", "rgb(255 255 255 / 60%)"),
-                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 55%), 0 0.5rem 2rem rgb(0 0 0 / 10%)"),
-                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 35%), 0 0.25rem 0.875rem rgb(0 0 0 / 12%)"),
-                ("--omni-overlay-background", "color-mix(in srgb, var(--omni-color-surface) 62%, transparent)"),
+                // Fields and the secondary button are glass as well.
+                ("--omni-input-background", "color-mix(in srgb, var(--omni-color-surface) 55%, transparent)"),
+                ("--omni-color-neutral-fill", "color-mix(in srgb, var(--omni-color-surface) 50%, transparent)"),
+                ("--omni-color-neutral-fill-hover", "color-mix(in srgb, var(--omni-color-surface) 70%, transparent)"),
+                ("--omni-color-neutral-fill-active", "color-mix(in srgb, var(--omni-color-surface) 85%, transparent)"),
+                ("--omni-card-border-color", "rgb(255 255 255 / 75%)"),
+                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 85%), inset 0 0 1.5rem rgb(255 255 255 / 18%), 0 0.75rem 2rem rgb(0 0 0 / 14%)"),
+                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 45%), 0 0.25rem 0.875rem rgb(0 0 0 / 16%)"),
+                ("--omni-overlay-background", "rgb(255 255 255 / 55%)"),
                 ("--omni-overlay-filter", "blur(24px) saturate(1.6)"),
-                ("--omni-overlay-shadow", "inset 0 1px 0 rgb(255 255 255 / 50%), 0 1rem 2.5rem rgb(0 0 0 / 18%)"),
-                ("--omni-scrim-filter", "blur(6px)"),
+                ("--omni-overlay-shadow", "inset 0 1px 0 rgb(255 255 255 / 70%), 0 1rem 2.5rem rgb(0 0 0 / 22%)"),
+                ("--omni-scrim-filter", "blur(8px)"),
                 ("--omni-focus-ring", FocusRing),
                 ("--omni-button-font-weight", "500"), ("--omni-heading-font-weight", "600"),
                 ("--omni-font-family", Sans)),
             Shape(
-                ("--omni-backdrop-start", "color-mix(in srgb, var(--omni-color-accent) 28%, var(--omni-color-surface))"),
-                ("--omni-backdrop-middle", "color-mix(in srgb, var(--omni-color-info) 18%, var(--omni-color-surface))"),
-                ("--omni-backdrop-end", "color-mix(in srgb, var(--omni-color-warning) 24%, var(--omni-color-surface))"),
-                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-surface) 52%, transparent)"),
-                ("--omni-card-border-color", "rgb(255 255 255 / 14%)"),
-                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 10%), 0 0.75rem 2rem rgb(0 0 0 / 40%)"),
-                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 18%), 0 0.25rem 1rem rgb(0 0 0 / 35%)"),
-                ("--omni-overlay-shadow", "inset 0 1px 0 rgb(255 255 255 / 10%), 0 1rem 2.5rem rgb(0 0 0 / 50%)")),
+                ("--omni-backdrop-start", "color-mix(in srgb, var(--omni-color-accent) 26%, var(--omni-color-surface))"),
+                ("--omni-backdrop-middle", "color-mix(in srgb, var(--omni-color-danger) 18%, var(--omni-color-surface))"),
+                ("--omni-backdrop-end", "color-mix(in srgb, var(--omni-color-info) 22%, var(--omni-color-surface))"),
+                ("--omni-color-accent-strong", "color-mix(in srgb, var(--omni-color-accent) 28%, var(--omni-color-text))"),
+                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-text) 8%, transparent)"),
+                // A grid is read row by row: on the dark field it takes a darker pane than the cards.
+                ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-surface) 55%, transparent)"),
+                ("--omni-input-background", "color-mix(in srgb, var(--omni-color-text) 6%, transparent)"),
+                ("--omni-color-neutral-fill", "color-mix(in srgb, var(--omni-color-text) 10%, transparent)"),
+                ("--omni-color-neutral-fill-hover", "color-mix(in srgb, var(--omni-color-text) 16%, transparent)"),
+                ("--omni-color-neutral-fill-active", "color-mix(in srgb, var(--omni-color-text) 22%, transparent)"),
+                ("--omni-card-border-color", "rgb(255 255 255 / 20%)"),
+                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 22%), inset 0 0 1.5rem rgb(255 255 255 / 5%), 0 0.75rem 2rem rgb(0 0 0 / 40%)"),
+                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 22%), 0 0.25rem 1rem rgb(0 0 0 / 35%)"),
+                ("--omni-overlay-background", "rgb(255 255 255 / 12%)"),
+                ("--omni-overlay-shadow", "inset 0 1px 0 rgb(255 255 255 / 18%), 0 1rem 2.5rem rgb(0 0 0 / 50%)")),
             ContrastWaiver: "Panneaux translucides sur un fond coloré : la lisibilité dépend du fond, les seuils WCAG ne sont pas garantis."),
 
-        // Flat design: no shadow, no gradient, no relief anywhere; solid blocks, pill buttons, large
-        // rounded cards told apart by their fill alone, and a press that only darkens.
+        // Flat design: no shadow, no gradient, no relief anywhere; solid colour fields, pill buttons,
+        // large rounded cards told apart by their fill alone, and a press that only changes the fill. Below the
+        // contrast thresholds (waiver): the cards are a bold field of the accent, the secondary button a
+        // field of the information colour, and the filled alerts lose the glow the package gives them.
+        // Grids stay plain panels of the page, the white block laid on the field.
         new("Aplat", "Aplats de couleur sans ombre ni dégradé, boutons pilule et cartes pleines.", "Pastel",
             Shape(
-                // Press: nothing moves, the fill darkens.
+                // Press: nothing moves, the fill changes shade (the primary field pales, away from its ink).
                 ("--omni-button-press-transform", "none"), ("--omni-button-press-shadow", NoShadow),
                 ("--omni-radius", "0.625rem"), ("--omni-radius-sm", "0.375rem"), ("--omni-radius-lg", "1rem"),
                 ("--omni-button-radius", "999px"), ("--omni-card-radius", "1.25rem"), ("--omni-alert-radius", "0.75rem"),
                 ("--omni-card-border-width", "0"),
-                ("--omni-card-background", "var(--omni-color-surface-muted)"),
-                // Muted text nearer the body text: a full block (a card, a grid header on it) darkens the
-                // page under it, and the palette leaves the muted text no margin for that.
-                ("--omni-color-text-muted", "color-mix(in srgb, var(--omni-color-text) 86%, var(--omni-color-surface))"),
-                ("--omni-card-border-color", "var(--omni-color-border)"),
-                ("--omni-card-shadow", NoShadow), ("--omni-button-shadow", NoShadow),
+                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-accent) 34%, var(--omni-color-surface))"),
+                ("--omni-card-border-color", "transparent"),
+                ("--omni-grid-background", "var(--omni-color-surface)"),
+                ("--omni-dialog-background", "var(--omni-color-surface)"),
+                // The primary button is a light field of the accent with the near-black ink of the bright
+                // fills, the secondary a field of the information colour.
+                ("--omni-color-accent-fill", "color-mix(in srgb, var(--omni-color-accent) 44%, var(--omni-color-surface))"),
+                ("--omni-color-accent-fill-hover", "color-mix(in srgb, var(--omni-color-accent) 36%, var(--omni-color-surface))"),
+                ("--omni-color-accent-fill-active", "color-mix(in srgb, var(--omni-color-accent) 28%, var(--omni-color-surface))"),
+                ("--omni-color-on-accent-fill", "var(--omni-color-on-bright)"),
+                ("--omni-color-neutral-fill", "color-mix(in srgb, var(--omni-color-info-fill) 34%, var(--omni-color-surface))"),
+                ("--omni-color-neutral-fill-hover", "color-mix(in srgb, var(--omni-color-info-fill) 46%, var(--omni-color-surface))"),
+                ("--omni-color-neutral-fill-active", "color-mix(in srgb, var(--omni-color-info-fill) 58%, var(--omni-color-surface))"),
+                ("--omni-card-shadow", NoShadow), ("--omni-button-shadow", NoShadow), ("--omni-alert-shadow", NoShadow),
                 ("--omni-overlay-background", "var(--omni-color-surface)"), ("--omni-overlay-filter", "none"),
                 ("--omni-overlay-shadow", NoShadow),
                 ("--omni-elevation-shadow-soft", "transparent"), ("--omni-elevation-highlight", "transparent"),
                 ("--omni-focus-ring", FocusRing),
                 ("--omni-button-font-weight", "600"), ("--omni-heading-font-weight", "700"),
                 ("--omni-font-family", Geometric)),
-            Shape(),
+            Shape(
+                // On the dark page the light fields are drawn towards the light text.
+                ("--omni-color-accent-fill", "color-mix(in srgb, var(--omni-color-accent) 50%, var(--omni-color-text))"),
+                ("--omni-color-accent-fill-hover", "color-mix(in srgb, var(--omni-color-accent) 40%, var(--omni-color-text))"),
+                ("--omni-color-accent-fill-active", "color-mix(in srgb, var(--omni-color-accent) 30%, var(--omni-color-text))"),
+                ("--omni-color-neutral-fill-hover", "color-mix(in srgb, var(--omni-color-info-fill) 40%, var(--omni-color-surface))"),
+                ("--omni-color-neutral-fill-active", "color-mix(in srgb, var(--omni-color-info-fill) 46%, var(--omni-color-surface))")),
             ContrastWaiver: "Aplats de couleur vifs : certaines paires de texte et de fond passent sous les seuils WCAG."),
 
         // Minimalism: black on white, no shadow, no radius, hairlines, very large bold headings. The
@@ -319,6 +359,12 @@ internal static class ThemeCatalog
     /// shows on a pressed hollow, a glass pane or a filled block alike.
     /// </summary>
     private const string FocusRing = "0 0 0 2px var(--omni-color-surface), 0 0 0 4px var(--omni-color-accent)";
+
+    /// <summary>
+    /// Relief's dark shadow in light mode: the page darkened, so the shadow keeps the hue of the
+    /// palette's surface like the moulded material it imitates.
+    /// </summary>
+    private const string ReliefShade = "color-mix(in srgb, var(--omni-color-surface) 64%, rgb(0 0 0 / 100%))";
 
     /// <summary>A pixel-staircase frame drawn with four hard shadows, reserved to a zero radius.</summary>
     private static string Staircase(string step) =>
