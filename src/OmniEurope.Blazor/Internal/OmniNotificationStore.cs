@@ -30,7 +30,7 @@ internal sealed class OmniNotificationStore : IDisposable
 
     internal IReadOnlyList<OmniNotificationMessage> Messages => _messages;
 
-    internal Guid Add(string message, OmniNotificationSeverity severity, string? title, TimeSpan? duration, string? detailsHref = null, string? actionText = null, Func<Task>? action = null)
+    internal Guid Add(string message, OmniSeverity severity, string? title, TimeSpan? duration, string? detailsHref = null, string? actionText = null, Func<Task>? action = null)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
         if (_messages.Count == _capacity)

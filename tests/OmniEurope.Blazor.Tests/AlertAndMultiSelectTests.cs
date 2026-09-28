@@ -22,7 +22,7 @@ public sealed class AlertAndMultiSelectTests : OmniBunitContext
     public void Alert_ProjectsItsSeverityVariantIconAndTitle()
     {
         var alert = Render<OmniAlert>(parameters => parameters
-            .Add(component => component.Severity, OmniAlertSeverity.Warning)
+            .Add(component => component.Severity, OmniSeverity.Warning)
             .Add(component => component.Variant, OmniAlertVariant.Filled)
             .Add(component => component.Title, "Espace disque")
             .Add(component => component.Icon, builder => builder.AddMarkupContent(0, "<i class=\"probe-icon\"></i>"))

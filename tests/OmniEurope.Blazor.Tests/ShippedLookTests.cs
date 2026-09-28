@@ -211,11 +211,11 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData(OmniAlertSeverity.Info, OmniButtonVariant.Info)]
-    [InlineData(OmniAlertSeverity.Success, OmniButtonVariant.Success)]
-    [InlineData(OmniAlertSeverity.Warning, OmniButtonVariant.Warning)]
-    [InlineData(OmniAlertSeverity.Danger, OmniButtonVariant.Danger)]
-    public void Alert_TakesExactlyTheFillAndInkOfTheButtonOfItsIntention(OmniAlertSeverity severity, OmniButtonVariant button)
+    [InlineData(OmniSeverity.Info, OmniButtonVariant.Info)]
+    [InlineData(OmniSeverity.Success, OmniButtonVariant.Success)]
+    [InlineData(OmniSeverity.Warning, OmniButtonVariant.Warning)]
+    [InlineData(OmniSeverity.Danger, OmniButtonVariant.Danger)]
+    public void Alert_TakesExactlyTheFillAndInkOfTheButtonOfItsIntention(OmniSeverity severity, OmniButtonVariant button)
     {
         var alert = Body($".omni-alert--{severity.ToString().ToLowerInvariant()}");
         var fills = Body($".omni-button--{button.ToString().ToLowerInvariant()}");
@@ -270,11 +270,11 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData(OmniAlertSeverity.Info, "M12 11v6M12 7h.01")]
-    [InlineData(OmniAlertSeverity.Success, "m6.5 12.5 3.5 3.5 7.5-8")]
-    [InlineData(OmniAlertSeverity.Warning, "M12 7v6M12 17h.01")]
-    [InlineData(OmniAlertSeverity.Danger, "M8 8l8 8M16 8l-8 8")]
-    public void Alert_DrawsTheSeverityGlyphAloneInItsDisc(OmniAlertSeverity severity, string path)
+    [InlineData(OmniSeverity.Info, "M12 11v6M12 7h.01")]
+    [InlineData(OmniSeverity.Success, "m6.5 12.5 3.5 3.5 7.5-8")]
+    [InlineData(OmniSeverity.Warning, "M12 7v6M12 17h.01")]
+    [InlineData(OmniSeverity.Danger, "M8 8l8 8M16 8l-8 8")]
+    public void Alert_DrawsTheSeverityGlyphAloneInItsDisc(OmniSeverity severity, string path)
     {
         var alert = Render<OmniAlert>(parameters => parameters
             .Add(component => component.Severity, severity)

@@ -31,7 +31,7 @@ public partial class OverlayDemo : IDisposable
     private void OpenStickyDialog() => Overlays.OpenDialog(
         new OmniDialogRequest("Filtre en cours", Paragraph("Un clic à côté ne ferme pas ce dialogue : la croix et Échap le ferment."))
         {
-            CloseOnBackdropClick = false
+            CloseOnBackdrop = false
         });
 
     private void OpenBlockingDialog() => Overlays.OpenDialog(

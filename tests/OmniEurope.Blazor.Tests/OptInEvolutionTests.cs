@@ -74,7 +74,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     public void DialogRequest_WithoutTheNewOptions_ClosesOnBackdropEscapeAndItsButtonAsBefore()
     {
         var request = new OmniDialogRequest("Confirmation", Content("Continuer ?"));
-        Assert.True(request.CloseOnBackdropClick);
+        Assert.True(request.CloseOnBackdrop);
         Assert.True(request.Dismissible);
 
         using var service = new OmniOverlayService();
@@ -115,7 +115,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     [Theory]
     [InlineData(false, true)]
     [InlineData(true, false)]
-    public void DialogRequest_WithABackdropThatClosesNothing_AsksTheTrapToHoldFocusOnIt(bool closeOnBackdropClick, bool dismissible)
+    public void DialogRequest_WithABackdropThatClosesNothing_AsksTheTrapToHoldFocusOnIt(bool closeOnBackdrop, bool dismissible)
     {
         var module = JSInterop.SetupModule(FocusModule);
         using var service = new OmniOverlayService();
@@ -123,7 +123,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
 
         service.OpenDialog(new OmniDialogRequest("Confirmation", Content("Continuer ?"))
         {
-            CloseOnBackdropClick = closeOnBackdropClick,
+            CloseOnBackdrop = closeOnBackdrop,
             Dismissible = dismissible
         });
 
@@ -134,12 +134,12 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     }
 
     [Fact]
-    public void DialogRequest_CloseOnBackdropClickFalse_IgnoresTheBackdropOnly()
+    public void DialogRequest_CloseOnBackdropFalse_IgnoresTheBackdropOnly()
     {
         using var service = new OmniOverlayService();
         var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
 
-        service.OpenDialog(new OmniDialogRequest("Confirmation", Content("Continuer ?")) { CloseOnBackdropClick = false });
+        service.OpenDialog(new OmniDialogRequest("Confirmation", Content("Continuer ?")) { CloseOnBackdrop = false });
         host.WaitForAssertion(() => Assert.Single(host.FindAll(".omni-dialog")));
 
         host.Find(".omni-overlay").Click();

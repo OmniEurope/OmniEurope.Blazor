@@ -33,7 +33,7 @@ public partial class Customizer : IDisposable
 
     private string? Notice { get; set; }
 
-    private OmniAlertSeverity NoticeSeverity { get; set; } = OmniAlertSeverity.Success;
+    private OmniSeverity NoticeSeverity { get; set; } = OmniSeverity.Success;
 
     private bool ForceHover { get; set; }
 
@@ -139,7 +139,7 @@ public partial class Customizer : IDisposable
 
     private void Report(bool succeeded, string successKey, string failureKey)
     {
-        NoticeSeverity = succeeded ? OmniAlertSeverity.Success : OmniAlertSeverity.Warning;
+        NoticeSeverity = succeeded ? OmniSeverity.Success : OmniSeverity.Warning;
         Notice = Text[succeeded ? successKey : failureKey];
     }
 }

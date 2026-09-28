@@ -435,11 +435,11 @@ public partial class OmniDataGrid<TItem>
     /// icon, a description or an action. Left null, the text is shown exactly as before.
     /// </summary>
     [Parameter]
-    public RenderFragment? EmptyTemplate { get; set; }
+    public RenderFragment? EmptyContent { get; set; }
 
     /// <summary>Content displayed inside the table while data is loading, with the column headers kept visible.</summary>
     [Parameter]
-    public RenderFragment? LoadingTemplate { get; set; }
+    public RenderFragment? LoadingContent { get; set; }
 
     [Parameter]
     public bool IsLoading { get; set; }
@@ -603,8 +603,8 @@ public partial class OmniDataGrid<TItem>
     private bool HasEditing => _hasEditing;
     private int ColumnSpan => _columnSpan;
     private bool _renderReady;
-    private bool Preparing => LoadingTemplate is not null && !_renderReady;
-    // Waiting for the images of rows already there. The headers always stay and the LoadingTemplate sits in
+    private bool Preparing => LoadingContent is not null && !_renderReady;
+    // Waiting for the images of rows already there. The headers always stay and the LoadingContent sits in
     // a row under them, while the rows load and while their images do: a veil over the whole grid hid the
     // headers, against the shared acceptance rule (RET-002 §3.8, a client application).
     private bool Veiled => Preparing && !Loading;

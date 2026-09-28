@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Components;
 public sealed record OmniNotificationMessage(
     Guid Id,
     string Message,
-    OmniNotificationSeverity Severity = OmniNotificationSeverity.Information,
+    OmniSeverity Severity = OmniSeverity.Info,
     string? Title = null)
 {
     /// <summary>

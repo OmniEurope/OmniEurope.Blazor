@@ -16,7 +16,7 @@ public sealed record OmniDialogRequest(string Title, RenderFragment Content, str
     /// the dialog open when the reader clicks beside it, while the close button and Escape still
     /// close it.
     /// </summary>
-    public bool CloseOnBackdropClick { get; init; } = true;
+    public bool CloseOnBackdrop { get; init; } = true;
 
     /// <summary>
     /// Whether the reader can dismiss the dialog. True by default, as before. False removes the

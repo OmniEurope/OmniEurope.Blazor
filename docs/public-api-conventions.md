@@ -8,6 +8,10 @@
 - Une valeur réellement optionnelle utilise un type nullable (`DateOnly?`, `bool?`). Les composants non nullables ne donnent pas de sens implicite à `default`.
 - Les opérations distantes reçoivent un `CancellationToken`. `OmniDataList`, `OmniDataGrid`, `OmniScheduler` et `OmniAutocomplete` rendent chargement et erreur observables et proposent une reprise. Pour l'autocomplete, `SearchFailed` reçoit l'exception sans l'afficher et l'état récupérable reste localisé.
 - Les templates sont des `RenderFragment` ou `RenderFragment<T>`. Les événements asynchrones sont des `EventCallback` ou des délégués retournant `Task`.
+- Un fragment sans contexte qui remplace une zone porte le suffixe `Content` (`EmptyContent`, `LoadingContent`, `ErrorContent`, `TitleContent`) ; un fragment répété avec son élément (`RenderFragment<T>`) porte le suffixe `Template` (`ItemTemplate`, `OptionTemplate`).
+- L'icône d'un composant est un fragment nommé `Icon`, en général un `OmniIcon`, rendu décoratif par le composant.
+- Le nom accessible d'un bouton sans texte visible se termine par `Label` (`CloseLabel`, `BackLabel`) ; le texte visible d'un bouton se termine par `Text` (`ActionText`, `BackText`).
+- Une sévérité est un `OmniSeverity` (`Info`, `Success`, `Warning`, `Danger`, les noms des intentions d'`OmniButtonVariant`), partagé par les alertes et les notifications.
 
 ## HTML, attributs et CSS
 

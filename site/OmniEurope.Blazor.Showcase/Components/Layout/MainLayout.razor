@@ -25,7 +25,7 @@
                 </ChildContent>
                 <ErrorContent Context="error">
                     <OmniMain ContentWidth="OmniLayoutWidth.Wide">
-                        <OmniAlert Severity="OmniAlertSeverity.Danger" Title="@Text["ErrorTitle"]">
+                        <OmniAlert Severity="OmniSeverity.Danger" Title="@Text["ErrorTitle"]">
                             @Text["ErrorMessage"]
                             <OmniButton OnClick="@(_ => RecoverAsync())">@Text["Retry"]</OmniButton>
                         </OmniAlert>

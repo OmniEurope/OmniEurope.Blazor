@@ -362,15 +362,15 @@
                        the rows stay laid out but unseen so their images still load. *@
                     @if (Veiled)
                     {
-                        <tr class="omni-data-grid__preparation"><td colspan="@ColumnSpan" class="omni-data-grid__state omni-data-grid__state--loading" role="status">@LoadingTemplate</td></tr>
+                        <tr class="omni-data-grid__preparation"><td colspan="@ColumnSpan" class="omni-data-grid__state omni-data-grid__state--loading" role="status">@LoadingContent</td></tr>
                     }
                     @if (ShowLoadingRow)
                     {
-                        <tr><td colspan="@ColumnSpan" class="omni-data-grid__state omni-data-grid__state--loading" role="status">@if (LoadingTemplate is not null) { @LoadingTemplate } else { @Localize("Loading") }</td></tr>
+                        <tr><td colspan="@ColumnSpan" class="omni-data-grid__state omni-data-grid__state--loading" role="status">@if (LoadingContent is not null) { @LoadingContent } else { @Localize("Loading") }</td></tr>
                     }
                     else if (IsEmpty)
                     {
-                        <tr><td colspan="@ColumnSpan" class="omni-data-grid__state">@if (EmptyTemplate is not null) { @EmptyTemplate } else { @EmptyMessage }</td></tr>
+                        <tr><td colspan="@ColumnSpan" class="omni-data-grid__state">@if (EmptyContent is not null) { @EmptyContent } else { @EmptyMessage }</td></tr>
                     }
                     else
                     {

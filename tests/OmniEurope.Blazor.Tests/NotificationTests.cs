@@ -15,7 +15,7 @@ public sealed class NotificationTests : OmniBunitContext
             .AddChildContent("Application"));
         var runs = 0;
 
-        service.Notify("Déplacé", OmniNotificationSeverity.Success, "Succès", null, "Annuler", () =>
+        service.Notify("Déplacé", OmniSeverity.Success, "Succès", null, "Annuler", () =>
         {
             runs++;
             return Task.CompletedTask;
@@ -37,7 +37,7 @@ public sealed class NotificationTests : OmniBunitContext
             .Add(component => component.OverlayService, service)
             .AddChildContent("Application"));
 
-        service.Notify("Rien à annuler", OmniNotificationSeverity.Information);
+        service.Notify("Rien à annuler", OmniSeverity.Info);
 
         host.WaitForAssertion(() => Assert.Single(host.FindAll(".omni-notification")));
         Assert.Empty(host.FindAll(".omni-notification__action"));
@@ -52,9 +52,9 @@ public sealed class NotificationTests : OmniBunitContext
             .Add(component => component.Notifications, new OmniNotificationOptions(Group: true))
             .AddChildContent("Application"));
 
-        service.Notify("Un", OmniNotificationSeverity.Information);
-        service.Notify("Échec", OmniNotificationSeverity.Error);
-        service.Notify("Deux", OmniNotificationSeverity.Success);
+        service.Notify("Un", OmniSeverity.Info);
+        service.Notify("Échec", OmniSeverity.Danger);
+        service.Notify("Deux", OmniSeverity.Success);
 
         host.WaitForAssertion(() => Assert.Single(host.FindAll(".omni-notification-region__pile--stacked")));
         var region = host.Find(".omni-notification-region");
@@ -72,7 +72,7 @@ public sealed class NotificationTests : OmniBunitContext
             .Add(component => component.Notifications, new OmniNotificationOptions(Group: true))
             .AddChildContent("Application"));
 
-        service.Notify("Seule", OmniNotificationSeverity.Information);
+        service.Notify("Seule", OmniSeverity.Info);
 
         // The pile element exists from the first card, so the second one does not move it to a new
         // parent, which would rebuild it and restart its tint.
@@ -92,9 +92,9 @@ public sealed class NotificationTests : OmniBunitContext
             .Add(component => component.Notifications, new OmniNotificationOptions(Group: group))
             .AddChildContent("Application"));
 
-        service.Notify("Un", OmniNotificationSeverity.Information);
-        service.Notify("Deux", OmniNotificationSeverity.Information);
-        service.Notify("Trois", OmniNotificationSeverity.Information);
+        service.Notify("Un", OmniSeverity.Info);
+        service.Notify("Deux", OmniSeverity.Info);
+        service.Notify("Trois", OmniSeverity.Info);
         host.WaitForAssertion(() => Assert.Equal(3, host.FindComponents<OmniNotification>().Count));
         var survivors = host.FindComponents<OmniNotification>().Skip(1).Select(card => card.Instance).ToList();
 
@@ -130,7 +130,7 @@ public sealed class NotificationTests : OmniBunitContext
     {
         var clock = new ManualTimeProvider();
         using var store = new OmniNotificationStore(clock, () => { }, 5, TimeSpan.FromSeconds(5));
-        var id = store.Add("Short", OmniNotificationSeverity.Information, null, null);
+        var id = store.Add("Short", OmniSeverity.Info, null, null);
 
         clock.Advance(TimeSpan.FromSeconds(2));
         store.Pause(id);
@@ -151,10 +151,10 @@ public sealed class NotificationTests : OmniBunitContext
     {
         using var service = new OmniOverlayService();
 
-        service.Notify("Rapport", OmniNotificationSeverity.Information, null, null, "/journal");
+        service.Notify("Rapport", OmniSeverity.Info, null, null, "/journal");
 
         Assert.Equal("/journal", Assert.Single(service.Notifications).DetailsHref);
-        Assert.Throws<InvalidOperationException>(() => service.Notify("Rapport", OmniNotificationSeverity.Information, null, null, "javascript:alert(1)"));
+        Assert.Throws<InvalidOperationException>(() => service.Notify("Rapport", OmniSeverity.Info, null, null, "javascript:alert(1)"));
     }
 
     [Fact]
@@ -194,11 +194,11 @@ public sealed class NotificationTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData(OmniNotificationSeverity.Success, "omni-notification--success", "m6.5 12.5 3.5 3.5 7.5-8")]
-    [InlineData(OmniNotificationSeverity.Warning, "omni-notification--warning", "M12 7v6M12 17h.01")]
-    [InlineData(OmniNotificationSeverity.Error, "omni-notification--error", "M8 8l8 8M16 8l-8 8")]
-    [InlineData(OmniNotificationSeverity.Information, "omni-notification--information", "M12 11v6M12 7h.01")]
-    public void Notification_CarriesItsRoleMarkAndClass(OmniNotificationSeverity severity, string expectedClass, string expectedGlyph)
+    [InlineData(OmniSeverity.Success, "omni-notification--success", "m6.5 12.5 3.5 3.5 7.5-8")]
+    [InlineData(OmniSeverity.Warning, "omni-notification--warning", "M12 7v6M12 17h.01")]
+    [InlineData(OmniSeverity.Danger, "omni-notification--error", "M8 8l8 8M16 8l-8 8")]
+    [InlineData(OmniSeverity.Info, "omni-notification--information", "M12 11v6M12 7h.01")]
+    public void Notification_CarriesItsRoleMarkAndClass(OmniSeverity severity, string expectedClass, string expectedGlyph)
     {
         var notification = Render<OmniNotification>(parameters => parameters
             .Add(component => component.Message, "Saved")

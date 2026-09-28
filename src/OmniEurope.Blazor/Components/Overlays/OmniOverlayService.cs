@@ -163,7 +163,7 @@ public sealed class OmniOverlayService : IDisposable
 
     public Guid Notify(
         string message,
-        OmniNotificationSeverity severity = OmniNotificationSeverity.Information,
+        OmniSeverity severity = OmniSeverity.Info,
         string? title = null,
         TimeSpan? duration = null) => Notify(message, severity, title, duration, detailsHref: null);
 
@@ -178,7 +178,7 @@ public sealed class OmniOverlayService : IDisposable
     /// </param>
     public Guid Notify(
         string message,
-        OmniNotificationSeverity severity,
+        OmniSeverity severity,
         string? title,
         TimeSpan? duration,
         string? detailsHref)
@@ -194,7 +194,7 @@ public sealed class OmniOverlayService : IDisposable
     /// </summary>
     public Guid Notify(
         string message,
-        OmniNotificationSeverity severity,
+        OmniSeverity severity,
         string? title,
         TimeSpan? duration,
         string actionText,

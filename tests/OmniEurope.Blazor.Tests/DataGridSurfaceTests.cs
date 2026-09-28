@@ -14,7 +14,7 @@ public sealed class DataGridSurfaceTests : OmniBunitContext
     {
         var grid = Render<OmniDataGrid<string>>(parameters => parameters
             .Add(component => component.IsLoading, true)
-            .Add(component => component.LoadingTemplate, builder => builder.AddContent(0, "Brand loading")));
+            .Add(component => component.LoadingContent, builder => builder.AddContent(0, "Brand loading")));
 
         Assert.NotEmpty(grid.FindAll("thead th"));
         Assert.Equal("Brand loading", grid.Find("tbody .omni-data-grid__state--loading").TextContent);

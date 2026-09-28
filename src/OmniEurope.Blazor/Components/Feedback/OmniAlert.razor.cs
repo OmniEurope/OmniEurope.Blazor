@@ -11,7 +11,7 @@ public partial class OmniAlert
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
-    public OmniAlertSeverity Severity { get; set; } = OmniAlertSeverity.Info;
+    public OmniSeverity Severity { get; set; } = OmniSeverity.Info;
 
     /// <summary>
     /// Outline keeps the message light on the page; Filled paints the severity colour behind it,
@@ -48,9 +48,9 @@ public partial class OmniAlert
 
     private string GlyphPath => Severity switch
     {
-        OmniAlertSeverity.Success => OmniSeverityGlyph.Success,
-        OmniAlertSeverity.Warning => OmniSeverityGlyph.Warning,
-        OmniAlertSeverity.Danger => OmniSeverityGlyph.Danger,
+        OmniSeverity.Success => OmniSeverityGlyph.Success,
+        OmniSeverity.Warning => OmniSeverityGlyph.Warning,
+        OmniSeverity.Danger => OmniSeverityGlyph.Danger,
         _ => OmniSeverityGlyph.Information
     };
 

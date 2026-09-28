@@ -129,8 +129,9 @@ L'assistant transmet à ses `OmniStepsItem`, par une valeur en cascade interne, 
 corps : le bouton de chaque étape contrôle ce panneau et l'élément ne rend pas de panneau à lui. Hors
 d'un assistant, chaque étape garde son propre panneau.
 
-`OmniStepsItem.Icon` (`OmniIconName?`) affiche une icône dans la pastille de l'étape à la place de son
-numéro (une étape franchie, par exemple) ; le numéro reste lu par les technologies d'assistance.
+`OmniStepsItem.Icon` (fragment, comme l'`Icon` des autres composants, en général un `OmniIcon`) affiche
+une icône dans la pastille de l'étape à la place de son numéro (une étape franchie, par exemple) ;
+l'icône est décorative et le numéro reste lu par les technologies d'assistance.
 
 ## Liste de définitions : `OmniDescriptionList` et `OmniDescriptionItem`
 

@@ -421,7 +421,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
         var withTemplate = Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, Array.Empty<int>())
             .Add(component => component.EmptyText, "Rien ici")
-            .Add(component => component.EmptyTemplate, builder => builder.AddMarkupContent(0, "<strong class=\"empty-probe\">Aucun serveur</strong>")));
+            .Add(component => component.EmptyContent, builder => builder.AddMarkupContent(0, "<strong class=\"empty-probe\">Aucun serveur</strong>")));
 
         Assert.Single(withTemplate.FindAll(".omni-data-grid__state .empty-probe"));
         Assert.DoesNotContain("Rien ici", withTemplate.Markup, StringComparison.Ordinal);
