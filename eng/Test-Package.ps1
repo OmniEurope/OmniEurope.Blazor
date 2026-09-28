@@ -38,11 +38,20 @@ try {
         '^compliance/vendored-assets\.json$',
         '^compliance/licenses/.+$',
         '^lib/net10\.0/OmniEurope\.Blazor\.dll$',
+        '^analyzers/dotnet/cs/OmniEurope\.Blazor\.Analyzers\.dll$',
         '^staticwebassets/omnieurope\.blazor\.css$',
         '^staticwebassets/omniInterop\.js$'
     )
     foreach ($pattern in $requiredPatterns) {
         if (-not ($entries -match $pattern)) { throw "Package entry missing: $pattern" }
+    }
+
+    # The analyzer (OE0001) runs inside the consumer's compiler, which provides Roslyn: the package
+    # carries that one assembly and nothing else under analyzers/, never a copy of the compiler.
+    $analyzerEntries = @($entries | Where-Object { $_ -match '^analyzers/' -and $_ -notmatch '/$' })
+    $unexpectedAnalyzers = @($analyzerEntries | Where-Object { $_ -cne 'analyzers/dotnet/cs/OmniEurope.Blazor.Analyzers.dll' })
+    if ($unexpectedAnalyzers.Count -gt 0) {
+        throw "Package carries unexpected analyzer entries: $($unexpectedAnalyzers -join ', ')"
     }
 
     # Content files land in every consuming host's wwwroot: the stylesheet ships only as the minified

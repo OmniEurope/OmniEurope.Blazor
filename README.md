@@ -73,6 +73,19 @@ Use a component:
 </OmniButton>
 ```
 
+## Unknown parameters
+
+The components capture the attributes they do not declare and write them on their markup, so a parameter that was removed or misspelled would otherwise become an HTML attribute without a word. Two guards stop it:
+
+- **At build time**, the package ships a Roslyn analyzer. `OE0001` is an error, reported at its line in the `.razor` file, for a PascalCase attribute that an OmniEurope.Blazor component has no parameter for: `OmniBadge has no parameter 'IconName'`. Lowercase HTML attributes (`class`, `id`, `aria-*`, `data-*`) and `@attributes` splats are never reported.
+- **At render time**, the component throws `InvalidOperationException` with the same message for such an attribute, including one that only exists at run time (a dictionary given to `@attributes`).
+
+A `ProjectReference` to the library does not bring the analyzer packed in the NuGet package. A project that references the source adds one line beside that reference:
+
+```xml
+<ProjectReference Include="path/to/src/OmniEurope.Blazor.Analyzers/OmniEurope.Blazor.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+```
+
 ## Content Security Policy
 
 The library targets, at minimum, a policy that grants neither `'unsafe-inline'` to `style-src` nor `'unsafe-eval'` to `script-src`. WebAssembly and Interactive Auto hosts add `'wasm-unsafe-eval'` to `script-src` for the .NET runtime itself; nothing broader is required by the rest of the library.

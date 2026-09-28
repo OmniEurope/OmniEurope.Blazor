@@ -15,6 +15,19 @@
                       ReferenceOutputAssembly="false" />
   </ItemGroup>
 
+  <!-- OE0001, the analyzer shipped in the package, reaches the library, the showcase, the samples and
+       the tests through the very line a ProjectReference consumer adds (README, "Unknown parameters").
+       The analyzer projects and the build-internal eng tools are left out. -->
+  <PropertyGroup>
+    <OmniUsesShippedAnalyzer Condition="'$(OmniUsesShippedAnalyzer)' == ''">true</OmniUsesShippedAnalyzer>
+    <OmniUsesShippedAnalyzer Condition="'$(MSBuildProjectName)' == 'OmniEurope.Blazor.Analyzers' or '$(MSBuildProjectName)' == 'OmniEurope.Blazor.Analyzers.Tests' or '$(MSBuildProjectName)' == 'OmniEurope.Analyzers' or '$(MSBuildProjectName)' == 'OmniEurope.Analyzers.Tests' or '$(MSBuildProjectName)' == 'OmniEurope.PublicApiGuard'">false</OmniUsesShippedAnalyzer>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(OmniUsesShippedAnalyzer)' == 'true'">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)src\OmniEurope.Blazor.Analyzers\OmniEurope.Blazor.Analyzers.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false"
+                      PrivateAssets="all" />
+  </ItemGroup>
+
   <!-- The Razor SDK provides components as AdditionalFiles to GEN004. -->
 </Project>
-

@@ -16,8 +16,9 @@
     Test-DependencyPolicy, SBOM). The launcher builds and tests in Debug; CI validates in Release.
 .EXAMPLE
     .\ylaunch.ps1 -s          Build + start the catalog and the showcase, no browser
-    .\ylaunch.ps1 -t          Build + every unit suite (library and analyzers) + exit
+    .\ylaunch.ps1 -t          Build + every unit suite (library, analyzers, shipped analyzer) + exit
     .\ylaunch.ps1 -tl         Build + the library suite only + exit
+    .\ylaunch.ps1 -tp         Build + the suite of the analyzer shipped in the package (OE0001) + exit
     .\ylaunch.ps1 -w          Give this worktree its own ports, then start
 #>
 [CmdletBinding(PositionalBinding = $false)]
@@ -28,6 +29,7 @@ param(
     [Alias("ta")]  [switch]$TestAll,
     [Alias("tl")]  [switch]$TestLibrary,
     [Alias("tg")]  [switch]$TestAnalyzers,
+    [Alias("tp")]  [switch]$TestPackageAnalyzer,
     [Alias("c")]   [switch]$Coverage,
     [Alias("hr")]  [switch]$HotReload,
     [Alias("w")]   [switch]$Worktree,
@@ -75,6 +77,7 @@ $LaunchConfig = @{
     Tests = @(
         @{ Key = "Library"; Flag = "TestLibrary"; Alias = "tl"; Kind = "Unit"; Coverage = $true; Project = "tests\OmniEurope.Blazor.Tests\OmniEurope.Blazor.Tests.csproj" }
         @{ Key = "Analyzers"; Flag = "TestAnalyzers"; Alias = "tg"; Kind = "Unit"; Coverage = $true; Project = "eng\OmniEurope.Analyzers.Tests\OmniEurope.Analyzers.Tests.csproj" }
+        @{ Key = "PackageAnalyzer"; Flag = "TestPackageAnalyzer"; Alias = "tp"; Kind = "Unit"; Coverage = $true; Project = "tests\OmniEurope.Blazor.Analyzers.Tests\OmniEurope.Blazor.Analyzers.Tests.csproj" }
     )
     # Declared exception (owner decision 2026-09-28): the kit recommends an E2E suite, this package has
     # none. Its hosts are covered by the browser probes of eng\ (Test-*Host.ps1), not by Playwright.
