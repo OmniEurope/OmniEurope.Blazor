@@ -752,9 +752,9 @@ function measureRenderedColumn(viewport, selector, col) {
     let widest = 0;
     for (const cell of cells) {
         if (cell.scrollWidth > cell.clientWidth) {
-            const style = getComputedStyle(cell);
-            const borders = parseFloat(style.borderInlineStartWidth || '0')
-                + parseFloat(style.borderInlineEndWidth || '0');
+            const cellStyle = getComputedStyle(cell);
+            const borders = parseFloat(cellStyle.borderInlineStartWidth || '0')
+                + parseFloat(cellStyle.borderInlineEndWidth || '0');
             widest = Math.max(widest, cell.scrollWidth + borders);
         }
     }
