@@ -1,4 +1,5 @@
 using Bunit;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
 using OmniEurope.Blazor.Components;
 using System.Globalization;
@@ -334,6 +335,166 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         Assert.Equal("2026-10-25T02:30:00.0000000+02:00", rendered[0].GetAttribute("data-start"));
         Assert.Equal("2026-10-25T02:30:00.0000000+01:00", rendered[1].GetAttribute("data-start"));
         Assert.All(rendered, item => Assert.Equal("30", item.GetAttribute("data-duration-minutes")));
+    }
+
+    private static readonly DateTimeOffset Monday = new(2026, 6, 8, 0, 0, 0, TimeSpan.Zero);
+
+    private IRenderedComponent<OmniScheduler> RenderWeekGrid(
+        IReadOnlyList<OmniSchedulerAppointment> items,
+        Action<ComponentParameterCollectionBuilder<OmniScheduler>>? more = null) =>
+        Render<OmniScheduler>(parameters =>
+        {
+            parameters
+                .Add(component => component.Date, Monday)
+                .Add(component => component.View, OmniSchedulerView.Week)
+                .Add(component => component.TimeZone, TimeZoneInfo.Utc)
+                .Add(component => component.Culture, CultureInfo.GetCultureInfo("fr-FR"))
+                .Add(component => component.DayStart, new TimeOnly(8, 0))
+                .Add(component => component.DayEnd, new TimeOnly(12, 0))
+                .Add(component => component.Items, items);
+            more?.Invoke(parameters);
+        });
+
+    [Fact]
+    public void TimeGrid_PlacesEachAppointmentInTheSlotWhereItStarts_AndMarksToday()
+    {
+        Services.AddSingleton<TimeProvider>(new FixedTimeProvider(Monday.AddDays(1).AddHours(10)));
+        var scheduler = RenderWeekGrid(
+        [
+            new("early", "Avant la grille", Monday.AddHours(6), Monday.AddHours(7)),
+            new("mid", "Revue", Monday.AddDays(1).AddHours(9).AddMinutes(30), Monday.AddDays(1).AddHours(10).AddMinutes(30)) { CssClass = "host-billable" }
+        ]);
+
+        var rows = scheduler.FindAll(".omni-scheduler-grid__table tbody tr");
+        Assert.Equal(4, rows.Count);
+        Assert.Equal("08:00", rows[0].QuerySelector("time")!.GetAttribute("datetime"));
+        // Columns: the time header, then Monday, Tuesday...; an appointment before the grid sits in the first slot.
+        Assert.Contains("Avant la grille", rows[0].QuerySelectorAll("td")[0].TextContent, StringComparison.Ordinal);
+        var revue = rows[1].QuerySelectorAll("td")[1].QuerySelector(".omni-scheduler__appointment")!;
+        Assert.Contains("host-billable", revue.ClassList);
+        Assert.Contains("Revue", revue.TextContent, StringComparison.Ordinal);
+
+        var todayHeader = scheduler.FindAll("thead th")[2];
+        Assert.Equal("date", todayHeader.GetAttribute("aria-current"));
+        Assert.Contains("omni-scheduler-grid__day--today", todayHeader.ClassList);
+        Assert.All(rows, row => Assert.Contains("omni-scheduler-grid__cell--today", row.QuerySelectorAll("td")[1].ClassList));
+        Assert.DoesNotContain("style=", scheduler.Markup, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void ReadOnlyScheduler_HasNoButtonsOnAppointments_AndLoadsNoScript()
+    {
+        var scheduler = RenderWeekGrid([new("a", "Revue", Monday.AddHours(9), Monday.AddHours(10))]);
+
+        var appointment = scheduler.Find(".omni-scheduler__appointment");
+        Assert.Empty(appointment.QuerySelectorAll("button"));
+        Assert.Null(appointment.GetAttribute("draggable"));
+        Assert.Empty(JSInterop.Invocations);
+    }
+
+    [Fact]
+    public void AppointmentClicked_ReportsTheAppointmentAsTheHostGaveIt()
+    {
+        var paris = new DateTimeOffset(2026, 6, 8, 11, 0, 0, TimeSpan.FromHours(2));
+        var given = new OmniSchedulerAppointment("a", "Revue", paris, paris.AddHours(1));
+        OmniSchedulerAppointment? clicked = null;
+        var scheduler = RenderWeekGrid([given], parameters => parameters
+            .Add(component => component.AppointmentClicked, value => clicked = value));
+
+        scheduler.Find(".omni-scheduler__open").Click();
+
+        Assert.Same(given, clicked);
+    }
+
+    [Fact]
+    public void MoveButton_PicksUpTheAppointment_AndAPlaceButtonMovesItKeepingItsDuration()
+    {
+        var given = new OmniSchedulerAppointment("a", "Revue", Monday.AddHours(9), Monday.AddHours(10).AddMinutes(30));
+        OmniSchedulerAppointmentMove? moved = null;
+        var scheduler = RenderWeekGrid([given], parameters => parameters
+            .Add(component => component.AppointmentMoved, value => moved = value));
+
+        Assert.Empty(scheduler.FindAll(".omni-scheduler__place"));
+        scheduler.Find(".omni-scheduler__move").Click();
+
+        Assert.Equal("true", scheduler.Find(".omni-scheduler__move").GetAttribute("aria-pressed"));
+        Assert.Contains("Revue", scheduler.Instance.Announcement, StringComparison.Ordinal);
+        // Every slot of the week but the one it already starts at offers to take it.
+        Assert.Equal(4 * 7 - 1, scheduler.FindAll(".omni-scheduler__place").Count);
+        // The visible words start the accessible name, which adds what and where.
+        var place = scheduler.FindAll(".omni-scheduler__place")[0];
+        Assert.StartsWith(place.TextContent, place.GetAttribute("aria-label"), StringComparison.Ordinal);
+        Assert.Contains("Revue", place.GetAttribute("aria-label"), StringComparison.Ordinal);
+
+        // Wednesday, third slot (10:00).
+        scheduler.FindAll(".omni-scheduler-grid__table tbody tr")[2].QuerySelectorAll("td")[2]
+            .QuerySelector(".omni-scheduler__place")!.Click();
+
+        Assert.NotNull(moved);
+        Assert.Same(given, moved!.Appointment);
+        Assert.Equal(Monday.AddDays(2).AddHours(10), moved.Start);
+        Assert.Equal(Monday.AddDays(2).AddHours(11).AddMinutes(30), moved.End);
+        Assert.Empty(scheduler.FindAll(".omni-scheduler__place"));
+        // The scheduler leaves its items alone: the host applies the move.
+        Assert.Equal(Monday.AddHours(9), given.Start);
+    }
+
+    [Fact]
+    public void Escape_PutsTheCarriedAppointmentBack()
+    {
+        var moves = 0;
+        var scheduler = RenderWeekGrid([new("a", "Revue", Monday.AddHours(9), Monday.AddHours(10))], parameters => parameters
+            .Add(component => component.AppointmentMoved, _ => moves++));
+
+        scheduler.Find(".omni-scheduler__move").Click();
+        scheduler.Find("section.omni-scheduler").KeyDown(new KeyboardEventArgs { Key = "Escape" });
+
+        Assert.Empty(scheduler.FindAll(".omni-scheduler__place"));
+        Assert.Empty(scheduler.FindAll(".omni-scheduler__cancel"));
+        Assert.Equal(0, moves);
+    }
+
+    [Fact]
+    public void DragOntoAMonthDay_KeepsTheTimeOfDay_AndLoadsTheDragScript()
+    {
+        var given = new OmniSchedulerAppointment("a", "Revue", Monday.AddHours(9).AddMinutes(15), Monday.AddHours(10));
+        OmniSchedulerAppointmentMove? moved = null;
+        var scheduler = Render<OmniScheduler>(parameters => parameters
+            .Add(component => component.Date, Monday)
+            .Add(component => component.View, OmniSchedulerView.Month)
+            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
+            .Add(component => component.Culture, CultureInfo.GetCultureInfo("fr-FR"))
+            .Add(component => component.Items, new[] { given })
+            .Add(component => component.AppointmentMoved, value => moved = value));
+
+        var appointment = scheduler.Find("[data-omni-scheduler-appointment='a']");
+        Assert.Equal("true", appointment.GetAttribute("draggable"));
+        appointment.DragStart();
+        scheduler.Find("[data-date='2026-06-12']").DragEnter();
+        Assert.Contains("omni-scheduler__drop", scheduler.Find("[data-date='2026-06-12']").ClassList);
+        scheduler.Find("[data-date='2026-06-12']").Drop();
+
+        Assert.Equal(Monday.AddDays(4).AddHours(9).AddMinutes(15), moved!.Start);
+        Assert.Equal(Monday.AddDays(4).AddHours(10), moved.End);
+        Assert.Contains(JSInterop.Invocations, invocation => invocation.Identifier == "import"
+            && invocation.Arguments.Contains("./_content/OmniEurope.Blazor/omni-scheduler.js"));
+    }
+
+    [Fact]
+    public void DropOnTheDayItAlreadyStarts_ReportsNoMove()
+    {
+        var moves = 0;
+        var scheduler = Render<OmniScheduler>(parameters => parameters
+            .Add(component => component.Date, Monday)
+            .Add(component => component.View, OmniSchedulerView.Month)
+            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
+            .Add(component => component.Items, new[] { new OmniSchedulerAppointment("a", "Revue", Monday.AddHours(9), Monday.AddHours(10)) })
+            .Add(component => component.AppointmentMoved, _ => moves++));
+
+        scheduler.Find("[data-omni-scheduler-appointment='a']").DragStart();
+        scheduler.Find("[data-date='2026-06-08']").Drop();
+
+        Assert.Equal(0, moves);
     }
 
     private sealed class FixedTimeProvider(DateTimeOffset value) : TimeProvider

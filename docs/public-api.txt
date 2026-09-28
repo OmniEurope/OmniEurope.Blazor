@@ -284,6 +284,7 @@ ctor public OmniEurope.Blazor.Components.OmniRequiredValidator<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniRow()
 ctor public OmniEurope.Blazor.Components.OmniScheduler()
 ctor public OmniEurope.Blazor.Components.OmniSchedulerAppointment(System.String Id, System.String Title, System.DateTimeOffset Start, System.DateTimeOffset End, System.String? Description = null)
+ctor public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove(OmniEurope.Blazor.Components.OmniSchedulerAppointment Appointment, System.DateTimeOffset Start, System.DateTimeOffset End)
 ctor public OmniEurope.Blazor.Components.OmniSelectBar<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniSeriesDataLabels()
 ctor public OmniEurope.Blazor.Components.OmniSettingsSection()
@@ -1086,6 +1087,7 @@ method protected override OmniEurope.Blazor.Components.OmniRequiredValidator<TVa
 method protected override OmniEurope.Blazor.Components.OmniRequiredValidator<TValue>.GetValidationError(TValue value) : System.String?
 method protected override OmniEurope.Blazor.Components.OmniRow.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniScheduler.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniScheduler.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniScheduler.OnInitialized() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniScheduler.OnParametersSetAsync() : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniSelectBar<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -1417,6 +1419,9 @@ method public OmniEurope.Blazor.Components.OmniScheduler.ReloadAsync() : System.
 method public OmniEurope.Blazor.Components.OmniSchedulerAppointment.<Clone>$() : OmniEurope.Blazor.Components.OmniSchedulerAppointment
 method public OmniEurope.Blazor.Components.OmniSchedulerAppointment.Deconstruct(out System.String Id, out System.String Title, out System.DateTimeOffset Start, out System.DateTimeOffset End, out System.String? Description) : System.Void
 method public OmniEurope.Blazor.Components.OmniSchedulerAppointment.Equals(OmniEurope.Blazor.Components.OmniSchedulerAppointment? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.<Clone>$() : OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove
+method public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.Deconstruct(out OmniEurope.Blazor.Components.OmniSchedulerAppointment Appointment, out System.DateTimeOffset Start, out System.DateTimeOffset End) : System.Void
+method public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.Equals(OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniSelectBar<TValue>.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniSeriesDataLabels.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniSidebar.CloseFromEscapeAsync() : System.Threading.Tasks.Task
@@ -1646,6 +1651,9 @@ method public override OmniEurope.Blazor.Components.OmniOption<TValue>.ToString(
 method public override OmniEurope.Blazor.Components.OmniSchedulerAppointment.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniSchedulerAppointment.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniSchedulerAppointment.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniSidebarState.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniSidebarState.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniSidebarState.ToString() : System.String
@@ -1803,6 +1811,8 @@ method public static OmniEurope.Blazor.Components.OmniReturnUrl.IsLocal(System.S
 method public static OmniEurope.Blazor.Components.OmniReturnUrl.Resolve(System.String? returnUrl, System.String fallback = "/") : System.String
 method public static OmniEurope.Blazor.Components.OmniSchedulerAppointment.op_Equality(OmniEurope.Blazor.Components.OmniSchedulerAppointment? left, OmniEurope.Blazor.Components.OmniSchedulerAppointment? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniSchedulerAppointment.op_Inequality(OmniEurope.Blazor.Components.OmniSchedulerAppointment? left, OmniEurope.Blazor.Components.OmniSchedulerAppointment? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.op_Equality(OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove? left, OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.op_Inequality(OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove? left, OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniSidebarState.op_Equality(OmniEurope.Blazor.Components.OmniSidebarState? left, OmniEurope.Blazor.Components.OmniSidebarState? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniSidebarState.op_Inequality(OmniEurope.Blazor.Components.OmniSidebarState? left, OmniEurope.Blazor.Components.OmniSidebarState? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniSpreadsheetData.Address(System.Int32 row, System.Int32 column) : System.String
@@ -2810,19 +2820,28 @@ property public OmniEurope.Blazor.Components.OmniRow.ChildContent : Microsoft.As
 property public OmniEurope.Blazor.Components.OmniRow.Gap : OmniEurope.Blazor.Components.OmniSpacing {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniRow.Justify : OmniEurope.Blazor.Components.OmniJustification {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniRow.Wrap : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniScheduler.AppointmentClicked : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniSchedulerAppointment> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniScheduler.AppointmentMoved : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.Culture : System.Globalization.CultureInfo {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.Date : System.DateTimeOffset {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.DateChanged : Microsoft.AspNetCore.Components.EventCallback<System.DateTimeOffset> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniScheduler.DayEnd : System.TimeOnly? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniScheduler.DayStart : System.TimeOnly? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.Items : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniSchedulerAppointment> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.Load : System.Func<System.DateTimeOffset,System.DateTimeOffset,System.Threading.CancellationToken,System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniSchedulerAppointment>>>? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniScheduler.SlotMinutes : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.TimeZone : System.TimeZoneInfo {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.View : OmniEurope.Blazor.Components.OmniSchedulerView {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniScheduler.ViewChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniSchedulerView> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSchedulerAppointment.CssClass : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSchedulerAppointment.Description : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSchedulerAppointment.End : System.DateTimeOffset {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSchedulerAppointment.Id : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSchedulerAppointment.Start : System.DateTimeOffset {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSchedulerAppointment.Title : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.Appointment : OmniEurope.Blazor.Components.OmniSchedulerAppointment {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.End : System.DateTimeOffset {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove.Start : System.DateTimeOffset {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniSelectBar<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSelectBar<TValue>.IconFor : System.Func<TValue,OmniEurope.Blazor.Components.OmniIconName?>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSelectBar<TValue>.Label : System.String? {get(public);set(public)} [Parameter]
@@ -3424,6 +3443,7 @@ type public OmniEurope.Blazor.Components.OmniReturnUrl [static-class, static]
 type public OmniEurope.Blazor.Components.OmniRow [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniScheduler [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniSchedulerAppointment [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniSchedulerAppointment>
+type public OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniSchedulerAppointmentMove>
 type public OmniEurope.Blazor.Components.OmniSchedulerView [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniSelectBar<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniSeriesDataLabels [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable

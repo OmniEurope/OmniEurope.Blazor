@@ -353,6 +353,14 @@
   <data name="SchedulerWeek" xml:space="preserve"><value>Semaine</value></data>
   <data name="SchedulerMonth" xml:space="preserve"><value>Mois</value></data>
   <data name="SchedulerLoadFailed" xml:space="preserve"><value>Le calendrier n'a pas pu être chargé.</value></data>
+  <data name="SchedulerTimeColumn" xml:space="preserve"><value>Heure</value></data>
+  <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Déplacer {0}</value></data>
+  <data name="SchedulerMoveHere" xml:space="preserve"><value>Placer ici : {0}, {1}</value></data>
+  <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Placer ici</value></data>
+  <data name="SchedulerMoveCancel" xml:space="preserve"><value>Annuler le déplacement</value></data>
+  <data name="SchedulerMoving" xml:space="preserve"><value>{0} saisi : choisissez son nouvel emplacement, Échap pour annuler.</value></data>
+  <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} reste à sa place.</value></data>
+  <data name="SchedulerMoved" xml:space="preserve"><value>{0} déplacé au {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>La sélection segmentée n'est pas valide.</value></data>
   <data name="SidebarLabel" xml:space="preserve"><value>Navigation</value></data>
   <data name="SidebarClose" xml:space="preserve"><value>Fermer la navigation</value></data>

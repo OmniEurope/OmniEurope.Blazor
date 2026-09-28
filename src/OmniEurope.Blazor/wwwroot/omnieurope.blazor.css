@@ -2737,13 +2737,44 @@ polyline.omni-chart__line { fill: none; }
 .omni-scheduler__appointments li { border-inline-start: 0.25rem solid var(--omni-color-accent); display: grid; gap: var(--omni-space-xs); padding: var(--omni-space-sm); }
 .omni-week-view { display: grid; gap: var(--omni-space-sm); grid-template-columns: repeat(7, minmax(8rem, 1fr)); overflow: auto; }
 .omni-week-view__day { border: var(--omni-border-width) solid var(--omni-color-border); min-height: 10rem; padding: var(--omni-space-sm); }
-.omni-week-view__day p { font-size: var(--omni-font-size-base); }
 .omni-month-view { display: grid; gap: 1px; grid-template-columns: repeat(7, minmax(7rem, 1fr)); overflow: auto; }
 .omni-month-view__weekday { background: var(--omni-color-surface-muted); font-size: var(--omni-font-size-sm); font-weight: 700; padding: var(--omni-space-xs); text-align: center; }
 .omni-month-view__day { border: var(--omni-border-width) solid var(--omni-color-border); min-height: calc(var(--omni-control-height) * 3 + 0.25rem); padding: var(--omni-space-xs); }
 .omni-month-view__day--outside { background: var(--omni-color-surface-muted); }
-.omni-month-view__day h3,
-.omni-month-view__day p { font-size: var(--omni-font-size-sm); margin: 0 0 var(--omni-space-xs); }
+.omni-month-view__day h3 { font-size: var(--omni-font-size-sm); margin: 0 0 var(--omni-space-xs); }
+/* OmniScheduler: today is tinted; an appointment in a week, month or time-grid cell is a tinted block
+   with its time, its title and, when appointments move, a move button; while one is carried, every
+   slot or day shows the dashed button that puts it there. */
+.omni-week-view__day--today,
+.omni-month-view__day--today,
+.omni-scheduler-grid__day--today,
+.omni-scheduler-grid__cell--today { background: var(--omni-color-accent-subtle); }
+.omni-scheduler__drop { background: var(--omni-color-accent-subtle); outline: var(--omni-border-width) dashed var(--omni-color-accent); outline-offset: calc(-1 * var(--omni-border-width)); }
+.omni-scheduler-grid { overflow: auto; }
+.omni-scheduler-grid__table { border-collapse: collapse; inline-size: 100%; min-inline-size: 42rem; table-layout: fixed; }
+.omni-scheduler-grid__table th,
+.omni-scheduler-grid__table td { border: var(--omni-border-width) solid var(--omni-color-border); padding: var(--omni-space-xs); vertical-align: top; }
+.omni-scheduler-grid__table thead th { background: var(--omni-color-surface-muted); font-size: var(--omni-font-size-sm); font-weight: 650; text-align: center; }
+.omni-scheduler-grid__table thead th.omni-scheduler-grid__day--today { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); }
+.omni-scheduler-grid__time { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); font-weight: 400; inline-size: 4.5rem; text-align: end; white-space: nowrap; }
+.omni-scheduler-grid__cell { block-size: calc(var(--omni-control-height) + var(--omni-space-sm)); }
+.omni-scheduler-grid .omni-scheduler__appointment,
+.omni-week-view .omni-scheduler__appointment,
+.omni-month-view .omni-scheduler__appointment { align-items: flex-start; background: color-mix(in srgb, var(--omni-color-accent) 12%, var(--omni-color-surface)); border-radius: var(--omni-radius); display: flex; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); margin-block-end: var(--omni-space-xs); min-inline-size: 0; padding: 0.125rem var(--omni-space-xs); }
+.omni-scheduler__appointment[draggable="true"] { cursor: grab; }
+.omni-scheduler__appointment--moving { opacity: 0.55; }
+.omni-scheduler__appointment strong { font-weight: 600; min-inline-size: 0; overflow-wrap: anywhere; }
+.omni-scheduler__appointment time { flex: none; font-variant-numeric: tabular-nums; }
+.omni-scheduler__open { align-items: flex-start; background: none; border: 0; border-radius: calc(var(--omni-radius) / 2); color: inherit; cursor: pointer; display: flex; flex: 1; flex-direction: column; font: inherit; gap: 0; min-inline-size: 0; padding: 0; text-align: start; }
+.omni-scheduler__open:hover strong { text-decoration: underline; }
+.omni-scheduler__open:focus-visible,
+.omni-scheduler__move:focus-visible,
+.omni-scheduler__place:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-scheduler__move { background: none; border: 0; border-radius: calc(var(--omni-radius) / 2); color: var(--omni-color-text-muted); cursor: pointer; flex: none; font: inherit; line-height: 1; margin-inline-start: auto; padding: 0.125rem; }
+.omni-scheduler__move:hover,
+.omni-scheduler__move[aria-pressed="true"] { color: var(--omni-color-accent-strong); }
+.omni-scheduler__place { background: var(--omni-color-surface); border: var(--omni-border-width) dashed var(--omni-color-accent); border-radius: var(--omni-radius); color: var(--omni-color-accent-strong); cursor: pointer; display: block; font: inherit; font-size: var(--omni-font-size-sm); inline-size: 100%; overflow: hidden; padding: 0.125rem var(--omni-space-xs); text-overflow: ellipsis; white-space: nowrap; }
+.omni-scheduler__place:hover { background: var(--omni-color-accent-subtle); }
 
 .omni-html-editor, .omni-code-editor { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; overflow: hidden; }
 .omni-html-editor__toolbar, .omni-html-editor__link { align-items: center; background: var(--omni-color-surface-muted); border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); padding: var(--omni-space-xs); }
