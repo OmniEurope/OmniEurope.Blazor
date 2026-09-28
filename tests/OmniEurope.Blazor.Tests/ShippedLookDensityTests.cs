@@ -567,6 +567,29 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         Assert.DoesNotContain(ShippedLookTests.Rules(), rule => rule.Selector.Contains("omni-scheduler", StringComparison.Ordinal) && Regex.IsMatch(rule.Body, @"border-inline-start|border-left\b"));
     }
 
+    /// <summary>
+    /// An appointment title breaks between words (hyphenated where the language allows), never inside
+    /// one; only a word wider than the cell is cut with an ellipsis. In a cell, the move button is
+    /// taken out of the flow into the corner of the time line, so the title keeps the whole width.
+    /// </summary>
+    [Fact]
+    public void SchedulerAppointmentTitle_BreaksBetweenWords()
+    {
+        var title = ShippedLookTests.Body(".omni-scheduler__appointment strong");
+
+        Assert.DoesNotContain("overflow-wrap", title, StringComparison.Ordinal);
+        Assert.DoesNotContain("word-break", title, StringComparison.Ordinal);
+        Assert.Equal("auto", ShippedLookTests.Value(title, "hyphens"));
+        Assert.Equal("hidden", ShippedLookTests.Value(title, "overflow"));
+        Assert.Equal("ellipsis", ShippedLookTests.Value(title, "text-overflow"));
+        Assert.Equal("100%", ShippedLookTests.Value(title, "max-inline-size"));
+
+        const string Cells = ":is(.omni-scheduler-grid, .omni-week-view, .omni-month-view)";
+        Assert.Equal("absolute", ShippedLookTests.Value(ShippedLookTests.Body($"{Cells} .omni-scheduler__move"), "position"));
+        Assert.Equal("relative", ShippedLookTests.Value(ShippedLookTests.Body($"{Cells} .omni-scheduler__appointment"), "position"));
+        Assert.Contains("1em", ShippedLookTests.Value(ShippedLookTests.Body($"{Cells} .omni-scheduler__appointment:has(> .omni-scheduler__move) time"), "padding-inline-end"), StringComparison.Ordinal);
+    }
+
     [Theory]
     [InlineData(OmniSeverity.Info)]
     [InlineData(OmniSeverity.Success)]
