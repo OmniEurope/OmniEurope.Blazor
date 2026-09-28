@@ -52,6 +52,23 @@ try {
     }
 
     Write-Host 'Package fixture carrying content files was rejected by content inspection.'
+
+    # Third fixture: a Roslyn assembly packed beside the analyzer. The consumer's compiler provides
+    # Microsoft.CodeAnalysis; a packed copy would shadow it and break the analyzer under another SDK.
+    Remove-Item -LiteralPath (Join-Path $expanded 'contentFiles') -Recurse -Force
+    $roslyn = Join-Path $expanded 'analyzers/dotnet/cs/Microsoft.CodeAnalysis.dll'
+    [IO.File]::WriteAllBytes($roslyn, [byte[]](0x4D, 0x5A))
+    $withRoslyn = Join-Path $resolvedTempRoot 'with-roslyn.nupkg'
+    [IO.Compression.ZipFile]::CreateFromDirectory($expanded, $withRoslyn)
+    $output = & $pwsh -NoProfile -File (Join-Path $PSScriptRoot 'Test-Package.ps1') -PackagePath $withRoslyn 2>&1
+    $roslynExitCode = $LASTEXITCODE
+    $global:LASTEXITCODE = 0
+    if ($roslynExitCode -eq 0) { throw 'The package fixture carrying a Roslyn assembly unexpectedly passed.' }
+    if (($output -join "`n") -notmatch 'unexpected analyzer entries') {
+        throw "The package fixture carrying a Roslyn assembly failed for the wrong reason: $($output -join ' | ')"
+    }
+
+    Write-Host 'Package fixture carrying a Roslyn assembly was rejected by content inspection.'
 } finally {
     if (Test-Path -LiteralPath $resolvedTempRoot) {
         Remove-Item -LiteralPath $resolvedTempRoot -Recurse -Force

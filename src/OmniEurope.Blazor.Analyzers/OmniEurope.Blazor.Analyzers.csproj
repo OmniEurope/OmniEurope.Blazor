@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    The analyzer shipped in the OmniEurope.Blazor package (analyzers/dotnet/cs/). It must load in every
+    compiler from the global.json floor on, so it references the SDK-floor Roslyn (STD-SDKPIN) and
+    never ships it: the compiler that loads the analyzer provides Microsoft.CodeAnalysis.
+  -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>OmniEurope.Blazor.Analyzers</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <IsRoslynComponent>true</IsRoslynComponent>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <IsPackable>false</IsPackable>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <NoWarn>$(NoWarn);RS2008</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
+  </ItemGroup>
+</Project>

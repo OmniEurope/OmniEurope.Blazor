@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <OutputType>Exe</OutputType>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
+    <PackageReference Include="xunit.v3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/OmniEurope.Blazor.Analyzers/OmniEurope.Blazor.Analyzers.csproj" />
+    <ProjectReference Include="../../src/OmniEurope.Blazor/OmniEurope.Blazor.csproj" />
+  </ItemGroup>
+
+  <!-- Real Razor generator output (SDK 10.0.4xx) of the .razor files beside it, paths neutralised. -->
+  <ItemGroup>
+    <None Include="Fixtures/**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

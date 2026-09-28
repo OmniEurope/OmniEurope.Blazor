@@ -1,8 +1,10 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/OmniEurope.Blazor/OmniEurope.Blazor.csproj" />
+    <Project Path="src/OmniEurope.Blazor.Analyzers/OmniEurope.Blazor.Analyzers.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/OmniEurope.Blazor.Analyzers.Tests/OmniEurope.Blazor.Analyzers.Tests.csproj" />
     <Project Path="tests/OmniEurope.Blazor.Tests/OmniEurope.Blazor.Tests.csproj" />
   </Folder>
   <Folder Name="/eng/">

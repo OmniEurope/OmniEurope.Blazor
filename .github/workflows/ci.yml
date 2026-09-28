@@ -57,6 +57,16 @@ jobs:
       - name: Verify coverage artifact
         shell: pwsh
         run: ./eng/Test-Coverage.ps1 -CoverageRoot artifacts/coverage
+      - name: Shipped analyzer tests
+        # OE0001 ships in the package: its suite runs on the captured Razor generator output.
+        run: >-
+          dotnet test --project tests/OmniEurope.Blazor.Analyzers.Tests/OmniEurope.Blazor.Analyzers.Tests.csproj
+          --configuration Release --no-build --no-progress
+          --report-trx --report-trx-filename analyzer-tests.trx --results-directory artifacts/analyzer-tests
+      - name: Verify shipped analyzer test results
+        shell: pwsh
+        run: |
+          if (-not (Get-ChildItem artifacts/analyzer-tests -Filter analyzer-tests.trx -Recurse -File)) { throw 'The shipped analyzer suite produced no TRX.' }
       - name: Dependency and action policy
         shell: pwsh
         run: ./eng/Test-DependencyPolicy.ps1
