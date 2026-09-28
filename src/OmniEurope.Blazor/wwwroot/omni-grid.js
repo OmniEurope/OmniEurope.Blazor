@@ -153,11 +153,21 @@ export function detach(viewport) {
 
 /**
  * Reads the viewport geometry and the height of every rendered row in one round trip, so .NET can
- * replace its row-height estimates with real measurements.
+ * replace its row-height estimates with real measurements. When given, the spacers of the rows just
+ * rendered are set first.
  */
-export function sync(viewport, measureRows = true) {
+export function sync(viewport, measureRows = true, topSpacer = null, bottomSpacer = null) {
     if (!(viewport instanceof HTMLElement)) {
         return null;
+    }
+
+    // A render that drops the first rows of the window shortens the content until the top spacer
+    // takes their place. Read in between, the layout pulls the scroll back by the rows dropped
+    // (Firefox does so at once), and the window computed from that position brings them back: a
+    // short wheel step down never gets past them. The spacers of this render land before any read.
+    if (Number.isFinite(topSpacer) && Number.isFinite(bottomSpacer)) {
+        viewport.querySelector('[data-omni-spacer="top"]')?.style.setProperty('--omni-grid-spacer', `${Math.max(0, topSpacer)}px`);
+        viewport.querySelector('[data-omni-spacer="bottom"]')?.style.setProperty('--omni-grid-spacer', `${Math.max(0, bottomSpacer)}px`);
     }
 
     // Measuring every rendered row forces a layout on each scroll frame. A grid with a known row
