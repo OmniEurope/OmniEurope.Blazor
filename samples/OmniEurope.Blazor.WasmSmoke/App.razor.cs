@@ -26,7 +26,9 @@ public partial class App
 
     private IReadOnlyList<object> ExpandedValues { get; set; } = Array.Empty<object>();
 
-    private static Func<SmokeRow, object?> GroupOf => row => row.Value / 100;
+    private static IReadOnlyList<OmniDataGridGroup> Groups { get; } = [new("hundred")];
+
+    private static Func<SmokeRow, object?> HundredOf => row => row.Value / 100;
 
     private int _count;
 

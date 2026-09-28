@@ -15,7 +15,6 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public RenderFragment<TItem>? FooterTemplate { get; init; }
     public RenderFragment? HeaderTemplate { get; init; }
     public Func<TItem, string, bool>? FilterPredicate { get; init; }
-    public Func<object?, string>? Format { get; init; }
     public string? FormatString { get; init; }
     public bool Sortable { get; init; } = true;
     public OmniDataGridSortOrder? SortOrder { get; init; }
@@ -40,8 +39,6 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     /// <summary>Operators offered, in order; null keeps the value type's whole set.</summary>
     public IReadOnlyList<OmniDataGridFilterOperator>? FilterOperators { get; init; }
     public OmniDataGridFilterOperator FilterOperator { get; init; }
-    public OmniDataGridFilterOperator SecondFilterOperator { get; init; }
-    public OmniDataGridLogicalOperator LogicalFilterOperator { get; init; }
     public bool Visible { get; init; } = true;
     /// <summary>Null follows the grid's own AllowColumnResize; false pins this column.</summary>
     public bool? Resizable { get; init; }

@@ -1,7 +1,7 @@
 @inherits LayoutComponentBase
 
 <OmniThemeScope Id="showcase-theme" Appearance="CurrentAppearance" Density="Theme.Density">
-    <OmniLayout Width="OmniLayoutWidth.Wide">
+    <OmniLayout>
         <OmniHeader Sticky="true">
             <a class="showcase-brand" href="">OmniEurope.Blazor</a>
             <OmniBadge Variant="OmniBadgeVariant.Accent">@Text["HeaderBadge"]</OmniBadge>
@@ -21,10 +21,10 @@
             </OmniSidebar>
             <ErrorBoundary @ref="_errorBoundary">
                 <ChildContent>
-                    <OmniMain>@Body</OmniMain>
+                    <OmniMain ContentWidth="OmniLayoutWidth.Wide">@Body</OmniMain>
                 </ChildContent>
                 <ErrorContent Context="error">
-                    <OmniMain>
+                    <OmniMain ContentWidth="OmniLayoutWidth.Wide">
                         <OmniAlert Severity="OmniAlertSeverity.Danger" Title="@Text["ErrorTitle"]">
                             @Text["ErrorMessage"]
                             <OmniButton OnClick="@(_ => RecoverAsync())">@Text["Retry"]</OmniButton>

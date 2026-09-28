@@ -18,9 +18,11 @@ public partial class OmniFormField
     [Parameter]
     public RenderFragment? End { get; set; }
 
-    [Parameter]
-    public RenderFragment? Helper { get; set; }
-
+    /// <summary>
+    /// A short explanation between the label and the control, in muted text. Given an <see cref="OmniComponentBase.Id"/>,
+    /// it has the id <c>{Id}-description</c>, which the control can name in <c>aria-describedby</c>.
+    /// Null or blank, the default, renders nothing.
+    /// </summary>
     [Parameter]
     public string? Description { get; set; }
 
@@ -35,11 +37,4 @@ public partial class OmniFormField
 
     private string? DescriptionId => string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(Description) ? null : $"{Id}-description";
     private string? ErrorId => string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(Error) ? null : $"{Id}-error";
-
-    /// <summary>
-    /// The density of this component and of what it holds (control heights, paddings, gaps), over
-    /// the one it inherits from its theme scope or section. Null, the default, inherits it.
-    /// </summary>
-    [Parameter]
-    public OmniDensity? Density { get; set; }
 }

@@ -1,0 +1,14 @@
+@namespace OmniEurope.Blazor.Tests
+@using OmniEurope.Blazor.Components
+
+@* The guard is the menu's: an entry at the first level and one inside a group both ask it. *@
+<OmniPanelMenu CanNavigate="CanNavigate">
+    <OmniPanelMenuItem Text="Section" Id="group-outer" Expanded="true">
+        <OmniPanelMenuItem Text="Detail" Href="/reports/detail" Id="leaf-detail" />
+    </OmniPanelMenuItem>
+    <OmniPanelMenuItem Text="Ailleurs" Href="/elsewhere" Id="leaf-elsewhere" />
+</OmniPanelMenu>
+
+@code {
+    [Parameter] public Func<string, Task<bool>>? CanNavigate { get; set; }
+}

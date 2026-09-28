@@ -3,12 +3,12 @@ namespace OmniEurope.Blazor.Components;
 /// <summary>
 /// A moment told relative to now, "2 min ago", in a <c>time</c> element carrying the exact instant,
 /// with the absolute date in a tooltip shown on hover and on keyboard focus. The component keeps no
-/// clock of its own: now is <see cref="Now"/> when given, else <see cref="TimeProvider"/>.
+/// clock of its own: now is the host's registered <see cref="TimeProvider"/>, the system clock
+/// when it registers none.
 /// </summary>
 /// <remarks>
 /// Left alone the label is computed at each render. <see cref="RefreshInterval"/> redraws it on a
-/// timer the component owns, created from <see cref="TimeProvider"/> and disposed with it; a pinned
-/// <see cref="Now"/> never changes, so it runs no timer.
+/// timer the component owns, created from that clock and disposed with it.
 /// </remarks>
 public partial class OmniRelativeTime : IDisposable
 {
@@ -21,14 +21,6 @@ public partial class OmniRelativeTime : IDisposable
     [Parameter, EditorRequired]
     public DateTimeOffset Value { get; set; }
 
-    /// <summary>The reference instant; <see cref="TimeProvider"/>'s current time when null.</summary>
-    [Parameter]
-    public DateTimeOffset? Now { get; set; }
-
-    /// <summary>The clock read when <see cref="Now"/> is null, and the one the refresh timer runs on.</summary>
-    [Parameter]
-    public TimeProvider TimeProvider { get; set; } = TimeProvider.System;
-
     /// <summary>Time zone of the absolute date in the tooltip; the local zone by default.</summary>
     [Parameter]
     public TimeZoneInfo TimeZone { get; set; } = TimeZoneInfo.Local;
@@ -38,15 +30,14 @@ public partial class OmniRelativeTime : IDisposable
     public string? Format { get; set; }
 
     /// <summary>
-    /// How often the label is redrawn while <see cref="Now"/> is null; never when null or not
-    /// positive. A minute suits most lists.
+    /// How often the label is redrawn; never when null or not positive. A minute suits most lists.
     /// </summary>
     [Parameter]
     public TimeSpan? RefreshInterval { get; set; }
 
     private string TooltipId => Id is null ? _tooltipId : $"{Id}-tooltip";
 
-    private DateTimeOffset Reference => Now ?? TimeProvider.GetUtcNow();
+    private DateTimeOffset Reference => Clock.GetUtcNow();
 
     private string MachineText => Value.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss'Z'", CultureInfo.InvariantCulture);
 
@@ -113,17 +104,16 @@ public partial class OmniRelativeTime : IDisposable
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        ArgumentNullException.ThrowIfNull(TimeProvider);
         ArgumentNullException.ThrowIfNull(TimeZone);
     }
 
     /// <summary>
     /// The timer starts after a render, never during a prerender that has no interactivity to redraw
-    /// into, and follows the parameters: a new interval or clock replaces it, a pinned Now stops it.
+    /// into, and follows the parameters: a new interval or clock replaces it.
     /// </summary>
     protected override void OnAfterRender(bool firstRender)
     {
-        var interval = Now is null && RefreshInterval is { } requested && requested > TimeSpan.Zero
+        var interval = RefreshInterval is { } requested && requested > TimeSpan.Zero
             ? requested
             : TimeSpan.Zero;
 
@@ -133,15 +123,16 @@ public partial class OmniRelativeTime : IDisposable
             return;
         }
 
-        if (_timer is not null && interval == _timerInterval && ReferenceEquals(_timerProvider, TimeProvider))
+        if (_timer is not null && interval == _timerInterval && ReferenceEquals(_timerProvider, Clock))
         {
             return;
         }
 
         StopTimer();
         _timerInterval = interval;
-        _timerProvider = TimeProvider;
-        _timer = TimeProvider.CreateTimer(_ => _ = InvokeAsync(StateHasChanged), null, interval, interval);
+        var clock = Clock;
+        _timerProvider = clock;
+        _timer = clock.CreateTimer(_ => _ = InvokeAsync(StateHasChanged), null, interval, interval);
     }
 
     private void StopTimer()

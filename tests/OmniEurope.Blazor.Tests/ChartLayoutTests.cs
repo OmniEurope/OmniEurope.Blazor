@@ -57,7 +57,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
     }
 
     [Fact]
-    public void ArcGaugeValue_TakesTheBoundsOfItsScale_UnlessItSetsItsOwn()
+    public void ArcGaugeValue_TakesTheBoundsOfItsScale()
     {
         var inherited = Render<OmniArcGauge>(parameters => parameters
             .Add(component => component.Label, "Température")
@@ -65,20 +65,11 @@ public sealed class ChartLayoutTests : OmniBunitContext
                 .Add(component => component.Minimum, -20)
                 .Add(component => component.Maximum, 40)
                 .AddChildContent<OmniArcGaugeScaleValue>(value => value.Add(component => component.Value, 10))));
-        var own = Render<OmniArcGauge>(parameters => parameters
-            .AddChildContent<OmniArcGaugeScale>(scale => scale
-                .Add(component => component.Minimum, -20)
-                .Add(component => component.Maximum, 40)
-                .AddChildContent<OmniArcGaugeScaleValue>(value => value
-                    .Add(component => component.Value, 25)
-                    .Add(component => component.Minimum, 0)
-                    .Add(component => component.Maximum, 100))));
 
         // 10 on a scale from -20 to 40 is half way, the top of the arc, and not 10 % of 0 to 100.
         Assert.Equal(OmniChartGeometry.Gauge(50), inherited.Find(".omni-arc-gauge__value path").GetAttribute("d"));
         Assert.Equal("10", inherited.Find(".omni-arc-gauge__value-text").TextContent);
         Assert.Equal(["-20", "40"], inherited.FindAll(".omni-arc-gauge__limit").Select(text => text.TextContent));
-        Assert.Equal(OmniChartGeometry.Gauge(25), own.Find(".omni-arc-gauge__value path").GetAttribute("d"));
     }
 
     [Fact]

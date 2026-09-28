@@ -55,7 +55,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
     }
 
     [Fact]
-    public void ExtensionPolicy_IsMergedWithTheEditorsOwn_WhereverTheValueIsSanitised()
+    public void ExtensionPolicies_AreMerged_WhereverTheValueIsSanitised()
     {
         var module = JSInterop.SetupModule(ModulePath);
         var value = "<p><span class=\"note\" data-marker=\"1\">N</span><span class=\"formula\">F</span><span class=\"other\">O</span></p>";
@@ -64,8 +64,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         Render<OmniHtmlEditor>(parameters => parameters
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.SanitizerPolicy, new OmniHtmlSanitizerPolicy { AdditionalCssClasses = ["note"], AllowDataAttributes = true })
-            .Add(component => component.Extensions, [extension]));
+            .Add(component => component.Extensions, [new PolicyExtension(new OmniHtmlSanitizerPolicy { AdditionalCssClasses = ["note"], AllowDataAttributes = true }), extension]));
 
         var mount = Assert.Single(module.Invocations["mount"]);
         var html = (string)mount.Arguments[2]!;

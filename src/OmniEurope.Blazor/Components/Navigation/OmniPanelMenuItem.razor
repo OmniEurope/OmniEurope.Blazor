@@ -23,7 +23,7 @@
                    href="@SafeHref"
                    aria-current="@(IsCurrent ? "page" : null)"
                    @onclick="HandleNavigateAsync"
-                   @onclick:preventDefault="@(CanNavigate is not null)">
+                   @onclick:preventDefault="@GuardsNavigation">
                     @if (Icon is not null)
                     {
                         <span class="omni-panel-menu__icon" aria-hidden="true">@Icon</span>
@@ -82,7 +82,7 @@ else if (!string.IsNullOrWhiteSpace(Href))
        href="@SafeHref"
        aria-current="@(IsCurrent ? "page" : null)"
        @onclick="HandleNavigateAsync"
-       @onclick:preventDefault="@(CanNavigate is not null)">
+       @onclick:preventDefault="@GuardsNavigation">
         @if (Icon is not null)
         {
             <span class="omni-panel-menu__icon" aria-hidden="true">@Icon</span>

@@ -34,9 +34,12 @@ public static class OmniDataGridFilterText
         return builder.ToString().Normalize(NormalizationForm.FormC);
     }
 
-    /// <summary>The comparison implied by a case-sensitivity setting.</summary>
-    public static StringComparison Comparison(OmniDataGridFilterCaseSensitivity caseSensitivity) =>
-        caseSensitivity == OmniDataGridFilterCaseSensitivity.CaseSensitive
+    /// <summary>
+    /// The comparison the grid uses for a filter: the current culture, ignoring case unless
+    /// <paramref name="caseSensitive"/> (the grid's <c>CaseSensitiveFilters</c>) is true.
+    /// </summary>
+    public static StringComparison Comparison(bool caseSensitive) =>
+        caseSensitive
             ? StringComparison.CurrentCulture
             : StringComparison.CurrentCultureIgnoreCase;
 }

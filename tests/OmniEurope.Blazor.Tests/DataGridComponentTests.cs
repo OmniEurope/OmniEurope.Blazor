@@ -201,7 +201,7 @@ public sealed class DataGridComponentTests : OmniBunitContext
             .Add(component => component.LoadRequested, _ => { })));
 
         Assert.Throws<InvalidOperationException>(() => Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.AllowVirtualization, true)
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.LoadRequested, _ => { })));
     }
 
@@ -364,7 +364,7 @@ public sealed class DataGridComponentTests : OmniBunitContext
                 ["name"] = GridColumnFilter.Empty with { Operator = OmniDataGridFilterOperator.Contains, Value = "ali" }
             },
             [new OmniDataGridSort("score", true)],
-            OmniDataGridFilterCaseSensitivity.Default,
+            false,
             ignoreDiacritics: false,
             page: 1,
             pageSize: 1);

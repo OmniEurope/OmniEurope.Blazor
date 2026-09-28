@@ -64,12 +64,11 @@
             <OmniSidebar Id="appshell-menu" Open="MenuOpen" OpenChanged="@(value => MenuOpen = value)"
                          Collapse="OmniSidebarCollapse.Icons" Transition="OmniSidebarTransition.Smooth"
                          AriaLabel="@Text["ShellMenu"]">
-                <OmniPanelMenu Label="@Text["ShellMenu"]" DisplayStyle="OmniPanelMenuDisplayStyle.IconAndText">
+                <OmniPanelMenu Label="@Text["ShellMenu"]" DisplayStyle="OmniPanelMenuDisplayStyle.IconAndText" CanNavigate="SelectAsync">
                     @foreach (var section in Sections)
                     {
                         <OmniPanelMenuItem Text="@Text[section.TextKey]" Href="@($"composants/coquille-application#{section.Key}")"
-                                           Current="@(Selected == section.Key)" Match="OmniNavMatch.None"
-                                           CanNavigate="@(_ => SelectAsync(section.Key))">
+                                           Current="@(Selected == section.Key)" Match="OmniNavMatch.None">
                             <Icon><OmniIcon Name="section.Icon" /></Icon>
                         </OmniPanelMenuItem>
                     }

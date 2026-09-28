@@ -114,4 +114,29 @@ public sealed class PanelMenuGroupTests : OmniBunitContext
 
         Assert.Equal("page", host.Find("#group-servers .omni-panel-menu__summary a").GetAttribute("aria-current"));
     }
+
+    [Fact]
+    public void MenuCanNavigate_GuardsEveryEntry_AtEveryLevel()
+    {
+        var asked = new List<string>();
+        var allow = false;
+        var navigation = Services.GetRequiredService<NavigationManager>();
+        var host = Render<PanelMenuGuardTestHost>(parameters => parameters
+            .Add(component => component.CanNavigate, href =>
+            {
+                asked.Add(href);
+                return Task.FromResult(allow);
+            }));
+
+        host.Find("#leaf-elsewhere").Click();
+        host.Find("#leaf-detail").Click();
+
+        Assert.Equal(["/elsewhere", "/reports/detail"], asked);
+        Assert.DoesNotContain("/elsewhere", navigation.Uri, StringComparison.Ordinal);
+
+        allow = true;
+        host.Find("#leaf-elsewhere").Click();
+
+        Assert.EndsWith("/elsewhere", navigation.Uri, StringComparison.Ordinal);
+    }
 }

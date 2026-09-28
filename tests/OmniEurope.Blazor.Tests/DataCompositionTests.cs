@@ -1,6 +1,7 @@
 using System.Globalization;
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using OmniEurope.Blazor.Components;
 
@@ -535,12 +536,12 @@ public sealed class DataCompositionTests : OmniBunitContext
     [Fact]
     public void StatusBadge_OlderThanItsThreshold_ReadsStale()
     {
+        Services.AddSingleton<TimeProvider>(new ManualClock(Now));
         var badge = Render<OmniStatusBadge<RunState?>>(parameters => parameters
             .Add(component => component.Value, RunState.Succeeded)
             .Add(component => component.Map, RunStates)
             .Add(component => component.Timestamp, Now.AddMinutes(-20))
-            .Add(component => component.StaleAfter, TimeSpan.FromMinutes(15))
-            .Add(component => component.Now, Now));
+            .Add(component => component.StaleAfter, TimeSpan.FromMinutes(15)));
 
         Assert.True(badge.Instance.IsStale);
         Assert.Contains("omni-status-badge--stale", badge.Find(".omni-status-badge").ClassName, StringComparison.Ordinal);
@@ -553,13 +554,13 @@ public sealed class DataCompositionTests : OmniBunitContext
     public async Task StatusBadge_TurnsStaleOnItsOwnWhenTheThresholdPasses()
     {
         var clock = new ManualClock(Now);
+        Services.AddSingleton<TimeProvider>(clock);
         var badge = Render<OmniStatusBadge<RunState?>>(parameters => parameters
             .Add(component => component.Value, RunState.Succeeded)
             .Add(component => component.Map, RunStates)
             .Add(component => component.Timestamp, Now.AddMinutes(-10))
             .Add(component => component.StaleAfter, TimeSpan.FromMinutes(15))
-            .Add(component => component.StaleText, "ancien")
-            .Add(component => component.TimeProvider, clock));
+            .Add(component => component.StaleText, "ancien"));
 
         Assert.Empty(badge.FindAll(".omni-status-badge__stale"));
         Assert.Single(clock.Pending);

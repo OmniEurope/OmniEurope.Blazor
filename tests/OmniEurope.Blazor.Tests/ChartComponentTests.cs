@@ -84,12 +84,8 @@ public sealed class ChartComponentTests : OmniBunitContext
         Assert.StartsWith("M ", gauge.Find(".omni-arc-gauge__value path").GetAttribute("d"), StringComparison.Ordinal);
 
         var below = Render<OmniArcGaugeScaleValue>(parameters => parameters
-            .Add(component => component.Minimum, 0)
-            .Add(component => component.Maximum, 100)
             .Add(component => component.Value, -25));
         var above = Render<OmniArcGaugeScaleValue>(parameters => parameters
-            .Add(component => component.Minimum, 0)
-            .Add(component => component.Maximum, 100)
             .Add(component => component.Value, 125));
         var minimum = Render<OmniArcGaugeScaleValue>(parameters => parameters.Add(component => component.Value, 0));
         var maximum = Render<OmniArcGaugeScaleValue>(parameters => parameters.Add(component => component.Value, 100));

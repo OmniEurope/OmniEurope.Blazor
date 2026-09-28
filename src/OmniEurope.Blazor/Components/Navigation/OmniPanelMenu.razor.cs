@@ -24,11 +24,19 @@ public partial class OmniPanelMenu
         ? OmniPanelMenuDisplayStyle.Icon
         : DisplayStyle;
 
-    private OmniPanelMenuContext OwnContext => new(EffectiveDisplayStyle) { ExpandSidebar = Sidebar?.Expand };
+    private OmniPanelMenuContext OwnContext => new(EffectiveDisplayStyle) { ExpandSidebar = Sidebar?.Expand, CanNavigate = CanNavigate };
 
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label)
         ? Localize("PanelMenuLabel")
         : Label;
+
+    /// <summary>
+    /// Asked, with the address, before any entry of the menu navigates: the entry navigates only when
+    /// it answers true, which lets the host keep a page with unsaved changes or handle the choice
+    /// itself. Null, the default, lets the links navigate as plain links.
+    /// </summary>
+    [Parameter]
+    public Func<string, Task<bool>>? CanNavigate { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

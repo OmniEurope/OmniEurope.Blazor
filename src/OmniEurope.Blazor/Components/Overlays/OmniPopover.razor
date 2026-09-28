@@ -8,10 +8,9 @@
      id="@Id"
      class="@Css("omni-popover", PlacementClass)">
     <OmniButton Variant="@TriggerVariant"
-                Size="@TriggerSize"
                 AriaLabel="@TriggerLabel"
                 Class="@TriggerClass"
-                title="@TriggerTitle"
+                title="@(TriggerTitle ?? TriggerLabel)"
                 OnClick="ToggleAsync"
                 aria-haspopup="dialog"
                 aria-expanded="@(IsOpen ? "true" : "false")"

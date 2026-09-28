@@ -1,4 +1,5 @@
 using Bunit;
+using Microsoft.Extensions.DependencyInjection;
 using OmniEurope.Blazor.Components;
 using System.Globalization;
 
@@ -181,14 +182,14 @@ public sealed class SchedulerComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public void Scheduler_TodayUsesTheProvidedTimeProvider()
+    public void Scheduler_TodayUsesTheRegisteredTimeProvider()
     {
         var expected = new DateTimeOffset(2030, 5, 6, 12, 0, 0, TimeSpan.Zero);
+        Services.AddSingleton<TimeProvider>(new FixedTimeProvider(expected));
         var selected = DateTimeOffset.MinValue;
         var scheduler = Render<OmniScheduler>(parameters => parameters
             .Add(component => component.Date, new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero))
             .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-            .Add(component => component.TimeProvider, new FixedTimeProvider(expected))
             .Add(component => component.DateChanged, value => selected = value));
 
         scheduler.FindAll(".omni-scheduler__header > button")[1].Click();

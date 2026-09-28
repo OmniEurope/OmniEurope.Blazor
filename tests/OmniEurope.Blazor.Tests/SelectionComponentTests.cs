@@ -287,26 +287,36 @@ public sealed class SelectionComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public void Upload_ValidatesTheOpenedStreamBeforeCallingTheTransport()
+    public void Upload_RejectsTheFilesAfterCheckingTheOpenedStream_WithoutStoringOrListingThem()
     {
-        var uploadCalled = false;
+        var stored = new List<string>();
+        IReadOnlyList<OmniUploadFile> files = [];
         var upload = Render<OmniUpload>(parameters => parameters
-            .Add(component => component.Validate, async request =>
+            .Add(component => component.Files, files)
+            .Add(component => component.FilesChanged, next => files = next)
+            .Add(component => component.Upload, async request =>
             {
                 await using var stream = request.OpenReadStream(request.Files[0]);
-                var firstByte = stream.ReadByte();
-                return firstByte == 'P' ? null : "La signature du fichier est invalide.";
-            })
-            .Add(component => component.Upload, _ =>
-            {
-                uploadCalled = true;
-                return Task.CompletedTask;
+                if (stream.ReadByte() != 'P')
+                {
+                    request.Reject("La signature du fichier est invalide.");
+                    return;
+                }
+
+                stored.Add(request.Files[0].Name);
             }));
 
         upload.FindComponent<InputFile>().UploadFiles(InputFileContent.CreateFromText("hello", "note.txt", contentType: "text/plain"));
 
-        Assert.False(uploadCalled);
+        Assert.Empty(stored);
+        Assert.Empty(files);
         Assert.Contains("La signature du fichier est invalide.", upload.Markup, StringComparison.Ordinal);
+        Assert.Empty(upload.FindAll(".omni-upload__retry"));
+
+        upload.FindComponent<InputFile>().UploadFiles(InputFileContent.CreateFromText("PNG", "plan.png", contentType: "text/plain"));
+
+        Assert.Equal(["plan.png"], stored);
+        Assert.Equal("plan.png", Assert.Single(files).Name);
     }
 
     [Fact]

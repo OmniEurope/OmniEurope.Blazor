@@ -94,10 +94,10 @@ public sealed class DataGridColumnAutoFitTests : OmniBunitContext
     }
 
     [Fact]
-    public void AutoFit_UsesTheColumnFormatAndSkipsDuplicates()
+    public void AutoFit_UsesTheColumnFormatStringAndSkipsDuplicates()
     {
         Row[] rows = [new(1, "a"), new(2, "a"), new(3, "b")];
-        var rendered = RenderGrid(grid: true, column: null, allowResize: true, rows, format: value => $"<{value}>");
+        var rendered = RenderGrid(grid: true, column: null, allowResize: true, rows, formatString: "<{0}>");
 
         Assert.Equal(["<a>", "<b>"], rendered.Instance.GetColumnAutoFitTexts("name") ?? []);
     }
@@ -151,7 +151,7 @@ public sealed class DataGridColumnAutoFitTests : OmniBunitContext
         bool allowResize,
         IReadOnlyList<Row>? rows = null,
         bool virtualized = false,
-        Func<object?, string>? format = null,
+        string? formatString = null,
         RenderFragment<Row>? template = null,
         IOmniDataGridStateStore? store = null) => Render<Host>(parameters => parameters
             .Add(host => host.GridAutoFit, grid)
@@ -159,7 +159,7 @@ public sealed class DataGridColumnAutoFitTests : OmniBunitContext
             .Add(host => host.AllowResize, allowResize)
             .Add(host => host.Rows, rows ?? [new Row(1, "Alice"), new Row(2, "Bob")])
             .Add(host => host.Virtualized, virtualized)
-            .Add(host => host.Format, format)
+            .Add(host => host.FormatString, formatString)
             .Add(host => host.Template, template)
             .Add(host => host.Store, store));
 
@@ -174,7 +174,7 @@ public sealed class DataGridColumnAutoFitTests : OmniBunitContext
         [Parameter] public bool AllowResize { get; set; }
         [Parameter] public IReadOnlyList<Row> Rows { get; set; } = [];
         [Parameter] public bool Virtualized { get; set; }
-        [Parameter] public Func<object?, string>? Format { get; set; }
+        [Parameter] public string? FormatString { get; set; }
         [Parameter] public RenderFragment<Row>? Template { get; set; }
         [Parameter] public IOmniDataGridStateStore? Store { get; set; }
 
@@ -196,7 +196,7 @@ public sealed class DataGridColumnAutoFitTests : OmniBunitContext
                 builder.AddComponentParameter(3, nameof(OmniDataGrid<Row>.AllowColumnAutoFit), gridAutoFit);
             }
 
-            builder.AddComponentParameter(4, nameof(OmniDataGrid<Row>.AllowVirtualization), Virtualized);
+            builder.AddComponentParameter(4, nameof(OmniDataGrid<Row>.ScrollMode), Virtualized ? OmniDataGridScrollMode.Virtual : OmniDataGridScrollMode.Paged);
             builder.AddComponentParameter(5, nameof(OmniDataGrid<Row>.EstimatedRowHeight), 40d);
             builder.AddComponentParameter(6, nameof(OmniDataGrid<Row>.ColumnWidthChanged),
                 EventCallback.Factory.Create<OmniDataGridColumnWidthChange>(this, WidthChanges.Add));
@@ -213,7 +213,7 @@ public sealed class DataGridColumnAutoFitTests : OmniBunitContext
                 columns.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "Nom");
                 columns.AddComponentParameter(3, nameof(OmniDataGridColumn<Row>.Value), (Func<Row, object?>)(row => row.Name));
                 columns.AddComponentParameter(4, nameof(OmniDataGridColumn<Row>.AutoFit), ColumnAutoFit);
-                columns.AddComponentParameter(5, nameof(OmniDataGridColumn<Row>.Format), Format);
+                columns.AddComponentParameter(5, nameof(OmniDataGridColumn<Row>.FormatString), FormatString);
                 columns.AddComponentParameter(6, nameof(OmniDataGridColumn<Row>.Template), Template);
                 columns.CloseComponent();
             }));

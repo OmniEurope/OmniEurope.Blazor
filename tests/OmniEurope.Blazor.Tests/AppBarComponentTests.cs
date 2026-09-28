@@ -173,20 +173,21 @@ public sealed class AppBarComponentTests : OmniBunitContext
         Assert.Equal(["a", "ab"], raised);
     }
 
-    // ---- OmniHeader.Brand, BrandMark ----
+    // ---- OmniHeader.Brand, BrandLogo ----
 
     [Fact]
     public void HeaderBrand_ShowsADecorativeLogoAndTheNameAsText()
     {
         var header = Render<OmniHeader>(parameters => parameters
             .Add(component => component.Brand, "Boutique")
-            .Add(component => component.BrandMark, "Ae")
+            .Add(component => component.BrandLogo, "logo.svg")
             .AddChildContent("<button type=\"button\" class=\"omni-sidebar-toggle\">menu</button>"));
 
         var root = header.Find("header");
         Assert.Contains("omni-header--branded", root.ClassName, StringComparison.Ordinal);
-        var logo = header.Find(".omni-header__brand > .omni-header__logo");
-        Assert.Equal("Ae", logo.TextContent);
+        var logo = header.Find(".omni-header__brand > img.omni-header__logo-image");
+        Assert.Equal("logo.svg", logo.GetAttribute("src"));
+        Assert.Equal(string.Empty, logo.GetAttribute("alt"));
         Assert.Equal("true", logo.GetAttribute("aria-hidden"));
         Assert.Equal("Boutique", header.Find(".omni-header__brand > .omni-header__brand-name").TextContent);
         Assert.Null(header.Find(".omni-header__brand-name").GetAttribute("aria-hidden"));
@@ -202,17 +203,8 @@ public sealed class AppBarComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public void HeaderBrand_LogoIsTheAccentFill_AndSwapsOnTheAccentBand_AndTheToggleStaysAtTheEdge()
+    public void HeaderBrand_TheToggleStaysAtTheEdge()
     {
-        var logo = ShippedLookTests.Body(".omni-header__logo");
-        Assert.Equal("var(--omni-color-accent-fill)", ShippedLookTests.Value(logo, "background"));
-        Assert.Equal("var(--omni-color-on-accent-fill)", ShippedLookTests.Value(logo, "color"));
-        Assert.Equal("calc(var(--omni-icon-box) * 0.72)", ShippedLookTests.Value(logo, "block-size"));
-
-        var onBand = ShippedLookTests.Body(".omni-header--accent .omni-header__logo");
-        Assert.Equal("var(--omni-color-on-accent)", ShippedLookTests.Value(onBand, "background"));
-        Assert.Equal("var(--omni-color-accent)", ShippedLookTests.Value(onBand, "color"));
-
         Assert.Equal("-1", ShippedLookTests.Value(ShippedLookTests.Body(".omni-header--branded > .omni-sidebar-toggle"), "order"));
     }
 
@@ -330,7 +322,7 @@ public sealed class AppBarComponentTests : OmniBunitContext
         Assert.Equal("0", ShippedLookTests.Value(inner, "border"));
     }
 
-    // ---- OmniProfileMenuItem.Icon, Description ----
+    // ---- OmniProfileMenuItem.Icon ----
 
     private static readonly RenderFragment SettingsIcon = builder =>
     {
@@ -340,11 +332,10 @@ public sealed class AppBarComponentTests : OmniBunitContext
     };
 
     [Fact]
-    public void ProfileMenuItem_IconAndDescription_DrawADiscAndAMutedLine()
+    public void ProfileMenuItem_Icon_DrawsADiscBeforeTheText()
     {
         var item = Render<OmniProfileMenuItem>(parameters => parameters
             .Add(component => component.Icon, SettingsIcon)
-            .Add(component => component.Description, "Thème, langue, notifications")
             .AddChildContent("Paramètres"));
 
         var button = item.Find("button[role=menuitem]");
@@ -353,28 +344,26 @@ public sealed class AppBarComponentTests : OmniBunitContext
         Assert.Equal("true", disc.GetAttribute("aria-hidden"));
         Assert.NotNull(disc.QuerySelector("svg.omni-icon"));
         var text = button.QuerySelector(":scope > .omni-profile-menu__item-text")!;
-        Assert.Equal("Thème, langue, notifications", text.QuerySelector("small.omni-profile-menu__item-description")!.TextContent);
-        Assert.StartsWith("Paramètres", text.TextContent, StringComparison.Ordinal);
+        Assert.Equal("Paramètres", text.TextContent);
     }
 
     [Fact]
-    public void ProfileMenuItem_DescriptionAlone_DrawsNoDisc_AndALinkItemTakesItToo()
+    public void ProfileMenuItem_LinkItemTakesTheIconToo()
     {
         var item = Render<OmniProfileMenuItem>(parameters => parameters
             .Add(component => component.Href, "/profil")
-            .Add(component => component.Description, "Nom et photo")
+            .Add(component => component.Icon, SettingsIcon)
             .AddChildContent("Profil"));
 
         var link = item.Find("a[role=menuitem]");
-        Assert.Empty(link.QuerySelectorAll(".omni-disc"));
-        Assert.Equal("Nom et photo", link.QuerySelector(".omni-profile-menu__item-description")!.TextContent);
+        Assert.Single(link.QuerySelectorAll(":scope > .omni-disc"));
+        Assert.Equal("Profil", link.QuerySelector(".omni-profile-menu__item-text")!.TextContent);
     }
 
     [Fact]
-    public void ProfileMenuItem_WithoutIconOrDescription_RendersItsContentAlone()
+    public void ProfileMenuItem_WithoutIcon_RendersItsContentAlone()
     {
         var item = Render<OmniProfileMenuItem>(parameters => parameters
-            .Add(component => component.Description, "  ")
             .AddChildContent("<span class=\"own\">Profil</span>"));
 
         var button = item.Find("button");
@@ -384,9 +373,8 @@ public sealed class AppBarComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public void ProfileMenuItem_DescriptionIsMutedText()
+    public void ProfileMenuItem_RichItemIsAFlexRow()
     {
-        Assert.Equal("var(--omni-color-text-muted)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-profile-menu__item-description"), "color"));
         Assert.Equal("flex", ShippedLookTests.Value(ShippedLookTests.Body(".omni-profile-menu__item--rich"), "display"));
     }
 

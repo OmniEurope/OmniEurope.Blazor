@@ -13,20 +13,16 @@ public partial class OmniTabs
     private DotNetObjectReference<KeyboardInterop>? _selfReference;
     private string? _selectedValue;
 
+    /// <summary>
+    /// The key of the selected tab (<see cref="OmniTabsItem.Key"/>). Null, the default, selects the
+    /// first tab; left unbound, the tabs keep the reader's choice themselves.
+    /// </summary>
     [Parameter]
     public string? Value { get; set; }
 
+    /// <summary>Raised with the key of the tab the reader selects, for <c>@bind-Value</c>.</summary>
     [Parameter]
     public EventCallback<string?> ValueChanged { get; set; }
-
-    [Parameter]
-    public int SelectedIndex { get; set; }
-
-    [Parameter]
-    public EventCallback<int> SelectedIndexChanged { get; set; }
-
-    [Parameter]
-    public EventCallback<int> Change { get; set; }
 
     [Parameter]
     public IReadOnlyList<string> Keys { get; set; } = Array.Empty<string>();
@@ -36,9 +32,6 @@ public partial class OmniTabs
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    [Parameter]
-    public RenderFragment? Tabs { get; set; }
 
     /// <summary>Builds every panel immediately while keeping inactive panels hidden.</summary>
     [Parameter]
@@ -63,18 +56,11 @@ public partial class OmniTabs
     [Parameter]
     public string? WheelScrollScope { get; set; }
 
-    private RenderFragment? EffectiveContent => ChildContent ?? Tabs;
-
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label)
         ? Localize("TabsLabel")
         : Label;
 
-    private string? EffectiveValue => Value
-        ?? (SelectedIndexChanged.HasDelegate && SelectedIndex >= 0 && SelectedIndex < _registeredKeys.Count
-            ? _registeredKeys[SelectedIndex]
-            : _selectedValue ?? (SelectedIndex >= 0 && SelectedIndex < _registeredKeys.Count
-                ? _registeredKeys[SelectedIndex]
-                : null));
+    private string? EffectiveValue => Value ?? _selectedValue ?? (_registeredKeys.Count > 0 ? _registeredKeys[0] : null);
 
     private IReadOnlyList<string> EffectiveKeys => Keys.Count > 0 ? Keys : _registeredKeys;
 
@@ -96,12 +82,6 @@ public partial class OmniTabs
         _selectedValue = key;
         StateHasChanged();
         await ValueChanged.InvokeAsync(key);
-        var index = _registeredKeys.IndexOf(key);
-        if (index >= 0)
-        {
-            await SelectedIndexChanged.InvokeAsync(index);
-            await Change.InvokeAsync(index);
-        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

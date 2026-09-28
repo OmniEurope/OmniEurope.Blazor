@@ -82,10 +82,11 @@ public sealed class NavigationComponentTests : OmniBunitContext
     {
         var navigation = Services.GetRequiredService<NavigationManager>();
         var initial = navigation.Uri;
-        var item = Render<OmniPanelMenuItem>(parameters => parameters
-            .Add(component => component.Text, "Protégé")
-            .Add(component => component.Href, "/protected")
-            .Add(component => component.CanNavigate, _ => Task.FromResult(false)));
+        var item = Render<OmniPanelMenu>(parameters => parameters
+            .Add(component => component.CanNavigate, _ => Task.FromResult(false))
+            .AddChildContent<OmniPanelMenuItem>(entry => entry
+                .Add(component => component.Text, "Protégé")
+                .Add(component => component.Href, "/protected")));
 
         item.Find("a").Click();
 

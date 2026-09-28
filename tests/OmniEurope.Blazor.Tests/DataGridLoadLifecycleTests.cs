@@ -19,7 +19,7 @@ public sealed class DataGridLoadLifecycleTests : OmniBunitContext
         var pending = new TaskCompletionSource<OmniDataGridResult<int>>();
         CancellationToken observed = default;
         var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.AllowVirtualization, virtualized)
+            .Add(component => component.ScrollMode, virtualized ? OmniDataGridScrollMode.Virtual : OmniDataGridScrollMode.Paged)
             .Add(component => component.EstimatedRowHeight, 40d)
             .Add(component => component.Load, request =>
             {

@@ -23,6 +23,38 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - `OmniStepsItem.PanelId` est retiré : `OmniWizard` transmet l'identifiant de son corps à ses étapes par une valeur en cascade ; hors d'un assistant, chaque étape garde son propre panneau.
 - `OmniBootSplash` dérive de `ComponentBase` et non plus d'`OmniComponentBase` : il ne rend aucun élément, donc `Id`, `Class`, `PresetName` et les attributs supplémentaires sont retirés ; un attribut passé lève désormais au rendu au lieu d'être ignoré. Retirer ces attributs de la balise.
 - `OmniRating.ReadOnly` ne rend plus des boutons désactivés mais une seule image focalisable (`role="img"`, `tabindex="0"`) qui annonce la valeur ; un code qui cherchait `button:disabled` en lecture seule cible désormais `.omni-rating--readonly`.
+- `OmniDataGrid.AllowPaging` et `OmniDataGrid.AllowVirtualization` sont retirés : utiliser `ScrollMode` (`OmniDataGridScrollMode`), `Paged` par défaut (pages et barre de pagination), `Virtual` (ancien `AllowVirtualization="true"`) ou `All` (ancien `AllowPaging="false"`, toutes les lignes rendues).
+- `OmniDataGrid.FilterCaseSensitivity` et l'énumération `OmniDataGridFilterCaseSensitivity` sont retirés : utiliser `CaseSensitiveFilters` (`bool`, `false` par défaut) ; `CaseSensitive` devient `CaseSensitiveFilters="true"`, `Default` et `CaseInsensitive` se retirent. `OmniDataGridFilterText.Comparison` prend désormais ce booléen.
+- `OmniDataGridLines.Default` est retiré (même rendu que `Horizontal`) : `Horizontal` devient la valeur par défaut de `OmniDataGrid.GridLines` ; les valeurs numériques de l'énumération changent (`Horizontal` 0, `None` 1, `Vertical` 2, `Both` 3).
+- La valeur par défaut de `OmniDataGrid.VirtualizationOverscanCount` devient 3 (au lieu de 4) : poser `VirtualizationOverscanCount="4"` pour garder l'ancienne marge.
+- `OmniDataGrid.RowHeight` est retiré : `FixedRowHeight="true"` fait désormais d'`EstimatedRowHeight` la hauteur exacte de chaque ligne (aucune mesure, hauteur imposée) ; remplacer `RowHeight="36" FixedRowHeight="true"` par `EstimatedRowHeight="36" FixedRowHeight="true"`.
+- `OmniDataGrid.GroupBy` est retiré : utiliser `AllowGrouping="true"` et `Groups` (`OmniDataGridGroup` nommant la clé d'une colonne) ; `GroupLabel` s'applique toujours.
+- `OmniDataGrid.ColumnResized` est retiré : utiliser `ColumnWidthChanged`, qu'il doublait.
+- `OmniDataGrid.RowSelect`, `IsEditing`, `ColumnWidth`, `PagingSummaryFormat` et `PageSizeText` sont retirés : suivre `ValueChanged` ou `SelectedKeysChanged` pour la sélection, laisser la grille tenir l'édition (`EditRequested`, `RowUpdated`, `EditCancelled`), poser `Width` sur chaque colonne ; le résumé et le libellé de taille de page sont ceux des ressources (surchargeables par `AddOmniEuropeTextOverrides`).
+- `OmniDataGrid.ShowThemeToggle` et `OmniDataGrid.DarkTheme` sont retirés, avec l'attribut `data-omni-grid-theme`, les jetons `--omni-grid-dark-*` et les clés `GridThemeDark` et `GridThemeLight` : la grille suit l'apparence de sa portée (`OmniThemeScope.Appearance`).
+- `OmniDataGridColumn.Format` (délégué), `SecondFilterOperator` et `LogicalFilterOperator` sont retirés : utiliser `FormatString` ou `Template` pour l'affichage ; en filtre avancé, la seconde condition part de l'opérateur par défaut et de « Et », au choix du lecteur.
+- `OmniHtmlEditor.EnableBold`, `EnableItalic`, `EnableSubscript`, `EnableSuperscript`, `EnableIndent` et `EnableOutdent` sont retirés : passer à `Commands` une barre sans la commande à masquer.
+- `OmniHtmlEditor.CustomTools` et le type `OmniHtmlEditorTool` sont retirés : utiliser une commande de `Commands`, `OmniHtmlEditorCommand.Create("nom", "Libellé", context => context.SetHtmlAsync(transformer(context.Html)))` ; sans icône, la commande affiche son libellé en texte.
+- `OmniHtmlEditor.SanitizerPolicy` est retiré : utiliser une extension de `Extensions` qui ne redéfinit que `OmniHtmlEditorExtension.SanitizerPolicy`.
+- `OmniDropDown.AllowClear` est retiré : utiliser `AllowEmpty`, qui avait le même effet. `OmniDropDown.Change` est retiré : utiliser `ValueChanged` ou `@bind-Value:after`.
+- `OmniTabs.SelectedIndex`, `SelectedIndexChanged` et `Change` sont retirés : utiliser `Value`/`ValueChanged` (`@bind-Value`, clé de l'onglet) ; sans valeur, le premier onglet est choisi. Le fragment `OmniTabs.Tabs` est retiré : poser les `OmniTabsItem` en contenu enfant (`ChildContent`).
+- `OmniPanelMenuItem.CanNavigate` est retiré : utiliser `OmniPanelMenu.CanNavigate`, appelé avec l'adresse de l'entrée pour toutes les entrées du menu, à tous les niveaux.
+- `OmniUpload.Validate` est retiré : faire le contrôle dans `Upload` et refuser le lot par `request.Reject("message")` (erreur affichée, sans nouvel essai ni ajout à la liste).
+- `OmniDocumentEditor.ShowExport` est retiré : `ShowStatusBar` affiche ensemble les comptes et les téléchargements, `ShowStatusBar="false"` retire les deux.
+- `OmniFormField.Helper` est retiré : utiliser `Description` (texte entre le libellé et le contrôle, d'identifiant `{Id}-description`).
+- `OmniButton.Density`, `OmniFormField.Density` et `OmniUpload.Density` sont retirés : poser la densité sur la portée (`OmniThemeScope.Density`) ou sur un conteneur qui en porte une (`OmniCard`, `OmniSettingsTile`…).
+- `OmniLayout.Width` est retiré : la coquille occupe toute la largeur ; utiliser `OmniMain.ContentWidth` (`Wide`, `Content`) pour centrer le contenu.
+- `OmniHeader.BrandMark` est retiré avec la classe `omni-header__logo` : utiliser `BrandLogo` (image).
+- `OmniLink.ShowNewTabIcon` est retiré : un lien `NewTab` montre toujours l'icône de lien externe.
+- `OmniProfileMenuItem.Description` est retiré : mettre la ligne secondaire dans le contenu enfant.
+- `OmniPopover.TriggerSize` est retiré (le déclencheur garde la taille moyenne). `OmniPopover.TriggerTitle` vaut par défaut `TriggerLabel` : poser `TriggerTitle` pour une autre infobulle.
+- `OmniDialog.ReturnFocusTo` est retiré : à la fermeture, le focus revient à l'élément qui l'avait avant l'ouverture.
+- `OmniProgressBar.Minimum` est retiré : la progression va de 0 à `Maximum` (qui doit être positif) ; ramener la valeur à cette échelle.
+- `OmniTreeItem.TabIndex` est retiré : chaque entrée garde `tabindex="0"`.
+- `OmniArcGaugeScaleValue.Minimum` et `Maximum` sont retirés : la valeur prend les bornes de son `OmniArcGaugeScale` (0 à 100 hors échelle).
+- `OmniStatusBadge.Now` et `OmniRelativeTime.Now` sont retirés, ainsi que le paramètre `TimeProvider` d'`OmniStatusBadge`, `OmniRelativeTime`, `OmniDatePicker`, `OmniTimePicker`, `OmniDateTimePicker`, `OmniScheduler`, `OmniCodeBlock` et `OmniCodeViewer` : ces composants lisent le `TimeProvider` enregistré dans les services de l'hôte (`services.AddSingleton<TimeProvider>(...)`), l'horloge système sinon.
+- La valeur par défaut d'`OmniBadge.Fill` devient `Solid` (fond et encre du bouton de même intention) : poser `Fill="OmniBadgeFill.Filled"` pour garder la pastille tonale.
+- La valeur par défaut d'`OmniPageHeader.Framed` devient `false` (en-tête posé sur la page) : poser `Framed="true"` pour garder le bloc bordé.
 
 ### Added
 

@@ -31,6 +31,30 @@ public sealed class InteractionComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void FormField_Description_SitsBetweenTheLabelAndTheControl_WithAnIdTheControlCanName()
+    {
+        var field = Render<OmniFormField>(parameters => parameters
+            .Add(component => component.Id, "name-field")
+            .Add(component => component.For, "name")
+            .Add(component => component.Text, "Nom")
+            .Add(component => component.Description, "Tel qu'il apparaîtra sur la facture.")
+            .AddChildContent("<input id=\"name\" />"));
+
+        var children = field.Find(".omni-form-field").Children;
+        var description = Assert.Single(field.FindAll(".omni-form-field__description"));
+        Assert.Equal("name-field-description", description.Id);
+        Assert.Equal("Tel qu'il apparaîtra sur la facture.", description.TextContent);
+        Assert.Equal(1, Array.IndexOf(children.ToArray(), description));
+        Assert.Equal("omni-form-field__control", children[2].ClassName);
+
+        var bare = Render<OmniFormField>(parameters => parameters
+            .Add(component => component.For, "name")
+            .Add(component => component.Description, " ")
+            .AddChildContent("<input id=\"name\" />"));
+        Assert.Empty(bare.FindAll(".omni-form-field__description"));
+    }
+
+    [Fact]
     public void SidebarToggle_KeepsTheMenuBesideTheContentAndShowsACrossOnAPhone()
     {
         string PathOf(OmniIconName name) => Render<OmniIcon>(parameters => parameters.Add(icon => icon.Name, name)).Find("path").GetAttribute("d")!;

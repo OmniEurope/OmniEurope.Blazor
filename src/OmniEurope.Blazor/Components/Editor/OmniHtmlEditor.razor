@@ -40,7 +40,7 @@
                 default:
                     var icon = IconOf(command);
                     <button type="button"
-                            class="omni-html-editor__tool"
+                            class="@(icon is null ? "omni-html-editor__tool omni-html-editor__tool--text" : "omni-html-editor__tool")"
                             data-command="@command.Name"
                             aria-label="@LabelOf(command)"
                             title="@LabelOf(command)"
@@ -59,10 +59,6 @@
                     </button>
                     break;
             }
-        }
-        @foreach (var tool in CustomTools)
-        {
-            <button type="button" class="omni-html-editor__tool omni-html-editor__tool--text" aria-label="@tool.Label" disabled="@Disabled" @onmousedown:preventDefault @onclick="() => ApplyToolAsync(tool)">@tool.Label</button>
         }
     </div>
     @if (_linkOpen)

@@ -1,13 +1,12 @@
 @using Microsoft.AspNetCore.Components.Forms
 
 <EditForm EditContext="@EditContext">
-    <OmniDatePicker Id="date" Minimum="@DateMinimum" Maximum="@DateMaximum" TimeProvider="@Clock" @bind-Value="Model.Date" />
-    <OmniTimePicker Id="time" Minimum="@TimeMinimum" Maximum="@TimeMaximum" Step="@Step" TimeProvider="@Clock" @bind-Value="Model.Time" />
-    <OmniDateTimePicker Id="moment" Minimum="@MomentMinimum" Maximum="@MomentMaximum" ShowSeconds="@ShowSeconds" TimeProvider="@Clock" @bind-Value="Model.Moment" />
+    <OmniDatePicker Id="date" Minimum="@DateMinimum" Maximum="@DateMaximum" @bind-Value="Model.Date" />
+    <OmniTimePicker Id="time" Minimum="@TimeMinimum" Maximum="@TimeMaximum" Step="@Step" @bind-Value="Model.Time" />
+    <OmniDateTimePicker Id="moment" Minimum="@MomentMinimum" Maximum="@MomentMaximum" ShowSeconds="@ShowSeconds" @bind-Value="Model.Moment" />
 </EditForm>
 
 @code {
-    [Parameter] public TimeProvider Clock { get; set; } = TimeProvider.System;
     [Parameter] public DateOnly? DateMinimum { get; set; }
     [Parameter] public DateOnly? DateMaximum { get; set; }
     [Parameter] public TimeOnly? TimeMinimum { get; set; }

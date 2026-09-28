@@ -92,15 +92,15 @@ public sealed class PageHeaderTests : OmniBunitContext
     }
 
     [Fact]
-    public void Header_Framed_IsTheDefault_AndFalseDrawsThePlainVariant()
+    public void Header_Plain_IsTheDefault_AndFramedDrawsTheBorderedBlock()
     {
-        var framed = Render<OmniPageHeader>(parameters => parameters
-            .Add(component => component.Title, "Projets")
-            .Add(component => component.ShowTrail, false));
         var plain = Render<OmniPageHeader>(parameters => parameters
             .Add(component => component.Title, "Projets")
+            .Add(component => component.ShowTrail, false));
+        var framed = Render<OmniPageHeader>(parameters => parameters
+            .Add(component => component.Title, "Projets")
             .Add(component => component.ShowTrail, false)
-            .Add(component => component.Framed, false));
+            .Add(component => component.Framed, true));
 
         Assert.False(framed.Find(".omni-page-header__frame").ClassList.Contains("omni-page-header__frame--plain"));
         Assert.True(plain.Find(".omni-page-header__frame").ClassList.Contains("omni-page-header__frame--plain"));

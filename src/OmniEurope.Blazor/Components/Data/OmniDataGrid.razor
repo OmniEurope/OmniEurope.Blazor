@@ -98,22 +98,7 @@
 
 <CascadingValue Value="_context" IsFixed="true">@Columns</CascadingValue>
 
-<div @attributes="AdditionalAttributes" id="@Id" class="@GridClass()" data-omni-density="@Density.ToString().ToLowerInvariant()" data-omni-grid-theme="@GridTheme" aria-busy="@(Loading ? "true" : "false")">
-    @* Scoped to this grid only: the attribute above redefines the colour tokens inside the
-       component, the surrounding page keeps whatever theme it already had. *@
-    @if (ShowThemeToggle)
-    {
-        <div class="omni-data-grid__toolbar">
-            <button type="button"
-                    class="omni-button omni-button--small omni-button--secondary omni-data-grid__theme-toggle"
-                    aria-pressed="@(IsDarkTheme ? "true" : "false")"
-                    title="@Localize(IsDarkTheme ? "GridThemeLight" : "GridThemeDark")"
-                    @onclick="ToggleTheme">
-                <OmniIcon Name="@(IsDarkTheme ? OmniIconName.ThemeLight : OmniIconName.ThemeDark)" Size="OmniControlSize.Small" />
-                <span>@Localize(IsDarkTheme ? "GridThemeLight" : "GridThemeDark")</span>
-            </button>
-        </div>
-    }
+<div @attributes="AdditionalAttributes" id="@Id" class="@GridClass()" data-omni-density="@Density.ToString().ToLowerInvariant()" aria-busy="@(Loading ? "true" : "false")">
     @if (Failure is not null)
     {
         <div class="omni-data-grid__state" role="alert">
@@ -153,7 +138,6 @@
                        PageSize="@PageSize"
                        PageSizeOptions="@PageSizeOptions"
                        PageSizeChanged="ChangePageSizeAsync"
-                       PageSizeText="@PageSizeText"
                        ShowFirstLast="true"
                        HorizontalAlign="@PagerHorizontalAlign"
                        FirstPageAriaLabel="@FirstPageAriaLabel"
@@ -499,7 +483,6 @@
                        PageSize="@PageSize"
                        PageSizeOptions="@PageSizeOptions"
                        PageSizeChanged="ChangePageSizeAsync"
-                       PageSizeText="@PageSizeText"
                        ShowFirstLast="true"
                        HorizontalAlign="@PagerHorizontalAlign"
                        FirstPageAriaLabel="@FirstPageAriaLabel"

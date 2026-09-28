@@ -79,12 +79,11 @@
     </OmniTabs>
 
     <div class="demo-surfaces-row">
-        <OmniPanelMenu Label="@Text["SurfMenuLabel"]">
+        <OmniPanelMenu Label="@Text["SurfMenuLabel"]" CanNavigate="SelectAsync">
             @foreach (var (key, textKey) in MenuEntries)
             {
                 <OmniPanelMenuItem Text="@Text[textKey]" Href="@($"composants/surfaces#{key}")"
-                                   Current="@(MenuCurrent == key)" Match="OmniNavMatch.None"
-                                   CanNavigate="@(_ => SelectAsync(key))" />
+                                   Current="@(MenuCurrent == key)" Match="OmniNavMatch.None" />
             }
         </OmniPanelMenu>
         <OmniStack Gap="OmniSpacing.Small">

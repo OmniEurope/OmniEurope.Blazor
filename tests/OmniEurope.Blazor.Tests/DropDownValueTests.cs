@@ -14,7 +14,7 @@ public sealed class DropDownValueTests : OmniBunitContext
         int? value = 1;
         var dropDown = Render<OmniDropDown<int?>>(parameters => parameters
             .Add(component => component.Options, Types)
-            .Add(component => component.AllowClear, true)
+            .Add(component => component.AllowEmpty, true)
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value));
 
@@ -25,5 +25,22 @@ public sealed class DropDownValueTests : OmniBunitContext
         dropDown.Render(parameters => parameters.Add(component => component.Value, (int?)null));
 
         Assert.Equal(string.Empty, dropDown.Find("select").GetAttribute("value"));
+    }
+
+    [Fact]
+    public void AllowEmpty_TheEmptyOptionClearsTheValue_ThroughValueChanged()
+    {
+        int? value = 1;
+        var raised = new List<int?>();
+        var dropDown = Render<OmniDropDown<int?>>(parameters => parameters
+            .Add(component => component.Options, Types)
+            .Add(component => component.AllowEmpty, true)
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueChanged, changed => raised.Add(changed))
+            .Add(component => component.ValueExpression, () => value));
+
+        dropDown.Find("select").Change(string.Empty);
+
+        Assert.Equal([(int?)null], raised);
     }
 }

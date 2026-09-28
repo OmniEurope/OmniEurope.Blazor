@@ -6,9 +6,6 @@ public partial class OmniProgressBar
     public double Value { get; set; }
 
     [Parameter]
-    public double Minimum { get; set; }
-
-    [Parameter]
     public double Maximum { get; set; } = 100;
 
     [Parameter]
@@ -29,10 +26,9 @@ public partial class OmniProgressBar
     [Parameter]
     public OmniProgressShape Shape { get; set; }
 
-    private double NormalizedValue => Math.Clamp(Value, Minimum, Maximum);
-    private double Percentage => Indeterminate ? 25 : (NormalizedValue - Minimum) / (Maximum - Minimum) * 100;
+    private double NormalizedValue => Math.Clamp(Value, 0, Maximum);
+    private double Percentage => Indeterminate ? 25 : NormalizedValue / Maximum * 100;
     private int PercentageBucket => Math.Clamp((int)(Math.Round(Percentage / 5, MidpointRounding.AwayFromZero) * 5), 0, 100);
-    private string MinimumText => Minimum.ToString(System.Globalization.CultureInfo.InvariantCulture);
     private string MaximumText => Maximum.ToString(System.Globalization.CultureInfo.InvariantCulture);
     private string? CurrentValueText => Indeterminate ? null : NormalizedValue.ToString(System.Globalization.CultureInfo.InvariantCulture);
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Localize("ProgressLabel") : Label;
@@ -44,9 +40,9 @@ public partial class OmniProgressBar
     {
         base.OnParametersSet();
 
-        if (!double.IsFinite(Minimum) || !double.IsFinite(Maximum) || !double.IsFinite(Value) || Maximum <= Minimum)
+        if (!double.IsFinite(Maximum) || !double.IsFinite(Value) || Maximum <= 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(Maximum), "Progress values must be finite and Maximum must be greater than Minimum.");
+            throw new ArgumentOutOfRangeException(nameof(Maximum), "Progress values must be finite and Maximum must be greater than zero.");
         }
 
     }

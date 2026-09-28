@@ -33,11 +33,8 @@ public partial class OmniDocumentEditor
 
     [Parameter] public bool ReadOnly { get; set; }
 
-    /// <summary>Whether the word and character counts, and the export buttons, are shown under the page.</summary>
+    /// <summary>Whether the status bar is shown under the page: the word and character counts and the HTML and plain text downloads.</summary>
     [Parameter] public bool ShowStatusBar { get; set; } = true;
-
-    /// <summary>Whether the status bar offers the HTML and plain text downloads.</summary>
-    [Parameter] public bool ShowExport { get; set; } = true;
 
     /// <summary>The name of downloaded files, without extension.</summary>
     [Parameter] public string FileName { get; set; } = "document";

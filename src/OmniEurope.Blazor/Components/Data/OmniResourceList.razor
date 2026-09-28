@@ -27,7 +27,7 @@
         <span class="omni-resource-list__spacer"></span>
         @if (ShowCount && CountValue is { } count)
         {
-            <OmniBadge Class="omni-resource-list__count" Variant="OmniBadgeVariant.Neutral">@CountText(count)</OmniBadge>
+            <OmniBadge Class="omni-resource-list__count" Variant="OmniBadgeVariant.Neutral" Fill="OmniBadgeFill.Filled">@CountText(count)</OmniBadge>
         }
         @Actions
         @if (ShowRefresh)
@@ -66,7 +66,7 @@
                       Page="_page"
                       PageChanged="PageChangedAsync"
                       PageSize="@PageSize"
-                      AllowPaging="@AllowPaging"
+                      ScrollMode="@(AllowPaging ? OmniDataGridScrollMode.Paged : OmniDataGridScrollMode.All)"
                       AllowSorting="@AllowSorting"
                       Height="@Height"
                       FillAvailableHeight="@FillAvailableHeight"

@@ -35,12 +35,12 @@ public partial class OmniPopover
     [Parameter]
     public string? TriggerClass { get; set; }
 
-    /// <summary>Tooltip of the trigger button.</summary>
+    /// <summary>
+    /// Tooltip of the trigger button. Null, the default, repeats <see cref="TriggerLabel"/>, which is
+    /// what an icon-only trigger shows on hover.
+    /// </summary>
     [Parameter]
     public string? TriggerTitle { get; set; }
-
-    [Parameter]
-    public OmniControlSize TriggerSize { get; set; } = OmniControlSize.Medium;
 
     /// <summary>Accessible name of the panel, announced when it opens.</summary>
     [Parameter, EditorRequired]

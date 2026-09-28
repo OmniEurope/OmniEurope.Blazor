@@ -111,11 +111,13 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public IReadOnlyList<int> PageSizeOptions { get; set; } = Array.Empty<int>();
 
+    /// <summary>
+    /// How rows beyond the screen are reached: pages with a pager (<see cref="OmniDataGridScrollMode.Paged"/>,
+    /// the default), a virtualized continuous scroll (<see cref="OmniDataGridScrollMode.Virtual"/>), or
+    /// every row rendered at once (<see cref="OmniDataGridScrollMode.All"/>).
+    /// </summary>
     [Parameter]
-    public string? PageSizeText { get; set; }
-
-    [Parameter]
-    public bool AllowPaging { get; set; } = true;
+    public OmniDataGridScrollMode ScrollMode { get; set; } = OmniDataGridScrollMode.Paged;
 
     [Parameter]
     public OmniDataGridPagerPosition PagerPosition { get; set; } = OmniDataGridPagerPosition.Bottom;
@@ -125,10 +127,6 @@ public partial class OmniDataGrid<TItem>
 
     [Parameter]
     public bool ShowPagingSummary { get; set; }
-
-    /// <summary>Composite format receiving the first row, the last row and the total row count.</summary>
-    [Parameter]
-    public string? PagingSummaryFormat { get; set; }
 
     [Parameter]
     public string? FirstPageAriaLabel { get; set; }
@@ -220,9 +218,6 @@ public partial class OmniDataGrid<TItem>
     public bool AllowRowSelectOnRowClick { get; set; }
 
     [Parameter]
-    public EventCallback<TItem> RowSelect { get; set; }
-
-    [Parameter]
     public EventCallback<TItem> RowClick { get; set; }
 
     [Parameter]
@@ -247,10 +242,6 @@ public partial class OmniDataGrid<TItem>
     public Action<OmniDataGridRowRenderArgs<TItem>>? RowRender { get; set; }
 
     // ---- editing ----------------------------------------------------------------------------
-
-    /// <summary>Overrides the grid's own edit tracking when the host owns the edit state.</summary>
-    [Parameter]
-    public Func<TItem, bool>? IsEditing { get; set; }
 
     [Parameter]
     public OmniDataGridEditMode EditMode { get; set; } = OmniDataGridEditMode.Single;
@@ -319,10 +310,6 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public bool AllGroupsExpanded { get; set; } = true;
 
-    /// <summary>Legacy single-level grouping by delegate. Ignored when <see cref="Groups"/> is used.</summary>
-    [Parameter]
-    public Func<TItem, object?>? GroupBy { get; set; }
-
     [Parameter]
     public Func<object?, int, string>? GroupLabel { get; set; }
 
@@ -353,8 +340,12 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public bool HideFilterMenuOnSelect { get; set; }
 
+    /// <summary>
+    /// Makes text filters tell capitals from lower case: "Paris" then no longer matches "paris".
+    /// Off by default, filters ignore case. <see cref="IgnoreDiacritics"/> is independent of it.
+    /// </summary>
     [Parameter]
-    public OmniDataGridFilterCaseSensitivity FilterCaseSensitivity { get; set; }
+    public bool CaseSensitiveFilters { get; set; }
 
     /// <summary>
     /// Compares filters with accents stripped from both sides, so a search for "epee" matches the
@@ -414,14 +405,6 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public EventCallback<OmniDataGridColumnWidthChange> ColumnWidthChanged { get; set; }
 
-    /// <summary>Observed alias of <see cref="ColumnWidthChanged"/>.</summary>
-    [Parameter]
-    public EventCallback<OmniDataGridColumnWidthChange> ColumnResized { get; set; }
-
-    /// <summary>Default CSS width applied to columns that do not declare one.</summary>
-    [Parameter]
-    public string? ColumnWidth { get; set; }
-
     [Parameter]
     public bool AllowAlternatingRows { get; set; }
 
@@ -433,8 +416,9 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public bool HighlightRowOnHover { get; set; }
 
+    /// <summary>Which rules separate the cells; a rule under each row by default.</summary>
     [Parameter]
-    public OmniDataGridLines GridLines { get; set; } = OmniDataGridLines.Default;
+    public OmniDataGridLines GridLines { get; set; } = OmniDataGridLines.Horizontal;
 
     [Parameter]
     public OmniDensity Density { get; set; } = OmniDensity.Comfortable;
@@ -467,27 +451,6 @@ public partial class OmniDataGrid<TItem>
     /// </summary>
     [Parameter]
     public string? Height { get; set; }
-
-    /// <summary>
-    /// Shows a button that switches this grid, and only this grid, between the light and dark
-    /// palettes. The surrounding page is untouched.
-    /// </summary>
-    [Parameter]
-    public bool ShowThemeToggle { get; set; }
-
-    /// <summary>Palette the grid starts on when <see cref="ShowThemeToggle"/> is used.</summary>
-    [Parameter]
-    public bool DarkTheme { get; set; }
-
-    private bool? _darkThemeOverride;
-
-    private bool IsDarkTheme => _darkThemeOverride ?? DarkTheme;
-
-    private string? GridTheme => ShowThemeToggle || DarkTheme
-        ? IsDarkTheme ? "dark" : "light"
-        : null;
-
-    private void ToggleTheme() => _darkThemeOverride = !IsDarkTheme;
 
     /// <summary>
     /// Opt-in: the grid stretches to whatever height its parent leaves free instead of using its
@@ -527,31 +490,27 @@ public partial class OmniDataGrid<TItem>
 
     // ---- virtualization -----------------------------------------------------------------------
 
+    /// <summary>Rows rendered beyond each edge of the viewport while virtualizing, so a short scroll shows no gap. 3 by default.</summary>
+    [Parameter]
+    public int VirtualizationOverscanCount { get; set; } = 3;
+
     /// <summary>
-    /// Renders only the rows the viewport can show and scrolls over the whole row count. Paging is
-    /// replaced by a continuous scrollbar; grouping and detail rows are not supported in this mode.
+    /// Starting height assumed for a row that has not been measured yet, in pixels; with
+    /// <see cref="FixedRowHeight"/>, the exact height of every row.
     /// </summary>
-    [Parameter]
-    public bool AllowVirtualization { get; set; }
-
-    [Parameter]
-    public int VirtualizationOverscanCount { get; set; } = 4;
-
-    /// <summary>Starting height assumed for a row that has not been measured yet, in pixels.</summary>
     [Parameter]
     public double EstimatedRowHeight { get; set; } = 40d;
 
-    /// <summary>Fixed row height in pixels. When set, rows are never measured and every row uses it.</summary>
-    [Parameter]
-    public double? RowHeight { get; set; }
-
     /// <summary>
-    /// Applies <see cref="RowHeight"/> as a real fixed CSS row height (uniform rows, overflow
-    /// clipped) instead of only feeding the virtualization scroll math. Has no effect without a
-    /// <see cref="RowHeight"/> value.
+    /// Gives every row exactly <see cref="EstimatedRowHeight"/>: rows are never measured, the scroll
+    /// math uses that height alone, and the rows are drawn at it (uniform rows, overflow clipped with
+    /// an ellipsis). For homogeneous data sets. Off by default: rows are measured.
     /// </summary>
     [Parameter]
     public bool FixedRowHeight { get; set; }
+
+    /// <summary>The fixed height of every row, or null when rows are measured.</summary>
+    private double? FixedHeight => FixedRowHeight && EstimatedRowHeight > 0d ? EstimatedRowHeight : null;
 
     /// <summary>
     /// What a column title does when it is wider than its column: run onto a second line, growing
@@ -589,7 +548,8 @@ public partial class OmniDataGrid<TItem>
 
     // ---- derived state ------------------------------------------------------------------------
 
-    private bool Virtualized => AllowVirtualization;
+    private bool Virtualized => ScrollMode == OmniDataGridScrollMode.Virtual;
+    private bool Paged => ScrollMode == OmniDataGridScrollMode.Paged;
     private bool ExternalData => LoadRequested.HasDelegate;
 
     /// <summary>
@@ -598,7 +558,7 @@ public partial class OmniDataGrid<TItem>
     /// group headers opening above it and its detail row, and measures each slot as a whole.
     /// </summary>
     private bool StructuredVirtual => Virtualized && Load is null
-        && (GroupBy is not null || DetailTemplate is not null || ActiveGroups.Count > 0);
+        && (DetailTemplate is not null || ActiveGroups.Count > 0);
 
     private IReadOnlyList<GridRenderRow<TItem>> Slots => _slots ??= BuildSlots();
 
@@ -618,10 +578,10 @@ public partial class OmniDataGrid<TItem>
     };
 
     private IReadOnlyList<TItem> VirtualLocalItems => _virtualLocalItems ??=
-        GridProjection<TItem>.Create(Items, EffectiveColumns, _filters, _sorts, FilterCaseSensitivity, IgnoreDiacritics, 1, int.MaxValue).Items;
+        GridProjection<TItem>.Create(Items, EffectiveColumns, _filters, _sorts, CaseSensitiveFilters, IgnoreDiacritics, 1, int.MaxValue).Items;
 
     private GridProjectionResult<TItem> LocalView => _localProjection ??= GridProjection<TItem>.Create(
-        Items, EffectiveColumns, _filters, _sorts, FilterCaseSensitivity, IgnoreDiacritics, Page, AllowPaging ? PageSize : int.MaxValue);
+        Items, EffectiveColumns, _filters, _sorts, CaseSensitiveFilters, IgnoreDiacritics, Page, Paged ? PageSize : int.MaxValue);
 
     private IReadOnlyList<TItem> VisibleItems => Virtualized
         ? Array.Empty<TItem>()
@@ -650,7 +610,7 @@ public partial class OmniDataGrid<TItem>
     private bool Veiled => Preparing && !Loading;
     private bool Loading => IsLoading || (!ExternalData && _remote.Loading) || (Virtualized && _virtualSource.Loading && _virtualSource.CachedItemCount == 0);
     private Exception? Failure => ExternalData ? null : Virtualized ? _virtualSource.Error : _remote.Error;
-    private bool ShowPager => AllowPaging && !Virtualized && (PageCount > 1 || AlwaysShowPager);
+    private bool ShowPager => Paged && (PageCount > 1 || AlwaysShowPager);
     private bool ShowPagerTop => ShowPager && PagerPosition is OmniDataGridPagerPosition.Top or OmniDataGridPagerPosition.TopAndBottom;
     private bool ShowPagerBottom => ShowPager && PagerPosition is OmniDataGridPagerPosition.Bottom or OmniDataGridPagerPosition.TopAndBottom;
     private int BlockSize => VirtualBlockSize > 0 ? VirtualBlockSize : Math.Max(1, PageSize);
@@ -797,10 +757,10 @@ public partial class OmniDataGrid<TItem>
         {
             throw new InvalidOperationException("LoadRequested is a paged external-data contract and cannot be virtualized. Use Load for remote virtualization.");
         }
-        if (Virtualized && Load is not null && (GroupBy is not null || DetailTemplate is not null || ActiveGroups.Count > 0))
+        if (Virtualized && Load is not null && (DetailTemplate is not null || ActiveGroups.Count > 0))
         {
             throw new InvalidOperationException(
-                "OmniDataGrid cannot virtualize a remote (Load) grid that also declares GroupBy, Groups or DetailTemplate: "
+                "OmniDataGrid cannot virtualize a remote (Load) grid that also declares Groups or DetailTemplate: "
                 + "groups and detail rows need the whole row set, which a remote source only loads block by block. "
                 + "Use Items for a grouped or detailed virtualized grid.");
         }
@@ -858,7 +818,7 @@ public partial class OmniDataGrid<TItem>
 
         // A local list that shrank under the current page (rows removed, another data set) is
         // shown from its last page; the host's bound page is told, so it never disagrees with it.
-        if (Load is null && !ExternalData && AllowPaging && Page > PageCount)
+        if (Load is null && !ExternalData && Paged && Page > PageCount)
         {
             Page = PageCount;
             InvalidateLocalProjection();
@@ -1007,7 +967,7 @@ public partial class OmniDataGrid<TItem>
 
     private bool IsSelected(object key) => _selectedKeyIndex.Contains(key);
     private bool IsExpanded(object key) => _expandedKeyIndex.Contains(key);
-    private bool IsRowEditing(TItem item) => IsEditing?.Invoke(item) ?? _editedKeys.Contains(ItemKey(item));
+    private bool IsRowEditing(TItem item) => _editedKeys.Contains(ItemKey(item));
 
     private void RebuildRenderSnapshot()
     {
@@ -1030,7 +990,7 @@ public partial class OmniDataGrid<TItem>
 
     private void SyncVirtualWindow()
     {
-        var estimate = RowHeight ?? _cssRowEstimate ?? (EstimatedRowHeight > 0d ? EstimatedRowHeight : 40d);
+        var estimate = FixedHeight ?? _cssRowEstimate ?? (EstimatedRowHeight > 0d ? EstimatedRowHeight : 40d);
         if (StructuredVirtual)
         {
             var count = Slots.Count;
@@ -1179,7 +1139,7 @@ public partial class OmniDataGrid<TItem>
             // A slot holds group headers and a detail row besides its item row, so it is measured even
             // when the item rows themselves have a fixed height. The spacers of the rows just rendered
             // are set before anything is read, so the scroll is never measured on a shortened content.
-            var snapshot = await _gridModule.InvokeAsync<GridViewportSnapshot?>("sync", _viewport, RowHeight is null || StructuredVirtual, _range.TopSpacer, _range.BottomSpacer);
+            var snapshot = await _gridModule.InvokeAsync<GridViewportSnapshot?>("sync", _viewport, FixedHeight is null || StructuredVirtual, _range.TopSpacer, _range.BottomSpacer);
             var moved = ApplySnapshot(snapshot);
             var previous = _range;
             SyncVirtualWindow();
@@ -1187,7 +1147,7 @@ public partial class OmniDataGrid<TItem>
             _appliedHeight = HeightSignature;
             await ApplyMaxHeightAsync();
             await ApplyColumnLayoutAsync();
-            await ApplyRowHeightAsync(FixedRowHeight ? RowHeight : null);
+            await ApplyRowHeightAsync(FixedHeight);
             await EnsureVirtualDataAsync();
             if (moved || previous != _range)
             {
@@ -1441,7 +1401,7 @@ public partial class OmniDataGrid<TItem>
             return;
         }
 
-        var rowHeight = FixedRowHeight ? RowHeight : null;
+        var rowHeight = FixedHeight;
         if (HeightSignature == _appliedHeight && signature == _appliedColumnLayout && rowHeight == _appliedRowHeight)
         {
             await ApplyFrozenOffsetsAsync();
@@ -1488,9 +1448,8 @@ public partial class OmniDataGrid<TItem>
     /// </summary>
     private bool RequiresLayoutInterop => Height is not null
         || FillAvailableHeight
-        || ColumnWidth is not null
         || _columnWidths.Count > 0
-        || (FixedRowHeight && RowHeight is not null)
+        || FixedHeight is not null
         || VisibleColumns.Any(column => column.Width is not null || column.MinWidth is not null || column.Frozen);
 
     private async Task ApplyColumnLayoutAsync()
@@ -1511,7 +1470,7 @@ public partial class OmniDataGrid<TItem>
         var specs = VisibleColumns.Select(column => new
         {
             key = column.Key,
-            width = _columnWidths.GetValueOrDefault(column.Key, column.Width ?? ColumnWidth),
+            width = _columnWidths.GetValueOrDefault(column.Key, column.Width),
             minWidth = column.MinWidth,
             frozen = column.Frozen
         }).ToArray();
@@ -1528,7 +1487,7 @@ public partial class OmniDataGrid<TItem>
     internal string TableMinimumWidth()
     {
         var terms = VisibleColumns
-            .Select(column => _columnWidths.GetValueOrDefault(column.Key, column.Width ?? ColumnWidth) ?? column.MinWidth)
+            .Select(column => _columnWidths.GetValueOrDefault(column.Key, column.Width) ?? column.MinWidth)
             .Select(width => IsAbsoluteLength(width) ? width! : "var(--omni-data-grid-column-min-width)")
             .ToList();
         if (ShowDetailColumn)
@@ -1570,7 +1529,7 @@ public partial class OmniDataGrid<TItem>
     private string ColumnLayoutSignature() => string.Join(
         '|',
         VisibleColumns.Select(column =>
-            $"{column.Key}:{_columnWidths.GetValueOrDefault(column.Key, column.Width ?? ColumnWidth)}:{column.MinWidth}:{column.Frozen}"));
+            $"{column.Key}:{_columnWidths.GetValueOrDefault(column.Key, column.Width)}:{column.MinWidth}:{column.Frozen}"));
 
     private bool ApplySnapshot(GridViewportSnapshot? snapshot)
     {
@@ -1597,7 +1556,7 @@ public partial class OmniDataGrid<TItem>
             moved = true;
         }
 
-        if ((RowHeight is not null && !StructuredVirtual) || snapshot.Rows is null)
+        if ((FixedHeight is not null && !StructuredVirtual) || snapshot.Rows is null)
         {
             return moved;
         }
@@ -1694,27 +1653,10 @@ public partial class OmniDataGrid<TItem>
     private IReadOnlyList<GridRenderRow<TItem>> FlatRows(IReadOnlyList<TItem> items)
     {
         var rows = new List<GridRenderRow<TItem>>(items.Count);
-        var first = true;
-        object? previousGroup = null;
         var index = 0;
         foreach (var item in items)
         {
-            var headers = new List<GridGroupHeader>();
-            if (GroupBy is not null)
-            {
-                var currentGroup = GroupBy(item);
-                if (first || !Equals(previousGroup, currentGroup))
-                {
-                    var count = items.Count(candidate => Equals(GroupBy(candidate), currentGroup));
-                    var text = GroupLabel?.Invoke(currentGroup, count) ?? $"{currentGroup} ({count})";
-                    headers.Add(new GridGroupHeader($"{currentGroup ?? NullGroupKey}", text, 0, count, true));
-                }
-
-                previousGroup = currentGroup;
-            }
-
-            first = false;
-            rows.Add(Describe(item, index, headers, DetailTemplate is not null && IsExpanded(ItemKey(item))));
+            rows.Add(Describe(item, index, [], DetailTemplate is not null && IsExpanded(ItemKey(item))));
             index++;
         }
 
@@ -1848,11 +1790,6 @@ public partial class OmniDataGrid<TItem>
         {
             await ValueChanged.InvokeAsync(SelectedItems());
         }
-
-        if (selecting)
-        {
-            await RowSelect.InvokeAsync(item);
-        }
     }
 
     /// <summary>
@@ -1881,7 +1818,6 @@ public partial class OmniDataGrid<TItem>
         var rows = SelectableVisibleRows;
         var clearing = rows.Count > 0 && rows.All(item => IsSelected(ItemKey(item)));
         var keys = SelectionKeys().ToList();
-        var added = new List<TItem>();
         foreach (var item in rows)
         {
             var key = ItemKey(item);
@@ -1892,7 +1828,6 @@ public partial class OmniDataGrid<TItem>
             else if (!keys.Contains(key))
             {
                 keys.Add(key);
-                added.Add(item);
             }
         }
 
@@ -1901,11 +1836,6 @@ public partial class OmniDataGrid<TItem>
         if (ValueChanged.HasDelegate)
         {
             await ValueChanged.InvokeAsync(SelectedItems());
-        }
-
-        foreach (var item in added)
-        {
-            await RowSelect.InvokeAsync(item);
         }
     }
 
@@ -2256,8 +2186,8 @@ public partial class OmniDataGrid<TItem>
     private static GridColumnFilter DefaultFilter(OmniDataGridColumnDefinition<TItem> column) => new(
         DefaultOperator(column),
         string.Empty,
-        column.LogicalFilterOperator,
-        column.FilterType == OmniDataGridColumnFilterType.Text ? Offered(column, column.SecondFilterOperator) : column.SecondFilterOperator,
+        OmniDataGridLogicalOperator.And,
+        column.FilterType == OmniDataGridColumnFilterType.Text ? Offered(column, default) : default,
         string.Empty);
 
     /// <summary>
@@ -2313,7 +2243,7 @@ public partial class OmniDataGrid<TItem>
         StageAsync(column, DraftOf(column) with { Operator = ParseOperator(value, column.FilterOperator) });
 
     private Task SecondFilterOperatorChangedAsync(OmniDataGridColumnDefinition<TItem> column, string? value) =>
-        StageAsync(column, DraftOf(column) with { SecondOperator = ParseOperator(value, column.SecondFilterOperator) });
+        StageAsync(column, DraftOf(column) with { SecondOperator = ParseOperator(value, DefaultFilter(column).SecondOperator) });
 
     private Task LogicalOperatorChangedAsync(OmniDataGridColumnDefinition<TItem> column, string? value) =>
         StageAsync(column, DraftOf(column) with
@@ -2519,9 +2449,7 @@ public partial class OmniDataGrid<TItem>
         var total = TotalCount;
         var first = total == 0 ? 0 : ((EffectivePage - 1) * Math.Max(1, PageSize)) + 1;
         var last = total == 0 ? 0 : Math.Min(total, first + Math.Max(1, PageSize) - 1);
-        return string.IsNullOrWhiteSpace(PagingSummaryFormat)
-            ? Localize("GridPagingSummary", first, last, total)
-            : string.Format(CultureInfo.CurrentCulture, PagingSummaryFormat, first, last, total);
+        return Localize("GridPagingSummary", first, last, total);
     }
 
     /// <summary>
@@ -2681,7 +2609,7 @@ public partial class OmniDataGrid<TItem>
     private bool HasEdgeHandle(OmniDataGridColumnDefinition<TItem> column) => IsResizable(column) || IsAutoFit(column);
 
     private int ResizeAriaValueNow(OmniDataGridColumnDefinition<TItem> column) => (int)Math.Round(Math.Clamp(
-        ParseWidth(_columnWidths.GetValueOrDefault(column.Key, column.Width ?? ColumnWidth)),
+        ParseWidth(_columnWidths.GetValueOrDefault(column.Key, column.Width)),
         MinimumColumnWidth,
         2000d));
     private bool IsGroupable(OmniDataGridColumnDefinition<TItem> column) => AllowGrouping && column.Groupable;
@@ -2803,11 +2731,11 @@ public partial class OmniDataGrid<TItem>
         AllowAlternatingRows ? "omni-data-grid--striped" : null,
         Virtualized ? "omni-data-grid--virtual" : null,
         Responsive ? "omni-data-grid--responsive" : null,
-        FixedRowHeight && RowHeight is not null ? "omni-data-grid--fixed-row-height" : null,
+        FixedHeight is not null ? "omni-data-grid--fixed-row-height" : null,
         HeaderWrap == OmniDataGridHeaderWrap.Truncate ? "omni-data-grid--header-truncate" : null,
         HasFrozenColumns ? "omni-data-grid--has-frozen" : null,
         FrozenDetached ? "omni-data-grid--frozen-detached" : null,
-        GridLines == OmniDataGridLines.Default ? null : $"omni-data-grid--lines-{GridLines.ToString().ToLowerInvariant()}");
+        GridLines == OmniDataGridLines.Horizontal ? null : $"omni-data-grid--lines-{GridLines.ToString().ToLowerInvariant()}");
 
     private string ViewportClass() => CssClassBuilder.Combine([
         "omni-data-grid__viewport",
@@ -2858,7 +2786,7 @@ public partial class OmniDataGrid<TItem>
 
     private async Task ResizeColumnAsync(OmniDataGridColumnDefinition<TItem> column, int step)
     {
-        var current = ParseWidth(_columnWidths.GetValueOrDefault(column.Key, column.Width ?? ColumnWidth));
+        var current = ParseWidth(_columnWidths.GetValueOrDefault(column.Key, column.Width));
         await ApplyColumnWidthAsync(column.Key, current + (step * 32d));
     }
 
@@ -2949,7 +2877,6 @@ public partial class OmniDataGrid<TItem>
         _appliedColumnLayout = null;
         var change = new OmniDataGridColumnWidthChange(key, value);
         await ColumnWidthChanged.InvokeAsync(change);
-        await ColumnResized.InvokeAsync(change);
         await PersistStateAsync();
     }
 
@@ -3130,11 +3057,6 @@ public partial class OmniDataGrid<TItem>
     private static string? CellText(OmniDataGridColumnDefinition<TItem> column, TItem item)
     {
         var value = column.Value(item);
-        if (column.Format is not null)
-        {
-            return column.Format(value);
-        }
-
         return !string.IsNullOrWhiteSpace(column.FormatString)
             ? string.Format(CultureInfo.CurrentCulture, column.FormatString, value)
             : value?.ToString();

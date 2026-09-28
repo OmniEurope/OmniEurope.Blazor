@@ -22,11 +22,9 @@ public sealed class ShowcaseVariantCoverageTests
     /// </summary>
     private static readonly HashSet<string> ChosenAtRuntime = new(StringComparer.Ordinal)
     {
-        // The operator, its second condition and the case rule are picked by the visitor in the
+        // The operator is picked by the visitor in the
         // grid's own filter menu, which the advanced demonstration opens by running in Advanced mode.
-        "OmniDataGridFilterOperator",
-        "OmniDataGridLogicalOperator",
-        "OmniDataGridFilterCaseSensitivity"
+        "OmniDataGridFilterOperator"
     };
 
     private static readonly string DemoSources = string.Concat(

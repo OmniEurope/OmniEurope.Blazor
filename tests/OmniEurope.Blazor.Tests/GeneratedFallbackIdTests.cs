@@ -50,8 +50,8 @@ public sealed class GeneratedFallbackIdTests : OmniBunitContext
     [Fact]
     public void TabsItem_WithoutId_ControlsItsOwnPanelInEachGroupAcrossBothPasses()
     {
-        var first = Render<OmniTabs>(parameters => parameters.Add(component => component.Tabs, Tab));
-        var second = Render<OmniTabs>(parameters => parameters.Add(component => component.Tabs, Tab));
+        var first = Render<OmniTabs>(parameters => parameters.Add(component => component.ChildContent, Tab));
+        var second = Render<OmniTabs>(parameters => parameters.Add(component => component.ChildContent, Tab));
 
         var tab = first.Find(".omni-tabs__tab");
         Assert.NotEqual(tab.Id, second.Find(".omni-tabs__tab").Id);
@@ -63,7 +63,7 @@ public sealed class GeneratedFallbackIdTests : OmniBunitContext
     [Fact]
     public void TabsItem_WithAnId_KeepsIt()
     {
-        var tabs = Render<OmniTabs>(parameters => parameters.Add(component => component.Tabs, builder =>
+        var tabs = Render<OmniTabs>(parameters => parameters.Add(component => component.ChildContent, builder =>
         {
             builder.OpenComponent<OmniTabsItem>(0);
             builder.AddAttribute(1, nameof(OmniTabsItem.Id), "general");

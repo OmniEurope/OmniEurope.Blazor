@@ -69,7 +69,7 @@ public sealed class FoundationComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public void Link_NewTabShowsTheExternalIconUnlessTurnedOff()
+    public void Link_NewTabShowsTheExternalIcon()
     {
         var external = Render<OmniLink>(parameters => parameters
             .Add(item => item.Href, "https://example.test")
@@ -77,13 +77,6 @@ public sealed class FoundationComponentTests : OmniBunitContext
             .AddChildContent("External"));
         Assert.Single(external.FindAll("a > .omni-link__external"));
         Assert.Single(external.FindAll("a > .omni-visually-hidden"));
-
-        var plain = Render<OmniLink>(parameters => parameters
-            .Add(item => item.Href, "https://example.test")
-            .Add(item => item.NewTab, true)
-            .Add(item => item.ShowNewTabIcon, false)
-            .AddChildContent("External"));
-        Assert.Empty(plain.FindAll(".omni-link__external"));
 
         var sameTab = Render<OmniLink>(parameters => parameters
             .Add(item => item.Href, "/local")
@@ -293,10 +286,9 @@ public sealed class FoundationComponentTests : OmniBunitContext
             .AddChildContent("Invalid")));
 
     [Fact]
-    public void Progress_RejectsEqualBounds() =>
+    public void Progress_RejectsANonPositiveMaximum() =>
         Assert.Throws<ArgumentOutOfRangeException>(() => Render<OmniProgressBar>(parameters => parameters
-            .Add(component => component.Minimum, 10d)
-            .Add(component => component.Maximum, 10d)));
+            .Add(component => component.Maximum, 0d)));
 
     private string RenderFoundation(string componentName) => componentName switch
     {

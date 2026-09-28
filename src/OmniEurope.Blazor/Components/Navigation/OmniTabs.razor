@@ -23,7 +23,7 @@
              aria-label="@EffectiveLabel"
              @ref="_root"
              @onkeydown="HandleKeyDownAsync">
-            <CascadingValue Value="TabContext">@EffectiveContent</CascadingValue>
+            <CascadingValue Value="TabContext">@ChildContent</CascadingValue>
         </div>
         <button type="button"
                 class="omni-tabs__scroll omni-tabs__scroll--end"
@@ -36,5 +36,5 @@
             </svg>
         </button>
     </div>
-    <CascadingValue Value="PanelContext">@EffectiveContent</CascadingValue>
+    <CascadingValue Value="PanelContext">@ChildContent</CascadingValue>
 </div>

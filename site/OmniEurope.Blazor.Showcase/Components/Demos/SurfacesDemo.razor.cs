@@ -24,9 +24,10 @@ public partial class SurfacesDemo
     private string? Last { get; set; }
 
     /// <summary>Marks the entry chosen and refuses the navigation: the demonstration stays on its page.</summary>
-    private Task<bool> SelectAsync(string key)
+    /// <summary>The menu's guard: the address names the entry after its <c>#</c>; the demo shows it in place and never navigates.</summary>
+    private Task<bool> SelectAsync(string href)
     {
-        MenuCurrent = key;
+        MenuCurrent = href[(href.IndexOf('#', StringComparison.Ordinal) + 1)..];
         StateHasChanged();
         return Task.FromResult(false);
     }

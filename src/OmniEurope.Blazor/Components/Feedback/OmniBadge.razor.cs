@@ -15,11 +15,12 @@ public partial class OmniBadge
     public OmniBadgeVariant Variant { get; set; }
 
     /// <summary>
-    /// Painted or drawn. Outline is for a badge that has to read as a different kind of thing from
-    /// the filled ones beside it, not merely as another colour.
+    /// Painted or drawn. Solid, the default, takes the fill and ink of the button of the same intention;
+    /// Filled is the lighter tonal chip; Outline is for a badge that has to read as a different kind of
+    /// thing from the painted ones beside it, not merely as another colour.
     /// </summary>
     [Parameter]
-    public OmniBadgeFill Fill { get; set; } = OmniBadgeFill.Filled;
+    public OmniBadgeFill Fill { get; set; } = OmniBadgeFill.Solid;
 
     /// <summary>An icon and nothing else: the badge is then a square as tall as a text badge.</summary>
     private bool IconOnly => Icon is not null && string.IsNullOrEmpty(Text) && ChildContent is null;

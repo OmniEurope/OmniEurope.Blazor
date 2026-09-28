@@ -61,6 +61,16 @@ public sealed class PopoverTests : OmniBunitContext
         Assert.Contains("omni-popover--bottom-start", popover.Markup, StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void TriggerTitle_DefaultsToTheTriggerLabel_AndAnExplicitTitleWins()
+    {
+        var popover = RenderPopover();
+        Assert.Equal("Tâches en cours", popover.Find("button").GetAttribute("title"));
+
+        popover.Render(parameters => parameters.Add(component => component.TriggerTitle, "Voir les tâches"));
+        Assert.Equal("Voir les tâches", popover.Find("button").GetAttribute("title"));
+    }
+
     private IRenderedComponent<OmniPopover> RenderPopover(Action<bool>? onChanged = null) =>
         Render<OmniPopover>(parameters => parameters
             .Add(component => component.Label, "Tâches en cours")

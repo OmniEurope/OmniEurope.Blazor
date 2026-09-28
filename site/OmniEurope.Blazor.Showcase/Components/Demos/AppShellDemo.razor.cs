@@ -33,9 +33,10 @@ public partial class AppShellDemo
     private static int Unread => 3;
 
     /// <summary>Marks the section chosen and refuses the navigation: the demonstration stays on its page.</summary>
-    private Task<bool> SelectAsync(string key)
+    /// <summary>The menu's guard: the address names the section after its <c>#</c>; the demo shows it in place and never navigates.</summary>
+    private Task<bool> SelectAsync(string href)
     {
-        Selected = key;
+        Selected = href[(href.IndexOf('#', StringComparison.Ordinal) + 1)..];
         StateHasChanged();
         return Task.FromResult(false);
     }

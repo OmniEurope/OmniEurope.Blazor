@@ -19,16 +19,16 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 | `OmniText` | Texte rendu en `span`, `p`, `strong`, `em` ou `small`, avec tons et troncature statiques. |
 | `OmniHeading` | Titres `h1` à `h6` déterminés par `OmniHeadingLevel`, sur l'échelle `--omni-font-size-h1` à `h6` (2, 1,5, 1,25, 1,125, 1 et 0,875 rem), nettement décroissante. Le titre d'`OmniPageHeader` suit son niveau, h1 par défaut. |
 | `OmniIcon` | Tracés Phosphor `regular` intégrés pour les usages du paquet, décoratifs par défaut ou nommés avec `AriaLabel` ; `Glyph` accepte n'importe quel autre tracé sans alourdir le paquet. |
-| `OmniBadge` | Étiquette courte avec variantes neutre, accent, information, succès, avertissement et danger, en pastille tonale (fond, trait et texte tirés de l'encre de la variante mêlée à la surface et au texte du thème) lisible en clair comme en sombre ; `Fill="Outline"` n'en garde que le trait, `Fill="Solid"` prend le fond et l'encre du bouton de même intention. |
-| `OmniLink` | Lien natif ; un nouvel onglet ajoute automatiquement `noopener noreferrer`, une icône de lien externe et une mention pour les technologies d'assistance (`ShowNewTabIcon="false"` retire l'icône). `OnClick` exécute une action au clic en plus de la navigation, sans l'empêcher ; sans lui, aucun gestionnaire n'est attaché. |
+| `OmniBadge` | Étiquette courte avec variantes neutre, accent, information, succès, avertissement et danger. Par défaut (`Fill="Solid"`), elle prend le fond et l'encre du bouton de même intention ; `Fill="Filled"` en fait une pastille tonale (fond, trait et texte tirés de l'encre de la variante mêlée à la surface et au texte du thème) lisible en clair comme en sombre ; `Fill="Outline"` n'en garde que le trait. |
+| `OmniLink` | Lien natif ; un nouvel onglet ajoute automatiquement `noopener noreferrer`, une icône de lien externe et une mention pour les technologies d'assistance. `OnClick` exécute une action au clic en plus de la navigation, sans l'empêcher ; sans lui, aucun gestionnaire n'est attaché. |
 | `OmniImage` | Image responsive avec texte alternatif, chargement différé et dimensions natives optionnelles. |
 | `OmniSkeleton` | État de chargement décoratif ou région `status` nommée, avec une à dix lignes. |
 | `OmniRow` | Rangée flex avec espacement, alignement, justification et retour à la ligne typés. |
 | `OmniColumn` | Colonne sur douze unités avec variantes responsive `SmallSpan`, `MediumSpan` et `LargeSpan`. |
 | `OmniGrid` | Grille CSS de une à douze colonnes avec espacement typé. |
-| `OmniLayout` | Conteneur de page pleine largeur, large ou centré sur le contenu : `Width` rétrécit toute la coquille, en-tête et barre latérale compris. |
+| `OmniLayout` | Conteneur de page pleine largeur (en-tête, corps, barre latérale) ; la largeur du contenu se règle sur `OmniMain.ContentWidth`. |
 | `OmniMain` | Landmark `main`, ciblable par un lien d'évitement grâce à `FocusTarget`. `ContentWidth` centre le contenu seul (`Wide`, 90rem, ou `Content`, 72rem) ; `Scrollable` en fait le conteneur de défilement de la page. |
-| `OmniHeader` | Landmark `header`, avec position collante optionnelle définie dans la feuille statique. `Brand` (nom de l'application, en gras) et `BrandMark` (logo : un texte court dans un carré arrondi du remplissage d'accent, décoratif) ou `BrandLogo` (logo en image) ouvrent la barre ; `BrandHref` en fait un lien vers l'accueil ; une bascule de barre latérale posée dans l'en-tête reste dessinée au bord, avant eux. |
+| `OmniHeader` | Landmark `header`, avec position collante optionnelle définie dans la feuille statique. `Brand` (nom de l'application, en gras) et `BrandLogo` (logo en image, décoratif) ouvrent la barre ; `BrandHref` en fait un lien vers l'accueil ; une bascule de barre latérale posée dans l'en-tête reste dessinée au bord, avant eux. |
 | `OmniFieldset` | Groupe de champs natif avec `legend` obligatoire et état désactivé ; `Collapsible` le replie avec l'élément natif `details`. `CollapsedChanged` (facultatif) rapporte l'état replié quand le lecteur ouvre ou ferme le groupe, ce qui permet `@bind-Collapsed` : l'événement natif `toggle` est écouté par `omni-focus.js`, sans gestionnaire en ligne, et seulement si le paramètre a un délégué ; sans lui, le groupe est rendu et se comporte comme avant, sans script. |
 | `OmniProgressBar` | Progression linéaire ou circulaire, déterminée ou indéterminée, avec valeurs ARIA. L'indéterminée linéaire glisse d'un mouvement continu, sans arrêt ni retour ; sans mouvement demandé, la piste se remplit à demi-teinte. |
 
@@ -36,13 +36,13 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 
 Les pièces de la barre supérieure de la maquette PLAN-008 sont dans le paquet, sans feuille de l'hôte :
 
-- logo et nom : `OmniHeader.BrandMark` et `OmniHeader.Brand` ; sur le bandeau d'accent (`Tone="Accent"`), le logo inverse son fond et son encre ;
+- logo et nom : `OmniHeader.BrandLogo` et `OmniHeader.Brand` ;
 - recherche : `OmniTextBox` avec `Icon` (voir `docs/form-components.md`) ;
 - pastille de la cloche : `OmniButton.Indicator` pose un point du remplissage de danger au coin haut de fin du bouton, cerné de la surface (de l'accent sur le bandeau). Il est décoratif (`aria-hidden`) : ce qu'il signale va dans le nom accessible, par exemple `AriaLabel="Notifications, 3 non lues"` ;
-- avatar et menu de compte : `OmniProfileMenu` sans `Summary`, avec `Initials` et `Header`, et `OmniProfileMenuItem` avec `Icon` et `Description` (voir `docs/selection-components.md`).
+- avatar et menu de compte : `OmniProfileMenu` sans `Summary`, avec `Initials` et `Header`, et `OmniProfileMenuItem` avec `Icon` (voir `docs/selection-components.md`).
 
 ```razor
-<OmniHeader Brand="Boutique" BrandMark="Ae">
+<OmniHeader Brand="Boutique" BrandLogo="img/logo.svg">
     <OmniSidebarToggle Controls="menu" Open="open" OpenChanged="@(value => open = value)" AriaLabel="Menu" />
     <OmniTextBox Type="OmniTextBoxType.Search" aria-label="Rechercher" @bind-Value="search">
         <Icon><OmniIcon Name="OmniIconName.Search" /></Icon>
@@ -53,7 +53,7 @@ Les pièces de la barre supérieure de la maquette PLAN-008 sont dans le paquet,
     <OmniProfileMenu Label="Compte de Camille Martin" Initials="CM">
         <Header><strong>Camille Martin</strong><span>Administrateur</span></Header>
         <ChildContent>
-            <OmniProfileMenuItem Description="Thème, langue, notifications">
+            <OmniProfileMenuItem>
                 <Icon><OmniIcon Name="OmniIconName.Settings" /></Icon>
                 <ChildContent>Paramètres</ChildContent>
             </OmniProfileMenuItem>
@@ -159,7 +159,7 @@ Chaque sévérité (succès, information, avertissement, danger) et l'accent ont
 
 ### Densité
 
-`OmniDensity` a trois valeurs : `Compact`, `Comfortable` (par défaut) et `Spacious`. `OmniThemeScope.Density` règle toute la portée ; `OmniButton`, `OmniFormField`, `OmniCard`, `OmniAlert`, `OmniTabs`, `OmniPanelMenu`, `OmniProfileMenu`, `OmniContextMenu`, `OmniSettingsTile` et `OmniUpload` ont leur propre `Density`, nulle par défaut pour hériter, qui l'emporte pour le composant et tout ce qu'il contient. `OmniDataGrid.Density` et `OmniResourceList.Density` gardent leur valeur propre, non nulle. La densité est un attribut `data-omni-density` qui pose des jetons hérités (hauteur de contrôle de 1,625, 2,25 ou 2,75 rem, marges, cases du calendrier, taille des cases à cocher, des interrupteurs et des icônes d'alerte), lus par chaque composant qui a une taille propre.
+`OmniDensity` a trois valeurs : `Compact`, `Comfortable` (par défaut) et `Spacious`. `OmniThemeScope.Density` règle toute la portée ; `OmniCard`, `OmniAlert`, `OmniTabs`, `OmniPanelMenu`, `OmniProfileMenu`, `OmniContextMenu` et `OmniSettingsTile` ont leur propre `Density`, nulle par défaut pour hériter, qui l'emporte pour le composant et tout ce qu'il contient. `OmniDataGrid.Density` et `OmniResourceList.Density` gardent leur valeur propre, non nulle. La densité est un attribut `data-omni-density` qui pose des jetons hérités (hauteur de contrôle de 1,625, 2,25 ou 2,75 rem, marges, cases du calendrier, taille des cases à cocher, des interrupteurs et des icônes d'alerte), lus par chaque composant qui a une taille propre.
 
 ### Réglages d'apparence réutilisables
 
@@ -207,7 +207,7 @@ les onglets prennent toute la hauteur de leur parent, qui doit donc être dimens
 sous elle. Le défilement s'arrête au bord du panneau au lieu de passer à la page. Un onglet placé
 dans un tel panneau ne porte pas de défilement propre.
 
-`OmniLayout.Width` rétrécit toute la coquille. Pour garder l'en-tête et la barre latérale sur toute la largeur et ne centrer que le contenu, c'est `OmniMain.ContentWidth`. Avec `Scrollable`, l'élément principal devient le conteneur de défilement de la page : il couvre toute la zone laissée par la barre latérale, si bien que sa barre de défilement reste au bord droit de la fenêtre, jamais au bord de la colonne centrée. La colonne se centre par la marge intérieure de l'élément et comprend sa gouttière, `--omni-main-gutter` (l'espacement moyen par défaut). Un enfant à `block-size: 100%` remplit exactement la zone ; un contenu plus haut la fait défiler, marge du bas comprise.
+La coquille occupe toute la largeur ; `OmniMain.ContentWidth` centre le contenu seul, en-tête et barre latérale restant sur toute la largeur. Avec `Scrollable`, l'élément principal devient le conteneur de défilement de la page : il couvre toute la zone laissée par la barre latérale, si bien que sa barre de défilement reste au bord droit de la fenêtre, jamais au bord de la colonne centrée. La colonne se centre par la marge intérieure de l'élément et comprend sa gouttière, `--omni-main-gutter` (l'espacement moyen par défaut). Un enfant à `block-size: 100%` remplit exactement la zone ; un contenu plus haut la fait défiler, marge du bas comprise.
 
 `OmniMain.AutoHideScrollbar` (désactivé par défaut, avec `Scrollable`) garde la place de la barre de défilement mais la laisse transparente : elle n'apparaît que pendant le défilement et s'efface peu après, comme une barre en surimpression.
 

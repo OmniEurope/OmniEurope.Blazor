@@ -3,7 +3,7 @@
 @implements IAsyncDisposable
 @inject Microsoft.Extensions.Logging.ILogger<OmniUpload> Logger
 
-<div @attributes="AdditionalAttributes" id="@Id" class="@RootClass" data-omni-density="@OmniDensityAttribute.Of(Density)">
+<div @attributes="AdditionalAttributes" id="@Id" class="@RootClass">
     @if (IsField)
     {
         @* A read-only field welded to a Browse button. The native file control covers both, invisible,

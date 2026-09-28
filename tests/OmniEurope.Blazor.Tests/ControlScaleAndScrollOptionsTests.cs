@@ -95,9 +95,9 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
             builder.CloseComponent();
         };
 
-        var plain = Render<OmniTabs>(parameters => parameters.Add(component => component.Tabs, tabs));
+        var plain = Render<OmniTabs>(parameters => parameters.Add(component => component.ChildContent, tabs));
         var scrolling = Render<OmniTabs>(parameters => parameters
-            .Add(component => component.Tabs, tabs)
+            .Add(component => component.ChildContent, tabs)
             .Add(component => component.ScrollablePanels, true));
 
         Assert.DoesNotContain("omni-tabs--scrollable-panels", plain.Markup, StringComparison.Ordinal);

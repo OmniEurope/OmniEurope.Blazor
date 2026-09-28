@@ -16,13 +16,6 @@ public partial class OmniLink
     [Parameter]
     public bool NewTab { get; set; }
 
-    /// <summary>
-    /// Marks a link that opens a new tab with the external-link icon after its text, and says so to
-    /// assistive technologies. On by default; turn it off where the context already makes it plain.
-    /// </summary>
-    [Parameter]
-    public bool ShowNewTabIcon { get; set; } = true;
-
     [Parameter]
     public string? AriaLabel { get; set; }
 
@@ -33,7 +26,7 @@ public partial class OmniLink
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-    private bool ShowsExternalIcon => NewTab && ShowNewTabIcon;
+    private bool ShowsExternalIcon => NewTab;
 
     private string? SafeHref => OmniUriPolicy.EnsureSafe(Href, nameof(Href));
 }

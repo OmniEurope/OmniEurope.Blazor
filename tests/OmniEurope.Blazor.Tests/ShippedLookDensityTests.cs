@@ -157,8 +157,6 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     // ---- T21: a Density parameter on the components that carry one ----
 
     [Theory]
-    [InlineData("OmniButton")]
-    [InlineData("OmniFormField")]
     [InlineData("OmniCard")]
     [InlineData("OmniAlert")]
     [InlineData("OmniPanelMenu")]
@@ -166,7 +164,6 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     [InlineData("OmniContextMenu")]
     [InlineData("OmniTabs")]
     [InlineData("OmniSettingsTile")]
-    [InlineData("OmniUpload")]
     public void Density_IsRenderedOnTheRootOnlyWhenSet(string component)
     {
         var inherited = RenderWithDensity(component, null);
@@ -195,8 +192,6 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         RenderFragment content = builder => builder.AddContent(0, "Contenu");
         return component switch
         {
-            "OmniButton" => Render<OmniButton>(p => p.Add(c => c.Density, density).AddChildContent("Action")).Find("button"),
-            "OmniFormField" => Render<OmniFormField>(p => p.Add(c => c.Density, density).Add(c => c.Text, "Nom")).Find(".omni-form-field"),
             "OmniCard" => Render<OmniCard>(p => p.Add(c => c.Density, density).Add(c => c.ChildContent, content)).Find(".omni-card"),
             "OmniAlert" => Render<OmniAlert>(p => p.Add(c => c.Density, density).Add(c => c.ChildContent, content)).Find(".omni-alert"),
             "OmniPanelMenu" => Render<OmniPanelMenu>(p => p.Add(c => c.Density, density)).Find(".omni-panel-menu"),
@@ -204,7 +199,6 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
             "OmniContextMenu" => Render<OmniContextMenu>(p => p.Add(c => c.Density, density).Add(c => c.TriggerContent, content)).Find(".omni-context-menu"),
             "OmniTabs" => Render<OmniTabs>(p => p.Add(c => c.Density, density)).Find(".omni-tabs"),
             "OmniSettingsTile" => Render<OmniSettingsTile>(p => p.Add(c => c.Density, density).Add(c => c.Title, "Réglage")).Find(".omni-settings-tile"),
-            "OmniUpload" => Render<OmniUpload>(p => p.Add(c => c.Density, density)).Find(".omni-upload"),
             _ => throw new ArgumentOutOfRangeException(nameof(component), component, null)
         };
     }

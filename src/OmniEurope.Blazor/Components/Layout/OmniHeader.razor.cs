@@ -20,16 +20,8 @@ public partial class OmniHeader
     public string? Brand { get; set; }
 
     /// <summary>
-    /// The logo: a short text (typically two letters) in a rounded square of the accent fill, before
-    /// <see cref="Brand"/>. Decorative (<c>aria-hidden</c>), so the name says what it stands for.
-    /// Null or blank, the default, renders no logo.
-    /// </summary>
-    [Parameter]
-    public string? BrandMark { get; set; }
-
-    /// <summary>
-    /// The logo as an image, before <see cref="Brand"/>, in place of <see cref="BrandMark"/> when both
-    /// are set. Decorative like the mark: the name says what it stands for.
+    /// The logo as an image, before <see cref="Brand"/>, decorative
+    /// (<c>aria-hidden</c>): the name says what it stands for. Null or blank, the default, renders no logo.
     /// </summary>
     [Parameter]
     public string? BrandLogo { get; set; }
@@ -41,7 +33,7 @@ public partial class OmniHeader
     [Parameter]
     public string? BrandHref { get; set; }
 
-    private bool HasBrand => !string.IsNullOrWhiteSpace(Brand) || !string.IsNullOrWhiteSpace(BrandMark) || !string.IsNullOrWhiteSpace(BrandLogo);
+    private bool HasBrand => !string.IsNullOrWhiteSpace(Brand) || !string.IsNullOrWhiteSpace(BrandLogo);
 
     private string? SafeBrandHref => string.IsNullOrWhiteSpace(BrandHref) ? null : OmniUriPolicy.EnsureSafe(BrandHref, nameof(BrandHref));
 }

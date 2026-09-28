@@ -5,26 +5,10 @@ using OmniEurope.Blazor.Internal;
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
-/// Covers the header filter menu, its per-column editors, the multi-valued operators and the
-/// grid-local theme toggle: each test drives the rendered control and reads the rows it produces.
+/// Covers the header filter menu, its per-column editors, and the multi-valued operators: each test drives the rendered control and reads the rows it produces.
 /// </summary>
 public sealed class DataGridFilterSurfaceTests : OmniBunitContext
 {
-    [Fact]
-    public void ThemeToggle_SwitchesOnlyTheGridItSitsIn()
-    {
-        var grid = Render<DataGridFilterMenuTestHost>();
-
-        Assert.Equal("light", grid.Find("#regions").GetAttribute("data-omni-grid-theme"));
-
-        grid.Find(".omni-data-grid__theme-toggle").Click();
-
-        Assert.Equal("dark", grid.Find("#regions").GetAttribute("data-omni-grid-theme"));
-        // The palette is carried by the grid element itself, so nothing outside it is repainted.
-        Assert.Single(grid.FindAll("[data-omni-grid-theme]"));
-        Assert.Equal("true", grid.Find(".omni-data-grid__theme-toggle").GetAttribute("aria-pressed"));
-    }
-
     [Fact]
     public void MultiSelectFilter_TicksAValueAndKeepsOnlyTheMatchingRows()
     {
@@ -134,7 +118,7 @@ public sealed class DataGridFilterSurfaceTests : OmniBunitContext
                 ["name"] = GridColumnFilter.Empty with { Operator = filterOperator, Value = value }
             },
             [],
-            OmniDataGridFilterCaseSensitivity.Default,
+            false,
             ignoreDiacritics,
             page: 1,
             pageSize: 10).Items.Select(region => region.Name).ToArray();

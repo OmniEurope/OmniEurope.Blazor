@@ -102,7 +102,7 @@ public sealed class DataGridLiveRefreshTests : OmniBunitContext
         JSInterop.Mode = JSRuntimeMode.Loose;
         var rows = Enumerable.Range(1, 30).Select(id => new Row(id, $"row {id}")).ToList();
         var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.AllowVirtualization, true)
+            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.EstimatedRowHeight, 40d)
             .Add(component => component.VirtualBlockSize, 50)
             .Add(component => component.KeyProperty, nameof(Row.Id))
