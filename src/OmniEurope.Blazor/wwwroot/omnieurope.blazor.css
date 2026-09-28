@@ -890,10 +890,12 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
 .omni-layout { --omni-sidebar-inset: calc(var(--omni-item-pad-y) + var(--omni-space-xs)); --omni-sidebar-rail: calc(2 * var(--omni-sidebar-inset) + 1.25rem); box-sizing: border-box; margin-inline: auto; width: 100%; }
 .omni-main { --omni-main-max-width: 100%; display: block; min-width: 0; }
 .omni-main:focus { outline: none; }
-/* Largeur du contenu seul ; sans défilement propre, l'élément principal lui-même se centre. */
+/* Largeur du contenu seul ; sans défilement propre, l'élément principal lui-même se centre. La largeur de 100 %
+   le garde étiré quand le corps s'empile en colonne, où les marges automatiques annulent l'étirement et le
+   réduiraient à la largeur de son contenu le plus large (un bloc de code, par exemple). */
 .omni-main--wide { --omni-main-max-width: var(--omni-layout-wide-width, 90rem); }
 .omni-main--content { --omni-main-max-width: var(--omni-layout-content-width, 72rem); }
-.omni-main:is(.omni-main--wide, .omni-main--content):not(.omni-main--scrollable) { box-sizing: border-box; flex: 1 1 auto; margin-inline: auto; max-inline-size: var(--omni-main-max-width); }
+.omni-main:is(.omni-main--wide, .omni-main--content):not(.omni-main--scrollable) { box-sizing: border-box; flex: 1 1 auto; inline-size: 100%; margin-inline: auto; max-inline-size: var(--omni-main-max-width); }
 /* Défilement propre : l'élément principal couvre toute la zone et défile, sa barre au bord de la
    fenêtre ; la colonne se centre par la marge intérieure, mesurée sur le cadre de même largeur. */
 .omni-main-scroll { display: flex; flex: 1 1 auto; min-block-size: 0; min-inline-size: 0; }

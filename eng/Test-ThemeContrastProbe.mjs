@@ -12,7 +12,7 @@
 // translucent background up the tree down to an opaque one, each element's opacity included, over the
 // white canvas. The ratios are those of the static tests: 4.5 for text, 3.0 for a non-text mark, the
 // border floor of 1.7 (ThemeContrastMatrixTests.BorderFloor) for a control's border, and the 5.0
-// rendering margin where ThemeContrastMatrixTests applies it (theme and palette Défaut in light, on the
+// rendering margin where ThemeContrastMatrixTests applies it (theme and palette Essentiel in light, on the
 // pairs of RenderingMarginPairs, recognised by their painted colours). The content of a busy control
 // is measured under its veil at the veil's peak, read by stepping its animation, not taken from the
 // stylesheet. Geometry is checked too: grid cells stay table cells, an icon-only button shows its icon
@@ -30,7 +30,7 @@
 // its edge.
 //
 // Usage: node Test-ThemeContrastProbe.mjs --endpoint http://127.0.0.1:<cdp port> --url http://127.0.0.1:<site port>/
-//        [--themes "Défaut,Néon"] [--palettes "Mono"] [--modes dark] [--no-screenshots]
+//        [--themes "Essentiel,Néon"] [--palettes "Mono"] [--modes dark] [--no-screenshots]
 // The filters exist to replay a failure quickly; a filtered run says so and never counts as the gate.
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
@@ -71,7 +71,7 @@ const NARROW_PAGES = ['/', CUSTOMIZER, ...EXTRA_PAGES];
 
 // Screenshots besides every theme on its own palette in both modes: Halo and Néon, the two themes
 // that draw with the accent (halos, glows, tinted borders), each on three palettes not their own.
-const FOREIGN_SHOTS = { 'Halo': ['Océan', 'Braise', 'Mono'], 'Néon': ['Défaut', 'Forêt', 'Or ancien'] };
+const FOREIGN_SHOTS = { 'Halo': ['Océan', 'Braise', 'Mono'], 'Néon': ['Essentiel', 'Forêt', 'Or ancien'] };
 
 // ---------------------------------------------------------------------------------------------------
 // The page side: colour arithmetic, the closed list of targets, the measures and the geometry checks.
@@ -818,10 +818,10 @@ const chosenThemes = themes.filter(theme => !themeFilter || themeFilter.includes
 const chosenPalettes = palettes.filter(palette => !paletteFilter || paletteFilter.includes(palette));
 const chosenModes = modes.filter(mode => !modeFilter || modeFilter.includes(mode));
 
-// 1. The shipped look (lot 7): the stylesheet alone must paint exactly what Défaut + Défaut paints.
+// 1. The shipped look (lot 7): the stylesheet alone must paint exactly what Essentiel + Essentiel paints.
 for (const mode of chosenModes) {
-  const combo = { theme: 'Défaut', palette: 'Défaut', mode };
-  await apply('Défaut', 'Défaut', mode);
+  const combo = { theme: 'Essentiel', palette: 'Essentiel', mode };
+  await apply('Essentiel', 'Essentiel', mode);
   margin = mode === 'light' ? await lib('marginPairs()') : null;
   const themed = await measurePage(combo, CUSTOMIZER);
   const count = await lib('stripTheme()');
@@ -831,7 +831,7 @@ for (const mode of chosenModes) {
   if (mode === 'light' || mode === 'dark') await shoot(`vitrine-sans-theme-${mode}`);
   for (const [id, painted] of Object.entries(themed)) {
     measures++;
-    if (shipped[id] !== painted) fail(combo, { page: CUSTOMIZER, target: id, check: 'apparence livrée', detail: `sans thème ${shipped[id] ?? '(non mesuré)'}, avec Défaut + Défaut ${painted}` });
+    if (shipped[id] !== painted) fail(combo, { page: CUSTOMIZER, target: id, check: 'apparence livrée', detail: `sans thème ${shipped[id] ?? '(non mesuré)'}, avec Essentiel + Essentiel ${painted}` });
   }
   await lib('restoreTheme()');
   await settleOrFail(combo, 'la remise des jetons');
@@ -839,7 +839,7 @@ for (const mode of chosenModes) {
 if (chosenModes.length > 0) {
   // The shipped look as a visitor lands on it: the home page, stylesheet alone.
   for (const mode of chosenModes) {
-    await apply('Défaut', 'Défaut', mode);
+    await apply('Essentiel', 'Essentiel', mode);
     await navigate('/', READY['/']);
     await lib('stripTheme()');
     await lib('settle()');
@@ -861,7 +861,7 @@ for (const theme of chosenThemes) {
       const combo = { theme, palette, mode };
       await apply(theme, palette, mode);
       combinations++;
-      margin = theme === 'Défaut' && palette === 'Défaut' && mode === 'light' ? await lib('marginPairs()') : null;
+      margin = theme === 'Essentiel' && palette === 'Essentiel' && mode === 'light' ? await lib('marginPairs()') : null;
       await measurePage(combo, CUSTOMIZER);
       await measureBusy(combo);
       margin = null;
@@ -886,7 +886,7 @@ await send('Emulation.setDeviceMetricsOverride', { width: 375, height: 812, devi
 for (const theme of chosenThemes) {
   for (const mode of chosenModes) {
     await navigate(CUSTOMIZER, READY[CUSTOMIZER]);
-    await apply(theme, defaultPalette[theme] ?? 'Défaut', mode);
+    await apply(theme, defaultPalette[theme] ?? 'Essentiel', mode);
     for (const page of NARROW_PAGES) {
       await navigate(page, READY[page]);
       await lib('settle()');
