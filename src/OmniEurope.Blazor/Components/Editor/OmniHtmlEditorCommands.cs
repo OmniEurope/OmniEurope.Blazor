@@ -70,8 +70,9 @@ public static class OmniHtmlEditorCommands
     ];
 
     /// <summary>
-    /// The toolbar of <see cref="OmniDocumentEditor"/>: styles and sizes, inline formatting, lists,
-    /// alignment, a table, clear formatting and history.
+    /// The toolbar of a light word processor (an <see cref="OmniHtmlEditor"/> with <c>Sheet</c> and
+    /// <c>ShowStatusBar</c>): styles and sizes, inline formatting, lists, alignment, a table, clear
+    /// formatting and history.
     /// </summary>
     public static IReadOnlyList<OmniHtmlEditorCommand> Document { get; } =
     [

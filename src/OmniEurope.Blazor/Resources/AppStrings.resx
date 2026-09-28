@@ -8,7 +8,6 @@
   <data name="Today" xml:space="preserve"><value>Aujourd'hui</value></data>
   <data name="Retry" xml:space="preserve"><value>Réessayer</value></data>
   <data name="Loading" xml:space="preserve"><value>Chargement…</value></data>
-  <data name="AppearanceAriaLabel" xml:space="preserve"><value>Changer l'apparence</value></data>
   <data name="AppearanceLight" xml:space="preserve"><value>Clair</value></data>
   <data name="AppearanceDark" xml:space="preserve"><value>Sombre</value></data>
   <data name="AppearanceSystem" xml:space="preserve"><value>Système</value></data>
@@ -37,7 +36,6 @@
   <data name="CheckBoxInvalid" xml:space="preserve"><value>La valeur de case à cocher n'est pas valide.</value></data>
   <data name="CheckBoxListInvalid" xml:space="preserve"><value>La liste de cases à cocher n'est pas valide.</value></data>
   <data name="ColorPickerInvalid" xml:space="preserve"><value>La couleur doit être au format #RRGGBB.</value></data>
-  <data name="CompareValidatorMessage" xml:space="preserve"><value>Les valeurs ne correspondent pas.</value></data>
   <data name="NotificationsRegionLabel" xml:space="preserve"><value>Notifications</value></data>
   <data name="ContextMenuLabel" xml:space="preserve"><value>Menu contextuel</value></data>
   <data name="GridLoadFailed" xml:space="preserve"><value>Le chargement de la grille a échoué.</value></data>
@@ -137,7 +135,6 @@
   <data name="DialogStart" xml:space="preserve"><value>Début du dialogue</value></data>
   <data name="DropDownPlaceholder" xml:space="preserve"><value>Sélectionner</value></data>
   <data name="DropDownInvalid" xml:space="preserve"><value>La sélection n'est pas valide pour {0}.</value></data>
-  <data name="EmailValidatorMessage" xml:space="preserve"><value>L'adresse e-mail n'est pas valide.</value></data>
   <data name="HtmlEditorLabel" xml:space="preserve"><value>Éditeur HTML</value></data>
   <data name="HtmlEditorToolbar" xml:space="preserve"><value>Outils de mise en forme</value></data>
   <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Actions de l&apos;éditeur</value></data>
@@ -268,7 +265,6 @@
   <data name="HtmlEditorRedo" xml:space="preserve"><value>Rétablir</value></data>
   <data name="HtmlEditorPreview" xml:space="preserve"><value>Aperçu du contenu</value></data>
   <data name="LegendLabel" xml:space="preserve"><value>Légende</value></data>
-  <data name="LengthValidatorMessage" xml:space="preserve"><value>La longueur de ce champ n'est pas valide.</value></data>
   <data name="ListBoxInvalid" xml:space="preserve"><value>La sélection de liste n'est pas valide.</value></data>
   <data name="MindMapAddLink" xml:space="preserve"><value>Lien</value></data>
   <data name="MindMapAddNode" xml:space="preserve"><value>Nœud</value></data>
@@ -334,9 +330,7 @@
   <data name="NotificationExpand" xml:space="preserve"><value>Tout afficher</value></data>
   <data name="NotificationCollapse" xml:space="preserve"><value>Réduire</value></data>
   <data name="NotificationOpenDetails" xml:space="preserve"><value>Ouvrir le journal</value></data>
-  <data name="NullableCheckBoxInvalid" xml:space="preserve"><value>La valeur de case à cocher n'est pas valide.</value></data>
   <data name="NullableSwitchIndeterminate" xml:space="preserve"><value>État non défini</value></data>
-  <data name="NullableSwitchInvalid" xml:space="preserve"><value>La valeur d'interrupteur n'est pas valide.</value></data>
   <data name="NumericInvalid" xml:space="preserve"><value>La valeur saisie n'est pas valide.</value></data>
   <data name="NumericInvalidNamed" xml:space="preserve"><value>La valeur saisie n'est pas valide pour {0}.</value></data>
   <data name="PagerLabel" xml:space="preserve"><value>Pagination</value></data>
@@ -584,28 +578,6 @@
   <data name="DynamicFormMinimum" xml:space="preserve"><value>{0} doit valoir au moins {1}.</value></data>
   <data name="DynamicFormMaximum" xml:space="preserve"><value>{0} doit valoir au plus {1}.</value></data>
   <data name="DynamicFormChoice" xml:space="preserve"><value>{0} doit être l&apos;une des valeurs proposées.</value></data>
-  <data name="EntityPickerLabel" xml:space="preserve"><value>Sélection</value></data>
-  <data name="EntityPickerSearch" xml:space="preserve"><value>Rechercher</value></data>
-  <data name="EntityPickerAvailable" xml:space="preserve"><value>Disponibles</value></data>
-  <data name="EntityPickerSelected" xml:space="preserve"><value>Choisis</value></data>
-  <data name="EntityPickerNoResults" xml:space="preserve"><value>Aucun résultat.</value></data>
-  <data name="EntityPickerNoneSelected" xml:space="preserve"><value>Aucun élément choisi.</value></data>
-  <data name="EntityPickerSearchFailed" xml:space="preserve"><value>La recherche a échoué.</value></data>
-  <data name="EntityPickerOneSelected" xml:space="preserve"><value>{0} choisi</value></data>
-  <data name="EntityPickerManySelected" xml:space="preserve"><value>{0} choisis</value></data>
-  <data name="EntityPickerAdded" xml:space="preserve"><value>{0} ajouté à la sélection</value></data>
-  <data name="EntityPickerRemoved" xml:space="preserve"><value>{0} retiré de la sélection</value></data>
-  <data name="EntityPickerRemove" xml:space="preserve"><value>Retirer {0}</value></data>
-  <data name="EntityPickerShowAll" xml:space="preserve"><value>Tout afficher (+{0})</value></data>
-  <data name="ResourceListSearch" xml:space="preserve"><value>Rechercher</value></data>
-  <data name="ResourceListClearSearch" xml:space="preserve"><value>Effacer la recherche</value></data>
-  <data name="ResourceListRefresh" xml:space="preserve"><value>Actualiser</value></data>
-  <data name="ResourceListLoadFailed" xml:space="preserve"><value>La liste n&apos;a pas pu être chargée.</value></data>
-  <data name="ResourceListOneItem" xml:space="preserve"><value>{0} élément</value></data>
-  <data name="ResourceListManyItems" xml:space="preserve"><value>{0} éléments</value></data>
-  <data name="ResourceListEmpty" xml:space="preserve"><value>Rien pour le moment</value></data>
-  <data name="ResourceListNoMatch" xml:space="preserve"><value>Aucun résultat</value></data>
-  <data name="ResourceListNoMatchDescription" xml:space="preserve"><value>Rien ne correspond à « {0} ».</value></data>
   <data name="StatusStripLabel" xml:space="preserve"><value>Historique des états</value></data>
   <data name="StatusStripEmpty" xml:space="preserve"><value>Aucun état à afficher</value></data>
   <data name="KanbanLabel" xml:space="preserve"><value>Tableau de cartes</value></data>

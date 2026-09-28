@@ -20,6 +20,12 @@ public sealed class AnnotatedValidationDemoModel
     [Display(Name = "Courriel du responsable")]
     public string Mail { get; set; } = string.Empty;
 
+    /// <summary>The address typed a second time, compared with <see cref="Mail"/>.</summary>
+    [Required]
+    [Compare(nameof(Mail))]
+    [Display(Name = "Confirmation du courriel")]
+    public string MailConfirmation { get; set; } = string.Empty;
+
     /// <summary>The number of replicas, bounded.</summary>
     [Range(1, 10)]
     [Display(Name = "Réplicas")]

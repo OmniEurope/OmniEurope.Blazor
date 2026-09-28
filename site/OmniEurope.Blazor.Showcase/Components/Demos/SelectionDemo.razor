@@ -12,22 +12,20 @@
         <OmniFormField For="demo-city">
             <Label>Villes desservies</Label>
             <ChildContent>
-                <OmniListBox TValue="string" Id="demo-city" Options="Cities" @bind-Value="City" VisibleRows="4" />
+                <OmniListBox Id="demo-city" Options="Cities" @bind-Value="City" VisibleRows="4" />
             </ChildContent>
         </OmniFormField>
 
         <OmniFormField For="demo-tags">
             <Label>Étiquettes</Label>
             <ChildContent>
-                <OmniMultiSelect TValue="string" Id="demo-tags" Options="Tags" @bind-Value="SelectedTags"
-                                 Presentation="OmniMultiSelectPresentation.List" />
+                <OmniListBox Id="demo-tags" Multiple="true" Options="Tags" @bind-Value="SelectedTags" VisibleRows="4" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="demo-tags-compact">
             <Label>Étiquettes, forme compacte</Label>
             <ChildContent>
                 <OmniMultiSelect TValue="string" Id="demo-tags-compact" Options="Tags" @bind-Value="CompactTags"
-                                 Presentation="OmniMultiSelectPresentation.Compact"
                                  Placeholder="Choisir des étiquettes" />
             </ChildContent>
         </OmniFormField>
@@ -36,7 +34,6 @@
             <ChildContent>
                 <OmniMultiSelect TValue="string" Id="demo-tags-filterable" Options="EditableTags"
                                  @bind-Value="FilterableTags"
-                                 Presentation="OmniMultiSelectPresentation.Compact"
                                  Placeholder="Choisir des étiquettes"
                                  Filterable="true" @bind-FilterText="TagSearch"
                                  FilterPlaceholder="Rechercher une étiquette">
@@ -59,13 +56,3 @@
         </OmniFormField>
     </OmniStack>
 </EditForm>
-
-<OmniStack Gap="OmniSpacing.Medium">
-    <OmniEntityPicker TItem="OmniOption<string>" TKey="string" Search="SearchRolesAsync"
-                      KeySelector="RoleKey" TextSelector="RoleText" @bind-Selected="ChosenRoles"
-                      Layout="OmniEntityPickerLayout.Stacked" Label="Rôles, liste compacte" />
-    <OmniEntityPicker TItem="OmniOption<string>" TKey="string" Search="SearchRolesAsync"
-                      KeySelector="RoleKey" TextSelector="RoleText" @bind-Selected="ChosenRoles"
-                      Layout="OmniEntityPickerLayout.TwoColumns" Label="Rôles, deux colonnes"
-                      AvailableTitle="Disponibles" SelectedTitle="Sélectionnés" />
-</OmniStack>

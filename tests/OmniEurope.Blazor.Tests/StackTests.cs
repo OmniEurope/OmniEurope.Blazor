@@ -65,4 +65,28 @@ public sealed class StackTests : OmniBunitContext
         Assert.Single(stack.FindAll(".omni-stack"));
         Assert.Empty(JSInterop.Invocations);
     }
+
+    [Fact]
+    public void Wrap_LetsTheItemsFlowOntoFurtherLines_UnlessAnOverflowModeKeepsThemOnOne()
+    {
+        var plain = Render<OmniStack>(parameters => parameters
+            .Add(component => component.Orientation, OmniStackOrientation.Horizontal)
+            .AddChildContent("Contenu"));
+        var wrapping = Render<OmniStack>(parameters => parameters
+            .Add(component => component.Orientation, OmniStackOrientation.Horizontal)
+            .Add(component => component.Wrap, true)
+            .AddChildContent("Contenu"));
+        var collapsing = Render<OmniStack>(parameters => parameters
+            .Add(component => component.Orientation, OmniStackOrientation.Horizontal)
+            .Add(component => component.Wrap, true)
+            .Add(component => component.Overflow, OmniStackOverflow.Collapse)
+            .AddChildContent("Contenu"));
+
+        Assert.DoesNotContain("omni-stack--wrap", plain.Find(".omni-stack").ClassList);
+        Assert.Contains("omni-stack--wrap", wrapping.Find(".omni-stack").ClassList);
+        Assert.DoesNotContain("omni-stack--wrap", collapsing.Find(".omni-stack").ClassList);
+
+        var css = File.ReadAllText(Path.Combine(ShippedLookTests.RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        Assert.Contains(".omni-stack--wrap { flex-wrap: wrap; }", css, StringComparison.Ordinal);
+    }
 }

@@ -1,10 +1,12 @@
 @namespace OmniEurope.Blazor.Components
 @typeparam TValue
-@inherits OmniInputBase<TValue>
+@typeparam TSelection
+@inherits OmniInputBase<TSelection>
 
 <select @attributes="AdditionalAttributes"
         id="@Id"
         class="@InputCss("omni-input", "omni-list-box")"
+        multiple="@Multiple"
         size="@VisibleRows"
         disabled="@Disabled"
         aria-invalid="@AriaInvalid"

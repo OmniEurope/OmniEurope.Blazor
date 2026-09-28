@@ -8,11 +8,11 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 |---|---|
 | Titres et contenu textuel | `OmniText`, `OmniHeading` |
 | Icônes et badges | `OmniIcon`, `OmniBadge` |
-| Rangées, colonnes et grille | `OmniRow`, `OmniColumn`, `OmniGrid` |
+| Piles, rangées et colonnes | `OmniStack`, `OmniRow`, `OmniColumn` |
 | Coque applicative | `OmniLayout`, `OmniBody`, `OmniMain`, `OmniHeader` |
 | Barre latérale et sa bascule | `OmniSidebar`, `OmniSidebarToggle` |
 | Progression linéaire ou circulaire | `OmniProgressBar` avec `Shape` |
-| Thème, palette, densité et apparence | `OmniThemeScope` (`Preset`, un thème de `OmniThemePresets`, `Palette`, une palette de `OmniThemePalettes`, et `Density`) et `OmniAppearanceToggle` |
+| Thème, palette, densité et apparence | `OmniThemeScope` (`Preset`, un thème de `OmniThemePresets`, `Palette`, une palette de `OmniThemePalettes`, et `Density`) et `OmniAppearanceSettings` |
 
 | Composant | Rôle |
 | --- | --- |
@@ -23,9 +23,9 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 | `OmniLink` | Lien natif ; un nouvel onglet ajoute automatiquement `noopener noreferrer`, une icône de lien externe et une mention pour les technologies d'assistance. `OnClick` exécute une action au clic en plus de la navigation, sans l'empêcher ; sans lui, aucun gestionnaire n'est attaché. |
 | `OmniImage` | Image responsive avec texte alternatif, chargement différé et dimensions natives optionnelles. |
 | `OmniSkeleton` | État de chargement décoratif ou région `status` nommée, avec une à dix lignes. |
-| `OmniRow` | Rangée flex avec espacement, alignement, justification et retour à la ligne typés. |
+| `OmniStack` | Pile flex verticale ou horizontale (`Orientation`) avec espacement, alignement et justification typés. `Wrap` (désactivé par défaut) fait passer les éléments à la ligne ; `Overflow` (`Scroll`, `Collapse`) garde au contraire une seule ligne et l'emporte sur `Wrap`. |
+| `OmniRow` | Rangée flex des `OmniColumn`, avec espacement, alignement, justification et retour à la ligne typés. Hors colonnes, une `OmniStack` horizontale (`Wrap="true"` pour passer à la ligne) suffit. |
 | `OmniColumn` | Colonne sur douze unités avec variantes responsive `SmallSpan`, `MediumSpan` et `LargeSpan`. |
-| `OmniGrid` | Grille CSS de une à douze colonnes avec espacement typé. |
 | `OmniLayout` | Conteneur de page pleine largeur (en-tête, corps, barre latérale) ; la largeur du contenu se règle sur `OmniMain.ContentWidth`. |
 | `OmniMain` | Landmark `main`, ciblable par un lien d'évitement grâce à `FocusTarget`. `ContentWidth` centre le contenu seul (`Wide`, 90rem, ou `Content`, 72rem) ; `Scrollable` en fait le conteneur de défilement de la page. |
 | `OmniHeader` | Landmark `header`, avec position collante optionnelle définie dans la feuille statique. `Brand` (nom de l'application, en gras) et `BrandLogo` (logo en image, décoratif) ouvrent la barre ; `BrandHref` en fait un lien vers l'accueil ; une bascule de barre latérale posée dans l'en-tête reste dessinée au bord, avant eux. |
@@ -159,7 +159,7 @@ Chaque sévérité (succès, information, avertissement, danger) et l'accent ont
 
 ### Densité
 
-`OmniDensity` a trois valeurs : `Compact`, `Comfortable` (par défaut) et `Spacious`. `OmniThemeScope.Density` règle toute la portée ; `OmniCard`, `OmniAlert`, `OmniTabs`, `OmniPanelMenu`, `OmniProfileMenu`, `OmniContextMenu` et `OmniSettingsTile` ont leur propre `Density`, nulle par défaut pour hériter, qui l'emporte pour le composant et tout ce qu'il contient. `OmniDataGrid.Density` et `OmniResourceList.Density` gardent leur valeur propre, non nulle. La densité est un attribut `data-omni-density` qui pose des jetons hérités (hauteur de contrôle de 1,625, 2,25 ou 2,75 rem, marges, cases du calendrier, taille des cases à cocher, des interrupteurs et des icônes d'alerte), lus par chaque composant qui a une taille propre.
+`OmniDensity` a trois valeurs : `Compact`, `Comfortable` (par défaut) et `Spacious`. `OmniThemeScope.Density` règle toute la portée ; `OmniCard`, `OmniAlert`, `OmniTabs`, `OmniPanelMenu`, `OmniProfileMenu`, `OmniContextMenu` et `OmniSettingsTile` ont leur propre `Density`, nulle par défaut pour hériter, qui l'emporte pour le composant et tout ce qu'il contient. `OmniDataGrid.Density` garde sa valeur propre, non nulle. La densité est un attribut `data-omni-density` qui pose des jetons hérités (hauteur de contrôle de 1,625, 2,25 ou 2,75 rem, marges, cases du calendrier, taille des cases à cocher, des interrupteurs et des icônes d'alerte), lus par chaque composant qui a une taille propre.
 
 ### Réglages d'apparence réutilisables
 

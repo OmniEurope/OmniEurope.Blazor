@@ -1,5 +1,5 @@
 @namespace OmniEurope.Blazor.Components
-<g class="omni-chart__pie" aria-label="@Title">
+<g class="@CssClass" aria-label="@Title">
     @foreach (var slice in Slices)
     {
         <path class="omni-chart-color-@(_index % 8)" d="@SlicePath(slice)"><title>@slice.Label : @slice.Value</title></path>

@@ -14,31 +14,32 @@ groupe et chaque choix. L'édition participe à `EditContext`.
 `OmniOption<TValue>` porte la valeur, le texte, l'état désactivé et le groupe éventuel. Ce modèle alimente :
 
 - `OmniDropDown<TValue>` et `OmniMultiSelect<TValue>` ;
-- `OmniListBox<TValue>` et `OmniCheckBoxList<TValue>` ;
+- `OmniListBox<TValue, TSelection>` et `OmniCheckBoxList<TValue>` ;
 - `OmniRadioButtonList<TValue>`, qui dessine lui-même chaque bouton radio ; `Error` (facultatif) dessine sous les choix, dans le `fieldset`, la ligne d'erreur d'`OmniFormField` (glyphe décoratif, `role="alert"`, identifiant `{Id}-error`, ou `{Name}-error` sans identifiant), marque le groupe `aria-invalid="true"`, le fait décrire par cette ligne après l'`aria-describedby` passé par l'hôte et borde chaque bouton radio de la couleur de danger ;
 - `OmniSelectBar<TValue>`, qui dessine lui-même chaque option.
 
-`OmniMultiSelect<TValue>` expose deux formes par `Presentation`. `List`, la valeur par défaut, reste
-une liste native toujours ouverte dont la hauteur est donnée par `VisibleRows`. `Compact` tient sur
-une seule ligne, ouvre sa liste à la demande et résume la sélection : `Placeholder` quand rien n'est
-choisi, le texte de l'option quand il n'y en a qu'une, le décompte au-delà. Les libellés de repli et
-le bouton de désélection proviennent des ressources `MultiSelectEmpty`, `MultiSelectSelected` et
-`MultiSelectClear`.
+`OmniListBox` est une liste native toujours ouverte (`select` à `size`) dont la hauteur est donnée
+par `VisibleRows`. Elle choisit une option ; avec `Multiple="true"`, elle devient un `select multiple`
+et en choisit plusieurs (Ctrl ou Maj avec un clic). `TSelection` est déduit de `@bind-Value` : une
+valeur (`TValue`, ou sa forme nullable) pour une seule option, une collection (`IReadOnlyList<TValue>`,
+un tableau) avec `Multiple` ; une liaison qui ne correspond pas au mode lève `InvalidOperationException`.
+Les options désactivées ne sont jamais retenues.
 
-La forme `Compact` accepte en plus une recherche et deux templates. `Filterable` ajoute un champ qui
-réduit la liste aux options dont le texte contient la saisie ; `FilterText` se lie dans les deux sens
-pour que la page sache ce qui a été tapé, et la remise à `null` vide le champ. `OptionTemplate` dessine
+`OmniMultiSelect<TValue>` tient sur une seule ligne, ouvre sa liste de cases à cocher à la demande et
+résume la sélection : `Placeholder` quand rien n'est choisi, le texte de l'option quand il n'y en a
+qu'une, le décompte au-delà. Les libellés de repli et le bouton de désélection proviennent des
+ressources `MultiSelectEmpty`, `MultiSelectSelected` et `MultiSelectClear`.
+
+Il accepte en plus une recherche et deux templates. `Filterable` ajoute un champ qui réduit la liste
+aux options dont le texte contient la saisie ; `FilterText` se lie dans les deux sens pour que la
+page sache ce qui a été tapé, et la remise à `null` vide le champ. `OptionTemplate` dessine
 une option à côté de sa case à cocher, `FooterTemplate` occupe le bas du panneau, hors de la zone
 défilante : ensemble, ils donnent le sélecteur d'étiquettes qui propose de créer celle que la recherche
 n'a pas trouvée. Le filtre porte toujours sur le texte de l'option, quoi que dessine le template, et
 `MultiSelectNoMatch` est affiché lorsque la recherche ne laisse rien, un panneau vide se lisant comme
 un contrôle qui n'a pas chargé ses options.
 
-`Filterable` exige `Presentation="OmniMultiSelectPresentation.Compact"` et lève sinon : la forme
-`List` est un `select multiple` natif, sans place pour un champ et adressant ses options par position,
-donc un filtre silencieusement ignoré y serait le vrai piège.
-
-Le panneau compact se ferme sur Échap (le focus revient au résumé) et, tant que `CloseOnOutsideClick`
+Le panneau se ferme sur Échap (le focus revient au résumé) et, tant que `CloseOnOutsideClick`
 reste à `true`, sa valeur par défaut, sur un appui ailleurs dans la page. Un appui dans un élément
 marqué `data-omni-keep-open` ne compte jamais comme extérieur : une colonne de réglages qui modifie le
 champ ouvert porte cet attribut et ne le referme pas. La fermeture passe par `omni-focus.js`, le seul
@@ -46,7 +47,7 @@ champ ouvert porte cet attribut et ne le referme pas. La fermeture passe par `om
 ouvert. Désactivé (`Disabled`), le résumé ne s'ouvre plus et sort de l'ordre de tabulation.
 
 Une option désactivée (`OmniOption.Disabled`) se lit comme telle avant qu'on essaie de la choisir :
-atténuée avec un curseur interdit dans les listes de choix, la forme compacte et les suggestions,
+atténuée avec un curseur interdit dans les listes de choix, la sélection multiple et les suggestions,
 hachurée dans `OmniSelectBar`. Une barre entièrement désactivée porte `.omni-select-bar--disabled` et
 `aria-disabled`, et garde son option choisie d'un accent pâli. Trop large pour sa place, la barre
 défile sous un chevron de chaque côté qui cache encore des options, comme les onglets, sans barre de
@@ -54,7 +55,6 @@ défilement ; les chevrons sont hors de l'ordre de tabulation, chaque option res
 
 ```razor
 <OmniMultiSelect TValue="Guid" Options="tags" @bind-Value="selectedTagIds"
-                 Presentation="OmniMultiSelectPresentation.Compact"
                  Filterable="true" @bind-FilterText="search">
     <OptionTemplate Context="tag">
         <svg class="tag-swatch" viewBox="0 0 10 10" aria-hidden="true" focusable="false">

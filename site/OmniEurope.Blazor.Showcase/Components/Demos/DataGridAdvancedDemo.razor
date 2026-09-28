@@ -99,7 +99,8 @@
                                                Suggestions="@context.Suggestions"
                                                Placeholder="@context.Placeholder"
                                                Searchable="true"
-                                               MaxSuggestions="8" />
+                                               MaxSuggestions="8"
+                                               Presentation="@(context.InPopover ? OmniMultiSelectPresentation.List : OmniMultiSelectPresentation.Compact)" />
             </FilterTemplate>
         </OmniDataGridColumn>
         <OmniDataGridColumn TItem="GridRow" Property="Filed" Title="@Text["GridFiledColumn"]" FormatString="{0:g}"

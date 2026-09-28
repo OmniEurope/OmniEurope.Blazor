@@ -1,12 +1,51 @@
 @namespace OmniEurope.Blazor.Components
-@inherits OmniInputBase<bool>
+@typeparam TValue
+@inherits OmniInputBase<TValue>
 
-<input @attributes="AdditionalAttributes"
-       id="@EffectiveId"
-       class="@InputCss("omni-checkbox")"
-       type="checkbox"
-       checked="@CurrentValue"
-       disabled="@Disabled"
-       aria-invalid="@AriaInvalid"
-       aria-describedby="@AriaDescribedBy"
-       @onchange="HandleChange" />
+@if (IsNullable)
+{
+    <button @attributes="AdditionalAttributes"
+            id="@EffectiveId"
+            class="@InputCss("omni-checkbox-nullable", State is null ? "omni-checkbox-nullable--mixed" : State == true ? "omni-checkbox-nullable--checked" : null)"
+            type="button"
+            role="checkbox"
+            disabled="@Disabled"
+            aria-checked="@AriaChecked"
+            aria-invalid="@AriaInvalid"
+            aria-describedby="@AriaDescribedBy"
+            @onclick="Cycle">
+        <span class="omni-checkbox-nullable__indicator" aria-hidden="true"></span>
+        @if (ChildContent is not null)
+        {
+            <span>@ChildContent</span>
+        }
+    </button>
+}
+else if (ChildContent is null)
+{
+    <input @attributes="AdditionalAttributes"
+           id="@EffectiveId"
+           class="@InputCss("omni-checkbox")"
+           type="checkbox"
+           checked="@(State == true)"
+           disabled="@Disabled"
+           aria-invalid="@AriaInvalid"
+           aria-describedby="@AriaDescribedBy"
+           @onchange="HandleChange" />
+}
+else
+{
+    @* The label wraps the box, so a click on the text toggles it and the text names it. *@
+    <label class="omni-checkbox-label">
+        <input @attributes="AdditionalAttributes"
+               id="@EffectiveId"
+               class="@InputCss("omni-checkbox")"
+               type="checkbox"
+               checked="@(State == true)"
+               disabled="@Disabled"
+               aria-invalid="@AriaInvalid"
+               aria-describedby="@AriaDescribedBy"
+               @onchange="HandleChange" />
+        <span class="omni-checkbox-label__text">@ChildContent</span>
+    </label>
+}

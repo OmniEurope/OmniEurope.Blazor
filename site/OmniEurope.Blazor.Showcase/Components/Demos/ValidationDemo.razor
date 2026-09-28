@@ -9,8 +9,6 @@
             <ChildContent>
                 <OmniTextBox Id="validation-name" @bind-Value="Model.Name" />
                 <OmniRequiredValidator TValue="string" For="@(() => Model.Name)" Message="Le nom est obligatoire." />
-                <OmniLengthValidator For="@(() => Model.Name)" MinimumLength="2" MaximumLength="40"
-                                     Message="Le nom fait entre 2 et 40 caractères." />
             </ChildContent>
         </OmniFormField>
 
@@ -19,18 +17,6 @@
             <ChildContent>
                 <OmniTextBox Id="validation-mail" @bind-Value="Model.Mail" />
                 <OmniRequiredValidator TValue="string" For="@(() => Model.Mail)" Message="Le courriel est obligatoire." />
-                <OmniEmailValidator For="@(() => Model.Mail)" Message="Ce courriel n'est pas valide." />
-            </ChildContent>
-        </OmniFormField>
-
-        <OmniFormField For="validation-mail-confirm" Required="true">
-            <Label>Confirmation du courriel</Label>
-            <ChildContent>
-                <OmniTextBox Id="validation-mail-confirm" @bind-Value="Model.MailConfirmation" />
-                <OmniRequiredValidator TValue="string" For="@(() => Model.MailConfirmation)" Message="La confirmation du courriel est obligatoire." />
-                <OmniCompareValidator TValue="string" For="@(() => Model.MailConfirmation)"
-                                      Other="@(() => Model.Mail)"
-                                      Message="Les deux courriels diffèrent." />
             </ChildContent>
         </OmniFormField>
 
@@ -60,6 +46,13 @@
             <ChildContent>
                 <OmniTextBox Id="annotated-mail" @bind-Value="Annotated.Mail" />
                 <ValidationMessage For="@(() => Annotated.Mail)" />
+            </ChildContent>
+        </OmniFormField>
+        <OmniFormField For="annotated-mail-confirm" Required="true">
+            <Label>Confirmation du courriel</Label>
+            <ChildContent>
+                <OmniTextBox Id="annotated-mail-confirm" @bind-Value="Annotated.MailConfirmation" />
+                <ValidationMessage For="@(() => Annotated.MailConfirmation)" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="annotated-replicas">

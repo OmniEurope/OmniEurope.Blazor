@@ -1,11 +1,12 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// How a multi-select occupies the page.
+/// How the multiple-choice filter of a grid column (<see cref="OmniDataGridFilterMultiSelect"/>)
+/// occupies its place.
 /// </summary>
 public enum OmniMultiSelectPresentation
 {
-    /// <summary>An always-open list of <see cref="OmniMultiSelect{TValue}.VisibleRows"/> rows.</summary>
+    /// <summary>An always-open list of check boxes.</summary>
     List,
 
     /// <summary>A single-line control that opens its list on demand.</summary>

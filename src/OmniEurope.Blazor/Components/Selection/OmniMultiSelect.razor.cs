@@ -2,6 +2,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// A multiple selection on a single line: a summary that names or counts the selected options and
+/// opens, on demand, a panel of check boxes (with an optional search field). For an always-open list,
+/// use <see cref="OmniListBox{TValue, TSelection}"/> with <c>Multiple</c>, or <see cref="OmniCheckBoxList{TValue}"/>.
+/// </summary>
 public partial class OmniMultiSelect<TValue>
 {
     private string? _filter;
@@ -12,25 +17,13 @@ public partial class OmniMultiSelect<TValue>
     [Parameter, EditorRequired]
     public IReadOnlyList<OmniOption<TValue>> Options { get; set; } = Array.Empty<OmniOption<TValue>>();
 
-    [Parameter]
-    public int VisibleRows { get; set; } = 5;
-
-    /// <summary>
-    /// Compact keeps the control on a single line and opens its list on demand, which is what a
-    /// filter sitting in a toolbar needs. List, the default, stays an always-open native list.
-    /// </summary>
-    [Parameter]
-    public OmniMultiSelectPresentation Presentation { get; set; } = OmniMultiSelectPresentation.List;
-
-    /// <summary>Shown by the compact presentation while nothing is selected.</summary>
+    /// <summary>Shown on the summary line while nothing is selected.</summary>
     [Parameter]
     public string? Placeholder { get; set; }
 
     /// <summary>
-    /// Adds a search field to the compact panel and narrows the list to the options whose text
-    /// contains what was typed. Only the compact presentation can carry it: the list presentation is
-    /// a native multiple select, which has nowhere to put a field and addresses its options by
-    /// position, so filtering it would silently select the wrong ones.
+    /// Adds a search field to the panel and narrows the list to the options whose text contains what
+    /// was typed.
     /// </summary>
     [Parameter]
     public bool Filterable { get; set; }
@@ -57,7 +50,7 @@ public partial class OmniMultiSelect<TValue>
     [Parameter]
     public RenderFragment<OmniOption<TValue>>? OptionTemplate { get; set; }
 
-    /// <summary>Sits at the bottom of the compact panel, below the list and outside its scroll.</summary>
+    /// <summary>Sits at the bottom of the panel, below the list and outside its scroll.</summary>
     [Parameter]
     public RenderFragment? FooterTemplate { get; set; }
 
@@ -68,10 +61,10 @@ public partial class OmniMultiSelect<TValue>
     public string? AriaDescribedBy { get; set; }
 
     /// <summary>
-    /// Closes the open compact panel when a press lands outside it. On by default; a page that drives
-    /// the field from controls of its own can turn it off, or mark those controls with
+    /// Closes the open panel when a press lands outside it. On by default; a page that drives the
+    /// field from controls of its own can turn it off, or mark those controls with
     /// <c>data-omni-keep-open</c> so a press on them never counts as outside. Escape closes the panel
-    /// either way. The list presentation is always open and ignores it.
+    /// either way.
     /// </summary>
     [Parameter]
     public bool CloseOnOutsideClick { get; set; } = true;
@@ -130,12 +123,6 @@ public partial class OmniMultiSelect<TValue>
     {
         base.OnParametersSet();
 
-        if (Filterable && Presentation != OmniMultiSelectPresentation.Compact)
-        {
-            throw new InvalidOperationException(
-                "Filterable requires OmniMultiSelectPresentation.Compact.");
-        }
-
         // The parameter wins whenever the page changes it, which is how a caller empties the field
         // after acting on the text; between those changes the field owns what it holds, so a render
         // caused by anything else does not undo the keystroke being typed.
@@ -180,23 +167,6 @@ public partial class OmniMultiSelect<TValue>
 
     private void Clear() => CurrentValue = [];
 
-    private void HandleChange(ChangeEventArgs args)
-    {
-        var keys = args.Value switch
-        {
-            string[] values => values,
-            IEnumerable<string> values => values.ToArray(),
-            string value => [value],
-            _ => Array.Empty<string>()
-        };
-
-        CurrentValue = keys
-            .Select(key => int.TryParse(key, out var index) ? index : -1)
-            .Where(index => index >= 0 && index < Options.Count && !Options[index].Disabled)
-            .Select(index => Options[index].Value)
-            .ToArray();
-    }
-
     protected override bool TryParseValueFromString(string? value, out IReadOnlyList<TValue> result, out string validationErrorMessage)
     {
         result = Array.Empty<TValue>();
@@ -206,11 +176,6 @@ public partial class OmniMultiSelect<TValue>
 
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        if (Presentation != OmniMultiSelectPresentation.Compact)
-        {
-            return Task.CompletedTask;
-        }
-
         _dismissal ??= new OmniDisclosureDismissal(JavaScript);
         return _dismissal.ApplyAsync(_details, CloseOnOutsideClick, closeOnItem: false);
     }

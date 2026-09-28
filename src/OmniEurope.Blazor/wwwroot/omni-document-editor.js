@@ -1,6 +1,7 @@
-// File export of OmniDocumentEditor: the one thing it needs the browser for, handing a file to the
-// user. The content is built in .NET; this only wraps it in a Blob and follows a download link,
-// which navigates nowhere and needs no permission from the content security policy.
+// File download of the HTML editor status bar and the Markdown export button: the one thing they
+// need the browser for, handing a file to the user. The content is built in .NET; this only wraps it
+// in a Blob and follows a download link, which navigates nowhere and needs no permission from the
+// content security policy.
 export function download(fileName, mimeType, content) {
     const blob = new Blob([content], { type: mimeType });
     const url = URL.createObjectURL(blob);

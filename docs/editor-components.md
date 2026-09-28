@@ -1,7 +1,7 @@
 # Éditeurs : WYSIWYG, traitement de texte et code
 
-Ce lot couvre `OmniHtmlEditor`, `OmniDocumentEditor` et `OmniCodeEditor`. Les deux premiers produisent
-le même HTML assaini ; le troisième édite du texte brut.
+Ce lot couvre `OmniHtmlEditor`, qui sert aussi de traitement de texte léger, et `OmniCodeEditor`. Le
+premier produit du HTML assaini ; le second édite du texte brut.
 
 ## OmniHtmlEditor
 
@@ -236,16 +236,23 @@ public sealed class NoteExtension : OmniHtmlEditorExtension
 }
 ```
 
-## OmniDocumentEditor
+### Traitement de texte
 
-Un traitement de texte léger : une page blanche centrée sur un fond gris, la barre
-`OmniHtmlEditorCommands.Document` collée en haut (style du paragraphe, taille du texte, gras,
-italique, souligné, barré, listes, retraits, alignements, tableau de trois lignes sur trois, lien,
-effacement, historique), et une barre d'état avec le nombre de mots et de caractères (espaces compris)
-et deux boutons d'export.
+`OmniHtmlEditor` sert de traitement de texte léger avec trois réglages, désactivés par défaut :
+`Sheet` pose une page blanche centrée sur un fond gris, la barre d'outils collée en haut (classes
+`omni-document-editor omni-document-editor--sheet` sur le cadre) ; `ShowStatusBar` ajoute sous
+l'éditeur une barre d'état avec le nombre de mots et de caractères (espaces compris, `WordCount` et
+`CharacterCount`) et deux boutons d'export ; `Commands="OmniHtmlEditorCommands.Document"` donne la barre
+d'un traitement de texte (style du paragraphe, taille du texte, gras, italique, souligné, barré,
+listes, retraits, alignements, tableau de trois lignes sur trois, lien, effacement, historique).
+Sans `Sheet` ni `ShowStatusBar`, l'éditeur est rendu seul, sans cadre. Le cadre porte le nom
+accessible de l'éditeur, « Traitement de texte » par défaut avec `Sheet`.
 
-- `Value`, `ValueChanged` et `ValueExpression` sont transmis à l'éditeur interne : `@bind-Value` fait
-  participer le traitement de texte à un formulaire comme `OmniHtmlEditor`.
+```razor
+<OmniHtmlEditor @bind-Value="report" Label="Rapport" Sheet="true" ShowStatusBar="true"
+                Commands="OmniHtmlEditorCommands.Document" FileName="rapport" Rows="20" />
+```
+
 - `ExportHtmlAsync()` rend un fichier HTML complet (`lang` de la culture courante, `title` tiré de
   `DocumentTitle`, sinon du premier titre de niveau 1). Les classes d'alignement et de taille y
   deviennent les déclarations équivalentes sur les éléments, pour que le fichier se lise de même dans
@@ -255,7 +262,7 @@ et deux boutons d'export.
   numérotées en `1. `, cellules séparées par des tabulations.
 - Les boutons de la barre d'état téléchargent `FileName.html` et `FileName.txt` par
   `omni-document-editor.js` (un `Blob` et un lien de téléchargement).
-- `ReadOnly`, `Rows` (hauteur minimale de la page), `ShowStatusBar` (comptes et téléchargements), `Commands`.
+- `Disabled` verrouille la page, `Rows` en donne la hauteur minimale.
 
 ## OmniCodeEditor
 

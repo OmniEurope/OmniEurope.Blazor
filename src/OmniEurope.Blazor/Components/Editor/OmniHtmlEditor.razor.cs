@@ -12,12 +12,15 @@ namespace OmniEurope.Blazor.Components;
 /// The toolbar is a list of <see cref="OmniHtmlEditorCommand"/>: <see cref="Commands"/> replaces the
 /// default one, which is <see cref="OmniHtmlEditorCommands.Default"/>. The visual face is driven by
 /// <c>omni-html-editor.js</c>, which never writes a style attribute; the source face keeps the
-/// textarea and the tag wrapping this component always had.
+/// textarea and the tag wrapping this component always had. <see cref="Sheet"/>,
+/// <see cref="ShowStatusBar"/> and <see cref="OmniHtmlEditorCommands.Document"/> make it a light word
+/// processor: a sheet of paper, live word and character counts, and export to HTML and plain text.
 /// </remarks>
 public partial class OmniHtmlEditor
 {
     private const string InteropModulePath = "./_content/OmniEurope.Blazor/omniInterop.js";
     private const string VisualModulePath = "./_content/OmniEurope.Blazor/omni-html-editor.js";
+    private const string DownloadModulePath = "./_content/OmniEurope.Blazor/omni-document-editor.js";
 
     private static readonly (string Value, string Key)[] BlockFormats =
     [
@@ -57,14 +60,74 @@ public partial class OmniHtmlEditor
     private string _linkUrl = string.Empty;
     private string? _linkError;
     private bool _disposed;
+    private IJSObjectReference? _downloadModule;
+    private string? _countedValue;
+    private bool _counted;
+    private (int Words, int Characters) _statistics;
 
     [Inject]
     private IJSRuntime JSRuntime { get; set; } = default!;
 
+    /// <summary>
+    /// The accessible name of the editor. Empty uses the localized "HTML editor", or "word processor"
+    /// when <see cref="Sheet"/> is set.
+    /// </summary>
     [Parameter] public string Label { get; set; } = string.Empty;
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label)
-        ? Localize("HtmlEditorLabel")
+        ? Localize(Sheet ? "DocumentEditorLabel" : "HtmlEditorLabel")
         : Label;
+
+    /// <summary>
+    /// Presents the visual face as a word processor: a sheet of paper centred on a muted background,
+    /// with the toolbar sticking to the top while the page scrolls. Off by default. Pair it with
+    /// <see cref="OmniHtmlEditorCommands.Document"/> as <see cref="Commands"/> and
+    /// <see cref="ShowStatusBar"/> for a complete light word processor.
+    /// </summary>
+    [Parameter] public bool Sheet { get; set; }
+
+    /// <summary>
+    /// Shows a status bar under the editor: the word and character counts of the value (spaces
+    /// included), and two buttons that download it as a standalone HTML file and as plain text. Off
+    /// by default.
+    /// </summary>
+    [Parameter] public bool ShowStatusBar { get; set; }
+
+    /// <summary>The name of the files the status bar downloads, without extension.</summary>
+    [Parameter] public string FileName { get; set; } = "document";
+
+    /// <summary>
+    /// The title of the exported HTML file (<see cref="ExportHtmlAsync"/>). Null uses the first
+    /// level-one heading of the value, then the localized "Document".
+    /// </summary>
+    [Parameter] public string? DocumentTitle { get; set; }
+
+    /// <summary>The number of words of the current value.</summary>
+    public int WordCount => Statistics.Words;
+
+    /// <summary>The number of characters of the current value, spaces included.</summary>
+    public int CharacterCount => Statistics.Characters;
+
+    /// <summary>Whether the editor is framed as a document: the sheet, the status bar, or both.</summary>
+    private bool Framed => Sheet || ShowStatusBar;
+
+    private string FrameClass => Sheet ? "omni-document-editor omni-document-editor--sheet" : "omni-document-editor";
+
+    /// <summary>The counts of the value, computed again only when it changes.</summary>
+    private (int Words, int Characters) Statistics
+    {
+        get
+        {
+            var value = CurrentValue;
+            if (!string.Equals(value, _countedValue, StringComparison.Ordinal) || !_counted)
+            {
+                _countedValue = value;
+                _counted = true;
+                _statistics = OmniHtmlText.Count(value);
+            }
+
+            return _statistics;
+        }
+    }
 
     /// <summary>The height of the source textarea in rows, and the minimum height of the visual surface.</summary>
     [Parameter] public int Rows { get; set; } = 12;
@@ -638,6 +701,34 @@ public partial class OmniHtmlEditor
     {
         await CaptureVisualAsync();
         return CurrentHtml;
+    }
+
+    /// <summary>
+    /// The value as a complete HTML file, what was typed a moment ago included: the <c>lang</c> of the
+    /// current UI culture, the <see cref="DocumentTitle"/> (or the first level-one heading), and the
+    /// editor's classes turned into declarations, so the file reads the same anywhere.
+    /// </summary>
+    public async Task<string> ExportHtmlAsync()
+    {
+        var html = await CaptureAsync();
+        var title = DocumentTitle ?? OmniHtmlText.FirstHeading(html) ?? Localize("DocumentEditorDefaultTitle");
+        return OmniHtmlText.ToStandaloneDocument(html, title, CultureInfo.CurrentUICulture.Name);
+    }
+
+    /// <summary>The value as plain text, what was typed a moment ago included.</summary>
+    public async Task<string> ExportTextAsync() => OmniHtmlText.ToPlainText(await CaptureAsync());
+
+    private async Task DownloadHtmlAsync() =>
+        await DownloadAsync(".html", "text/html;charset=utf-8", await ExportHtmlAsync());
+
+    private async Task DownloadTextAsync() =>
+        await DownloadAsync(".txt", "text/plain;charset=utf-8", await ExportTextAsync());
+
+    private async Task DownloadAsync(string extension, string mimeType, string content)
+    {
+        _downloadModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", DownloadModulePath);
+        var name = string.IsNullOrWhiteSpace(FileName) ? "document" : FileName.Trim();
+        await _downloadModule.InvokeVoidAsync("download", name + extension, mimeType, content);
     }
 
     internal async Task<bool> ReplaceClosestAsync(string selector, string html)
@@ -1260,6 +1351,18 @@ public partial class OmniHtmlEditor
             catch (JSDisconnectedException)
             {
                 // The circuit is already gone, and the menu listener with it.
+            }
+        }
+
+        if (_downloadModule is not null)
+        {
+            try
+            {
+                await _downloadModule.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+                // The circuit is already gone, and the module with it.
             }
         }
 
