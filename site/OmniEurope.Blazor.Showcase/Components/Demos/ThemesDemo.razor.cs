@@ -10,6 +10,7 @@ public partial class ThemesDemo
     private OmniThemePalette? _palette;
     private int _textSizeLevel = 5;
     private int _densityLevel = 5;
+    private bool _windowOpen;
     private Sample LiveSample => new(_preset, _palette, _appearance);
     private int _appliedTextSizeLevel;
     private IJSObjectReference? _appearanceModule;

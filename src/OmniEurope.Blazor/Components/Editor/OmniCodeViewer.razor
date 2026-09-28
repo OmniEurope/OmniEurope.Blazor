@@ -42,7 +42,7 @@
             {
                 @for (var index = 0; index < _lines.Count; index++)
                 {
-                    var number = index + 1;
+                    var number = Math.Max(1, FirstLineNumber) + index;
                     <div class="@LineClass(number)">
                         @if (ShowLineNumbers)
                         {

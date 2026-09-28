@@ -1,0 +1,16 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* One action of an OmniOverflowMenu: the icon in a fixed column, then the label, one line. Choosing it
+   closes the menu first, the focus back on the trigger, then runs the action. *@
+<button @attributes="AdditionalAttributes"
+        id="@Id"
+        type="button"
+        class="@Css("omni-overflow-menu__item", Danger ? "omni-overflow-menu__item--danger" : null)"
+        role="menuitem"
+        tabindex="-1"
+        disabled="@Disabled"
+        @onclick="ActivateAsync">
+    <span class="omni-overflow-menu__icon" aria-hidden="true">@Icon</span>
+    <span class="omni-overflow-menu__label">@ChildContent</span>
+</button>

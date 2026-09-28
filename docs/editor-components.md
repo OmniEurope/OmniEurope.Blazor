@@ -323,6 +323,17 @@ C'est le fournisseur de liens YAML d'Aetheus (`pipeline: nom`) rendu générique
                 LinkActivated="OpenPipeline" />
 ```
 
+## OmniCodeViewer : extrait numéroté
+
+`OmniCodeViewer` affiche du code en lecture seule, numéros de ligne à côté du texte (jamais dedans,
+une copie à la main ne les prend pas). `FirstLineNumber` (1 par défaut, ramené à 1 en dessous) numérote
+un extrait comme dans son fichier : les lignes 631 à 640 autour d'un constat gardent leurs numéros.
+`HighlightedLines` et les numéros rapportés par `LinkActivated` comptent de la même façon.
+
+```razor
+<OmniCodeViewer Code="@Extrait" Title="src/Service.cs" FirstLineNumber="631" HighlightedLines="@([635])" />
+```
+
 ## OmniDiffViewer
 
 `OmniDiffViewer` compare deux versions d'un texte avec l'éditeur de différences de Monaco, côte à côte

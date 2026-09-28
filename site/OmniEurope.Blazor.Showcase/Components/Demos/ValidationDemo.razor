@@ -65,3 +65,8 @@
         <OmniButton ButtonType="OmniButtonType.Submit" Variant="OmniButtonVariant.Secondary">Vérifier</OmniButton>
     </OmniStack>
 </OmniTemplateForm>
+
+@* OmniTemplateForm demande avant de quitter une page aux champs modifiés (GuardUnsavedChanges, actif par
+   défaut). Pour des modifications qu'aucun formulaire ne voit, le garde se pose seul. *@
+<OmniCheckBox Id="validation-unsaved" @bind-Value="UnsavedChanges">Simuler des modifications non enregistrées</OmniCheckBox>
+<OmniUnsavedChangesGuard HasChanges="UnsavedChanges" />

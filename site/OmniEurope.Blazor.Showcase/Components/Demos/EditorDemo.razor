@@ -110,6 +110,9 @@
     <OmniCodeBlock Code="dotnet test OmniEurope.Blazor.slnx" Label="Commande de test" Language="shell" />
     <OmniCodeViewer Code="@ViewerCode" Title="Exemple de configuration" Language="json"
                     HighlightedLines="ViewerHighlights" />
+    @* Un extrait garde les numéros de ses lignes dans le fichier : FirstLineNumber. *@
+    <OmniCodeViewer Code="@ExcerptCode" Title="Extrait, lignes 41 à 43" Language="csharp" FirstLineNumber="41"
+                    HighlightedLines="ExcerptHighlights" ShowWrapToggle="false" />
     <OmniUnifiedDiff Diff="@ExampleDiff" />
 </OmniStack>
 

@@ -197,7 +197,13 @@ Chaque sévérité (succès, information, avertissement, danger) et l'accent ont
 ### Réglages d'apparence réutilisables
 
 `OmniAppearanceSettings` rassemble mode clair/sombre/système, thème, palette, taille du texte et
-densité. Modifier (bouton `Success`) ouvre les deux derniers réglages dans une fenêtre déplaçable sans voile.
+densité. Modifier (bouton `Success`) ouvre le thème, la palette et les échelles dans une fenêtre déplaçable sans voile.
+Cette fenêtre est aussi un composant, `OmniAppearanceWindow`, qu'un hôte ouvre depuis sa propre entrée
+de menu (« Thème ») par `Open`/`OpenChanged` : thème et palette d'abord, puis taille du texte, densité et
+taille des contrôles, chaque ligne n'apparaissant que si l'hôte lie son changement (`PresetChanged`,
+`PaletteChanged`, `TextSizeLevelChanged`, `DensityLevelChanged`, `ControlSizeLevelChanged`). Elle ne
+remet pas d'elle-même palette et police à `null` quand le thème change : c'est à l'hôte de le faire, comme
+`OmniAppearanceSettings` le fait.
 En `Compact`, libellés et commandes s'alignent sur deux colonnes et la ligne des tailles lit « Tailles »
 suivi du résumé des niveaux (« Texte 5 · Densité 5 · Contrôles 5 »).
 Ses mesures sont capturées à l'ouverture : les commandes restent stables pendant les changements,

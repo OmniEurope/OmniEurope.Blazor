@@ -16,6 +16,16 @@ public partial class OverlayDemo : IDisposable
 
     private OmniDialogSize SizedDialog { get; set; }
 
+    private bool IntentOpen { get; set; }
+
+    private OmniDialogIntent IntentDialog { get; set; }
+
+    private void OpenIntent(OmniDialogIntent intent)
+    {
+        IntentDialog = intent;
+        IntentOpen = true;
+    }
+
     private void OpenSized(OmniDialogSize size)
     {
         SizedDialog = size;

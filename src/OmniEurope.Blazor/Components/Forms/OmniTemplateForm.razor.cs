@@ -4,6 +4,9 @@ public partial class OmniTemplateForm<TModel>
 where TModel : class
 {
     private EditContext? _resolvedEditContext;
+    private EditContext? _trackedEditContext;
+    private bool _dirty;
+    private bool _submitting;
     private TModel? _lastModel;
     private ElementReference _formRoot;
     private IJSObjectReference? _module;
@@ -29,6 +32,15 @@ where TModel : class
     [Parameter]
     public bool FocusOnFirstInvalid { get; set; } = true;
 
+    /// <summary>
+    /// Whether leaving the page once a field has changed asks first (<see cref="OmniUnsavedChangesGuard"/>):
+    /// a navigation inside the application waits for a confirmation, and closing or reloading the tab
+    /// raises the browser's question. On by default. A valid submit counts as saved: the question stops
+    /// until a field changes again, and a navigation the submit handler starts is never held.
+    /// </summary>
+    [Parameter]
+    public bool GuardUnsavedChanges { get; set; } = true;
+
     protected override void OnParametersSet()
     {
         if ((Model is null) == (EditContext is null))
@@ -45,6 +57,56 @@ where TModel : class
         {
             _lastModel = Model;
             _resolvedEditContext = new EditContext(Model!);
+        }
+
+        Track(_resolvedEditContext);
+    }
+
+    // A new edit context is a new form: it starts clean, and only its own changes count.
+    private void Track(EditContext? context)
+    {
+        if (ReferenceEquals(context, _trackedEditContext))
+        {
+            return;
+        }
+
+        if (_trackedEditContext is not null)
+        {
+            _trackedEditContext.OnFieldChanged -= HandleFieldChanged;
+        }
+
+        _trackedEditContext = context;
+        _dirty = false;
+        if (context is not null)
+        {
+            context.OnFieldChanged += HandleFieldChanged;
+        }
+    }
+
+    private void HandleFieldChanged(object? sender, FieldChangedEventArgs args)
+    {
+        if (!_dirty)
+        {
+            _dirty = true;
+            StateHasChanged();
+        }
+    }
+
+    private async Task HandleValidSubmitAsync(EditContext context)
+    {
+        // The guard reads what it was last rendered with: render it released before the handler runs,
+        // so a save that navigates away is never held by its own form.
+        _submitting = true;
+        StateHasChanged();
+        await Task.Yield();
+        try
+        {
+            await OnValidSubmit.InvokeAsync(context);
+            _dirty = false;
+        }
+        finally
+        {
+            _submitting = false;
         }
     }
 
@@ -67,6 +129,7 @@ where TModel : class
 
     public async ValueTask DisposeAsync()
     {
+        Track(null);
         if (_module is not null)
         {
             try { await _module.DisposeAsync(); } catch (JSDisconnectedException) { }

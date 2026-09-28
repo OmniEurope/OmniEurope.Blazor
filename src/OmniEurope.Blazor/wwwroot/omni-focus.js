@@ -647,6 +647,124 @@ export function closeContextMenu(key) {
     return restoreFocus(key);
 }
 
+// ---- overflow ("⋮") menu --------------------------------------------------------------------
+// The menu opens under its trigger, its end edge on the trigger's end edge, and is moved back inside
+// the viewport: to the side when it would pass an edge, above the trigger when there is no room
+// below. It lives in the overlay portal, so no scrolling area or containment of the page clips it or
+// becomes the containing block of its fixed position. A press on the trigger is left to the trigger's
+// own click, which toggles: dismissing on that press as well made the click open the menu again.
+const overflowMenus = new Map();
+
+function placeOverflowMenu(popup, trigger) {
+    const anchor = trigger?.getBoundingClientRect();
+    if (!anchor) {
+        return;
+    }
+
+    popup.setAttribute('data-omni-placed', '');
+    const margin = viewportMargin;
+    const gap = 4;
+    const width = document.documentElement.clientWidth;
+    const height = document.documentElement.clientHeight;
+    const box = popup.getBoundingClientRect();
+    const rtl = getComputedStyle(trigger).direction === 'rtl';
+    let left = rtl ? anchor.left : anchor.right - box.width;
+    left = Math.min(left, width - margin - box.width);
+    left = Math.max(margin, left);
+    let top = anchor.bottom + gap;
+    if (top + box.height > height - margin) {
+        const above = anchor.top - gap - box.height;
+        top = above >= margin ? above : Math.max(margin, height - margin - box.height);
+    }
+
+    popup.style.setProperty('--omni-menu-x', `${Math.round(left)}px`);
+    popup.style.setProperty('--omni-menu-y', `${Math.round(top)}px`);
+}
+
+function overflowTrigger(root) {
+    return root?.querySelector('.omni-overflow-menu__trigger') ?? root;
+}
+
+export function openOverflowMenu(popupId, key, root, dotnet, focusLast) {
+    let state = overflowMenus.get(key);
+    if (!state) {
+        rememberTarget(key);
+        state = { popup: null, attempts: 0, root };
+        state.onPointerDown = event => {
+            if (pressedOutside(event, state.popup, root)) {
+                void dotnet.invokeMethodAsync('OmniOverflowMenu.Dismiss', false);
+            }
+        };
+        state.onPlace = () => state.popup?.isConnected && placeOverflowMenu(state.popup, root);
+        state.onKeyDown = event => {
+            if (event.key === 'Escape' || event.key === 'Tab') {
+                // Back to the trigger at once: Escape stays there, Tab goes on from there to the next
+                // control, as it does from a native menu.
+                returnTargets.delete(key);
+                overflowTrigger(root)?.focus({ preventScroll: true });
+                if (event.key === 'Escape') {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                void dotnet.invokeMethodAsync('OmniOverflowMenu.Dismiss', false);
+                return;
+            }
+
+            if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+                event.preventDefault();
+                moveMenuFocus(state.popup, event.key);
+            }
+        };
+        document.addEventListener('pointerdown', state.onPointerDown, true);
+        window.addEventListener('resize', state.onPlace);
+        window.addEventListener('scroll', state.onPlace, true);
+        overflowMenus.set(key, state);
+    }
+
+    const popup = document.getElementById(popupId);
+    if (!popup) {
+        if (state.attempts++ < 10) {
+            setTimeout(() => overflowMenus.get(key) === state && openOverflowMenu(popupId, key, root, dotnet, focusLast), 16);
+        }
+
+        return;
+    }
+
+    state.attempts = 0;
+    if (state.popup !== popup) {
+        state.popup?.removeEventListener('keydown', state.onKeyDown);
+        popup.addEventListener('keydown', state.onKeyDown);
+        state.popup = popup;
+    }
+
+    placeOverflowMenu(popup, root);
+    const items = Array.from(popup.querySelectorAll('[role="menuitem"]:not([disabled])'));
+    ((focusLast ? items.at(-1) : items[0]) ?? popup).focus({ preventScroll: true });
+}
+
+// restore: the focus goes back to the trigger (an item was chosen, the trigger pressed again);
+// without it, it stays where a press outside put it.
+export function closeOverflowMenu(key, restore) {
+    const state = overflowMenus.get(key);
+    if (state) {
+        document.removeEventListener('pointerdown', state.onPointerDown, true);
+        window.removeEventListener('resize', state.onPlace);
+        window.removeEventListener('scroll', state.onPlace, true);
+        state.popup?.removeEventListener('keydown', state.onKeyDown);
+        overflowMenus.delete(key);
+    }
+
+    const target = returnTargets.get(key);
+    returnTargets.delete(key);
+    if (restore) {
+        const trigger = overflowTrigger(state?.root) ?? target;
+        if (trigger?.isConnected && !trigger.closest('[inert]')) {
+            trigger.focus({ preventScroll: true });
+        }
+    }
+}
+
 const tabsWheelScopes = new Map();
 
 function scrollsVertically(element, deltaY) {

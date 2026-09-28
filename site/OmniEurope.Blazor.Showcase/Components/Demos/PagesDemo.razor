@@ -13,7 +13,8 @@
     <OmniDetailShell Id="pages-demo-shell" State="State" BackHref="composants/pages"
                      NotFoundDescription="La fiche demandée a été retirée ou n'a jamais existé.">
         <Header>
-            <OmniPageHeader Framed="true" ShowBack="true" BackHref="composants/pages" Subtitle="Machine virtuelle de la zone Paris.">
+            @* BackVariant : Ghost par défaut (navigation discrète) ; Primary pour une flèche de retour mise en avant. *@
+            <OmniPageHeader Framed="true" ShowBack="true" BackHref="composants/pages" BackVariant="OmniButtonVariant.Primary" Subtitle="Machine virtuelle de la zone Paris.">
                 <Badges>
                     <OmniBadge Variant="OmniBadgeVariant.Success">En ligne</OmniBadge>
                 </Badges>
@@ -30,8 +31,8 @@
         <ChildContent>
             <OmniDescriptionList Id="pages-demo-essentials" Columns="2">
                 <OmniDescriptionItem Label="Nom">srv-paris-01</OmniDescriptionItem>
-                <OmniDescriptionItem Label="Système">Debian 13</OmniDescriptionItem>
-                <OmniDescriptionItem Label="Adresse IP">10.0.4.21</OmniDescriptionItem>
+                <OmniDescriptionItem Label="Système"><Icon><OmniIcon Name="OmniIconName.Monitor" /></Icon><ChildContent>Debian 13</ChildContent></OmniDescriptionItem>
+                <OmniDescriptionItem Label="Adresse IP"><Icon><OmniIcon Name="OmniIconName.Globe" /></Icon><ChildContent>10.0.4.21</ChildContent></OmniDescriptionItem>
                 <OmniDescriptionItem Label="Jeton d'accès">
                     <ChildContent>@(TokenShown ? "7f3a-91c2-0bd4" : "••••-••••-••••")</ChildContent>
                     <Actions>

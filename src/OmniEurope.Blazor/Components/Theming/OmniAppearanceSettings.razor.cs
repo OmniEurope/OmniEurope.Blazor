@@ -19,7 +19,6 @@ public partial class OmniAppearanceSettings
         await ScaleEditorOpenChanged.InvokeAsync(open);
     }
 
-    private const string DefaultThemeChoice = "__omni_default__";
     [Parameter] public bool Compact { get; set; }
     [Parameter] public OmniAppearance Appearance { get; set; } = OmniAppearance.System;
     [Parameter] public EventCallback<OmniAppearance> AppearanceChanged { get; set; }
@@ -45,20 +44,16 @@ public partial class OmniAppearanceSettings
     [Parameter] public EventCallback<int> ControlSizeLevelChanged { get; set; }
     private bool ShowsControlSize => ControlSizeLevelChanged.HasDelegate;
 
-    private OmniThemePreset EffectivePreset => Preset ?? OmniThemePresets.All[0];
-    private OmniThemePalette DefaultPalette => OmniThemePresets.DefaultPaletteFor(EffectivePreset);
-    private string ThemeName => Preset is null || ReferenceEquals(Preset, OmniThemePresets.All[0])
-        ? DefaultThemeChoice : Preset.Name;
-    private string PaletteName => (Palette ?? DefaultPalette).Name;
-    private double TextSizeValue => TextSizeLevel;
-    private double DensityValue => DensityLevel;
-    private double ControlSizeValue => ControlSizeLevel;
-    private IReadOnlyList<OmniOption<string>> ThemeOptions =>
-        [new(DefaultThemeChoice, $"{OmniThemePresets.All[0].Name} ({Localize("SettingsDefaultSuffix")})"),
-            .. OmniThemePresets.All.Skip(1).Select(theme => new OmniOption<string>(theme.Name, theme.Name))];
-    private IReadOnlyList<OmniOption<string>> PaletteOptions =>
-        [.. OmniThemePalettes.All.Select(palette => new OmniOption<string>(palette.Name,
-            palette.Name == DefaultPalette.Name ? $"{palette.Name} ({Localize("SettingsDefaultSuffix")})" : palette.Name))];
+    private OmniThemePreset EffectivePreset => AppearanceChoices.EffectivePreset(Preset);
+    private string ThemeName => AppearanceChoices.ThemeName(Preset);
+    private string PaletteName => AppearanceChoices.PaletteName(Preset, Palette);
+    private IReadOnlyList<OmniOption<string>> ThemeOptions => AppearanceChoices.ThemeOptions(Localize("SettingsDefaultSuffix"));
+    private IReadOnlyList<OmniOption<string>> PaletteOptions => AppearanceChoices.PaletteOptions(Preset, Localize("SettingsDefaultSuffix"));
+
+    /// <summary>The window gets the control size change only when the host binds it, as the list does.</summary>
+    private EventCallback<int> WindowControlSizeChanged => ShowsControlSize
+        ? EventCallback.Factory.Create<int>(this, level => ControlSizeLevelChanged.InvokeAsync(level))
+        : default;
 
     private OmniThemeFont DefaultFont => OmniThemePresets.DefaultFontFor(EffectivePreset);
     private string FontName => (Font ?? DefaultFont).Name;
@@ -72,8 +67,7 @@ public partial class OmniAppearanceSettings
     private OmniButtonVariant ModeVariant(OmniAppearance mode) =>
         Appearance == mode ? OmniButtonVariant.Primary : OmniButtonVariant.Secondary;
 
-    private Task SetThemeAsync(string? name) =>
-        ChangeThemeAsync(name == DefaultThemeChoice ? null : OmniThemePresets.All.FirstOrDefault(theme => theme.Name == name));
+    private Task SetThemeAsync(string? name) => ChangeThemeAsync(AppearanceChoices.Theme(name));
 
     /// <summary>
     /// A new theme comes with its own palette and font: a palette or a font picked for the previous
@@ -93,10 +87,5 @@ public partial class OmniAppearanceSettings
         }
     }
 
-    private Task SetPaletteAsync(string? name) => PaletteChanged.InvokeAsync(
-        name == DefaultPalette.Name ? null : OmniThemePalettes.All.FirstOrDefault(palette => palette.Name == name));
-
-    private Task OnTextSizeSlider(double value) => TextSizeLevelChanged.InvokeAsync((int)value);
-    private Task OnDensitySlider(double value) => DensityLevelChanged.InvokeAsync((int)value);
-    private Task OnControlSizeSlider(double value) => ControlSizeLevelChanged.InvokeAsync((int)value);
+    private Task SetPaletteAsync(string? name) => PaletteChanged.InvokeAsync(AppearanceChoices.Palette(Preset, name));
 }

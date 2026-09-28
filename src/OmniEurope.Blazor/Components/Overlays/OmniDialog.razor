@@ -9,7 +9,7 @@
         <section @attributes="AdditionalAttributes"
                  @ref="_dialog"
                  id="@EffectiveId"
-                 class="@Css("omni-dialog", SizeClass, Draggable ? "omni-dialog--draggable" : null, Resizable ? "omni-dialog--resizable" : null)"
+                 class="@Css("omni-dialog", SizeClass, IntentClass, Draggable ? "omni-dialog--draggable" : null, Resizable ? "omni-dialog--resizable" : null)"
                  role="@(Dismissible ? "dialog" : "alertdialog")"
                  aria-modal="@(Modal ? "true" : "false")"
                  aria-labelledby="@TitleId"
@@ -19,6 +19,10 @@
                  @onkeydown="HandleKeyDownAsync">
             @if (Modal) { <button type="button" class="omni-visually-hidden" data-focus-sentinel aria-label="@Localize("DialogEnd")" @onfocus="FocusLastAsync"></button> }
             <header class="omni-dialog__header" data-omni-dialog-drag-handle="@(Draggable ? string.Empty : null)">
+                @if (Intent != OmniDialogIntent.None)
+                {
+                    <span class="omni-dialog__intent" aria-hidden="true">@if (Icon is not null) { @Icon } else { <OmniIcon Name="IntentIcon" /> }</span>
+                }
                 <h2 id="@TitleId" class="omni-dialog__title">@(TitleContent ?? (RenderFragment)(builder => builder.AddContent(0, Title)))</h2>
                 @if (Dismissible && ShowClose)
                 {

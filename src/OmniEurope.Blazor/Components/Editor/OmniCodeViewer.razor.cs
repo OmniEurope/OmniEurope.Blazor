@@ -54,6 +54,14 @@ public partial class OmniCodeViewer : IAsyncDisposable
     [Parameter]
     public bool ShowLineNumbers { get; set; } = true;
 
+    /// <summary>
+    /// Number of the first line shown, 1 by default: an excerpt of a file (the lines around a finding)
+    /// keeps the numbers the lines have in the file. <see cref="HighlightedLines"/> and the line numbers
+    /// reported by <see cref="LinkActivated"/> count the same way. Below 1, the count starts at 1.
+    /// </summary>
+    [Parameter]
+    public int FirstLineNumber { get; set; } = 1;
+
     /// <summary>Whether long lines wrap. Taken when it changes; the toggle changes it too.</summary>
     [Parameter]
     public bool Wrap { get; set; }
@@ -70,7 +78,7 @@ public partial class OmniCodeViewer : IAsyncDisposable
     [Parameter]
     public bool ShowCopy { get; set; } = true;
 
-    /// <summary>Numbers of the lines to mark, counted from 1: the lines of an error, a search hit.</summary>
+    /// <summary>Numbers of the lines to mark, counted from <see cref="FirstLineNumber"/>: the lines of an error, a search hit.</summary>
     [Parameter]
     public IReadOnlyCollection<int>? HighlightedLines { get; set; }
 

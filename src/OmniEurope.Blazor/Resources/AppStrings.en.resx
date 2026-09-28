@@ -615,4 +615,12 @@
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Truncated export: {0} rows exported of {1}, the limit of {2} rows was reached.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Incomplete export: {0} rows exported of {1} announced, the data changed while it was being read.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>No rows.</value></data>
+  <data name="SignUp" xml:space="preserve"><value>Sign up</value></data>
+  <data name="SignUpPrompt" xml:space="preserve"><value>No account?</value></data>
+  <data name="UnsavedChangesTitle" xml:space="preserve"><value>Unsaved changes</value></data>
+  <data name="UnsavedChangesMessage" xml:space="preserve"><value>Some changes are not saved. Leave the page without saving them?</value></data>
+  <data name="UnsavedChangesLeave" xml:space="preserve"><value>Leave without saving</value></data>
+  <data name="UnsavedChangesStay" xml:space="preserve"><value>Stay on the page</value></data>
+  <data name="MoreActions" xml:space="preserve"><value>More actions</value></data>
+  <data name="AppearanceWindowTitle" xml:space="preserve"><value>Appearance</value></data>
 </root>

@@ -1,0 +1,8 @@
+@namespace OmniEurope.Blazor.Components
+@inherits ComponentBase
+
+@* Leaving a page with changes not saved asks first. Inside the application, the package's
+   confirmation dialog asks (the browser's own question without an OmniComponentsHost); leaving the
+   application (closing the tab, reloading, another site) gets the browser's beforeunload question,
+   the only one a page may ask there. Nothing is drawn. *@
+<NavigationLock ConfirmExternalNavigation="HasChanges" OnBeforeInternalNavigation="ConfirmLeaveAsync" />

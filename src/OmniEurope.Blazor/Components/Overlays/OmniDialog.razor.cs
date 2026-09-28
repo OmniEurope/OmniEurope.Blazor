@@ -72,6 +72,22 @@ public partial class OmniDialog
     [Parameter]
     public OmniDialogSize Size { get; set; }
 
+    /// <summary>
+    /// What the dialog is for: <see cref="OmniDialogIntent.Accent"/> for a form,
+    /// <see cref="OmniDialogIntent.Warning"/> for a question that is hard to undo. The header and the
+    /// footer take its tint and the title is led by a round mark with its icon.
+    /// <see cref="OmniDialogIntent.None"/> by default: no tint and no mark, as before.
+    /// </summary>
+    [Parameter]
+    public OmniDialogIntent Intent { get; set; }
+
+    /// <summary>
+    /// The icon of the intention mark, in place of the one <see cref="Intent"/> brings (information,
+    /// warning, error); decorative, the title names the dialog. Ignored without an intention.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Icon { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -91,6 +107,22 @@ public partial class OmniDialog
         OmniDialogSize.ExtraLarge => "omni-dialog--xlarge",
         OmniDialogSize.FullWidth => "omni-dialog--full",
         _ => null
+    };
+
+    // None carries no modifier either: a dialog without an intention keeps its markup and its classes.
+    private string? IntentClass => Intent switch
+    {
+        OmniDialogIntent.Accent => "omni-dialog--intent-accent",
+        OmniDialogIntent.Warning => "omni-dialog--intent-warning",
+        OmniDialogIntent.Danger => "omni-dialog--intent-danger",
+        _ => null
+    };
+
+    private OmniIconName IntentIcon => Intent switch
+    {
+        OmniDialogIntent.Warning => OmniIconName.Warning,
+        OmniDialogIntent.Danger => OmniIconName.Error,
+        _ => OmniIconName.Info
     };
 
     private async Task CloseAsync()

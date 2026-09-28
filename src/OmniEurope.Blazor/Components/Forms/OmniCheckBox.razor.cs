@@ -38,11 +38,26 @@ public partial class OmniCheckBox<TValue>
 
     /// <summary>
     /// The text beside the box, which names it and toggles it when clicked. Bound to a <c>bool</c>, the
-    /// box and the text are wrapped in a <c>label.omni-checkbox-label</c>; bound to a <c>bool?</c>, the
-    /// text is inside the button. Without it, a <c>bool</c> box renders the input alone.
+    /// box and the text are wrapped in a <c>label.omni-checkbox-label</c>, which then carries
+    /// <see cref="OmniInputBase{TValue}.Class"/>, and the middle of the box meets the middle of the letters;
+    /// bound to a <c>bool?</c>, the text is inside the button. Without it, a <c>bool</c> box renders the
+    /// input alone.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Puts the text before the box (a "label ....... box" line) instead of after it. Only for a box with
+    /// text bound to a <c>bool</c>; the order of focus and of reading does not change, the box stays the
+    /// control and the text its name.
+    /// </summary>
+    [Parameter]
+    public bool TextFirst { get; set; }
+
+    private string LabelCss => CssClassBuilder.Combine(["omni-checkbox-label", TextFirst ? "omni-checkbox-label--text-first" : null, Class]);
+
+    // Beside a text, the box keeps its own class and the validation state; Class is the label's.
+    private string BoxCss => CssClassBuilder.Combine(["omni-checkbox", CssClass]);
 
     private bool? State => OmniBooleanValue<TValue>.Read(CurrentValue);
 
