@@ -1447,6 +1447,8 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
 /* A two-state check box with its text: the label wraps both, so the text names and toggles the box. */
 .omni-checkbox-label { align-items: center; color: var(--omni-color-text); cursor: pointer; display: inline-flex; gap: var(--omni-space-sm); }
 .omni-checkbox-label:has(> .omni-checkbox:disabled) { cursor: not-allowed; }
+/* A button, which centres its text by default: a label on two lines starts at the box, as the
+   two-state check box beside it does. */
 .omni-checkbox-nullable {
     align-items: center;
     background: transparent;
@@ -1457,6 +1459,7 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
     font: inherit;
     gap: var(--omni-space-sm);
     padding: var(--omni-space-xs);
+    text-align: start;
 }
 .omni-checkbox-nullable__indicator {
     align-items: center;
@@ -1484,6 +1487,7 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
     font: inherit;
     gap: var(--omni-space-sm);
     padding: var(--omni-space-xs);
+    text-align: start;
 }
 /* Track and thumb derive from one height per density: the track is 1.8 heights wide, the thumb sits
    3 px inside it (a 1 px rule and 2 px of padding), so the travel is always 0.8 of the height. */
@@ -2282,6 +2286,10 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* Numbers align at the end in figures of one width, to be compared at a glance. A column whose
    property is numeric gets the class unless its alignment was set. */
 .omni-data-grid .omni-data-grid__cell--numeric { font-variant-numeric: tabular-nums; text-align: end; }
+/* A text cell keeps to one line and ends in an ellipsis: under the fixed table layout a long value
+   otherwise spilled over the next column. Templated cells are left unclipped (badges, buttons, menus,
+   edit inputs); a column opts its template in with this class. The header keeps its own HeaderWrap. */
+.omni-data-grid tbody td.omni-data-grid__cell--text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* A thin sticky header: no fill of its own (it takes the frame's, to hide the rows passing under it),
    muted text in 600, a rule stronger than the row separators. */
 .omni-data-grid__table thead { inset-block-start: 0; position: sticky; z-index: 3; }
@@ -2508,6 +2516,8 @@ body:has(.omni-overlay) { overflow: hidden; }
     .omni-data-grid--responsive .omni-data-grid__table tr { display: block; margin-block-end: var(--omni-space-sm); }
     .omni-data-grid--responsive .omni-data-grid__table td { display: flex; gap: var(--omni-space-sm); justify-content: space-between; }
     .omni-data-grid--responsive .omni-data-grid__table td::before { content: attr(data-omni-label); font-weight: 650; }
+    /* A card row has the whole width: its text wraps rather than being cut. */
+    .omni-data-grid--responsive .omni-data-grid__table td.omni-data-grid__cell--text { overflow-wrap: anywhere; white-space: normal; }
 }
 
 /* Spreadsheet: one scroll box, letters and numbers pinned to its edges; column width and height
@@ -2742,12 +2752,15 @@ polyline.omni-chart__line { fill: none; }
 .omni-document-editor--sheet .omni-html-editor__toolbar { inset-block-start: 0; position: sticky; z-index: 1; }
 .omni-document-editor--sheet .omni-html-editor--visual { background: var(--omni-color-surface-muted); }
 /* The sheet follows the density like the rest: its margins from the section padding, its height from
-   the control height; comfortable keeps 3 and 30 rem. Its text, prose, keeps its size. */
-.omni-document-editor--sheet .omni-html-editor__surface { background: var(--omni-color-surface); box-shadow: var(--omni-shadow-md); box-sizing: border-box; font-family: Georgia, serif; line-height: 1.6; margin: var(--omni-space-lg) auto; max-width: calc(100% - 2 * var(--omni-space-md)); min-height: calc(var(--omni-control-height) * 13 + 0.75rem); padding: calc(var(--omni-section-pad) * 2 + 0.75rem); width: 50rem; }
+   the control height; comfortable keeps 3 and 30 rem. Its text, prose, keeps its size.
+   The 50 rem page is a ceiling on a percentage width: a fixed width made the page's smallest width
+   50 rem, which widened a narrower column holding the editor and scrolled the whole page sideways. */
+.omni-document-editor--sheet .omni-html-editor__surface { background: var(--omni-color-surface); box-shadow: var(--omni-shadow-md); box-sizing: border-box; font-family: Georgia, serif; line-height: 1.6; margin: var(--omni-space-lg) auto; max-width: 50rem; min-height: calc(var(--omni-control-height) * 13 + 0.75rem); padding: calc(var(--omni-section-pad) * 2 + 0.75rem); width: calc(100% - 2 * var(--omni-space-md)); }
 .omni-document-editor__status, .omni-code-editor__status { align-items: center; background: var(--omni-color-surface-muted); color: var(--omni-color-text-muted); display: flex; flex-wrap: wrap; font-size: var(--omni-font-size-sm); gap: var(--omni-space-md); justify-content: space-between; margin: 0; padding: var(--omni-space-xs) var(--omni-space-md); }
-.omni-document-editor__status { border: var(--omni-border-width) solid var(--omni-color-border); border-block-start: 0; border-radius: 0 0 var(--omni-radius) var(--omni-radius); }
+.omni-document-editor__status { border: var(--omni-border-width) solid var(--omni-color-border); border-block-start: 0; border-radius: 0 0 var(--omni-radius) var(--omni-radius); justify-content: flex-start; }
 .omni-code-editor__status { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
-.omni-document-editor__actions { display: flex; gap: var(--omni-space-xs); }
+/* The two counts read together at the start, the export buttons go to the end. */
+.omni-document-editor__actions { display: flex; gap: var(--omni-space-xs); margin-inline-start: auto; }
 .omni-code-editor__host, .omni-code-editor__fallback { block-size: var(--omni-code-editor-height, 20rem); }
 .omni-code-editor__fallback { white-space: pre; }
 .omni-code-editor [hidden] { display: none; }

@@ -46,6 +46,12 @@ public partial class DataGridDemo
 
     private static readonly IReadOnlyList<GridRow> FewRows = [.. Rows.Take(3)];
 
+    private static readonly IReadOnlyList<GridRow> NarrowRows =
+    [
+        Rows[0] with { Applicant = "Établissement public de coopération intercommunale du Grand Est" },
+        .. Rows.Skip(1).Take(2)
+    ];
+
     private IReadOnlyList<object> SelectedRuns { get; set; } = ["#2395"];
 
     /// <summary>The compact status of a list: a dot in the fill colour of the intention, the page text.</summary>

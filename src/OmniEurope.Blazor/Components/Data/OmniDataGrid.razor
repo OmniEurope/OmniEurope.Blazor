@@ -434,7 +434,7 @@
                                     }
                                     @foreach (var column in VisibleColumns)
                                     {
-                                        <td class="@ColumnClass(column, false)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick:stopPropagation="@editing" @ondblclick:stopPropagation="@editing" @onkeydown:stopPropagation="@editing">@Cell(column, row.Item, editing)</td>
+                                        <td class="@BodyCellClass(column, editing)" data-omni-col="@column.Key" data-omni-label="@column.Title" @onclick:stopPropagation="@editing" @ondblclick:stopPropagation="@editing" @onkeydown:stopPropagation="@editing">@Cell(column, row.Item, editing)</td>
                                     }
                                     @if (HasEditing)
                                     {

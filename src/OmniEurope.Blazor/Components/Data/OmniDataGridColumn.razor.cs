@@ -220,14 +220,53 @@ public partial class OmniDataGridColumn<TItem>
             HeaderCssClass = HeaderCssClass,
             Groupable = Groupable
         };
-        if (Context is not null && !Matches(_definition, definition))
+        if (Context is null)
         {
-            Context.Register(definition);
-            _registeredContext = Context;
-            _registeredKey = key;
-            _definition = definition;
+            return;
         }
+
+        if (Matches(_definition, definition))
+        {
+            AdoptDelegates(_definition!, definition);
+            return;
+        }
+
+        Context.Register(definition);
+        _registeredContext = Context;
+        _registeredKey = key;
+        _definition = definition;
     }
+
+    /// <summary>
+    /// Keeps the latest delegates of an unchanged column without re-registering it. A column
+    /// declared in a <c>@foreach</c> receives new template and accessor delegates on every render,
+    /// because each captures the loop variable; re-registering on each of them re-rendered the grid,
+    /// which rendered its columns again, without end. The swap is silent: the grid reads the new
+    /// delegates on its next render.
+    /// </summary>
+    private static void AdoptDelegates(OmniDataGridColumnDefinition<TItem> registered, OmniDataGridColumnDefinition<TItem> latest)
+    {
+        registered.Value = latest.Value;
+        registered.Template = latest.Template;
+        registered.EditTemplate = latest.EditTemplate;
+        registered.FooterTemplate = latest.FooterTemplate;
+        registered.HeaderTemplate = latest.HeaderTemplate;
+        registered.FilterPredicate = latest.FilterPredicate;
+        registered.FilterTemplate = latest.FilterTemplate;
+        registered.FilterValueText = latest.FilterValueText;
+    }
+
+    /// <summary>
+    /// Whether two delegates come from the same lambda: same method and a target of the same type.
+    /// Two closures of one lambda written in a loop differ only by the captured loop variable, so
+    /// comparing them by reference would see a change on every render.
+    /// </summary>
+    private static bool Equivalent(Delegate? left, Delegate? right) =>
+        Equals(left, right)
+        || (left is not null
+            && right is not null
+            && left.Method == right.Method
+            && left.Target?.GetType() == right.Target?.GetType());
 
     private OmniDataGridColumnFilterType ResolveFilterType()
     {
@@ -243,23 +282,23 @@ public partial class OmniDataGridColumn<TItem>
         left is not null
         && left.Key == right.Key
         && left.Title == right.Title
-        && Equals(left.Value, right.Value)
+        && Equivalent(left.Value, right.Value)
         && string.Equals(left.Property, right.Property, StringComparison.Ordinal)
         && string.Equals(left.SortProperty, right.SortProperty, StringComparison.Ordinal)
-        && Equals(left.Template, right.Template)
-        && Equals(left.EditTemplate, right.EditTemplate)
-        && Equals(left.FooterTemplate, right.FooterTemplate)
-        && Equals(left.HeaderTemplate, right.HeaderTemplate)
-        && Equals(left.FilterPredicate, right.FilterPredicate)
+        && Equivalent(left.Template, right.Template)
+        && Equivalent(left.EditTemplate, right.EditTemplate)
+        && Equivalent(left.FooterTemplate, right.FooterTemplate)
+        && Equivalent(left.HeaderTemplate, right.HeaderTemplate)
+        && Equivalent(left.FilterPredicate, right.FilterPredicate)
         && ReferenceEquals(left.FilterValues, right.FilterValues)
-        && Equals(left.FilterTemplate, right.FilterTemplate)
+        && Equivalent(left.FilterTemplate, right.FilterTemplate)
         && string.Equals(left.FormatString, right.FormatString, StringComparison.Ordinal)
         && left.Sortable == right.Sortable
         && left.SortOrder == right.SortOrder
         && left.Filterable == right.Filterable
         && left.FilterType == right.FilterType
         && left.FilterSearchable == right.FilterSearchable
-        && Equals(left.FilterValueText, right.FilterValueText)
+        && Equivalent(left.FilterValueText, right.FilterValueText)
         && string.Equals(left.DefaultFilterValue, right.DefaultFilterValue, StringComparison.Ordinal)
         && left.FilterIncludesTime == right.FilterIncludesTime
         && ReferenceEquals(left.FilterOperators, right.FilterOperators)

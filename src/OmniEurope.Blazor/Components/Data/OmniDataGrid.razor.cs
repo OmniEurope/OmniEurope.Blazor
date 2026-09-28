@@ -2762,6 +2762,18 @@ public partial class OmniDataGrid<TItem>
         header ? column.HeaderCssClass : column.CssClass
     ]);
 
+    /// <summary>
+    /// A body cell that shows the column's text (no template, or a row in edit without an edit
+    /// template) keeps to one line and ends in an ellipsis instead of spilling into the next column.
+    /// A templated cell stays unclipped, so its badges, buttons, menus and edit inputs keep their
+    /// focus rings and popups; a column opts its template in through
+    /// <c>CssClass="omni-data-grid__cell--text"</c>.
+    /// </summary>
+    private string BodyCellClass(OmniDataGridColumnDefinition<TItem> column, bool editing) => CssClassBuilder.Combine([
+        ColumnClass(column, false),
+        column.Template is null && !(editing && column.EditTemplate is not null) ? "omni-data-grid__cell--text" : null
+    ]);
+
     /// <summary>A column is active while it carries the sort or a filter value.</summary>
     private bool IsColumnActive(OmniDataGridColumnDefinition<TItem> column) =>
         _sorts.Any(sort => sort.Key == column.Key)
