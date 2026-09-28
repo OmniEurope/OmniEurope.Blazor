@@ -112,6 +112,12 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     [InlineData(".omni-scheduler-grid .omni-scheduler__appointment,\n.omni-week-view .omni-scheduler__appointment,\n.omni-month-view .omni-scheduler__appointment", "padding", "calc(var(--omni-cell-pad-y) / 4)")]
     [InlineData(".omni-scheduler__move", "padding", "calc(var(--omni-cell-pad-y) / 4)")]
     [InlineData(".omni-scheduler__place", "padding", "calc(var(--omni-cell-pad-y) / 4)")]
+    // Paddings written as a shorthand holding var(), which the density probe did not read before:
+    // the same table cell token, halved or quartered so the comfortable values are unchanged.
+    [InlineData(".omni-rich-text :is(td, th)", "padding", "calc(var(--omni-cell-pad-y) / 2)")]
+    [InlineData(".omni-diff-viewer__pane-title", "padding", "calc(var(--omni-cell-pad-y) / 2)")]
+    [InlineData(".omni-code-viewer__code", "padding-block", "calc(var(--omni-cell-pad-y) / 2)")]
+    [InlineData(".omni-unified-diff__hunk td", "padding", "calc(var(--omni-cell-pad-y) / 4)")]
     public void SizedComponents_ReadTheirSizeFromTheDensity(string selector, string property, string expected)
     {
         var rule = ShippedLookTests.Rules().Where(rule => rule.Selector == selector)
