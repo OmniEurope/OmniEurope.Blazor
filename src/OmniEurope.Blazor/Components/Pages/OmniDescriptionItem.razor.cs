@@ -7,6 +7,10 @@ public partial class OmniDescriptionItem
     [Parameter, EditorRequired]
     public string Label { get; set; } = string.Empty;
 
+    /// <summary>An icon before the label, in general an <see cref="OmniIcon"/>; decorative, the label names the value.</summary>
+    [Parameter]
+    public RenderFragment? Icon { get; set; }
+
     /// <summary>The value: text, a link, a badge.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

@@ -48,7 +48,8 @@
     @* La coquille ne porte aucune authentification : le formulaire et son envoi sont ceux de l'hôte.
        OmniReturnUrl ne rend qu'un chemin de l'application, jamais une adresse extérieure. *@
     <div class="showcase-preview-frame">
-        <OmniLoginShell Description="Espace d'administration">
+        @* SignUpHref : le lien d'inscription discret en tête du pied, jamais un second bouton. *@
+        <OmniLoginShell Description="Espace d'administration" SignUpHref="composants/flux">
             <Logo><OmniIcon Name="OmniIconName.ShieldCheck" Size="OmniControlSize.Large" AriaLabel="Exploitation" /></Logo>
             <ChildContent>
                 <EditForm Model="Credentials" OnSubmit="SubmitSignIn">

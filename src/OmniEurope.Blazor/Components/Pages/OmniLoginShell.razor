@@ -9,7 +9,7 @@
     {
         <div class="omni-login-shell__logo">@Logo</div>
     }
-    <OmniCard Class="omni-login-shell__card" Footer="@Footer" aria-labelledby="@TitleId">
+    <OmniCard Class="omni-login-shell__card" Footer="@EffectiveFooter" aria-labelledby="@TitleId">
         <OmniHeading Id="@TitleId" Level="Level" Class="omni-login-shell__title">@EffectiveTitle</OmniHeading>
         @if (!string.IsNullOrWhiteSpace(Description))
         {
@@ -18,3 +18,4 @@
         @ChildContent
     </OmniCard>
 </div>
+

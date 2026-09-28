@@ -47,6 +47,13 @@ public partial class OmniSwitch<TValue>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// Puts the text before the track (a "label ....... switch" line) instead of after it; only drawn
+    /// with a text. The switch stays one button, named by its text.
+    /// </summary>
+    [Parameter]
+    public bool TextFirst { get; set; }
+
     private bool? State => OmniBooleanValue<TValue>.Read(CurrentValue);
 
     private string EffectiveIndeterminateDescription => string.IsNullOrWhiteSpace(IndeterminateDescription)

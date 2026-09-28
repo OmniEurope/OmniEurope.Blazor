@@ -130,6 +130,7 @@ public sealed class OmniOverlayService : IDisposable
             content.CloseElement();
         })
         {
+            Intent = request.EffectiveIntent,
             Footer = footer =>
             {
                 footer.OpenComponent<OmniConfirmFooter>(0);

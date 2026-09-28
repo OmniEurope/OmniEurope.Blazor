@@ -1,0 +1,28 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
+
+@* The "⋮" of a row or a header: three dots alone, no frame, that open a vertical menu of actions.
+   The trigger toggles on its own click; the menu is drawn in the overlay portal and kept inside the
+   window by omni-focus.js. Without an OmniComponentsHost it is drawn here, fixed to the window. *@
+<div @ref="_root"
+     @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@Css("omni-overflow-menu")"
+     @onkeydown="HandleTriggerKeyDownAsync">
+    <OmniButton Variant="OmniButtonVariant.Ghost"
+                Size="Size"
+                Class="omni-overflow-menu__trigger"
+                AriaLabel="@EffectiveLabel"
+                title="@EffectiveLabel"
+                Disabled="Disabled"
+                OnClick="ToggleAsync"
+                aria-haspopup="menu"
+                aria-expanded="@(_open ? "true" : "false")"
+                aria-controls="@(_open ? MenuId : null)"><OmniIcon Name="OmniIconName.DotsThreeVertical" /></OmniButton>
+    @if (_open && Coordinator is null)
+    {
+        @Popup
+    }
+</div>

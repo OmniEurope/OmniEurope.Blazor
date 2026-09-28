@@ -35,11 +35,12 @@ else if (ChildContent is null)
 }
 else
 {
-    @* The label wraps the box, so a click on the text toggles it and the text names it. *@
-    <label class="omni-checkbox-label">
+    @* The label wraps the box, so a click on the text toggles it and the text names it. The host's Class
+       goes on the label, the element that lays the line out; the validation state stays on the box. *@
+    <label class="@LabelCss">
         <input @attributes="AdditionalAttributes"
                id="@EffectiveId"
-               class="@InputCss("omni-checkbox")"
+               class="@BoxCss"
                type="checkbox"
                checked="@(State == true)"
                disabled="@Disabled"

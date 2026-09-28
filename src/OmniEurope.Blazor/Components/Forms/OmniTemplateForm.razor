@@ -8,10 +8,14 @@
 {
     <div @ref="_formRoot">
         <EditForm EditContext="@_resolvedEditContext"
-                  OnValidSubmit="@OnValidSubmit"
+                  OnValidSubmit="HandleValidSubmitAsync"
                   OnInvalidSubmit="HandleInvalidSubmitAsync"
                   FormName="@FormName">
             @ChildContent(_resolvedEditContext)
         </EditForm>
+        @if (GuardUnsavedChanges)
+        {
+            <OmniUnsavedChangesGuard HasChanges="@(_dirty && !_submitting)" />
+        }
     </div>
 }

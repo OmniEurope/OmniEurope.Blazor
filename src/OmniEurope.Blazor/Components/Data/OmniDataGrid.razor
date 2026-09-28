@@ -352,6 +352,15 @@
                     {
                         @footerRow
                     }
+                    @* A request to the server is running: a bar drawn over the foot of the headers, on the table
+                       only, in a row of no height, so nothing moves when it comes or goes and the rows already
+                       there stay readable under it. *@
+                    @if (ShowsLoadingBar)
+                    {
+                        <tr class="omni-data-grid__progress" aria-hidden="true">
+                            <td colspan="@ColumnSpan"><div class="@LoadingBarClass"><span class="omni-loading-bar__track"><span class="omni-loading-bar__indicator"></span></span></div></td>
+                        </tr>
+                    }
                 </thead>
                 <tbody>
                     @if (Virtualized)

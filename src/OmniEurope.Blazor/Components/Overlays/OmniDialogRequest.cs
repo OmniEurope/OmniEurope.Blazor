@@ -40,4 +40,10 @@ public sealed record OmniDialogRequest(string Title, RenderFragment Content, str
     /// <see cref="OmniDialogSize.Medium"/> by default, as before.
     /// </summary>
     public OmniDialogSize Size { get; init; }
+
+    /// <summary>
+    /// What the dialog is for, passed to <see cref="OmniDialog.Intent"/>: its header and footer take the
+    /// tint and the title the mark. <see cref="OmniDialogIntent.None"/> by default, as before.
+    /// </summary>
+    public OmniDialogIntent Intent { get; init; }
 }

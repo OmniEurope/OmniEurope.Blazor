@@ -28,6 +28,7 @@ et les filtres viennent sous le cadre.
 | `Subtitle`, `Filters` | Une ligne d'explication et une rangée de filtres, sous le cadre. |
 | `ShowTrail`, `TrailLabel` | La ligne des ancêtres (par défaut) et son nom accessible. Sans ancêtre, la ligne garde sa hauteur sans rendre de repère vide, pour que toutes les pages commencent leur contenu à la même hauteur. |
 | `ShowBack`, `BackHref`, `BackLabel` | Le bouton retour : vers `BackHref`, sinon vers l'ancêtre le plus proche qui porte un lien, sinon un pas en arrière dans l'historique du navigateur. |
+| `BackVariant` | L'aspect du bouton retour : `Ghost` par défaut (la navigation discrète du web) ; `Primary` pour une flèche mise en avant. |
 | `Badges`, `Actions` | Après le titre. Sous 40rem de large, ils se replient derrière un bouton (`aria-expanded`, `aria-controls`) et prennent une ligne entière une fois ouverts. |
 | `Icon` | Icône avant le titre (`aria-hidden`, couleur primaire). Le titre est alors rogné à ses capitales, si bien que le centre de l'icône tombe sur le centre du texte quelle que soit la police. |
 | `Framed` | `false` par défaut : titre, badges et actions posés directement sur la page, sans bordure, fond ni marge intérieure. `true` les met dans un bloc bordé sur la surface. |
@@ -68,6 +69,13 @@ l'historique) ; `NotFoundContent` remplace cet état entier.
 `OmniLoginShell` place `Logo` au-dessus d'une carte centrée (25rem au plus) qui porte le titre
 (`Title`, « Connexion » par défaut, niveau `Level`), `Description`, le formulaire (`ChildContent`) et
 `Footer`. La carte est nommée par son titre. Aucune authentification n'est embarquée.
+
+Un site qui propose l'inscription passe `SignUpHref` : le pied commence alors par une ligne de texte
+discrète, « Pas de compte ? S'inscrire » (`SignUpPrompt`, `SignUpText`), le lien au rang de « Mot de
+passe oublié », jamais un second bouton à côté de Connexion. `SignUpContent` remplace la question et le
+lien (une demande d'accès, un lien qui lance une action) en gardant la place et le style de la ligne.
+Sans l'un ni l'autre, rien n'est rendu. Le pied d'une carte de connexion se lit comme du texte depuis le
+début (liens, ligne de version) : il ne prend pas l'alignement en fin de ligne des actions d'une carte.
 
 `OmniReturnUrl` garde l'adresse de retour dans l'application : `IsLocal` n'accepte qu'un chemin qui
 commence par une seule barre oblique, sans schéma ni hôte (`//hote`, `/\hote`, `https://hote`), sans
@@ -122,6 +130,14 @@ Avancer, par Suivant, Terminer ou une étape déjà atteinte de la liste, demand
 focus passe au corps ; une région de statut annonce « Étape 2 sur 3 : Options ». L'assistant ne dessine aucun
 voile : dans un `OmniDialog`, Échap et la croix restent ceux du dialogue.
 
+Les boutons restent au bas de la fenêtre quelle que soit la hauteur de l'étape : dans un conteneur qui le
+range en colonne (un corps de dialogue, une page en colonne), l'assistant prend la hauteur restante et le
+corps pousse le pied en bas ; une étape plus haute que la fenêtre défile sous le pied
+(`omni-wizard__foot`), collé au bord bas. Le bandeau des boutons ne prend un fond
+(`--omni-wizard-actions-background`, la surface de carte par défaut) que tant qu'il est collé, par une
+requête de conteneur `scroll-state` : une étape courte ne peint aucune barre sur la page. Sans cette
+requête, le bandeau reste transparent. La piste de progression a l'épaisseur commune des barres (2 px).
+
 Les étapes prennent leur rang dans l'ordre de leur premier rendu : une étape affichée plus tard sous
 condition passe en fin de liste. Un assistant aux étapes variables les déclare toutes.
 
@@ -136,7 +152,8 @@ l'icône est décorative et le numéro reste lu par les technologies d'assistanc
 ## Liste de définitions : `OmniDescriptionList` et `OmniDescriptionItem`
 
 Un `dl` dont chaque `OmniDescriptionItem` (`Label`, la valeur en `ChildContent`, `Actions` après elle)
-est un groupe `dt`/`dd`. `Columns` range les éléments sur 1 à 4 colonnes (borné) ; sous 40rem, une
+est un groupe `dt`/`dd`. `Icon` (en général un `OmniIcon`, décoratif) précède le libellé, à la couleur
+d'accent et à la taille fixée par le paquet, sur la même ligne que le texte. `Columns` range les éléments sur 1 à 4 colonnes (borné) ; sous 40rem, une
 seule colonne.
 
 ## Infobulle : largeur et texte long

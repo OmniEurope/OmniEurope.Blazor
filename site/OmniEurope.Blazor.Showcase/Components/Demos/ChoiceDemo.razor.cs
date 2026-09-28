@@ -34,4 +34,8 @@ public partial class ChoiceDemo
     private bool Pinned { get; set; }
 
     private bool? Partial { get; set; }
+
+    private string Platform { get; set; } = "linux";
+
+    private bool Runner { get; set; } = true;
 }

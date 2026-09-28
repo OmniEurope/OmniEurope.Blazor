@@ -447,6 +447,18 @@ public partial class OmniDataGrid<TItem>
     public bool IsLoading { get; set; }
 
     /// <summary>
+    /// Whether a request to the server shows a bar between the headers and the first row, on the table
+    /// only, while the rows already there stay in place. True by default; false keeps only the loading
+    /// row an empty grid shows.
+    /// </summary>
+    [Parameter]
+    public bool ShowLoadingBar { get; set; } = true;
+
+    /// <summary>How that bar reports the request: a sweep by default, or a bar that keeps filling.</summary>
+    [Parameter]
+    public OmniLoadingBarMode LoadingBarMode { get; set; } = OmniLoadingBarMode.Sweep;
+
+    /// <summary>
     /// Height of the scrolling table as a CSS length, for example <c>600px</c>, <c>50vh</c> or
     /// <c>100%</c>. Left unset the table grows with its content, or fills its parent while
     /// virtualizing.
@@ -611,6 +623,16 @@ public partial class OmniDataGrid<TItem>
     // headers, against the shared acceptance rule (RET-002 §3.8, a client application).
     private bool Veiled => Preparing && !Loading;
     private bool Loading => IsLoading || (!ExternalData && _remote.Loading) || (Virtualized && _virtualSource.Loading && _virtualSource.CachedItemCount == 0);
+
+    // The bar follows every request, also the blocks a virtualized grid fetches while rows are already
+    // shown; a live refresh keeps the rows and shows no loading state, so it shows no bar either.
+    private bool ShowsLoadingBar => ShowLoadingBar
+        && (IsLoading || (!ExternalData && _remote.Loading) || (Virtualized && _virtualSource.Loading));
+
+    private string LoadingBarClass => LoadingBarMode == OmniLoadingBarMode.Continuous
+        ? "omni-loading-bar omni-loading-bar--continuous omni-loading-bar--active omni-data-grid__loading-bar"
+        : "omni-loading-bar omni-loading-bar--sweep omni-loading-bar--active omni-data-grid__loading-bar";
+
     private Exception? Failure => ExternalData ? null : Virtualized ? _virtualSource.Error : _remote.Error;
     private bool ShowPager => Paged && (PageCount > 1 || AlwaysShowPager);
     private bool ShowPagerTop => ShowPager && PagerPosition is OmniDataGridPagerPosition.Top or OmniDataGridPagerPosition.TopAndBottom;
@@ -1104,8 +1126,16 @@ public partial class OmniDataGrid<TItem>
         }
 
         var count = Math.Max(1, _range.Count);
-        var changed = await _virtualSource.EnsureRangeAsync(_range.StartIndex, count, BlockSize, LoadWindowAsync);
-        if (changed)
+        var pending = _virtualSource.EnsureRangeAsync(_range.StartIndex, count, BlockSize, LoadWindowAsync);
+        // A block still on its way: draw the loading bar now, not only once the rows are in.
+        var showedBar = !pending.IsCompleted && ShowsLoadingBar;
+        if (showedBar)
+        {
+            StateHasChanged();
+        }
+
+        var changed = await pending;
+        if (changed || showedBar)
         {
             SyncVirtualWindow();
             StateHasChanged();

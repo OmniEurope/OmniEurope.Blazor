@@ -104,6 +104,34 @@ propriétaire et suit les entrées du menu quand elles changent pendant qu'il es
 Début et Fin parcourent les entrées `role="menuitem"`, Échap ferme et rend le focus au déclencheur ;
 un appui ailleurs ferme le menu et laisse le focus là où il a été posé.
 
+`OmniOverflowMenu` est le menu « ⋮ » d'une ligne, d'une carte ou d'un en-tête : trois points seuls, sans
+cadre (bouton `Ghost`, nommé par `Label`, « Plus d'actions » par défaut), qui ouvrent une liste verticale
+d'`OmniOverflowMenuItem` (`Icon` dans une colonne fixe, puis le libellé ; `Disabled`, `Danger`). Le
+déclencheur ouvre et ferme le menu sur son propre clic (`aria-haspopup="menu"`, `aria-expanded`) ; un
+appui sur lui ne compte pas comme un appui extérieur, qui rouvrait le menu. Le menu est rendu par le
+portail d'`OmniComponentsHost` (aucune zone défilante ni `container-type` de la page ne le coupe ou ne
+devient le bloc contenant de sa position fixe), posé sous le déclencheur, bord de fin contre bord de fin,
+et ramené dans la fenêtre : décalé sur le côté près d'un bord, ouvert au-dessus faute de place en bas,
+recalé au défilement et au redimensionnement. Flèches, Début et Fin parcourent les entrées ; Échap
+ferme et rend le focus au déclencheur ; Tab ferme et continue depuis le déclencheur ; flèche bas ou haut
+sur le déclencheur ouvre sur la première ou la dernière entrée. Une entrée choisie ferme d'abord le menu,
+le focus rendu au déclencheur, puis lance son action : un dialogue ouvert par l'action le trouve là et
+l'y rend à sa fermeture. Dans une ligne de grille, le déclencheur prend la hauteur des badges comme les
+autres boutons à icône seule ; les entrées ne sont pas des boutons et gardent leur géométrie de menu.
+
+## Carte à choisir : `OmniSelectableCard`
+
+`OmniSelectableCard` est un choix qui mérite plus qu'un bouton radio : `Icon`, `Title` (obligatoire),
+`Description` en ligne atténuée, `ChildContent` en texte complémentaire (du texte et des badges, rien
+d'interactif : la carte est un bouton). `Multiple="false"` (par défaut) en fait un choix parmi plusieurs
+(`role="radio"`, à poser dans un élément `role="radiogroup"` nommé) ; `SelectedChanged` reçoit toujours
+`true`, même sur la carte déjà choisie, pour que l'hôte puisse enchaîner (passer à l'étape suivante).
+`Multiple="true"` en fait une option (`role="checkbox"`) qui bascule. Le choix se lit à l'encadré et à la
+teinte d'accent seuls, sans coche : le cadre garde 2 px dans tous les états, le texte ne bouge jamais.
+Le survol penche le cadre et le fond vers l'accent, en clair comme en sombre. `Disabled` garde l'état
+(une option imposée par une autre), laisse la carte focalisable et l'annonce indisponible
+(`aria-disabled`). Tab atteint chaque carte ; les flèches ne parcourent pas un groupe de cartes radio.
+
 ## Entrées spécialisées
 
 - `OmniDatePicker` (`DateOnly?`), `OmniTimePicker` (`TimeOnly?`) et `OmniDateTimePicker` (`DateTime?`, heure locale) sont un champ texte et un bouton qui ouvre un panneau maison sur le calque des surfaces flottantes (jetons `--omni-overlay-*`), sous le champ. Le contrôle natif de date dessinait sa fenêtre lui-même, sans style possible ; il n'est plus utilisé.

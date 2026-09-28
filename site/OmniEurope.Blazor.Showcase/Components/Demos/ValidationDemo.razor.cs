@@ -6,5 +6,7 @@ public partial class ValidationDemo
 
     private bool Submitted { get; set; }
 
+    private bool UnsavedChanges { get; set; }
+
     private AnnotatedValidationDemoModel Annotated { get; } = new();
 }

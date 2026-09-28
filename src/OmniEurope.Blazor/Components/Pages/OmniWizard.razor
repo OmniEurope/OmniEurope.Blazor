@@ -22,35 +22,38 @@
         <CascadingValue Value="_context" IsFixed="true">@ChildContent</CascadingValue>
     </section>
     <p class="omni-visually-hidden" role="status">@Announcement</p>
-    @* The package's button convention: the actions, then cancelling in Secondary (neutral) with its icon, last. *@
-    <div class="omni-wizard__actions">
-        @if (_current > 0)
-        {
-            <OmniButton Class="omni-wizard__previous" Variant="OmniButtonVariant.Secondary" OnClick="PreviousAsync">
-                <OmniIcon Name="OmniIconName.ArrowLeft" />
-                <span>@Localize("WizardPrevious")</span>
-            </OmniButton>
-        }
-        @if (IsLast)
-        {
-            <OmniButton Class="omni-wizard__finish" Disabled="@(!CurrentCanContinue)" Busy="_validating" OnClick="FinishAsync">
-                <OmniIcon Name="OmniIconName.Check" />
-                <span>@EffectiveFinishText</span>
-            </OmniButton>
-        }
-        else
-        {
-            <OmniButton Class="omni-wizard__next" Disabled="@(!CurrentCanContinue)" Busy="_validating" OnClick="NextAsync">
-                <span>@Localize("WizardNext")</span>
-                <OmniIcon Name="OmniIconName.ArrowRight" />
-            </OmniButton>
-        }
-        @if (OnCancel.HasDelegate)
-        {
-            <OmniButton Class="omni-wizard__cancel" Variant="OmniButtonVariant.Secondary" OnClick="CancelAsync">
-                <OmniIcon Name="OmniIconName.Close" />
-                <span>@Localize("Cancel")</span>
-            </OmniButton>
-        }
+    @* The package's button convention: the actions, then cancelling in Secondary (neutral) with its icon, last.
+       The foot sticks to the bottom of the window; the band inside it is what takes a fill once stuck. *@
+    <div class="omni-wizard__foot">
+        <div class="omni-wizard__actions">
+            @if (_current > 0)
+            {
+                <OmniButton Class="omni-wizard__previous" Variant="OmniButtonVariant.Secondary" OnClick="PreviousAsync">
+                    <OmniIcon Name="OmniIconName.ArrowLeft" />
+                    <span>@Localize("WizardPrevious")</span>
+                </OmniButton>
+            }
+            @if (IsLast)
+            {
+                <OmniButton Class="omni-wizard__finish" Disabled="@(!CurrentCanContinue)" Busy="_validating" OnClick="FinishAsync">
+                    <OmniIcon Name="OmniIconName.Check" />
+                    <span>@EffectiveFinishText</span>
+                </OmniButton>
+            }
+            else
+            {
+                <OmniButton Class="omni-wizard__next" Disabled="@(!CurrentCanContinue)" Busy="_validating" OnClick="NextAsync">
+                    <span>@Localize("WizardNext")</span>
+                    <OmniIcon Name="OmniIconName.ArrowRight" />
+                </OmniButton>
+            }
+            @if (OnCancel.HasDelegate)
+            {
+                <OmniButton Class="omni-wizard__cancel" Variant="OmniButtonVariant.Secondary" OnClick="CancelAsync">
+                    <OmniIcon Name="OmniIconName.Close" />
+                    <span>@Localize("Cancel")</span>
+                </OmniButton>
+            }
+        </div>
     </div>
 </div>

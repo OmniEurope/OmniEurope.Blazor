@@ -34,6 +34,9 @@
        theme Défaut (block omni:theme-tokens below). The only webfonts are the four @font-face above. */
     --omni-font-family-monospace: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     --omni-border-width: 1px;
+    /* One thickness for every progress and loading bar, in px like the border width: a
+       hairline stays crisp and does not grow with the size of the components. */
+    --omni-progress-thickness: 2px;
     /* Rounded shapes that are geometric rather than stylistic keep their own tokens: a pill and a
        disc must stay a pill and a disc whatever the theme does to --omni-radius. */
     --omni-radius-pill: 999px;
@@ -643,6 +646,9 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
 .omni-card__body,
 .omni-settings-tile { min-inline-size: 0; }
 .omni-card__footer { border-top: var(--omni-border-width) solid var(--omni-color-border); }
+/* The actions of a card, a tile or a form sit at the end of its footer by default, as
+   the dialog and wizard ones do, without each page asking for it. */
+.omni-card__footer { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: flex-end; }
 
 /* Icon disc of a tile or a menu item: a grey disc of the palette, rounded by a highlight and a soft
    shadow. */
@@ -1001,7 +1007,7 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
    par une classe de l'hôte, qu'on les redéfinit ; posées sur un ancêtre, elles seraient masquées. */
 .omni-loading-bar {
     --omni-loading-bar-color: var(--omni-color-accent);
-    --omni-loading-bar-thickness: 0.125rem;
+    --omni-loading-bar-thickness: var(--omni-progress-thickness, 2px);
 }
 /* La piste se loge dans le bas de ce qui précède (l'en-tête), sans fond : posée sur le haut du menu,
    son liseré se lisait comme un écart entre l'en-tête et le menu. */
@@ -1112,7 +1118,7 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-progress--success { color: var(--omni-color-success); }
 .omni-progress--warning { color: var(--omni-color-warning); }
 .omni-progress--danger { color: var(--omni-color-danger); }
-.omni-progress__track { background: var(--omni-color-surface-muted); border-radius: var(--omni-radius-pill); display: block; height: 0.6rem; overflow: hidden; width: 100%; }
+.omni-progress__track { background: var(--omni-color-surface-muted); border-radius: var(--omni-radius-pill); display: block; height: var(--omni-progress-thickness, 2px); overflow: hidden; width: 100%; }
 .omni-progress__indicator { background: currentColor; display: block; height: 100%; transition: width 160ms ease; width: 0; }
 .omni-progress__indicator--0 { width: 0; }
 .omni-progress__indicator--5 { width: 5%; }
@@ -1484,6 +1490,13 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
 /* A two-state check box with its text: the label wraps both, so the text names and toggles the box. */
 .omni-checkbox-label { align-items: center; color: var(--omni-color-text); cursor: pointer; display: inline-flex; gap: var(--omni-space-sm); }
 .omni-checkbox-label:has(> .omni-checkbox:disabled) { cursor: not-allowed; }
+/* The row centres the box on the middle of the letters, not on the line box: trimmed to the cap height
+   and the baseline, the text box is its letters, whose middle sits below the middle of the line box in
+   most fonts. The line keeps its height (1lh), so trimming moves nothing around it. */
+.omni-checkbox-label { min-block-size: 1lh; }
+.omni-checkbox-label__text { text-box: trim-both cap alphabetic; }
+/* Text before the box: the line reads "label ....... box" while the box stays the control. */
+.omni-checkbox-label--text-first > .omni-checkbox { order: 1; }
 /* A button, which centres its text by default: a label on two lines starts at the box, as the
    two-state check box beside it does. */
 .omni-checkbox-nullable {
@@ -1561,6 +1574,8 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
 .omni-switch--mixed .omni-switch__thumb { transform: translateX(calc(var(--omni-switch-h) * 0.4)); }
 .omni-switch:focus-visible { border-radius: var(--omni-radius); box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-switch:disabled { cursor: not-allowed; opacity: 0.65; }
+/* Text before the track: the line reads "label ....... switch". */
+.omni-switch--text-first > .omni-switch__track { order: 1; }
 
 @media (prefers-reduced-motion: reduce) {
     .omni-switch__track,
@@ -1607,6 +1622,22 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
 /* A fieldset sizes to its minimal content, not to its container: an explicit width, or it shrank
    to its longest word beside other controls and its legend wrapped. The legend, sized apart by the
    browser, takes the whole width too. */
+/* Selectable card: the choice is the accent frame and tint, the frame one width in every state so the
+   text never moves; hover leans the frame and the fill towards the accent, in light and dark alike. */
+.omni-selectable-card { align-items: center; background: var(--omni-card-background, var(--omni-color-surface)); border: 2px solid var(--omni-color-border); border-radius: var(--omni-card-radius, var(--omni-radius)); box-sizing: border-box; color: var(--omni-color-text); cursor: pointer; display: flex; font: inherit; gap: var(--omni-space-md); inline-size: 100%; padding: var(--omni-card-pad); text-align: start; transition: background-color 120ms ease, border-color 120ms ease; }
+.omni-selectable-card:hover:not([aria-disabled="true"]) { background: color-mix(in srgb, var(--omni-color-accent) 7%, var(--omni-card-background, var(--omni-color-surface))); border-color: color-mix(in srgb, var(--omni-color-accent) 55%, var(--omni-color-border)); }
+.omni-selectable-card:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-selectable-card.omni-selectable-card--selected { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent); }
+.omni-selectable-card--selected:hover:not([aria-disabled="true"]) { background: color-mix(in srgb, var(--omni-color-accent) 6%, var(--omni-color-accent-subtle)); }
+.omni-selectable-card[aria-disabled="true"] { cursor: default; opacity: 0.75; }
+.omni-selectable-card__icon { --omni-icon-size: 1.75rem; align-items: center; color: var(--omni-color-text-muted); display: inline-flex; flex: none; justify-content: center; }
+.omni-selectable-card__icon > svg { block-size: 1.75rem; inline-size: 1.75rem; }
+.omni-selectable-card--selected .omni-selectable-card__icon { color: var(--omni-color-accent-strong); }
+.omni-selectable-card__text { display: flex; flex: 1 1 auto; flex-direction: column; gap: var(--omni-space-xs); min-inline-size: 0; }
+.omni-selectable-card__title { font-weight: 600; }
+.omni-selectable-card__description { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
+@media (prefers-reduced-motion: reduce) { .omni-selectable-card { transition: none; } }
+
 .omni-choice-list { border: 0; box-sizing: border-box; display: grid; gap: calc(var(--omni-field-gap) + 2px); inline-size: 100%; margin: 0; min-inline-size: 0; padding: 0; }
 .omni-choice-list__legend { color: var(--omni-color-text); font-size: 0.8125rem; font-weight: 600; inline-size: 100%; margin-block-end: 6px; padding: 0; }
 .omni-choice-list__item { align-items: center; cursor: pointer; display: inline-flex; gap: 7px; }
@@ -1878,6 +1909,26 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-dialog__content { padding: calc(var(--omni-card-pad) + 2px); }
 /* Boutons de dialogue : au bout du pied, l'action puis Annuler (Secondary, neutre), chacun avec son icône. */
 .omni-dialog__footer { align-items: center; border-block-start: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: end; padding: calc(var(--omni-card-pad) - 2px) calc(var(--omni-card-pad) + 2px); }
+/* Header and footer are two bands of one height, the footer's: the close button is as tall as a
+   footer button (the control height) instead of the 2.75rem square that made the header taller, and
+   it is discreet, no fill and no frame at rest, a light wash on hover, in light and dark alike. */
+.omni-dialog__header { box-sizing: border-box; gap: var(--omni-space-sm); min-block-size: calc(var(--omni-control-height) + 2 * (var(--omni-card-pad) - 2px)); }
+.omni-dialog__title { flex: 1 1 auto; min-inline-size: 0; }
+.omni-dialog .omni-dialog__close { align-items: center; background: transparent; block-size: var(--omni-control-height); border: 0; color: var(--omni-color-text-muted); display: inline-flex; flex: none; inline-size: var(--omni-control-height); justify-content: center; line-height: 1; min-height: 0; min-width: 0; padding: 0; position: relative; transition: background-color 120ms ease, color 120ms ease; }
+/* The drawn button follows the control height; its target keeps the 44 px of the audited targets,
+   reaching into the band's padding without taking room in the layout. */
+.omni-dialog .omni-dialog__close::before { content: ""; inset: min(0px, calc((var(--omni-control-height) - 2.75rem) / 2)); position: absolute; }
+.omni-dialog .omni-dialog__close:hover { background: color-mix(in srgb, var(--omni-color-text) 10%, transparent); color: var(--omni-color-text); }
+.omni-dialog .omni-dialog__close:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+/* An intention tints both bands alike and leads the title with a round mark carrying its icon; the
+   body stays on the surface of the dialog. Only the palette's own tokens, so every theme follows. */
+.omni-dialog--intent-accent { --omni-dialog-band: var(--omni-color-accent-subtle); --omni-dialog-intent-ink: var(--omni-color-accent-strong); }
+.omni-dialog--intent-warning { --omni-dialog-band: var(--omni-color-warning-subtle); --omni-dialog-intent-ink: var(--omni-color-warning); }
+.omni-dialog--intent-danger { --omni-dialog-band: var(--omni-color-danger-subtle); --omni-dialog-intent-ink: var(--omni-color-danger); }
+:is(.omni-dialog--intent-accent, .omni-dialog--intent-warning, .omni-dialog--intent-danger) > :is(.omni-dialog__header, .omni-dialog__footer) { background: var(--omni-dialog-band); }
+.omni-dialog__intent { align-items: center; background: color-mix(in srgb, var(--omni-color-text) 12%, transparent); block-size: var(--omni-control-height); border-radius: var(--omni-radius-circle); color: var(--omni-dialog-intent-ink, var(--omni-color-accent-strong)); display: inline-flex; flex: none; inline-size: var(--omni-control-height); justify-content: center; }
+.omni-dialog__intent .omni-icon { block-size: 1.125rem; inline-size: 1.125rem; }
+@media (prefers-reduced-motion: reduce) { .omni-dialog .omni-dialog__close { transition: none; } }
 .omni-confirm__message { margin: 0; }
 /* La pile se pose sur un coin ou un bord, nommés en logique (lecture de droite à gauche). */
 /* --omni-notification-top: a host with a fixed top bar starts the top regions under it. */
@@ -2046,6 +2097,22 @@ body:has(.omni-overlay) { overflow: hidden; }
    sous le bord de l'écran, où « 100 % » de la fenêtre l'envoyait. */
 .omni-context-menu__popup[data-omni-placed],
 .omni-overlay-portal__entry--contextmenu .omni-context-menu__popup { inset: auto; left: var(--omni-menu-x, var(--omni-space-md)); position: fixed; top: var(--omni-menu-y, var(--omni-space-md)); }
+/* The "⋮" menu: a borderless three-dot trigger, a vertical list of icon and label rows, placed under
+   the trigger by omni-focus.js and kept inside the window. Its rows are menu rows, not buttons, so the
+   rules that size the buttons of a grid row do not reach them. */
+.omni-overflow-menu { display: inline-flex; position: relative; vertical-align: middle; }
+.omni-overflow-menu > .omni-overflow-menu__trigger { border-color: transparent; }
+.omni-overflow-menu > .omni-overflow-menu__trigger:not(:hover, :active, [aria-expanded="true"]) { background: transparent; box-shadow: none; }
+.omni-overflow-menu__popup { backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); display: grid; gap: 1px; inset: auto; left: var(--omni-menu-x, var(--omni-space-md)); min-width: 11rem; padding: calc(var(--omni-pop-pad) - 2px); position: fixed; top: var(--omni-menu-y, var(--omni-space-md)); z-index: 120; }
+.omni-overflow-menu__popup:not([data-omni-placed]) { visibility: hidden; }
+.omni-overflow-menu__popup:focus-visible { outline: none; }
+.omni-overflow-menu__item { align-items: center; background: transparent; border: 0; border-radius: calc(var(--omni-radius) / 2); color: var(--omni-color-text); cursor: pointer; display: flex; font: inherit; font-size: var(--omni-control-font); gap: var(--omni-space-sm); inline-size: 100%; padding: var(--omni-item-pad-y) 10px; text-align: start; white-space: nowrap; }
+.omni-overflow-menu__item:hover:not(:disabled),
+.omni-overflow-menu__item:focus-visible { background: var(--omni-color-surface-hover); outline: none; }
+.omni-overflow-menu__item:disabled { cursor: not-allowed; opacity: 0.5; }
+.omni-overflow-menu__item--danger { color: var(--omni-color-danger); }
+.omni-overflow-menu__icon { --omni-icon-size: 1rem; align-items: center; block-size: 1.25rem; display: inline-flex; flex: none; inline-size: 1.25rem; justify-content: center; }
+.omni-overflow-menu__label { flex: 1 1 auto; min-inline-size: 0; }
 
 .omni-breadcrumb__list { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); list-style: none; margin: 0; padding: 0; }
 .omni-breadcrumb__item + .omni-breadcrumb__item::before { color: var(--omni-color-text-muted); content: "/"; margin-inline-end: var(--omni-space-xs); }
@@ -2344,6 +2411,9 @@ body:has(.omni-overlay) { overflow: hidden; }
    which holds for colour-blind readers too). */
 .omni-data-grid { --omni-header-fill: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-grid-frame)); --omni-header-fill-hover: color-mix(in srgb, var(--omni-color-text) 10%, var(--omni-grid-frame)); }
 .omni-data-grid thead > tr > * { background: var(--omni-header-fill); border: 0; border-block-end: var(--omni-border-width) solid var(--omni-color-border); color: var(--omni-color-text-muted); font-size: 0.75rem; letter-spacing: 0.02em; position: relative; vertical-align: middle; }
+/* The loading bar row: no height, no fill and no rule of its own; its bar is laid over the foot of the
+   headers (the loading bar track sits above its own top edge), in front of the first row. */
+.omni-data-grid thead > .omni-data-grid__progress > td { background: none; block-size: 0; border: 0; line-height: 0; padding: 0; position: relative; }
 .omni-data-grid thead > tr > .omni-data-grid__column--sortable:hover { background: var(--omni-header-fill-hover); color: var(--omni-color-text); }
 .omni-data-grid thead .omni-data-grid__column--active { --omni-header-fill: color-mix(in srgb, var(--omni-color-accent) 9%, var(--omni-grid-frame)); --omni-header-fill-hover: color-mix(in srgb, var(--omni-color-accent) 15%, var(--omni-grid-frame)); color: var(--omni-color-accent-strong); }
 .omni-data-grid__column--sortable { cursor: pointer; }
@@ -2463,6 +2533,10 @@ body:has(.omni-overlay) { overflow: hidden; }
    for both (--omni-badge-height), so a row of statuses and actions reads as one line of equal marks. */
 .omni-data-grid__row > td :is(.omni-button:has(> .omni-button__content > .omni-icon:only-child), .omni-data-grid__icon-button) { --omni-button-size: var(--omni-badge-height); block-size: var(--omni-badge-height); inline-size: var(--omni-badge-height); justify-content: center; min-inline-size: var(--omni-badge-height); padding: 0; vertical-align: middle; }
 .omni-data-grid__row > td .omni-button:has(> .omni-button__content > .omni-icon:only-child) .omni-icon { height: 0.875rem; width: 0.875rem; }
+/* The other actions of a row keep that height too: a button with text and a split button (main part
+   and arrow) take the badge height, the small text and a short padding, so a labelled action stands
+   no taller than the icon-only ones and the status badges beside it. */
+.omni-data-grid__row > td :is(.omni-button, .omni-split-button) { --omni-button-font-size: var(--omni-font-size-sm); --omni-button-padding-inline: var(--omni-space-sm); --omni-button-size: var(--omni-badge-height); --omni-icon-size: 0.875rem; vertical-align: middle; }
 .omni-data-grid__group th { background: var(--omni-color-surface-muted); color: var(--omni-color-text); padding-block: 0; }
 .omni-data-grid__group[data-omni-group-level="1"] th { padding-inline-start: var(--omni-space-lg); }
 .omni-data-grid__group[data-omni-group-level="2"] th { padding-inline-start: var(--omni-space-xl, 3rem); }
@@ -3051,6 +3125,12 @@ polyline.omni-chart__line { fill: none; }
 .omni-login-shell__card { min-inline-size: 0; }
 .omni-login-shell .omni-login-shell__title { font-size: var(--omni-font-size-h3); margin: 0 0 var(--omni-space-md); }
 .omni-login-shell__description { color: var(--omni-color-text-muted); margin: 0 0 var(--omni-space-lg); }
+/* The footer of a sign-in card holds links and a version line, read as text from the start: not the
+   row of actions a card footer ends with. The sign-up line leads it, a discreet text
+   link on the rank of "forgotten password", never a second button. */
+.omni-login-shell__card > .omni-card__footer { display: block; }
+.omni-login-shell__sign-up { color: var(--omni-color-text-muted); margin: 0; }
+.omni-login-shell__sign-up + * { margin-block-start: var(--omni-space-sm); }
 @media (max-width: 39.99rem) {
     .omni-login-shell { margin-block: var(--omni-space-md); }
     .omni-login-shell__card > .omni-card__body { padding: var(--omni-space-md); }
@@ -3076,11 +3156,23 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 .omni-connection-overlay__spinner--idle { visibility: hidden; }
 .omni-connection-overlay__action { margin-block-start: var(--omni-space-sm); }
 
-.omni-wizard { display: flex; flex-direction: column; gap: var(--omni-space-md); min-inline-size: 0; }
+.omni-wizard { display: flex; flex: 1 0 auto; flex-direction: column; gap: var(--omni-space-md); min-inline-size: 0; }
 .omni-wizard .omni-steps__button:disabled { color: var(--omni-color-text-muted); cursor: default; }
-.omni-wizard__body { min-inline-size: 0; }
+.omni-wizard__body { flex: 1 0 auto; min-inline-size: 0; }
 .omni-wizard__body:focus-visible { outline: none; }
+/* The navigation stays at the foot of the window whatever the height of the step. In a container that
+   lays it out in a column (a dialog body, a page in a column) the wizard takes the height left and the
+   body pushes the foot down; a step longer than the window scrolls under the foot, which sticks to the
+   bottom edge. Only while it is stuck does the band take a fill (--omni-wizard-actions-background, the
+   card surface by default), so a short step leaves no bar painted over the page. */
+.omni-wizard__foot { container-type: scroll-state; inset-block-end: 0; margin-block-start: auto; position: sticky; z-index: 2; }
 .omni-wizard__actions { border-block-start: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: flex-end; padding-block-start: var(--omni-space-md); }
+@container scroll-state(stuck: bottom) {
+    .omni-wizard__actions { background: var(--omni-wizard-actions-background, var(--omni-card-background, var(--omni-color-surface))); padding-block-end: var(--omni-space-sm); }
+}
+@supports not (container-type: scroll-state) {
+    .omni-wizard__actions { background: var(--omni-wizard-actions-background, transparent); }
+}
 
 /* A definition list in columns: the column count is a class, never a computed inline value. */
 .omni-description-list { display: grid; gap: 0 var(--omni-space-xl); grid-template-columns: repeat(var(--omni-description-columns, 1), minmax(0, 1fr)); margin: 0; }
@@ -3093,6 +3185,9 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 .omni-description-list--columns-3 > :nth-child(-n + 3),
 .omni-description-list--columns-4 > :nth-child(-n + 4) { border-block-start: 0; }
 .omni-description-list__label { color: var(--omni-color-text-muted); font-weight: 500; min-inline-size: 0; }
+/* A label with its icon: the icon in the accent ink, sized by the package, one line with the text. */
+.omni-description-list__label:has(> .omni-description-list__icon) { align-items: center; display: flex; gap: var(--omni-space-sm); }
+.omni-description-list__icon { --omni-icon-size: 1rem; color: var(--omni-color-accent); display: inline-flex; flex: none; }
 .omni-description-list__value { align-items: center; display: flex; gap: var(--omni-space-xs); margin: 0; min-inline-size: 0; }
 .omni-description-list__content { flex: 1 1 auto; min-inline-size: 0; overflow-wrap: anywhere; }
 .omni-description-list__actions { display: inline-flex; flex: 0 0 auto; gap: var(--omni-space-xs); }
@@ -3300,6 +3395,12 @@ span.omni-unified-diff__toggle { cursor: default; }
 .omni-appearance-settings--scale .omni-appearance-settings__actions { flex-wrap: nowrap; }
 .omni-appearance-settings--scale .omni-badge { inline-size: 3.25em; min-height: var(--omni-control-height); }
 .omni-appearance-settings--scale .omni-appearance-settings__label { min-inline-size: 6em; }
+/* Theme and palette lead the window, laid out as its scales are: the name on its line, then the list
+   and its reset beside it across the width. The two blocks are spaced as the rows of one block. */
+.omni-appearance-settings--look .omni-appearance-settings__row { flex-wrap: wrap; }
+.omni-appearance-settings--look .omni-appearance-settings__label { flex: 1 1 100%; min-inline-size: 6em; }
+.omni-appearance-settings--look .omni-appearance-settings__actions:has(.omni-drop-down) { inline-size: 100%; }
+.omni-appearance-settings--look + .omni-appearance-settings--scale { margin-block-start: var(--omni-space-md); }
 /* Glyph boxes and labels share one centre line, independently of a font's baseline. */
 .omni-button__content { align-items: center; line-height: 1.2; }
 .omni-icon { vertical-align: middle; flex-shrink: 0; }

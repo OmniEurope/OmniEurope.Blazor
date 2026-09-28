@@ -76,6 +76,36 @@
         <p>Ce dialogue est ouvert en taille @SizedDialog.</p>
     </OmniDialog>
 
+    @* Intention : l'en-tête et le pied prennent la teinte de l'intention, le titre est précédé d'une pastille
+       portant son icône ; le corps reste sur la surface du dialogue. Sans intention, rien ne change. *@
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Overflow="OmniStackOverflow.Scroll">
+        <OmniButton Id="demo-dialog-intent-accent" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniDialogIntent.Accent))">Formulaire (accent)</OmniButton>
+        <OmniButton Id="demo-dialog-intent-warning" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniDialogIntent.Warning))">Confirmation (avertissement)</OmniButton>
+        <OmniButton Id="demo-dialog-intent-danger" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniDialogIntent.Danger))">Suppression (danger)</OmniButton>
+    </OmniStack>
+
+    <OmniDialog Title="Paramètres d'exécution" Open="IntentOpen" OpenChanged="@(value => IntentOpen = value)" Intent="IntentDialog">
+        <ChildContent><p>Ce dialogue porte l'intention @IntentDialog.</p></ChildContent>
+        <Footer>
+            <OmniButton OnClick="@(_ => IntentOpen = false)"><OmniIcon Name="OmniIconName.Check" /><span>Valider</span></OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => IntentOpen = false)"><OmniIcon Name="OmniIconName.Close" /><span>Annuler</span></OmniButton>
+        </Footer>
+    </OmniDialog>
+
+    @* Menu « ⋮ » : trois points seuls, sans cadre, qui ouvrent une liste verticale (icône puis libellé).
+       Il reste dans la fenêtre, s'ouvre au-dessus faute de place, et rend le focus au bouton. *@
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
+        <OmniOverflowMenu Id="demo-overflow-menu" Label="Actions du pipeline">
+            <OmniOverflowMenuItem OnClick="@(() => Last = "Modifier")"><Icon><OmniIcon Name="OmniIconName.Edit" /></Icon><ChildContent>Modifier</ChildContent></OmniOverflowMenuItem>
+            <OmniOverflowMenuItem OnClick="@(() => Last = "Mettre à jour")"><Icon><OmniIcon Name="OmniIconName.Refresh" /></Icon><ChildContent>Mettre à jour</ChildContent></OmniOverflowMenuItem>
+            <OmniOverflowMenuItem Disabled="true"><Icon><OmniIcon Name="OmniIconName.Upload" /></Icon><ChildContent>Publier, indisponible</ChildContent></OmniOverflowMenuItem>
+            <OmniOverflowMenuItem Danger="true" OnClick="@(() => Last = "Supprimer")"><Icon><OmniIcon Name="OmniIconName.Delete" /></Icon><ChildContent>Supprimer</ChildContent></OmniOverflowMenuItem>
+        </OmniOverflowMenu>
+        <OmniOverflowMenu Label="Actions de la ligne" Size="OmniControlSize.Small">
+            <OmniOverflowMenuItem OnClick="@(() => Last = "Dupliquer")"><Icon><OmniIcon Name="OmniIconName.Copy" /></Icon><ChildContent>Dupliquer</ChildContent></OmniOverflowMenuItem>
+        </OmniOverflowMenu>
+    </OmniStack>
+
     <p>Dernière action : @(Last ?? "aucune")</p>
 
     <OmniNotification Severity="OmniSeverity.Info" Title="Information"

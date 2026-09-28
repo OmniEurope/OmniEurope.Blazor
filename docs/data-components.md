@@ -17,6 +17,13 @@ La grille accepte deux sources exclusives.
 
 `Count` impose le total lorsque l'hôte le connaît déjà. `IsLoading` force l'état occupé.
 
+Pendant une requête au serveur (chargement d'une page, blocs d'une grille virtualisée demandés au
+défilement, `IsLoading`), une barre de chargement se dessine entre les en-têtes et la première ligne, sur
+le tableau seul, dans une ligne sans hauteur : rien ne bouge quand elle vient ou part, et les lignes déjà
+là restent lisibles dessous. `ShowLoadingBar` (vrai par défaut) la retire ; `LoadingBarMode` choisit
+entre le balayage (`Sweep`, par défaut) et le remplissage continu (`Continuous`) d'`OmniLoadingBar`. Un
+rafraîchissement en direct garde ses lignes et ne montre pas de barre.
+
 Avec `LoadingContent`, la préparation initiale couvre la grille entière jusqu'à stabilisation
 de la plage virtualisée et chargement des images visibles. La grille conserve sa géométrie pendant
 cette attente et révèle ensuite son contenu en une fois. Une instance déjà préparée ne réaffiche

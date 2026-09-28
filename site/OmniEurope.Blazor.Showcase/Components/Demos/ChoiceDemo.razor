@@ -21,6 +21,27 @@
             <OmniSwitch Id="choice-nullable-switch" @bind-Value="Partial">Interrupteur à trois états</OmniSwitch>
             <span>État à trois positions : @(Partial is null ? "indéterminé" : Partial.Value ? "activé" : "désactivé")</span>
         </OmniStack>
+        <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
+            <OmniCheckBox Id="choice-text-first-check" TextFirst="true" @bind-Value="Pinned">Libellé avant la case</OmniCheckBox>
+            <OmniSwitch Id="choice-text-first-switch" TextFirst="true" @bind-Value="Pinned">Libellé avant l'interrupteur</OmniSwitch>
+        </OmniStack>
+
+        @* Cartes à choisir : l'encadré et la teinte d'accent montrent le choix, sans coche qui déplacerait
+           le texte. Un choix unique se pose dans un radiogroup nommé ; Multiple en fait des cases. *@
+        <OmniStack Gap="OmniSpacing.Small" role="radiogroup" aria-label="Système de l'agent">
+            <OmniSelectableCard Title="Linux" Description="Debian, Ubuntu, Fedora" Selected="@(Platform == "linux")" SelectedChanged="@(_ => Platform = "linux")">
+                <Icon><OmniIcon Name="OmniIconName.TerminalWindow" /></Icon>
+            </OmniSelectableCard>
+            <OmniSelectableCard Title="Windows" Description="Windows Server 2022 et plus" Selected="@(Platform == "windows")" SelectedChanged="@(_ => Platform = "windows")">
+                <Icon><OmniIcon Name="OmniIconName.WindowsLogo" /></Icon>
+            </OmniSelectableCard>
+        </OmniStack>
+        <OmniSelectableCard Title="Exécuteur de pipelines" Description="Lance les étapes sur cette machine." Multiple="true" @bind-Selected="Runner">
+            <Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon>
+        </OmniSelectableCard>
+        <OmniSelectableCard Title="Docker" Description="Imposé par l'exécuteur." Multiple="true" Selected="true" Disabled="true">
+            <Icon><OmniIcon Name="OmniIconName.Package" /></Icon>
+        </OmniSelectableCard>
         <OmniRating @bind-Value="Rating" Label="Notation" />
         <OmniRating Value="ReadonlyRating" ValueExpression="@(() => ReadonlyRating)" ReadOnly="true" Label="Notation en lecture seule" />
         <OmniRating Value="ReadonlyRating" ValueExpression="@(() => ReadonlyRating)" Disabled="true" Label="Notation désactivée" />

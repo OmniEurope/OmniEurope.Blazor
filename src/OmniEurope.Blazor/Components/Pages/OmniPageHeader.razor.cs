@@ -73,6 +73,14 @@ public partial class OmniPageHeader : IDisposable
     public string? BackLabel { get; set; }
 
     /// <summary>
+    /// Look of the back button. <see cref="OmniButtonVariant.Ghost"/> by default, the web's discreet
+    /// navigation; a site that wants the arrow to stand out passes
+    /// <see cref="OmniButtonVariant.Primary"/>.
+    /// </summary>
+    [Parameter]
+    public OmniButtonVariant BackVariant { get; set; } = OmniButtonVariant.Ghost;
+
+    /// <summary>
     /// Icon drawn before the title, its centre on the centre of the title's capital letters. Null, the
     /// default, renders the title alone.
     /// </summary>
