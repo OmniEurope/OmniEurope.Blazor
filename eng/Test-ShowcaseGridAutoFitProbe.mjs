@@ -124,6 +124,11 @@ await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, dev
 await send('Page.addScriptToEvaluateOnNewDocument', {
   source: "window.__omniCsp = []; document.addEventListener('securitypolicyviolation', event => window.__omniCsp.push(`${event.violatedDirective} ${event.blockedURI}`));"
 });
+// Starts from the shipped look: the probe that ran before in this browser (the contrast probe) leaves
+// its last theme in the showcase storage, and the widths measured below depend on the theme's font.
+await send('Page.navigate', { url: siteUrl });
+await waitFor('la vitrine', "document.readyState === 'complete'");
+await evaluate("(() => { try { localStorage.removeItem('omnieurope.showcase.theme'); } catch { } })()");
 await send('Page.navigate', { url: siteUrl });
 await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.querySelector('main, #app') !== null");
 await pause(1500);

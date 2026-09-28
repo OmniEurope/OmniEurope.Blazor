@@ -5,6 +5,7 @@
 - Utiliser l'élément HTML natif lorsqu'il existe (`button`, `input`, `select`, `nav`, `table`, `fieldset`).
 - Conserver un ordre de focus identique à l'ordre du document ; la bibliothèque n'émet aucun `tabindex` positif par défaut et les consommateurs ne doivent pas en fournir via `TabIndex` ou `AdditionalAttributes`.
 - Afficher un anneau `:focus-visible` contrasté et respecter `prefers-reduced-motion`.
+- Tenir les ratios de contraste (4,5 pour un texte, 3 pour un remplissage ou une marque, plancher de 1,7 pour une bordure) sur chacune des 392 combinaisons thème x palette x mode, les quatre thèmes de style (Relief, Givre, Aplat, Épure) compris : `ThemeContrastMatrixTests` le vérifie sur les jetons, la sonde `eng/Test-ThemeContrastProbe.mjs` sur la page peinte, un fond en dégradé étant mesuré sur chaque couleur qu'il traverse. Ces quatre thèmes dessinent un anneau de focus plein (liseré de surface puis anneau opaque de l'accent ou du texte), là où leur relief, leur transparence ou leurs aplats effaceraient l'anneau translucide livré. Les compromis de style consentis pour cela sont décrits dans [foundation-components.md](foundation-components.md).
 - Exposer `disabled`, `aria-busy`, `aria-invalid`, `aria-current`, `aria-selected` et `aria-expanded` sous forme de chaînes ARIA valides.
 - Relier libellés, descriptions et erreurs avec `for`, `aria-describedby` et les landmarks appropriés.
 - Annoncer les résultats asynchrones, notifications, progression et erreurs avec des régions live `polite`; réserver `assertive` aux erreurs bloquantes.

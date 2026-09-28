@@ -1,5 +1,5 @@
-// PLAN-008 lot 10: the contrasts of the published showcase measured in a real Chromium, on the 200
-// combinations a visitor can build (10 themes x 10 palettes x light and dark). The static matrix
+// PLAN-008 lot 10: the contrasts of the published showcase measured in a real Chromium, on the 392
+// combinations a visitor can build (14 themes x 14 palettes x light and dark). The static matrix
 // (ThemeContrastMatrixTests) proves the token pairs; this probe proves what the browser paints once the
 // stylesheet has combined them: the colour a text really gets, on the background it really sits on, at
 // rest, under a forced hover and under focus.
@@ -10,7 +10,10 @@
 // A colour is resolved the way the browser composes it: the computed colour (which the browser gives
 // as `color(srgb r g b / a)` with 0..1 channels once a color-mix is involved), laid over every
 // translucent background up the tree down to an opaque one, each element's opacity included, over the
-// white canvas. The ratios are those of the static tests: 4.5 for text, 3.0 for a non-text mark, the
+// white canvas. A gradient background (Givre's colour field on the theme scope) counts as every colour
+// it passes through, each stop and four points between each pair, and the lowest reading is the one
+// judged. A backdrop blur is not modelled, for Givre as for the floating layers of every theme. The ratios are
+// those of the static tests: 4.5 for text, 3.0 for a non-text mark, the
 // border floor of 1.7 (ThemeContrastMatrixTests.BorderFloor) for a control's border, and the 5.0
 // rendering margin where ThemeContrastMatrixTests applies it (theme and palette Essentiel in light, on the
 // pairs of RenderingMarginPairs, recognised by their painted colours). The content of a busy control
@@ -70,8 +73,10 @@ const EXTRA_PAGES = ['/composants/listes', '/composants/retours', '/composants/s
 const NARROW_PAGES = ['/', CUSTOMIZER, ...EXTRA_PAGES];
 
 // Screenshots besides every theme on its own palette in both modes: Halo and Néon, the two themes
-// that draw with the accent (halos, glows, tinted borders), each on three palettes not their own.
-const FOREIGN_SHOTS = { 'Halo': ['Océan', 'Braise', 'Mono'], 'Néon': ['Essentiel', 'Forêt', 'Or ancien'] };
+// that draw with the accent (halos, glows, tinted borders), each on three palettes not their own;
+// Relief on a white page, where its light shadow vanishes; Givre, whose colour field is drawn from the
+// palette, on two others.
+const FOREIGN_SHOTS = { 'Halo': ['Océan', 'Braise', 'Mono'], 'Néon': ['Essentiel', 'Forêt', 'Or ancien'], 'Relief': ['Essentiel'], 'Givre': ['Océan', 'Mono'] };
 
 // ---------------------------------------------------------------------------------------------------
 // The page side: colour arithmetic, the closed list of targets, the measures and the geometry checks.
@@ -143,42 +148,91 @@ const pageLibrary = String.raw`
     return parts;
   };
 
-  // An element's background as one colour: background-color under its image layers. The grid paints
-  // its row and column fills as flat gradients (linear-gradient(c, c)), which are colours; an icon
-  // image (url) is not under text. Any other gradient cannot be reduced to one colour and is reported.
-  const backgroundOf = node => {
-    const style = getComputedStyle(node);
-    let color = parse(style.backgroundColor);
-    if (!color) throw new Unresolved('couleur de fond illisible sur ' + describe(node) + ' : ' + style.backgroundColor);
-    const image = style.backgroundImage;
-    if (!image || image === 'none') return color;
-    for (const layer of layers(image).reverse()) {
-      if (/^url\(/.test(layer)) continue;
-      const flat = /^linear-gradient\((.*)\)$/.exec(layer);
-      const stops = flat ? layers(flat[1]) : [];
-      const colors = stops.map(parse);
-      if (!flat || stops.length !== 2 || colors.some(stop => !stop) || stops[0] !== stops[1]) {
-        throw new Unresolved('fond en dégradé sur ' + describe(node) + ' : ' + layer.slice(0, 100));
-      }
-      color = over(colors[0], color);
-    }
-    return color;
+  // The colour of one stop of a computed gradient: its leading colour, the positions after it ignored.
+  // An argument without a colour (the direction, the shape and centre) gives null.
+  const stopColor = argument => {
+    const match = /^(rgba?\([^)]*\)|color\([^)]*\)|#[0-9a-f]{3,8}|transparent)/.exec(argument.trim().toLowerCase());
+    return match ? parse(match[1]) : null;
   };
 
-  // The colour of one pixel of an element as painted: an optional ink (a glyph of its text, an icon
-  // stroke, a border, a pseudo-element dot) over the element's own background, the whole group taken
-  // at the element's opacity and laid over its parent's group, up to the canvas. An overlay (the busy
-  // veil, an ::after positioned over the content) is laid above the content of its element.
+  // A point between two stops, interpolated the way gradients are, in premultiplied sRGB.
+  const between = (first, second, t) => {
+    const a = first.a + (second.a - first.a) * t;
+    if (a <= 0) return { ...TRANSPARENT };
+    const channel = name => (first[name] * first.a * (1 - t) + second[name] * second.a * t) / a;
+    return { r: channel('r'), g: channel('g'), b: channel('b'), a };
+  };
+
+  const key = color => [color.r, color.g, color.b, color.a].map(value => value.toFixed(3)).join(',');
+  const unique = colors => [...new Map(colors.map(color => [key(color), color])).values()];
+
+  // Every colour a gradient layer can paint: each stop and four points between each pair of stops. A
+  // flat gradient (the grid's row and column fills, linear-gradient(c, c)) reduces to its one colour. A
+  // gradient whose stops cannot be read is reported, never guessed.
+  const gradientColors = (node, layer) => {
+    const gradient = /^(?:repeating-)?(?:linear|radial|conic)-gradient\((.*)\)$/.exec(layer);
+    const stops = gradient ? layers(gradient[1]).map(stopColor).filter(Boolean) : [];
+    if (stops.length < 2) throw new Unresolved('fond en dégradé illisible sur ' + describe(node) + ' : ' + layer.slice(0, 100));
+    const colors = [];
+    for (let index = 0; index < stops.length - 1; index++) {
+      for (const t of [0, 0.25, 0.5, 0.75]) colors.push(between(stops[index], stops[index + 1], t));
+    }
+    colors.push(stops[stops.length - 1]);
+    return unique(colors);
+  };
+
+  // An element's background as the list of colours it can paint under a point: background-color under
+  // its image layers. A flat colour gives one; a gradient gives every colour it passes through, and
+  // several gradient layers every combination of theirs, a superset of what is painted, so the worst
+  // reading is never missed. An icon image (url) is not under text.
+  const backgroundOf = node => {
+    const style = getComputedStyle(node);
+    const color = parse(style.backgroundColor);
+    if (!color) throw new Unresolved('couleur de fond illisible sur ' + describe(node) + ' : ' + style.backgroundColor);
+    const image = style.backgroundImage;
+    if (!image || image === 'none') return [color];
+    let colors = [color];
+    for (const layer of layers(image).reverse()) {
+      if (/^url\(/.test(layer)) continue;
+      const painted = gradientColors(node, layer);
+      colors = unique(colors.flatMap(below => painted.map(top => over(top, below))));
+    }
+    return colors;
+  };
+
+  // The colours one pixel of an element can take as painted: an optional ink (a glyph of its text, an
+  // icon stroke, a border, a pseudo-element dot) over the element's own background, the whole group
+  // taken at the element's opacity and laid over its parent's group, up to the canvas. An overlay (the
+  // busy veil, an ::after positioned over the content) is laid above the content of its element. The
+  // list has one entry per combination of the backgrounds met on the way, in a fixed order, so two
+  // walks over the same ancestors (with and without the ink) line up entry by entry.
   const pixel = (element, { ink = null, overlay = null } = {}) => {
-    let group = ink ? { ...ink } : { ...TRANSPARENT };
+    let groups = [ink ? { ...ink } : { ...TRANSPARENT }];
     for (let node = element; node; node = node.parentElement) {
       const style = getComputedStyle(node);
-      group = over(group, backgroundOf(node));
-      if (overlay && overlay.element === node) group = over(overlay.color, group);
+      const backgrounds = backgroundOf(node);
       const opacity = parseFloat(style.opacity);
-      if (opacity < 1) group = { ...group, a: group.a * opacity };
+      groups = groups.flatMap(group => backgrounds.map(background => {
+        let next = over(group, background);
+        if (overlay && overlay.element === node) next = over(overlay.color, next);
+        return opacity < 1 ? { ...next, a: next.a * opacity } : next;
+      }));
     }
-    return over(group, WHITE);
+    return groups.map(group => over(group, WHITE));
+  };
+
+  // The lowest contrast between the colours an ink can take and those of the ground beside it: entry
+  // by entry when both walks met the same backgrounds, every pairing otherwise.
+  const worst = (foregrounds, backgrounds) => {
+    const pairs = foregrounds.length === backgrounds.length
+      ? foregrounds.map((foreground, index) => [foreground, backgrounds[index]])
+      : foregrounds.flatMap(foreground => backgrounds.map(background => [foreground, background]));
+    let lowest = null;
+    for (const [foreground, background] of pairs) {
+      const ratio = contrast(foreground, background);
+      if (!lowest || ratio < lowest.ratio) lowest = { foreground, background, ratio };
+    }
+    return lowest;
   };
 
   const describe = element => {
@@ -333,44 +387,40 @@ const pageLibrary = String.raw`
         const holder = entry.text ?? (entry.kind === 'value' ? element : textHolder(element) ?? element);
         const ink = parse(getComputedStyle(holder).color);
         if (!ink) return { error: 'couleur de texte illisible : ' + getComputedStyle(holder).color };
-        const foreground = pixel(holder, { ink });
-        const background = pixel(holder);
-        return { holder: describe(holder), foreground: css(foreground), background: css(background), ratio: contrast(foreground, background), required: 4.5 };
+        const reading = worst(pixel(holder, { ink }), pixel(holder));
+        return { holder: describe(holder), foreground: css(reading.foreground), background: css(reading.background), ratio: reading.ratio, required: 4.5 };
       }
       if (entry.kind === 'icon') {
         const icon = iconOf(element);
         if (!icon || !icon.paint) return { error: 'icône sans trait ni remplissage visible' };
-        const foreground = pixel(icon.svg, { ink: icon.paint });
-        const background = pixel(icon.svg);
-        return { holder: describe(icon.svg), foreground: css(foreground), background: css(background), ratio: contrast(foreground, background), required: 3.0 };
+        const reading = worst(pixel(icon.svg, { ink: icon.paint }), pixel(icon.svg));
+        return { holder: describe(icon.svg), foreground: css(reading.foreground), background: css(reading.background), ratio: reading.ratio, required: 3.0 };
       }
       if (entry.kind === 'dot') {
         const mark = getComputedStyle(element, '::before');
         const color = parse(mark.backgroundColor);
         if (!color) return { error: 'pastille illisible : ' + mark.backgroundColor };
         const ink = { ...color, a: color.a * parseFloat(mark.opacity) };
-        const foreground = pixel(element, { ink });
-        const background = pixel(element);
-        return { holder: describe(element) + '::before', foreground: css(foreground), background: css(background), ratio: contrast(foreground, background), required: 3.0 };
+        const reading = worst(pixel(element, { ink }), pixel(element));
+        return { holder: describe(element) + '::before', foreground: css(reading.foreground), background: css(reading.background), ratio: reading.ratio, required: 3.0 };
       }
       if (entry.kind === 'border') {
         const style = getComputedStyle(element);
         const color = parse(style.borderTopColor);
         if (!color) return { error: 'bordure illisible : ' + style.borderTopColor };
         if (parseFloat(style.borderTopWidth) <= 0) return { error: 'bordure absente' };
-        const foreground = pixel(element, { ink: color });
-        const background = pixel(element.parentElement);
-        return { holder: describe(element), foreground: css(foreground), background: css(background), ratio: contrast(foreground, background), required: 1.7 };
+        const reading = worst(pixel(element, { ink: color }), pixel(element.parentElement));
+        return { holder: describe(element), foreground: css(reading.foreground), background: css(reading.background), ratio: reading.ratio, required: 1.7 };
       }
       if (entry.kind === 'card') {
         // Recorded, not judged: a card may stand out by its border, its fill or a ring of its shadow,
         // and no static test sets a floor for that. The screenshots judge it.
         const style = getComputedStyle(element);
         const outside = pixel(element.parentElement);
-        const fill = pixel(element);
+        const fill = worst(pixel(element), outside);
         const border = parse(style.borderTopColor);
-        const borderRatio = parseFloat(style.borderTopWidth) > 0 && border ? contrast(pixel(element, { ink: border }), outside) : 1;
-        return { observation: true, holder: describe(element), background: css(outside), foreground: css(fill), fillRatio: contrast(fill, outside), borderRatio, shadow: style.boxShadow.slice(0, 160) };
+        const borderRatio = parseFloat(style.borderTopWidth) > 0 && border ? worst(pixel(element, { ink: border }), outside).ratio : 1;
+        return { observation: true, holder: describe(element), background: css(fill.background), foreground: css(fill.foreground), fillRatio: fill.ratio, borderRatio, shadow: style.boxShadow.slice(0, 160) };
       }
       return { error: 'type de mesure inconnu : ' + entry.kind };
     } catch (error) {
@@ -408,15 +458,15 @@ const pageLibrary = String.raw`
       const target = holder ?? icon?.svg;
       if (!target) { results.push({ node: describe(control), error: 'contrôle occupé sans contenu mesurable' }); continue; }
       const ink = holder ? parse(getComputedStyle(holder).color) : icon.paint;
-      const foreground = pixel(target, { ink, overlay });
-      const background = pixel(target, { overlay });
+      const veiled = pixel(target, { overlay });
+      const reading = worst(pixel(target, { ink, overlay }), veiled);
       results.push({
         node: describe(control), label: (control.textContent.trim() || control.getAttribute('aria-label') || '').slice(0, 40),
-        veil: css(color), peak, foreground: css(foreground), background: css(background),
-        ratio: contrast(foreground, background), required: holder ? 4.5 : 3.0,
-        restRatio: contrast(pixel(target, { ink }), pixel(target)),
+        veil: css(color), peak, foreground: css(reading.foreground), background: css(reading.background),
+        ratio: reading.ratio, required: holder ? 4.5 : 3.0,
+        restRatio: worst(pixel(target, { ink }), pixel(target)).ratio,
         // How far the veil moves the fill from its rest colour at the peak: recorded, not judged.
-        veilShift: contrast(pixel(target), background)
+        veilShift: worst(pixel(target), veiled).ratio
       });
     }
     return results;
@@ -810,8 +860,8 @@ const shootPage = async name => {
 await navigate(CUSTOMIZER, READY[CUSTOMIZER]);
 const themes = await evaluate("[...document.getElementById('workshop-theme').options].map(option => option.textContent.trim())");
 const palettes = await evaluate("[...document.getElementById('workshop-palette').options].map(option => option.textContent.trim())");
-if (themes.length !== 10 || palettes.length !== 10) {
-  failures.push({ check: 'catalogue', detail: `${themes.length} thèmes et ${palettes.length} palettes au lieu de 10 et 10` });
+if (themes.length !== 14 || palettes.length !== 14) {
+  failures.push({ check: 'catalogue', detail: `${themes.length} thèmes et ${palettes.length} palettes au lieu de 14 et 14` });
 }
 const modes = ['light', 'dark'];
 const chosenThemes = themes.filter(theme => !themeFilter || themeFilter.includes(theme));
@@ -849,7 +899,7 @@ if (chosenModes.length > 0) {
   }
 }
 
-// 2. The 200 combinations.
+// 2. The 392 combinations.
 const defaultPalette = {};
 const startedAt = Date.now();
 for (const theme of chosenThemes) {
@@ -906,7 +956,7 @@ for (const violation of csp) failures.push({ check: 'CSP', detail: violation });
 for (const error of consoleErrors) failures.push({ check: 'console', detail: error });
 
 const expected = chosenThemes.length * chosenPalettes.length * chosenModes.length;
-if (!partial && combinations !== 200) failures.push({ check: 'couverture', detail: `${combinations} combinaisons mesurées au lieu de 200` });
+if (!partial && combinations !== 392) failures.push({ check: 'couverture', detail: `${combinations} combinaisons mesurées au lieu de 392` });
 
 await mkdir(artifacts, { recursive: true });
 await writeFile(registryPath, JSON.stringify({

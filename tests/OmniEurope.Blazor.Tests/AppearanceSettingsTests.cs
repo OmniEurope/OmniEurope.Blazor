@@ -11,7 +11,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         var settings = Render<OmniAppearanceSettings>();
         var options = settings.Find("select[aria-label='Thème']").QuerySelectorAll("option");
 
-        Assert.Equal(10, options.Length);
+        Assert.Equal(14, options.Length);
         Assert.Single(options, option => option.TextContent == "Essentiel (défaut)");
         Assert.DoesNotContain(options, option => option.TextContent.Contains("paquet", StringComparison.OrdinalIgnoreCase));
     }

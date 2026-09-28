@@ -391,6 +391,22 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
 }
 /* omni:theme-tokens:end */
 
+/* Theme hooks that only some themes set (Relief's hollow fields, Givre's colour field and frosted
+   scrim). Declared again on every scope with their neutral value, so a nested scope with another
+   theme does not inherit them from the scope around it. */
+[data-omni-theme] {
+    --omni-backdrop: none;
+    --omni-input-shadow: 0 0 #0000;
+    --omni-scrim-filter: none;
+    --omni-dialog-background: initial;
+}
+
+/* Without backdrop-filter, a translucent floating layer would show the page through it unblurred:
+   it falls back to the opaque surface. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    * { --omni-overlay-background: var(--omni-color-surface); }
+}
+
 /* Density: the three values of OmniDensity, set by data-omni-density. The theme scope carries the
    global value; a section or a component that has a Density of its own carries its own, which wins
    for everything it holds, since these are inherited custom properties. Comfortable is the default,
@@ -1196,6 +1212,10 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
    used while the grid beside it rendered at the token: two sizes in one component set. */
 .omni-theme-scope {
     background: var(--omni-color-surface);
+    /* A theme may lay a colour field behind everything (--omni-backdrop, Givre's gradient), pinned to
+       the viewport so the translucent panels scroll over it; none for every other theme. */
+    background-attachment: fixed;
+    background-image: var(--omni-backdrop, none);
     color: var(--omni-color-text);
     font-family: var(--omni-font-family);
     font-size: var(--omni-font-size-base);
@@ -1355,6 +1375,8 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     min-height: var(--omni-control-height);
     padding: var(--omni-input-pad-y) 9px;
     width: 100%;
+    /* A theme may hollow its fields (--omni-input-shadow, Relief); transparent otherwise. */
+    box-shadow: var(--omni-input-shadow, 0 0 #0000);
 }
 /* A one-line field sits exactly at the control height, like the buttons beside it: the default
    'normal' line height added a pixel over it. A select ignores line-height, so it takes the height. */
@@ -1362,7 +1384,7 @@ input.omni-input { line-height: 1.25; }
 select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-height); padding-block: 0; }
 .omni-input::placeholder { color: var(--omni-color-text-muted); }
 .omni-input:hover:not(:disabled):not([readonly]) { border-color: color-mix(in srgb, var(--omni-color-text) 45%, var(--omni-color-border)); }
-.omni-input:focus-visible { border-color: var(--omni-color-accent-fill); box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-input:focus-visible { border-color: var(--omni-color-accent-fill); box-shadow: var(--omni-focus-ring), var(--omni-input-shadow, 0 0 #0000); outline: none; }
 .omni-input[aria-invalid="true"] { background: color-mix(in srgb, var(--omni-color-danger) 4%, var(--omni-color-surface)); border-color: var(--omni-color-danger); }
 .omni-input[aria-invalid="true"]:focus-visible { box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--omni-color-danger) 25%, transparent); }
 /* A text box with an Icon: the icon lies over the start padding of the field, muted and
@@ -1384,8 +1406,9 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
     display: flex;
     min-height: var(--omni-control-height);
     width: 100%;
+    box-shadow: var(--omni-input-shadow, 0 0 #0000);
 }
-.omni-password:focus-within { border-color: var(--omni-color-accent-fill); box-shadow: var(--omni-focus-ring); }
+.omni-password:focus-within { border-color: var(--omni-color-accent-fill); box-shadow: var(--omni-focus-ring), var(--omni-input-shadow, 0 0 #0000); }
 .omni-password--invalid { border-color: var(--omni-color-danger); }
 .omni-password--invalid:focus-within { border-color: var(--omni-color-danger); box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--omni-color-danger) 25%, transparent); }
 .omni-password__input.omni-input { background: transparent; border: 0; border-radius: var(--omni-radius) 0 0 var(--omni-radius); box-shadow: none; flex: 1 1 auto; min-height: 0; min-width: 0; }
@@ -1823,15 +1846,18 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
 .omni-split-button__item { align-items: center; background: transparent; border: 0; border-radius: calc(var(--omni-radius) / 2); color: var(--omni-color-text); display: flex; font: inherit; font-size: var(--omni-control-font); gap: var(--omni-space-sm); padding: var(--omni-item-pad-y) 10px; text-align: start; }
 .omni-split-button__item:hover,
 .omni-split-button__item:focus-visible { background: var(--omni-color-surface-hover); outline: none; }
-.omni-overlay { align-items: center; background: var(--omni-color-overlay); display: flex; inset: 0; justify-content: center; padding: var(--omni-space-lg); position: fixed; z-index: 100; }
+/* A theme may frost the scrim (--omni-scrim-filter, Givre). The scrim covers the viewport exactly, so
+   becoming the containing block of the dialog's position: fixed descendants moves none of them. */
+.omni-overlay { align-items: center; backdrop-filter: var(--omni-scrim-filter, none); background: var(--omni-color-overlay); display: flex; inset: 0; justify-content: center; padding: var(--omni-space-lg); position: fixed; z-index: 100; }
 .omni-overlay:has(.omni-dialog[inert]) { pointer-events: none; }
 body:has(.omni-overlay) { overflow: hidden; }
 /* The dialog takes the layer's opaque fill, its rule (drawn as an inset ring, so a dialog without the
    token keeps its size) and the floating shadow. Deliberate exception to the floating layer: no
    backdrop-filter here. A filter makes the dialog the containing block of its position: fixed
    descendants (grid filter popovers, tracked tooltips), which would then be moved and clipped by it;
-   the dialog already sits on the modal scrim, so the opaque fill replaces the blurred one. */
-.omni-dialog { background: var(--omni-card-background, var(--omni-color-surface)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: inset 0 0 0 var(--omni-border-width) var(--omni-card-border-color, transparent), var(--omni-overlay-shadow, var(--omni-shadow-lg)); color: var(--omni-color-text); max-height: calc(100vh - 2rem); max-width: 40rem; overflow: auto; width: 100%; }
+   the dialog already sits on the modal scrim, so the opaque fill replaces the blurred one. A theme
+   whose cards are translucent gives the dialog an opaque fill of its own (--omni-dialog-background). */
+.omni-dialog { background: var(--omni-dialog-background, var(--omni-card-background, var(--omni-color-surface))); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: inset 0 0 0 var(--omni-border-width) var(--omni-card-border-color, transparent), var(--omni-overlay-shadow, var(--omni-shadow-lg)); color: var(--omni-color-text); max-height: calc(100vh - 2rem); max-width: 40rem; overflow: auto; width: 100%; }
 /* OmniDialogSize: each width is a ceiling capped by the viewport; the overlay padding keeps a narrow screen full width. */
 .omni-dialog--small { max-width: min(25rem, calc(100vw - 2rem)); } .omni-dialog--large { max-width: min(56rem, calc(100vw - 2rem)); } .omni-dialog--xlarge { max-width: min(72rem, calc(100vw - 2rem)); }
 .omni-dialog--full { max-height: calc(100vh - 1rem); max-width: min(96vw, 100rem); }

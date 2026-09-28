@@ -91,7 +91,7 @@ Mesure du surcoût des onze tracés Phosphor, publication WebAssembly identique 
 
 Un **thème** décide la forme : arrondis, épaisseur et couleur relative des bordures, ombres et lueurs, polices (piles système ou polices web servies par le paquet, voir le réglage Police), dessin des boutons, des cartes et des titres, et l'effet d'appui des boutons. Il n'écrit aucune couleur en dur : une bordure ou une lueur colorée se dit par rapport à un jeton (`var(--omni-color-accent)`, `color-mix(...)`), si bien qu'elle suit n'importe quelle palette. Une **palette** décide les couleurs : accent (et accent sombre), succès, information, avertissement, danger, surface et texte des deux modes. La fabrique du paquet en dérive les jetons de chaque mode et les déplace jusqu'aux ratios WCAG.
 
-Toute palette peint tout thème : dix thèmes par dix palettes, cent combinaisons, deux cents jeux de jetons avec les deux modes.
+Toute palette peint tout thème : quatorze thèmes par quatorze palettes, cent quatre-vingt-seize combinaisons, trois cent quatre-vingt-douze jeux de jetons avec les deux modes.
 
 | Thème | Signature de forme | Palette par défaut |
 |---|---|---|
@@ -105,6 +105,10 @@ Toute palette peint tout thème : dix thèmes par dix palettes, cent combinaison
 | Octet | Angles vifs, cadres en escalier, police d'écran, titres console en capitales | Mono |
 | Nénuphar | Coins asymétriques en feuille, lueur douce d'accent, cartes sans bordure | Lagune |
 | Velours | Biseaux à reflet interne, ombres profondes, titres à empattements | Prune |
+| Relief | Néomorphisme : surfaces de la couleur de la page, paire d’ombres douces claire en haut à gauche et sombre en bas à droite, appui et champs en creux, police arrondie | Nuage |
+| Givre | Verre dépoli : fond de couleurs fondues peint par la portée, cartes translucides à liseré clair, calques flottants et voile de dialogue floutés, boutons pilule | Crépuscule |
+| Aplat | Design plat : aucune ombre ni dégradé, cartes pleines sans bordure, boutons pilule, appui qui ne fait que foncer, police géométrique | Pastel |
+| Épure | Minimalisme : angles vifs, filets fins, aucune ombre, action principale à l’encre, très grands titres en 800, Inter | Encre |
 
 | Palette | Accent clair | Allure |
 |---|---|---|
@@ -118,17 +122,21 @@ Toute palette peint tout thème : dix thèmes par dix palettes, cent combinaison
 | Mono | `#000000` | Noir et blanc purs, seules les sévérités en couleur |
 | Lagune | `#0e8a7a` | Turquoise de lagune, bleu-vert profond en sombre |
 | Prune | `#7b2d6e` | Prune et rose, velours sombre en sombre |
+| Nuage | `#2f6bff` | Bleu vif sur gris nuage, anthracite en sombre, rouge orangé en alerte |
+| Crépuscule | `#e8741c` | Orange ambré sur gris froid, nuit d’ardoise en sombre |
+| Pastel | `#c77ddf` | Lilas et rose sur blanc, bleu marine en sombre, ciel en information |
+| Encre | `#27466f` | Encre noire sur blanc cassé, un seul bleu d’encre discret |
 
 ### Combiner un thème et une palette
 
-`OmniThemePresets.All` donne les dix thèmes, chacun peint de sa palette par défaut, Essentiel en premier ; `OmniThemePalettes.All` donne les dix palettes. Sur une `OmniThemeScope` :
+`OmniThemePresets.All` donne les quatorze thèmes, chacun peint de sa palette par défaut, Essentiel en premier ; `OmniThemePalettes.All` donne les quatorze palettes. Sur une `OmniThemeScope` :
 
 - `Preset` seul : le thème avec sa palette par défaut ;
 - `Preset` et `Palette` : la forme du thème, les couleurs de la palette ;
 - `Palette` seule : les couleurs de la palette sur la forme livrée ;
 - ni l'un ni l'autre : l'apparence livrée, sans aucun script.
 
-`OmniThemePreset.With(palette)` fait la même combinaison en code : les jetons de la palette, puis `Shape` (la forme, posée sur les deux modes), puis `DarkShape` (les réglages propres au sombre, posés sur le seul mode sombre ; Galet, Halo, Papier et Nénuphar y relèvent leurs cartes, les six autres thèmes n'en ont pas). Le nom et la description restent ceux du thème. Un preset écrit à la main (`new OmniThemePreset(nom, description, clair, sombre)`) a une `Shape` et une `DarkShape` vides.
+`OmniThemePreset.With(palette)` fait la même combinaison en code : les jetons de la palette, puis `Shape` (la forme, posée sur les deux modes), puis `DarkShape` (les réglages propres au sombre, posés sur le seul mode sombre ; Galet, Halo, Papier, Nénuphar, Relief et Givre y relèvent leurs cartes ou leurs ombres ; les huit autres thèmes n’en ont pas). Le nom et la description restent ceux du thème. Un preset écrit à la main (`new OmniThemePreset(nom, description, clair, sombre)`) a une `Shape` et une `DarkShape` vides.
 
 ```razor
 <OmniThemeScope Appearance="OmniAppearance.System"
@@ -149,13 +157,31 @@ Toute palette peint tout thème : dix thèmes par dix palettes, cent combinaison
 
 Le thème ne repeint que sa portée. Les valeurs sont des surcharges des variables de la feuille, écrites par le CSSOM (`omni-theme.js`), jamais par un attribut `style` ; le mode suit `Appearance`, et `System` suit le réglage du système quand il change. Les variables de forme (`--omni-button-*`, `--omni-card-*`, `--omni-heading-*`, `--omni-border-width`) valent par défaut l'apparence livrée : une application peut aussi les redéfinir elle-même.
 
+### Relief, Givre, Aplat et Épure
+
+Ces quatre thèmes reprennent l'esprit de quatre styles d'interface (néomorphisme, verre dépoli, design plat, minimalisme), redessinés avec les jetons du paquet, et tiennent les mêmes garanties de contraste que les dix autres, avec toutes les palettes et dans les deux modes. Ils lisent quatre crochets de la feuille, neutres pour tout autre thème et remis à zéro sur chaque portée (`[data-omni-theme]`) pour qu'une portée imbriquée ne les hérite pas :
+
+- `--omni-backdrop` : calques d'image peints par la portée derrière tout son contenu, fixés à la fenêtre (`none` par défaut) ; Givre y pose un dégradé entre `--omni-backdrop-start`, `--omni-backdrop-middle` et `--omni-backdrop-end`, teintes pâles de l'accent, de l'information et de l'avertissement ;
+- `--omni-input-shadow` : ombre des champs (`.omni-input`, `.omni-password`), gardée sous l'anneau de focus ; Relief y creuse ses champs ;
+- `--omni-scrim-filter` : filtre du voile d'un dialogue (`.omni-overlay`, `none` par défaut) ; le voile couvre toute la fenêtre, un filtre n'y déplace donc aucun descendant fixe ;
+- `--omni-dialog-background` : fond du dialogue, repli sur `--omni-card-background` ; Givre, dont les cartes sont translucides, rend au dialogue une surface opaque.
+
+Sans `backdrop-filter`, un calque flottant translucide retombe sur la surface opaque (`@supports not`).
+
+Ce que les garanties ont coûté au style, sciemment :
+
+- Relief : les champs gardent la bordure de la palette sous leur creux (l'ombre seule reste loin de 3:1), l'anneau de focus est un anneau plein de l'accent séparé du contrôle par un liseré de surface, et le bouton secondaire garde le gris de la palette au lieu de se fondre dans la page.
+- Givre : le fond est une teinte pâle de la palette (16 % d'accent au plus en clair, 28 % en sombre), bornée pour que le texte, le texte atténué et l'accent fort tiennent 4,5 sur chaque arrêt ; le texte atténué est tiré vers le texte (86 %) et la bordure y prend 45 % du texte, pour garder de la marge sur ce fond ; les cartes sont translucides sans flou propre, un `backdrop-filter` ferait d'elles le bloc conteneur des infobulles et des popovers fixes qu'elles contiennent (même raison que pour le dialogue) : le flou va aux calques flottants et au voile du dialogue.
+- Aplat : les cartes pleines prennent la surface atténuée (un gris léger) plutôt qu'un aplat franc, et le texte atténué est tiré vers le texte (86 %), sinon l'en-tête d'une grille posée dessus passait sous 4,5 ; la légère lueur colorée des alertes pleines, dessinée par le paquet pour tous les thèmes, reste.
+- Épure : l'action principale est dessinée à l'encre du texte, son survol prend l'accent fort de la palette, seule touche de couleur avec les liens et l'onglet courant.
+
 ### L'apparence livrée
 
 Sans `OmniThemeScope`, ou avec une portée sans thème ni palette, la page a l'aspect du thème Défaut avec la palette Défaut. Ces jetons ne sont pas écrits à la main : ils sont générés par la fabrique entre les marqueurs `omni:theme-tokens` de la feuille, pour le clair (`:root`, `[data-omni-theme="light"]`), le sombre et le mode système, et `ShippedThemeTokensTests` refuse toute retouche manuelle. Chaque jeton de couleur a donc sa valeur sombre.
 
 ### Jetons de couleur
 
-Chaque sévérité (succès, information, avertissement, danger) et l'accent ont un jeton de texte (`--omni-color-X`, tenu à 4,5 sur la page et sur sa teinte pâle `-subtle`) et un jeton de remplissage (`--omni-color-X-fill`, avec `-fill-hover`, `-fill-active` et son encre `--omni-color-on-X-fill`) : le remplissage ne bouge que jusqu'à 3 contre la page, et c'est l'encre posée dessus qu'on pousse à 4,5, si bien que la couleur de marque reste reconnaissable. Les intentions ont en plus leurs fonds pleins : `--omni-color-info-bright` et `--omni-color-success-bright` avec l'encre `--omni-color-on-bright`, `--omni-color-warning-deep` et `--omni-color-danger-deep` avec `--omni-color-on-deep`, chacun avec son survol et son appui. Le bouton secondaire lit `--omni-color-neutral-fill`. La règle d'usage est dans [ui-conventions.md](ui-conventions.md). `ThemeContrastMatrixTests` vérifie 64 paires sur chacun des 200 jeux (4,5 pour un texte, 3 pour un remplissage ou l'accent contre la page, plancher de 1,7 pour une bordure).
+Chaque sévérité (succès, information, avertissement, danger) et l'accent ont un jeton de texte (`--omni-color-X`, tenu à 4,5 sur la page et sur sa teinte pâle `-subtle`) et un jeton de remplissage (`--omni-color-X-fill`, avec `-fill-hover`, `-fill-active` et son encre `--omni-color-on-X-fill`) : le remplissage ne bouge que jusqu'à 3 contre la page, et c'est l'encre posée dessus qu'on pousse à 4,5, si bien que la couleur de marque reste reconnaissable. Les intentions ont en plus leurs fonds pleins : `--omni-color-info-bright` et `--omni-color-success-bright` avec l'encre `--omni-color-on-bright`, `--omni-color-warning-deep` et `--omni-color-danger-deep` avec `--omni-color-on-deep`, chacun avec son survol et son appui. Le bouton secondaire lit `--omni-color-neutral-fill`. La règle d'usage est dans [ui-conventions.md](ui-conventions.md). `ThemeContrastMatrixTests` vérifie 64 paires sur chacun des 392 jeux (4,5 pour un texte, 3 pour un remplissage ou l’accent contre la page, plancher de 1,7 pour une bordure), et, pour un thème qui peint un fond de couleur (Givre), le texte, le texte atténué et l’accent fort sur chaque arrêt de ce fond et sur la carte translucide posée dessus.
 
 ### Densité
 

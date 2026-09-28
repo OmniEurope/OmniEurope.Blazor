@@ -94,15 +94,15 @@ public sealed class ThemePaletteTests : OmniBunitContext
     }
 
     /// <summary>
-    /// PLAN-008 T23: the dark shape reaches the dark half only. Galet, Halo, Papier and Nénuphar give
-    /// their cards other tokens in dark mode than in light mode; the six other themes give the same.
+    /// PLAN-008 T23: the dark shape reaches the dark half only. Galet, Halo, Papier, Nénuphar, Relief and Givre give
+    /// their cards other tokens in dark mode than in light mode; the eight other themes give the same.
     /// </summary>
     [Fact]
-    public void Only_the_four_themes_with_a_dark_shape_change_their_card_tokens_in_dark_mode()
+    public void Only_the_themes_with_a_dark_card_shape_change_their_card_tokens_in_dark_mode()
     {
-        string[] withDarkCards = ["Galet", "Halo", "Papier", "Nénuphar"];
+        string[] withDarkCards = ["Galet", "Halo", "Papier", "Nénuphar", "Relief", "Givre"];
 
-        Assert.Equal(10, OmniThemePresets.All.Count);
+        Assert.Equal(14, OmniThemePresets.All.Count);
         foreach (var preset in OmniThemePresets.All)
         {
             var cardTokens = preset.Light.Keys.Concat(preset.Dark.Keys)
@@ -129,11 +129,11 @@ public sealed class ThemePaletteTests : OmniBunitContext
     }
 
     /// <summary>
-    /// PLAN-008 T9: each of the ten themes presses its buttons its own way. The stylesheet's defaults
+    /// PLAN-008 T9: each of the fourteen themes presses its buttons its own way. The stylesheet's defaults
     /// (<c>translateY(1px)</c>, and the button's own shadow) stand in for a token a theme omits.
     /// </summary>
     [Fact]
-    public void The_ten_themes_give_ten_distinct_press_couples()
+    public void The_fourteen_themes_give_fourteen_distinct_press_couples()
     {
         var couples = OmniThemePresets.All
             .Select(preset => (
@@ -141,8 +141,8 @@ public sealed class ThemePaletteTests : OmniBunitContext
                 Shadow: preset.Light.GetValueOrDefault("--omni-button-press-shadow") ?? preset.Light.GetValueOrDefault("--omni-button-shadow", string.Empty)))
             .ToArray();
 
-        Assert.Equal(10, couples.Length);
-        Assert.Equal(10, couples.Distinct().Count());
+        Assert.Equal(14, couples.Length);
+        Assert.Equal(14, couples.Distinct().Count());
     }
 
     /// <summary>
@@ -174,17 +174,17 @@ public sealed class ThemePaletteTests : OmniBunitContext
     }
 
     [Fact]
-    public void The_catalogues_ship_ten_themes_and_ten_palettes_default_first_each_theme_naming_one()
+    public void The_catalogues_ship_fourteen_themes_and_fourteen_palettes_default_first_each_theme_naming_one()
     {
-        Assert.Equal(10, OmniThemePresets.All.Count);
-        Assert.Equal(10, OmniThemePalettes.All.Count);
+        Assert.Equal(14, OmniThemePresets.All.Count);
+        Assert.Equal(14, OmniThemePalettes.All.Count);
         Assert.Equal("Essentiel", OmniThemePresets.All[0].Name);
         Assert.Equal("Essentiel", OmniThemePalettes.All[0].Name);
-        Assert.Equal(10, OmniThemePresets.All.Select(preset => preset.Name).Distinct(StringComparer.Ordinal).Count());
-        Assert.Equal(10, OmniThemePalettes.All.Select(palette => palette.Name).Distinct(StringComparer.Ordinal).Count());
+        Assert.Equal(14, OmniThemePresets.All.Select(preset => preset.Name).Distinct(StringComparer.Ordinal).Count());
+        Assert.Equal(14, OmniThemePalettes.All.Select(palette => palette.Name).Distinct(StringComparer.Ordinal).Count());
 
         var defaults = ThemeCatalog.All.Select(theme => theme.DefaultPalette).ToArray();
-        Assert.Equal(10, defaults.Distinct(StringComparer.Ordinal).Count());
+        Assert.Equal(14, defaults.Distinct(StringComparer.Ordinal).Count());
         Assert.All(defaults, name => Assert.Contains(OmniThemePalettes.All, palette => palette.Name == name));
         Assert.All(OmniThemePresets.All, preset =>
         {
@@ -293,6 +293,32 @@ public sealed class ThemePaletteTests : OmniBunitContext
         }
 
         static double Pivot(double value) => value > 0.008856 ? Math.Cbrt(value) : (7.787 * value) + (16d / 116);
+    }
+
+    /// <summary>
+    /// Relief, Givre, Aplat and Épure draw their surfaces with relief, translucency or fill alone, where
+    /// the shipped ring (the accent at 28 % opacity) can vanish: each draws a solid ring instead, a ring of
+    /// the surface then an opaque ring of a colour that clears 3:1 on it (the accent, or the text).
+    /// </summary>
+    [Theory]
+    [InlineData("Relief")]
+    [InlineData("Givre")]
+    [InlineData("Aplat")]
+    [InlineData("Épure")]
+    public void The_style_themes_draw_a_solid_focus_ring(string name)
+    {
+        var ring = OmniThemePresets.All.Single(theme => theme.Name == name).Shape["--omni-focus-ring"];
+
+        Assert.Matches(@"^0 0 0 2px var\(--omni-color-surface\), 0 0 0 [34]px var\(--omni-color-(accent|text)\)$", ring);
+        foreach (var palette in OmniThemePalettes.All)
+        {
+            foreach (var mode in new[] { OmniAppearance.Light, OmniAppearance.Dark })
+            {
+                var tokens = palette.For(mode);
+                var colour = ring.Contains("--omni-color-accent", StringComparison.Ordinal) ? tokens["--omni-color-accent"] : tokens["--omni-color-text"];
+                Assert.True(ThemeColor.Contrast(colour, tokens["--omni-color-surface"]) >= 3.0, $"{name} + {palette.Name} in {mode}: focus ring below 3:1.");
+            }
+        }
     }
 
     [Fact]

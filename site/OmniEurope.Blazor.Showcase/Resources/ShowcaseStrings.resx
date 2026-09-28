@@ -313,7 +313,7 @@
   <data name="DemoThemesSummary" xml:space="preserve"><value>Un thème donne la forme, une palette les couleurs ; toute palette peint tout thème.</value></data>
   <data name="DemoThemesCapability1" xml:space="preserve"><value>OmniThemeScope.Preset et OmniThemeScope.Palette repeignent le scope et son contenu, et lui seul.</value></data>
   <data name="DemoThemesCapability2" xml:space="preserve"><value>Une palette seule change les couleurs et garde la forme livrée.</value></data>
-  <data name="DemoThemesCapability3" xml:space="preserve"><value>Dix thèmes et dix palettes, soit cent combinaisons, chacune en clair et en sombre.</value></data>
+  <data name="DemoThemesCapability3" xml:space="preserve"><value>Quatorze thèmes et quatorze palettes, soit cent quatre-vingt-seize combinaisons, chacune en clair et en sombre.</value></data>
   <data name="DemoSurfacesTitle" xml:space="preserve"><value>Surfaces</value></data>
   <data name="DemoSurfacesSummary" xml:space="preserve"><value>Cartes, menu flottant, onglets, menu latéral, lien et infobulle.</value></data>
   <data name="DemoSurfacesCapability1" xml:space="preserve"><value>Les cartes et le menu flottant lisent la forme du thème : fond, filet, rayon et ombre.</value></data>

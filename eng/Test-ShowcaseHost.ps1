@@ -4,7 +4,7 @@ param(
     [string]$WebRoot = (Join-Path $PSScriptRoot '..\artifacts\showcase-smoke\wwwroot'),
     # Pickers: the date, time and date and time pickers (PLAN-008 T18 a, T19).
     # Density: the T22 control, every sized element changes height between compact and spacious.
-    # Contrast: the lot 10 control, contrasts and geometry measured on the 200 theme x palette x mode.
+    # Contrast: the lot 10 control, contrasts and geometry measured on the 392 theme x palette x mode.
     # AutoFit: the fit to content of a grid column, double click, off-screen virtual row and Enter.
     [ValidateSet('Pickers', 'Density', 'Contrast', 'AutoFit')]
     [string[]]$Probe = @('Pickers', 'Density', 'Contrast', 'AutoFit')

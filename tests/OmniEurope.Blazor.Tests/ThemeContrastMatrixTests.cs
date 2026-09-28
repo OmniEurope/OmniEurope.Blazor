@@ -5,8 +5,8 @@ using OmniEurope.Blazor.Internal;
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
-/// PLAN-008 lot 8: the static contrast pairs, checked on every one of the 200 token sets a consumer
-/// can obtain (10 themes, each painted with any of the 10 palettes, in light and in dark), not only on
+/// PLAN-008 lot 8: the static contrast pairs, checked on every one of the 392 token sets a consumer
+/// can obtain (14 themes, each painted with any of the 14 palettes, in light and in dark), not only on
 /// each theme's default palette. The pairs start from the 47 of the reference mockup (<c>PAIRS</c> in
 /// <c>plans/PLAN-008-maquette-themes.html</c>) and add the ones the plan requires on top of them.
 /// </summary>
@@ -168,17 +168,83 @@ public sealed class ThemeContrastMatrixTests
         }
     }
 
+    /// <summary>
+    /// A theme may paint a colour field behind the page (<c>--omni-backdrop</c>, Givre), a gradient
+    /// between the stops it declares as <c>--omni-backdrop-start</c>, <c>-middle</c> and <c>-end</c>.
+    /// Every text the page writes directly on the scope must read on each stop as it reads on the
+    /// surface, the translucent card laid over each stop too, the border must keep its floor there, and
+    /// the solid neutral badge must stand
+    /// out from that card. The contrast probe measures the painted gradient itself, stop by stop.
+    /// </summary>
+    [Theory]
+    [MemberData(nameof(Sets))]
+    public void Text_reads_on_every_stop_of_a_theme_backdrop(string themeName, string paletteName, OmniAppearance mode)
+    {
+        var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
+        var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
+        var tokens = theme.With(palette).For(mode);
+        var stops = BackdropStops.Where(tokens.ContainsKey).ToArray();
+        if (!tokens.TryGetValue("--omni-backdrop", out var backdrop) || backdrop == "none")
+        {
+            Assert.Empty(stops);
+            return;
+        }
+
+        Assert.Equal(BackdropStops, stops);
+        foreach (var stop in stops)
+        {
+            Assert.Contains($"var({stop})", backdrop, StringComparison.Ordinal);
+        }
+
+        var failures = new List<string>();
+        foreach (var stop in stops)
+        {
+            var ground = ShowcaseThemeTests.Resolve(tokens, tokens[stop]);
+            var card = ShowcaseThemeTests.ResolveOver(tokens, tokens["--omni-card-background"], ground);
+            foreach (var (text, ratio) in new[] { ("--omni-color-text", Text), ("--omni-color-text-muted", Text), ("--omni-color-accent-strong", Text) })
+            {
+                var ink = ShowcaseThemeTests.Resolve(tokens, tokens[text]);
+                foreach (var (where, background) in new[] { (stop, ground), ($"card over {stop}", card) })
+                {
+                    var contrast = ThemeColor.Contrast(ink, background);
+                    if (contrast < ratio)
+                    {
+                        failures.Add(string.Create(CultureInfo.InvariantCulture, $"{text} ({ink}) on {where} ({background}): {contrast:F2}, below {ratio:F1}"));
+                    }
+                }
+            }
+
+            var border = ShowcaseThemeTests.Resolve(tokens, tokens["--omni-color-border"]);
+            var borderContrast = ThemeColor.Contrast(border, ground);
+            if (borderContrast < BorderFloor)
+            {
+                failures.Add(string.Create(CultureInfo.InvariantCulture, $"--omni-color-border ({border}) on {stop} ({ground}): {borderContrast:F2}, below {BorderFloor:F1}"));
+            }
+
+            var badge = ShowcaseThemeTests.Resolve(tokens, tokens["--omni-color-text-muted"]);
+            var badgeContrast = ThemeColor.Contrast(badge, card);
+            if (badgeContrast < Component)
+            {
+                failures.Add(string.Create(CultureInfo.InvariantCulture, $"badge fill {badge} on card over {stop} ({card}): {badgeContrast:F2}, below {Component:F1}"));
+            }
+        }
+
+        Assert.True(failures.Count == 0, $"{themeName} + {paletteName} in {mode}:\n{string.Join('\n', failures)}");
+    }
+
+    private static readonly string[] BackdropStops = ["--omni-backdrop-start", "--omni-backdrop-middle", "--omni-backdrop-end"];
+
     /// <summary>The size of the matrix, so that a shrinking catalogue or pair list cannot pass unseen.</summary>
     [Fact]
-    public void The_matrix_covers_200_sets_and_every_pair_of_each()
+    public void The_matrix_covers_392_sets_and_every_pair_of_each()
     {
         var sets = Sets().Select(row => row.Data).ToArray();
         var checks = sets.Sum(set => Measure(set.Item1, set.Item2, set.Item3).Count);
 
-        Assert.Equal(200, sets.Length);
-        Assert.Equal(200, sets.Distinct().Count());
+        Assert.Equal(392, sets.Length);
+        Assert.Equal(392, sets.Distinct().Count());
         Assert.Equal(Pairs.Length, Pairs.Select(pair => (pair.Foreground, pair.Background)).Distinct().Count());
-        Assert.Equal((200 * Pairs.Length) + RenderingMarginPairs.Length, checks);
+        Assert.Equal((392 * Pairs.Length) + RenderingMarginPairs.Length, checks);
     }
 
     private static List<(string Foreground, string ForegroundValue, string Background, string BackgroundValue, double Contrast, double Required)> Measure(

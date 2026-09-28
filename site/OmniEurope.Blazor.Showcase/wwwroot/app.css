@@ -159,8 +159,9 @@
    comme dans la maquette, au lieu de courir sous le rail des contrastes. */
 .showcase-stage .omni-stack--horizontal { flex-wrap: wrap; }
 /* One track that may shrink: an auto track took the widest demo's minimum width and widened the page on
-   a phone under the themes with spaced capitals. */
-.showcase-stage__block { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; gap: var(--omni-space-md); grid-template-columns: minmax(0, 1fr); min-inline-size: 0; padding: var(--omni-section-pad); }
+   a phone under the themes with spaced capitals. No fill of its own: the block lies on the theme scope,
+   which already paints the surface, and a theme's colour field (Givre) shows through it. */
+.showcase-stage__block { background: transparent; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); display: grid; gap: var(--omni-space-md); grid-template-columns: minmax(0, 1fr); min-inline-size: 0; padding: var(--omni-section-pad); }
 .showcase-stage__head { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm) var(--omni-space-md); justify-content: space-between; }
 .showcase-stage__head .omni-heading { margin: 0; }
 .showcase-stage__density { align-items: center; display: inline-flex; gap: var(--omni-space-sm); }
