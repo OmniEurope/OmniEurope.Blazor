@@ -358,7 +358,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
     public void SingleSlice_IsAWholeDiscWithoutANotch()
     {
         var pie = Render<OmniPieSeries>(parameters => parameters.Add(component => component.Data, [new OmniChartSlice("Tout", 10)]));
-        var donut = Render<OmniDonutSeries>(parameters => parameters.Add(component => component.Data, [new OmniChartSlice("Tout", 10)]));
+        var donut = Render<OmniPieSeries>(parameters => parameters.Add(component => component.Donut, true).Add(component => component.Data, [new OmniChartSlice("Tout", 10)]));
 
         Assert.Equal("M 50 8 A 42 42 0 1 1 50 92 A 42 42 0 1 1 50 8 Z", pie.Find("path").GetAttribute("d"));
         Assert.EndsWith("A 24.36 24.36 0 1 0 50 25.64 Z", donut.Find("path").GetAttribute("d"), StringComparison.Ordinal);

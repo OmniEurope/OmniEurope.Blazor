@@ -49,7 +49,8 @@ public sealed class ChartComponentTests : OmniBunitContext
         var columns = Render<OmniColumnSeries>(parameters => parameters
             .Add(component => component.Data, points)
             .Add(component => component.Title, "Columns"));
-        var area = Render<OmniStackedAreaSeries>(parameters => parameters
+        var area = Render<OmniAreaSeries>(parameters => parameters
+            .Add(component => component.Stacked, true)
             .Add(component => component.Data, points)
             .Add(component => component.Title, "Area"));
         var empty = Render<OmniBarSeries>();
@@ -63,6 +64,8 @@ public sealed class ChartComponentTests : OmniBunitContext
         Assert.Contains("Loss", bars.Markup, StringComparison.Ordinal);
         Assert.Contains("Loss", columns.Markup, StringComparison.Ordinal);
         Assert.StartsWith("5,95", area.Find("polygon").GetAttribute("points"), StringComparison.Ordinal);
+        Assert.Contains("omni-chart__area--stacked", area.Find("polygon").ClassList);
+        Assert.DoesNotContain("omni-chart__columns--stacked", columns.Find("g").ClassList);
         Assert.Contains("Area", area.Markup, StringComparison.Ordinal);
         Assert.Empty(empty.FindAll("rect"));
     }

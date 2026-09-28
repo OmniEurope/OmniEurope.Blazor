@@ -40,9 +40,9 @@ public sealed class LocalizationTests : OmniBunitContext
         }
     }
     [Theory]
-    [InlineData("fr-FR", "Fil d'Ariane", "Jauge", "Changer l'apparence")]
-    [InlineData("en-US", "Breadcrumb", "Gauge", "Change appearance")]
-    public void ComponentDefaultsFollowCurrentUiCulture(string cultureName, string breadcrumbLabel, string gaugeLabel, string appearanceLabel)
+    [InlineData("fr-FR", "Fil d'Ariane", "Jauge")]
+    [InlineData("en-US", "Breadcrumb", "Gauge")]
+    public void ComponentDefaultsFollowCurrentUiCulture(string cultureName, string breadcrumbLabel, string gaugeLabel)
     {
         var previousUiCulture = CultureInfo.CurrentUICulture;
         try
@@ -51,11 +51,9 @@ public sealed class LocalizationTests : OmniBunitContext
 
             var breadcrumb = Render<OmniBreadcrumb>();
             var gauge = Render<OmniArcGauge>();
-            var appearance = Render<OmniAppearanceToggle>();
 
             Assert.Equal(breadcrumbLabel, breadcrumb.Find("nav").GetAttribute("aria-label"));
             Assert.Equal(gaugeLabel, gauge.Find("svg").GetAttribute("aria-label"));
-            Assert.Equal(appearanceLabel, appearance.Find("button").GetAttribute("aria-label"));
         }
         finally
         {
@@ -198,15 +196,10 @@ public sealed class LocalizationTests : OmniBunitContext
         {
             CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
             var form = Render<FormTestHost>();
-            form.Find("#name").Input("Alice");
-            form.Instance.Model.Email = "invalid";
-            form.Instance.Model.Password = "first";
-            form.Instance.Model.ConfirmedPassword = "second";
 
             Assert.False(await form.InvokeAsync(() => form.Instance.EditContext.Validate()));
             var messages = form.Instance.EditContext.GetValidationMessages().ToArray();
-            Assert.Contains("The email address is invalid.", messages);
-            Assert.Contains("The values do not match.", messages);
+            Assert.Contains("This field is required.", messages);
         }
         finally
         {
@@ -235,7 +228,7 @@ public sealed class LocalizationTests : OmniBunitContext
             var legend = Render<OmniLegend>();
             var month = Render<OmniScheduler>(parameters => parameters.Add(component => component.View, OmniSchedulerView.Month).Add(component => component.TimeZone, TimeZoneInfo.Utc));
             var notification = Render<OmniNotification>(parameters => parameters.Add(component => component.Message, "Message"));
-            var nullableSwitch = Render<OmniNullableSwitch>(parameters => parameters
+            var nullableSwitch = Render<OmniSwitch<bool?>>(parameters => parameters
                 .Add(component => component.Value, nullable)
                 .Add(component => component.ValueExpression, () => nullable));
             var pager = Render<OmniPager>(parameters => parameters

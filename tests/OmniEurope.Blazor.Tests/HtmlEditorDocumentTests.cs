@@ -4,7 +4,11 @@ using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Tests;
 
-public sealed class DocumentEditorComponentTests : OmniBunitContext
+/// <summary>
+/// The light word processor of <see cref="OmniHtmlEditor"/>: the sheet, the document toolbar, the
+/// status bar with its live counts, and the HTML and plain text exports.
+/// </summary>
+public sealed class HtmlEditorDocumentTests : OmniBunitContext
 {
     private const string EditorModulePath = "./_content/OmniEurope.Blazor/omni-html-editor.js";
     private const string DocumentModulePath = "./_content/OmniEurope.Blazor/omni-document-editor.js";
@@ -15,16 +19,15 @@ public sealed class DocumentEditorComponentTests : OmniBunitContext
         "<table><tbody><tr><td>A</td><td>B</td></tr><tr><td>C</td><td>D</td></tr></tbody></table>";
 
     [Fact]
-    public void DocumentEditor_IsAVisualEditorWithTheDocumentToolbarAndLiveCounts()
+    public void Document_IsAVisualEditorOnASheetWithTheDocumentToolbarAndLiveCounts()
     {
         var module = JSInterop.SetupModule(EditorModulePath);
         var value = "<p>Bonjour le monde</p><p>Deux mots</p>";
 
-        var document = Render<OmniDocumentEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var document = RenderDocument(value);
 
-        Assert.NotNull(document.Find(".omni-document-editor .omni-html-editor__surface"));
+        Assert.NotNull(document.Find(".omni-document-editor.omni-document-editor--sheet .omni-html-editor__surface"));
+        Assert.Equal("Traitement de texte", document.Find("section.omni-document-editor").GetAttribute("aria-label"));
         Assert.NotNull(document.Find("select[data-command=font-size]"));
         Assert.NotNull(document.Find("button[data-command=insert-table]"));
         Assert.Empty(document.FindAll("button[data-command=toggle-source]"));
@@ -35,17 +38,29 @@ public sealed class DocumentEditorComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void WithoutSheetOrStatusBar_TheEditorRendersAloneAsBefore()
+    {
+        JSInterop.SetupModule(EditorModulePath);
+        var value = "<p>Bonjour</p>";
+
+        var editor = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value));
+
+        Assert.Empty(editor.FindAll(".omni-document-editor"));
+        Assert.Empty(editor.FindAll(".omni-document-editor__status"));
+        Assert.Equal("SECTION", editor.Nodes.OfType<AngleSharp.Dom.IElement>().Single().TagName);
+        Assert.Contains("omni-html-editor", editor.Nodes.OfType<AngleSharp.Dom.IElement>().Single().ClassList);
+    }
+
+    [Fact]
     public async Task Typing_UpdatesTheValueAndTheCounts()
     {
         JSInterop.SetupModule(EditorModulePath);
         var value = "<p>Un</p>";
-        var document = Render<OmniDocumentEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value));
-        var editor = document.FindComponent<OmniHtmlEditor>().Instance;
+        var document = RenderDocument(value, updated => value = updated);
 
-        await document.InvokeAsync(() => new HtmlEditorInteropBridge(editor).OnVisualInput("<p>Un deux trois</p>"));
+        await document.InvokeAsync(() => new HtmlEditorInteropBridge(document.Instance).OnVisualInput("<p>Un deux trois</p>"));
 
         Assert.Equal("<p>Un deux trois</p>", value);
         document.WaitForAssertion(() => Assert.Equal("Mots : 3", document.Find("[data-statistic=words]").TextContent));
@@ -55,10 +70,7 @@ public sealed class DocumentEditorComponentTests : OmniBunitContext
     public async Task ExportHtml_IsAStandaloneFile_WithTheClassesTurnedIntoDeclarations()
     {
         JSInterop.SetupModule(EditorModulePath);
-        var value = Sample;
-        var document = Render<OmniDocumentEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var document = RenderDocument(Sample);
 
         var html = await document.InvokeAsync(() => document.Instance.ExportHtmlAsync());
 
@@ -74,10 +86,7 @@ public sealed class DocumentEditorComponentTests : OmniBunitContext
     public async Task ExportText_ReadsLikeTheDocument()
     {
         JSInterop.SetupModule(EditorModulePath);
-        var value = Sample;
-        var document = Render<OmniDocumentEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var document = RenderDocument(Sample);
 
         var text = await document.InvokeAsync(() => document.Instance.ExportTextAsync());
 
@@ -91,9 +100,10 @@ public sealed class DocumentEditorComponentTests : OmniBunitContext
         var download = JSInterop.SetupModule(DocumentModulePath);
         download.SetupVoid("download", _ => true).SetVoidResult();
         var value = "<p>Bonjour</p>";
-        var document = Render<OmniDocumentEditor>(parameters => parameters
+        var document = Render<OmniHtmlEditor>(parameters => parameters
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.ShowStatusBar, true)
             .Add(component => component.FileName, "compte-rendu")
             .Add(component => component.DocumentTitle, "Compte rendu"));
 
@@ -110,18 +120,20 @@ public sealed class DocumentEditorComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public void ReadOnly_LocksThePage_AndTheStatusBarCanBeHidden()
+    public void Disabled_LocksThePage_AndTheStatusBarCanBeHidden()
     {
         JSInterop.SetupModule(EditorModulePath);
         var value = "<p>Bonjour</p>";
 
-        var document = Render<OmniDocumentEditor>(parameters => parameters
+        var document = Render<OmniHtmlEditor>(parameters => parameters
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ReadOnly, true)
-            .Add(component => component.ShowStatusBar, false));
+            .Add(component => component.Sheet, true)
+            .Add(component => component.Commands, OmniHtmlEditorCommands.Document)
+            .Add(component => component.Disabled, true));
 
         Assert.Equal("false", document.Find(".omni-html-editor__surface").GetAttribute("contenteditable"));
+        Assert.NotNull(document.Find(".omni-document-editor--sheet"));
         Assert.Empty(document.FindAll(".omni-document-editor__status"));
         Assert.Empty(document.FindAll("[data-export]"));
     }
@@ -132,4 +144,14 @@ public sealed class DocumentEditorComponentTests : OmniBunitContext
     [InlineData("<p>Un</p><p>deux</p>", 2, 6)]
     public void Counts_AreWordsAndCharactersOfTheText(string html, int words, int characters) =>
         Assert.Equal((words, characters), OmniHtmlText.Count(html));
+
+    /// <summary>The editor as the former document editor rendered it: sheet, document toolbar, status bar.</summary>
+    private IRenderedComponent<OmniHtmlEditor> RenderDocument(string value, Action<string>? changed = null) =>
+        Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueChanged, changed ?? (_ => { }))
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Sheet, true)
+            .Add(component => component.ShowStatusBar, true)
+            .Add(component => component.Commands, OmniHtmlEditorCommands.Document));
 }

@@ -16,7 +16,6 @@ public sealed class FoundationComponentTests : OmniBunitContext
     [InlineData(nameof(OmniSkeleton))]
     [InlineData(nameof(OmniRow))]
     [InlineData(nameof(OmniColumn))]
-    [InlineData(nameof(OmniGrid))]
     [InlineData(nameof(OmniLayout))]
     [InlineData(nameof(OmniMain))]
     [InlineData(nameof(OmniHeader))]
@@ -134,16 +133,6 @@ public sealed class FoundationComponentTests : OmniBunitContext
 
         Assert.Contains("omni-column--span-12", component.Find("div").ClassList);
         Assert.Contains("omni-column--md-6", component.Find("div").ClassList);
-    }
-
-    [Fact]
-    public void Grid_RendersRequestedColumnClass()
-    {
-        var component = Render<OmniGrid>(parameters => parameters
-            .Add(item => item.Columns, 4)
-            .AddChildContent("Grid"));
-
-        Assert.Contains("omni-grid--columns-4", component.Find("div").ClassList);
     }
 
     [Fact]
@@ -280,12 +269,6 @@ public sealed class FoundationComponentTests : OmniBunitContext
             .AddChildContent("Invalid")));
 
     [Fact]
-    public void Grid_RejectsZeroColumns() =>
-        Assert.Throws<ArgumentOutOfRangeException>(() => Render<OmniGrid>(parameters => parameters
-            .Add(component => component.Columns, 0)
-            .AddChildContent("Invalid")));
-
-    [Fact]
     public void Progress_RejectsANonPositiveMaximum() =>
         Assert.Throws<ArgumentOutOfRangeException>(() => Render<OmniProgressBar>(parameters => parameters
             .Add(component => component.Maximum, 0d)));
@@ -301,7 +284,6 @@ public sealed class FoundationComponentTests : OmniBunitContext
         nameof(OmniSkeleton) => Render<OmniSkeleton>().Markup,
         nameof(OmniRow) => Render<OmniRow>(parameters => parameters.AddChildContent("Row")).Markup,
         nameof(OmniColumn) => Render<OmniColumn>(parameters => parameters.AddChildContent("Column")).Markup,
-        nameof(OmniGrid) => Render<OmniGrid>(parameters => parameters.AddChildContent("Grid")).Markup,
         nameof(OmniLayout) => Render<OmniLayout>(parameters => parameters.AddChildContent("Layout")).Markup,
         nameof(OmniMain) => Render<OmniMain>(parameters => parameters.AddChildContent("Main")).Markup,
         nameof(OmniHeader) => Render<OmniHeader>(parameters => parameters.AddChildContent("Header")).Markup,

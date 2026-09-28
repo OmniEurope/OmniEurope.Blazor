@@ -19,8 +19,8 @@ public partial class OmniSettingsTile
     public RenderFragment? Icon { get; set; }
 
     /// <summary>
-    /// The control, on the row beside the name. An <see cref="OmniSwitch"/>, <see cref="OmniCheckBox"/>,
-    /// <see cref="OmniNullableSwitch"/> or <see cref="OmniNullableCheckBox"/> placed here is labelled by
+    /// The control, on the row beside the name. An <see cref="OmniSwitch{TValue}"/> or <see cref="OmniCheckBox{TValue}"/>,
+    /// bound to a bool or a bool?, placed here is labelled by
     /// the name and toggled by a click anywhere on the tile; it receives a generated id when it has none.
     /// </summary>
     [Parameter]

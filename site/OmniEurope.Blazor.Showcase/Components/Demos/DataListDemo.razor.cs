@@ -55,11 +55,4 @@ public partial class DataListDemo
         new("Validation refusée", OmniLogLevel.Error),
         new("Traitement interrompu", OmniLogLevel.Critical)
     ];
-
-    private bool DraftCreated { get; set; }
-
-    private static bool MatchesReference(GridRow row, string text) =>
-        row.Reference.Contains(text, StringComparison.OrdinalIgnoreCase);
-
-    private void CreateDraft() => DraftCreated = true;
 }

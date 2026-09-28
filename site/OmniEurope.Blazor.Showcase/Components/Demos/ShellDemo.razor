@@ -6,8 +6,9 @@
             <OmniSidebarToggle Open="SidebarOpen" OpenChanged="@(value => SidebarOpen = value)"
                                Controls="shell-demo-sidebar" AriaLabel="Afficher ou masquer le menu" />
             <OmniHeading Level="OmniHeadingLevel.H4">Mon application</OmniHeading>
-            <OmniAppearanceToggle Appearance="Appearance" AppearanceChanged="@(value => Appearance = value)"
-                                  AriaLabel="Changer l'apparence" />
+            <OmniButton Variant="OmniButtonVariant.Ghost" AriaLabel="Changer l'apparence" OnClick="ToggleAppearance">
+                <OmniIcon Name="@(Appearance == OmniAppearance.Dark ? OmniIconName.ThemeLight : OmniIconName.ThemeDark)" />
+            </OmniButton>
         </OmniHeader>
         <OmniBody>
             <OmniSidebar Id="shell-demo-sidebar" Open="SidebarOpen" AriaLabel="Menu de la démonstration" Position="OmniSidebarPosition.Start">

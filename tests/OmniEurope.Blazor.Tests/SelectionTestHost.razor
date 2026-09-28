@@ -1,7 +1,7 @@
 <EditForm EditContext="@EditContext">
     <OmniDropDown TValue="string" Id="drop-down" Options="@Options" AllowEmpty="true" @bind-Value="Model.Single" />
-    <OmniMultiSelect TValue="string" Id="multi-select" Options="@Options" @bind-Value="Model.Multiple" />
-    <OmniListBox TValue="string" Id="list-box" Options="@Options" @bind-Value="Model.ListValue" />
+    <OmniListBox Id="multi-select" Multiple="true" Options="@Options" @bind-Value="Model.Multiple" />
+    <OmniListBox Id="list-box" Options="@Options" @bind-Value="Model.ListValue" />
     <OmniAutocomplete TValue="string" Id="autocomplete" Search="SearchAsync" DebounceMilliseconds="@DebounceMilliseconds" @bind-Value="Model.Autocomplete" />
     <OmniCheckBoxList TValue="string" Id="checkbox-list" Label="Choix" Options="@Options" @bind-Value="Model.Checked" />
     <OmniRadioButtonList TValue="string" Id="radio-list" Label="Choix unique" Options="@Options" @bind-Value="Model.Radio" />

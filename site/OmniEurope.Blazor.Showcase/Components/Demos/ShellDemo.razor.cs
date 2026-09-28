@@ -21,5 +21,8 @@ public partial class ShellDemo
 
     private OmniAppearance Appearance { get; set; } = OmniAppearance.Light;
 
+    private void ToggleAppearance() =>
+        Appearance = Appearance == OmniAppearance.Dark ? OmniAppearance.Light : OmniAppearance.Dark;
+
     private bool RailOpen { get; set; }
 }

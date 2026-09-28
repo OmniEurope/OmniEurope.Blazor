@@ -348,7 +348,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
 
         // The switch is a button with the switch role: no check box input a check box rule could match.
         var value = false;
-        var toggle = Render<OmniSwitch>(parameters => parameters
+        var toggle = Render<OmniSwitch<bool>>(parameters => parameters
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value));
         Assert.Equal("BUTTON", toggle.Find(".omni-switch").TagName);

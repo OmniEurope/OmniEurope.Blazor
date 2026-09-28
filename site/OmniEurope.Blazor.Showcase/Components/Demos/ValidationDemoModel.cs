@@ -6,12 +6,9 @@ namespace OmniEurope.Blazor.Showcase.Components.Demos;
 /// </summary>
 public sealed class ValidationDemoModel
 {
-    /// <summary>The required, length-checked name.</summary>
+    /// <summary>The required name.</summary>
     public string Name { get; set; } = string.Empty;
 
-    /// <summary>The address checked for shape.</summary>
+    /// <summary>The required address.</summary>
     public string Mail { get; set; } = string.Empty;
-
-    /// <summary>The address compared against <see cref="Mail"/>.</summary>
-    public string MailConfirmation { get; set; } = string.Empty;
 }

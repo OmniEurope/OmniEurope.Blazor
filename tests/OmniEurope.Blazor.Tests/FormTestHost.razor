@@ -6,12 +6,9 @@
     <OmniNumeric TValue="int" Id="age" @bind-Value="Model.Age" />
     <OmniCheckBox Id="accepted" @bind-Value="Model.Accepted" />
     <OmniSwitch Id="enabled" @bind-Value="Model.Enabled">Enabled</OmniSwitch>
-    <OmniNullableCheckBox Id="optional-accepted" @bind-Value="Model.OptionalAccepted">Optional accepted</OmniNullableCheckBox>
-    <OmniNullableSwitch Id="optional-enabled" @bind-Value="Model.OptionalEnabled">Optional enabled</OmniNullableSwitch>
-    <OmniRequiredValidator TValue="string" For="@(() => Model.Name)" />
-    <OmniLengthValidator For="@(() => Model.Name)" MinimumLength="3" MaximumLength="40" ValidationDelayMilliseconds="20" />
-    <OmniEmailValidator For="@(() => Model.Email)" />
-    <OmniCompareValidator TValue="string" For="@(() => Model.Password)" Other="@(() => Model.ConfirmedPassword)" />
+    <OmniCheckBox Id="optional-accepted" @bind-Value="Model.OptionalAccepted">Optional accepted</OmniCheckBox>
+    <OmniSwitch Id="optional-enabled" @bind-Value="Model.OptionalEnabled">Optional enabled</OmniSwitch>
+    <OmniRequiredValidator TValue="string" For="@(() => Model.Name)" ValidationDelayMilliseconds="20" />
 </EditForm>
 
 @code {
@@ -24,7 +21,6 @@
     {
         public string Name { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
-        public string ConfirmedPassword { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Notes { get; set; } = string.Empty;
         public int Age { get; set; }

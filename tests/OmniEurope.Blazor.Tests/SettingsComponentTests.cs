@@ -58,10 +58,10 @@ public sealed class SettingsComponentTests : OmniBunitContext
             .Add(component => component.Title, "Thème sombre")
             .Add(component => component.ChildContent, (RenderFragment)(builder =>
             {
-                builder.OpenComponent<OmniSwitch>(0);
-                builder.AddComponentParameter(1, nameof(OmniSwitch.Value), value);
-                builder.AddComponentParameter(2, nameof(OmniSwitch.ValueChanged), EventCallback.Factory.Create<bool>(this, next => value = next));
-                builder.AddComponentParameter(3, nameof(OmniSwitch.ValueExpression), (Expression<Func<bool>>)(() => value));
+                builder.OpenComponent<OmniSwitch<bool>>(0);
+                builder.AddComponentParameter(1, nameof(OmniSwitch<bool>.Value), value);
+                builder.AddComponentParameter(2, nameof(OmniSwitch<bool>.ValueChanged), EventCallback.Factory.Create<bool>(this, next => value = next));
+                builder.AddComponentParameter(3, nameof(OmniSwitch<bool>.ValueExpression), (Expression<Func<bool>>)(() => value));
                 builder.CloseComponent();
             })));
 
@@ -83,10 +83,10 @@ public sealed class SettingsComponentTests : OmniBunitContext
             .Add(component => component.Title, "Notifications")
             .Add(component => component.ChildContent, (RenderFragment)(builder =>
             {
-                builder.OpenComponent<OmniCheckBox>(0);
-                builder.AddComponentParameter(1, nameof(OmniCheckBox.Id), "notify");
-                builder.AddComponentParameter(2, nameof(OmniCheckBox.Value), true);
-                builder.AddComponentParameter(3, nameof(OmniCheckBox.ValueExpression), (Expression<Func<bool>>)(() => _model.On));
+                builder.OpenComponent<OmniCheckBox<bool>>(0);
+                builder.AddComponentParameter(1, nameof(OmniCheckBox<bool>.Id), "notify");
+                builder.AddComponentParameter(2, nameof(OmniCheckBox<bool>.Value), true);
+                builder.AddComponentParameter(3, nameof(OmniCheckBox<bool>.ValueExpression), (Expression<Func<bool>>)(() => _model.On));
                 builder.CloseComponent();
             })));
 
@@ -95,8 +95,8 @@ public sealed class SettingsComponentTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData(typeof(OmniNullableSwitch), "button.omni-switch")]
-    [InlineData(typeof(OmniNullableCheckBox), "button.omni-checkbox-nullable")]
+    [InlineData(typeof(OmniSwitch<bool?>), "button.omni-switch")]
+    [InlineData(typeof(OmniCheckBox<bool?>), "button.omni-checkbox-nullable")]
     public void SettingsTile_LabelsTheNullableToggles(Type toggle, string selector)
     {
         var tile = Render<OmniSettingsTile>(parameters => parameters
@@ -126,7 +126,7 @@ public sealed class SettingsComponentTests : OmniBunitContext
     [Fact]
     public void Toggle_OutsideATile_RendersNoIdOfItsOwn()
     {
-        var control = Render<OmniSwitch>(parameters => parameters
+        var control = Render<OmniSwitch<bool>>(parameters => parameters
             .Add(component => component.ValueExpression, () => _model.On));
 
         Assert.False(control.Find("button").HasAttribute("id"));
@@ -150,8 +150,8 @@ public sealed class SettingsComponentTests : OmniBunitContext
     {
         if (show)
         {
-            builder.OpenComponent<OmniSwitch>(0);
-            builder.AddComponentParameter(1, nameof(OmniSwitch.ValueExpression), (Expression<Func<bool>>)(() => _model.On));
+            builder.OpenComponent<OmniSwitch<bool>>(0);
+            builder.AddComponentParameter(1, nameof(OmniSwitch<bool>.ValueExpression), (Expression<Func<bool>>)(() => _model.On));
             builder.CloseComponent();
         }
     };

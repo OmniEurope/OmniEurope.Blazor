@@ -102,6 +102,10 @@ public partial class OmniCodeViewer : IAsyncDisposable
     [Parameter]
     public TimeSpan CopiedFeedbackDuration { get; set; } = TimeSpan.FromSeconds(2);
 
+    /// <summary>Raised after a copy, with whether the clipboard accepted it.</summary>
+    [Parameter]
+    public EventCallback<bool> OnCopied { get; set; }
+
     private string TitleId => $"{Id ?? _generatedId}-title";
 
     private string EffectiveTitle => string.IsNullOrWhiteSpace(Title) ? Localize("CodeViewerLabel") : Title;
@@ -112,19 +116,9 @@ public partial class OmniCodeViewer : IAsyncDisposable
 
     private bool? CopyResult => _clipboard?.Result;
 
-    private string CopyLabel => CopyResult switch
-    {
-        true => Localize("CodeBlockCopied"),
-        false => Localize("CodeBlockCopyFailed"),
-        null => Localize("CodeBlockCopy")
-    };
+    private string CopyLabel => Localize(OmniClipboardCopy.LabelKey(CopyResult));
 
-    private string CopyAnnouncement => CopyResult switch
-    {
-        true => Localize("CodeBlockCopied"),
-        false => Localize("CodeBlockCopyFailed"),
-        null => string.Empty
-    };
+    private string CopyAnnouncement => OmniClipboardCopy.AnnouncementKey(CopyResult) is { } key ? Localize(key) : string.Empty;
 
     protected override void OnParametersSet()
     {
@@ -237,6 +231,7 @@ public partial class OmniCodeViewer : IAsyncDisposable
     {
         var copied = await Clipboard.CopyAsync(Code ?? string.Empty, CopiedFeedbackDuration, Clock);
         StateHasChanged();
+        await OnCopied.InvokeAsync(copied);
         return copied;
     }
 

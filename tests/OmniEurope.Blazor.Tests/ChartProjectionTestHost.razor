@@ -4,8 +4,8 @@
 </OmniChart>
 
 <OmniChart Id="stacked-domain" Title="Stacked domain">
-    <OmniStackedColumnSeries Data="@FirstStack" Title="First" />
-    <OmniStackedColumnSeries Data="@SecondStack" Title="Second" ColorIndex="1" />
+    <OmniColumnSeries Stacked="true" Data="@FirstStack" Title="First" />
+    <OmniColumnSeries Stacked="true" Data="@SecondStack" Title="Second" ColorIndex="1" />
 </OmniChart>
 
 @code {

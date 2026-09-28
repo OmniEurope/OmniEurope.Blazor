@@ -3,224 +3,257 @@
 @implements IAsyncDisposable
 @using OmniEurope.Blazor.Internal
 
-<section class="@InputCss("omni-html-editor", _mode == OmniHtmlEditorMode.Visual ? "omni-html-editor--visual" : "omni-html-editor--source", _showBlocks && _mode == OmniHtmlEditorMode.Visual ? "omni-html-editor--show-blocks" : null)" aria-label="@EffectiveLabel">
-    <div class="omni-html-editor__toolbar" role="toolbar" aria-label="@Localize("HtmlEditorToolbar")" aria-controls="@SurfaceId">
-        @foreach (var command in ToolbarCommands)
-        {
-            @switch (command.Action)
-            {
-                case OmniHtmlEditorAction.Separator:
-                    <span class="omni-html-editor__separator" role="separator" aria-orientation="vertical"></span>
-                    break;
-                case OmniHtmlEditorAction.BlockFormat:
-                    <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="@_selection.Block" @onchange="args => ChooseAsync(command, args)">
-                        @foreach (var (value, key) in BlockFormats)
-                        {
-                            <option value="@value">@Localize(key)</option>
-                        }
-                    </select>
-                    break;
-                case OmniHtmlEditorAction.FontSize:
-                    <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="@_selection.Size" @onchange="args => ChooseAsync(command, args)">
-                        @foreach (var (value, key) in FontSizes)
-                        {
-                            <option value="@value">@Localize(key)</option>
-                        }
-                    </select>
-                    break;
-                case OmniHtmlEditorAction.ChangeCase:
-                    @* An action rather than a state: the list shows its name and comes back to it once a case is chosen. *@
-                    <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="" @onchange="args => ChooseAsync(command, args)">
-                        <option value="" disabled>@LabelOf(command)</option>
-                        <option value="upper">@Localize("HtmlEditorCaseUpper")</option>
-                        <option value="lower">@Localize("HtmlEditorCaseLower")</option>
-                        <option value="title">@Localize("HtmlEditorCaseTitle")</option>
-                    </select>
-                    break;
-                default:
-                    var icon = IconOf(command);
-                    <button type="button"
-                            class="@(icon is null ? "omni-html-editor__tool omni-html-editor__tool--text" : "omni-html-editor__tool")"
-                            data-command="@command.Name"
-                            aria-label="@LabelOf(command)"
-                            title="@LabelOf(command)"
-                            aria-pressed="@PressedOf(command)"
-                            disabled="@IsDisabled(command)"
-                            @onmousedown:preventDefault
-                            @onclick="() => RunAsync(command)">
-                        @if (icon is { } name)
-                        {
-                            <OmniIcon Name="name" />
-                        }
-                        else
-                        {
-                            <span>@LabelOf(command)</span>
-                        }
-                    </button>
-                    break;
-            }
-        }
-    </div>
-    @if (_linkOpen)
-    {
-        <div class="omni-html-editor__link" role="group" aria-label="@Localize("HtmlEditorLink")">
-            <label class="omni-html-editor__link-label" for="@LinkInputId">@Localize("HtmlEditorLinkUrl")</label>
-            <input @ref="_linkInput"
-                   id="@LinkInputId"
-                   class="omni-html-editor__link-input"
-                   type="url"
-                   form="@(LinkInputId + "-detached")"
-                   inputmode="url"
-                   autocomplete="off"
-                   value="@_linkUrl"
-                   aria-invalid="@(_linkError is null ? null : "true")"
-                   aria-describedby="@(_linkError is null ? null : LinkInputId + "-error")"
-                   @oninput="args => _linkUrl = args.Value?.ToString() ?? string.Empty"
-                   @onkeydown="HandleLinkKeyAsync" />
-            <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small" OnClick="ApplyLinkAsync">
-                <OmniIcon Name="OmniIconName.Check" />
-                <span>@Localize("HtmlEditorLinkApply")</span>
-            </OmniButton>
-            <OmniButton Variant="OmniButtonVariant.Danger" Size="OmniControlSize.Small" OnClick="CloseLinkAsync">
-                <OmniIcon Name="OmniIconName.Close" />
-                <span>@Localize("HtmlEditorLinkCancel")</span>
-            </OmniButton>
-            @if (_linkError is not null)
-            {
-                <p id="@(LinkInputId + "-error")" class="omni-html-editor__link-error" role="alert">@_linkError</p>
-            }
-        </div>
-    }
-    @if (_panel == EditorPanel.Characters)
-    {
-        <div class="omni-html-editor__panel" role="group" aria-label="@Localize("HtmlEditorInsertSpecialCharacter")">
-            <div class="omni-html-editor__panel-bar">
-                <div class="omni-html-editor__categories" role="group" aria-label="@Localize("HtmlEditorInsertSpecialCharacter")">
-                    @foreach (var category in HtmlEditorCharacters.Categories)
+@* The editor is written once and placed either alone or inside the document frame (the sheet and
+   the status bar), which wraps it without changing it. *@
+@{
+    RenderFragment editor =
+        @<section class="@InputCss("omni-html-editor", _mode == OmniHtmlEditorMode.Visual ? "omni-html-editor--visual" : "omni-html-editor--source", _showBlocks && _mode == OmniHtmlEditorMode.Visual ? "omni-html-editor--show-blocks" : null)" aria-label="@EffectiveLabel">
+            <div class="omni-html-editor__toolbar" role="toolbar" aria-label="@Localize("HtmlEditorToolbar")" aria-controls="@SurfaceId">
+                @foreach (var command in ToolbarCommands)
+                {
+                    @switch (command.Action)
                     {
-                        var current = category == _charCategory && _charSearch.Trim().Length == 0;
-                        <OmniButton Variant="@(current ? OmniButtonVariant.Primary : OmniButtonVariant.Secondary)" Size="OmniControlSize.Small" aria-pressed="@(current ? "true" : "false")"
-                                    OnClick="@(() => { _charCategory = category; _charSearch = string.Empty; })">
-                            <span>@Localize("HtmlEditorCharCategory" + category)</span>
-                        </OmniButton>
+                        case OmniHtmlEditorAction.Separator:
+                            <span class="omni-html-editor__separator" role="separator" aria-orientation="vertical"></span>
+                            break;
+                        case OmniHtmlEditorAction.BlockFormat:
+                            <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="@_selection.Block" @onchange="args => ChooseAsync(command, args)">
+                                @foreach (var (value, key) in BlockFormats)
+                                {
+                                    <option value="@value">@Localize(key)</option>
+                                }
+                            </select>
+                            break;
+                        case OmniHtmlEditorAction.FontSize:
+                            <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="@_selection.Size" @onchange="args => ChooseAsync(command, args)">
+                                @foreach (var (value, key) in FontSizes)
+                                {
+                                    <option value="@value">@Localize(key)</option>
+                                }
+                            </select>
+                            break;
+                        case OmniHtmlEditorAction.ChangeCase:
+                            @* An action rather than a state: the list shows its name and comes back to it once a case is chosen. *@
+                            <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="" @onchange="args => ChooseAsync(command, args)">
+                                <option value="" disabled>@LabelOf(command)</option>
+                                <option value="upper">@Localize("HtmlEditorCaseUpper")</option>
+                                <option value="lower">@Localize("HtmlEditorCaseLower")</option>
+                                <option value="title">@Localize("HtmlEditorCaseTitle")</option>
+                            </select>
+                            break;
+                        default:
+                            var icon = IconOf(command);
+                            <button type="button"
+                                    class="@(icon is null ? "omni-html-editor__tool omni-html-editor__tool--text" : "omni-html-editor__tool")"
+                                    data-command="@command.Name"
+                                    aria-label="@LabelOf(command)"
+                                    title="@LabelOf(command)"
+                                    aria-pressed="@PressedOf(command)"
+                                    disabled="@IsDisabled(command)"
+                                    @onmousedown:preventDefault
+                                    @onclick="() => RunAsync(command)">
+                                @if (icon is { } name)
+                                {
+                                    <OmniIcon Name="name" />
+                                }
+                                else
+                                {
+                                    <span>@LabelOf(command)</span>
+                                }
+                            </button>
+                            break;
+                    }
+                }
+            </div>
+            @if (_linkOpen)
+            {
+                <div class="omni-html-editor__link" role="group" aria-label="@Localize("HtmlEditorLink")">
+                    <label class="omni-html-editor__link-label" for="@LinkInputId">@Localize("HtmlEditorLinkUrl")</label>
+                    <input @ref="_linkInput"
+                           id="@LinkInputId"
+                           class="omni-html-editor__link-input"
+                           type="url"
+                           form="@(LinkInputId + "-detached")"
+                           inputmode="url"
+                           autocomplete="off"
+                           value="@_linkUrl"
+                           aria-invalid="@(_linkError is null ? null : "true")"
+                           aria-describedby="@(_linkError is null ? null : LinkInputId + "-error")"
+                           @oninput="args => _linkUrl = args.Value?.ToString() ?? string.Empty"
+                           @onkeydown="HandleLinkKeyAsync" />
+                    <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small" OnClick="ApplyLinkAsync">
+                        <OmniIcon Name="OmniIconName.Check" />
+                        <span>@Localize("HtmlEditorLinkApply")</span>
+                    </OmniButton>
+                    <OmniButton Variant="OmniButtonVariant.Danger" Size="OmniControlSize.Small" OnClick="CloseLinkAsync">
+                        <OmniIcon Name="OmniIconName.Close" />
+                        <span>@Localize("HtmlEditorLinkCancel")</span>
+                    </OmniButton>
+                    @if (_linkError is not null)
+                    {
+                        <p id="@(LinkInputId + "-error")" class="omni-html-editor__link-error" role="alert">@_linkError</p>
                     }
                 </div>
-                <input class="omni-html-editor__link-input omni-html-editor__char-search" type="search" autocomplete="off"
-                       aria-label="@Localize("HtmlEditorCharSearch")" placeholder="@Localize("HtmlEditorCharSearch")"
-                       value="@_charSearch" @oninput="args => _charSearch = args.Value?.ToString() ?? string.Empty" />
-                <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ClosePanel">
-                    <OmniIcon Name="OmniIconName.Close" />
-                    <span>@Localize("HtmlEditorClosePanel")</span>
-                </OmniButton>
-            </div>
-            @{ var characters = VisibleCharacters.ToList(); }
-            @if (characters.Count == 0)
+            }
+            @if (_panel == EditorPanel.Characters)
             {
-                <p class="omni-html-editor__panel-note" role="status">@Localize("HtmlEditorCharNone")</p>
+                <div class="omni-html-editor__panel" role="group" aria-label="@Localize("HtmlEditorInsertSpecialCharacter")">
+                    <div class="omni-html-editor__panel-bar">
+                        <div class="omni-html-editor__categories" role="group" aria-label="@Localize("HtmlEditorInsertSpecialCharacter")">
+                            @foreach (var category in HtmlEditorCharacters.Categories)
+                            {
+                                var current = category == _charCategory && _charSearch.Trim().Length == 0;
+                                <OmniButton Variant="@(current ? OmniButtonVariant.Primary : OmniButtonVariant.Secondary)" Size="OmniControlSize.Small" aria-pressed="@(current ? "true" : "false")"
+                                            OnClick="@(() => { _charCategory = category; _charSearch = string.Empty; })">
+                                    <span>@Localize("HtmlEditorCharCategory" + category)</span>
+                                </OmniButton>
+                            }
+                        </div>
+                        <input class="omni-html-editor__link-input omni-html-editor__char-search" type="search" autocomplete="off"
+                               aria-label="@Localize("HtmlEditorCharSearch")" placeholder="@Localize("HtmlEditorCharSearch")"
+                               value="@_charSearch" @oninput="args => _charSearch = args.Value?.ToString() ?? string.Empty" />
+                        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ClosePanel">
+                            <OmniIcon Name="OmniIconName.Close" />
+                            <span>@Localize("HtmlEditorClosePanel")</span>
+                        </OmniButton>
+                    </div>
+                    @{ var characters = VisibleCharacters.ToList(); }
+                    @if (characters.Count == 0)
+                    {
+                        <p class="omni-html-editor__panel-note" role="status">@Localize("HtmlEditorCharNone")</p>
+                    }
+                    else
+                    {
+                        <div class="omni-html-editor__characters">
+                            @foreach (var codePoint in characters)
+                            {
+                                var character = HtmlEditorCharacters.Text(codePoint);
+                                var name = Localize(HtmlEditorCharacters.NameKey(codePoint));
+                                <button type="button" class="omni-html-editor__character" data-character="@codePoint.ToString("X4", CultureInfo.InvariantCulture)"
+                                        aria-label="@name" title="@name" @onmousedown:preventDefault
+                                        @onclick="() => RunBuiltInAsync(OmniHtmlEditorAction.InsertSpecialCharacter, character)">@(codePoint == 0x00A0 ? "␣" : character)</button>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            else if (_panel == EditorPanel.Table)
+            {
+                <div class="omni-html-editor__panel" role="group" aria-label="@Localize("HtmlEditorImportTable")">
+                    <div class="omni-html-editor__panel-bar">
+                        <OmniUpload Display="OmniUploadDisplay.Field" Accept="@TableAccept" MaximumFileSize="@HtmlEditorTableFile.MaxBytes"
+                                    FilesSelected="ReadTableFileAsync" Disabled="@_tableBusy" class="omni-html-editor__table-file" />
+                        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ClosePanel">
+                            <OmniIcon Name="OmniIconName.Close" />
+                            <span>@Localize("HtmlEditorClosePanel")</span>
+                        </OmniButton>
+                    </div>
+                    <p class="omni-html-editor__panel-note">@Localize("HtmlEditorImportTableHint", TableAccept)</p>
+                    @if (_tableError is not null)
+                    {
+                        <p class="omni-html-editor__link-error" role="alert">@_tableError</p>
+                    }
+                    @if (_tableRows is { } rows)
+                    {
+                        <p class="omni-html-editor__panel-note" role="status">@Localize("HtmlEditorImportTableRows", _tableHeader ? rows.Count - 1 : rows.Count, rows[0].Count)</p>
+                        <div class="omni-html-editor__table-preview omni-rich-text" role="region" aria-label="@Localize("HtmlEditorImportTablePreview")">
+                            @((MarkupString)HtmlEditorTableFile.ToHtml(rows.Take(6).ToList(), _tableHeader))
+                        </div>
+                        <div class="omni-html-editor__panel-bar">
+                            <label class="omni-html-editor__check">
+                                <OmniCheckBox @bind-Value="_tableHeader" />
+                                <span>@Localize("HtmlEditorImportTableHeader")</span>
+                            </label>
+                            <OmniButton Variant="OmniButtonVariant.Success" Size="OmniControlSize.Small" OnClick="InsertTableAsync">
+                                <OmniIcon Name="OmniIconName.Table" />
+                                <span>@Localize("HtmlEditorImportTableInsert")</span>
+                            </OmniButton>
+                        </div>
+                    }
+                </div>
+            }
+            @if (_mode == OmniHtmlEditorMode.Visual)
+            {
+                <div @attributes="AdditionalAttributes"
+                     @ref="_surface"
+                     id="@SurfaceId"
+                     class="omni-html-editor__surface omni-rich-text"
+                     contenteditable="@(Disabled ? "false" : "true")"
+                     role="textbox"
+                     aria-multiline="true"
+                     aria-label="@EffectiveLabel"
+                     aria-disabled="@(Disabled ? "true" : null)"
+                     aria-invalid="@AriaInvalid"
+                     aria-describedby="@AriaDescribedBy"
+                     spellcheck="true"></div>
+                @if (_menuOpen)
+                {
+                    <div id="@MenuId" class="omni-context-menu__popup omni-html-editor__menu" role="menu" aria-label="@Localize("HtmlEditorContextMenu")" tabindex="-1" @onkeydown="HandleMenuKeyAsync">
+                        @foreach (var command in _extensionSet.ContextMenu)
+                        {
+                            if (command.Action == OmniHtmlEditorAction.Separator)
+                            {
+                                <span class="omni-html-editor__menu-separator" role="separator"></span>
+                                continue;
+                            }
+        
+                            var menuIcon = IconOf(command);
+                            <button type="button" class="omni-html-editor__menu-item" role="menuitem" data-command="@command.Name" disabled="@IsDisabled(command)" @onmousedown:preventDefault @onclick="() => RunFromMenuAsync(command)">
+                                @if (menuIcon is { } menuIconName)
+                                {
+                                    <OmniIcon Name="menuIconName" />
+                                }
+                                <span>@LabelOf(command)</span>
+                            </button>
+                        }
+                    </div>
+                }
             }
             else
             {
-                <div class="omni-html-editor__characters">
-                    @foreach (var codePoint in characters)
-                    {
-                        var character = HtmlEditorCharacters.Text(codePoint);
-                        var name = Localize(HtmlEditorCharacters.NameKey(codePoint));
-                        <button type="button" class="omni-html-editor__character" data-character="@codePoint.ToString("X4", CultureInfo.InvariantCulture)"
-                                aria-label="@name" title="@name" @onmousedown:preventDefault
-                                @onclick="() => RunBuiltInAsync(OmniHtmlEditorAction.InsertSpecialCharacter, character)">@(codePoint == 0x00A0 ? "␣" : character)</button>
-                    }
-                </div>
-            }
-        </div>
-    }
-    else if (_panel == EditorPanel.Table)
-    {
-        <div class="omni-html-editor__panel" role="group" aria-label="@Localize("HtmlEditorImportTable")">
-            <div class="omni-html-editor__panel-bar">
-                <OmniUpload Display="OmniUploadDisplay.Field" Accept="@TableAccept" MaximumFileSize="@HtmlEditorTableFile.MaxBytes"
-                            FilesSelected="ReadTableFileAsync" Disabled="@_tableBusy" class="omni-html-editor__table-file" />
-                <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ClosePanel">
-                    <OmniIcon Name="OmniIconName.Close" />
-                    <span>@Localize("HtmlEditorClosePanel")</span>
-                </OmniButton>
-            </div>
-            <p class="omni-html-editor__panel-note">@Localize("HtmlEditorImportTableHint", TableAccept)</p>
-            @if (_tableError is not null)
-            {
-                <p class="omni-html-editor__link-error" role="alert">@_tableError</p>
-            }
-            @if (_tableRows is { } rows)
-            {
-                <p class="omni-html-editor__panel-note" role="status">@Localize("HtmlEditorImportTableRows", _tableHeader ? rows.Count - 1 : rows.Count, rows[0].Count)</p>
-                <div class="omni-html-editor__table-preview omni-rich-text" role="region" aria-label="@Localize("HtmlEditorImportTablePreview")">
-                    @((MarkupString)HtmlEditorTableFile.ToHtml(rows.Take(6).ToList(), _tableHeader))
-                </div>
-                <div class="omni-html-editor__panel-bar">
-                    <label class="omni-html-editor__check">
-                        <OmniCheckBox @bind-Value="_tableHeader" />
-                        <span>@Localize("HtmlEditorImportTableHeader")</span>
-                    </label>
-                    <OmniButton Variant="OmniButtonVariant.Success" Size="OmniControlSize.Small" OnClick="InsertTableAsync">
-                        <OmniIcon Name="OmniIconName.Table" />
-                        <span>@Localize("HtmlEditorImportTableInsert")</span>
-                    </OmniButton>
-                </div>
-            }
-        </div>
-    }
-    @if (_mode == OmniHtmlEditorMode.Visual)
-    {
-        <div @attributes="AdditionalAttributes"
-             @ref="_surface"
-             id="@SurfaceId"
-             class="omni-html-editor__surface omni-rich-text"
-             contenteditable="@(Disabled ? "false" : "true")"
-             role="textbox"
-             aria-multiline="true"
-             aria-label="@EffectiveLabel"
-             aria-disabled="@(Disabled ? "true" : null)"
-             aria-invalid="@AriaInvalid"
-             aria-describedby="@AriaDescribedBy"
-             spellcheck="true"></div>
-        @if (_menuOpen)
-        {
-            <div id="@MenuId" class="omni-context-menu__popup omni-html-editor__menu" role="menu" aria-label="@Localize("HtmlEditorContextMenu")" tabindex="-1" @onkeydown="HandleMenuKeyAsync">
-                @foreach (var command in _extensionSet.ContextMenu)
+                <textarea @attributes="AdditionalAttributes"
+                          id="@SurfaceId"
+                          class="omni-html-editor__source"
+                          value="@CurrentValue"
+                          rows="@Rows"
+                          disabled="@Disabled"
+                          spellcheck="false"
+                          aria-invalid="@AriaInvalid"
+                          aria-describedby="@AriaDescribedBy"
+                          @ref="_source"
+                          @oninput="HandleInputAsync"></textarea>
+                @if (ShowPreview)
                 {
-                    if (command.Action == OmniHtmlEditorAction.Separator)
-                    {
-                        <span class="omni-html-editor__menu-separator" role="separator"></span>
-                        continue;
-                    }
-
-                    var menuIcon = IconOf(command);
-                    <button type="button" class="omni-html-editor__menu-item" role="menuitem" data-command="@command.Name" disabled="@IsDisabled(command)" @onmousedown:preventDefault @onclick="() => RunFromMenuAsync(command)">
-                        @if (menuIcon is { } menuIconName)
-                        {
-                            <OmniIcon Name="menuIconName" />
-                        }
-                        <span>@LabelOf(command)</span>
-                    </button>
+                    <div class="omni-html-editor__preview omni-rich-text" aria-label="@Localize("HtmlEditorPreview")">@((MarkupString)Clean(CurrentValue))</div>
                 }
+            }
+        </section>;
+}
+
+@if (Framed)
+{
+    <section class="@FrameClass" aria-label="@EffectiveLabel">
+        @editor
+        @if (ShowStatusBar)
+        {
+            <div class="omni-document-editor__status" role="group" aria-label="@Localize("DocumentEditorStatus")">
+                <span data-statistic="words">@Localize("DocumentEditorWords", WordCount)</span>
+                <span data-statistic="characters">@Localize("DocumentEditorCharacters", CharacterCount)</span>
+                <span class="omni-document-editor__actions">
+                    <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" data-export="html" OnClick="DownloadHtmlAsync">
+                        <OmniIcon Name="OmniIconName.FileHtml" />
+                        <span>@Localize("DocumentEditorExportHtml")</span>
+                    </OmniButton>
+                    <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" data-export="text" OnClick="DownloadTextAsync">
+                        <OmniIcon Name="OmniIconName.Download" />
+                        <span>@Localize("DocumentEditorExportText")</span>
+                    </OmniButton>
+                </span>
             </div>
         }
-    }
-    else
-    {
-        <textarea @attributes="AdditionalAttributes"
-                  id="@SurfaceId"
-                  class="omni-html-editor__source"
-                  value="@CurrentValue"
-                  rows="@Rows"
-                  disabled="@Disabled"
-                  spellcheck="false"
-                  aria-invalid="@AriaInvalid"
-                  aria-describedby="@AriaDescribedBy"
-                  @ref="_source"
-                  @oninput="HandleInputAsync"></textarea>
-        @if (ShowPreview)
-        {
-            <div class="omni-html-editor__preview omni-rich-text" aria-label="@Localize("HtmlEditorPreview")">@((MarkupString)Clean(CurrentValue))</div>
-        }
-    }
-</section>
+    </section>
+}
+else
+{
+    @editor
+}

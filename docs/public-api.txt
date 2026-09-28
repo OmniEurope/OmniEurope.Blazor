@@ -1,6 +1,5 @@
 component OmniEurope.Blazor.Components.OmniAlert
 component OmniEurope.Blazor.Components.OmniAppearanceSettings
-component OmniEurope.Blazor.Components.OmniAppearanceToggle
 component OmniEurope.Blazor.Components.OmniArcGauge
 component OmniEurope.Blazor.Components.OmniArcGaugeScale
 component OmniEurope.Blazor.Components.OmniArcGaugeScaleValue
@@ -17,7 +16,7 @@ component OmniEurope.Blazor.Components.OmniButton
 component OmniEurope.Blazor.Components.OmniCard
 component OmniEurope.Blazor.Components.OmniCategoryAxis
 component OmniEurope.Blazor.Components.OmniChart
-component OmniEurope.Blazor.Components.OmniCheckBox
+component OmniEurope.Blazor.Components.OmniCheckBox<TValue>
 component OmniEurope.Blazor.Components.OmniCheckBoxList<TValue>
 component OmniEurope.Blazor.Components.OmniCodeBlock
 component OmniEurope.Blazor.Components.OmniCodeEditor
@@ -25,7 +24,6 @@ component OmniEurope.Blazor.Components.OmniCodeViewer
 component OmniEurope.Blazor.Components.OmniColorPicker
 component OmniEurope.Blazor.Components.OmniColumn
 component OmniEurope.Blazor.Components.OmniColumnSeries
-component OmniEurope.Blazor.Components.OmniCompareValidator<TValue>
 component OmniEurope.Blazor.Components.OmniComponentBase
 component OmniEurope.Blazor.Components.OmniComponentsHost
 component OmniEurope.Blazor.Components.OmniConnectionOverlay
@@ -44,18 +42,13 @@ component OmniEurope.Blazor.Components.OmniDescriptionList
 component OmniEurope.Blazor.Components.OmniDetailShell
 component OmniEurope.Blazor.Components.OmniDialog
 component OmniEurope.Blazor.Components.OmniDiffViewer
-component OmniEurope.Blazor.Components.OmniDocumentEditor
-component OmniEurope.Blazor.Components.OmniDonutSeries
 component OmniEurope.Blazor.Components.OmniDropDown<TValue>
 component OmniEurope.Blazor.Components.OmniDynamicForm
-component OmniEurope.Blazor.Components.OmniEmailValidator
 component OmniEurope.Blazor.Components.OmniEmptyState
-component OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>
 component OmniEurope.Blazor.Components.OmniFieldset
 component OmniEurope.Blazor.Components.OmniFormField
 component OmniEurope.Blazor.Components.OmniGantt
 component OmniEurope.Blazor.Components.OmniGitGraph<TItem>
-component OmniEurope.Blazor.Components.OmniGrid
 component OmniEurope.Blazor.Components.OmniGridLines
 component OmniEurope.Blazor.Components.OmniHeader
 component OmniEurope.Blazor.Components.OmniHeading
@@ -67,10 +60,9 @@ component OmniEurope.Blazor.Components.OmniKanban<TItem>
 component OmniEurope.Blazor.Components.OmniLabel
 component OmniEurope.Blazor.Components.OmniLayout
 component OmniEurope.Blazor.Components.OmniLegend
-component OmniEurope.Blazor.Components.OmniLengthValidator
 component OmniEurope.Blazor.Components.OmniLineSeries
 component OmniEurope.Blazor.Components.OmniLink
-component OmniEurope.Blazor.Components.OmniListBox<TValue>
+component OmniEurope.Blazor.Components.OmniListBox<TValue,TSelection>
 component OmniEurope.Blazor.Components.OmniLoadingBar
 component OmniEurope.Blazor.Components.OmniLogViewer
 component OmniEurope.Blazor.Components.OmniLoginShell
@@ -82,8 +74,6 @@ component OmniEurope.Blazor.Components.OmniMindMapNodeProperties
 component OmniEurope.Blazor.Components.OmniMindMapToolbar
 component OmniEurope.Blazor.Components.OmniMultiSelect<TValue>
 component OmniEurope.Blazor.Components.OmniNotification
-component OmniEurope.Blazor.Components.OmniNullableCheckBox
-component OmniEurope.Blazor.Components.OmniNullableSwitch
 component OmniEurope.Blazor.Components.OmniNumeric<TValue>
 component OmniEurope.Blazor.Components.OmniPageHeader
 component OmniEurope.Blazor.Components.OmniPager
@@ -99,7 +89,6 @@ component OmniEurope.Blazor.Components.OmniRadioButtonList<TValue>
 component OmniEurope.Blazor.Components.OmniRating
 component OmniEurope.Blazor.Components.OmniRelativeTime
 component OmniEurope.Blazor.Components.OmniRequiredValidator<TValue>
-component OmniEurope.Blazor.Components.OmniResourceList<TItem>
 component OmniEurope.Blazor.Components.OmniRow
 component OmniEurope.Blazor.Components.OmniScheduler
 component OmniEurope.Blazor.Components.OmniSelectBar<TValue>
@@ -114,15 +103,13 @@ component OmniEurope.Blazor.Components.OmniSplitButton
 component OmniEurope.Blazor.Components.OmniSplitButtonItem
 component OmniEurope.Blazor.Components.OmniSpreadsheet
 component OmniEurope.Blazor.Components.OmniStack
-component OmniEurope.Blazor.Components.OmniStackedAreaSeries
-component OmniEurope.Blazor.Components.OmniStackedColumnSeries
 component OmniEurope.Blazor.Components.OmniStatTile
 component OmniEurope.Blazor.Components.OmniStatusBadge<TValue>
 component OmniEurope.Blazor.Components.OmniStatusStrip
 component OmniEurope.Blazor.Components.OmniStepTimeline
 component OmniEurope.Blazor.Components.OmniSteps
 component OmniEurope.Blazor.Components.OmniStepsItem
-component OmniEurope.Blazor.Components.OmniSwitch
+component OmniEurope.Blazor.Components.OmniSwitch<TValue>
 component OmniEurope.Blazor.Components.OmniTabs
 component OmniEurope.Blazor.Components.OmniTabsItem
 component OmniEurope.Blazor.Components.OmniTemplateForm<TModel>
@@ -151,7 +138,6 @@ ctor protected OmniEurope.Blazor.Components.OmniInputBase<TValue>()
 ctor protected OmniEurope.Blazor.Components.OmniValidatorBase<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniAlert()
 ctor public OmniEurope.Blazor.Components.OmniAppearanceSettings()
-ctor public OmniEurope.Blazor.Components.OmniAppearanceToggle()
 ctor public OmniEurope.Blazor.Components.OmniArcGauge()
 ctor public OmniEurope.Blazor.Components.OmniArcGaugeScale()
 ctor public OmniEurope.Blazor.Components.OmniArcGaugeScaleValue()
@@ -172,7 +158,7 @@ ctor public OmniEurope.Blazor.Components.OmniCategoryAxis()
 ctor public OmniEurope.Blazor.Components.OmniChart()
 ctor public OmniEurope.Blazor.Components.OmniChartPoint(System.Double X, System.Double Y, System.String? Label = null)
 ctor public OmniEurope.Blazor.Components.OmniChartSlice(System.String Label, System.Double Value)
-ctor public OmniEurope.Blazor.Components.OmniCheckBox()
+ctor public OmniEurope.Blazor.Components.OmniCheckBox<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniCheckBoxList<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniCodeBlock()
 ctor public OmniEurope.Blazor.Components.OmniCodeEditor()
@@ -182,7 +168,6 @@ ctor public OmniEurope.Blazor.Components.OmniCodeViewer()
 ctor public OmniEurope.Blazor.Components.OmniColorPicker()
 ctor public OmniEurope.Blazor.Components.OmniColumn()
 ctor public OmniEurope.Blazor.Components.OmniColumnSeries()
-ctor public OmniEurope.Blazor.Components.OmniCompareValidator<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniComponentsHost()
 ctor public OmniEurope.Blazor.Components.OmniConfirmRequest(System.String Title, System.String Message)
 ctor public OmniEurope.Blazor.Components.OmniConnectionOverlay()
@@ -212,14 +197,10 @@ ctor public OmniEurope.Blazor.Components.OmniDiffFile(System.String? OldPath, Sy
 ctor public OmniEurope.Blazor.Components.OmniDiffHunk(System.String Header, System.Int32 OldStart, System.Int32 OldCount, System.Int32 NewStart, System.Int32 NewCount, System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniDiffLine> Lines)
 ctor public OmniEurope.Blazor.Components.OmniDiffLine(OmniEurope.Blazor.Components.OmniDiffLineKind Kind, System.String Text, System.Int32? OldNumber, System.Int32? NewNumber)
 ctor public OmniEurope.Blazor.Components.OmniDiffViewer()
-ctor public OmniEurope.Blazor.Components.OmniDocumentEditor()
-ctor public OmniEurope.Blazor.Components.OmniDonutSeries()
 ctor public OmniEurope.Blazor.Components.OmniDropDown<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniDynamicField(System.String Name, System.String Label, OmniEurope.Blazor.Components.OmniDynamicFieldKind Kind = OmniEurope.Blazor.Components.OmniDynamicFieldKind.Text)
 ctor public OmniEurope.Blazor.Components.OmniDynamicForm()
-ctor public OmniEurope.Blazor.Components.OmniEmailValidator()
 ctor public OmniEurope.Blazor.Components.OmniEmptyState()
-ctor public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>()
 ctor public OmniEurope.Blazor.Components.OmniFieldset()
 ctor public OmniEurope.Blazor.Components.OmniFormField()
 ctor public OmniEurope.Blazor.Components.OmniGantt()
@@ -230,7 +211,6 @@ ctor public OmniEurope.Blazor.Components.OmniGraphLayoutNode(System.String Id, S
 ctor public OmniEurope.Blazor.Components.OmniGraphLayoutOptions()
 ctor public OmniEurope.Blazor.Components.OmniGraphLayoutResult(System.Collections.Generic.IReadOnlyDictionary<System.String,OmniEurope.Blazor.Components.OmniGraphPoint> Positions, System.Double Width, System.Double Height)
 ctor public OmniEurope.Blazor.Components.OmniGraphPoint(System.Double X, System.Double Y)
-ctor public OmniEurope.Blazor.Components.OmniGrid()
 ctor public OmniEurope.Blazor.Components.OmniGridLines()
 ctor public OmniEurope.Blazor.Components.OmniHeader()
 ctor public OmniEurope.Blazor.Components.OmniHeading()
@@ -252,10 +232,9 @@ ctor public OmniEurope.Blazor.Components.OmniKanbanMove<TItem>(TItem Item, Syste
 ctor public OmniEurope.Blazor.Components.OmniLabel()
 ctor public OmniEurope.Blazor.Components.OmniLayout()
 ctor public OmniEurope.Blazor.Components.OmniLegend()
-ctor public OmniEurope.Blazor.Components.OmniLengthValidator()
 ctor public OmniEurope.Blazor.Components.OmniLineSeries()
 ctor public OmniEurope.Blazor.Components.OmniLink()
-ctor public OmniEurope.Blazor.Components.OmniListBox<TValue>()
+ctor public OmniEurope.Blazor.Components.OmniListBox<TValue,TSelection>()
 ctor public OmniEurope.Blazor.Components.OmniLoadingBar()
 ctor public OmniEurope.Blazor.Components.OmniLoadingState()
 ctor public OmniEurope.Blazor.Components.OmniLocalStorageDataGridStateStore(Microsoft.JSInterop.IJSRuntime javaScript)
@@ -284,8 +263,6 @@ ctor public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniNotification()
 ctor public OmniEurope.Blazor.Components.OmniNotificationMessage(System.Guid Id, System.String Message, OmniEurope.Blazor.Components.OmniNotificationSeverity Severity = OmniEurope.Blazor.Components.OmniNotificationSeverity.Information, System.String? Title = null)
 ctor public OmniEurope.Blazor.Components.OmniNotificationOptions(OmniEurope.Blazor.Components.OmniNotificationPosition Position = OmniEurope.Blazor.Components.OmniNotificationPosition.TopEnd, System.Boolean ShowCountdown = true, System.Boolean Dismissible = true, System.Boolean Group = false)
-ctor public OmniEurope.Blazor.Components.OmniNullableCheckBox()
-ctor public OmniEurope.Blazor.Components.OmniNullableSwitch()
 ctor public OmniEurope.Blazor.Components.OmniNumeric<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniOption<TValue>(TValue Value, System.String Text, System.Boolean Disabled = false, System.String? Group = null)
 ctor public OmniEurope.Blazor.Components.OmniOverlayService(System.TimeProvider? timeProvider = null, System.Int32 notificationCapacity = 5, System.TimeSpan? defaultNotificationDuration = null)
@@ -304,7 +281,6 @@ ctor public OmniEurope.Blazor.Components.OmniRadioButtonList<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniRating()
 ctor public OmniEurope.Blazor.Components.OmniRelativeTime()
 ctor public OmniEurope.Blazor.Components.OmniRequiredValidator<TValue>()
-ctor public OmniEurope.Blazor.Components.OmniResourceList<TItem>()
 ctor public OmniEurope.Blazor.Components.OmniRow()
 ctor public OmniEurope.Blazor.Components.OmniScheduler()
 ctor public OmniEurope.Blazor.Components.OmniSchedulerAppointment(System.String Id, System.String Title, System.DateTimeOffset Start, System.DateTimeOffset End, System.String? Description = null)
@@ -322,8 +298,6 @@ ctor public OmniEurope.Blazor.Components.OmniSplitButtonItem()
 ctor public OmniEurope.Blazor.Components.OmniSpreadsheet()
 ctor public OmniEurope.Blazor.Components.OmniSpreadsheetData()
 ctor public OmniEurope.Blazor.Components.OmniStack()
-ctor public OmniEurope.Blazor.Components.OmniStackedAreaSeries()
-ctor public OmniEurope.Blazor.Components.OmniStackedColumnSeries()
 ctor public OmniEurope.Blazor.Components.OmniStatTile()
 ctor public OmniEurope.Blazor.Components.OmniStatus(OmniEurope.Blazor.Components.OmniBadgeVariant Variant, System.String Text)
 ctor public OmniEurope.Blazor.Components.OmniStatusBadge<TValue>()
@@ -335,7 +309,7 @@ ctor public OmniEurope.Blazor.Components.OmniStepTimelineColumn(System.String Ti
 ctor public OmniEurope.Blazor.Components.OmniStepTimelineStep(System.String Name, System.DateTimeOffset? StartedAt, System.DateTimeOffset? CompletedAt, OmniEurope.Blazor.Components.OmniStepTimelineStatus Status = OmniEurope.Blazor.Components.OmniStepTimelineStatus.Success, System.Boolean Secondary = false)
 ctor public OmniEurope.Blazor.Components.OmniSteps()
 ctor public OmniEurope.Blazor.Components.OmniStepsItem()
-ctor public OmniEurope.Blazor.Components.OmniSwitch()
+ctor public OmniEurope.Blazor.Components.OmniSwitch<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniTabs()
 ctor public OmniEurope.Blazor.Components.OmniTabsItem()
 ctor public OmniEurope.Blazor.Components.OmniTemplateForm<TModel>()
@@ -485,8 +459,6 @@ field public static OmniEurope.Blazor.Components.OmniDynamicFieldKind.Choice : O
 field public static OmniEurope.Blazor.Components.OmniDynamicFieldKind.MultilineText : OmniEurope.Blazor.Components.OmniDynamicFieldKind const = 1
 field public static OmniEurope.Blazor.Components.OmniDynamicFieldKind.Number : OmniEurope.Blazor.Components.OmniDynamicFieldKind const = 2
 field public static OmniEurope.Blazor.Components.OmniDynamicFieldKind.Text : OmniEurope.Blazor.Components.OmniDynamicFieldKind const = 0
-field public static OmniEurope.Blazor.Components.OmniEntityPickerLayout.Stacked : OmniEurope.Blazor.Components.OmniEntityPickerLayout const = 0
-field public static OmniEurope.Blazor.Components.OmniEntityPickerLayout.TwoColumns : OmniEurope.Blazor.Components.OmniEntityPickerLayout const = 1
 field public static OmniEurope.Blazor.Components.OmniGanttScale.Day : OmniEurope.Blazor.Components.OmniGanttScale const = 0
 field public static OmniEurope.Blazor.Components.OmniGanttScale.Month : OmniEurope.Blazor.Components.OmniGanttScale const = 2
 field public static OmniEurope.Blazor.Components.OmniGanttScale.Week : OmniEurope.Blazor.Components.OmniGanttScale const = 1
@@ -935,7 +907,6 @@ method protected OmniEurope.Blazor._Imports.Execute() : System.Void
 method protected abstract OmniEurope.Blazor.Components.OmniValidatorBase<TValue>.GetValidationError(TValue value) : System.String?
 method protected override OmniEurope.Blazor.Components.OmniAlert.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniAppearanceSettings.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniAppearanceToggle.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniArcGauge.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniArcGaugeScale.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniArcGaugeScaleValue.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -960,10 +931,10 @@ method protected override OmniEurope.Blazor.Components.OmniCategoryAxis.OnParame
 method protected override OmniEurope.Blazor.Components.OmniChart.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniChart.OnInitialized() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniChart.OnParametersSet() : System.Void
-method protected override OmniEurope.Blazor.Components.OmniCheckBox.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniCheckBox.Dispose(System.Boolean disposing) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniCheckBox.OnParametersSet() : System.Void
-method protected override OmniEurope.Blazor.Components.OmniCheckBox.TryParseValueFromString(System.String? value, out System.Boolean result, out System.String validationErrorMessage) : System.Boolean
+method protected override OmniEurope.Blazor.Components.OmniCheckBox<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniCheckBox<TValue>.Dispose(System.Boolean disposing) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniCheckBox<TValue>.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniCheckBox<TValue>.TryParseValueFromString(System.String? value, out TValue result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniCheckBoxList<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniCheckBoxList<TValue>.TryParseValueFromString(System.String? value, out System.Collections.Generic.IReadOnlyList<TValue> result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniCodeBlock.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -980,9 +951,6 @@ method protected override OmniEurope.Blazor.Components.OmniColumn.BuildRenderTre
 method protected override OmniEurope.Blazor.Components.OmniColumn.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniColumnSeries.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniColumnSeries.OnParametersSet() : System.Void
-method protected override OmniEurope.Blazor.Components.OmniCompareValidator<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniCompareValidator<TValue>.GetValidationError(TValue value) : System.String?
-method protected override OmniEurope.Blazor.Components.OmniCompareValidator<TValue>.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniComponentBase.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniComponentsHost.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniComponentsHost.OnInitialized() : System.Void
@@ -1026,19 +994,12 @@ method protected override OmniEurope.Blazor.Components.OmniDialog.OnAfterRenderA
 method protected override OmniEurope.Blazor.Components.OmniDiffViewer.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDiffViewer.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniDiffViewer.OnParametersSet() : System.Void
-method protected override OmniEurope.Blazor.Components.OmniDocumentEditor.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniDocumentEditor.OnParametersSet() : System.Void
-method protected override OmniEurope.Blazor.Components.OmniDonutSeries.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDropDown<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDropDown<TValue>.TryParseValueFromString(System.String? value, out TValue result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniDynamicForm.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDynamicForm.OnInitialized() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniDynamicForm.OnParametersSetAsync() : System.Threading.Tasks.Task
-method protected override OmniEurope.Blazor.Components.OmniEmailValidator.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniEmailValidator.GetValidationError(System.String value) : System.String?
 method protected override OmniEurope.Blazor.Components.OmniEmptyState.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.OnParametersSetAsync() : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniFieldset.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniFieldset.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniFieldset.OnParametersSet() : System.Void
@@ -1047,8 +1008,6 @@ method protected override OmniEurope.Blazor.Components.OmniGantt.BuildRenderTree
 method protected override OmniEurope.Blazor.Components.OmniGantt.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniGitGraph<TItem>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniGitGraph<TItem>.OnParametersSet() : System.Void
-method protected override OmniEurope.Blazor.Components.OmniGrid.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniGrid.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniGridLines.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniGridLines.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniHeader.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -1069,14 +1028,12 @@ method protected override OmniEurope.Blazor.Components.OmniLabel.BuildRenderTree
 method protected override OmniEurope.Blazor.Components.OmniLayout.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniLegend.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniLegend.OnParametersSet() : System.Void
-method protected override OmniEurope.Blazor.Components.OmniLengthValidator.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniLengthValidator.GetValidationError(System.String value) : System.String?
-method protected override OmniEurope.Blazor.Components.OmniLengthValidator.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniLineSeries.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniLineSeries.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniLink.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniListBox<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniListBox<TValue>.TryParseValueFromString(System.String? value, out TValue result, out System.String validationErrorMessage) : System.Boolean
+method protected override OmniEurope.Blazor.Components.OmniListBox<TValue,TSelection>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniListBox<TValue,TSelection>.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniListBox<TValue,TSelection>.TryParseValueFromString(System.String? value, out TSelection result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniLoadingBar.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniLoadingBar.OnInitialized() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniLogViewer.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -1101,14 +1058,6 @@ method protected override OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.O
 method protected override OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.TryParseValueFromString(System.String? value, out System.Collections.Generic.IReadOnlyList<TValue> result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniNotification.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniNullableCheckBox.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniNullableCheckBox.Dispose(System.Boolean disposing) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniNullableCheckBox.OnParametersSet() : System.Void
-method protected override OmniEurope.Blazor.Components.OmniNullableCheckBox.TryParseValueFromString(System.String? value, out System.Boolean? result, out System.String validationErrorMessage) : System.Boolean
-method protected override OmniEurope.Blazor.Components.OmniNullableSwitch.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniNullableSwitch.Dispose(System.Boolean disposing) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniNullableSwitch.OnParametersSet() : System.Void
-method protected override OmniEurope.Blazor.Components.OmniNullableSwitch.TryParseValueFromString(System.String? value, out System.Boolean? result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniNumeric<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniNumeric<TValue>.FormatValueAsString(TValue? value) : System.String?
 method protected override OmniEurope.Blazor.Components.OmniNumeric<TValue>.OnAfterRender(System.Boolean firstRender) : System.Void
@@ -1139,9 +1088,6 @@ method protected override OmniEurope.Blazor.Components.OmniRelativeTime.OnAfterR
 method protected override OmniEurope.Blazor.Components.OmniRelativeTime.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniRequiredValidator<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniRequiredValidator<TValue>.GetValidationError(TValue value) : System.String?
-method protected override OmniEurope.Blazor.Components.OmniResourceList<TItem>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniResourceList<TItem>.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
-method protected override OmniEurope.Blazor.Components.OmniResourceList<TItem>.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniRow.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniScheduler.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniScheduler.OnInitialized() : System.Void
@@ -1169,10 +1115,6 @@ method protected override OmniEurope.Blazor.Components.OmniSpreadsheet.OnAfterRe
 method protected override OmniEurope.Blazor.Components.OmniSpreadsheet.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStack.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStack.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
-method protected override OmniEurope.Blazor.Components.OmniStackedAreaSeries.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniStackedAreaSeries.OnParametersSet() : System.Void
-method protected override OmniEurope.Blazor.Components.OmniStackedColumnSeries.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniStackedColumnSeries.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStatTile.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStatusBadge<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStatusBadge<TValue>.OnAfterRender(System.Boolean firstRender) : System.Void
@@ -1182,10 +1124,10 @@ method protected override OmniEurope.Blazor.Components.OmniStepTimeline.BuildRen
 method protected override OmniEurope.Blazor.Components.OmniStepTimeline.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniSteps.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStepsItem.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniSwitch.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniSwitch.Dispose(System.Boolean disposing) : System.Void
-method protected override OmniEurope.Blazor.Components.OmniSwitch.OnParametersSet() : System.Void
-method protected override OmniEurope.Blazor.Components.OmniSwitch.TryParseValueFromString(System.String? value, out System.Boolean result, out System.String validationErrorMessage) : System.Boolean
+method protected override OmniEurope.Blazor.Components.OmniSwitch<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniSwitch<TValue>.Dispose(System.Boolean disposing) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniSwitch<TValue>.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniSwitch<TValue>.TryParseValueFromString(System.String? value, out TValue result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniTabs.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniTabs.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniTabsItem.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -1325,15 +1267,11 @@ method public OmniEurope.Blazor.Components.OmniDiffLine.<Clone>$() : OmniEurope.
 method public OmniEurope.Blazor.Components.OmniDiffLine.Deconstruct(out OmniEurope.Blazor.Components.OmniDiffLineKind Kind, out System.String Text, out System.Int32? OldNumber, out System.Int32? NewNumber) : System.Void
 method public OmniEurope.Blazor.Components.OmniDiffLine.Equals(OmniEurope.Blazor.Components.OmniDiffLine? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniDiffViewer.DisposeAsync() : System.Threading.Tasks.ValueTask
-method public OmniEurope.Blazor.Components.OmniDocumentEditor.DisposeAsync() : System.Threading.Tasks.ValueTask
-method public OmniEurope.Blazor.Components.OmniDocumentEditor.ExportHtmlAsync() : System.Threading.Tasks.Task<System.String>
-method public OmniEurope.Blazor.Components.OmniDocumentEditor.ExportTextAsync() : System.Threading.Tasks.Task<System.String>
 method public OmniEurope.Blazor.Components.OmniDynamicField.<Clone>$() : OmniEurope.Blazor.Components.OmniDynamicField
 method public OmniEurope.Blazor.Components.OmniDynamicField.Deconstruct(out System.String Name, out System.String Label, out OmniEurope.Blazor.Components.OmniDynamicFieldKind Kind) : System.Void
 method public OmniEurope.Blazor.Components.OmniDynamicField.Equals(OmniEurope.Blazor.Components.OmniDynamicField? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniDynamicForm.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniDynamicForm.Validate() : System.Boolean
-method public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniFieldset.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniGanttTask.<Clone>$() : OmniEurope.Blazor.Components.OmniGanttTask
 method public OmniEurope.Blazor.Components.OmniGanttTask.Equals(OmniEurope.Blazor.Components.OmniGanttTask? other) : System.Boolean
@@ -1355,6 +1293,8 @@ method public OmniEurope.Blazor.Components.OmniHtmlCaretSplit.Deconstruct(out Sy
 method public OmniEurope.Blazor.Components.OmniHtmlCaretSplit.Equals(OmniEurope.Blazor.Components.OmniHtmlCaretSplit? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniHtmlEditor.CommitDomAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniHtmlEditor.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniHtmlEditor.ExportHtmlAsync() : System.Threading.Tasks.Task<System.String>
+method public OmniEurope.Blazor.Components.OmniHtmlEditor.ExportTextAsync() : System.Threading.Tasks.Task<System.String>
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.<Clone>$() : OmniEurope.Blazor.Components.OmniHtmlEditorCommand
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Deconstruct(out System.String Name, out OmniEurope.Blazor.Components.OmniHtmlEditorAction Action) : System.Void
 method public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Equals(OmniEurope.Blazor.Components.OmniHtmlEditorCommand? other) : System.Boolean
@@ -1476,8 +1416,6 @@ method public OmniEurope.Blazor.Components.OmniPopover.OnDismissRequestedAsync(S
 method public OmniEurope.Blazor.Components.OmniPresetRegistry.Add(System.Type componentType, System.String name, System.Collections.Generic.IReadOnlyDictionary<System.String,System.Object?> values, System.Boolean isDefault = false) : System.Void
 method public OmniEurope.Blazor.Components.OmniProfileMenu.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniRelativeTime.Dispose() : System.Void
-method public OmniEurope.Blazor.Components.OmniResourceList<TItem>.Dispose() : System.Void
-method public OmniEurope.Blazor.Components.OmniResourceList<TItem>.ReloadAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniScheduler.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniScheduler.ReloadAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniSchedulerAppointment.<Clone>$() : OmniEurope.Blazor.Components.OmniSchedulerAppointment
@@ -1510,8 +1448,6 @@ method public OmniEurope.Blazor.Components.OmniSpreadsheetValue.<Clone>$() : Omn
 method public OmniEurope.Blazor.Components.OmniSpreadsheetValue.Equals(OmniEurope.Blazor.Components.OmniSpreadsheetValue? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniSpreadsheetValue.ToDisplayString(System.IFormatProvider? provider = null) : System.String
 method public OmniEurope.Blazor.Components.OmniStack.DisposeAsync() : System.Threading.Tasks.ValueTask
-method public OmniEurope.Blazor.Components.OmniStackedAreaSeries.Dispose() : System.Void
-method public OmniEurope.Blazor.Components.OmniStackedColumnSeries.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniStatus.<Clone>$() : OmniEurope.Blazor.Components.OmniStatus
 method public OmniEurope.Blazor.Components.OmniStatus.Deconstruct(out OmniEurope.Blazor.Components.OmniBadgeVariant Variant, out System.String Text) : System.Void
 method public OmniEurope.Blazor.Components.OmniStatus.Equals(OmniEurope.Blazor.Components.OmniStatus? other) : System.Boolean
@@ -1937,9 +1873,6 @@ property public OmniEurope.Blazor.Components.OmniAppearanceSettings.PresetChange
 property public OmniEurope.Blazor.Components.OmniAppearanceSettings.ScaleEditorOpenChanged : Microsoft.AspNetCore.Components.EventCallback<System.Boolean> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppearanceSettings.TextSizeLevel : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppearanceSettings.TextSizeLevelChanged : Microsoft.AspNetCore.Components.EventCallback<System.Int32> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniAppearanceToggle.Appearance : OmniEurope.Blazor.Components.OmniAppearance {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniAppearanceToggle.AppearanceChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniAppearance> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniAppearanceToggle.AriaLabel : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniArcGauge.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniArcGauge.Label : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniArcGaugeScale.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
@@ -1951,6 +1884,7 @@ property public OmniEurope.Blazor.Components.OmniArcGaugeScaleValue.ShowValue : 
 property public OmniEurope.Blazor.Components.OmniArcGaugeScaleValue.Value : System.Double {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAreaSeries.ColorIndex : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAreaSeries.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartPoint> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAreaSeries.Stacked : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAreaSeries.Title : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.AriaLabel : System.String? {get(public);set(public)} [Parameter]
@@ -2014,8 +1948,10 @@ property public OmniEurope.Blazor.Components.OmniChartPoint.X : System.Double {g
 property public OmniEurope.Blazor.Components.OmniChartPoint.Y : System.Double {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniChartSlice.Label : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniChartSlice.Value : System.Double {get(public);init(public)}
-property public OmniEurope.Blazor.Components.OmniCheckBox.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniCheckBox.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCheckBox<TValue>.AllowIndeterminate : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCheckBox<TValue>.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCheckBox<TValue>.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCheckBox<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCheckBoxList<TValue>.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCheckBoxList<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCheckBoxList<TValue>.Label : System.String? {get(public);set(public)} [Parameter]
@@ -2060,6 +1996,7 @@ property public OmniEurope.Blazor.Components.OmniCodeViewer.HighlightedLines : S
 property public OmniEurope.Blazor.Components.OmniCodeViewer.Language : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCodeViewer.LinkActivated : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniCodeEditorLinkEventArgs> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCodeViewer.Links : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniCodeEditorLink> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniCodeViewer.OnCopied : Microsoft.AspNetCore.Components.EventCallback<System.Boolean> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCodeViewer.ShowCopy : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCodeViewer.ShowLineNumbers : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniCodeViewer.ShowWrapToggle : System.Boolean {get(public);set(public)} [Parameter]
@@ -2078,9 +2015,8 @@ property public OmniEurope.Blazor.Components.OmniColumn.SmallSpan : System.Int32
 property public OmniEurope.Blazor.Components.OmniColumn.Span : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniColumnSeries.ColorIndex : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniColumnSeries.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartPoint> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniColumnSeries.Stacked : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniColumnSeries.Title : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniCompareValidator<TValue>.Message : System.String {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniCompareValidator<TValue>.Other : System.Linq.Expressions.Expression<System.Func<TValue>> {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniComponentBase.AdditionalAttributes : System.Collections.Generic.IReadOnlyDictionary<System.String,System.Object>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniComponentBase.Class : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniComponentBase.Id : System.String? {get(public);set(public)} [Parameter]
@@ -2403,21 +2339,6 @@ property public OmniEurope.Blazor.Components.OmniDiffViewer.MonacoPath : System.
 property public OmniEurope.Blazor.Components.OmniDiffViewer.Original : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDiffViewer.OriginalLabel : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDiffViewer.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDocumentEditor.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDocumentEditor.CharacterCount : System.Int32 {get(public)}
-property public OmniEurope.Blazor.Components.OmniDocumentEditor.Commands : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand>? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDocumentEditor.DocumentTitle : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDocumentEditor.FileName : System.String {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDocumentEditor.Label : System.String {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDocumentEditor.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDocumentEditor.Rows : System.Int32 {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDocumentEditor.ShowStatusBar : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDocumentEditor.Value : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDocumentEditor.ValueChanged : Microsoft.AspNetCore.Components.EventCallback<System.String> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDocumentEditor.ValueExpression : System.Linq.Expressions.Expression<System.Func<System.String>>? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDocumentEditor.WordCount : System.Int32 {get(public)}
-property public OmniEurope.Blazor.Components.OmniDonutSeries.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartSlice> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDonutSeries.Title : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDropDown<TValue>.AllowEmpty : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDropDown<TValue>.AllowFiltering : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDropDown<TValue>.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
@@ -2447,32 +2368,11 @@ property public OmniEurope.Blazor.Components.OmniDynamicForm.Fields : System.Col
 property public OmniEurope.Blazor.Components.OmniDynamicForm.IsValid : System.Boolean {get(public)}
 property public OmniEurope.Blazor.Components.OmniDynamicForm.Values : System.Collections.Generic.IReadOnlyDictionary<System.String,System.String>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDynamicForm.ValuesChanged : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyDictionary<System.String,System.String>> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEmailValidator.Message : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniEmptyState.Actions : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniEmptyState.Description : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniEmptyState.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniEmptyState.Level : OmniEurope.Blazor.Components.OmniHeadingLevel? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniEmptyState.Title : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.AvailableTitle : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.DebounceMilliseconds : System.Int32 {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.DescriptionSelector : System.Func<TItem,System.String?>? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.ItemTemplate : Microsoft.AspNetCore.Components.RenderFragment<TItem>? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.KeySelector : System.Func<TItem,TKey> {get(public);set(public)} [Parameter, EditorRequired]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.Label : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.Layout : OmniEurope.Blazor.Components.OmniEntityPickerLayout {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.MaxVisibleChips : System.Int32? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.Multiple : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.NoResultsText : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.NoneSelectedText : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.Search : System.Func<System.String,System.Threading.CancellationToken,System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<TItem>>> {get(public);set(public)} [Parameter, EditorRequired]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.SearchErrorText : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.SearchFailed : Microsoft.AspNetCore.Components.EventCallback<System.Exception> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.SearchPlaceholder : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.Selected : System.Collections.Generic.IReadOnlyList<TItem> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.SelectedChanged : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<TItem>> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.SelectedTitle : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey>.TextSelector : System.Func<TItem,System.String> {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniFieldset.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniFieldset.Collapsed : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniFieldset.CollapsedChanged : Microsoft.AspNetCore.Components.EventCallback<System.Boolean> {get(public);set(public)} [Parameter]
@@ -2523,9 +2423,6 @@ property public OmniEurope.Blazor.Components.OmniGraphLayoutResult.Positions : S
 property public OmniEurope.Blazor.Components.OmniGraphLayoutResult.Width : System.Double {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniGraphPoint.X : System.Double {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniGraphPoint.Y : System.Double {get(public);init(public)}
-property public OmniEurope.Blazor.Components.OmniGrid.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
-property public OmniEurope.Blazor.Components.OmniGrid.Columns : System.Int32 {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniGrid.Gap : OmniEurope.Blazor.Components.OmniSpacing {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniGridLines.Count : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHeader.Brand : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHeader.BrandHref : System.String? {get(public);set(public)} [Parameter]
@@ -2539,15 +2436,21 @@ property public OmniEurope.Blazor.Components.OmniHeading.Tone : OmniEurope.Blazo
 property public OmniEurope.Blazor.Components.OmniHtmlCaretSplit.After : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlCaretSplit.Before : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniHtmlEditor.CharacterCount : System.Int32 {get(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.Commands : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorCommand>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniHtmlEditor.DocumentTitle : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.Extensions : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniHtmlEditorExtension>? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniHtmlEditor.FileName : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.Label : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.Mode : OmniEurope.Blazor.Components.OmniHtmlEditorMode {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.ModeChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniHtmlEditorMode> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.Rows : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.SelectionChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniHtmlEditorSelection> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniHtmlEditor.Sheet : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniHtmlEditor.ShowPreview : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniHtmlEditor.ShowStatusBar : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniHtmlEditor.WordCount : System.Int32 {get(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Action : OmniEurope.Blazor.Components.OmniHtmlEditorAction {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Enabled : System.Func<OmniEurope.Blazor.Components.OmniHtmlEditorSelection?,System.Boolean>? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniHtmlEditorCommand.Execute : System.Func<OmniEurope.Blazor.Components.OmniHtmlEditorCommandContext,System.Threading.Tasks.Task>? {get(public);init(public)}
@@ -2623,9 +2526,6 @@ property public OmniEurope.Blazor.Components.OmniLegend.ColorIndexes : System.Co
 property public OmniEurope.Blazor.Components.OmniLegend.Items : System.Collections.Generic.IReadOnlyList<System.String> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLegend.Label : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLegend.Position : OmniEurope.Blazor.Components.OmniLegendPosition {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniLengthValidator.MaximumLength : System.Int32? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniLengthValidator.Message : System.String {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniLengthValidator.MinimumLength : System.Int32? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLineSeries.ColorIndex : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLineSeries.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartPoint> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLineSeries.Title : System.String? {get(public);set(public)} [Parameter]
@@ -2634,10 +2534,11 @@ property public OmniEurope.Blazor.Components.OmniLink.ChildContent : Microsoft.A
 property public OmniEurope.Blazor.Components.OmniLink.Href : System.String {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniLink.NewTab : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLink.OnClick : Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniListBox<TValue>.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniListBox<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniListBox<TValue>.Options : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniOption<TValue>> {get(public);set(public)} [Parameter, EditorRequired]
-property public OmniEurope.Blazor.Components.OmniListBox<TValue>.VisibleRows : System.Int32 {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniListBox<TValue,TSelection>.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniListBox<TValue,TSelection>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniListBox<TValue,TSelection>.Multiple : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniListBox<TValue,TSelection>.Options : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniOption<TValue>> {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniListBox<TValue,TSelection>.VisibleRows : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLoadingBar.Label : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLoadingBar.Mode : OmniEurope.Blazor.Components.OmniLoadingBarMode {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniLoadingState.Loading : System.Boolean {get(public)}
@@ -2766,8 +2667,6 @@ property public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.FooterTempl
 property public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.OptionTemplate : Microsoft.AspNetCore.Components.RenderFragment<OmniEurope.Blazor.Components.OmniOption<TValue>>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.Options : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniOption<TValue>> {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.Placeholder : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.Presentation : OmniEurope.Blazor.Components.OmniMultiSelectPresentation {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniMultiSelect<TValue>.VisibleRows : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNotification.ActionText : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNotification.DetailsHref : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNotification.Dismissible : System.Boolean {get(public);set(public)} [Parameter]
@@ -2791,15 +2690,6 @@ property public OmniEurope.Blazor.Components.OmniNotificationOptions.Dismissible
 property public OmniEurope.Blazor.Components.OmniNotificationOptions.Group : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniNotificationOptions.Position : OmniEurope.Blazor.Components.OmniNotificationPosition {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniNotificationOptions.ShowCountdown : System.Boolean {get(public);init(public)}
-property public OmniEurope.Blazor.Components.OmniNullableCheckBox.AllowIndeterminate : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniNullableCheckBox.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniNullableCheckBox.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniNullableCheckBox.Disabled : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniNullableSwitch.AllowIndeterminate : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniNullableSwitch.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniNullableSwitch.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniNullableSwitch.Disabled : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniNullableSwitch.IndeterminateDescription : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNumeric<TValue>.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNumeric<TValue>.Clamp : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniNumeric<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
@@ -2873,6 +2763,7 @@ property public OmniEurope.Blazor.Components.OmniPassword.ReadOnly : System.Bool
 property public OmniEurope.Blazor.Components.OmniPassword.RevealLabel : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPassword.Revealable : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPieSeries.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartSlice> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniPieSeries.Donut : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPieSeries.Title : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPopover.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniPopover.Label : System.String {get(public);set(public)} [Parameter, EditorRequired]
@@ -2918,43 +2809,6 @@ property public OmniEurope.Blazor.Components.OmniRelativeTime.RefreshInterval : 
 property public OmniEurope.Blazor.Components.OmniRelativeTime.TimeZone : System.TimeZoneInfo {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniRelativeTime.Value : System.DateTimeOffset {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniRequiredValidator<TValue>.Message : System.String {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.Actions : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.AllowPaging : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.AllowSorting : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.CanCreate : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.Columns : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.CreateDisabledReason : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.CreateIcon : OmniEurope.Blazor.Components.OmniIconName {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.CreateText : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.Density : OmniEurope.Blazor.Components.OmniDensity {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.EmptyContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.EmptyDescription : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.EmptyIcon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.EmptyTitle : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.ErrorMessage : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.FillAvailableHeight : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.Filters : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.Grid : OmniEurope.Blazor.Components.OmniDataGrid<TItem>? {get(public)}
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.Height : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.IsLoading : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.Items : System.Collections.Generic.IReadOnlyList<TItem>? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.KeySelector : System.Func<TItem,System.Object>? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.Label : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.Load : System.Func<OmniEurope.Blazor.Components.OmniDataGridLoadRequest,System.Threading.Tasks.Task<OmniEurope.Blazor.Components.OmniDataGridResult<TItem>>>? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.OnCreate : Microsoft.AspNetCore.Components.EventCallback {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.OnLoadError : Microsoft.AspNetCore.Components.EventCallback<System.Exception> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.OnRefresh : Microsoft.AspNetCore.Components.EventCallback {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.OnRetry : Microsoft.AspNetCore.Components.EventCallback {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.PageSize : System.Int32 {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.RowClick : Microsoft.AspNetCore.Components.EventCallback<TItem> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.SearchDelay : System.TimeSpan {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.SearchFilter : System.Func<TItem,System.String,System.Boolean>? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.SearchPlaceholder : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.SearchText : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.SearchTextChanged : Microsoft.AspNetCore.Components.EventCallback<System.String?> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.ShowCount : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.ShowRefresh : System.Boolean {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniResourceList<TItem>.ShowSearch : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniRow.Align : OmniEurope.Blazor.Components.OmniAlignment {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniRow.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniRow.Gap : OmniEurope.Blazor.Components.OmniSpacing {get(public);set(public)} [Parameter]
@@ -3056,12 +2910,7 @@ property public OmniEurope.Blazor.Components.OmniStack.Gap : OmniEurope.Blazor.C
 property public OmniEurope.Blazor.Components.OmniStack.Justify : OmniEurope.Blazor.Components.OmniJustification {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStack.Orientation : OmniEurope.Blazor.Components.OmniStackOrientation {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStack.Overflow : OmniEurope.Blazor.Components.OmniStackOverflow {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniStackedAreaSeries.ColorIndex : System.Int32 {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniStackedAreaSeries.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartPoint> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniStackedAreaSeries.Title : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniStackedColumnSeries.ColorIndex : System.Int32 {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniStackedColumnSeries.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartPoint> {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniStackedColumnSeries.Title : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniStack.Wrap : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStatTile.AriaLabel : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStatTile.Detail : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStatTile.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
@@ -3115,9 +2964,11 @@ property public OmniEurope.Blazor.Components.OmniStepsItem.Disabled : System.Boo
 property public OmniEurope.Blazor.Components.OmniStepsItem.Icon : OmniEurope.Blazor.Components.OmniIconName? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStepsItem.Index : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStepsItem.Title : System.String {get(public);set(public)} [Parameter, EditorRequired]
-property public OmniEurope.Blazor.Components.OmniSwitch.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniSwitch.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniSwitch.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSwitch<TValue>.AllowIndeterminate : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSwitch<TValue>.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSwitch<TValue>.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSwitch<TValue>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSwitch<TValue>.IndeterminateDescription : System.String {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTabs.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTabs.Density : OmniEurope.Blazor.Components.OmniDensity? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniTabs.Keys : System.Collections.Generic.IReadOnlyList<System.String> {get(public);set(public)} [Parameter]
@@ -3370,7 +3221,6 @@ type public OmniEurope.Blazor.Components.OmniAlertVariant [enum, sealed] : Syste
 type public OmniEurope.Blazor.Components.OmniAlignment [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniAppearance [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniAppearanceSettings [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
-type public OmniEurope.Blazor.Components.OmniAppearanceToggle [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniArcGauge [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniArcGaugeScale [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniArcGaugeScaleValue [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
@@ -3395,7 +3245,7 @@ type public OmniEurope.Blazor.Components.OmniCategoryAxis [class] : Microsoft.As
 type public OmniEurope.Blazor.Components.OmniChart [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniChartPoint [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniChartPoint>
 type public OmniEurope.Blazor.Components.OmniChartSlice [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniChartSlice>
-type public OmniEurope.Blazor.Components.OmniCheckBox [class] : OmniEurope.Blazor.Components.OmniInputBase<System.Boolean>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniCheckBox<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniCheckBoxList<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<System.Collections.Generic.IReadOnlyList<TValue>>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniCodeBlock [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniCodeEditor [class] : OmniEurope.Blazor.Components.OmniInputBase<System.String>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable, System.IDisposable
@@ -3406,7 +3256,6 @@ type public OmniEurope.Blazor.Components.OmniCodeViewer [class] : OmniEurope.Bla
 type public OmniEurope.Blazor.Components.OmniColorPicker [class] : OmniEurope.Blazor.Components.OmniInputBase<System.String>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniColumn [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniColumnSeries [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
-type public OmniEurope.Blazor.Components.OmniCompareValidator<TValue> [class] : OmniEurope.Blazor.Components.OmniValidatorBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniComponentBase [class, abstract] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniComponentsHost [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniConfirmRequest [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniConfirmRequest>
@@ -3463,16 +3312,11 @@ type public OmniEurope.Blazor.Components.OmniDiffHunk [class, sealed] : System.I
 type public OmniEurope.Blazor.Components.OmniDiffLine [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDiffLine>
 type public OmniEurope.Blazor.Components.OmniDiffLineKind [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDiffViewer [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
-type public OmniEurope.Blazor.Components.OmniDocumentEditor [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
-type public OmniEurope.Blazor.Components.OmniDonutSeries [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniDropDown<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniDynamicField [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniDynamicField>
 type public OmniEurope.Blazor.Components.OmniDynamicFieldKind [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniDynamicForm [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
-type public OmniEurope.Blazor.Components.OmniEmailValidator [class] : OmniEurope.Blazor.Components.OmniValidatorBase<System.String>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniEmptyState [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
-type public OmniEurope.Blazor.Components.OmniEntityPicker<TItem,TKey> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
-type public OmniEurope.Blazor.Components.OmniEntityPickerLayout [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniFieldset [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniFormField [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniGantt [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
@@ -3486,7 +3330,6 @@ type public OmniEurope.Blazor.Components.OmniGraphLayoutNode [class, sealed] : S
 type public OmniEurope.Blazor.Components.OmniGraphLayoutOptions [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniGraphLayoutOptions>
 type public OmniEurope.Blazor.Components.OmniGraphLayoutResult [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniGraphLayoutResult>
 type public OmniEurope.Blazor.Components.OmniGraphPoint [struct, sealed] : System.ValueType, System.IEquatable<OmniEurope.Blazor.Components.OmniGraphPoint>
-type public OmniEurope.Blazor.Components.OmniGrid [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniGridLines [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniHeader [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniHeaderTone [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
@@ -3523,10 +3366,9 @@ type public OmniEurope.Blazor.Components.OmniLayout [class] : OmniEurope.Blazor.
 type public OmniEurope.Blazor.Components.OmniLayoutWidth [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniLegend [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniLegendPosition [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
-type public OmniEurope.Blazor.Components.OmniLengthValidator [class] : OmniEurope.Blazor.Components.OmniValidatorBase<System.String>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniLineSeries [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniLink [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
-type public OmniEurope.Blazor.Components.OmniListBox<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniListBox<TValue,TSelection> [class] : OmniEurope.Blazor.Components.OmniInputBase<TSelection>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniLoadingBar [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniLoadingBarMode [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniLoadingState [class, sealed]
@@ -3562,8 +3404,6 @@ type public OmniEurope.Blazor.Components.OmniNotificationMessage [class, sealed]
 type public OmniEurope.Blazor.Components.OmniNotificationOptions [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniNotificationOptions>
 type public OmniEurope.Blazor.Components.OmniNotificationPosition [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniNotificationSeverity [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
-type public OmniEurope.Blazor.Components.OmniNullableCheckBox [class] : OmniEurope.Blazor.Components.OmniInputBase<System.Boolean?>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
-type public OmniEurope.Blazor.Components.OmniNullableSwitch [class] : OmniEurope.Blazor.Components.OmniInputBase<System.Boolean?>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniNumeric<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniOption<TValue> [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniOption<TValue>>
 type public OmniEurope.Blazor.Components.OmniOverlayService [class, sealed] : System.IDisposable
@@ -3586,7 +3426,6 @@ type public OmniEurope.Blazor.Components.OmniRadioButtonList<TValue> [class] : O
 type public OmniEurope.Blazor.Components.OmniRating [class] : OmniEurope.Blazor.Components.OmniInputBase<System.Int32?>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniRelativeTime [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniRequiredValidator<TValue> [class] : OmniEurope.Blazor.Components.OmniValidatorBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
-type public OmniEurope.Blazor.Components.OmniResourceList<TItem> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniReturnUrl [static-class, static]
 type public OmniEurope.Blazor.Components.OmniRow [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniScheduler [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
@@ -3616,8 +3455,6 @@ type public OmniEurope.Blazor.Components.OmniSpreadsheetValueKind [enum, sealed]
 type public OmniEurope.Blazor.Components.OmniStack [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniStackOrientation [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniStackOverflow [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
-type public OmniEurope.Blazor.Components.OmniStackedAreaSeries [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
-type public OmniEurope.Blazor.Components.OmniStackedColumnSeries [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniStatTile [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniStatus [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniStatus>
 type public OmniEurope.Blazor.Components.OmniStatusBadge<TValue> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
@@ -3631,7 +3468,7 @@ type public OmniEurope.Blazor.Components.OmniStepTimelineStatus [enum, sealed] :
 type public OmniEurope.Blazor.Components.OmniStepTimelineStep [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniStepTimelineStep>
 type public OmniEurope.Blazor.Components.OmniSteps [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniStepsItem [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
-type public OmniEurope.Blazor.Components.OmniSwitch [class] : OmniEurope.Blazor.Components.OmniInputBase<System.Boolean>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniSwitch<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniTabs [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniTabsItem [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniTemplateForm<TModel> [class] where TModel : class : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable

@@ -72,19 +72,9 @@ public partial class OmniCodeBlock : IAsyncDisposable
 
     private bool? CopyResult => _clipboard?.Result;
 
-    private string CopyLabel => CopyResult switch
-    {
-        true => Localize("CodeBlockCopied"),
-        false => Localize("CodeBlockCopyFailed"),
-        null => Localize("CodeBlockCopy")
-    };
+    private string CopyLabel => Localize(OmniClipboardCopy.LabelKey(CopyResult));
 
-    private string CopyAnnouncement => CopyResult switch
-    {
-        true => Localize("CodeBlockCopied"),
-        false => Localize("CodeBlockCopyFailed"),
-        null => string.Empty
-    };
+    private string CopyAnnouncement => OmniClipboardCopy.AnnouncementKey(CopyResult) is { } key ? Localize(key) : string.Empty;
 
     protected override void OnParametersSet()
     {

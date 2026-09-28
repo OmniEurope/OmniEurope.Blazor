@@ -30,6 +30,15 @@ public partial class OmniStack
     [Parameter]
     public OmniStackOverflow Overflow { get; set; } = OmniStackOverflow.None;
 
+    /// <summary>
+    /// Lets the items flow onto further lines (<c>flex-wrap: wrap</c>) instead of staying on one, the gap
+    /// separating the lines as well as the items: a row of badges or actions that must never overflow
+    /// its container. Off by default. Ignored when <see cref="Overflow"/> is set, which keeps the items
+    /// on one line by definition.
+    /// </summary>
+    [Parameter]
+    public bool Wrap { get; set; }
+
     private string?[] StackClasses =>
     [
         "omni-stack",
@@ -37,6 +46,7 @@ public partial class OmniStack
         $"omni-stack--gap-{Gap.ToString().ToLowerInvariant()}",
         $"omni-stack--align-{Align.ToString().ToLowerInvariant()}",
         $"omni-stack--justify-{Justify.ToString().ToLowerInvariant()}",
+        Wrap && Overflow == OmniStackOverflow.None ? "omni-stack--wrap" : null,
         Overflow == OmniStackOverflow.None ? null : $"omni-stack--overflow-{Overflow.ToString().ToLowerInvariant()}"
     ];
 

@@ -1,5 +1,5 @@
 <OmniStack Gap="OmniSpacing.Large">
-    <OmniGrid Columns="12" Gap="OmniSpacing.Medium">
+    <OmniRow Gap="OmniSpacing.Medium">
         <OmniColumn Span="12" MediumSpan="6" LargeSpan="4">
             <OmniCard>
                 <Header><OmniHeading Level="OmniHeadingLevel.H4">Colonne fluide</OmniHeading></Header>
@@ -18,13 +18,13 @@
                 <ChildContent>Une carte peut n'avoir que son corps.</ChildContent>
             </OmniCard>
         </OmniColumn>
-    </OmniGrid>
+    </OmniRow>
 
-    <OmniRow Gap="OmniSpacing.Small" Justify="OmniJustification.Between" Align="OmniAlignment.Center" Wrap="true">
+    <OmniStack Orientation="OmniStackOrientation.Horizontal" Wrap="true" Gap="OmniSpacing.Small" Justify="OmniJustification.Between" Align="OmniAlignment.Center">
         <OmniBadge Variant="OmniBadgeVariant.Accent">Début</OmniBadge>
         <OmniBadge Variant="OmniBadgeVariant.Neutral">Milieu</OmniBadge>
         <OmniBadge Variant="OmniBadgeVariant.Success">Fin</OmniBadge>
-    </OmniRow>
+    </OmniStack>
 
     <OmniFieldset>
         <Legend>Groupe de champs</Legend>

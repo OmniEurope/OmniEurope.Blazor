@@ -35,11 +35,14 @@
                         Commands="ExtendedCommands"
                         Extensions="[NoteExtension]" />
 
-        <OmniDocumentEditor Id="editor-document"
-                            @bind-Value="Report"
-                            Label="Rapport"
-                            FileName="rapport"
-                            Rows="12" />
+        <OmniHtmlEditor Id="editor-document"
+                        @bind-Value="Report"
+                        Label="Rapport"
+                        Sheet="true"
+                        ShowStatusBar="true"
+                        Commands="OmniHtmlEditorCommands.Document"
+                        FileName="rapport"
+                        Rows="12" />
 
         @* The gallery runs under the strict policy, which Monaco cannot: the code editor is shown
            with its plain text engine, the one it falls back to wherever Monaco is not served. *@

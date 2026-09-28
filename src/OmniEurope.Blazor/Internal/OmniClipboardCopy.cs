@@ -16,6 +16,20 @@ internal sealed class OmniClipboardCopy(IJSRuntime javaScript, Func<Task> redraw
     /// <summary>The outcome of the last copy while its feedback lasts; null when idle.</summary>
     internal bool? Result { get; private set; }
 
+    /// <summary>
+    /// The resource key of what the copy button says: "copy" while idle, then "copied" or "copy
+    /// failed" for as long as the feedback lasts. The same words name the button and fill the live region.
+    /// </summary>
+    internal static string LabelKey(bool? result) => result switch
+    {
+        true => "CodeBlockCopied",
+        false => "CodeBlockCopyFailed",
+        null => "CodeBlockCopy"
+    };
+
+    /// <summary>The resource key the live region announces after a copy; null while idle, so it stays silent.</summary>
+    internal static string? AnnouncementKey(bool? result) => result is null ? null : LabelKey(result);
+
     /// <summary>Copies <paramref name="text"/>; true when the clipboard accepted it.</summary>
     internal async Task<bool> CopyAsync(string text, TimeSpan feedbackDuration, TimeProvider timeProvider)
     {

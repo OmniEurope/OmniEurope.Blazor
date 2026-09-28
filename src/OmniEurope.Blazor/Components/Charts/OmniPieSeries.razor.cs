@@ -7,6 +7,13 @@ public partial class OmniPieSeries
     private double _total;
     [Parameter] public IReadOnlyList<OmniChartSlice> Data { get; set; } = Array.Empty<OmniChartSlice>();
     [Parameter] public string? Title { get; set; }
+
+    /// <summary>
+    /// Draws the slices as a ring (a donut) around an empty centre instead of a full disc. Off by default.
+    /// </summary>
+    [Parameter] public bool Donut { get; set; }
+
+    private string CssClass => Donut ? "omni-chart__donut" : "omni-chart__pie";
     private IEnumerable<OmniChartSlice> Slices
     {
         get
@@ -21,6 +28,6 @@ public partial class OmniPieSeries
     {
         var start = _angle;
         _angle += slice.Value / _total * 359.999;
-        return OmniChartGeometry.Arc(start, _angle, 42, false);
+        return OmniChartGeometry.Arc(start, _angle, 42, Donut);
     }
 }

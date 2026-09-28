@@ -47,14 +47,15 @@ public sealed class SelectionRecetteTests : OmniBunitContext
         var compact = Render<OmniMultiSelect<string>>(parameters => parameters
             .Add(component => component.Options, options)
             .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.Presentation, OmniMultiSelectPresentation.Compact));
+            .Add(component => component.ValueExpression, () => value));
 
         compact.WaitForAssertion(() => Assert.Single(module.Invocations["configureDisclosure"]));
         Assert.Equal(true, module.Invocations["configureDisclosure"][0].Arguments[1]);
         Assert.Equal(false, module.Invocations["configureDisclosure"][0].Arguments[2]);
 
-        Render<OmniMultiSelect<string>>(parameters => parameters
+        // The always-open list, a list box with Multiple, has no panel to close.
+        Render<OmniListBox<string, IReadOnlyList<string>>>(parameters => parameters
+            .Add(component => component.Multiple, true)
             .Add(component => component.Options, options)
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value));
@@ -69,7 +70,6 @@ public sealed class SelectionRecetteTests : OmniBunitContext
             .Add(component => component.Options, [new OmniOption<string>("a", "Alpha")])
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.Presentation, OmniMultiSelectPresentation.Compact)
             .Add(component => component.Disabled, true));
 
         var summary = compact.Find("summary");
@@ -79,8 +79,7 @@ public sealed class SelectionRecetteTests : OmniBunitContext
         var enabled = Render<OmniMultiSelect<string>>(parameters => parameters
             .Add(component => component.Options, [new OmniOption<string>("a", "Alpha")])
             .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.Presentation, OmniMultiSelectPresentation.Compact));
+            .Add(component => component.ValueExpression, () => value));
         Assert.Null(enabled.Find("summary").GetAttribute("aria-disabled"));
         Assert.Null(enabled.Find("summary").GetAttribute("tabindex"));
     }

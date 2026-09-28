@@ -45,6 +45,63 @@ public sealed class SelectionComponentTests : OmniBunitContext
     }
 
     [Fact]
+    public void ListBox_Multiple_IsANativeMultipleListThatSkipsDisabledOptions()
+    {
+        IReadOnlyList<string> bound = ["beta"];
+        var options = new OmniOption<string>[] { new("alpha", "Alpha"), new("beta", "Beta"), new("gamma", "Gamma", Disabled: true) };
+        var list = Render<OmniListBox<string, IReadOnlyList<string>>>(parameters => parameters
+            .Add(component => component.Multiple, true)
+            .Add(component => component.VisibleRows, 4)
+            .Add(component => component.Options, options)
+            .Add(component => component.Value, bound)
+            .Add(component => component.ValueExpression, () => bound)
+            .Add(component => component.ValueChanged, value => bound = value));
+
+        var select = list.Find("select.omni-list-box");
+        Assert.True(select.HasAttribute("multiple"));
+        Assert.Equal("4", select.GetAttribute("size"));
+        Assert.True(list.FindAll("option")[1].HasAttribute("selected"));
+
+        select.TriggerEvent("onchange", new ChangeEventArgs { Value = new[] { "0", "2" } });
+
+        Assert.Equal(["alpha"], bound);
+    }
+
+    [Fact]
+    public void ListBox_Single_RendersNoMultipleAttribute()
+    {
+        var bound = "beta";
+        var list = Render<OmniListBox<string, string>>(parameters => parameters
+            .Add(component => component.Options, [new OmniOption<string>("alpha", "Alpha"), new OmniOption<string>("beta", "Beta")])
+            .Add(component => component.Value, bound)
+            .Add(component => component.ValueExpression, () => bound));
+
+        Assert.False(list.Find("select").HasAttribute("multiple"));
+        Assert.True(list.FindAll("option")[1].HasAttribute("selected"));
+    }
+
+    [Fact]
+    public void ListBox_RefusesABindingThatDoesNotMatchItsMode()
+    {
+        var single = "alpha";
+        IReadOnlyList<string> many = [];
+        var options = new[] { new OmniOption<string>("alpha", "Alpha") };
+
+        var multipleOnOne = Assert.Throws<InvalidOperationException>(() => Render<OmniListBox<string, string>>(parameters => parameters
+            .Add(component => component.Multiple, true)
+            .Add(component => component.Options, options)
+            .Add(component => component.Value, single)
+            .Add(component => component.ValueExpression, () => single)));
+        var singleOnMany = Assert.Throws<InvalidOperationException>(() => Render<OmniListBox<string, IReadOnlyList<string>>>(parameters => parameters
+            .Add(component => component.Options, options)
+            .Add(component => component.Value, many)
+            .Add(component => component.ValueExpression, () => many)));
+
+        Assert.Contains("Multiple", multipleOnOne.Message, StringComparison.Ordinal);
+        Assert.Contains("Multiple", singleOnMany.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void DateSliderAndColor_UpdateTheirBoundValues()
     {
         var form = Render<SelectionTestHost>();

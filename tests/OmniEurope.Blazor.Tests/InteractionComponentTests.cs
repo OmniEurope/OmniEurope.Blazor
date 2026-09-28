@@ -18,7 +18,6 @@ public sealed class InteractionComponentTests : OmniBunitContext
             Render<OmniSidebar>(parameters => parameters.Add(component => component.Open, true).AddChildContent("Navigation")).Markup,
             Render<OmniSidebarToggle>(parameters => parameters.Add(component => component.Controls, "sidebar")).Markup,
             Render<OmniThemeScope>(parameters => parameters.Add(component => component.Appearance, OmniAppearance.Dark).AddChildContent("Theme")).Markup,
-            Render<OmniAppearanceToggle>().Markup,
             Render<OmniLabel>(parameters => parameters.Add(component => component.For, "field").AddChildContent("Field")).Markup,
             Render<OmniFormField>(parameters => parameters
                 .Add(component => component.For, "field")
@@ -91,16 +90,9 @@ public sealed class InteractionComponentTests : OmniBunitContext
             .Add(component => component.Open, sidebarState)
             .Add(component => component.OpenChanged, value => sidebarState = value));
 
-        var appearance = OmniAppearance.System;
-        var appearanceToggle = Render<OmniAppearanceToggle>(parameters => parameters
-            .Add(component => component.Appearance, appearance)
-            .Add(component => component.AppearanceChanged, value => appearance = value));
-
         sidebarToggle.Find("button").Click();
-        appearanceToggle.Find("button").Click();
 
         Assert.True(sidebarState);
-        Assert.Equal(OmniAppearance.Light, appearance);
     }
 
     [Fact]
@@ -218,20 +210,16 @@ public sealed class InteractionComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public async Task Validators_RejectLengthEmailAndComparisonMismatches()
+    public async Task RequiredValidator_RejectsAnEmptyField()
     {
         var form = Render<FormTestHost>();
-        form.Find("#name").Input("Al");
-        form.Instance.Model.Email = "invalid";
-        form.Instance.Model.Password = "first";
-        form.Instance.Model.ConfirmedPassword = "second";
 
         Assert.False(await form.InvokeAsync(() => form.Instance.EditContext.Validate()));
-        var messages = form.Instance.EditContext.GetValidationMessages().ToArray();
+        Assert.Contains("Ce champ est obligatoire.", form.Instance.EditContext.GetValidationMessages());
 
-        Assert.Contains("La longueur de ce champ n'est pas valide.", messages);
-        Assert.Contains("L'adresse e-mail n'est pas valide.", messages);
-        Assert.Contains("Les valeurs ne correspondent pas.", messages);
+        form.Find("#name").Input("Alice");
+
+        Assert.True(await form.InvokeAsync(() => form.Instance.EditContext.Validate()));
     }
 
     [Fact]
@@ -241,10 +229,10 @@ public sealed class InteractionComponentTests : OmniBunitContext
         var originalContext = host.Instance.EditContext;
 
         Assert.True(await host.InvokeAsync(() => host.Instance.EditContext.Validate()));
-        host.Instance.UseAlternativeComparison();
+        host.Instance.ValidateTheBlankField();
         host.Render();
         Assert.False(await host.InvokeAsync(() => host.Instance.EditContext.Validate()));
-        Assert.Contains("Les valeurs ne correspondent pas.", host.Instance.EditContext.GetValidationMessages());
+        Assert.Contains("Ce champ est obligatoire.", host.Instance.EditContext.GetValidationMessages());
 
         host.Instance.ReplaceModel();
         host.Render();
@@ -258,11 +246,11 @@ public sealed class InteractionComponentTests : OmniBunitContext
     {
         var form = Render<FormTestHost>();
 
-        form.Find("#name").Input("Al");
+        form.Find("#name").Input(string.Empty);
         form.Find("#name").Input("Alice");
 
         form.WaitForAssertion(() => Assert.DoesNotContain(
-            "La longueur de ce champ n'est pas valide.",
+            "Ce champ est obligatoire.",
             form.Instance.EditContext.GetValidationMessages()), TimeSpan.FromSeconds(1));
     }
 

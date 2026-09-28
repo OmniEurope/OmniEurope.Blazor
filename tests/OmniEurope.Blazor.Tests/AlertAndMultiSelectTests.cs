@@ -141,7 +141,6 @@ public sealed class AlertAndMultiSelectTests : OmniBunitContext
         var bound = value;
         return Render<OmniMultiSelect<string>>(parameters => parameters
             .Add(component => component.Options, Regions)
-            .Add(component => component.Presentation, OmniMultiSelectPresentation.Compact)
             .Add(component => component.Placeholder, placeholder)
             .Add(component => component.Filterable, filterable)
             .Add(component => component.FilterTextChanged,
@@ -207,7 +206,6 @@ public sealed class AlertAndMultiSelectTests : OmniBunitContext
         IReadOnlyList<string> bound = [];
         var select = Render<OmniMultiSelect<string>>(parameters => parameters
             .Add(component => component.Options, Regions)
-            .Add(component => component.Presentation, OmniMultiSelectPresentation.Compact)
             .Add(component => component.Value, bound)
             .Add(component => component.ValueExpression, () => bound)
             .Add(component => component.OptionTemplate,
@@ -220,21 +218,6 @@ public sealed class AlertAndMultiSelectTests : OmniBunitContext
 
         // The check box survives the template: the option is still selectable.
         Assert.Equal(3, select.FindAll(".omni-multi-select-compact__option input[type=checkbox]").Count);
-    }
-
-    [Fact]
-    public void MultiSelect_RefusesToFilterAListPresentation()
-    {
-        // The list presentation is a native multiple select: it has nowhere to put a search field and
-        // addresses its options by position, so a silently ignored filter would be the trap.
-        IReadOnlyList<string> bound = [];
-        var failure = Assert.Throws<InvalidOperationException>(() => Render<OmniMultiSelect<string>>(parameters => parameters
-            .Add(component => component.Options, Regions)
-            .Add(component => component.Filterable, true)
-            .Add(component => component.Value, bound)
-            .Add(component => component.ValueExpression, () => bound)));
-
-        Assert.Contains("Compact", failure.Message, StringComparison.Ordinal);
     }
 
     private static string[] OptionTexts(IRenderedComponent<OmniMultiSelect<string>> select) =>
