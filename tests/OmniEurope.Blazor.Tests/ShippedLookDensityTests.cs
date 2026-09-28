@@ -215,7 +215,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         Assert.Equal("auto", ShippedLookTests.Value(viewport, "overflow"));
         Assert.Equal("thin", ShippedLookTests.Value(viewport, "scrollbar-width"));
         Assert.Equal("color-mix(in srgb, var(--omni-color-text) 28%, transparent) transparent", ShippedLookTests.Value(viewport, "scrollbar-color"));
-        Assert.Contains("--omni-grid-frame: var(--omni-card-background, var(--omni-color-surface))", ShippedLookTests.Rules().First(rule => rule.Selector == ".omni-data-grid").Body, StringComparison.Ordinal);
+        Assert.Contains("--omni-grid-frame: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface)))", ShippedLookTests.Rules().First(rule => rule.Selector == ".omni-data-grid").Body, StringComparison.Ordinal);
     }
 
     [Fact]

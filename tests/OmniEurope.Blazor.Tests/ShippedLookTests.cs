@@ -230,7 +230,8 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         var filled = Body(".omni-alert--filled");
         Assert.Equal("var(--omni-alert-fill)", Value(filled, "background"));
         Assert.Equal("var(--omni-alert-on)", Value(filled, "color"));
-        Assert.StartsWith("inset 0 1px 0 rgb(255 255 255 / 14%), 0 1px 2px var(--omni-elevation-shadow", Value(filled, "box-shadow"), StringComparison.Ordinal);
+        // A theme may flatten it (--omni-alert-shadow, Aplat); the package draws it otherwise.
+        Assert.StartsWith("var(--omni-alert-shadow, inset 0 1px 0 rgb(255 255 255 / 14%), 0 1px 2px var(--omni-elevation-shadow", Value(filled, "box-shadow"), StringComparison.Ordinal);
         Assert.Contains("color-mix(in srgb, var(--omni-alert-fill) 60%, transparent)", Value(filled, "box-shadow"), StringComparison.Ordinal);
         Assert.Equal("var(--omni-alert-radius, var(--omni-radius))", Value(Body(".omni-alert"), "border-radius"));
 
@@ -319,13 +320,17 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         Assert.Equal(expected, Value(Body(selector), property));
     }
 
-    // ---- The hooks of Relief and Givre, each neutral when a theme does not set it ----
+    // ---- The hooks of Relief, Givre and Aplat, each neutral when a theme does not set it ----
 
     [Theory]
     [InlineData(".omni-theme-scope", "background-image", "var(--omni-backdrop, none)")]
     [InlineData(".omni-input", "box-shadow", "var(--omni-input-shadow, 0 0 #0000)")]
     [InlineData(".omni-input:focus-visible", "box-shadow", "var(--omni-focus-ring), var(--omni-input-shadow, 0 0 #0000)")]
     [InlineData(".omni-overlay", "backdrop-filter", "var(--omni-scrim-filter, none)")]
+    [InlineData(".omni-input", "background", "var(--omni-input-background, var(--omni-color-surface))")]
+    [InlineData(".omni-input", "border", "var(--omni-border-width) solid var(--omni-input-border-color, var(--omni-color-border))")]
+    [InlineData(".omni-password", "background", "var(--omni-input-background, var(--omni-color-surface))")]
+    [InlineData(".omni-password", "border", "var(--omni-border-width) solid var(--omni-input-border-color, var(--omni-color-border))")]
     public void ThemeHooks_AreNeutralWithoutATheme(string selector, string property, string expected)
     {
         Assert.Equal(expected, Value(Body(selector), property));
@@ -339,6 +344,10 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         Assert.Equal("0 0 #0000", Value(body, "--omni-input-shadow"));
         Assert.Equal("none", Value(body, "--omni-scrim-filter"));
         Assert.Equal("initial", Value(body, "--omni-dialog-background"));
+        Assert.Equal("initial", Value(body, "--omni-input-background"));
+        Assert.Equal("initial", Value(body, "--omni-input-border-color"));
+        Assert.Equal("initial", Value(body, "--omni-grid-background"));
+        Assert.Equal("initial", Value(body, "--omni-alert-shadow"));
     }
 
     [Fact]

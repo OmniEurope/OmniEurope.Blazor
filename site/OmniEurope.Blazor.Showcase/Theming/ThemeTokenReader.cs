@@ -122,7 +122,7 @@ public sealed partial class ThemeTokenReader(HttpClient http)
         // How parts are drawn: radii, borders, the card fill and the movement of a pressed button.
         _ when name.StartsWith("--omni-radius", StringComparison.Ordinal) || name.EndsWith("-radius", StringComparison.Ordinal) || name.Contains("-border-", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
         _ when name.EndsWith("-transform", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
-        "--omni-border-width" or "--omni-card-background" or "--omni-dialog-background" => ThemeTokenGroup.Shape,
+        "--omni-border-width" or "--omni-card-background" or "--omni-dialog-background" or "--omni-input-background" => ThemeTokenGroup.Shape,
         _ => ThemeTokenGroup.Color
     };
 
