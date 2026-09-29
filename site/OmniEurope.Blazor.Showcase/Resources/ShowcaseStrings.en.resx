@@ -13,7 +13,7 @@
   <data name="NavShowcase" xml:space="preserve"><value>Overview</value></data>
   <data name="NavDocumentation" xml:space="preserve"><value>Documentation</value></data>
   <data name="NavComponents" xml:space="preserve"><value>Components</value></data>
-  <data name="NavCustomize" xml:space="preserve"><value>Customization</value></data>
+  <data name="NavCustomize" xml:space="preserve"><value>Customisation</value></data>
   <data name="ErrorTitle" xml:space="preserve"><value>Something went wrong</value></data>
   <data name="ErrorMessage" xml:space="preserve"><value>The page could not be rendered.</value></data>
   <data name="Retry" xml:space="preserve"><value>Try again</value></data>
@@ -26,13 +26,13 @@
   <data name="HomeTitle" xml:space="preserve"><value>Accessible Blazor components under a strict security policy</value></data>
   <data name="HomeLead" xml:space="preserve"><value>A component library built for applications that forbid inline style, require accessibility, and want a theme they can drive end to end.</value></data>
   <data name="HomeSeeComponents" xml:space="preserve"><value>See the components</value></data>
-  <data name="HomeSeeCustomize" xml:space="preserve"><value>Customize the theme</value></data>
+  <data name="HomeSeeCustomize" xml:space="preserve"><value>Customise the theme</value></data>
   <data name="HomePillarsTitle" xml:space="preserve"><value>What sets the library apart</value></data>
   <data name="PillarCspTitle" xml:space="preserve"><value>Strict security policy</value></data>
   <data name="PillarCspBody" xml:space="preserve"><value>No inline style attribute, no injected style element, no dynamic script evaluation. The library runs under a policy that refuses all of it.</value></data>
   <data name="PillarThemeTitle" xml:space="preserve"><value>Fully tokenised theme</value></data>
   <data name="PillarThemeBody" xml:space="preserve"><value>Colours, type, spacing, radii, shadows and the chart palette all go through CSS variables, with no value frozen inside a rule.</value></data>
-  <data name="PillarA11yTitle" xml:space="preserve"><value>Accessibility held by tests</value></data>
+  <data name="PillarA11yTitle" xml:space="preserve"><value>Accessibility backed by tests</value></data>
   <data name="PillarA11yBody" xml:space="preserve"><value>Roles, states and labels are checked by the test suite, not merely promised by the documentation.</value></data>
   <data name="PillarWeightTitle" xml:space="preserve"><value>Weight kept in check</value></data>
   <data name="PillarWeightBody" xml:space="preserve"><value>Continuous integration checks that the shipped stylesheet is the minified copy, and measures the assembly and the NuGet package against a size budget.</value></data>
@@ -47,7 +47,7 @@
   <data name="DocsCssBody" xml:space="preserve"><value>The stylesheet ships as a static asset of the package.</value></data>
   <data name="DocsCspTitle" xml:space="preserve"><value>Security policy</value></data>
   <data name="DocsCspBody" xml:space="preserve"><value>The library asks for nothing beyond these directives: no inline style, no dynamic script evaluation.</value></data>
-  <data name="DocsThemeTitle" xml:space="preserve"><value>Customize the theme</value></data>
+  <data name="DocsThemeTitle" xml:space="preserve"><value>Customise the theme</value></data>
   <data name="DocsThemeBody" xml:space="preserve"><value>Redefining one variable repaints every component that reads it.</value></data>
   <data name="DocsThemePointer" xml:space="preserve"><value>To compose a full theme without writing CSS:</value></data>
   <data name="GalleryPageTitle" xml:space="preserve"><value>Components</value></data>
@@ -75,9 +75,9 @@
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Four severities: info, success, warning and danger.</value></data>
   <data name="DemoAlertsCapability2" xml:space="preserve"><value>Two variants: quiet outline or filled surface.</value></data>
   <data name="DemoAlertsCapability3" xml:space="preserve"><value>A live mode that announces the message to assistive technology.</value></data>
-  <data name="CustomizePageTitle" xml:space="preserve"><value>Customization</value></data>
-  <data name="CustomizeTitle" xml:space="preserve"><value>Customization</value></data>
-  <data name="CustomizeLead" xml:space="preserve"><value>Pick a theme, which gives the shape, then a palette, which gives the colours: any palette paints any theme, and the whole site repaints as you go. The preview takes up the compositions of the reference mockup.</value></data>
+  <data name="CustomizePageTitle" xml:space="preserve"><value>Customisation</value></data>
+  <data name="CustomizeTitle" xml:space="preserve"><value>Customisation</value></data>
+  <data name="CustomizeLead" xml:space="preserve"><value>Pick a theme, which gives the shape, then a palette, which gives the colours: any palette paints any theme, and the whole site repaints as you go. The preview reuses the compositions of the reference mockup.</value></data>
   <data name="CustomizeTokensTitle" xml:space="preserve"><value>Variables</value></data>
   <data name="CustomizeTokensLead" xml:space="preserve"><value>This list is read from the shipped stylesheet, so it cannot drift away from what the library actually exposes. An edited variable is laid over the combination, in both modes; picking another theme or palette clears it.</value></data>
   <data name="CustomizeReset" xml:space="preserve"><value>Clear the edits</value></data>
@@ -163,7 +163,7 @@
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>A checkbox and a switch with three positions, indeterminate included.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Validation</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Rules declared next to the field they guard.</value></data>
-  <data name="DemoValidationCapability1" xml:space="preserve"><value>Required, length, email shape and comparison.</value></data>
+  <data name="DemoValidationCapability1" xml:space="preserve"><value>Required, length, email format and comparison.</value></data>
   <data name="DemoValidationCapability2" xml:space="preserve"><value>Focus moves to the first invalid field on submit.</value></data>
   <data name="DemoValidationCapability3" xml:space="preserve"><value>No attribute on the model, everything lives in the markup.</value></data>
   <data name="DemoEditorTitle" xml:space="preserve"><value>Editors and upload</value></data>
@@ -215,7 +215,7 @@
   <data name="DemoDiagramCapability4" xml:space="preserve"><value>Reads and writes back the stored graph format without losing anything.</value></data>
   <data name="DemoPlanningTitle" xml:space="preserve"><value>Planning</value></data>
   <data name="DemoPlanningSummary" xml:space="preserve"><value>A Gantt chart, the steps of a run and a timeline to place.</value></data>
-  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt by day, week or month, with groups, dependencies and today.</value></data>
+  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt by day, week or month, with groups, dependencies and a today marker.</value></data>
   <data name="DemoPlanningCapability2" xml:space="preserve"><value>Run steps on a time scale, with the steps that never started.</value></data>
   <data name="DemoPlanningCapability3" xml:space="preserve"><value>Timeline on the right, on the left or alternating, choosing the first side.</value></data>
   <data name="DemoPagesTitle" xml:space="preserve"><value>Pages</value></data>
@@ -305,7 +305,7 @@
   <data name="DemoStatesTitle" xml:space="preserve"><value>Rest, hover and press</value></data>
   <data name="DemoStatesSummary" xml:space="preserve"><value>The three states of a button variant side by side.</value></data>
   <data name="DemoStatesCapability1" xml:space="preserve"><value>Hover and press read the theme's tokens: hovered fill, pressed fill and press gesture.</value></data>
-  <data name="DemoStatesCapability2" xml:space="preserve"><value>A comparison aid of the showcase: a browser cannot freeze :hover or :active.</value></data>
+  <data name="DemoStatesCapability2" xml:space="preserve"><value>A showcase comparison aid: a browser cannot freeze :hover or :active.</value></data>
   <data name="DemoAppShellTitle" xml:space="preserve"><value>Application shell</value></data>
   <data name="DemoAppShellSummary" xml:space="preserve"><value>Top bar, side menu that collapses to an icon rail, content.</value></data>
   <data name="DemoAppShellCapability1" xml:space="preserve"><value>Collapse button, search, help, bell with a dot and an account menu closed at rest.</value></data>
@@ -328,7 +328,7 @@
   <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Welded file field, single-file zone, multiple-file zone with a reduced list.</value></data>
   <data name="DemoVerticalFormCapability4" xml:space="preserve"><value>Disabled and read-only stay distinct, in the three densities.</value></data>
   <data name="DemoSettingsTabsTitle" xml:space="preserve"><value>Settings in tabs</value></data>
-  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>One icon tab per theme, one section per tab, one tile per setting.</value></data>
+  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>One icon tab per topic, one section per tab, one tile per setting.</value></data>
   <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>A switch in a tile takes the tile's name as its label; a click on the tile toggles it.</value></data>
   <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>The control stands on the right, the name, hint and icon on the left.</value></data>
   <data name="DemoNoticesTitle" xml:space="preserve"><value>Notifications and dialogs</value></data>
@@ -342,7 +342,7 @@
   <data name="DemoLoadingCapability3" xml:space="preserve"><value>The skeleton takes the shape of what it replaces.</value></data>
   <data name="DemoRunGridsTitle" xml:space="preserve"><value>Run grids</value></data>
   <data name="DemoRunGridsSummary" xml:space="preserve"><value>The mockup's two grids: sorted with an active column, striped with a sticky header.</value></data>
-  <data name="DemoRunGridsCapability1" xml:space="preserve"><value>The sorted column is tinted more lightly than the chosen row, so they tell apart.</value></data>
+  <data name="DemoRunGridsCapability1" xml:space="preserve"><value>The sorted column is tinted more lightly than the chosen row, so the two can be told apart.</value></data>
   <data name="DemoRunGridsCapability2" xml:space="preserve"><value>The header stays visible as the grid scrolls; the duration aligns at the end.</value></data>
   <data name="DemoRunGridsCapability3" xml:space="preserve"><value>The status is a compact dot (omni-status).</value></data>
   <data name="LoadingFrameBrand" xml:space="preserve"><value>Aetheus</value></data>
@@ -350,7 +350,7 @@
   <data name="LoadingBarLabel" xml:space="preserve"><value>Page loading</value></data>
   <data name="LoadingSweep" xml:space="preserve"><value>Sweeping bar</value></data>
   <data name="LoadingFill" xml:space="preserve"><value>Filling bar</value></data>
-  <data name="LoadingHint" xml:space="preserve"><value>The bar sits under the header above. At the end it reaches the end, then fades.</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>The bar sits just under the header above. When loading finishes, it runs to the end, then fades.</value></data>
   <data name="LoadingWaiting" xml:space="preserve"><value>Waiting</value></data>
   <data name="LoadingDeploying" xml:space="preserve"><value>Deploying</value></data>
   <data name="LoadingChecking" xml:space="preserve"><value>Checking</value></data>
@@ -365,7 +365,7 @@
   <data name="NoticeShowAgain" xml:space="preserve"><value>Show the notifications again</value></data>
   <data name="NoticeUnlistOpen" xml:space="preserve"><value>Unlist version 1.0.0</value></data>
   <data name="NoticeUnlistTitle" xml:space="preserve"><value>Unlist version 1.0.0</value></data>
-  <data name="NoticeUnlistBody" xml:space="preserve"><value>The version will disappear from search and floating ranges. It stays downloadable by exact number.</value></data>
+  <data name="NoticeUnlistBody" xml:space="preserve"><value>The version will disappear from search and floating ranges. It will remain downloadable by its exact number.</value></data>
   <data name="NoticeUnlistAlpha" xml:space="preserve"><value>Also unlist 0.1.0-alpha.1</value></data>
   <data name="NoticeUnlist" xml:space="preserve"><value>Unlist</value></data>
   <data name="NoticeUnlistDone" xml:space="preserve"><value>Version unlisted</value></data>
@@ -418,7 +418,7 @@
   <data name="SettingsFailures" xml:space="preserve"><value>Pipeline failures</value></data>
   <data name="SettingsFailuresHint" xml:space="preserve"><value>A notification for each failed run.</value></data>
   <data name="SettingsDigest" xml:space="preserve"><value>Daily digest</value></data>
-  <data name="SettingsDigestHint" xml:space="preserve"><value>Sent every morning at 8.</value></data>
+  <data name="SettingsDigestHint" xml:space="preserve"><value>Sent every morning at 8 am.</value></data>
   <data name="SettingsDigestAddress" xml:space="preserve"><value>Digest address</value></data>
   <data name="DemoShellDashboard" xml:space="preserve"><value>Dashboard</value></data>
   <data name="DemoShellInProgress" xml:space="preserve"><value>In progress</value></data>
@@ -461,7 +461,7 @@
   <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
   <data name="ShellBrand" xml:space="preserve"><value>Aetheus</value></data>
   <data name="ShellSearch" xml:space="preserve"><value>Search</value></data>
-  <data name="ShellSearchPlaceholder" xml:space="preserve"><value>Search a pipeline</value></data>
+  <data name="ShellSearchPlaceholder" xml:space="preserve"><value>Search for a pipeline</value></data>
   <data name="ShellHelp" xml:space="preserve"><value>Help</value></data>
   <data name="ShellNotifications" xml:space="preserve"><value>Notifications, {0} unread</value></data>
   <data name="ShellAccount" xml:space="preserve"><value>Account</value></data>
@@ -508,11 +508,11 @@
   <data name="SurfTabOverview" xml:space="preserve"><value>Overview</value></data>
   <data name="SurfTabOverviewText" xml:space="preserve"><value>Run #2399, finished in 1 min 48 s.</value></data>
   <data name="SurfTabLogs" xml:space="preserve"><value>Logs</value></data>
-  <data name="SurfTabLogsText" xml:space="preserve"><value>412 lines, no error.</value></data>
+  <data name="SurfTabLogsText" xml:space="preserve"><value>412 lines, no errors.</value></data>
   <data name="SurfTabArtifacts" xml:space="preserve"><value>Artifacts</value></data>
   <data name="SurfTabArtifactsText" xml:space="preserve"><value>Two packages and their symbols.</value></data>
   <data name="SurfTabSettings" xml:space="preserve"><value>Settings</value></data>
-  <data name="SurfTabSettingsText" xml:space="preserve"><value>Locked restore, signing imposed.</value></data>
+  <data name="SurfTabSettingsText" xml:space="preserve"><value>Locked restore, signing enforced.</value></data>
   <data name="SurfMenuLabel" xml:space="preserve"><value>Sections</value></data>
   <data name="SurfMenuDashboard" xml:space="preserve"><value>Dashboard</value></data>
   <data name="SurfMenuServers" xml:space="preserve"><value>Servers</value></data>
@@ -557,7 +557,7 @@
   <data name="VFormOptions" xml:space="preserve"><value>Options</value></data>
   <data name="VFormLocked" xml:space="preserve"><value>Locked restore</value></data>
   <data name="VFormSymbols" xml:space="preserve"><value>Publish the symbols</value></data>
-  <data name="VFormSigning" xml:space="preserve"><value>Package signing (imposed)</value></data>
+  <data name="VFormSigning" xml:space="preserve"><value>Package signing (enforced)</value></data>
   <data name="VFormNotify" xml:space="preserve"><value>Notify at the end</value></data>
   <data name="VFormAutoDeploy" xml:space="preserve"><value>Automatic deployment (disabled)</value></data>
   <data name="VFormFiles" xml:space="preserve"><value>Files</value></data>
@@ -576,7 +576,7 @@
   <data name="VFormCancel" xml:space="preserve"><value>Cancel</value></data>
   <data name="VFormSave" xml:space="preserve"><value>Save</value></data>
   <data name="VFormSaved" xml:space="preserve"><value>Pipeline saved.</value></data>
-  <data name="VFormNotSaved" xml:space="preserve"><value>Fix the fields reported before saving.</value></data>
+  <data name="VFormNotSaved" xml:space="preserve"><value>Fix the flagged fields before saving.</value></data>
   <data name="VFormDescriptionValue" xml:space="preserve"><value>Deploys the main branch once the acceptance tests pass.</value></data>
   <data name="GridFiledColumn" xml:space="preserve"><value>Filed on</value></data>
   <!-- Demo texts: batch C -->
@@ -695,7 +695,7 @@
   <data name="DemoPlanningReview" xml:space="preserve"><value>Review</value></data>
   <data name="DemoPlanningReviewText" xml:space="preserve"><value>An officer was assigned.</value></data>
   <data name="DemoPlanningDecision" xml:space="preserve"><value>Decision</value></data>
-  <data name="DemoPlanningDecisionText" xml:space="preserve"><value>The decision was notified.</value></data>
+  <data name="DemoPlanningDecisionText" xml:space="preserve"><value>The decision was communicated.</value></data>
   <data name="DemoPlanningGroupDesign" xml:space="preserve"><value>Design</value></data>
   <data name="DemoPlanningGroupBuild" xml:space="preserve"><value>Delivery</value></data>
   <data name="DemoPlanningTaskScoping" xml:space="preserve"><value>Scoping</value></data>
@@ -739,15 +739,15 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>The badge settles on the bottom of the row.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Stretched</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Both cards take the same height.</value></data>
-  <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Approve the file</value></data>
+  <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Approve the case</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filter the documents</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Close the request</value></data>
   <data name="DemoLayoutNotifications" xml:space="preserve"><value>Notifications</value></data>
   <data name="DemoLayoutNotificationsText" xml:space="preserve"><value>What the application tells you, and how.</value></data>
   <data name="DemoLayoutEmailAlerts" xml:space="preserve"><value>Email alerts</value></data>
-  <data name="DemoLayoutEmailAlertsText" xml:space="preserve"><value>A message at every status change.</value></data>
+  <data name="DemoLayoutEmailAlertsText" xml:space="preserve"><value>A message on every status change.</value></data>
   <data name="DemoLayoutWeeklyDigest" xml:space="preserve"><value>Weekly digest</value></data>
-  <data name="DemoLayoutWeeklyDigestText" xml:space="preserve"><value>The week's files, on Monday morning.</value></data>
+  <data name="DemoLayoutWeeklyDigestText" xml:space="preserve"><value>The week's cases, on Monday morning.</value></data>
   <data name="DemoLayoutServerName" xml:space="preserve"><value>Server name</value></data>
   <data name="DemoLayoutServerNameText" xml:space="preserve"><value>Visible in the console.</value></data>
   <data name="DemoLayoutIdentifierReadOnly" xml:space="preserve"><value>Identifier, read-only</value></data>
@@ -757,7 +757,7 @@
   <data name="DemoLayoutCancel" xml:space="preserve"><value>Cancel</value></data>
   <data name="DemoLayoutDeployed" xml:space="preserve"><value>Deployment complete</value></data>
   <data name="DemoLayoutDeployedText" xml:space="preserve"><value>Version 1.0.1 is live.</value></data>
-  <data name="DemoLayoutEachChange" xml:space="preserve"><value>At every change.</value></data>
+  <data name="DemoLayoutEachChange" xml:space="preserve"><value>On every change.</value></data>
   <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>A spacious alert in a comfortable page.</value></data>
   <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>Compact tabs</value></data>
   <data name="DemoLayoutGeneral" xml:space="preserve"><value>General</value></data>
@@ -805,20 +805,20 @@
   <data name="DemoNavigationHome" xml:space="preserve"><value>Home</value></data>
   <data name="DemoNavigationComponents" xml:space="preserve"><value>Components</value></data>
   <data name="DemoNavigationCurrent" xml:space="preserve"><value>Navigation</value></data>
-  <data name="DemoNavigationSections" xml:space="preserve"><value>File sections</value></data>
+  <data name="DemoNavigationSections" xml:space="preserve"><value>Case sections</value></data>
   <data name="DemoNavigationTabSummary" xml:space="preserve"><value>Summary</value></data>
   <data name="DemoNavigationDocuments" xml:space="preserve"><value>Documents</value></data>
   <data name="DemoNavigationDocumentsText" xml:space="preserve"><value>Each document carries its filing date.</value></data>
   <data name="DemoNavigationHistory" xml:space="preserve"><value>History</value></data>
   <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Twelve recorded movements.</value></data>
-  <data name="DemoNavigationProgress" xml:space="preserve"><value>File progress</value></data>
+  <data name="DemoNavigationProgress" xml:space="preserve"><value>Case progress</value></data>
   <data name="DemoNavigationFiling" xml:space="preserve"><value>Filing</value></data>
   <data name="DemoNavigationFilingText" xml:space="preserve"><value>The documents have been received.</value></data>
   <data name="DemoNavigationReview" xml:space="preserve"><value>Review</value></data>
-  <data name="DemoNavigationReviewText" xml:space="preserve"><value>The file is under examination.</value></data>
+  <data name="DemoNavigationReviewText" xml:space="preserve"><value>The case is under review.</value></data>
   <data name="DemoNavigationDecision" xml:space="preserve"><value>Decision</value></data>
-  <data name="DemoNavigationDecisionText" xml:space="preserve"><value>The decision will be notified by post.</value></data>
-  <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>The file holds {0} documents.</value></data>
+  <data name="DemoNavigationDecisionText" xml:space="preserve"><value>The decision will be sent by post.</value></data>
+  <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>The case holds {0} documents.</value></data>
   <data name="DemoPagesReload" xml:space="preserve"><value>Reload the record</value></data>
   <data name="DemoPagesMissing" xml:space="preserve"><value>Record not found</value></data>
   <data name="DemoPagesNotFound" xml:space="preserve"><value>The requested record has been removed or never existed.</value></data>
@@ -866,7 +866,7 @@
   <data name="DemoBadgesFailed" xml:space="preserve"><value>Failed</value></data>
   <data name="DemoBadgesFixedSize" xml:space="preserve"><value>Fixed size</value></data>
   <data name="DemoAlertsMaintenance" xml:space="preserve"><value>Maintenance</value></data>
-  <data name="DemoAlertsMaintenanceText" xml:space="preserve"><value>The service will be unavailable on Sunday from 2 to 4 a.m.</value></data>
+  <data name="DemoAlertsMaintenanceText" xml:space="preserve"><value>The service will be unavailable on Sunday from 2 to 4 am.</value></data>
   <data name="DemoAlertsPublished" xml:space="preserve"><value>Package published</value></data>
   <data name="DemoAlertsPublishedText" xml:space="preserve"><value>OmniEurope.Blazor is available on NuGet.org.</value></data>
   <data name="DemoAlertsCertificate" xml:space="preserve"><value>Certificate expiring soon</value></data>
@@ -912,7 +912,7 @@
   <data name="DemoFeedbackUpload" xml:space="preserve"><value>Upload</value></data>
   <data name="DemoFeedbackIndexing" xml:space="preserve"><value>Indexing</value></data>
   <data name="DemoFeedbackSync" xml:space="preserve"><value>Synchronisation</value></data>
-  <data name="DemoFeedbackProcessed" xml:space="preserve"><value>Files processed</value></data>
+  <data name="DemoFeedbackProcessed" xml:space="preserve"><value>Cases processed</value></data>
   <data name="DemoFeedbackQuotaNear" xml:space="preserve"><value>Quota nearly reached</value></data>
   <data name="DemoFeedbackImportFailures" xml:space="preserve"><value>Import failures</value></data>
   <data name="DemoFeedbackAnalysing" xml:space="preserve"><value>Analysis in progress</value></data>
@@ -920,17 +920,17 @@
   <data name="DemoFeedbackNoKnownEnd" xml:space="preserve"><value>No known end</value></data>
   <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>The quota is computed over a rolling thirty days.</value></data>
   <data name="DemoFeedbackQuota" xml:space="preserve"><value>Quota</value></data>
-  <data name="DemoFeedbackArchivedTooltip" xml:space="preserve"><value>An archived file remains viewable as read-only.</value></data>
+  <data name="DemoFeedbackArchivedTooltip" xml:space="preserve"><value>An archived case remains viewable as read-only.</value></data>
   <data name="DemoFeedbackArchived" xml:space="preserve"><value>Archived</value></data>
   <data name="DemoFeedbackDraftTooltip" xml:space="preserve"><value>Draft.</value></data>
   <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Narrow</value></data>
-  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>An archived file remains viewable as read-only. It no longer counts towards the quotas, no longer appears in default searches and no longer receives notifications. To reopen it, an administrator restores it from the Archives tab; its history, its attachments and its comments then come back intact, along with the restore date.</value></data>
+  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>An archived case remains viewable as read-only. It no longer counts towards the quotas, no longer appears in default searches and no longer receives notifications. To reopen it, an administrator restores it from the Archives tab; its history, its attachments and its comments then come back intact, along with the restore date.</value></data>
   <data name="DemoFeedbackLongText" xml:space="preserve"><value>Long text</value></data>
   <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>The package's tooltip on a plain title attribute.</value></data>
   <data name="DemoFeedbackHover" xml:space="preserve"><value>Hover</value></data>
   <data name="DemoFeedbackLoadingAvatar" xml:space="preserve"><value>Loading the avatar</value></data>
   <data name="DemoFeedbackLoadingThumbnail" xml:space="preserve"><value>Loading the thumbnail</value></data>
-  <data name="DemoFeedbackLoadingFile" xml:space="preserve"><value>Loading the file</value></data>
+  <data name="DemoFeedbackLoadingFile" xml:space="preserve"><value>Loading the case</value></data>
   <data name="DemoFeedbackLoadingDemo" xml:space="preserve"><value>Loading the demonstration</value></data>
   <data name="DemoFeedbackSimulateLoad" xml:space="preserve"><value>Simulate a load</value></data>
   <data name="DemoFeedbackRecentRuns" xml:space="preserve"><value>Recent runs</value></data>
@@ -945,13 +945,13 @@
   <data name="DemoMediaImageContain" xml:space="preserve"><value>Whole image, uncropped</value></data>
   <data name="DemoMediaImageCover" xml:space="preserve"><value>Image cropped to fill the box</value></data>
   <data name="DemoMediaImageNatural" xml:space="preserve"><value>Image at its natural size</value></data>
-  <data name="DemoMediaTimeline" xml:space="preserve"><value>File stages</value></data>
+  <data name="DemoMediaTimeline" xml:space="preserve"><value>Case stages</value></data>
   <data name="DemoMediaFiling" xml:space="preserve"><value>Filing</value></data>
-  <data name="DemoMediaFilingText" xml:space="preserve"><value>The file has been registered.</value></data>
+  <data name="DemoMediaFilingText" xml:space="preserve"><value>The case has been registered.</value></data>
   <data name="DemoMediaReview" xml:space="preserve"><value>Review</value></data>
   <data name="DemoMediaReviewText" xml:space="preserve"><value>An officer has been assigned.</value></data>
   <data name="DemoMediaDecision" xml:space="preserve"><value>Decision</value></data>
-  <data name="DemoMediaDecisionText" xml:space="preserve"><value>The decision has been notified.</value></data>
+  <data name="DemoMediaDecisionText" xml:space="preserve"><value>The decision has been communicated.</value></data>
   <data name="DemoMediaIconCheck" xml:space="preserve"><value>Validated</value></data>
   <data name="DemoMediaIconWarning" xml:space="preserve"><value>Warning</value></data>
   <data name="DemoMediaIconFilter" xml:space="preserve"><value>Filter</value></data>
@@ -1235,7 +1235,7 @@
   <data name="DemoOverlayNoticeDoneTitle" xml:space="preserve"><value>Done</value></data>
   <data name="DemoOverlayNoticeDone" xml:space="preserve"><value>The {0} documents were imported.</value></data>
   <data name="DemoOverlayNotificationClosed" xml:space="preserve"><value>Notification closed</value></data>
-  <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>The quota is almost reached.</value></data>
+  <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>The quota has almost been reached.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Failure</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>The connection to the service failed.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Confirm the deletion</value></data>
@@ -1299,7 +1299,7 @@
   <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>New note.</value></data>
   <data name="DemoEditorNewNote" xml:space="preserve"><value>New note</value></data>
   <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Remove the note</value></data>
-  <data name="DemoEditorArticleText" xml:space="preserve"><value>Article 1. These rules apply to the files received.</value></data>
+  <data name="DemoEditorArticleText" xml:space="preserve"><value>Article 1. These rules apply to the case files received.</value></data>
   <data name="DemoEditorArticleDelay" xml:space="preserve"><value>Deadline</value></data>
   <data name="DemoEditorArticleDocument" xml:space="preserve"><value>Document</value></data>
   <data name="DemoEditorArticleDays" xml:space="preserve"><value>{0} days</value></data>
@@ -1314,10 +1314,10 @@
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>First point</value></data>
   <data name="DemoEditorReportSecondPoint" xml:space="preserve"><value>Second point</value></data>
   <data name="DemoEditorBodyGreeting" xml:space="preserve"><value>Dear Sir or Madam,</value></data>
-  <data name="DemoEditorBodyText" xml:space="preserve"><value>Your file has been received.</value></data>
+  <data name="DemoEditorBodyText" xml:space="preserve"><value>Your case file has been received.</value></data>
   <data name="DemoEditorEmptyFile" xml:space="preserve"><value>A file is empty.</value></data>
   <data name="DemoChoiceShippingLabel" xml:space="preserve"><value>Shipping method</value></data>
-  <data name="DemoChoiceExtrasLabel" xml:space="preserve"><value>File options</value></data>
+  <data name="DemoChoiceExtrasLabel" xml:space="preserve"><value>Case options</value></data>
   <data name="DemoChoicePeriodLabel" xml:space="preserve"><value>Period</value></data>
   <data name="DemoChoicePin" xml:space="preserve"><value>Pin</value></data>
   <data name="DemoChoiceUnavailable" xml:space="preserve"><value>Unavailable</value></data>

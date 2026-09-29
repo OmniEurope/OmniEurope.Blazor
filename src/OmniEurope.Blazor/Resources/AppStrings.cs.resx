@@ -149,7 +149,7 @@
   <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Velikost písmen</value></data>
   <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>VELKÁ PÍSMENA</value></data>
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>malá písmena</value></data>
-  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Jako V Nadpisu</value></data>
+  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Velká Na Začátku Slov</value></data>
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Speciální znak</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Hledat znak</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Žádný znak neodpovídá.</value></data>
@@ -413,7 +413,7 @@
   <data name="UploadSizeBytes" xml:space="preserve"><value>{0} B</value></data>
   <data name="UploadDropOne" xml:space="preserve"><value>Přetáhněte soubor sem nebo</value></data>
   <data name="UploadDropMany" xml:space="preserve"><value>Přetáhněte soubory sem nebo</value></data>
-  <data name="UploadBrowse" xml:space="preserve"><value>procházejte</value></data>
+  <data name="UploadBrowse" xml:space="preserve"><value>vyberte</value></data>
   <data name="UploadHintMaximumSize" xml:space="preserve"><value>Nejvýše {0} na soubor</value></data>
   <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Max. počet souborů: {0}</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Připojené soubory</value></data>
@@ -506,7 +506,7 @@
   <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} r.</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Podtržení</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Přeškrtnutí</value></data>
-  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Vložený kód</value></data>
+  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Kód v řádku</value></data>
   <data name="HtmlEditorBlockFormat" xml:space="preserve"><value>Styl odstavce</value></data>
   <data name="HtmlEditorParagraph" xml:space="preserve"><value>Odstavec</value></data>
   <data name="HtmlEditorHeading1" xml:space="preserve"><value>Nadpis 1</value></data>
@@ -543,7 +543,7 @@
   <data name="HtmlEditorAddColumnAfter" xml:space="preserve"><value>Vložit sloupec za</value></data>
   <data name="HtmlEditorDeleteColumn" xml:space="preserve"><value>Odstranit sloupec</value></data>
   <data name="HtmlEditorMergeCellRight" xml:space="preserve"><value>Sloučit s buňkou vpravo</value></data>
-  <data name="HtmlEditorMergeCellDown" xml:space="preserve"><value>Sloučit s buňkou pod</value></data>
+  <data name="HtmlEditorMergeCellDown" xml:space="preserve"><value>Sloučit s buňkou níže</value></data>
   <data name="HtmlEditorSplitCell" xml:space="preserve"><value>Rozdělit buňku</value></data>
   <data name="HtmlEditorSetCellSpan" xml:space="preserve"><value>Roztáhnout buňku</value></data>
   <data name="HtmlEditorLinkUrl" xml:space="preserve"><value>Adresa odkazu</value></data>
@@ -555,7 +555,7 @@
   <data name="DocumentEditorWords" xml:space="preserve"><value>Slova: {0}</value></data>
   <data name="DocumentEditorCharacters" xml:space="preserve"><value>Znaky: {0}</value></data>
   <data name="DocumentEditorExportHtml" xml:space="preserve"><value>Exportovat do HTML</value></data>
-  <data name="DocumentEditorExportText" xml:space="preserve"><value>Exportovat do textu</value></data>
+  <data name="DocumentEditorExportText" xml:space="preserve"><value>Exportovat jako text</value></data>
   <data name="DocumentEditorDefaultTitle" xml:space="preserve"><value>Dokument</value></data>
   <data name="CodeEditorLabel" xml:space="preserve"><value>Editor kódu</value></data>
   <data name="CodeEditorLoading" xml:space="preserve"><value>Načítání editoru kódu.</value></data>

@@ -13,7 +13,7 @@
   <data name="AppearanceSystem" xml:space="preserve"><value>Sistema</value></data>
   <data name="SettingsMode" xml:space="preserve"><value>Modalità</value></data>
   <data name="SettingsTheme" xml:space="preserve"><value>Tema</value></data>
-  <data name="SettingsPalette" xml:space="preserve"><value>Tavolozza</value></data>
+  <data name="SettingsPalette" xml:space="preserve"><value>Palette</value></data>
   <data name="SettingsFont" xml:space="preserve"><value>Carattere</value></data>
   <data name="SettingsTextSize" xml:space="preserve"><value>Dimensione testo</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Densità</value></data>
@@ -26,7 +26,7 @@
   <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Aumenta la dimensione dei controlli</value></data>
   <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
   <data name="SettingsLook" xml:space="preserve"><value>Tema e dimensioni</value></data>
-  <data name="SettingsLookTitle" xml:space="preserve"><value>Tema, tavolozza e dimensioni</value></data>
+  <data name="SettingsLookTitle" xml:space="preserve"><value>Tema, palette e dimensioni</value></data>
   <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Testo {1} · {2}</value></data>
   <data name="SettingsLookSummaryFull" xml:space="preserve"><value>{0} · Testo {1} · {2} · Controlli {3}</value></data>
   <data name="DensityCompact" xml:space="preserve"><value>Compatta</value></data>
@@ -229,7 +229,7 @@
   <data name="HtmlEditorChar2227" xml:space="preserve"><value>E logico</value></data>
   <data name="HtmlEditorChar2228" xml:space="preserve"><value>O logico</value></data>
   <data name="HtmlEditorChar00AC" xml:space="preserve"><value>Negazione</value></data>
-  <data name="HtmlEditorChar2248" xml:space="preserve"><value>Circa uguale</value></data>
+  <data name="HtmlEditorChar2248" xml:space="preserve"><value>Quasi uguale</value></data>
   <data name="HtmlEditorChar2260" xml:space="preserve"><value>Diverso da</value></data>
   <data name="HtmlEditorChar2264" xml:space="preserve"><value>Minore o uguale</value></data>
   <data name="HtmlEditorChar2265" xml:space="preserve"><value>Maggiore o uguale</value></data>
@@ -625,7 +625,7 @@
   <data name="KanbanCardCount" xml:space="preserve"><value>Schede: {0}</value></data>
   <data name="GitGraphLabel" xml:space="preserve"><value>Cronologia dei commit</value></data>
   <data name="GitGraphEmpty" xml:space="preserve"><value>Nessun commit</value></data>
-  <data name="StepTimelineExpected" xml:space="preserve"><value>{0}% della durata abituale trascorso</value></data>
+  <data name="StepTimelineExpected" xml:space="preserve"><value>trascorso il {0}% della durata abituale</value></data>
   <data name="StepTimelineOverrun" xml:space="preserve"><value>oltre la durata abituale</value></data>
   <data name="DiffViewerLabel" xml:space="preserve"><value>Confronto</value></data>
   <data name="DiffViewerOriginal" xml:space="preserve"><value>Prima</value></data>

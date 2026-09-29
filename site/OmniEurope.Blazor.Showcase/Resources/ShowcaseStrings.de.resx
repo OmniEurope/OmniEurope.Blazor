@@ -7,7 +7,7 @@
   <data name="HeaderBadge" xml:space="preserve"><value>Komponentenbibliothek</value></data>
   <data name="ModeLight" xml:space="preserve"><value>Helles Design</value></data>
   <data name="ModeDark" xml:space="preserve"><value>Dunkles Design</value></data>
-  <data name="LanguageSelectorLabel" xml:space="preserve"><value>Sprache des Showcase</value></data>
+  <data name="LanguageSelectorLabel" xml:space="preserve"><value>Sprache des Showcases</value></data>
   <data name="SidebarLabel" xml:space="preserve"><value>Hauptnavigation</value></data>
   <data name="MenuLabel" xml:space="preserve"><value>Bereiche der Website</value></data>
   <data name="NavShowcase" xml:space="preserve"><value>Überblick</value></data>
@@ -63,8 +63,8 @@
   <data name="DemoButtonsTitle" xml:space="preserve"><value>Schaltflächen</value></data>
   <data name="DemoButtonsSummary" xml:space="preserve"><value>Der Auslöser einer Aktion, nach visueller Absicht und Zustand abgestuft.</value></data>
   <data name="DemoButtonsCapability1" xml:space="preserve"><value>Vier Absichten: primär, sekundär, dezent und destruktiv.</value></data>
-  <data name="DemoButtonsCapability2" xml:space="preserve"><value>Ein Belegt-Zustand, der doppeltes Absenden verhindert und sich Screenreadern ankündigt.</value></data>
-  <data name="DemoButtonsCapability3" xml:space="preserve"><value>Ein deaktivierter Zustand, getrennt vom Belegt-Zustand.</value></data>
+  <data name="DemoButtonsCapability2" xml:space="preserve"><value>Ein Beschäftigt-Zustand, der doppeltes Absenden verhindert und sich Screenreadern ankündigt.</value></data>
+  <data name="DemoButtonsCapability3" xml:space="preserve"><value>Ein deaktivierter Zustand, getrennt vom Beschäftigt-Zustand.</value></data>
   <data name="DemoButtonsCapability4" xml:space="preserve"><value>Drei Größen und die drei Schaltflächentypen eines Formulars: Absenden, Zurücksetzen, neutrale Aktion.</value></data>
   <data name="DemoBadgesTitle" xml:space="preserve"><value>Badges</value></data>
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Die kurze Kennzeichnung, die ein Element beschreibt, ohne es zu überladen.</value></data>
@@ -159,7 +159,7 @@
   <data name="DemoChoiceTitle" xml:space="preserve"><value>Auswahl</value></data>
   <data name="DemoChoiceSummary" xml:space="preserve"><value>Optionsfelder, Mehrfach-Kontrollkästchen, Auswahlleisten und Umschalter.</value></data>
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Listen, gesteuert über Optionen oder Element für Element angelegt.</value></data>
-  <data name="DemoChoiceCapability2" xml:space="preserve"><value>Auswahlleiste und Umschaltfläche, mit Belegt- und deaktiviertem Zustand.</value></data>
+  <data name="DemoChoiceCapability2" xml:space="preserve"><value>Auswahlleiste und Umschaltfläche, mit Beschäftigt- und deaktiviertem Zustand.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Kontrollkästchen und Schalter mit drei Stellungen, einschließlich unbestimmt.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Validierung</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Die Regeln werden neben dem Feld deklariert, das sie schützen.</value></data>
@@ -305,7 +305,7 @@
   <data name="DemoStatesTitle" xml:space="preserve"><value>Ruhe, Überfahren und Drücken</value></data>
   <data name="DemoStatesSummary" xml:space="preserve"><value>Die drei Zustände einer Schaltflächenvariante nebeneinander.</value></data>
   <data name="DemoStatesCapability1" xml:space="preserve"><value>Überfahren und Drücken lesen die Tokens des Designs: Füllung beim Überfahren, Füllung beim Drücken und Druckgeste.</value></data>
-  <data name="DemoStatesCapability2" xml:space="preserve"><value>Vergleichshilfe des Showcase: Ein Browser kann :hover und :active nicht einfrieren.</value></data>
+  <data name="DemoStatesCapability2" xml:space="preserve"><value>Vergleichshilfe des Showcases: Ein Browser kann :hover und :active nicht einfrieren.</value></data>
   <data name="DemoAppShellTitle" xml:space="preserve"><value>Anwendungsrahmen</value></data>
   <data name="DemoAppShellSummary" xml:space="preserve"><value>Obere Leiste, seitliches Menü, das sich zu einer Symbolleiste einklappt, Inhalt.</value></data>
   <data name="DemoAppShellCapability1" xml:space="preserve"><value>Einklapp-Schaltfläche, Suche, Hilfe, Glocke mit Punkt und im Ruhezustand geschlossenes Kontomenü.</value></data>
@@ -336,9 +336,9 @@
   <data name="DemoNoticesCapability1" xml:space="preserve"><value>Jede Benachrichtigung wird über ihr Kreuz geschlossen.</value></data>
   <data name="DemoNoticesCapability2" xml:space="preserve"><value>Die Fußzeile der Dialoge folgt der Konvention des Pakets: zuerst die Aktion, dann Abbrechen.</value></data>
   <data name="DemoLoadingTitle" xml:space="preserve"><value>Laden</value></data>
-  <data name="DemoLoadingSummary" xml:space="preserve"><value>Ladebalken, Warten, belegte Schaltflächen, Fortschritt und Skelett.</value></data>
+  <data name="DemoLoadingSummary" xml:space="preserve"><value>Ladebalken, Warten, beschäftigte Schaltflächen, Fortschritt und Skelett.</value></data>
   <data name="DemoLoadingCapability1" xml:space="preserve"><value>Der Balken folgt einem echten Ladevorgang, als Durchlauf oder Füllung, läuft bis zum Ende und blendet dann aus.</value></data>
-  <data name="DemoLoadingCapability2" xml:space="preserve"><value>Eine belegte Schaltfläche behält Größe und Inhalt: Ein Schleier pulsiert darüber.</value></data>
+  <data name="DemoLoadingCapability2" xml:space="preserve"><value>Eine beschäftigte Schaltfläche behält Größe und Inhalt: Ein Schleier pulsiert darüber.</value></data>
   <data name="DemoLoadingCapability3" xml:space="preserve"><value>Das Skelett nimmt die Form dessen an, was es ersetzt.</value></data>
   <data name="DemoRunGridsTitle" xml:space="preserve"><value>Ausführungstabellen</value></data>
   <data name="DemoRunGridsSummary" xml:space="preserve"><value>Die beiden Tabellen des Entwurfs: sortiert mit aktiver Spalte, abwechselnd mit fixierter Kopfzeile.</value></data>
@@ -350,7 +350,7 @@
   <data name="LoadingBarLabel" xml:space="preserve"><value>Seite wird geladen</value></data>
   <data name="LoadingSweep" xml:space="preserve"><value>Balken mit Durchlauf</value></data>
   <data name="LoadingFill" xml:space="preserve"><value>Balken mit Füllung</value></data>
-  <data name="LoadingHint" xml:space="preserve"><value>Der Balken sitzt unter der Kopfzeile oben. Am Ende läuft er bis zum Ende und blendet dann aus.</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>Der Balken sitzt unter der Kopfzeile oben. Zum Schluss läuft er ganz durch und blendet dann aus.</value></data>
   <data name="LoadingWaiting" xml:space="preserve"><value>Warten</value></data>
   <data name="LoadingDeploying" xml:space="preserve"><value>Bereitstellung läuft</value></data>
   <data name="LoadingChecking" xml:space="preserve"><value>Überprüfung</value></data>
@@ -439,7 +439,7 @@
   <data name="DemoShellTools" xml:space="preserve"><value>Werkzeuge</value></data>
   <data name="DemoShellLogs" xml:space="preserve"><value>Protokolle</value></data>
   <data name="DemoShellWideView" xml:space="preserve"><value>Breite Ansicht</value></data>
-  <data name="DemoShellWideText" xml:space="preserve"><value>Der Inhaltsbereich reicht von Rand zu Rand, begrenzt auf die breite Breite (90 rem), ohne schmale Lesespalte.</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>Der Inhaltsbereich reicht von Rand zu Rand, begrenzt auf die große Maximalbreite (90 rem), ohne schmale Lesespalte.</value></data>
   <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Schwebendes Menü ein- oder ausblenden</value></data>
   <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Schwebendes Menü</value></data>
   <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Schwebendes Menü der Demo</value></data>
@@ -451,9 +451,9 @@
   <data name="DemoShellReadingColumn" xml:space="preserve"><value>Lesespalte</value></data>
   <data name="DemoShellScroll1" xml:space="preserve"><value>Die Spalte ist auf 72rem begrenzt und zentriert; der Rest der Breite gehört weiterhin dem Hauptelement.</value></data>
   <data name="DemoShellScroll2" xml:space="preserve"><value>Es ist also das Hauptelement, das über die ganze Breite des Bereichs scrollt: Seine Bildlaufleiste steht am rechten Rand des Rahmens.</value></data>
-  <data name="DemoShellScroll3" xml:space="preserve"><value>Ein Kind mit 100 % Höhe würde den Bereich genau ausfüllen; höherer Inhalt lässt ihn scrollen.</value></data>
+  <data name="DemoShellScroll3" xml:space="preserve"><value>Ein Kindelement mit 100 % Höhe würde den Bereich genau ausfüllen; höherer Inhalt lässt ihn scrollen.</value></data>
   <data name="DemoShellScroll4" xml:space="preserve"><value>Der untere Rand bleibt am Ende des Scrollens erhalten.</value></data>
-  <data name="DemoShellScroll5" xml:space="preserve"><value>Ein schmaleres Fenster bringt die Spalte auf die verfügbare Breite, Rinne inklusive.</value></data>
+  <data name="DemoShellScroll5" xml:space="preserve"><value>Ein schmaleres Fenster bringt die Spalte auf die verfügbare Breite, Randabstand inklusive.</value></data>
   <data name="DemoShellSplashChecking" xml:space="preserve"><value>Startbildschirm wird geprüft</value></data>
   <data name="DemoShellSplashRemoved" xml:space="preserve"><value>Startbildschirm entfernt</value></data>
   <data name="DemoShellSplashAbsent" xml:space="preserve"><value>Kein Startbildschirm in dieser Demo</value></data>
@@ -520,7 +520,7 @@
   <data name="SurfMenuAdministration" xml:space="preserve"><value>Verwaltung</value></data>
   <data name="SurfLinkBefore" xml:space="preserve"><value>Lesen Sie das</value></data>
   <data name="SurfLink" xml:space="preserve"><value>Veröffentlichungsverfahren</value></data>
-  <data name="SurfLinkAfter" xml:space="preserve"><value>bevor Sie eine Version aus der Liste nehmen.</value></data>
+  <data name="SurfLinkAfter" xml:space="preserve"><value>vor dem Entfernen einer Version aus der Liste.</value></data>
   <data name="SurfTooltip" xml:space="preserve"><value>Inverse Fläche, inverser Text</value></data>
   <data name="SurfTooltipTrigger" xml:space="preserve"><value>Tooltip</value></data>
   <data name="SurfLast" xml:space="preserve"><value>Letzte Aktion: {0}</value></data>
@@ -533,7 +533,7 @@
   <data name="ThemesCancel" xml:space="preserve"><value>Abbrechen</value></data>
   <data name="ThemesBadge" xml:space="preserve"><value>Veröffentlicht</value></data>
   <data name="ThemesAlert" xml:space="preserve"><value>Jede Palette färbt jedes Design.</value></data>
-  <data name="VFormSummaryTitle" xml:space="preserve"><value>{0} Feld(er) zu korrigieren.</value></data>
+  <data name="VFormSummaryTitle" xml:space="preserve"><value>Zu korrigierende Felder: {0}.</value></data>
   <data name="VFormName" xml:space="preserve"><value>Pipeline-Name</value></data>
   <data name="VFormNameHelp" xml:space="preserve"><value>Kleinbuchstaben, Ziffern und Bindestriche.</value></data>
   <data name="VFormNameError" xml:space="preserve"><value>Der Pipeline-Name ist erforderlich.</value></data>
@@ -620,7 +620,7 @@
   <data name="DemoGridAdvancedFilterSimple" xml:space="preserve"><value>Feld in der Kopfzeile</value></data>
   <data name="DemoGridAdvancedFilterSimpleWithMenu" xml:space="preserve"><value>Feld und Menü</value></data>
   <data name="DemoGridAdvancedFilterAdvanced" xml:space="preserve"><value>Menü mit zwei Bedingungen</value></data>
-  <data name="DemoGridAdvancedEditSingle" xml:space="preserve"><value>Eine Zeile auf einmal</value></data>
+  <data name="DemoGridAdvancedEditSingle" xml:space="preserve"><value>Jeweils eine Zeile</value></data>
   <data name="DemoGridAdvancedEditMultiple" xml:space="preserve"><value>Mehrere Zeilen</value></data>
   <data name="DemoGridAdvancedExpandSingle" xml:space="preserve"><value>Eine offene Gruppe</value></data>
   <data name="DemoGridAdvancedExpandMultiple" xml:space="preserve"><value>Mehrere offene Gruppen</value></data>
@@ -708,7 +708,7 @@
   <data name="DemoSchedulerViewWeek" xml:space="preserve"><value>Woche</value></data>
   <data name="DemoSchedulerViewMonth" xml:space="preserve"><value>Monat</value></data>
   <data name="DemoSchedulerCaseReview" xml:space="preserve"><value>Prüfung des Vorgangs</value></data>
-  <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Lektoratsausschuss</value></data>
+  <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Begutachtungsausschuss</value></data>
   <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Wöchentliche Besprechung</value></data>
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Raum {0}</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Flexible Spalte</value></data>
@@ -808,7 +808,7 @@
   <data name="DemoNavigationDocuments" xml:space="preserve"><value>Dokumente</value></data>
   <data name="DemoNavigationDocumentsText" xml:space="preserve"><value>Jedes Dokument trägt sein Einreichungsdatum.</value></data>
   <data name="DemoNavigationHistory" xml:space="preserve"><value>Verlauf</value></data>
-  <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Zwölf erfasste Vorgänge.</value></data>
+  <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Zwölf erfasste Bewegungen.</value></data>
   <data name="DemoNavigationProgress" xml:space="preserve"><value>Fortschritt des Vorgangs</value></data>
   <data name="DemoNavigationFiling" xml:space="preserve"><value>Einreichung</value></data>
   <data name="DemoNavigationFilingText" xml:space="preserve"><value>Die Dokumente sind eingegangen.</value></data>
@@ -916,7 +916,7 @@
   <data name="DemoFeedbackAnalysing" xml:space="preserve"><value>Analyse läuft</value></data>
   <data name="DemoFeedbackProgress" xml:space="preserve"><value>Fortschritt</value></data>
   <data name="DemoFeedbackNoKnownEnd" xml:space="preserve"><value>Ohne bekanntes Ende</value></data>
-  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>Das Kontingent wird über gleitende dreißig Tage berechnet.</value></data>
+  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>Das Kontingent wird über einen gleitenden Zeitraum von dreißig Tagen berechnet.</value></data>
   <data name="DemoFeedbackQuota" xml:space="preserve"><value>Kontingent</value></data>
   <data name="DemoFeedbackArchivedTooltip" xml:space="preserve"><value>Ein archivierter Vorgang bleibt schreibgeschützt einsehbar.</value></data>
   <data name="DemoFeedbackArchived" xml:space="preserve"><value>Archiviert</value></data>
@@ -1060,7 +1060,7 @@
   <data name="DemoMediaIconCalendarBlank" xml:space="preserve"><value>Datum</value></data>
   <data name="DemoMediaIconChartLineUp" xml:space="preserve"><value>Trend</value></data>
   <data name="DemoMediaIconFolderOpen" xml:space="preserve"><value>Geöffneter Ordner</value></data>
-  <data name="DemoMediaIconGitFork" xml:space="preserve"><value>Abzweigung</value></data>
+  <data name="DemoMediaIconGitFork" xml:space="preserve"><value>Fork</value></data>
   <data name="DemoMediaIconGitMerge" xml:space="preserve"><value>Zusammenführung</value></data>
   <data name="DemoMediaIconLockKey" xml:space="preserve"><value>Passwort zurücksetzen</value></data>
   <data name="DemoMediaIconRobot" xml:space="preserve"><value>Automat</value></data>
@@ -1095,7 +1095,7 @@
   <data name="DemoMediaIconArrowLineUp" xml:space="preserve"><value>Nach ganz oben</value></data>
   <data name="DemoMediaIconArrowUUpRight" xml:space="preserve"><value>Wiederholen</value></data>
   <data name="DemoMediaIconAt" xml:space="preserve"><value>E-Mail-Adresse</value></data>
-  <data name="DemoMediaIconBellSlash" xml:space="preserve"><value>Benachrichtigungen stumm</value></data>
+  <data name="DemoMediaIconBellSlash" xml:space="preserve"><value>Benachrichtigungen stummgeschaltet</value></data>
   <data name="DemoMediaIconBooks" xml:space="preserve"><value>Bibliothek</value></data>
   <data name="DemoMediaIconCalendarCheck" xml:space="preserve"><value>Bestätigtes Datum</value></data>
   <data name="DemoMediaIconChecks" xml:space="preserve"><value>Alle bestätigen</value></data>
@@ -1287,7 +1287,7 @@
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Konfigurationsbeispiel</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Auszug, Zeilen {0} bis {1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Zwei Konfigurationen vergleichen</value></data>
-  <data name="DemoEditorSignatureText" xml:space="preserve"><value>Die Vorgangsabteilung</value></data>
+  <data name="DemoEditorSignatureText" xml:space="preserve"><value>Die Vorgangsbearbeitung</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Referenz: {0}</value></data>
   <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Signaturblock einfügen</value></data>
   <data name="DemoEditorAddSignature" xml:space="preserve"><value>Signatur hinzufügen</value></data>
@@ -1399,7 +1399,7 @@
   <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Nicht gespeicherte Änderungen simulieren</value></data>
   <data name="DemoSelectionCountry" xml:space="preserve"><value>Land</value></data>
   <data name="DemoSelectionCountryPlaceholder" xml:space="preserve"><value>Land auswählen</value></data>
-  <data name="DemoSelectionCities" xml:space="preserve"><value>Bediente Städte</value></data>
+  <data name="DemoSelectionCities" xml:space="preserve"><value>Belieferte Städte</value></data>
   <data name="DemoSelectionTags" xml:space="preserve"><value>Schlagwörter</value></data>
   <data name="DemoSelectionTagsCompact" xml:space="preserve"><value>Schlagwörter, kompakte Form</value></data>
   <data name="DemoSelectionTagsFilterable" xml:space="preserve"><value>Schlagwörter, Suche und Erstellung</value></data>
@@ -1441,7 +1441,7 @@
   <data name="DemoFlowsUser" xml:space="preserve"><value>Benutzername</value></data>
   <data name="DemoFlowsPassword" xml:space="preserve"><value>Passwort</value></data>
   <data name="DemoFlowsSignIn" xml:space="preserve"><value>Anmelden</value></data>
-  <data name="DemoFlowsSignInNote" xml:space="preserve"><value>Formular an den Host übergeben für „{0}“.</value></data>
+  <data name="DemoFlowsSignInNote" xml:space="preserve"><value>Formular für „{0}“ an den Host übergeben.</value></data>
   <data name="DemoFlowsReturnAfterSignIn" xml:space="preserve"><value>Rücksprung nach der Anmeldung: {0}</value></data>
   <data name="DemoFlowsExternalRefused" xml:space="preserve"><value>Externe Adresse abgelehnt: {0}</value></data>
   <data name="DemoFlowsSimulateDrop" xml:space="preserve"><value>Unterbrechung simulieren</value></data>

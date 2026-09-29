@@ -238,7 +238,7 @@
   <data name="HtmlEditorChar2211" xml:space="preserve"><value>Somma</value></data>
   <data name="HtmlEditorChar220F" xml:space="preserve"><value>Prodott</value></data>
   <data name="HtmlEditorChar2202" xml:space="preserve"><value>Derivata parzjali</value></data>
-  <data name="HtmlEditorChar222B" xml:space="preserve"><value>Integral</value></data>
+  <data name="HtmlEditorChar222B" xml:space="preserve"><value>Integrali</value></data>
   <data name="HtmlEditorChar03B1" xml:space="preserve"><value>Alfa</value></data>
   <data name="HtmlEditorChar03B2" xml:space="preserve"><value>Beta</value></data>
   <data name="HtmlEditorChar03B3" xml:space="preserve"><value>Gamma</value></data>
@@ -620,7 +620,7 @@
   <data name="KanbanGrabbed" xml:space="preserve"><value>{0} maqbuda, kolonna {1}, pożizzjoni {2} minn {3}.</value></data>
   <data name="KanbanMoved" xml:space="preserve"><value>{0}: kolonna {1}, pożizzjoni {2} minn {3}.</value></data>
   <data name="KanbanDropped" xml:space="preserve"><value>{0} imwaqqgħa, kolonna {1}, pożizzjoni {2} minn {3}.</value></data>
-  <data name="KanbanCancelled" xml:space="preserve"><value>Ċaqliq ikkanċellat: {0} jibqa' fil-kolonna {1}.</value></data>
+  <data name="KanbanCancelled" xml:space="preserve"><value>Ċaqliq ikkanċellat: {0} tibqa' fil-kolonna {1}.</value></data>
   <data name="KanbanEmptyColumn" xml:space="preserve"><value>L-ebda kard</value></data>
   <data name="KanbanCardCount" xml:space="preserve"><value>Kards: {0}</value></data>
   <data name="GitGraphLabel" xml:space="preserve"><value>Storja tal-commits</value></data>

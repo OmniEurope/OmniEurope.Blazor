@@ -91,7 +91,7 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Išskleisti arba suskleisti visas eilutes</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Atkabinti užfiksuotus stulpelius</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Vėl užfiksuoti stulpelius</value></data>
-  <data name="PagerFirst" xml:space="preserve"><value>Pirmas puslapis</value></data>
+  <data name="PagerFirst" xml:space="preserve"><value>Pirmasis puslapis</value></data>
   <data name="PagerLast" xml:space="preserve"><value>Paskutinis puslapis</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Eilučių puslapyje</value></data>
   <data name="GridPagingSummary" xml:space="preserve"><value>{0}–{1} iš {2}</value></data>
@@ -149,7 +149,7 @@
   <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Raidžių dydis</value></data>
   <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>DIDŽIOSIOS</value></data>
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>mažosios</value></data>
-  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Pavadinimo Raidės</value></data>
+  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Kiekvienas Žodis Didžiąja Raide</value></data>
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Specialusis simbolis</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Ieškoti simbolio</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Atitinkančių simbolių nėra.</value></data>
@@ -161,7 +161,7 @@
   <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Teisiniai</value></data>
   <data name="HtmlEditorImportTable" xml:space="preserve"><value>Importuoti lentelę</value></data>
   <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>{0} failas, ne daugiau kaip 100 eilučių ir 50 stulpelių.</value></data>
-  <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Pirma eilutė kaip antraštė</value></data>
+  <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Pirmoji eilutė kaip antraštė</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Įterpti</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Lentelės peržiūra</value></data>
   <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>Eilutės: {0}, stulpeliai: {1}</value></data>
@@ -498,15 +498,15 @@
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min.</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} val.</value></data>
-  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} dienos</value></data>
-  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} dienų</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} d.</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} d.</value></data>
   <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} mėnesio</value></data>
   <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} mėnesių</value></data>
   <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} metų</value></data>
   <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} metų</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Pabrauktas</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Perbrauktas</value></data>
-  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Eilutės kodas</value></data>
+  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Įterptinis kodas</value></data>
   <data name="HtmlEditorBlockFormat" xml:space="preserve"><value>Pastraipos stilius</value></data>
   <data name="HtmlEditorParagraph" xml:space="preserve"><value>Pastraipa</value></data>
   <data name="HtmlEditorHeading1" xml:space="preserve"><value>Antraštė 1</value></data>
@@ -562,7 +562,7 @@
   <data name="CodeEditorUnavailable" xml:space="preserve"><value>Nepavyko įkelti Monaco rengyklės: kodas redaguojamas kaip grynasis tekstas.</value></data>
   <data name="CodeEditorPosition" xml:space="preserve"><value>Eilutė {0}, stulpelis {1}</value></data>
   <data name="CodeEditorLinkHint" xml:space="preserve"><value>Ctrl+spustelėjimas – atidaryti saitą</value></data>
-  <data name="StatusBadgeStale" xml:space="preserve"><value>pasenę</value></data>
+  <data name="StatusBadgeStale" xml:space="preserve"><value>pasenęs</value></data>
   <data name="StatusBadgeStaleSince" xml:space="preserve"><value>Paskutinį kartą atnaujinta: {0}</value></data>
   <data name="LogViewerLabel" xml:space="preserve"><value>Žurnalas</value></data>
   <data name="LogViewerEmpty" xml:space="preserve"><value>Eilučių kol kas nėra.</value></data>
@@ -623,15 +623,15 @@
   <data name="KanbanCancelled" xml:space="preserve"><value>Perkėlimas atšauktas: {0} lieka stulpelyje {1}.</value></data>
   <data name="KanbanEmptyColumn" xml:space="preserve"><value>Kortelių nėra</value></data>
   <data name="KanbanCardCount" xml:space="preserve"><value>Kortelės: {0}</value></data>
-  <data name="GitGraphLabel" xml:space="preserve"><value>Įsipareigojimų istorija</value></data>
-  <data name="GitGraphEmpty" xml:space="preserve"><value>Įsipareigojimų nėra</value></data>
+  <data name="GitGraphLabel" xml:space="preserve"><value>Įrašų istorija</value></data>
+  <data name="GitGraphEmpty" xml:space="preserve"><value>Įrašų nėra</value></data>
   <data name="StepTimelineExpected" xml:space="preserve"><value>Praėjo {0} % įprastos trukmės</value></data>
   <data name="StepTimelineOverrun" xml:space="preserve"><value>viršyta įprasta trukmė</value></data>
   <data name="DiffViewerLabel" xml:space="preserve"><value>Palyginimas</value></data>
   <data name="DiffViewerOriginal" xml:space="preserve"><value>Prieš</value></data>
   <data name="DiffViewerModified" xml:space="preserve"><value>Po</value></data>
   <data name="DiffViewerUnavailable" xml:space="preserve"><value>Nepavyko įkelti Monaco rengyklės: abi versijos rodomos kaip grynasis tekstas, nepažymint skirtumų.</value></data>
-  <data name="GitGraphMerge" xml:space="preserve"><value>Suliejimo įsipareigojimas.</value></data>
+  <data name="GitGraphMerge" xml:space="preserve"><value>Suliejimo įrašas.</value></data>
   <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(atsidaro naujame skirtuke)</value></data>
   <data name="MarkdownExportButton" xml:space="preserve"><value>Eksportuoti kaip .md</value></data>

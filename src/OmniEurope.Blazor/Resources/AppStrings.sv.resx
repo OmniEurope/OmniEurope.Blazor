@@ -5,7 +5,7 @@
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
   <data name="UploadFailed" xml:space="preserve"><value>Uppladdningen misslyckades.</value></data>
-  <data name="Today" xml:space="preserve"><value>Idag</value></data>
+  <data name="Today" xml:space="preserve"><value>I dag</value></data>
   <data name="Retry" xml:space="preserve"><value>Försök igen</value></data>
   <data name="Loading" xml:space="preserve"><value>Läser in…</value></data>
   <data name="AppearanceLight" xml:space="preserve"><value>Ljust</value></data>
@@ -116,7 +116,7 @@
   <data name="DatePickerInvalid" xml:space="preserve"><value>Det angivna datumet är ogiltigt.</value></data>
   <data name="DateTimePickerInvalid" xml:space="preserve"><value>Angivet datum och angiven tid är ogiltiga.</value></data>
   <data name="DatePickerToggle" xml:space="preserve"><value>Välj ett datum</value></data>
-  <data name="DatePickerToday" xml:space="preserve"><value>Idag</value></data>
+  <data name="DatePickerToday" xml:space="preserve"><value>I dag</value></data>
   <data name="DatePickerClear" xml:space="preserve"><value>Rensa</value></data>
   <data name="CalendarPreviousMonth" xml:space="preserve"><value>Föregående månad</value></data>
   <data name="CalendarNextMonth" xml:space="preserve"><value>Nästa månad</value></data>
@@ -170,7 +170,7 @@
   <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Den här filtypen stöds inte.</value></data>
   <data name="HtmlEditorClosePanel" xml:space="preserve"><value>Stäng</value></data>
   <data name="HtmlEditorShowBlocks" xml:space="preserve"><value>Visa block</value></data>
-  <data name="HtmlEditorHighlight" xml:space="preserve"><value>Markera</value></data>
+  <data name="HtmlEditorHighlight" xml:space="preserve"><value>Färgmarkera</value></data>
   <data name="HtmlEditorChar00A9" xml:space="preserve"><value>Upphovsrätt</value></data>
   <data name="HtmlEditorChar00AE" xml:space="preserve"><value>Registrerat varumärke</value></data>
   <data name="HtmlEditorChar2122" xml:space="preserve"><value>Varumärke</value></data>
@@ -341,7 +341,7 @@
   <data name="NullableSwitchIndeterminate" xml:space="preserve"><value>Obestämt läge</value></data>
   <data name="NumericInvalid" xml:space="preserve"><value>Det angivna värdet är ogiltigt.</value></data>
   <data name="NumericInvalidNamed" xml:space="preserve"><value>Det angivna värdet är ogiltigt för {0}.</value></data>
-  <data name="PagerLabel" xml:space="preserve"><value>Sidnumrering</value></data>
+  <data name="PagerLabel" xml:space="preserve"><value>Sidindelning</value></data>
   <data name="PagerPrevious" xml:space="preserve"><value>Föregående sida</value></data>
   <data name="PagerStatus" xml:space="preserve"><value>Sida {0} av {1}</value></data>
   <data name="PagerNext" xml:space="preserve"><value>Nästa sida</value></data>

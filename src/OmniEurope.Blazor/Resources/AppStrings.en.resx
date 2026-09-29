@@ -45,7 +45,7 @@
   <data name="BreadcrumbLabel" xml:space="preserve"><value>Breadcrumb</value></data>
   <data name="CheckBoxInvalid" xml:space="preserve"><value>The checkbox value is invalid.</value></data>
   <data name="CheckBoxListInvalid" xml:space="preserve"><value>The checkbox list is invalid.</value></data>
-  <data name="ColorPickerInvalid" xml:space="preserve"><value>The color must use the #RRGGBB format.</value></data>
+  <data name="ColorPickerInvalid" xml:space="preserve"><value>The colour must use the #RRGGBB format.</value></data>
   <data name="NotificationsRegionLabel" xml:space="preserve"><value>Notifications</value></data>
   <data name="ContextMenuLabel" xml:space="preserve"><value>Context menu</value></data>
   <data name="GridLoadFailed" xml:space="preserve"><value>The grid failed to load.</value></data>
@@ -75,9 +75,9 @@
   <data name="GridFilterStartsWith" xml:space="preserve"><value>Starts with</value></data>
   <data name="GridFilterEndsWith" xml:space="preserve"><value>Ends with</value></data>
   <data name="GridFilterGreaterThan" xml:space="preserve"><value>Greater than</value></data>
-  <data name="GridFilterGreaterThanOrEquals" xml:space="preserve"><value>Greater than or equals</value></data>
+  <data name="GridFilterGreaterThanOrEquals" xml:space="preserve"><value>Greater than or equal to</value></data>
   <data name="GridFilterLessThan" xml:space="preserve"><value>Less than</value></data>
-  <data name="GridFilterLessThanOrEquals" xml:space="preserve"><value>Less than or equals</value></data>
+  <data name="GridFilterLessThanOrEquals" xml:space="preserve"><value>Less than or equal to</value></data>
   <data name="GridFilterIsNull" xml:space="preserve"><value>Is null</value></data>
   <data name="GridFilterIsNotNull" xml:space="preserve"><value>Is not null</value></data>
   <data name="GridFilterIsEmpty" xml:space="preserve"><value>Is empty</value></data>
@@ -99,7 +99,7 @@
   <data name="GridCollapseRow" xml:space="preserve"><value>Collapse row</value></data>
   <data name="GridExpandRow" xml:space="preserve"><value>Expand row</value></data>
   <data name="GridSelectRow" xml:space="preserve"><value>Select row</value></data>
-  <data name="GridSelectAll" xml:space="preserve"><value>Select every displayed row</value></data>
+  <data name="GridSelectAll" xml:space="preserve"><value>Select all displayed rows</value></data>
   <data name="SpreadsheetLabel" xml:space="preserve"><value>Spreadsheet</value></data>
   <data name="SpreadsheetAddRow" xml:space="preserve"><value>Row</value></data>
   <data name="SpreadsheetAddRowLabel" xml:space="preserve"><value>Add a row</value></data>
@@ -121,7 +121,7 @@
   <data name="CalendarPreviousMonth" xml:space="preserve"><value>Previous month</value></data>
   <data name="CalendarNextMonth" xml:space="preserve"><value>Next month</value></data>
   <data name="TimePickerToggle" xml:space="preserve"><value>Choose a time</value></data>
-  <data name="DateTimePickerToggle" xml:space="preserve"><value>Choose a date and a time</value></data>
+  <data name="DateTimePickerToggle" xml:space="preserve"><value>Choose a date and time</value></data>
   <data name="TimePickerNow" xml:space="preserve"><value>Now</value></data>
   <data name="TimePickerConfirm" xml:space="preserve"><value>Confirm</value></data>
   <data name="TimePickerHours" xml:space="preserve"><value>Hours</value></data>
@@ -151,7 +151,7 @@
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>lowercase</value></data>
   <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Title Case</value></data>
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Special character</value></data>
-  <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Search a character</value></data>
+  <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Search for a character</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>No character matches.</value></data>
   <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Common</value></data>
   <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Currency</value></data>
@@ -166,7 +166,7 @@
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Table preview</value></data>
   <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0} rows, {1} columns</value></data>
   <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>The file could not be read.</value></data>
-  <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>The file holds no row.</value></data>
+  <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>The file contains no rows.</value></data>
   <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>This file type is not supported.</value></data>
   <data name="HtmlEditorClosePanel" xml:space="preserve"><value>Close</value></data>
   <data name="HtmlEditorShowBlocks" xml:space="preserve"><value>Show blocks</value></data>
@@ -199,7 +199,7 @@
   <data name="HtmlEditorChar00A3" xml:space="preserve"><value>Pound</value></data>
   <data name="HtmlEditorChar00A5" xml:space="preserve"><value>Yen</value></data>
   <data name="HtmlEditorChar00A2" xml:space="preserve"><value>Cent</value></data>
-  <data name="HtmlEditorChar20BD" xml:space="preserve"><value>Ruble</value></data>
+  <data name="HtmlEditorChar20BD" xml:space="preserve"><value>Rouble</value></data>
   <data name="HtmlEditorChar20B9" xml:space="preserve"><value>Rupee</value></data>
   <data name="HtmlEditorChar20A9" xml:space="preserve"><value>Won</value></data>
   <data name="HtmlEditorChar20AA" xml:space="preserve"><value>Shekel</value></data>
@@ -209,8 +209,8 @@
   <data name="HtmlEditorChar2192" xml:space="preserve"><value>Right arrow</value></data>
   <data name="HtmlEditorChar2191" xml:space="preserve"><value>Up arrow</value></data>
   <data name="HtmlEditorChar2193" xml:space="preserve"><value>Down arrow</value></data>
-  <data name="HtmlEditorChar2194" xml:space="preserve"><value>Left right arrow</value></data>
-  <data name="HtmlEditorChar2195" xml:space="preserve"><value>Up down arrow</value></data>
+  <data name="HtmlEditorChar2194" xml:space="preserve"><value>Left-right arrow</value></data>
+  <data name="HtmlEditorChar2195" xml:space="preserve"><value>Up-down arrow</value></data>
   <data name="HtmlEditorChar21D0" xml:space="preserve"><value>Left double arrow</value></data>
   <data name="HtmlEditorChar21D2" xml:space="preserve"><value>Right double arrow</value></data>
   <data name="HtmlEditorChar21D1" xml:space="preserve"><value>Up double arrow</value></data>
@@ -221,7 +221,7 @@
   <data name="HtmlEditorChar2203" xml:space="preserve"><value>There exists</value></data>
   <data name="HtmlEditorChar2205" xml:space="preserve"><value>Empty set</value></data>
   <data name="HtmlEditorChar2208" xml:space="preserve"><value>Element of</value></data>
-  <data name="HtmlEditorChar2209" xml:space="preserve"><value>Not element of</value></data>
+  <data name="HtmlEditorChar2209" xml:space="preserve"><value>Not an element of</value></data>
   <data name="HtmlEditorChar2282" xml:space="preserve"><value>Subset of</value></data>
   <data name="HtmlEditorChar2283" xml:space="preserve"><value>Superset of</value></data>
   <data name="HtmlEditorChar222A" xml:space="preserve"><value>Union</value></data>
@@ -279,8 +279,8 @@
   <data name="MindMapAnnounceAdded" xml:space="preserve"><value>Node {0} added.</value></data>
   <data name="MindMapAnnounceDeleted" xml:space="preserve"><value>Nodes deleted: {0}.</value></data>
   <data name="MindMapAnnounceDuplicated" xml:space="preserve"><value>Node {0} duplicated.</value></data>
-  <data name="MindMapAnnounceLaidOut" xml:space="preserve"><value>Map reorganized.</value></data>
-  <data name="MindMapAnnounceLimit" xml:space="preserve"><value>The maximum number of nodes is reached.</value></data>
+  <data name="MindMapAnnounceLaidOut" xml:space="preserve"><value>Map reorganised.</value></data>
+  <data name="MindMapAnnounceLimit" xml:space="preserve"><value>The maximum number of nodes has been reached.</value></data>
   <data name="MindMapAnnounceLinkCancelled" xml:space="preserve"><value>Link creation cancelled.</value></data>
   <data name="MindMapAnnounceLinkDeleted" xml:space="preserve"><value>Link deleted.</value></data>
   <data name="MindMapAnnounceLinkSelected" xml:space="preserve"><value>Link selected.</value></data>
@@ -291,12 +291,12 @@
   <data name="MindMapAnnounceSelected" xml:space="preserve"><value>{0}, links: {1}.</value></data>
   <data name="MindMapAnnounceUndone" xml:space="preserve"><value>Change undone.</value></data>
   <data name="MindMapAnnounceZoom" xml:space="preserve"><value>Zoom {0}%.</value></data>
-  <data name="MindMapAutoLayout" xml:space="preserve"><value>Reorganize</value></data>
+  <data name="MindMapAutoLayout" xml:space="preserve"><value>Reorganise</value></data>
   <data name="MindMapBold" xml:space="preserve"><value>Bold</value></data>
   <data name="MindMapCanvasLabel" xml:space="preserve"><value>Mind map</value></data>
-  <data name="MindMapCenter" xml:space="preserve"><value>Center</value></data>
+  <data name="MindMapCenter" xml:space="preserve"><value>Centre</value></data>
   <data name="MindMapColorBlue" xml:space="preserve"><value>Blue</value></data>
-  <data name="MindMapColorGray" xml:space="preserve"><value>Gray</value></data>
+  <data name="MindMapColorGray" xml:space="preserve"><value>Grey</value></data>
   <data name="MindMapColorGreen" xml:space="preserve"><value>Green</value></data>
   <data name="MindMapColorIndigo" xml:space="preserve"><value>Indigo</value></data>
   <data name="MindMapColorOrange" xml:space="preserve"><value>Orange</value></data>
@@ -311,14 +311,14 @@
   <data name="MindMapFitView" xml:space="preserve"><value>Fit</value></data>
   <data name="MindMapFontSize" xml:space="preserve"><value>Font size</value></data>
   <data name="MindMapItalic" xml:space="preserve"><value>Italic</value></data>
-  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Arrows: move between nodes, Home: central node, Shift+arrows: move, Enter or F2: rename, N: new node, D: duplicate, C: center, Delete: delete, + and -: zoom, 0: fit, Ctrl+Z and Ctrl+Y: undo and redo, Shift+F10: menu, Escape: clear the selection.</value></data>
-  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Arrows: move between nodes, Home: central node, C: center, + and -: zoom, 0: fit, Shift+F10: menu, Escape: clear the selection.</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Arrows: move between nodes, Home: central node, Shift+arrows: move, Enter or F2: rename, N: new node, D: duplicate, C: centre, Delete: delete, + and -: zoom, 0: fit, Ctrl+Z and Ctrl+Y: undo and redo, Shift+F10: menu, Escape: clear the selection.</value></data>
+  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Arrows: move between nodes, Home: central node, C: centre, + and -: zoom, 0: fit, Shift+F10: menu, Escape: clear the selection.</value></data>
   <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Escape to cancel</value></data>
   <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Click the source node</value></data>
   <data name="MindMapLinkSelectTarget" xml:space="preserve"><value>Click the target node</value></data>
   <data name="MindMapMenuLabel" xml:space="preserve"><value>Map actions</value></data>
   <data name="MindMapNewNode" xml:space="preserve"><value>New</value></data>
-  <data name="MindMapNodeColor" xml:space="preserve"><value>Color</value></data>
+  <data name="MindMapNodeColor" xml:space="preserve"><value>Colour</value></data>
   <data name="MindMapNodeHeight" xml:space="preserve"><value>Height</value></data>
   <data name="MindMapNodeText" xml:space="preserve"><value>Text</value></data>
   <data name="MindMapNodeWidth" xml:space="preserve"><value>Width</value></data>
@@ -333,7 +333,7 @@
   <data name="MultiSelectSelected" xml:space="preserve"><value>{0} selected</value></data>
   <data name="MultiSelectClear" xml:space="preserve"><value>Clear selection</value></data>
   <data name="MultiSelectFilter" xml:space="preserve"><value>Search</value></data>
-  <data name="MultiSelectNoMatch" xml:space="preserve"><value>No match</value></data>
+  <data name="MultiSelectNoMatch" xml:space="preserve"><value>No results</value></data>
   <data name="NotificationDismiss" xml:space="preserve"><value>Dismiss notification</value></data>
   <data name="NotificationExpand" xml:space="preserve"><value>Show all</value></data>
   <data name="NotificationCollapse" xml:space="preserve"><value>Collapse</value></data>
@@ -370,7 +370,7 @@
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Place here: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Place here</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Cancel the move</value></data>
-  <data name="SchedulerMoving" xml:space="preserve"><value>{0} picked up: choose its new place, Escape to cancel.</value></data>
+  <data name="SchedulerMoving" xml:space="preserve"><value>{0} picked up: choose its new position, or press Escape to cancel.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} stays where it was.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} moved to {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>The segmented selection is invalid.</value></data>
@@ -382,9 +382,9 @@
   <data name="SidebarClose" xml:space="preserve"><value>Close navigation</value></data>
   <data name="LoadingLabel" xml:space="preserve"><value>Loading</value></data>
   <data name="WindowControlsLabel" xml:space="preserve"><value>Window controls</value></data>
-  <data name="WindowMinimizeToTray" xml:space="preserve"><value>Minimize to tray</value></data>
-  <data name="WindowMinimize" xml:space="preserve"><value>Minimize</value></data>
-  <data name="WindowMaximize" xml:space="preserve"><value>Maximize</value></data>
+  <data name="WindowMinimizeToTray" xml:space="preserve"><value>Minimise to tray</value></data>
+  <data name="WindowMinimize" xml:space="preserve"><value>Minimise</value></data>
+  <data name="WindowMaximize" xml:space="preserve"><value>Maximise</value></data>
   <data name="WindowRestore" xml:space="preserve"><value>Restore</value></data>
   <data name="WindowClose" xml:space="preserve"><value>Close</value></data>
   <data name="SidebarToggleLabel" xml:space="preserve"><value>Show or hide navigation</value></data>
@@ -435,12 +435,12 @@
   <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>The {0} field must be at most {1} characters long.</value></data>
   <data name="DataAnnotationsMinLength" xml:space="preserve"><value>The {0} field must be at least {1} characters long.</value></data>
   <data name="DataAnnotationsRange" xml:space="preserve"><value>The {0} field must be between {1} and {2}.</value></data>
-  <data name="DataAnnotationsEmail" xml:space="preserve"><value>The {0} field is not a valid e-mail address.</value></data>
+  <data name="DataAnnotationsEmail" xml:space="preserve"><value>The {0} field is not a valid email address.</value></data>
   <data name="DataAnnotationsUrl" xml:space="preserve"><value>The {0} field is not a valid web address.</value></data>
   <data name="DataAnnotationsCompare" xml:space="preserve"><value>{0} and {1} do not match.</value></data>
   <data name="DataAnnotationsPattern" xml:space="preserve"><value>The {0} field does not have the expected format.</value></data>
   <data name="DataAnnotationsInvalid" xml:space="preserve"><value>The {0} field is not valid.</value></data>
-  <data name="GanttEmpty" xml:space="preserve"><value>No task to show.</value></data>
+  <data name="GanttEmpty" xml:space="preserve"><value>No tasks to show.</value></data>
   <data name="GanttLabel" xml:space="preserve"><value>Gantt chart</value></data>
   <data name="GanttScale" xml:space="preserve"><value>Time scale</value></data>
   <data name="GanttScaleDay" xml:space="preserve"><value>Day</value></data>
@@ -466,7 +466,7 @@
   <data name="DetailNotFound" xml:space="preserve"><value>Item not found</value></data>
   <data name="SignIn" xml:space="preserve"><value>Sign in</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Connection lost</value></data>
-  <data name="ConnectionLostDescription" xml:space="preserve"><value>The connection to the server is down. The application is trying to restore it.</value></data>
+  <data name="ConnectionLostDescription" xml:space="preserve"><value>The connection to the server has been interrupted. The application is trying to restore it.</value></data>
   <data name="ConnectionFailedTitle" xml:space="preserve"><value>Unable to connect</value></data>
   <data name="ConnectionFailedDescription" xml:space="preserve"><value>The automatic attempts have failed. Try again once the network is back.</value></data>
   <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Session ended</value></data>
@@ -525,7 +525,7 @@
   <data name="HtmlEditorLink" xml:space="preserve"><value>Link</value></data>
   <data name="HtmlEditorUnlink" xml:space="preserve"><value>Remove link</value></data>
   <data name="HtmlEditorAlignLeft" xml:space="preserve"><value>Align left</value></data>
-  <data name="HtmlEditorAlignCenter" xml:space="preserve"><value>Center</value></data>
+  <data name="HtmlEditorAlignCenter" xml:space="preserve"><value>Centre</value></data>
   <data name="HtmlEditorAlignRight" xml:space="preserve"><value>Align right</value></data>
   <data name="HtmlEditorAlignJustify" xml:space="preserve"><value>Justify</value></data>
   <data name="HtmlEditorInsertTable" xml:space="preserve"><value>Insert a table</value></data>
@@ -565,14 +565,14 @@
   <data name="StatusBadgeStale" xml:space="preserve"><value>stale</value></data>
   <data name="StatusBadgeStaleSince" xml:space="preserve"><value>Last updated: {0}</value></data>
   <data name="LogViewerLabel" xml:space="preserve"><value>Log</value></data>
-  <data name="LogViewerEmpty" xml:space="preserve"><value>No line yet.</value></data>
+  <data name="LogViewerEmpty" xml:space="preserve"><value>No lines yet.</value></data>
   <data name="LogViewerSearch" xml:space="preserve"><value>Search the log</value></data>
   <data name="LogViewerAllLevels" xml:space="preserve"><value>All levels</value></data>
   <data name="LogViewerLevelFilter" xml:space="preserve"><value>Minimum level</value></data>
   <data name="LogViewerFromLevel" xml:space="preserve"><value>{0} and above</value></data>
   <data name="LogViewerPreviousMatch" xml:space="preserve"><value>Previous match</value></data>
   <data name="LogViewerNextMatch" xml:space="preserve"><value>Next match</value></data>
-  <data name="LogViewerNoMatch" xml:space="preserve"><value>No match</value></data>
+  <data name="LogViewerNoMatch" xml:space="preserve"><value>No matches</value></data>
   <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} of {1}</value></data>
   <data name="LogViewerFollow" xml:space="preserve"><value>Follow</value></data>
   <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Jump to latest</value></data>
@@ -593,10 +593,10 @@
   <data name="CodeViewerEmpty" xml:space="preserve"><value>Nothing to show.</value></data>
   <data name="CodeViewerWrap" xml:space="preserve"><value>Wrap lines</value></data>
   <data name="CodeViewerLinkHint" xml:space="preserve"><value>Follow the link</value></data>
-  <data name="UnifiedDiffEmpty" xml:space="preserve"><value>No change.</value></data>
+  <data name="UnifiedDiffEmpty" xml:space="preserve"><value>No changes.</value></data>
   <data name="UnifiedDiffStats" xml:space="preserve"><value>{0} lines added, {1} lines removed</value></data>
-  <data name="UnifiedDiffBinary" xml:space="preserve"><value>Binary file: no line to compare.</value></data>
-  <data name="UnifiedDiffNoLines" xml:space="preserve"><value>No changed line.</value></data>
+  <data name="UnifiedDiffBinary" xml:space="preserve"><value>Binary file: no lines to compare.</value></data>
+  <data name="UnifiedDiffNoLines" xml:space="preserve"><value>No changed lines.</value></data>
   <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Old line</value></data>
   <data name="UnifiedDiffNewLine" xml:space="preserve"><value>New line</value></data>
   <data name="UnifiedDiffContent" xml:space="preserve"><value>Content</value></data>
@@ -615,16 +615,16 @@
   <data name="DynamicFormChoice" xml:space="preserve"><value>{0} must be one of the offered values.</value></data>
   <data name="StatusStripLabel" xml:space="preserve"><value>Status history</value></data>
   <data name="StatusStripEmpty" xml:space="preserve"><value>No status to show</value></data>
-  <data name="KanbanLabel" xml:space="preserve"><value>Card board</value></data>
+  <data name="KanbanLabel" xml:space="preserve"><value>Kanban board</value></data>
   <data name="KanbanInstructions" xml:space="preserve"><value>Space or Enter to pick the card up, arrow keys to move it, Space or Enter to drop it, Escape to cancel.</value></data>
   <data name="KanbanGrabbed" xml:space="preserve"><value>{0} picked up, column {1}, position {2} of {3}.</value></data>
   <data name="KanbanMoved" xml:space="preserve"><value>{0}: column {1}, position {2} of {3}.</value></data>
   <data name="KanbanDropped" xml:space="preserve"><value>{0} dropped, column {1}, position {2} of {3}.</value></data>
   <data name="KanbanCancelled" xml:space="preserve"><value>Move cancelled: {0} stays in column {1}.</value></data>
-  <data name="KanbanEmptyColumn" xml:space="preserve"><value>No card</value></data>
+  <data name="KanbanEmptyColumn" xml:space="preserve"><value>No cards</value></data>
   <data name="KanbanCardCount" xml:space="preserve"><value>Cards: {0}</value></data>
   <data name="GitGraphLabel" xml:space="preserve"><value>Commit history</value></data>
-  <data name="GitGraphEmpty" xml:space="preserve"><value>No commit</value></data>
+  <data name="GitGraphEmpty" xml:space="preserve"><value>No commits</value></data>
   <data name="StepTimelineExpected" xml:space="preserve"><value>{0}% of the usual duration elapsed</value></data>
   <data name="StepTimelineOverrun" xml:space="preserve"><value>beyond the usual duration</value></data>
   <data name="DiffViewerLabel" xml:space="preserve"><value>Comparison</value></data>
@@ -640,14 +640,14 @@
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Generated at (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Rows exported: {0} of {1} announced</value></data>
   <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Rows exported: {0} of at least {1}</value></data>
-  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Truncated export: {0} rows exported of {1}, the limit of {2} rows was reached.</value></data>
-  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Incomplete export: {0} rows exported of {1} announced, the data changed while it was being read.</value></data>
-  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Limited export: the limit of {0} rows was reached and the source announces no total, more rows may exist.</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Truncated export: {0} of {1} rows exported; the limit of {2} rows was reached.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Incomplete export: {0} of {1} announced rows exported; the data changed while it was being read.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Limited export: the limit of {0} rows was reached and the source announces no total; more rows may exist.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>No rows.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Sign up</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>No account?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Unsaved changes</value></data>
-  <data name="UnsavedChangesMessage" xml:space="preserve"><value>Some changes are not saved. Leave the page without saving them?</value></data>
+  <data name="UnsavedChangesMessage" xml:space="preserve"><value>Some changes have not been saved. Leave the page without saving them?</value></data>
   <data name="UnsavedChangesLeave" xml:space="preserve"><value>Leave without saving</value></data>
   <data name="UnsavedChangesStay" xml:space="preserve"><value>Stay on the page</value></data>
   <data name="MoreActions" xml:space="preserve"><value>More actions</value></data>

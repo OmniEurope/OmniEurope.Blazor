@@ -532,7 +532,7 @@ public sealed class PickerTests : OmniBunitContext
             Assert.Equal("09/21/2026 14:30", host.Find("#moment").GetAttribute("value"));
             Assert.Equal("Choose a date", Toggle(host, "date").GetAttribute("aria-label"));
             Assert.Equal("Choose a time", Toggle(host, "time").GetAttribute("aria-label"));
-            Assert.Equal("Choose a date and a time", Toggle(host, "moment").GetAttribute("aria-label"));
+            Assert.Equal("Choose a date and time", Toggle(host, "moment").GetAttribute("aria-label"));
 
             host.Find("#date").Change("10/02/2026");
             Assert.Equal(new DateOnly(2026, 10, 2), host.Instance.Model.Date);

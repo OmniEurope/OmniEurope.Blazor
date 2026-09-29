@@ -212,7 +212,7 @@
   <data name="DemoDiagramCapability1" xml:space="preserve"><value>Przeciąganie, lasso, powiększanie kółkiem lub gestem uszczypnięcia, menu kontekstowe.</value></data>
   <data name="DemoDiagramCapability2" xml:space="preserve"><value>Każda akcja ma skrót klawiszowy ogłaszany czytnikom ekranu.</value></data>
   <data name="DemoDiagramCapability3" xml:space="preserve"><value>Pasek akcji i panel właściwości zaznaczonego węzła.</value></data>
-  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Odczytuje i zapisuje z powrotem zapisany format grafu bez żadnej utraty.</value></data>
+  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Odczytuje i ponownie zapisuje przechowywany format grafu, niczego nie tracąc.</value></data>
   <data name="DemoPlanningTitle" xml:space="preserve"><value>Planowanie</value></data>
   <data name="DemoPlanningSummary" xml:space="preserve"><value>Wykres Gantta, przebieg wykonania i oś czasu do rozmieszczenia.</value></data>
   <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt w skali dnia, tygodnia lub miesiąca, z grupami, zależnościami i dniem dzisiejszym.</value></data>
@@ -294,7 +294,7 @@
   <data name="ContrastPair37" xml:space="preserve"><value>drugorzędny w spoczynku</value></data>
   <data name="ContrastPair38" xml:space="preserve"><value>drugorzędny po najechaniu</value></data>
   <data name="ContrastPair39" xml:space="preserve"><value>drugorzędny po wciśnięciu</value></data>
-  <data name="ContrastPair40" xml:space="preserve"><value>widmowy po wciśnięciu</value></data>
+  <data name="ContrastPair40" xml:space="preserve"><value>przezroczysty po wciśnięciu</value></data>
   <data name="ContrastPair41" xml:space="preserve"><value>pełny akcent / powierzchnia</value></data>
   <data name="ContrastPair42" xml:space="preserve"><value>pełny sukces / powierzchnia</value></data>
   <data name="ContrastPair43" xml:space="preserve"><value>pełna informacja / powierzchnia</value></data>
@@ -313,7 +313,7 @@
   <data name="DemoAppShellCapability3" xml:space="preserve"><value>Kropka, lupa, logo i awatar są rysowane przez witrynę demonstracyjną: pakiet nie ma dla nich komponentu.</value></data>
   <data name="DemoThemesTitle" xml:space="preserve"><value>Motywy i palety</value></data>
   <data name="DemoThemesSummary" xml:space="preserve"><value>Motyw nadaje kształt, paleta kolory; każda paleta maluje każdy motyw.</value></data>
-  <data name="DemoThemesCapability1" xml:space="preserve"><value>OmniThemeScope.Preset i OmniThemeScope.Palette przemalowują zakres i jego zawartość, i tylko je.</value></data>
+  <data name="DemoThemesCapability1" xml:space="preserve"><value>OmniThemeScope.Preset i OmniThemeScope.Palette przemalowują zakres i jego zawartość, i nic poza nimi.</value></data>
   <data name="DemoThemesCapability2" xml:space="preserve"><value>Sama paleta zmienia kolory i zachowuje dostarczony kształt.</value></data>
   <data name="DemoThemesCapability3" xml:space="preserve"><value>Motywy: {0}, palety: {1}, czyli kombinacje: {2}, każda w wersji jasnej i ciemnej.</value></data>
   <data name="DemoSurfacesTitle" xml:space="preserve"><value>Powierzchnie</value></data>
@@ -332,7 +332,7 @@
   <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>Przełącznik umieszczony w kafelku przyjmuje nazwę kafelka jako etykietę; kliknięcie kafelka go przełącza.</value></data>
   <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>Kontrolka znajduje się po prawej, nazwa, pomoc i ikona po lewej.</value></data>
   <data name="DemoNoticesTitle" xml:space="preserve"><value>Powiadomienia i okna dialogowe</value></data>
-  <data name="DemoNoticesSummary" xml:space="preserve"><value>Powiadomienia do zamknięcia, okna dialogowe na tle.</value></data>
+  <data name="DemoNoticesSummary" xml:space="preserve"><value>Powiadomienia do zamknięcia, okna dialogowe nad przyciemnionym tłem.</value></data>
   <data name="DemoNoticesCapability1" xml:space="preserve"><value>Każde powiadomienie zamyka się krzyżykiem.</value></data>
   <data name="DemoNoticesCapability2" xml:space="preserve"><value>Stopka okien dialogowych stosuje konwencję pakietu: najpierw akcja, potem Anuluj.</value></data>
   <data name="DemoLoadingTitle" xml:space="preserve"><value>Ładowanie</value></data>
@@ -350,7 +350,7 @@
   <data name="LoadingBarLabel" xml:space="preserve"><value>Ładowanie strony</value></data>
   <data name="LoadingSweep" xml:space="preserve"><value>Pasek przesuwający się</value></data>
   <data name="LoadingFill" xml:space="preserve"><value>Pasek wypełniający się</value></data>
-  <data name="LoadingHint" xml:space="preserve"><value>Pasek jest przyklejony pod powyższym nagłówkiem. Na końcu dochodzi do końca, a potem znika.</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>Pasek jest przyklejony pod powyższym nagłówkiem. Po zakończeniu dobiega do końca, a potem znika.</value></data>
   <data name="LoadingWaiting" xml:space="preserve"><value>Oczekiwanie</value></data>
   <data name="LoadingDeploying" xml:space="preserve"><value>Trwa wdrażanie</value></data>
   <data name="LoadingChecking" xml:space="preserve"><value>Sprawdzanie</value></data>
@@ -439,7 +439,7 @@
   <data name="DemoShellTools" xml:space="preserve"><value>Narzędzia</value></data>
   <data name="DemoShellLogs" xml:space="preserve"><value>Dzienniki</value></data>
   <data name="DemoShellWideView" xml:space="preserve"><value>Widok szeroki</value></data>
-  <data name="DemoShellWideText" xml:space="preserve"><value>Obszar treści biegnie od krawędzi do krawędzi, ograniczony do szerokości szerokiej (90 rem), bez wąskiej kolumny do czytania.</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>Obszar treści biegnie od krawędzi do krawędzi, ograniczony do szerokiego wariantu szerokości (90 rem), bez wąskiej kolumny do czytania.</value></data>
   <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Pokaż lub ukryj menu pływające</value></data>
   <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Menu pływające</value></data>
   <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Pływające menu demonstracji</value></data>
@@ -450,7 +450,7 @@
   <data name="DemoShellScrollMenu" xml:space="preserve"><value>Menu przewijanej demonstracji</value></data>
   <data name="DemoShellReadingColumn" xml:space="preserve"><value>Kolumna do czytania</value></data>
   <data name="DemoShellScroll1" xml:space="preserve"><value>Kolumna jest ograniczona do 72rem i wyśrodkowana; reszta szerokości nadal należy do elementu głównego.</value></data>
-  <data name="DemoShellScroll2" xml:space="preserve"><value>To więc on się przewija, na całej szerokości obszaru: jego pasek przewijania trzyma się prawej krawędzi ramki.</value></data>
+  <data name="DemoShellScroll2" xml:space="preserve"><value>To właśnie on się przewija, na całej szerokości obszaru: jego pasek przewijania znajduje się przy prawej krawędzi ramki.</value></data>
   <data name="DemoShellScroll3" xml:space="preserve"><value>Element podrzędny o wysokości 100% wypełniłby obszar dokładnie; wyższa treść powoduje przewijanie.</value></data>
   <data name="DemoShellScroll4" xml:space="preserve"><value>Dolny margines zostaje zachowany na końcu przewijania.</value></data>
   <data name="DemoShellScroll5" xml:space="preserve"><value>Zwężenie okna sprowadza kolumnę do dostępnej szerokości, łącznie z marginesem.</value></data>
@@ -488,7 +488,7 @@
   <data name="StatesPrimary" xml:space="preserve"><value>Podstawowy</value></data>
   <data name="StatesSuccess" xml:space="preserve"><value>Sukces</value></data>
   <data name="StatesSecondary" xml:space="preserve"><value>Drugorzędny</value></data>
-  <data name="StatesGhost" xml:space="preserve"><value>Widmowy</value></data>
+  <data name="StatesGhost" xml:space="preserve"><value>Przezroczysty</value></data>
   <data name="SurfServers" xml:space="preserve"><value>Serwery</value></data>
   <data name="SurfServersText" xml:space="preserve"><value>Ostatni sygnał życia 4 minuty temu.</value></data>
   <data name="SurfPipelines" xml:space="preserve"><value>Potoki</value></data>
@@ -648,16 +648,16 @@
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Sprawy złożone w poszczególnych kwartałach</value></data>
   <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Kwartał</value></data>
   <data name="DemoChartAxisCases" xml:space="preserve"><value>Sprawy</value></data>
-  <data name="DemoChartQuarter" xml:space="preserve"><value>K{0}</value></data>
+  <data name="DemoChartQuarter" xml:space="preserve"><value>Q{0}</value></data>
   <data name="DemoChartsExtendedMonthlyTitle" xml:space="preserve"><value>Zmiany miesięczne</value></data>
   <data name="DemoChartsExtendedMonthlyDescription" xml:space="preserve"><value>Wartość po najechaniu i z klawiatury</value></data>
   <data name="DemoChartsExtendedAxisMonth" xml:space="preserve"><value>Miesiąc</value></data>
-  <data name="DemoChartsExtendedDeposits" xml:space="preserve"><value>Złożone</value></data>
+  <data name="DemoChartsExtendedDeposits" xml:space="preserve"><value>Zgłoszenia</value></data>
   <data name="DemoChartsExtendedDecisions" xml:space="preserve"><value>Decyzje</value></data>
   <data name="DemoChartsExtendedLegend" xml:space="preserve"><value>Serie</value></data>
-  <data name="DemoChartsExtendedDailyTitle" xml:space="preserve"><value>Dzienna oglądalność w ciągu trzydziestu dni</value></data>
+  <data name="DemoChartsExtendedDailyTitle" xml:space="preserve"><value>Dzienny ruch w ciągu trzydziestu dni</value></data>
   <data name="DemoChartsExtendedPageViews" xml:space="preserve"><value>Odsłony dziennie</value></data>
-  <data name="DemoChartsExtendedVisitors" xml:space="preserve"><value>Unikalni użytkownicy dziennie</value></data>
+  <data name="DemoChartsExtendedVisitors" xml:space="preserve"><value>Unikalni odwiedzający dziennie</value></data>
   <data name="DemoChartsExtendedStackedTitle" xml:space="preserve"><value>Podział skumulowany</value></data>
   <data name="DemoChartsExtendedIncoming" xml:space="preserve"><value>Przychodzące</value></data>
   <data name="DemoChartsExtendedOutgoing" xml:space="preserve"><value>Wychodzące</value></data>
@@ -842,7 +842,7 @@
   <data name="DemoPagesShowToken" xml:space="preserve"><value>Pokaż token</value></data>
   <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1} tys.</value></data>
   <data name="DemoPagesTokensToday" xml:space="preserve"><value>Tokeny dzisiaj</value></data>
-  <data name="DemoPagesTokensReset" xml:space="preserve"><value>Reset o {0:t}</value></data>
+  <data name="DemoPagesTokensReset" xml:space="preserve"><value>Resetowanie o {0:t}</value></data>
   <data name="DemoPagesWeekly" xml:space="preserve"><value>Co tydzień</value></data>
   <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Komponenty</value></data>
   <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Serwery</value></data>
@@ -1140,9 +1140,9 @@
   <data name="DemoMediaIconShuffle" xml:space="preserve"><value>Odtwarzanie losowe</value></data>
   <data name="DemoMediaIconRepeat" xml:space="preserve"><value>Powtarzaj</value></data>
   <data name="DemoMediaIconRepeatOnce" xml:space="preserve"><value>Powtórz raz</value></data>
-  <data name="DemoMediaIconSpeakerHigh" xml:space="preserve"><value>Głośno</value></data>
-  <data name="DemoMediaIconSpeakerLow" xml:space="preserve"><value>Cicho</value></data>
-  <data name="DemoMediaIconSpeakerNone" xml:space="preserve"><value>Głośność zero</value></data>
+  <data name="DemoMediaIconSpeakerHigh" xml:space="preserve"><value>Wysoka głośność</value></data>
+  <data name="DemoMediaIconSpeakerLow" xml:space="preserve"><value>Niska głośność</value></data>
+  <data name="DemoMediaIconSpeakerNone" xml:space="preserve"><value>Zerowa głośność</value></data>
   <data name="DemoMediaIconSpeakerX" xml:space="preserve"><value>Dźwięk wyciszony</value></data>
   <data name="DemoMediaIconQueue" xml:space="preserve"><value>Kolejka</value></data>
   <data name="DemoMediaIconPlaylist" xml:space="preserve"><value>Playlista</value></data>
@@ -1437,7 +1437,7 @@
   <data name="DemoFlowsStepRole" xml:space="preserve"><value>Rola</value></data>
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Rola, którą otrzyma.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Panel administracyjny</value></data>
-  <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Eksploatacja</value></data>
+  <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Operacje</value></data>
   <data name="DemoFlowsUser" xml:space="preserve"><value>Nazwa użytkownika</value></data>
   <data name="DemoFlowsPassword" xml:space="preserve"><value>Hasło</value></data>
   <data name="DemoFlowsSignIn" xml:space="preserve"><value>Zaloguj się</value></data>
@@ -1491,7 +1491,7 @@
   <data name="DemoDiagramNodeKitchen" xml:space="preserve"><value>Kuchnia</value></data>
   <data name="DemoDiagramNodeBooks" xml:space="preserve"><value>Książki</value></data>
   <data name="DemoDiagramNodeMovingDay" xml:space="preserve"><value>Dzień przeprowadzki</value></data>
-  <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Zarezerwuj samochód</value></data>
+  <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Zarezerwuj samochód dostawczy</value></data>
   <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Uprzedź sąsiadów</value></data>
   <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Przed 15.</value></data>
 </root>

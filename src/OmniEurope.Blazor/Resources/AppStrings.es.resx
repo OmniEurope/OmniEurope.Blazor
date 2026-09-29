@@ -625,7 +625,7 @@
   <data name="KanbanCardCount" xml:space="preserve"><value>Tarjetas: {0}</value></data>
   <data name="GitGraphLabel" xml:space="preserve"><value>Historial de commits</value></data>
   <data name="GitGraphEmpty" xml:space="preserve"><value>Ningún commit</value></data>
-  <data name="StepTimelineExpected" xml:space="preserve"><value>{0} % de la duración habitual transcurrido</value></data>
+  <data name="StepTimelineExpected" xml:space="preserve"><value>transcurrido el {0} % de la duración habitual</value></data>
   <data name="StepTimelineOverrun" xml:space="preserve"><value>por encima de la duración habitual</value></data>
   <data name="DiffViewerLabel" xml:space="preserve"><value>Comparación</value></data>
   <data name="DiffViewerOriginal" xml:space="preserve"><value>Antes</value></data>

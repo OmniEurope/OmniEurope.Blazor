@@ -62,7 +62,7 @@
   <data name="GallerySourceMissing" xml:space="preserve"><value>Datoteke predstavitve ni bilo mogoče najti med viri sestava.</value></data>
   <data name="DemoButtonsTitle" xml:space="preserve"><value>Gumbi</value></data>
   <data name="DemoButtonsSummary" xml:space="preserve"><value>Sprožilec dejanja, v vizualnih namenih in stanjih.</value></data>
-  <data name="DemoButtonsCapability1" xml:space="preserve"><value>Štirje nameni: primarni, sekundarni, prosojni in uničevalni.</value></data>
+  <data name="DemoButtonsCapability1" xml:space="preserve"><value>Štirje nameni: primarni, sekundarni, prosojni in destruktivni.</value></data>
   <data name="DemoButtonsCapability2" xml:space="preserve"><value>Zasedeno stanje, ki prepreči dvojno pošiljanje in se najavi bralnikom zaslona.</value></data>
   <data name="DemoButtonsCapability3" xml:space="preserve"><value>Onemogočeno stanje, ločeno od zasedenega.</value></data>
   <data name="DemoButtonsCapability4" xml:space="preserve"><value>Tri velikosti in trije tipi gumbov obrazca: pošiljanje, ponastavitev in nevtralno dejanje.</value></data>
@@ -119,9 +119,9 @@
   <data name="DemoFeedbackCapability3" xml:space="preserve"><value>Okostje nalaganja, najavljeno bralnikom zaslona.</value></data>
   <data name="DemoFeedbackCapability4" xml:space="preserve"><value>Linearna ali krožna vrstica v štirih namenih in okostje, ki prevzame obliko tega, kar nadomešča.</value></data>
   <data name="DemoGridTitle" xml:space="preserve"><value>Podatkovna mreža</value></data>
-  <data name="DemoGridSummary" xml:space="preserve"><value>Delovna tabela: razvrščanje, filtriranje, številčenje strani in skupine.</value></data>
+  <data name="DemoGridSummary" xml:space="preserve"><value>Delovna tabela: razvrščanje, filtriranje, ostranjevanje in skupine.</value></data>
   <data name="DemoGridCapability1" xml:space="preserve"><value>Razvrščanje in filtriranje po stolpcih, na dejanskih podatkih.</value></data>
-  <data name="DemoGridCapability2" xml:space="preserve"><value>Številčenje strani z nastavljivo velikostjo strani.</value></data>
+  <data name="DemoGridCapability2" xml:space="preserve"><value>Ostranjevanje z nastavljivo velikostjo strani.</value></data>
   <data name="DemoGridCapability3" xml:space="preserve"><value>Izmenične vrstice in deklarativne oblike stolpcev.</value></data>
   <data name="DemoChartTitle" xml:space="preserve"><value>Grafikoni</value></data>
   <data name="DemoChartSummary" xml:space="preserve"><value>Kategorične serije, v barvah teme.</value></data>
@@ -165,7 +165,7 @@
   <data name="DemoValidationSummary" xml:space="preserve"><value>Pravila, deklarirana ob polju, ki ga varujejo.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Obveznost, dolžina, oblika e-pošte in primerjava.</value></data>
   <data name="DemoValidationCapability2" xml:space="preserve"><value>Ob pošiljanju se fokus premakne na prvo neveljavno polje.</value></data>
-  <data name="DemoValidationCapability3" xml:space="preserve"><value>Nobenih opomb na modelu, vse je v označevanju.</value></data>
+  <data name="DemoValidationCapability3" xml:space="preserve"><value>Nobenega atributa na modelu, vse je v označevanju.</value></data>
   <data name="DemoEditorTitle" xml:space="preserve"><value>Urejevalniki in nalaganje</value></data>
   <data name="DemoEditorSummary" xml:space="preserve"><value>Urejevalnik WYSIWYG in njegov vir HTML, urejevalnik besedil, urejevalnik kode in nalaganje datotek.</value></data>
   <data name="DemoEditorCapability1" xml:space="preserve"><value>Ukazna vrstica, ki jo gostiteljska aplikacija dopolni ali preuredi, prečiščeno lepljenje, način izvorne kode.</value></data>
@@ -181,12 +181,12 @@
   <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Večkratni izbor s klikom na vrstico.</value></data>
   <data name="DemoGridAdvancedCapability2" xml:space="preserve"><value>Filtri s spustnim seznamom in večkratnim izborom po stolpcih.</value></data>
   <data name="DemoGridAdvancedCapability3" xml:space="preserve"><value>Zamrznjen stolpec, razširjene skupine in izračunana noga stolpca.</value></data>
-  <data name="DemoGridAdvancedCapability4" xml:space="preserve"><value>Nastavitve prikaza v živo: vrstice, gostota, številčenje strani, izbor, urejanje in filtri.</value></data>
-  <data name="DemoDataListTitle" xml:space="preserve"><value>Seznami in številčenje strani</value></data>
-  <data name="DemoDataListSummary" xml:space="preserve"><value>Seznam s prosto predlogo in njegov številčnik strani.</value></data>
+  <data name="DemoGridAdvancedCapability4" xml:space="preserve"><value>Nastavitve prikaza v živo: vrstice, gostota, ostranjevanje, izbor, urejanje in filtri.</value></data>
+  <data name="DemoDataListTitle" xml:space="preserve"><value>Seznami in ostranjevanje</value></data>
+  <data name="DemoDataListSummary" xml:space="preserve"><value>Seznam s prosto predlogo in njegovo orodje za ostranjevanje.</value></data>
   <data name="DemoDataListCapability1" xml:space="preserve"><value>Predloga elementa, ki jo v celoti zagotovi gostiteljska aplikacija.</value></data>
   <data name="DemoDataListCapability2" xml:space="preserve"><value>Ločena stanja: prazno, nalaganje in napaka.</value></data>
-  <data name="DemoDataListCapability3" xml:space="preserve"><value>Številčnik strani z nastavljivo velikostjo strani in bližnjicami za prvo in zadnjo.</value></data>
+  <data name="DemoDataListCapability3" xml:space="preserve"><value>Orodje za ostranjevanje z nastavljivo velikostjo strani in bližnjicama za prvo in zadnjo stran.</value></data>
   <data name="DemoTreeTitle" xml:space="preserve"><value>Drevesna struktura</value></data>
   <data name="DemoTreeSummary" xml:space="preserve"><value>Razširljiva hierarhija, z enojnim ali večkratnim izborom.</value></data>
   <data name="DemoTreeCapability1" xml:space="preserve"><value>Večkratni izbor in krmarjenje s tipkovnico.</value></data>
@@ -598,7 +598,7 @@
   <data name="DemoGridExportSortValue" xml:space="preserve"><value>sklic, naraščajoče</value></data>
   <data name="DemoGridAdvancedLines" xml:space="preserve"><value>Črte</value></data>
   <data name="DemoGridAdvancedDensity" xml:space="preserve"><value>Gostota</value></data>
-  <data name="DemoGridAdvancedPager" xml:space="preserve"><value>Številčenje strani</value></data>
+  <data name="DemoGridAdvancedPager" xml:space="preserve"><value>Ostranjevanje</value></data>
   <data name="DemoGridAdvancedSelection" xml:space="preserve"><value>Izbor</value></data>
   <data name="DemoGridAdvancedFilters" xml:space="preserve"><value>Filtri</value></data>
   <data name="DemoGridAdvancedEdit" xml:space="preserve"><value>Urejanje</value></data>
@@ -633,7 +633,7 @@
   <data name="DemoGridAdvancedRetainedNone" xml:space="preserve"><value>nobena</value></data>
   <data name="DemoDataListEmpty" xml:space="preserve"><value>Na tej strani ni zadev.</value></data>
   <data name="DemoDataListLoading" xml:space="preserve"><value>Nalaganje zadev.</value></data>
-  <data name="DemoDataListPager" xml:space="preserve"><value>Številčenje strani zadev</value></data>
+  <data name="DemoDataListPager" xml:space="preserve"><value>Ostranjevanje zadev</value></data>
   <data name="DemoDataListLog" xml:space="preserve"><value>Dnevnik obdelave</value></data>
   <data name="DemoDataListKanban" xml:space="preserve"><value>Spremljanje zadev</value></data>
   <data name="DemoDataListColumnNew" xml:space="preserve"><value>Za pregled</value></data>
@@ -642,7 +642,7 @@
   <data name="DemoDataListLogSearch" xml:space="preserve"><value>Iskanje zadeve</value></data>
   <data name="DemoDataListLogConnected" xml:space="preserve"><value>Povezava je vzpostavljena</value></data>
   <data name="DemoDataListLogStarted" xml:space="preserve"><value>Obdelava se je začela</value></data>
-  <data name="DemoDataListLogMissing" xml:space="preserve"><value>Manjkajoči dokument</value></data>
+  <data name="DemoDataListLogMissing" xml:space="preserve"><value>Manjka dokument</value></data>
   <data name="DemoDataListLogRejected" xml:space="preserve"><value>Potrditev je zavrnjena</value></data>
   <data name="DemoDataListLogAborted" xml:space="preserve"><value>Obdelava je prekinjena</value></data>
   <data name="DemoChartChartTitle" xml:space="preserve"><value>Vložene zadeve po četrtletjih</value></data>
@@ -840,7 +840,7 @@
   <data name="DemoPagesNoResultText" xml:space="preserve"><value>Filtru ne ustreza noben strežnik.</value></data>
   <data name="DemoPagesHideToken" xml:space="preserve"><value>Skrij žeton</value></data>
   <data name="DemoPagesShowToken" xml:space="preserve"><value>Pokaži žeton</value></data>
-  <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1} k</value></data>
+  <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1} tis.</value></data>
   <data name="DemoPagesTokensToday" xml:space="preserve"><value>Žetoni danes</value></data>
   <data name="DemoPagesTokensReset" xml:space="preserve"><value>Ponastavitev ob {0:t}</value></data>
   <data name="DemoPagesWeekly" xml:space="preserve"><value>Tedensko</value></data>
@@ -874,14 +874,14 @@
   <data name="DemoAlertsInfoText" xml:space="preserve"><value>Knjižnica vse svoje barve bere iz spremenljivk CSS.</value></data>
   <data name="DemoAlertsSaved" xml:space="preserve"><value>Shranjeno</value></data>
   <data name="DemoAlertsSavedText" xml:space="preserve"><value>Spremembe so upoštevane.</value></data>
-  <data name="DemoAlertsNew" xml:space="preserve"><value>Novost</value></data>
+  <data name="DemoAlertsNew" xml:space="preserve"><value>Novosti</value></data>
   <data name="DemoAlertsNewText" xml:space="preserve"><value>Značke in opozorila imajo zdaj enako polnilo.</value></data>
   <data name="DemoAlertsCaution" xml:space="preserve"><value>Pozor</value></data>
   <data name="DemoAlertsCautionText" xml:space="preserve"><value>Ta nastavitev bo uporabljena na vseh straneh.</value></data>
   <data name="DemoAlertsTooLarge" xml:space="preserve"><value>Datoteka presega dovoljeno velikost.</value></data>
   <data name="DemoAlertsTip" xml:space="preserve"><value>Namig</value></data>
   <data name="DemoAlertsTipText" xml:space="preserve"><value>To opozorilo se zapre s svojim križcem.</value></data>
-  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Potrdilo za podpisovanje poteče čez toliko dni: {0}.</value></data>
+  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Število dni do poteka potrdila za podpisovanje: {0}.</value></data>
   <data name="DemoButtonsSecondary" xml:space="preserve"><value>Sekundarni</value></data>
   <data name="DemoButtonsGhost" xml:space="preserve"><value>Diskreten</value></data>
   <data name="DemoButtonsApprove" xml:space="preserve"><value>Potrdi</value></data>
@@ -1024,7 +1024,7 @@
   <data name="DemoMediaIconShieldCheck" xml:space="preserve"><value>Skrbništvo</value></data>
   <data name="DemoMediaIconSidebar" xml:space="preserve"><value>Stranska vrstica</value></data>
   <data name="DemoMediaIconSliders" xml:space="preserve"><value>Napredni filtri</value></data>
-  <data name="DemoMediaIconSparkle" xml:space="preserve"><value>Novost</value></data>
+  <data name="DemoMediaIconSparkle" xml:space="preserve"><value>Novosti</value></data>
   <data name="DemoMediaIconStar" xml:space="preserve"><value>Priljubljeno</value></data>
   <data name="DemoMediaIconStarFilled" xml:space="preserve"><value>Dejavno priljubljeno</value></data>
   <data name="DemoMediaIconSwap" xml:space="preserve"><value>Zamenjaj</value></data>
@@ -1207,8 +1207,8 @@
   <data name="DemoOverlayBlockingButton" xml:space="preserve"><value>Pogovorno okno z obveznim zapiranjem</value></data>
   <data name="DemoOverlaySizeSmall" xml:space="preserve"><value>Majhno</value></data>
   <data name="DemoOverlaySizeMedium" xml:space="preserve"><value>Srednje</value></data>
-  <data name="DemoOverlaySizeLarge" xml:space="preserve"><value>Široko</value></data>
-  <data name="DemoOverlaySizeExtraLarge" xml:space="preserve"><value>Zelo široko</value></data>
+  <data name="DemoOverlaySizeLarge" xml:space="preserve"><value>Veliko</value></data>
+  <data name="DemoOverlaySizeExtraLarge" xml:space="preserve"><value>Zelo veliko</value></data>
   <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Polna širina</value></data>
   <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Širina pogovornega okna</value></data>
   <data name="DemoOverlaySizedBody" xml:space="preserve"><value>To pogovorno okno je odprto v velikosti {0}.</value></data>
@@ -1230,14 +1230,14 @@
   <data name="DemoOverlayNoticeInfoTitle" xml:space="preserve"><value>Informacija</value></data>
   <data name="DemoOverlayNoticeInfo" xml:space="preserve"><value>Nočna obdelava se bo začela ob {0}.</value></data>
   <data name="DemoOverlayNoticeDoneTitle" xml:space="preserve"><value>Končano</value></data>
-  <data name="DemoOverlayNoticeDone" xml:space="preserve"><value>Uvoženih je bilo toliko dokumentov: {0}.</value></data>
+  <data name="DemoOverlayNoticeDone" xml:space="preserve"><value>Število uvoženih dokumentov: {0}.</value></data>
   <data name="DemoOverlayNotificationClosed" xml:space="preserve"><value>Obvestilo je zaprto</value></data>
   <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Kvota je skoraj dosežena.</value></data>
   <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Neuspeh</value></data>
   <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Povezava s storitvijo ni uspela.</value></data>
   <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Potrdite brisanje</value></data>
   <data name="DemoOverlayClose" xml:space="preserve"><value>Zapri</value></data>
-  <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>To dejanje odstrani mapo s seznama. Razveljaviti ga je mogoče trideset dni.</value></data>
+  <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>To dejanje odstrani mapo s seznama. Razveljavite ga lahko v tridesetih dneh.</value></data>
   <data name="DemoOverlayDeletionConfirmed" xml:space="preserve"><value>Brisanje je potrjeno</value></data>
   <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Filter v teku</value></data>
   <data name="DemoOverlayStickyBody" xml:space="preserve"><value>Klik zunaj ne zapre tega pogovornega okna: zapreta ga križec in tipka Esc.</value></data>

@@ -40,7 +40,7 @@
   <data name="DocsTitle" xml:space="preserve"><value>Dokumentace</value></data>
   <data name="DocsLead" xml:space="preserve"><value>Od instalace balíčku po první vlastní motiv, v pěti krocích.</value></data>
   <data name="DocsInstallTitle" xml:space="preserve"><value>Instalace balíčku</value></data>
-  <data name="DocsInstallBody" xml:space="preserve"><value>Knihovna se odkazuje jako jakýkoli jiný balíček NuGet.</value></data>
+  <data name="DocsInstallBody" xml:space="preserve"><value>Na knihovnu se odkazuje jako na jakýkoli jiný balíček NuGet.</value></data>
   <data name="DocsRegisterTitle" xml:space="preserve"><value>Registrace služeb</value></data>
   <data name="DocsRegisterBody" xml:space="preserve"><value>Jediné volání zaregistruje vše, co komponenty potřebují.</value></data>
   <data name="DocsCssTitle" xml:space="preserve"><value>Odkaz na šablonu stylů</value></data>
@@ -57,7 +57,7 @@
   <data name="GalleryCapabilities" xml:space="preserve"><value>Co komponenta umí</value></data>
   <data name="GalleryPreview" xml:space="preserve"><value>Ukázka</value></data>
   <data name="GallerySource" xml:space="preserve"><value>Zdrojový kód</value></data>
-  <data name="GallerySourceNote" xml:space="preserve"><value>Toto je přesně ten soubor, který výše uvedená ukázka kompiluje a spouští, načtený ze sestavení, nikdy ne ručně přepsaný.</value></data>
+  <data name="GallerySourceNote" xml:space="preserve"><value>Toto je přesně ten soubor, který výše uvedená ukázka kompiluje a spouští, načtený ze sestavení, nikdy ručně nepřepisovaný.</value></data>
   <data name="GallerySourceMissingTitle" xml:space="preserve"><value>Zdroj není k dispozici</value></data>
   <data name="GallerySourceMissing" xml:space="preserve"><value>Soubor ukázky nebyl nalezen v prostředcích sestavení.</value></data>
   <data name="DemoButtonsTitle" xml:space="preserve"><value>Tlačítka</value></data>
@@ -173,7 +173,7 @@
   <data name="DemoEditorCapability3" xml:space="preserve"><value>Editor kódu (Monaco u hostitele, prostý text pod přísným CSP) a omezené nahrávání.</value></data>
   <data name="DemoOverlayTitle" xml:space="preserve"><value>Překryvy</value></data>
   <data name="DemoOverlaySummary" xml:space="preserve"><value>Dialogová okna, oznámení a místní nabídky.</value></data>
-  <data name="DemoOverlayCapability1" xml:space="preserve"><value>Modální dialog, zavíratelný klávesou Esc nebo kliknutím na pozadí.</value></data>
+  <data name="DemoOverlayCapability1" xml:space="preserve"><value>Modální dialog, který lze zavřít klávesou Esc nebo kliknutím na pozadí.</value></data>
   <data name="DemoOverlayCapability2" xml:space="preserve"><value>Čtyři závažnosti oznámení s volitelným zavřením.</value></data>
   <data name="DemoOverlayCapability3" xml:space="preserve"><value>Místní nabídka, rozdělené tlačítko a nabídka účtu.</value></data>
   <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Mřížka, úplný rozsah</value></data>
@@ -252,7 +252,7 @@
   <data name="WorkshopContrastWaiver" xml:space="preserve"><value>Kontrast není zaručen: {0}</value></data>
   <data name="WorkshopContrastTitle" xml:space="preserve"><value>Vypočtené kontrasty</value></data>
   <data name="WorkshopContrastLead" xml:space="preserve"><value>Poměr změřený na tokenech zobrazeného režimu a poté práh, kterého je třeba dosáhnout.</value></data>
-  <data name="WorkshopContrastSystem" xml:space="preserve"><value>Systémový režim: poměry se měří na světlé polovině, protože kterou zvolí prohlížeč, je známo až na stránce.</value></data>
+  <data name="WorkshopContrastSystem" xml:space="preserve"><value>Systémový režim: poměry se měří na světlé polovině, protože kterou polovinu zvolí prohlížeč, se zjistí až na stránce.</value></data>
   <data name="WorkshopContrastVerdict" xml:space="preserve"><value>Páry splňující svůj práh: {0} z {1}.</value></data>
   <data name="WorkshopSwatchesTitle" xml:space="preserve"><value>Barevné tokeny</value></data>
   <data name="ContrastPair01" xml:space="preserve"><value>text / plocha</value></data>
@@ -332,7 +332,7 @@
   <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>Přepínač umístěný v dlaždici přebírá název dlaždice jako popisek; kliknutí na dlaždici jej přepne.</value></data>
   <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>Ovládací prvek je vpravo, název, nápověda a ikona vlevo.</value></data>
   <data name="DemoNoticesTitle" xml:space="preserve"><value>Oznámení a dialogy</value></data>
-  <data name="DemoNoticesSummary" xml:space="preserve"><value>Zavíratelná oznámení, dialogy na pozadí.</value></data>
+  <data name="DemoNoticesSummary" xml:space="preserve"><value>Zavíratelná oznámení, dialogy nad ztmaveným pozadím.</value></data>
   <data name="DemoNoticesCapability1" xml:space="preserve"><value>Každé oznámení se zavírá křížkem.</value></data>
   <data name="DemoNoticesCapability2" xml:space="preserve"><value>Zápatí dialogů dodržuje konvenci balíčku: nejprve akce, potom Zrušit.</value></data>
   <data name="DemoLoadingTitle" xml:space="preserve"><value>Načítání</value></data>
@@ -350,7 +350,7 @@
   <data name="LoadingBarLabel" xml:space="preserve"><value>Načítání stránky</value></data>
   <data name="LoadingSweep" xml:space="preserve"><value>Přejíždějící pruh</value></data>
   <data name="LoadingFill" xml:space="preserve"><value>Plnicí pruh</value></data>
-  <data name="LoadingHint" xml:space="preserve"><value>Pruh je přichycen pod záhlavím výše. Na konci dojede až na konec a pak zmizí.</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>Pruh je přichycen pod záhlavím výše. Po dokončení dojede až na konec a pak zmizí.</value></data>
   <data name="LoadingWaiting" xml:space="preserve"><value>Čekání</value></data>
   <data name="LoadingDeploying" xml:space="preserve"><value>Probíhá nasazení</value></data>
   <data name="LoadingChecking" xml:space="preserve"><value>Kontrola</value></data>
@@ -439,7 +439,7 @@
   <data name="DemoShellTools" xml:space="preserve"><value>Nástroje</value></data>
   <data name="DemoShellLogs" xml:space="preserve"><value>Protokoly</value></data>
   <data name="DemoShellWideView" xml:space="preserve"><value>Široké zobrazení</value></data>
-  <data name="DemoShellWideText" xml:space="preserve"><value>Obsahová oblast vede od okraje k okraji, omezená širokou šířkou (90 rem), bez úzkého sloupce pro čtení.</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>Obsahová oblast vede od okraje k okraji, omezená na širokou variantu šířky (90 rem), bez úzkého sloupce pro čtení.</value></data>
   <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Zobrazit nebo skrýt plovoucí nabídku</value></data>
   <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Plovoucí nabídka</value></data>
   <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Plovoucí nabídka ukázky</value></data>
@@ -732,7 +732,7 @@
   <data name="DemoLayoutAlignCenter" xml:space="preserve"><value>Na střed</value></data>
   <data name="DemoLayoutAlignEnd" xml:space="preserve"><value>Zarovnáno na konec</value></data>
   <data name="DemoLayoutTop" xml:space="preserve"><value>Nahoře</value></data>
-  <data name="DemoLayoutTopText" xml:space="preserve"><value>Karta vyšší než její sousedky.</value></data>
+  <data name="DemoLayoutTopText" xml:space="preserve"><value>Karta vyšší než sousední karty.</value></data>
   <data name="DemoLayoutBottom" xml:space="preserve"><value>Dole</value></data>
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>Štítek se usadí u spodku řady.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Roztažené</value></data>
@@ -916,7 +916,7 @@
   <data name="DemoFeedbackAnalysing" xml:space="preserve"><value>Probíhá analýza</value></data>
   <data name="DemoFeedbackProgress" xml:space="preserve"><value>Průběh</value></data>
   <data name="DemoFeedbackNoKnownEnd" xml:space="preserve"><value>Bez známého konce</value></data>
-  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>Kvóta se počítá za plovoucích třicet dní.</value></data>
+  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>Kvóta se počítá za klouzavé období třiceti dní.</value></data>
   <data name="DemoFeedbackQuota" xml:space="preserve"><value>Kvóta</value></data>
   <data name="DemoFeedbackArchivedTooltip" xml:space="preserve"><value>Archivovaný spis zůstává dostupný jen pro čtení.</value></data>
   <data name="DemoFeedbackArchived" xml:space="preserve"><value>Archivováno</value></data>
@@ -1265,7 +1265,7 @@
   <data name="DemoEditorIconIndent" xml:space="preserve"><value>Zvětšit odsazení</value></data>
   <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Zmenšit odsazení</value></data>
   <data name="DemoEditorIconQuote" xml:space="preserve"><value>Citace</value></data>
-  <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Vložený kód</value></data>
+  <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Kód v řádku</value></data>
   <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Blok kódu</value></data>
   <data name="DemoEditorIconLink" xml:space="preserve"><value>Odkaz</value></data>
   <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Odebrat odkaz</value></data>

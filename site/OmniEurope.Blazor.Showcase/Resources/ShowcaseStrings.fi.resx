@@ -159,13 +159,13 @@
   <data name="DemoChoiceTitle" xml:space="preserve"><value>Valinnat</value></data>
   <data name="DemoChoiceSummary" xml:space="preserve"><value>Valintanapit, monivalintaruudut, valintapalkit ja vaihtopainikkeet.</value></data>
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Vaihtoehdoista muodostetut tai kohde kerrallaan kootut luettelot.</value></data>
-  <data name="DemoChoiceCapability2" xml:space="preserve"><value>Valintapalkki ja vaihtopainike varattu- ja poistettu käytöstä -tiloineen.</value></data>
+  <data name="DemoChoiceCapability2" xml:space="preserve"><value>Valintapalkki ja vaihtopainike, joilla on varattu tila ja käytöstä poistettu tila.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Kolmiasentoinen valintaruutu ja valitsin, määrittämätön tila mukaan lukien.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Validointi</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>Säännöt määritellään suojaamansa kentän viereen.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Pakollisuus, pituus, sähköpostin muoto ja vertailu.</value></data>
   <data name="DemoValidationCapability2" xml:space="preserve"><value>Lähetettäessä kohdistus siirtyy ensimmäiseen virheelliseen kenttään.</value></data>
-  <data name="DemoValidationCapability3" xml:space="preserve"><value>Mallissa ei ole yhtään attribuuttia, kaikki on merkinnöissä.</value></data>
+  <data name="DemoValidationCapability3" xml:space="preserve"><value>Mallissa ei ole yhtään attribuuttia, kaikki on merkintäkoodissa.</value></data>
   <data name="DemoEditorTitle" xml:space="preserve"><value>Editorit ja lähetys</value></data>
   <data name="DemoEditorSummary" xml:space="preserve"><value>WYSIWYG-editori ja sen HTML-lähdekoodi, tekstinkäsittely, koodieditori ja tiedostojen lähetys.</value></data>
   <data name="DemoEditorCapability1" xml:space="preserve"><value>Komentopalkki, jota isäntä täydentää tai järjestää uudelleen, puhdistettu liittäminen, lähdekooditila.</value></data>
@@ -194,10 +194,10 @@
   <data name="DemoTreeCapability3" xml:space="preserve"><value>Solmuja voi poistaa käytöstä rikkomatta läpikäyntiä.</value></data>
   <data name="DemoSpreadsheetTitle" xml:space="preserve"><value>Taulukkolaskenta</value></data>
   <data name="DemoSpreadsheetSummary" xml:space="preserve"><value>Yksinkertainen laskentataulukko: solut, kaavat ja kaavarivi.</value></data>
-  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Kaavat viittauksilla, alueilla, SUM, AVERAGE, MIN, MAX ja virhekoodeilla.</value></data>
+  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Kaavat, joissa on viittauksia, alueita, SUM, AVERAGE, MIN, MAX ja virhekoodeja.</value></data>
   <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Näppäimistönavigointi, muokkaus paikallaan ja kaavarivi.</value></data>
   <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Kaksisuuntaisesti sidottu sisältö, joka voidaan sarjallistaa JSON-muotoon.</value></data>
-  <data name="DemoSchedulerTitle" xml:space="preserve"><value>Ajanvaraus</value></data>
+  <data name="DemoSchedulerTitle" xml:space="preserve"><value>Aikataulutus</value></data>
   <data name="DemoSchedulerSummary" xml:space="preserve"><value>Kalenteri ja sen kolme näkymää.</value></data>
   <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Vaihdettavat päivä-, viikko- ja kuukausinäkymät.</value></data>
   <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Säännöllä kuvatut toistuvat tapaamiset.</value></data>
@@ -322,7 +322,7 @@
   <data name="DemoSurfacesCapability2" xml:space="preserve"><value>Kelluva valikko avautuu kelluvien pintojen tasolle.</value></data>
   <data name="DemoSurfacesCapability3" xml:space="preserve"><value>Valikon nykyinen kohde merkitään täytöllä ja tekstin painolla, ei koskaan sivuviivalla.</value></data>
   <data name="DemoVerticalFormTitle" xml:space="preserve"><value>Pystysuuntainen lomake</value></data>
-  <data name="DemoVerticalFormSummary" xml:space="preserve"><value>Kaikki kenttätyypit, virheet ja niiden yhteenveto, poistettu käytöstä- ja vain luku -tilat.</value></data>
+  <data name="DemoVerticalFormSummary" xml:space="preserve"><value>Kaikki kenttätyypit, virheet ja niiden yhteenveto, käytöstä poistettu tila ja vain luku -tila.</value></data>
   <data name="DemoVerticalFormCapability1" xml:space="preserve"><value>Nimi yläpuolella, pakollisuuden tähti, ohje ja virhe kuvakkeen kanssa.</value></data>
   <data name="DemoVerticalFormCapability2" xml:space="preserve"><value>Virheet tulevat muokkauskontekstista: kenttä saa niistä aria-invalid-arvon, ja niiden korjaaminen poistaa ne yhteenvedosta.</value></data>
   <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Yhdistetty tiedostokenttä, yhden tiedoston alue, useiden tiedostojen alue supistetulla luettelolla.</value></data>
@@ -463,7 +463,7 @@
   <data name="ShellSearch" xml:space="preserve"><value>Hae</value></data>
   <data name="ShellSearchPlaceholder" xml:space="preserve"><value>Hae putkea</value></data>
   <data name="ShellHelp" xml:space="preserve"><value>Ohje</value></data>
-  <data name="ShellNotifications" xml:space="preserve"><value>Ilmoitukset, lukemattomia {0}</value></data>
+  <data name="ShellNotifications" xml:space="preserve"><value>Ilmoitukset, lukemattomia: {0}</value></data>
   <data name="ShellAccount" xml:space="preserve"><value>Tili</value></data>
   <data name="ShellSettings" xml:space="preserve"><value>Asetukset</value></data>
   <data name="ShellSettingsHint" xml:space="preserve"><value>Teema, kieli, ilmoitukset</value></data>
@@ -717,7 +717,7 @@
   <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>Ylätunniste, runko ja alatunniste ovat kolme erillistä aluetta.</value></data>
   <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>Kortissa voi olla pelkkä runko.</value></data>
   <data name="DemoLayoutStart" xml:space="preserve"><value>Alku</value></data>
-  <data name="DemoLayoutMiddle" xml:space="preserve"><value>Keski</value></data>
+  <data name="DemoLayoutMiddle" xml:space="preserve"><value>Keskikohta</value></data>
   <data name="DemoLayoutEnd" xml:space="preserve"><value>Loppu</value></data>
   <data name="DemoLayoutFieldGroup" xml:space="preserve"><value>Kenttäryhmä</value></data>
   <data name="DemoLayoutOne" xml:space="preserve"><value>Yksi</value></data>
@@ -881,7 +881,7 @@
   <data name="DemoAlertsTooLarge" xml:space="preserve"><value>Tiedosto ylittää sallitun koon.</value></data>
   <data name="DemoAlertsTip" xml:space="preserve"><value>Vinkki</value></data>
   <data name="DemoAlertsTipText" xml:space="preserve"><value>Tämä hälytys suljetaan sen ruksista.</value></data>
-  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Allekirjoitusvarmenne vanhenee, päiviä jäljellä: {0}.</value></data>
+  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Allekirjoitusvarmenne vanhenee {0} päivän kuluttua.</value></data>
   <data name="DemoButtonsSecondary" xml:space="preserve"><value>Toissijainen</value></data>
   <data name="DemoButtonsGhost" xml:space="preserve"><value>Hillitty</value></data>
   <data name="DemoButtonsApprove" xml:space="preserve"><value>Hyväksy</value></data>
@@ -922,7 +922,7 @@
   <data name="DemoFeedbackArchived" xml:space="preserve"><value>Arkistoitu</value></data>
   <data name="DemoFeedbackDraftTooltip" xml:space="preserve"><value>Luonnos.</value></data>
   <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Kapea</value></data>
-  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Arkistoitua asiaa voi yhä tarkastella vain luku -tilassa. Se ei enää lasketa kiintiöihin, ei näy oletushauissa eikä saa ilmoituksia. Avatakseen sen uudelleen ylläpitäjä palauttaa sen Arkisto-välilehdeltä; sen historia, liitteet ja kommentit palaavat silloin ennallaan palautuspäivän kera.</value></data>
+  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Arkistoitua asiaa voi yhä tarkastella vain luku -tilassa. Sitä ei enää lasketa kiintiöihin, se ei näy oletushauissa eikä saa ilmoituksia. Avatakseen sen uudelleen ylläpitäjä palauttaa sen Arkisto-välilehdeltä; sen historia, liitteet ja kommentit palaavat silloin ennallaan palautuspäivän kera.</value></data>
   <data name="DemoFeedbackLongText" xml:space="preserve"><value>Pitkä teksti</value></data>
   <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>Paketin työkaluvihje tavallisessa title-attribuutissa.</value></data>
   <data name="DemoFeedbackHover" xml:space="preserve"><value>Osoita</value></data>
@@ -1247,7 +1247,7 @@
   <data name="DemoOverlayMigrationDone" xml:space="preserve"><value>Siirto valmis</value></data>
   <data name="DemoEditorBodyLabel" xml:space="preserve"><value>Kirjeen runko</value></data>
   <data name="DemoEditorSourceLabel" xml:space="preserve"><value>Kirjeen lähdekoodi</value></data>
-  <data name="DemoEditorAnnotatedLabel" xml:space="preserve"><value>Huomautettu artikla</value></data>
+  <data name="DemoEditorAnnotatedLabel" xml:space="preserve"><value>Kommentoitu artikla</value></data>
   <data name="DemoEditorPosition" xml:space="preserve"><value>Sijainti: {0}</value></data>
   <data name="DemoEditorOutsideText" xml:space="preserve"><value>tekstin ulkopuolella</value></data>
   <data name="DemoEditorRoot" xml:space="preserve"><value>juuri</value></data>
@@ -1466,7 +1466,7 @@
   <data name="DemoSpreadsheetLabel" xml:space="preserve"><value>Neljännesvuoden budjetti</value></data>
   <data name="DemoSpreadsheetStatus" xml:space="preserve"><value>Aktiivinen solu: {0}. Neljänneksen summa: {1}</value></data>
   <data name="DemoSpreadsheetReadOnlyLabel" xml:space="preserve"><value>Sama budjetti vain luku -tilassa</value></data>
-  <data name="DemoSpreadsheetItem" xml:space="preserve"><value>Erä</value></data>
+  <data name="DemoSpreadsheetItem" xml:space="preserve"><value>Menoerä</value></data>
   <data name="DemoSpreadsheetJanuary" xml:space="preserve"><value>Tammikuu</value></data>
   <data name="DemoSpreadsheetFebruary" xml:space="preserve"><value>Helmikuu</value></data>
   <data name="DemoSpreadsheetMarch" xml:space="preserve"><value>Maaliskuu</value></data>

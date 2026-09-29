@@ -59,8 +59,8 @@
   <data name="GridValueColumn" xml:space="preserve"><value>Luach</value></data>
   <data name="GridFilterPlaceholder" xml:space="preserve"><value>Scag</value></data>
   <data name="GridFilterOperator" xml:space="preserve"><value>Oibreoir scagaire do {0}</value></data>
-  <data name="GridFilterSecondOperator" xml:space="preserve"><value>Dara hoibreoir scagaire do {0}</value></data>
-  <data name="GridFilterSecondValue" xml:space="preserve"><value>Dara luach scagaire do {0}</value></data>
+  <data name="GridFilterSecondOperator" xml:space="preserve"><value>An dara hoibreoir scagaire do {0}</value></data>
+  <data name="GridFilterSecondValue" xml:space="preserve"><value>An dara luach scagaire do {0}</value></data>
   <data name="GridFilterLogical" xml:space="preserve"><value>Oibreoir loighciúil do {0}</value></data>
   <data name="GridFilterApply" xml:space="preserve"><value>Cuir i bhfeidhm</value></data>
   <data name="GridFilterClear" xml:space="preserve"><value>Glan</value></data>
@@ -179,9 +179,9 @@
   <data name="HtmlEditorChar2020" xml:space="preserve"><value>Daigéar</value></data>
   <data name="HtmlEditorChar2021" xml:space="preserve"><value>Daigéar dúbailte</value></data>
   <data name="HtmlEditorChar2022" xml:space="preserve"><value>Urchar</value></data>
-  <data name="HtmlEditorChar2026" xml:space="preserve"><value>Éilips</value></data>
-  <data name="HtmlEditorChar2013" xml:space="preserve"><value>Fleiscín en</value></data>
-  <data name="HtmlEditorChar2014" xml:space="preserve"><value>Fleiscín em</value></data>
+  <data name="HtmlEditorChar2026" xml:space="preserve"><value>Poncanna ar lár</value></data>
+  <data name="HtmlEditorChar2013" xml:space="preserve"><value>Dais en</value></data>
+  <data name="HtmlEditorChar2014" xml:space="preserve"><value>Dais em</value></data>
   <data name="HtmlEditorChar00AB" xml:space="preserve"><value>Guillemet clé</value></data>
   <data name="HtmlEditorChar00BB" xml:space="preserve"><value>Guillemet deas</value></data>
   <data name="HtmlEditorChar2039" xml:space="preserve"><value>Guillemet singil clé</value></data>
@@ -216,7 +216,7 @@
   <data name="HtmlEditorChar21D1" xml:space="preserve"><value>Saighead dhúbailte suas</value></data>
   <data name="HtmlEditorChar21D3" xml:space="preserve"><value>Saighead dhúbailte síos</value></data>
   <data name="HtmlEditorChar21B5" xml:space="preserve"><value>Saighead aisfhillidh</value></data>
-  <data name="HtmlEditorChar21B6" xml:space="preserve"><value>Saighead tuathalach</value></data>
+  <data name="HtmlEditorChar21B6" xml:space="preserve"><value>Saighead thuathalach</value></data>
   <data name="HtmlEditorChar2200" xml:space="preserve"><value>Do gach</value></data>
   <data name="HtmlEditorChar2203" xml:space="preserve"><value>Tá ann</value></data>
   <data name="HtmlEditorChar2205" xml:space="preserve"><value>Tacar folamh</value></data>
@@ -236,7 +236,7 @@
   <data name="HtmlEditorChar221E" xml:space="preserve"><value>Éigríoch</value></data>
   <data name="HtmlEditorChar221A" xml:space="preserve"><value>Fréamh chearnach</value></data>
   <data name="HtmlEditorChar2211" xml:space="preserve"><value>Suimiú</value></data>
-  <data name="HtmlEditorChar220F" xml:space="preserve"><value>Toradh</value></data>
+  <data name="HtmlEditorChar220F" xml:space="preserve"><value>Iolrach</value></data>
   <data name="HtmlEditorChar2202" xml:space="preserve"><value>Díorthach páirteach</value></data>
   <data name="HtmlEditorChar222B" xml:space="preserve"><value>Suimeálaí</value></data>
   <data name="HtmlEditorChar03B1" xml:space="preserve"><value>Alfa</value></data>
@@ -370,7 +370,7 @@
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Cuir anseo: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Cuir anseo</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Cealaigh an bogadh</value></data>
-  <data name="SchedulerMoving" xml:space="preserve"><value>{0} piocadh suas: roghnaigh an áit nua, Escape chun cealú.</value></data>
+  <data name="SchedulerMoving" xml:space="preserve"><value>Tá {0} pioctha suas: roghnaigh an áit nua, nó brúigh Escape chun cealú.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>Fanann {0} san áit a raibh sé.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} bogtha go {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Tá an rogha deighilte neamhbhailí.</value></data>
@@ -391,7 +391,7 @@
   <data name="SliderInvalid" xml:space="preserve"><value>Tá luach an sleamhnáin neamhbhailí.</value></data>
   <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Tuilleadh gníomhartha</value></data>
   <data name="StepsLabel" xml:space="preserve"><value>Céimeanna</value></data>
-  <data name="SwitchInvalid" xml:space="preserve"><value>Tá luach an laisc neamhbhailí.</value></data>
+  <data name="SwitchInvalid" xml:space="preserve"><value>Tá luach na laisce neamhbhailí.</value></data>
   <data name="TabsLabel" xml:space="preserve"><value>Cluaisíní</value></data>
   <data name="TimelineLabel" xml:space="preserve"><value>Amlíne</value></data>
   <data name="TreeLabel" xml:space="preserve"><value>Crann</value></data>
@@ -421,7 +421,7 @@
   <data name="UploadBrowseButton" xml:space="preserve"><value>Brabhsáil</value></data>
   <data name="UploadNoFile" xml:space="preserve"><value>Níor roghnaíodh comhad</value></data>
   <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
-  <data name="UploadFileCountNone" xml:space="preserve"><value>Gan chomhaid</value></data>
+  <data name="UploadFileCountNone" xml:space="preserve"><value>Gan aon chomhad</value></data>
   <data name="UploadFileCountOne" xml:space="preserve"><value>1 comhad</value></data>
   <data name="UploadFileCountMany" xml:space="preserve"><value>Comhaid: {0}</value></data>
   <data name="UploadShowAll" xml:space="preserve"><value>Taispeáin gach ceann ({0})</value></data>
@@ -438,7 +438,7 @@
   <data name="DataAnnotationsEmail" xml:space="preserve"><value>Ní seoladh ríomhphoist bailí é an réimse {0}.</value></data>
   <data name="DataAnnotationsUrl" xml:space="preserve"><value>Ní seoladh gréasáin bailí é an réimse {0}.</value></data>
   <data name="DataAnnotationsCompare" xml:space="preserve"><value>Ní mheaitseálann {0} agus {1} a chéile.</value></data>
-  <data name="DataAnnotationsPattern" xml:space="preserve"><value>Níl an fhormáid ionchais ag an réimse {0}.</value></data>
+  <data name="DataAnnotationsPattern" xml:space="preserve"><value>Níl an réimse {0} san fhormáid a bhfuiltear ag súil léi.</value></data>
   <data name="DataAnnotationsInvalid" xml:space="preserve"><value>Tá an réimse {0} neamhbhailí.</value></data>
   <data name="GanttEmpty" xml:space="preserve"><value>Níl aon tasc le taispeáint.</value></data>
   <data name="GanttLabel" xml:space="preserve"><value>Cairt Gantt</value></data>
@@ -467,7 +467,7 @@
   <data name="SignIn" xml:space="preserve"><value>Sínigh isteach</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Ceangal caillte</value></data>
   <data name="ConnectionLostDescription" xml:space="preserve"><value>Tá an ceangal leis an bhfreastalaí briste. Tá an feidhmchlár ag iarraidh é a athbhunú.</value></data>
-  <data name="ConnectionFailedTitle" xml:space="preserve"><value>Ní féidir ceangal</value></data>
+  <data name="ConnectionFailedTitle" xml:space="preserve"><value>Ní féidir ceangal a dhéanamh</value></data>
   <data name="ConnectionFailedDescription" xml:space="preserve"><value>Theip ar na hiarrachtaí uathoibríocha. Bain triail eile as nuair a bheidh an líonra ar ais.</value></data>
   <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Seisiún críochnaithe</value></data>
   <data name="ConnectionRejectedDescription" xml:space="preserve"><value>Dhiúltaigh an freastalaí an seisiún a atosú. Athlódáil an leathanach chun leanúint ar aghaidh.</value></data>
@@ -536,8 +536,8 @@
   <data name="HtmlEditorCopy" xml:space="preserve"><value>Cóipeáil</value></data>
   <data name="HtmlEditorPaste" xml:space="preserve"><value>Greamaigh</value></data>
   <data name="HtmlEditorInsertParagraph" xml:space="preserve"><value>Alt nua</value></data>
-  <data name="HtmlEditorAddRowAbove" xml:space="preserve"><value>Ionsáigh ró os a chionn</value></data>
-  <data name="HtmlEditorAddRowBelow" xml:space="preserve"><value>Ionsáigh ró faoi</value></data>
+  <data name="HtmlEditorAddRowAbove" xml:space="preserve"><value>Ionsáigh ró thuas</value></data>
+  <data name="HtmlEditorAddRowBelow" xml:space="preserve"><value>Ionsáigh ró thíos</value></data>
   <data name="HtmlEditorDeleteRow" xml:space="preserve"><value>Scrios an ró</value></data>
   <data name="HtmlEditorAddColumnBefore" xml:space="preserve"><value>Ionsáigh colún roimhe</value></data>
   <data name="HtmlEditorAddColumnAfter" xml:space="preserve"><value>Ionsáigh colún ina dhiaidh</value></data>
@@ -595,7 +595,7 @@
   <data name="CodeViewerLinkHint" xml:space="preserve"><value>Lean an nasc</value></data>
   <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Gan athrú.</value></data>
   <data name="UnifiedDiffStats" xml:space="preserve"><value>Línte curtha leis: {0}, línte bainte: {1}</value></data>
-  <data name="UnifiedDiffBinary" xml:space="preserve"><value>Comhad dénártha: níl aon líne le comparáid.</value></data>
+  <data name="UnifiedDiffBinary" xml:space="preserve"><value>Comhad dénártha: níl aon líne le cur i gcomparáid.</value></data>
   <data name="UnifiedDiffNoLines" xml:space="preserve"><value>Níl aon líne athraithe.</value></data>
   <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Líne roimhe</value></data>
   <data name="UnifiedDiffNewLine" xml:space="preserve"><value>Líne ina dhiaidh</value></data>
@@ -617,7 +617,7 @@
   <data name="StatusStripEmpty" xml:space="preserve"><value>Níl aon stádas le taispeáint</value></data>
   <data name="KanbanLabel" xml:space="preserve"><value>Clár cártaí</value></data>
   <data name="KanbanInstructions" xml:space="preserve"><value>Space nó Enter chun an cárta a phiocadh suas, eochracha saighde chun é a bhogadh, Space nó Enter chun é a scaoileadh, Escape chun cealú.</value></data>
-  <data name="KanbanGrabbed" xml:space="preserve"><value>{0} piocadh suas, colún {1}, suíomh {2} as {3}.</value></data>
+  <data name="KanbanGrabbed" xml:space="preserve"><value>{0} pioctha suas, colún {1}, suíomh {2} as {3}.</value></data>
   <data name="KanbanMoved" xml:space="preserve"><value>{0}: colún {1}, suíomh {2} as {3}.</value></data>
   <data name="KanbanDropped" xml:space="preserve"><value>{0} scaoilte, colún {1}, suíomh {2} as {3}.</value></data>
   <data name="KanbanCancelled" xml:space="preserve"><value>Bogadh cealaithe: fanann {0} sa cholún {1}.</value></data>
@@ -637,15 +637,15 @@
   <data name="MarkdownExportButton" xml:space="preserve"><value>Easpórtáil mar .md</value></data>
   <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Teorainn: {0} ró ar a mhéad</value></data>
-  <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Ginte ag (UTC): {0}</value></data>
+  <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Ginte (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Rónna easpórtáilte: {0} as {1} fógartha</value></data>
   <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Rónna easpórtáilte: {0} as {1} ar a laghad</value></data>
-  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Easpórtáil theasctha: {0} ró easpórtáilte as {1}, bhí an teorainn de {2} ró bainte amach.</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Easpórtáil theasctha: {0} ró easpórtáilte as {1}, sroicheadh an teorainn de {2} ró.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Easpórtáil neamhiomlán: {0} ró easpórtáilte as {1} fógartha, d'athraigh na sonraí le linn na léitheoireachta.</value></data>
-  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Easpórtáil theoranta: bhí an teorainn de {0} ró bainte amach agus ní fhógraíonn an fhoinse iomlán, d'fhéadfadh níos mó rónna a bheith ann.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Easpórtáil theoranta: sroicheadh an teorainn de {0} ró agus ní fhógraíonn an fhoinse iomlán, d'fhéadfadh níos mó rónna a bheith ann.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Gan rónna.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Cláraigh</value></data>
-  <data name="SignUpPrompt" xml:space="preserve"><value>Gan chuntas?</value></data>
+  <data name="SignUpPrompt" xml:space="preserve"><value>Níl cuntas agat?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Athruithe nár sábháladh</value></data>
   <data name="UnsavedChangesMessage" xml:space="preserve"><value>Níor sábháladh roinnt athruithe. An bhfágfar an leathanach gan iad a shábháil?</value></data>
   <data name="UnsavedChangesLeave" xml:space="preserve"><value>Fág gan sábháil</value></data>

@@ -167,9 +167,9 @@
   <data name="DemoValidationCapability2" xml:space="preserve"><value>Pri slanju fokus prelazi na prvo nevaljano polje.</value></data>
   <data name="DemoValidationCapability3" xml:space="preserve"><value>Nema anotacija na modelu, sve je u oznakama.</value></data>
   <data name="DemoEditorTitle" xml:space="preserve"><value>Uređivači i prijenos</value></data>
-  <data name="DemoEditorSummary" xml:space="preserve"><value>WYSIWYG uređivač i njegov HTML izvor, obrada teksta, uređivač koda i prijenos datoteka.</value></data>
+  <data name="DemoEditorSummary" xml:space="preserve"><value>WYSIWYG uređivač i njegov HTML izvor, program za obradu teksta, uređivač koda i prijenos datoteka.</value></data>
   <data name="DemoEditorCapability1" xml:space="preserve"><value>Traka naredbi koju aplikacija domaćin dopunjuje ili preslaguje, pročišćeno lijepljenje, izvorni način.</value></data>
-  <data name="DemoEditorCapability2" xml:space="preserve"><value>Obrada teksta na stranici, brojanje riječi, izvoz u HTML i tekst.</value></data>
+  <data name="DemoEditorCapability2" xml:space="preserve"><value>Program za obradu teksta na stranici, brojanje riječi, izvoz u HTML i tekst.</value></data>
   <data name="DemoEditorCapability3" xml:space="preserve"><value>Uređivač koda (Monaco kod aplikacije domaćina, običan tekst pod strogim CSP-om) i ograničen prijenos.</value></data>
   <data name="DemoOverlayTitle" xml:space="preserve"><value>Preklapanja</value></data>
   <data name="DemoOverlaySummary" xml:space="preserve"><value>Dijaloški okviri, obavijesti i skočni izbornici.</value></data>
@@ -361,7 +361,7 @@
   <data name="NoticeDoneTitle" xml:space="preserve"><value>Implementacija je dovršena</value></data>
   <data name="NoticeDoneMessage" xml:space="preserve"><value>aetheus-deploy-prod #2399 za 1 min 48 s.</value></data>
   <data name="NoticeRefusedTitle" xml:space="preserve"><value>Zaključano vraćanje je odbijeno</value></data>
-  <data name="NoticeRefusedMessage" xml:space="preserve"><value>NuGet graf razlikuje se od datoteke zaključavanja.</value></data>
+  <data name="NoticeRefusedMessage" xml:space="preserve"><value>Graf NuGet odstupio je od datoteke zaključavanja.</value></data>
   <data name="NoticeShowAgain" xml:space="preserve"><value>Ponovno prikaži obavijesti</value></data>
   <data name="NoticeUnlistOpen" xml:space="preserve"><value>Ukloni verziju 1.0.0 s popisa</value></data>
   <data name="NoticeUnlistTitle" xml:space="preserve"><value>Ukloni verziju 1.0.0 s popisa</value></data>
@@ -552,14 +552,14 @@
   <data name="VFormStrategy" xml:space="preserve"><value>Strategija implementacije</value></data>
   <data name="VFormStrategyRolling" xml:space="preserve"><value>Postupna zamjena</value></data>
   <data name="VFormStrategyBlueGreen" xml:space="preserve"><value>Plavo-zelena</value></data>
-  <data name="VFormStrategyCanary" xml:space="preserve"><value>Canary (uskoro dostupno)</value></data>
+  <data name="VFormStrategyCanary" xml:space="preserve"><value>Canary (uskoro dostupna)</value></data>
   <data name="VFormStrategyError" xml:space="preserve"><value>Odaberite strategiju implementacije.</value></data>
   <data name="VFormOptions" xml:space="preserve"><value>Mogućnosti</value></data>
   <data name="VFormLocked" xml:space="preserve"><value>Zaključano vraćanje</value></data>
   <data name="VFormSymbols" xml:space="preserve"><value>Objavi simbole</value></data>
   <data name="VFormSigning" xml:space="preserve"><value>Potpisivanje paketa (obavezno)</value></data>
   <data name="VFormNotify" xml:space="preserve"><value>Obavijesti na kraju</value></data>
-  <data name="VFormAutoDeploy" xml:space="preserve"><value>Automatska implementacija (onemogućeno)</value></data>
+  <data name="VFormAutoDeploy" xml:space="preserve"><value>Automatska implementacija (onemogućena)</value></data>
   <data name="VFormFiles" xml:space="preserve"><value>Datoteke</value></data>
   <data name="VFormManifest" xml:space="preserve"><value>Manifest implementacije</value></data>
   <data name="VFormManifestHelp" xml:space="preserve"><value>Samo jedna datoteka, otvara sistemski prozor za odabir.</value></data>
@@ -842,7 +842,7 @@
   <data name="DemoPagesShowToken" xml:space="preserve"><value>Prikaži token</value></data>
   <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1} tis.</value></data>
   <data name="DemoPagesTokensToday" xml:space="preserve"><value>Tokeni danas</value></data>
-  <data name="DemoPagesTokensReset" xml:space="preserve"><value>Ponovno postavljanje u {0:t}</value></data>
+  <data name="DemoPagesTokensReset" xml:space="preserve"><value>Resetiranje u {0:t}</value></data>
   <data name="DemoPagesWeekly" xml:space="preserve"><value>Tjedno</value></data>
   <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Komponente</value></data>
   <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Poslužitelji</value></data>
@@ -922,7 +922,7 @@
   <data name="DemoFeedbackArchived" xml:space="preserve"><value>Arhivirano</value></data>
   <data name="DemoFeedbackDraftTooltip" xml:space="preserve"><value>Skica.</value></data>
   <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Uska</value></data>
-  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Arhivirani predmet i dalje se može pregledavati samo za čitanje. Više se ne ubraja u kvote, ne pojavljuje se u zadanim pretraživanjima i ne prima obavijesti. Da bi ga ponovno otvorio, administrator ga vraća s kartice Arhive; njegova povijest, privici i komentari tada se vraćaju netaknuti, zajedno s datumom vraćanja.</value></data>
+  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Arhivirani predmet i dalje se može pregledavati samo za čitanje. Više se ne ubraja u kvote, ne pojavljuje se u zadanim pretraživanjima i ne prima obavijesti. Za ponovno otvaranje administrator ga vraća s kartice Arhive; njegova povijest, privici i komentari tada se vraćaju netaknuti, zajedno s datumom vraćanja.</value></data>
   <data name="DemoFeedbackLongText" xml:space="preserve"><value>Dugi tekst</value></data>
   <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>Opis alata paketa na običnom atributu title.</value></data>
   <data name="DemoFeedbackHover" xml:space="preserve"><value>Prijeđite pokazivačem</value></data>
@@ -1202,7 +1202,7 @@
   <data name="DemoOverlayMyProfile" xml:space="preserve"><value>Moj profil</value></data>
   <data name="DemoOverlaySignOut" xml:space="preserve"><value>Odjava</value></data>
   <data name="DemoOverlaySignedOut" xml:space="preserve"><value>Odjavljeni ste</value></data>
-  <data name="DemoOverlayAdminUnavailable" xml:space="preserve"><value>Administracija, nedostupno</value></data>
+  <data name="DemoOverlayAdminUnavailable" xml:space="preserve"><value>Administracija, nedostupna</value></data>
   <data name="DemoOverlayStickyButton" xml:space="preserve"><value>Dijalog koji zanemaruje pozadinu</value></data>
   <data name="DemoOverlayBlockingButton" xml:space="preserve"><value>Dijalog s nametnutim zatvaranjem</value></data>
   <data name="DemoOverlaySizeSmall" xml:space="preserve"><value>Mali</value></data>
@@ -1281,8 +1281,8 @@
   <data name="DemoEditorManifest" xml:space="preserve"><value>Manifest implementacije</value></data>
   <data name="DemoEditorManifestHelp" xml:space="preserve"><value>Samo jedna datoteka, otvara sistemski prozor za odabir.</value></data>
   <data name="DemoEditorUploadFailed" xml:space="preserve"><value>Prijenos nije uspio.</value></data>
-  <data name="DemoEditorUploaded" xml:space="preserve"><value>Preneseni dokumenti: {0}</value></data>
-  <data name="DemoEditorNoUpload" xml:space="preserve"><value>nijedan</value></data>
+  <data name="DemoEditorUploaded" xml:space="preserve"><value>Prenesene datoteke: {0}</value></data>
+  <data name="DemoEditorNoUpload" xml:space="preserve"><value>nijedna</value></data>
   <data name="DemoEditorTestCommand" xml:space="preserve"><value>Naredba za testiranje</value></data>
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Primjer konfiguracije</value></data>
   <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Izvadak, retci od {0} do {1}</value></data>

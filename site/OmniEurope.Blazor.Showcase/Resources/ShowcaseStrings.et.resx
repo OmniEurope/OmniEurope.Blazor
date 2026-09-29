@@ -35,7 +35,7 @@
   <data name="PillarA11yTitle" xml:space="preserve"><value>Testidega tagatud ligipääsetavus</value></data>
   <data name="PillarA11yBody" xml:space="preserve"><value>Rolle, olekuid ja silte kontrollib testikomplekt, neid ei lubata ainult dokumentatsioonis.</value></data>
   <data name="PillarWeightTitle" xml:space="preserve"><value>Jälgitav maht</value></data>
-  <data name="PillarWeightBody" xml:space="preserve"><value>Pidev integratsioon kontrollib, et tarnitud stiilileht on minimeeritud koopia, ning mõõdab nii komplekti kui ka NuGeti paketti suuruseelarve suhtes.</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Pidev integratsioon kontrollib, et tarnitud stiilileht on minimeeritud koopia, ning mõõdab nii koostu kui ka NuGeti paketti suuruseelarve suhtes.</value></data>
   <data name="DocsPageTitle" xml:space="preserve"><value>Dokumentatsioon</value></data>
   <data name="DocsTitle" xml:space="preserve"><value>Dokumentatsioon</value></data>
   <data name="DocsLead" xml:space="preserve"><value>Paketi paigaldamisest esimese kohandatud teemani viie sammuga.</value></data>
@@ -52,14 +52,14 @@
   <data name="DocsThemePointer" xml:space="preserve"><value>Tervikliku teema koostamiseks CSS-i kirjutamata:</value></data>
   <data name="GalleryPageTitle" xml:space="preserve"><value>Komponendid</value></data>
   <data name="GalleryTitle" xml:space="preserve"><value>Komponendid</value></data>
-  <data name="GalleryLead" xml:space="preserve"><value>Iga pere juures on kirjas, mida see oskab, elav näide ja seda loov kood.</value></data>
-  <data name="GalleryNavLabel" xml:space="preserve"><value>Komponendipered</value></data>
+  <data name="GalleryLead" xml:space="preserve"><value>Iga perekonna juures on kirjas, mida see oskab, elav näide ja seda loov kood.</value></data>
+  <data name="GalleryNavLabel" xml:space="preserve"><value>Komponendiperekonnad</value></data>
   <data name="GalleryCapabilities" xml:space="preserve"><value>Mida komponent oskab</value></data>
   <data name="GalleryPreview" xml:space="preserve"><value>Näide</value></data>
   <data name="GallerySource" xml:space="preserve"><value>Lähtekood</value></data>
-  <data name="GallerySourceNote" xml:space="preserve"><value>See on täpselt see fail, mille ülal olev näide kompileerib ja käivitab. See loetakse komplektist ega ole kunagi käsitsi ümber trükitud.</value></data>
+  <data name="GallerySourceNote" xml:space="preserve"><value>See on täpselt see fail, mille ülal olev näide kompileerib ja käivitab. See loetakse koostust ega ole kunagi käsitsi ümber trükitud.</value></data>
   <data name="GallerySourceMissingTitle" xml:space="preserve"><value>Lähtekood pole saadaval</value></data>
-  <data name="GallerySourceMissing" xml:space="preserve"><value>Näite faili ei leitud komplekti ressurssidest.</value></data>
+  <data name="GallerySourceMissing" xml:space="preserve"><value>Näite faili ei leitud koostu ressurssidest.</value></data>
   <data name="DemoButtonsTitle" xml:space="preserve"><value>Nupud</value></data>
   <data name="DemoButtonsSummary" xml:space="preserve"><value>Toimingu käivitaja oma visuaalsete kavatsuste ja olekutega.</value></data>
   <data name="DemoButtonsCapability1" xml:space="preserve"><value>Neli kavatsust: esmane, teisene, tagasihoidlik ja hävitav.</value></data>
@@ -70,7 +70,7 @@
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Lühike silt, mis iseloomustab üksust seda üle koormamata.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Viis varianti, mis vastavad teema tõsidusastmetele.</value></data>
   <data name="DemoBadgesCapability2" xml:space="preserve"><value>Muutujatest tuletatud toonitud taustad, mis värvuvad seega koos teemaga ümber.</value></data>
-  <data name="DemoAlertsTitle" xml:space="preserve"><value>Hoiatused</value></data>
+  <data name="DemoAlertsTitle" xml:space="preserve"><value>Märguanded</value></data>
   <data name="DemoAlertsSummary" xml:space="preserve"><value>Kontekstipõhine sõnum lihtsast teatest blokeeriva tõrkeni.</value></data>
   <data name="DemoAlertsCapability1" xml:space="preserve"><value>Neli tõsidusastet: teave, õnnestumine, hoiatus ja oht.</value></data>
   <data name="DemoAlertsCapability2" xml:space="preserve"><value>Kaks varianti: vaoshoitud kontuur või täidetud pind.</value></data>
@@ -277,8 +277,8 @@
   <data name="ContrastPair20" xml:space="preserve"><value>tekst täidetud aktsendil</value></data>
   <data name="ContrastPair21" xml:space="preserve"><value>tekst täidetud õnnestumisel</value></data>
   <data name="ContrastPair22" xml:space="preserve"><value>tekst täidetud teabel</value></data>
-  <data name="ContrastPair23" xml:space="preserve"><value>tint heledal teabel (hoiatus)</value></data>
-  <data name="ContrastPair24" xml:space="preserve"><value>tint heledal õnnestumisel (hoiatus)</value></data>
+  <data name="ContrastPair23" xml:space="preserve"><value>tint heledal teabel (märguanne)</value></data>
+  <data name="ContrastPair24" xml:space="preserve"><value>tint heledal õnnestumisel (märguanne)</value></data>
   <data name="ContrastPair25" xml:space="preserve"><value>tint hõljutatud heledal teabel</value></data>
   <data name="ContrastPair26" xml:space="preserve"><value>tint vajutatud heledal teabel</value></data>
   <data name="ContrastPair27" xml:space="preserve"><value>tint hõljutatud heledal õnnestumisel</value></data>
@@ -328,7 +328,7 @@
   <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Liidetud failiväli, ühe faili ala, mitme faili ala lühendatud loendiga.</value></data>
   <data name="DemoVerticalFormCapability4" xml:space="preserve"><value>Keelatud ja kirjutuskaitstud jäävad eristatavaks kõigis kolmes tiheduses.</value></data>
   <data name="DemoSettingsTabsTitle" xml:space="preserve"><value>Sätted vahekaartidel</value></data>
-  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>Üks ikooniga vahekaart teema kohta, üks jaotis vahekaardi kohta, üks paan sätte kohta.</value></data>
+  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>Üks ikooniga vahekaart valdkonna kohta, üks jaotis vahekaardi kohta, üks paan sätte kohta.</value></data>
   <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>Paanile paigutatud lüliti saab sildiks paani nime; paanil klõpsamine lülitab seda.</value></data>
   <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>Juhtelement on paremal, nimi, vihje ja ikoon vasakul.</value></data>
   <data name="DemoNoticesTitle" xml:space="preserve"><value>Teavitused ja dialoogid</value></data>
@@ -717,7 +717,7 @@
   <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>Päis, sisu ja jalus on kolm eraldi ala.</value></data>
   <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>Kaardil võib olla ainult sisu.</value></data>
   <data name="DemoLayoutStart" xml:space="preserve"><value>Algus</value></data>
-  <data name="DemoLayoutMiddle" xml:space="preserve"><value>Keskel</value></data>
+  <data name="DemoLayoutMiddle" xml:space="preserve"><value>Keskkoht</value></data>
   <data name="DemoLayoutEnd" xml:space="preserve"><value>Lõpp</value></data>
   <data name="DemoLayoutFieldGroup" xml:space="preserve"><value>Väljarühm</value></data>
   <data name="DemoLayoutOne" xml:space="preserve"><value>Üks</value></data>
@@ -727,7 +727,7 @@
   <data name="DemoLayoutTracked" xml:space="preserve"><value>Jälgitavad valikud</value></data>
   <data name="DemoLayoutTrackedText" xml:space="preserve"><value>Leht teab ahendatud olekut ja võib selle meelde jätta.</value></data>
   <data name="DemoLayoutDisabledGroup" xml:space="preserve"><value>Keelatud rühm</value></data>
-  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Kõik, mida see rühm sisaldab, muutub ühe liigutusega kasutuskõlbmatuks.</value></data>
+  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Kõik, mida see rühm sisaldab, keelatakse ühe liigutusega.</value></data>
   <data name="DemoLayoutAlignStart" xml:space="preserve"><value>Joondatud algusesse</value></data>
   <data name="DemoLayoutAlignCenter" xml:space="preserve"><value>Keskele joondatud</value></data>
   <data name="DemoLayoutAlignEnd" xml:space="preserve"><value>Joondatud lõppu</value></data>
@@ -737,12 +737,12 @@
   <data name="DemoLayoutBottomText" xml:space="preserve"><value>Märk joondub rea alaservale.</value></data>
   <data name="DemoLayoutStretched" xml:space="preserve"><value>Venitatud</value></data>
   <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Mõlemad kaardid saavad sama kõrguse.</value></data>
-  <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Kinnita toimik</value></data>
+  <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Kiida toimik heaks</value></data>
   <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtreeri dokumente</value></data>
   <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Sulge taotlus</value></data>
   <data name="DemoLayoutNotifications" xml:space="preserve"><value>Teavitused</value></data>
   <data name="DemoLayoutNotificationsText" xml:space="preserve"><value>Millest rakendus teid teavitab ja kuidas.</value></data>
-  <data name="DemoLayoutEmailAlerts" xml:space="preserve"><value>E-posti hoiatused</value></data>
+  <data name="DemoLayoutEmailAlerts" xml:space="preserve"><value>E-posti märguanded</value></data>
   <data name="DemoLayoutEmailAlertsText" xml:space="preserve"><value>Sõnum iga oleku muutuse korral.</value></data>
   <data name="DemoLayoutWeeklyDigest" xml:space="preserve"><value>Iganädalane kokkuvõte</value></data>
   <data name="DemoLayoutWeeklyDigestText" xml:space="preserve"><value>Nädala toimikud esmaspäeva hommikul.</value></data>
@@ -756,7 +756,7 @@
   <data name="DemoLayoutDeployed" xml:space="preserve"><value>Juurutamine lõpetatud</value></data>
   <data name="DemoLayoutDeployedText" xml:space="preserve"><value>Versioon 1.0.1 on kasutusel.</value></data>
   <data name="DemoLayoutEachChange" xml:space="preserve"><value>Iga muudatuse korral.</value></data>
-  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Avar hoiatus mugava tihedusega lehel.</value></data>
+  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Avar märguanne mugava tihedusega lehel.</value></data>
   <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>Kompaktsed vahekaardid</value></data>
   <data name="DemoLayoutGeneral" xml:space="preserve"><value>Üldine</value></data>
   <data name="DemoLayoutGeneralText" xml:space="preserve"><value>Üldsätted.</value></data>
@@ -781,7 +781,7 @@
   <data name="DemoLayoutDensityCompact" xml:space="preserve"><value>Kompaktne</value></data>
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Mugav</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Avar</value></data>
-  <data name="DemoLayoutAlertCount" xml:space="preserve"><value>Hoiatusi: {0}</value></data>
+  <data name="DemoLayoutAlertCount" xml:space="preserve"><value>Märguandeid: {0}</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Rõhutatud pealkiri</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Vaoshoitud pealkiri</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Tavaline lõik teema põhisuuruses.</value></data>
@@ -875,16 +875,16 @@
   <data name="DemoAlertsSaved" xml:space="preserve"><value>Salvestatud</value></data>
   <data name="DemoAlertsSavedText" xml:space="preserve"><value>Muudatused on rakendatud.</value></data>
   <data name="DemoAlertsNew" xml:space="preserve"><value>Uudis</value></data>
-  <data name="DemoAlertsNewText" xml:space="preserve"><value>Märgid ja hoiatused kasutavad nüüd sama täidet.</value></data>
+  <data name="DemoAlertsNewText" xml:space="preserve"><value>Märgid ja märguanded kasutavad nüüd sama täidet.</value></data>
   <data name="DemoAlertsCaution" xml:space="preserve"><value>Tähelepanu</value></data>
   <data name="DemoAlertsCautionText" xml:space="preserve"><value>Seda sätet rakendatakse kõigil lehtedel.</value></data>
   <data name="DemoAlertsTooLarge" xml:space="preserve"><value>Fail ületab lubatud suuruse.</value></data>
   <data name="DemoAlertsTip" xml:space="preserve"><value>Nõuanne</value></data>
-  <data name="DemoAlertsTipText" xml:space="preserve"><value>See hoiatus suletakse ristist.</value></data>
-  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Allkirjastamise sertifikaat aegub, päevi jäänud: {0}.</value></data>
+  <data name="DemoAlertsTipText" xml:space="preserve"><value>See märguanne suletakse ristist.</value></data>
+  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Allkirjastamise sertifikaat aegub {0} päeva pärast.</value></data>
   <data name="DemoButtonsSecondary" xml:space="preserve"><value>Teisene</value></data>
   <data name="DemoButtonsGhost" xml:space="preserve"><value>Tagasihoidlik</value></data>
-  <data name="DemoButtonsApprove" xml:space="preserve"><value>Kinnita</value></data>
+  <data name="DemoButtonsApprove" xml:space="preserve"><value>Kiida heaks</value></data>
   <data name="DemoButtonsSuspend" xml:space="preserve"><value>Peata</value></data>
   <data name="DemoButtonsDetails" xml:space="preserve"><value>Üksikasjad</value></data>
   <data name="DemoButtonsDelete" xml:space="preserve"><value>Kustuta</value></data>
@@ -1079,7 +1079,7 @@
   <data name="DemoMediaIconSignOut" xml:space="preserve"><value>Logi välja</value></data>
   <data name="DemoMediaIconArrowElbowDownLeft" xml:space="preserve"><value>Reavahetus</value></data>
   <data name="DemoMediaIconBroom" xml:space="preserve"><value>Puhasta</value></data>
-  <data name="DemoMediaIconBug" xml:space="preserve"><value>Viga tarkvaras</value></data>
+  <data name="DemoMediaIconBug" xml:space="preserve"><value>Tarkvaraviga</value></data>
   <data name="DemoMediaIconChartLine" xml:space="preserve"><value>Joondiagramm</value></data>
   <data name="DemoMediaIconChevronRight" xml:space="preserve"><value>Ava</value></data>
   <data name="DemoMediaIconCode" xml:space="preserve"><value>Kood</value></data>
@@ -1098,7 +1098,7 @@
   <data name="DemoMediaIconBellSlash" xml:space="preserve"><value>Teavitused vaigistatud</value></data>
   <data name="DemoMediaIconBooks" xml:space="preserve"><value>Raamatukogu</value></data>
   <data name="DemoMediaIconCalendarCheck" xml:space="preserve"><value>Kinnitatud kuupäev</value></data>
-  <data name="DemoMediaIconChecks" xml:space="preserve"><value>Kinnita kõik</value></data>
+  <data name="DemoMediaIconChecks" xml:space="preserve"><value>Kiida kõik heaks</value></data>
   <data name="DemoMediaIconCloudArrowDown" xml:space="preserve"><value>Too pilvest</value></data>
   <data name="DemoMediaIconColumns" xml:space="preserve"><value>Veerud</value></data>
   <data name="DemoMediaIconCornersOut" xml:space="preserve"><value>Sobita ekraanile</value></data>
@@ -1112,7 +1112,7 @@
   <data name="DemoMediaIconSignIn" xml:space="preserve"><value>Logi sisse</value></data>
   <data name="DemoMediaIconTarget" xml:space="preserve"><value>Siht</value></data>
   <data name="DemoMediaIconToggleLeft" xml:space="preserve"><value>Väljas</value></data>
-  <data name="DemoMediaIconTray" xml:space="preserve"><value>Postkast</value></data>
+  <data name="DemoMediaIconTray" xml:space="preserve"><value>Sisendkaust</value></data>
   <data name="DemoMediaIconCpu" xml:space="preserve"><value>Protsessor</value></data>
   <data name="DemoMediaIconFilePlus" xml:space="preserve"><value>Uus fail</value></data>
   <data name="DemoMediaIconHandTap" xml:space="preserve"><value>Käsitsi käivitamine</value></data>
@@ -1305,7 +1305,7 @@
   <data name="DemoEditorOpinion" xml:space="preserve"><value>Pooldav arvamus tingimusel{0}.</value></data>
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>kontrolli tähtaega</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>tingimusel</value></data>
-  <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value>, et see kontrollitakse</value></data>
+  <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value>, et seda kontrollitakse</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>See lõik on {0}.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>oluline</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Esimene punkt</value></data>
@@ -1379,7 +1379,7 @@
   <data name="DemoFormSearchPlaceholder" xml:space="preserve"><value>Filtreeri loendit</value></data>
   <data name="DemoFormBudget" xml:space="preserve"><value>Eelarve</value></data>
   <data name="DemoFormTerms" xml:space="preserve"><value>Nõustun kasutustingimustega</value></data>
-  <data name="DemoFormAlerts" xml:space="preserve"><value>Saa hoiatusi</value></data>
+  <data name="DemoFormAlerts" xml:space="preserve"><value>Võta vastu märguandeid</value></data>
   <data name="DemoFormDynamicValues" xml:space="preserve"><value>Vormi väärtused: {0}</value></data>
   <data name="DemoFormDynamicName" xml:space="preserve"><value>Nimi</value></data>
   <data name="DemoFormDynamicAmount" xml:space="preserve"><value>Summa</value></data>
@@ -1464,7 +1464,7 @@
   <data name="DemoTreeSelection" xml:space="preserve"><value>Valik: {0}</value></data>
   <data name="DemoTreeNoSelection" xml:space="preserve"><value>puudub</value></data>
   <data name="DemoSpreadsheetLabel" xml:space="preserve"><value>Kvartali eelarve</value></data>
-  <data name="DemoSpreadsheetStatus" xml:space="preserve"><value>Aktiivne lahter: {0}. Kvartali kokkuvõte: {1}</value></data>
+  <data name="DemoSpreadsheetStatus" xml:space="preserve"><value>Aktiivne lahter: {0}. Kvartali kogusumma: {1}</value></data>
   <data name="DemoSpreadsheetReadOnlyLabel" xml:space="preserve"><value>Sama eelarve kirjutuskaitstuna</value></data>
   <data name="DemoSpreadsheetItem" xml:space="preserve"><value>Kulurida</value></data>
   <data name="DemoSpreadsheetJanuary" xml:space="preserve"><value>Jaanuar</value></data>

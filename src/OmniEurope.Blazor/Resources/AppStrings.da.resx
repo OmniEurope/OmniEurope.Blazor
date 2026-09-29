@@ -179,7 +179,7 @@
   <data name="HtmlEditorChar2020" xml:space="preserve"><value>Kors</value></data>
   <data name="HtmlEditorChar2021" xml:space="preserve"><value>Dobbeltkors</value></data>
   <data name="HtmlEditorChar2022" xml:space="preserve"><value>Punkttegn</value></data>
-  <data name="HtmlEditorChar2026" xml:space="preserve"><value>Ellipse</value></data>
+  <data name="HtmlEditorChar2026" xml:space="preserve"><value>Udeladelsesprikker</value></data>
   <data name="HtmlEditorChar2013" xml:space="preserve"><value>Tankestreg</value></data>
   <data name="HtmlEditorChar2014" xml:space="preserve"><value>Lang tankestreg</value></data>
   <data name="HtmlEditorChar00AB" xml:space="preserve"><value>Venstre guillemet</value></data>
@@ -194,13 +194,13 @@
   <data name="HtmlEditorChar00B1" xml:space="preserve"><value>Plus-minus</value></data>
   <data name="HtmlEditorChar00D7" xml:space="preserve"><value>Multiplikation</value></data>
   <data name="HtmlEditorChar00F7" xml:space="preserve"><value>Division</value></data>
-  <data name="HtmlEditorChar00A0" xml:space="preserve"><value>Hård mellemrum</value></data>
+  <data name="HtmlEditorChar00A0" xml:space="preserve"><value>Hårdt mellemrum</value></data>
   <data name="HtmlEditorChar20AC" xml:space="preserve"><value>Euro</value></data>
   <data name="HtmlEditorChar00A3" xml:space="preserve"><value>Britisk pund</value></data>
   <data name="HtmlEditorChar00A5" xml:space="preserve"><value>Yen</value></data>
   <data name="HtmlEditorChar00A2" xml:space="preserve"><value>Cent</value></data>
   <data name="HtmlEditorChar20BD" xml:space="preserve"><value>Rubel</value></data>
-  <data name="HtmlEditorChar20B9" xml:space="preserve"><value>Rupee</value></data>
+  <data name="HtmlEditorChar20B9" xml:space="preserve"><value>Rupi</value></data>
   <data name="HtmlEditorChar20A9" xml:space="preserve"><value>Won</value></data>
   <data name="HtmlEditorChar20AA" xml:space="preserve"><value>Shekel</value></data>
   <data name="HtmlEditorChar20B1" xml:space="preserve"><value>Peso</value></data>
@@ -311,8 +311,8 @@
   <data name="MindMapFitView" xml:space="preserve"><value>Tilpas</value></data>
   <data name="MindMapFontSize" xml:space="preserve"><value>Skriftstørrelse</value></data>
   <data name="MindMapItalic" xml:space="preserve"><value>Kursiv</value></data>
-  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Piletaster: skift mellem noder, Home: central node, Shift+piletaster: flyt, Enter eller F2: omdøb, N: ny node, D: duplikér, C: centrer, Delete: slet, + og -: zoom, 0: tilpas, Ctrl+Z og Ctrl+Y: fortryd og annuller fortryd, Shift+F10: menu, Esc: ophæv markering.</value></data>
-  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Piletaster: skift mellem noder, Home: central node, C: centrer, + og -: zoom, 0: tilpas, Shift+F10: menu, Esc: ophæv markering.</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Piletaster: skift mellem noder, Home: central node, Skift+piletaster: flyt, Enter eller F2: omdøb, N: ny node, D: duplikér, C: centrer, Delete: slet, + og -: zoom, 0: tilpas, Ctrl+Z og Ctrl+Y: fortryd og annuller fortryd, Skift+F10: menu, Esc: ophæv markering.</value></data>
+  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Piletaster: skift mellem noder, Home: central node, C: centrer, + og -: zoom, 0: tilpas, Skift+F10: menu, Esc: ophæv markering.</value></data>
   <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Esc for at annullere</value></data>
   <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Klik på kildenoden</value></data>
   <data name="MindMapLinkSelectTarget" xml:space="preserve"><value>Klik på destinationsnoden</value></data>
@@ -323,7 +323,7 @@
   <data name="MindMapNodeText" xml:space="preserve"><value>Tekst</value></data>
   <data name="MindMapNodeWidth" xml:space="preserve"><value>Bredde</value></data>
   <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, note: {1}</value></data>
-  <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Nodeegenskaber</value></data>
+  <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Egenskaber for node</value></data>
   <data name="MindMapRename" xml:space="preserve"><value>Omdøb node</value></data>
   <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automatisk størrelse</value></data>
   <data name="MindMapToolbarLabel" xml:space="preserve"><value>Mindmaphandlinger</value></data>
@@ -334,7 +334,7 @@
   <data name="MultiSelectClear" xml:space="preserve"><value>Ryd valg</value></data>
   <data name="MultiSelectFilter" xml:space="preserve"><value>Søg</value></data>
   <data name="MultiSelectNoMatch" xml:space="preserve"><value>Ingen resultater</value></data>
-  <data name="NotificationDismiss" xml:space="preserve"><value>Afvis notifikation</value></data>
+  <data name="NotificationDismiss" xml:space="preserve"><value>Luk notifikation</value></data>
   <data name="NotificationExpand" xml:space="preserve"><value>Vis alle</value></data>
   <data name="NotificationCollapse" xml:space="preserve"><value>Skjul</value></data>
   <data name="NotificationOpenDetails" xml:space="preserve"><value>Åbn loggen</value></data>
@@ -615,7 +615,7 @@
   <data name="DynamicFormChoice" xml:space="preserve"><value>{0} skal være en af de tilbudte værdier.</value></data>
   <data name="StatusStripLabel" xml:space="preserve"><value>Statushistorik</value></data>
   <data name="StatusStripEmpty" xml:space="preserve"><value>Ingen status at vise</value></data>
-  <data name="KanbanLabel" xml:space="preserve"><value>Kortoversigt</value></data>
+  <data name="KanbanLabel" xml:space="preserve"><value>Korttavle</value></data>
   <data name="KanbanInstructions" xml:space="preserve"><value>Mellemrum eller Enter for at samle kortet op, piletaster for at flytte det, Mellemrum eller Enter for at slippe det, Esc for at annullere.</value></data>
   <data name="KanbanGrabbed" xml:space="preserve"><value>{0} samlet op, kolonne {1}, position {2} af {3}.</value></data>
   <data name="KanbanMoved" xml:space="preserve"><value>{0}: kolonne {1}, position {2} af {3}.</value></data>
@@ -645,7 +645,7 @@
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Begrænset eksport: grænsen på {0} rækker er nået, og kilden angiver intet samlet antal, der kan findes flere rækker.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ingen rækker.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Tilmeld dig</value></data>
-  <data name="SignUpPrompt" xml:space="preserve"><value>Ingen konto?</value></data>
+  <data name="SignUpPrompt" xml:space="preserve"><value>Har du ikke en konto?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Ikke-gemte ændringer</value></data>
   <data name="UnsavedChangesMessage" xml:space="preserve"><value>Nogle ændringer er ikke gemt. Vil du forlade siden uden at gemme dem?</value></data>
   <data name="UnsavedChangesLeave" xml:space="preserve"><value>Forlad uden at gemme</value></data>

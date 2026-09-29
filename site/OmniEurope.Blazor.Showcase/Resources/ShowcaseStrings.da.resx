@@ -117,7 +117,7 @@
   <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Statuslinje, bestemt eller ubestemt.</value></data>
   <data name="DemoFeedbackCapability2" xml:space="preserve"><value>Værktøjstip, der kan nås fra tastaturet, ikke kun ved hover.</value></data>
   <data name="DemoFeedbackCapability3" xml:space="preserve"><value>Indlæsningsskelet, der annonceres til skærmlæsere.</value></data>
-  <data name="DemoFeedbackCapability4" xml:space="preserve"><value>Lineær eller cirkulær linje i fire hensigter og et skelet, der antager formen af det, det erstatter.</value></data>
+  <data name="DemoFeedbackCapability4" xml:space="preserve"><value>Lineær eller cirkulær bjælke i fire hensigter og et skelet, der antager formen af det, det erstatter.</value></data>
   <data name="DemoGridTitle" xml:space="preserve"><value>Datatabel</value></data>
   <data name="DemoGridSummary" xml:space="preserve"><value>Arbejdstabellen: sortering, filtrering, sideinddeling og grupper.</value></data>
   <data name="DemoGridCapability1" xml:space="preserve"><value>Sortering og filtrering pr. kolonne på de faktiske data.</value></data>
@@ -135,7 +135,7 @@
   <data name="DemoLayoutTitle" xml:space="preserve"><value>Layout</value></data>
   <data name="DemoLayoutSummary" xml:space="preserve"><value>Gitteret, rækkerne, kortene og feltgrupperne.</value></data>
   <data name="DemoLayoutCapability1" xml:space="preserve"><value>Gitter med tolv kolonner og spænd pr. skærmbredde.</value></data>
-  <data name="DemoLayoutCapability2" xml:space="preserve"><value>Et kort i tre zoner: sidehoved, brødtekst og sidefod.</value></data>
+  <data name="DemoLayoutCapability2" xml:space="preserve"><value>Et kort i tre zoner: hoved, brødtekst og fod.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>En feltgruppe, der kan deaktiveres i én bevægelse.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Den komplette afstandsskala og de fordelinger og justeringer, en række accepterer.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Programskal</value></data>
@@ -204,7 +204,7 @@
   <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Hver visning kan også bruges alene, uden for kalenderen.</value></data>
   <data name="DemoChartsExtendedTitle" xml:space="preserve"><value>Diagrammer, fuld visning</value></data>
   <data name="DemoChartsExtendedSummary" xml:space="preserve"><value>Alle serier, forklaringen, etiketterne og måleren.</value></data>
-  <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Linjer, områder, søjler, liggende søjler, stakke, cirkel og kranse.</value></data>
+  <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Linjer, områder, søjler, liggende søjler, stakke, cirkel og krans.</value></data>
   <data name="DemoChartsExtendedCapability2" xml:space="preserve"><value>Forklaring, markører, værdietiketter og værktøjstip.</value></data>
   <data name="DemoChartsExtendedCapability3" xml:space="preserve"><value>Buemåler med skala og værdiformat.</value></data>
   <data name="DemoDiagramTitle" xml:space="preserve"><value>Mindmap</value></data>
@@ -307,7 +307,7 @@
   <data name="DemoStatesCapability1" xml:space="preserve"><value>Hover og tryk læser temaets tokens: fyld ved hover, fyld ved tryk og trykbevægelse.</value></data>
   <data name="DemoStatesCapability2" xml:space="preserve"><value>Sammenligningshjælp i showcasen: en browser kan ikke fastfryse :hover eller :active.</value></data>
   <data name="DemoAppShellTitle" xml:space="preserve"><value>Programskal</value></data>
-  <data name="DemoAppShellSummary" xml:space="preserve"><value>Topbjælke, sidemenu der foldes sammen til en ikonstribe, indhold.</value></data>
+  <data name="DemoAppShellSummary" xml:space="preserve"><value>Topbjælke, sidemenu, der foldes sammen til en ikonstribe, indhold.</value></data>
   <data name="DemoAppShellCapability1" xml:space="preserve"><value>Sammenfoldningsknap, søgning, hjælp, klokke med prik og en kontomenu, der er lukket i hvile.</value></data>
   <data name="DemoAppShellCapability2" xml:space="preserve"><value>Sidemenuen beholder sine ikoner, når den er foldet sammen (Collapse Icons).</value></data>
   <data name="DemoAppShellCapability3" xml:space="preserve"><value>Prikken, forstørrelsesglasset, logoet og avataren tegnes af showcasen: pakken har ingen komponent til dem.</value></data>
@@ -337,7 +337,7 @@
   <data name="DemoNoticesCapability2" xml:space="preserve"><value>Dialogboksenes sidefod følger pakkens konvention: først handlingen, derefter Annuller.</value></data>
   <data name="DemoLoadingTitle" xml:space="preserve"><value>Indlæsning</value></data>
   <data name="DemoLoadingSummary" xml:space="preserve"><value>Indlæsningslinje, venten, optagede knapper, status og skelet.</value></data>
-  <data name="DemoLoadingCapability1" xml:space="preserve"><value>Linjen følger en reel indlæsning, som gennemløb eller fyld, når til enden og fader så ud.</value></data>
+  <data name="DemoLoadingCapability1" xml:space="preserve"><value>Linjen følger en reel indlæsning, som gennemløb eller fyld, når til enden og toner derefter ud.</value></data>
   <data name="DemoLoadingCapability2" xml:space="preserve"><value>En optaget knap bevarer sin størrelse og sit indhold: et slør pulserer hen over den.</value></data>
   <data name="DemoLoadingCapability3" xml:space="preserve"><value>Skelettet antager formen af det, det erstatter.</value></data>
   <data name="DemoRunGridsTitle" xml:space="preserve"><value>Kørselstabeller</value></data>
@@ -350,7 +350,7 @@
   <data name="LoadingBarLabel" xml:space="preserve"><value>Indlæser siden</value></data>
   <data name="LoadingSweep" xml:space="preserve"><value>Linje med gennemløb</value></data>
   <data name="LoadingFill" xml:space="preserve"><value>Linje med fyld</value></data>
-  <data name="LoadingHint" xml:space="preserve"><value>Linjen sidder under sidehovedet ovenfor. Til sidst når den til enden og fader så ud.</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>Linjen sidder under sidehovedet ovenfor. Til sidst når den til enden og toner derefter ud.</value></data>
   <data name="LoadingWaiting" xml:space="preserve"><value>Venter</value></data>
   <data name="LoadingDeploying" xml:space="preserve"><value>Udrulning i gang</value></data>
   <data name="LoadingChecking" xml:space="preserve"><value>Kontrol</value></data>
@@ -439,7 +439,7 @@
   <data name="DemoShellTools" xml:space="preserve"><value>Værktøjer</value></data>
   <data name="DemoShellLogs" xml:space="preserve"><value>Logge</value></data>
   <data name="DemoShellWideView" xml:space="preserve"><value>Bred visning</value></data>
-  <data name="DemoShellWideText" xml:space="preserve"><value>Indholdsområdet går fra kant til kant, begrænset til den brede bredde (90 rem), uden smal læsekolonne.</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>Indholdsområdet går fra kant til kant, begrænset til den store maksimale bredde (90 rem), uden smal læsekolonne.</value></data>
   <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Vis eller skjul den svævende menu</value></data>
   <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Svævende menu</value></data>
   <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Demoens svævende menu</value></data>
@@ -451,9 +451,9 @@
   <data name="DemoShellReadingColumn" xml:space="preserve"><value>Læsekolonne</value></data>
   <data name="DemoShellScroll1" xml:space="preserve"><value>Kolonnen er begrænset til 72rem og centreret; resten af bredden tilhører stadig hovedelementet.</value></data>
   <data name="DemoShellScroll2" xml:space="preserve"><value>Det er altså hovedelementet, der ruller i hele områdets bredde: rullepanelet står ved rammens højre kant.</value></data>
-  <data name="DemoShellScroll3" xml:space="preserve"><value>Et barn med 100 % højde ville udfylde området præcist; højere indhold får det til at rulle.</value></data>
+  <data name="DemoShellScroll3" xml:space="preserve"><value>Et underelement med 100 % højde ville udfylde området præcist; højere indhold får det til at rulle.</value></data>
   <data name="DemoShellScroll4" xml:space="preserve"><value>Den nederste margen bevares, når rulningen slutter.</value></data>
-  <data name="DemoShellScroll5" xml:space="preserve"><value>Et smallere vindue bringer kolonnen ned til den tilgængelige bredde, inklusive mellemrum.</value></data>
+  <data name="DemoShellScroll5" xml:space="preserve"><value>Et smallere vindue bringer kolonnen ned til den tilgængelige bredde, inklusive margen.</value></data>
   <data name="DemoShellSplashChecking" xml:space="preserve"><value>Kontrollerer startskærmen</value></data>
   <data name="DemoShellSplashRemoved" xml:space="preserve"><value>Startskærmen er fjernet</value></data>
   <data name="DemoShellSplashAbsent" xml:space="preserve"><value>Ingen startskærm i denne demo</value></data>
@@ -533,7 +533,7 @@
   <data name="ThemesCancel" xml:space="preserve"><value>Annuller</value></data>
   <data name="ThemesBadge" xml:space="preserve"><value>Udgivet</value></data>
   <data name="ThemesAlert" xml:space="preserve"><value>Enhver palet farver ethvert tema.</value></data>
-  <data name="VFormSummaryTitle" xml:space="preserve"><value>{0} felt(er) skal rettes.</value></data>
+  <data name="VFormSummaryTitle" xml:space="preserve"><value>Felter, der skal rettes: {0}.</value></data>
   <data name="VFormName" xml:space="preserve"><value>Pipelinens navn</value></data>
   <data name="VFormNameHelp" xml:space="preserve"><value>Små bogstaver, cifre og bindestreger.</value></data>
   <data name="VFormNameError" xml:space="preserve"><value>Pipelinens navn er påkrævet.</value></data>
@@ -543,7 +543,7 @@
   <data name="VFormReplicas" xml:space="preserve"><value>Replikaer</value></data>
   <data name="VFormEnvironment" xml:space="preserve"><value>Miljø</value></data>
   <data name="VFormEnvironmentProduction" xml:space="preserve"><value>Produktion</value></data>
-  <data name="VFormEnvironmentAcceptance" xml:space="preserve"><value>Accept</value></data>
+  <data name="VFormEnvironmentAcceptance" xml:space="preserve"><value>Accepttest</value></data>
   <data name="VFormEnvironmentDevelopment" xml:space="preserve"><value>Udvikling</value></data>
   <data name="VFormDate" xml:space="preserve"><value>Udrulningsdato</value></data>
   <data name="VFormTime" xml:space="preserve"><value>Udrulningstidspunkt</value></data>
@@ -713,14 +713,14 @@
   <data name="DemoSchedulerRoom" xml:space="preserve"><value>Lokale {0}</value></data>
   <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Flydende kolonne</value></data>
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Fuld bredde på en lille skærm, en tredjedel på en stor.</value></data>
-  <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kort med sidehoved</value></data>
-  <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>Sidehoved, brødtekst og sidefod er tre adskilte zoner.</value></data>
+  <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kort med hoved</value></data>
+  <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>Hoved, brødtekst og fod er tre adskilte zoner.</value></data>
   <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>Et kort kan bestå af kun sin brødtekst.</value></data>
   <data name="DemoLayoutStart" xml:space="preserve"><value>Start</value></data>
   <data name="DemoLayoutMiddle" xml:space="preserve"><value>Midte</value></data>
   <data name="DemoLayoutEnd" xml:space="preserve"><value>Slut</value></data>
   <data name="DemoLayoutFieldGroup" xml:space="preserve"><value>Feltgruppe</value></data>
-  <data name="DemoLayoutOne" xml:space="preserve"><value>En</value></data>
+  <data name="DemoLayoutOne" xml:space="preserve"><value>Én</value></data>
   <data name="DemoLayoutTwo" xml:space="preserve"><value>To</value></data>
   <data name="DemoLayoutAdvanced" xml:space="preserve"><value>Avancerede indstillinger</value></data>
   <data name="DemoLayoutAdvancedText" xml:space="preserve"><value>En gruppe, der er foldet sammen ved åbning, og som læseren folder ud efter behov.</value></data>
@@ -916,7 +916,7 @@
   <data name="DemoFeedbackAnalysing" xml:space="preserve"><value>Analyse i gang</value></data>
   <data name="DemoFeedbackProgress" xml:space="preserve"><value>Status</value></data>
   <data name="DemoFeedbackNoKnownEnd" xml:space="preserve"><value>Uden kendt slutning</value></data>
-  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>Kvoten beregnes over løbende tredive dage.</value></data>
+  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>Kvoten beregnes over en løbende periode på tredive dage.</value></data>
   <data name="DemoFeedbackQuota" xml:space="preserve"><value>Kvote</value></data>
   <data name="DemoFeedbackArchivedTooltip" xml:space="preserve"><value>En arkiveret sag kan stadig ses skrivebeskyttet.</value></data>
   <data name="DemoFeedbackArchived" xml:space="preserve"><value>Arkiveret</value></data>
@@ -1186,7 +1186,7 @@
   <data name="DemoOverlaySaveCopy" xml:space="preserve"><value>Gem en kopi</value></data>
   <data name="DemoOverlayPublishUnavailable" xml:space="preserve"><value>Udgiv, utilgængelig</value></data>
   <data name="DemoOverlayFolderActions" xml:space="preserve"><value>Mappehandlinger</value></data>
-  <data name="DemoOverlayContextTrigger" xml:space="preserve"><value>Handlinger (højreklik eller Shift+F10)</value></data>
+  <data name="DemoOverlayContextTrigger" xml:space="preserve"><value>Handlinger (højreklik eller Skift+F10)</value></data>
   <data name="DemoOverlayDuplicate" xml:space="preserve"><value>Duplikér</value></data>
   <data name="DemoOverlayExport" xml:space="preserve"><value>Eksportér</value></data>
   <data name="DemoOverlayDelete" xml:space="preserve"><value>Slet</value></data>
@@ -1366,7 +1366,7 @@
   <data name="DemoInputsCityPlaceholder" xml:space="preserve"><value>Begynd at skrive</value></data>
   <data name="DemoInputsPickedSummary" xml:space="preserve"><value>Dato: {0}; tid: {1}; aftale: {2}</value></data>
   <data name="DemoInputsNoDate" xml:space="preserve"><value>ingen</value></data>
-  <data name="DemoInputsNoTime" xml:space="preserve"><value>intet</value></data>
+  <data name="DemoInputsNoTime" xml:space="preserve"><value>ingen</value></data>
   <data name="DemoInputsNoAppointment" xml:space="preserve"><value>ingen</value></data>
   <data name="DemoFormName" xml:space="preserve"><value>Fulde navn</value></data>
   <data name="DemoFormNameHelp" xml:space="preserve"><value>Som det vil stå på fakturaen.</value></data>

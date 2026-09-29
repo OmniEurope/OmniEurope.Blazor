@@ -166,11 +166,11 @@
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Obligatoriedad, longitud, formato de correo electrónico y comparación.</value></data>
   <data name="DemoValidationCapability2" xml:space="preserve"><value>Al enviar, el foco pasa al primer campo no válido.</value></data>
   <data name="DemoValidationCapability3" xml:space="preserve"><value>Ninguna anotación en el modelo, todo está en el marcado.</value></data>
-  <data name="DemoEditorTitle" xml:space="preserve"><value>Editores y carga de archivos</value></data>
-  <data name="DemoEditorSummary" xml:space="preserve"><value>El editor WYSIWYG y su código HTML, el procesador de textos, el editor de código y la carga de archivos.</value></data>
+  <data name="DemoEditorTitle" xml:space="preserve"><value>Editores y subida de archivos</value></data>
+  <data name="DemoEditorSummary" xml:space="preserve"><value>El editor WYSIWYG y su código HTML, el procesador de textos, el editor de código y la subida de archivos.</value></data>
   <data name="DemoEditorCapability1" xml:space="preserve"><value>Barra de comandos que el host amplía o reordena, pegado saneado, modo código fuente.</value></data>
   <data name="DemoEditorCapability2" xml:space="preserve"><value>Procesador de textos sobre una página, recuento de palabras, exportación HTML y texto.</value></data>
-  <data name="DemoEditorCapability3" xml:space="preserve"><value>Editor de código (Monaco en el host, texto sin formato bajo CSP estricta) y carga acotada.</value></data>
+  <data name="DemoEditorCapability3" xml:space="preserve"><value>Editor de código (Monaco en el host, texto sin formato bajo CSP estricta) y subida acotada.</value></data>
   <data name="DemoOverlayTitle" xml:space="preserve"><value>Superposiciones</value></data>
   <data name="DemoOverlaySummary" xml:space="preserve"><value>Cuadros de diálogo, notificaciones y menús emergentes.</value></data>
   <data name="DemoOverlayCapability1" xml:space="preserve"><value>Diálogo modal, que se cierra con Esc o con el fondo.</value></data>
@@ -244,7 +244,7 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Espaciosa</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Heredada</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Densidad</value></data>
-  <data name="WorkshopHover" xml:space="preserve"><value>Hover</value></data>
+  <data name="WorkshopHover" xml:space="preserve"><value>Paso del ratón</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Forzar</value></data>
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Forzado</value></data>
   <data name="WorkshopStageTitle" xml:space="preserve"><value>Vista previa</value></data>
@@ -257,13 +257,13 @@
   <data name="WorkshopSwatchesTitle" xml:space="preserve"><value>Tokens de color</value></data>
   <data name="ContrastPair01" xml:space="preserve"><value>texto / superficie</value></data>
   <data name="ContrastPair02" xml:space="preserve"><value>texto / superficie atenuada</value></data>
-  <data name="ContrastPair03" xml:space="preserve"><value>texto / superficie en hover</value></data>
+  <data name="ContrastPair03" xml:space="preserve"><value>texto / superficie al pasar el ratón</value></data>
   <data name="ContrastPair04" xml:space="preserve"><value>texto atenuado / superficie</value></data>
   <data name="ContrastPair05" xml:space="preserve"><value>texto atenuado / superficie atenuada</value></data>
-  <data name="ContrastPair06" xml:space="preserve"><value>texto atenuado / superficie en hover</value></data>
+  <data name="ContrastPair06" xml:space="preserve"><value>texto atenuado / superficie al pasar el ratón</value></data>
   <data name="ContrastPair07" xml:space="preserve"><value>acento fuerte / superficie</value></data>
   <data name="ContrastPair08" xml:space="preserve"><value>acento fuerte / acento discreto</value></data>
-  <data name="ContrastPair09" xml:space="preserve"><value>acento fuerte / superficie en hover</value></data>
+  <data name="ContrastPair09" xml:space="preserve"><value>acento fuerte / superficie al pasar el ratón</value></data>
   <data name="ContrastPair10" xml:space="preserve"><value>sobre acento / acento</value></data>
   <data name="ContrastPair11" xml:space="preserve"><value>sobre éxito / éxito</value></data>
   <data name="ContrastPair12" xml:space="preserve"><value>sobre advertencia / advertencia</value></data>
@@ -279,20 +279,20 @@
   <data name="ContrastPair22" xml:space="preserve"><value>texto sobre info sólido</value></data>
   <data name="ContrastPair23" xml:space="preserve"><value>tinta sobre info claro (alerta)</value></data>
   <data name="ContrastPair24" xml:space="preserve"><value>tinta sobre éxito claro (alerta)</value></data>
-  <data name="ContrastPair25" xml:space="preserve"><value>tinta sobre info claro en hover</value></data>
+  <data name="ContrastPair25" xml:space="preserve"><value>tinta sobre info claro al pasar el ratón</value></data>
   <data name="ContrastPair26" xml:space="preserve"><value>tinta sobre info claro pulsado</value></data>
-  <data name="ContrastPair27" xml:space="preserve"><value>tinta sobre éxito claro en hover</value></data>
+  <data name="ContrastPair27" xml:space="preserve"><value>tinta sobre éxito claro al pasar el ratón</value></data>
   <data name="ContrastPair28" xml:space="preserve"><value>tinta sobre éxito claro pulsado</value></data>
   <data name="ContrastPair29" xml:space="preserve"><value>tinta sobre advertencia intensa (botón)</value></data>
-  <data name="ContrastPair30" xml:space="preserve"><value>tinta sobre advertencia intensa en hover</value></data>
+  <data name="ContrastPair30" xml:space="preserve"><value>tinta sobre advertencia intensa al pasar el ratón</value></data>
   <data name="ContrastPair31" xml:space="preserve"><value>tinta sobre advertencia intensa pulsada</value></data>
   <data name="ContrastPair32" xml:space="preserve"><value>tinta sobre peligro intenso (botón)</value></data>
-  <data name="ContrastPair33" xml:space="preserve"><value>tinta sobre peligro intenso en hover</value></data>
+  <data name="ContrastPair33" xml:space="preserve"><value>tinta sobre peligro intenso al pasar el ratón</value></data>
   <data name="ContrastPair34" xml:space="preserve"><value>tinta sobre peligro intenso pulsado</value></data>
-  <data name="ContrastPair35" xml:space="preserve"><value>texto sobre acento sólido, hover</value></data>
+  <data name="ContrastPair35" xml:space="preserve"><value>texto sobre acento sólido, paso del ratón</value></data>
   <data name="ContrastPair36" xml:space="preserve"><value>texto sobre acento sólido, pulsación</value></data>
   <data name="ContrastPair37" xml:space="preserve"><value>secundario en reposo</value></data>
-  <data name="ContrastPair38" xml:space="preserve"><value>secundario en hover</value></data>
+  <data name="ContrastPair38" xml:space="preserve"><value>secundario al pasar el ratón</value></data>
   <data name="ContrastPair39" xml:space="preserve"><value>secundario pulsado</value></data>
   <data name="ContrastPair40" xml:space="preserve"><value>fantasma pulsado</value></data>
   <data name="ContrastPair41" xml:space="preserve"><value>acento sólido / superficie</value></data>
@@ -302,9 +302,9 @@
   <data name="ContrastPair45" xml:space="preserve"><value>peligro sólido / superficie</value></data>
   <data name="ContrastPair46" xml:space="preserve"><value>acento / superficie</value></data>
   <data name="ContrastPair47" xml:space="preserve"><value>borde / superficie (mínimo OE 1,7)</value></data>
-  <data name="DemoStatesTitle" xml:space="preserve"><value>Reposo, hover y pulsación</value></data>
+  <data name="DemoStatesTitle" xml:space="preserve"><value>Reposo, paso del ratón y pulsación</value></data>
   <data name="DemoStatesSummary" xml:space="preserve"><value>Los tres estados de una variante de botón, uno junto a otro.</value></data>
-  <data name="DemoStatesCapability1" xml:space="preserve"><value>Hover y pulsación leen los tokens del tema: relleno en hover, relleno pulsado y gesto de presión.</value></data>
+  <data name="DemoStatesCapability1" xml:space="preserve"><value>El paso del ratón y la pulsación leen los tokens del tema: relleno al pasar el ratón, relleno pulsado y gesto de presión.</value></data>
   <data name="DemoStatesCapability2" xml:space="preserve"><value>Ayuda de comparación del escaparate: un navegador no puede congelar :hover ni :active.</value></data>
   <data name="DemoAppShellTitle" xml:space="preserve"><value>Estructura de aplicación</value></data>
   <data name="DemoAppShellSummary" xml:space="preserve"><value>Barra superior, menú lateral que se pliega en un carril de iconos, contenido.</value></data>
@@ -396,7 +396,7 @@
   <data name="SettingsGeneral" xml:space="preserve"><value>General</value></data>
   <data name="SettingsGeneralLead" xml:space="preserve"><value>Ubicaciones de trabajo y comportamiento al iniciar.</value></data>
   <data name="SettingsFolder" xml:space="preserve"><value>Carpeta de artefactos</value></data>
-  <data name="SettingsFolderHint" xml:space="preserve"><value>Dónde depositan las compilaciones sus paquetes.</value></data>
+  <data name="SettingsFolderHint" xml:space="preserve"><value>Donde las compilaciones depositan sus paquetes.</value></data>
   <data name="SettingsBrowse" xml:space="preserve"><value>Examinar</value></data>
   <data name="SettingsStartup" xml:space="preserve"><value>Iniciar con Windows</value></data>
   <data name="SettingsStartupHint" xml:space="preserve"><value>Inicia el agente al iniciar sesión.</value></data>
@@ -483,7 +483,7 @@
   <data name="ShellLoading" xml:space="preserve"><value>Cargando el panel</value></data>
   <data name="ShellLastAction" xml:space="preserve"><value>Última acción: {0}</value></data>
   <data name="StatesRest" xml:space="preserve"><value>Reposo</value></data>
-  <data name="StatesHover" xml:space="preserve"><value>Hover</value></data>
+  <data name="StatesHover" xml:space="preserve"><value>Paso del ratón</value></data>
   <data name="StatesPress" xml:space="preserve"><value>Pulsación</value></data>
   <data name="StatesPrimary" xml:space="preserve"><value>Principal</value></data>
   <data name="StatesSuccess" xml:space="preserve"><value>Éxito</value></data>
@@ -610,7 +610,7 @@
   <data name="DemoGridAdvancedLinesBoth" xml:space="preserve"><value>Ambas</value></data>
   <data name="DemoGridAdvancedDensityCompact" xml:space="preserve"><value>Compacta</value></data>
   <data name="DemoGridAdvancedDensityComfortable" xml:space="preserve"><value>Cómoda</value></data>
-  <data name="DemoGridAdvancedDensitySpacious" xml:space="preserve"><value>Holgada</value></data>
+  <data name="DemoGridAdvancedDensitySpacious" xml:space="preserve"><value>Espaciosa</value></data>
   <data name="DemoGridAdvancedPagerBottom" xml:space="preserve"><value>Abajo</value></data>
   <data name="DemoGridAdvancedPagerTop" xml:space="preserve"><value>Arriba</value></data>
   <data name="DemoGridAdvancedPagerBoth" xml:space="preserve"><value>Arriba y abajo</value></data>
@@ -756,13 +756,13 @@
   <data name="DemoLayoutDeployed" xml:space="preserve"><value>Despliegue terminado</value></data>
   <data name="DemoLayoutDeployedText" xml:space="preserve"><value>La versión 1.0.1 está en línea.</value></data>
   <data name="DemoLayoutEachChange" xml:space="preserve"><value>En cada cambio.</value></data>
-  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Una alerta holgada en una página cómoda.</value></data>
+  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Una alerta espaciosa en una página cómoda.</value></data>
   <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>Pestañas compactas</value></data>
   <data name="DemoLayoutGeneral" xml:space="preserve"><value>General</value></data>
   <data name="DemoLayoutGeneralText" xml:space="preserve"><value>Ajustes generales.</value></data>
   <data name="DemoLayoutSecurity" xml:space="preserve"><value>Seguridad</value></data>
   <data name="DemoLayoutSecurityText" xml:space="preserve"><value>Acceso y tokens.</value></data>
-  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Mosaico holgado</value></data>
+  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Mosaico espacioso</value></data>
   <data name="DemoLayoutOwnDensity" xml:space="preserve"><value>Su propia densidad.</value></data>
   <data name="DemoLayoutTrackedExpanded" xml:space="preserve"><value>Opciones supervisadas: desplegadas</value></data>
   <data name="DemoLayoutTrackedCollapsed" xml:space="preserve"><value>Opciones supervisadas: plegadas</value></data>
@@ -780,7 +780,7 @@
   <data name="DemoLayoutGapXLarge2" xml:space="preserve"><value>holgado</value></data>
   <data name="DemoLayoutDensityCompact" xml:space="preserve"><value>Compacta</value></data>
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Cómoda</value></data>
-  <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Holgada</value></data>
+  <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Espaciosa</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} alertas</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Título destacado</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Título discreto</value></data>
@@ -907,7 +907,7 @@
   <data name="DemoButtonsPrimary" xml:space="preserve"><value>Primario</value></data>
   <data name="DemoButtonsClicks" xml:space="preserve"><value>Clics en el botón primario: {0}.</value></data>
   <data name="DemoButtonsSent" xml:space="preserve"><value>Envíos del formulario: {0}.</value></data>
-  <data name="DemoFeedbackUpload" xml:space="preserve"><value>Carga</value></data>
+  <data name="DemoFeedbackUpload" xml:space="preserve"><value>Subida</value></data>
   <data name="DemoFeedbackIndexing" xml:space="preserve"><value>Indexación</value></data>
   <data name="DemoFeedbackSync" xml:space="preserve"><value>Sincronización</value></data>
   <data name="DemoFeedbackProcessed" xml:space="preserve"><value>Expedientes tramitados</value></data>
@@ -922,9 +922,9 @@
   <data name="DemoFeedbackArchived" xml:space="preserve"><value>Archivado</value></data>
   <data name="DemoFeedbackDraftTooltip" xml:space="preserve"><value>Borrador.</value></data>
   <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Estrecha</value></data>
-  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Un expediente archivado sigue pudiendo consultarse en modo de solo lectura. Ya no cuenta en las cuotas, ya no aparece en las búsquedas predeterminadas y ya no recibe notificaciones. Para reabrirlo, un administrador lo restaura desde la pestaña Archivos; su historial, sus datos adjuntos y sus comentarios vuelven entonces intactos, con la fecha de restauración.</value></data>
+  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Un expediente archivado sigue pudiendo consultarse en modo de solo lectura. Ya no cuenta en las cuotas, ya no aparece en las búsquedas predeterminadas y ya no recibe notificaciones. Para reabrirlo, un administrador lo restaura desde la pestaña Archivados; su historial, sus datos adjuntos y sus comentarios vuelven entonces intactos, con la fecha de restauración.</value></data>
   <data name="DemoFeedbackLongText" xml:space="preserve"><value>Texto largo</value></data>
-  <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>Información sobre herramientas del paquete en un simple atributo title.</value></data>
+  <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>Descripción emergente del paquete en un simple atributo title.</value></data>
   <data name="DemoFeedbackHover" xml:space="preserve"><value>Pasar el ratón</value></data>
   <data name="DemoFeedbackLoadingAvatar" xml:space="preserve"><value>Cargando el avatar</value></data>
   <data name="DemoFeedbackLoadingThumbnail" xml:space="preserve"><value>Cargando la miniatura</value></data>
@@ -1126,7 +1126,7 @@
   <data name="DemoMediaIconThumbsDown" xml:space="preserve"><value>No útil</value></data>
   <data name="DemoMediaIconLightbulb" xml:space="preserve"><value>Consejo</value></data>
   <data name="DemoMediaIconKeyboard" xml:space="preserve"><value>Teclado</value></data>
-  <data name="DemoMediaIconFlag" xml:space="preserve"><value>Notificar</value></data>
+  <data name="DemoMediaIconFlag" xml:space="preserve"><value>Señalar</value></data>
   <data name="DemoMediaIconHighlighter" xml:space="preserve"><value>Resaltar</value></data>
   <data name="DemoMediaIconChartPie" xml:space="preserve"><value>Distribución</value></data>
   <data name="DemoMediaIconChartDonut" xml:space="preserve"><value>Proporción</value></data>
@@ -1169,7 +1169,7 @@
   <data name="DemoMediaIconCurrencyEur" xml:space="preserve"><value>Importe en euros</value></data>
   <data name="DemoMediaIconShareNetwork" xml:space="preserve"><value>Compartir</value></data>
   <data name="DemoMediaIconBank" xml:space="preserve"><value>Entidad financiera</value></data>
-  <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Misión</value></data>
+  <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Encargo</value></data>
   <data name="DemoMediaIconIdentificationBadge" xml:space="preserve"><value>Tarjeta de identificación</value></data>
   <data name="DemoMediaIconFilePdf" xml:space="preserve"><value>Documento PDF</value></data>
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Asistencia</value></data>
@@ -1263,7 +1263,7 @@
   <data name="DemoEditorIconSuperscript" xml:space="preserve"><value>Superíndice</value></data>
   <data name="DemoEditorIconBulletList" xml:space="preserve"><value>Lista con viñetas</value></data>
   <data name="DemoEditorIconIndent" xml:space="preserve"><value>Aumentar sangría</value></data>
-  <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Reducir sangría</value></data>
+  <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Disminuir sangría</value></data>
   <data name="DemoEditorIconQuote" xml:space="preserve"><value>Cita</value></data>
   <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Código en línea</value></data>
   <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Bloque de código</value></data>
@@ -1438,7 +1438,7 @@
   <data name="DemoFlowsRoleBody" xml:space="preserve"><value>El rol que recibirá.</value></data>
   <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Área de administración</value></data>
   <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Operaciones</value></data>
-  <data name="DemoFlowsUser" xml:space="preserve"><value>Identificador</value></data>
+  <data name="DemoFlowsUser" xml:space="preserve"><value>Nombre de usuario</value></data>
   <data name="DemoFlowsPassword" xml:space="preserve"><value>Contraseña</value></data>
   <data name="DemoFlowsSignIn" xml:space="preserve"><value>Iniciar sesión</value></data>
   <data name="DemoFlowsSignInNote" xml:space="preserve"><value>Formulario entregado al host para «{0}».</value></data>
@@ -1460,7 +1460,7 @@
   <data name="DemoTreeCapital" xml:space="preserve"><value>capital</value></data>
   <data name="DemoTreeFrance" xml:space="preserve"><value>Francia</value></data>
   <data name="DemoTreeLuxembourg" xml:space="preserve"><value>Luxemburgo</value></data>
-  <data name="DemoTreeArchives" xml:space="preserve"><value>Archivos, cargados al abrir</value></data>
+  <data name="DemoTreeArchives" xml:space="preserve"><value>Archivados, cargados al abrir</value></data>
   <data name="DemoTreeSelection" xml:space="preserve"><value>Selección: {0}</value></data>
   <data name="DemoTreeNoSelection" xml:space="preserve"><value>ninguna</value></data>
   <data name="DemoSpreadsheetLabel" xml:space="preserve"><value>Presupuesto del trimestre</value></data>

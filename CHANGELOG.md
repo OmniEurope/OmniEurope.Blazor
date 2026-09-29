@@ -2,6 +2,12 @@
 
 Les changements notables de ce projet seront documentés ici selon le format Keep a Changelog.
 
+## [Non publié]
+
+### Fixed
+
+- Traductions relues dans les 23 langues autres que le français (environ 500 textes corrigés) : contresens (par exemple « commit » rendu par « obligation », « planificateur » par « prise de rendez-vous »), termes incohérents entre le paquet et la vitrine, accords de genre et de nombre dans les annonces, noms de touches selon les conventions Microsoft de chaque langue, anglais aligné sur l'orthographe britannique de la vitrine.
+
 ## [1.2.0] - 2026-09-29
 
 ### Breaking changes

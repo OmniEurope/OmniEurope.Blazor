@@ -101,7 +101,7 @@
   <data name="DemoFormSummary" xml:space="preserve"><value>Os campos de introdução e o respetivo rótulo acessível.</value></data>
   <data name="DemoFormCapability1" xml:space="preserve"><value>Rótulo, descrição e mensagem de erro ligados ao campo por identificador.</value></data>
   <data name="DemoFormCapability2" xml:space="preserve"><value>Área de texto com contador de caracteres e limite.</value></data>
-  <data name="DemoFormCapability3" xml:space="preserve"><value>Cursor de deslize, caixa de verificação e interruptor controlados pelo teclado.</value></data>
+  <data name="DemoFormCapability3" xml:space="preserve"><value>Controlo de deslize, caixa de verificação e interruptor operáveis pelo teclado.</value></data>
   <data name="DemoSelectionTitle" xml:space="preserve"><value>Seleção</value></data>
   <data name="DemoSelectionSummary" xml:space="preserve"><value>Escolher um valor de uma lista, ou vários.</value></data>
   <data name="DemoSelectionCapability1" xml:space="preserve"><value>Lista pendente com valor vazio permitido.</value></data>
@@ -228,7 +228,7 @@
   <data name="DemoFlowsSummary" xml:space="preserve"><value>Assistente, início de sessão e perda de ligação.</value></data>
   <data name="DemoFlowsCapability1" xml:space="preserve"><value>Assistente por passos: progresso, validação por passo, numa página ou num diálogo.</value></data>
   <data name="DemoFlowsCapability2" xml:space="preserve"><value>Página de início de sessão sem autenticação incorporada, e endereço de retorno limitado à aplicação.</value></data>
-  <data name="DemoFlowsCapability3" xml:space="preserve"><value>Véu de ligação perdida: contagem decrescente, causa, nova tentativa manual, falha e recusa.</value></data>
+  <data name="DemoFlowsCapability3" xml:space="preserve"><value>Sobreposição de ligação perdida: contagem decrescente, causa, nova tentativa manual, falha e recusa.</value></data>
   <data name="WorkshopBarTitle" xml:space="preserve"><value>Definições da pré-visualização</value></data>
   <data name="WorkshopTheme" xml:space="preserve"><value>Tema (forma)</value></data>
   <data name="WorkshopPalette" xml:space="preserve"><value>Paleta (cores)</value></data>
@@ -332,7 +332,7 @@
   <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>Um interruptor colocado num mosaico usa o nome do mosaico como rótulo; um clique no mosaico alterna-o.</value></data>
   <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>O controlo fica à direita; o nome, a ajuda e o ícone à esquerda.</value></data>
   <data name="DemoNoticesTitle" xml:space="preserve"><value>Notificações e diálogos</value></data>
-  <data name="DemoNoticesSummary" xml:space="preserve"><value>Notificações a fechar, diálogos sobre o véu.</value></data>
+  <data name="DemoNoticesSummary" xml:space="preserve"><value>Notificações que se podem fechar, diálogos sobre o fundo.</value></data>
   <data name="DemoNoticesCapability1" xml:space="preserve"><value>Cada notificação fecha-se com a sua cruz.</value></data>
   <data name="DemoNoticesCapability2" xml:space="preserve"><value>O rodapé dos diálogos segue a convenção do pacote: primeiro a ação, depois Cancelar.</value></data>
   <data name="DemoLoadingTitle" xml:space="preserve"><value>Carregamento</value></data>
@@ -396,7 +396,7 @@
   <data name="SettingsGeneral" xml:space="preserve"><value>Geral</value></data>
   <data name="SettingsGeneralLead" xml:space="preserve"><value>Locais de trabalho e comportamento no arranque.</value></data>
   <data name="SettingsFolder" xml:space="preserve"><value>Pasta dos artefactos</value></data>
-  <data name="SettingsFolderHint" xml:space="preserve"><value>Onde as builds colocam os seus pacotes.</value></data>
+  <data name="SettingsFolderHint" xml:space="preserve"><value>Onde as compilações colocam os seus pacotes.</value></data>
   <data name="SettingsBrowse" xml:space="preserve"><value>Procurar</value></data>
   <data name="SettingsStartup" xml:space="preserve"><value>Iniciar com o Windows</value></data>
   <data name="SettingsStartupHint" xml:space="preserve"><value>Inicia o agente ao abrir a sessão.</value></data>
@@ -610,7 +610,7 @@
   <data name="DemoGridAdvancedLinesBoth" xml:space="preserve"><value>Ambas</value></data>
   <data name="DemoGridAdvancedDensityCompact" xml:space="preserve"><value>Compacta</value></data>
   <data name="DemoGridAdvancedDensityComfortable" xml:space="preserve"><value>Confortável</value></data>
-  <data name="DemoGridAdvancedDensitySpacious" xml:space="preserve"><value>Arejada</value></data>
+  <data name="DemoGridAdvancedDensitySpacious" xml:space="preserve"><value>Espaçosa</value></data>
   <data name="DemoGridAdvancedPagerBottom" xml:space="preserve"><value>Em baixo</value></data>
   <data name="DemoGridAdvancedPagerTop" xml:space="preserve"><value>Em cima</value></data>
   <data name="DemoGridAdvancedPagerBoth" xml:space="preserve"><value>Em cima e em baixo</value></data>
@@ -756,13 +756,13 @@
   <data name="DemoLayoutDeployed" xml:space="preserve"><value>Implementação concluída</value></data>
   <data name="DemoLayoutDeployedText" xml:space="preserve"><value>A versão 1.0.1 está online.</value></data>
   <data name="DemoLayoutEachChange" xml:space="preserve"><value>A cada alteração.</value></data>
-  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Um alerta arejado numa página confortável.</value></data>
+  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Um alerta espaçoso numa página confortável.</value></data>
   <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>Separadores compactos</value></data>
   <data name="DemoLayoutGeneral" xml:space="preserve"><value>Geral</value></data>
   <data name="DemoLayoutGeneralText" xml:space="preserve"><value>Definições gerais.</value></data>
   <data name="DemoLayoutSecurity" xml:space="preserve"><value>Segurança</value></data>
   <data name="DemoLayoutSecurityText" xml:space="preserve"><value>Acessos e tokens.</value></data>
-  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Mosaico arejado</value></data>
+  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Mosaico espaçoso</value></data>
   <data name="DemoLayoutOwnDensity" xml:space="preserve"><value>A sua própria densidade.</value></data>
   <data name="DemoLayoutTrackedExpanded" xml:space="preserve"><value>Opções acompanhadas: expandidas</value></data>
   <data name="DemoLayoutTrackedCollapsed" xml:space="preserve"><value>Opções acompanhadas: recolhidas</value></data>
@@ -780,9 +780,9 @@
   <data name="DemoLayoutGapXLarge2" xml:space="preserve"><value>arejado</value></data>
   <data name="DemoLayoutDensityCompact" xml:space="preserve"><value>Compacta</value></data>
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Confortável</value></data>
-  <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Arejada</value></data>
+  <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Espaçosa</value></data>
   <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} alertas</value></data>
-  <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Título acentuado</value></data>
+  <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Título destacado</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Título discreto</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Um parágrafo comum, no tamanho de base do tema.</value></data>
   <data name="DemoTypographySecondary" xml:space="preserve"><value>Um parágrafo secundário, para o que acompanha sem transmitir a informação.</value></data>
@@ -1268,14 +1268,14 @@
   <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Código em linha</value></data>
   <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Bloco de código</value></data>
   <data name="DemoEditorIconLink" xml:space="preserve"><value>Ligação</value></data>
-  <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Remover ligação</value></data>
+  <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Remover a ligação</value></data>
   <data name="DemoEditorIconAlignLeft" xml:space="preserve"><value>Alinhar à esquerda</value></data>
   <data name="DemoEditorIconAlignCenter" xml:space="preserve"><value>Centrar</value></data>
   <data name="DemoEditorIconAlignRight" xml:space="preserve"><value>Alinhar à direita</value></data>
   <data name="DemoEditorIconJustify" xml:space="preserve"><value>Justificar</value></data>
   <data name="DemoEditorIconUndo" xml:space="preserve"><value>Anular</value></data>
   <data name="DemoEditorIconRedo" xml:space="preserve"><value>Refazer</value></data>
-  <data name="DemoEditorIconClearFormatting" xml:space="preserve"><value>Limpar formatação</value></data>
+  <data name="DemoEditorIconClearFormatting" xml:space="preserve"><value>Limpar a formatação</value></data>
   <data name="DemoEditorIconHtmlSource" xml:space="preserve"><value>Código-fonte HTML</value></data>
   <data name="DemoEditorIconTable" xml:space="preserve"><value>Tabela</value></data>
   <data name="DemoEditorManifest" xml:space="preserve"><value>Manifesto de implementação</value></data>

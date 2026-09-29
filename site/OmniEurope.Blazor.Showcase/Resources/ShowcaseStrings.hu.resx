@@ -450,7 +450,7 @@
   <data name="DemoShellScrollMenu" xml:space="preserve"><value>A görgethető bemutató menüje</value></data>
   <data name="DemoShellReadingColumn" xml:space="preserve"><value>Olvasóoszlop</value></data>
   <data name="DemoShellScroll1" xml:space="preserve"><value>Az oszlop legfeljebb 72rem széles és középre igazított; a fennmaradó szélesség továbbra is a fő elemhez tartozik.</value></data>
-  <data name="DemoShellScroll2" xml:space="preserve"><value>Így az görget, a terület teljes szélességében: a görgetősávja a keret jobb szélén marad.</value></data>
+  <data name="DemoShellScroll2" xml:space="preserve"><value>Így a fő elem görget, a terület teljes szélességében: a görgetősávja a keret jobb szélén marad.</value></data>
   <data name="DemoShellScroll3" xml:space="preserve"><value>Egy 100%-os magasságú gyermekelem pontosan kitöltené a területet; a magasabb tartalom görgetést okoz.</value></data>
   <data name="DemoShellScroll4" xml:space="preserve"><value>Az alsó margó a görgetés végén is megmarad.</value></data>
   <data name="DemoShellScroll5" xml:space="preserve"><value>Az ablak szűkítése az oszlopot a rendelkezésre álló szélességre csökkenti, a margóval együtt.</value></data>
@@ -902,7 +902,7 @@
   <data name="DemoButtonsPreview" xml:space="preserve"><value>Előnézet</value></data>
   <data name="DemoButtonsView" xml:space="preserve"><value>Megtekintés</value></data>
   <data name="DemoButtonsSend" xml:space="preserve"><value>Küldés</value></data>
-  <data name="DemoButtonsReset" xml:space="preserve"><value>Alaphelyzet</value></data>
+  <data name="DemoButtonsReset" xml:space="preserve"><value>Visszaállítás</value></data>
   <data name="DemoButtonsNoFormEffect" xml:space="preserve"><value>Nincs hatással az űrlapra</value></data>
   <data name="DemoButtonsPrimary" xml:space="preserve"><value>Elsődleges</value></data>
   <data name="DemoButtonsClicks" xml:space="preserve"><value>Kattintások az elsődleges gombon: {0}.</value></data>
@@ -1014,7 +1014,7 @@
   <data name="DemoMediaIconProhibit" xml:space="preserve"><value>Tiltott</value></data>
   <data name="DemoMediaIconRefresh" xml:space="preserve"><value>Frissítés</value></data>
   <data name="DemoMediaIconRemove" xml:space="preserve"><value>Eltávolítás</value></data>
-  <data name="DemoMediaIconReset" xml:space="preserve"><value>Alaphelyzet</value></data>
+  <data name="DemoMediaIconReset" xml:space="preserve"><value>Visszaállítás</value></data>
   <data name="DemoMediaIconRestore" xml:space="preserve"><value>Archiválás visszavonása</value></data>
   <data name="DemoMediaIconRows" xml:space="preserve"><value>Sűrűség</value></data>
   <data name="DemoMediaIconRuler" xml:space="preserve"><value>Mérés</value></data>
@@ -1104,7 +1104,7 @@
   <data name="DemoMediaIconCornersOut" xml:space="preserve"><value>Képernyőhöz igazítás</value></data>
   <data name="DemoMediaIconDotsThreeVertical" xml:space="preserve"><value>További műveletek</value></data>
   <data name="DemoMediaIconEyeSlash" xml:space="preserve"><value>Elrejtés</value></data>
-  <data name="DemoMediaIconFrameCorners" xml:space="preserve"><value>Újraközpontosítás</value></data>
+  <data name="DemoMediaIconFrameCorners" xml:space="preserve"><value>Középre igazítás</value></data>
   <data name="DemoMediaIconHardDrive" xml:space="preserve"><value>Lemez</value></data>
   <data name="DemoMediaIconLightning" xml:space="preserve"><value>Gyors</value></data>
   <data name="DemoMediaIconMagnifyingGlassMinus" xml:space="preserve"><value>Kicsinyítés</value></data>
@@ -1240,7 +1240,7 @@
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Ez a művelet eltávolítja a mappát a listából. Harminc napig visszavonható.</value></data>
   <data name="DemoOverlayDeletionConfirmed" xml:space="preserve"><value>Törlés megerősítve</value></data>
   <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Szűrés folyamatban</value></data>
-  <data name="DemoOverlayStickyBody" xml:space="preserve"><value>Mellékattintással ez a párbeszédpanel nem zárul be: az X gomb és az Esc bezárja.</value></data>
+  <data name="DemoOverlayStickyBody" xml:space="preserve"><value>A párbeszédpanelen kívüli kattintás nem zárja be: az X gomb és az Esc igen.</value></data>
   <data name="DemoOverlayBlockingTitle" xml:space="preserve"><value>Migrálás folyamatban</value></data>
   <data name="DemoOverlayBlockingBody" xml:space="preserve"><value>Sem az X gomb, sem az Esc, sem a háttér: csak a párbeszédpanel saját gombja zárja be.</value></data>
   <data name="DemoOverlayFinish" xml:space="preserve"><value>Befejezés</value></data>

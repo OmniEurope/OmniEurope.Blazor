@@ -23,7 +23,7 @@
   <data name="BackHome" xml:space="preserve"><value>Grįžti į pradžios puslapį</value></data>
   <data name="HomePageTitle" xml:space="preserve"><value>OmniEurope.Blazor</value></data>
   <data name="HomeKicker" xml:space="preserve"><value>Blazor</value></data>
-  <data name="HomeTitle" xml:space="preserve"><value>Prieinami Blazor komponentai griežtai saugos politikai</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Prieinami Blazor komponentai, veikiantys pagal griežtą saugos politiką</value></data>
   <data name="HomeLead" xml:space="preserve"><value>Komponentų biblioteka, sukurta programoms, kurios draudžia įterptinius stilius, reikalauja prieinamumo ir nori nuo pradžios iki galo valdomos temos.</value></data>
   <data name="HomeSeeComponents" xml:space="preserve"><value>Peržiūrėti komponentus</value></data>
   <data name="HomeSeeCustomize" xml:space="preserve"><value>Pritaikyti temą</value></data>
@@ -62,7 +62,7 @@
   <data name="GallerySourceMissing" xml:space="preserve"><value>Demonstracijos failas nerastas rinkinio ištekliuose.</value></data>
   <data name="DemoButtonsTitle" xml:space="preserve"><value>Mygtukai</value></data>
   <data name="DemoButtonsSummary" xml:space="preserve"><value>Veiksmo paleidiklis pagal vaizdinę paskirtį ir būseną.</value></data>
-  <data name="DemoButtonsCapability1" xml:space="preserve"><value>Keturios paskirtys: pagrindinis, antrinis, vaiduoklis ir griaunantis.</value></data>
+  <data name="DemoButtonsCapability1" xml:space="preserve"><value>Keturios paskirtys: pagrindinis, antrinis, vaiduoklis ir destruktyvus.</value></data>
   <data name="DemoButtonsCapability2" xml:space="preserve"><value>Užimtumo būsena, kuri blokuoja dvigubą pateikimą ir praneša apie save ekrano skaitytuvams.</value></data>
   <data name="DemoButtonsCapability3" xml:space="preserve"><value>Išjungta būsena, atskirta nuo užimtumo būsenos.</value></data>
   <data name="DemoButtonsCapability4" xml:space="preserve"><value>Trys dydžiai ir trys formos mygtukų tipai: pateikti, atkurti ir paprastas veiksmas.</value></data>
@@ -224,7 +224,7 @@
   <data name="DemoPagesCapability2" xml:space="preserve"><value>Išsamios informacijos puslapis: antraštė nupiešiama prieš gaunant duomenis, turinys paslėptas įkeliant, būsena „nerasta“ su grįžimo galimybe.</value></data>
   <data name="DemoPagesCapability3" xml:space="preserve"><value>Aprašų sąrašas stulpeliais su veiksmu kiekvienai reikšmei.</value></data>
   <data name="DemoPagesCapability4" xml:space="preserve"><value>Santykinis laikas su tikslia data užvedus pelę ar sufokusavus ir tuščia būsena su veiksmu.</value></data>
-  <data name="DemoFlowsTitle" xml:space="preserve"><value>Eigos</value></data>
+  <data name="DemoFlowsTitle" xml:space="preserve"><value>Scenarijai</value></data>
   <data name="DemoFlowsSummary" xml:space="preserve"><value>Vediklis, prisijungimo puslapis ir nutrūkęs ryšys.</value></data>
   <data name="DemoFlowsCapability1" xml:space="preserve"><value>Žingsnių vediklis: eiga, tikrinimas kiekviename žingsnyje, puslapyje arba dialoge.</value></data>
   <data name="DemoFlowsCapability2" xml:space="preserve"><value>Prisijungimo puslapis be įtaisyto autentifikavimo, o grįžimo adresas neišeina už programos ribų.</value></data>
@@ -404,7 +404,7 @@
   <data name="SettingsLanguageHint" xml:space="preserve"><value>Sąsajos ir pranešimų kalba.</value></data>
   <data name="SettingsLanguageFrench" xml:space="preserve"><value>Français</value></data>
   <data name="SettingsLanguageEnglish" xml:space="preserve"><value>English</value></data>
-  <data name="SettingsDisplay" xml:space="preserve"><value>Rodinys</value></data>
+  <data name="SettingsDisplay" xml:space="preserve"><value>Vaizdas</value></data>
   <data name="SettingsDisplayLead" xml:space="preserve"><value>Sąsajos išvaizda ir tankumas.</value></data>
   <data name="SettingsDarkMode" xml:space="preserve"><value>Tamsusis režimas</value></data>
   <data name="SettingsDarkModeHint" xml:space="preserve"><value>Sekti sistemą arba priverstinai nustatyti režimą.</value></data>
@@ -604,7 +604,7 @@
   <data name="DemoGridAdvancedEdit" xml:space="preserve"><value>Redagavimas</value></data>
   <data name="DemoGridAdvancedExpand" xml:space="preserve"><value>Išskleidimas</value></data>
   <data name="DemoGridAdvancedFooter" xml:space="preserve"><value>Lentelės poraštė</value></data>
-  <data name="DemoGridAdvancedLinesNone" xml:space="preserve"><value>Jokių</value></data>
+  <data name="DemoGridAdvancedLinesNone" xml:space="preserve"><value>Nėra</value></data>
   <data name="DemoGridAdvancedLinesHorizontal" xml:space="preserve"><value>Horizontalios</value></data>
   <data name="DemoGridAdvancedLinesVertical" xml:space="preserve"><value>Vertikalios</value></data>
   <data name="DemoGridAdvancedLinesBoth" xml:space="preserve"><value>Abi</value></data>
@@ -614,7 +614,7 @@
   <data name="DemoGridAdvancedPagerBottom" xml:space="preserve"><value>Apačioje</value></data>
   <data name="DemoGridAdvancedPagerTop" xml:space="preserve"><value>Viršuje</value></data>
   <data name="DemoGridAdvancedPagerBoth" xml:space="preserve"><value>Viršuje ir apačioje</value></data>
-  <data name="DemoGridAdvancedSelectionNone" xml:space="preserve"><value>Jokio</value></data>
+  <data name="DemoGridAdvancedSelectionNone" xml:space="preserve"><value>Nėra</value></data>
   <data name="DemoGridAdvancedSelectionSingle" xml:space="preserve"><value>Viena eilutė</value></data>
   <data name="DemoGridAdvancedSelectionMultiple" xml:space="preserve"><value>Kelios eilutės</value></data>
   <data name="DemoGridAdvancedFilterSimple" xml:space="preserve"><value>Laukas antraštėje</value></data>
@@ -636,7 +636,7 @@
   <data name="DemoDataListPager" xml:space="preserve"><value>Bylų puslapiavimas</value></data>
   <data name="DemoDataListLog" xml:space="preserve"><value>Apdorojimo žurnalas</value></data>
   <data name="DemoDataListKanban" xml:space="preserve"><value>Bylų stebėjimas</value></data>
-  <data name="DemoDataListColumnNew" xml:space="preserve"><value>Peržiūrėti</value></data>
+  <data name="DemoDataListColumnNew" xml:space="preserve"><value>Laukia peržiūros</value></data>
   <data name="DemoDataListColumnReview" xml:space="preserve"><value>Vykdoma</value></data>
   <data name="DemoDataListColumnDone" xml:space="preserve"><value>Atlikta</value></data>
   <data name="DemoDataListLogSearch" xml:space="preserve"><value>Ieškoma bylos</value></data>
@@ -727,7 +727,7 @@
   <data name="DemoLayoutTracked" xml:space="preserve"><value>Stebimos parinktys</value></data>
   <data name="DemoLayoutTrackedText" xml:space="preserve"><value>Puslapis žino suskleidimo būseną ir gali ją įsiminti.</value></data>
   <data name="DemoLayoutDisabledGroup" xml:space="preserve"><value>Išjungta grupė</value></data>
-  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Viskas, ką apima ši grupė, vienu veiksmu tampa neveiksnu.</value></data>
+  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Viskas, ką apima ši grupė, vienu veiksmu tampa neaktyvu.</value></data>
   <data name="DemoLayoutAlignStart" xml:space="preserve"><value>Lygiuota pradžioje</value></data>
   <data name="DemoLayoutAlignCenter" xml:space="preserve"><value>Centruota</value></data>
   <data name="DemoLayoutAlignEnd" xml:space="preserve"><value>Lygiuota pabaigoje</value></data>
@@ -982,7 +982,7 @@
   <data name="DemoMediaIconDatabase" xml:space="preserve"><value>Duomenų bazė</value></data>
   <data name="DemoMediaIconDelete" xml:space="preserve"><value>Šalinti</value></data>
   <data name="DemoMediaIconDiamond" xml:space="preserve"><value>Brangakmenis</value></data>
-  <data name="DemoMediaIconDice" xml:space="preserve"><value>Burtai</value></data>
+  <data name="DemoMediaIconDice" xml:space="preserve"><value>Burtų traukimas</value></data>
   <data name="DemoMediaIconDocument" xml:space="preserve"><value>Dokumentas</value></data>
   <data name="DemoMediaIconDownload" xml:space="preserve"><value>Atsisiųsti</value></data>
   <data name="DemoMediaIconEdit" xml:space="preserve"><value>Redaguoti</value></data>
@@ -1038,7 +1038,7 @@
   <data name="DemoMediaIconUser" xml:space="preserve"><value>Asmuo</value></data>
   <data name="DemoMediaIconUserFocus" xml:space="preserve"><value>Ieškoti asmens</value></data>
   <data name="DemoMediaIconEye" xml:space="preserve"><value>Rodyti</value></data>
-  <data name="DemoMediaIconGitCommit" xml:space="preserve"><value>Įsipareigojimas</value></data>
+  <data name="DemoMediaIconGitCommit" xml:space="preserve"><value>Įrašas</value></data>
   <data name="DemoMediaIconLock" xml:space="preserve"><value>Užrakinta</value></data>
   <data name="DemoMediaIconRocketLaunch" xml:space="preserve"><value>Diegti</value></data>
   <data name="DemoMediaIconUsers" xml:space="preserve"><value>Grupė</value></data>
@@ -1239,7 +1239,7 @@
   <data name="DemoOverlayClose" xml:space="preserve"><value>Uždaryti</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Šis veiksmas pašalina aplanką iš sąrašo. Jį galima atšaukti per trisdešimt dienų.</value></data>
   <data name="DemoOverlayDeletionConfirmed" xml:space="preserve"><value>Šalinimas patvirtintas</value></data>
-  <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Vykdomas filtras</value></data>
+  <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Vykdomas filtravimas</value></data>
   <data name="DemoOverlayStickyBody" xml:space="preserve"><value>Spustelėjimas šalia šio dialogo neuždaro: jį uždaro kryželis ir Esc.</value></data>
   <data name="DemoOverlayBlockingTitle" xml:space="preserve"><value>Vykdomas perkėlimas</value></data>
   <data name="DemoOverlayBlockingBody" xml:space="preserve"><value>Nei kryželis, nei Esc, nei uždanga: jį uždaro tik paties dialogo mygtukas.</value></data>
@@ -1265,7 +1265,7 @@
   <data name="DemoEditorIconIndent" xml:space="preserve"><value>Didinti įtrauką</value></data>
   <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Mažinti įtrauką</value></data>
   <data name="DemoEditorIconQuote" xml:space="preserve"><value>Citata</value></data>
-  <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Eilutės kodas</value></data>
+  <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Įterptinis kodas</value></data>
   <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Kodo blokas</value></data>
   <data name="DemoEditorIconLink" xml:space="preserve"><value>Saitas</value></data>
   <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Šalinti saitą</value></data>
@@ -1335,7 +1335,7 @@
   <data name="DemoChoiceRunnerDescription" xml:space="preserve"><value>Vykdo žingsnius šiame kompiuteryje.</value></data>
   <data name="DemoChoiceDockerDescription" xml:space="preserve"><value>Reikalauja vykdyklė.</value></data>
   <data name="DemoChoiceRating" xml:space="preserve"><value>Įvertinimas</value></data>
-  <data name="DemoChoiceRatingReadOnly" xml:space="preserve"><value>Įvertinimas tik skaityti</value></data>
+  <data name="DemoChoiceRatingReadOnly" xml:space="preserve"><value>Tik skaitomas įvertinimas</value></data>
   <data name="DemoChoiceRatingDisabled" xml:space="preserve"><value>Išjungtas įvertinimas</value></data>
   <data name="DemoChoiceShippingStandard" xml:space="preserve"><value>Standartinis</value></data>
   <data name="DemoChoiceShippingExpress" xml:space="preserve"><value>Skubus</value></data>
@@ -1480,7 +1480,7 @@
   <data name="DemoSpreadsheetAverage" xml:space="preserve"><value>Vidurkis</value></data>
   <data name="DemoDiagramReadOnly" xml:space="preserve"><value>Tik skaityti</value></data>
   <data name="DemoDiagramMindMapLabel" xml:space="preserve"><value>Minčių žemėlapis: persikraustymo planavimas</value></data>
-  <data name="DemoDiagramGitGraphLabel" xml:space="preserve"><value>Istorija su suliejama šaka</value></data>
+  <data name="DemoDiagramGitGraphLabel" xml:space="preserve"><value>Istorija su sulieta šaka</value></data>
   <data name="DemoDiagramMapSummary" xml:space="preserve"><value>Mazgai: {0}, ryšiai: {1}, simboliai išsaugojus: {2}.</value></data>
   <data name="DemoDiagramNewIdea" xml:space="preserve"><value>Nauja idėja</value></data>
   <data name="DemoDiagramNodeMove" xml:space="preserve"><value>Persikraustymas</value></data>
