@@ -241,6 +241,7 @@ Passe de cohérence 1.2.0 (PLAN-007, décision du 2026-09-29 : ruptures sans ali
 
 ### Fixed
 
+- `OmniDataGrid` virtuel chargé par `Load` : un bloc déjà demandé et pas encore reçu n'est plus redemandé. Chaque tri, filtre ou premier chargement envoyait deux requêtes identiques, le rendu de la barre de chargement redemandant la fenêtre pendant le chargement (signalé par une application cliente).
 - `OmniHtmlEditor` : l'alignement à droite pose `omni-align-end`, la classe que la feuille et l'assainisseur connaissent (l'ancienne `omni-align-right` était retirée et l'alignement perdu).
 - `OmniImage.Fit` (`Contain`, `Cover`) a de nouveau un effet quand `Width` et `Height` sont posés : la feuille ne force plus `height: auto` hors du mode naturel.
 - `OmniTitleTooltips` retire ses écouteurs et rend son titre à l'élément survolé quand la dernière instance disparaît.
