@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-008 : Reliquats de la 1.2.0
 
-> Statut : **ouvert**. Établi le 2026-09-29 après la clôture de PLAN-007 ; lots exécutés en parallèle.
+> Statut : **terminé** le 2026-09-29, 5 lots sur 5 (a4cc4cf, 35969ce), CI verte.
 
 ## Objectif
 

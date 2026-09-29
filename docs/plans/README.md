@@ -17,9 +17,8 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 
 | Plan | Travail restant | ADR |
 |---|---|---|
-| [PLAN-008](PLAN-008-reliquats-1-2-0.md) | Reliquats de la 1.2.0 : lots 1 et 2 faits (contrats, fichiers privés) ; lots 3 (comportements différés) et 4 (découpage d'`OmniDataGrid`) en cours | - |
 
-Total comparable : **2 lots ouverts** dans PLAN-008 (3 et 4).
+Aucun plan actif.
 
 ## Plans livrés (conservés pour la traçabilité)
 
@@ -36,3 +35,4 @@ respectivement 004, 007 et 008.
 | [PLAN-005](PLAN-005-remediation-audit-2026-09-27.md) | Remédiation de l'audit 360 du 2026-09-27 | Terminé le 2026-09-29, KIT-001/KIT-002 clos par décision (fichiers privés gardés) |
 | [PLAN-006](PLAN-006-editeur-html-extensible.md) | Éditeur HTML extensible : objet d'extension, primitives, fonctions frontière, suggestion de suite | Terminé le 2026-09-27, consommé par une application cliente (PLAN-009) |
 | [PLAN-007](PLAN-007-coherence-et-24-langues.md) | Passe de cohérence de la 1.2.0 et textes du paquet et de la vitrine dans les 24 langues de l'Union | Terminé le 2026-09-29, 12 lots sur 12, CI verte à `9889582` |
+| [PLAN-008](PLAN-008-reliquats-1-2-0.md) | Reliquats de la 1.2.0 : contrats, fichiers privés, comportements différés, fichiers sous 600 lignes effectives | Terminé le 2026-09-29, 5 lots sur 5, CI verte à `35969ce` |
