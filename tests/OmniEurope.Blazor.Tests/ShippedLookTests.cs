@@ -320,10 +320,15 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         Assert.Equal(expected, Value(Body(selector), property));
     }
 
-    // ---- The hooks of Relief, Givre and Aplat, each neutral when a theme does not set it ----
+    // ---- The hooks of Relief, Givre and Aplat, each neutral when a theme does not set it (Givre's frosted cards included) ----
 
     [Theory]
     [InlineData(".omni-theme-scope", "background-image", "var(--omni-backdrop, none)")]
+    [InlineData(".omni-theme-scope", "isolation", "var(--omni-scope-isolation, auto)")]
+    [InlineData(".omni-card", "position", "var(--omni-card-position, static)")]
+    [InlineData(".omni-card::before", "content", "var(--omni-card-frost, none)")]
+    [InlineData(".omni-card::before", "backdrop-filter", "var(--omni-card-filter, none)")]
+    [InlineData(".omni-card::before", "z-index", "-1")]
     [InlineData(".omni-input", "box-shadow", "var(--omni-input-shadow, 0 0 #0000)")]
     [InlineData(".omni-input:focus-visible", "box-shadow", "var(--omni-focus-ring), var(--omni-input-shadow, 0 0 #0000)")]
     [InlineData(".omni-overlay", "backdrop-filter", "var(--omni-scrim-filter, none)")]
@@ -341,6 +346,10 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     {
         var body = Body("[data-omni-theme]");
         Assert.Equal("none", Value(body, "--omni-backdrop"));
+        Assert.Equal("auto", Value(body, "--omni-scope-isolation"));
+        Assert.Equal("static", Value(body, "--omni-card-position"));
+        Assert.Equal("none", Value(body, "--omni-card-frost"));
+        Assert.Equal("none", Value(body, "--omni-card-filter"));
         Assert.Equal("0 0 #0000", Value(body, "--omni-input-shadow"));
         Assert.Equal("none", Value(body, "--omni-scrim-filter"));
         Assert.Equal("initial", Value(body, "--omni-dialog-background"));

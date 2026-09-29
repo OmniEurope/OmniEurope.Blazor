@@ -3,7 +3,7 @@ namespace OmniEurope.Blazor.Internal;
 /// <summary>
 /// The fourteen palettes of the library. Any palette paints any theme. The first ten are those of the
 /// reference mockup (<c>plans/PLAN-008-maquette-themes.html</c>, constant <c>PALETTES</c>); the last four
-/// (Nuage, Crépuscule, Pastel, Encre) go with the themes Relief, Givre, Aplat and Épure. Each palette carries
+/// (Nuage, Opale, Pastel, Encre) go with the themes Relief, Givre, Aplat and Épure. Each palette carries
 /// its dark accent as its own value: equal to the light one by default (recette Aetheus R-053, a
 /// button keeps one colour in both modes), and free to differ for a palette that wants it.
 /// </summary>
@@ -33,8 +33,8 @@ internal static class PaletteCatalog
             "#7b2d6e", "#2f7d5b", "#4a6fa5", "#b7791f", "#c23a3a", "#fbf6f9", "#2a1426", "#20111e", "#f4e6f0", "#7b2d6e"),
         new("Nuage", "Bleu vif sur gris nuage, anthracite en sombre, rouge orangé en alerte.",
             "#2f6bff", "#2e9d6a", "#3b82c4", "#e0892a", "#e8503a", "#e4e9f1", "#2c3444", "#1b1e23", "#d9dde5", "#2f6bff"),
-        new("Crépuscule", "Orange ambré sur gris froid, nuit d'ardoise en sombre.",
-            "#e8741c", "#3f9d6b", "#4a86c7", "#d9a21b", "#d9453b", "#eceef2", "#1f2530", "#16181d", "#e6e8ec", "#e8741c"),
+        new("Opale", "Indigo franc sur blanc nacré, ciel, menthe et pêche en sévérités, nuit bleutée en sombre.",
+            "#4f46e5", "#1fae84", "#2ea3dc", "#f0873e", "#e0424f", "#f7f9fc", "#1b2233", "#10151f", "#e6eaf2", "#4f46e5"),
         new("Pastel", "Lilas et rose sur blanc, bleu marine en sombre, ciel en information.",
             "#b04fd0", "#3aa876", "#5bb8e8", "#e6a23c", "#e2556b", "#fbf8fd", "#1b2233", "#1b2233", "#ece8f5", "#b04fd0"),
         new("Encre", "Encre noire sur blanc cassé, un seul bleu d'encre discret.",

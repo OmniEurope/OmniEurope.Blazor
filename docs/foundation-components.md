@@ -106,7 +106,7 @@ Toute palette peint tout thème : quatorze thèmes par quatorze palettes, cent q
 | Nénuphar | Coins asymétriques en feuille, lueur douce d'accent, cartes sans bordure | Lagune |
 | Velours | Biseaux à reflet interne, ombres profondes, titres à empattements | Prune |
 | Relief | Néomorphisme : surfaces de la couleur de la page, paire d’ombres douces claire en haut à gauche et sombre en bas à droite, appui et champs en creux, police arrondie | Nuage |
-| Givre | Verre dépoli : fond de couleurs fondues peint par la portée, cartes translucides à liseré clair, calques flottants et voile de dialogue floutés, boutons pilule | Crépuscule |
+| Givre | Verre dépoli : grandes taches pastel peintes par la portée, cartes dépolies (flou et saturation) à liseré clair, calques flottants et voile de dialogue floutés, boutons pilule | Opale |
 | Aplat | Design plat : aucune ombre ni dégradé, cartes pleines sans bordure, boutons pilule, appui qui ne fait que foncer, police géométrique | Pastel |
 | Épure | Minimalisme : angles vifs, filets fins, aucune ombre, action principale à l’encre, très grands titres en 800, Inter | Encre |
 
@@ -123,7 +123,7 @@ Toute palette peint tout thème : quatorze thèmes par quatorze palettes, cent q
 | Lagune | `#0e8a7a` | Turquoise de lagune, bleu-vert profond en sombre |
 | Prune | `#7b2d6e` | Prune et rose, velours sombre en sombre |
 | Nuage | `#2f6bff` | Bleu vif sur gris nuage, anthracite en sombre, rouge orangé en alerte |
-| Crépuscule | `#e8741c` | Orange ambré sur gris froid, nuit d’ardoise en sombre |
+| Opale | `#4f46e5` | Indigo franc sur blanc nacré, ciel, menthe et pêche en sévérités, nuit bleutée en sombre |
 | Pastel | `#c77ddf` | Lilas et rose sur blanc, bleu marine en sombre, ciel en information |
 | Encre | `#27466f` | Encre noire sur blanc cassé, un seul bleu d’encre discret |
 
@@ -163,22 +163,23 @@ Ces quatre thèmes reprennent l'esprit de quatre styles d'interface (néomorphis
 
 Relief, Givre et Aplat sont marqués **contraste non garanti** (décision du propriétaire du 2026-09-28) : leur style prime sur les seuils de contraste. La raison est déclarée dans le catalogue (`ThemeDefinition.ContrastWaiver`) et exposée par `OmniThemePreset.ContrastWaiver`, que la vitrine affiche sous l'aperçu. Ces thèmes restent mesurés : `ThemeContrastMatrixTests` écrit leurs écarts dans la sortie du test au lieu d'échouer, et la sonde de contraste les compte sous `acceptedContrastWaiver`. Seul l'anneau de focus n'est jamais couvert : il reste plein et à 3:1 au moins dans tous les thèmes et avec toutes les palettes (`ThemePaletteTests`). Le texte et la bordure d'un contrôle focalisé suivent la dérogation comme les autres états (décision du 2026-09-28). La liste des thèmes marqués est figée dans le test : en marquer un de plus est une modification délibérée, et l'apparence livrée (Essentiel) ne peut pas l'être. Une application qui doit garantir les contrastes choisit un thème non marqué. Épure garde les garanties complètes.
 
-Ils lisent huit crochets de la feuille, neutres pour tout autre thème et remis à zéro sur chaque portée (`[data-omni-theme]`) pour qu'une portée imbriquée ne les hérite pas :
+Ils lisent douze crochets de la feuille, neutres pour tout autre thème et remis à zéro sur chaque portée (`[data-omni-theme]`) pour qu'une portée imbriquée ne les hérite pas :
 
-- `--omni-backdrop` : calques d'image peints par la portée derrière tout son contenu, fixés à la fenêtre (`none` par défaut) ; Givre y pose un dégradé entre `--omni-backdrop-start`, `--omni-backdrop-middle` et `--omni-backdrop-end`, mélanges de l'accent, du danger et de l'information ;
+- `--omni-backdrop` : calques d'image peints par la portée derrière tout son contenu, fixés à la fenêtre (`none` par défaut) ; Givre y pose quatre grandes taches en dégradés radiaux, `--omni-backdrop-start`, `--omni-backdrop-middle` et `--omni-backdrop-end` (information, accent et succès mêlés à la page, les trois arrêts que mesurent les contrôles de contraste) et une lueur `--omni-backdrop-glow` (l'avertissement en clair, l'accent en sombre), sur un fond qui glisse de la page vers l'information ;
+- `--omni-scope-isolation`, `--omni-card-position`, `--omni-card-frost` et `--omni-card-filter` : le dépoli des cartes (`auto`, `static`, `none` et `none` par défaut). Givre fait de la portée un contexte d'empilement, rend la carte positionnée et lui donne un pseudo-élément `::before` étiré sous elle, en `z-index: -1`, qui porte le `backdrop-filter` : il floute et sature le fond, et la carte pose par-dessus son remplissage translucide, son liseré et son reflet. Le filtre n'est jamais posé sur la carte, qui deviendrait le bloc conteneur des infobulles, menus et popovers fixes qu'elle contient, et la carte ne crée pas de contexte d'empilement, si bien que ses popovers passent toujours au-dessus des cartes suivantes ;
 - `--omni-input-shadow` : ombre des champs (`.omni-input`, `.omni-password`), gardée sous l'anneau de focus ; Relief y creuse ses champs ;
 - `--omni-input-border-color` et `--omni-input-background` : bordure et fond des mêmes champs (la bordure et la surface de la palette par défaut) ; Relief efface la bordure, Givre rend le fond translucide ;
-- `--omni-grid-background` : fond du cadre d'une grille, repli sur `--omni-card-background` ; Aplat y garde la surface de la page, Givre en sombre un verre plus foncé que ses cartes ;
+- `--omni-grid-background` : fond du cadre d'une grille, repli sur `--omni-card-background` ; Aplat y garde la surface de la page, Givre un verre plus dense que ses cartes, lu ligne à ligne ;
 - `--omni-alert-shadow` : ombre d'une alerte pleine, repli sur le relief et la lueur colorée du paquet ; Aplat l'efface ;
-- `--omni-scrim-filter` : filtre du voile d'un dialogue (`.omni-overlay`, `none` par défaut) ; le voile couvre toute la fenêtre, un filtre n'y déplace donc aucun descendant fixe ;
-- `--omni-dialog-background` : fond du dialogue, repli sur `--omni-card-background` ; Givre, dont les cartes sont translucides, et Aplat, dont les cartes sont un aplat de couleur, rendent au dialogue la surface de la page.
+- `--omni-scrim-filter` : filtre du voile d'un dialogue (`.omni-overlay`, `none` par défaut) ; le voile couvre toute la fenêtre, un filtre n'y déplace donc aucun descendant fixe ; Givre y floute la page sous un voile clair (`--omni-color-overlay` à 22 % de noir en clair) ;
+- `--omni-dialog-background` : fond du dialogue, repli sur `--omni-card-background` ; Givre, dont les cartes sont translucides, lui donne un verre dense posé sur le voile flouté, et Aplat, dont les cartes sont un aplat de couleur, lui rend la surface de la page.
 
 Sans `backdrop-filter`, un calque flottant translucide retombe sur la surface opaque (`@supports not`).
 
 Le parti pris de chacun (sous les seuils pour les trois premiers) :
 
 - Relief : cartes, champs et bouton secondaire ont la couleur de la page et ne se détachent que par une paire d'ombres douces marquées (claire en haut à gauche, sombre en bas à droite, la sombre tirée de la page assombrie) ; les champs n'ont plus de bordure et sont creusés par des ombres intérieures, l'appui passe en creux. En sombre, même logique sur l'anthracite de la palette.
-- Givre : le fond est un dégradé riche de la palette (accent, danger, information, autour des deux tiers de la couleur en clair comme en sombre), les cartes, les champs et le bouton secondaire le laissent nettement passer sous un liseré clair, un reflet en haut et un lustre venu du coin supérieur gauche. Libéré des seuils, seul l'anneau de focus reste garanti ; en clair, le fond reste assez lumineux pour que le texte sombre et le texte atténué, un cran plus clair que le texte, s'y lisent à l'œil. Les cartes restent sans flou propre, un `backdrop-filter` ferait d'elles le bloc conteneur des infobulles et des popovers fixes qu'elles contiennent (même raison que pour le dialogue), et le fond lisse sous elles n'en serait guère changé : le flou va aux calques flottants et au voile du dialogue.
+- Givre : verre dépoli aéré. En clair, quatre grandes taches pastel (ciel, lavande, menthe, pêche) sur un blanc froid ; en sombre, les mêmes taches atténuées sur une nuit bleutée, la lueur chaude passant à l'accent pour garder une nuit froide. L'accent reste une seule couleur franche et profonde, qui se détache de toutes les teintes du fond. Les cartes sont réellement dépolies : le fond est flouté et saturé sous elles (voir les crochets ci-dessus), puis la carte pose un remplissage laiteux translucide, un liseré clair de 1 px, un reflet en haut et une grande ombre douce ; les champs, le bouton secondaire et les grilles sont du même verre, plus dense pour les grilles. Libéré des seuils, seul l'anneau de focus reste garanti ; le texte atténué est un cran plus clair que le texte et reste lisible à l'œil sur les taches.
 - Aplat : les cartes sont un aplat franc de l'accent, le bouton principal une pastille claire de l'accent à l'encre presque noire, le bouton secondaire un aplat de l'information, les grilles et le dialogue restent des panneaux de la page, et les alertes pleines perdent leur lueur ; le texte atténué reste celui de la palette.
 - Épure : l'action principale est dessinée à l'encre du texte, son survol prend l'accent fort de la palette, seule touche de couleur avec les liens et l'onglet courant.
 

@@ -395,11 +395,15 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
 /* omni:theme-tokens:end */
 
 /* Theme hooks that only some themes set (Relief's hollow fields without a rule, Givre's colour field,
-   translucent fields and frosted scrim, Aplat's plain grids and flat alerts). Declared again on every
-   scope with their neutral value, so a nested scope with another theme does not inherit them from the
-   scope around it. */
+   frosted cards, translucent fields and frosted scrim, Aplat's plain grids and flat alerts). Declared
+   again on every scope with their neutral value, so a nested scope with another theme does not inherit
+   them from the scope around it. */
 [data-omni-theme] {
     --omni-backdrop: none;
+    --omni-scope-isolation: auto;
+    --omni-card-position: static;
+    --omni-card-frost: none;
+    --omni-card-filter: none;
     --omni-input-shadow: 0 0 #0000;
     --omni-scrim-filter: none;
     --omni-dialog-background: initial;
@@ -633,6 +637,22 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
     border-radius: var(--omni-card-radius, var(--omni-radius));
     box-shadow: var(--omni-card-shadow);
     color: var(--omni-color-text);
+    position: var(--omni-card-position, static);
+}
+/* A theme may frost its cards (--omni-card-frost, --omni-card-filter, Givre). The blur is not set on the
+   card: a filter would make the card the containing block of the fixed tooltips, menus and popovers it
+   holds. A pseudo-element carries it instead, stretched over the card and sent below every block of the
+   scope (z-index -1, the scope being a stacking context under such a theme): it blurs the colour field,
+   and the card paints its translucent fill, rim and highlight over it. The card creates no stacking
+   context, so the popovers it holds still rise above the cards that follow it. */
+.omni-card::before {
+    backdrop-filter: var(--omni-card-filter, none);
+    border-radius: inherit;
+    content: var(--omni-card-frost, none);
+    inset: calc(-1 * var(--omni-card-border-width, var(--omni-border-width)));
+    pointer-events: none;
+    position: absolute;
+    z-index: -1;
 }
 
 .omni-card__header,
@@ -1229,6 +1249,9 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     background-attachment: fixed;
     background-image: var(--omni-backdrop, none);
     color: var(--omni-color-text);
+    /* A theme that frosts its cards (Givre) makes the scope a stacking context: the frost of a card is
+       painted at the bottom of it, just above the colour field it blurs (see .omni-card::before). */
+    isolation: var(--omni-scope-isolation, auto);
     font-family: var(--omni-font-family);
     font-size: var(--omni-font-size-base);
 }
