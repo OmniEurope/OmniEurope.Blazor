@@ -50,8 +50,8 @@ public partial class OmniTextBox
     /// (and any negative value), updates the value on every keystroke. A search field that reloads data on
     /// change sets it so the data reloads once the user pauses instead of once per character, which made
     /// the results flicker. The text typed during the delay is not lost: leaving the field, or submitting
-    /// the form it belongs to, updates the value at once (before the form validates). Only a field
-    /// removed from the page during the delay drops it.
+    /// the form it belongs to, updates the value at once (before the form validates), and a field removed
+    /// from the page during the delay hands it to the bound value as it is disposed.
     /// </summary>
     [Parameter]
     public TimeSpan Debounce { get; set; }
@@ -129,17 +129,23 @@ public partial class OmniTextBox
     }
 
     /// <summary>
-    /// Cancels a pending debounced update, which is then dropped, leaves the form's validation
-    /// requests and disposes the input.
+    /// Hands a text still waiting for the end of the delay to the bound value, leaves the form's
+    /// validation requests and disposes the input.
     /// </summary>
+    /// <remarks>
+    /// The renderer disposes a removed field on its dispatcher while it processes the batch that removed
+    /// it: the text reaches <see cref="InputBase{TValue}.ValueChanged"/> and the edit context there, and
+    /// the render the parent then asks for joins that batch. A parent removed in the same batch, or a
+    /// renderer being disposed, ignores that render request: the value callback still runs, and nothing
+    /// renders the disposed field again. An exception thrown by the host's own value callback propagates
+    /// as it does on any keystroke.
+    /// </remarks>
+    /// <param name="disposing">True when called from <see cref="IDisposable.Dispose"/>.</param>
     protected override void Dispose(bool disposing)
     {
         if (disposing)
         {
-            _hasPendingText = false;
-            _debounce?.Cancel();
-            _debounce?.Dispose();
-            _debounce = null;
+            FlushPendingText();
             if (_flushedEditContext is not null)
             {
                 _flushedEditContext.OnValidationRequested -= FlushOnValidationRequested;

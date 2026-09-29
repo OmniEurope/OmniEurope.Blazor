@@ -46,7 +46,7 @@ public sealed class DialogSizeTests : OmniBunitContext
     [Fact]
     public void EverySizeValue_HasAStylesheetRuleOrIsTheBaseWidth()
     {
-        var css = File.ReadAllText(Path.Combine(ShippedLookTests.RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var css = StylesheetSource.Read();
         foreach (var modifier in SizeModifiers)
         {
             Assert.Contains($".{modifier} {{", css, StringComparison.Ordinal);

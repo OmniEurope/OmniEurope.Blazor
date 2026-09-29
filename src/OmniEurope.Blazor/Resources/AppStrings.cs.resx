@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limit řádků: {0}</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Vygenerováno (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Exportované řádky: {0} z {1} očekávaných</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Exportované řádky: {0} z nejméně {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Export zkrácen: exportováno {0} z {1} řádků, byl dosažen limit {2} řádků.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export neúplný: exportováno {0} z {1} očekávaných řádků, data se během čtení změnila.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Omezený export: byl dosažen limit {0} řádků a zdroj neuvádí celkový počet, mohou existovat další řádky.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Žádné řádky.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Zaregistrovat se</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nemáte účet?</value></data>

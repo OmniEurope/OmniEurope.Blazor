@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Eilučių riba: {0}</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Sugeneruota (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Eksportuota eilučių: {0} iš {1} nurodytų</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Eksportuota eilučių: {0} iš mažiausiai {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Eksportas sutrumpintas: eksportuota eilučių {0} iš {1}, pasiekta eilučių riba ({2}).</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Eksportas nepilnas: eksportuota eilučių {0} iš {1} nurodytų, duomenys pasikeitė skaitymo metu.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ribotas eksportas: pasiekta eilučių riba ({0}), o šaltinis nenurodo bendro skaičiaus, gali būti daugiau eilučių.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Eilučių nėra.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Užsiregistruoti</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Neturite paskyros?</value></data>

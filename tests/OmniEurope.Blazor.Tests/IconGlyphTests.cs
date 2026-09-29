@@ -62,7 +62,9 @@ public sealed partial class IconGlyphTests : OmniBunitContext
     [Fact]
     public void EmbeddedOutlines_StayLimitedToTheBuiltInNames()
     {
-        var embedded = PhosphorFactoryCall().Matches(Read("src", "OmniEurope.Blazor", "Internal", "PhosphorIconGlyphs.cs")).Count;
+        var embedded = Directory
+            .GetFiles(Path.Combine(Root, "src", "OmniEurope.Blazor", "Internal"), "PhosphorIconGlyphs*.cs")
+            .Sum(file => PhosphorFactoryCall().Matches(File.ReadAllText(file)).Count);
 
         Assert.Equal(Enum.GetValues<OmniIconName>().Length, embedded);
     }

@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Piirang: kuni {0} rida</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Loodud (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Eksporditud ridu: {0}/{1} teatatust</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Eksporditud ridu: {0}/vähemalt {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Eksport kärbitud: eksporditud {0}/{1} rida, piirang ({2} rida) on täis.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Eksport puudulik: eksporditud {0}/{1} teatatud reast, andmed muutusid lugemise ajal.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Piiratud eksport: piirang ({0} rida) on täis ja allikas ei teata koguarvu, ridu võib olla rohkem.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ridu pole.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Registreeru</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Kontot pole?</value></data>

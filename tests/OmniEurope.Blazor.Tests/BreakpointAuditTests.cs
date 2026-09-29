@@ -19,7 +19,7 @@ public sealed class BreakpointAuditTests
     [Fact]
     public void WidthQueries_UseOnlyTheThreeBreakpoints()
     {
-        var css = File.ReadAllText(Path.Combine(ShippedLookTests.RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var css = StylesheetSource.Read();
         var violations = Regex.Matches(css, @"@media[^{]*")
             .SelectMany(media => Regex.Matches(media.Value, @"(?:min|max)-width\s*:\s*[0-9.]+(?:px|rem|em)"))
             .Select(match => Regex.Replace(match.Value, @"\s*:\s*", ": "))

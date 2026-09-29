@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limită: cel mult {0} rânduri</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Generat la (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Rânduri exportate: {0} din {1} anunțate</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Rânduri exportate: {0} din cel puțin {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Export trunchiat: {0} rânduri exportate din {1}, limita de {2} rânduri a fost atinsă.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export incomplet: {0} rânduri exportate din {1} anunțate, datele s-au modificat în timpul citirii.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Export limitat: limita de {0} rânduri a fost atinsă, iar sursa nu anunță un total, pot exista mai multe rânduri.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Niciun rând.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Înregistrare</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nu aveți cont?</value></data>

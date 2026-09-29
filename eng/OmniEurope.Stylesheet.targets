@@ -1,42 +1,78 @@
 <Project>
   <!--
-    The stylesheet source keeps its comments, which explain why each rule exists. What a host
-    downloads is a minified copy: in Release the copy replaces the source as the static web asset,
-    so builds, publishes and the NuGet package all ship it. Debug keeps serving the readable source.
+    The stylesheet is written as ordered parts under Styles/ (NN-topic.css), each with the comments
+    that explain why its rules exist. The build joins them in file-name order, which is the cascade
+    order, into the one omnieurope.blazor.css a host downloads at the same path as ever, and also
+    writes a minified copy of it. Release serves the minified copy, so builds, publishes and the NuGet
+    package all ship it; Debug serves the readable joined copy.
   -->
   <PropertyGroup>
     <OmniShipMinifiedStylesheet Condition="'$(OmniShipMinifiedStylesheet)' == '' and '$(Configuration)' == 'Release'">true</OmniShipMinifiedStylesheet>
   </PropertyGroup>
 
-  <!--
-    A pack with NoBuild skips the target below and only drops the Content items that match the
-    build's static web assets. The minified copy is that asset now, so without this the source would
-    also be packed as content/ and contentFiles/, landing in every host's wwwroot.
-  -->
-  <ItemGroup Condition="'$(OmniShipMinifiedStylesheet)' == 'true'">
-    <Content Update="wwwroot\omnieurope.blazor.css" Pack="false" />
-  </ItemGroup>
-
-  <UsingTask TaskName="OmniMinifyCss"
+  <UsingTask TaskName="OmniBuildStylesheet"
              TaskFactory="RoslynCodeTaskFactory"
              AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
     <Task>
       <Code Type="Class" Language="cs"><![CDATA[
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 
-public sealed class OmniMinifyCss : Microsoft.Build.Utilities.Task
+public sealed class OmniBuildStylesheet : Microsoft.Build.Utilities.Task
 {
     [Microsoft.Build.Framework.Required]
-    public string Source { get; set; }
+    public string PartsDirectory { get; set; }
 
     [Microsoft.Build.Framework.Required]
-    public string Destination { get; set; }
+    public string JoinedDestination { get; set; }
+
+    [Microsoft.Build.Framework.Required]
+    public string MinifiedDestination { get; set; }
 
     public override bool Execute()
     {
-        var css = File.ReadAllText(Source);
+        // Ordinal file-name order is the cascade order: the NN- prefix of each part fixes its place.
+        var parts = Directory.Exists(PartsDirectory)
+            ? Directory.GetFiles(PartsDirectory, "*.css").OrderBy(path => Path.GetFileName(path), StringComparer.Ordinal).ToArray()
+            : new string[0];
+        if (parts.Length == 0)
+        {
+            Log.LogError("No stylesheet part (*.css) found in {0}.", PartsDirectory);
+            return false;
+        }
+
+        var joined = new StringBuilder();
+        var starts = new int[parts.Length];
+        for (var index = 0; index < parts.Length; index++)
+        {
+            var text = File.ReadAllText(parts[index]);
+            // A part that does not end its last line would weld it to the first line of the next part.
+            if (text.Length > 0 && text[text.Length - 1] != '\n')
+            {
+                Log.LogError("{0} does not end with a line break.", parts[index]);
+                return false;
+            }
+
+            starts[index] = joined.Length;
+            joined.Append(text);
+        }
+
+        var css = joined.ToString();
+        var minified = Minify(css, offset => parts[Array.FindLastIndex(starts, start => start <= offset)]);
+        if (minified == null)
+        {
+            return false;
+        }
+
+        Write(JoinedDestination, css);
+        Write(MinifiedDestination, minified);
+        return !Log.HasLoggedErrors;
+    }
+
+    private string Minify(string css, Func<int, string> partAt)
+    {
         var output = new StringBuilder(css.Length);
         var pendingSpace = false;
 
@@ -48,8 +84,8 @@ public sealed class OmniMinifyCss : Microsoft.Build.Utilities.Task
                 var end = css.IndexOf("*/", i + 2, StringComparison.Ordinal);
                 if (end < 0)
                 {
-                    Log.LogError("Unterminated comment in {0} at offset {1}.", Source, i);
-                    return false;
+                    Log.LogError("Unterminated comment in {0}.", partAt(i));
+                    return null;
                 }
 
                 // A comment is dropped without turning into a space: between two tokens it may be the
@@ -95,33 +131,42 @@ public sealed class OmniMinifyCss : Microsoft.Build.Utilities.Task
             }
         }
 
-        var minified = output.ToString();
-        Directory.CreateDirectory(Path.GetDirectoryName(Destination));
-        if (!File.Exists(Destination) || File.ReadAllText(Destination) != minified)
-        {
-            File.WriteAllText(Destination, minified, new UTF8Encoding(false));
-        }
+        return output.ToString();
+    }
 
-        return !Log.HasLoggedErrors;
+    // Rewritten only when the content changes, so an unchanged stylesheet keeps its timestamp and the
+    // static web asset pipeline does not compress it again. The task runs on every build: a part
+    // added, edited or deleted is always seen, which timestamp inputs could not promise for a deletion.
+    private static void Write(string destination, string content)
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(destination));
+        if (!File.Exists(destination) || File.ReadAllText(destination) != content)
+        {
+            File.WriteAllText(destination, content, new UTF8Encoding(false));
+        }
     }
 }
 ]]></Code>
     </Task>
   </UsingTask>
 
-  <Target Name="OmniMinifyStylesheet" BeforeTargets="ResolveProjectStaticWebAssets" Condition="'$(NoBuild)' != 'true'">
+  <Target Name="OmniBuildStylesheet" BeforeTargets="ResolveProjectStaticWebAssets" Condition="'$(NoBuild)' != 'true'">
     <PropertyGroup>
-      <_OmniStylesheetSource>$(MSBuildProjectDirectory)\wwwroot\omnieurope.blazor.css</_OmniStylesheetSource>
       <_OmniStylesheetRoot>$([System.IO.Path]::GetFullPath($([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(IntermediateOutputPath)omni-stylesheet'))))\</_OmniStylesheetRoot>
+      <_OmniStylesheetJoinedRoot>$(_OmniStylesheetRoot)joined\</_OmniStylesheetJoinedRoot>
+      <_OmniStylesheetServedRoot Condition="'$(OmniShipMinifiedStylesheet)' == 'true'">$(_OmniStylesheetRoot)</_OmniStylesheetServedRoot>
+      <_OmniStylesheetServedRoot Condition="'$(OmniShipMinifiedStylesheet)' != 'true'">$(_OmniStylesheetJoinedRoot)</_OmniStylesheetServedRoot>
     </PropertyGroup>
 
-    <OmniMinifyCss Source="$(_OmniStylesheetSource)" Destination="$(_OmniStylesheetRoot)omnieurope.blazor.css" />
+    <OmniBuildStylesheet PartsDirectory="$(MSBuildProjectDirectory)\Styles"
+                         JoinedDestination="$(_OmniStylesheetJoinedRoot)omnieurope.blazor.css"
+                         MinifiedDestination="$(_OmniStylesheetRoot)omnieurope.blazor.css" />
 
-    <ItemGroup Condition="'$(OmniShipMinifiedStylesheet)' == 'true'">
-      <Content Remove="wwwroot\omnieurope.blazor.css" />
-      <Content Include="$(_OmniStylesheetRoot)omnieurope.blazor.css"
+    <!-- There is no stylesheet under wwwroot: the served copy is added here as the static web asset. -->
+    <ItemGroup>
+      <Content Include="$(_OmniStylesheetServedRoot)omnieurope.blazor.css"
                Link="wwwroot\omnieurope.blazor.css"
-               ContentRoot="$(_OmniStylesheetRoot)"
+               ContentRoot="$(_OmniStylesheetServedRoot)"
                CopyToPublishDirectory="PreserveNewest"
                CopyToOutputDirectory="Never" />
     </ItemGroup>

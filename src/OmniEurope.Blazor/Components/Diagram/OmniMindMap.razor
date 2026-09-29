@@ -10,7 +10,7 @@
         @ToolbarContent
         <div class="omni-mindmap__workspace">
             <div class="omni-mindmap__frame">
-                @if (_linking)
+                @if (_selection.IsLinking)
                 {
                     <div class="omni-mindmap__banner">
                         <span>@LinkBannerText</span>
@@ -26,8 +26,8 @@
                      aria-describedby="@HintId"
                      aria-activedescendant="@ActiveDescendant"
                      data-omni-readonly="@(ReadOnly ? "true" : "false")"
-                     data-omni-linking="@(_linking ? "true" : "false")"
-                     @onkeydown="HandleKeyDownAsync">
+                     data-omni-linking="@(_selection.IsLinking ? "true" : "false")"
+                     @onkeydown="_keyboard.KeyDownAsync">
                     @if (Directed)
                     {
                         <defs>
@@ -37,15 +37,15 @@
                         </defs>
                     }
                     <g class="omni-mindmap__viewport"
-                       transform="@MindMapGeometry.View(_panX, _panY, _zoom)"
-                       data-pan-x="@MindMapGeometry.Format(_panX)"
-                       data-pan-y="@MindMapGeometry.Format(_panY)"
-                       data-zoom="@MindMapGeometry.Format(_zoom)">
+                       transform="@MindMapGeometry.View(_viewport.PanX, _viewport.PanY, _viewport.Zoom)"
+                       data-pan-x="@MindMapGeometry.Format(_viewport.PanX)"
+                       data-pan-y="@MindMapGeometry.Format(_viewport.PanY)"
+                       data-zoom="@MindMapGeometry.Format(_viewport.Zoom)">
                         <g class="omni-mindmap__edges">
-                            @foreach (var edge in _renderedEdges)
+                            @foreach (var edge in _model.RenderedEdges)
                             {
                                 <g @key="edge.Index"
-                                   class="@(edge.Index == _selectedEdge ? "omni-mindmap__edge omni-mindmap__edge--selected" : "omni-mindmap__edge")"
+                                   class="@(edge.Index == _selection.EdgeIndex ? "omni-mindmap__edge omni-mindmap__edge--selected" : "omni-mindmap__edge")"
                                    data-omni-edge="@edge.Index"
                                    data-from="@edge.From.Id"
                                    data-to="@edge.To.Id"
@@ -56,7 +56,7 @@
                             }
                         </g>
                         <g class="omni-mindmap__nodes">
-                            @foreach (var node in _drawable)
+                            @foreach (var node in _model.Drawable)
                             {
                                 var size = SizeOf(node);
                                 <g @key="node.Id"
@@ -66,12 +66,12 @@
                                    aria-label="@NodeAccessibleName(node)"
                                    transform="@MindMapGeometry.Translate(node.X, node.Y)"
                                    data-omni-node="@node.Id"
-                                   data-omni-selected="@(IsSelected(node.Id) ? "true" : null)"
+                                   data-omni-selected="@(_selection.IsSelected(node.Id) ? "true" : null)"
                                    data-x="@MindMapGeometry.Format(node.X)"
                                    data-y="@MindMapGeometry.Format(node.Y)">
-                                    @foreach (var note in NotesOf(node.Id))
+                                    @foreach (var note in _model.NotesOf(node.Id))
                                     {
-                                        var noteSize = NoteSize(note);
+                                        var noteSize = _sizes.NoteSize(note);
                                         <g class="omni-mindmap__note" transform="@MindMapGeometry.Translate((size.Width / 2) + 30, -40)">
                                             <line class="omni-mindmap__note-connector" x1="0" y1="0" x2="-30" y2="40" />
                                             <rect class="omni-mindmap__note-shape"
@@ -80,7 +80,7 @@
                                                   width="@MindMapGeometry.Format(noteSize.Width + 16)"
                                                   height="@MindMapGeometry.Format(noteSize.Height + 12)"
                                                   rx="4" />
-                                            <text class="omni-mindmap__note-text" x="8" y="2" font-size="12" dominant-baseline="central" data-omni-measure="@NoteKey(note.Index)">@note.Note.Text</text>
+                                            <text class="omni-mindmap__note-text" x="8" y="2" font-size="12" dominant-baseline="central" data-omni-measure="@MindMapLabelSizes.NoteKey(note.Index)">@note.Note.Text</text>
                                         </g>
                                     }
                                     <rect class="omni-mindmap__node-shape"
@@ -108,36 +108,36 @@
                                               y="0"
                                               text-anchor="middle"
                                               dominant-baseline="central"
-                                              font-size="@FontSizeOf(node)"
-                                              data-omni-measure="@NodeKey(node.Id)">@node.Label</text></g>
+                                              font-size="@MindMapLabelSizes.FontSizeOf(node)"
+                                              data-omni-measure="@MindMapLabelSizes.NodeKey(node.Id)">@node.Label</text></g>
                                     }
                                 </g>
                             }
                         </g>
                     </g>
                     <rect class="omni-mindmap__lasso" x="0" y="0" width="0" height="0" visibility="hidden" />
-                    @if (_menu is { } menu)
+                    @if (_menu.State is { } menu)
                     {
                         <foreignObject class="omni-mindmap__menu-host"
-                                       x="@MindMapGeometry.Format(MenuLeft(menu))"
-                                       y="@MindMapGeometry.Format(MenuTop(menu))"
+                                       x="@MindMapGeometry.Format(_menu.Left(menu))"
+                                       y="@MindMapGeometry.Format(_menu.Top(menu))"
                                        width="@MindMapGeometry.Format(MenuWidth)"
-                                       height="@MindMapGeometry.Format(MenuHeight(menu))">
+                                       height="@MindMapGeometry.Format(_menu.Height(menu))">
                             <div class="omni-mindmap__menu"
                                  role="menu"
                                  tabindex="-1"
                                  aria-label="@Localize("MindMapMenuLabel")"
-                                 @onkeydown="HandleMenuKeyDownAsync"
+                                 @onkeydown="_menu.KeyDownAsync"
                                  @onkeydown:stopPropagation="true">
                                 @if (menu.NodeId is not null)
                                 {
                                     @if (!ReadOnly)
                                     {
-                                        <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="MenuRenameAsync">@RenameLabel</button>
-                                        <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="MenuDuplicateAsync">@DuplicateLabel</button>
-                                        <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="MenuLinkAsync">@AddLinkLabel</button>
+                                        <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="_menu.RenameAsync">@RenameLabel</button>
+                                        <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="_menu.DuplicateAsync">@DuplicateLabel</button>
+                                        <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="_menu.LinkAsync">@AddLinkLabel</button>
                                     }
-                                    <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="MenuCenterAsync">@CenterLabel</button>
+                                    <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="_menu.CenterAsync">@CenterLabel</button>
                                     @if (!ReadOnly)
                                     {
                                         <div class="omni-mindmap__menu-separator" role="separator"></div>
@@ -148,25 +148,25 @@
                                                         class="@($"omni-mindmap__swatch omni-mindmap__swatch--{group}")"
                                                         role="menuitemradio"
                                                         tabindex="-1"
-                                                        aria-checked="@(IsMenuNodeGroup(menu, group) ? "true" : "false")"
+                                                        aria-checked="@(_menu.IsNodeGroup(menu, group) ? "true" : "false")"
                                                         aria-label="@GroupName(group)"
                                                         title="@GroupName(group)"
-                                                        @onclick="() => MenuColorAsync(group)"></button>
+                                                        @onclick="() => _menu.ColorAsync(group)"></button>
                                             }
                                         </div>
                                         <div class="omni-mindmap__menu-separator" role="separator"></div>
-                                        <button type="button" class="omni-mindmap__menu-item omni-mindmap__menu-item--danger" role="menuitem" tabindex="-1" @onclick="MenuDeleteAsync">@DeleteLabel</button>
+                                        <button type="button" class="omni-mindmap__menu-item omni-mindmap__menu-item--danger" role="menuitem" tabindex="-1" @onclick="_menu.DeleteAsync">@DeleteLabel</button>
                                     }
                                 }
                                 else
                                 {
                                     @if (!ReadOnly)
                                     {
-                                        <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="MenuAddNodeAsync">@AddNodeLabel</button>
+                                        <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="_menu.AddNodeAsync">@AddNodeLabel</button>
                                         <div class="omni-mindmap__menu-separator" role="separator"></div>
-                                        <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="MenuAutoLayoutAsync">@AutoLayoutLabel</button>
+                                        <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="_menu.AutoLayoutAsync">@AutoLayoutLabel</button>
                                     }
-                                    <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="MenuFitViewAsync">@FitViewLabel</button>
+                                    <button type="button" class="omni-mindmap__menu-item" role="menuitem" tabindex="-1" @onclick="_menu.FitViewAsync">@FitViewLabel</button>
                                 }
                             </div>
                         </foreignObject>

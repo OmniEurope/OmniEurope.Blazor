@@ -257,7 +257,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
                 pair.Second - pair.First >= (5 * OmniChartContext.CharacterWidth * OmniChartContext.WideAxisFontSize / OmniChartContext.FontSize) + 1.5));
         });
 
-        var css = File.ReadAllText(Path.Combine(RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var css = StylesheetSource.Read();
         Assert.Contains(
             FormattableString.Invariant($".omni-chart__svg--wide .omni-chart__axis text {{ font-size: {OmniChartContext.WideAxisFontSize}px; }}"),
             css,
@@ -371,7 +371,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
         // A colour class sets fill too. Declared after the line rule with the same weight, it filled
         // every line series as a polygon; the overrides must outrank it. The rendered result was
         // checked in Chromium; this pins the rules that produce it.
-        var css = File.ReadAllText(Path.Combine(RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var css = StylesheetSource.Read();
         var lastColour = css.LastIndexOf(".omni-chart-color-7 {", StringComparison.Ordinal);
 
         Assert.True(lastColour > 0);

@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Gräns: högst {0} rader</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Genererad (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Exporterade rader: {0} av {1} angivna</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Exporterade rader: {0} av minst {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Avkortad export: {0} av {1} rader exporterade, gränsen på {2} rader har nåtts.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Ofullständig export: {0} av {1} angivna rader exporterade, data ändrades under läsningen.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Begränsad export: gränsen på {0} rader har nåtts och källan anger inget totalt antal, det kan finnas fler rader.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Inga rader.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Registrera dig</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Inget konto?</value></data>

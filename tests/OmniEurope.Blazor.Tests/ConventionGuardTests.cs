@@ -82,7 +82,7 @@ public sealed partial class ConventionGuardTests
     {
         // Its control-height floor made it wider than the rail from control size 7 and moved it off the
         // axis of the rail icons (+2.6 px at size 10, a client application).
-        var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
+        var styles = StylesheetSource.Read();
 
         Assert.Contains(".omni-header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); margin-inline-start: calc(-1 * var(--omni-header-pad-x)); min-inline-size: var(--omni-sidebar-rail); }", styles, StringComparison.Ordinal);
         Assert.Contains(".omni-sidebar__header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); min-inline-size: var(--omni-sidebar-rail); }", styles, StringComparison.Ordinal);
@@ -92,7 +92,7 @@ public sealed partial class ConventionGuardTests
     public void SelectBarOptions_TakeTheControlHeight_LikeTheButtonsBesideThem()
     {
         // 0.5rem taller than a button, a select bar pushed the page title it sits beside by 8 px.
-        var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
+        var styles = StylesheetSource.Read();
         var item = System.Text.RegularExpressions.Regex.Match(styles, @"\.omni-select-bar__item \{[^}]*\}").Value;
 
         Assert.Contains("min-height: var(--omni-control-height);", item, StringComparison.Ordinal);
@@ -101,7 +101,7 @@ public sealed partial class ConventionGuardTests
     [Fact]
     public void AuditedInteractiveTargets_MeetTheMinimumTouchSize()
     {
-        var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
+        var styles = StylesheetSource.Read();
 
         Assert.Contains(".omni-notification__dismiss { border: 0; border-radius: var(--omni-radius); font-size: var(--omni-font-size-h4); min-height: 2.75rem; min-width: 2.75rem; }", styles, StringComparison.Ordinal);
         // Drawn at the density's size (PLAN-007 lot 5), these keep a 44 px pointer target through a
@@ -115,7 +115,7 @@ public sealed partial class ConventionGuardTests
     [Fact]
     public void CollapsedStack_HidesLabelsAndKeepsIcons()
     {
-        var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
+        var styles = StylesheetSource.Read();
 
         // Hiding the button's whole content took the icon with the label, leaving empty buttons.
         Assert.DoesNotContain(".omni-stack--overflow-collapse .omni-button > span", styles, StringComparison.Ordinal);
@@ -127,7 +127,7 @@ public sealed partial class ConventionGuardTests
     [Fact]
     public void BusyVeil_IsOneSharedDarkRuleAndNoSpinner()
     {
-        var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
+        var styles = StylesheetSource.Read();
         var veil = Regex.Match(styles, @"\.omni-busy::after,\s*\.btn-busy::after\s*\{(?<body>[^}]*)\}");
 
         Assert.True(veil.Success, "La règle partagée du voile .omni-busy::after / .btn-busy::after est absente.");
@@ -143,7 +143,7 @@ public sealed partial class ConventionGuardTests
     [Fact]
     public void IndeterminateProgress_SlidesOneRepeatingPeriodAtConstantSpeed()
     {
-        var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
+        var styles = StylesheetSource.Read();
 
         // A pattern repeating every track width, twice the track wide, moved by exactly one period at
         // a linear pace: the loop closes on itself, where an eased segment stopped and jumped back.
@@ -156,7 +156,7 @@ public sealed partial class ConventionGuardTests
     [Fact]
     public void ButtonSizes_AreThreeDistinctHeights()
     {
-        var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
+        var styles = StylesheetSource.Read();
         var sizes = Regex.Matches(styles, @"\.omni-split-button--(?<size>small|medium|large) \{ --omni-button-size: (?<value>[^;]+);")
             .ToDictionary(match => match.Groups["size"].Value, match => match.Groups["value"].Value);
 
@@ -346,7 +346,7 @@ public sealed partial class ConventionGuardTests
     public void AuthenticityGateWiring_ReferencesExecutableProbesAndCurrentHybridDependencies()
     {
         var catalogHost = Read("eng", "Test-CatalogHost.ps1");
-        var editor = Read("src", "OmniEurope.Blazor", "Components", "Editor", "OmniHtmlEditor.razor.cs")
+        var editor = Read("src", "OmniEurope.Blazor", "Components", "Editor", "HtmlEditorSourceFace.cs")
             + Read("src", "OmniEurope.Blazor", "wwwroot", "omniInterop.js");
         var packages = Read("Directory.Packages.props");
         using var hybridLock = JsonDocument.Parse(Read("samples", "OmniEurope.Blazor.HybridSmoke", "packages.lock.json"));
@@ -407,7 +407,9 @@ public sealed partial class ConventionGuardTests
     [Fact]
     public void HtmlEditorCutFallback_RemovesTheSelectionOnlyOnceTheClipboardHoldsIt()
     {
-        var editor = Read("src", "OmniEurope.Blazor", "wwwroot", "omni-html-editor.js").ReplaceLineEndings("\n");
+        // exec lives in the entry module, apply and the clipboard fallback in its commands module.
+        var editor = (Read("src", "OmniEurope.Blazor", "wwwroot", "omni-html-editor.js")
+            + Read("src", "OmniEurope.Blazor", "wwwroot", "html-editor", "commands.js")).ReplaceLineEndings("\n");
         var fallback = editor[editor.IndexOf("async function copySelection", StringComparison.Ordinal)..];
         fallback = fallback[..fallback.IndexOf("\n}\n", StringComparison.Ordinal)];
 

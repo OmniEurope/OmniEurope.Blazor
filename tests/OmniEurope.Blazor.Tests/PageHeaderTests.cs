@@ -323,6 +323,63 @@ public sealed class PageHeaderTests : OmniBunitContext
         Assert.Empty(plain.FindAll(".omni-page-header__details"));
     }
 
+    [Fact]
+    public void Details_FoldAtAnyWidthOnceTheBlockIsMarkedCompact_WithEveryRuleOfThePhoneFold()
+    {
+        var css = ShippedLookTests.Css;
+        var phone = System.Text.RegularExpressions.Regex.Matches(css, @"@media \(max-width: 39\.99rem\) \{(?<body>(?:[^{}]*\{[^{}]*\})*)\s*\}")
+            .Select(match => match.Groups["body"].Value)
+            .Single(body => body.Contains(".omni-page-header__toggle", StringComparison.Ordinal));
+        var rules = System.Text.RegularExpressions.Regex.Matches(phone, @"(?<selector>[^{}]+?)\s*\{\s*(?<declarations>[^{}]*?)\s*\}")
+            .Select(match => (Selector: match.Groups["selector"].Value.Trim(), Declarations: match.Groups["declarations"].Value))
+            .ToList();
+        Assert.Contains(rules, rule => rule.Selector == ".omni-page-header__toggle");
+
+        // omni-page-header.js marks the frame data-compact when line 1 has no room for the badges and
+        // actions: each rule of the phone fold then applies at any width, keyed on that attribute.
+        foreach (var (selector, declarations) in rules)
+        {
+            var compact = selector.StartsWith(".omni-page-header__frame", StringComparison.Ordinal)
+                ? selector.Insert(".omni-page-header__frame".Length, "[data-compact]")
+                : ".omni-page-header__frame[data-compact] " + (selector.StartsWith(".omni-page-header .", StringComparison.Ordinal)
+                    ? selector[".omni-page-header ".Length..]
+                    : selector);
+            Assert.Contains($"{compact} {{ {declarations} }}", css, StringComparison.Ordinal);
+        }
+
+        // The "⋮" menu is never folded, compact or not.
+        Assert.DoesNotMatch(@"\.omni-page-header__menu[^{]*\{[^}]*display: none", css);
+    }
+
+    [Fact]
+    public void CompactScript_MeasuresLine1Unfolded_AndWritesTheAttributeOnly()
+    {
+        var script = File.ReadAllText(Path.Combine(ShippedLookTests.RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omni-page-header.js"));
+
+        Assert.Contains("frame.removeAttribute('data-compact')", script, StringComparison.Ordinal);
+        Assert.Contains("frame.toggleAttribute('data-compact', crowded)", script, StringComparison.Ordinal);
+        Assert.Contains("new ResizeObserver(queue)", script, StringComparison.Ordinal);
+        // Strict CSP: the module toggles attributes; it writes no style of its own.
+        Assert.DoesNotContain(".style", script, StringComparison.Ordinal);
+        Assert.DoesNotContain("'style'", script, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task Header_Disposed_DetachesTheScriptFromItsFrame()
+    {
+        var module = JSInterop.SetupModule(Internal.OmniModules.PageHeader);
+        module.SetupVoid("attach", _ => true).SetVoidResult();
+        module.SetupVoid("detach", _ => true).SetVoidResult();
+        var header = Render<OmniPageHeader>(parameters => parameters
+            .Add(component => component.Title, "Serveur")
+            .Add(component => component.Actions, builder => builder.AddContent(0, "Modifier")));
+        var attached = module.VerifyInvoke("attach").Arguments[0];
+
+        await DisposeComponentsAsync();
+
+        Assert.Equal(attached, module.VerifyInvoke("detach").Arguments[0]);
+    }
+
     [Theory]
     [InlineData("fr-FR", "Retour", "Voir plus")]
     [InlineData("en-US", "Back", "Show more")]

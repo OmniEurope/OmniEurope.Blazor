@@ -75,13 +75,25 @@ public sealed record OmniMarkdownTableExport<TItem>
 /// <param name="Markdown">The document.</param>
 /// <param name="RowCount">Rows written in the table.</param>
 /// <param name="TotalCount">
-/// Rows the source announced; the rows read when it returned more than it announced (then at most the
-/// row limit, see <see cref="OmniMarkdownTableExporter.ExportAsync{TItem}"/>).
+/// Rows the source announced; the distinct rows read when it returned more than it announced, then
+/// possibly a lower bound only (<see cref="TotalIsLowerBound"/>, see
+/// <see cref="OmniMarkdownTableExporter.ExportAsync{TItem}"/>).
 /// </param>
-/// <param name="Truncated">True when the source announced more rows than the limit.</param>
+/// <param name="Truncated">
+/// True when the total is known to exceed the limit: announced by the source, or counted past the
+/// limit. A lower-bound total equal to the limit leaves it false, since the rows beyond it are unknown.
+/// </param>
 /// <param name="GeneratedAt">When the document was generated.</param>
 public sealed record OmniMarkdownTableDocument(string Markdown, int RowCount, int TotalCount, bool Truncated, DateTimeOffset GeneratedAt)
 {
-    /// <summary>True when every announced row is in the table.</summary>
-    public bool IsComplete => RowCount >= TotalCount;
+    /// <summary>
+    /// True when the source announced no usable total and the reading stopped on a full page at the row
+    /// limit: <see cref="TotalCount"/> is then the least number of rows the source holds, more may exist,
+    /// and the document says "at least". False for an announced total, or a counted one that ended on a
+    /// short page.
+    /// </summary>
+    public bool TotalIsLowerBound { get; init; }
+
+    /// <summary>True when every row of the source is in the table; never while the total is only a lower bound.</summary>
+    public bool IsComplete => RowCount >= TotalCount && !TotalIsLowerBound;
 }

@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limitu: mhux aktar minn {0} ringieli</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Iġġenerat fi (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Ringieli esportati: {0} minn {1} imħabbra</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Ringieli esportati: {0} minn tal-inqas {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Esportazzjoni maqtugħa: {0} ringieli esportati minn {1}, intlaħaq il-limitu ta' {2} ringieli.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Esportazzjoni mhux kompluta: {0} ringieli esportati minn {1} imħabbra, id-data nbidlet waqt il-qari.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Esportazzjoni limitata: intlaħaq il-limitu ta' {0} ringieli u s-sors ma jħabbarx total, jista' jkun hemm aktar ringieli.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>L-ebda ringiela.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Irreġistra</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>M'għandekx kont?</value></data>

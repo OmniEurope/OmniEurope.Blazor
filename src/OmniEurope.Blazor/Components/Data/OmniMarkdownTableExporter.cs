@@ -40,8 +40,9 @@ public sealed class OmniMarkdownTableExporter
     /// a page shorter than the page size, or once the rows announced by the first page (capped by the
     /// row limit) are read. A source that returns more rows than it announced (a count of 0 when it
     /// does not know one) is counted instead: reading goes on to a short page or the row limit, and the
-    /// document's total is the rows read, so a source holding more rows than the limit then reads as
-    /// exactly the limit.
+    /// document's total is the distinct rows read. When that reading ends on a full page, more rows may
+    /// exist: the total is then only a lower bound (<see cref="OmniMarkdownTableDocument.TotalIsLowerBound"/>)
+    /// and the document says "at least" that many rows, never exactly the limit.
     /// </summary>
     /// <typeparam name="TItem">The type of the exported rows.</typeparam>
     /// <param name="export">What to export and where its rows come from.</param>
@@ -63,6 +64,7 @@ public sealed class OmniMarkdownTableExporter
         // it does not know): the exporter then counts the rows itself, reading on to a short page or
         // the row limit.
         var counting = false;
+        var lastPageFull = false;
         for (var page = 1; page <= maxPages; page++)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -81,10 +83,20 @@ public sealed class OmniMarkdownTableExporter
             }
 
             counting |= rows.Count > totalCount;
-            if (result.Items.Count < pageSize || rows.Count >= (counting ? export.RowLimit : Math.Min(totalCount, export.RowLimit)))
+            lastPageFull = result.Items.Count >= pageSize;
+            if (!lastPageFull || rows.Count >= (counting ? export.RowLimit : Math.Min(totalCount, export.RowLimit)))
             {
                 break;
             }
+        }
+
+        // A counted source: its total is the distinct rows read, including those past the limit. Reading
+        // that stopped on a full page (the limit, not the end of the data) leaves rows unread, so that
+        // total is only a lower bound.
+        var totalIsLowerBound = counting && lastPageFull;
+        if (counting)
+        {
+            totalCount = rows.Count;
         }
 
         if (rows.Count > export.RowLimit)
@@ -92,31 +104,36 @@ public sealed class OmniMarkdownTableExporter
             rows.RemoveRange(export.RowLimit, rows.Count - export.RowLimit);
         }
 
-        if (counting)
-        {
-            totalCount = rows.Count;
-        }
-
         var generatedAt = _time.GetUtcNow();
-        return new OmniMarkdownTableDocument(Build(export, rows, totalCount, generatedAt), rows.Count, totalCount,
-            totalCount > export.RowLimit, generatedAt);
+        return new OmniMarkdownTableDocument(Build(export, rows, totalCount, generatedAt, totalIsLowerBound), rows.Count, totalCount,
+            totalCount > export.RowLimit, generatedAt)
+        {
+            TotalIsLowerBound = totalIsLowerBound
+        };
     }
 
     /// <summary>
     /// Builds the document from rows already read. <paramref name="totalCount"/> is the number of rows
-    /// the source announced; the texts come from the package resources in the current UI culture and
-    /// the numbers are written in the current culture.
+    /// the source announced, or the least number of rows it holds when
+    /// <paramref name="totalIsLowerBound"/> is true; the texts come from the package resources in the
+    /// current UI culture and the numbers are written in the current culture.
     /// </summary>
     /// <typeparam name="TItem">The type of the exported rows.</typeparam>
     /// <param name="export">The title, columns, header lines and row limit of the document.</param>
     /// <param name="rows">The rows written in the table, in order.</param>
     /// <param name="totalCount">The number of rows the source announced; fewer <paramref name="rows"/> adds a note saying the table is partial.</param>
     /// <param name="generatedAt">The generation time, written in UTC.</param>
+    /// <param name="totalIsLowerBound">
+    /// True when the source announced no usable total and more rows than <paramref name="totalCount"/>
+    /// may exist: the document writes "at least" that total and a note saying the row limit stopped the
+    /// reading. False, the default, writes <paramref name="totalCount"/> as the announced total.
+    /// </param>
     /// <returns>The Markdown document.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="export"/>, its columns, its page provider or <paramref name="rows"/> is null.</exception>
     /// <exception cref="ArgumentException"><paramref name="export"/> has no column.</exception>
     /// <exception cref="ArgumentOutOfRangeException">The row limit or the page size of <paramref name="export"/> is below 1.</exception>
-    public string Build<TItem>(OmniMarkdownTableExport<TItem> export, IReadOnlyList<TItem> rows, int totalCount, DateTimeOffset generatedAt)
+    public string Build<TItem>(OmniMarkdownTableExport<TItem> export, IReadOnlyList<TItem> rows, int totalCount, DateTimeOffset generatedAt,
+        bool totalIsLowerBound = false)
     {
         Validate(export);
         ArgumentNullException.ThrowIfNull(rows);
@@ -135,8 +152,18 @@ public sealed class OmniMarkdownTableExporter
         markdown.Append("- ").AppendLine(Format("MarkdownExportRowLimit", Count(export.RowLimit)));
         markdown.Append("- ").AppendLine(Format("MarkdownExportGeneratedAt",
             generatedAt.UtcDateTime.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'", CultureInfo.InvariantCulture)));
-        markdown.Append("- ").AppendLine(Format("MarkdownExportRowCount", Count(rows.Count), Count(totalCount)));
-        if (rows.Count < totalCount)
+        if (totalIsLowerBound)
+        {
+            markdown.Append("- ").AppendLine(Format("MarkdownExportRowCountAtLeast", Count(rows.Count), Count(totalCount)));
+            markdown.AppendLine();
+            markdown.Append("> ").AppendLine(Format("MarkdownExportLimitReachedWithoutTotal", Count(export.RowLimit)));
+        }
+        else
+        {
+            markdown.Append("- ").AppendLine(Format("MarkdownExportRowCount", Count(rows.Count), Count(totalCount)));
+        }
+
+        if (!totalIsLowerBound && rows.Count < totalCount)
         {
             markdown.AppendLine();
             markdown.Append("> ").AppendLine(totalCount > export.RowLimit

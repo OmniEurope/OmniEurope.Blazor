@@ -1,0 +1,375 @@
+/* Mind map (Diagram family). Geometry is SVG attributes, colours are the group tokens above. */
+.omni-mindmap { display: flex; flex-direction: column; gap: var(--omni-space-sm); }
+.omni-mindmap__workspace { align-items: flex-start; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
+.omni-mindmap__frame { background: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); flex: 1 1 24rem; min-width: 0; position: relative; }
+.omni-mindmap__canvas { block-size: calc(var(--omni-control-height) * 14 + 0.5rem); display: block; font-family: var(--omni-font-family); inline-size: 100%; touch-action: none; user-select: none; }
+.omni-mindmap__canvas:focus { outline: none; }
+.omni-mindmap__canvas:focus-visible { box-shadow: var(--omni-focus-ring-inset); outline: none; }
+.omni-mindmap__node { cursor: grab; }
+.omni-mindmap__canvas--readonly .omni-mindmap__node { cursor: pointer; }
+.omni-mindmap__canvas--linking .omni-mindmap__node, .omni-mindmap__canvas--selecting { cursor: crosshair; }
+.omni-mindmap__canvas--dragging, .omni-mindmap__canvas--dragging .omni-mindmap__node { cursor: grabbing; }
+.omni-mindmap__canvas--panning { cursor: move; }
+.omni-mindmap__node--root, .omni-mindmap__swatch--root { --omni-mindmap-fill: var(--omni-mindmap-root-fill); --omni-mindmap-stroke: var(--omni-mindmap-root-stroke); --omni-mindmap-text: var(--omni-mindmap-root-text); }
+.omni-mindmap__node--green, .omni-mindmap__swatch--green { --omni-mindmap-fill: var(--omni-mindmap-green-fill); --omni-mindmap-stroke: var(--omni-mindmap-green-stroke); --omni-mindmap-text: var(--omni-mindmap-green-text); }
+.omni-mindmap__node--blue, .omni-mindmap__swatch--blue { --omni-mindmap-fill: var(--omni-mindmap-blue-fill); --omni-mindmap-stroke: var(--omni-mindmap-blue-stroke); --omni-mindmap-text: var(--omni-mindmap-blue-text); }
+.omni-mindmap__node--yellow, .omni-mindmap__swatch--yellow { --omni-mindmap-fill: var(--omni-mindmap-yellow-fill); --omni-mindmap-stroke: var(--omni-mindmap-yellow-stroke); --omni-mindmap-text: var(--omni-mindmap-yellow-text); }
+.omni-mindmap__node--red, .omni-mindmap__swatch--red { --omni-mindmap-fill: var(--omni-mindmap-red-fill); --omni-mindmap-stroke: var(--omni-mindmap-red-stroke); --omni-mindmap-text: var(--omni-mindmap-red-text); }
+.omni-mindmap__node--pink, .omni-mindmap__swatch--pink { --omni-mindmap-fill: var(--omni-mindmap-pink-fill); --omni-mindmap-stroke: var(--omni-mindmap-pink-stroke); --omni-mindmap-text: var(--omni-mindmap-pink-text); }
+.omni-mindmap__node--orange, .omni-mindmap__swatch--orange { --omni-mindmap-fill: var(--omni-mindmap-orange-fill); --omni-mindmap-stroke: var(--omni-mindmap-orange-stroke); --omni-mindmap-text: var(--omni-mindmap-orange-text); }
+.omni-mindmap__node--purple, .omni-mindmap__swatch--purple { --omni-mindmap-fill: var(--omni-mindmap-purple-fill); --omni-mindmap-stroke: var(--omni-mindmap-purple-stroke); --omni-mindmap-text: var(--omni-mindmap-purple-text); }
+.omni-mindmap__node--teal, .omni-mindmap__swatch--teal { --omni-mindmap-fill: var(--omni-mindmap-teal-fill); --omni-mindmap-stroke: var(--omni-mindmap-teal-stroke); --omni-mindmap-text: var(--omni-mindmap-teal-text); }
+.omni-mindmap__node--indigo, .omni-mindmap__swatch--indigo { --omni-mindmap-fill: var(--omni-mindmap-indigo-fill); --omni-mindmap-stroke: var(--omni-mindmap-indigo-stroke); --omni-mindmap-text: var(--omni-mindmap-indigo-text); }
+.omni-mindmap__node--gray, .omni-mindmap__swatch--gray { --omni-mindmap-fill: var(--omni-mindmap-gray-fill); --omni-mindmap-stroke: var(--omni-mindmap-gray-stroke); --omni-mindmap-text: var(--omni-mindmap-gray-text); }
+.omni-mindmap__node-shape { fill: var(--omni-mindmap-fill); stroke: var(--omni-mindmap-stroke); stroke-width: 1.5; transition: stroke var(--omni-duration-fast) ease, stroke-width var(--omni-duration-fast) ease; }
+.omni-mindmap__node-label { fill: var(--omni-mindmap-text); pointer-events: none; }
+.omni-mindmap__node-label--bold { font-weight: 700; }
+.omni-mindmap__node-label--italic { font-style: italic; }
+.omni-mindmap__node--selected .omni-mindmap__node-shape { stroke: var(--omni-color-accent); stroke-width: 3; }
+.omni-mindmap__node--link-source .omni-mindmap__node-shape { stroke: var(--omni-color-success); stroke-dasharray: 6 3; stroke-width: 3; }
+.omni-mindmap__edge-hit { cursor: pointer; fill: none; stroke: transparent; stroke-width: 14; }
+.omni-mindmap__edge-line { fill: none; pointer-events: none; stroke: var(--omni-mindmap-edge); stroke-width: 2; }
+.omni-mindmap__edge--selected .omni-mindmap__edge-line { stroke: var(--omni-color-danger); stroke-dasharray: 6 3; stroke-width: 3; }
+.omni-mindmap__arrow-head { fill: var(--omni-mindmap-edge); }
+/* NodeTemplate content: drawn inside the box, never a target of its own, so the node still drags and selects. */
+.omni-mindmap__node-content { overflow: visible; pointer-events: none; }
+.omni-mindmap__node-template { align-items: center; block-size: 100%; box-sizing: border-box; color: var(--omni-mindmap-text); display: flex; font-family: var(--omni-font-family); font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); justify-content: center; overflow: hidden; padding: var(--omni-space-xs) var(--omni-space-sm); }
+.omni-mindmap__note { pointer-events: none; }
+.omni-mindmap__note-shape { fill: var(--omni-mindmap-note-fill); opacity: 0.85; stroke: var(--omni-mindmap-note-stroke); }
+.omni-mindmap__note-connector { opacity: 0.6; stroke: var(--omni-mindmap-note-stroke); stroke-dasharray: 3 2; }
+.omni-mindmap__note-text { fill: var(--omni-mindmap-note-text); }
+.omni-mindmap__lasso { fill: color-mix(in srgb, var(--omni-color-accent) 12%, transparent); pointer-events: none; stroke: var(--omni-color-accent); stroke-dasharray: 4 2; }
+.omni-mindmap__banner { align-items: center; background: var(--omni-color-accent); border-radius: var(--omni-radius); color: var(--omni-color-on-accent); display: flex; flex-direction: column; font-size: var(--omni-font-size-sm); inset-block-start: var(--omni-space-md); inset-inline: 0; margin-inline: auto; max-inline-size: max-content; padding: 0.375rem 0.75rem; pointer-events: none; position: absolute; }
+.omni-mindmap__menu { backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius-lg)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); box-sizing: border-box; color: var(--omni-color-text); display: flex; flex-direction: column; font-family: var(--omni-font-family); font-size: var(--omni-font-size-base); padding: 0.375rem 0; }
+.omni-mindmap__menu-item { align-items: center; background: none; border: 0; color: inherit; cursor: pointer; display: flex; font: inherit; min-height: 2.75rem; padding: 0 var(--omni-space-lg); text-align: start; }
+.omni-mindmap__menu-item:hover, .omni-mindmap__menu-item:focus-visible { background: var(--omni-color-surface-muted); outline: none; }
+.omni-mindmap__menu-item--danger { color: var(--omni-color-danger); }
+.omni-mindmap__menu-separator { border-top: var(--omni-border-width) solid var(--omni-color-border); margin: 0.25rem 0; }
+.omni-mindmap__menu-colors { display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0.25rem 0.75rem; }
+.omni-mindmap__swatch { align-items: center; background: none; border: 0; border-radius: var(--omni-radius); cursor: pointer; display: inline-flex; justify-content: center; min-height: 2.75rem; min-width: 2.75rem; padding: 0; }
+.omni-mindmap__swatch::before { background: var(--omni-mindmap-fill); block-size: 1.5rem; border: 2px solid var(--omni-mindmap-stroke); border-radius: var(--omni-radius-circle); content: ""; inline-size: 1.5rem; }
+.omni-mindmap__swatch:is([aria-checked="true"], [aria-pressed="true"])::before { box-shadow: 0 0 0 2px var(--omni-color-surface), 0 0 0 4px var(--omni-color-accent); }
+.omni-mindmap__swatch:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-mindmap-toolbar { display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
+.omni-mindmap-properties { border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); display: flex; flex: 0 1 16rem; flex-direction: column; gap: var(--omni-space-md); min-width: 14rem; padding: var(--omni-space-md); }
+.omni-mindmap-properties__title { font-size: var(--omni-font-size-lg); font-weight: 650; margin: 0; }
+.omni-mindmap-properties__row { display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
+.omni-mindmap-properties__hint { font-size: var(--omni-font-size-sm); margin: 0; }
+@media (prefers-reduced-motion: reduce) { .omni-mindmap__node-shape { transition: none; } }
+
+/* Page header: one block of fixed height (line 1 the title row, line 2 the breadcrumb or the
+   subtitle, always reserved) so every page starts its content at the same height. A title longer
+   than its line scrolls sideways; omni-page-header.js marks the block with data-title-start and
+   data-title-end, which show the chevron of the side that still has text. */
+.omni-page-header { --omni-page-header-line: max(var(--omni-control-height), 2.25rem); --omni-page-header-trail: max(1.125rem, calc(var(--omni-control-height) * 0.55)); display: flex; flex-direction: column; gap: var(--omni-space-sm); margin-block-end: var(--omni-space-lg); min-inline-size: 0; }
+.omni-page-header__frame { background: var(--omni-color-surface); block-size: calc(var(--omni-page-header-line) + 0.125rem + var(--omni-page-header-trail)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-color-accent) 24%, var(--omni-color-border)); border-radius: var(--omni-radius); box-sizing: content-box; display: flex; flex-direction: column; gap: 0.125rem; min-inline-size: 0; padding: var(--omni-space-sm) var(--omni-space-md); }
+.omni-page-header__frame--plain { background: transparent; border: 0; border-radius: 0; padding: 0; }
+.omni-page-header__row { align-items: center; block-size: var(--omni-page-header-line); display: flex; flex: none; flex-wrap: nowrap; gap: var(--omni-space-sm); min-inline-size: 0; }
+.omni-page-header .omni-page-header__title { flex: 0 1 auto; line-height: var(--omni-page-header-line); margin: 0; min-inline-size: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; text-overflow: clip; white-space: nowrap; }
+.omni-page-header .omni-page-header__title::-webkit-scrollbar { display: none; }
+.omni-page-header__scroll { display: none; flex: none; }
+.omni-page-header__frame[data-title-start] .omni-page-header__scroll--start,
+.omni-page-header__frame[data-title-end] .omni-page-header__scroll--end { display: inline-flex; }
+.omni-page-header__scroll .omni-icon:dir(rtl) { transform: scaleX(-1); }
+.omni-page-header__icon { align-items: center; color: var(--omni-color-accent-strong); display: inline-flex; flex: none; }
+.omni-page-header__title-loading { flex: 0 1 16rem; }
+.omni-page-header__title-loading .omni-skeleton__item { min-height: calc(var(--omni-control-height) - 0.75rem); }
+.omni-page-header__row .omni-badge,
+.omni-page-header__row .omni-button { flex-shrink: 0; white-space: nowrap; }
+.omni-page-header__details { align-items: center; display: flex; flex: 1 0 auto; gap: var(--omni-space-sm); }
+.omni-page-header__badges { align-items: center; display: flex; flex-wrap: nowrap; gap: var(--omni-space-xs); }
+.omni-page-header__actions { align-items: center; display: flex; flex-wrap: nowrap; gap: var(--omni-space-sm); justify-content: flex-end; margin-inline-start: auto; }
+.omni-page-header__menu { flex: none; margin-inline-start: auto; }
+.omni-page-header__details + .omni-page-header__menu { margin-inline-start: 0; }
+.omni-page-header__toggle { display: none; }
+.omni-page-header__trail { block-size: var(--omni-page-header-trail); flex: none; font-size: var(--omni-font-size-sm); line-height: var(--omni-page-header-trail); min-inline-size: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; white-space: nowrap; }
+.omni-page-header__trail .omni-breadcrumb__list { flex-wrap: nowrap; white-space: nowrap; }
+.omni-page-header__trail .omni-breadcrumb__item { color: var(--omni-color-text-muted); }
+.omni-page-header__crumb-loading .omni-skeleton { inline-size: 5.5rem; }
+.omni-page-header__trail-text { color: var(--omni-color-text-muted); margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-page-header__subtitle { color: var(--omni-color-text-muted); margin: 0; max-inline-size: 46rem; }
+.omni-page-header__filters { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
+/* On a phone the badges and actions fold behind the "Show more" toggle; opened, they take a full
+   line and the block grows to hold it, which the reader asked for. The "⋮" menu stays in sight.
+   The data-compact block below applies the same fold at any width. */
+@media (max-width: 39.99rem) {
+    .omni-page-header .omni-page-header__title { flex: 1 1 auto; }
+    .omni-page-header__toggle { display: inline-flex; }
+    .omni-page-header__menu { margin-inline-start: 0; }
+    .omni-page-header__details:not(.omni-page-header__details--open) { display: none; }
+    .omni-page-header__row:has(> .omni-page-header__details--open) { block-size: auto; flex-wrap: wrap; }
+    .omni-page-header__frame:has(.omni-page-header__details--open) { block-size: auto; }
+    .omni-page-header__details--open { flex: 1 1 100%; flex-wrap: wrap; order: 1; }
+    .omni-page-header__details--open :is(.omni-page-header__badges, .omni-page-header__actions) { flex-wrap: wrap; }
+    .omni-page-header__details--open .omni-page-header__actions { justify-content: flex-start; margin-inline-start: 0; }
+}
+/* The same fold at any width once line 1 has no room for the badges and actions beside the title:
+   omni-page-header.js measures line 1 unfolded and marks the frame data-compact. Rule for rule the
+   phone block above, keyed on the attribute (Blazor owns the class attribute). */
+.omni-page-header__frame[data-compact] .omni-page-header__title { flex: 1 1 auto; }
+.omni-page-header__frame[data-compact] .omni-page-header__toggle { display: inline-flex; }
+.omni-page-header__frame[data-compact] .omni-page-header__menu { margin-inline-start: 0; }
+.omni-page-header__frame[data-compact] .omni-page-header__details:not(.omni-page-header__details--open) { display: none; }
+.omni-page-header__frame[data-compact] .omni-page-header__row:has(> .omni-page-header__details--open) { block-size: auto; flex-wrap: wrap; }
+.omni-page-header__frame[data-compact]:has(.omni-page-header__details--open) { block-size: auto; }
+.omni-page-header__frame[data-compact] .omni-page-header__details--open { flex: 1 1 100%; flex-wrap: wrap; order: 1; }
+.omni-page-header__frame[data-compact] .omni-page-header__details--open :is(.omni-page-header__badges, .omni-page-header__actions) { flex-wrap: wrap; }
+.omni-page-header__frame[data-compact] .omni-page-header__details--open .omni-page-header__actions { justify-content: flex-start; margin-inline-start: 0; }
+
+.omni-detail-shell { display: flex; flex-direction: column; min-inline-size: 0; }
+.omni-detail-shell__loading { padding-block: var(--omni-space-md); }
+.omni-detail-shell__content[hidden] { display: none; }
+
+.omni-empty-state { align-items: center; display: flex; flex-direction: column; gap: var(--omni-space-md); padding: var(--omni-space-xl); text-align: center; }
+.omni-empty-state__icon { align-items: center; background: color-mix(in srgb, var(--omni-color-accent) 10%, transparent); block-size: calc(var(--omni-icon-box) + 1.25rem); border-radius: var(--omni-radius-circle); color: var(--omni-color-accent-strong); display: inline-flex; inline-size: calc(var(--omni-icon-box) + 1.25rem); justify-content: center; }
+.omni-empty-state .omni-empty-state__title { font-size: var(--omni-font-size-h5); font-weight: 650; margin: 0; }
+.omni-empty-state__description { color: var(--omni-color-text-muted); margin: 0; max-inline-size: 36rem; }
+.omni-empty-state__actions { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: center; }
+
+.omni-login-shell { box-sizing: border-box; display: flex; flex-direction: column; gap: var(--omni-space-xl); inline-size: 25rem; margin: clamp(1rem, 8vh, 5rem) auto; max-inline-size: 100%; }
+.omni-login-shell__logo { display: flex; justify-content: center; }
+.omni-login-shell__logo > :is(img, svg) { block-size: 4.5rem; inline-size: auto; }
+.omni-login-shell__card { min-inline-size: 0; }
+.omni-login-shell .omni-login-shell__title { font-size: var(--omni-font-size-h3); margin: 0 0 var(--omni-space-md); }
+.omni-login-shell__description { color: var(--omni-color-text-muted); margin: 0 0 var(--omni-space-lg); }
+/* The footer of a sign-in card holds links and a version line, read as text from the start: not the
+   row of actions a card footer ends with. The sign-up line leads it, a discreet text
+   link on the rank of "forgotten password", never a second button. */
+.omni-login-shell__card > .omni-card__footer { display: block; }
+.omni-login-shell__sign-up { color: var(--omni-color-text-muted); margin: 0; }
+.omni-login-shell__sign-up + * { margin-block-start: var(--omni-space-sm); }
+@media (max-width: 39.99rem) {
+    .omni-login-shell { margin-block: var(--omni-space-md); }
+    .omni-login-shell__card > .omni-card__body { padding: var(--omni-space-md); }
+}
+
+/* Above every dialog, portal, window and tooltip: while the connection is down nothing under it can be acted on. */
+.omni-connection-overlay { align-items: center; background: var(--omni-color-overlay); display: flex; inset: 0; justify-content: center; padding: var(--omni-space-lg); position: fixed; z-index: var(--omni-z-blocking); }
+body:has(.omni-connection-overlay) { overflow: hidden; }
+/* Drawn like a dialog: the card's opaque fill, its rule as an inset ring, its radius and the floating shadow. */
+.omni-connection-overlay__card { align-items: center; background: var(--omni-dialog-background, var(--omni-card-background, var(--omni-color-surface))); border-radius: var(--omni-card-radius, var(--omni-radius-lg)); box-shadow: inset 0 0 0 var(--omni-border-width) var(--omni-card-border-color, transparent), var(--omni-overlay-shadow, var(--omni-shadow-lg)); box-sizing: border-box; color: var(--omni-color-text); display: flex; flex-direction: column; gap: var(--omni-space-sm); inline-size: 100%; max-inline-size: 28rem; padding: var(--omni-space-xl); text-align: center; }
+.omni-connection-overlay__card:focus-visible { outline: none; }
+.omni-connection-overlay__icon { color: var(--omni-color-danger); }
+.omni-connection-overlay__card--reconnecting .omni-connection-overlay__icon { color: var(--omni-color-warning); }
+.omni-connection-overlay__icon .omni-icon { block-size: 3rem; inline-size: 3rem; }
+.omni-connection-overlay__title { font-size: var(--omni-font-size-h4); margin: 0; }
+.omni-connection-overlay__card p { margin: 0; }
+.omni-connection-overlay__description,
+.omni-connection-overlay__reason { color: var(--omni-color-text-muted); }
+.omni-connection-overlay__reason { font-size: var(--omni-font-size-sm); overflow-wrap: anywhere; }
+.omni-connection-overlay__countdown { font-variant-numeric: tabular-nums; }
+/* Fixed slots (see the markup): the reason keeps two lines, the spinner its own height, shown or not. */
+.omni-connection-overlay__reason { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; min-block-size: calc(2lh); overflow: hidden; }
+.omni-connection-overlay__spinner { align-items: center; block-size: 3rem; display: flex; justify-content: center; }
+.omni-connection-overlay__spinner--idle { visibility: hidden; }
+.omni-connection-overlay__action { margin-block-start: var(--omni-space-sm); }
+
+.omni-wizard { display: flex; flex: 1 0 auto; flex-direction: column; gap: var(--omni-space-md); min-inline-size: 0; }
+.omni-wizard .omni-steps__button:disabled { color: var(--omni-color-text-muted); cursor: default; }
+.omni-wizard__body { flex: 1 0 auto; min-inline-size: 0; }
+.omni-wizard__body:focus-visible { outline: none; }
+/* The navigation stays at the foot of the window whatever the height of the step. In a container that
+   lays it out in a column (a dialog body, a page in a column) the wizard takes the height left and the
+   body pushes the foot down; a step longer than the window scrolls under the foot, which sticks to the
+   bottom edge. Only while it is stuck does the band take a fill (--omni-wizard-actions-background, the
+   card surface by default), so a short step leaves no bar painted over the page. */
+.omni-wizard__foot { container-type: scroll-state; inset-block-end: 0; margin-block-start: auto; position: sticky; z-index: 2; }
+.omni-wizard__actions { border-block-start: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: flex-end; padding-block-start: var(--omni-space-md); }
+@container scroll-state(stuck: bottom) {
+    .omni-wizard__actions { background: var(--omni-wizard-actions-background, var(--omni-card-background, var(--omni-color-surface))); padding-block-end: var(--omni-space-sm); }
+}
+@supports not (container-type: scroll-state) {
+    .omni-wizard__actions { background: var(--omni-wizard-actions-background, transparent); }
+}
+
+/* A definition list in columns: the column count is a class, never a computed inline value. */
+.omni-description-list { display: grid; gap: 0 var(--omni-space-xl); grid-template-columns: repeat(var(--omni-description-columns, 1), minmax(0, 1fr)); margin: 0; }
+.omni-description-list--columns-2 { --omni-description-columns: 2; }
+.omni-description-list--columns-3 { --omni-description-columns: 3; }
+.omni-description-list--columns-4 { --omni-description-columns: 4; }
+.omni-description-list__item { align-items: baseline; border-block-start: var(--omni-border-width) solid var(--omni-color-border); display: grid; gap: var(--omni-space-sm); grid-template-columns: minmax(6rem, 2fr) minmax(0, 3fr); padding-block: var(--omni-space-sm); }
+.omni-description-list--columns-1 > :first-child,
+.omni-description-list--columns-2 > :nth-child(-n + 2),
+.omni-description-list--columns-3 > :nth-child(-n + 3),
+.omni-description-list--columns-4 > :nth-child(-n + 4) { border-block-start: 0; }
+.omni-description-list__label { color: var(--omni-color-text-muted); font-weight: 500; min-inline-size: 0; }
+/* A label with its icon: the icon in the accent ink, sized by the package, one line with the text. */
+.omni-description-list__label:has(> .omni-description-list__icon) { align-items: center; display: flex; gap: var(--omni-space-sm); }
+.omni-description-list__icon { --omni-icon-size: 1rem; color: var(--omni-color-accent); display: inline-flex; flex: none; }
+.omni-description-list__value { align-items: center; display: flex; gap: var(--omni-space-xs); margin: 0; min-inline-size: 0; }
+.omni-description-list__content { flex: 1 1 auto; min-inline-size: 0; overflow-wrap: anywhere; }
+.omni-description-list__actions { display: inline-flex; flex: 0 0 auto; gap: var(--omni-space-xs); }
+@media (max-width: 39.99rem) {
+    .omni-description-list { grid-template-columns: minmax(0, 1fr); }
+    .omni-description-list > :nth-child(n + 2) { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
+}
+
+.omni-relative-time { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.omni-dynamic-form { display: grid; gap: var(--omni-space-md); min-inline-size: 0; }
+
+/* Status badge: a stale value keeps its colour, outlined, and says so beside it. */
+.omni-status-badge { align-items: center; display: inline-flex; flex-wrap: wrap; gap: var(--omni-space-xs); vertical-align: middle; }
+.omni-status-badge__stale { align-items: center; color: var(--omni-color-warning); display: inline-flex; font-size: var(--omni-font-size-sm); gap: 0.125rem; }
+.omni-status-badge__stale .omni-icon { block-size: 0.875rem; inline-size: 0.875rem; }
+
+/* Code surfaces share the monospace stack and a line height the log virtualisation measures. */
+.omni-log-viewer__viewport, .omni-code-block__pre, .omni-code-block__language, .omni-code-viewer__code, .omni-code-viewer__language, .omni-unified-diff__path, .omni-unified-diff__stats, .omni-unified-diff__table { font-family: var(--omni-font-family-monospace); font-size: var(--omni-font-size-sm); }
+
+/* Log viewer: spacers and viewport height through custom properties set by omni-log-viewer.js. */
+.omni-log-viewer { --omni-log-line: calc(var(--omni-control-height) / 2 + 0.125rem); display: grid; gap: var(--omni-space-sm); min-inline-size: 0; }
+.omni-log-viewer__toolbar { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
+.omni-log-viewer__match { background: color-mix(in srgb, var(--omni-color-accent) 24%, transparent); border-radius: var(--omni-radius-sm); color: inherit; font-weight: 700; }
+.omni-log-viewer__level { flex: 0 0 auto; inline-size: auto; min-inline-size: 12rem; }
+.omni-log-viewer__search { flex: 1 1 14rem; max-inline-size: 24rem; min-inline-size: 10rem; }
+.omni-log-viewer__matches { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); white-space: nowrap; }
+.omni-log-viewer__follow { margin-inline-start: auto; }
+.omni-log-viewer__frame { min-inline-size: 0; position: relative; }
+.omni-log-viewer__viewport { background: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); block-size: var(--omni-grid-viewport, 24rem); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-sizing: border-box; line-height: var(--omni-log-line); overflow: auto; overscroll-behavior: contain; }
+.omni-log-viewer__viewport:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-log-viewer__spacer { block-size: var(--omni-grid-spacer, 0px); }
+.omni-log-viewer__line { display: flex; gap: var(--omni-space-sm); inline-size: max-content; min-block-size: var(--omni-log-line); min-inline-size: 100%; padding-inline: var(--omni-space-sm); white-space: pre; }
+.omni-log-viewer--wrap .omni-log-viewer__line { inline-size: auto; overflow-wrap: anywhere; white-space: pre-wrap; }
+.omni-log-viewer__number { color: var(--omni-color-text-muted); flex: none; min-inline-size: 4ch; text-align: end; user-select: none; }
+.omni-log-viewer__time { color: var(--omni-color-text-muted); flex: none; }
+.omni-log-viewer__level-name { flex: none; font-weight: 650; min-inline-size: 8ch; }
+.omni-log-viewer__text { flex: 1 1 auto; min-inline-size: 0; }
+.omni-log-viewer__line--quiet .omni-log-viewer__text { color: var(--omni-color-text-muted); }
+.omni-log-viewer__line--warning { background: var(--omni-color-warning-subtle); color: var(--omni-color-warning); }
+.omni-log-viewer__line--error { background: var(--omni-color-danger-subtle); color: var(--omni-color-danger); }
+.omni-log-viewer__line--warning .omni-log-viewer__number, .omni-log-viewer__line--error .omni-log-viewer__number, .omni-log-viewer__line--warning .omni-log-viewer__time, .omni-log-viewer__line--error .omni-log-viewer__time { color: inherit; }
+/* The current line (a search match reached, a line asked for) is marked like a selected grid row: the
+   accent tint and text in 600, never an edge bar. */
+.omni-log-viewer__line--current { background: color-mix(in srgb, var(--omni-color-accent) 14%, transparent); font-weight: 600; }
+.omni-log-viewer__empty { color: var(--omni-color-text-muted); font-family: var(--omni-font-family); margin: 0; padding: var(--omni-space-md); }
+.omni-log-viewer__jump { box-shadow: var(--omni-shadow-md); inset-block-end: var(--omni-space-md); inset-inline-end: var(--omni-space-lg); position: absolute; }
+
+/* Code block: header with its actions, then the code. */
+.omni-code-block { background: color-mix(in srgb, var(--omni-color-text) 4%, var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface)))); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); margin: 0; min-inline-size: 0; }
+.omni-code-block__header { align-items: center; border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: flex; gap: var(--omni-space-sm); min-block-size: 2rem; padding-block: 0.125rem; padding-inline: var(--omni-space-sm) 0.125rem; }
+.omni-code-block__title { font-size: var(--omni-font-size-sm); font-weight: 650; }
+.omni-code-block__language, .omni-code-viewer__language { color: var(--omni-color-text-muted); }
+.omni-code-block__actions { display: inline-flex; gap: 0.125rem; margin-inline-start: auto; }
+.omni-code-block__pre { margin: 0; overflow-x: auto; padding: var(--omni-space-sm) var(--omni-space-md); white-space: pre; }
+.omni-code-block__pre:focus-visible, .omni-code-viewer__code:focus-visible, .omni-unified-diff__scroll:focus-visible { box-shadow: var(--omni-focus-ring-inset); outline: none; }
+.omni-code-block--wrap .omni-code-block__pre { overflow-wrap: anywhere; white-space: pre-wrap; }
+.omni-code-block--inline { align-items: center; display: flex; }
+.omni-code-block--inline .omni-code-block__header { border: 0; order: 2; padding: 0.125rem; }
+.omni-code-block--inline .omni-code-block__pre { flex: 1 1 auto; min-inline-size: 0; padding-block: var(--omni-space-xs); }
+.omni-code-block__masked { letter-spacing: 0.05em; }
+
+/* Code viewer: numbered lines, links as buttons, a side panel beside the code. */
+.omni-code-viewer { background: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); display: grid; min-inline-size: 0; overflow: hidden; }
+.omni-code-viewer__header { align-items: center; background: var(--omni-color-surface-muted); border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); padding: var(--omni-space-xs) var(--omni-space-sm); }
+.omni-code-viewer__title { font-weight: 650; overflow-wrap: anywhere; }
+.omni-code-viewer__actions { align-items: center; display: inline-flex; flex-wrap: wrap; gap: 0.125rem; margin-inline-start: auto; }
+.omni-code-viewer__body { display: grid; min-inline-size: 0; }
+.omni-code-viewer--with-panel .omni-code-viewer__body { grid-template-columns: minmax(0, 1fr) minmax(12rem, var(--omni-code-viewer-panel-width, 20rem)); }
+.omni-code-viewer__code { line-height: 1.25rem; max-block-size: var(--omni-code-viewer-height, 32rem); min-inline-size: 0; overflow: auto; padding-block: calc(var(--omni-cell-pad-y) / 2); }
+.omni-code-viewer__line { display: flex; inline-size: max-content; min-inline-size: 100%; }
+.omni-code-viewer--wrap .omni-code-viewer__line { inline-size: auto; }
+.omni-code-viewer__line--highlighted { background: var(--omni-color-warning-subtle); }
+.omni-code-viewer__number, .omni-unified-diff__number { color: var(--omni-color-text-muted); min-inline-size: 4ch; padding-inline: var(--omni-space-sm); text-align: end; user-select: none; }
+.omni-code-viewer__number { flex: none; }
+.omni-code-viewer__text { background: none; flex: 1 1 auto; font: inherit; min-inline-size: 0; padding-inline-end: var(--omni-space-md); white-space: pre; }
+.omni-code-viewer--wrap .omni-code-viewer__text { overflow-wrap: anywhere; white-space: pre-wrap; }
+.omni-code-viewer__link { background: none; border: 0; border-radius: var(--omni-radius-sm); color: var(--omni-color-accent-strong); cursor: pointer; font: inherit; padding: 0; text-decoration: underline; text-underline-offset: 0.15em; }
+.omni-code-viewer__link:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-code-viewer__panel { border-inline-start: var(--omni-border-width) solid var(--omni-color-border); max-block-size: var(--omni-code-viewer-height, 32rem); min-inline-size: 0; overflow: auto; padding: var(--omni-space-sm); }
+.omni-code-viewer__empty { color: var(--omni-color-text-muted); font-family: var(--omni-font-family); margin: 0; padding: var(--omni-space-md); }
+@media (max-width: 39.99rem) {
+    .omni-code-viewer--with-panel .omni-code-viewer__body { grid-template-columns: minmax(0, 1fr); }
+    .omni-code-viewer__panel { border-block-start: var(--omni-border-width) solid var(--omni-color-border); border-inline-start: 0; }
+}
+
+/* Unified diff: one foldable section per file, old and new line numbers side by side. */
+.omni-unified-diff { display: grid; gap: var(--omni-space-sm); min-inline-size: 0; }
+.omni-unified-diff__file { background: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); min-inline-size: 0; overflow: hidden; }
+.omni-unified-diff__file-header { align-items: center; background: var(--omni-color-surface-muted); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); padding: var(--omni-space-xs) var(--omni-space-sm); }
+.omni-unified-diff__toggle { align-items: center; background: none; border: 0; border-radius: var(--omni-radius); color: inherit; cursor: pointer; display: inline-flex; font: inherit; gap: var(--omni-space-xs); min-block-size: calc(var(--omni-control-height) - 0.25rem); min-inline-size: 0; padding: 0 var(--omni-space-xs); text-align: start; }
+span.omni-unified-diff__toggle { cursor: default; }
+.omni-unified-diff__toggle:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-unified-diff__path { overflow-wrap: anywhere; }
+.omni-unified-diff__stats { display: inline-flex; gap: var(--omni-space-xs); margin-inline-start: auto; }
+.omni-unified-diff__stat--added, .omni-unified-diff__line--added .omni-unified-diff__marker { color: var(--omni-color-success); }
+.omni-unified-diff__stat--removed, .omni-unified-diff__line--removed .omni-unified-diff__marker { color: var(--omni-color-danger); }
+.omni-unified-diff__file-actions { display: inline-flex; gap: 0.125rem; }
+.omni-unified-diff__body { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
+.omni-unified-diff__scroll { overflow-x: auto; }
+.omni-unified-diff__table { border-collapse: collapse; line-height: 1.25rem; min-inline-size: 100%; }
+.omni-unified-diff__hunk td { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); padding: calc(var(--omni-cell-pad-y) / 4) var(--omni-space-sm); white-space: pre; }
+.omni-unified-diff__number { inline-size: 1%; vertical-align: top; white-space: nowrap; }
+.omni-unified-diff__code { padding-inline-end: var(--omni-space-md); white-space: pre; }
+.omni-unified-diff--wrap .omni-unified-diff__code { overflow-wrap: anywhere; white-space: pre-wrap; }
+.omni-unified-diff__marker { display: inline-block; inline-size: 1.5ch; user-select: none; }
+.omni-unified-diff__line--added { background: var(--omni-color-success-subtle); }
+.omni-unified-diff__line--removed { background: var(--omni-color-danger-subtle); }
+.omni-unified-diff__line--note .omni-unified-diff__code { color: var(--omni-color-text-muted); font-style: italic; }
+.omni-unified-diff__note, .omni-unified-diff__empty { color: var(--omni-color-text-muted); margin: 0; padding: var(--omni-space-md); }
+
+/* OmniKanban: columns side by side that scroll sideways when the board is narrower than they are. A
+   state is marked by a background, a dashed slot or a shadow, never by a bar on one edge. */
+.omni-kanban { display: grid; min-inline-size: 0; }
+.omni-kanban__columns { align-items: start; display: grid; gap: var(--omni-space-md); grid-auto-columns: minmax(12rem, 1fr); grid-auto-flow: column; overflow-x: auto; padding-block-end: var(--omni-space-xs); }
+/* A column is a lane tinted like a settings tile, a card is drawn with the card tokens. */
+.omni-kanban__column { background: color-mix(in srgb, var(--omni-color-text) 4%, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-card-radius, var(--omni-radius)); display: grid; gap: var(--omni-space-sm); min-inline-size: 0; padding: var(--omni-space-sm); }
+.omni-kanban__column--drop { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent); }
+.omni-kanban__header { align-items: center; display: flex; gap: var(--omni-space-sm); justify-content: space-between; min-block-size: calc(var(--omni-control-height) - 0.25rem); }
+.omni-kanban__title { font-weight: 650; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-kanban__count { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-pill); color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); min-inline-size: 1.5rem; padding: 0 var(--omni-space-xs); text-align: center; }
+.omni-kanban__cards { display: grid; gap: var(--omni-space-sm); list-style: none; margin: 0; min-block-size: calc(var(--omni-control-height) + 0.75rem); padding: 0; }
+.omni-kanban__card { background: var(--omni-card-background, var(--omni-color-surface)); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-radius); box-shadow: var(--omni-card-shadow, var(--omni-shadow-sm)); color: var(--omni-color-text); cursor: grab; padding: var(--omni-space-sm) var(--omni-space-md); position: relative; }
+.omni-kanban--readonly .omni-kanban__card { cursor: default; }
+.omni-kanban__card:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-kanban__card--grabbed { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent); box-shadow: var(--omni-shadow-md), var(--omni-focus-ring); }
+.omni-kanban__card--dragging { opacity: 0.5; }
+/* Where a dragged card would land: an empty dashed slot opened before the card it would precede. */
+.omni-kanban__card--drop-before { margin-block-start: 3rem; }
+.omni-kanban__card--drop-before::before { block-size: 2.5rem; border: var(--omni-border-width) dashed var(--omni-color-accent); border-radius: var(--omni-radius); box-sizing: border-box; content: ""; inset-block-start: calc(-3rem - var(--omni-border-width)); inset-inline: calc(-1 * var(--omni-border-width)); pointer-events: none; position: absolute; }
+.omni-kanban__empty { border: var(--omni-border-width) dashed var(--omni-color-border); border-radius: var(--omni-radius); color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); padding: var(--omni-space-sm); text-align: center; }
+
+/* OmniGitGraph: every row is the same height and draws its own lanes edge to edge, so the lines of one
+   row meet those of the next. The drawing scales with the row, its width following its lane count. */
+.omni-git-graph { display: grid; list-style: none; margin: 0; padding: 0; }
+.omni-git-graph__row { align-items: center; block-size: var(--omni-git-graph-row-height, calc(var(--omni-control-height) - 0.25rem)); display: flex; gap: var(--omni-space-sm); }
+.omni-git-graph__lanes { block-size: 100%; display: block; flex: none; inline-size: auto; overflow: visible; }
+.omni-git-graph__content { flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-git-graph__edge { fill: none; stroke: var(--omni-git-graph-lane); stroke-linecap: round; stroke-width: 2; }
+.omni-git-graph__node { fill: var(--omni-git-graph-lane); stroke: var(--omni-color-surface); stroke-width: 2; }
+.omni-git-graph__node--merge { fill: var(--omni-color-surface); stroke: var(--omni-git-graph-lane); stroke-width: 2.5; }
+.omni-git-graph__lane--0 { --omni-git-graph-lane: var(--omni-chart-color-0); } .omni-git-graph__lane--1 { --omni-git-graph-lane: var(--omni-chart-color-1); } .omni-git-graph__lane--2 { --omni-git-graph-lane: var(--omni-chart-color-2); } .omni-git-graph__lane--3 { --omni-git-graph-lane: var(--omni-chart-color-3); }
+.omni-git-graph__lane--4 { --omni-git-graph-lane: var(--omni-chart-color-4); } .omni-git-graph__lane--5 { --omni-git-graph-lane: var(--omni-chart-color-5); } .omni-git-graph__lane--6 { --omni-git-graph-lane: var(--omni-chart-color-6); } .omni-git-graph__lane--7 { --omni-git-graph-lane: var(--omni-chart-color-7); }
+.omni-git-graph__empty { color: var(--omni-color-text-muted); margin: 0; }
+
+/* OmniStatusStrip: the item is the target, the visible point or segment is its ::before. A link or a
+   button keeps a 44 px target; segments share the width of the strip, so theirs is only 44 px high. */
+.omni-status-strip { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); list-style: none; margin: 0; padding: 0; }
+.omni-status-strip__cell { display: flex; }
+.omni-status-strip__item { --omni-status-ink: var(--omni-color-text-muted); align-items: center; background: none; border: 0; border-radius: var(--omni-radius); color: inherit; display: inline-flex; justify-content: center; padding: 0; }
+.omni-status-strip__item::before { background: var(--omni-status-ink); block-size: 0.75rem; border-radius: var(--omni-radius-pill); content: ""; inline-size: 0.75rem; }
+:is(a, button).omni-status-strip__item { cursor: pointer; min-block-size: 2.75rem; min-inline-size: 2.75rem; }
+:is(a, button).omni-status-strip__item:hover { background: var(--omni-color-surface-hover); }
+:is(a, button).omni-status-strip__item:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-status-strip__item--accent { --omni-status-ink: var(--omni-color-accent); }
+.omni-status-strip__item--info { --omni-status-ink: var(--omni-color-info); }
+.omni-status-strip__item--success { --omni-status-ink: var(--omni-color-success); }
+.omni-status-strip__item--warning { --omni-status-ink: var(--omni-color-warning); }
+.omni-status-strip__item--danger { --omni-status-ink: var(--omni-color-danger); }
+.omni-status-strip--segment { flex-wrap: nowrap; gap: 0; inline-size: 100%; }
+.omni-status-strip--segment .omni-status-strip__cell { flex: 1 1 0; min-inline-size: 0; }
+.omni-status-strip--segment .omni-status-strip__item { inline-size: 100%; min-inline-size: 0; }
+.omni-status-strip--segment .omni-status-strip__item::before { block-size: 1.5rem; border-radius: 0; inline-size: 100%; }
+.omni-status-strip--segment .omni-status-strip__cell:first-child .omni-status-strip__item::before { border-end-start-radius: var(--omni-radius); border-start-start-radius: var(--omni-radius); }
+.omni-status-strip--segment .omni-status-strip__cell:last-child .omni-status-strip__item::before { border-end-end-radius: var(--omni-radius); border-start-end-radius: var(--omni-radius); }
+.omni-status-strip__item--pulse::before { animation: omni-status-pulse 1.6s ease-in-out infinite; }
+@keyframes omni-status-pulse { 50% { opacity: 0.35; } }
+.omni-status-strip__empty { color: var(--omni-color-text-muted); }
+@media (prefers-reduced-motion: reduce) { .omni-status-strip__item--pulse::before { animation: none; } }
+
+/* Boot splash: written by the host outside the Blazor root, drawn over the page from the first paint in
+   the appearance omni-boot.js applied, faded out then removed by OmniBootSplash. */
+.omni-boot-splash { align-items: center; background: var(--omni-color-surface); color: var(--omni-color-text); display: flex; inset: 0; justify-content: center; position: fixed; transition: opacity var(--omni-duration-slow) ease; z-index: var(--omni-z-splash); }
+.omni-boot-splash--leaving { opacity: 0; pointer-events: none; }
+.omni-boot-splash__spinner { animation: omni-spin 900ms linear infinite; block-size: 2.5rem; border: 0.25rem solid var(--omni-color-border); border-block-start-color: var(--omni-color-accent); border-radius: var(--omni-radius-circle); box-sizing: border-box; inline-size: 2.5rem; }
+@media (prefers-reduced-motion: reduce) { .omni-boot-splash { transition: none; } .omni-boot-splash__spinner { animation: none; } }
+

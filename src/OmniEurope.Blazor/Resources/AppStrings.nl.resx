@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limiet: maximaal {0} rijen</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Gegenereerd op (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Geëxporteerde rijen: {0} van {1} aangekondigde</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Geëxporteerde rijen: {0} van minstens {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Export ingekort: {0} van {1} rijen geëxporteerd, de limiet van {2} rijen is bereikt.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export onvolledig: {0} van {1} aangekondigde rijen geëxporteerd, de gegevens zijn tijdens het lezen gewijzigd.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Beperkte export: de limiet van {0} rijen is bereikt en de bron meldt geen totaal, er kunnen meer rijen zijn.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Geen rijen.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Registreren</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nog geen account?</value></data>

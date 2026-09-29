@@ -326,7 +326,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     [Fact]
     public void SystemScope_IsLightWhenTheSystemIs_AndDarkWhenItIsDark()
     {
-        var css = ShippedLookTests.Uncommented(File.ReadAllText(Path.Combine(ShippedLookTests.RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css")));
+        var css = ShippedLookTests.Uncommented(StylesheetSource.Read());
         Assert.Matches(@"@media \(prefers-color-scheme: light\) \{\s*\[data-omni-theme=""system""\] \{ color-scheme: light; \}", css);
         Assert.Matches(@"@media \(prefers-color-scheme: dark\) \{\s*\[data-omni-theme=""system""\] \{[^}]*color-scheme: dark;", css);
 

@@ -1,0 +1,498 @@
+.omni-label { color: var(--omni-color-text); display: inline-flex; font-size: var(--omni-font-size-label); font-weight: 600; gap: var(--omni-space-xs); }
+.omni-label__required { color: var(--omni-color-danger); }
+.omni-form-field { display: grid; gap: var(--omni-field-gap); }
+.omni-form-field__description { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
+.omni-validation-message { color: var(--omni-color-danger); font-size: var(--omni-font-size-sm); font-weight: 500; margin-block-start: 0.25rem; }
+/* The error reads without its colour: a glyph leads it, and the control carries aria-invalid. */
+.omni-form-field__error { align-items: center; color: var(--omni-color-danger); display: flex; font-size: var(--omni-font-size-sm); font-weight: 500; gap: 5px; }
+.omni-form-field__error-icon { block-size: 0.875rem; flex: none; inline-size: 0.875rem; }
+/* The live region of a field error exists before the error, so the error is announced when it appears;
+   empty, it is taken out of the flow, so it adds neither height nor a grid or flex gap. */
+.omni-form-field__message:empty, .omni-validation-message:empty { position: absolute; }
+/* The wrapper of OmniTemplateForm is only the root the focus script searches: it draws no box, so the
+   form, which carries the host's Class and attributes, is laid out as if it were the outermost element. */
+.omni-template-form { display: contents; }
+.omni-form-field--disabled { opacity: 0.65; }
+
+.omni-input {
+    background: var(--omni-input-background, var(--omni-color-surface));
+    border: var(--omni-border-width) solid var(--omni-input-border-color, var(--omni-color-border));
+    border-radius: var(--omni-radius);
+    box-sizing: border-box;
+    color: var(--omni-color-text);
+    font: inherit;
+    font-size: var(--omni-control-font);
+    min-height: var(--omni-control-height);
+    /* The side padding follows the control scale, as a button's does. */
+    padding: var(--omni-input-pad-y) calc(0.5625rem * var(--omni-control-scale, 1));
+    width: 100%;
+    /* A theme may hollow its fields (--omni-input-shadow) and drop their rule (--omni-input-border-color),
+       Relief, or let its colour field through them (--omni-input-background), Givre; the surface,
+       no shadow and the palette border otherwise. */
+    box-shadow: var(--omni-input-shadow, 0 0 #0000);
+}
+/* A one-line field sits exactly at the control height, like the buttons beside it: the default
+   'normal' line height added a pixel over it. A select ignores line-height, so it takes the height. */
+input.omni-input { line-height: 1.25; }
+select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-height); padding-block: 0; }
+.omni-input::placeholder { color: var(--omni-color-text-muted); }
+.omni-input:hover:not(:disabled):not([readonly]) { border-color: color-mix(in srgb, var(--omni-color-text) 45%, var(--omni-color-border)); }
+.omni-input:focus-visible { border-color: var(--omni-color-accent-fill); box-shadow: var(--omni-focus-ring), var(--omni-input-shadow, 0 0 #0000); outline: none; }
+.omni-input[aria-invalid="true"] { background: color-mix(in srgb, var(--omni-color-danger) 4%, var(--omni-color-surface)); border-color: var(--omni-color-danger); }
+.omni-input[aria-invalid="true"]:focus-visible { box-shadow: var(--omni-focus-ring-danger), var(--omni-input-shadow, 0 0 #0000); }
+/* A text box with an Icon: the icon lies over the start padding of the field, muted and
+   click-through, and the text starts after it (the magnifier of a search field). */
+.omni-text-box-field { display: block; min-inline-size: 0; position: relative; }
+.omni-text-box-field__icon { color: var(--omni-color-text-muted); display: flex; inset-block-start: 50%; inset-inline-start: calc(0.5625rem * var(--omni-control-scale, 1)); pointer-events: none; position: absolute; transform: translateY(-50%); }
+.omni-input.omni-text-box--icon { padding-inline-start: calc(1.875rem * var(--omni-control-scale, 1)); }
+/* Two distinct states. Disabled: a muted fill, muted text and the not-allowed pointer. Read-only:
+   readable as a value, on no fill of its own, and only its dashed rule says it cannot be edited. */
+.omni-input:disabled { background: var(--omni-color-surface-muted); color: var(--omni-color-text-muted); cursor: not-allowed; }
+.omni-input[readonly] { background: transparent; border-style: dashed; }
+
+.omni-password {
+    align-items: stretch;
+    background: var(--omni-input-background, var(--omni-color-surface));
+    border: var(--omni-border-width) solid var(--omni-input-border-color, var(--omni-color-border));
+    border-radius: var(--omni-radius);
+    box-sizing: border-box;
+    display: flex;
+    min-height: var(--omni-control-height);
+    width: 100%;
+    box-shadow: var(--omni-input-shadow, 0 0 #0000);
+}
+.omni-password:focus-within { border-color: var(--omni-color-accent-fill); box-shadow: var(--omni-focus-ring), var(--omni-input-shadow, 0 0 #0000); }
+.omni-password--invalid { border-color: var(--omni-color-danger); }
+.omni-password--invalid:focus-within { border-color: var(--omni-color-danger); box-shadow: var(--omni-focus-ring-danger), var(--omni-input-shadow, 0 0 #0000); }
+.omni-password__input.omni-input { background: transparent; border: 0; border-radius: 0; border-end-start-radius: var(--omni-radius); border-start-start-radius: var(--omni-radius); box-shadow: none; flex: 1 1 auto; min-height: 0; min-width: 0; }
+.omni-password__input.omni-input[aria-invalid="true"] { background: color-mix(in srgb, var(--omni-color-danger) 4%, var(--omni-color-surface)); }
+.omni-password__input.omni-input[aria-invalid="true"]:focus-visible { box-shadow: none; }
+.omni-password__input.omni-input:disabled { background: var(--omni-color-surface-muted); }
+/* IgnorePasswordManagers: a text input drawn as dots, so no password manager treats it as a login field. */
+.omni-password__input--masked { -webkit-text-security: disc; }
+.omni-password__toggle {
+    background: var(--omni-color-surface-muted);
+    border: 0;
+    border-inline-start: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: 0;
+    border-end-end-radius: var(--omni-radius);
+    border-start-end-radius: var(--omni-radius);
+    color: var(--omni-color-text);
+    cursor: pointer;
+    font: inherit;
+    padding-inline: var(--omni-space-md);
+}
+/* The field draws the outer ring around the pair (:focus-within); the eye marks which part has the
+   focus with the inner ring, clipped to its own corners. */
+.omni-password__toggle:focus-visible { box-shadow: var(--omni-focus-ring-inset); outline: none; }
+/* L'oeil : un carré aussi haut que le champ, étiré par la rangée, collé au champ par sa bordure
+   commune ; le glyphe change sans que le bouton change de taille. La largeur est donnée : étiré en
+   hauteur par la rangée, le bouton ne tirait pas sa largeur de aspect-ratio et restait à la largeur
+   de l'icône (21 px sous un champ de 28, mesuré le 2026-09-21). Une application qui change la
+   hauteur des champs règle --omni-password-toggle-size. */
+.omni-password__toggle--icon { align-items: center; aspect-ratio: 1; display: inline-flex; flex: 0 0 auto; inline-size: var(--omni-password-toggle-size, var(--omni-control-height)); justify-content: center; padding: 0; }
+.omni-text-area { display: grid; gap: var(--omni-space-xs); }
+.omni-text-area__input { line-height: 1.45; min-height: calc(var(--omni-control-height) * 2.3); resize: vertical; }
+.omni-text-area__count { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); justify-self: end; }
+
+/* Check boxes and radios are drawn, not left to the platform: sized by the density, filled with the
+   accent and its ink when checked, the theme's small radius on the box. Every check box of the
+   package reads this one rule (the check box, the check box list, the grid's selection column and the
+   multi-selects), and no switch can match it: OmniSwitch is a button with role="switch", not a check
+   box input, so the mockup's :not(.omni-switch) exclusion has nothing to exclude here. */
+:is(.omni-checkbox, .omni-multi-select__checkbox, .omni-multi-select-compact__option > input[type="checkbox"]),
+.omni-radio {
+    appearance: none;
+    background: var(--omni-color-surface);
+    block-size: var(--omni-check-size);
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-grid;
+    flex: none;
+    inline-size: var(--omni-check-size);
+    margin: 0;
+    place-content: center;
+}
+:is(.omni-checkbox, .omni-multi-select__checkbox, .omni-multi-select-compact__option > input[type="checkbox"]) { border-radius: var(--omni-radius-sm); }
+:is(.omni-checkbox, .omni-multi-select__checkbox, .omni-multi-select-compact__option > input[type="checkbox"])::before { block-size: 0.5rem; border: solid var(--omni-color-on-accent-fill); border-width: 0 2px 2px 0; box-sizing: border-box; content: ""; inline-size: 0.3125rem; opacity: 0; transform: translateY(-1px) rotate(45deg); }
+:is(.omni-checkbox, .omni-multi-select__checkbox, .omni-multi-select-compact__option > input[type="checkbox"]):checked { background: var(--omni-color-accent-fill); border-color: var(--omni-color-accent-fill); }
+:is(.omni-checkbox, .omni-multi-select__checkbox, .omni-multi-select-compact__option > input[type="checkbox"]):checked::before { opacity: 1; }
+/* The dot is 8 px in a 14 px inner box: three whole pixels on each side. At 7 px it fell on a half
+   pixel and looked off centre. */
+.omni-radio { border-radius: var(--omni-radius-circle); }
+.omni-radio::before { background: var(--omni-color-on-accent-fill); block-size: 0.5rem; border-radius: var(--omni-radius-circle); content: ""; inline-size: 0.5rem; transform: scale(0); transition: transform var(--omni-duration-fast) ease; }
+.omni-radio:checked { background: var(--omni-color-accent-fill); border-color: var(--omni-color-accent-fill); }
+.omni-radio:checked::before { transform: scale(1); }
+:is(.omni-checkbox, .omni-multi-select__checkbox, .omni-multi-select-compact__option > input[type="checkbox"], .omni-radio):focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+:is(.omni-checkbox, .omni-multi-select__checkbox, .omni-multi-select-compact__option > input[type="checkbox"], .omni-radio):disabled { cursor: not-allowed; }
+/* A disabled choice-list item dims as a whole, so its control does not dim a second time inside it. */
+:is(.omni-checkbox, .omni-multi-select__checkbox, .omni-multi-select-compact__option > input[type="checkbox"], .omni-radio):disabled:not(.omni-choice-list__item > *) { opacity: 0.55; }
+:is(.omni-checkbox, .omni-radio)[aria-invalid="true"] { border-color: var(--omni-color-danger); }
+@media (prefers-reduced-motion: reduce) { .omni-radio::before { transition: none; } }
+/* A two-state check box with its text: the label wraps both, so the text names and toggles the box. */
+.omni-checkbox-label { align-items: center; color: var(--omni-color-text); cursor: pointer; display: inline-flex; gap: var(--omni-space-sm); }
+.omni-checkbox-label:has(> .omni-checkbox:disabled) { cursor: not-allowed; }
+/* The row centres the box on the middle of the letters, not on the line box: trimmed to the cap height
+   and the baseline, the text box is its letters, whose middle sits below the middle of the line box in
+   most fonts. The line keeps its height (1lh), so trimming moves nothing around it. */
+/* A labelled check box is a control: its text follows the control font, so the label grows and shrinks
+   with the density and the control size like a button (the comfortable default is the body size). */
+.omni-checkbox-label { font-size: var(--omni-control-font); min-block-size: 1lh; }
+.omni-checkbox-label__text { text-box: trim-both cap alphabetic; }
+/* Text before the box: the line reads "label ....... box" while the box stays the control. */
+.omni-checkbox-label--text-first > .omni-checkbox { order: 1; }
+/* A button, which centres its text by default: a label on two lines starts at the box, as the
+   two-state check box beside it does. */
+.omni-checkbox-nullable {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: var(--omni-color-text);
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    gap: var(--omni-space-sm);
+    /* The padding keeps the focus ring off the box and the text; the negative margin gives it back
+       on both sides, so the box starts where a two-state check box stacked with it starts. */
+    margin-inline: calc(-1 * var(--omni-space-xs));
+    padding: var(--omni-space-xs);
+    text-align: start;
+}
+.omni-checkbox-nullable__indicator {
+    align-items: center;
+    background: var(--omni-color-surface);
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    /* The theme's small radius, as on badges. */
+    border-radius: var(--omni-radius-sm);
+    display: inline-flex;
+    height: var(--omni-check-size);
+    justify-content: center;
+    width: var(--omni-check-size);
+}
+.omni-checkbox-nullable--checked .omni-checkbox-nullable__indicator { background: var(--omni-color-accent-fill); border-color: var(--omni-color-accent-fill); }
+.omni-checkbox-nullable--checked .omni-checkbox-nullable__indicator::after { color: var(--omni-color-on-accent-fill); content: "✓"; font-size: var(--omni-font-size-sm); }
+.omni-checkbox-nullable--mixed .omni-checkbox-nullable__indicator::after { background: var(--omni-color-accent); content: ""; height: 0.15rem; width: 0.6rem; }
+.omni-checkbox-nullable:focus-visible { border-radius: var(--omni-radius); box-shadow: var(--omni-focus-ring); outline: none; }
+
+.omni-switch {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: var(--omni-color-text);
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    gap: var(--omni-space-sm);
+    /* Same compensation as the tri-state check box: the track starts where a two-state box does. */
+    margin-inline: calc(-1 * var(--omni-space-xs));
+    padding: var(--omni-space-xs);
+    text-align: start;
+}
+/* Track and thumb derive from one height per density: the track is 1.8 heights wide, the thumb sits
+   3 px inside it (a 1 px rule and 2 px of padding), so the travel is always 0.8 of the height. */
+.omni-switch__track {
+    background: var(--omni-color-surface-highlight);
+    block-size: var(--omni-switch-h);
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    border-radius: var(--omni-radius-pill);
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: none;
+    inline-size: calc(var(--omni-switch-h) * 1.8);
+    padding: calc(3px - var(--omni-border-width));
+    transition: background-color var(--omni-duration-fast) ease, border-color var(--omni-duration-fast) ease;
+}
+.omni-switch__thumb {
+    background: var(--omni-color-surface);
+    block-size: calc(var(--omni-switch-h) - 6px);
+    border-radius: var(--omni-radius-circle);
+    box-shadow: var(--omni-shadow-sm);
+    display: block;
+    inline-size: calc(var(--omni-switch-h) - 6px);
+    transform: translateX(0);
+    transition: transform var(--omni-duration-fast) ease;
+}
+.omni-switch--checked .omni-switch__track { background: var(--omni-color-accent-fill); border-color: var(--omni-color-accent-fill); }
+.omni-switch--checked .omni-switch__thumb { background: var(--omni-color-on-accent-fill); transform: translateX(calc(var(--omni-switch-h) * 0.8)); }
+.omni-switch--mixed .omni-switch__track { background: var(--omni-color-warning); border-color: var(--omni-color-warning); }
+.omni-switch--mixed .omni-switch__thumb { transform: translateX(calc(var(--omni-switch-h) * 0.4)); }
+.omni-switch:focus-visible { border-radius: var(--omni-radius); box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-switch:disabled { cursor: not-allowed; opacity: 0.65; }
+/* Text before the track: the line reads "label ....... switch". */
+.omni-switch--text-first > .omni-switch__track { order: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+    .omni-switch__track,
+    .omni-switch__thumb { transition: none; }
+}
+
+.omni-multi-select,
+.omni-list-box { min-height: calc(var(--omni-control-height) * 3 + 0.25rem); }
+.omni-autocomplete { position: relative; }
+.omni-autocomplete__results {
+    backdrop-filter: var(--omni-overlay-filter, none);
+    background: var(--omni-overlay-background, var(--omni-color-surface));
+    border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border));
+    border-radius: var(--omni-card-radius, var(--omni-radius));
+    box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md));
+    display: grid;
+    list-style: none;
+    margin: var(--omni-space-xs) 0 0;
+    max-height: 16rem;
+    overflow: auto;
+    padding: var(--omni-space-xs);
+    position: absolute;
+    width: 100%;
+    z-index: var(--omni-z-popover);
+}
+/* Options, not buttons: the focus stays in the input and the highlighted option (aria-activedescendant)
+   carries the --active class. */
+.omni-autocomplete__option {
+    border-radius: var(--omni-radius-sm);
+    color: var(--omni-color-text);
+    cursor: pointer;
+    padding: var(--omni-space-sm);
+    text-align: start;
+}
+.omni-autocomplete__option:hover,
+.omni-autocomplete__option--active { background: var(--omni-color-surface-muted); }
+.omni-autocomplete__option--active { outline: var(--omni-border-width) solid var(--omni-color-accent); outline-offset: -1px; }
+.omni-autocomplete__option--selected { font-weight: 600; }
+.omni-autocomplete__option--disabled { background: transparent; color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
+/* OptionIconTemplate: the icon sits on the first line of the text, a fixed gap before it. */
+.omni-autocomplete__option-icon { align-items: center; display: inline-flex; margin-inline-end: var(--omni-space-sm); vertical-align: -0.125em; }
+/* Les lettres cherchées, en gras sur un fond d'accent. */
+.omni-autocomplete__match { background: color-mix(in srgb, var(--omni-color-accent) 24%, transparent); border-radius: var(--omni-radius-sm); color: inherit; font-weight: 700; }
+/* Selectable card: the choice is the accent frame and tint, the frame one width in every state so the
+   text never moves; hover leans the frame and the fill towards the accent, in light and dark alike. */
+.omni-selectable-card-group { display: grid; gap: var(--omni-space-sm); }
+.omni-selectable-card {align-items: center; background: var(--omni-card-background, var(--omni-color-surface)); border: 2px solid var(--omni-color-border); border-radius: var(--omni-card-radius, var(--omni-radius)); box-sizing: border-box; color: var(--omni-color-text); cursor: pointer; display: flex; font: inherit; gap: var(--omni-space-md); inline-size: 100%; padding: var(--omni-card-pad); text-align: start; transition: background-color var(--omni-duration-fast) ease, border-color var(--omni-duration-fast) ease; }
+.omni-selectable-card:hover:not([aria-disabled="true"]) { background: color-mix(in srgb, var(--omni-color-accent) 7%, var(--omni-card-background, var(--omni-color-surface))); border-color: color-mix(in srgb, var(--omni-color-accent) 55%, var(--omni-color-border)); }
+.omni-selectable-card:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-selectable-card.omni-selectable-card--selected { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent); }
+.omni-selectable-card--selected:hover:not([aria-disabled="true"]) { background: color-mix(in srgb, var(--omni-color-accent) 6%, var(--omni-color-accent-subtle)); }
+.omni-selectable-card[aria-disabled="true"] { cursor: default; opacity: 0.75; }
+.omni-selectable-card__icon { --omni-icon-size: 1.75rem; align-items: center; color: var(--omni-color-text-muted); display: inline-flex; flex: none; justify-content: center; }
+.omni-selectable-card__icon > svg { block-size: 1.75rem; inline-size: 1.75rem; }
+.omni-selectable-card--selected .omni-selectable-card__icon { color: var(--omni-color-accent-strong); }
+.omni-selectable-card__text { display: flex; flex: 1 1 auto; flex-direction: column; gap: var(--omni-space-xs); min-inline-size: 0; }
+.omni-selectable-card__title { font-weight: 600; }
+.omni-selectable-card__description { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
+@media (prefers-reduced-motion: reduce) { .omni-selectable-card { transition: none; } }
+
+.omni-choice-list { border: 0; box-sizing: border-box; display: grid; gap: calc(var(--omni-field-gap) + 2px); inline-size: 100%; margin: 0; min-inline-size: 0; padding: 0; }
+.omni-choice-list__legend { color: var(--omni-color-text); font-size: var(--omni-font-size-label); font-weight: 600; inline-size: 100%; margin-block-end: 6px; padding: 0; }
+.omni-choice-list__item { align-items: center; cursor: pointer; display: inline-flex; gap: 7px; }
+.omni-choice-list__item > input { cursor: inherit; margin: 0; }
+/* Invalid (an Error, or a validation message of the form), every radio or check box of the list takes
+   the danger border, as an invalid field does. */
+.omni-choice-list--invalid :is(.omni-radio, .omni-checkbox) { border-color: var(--omni-color-danger); }
+/* Une option indisponible se lit comme telle avant qu'on essaie de la choisir. */
+.omni-choice-list__item:is(.omni-choice-list__item--disabled, :has(> input:disabled)) { color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
+/* Trop large pour sa place, la barre défile sous un chevron de chaque côté qui cache encore des
+   options, comme les onglets, sans barre de défilement ; le rembourrage garde l'anneau de focus. */
+.omni-select-bar { align-items: center; display: inline-flex; max-inline-size: 100%; min-inline-size: 0; vertical-align: middle; }
+.omni-select-bar__viewport { display: flex; margin: -0.1875rem; min-inline-size: 0; overflow-x: auto; overscroll-behavior-x: contain; padding: 0.1875rem; scroll-behavior: smooth; scrollbar-width: none; }
+.omni-select-bar__viewport::-webkit-scrollbar { display: none; }
+@media (prefers-reduced-motion: reduce) { .omni-select-bar__viewport { scroll-behavior: auto; } }
+/* Les chevrons sont ceux d'une pile qui défile (.omni-stack-scroll__button). */
+.omni-select-bar__scroll { position: relative; z-index: 2; }
+.omni-select-bar__item {
+    align-items: center;
+    background: var(--omni-color-surface);
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    box-sizing: border-box;
+    color: var(--omni-color-text);
+    cursor: pointer;
+    display: inline-flex;
+    flex: 0 0 auto;
+    font: inherit;
+    min-height: var(--omni-control-height);
+    padding: 0 var(--omni-space-md);
+    white-space: nowrap;
+}
+/* Logical corners: the welded ends follow the reading direction. */
+.omni-select-bar__item:first-child { border-end-start-radius: var(--omni-radius); border-start-start-radius: var(--omni-radius); }
+.omni-select-bar__item:last-child { border-end-end-radius: var(--omni-radius); border-start-end-radius: var(--omni-radius); }
+.omni-select-bar__item + .omni-select-bar__item { border-inline-start: 0; }
+/* Selected takes the fill of every selected control (primary button, checked box, current page). */
+.omni-select-bar__item--selected { background: var(--omni-color-accent-fill); border-color: var(--omni-color-accent-fill); color: var(--omni-color-on-accent-fill); }
+.omni-select-bar__item:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; z-index: 1; }
+/* Une option indisponible est hachurée ; la barre entière désactivée s'éteint d'un bloc. */
+.omni-select-bar__item:disabled { background: repeating-linear-gradient(135deg, var(--omni-color-surface-muted) 0 0.375rem, var(--omni-color-surface) 0.375rem 0.75rem); color: var(--omni-color-text-muted); cursor: not-allowed; }
+.omni-select-bar__item--selected:disabled { background: color-mix(in srgb, var(--omni-color-accent-fill) 45%, var(--omni-color-surface)); border-color: transparent; color: var(--omni-color-on-accent-fill); }
+.omni-select-bar--disabled .omni-select-bar__item:not(.omni-select-bar__item--selected) { background: var(--omni-color-surface-muted); }
+.omni-select-bar--disabled .omni-select-bar__item { opacity: 0.6; }
+.omni-slider { align-items: center; display: flex; gap: var(--omni-space-sm); }
+.omni-slider__input { accent-color: var(--omni-color-accent); flex: 1; min-inline-size: 0; }
+.omni-slider--vertical { align-items: center; flex-direction: column; }
+.omni-slider--vertical .omni-slider__input { writing-mode: vertical-lr; }
+.omni-slider__value,
+.omni-color-picker__value { color: var(--omni-color-text); font-variant-numeric: tabular-nums; }
+.omni-color-picker { align-items: center; display: inline-flex; gap: var(--omni-space-sm); }
+.omni-color-picker__input { background: transparent; border: 0; height: calc(var(--omni-control-height) + 0.25rem); width: 3.5rem; }
+/* Envoi : une zone de dépôt en pointillés que le contrôle natif couvre, invisible, puis la liste des
+   fichiers, chacun sur sa ligne avec son icône dans une case, son nom, sa taille et, liée, sa croix. */
+.omni-upload { display: grid; gap: var(--omni-space-sm); }
+.omni-upload__zone { align-items: center; background: color-mix(in srgb, var(--omni-color-accent) 3%, var(--omni-color-surface)); border: calc(1.5 * var(--omni-border-width)) dashed color-mix(in srgb, var(--omni-color-text) 28%, transparent); border-radius: var(--omni-card-radius, var(--omni-radius)); display: grid; gap: 6px; justify-items: center; padding: calc(var(--omni-section-pad) - 2px) var(--omni-section-pad); position: relative; text-align: center; transition: background-color var(--omni-duration-fast) ease, border-color var(--omni-duration-fast) ease; }
+.omni-upload__input { block-size: 100%; cursor: pointer; inline-size: 100%; inset: 0; opacity: 0; position: absolute; }
+.omni-upload__zone .omni-disc { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); }
+.omni-upload__prompt { font-weight: 600; }
+.omni-upload__browse { color: var(--omni-color-accent-strong); text-decoration: underline; }
+.omni-upload__hint { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
+.omni-upload__zone:hover { border-color: color-mix(in srgb, var(--omni-color-accent) 55%, transparent); }
+.omni-upload--dragging .omni-upload__zone { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent-fill); border-style: solid; }
+.omni-upload__zone:has(> .omni-upload__input:focus-visible) { border-color: var(--omni-color-accent); box-shadow: var(--omni-focus-ring); }
+.omni-upload--disabled :is(.omni-upload__zone, .omni-upload__field) { opacity: 0.55; }
+.omni-upload--disabled .omni-upload__zone { background: var(--omni-color-surface-muted); border-color: var(--omni-color-border); }
+.omni-upload--disabled .omni-upload__input { cursor: not-allowed; }
+/* A single file as a field and a button welded into one control: inner corners square, no gap. The
+   native control covers both, so the pointer, the focus and the drop all reach it; the field shows
+   the focus ring and the button the hover of the pair. */
+.omni-upload__field { display: flex; min-inline-size: 0; position: relative; }
+.omni-upload__field-value { align-items: center; border-end-end-radius: 0; border-start-end-radius: 0; display: flex; flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-upload__field-value--empty { color: var(--omni-color-text-muted); }
+.omni-upload__field-button { border-end-start-radius: 0; border-start-start-radius: 0; flex: none; }
+.omni-upload__field:hover > .omni-upload__field-value { border-color: color-mix(in srgb, var(--omni-color-text) 45%, var(--omni-color-border)); }
+.omni-upload__field:hover > .omni-upload__field-button { background: var(--omni-button-fill-hover); }
+.omni-upload__field:has(> .omni-upload__input:focus-visible) > .omni-upload__field-value { border-color: var(--omni-color-accent-fill); box-shadow: var(--omni-focus-ring); }
+.omni-upload--dragging .omni-upload__field-value { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent-fill); }
+.omni-upload__list { display: grid; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.omni-upload__file { align-items: center; background: var(--omni-card-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-radius); display: grid; gap: 0.25rem 0.625rem; grid-template-columns: auto minmax(0, 1fr) auto; min-inline-size: 0; padding: var(--omni-item-pad-y) 0.625rem; }
+.omni-upload__file-icon { align-items: center; background: var(--omni-color-neutral-fill); block-size: var(--omni-icon-box); border-radius: var(--omni-radius); color: var(--omni-color-text-muted); display: grid; grid-row: span 2; inline-size: var(--omni-icon-box); overflow: hidden; place-content: center; }
+.omni-upload__file-name { font-weight: 500; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-upload__file-meta { align-items: center; color: var(--omni-color-text-muted); display: flex; font-size: var(--omni-font-size-sm); gap: 8px; grid-column: 2; }
+.omni-upload__actions { display: flex; gap: 2px; grid-column: 3; grid-row: 1 / span 2; }
+.omni-upload__remove { background: transparent; border: 0; border-radius: var(--omni-radius); color: var(--omni-color-text-muted); cursor: pointer; display: inline-grid; flex: 0 0 auto; place-items: center; min-block-size: calc(var(--omni-control-height) - 0.25rem); min-inline-size: calc(var(--omni-control-height) - 0.25rem); }
+.omni-upload__remove:hover { background: color-mix(in srgb, var(--omni-color-danger) 14%, transparent); color: var(--omni-color-danger); }
+.omni-upload__remove:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-upload__remove:disabled { cursor: not-allowed; opacity: 0.5; }
+/* Reduced list: under it, the count, Show all or Show less with a chevron that turns, and Remove all
+   pushed to the end. */
+.omni-upload__toolbar { align-items: center; display: flex; flex-wrap: wrap; gap: 4px 8px; }
+.omni-upload__count { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-label); }
+.omni-upload__clear { margin-inline-start: auto; }
+.omni-upload__chevron { display: inline-grid; transition: transform var(--omni-duration-medium) ease; }
+.omni-upload__show-all[aria-expanded="true"] .omni-upload__chevron { transform: rotate(180deg); }
+@media (prefers-reduced-motion: reduce) { .omni-upload__zone, .omni-upload__chevron { transition: none; } }
+.omni-upload__cancel,
+.omni-upload__retry { justify-self: start; }
+.omni-upload__message { margin: 0; }
+.omni-upload__message--error { color: var(--omni-color-danger); }
+
+/* Les contrôles natifs et les barres de défilement suivent le thème de leur portée, clair compris. */
+[data-omni-theme="light"] { color-scheme: light; }
+/* A scope that follows the system is light when the system is: without this, its scrollbars and native
+   pickers followed the host page, dark ones on light tokens under a dark host. The dark half is set
+   with the generated dark tokens. */
+@media (prefers-color-scheme: light) {
+    [data-omni-theme="system"] { color-scheme: light; }
+}
+/* Sélecteurs de date, d'heure, de date et heure : un champ texte et son bouton, et un panneau sur le
+   calque des surfaces flottantes (jetons --omni-overlay-*), comme le menu. Le contrôle natif de date
+   dessinait sa fenêtre lui-même, sans style possible ; celle-ci suit le thème et la densité : cases du
+   calendrier à --omni-cal-cell, marge du panneau à --omni-pop-pad, champ à --omni-control-height,
+   éléments des colonnes d'heure à --omni-item-pad-y. */
+.omni-date { position: relative; }
+.omni-date__field { position: relative; }
+.omni-date__field .omni-input { padding-inline-end: calc(var(--omni-control-height) + 0.25rem); }
+.omni-date__toggle { align-items: center; background: transparent; block-size: calc(var(--omni-control-height) - 0.375rem); border: 0; border-radius: var(--omni-radius); color: var(--omni-color-text-muted); cursor: pointer; display: inline-grid; inline-size: calc(var(--omni-control-height) - 0.375rem); inset-block-start: 50%; inset-inline-end: 3px; padding: 0; place-content: center; position: absolute; transform: translateY(-50%); }
+/* La cible atteint 44 px sans changer le dessin du bouton, comme la fermeture des alertes. */
+.omni-date__toggle::before { content: ""; inset: min(0px, calc((var(--omni-control-height) - 0.375rem - 2.75rem) / 2)); position: absolute; }
+.omni-date__toggle:hover:not(:disabled),
+.omni-date__toggle[aria-expanded="true"] { background: var(--omni-color-surface-hover); color: var(--omni-color-accent-strong); }
+.omni-date__toggle:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-date__toggle:disabled { cursor: not-allowed; opacity: 0.55; }
+.omni-date__toggle svg { block-size: 1.05rem; inline-size: 1.05rem; }
+.omni-calendar {
+    --omni-button-size: calc(var(--omni-control-height) - 0.25rem);
+    backdrop-filter: var(--omni-overlay-filter, none);
+    background: var(--omni-overlay-background, var(--omni-color-surface));
+    border: var(--omni-card-border-width, var(--omni-border-width, 1px)) solid var(--omni-card-border-color, var(--omni-color-border));
+    border-radius: var(--omni-card-radius, var(--omni-radius));
+    box-shadow: var(--omni-overlay-shadow, var(--omni-card-shadow, 0 0 #0000));
+    box-sizing: border-box;
+    color: var(--omni-color-text);
+    inset-block-start: calc(100% + 6px);
+    inset-inline-start: 0;
+    padding: var(--omni-pop-pad);
+    position: absolute;
+    z-index: var(--omni-z-popover);
+}
+.omni-calendar__head { align-items: center; display: flex; gap: 4px; justify-content: space-between; margin-block-end: 6px; }
+.omni-calendar__title { font-size: var(--omni-control-font); font-weight: 600; padding-inline-start: 6px; text-transform: capitalize; }
+.omni-calendar__nav { display: flex; gap: 2px; }
+.omni-calendar__grid { display: grid; gap: 2px; grid-template-columns: repeat(7, var(--omni-cal-cell)); }
+/* Les rangées portent le rôle row de la grille ARIA sans créer de boîte : les cases restent dans la
+   grille CSS. */
+.omni-calendar__row { display: contents; }
+.omni-calendar__weekday { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-xs); font-weight: 600; padding-block: calc(var(--omni-item-pad-y) - 1px); text-align: center; text-transform: uppercase; }
+.omni-calendar__day { background: transparent; block-size: var(--omni-cal-cell); border: 0; border-radius: var(--omni-radius); color: var(--omni-color-text); cursor: pointer; font: inherit; font-size: var(--omni-control-font); font-variant-numeric: tabular-nums; inline-size: var(--omni-cal-cell); padding: 0; }
+.omni-calendar__day:hover:not(:disabled) { background: var(--omni-color-surface-hover); }
+.omni-calendar__day--outside { color: var(--omni-color-text-muted); opacity: 0.6; }
+.omni-calendar__day--today { box-shadow: inset 0 0 0 1px var(--omni-color-accent-fill); color: var(--omni-color-accent-strong); font-weight: 600; }
+.omni-calendar__day[aria-selected="true"] { background: var(--omni-color-accent-fill); box-shadow: none; color: var(--omni-color-on-accent-fill); font-weight: 600; }
+.omni-calendar__day:disabled { cursor: not-allowed; opacity: 0.35; }
+.omni-calendar__day:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-calendar__foot { border-block-start: var(--omni-border-width, 1px) solid var(--omni-card-border-color, var(--omni-color-border)); display: flex; justify-content: space-between; margin-block-start: 8px; padding-block-start: 8px; }
+.omni-calendar__foot .omni-button { --omni-button-padding-inline: 0.625rem; }
+.omni-picker__body { display: flex; gap: 10px; }
+/* Heure : deux colonnes qui défilent, heures et minutes (trois avec les secondes). */
+.omni-time { display: flex; gap: 4px; }
+.omni-picker__body .omni-time { border-inline-start: var(--omni-border-width, 1px) solid var(--omni-card-border-color, var(--omni-color-border)); padding-inline-start: 10px; }
+.omni-time__col { display: flex; flex-direction: column; gap: 2px; inline-size: calc(var(--omni-cal-cell) * 1.45); }
+.omni-time__label { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-xs); font-weight: 600; padding: 4px 0; text-align: center; text-transform: uppercase; }
+.omni-time__list { display: flex; flex-direction: column; gap: 2px; max-block-size: calc(var(--omni-cal-cell) * 6.2); overflow-y: auto; scrollbar-color: color-mix(in srgb, var(--omni-color-text) 25%, transparent) transparent; scrollbar-width: thin; }
+.omni-time__item { background: transparent; border: 0; border-radius: var(--omni-radius); color: var(--omni-color-text); cursor: pointer; flex: none; font: inherit; font-size: var(--omni-control-font); font-variant-numeric: tabular-nums; padding: var(--omni-item-pad-y) 0; }
+.omni-time__item:hover:not(:disabled) { background: var(--omni-color-surface-hover); }
+.omni-time__item[aria-selected="true"] { background: var(--omni-color-accent-fill); color: var(--omni-color-on-accent-fill); font-weight: 600; }
+.omni-time__item:disabled { cursor: not-allowed; opacity: 0.35; }
+.omni-time__item:focus-visible { box-shadow: var(--omni-focus-ring-inset); outline: none; }
+
+.omni-toggle-button,
+.omni-split-button__main,
+.omni-split-button__toggle {
+    background: var(--omni-color-surface);
+    border: var(--omni-border-width) solid var(--omni-color-border);
+    color: var(--omni-color-text);
+    cursor: pointer;
+    font: inherit;
+}
+/* Bouton bascule et bouton partagé : le gabarit d'OmniButton, tailles et forme du thème comprises. */
+.omni-toggle-button,
+.omni-split-button__main,
+.omni-split-button__toggle { align-items: center; box-shadow: var(--omni-button-shadow); box-sizing: border-box; display: inline-flex; font-size: var(--omni-button-font-size, var(--omni-control-font)); font-weight: var(--omni-button-font-weight); gap: var(--omni-space-sm); justify-content: center; letter-spacing: var(--omni-button-letter-spacing); min-height: var(--omni-button-size, var(--omni-control-height)); text-transform: var(--omni-button-text-transform); }
+/* The end padding gives the letter spacing back, as on OmniButton. */
+.omni-toggle-button,
+.omni-split-button__main { padding-block: 0; padding-inline: var(--omni-button-padding-inline, var(--omni-button-pad-x)) calc(var(--omni-button-padding-inline, var(--omni-button-pad-x)) - var(--omni-button-letter-spacing, 0em)); }
+.omni-toggle-button { border-radius: var(--omni-button-radius, var(--omni-radius)); }
+.omni-toggle-button:where(:has(> .omni-icon:only-child)) { min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding-inline: 0; }
+.omni-toggle-button--pressed { background: var(--omni-color-accent-fill); border-color: var(--omni-color-accent-fill); color: var(--omni-color-on-accent-fill); }
+.omni-split-button { display: inline-flex; position: relative; }
+/* Logical corners, one longhand each: the ends follow the reading direction, and a two-value theme
+   radius (Nénuphar's leaf) stays one valid elliptical corner instead of breaking a shorthand. */
+.omni-split-button__main { border-end-start-radius: var(--omni-button-radius, var(--omni-radius)); border-start-start-radius: var(--omni-button-radius, var(--omni-radius)); }
+/* The icon of the main part follows the split button: small in a small one, medium otherwise. */
+.omni-split-button--small > .omni-split-button__main { --omni-icon-size: 1rem; }
+.omni-split-button__toggle { border-inline-start: 0; border-end-end-radius: var(--omni-button-radius, var(--omni-radius)); border-start-end-radius: var(--omni-button-radius, var(--omni-radius)); min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding: 0; }
+/* Variants: the four colours of OmniButton, read by both parts together. Secondary is the default
+   and renders without a class, so the component root holds its neutral fill. */
+.omni-split-button { --omni-button-fill: var(--omni-color-neutral-fill); --omni-button-fill-hover: var(--omni-color-neutral-fill-hover); --omni-button-fill-active: var(--omni-color-neutral-fill-active); --omni-button-ink: var(--omni-color-text); }
+.omni-split-button--primary { --omni-button-fill: var(--omni-color-accent-fill); --omni-button-fill-hover: var(--omni-color-accent-fill-hover); --omni-button-fill-active: var(--omni-color-accent-fill-active); --omni-button-ink: var(--omni-color-on-accent-fill); }
+.omni-split-button--info { --omni-button-fill: var(--omni-color-info-bright); --omni-button-fill-hover: var(--omni-color-info-bright-hover); --omni-button-fill-active: var(--omni-color-info-bright-active); --omni-button-ink: var(--omni-color-on-bright); }
+.omni-split-button--success { --omni-button-fill: var(--omni-color-success-bright); --omni-button-fill-hover: var(--omni-color-success-bright-hover); --omni-button-fill-active: var(--omni-color-success-bright-active); --omni-button-ink: var(--omni-color-on-bright); }
+.omni-split-button--warning { --omni-button-fill: var(--omni-color-warning-deep); --omni-button-fill-hover: var(--omni-color-warning-deep-hover); --omni-button-fill-active: var(--omni-color-warning-deep-active); --omni-button-ink: var(--omni-color-on-deep); }
+.omni-split-button--danger { --omni-button-fill: var(--omni-color-danger-deep); --omni-button-fill-hover: var(--omni-color-danger-deep-hover); --omni-button-fill-active: var(--omni-color-danger-deep-active); --omni-button-ink: var(--omni-color-on-deep); }
+.omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle) { background: var(--omni-button-fill); border-color: var(--omni-button-border-color); color: var(--omni-button-ink); transition: background-color var(--omni-duration-fast) ease, color var(--omni-duration-fast) ease, box-shadow var(--omni-duration-fast) ease, transform var(--omni-duration-press) ease; }
+.omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle):hover:not(:disabled) { background: var(--omni-button-fill-hover); }
+.omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle):active:not(:disabled) { background: var(--omni-button-fill-active); box-shadow: var(--omni-button-press-shadow, var(--omni-button-shadow)); transform: var(--omni-button-press-transform, translateY(1px)); }
+/* A rule in the ink separates the two parts of one fill. */
+.omni-split-button:not(.omni-split-button--ghost) > .omni-split-button__toggle { border-inline-start: var(--omni-border-width) solid color-mix(in srgb, var(--omni-button-ink) 40%, transparent); }
+/* Ghost stays flat, at rest and pressed, for the reason given on .omni-button--ghost. */
+.omni-split-button--ghost { --omni-button-fill: transparent; --omni-button-fill-hover: var(--omni-color-surface-hover); --omni-button-fill-active: var(--omni-color-surface-highlight); --omni-button-ink: var(--omni-color-accent-strong); }
+.omni-split-button--ghost > :is(.omni-split-button__main, .omni-split-button__toggle) { --omni-button-shadow: 0 0 #0000; border-color: transparent; }
+.omni-split-button--ghost > :is(.omni-split-button__main, .omni-split-button__toggle):active:not(:disabled) { box-shadow: 0 0 #0000; }
+@media (prefers-reduced-motion: reduce) {
+    .omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle) { transition: none; }
+}

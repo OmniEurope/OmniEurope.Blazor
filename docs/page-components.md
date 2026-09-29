@@ -27,12 +27,13 @@ commencent leur contenu à la même hauteur :
 
 - ligne 1 : bouton retour, icône, titre, badges, actions, puis le menu « ⋮ » (`MenuContent`). Un titre
   trop long défile entre deux chevrons posés de chaque côté au lieu de passer à la ligne. Sur téléphone,
-  un bouton « Voir plus » (`aria-expanded`) déplie badges et actions, le menu « ⋮ » restant visible ;
+  et à toute largeur quand la ligne 1 manque de place, un bouton « Voir plus » (`aria-expanded`)
+  déplie badges et actions, le menu « ⋮ » restant visible ;
 - ligne 2, toujours réservée : le fil d'Ariane sous le titre, dont le dernier maillon est le titre de la
   page, ou le sous-titre quand la page n'a pas d'ancêtre à montrer (ou avec `ShowTrail="false"`).
 
 Le sous-titre, quand la ligne 2 porte le fil, et les filtres viennent sous le bloc. Le script
-`omni-page-header.js` (défilement du titre, dépliage sur téléphone) est libéré par `DisposeAsync`.
+`omni-page-header.js` (défilement du titre, repli quand la ligne 1 déborde, par l'attribut `data-compact`) est libéré par `DisposeAsync`.
 
 | Paramètre | Rôle |
 | --- | --- |
@@ -42,7 +43,7 @@ Le sous-titre, quand la ligne 2 porte le fil, et les filtres viennent sous le bl
 | `ShowTrail`, `TrailLabel` | Le fil d'Ariane sur la ligne 2 (vrai par défaut) et son nom accessible. `false`, la ligne 2 montre le sous-titre. La ligne garde sa hauteur dans tous les cas. |
 | `ShowBack`, `BackHref`, `BackLabel` | Le bouton retour : vers `BackHref`, sinon vers l'ancêtre le plus proche qui porte un lien, sinon un pas en arrière dans l'historique du navigateur. |
 | `BackVariant` | L'aspect du bouton retour : `Primary` par défaut, la même flèche d'accent sur chaque page ; `Ghost` pour un retour discret. |
-| `Badges`, `Actions` | Après le titre, sur la ligne 1. Sur téléphone, ils se replient derrière le bouton « Voir plus » (`aria-expanded`). |
+| `Badges`, `Actions` | Après le titre, sur la ligne 1. Sur téléphone, et à toute largeur quand la ligne 1 manque de place, ils se replient derrière le bouton « Voir plus » (`aria-expanded`). |
 | `MenuContent` | Les `OmniMenuItem` du menu « ⋮ » en fin de ligne 1, un `OmniOverflowMenu` ; aucun menu sans lui. Il reste visible sur téléphone. |
 | `Icon` | Icône avant le titre (`aria-hidden`, couleur primaire). Le titre est alors rogné à ses capitales, si bien que le centre de l'icône tombe sur le centre du texte quelle que soit la police. |
 | `Framed` | `false` par défaut : les deux lignes posées directement sur la page, sans bordure, fond ni marge intérieure, le titre commençant à l'aplomb du contenu. `true` les met dans un bloc bordé sur la surface. Le bloc garde sa hauteur fixe dans les deux cas. |

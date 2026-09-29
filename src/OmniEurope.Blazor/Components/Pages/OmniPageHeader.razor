@@ -6,8 +6,9 @@
    place. Line 1: back, icon, title, badges, actions and the "⋮" menu. Line 2, always reserved: the
    ancestors ending with the title (so the title is not written twice), or the subtitle when the page
    has no ancestor. A title longer than its line scrolls sideways, a chevron showing on each side that
-   still has text (omni-page-header.js). On a phone the badges and actions fold behind a "Show more"
-   toggle. Under the block: the subtitle when line 2 carries the trail, then the filters. *@
+   still has text (omni-page-header.js). The badges and actions fold behind a "Show more" toggle on a
+   phone, and at any width once line 1 has no room for them (omni-page-header.js marks the frame
+   data-compact). Under the block: the subtitle when line 2 carries the trail, then the filters. *@
 <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-page-header")">
     <div @ref="_frame" class="@FrameClass">
         <div class="omni-page-header__row">

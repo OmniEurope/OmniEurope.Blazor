@@ -69,7 +69,7 @@ public sealed class TimelineLayoutTests : OmniBunitContext
     [Fact]
     public void Stylesheet_AlternatesByRankOnlyInsideAWideEnoughTimeline()
     {
-        var css = File.ReadAllText(Path.Combine(RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var css = StylesheetSource.Read();
 
         Assert.Contains(".omni-timeline--alternate { container-type: inline-size; }", css, StringComparison.Ordinal);
         var query = css.IndexOf("@container (min-width: 30rem)", StringComparison.Ordinal);

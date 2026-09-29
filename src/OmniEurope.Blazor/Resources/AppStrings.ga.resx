@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Teorainn: {0} ró ar a mhéad</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Ginte ag (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Rónna easpórtáilte: {0} as {1} fógartha</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Rónna easpórtáilte: {0} as {1} ar a laghad</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Easpórtáil theasctha: {0} ró easpórtáilte as {1}, bhí an teorainn de {2} ró bainte amach.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Easpórtáil neamhiomlán: {0} ró easpórtáilte as {1} fógartha, d'athraigh na sonraí le linn na léitheoireachta.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Easpórtáil theoranta: bhí an teorainn de {0} ró bainte amach agus ní fhógraíonn an fhoinse iomlán, d'fhéadfadh níos mó rónna a bheith ann.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Gan rónna.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Cláraigh</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Gan chuntas?</value></data>

@@ -241,6 +241,10 @@ Passe de cohérence 1.2.0 (PLAN-007, décision du 2026-09-29 : ruptures sans ali
 
 ### Fixed
 
+- `OmniDataGrid` chargée par `Load` : la première requête part après l'enregistrement des colonnes et porte déjà leurs filtres et tris par défaut (`DefaultFilterValue`, tri par défaut), sans requête préalable non filtrée ; la grille s'ouvrait sans ses filtres par défaut alors que l'en-tête les montrait actifs (signalé par une application cliente). La requête part au premier rendu interactif : en prérendu, la grille montre son état de chargement au lieu d'une première page non filtrée.
+- `OmniPageHeader` replie badges et actions derrière « Voir plus » à toute largeur quand la ligne 1 manque de place, plus seulement sur téléphone (attribut `data-compact` posé par `omni-page-header.js`, demande de l'équipe d'une application cliente).
+- `OmniTextBox` avec `Debounce` : le texte en attente est transmis à la valeur liée quand le champ disparaît pendant le délai, au lieu d'être perdu.
+- Export Markdown : une source sans total arrêtée sur une page pleine à la limite de lignes écrit « N sur au moins M » et le signale, au lieu d'annoncer la limite comme total ; `OmniMarkdownTableDocument.TotalIsLowerBound` (nouveau) le dit et `IsComplete` est alors faux. `OmniMarkdownTableExporter.Build` prend un paramètre facultatif `totalIsLowerBound`.
 - `OmniDataGrid` virtuel chargé par `Load` : un bloc déjà demandé et pas encore reçu n'est plus redemandé. Chaque tri, filtre ou premier chargement envoyait deux requêtes identiques, le rendu de la barre de chargement redemandant la fenêtre pendant le chargement (signalé par une application cliente).
 - `OmniHtmlEditor` : l'alignement à droite pose `omni-align-end`, la classe que la feuille et l'assainisseur connaissent (l'ancienne `omni-align-right` était retirée et l'alignement perdu).
 - `OmniImage.Fit` (`Contain`, `Cover`) a de nouveau un effet quand `Width` et `Height` sont posés : la feuille ne force plus `height: auto` hors du mode naturel.
@@ -319,6 +323,8 @@ Passe de cohérence 1.2.0 (PLAN-007, décision du 2026-09-29 : ruptures sans ali
 
 ### Outillage du dépôt (sans effet sur le paquet publié)
 
+- Aucun fichier de production au-delà de 600 lignes de code effectives (lignes vides et commentaires exclus) : `OmniDataGrid`, `OmniMindMap` et `OmniHtmlEditor` délèguent à des collaborateurs internes, la table des glyphes Phosphor est répartie en trois tranches, `omni-html-editor.js`, `omni-grid.js` et `omni-focus.js` importent des modules auxiliaires (exports inchangés), et la feuille de style est écrite en douze parties ordonnées `src/OmniEurope.Blazor/Styles/NN-*.css`, assemblées puis minifiées par le build en une seule `omnieurope.blazor.css` servie au même chemin (contenu identique octet pour octet). API publique inchangée.
+- Contrats CSP et accessibilité rangés dans `docs/contracts/`.
 - Vitrine WebAssembly : les montants `{0:C0}` affichent « € » au lieu de « ¤ », quelle que soit la langue choisie.
 - Vitrine multilingue : sélecteur des 24 langues (endonymes), culture mémorisée dans `localStorage` (`omnieurope.showcase.culture`) puis page rechargée, données ICU complètes ; textes de la vitrine (`ShowcaseStrings`) traduits dans chaque langue, parité des clés testée. Une clé de démonstration inconnue affiche « introuvable » ; les anciens noms de thème et de palette sont ramenés aux noms actuels.
 - Sondes de la vitrine : la sonde de la carte mentale est branchée dans `eng/Test-ShowcaseHost.ps1` (cinq sondes par défaut : `Pickers`, `Density`, `Contrast`, `AutoFit`, `MindMap`). `eng/Test-Package.ps1` vérifie chaque fichier de `wwwroot` du paquet et chaque culture satellite. Les chemins des modules JS du paquet sont des constantes (`OmniModules`).

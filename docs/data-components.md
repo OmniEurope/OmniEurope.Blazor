@@ -457,7 +457,9 @@ de zéro).
 toutes les lignes annoncées, lues par le fournisseur de pages de l'export, et non la seule page ou fenêtre
 que la grille affiche. Il est occupé pendant la lecture, et une page en échec ne produit aucun fichier.
 `OnExport` reçoit le document produit, `OnExportError` l'exception d'un échec ; `Text` (`string?`) remplace
-le libellé localisé du bouton.
+le libellé localisé du bouton. Quand la source n'annonce pas de total et que la lecture s'arrête sur une
+page pleine à la limite de lignes, le document écrit « N sur au moins M » et une note le dit :
+`OmniMarkdownTableDocument.TotalIsLowerBound` est alors vrai et `IsComplete` faux.
 
 ## Tableau de cartes : `OmniKanban`
 

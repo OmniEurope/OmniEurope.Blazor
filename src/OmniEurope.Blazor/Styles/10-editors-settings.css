@@ -1,0 +1,158 @@
+/* Editors, viewers, logs, the spreadsheet, the Gantt chart and the mind map are frames drawn like the
+   grid's: the card's rule, radius and shadow, and the grid's fill (a theme's --omni-grid-background, the
+   card fill otherwise), so a theme's frame reaches them and a reading surface stays a plain panel. */
+.omni-html-editor, .omni-code-editor { background: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); display: grid; overflow: hidden; }
+.omni-html-editor__toolbar, .omni-html-editor__link { align-items: center; background: var(--omni-color-surface-muted); border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); padding: var(--omni-space-xs); }
+.omni-html-editor__toolbar button, .omni-html-editor__select, .omni-html-editor__link-input { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-sm); color: var(--omni-color-text); cursor: pointer; font: inherit; min-height: calc(var(--omni-control-height) + 0.5rem); }
+.omni-html-editor__toolbar button { align-items: center; display: inline-flex; justify-content: center; min-width: calc(var(--omni-control-height) + 0.5rem); }
+.omni-html-editor__select, .omni-html-editor__link-input, .omni-html-editor__tool--text { padding-inline: var(--omni-space-sm); }
+.omni-html-editor__select { max-width: 11rem; }
+.omni-html-editor__toolbar button[aria-pressed="true"] { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent); }
+.omni-html-editor__toolbar :is(button, select):focus-visible, .omni-html-editor__link-input:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-html-editor__toolbar :is(button, select):disabled { cursor: not-allowed; opacity: 0.5; }
+/* The toolbar wraps by groups of tools. Each group after the first carries its separator, drawn in the
+   middle of the wider gap before it: a separator stays with the group it opens, so none ends a row,
+   and the one of a group that starts a row falls left of the toolbar, which clips it. The toolbar's
+   padding (0.25rem) keeps the focus rings (0.2rem) inside the clip. */
+.omni-html-editor__toolbar { column-gap: calc(var(--omni-space-xs) * 4 + var(--omni-border-width)); overflow: hidden; }
+.omni-html-editor__group { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); position: relative; }
+.omni-html-editor__separator { border-inline-start: var(--omni-border-width) solid var(--omni-color-border); inset-block: 0; inset-inline-start: calc(-2 * var(--omni-space-xs) - var(--omni-border-width)); position: absolute; }
+/* The context menu of the extensions is a package menu (.omni-menu, OmniMenuItem rows); only the line
+   between two groups of entries is its own. */
+.omni-html-editor__menu-separator { border-block-start: var(--omni-border-width) solid var(--omni-color-border); margin-block: var(--omni-space-xs); }
+.omni-html-editor__link-input { cursor: text; flex: 1 1 14rem; }
+.omni-html-editor__link-error { color: var(--omni-color-danger); flex-basis: 100%; margin: 0; }
+/* The text an extension proposes after the caret: dimmed, not selectable, gone at the next key. */
+.omni-html-editor__suggestion { color: var(--omni-color-text-muted); opacity: 0.75; pointer-events: none; user-select: none; }
+/* The panels of the built-in special characters and table import sit where the link field does. */
+.omni-html-editor__panel { background: var(--omni-color-surface-muted); border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: grid; gap: var(--omni-space-sm); padding: var(--omni-space-sm); }
+.omni-html-editor__panel-bar, .omni-html-editor__categories { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
+.omni-html-editor__panel-bar > .omni-html-editor__char-search, .omni-html-editor__table-file { flex: 1 1 14rem; }
+.omni-html-editor__panel-note { color: var(--omni-color-text-muted); font-size: var(--omni-control-font); margin: 0; }
+.omni-html-editor__characters { display: grid; gap: var(--omni-space-xs); grid-template-columns: repeat(auto-fill, minmax(2.5rem, 1fr)); max-height: 12rem; overflow-y: auto; }
+.omni-html-editor__character { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-sm); color: var(--omni-color-text); cursor: pointer; font: inherit; font-size: 1.125rem; min-height: 2.5rem; }
+.omni-html-editor__character:hover { background: var(--omni-color-surface-hover); }
+.omni-html-editor__character:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-html-editor__table-preview { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-sm); max-height: 14rem; overflow: auto; padding: var(--omni-space-xs); }
+.omni-html-editor__check { align-items: center; display: inline-flex; flex: 1 1 auto; gap: var(--omni-space-xs); }
+/* Show blocks: every block of the document gets a dashed outline, its structure visible while writing. */
+.omni-html-editor--show-blocks .omni-html-editor__surface :is(p, h1, h2, h3, h4, h5, h6, ul, ol, li, blockquote, pre, table, td, th, div, aside, section, figure) { outline: var(--omni-border-width) dashed color-mix(in srgb, var(--omni-color-text) 45%, var(--omni-color-border)); outline-offset: 2px; }
+.omni-html-editor__source, .omni-code-editor__fallback { background: var(--omni-color-surface); border: 0; color: var(--omni-color-text); font-family: var(--omni-font-family-monospace); padding: var(--omni-space-md); resize: vertical; }
+.omni-html-editor__source { min-height: 12rem; }
+:is(.omni-html-editor__source, .omni-html-editor__surface, .omni-code-editor__fallback):focus-visible { box-shadow: var(--omni-focus-ring-inset); outline: none; }
+.omni-html-editor__surface { min-height: calc(var(--omni-html-editor-rows, 12) * 1.5em); overflow-wrap: anywhere; padding: var(--omni-space-md); }
+.omni-html-editor__surface[contenteditable="false"] { background: var(--omni-color-surface-muted); }
+.omni-html-editor__preview { border-block-start: var(--omni-border-width) solid var(--omni-color-border); min-height: 4rem; padding: var(--omni-space-md); }
+.omni-rich-text > :first-child { margin-block-start: 0; }
+/* A quotation reads as set apart by a muted panel and its indent, never by an edge bar. */
+.omni-rich-text blockquote { background: var(--omni-color-surface-muted); border-radius: var(--omni-radius-sm); margin-inline: 0; padding: var(--omni-space-sm) var(--omni-space-md); }
+.omni-rich-text :is(code, pre) { background: var(--omni-color-surface-muted); font-family: var(--omni-font-family-monospace); }
+.omni-rich-text pre { padding: var(--omni-space-sm); white-space: pre-wrap; }
+.omni-rich-text table { border-collapse: collapse; width: 100%; }
+.omni-rich-text :is(td, th) { border: var(--omni-border-width) solid var(--omni-color-border); padding: calc(var(--omni-cell-pad-y) / 2) var(--omni-space-xs); }
+.omni-align-center { text-align: center; }
+.omni-align-end { text-align: end; }
+.omni-align-justify { text-align: justify; }
+.omni-font-size-small { font-size: 0.85em; }
+.omni-font-size-normal { font-size: 1em; }
+.omni-font-size-large { font-size: 1.3em; }
+.omni-font-size-xlarge { font-size: 1.7em; }
+.omni-document-editor .omni-html-editor { border-radius: var(--omni-radius) var(--omni-radius) 0 0; }
+.omni-document-editor--sheet .omni-html-editor__toolbar { inset-block-start: 0; position: sticky; z-index: 1; }
+.omni-document-editor--sheet .omni-html-editor--visual { background: var(--omni-color-surface-muted); }
+/* The sheet follows the density like the rest: its margins from the section padding, its height from
+   the control height; comfortable keeps 3 and 30 rem. Its text, prose, keeps its size.
+   The 50 rem page is a ceiling on a percentage width: a fixed width made the page's smallest width
+   50 rem, which widened a narrower column holding the editor and scrolled the whole page sideways. */
+.omni-document-editor--sheet .omni-html-editor__surface { background: var(--omni-color-surface); box-shadow: var(--omni-shadow-md); box-sizing: border-box; font-family: var(--omni-font-family-serif); line-height: 1.6; margin: var(--omni-space-lg) auto; max-width: 50rem; min-height: calc(var(--omni-control-height) * 13 + 0.75rem); padding: calc(var(--omni-section-pad) * 2 + 0.75rem); width: calc(100% - 2 * var(--omni-space-md)); }
+.omni-document-editor__status, .omni-code-editor__status { align-items: center; background: var(--omni-color-surface-muted); color: var(--omni-color-text-muted); display: flex; flex-wrap: wrap; font-size: var(--omni-font-size-sm); gap: var(--omni-space-md); justify-content: space-between; margin: 0; padding: var(--omni-space-xs) var(--omni-space-md); }
+.omni-document-editor__status { border: var(--omni-border-width) solid var(--omni-color-border); border-block-start: 0; border-radius: 0 0 var(--omni-radius) var(--omni-radius); justify-content: flex-start; }
+.omni-code-editor__status { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
+/* The two counts read together at the start, the export buttons go to the end. */
+.omni-document-editor__actions { display: flex; gap: var(--omni-space-xs); margin-inline-start: auto; }
+.omni-code-editor__host, .omni-code-editor__fallback { block-size: var(--omni-code-editor-height, 20rem); }
+.omni-code-editor__fallback { white-space: pre; }
+.omni-code-editor [hidden] { display: none; }
+/* Disabled: Monaco is read-only and the fallback disabled; the editor is dimmed like a disabled fieldset.
+   The HTML editor and the comparison dim the same way; ReadOnly never dims, the text stays fully legible. */
+.omni-code-editor--disabled,
+.omni-html-editor--disabled,
+.omni-diff-viewer--disabled { opacity: 0.65; }
+/* OmniDiffViewer: Monaco's diff editor, or the two texts in two panes split by a hairline (the border
+   colour showing through the gap), side by side or, inline, one above the other at half height each. */
+.omni-diff-viewer { background: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); display: grid; overflow: hidden; }
+.omni-diff-viewer [hidden] { display: none; }
+.omni-diff-viewer__host { block-size: var(--omni-code-editor-height, 20rem); }
+.omni-diff-viewer__panes { background: var(--omni-color-border); display: grid; gap: var(--omni-border-width); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.omni-diff-viewer--inline .omni-diff-viewer__panes { grid-template-columns: minmax(0, 1fr); }
+.omni-diff-viewer__pane { background: var(--omni-color-surface); display: grid; grid-template-rows: auto 1fr; min-inline-size: 0; }
+.omni-diff-viewer__pane-title { background: var(--omni-color-surface-muted); color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); font-weight: 650; padding: calc(var(--omni-cell-pad-y) / 2) var(--omni-space-md); }
+.omni-diff-viewer__text { background: var(--omni-color-surface); block-size: var(--omni-code-editor-height, 20rem); border: 0; box-sizing: border-box; color: var(--omni-color-text); font-family: var(--omni-font-family-monospace); font-size: var(--omni-font-size-base); inline-size: 100%; margin: 0; overflow: auto; padding: var(--omni-space-md); resize: none; white-space: pre; }
+.omni-diff-viewer--inline .omni-diff-viewer__text { block-size: calc(var(--omni-code-editor-height, 20rem) / 2); }
+.omni-diff-viewer__text:focus-visible { box-shadow: var(--omni-focus-ring-inset); outline: none; }
+.omni-diff-viewer__notice { background: var(--omni-color-warning-subtle); color: var(--omni-color-text); font-size: var(--omni-font-size-sm); margin: 0; padding: var(--omni-space-xs) var(--omni-space-md); }
+@media (max-width: 39.99rem) { .omni-diff-viewer__panes { grid-template-columns: minmax(0, 1fr); } }
+
+
+/* Busy veil (STD-BUSY). A busy control keeps its exact size and content: a dark layer breathes over
+   it (--omni-busy-veil-color), from a quarter to over half, so it reads as occupied in both
+   appearances. .btn-busy is the same rule under the application-kit name. No cursor: with pointer
+   events off the pointer never reaches the button. The veil covers the border too, with its own
+   inherited radius for the corners: laid inside the padding box under overflow: hidden, it left the
+   one-pixel border outside, read as a light rim around a darkened button, worst in dark mode. */
+.omni-busy,
+.btn-busy { pointer-events: none; position: relative; }
+.omni-busy::after,
+.btn-busy::after {
+    animation: omni-busy-veil 1.3s ease-in-out infinite;
+    background: var(--omni-busy-veil-color, #000000);
+    border-radius: inherit;
+    content: "";
+    inset: calc(-1 * var(--omni-button-border-width, 1px));
+    opacity: 0.25;
+    pointer-events: none;
+    position: absolute;
+}
+@keyframes omni-busy-veil { 0%, 100% { opacity: 0.25; } 50% { opacity: 0.55; } }
+@media (prefers-reduced-motion: reduce) {
+    .omni-busy::after,
+    .btn-busy::after { animation: none; opacity: 0.4; }
+}
+
+/* Réglages : une carte par thème, chaque réglage en encadré. */
+.omni-settings-section > .omni-card__body { display: flex; flex-direction: column; gap: calc(var(--omni-form-gap) - 4px); padding: var(--omni-section-pad); }
+.omni-settings-section__heading { display: grid; gap: 0.25rem; }
+.omni-settings-section__title { font-size: var(--omni-font-size-lg); font-weight: 650; margin: 0; }
+.omni-settings-hint { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-label); margin: 0; }
+/* The tile stands out from its card on a fill of its own: identical to the card in light mode, it
+   vanished. Six hundredths of the text in the card's fill, which darkens in light mode and lightens in
+   dark mode; otherwise drawn like the card (its rule, the radius). */
+.omni-settings-tile { background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-radius); display: flex; flex-direction: column; gap: var(--omni-space-sm); padding: var(--omni-tile-pad-y) 0.875rem; transition: background-color var(--omni-duration-fast) ease; }
+/* Every tile answers the pointer, an informative one included: the hover says which setting the eye is on. */
+.omni-settings-tile:hover { background: color-mix(in srgb, var(--omni-color-text) 10%, var(--omni-card-background, var(--omni-color-surface))); }
+
+/* Stat tile: a key figure on the card surface. The icon square takes the accent tint of the settings
+   tiles; the value is the largest text of the tile and never wraps; label and detail stay muted.
+   Clickable, it is a real button that keeps the card look, with the settings-tile hover. */
+.omni-stat-tile { align-items: center; background: var(--omni-card-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); color: var(--omni-color-text); display: flex; font: inherit; gap: var(--omni-space-sm); min-inline-size: 0; padding: var(--omni-tile-pad-y) 0.875rem; text-align: start; }
+.omni-stat-tile__icon { align-items: center; background: var(--omni-color-accent-subtle); block-size: var(--omni-icon-box); border-radius: var(--omni-radius); color: var(--omni-color-accent-strong); display: inline-flex; flex: none; inline-size: var(--omni-icon-box); justify-content: center; }
+.omni-stat-tile__text { display: flex; flex-direction: column; min-inline-size: 0; }
+.omni-stat-tile__value { font-size: 1.375rem; font-weight: 600; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-stat-tile__label,
+.omni-stat-tile__detail { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); overflow-wrap: anywhere; }
+.omni-stat-tile--action { cursor: pointer; transition: background-color var(--omni-duration-fast) ease; }
+.omni-stat-tile--action:hover { background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); }
+.omni-stat-tile--action:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-settings-tile__row { align-items: center; display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; }
+.omni-settings-tile__icon { align-items: center; background: var(--omni-color-accent-subtle); block-size: var(--omni-icon-box); border-radius: var(--omni-radius); color: var(--omni-color-accent-strong); display: inline-flex; flex: 0 0 auto; inline-size: var(--omni-icon-box); justify-content: center; }
+.omni-settings-tile__text { display: flex; flex: 1 1 12rem; flex-direction: column; gap: 0.25rem; }
+.omni-settings-tile__title { font-weight: 600; }
+/* Tuile à interrupteur : le libellé couvre la tuile ; contrôle et détails, positionnés après lui, passent
+   au-dessus sans z-index ni contexte d'empilement. L'indice n'a pas d'opacité, qui le passerait devant. */
+.omni-settings-tile--toggle { cursor: pointer; position: relative; }
+.omni-settings-tile--toggle .omni-settings-tile__title { cursor: pointer; }
+.omni-settings-tile--toggle .omni-settings-tile__title::after { content: ""; inset: 0; position: absolute; }
+.omni-settings-tile--toggle .omni-settings-tile__row > :not(.omni-settings-tile__icon, .omni-settings-tile__text),
+.omni-settings-tile--toggle > :not(.omni-settings-tile__row) { position: relative; }
+@media (prefers-reduced-motion: reduce) { .omni-settings-tile, .omni-appearance-settings__row, .omni-stat-tile--action { transition: none; } }
+
