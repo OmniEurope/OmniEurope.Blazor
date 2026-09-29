@@ -24,9 +24,11 @@ public partial class OmniTimePicker
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;
 
+    /// <summary>The earliest time that can be chosen or typed, included; none when null (the default).</summary>
     [Parameter]
     public TimeOnly? Minimum { get; set; }
 
+    /// <summary>The latest time that can be chosen or typed, included; none when null (the default). Not before <see cref="Minimum"/>.</summary>
     [Parameter]
     public TimeOnly? Maximum { get; set; }
 
@@ -37,12 +39,15 @@ public partial class OmniTimePicker
     [Parameter]
     public TimeSpan Step { get; set; } = TimeSpan.FromMinutes(5);
 
+    /// <summary>Whether the field and its panel toggle are disabled. Off by default.</summary>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>Whether the time can be read and selected but not changed: the field is <c>readonly</c> and the panel toggle disabled. Off by default.</summary>
     [Parameter]
     public bool ReadOnly { get; set; }
 
+    /// <summary>Identifiers of the elements that describe the field, written as <c>aria-describedby</c> on the input; none when null.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
 
@@ -98,6 +103,9 @@ public partial class OmniTimePicker
         return (int)step.TotalMinutes;
     }
 
+    /// <summary>Checks <see cref="Step"/> and the bounds.</summary>
+    /// <exception cref="ArgumentOutOfRangeException"><see cref="Step"/> is not a whole number of minutes from 1 to 30.</exception>
+    /// <exception cref="InvalidOperationException"><see cref="Minimum"/> is later than <see cref="Maximum"/>.</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -108,6 +116,9 @@ public partial class OmniTimePicker
         }
     }
 
+    /// <summary>Attaches the panel script when the panel opened, detaches it when it closed, and moves the focus into an open panel.</summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the panel is wired.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_popup is not null)
@@ -116,9 +127,20 @@ public partial class OmniTimePicker
         }
     }
 
+    /// <summary>Writes the time on 24 hours, <c>HH:mm</c>, or <c>HH:mm:ss</c> when it has seconds.</summary>
+    /// <param name="value">The time, or null.</param>
+    /// <returns>The text of the time, or null for none.</returns>
     protected override string? FormatValueAsString(TimeOnly? value) =>
         value?.ToString(PickerFormat.TimePattern(value.Value.Second != 0), CultureInfo.InvariantCulture);
 
+    /// <summary>
+    /// Reads a 24-hour time (<c>HH:mm</c> or <c>H:mm</c>, seconds accepted) or what the culture's parser
+    /// accepts; blank text means no time. A time out of the bounds is refused.
+    /// </summary>
+    /// <param name="value">The text to parse.</param>
+    /// <param name="result">The time read, or null.</param>
+    /// <param name="validationErrorMessage">Null on success; on failure, the localized "invalid time" message.</param>
+    /// <returns>True when the text is blank or a time within the bounds.</returns>
     protected override bool TryParseValueFromString(string? value, out TimeOnly? result, out string validationErrorMessage)
     {
         if (string.IsNullOrWhiteSpace(value))
@@ -140,6 +162,8 @@ public partial class OmniTimePicker
         return false;
     }
 
+    /// <summary>Releases the listeners of a panel still open, then the form subscription.</summary>
+    /// <param name="disposing">True when called from <see cref="IDisposable.Dispose"/>.</param>
     protected override void Dispose(bool disposing)
     {
         if (disposing)

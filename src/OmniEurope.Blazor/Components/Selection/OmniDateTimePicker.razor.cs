@@ -33,9 +33,11 @@ public partial class OmniDateTimePicker
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;
 
+    /// <summary>The earliest moment that can be chosen or typed, included; none when null (the default).</summary>
     [Parameter]
     public DateTime? Minimum { get; set; }
 
+    /// <summary>The latest moment that can be chosen or typed, included; none when null (the default). Not before <see cref="Minimum"/>.</summary>
     [Parameter]
     public DateTime? Maximum { get; set; }
 
@@ -43,12 +45,15 @@ public partial class OmniDateTimePicker
     [Parameter]
     public bool ShowSeconds { get; set; }
 
+    /// <summary>Whether the field and its panel toggle are disabled. Off by default.</summary>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>Whether the moment can be read and selected but not changed: the field is <c>readonly</c> and the panel toggle disabled. Off by default.</summary>
     [Parameter]
     public bool ReadOnly { get; set; }
 
+    /// <summary>Identifiers of the elements that describe the field, written as <c>aria-describedby</c> on the input; none when null.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
 
@@ -133,6 +138,9 @@ public partial class OmniDateTimePicker
         builder.CloseComponent();
     };
 
+    /// <summary>Checks <see cref="Step"/> and the bounds.</summary>
+    /// <exception cref="ArgumentOutOfRangeException"><see cref="Step"/> is not a whole number of minutes from 1 to 30.</exception>
+    /// <exception cref="InvalidOperationException"><see cref="Minimum"/> is later than <see cref="Maximum"/>.</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -143,6 +151,9 @@ public partial class OmniDateTimePicker
         }
     }
 
+    /// <summary>Attaches the panel script when the panel opened, detaches it when it closed, and moves the focus into an open panel.</summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the panel is wired.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_popup is not null)
@@ -151,9 +162,24 @@ public partial class OmniDateTimePicker
         }
     }
 
+    /// <summary>
+    /// Writes the moment as the current culture's short date (two-digit day and month, four-digit year)
+    /// then a 24-hour time, <c>HH:mm</c>, or <c>HH:mm:ss</c> when <see cref="ShowSeconds"/> is on.
+    /// </summary>
+    /// <param name="value">The moment, or null.</param>
+    /// <returns>The text of the moment, or null for none.</returns>
     protected override string? FormatValueAsString(DateTime? value) =>
         value?.ToString(PickerFormat.DateTimePattern(Culture, ShowSeconds), Culture);
 
+    /// <summary>
+    /// Reads the shape the field writes, the ISO shapes (<c>yyyy-MM-ddTHH:mm</c>, <c>yyyy-MM-dd HH:mm</c>)
+    /// or what the culture's parser accepts, seconds accepted whatever <see cref="ShowSeconds"/> says;
+    /// blank text means no value. A moment out of the bounds is refused.
+    /// </summary>
+    /// <param name="value">The text to parse.</param>
+    /// <param name="result">The moment read, or null.</param>
+    /// <param name="validationErrorMessage">Null on success; on failure, the localized "invalid date and time" message.</param>
+    /// <returns>True when the text is blank or a moment within the bounds.</returns>
     protected override bool TryParseValueFromString(string? value, out DateTime? result, out string validationErrorMessage)
     {
         if (string.IsNullOrWhiteSpace(value))
@@ -177,6 +203,8 @@ public partial class OmniDateTimePicker
         return false;
     }
 
+    /// <summary>Releases the listeners of a panel still open, then the form subscription.</summary>
+    /// <param name="disposing">True when called from <see cref="IDisposable.Dispose"/>.</param>
     protected override void Dispose(bool disposing)
     {
         if (disposing)

@@ -29,6 +29,10 @@ public sealed record OmniSpreadsheetData
     public int RowCount => Rows.Count;
 
     /// <summary>An empty sheet of the given size.</summary>
+    /// <param name="rowCount">Number of rows, zero or more.</param>
+    /// <param name="columnCount">Number of columns, zero or more.</param>
+    /// <returns>A sheet whose cells are all empty.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="rowCount"/> or <paramref name="columnCount"/> is negative.</exception>
     public static OmniSpreadsheetData Create(int rowCount, int columnCount)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(rowCount);
@@ -44,6 +48,11 @@ public sealed record OmniSpreadsheetData
     /// A sheet holding the given rows, at least <paramref name="rowCount"/> by
     /// <paramref name="columnCount"/>: the extra room is empty cells to type into.
     /// </summary>
+    /// <param name="rows">The cell inputs, row by row from column A; a null cell is empty.</param>
+    /// <param name="rowCount">Minimum number of rows; the sheet has more when <paramref name="rows"/> does.</param>
+    /// <param name="columnCount">Minimum number of columns; the sheet has more when the longest row does.</param>
+    /// <returns>A sheet whose rows all have the same number of cells.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="rows"/> is null.</exception>
     public static OmniSpreadsheetData FromRows(IEnumerable<IEnumerable<string?>> rows, int rowCount = 0, int columnCount = 0)
     {
         ArgumentNullException.ThrowIfNull(rows);
@@ -58,12 +67,17 @@ public sealed record OmniSpreadsheetData
     }
 
     /// <summary>The input of a cell, empty outside the sheet.</summary>
+    /// <param name="row">Zero-based row.</param>
+    /// <param name="column">Zero-based column.</param>
+    /// <returns>The input as typed, or an empty string.</returns>
     public string GetInput(int row, int column) =>
         row >= 0 && row < Rows.Count && column >= 0 && column < ColumnCount && column < Rows[row].Count
             ? Rows[row][column] ?? string.Empty
             : string.Empty;
 
     /// <summary>The input of the cell at an A1 address, empty for an address outside the sheet.</summary>
+    /// <param name="address">An A1 address such as <c>B3</c> or <c>$B$3</c>, in any case; an unreadable one gives an empty input.</param>
+    /// <returns>The input as typed, or an empty string.</returns>
     public string GetInput(string address) =>
         SpreadsheetAddress.TryParse(address, out var row, out var column) ? GetInput(row, column) : string.Empty;
 
@@ -71,6 +85,11 @@ public sealed record OmniSpreadsheetData
     /// The sheet with one cell's input replaced. A position past the last row or column grows the
     /// sheet to reach it.
     /// </summary>
+    /// <param name="row">Zero-based row.</param>
+    /// <param name="column">Zero-based column.</param>
+    /// <param name="input">The new input; null clears the cell.</param>
+    /// <returns>A new sheet; this one is left unchanged.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="row"/> or <paramref name="column"/> is negative.</exception>
     public OmniSpreadsheetData WithInput(int row, int column, string? input)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(row);
@@ -88,7 +107,10 @@ public sealed record OmniSpreadsheetData
         return this with { ColumnCount = columns, Rows = rows };
     }
 
-    /// <summary>The sheet with the input of the cell at an A1 address replaced.</summary>
+    /// <summary>The sheet with the input of the cell at an A1 address replaced, growing it when needed.</summary>
+    /// <param name="address">An A1 address such as <c>B3</c> or <c>$B$3</c>, in any case.</param>
+    /// <param name="input">The new input; null clears the cell.</param>
+    /// <returns>A new sheet; this one is left unchanged.</returns>
     /// <exception cref="ArgumentException">The address is not in the A1 notation.</exception>
     public OmniSpreadsheetData WithInput(string address, string? input) =>
         SpreadsheetAddress.TryParse(address, out var row, out var column)
@@ -109,16 +131,28 @@ public sealed record OmniSpreadsheetData
     /// What a cell shows: its number, its text, or its formula computed against the rest of the
     /// sheet. Computing one cell computes every cell it depends on.
     /// </summary>
+    /// <param name="row">Zero-based row.</param>
+    /// <param name="column">Zero-based column.</param>
+    /// <returns>The cell value; <see cref="OmniSpreadsheetValue.Empty"/> outside the sheet.</returns>
     public OmniSpreadsheetValue Evaluate(int row, int column) => new SpreadsheetEvaluator(this).Evaluate(row, column);
 
     /// <summary>What the cell at an A1 address shows; empty for an address outside the sheet.</summary>
+    /// <param name="address">An A1 address such as <c>B3</c> or <c>$B$3</c>, in any case; an unreadable one gives an empty value.</param>
+    /// <returns>The cell value, or <see cref="OmniSpreadsheetValue.Empty"/>.</returns>
     public OmniSpreadsheetValue Evaluate(string address) =>
         SpreadsheetAddress.TryParse(address, out var row, out var column) ? Evaluate(row, column) : OmniSpreadsheetValue.Empty;
 
     /// <summary>The letters naming a zero-based column: 0 is A, 25 is Z, 26 is AA.</summary>
+    /// <param name="column">Zero-based column.</param>
+    /// <returns>The column letters.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="column"/> is negative.</exception>
     public static string ColumnName(int column) => SpreadsheetAddress.ColumnName(column);
 
     /// <summary>The A1 address of a zero-based position, for instance <c>B3</c> for row 2, column 1.</summary>
+    /// <param name="row">Zero-based row.</param>
+    /// <param name="column">Zero-based column.</param>
+    /// <returns>The address, without <c>$</c> signs.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="row"/> or <paramref name="column"/> is negative.</exception>
     public static string Address(int row, int column) => SpreadsheetAddress.Format(row, column);
 
     /// <summary>Writes the sheet as compact JSON.</summary>
@@ -149,6 +183,9 @@ public sealed record OmniSpreadsheetData
     }
 
     /// <summary>Reads a sheet written by <see cref="ToJson"/>, squaring off rows of uneven length.</summary>
+    /// <param name="json">The JSON text.</param>
+    /// <returns>The sheet.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="json"/> is null.</exception>
     /// <exception cref="JsonException">The text is not a sheet.</exception>
     public static OmniSpreadsheetData FromJson(string json)
     {

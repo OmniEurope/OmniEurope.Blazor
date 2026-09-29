@@ -35,7 +35,7 @@
   <data name="PillarA11yTitle" xml:space="preserve"><value>Tillgänglighet som säkras av tester</value></data>
   <data name="PillarA11yBody" xml:space="preserve"><value>Roller, tillstånd och etiketter kontrolleras av testsviten, de utlovas inte bara i dokumentationen.</value></data>
   <data name="PillarWeightTitle" xml:space="preserve"><value>Bevakad storlek</value></data>
-  <data name="PillarWeightBody" xml:space="preserve"><value>Det publicerade paketet mäts mot en bytebudget vid varje bygge, formatmallen inräknad.</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Kontinuerlig integration kontrollerar att den levererade formatmallen är den minifierade kopian och mäter både sammansättningen och NuGet-paketet mot en storleksbudget.</value></data>
   <data name="DocsPageTitle" xml:space="preserve"><value>Dokumentation</value></data>
   <data name="DocsTitle" xml:space="preserve"><value>Dokumentation</value></data>
   <data name="DocsLead" xml:space="preserve"><value>Från installation av paketet till ditt första anpassade tema, i fem steg.</value></data>
@@ -579,4 +579,919 @@
   <data name="VFormNotSaved" xml:space="preserve"><value>Rätta de markerade fälten innan du sparar.</value></data>
   <data name="VFormDescriptionValue" xml:space="preserve"><value>Driftsätter huvudgrenen när acceptanstesterna har godkänts.</value></data>
   <data name="GridFiledColumn" xml:space="preserve"><value>Inlämnad</value></data>
+  <data name="DemoGridOpenCases" xml:space="preserve"><value>Öppna ärenden</value></data>
+  <data name="DemoGridRecentRuns" xml:space="preserve"><value>Senaste körningar</value></data>
+  <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Lång text i en smal kolumn</value></data>
+  <data name="DemoGridShortCaption" xml:space="preserve"><value>Tre ärenden, innehållets höjd</value></data>
+  <data name="DemoGridLongCaption" xml:space="preserve"><value>Tiotusen ärenden, högst 18rem</value></data>
+  <data name="DemoGridColumnReference" xml:space="preserve"><value>Referens</value></data>
+  <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Sökande</value></data>
+  <data name="DemoGridColumnCountry" xml:space="preserve"><value>Land</value></data>
+  <data name="DemoGridColumnAmount" xml:space="preserve"><value>Belopp</value></data>
+  <data name="DemoGridCountryBelgium" xml:space="preserve"><value>Belgien</value></data>
+  <data name="DemoGridCountryFrance" xml:space="preserve"><value>Frankrike</value></data>
+  <data name="DemoGridCountryLuxembourg" xml:space="preserve"><value>Luxemburg</value></data>
+  <data name="DemoGridCountryNetherlands" xml:space="preserve"><value>Nederländerna</value></data>
+  <data name="DemoGridStatusPending" xml:space="preserve"><value>Väntande</value></data>
+  <data name="DemoGridExportFileName" xml:space="preserve"><value>oppna-arenden</value></data>
+  <data name="DemoGridExportSort" xml:space="preserve"><value>Sortering</value></data>
+  <data name="DemoGridExportSortValue" xml:space="preserve"><value>referens, stigande</value></data>
+  <data name="DemoGridAdvancedLines" xml:space="preserve"><value>Stödlinjer</value></data>
+  <data name="DemoGridAdvancedDensity" xml:space="preserve"><value>Täthet</value></data>
+  <data name="DemoGridAdvancedPager" xml:space="preserve"><value>Sidindelning</value></data>
+  <data name="DemoGridAdvancedSelection" xml:space="preserve"><value>Markering</value></data>
+  <data name="DemoGridAdvancedFilters" xml:space="preserve"><value>Filter</value></data>
+  <data name="DemoGridAdvancedEdit" xml:space="preserve"><value>Redigering</value></data>
+  <data name="DemoGridAdvancedExpand" xml:space="preserve"><value>Expandering</value></data>
+  <data name="DemoGridAdvancedFooter" xml:space="preserve"><value>Tabellfot</value></data>
+  <data name="DemoGridAdvancedLinesNone" xml:space="preserve"><value>Inga</value></data>
+  <data name="DemoGridAdvancedLinesHorizontal" xml:space="preserve"><value>Vågräta</value></data>
+  <data name="DemoGridAdvancedLinesVertical" xml:space="preserve"><value>Lodräta</value></data>
+  <data name="DemoGridAdvancedLinesBoth" xml:space="preserve"><value>Båda</value></data>
+  <data name="DemoGridAdvancedDensityCompact" xml:space="preserve"><value>Kompakt</value></data>
+  <data name="DemoGridAdvancedDensityComfortable" xml:space="preserve"><value>Bekväm</value></data>
+  <data name="DemoGridAdvancedDensitySpacious" xml:space="preserve"><value>Luftig</value></data>
+  <data name="DemoGridAdvancedPagerBottom" xml:space="preserve"><value>Nedtill</value></data>
+  <data name="DemoGridAdvancedPagerTop" xml:space="preserve"><value>Upptill</value></data>
+  <data name="DemoGridAdvancedPagerBoth" xml:space="preserve"><value>Upptill och nedtill</value></data>
+  <data name="DemoGridAdvancedSelectionNone" xml:space="preserve"><value>Ingen</value></data>
+  <data name="DemoGridAdvancedSelectionSingle" xml:space="preserve"><value>En rad</value></data>
+  <data name="DemoGridAdvancedSelectionMultiple" xml:space="preserve"><value>Flera rader</value></data>
+  <data name="DemoGridAdvancedFilterSimple" xml:space="preserve"><value>Fält i rubriken</value></data>
+  <data name="DemoGridAdvancedFilterSimpleWithMenu" xml:space="preserve"><value>Fält och meny</value></data>
+  <data name="DemoGridAdvancedFilterAdvanced" xml:space="preserve"><value>Meny med två villkor</value></data>
+  <data name="DemoGridAdvancedEditSingle" xml:space="preserve"><value>En rad i taget</value></data>
+  <data name="DemoGridAdvancedEditMultiple" xml:space="preserve"><value>Flera rader</value></data>
+  <data name="DemoGridAdvancedExpandSingle" xml:space="preserve"><value>En öppen grupp</value></data>
+  <data name="DemoGridAdvancedExpandMultiple" xml:space="preserve"><value>Flera öppna grupper</value></data>
+  <data name="DemoGridAdvancedFooterBottom" xml:space="preserve"><value>Under tabellen</value></data>
+  <data name="DemoGridAdvancedFooterTop" xml:space="preserve"><value>Ovanför tabellen</value></data>
+  <data name="DemoGridAdvancedFooterBoth" xml:space="preserve"><value>Ovanför och under</value></data>
+  <data name="DemoGridAdvancedCaption" xml:space="preserve"><value>Ärenden, fullständig vy</value></data>
+  <data name="DemoGridAdvancedTotal" xml:space="preserve"><value>Totalt: {0:C0}</value></data>
+  <data name="DemoGridAdvancedRetained" xml:space="preserve"><value>Markerade rader: {0}</value></data>
+  <data name="DemoGridAdvancedRetainedNone" xml:space="preserve"><value>inga</value></data>
+  <data name="DemoDataListEmpty" xml:space="preserve"><value>Inga ärenden på den här sidan.</value></data>
+  <data name="DemoDataListLoading" xml:space="preserve"><value>Läser in ärenden.</value></data>
+  <data name="DemoDataListPager" xml:space="preserve"><value>Sidindelning av ärenden</value></data>
+  <data name="DemoDataListLog" xml:space="preserve"><value>Behandlingslogg</value></data>
+  <data name="DemoDataListKanban" xml:space="preserve"><value>Ärendeuppföljning</value></data>
+  <data name="DemoDataListColumnNew" xml:space="preserve"><value>Att granska</value></data>
+  <data name="DemoDataListColumnReview" xml:space="preserve"><value>Pågår</value></data>
+  <data name="DemoDataListColumnDone" xml:space="preserve"><value>Klart</value></data>
+  <data name="DemoDataListLogSearch" xml:space="preserve"><value>Söker efter ärendet</value></data>
+  <data name="DemoDataListLogConnected" xml:space="preserve"><value>Anslutning upprättad</value></data>
+  <data name="DemoDataListLogStarted" xml:space="preserve"><value>Behandlingen har startat</value></data>
+  <data name="DemoDataListLogMissing" xml:space="preserve"><value>Handling saknas</value></data>
+  <data name="DemoDataListLogRejected" xml:space="preserve"><value>Valideringen nekades</value></data>
+  <data name="DemoDataListLogAborted" xml:space="preserve"><value>Behandlingen avbröts</value></data>
+  <data name="DemoChartChartTitle" xml:space="preserve"><value>Inlämnade ärenden per kvartal</value></data>
+  <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Kvartal</value></data>
+  <data name="DemoChartAxisCases" xml:space="preserve"><value>Ärenden</value></data>
+  <data name="DemoChartQuarter" xml:space="preserve"><value>K{0}</value></data>
+  <data name="DemoChartsExtendedMonthlyTitle" xml:space="preserve"><value>Utveckling per månad</value></data>
+  <data name="DemoChartsExtendedMonthlyDescription" xml:space="preserve"><value>Värde vid hovring och med tangentbordet</value></data>
+  <data name="DemoChartsExtendedAxisMonth" xml:space="preserve"><value>Månad</value></data>
+  <data name="DemoChartsExtendedDeposits" xml:space="preserve"><value>Inlämningar</value></data>
+  <data name="DemoChartsExtendedDecisions" xml:space="preserve"><value>Beslut</value></data>
+  <data name="DemoChartsExtendedLegend" xml:space="preserve"><value>Serier</value></data>
+  <data name="DemoChartsExtendedDailyTitle" xml:space="preserve"><value>Dagliga besökare under trettio dagar</value></data>
+  <data name="DemoChartsExtendedPageViews" xml:space="preserve"><value>Sidvisningar per dag</value></data>
+  <data name="DemoChartsExtendedVisitors" xml:space="preserve"><value>Unika besökare per dag</value></data>
+  <data name="DemoChartsExtendedStackedTitle" xml:space="preserve"><value>Staplad fördelning</value></data>
+  <data name="DemoChartsExtendedIncoming" xml:space="preserve"><value>Inkommande</value></data>
+  <data name="DemoChartsExtendedOutgoing" xml:space="preserve"><value>Utgående</value></data>
+  <data name="DemoChartsExtendedBacklog" xml:space="preserve"><value>Balans</value></data>
+  <data name="DemoChartsExtendedHorizontalTitle" xml:space="preserve"><value>Liggande jämförelse</value></data>
+  <data name="DemoChartsExtendedByCountry" xml:space="preserve"><value>Ärenden per land</value></data>
+  <data name="DemoChartsExtendedStackedBarsTitle" xml:space="preserve"><value>Behandlade och väntande ärenden per land</value></data>
+  <data name="DemoChartsExtendedProcessed" xml:space="preserve"><value>Behandlade</value></data>
+  <data name="DemoChartsExtendedPending" xml:space="preserve"><value>Väntande</value></data>
+  <data name="DemoChartsExtendedPieTitle" xml:space="preserve"><value>Andelar efter ursprung</value></data>
+  <data name="DemoChartsExtendedDonutTitle" xml:space="preserve"><value>Andelar efter ursprung, som ring</value></data>
+  <data name="DemoChartsExtendedOrigin" xml:space="preserve"><value>Ursprung</value></data>
+  <data name="DemoChartsExtendedGauge" xml:space="preserve"><value>Behandlingsgrad</value></data>
+  <data name="DemoChartsExtendedSliceCounter" xml:space="preserve"><value>Disk</value></data>
+  <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Post</value></data>
+  <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Online</value></data>
+  <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Övrigt</value></data>
+  <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Projektets tidsplan</value></data>
+  <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Visad skala: {0}</value></data>
+  <data name="DemoPlanningScaleDay" xml:space="preserve"><value>dag</value></data>
+  <data name="DemoPlanningScaleWeek" xml:space="preserve"><value>vecka</value></data>
+  <data name="DemoPlanningScaleMonth" xml:space="preserve"><value>månad</value></data>
+  <data name="DemoPlanningMonthHeading" xml:space="preserve"><value>Samma tidsplan per månad och utan grupper</value></data>
+  <data name="DemoPlanningMonthLabel" xml:space="preserve"><value>Tidsplan per månad</value></data>
+  <data name="DemoPlanningDayLabel" xml:space="preserve"><value>Tidsplan per dag</value></data>
+  <data name="DemoPlanningRunHeading" xml:space="preserve"><value>En körnings förlopp</value></data>
+  <data name="DemoPlanningRunLabel" xml:space="preserve"><value>Körning {0}</value></data>
+  <data name="DemoPlanningTimelineHeading" xml:space="preserve"><value>Tidslinje till vänster, sedan alternerande från var sida</value></data>
+  <data name="DemoPlanningTimelineStart" xml:space="preserve"><value>Tidslinje till vänster</value></data>
+  <data name="DemoPlanningTimelineAlternateStart" xml:space="preserve"><value>Alternerande tidslinje, börjar till vänster</value></data>
+  <data name="DemoPlanningTimelineAlternateEnd" xml:space="preserve"><value>Alternerande tidslinje, börjar till höger</value></data>
+  <data name="DemoPlanningFiled" xml:space="preserve"><value>Inlämning</value></data>
+  <data name="DemoPlanningFiledText" xml:space="preserve"><value>Ärendet har registrerats.</value></data>
+  <data name="DemoPlanningReview" xml:space="preserve"><value>Handläggning</value></data>
+  <data name="DemoPlanningReviewText" xml:space="preserve"><value>En handläggare har utsetts.</value></data>
+  <data name="DemoPlanningDecision" xml:space="preserve"><value>Beslut</value></data>
+  <data name="DemoPlanningDecisionText" xml:space="preserve"><value>Beslutet har meddelats.</value></data>
+  <data name="DemoPlanningGroupDesign" xml:space="preserve"><value>Utformning</value></data>
+  <data name="DemoPlanningGroupBuild" xml:space="preserve"><value>Genomförande</value></data>
+  <data name="DemoPlanningTaskScoping" xml:space="preserve"><value>Avgränsning</value></data>
+  <data name="DemoPlanningTaskMockups" xml:space="preserve"><value>Skisser</value></data>
+  <data name="DemoPlanningTaskProofreading" xml:space="preserve"><value>Korrekturläsning</value></data>
+  <data name="DemoPlanningTaskDevelopment" xml:space="preserve"><value>Utveckling</value></data>
+  <data name="DemoPlanningTaskAcceptance" xml:space="preserve"><value>Acceptanstest</value></data>
+  <data name="DemoSchedulerView" xml:space="preserve"><value>Vy</value></data>
+  <data name="DemoSchedulerTimeGrid" xml:space="preserve"><value>Tidsrutnät från 8 till 18</value></data>
+  <data name="DemoSchedulerViewDay" xml:space="preserve"><value>Dag</value></data>
+  <data name="DemoSchedulerViewWeek" xml:space="preserve"><value>Vecka</value></data>
+  <data name="DemoSchedulerViewMonth" xml:space="preserve"><value>Månad</value></data>
+  <data name="DemoSchedulerCaseReview" xml:space="preserve"><value>Handläggning av ärendet</value></data>
+  <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Granskningskommitté</value></data>
+  <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Veckoavstämning</value></data>
+  <data name="DemoSchedulerRoom" xml:space="preserve"><value>Rum {0}</value></data>
+  <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Flytande kolumn</value></data>
+  <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Full bredd på liten skärm, en tredjedel på stor.</value></data>
+  <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kort med sidhuvud</value></data>
+  <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>Sidhuvud, innehåll och sidfot är tre separata zoner.</value></data>
+  <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>Ett kort kan ha enbart innehåll.</value></data>
+  <data name="DemoLayoutStart" xml:space="preserve"><value>Början</value></data>
+  <data name="DemoLayoutMiddle" xml:space="preserve"><value>Mitten</value></data>
+  <data name="DemoLayoutEnd" xml:space="preserve"><value>Slut</value></data>
+  <data name="DemoLayoutFieldGroup" xml:space="preserve"><value>Fältgrupp</value></data>
+  <data name="DemoLayoutOne" xml:space="preserve"><value>Ett</value></data>
+  <data name="DemoLayoutTwo" xml:space="preserve"><value>Två</value></data>
+  <data name="DemoLayoutAdvanced" xml:space="preserve"><value>Avancerade inställningar</value></data>
+  <data name="DemoLayoutAdvancedText" xml:space="preserve"><value>En grupp som är hopfälld från början och som läsaren fäller ut vid behov.</value></data>
+  <data name="DemoLayoutTracked" xml:space="preserve"><value>Bevakade alternativ</value></data>
+  <data name="DemoLayoutTrackedText" xml:space="preserve"><value>Sidan känner till det hopfällda läget och kan komma ihåg det.</value></data>
+  <data name="DemoLayoutDisabledGroup" xml:space="preserve"><value>Inaktiverad grupp</value></data>
+  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Allt som gruppen innehåller blir overksamt med ett enda grepp.</value></data>
+  <data name="DemoLayoutAlignStart" xml:space="preserve"><value>Justerad mot början</value></data>
+  <data name="DemoLayoutAlignCenter" xml:space="preserve"><value>Centrerad</value></data>
+  <data name="DemoLayoutAlignEnd" xml:space="preserve"><value>Justerad mot slutet</value></data>
+  <data name="DemoLayoutTop" xml:space="preserve"><value>Upptill</value></data>
+  <data name="DemoLayoutTopText" xml:space="preserve"><value>Ett kort som är högre än sina grannar.</value></data>
+  <data name="DemoLayoutBottom" xml:space="preserve"><value>Nedtill</value></data>
+  <data name="DemoLayoutBottomText" xml:space="preserve"><value>Märket lägger sig mot radens nederkant.</value></data>
+  <data name="DemoLayoutStretched" xml:space="preserve"><value>Utsträckt</value></data>
+  <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Båda korten får samma höjd.</value></data>
+  <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Godkänn ärendet</value></data>
+  <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtrera handlingarna</value></data>
+  <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Avsluta begäran</value></data>
+  <data name="DemoLayoutNotifications" xml:space="preserve"><value>Aviseringar</value></data>
+  <data name="DemoLayoutNotificationsText" xml:space="preserve"><value>Vad programmet meddelar dig, och hur.</value></data>
+  <data name="DemoLayoutEmailAlerts" xml:space="preserve"><value>Aviseringar via e-post</value></data>
+  <data name="DemoLayoutEmailAlertsText" xml:space="preserve"><value>Ett meddelande vid varje statusändring.</value></data>
+  <data name="DemoLayoutWeeklyDigest" xml:space="preserve"><value>Veckosammanfattning</value></data>
+  <data name="DemoLayoutWeeklyDigestText" xml:space="preserve"><value>Veckans ärenden, på måndagsmorgonen.</value></data>
+  <data name="DemoLayoutServerName" xml:space="preserve"><value>Servernamn</value></data>
+  <data name="DemoLayoutServerNameText" xml:space="preserve"><value>Syns i konsolen.</value></data>
+  <data name="DemoLayoutIdentifierReadOnly" xml:space="preserve"><value>Identifierare, skrivskyddad</value></data>
+  <data name="DemoLayoutZoneDisabled" xml:space="preserve"><value>Zon, inaktiverad</value></data>
+  <data name="DemoLayoutLockedRestore" xml:space="preserve"><value>Låst återställning</value></data>
+  <data name="DemoLayoutSave" xml:space="preserve"><value>Spara</value></data>
+  <data name="DemoLayoutCancel" xml:space="preserve"><value>Avbryt</value></data>
+  <data name="DemoLayoutDeployed" xml:space="preserve"><value>Driftsättningen är klar</value></data>
+  <data name="DemoLayoutDeployedText" xml:space="preserve"><value>Version 1.0.1 är i drift.</value></data>
+  <data name="DemoLayoutEachChange" xml:space="preserve"><value>Vid varje ändring.</value></data>
+  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>En luftig varning på en bekväm sida.</value></data>
+  <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>Kompakta flikar</value></data>
+  <data name="DemoLayoutGeneral" xml:space="preserve"><value>Allmänt</value></data>
+  <data name="DemoLayoutGeneralText" xml:space="preserve"><value>Allmänna inställningar.</value></data>
+  <data name="DemoLayoutSecurity" xml:space="preserve"><value>Säkerhet</value></data>
+  <data name="DemoLayoutSecurityText" xml:space="preserve"><value>Åtkomst och token.</value></data>
+  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Luftig ruta</value></data>
+  <data name="DemoLayoutOwnDensity" xml:space="preserve"><value>Sin egen täthet.</value></data>
+  <data name="DemoLayoutTrackedExpanded" xml:space="preserve"><value>Bevakade alternativ: utfällda</value></data>
+  <data name="DemoLayoutTrackedCollapsed" xml:space="preserve"><value>Bevakade alternativ: hopfällda</value></data>
+  <data name="DemoLayoutGapNone1" xml:space="preserve"><value>Inget</value></data>
+  <data name="DemoLayoutGapNone2" xml:space="preserve"><value>avstånd</value></data>
+  <data name="DemoLayoutGapXSmall1" xml:space="preserve"><value>Mycket</value></data>
+  <data name="DemoLayoutGapXSmall2" xml:space="preserve"><value>tätt</value></data>
+  <data name="DemoLayoutGapSmall1" xml:space="preserve"><value>Tätt</value></data>
+  <data name="DemoLayoutGapSmall2" xml:space="preserve"><value>litet</value></data>
+  <data name="DemoLayoutGapMedium1" xml:space="preserve"><value>Vanligt</value></data>
+  <data name="DemoLayoutGapMedium2" xml:space="preserve"><value>medel</value></data>
+  <data name="DemoLayoutGapLarge1" xml:space="preserve"><value>Luftigt</value></data>
+  <data name="DemoLayoutGapLarge2" xml:space="preserve"><value>stort</value></data>
+  <data name="DemoLayoutGapXLarge1" xml:space="preserve"><value>Mycket</value></data>
+  <data name="DemoLayoutGapXLarge2" xml:space="preserve"><value>luftigt</value></data>
+  <data name="DemoLayoutDensityCompact" xml:space="preserve"><value>Kompakt</value></data>
+  <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Bekväm</value></data>
+  <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Luftig</value></data>
+  <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} varningar</value></data>
+  <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Accentuerad rubrik</value></data>
+  <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Dämpad rubrik</value></data>
+  <data name="DemoTypographyParagraph" xml:space="preserve"><value>Ett vanligt stycke i temats grundstorlek.</value></data>
+  <data name="DemoTypographySecondary" xml:space="preserve"><value>Ett sekundärt stycke, för det som kompletterar utan att bära informationen.</value></data>
+  <data name="DemoTypographyError" xml:space="preserve"><value>Felmeddelande</value></data>
+  <data name="DemoTypographyStrong" xml:space="preserve"><value>Viktig text</value></data>
+  <data name="DemoTypographyEmphasis" xml:space="preserve"><value>Framhävd text</value></data>
+  <data name="DemoTypographySuccess" xml:space="preserve"><value>Positiv status</value></data>
+  <data name="DemoTypographyTruncated" xml:space="preserve"><value>En lång text som komponenten kortar med en ellips när utrymmet tar slut, i stället för att tränga undan layouten eller radbryta oförutsägbart.</value></data>
+  <data name="DemoTypographyLabel" xml:space="preserve"><value>Etikett kopplad till ett fält</value></data>
+  <data name="DemoTypographyInternalLink" xml:space="preserve"><value>Intern länk</value></data>
+  <data name="DemoTypographyExternalLink" xml:space="preserve"><value>Extern länk</value></data>
+  <data name="DemoTypographyLevelHeading" xml:space="preserve"><value>Rubrik på nivå {0}</value></data>
+  <data name="DemoThemesAppearanceWindow" xml:space="preserve"><value>Utseendefönster</value></data>
+  <data name="DemoAppShellMinimize" xml:space="preserve"><value>Minimera fönstret</value></data>
+  <data name="DemoAppShellMaximize" xml:space="preserve"><value>Maximera eller återställ fönstret</value></data>
+  <data name="DemoAppShellClose" xml:space="preserve"><value>Stäng fönstret</value></data>
+  <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Sökväg</value></data>
+  <data name="DemoNavigationHome" xml:space="preserve"><value>Start</value></data>
+  <data name="DemoNavigationComponents" xml:space="preserve"><value>Komponenter</value></data>
+  <data name="DemoNavigationCurrent" xml:space="preserve"><value>Navigering</value></data>
+  <data name="DemoNavigationSections" xml:space="preserve"><value>Ärendets avsnitt</value></data>
+  <data name="DemoNavigationTabSummary" xml:space="preserve"><value>Sammanfattning</value></data>
+  <data name="DemoNavigationDocuments" xml:space="preserve"><value>Handlingar</value></data>
+  <data name="DemoNavigationDocumentsText" xml:space="preserve"><value>Varje handling har sitt inlämningsdatum.</value></data>
+  <data name="DemoNavigationHistory" xml:space="preserve"><value>Historik</value></data>
+  <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Tolv registrerade händelser.</value></data>
+  <data name="DemoNavigationProgress" xml:space="preserve"><value>Ärendets förlopp</value></data>
+  <data name="DemoNavigationFiling" xml:space="preserve"><value>Inlämning</value></data>
+  <data name="DemoNavigationFilingText" xml:space="preserve"><value>Handlingarna har tagits emot.</value></data>
+  <data name="DemoNavigationReview" xml:space="preserve"><value>Handläggning</value></data>
+  <data name="DemoNavigationReviewText" xml:space="preserve"><value>Ärendet granskas.</value></data>
+  <data name="DemoNavigationDecision" xml:space="preserve"><value>Beslut</value></data>
+  <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Beslutet meddelas per post.</value></data>
+  <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Ärendet innehåller {0} handlingar.</value></data>
+  <data name="DemoPagesReload" xml:space="preserve"><value>Läs in posten igen</value></data>
+  <data name="DemoPagesMissing" xml:space="preserve"><value>Posten hittades inte</value></data>
+  <data name="DemoPagesNotFound" xml:space="preserve"><value>Den begärda posten har tagits bort eller har aldrig funnits.</value></data>
+  <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuell maskin i zonen Paris.</value></data>
+  <data name="DemoPagesOnline" xml:space="preserve"><value>Online</value></data>
+  <data name="DemoPagesEdit" xml:space="preserve"><value>Redigera</value></data>
+  <data name="DemoPagesRemove" xml:space="preserve"><value>Ta bort</value></data>
+  <data name="DemoPagesDuplicate" xml:space="preserve"><value>Duplicera</value></data>
+  <data name="DemoPagesArchive" xml:space="preserve"><value>Arkivera</value></data>
+  <data name="DemoPagesProduction" xml:space="preserve"><value>Produktion</value></data>
+  <data name="DemoPagesName" xml:space="preserve"><value>Namn</value></data>
+  <data name="DemoPagesSystem" xml:space="preserve"><value>System</value></data>
+  <data name="DemoPagesIpAddress" xml:space="preserve"><value>IP-adress</value></data>
+  <data name="DemoPagesToken" xml:space="preserve"><value>Åtkomsttoken</value></data>
+  <data name="DemoPagesLastSignal" xml:space="preserve"><value>Senaste signal</value></data>
+  <data name="DemoPagesCertificate" xml:space="preserve"><value>Certifikat</value></data>
+  <data name="DemoPagesNoBackup" xml:space="preserve"><value>Inga säkerhetskopior</value></data>
+  <data name="DemoPagesNoBackupText" xml:space="preserve"><value>Schemalagda säkerhetskopior visas här efter sin första körning.</value></data>
+  <data name="DemoPagesSchedule" xml:space="preserve"><value>Schemalägg</value></data>
+  <data name="DemoPagesNoResult" xml:space="preserve"><value>Inga resultat</value></data>
+  <data name="DemoPagesNoResultText" xml:space="preserve"><value>Ingen server matchar filtret.</value></data>
+  <data name="DemoPagesHideToken" xml:space="preserve"><value>Dölj token</value></data>
+  <data name="DemoPagesShowToken" xml:space="preserve"><value>Visa token</value></data>
+  <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1} k</value></data>
+  <data name="DemoPagesTokensToday" xml:space="preserve"><value>Tokens idag</value></data>
+  <data name="DemoPagesTokensReset" xml:space="preserve"><value>Återställs kl. {0:t}</value></data>
+  <data name="DemoPagesWeekly" xml:space="preserve"><value>Varje vecka</value></data>
+  <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Komponenter</value></data>
+  <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Servrar</value></data>
+  <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Server</value></data>
+  <data name="DemoBadgesNeutral" xml:space="preserve"><value>Neutral</value></data>
+  <data name="DemoBadgesAccent" xml:space="preserve"><value>Accent</value></data>
+  <data name="DemoBadgesInfo" xml:space="preserve"><value>Information</value></data>
+  <data name="DemoBadgesSuccess" xml:space="preserve"><value>Lyckat</value></data>
+  <data name="DemoBadgesWarning" xml:space="preserve"><value>Varning</value></data>
+  <data name="DemoBadgesDanger" xml:space="preserve"><value>Fara</value></data>
+  <data name="DemoBadgesDraft" xml:space="preserve"><value>Utkast</value></data>
+  <data name="DemoBadgesOutline" xml:space="preserve"><value>Kontur</value></data>
+  <data name="DemoBadgesApproved" xml:space="preserve"><value>Godkänd</value></data>
+  <data name="DemoBadgesPending" xml:space="preserve"><value>Väntande</value></data>
+  <data name="DemoBadgesRejected" xml:space="preserve"><value>Avvisad</value></data>
+  <data name="DemoBadgesNew" xml:space="preserve"><value>Ny</value></data>
+  <data name="DemoBadgesInReview" xml:space="preserve"><value>Under granskning</value></data>
+  <data name="DemoBadgesPublished" xml:space="preserve"><value>Publicerad</value></data>
+  <data name="DemoBadgesFailed" xml:space="preserve"><value>Misslyckad</value></data>
+  <data name="DemoBadgesFixedSize" xml:space="preserve"><value>Fast storlek</value></data>
+  <data name="DemoAlertsMaintenance" xml:space="preserve"><value>Underhåll</value></data>
+  <data name="DemoAlertsMaintenanceText" xml:space="preserve"><value>Tjänsten är inte tillgänglig på söndag kl. 2–4.</value></data>
+  <data name="DemoAlertsPublished" xml:space="preserve"><value>Paketet har publicerats</value></data>
+  <data name="DemoAlertsPublishedText" xml:space="preserve"><value>OmniEurope.Blazor finns på NuGet.org.</value></data>
+  <data name="DemoAlertsCertificate" xml:space="preserve"><value>Certifikatet går snart ut</value></data>
+  <data name="DemoAlertsFailure" xml:space="preserve"><value>Fel</value></data>
+  <data name="DemoAlertsFailureText" xml:space="preserve"><value>Anslutningen till tjänsten misslyckades.</value></data>
+  <data name="DemoAlertsInfo" xml:space="preserve"><value>Information</value></data>
+  <data name="DemoAlertsInfoText" xml:space="preserve"><value>Biblioteket läser alla sina färger från CSS-variabler.</value></data>
+  <data name="DemoAlertsSaved" xml:space="preserve"><value>Sparat</value></data>
+  <data name="DemoAlertsSavedText" xml:space="preserve"><value>Ändringarna har tillämpats.</value></data>
+  <data name="DemoAlertsNew" xml:space="preserve"><value>Nyhet</value></data>
+  <data name="DemoAlertsNewText" xml:space="preserve"><value>Märken och varningar delar nu samma fyllning.</value></data>
+  <data name="DemoAlertsCaution" xml:space="preserve"><value>Obs!</value></data>
+  <data name="DemoAlertsCautionText" xml:space="preserve"><value>Inställningen tillämpas på alla sidor.</value></data>
+  <data name="DemoAlertsTooLarge" xml:space="preserve"><value>Filen överskrider den tillåtna storleken.</value></data>
+  <data name="DemoAlertsTip" xml:space="preserve"><value>Tips</value></data>
+  <data name="DemoAlertsTipText" xml:space="preserve"><value>Den här varningen stängs med sitt kryss.</value></data>
+  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Signeringscertifikatet går ut om {0} dagar.</value></data>
+  <data name="DemoButtonsSecondary" xml:space="preserve"><value>Sekundär</value></data>
+  <data name="DemoButtonsGhost" xml:space="preserve"><value>Diskret</value></data>
+  <data name="DemoButtonsApprove" xml:space="preserve"><value>Godkänn</value></data>
+  <data name="DemoButtonsSuspend" xml:space="preserve"><value>Pausa</value></data>
+  <data name="DemoButtonsDetails" xml:space="preserve"><value>Detaljer</value></data>
+  <data name="DemoButtonsDelete" xml:space="preserve"><value>Ta bort</value></data>
+  <data name="DemoButtonsUnavailable" xml:space="preserve"><value>Otillgänglig</value></data>
+  <data name="DemoButtonsSaving" xml:space="preserve"><value>Sparar</value></data>
+  <data name="DemoButtonsSave" xml:space="preserve"><value>Spara</value></data>
+  <data name="DemoButtonsPublish" xml:space="preserve"><value>Publicera</value></data>
+  <data name="DemoButtonsPin" xml:space="preserve"><value>Fäst</value></data>
+  <data name="DemoButtonsSmall" xml:space="preserve"><value>Liten</value></data>
+  <data name="DemoButtonsMedium" xml:space="preserve"><value>Medel</value></data>
+  <data name="DemoButtonsLarge" xml:space="preserve"><value>Stor</value></data>
+  <data name="DemoButtonsSearch" xml:space="preserve"><value>Sök</value></data>
+  <data name="DemoButtonsPublishLater" xml:space="preserve"><value>Publicera senare</value></data>
+  <data name="DemoButtonsDraft" xml:space="preserve"><value>Utkast</value></data>
+  <data name="DemoButtonsPreview" xml:space="preserve"><value>Förhandsgranska</value></data>
+  <data name="DemoButtonsView" xml:space="preserve"><value>Visa</value></data>
+  <data name="DemoButtonsSend" xml:space="preserve"><value>Skicka</value></data>
+  <data name="DemoButtonsReset" xml:space="preserve"><value>Återställ</value></data>
+  <data name="DemoButtonsNoFormEffect" xml:space="preserve"><value>Ingen effekt på formuläret</value></data>
+  <data name="DemoButtonsPrimary" xml:space="preserve"><value>Primär</value></data>
+  <data name="DemoButtonsClicks" xml:space="preserve"><value>Klick på den primära knappen: {0}.</value></data>
+  <data name="DemoButtonsSent" xml:space="preserve"><value>Inskickade formulär: {0}.</value></data>
+  <data name="DemoFeedbackUpload" xml:space="preserve"><value>Uppladdning</value></data>
+  <data name="DemoFeedbackIndexing" xml:space="preserve"><value>Indexering</value></data>
+  <data name="DemoFeedbackSync" xml:space="preserve"><value>Synkronisering</value></data>
+  <data name="DemoFeedbackProcessed" xml:space="preserve"><value>Behandlade ärenden</value></data>
+  <data name="DemoFeedbackQuotaNear" xml:space="preserve"><value>Kvoten är snart nådd</value></data>
+  <data name="DemoFeedbackImportFailures" xml:space="preserve"><value>Misslyckade importer</value></data>
+  <data name="DemoFeedbackAnalysing" xml:space="preserve"><value>Analys pågår</value></data>
+  <data name="DemoFeedbackProgress" xml:space="preserve"><value>Förlopp</value></data>
+  <data name="DemoFeedbackNoKnownEnd" xml:space="preserve"><value>Inget känt slut</value></data>
+  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>Kvoten beräknas över rullande trettio dagar.</value></data>
+  <data name="DemoFeedbackQuota" xml:space="preserve"><value>Kvot</value></data>
+  <data name="DemoFeedbackArchivedTooltip" xml:space="preserve"><value>Ett arkiverat ärende kan fortfarande visas skrivskyddat.</value></data>
+  <data name="DemoFeedbackArchived" xml:space="preserve"><value>Arkiverat</value></data>
+  <data name="DemoFeedbackDraftTooltip" xml:space="preserve"><value>Utkast.</value></data>
+  <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Smal</value></data>
+  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Ett arkiverat ärende kan fortfarande visas skrivskyddat. Det räknas inte längre mot kvoterna, visas inte längre i standardsökningar och får inte längre aviseringar. För att öppna det igen återställer en administratör det från fliken Arkiv; dess historik, bilagor och kommentarer kommer då tillbaka intakta, tillsammans med återställningsdatumet.</value></data>
+  <data name="DemoFeedbackLongText" xml:space="preserve"><value>Lång text</value></data>
+  <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>Paketets knappbeskrivning på ett vanligt title-attribut.</value></data>
+  <data name="DemoFeedbackHover" xml:space="preserve"><value>Hovra</value></data>
+  <data name="DemoFeedbackLoadingAvatar" xml:space="preserve"><value>Läser in avataren</value></data>
+  <data name="DemoFeedbackLoadingThumbnail" xml:space="preserve"><value>Läser in miniatyren</value></data>
+  <data name="DemoFeedbackLoadingFile" xml:space="preserve"><value>Läser in ärendet</value></data>
+  <data name="DemoFeedbackLoadingDemo" xml:space="preserve"><value>Läser in demon</value></data>
+  <data name="DemoFeedbackSimulateLoad" xml:space="preserve"><value>Simulera en inläsning</value></data>
+  <data name="DemoFeedbackRecentRuns" xml:space="preserve"><value>Senaste körningar</value></data>
+  <data name="DemoFeedbackAvailability" xml:space="preserve"><value>Tillgänglighet de senaste timmarna</value></data>
+  <data name="DemoFeedbackReady" xml:space="preserve"><value>Klar</value></data>
+  <data name="DemoFeedbackFailed" xml:space="preserve"><value>Misslyckades</value></data>
+  <data name="DemoFeedbackRunSucceeded" xml:space="preserve"><value>Körning {0} lyckades</value></data>
+  <data name="DemoFeedbackRunWarning" xml:space="preserve"><value>Körning {0} med varning</value></data>
+  <data name="DemoFeedbackRunFailed" xml:space="preserve"><value>Körning {0} misslyckades</value></data>
+  <data name="DemoFeedbackSucceeded" xml:space="preserve"><value>Lyckad</value></data>
+  <data name="DemoFeedbackWarning" xml:space="preserve"><value>Varning</value></data>
+  <data name="DemoMediaImageContain" xml:space="preserve"><value>Hela bilden, obeskuren</value></data>
+  <data name="DemoMediaImageCover" xml:space="preserve"><value>Bilden beskuren för att fylla rutan</value></data>
+  <data name="DemoMediaImageNatural" xml:space="preserve"><value>Bilden i naturlig storlek</value></data>
+  <data name="DemoMediaTimeline" xml:space="preserve"><value>Ärendets steg</value></data>
+  <data name="DemoMediaFiling" xml:space="preserve"><value>Inlämning</value></data>
+  <data name="DemoMediaFilingText" xml:space="preserve"><value>Ärendet har registrerats.</value></data>
+  <data name="DemoMediaReview" xml:space="preserve"><value>Handläggning</value></data>
+  <data name="DemoMediaReviewText" xml:space="preserve"><value>En handläggare har utsetts.</value></data>
+  <data name="DemoMediaDecision" xml:space="preserve"><value>Beslut</value></data>
+  <data name="DemoMediaDecisionText" xml:space="preserve"><value>Beslutet har meddelats.</value></data>
+  <data name="DemoMediaIconCheck" xml:space="preserve"><value>Godkänt</value></data>
+  <data name="DemoMediaIconWarning" xml:space="preserve"><value>Varning</value></data>
+  <data name="DemoMediaIconFilter" xml:space="preserve"><value>Filtrera</value></data>
+  <data name="DemoMediaIconCompass" xml:space="preserve"><value>Kompass</value></data>
+  <data name="DemoMediaIconClose" xml:space="preserve"><value>Stäng</value></data>
+  <data name="DemoMediaIconInfo" xml:space="preserve"><value>Information</value></data>
+  <data name="DemoMediaIconMenu" xml:space="preserve"><value>Meny</value></data>
+  <data name="DemoMediaIconChevronDown" xml:space="preserve"><value>Fäll ut</value></data>
+  <data name="DemoMediaIconSortAscending" xml:space="preserve"><value>Stigande sortering</value></data>
+  <data name="DemoMediaIconSortDescending" xml:space="preserve"><value>Fallande sortering</value></data>
+  <data name="DemoMediaIconThemeLight" xml:space="preserve"><value>Ljust utseende</value></data>
+  <data name="DemoMediaIconThemeDark" xml:space="preserve"><value>Mörkt utseende</value></data>
+  <data name="DemoMediaIconAdd" xml:space="preserve"><value>Lägg till</value></data>
+  <data name="DemoMediaIconAirplane" xml:space="preserve"><value>Flygplan</value></data>
+  <data name="DemoMediaIconAirplaneLanding" xml:space="preserve"><value>Landning</value></data>
+  <data name="DemoMediaIconAirplaneTakeoff" xml:space="preserve"><value>Start</value></data>
+  <data name="DemoMediaIconArchive" xml:space="preserve"><value>Arkivera</value></data>
+  <data name="DemoMediaIconArrowLeft" xml:space="preserve"><value>Tillbaka</value></data>
+  <data name="DemoMediaIconArrowRight" xml:space="preserve"><value>Nästa</value></data>
+  <data name="DemoMediaIconBed" xml:space="preserve"><value>Boende</value></data>
+  <data name="DemoMediaIconBell" xml:space="preserve"><value>Aviseringar</value></data>
+  <data name="DemoMediaIconBracketsCurly" xml:space="preserve"><value>JSON-data</value></data>
+  <data name="DemoMediaIconCalculator" xml:space="preserve"><value>Miniräknare</value></data>
+  <data name="DemoMediaIconCards" xml:space="preserve"><value>Kort</value></data>
+  <data name="DemoMediaIconChartBarHorizontal" xml:space="preserve"><value>Rangordning</value></data>
+  <data name="DemoMediaIconChat" xml:space="preserve"><value>Meddelande</value></data>
+  <data name="DemoMediaIconCheckCircle" xml:space="preserve"><value>Lyckades</value></data>
+  <data name="DemoMediaIconChevronUp" xml:space="preserve"><value>Fäll ihop</value></data>
+  <data name="DemoMediaIconCopy" xml:space="preserve"><value>Kopiera</value></data>
+  <data name="DemoMediaIconDatabase" xml:space="preserve"><value>Databas</value></data>
+  <data name="DemoMediaIconDelete" xml:space="preserve"><value>Ta bort</value></data>
+  <data name="DemoMediaIconDiamond" xml:space="preserve"><value>Ädelsten</value></data>
+  <data name="DemoMediaIconDice" xml:space="preserve"><value>Dragning</value></data>
+  <data name="DemoMediaIconDocument" xml:space="preserve"><value>Dokument</value></data>
+  <data name="DemoMediaIconDownload" xml:space="preserve"><value>Ladda ned</value></data>
+  <data name="DemoMediaIconEdit" xml:space="preserve"><value>Redigera</value></data>
+  <data name="DemoMediaIconError" xml:space="preserve"><value>Fel</value></data>
+  <data name="DemoMediaIconFlask" xml:space="preserve"><value>Försök</value></data>
+  <data name="DemoMediaIconFunction" xml:space="preserve"><value>Formel</value></data>
+  <data name="DemoMediaIconGlobe" xml:space="preserve"><value>Världen</value></data>
+  <data name="DemoMediaIconGlobeHemisphereWest" xml:space="preserve"><value>Resor</value></data>
+  <data name="DemoMediaIconGraduationCap" xml:space="preserve"><value>Klass</value></data>
+  <data name="DemoMediaIconGraph" xml:space="preserve"><value>Länkar</value></data>
+  <data name="DemoMediaIconHome" xml:space="preserve"><value>Start</value></data>
+  <data name="DemoMediaIconHourglass" xml:space="preserve"><value>Väntan</value></data>
+  <data name="DemoMediaIconImage" xml:space="preserve"><value>Bild</value></data>
+  <data name="DemoMediaIconLayers" xml:space="preserve"><value>Lager</value></data>
+  <data name="DemoMediaIconMapPin" xml:space="preserve"><value>Plats</value></data>
+  <data name="DemoMediaIconMapPinLine" xml:space="preserve"><value>Import av platser</value></data>
+  <data name="DemoMediaIconMedal" xml:space="preserve"><value>Placering</value></data>
+  <data name="DemoMediaIconMonitor" xml:space="preserve"><value>Visning</value></data>
+  <data name="DemoMediaIconNumberedList" xml:space="preserve"><value>Numrerad lista</value></data>
+  <data name="DemoMediaIconOffline" xml:space="preserve"><value>Offline</value></data>
+  <data name="DemoMediaIconOpenExternal" xml:space="preserve"><value>Öppna någon annanstans</value></data>
+  <data name="DemoMediaIconPackage" xml:space="preserve"><value>Föremål</value></data>
+  <data name="DemoMediaIconPalette" xml:space="preserve"><value>Färger</value></data>
+  <data name="DemoMediaIconPath" xml:space="preserve"><value>Rutt</value></data>
+  <data name="DemoMediaIconPattern" xml:space="preserve"><value>Mönster</value></data>
+  <data name="DemoMediaIconPictureInPicture" xml:space="preserve"><value>Bild i bild</value></data>
+  <data name="DemoMediaIconPin" xml:space="preserve"><value>Fäst</value></data>
+  <data name="DemoMediaIconPlay" xml:space="preserve"><value>Starta</value></data>
+  <data name="DemoMediaIconProhibit" xml:space="preserve"><value>Förbjudet</value></data>
+  <data name="DemoMediaIconRefresh" xml:space="preserve"><value>Uppdatera</value></data>
+  <data name="DemoMediaIconRemove" xml:space="preserve"><value>Ta bort</value></data>
+  <data name="DemoMediaIconReset" xml:space="preserve"><value>Återställ</value></data>
+  <data name="DemoMediaIconRestore" xml:space="preserve"><value>Avarkivera</value></data>
+  <data name="DemoMediaIconRows" xml:space="preserve"><value>Täthet</value></data>
+  <data name="DemoMediaIconRuler" xml:space="preserve"><value>Mätning</value></data>
+  <data name="DemoMediaIconSave" xml:space="preserve"><value>Spara</value></data>
+  <data name="DemoMediaIconSearch" xml:space="preserve"><value>Sök</value></data>
+  <data name="DemoMediaIconSettings" xml:space="preserve"><value>Inställningar</value></data>
+  <data name="DemoMediaIconShieldCheck" xml:space="preserve"><value>Administration</value></data>
+  <data name="DemoMediaIconSidebar" xml:space="preserve"><value>Sidofält</value></data>
+  <data name="DemoMediaIconSliders" xml:space="preserve"><value>Avancerade filter</value></data>
+  <data name="DemoMediaIconSparkle" xml:space="preserve"><value>Nyhet</value></data>
+  <data name="DemoMediaIconStar" xml:space="preserve"><value>Favorit</value></data>
+  <data name="DemoMediaIconStarFilled" xml:space="preserve"><value>Aktiv favorit</value></data>
+  <data name="DemoMediaIconSwap" xml:space="preserve"><value>Byt</value></data>
+  <data name="DemoMediaIconSync" xml:space="preserve"><value>Synkronisera</value></data>
+  <data name="DemoMediaIconTag" xml:space="preserve"><value>Etikett</value></data>
+  <data name="DemoMediaIconTextSize" xml:space="preserve"><value>Textstorlek</value></data>
+  <data name="DemoMediaIconThemeSystem" xml:space="preserve"><value>Systemets utseende</value></data>
+  <data name="DemoMediaIconTimer" xml:space="preserve"><value>Timer</value></data>
+  <data name="DemoMediaIconUpgrade" xml:space="preserve"><value>Uppgradering</value></data>
+  <data name="DemoMediaIconUpload" xml:space="preserve"><value>Ladda upp</value></data>
+  <data name="DemoMediaIconUser" xml:space="preserve"><value>Person</value></data>
+  <data name="DemoMediaIconUserFocus" xml:space="preserve"><value>Hitta en person</value></data>
+  <data name="DemoMediaIconEye" xml:space="preserve"><value>Visa</value></data>
+  <data name="DemoMediaIconGitCommit" xml:space="preserve"><value>Commit</value></data>
+  <data name="DemoMediaIconLock" xml:space="preserve"><value>Låst</value></data>
+  <data name="DemoMediaIconRocketLaunch" xml:space="preserve"><value>Driftsätt</value></data>
+  <data name="DemoMediaIconUsers" xml:space="preserve"><value>Grupp</value></data>
+  <data name="DemoMediaIconStop" xml:space="preserve"><value>Stoppa</value></data>
+  <data name="DemoMediaIconListChecks" xml:space="preserve"><value>Regler</value></data>
+  <data name="DemoMediaIconFolder" xml:space="preserve"><value>Mapp</value></data>
+  <data name="DemoMediaIconQuestion" xml:space="preserve"><value>Hjälp</value></data>
+  <data name="DemoMediaIconSquaresFour" xml:space="preserve"><value>Instrumentpanel</value></data>
+  <data name="DemoMediaIconTerminalWindow" xml:space="preserve"><value>Terminal</value></data>
+  <data name="DemoMediaIconWrench" xml:space="preserve"><value>Bygg</value></data>
+  <data name="DemoMediaIconKey" xml:space="preserve"><value>Nyckel</value></data>
+  <data name="DemoMediaIconBuildings" xml:space="preserve"><value>Organisation</value></data>
+  <data name="DemoMediaIconHeartbeat" xml:space="preserve"><value>Övervakning</value></data>
+  <data name="DemoMediaIconCloudArrowUp" xml:space="preserve"><value>Säkerhetskopiering online</value></data>
+  <data name="DemoMediaIconLink" xml:space="preserve"><value>Länk</value></data>
+  <data name="DemoMediaIconUserPlus" xml:space="preserve"><value>Lägg till en person</value></data>
+  <data name="DemoMediaIconLayout" xml:space="preserve"><value>Layout</value></data>
+  <data name="DemoMediaIconBroadcast" xml:space="preserve"><value>Sändning</value></data>
+  <data name="DemoMediaIconCalendarBlank" xml:space="preserve"><value>Datum</value></data>
+  <data name="DemoMediaIconChartLineUp" xml:space="preserve"><value>Trend</value></data>
+  <data name="DemoMediaIconFolderOpen" xml:space="preserve"><value>Öppen mapp</value></data>
+  <data name="DemoMediaIconGitFork" xml:space="preserve"><value>Förgrening</value></data>
+  <data name="DemoMediaIconGitMerge" xml:space="preserve"><value>Sammanslagning</value></data>
+  <data name="DemoMediaIconLockKey" xml:space="preserve"><value>Återställ lösenordet</value></data>
+  <data name="DemoMediaIconRobot" xml:space="preserve"><value>Automatisering</value></data>
+  <data name="DemoMediaIconArrowDown" xml:space="preserve"><value>Flytta ned</value></data>
+  <data name="DemoMediaIconBrain" xml:space="preserve"><value>Intelligens</value></data>
+  <data name="DemoMediaIconCellTower" xml:space="preserve"><value>Antenn</value></data>
+  <data name="DemoMediaIconCloud" xml:space="preserve"><value>Moln</value></data>
+  <data name="DemoMediaIconGavel" xml:space="preserve"><value>Förordning</value></data>
+  <data name="DemoMediaIconGitDiff" xml:space="preserve"><value>Skillnader</value></data>
+  <data name="DemoMediaIconLinkBreak" xml:space="preserve"><value>Bruten länk</value></data>
+  <data name="DemoMediaIconLockOpen" xml:space="preserve"><value>Olåst</value></data>
+  <data name="DemoMediaIconPaperPlaneRight" xml:space="preserve"><value>Skicka ett meddelande</value></data>
+  <data name="DemoMediaIconPlugsConnected" xml:space="preserve"><value>Ansluten</value></data>
+  <data name="DemoMediaIconPuzzlePiece" xml:space="preserve"><value>Tillägg</value></data>
+  <data name="DemoMediaIconShieldWarning" xml:space="preserve"><value>Risk</value></data>
+  <data name="DemoMediaIconSignOut" xml:space="preserve"><value>Logga ut</value></data>
+  <data name="DemoMediaIconArrowElbowDownLeft" xml:space="preserve"><value>Radbrytning</value></data>
+  <data name="DemoMediaIconBroom" xml:space="preserve"><value>Rensa</value></data>
+  <data name="DemoMediaIconBug" xml:space="preserve"><value>Bugg</value></data>
+  <data name="DemoMediaIconChartLine" xml:space="preserve"><value>Linjediagram</value></data>
+  <data name="DemoMediaIconChevronRight" xml:space="preserve"><value>Öppna</value></data>
+  <data name="DemoMediaIconCode" xml:space="preserve"><value>Kod</value></data>
+  <data name="DemoMediaIconGauge" xml:space="preserve"><value>Prestanda</value></data>
+  <data name="DemoMediaIconMagnifyingGlassPlus" xml:space="preserve"><value>Zooma in</value></data>
+  <data name="DemoMediaIconPassword" xml:space="preserve"><value>Lösenord</value></data>
+  <data name="DemoMediaIconShieldSlash" xml:space="preserve"><value>Skydd avstängt</value></data>
+  <data name="DemoMediaIconStamp" xml:space="preserve"><value>Godkännande</value></data>
+  <data name="DemoMediaIconTextAlignLeft" xml:space="preserve"><value>Vänsterjustera</value></data>
+  <data name="DemoMediaIconWifiHigh" xml:space="preserve"><value>Nätverk</value></data>
+  <data name="DemoMediaIconArrowElbowDownRight" xml:space="preserve"><value>Underobjekt</value></data>
+  <data name="DemoMediaIconArrowLineDown" xml:space="preserve"><value>Gå längst ned</value></data>
+  <data name="DemoMediaIconArrowLineUp" xml:space="preserve"><value>Gå längst upp</value></data>
+  <data name="DemoMediaIconArrowUUpRight" xml:space="preserve"><value>Gör om</value></data>
+  <data name="DemoMediaIconAt" xml:space="preserve"><value>E-postadress</value></data>
+  <data name="DemoMediaIconBellSlash" xml:space="preserve"><value>Aviseringar avstängda</value></data>
+  <data name="DemoMediaIconBooks" xml:space="preserve"><value>Bibliotek</value></data>
+  <data name="DemoMediaIconCalendarCheck" xml:space="preserve"><value>Bekräftat datum</value></data>
+  <data name="DemoMediaIconChecks" xml:space="preserve"><value>Godkänn alla</value></data>
+  <data name="DemoMediaIconCloudArrowDown" xml:space="preserve"><value>Hämta från molnet</value></data>
+  <data name="DemoMediaIconColumns" xml:space="preserve"><value>Kolumner</value></data>
+  <data name="DemoMediaIconCornersOut" xml:space="preserve"><value>Anpassa till skärmen</value></data>
+  <data name="DemoMediaIconDotsThreeVertical" xml:space="preserve"><value>Fler åtgärder</value></data>
+  <data name="DemoMediaIconEyeSlash" xml:space="preserve"><value>Dölj</value></data>
+  <data name="DemoMediaIconFrameCorners" xml:space="preserve"><value>Centrera igen</value></data>
+  <data name="DemoMediaIconHardDrive" xml:space="preserve"><value>Disk</value></data>
+  <data name="DemoMediaIconLightning" xml:space="preserve"><value>Snabb</value></data>
+  <data name="DemoMediaIconMagnifyingGlassMinus" xml:space="preserve"><value>Zooma ut</value></data>
+  <data name="DemoMediaIconMegaphone" xml:space="preserve"><value>Meddelande</value></data>
+  <data name="DemoMediaIconSignIn" xml:space="preserve"><value>Logga in</value></data>
+  <data name="DemoMediaIconTarget" xml:space="preserve"><value>Mål</value></data>
+  <data name="DemoMediaIconToggleLeft" xml:space="preserve"><value>Av</value></data>
+  <data name="DemoMediaIconTray" xml:space="preserve"><value>Inkorg</value></data>
+  <data name="DemoMediaIconCpu" xml:space="preserve"><value>Processor</value></data>
+  <data name="DemoMediaIconFilePlus" xml:space="preserve"><value>Ny fil</value></data>
+  <data name="DemoMediaIconHandTap" xml:space="preserve"><value>Manuell utlösning</value></data>
+  <data name="DemoMediaIconPause" xml:space="preserve"><value>Paus</value></data>
+  <data name="DemoMediaIconToggleRight" xml:space="preserve"><value>På</value></data>
+  <data name="DemoMediaIconWebhook" xml:space="preserve"><value>Webhook</value></data>
+  <data name="DemoMediaIconWifiSlash" xml:space="preserve"><value>Nätverket nere</value></data>
+  <data name="DemoMediaIconScissors" xml:space="preserve"><value>Klipp ut</value></data>
+  <data name="DemoMediaIconClipboard" xml:space="preserve"><value>Klistra in</value></data>
+  <data name="DemoMediaIconThumbsUp" xml:space="preserve"><value>Användbart</value></data>
+  <data name="DemoMediaIconThumbsDown" xml:space="preserve"><value>Inte användbart</value></data>
+  <data name="DemoMediaIconLightbulb" xml:space="preserve"><value>Tips</value></data>
+  <data name="DemoMediaIconKeyboard" xml:space="preserve"><value>Tangentbord</value></data>
+  <data name="DemoMediaIconFlag" xml:space="preserve"><value>Rapportera</value></data>
+  <data name="DemoMediaIconHighlighter" xml:space="preserve"><value>Markera</value></data>
+  <data name="DemoMediaIconChartPie" xml:space="preserve"><value>Fördelning</value></data>
+  <data name="DemoMediaIconChartDonut" xml:space="preserve"><value>Andel</value></data>
+  <data name="DemoMediaIconCircle" xml:space="preserve"><value>Cirkel</value></data>
+  <data name="DemoMediaIconBookmark" xml:space="preserve"><value>Bokmärke</value></data>
+  <data name="DemoMediaIconUserMinus" xml:space="preserve"><value>Ta bort en medlem</value></data>
+  <data name="DemoMediaIconSelectionSlash" xml:space="preserve"><value>Avmarkera</value></data>
+  <data name="DemoMediaIconSmiley" xml:space="preserve"><value>Specialtecken</value></data>
+  <data name="DemoMediaIconSkipBack" xml:space="preserve"><value>Föregående spår</value></data>
+  <data name="DemoMediaIconSkipForward" xml:space="preserve"><value>Nästa spår</value></data>
+  <data name="DemoMediaIconShuffle" xml:space="preserve"><value>Blanda</value></data>
+  <data name="DemoMediaIconRepeat" xml:space="preserve"><value>Upprepa</value></data>
+  <data name="DemoMediaIconRepeatOnce" xml:space="preserve"><value>Upprepa en gång</value></data>
+  <data name="DemoMediaIconSpeakerHigh" xml:space="preserve"><value>Hög volym</value></data>
+  <data name="DemoMediaIconSpeakerLow" xml:space="preserve"><value>Låg volym</value></data>
+  <data name="DemoMediaIconSpeakerNone" xml:space="preserve"><value>Ingen volym</value></data>
+  <data name="DemoMediaIconSpeakerX" xml:space="preserve"><value>Ljudet avstängt</value></data>
+  <data name="DemoMediaIconQueue" xml:space="preserve"><value>Kö</value></data>
+  <data name="DemoMediaIconPlaylist" xml:space="preserve"><value>Spellista</value></data>
+  <data name="DemoMediaIconListPlus" xml:space="preserve"><value>Lägg till i listan</value></data>
+  <data name="DemoMediaIconMusicNote" xml:space="preserve"><value>Låt</value></data>
+  <data name="DemoMediaIconDisc" xml:space="preserve"><value>Album</value></data>
+  <data name="DemoMediaIconWaveform" xml:space="preserve"><value>Vågform</value></data>
+  <data name="DemoMediaIconDotsSixVertical" xml:space="preserve"><value>Draghandtag</value></data>
+  <data name="DemoMediaIconCornersIn" xml:space="preserve"><value>Förminska visningen</value></data>
+  <data name="DemoMediaIconPlayCircle" xml:space="preserve"><value>Spela upp</value></data>
+  <data name="DemoMediaIconPauseCircle" xml:space="preserve"><value>Paus</value></data>
+  <data name="DemoMediaIconXCircle" xml:space="preserve"><value>Avbryt</value></data>
+  <data name="DemoMediaIconChartBar" xml:space="preserve"><value>Stapeldiagram</value></data>
+  <data name="DemoMediaIconBookOpen" xml:space="preserve"><value>Öppen bok</value></data>
+  <data name="DemoMediaIconArrowsDownUp" xml:space="preserve"><value>Byt lodrätt</value></data>
+  <data name="DemoMediaIconFolderPlus" xml:space="preserve"><value>Ny mapp</value></data>
+  <data name="DemoMediaIconTelevision" xml:space="preserve"><value>Skärm</value></data>
+  <data name="DemoMediaIconSealCheck" xml:space="preserve"><value>Verifierad</value></data>
+  <data name="DemoMediaIconCheckSquare" xml:space="preserve"><value>Markerad ruta</value></data>
+  <data name="DemoMediaIconArrowBendUpRight" xml:space="preserve"><value>Flytta</value></data>
+  <data name="DemoMediaIconStethoscope" xml:space="preserve"><value>Diagnos</value></data>
+  <data name="DemoMediaIconChevronLeft" xml:space="preserve"><value>Föregående</value></data>
+  <data name="DemoMediaIconEnvelope" xml:space="preserve"><value>E-post</value></data>
+  <data name="DemoMediaIconCurrencyEur" xml:space="preserve"><value>Belopp i euro</value></data>
+  <data name="DemoMediaIconShareNetwork" xml:space="preserve"><value>Dela</value></data>
+  <data name="DemoMediaIconBank" xml:space="preserve"><value>Finansinstitut</value></data>
+  <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Uppdrag</value></data>
+  <data name="DemoMediaIconIdentificationBadge" xml:space="preserve"><value>ID-bricka</value></data>
+  <data name="DemoMediaIconFilePdf" xml:space="preserve"><value>PDF-dokument</value></data>
+  <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Support</value></data>
+  <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerskap</value></data>
+  <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Ökning</value></data>
+  <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Projektnamn</value></data>
+  <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Ansvarigs e-post</value></data>
+  <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>Bekräfta e-postadressen</value></data>
+  <data name="DemoAnnotatedValidationReplicas" xml:space="preserve"><value>Repliker</value></data>
+  <data name="DemoOverlayOpenDialog" xml:space="preserve"><value>Öppna dialogrutan</value></data>
+  <data name="DemoOverlaySave" xml:space="preserve"><value>Spara</value></data>
+  <data name="DemoOverlayMoreSaves" xml:space="preserve"><value>Fler sätt att spara</value></data>
+  <data name="DemoOverlaySaveAndClose" xml:space="preserve"><value>Spara och stäng</value></data>
+  <data name="DemoOverlaySaveCopy" xml:space="preserve"><value>Spara en kopia</value></data>
+  <data name="DemoOverlayPublishUnavailable" xml:space="preserve"><value>Publicera, otillgänglig</value></data>
+  <data name="DemoOverlayFolderActions" xml:space="preserve"><value>Mappåtgärder</value></data>
+  <data name="DemoOverlayContextTrigger" xml:space="preserve"><value>Åtgärder (högerklick eller Skift+F10)</value></data>
+  <data name="DemoOverlayDuplicate" xml:space="preserve"><value>Duplicera</value></data>
+  <data name="DemoOverlayExport" xml:space="preserve"><value>Exportera</value></data>
+  <data name="DemoOverlayDelete" xml:space="preserve"><value>Ta bort</value></data>
+  <data name="DemoOverlayDeleteFolder" xml:space="preserve"><value>Ta bort mappen</value></data>
+  <data name="DemoOverlayRunningTasks" xml:space="preserve"><value>Pågående uppgifter</value></data>
+  <data name="DemoOverlayBackupStep" xml:space="preserve"><value>Nattlig säkerhetskopiering, steg {0} av {1}.</value></data>
+  <data name="DemoOverlayViewProgress" xml:space="preserve"><value>Visa förloppet</value></data>
+  <data name="DemoOverlayProgressOpened" xml:space="preserve"><value>Förloppet har öppnats</value></data>
+  <data name="DemoOverlayQuickFilter" xml:space="preserve"><value>Snabbfilter</value></data>
+  <data name="DemoOverlayFilter" xml:space="preserve"><value>Filtrera</value></data>
+  <data name="DemoOverlayFilterBody" xml:space="preserve"><value>Panelen justeras mot knappens början.</value></data>
+  <data name="DemoOverlayAccountMenu" xml:space="preserve"><value>Kontomeny</value></data>
+  <data name="DemoOverlayMyProfile" xml:space="preserve"><value>Min profil</value></data>
+  <data name="DemoOverlaySignOut" xml:space="preserve"><value>Logga ut</value></data>
+  <data name="DemoOverlaySignedOut" xml:space="preserve"><value>Utloggad</value></data>
+  <data name="DemoOverlayAdminUnavailable" xml:space="preserve"><value>Administration, otillgänglig</value></data>
+  <data name="DemoOverlayStickyButton" xml:space="preserve"><value>Dialogruta som ignorerar bakgrunden</value></data>
+  <data name="DemoOverlayBlockingButton" xml:space="preserve"><value>Dialogruta med påtvingad stängning</value></data>
+  <data name="DemoOverlaySizeSmall" xml:space="preserve"><value>Liten</value></data>
+  <data name="DemoOverlaySizeMedium" xml:space="preserve"><value>Medel</value></data>
+  <data name="DemoOverlaySizeLarge" xml:space="preserve"><value>Stor</value></data>
+  <data name="DemoOverlaySizeExtraLarge" xml:space="preserve"><value>Mycket stor</value></data>
+  <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Full bredd</value></data>
+  <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Dialogrutans bredd</value></data>
+  <data name="DemoOverlaySizedBody" xml:space="preserve"><value>Den här dialogrutan är öppnad i storleken {0}.</value></data>
+  <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Formulär (accent)</value></data>
+  <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Information</value></data>
+  <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Lyckat</value></data>
+  <data name="DemoOverlayIntentWarning" xml:space="preserve"><value>Bekräftelse (varning)</value></data>
+  <data name="DemoOverlayIntentDanger" xml:space="preserve"><value>Borttagning (fara)</value></data>
+  <data name="DemoOverlayIntentTitle" xml:space="preserve"><value>Körningsinställningar</value></data>
+  <data name="DemoOverlayIntentBody" xml:space="preserve"><value>Den här dialogrutan har avsikten {0}.</value></data>
+  <data name="DemoOverlayConfirm" xml:space="preserve"><value>Bekräfta</value></data>
+  <data name="DemoOverlayCancel" xml:space="preserve"><value>Avbryt</value></data>
+  <data name="DemoOverlayPipelineActions" xml:space="preserve"><value>Pipelineåtgärder</value></data>
+  <data name="DemoOverlayEdit" xml:space="preserve"><value>Redigera</value></data>
+  <data name="DemoOverlayUpdate" xml:space="preserve"><value>Uppdatera</value></data>
+  <data name="DemoOverlayRowActions" xml:space="preserve"><value>Radåtgärder</value></data>
+  <data name="DemoOverlayLastAction" xml:space="preserve"><value>Senaste åtgärd: {0}</value></data>
+  <data name="DemoOverlayNoAction" xml:space="preserve"><value>ingen</value></data>
+  <data name="DemoOverlayNoticeInfoTitle" xml:space="preserve"><value>Information</value></data>
+  <data name="DemoOverlayNoticeInfo" xml:space="preserve"><value>Nattjobbet startar kl. {0}.</value></data>
+  <data name="DemoOverlayNoticeDoneTitle" xml:space="preserve"><value>Klart</value></data>
+  <data name="DemoOverlayNoticeDone" xml:space="preserve"><value>De {0} handlingarna har importerats.</value></data>
+  <data name="DemoOverlayNotificationClosed" xml:space="preserve"><value>Aviseringen har stängts</value></data>
+  <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Kvoten är nästan nådd.</value></data>
+  <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Fel</value></data>
+  <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Anslutningen till tjänsten misslyckades.</value></data>
+  <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Bekräfta borttagningen</value></data>
+  <data name="DemoOverlayClose" xml:space="preserve"><value>Stäng</value></data>
+  <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Den här åtgärden tar bort mappen från listan. Den kan ångras i trettio dagar.</value></data>
+  <data name="DemoOverlayDeletionConfirmed" xml:space="preserve"><value>Borttagningen har bekräftats</value></data>
+  <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Filter används</value></data>
+  <data name="DemoOverlayStickyBody" xml:space="preserve"><value>Ett klick utanför stänger inte den här dialogrutan: krysset och Esc gör det.</value></data>
+  <data name="DemoOverlayBlockingTitle" xml:space="preserve"><value>Migrering pågår</value></data>
+  <data name="DemoOverlayBlockingBody" xml:space="preserve"><value>Varken krysset, Esc eller bakgrunden: bara dialogrutans egen knapp stänger den.</value></data>
+  <data name="DemoOverlayFinish" xml:space="preserve"><value>Slutför</value></data>
+  <data name="DemoOverlayMigrationDone" xml:space="preserve"><value>Migreringen är klar</value></data>
+  <data name="DemoEditorBodyLabel" xml:space="preserve"><value>Brevets brödtext</value></data>
+  <data name="DemoEditorSourceLabel" xml:space="preserve"><value>Brevets källkod</value></data>
+  <data name="DemoEditorAnnotatedLabel" xml:space="preserve"><value>Kommenterad artikel</value></data>
+  <data name="DemoEditorPosition" xml:space="preserve"><value>Position: {0}</value></data>
+  <data name="DemoEditorOutsideText" xml:space="preserve"><value>utanför texten</value></data>
+  <data name="DemoEditorRoot" xml:space="preserve"><value>rot</value></data>
+  <data name="DemoEditorExtendedLabel" xml:space="preserve"><value>Kommenterat yttrande</value></data>
+  <data name="DemoEditorReportLabel" xml:space="preserve"><value>Rapport</value></data>
+  <data name="DemoEditorReportFileName" xml:space="preserve"><value>rapport</value></data>
+  <data name="DemoEditorCodeLabel" xml:space="preserve"><value>JSON-inställningar</value></data>
+  <data name="DemoEditorIconBold" xml:space="preserve"><value>Fetstil</value></data>
+  <data name="DemoEditorIconItalic" xml:space="preserve"><value>Kursiv</value></data>
+  <data name="DemoEditorIconUnderline" xml:space="preserve"><value>Understruken</value></data>
+  <data name="DemoEditorIconStrikethrough" xml:space="preserve"><value>Genomstruken</value></data>
+  <data name="DemoEditorIconSubscript" xml:space="preserve"><value>Nedsänkt</value></data>
+  <data name="DemoEditorIconSuperscript" xml:space="preserve"><value>Upphöjd</value></data>
+  <data name="DemoEditorIconBulletList" xml:space="preserve"><value>Punktlista</value></data>
+  <data name="DemoEditorIconIndent" xml:space="preserve"><value>Öka indrag</value></data>
+  <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Minska indrag</value></data>
+  <data name="DemoEditorIconQuote" xml:space="preserve"><value>Citat</value></data>
+  <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Kod i text</value></data>
+  <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Kodblock</value></data>
+  <data name="DemoEditorIconLink" xml:space="preserve"><value>Länk</value></data>
+  <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Ta bort länk</value></data>
+  <data name="DemoEditorIconAlignLeft" xml:space="preserve"><value>Vänsterjustera</value></data>
+  <data name="DemoEditorIconAlignCenter" xml:space="preserve"><value>Centrera</value></data>
+  <data name="DemoEditorIconAlignRight" xml:space="preserve"><value>Högerjustera</value></data>
+  <data name="DemoEditorIconJustify" xml:space="preserve"><value>Marginaljustera</value></data>
+  <data name="DemoEditorIconUndo" xml:space="preserve"><value>Ångra</value></data>
+  <data name="DemoEditorIconRedo" xml:space="preserve"><value>Gör om</value></data>
+  <data name="DemoEditorIconClearFormatting" xml:space="preserve"><value>Rensa formatering</value></data>
+  <data name="DemoEditorIconHtmlSource" xml:space="preserve"><value>HTML-källkod</value></data>
+  <data name="DemoEditorIconTable" xml:space="preserve"><value>Tabell</value></data>
+  <data name="DemoEditorManifest" xml:space="preserve"><value>Driftsättningsmanifest</value></data>
+  <data name="DemoEditorManifestHelp" xml:space="preserve"><value>En enda fil, öppnar systemets filväljare.</value></data>
+  <data name="DemoEditorUploadFailed" xml:space="preserve"><value>Uppladdningen misslyckades.</value></data>
+  <data name="DemoEditorUploaded" xml:space="preserve"><value>Uppladdade filer: {0}</value></data>
+  <data name="DemoEditorNoUpload" xml:space="preserve"><value>inga</value></data>
+  <data name="DemoEditorTestCommand" xml:space="preserve"><value>Testkommando</value></data>
+  <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Konfigurationsexempel</value></data>
+  <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Utdrag, rad {0} till {1}</value></data>
+  <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Jämför två konfigurationer</value></data>
+  <data name="DemoEditorSignatureText" xml:space="preserve"><value>Ärendeavdelningen</value></data>
+  <data name="DemoEditorReferenceText" xml:space="preserve"><value>Referens: {0}</value></data>
+  <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Infoga signaturblocket</value></data>
+  <data name="DemoEditorAddSignature" xml:space="preserve"><value>Lägg till signaturen</value></data>
+  <data name="DemoEditorInsertReference" xml:space="preserve"><value>Infoga referensen</value></data>
+  <data name="DemoEditorAddNote" xml:space="preserve"><value>Lägg till en anteckning</value></data>
+  <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>Ny anteckning.</value></data>
+  <data name="DemoEditorNewNote" xml:space="preserve"><value>Ny anteckning</value></data>
+  <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Ta bort anteckningen</value></data>
+  <data name="DemoEditorArticleText" xml:space="preserve"><value>Artikel 1. Dessa föreskrifter gäller för inkomna ärenden.</value></data>
+  <data name="DemoEditorArticleDelay" xml:space="preserve"><value>Tidsfrist</value></data>
+  <data name="DemoEditorArticleDocument" xml:space="preserve"><value>Handling</value></data>
+  <data name="DemoEditorArticleDays" xml:space="preserve"><value>{0} dagar</value></data>
+  <data name="DemoEditorArticleForm" xml:space="preserve"><value>Formulär</value></data>
+  <data name="DemoEditorArticleNote" xml:space="preserve"><value>Obs: konsoliderad text per den 1 januari.</value></data>
+  <data name="DemoEditorOpinion" xml:space="preserve"><value>Tillstyrks med förbehåll{0}.</value></data>
+  <data name="DemoEditorOpinionNote" xml:space="preserve"><value>kontrollera tidsfristen</value></data>
+  <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>med förbehåll</value></data>
+  <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> för kontroll</value></data>
+  <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Ett {0} stycke.</value></data>
+  <data name="DemoEditorReportImportant" xml:space="preserve"><value>viktigt</value></data>
+  <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Första punkten</value></data>
+  <data name="DemoEditorReportSecondPoint" xml:space="preserve"><value>Andra punkten</value></data>
+  <data name="DemoEditorBodyGreeting" xml:space="preserve"><value>Hej,</value></data>
+  <data name="DemoEditorBodyText" xml:space="preserve"><value>Ditt ärende har tagits emot.</value></data>
+  <data name="DemoEditorEmptyFile" xml:space="preserve"><value>En fil är tom.</value></data>
+  <data name="DemoChoiceShippingLabel" xml:space="preserve"><value>Leveranssätt</value></data>
+  <data name="DemoChoiceExtrasLabel" xml:space="preserve"><value>Ärendets tillval</value></data>
+  <data name="DemoChoicePeriodLabel" xml:space="preserve"><value>Period</value></data>
+  <data name="DemoChoicePin" xml:space="preserve"><value>Fäst</value></data>
+  <data name="DemoChoiceUnavailable" xml:space="preserve"><value>Otillgänglig</value></data>
+  <data name="DemoChoiceSaving" xml:space="preserve"><value>Sparar</value></data>
+  <data name="DemoChoiceLabelledCheck" xml:space="preserve"><value>Kryssruta med etikett</value></data>
+  <data name="DemoChoiceTriStateCheck" xml:space="preserve"><value>Kryssruta med tre lägen</value></data>
+  <data name="DemoChoiceTriStateSwitch" xml:space="preserve"><value>Växel med tre lägen</value></data>
+  <data name="DemoChoiceTriStateValue" xml:space="preserve"><value>Tillstånd med tre lägen: {0}</value></data>
+  <data name="DemoChoiceIndeterminate" xml:space="preserve"><value>obestämt</value></data>
+  <data name="DemoChoiceOn" xml:space="preserve"><value>på</value></data>
+  <data name="DemoChoiceOff" xml:space="preserve"><value>av</value></data>
+  <data name="DemoChoiceTextFirstCheck" xml:space="preserve"><value>Etikett före kryssrutan</value></data>
+  <data name="DemoChoiceTextFirstSwitch" xml:space="preserve"><value>Etikett före växeln</value></data>
+  <data name="DemoChoicePlatformLabel" xml:space="preserve"><value>Agentens operativsystem</value></data>
+  <data name="DemoChoiceWindowsDescription" xml:space="preserve"><value>Windows Server 2022 och senare</value></data>
+  <data name="DemoChoiceFeaturesLabel" xml:space="preserve"><value>Agentens funktioner</value></data>
+  <data name="DemoChoiceRunnerTitle" xml:space="preserve"><value>Pipelinekörare</value></data>
+  <data name="DemoChoiceRunnerDescription" xml:space="preserve"><value>Kör stegen på den här datorn.</value></data>
+  <data name="DemoChoiceDockerDescription" xml:space="preserve"><value>Krävs av köraren.</value></data>
+  <data name="DemoChoiceRating" xml:space="preserve"><value>Betyg</value></data>
+  <data name="DemoChoiceRatingReadOnly" xml:space="preserve"><value>Skrivskyddat betyg</value></data>
+  <data name="DemoChoiceRatingDisabled" xml:space="preserve"><value>Inaktiverat betyg</value></data>
+  <data name="DemoChoiceShippingStandard" xml:space="preserve"><value>Standard</value></data>
+  <data name="DemoChoiceShippingExpress" xml:space="preserve"><value>Express</value></data>
+  <data name="DemoChoiceShippingPickup" xml:space="preserve"><value>Hämtas på kontoret</value></data>
+  <data name="DemoChoiceExtraReceipt" xml:space="preserve"><value>Mottagningsbevis</value></data>
+  <data name="DemoChoiceExtraCertifiedCopy" xml:space="preserve"><value>Bestyrkt kopia</value></data>
+  <data name="DemoChoiceExtraTracking" xml:space="preserve"><value>Spårning via e-post</value></data>
+  <data name="DemoChoicePeriodDay" xml:space="preserve"><value>Dag</value></data>
+  <data name="DemoChoicePeriodMonth" xml:space="preserve"><value>Månad</value></data>
+  <data name="DemoChoicePeriodYear" xml:space="preserve"><value>År</value></data>
+  <data name="DemoChoiceFeatureCache" xml:space="preserve"><value>Beroendecache</value></data>
+  <data name="DemoChoiceFeatureArtifacts" xml:space="preserve"><value>Lagring av artefakter</value></data>
+  <data name="DemoChoiceFeatureGpu" xml:space="preserve"><value>GPU-acceleration</value></data>
+  <data name="DemoInputsAmount" xml:space="preserve"><value>Belopp</value></data>
+  <data name="DemoInputsQuantity" xml:space="preserve"><value>Antal</value></data>
+  <data name="DemoInputsQuantityHelp" xml:space="preserve"><value>Mellan {0} och {1}: ett värde utanför gränserna flyttas till närmaste gräns.</value></data>
+  <data name="DemoInputsPassword" xml:space="preserve"><value>Lösenord</value></data>
+  <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Knappen visar det inskrivna utan att kopiera det någon annanstans.</value></data>
+  <data name="DemoInputsDate" xml:space="preserve"><value>Giltighetsdatum</value></data>
+  <data name="DemoInputsDateHelp" xml:space="preserve"><value>Skriv in det eller använd kalendern; dagar utanför gränserna kan inte väljas.</value></data>
+  <data name="DemoInputsStart" xml:space="preserve"><value>Starttid</value></data>
+  <data name="DemoInputsStartHelp" xml:space="preserve"><value>Timmar från 00 till 23, minuter i steg om {0}.</value></data>
+  <data name="DemoInputsAppointment" xml:space="preserve"><value>Möte</value></data>
+  <data name="DemoInputsAppointmentHelp" xml:space="preserve"><value>Kalender och tidskolumner i en och samma panel.</value></data>
+  <data name="DemoInputsColor" xml:space="preserve"><value>Markeringsfärg</value></data>
+  <data name="DemoInputsCity" xml:space="preserve"><value>Stad</value></data>
+  <data name="DemoInputsCityHelp" xml:space="preserve"><value>Sökningen börjar vid två tecken.</value></data>
+  <data name="DemoInputsCityPlaceholder" xml:space="preserve"><value>Börja skriva</value></data>
+  <data name="DemoInputsPickedSummary" xml:space="preserve"><value>Datum: {0}; tid: {1}; möte: {2}</value></data>
+  <data name="DemoInputsNoDate" xml:space="preserve"><value>inget</value></data>
+  <data name="DemoInputsNoTime" xml:space="preserve"><value>ingen</value></data>
+  <data name="DemoInputsNoAppointment" xml:space="preserve"><value>inget</value></data>
+  <data name="DemoFormName" xml:space="preserve"><value>Fullständigt namn</value></data>
+  <data name="DemoFormNameHelp" xml:space="preserve"><value>Som det kommer att stå på fakturan.</value></data>
+  <data name="DemoFormNotes" xml:space="preserve"><value>Anmärkningar</value></data>
+  <data name="DemoFormEmail" xml:space="preserve"><value>E-postadress</value></data>
+  <data name="DemoFormEmailHelp" xml:space="preserve"><value>Typen väljer mobiltangentbordet och webbläsarens autofyll.</value></data>
+  <data name="DemoFormPhone" xml:space="preserve"><value>Telefon</value></data>
+  <data name="DemoFormWebsite" xml:space="preserve"><value>Webbplats</value></data>
+  <data name="DemoFormSearch" xml:space="preserve"><value>Sök</value></data>
+  <data name="DemoFormSearchPlaceholder" xml:space="preserve"><value>Filtrera listan</value></data>
+  <data name="DemoFormBudget" xml:space="preserve"><value>Budget</value></data>
+  <data name="DemoFormTerms" xml:space="preserve"><value>Jag godkänner användarvillkoren</value></data>
+  <data name="DemoFormAlerts" xml:space="preserve"><value>Ta emot aviseringar</value></data>
+  <data name="DemoFormDynamicValues" xml:space="preserve"><value>Formulärets värden: {0}</value></data>
+  <data name="DemoFormDynamicName" xml:space="preserve"><value>Namn</value></data>
+  <data name="DemoFormDynamicAmount" xml:space="preserve"><value>Belopp</value></data>
+  <data name="DemoFormDynamicComment" xml:space="preserve"><value>Kommentar</value></data>
+  <data name="DemoFormDynamicActive" xml:space="preserve"><value>Aktiv</value></data>
+  <data name="DemoValidationName" xml:space="preserve"><value>Namn</value></data>
+  <data name="DemoValidationNameRequired" xml:space="preserve"><value>Namnet är obligatoriskt.</value></data>
+  <data name="DemoValidationMail" xml:space="preserve"><value>E-post</value></data>
+  <data name="DemoValidationMailRequired" xml:space="preserve"><value>E-postadressen är obligatorisk.</value></data>
+  <data name="DemoValidationSend" xml:space="preserve"><value>Skicka</value></data>
+  <data name="DemoValidationAccepted" xml:space="preserve"><value>Formuläret har godkänts.</value></data>
+  <data name="DemoValidationProjectName" xml:space="preserve"><value>Projektnamn</value></data>
+  <data name="DemoValidationOwnerMail" xml:space="preserve"><value>Ansvarigs e-post</value></data>
+  <data name="DemoValidationMailConfirmation" xml:space="preserve"><value>Bekräfta e-postadressen</value></data>
+  <data name="DemoValidationReplicas" xml:space="preserve"><value>Repliker</value></data>
+  <data name="DemoValidationCheck" xml:space="preserve"><value>Kontrollera</value></data>
+  <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Simulera osparade ändringar</value></data>
+  <data name="DemoSelectionCountry" xml:space="preserve"><value>Land</value></data>
+  <data name="DemoSelectionCountryPlaceholder" xml:space="preserve"><value>Välj ett land</value></data>
+  <data name="DemoSelectionCities" xml:space="preserve"><value>Betjänade städer</value></data>
+  <data name="DemoSelectionTags" xml:space="preserve"><value>Etiketter</value></data>
+  <data name="DemoSelectionTagsCompact" xml:space="preserve"><value>Etiketter, kompakt form</value></data>
+  <data name="DemoSelectionTagsFilterable" xml:space="preserve"><value>Etiketter, sökning och skapande</value></data>
+  <data name="DemoSelectionTagsPlaceholder" xml:space="preserve"><value>Välj etiketter</value></data>
+  <data name="DemoSelectionTagSearchPlaceholder" xml:space="preserve"><value>Sök efter en etikett</value></data>
+  <data name="DemoSelectionBelgium" xml:space="preserve"><value>Belgien</value></data>
+  <data name="DemoSelectionFrance" xml:space="preserve"><value>Frankrike</value></data>
+  <data name="DemoSelectionLuxembourg" xml:space="preserve"><value>Luxemburg</value></data>
+  <data name="DemoSelectionNetherlands" xml:space="preserve"><value>Nederländerna</value></data>
+  <data name="DemoSelectionTagUrgent" xml:space="preserve"><value>Brådskande</value></data>
+  <data name="DemoSelectionTagInternal" xml:space="preserve"><value>Intern</value></data>
+  <data name="DemoSelectionTagArchived" xml:space="preserve"><value>Arkiverad</value></data>
+  <data name="DemoFlowsCreateServer" xml:space="preserve"><value>Skapa servern</value></data>
+  <data name="DemoFlowsStepIdentity" xml:space="preserve"><value>Identitet</value></data>
+  <data name="DemoFlowsNameHelp" xml:space="preserve"><value>Nästa blir tillgänglig så snart namnet har skrivits in.</value></data>
+  <data name="DemoFlowsServerName" xml:space="preserve"><value>Servernamn</value></data>
+  <data name="DemoFlowsStepOptions" xml:space="preserve"><value>Alternativ</value></data>
+  <data name="DemoFlowsDailyBackup" xml:space="preserve"><value>Daglig säkerhetskopiering</value></data>
+  <data name="DemoFlowsBackupRequired" xml:space="preserve"><value>Markera daglig säkerhetskopiering för en produktionsserver.</value></data>
+  <data name="DemoFlowsStepSummary" xml:space="preserve"><value>Sammanfattning</value></data>
+  <data name="DemoFlowsSummaryName" xml:space="preserve"><value>Namn</value></data>
+  <data name="DemoFlowsSummaryBackup" xml:space="preserve"><value>Säkerhetskopiering</value></data>
+  <data name="DemoFlowsBackupDaily" xml:space="preserve"><value>Daglig</value></data>
+  <data name="DemoFlowsBackupNone" xml:space="preserve"><value>Ingen</value></data>
+  <data name="DemoFlowsOutcome" xml:space="preserve"><value>Resultat: {0}</value></data>
+  <data name="DemoFlowsOutcomePending" xml:space="preserve"><value>pågår</value></data>
+  <data name="DemoFlowsOutcomeCreated" xml:space="preserve"><value>servern ”{0}” har skapats</value></data>
+  <data name="DemoFlowsOutcomeCancelled" xml:space="preserve"><value>avbrutet</value></data>
+  <data name="DemoFlowsWizardInDialog" xml:space="preserve"><value>Guide i en dialogruta</value></data>
+  <data name="DemoFlowsInviteTitle" xml:space="preserve"><value>Bjud in en medlem</value></data>
+  <data name="DemoFlowsInviteSteps" xml:space="preserve"><value>Inbjudningens steg</value></data>
+  <data name="DemoFlowsInvite" xml:space="preserve"><value>Bjud in</value></data>
+  <data name="DemoFlowsStepAddress" xml:space="preserve"><value>Adress</value></data>
+  <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Den inbjudna personens adress.</value></data>
+  <data name="DemoFlowsStepRole" xml:space="preserve"><value>Roll</value></data>
+  <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Rollen som personen får.</value></data>
+  <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Administrationsområde</value></data>
+  <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Drift</value></data>
+  <data name="DemoFlowsUser" xml:space="preserve"><value>Användarnamn</value></data>
+  <data name="DemoFlowsPassword" xml:space="preserve"><value>Lösenord</value></data>
+  <data name="DemoFlowsSignIn" xml:space="preserve"><value>Logga in</value></data>
+  <data name="DemoFlowsSignInNote" xml:space="preserve"><value>Formuläret har lämnats till värden för ”{0}”.</value></data>
+  <data name="DemoFlowsReturnAfterSignIn" xml:space="preserve"><value>Retur efter inloggning: {0}</value></data>
+  <data name="DemoFlowsExternalRefused" xml:space="preserve"><value>Extern adress avvisad: {0}</value></data>
+  <data name="DemoFlowsSimulateDrop" xml:space="preserve"><value>Simulera ett avbrott</value></data>
+  <data name="DemoFlowsSimulateReject" xml:space="preserve"><value>Simulera en avvisning</value></data>
+  <data name="DemoFlowsConnection" xml:space="preserve"><value>Anslutning: {0}</value></data>
+  <data name="DemoFlowsConnectionReconnecting" xml:space="preserve"><value>återansluter</value></data>
+  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>misslyckades</value></data>
+  <data name="DemoFlowsConnectionRejected" xml:space="preserve"><value>avvisad</value></data>
+  <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>upprättad</value></data>
+  <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>servern svarar inte längre (tidsgränsen överskreds)</value></data>
+  <data name="DemoFlowsReasonExpired" xml:space="preserve"><value>sessionen har gått ut på servern</value></data>
+  <data name="DemoTreeLabel" xml:space="preserve"><value>Mappträd</value></data>
+  <data name="DemoTreeEurope" xml:space="preserve"><value>Europa</value></data>
+  <data name="DemoTreeBelgium" xml:space="preserve"><value>Belgien</value></data>
+  <data name="DemoTreeCapitalText" xml:space="preserve"><value>{0}, huvudstad</value></data>
+  <data name="DemoTreeCapital" xml:space="preserve"><value>huvudstad</value></data>
+  <data name="DemoTreeFrance" xml:space="preserve"><value>Frankrike</value></data>
+  <data name="DemoTreeLuxembourg" xml:space="preserve"><value>Luxemburg</value></data>
+  <data name="DemoTreeArchives" xml:space="preserve"><value>Arkiv, läses in när det öppnas</value></data>
+  <data name="DemoTreeSelection" xml:space="preserve"><value>Markering: {0}</value></data>
+  <data name="DemoTreeNoSelection" xml:space="preserve"><value>ingen</value></data>
+  <data name="DemoSpreadsheetLabel" xml:space="preserve"><value>Kvartalsbudget</value></data>
+  <data name="DemoSpreadsheetStatus" xml:space="preserve"><value>Aktiv cell: {0}. Kvartalets summa: {1}</value></data>
+  <data name="DemoSpreadsheetReadOnlyLabel" xml:space="preserve"><value>Samma budget, skrivskyddad</value></data>
+  <data name="DemoSpreadsheetItem" xml:space="preserve"><value>Post</value></data>
+  <data name="DemoSpreadsheetJanuary" xml:space="preserve"><value>Januari</value></data>
+  <data name="DemoSpreadsheetFebruary" xml:space="preserve"><value>Februari</value></data>
+  <data name="DemoSpreadsheetMarch" xml:space="preserve"><value>Mars</value></data>
+  <data name="DemoSpreadsheetQuarter" xml:space="preserve"><value>Kvartal</value></data>
+  <data name="DemoSpreadsheetRent" xml:space="preserve"><value>Hyra</value></data>
+  <data name="DemoSpreadsheetGroceries" xml:space="preserve"><value>Matinköp</value></data>
+  <data name="DemoSpreadsheetEnergy" xml:space="preserve"><value>Energi</value></data>
+  <data name="DemoSpreadsheetTransport" xml:space="preserve"><value>Transport</value></data>
+  <data name="DemoSpreadsheetLeisure" xml:space="preserve"><value>Fritid</value></data>
+  <data name="DemoSpreadsheetTotal" xml:space="preserve"><value>Totalt</value></data>
+  <data name="DemoSpreadsheetAverage" xml:space="preserve"><value>Medelvärde</value></data>
+  <data name="DemoDiagramReadOnly" xml:space="preserve"><value>Skrivskyddad</value></data>
+  <data name="DemoDiagramMindMapLabel" xml:space="preserve"><value>Tankekarta: förbereda en flytt</value></data>
+  <data name="DemoDiagramGitGraphLabel" xml:space="preserve"><value>Historik med en sammanslagen gren</value></data>
+  <data name="DemoDiagramMapSummary" xml:space="preserve"><value>{0} noder, {1} länkar, {2} tecken när den sparats.</value></data>
+  <data name="DemoDiagramNewIdea" xml:space="preserve"><value>Ny idé</value></data>
+  <data name="DemoDiagramNodeMove" xml:space="preserve"><value>Flytt</value></data>
+  <data name="DemoDiagramNodePaperwork" xml:space="preserve"><value>Pappersarbete</value></data>
+  <data name="DemoDiagramNodeAddress" xml:space="preserve"><value>Adressändring</value></data>
+  <data name="DemoDiagramNodeInsurance" xml:space="preserve"><value>Hemförsäkring</value></data>
+  <data name="DemoDiagramNodeBoxes" xml:space="preserve"><value>Flyttkartonger</value></data>
+  <data name="DemoDiagramNodeKitchen" xml:space="preserve"><value>Kök</value></data>
+  <data name="DemoDiagramNodeBooks" xml:space="preserve"><value>Böcker</value></data>
+  <data name="DemoDiagramNodeMovingDay" xml:space="preserve"><value>Flyttdagen</value></data>
+  <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Boka flyttbilen</value></data>
+  <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Meddela grannarna</value></data>
+  <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Före den 15:e</value></data>
 </root>

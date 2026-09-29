@@ -19,6 +19,13 @@ public sealed class OmniMarkdownTableExporter
     private readonly IStringLocalizer<AppStrings> _text;
     private readonly TimeProvider _time;
 
+    /// <summary>
+    /// Creates the exporter. <c>AddOmniEuropeBlazor</c> registers one per scope; a host rarely builds it
+    /// by hand.
+    /// </summary>
+    /// <param name="text">The package texts, read in the current UI culture when a document is built.</param>
+    /// <param name="time">The clock that stamps each document's generation time.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="text"/> or <paramref name="time"/> is null.</exception>
     public OmniMarkdownTableExporter(IStringLocalizer<AppStrings> text, TimeProvider time)
     {
         ArgumentNullException.ThrowIfNull(text);
@@ -29,8 +36,21 @@ public sealed class OmniMarkdownTableExporter
 
     /// <summary>
     /// Reads the rows page by page up to the export's row limit, then builds the document. A page that
-    /// fails fails the export: the exception propagates and no document is produced.
+    /// fails fails the export: the exception propagates and no document is produced. Reading stops at
+    /// a page shorter than the page size, or once the rows announced by the first page (capped by the
+    /// row limit) are read. A source that returns more rows than it announced (a count of 0 when it
+    /// does not know one) is counted instead: reading goes on to a short page or the row limit, and the
+    /// document's total is the rows read, so a source holding more rows than the limit then reads as
+    /// exactly the limit.
     /// </summary>
+    /// <typeparam name="TItem">The type of the exported rows.</typeparam>
+    /// <param name="export">What to export and where its rows come from.</param>
+    /// <param name="cancellationToken">Checked before each page and passed to the page provider.</param>
+    /// <returns>The document with its row counts and generation time.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="export"/>, its columns or its page provider is null.</exception>
+    /// <exception cref="ArgumentException"><paramref name="export"/> has no column.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">The row limit or the page size of <paramref name="export"/> is below 1.</exception>
+    /// <exception cref="OperationCanceledException"><paramref name="cancellationToken"/> was cancelled.</exception>
     public async Task<OmniMarkdownTableDocument> ExportAsync<TItem>(OmniMarkdownTableExport<TItem> export, CancellationToken cancellationToken = default)
     {
         Validate(export);
@@ -39,6 +59,10 @@ public sealed class OmniMarkdownTableExporter
         var rows = new List<TItem>();
         var seen = new HashSet<object>();
         var totalCount = 0;
+        // A source whose pages hold more rows than it announced has announced no usable count (0 when
+        // it does not know): the exporter then counts the rows itself, reading on to a short page or
+        // the row limit.
+        var counting = false;
         for (var page = 1; page <= maxPages; page++)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -56,7 +80,8 @@ public sealed class OmniMarkdownTableExporter
                 }
             }
 
-            if (result.Items.Count < pageSize || rows.Count >= Math.Min(totalCount, export.RowLimit))
+            counting |= rows.Count > totalCount;
+            if (result.Items.Count < pageSize || rows.Count >= (counting ? export.RowLimit : Math.Min(totalCount, export.RowLimit)))
             {
                 break;
             }
@@ -65,6 +90,11 @@ public sealed class OmniMarkdownTableExporter
         if (rows.Count > export.RowLimit)
         {
             rows.RemoveRange(export.RowLimit, rows.Count - export.RowLimit);
+        }
+
+        if (counting)
+        {
+            totalCount = rows.Count;
         }
 
         var generatedAt = _time.GetUtcNow();
@@ -77,6 +107,15 @@ public sealed class OmniMarkdownTableExporter
     /// the source announced; the texts come from the package resources in the current UI culture and
     /// the numbers are written in the current culture.
     /// </summary>
+    /// <typeparam name="TItem">The type of the exported rows.</typeparam>
+    /// <param name="export">The title, columns, header lines and row limit of the document.</param>
+    /// <param name="rows">The rows written in the table, in order.</param>
+    /// <param name="totalCount">The number of rows the source announced; fewer <paramref name="rows"/> adds a note saying the table is partial.</param>
+    /// <param name="generatedAt">The generation time, written in UTC.</param>
+    /// <returns>The Markdown document.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="export"/>, its columns, its page provider or <paramref name="rows"/> is null.</exception>
+    /// <exception cref="ArgumentException"><paramref name="export"/> has no column.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">The row limit or the page size of <paramref name="export"/> is below 1.</exception>
     public string Build<TItem>(OmniMarkdownTableExport<TItem> export, IReadOnlyList<TItem> rows, int totalCount, DateTimeOffset generatedAt)
     {
         Validate(export);
@@ -138,6 +177,8 @@ public sealed class OmniMarkdownTableExporter
     /// A table cell's text: a pipe would end the cell and a line break the row, so pipes are escaped
     /// and line breaks become <c>&lt;br&gt;</c>. Null is an empty cell.
     /// </summary>
+    /// <param name="value">The cell text as the reader should see it.</param>
+    /// <returns>The escaped cell text.</returns>
     public static string EscapeCell(string? value) => value is null
         ? string.Empty
         : value.Replace("|", "\\|", StringComparison.Ordinal)
@@ -146,6 +187,8 @@ public sealed class OmniMarkdownTableExporter
             .Replace("\r", "<br>", StringComparison.Ordinal);
 
     /// <summary>A heading or header value on one line: line breaks become spaces. Null is empty.</summary>
+    /// <param name="value">The text to write on one line.</param>
+    /// <returns>The text with its line breaks replaced.</returns>
     public static string EscapeInline(string? value) => value is null
         ? string.Empty
         : value.Replace("\r\n", " ", StringComparison.Ordinal)

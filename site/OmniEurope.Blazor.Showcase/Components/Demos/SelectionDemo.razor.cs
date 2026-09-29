@@ -1,14 +1,13 @@
+using OmniEurope.Blazor.Showcase.Resources;
+
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class SelectionDemo
 {
-    private static readonly IReadOnlyList<OmniOption<string>> Countries =
-    [
-        new("be", "Belgique"),
-        new("fr", "France"),
-        new("lu", "Luxembourg"),
-        new("nl", "Pays-Bas")
-    ];
+    [Inject]
+    private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
+
+    private IReadOnlyList<OmniOption<string>> Countries { get; set; } = [];
 
     private static readonly IReadOnlyList<OmniOption<string>> Cities =
     [
@@ -18,12 +17,7 @@ public partial class SelectionDemo
         new("ams", "Amsterdam")
     ];
 
-    private static readonly IReadOnlyList<OmniOption<string>> Tags =
-    [
-        new("urgent", "Urgent"),
-        new("interne", "Interne"),
-        new("archive", "Archivé")
-    ];
+    private IReadOnlyList<OmniOption<string>> Tags { get; set; } = [];
 
     private string Country { get; set; } = "be";
 
@@ -35,12 +29,7 @@ public partial class SelectionDemo
 
     // A tag the search did not find can be created from the panel's footer, which is why the field
     // is bound: the list alone never says what was typed.
-    private List<OmniOption<string>> EditableTags { get; } =
-    [
-        new("urgent", "Urgent"),
-        new("interne", "Interne"),
-        new("archive", "Archivé")
-    ];
+    private List<OmniOption<string>> EditableTags { get; } = [];
 
     private static readonly IReadOnlyList<string> Swatches =
         ["#c2410c", "#1d4ed8", "#15803d", "#7c3aed", "#b91c1c"];
@@ -52,6 +41,25 @@ public partial class SelectionDemo
     private bool CanCreateSearchedTag =>
         !string.IsNullOrWhiteSpace(TagSearch)
         && !EditableTags.Any(tag => string.Equals(tag.Text, TagSearch.Trim(), StringComparison.CurrentCultureIgnoreCase));
+
+    /// <summary>Countries and tags keep their keys; only their texts follow the reader's language.</summary>
+    protected override void OnInitialized()
+    {
+        Countries =
+        [
+            new("be", Text["DemoSelectionBelgium"]),
+            new("fr", Text["DemoSelectionFrance"]),
+            new("lu", Text["DemoSelectionLuxembourg"]),
+            new("nl", Text["DemoSelectionNetherlands"])
+        ];
+        Tags =
+        [
+            new("urgent", Text["DemoSelectionTagUrgent"]),
+            new("interne", Text["DemoSelectionTagInternal"]),
+            new("archive", Text["DemoSelectionTagArchived"])
+        ];
+        EditableTags.AddRange(Tags);
+    }
 
     private string SwatchOf(string value) =>
         Swatches[Math.Abs(value.GetHashCode(StringComparison.Ordinal)) % Swatches.Count];

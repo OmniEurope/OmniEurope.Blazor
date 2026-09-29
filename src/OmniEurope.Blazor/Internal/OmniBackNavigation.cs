@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Internal;
 /// </summary>
 internal static class OmniBackNavigation
 {
-    private const string InteropModulePath = "./_content/OmniEurope.Blazor/omniInterop.js";
+    private const string InteropModulePath = OmniModules.Interop;
 
     internal static async Task GoBackAsync(NavigationManager navigation, IJSRuntime javaScript, string? href)
     {

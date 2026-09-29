@@ -18,15 +18,25 @@
   <data name="SettingsTextSize" xml:space="preserve"><value>Rozmiar tekstu</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Gęstość</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Rozmiar kontrolek</value></data>
-  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Kontrolki</value></data>
-  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Tekst</value></data>
-  <data name="SettingsDensityShort" xml:space="preserve"><value>Gęstość</value></data>
-  <data name="SettingsScale" xml:space="preserve"><value>Rozmiary</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Domyślnie</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>domyślnie</value></data>
-  <data name="SettingsDecrease" xml:space="preserve"><value>Zmniejsz</value></data>
-  <data name="SettingsIncrease" xml:space="preserve"><value>Zwiększ</value></data>
+  <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Zmniejsz rozmiar tekstu</value></data>
+  <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Zwiększ rozmiar tekstu</value></data>
+  <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Zmniejsz rozmiar kontrolek</value></data>
+  <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Zwiększ rozmiar kontrolek</value></data>
+  <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
+  <data name="SettingsLook" xml:space="preserve"><value>Motyw i rozmiary</value></data>
+  <data name="SettingsLookTitle" xml:space="preserve"><value>Motyw, paleta i rozmiary</value></data>
+  <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Tekst {1} · {2}</value></data>
+  <data name="SettingsLookSummaryFull" xml:space="preserve"><value>{0} · Tekst {1} · {2} · Kontrolki {3}</value></data>
+  <data name="DensityCompact" xml:space="preserve"><value>Kompaktowa</value></data>
+  <data name="DensityComfortable" xml:space="preserve"><value>Komfortowa</value></data>
+  <data name="DensitySpacious" xml:space="preserve"><value>Przestronna</value></data>
   <data name="ArcGaugeLabel" xml:space="preserve"><value>Wskaźnik</value></data>
+  <data name="LabelValuePair" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="ChartCategoryColumn" xml:space="preserve"><value>Kategoria</value></data>
+  <data name="ChartValueColumn" xml:space="preserve"><value>Wartość</value></data>
+  <data name="ChartSeriesFallback" xml:space="preserve"><value>Seria {0}</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Wyszukiwanie nie powiodło się. Zmień wpisany tekst, aby spróbować ponownie.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>Dostępny 1 wynik.</value></data>
   <data name="AutocompleteManyResults" xml:space="preserve"><value>Dostępne wyniki: {0}.</value></data>
@@ -81,8 +91,6 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Rozwiń lub zwiń wszystkie wiersze</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Odepnij zablokowane kolumny</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Zablokuj kolumny ponownie</value></data>
-  <data name="GridShrinkColumn" xml:space="preserve"><value>Zmniejsz szerokość: {0}</value></data>
-  <data name="GridGrowColumn" xml:space="preserve"><value>Zwiększ szerokość: {0}</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Pierwsza strona</value></data>
   <data name="PagerLast" xml:space="preserve"><value>Ostatnia strona</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Wierszy na stronę</value></data>
@@ -344,6 +352,10 @@
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Menu profilu</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Postęp</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>W toku</value></data>
+  <data name="TextAreaCount" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="HeaderHome" xml:space="preserve"><value>Strona główna</value></data>
+  <data name="HeaderLogo" xml:space="preserve"><value>Logo</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Wybór opcji jest nieprawidłowy.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>To pole jest wymagane.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Poprzedni okres</value></data>
@@ -362,6 +374,7 @@
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} pozostaje na swoim miejscu.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>Przeniesiono {0} na {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Wybór segmentowy jest nieprawidłowy.</value></data>
+  <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Wybór jest nieprawidłowy.</value></data>
   <data name="RatingLabel" xml:space="preserve"><value>Ocena</value></data>
   <data name="RatingStar" xml:space="preserve"><value>{0} z {1}</value></data>
   <data name="RatingValue" xml:space="preserve"><value>{0}: {1} z {2}</value></data>
@@ -447,8 +460,9 @@
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, rozpoczęty o {1}, czas trwania</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Potwierdź</value></data>
   <data name="GoBack" xml:space="preserve"><value>Wstecz</value></data>
-  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Pokaż plakietki i akcje</value></data>
-  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Ukryj plakietki i akcje</value></data>
+  <data name="PageHeaderShowMore" xml:space="preserve"><value>Pokaż więcej</value></data>
+  <data name="PageHeaderScrollTitleStart" xml:space="preserve"><value>Przewiń tytuł do początku</value></data>
+  <data name="PageHeaderScrollTitleEnd" xml:space="preserve"><value>Przewiń tytuł do końca</value></data>
   <data name="DetailNotFound" xml:space="preserve"><value>Nie znaleziono elementu</value></data>
   <data name="SignIn" xml:space="preserve"><value>Zaloguj się</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Utracono połączenie</value></data>
@@ -481,6 +495,15 @@
   <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} mies.</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} rok</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} l.</value></data>
+  <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} godz.</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} dzień</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} dni</value></data>
+  <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} miesiąc</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} mies.</value></data>
+  <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} rok</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} l.</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Podkreślenie</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Przekreślenie</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Kod w wierszu</value></data>

@@ -58,6 +58,10 @@ public partial class OmniTabsItem
     private string RegisteredKey => Context?.RegisterKey(EffectiveKey, Disabled) ?? EffectiveKey;
     private bool Selected => Context?.Value == RegisteredKey;
 
+    /// <summary>
+    /// Marks the panel as built once the tab is selected, or at once under
+    /// <see cref="OmniTabs.RenderAllPanels"/>; a built panel is kept afterwards.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -66,8 +70,16 @@ public partial class OmniTabsItem
 
     // Retain inactive panels without rebuilding their grids on every click. The latest parameters
     // are rendered on selection; one final render on deselection applies the hidden attribute.
+
+    /// <summary>
+    /// Always renders the tab button; renders the panel only while the tab is selected, plus once more
+    /// on deselection to hide it, so inactive panels are not rebuilt on every click.
+    /// </summary>
+    /// <returns>True when the component should render.</returns>
     protected override bool ShouldRender() => !IsPanelPhase || Selected || _wasSelected;
 
+    /// <summary>Remembers whether the tab was selected at this render, for <see cref="ShouldRender"/>.</summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
     protected override void OnAfterRender(bool firstRender) => _wasSelected = Selected;
 
     // The tabs render their content once per phase; this instance emits only the half it is asked

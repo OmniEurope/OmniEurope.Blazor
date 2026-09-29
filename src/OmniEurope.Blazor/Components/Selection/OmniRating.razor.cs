@@ -27,10 +27,14 @@ public partial class OmniRating
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
-    /// Names the group, and prefixes the value announced when read-only. Null uses the localized
-    /// "Rating".
+    /// Names the group, and prefixes the value announced when read-only. Null uses the label of an
+    /// enclosing <see cref="OmniFormField"/> whose <c>For</c> is <see cref="OmniInputBase{TValue}.Id"/>
+    /// (through <c>aria-labelledby</c>, a radio group being out of reach of a <c>label for</c>), else the
+    /// localized "Rating".
     /// </summary>
     [Parameter] public string? Label { get; set; }
+
+    private string? GroupLabelledBy => string.IsNullOrWhiteSpace(Label) ? FormFieldLabelId : null;
 
     private bool IsReadOnlyDisplay => ReadOnly && !Disabled;
 
@@ -47,12 +51,19 @@ public partial class OmniRating
         if (!Disabled && !ReadOnly) CurrentValue = star;
     }
 
+    /// <summary>Checks the parameters.</summary>
+    /// <exception cref="ArgumentOutOfRangeException"><see cref="Maximum"/> is less than 1.</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
         ArgumentOutOfRangeException.ThrowIfLessThan(Maximum, 1);
     }
 
+    /// <summary>Reads a whole number from 0 to <see cref="Maximum"/>; empty text means no rating.</summary>
+    /// <param name="value">The text to parse.</param>
+    /// <param name="result">The rating read, or null when the text is not a number.</param>
+    /// <param name="validationErrorMessage">Empty on success; on failure, the localized "invalid number" message.</param>
+    /// <returns>True when the text is empty or a rating within the range.</returns>
     protected override bool TryParseValueFromString(string? value, out int? result, out string validationErrorMessage)
     {
         result = int.TryParse(value, out var parsed) ? parsed : null;

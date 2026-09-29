@@ -48,6 +48,8 @@ public partial class OmniGitGraph<TItem>
     private string ViewBox =>
         $"0 0 {MindMapGeometry.Format(Layout.LaneCount * GitGraphLayout.LaneWidth)} {MindMapGeometry.Format(GitGraphLayout.RowHeight)}";
 
+    /// <summary>Computes the lanes of the graph again from the keys and parents of <see cref="Items"/>; a null parent list counts as none.</summary>
+    /// <exception cref="ArgumentNullException"><see cref="KeyOf"/> or <see cref="ParentsOf"/> is null.</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();

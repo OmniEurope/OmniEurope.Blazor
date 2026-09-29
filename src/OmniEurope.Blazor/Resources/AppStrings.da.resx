@@ -18,15 +18,25 @@
   <data name="SettingsTextSize" xml:space="preserve"><value>Tekststørrelse</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Tæthed</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Størrelse på kontrolelementer</value></data>
-  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Kontroller</value></data>
-  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Tekst</value></data>
-  <data name="SettingsDensityShort" xml:space="preserve"><value>Tæthed</value></data>
-  <data name="SettingsScale" xml:space="preserve"><value>Størrelser</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Standard</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>standard</value></data>
-  <data name="SettingsDecrease" xml:space="preserve"><value>Formindsk</value></data>
-  <data name="SettingsIncrease" xml:space="preserve"><value>Forøg</value></data>
+  <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Formindsk tekststørrelsen</value></data>
+  <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Forøg tekststørrelsen</value></data>
+  <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Formindsk kontrolelementernes størrelse</value></data>
+  <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Forøg kontrolelementernes størrelse</value></data>
+  <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
+  <data name="SettingsLook" xml:space="preserve"><value>Tema og størrelser</value></data>
+  <data name="SettingsLookTitle" xml:space="preserve"><value>Tema, palet og størrelser</value></data>
+  <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Tekst {1} · {2}</value></data>
+  <data name="SettingsLookSummaryFull" xml:space="preserve"><value>{0} · Tekst {1} · {2} · Kontroller {3}</value></data>
+  <data name="DensityCompact" xml:space="preserve"><value>Kompakt</value></data>
+  <data name="DensityComfortable" xml:space="preserve"><value>Komfortabel</value></data>
+  <data name="DensitySpacious" xml:space="preserve"><value>Luftig</value></data>
   <data name="ArcGaugeLabel" xml:space="preserve"><value>Måler</value></data>
+  <data name="LabelValuePair" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="ChartCategoryColumn" xml:space="preserve"><value>Kategori</value></data>
+  <data name="ChartValueColumn" xml:space="preserve"><value>Værdi</value></data>
+  <data name="ChartSeriesFallback" xml:space="preserve"><value>Serie {0}</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Søgningen mislykkedes. Ret inputtet for at prøve igen.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>1 resultat tilgængeligt.</value></data>
   <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} resultater tilgængelige.</value></data>
@@ -81,8 +91,6 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Udvid eller skjul alle rækker</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Frigør de fastlåste kolonner</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Fastlås kolonnerne igen</value></data>
-  <data name="GridShrinkColumn" xml:space="preserve"><value>Gør kolonnen {0} smallere</value></data>
-  <data name="GridGrowColumn" xml:space="preserve"><value>Gør kolonnen {0} bredere</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Første side</value></data>
   <data name="PagerLast" xml:space="preserve"><value>Sidste side</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Rækker pr. side</value></data>
@@ -344,6 +352,10 @@
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Profilmenu</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Status</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0} %</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>I gang</value></data>
+  <data name="TextAreaCount" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="HeaderHome" xml:space="preserve"><value>Forside</value></data>
+  <data name="HeaderLogo" xml:space="preserve"><value>Logo</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Valget af alternativknap er ugyldigt.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Dette felt er påkrævet.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Forrige periode</value></data>
@@ -362,6 +374,7 @@
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} bliver på sin plads.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} flyttet til {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Det segmenterede valg er ugyldigt.</value></data>
+  <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Valget er ugyldigt.</value></data>
   <data name="RatingLabel" xml:space="preserve"><value>Bedømmelse</value></data>
   <data name="RatingStar" xml:space="preserve"><value>{0} af {1}</value></data>
   <data name="RatingValue" xml:space="preserve"><value>{0}: {1} af {2}</value></data>
@@ -432,6 +445,7 @@
   <data name="GanttScale" xml:space="preserve"><value>Tidsskala</value></data>
   <data name="GanttScaleDay" xml:space="preserve"><value>Dag</value></data>
   <data name="GanttScaleMonth" xml:space="preserve"><value>Måned</value></data>
+  <data name="GanttWeekNumber" xml:space="preserve"><value>U{0}</value></data>
   <data name="GanttScaleWeek" xml:space="preserve"><value>Uge</value></data>
   <data name="GanttTaskAfter" xml:space="preserve"><value>efter {0}</value></data>
   <data name="GanttTaskColumn" xml:space="preserve"><value>Opgave</value></data>
@@ -446,8 +460,9 @@
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, startet kl. {1}, varighed</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Bekræft</value></data>
   <data name="GoBack" xml:space="preserve"><value>Tilbage</value></data>
-  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Vis badges og handlinger</value></data>
-  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Skjul badges og handlinger</value></data>
+  <data name="PageHeaderShowMore" xml:space="preserve"><value>Vis mere</value></data>
+  <data name="PageHeaderScrollTitleStart" xml:space="preserve"><value>Rul titlen til starten</value></data>
+  <data name="PageHeaderScrollTitleEnd" xml:space="preserve"><value>Rul titlen til slutningen</value></data>
   <data name="DetailNotFound" xml:space="preserve"><value>Elementet blev ikke fundet</value></data>
   <data name="SignIn" xml:space="preserve"><value>Log ind</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Forbindelsen blev afbrudt</value></data>
@@ -480,6 +495,15 @@
   <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} måneder</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} år</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} år</value></data>
+  <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} sek.</value></data>
+  <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min.</value></data>
+  <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} t.</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} dag</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} dage</value></data>
+  <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} måned</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} måneder</value></data>
+  <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} år</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} år</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Understreget</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Gennemstreget</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Indlejret kode</value></data>

@@ -7,23 +7,29 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 /// <remarks>
 /// Loads are counted rather than flagged, so two overlapping requests do not have the faster of the
-/// two put the bar away while the slower is still running.
+/// two put the bar away while the slower is still running. The count is safe to change from several
+/// threads at once (a load ended on a thread-pool continuation, for instance).
 /// </remarks>
 public sealed class OmniLoadingState
 {
+    private readonly Lock _gate = new();
     private int _running;
     private double _value;
 
+    /// <summary>
+    /// Raised, on the calling thread, after every <see cref="Begin"/> and every effective <see cref="End"/>,
+    /// and after a <see cref="Report"/> that moves the figure by 0.01 or more.
+    /// </summary>
     public event Action? Changed;
 
     /// <summary>True while at least one load is running.</summary>
-    public bool Loading => _running > 0;
+    public bool Loading => Volatile.Read(ref _running) > 0;
 
     /// <summary>Progress of the current load, 0 to 100, when the caller reports one.</summary>
-    public double Value => _value;
+    public double Value => Volatile.Read(ref _value);
 
     /// <summary>True while a load is running and nobody has reported a figure for it.</summary>
-    public bool Unmeasured => Loading && _value <= 0d;
+    public bool Unmeasured => Loading && Value <= 0d;
 
     /// <summary>
     /// Marks a load as started. Every call must be matched by <see cref="End"/>, which the disposable
@@ -31,10 +37,13 @@ public sealed class OmniLoadingState
     /// </summary>
     public void Begin()
     {
-        _running++;
-        if (_running == 1)
+        lock (_gate)
         {
-            _value = 0d;
+            _running++;
+            if (_running == 1)
+            {
+                _value = 0d;
+            }
         }
 
         Changed?.Invoke();
@@ -44,27 +53,34 @@ public sealed class OmniLoadingState
     public void Report(double percentage)
     {
         var next = Math.Clamp(percentage, 0d, 100d);
-        if (Math.Abs(next - _value) < 0.01d)
+        lock (_gate)
         {
-            return;
+            if (Math.Abs(next - _value) < 0.01d)
+            {
+                return;
+            }
+
+            _value = next;
         }
 
-        _value = next;
         Changed?.Invoke();
     }
 
     /// <summary>Marks a load as finished. Ending more loads than were started is ignored.</summary>
     public void End()
     {
-        if (_running == 0)
+        lock (_gate)
         {
-            return;
-        }
+            if (_running == 0)
+            {
+                return;
+            }
 
-        _running--;
-        if (_running == 0)
-        {
-            _value = 0d;
+            _running--;
+            if (_running == 0)
+            {
+                _value = 0d;
+            }
         }
 
         Changed?.Invoke();
@@ -72,7 +88,7 @@ public sealed class OmniLoadingState
 
     /// <summary>
     /// Marks a load as started and ends it on dispose, so a load cannot be left running by an early
-    /// return or by a throw halfway through it.
+    /// return or by a throw halfway through it. Disposing the scope more than once ends the load once.
     /// </summary>
     public IDisposable Track()
     {
@@ -82,17 +98,14 @@ public sealed class OmniLoadingState
 
     private sealed class Scope(OmniLoadingState owner) : IDisposable
     {
-        private bool _ended;
+        private int _ended;
 
         public void Dispose()
         {
-            if (_ended)
+            if (Interlocked.Exchange(ref _ended, 1) == 0)
             {
-                return;
+                owner.End();
             }
-
-            _ended = true;
-            owner.End();
         }
     }
 }

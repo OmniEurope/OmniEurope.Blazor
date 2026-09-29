@@ -86,6 +86,10 @@ public partial class OmniWizard
 
     private string StepItemId(int index) => $"{EffectiveId}-step-{index}";
 
+    /// <summary>
+    /// Moves to the step of a new <see cref="Value"/> (a negative value means the first step); a parent
+    /// that redraws with the same value leaves the wizard where the user brought it.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -102,6 +106,12 @@ public partial class OmniWizard
         }
     }
 
+    /// <summary>
+    /// Moves back to the last step when the current one left the list, else focuses the body after a
+    /// move by the user.
+    /// </summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the position and the focus are settled.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_current >= Count && Count > 0)

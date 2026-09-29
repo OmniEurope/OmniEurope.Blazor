@@ -26,7 +26,7 @@ public partial class OmniValueAxis
     /// </summary>
     [Parameter] public bool Automatic { get; set; }
 
-    /// <summary>Number of intervals between graduations; the axis writes one more value than this.</summary>
+    /// <summary>Number of intervals between graduations, 5 by default and at least 1; the axis writes one more value than this.</summary>
     [Parameter] public int TickCount { get; set; } = 5;
 
     /// <summary>Writes a graduation as text; by default the number in the current culture, at most three decimals.</summary>
@@ -41,12 +41,20 @@ public partial class OmniValueAxis
         {
             var (minimum, maximum) = Automatic ? Context.ValueBounds : (Minimum, Maximum);
             return Enumerable.Range(0, TickCount + 1)
-                .Select(index => minimum + ((maximum - minimum) * index / Math.Max(1, TickCount)));
+                .Select(index => minimum + ((maximum - minimum) * index / TickCount));
         }
     }
 
+    /// <summary>
+    /// Registers the axis with the chart (or with its own layout outside a chart): automatic, with its
+    /// tick count, or with its fixed bounds.
+    /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// <see cref="TickCount"/> is zero or less, or fixed bounds where <see cref="Maximum"/> is not greater than <see cref="Minimum"/>.
+    /// </exception>
     protected override void OnParametersSet()
     {
+        if (TickCount <= 0) throw new ArgumentOutOfRangeException(nameof(TickCount), TickCount, "TickCount must be greater than zero.");
         if (Automatic)
         {
             Context.RegisterAutomaticValueAxis(this, TickCount);

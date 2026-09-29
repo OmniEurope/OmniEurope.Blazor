@@ -307,4 +307,25 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         Assert.Equal("<p>Ligne 1<br>Ligne 2</p><p>Autre &amp; suite</p>", OmniHtmlSanitizer.SanitizePaste(null, "Ligne 1\r\nLigne 2\r\n\r\nAutre & suite"));
         Assert.Equal("<p>Gras</p>", OmniHtmlSanitizer.SanitizePaste("<p style=\"font-weight:bold\" onclick=\"x()\">Gras</p><script>alert(1)</script>", "Gras"));
     }
+
+    [Fact]
+    public void Script_WritesAndKeepsExactlyTheClassesTheSanitizerAndTheStylesheetKnow()
+    {
+        var root = ShippedLookTests.RepositoryRoot();
+        var script = File.ReadAllText(Path.Combine(root, "src", "OmniEurope.Blazor", "wwwroot", "omni-html-editor.js"));
+        var alignment = System.Text.RegularExpressions.Regex.Match(script, @"const alignClassByDirection = \{(?<body>[^}]*)\}");
+        var size = System.Text.RegularExpressions.Regex.Match(script, @"const sizeClasses = \{(?<body>[^}]*)\}");
+        Assert.True(alignment.Success, "omni-html-editor.js must name its alignment classes by direction.");
+        Assert.True(size.Success);
+        var written = System.Text.RegularExpressions.Regex.Matches(alignment.Groups["body"].Value + size.Groups["body"].Value, @"'(?<name>omni-[a-z-]+)'")
+            .Select(match => match.Groups["name"].Value)
+            .ToHashSet(StringComparer.Ordinal);
+
+        // What the surface writes and keeps is what the .NET sanitizer keeps: a class missing on
+        // either side is stripped from the value or from the surface.
+        Assert.Equal(OmniHtmlSanitizer.AllowedClassNames.Order(StringComparer.Ordinal), written.Order(StringComparer.Ordinal));
+        // The right-align command writes the logical end class, which the stylesheet draws.
+        Assert.Matches(@"right: 'omni-align-end'", alignment.Groups["body"].Value);
+        Assert.Contains(".omni-align-end { text-align: end; }", ShippedLookTests.Css, StringComparison.Ordinal);
+    }
 }

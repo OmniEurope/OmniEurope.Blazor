@@ -318,7 +318,7 @@ const pageLibrary = String.raw`
       }
       const alerts = block('alertes');
       for (const severity of ['info', 'success', 'warning', 'danger']) {
-        for (const [variant, label] of [['filled', 'pleine'], ['outline', 'contour']]) {
+        for (const [variant, label] of [['solid', 'pleine'], ['outline', 'contour'], ...(severity === 'info' ? [['tonal', 'tonale']] : [])]) {
           const alert = first(alerts, '.omni-alert--' + variant + '.omni-alert--' + severity);
           add('alerte ' + label + ' ' + severity, alert, 'text', false, { text: alert ? textHolder(first(alert, '.omni-alert__content') ?? alert) : null });
           add('glyphe d\'alerte ' + label + ' ' + severity, alert ? first(alert, '.omni-alert__icon') : null, 'icon');

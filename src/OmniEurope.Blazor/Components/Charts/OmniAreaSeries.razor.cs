@@ -27,6 +27,7 @@ public partial class OmniAreaSeries
     /// </summary>
     [Parameter] public bool Stacked { get; set; }
 
+    /// <summary>Registers the series, plain or stacked, with its chart so the shared plot takes its points into account.</summary>
     protected override void OnParametersSet() =>
         ChartContext?.RegisterSeries(this, Stacked ? OmniChartSeriesKind.StackedArea : OmniChartSeriesKind.Area, Data, Title, ColorIndex);
 

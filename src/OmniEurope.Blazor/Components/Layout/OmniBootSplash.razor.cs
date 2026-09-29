@@ -20,7 +20,7 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniBootSplash
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omniInterop.js";
+    private const string ModulePath = Internal.OmniModules.Interop;
 
     private IJSObjectReference? _module;
     private bool _disposed;
@@ -33,6 +33,10 @@ public partial class OmniBootSplash
     [Parameter]
     public EventCallback<bool> OnHidden { get; set; }
 
+    /// <summary>
+    /// After the first render only: fades out and removes the splash element <see cref="SplashId"/>, then
+    /// raises <see cref="OnHidden"/> unless the component was disposed meanwhile. A lost circuit is ignored.
+    /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender)
@@ -61,6 +65,7 @@ public partial class OmniBootSplash
         }
     }
 
+    /// <summary>Releases the interop module; a splash removal already under way still completes.</summary>
     public async ValueTask DisposeAsync()
     {
         _disposed = true;

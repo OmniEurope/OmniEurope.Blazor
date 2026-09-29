@@ -14,7 +14,15 @@ const inputDelay = 250;
 const selectionDelay = 120;
 const suggestionDelay = 1200;
 const blockSelector = 'p,h1,h2,h3,h4,h5,h6,li,blockquote,pre,td,th,div';
-const alignClasses = ['omni-align-left', 'omni-align-center', 'omni-align-right', 'omni-align-justify'];
+// Alignment classes by direction, the suffix of the align commands and the name reported to .NET.
+// Right alignment writes the logical end class, the one the stylesheet and the .NET sanitizer know.
+const alignClassByDirection = {
+    left: 'omni-align-left',
+    center: 'omni-align-center',
+    right: 'omni-align-end',
+    justify: 'omni-align-justify'
+};
+const alignClasses = Object.values(alignClassByDirection);
 const sizeClasses = {
     small: 'omni-font-size-small',
     normal: 'omni-font-size-normal',
@@ -1013,7 +1021,7 @@ function describe(surface) {
     const block = within('h1,h2,h3,h4,p,pre,blockquote,li,td,th,div');
     const tag = block && /^h[1-4]$/i.test(block.tagName) ? block.tagName.toLowerCase() : 'p';
     const aligned = within(alignClasses.map(name => `.${name}`).join(','));
-    const align = aligned ? alignClasses.find(name => aligned.classList.contains(name)).slice('omni-align-'.length) : 'left';
+    const align = aligned ? Object.keys(alignClassByDirection).find(direction => aligned.classList.contains(alignClassByDirection[direction])) : 'left';
     const sized = within(Object.values(sizeClasses).map(name => `.${name}`).join(','));
     const size = sized ? Object.keys(sizeClasses).find(name => sized.classList.contains(sizeClasses[name])) : 'normal';
     return `${pressed.join(' ')}|${tag}|${align}|${size}`;
@@ -1339,7 +1347,7 @@ function applyAlignment(surface, direction) {
     for (const block of blocks) {
         block.classList.remove(...alignClasses);
         if (direction !== 'left') {
-            block.classList.add(`omni-align-${direction}`);
+            block.classList.add(alignClassByDirection[direction]);
         }
     }
 }

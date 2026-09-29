@@ -4,49 +4,49 @@
 <OmniStack Gap="OmniSpacing.Medium">
     <OmniRow Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.End">
         <OmniFormField For="grid-lines">
-            <LabelContent>Lignes</LabelContent>
+            <LabelContent>@Text["DemoGridAdvancedLines"]</LabelContent>
             <ChildContent>
                 <OmniDropDown TValue="OmniDataGridLines" Id="grid-lines" Options="LineOptions" @bind-Value="Lines" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-density">
-            <LabelContent>Densité</LabelContent>
+            <LabelContent>@Text["DemoGridAdvancedDensity"]</LabelContent>
             <ChildContent>
                 <OmniDropDown TValue="OmniDensity" Id="grid-density" Options="DensityOptions" @bind-Value="Density" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-pager">
-            <LabelContent>Pagination</LabelContent>
+            <LabelContent>@Text["DemoGridAdvancedPager"]</LabelContent>
             <ChildContent>
                 <OmniDropDown TValue="OmniDataGridPosition" Id="grid-pager" Options="PagerOptions" @bind-Value="Pager" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-selection">
-            <LabelContent>Sélection</LabelContent>
+            <LabelContent>@Text["DemoGridAdvancedSelection"]</LabelContent>
             <ChildContent>
                 <OmniDropDown TValue="OmniDataGridSelectionMode" Id="grid-selection" Options="SelectionOptions" @bind-Value="Mode" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-filter">
-            <LabelContent>Filtres</LabelContent>
+            <LabelContent>@Text["DemoGridAdvancedFilters"]</LabelContent>
             <ChildContent>
                 <OmniDropDown TValue="OmniDataGridFilterMode" Id="grid-filter" Options="FilterOptions" @bind-Value="Filters" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-edit">
-            <LabelContent>Édition</LabelContent>
+            <LabelContent>@Text["DemoGridAdvancedEdit"]</LabelContent>
             <ChildContent>
                 <OmniDropDown TValue="OmniDataGridRowMode" Id="grid-edit" Options="EditOptions" @bind-Value="Edit" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-expand">
-            <LabelContent>Dépliage</LabelContent>
+            <LabelContent>@Text["DemoGridAdvancedExpand"]</LabelContent>
             <ChildContent>
                 <OmniDropDown TValue="OmniDataGridRowMode" Id="grid-expand" Options="ExpandOptions" @bind-Value="Expand" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-footer">
-            <LabelContent>Pied de tableau</LabelContent>
+            <LabelContent>@Text["DemoGridAdvancedFooter"]</LabelContent>
             <ChildContent>
                 <OmniDropDown TValue="OmniDataGridPosition" Id="grid-footer" Options="FooterOptions" @bind-Value="Footer" />
             </ChildContent>
@@ -55,7 +55,7 @@
 
 <OmniDataGrid TItem="GridRow"
               Items="Rows"
-              Caption="Dossiers, vue complète"
+              Caption="@Text["DemoGridAdvancedCaption"]"
               HeaderWrap="OmniDataGridHeaderWrap.Wrap"
               AllowSorting="true"
               Filterable="true"
@@ -77,8 +77,8 @@
               ValueChanged="@(value => Selection = value)"
               GridLines="Lines">
     <Columns>
-        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" Frozen="true" FilterOperators="ReferenceOperators" />
-        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur"
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Frozen="true" FilterOperators="ReferenceOperators" />
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]"
                             FilterType="OmniDataGridColumnFilterType.Combo" FilterSearchable="true">
             <FilterTemplate>
                 @* The same control the column would raise on its own, placed by hand to show that a
@@ -90,7 +90,7 @@
                                          MaxSuggestions="6" />
             </FilterTemplate>
         </OmniDataGridColumn>
-        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="Pays" Groupable="true"
+        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="@Text["DemoGridColumnCountry"]" Groupable="true"
                             FilterType="OmniDataGridColumnFilterType.MultiSelect"
                             FilterValues="CountryValues">
             <FilterTemplate>
@@ -111,12 +111,12 @@
                                              ValueChanged="@(value => context.ValueChanged(value))" />
             </FilterTemplate>
         </OmniDataGridColumn>
-        <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="Montant" FormatString="{0:C0}" FilterType="OmniDataGridColumnFilterType.Number"
+        <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}" FilterType="OmniDataGridColumnFilterType.Number"
                             TextAlign="OmniDataGridTextAlign.End">
-            <FooterContent>Total : @Rows.Sum(row => row.Amount).ToString("C0")</FooterContent>
+            <FooterContent>@Text["DemoGridAdvancedTotal", Rows.Sum(row => row.Amount)]</FooterContent>
         </OmniDataGridColumn>
     </Columns>
 </OmniDataGrid>
 
-<p>Lignes retenues : @(Selection.Count == 0 ? "aucune" : string.Join(", ", Selection.Select(row => row.Reference)))</p>
+<p>@Text["DemoGridAdvancedRetained", Selection.Count == 0 ? Text["DemoGridAdvancedRetainedNone"].Value : string.Join(", ", Selection.Select(row => row.Reference))]</p>
 </OmniStack>

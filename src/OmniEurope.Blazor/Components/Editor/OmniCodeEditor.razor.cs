@@ -62,15 +62,21 @@ public partial class OmniCodeEditor
     [Parameter] public string MonacoPath { get; set; } = "lib/monaco-editor/min/vs";
 
     /// <summary>Same-origin JavaScript module implementing editor interop. The default uses Monaco in this document.</summary>
-    [Parameter] public string InteropModulePath { get; set; } = "./_content/OmniEurope.Blazor/omni-code-editor.js";
+    [Parameter] public string InteropModulePath { get; set; } = Internal.OmniModules.CodeEditor;
 
+    /// <summary>
+    /// What edits the code: <see cref="OmniCodeEditorEngine.Monaco"/> (the default) or the plain text area
+    /// alone with <see cref="OmniCodeEditorEngine.PlainText"/>. Changing it unmounts the current editor.
+    /// </summary>
     [Parameter] public OmniCodeEditorEngine Engine { get; set; }
 
+    /// <summary>Whether Monaco shows the line numbers in its margin; true by default. The fallback text area has none.</summary>
     [Parameter] public bool ShowLineNumbers { get; set; } = true;
 
     /// <summary>Whether long lines wrap instead of scrolling sideways. Off by default.</summary>
     [Parameter] public bool Wrap { get; set; }
 
+    /// <summary>Width of a tab in spaces, in Monaco; 4 by default, and a value of zero or less also gives 4.</summary>
     [Parameter] public int TabSize { get; set; } = 4;
 
     /// <summary>Whether the line, the column and the language are shown under the editor.</summary>
@@ -90,6 +96,7 @@ public partial class OmniCodeEditor
     /// </summary>
     [Parameter] public string? Label { get; set; }
 
+    /// <summary>Identifiers of the elements that describe the editor, written as <c>aria-describedby</c> on the fallback text area; none when null.</summary>
     [Parameter] public string? AriaDescribedBy { get; set; }
 
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Localize("CodeEditorLabel") : Label;
@@ -99,6 +106,15 @@ public partial class OmniCodeEditor
 
     private string PhaseName => _phase.ToString().ToLowerInvariant();
 
+    /// <summary>
+    /// Checks <see cref="Height"/>, <see cref="MonacoPath"/> and <see cref="InteropModulePath"/>, then
+    /// switches to the plain text area for <see cref="OmniCodeEditorEngine.PlainText"/>, or back to
+    /// loading when Monaco is chosen again.
+    /// </summary>
+    /// <exception cref="ArgumentException">
+    /// <see cref="Height"/> is not a number followed by px, rem, em, vh or %; <see cref="MonacoPath"/> or
+    /// <see cref="InteropModulePath"/> is not a path on the origin of the page.
+    /// </exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -127,6 +143,13 @@ public partial class OmniCodeEditor
         }
     }
 
+    /// <summary>
+    /// Applies a new height, loads Monaco when the engine turned to it, mounts the editor once Monaco is
+    /// ready (falling back to the text area when mounting fails), then pushes a value or options that
+    /// changed since the last render.
+    /// </summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the editor is up to date.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_disposed)
@@ -285,6 +308,11 @@ public partial class OmniCodeEditor
         new[] { Language, IsLocked.ToString(), ShowLineNumbers.ToString(), Wrap.ToString(), TabSize.ToString(CultureInfo.InvariantCulture), EffectiveLabel }
             .Concat(Links.Select(link => $"{link.Name}{link.Pattern}{link.Tooltip}")));
 
+    /// <summary>Takes any text as the value, null as an empty string; parsing never fails.</summary>
+    /// <param name="value">The text to parse.</param>
+    /// <param name="result">The text, or an empty string for null.</param>
+    /// <param name="validationErrorMessage">Always null.</param>
+    /// <returns>Always true.</returns>
     protected override bool TryParseValueFromString(string? value, out string result, out string validationErrorMessage)
     {
         result = value ?? string.Empty;
@@ -292,6 +320,11 @@ public partial class OmniCodeEditor
         return true;
     }
 
+    /// <summary>
+    /// Releases the form subscription, disposes the Monaco editor and its module, and the script's
+    /// reference to the component; a lost circuit is ignored.
+    /// </summary>
+    /// <returns>A task that completes once the editor is released.</returns>
     public async ValueTask DisposeAsync()
     {
         _disposed = true;

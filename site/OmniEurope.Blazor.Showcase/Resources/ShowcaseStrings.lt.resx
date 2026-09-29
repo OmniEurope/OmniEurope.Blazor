@@ -35,7 +35,7 @@
   <data name="PillarA11yTitle" xml:space="preserve"><value>Prieinamumą užtikrina testai</value></data>
   <data name="PillarA11yBody" xml:space="preserve"><value>Vaidmenis, būsenas ir etiketes tikrina testų rinkinys, o ne tik žada dokumentacija.</value></data>
   <data name="PillarWeightTitle" xml:space="preserve"><value>Kontroliuojamas dydis</value></data>
-  <data name="PillarWeightBody" xml:space="preserve"><value>Išleistas paketas per kiekvieną kūrimą matuojamas pagal baitų biudžetą, įskaitant stilių lapą.</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Nuolatinė integracija tikrina, ar pateikiamas stilių lapas yra suglaudinta kopija, ir matuoja tiek rinkinį, tiek NuGet paketą pagal dydžio biudžetą.</value></data>
   <data name="DocsPageTitle" xml:space="preserve"><value>Dokumentacija</value></data>
   <data name="DocsTitle" xml:space="preserve"><value>Dokumentacija</value></data>
   <data name="DocsLead" xml:space="preserve"><value>Nuo paketo įdiegimo iki pirmos pritaikytos temos – penki žingsniai.</value></data>
@@ -425,6 +425,38 @@
   <data name="DemoShellArchived" xml:space="preserve"><value>Archyvuota</value></data>
   <data name="DemoShellSettings" xml:space="preserve"><value>Nustatymai</value></data>
   <data name="DemoShellOneOffAction" xml:space="preserve"><value>Vienkartinis veiksmas</value></data>
+  <data name="DemoShellToggleMenu" xml:space="preserve"><value>Rodyti arba slėpti meniu</value></data>
+  <data name="DemoShellAppName" xml:space="preserve"><value>Mano programa</value></data>
+  <data name="DemoShellChangeAppearance" xml:space="preserve"><value>Keisti išvaizdą</value></data>
+  <data name="DemoShellMenu" xml:space="preserve"><value>Demonstracijos meniu</value></data>
+  <data name="DemoShellSections" xml:space="preserve"><value>Skyriai</value></data>
+  <data name="DemoShellFolders" xml:space="preserve"><value>Aplankai</value></data>
+  <data name="DemoShellMainContent" xml:space="preserve"><value>Pagrindinis turinys</value></data>
+  <data name="DemoShellAppearanceDark" xml:space="preserve"><value>Čia pasirinkta tamsi išvaizda.</value></data>
+  <data name="DemoShellAppearanceLight" xml:space="preserve"><value>Čia pasirinkta šviesi išvaizda.</value></data>
+  <data name="DemoShellConsole" xml:space="preserve"><value>Eksploatavimo konsolė</value></data>
+  <data name="DemoShellSecondaryMenu" xml:space="preserve"><value>Antrinis meniu</value></data>
+  <data name="DemoShellTools" xml:space="preserve"><value>Įrankiai</value></data>
+  <data name="DemoShellLogs" xml:space="preserve"><value>Žurnalai</value></data>
+  <data name="DemoShellWideView" xml:space="preserve"><value>Platus rodinys</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>Turinio sritis driekiasi nuo krašto iki krašto, apribota plačiuoju pločiu (90 rem), be siauro skaitymo stulpelio.</value></data>
+  <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Rodyti arba slėpti slankųjį meniu</value></data>
+  <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Slankusis meniu</value></data>
+  <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Demonstracijos slankusis meniu</value></data>
+  <data name="DemoShellFilters" xml:space="preserve"><value>Filtrai</value></data>
+  <data name="DemoShellContent" xml:space="preserve"><value>Turinys</value></data>
+  <data name="DemoShellFloatingText" xml:space="preserve"><value>Atidarius meniu šis tekstas nepasislenka: skydelis uždengia jį iš viršaus.</value></data>
+  <data name="DemoShellScrollTitle" xml:space="preserve"><value>Centruotas turinys, slinkimas ties kraštu</value></data>
+  <data name="DemoShellScrollMenu" xml:space="preserve"><value>Slenkančios demonstracijos meniu</value></data>
+  <data name="DemoShellReadingColumn" xml:space="preserve"><value>Skaitymo stulpelis</value></data>
+  <data name="DemoShellScroll1" xml:space="preserve"><value>Stulpelis apribotas iki 72rem ir centruotas; likęs plotis vis dar priklauso pagrindiniam elementui.</value></data>
+  <data name="DemoShellScroll2" xml:space="preserve"><value>Todėl slenka būtent jis, per visą srities plotį: jo slinkties juosta laikosi dešiniajame rėmo krašte.</value></data>
+  <data name="DemoShellScroll3" xml:space="preserve"><value>100 % aukščio vaikinis elementas tiksliai užpildytų sritį; aukštesnis turinys ją priverčia slinkti.</value></data>
+  <data name="DemoShellScroll4" xml:space="preserve"><value>Apatinė paraštė išlieka slinkties pabaigoje.</value></data>
+  <data name="DemoShellScroll5" xml:space="preserve"><value>Susiaurinus langą, stulpelis sumažėja iki turimo pločio, įskaitant tarpą.</value></data>
+  <data name="DemoShellSplashChecking" xml:space="preserve"><value>Tikrinamas paleidimo ekranas</value></data>
+  <data name="DemoShellSplashRemoved" xml:space="preserve"><value>Paleidimo ekranas pašalintas</value></data>
+  <data name="DemoShellSplashAbsent" xml:space="preserve"><value>Šioje demonstracijoje paleidimo ekrano nėra</value></data>
   <data name="ShellToggle" xml:space="preserve"><value>Suskleisti arba išskleisti meniu</value></data>
   <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
   <data name="ShellBrand" xml:space="preserve"><value>Aetheus</value></data>
@@ -547,4 +579,919 @@
   <data name="VFormNotSaved" xml:space="preserve"><value>Prieš išsaugodami ištaisykite pažymėtus laukus.</value></data>
   <data name="VFormDescriptionValue" xml:space="preserve"><value>Įdiegia pagrindinę šaką, kai priėmimo testai sėkmingi.</value></data>
   <data name="GridFiledColumn" xml:space="preserve"><value>Pateikta</value></data>
+  <data name="DemoGridOpenCases" xml:space="preserve"><value>Atviros bylos</value></data>
+  <data name="DemoGridRecentRuns" xml:space="preserve"><value>Naujausi vykdymai</value></data>
+  <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Ilgas tekstas siaurame stulpelyje</value></data>
+  <data name="DemoGridShortCaption" xml:space="preserve"><value>Trys bylos, turinio aukštis</value></data>
+  <data name="DemoGridLongCaption" xml:space="preserve"><value>Dešimt tūkstančių bylų, riba 18rem</value></data>
+  <data name="DemoGridColumnReference" xml:space="preserve"><value>Nuoroda</value></data>
+  <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Pareiškėjas</value></data>
+  <data name="DemoGridColumnCountry" xml:space="preserve"><value>Šalis</value></data>
+  <data name="DemoGridColumnAmount" xml:space="preserve"><value>Suma</value></data>
+  <data name="DemoGridCountryBelgium" xml:space="preserve"><value>Belgija</value></data>
+  <data name="DemoGridCountryFrance" xml:space="preserve"><value>Prancūzija</value></data>
+  <data name="DemoGridCountryLuxembourg" xml:space="preserve"><value>Liuksemburgas</value></data>
+  <data name="DemoGridCountryNetherlands" xml:space="preserve"><value>Nyderlandai</value></data>
+  <data name="DemoGridStatusPending" xml:space="preserve"><value>Laukiama</value></data>
+  <data name="DemoGridExportFileName" xml:space="preserve"><value>atviros-bylos</value></data>
+  <data name="DemoGridExportSort" xml:space="preserve"><value>Rikiavimas</value></data>
+  <data name="DemoGridExportSortValue" xml:space="preserve"><value>nuoroda, didėjančiai</value></data>
+  <data name="DemoGridAdvancedLines" xml:space="preserve"><value>Linijos</value></data>
+  <data name="DemoGridAdvancedDensity" xml:space="preserve"><value>Tankumas</value></data>
+  <data name="DemoGridAdvancedPager" xml:space="preserve"><value>Puslapiavimas</value></data>
+  <data name="DemoGridAdvancedSelection" xml:space="preserve"><value>Pasirinkimas</value></data>
+  <data name="DemoGridAdvancedFilters" xml:space="preserve"><value>Filtrai</value></data>
+  <data name="DemoGridAdvancedEdit" xml:space="preserve"><value>Redagavimas</value></data>
+  <data name="DemoGridAdvancedExpand" xml:space="preserve"><value>Išskleidimas</value></data>
+  <data name="DemoGridAdvancedFooter" xml:space="preserve"><value>Lentelės poraštė</value></data>
+  <data name="DemoGridAdvancedLinesNone" xml:space="preserve"><value>Jokių</value></data>
+  <data name="DemoGridAdvancedLinesHorizontal" xml:space="preserve"><value>Horizontalios</value></data>
+  <data name="DemoGridAdvancedLinesVertical" xml:space="preserve"><value>Vertikalios</value></data>
+  <data name="DemoGridAdvancedLinesBoth" xml:space="preserve"><value>Abi</value></data>
+  <data name="DemoGridAdvancedDensityCompact" xml:space="preserve"><value>Kompaktiškas</value></data>
+  <data name="DemoGridAdvancedDensityComfortable" xml:space="preserve"><value>Patogus</value></data>
+  <data name="DemoGridAdvancedDensitySpacious" xml:space="preserve"><value>Erdvus</value></data>
+  <data name="DemoGridAdvancedPagerBottom" xml:space="preserve"><value>Apačioje</value></data>
+  <data name="DemoGridAdvancedPagerTop" xml:space="preserve"><value>Viršuje</value></data>
+  <data name="DemoGridAdvancedPagerBoth" xml:space="preserve"><value>Viršuje ir apačioje</value></data>
+  <data name="DemoGridAdvancedSelectionNone" xml:space="preserve"><value>Jokio</value></data>
+  <data name="DemoGridAdvancedSelectionSingle" xml:space="preserve"><value>Viena eilutė</value></data>
+  <data name="DemoGridAdvancedSelectionMultiple" xml:space="preserve"><value>Kelios eilutės</value></data>
+  <data name="DemoGridAdvancedFilterSimple" xml:space="preserve"><value>Laukas antraštėje</value></data>
+  <data name="DemoGridAdvancedFilterSimpleWithMenu" xml:space="preserve"><value>Laukas ir meniu</value></data>
+  <data name="DemoGridAdvancedFilterAdvanced" xml:space="preserve"><value>Dviejų sąlygų meniu</value></data>
+  <data name="DemoGridAdvancedEditSingle" xml:space="preserve"><value>Po vieną eilutę</value></data>
+  <data name="DemoGridAdvancedEditMultiple" xml:space="preserve"><value>Kelios eilutės</value></data>
+  <data name="DemoGridAdvancedExpandSingle" xml:space="preserve"><value>Viena atidaryta grupė</value></data>
+  <data name="DemoGridAdvancedExpandMultiple" xml:space="preserve"><value>Kelios atidarytos grupės</value></data>
+  <data name="DemoGridAdvancedFooterBottom" xml:space="preserve"><value>Po lentele</value></data>
+  <data name="DemoGridAdvancedFooterTop" xml:space="preserve"><value>Virš lentelės</value></data>
+  <data name="DemoGridAdvancedFooterBoth" xml:space="preserve"><value>Virš ir po</value></data>
+  <data name="DemoGridAdvancedCaption" xml:space="preserve"><value>Bylos, visas rodinys</value></data>
+  <data name="DemoGridAdvancedTotal" xml:space="preserve"><value>Iš viso: {0:C0}</value></data>
+  <data name="DemoGridAdvancedRetained" xml:space="preserve"><value>Pasirinktos eilutės: {0}</value></data>
+  <data name="DemoGridAdvancedRetainedNone" xml:space="preserve"><value>nėra</value></data>
+  <data name="DemoDataListEmpty" xml:space="preserve"><value>Šiame puslapyje bylų nėra.</value></data>
+  <data name="DemoDataListLoading" xml:space="preserve"><value>Įkeliamos bylos.</value></data>
+  <data name="DemoDataListPager" xml:space="preserve"><value>Bylų puslapiavimas</value></data>
+  <data name="DemoDataListLog" xml:space="preserve"><value>Apdorojimo žurnalas</value></data>
+  <data name="DemoDataListKanban" xml:space="preserve"><value>Bylų stebėjimas</value></data>
+  <data name="DemoDataListColumnNew" xml:space="preserve"><value>Peržiūrėti</value></data>
+  <data name="DemoDataListColumnReview" xml:space="preserve"><value>Vykdoma</value></data>
+  <data name="DemoDataListColumnDone" xml:space="preserve"><value>Atlikta</value></data>
+  <data name="DemoDataListLogSearch" xml:space="preserve"><value>Ieškoma bylos</value></data>
+  <data name="DemoDataListLogConnected" xml:space="preserve"><value>Ryšys užmegztas</value></data>
+  <data name="DemoDataListLogStarted" xml:space="preserve"><value>Apdorojimas pradėtas</value></data>
+  <data name="DemoDataListLogMissing" xml:space="preserve"><value>Trūksta dokumento</value></data>
+  <data name="DemoDataListLogRejected" xml:space="preserve"><value>Patvirtinimas atmestas</value></data>
+  <data name="DemoDataListLogAborted" xml:space="preserve"><value>Apdorojimas nutrauktas</value></data>
+  <data name="DemoChartChartTitle" xml:space="preserve"><value>Pateiktos bylos pagal ketvirtį</value></data>
+  <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Ketvirtis</value></data>
+  <data name="DemoChartAxisCases" xml:space="preserve"><value>Bylos</value></data>
+  <data name="DemoChartQuarter" xml:space="preserve"><value>{0} ketv.</value></data>
+  <data name="DemoChartsExtendedMonthlyTitle" xml:space="preserve"><value>Mėnesio kitimas</value></data>
+  <data name="DemoChartsExtendedMonthlyDescription" xml:space="preserve"><value>Reikšmė užvedus pelę ir klaviatūra</value></data>
+  <data name="DemoChartsExtendedAxisMonth" xml:space="preserve"><value>Mėnuo</value></data>
+  <data name="DemoChartsExtendedDeposits" xml:space="preserve"><value>Pateikimai</value></data>
+  <data name="DemoChartsExtendedDecisions" xml:space="preserve"><value>Sprendimai</value></data>
+  <data name="DemoChartsExtendedLegend" xml:space="preserve"><value>Serijos</value></data>
+  <data name="DemoChartsExtendedDailyTitle" xml:space="preserve"><value>Dienos lankomumas per trisdešimt dienų</value></data>
+  <data name="DemoChartsExtendedPageViews" xml:space="preserve"><value>Puslapių peržiūros per dieną</value></data>
+  <data name="DemoChartsExtendedVisitors" xml:space="preserve"><value>Unikalūs lankytojai per dieną</value></data>
+  <data name="DemoChartsExtendedStackedTitle" xml:space="preserve"><value>Sudėtinis paskirstymas</value></data>
+  <data name="DemoChartsExtendedIncoming" xml:space="preserve"><value>Gaunamos</value></data>
+  <data name="DemoChartsExtendedOutgoing" xml:space="preserve"><value>Siunčiamos</value></data>
+  <data name="DemoChartsExtendedBacklog" xml:space="preserve"><value>Likutis</value></data>
+  <data name="DemoChartsExtendedHorizontalTitle" xml:space="preserve"><value>Horizontalus palyginimas</value></data>
+  <data name="DemoChartsExtendedByCountry" xml:space="preserve"><value>Bylos pagal šalį</value></data>
+  <data name="DemoChartsExtendedStackedBarsTitle" xml:space="preserve"><value>Apdorotos ir laukiančios bylos pagal šalį</value></data>
+  <data name="DemoChartsExtendedProcessed" xml:space="preserve"><value>Apdorotos</value></data>
+  <data name="DemoChartsExtendedPending" xml:space="preserve"><value>Laukiančios</value></data>
+  <data name="DemoChartsExtendedPieTitle" xml:space="preserve"><value>Dalys pagal kilmę</value></data>
+  <data name="DemoChartsExtendedDonutTitle" xml:space="preserve"><value>Dalys pagal kilmę, žiedu</value></data>
+  <data name="DemoChartsExtendedOrigin" xml:space="preserve"><value>Kilmė</value></data>
+  <data name="DemoChartsExtendedGauge" xml:space="preserve"><value>Apdorojimo rodiklis</value></data>
+  <data name="DemoChartsExtendedSliceCounter" xml:space="preserve"><value>Klientų aptarnavimas</value></data>
+  <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Paštas</value></data>
+  <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Internetu</value></data>
+  <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Kita</value></data>
+  <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Projekto tvarkaraštis</value></data>
+  <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Rodoma skalė: {0}</value></data>
+  <data name="DemoPlanningScaleDay" xml:space="preserve"><value>diena</value></data>
+  <data name="DemoPlanningScaleWeek" xml:space="preserve"><value>savaitė</value></data>
+  <data name="DemoPlanningScaleMonth" xml:space="preserve"><value>mėnuo</value></data>
+  <data name="DemoPlanningMonthHeading" xml:space="preserve"><value>Tas pats tvarkaraštis pagal mėnesius ir be grupių</value></data>
+  <data name="DemoPlanningMonthLabel" xml:space="preserve"><value>Mėnesio tvarkaraštis</value></data>
+  <data name="DemoPlanningDayLabel" xml:space="preserve"><value>Dienos tvarkaraštis</value></data>
+  <data name="DemoPlanningRunHeading" xml:space="preserve"><value>Vykdymo eiga</value></data>
+  <data name="DemoPlanningRunLabel" xml:space="preserve"><value>Vykdymas {0}</value></data>
+  <data name="DemoPlanningTimelineHeading" xml:space="preserve"><value>Laiko juosta kairėje, tada pakaitomis nuo kiekvienos pusės</value></data>
+  <data name="DemoPlanningTimelineStart" xml:space="preserve"><value>Laiko juosta kairėje</value></data>
+  <data name="DemoPlanningTimelineAlternateStart" xml:space="preserve"><value>Pakaitinė laiko juosta, pradžia kairėje</value></data>
+  <data name="DemoPlanningTimelineAlternateEnd" xml:space="preserve"><value>Pakaitinė laiko juosta, pradžia dešinėje</value></data>
+  <data name="DemoPlanningFiled" xml:space="preserve"><value>Pateikimas</value></data>
+  <data name="DemoPlanningFiledText" xml:space="preserve"><value>Byla užregistruota.</value></data>
+  <data name="DemoPlanningReview" xml:space="preserve"><value>Nagrinėjimas</value></data>
+  <data name="DemoPlanningReviewText" xml:space="preserve"><value>Paskirtas pareigūnas.</value></data>
+  <data name="DemoPlanningDecision" xml:space="preserve"><value>Sprendimas</value></data>
+  <data name="DemoPlanningDecisionText" xml:space="preserve"><value>Apie sprendimą pranešta.</value></data>
+  <data name="DemoPlanningGroupDesign" xml:space="preserve"><value>Projektavimas</value></data>
+  <data name="DemoPlanningGroupBuild" xml:space="preserve"><value>Įgyvendinimas</value></data>
+  <data name="DemoPlanningTaskScoping" xml:space="preserve"><value>Apimties nustatymas</value></data>
+  <data name="DemoPlanningTaskMockups" xml:space="preserve"><value>Maketai</value></data>
+  <data name="DemoPlanningTaskProofreading" xml:space="preserve"><value>Korektūra</value></data>
+  <data name="DemoPlanningTaskDevelopment" xml:space="preserve"><value>Kūrimas</value></data>
+  <data name="DemoPlanningTaskAcceptance" xml:space="preserve"><value>Priėmimo testavimas</value></data>
+  <data name="DemoSchedulerView" xml:space="preserve"><value>Rodinys</value></data>
+  <data name="DemoSchedulerTimeGrid" xml:space="preserve"><value>Laiko tinklelis nuo 8 iki 18 val.</value></data>
+  <data name="DemoSchedulerViewDay" xml:space="preserve"><value>Diena</value></data>
+  <data name="DemoSchedulerViewWeek" xml:space="preserve"><value>Savaitė</value></data>
+  <data name="DemoSchedulerViewMonth" xml:space="preserve"><value>Mėnuo</value></data>
+  <data name="DemoSchedulerCaseReview" xml:space="preserve"><value>Bylos nagrinėjimas</value></data>
+  <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Vertinimo komitetas</value></data>
+  <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Savaitinis pasitarimas</value></data>
+  <data name="DemoSchedulerRoom" xml:space="preserve"><value>Salė {0}</value></data>
+  <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Lankstus stulpelis</value></data>
+  <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Visas plotis mažame ekrane, trečdalis dideliame.</value></data>
+  <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kortelė su antrašte</value></data>
+  <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>Antraštė, turinys ir poraštė yra trys atskiros sritys.</value></data>
+  <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>Kortelė gali turėti tik turinį.</value></data>
+  <data name="DemoLayoutStart" xml:space="preserve"><value>Pradžia</value></data>
+  <data name="DemoLayoutMiddle" xml:space="preserve"><value>Vidurys</value></data>
+  <data name="DemoLayoutEnd" xml:space="preserve"><value>Pabaiga</value></data>
+  <data name="DemoLayoutFieldGroup" xml:space="preserve"><value>Laukų grupė</value></data>
+  <data name="DemoLayoutOne" xml:space="preserve"><value>Vienas</value></data>
+  <data name="DemoLayoutTwo" xml:space="preserve"><value>Du</value></data>
+  <data name="DemoLayoutAdvanced" xml:space="preserve"><value>Išplėstiniai nustatymai</value></data>
+  <data name="DemoLayoutAdvancedText" xml:space="preserve"><value>Atidarant suskleista grupė, kurią skaitytojas išskleidžia prireikus.</value></data>
+  <data name="DemoLayoutTracked" xml:space="preserve"><value>Stebimos parinktys</value></data>
+  <data name="DemoLayoutTrackedText" xml:space="preserve"><value>Puslapis žino suskleidimo būseną ir gali ją įsiminti.</value></data>
+  <data name="DemoLayoutDisabledGroup" xml:space="preserve"><value>Išjungta grupė</value></data>
+  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Viskas, ką apima ši grupė, vienu veiksmu tampa neveiksnu.</value></data>
+  <data name="DemoLayoutAlignStart" xml:space="preserve"><value>Lygiuota pradžioje</value></data>
+  <data name="DemoLayoutAlignCenter" xml:space="preserve"><value>Centruota</value></data>
+  <data name="DemoLayoutAlignEnd" xml:space="preserve"><value>Lygiuota pabaigoje</value></data>
+  <data name="DemoLayoutTop" xml:space="preserve"><value>Viršuje</value></data>
+  <data name="DemoLayoutTopText" xml:space="preserve"><value>Kortelė, aukštesnė už kaimynes.</value></data>
+  <data name="DemoLayoutBottom" xml:space="preserve"><value>Apačioje</value></data>
+  <data name="DemoLayoutBottomText" xml:space="preserve"><value>Ženklelis prisitaiko prie eilės apačios.</value></data>
+  <data name="DemoLayoutStretched" xml:space="preserve"><value>Ištempta</value></data>
+  <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Abi kortelės įgauna vienodą aukštį.</value></data>
+  <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Patvirtinti bylą</value></data>
+  <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtruoti dokumentus</value></data>
+  <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Užbaigti prašymą</value></data>
+  <data name="DemoLayoutNotifications" xml:space="preserve"><value>Pranešimai</value></data>
+  <data name="DemoLayoutNotificationsText" xml:space="preserve"><value>Apie ką programa jums praneša ir kaip.</value></data>
+  <data name="DemoLayoutEmailAlerts" xml:space="preserve"><value>Įspėjimai el. paštu</value></data>
+  <data name="DemoLayoutEmailAlertsText" xml:space="preserve"><value>Pranešimas po kiekvieno būsenos pakeitimo.</value></data>
+  <data name="DemoLayoutWeeklyDigest" xml:space="preserve"><value>Savaitės suvestinė</value></data>
+  <data name="DemoLayoutWeeklyDigestText" xml:space="preserve"><value>Savaitės bylos pirmadienio rytą.</value></data>
+  <data name="DemoLayoutServerName" xml:space="preserve"><value>Serverio pavadinimas</value></data>
+  <data name="DemoLayoutServerNameText" xml:space="preserve"><value>Matomas konsolėje.</value></data>
+  <data name="DemoLayoutIdentifierReadOnly" xml:space="preserve"><value>Identifikatorius, tik skaityti</value></data>
+  <data name="DemoLayoutZoneDisabled" xml:space="preserve"><value>Zona, išjungta</value></data>
+  <data name="DemoLayoutLockedRestore" xml:space="preserve"><value>Užrakintas atkūrimas</value></data>
+  <data name="DemoLayoutSave" xml:space="preserve"><value>Išsaugoti</value></data>
+  <data name="DemoLayoutCancel" xml:space="preserve"><value>Atšaukti</value></data>
+  <data name="DemoLayoutDeployed" xml:space="preserve"><value>Diegimas baigtas</value></data>
+  <data name="DemoLayoutDeployedText" xml:space="preserve"><value>Versija 1.0.1 jau veikia.</value></data>
+  <data name="DemoLayoutEachChange" xml:space="preserve"><value>Po kiekvieno pakeitimo.</value></data>
+  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Erdvus įspėjimas patogiame puslapyje.</value></data>
+  <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>Kompaktiški skirtukai</value></data>
+  <data name="DemoLayoutGeneral" xml:space="preserve"><value>Bendrieji</value></data>
+  <data name="DemoLayoutGeneralText" xml:space="preserve"><value>Bendrieji nustatymai.</value></data>
+  <data name="DemoLayoutSecurity" xml:space="preserve"><value>Sauga</value></data>
+  <data name="DemoLayoutSecurityText" xml:space="preserve"><value>Prieiga ir raktai.</value></data>
+  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Erdvi plytelė</value></data>
+  <data name="DemoLayoutOwnDensity" xml:space="preserve"><value>Savas tankumas.</value></data>
+  <data name="DemoLayoutTrackedExpanded" xml:space="preserve"><value>Stebimos parinktys: išskleistos</value></data>
+  <data name="DemoLayoutTrackedCollapsed" xml:space="preserve"><value>Stebimos parinktys: suskleistos</value></data>
+  <data name="DemoLayoutGapNone1" xml:space="preserve"><value>Be</value></data>
+  <data name="DemoLayoutGapNone2" xml:space="preserve"><value>tarpo</value></data>
+  <data name="DemoLayoutGapXSmall1" xml:space="preserve"><value>Labai</value></data>
+  <data name="DemoLayoutGapXSmall2" xml:space="preserve"><value>siauras</value></data>
+  <data name="DemoLayoutGapSmall1" xml:space="preserve"><value>Siauras</value></data>
+  <data name="DemoLayoutGapSmall2" xml:space="preserve"><value>mažas</value></data>
+  <data name="DemoLayoutGapMedium1" xml:space="preserve"><value>Įprastas</value></data>
+  <data name="DemoLayoutGapMedium2" xml:space="preserve"><value>vidutinis</value></data>
+  <data name="DemoLayoutGapLarge1" xml:space="preserve"><value>Erdvus</value></data>
+  <data name="DemoLayoutGapLarge2" xml:space="preserve"><value>didelis</value></data>
+  <data name="DemoLayoutGapXLarge1" xml:space="preserve"><value>Labai</value></data>
+  <data name="DemoLayoutGapXLarge2" xml:space="preserve"><value>erdvus</value></data>
+  <data name="DemoLayoutDensityCompact" xml:space="preserve"><value>Kompaktiškas</value></data>
+  <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Patogus</value></data>
+  <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Erdvus</value></data>
+  <data name="DemoLayoutAlertCount" xml:space="preserve"><value>Įspėjimai: {0}</value></data>
+  <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Akcentuota antraštė</value></data>
+  <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Prislopinta antraštė</value></data>
+  <data name="DemoTypographyParagraph" xml:space="preserve"><value>Įprasta pastraipa, pagrindinio temos dydžio.</value></data>
+  <data name="DemoTypographySecondary" xml:space="preserve"><value>Antrinė pastraipa tam, kas lydi, bet neneša informacijos.</value></data>
+  <data name="DemoTypographyError" xml:space="preserve"><value>Klaidos pastaba</value></data>
+  <data name="DemoTypographyStrong" xml:space="preserve"><value>Svarbus tekstas</value></data>
+  <data name="DemoTypographyEmphasis" xml:space="preserve"><value>Išryškintas tekstas</value></data>
+  <data name="DemoTypographySuccess" xml:space="preserve"><value>Palanki būsena</value></data>
+  <data name="DemoTypographyTruncated" xml:space="preserve"><value>Ilgas tekstas, kurį komponentas nukerpa daugtaškiu, kai pritrūksta vietos, užuot stūmęs maketą ar nenuspėjamai laužęs eilutę.</value></data>
+  <data name="DemoTypographyLabel" xml:space="preserve"><value>Su lauku susieta etiketė</value></data>
+  <data name="DemoTypographyInternalLink" xml:space="preserve"><value>Vidinis saitas</value></data>
+  <data name="DemoTypographyExternalLink" xml:space="preserve"><value>Išorinis saitas</value></data>
+  <data name="DemoTypographyLevelHeading" xml:space="preserve"><value>{0} lygio antraštė</value></data>
+  <data name="DemoThemesAppearanceWindow" xml:space="preserve"><value>Išvaizdos langas</value></data>
+  <data name="DemoAppShellMinimize" xml:space="preserve"><value>Sumažinti langą</value></data>
+  <data name="DemoAppShellMaximize" xml:space="preserve"><value>Išdidinti arba atkurti langą</value></data>
+  <data name="DemoAppShellClose" xml:space="preserve"><value>Uždaryti langą</value></data>
+  <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Naršymo kelias</value></data>
+  <data name="DemoNavigationHome" xml:space="preserve"><value>Pradžia</value></data>
+  <data name="DemoNavigationComponents" xml:space="preserve"><value>Komponentai</value></data>
+  <data name="DemoNavigationCurrent" xml:space="preserve"><value>Naršymas</value></data>
+  <data name="DemoNavigationSections" xml:space="preserve"><value>Bylos skyriai</value></data>
+  <data name="DemoNavigationTabSummary" xml:space="preserve"><value>Santrauka</value></data>
+  <data name="DemoNavigationDocuments" xml:space="preserve"><value>Dokumentai</value></data>
+  <data name="DemoNavigationDocumentsText" xml:space="preserve"><value>Kiekviename dokumente nurodyta pateikimo data.</value></data>
+  <data name="DemoNavigationHistory" xml:space="preserve"><value>Istorija</value></data>
+  <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Užregistruota dvylika veiksmų.</value></data>
+  <data name="DemoNavigationProgress" xml:space="preserve"><value>Bylos eiga</value></data>
+  <data name="DemoNavigationFiling" xml:space="preserve"><value>Pateikimas</value></data>
+  <data name="DemoNavigationFilingText" xml:space="preserve"><value>Dokumentai gauti.</value></data>
+  <data name="DemoNavigationReview" xml:space="preserve"><value>Nagrinėjimas</value></data>
+  <data name="DemoNavigationReviewText" xml:space="preserve"><value>Byla nagrinėjama.</value></data>
+  <data name="DemoNavigationDecision" xml:space="preserve"><value>Sprendimas</value></data>
+  <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Apie sprendimą bus pranešta paštu.</value></data>
+  <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Dokumentų byloje: {0}.</value></data>
+  <data name="DemoPagesReload" xml:space="preserve"><value>Įkelti įrašą iš naujo</value></data>
+  <data name="DemoPagesMissing" xml:space="preserve"><value>Įrašas nerastas</value></data>
+  <data name="DemoPagesNotFound" xml:space="preserve"><value>Prašomas įrašas pašalintas arba niekada neegzistavo.</value></data>
+  <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuali mašina Paris zonoje.</value></data>
+  <data name="DemoPagesOnline" xml:space="preserve"><value>Prisijungęs</value></data>
+  <data name="DemoPagesEdit" xml:space="preserve"><value>Redaguoti</value></data>
+  <data name="DemoPagesRemove" xml:space="preserve"><value>Pašalinti</value></data>
+  <data name="DemoPagesDuplicate" xml:space="preserve"><value>Dubliuoti</value></data>
+  <data name="DemoPagesArchive" xml:space="preserve"><value>Archyvuoti</value></data>
+  <data name="DemoPagesProduction" xml:space="preserve"><value>Gamybinė</value></data>
+  <data name="DemoPagesName" xml:space="preserve"><value>Pavadinimas</value></data>
+  <data name="DemoPagesSystem" xml:space="preserve"><value>Sistema</value></data>
+  <data name="DemoPagesIpAddress" xml:space="preserve"><value>IP adresas</value></data>
+  <data name="DemoPagesToken" xml:space="preserve"><value>Prieigos raktas</value></data>
+  <data name="DemoPagesLastSignal" xml:space="preserve"><value>Paskutinis signalas</value></data>
+  <data name="DemoPagesCertificate" xml:space="preserve"><value>Sertifikatas</value></data>
+  <data name="DemoPagesNoBackup" xml:space="preserve"><value>Atsarginių kopijų nėra</value></data>
+  <data name="DemoPagesNoBackupText" xml:space="preserve"><value>Suplanuotos atsarginės kopijos bus rodomos čia po pirmojo vykdymo.</value></data>
+  <data name="DemoPagesSchedule" xml:space="preserve"><value>Suplanuoti</value></data>
+  <data name="DemoPagesNoResult" xml:space="preserve"><value>Rezultatų nėra</value></data>
+  <data name="DemoPagesNoResultText" xml:space="preserve"><value>Filtrą atitinkančių serverių nėra.</value></data>
+  <data name="DemoPagesHideToken" xml:space="preserve"><value>Slėpti raktą</value></data>
+  <data name="DemoPagesShowToken" xml:space="preserve"><value>Rodyti raktą</value></data>
+  <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1} tūkst.</value></data>
+  <data name="DemoPagesTokensToday" xml:space="preserve"><value>Žetonai šiandien</value></data>
+  <data name="DemoPagesTokensReset" xml:space="preserve"><value>Atnaujinama {0:t}</value></data>
+  <data name="DemoPagesWeekly" xml:space="preserve"><value>Kas savaitę</value></data>
+  <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Komponentai</value></data>
+  <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Serveriai</value></data>
+  <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Serveris</value></data>
+  <data name="DemoBadgesNeutral" xml:space="preserve"><value>Neutralus</value></data>
+  <data name="DemoBadgesAccent" xml:space="preserve"><value>Akcentas</value></data>
+  <data name="DemoBadgesInfo" xml:space="preserve"><value>Informacija</value></data>
+  <data name="DemoBadgesSuccess" xml:space="preserve"><value>Sėkmė</value></data>
+  <data name="DemoBadgesWarning" xml:space="preserve"><value>Įspėjimas</value></data>
+  <data name="DemoBadgesDanger" xml:space="preserve"><value>Pavojus</value></data>
+  <data name="DemoBadgesDraft" xml:space="preserve"><value>Juodraštis</value></data>
+  <data name="DemoBadgesOutline" xml:space="preserve"><value>Kontūras</value></data>
+  <data name="DemoBadgesApproved" xml:space="preserve"><value>Patvirtinta</value></data>
+  <data name="DemoBadgesPending" xml:space="preserve"><value>Laukiama</value></data>
+  <data name="DemoBadgesRejected" xml:space="preserve"><value>Atmesta</value></data>
+  <data name="DemoBadgesNew" xml:space="preserve"><value>Nauja</value></data>
+  <data name="DemoBadgesInReview" xml:space="preserve"><value>Peržiūrima</value></data>
+  <data name="DemoBadgesPublished" xml:space="preserve"><value>Paskelbta</value></data>
+  <data name="DemoBadgesFailed" xml:space="preserve"><value>Nepavyko</value></data>
+  <data name="DemoBadgesFixedSize" xml:space="preserve"><value>Fiksuotas dydis</value></data>
+  <data name="DemoAlertsMaintenance" xml:space="preserve"><value>Techninė priežiūra</value></data>
+  <data name="DemoAlertsMaintenanceText" xml:space="preserve"><value>Paslauga bus nepasiekiama sekmadienį nuo 2 iki 4 val.</value></data>
+  <data name="DemoAlertsPublished" xml:space="preserve"><value>Paketas paskelbtas</value></data>
+  <data name="DemoAlertsPublishedText" xml:space="preserve"><value>OmniEurope.Blazor galima rasti NuGet.org.</value></data>
+  <data name="DemoAlertsCertificate" xml:space="preserve"><value>Sertifikatas netrukus nustos galioti</value></data>
+  <data name="DemoAlertsFailure" xml:space="preserve"><value>Klaida</value></data>
+  <data name="DemoAlertsFailureText" xml:space="preserve"><value>Nepavyko prisijungti prie paslaugos.</value></data>
+  <data name="DemoAlertsInfo" xml:space="preserve"><value>Informacija</value></data>
+  <data name="DemoAlertsInfoText" xml:space="preserve"><value>Biblioteka visas spalvas skaito iš CSS kintamųjų.</value></data>
+  <data name="DemoAlertsSaved" xml:space="preserve"><value>Išsaugota</value></data>
+  <data name="DemoAlertsSavedText" xml:space="preserve"><value>Pakeitimai pritaikyti.</value></data>
+  <data name="DemoAlertsNew" xml:space="preserve"><value>Naujovė</value></data>
+  <data name="DemoAlertsNewText" xml:space="preserve"><value>Ženkleliai ir įspėjimai dabar naudoja tą patį užpildą.</value></data>
+  <data name="DemoAlertsCaution" xml:space="preserve"><value>Dėmesio</value></data>
+  <data name="DemoAlertsCautionText" xml:space="preserve"><value>Šis nustatymas bus taikomas visiems puslapiams.</value></data>
+  <data name="DemoAlertsTooLarge" xml:space="preserve"><value>Failas viršija leistiną dydį.</value></data>
+  <data name="DemoAlertsTip" xml:space="preserve"><value>Patarimas</value></data>
+  <data name="DemoAlertsTipText" xml:space="preserve"><value>Šis įspėjimas uždaromas savo kryželiu.</value></data>
+  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Pasirašymo sertifikatas nustos galioti po {0} d.</value></data>
+  <data name="DemoButtonsSecondary" xml:space="preserve"><value>Antrinis</value></data>
+  <data name="DemoButtonsGhost" xml:space="preserve"><value>Subtilus</value></data>
+  <data name="DemoButtonsApprove" xml:space="preserve"><value>Patvirtinti</value></data>
+  <data name="DemoButtonsSuspend" xml:space="preserve"><value>Sustabdyti</value></data>
+  <data name="DemoButtonsDetails" xml:space="preserve"><value>Išsamiau</value></data>
+  <data name="DemoButtonsDelete" xml:space="preserve"><value>Šalinti</value></data>
+  <data name="DemoButtonsUnavailable" xml:space="preserve"><value>Nepasiekiama</value></data>
+  <data name="DemoButtonsSaving" xml:space="preserve"><value>Išsaugoma</value></data>
+  <data name="DemoButtonsSave" xml:space="preserve"><value>Išsaugoti</value></data>
+  <data name="DemoButtonsPublish" xml:space="preserve"><value>Paskelbti</value></data>
+  <data name="DemoButtonsPin" xml:space="preserve"><value>Prisegti</value></data>
+  <data name="DemoButtonsSmall" xml:space="preserve"><value>Mažas</value></data>
+  <data name="DemoButtonsMedium" xml:space="preserve"><value>Vidutinis</value></data>
+  <data name="DemoButtonsLarge" xml:space="preserve"><value>Didelis</value></data>
+  <data name="DemoButtonsSearch" xml:space="preserve"><value>Ieškoti</value></data>
+  <data name="DemoButtonsPublishLater" xml:space="preserve"><value>Paskelbti vėliau</value></data>
+  <data name="DemoButtonsDraft" xml:space="preserve"><value>Juodraštis</value></data>
+  <data name="DemoButtonsPreview" xml:space="preserve"><value>Peržiūra</value></data>
+  <data name="DemoButtonsView" xml:space="preserve"><value>Peržiūrėti</value></data>
+  <data name="DemoButtonsSend" xml:space="preserve"><value>Siųsti</value></data>
+  <data name="DemoButtonsReset" xml:space="preserve"><value>Atkurti</value></data>
+  <data name="DemoButtonsNoFormEffect" xml:space="preserve"><value>Formai įtakos neturi</value></data>
+  <data name="DemoButtonsPrimary" xml:space="preserve"><value>Pagrindinis</value></data>
+  <data name="DemoButtonsClicks" xml:space="preserve"><value>Pagrindinio mygtuko paspaudimai: {0}.</value></data>
+  <data name="DemoButtonsSent" xml:space="preserve"><value>Formos pateikimai: {0}.</value></data>
+  <data name="DemoFeedbackUpload" xml:space="preserve"><value>Įkėlimas</value></data>
+  <data name="DemoFeedbackIndexing" xml:space="preserve"><value>Indeksavimas</value></data>
+  <data name="DemoFeedbackSync" xml:space="preserve"><value>Sinchronizavimas</value></data>
+  <data name="DemoFeedbackProcessed" xml:space="preserve"><value>Apdorotos bylos</value></data>
+  <data name="DemoFeedbackQuotaNear" xml:space="preserve"><value>Kvota beveik pasiekta</value></data>
+  <data name="DemoFeedbackImportFailures" xml:space="preserve"><value>Importavimo klaidos</value></data>
+  <data name="DemoFeedbackAnalysing" xml:space="preserve"><value>Analizuojama</value></data>
+  <data name="DemoFeedbackProgress" xml:space="preserve"><value>Eiga</value></data>
+  <data name="DemoFeedbackNoKnownEnd" xml:space="preserve"><value>Pabaiga nežinoma</value></data>
+  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>Kvota skaičiuojama per slenkančias trisdešimt dienų.</value></data>
+  <data name="DemoFeedbackQuota" xml:space="preserve"><value>Kvota</value></data>
+  <data name="DemoFeedbackArchivedTooltip" xml:space="preserve"><value>Archyvuotą bylą galima peržiūrėti tik skaitymo režimu.</value></data>
+  <data name="DemoFeedbackArchived" xml:space="preserve"><value>Archyvuota</value></data>
+  <data name="DemoFeedbackDraftTooltip" xml:space="preserve"><value>Juodraštis.</value></data>
+  <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Siaura</value></data>
+  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Archyvuotą bylą galima peržiūrėti tik skaitymo režimu. Ji nebeįskaičiuojama į kvotas, nebėra rodoma numatytosiose paieškose ir nebegauna pranešimų. Norėdamas ją vėl atidaryti, administratorius ją atkuria skirtuke „Archyvai“; tada jos istorija, priedai ir komentarai grįžta nepakitę, kartu su atkūrimo data.</value></data>
+  <data name="DemoFeedbackLongText" xml:space="preserve"><value>Ilgas tekstas</value></data>
+  <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>Paketo patarimas paprastam title atributui.</value></data>
+  <data name="DemoFeedbackHover" xml:space="preserve"><value>Užveskite pelę</value></data>
+  <data name="DemoFeedbackLoadingAvatar" xml:space="preserve"><value>Įkeliamas avataras</value></data>
+  <data name="DemoFeedbackLoadingThumbnail" xml:space="preserve"><value>Įkeliama miniatiūra</value></data>
+  <data name="DemoFeedbackLoadingFile" xml:space="preserve"><value>Įkeliama byla</value></data>
+  <data name="DemoFeedbackLoadingDemo" xml:space="preserve"><value>Įkeliama demonstracija</value></data>
+  <data name="DemoFeedbackSimulateLoad" xml:space="preserve"><value>Imituoti įkėlimą</value></data>
+  <data name="DemoFeedbackRecentRuns" xml:space="preserve"><value>Naujausi vykdymai</value></data>
+  <data name="DemoFeedbackAvailability" xml:space="preserve"><value>Pasiekiamumas per pastarąsias valandas</value></data>
+  <data name="DemoFeedbackReady" xml:space="preserve"><value>Parengta</value></data>
+  <data name="DemoFeedbackFailed" xml:space="preserve"><value>Nepavyko</value></data>
+  <data name="DemoFeedbackRunSucceeded" xml:space="preserve"><value>Vykdymas {0} pavyko</value></data>
+  <data name="DemoFeedbackRunWarning" xml:space="preserve"><value>Vykdymas {0} su įspėjimu</value></data>
+  <data name="DemoFeedbackRunFailed" xml:space="preserve"><value>Vykdymas {0} nepavyko</value></data>
+  <data name="DemoFeedbackSucceeded" xml:space="preserve"><value>Pavyko</value></data>
+  <data name="DemoFeedbackWarning" xml:space="preserve"><value>Įspėjimas</value></data>
+  <data name="DemoMediaImageContain" xml:space="preserve"><value>Visas vaizdas, neapkarpytas</value></data>
+  <data name="DemoMediaImageCover" xml:space="preserve"><value>Vaizdas apkarpytas, kad užpildytų langelį</value></data>
+  <data name="DemoMediaImageNatural" xml:space="preserve"><value>Natūralaus dydžio vaizdas</value></data>
+  <data name="DemoMediaTimeline" xml:space="preserve"><value>Bylos etapai</value></data>
+  <data name="DemoMediaFiling" xml:space="preserve"><value>Pateikimas</value></data>
+  <data name="DemoMediaFilingText" xml:space="preserve"><value>Byla užregistruota.</value></data>
+  <data name="DemoMediaReview" xml:space="preserve"><value>Nagrinėjimas</value></data>
+  <data name="DemoMediaReviewText" xml:space="preserve"><value>Paskirtas pareigūnas.</value></data>
+  <data name="DemoMediaDecision" xml:space="preserve"><value>Sprendimas</value></data>
+  <data name="DemoMediaDecisionText" xml:space="preserve"><value>Apie sprendimą pranešta.</value></data>
+  <data name="DemoMediaIconCheck" xml:space="preserve"><value>Patvirtinta</value></data>
+  <data name="DemoMediaIconWarning" xml:space="preserve"><value>Dėmesio</value></data>
+  <data name="DemoMediaIconFilter" xml:space="preserve"><value>Filtruoti</value></data>
+  <data name="DemoMediaIconCompass" xml:space="preserve"><value>Kompasas</value></data>
+  <data name="DemoMediaIconClose" xml:space="preserve"><value>Uždaryti</value></data>
+  <data name="DemoMediaIconInfo" xml:space="preserve"><value>Informacija</value></data>
+  <data name="DemoMediaIconMenu" xml:space="preserve"><value>Meniu</value></data>
+  <data name="DemoMediaIconChevronDown" xml:space="preserve"><value>Išskleisti</value></data>
+  <data name="DemoMediaIconSortAscending" xml:space="preserve"><value>Rikiuoti didėjančiai</value></data>
+  <data name="DemoMediaIconSortDescending" xml:space="preserve"><value>Rikiuoti mažėjančiai</value></data>
+  <data name="DemoMediaIconThemeLight" xml:space="preserve"><value>Šviesi išvaizda</value></data>
+  <data name="DemoMediaIconThemeDark" xml:space="preserve"><value>Tamsi išvaizda</value></data>
+  <data name="DemoMediaIconAdd" xml:space="preserve"><value>Pridėti</value></data>
+  <data name="DemoMediaIconAirplane" xml:space="preserve"><value>Lėktuvas</value></data>
+  <data name="DemoMediaIconAirplaneLanding" xml:space="preserve"><value>Nusileidimas</value></data>
+  <data name="DemoMediaIconAirplaneTakeoff" xml:space="preserve"><value>Pakilimas</value></data>
+  <data name="DemoMediaIconArchive" xml:space="preserve"><value>Archyvuoti</value></data>
+  <data name="DemoMediaIconArrowLeft" xml:space="preserve"><value>Atgal</value></data>
+  <data name="DemoMediaIconArrowRight" xml:space="preserve"><value>Toliau</value></data>
+  <data name="DemoMediaIconBed" xml:space="preserve"><value>Apgyvendinimas</value></data>
+  <data name="DemoMediaIconBell" xml:space="preserve"><value>Pranešimai</value></data>
+  <data name="DemoMediaIconBracketsCurly" xml:space="preserve"><value>JSON duomenys</value></data>
+  <data name="DemoMediaIconCalculator" xml:space="preserve"><value>Skaičiuotuvas</value></data>
+  <data name="DemoMediaIconCards" xml:space="preserve"><value>Kortelės</value></data>
+  <data name="DemoMediaIconChartBarHorizontal" xml:space="preserve"><value>Reitingas</value></data>
+  <data name="DemoMediaIconChat" xml:space="preserve"><value>Žinutė</value></data>
+  <data name="DemoMediaIconCheckCircle" xml:space="preserve"><value>Pavyko</value></data>
+  <data name="DemoMediaIconChevronUp" xml:space="preserve"><value>Suskleisti</value></data>
+  <data name="DemoMediaIconCopy" xml:space="preserve"><value>Kopijuoti</value></data>
+  <data name="DemoMediaIconDatabase" xml:space="preserve"><value>Duomenų bazė</value></data>
+  <data name="DemoMediaIconDelete" xml:space="preserve"><value>Šalinti</value></data>
+  <data name="DemoMediaIconDiamond" xml:space="preserve"><value>Brangakmenis</value></data>
+  <data name="DemoMediaIconDice" xml:space="preserve"><value>Burtai</value></data>
+  <data name="DemoMediaIconDocument" xml:space="preserve"><value>Dokumentas</value></data>
+  <data name="DemoMediaIconDownload" xml:space="preserve"><value>Atsisiųsti</value></data>
+  <data name="DemoMediaIconEdit" xml:space="preserve"><value>Redaguoti</value></data>
+  <data name="DemoMediaIconError" xml:space="preserve"><value>Klaida</value></data>
+  <data name="DemoMediaIconFlask" xml:space="preserve"><value>Bandymas</value></data>
+  <data name="DemoMediaIconFunction" xml:space="preserve"><value>Formulė</value></data>
+  <data name="DemoMediaIconGlobe" xml:space="preserve"><value>Pasaulis</value></data>
+  <data name="DemoMediaIconGlobeHemisphereWest" xml:space="preserve"><value>Kelionės</value></data>
+  <data name="DemoMediaIconGraduationCap" xml:space="preserve"><value>Klasė</value></data>
+  <data name="DemoMediaIconGraph" xml:space="preserve"><value>Ryšiai</value></data>
+  <data name="DemoMediaIconHome" xml:space="preserve"><value>Pradžia</value></data>
+  <data name="DemoMediaIconHourglass" xml:space="preserve"><value>Laukimas</value></data>
+  <data name="DemoMediaIconImage" xml:space="preserve"><value>Vaizdas</value></data>
+  <data name="DemoMediaIconLayers" xml:space="preserve"><value>Sluoksniai</value></data>
+  <data name="DemoMediaIconMapPin" xml:space="preserve"><value>Vieta</value></data>
+  <data name="DemoMediaIconMapPinLine" xml:space="preserve"><value>Vietų importas</value></data>
+  <data name="DemoMediaIconMedal" xml:space="preserve"><value>Rangas</value></data>
+  <data name="DemoMediaIconMonitor" xml:space="preserve"><value>Ekranas</value></data>
+  <data name="DemoMediaIconNumberedList" xml:space="preserve"><value>Numeruotas sąrašas</value></data>
+  <data name="DemoMediaIconOffline" xml:space="preserve"><value>Neprisijungęs</value></data>
+  <data name="DemoMediaIconOpenExternal" xml:space="preserve"><value>Atidaryti kitur</value></data>
+  <data name="DemoMediaIconPackage" xml:space="preserve"><value>Daiktas</value></data>
+  <data name="DemoMediaIconPalette" xml:space="preserve"><value>Spalvos</value></data>
+  <data name="DemoMediaIconPath" xml:space="preserve"><value>Maršrutas</value></data>
+  <data name="DemoMediaIconPattern" xml:space="preserve"><value>Raštas</value></data>
+  <data name="DemoMediaIconPictureInPicture" xml:space="preserve"><value>Vaizdas vaizde</value></data>
+  <data name="DemoMediaIconPin" xml:space="preserve"><value>Prisegti</value></data>
+  <data name="DemoMediaIconPlay" xml:space="preserve"><value>Paleisti</value></data>
+  <data name="DemoMediaIconProhibit" xml:space="preserve"><value>Draudžiama</value></data>
+  <data name="DemoMediaIconRefresh" xml:space="preserve"><value>Atnaujinti</value></data>
+  <data name="DemoMediaIconRemove" xml:space="preserve"><value>Pašalinti</value></data>
+  <data name="DemoMediaIconReset" xml:space="preserve"><value>Atkurti</value></data>
+  <data name="DemoMediaIconRestore" xml:space="preserve"><value>Išarchyvuoti</value></data>
+  <data name="DemoMediaIconRows" xml:space="preserve"><value>Tankumas</value></data>
+  <data name="DemoMediaIconRuler" xml:space="preserve"><value>Matavimas</value></data>
+  <data name="DemoMediaIconSave" xml:space="preserve"><value>Išsaugoti</value></data>
+  <data name="DemoMediaIconSearch" xml:space="preserve"><value>Ieškoti</value></data>
+  <data name="DemoMediaIconSettings" xml:space="preserve"><value>Nustatymai</value></data>
+  <data name="DemoMediaIconShieldCheck" xml:space="preserve"><value>Administravimas</value></data>
+  <data name="DemoMediaIconSidebar" xml:space="preserve"><value>Šoninė juosta</value></data>
+  <data name="DemoMediaIconSliders" xml:space="preserve"><value>Išplėstiniai filtrai</value></data>
+  <data name="DemoMediaIconSparkle" xml:space="preserve"><value>Naujovė</value></data>
+  <data name="DemoMediaIconStar" xml:space="preserve"><value>Mėgstamas</value></data>
+  <data name="DemoMediaIconStarFilled" xml:space="preserve"><value>Aktyvus mėgstamas</value></data>
+  <data name="DemoMediaIconSwap" xml:space="preserve"><value>Sukeisti</value></data>
+  <data name="DemoMediaIconSync" xml:space="preserve"><value>Sinchronizuoti</value></data>
+  <data name="DemoMediaIconTag" xml:space="preserve"><value>Žymė</value></data>
+  <data name="DemoMediaIconTextSize" xml:space="preserve"><value>Teksto dydis</value></data>
+  <data name="DemoMediaIconThemeSystem" xml:space="preserve"><value>Sistemos išvaizda</value></data>
+  <data name="DemoMediaIconTimer" xml:space="preserve"><value>Laikmatis</value></data>
+  <data name="DemoMediaIconUpgrade" xml:space="preserve"><value>Patobulinimas</value></data>
+  <data name="DemoMediaIconUpload" xml:space="preserve"><value>Įkelti</value></data>
+  <data name="DemoMediaIconUser" xml:space="preserve"><value>Asmuo</value></data>
+  <data name="DemoMediaIconUserFocus" xml:space="preserve"><value>Ieškoti asmens</value></data>
+  <data name="DemoMediaIconEye" xml:space="preserve"><value>Rodyti</value></data>
+  <data name="DemoMediaIconGitCommit" xml:space="preserve"><value>Įsipareigojimas</value></data>
+  <data name="DemoMediaIconLock" xml:space="preserve"><value>Užrakinta</value></data>
+  <data name="DemoMediaIconRocketLaunch" xml:space="preserve"><value>Diegti</value></data>
+  <data name="DemoMediaIconUsers" xml:space="preserve"><value>Grupė</value></data>
+  <data name="DemoMediaIconStop" xml:space="preserve"><value>Stabdyti</value></data>
+  <data name="DemoMediaIconListChecks" xml:space="preserve"><value>Taisyklės</value></data>
+  <data name="DemoMediaIconFolder" xml:space="preserve"><value>Aplankas</value></data>
+  <data name="DemoMediaIconQuestion" xml:space="preserve"><value>Pagalba</value></data>
+  <data name="DemoMediaIconSquaresFour" xml:space="preserve"><value>Skydelis</value></data>
+  <data name="DemoMediaIconTerminalWindow" xml:space="preserve"><value>Terminalas</value></data>
+  <data name="DemoMediaIconWrench" xml:space="preserve"><value>Kurti</value></data>
+  <data name="DemoMediaIconKey" xml:space="preserve"><value>Raktas</value></data>
+  <data name="DemoMediaIconBuildings" xml:space="preserve"><value>Organizacija</value></data>
+  <data name="DemoMediaIconHeartbeat" xml:space="preserve"><value>Stebėsena</value></data>
+  <data name="DemoMediaIconCloudArrowUp" xml:space="preserve"><value>Atsarginė kopija internete</value></data>
+  <data name="DemoMediaIconLink" xml:space="preserve"><value>Saitas</value></data>
+  <data name="DemoMediaIconUserPlus" xml:space="preserve"><value>Pridėti asmenį</value></data>
+  <data name="DemoMediaIconLayout" xml:space="preserve"><value>Maketas</value></data>
+  <data name="DemoMediaIconBroadcast" xml:space="preserve"><value>Transliacija</value></data>
+  <data name="DemoMediaIconCalendarBlank" xml:space="preserve"><value>Data</value></data>
+  <data name="DemoMediaIconChartLineUp" xml:space="preserve"><value>Tendencija</value></data>
+  <data name="DemoMediaIconFolderOpen" xml:space="preserve"><value>Atidarytas aplankas</value></data>
+  <data name="DemoMediaIconGitFork" xml:space="preserve"><value>Atšaka</value></data>
+  <data name="DemoMediaIconGitMerge" xml:space="preserve"><value>Suliejimas</value></data>
+  <data name="DemoMediaIconLockKey" xml:space="preserve"><value>Atkurti slaptažodį</value></data>
+  <data name="DemoMediaIconRobot" xml:space="preserve"><value>Automatizavimas</value></data>
+  <data name="DemoMediaIconArrowDown" xml:space="preserve"><value>Perkelti žemyn</value></data>
+  <data name="DemoMediaIconBrain" xml:space="preserve"><value>Intelektas</value></data>
+  <data name="DemoMediaIconCellTower" xml:space="preserve"><value>Antena</value></data>
+  <data name="DemoMediaIconCloud" xml:space="preserve"><value>Debesis</value></data>
+  <data name="DemoMediaIconGavel" xml:space="preserve"><value>Reglamentas</value></data>
+  <data name="DemoMediaIconGitDiff" xml:space="preserve"><value>Skirtumai</value></data>
+  <data name="DemoMediaIconLinkBreak" xml:space="preserve"><value>Nutrūkęs saitas</value></data>
+  <data name="DemoMediaIconLockOpen" xml:space="preserve"><value>Atrakinta</value></data>
+  <data name="DemoMediaIconPaperPlaneRight" xml:space="preserve"><value>Siųsti žinutę</value></data>
+  <data name="DemoMediaIconPlugsConnected" xml:space="preserve"><value>Prisijungta</value></data>
+  <data name="DemoMediaIconPuzzlePiece" xml:space="preserve"><value>Plėtinys</value></data>
+  <data name="DemoMediaIconShieldWarning" xml:space="preserve"><value>Rizika</value></data>
+  <data name="DemoMediaIconSignOut" xml:space="preserve"><value>Atsijungti</value></data>
+  <data name="DemoMediaIconArrowElbowDownLeft" xml:space="preserve"><value>Eilutės lūžis</value></data>
+  <data name="DemoMediaIconBroom" xml:space="preserve"><value>Išvalyti</value></data>
+  <data name="DemoMediaIconBug" xml:space="preserve"><value>Klaida</value></data>
+  <data name="DemoMediaIconChartLine" xml:space="preserve"><value>Linijinė diagrama</value></data>
+  <data name="DemoMediaIconChevronRight" xml:space="preserve"><value>Atidaryti</value></data>
+  <data name="DemoMediaIconCode" xml:space="preserve"><value>Kodas</value></data>
+  <data name="DemoMediaIconGauge" xml:space="preserve"><value>Našumas</value></data>
+  <data name="DemoMediaIconMagnifyingGlassPlus" xml:space="preserve"><value>Didinti</value></data>
+  <data name="DemoMediaIconPassword" xml:space="preserve"><value>Slaptažodis</value></data>
+  <data name="DemoMediaIconShieldSlash" xml:space="preserve"><value>Apsauga išjungta</value></data>
+  <data name="DemoMediaIconStamp" xml:space="preserve"><value>Patvirtinimas</value></data>
+  <data name="DemoMediaIconTextAlignLeft" xml:space="preserve"><value>Lygiuoti kairėje</value></data>
+  <data name="DemoMediaIconWifiHigh" xml:space="preserve"><value>Tinklas</value></data>
+  <data name="DemoMediaIconArrowElbowDownRight" xml:space="preserve"><value>Poelementis</value></data>
+  <data name="DemoMediaIconArrowLineDown" xml:space="preserve"><value>Eiti į apačią</value></data>
+  <data name="DemoMediaIconArrowLineUp" xml:space="preserve"><value>Eiti į viršų</value></data>
+  <data name="DemoMediaIconArrowUUpRight" xml:space="preserve"><value>Perdaryti</value></data>
+  <data name="DemoMediaIconAt" xml:space="preserve"><value>El. pašto adresas</value></data>
+  <data name="DemoMediaIconBellSlash" xml:space="preserve"><value>Pranešimai nutildyti</value></data>
+  <data name="DemoMediaIconBooks" xml:space="preserve"><value>Biblioteka</value></data>
+  <data name="DemoMediaIconCalendarCheck" xml:space="preserve"><value>Patvirtinta data</value></data>
+  <data name="DemoMediaIconChecks" xml:space="preserve"><value>Patvirtinti viską</value></data>
+  <data name="DemoMediaIconCloudArrowDown" xml:space="preserve"><value>Gauti iš debesies</value></data>
+  <data name="DemoMediaIconColumns" xml:space="preserve"><value>Stulpeliai</value></data>
+  <data name="DemoMediaIconCornersOut" xml:space="preserve"><value>Pritaikyti ekranui</value></data>
+  <data name="DemoMediaIconDotsThreeVertical" xml:space="preserve"><value>Daugiau veiksmų</value></data>
+  <data name="DemoMediaIconEyeSlash" xml:space="preserve"><value>Slėpti</value></data>
+  <data name="DemoMediaIconFrameCorners" xml:space="preserve"><value>Centruoti iš naujo</value></data>
+  <data name="DemoMediaIconHardDrive" xml:space="preserve"><value>Diskas</value></data>
+  <data name="DemoMediaIconLightning" xml:space="preserve"><value>Greitai</value></data>
+  <data name="DemoMediaIconMagnifyingGlassMinus" xml:space="preserve"><value>Mažinti</value></data>
+  <data name="DemoMediaIconMegaphone" xml:space="preserve"><value>Skelbimas</value></data>
+  <data name="DemoMediaIconSignIn" xml:space="preserve"><value>Prisijungti</value></data>
+  <data name="DemoMediaIconTarget" xml:space="preserve"><value>Tikslas</value></data>
+  <data name="DemoMediaIconToggleLeft" xml:space="preserve"><value>Išjungta</value></data>
+  <data name="DemoMediaIconTray" xml:space="preserve"><value>Gautieji</value></data>
+  <data name="DemoMediaIconCpu" xml:space="preserve"><value>Procesorius</value></data>
+  <data name="DemoMediaIconFilePlus" xml:space="preserve"><value>Naujas failas</value></data>
+  <data name="DemoMediaIconHandTap" xml:space="preserve"><value>Rankinis paleidimas</value></data>
+  <data name="DemoMediaIconPause" xml:space="preserve"><value>Pristabdyti</value></data>
+  <data name="DemoMediaIconToggleRight" xml:space="preserve"><value>Įjungta</value></data>
+  <data name="DemoMediaIconWebhook" xml:space="preserve"><value>Webhook</value></data>
+  <data name="DemoMediaIconWifiSlash" xml:space="preserve"><value>Tinklas neveikia</value></data>
+  <data name="DemoMediaIconScissors" xml:space="preserve"><value>Iškirpti</value></data>
+  <data name="DemoMediaIconClipboard" xml:space="preserve"><value>Įklijuoti</value></data>
+  <data name="DemoMediaIconThumbsUp" xml:space="preserve"><value>Naudinga</value></data>
+  <data name="DemoMediaIconThumbsDown" xml:space="preserve"><value>Nenaudinga</value></data>
+  <data name="DemoMediaIconLightbulb" xml:space="preserve"><value>Patarimas</value></data>
+  <data name="DemoMediaIconKeyboard" xml:space="preserve"><value>Klaviatūra</value></data>
+  <data name="DemoMediaIconFlag" xml:space="preserve"><value>Pranešti</value></data>
+  <data name="DemoMediaIconHighlighter" xml:space="preserve"><value>Paryškinti spalva</value></data>
+  <data name="DemoMediaIconChartPie" xml:space="preserve"><value>Paskirstymas</value></data>
+  <data name="DemoMediaIconChartDonut" xml:space="preserve"><value>Proporcija</value></data>
+  <data name="DemoMediaIconCircle" xml:space="preserve"><value>Apskritimas</value></data>
+  <data name="DemoMediaIconBookmark" xml:space="preserve"><value>Žymelė</value></data>
+  <data name="DemoMediaIconUserMinus" xml:space="preserve"><value>Pašalinti narį</value></data>
+  <data name="DemoMediaIconSelectionSlash" xml:space="preserve"><value>Atšaukti pasirinkimą</value></data>
+  <data name="DemoMediaIconSmiley" xml:space="preserve"><value>Specialieji simboliai</value></data>
+  <data name="DemoMediaIconSkipBack" xml:space="preserve"><value>Ankstesnis įrašas</value></data>
+  <data name="DemoMediaIconSkipForward" xml:space="preserve"><value>Kitas įrašas</value></data>
+  <data name="DemoMediaIconShuffle" xml:space="preserve"><value>Maišyti</value></data>
+  <data name="DemoMediaIconRepeat" xml:space="preserve"><value>Kartoti</value></data>
+  <data name="DemoMediaIconRepeatOnce" xml:space="preserve"><value>Kartoti kartą</value></data>
+  <data name="DemoMediaIconSpeakerHigh" xml:space="preserve"><value>Didelis garsumas</value></data>
+  <data name="DemoMediaIconSpeakerLow" xml:space="preserve"><value>Mažas garsumas</value></data>
+  <data name="DemoMediaIconSpeakerNone" xml:space="preserve"><value>Nulinis garsumas</value></data>
+  <data name="DemoMediaIconSpeakerX" xml:space="preserve"><value>Garsas išjungtas</value></data>
+  <data name="DemoMediaIconQueue" xml:space="preserve"><value>Eilė</value></data>
+  <data name="DemoMediaIconPlaylist" xml:space="preserve"><value>Grojaraštis</value></data>
+  <data name="DemoMediaIconListPlus" xml:space="preserve"><value>Įtraukti į sąrašą</value></data>
+  <data name="DemoMediaIconMusicNote" xml:space="preserve"><value>Kūrinys</value></data>
+  <data name="DemoMediaIconDisc" xml:space="preserve"><value>Albumas</value></data>
+  <data name="DemoMediaIconWaveform" xml:space="preserve"><value>Bangos forma</value></data>
+  <data name="DemoMediaIconDotsSixVertical" xml:space="preserve"><value>Vilkimo rankenėlė</value></data>
+  <data name="DemoMediaIconCornersIn" xml:space="preserve"><value>Sumažinti rodinį</value></data>
+  <data name="DemoMediaIconPlayCircle" xml:space="preserve"><value>Leisti</value></data>
+  <data name="DemoMediaIconPauseCircle" xml:space="preserve"><value>Pristabdyti</value></data>
+  <data name="DemoMediaIconXCircle" xml:space="preserve"><value>Atšaukti</value></data>
+  <data name="DemoMediaIconChartBar" xml:space="preserve"><value>Stulpelinė diagrama</value></data>
+  <data name="DemoMediaIconBookOpen" xml:space="preserve"><value>Atversta knyga</value></data>
+  <data name="DemoMediaIconArrowsDownUp" xml:space="preserve"><value>Sukeisti vertikaliai</value></data>
+  <data name="DemoMediaIconFolderPlus" xml:space="preserve"><value>Naujas aplankas</value></data>
+  <data name="DemoMediaIconTelevision" xml:space="preserve"><value>Ekranas</value></data>
+  <data name="DemoMediaIconSealCheck" xml:space="preserve"><value>Patikrinta</value></data>
+  <data name="DemoMediaIconCheckSquare" xml:space="preserve"><value>Pažymėtas langelis</value></data>
+  <data name="DemoMediaIconArrowBendUpRight" xml:space="preserve"><value>Perkelti</value></data>
+  <data name="DemoMediaIconStethoscope" xml:space="preserve"><value>Diagnostika</value></data>
+  <data name="DemoMediaIconChevronLeft" xml:space="preserve"><value>Ankstesnis</value></data>
+  <data name="DemoMediaIconEnvelope" xml:space="preserve"><value>El. paštas</value></data>
+  <data name="DemoMediaIconCurrencyEur" xml:space="preserve"><value>Suma eurais</value></data>
+  <data name="DemoMediaIconShareNetwork" xml:space="preserve"><value>Bendrinti</value></data>
+  <data name="DemoMediaIconBank" xml:space="preserve"><value>Finansų įstaiga</value></data>
+  <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Užduotis</value></data>
+  <data name="DemoMediaIconIdentificationBadge" xml:space="preserve"><value>Identifikavimo kortelė</value></data>
+  <data name="DemoMediaIconFilePdf" xml:space="preserve"><value>PDF dokumentas</value></data>
+  <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Pagalba</value></data>
+  <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerystė</value></data>
+  <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Augimas</value></data>
+  <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Projekto pavadinimas</value></data>
+  <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Atsakingo asmens el. paštas</value></data>
+  <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>El. pašto patvirtinimas</value></data>
+  <data name="DemoAnnotatedValidationReplicas" xml:space="preserve"><value>Replikos</value></data>
+  <data name="DemoOverlayOpenDialog" xml:space="preserve"><value>Atidaryti dialogo langą</value></data>
+  <data name="DemoOverlaySave" xml:space="preserve"><value>Išsaugoti</value></data>
+  <data name="DemoOverlayMoreSaves" xml:space="preserve"><value>Kiti išsaugojimo būdai</value></data>
+  <data name="DemoOverlaySaveAndClose" xml:space="preserve"><value>Išsaugoti ir uždaryti</value></data>
+  <data name="DemoOverlaySaveCopy" xml:space="preserve"><value>Išsaugoti kopiją</value></data>
+  <data name="DemoOverlayPublishUnavailable" xml:space="preserve"><value>Paskelbti, nepasiekiama</value></data>
+  <data name="DemoOverlayFolderActions" xml:space="preserve"><value>Aplanko veiksmai</value></data>
+  <data name="DemoOverlayContextTrigger" xml:space="preserve"><value>Veiksmai (dešinysis spustelėjimas arba Shift+F10)</value></data>
+  <data name="DemoOverlayDuplicate" xml:space="preserve"><value>Dubliuoti</value></data>
+  <data name="DemoOverlayExport" xml:space="preserve"><value>Eksportuoti</value></data>
+  <data name="DemoOverlayDelete" xml:space="preserve"><value>Šalinti</value></data>
+  <data name="DemoOverlayDeleteFolder" xml:space="preserve"><value>Šalinti aplanką</value></data>
+  <data name="DemoOverlayRunningTasks" xml:space="preserve"><value>Vykdomos užduotys</value></data>
+  <data name="DemoOverlayBackupStep" xml:space="preserve"><value>Naktinė atsarginė kopija, žingsnis {0} iš {1}.</value></data>
+  <data name="DemoOverlayViewProgress" xml:space="preserve"><value>Peržiūrėti eigą</value></data>
+  <data name="DemoOverlayProgressOpened" xml:space="preserve"><value>Eiga atidaryta</value></data>
+  <data name="DemoOverlayQuickFilter" xml:space="preserve"><value>Greitasis filtras</value></data>
+  <data name="DemoOverlayFilter" xml:space="preserve"><value>Filtruoti</value></data>
+  <data name="DemoOverlayFilterBody" xml:space="preserve"><value>Skydelis lygiuojamas pagal mygtuko pradžią.</value></data>
+  <data name="DemoOverlayAccountMenu" xml:space="preserve"><value>Paskyros meniu</value></data>
+  <data name="DemoOverlayMyProfile" xml:space="preserve"><value>Mano profilis</value></data>
+  <data name="DemoOverlaySignOut" xml:space="preserve"><value>Atsijungti</value></data>
+  <data name="DemoOverlaySignedOut" xml:space="preserve"><value>Atsijungta</value></data>
+  <data name="DemoOverlayAdminUnavailable" xml:space="preserve"><value>Administravimas, nepasiekiama</value></data>
+  <data name="DemoOverlayStickyButton" xml:space="preserve"><value>Dialogas, nepaisantis uždangos</value></data>
+  <data name="DemoOverlayBlockingButton" xml:space="preserve"><value>Dialogas su privalomu uždarymu</value></data>
+  <data name="DemoOverlaySizeSmall" xml:space="preserve"><value>Mažas</value></data>
+  <data name="DemoOverlaySizeMedium" xml:space="preserve"><value>Vidutinis</value></data>
+  <data name="DemoOverlaySizeLarge" xml:space="preserve"><value>Didelis</value></data>
+  <data name="DemoOverlaySizeExtraLarge" xml:space="preserve"><value>Labai didelis</value></data>
+  <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Visas plotis</value></data>
+  <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Dialogo plotis</value></data>
+  <data name="DemoOverlaySizedBody" xml:space="preserve"><value>Šis dialogas atidarytas dydžiu {0}.</value></data>
+  <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Forma (akcentas)</value></data>
+  <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Informacija</value></data>
+  <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Sėkmė</value></data>
+  <data name="DemoOverlayIntentWarning" xml:space="preserve"><value>Patvirtinimas (įspėjimas)</value></data>
+  <data name="DemoOverlayIntentDanger" xml:space="preserve"><value>Šalinimas (pavojus)</value></data>
+  <data name="DemoOverlayIntentTitle" xml:space="preserve"><value>Vykdymo parametrai</value></data>
+  <data name="DemoOverlayIntentBody" xml:space="preserve"><value>Šio dialogo paskirtis: {0}.</value></data>
+  <data name="DemoOverlayConfirm" xml:space="preserve"><value>Patvirtinti</value></data>
+  <data name="DemoOverlayCancel" xml:space="preserve"><value>Atšaukti</value></data>
+  <data name="DemoOverlayPipelineActions" xml:space="preserve"><value>Konvejerio veiksmai</value></data>
+  <data name="DemoOverlayEdit" xml:space="preserve"><value>Redaguoti</value></data>
+  <data name="DemoOverlayUpdate" xml:space="preserve"><value>Atnaujinti</value></data>
+  <data name="DemoOverlayRowActions" xml:space="preserve"><value>Eilutės veiksmai</value></data>
+  <data name="DemoOverlayLastAction" xml:space="preserve"><value>Paskutinis veiksmas: {0}</value></data>
+  <data name="DemoOverlayNoAction" xml:space="preserve"><value>nėra</value></data>
+  <data name="DemoOverlayNoticeInfoTitle" xml:space="preserve"><value>Informacija</value></data>
+  <data name="DemoOverlayNoticeInfo" xml:space="preserve"><value>Naktinė užduotis prasidės {0}.</value></data>
+  <data name="DemoOverlayNoticeDoneTitle" xml:space="preserve"><value>Atlikta</value></data>
+  <data name="DemoOverlayNoticeDone" xml:space="preserve"><value>Importuota dokumentų: {0}.</value></data>
+  <data name="DemoOverlayNotificationClosed" xml:space="preserve"><value>Pranešimas uždarytas</value></data>
+  <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Kvota beveik pasiekta.</value></data>
+  <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Klaida</value></data>
+  <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Nepavyko prisijungti prie paslaugos.</value></data>
+  <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Patvirtinti šalinimą</value></data>
+  <data name="DemoOverlayClose" xml:space="preserve"><value>Uždaryti</value></data>
+  <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Šis veiksmas pašalina aplanką iš sąrašo. Jį galima atšaukti per trisdešimt dienų.</value></data>
+  <data name="DemoOverlayDeletionConfirmed" xml:space="preserve"><value>Šalinimas patvirtintas</value></data>
+  <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Vykdomas filtras</value></data>
+  <data name="DemoOverlayStickyBody" xml:space="preserve"><value>Spustelėjimas šalia šio dialogo neuždaro: jį uždaro kryželis ir Esc.</value></data>
+  <data name="DemoOverlayBlockingTitle" xml:space="preserve"><value>Vykdomas perkėlimas</value></data>
+  <data name="DemoOverlayBlockingBody" xml:space="preserve"><value>Nei kryželis, nei Esc, nei uždanga: jį uždaro tik paties dialogo mygtukas.</value></data>
+  <data name="DemoOverlayFinish" xml:space="preserve"><value>Baigti</value></data>
+  <data name="DemoOverlayMigrationDone" xml:space="preserve"><value>Perkėlimas baigtas</value></data>
+  <data name="DemoEditorBodyLabel" xml:space="preserve"><value>Laiško tekstas</value></data>
+  <data name="DemoEditorSourceLabel" xml:space="preserve"><value>Laiško šaltinis</value></data>
+  <data name="DemoEditorAnnotatedLabel" xml:space="preserve"><value>Anotuotas straipsnis</value></data>
+  <data name="DemoEditorPosition" xml:space="preserve"><value>Vieta: {0}</value></data>
+  <data name="DemoEditorOutsideText" xml:space="preserve"><value>už teksto ribų</value></data>
+  <data name="DemoEditorRoot" xml:space="preserve"><value>šaknis</value></data>
+  <data name="DemoEditorExtendedLabel" xml:space="preserve"><value>Komentuota nuomonė</value></data>
+  <data name="DemoEditorReportLabel" xml:space="preserve"><value>Ataskaita</value></data>
+  <data name="DemoEditorReportFileName" xml:space="preserve"><value>ataskaita</value></data>
+  <data name="DemoEditorCodeLabel" xml:space="preserve"><value>JSON nustatymai</value></data>
+  <data name="DemoEditorIconBold" xml:space="preserve"><value>Pusjuodis</value></data>
+  <data name="DemoEditorIconItalic" xml:space="preserve"><value>Kursyvas</value></data>
+  <data name="DemoEditorIconUnderline" xml:space="preserve"><value>Pabrauktas</value></data>
+  <data name="DemoEditorIconStrikethrough" xml:space="preserve"><value>Perbrauktas</value></data>
+  <data name="DemoEditorIconSubscript" xml:space="preserve"><value>Apatinis indeksas</value></data>
+  <data name="DemoEditorIconSuperscript" xml:space="preserve"><value>Viršutinis indeksas</value></data>
+  <data name="DemoEditorIconBulletList" xml:space="preserve"><value>Sąrašas su ženkleliais</value></data>
+  <data name="DemoEditorIconIndent" xml:space="preserve"><value>Didinti įtrauką</value></data>
+  <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Mažinti įtrauką</value></data>
+  <data name="DemoEditorIconQuote" xml:space="preserve"><value>Citata</value></data>
+  <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Eilutės kodas</value></data>
+  <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Kodo blokas</value></data>
+  <data name="DemoEditorIconLink" xml:space="preserve"><value>Saitas</value></data>
+  <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Šalinti saitą</value></data>
+  <data name="DemoEditorIconAlignLeft" xml:space="preserve"><value>Lygiuoti kairėje</value></data>
+  <data name="DemoEditorIconAlignCenter" xml:space="preserve"><value>Centruoti</value></data>
+  <data name="DemoEditorIconAlignRight" xml:space="preserve"><value>Lygiuoti dešinėje</value></data>
+  <data name="DemoEditorIconJustify" xml:space="preserve"><value>Lygiuoti abiejose pusėse</value></data>
+  <data name="DemoEditorIconUndo" xml:space="preserve"><value>Anuliuoti</value></data>
+  <data name="DemoEditorIconRedo" xml:space="preserve"><value>Perdaryti</value></data>
+  <data name="DemoEditorIconClearFormatting" xml:space="preserve"><value>Valyti formatavimą</value></data>
+  <data name="DemoEditorIconHtmlSource" xml:space="preserve"><value>HTML šaltinis</value></data>
+  <data name="DemoEditorIconTable" xml:space="preserve"><value>Lentelė</value></data>
+  <data name="DemoEditorManifest" xml:space="preserve"><value>Diegimo manifestas</value></data>
+  <data name="DemoEditorManifestHelp" xml:space="preserve"><value>Vienas failas; atidaro sistemos failų parinkiklį.</value></data>
+  <data name="DemoEditorUploadFailed" xml:space="preserve"><value>Nepavyko įkelti.</value></data>
+  <data name="DemoEditorUploaded" xml:space="preserve"><value>Įkelti failai: {0}</value></data>
+  <data name="DemoEditorNoUpload" xml:space="preserve"><value>nėra</value></data>
+  <data name="DemoEditorTestCommand" xml:space="preserve"><value>Bandomoji komanda</value></data>
+  <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Konfigūracijos pavyzdys</value></data>
+  <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Ištrauka, eilutės nuo {0} iki {1}</value></data>
+  <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Palyginti dvi konfigūracijas</value></data>
+  <data name="DemoEditorSignatureText" xml:space="preserve"><value>Bylų skyrius</value></data>
+  <data name="DemoEditorReferenceText" xml:space="preserve"><value>Nuoroda: {0}</value></data>
+  <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Įterpti parašo bloką</value></data>
+  <data name="DemoEditorAddSignature" xml:space="preserve"><value>Pridėti parašą</value></data>
+  <data name="DemoEditorInsertReference" xml:space="preserve"><value>Įterpti nuorodą</value></data>
+  <data name="DemoEditorAddNote" xml:space="preserve"><value>Pridėti pastabą</value></data>
+  <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>Nauja pastaba.</value></data>
+  <data name="DemoEditorNewNote" xml:space="preserve"><value>Nauja pastaba</value></data>
+  <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Pašalinti pastabą</value></data>
+  <data name="DemoEditorArticleText" xml:space="preserve"><value>1 straipsnis. Šios taisyklės taikomos gautoms byloms.</value></data>
+  <data name="DemoEditorArticleDelay" xml:space="preserve"><value>Terminas</value></data>
+  <data name="DemoEditorArticleDocument" xml:space="preserve"><value>Dokumentas</value></data>
+  <data name="DemoEditorArticleDays" xml:space="preserve"><value>{0} d.</value></data>
+  <data name="DemoEditorArticleForm" xml:space="preserve"><value>Forma</value></data>
+  <data name="DemoEditorArticleNote" xml:space="preserve"><value>Pastaba: konsoliduotas tekstas sausio 1 d. būklei.</value></data>
+  <data name="DemoEditorOpinion" xml:space="preserve"><value>Teigiama išvada su sąlyga{0}.</value></data>
+  <data name="DemoEditorOpinionNote" xml:space="preserve"><value>patikrinti terminą</value></data>
+  <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>su sąlyga</value></data>
+  <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value>, kad bus patikrinta</value></data>
+  <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Tai {0} pastraipa.</value></data>
+  <data name="DemoEditorReportImportant" xml:space="preserve"><value>svarbi</value></data>
+  <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Pirmas punktas</value></data>
+  <data name="DemoEditorReportSecondPoint" xml:space="preserve"><value>Antras punktas</value></data>
+  <data name="DemoEditorBodyGreeting" xml:space="preserve"><value>Gerbiamieji,</value></data>
+  <data name="DemoEditorBodyText" xml:space="preserve"><value>Jūsų byla gauta.</value></data>
+  <data name="DemoEditorEmptyFile" xml:space="preserve"><value>Vienas failas tuščias.</value></data>
+  <data name="DemoChoiceShippingLabel" xml:space="preserve"><value>Siuntimo būdas</value></data>
+  <data name="DemoChoiceExtrasLabel" xml:space="preserve"><value>Bylos parinktys</value></data>
+  <data name="DemoChoicePeriodLabel" xml:space="preserve"><value>Laikotarpis</value></data>
+  <data name="DemoChoicePin" xml:space="preserve"><value>Prisegti</value></data>
+  <data name="DemoChoiceUnavailable" xml:space="preserve"><value>Nepasiekiama</value></data>
+  <data name="DemoChoiceSaving" xml:space="preserve"><value>Išsaugoma</value></data>
+  <data name="DemoChoiceLabelledCheck" xml:space="preserve"><value>Žymimasis langelis su etikete</value></data>
+  <data name="DemoChoiceTriStateCheck" xml:space="preserve"><value>Trijų būsenų žymimasis langelis</value></data>
+  <data name="DemoChoiceTriStateSwitch" xml:space="preserve"><value>Trijų būsenų jungiklis</value></data>
+  <data name="DemoChoiceTriStateValue" xml:space="preserve"><value>Trijų padėčių būsena: {0}</value></data>
+  <data name="DemoChoiceIndeterminate" xml:space="preserve"><value>neapibrėžta</value></data>
+  <data name="DemoChoiceOn" xml:space="preserve"><value>įjungta</value></data>
+  <data name="DemoChoiceOff" xml:space="preserve"><value>išjungta</value></data>
+  <data name="DemoChoiceTextFirstCheck" xml:space="preserve"><value>Etiketė prieš žymimąjį langelį</value></data>
+  <data name="DemoChoiceTextFirstSwitch" xml:space="preserve"><value>Etiketė prieš jungiklį</value></data>
+  <data name="DemoChoicePlatformLabel" xml:space="preserve"><value>Agento operacinė sistema</value></data>
+  <data name="DemoChoiceWindowsDescription" xml:space="preserve"><value>Windows Server 2022 ir naujesnė</value></data>
+  <data name="DemoChoiceFeaturesLabel" xml:space="preserve"><value>Agento funkcijos</value></data>
+  <data name="DemoChoiceRunnerTitle" xml:space="preserve"><value>Konvejerių vykdyklė</value></data>
+  <data name="DemoChoiceRunnerDescription" xml:space="preserve"><value>Vykdo žingsnius šiame kompiuteryje.</value></data>
+  <data name="DemoChoiceDockerDescription" xml:space="preserve"><value>Reikalauja vykdyklė.</value></data>
+  <data name="DemoChoiceRating" xml:space="preserve"><value>Įvertinimas</value></data>
+  <data name="DemoChoiceRatingReadOnly" xml:space="preserve"><value>Įvertinimas tik skaityti</value></data>
+  <data name="DemoChoiceRatingDisabled" xml:space="preserve"><value>Išjungtas įvertinimas</value></data>
+  <data name="DemoChoiceShippingStandard" xml:space="preserve"><value>Standartinis</value></data>
+  <data name="DemoChoiceShippingExpress" xml:space="preserve"><value>Skubus</value></data>
+  <data name="DemoChoiceShippingPickup" xml:space="preserve"><value>Atsiimti skyriuje</value></data>
+  <data name="DemoChoiceExtraReceipt" xml:space="preserve"><value>Gavimo patvirtinimas</value></data>
+  <data name="DemoChoiceExtraCertifiedCopy" xml:space="preserve"><value>Patvirtinta kopija</value></data>
+  <data name="DemoChoiceExtraTracking" xml:space="preserve"><value>Sekimas el. paštu</value></data>
+  <data name="DemoChoicePeriodDay" xml:space="preserve"><value>Diena</value></data>
+  <data name="DemoChoicePeriodMonth" xml:space="preserve"><value>Mėnuo</value></data>
+  <data name="DemoChoicePeriodYear" xml:space="preserve"><value>Metai</value></data>
+  <data name="DemoChoiceFeatureCache" xml:space="preserve"><value>Priklausomybių podėlis</value></data>
+  <data name="DemoChoiceFeatureArtifacts" xml:space="preserve"><value>Artefaktų saugojimas</value></data>
+  <data name="DemoChoiceFeatureGpu" xml:space="preserve"><value>GPU spartinimas</value></data>
+  <data name="DemoInputsAmount" xml:space="preserve"><value>Suma</value></data>
+  <data name="DemoInputsQuantity" xml:space="preserve"><value>Kiekis</value></data>
+  <data name="DemoInputsQuantityHelp" xml:space="preserve"><value>Nuo {0} iki {1}: už ribų esanti reikšmė pakeičiama artimiausia riba.</value></data>
+  <data name="DemoInputsPassword" xml:space="preserve"><value>Slaptažodis</value></data>
+  <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Mygtukas parodo įvestį jos niekur nekopijuodamas.</value></data>
+  <data name="DemoInputsDate" xml:space="preserve"><value>Įsigaliojimo data</value></data>
+  <data name="DemoInputsDateHelp" xml:space="preserve"><value>Įveskite klaviatūra arba naudokite kalendorių; už ribų esančių dienų pasirinkti negalima.</value></data>
+  <data name="DemoInputsStart" xml:space="preserve"><value>Pradžios laikas</value></data>
+  <data name="DemoInputsStartHelp" xml:space="preserve"><value>Valandos nuo 00 iki 23, minutės {0} min. žingsniu.</value></data>
+  <data name="DemoInputsAppointment" xml:space="preserve"><value>Susitikimas</value></data>
+  <data name="DemoInputsAppointmentHelp" xml:space="preserve"><value>Kalendorius ir laiko stulpeliai viename skydelyje.</value></data>
+  <data name="DemoInputsColor" xml:space="preserve"><value>Žymeklio spalva</value></data>
+  <data name="DemoInputsCity" xml:space="preserve"><value>Miestas</value></data>
+  <data name="DemoInputsCityHelp" xml:space="preserve"><value>Paieška pradedama nuo dviejų simbolių.</value></data>
+  <data name="DemoInputsCityPlaceholder" xml:space="preserve"><value>Pradėkite rašyti</value></data>
+  <data name="DemoInputsPickedSummary" xml:space="preserve"><value>Data: {0}; laikas: {1}; susitikimas: {2}</value></data>
+  <data name="DemoInputsNoDate" xml:space="preserve"><value>nėra</value></data>
+  <data name="DemoInputsNoTime" xml:space="preserve"><value>nėra</value></data>
+  <data name="DemoInputsNoAppointment" xml:space="preserve"><value>nėra</value></data>
+  <data name="DemoFormName" xml:space="preserve"><value>Vardas ir pavardė</value></data>
+  <data name="DemoFormNameHelp" xml:space="preserve"><value>Taip, kaip bus nurodyta sąskaitoje faktūroje.</value></data>
+  <data name="DemoFormNotes" xml:space="preserve"><value>Pastabos</value></data>
+  <data name="DemoFormEmail" xml:space="preserve"><value>El. pašto adresas</value></data>
+  <data name="DemoFormEmailHelp" xml:space="preserve"><value>Tipas parenka mobiliąją klaviatūrą ir naršyklės automatinį pildymą.</value></data>
+  <data name="DemoFormPhone" xml:space="preserve"><value>Telefonas</value></data>
+  <data name="DemoFormWebsite" xml:space="preserve"><value>Svetainė</value></data>
+  <data name="DemoFormSearch" xml:space="preserve"><value>Ieškoti</value></data>
+  <data name="DemoFormSearchPlaceholder" xml:space="preserve"><value>Filtruoti sąrašą</value></data>
+  <data name="DemoFormBudget" xml:space="preserve"><value>Biudžetas</value></data>
+  <data name="DemoFormTerms" xml:space="preserve"><value>Sutinku su naudojimo sąlygomis</value></data>
+  <data name="DemoFormAlerts" xml:space="preserve"><value>Gauti įspėjimus</value></data>
+  <data name="DemoFormDynamicValues" xml:space="preserve"><value>Formos reikšmės: {0}</value></data>
+  <data name="DemoFormDynamicName" xml:space="preserve"><value>Pavadinimas</value></data>
+  <data name="DemoFormDynamicAmount" xml:space="preserve"><value>Suma</value></data>
+  <data name="DemoFormDynamicComment" xml:space="preserve"><value>Komentaras</value></data>
+  <data name="DemoFormDynamicActive" xml:space="preserve"><value>Aktyvus</value></data>
+  <data name="DemoValidationName" xml:space="preserve"><value>Vardas</value></data>
+  <data name="DemoValidationNameRequired" xml:space="preserve"><value>Vardas yra privalomas.</value></data>
+  <data name="DemoValidationMail" xml:space="preserve"><value>El. paštas</value></data>
+  <data name="DemoValidationMailRequired" xml:space="preserve"><value>El. paštas yra privalomas.</value></data>
+  <data name="DemoValidationSend" xml:space="preserve"><value>Siųsti</value></data>
+  <data name="DemoValidationAccepted" xml:space="preserve"><value>Forma priimta.</value></data>
+  <data name="DemoValidationProjectName" xml:space="preserve"><value>Projekto pavadinimas</value></data>
+  <data name="DemoValidationOwnerMail" xml:space="preserve"><value>Atsakingo asmens el. paštas</value></data>
+  <data name="DemoValidationMailConfirmation" xml:space="preserve"><value>El. pašto patvirtinimas</value></data>
+  <data name="DemoValidationReplicas" xml:space="preserve"><value>Replikos</value></data>
+  <data name="DemoValidationCheck" xml:space="preserve"><value>Tikrinti</value></data>
+  <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Imituoti neišsaugotus pakeitimus</value></data>
+  <data name="DemoSelectionCountry" xml:space="preserve"><value>Šalis</value></data>
+  <data name="DemoSelectionCountryPlaceholder" xml:space="preserve"><value>Pasirinkite šalį</value></data>
+  <data name="DemoSelectionCities" xml:space="preserve"><value>Aptarnaujami miestai</value></data>
+  <data name="DemoSelectionTags" xml:space="preserve"><value>Žymės</value></data>
+  <data name="DemoSelectionTagsCompact" xml:space="preserve"><value>Žymės, kompaktiška forma</value></data>
+  <data name="DemoSelectionTagsFilterable" xml:space="preserve"><value>Žymės, paieška ir kūrimas</value></data>
+  <data name="DemoSelectionTagsPlaceholder" xml:space="preserve"><value>Pasirinkite žymes</value></data>
+  <data name="DemoSelectionTagSearchPlaceholder" xml:space="preserve"><value>Ieškoti žymės</value></data>
+  <data name="DemoSelectionBelgium" xml:space="preserve"><value>Belgija</value></data>
+  <data name="DemoSelectionFrance" xml:space="preserve"><value>Prancūzija</value></data>
+  <data name="DemoSelectionLuxembourg" xml:space="preserve"><value>Liuksemburgas</value></data>
+  <data name="DemoSelectionNetherlands" xml:space="preserve"><value>Nyderlandai</value></data>
+  <data name="DemoSelectionTagUrgent" xml:space="preserve"><value>Skubu</value></data>
+  <data name="DemoSelectionTagInternal" xml:space="preserve"><value>Vidinis</value></data>
+  <data name="DemoSelectionTagArchived" xml:space="preserve"><value>Archyvuota</value></data>
+  <data name="DemoFlowsCreateServer" xml:space="preserve"><value>Sukurti serverį</value></data>
+  <data name="DemoFlowsStepIdentity" xml:space="preserve"><value>Tapatybė</value></data>
+  <data name="DemoFlowsNameHelp" xml:space="preserve"><value>Mygtukas „Toliau“ tampa aktyvus, kai tik įvedamas pavadinimas.</value></data>
+  <data name="DemoFlowsServerName" xml:space="preserve"><value>Serverio pavadinimas</value></data>
+  <data name="DemoFlowsStepOptions" xml:space="preserve"><value>Parinktys</value></data>
+  <data name="DemoFlowsDailyBackup" xml:space="preserve"><value>Kasdienė atsarginė kopija</value></data>
+  <data name="DemoFlowsBackupRequired" xml:space="preserve"><value>Gamybiniam serveriui pažymėkite kasdienę atsarginę kopiją.</value></data>
+  <data name="DemoFlowsStepSummary" xml:space="preserve"><value>Suvestinė</value></data>
+  <data name="DemoFlowsSummaryName" xml:space="preserve"><value>Pavadinimas</value></data>
+  <data name="DemoFlowsSummaryBackup" xml:space="preserve"><value>Atsarginė kopija</value></data>
+  <data name="DemoFlowsBackupDaily" xml:space="preserve"><value>Kasdienė</value></data>
+  <data name="DemoFlowsBackupNone" xml:space="preserve"><value>Nėra</value></data>
+  <data name="DemoFlowsOutcome" xml:space="preserve"><value>Rezultatas: {0}</value></data>
+  <data name="DemoFlowsOutcomePending" xml:space="preserve"><value>vykdoma</value></data>
+  <data name="DemoFlowsOutcomeCreated" xml:space="preserve"><value>sukurtas serveris „{0}“</value></data>
+  <data name="DemoFlowsOutcomeCancelled" xml:space="preserve"><value>atšaukta</value></data>
+  <data name="DemoFlowsWizardInDialog" xml:space="preserve"><value>Vediklis dialoge</value></data>
+  <data name="DemoFlowsInviteTitle" xml:space="preserve"><value>Pakviesti narį</value></data>
+  <data name="DemoFlowsInviteSteps" xml:space="preserve"><value>Kvietimo žingsniai</value></data>
+  <data name="DemoFlowsInvite" xml:space="preserve"><value>Pakviesti</value></data>
+  <data name="DemoFlowsStepAddress" xml:space="preserve"><value>Adresas</value></data>
+  <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Pakviesto asmens adresas.</value></data>
+  <data name="DemoFlowsStepRole" xml:space="preserve"><value>Vaidmuo</value></data>
+  <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Vaidmuo, kurį jis gaus.</value></data>
+  <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Administravimo sritis</value></data>
+  <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Eksploatavimas</value></data>
+  <data name="DemoFlowsUser" xml:space="preserve"><value>Naudotojo vardas</value></data>
+  <data name="DemoFlowsPassword" xml:space="preserve"><value>Slaptažodis</value></data>
+  <data name="DemoFlowsSignIn" xml:space="preserve"><value>Prisijungti</value></data>
+  <data name="DemoFlowsSignInNote" xml:space="preserve"><value>Forma perduota priimančiajai programai: „{0}“.</value></data>
+  <data name="DemoFlowsReturnAfterSignIn" xml:space="preserve"><value>Grįžimas prisijungus: {0}</value></data>
+  <data name="DemoFlowsExternalRefused" xml:space="preserve"><value>Išorinis adresas atmestas: {0}</value></data>
+  <data name="DemoFlowsSimulateDrop" xml:space="preserve"><value>Imituoti ryšio nutrūkimą</value></data>
+  <data name="DemoFlowsSimulateReject" xml:space="preserve"><value>Imituoti atmetimą</value></data>
+  <data name="DemoFlowsConnection" xml:space="preserve"><value>Ryšys: {0}</value></data>
+  <data name="DemoFlowsConnectionReconnecting" xml:space="preserve"><value>jungiamasi iš naujo</value></data>
+  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>nepavyko</value></data>
+  <data name="DemoFlowsConnectionRejected" xml:space="preserve"><value>atmestas</value></data>
+  <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>užmegztas</value></data>
+  <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>serveris nebeatsako (baigėsi laukimo laikas)</value></data>
+  <data name="DemoFlowsReasonExpired" xml:space="preserve"><value>seansas serveryje baigėsi</value></data>
+  <data name="DemoTreeLabel" xml:space="preserve"><value>Aplankų medis</value></data>
+  <data name="DemoTreeEurope" xml:space="preserve"><value>Europa</value></data>
+  <data name="DemoTreeBelgium" xml:space="preserve"><value>Belgija</value></data>
+  <data name="DemoTreeCapitalText" xml:space="preserve"><value>{0}, sostinė</value></data>
+  <data name="DemoTreeCapital" xml:space="preserve"><value>sostinė</value></data>
+  <data name="DemoTreeFrance" xml:space="preserve"><value>Prancūzija</value></data>
+  <data name="DemoTreeLuxembourg" xml:space="preserve"><value>Liuksemburgas</value></data>
+  <data name="DemoTreeArchives" xml:space="preserve"><value>Archyvai, įkeliami atidarius</value></data>
+  <data name="DemoTreeSelection" xml:space="preserve"><value>Pasirinkta: {0}</value></data>
+  <data name="DemoTreeNoSelection" xml:space="preserve"><value>nieko</value></data>
+  <data name="DemoSpreadsheetLabel" xml:space="preserve"><value>Ketvirčio biudžetas</value></data>
+  <data name="DemoSpreadsheetStatus" xml:space="preserve"><value>Aktyvus langelis: {0}. Ketvirčio suma: {1}</value></data>
+  <data name="DemoSpreadsheetReadOnlyLabel" xml:space="preserve"><value>Tas pats biudžetas, tik skaityti</value></data>
+  <data name="DemoSpreadsheetItem" xml:space="preserve"><value>Straipsnis</value></data>
+  <data name="DemoSpreadsheetJanuary" xml:space="preserve"><value>Sausis</value></data>
+  <data name="DemoSpreadsheetFebruary" xml:space="preserve"><value>Vasaris</value></data>
+  <data name="DemoSpreadsheetMarch" xml:space="preserve"><value>Kovas</value></data>
+  <data name="DemoSpreadsheetQuarter" xml:space="preserve"><value>Ketvirtis</value></data>
+  <data name="DemoSpreadsheetRent" xml:space="preserve"><value>Nuoma</value></data>
+  <data name="DemoSpreadsheetGroceries" xml:space="preserve"><value>Maisto produktai</value></data>
+  <data name="DemoSpreadsheetEnergy" xml:space="preserve"><value>Energija</value></data>
+  <data name="DemoSpreadsheetTransport" xml:space="preserve"><value>Transportas</value></data>
+  <data name="DemoSpreadsheetLeisure" xml:space="preserve"><value>Laisvalaikis</value></data>
+  <data name="DemoSpreadsheetTotal" xml:space="preserve"><value>Iš viso</value></data>
+  <data name="DemoSpreadsheetAverage" xml:space="preserve"><value>Vidurkis</value></data>
+  <data name="DemoDiagramReadOnly" xml:space="preserve"><value>Tik skaityti</value></data>
+  <data name="DemoDiagramMindMapLabel" xml:space="preserve"><value>Minčių žemėlapis: persikraustymo planavimas</value></data>
+  <data name="DemoDiagramGitGraphLabel" xml:space="preserve"><value>Istorija su suliejama šaka</value></data>
+  <data name="DemoDiagramMapSummary" xml:space="preserve"><value>Mazgai: {0}, ryšiai: {1}, simboliai išsaugojus: {2}.</value></data>
+  <data name="DemoDiagramNewIdea" xml:space="preserve"><value>Nauja idėja</value></data>
+  <data name="DemoDiagramNodeMove" xml:space="preserve"><value>Persikraustymas</value></data>
+  <data name="DemoDiagramNodePaperwork" xml:space="preserve"><value>Dokumentai</value></data>
+  <data name="DemoDiagramNodeAddress" xml:space="preserve"><value>Adreso keitimas</value></data>
+  <data name="DemoDiagramNodeInsurance" xml:space="preserve"><value>Būsto draudimas</value></data>
+  <data name="DemoDiagramNodeBoxes" xml:space="preserve"><value>Dėžės</value></data>
+  <data name="DemoDiagramNodeKitchen" xml:space="preserve"><value>Virtuvė</value></data>
+  <data name="DemoDiagramNodeBooks" xml:space="preserve"><value>Knygos</value></data>
+  <data name="DemoDiagramNodeMovingDay" xml:space="preserve"><value>Persikraustymo diena</value></data>
+  <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Užsakyti furgoną</value></data>
+  <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Įspėti kaimynus</value></data>
+  <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Iki 15 d.</value></data>
 </root>

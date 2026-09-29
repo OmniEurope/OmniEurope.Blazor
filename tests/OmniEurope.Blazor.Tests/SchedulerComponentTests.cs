@@ -362,7 +362,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         var scheduler = RenderWeekGrid(
         [
             new("early", "Avant la grille", Monday.AddHours(6), Monday.AddHours(7)),
-            new("mid", "Revue", Monday.AddDays(1).AddHours(9).AddMinutes(30), Monday.AddDays(1).AddHours(10).AddMinutes(30)) { CssClass = "host-billable" }
+            new("mid", "Revue", Monday.AddDays(1).AddHours(9).AddMinutes(30), Monday.AddDays(1).AddHours(10).AddMinutes(30)) { Class = "host-billable" }
         ]);
 
         var rows = scheduler.FindAll(".omni-scheduler-grid__table tbody tr");

@@ -6,10 +6,21 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 public enum OmniNotificationPosition
 {
+    /// <summary>The top corner on the side text begins on.</summary>
     TopStart,
+
+    /// <summary>Centred along the top edge.</summary>
     TopCenter,
+
+    /// <summary>The top corner on the side text ends on. The default of <see cref="OmniNotificationOptions"/>.</summary>
     TopEnd,
+
+    /// <summary>The bottom corner on the side text begins on.</summary>
     BottomStart,
+
+    /// <summary>Centred along the bottom edge.</summary>
     BottomCenter,
+
+    /// <summary>The bottom corner on the side text ends on.</summary>
     BottomEnd
 }

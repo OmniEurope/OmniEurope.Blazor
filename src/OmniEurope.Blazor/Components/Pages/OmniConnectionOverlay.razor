@@ -27,7 +27,7 @@
             </div>
             @* The countdown, the reason and the spinner keep their place whether shown or not, so the card
                never changes height and nothing in it moves while the host updates them. *@
-            <p class="omni-connection-overlay__countdown" aria-hidden="@(ShowsCountdown ? null : "true")">@(ShowsCountdown ? Localize("ConnectionRetryIn", SecondsUntilRetry) : "\u00a0")</p>
+            <p class="omni-connection-overlay__countdown" aria-hidden="@(ShowsCountdown ? null : "true")">@(ShowsCountdown ? Localize("ConnectionRetryIn", CountdownSeconds) : "\u00a0")</p>
             <p class="omni-connection-overlay__reason" aria-hidden="@(ShowsReason ? null : "true")" title="@(ShowsReason ? Reason : null)">@(ShowsReason ? Localize("ConnectionReason", Reason!) : "\u00a0")</p>
             <div class="@(ShowsSpinner ? "omni-connection-overlay__spinner" : "omni-connection-overlay__spinner omni-connection-overlay__spinner--idle")">
                 @if (ShowsSpinner)

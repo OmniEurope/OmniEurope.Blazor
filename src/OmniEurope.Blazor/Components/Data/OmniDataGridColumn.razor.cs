@@ -3,6 +3,12 @@ using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// Declares one column of the enclosing <see cref="OmniDataGrid{TItem}"/>, inside its <c>Columns</c>
+/// fragment. It renders nothing itself: it registers its definition with the grid, updates it when a
+/// parameter changes, and removes it when it is disposed. Outside a grid it does nothing.
+/// </summary>
+/// <typeparam name="TItem">Type of the grid rows.</typeparam>
 public partial class OmniDataGridColumn<TItem>
 {
     private OmniDataGridContext<TItem>? _registeredContext;
@@ -203,6 +209,11 @@ public partial class OmniDataGridColumn<TItem>
         ? Property ?? Title
         : Key;
 
+    /// <summary>
+    /// Registers the column with its grid, or registers it again when a parameter changed. A change of
+    /// grid or of key first removes the previous registration; changed delegates alone are adopted in
+    /// place without re-registering.
+    /// </summary>
     protected override void OnParametersSet()
     {
         var key = EffectiveKey;

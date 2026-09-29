@@ -1,15 +1,15 @@
 <OmniStack Gap="OmniSpacing.Large">
     <OmniSpreadsheet Id="demo-sheet"
                      @bind-Value="Budget"
-                     Label="Budget du trimestre"
+                     Label="@Text["DemoSpreadsheetLabel"]"
                      ActiveCellChanged="@(address => Active = address)" />
 
-    <p>Cellule active : @Active. Total du trimestre : @Budget.Evaluate("E7").ToDisplayString()</p>
+    <p>@Text["DemoSpreadsheetStatus", Active, Budget.Evaluate("E7").ToDisplayString()]</p>
 
     <OmniSpreadsheet Id="demo-sheet-readonly"
                      Value="@Budget"
                      ReadOnly="true"
                      ShowFormulaBar="false"
                      ShowGridLines="false"
-                     Label="Le même budget, en lecture seule" />
+                     Label="@Text["DemoSpreadsheetReadOnlyLabel"]" />
 </OmniStack>

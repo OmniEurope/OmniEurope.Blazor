@@ -31,8 +31,8 @@ compte comme une modification.
 <OmniMindMap @bind-Document="Carte"
              @bind-ViewState="Vue"
              ReadOnly="LectureSeule"
-             AriaLabel="Carte du projet"
-             NodeSelected="SurSelection">
+             Label="Carte du projet"
+             OnNodeSelect="SurSelection">
     <ToolbarContent>
         <OmniMindMapToolbar />
     </ToolbarContent>
@@ -49,10 +49,10 @@ compte comme une modification.
 | `Document` / `DocumentChanged` | La carte, et la nouvelle carte après chaque modification (ajout, déplacement, renommage, couleur, suppression, lien, réorganisation, annulation, rétablissement). |
 | `ReadOnly` | La carte se sélectionne, se déplace, se zoome, se centre et s'ajuste, mais rien n'est ajouté, déplacé, recoloré ni supprimé. |
 | `ContextLabels` | `OmniMindMapLabels` : textes des actions pour un hôte dont le vocabulaire diffère. Un texte laissé nul vient des ressources. Le menu contextuel, la barre et les annonces emploient les mêmes. |
-| `NodeSelected` | Le nœud sélectionné, ou `null` quand aucun nœud seul ne l'est (rien, un lien, plusieurs nœuds). |
+| `OnNodeSelect` | Le nœud sélectionné, ou `null` quand aucun nœud seul ne l'est (rien, un lien, plusieurs nœuds). |
 | `ViewState` / `ViewStateChanged` | Décalage et zoom (0,1 à 5). Nul au premier rendu : la carte s'ajuste au canevas, et se réajuste quand le canevas change de taille tant que le lecteur n'a pas agi sur la carte (appui, clic, touche, menu) et que l'hôte n'a pas déplacé la vue. Ensuite, un canevas redimensionné (le panneau des propriétés qui s'ouvre à la sélection et se ferme au clic sur le fond) ne change plus le zoom : seuls la molette, le pincement, les touches de zoom et les actions de la barre ou du menu le font. |
-| `NodeRenameRequested` | Demande de renommage (double clic, F2, Entrée, menu). Sans gestionnaire, le focus va au champ texte d'un `OmniMindMapNodeProperties` de la carte. |
-| `AriaLabel` | Nom accessible du canevas, « Carte mentale » par défaut. |
+| `OnNodeRename` | Demande de renommage (double clic, F2, Entrée, menu). Sans gestionnaire, le focus va au champ texte d'un `OmniMindMapNodeProperties` de la carte. |
+| `Label` | Nom accessible du canevas (`string?`), « Carte mentale » par défaut. `OmniMindMapToolbar.Label` nomme de même la barre d'actions. |
 | `ToolbarContent`, `PanelContent` | Emplacements au-dessus et à côté du canevas. |
 
 `OmniMindMapToolbar` propose exactement les actions de la page d'origine : nœud, supprimer, dupliquer,
@@ -135,7 +135,7 @@ même graphe, dans le même ordre, donne toujours le même dessin.
 ## Historique de commits : `OmniGitGraph`
 
 `OmniGitGraph<TItem>` dessine un historique de commits en graphe : une ligne par commit, du plus récent
-au plus ancien, ses voies calculées à partir des seuls identifiants de parents (`IdOf`, `ParentsOf`, le
+au plus ancien, ses voies calculées à partir des seuls identifiants de parents (`KeyOf`, `ParentsOf`, le
 premier parent d'abord) et dessinées à côté de la ligne de l'hôte (`RowTemplate`). Chaque commit
 prolonge la voie du premier enfant qui l'attend ; son premier parent la reprend, tout autre parent en
 ouvre une (ou rejoint la sienne), et les voies des autres enfants se referment sur lui. Un parent absent

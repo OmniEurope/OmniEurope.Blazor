@@ -2,6 +2,11 @@ using System.Globalization;
 
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// A thin bar laid over the bottom edge of what precedes it, drawn while <see cref="OmniLoadingState"/>
+/// reports a load (<c>role="progressbar"</c>) and for a one second finish after it. It takes no height
+/// of its own, so it moves nothing when it appears.
+/// </summary>
 public partial class OmniLoadingBar
 {
     /// <summary>How the bar reports a load. Sweep by default, which is what a page load looks like.</summary>
@@ -71,6 +76,7 @@ public partial class OmniLoadingBar
     /// </summary>
     private bool Visible => State.Loading || _finishing;
 
+    /// <summary>Subscribes to <see cref="OmniLoadingState.Changed"/> so the bar follows every load.</summary>
     protected override void OnInitialized() => State.Changed += OnStateChanged;
 
     private void OnStateChanged() => _ = InvokeAsync(HandleStateChangedAsync);
@@ -132,6 +138,7 @@ public partial class OmniLoadingBar
         _finish = null;
     }
 
+    /// <summary>Unsubscribes from <see cref="OmniLoadingState.Changed"/> and cancels a finish in progress.</summary>
     public void Dispose()
     {
         State.Changed -= OnStateChanged;

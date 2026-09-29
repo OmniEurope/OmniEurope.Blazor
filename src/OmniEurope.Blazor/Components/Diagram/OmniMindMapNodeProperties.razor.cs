@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Components;
 /// Place it in the map's <see cref="OmniMindMap.PanelContent"/>. It shows nothing while no single
 /// node is selected. Every edit is a change of the map, raised through
 /// <see cref="OmniMindMap.DocumentChanged"/> and undone with the rest of the history. When the
-/// reader asks to rename a node and the host handles no <see cref="OmniMindMap.NodeRenameRequested"/>,
+/// reader asks to rename a node and the host handles no <see cref="OmniMindMap.OnNodeRename"/>,
 /// the focus moves to the text field of this panel.
 /// </remarks>
 public partial class OmniMindMapNodeProperties : IDisposable
@@ -61,6 +61,8 @@ public partial class OmniMindMapNodeProperties : IDisposable
         }
     }
 
+    /// <summary>Subscribes to the changes and rename requests of the enclosing map, leaving a previous map first.</summary>
+    /// <exception cref="InvalidOperationException">The panel is not inside an <see cref="OmniMindMap"/>.</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -74,6 +76,7 @@ public partial class OmniMindMapNodeProperties : IDisposable
         }
     }
 
+    /// <summary>Stops listening to the map.</summary>
     public void Dispose()
     {
         Unsubscribe();

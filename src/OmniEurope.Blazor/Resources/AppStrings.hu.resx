@@ -18,15 +18,25 @@
   <data name="SettingsTextSize" xml:space="preserve"><value>Szövegméret</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Sűrűség</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Vezérlők mérete</value></data>
-  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Vezérlők</value></data>
-  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Szöveg</value></data>
-  <data name="SettingsDensityShort" xml:space="preserve"><value>Sűrűség</value></data>
-  <data name="SettingsScale" xml:space="preserve"><value>Méretek</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Alapértelmezett</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>alapértelmezett</value></data>
-  <data name="SettingsDecrease" xml:space="preserve"><value>Csökkentés</value></data>
-  <data name="SettingsIncrease" xml:space="preserve"><value>Növelés</value></data>
+  <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Szövegméret csökkentése</value></data>
+  <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Szövegméret növelése</value></data>
+  <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Vezérlők méretének csökkentése</value></data>
+  <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Vezérlők méretének növelése</value></data>
+  <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
+  <data name="SettingsLook" xml:space="preserve"><value>Téma és méretek</value></data>
+  <data name="SettingsLookTitle" xml:space="preserve"><value>Téma, paletta és méretek</value></data>
+  <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Szöveg {1} · {2}</value></data>
+  <data name="SettingsLookSummaryFull" xml:space="preserve"><value>{0} · Szöveg {1} · {2} · Vezérlők {3}</value></data>
+  <data name="DensityCompact" xml:space="preserve"><value>Tömör</value></data>
+  <data name="DensityComfortable" xml:space="preserve"><value>Kényelmes</value></data>
+  <data name="DensitySpacious" xml:space="preserve"><value>Tágas</value></data>
   <data name="ArcGaugeLabel" xml:space="preserve"><value>Mérőműszer</value></data>
+  <data name="LabelValuePair" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="ChartCategoryColumn" xml:space="preserve"><value>Kategória</value></data>
+  <data name="ChartValueColumn" xml:space="preserve"><value>Érték</value></data>
+  <data name="ChartSeriesFallback" xml:space="preserve"><value>{0}. sorozat</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>A keresés nem sikerült. Módosítsa a bevitelt az újrapróbáláshoz.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>1 találat érhető el.</value></data>
   <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} találat érhető el.</value></data>
@@ -81,8 +91,6 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Összes sor kibontása vagy összecsukása</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Rögzített oszlopok feloldása</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Oszlopok újbóli rögzítése</value></data>
-  <data name="GridShrinkColumn" xml:space="preserve"><value>{0} oszlop keskenyítése</value></data>
-  <data name="GridGrowColumn" xml:space="preserve"><value>{0} oszlop szélesítése</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Első oldal</value></data>
   <data name="PagerLast" xml:space="preserve"><value>Utolsó oldal</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Sorok oldalanként</value></data>
@@ -344,6 +352,10 @@
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Profilmenü</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Folyamat</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>Folyamatban</value></data>
+  <data name="TextAreaCount" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="HeaderHome" xml:space="preserve"><value>Kezdőlap</value></data>
+  <data name="HeaderLogo" xml:space="preserve"><value>Logó</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>A választógombos kijelölés érvénytelen.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>A mező kitöltése kötelező.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Előző időszak</value></data>
@@ -362,6 +374,7 @@
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} a helyén marad.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} áthelyezve ide: {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>A szegmentált kijelölés érvénytelen.</value></data>
+  <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>A választás érvénytelen.</value></data>
   <data name="RatingLabel" xml:space="preserve"><value>Értékelés</value></data>
   <data name="RatingStar" xml:space="preserve"><value>{0} / {1}</value></data>
   <data name="RatingValue" xml:space="preserve"><value>{0}: {1} / {2}</value></data>
@@ -447,8 +460,9 @@
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, kezdés: {1}, időtartam:</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Megerősítés</value></data>
   <data name="GoBack" xml:space="preserve"><value>Vissza</value></data>
-  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Jelvények és műveletek megjelenítése</value></data>
-  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Jelvények és műveletek elrejtése</value></data>
+  <data name="PageHeaderShowMore" xml:space="preserve"><value>Továbbiak</value></data>
+  <data name="PageHeaderScrollTitleStart" xml:space="preserve"><value>Cím görgetése az elejére</value></data>
+  <data name="PageHeaderScrollTitleEnd" xml:space="preserve"><value>Cím görgetése a végére</value></data>
   <data name="DetailNotFound" xml:space="preserve"><value>Az elem nem található</value></data>
   <data name="SignIn" xml:space="preserve"><value>Bejelentkezés</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Megszakadt a kapcsolat</value></data>
@@ -481,6 +495,15 @@
   <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} hónap</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} év</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} év</value></data>
+  <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} mp</value></data>
+  <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} perc</value></data>
+  <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} óra</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} nap</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} nap</value></data>
+  <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} hónap</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} hónap</value></data>
+  <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} év</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} év</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Aláhúzott</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Áthúzott</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Beágyazott kód</value></data>

@@ -29,7 +29,7 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniScheduler
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-scheduler.js";
+    private const string ModulePath = OmniModules.Scheduler;
 
     private CancellationTokenSource? _loadCancellation;
     private int _loadGeneration;
@@ -128,6 +128,11 @@ public partial class OmniScheduler
     private IReadOnlyList<OmniSchedulerAppointment> SourceItems => Load is null ? Items : _loadedItems;
     private IReadOnlyList<OmniSchedulerAppointment> LocalAppointments => SourceItems.Select(ToLocal).ToArray();
 
+    /// <summary>
+    /// Adopts a new <see cref="Date"/> (the default value means today, from the component clock) or
+    /// <see cref="View"/> from the host, a navigation of the user staying while the host passes the same
+    /// values. Drops a drag in progress when moving is no longer handled or its appointment left <see cref="Items"/>.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -152,6 +157,11 @@ public partial class OmniScheduler
         }
     }
 
+    /// <summary>
+    /// With <see cref="Load"/> set, loads the appointments again when the visible range (moved by the date
+    /// or the view) or the loader changed since the last load started, cancelling a load still running.
+    /// </summary>
+    /// <returns>A task that completes once the load is done.</returns>
     protected override async Task OnParametersSetAsync()
     {
         // Keyed on the last load started, not the last one that succeeded: a range, view or loader
@@ -163,6 +173,12 @@ public partial class OmniScheduler
         }
     }
 
+    /// <summary>
+    /// Once appointments can move (<see cref="OnAppointmentMove"/> handled), loads and attaches the drag
+    /// script; a lost circuit is ignored.
+    /// </summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the script is attached.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         // The script only gives each drag the data some browsers require before they start one; a
@@ -463,7 +479,7 @@ public partial class OmniScheduler
         {
             "omni-scheduler__appointment",
             carried ? "omni-scheduler__appointment--moving" : null,
-            appointment.CssClass
+            appointment.Class
         }.Where(part => !string.IsNullOrWhiteSpace(part)));
     }
 

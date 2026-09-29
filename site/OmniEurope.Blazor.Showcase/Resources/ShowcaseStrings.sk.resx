@@ -35,7 +35,7 @@
   <data name="PillarA11yTitle" xml:space="preserve"><value>Prístupnosť podložená testami</value></data>
   <data name="PillarA11yBody" xml:space="preserve"><value>Roly, stavy a popisy overuje sada testov, nielen dokumentácia.</value></data>
   <data name="PillarWeightTitle" xml:space="preserve"><value>Strážená veľkosť</value></data>
-  <data name="PillarWeightBody" xml:space="preserve"><value>Publikovaný balík sa pri každom zostavení meria voči rozpočtu bajtov, vrátane šablóny štýlov.</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Priebežná integrácia overuje, že dodávaná šablóna štýlov je minifikovaná kópia, a meria zostavenie aj balík NuGet voči rozpočtu veľkosti.</value></data>
   <data name="DocsPageTitle" xml:space="preserve"><value>Dokumentácia</value></data>
   <data name="DocsTitle" xml:space="preserve"><value>Dokumentácia</value></data>
   <data name="DocsLead" xml:space="preserve"><value>Od inštalácie balíka po prvý vlastný motív, v piatich krokoch.</value></data>
@@ -579,4 +579,919 @@
   <data name="VFormNotSaved" xml:space="preserve"><value>Pred uložením opravte označené polia.</value></data>
   <data name="VFormDescriptionValue" xml:space="preserve"><value>Nasadí hlavnú vetvu po úspešnom absolvovaní akceptačných testov.</value></data>
   <data name="GridFiledColumn" xml:space="preserve"><value>Dátum podania</value></data>
+  <data name="DemoGridOpenCases" xml:space="preserve"><value>Otvorené spisy</value></data>
+  <data name="DemoGridRecentRuns" xml:space="preserve"><value>Nedávne spustenia</value></data>
+  <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Dlhý text v úzkom stĺpci</value></data>
+  <data name="DemoGridShortCaption" xml:space="preserve"><value>Tri spisy, výška podľa obsahu</value></data>
+  <data name="DemoGridLongCaption" xml:space="preserve"><value>Desaťtisíc spisov, strop 18rem</value></data>
+  <data name="DemoGridColumnReference" xml:space="preserve"><value>Značka</value></data>
+  <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Žiadateľ</value></data>
+  <data name="DemoGridColumnCountry" xml:space="preserve"><value>Krajina</value></data>
+  <data name="DemoGridColumnAmount" xml:space="preserve"><value>Suma</value></data>
+  <data name="DemoGridCountryBelgium" xml:space="preserve"><value>Belgicko</value></data>
+  <data name="DemoGridCountryFrance" xml:space="preserve"><value>Francúzsko</value></data>
+  <data name="DemoGridCountryLuxembourg" xml:space="preserve"><value>Luxembursko</value></data>
+  <data name="DemoGridCountryNetherlands" xml:space="preserve"><value>Holandsko</value></data>
+  <data name="DemoGridStatusPending" xml:space="preserve"><value>Čaká</value></data>
+  <data name="DemoGridExportFileName" xml:space="preserve"><value>otvorene-spisy</value></data>
+  <data name="DemoGridExportSort" xml:space="preserve"><value>Triedenie</value></data>
+  <data name="DemoGridExportSortValue" xml:space="preserve"><value>značka, vzostupne</value></data>
+  <data name="DemoGridAdvancedLines" xml:space="preserve"><value>Čiary mriežky</value></data>
+  <data name="DemoGridAdvancedDensity" xml:space="preserve"><value>Hustota</value></data>
+  <data name="DemoGridAdvancedPager" xml:space="preserve"><value>Stránkovanie</value></data>
+  <data name="DemoGridAdvancedSelection" xml:space="preserve"><value>Výber</value></data>
+  <data name="DemoGridAdvancedFilters" xml:space="preserve"><value>Filtre</value></data>
+  <data name="DemoGridAdvancedEdit" xml:space="preserve"><value>Úpravy</value></data>
+  <data name="DemoGridAdvancedExpand" xml:space="preserve"><value>Rozbaľovanie</value></data>
+  <data name="DemoGridAdvancedFooter" xml:space="preserve"><value>Päta tabuľky</value></data>
+  <data name="DemoGridAdvancedLinesNone" xml:space="preserve"><value>Žiadne</value></data>
+  <data name="DemoGridAdvancedLinesHorizontal" xml:space="preserve"><value>Vodorovné</value></data>
+  <data name="DemoGridAdvancedLinesVertical" xml:space="preserve"><value>Zvislé</value></data>
+  <data name="DemoGridAdvancedLinesBoth" xml:space="preserve"><value>Oboje</value></data>
+  <data name="DemoGridAdvancedDensityCompact" xml:space="preserve"><value>Kompaktná</value></data>
+  <data name="DemoGridAdvancedDensityComfortable" xml:space="preserve"><value>Pohodlná</value></data>
+  <data name="DemoGridAdvancedDensitySpacious" xml:space="preserve"><value>Vzdušná</value></data>
+  <data name="DemoGridAdvancedPagerBottom" xml:space="preserve"><value>Dole</value></data>
+  <data name="DemoGridAdvancedPagerTop" xml:space="preserve"><value>Hore</value></data>
+  <data name="DemoGridAdvancedPagerBoth" xml:space="preserve"><value>Hore aj dole</value></data>
+  <data name="DemoGridAdvancedSelectionNone" xml:space="preserve"><value>Žiadny</value></data>
+  <data name="DemoGridAdvancedSelectionSingle" xml:space="preserve"><value>Jeden riadok</value></data>
+  <data name="DemoGridAdvancedSelectionMultiple" xml:space="preserve"><value>Viac riadkov</value></data>
+  <data name="DemoGridAdvancedFilterSimple" xml:space="preserve"><value>Pole v hlavičke</value></data>
+  <data name="DemoGridAdvancedFilterSimpleWithMenu" xml:space="preserve"><value>Pole a ponuka</value></data>
+  <data name="DemoGridAdvancedFilterAdvanced" xml:space="preserve"><value>Ponuka s dvoma podmienkami</value></data>
+  <data name="DemoGridAdvancedEditSingle" xml:space="preserve"><value>Jeden riadok naraz</value></data>
+  <data name="DemoGridAdvancedEditMultiple" xml:space="preserve"><value>Viac riadkov</value></data>
+  <data name="DemoGridAdvancedExpandSingle" xml:space="preserve"><value>Jedna otvorená skupina</value></data>
+  <data name="DemoGridAdvancedExpandMultiple" xml:space="preserve"><value>Viac otvorených skupín</value></data>
+  <data name="DemoGridAdvancedFooterBottom" xml:space="preserve"><value>Pod tabuľkou</value></data>
+  <data name="DemoGridAdvancedFooterTop" xml:space="preserve"><value>Nad tabuľkou</value></data>
+  <data name="DemoGridAdvancedFooterBoth" xml:space="preserve"><value>Nad aj pod tabuľkou</value></data>
+  <data name="DemoGridAdvancedCaption" xml:space="preserve"><value>Spisy, úplné zobrazenie</value></data>
+  <data name="DemoGridAdvancedTotal" xml:space="preserve"><value>Spolu: {0:C0}</value></data>
+  <data name="DemoGridAdvancedRetained" xml:space="preserve"><value>Vybrané riadky: {0}</value></data>
+  <data name="DemoGridAdvancedRetainedNone" xml:space="preserve"><value>žiadne</value></data>
+  <data name="DemoDataListEmpty" xml:space="preserve"><value>Na tejto strane nie sú žiadne spisy.</value></data>
+  <data name="DemoDataListLoading" xml:space="preserve"><value>Načítavajú sa spisy.</value></data>
+  <data name="DemoDataListPager" xml:space="preserve"><value>Stránkovanie spisov</value></data>
+  <data name="DemoDataListLog" xml:space="preserve"><value>Protokol spracovania</value></data>
+  <data name="DemoDataListKanban" xml:space="preserve"><value>Sledovanie spisov</value></data>
+  <data name="DemoDataListColumnNew" xml:space="preserve"><value>Na posúdenie</value></data>
+  <data name="DemoDataListColumnReview" xml:space="preserve"><value>Prebieha</value></data>
+  <data name="DemoDataListColumnDone" xml:space="preserve"><value>Hotovo</value></data>
+  <data name="DemoDataListLogSearch" xml:space="preserve"><value>Vyhľadávanie spisu</value></data>
+  <data name="DemoDataListLogConnected" xml:space="preserve"><value>Pripojenie nadviazané</value></data>
+  <data name="DemoDataListLogStarted" xml:space="preserve"><value>Spracovanie začaté</value></data>
+  <data name="DemoDataListLogMissing" xml:space="preserve"><value>Chýbajúci dokument</value></data>
+  <data name="DemoDataListLogRejected" xml:space="preserve"><value>Schválenie zamietnuté</value></data>
+  <data name="DemoDataListLogAborted" xml:space="preserve"><value>Spracovanie prerušené</value></data>
+  <data name="DemoChartChartTitle" xml:space="preserve"><value>Podané spisy podľa štvrťrokov</value></data>
+  <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Štvrťrok</value></data>
+  <data name="DemoChartAxisCases" xml:space="preserve"><value>Spisy</value></data>
+  <data name="DemoChartQuarter" xml:space="preserve"><value>Q{0}</value></data>
+  <data name="DemoChartsExtendedMonthlyTitle" xml:space="preserve"><value>Mesačný vývoj</value></data>
+  <data name="DemoChartsExtendedMonthlyDescription" xml:space="preserve"><value>Hodnota pri prejdení a z klávesnice</value></data>
+  <data name="DemoChartsExtendedAxisMonth" xml:space="preserve"><value>Mesiac</value></data>
+  <data name="DemoChartsExtendedDeposits" xml:space="preserve"><value>Podania</value></data>
+  <data name="DemoChartsExtendedDecisions" xml:space="preserve"><value>Rozhodnutia</value></data>
+  <data name="DemoChartsExtendedLegend" xml:space="preserve"><value>Rady</value></data>
+  <data name="DemoChartsExtendedDailyTitle" xml:space="preserve"><value>Denná návštevnosť za tridsať dní</value></data>
+  <data name="DemoChartsExtendedPageViews" xml:space="preserve"><value>Zobrazenia stránok za deň</value></data>
+  <data name="DemoChartsExtendedVisitors" xml:space="preserve"><value>Unikátni návštevníci za deň</value></data>
+  <data name="DemoChartsExtendedStackedTitle" xml:space="preserve"><value>Skladané rozdelenie</value></data>
+  <data name="DemoChartsExtendedIncoming" xml:space="preserve"><value>Prichádzajúce</value></data>
+  <data name="DemoChartsExtendedOutgoing" xml:space="preserve"><value>Odchádzajúce</value></data>
+  <data name="DemoChartsExtendedBacklog" xml:space="preserve"><value>Nevybavené</value></data>
+  <data name="DemoChartsExtendedHorizontalTitle" xml:space="preserve"><value>Vodorovné porovnanie</value></data>
+  <data name="DemoChartsExtendedByCountry" xml:space="preserve"><value>Spisy podľa krajiny</value></data>
+  <data name="DemoChartsExtendedStackedBarsTitle" xml:space="preserve"><value>Vybavené a čakajúce spisy podľa krajiny</value></data>
+  <data name="DemoChartsExtendedProcessed" xml:space="preserve"><value>Vybavené</value></data>
+  <data name="DemoChartsExtendedPending" xml:space="preserve"><value>Čakajúce</value></data>
+  <data name="DemoChartsExtendedPieTitle" xml:space="preserve"><value>Podiel podľa pôvodu</value></data>
+  <data name="DemoChartsExtendedDonutTitle" xml:space="preserve"><value>Podiel podľa pôvodu, ako prstenec</value></data>
+  <data name="DemoChartsExtendedOrigin" xml:space="preserve"><value>Pôvod</value></data>
+  <data name="DemoChartsExtendedGauge" xml:space="preserve"><value>Miera vybavenia</value></data>
+  <data name="DemoChartsExtendedSliceCounter" xml:space="preserve"><value>Priehradka</value></data>
+  <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Pošta</value></data>
+  <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Online</value></data>
+  <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Iné</value></data>
+  <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Harmonogram projektu</value></data>
+  <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Zobrazená mierka: {0}</value></data>
+  <data name="DemoPlanningScaleDay" xml:space="preserve"><value>deň</value></data>
+  <data name="DemoPlanningScaleWeek" xml:space="preserve"><value>týždeň</value></data>
+  <data name="DemoPlanningScaleMonth" xml:space="preserve"><value>mesiac</value></data>
+  <data name="DemoPlanningMonthHeading" xml:space="preserve"><value>Rovnaký harmonogram, po mesiacoch a bez skupín</value></data>
+  <data name="DemoPlanningMonthLabel" xml:space="preserve"><value>Mesačný harmonogram</value></data>
+  <data name="DemoPlanningDayLabel" xml:space="preserve"><value>Denný harmonogram</value></data>
+  <data name="DemoPlanningRunHeading" xml:space="preserve"><value>Priebeh spustenia</value></data>
+  <data name="DemoPlanningRunLabel" xml:space="preserve"><value>Spustenie {0}</value></data>
+  <data name="DemoPlanningTimelineHeading" xml:space="preserve"><value>Časová os vľavo, potom striedavo z každej strany</value></data>
+  <data name="DemoPlanningTimelineStart" xml:space="preserve"><value>Časová os vľavo</value></data>
+  <data name="DemoPlanningTimelineAlternateStart" xml:space="preserve"><value>Striedavá časová os, začiatok vľavo</value></data>
+  <data name="DemoPlanningTimelineAlternateEnd" xml:space="preserve"><value>Striedavá časová os, začiatok vpravo</value></data>
+  <data name="DemoPlanningFiled" xml:space="preserve"><value>Podanie</value></data>
+  <data name="DemoPlanningFiledText" xml:space="preserve"><value>Spis bol zaevidovaný.</value></data>
+  <data name="DemoPlanningReview" xml:space="preserve"><value>Posudzovanie</value></data>
+  <data name="DemoPlanningReviewText" xml:space="preserve"><value>Bol určený referent.</value></data>
+  <data name="DemoPlanningDecision" xml:space="preserve"><value>Rozhodnutie</value></data>
+  <data name="DemoPlanningDecisionText" xml:space="preserve"><value>Rozhodnutie bolo oznámené.</value></data>
+  <data name="DemoPlanningGroupDesign" xml:space="preserve"><value>Návrh</value></data>
+  <data name="DemoPlanningGroupBuild" xml:space="preserve"><value>Realizácia</value></data>
+  <data name="DemoPlanningTaskScoping" xml:space="preserve"><value>Vymedzenie rozsahu</value></data>
+  <data name="DemoPlanningTaskMockups" xml:space="preserve"><value>Návrhy obrazoviek</value></data>
+  <data name="DemoPlanningTaskProofreading" xml:space="preserve"><value>Korektúra</value></data>
+  <data name="DemoPlanningTaskDevelopment" xml:space="preserve"><value>Vývoj</value></data>
+  <data name="DemoPlanningTaskAcceptance" xml:space="preserve"><value>Akceptačné testy</value></data>
+  <data name="DemoSchedulerView" xml:space="preserve"><value>Zobrazenie</value></data>
+  <data name="DemoSchedulerTimeGrid" xml:space="preserve"><value>Časová mriežka od 8:00 do 18:00</value></data>
+  <data name="DemoSchedulerViewDay" xml:space="preserve"><value>Deň</value></data>
+  <data name="DemoSchedulerViewWeek" xml:space="preserve"><value>Týždeň</value></data>
+  <data name="DemoSchedulerViewMonth" xml:space="preserve"><value>Mesiac</value></data>
+  <data name="DemoSchedulerCaseReview" xml:space="preserve"><value>Posúdenie spisu</value></data>
+  <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Posudzovacia komisia</value></data>
+  <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Týždenná porada</value></data>
+  <data name="DemoSchedulerRoom" xml:space="preserve"><value>Miestnosť {0}</value></data>
+  <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Plynulý stĺpec</value></data>
+  <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Plná šírka na malej obrazovke, tretina na veľkej.</value></data>
+  <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Karta s hlavičkou</value></data>
+  <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>Hlavička, telo a päta sú tri samostatné zóny.</value></data>
+  <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>Karta môže mať len telo.</value></data>
+  <data name="DemoLayoutStart" xml:space="preserve"><value>Začiatok</value></data>
+  <data name="DemoLayoutMiddle" xml:space="preserve"><value>Stred</value></data>
+  <data name="DemoLayoutEnd" xml:space="preserve"><value>Koniec</value></data>
+  <data name="DemoLayoutFieldGroup" xml:space="preserve"><value>Skupina polí</value></data>
+  <data name="DemoLayoutOne" xml:space="preserve"><value>Jeden</value></data>
+  <data name="DemoLayoutTwo" xml:space="preserve"><value>Dva</value></data>
+  <data name="DemoLayoutAdvanced" xml:space="preserve"><value>Pokročilé nastavenia</value></data>
+  <data name="DemoLayoutAdvancedText" xml:space="preserve"><value>Skupina zbalená pri otvorení, ktorú si čitateľ rozbalí, keď ju potrebuje.</value></data>
+  <data name="DemoLayoutTracked" xml:space="preserve"><value>Sledované možnosti</value></data>
+  <data name="DemoLayoutTrackedText" xml:space="preserve"><value>Stránka pozná stav zbalenia a môže si ho zapamätať.</value></data>
+  <data name="DemoLayoutDisabledGroup" xml:space="preserve"><value>Zakázaná skupina</value></data>
+  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Všetko, čo táto skupina obsahuje, prestane fungovať jedným krokom.</value></data>
+  <data name="DemoLayoutAlignStart" xml:space="preserve"><value>Zarovnané na začiatok</value></data>
+  <data name="DemoLayoutAlignCenter" xml:space="preserve"><value>Na stred</value></data>
+  <data name="DemoLayoutAlignEnd" xml:space="preserve"><value>Zarovnané na koniec</value></data>
+  <data name="DemoLayoutTop" xml:space="preserve"><value>Hore</value></data>
+  <data name="DemoLayoutTopText" xml:space="preserve"><value>Karta vyššia ako jej susedky.</value></data>
+  <data name="DemoLayoutBottom" xml:space="preserve"><value>Dole</value></data>
+  <data name="DemoLayoutBottomText" xml:space="preserve"><value>Štítok sa usadí pri spodku radu.</value></data>
+  <data name="DemoLayoutStretched" xml:space="preserve"><value>Roztiahnuté</value></data>
+  <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Obe karty majú rovnakú výšku.</value></data>
+  <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Schváliť spis</value></data>
+  <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtrovať dokumenty</value></data>
+  <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Uzavrieť žiadosť</value></data>
+  <data name="DemoLayoutNotifications" xml:space="preserve"><value>Oznámenia</value></data>
+  <data name="DemoLayoutNotificationsText" xml:space="preserve"><value>Na čo vás aplikácia upozorňuje a ako.</value></data>
+  <data name="DemoLayoutEmailAlerts" xml:space="preserve"><value>Upozornenia e-mailom</value></data>
+  <data name="DemoLayoutEmailAlertsText" xml:space="preserve"><value>Správa pri každej zmene stavu.</value></data>
+  <data name="DemoLayoutWeeklyDigest" xml:space="preserve"><value>Týždenný súhrn</value></data>
+  <data name="DemoLayoutWeeklyDigestText" xml:space="preserve"><value>Spisy za týždeň, v pondelok ráno.</value></data>
+  <data name="DemoLayoutServerName" xml:space="preserve"><value>Názov servera</value></data>
+  <data name="DemoLayoutServerNameText" xml:space="preserve"><value>Viditeľný v konzole.</value></data>
+  <data name="DemoLayoutIdentifierReadOnly" xml:space="preserve"><value>Identifikátor, len na čítanie</value></data>
+  <data name="DemoLayoutZoneDisabled" xml:space="preserve"><value>Zóna, zakázaná</value></data>
+  <data name="DemoLayoutLockedRestore" xml:space="preserve"><value>Uzamknuté obnovenie</value></data>
+  <data name="DemoLayoutSave" xml:space="preserve"><value>Uložiť</value></data>
+  <data name="DemoLayoutCancel" xml:space="preserve"><value>Zrušiť</value></data>
+  <data name="DemoLayoutDeployed" xml:space="preserve"><value>Nasadenie dokončené</value></data>
+  <data name="DemoLayoutDeployedText" xml:space="preserve"><value>Verzia 1.0.1 je v prevádzke.</value></data>
+  <data name="DemoLayoutEachChange" xml:space="preserve"><value>Pri každej zmene.</value></data>
+  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Vzdušné upozornenie na pohodlnej stránke.</value></data>
+  <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>Kompaktné karty</value></data>
+  <data name="DemoLayoutGeneral" xml:space="preserve"><value>Všeobecné</value></data>
+  <data name="DemoLayoutGeneralText" xml:space="preserve"><value>Všeobecné nastavenia.</value></data>
+  <data name="DemoLayoutSecurity" xml:space="preserve"><value>Zabezpečenie</value></data>
+  <data name="DemoLayoutSecurityText" xml:space="preserve"><value>Prístup a tokeny.</value></data>
+  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Vzdušná dlaždica</value></data>
+  <data name="DemoLayoutOwnDensity" xml:space="preserve"><value>Vlastná hustota.</value></data>
+  <data name="DemoLayoutTrackedExpanded" xml:space="preserve"><value>Sledované možnosti: rozbalené</value></data>
+  <data name="DemoLayoutTrackedCollapsed" xml:space="preserve"><value>Sledované možnosti: zbalené</value></data>
+  <data name="DemoLayoutGapNone1" xml:space="preserve"><value>Bez</value></data>
+  <data name="DemoLayoutGapNone2" xml:space="preserve"><value>medzery</value></data>
+  <data name="DemoLayoutGapXSmall1" xml:space="preserve"><value>Veľmi</value></data>
+  <data name="DemoLayoutGapXSmall2" xml:space="preserve"><value>tesná</value></data>
+  <data name="DemoLayoutGapSmall1" xml:space="preserve"><value>Tesná</value></data>
+  <data name="DemoLayoutGapSmall2" xml:space="preserve"><value>malá</value></data>
+  <data name="DemoLayoutGapMedium1" xml:space="preserve"><value>Bežná</value></data>
+  <data name="DemoLayoutGapMedium2" xml:space="preserve"><value>stredná</value></data>
+  <data name="DemoLayoutGapLarge1" xml:space="preserve"><value>Vzdušná</value></data>
+  <data name="DemoLayoutGapLarge2" xml:space="preserve"><value>veľká</value></data>
+  <data name="DemoLayoutGapXLarge1" xml:space="preserve"><value>Veľmi</value></data>
+  <data name="DemoLayoutGapXLarge2" xml:space="preserve"><value>vzdušná</value></data>
+  <data name="DemoLayoutDensityCompact" xml:space="preserve"><value>Kompaktná</value></data>
+  <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Pohodlná</value></data>
+  <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Vzdušná</value></data>
+  <data name="DemoLayoutAlertCount" xml:space="preserve"><value>Upozornenia: {0}</value></data>
+  <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Zvýraznený nadpis</value></data>
+  <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Tlmený nadpis</value></data>
+  <data name="DemoTypographyParagraph" xml:space="preserve"><value>Bežný odsek v základnej veľkosti motívu.</value></data>
+  <data name="DemoTypographySecondary" xml:space="preserve"><value>Vedľajší odsek pre sprievodný text, ktorý nenesie informáciu.</value></data>
+  <data name="DemoTypographyError" xml:space="preserve"><value>Chybová poznámka</value></data>
+  <data name="DemoTypographyStrong" xml:space="preserve"><value>Dôležitý text</value></data>
+  <data name="DemoTypographyEmphasis" xml:space="preserve"><value>Zdôraznený text</value></data>
+  <data name="DemoTypographySuccess" xml:space="preserve"><value>Priaznivý stav</value></data>
+  <data name="DemoTypographyTruncated" xml:space="preserve"><value>Dlhý text, ktorý komponent skráti tromi bodkami, keď chýba miesto, namiesto toho, aby rozťahoval rozloženie alebo nepredvídateľne zalamoval riadky.</value></data>
+  <data name="DemoTypographyLabel" xml:space="preserve"><value>Popis prepojený s poľom</value></data>
+  <data name="DemoTypographyInternalLink" xml:space="preserve"><value>Interný odkaz</value></data>
+  <data name="DemoTypographyExternalLink" xml:space="preserve"><value>Externý odkaz</value></data>
+  <data name="DemoTypographyLevelHeading" xml:space="preserve"><value>Nadpis úrovne {0}</value></data>
+  <data name="DemoThemesAppearanceWindow" xml:space="preserve"><value>Okno vzhľadu</value></data>
+  <data name="DemoAppShellMinimize" xml:space="preserve"><value>Minimalizovať okno</value></data>
+  <data name="DemoAppShellMaximize" xml:space="preserve"><value>Maximalizovať alebo obnoviť okno</value></data>
+  <data name="DemoAppShellClose" xml:space="preserve"><value>Zavrieť okno</value></data>
+  <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Navigačná cesta</value></data>
+  <data name="DemoNavigationHome" xml:space="preserve"><value>Domov</value></data>
+  <data name="DemoNavigationComponents" xml:space="preserve"><value>Komponenty</value></data>
+  <data name="DemoNavigationCurrent" xml:space="preserve"><value>Navigácia</value></data>
+  <data name="DemoNavigationSections" xml:space="preserve"><value>Sekcie spisu</value></data>
+  <data name="DemoNavigationTabSummary" xml:space="preserve"><value>Súhrn</value></data>
+  <data name="DemoNavigationDocuments" xml:space="preserve"><value>Dokumenty</value></data>
+  <data name="DemoNavigationDocumentsText" xml:space="preserve"><value>Každý dokument nesie dátum podania.</value></data>
+  <data name="DemoNavigationHistory" xml:space="preserve"><value>História</value></data>
+  <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Dvanásť zaznamenaných pohybov.</value></data>
+  <data name="DemoNavigationProgress" xml:space="preserve"><value>Postup spisu</value></data>
+  <data name="DemoNavigationFiling" xml:space="preserve"><value>Podanie</value></data>
+  <data name="DemoNavigationFilingText" xml:space="preserve"><value>Dokumenty boli prijaté.</value></data>
+  <data name="DemoNavigationReview" xml:space="preserve"><value>Posudzovanie</value></data>
+  <data name="DemoNavigationReviewText" xml:space="preserve"><value>Spis sa práve posudzuje.</value></data>
+  <data name="DemoNavigationDecision" xml:space="preserve"><value>Rozhodnutie</value></data>
+  <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Rozhodnutie bude oznámené poštou.</value></data>
+  <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Počet dokumentov v spise: {0}.</value></data>
+  <data name="DemoPagesReload" xml:space="preserve"><value>Znova načítať záznam</value></data>
+  <data name="DemoPagesMissing" xml:space="preserve"><value>Záznam sa nenašiel</value></data>
+  <data name="DemoPagesNotFound" xml:space="preserve"><value>Požadovaný záznam bol odstránený alebo nikdy neexistoval.</value></data>
+  <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuálny počítač v zóne Paríž.</value></data>
+  <data name="DemoPagesOnline" xml:space="preserve"><value>Online</value></data>
+  <data name="DemoPagesEdit" xml:space="preserve"><value>Upraviť</value></data>
+  <data name="DemoPagesRemove" xml:space="preserve"><value>Odobrať</value></data>
+  <data name="DemoPagesDuplicate" xml:space="preserve"><value>Duplikovať</value></data>
+  <data name="DemoPagesArchive" xml:space="preserve"><value>Archivovať</value></data>
+  <data name="DemoPagesProduction" xml:space="preserve"><value>Produkcia</value></data>
+  <data name="DemoPagesName" xml:space="preserve"><value>Názov</value></data>
+  <data name="DemoPagesSystem" xml:space="preserve"><value>Systém</value></data>
+  <data name="DemoPagesIpAddress" xml:space="preserve"><value>Adresa IP</value></data>
+  <data name="DemoPagesToken" xml:space="preserve"><value>Prístupový token</value></data>
+  <data name="DemoPagesLastSignal" xml:space="preserve"><value>Posledný signál</value></data>
+  <data name="DemoPagesCertificate" xml:space="preserve"><value>Certifikát</value></data>
+  <data name="DemoPagesNoBackup" xml:space="preserve"><value>Žiadne zálohy</value></data>
+  <data name="DemoPagesNoBackupText" xml:space="preserve"><value>Plánované zálohy sa tu zobrazia po prvom spustení.</value></data>
+  <data name="DemoPagesSchedule" xml:space="preserve"><value>Naplánovať</value></data>
+  <data name="DemoPagesNoResult" xml:space="preserve"><value>Žiadne výsledky</value></data>
+  <data name="DemoPagesNoResultText" xml:space="preserve"><value>Filtru nezodpovedá žiadny server.</value></data>
+  <data name="DemoPagesHideToken" xml:space="preserve"><value>Skryť token</value></data>
+  <data name="DemoPagesShowToken" xml:space="preserve"><value>Zobraziť token</value></data>
+  <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1} tis.</value></data>
+  <data name="DemoPagesTokensToday" xml:space="preserve"><value>Tokeny dnes</value></data>
+  <data name="DemoPagesTokensReset" xml:space="preserve"><value>Obnovenie o {0:t}</value></data>
+  <data name="DemoPagesWeekly" xml:space="preserve"><value>Týždenne</value></data>
+  <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Komponenty</value></data>
+  <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Servery</value></data>
+  <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Server</value></data>
+  <data name="DemoBadgesNeutral" xml:space="preserve"><value>Neutrálny</value></data>
+  <data name="DemoBadgesAccent" xml:space="preserve"><value>Akcent</value></data>
+  <data name="DemoBadgesInfo" xml:space="preserve"><value>Informácia</value></data>
+  <data name="DemoBadgesSuccess" xml:space="preserve"><value>Úspech</value></data>
+  <data name="DemoBadgesWarning" xml:space="preserve"><value>Upozornenie</value></data>
+  <data name="DemoBadgesDanger" xml:space="preserve"><value>Nebezpečenstvo</value></data>
+  <data name="DemoBadgesDraft" xml:space="preserve"><value>Koncept</value></data>
+  <data name="DemoBadgesOutline" xml:space="preserve"><value>Obrys</value></data>
+  <data name="DemoBadgesApproved" xml:space="preserve"><value>Schválené</value></data>
+  <data name="DemoBadgesPending" xml:space="preserve"><value>Čaká</value></data>
+  <data name="DemoBadgesRejected" xml:space="preserve"><value>Zamietnuté</value></data>
+  <data name="DemoBadgesNew" xml:space="preserve"><value>Nový</value></data>
+  <data name="DemoBadgesInReview" xml:space="preserve"><value>V revízii</value></data>
+  <data name="DemoBadgesPublished" xml:space="preserve"><value>Publikované</value></data>
+  <data name="DemoBadgesFailed" xml:space="preserve"><value>Zlyhanie</value></data>
+  <data name="DemoBadgesFixedSize" xml:space="preserve"><value>Pevná veľkosť</value></data>
+  <data name="DemoAlertsMaintenance" xml:space="preserve"><value>Údržba</value></data>
+  <data name="DemoAlertsMaintenanceText" xml:space="preserve"><value>Služba bude v nedeľu od 2:00 do 4:00 nedostupná.</value></data>
+  <data name="DemoAlertsPublished" xml:space="preserve"><value>Balík publikovaný</value></data>
+  <data name="DemoAlertsPublishedText" xml:space="preserve"><value>OmniEurope.Blazor je k dispozícii na NuGet.org.</value></data>
+  <data name="DemoAlertsCertificate" xml:space="preserve"><value>Certifikát čoskoro vyprší</value></data>
+  <data name="DemoAlertsFailure" xml:space="preserve"><value>Zlyhanie</value></data>
+  <data name="DemoAlertsFailureText" xml:space="preserve"><value>Pripojenie k službe zlyhalo.</value></data>
+  <data name="DemoAlertsInfo" xml:space="preserve"><value>Informácia</value></data>
+  <data name="DemoAlertsInfoText" xml:space="preserve"><value>Knižnica číta všetky svoje farby z premenných CSS.</value></data>
+  <data name="DemoAlertsSaved" xml:space="preserve"><value>Uložené</value></data>
+  <data name="DemoAlertsSavedText" xml:space="preserve"><value>Zmeny boli použité.</value></data>
+  <data name="DemoAlertsNew" xml:space="preserve"><value>Novinka</value></data>
+  <data name="DemoAlertsNewText" xml:space="preserve"><value>Štítky a upozornenia teraz zdieľajú rovnakú výplň.</value></data>
+  <data name="DemoAlertsCaution" xml:space="preserve"><value>Pozor</value></data>
+  <data name="DemoAlertsCautionText" xml:space="preserve"><value>Toto nastavenie sa použije na všetkých stránkach.</value></data>
+  <data name="DemoAlertsTooLarge" xml:space="preserve"><value>Súbor prekračuje povolenú veľkosť.</value></data>
+  <data name="DemoAlertsTip" xml:space="preserve"><value>Tip</value></data>
+  <data name="DemoAlertsTipText" xml:space="preserve"><value>Toto upozornenie sa zatvára krížikom.</value></data>
+  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Do vypršania podpisového certifikátu zostáva dní: {0}.</value></data>
+  <data name="DemoButtonsSecondary" xml:space="preserve"><value>Sekundárne</value></data>
+  <data name="DemoButtonsGhost" xml:space="preserve"><value>Nenápadné</value></data>
+  <data name="DemoButtonsApprove" xml:space="preserve"><value>Schváliť</value></data>
+  <data name="DemoButtonsSuspend" xml:space="preserve"><value>Pozastaviť</value></data>
+  <data name="DemoButtonsDetails" xml:space="preserve"><value>Podrobnosti</value></data>
+  <data name="DemoButtonsDelete" xml:space="preserve"><value>Odstrániť</value></data>
+  <data name="DemoButtonsUnavailable" xml:space="preserve"><value>Nedostupné</value></data>
+  <data name="DemoButtonsSaving" xml:space="preserve"><value>Ukladanie</value></data>
+  <data name="DemoButtonsSave" xml:space="preserve"><value>Uložiť</value></data>
+  <data name="DemoButtonsPublish" xml:space="preserve"><value>Publikovať</value></data>
+  <data name="DemoButtonsPin" xml:space="preserve"><value>Pripnúť</value></data>
+  <data name="DemoButtonsSmall" xml:space="preserve"><value>Malé</value></data>
+  <data name="DemoButtonsMedium" xml:space="preserve"><value>Stredné</value></data>
+  <data name="DemoButtonsLarge" xml:space="preserve"><value>Veľké</value></data>
+  <data name="DemoButtonsSearch" xml:space="preserve"><value>Hľadať</value></data>
+  <data name="DemoButtonsPublishLater" xml:space="preserve"><value>Publikovať neskôr</value></data>
+  <data name="DemoButtonsDraft" xml:space="preserve"><value>Koncept</value></data>
+  <data name="DemoButtonsPreview" xml:space="preserve"><value>Náhľad</value></data>
+  <data name="DemoButtonsView" xml:space="preserve"><value>Zobraziť</value></data>
+  <data name="DemoButtonsSend" xml:space="preserve"><value>Odoslať</value></data>
+  <data name="DemoButtonsReset" xml:space="preserve"><value>Obnoviť predvolené</value></data>
+  <data name="DemoButtonsNoFormEffect" xml:space="preserve"><value>Bez vplyvu na formulár</value></data>
+  <data name="DemoButtonsPrimary" xml:space="preserve"><value>Primárne</value></data>
+  <data name="DemoButtonsClicks" xml:space="preserve"><value>Kliknutia na primárne tlačidlo: {0}.</value></data>
+  <data name="DemoButtonsSent" xml:space="preserve"><value>Odoslania formulára: {0}.</value></data>
+  <data name="DemoFeedbackUpload" xml:space="preserve"><value>Nahrávanie</value></data>
+  <data name="DemoFeedbackIndexing" xml:space="preserve"><value>Indexovanie</value></data>
+  <data name="DemoFeedbackSync" xml:space="preserve"><value>Synchronizácia</value></data>
+  <data name="DemoFeedbackProcessed" xml:space="preserve"><value>Vybavené spisy</value></data>
+  <data name="DemoFeedbackQuotaNear" xml:space="preserve"><value>Kvóta čoskoro vyčerpaná</value></data>
+  <data name="DemoFeedbackImportFailures" xml:space="preserve"><value>Neúspešné importy</value></data>
+  <data name="DemoFeedbackAnalysing" xml:space="preserve"><value>Prebieha analýza</value></data>
+  <data name="DemoFeedbackProgress" xml:space="preserve"><value>Priebeh</value></data>
+  <data name="DemoFeedbackNoKnownEnd" xml:space="preserve"><value>Bez známeho konca</value></data>
+  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>Kvóta sa počíta za kĺzavých tridsať dní.</value></data>
+  <data name="DemoFeedbackQuota" xml:space="preserve"><value>Kvóta</value></data>
+  <data name="DemoFeedbackArchivedTooltip" xml:space="preserve"><value>Archivovaný spis zostáva dostupný len na čítanie.</value></data>
+  <data name="DemoFeedbackArchived" xml:space="preserve"><value>Archivované</value></data>
+  <data name="DemoFeedbackDraftTooltip" xml:space="preserve"><value>Koncept.</value></data>
+  <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Úzka</value></data>
+  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Archivovaný spis zostáva dostupný len na čítanie. Už sa nezapočítava do kvót, nezobrazuje sa v predvolenom vyhľadávaní a nedostáva oznámenia. Ak ho chcete znova otvoriť, správca ho obnoví z karty Archív; jeho história, prílohy a komentáre sa potom vrátia neporušené, spolu s dátumom obnovenia.</value></data>
+  <data name="DemoFeedbackLongText" xml:space="preserve"><value>Dlhý text</value></data>
+  <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>Popis balíka na obyčajnom atribúte title.</value></data>
+  <data name="DemoFeedbackHover" xml:space="preserve"><value>Prejdite myšou</value></data>
+  <data name="DemoFeedbackLoadingAvatar" xml:space="preserve"><value>Načítanie avatara</value></data>
+  <data name="DemoFeedbackLoadingThumbnail" xml:space="preserve"><value>Načítanie miniatúry</value></data>
+  <data name="DemoFeedbackLoadingFile" xml:space="preserve"><value>Načítanie spisu</value></data>
+  <data name="DemoFeedbackLoadingDemo" xml:space="preserve"><value>Načítanie ukážky</value></data>
+  <data name="DemoFeedbackSimulateLoad" xml:space="preserve"><value>Simulovať načítanie</value></data>
+  <data name="DemoFeedbackRecentRuns" xml:space="preserve"><value>Posledné spustenia</value></data>
+  <data name="DemoFeedbackAvailability" xml:space="preserve"><value>Dostupnosť za posledné hodiny</value></data>
+  <data name="DemoFeedbackReady" xml:space="preserve"><value>Pripravené</value></data>
+  <data name="DemoFeedbackFailed" xml:space="preserve"><value>Zlyhanie</value></data>
+  <data name="DemoFeedbackRunSucceeded" xml:space="preserve"><value>Spustenie {0} úspešné</value></data>
+  <data name="DemoFeedbackRunWarning" xml:space="preserve"><value>Spustenie {0} s upozornením</value></data>
+  <data name="DemoFeedbackRunFailed" xml:space="preserve"><value>Spustenie {0} neúspešné</value></data>
+  <data name="DemoFeedbackSucceeded" xml:space="preserve"><value>Úspešné</value></data>
+  <data name="DemoFeedbackWarning" xml:space="preserve"><value>Upozornenie</value></data>
+  <data name="DemoMediaImageContain" xml:space="preserve"><value>Celý obrázok bez orezu</value></data>
+  <data name="DemoMediaImageCover" xml:space="preserve"><value>Obrázok orezaný tak, aby vyplnil rámček</value></data>
+  <data name="DemoMediaImageNatural" xml:space="preserve"><value>Obrázok v prirodzenej veľkosti</value></data>
+  <data name="DemoMediaTimeline" xml:space="preserve"><value>Fázy spisu</value></data>
+  <data name="DemoMediaFiling" xml:space="preserve"><value>Podanie</value></data>
+  <data name="DemoMediaFilingText" xml:space="preserve"><value>Spis bol zaevidovaný.</value></data>
+  <data name="DemoMediaReview" xml:space="preserve"><value>Posudzovanie</value></data>
+  <data name="DemoMediaReviewText" xml:space="preserve"><value>Bol určený referent.</value></data>
+  <data name="DemoMediaDecision" xml:space="preserve"><value>Rozhodnutie</value></data>
+  <data name="DemoMediaDecisionText" xml:space="preserve"><value>Rozhodnutie bolo oznámené.</value></data>
+  <data name="DemoMediaIconCheck" xml:space="preserve"><value>Overené</value></data>
+  <data name="DemoMediaIconWarning" xml:space="preserve"><value>Pozor</value></data>
+  <data name="DemoMediaIconFilter" xml:space="preserve"><value>Filtrovať</value></data>
+  <data name="DemoMediaIconCompass" xml:space="preserve"><value>Kompas</value></data>
+  <data name="DemoMediaIconClose" xml:space="preserve"><value>Zavrieť</value></data>
+  <data name="DemoMediaIconInfo" xml:space="preserve"><value>Informácia</value></data>
+  <data name="DemoMediaIconMenu" xml:space="preserve"><value>Ponuka</value></data>
+  <data name="DemoMediaIconChevronDown" xml:space="preserve"><value>Rozbaliť</value></data>
+  <data name="DemoMediaIconSortAscending" xml:space="preserve"><value>Vzostupné triedenie</value></data>
+  <data name="DemoMediaIconSortDescending" xml:space="preserve"><value>Zostupné triedenie</value></data>
+  <data name="DemoMediaIconThemeLight" xml:space="preserve"><value>Svetlý vzhľad</value></data>
+  <data name="DemoMediaIconThemeDark" xml:space="preserve"><value>Tmavý vzhľad</value></data>
+  <data name="DemoMediaIconAdd" xml:space="preserve"><value>Pridať</value></data>
+  <data name="DemoMediaIconAirplane" xml:space="preserve"><value>Lietadlo</value></data>
+  <data name="DemoMediaIconAirplaneLanding" xml:space="preserve"><value>Pristátie</value></data>
+  <data name="DemoMediaIconAirplaneTakeoff" xml:space="preserve"><value>Vzlet</value></data>
+  <data name="DemoMediaIconArchive" xml:space="preserve"><value>Archivovať</value></data>
+  <data name="DemoMediaIconArrowLeft" xml:space="preserve"><value>Späť</value></data>
+  <data name="DemoMediaIconArrowRight" xml:space="preserve"><value>Ďalej</value></data>
+  <data name="DemoMediaIconBed" xml:space="preserve"><value>Ubytovanie</value></data>
+  <data name="DemoMediaIconBell" xml:space="preserve"><value>Oznámenia</value></data>
+  <data name="DemoMediaIconBracketsCurly" xml:space="preserve"><value>Údaje JSON</value></data>
+  <data name="DemoMediaIconCalculator" xml:space="preserve"><value>Kalkulačka</value></data>
+  <data name="DemoMediaIconCards" xml:space="preserve"><value>Karty</value></data>
+  <data name="DemoMediaIconChartBarHorizontal" xml:space="preserve"><value>Poradie</value></data>
+  <data name="DemoMediaIconChat" xml:space="preserve"><value>Správa</value></data>
+  <data name="DemoMediaIconCheckCircle" xml:space="preserve"><value>Úspešné</value></data>
+  <data name="DemoMediaIconChevronUp" xml:space="preserve"><value>Zbaliť</value></data>
+  <data name="DemoMediaIconCopy" xml:space="preserve"><value>Kopírovať</value></data>
+  <data name="DemoMediaIconDatabase" xml:space="preserve"><value>Databáza</value></data>
+  <data name="DemoMediaIconDelete" xml:space="preserve"><value>Odstrániť</value></data>
+  <data name="DemoMediaIconDiamond" xml:space="preserve"><value>Drahokam</value></data>
+  <data name="DemoMediaIconDice" xml:space="preserve"><value>Žrebovanie</value></data>
+  <data name="DemoMediaIconDocument" xml:space="preserve"><value>Dokument</value></data>
+  <data name="DemoMediaIconDownload" xml:space="preserve"><value>Stiahnuť</value></data>
+  <data name="DemoMediaIconEdit" xml:space="preserve"><value>Upraviť</value></data>
+  <data name="DemoMediaIconError" xml:space="preserve"><value>Chyba</value></data>
+  <data name="DemoMediaIconFlask" xml:space="preserve"><value>Skúška</value></data>
+  <data name="DemoMediaIconFunction" xml:space="preserve"><value>Vzorec</value></data>
+  <data name="DemoMediaIconGlobe" xml:space="preserve"><value>Svet</value></data>
+  <data name="DemoMediaIconGlobeHemisphereWest" xml:space="preserve"><value>Cestovanie</value></data>
+  <data name="DemoMediaIconGraduationCap" xml:space="preserve"><value>Trieda</value></data>
+  <data name="DemoMediaIconGraph" xml:space="preserve"><value>Väzby</value></data>
+  <data name="DemoMediaIconHome" xml:space="preserve"><value>Domov</value></data>
+  <data name="DemoMediaIconHourglass" xml:space="preserve"><value>Čakanie</value></data>
+  <data name="DemoMediaIconImage" xml:space="preserve"><value>Obrázok</value></data>
+  <data name="DemoMediaIconLayers" xml:space="preserve"><value>Vrstvy</value></data>
+  <data name="DemoMediaIconMapPin" xml:space="preserve"><value>Miesto</value></data>
+  <data name="DemoMediaIconMapPinLine" xml:space="preserve"><value>Import miest</value></data>
+  <data name="DemoMediaIconMedal" xml:space="preserve"><value>Poradie</value></data>
+  <data name="DemoMediaIconMonitor" xml:space="preserve"><value>Zobrazenie</value></data>
+  <data name="DemoMediaIconNumberedList" xml:space="preserve"><value>Číslovaný zoznam</value></data>
+  <data name="DemoMediaIconOffline" xml:space="preserve"><value>Offline</value></data>
+  <data name="DemoMediaIconOpenExternal" xml:space="preserve"><value>Otvoriť inde</value></data>
+  <data name="DemoMediaIconPackage" xml:space="preserve"><value>Predmet</value></data>
+  <data name="DemoMediaIconPalette" xml:space="preserve"><value>Farby</value></data>
+  <data name="DemoMediaIconPath" xml:space="preserve"><value>Trasa</value></data>
+  <data name="DemoMediaIconPattern" xml:space="preserve"><value>Vzor</value></data>
+  <data name="DemoMediaIconPictureInPicture" xml:space="preserve"><value>Obraz v obraze</value></data>
+  <data name="DemoMediaIconPin" xml:space="preserve"><value>Pripnúť</value></data>
+  <data name="DemoMediaIconPlay" xml:space="preserve"><value>Spustiť</value></data>
+  <data name="DemoMediaIconProhibit" xml:space="preserve"><value>Zakázané</value></data>
+  <data name="DemoMediaIconRefresh" xml:space="preserve"><value>Aktualizovať</value></data>
+  <data name="DemoMediaIconRemove" xml:space="preserve"><value>Odobrať</value></data>
+  <data name="DemoMediaIconReset" xml:space="preserve"><value>Obnoviť predvolené</value></data>
+  <data name="DemoMediaIconRestore" xml:space="preserve"><value>Obnoviť z archívu</value></data>
+  <data name="DemoMediaIconRows" xml:space="preserve"><value>Hustota</value></data>
+  <data name="DemoMediaIconRuler" xml:space="preserve"><value>Meranie</value></data>
+  <data name="DemoMediaIconSave" xml:space="preserve"><value>Uložiť</value></data>
+  <data name="DemoMediaIconSearch" xml:space="preserve"><value>Hľadať</value></data>
+  <data name="DemoMediaIconSettings" xml:space="preserve"><value>Nastavenia</value></data>
+  <data name="DemoMediaIconShieldCheck" xml:space="preserve"><value>Správa</value></data>
+  <data name="DemoMediaIconSidebar" xml:space="preserve"><value>Bočný panel</value></data>
+  <data name="DemoMediaIconSliders" xml:space="preserve"><value>Pokročilé filtre</value></data>
+  <data name="DemoMediaIconSparkle" xml:space="preserve"><value>Novinka</value></data>
+  <data name="DemoMediaIconStar" xml:space="preserve"><value>Obľúbené</value></data>
+  <data name="DemoMediaIconStarFilled" xml:space="preserve"><value>Aktívne obľúbené</value></data>
+  <data name="DemoMediaIconSwap" xml:space="preserve"><value>Vymeniť</value></data>
+  <data name="DemoMediaIconSync" xml:space="preserve"><value>Synchronizovať</value></data>
+  <data name="DemoMediaIconTag" xml:space="preserve"><value>Štítok</value></data>
+  <data name="DemoMediaIconTextSize" xml:space="preserve"><value>Veľkosť textu</value></data>
+  <data name="DemoMediaIconThemeSystem" xml:space="preserve"><value>Systémový vzhľad</value></data>
+  <data name="DemoMediaIconTimer" xml:space="preserve"><value>Časovač</value></data>
+  <data name="DemoMediaIconUpgrade" xml:space="preserve"><value>Vylepšenie</value></data>
+  <data name="DemoMediaIconUpload" xml:space="preserve"><value>Nahrať</value></data>
+  <data name="DemoMediaIconUser" xml:space="preserve"><value>Osoba</value></data>
+  <data name="DemoMediaIconUserFocus" xml:space="preserve"><value>Nájsť osobu</value></data>
+  <data name="DemoMediaIconEye" xml:space="preserve"><value>Zobraziť</value></data>
+  <data name="DemoMediaIconGitCommit" xml:space="preserve"><value>Commit</value></data>
+  <data name="DemoMediaIconLock" xml:space="preserve"><value>Uzamknuté</value></data>
+  <data name="DemoMediaIconRocketLaunch" xml:space="preserve"><value>Nasadiť</value></data>
+  <data name="DemoMediaIconUsers" xml:space="preserve"><value>Skupina</value></data>
+  <data name="DemoMediaIconStop" xml:space="preserve"><value>Zastaviť</value></data>
+  <data name="DemoMediaIconListChecks" xml:space="preserve"><value>Pravidlá</value></data>
+  <data name="DemoMediaIconFolder" xml:space="preserve"><value>Priečinok</value></data>
+  <data name="DemoMediaIconQuestion" xml:space="preserve"><value>Pomocník</value></data>
+  <data name="DemoMediaIconSquaresFour" xml:space="preserve"><value>Nástenka</value></data>
+  <data name="DemoMediaIconTerminalWindow" xml:space="preserve"><value>Terminál</value></data>
+  <data name="DemoMediaIconWrench" xml:space="preserve"><value>Zostaviť</value></data>
+  <data name="DemoMediaIconKey" xml:space="preserve"><value>Kľúč</value></data>
+  <data name="DemoMediaIconBuildings" xml:space="preserve"><value>Organizácia</value></data>
+  <data name="DemoMediaIconHeartbeat" xml:space="preserve"><value>Monitorovanie</value></data>
+  <data name="DemoMediaIconCloudArrowUp" xml:space="preserve"><value>Online záloha</value></data>
+  <data name="DemoMediaIconLink" xml:space="preserve"><value>Odkaz</value></data>
+  <data name="DemoMediaIconUserPlus" xml:space="preserve"><value>Pridať osobu</value></data>
+  <data name="DemoMediaIconLayout" xml:space="preserve"><value>Rozloženie</value></data>
+  <data name="DemoMediaIconBroadcast" xml:space="preserve"><value>Vysielanie</value></data>
+  <data name="DemoMediaIconCalendarBlank" xml:space="preserve"><value>Dátum</value></data>
+  <data name="DemoMediaIconChartLineUp" xml:space="preserve"><value>Trend</value></data>
+  <data name="DemoMediaIconFolderOpen" xml:space="preserve"><value>Otvorený priečinok</value></data>
+  <data name="DemoMediaIconGitFork" xml:space="preserve"><value>Vetvenie</value></data>
+  <data name="DemoMediaIconGitMerge" xml:space="preserve"><value>Zlúčenie</value></data>
+  <data name="DemoMediaIconLockKey" xml:space="preserve"><value>Obnoviť heslo</value></data>
+  <data name="DemoMediaIconRobot" xml:space="preserve"><value>Automat</value></data>
+  <data name="DemoMediaIconArrowDown" xml:space="preserve"><value>Posunúť nadol</value></data>
+  <data name="DemoMediaIconBrain" xml:space="preserve"><value>Inteligencia</value></data>
+  <data name="DemoMediaIconCellTower" xml:space="preserve"><value>Anténa</value></data>
+  <data name="DemoMediaIconCloud" xml:space="preserve"><value>Cloud</value></data>
+  <data name="DemoMediaIconGavel" xml:space="preserve"><value>Predpisy</value></data>
+  <data name="DemoMediaIconGitDiff" xml:space="preserve"><value>Rozdiely</value></data>
+  <data name="DemoMediaIconLinkBreak" xml:space="preserve"><value>Nefunkčný odkaz</value></data>
+  <data name="DemoMediaIconLockOpen" xml:space="preserve"><value>Odomknuté</value></data>
+  <data name="DemoMediaIconPaperPlaneRight" xml:space="preserve"><value>Odoslať správu</value></data>
+  <data name="DemoMediaIconPlugsConnected" xml:space="preserve"><value>Pripojené</value></data>
+  <data name="DemoMediaIconPuzzlePiece" xml:space="preserve"><value>Rozšírenie</value></data>
+  <data name="DemoMediaIconShieldWarning" xml:space="preserve"><value>Riziko</value></data>
+  <data name="DemoMediaIconSignOut" xml:space="preserve"><value>Odhlásiť sa</value></data>
+  <data name="DemoMediaIconArrowElbowDownLeft" xml:space="preserve"><value>Zalomenie riadka</value></data>
+  <data name="DemoMediaIconBroom" xml:space="preserve"><value>Vyčistiť</value></data>
+  <data name="DemoMediaIconBug" xml:space="preserve"><value>Chyba programu</value></data>
+  <data name="DemoMediaIconChartLine" xml:space="preserve"><value>Čiarový graf</value></data>
+  <data name="DemoMediaIconChevronRight" xml:space="preserve"><value>Otvoriť</value></data>
+  <data name="DemoMediaIconCode" xml:space="preserve"><value>Kód</value></data>
+  <data name="DemoMediaIconGauge" xml:space="preserve"><value>Výkon</value></data>
+  <data name="DemoMediaIconMagnifyingGlassPlus" xml:space="preserve"><value>Priblížiť</value></data>
+  <data name="DemoMediaIconPassword" xml:space="preserve"><value>Heslo</value></data>
+  <data name="DemoMediaIconShieldSlash" xml:space="preserve"><value>Ochrana vypnutá</value></data>
+  <data name="DemoMediaIconStamp" xml:space="preserve"><value>Schválenie</value></data>
+  <data name="DemoMediaIconTextAlignLeft" xml:space="preserve"><value>Zarovnať doľava</value></data>
+  <data name="DemoMediaIconWifiHigh" xml:space="preserve"><value>Sieť</value></data>
+  <data name="DemoMediaIconArrowElbowDownRight" xml:space="preserve"><value>Podpoložka</value></data>
+  <data name="DemoMediaIconArrowLineDown" xml:space="preserve"><value>Prejsť nadol</value></data>
+  <data name="DemoMediaIconArrowLineUp" xml:space="preserve"><value>Prejsť nahor</value></data>
+  <data name="DemoMediaIconArrowUUpRight" xml:space="preserve"><value>Znova</value></data>
+  <data name="DemoMediaIconAt" xml:space="preserve"><value>E-mailová adresa</value></data>
+  <data name="DemoMediaIconBellSlash" xml:space="preserve"><value>Oznámenia stlmené</value></data>
+  <data name="DemoMediaIconBooks" xml:space="preserve"><value>Knižnica</value></data>
+  <data name="DemoMediaIconCalendarCheck" xml:space="preserve"><value>Potvrdený dátum</value></data>
+  <data name="DemoMediaIconChecks" xml:space="preserve"><value>Schváliť všetko</value></data>
+  <data name="DemoMediaIconCloudArrowDown" xml:space="preserve"><value>Stiahnuť z cloudu</value></data>
+  <data name="DemoMediaIconColumns" xml:space="preserve"><value>Stĺpce</value></data>
+  <data name="DemoMediaIconCornersOut" xml:space="preserve"><value>Prispôsobiť obrazovke</value></data>
+  <data name="DemoMediaIconDotsThreeVertical" xml:space="preserve"><value>Ďalšie akcie</value></data>
+  <data name="DemoMediaIconEyeSlash" xml:space="preserve"><value>Skryť</value></data>
+  <data name="DemoMediaIconFrameCorners" xml:space="preserve"><value>Znova vycentrovať</value></data>
+  <data name="DemoMediaIconHardDrive" xml:space="preserve"><value>Disk</value></data>
+  <data name="DemoMediaIconLightning" xml:space="preserve"><value>Rýchle</value></data>
+  <data name="DemoMediaIconMagnifyingGlassMinus" xml:space="preserve"><value>Oddialiť</value></data>
+  <data name="DemoMediaIconMegaphone" xml:space="preserve"><value>Oznam</value></data>
+  <data name="DemoMediaIconSignIn" xml:space="preserve"><value>Prihlásiť sa</value></data>
+  <data name="DemoMediaIconTarget" xml:space="preserve"><value>Cieľ</value></data>
+  <data name="DemoMediaIconToggleLeft" xml:space="preserve"><value>Vypnuté</value></data>
+  <data name="DemoMediaIconTray" xml:space="preserve"><value>Doručená pošta</value></data>
+  <data name="DemoMediaIconCpu" xml:space="preserve"><value>Procesor</value></data>
+  <data name="DemoMediaIconFilePlus" xml:space="preserve"><value>Nový súbor</value></data>
+  <data name="DemoMediaIconHandTap" xml:space="preserve"><value>Ručné spustenie</value></data>
+  <data name="DemoMediaIconPause" xml:space="preserve"><value>Pozastaviť</value></data>
+  <data name="DemoMediaIconToggleRight" xml:space="preserve"><value>Zapnuté</value></data>
+  <data name="DemoMediaIconWebhook" xml:space="preserve"><value>Webhook</value></data>
+  <data name="DemoMediaIconWifiSlash" xml:space="preserve"><value>Sieť nedostupná</value></data>
+  <data name="DemoMediaIconScissors" xml:space="preserve"><value>Vystrihnúť</value></data>
+  <data name="DemoMediaIconClipboard" xml:space="preserve"><value>Prilepiť</value></data>
+  <data name="DemoMediaIconThumbsUp" xml:space="preserve"><value>Užitočné</value></data>
+  <data name="DemoMediaIconThumbsDown" xml:space="preserve"><value>Neužitočné</value></data>
+  <data name="DemoMediaIconLightbulb" xml:space="preserve"><value>Tip</value></data>
+  <data name="DemoMediaIconKeyboard" xml:space="preserve"><value>Klávesnica</value></data>
+  <data name="DemoMediaIconFlag" xml:space="preserve"><value>Nahlásiť</value></data>
+  <data name="DemoMediaIconHighlighter" xml:space="preserve"><value>Zvýrazniť</value></data>
+  <data name="DemoMediaIconChartPie" xml:space="preserve"><value>Rozloženie</value></data>
+  <data name="DemoMediaIconChartDonut" xml:space="preserve"><value>Podiel</value></data>
+  <data name="DemoMediaIconCircle" xml:space="preserve"><value>Kruh</value></data>
+  <data name="DemoMediaIconBookmark" xml:space="preserve"><value>Záložka</value></data>
+  <data name="DemoMediaIconUserMinus" xml:space="preserve"><value>Odobrať člena</value></data>
+  <data name="DemoMediaIconSelectionSlash" xml:space="preserve"><value>Zrušiť výber</value></data>
+  <data name="DemoMediaIconSmiley" xml:space="preserve"><value>Špeciálne znaky</value></data>
+  <data name="DemoMediaIconSkipBack" xml:space="preserve"><value>Predchádzajúca skladba</value></data>
+  <data name="DemoMediaIconSkipForward" xml:space="preserve"><value>Ďalšia skladba</value></data>
+  <data name="DemoMediaIconShuffle" xml:space="preserve"><value>Náhodné prehrávanie</value></data>
+  <data name="DemoMediaIconRepeat" xml:space="preserve"><value>Opakovať</value></data>
+  <data name="DemoMediaIconRepeatOnce" xml:space="preserve"><value>Opakovať raz</value></data>
+  <data name="DemoMediaIconSpeakerHigh" xml:space="preserve"><value>Vysoká hlasitosť</value></data>
+  <data name="DemoMediaIconSpeakerLow" xml:space="preserve"><value>Nízka hlasitosť</value></data>
+  <data name="DemoMediaIconSpeakerNone" xml:space="preserve"><value>Nulová hlasitosť</value></data>
+  <data name="DemoMediaIconSpeakerX" xml:space="preserve"><value>Zvuk vypnutý</value></data>
+  <data name="DemoMediaIconQueue" xml:space="preserve"><value>Front</value></data>
+  <data name="DemoMediaIconPlaylist" xml:space="preserve"><value>Zoznam skladieb</value></data>
+  <data name="DemoMediaIconListPlus" xml:space="preserve"><value>Pridať do zoznamu</value></data>
+  <data name="DemoMediaIconMusicNote" xml:space="preserve"><value>Skladba</value></data>
+  <data name="DemoMediaIconDisc" xml:space="preserve"><value>Album</value></data>
+  <data name="DemoMediaIconWaveform" xml:space="preserve"><value>Priebeh vlny</value></data>
+  <data name="DemoMediaIconDotsSixVertical" xml:space="preserve"><value>Úchyt na presunutie</value></data>
+  <data name="DemoMediaIconCornersIn" xml:space="preserve"><value>Zmenšiť zobrazenie</value></data>
+  <data name="DemoMediaIconPlayCircle" xml:space="preserve"><value>Prehrať</value></data>
+  <data name="DemoMediaIconPauseCircle" xml:space="preserve"><value>Pauza</value></data>
+  <data name="DemoMediaIconXCircle" xml:space="preserve"><value>Zrušiť</value></data>
+  <data name="DemoMediaIconChartBar" xml:space="preserve"><value>Stĺpcový graf</value></data>
+  <data name="DemoMediaIconBookOpen" xml:space="preserve"><value>Otvorená kniha</value></data>
+  <data name="DemoMediaIconArrowsDownUp" xml:space="preserve"><value>Vymeniť zvislo</value></data>
+  <data name="DemoMediaIconFolderPlus" xml:space="preserve"><value>Nový priečinok</value></data>
+  <data name="DemoMediaIconTelevision" xml:space="preserve"><value>Obrazovka</value></data>
+  <data name="DemoMediaIconSealCheck" xml:space="preserve"><value>Overené</value></data>
+  <data name="DemoMediaIconCheckSquare" xml:space="preserve"><value>Začiarknuté políčko</value></data>
+  <data name="DemoMediaIconArrowBendUpRight" xml:space="preserve"><value>Presunúť</value></data>
+  <data name="DemoMediaIconStethoscope" xml:space="preserve"><value>Diagnostika</value></data>
+  <data name="DemoMediaIconChevronLeft" xml:space="preserve"><value>Predchádzajúci</value></data>
+  <data name="DemoMediaIconEnvelope" xml:space="preserve"><value>E-mail</value></data>
+  <data name="DemoMediaIconCurrencyEur" xml:space="preserve"><value>Suma v eurách</value></data>
+  <data name="DemoMediaIconShareNetwork" xml:space="preserve"><value>Zdieľať</value></data>
+  <data name="DemoMediaIconBank" xml:space="preserve"><value>Finančná inštitúcia</value></data>
+  <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Zákazka</value></data>
+  <data name="DemoMediaIconIdentificationBadge" xml:space="preserve"><value>Identifikačná karta</value></data>
+  <data name="DemoMediaIconFilePdf" xml:space="preserve"><value>Dokument PDF</value></data>
+  <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Podpora</value></data>
+  <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerstvo</value></data>
+  <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Rast</value></data>
+  <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Názov projektu</value></data>
+  <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>E-mail zodpovednej osoby</value></data>
+  <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>Potvrdenie e-mailu</value></data>
+  <data name="DemoAnnotatedValidationReplicas" xml:space="preserve"><value>Repliky</value></data>
+  <data name="DemoOverlayOpenDialog" xml:space="preserve"><value>Otvoriť dialóg</value></data>
+  <data name="DemoOverlaySave" xml:space="preserve"><value>Uložiť</value></data>
+  <data name="DemoOverlayMoreSaves" xml:space="preserve"><value>Ďalšie možnosti uloženia</value></data>
+  <data name="DemoOverlaySaveAndClose" xml:space="preserve"><value>Uložiť a zavrieť</value></data>
+  <data name="DemoOverlaySaveCopy" xml:space="preserve"><value>Uložiť kópiu</value></data>
+  <data name="DemoOverlayPublishUnavailable" xml:space="preserve"><value>Publikovať, nedostupné</value></data>
+  <data name="DemoOverlayFolderActions" xml:space="preserve"><value>Akcie priečinka</value></data>
+  <data name="DemoOverlayContextTrigger" xml:space="preserve"><value>Akcie (pravé tlačidlo myši alebo Shift+F10)</value></data>
+  <data name="DemoOverlayDuplicate" xml:space="preserve"><value>Duplikovať</value></data>
+  <data name="DemoOverlayExport" xml:space="preserve"><value>Exportovať</value></data>
+  <data name="DemoOverlayDelete" xml:space="preserve"><value>Odstrániť</value></data>
+  <data name="DemoOverlayDeleteFolder" xml:space="preserve"><value>Odstrániť priečinok</value></data>
+  <data name="DemoOverlayRunningTasks" xml:space="preserve"><value>Prebiehajúce úlohy</value></data>
+  <data name="DemoOverlayBackupStep" xml:space="preserve"><value>Nočná záloha, krok {0} z {1}.</value></data>
+  <data name="DemoOverlayViewProgress" xml:space="preserve"><value>Zobraziť priebeh</value></data>
+  <data name="DemoOverlayProgressOpened" xml:space="preserve"><value>Priebeh otvorený</value></data>
+  <data name="DemoOverlayQuickFilter" xml:space="preserve"><value>Rýchly filter</value></data>
+  <data name="DemoOverlayFilter" xml:space="preserve"><value>Filtrovať</value></data>
+  <data name="DemoOverlayFilterBody" xml:space="preserve"><value>Panel sa zarovná k začiatku tlačidla.</value></data>
+  <data name="DemoOverlayAccountMenu" xml:space="preserve"><value>Ponuka účtu</value></data>
+  <data name="DemoOverlayMyProfile" xml:space="preserve"><value>Môj profil</value></data>
+  <data name="DemoOverlaySignOut" xml:space="preserve"><value>Odhlásiť sa</value></data>
+  <data name="DemoOverlaySignedOut" xml:space="preserve"><value>Odhlásené</value></data>
+  <data name="DemoOverlayAdminUnavailable" xml:space="preserve"><value>Správa, nedostupné</value></data>
+  <data name="DemoOverlayStickyButton" xml:space="preserve"><value>Dialóg, ktorý ignoruje pozadie</value></data>
+  <data name="DemoOverlayBlockingButton" xml:space="preserve"><value>Dialóg s vynúteným zatvorením</value></data>
+  <data name="DemoOverlaySizeSmall" xml:space="preserve"><value>Malý</value></data>
+  <data name="DemoOverlaySizeMedium" xml:space="preserve"><value>Stredný</value></data>
+  <data name="DemoOverlaySizeLarge" xml:space="preserve"><value>Veľký</value></data>
+  <data name="DemoOverlaySizeExtraLarge" xml:space="preserve"><value>Veľmi veľký</value></data>
+  <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Plná šírka</value></data>
+  <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Šírka dialógu</value></data>
+  <data name="DemoOverlaySizedBody" xml:space="preserve"><value>Tento dialóg je otvorený vo veľkosti: {0}.</value></data>
+  <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Formulár (akcent)</value></data>
+  <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Informácia</value></data>
+  <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Úspech</value></data>
+  <data name="DemoOverlayIntentWarning" xml:space="preserve"><value>Potvrdenie (varovanie)</value></data>
+  <data name="DemoOverlayIntentDanger" xml:space="preserve"><value>Odstránenie (nebezpečenstvo)</value></data>
+  <data name="DemoOverlayIntentTitle" xml:space="preserve"><value>Parametre spustenia</value></data>
+  <data name="DemoOverlayIntentBody" xml:space="preserve"><value>Tento dialóg nesie zámer: {0}.</value></data>
+  <data name="DemoOverlayConfirm" xml:space="preserve"><value>Potvrdiť</value></data>
+  <data name="DemoOverlayCancel" xml:space="preserve"><value>Zrušiť</value></data>
+  <data name="DemoOverlayPipelineActions" xml:space="preserve"><value>Akcie pipeline</value></data>
+  <data name="DemoOverlayEdit" xml:space="preserve"><value>Upraviť</value></data>
+  <data name="DemoOverlayUpdate" xml:space="preserve"><value>Aktualizovať</value></data>
+  <data name="DemoOverlayRowActions" xml:space="preserve"><value>Akcie riadka</value></data>
+  <data name="DemoOverlayLastAction" xml:space="preserve"><value>Posledná akcia: {0}</value></data>
+  <data name="DemoOverlayNoAction" xml:space="preserve"><value>žiadna</value></data>
+  <data name="DemoOverlayNoticeInfoTitle" xml:space="preserve"><value>Informácia</value></data>
+  <data name="DemoOverlayNoticeInfo" xml:space="preserve"><value>Nočné spracovanie sa začne o {0}.</value></data>
+  <data name="DemoOverlayNoticeDoneTitle" xml:space="preserve"><value>Hotovo</value></data>
+  <data name="DemoOverlayNoticeDone" xml:space="preserve"><value>Importované dokumenty: {0}.</value></data>
+  <data name="DemoOverlayNotificationClosed" xml:space="preserve"><value>Oznámenie zatvorené</value></data>
+  <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Kvóta je takmer vyčerpaná.</value></data>
+  <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Zlyhanie</value></data>
+  <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Pripojenie k službe zlyhalo.</value></data>
+  <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Potvrdiť odstránenie</value></data>
+  <data name="DemoOverlayClose" xml:space="preserve"><value>Zavrieť</value></data>
+  <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Táto akcia odoberie priečinok zo zoznamu. Dá sa vrátiť počas tridsiatich dní.</value></data>
+  <data name="DemoOverlayDeletionConfirmed" xml:space="preserve"><value>Odstránenie potvrdené</value></data>
+  <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Prebiehajúci filter</value></data>
+  <data name="DemoOverlayStickyBody" xml:space="preserve"><value>Kliknutie vedľa tento dialóg nezatvorí: zatvorí ho krížik a kláves Esc.</value></data>
+  <data name="DemoOverlayBlockingTitle" xml:space="preserve"><value>Prebieha migrácia</value></data>
+  <data name="DemoOverlayBlockingBody" xml:space="preserve"><value>Ani krížik, ani Esc, ani pozadie: zatvorí ho len tlačidlo dialógu.</value></data>
+  <data name="DemoOverlayFinish" xml:space="preserve"><value>Dokončiť</value></data>
+  <data name="DemoOverlayMigrationDone" xml:space="preserve"><value>Migrácia dokončená</value></data>
+  <data name="DemoEditorBodyLabel" xml:space="preserve"><value>Text listu</value></data>
+  <data name="DemoEditorSourceLabel" xml:space="preserve"><value>Zdroj listu</value></data>
+  <data name="DemoEditorAnnotatedLabel" xml:space="preserve"><value>Článok s poznámkami</value></data>
+  <data name="DemoEditorPosition" xml:space="preserve"><value>Pozícia: {0}</value></data>
+  <data name="DemoEditorOutsideText" xml:space="preserve"><value>mimo textu</value></data>
+  <data name="DemoEditorRoot" xml:space="preserve"><value>koreň</value></data>
+  <data name="DemoEditorExtendedLabel" xml:space="preserve"><value>Komentované stanovisko</value></data>
+  <data name="DemoEditorReportLabel" xml:space="preserve"><value>Správa</value></data>
+  <data name="DemoEditorReportFileName" xml:space="preserve"><value>sprava</value></data>
+  <data name="DemoEditorCodeLabel" xml:space="preserve"><value>Nastavenia JSON</value></data>
+  <data name="DemoEditorIconBold" xml:space="preserve"><value>Tučné</value></data>
+  <data name="DemoEditorIconItalic" xml:space="preserve"><value>Kurzíva</value></data>
+  <data name="DemoEditorIconUnderline" xml:space="preserve"><value>Podčiarknutie</value></data>
+  <data name="DemoEditorIconStrikethrough" xml:space="preserve"><value>Prečiarknutie</value></data>
+  <data name="DemoEditorIconSubscript" xml:space="preserve"><value>Dolný index</value></data>
+  <data name="DemoEditorIconSuperscript" xml:space="preserve"><value>Horný index</value></data>
+  <data name="DemoEditorIconBulletList" xml:space="preserve"><value>Zoznam s odrážkami</value></data>
+  <data name="DemoEditorIconIndent" xml:space="preserve"><value>Zväčšiť odsadenie</value></data>
+  <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Zmenšiť odsadenie</value></data>
+  <data name="DemoEditorIconQuote" xml:space="preserve"><value>Citácia</value></data>
+  <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Vložený kód</value></data>
+  <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Blok kódu</value></data>
+  <data name="DemoEditorIconLink" xml:space="preserve"><value>Odkaz</value></data>
+  <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Odstrániť odkaz</value></data>
+  <data name="DemoEditorIconAlignLeft" xml:space="preserve"><value>Zarovnať doľava</value></data>
+  <data name="DemoEditorIconAlignCenter" xml:space="preserve"><value>Zarovnať na stred</value></data>
+  <data name="DemoEditorIconAlignRight" xml:space="preserve"><value>Zarovnať doprava</value></data>
+  <data name="DemoEditorIconJustify" xml:space="preserve"><value>Zarovnať do bloku</value></data>
+  <data name="DemoEditorIconUndo" xml:space="preserve"><value>Späť</value></data>
+  <data name="DemoEditorIconRedo" xml:space="preserve"><value>Znova</value></data>
+  <data name="DemoEditorIconClearFormatting" xml:space="preserve"><value>Vymazať formátovanie</value></data>
+  <data name="DemoEditorIconHtmlSource" xml:space="preserve"><value>Zdrojový kód HTML</value></data>
+  <data name="DemoEditorIconTable" xml:space="preserve"><value>Tabuľka</value></data>
+  <data name="DemoEditorManifest" xml:space="preserve"><value>Manifest nasadenia</value></data>
+  <data name="DemoEditorManifestHelp" xml:space="preserve"><value>Jeden súbor, otvorí systémové okno výberu.</value></data>
+  <data name="DemoEditorUploadFailed" xml:space="preserve"><value>Nahrávanie zlyhalo.</value></data>
+  <data name="DemoEditorUploaded" xml:space="preserve"><value>Nahrané súbory: {0}</value></data>
+  <data name="DemoEditorNoUpload" xml:space="preserve"><value>žiadne</value></data>
+  <data name="DemoEditorTestCommand" xml:space="preserve"><value>Testovací príkaz</value></data>
+  <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Ukážka konfigurácie</value></data>
+  <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Výňatok, riadky {0} až {1}</value></data>
+  <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Porovnať dve konfigurácie</value></data>
+  <data name="DemoEditorSignatureText" xml:space="preserve"><value>Oddelenie spisov</value></data>
+  <data name="DemoEditorReferenceText" xml:space="preserve"><value>Značka: {0}</value></data>
+  <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Vložiť blok podpisu</value></data>
+  <data name="DemoEditorAddSignature" xml:space="preserve"><value>Pridať podpis</value></data>
+  <data name="DemoEditorInsertReference" xml:space="preserve"><value>Vložiť značku</value></data>
+  <data name="DemoEditorAddNote" xml:space="preserve"><value>Pridať poznámku</value></data>
+  <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>Nová poznámka.</value></data>
+  <data name="DemoEditorNewNote" xml:space="preserve"><value>Nová poznámka</value></data>
+  <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Odobrať poznámku</value></data>
+  <data name="DemoEditorArticleText" xml:space="preserve"><value>Článok 1. Tento poriadok sa vzťahuje na prijaté spisy.</value></data>
+  <data name="DemoEditorArticleDelay" xml:space="preserve"><value>Lehota</value></data>
+  <data name="DemoEditorArticleDocument" xml:space="preserve"><value>Dokument</value></data>
+  <data name="DemoEditorArticleDays" xml:space="preserve"><value>Počet dní: {0}</value></data>
+  <data name="DemoEditorArticleForm" xml:space="preserve"><value>Formulár</value></data>
+  <data name="DemoEditorArticleNote" xml:space="preserve"><value>Poznámka: konsolidované znenie k 1. januáru.</value></data>
+  <data name="DemoEditorOpinion" xml:space="preserve"><value>Kladné stanovisko s výhradou{0}.</value></data>
+  <data name="DemoEditorOpinionNote" xml:space="preserve"><value>overiť lehotu</value></data>
+  <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>s výhradou</value></data>
+  <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> overenia</value></data>
+  <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Toto je {0} odsek.</value></data>
+  <data name="DemoEditorReportImportant" xml:space="preserve"><value>dôležitý</value></data>
+  <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Prvý bod</value></data>
+  <data name="DemoEditorReportSecondPoint" xml:space="preserve"><value>Druhý bod</value></data>
+  <data name="DemoEditorBodyGreeting" xml:space="preserve"><value>Vážená pani, vážený pán,</value></data>
+  <data name="DemoEditorBodyText" xml:space="preserve"><value>Váš spis bol prijatý.</value></data>
+  <data name="DemoEditorEmptyFile" xml:space="preserve"><value>Jeden zo súborov je prázdny.</value></data>
+  <data name="DemoChoiceShippingLabel" xml:space="preserve"><value>Spôsob odoslania</value></data>
+  <data name="DemoChoiceExtrasLabel" xml:space="preserve"><value>Možnosti spisu</value></data>
+  <data name="DemoChoicePeriodLabel" xml:space="preserve"><value>Obdobie</value></data>
+  <data name="DemoChoicePin" xml:space="preserve"><value>Pripnúť</value></data>
+  <data name="DemoChoiceUnavailable" xml:space="preserve"><value>Nedostupné</value></data>
+  <data name="DemoChoiceSaving" xml:space="preserve"><value>Ukladanie</value></data>
+  <data name="DemoChoiceLabelledCheck" xml:space="preserve"><value>Začiarkavacie políčko s popisom</value></data>
+  <data name="DemoChoiceTriStateCheck" xml:space="preserve"><value>Začiarkavacie políčko s tromi stavmi</value></data>
+  <data name="DemoChoiceTriStateSwitch" xml:space="preserve"><value>Prepínač s tromi stavmi</value></data>
+  <data name="DemoChoiceTriStateValue" xml:space="preserve"><value>Trojpolohový stav: {0}</value></data>
+  <data name="DemoChoiceIndeterminate" xml:space="preserve"><value>neurčitý</value></data>
+  <data name="DemoChoiceOn" xml:space="preserve"><value>zapnuté</value></data>
+  <data name="DemoChoiceOff" xml:space="preserve"><value>vypnuté</value></data>
+  <data name="DemoChoiceTextFirstCheck" xml:space="preserve"><value>Popis pred políčkom</value></data>
+  <data name="DemoChoiceTextFirstSwitch" xml:space="preserve"><value>Popis pred prepínačom</value></data>
+  <data name="DemoChoicePlatformLabel" xml:space="preserve"><value>Operačný systém agenta</value></data>
+  <data name="DemoChoiceWindowsDescription" xml:space="preserve"><value>Windows Server 2022 a novší</value></data>
+  <data name="DemoChoiceFeaturesLabel" xml:space="preserve"><value>Funkcie agenta</value></data>
+  <data name="DemoChoiceRunnerTitle" xml:space="preserve"><value>Spúšťač pipeline</value></data>
+  <data name="DemoChoiceRunnerDescription" xml:space="preserve"><value>Spúšťa kroky na tomto počítači.</value></data>
+  <data name="DemoChoiceDockerDescription" xml:space="preserve"><value>Vyžadované spúšťačom.</value></data>
+  <data name="DemoChoiceRating" xml:space="preserve"><value>Hodnotenie</value></data>
+  <data name="DemoChoiceRatingReadOnly" xml:space="preserve"><value>Hodnotenie len na čítanie</value></data>
+  <data name="DemoChoiceRatingDisabled" xml:space="preserve"><value>Zakázané hodnotenie</value></data>
+  <data name="DemoChoiceShippingStandard" xml:space="preserve"><value>Štandardný</value></data>
+  <data name="DemoChoiceShippingExpress" xml:space="preserve"><value>Expresný</value></data>
+  <data name="DemoChoiceShippingPickup" xml:space="preserve"><value>Vyzdvihnutie na pobočke</value></data>
+  <data name="DemoChoiceExtraReceipt" xml:space="preserve"><value>Doručenka</value></data>
+  <data name="DemoChoiceExtraCertifiedCopy" xml:space="preserve"><value>Overená kópia</value></data>
+  <data name="DemoChoiceExtraTracking" xml:space="preserve"><value>Sledovanie e-mailom</value></data>
+  <data name="DemoChoicePeriodDay" xml:space="preserve"><value>Deň</value></data>
+  <data name="DemoChoicePeriodMonth" xml:space="preserve"><value>Mesiac</value></data>
+  <data name="DemoChoicePeriodYear" xml:space="preserve"><value>Rok</value></data>
+  <data name="DemoChoiceFeatureCache" xml:space="preserve"><value>Vyrovnávacia pamäť závislostí</value></data>
+  <data name="DemoChoiceFeatureArtifacts" xml:space="preserve"><value>Uchovávanie artefaktov</value></data>
+  <data name="DemoChoiceFeatureGpu" xml:space="preserve"><value>Akcelerácia GPU</value></data>
+  <data name="DemoInputsAmount" xml:space="preserve"><value>Suma</value></data>
+  <data name="DemoInputsQuantity" xml:space="preserve"><value>Množstvo</value></data>
+  <data name="DemoInputsQuantityHelp" xml:space="preserve"><value>Od {0} do {1}: hodnota mimo rozsahu sa vráti k najbližšej hranici.</value></data>
+  <data name="DemoInputsPassword" xml:space="preserve"><value>Heslo</value></data>
+  <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Tlačidlo zobrazí zadaný text bez toho, aby ho niekam kopírovalo.</value></data>
+  <data name="DemoInputsDate" xml:space="preserve"><value>Dátum účinnosti</value></data>
+  <data name="DemoInputsDateHelp" xml:space="preserve"><value>Zadajte klávesnicou alebo v kalendári; dni mimo rozsahu nemožno vybrať.</value></data>
+  <data name="DemoInputsStart" xml:space="preserve"><value>Čas začiatku</value></data>
+  <data name="DemoInputsStartHelp" xml:space="preserve"><value>Hodiny od 00 do 23, minúty po {0}.</value></data>
+  <data name="DemoInputsAppointment" xml:space="preserve"><value>Stretnutie</value></data>
+  <data name="DemoInputsAppointmentHelp" xml:space="preserve"><value>Kalendár a stĺpce času v jednom paneli.</value></data>
+  <data name="DemoInputsColor" xml:space="preserve"><value>Farba značky</value></data>
+  <data name="DemoInputsCity" xml:space="preserve"><value>Mesto</value></data>
+  <data name="DemoInputsCityHelp" xml:space="preserve"><value>Vyhľadávanie začína od dvoch znakov.</value></data>
+  <data name="DemoInputsCityPlaceholder" xml:space="preserve"><value>Začnite písať</value></data>
+  <data name="DemoInputsPickedSummary" xml:space="preserve"><value>Dátum: {0}; čas: {1}; stretnutie: {2}</value></data>
+  <data name="DemoInputsNoDate" xml:space="preserve"><value>žiadny</value></data>
+  <data name="DemoInputsNoTime" xml:space="preserve"><value>žiadny</value></data>
+  <data name="DemoInputsNoAppointment" xml:space="preserve"><value>žiadne</value></data>
+  <data name="DemoFormName" xml:space="preserve"><value>Celé meno</value></data>
+  <data name="DemoFormNameHelp" xml:space="preserve"><value>Tak, ako sa zobrazí na faktúre.</value></data>
+  <data name="DemoFormNotes" xml:space="preserve"><value>Poznámky</value></data>
+  <data name="DemoFormEmail" xml:space="preserve"><value>E-mailová adresa</value></data>
+  <data name="DemoFormEmailHelp" xml:space="preserve"><value>Typ určuje mobilnú klávesnicu a automatické vypĺňanie prehliadača.</value></data>
+  <data name="DemoFormPhone" xml:space="preserve"><value>Telefón</value></data>
+  <data name="DemoFormWebsite" xml:space="preserve"><value>Webová stránka</value></data>
+  <data name="DemoFormSearch" xml:space="preserve"><value>Hľadať</value></data>
+  <data name="DemoFormSearchPlaceholder" xml:space="preserve"><value>Filtrovať zoznam</value></data>
+  <data name="DemoFormBudget" xml:space="preserve"><value>Rozpočet</value></data>
+  <data name="DemoFormTerms" xml:space="preserve"><value>Súhlasím s podmienkami používania</value></data>
+  <data name="DemoFormAlerts" xml:space="preserve"><value>Dostávať upozornenia</value></data>
+  <data name="DemoFormDynamicValues" xml:space="preserve"><value>Hodnoty formulára: {0}</value></data>
+  <data name="DemoFormDynamicName" xml:space="preserve"><value>Názov</value></data>
+  <data name="DemoFormDynamicAmount" xml:space="preserve"><value>Suma</value></data>
+  <data name="DemoFormDynamicComment" xml:space="preserve"><value>Komentár</value></data>
+  <data name="DemoFormDynamicActive" xml:space="preserve"><value>Aktívny</value></data>
+  <data name="DemoValidationName" xml:space="preserve"><value>Názov</value></data>
+  <data name="DemoValidationNameRequired" xml:space="preserve"><value>Názov je povinný.</value></data>
+  <data name="DemoValidationMail" xml:space="preserve"><value>E-mail</value></data>
+  <data name="DemoValidationMailRequired" xml:space="preserve"><value>E-mail je povinný.</value></data>
+  <data name="DemoValidationSend" xml:space="preserve"><value>Odoslať</value></data>
+  <data name="DemoValidationAccepted" xml:space="preserve"><value>Formulár bol prijatý.</value></data>
+  <data name="DemoValidationProjectName" xml:space="preserve"><value>Názov projektu</value></data>
+  <data name="DemoValidationOwnerMail" xml:space="preserve"><value>E-mail zodpovednej osoby</value></data>
+  <data name="DemoValidationMailConfirmation" xml:space="preserve"><value>Potvrdenie e-mailu</value></data>
+  <data name="DemoValidationReplicas" xml:space="preserve"><value>Repliky</value></data>
+  <data name="DemoValidationCheck" xml:space="preserve"><value>Skontrolovať</value></data>
+  <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Simulovať neuložené zmeny</value></data>
+  <data name="DemoSelectionCountry" xml:space="preserve"><value>Krajina</value></data>
+  <data name="DemoSelectionCountryPlaceholder" xml:space="preserve"><value>Vyberte krajinu</value></data>
+  <data name="DemoSelectionCities" xml:space="preserve"><value>Obsluhované mestá</value></data>
+  <data name="DemoSelectionTags" xml:space="preserve"><value>Štítky</value></data>
+  <data name="DemoSelectionTagsCompact" xml:space="preserve"><value>Štítky, kompaktná podoba</value></data>
+  <data name="DemoSelectionTagsFilterable" xml:space="preserve"><value>Štítky, vyhľadávanie a vytváranie</value></data>
+  <data name="DemoSelectionTagsPlaceholder" xml:space="preserve"><value>Vyberte štítky</value></data>
+  <data name="DemoSelectionTagSearchPlaceholder" xml:space="preserve"><value>Hľadať štítok</value></data>
+  <data name="DemoSelectionBelgium" xml:space="preserve"><value>Belgicko</value></data>
+  <data name="DemoSelectionFrance" xml:space="preserve"><value>Francúzsko</value></data>
+  <data name="DemoSelectionLuxembourg" xml:space="preserve"><value>Luxembursko</value></data>
+  <data name="DemoSelectionNetherlands" xml:space="preserve"><value>Holandsko</value></data>
+  <data name="DemoSelectionTagUrgent" xml:space="preserve"><value>Naliehavé</value></data>
+  <data name="DemoSelectionTagInternal" xml:space="preserve"><value>Interné</value></data>
+  <data name="DemoSelectionTagArchived" xml:space="preserve"><value>Archivované</value></data>
+  <data name="DemoFlowsCreateServer" xml:space="preserve"><value>Vytvoriť server</value></data>
+  <data name="DemoFlowsStepIdentity" xml:space="preserve"><value>Identita</value></data>
+  <data name="DemoFlowsNameHelp" xml:space="preserve"><value>Tlačidlo Ďalej sa sprístupní, hneď ako zadáte názov.</value></data>
+  <data name="DemoFlowsServerName" xml:space="preserve"><value>Názov servera</value></data>
+  <data name="DemoFlowsStepOptions" xml:space="preserve"><value>Možnosti</value></data>
+  <data name="DemoFlowsDailyBackup" xml:space="preserve"><value>Denná záloha</value></data>
+  <data name="DemoFlowsBackupRequired" xml:space="preserve"><value>Pri produkčnom serveri začiarknite dennú zálohu.</value></data>
+  <data name="DemoFlowsStepSummary" xml:space="preserve"><value>Súhrn</value></data>
+  <data name="DemoFlowsSummaryName" xml:space="preserve"><value>Názov</value></data>
+  <data name="DemoFlowsSummaryBackup" xml:space="preserve"><value>Záloha</value></data>
+  <data name="DemoFlowsBackupDaily" xml:space="preserve"><value>Denná</value></data>
+  <data name="DemoFlowsBackupNone" xml:space="preserve"><value>Žiadna</value></data>
+  <data name="DemoFlowsOutcome" xml:space="preserve"><value>Výsledok: {0}</value></data>
+  <data name="DemoFlowsOutcomePending" xml:space="preserve"><value>prebieha</value></data>
+  <data name="DemoFlowsOutcomeCreated" xml:space="preserve"><value>server „{0}“ vytvorený</value></data>
+  <data name="DemoFlowsOutcomeCancelled" xml:space="preserve"><value>zrušené</value></data>
+  <data name="DemoFlowsWizardInDialog" xml:space="preserve"><value>Sprievodca v dialógu</value></data>
+  <data name="DemoFlowsInviteTitle" xml:space="preserve"><value>Pozvať člena</value></data>
+  <data name="DemoFlowsInviteSteps" xml:space="preserve"><value>Kroky pozvánky</value></data>
+  <data name="DemoFlowsInvite" xml:space="preserve"><value>Pozvať</value></data>
+  <data name="DemoFlowsStepAddress" xml:space="preserve"><value>Adresa</value></data>
+  <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Adresa pozvanej osoby.</value></data>
+  <data name="DemoFlowsStepRole" xml:space="preserve"><value>Rola</value></data>
+  <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Rola, ktorú dostane.</value></data>
+  <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Administračné prostredie</value></data>
+  <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Prevádzka</value></data>
+  <data name="DemoFlowsUser" xml:space="preserve"><value>Používateľské meno</value></data>
+  <data name="DemoFlowsPassword" xml:space="preserve"><value>Heslo</value></data>
+  <data name="DemoFlowsSignIn" xml:space="preserve"><value>Prihlásiť sa</value></data>
+  <data name="DemoFlowsSignInNote" xml:space="preserve"><value>Formulár odovzdaný hostiteľovi pre „{0}“.</value></data>
+  <data name="DemoFlowsReturnAfterSignIn" xml:space="preserve"><value>Návrat po prihlásení: {0}</value></data>
+  <data name="DemoFlowsExternalRefused" xml:space="preserve"><value>Externá adresa odmietnutá: {0}</value></data>
+  <data name="DemoFlowsSimulateDrop" xml:space="preserve"><value>Simulovať výpadok</value></data>
+  <data name="DemoFlowsSimulateReject" xml:space="preserve"><value>Simulovať odmietnutie</value></data>
+  <data name="DemoFlowsConnection" xml:space="preserve"><value>Pripojenie: {0}</value></data>
+  <data name="DemoFlowsConnectionReconnecting" xml:space="preserve"><value>opätovné pripájanie</value></data>
+  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>zlyhanie</value></data>
+  <data name="DemoFlowsConnectionRejected" xml:space="preserve"><value>odmietnuté</value></data>
+  <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>nadviazané</value></data>
+  <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>server neodpovedá (vypršal časový limit)</value></data>
+  <data name="DemoFlowsReasonExpired" xml:space="preserve"><value>relácia vypršala na strane servera</value></data>
+  <data name="DemoTreeLabel" xml:space="preserve"><value>Strom priečinkov</value></data>
+  <data name="DemoTreeEurope" xml:space="preserve"><value>Európa</value></data>
+  <data name="DemoTreeBelgium" xml:space="preserve"><value>Belgicko</value></data>
+  <data name="DemoTreeCapitalText" xml:space="preserve"><value>{0}, hlavné mesto</value></data>
+  <data name="DemoTreeCapital" xml:space="preserve"><value>hlavné mesto</value></data>
+  <data name="DemoTreeFrance" xml:space="preserve"><value>Francúzsko</value></data>
+  <data name="DemoTreeLuxembourg" xml:space="preserve"><value>Luxembursko</value></data>
+  <data name="DemoTreeArchives" xml:space="preserve"><value>Archív, načítaný pri otvorení</value></data>
+  <data name="DemoTreeSelection" xml:space="preserve"><value>Výber: {0}</value></data>
+  <data name="DemoTreeNoSelection" xml:space="preserve"><value>žiadny</value></data>
+  <data name="DemoSpreadsheetLabel" xml:space="preserve"><value>Štvrťročný rozpočet</value></data>
+  <data name="DemoSpreadsheetStatus" xml:space="preserve"><value>Aktívna bunka: {0}. Súčet za štvrťrok: {1}</value></data>
+  <data name="DemoSpreadsheetReadOnlyLabel" xml:space="preserve"><value>Rovnaký rozpočet, len na čítanie</value></data>
+  <data name="DemoSpreadsheetItem" xml:space="preserve"><value>Položka</value></data>
+  <data name="DemoSpreadsheetJanuary" xml:space="preserve"><value>Január</value></data>
+  <data name="DemoSpreadsheetFebruary" xml:space="preserve"><value>Február</value></data>
+  <data name="DemoSpreadsheetMarch" xml:space="preserve"><value>Marec</value></data>
+  <data name="DemoSpreadsheetQuarter" xml:space="preserve"><value>Štvrťrok</value></data>
+  <data name="DemoSpreadsheetRent" xml:space="preserve"><value>Nájom</value></data>
+  <data name="DemoSpreadsheetGroceries" xml:space="preserve"><value>Nákupy</value></data>
+  <data name="DemoSpreadsheetEnergy" xml:space="preserve"><value>Energie</value></data>
+  <data name="DemoSpreadsheetTransport" xml:space="preserve"><value>Doprava</value></data>
+  <data name="DemoSpreadsheetLeisure" xml:space="preserve"><value>Voľný čas</value></data>
+  <data name="DemoSpreadsheetTotal" xml:space="preserve"><value>Spolu</value></data>
+  <data name="DemoSpreadsheetAverage" xml:space="preserve"><value>Priemer</value></data>
+  <data name="DemoDiagramReadOnly" xml:space="preserve"><value>Len na čítanie</value></data>
+  <data name="DemoDiagramMindMapLabel" xml:space="preserve"><value>Myšlienková mapa: príprava sťahovania</value></data>
+  <data name="DemoDiagramGitGraphLabel" xml:space="preserve"><value>História so zlúčenou vetvou</value></data>
+  <data name="DemoDiagramMapSummary" xml:space="preserve"><value>Uzly: {0}, prepojenia: {1}, znaky po uložení: {2}.</value></data>
+  <data name="DemoDiagramNewIdea" xml:space="preserve"><value>Nový nápad</value></data>
+  <data name="DemoDiagramNodeMove" xml:space="preserve"><value>Sťahovanie</value></data>
+  <data name="DemoDiagramNodePaperwork" xml:space="preserve"><value>Úradné záležitosti</value></data>
+  <data name="DemoDiagramNodeAddress" xml:space="preserve"><value>Zmena adresy</value></data>
+  <data name="DemoDiagramNodeInsurance" xml:space="preserve"><value>Poistenie domácnosti</value></data>
+  <data name="DemoDiagramNodeBoxes" xml:space="preserve"><value>Krabice</value></data>
+  <data name="DemoDiagramNodeKitchen" xml:space="preserve"><value>Kuchyňa</value></data>
+  <data name="DemoDiagramNodeBooks" xml:space="preserve"><value>Knihy</value></data>
+  <data name="DemoDiagramNodeMovingDay" xml:space="preserve"><value>Deň sťahovania</value></data>
+  <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Rezervovať dodávku</value></data>
+  <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Upozorniť susedov</value></data>
+  <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Do 15.</value></data>
 </root>

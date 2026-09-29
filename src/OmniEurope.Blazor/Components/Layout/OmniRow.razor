@@ -3,6 +3,6 @@
 
 <div @attributes="AdditionalAttributes"
      id="@Id"
-     class="@Css("omni-row", $"omni-row--gap-{Gap.ToString().ToLowerInvariant()}", $"omni-row--align-{Align.ToString().ToLowerInvariant()}", $"omni-row--justify-{Justify.ToString().ToLowerInvariant()}", Wrap ? "omni-row--wrap" : null)">
+     class="@Css("omni-row", $"omni-row--gap-{Internal.OmniSpacingTokens.Suffix(Gap)}", $"omni-row--align-{Align.ToString().ToLowerInvariant()}", $"omni-row--justify-{Justify.ToString().ToLowerInvariant()}", Wrap ? "omni-row--wrap" : null)">
     @ChildContent
 </div>

@@ -7,6 +7,7 @@ namespace OmniEurope.Blazor.Components;
 /// opens, on demand, a panel of check boxes (with an optional search field). For an always-open list,
 /// use <see cref="OmniListBox{TValue, TSelection}"/> with <c>Multiple</c>, or <see cref="OmniCheckBoxList{TValue}"/>.
 /// </summary>
+/// <typeparam name="TValue">The value of each option; the component binds a list of them.</typeparam>
 public partial class OmniMultiSelect<TValue>
 {
     private string? _filter;
@@ -14,6 +15,7 @@ public partial class OmniMultiSelect<TValue>
     private ElementReference _details;
     private OmniDisclosureDismissal? _dismissal;
 
+    /// <summary>The options, in order; the value lists the selected ones in the order they were checked.</summary>
     [Parameter, EditorRequired]
     public IReadOnlyList<OmniOption<TValue>> Options { get; set; } = Array.Empty<OmniOption<TValue>>();
 
@@ -36,6 +38,7 @@ public partial class OmniMultiSelect<TValue>
     [Parameter]
     public string? FilterText { get; set; }
 
+    /// <summary>Raised with the new search text each time the user changes it.</summary>
     [Parameter]
     public EventCallback<string?> FilterTextChanged { get; set; }
 
@@ -54,9 +57,11 @@ public partial class OmniMultiSelect<TValue>
     [Parameter]
     public RenderFragment? FooterContent { get; set; }
 
+    /// <summary>Whether the field is disabled. Off by default.</summary>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>Identifiers of the elements that describe the field, written as <c>aria-describedby</c>; none when null.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
 
@@ -119,6 +124,7 @@ public partial class OmniMultiSelect<TValue>
         }
     }
 
+    /// <summary>Takes a new <see cref="FilterText"/> from the page; text being typed stays while the page passes the same value.</summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -167,6 +173,11 @@ public partial class OmniMultiSelect<TValue>
 
     private void Clear() => CurrentValue = [];
 
+    /// <summary>Never parses: the field sets its value from the boxes checked, never from text.</summary>
+    /// <param name="value">The text, ignored.</param>
+    /// <param name="result">Always an empty list.</param>
+    /// <param name="validationErrorMessage">The localized "invalid selection" message.</param>
+    /// <returns>Always false.</returns>
     protected override bool TryParseValueFromString(string? value, out IReadOnlyList<TValue> result, out string validationErrorMessage)
     {
         result = Array.Empty<TValue>();
@@ -174,12 +185,17 @@ public partial class OmniMultiSelect<TValue>
         return false;
     }
 
+    /// <summary>Applies <see cref="CloseOnOutsideClick"/> to the panel's dismissal script.</summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the dismissal is applied.</returns>
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
         _dismissal ??= new OmniDisclosureDismissal(JavaScript);
         return _dismissal.ApplyAsync(_details, CloseOnOutsideClick, closeOnItem: false);
     }
 
+    /// <summary>Releases the form subscription and the dismissal script.</summary>
+    /// <returns>A task that completes once the script is released.</returns>
     public async ValueTask DisposeAsync()
     {
         // Blazor calls only DisposeAsync on a component that has both: the form subscription of

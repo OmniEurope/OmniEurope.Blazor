@@ -4,6 +4,7 @@ namespace OmniEurope.Blazor.Components;
 /// A tree of <see cref="OmniTreeItem{TValue}"/> with single or multiple selection, bound through
 /// <see cref="Value"/>.
 /// </summary>
+/// <typeparam name="TValue">The type of the values the items stand for, compared with the default equality.</typeparam>
 public partial class OmniTree<TValue>
 {
     private OmniTreeContext<TValue> _context = default!;
@@ -39,8 +40,10 @@ public partial class OmniTree<TValue>
 
     private OmniTreeContext<TValue> Context => _context;
 
+    /// <summary>Creates the context the items of this tree share to read and toggle the selection.</summary>
     protected override void OnInitialized() => _context = new OmniTreeContext<TValue> { ToggleSelectionAsync = ToggleSelectionAsync };
 
+    /// <summary>Replaces the tree's selection with <see cref="Value"/> when the host passes another list instance.</summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();

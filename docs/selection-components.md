@@ -6,16 +6,19 @@ Ce lot fournit des contrôles typés reliés à `EditContext`, avec sémantique 
 
 `OmniRating` lie une valeur entière nullable par `Value`/`ValueChanged`/`ValueExpression`.
 `Maximum` vaut cinq et doit être positif ; cliquer une étoile choisit son rang et remplit les
-étoiles précédentes. `ReadOnly` rend une seule image focalisable (`role="img"`, `tabindex="0"`) qui
-annonce la valeur (« Note 3/5 ») et dessine ses étoiles sans les estomper, sans bouton à presser ;
-`Disabled` garde les boutons, désactivés et estompés, et l'emporte sur `ReadOnly`. `Label` nomme le
-groupe et chaque choix. L'édition participe à `EditContext`.
+étoiles précédentes. La notation est un groupe radio natif (`role="radiogroup"`, un `input type="radio"`
+masqué derrière chaque étoile) : un seul arrêt de tabulation, les flèches déplacent et cochent sans
+script, `aria-invalid` suit la validation. `ReadOnly` rend une seule image (`role="img"`) qui annonce la
+valeur (« Note : 3 sur 5 »), hors de l'ordre de tabulation, et dessine ses étoiles sans les estomper ;
+`Disabled` garde les boutons radio, désactivés et estompés, et l'emporte sur `ReadOnly`. `Label`
+(`string?`) nomme le groupe, « Note » localisé par défaut, ou le libellé d'un `OmniFormField` englobant
+(`aria-labelledby`). L'édition participe à `EditContext`.
 
 `OmniOption<TValue>` porte la valeur, le texte, l'état désactivé et le groupe éventuel. Ce modèle alimente :
 
-- `OmniDropDown<TValue>` et `OmniMultiSelect<TValue>` ;
-- `OmniListBox<TValue, TSelection>` et `OmniCheckBoxList<TValue>` ;
-- `OmniRadioButtonList<TValue>`, qui dessine lui-même chaque bouton radio ; `Error` (facultatif) dessine sous les choix, dans le `fieldset`, la ligne d'erreur d'`OmniFormField` (glyphe décoratif, `role="alert"`, identifiant `{Id}-error`, ou `{Name}-error` sans identifiant), marque le groupe `aria-invalid="true"`, le fait décrire par cette ligne après l'`aria-describedby` passé par l'hôte et borde chaque bouton radio de la couleur de danger ;
+- `OmniDropDown<TValue>` (seule source des choix, par `Options` ; `Filterable` ajoute une recherche, `Label` le nomme, rendu en `aria-label` seulement s'il est posé) et `OmniMultiSelect<TValue>` ;
+- `OmniListBox<TValue, TSelection>` et `OmniCheckBoxList<TValue>` (`Error` marque la liste `aria-invalid` et la fait décrire par l'erreur) ;
+- `OmniRadioButtonList<TValue>`, qui dessine lui-même chaque bouton radio ; `Error` (facultatif) dessine sous les choix, dans le `fieldset`, la ligne d'erreur d'`OmniFormField` (glyphe décoratif, dans une région live polie, identifiant `{Id}-error`, ou `{Name}-error` sans identifiant), marque le groupe `aria-invalid="true"` (aussi quand l'`EditContext` porte une erreur), le fait décrire par cette ligne après `AriaDescribedBy` et borde chaque bouton radio de la couleur de danger ; les options désactivées sont marquées comme telles ;
 - `OmniSelectBar<TValue>`, qui dessine lui-même chaque option.
 
 `OmniListBox` est une liste native toujours ouverte (`select` à `size`) dont la hauteur est donnée
@@ -32,8 +35,9 @@ ressources `MultiSelectEmpty`, `MultiSelectSelected` et `MultiSelectClear`.
 
 Il accepte en plus une recherche et deux templates. `Filterable` ajoute un champ qui réduit la liste
 aux options dont le texte contient la saisie ; `FilterText` se lie dans les deux sens pour que la
-page sache ce qui a été tapé, et la remise à `null` vide le champ. `OptionTemplate` dessine
-une option à côté de sa case à cocher, `FooterTemplate` occupe le bas du panneau, hors de la zone
+page sache ce qui a été tapé, et la remise à `null` vide le champ ; `FilterPlaceholder` remplace le
+libellé et le texte indicatif du champ de recherche. `OptionTemplate` dessine
+une option à côté de sa case à cocher, `FooterContent` occupe le bas du panneau, hors de la zone
 défilante : ensemble, ils donnent le sélecteur d'étiquettes qui propose de créer celle que la recherche
 n'a pas trouvée. Le filtre porte toujours sur le texte de l'option, quoi que dessine le template, et
 `MultiSelectNoMatch` est affiché lorsque la recherche ne laisse rien, un panneau vide se lisant comme
@@ -62,21 +66,21 @@ défilement ; les chevrons sont hors de l'ordre de tabulation, chaque option res
         </svg>
         <span>@tag.Text</span>
     </OptionTemplate>
-    <FooterTemplate>
+    <FooterContent>
         @if (CanCreate)
         {
             <OmniButton Variant="OmniButtonVariant.Ghost" OnClick="CreateAsync">+ @search</OmniButton>
         }
-    </FooterTemplate>
+    </FooterContent>
 </OmniMultiSelect>
 ```
 
-`OmniAutocomplete<TValue>` reçoit une fonction asynchrone annulable, applique un délai de debounce et annonce le nombre de résultats dans une région live. Une option n'est engagée dans le modèle qu'après sélection explicite.
+`OmniAutocomplete<TValue>` reçoit une fonction asynchrone annulable, applique un délai (`Debounce`, un `TimeSpan`, 250 ms par défaut) et annonce le nombre de résultats dans une région live. Une option n'est engagée dans le modèle qu'après sélection explicite. Le clavier est celui d'une liste déroulante combinée : flèches, Début et Fin parcourent les suggestions (`aria-activedescendant`, options en `li role="option"`), Entrée choisit, Échap ferme. Un échec de recherche lève `OnSearchError` avec l'exception et affiche `SearchErrorMessage` (texte localisé par défaut).
 
 ```razor
 <OmniAutocomplete TValue="Guid"
                   Search="SearchPeopleAsync"
-                  DebounceMilliseconds="250"
+                  Debounce="TimeSpan.FromMilliseconds(300)"
                   @bind-Value="personId" />
 ```
 
@@ -84,18 +88,20 @@ défilement ; les chevrons sont hors de l'ordre de tabulation, chaque option res
 saisie (`mark.omni-autocomplete__match`), sans tenir compte de la casse ni des accents dans la culture
 courante : « liege » marque « Liège ». Le texte lu par un lecteur d'écran reste celui de l'option.
 
-`OptionIcon` dessine, avant le texte de chaque suggestion, une icône ou un drapeau qui dit ce qu'est
+`OptionIconTemplate` dessine, avant le texte de chaque suggestion, une icône ou un drapeau qui dit ce qu'est
 l'entrée ; il est décoratif (`aria-hidden`), le texte et son surlignage nommant toujours l'option.
 
 ## Menus : profil et contextuel
 
-`OmniProfileMenu` repose sur l'élément natif `details`. Il se ferme sur Échap, une fois une entrée
+Tous les menus du paquet prennent les mêmes entrées, `OmniMenuItem` (`Icon`, `Href`, `Disabled`, `Tone`, `OnClick` en `EventCallback<MouseEventArgs>`, contenu enfant obligatoire), et le même moteur (`omni-focus.js`, voir [accessibility-contract.md](accessibility-contract.md)) : rendus dans le portail d'`OmniComponentsHost`, flèches, Début et Fin, Échap qui rend le focus au déclencheur, Tab qui ferme. Une entrée destructrice prend `Tone="OmniTone.Danger"`. Un menu à déclencheur (`OmniOverflowMenu`, `OmniSplitButton`, `OmniProfileMenu`) se pilote par `Open` (`bool?`, `null` = état propre) et `OpenChanged` ; `Label` nomme le déclencheur, `MenuLabel` la liste.
+
+`OmniProfileMenu` est un bouton (`omni-profile-menu__trigger`, qui porte `Id`) qui ouvre son menu dans le portail. Il se ferme sur Échap, une fois une entrée
 choisie et, avec `CloseOnOutsideClick` (vrai par défaut), sur un appui ailleurs dans la page, avec la
-même exception `data-omni-keep-open` que la sélection multiple.
+même exception `data-omni-keep-open` que la sélection multiple. `Disabled` désactive le bouton.
 
-Sans `Summary`, le déclencheur est l'avatar : un disque du gris de la palette qui porte `Initials` (quelques lettres, dans le texte de la page) ou, sans elles, le glyphe d'utilisateur. Il est décoratif, le déclencheur est nommé par `Label`, qui doit donc nommer le compte ; sa cible atteint 44 px par une zone transparente autour du disque, et le focus y dessine l'anneau sur le cercle. `Header` (facultatif) place l'identité en haut du menu ouvert, à côté d'un grand avatar : son premier élément se lit comme le nom, les suivants en détails atténués (rôle, organisation, lien vers le profil). L'en-tête est rendu hors de la liste `role="menu"`, qui ne contient que des entrées ; le panneau `omni-profile-menu__panel` porte alors la surface flottante. `OmniProfileMenuItem` gagne `Icon` (un disque décoratif avant le texte) ; sans lui, l'entrée rend son contenu seul.
+Sans `Summary`, le déclencheur est l'avatar : un disque du gris de la palette qui porte `Initials` (quelques lettres, dans le texte de la page) ou, sans elles, le glyphe d'utilisateur. Il est décoratif, le déclencheur est nommé par `Label`, qui doit donc nommer le compte ; sa cible atteint 44 px par une zone transparente autour du disque, et le focus y dessine l'anneau sur le cercle. `Header` (facultatif) place l'identité en haut du menu ouvert, à côté d'un grand avatar : son premier élément se lit comme le nom, les suivants en détails atténués (rôle, organisation, lien vers le profil). L'en-tête est rendu hors de la liste `role="menu"`, qui ne contient que des entrées ; le panneau `omni-profile-menu__popup--header` porte alors la surface flottante. Chaque entrée est un `OmniMenuItem` ; une ligne secondaire va dans son contenu enfant.
 
-`OmniContextMenu` s'ouvre au pointeur sur un clic droit, sous son déclencheur à la touche Menu ou à
+`OmniContextMenu` s'ouvre au pointeur sur un clic droit (lié ou non : `Open` est un `bool?`, `null` laissant le menu tenir son état ; `Disabled` le désactive), sous son déclencheur à la touche Menu ou à
 Maj+F10, et un second clic droit le déplace. `omni-focus.js` pose sa position par le CSSOM
 (`--omni-menu-x`, `--omni-menu-y`, attribut `data-omni-placed`) et le ramène dans la fenêtre près
 d'un bord. Rendu par le portail d'`OmniComponentsHost`, le menu est retrouvé par son identifiant
@@ -106,7 +112,8 @@ un appui ailleurs ferme le menu et laisse le focus là où il a été posé.
 
 `OmniOverflowMenu` est le menu « ⋮ » d'une ligne, d'une carte ou d'un en-tête : trois points seuls, sans
 cadre (bouton `Ghost`, nommé par `Label`, « Plus d'actions » par défaut), qui ouvrent une liste verticale
-d'`OmniOverflowMenuItem` (`Icon` dans une colonne fixe, puis le libellé ; `Disabled`, `Danger`). Le
+d'`OmniMenuItem` (`Icon` dans une colonne fixe, puis le libellé ; `Disabled`, `Tone`), nommée par
+`MenuLabel`. `Id` est posé sur le déclencheur. Le
 déclencheur ouvre et ferme le menu sur son propre clic (`aria-haspopup="menu"`, `aria-expanded`) ; un
 appui sur lui ne compte pas comme un appui extérieur, qui rouvrait le menu. Le menu est rendu par le
 portail d'`OmniComponentsHost` (aucune zone défilante ni `container-type` de la page ne le coupe ou ne
@@ -119,34 +126,36 @@ le focus rendu au déclencheur, puis lance son action : un dialogue ouvert par l
 l'y rend à sa fermeture. Dans une ligne de grille, le déclencheur prend la hauteur des badges comme les
 autres boutons à icône seule ; les entrées ne sont pas des boutons et gardent leur géométrie de menu.
 
-## Carte à choisir : `OmniSelectableCard`
+## Cartes à choisir : `OmniSelectableCard` et `OmniSelectableCardGroup`
 
 `OmniSelectableCard` est un choix qui mérite plus qu'un bouton radio : `Icon`, `Title` (obligatoire),
 `Description` en ligne atténuée, `ChildContent` en texte complémentaire (du texte et des badges, rien
 d'interactif : la carte est un bouton). `Multiple="false"` (par défaut) en fait un choix parmi plusieurs
-(`role="radio"`, à poser dans un élément `role="radiogroup"` nommé) ; `SelectedChanged` reçoit toujours
+(`role="radio"`) ; seule, elle se lie par `Value`/`ValueChanged` (`bool`), et `ValueChanged` reçoit toujours
 `true`, même sur la carte déjà choisie, pour que l'hôte puisse enchaîner (passer à l'étape suivante).
 `Multiple="true"` en fait une option (`role="checkbox"`) qui bascule. Le choix se lit à l'encadré et à la
 teinte d'accent seuls, sans coche : le cadre garde 2 px dans tous les états, le texte ne bouge jamais.
 Le survol penche le cadre et le fond vers l'accent, en clair comme en sombre. `Disabled` garde l'état
 (une option imposée par une autre), laisse la carte focalisable et l'annonce indisponible
-(`aria-disabled`). Tab atteint chaque carte ; les flèches ne parcourent pas un groupe de cartes radio.
+(`aria-disabled`).
+
+`OmniSelectableCardGroup<TValue, TSelection>` lie la sélection de plusieurs cartes par `@bind-Value` : les cartes viennent d'`Options` (le texte devient le titre), ou sont écrites dans le groupe avec leur `Choice`, ou les deux (options d'abord). Choix unique par défaut (`role="radiogroup"`, `TSelection` étant une valeur) : une seule carte est dans l'ordre de tabulation (la choisie, sinon la première disponible) et les flèches, Début et Fin déplacent le choix et le focus, comme un groupe radio natif. `Multiple="true"` en fait un groupe de cases (`role="group"`, `TSelection` une collection). `Label` nomme le groupe (à défaut, le libellé d'un `OmniFormField` englobant par `aria-labelledby`) ; `Disabled` désactive toutes les cartes. Dans un groupe, `Value`, `ValueChanged` et `Multiple` de chaque carte sont ceux du groupe.
 
 ## Entrées spécialisées
 
 - `OmniDatePicker` (`DateOnly?`), `OmniTimePicker` (`TimeOnly?`) et `OmniDateTimePicker` (`DateTime?`, heure locale) sont un champ texte et un bouton qui ouvre un panneau maison sur le calque des surfaces flottantes (jetons `--omni-overlay-*`), sous le champ. Le contrôle natif de date dessinait sa fenêtre lui-même, sans style possible ; il n'est plus utilisé.
 - Saisie : la date suit l'ordre et les séparateurs de la date courte de la culture, sur deux chiffres (`21/09/2026` en français, `09/21/2026` en anglais américain) ; l'heure est toujours sur 24 heures (`HH:mm` ; `HH:mm:ss` avec `ShowSeconds`, que seul `OmniDateTimePicker` propose). La lecture accepte aussi la forme ISO (`yyyy-MM-dd`, `yyyy-MM-ddTHH:mm`) et ce que l'analyseur de la culture comprend. Le texte indicatif vient du motif (`jj/mm/aaaa`, `hh:mm`), remplaçable par `Placeholder`.
 - Calendrier : semaine commençant au premier jour de la culture (lundi en français), mois nommés dans sa langue, six semaines toujours, aujourd'hui entouré (`aria-current="date"`), jour choisi plein à l'accent (`aria-selected`), mois précédent et suivant. `role="grid"` nommé par le titre du mois, rangées `role="row"`, en-têtes `columnheader` au nom complet du jour. Un seul jour est dans l'ordre de tabulation ; les flèches déplacent d'un jour ou d'une semaine, Page précédente et suivante d'un mois (d'un an avec Maj), Début et Fin vont au début et à la fin de la semaine, Entrée et Espace choisissent. Pied : Aujourd'hui et Effacer ; choisir un jour, Aujourd'hui ou Effacer ferme le panneau et rend le focus au bouton.
-- Heure : deux colonnes qui défilent (`listbox`), heures de 00 à 23 et minutes par `Step` (5 par défaut, de 1 à 30), et une troisième colonne de secondes pour un `OmniDateTimePicker` à `ShowSeconds` ; un choix s'applique aussitôt, les flèches, Début et Fin parcourent une colonne, Tab passe à la suivante. Pied : Maintenant (l'heure du `TimeProvider` enregistré par l'hôte, l'horloge système sinon, arrondie au pas inférieur) et Valider, qui ferme et rend le focus au bouton. La date et heure met le calendrier et les colonnes côte à côte : un jour garde l'heure (minuit s'il n'y en a pas), une heure garde le jour (aujourd'hui s'il n'y en a pas).
+- Heure : deux colonnes qui défilent (`listbox`), heures de 00 à 23 et minutes par `Step` (un `TimeSpan` de minutes entières, 5 minutes par défaut, de 1 à 30), et une troisième colonne de secondes pour un `OmniDateTimePicker` à `ShowSeconds` ; un choix s'applique aussitôt, les flèches, Début et Fin parcourent une colonne, Tab passe à la suivante. Pied : Maintenant (l'heure du `TimeProvider` enregistré par l'hôte, l'horloge système sinon, arrondie au pas inférieur) et Valider, qui ferme et rend le focus au bouton. La date et heure met le calendrier et les colonnes côte à côte : un jour garde l'heure (minuit s'il n'y en a pas), une heure garde le jour (aujourd'hui s'il n'y en a pas).
 - Bornes : `Minimum` et `Maximum` désactivent les jours, heures et minutes hors bornes et arrêtent le clavier à la borne ; une saisie hors bornes est refusée et marque le champ invalide, sans être ramenée à la borne. Dans la date et heure, un choix du panneau qui sortirait des bornes (un jour dont l'heure gardée dépasse) est ramené à la borne la plus proche.
 - Fermeture : un appui hors du sélecteur ferme le panneau et laisse le focus où il a été posé ; Échap le ferme, rend le focus au bouton et ne remonte pas (un dialogue qui contient le sélecteur reste ouvert). Un seul panneau de sélecteur est ouvert à la fois dans la page. Ce câblage est dans `omni-focus.js` (`attachPicker`, `detachPicker`, `focusPickerItem`) ; il n'écrit aucun style, seul `scrollTop` des colonnes est posé pour centrer la valeur choisie.
 - Densité : les cases du calendrier mesurent `--omni-cal-cell`, la marge du panneau `--omni-pop-pad`, le champ et son bouton suivent `--omni-control-height`, les éléments des colonnes `--omni-item-pad-y`. Les cases et les éléments des colonnes restent sous 44 px en densité compacte et confortable, comme la maquette les dessine ; le bouton du champ atteint 44 px de cible par une zone invisible.
 - Écart assumé avec la maquette : dans la date seule, choisir un jour ferme le panneau (la maquette le laissait ouvert, faute de bouton Valider dans ce pied).
-- `OmniSlider` expose orientation, minimum, maximum, pas et valeur ARIA. `ValueChanged` suit chaque pas du
-  glissement ; `ValueCommitted` est levé une seule fois au relâchement, avec la valeur finale (recherche
+- `OmniSlider` expose orientation, minimum, maximum, pas, valeur ARIA et `aria-invalid`. `ValueChanged` suit chaque pas du
+  glissement ; `OnValueCommit` est levé une seule fois au relâchement, avec la valeur finale (recherche
   d'une position dans un média), et sans lui aucun gestionnaire `change` n'est posé.
 - `OmniColorPicker` accepte exclusivement le format hexadécimal `#RRGGBB` sans générer de style inline.
-- `OmniUpload` valide nombre, taille et types MIME avant d'appeler le délégué applicatif.
+- `OmniUpload` valide nombre, taille et types MIME avant d'appeler le délégué applicatif ; `Id` est posé sur le champ fichier.
 
 ## Téléversement
 

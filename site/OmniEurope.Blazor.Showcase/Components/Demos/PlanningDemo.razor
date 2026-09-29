@@ -5,30 +5,30 @@
                @bind-Scale="Scale"
                SelectedTaskId="@SelectedTaskId"
                OnTaskClick="@(task => SelectedTaskId = task.Id)"
-               Label="Planning du projet" />
-    <OmniText Tone="OmniTextTone.Muted">Échelle affichée : @ScaleName</OmniText>
+               Label="@Text["DemoPlanningGanttLabel"]" />
+    <OmniText Tone="OmniTextTone.Muted">@Text["DemoPlanningScaleShown", ScaleName]</OmniText>
 
-    <OmniHeading Level="OmniHeadingLevel.H4">Le même planning, au mois et sans groupes</OmniHeading>
-    <OmniGantt Tasks="Tasks" Scale="OmniCalendarView.Month" ShowGroups="false" ShowScalePicker="false" Label="Planning mensuel" />
-    <OmniGantt Tasks="Tasks" Scale="OmniCalendarView.Day" ShowDependencies="false" ShowToday="false" ShowScalePicker="false" Label="Planning au jour" />
+    <OmniHeading Level="OmniHeadingLevel.H4">@Text["DemoPlanningMonthHeading"]</OmniHeading>
+    <OmniGantt Tasks="Tasks" Scale="OmniCalendarView.Month" ShowGroups="false" ShowScalePicker="false" Label="@Text["DemoPlanningMonthLabel"]" />
+    <OmniGantt Tasks="Tasks" Scale="OmniCalendarView.Day" ShowDependencies="false" ShowToday="false" ShowScalePicker="false" Label="@Text["DemoPlanningDayLabel"]" />
 
-    <OmniHeading Level="OmniHeadingLevel.H4">Déroulement d'une exécution</OmniHeading>
+    <OmniHeading Level="OmniHeadingLevel.H4">@Text["DemoPlanningRunHeading"]</OmniHeading>
     @* L'étape en cours s'arrête à l'heure de l'horloge du composant, lue à chaque rendu du parent. *@
-    <OmniStepTimeline Steps="Steps" Label="Exécution 42" />
+    <OmniStepTimeline Steps="Steps" Label="@Text["DemoPlanningRunLabel", 42]" />
 
-    <OmniHeading Level="OmniHeadingLevel.H4">Frise à gauche, puis en alterné depuis chaque côté</OmniHeading>
-    <OmniTimeline Label="Frise à gauche" Layout="OmniTimelineLayout.Start">
-        <OmniTimelineItem Title="Dépôt" DateText="2 mars">Le dossier a été enregistré.</OmniTimelineItem>
-        <OmniTimelineItem Title="Décision" DateText="24 mars">La décision a été notifiée.</OmniTimelineItem>
+    <OmniHeading Level="OmniHeadingLevel.H4">@Text["DemoPlanningTimelineHeading"]</OmniHeading>
+    <OmniTimeline Label="@Text["DemoPlanningTimelineStart"]" Layout="OmniTimelineLayout.Start">
+        <OmniTimelineItem Title="@Text["DemoPlanningFiled"]" DateText="@DayText(2)">@Text["DemoPlanningFiledText"]</OmniTimelineItem>
+        <OmniTimelineItem Title="@Text["DemoPlanningDecision"]" DateText="@DayText(24)">@Text["DemoPlanningDecisionText"]</OmniTimelineItem>
     </OmniTimeline>
-    <OmniTimeline Label="Frise alternée, départ à gauche" Layout="OmniTimelineLayout.AlternateStart">
-        <OmniTimelineItem Title="Dépôt" DateText="2 mars">Le dossier a été enregistré.</OmniTimelineItem>
-        <OmniTimelineItem Title="Instruction" DateText="9 mars">Un agent a été désigné.</OmniTimelineItem>
-        <OmniTimelineItem Title="Décision" DateText="24 mars">La décision a été notifiée.</OmniTimelineItem>
+    <OmniTimeline Label="@Text["DemoPlanningTimelineAlternateStart"]" Layout="OmniTimelineLayout.AlternateStart">
+        <OmniTimelineItem Title="@Text["DemoPlanningFiled"]" DateText="@DayText(2)">@Text["DemoPlanningFiledText"]</OmniTimelineItem>
+        <OmniTimelineItem Title="@Text["DemoPlanningReview"]" DateText="@DayText(9)">@Text["DemoPlanningReviewText"]</OmniTimelineItem>
+        <OmniTimelineItem Title="@Text["DemoPlanningDecision"]" DateText="@DayText(24)">@Text["DemoPlanningDecisionText"]</OmniTimelineItem>
     </OmniTimeline>
     @* Le titre d'une entrée est un titre de niveau 3 par défaut ; Level l'accorde au plan de la page. *@
-    <OmniTimeline Label="Frise alternée, départ à droite" Layout="OmniTimelineLayout.AlternateEnd">
-        <OmniTimelineItem Title="Dépôt" DateText="2 mars" Level="OmniHeadingLevel.H5">Le dossier a été enregistré.</OmniTimelineItem>
-        <OmniTimelineItem Title="Instruction" DateText="9 mars" Level="OmniHeadingLevel.H5">Un agent a été désigné.</OmniTimelineItem>
+    <OmniTimeline Label="@Text["DemoPlanningTimelineAlternateEnd"]" Layout="OmniTimelineLayout.AlternateEnd">
+        <OmniTimelineItem Title="@Text["DemoPlanningFiled"]" DateText="@DayText(2)" Level="OmniHeadingLevel.H5">@Text["DemoPlanningFiledText"]</OmniTimelineItem>
+        <OmniTimelineItem Title="@Text["DemoPlanningReview"]" DateText="@DayText(9)" Level="OmniHeadingLevel.H5">@Text["DemoPlanningReviewText"]</OmniTimelineItem>
     </OmniTimeline>
 </OmniStack>

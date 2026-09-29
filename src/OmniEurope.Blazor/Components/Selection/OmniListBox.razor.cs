@@ -13,6 +13,7 @@ namespace OmniEurope.Blazor.Components;
 /// </typeparam>
 public partial class OmniListBox<TValue, TSelection>
 {
+    /// <summary>The options, in order; a disabled option is listed but cannot be selected.</summary>
     [Parameter, EditorRequired]
     public IReadOnlyList<OmniOption<TValue>> Options { get; set; } = Array.Empty<OmniOption<TValue>>();
 
@@ -28,9 +29,11 @@ public partial class OmniListBox<TValue, TSelection>
     [Parameter]
     public bool Multiple { get; set; }
 
+    /// <summary>Whether the list is disabled. Off by default.</summary>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>Identifiers of the elements that describe the list, written as <c>aria-describedby</c>; none when null.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
 
@@ -38,6 +41,11 @@ public partial class OmniListBox<TValue, TSelection>
         ? CurrentValue is IEnumerable<TValue> selected && selected.Contains(value, EqualityComparer<TValue>.Default)
         : CurrentValue is null ? value is null : CurrentValue is TValue current && EqualityComparer<TValue>.Default.Equals(current, value);
 
+    /// <summary>Checks that <typeparamref name="TSelection"/> fits <see cref="Multiple"/>.</summary>
+    /// <exception cref="InvalidOperationException">
+    /// With <see cref="Multiple"/>, <typeparamref name="TSelection"/> cannot hold a <typeparamref name="TValue"/> array;
+    /// without it, <typeparamref name="TSelection"/> is neither <typeparamref name="TValue"/> nor its nullable form.
+    /// </exception>
     protected override void OnParametersSet()
     {
         EnsureSelectionType();
@@ -87,9 +95,18 @@ public partial class OmniListBox<TValue, TSelection>
         }
     }
 
+    /// <summary>
+    /// For a single selection, reads the text as the index of an option in <see cref="Options"/> and takes
+    /// that option's value; a disabled option cannot be chosen this way, and a multiple selection is never
+    /// parsed from text.
+    /// </summary>
+    /// <param name="value">The index of the option, as text.</param>
+    /// <param name="result">The value of the option, or the default value on failure.</param>
+    /// <param name="validationErrorMessage">Null on success; on failure, the localized "invalid selection" message.</param>
+    /// <returns>True when the list is single and the text is the index of an enabled option.</returns>
     protected override bool TryParseValueFromString(string? value, out TSelection result, out string validationErrorMessage)
     {
-        if (!Multiple && int.TryParse(value, out var index) && index >= 0 && index < Options.Count)
+        if (!Multiple && int.TryParse(value, out var index) && index >= 0 && index < Options.Count && !Options[index].Disabled)
         {
             result = (TSelection)(object)Options[index].Value!;
             validationErrorMessage = null!;

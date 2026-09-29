@@ -23,7 +23,7 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniLogViewer : IAsyncDisposable
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-log-viewer.js";
+    private const string ModulePath = Internal.OmniModules.LogViewer;
     private const double EstimatedLineHeight = 20d;
     private const int OverscanCount = 12;
 
@@ -183,6 +183,14 @@ public partial class OmniLogViewer : IAsyncDisposable
             .Select(level => new OmniOption<OmniLogLevel?>(level, Localize("LogViewerFromLevel", LevelName(level))))
     ];
 
+    /// <summary>
+    /// Refuses a missing <see cref="Lines"/> or <see cref="TimeZone"/> and a <see cref="Height"/> that is
+    /// not a number followed by px, rem, em, vh or %. <see cref="Follow"/>, <see cref="MinimumLevel"/>
+    /// and <see cref="SearchText"/> are taken only when they differ from the value last received, then
+    /// the visible lines are brought up to date.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><see cref="Lines"/> or <see cref="TimeZone"/> is null.</exception>
+    /// <exception cref="ArgumentException"><see cref="Height"/> is not an accepted CSS length.</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -395,6 +403,13 @@ public partial class OmniLogViewer : IAsyncDisposable
         return found < 0 ? _matches.Count - 1 : found;
     }
 
+    /// <summary>
+    /// Attaches the viewport script once, passes it a change of follow state, reads the viewport,
+    /// recomputes the rendered window, then scrolls to a pending match or pins the tail while following.
+    /// Renders again when the window moved. Does nothing once disposed; a lost circuit is ignored.
+    /// </summary>
+    /// <param name="firstRender">Unused: the script is attached on any render that finds it not attached yet.</param>
+    /// <returns>A task that completes when the viewport has been synchronized.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_disposed)
@@ -402,7 +417,25 @@ public partial class OmniLogViewer : IAsyncDisposable
             return;
         }
 
+        try
+        {
+            await SynchronizeViewportAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+        }
+    }
+
+    private async Task SynchronizeViewportAsync()
+    {
         _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
+        if (_disposed)
+        {
+            // Disposed while the script loaded: DisposeAsync had no module to release yet.
+            await _module.DisposeAsync();
+            return;
+        }
+
         if (!_attached)
         {
             _selfReference ??= DotNetObjectReference.Create(this);
@@ -470,8 +503,14 @@ public partial class OmniLogViewer : IAsyncDisposable
 
     /// <summary>
     /// Invoked by the log script when the viewport scrolls or resizes. <paramref name="following"/> is
-    /// the script's own verdict: it lets go of the tail the moment the reader scrolls up.
+    /// the script's own verdict: it lets go of the tail the moment the reader scrolls up. Ignored once
+    /// disposed.
     /// </summary>
+    /// <param name="scrollTop">Vertical scroll offset of the viewport, in CSS pixels.</param>
+    /// <param name="viewportHeight">Height of the viewport, in CSS pixels.</param>
+    /// <param name="atBottom">True when the viewport shows the last line.</param>
+    /// <param name="following">True when the viewport still follows the tail.</param>
+    /// <returns>A task that completes when a change of follow state has been reported.</returns>
     [JSInvokable]
     public async Task OnViewportChangedAsync(double scrollTop, double viewportHeight, bool atBottom, bool following)
     {
@@ -515,6 +554,8 @@ public partial class OmniLogViewer : IAsyncDisposable
     private string DisplayTime(DateTimeOffset timestamp) =>
         TimeZoneInfo.ConvertTime(timestamp, TimeZone).ToString(TimestampFormat, CultureInfo.CurrentCulture);
 
+    /// <summary>Detaches and releases the viewport script and its .NET reference.</summary>
+    /// <returns>A task that completes when the script is released.</returns>
     public async ValueTask DisposeAsync()
     {
         _disposed = true;

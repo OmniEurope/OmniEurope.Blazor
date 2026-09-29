@@ -1,256 +1,256 @@
 <OmniStack Gap="OmniSpacing.Large">
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
-        <OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" AriaLabel="Validé" />
-        <OmniIcon Name="OmniIconName.Warning" Size="OmniControlSize.Medium" AriaLabel="Attention" />
-        <OmniIcon Name="OmniIconName.Filter" Size="OmniControlSize.Large" AriaLabel="Filtrer" />
-        <OmniIcon Glyph="Compass" Size="OmniControlSize.Large" AriaLabel="Boussole" />
+        <OmniIcon Name="OmniIconName.Check" Size="OmniControlSize.Small" Label="@Text["DemoMediaIconCheck"]" />
+        <OmniIcon Name="OmniIconName.Warning" Size="OmniControlSize.Medium" Label="@Text["DemoMediaIconWarning"]" />
+        <OmniIcon Name="OmniIconName.Filter" Size="OmniControlSize.Large" Label="@Text["DemoMediaIconFilter"]" />
+        <OmniIcon Glyph="Compass" Size="OmniControlSize.Large" Label="@Text["DemoMediaIconCompass"]" />
     </OmniStack>
 
     @* Le jeu complet embarqué, celui dans lequel les composants puisent leurs propres icônes. *@
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
-        <OmniIcon Name="OmniIconName.Close" AriaLabel="Fermer" />
-        <OmniIcon Name="OmniIconName.Info" AriaLabel="Information" />
-        <OmniIcon Name="OmniIconName.Menu" AriaLabel="Menu" />
-        <OmniIcon Name="OmniIconName.ChevronDown" AriaLabel="Déplier" />
-        <OmniIcon Name="OmniIconName.SortAscending" AriaLabel="Tri croissant" />
-        <OmniIcon Name="OmniIconName.SortDescending" AriaLabel="Tri décroissant" />
-        <OmniIcon Name="OmniIconName.ThemeLight" AriaLabel="Apparence claire" />
-        <OmniIcon Name="OmniIconName.ThemeDark" AriaLabel="Apparence sombre" />
+        <OmniIcon Name="OmniIconName.Close" Label="@Text["DemoMediaIconClose"]" />
+        <OmniIcon Name="OmniIconName.Info" Label="@Text["DemoMediaIconInfo"]" />
+        <OmniIcon Name="OmniIconName.Menu" Label="@Text["DemoMediaIconMenu"]" />
+        <OmniIcon Name="OmniIconName.ChevronDown" Label="@Text["DemoMediaIconChevronDown"]" />
+        <OmniIcon Name="OmniIconName.SortAscending" Label="@Text["DemoMediaIconSortAscending"]" />
+        <OmniIcon Name="OmniIconName.SortDescending" Label="@Text["DemoMediaIconSortDescending"]" />
+        <OmniIcon Name="OmniIconName.ThemeLight" Label="@Text["DemoMediaIconThemeLight"]" />
+        <OmniIcon Name="OmniIconName.ThemeDark" Label="@Text["DemoMediaIconThemeDark"]" />
     </OmniStack>
 
     @* Le catalogue choisi pour les applications : chaque icône qu'une application affiche vit ici. *@
     @* OmniRow et non OmniStack : OmniStack n'a pas de retour à la ligne, et plus de cent cinquante icônes
        débordaient la carte en largeur. *@
     <OmniRow Gap="OmniSpacing.Small" Align="OmniAlignment.Center" Wrap="true">
-        <OmniIcon Name="OmniIconName.Add" AriaLabel="Ajouter" />
-        <OmniIcon Name="OmniIconName.Airplane" AriaLabel="Avion" />
-        <OmniIcon Name="OmniIconName.AirplaneLanding" AriaLabel="Atterrissage" />
-        <OmniIcon Name="OmniIconName.AirplaneTakeoff" AriaLabel="Décollage" />
-        <OmniIcon Name="OmniIconName.Archive" AriaLabel="Archiver" />
-        <OmniIcon Name="OmniIconName.ArrowLeft" AriaLabel="Retour" />
-        <OmniIcon Name="OmniIconName.ArrowRight" AriaLabel="Suivant" />
-        <OmniIcon Name="OmniIconName.Bed" AriaLabel="Hébergement" />
-        <OmniIcon Name="OmniIconName.Bell" AriaLabel="Notifications" />
-        <OmniIcon Name="OmniIconName.BracketsCurly" AriaLabel="Données JSON" />
-        <OmniIcon Name="OmniIconName.Calculator" AriaLabel="Calculatrice" />
-        <OmniIcon Name="OmniIconName.Cards" AriaLabel="Cartes" />
-        <OmniIcon Name="OmniIconName.ChartBarHorizontal" AriaLabel="Classement" />
-        <OmniIcon Name="OmniIconName.Chat" AriaLabel="Message" />
-        <OmniIcon Name="OmniIconName.CheckCircle" AriaLabel="Réussi" />
-        <OmniIcon Name="OmniIconName.ChevronUp" AriaLabel="Replier" />
-        <OmniIcon Name="OmniIconName.Copy" AriaLabel="Copier" />
-        <OmniIcon Name="OmniIconName.Database" AriaLabel="Base de données" />
-        <OmniIcon Name="OmniIconName.Delete" AriaLabel="Supprimer" />
-        <OmniIcon Name="OmniIconName.Diamond" AriaLabel="Gemme" />
-        <OmniIcon Name="OmniIconName.Dice" AriaLabel="Tirage" />
-        <OmniIcon Name="OmniIconName.Document" AriaLabel="Document" />
-        <OmniIcon Name="OmniIconName.Download" AriaLabel="Télécharger" />
-        <OmniIcon Name="OmniIconName.Edit" AriaLabel="Modifier" />
-        <OmniIcon Name="OmniIconName.Error" AriaLabel="Erreur" />
-        <OmniIcon Name="OmniIconName.Flask" AriaLabel="Essai" />
-        <OmniIcon Name="OmniIconName.Function" AriaLabel="Formule" />
-        <OmniIcon Name="OmniIconName.Globe" AriaLabel="Monde" />
-        <OmniIcon Name="OmniIconName.GlobeHemisphereWest" AriaLabel="Voyages" />
-        <OmniIcon Name="OmniIconName.GraduationCap" AriaLabel="Classe" />
-        <OmniIcon Name="OmniIconName.Graph" AriaLabel="Liens" />
-        <OmniIcon Name="OmniIconName.Home" AriaLabel="Accueil" />
-        <OmniIcon Name="OmniIconName.Hourglass" AriaLabel="Attente" />
-        <OmniIcon Name="OmniIconName.Image" AriaLabel="Image" />
-        <OmniIcon Name="OmniIconName.Layers" AriaLabel="Calques" />
-        <OmniIcon Name="OmniIconName.MapPin" AriaLabel="Lieu" />
-        <OmniIcon Name="OmniIconName.MapPinLine" AriaLabel="Import de lieux" />
-        <OmniIcon Name="OmniIconName.Medal" AriaLabel="Rang" />
-        <OmniIcon Name="OmniIconName.Monitor" AriaLabel="Affichage" />
-        <OmniIcon Name="OmniIconName.NumberedList" AriaLabel="Liste numérotée" />
-        <OmniIcon Name="OmniIconName.Offline" AriaLabel="Hors ligne" />
-        <OmniIcon Name="OmniIconName.OpenExternal" AriaLabel="Ouvrir ailleurs" />
-        <OmniIcon Name="OmniIconName.Package" AriaLabel="Objet" />
-        <OmniIcon Name="OmniIconName.Palette" AriaLabel="Couleurs" />
-        <OmniIcon Name="OmniIconName.Path" AriaLabel="Trajet" />
-        <OmniIcon Name="OmniIconName.Pattern" AriaLabel="Motif" />
-        <OmniIcon Name="OmniIconName.PictureInPicture" AriaLabel="Incrustation" />
-        <OmniIcon Name="OmniIconName.Pin" AriaLabel="Épingler" />
-        <OmniIcon Name="OmniIconName.Play" AriaLabel="Lancer" />
-        <OmniIcon Name="OmniIconName.Prohibit" AriaLabel="Interdit" />
-        <OmniIcon Name="OmniIconName.Refresh" AriaLabel="Actualiser" />
-        <OmniIcon Name="OmniIconName.Remove" AriaLabel="Retirer" />
-        <OmniIcon Name="OmniIconName.Reset" AriaLabel="Réinitialiser" />
-        <OmniIcon Name="OmniIconName.Restore" AriaLabel="Désarchiver" />
-        <OmniIcon Name="OmniIconName.Rows" AriaLabel="Densité" />
-        <OmniIcon Name="OmniIconName.Ruler" AriaLabel="Mesure" />
-        <OmniIcon Name="OmniIconName.Save" AriaLabel="Enregistrer" />
-        <OmniIcon Name="OmniIconName.Search" AriaLabel="Rechercher" />
-        <OmniIcon Name="OmniIconName.Settings" AriaLabel="Réglages" />
-        <OmniIcon Name="OmniIconName.ShieldCheck" AriaLabel="Administration" />
-        <OmniIcon Name="OmniIconName.Sidebar" AriaLabel="Barre latérale" />
-        <OmniIcon Name="OmniIconName.Sliders" AriaLabel="Filtres avancés" />
-        <OmniIcon Name="OmniIconName.Sparkle" AriaLabel="Nouveauté" />
-        <OmniIcon Name="OmniIconName.Star" AriaLabel="Favori" />
-        <OmniIcon Name="OmniIconName.StarFilled" AriaLabel="Favori actif" />
-        <OmniIcon Name="OmniIconName.Swap" AriaLabel="Échanger" />
-        <OmniIcon Name="OmniIconName.Sync" AriaLabel="Synchroniser" />
-        <OmniIcon Name="OmniIconName.Tag" AriaLabel="Étiquette" />
-        <OmniIcon Name="OmniIconName.TextSize" AriaLabel="Taille du texte" />
-        <OmniIcon Name="OmniIconName.ThemeSystem" AriaLabel="Apparence du système" />
-        <OmniIcon Name="OmniIconName.Timer" AriaLabel="Minuteur" />
-        <OmniIcon Name="OmniIconName.Upgrade" AriaLabel="Amélioration" />
-        <OmniIcon Name="OmniIconName.Upload" AriaLabel="Envoyer" />
-        <OmniIcon Name="OmniIconName.User" AriaLabel="Personne" />
-        <OmniIcon Name="OmniIconName.UserFocus" AriaLabel="Rechercher une personne" />
-        <OmniIcon Name="OmniIconName.Eye" AriaLabel="Afficher" />
-        <OmniIcon Name="OmniIconName.GitCommit" AriaLabel="Commit" />
-        <OmniIcon Name="OmniIconName.Lock" AriaLabel="Verrouillé" />
-        <OmniIcon Name="OmniIconName.RocketLaunch" AriaLabel="Déployer" />
-        <OmniIcon Name="OmniIconName.Users" AriaLabel="Groupe" />
-        <OmniIcon Name="OmniIconName.Stop" AriaLabel="Arrêter" />
-        <OmniIcon Name="OmniIconName.ListChecks" AriaLabel="Règles" />
-        <OmniIcon Name="OmniIconName.Folder" AriaLabel="Dossier" />
-        <OmniIcon Name="OmniIconName.Question" AriaLabel="Aide" />
-        <OmniIcon Name="OmniIconName.SquaresFour" AriaLabel="Tableau de bord" />
-        <OmniIcon Name="OmniIconName.TerminalWindow" AriaLabel="Terminal" />
-        <OmniIcon Name="OmniIconName.Wrench" AriaLabel="Construire" />
-        <OmniIcon Name="OmniIconName.Key" AriaLabel="Clé" />
-        <OmniIcon Name="OmniIconName.Buildings" AriaLabel="Organisation" />
-        <OmniIcon Name="OmniIconName.Heartbeat" AriaLabel="Surveillance" />
-        <OmniIcon Name="OmniIconName.CloudArrowUp" AriaLabel="Sauvegarde en ligne" />
-        <OmniIcon Name="OmniIconName.Link" AriaLabel="Lien" />
-        <OmniIcon Name="OmniIconName.UserPlus" AriaLabel="Ajouter une personne" />
-        <OmniIcon Name="OmniIconName.Layout" AriaLabel="Mise en page" />
-        <OmniIcon Name="OmniIconName.Broadcast" AriaLabel="Diffusion" />
-        <OmniIcon Name="OmniIconName.CalendarBlank" AriaLabel="Date" />
-        <OmniIcon Name="OmniIconName.ChartLineUp" AriaLabel="Tendance" />
-        <OmniIcon Name="OmniIconName.FolderOpen" AriaLabel="Dossier ouvert" />
-        <OmniIcon Name="OmniIconName.GitFork" AriaLabel="Bifurcation" />
-        <OmniIcon Name="OmniIconName.GitMerge" AriaLabel="Fusion" />
-        <OmniIcon Name="OmniIconName.LockKey" AriaLabel="Réinitialiser le mot de passe" />
-        <OmniIcon Name="OmniIconName.Robot" AriaLabel="Automate" />
-        <OmniIcon Name="OmniIconName.ArrowDown" AriaLabel="Descendre" />
-        <OmniIcon Name="OmniIconName.Brain" AriaLabel="Intelligence" />
-        <OmniIcon Name="OmniIconName.CellTower" AriaLabel="Antenne" />
-        <OmniIcon Name="OmniIconName.Cloud" AriaLabel="Nuage" />
-        <OmniIcon Name="OmniIconName.Gavel" AriaLabel="Règlement" />
-        <OmniIcon Name="OmniIconName.GitDiff" AriaLabel="Différences" />
-        <OmniIcon Name="OmniIconName.LinkBreak" AriaLabel="Lien rompu" />
-        <OmniIcon Name="OmniIconName.LockOpen" AriaLabel="Déverrouillé" />
-        <OmniIcon Name="OmniIconName.PaperPlaneRight" AriaLabel="Envoyer un message" />
-        <OmniIcon Name="OmniIconName.PlugsConnected" AriaLabel="Connecté" />
-        <OmniIcon Name="OmniIconName.PuzzlePiece" AriaLabel="Extension" />
-        <OmniIcon Name="OmniIconName.ShieldWarning" AriaLabel="Risque" />
-        <OmniIcon Name="OmniIconName.SignOut" AriaLabel="Se déconnecter" />
-        <OmniIcon Name="OmniIconName.ArrowElbowDownLeft" AriaLabel="Retour à la ligne" />
-        <OmniIcon Name="OmniIconName.Broom" AriaLabel="Nettoyer" />
-        <OmniIcon Name="OmniIconName.Bug" AriaLabel="Anomalie" />
-        <OmniIcon Name="OmniIconName.ChartLine" AriaLabel="Courbe" />
-        <OmniIcon Name="OmniIconName.ChevronRight" AriaLabel="Ouvrir" />
-        <OmniIcon Name="OmniIconName.Code" AriaLabel="Code" />
-        <OmniIcon Name="OmniIconName.Gauge" AriaLabel="Performance" />
-        <OmniIcon Name="OmniIconName.MagnifyingGlassPlus" AriaLabel="Zoomer" />
-        <OmniIcon Name="OmniIconName.Password" AriaLabel="Mot de passe" />
-        <OmniIcon Name="OmniIconName.ShieldSlash" AriaLabel="Protection désactivée" />
-        <OmniIcon Name="OmniIconName.Stamp" AriaLabel="Approbation" />
-        <OmniIcon Name="OmniIconName.TextAlignLeft" AriaLabel="Aligner à gauche" />
-        <OmniIcon Name="OmniIconName.WifiHigh" AriaLabel="Réseau" />
-        <OmniIcon Name="OmniIconName.ArrowElbowDownRight" AriaLabel="Sous-élément" />
-        <OmniIcon Name="OmniIconName.ArrowLineDown" AriaLabel="Aller en bas" />
-        <OmniIcon Name="OmniIconName.ArrowLineUp" AriaLabel="Aller en haut" />
-        <OmniIcon Name="OmniIconName.ArrowUUpRight" AriaLabel="Rétablir" />
-        <OmniIcon Name="OmniIconName.At" AriaLabel="Adresse électronique" />
-        <OmniIcon Name="OmniIconName.BellSlash" AriaLabel="Notifications coupées" />
-        <OmniIcon Name="OmniIconName.Books" AriaLabel="Bibliothèque" />
-        <OmniIcon Name="OmniIconName.CalendarCheck" AriaLabel="Date confirmée" />
-        <OmniIcon Name="OmniIconName.Checks" AriaLabel="Tout valider" />
-        <OmniIcon Name="OmniIconName.CloudArrowDown" AriaLabel="Récupérer du nuage" />
-        <OmniIcon Name="OmniIconName.Columns" AriaLabel="Colonnes" />
-        <OmniIcon Name="OmniIconName.CornersOut" AriaLabel="Ajuster à l'écran" />
-        <OmniIcon Name="OmniIconName.DotsThreeVertical" AriaLabel="Plus d'actions" />
-        <OmniIcon Name="OmniIconName.EyeSlash" AriaLabel="Masquer" />
-        <OmniIcon Name="OmniIconName.FrameCorners" AriaLabel="Recentrer" />
-        <OmniIcon Name="OmniIconName.HardDrive" AriaLabel="Disque" />
-        <OmniIcon Name="OmniIconName.Lightning" AriaLabel="Rapide" />
-        <OmniIcon Name="OmniIconName.MagnifyingGlassMinus" AriaLabel="Dézoomer" />
-        <OmniIcon Name="OmniIconName.Megaphone" AriaLabel="Annonce" />
-        <OmniIcon Name="OmniIconName.SignIn" AriaLabel="Se connecter" />
-        <OmniIcon Name="OmniIconName.Target" AriaLabel="Cible" />
-        <OmniIcon Name="OmniIconName.ToggleLeft" AriaLabel="Désactivé" />
-        <OmniIcon Name="OmniIconName.Tray" AriaLabel="Boîte de réception" />
-        <OmniIcon Name="OmniIconName.Cpu" AriaLabel="Processeur" />
-        <OmniIcon Name="OmniIconName.FilePlus" AriaLabel="Nouveau fichier" />
-        <OmniIcon Name="OmniIconName.HandTap" AriaLabel="Déclenchement manuel" />
-        <OmniIcon Name="OmniIconName.Pause" AriaLabel="Pause" />
-        <OmniIcon Name="OmniIconName.ToggleRight" AriaLabel="Activé" />
-        <OmniIcon Name="OmniIconName.Webhook" AriaLabel="Webhook" />
-        <OmniIcon Name="OmniIconName.WifiSlash" AriaLabel="Réseau coupé" />
-        <OmniIcon Name="OmniIconName.WindowsLogo" AriaLabel="Windows" />
-        <OmniIcon Name="OmniIconName.Scissors" AriaLabel="Couper" />
-        <OmniIcon Name="OmniIconName.Clipboard" AriaLabel="Coller" />
-        <OmniIcon Name="OmniIconName.ThumbsUp" AriaLabel="Utile" />
-        <OmniIcon Name="OmniIconName.ThumbsDown" AriaLabel="Pas utile" />
-        <OmniIcon Name="OmniIconName.Lightbulb" AriaLabel="Astuce" />
-        <OmniIcon Name="OmniIconName.Keyboard" AriaLabel="Clavier" />
-        <OmniIcon Name="OmniIconName.Flag" AriaLabel="Signaler" />
-        <OmniIcon Name="OmniIconName.Highlighter" AriaLabel="Surligner" />
-        <OmniIcon Name="OmniIconName.ChartPie" AriaLabel="Répartition" />
-        <OmniIcon Name="OmniIconName.ChartDonut" AriaLabel="Proportion" />
-        <OmniIcon Name="OmniIconName.Circle" AriaLabel="Cercle" />
-        <OmniIcon Name="OmniIconName.Bookmark" AriaLabel="Signet" />
-        <OmniIcon Name="OmniIconName.UserMinus" AriaLabel="Retirer un membre" />
-        <OmniIcon Name="OmniIconName.SelectionSlash" AriaLabel="Désélectionner" />
-        <OmniIcon Name="OmniIconName.Smiley" AriaLabel="Caractères spéciaux" />
-        <OmniIcon Name="OmniIconName.SkipBack" AriaLabel="Piste précédente" />
-        <OmniIcon Name="OmniIconName.SkipForward" AriaLabel="Piste suivante" />
-        <OmniIcon Name="OmniIconName.Shuffle" AriaLabel="Lecture aléatoire" />
-        <OmniIcon Name="OmniIconName.Repeat" AriaLabel="Répéter" />
-        <OmniIcon Name="OmniIconName.RepeatOnce" AriaLabel="Répéter une fois" />
-        <OmniIcon Name="OmniIconName.SpeakerHigh" AriaLabel="Volume fort" />
-        <OmniIcon Name="OmniIconName.SpeakerLow" AriaLabel="Volume faible" />
-        <OmniIcon Name="OmniIconName.SpeakerNone" AriaLabel="Volume nul" />
-        <OmniIcon Name="OmniIconName.SpeakerX" AriaLabel="Son coupé" />
-        <OmniIcon Name="OmniIconName.Queue" AriaLabel="File d'attente" />
-        <OmniIcon Name="OmniIconName.Playlist" AriaLabel="Liste de lecture" />
-        <OmniIcon Name="OmniIconName.ListPlus" AriaLabel="Ajouter à la liste" />
-        <OmniIcon Name="OmniIconName.MusicNote" AriaLabel="Morceau" />
-        <OmniIcon Name="OmniIconName.Disc" AriaLabel="Album" />
-        <OmniIcon Name="OmniIconName.Waveform" AriaLabel="Forme d'onde" />
-        <OmniIcon Name="OmniIconName.DotsSixVertical" AriaLabel="Poignée de déplacement" />
-        <OmniIcon Name="OmniIconName.CornersIn" AriaLabel="Réduire l'affichage" />
-        <OmniIcon Name="OmniIconName.PlayCircle" AriaLabel="Lire" />
-        <OmniIcon Name="OmniIconName.PauseCircle" AriaLabel="Pause" />
-        <OmniIcon Name="OmniIconName.XCircle" AriaLabel="Annuler" />
-        <OmniIcon Name="OmniIconName.ChartBar" AriaLabel="Histogramme" />
-        <OmniIcon Name="OmniIconName.BookOpen" AriaLabel="Livre ouvert" />
-        <OmniIcon Name="OmniIconName.ArrowsDownUp" AriaLabel="Échanger verticalement" />
-        <OmniIcon Name="OmniIconName.FolderPlus" AriaLabel="Nouveau dossier" />
-        <OmniIcon Name="OmniIconName.Television" AriaLabel="Écran" />
-        <OmniIcon Name="OmniIconName.SealCheck" AriaLabel="Vérifié" />
-        <OmniIcon Name="OmniIconName.CheckSquare" AriaLabel="Case cochée" />
-        <OmniIcon Name="OmniIconName.ArrowBendUpRight" AriaLabel="Déplacer" />
-        <OmniIcon Name="OmniIconName.Stethoscope" AriaLabel="Diagnostic" />
-        <OmniIcon Name="OmniIconName.ChevronLeft" AriaLabel="Précédent" />
-        <OmniIcon Name="OmniIconName.Envelope" AriaLabel="Courriel" />
-        <OmniIcon Name="OmniIconName.CurrencyEur" AriaLabel="Montant en euros" />
-        <OmniIcon Name="OmniIconName.ShareNetwork" AriaLabel="Partager" />
-        <OmniIcon Name="OmniIconName.Bank" AriaLabel="Établissement financier" />
-        <OmniIcon Name="OmniIconName.Briefcase" AriaLabel="Mission" />
-        <OmniIcon Name="OmniIconName.IdentificationBadge" AriaLabel="Badge d’identification" />
-        <OmniIcon Name="OmniIconName.FilePdf" AriaLabel="Document PDF" />
-        <OmniIcon Name="OmniIconName.Headset" AriaLabel="Assistance" />
-        <OmniIcon Name="OmniIconName.Handshake" AriaLabel="Partenariat" />
-        <OmniIcon Name="OmniIconName.ArrowUp" AriaLabel="Hausse" />
+        <OmniIcon Name="OmniIconName.Add" Label="@Text["DemoMediaIconAdd"]" />
+        <OmniIcon Name="OmniIconName.Airplane" Label="@Text["DemoMediaIconAirplane"]" />
+        <OmniIcon Name="OmniIconName.AirplaneLanding" Label="@Text["DemoMediaIconAirplaneLanding"]" />
+        <OmniIcon Name="OmniIconName.AirplaneTakeoff" Label="@Text["DemoMediaIconAirplaneTakeoff"]" />
+        <OmniIcon Name="OmniIconName.Archive" Label="@Text["DemoMediaIconArchive"]" />
+        <OmniIcon Name="OmniIconName.ArrowLeft" Label="@Text["DemoMediaIconArrowLeft"]" />
+        <OmniIcon Name="OmniIconName.ArrowRight" Label="@Text["DemoMediaIconArrowRight"]" />
+        <OmniIcon Name="OmniIconName.Bed" Label="@Text["DemoMediaIconBed"]" />
+        <OmniIcon Name="OmniIconName.Bell" Label="@Text["DemoMediaIconBell"]" />
+        <OmniIcon Name="OmniIconName.BracketsCurly" Label="@Text["DemoMediaIconBracketsCurly"]" />
+        <OmniIcon Name="OmniIconName.Calculator" Label="@Text["DemoMediaIconCalculator"]" />
+        <OmniIcon Name="OmniIconName.Cards" Label="@Text["DemoMediaIconCards"]" />
+        <OmniIcon Name="OmniIconName.ChartBarHorizontal" Label="@Text["DemoMediaIconChartBarHorizontal"]" />
+        <OmniIcon Name="OmniIconName.Chat" Label="@Text["DemoMediaIconChat"]" />
+        <OmniIcon Name="OmniIconName.CheckCircle" Label="@Text["DemoMediaIconCheckCircle"]" />
+        <OmniIcon Name="OmniIconName.ChevronUp" Label="@Text["DemoMediaIconChevronUp"]" />
+        <OmniIcon Name="OmniIconName.Copy" Label="@Text["DemoMediaIconCopy"]" />
+        <OmniIcon Name="OmniIconName.Database" Label="@Text["DemoMediaIconDatabase"]" />
+        <OmniIcon Name="OmniIconName.Delete" Label="@Text["DemoMediaIconDelete"]" />
+        <OmniIcon Name="OmniIconName.Diamond" Label="@Text["DemoMediaIconDiamond"]" />
+        <OmniIcon Name="OmniIconName.Dice" Label="@Text["DemoMediaIconDice"]" />
+        <OmniIcon Name="OmniIconName.Document" Label="@Text["DemoMediaIconDocument"]" />
+        <OmniIcon Name="OmniIconName.Download" Label="@Text["DemoMediaIconDownload"]" />
+        <OmniIcon Name="OmniIconName.Edit" Label="@Text["DemoMediaIconEdit"]" />
+        <OmniIcon Name="OmniIconName.Error" Label="@Text["DemoMediaIconError"]" />
+        <OmniIcon Name="OmniIconName.Flask" Label="@Text["DemoMediaIconFlask"]" />
+        <OmniIcon Name="OmniIconName.Function" Label="@Text["DemoMediaIconFunction"]" />
+        <OmniIcon Name="OmniIconName.Globe" Label="@Text["DemoMediaIconGlobe"]" />
+        <OmniIcon Name="OmniIconName.GlobeHemisphereWest" Label="@Text["DemoMediaIconGlobeHemisphereWest"]" />
+        <OmniIcon Name="OmniIconName.GraduationCap" Label="@Text["DemoMediaIconGraduationCap"]" />
+        <OmniIcon Name="OmniIconName.Graph" Label="@Text["DemoMediaIconGraph"]" />
+        <OmniIcon Name="OmniIconName.Home" Label="@Text["DemoMediaIconHome"]" />
+        <OmniIcon Name="OmniIconName.Hourglass" Label="@Text["DemoMediaIconHourglass"]" />
+        <OmniIcon Name="OmniIconName.Image" Label="@Text["DemoMediaIconImage"]" />
+        <OmniIcon Name="OmniIconName.Layers" Label="@Text["DemoMediaIconLayers"]" />
+        <OmniIcon Name="OmniIconName.MapPin" Label="@Text["DemoMediaIconMapPin"]" />
+        <OmniIcon Name="OmniIconName.MapPinLine" Label="@Text["DemoMediaIconMapPinLine"]" />
+        <OmniIcon Name="OmniIconName.Medal" Label="@Text["DemoMediaIconMedal"]" />
+        <OmniIcon Name="OmniIconName.Monitor" Label="@Text["DemoMediaIconMonitor"]" />
+        <OmniIcon Name="OmniIconName.NumberedList" Label="@Text["DemoMediaIconNumberedList"]" />
+        <OmniIcon Name="OmniIconName.Offline" Label="@Text["DemoMediaIconOffline"]" />
+        <OmniIcon Name="OmniIconName.OpenExternal" Label="@Text["DemoMediaIconOpenExternal"]" />
+        <OmniIcon Name="OmniIconName.Package" Label="@Text["DemoMediaIconPackage"]" />
+        <OmniIcon Name="OmniIconName.Palette" Label="@Text["DemoMediaIconPalette"]" />
+        <OmniIcon Name="OmniIconName.Path" Label="@Text["DemoMediaIconPath"]" />
+        <OmniIcon Name="OmniIconName.Pattern" Label="@Text["DemoMediaIconPattern"]" />
+        <OmniIcon Name="OmniIconName.PictureInPicture" Label="@Text["DemoMediaIconPictureInPicture"]" />
+        <OmniIcon Name="OmniIconName.Pin" Label="@Text["DemoMediaIconPin"]" />
+        <OmniIcon Name="OmniIconName.Play" Label="@Text["DemoMediaIconPlay"]" />
+        <OmniIcon Name="OmniIconName.Prohibit" Label="@Text["DemoMediaIconProhibit"]" />
+        <OmniIcon Name="OmniIconName.Refresh" Label="@Text["DemoMediaIconRefresh"]" />
+        <OmniIcon Name="OmniIconName.Remove" Label="@Text["DemoMediaIconRemove"]" />
+        <OmniIcon Name="OmniIconName.Reset" Label="@Text["DemoMediaIconReset"]" />
+        <OmniIcon Name="OmniIconName.Restore" Label="@Text["DemoMediaIconRestore"]" />
+        <OmniIcon Name="OmniIconName.Rows" Label="@Text["DemoMediaIconRows"]" />
+        <OmniIcon Name="OmniIconName.Ruler" Label="@Text["DemoMediaIconRuler"]" />
+        <OmniIcon Name="OmniIconName.Save" Label="@Text["DemoMediaIconSave"]" />
+        <OmniIcon Name="OmniIconName.Search" Label="@Text["DemoMediaIconSearch"]" />
+        <OmniIcon Name="OmniIconName.Settings" Label="@Text["DemoMediaIconSettings"]" />
+        <OmniIcon Name="OmniIconName.ShieldCheck" Label="@Text["DemoMediaIconShieldCheck"]" />
+        <OmniIcon Name="OmniIconName.Sidebar" Label="@Text["DemoMediaIconSidebar"]" />
+        <OmniIcon Name="OmniIconName.Sliders" Label="@Text["DemoMediaIconSliders"]" />
+        <OmniIcon Name="OmniIconName.Sparkle" Label="@Text["DemoMediaIconSparkle"]" />
+        <OmniIcon Name="OmniIconName.Star" Label="@Text["DemoMediaIconStar"]" />
+        <OmniIcon Name="OmniIconName.StarFilled" Label="@Text["DemoMediaIconStarFilled"]" />
+        <OmniIcon Name="OmniIconName.Swap" Label="@Text["DemoMediaIconSwap"]" />
+        <OmniIcon Name="OmniIconName.Sync" Label="@Text["DemoMediaIconSync"]" />
+        <OmniIcon Name="OmniIconName.Tag" Label="@Text["DemoMediaIconTag"]" />
+        <OmniIcon Name="OmniIconName.TextSize" Label="@Text["DemoMediaIconTextSize"]" />
+        <OmniIcon Name="OmniIconName.ThemeSystem" Label="@Text["DemoMediaIconThemeSystem"]" />
+        <OmniIcon Name="OmniIconName.Timer" Label="@Text["DemoMediaIconTimer"]" />
+        <OmniIcon Name="OmniIconName.Upgrade" Label="@Text["DemoMediaIconUpgrade"]" />
+        <OmniIcon Name="OmniIconName.Upload" Label="@Text["DemoMediaIconUpload"]" />
+        <OmniIcon Name="OmniIconName.User" Label="@Text["DemoMediaIconUser"]" />
+        <OmniIcon Name="OmniIconName.UserFocus" Label="@Text["DemoMediaIconUserFocus"]" />
+        <OmniIcon Name="OmniIconName.Eye" Label="@Text["DemoMediaIconEye"]" />
+        <OmniIcon Name="OmniIconName.GitCommit" Label="@Text["DemoMediaIconGitCommit"]" />
+        <OmniIcon Name="OmniIconName.Lock" Label="@Text["DemoMediaIconLock"]" />
+        <OmniIcon Name="OmniIconName.RocketLaunch" Label="@Text["DemoMediaIconRocketLaunch"]" />
+        <OmniIcon Name="OmniIconName.Users" Label="@Text["DemoMediaIconUsers"]" />
+        <OmniIcon Name="OmniIconName.Stop" Label="@Text["DemoMediaIconStop"]" />
+        <OmniIcon Name="OmniIconName.ListChecks" Label="@Text["DemoMediaIconListChecks"]" />
+        <OmniIcon Name="OmniIconName.Folder" Label="@Text["DemoMediaIconFolder"]" />
+        <OmniIcon Name="OmniIconName.Question" Label="@Text["DemoMediaIconQuestion"]" />
+        <OmniIcon Name="OmniIconName.SquaresFour" Label="@Text["DemoMediaIconSquaresFour"]" />
+        <OmniIcon Name="OmniIconName.TerminalWindow" Label="@Text["DemoMediaIconTerminalWindow"]" />
+        <OmniIcon Name="OmniIconName.Wrench" Label="@Text["DemoMediaIconWrench"]" />
+        <OmniIcon Name="OmniIconName.Key" Label="@Text["DemoMediaIconKey"]" />
+        <OmniIcon Name="OmniIconName.Buildings" Label="@Text["DemoMediaIconBuildings"]" />
+        <OmniIcon Name="OmniIconName.Heartbeat" Label="@Text["DemoMediaIconHeartbeat"]" />
+        <OmniIcon Name="OmniIconName.CloudArrowUp" Label="@Text["DemoMediaIconCloudArrowUp"]" />
+        <OmniIcon Name="OmniIconName.Link" Label="@Text["DemoMediaIconLink"]" />
+        <OmniIcon Name="OmniIconName.UserPlus" Label="@Text["DemoMediaIconUserPlus"]" />
+        <OmniIcon Name="OmniIconName.Layout" Label="@Text["DemoMediaIconLayout"]" />
+        <OmniIcon Name="OmniIconName.Broadcast" Label="@Text["DemoMediaIconBroadcast"]" />
+        <OmniIcon Name="OmniIconName.CalendarBlank" Label="@Text["DemoMediaIconCalendarBlank"]" />
+        <OmniIcon Name="OmniIconName.ChartLineUp" Label="@Text["DemoMediaIconChartLineUp"]" />
+        <OmniIcon Name="OmniIconName.FolderOpen" Label="@Text["DemoMediaIconFolderOpen"]" />
+        <OmniIcon Name="OmniIconName.GitFork" Label="@Text["DemoMediaIconGitFork"]" />
+        <OmniIcon Name="OmniIconName.GitMerge" Label="@Text["DemoMediaIconGitMerge"]" />
+        <OmniIcon Name="OmniIconName.LockKey" Label="@Text["DemoMediaIconLockKey"]" />
+        <OmniIcon Name="OmniIconName.Robot" Label="@Text["DemoMediaIconRobot"]" />
+        <OmniIcon Name="OmniIconName.ArrowDown" Label="@Text["DemoMediaIconArrowDown"]" />
+        <OmniIcon Name="OmniIconName.Brain" Label="@Text["DemoMediaIconBrain"]" />
+        <OmniIcon Name="OmniIconName.CellTower" Label="@Text["DemoMediaIconCellTower"]" />
+        <OmniIcon Name="OmniIconName.Cloud" Label="@Text["DemoMediaIconCloud"]" />
+        <OmniIcon Name="OmniIconName.Gavel" Label="@Text["DemoMediaIconGavel"]" />
+        <OmniIcon Name="OmniIconName.GitDiff" Label="@Text["DemoMediaIconGitDiff"]" />
+        <OmniIcon Name="OmniIconName.LinkBreak" Label="@Text["DemoMediaIconLinkBreak"]" />
+        <OmniIcon Name="OmniIconName.LockOpen" Label="@Text["DemoMediaIconLockOpen"]" />
+        <OmniIcon Name="OmniIconName.PaperPlaneRight" Label="@Text["DemoMediaIconPaperPlaneRight"]" />
+        <OmniIcon Name="OmniIconName.PlugsConnected" Label="@Text["DemoMediaIconPlugsConnected"]" />
+        <OmniIcon Name="OmniIconName.PuzzlePiece" Label="@Text["DemoMediaIconPuzzlePiece"]" />
+        <OmniIcon Name="OmniIconName.ShieldWarning" Label="@Text["DemoMediaIconShieldWarning"]" />
+        <OmniIcon Name="OmniIconName.SignOut" Label="@Text["DemoMediaIconSignOut"]" />
+        <OmniIcon Name="OmniIconName.ArrowElbowDownLeft" Label="@Text["DemoMediaIconArrowElbowDownLeft"]" />
+        <OmniIcon Name="OmniIconName.Broom" Label="@Text["DemoMediaIconBroom"]" />
+        <OmniIcon Name="OmniIconName.Bug" Label="@Text["DemoMediaIconBug"]" />
+        <OmniIcon Name="OmniIconName.ChartLine" Label="@Text["DemoMediaIconChartLine"]" />
+        <OmniIcon Name="OmniIconName.ChevronRight" Label="@Text["DemoMediaIconChevronRight"]" />
+        <OmniIcon Name="OmniIconName.Code" Label="@Text["DemoMediaIconCode"]" />
+        <OmniIcon Name="OmniIconName.Gauge" Label="@Text["DemoMediaIconGauge"]" />
+        <OmniIcon Name="OmniIconName.MagnifyingGlassPlus" Label="@Text["DemoMediaIconMagnifyingGlassPlus"]" />
+        <OmniIcon Name="OmniIconName.Password" Label="@Text["DemoMediaIconPassword"]" />
+        <OmniIcon Name="OmniIconName.ShieldSlash" Label="@Text["DemoMediaIconShieldSlash"]" />
+        <OmniIcon Name="OmniIconName.Stamp" Label="@Text["DemoMediaIconStamp"]" />
+        <OmniIcon Name="OmniIconName.TextAlignLeft" Label="@Text["DemoMediaIconTextAlignLeft"]" />
+        <OmniIcon Name="OmniIconName.WifiHigh" Label="@Text["DemoMediaIconWifiHigh"]" />
+        <OmniIcon Name="OmniIconName.ArrowElbowDownRight" Label="@Text["DemoMediaIconArrowElbowDownRight"]" />
+        <OmniIcon Name="OmniIconName.ArrowLineDown" Label="@Text["DemoMediaIconArrowLineDown"]" />
+        <OmniIcon Name="OmniIconName.ArrowLineUp" Label="@Text["DemoMediaIconArrowLineUp"]" />
+        <OmniIcon Name="OmniIconName.ArrowUUpRight" Label="@Text["DemoMediaIconArrowUUpRight"]" />
+        <OmniIcon Name="OmniIconName.At" Label="@Text["DemoMediaIconAt"]" />
+        <OmniIcon Name="OmniIconName.BellSlash" Label="@Text["DemoMediaIconBellSlash"]" />
+        <OmniIcon Name="OmniIconName.Books" Label="@Text["DemoMediaIconBooks"]" />
+        <OmniIcon Name="OmniIconName.CalendarCheck" Label="@Text["DemoMediaIconCalendarCheck"]" />
+        <OmniIcon Name="OmniIconName.Checks" Label="@Text["DemoMediaIconChecks"]" />
+        <OmniIcon Name="OmniIconName.CloudArrowDown" Label="@Text["DemoMediaIconCloudArrowDown"]" />
+        <OmniIcon Name="OmniIconName.Columns" Label="@Text["DemoMediaIconColumns"]" />
+        <OmniIcon Name="OmniIconName.CornersOut" Label="@Text["DemoMediaIconCornersOut"]" />
+        <OmniIcon Name="OmniIconName.DotsThreeVertical" Label="@Text["DemoMediaIconDotsThreeVertical"]" />
+        <OmniIcon Name="OmniIconName.EyeSlash" Label="@Text["DemoMediaIconEyeSlash"]" />
+        <OmniIcon Name="OmniIconName.FrameCorners" Label="@Text["DemoMediaIconFrameCorners"]" />
+        <OmniIcon Name="OmniIconName.HardDrive" Label="@Text["DemoMediaIconHardDrive"]" />
+        <OmniIcon Name="OmniIconName.Lightning" Label="@Text["DemoMediaIconLightning"]" />
+        <OmniIcon Name="OmniIconName.MagnifyingGlassMinus" Label="@Text["DemoMediaIconMagnifyingGlassMinus"]" />
+        <OmniIcon Name="OmniIconName.Megaphone" Label="@Text["DemoMediaIconMegaphone"]" />
+        <OmniIcon Name="OmniIconName.SignIn" Label="@Text["DemoMediaIconSignIn"]" />
+        <OmniIcon Name="OmniIconName.Target" Label="@Text["DemoMediaIconTarget"]" />
+        <OmniIcon Name="OmniIconName.ToggleLeft" Label="@Text["DemoMediaIconToggleLeft"]" />
+        <OmniIcon Name="OmniIconName.Tray" Label="@Text["DemoMediaIconTray"]" />
+        <OmniIcon Name="OmniIconName.Cpu" Label="@Text["DemoMediaIconCpu"]" />
+        <OmniIcon Name="OmniIconName.FilePlus" Label="@Text["DemoMediaIconFilePlus"]" />
+        <OmniIcon Name="OmniIconName.HandTap" Label="@Text["DemoMediaIconHandTap"]" />
+        <OmniIcon Name="OmniIconName.Pause" Label="@Text["DemoMediaIconPause"]" />
+        <OmniIcon Name="OmniIconName.ToggleRight" Label="@Text["DemoMediaIconToggleRight"]" />
+        <OmniIcon Name="OmniIconName.Webhook" Label="@Text["DemoMediaIconWebhook"]" />
+        <OmniIcon Name="OmniIconName.WifiSlash" Label="@Text["DemoMediaIconWifiSlash"]" />
+        <OmniIcon Name="OmniIconName.WindowsLogo" Label="Windows" />
+        <OmniIcon Name="OmniIconName.Scissors" Label="@Text["DemoMediaIconScissors"]" />
+        <OmniIcon Name="OmniIconName.Clipboard" Label="@Text["DemoMediaIconClipboard"]" />
+        <OmniIcon Name="OmniIconName.ThumbsUp" Label="@Text["DemoMediaIconThumbsUp"]" />
+        <OmniIcon Name="OmniIconName.ThumbsDown" Label="@Text["DemoMediaIconThumbsDown"]" />
+        <OmniIcon Name="OmniIconName.Lightbulb" Label="@Text["DemoMediaIconLightbulb"]" />
+        <OmniIcon Name="OmniIconName.Keyboard" Label="@Text["DemoMediaIconKeyboard"]" />
+        <OmniIcon Name="OmniIconName.Flag" Label="@Text["DemoMediaIconFlag"]" />
+        <OmniIcon Name="OmniIconName.Highlighter" Label="@Text["DemoMediaIconHighlighter"]" />
+        <OmniIcon Name="OmniIconName.ChartPie" Label="@Text["DemoMediaIconChartPie"]" />
+        <OmniIcon Name="OmniIconName.ChartDonut" Label="@Text["DemoMediaIconChartDonut"]" />
+        <OmniIcon Name="OmniIconName.Circle" Label="@Text["DemoMediaIconCircle"]" />
+        <OmniIcon Name="OmniIconName.Bookmark" Label="@Text["DemoMediaIconBookmark"]" />
+        <OmniIcon Name="OmniIconName.UserMinus" Label="@Text["DemoMediaIconUserMinus"]" />
+        <OmniIcon Name="OmniIconName.SelectionSlash" Label="@Text["DemoMediaIconSelectionSlash"]" />
+        <OmniIcon Name="OmniIconName.Smiley" Label="@Text["DemoMediaIconSmiley"]" />
+        <OmniIcon Name="OmniIconName.SkipBack" Label="@Text["DemoMediaIconSkipBack"]" />
+        <OmniIcon Name="OmniIconName.SkipForward" Label="@Text["DemoMediaIconSkipForward"]" />
+        <OmniIcon Name="OmniIconName.Shuffle" Label="@Text["DemoMediaIconShuffle"]" />
+        <OmniIcon Name="OmniIconName.Repeat" Label="@Text["DemoMediaIconRepeat"]" />
+        <OmniIcon Name="OmniIconName.RepeatOnce" Label="@Text["DemoMediaIconRepeatOnce"]" />
+        <OmniIcon Name="OmniIconName.SpeakerHigh" Label="@Text["DemoMediaIconSpeakerHigh"]" />
+        <OmniIcon Name="OmniIconName.SpeakerLow" Label="@Text["DemoMediaIconSpeakerLow"]" />
+        <OmniIcon Name="OmniIconName.SpeakerNone" Label="@Text["DemoMediaIconSpeakerNone"]" />
+        <OmniIcon Name="OmniIconName.SpeakerX" Label="@Text["DemoMediaIconSpeakerX"]" />
+        <OmniIcon Name="OmniIconName.Queue" Label="@Text["DemoMediaIconQueue"]" />
+        <OmniIcon Name="OmniIconName.Playlist" Label="@Text["DemoMediaIconPlaylist"]" />
+        <OmniIcon Name="OmniIconName.ListPlus" Label="@Text["DemoMediaIconListPlus"]" />
+        <OmniIcon Name="OmniIconName.MusicNote" Label="@Text["DemoMediaIconMusicNote"]" />
+        <OmniIcon Name="OmniIconName.Disc" Label="@Text["DemoMediaIconDisc"]" />
+        <OmniIcon Name="OmniIconName.Waveform" Label="@Text["DemoMediaIconWaveform"]" />
+        <OmniIcon Name="OmniIconName.DotsSixVertical" Label="@Text["DemoMediaIconDotsSixVertical"]" />
+        <OmniIcon Name="OmniIconName.CornersIn" Label="@Text["DemoMediaIconCornersIn"]" />
+        <OmniIcon Name="OmniIconName.PlayCircle" Label="@Text["DemoMediaIconPlayCircle"]" />
+        <OmniIcon Name="OmniIconName.PauseCircle" Label="@Text["DemoMediaIconPauseCircle"]" />
+        <OmniIcon Name="OmniIconName.XCircle" Label="@Text["DemoMediaIconXCircle"]" />
+        <OmniIcon Name="OmniIconName.ChartBar" Label="@Text["DemoMediaIconChartBar"]" />
+        <OmniIcon Name="OmniIconName.BookOpen" Label="@Text["DemoMediaIconBookOpen"]" />
+        <OmniIcon Name="OmniIconName.ArrowsDownUp" Label="@Text["DemoMediaIconArrowsDownUp"]" />
+        <OmniIcon Name="OmniIconName.FolderPlus" Label="@Text["DemoMediaIconFolderPlus"]" />
+        <OmniIcon Name="OmniIconName.Television" Label="@Text["DemoMediaIconTelevision"]" />
+        <OmniIcon Name="OmniIconName.SealCheck" Label="@Text["DemoMediaIconSealCheck"]" />
+        <OmniIcon Name="OmniIconName.CheckSquare" Label="@Text["DemoMediaIconCheckSquare"]" />
+        <OmniIcon Name="OmniIconName.ArrowBendUpRight" Label="@Text["DemoMediaIconArrowBendUpRight"]" />
+        <OmniIcon Name="OmniIconName.Stethoscope" Label="@Text["DemoMediaIconStethoscope"]" />
+        <OmniIcon Name="OmniIconName.ChevronLeft" Label="@Text["DemoMediaIconChevronLeft"]" />
+        <OmniIcon Name="OmniIconName.Envelope" Label="@Text["DemoMediaIconEnvelope"]" />
+        <OmniIcon Name="OmniIconName.CurrencyEur" Label="@Text["DemoMediaIconCurrencyEur"]" />
+        <OmniIcon Name="OmniIconName.ShareNetwork" Label="@Text["DemoMediaIconShareNetwork"]" />
+        <OmniIcon Name="OmniIconName.Bank" Label="@Text["DemoMediaIconBank"]" />
+        <OmniIcon Name="OmniIconName.Briefcase" Label="@Text["DemoMediaIconBriefcase"]" />
+        <OmniIcon Name="OmniIconName.IdentificationBadge" Label="@Text["DemoMediaIconIdentificationBadge"]" />
+        <OmniIcon Name="OmniIconName.FilePdf" Label="@Text["DemoMediaIconFilePdf"]" />
+        <OmniIcon Name="OmniIconName.Headset" Label="@Text["DemoMediaIconHeadset"]" />
+        <OmniIcon Name="OmniIconName.Handshake" Label="@Text["DemoMediaIconHandshake"]" />
+        <OmniIcon Name="OmniIconName.ArrowUp" Label="@Text["DemoMediaIconArrowUp"]" />
     </OmniRow>
 
     @* Les trois façons de faire tenir une image dans la boîte qu'on lui donne. *@
     <OmniRow Gap="OmniSpacing.Medium">
-        <OmniImage Source="showcase-sample.svg" Alt="Image entière, sans recadrage"
+        <OmniImage Source="showcase-sample.svg" Alt="@Text["DemoMediaImageContain"]"
                    Width="180" Height="120" Fit="OmniImageFit.Contain" Loading="OmniImageLoading.Lazy" />
-        <OmniImage Source="showcase-sample.svg" Alt="Image recadrée pour remplir la boîte"
+        <OmniImage Source="showcase-sample.svg" Alt="@Text["DemoMediaImageCover"]"
                    Width="180" Height="120" Fit="OmniImageFit.Cover" Loading="OmniImageLoading.Eager" />
-        <OmniImage Source="showcase-sample.svg" Alt="Image à sa taille naturelle"
+        <OmniImage Source="showcase-sample.svg" Alt="@Text["DemoMediaImageNatural"]"
                    Width="180" Height="120" Fit="OmniImageFit.Natural" />
     </OmniRow>
 
-    <OmniTimeline Label="Étapes du dossier">
-        <OmniTimelineItem Title="Dépôt" DateText="2 mars">Le dossier a été enregistré.</OmniTimelineItem>
-        <OmniTimelineItem Title="Instruction" DateText="9 mars">Un agent a été désigné.</OmniTimelineItem>
-        <OmniTimelineItem Title="Décision" DateText="24 mars">La décision a été notifiée.</OmniTimelineItem>
+    <OmniTimeline Label="@Text["DemoMediaTimeline"]">
+        <OmniTimelineItem Title="@Text["DemoMediaFiling"]" DateText="@DayOf(3, 2)">@Text["DemoMediaFilingText"]</OmniTimelineItem>
+        <OmniTimelineItem Title="@Text["DemoMediaReview"]" DateText="@DayOf(3, 9)">@Text["DemoMediaReviewText"]</OmniTimelineItem>
+        <OmniTimelineItem Title="@Text["DemoMediaDecision"]" DateText="@DayOf(3, 24)">@Text["DemoMediaDecisionText"]</OmniTimelineItem>
     </OmniTimeline>
 </OmniStack>

@@ -18,14 +18,20 @@
   <data name="SettingsTextSize" xml:space="preserve"><value>Textstorlek</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Täthet</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Kontrollernas storlek</value></data>
-  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Kontroller</value></data>
-  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Text</value></data>
-  <data name="SettingsDensityShort" xml:space="preserve"><value>Täthet</value></data>
-  <data name="SettingsScale" xml:space="preserve"><value>Storlekar</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Standard</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>standard</value></data>
-  <data name="SettingsDecrease" xml:space="preserve"><value>Minska</value></data>
-  <data name="SettingsIncrease" xml:space="preserve"><value>Öka</value></data>
+  <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Minska textstorleken</value></data>
+  <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Öka textstorleken</value></data>
+  <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Minska kontrollernas storlek</value></data>
+  <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Öka kontrollernas storlek</value></data>
+  <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
+  <data name="SettingsLook" xml:space="preserve"><value>Tema och storlekar</value></data>
+  <data name="SettingsLookTitle" xml:space="preserve"><value>Tema, palett och storlekar</value></data>
+  <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Text {1} · {2}</value></data>
+  <data name="SettingsLookSummaryFull" xml:space="preserve"><value>{0} · Text {1} · {2} · Kontroller {3}</value></data>
+  <data name="DensityCompact" xml:space="preserve"><value>Kompakt</value></data>
+  <data name="DensityComfortable" xml:space="preserve"><value>Bekväm</value></data>
+  <data name="DensitySpacious" xml:space="preserve"><value>Luftig</value></data>
   <data name="ArcGaugeLabel" xml:space="preserve"><value>Mätare</value></data>
   <data name="LabelValuePair" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="ChartCategoryColumn" xml:space="preserve"><value>Kategori</value></data>
@@ -85,8 +91,6 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Visa eller dölj alla rader</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Lossa de låsta kolumnerna</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Lås kolumnerna igen</value></data>
-  <data name="GridShrinkColumn" xml:space="preserve"><value>Gör kolumnen {0} smalare</value></data>
-  <data name="GridGrowColumn" xml:space="preserve"><value>Gör kolumnen {0} bredare</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Första sidan</value></data>
   <data name="PagerLast" xml:space="preserve"><value>Sista sidan</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Rader per sida</value></data>
@@ -307,8 +311,8 @@
   <data name="MindMapFitView" xml:space="preserve"><value>Anpassa</value></data>
   <data name="MindMapFontSize" xml:space="preserve"><value>Teckenstorlek</value></data>
   <data name="MindMapItalic" xml:space="preserve"><value>Kursiv</value></data>
-  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Pilar: flytta mellan noder, Home: central nod, Shift+pilar: flytta, Enter eller F2: byt namn, N: ny nod, D: duplicera, C: centrera, Delete: ta bort, + och -: zooma, 0: anpassa, Ctrl+Z och Ctrl+Y: ångra och gör om, Shift+F10: meny, Esc: avmarkera.</value></data>
-  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Pilar: flytta mellan noder, Home: central nod, C: centrera, + och -: zooma, 0: anpassa, Shift+F10: meny, Esc: avmarkera.</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Pilar: flytta mellan noder, Home: central nod, Skift+pilar: flytta, Retur eller F2: byt namn, N: ny nod, D: duplicera, C: centrera, Delete: ta bort, + och -: zooma, 0: anpassa, Ctrl+Z och Ctrl+Y: ångra och gör om, Skift+F10: meny, Esc: avmarkera.</value></data>
+  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Pilar: flytta mellan noder, Home: central nod, C: centrera, + och -: zooma, 0: anpassa, Skift+F10: meny, Esc: avmarkera.</value></data>
   <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Esc för att avbryta</value></data>
   <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Klicka på källnoden</value></data>
   <data name="MindMapLinkSelectTarget" xml:space="preserve"><value>Klicka på målnoden</value></data>
@@ -348,6 +352,10 @@
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Profilmeny</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Förlopp</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0} %</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>Pågår</value></data>
+  <data name="TextAreaCount" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="HeaderHome" xml:space="preserve"><value>Start</value></data>
+  <data name="HeaderLogo" xml:space="preserve"><value>Logotyp</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Alternativvalet är ogiltigt.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Fältet är obligatoriskt.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Föregående period</value></data>
@@ -366,6 +374,7 @@
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} ligger kvar på sin plats.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} flyttades till {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Det segmenterade valet är ogiltigt.</value></data>
+  <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Valet är ogiltigt.</value></data>
   <data name="RatingLabel" xml:space="preserve"><value>Betyg</value></data>
   <data name="RatingStar" xml:space="preserve"><value>{0} av {1}</value></data>
   <data name="RatingValue" xml:space="preserve"><value>{0}: {1} av {2}</value></data>
@@ -451,8 +460,9 @@
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, startade {1}, varaktighet</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Bekräfta</value></data>
   <data name="GoBack" xml:space="preserve"><value>Tillbaka</value></data>
-  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Visa märken och åtgärder</value></data>
-  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Dölj märken och åtgärder</value></data>
+  <data name="PageHeaderShowMore" xml:space="preserve"><value>Visa mer</value></data>
+  <data name="PageHeaderScrollTitleStart" xml:space="preserve"><value>Rulla rubriken till början</value></data>
+  <data name="PageHeaderScrollTitleEnd" xml:space="preserve"><value>Rulla rubriken till slutet</value></data>
   <data name="DetailNotFound" xml:space="preserve"><value>Objektet hittades inte</value></data>
   <data name="SignIn" xml:space="preserve"><value>Logga in</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Anslutningen bröts</value></data>
@@ -485,6 +495,15 @@
   <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} månader</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} år</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} år</value></data>
+  <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} tim</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} dag</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} dagar</value></data>
+  <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} månad</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} månader</value></data>
+  <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} år</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} år</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Understruken</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Genomstruken</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Kod i text</value></data>
@@ -597,7 +616,7 @@
   <data name="StatusStripLabel" xml:space="preserve"><value>Statushistorik</value></data>
   <data name="StatusStripEmpty" xml:space="preserve"><value>Ingen status att visa</value></data>
   <data name="KanbanLabel" xml:space="preserve"><value>Korttavla</value></data>
-  <data name="KanbanInstructions" xml:space="preserve"><value>Blanksteg eller Enter för att plocka upp kortet, piltangenter för att flytta det, Blanksteg eller Enter för att släppa det, Esc för att avbryta.</value></data>
+  <data name="KanbanInstructions" xml:space="preserve"><value>Blanksteg eller Retur för att plocka upp kortet, piltangenter för att flytta det, Blanksteg eller Retur för att släppa det, Esc för att avbryta.</value></data>
   <data name="KanbanGrabbed" xml:space="preserve"><value>{0} har plockats upp, kolumn {1}, position {2} av {3}.</value></data>
   <data name="KanbanMoved" xml:space="preserve"><value>{0}: kolumn {1}, position {2} av {3}.</value></data>
   <data name="KanbanDropped" xml:space="preserve"><value>{0} har släppts, kolumn {1}, position {2} av {3}.</value></data>

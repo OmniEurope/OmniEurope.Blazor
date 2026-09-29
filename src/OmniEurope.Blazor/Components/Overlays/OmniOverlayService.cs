@@ -2,6 +2,11 @@ using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// Opens the package's dialogs and shows its notifications, drawn by an <see cref="OmniComponentsHost"/>.
+/// Registered as a scoped service by the package's service registration; a host given none creates and
+/// owns its own. Dialogs stack: the last one opened is the one shown and the first one closed.
+/// </summary>
 public sealed class OmniOverlayService : IDisposable
 {
     private readonly OmniNotificationStore _notifications;
@@ -11,6 +16,18 @@ public sealed class OmniOverlayService : IDisposable
     private readonly Dictionary<OmniDialogRequest, TaskCompletionSource<object?>> _pending =
         new(RequestIdentityComparer.Instance);
 
+    /// <summary>Creates the service.</summary>
+    /// <param name="timeProvider">The clock that times the notifications. Null, the default, is <see cref="TimeProvider.System"/>.</param>
+    /// <param name="notificationCapacity">
+    /// How many notifications are shown at once, 5 by default. A new one beyond it removes the oldest.
+    /// </param>
+    /// <param name="defaultNotificationDuration">
+    /// How long a notification stays when <c>Notify</c> is given no duration. Null, the default, is
+    /// 7 seconds; zero keeps notifications until they are dismissed.
+    /// </param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// <paramref name="notificationCapacity"/> is less than 1, or <paramref name="defaultNotificationDuration"/> is negative.
+    /// </exception>
     public OmniOverlayService(
         TimeProvider? timeProvider = null,
         int notificationCapacity = 5,
@@ -23,11 +40,20 @@ public sealed class OmniOverlayService : IDisposable
             defaultNotificationDuration ?? TimeSpan.FromSeconds(7));
     }
 
+    /// <summary>The dialog shown, the last one opened and not yet closed. Null when no dialog is open.</summary>
     public OmniDialogRequest? Dialog => _dialogs.Current;
     internal IReadOnlyList<OmniDialogRequest> Dialogs => _dialogs.Items;
+
+    /// <summary>The notifications shown, oldest first.</summary>
     public IReadOnlyList<OmniNotificationMessage> Notifications => _notifications.Messages;
     internal event Action? Changed;
 
+    /// <summary>
+    /// Opens a dialog over any dialog already open, without waiting for its outcome. Use
+    /// <see cref="OpenDialogAsync(OmniDialogRequest)"/> to wait for it.
+    /// </summary>
+    /// <param name="request">The dialog to open.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="request"/> is null.</exception>
     public void OpenDialog(OmniDialogRequest request)
     {
         ArgumentNullException.ThrowIfNull(request);
@@ -35,6 +61,10 @@ public sealed class OmniOverlayService : IDisposable
         RaiseChanged();
     }
 
+    /// <summary>
+    /// Closes the current dialog; a caller awaiting it through <see cref="OpenDialogAsync(OmniDialogRequest)"/>
+    /// is answered null. Does nothing when no dialog is open.
+    /// </summary>
     public void CloseDialog()
     {
         // A dialog opened through OpenDialogAsync has a caller waiting on it: closing it any other
@@ -162,6 +192,20 @@ public sealed class OmniOverlayService : IDisposable
         }
     }
 
+    /// <summary>
+    /// Shows a notification. When as many are shown as the service's capacity, the oldest is removed
+    /// first. A message longer than 300 characters stays at least four seconds plus one per hundred
+    /// characters (thirty at most), so it can be read.
+    /// </summary>
+    /// <param name="message">The text of the notification. Must not be null, empty or white space.</param>
+    /// <param name="severity">How the notification reads. <see cref="OmniSeverity.Info"/> by default.</param>
+    /// <param name="title">A title over the message. Null, the default, shows none.</param>
+    /// <param name="duration">
+    /// How long it stays. Null, the default, is the service's default duration; zero or less keeps it
+    /// until it is dismissed.
+    /// </param>
+    /// <returns>The id of the notification, for <see cref="Dismiss(Guid)"/>.</returns>
+    /// <exception cref="ArgumentException"><paramref name="message"/> is null, empty or white space.</exception>
     public Guid Notify(
         string message,
         OmniSeverity severity = OmniSeverity.Info,
@@ -173,10 +217,19 @@ public sealed class OmniOverlayService : IDisposable
     /// rather than one more optional parameter, which would have changed the signature callers are
     /// already compiled against.
     /// </summary>
+    /// <param name="message">The text of the notification. Must not be null, empty or white space.</param>
+    /// <param name="severity">How the notification reads.</param>
+    /// <param name="title">A title over the message, or null for none.</param>
+    /// <param name="duration">
+    /// How long it stays. Null is the service's default duration; zero or less keeps it until it is dismissed.
+    /// </param>
     /// <param name="detailsHref">
     /// Offered from the notification when its message is too long to read in one. Checked against
     /// the same URI policy as every other link.
     /// </param>
+    /// <returns>The id of the notification, for <see cref="Dismiss(Guid)"/>.</returns>
+    /// <exception cref="ArgumentException"><paramref name="message"/> is null, empty or white space.</exception>
+    /// <exception cref="InvalidOperationException"><paramref name="detailsHref"/> uses a URI scheme that is not allowed.</exception>
     public Guid Notify(
         string message,
         OmniSeverity severity,
@@ -207,6 +260,9 @@ public sealed class OmniOverlayService : IDisposable
         return _notifications.Add(message, severity, title, duration, detailsHref: null, actionText, action);
     }
 
+    /// <summary>Removes a notification before it expires.</summary>
+    /// <param name="id">The id returned by <c>Notify</c>.</param>
+    /// <returns>True when the notification was shown and is now removed; false when it was already gone.</returns>
     public bool Dismiss(Guid id) => _notifications.Remove(id);
 
     /// <summary>Holds a notification's countdown while it is read.</summary>
@@ -216,6 +272,11 @@ public sealed class OmniOverlayService : IDisposable
 
     private void RaiseChanged() => Changed?.Invoke();
 
+    /// <summary>
+    /// Closes every open dialog, answers null to every caller still awaiting one, and stops the
+    /// notification timers. A host still drawing the service is told once when a dialog was open, so
+    /// it takes the dialogs down. A notification cannot be shown afterwards.
+    /// </summary>
     public void Dispose()
     {
         // Anything still awaiting a dialog is answered rather than left pending for ever.
@@ -225,7 +286,13 @@ public sealed class OmniOverlayService : IDisposable
         }
 
         _pending.Clear();
+        var closed = _dialogs.Clear();
         _notifications.Dispose();
+        if (closed)
+        {
+            RaiseChanged();
+        }
+
         GC.SuppressFinalize(this);
     }
 

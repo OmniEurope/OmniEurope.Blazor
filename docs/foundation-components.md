@@ -18,9 +18,9 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 | --- | --- |
 | `OmniText` | Texte rendu en `span`, `p`, `strong`, `em` ou `small`, avec tons et troncature statiques. |
 | `OmniHeading` | Titres `h1` à `h6` déterminés par `OmniHeadingLevel`, sur l'échelle `--omni-font-size-h1` à `h6` (2, 1,5, 1,25, 1,125, 1 et 0,875 rem), nettement décroissante. Le titre d'`OmniPageHeader` suit son niveau, h1 par défaut. |
-| `OmniIcon` | Tracés Phosphor `regular` intégrés pour les usages du paquet, décoratifs par défaut ou nommés avec `AriaLabel` ; `Glyph` accepte n'importe quel autre tracé sans alourdir le paquet. Sans `Size`, l'icône prend la taille que lui donne son conteneur (badge, bouton partagé, petit bouton), la taille moyenne ailleurs ; `Size` impose une taille fixe. |
-| `OmniBadge` | Étiquette courte avec variantes neutre, accent, information, succès, avertissement et danger. Par défaut (`Fill="Solid"`), elle prend le fond et l'encre du bouton de même intention ; `Fill="Filled"` en fait une pastille tonale (fond, trait et texte tirés de l'encre de la variante mêlée à la surface et au texte du thème) lisible en clair comme en sombre ; `Fill="Outline"` n'en garde que le trait. |
-| `OmniLink` | Lien natif ; un nouvel onglet ajoute automatiquement `noopener noreferrer`, une icône de lien externe et une mention pour les technologies d'assistance. `OnClick` exécute une action au clic en plus de la navigation, sans l'empêcher ; sans lui, aucun gestionnaire n'est attaché. |
+| `OmniIcon` | Tracés Phosphor `regular` intégrés pour les usages du paquet, décoratifs par défaut ou nommés avec `Label` ; `Glyph` accepte n'importe quel autre tracé sans alourdir le paquet. Sans `Size`, l'icône prend la taille que lui donne son conteneur (badge, bouton partagé, petit bouton), la taille moyenne ailleurs ; `Size` impose une taille fixe. |
+| `OmniBadge` | Étiquette courte, texte en contenu enfant, teintée par `Tone` (`OmniTone` : `Neutral` par défaut, `Accent`, `Info`, `Success`, `Warning`, `Danger`). Par défaut (`Fill="OmniFill.Solid"`), elle prend le fond et l'encre du bouton de même intention ; `Fill="OmniFill.Tonal"` en fait une pastille tonale (fond, trait et texte tirés de l'encre du ton mêlée à la surface et au texte du thème) lisible en clair comme en sombre ; `Fill="OmniFill.Outline"` n'en garde que le trait. |
+| `OmniLink` | Lien natif, nommé au besoin par `Label` ; un nouvel onglet ajoute automatiquement `noopener noreferrer` (fusionné avec un `rel` de l'hôte), une icône de lien externe et une mention pour les technologies d'assistance. `OnClick` exécute une action au clic en plus de la navigation, sans l'empêcher ; sans lui, aucun gestionnaire n'est attaché. |
 | `OmniImage` | Image responsive avec texte alternatif, chargement différé et dimensions natives optionnelles. |
 | `OmniSkeleton` | État de chargement décoratif ou région `status` nommée, avec une à dix lignes. |
 | `OmniStack` | Pile flex verticale ou horizontale (`Orientation`) avec espacement, alignement et justification typés. `Wrap` (désactivé par défaut) fait passer les éléments à la ligne ; `Overflow` (`Scroll`, `Collapse`) garde au contraire une seule ligne et l'emporte sur `Wrap`. |
@@ -29,7 +29,7 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 | `OmniLayout` | Conteneur de page pleine largeur (en-tête, corps, barre latérale) ; la largeur du contenu se règle sur `OmniMain.ContentWidth`. |
 | `OmniMain` | Landmark `main`, ciblable par un lien d'évitement grâce à `FocusTarget`. `ContentWidth` centre le contenu seul (`Wide`, 90rem, ou `Content`, 72rem) ; `Scrollable` en fait le conteneur de défilement de la page. |
 | `OmniHeader` | Landmark `header`, avec position collante optionnelle définie dans la feuille statique. `Brand` (nom de l'application, en gras) et `BrandLogo` (logo en image, décoratif) ouvrent la barre ; `BrandHref` en fait un lien vers l'accueil ; une bascule de barre latérale posée dans l'en-tête reste dessinée au bord, avant eux. |
-| `OmniFieldset` | Groupe de champs natif avec `legend` obligatoire et état désactivé ; `Collapsible` le replie avec l'élément natif `details`. `CollapsedChanged` (facultatif) rapporte l'état replié quand le lecteur ouvre ou ferme le groupe, ce qui permet `@bind-Collapsed` : l'événement natif `toggle` est écouté par `omni-focus.js`, sans gestionnaire en ligne, et seulement si le paramètre a un délégué ; sans lui, le groupe est rendu et se comporte comme avant, sans script. |
+| `OmniFieldset` | Groupe de champs natif avec `legend` obligatoire et état désactivé ; `Collapsible` le replie avec l'élément natif `details`, déplié tant que `Expanded` vaut vrai (par défaut). `ExpandedChanged` (facultatif) rapporte l'état quand le lecteur ouvre ou ferme le groupe, ce qui permet `@bind-Expanded` : l'événement natif `toggle` est écouté par `omni-focus.js`, sans gestionnaire en ligne, et seulement si le paramètre a un délégué ; sans lui, le groupe est rendu et se comporte comme avant, sans script. |
 | `OmniProgressBar` | Progression linéaire ou circulaire, déterminée ou indéterminée, avec valeurs ARIA. L'indéterminée linéaire glisse d'un mouvement continu, sans arrêt ni retour ; sans mouvement demandé, la piste se remplit à demi-teinte. |
 
 ## Barre d'application
@@ -38,25 +38,25 @@ Les pièces de la barre supérieure de la maquette de PLAN-004 (`docs/plans/PLAN
 
 - logo et nom : `OmniHeader.BrandLogo` et `OmniHeader.Brand` ;
 - recherche : `OmniTextBox` avec `Icon` (voir `docs/form-components.md`) ;
-- pastille de la cloche : `OmniButton.Indicator` pose un point du remplissage de danger au coin haut de fin du bouton, cerné de la surface (de l'accent sur le bandeau). Il est décoratif (`aria-hidden`) : ce qu'il signale va dans le nom accessible, par exemple `AriaLabel="Notifications, 3 non lues"` ;
-- avatar et menu de compte : `OmniProfileMenu` sans `Summary`, avec `Initials` et `Header`, et `OmniProfileMenuItem` avec `Icon` (voir `docs/selection-components.md`).
+- pastille de la cloche : `OmniButton.Indicator` pose un point du remplissage de danger au coin haut de fin du bouton, cerné de la surface (de l'accent sur le bandeau). Il est décoratif (`aria-hidden`) : ce qu'il signale va dans le nom accessible, par exemple `Label="Notifications, 3 non lues"` ;
+- avatar et menu de compte : `OmniProfileMenu` sans `Summary`, avec `Initials` et `Header`, et ses `OmniMenuItem` avec `Icon` (voir `docs/selection-components.md`).
 
 ```razor
 <OmniHeader Brand="Aetheus" BrandLogo="img/logo.svg">
-    <OmniSidebarToggle Controls="menu" Open="open" OpenChanged="@(value => open = value)" AriaLabel="Menu" />
+    <OmniSidebarToggle Controls="menu" Open="open" OpenChanged="@(value => open = value)" Label="Menu" />
     <OmniTextBox Type="OmniTextBoxType.Search" aria-label="Rechercher" @bind-Value="search">
         <Icon><OmniIcon Name="OmniIconName.Search" /></Icon>
     </OmniTextBox>
-    <OmniButton Variant="OmniButtonVariant.Ghost" Indicator="true" AriaLabel="Notifications, 3 non lues">
+    <OmniButton Variant="OmniButtonVariant.Ghost" Indicator="true" Label="Notifications, 3 non lues">
         <OmniIcon Name="OmniIconName.Bell" />
     </OmniButton>
     <OmniProfileMenu Label="Compte de Sony Tumen" Initials="ST">
         <Header><strong>Sony Tumen</strong><span>Administrateur</span></Header>
         <ChildContent>
-            <OmniProfileMenuItem>
+            <OmniMenuItem Href="/parametres">
                 <Icon><OmniIcon Name="OmniIconName.Settings" /></Icon>
                 <ChildContent>Paramètres</ChildContent>
-            </OmniProfileMenuItem>
+            </OmniMenuItem>
         </ChildContent>
     </OmniProfileMenu>
 </OmniHeader>
@@ -72,10 +72,10 @@ Pour un tracé ponctuel, Phosphor ou non, le paramètre `Glyph` reste disponible
 
 ```razor
 @* Une icône du catalogue. *@
-<OmniIcon Name="OmniIconName.Save" AriaLabel="Enregistrer" />
+<OmniIcon Name="OmniIconName.Save" Label="Enregistrer" />
 
 @* Un tracé ponctuel, ici une icône Phosphor absente du catalogue. *@
-<OmniIcon Glyph="@Compass" AriaLabel="Boussole" />
+<OmniIcon Glyph="@Compass" Label="Boussole" />
 
 @code {
     private static readonly OmniIconGlyph Compass = OmniIconGlyph.Phosphor(
@@ -163,10 +163,10 @@ Ces quatre thèmes reprennent l'esprit de quatre styles d'interface (néomorphis
 
 Relief, Givre et Aplat sont marqués **contraste non garanti** (décision du propriétaire du 2026-09-28) : leur style prime sur les seuils de contraste. La raison est déclarée dans le catalogue (`ThemeDefinition.ContrastWaiver`) et exposée par `OmniThemePreset.ContrastWaiver`, que la vitrine affiche sous l'aperçu. Ces thèmes restent mesurés : `ThemeContrastMatrixTests` écrit leurs écarts dans la sortie du test au lieu d'échouer, et la sonde de contraste les compte sous `acceptedContrastWaiver`. Seul l'anneau de focus n'est jamais couvert : il reste plein et à 3:1 au moins dans tous les thèmes et avec toutes les palettes (`ThemePaletteTests`). Le texte et la bordure d'un contrôle focalisé suivent la dérogation comme les autres états (décision du 2026-09-28). La liste des thèmes marqués est figée dans le test : en marquer un de plus est une modification délibérée, et l'apparence livrée (Essentiel) ne peut pas l'être. Une application qui doit garantir les contrastes choisit un thème non marqué. Épure garde les garanties complètes.
 
-Ils lisent douze crochets de la feuille, neutres pour tout autre thème et remis à zéro sur chaque portée (`[data-omni-theme]`) pour qu'une portée imbriquée ne les hérite pas :
+Ils lisent dix crochets de la feuille, neutres pour tout autre thème et remis à zéro sur chaque portée (`[data-omni-theme]`) pour qu'une portée imbriquée ne les hérite pas :
 
 - `--omni-backdrop` : calques d'image peints par la portée derrière tout son contenu, fixés à la fenêtre (`none` par défaut) ; Givre y pose quatre grandes taches en dégradés radiaux, `--omni-backdrop-start`, `--omni-backdrop-middle` et `--omni-backdrop-end` (information, accent et succès mêlés à la page, les trois arrêts que mesurent les contrôles de contraste) et une lueur `--omni-backdrop-glow` (l'avertissement en clair, l'accent en sombre), sur un fond qui glisse de la page vers l'information ;
-- `--omni-scope-isolation`, `--omni-card-position`, `--omni-card-frost` et `--omni-card-filter` : le dépoli des cartes (`auto`, `static`, `none` et `none` par défaut). Givre fait de la portée un contexte d'empilement, rend la carte positionnée et lui donne un pseudo-élément `::before` étiré sous elle, en `z-index: -1`, qui porte le `backdrop-filter` : il floute et sature le fond, et la carte pose par-dessus son remplissage translucide, son liseré et son reflet. Le filtre n'est jamais posé sur la carte, qui deviendrait le bloc conteneur des infobulles, menus et popovers fixes qu'elle contient, et la carte ne crée pas de contexte d'empilement, si bien que ses popovers passent toujours au-dessus des cartes suivantes ;
+- `--omni-card-filter` et `--omni-scope-isolation` : le dépoli des cartes, en un seul crochet (`none` et `auto` par défaut). Toute surface peinte du fond de carte (carte, tuile de statistique, tuile de réglage, ligne d'apparence, carte à choisir, fichier d'un envoi) est positionnée et porte un pseudo-élément `::before` étiré sous elle, en `z-index: -1`, qui applique `--omni-card-filter` en `backdrop-filter` ; Givre y pose son givre et fait de la portée un contexte d'empilement (`--omni-scope-isolation: isolate`). Le pseudo-élément floute et sature le fond, et la carte pose par-dessus son remplissage translucide, son liseré et son reflet. Le filtre n'est jamais posé sur la carte, qui deviendrait le bloc conteneur des infobulles, menus et popovers fixes qu'elle contient, et la carte ne crée pas de contexte d'empilement, si bien que ses popovers passent toujours au-dessus des cartes suivantes ;
 - `--omni-input-shadow` : ombre des champs (`.omni-input`, `.omni-password`), gardée sous l'anneau de focus ; Relief y creuse ses champs ;
 - `--omni-input-border-color` et `--omni-input-background` : bordure et fond des mêmes champs (la bordure et la surface de la palette par défaut) ; Relief efface la bordure, Givre rend le fond translucide ;
 - `--omni-grid-background` : fond du cadre d'une grille, repli sur `--omni-card-background` ; Aplat y garde la surface de la page, Givre un verre plus dense que ses cartes, lu ligne à ligne ;
@@ -197,36 +197,41 @@ Chaque sévérité (succès, information, avertissement, danger) et l'accent ont
 
 ### Réglages d'apparence réutilisables
 
-`OmniAppearanceSettings` rassemble mode clair/sombre/système, thème, palette, taille du texte et
-densité. Modifier (bouton `Success`) ouvre le thème, la palette et les échelles dans une fenêtre déplaçable sans voile.
+`OmniAppearanceSettings` porte en ligne le mode clair/sombre/système (groupe radio segmenté) et la police,
+puis une ligne « Thème, palette et tailles » dont le bouton Modifier (`Success`) ouvre la fenêtre de
+l'apparence : thème, palette, taille du texte, densité et taille des contrôles, sans voile et déplaçable.
+Aucun réglage n'est proposé deux fois. `WindowOpen` et `WindowOpenChanged` suivent l'ouverture de cette
+fenêtre, ce qui permet à l'hôte de retirer son éventuel voile de menu.
 Cette fenêtre est aussi un composant, `OmniAppearanceWindow`, qu'un hôte ouvre depuis sa propre entrée
-de menu (« Thème ») par `Open`/`OpenChanged` : thème et palette d'abord, puis taille du texte, densité et
-taille des contrôles, chaque ligne n'apparaissant que si l'hôte lie son changement (`PresetChanged`,
-`PaletteChanged`, `TextSizeLevelChanged`, `DensityLevelChanged`, `ControlSizeLevelChanged`). Elle ne
-remet pas d'elle-même palette et police à `null` quand le thème change : c'est à l'hôte de le faire, comme
-`OmniAppearanceSettings` le fait.
-En `Compact`, libellés et commandes s'alignent sur deux colonnes et la ligne des tailles lit « Tailles »
-suivi du résumé des niveaux (« Texte 5 · Densité 5 · Contrôles 5 »).
-Ses mesures sont capturées à l'ouverture : les commandes restent stables pendant les changements,
-puis prennent la nouvelle échelle à la prochaine ouverture. `ScaleEditorOpenChanged` informe l'hôte
-afin qu'il puisse retirer son éventuel voile de menu. Le reste de l'application garde son échelle active.
+de menu (« Thème ») par `Open`/`OpenChanged` : thème, palette et police d'abord, puis taille du texte,
+densité et taille des contrôles, chaque ligne n'apparaissant que si l'hôte lie son changement
+(`PresetChanged`, `PaletteChanged`, `FontChanged`, `TextSizeLevelChanged`, `DensityChanged`,
+`ControlSizeLevelChanged`). Chaque ligne est un groupe nommé par son libellé ; les boutons moins et plus
+d'une échelle portent des noms distincts.
+Dans les deux composants, choisir un thème lève `PresetChanged` puis `PaletteChanged` et `FontChanged`
+avec `null` pour une palette ou une police choisie pour le thème précédent : le nouveau thème s'affiche
+avec les siennes, l'hôte ne fait que stocker ce qu'il reçoit.
+En `Compact`, libellés et commandes s'alignent sur deux colonnes et la ligne de l'apparence lit « Thème et
+tailles » suivi d'un résumé (« Essentiel · Texte 5 · Confortable », taille des contrôles comprise quand
+l'hôte la lie).
+Les mesures de la fenêtre sont capturées à l'ouverture (`FreezeScale`) : les commandes restent stables
+pendant les changements, puis prennent la nouvelle échelle à la prochaine ouverture. Le reste de
+l'application garde son échelle active.
 Le thème et la palette de référence se nomment « Essentiel » ; les hôtes qui ont stocké l'ancien nom « Défaut »
 doivent le traiter comme un alias lors de la restauration de leurs préférences.
-La taille du texte et la densité proposent les niveaux 1 à 10. Le contrôle reçoit les valeurs
-et émet leurs changements ; l'application conserve
-la responsabilité du stockage et les applique à sa portée. Le mode Système et les boutons Défaut
-restaurent les valeurs initiales.
-Dans la fenêtre, un curseur de 1 à 10 suit les boutons moins et plus de chaque réglage.
+La densité est un `OmniDensity` (`Density`/`DensityChanged`), choisi dans un groupe radio segmenté
+(Compacte, Confortable, Aérée), que l'hôte passe tel quel à `OmniThemeScope.Density`. La taille du texte
+et la taille des contrôles proposent les niveaux 1 à 10 : un curseur suit les boutons moins et plus de
+chaque réglage. Le contrôle reçoit les valeurs et émet leurs changements ; l'application conserve
+la responsabilité du stockage et les applique à sa portée. Les boutons Défaut restaurent les valeurs
+initiales.
 Le réglage Police propose les dix polices d'`OmniThemeFonts.All` : six piles système et quatre polices web
 libres (Inter, Lexend, Source Serif 4, JetBrains Mono, OFL 1.1) servies par le paquet depuis `fonts/`, avec repli système ;
 celle du thème est marquée « (défaut) » et `OmniThemePresets.DefaultFontFor(preset)` la fournit.
 `Font` et `FontChanged` la pilotent, `OmniThemeScope.Font` l'applique au texte et aux titres de la portée.
-Changer de thème renvoie `null` pour la palette et la police choisies : le nouveau thème s'affiche avec
-les siennes.
 La palette du thème est nommée dans le sélecteur, par exemple « Océan (défaut) » pour Ardoise ;
 `OmniThemePresets.DefaultPaletteFor(preset)` fournit cette valeur. `Compact` réduit le panneau pour
-un menu d'en-tête. Pour la densité, l'application peut associer les niveaux 1 à 3 à `Compact`,
-4 à 7 à `Comfortable` et 8 à 10 à `Spacious`. La taille du texte se pilote par les jetons de police
+un menu d'en-tête. La taille du texte se pilote par les jetons de police
 du site ; le composant ne modifie pas la racine du document à l'insu de son hôte. Pour reproduire
 l'échelle d'Atlas sans CSS propre à l'application, l'hôte pose `data-oe-text-size` (1 à 10) sur
 `<html>` : la feuille OE applique alors 75 % à 131,25 % à la taille racine, 5 valant 100 %.
@@ -235,10 +240,21 @@ Le module `./_content/OmniEurope.Blazor/omni-appearance.js` expose `setTextSizeL
 principe : `data-oe-control-size` (1 à 10) sur `<html>` règle `--omni-control-scale` de 0,75 à 1,3125,
 que lisent `--omni-control-height`, `--omni-control-font` et `--omni-button-pad-x` dans les trois
 densités, sans toucher au texte de la page ; `setControlSizeLevel(level)` et
-`clearControlSizeLevel()` le posent ou le retirent. `OmniAppearanceSettings` n'affiche ce réglage
+`clearControlSizeLevel()` le posent ou le retirent. La fenêtre n'affiche ce réglage
 que si l'hôte fournit `ControlSizeLevelChanged`, puisque c'est lui qui l'applique. La démonstration du paquet applique
 le niveau choisi et le retire en quittant la page ; un aperçu vivant montre aussi le thème,
 la palette et la densité sélectionnés, à côté des exemples de combinaisons fixes.
+
+### Jetons d'échelle de la feuille
+
+La feuille déclare sur `:root` quelques échelles que les composants lisent et qu'un hôte peut lire pour ses propres surfaces :
+
+- Couches, de la plus basse à la plus haute : `--omni-z-sticky` (10), `--omni-z-drawer-backdrop` (25), `--omni-z-drawer` et `--omni-z-popover` (30), `--omni-z-progress` (35), `--omni-z-popover-top` (40, surface flottante ouverte depuis une autre), `--omni-z-overlay` (100), `--omni-z-portal` et `--omni-z-toast` (120), `--omni-z-window` (1200), `--omni-z-tooltip` (1300, au-dessus de la fenêtre qui porte son déclencheur), `--omni-z-blocking` (1400, voile de connexion perdue) et `--omni-z-splash` (écran de démarrage). Seules ces valeurs empilent une surface contre le reste de la page ; un petit `z-index` interne (1 à 4) ne range que les parties d'un composant.
+- Durées des transitions : `--omni-duration-press` (80 ms, appui d'un bouton), `--omni-duration-fast` (120 ms, survol ou fondu), `--omni-duration-medium` (200 ms, chevron ou remplissage qui bouge) et `--omni-duration-slow` (300 ms, panneau qui glisse). Les transitions et animations respectent `prefers-reduced-motion`.
+- Anneaux de focus : `--omni-focus-ring` (un seul anneau pour tous les contrôles), `--omni-focus-ring-danger` (champ invalide) et `--omni-focus-ring-inset` (anneau intérieur, pour un élément qu'un anneau extérieur ferait déborder). Ils nomment des jetons de palette et sont redéclarés sur chaque portée de thème.
+- Texte : `--omni-font-size-xs` (0,6875 rem) et `--omni-font-size-label` (0,8125 rem, libellés, légendes, aides et compteurs), autour de `--omni-font-size-sm` et `--omni-font-size-base` ; `--omni-font-family-serif` (Source Serif 4 puis piles système), serif de lecture pour la prose longue comme la feuille de document.
+- Les jetons de forme (échelle des titres, épaisseur de bordure, voile, forme des boutons et des titres) sont remis à leur valeur par défaut sur chaque portée `[data-omni-theme]` : une valeur posée par l'hôte sur `:root` n'atteint pas l'intérieur d'une portée de thème ; la poser sur la portée elle-même.
+
 ## Largeur du contenu et défilement
 
 `OmniTabs.ScrollablePanels` (désactivé par défaut) fait du panneau sélectionné la zone qui défile :
@@ -251,7 +267,7 @@ La coquille occupe toute la largeur ; `OmniMain.ContentWidth` centre le contenu 
 
 `OmniMain.AutoHideScrollbar` (désactivé par défaut, avec `Scrollable`) garde la place de la barre de défilement mais la laisse transparente : elle n'apparaît que pendant le défilement et s'efface peu après, comme une barre en surimpression.
 
-`OmniWindowControls`, dernier enfant d'un `OmniHeader`, dessine les boutons de légende d'une fenêtre de bureau sans bordure (MAUI, WebView2) : réduire dans la zone de notification (`OnMinimizeToTray`), réduire (`OnMinimize`), agrandir ou restaurer (`OnMaximizeRestore`, `IsMaximized`) et fermer (`OnClose`). Seuls les boutons dont le rappel est posé sont rendus. Ils sont carrés, prennent toute la hauteur de l'en-tête en traversant sa marge intérieure, se touchent, et fermer occupe le coin supérieur droit, rouge au survol. `Actions` accueille d'autres boutons d'en-tête (une bascule de thème), carrés à la même hauteur, avant les boutons de légende et séparés d'eux par un petit espace. Libellés localisés par défaut, remplaçables par `MinimizeToTrayLabel`, `MinimizeLabel`, `MaximizeLabel`, `RestoreLabel` et `CloseLabel`.
+`OmniWindowControls`, dernier enfant d'un `OmniHeader`, dessine les boutons de légende d'une fenêtre de bureau sans bordure (MAUI, WebView2) : réduire dans la zone de notification (`OnMinimizeToTray`), réduire (`OnMinimize`), agrandir ou restaurer (`OnMaximizeRestore`, `IsMaximized`) et fermer (`OnClose`). Seuls les boutons dont le rappel est posé sont rendus. Ils sont carrés, prennent toute la hauteur de l'en-tête en traversant sa marge intérieure, se touchent, et fermer occupe le coin supérieur droit, rouge au survol. `Actions` accueille d'autres boutons d'en-tête (une bascule de thème), carrés à la même hauteur, avant les boutons de légende et séparés d'eux par un petit espace. Le groupe est nommé par `Label` ; libellés des boutons localisés par défaut, remplaçables par `MinimizeToTrayLabel`, `MinimizeLabel`, `MaximizeLabel`, `RestoreLabel` et `CloseLabel` (tous `string?`).
 
 La coquille doit avoir une hauteur bornée : une `OmniLayout` dont le corps porte un élément principal défilant devient une colonne, et l'hôte lui donne sa hauteur, par exemple celle de la fenêtre. Les deux plafonds se lisent dans `--omni-layout-wide-width` et `--omni-layout-content-width`, qu'un hôte peut poser sur un ancêtre.
 
@@ -259,7 +275,7 @@ La coquille doit avoir une hauteur bornée : une `OmniLayout` dont le corps port
 <OmniLayout Class="app-shell">  @* .app-shell { block-size: 100dvh; } *@
     <OmniHeader>...</OmniHeader>
     <OmniBody>
-        <OmniSidebar Open="true" AriaLabel="Navigation">...</OmniSidebar>
+        <OmniSidebar Open="true" Label="Navigation">...</OmniSidebar>
         <OmniMain Scrollable="true" ContentWidth="OmniLayoutWidth.Content">@Body</OmniMain>
     </OmniBody>
 </OmniLayout>
@@ -284,7 +300,7 @@ La coquille doit avoir une hauteur bornée : une `OmniLayout` dont le corps port
 `OmniStatusStrip` (famille Feedback) aligne des états : les dernières exécutions d'une tâche en points
 (`Shape="OmniStatusStripShape.Dot"`, par défaut) ou les tranches d'une fenêtre de disponibilité en
 segments qui se partagent la largeur (`Segment`). Les états sont les mots de l'hôte (`success`,
-`failed`, `up`...) : `Tones` associe à chacun une `OmniBadgeVariant` (`Neutral` pour un état absent),
+`failed`, `up`...) : `Map` (`OmniStatusMap<string>`) donne le ton de chacun, seul `OmniStatus.Tone` étant lu (`OmniTone.Neutral` pour un état absent, ou pour tous sans `Map`),
 `Pulsing` nomme ceux qui pulsent (ce qui est encore en cours ; le mouvement réduit l'arrête). Chaque
 `OmniStatusStripItem` porte son `Label`, nom accessible et infobulle, et peut mener quelque part :
 `Href` en fait un lien (adresse vérifiée, un schéma dangereux lève), `OnItemClick` fait des autres des

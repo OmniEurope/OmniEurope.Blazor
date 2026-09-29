@@ -1,3 +1,6 @@
+using System.Globalization;
+using OmniEurope.Blazor.Showcase.Resources;
+
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class PagesDemo : IDisposable
@@ -5,6 +8,14 @@ public partial class PagesDemo : IDisposable
     private readonly CancellationTokenSource _lifetime = new();
 
     [Inject] private OmniBreadcrumbService Breadcrumb { get; set; } = null!;
+
+    [Inject] private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
+
+    /// <summary>The time the token quota resets, written by the current culture.</summary>
+    private static TimeOnly ResetTime => new(18, 0);
+
+    /// <summary>The weekly share of the quota used, written as a percentage by the current culture.</summary>
+    private static string WeeklyShare => 0.83.ToString("P0", CultureInfo.CurrentCulture);
 
     private OmniDetailState State { get; set; }
 
@@ -21,9 +32,9 @@ public partial class PagesDemo : IDisposable
     {
         State = OmniDetailState.Loading;
         Breadcrumb.Set(
-            new OmniBreadcrumbEntry("Composants", "composants"),
-            new OmniBreadcrumbEntry("Serveurs", "composants/pages"),
-            new OmniBreadcrumbEntry("Serveur", Loading: true));
+            new OmniBreadcrumbEntry(Text["DemoPagesCrumbComponents"], "composants"),
+            new OmniBreadcrumbEntry(Text["DemoPagesCrumbServers"], "composants/pages"),
+            new OmniBreadcrumbEntry(Text["DemoPagesCrumbServer"], Loading: true));
         try
         {
             await Task.Delay(TimeSpan.FromSeconds(1.5), _lifetime.Token);

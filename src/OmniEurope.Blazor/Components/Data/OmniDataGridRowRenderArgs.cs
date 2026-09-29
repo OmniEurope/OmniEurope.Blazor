@@ -4,6 +4,7 @@ namespace OmniEurope.Blazor.Components;
 /// Passed to <c>RowRender</c> so the host can style a row or decide whether it can expand,
 /// without emitting an inline style attribute.
 /// </summary>
+/// <typeparam name="TItem">The type of the grid rows.</typeparam>
 public sealed class OmniDataGridRowRenderArgs<TItem>
 {
     internal OmniDataGridRowRenderArgs(TItem item, int index)

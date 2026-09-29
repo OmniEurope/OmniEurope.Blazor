@@ -3,7 +3,7 @@
 <EditForm Model="Model">
     <OmniStack Gap="OmniSpacing.Medium">
         <OmniFormField For="inputs-amount">
-            <LabelContent>Montant</LabelContent>
+            <LabelContent>@Text["DemoInputsAmount"]</LabelContent>
             <ChildContent>
                 <OmniNumeric TValue="decimal" Id="inputs-amount" @bind-Value="Model.Amount"
                              Minimum="0" Maximum="100000" Step="50" Placeholder="0" />
@@ -12,16 +12,16 @@
 
         @* Clamp ramène une saisie hors bornes à la borne la plus proche, dans le modèle comme dans le
            champ. Sans lui, la valeur est prise telle quelle, comme avant. *@
-        <OmniFormField For="inputs-quantity" Description="Entre 0 et 20 : une saisie hors bornes est ramenée à la borne la plus proche.">
-            <LabelContent>Quantité</LabelContent>
+        <OmniFormField For="inputs-quantity" Description="@Text["DemoInputsQuantityHelp", 0, 20]">
+            <LabelContent>@Text["DemoInputsQuantity"]</LabelContent>
             <ChildContent>
                 <OmniNumeric TValue="int" Id="inputs-quantity" @bind-Value="Model.Quantity"
                              Minimum="0" Maximum="20" Clamp="true" />
             </ChildContent>
         </OmniFormField>
 
-        <OmniFormField For="inputs-secret" Description="Le bouton révèle la saisie sans la copier ailleurs.">
-            <LabelContent>Mot de passe</LabelContent>
+        <OmniFormField For="inputs-secret" Description="@Text["DemoInputsPasswordHelp"]">
+            <LabelContent>@Text["DemoInputsPassword"]</LabelContent>
             <ChildContent>
                 <OmniPassword Id="inputs-secret" @bind-Value="Model.Secret" Revealable="true"
                               Autocomplete="new-password" />
@@ -30,23 +30,23 @@
 
         @* Les trois sélecteurs ouvrent leur panneau sur le calque des surfaces flottantes ; un seul
            panneau est ouvert à la fois. *@
-        <OmniFormField For="inputs-date" Description="Saisie au clavier ou calendrier ; les jours hors bornes ne se choisissent pas.">
-            <LabelContent>Date d'effet</LabelContent>
+        <OmniFormField For="inputs-date" Description="@Text["DemoInputsDateHelp"]">
+            <LabelContent>@Text["DemoInputsDate"]</LabelContent>
             <ChildContent>
                 <OmniDatePicker Id="inputs-date" @bind-Value="Model.Date"
                                 Minimum="Floor" Maximum="Ceiling" />
             </ChildContent>
         </OmniFormField>
 
-        <OmniFormField For="inputs-start" Description="Heures de 00 à 23, minutes par pas de 5.">
-            <LabelContent>Heure de début</LabelContent>
+        <OmniFormField For="inputs-start" Description="@Text["DemoInputsStartHelp", 5]">
+            <LabelContent>@Text["DemoInputsStart"]</LabelContent>
             <ChildContent>
                 <OmniTimePicker Id="inputs-start" @bind-Value="Model.Start" Step="TimeSpan.FromMinutes(5)" />
             </ChildContent>
         </OmniFormField>
 
-        <OmniFormField For="inputs-appointment" Description="Calendrier et colonnes d'heure dans un même panneau.">
-            <LabelContent>Rendez-vous</LabelContent>
+        <OmniFormField For="inputs-appointment" Description="@Text["DemoInputsAppointmentHelp"]">
+            <LabelContent>@Text["DemoInputsAppointment"]</LabelContent>
             <ChildContent>
                 <OmniDateTimePicker Id="inputs-appointment" @bind-Value="Model.Appointment"
                                     Minimum="AppointmentFloor" Maximum="AppointmentCeiling" />
@@ -55,18 +55,18 @@
         <p id="inputs-picked">@PickedSummary</p>
 
         <OmniFormField For="inputs-color">
-            <LabelContent>Couleur de repère</LabelContent>
+            <LabelContent>@Text["DemoInputsColor"]</LabelContent>
             <ChildContent>
                 <OmniColorPicker Id="inputs-color" @bind-Value="Model.Color" ShowValue="true" />
             </ChildContent>
         </OmniFormField>
 
-        <OmniFormField For="inputs-city" Description="La recherche démarre à deux caractères.">
-            <LabelContent>Ville</LabelContent>
+        <OmniFormField For="inputs-city" Description="@Text["DemoInputsCityHelp"]">
+            <LabelContent>@Text["DemoInputsCity"]</LabelContent>
             <ChildContent>
                 <OmniAutocomplete TValue="string" Id="inputs-city" @bind-Value="Model.City"
                                   Search="SearchCitiesAsync" MinimumLength="2"
-                                  Debounce="TimeSpan.FromMilliseconds(150)" Placeholder="Commencez à écrire"
+                                  Debounce="TimeSpan.FromMilliseconds(150)" Placeholder="@Text["DemoInputsCityPlaceholder"]"
                                   HighlightMatches="true" />
             </ChildContent>
         </OmniFormField>

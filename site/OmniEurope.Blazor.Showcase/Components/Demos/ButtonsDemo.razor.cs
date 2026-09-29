@@ -1,7 +1,11 @@
+using OmniEurope.Blazor.Showcase.Resources;
+
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class ButtonsDemo
 {
+    [Inject] private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
+
     private int Count { get; set; }
 
     private int Sent { get; set; }

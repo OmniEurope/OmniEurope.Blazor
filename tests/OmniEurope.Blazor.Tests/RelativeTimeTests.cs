@@ -1,7 +1,9 @@
 using System.Globalization;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using OmniEurope.Blazor.Components;
+using OmniEurope.Blazor.Resources;
 
 namespace OmniEurope.Blazor.Tests;
 
@@ -75,6 +77,26 @@ public sealed class RelativeTimeTests : OmniBunitContext
         Assert.DoesNotContain("style=", time.Markup, StringComparison.OrdinalIgnoreCase);
     }
 
+    [Theory]
+    [InlineData(45, "Seconds")]
+    [InlineData(150, "Minutes")]
+    [InlineData(3 * 3600, "Hours")]
+    [InlineData(26 * 3600, "Day")]
+    [InlineData(3 * 86400, "Days")]
+    [InlineData(40 * 86400, "Month")]
+    [InlineData(100 * 86400, "Months")]
+    [InlineData(400 * 86400, "Year")]
+    [InlineData(800 * 86400, "Years")]
+    public void Future_ReadsItsUnitFromTheFutureKeys_AndThePastFromThePastKeys(int offsetSeconds, string unit)
+    {
+        // Finnish or Estonian inflect the unit after "in" differently than after "ago": each direction
+        // must read a key of its own, which this localizer tells apart.
+        Services.AddSingleton<IStringLocalizer<AppStrings>>(new UnitMarkingLocalizer());
+
+        Assert.Equal($"in [future {unit}]", RenderAt(Now.AddSeconds(offsetSeconds)).Find("time").TextContent);
+        Assert.Equal($"[past {unit}] ago", RenderAt(Now.AddSeconds(-offsetSeconds)).Find("time").TextContent);
+    }
+
     [Fact]
     public void TwoInstances_NeverShareATooltipId()
     {
@@ -118,6 +140,26 @@ public sealed class RelativeTimeTests : OmniBunitContext
 
     private IRenderedComponent<OmniRelativeTime> RenderAt(DateTimeOffset value) =>
         Render<OmniRelativeTime>(parameters => parameters.Add(component => component.Value, value));
+
+    /// <summary>
+    /// Writes "in {0}" and "{0} ago" for the two directions, and each unit key as "[future Unit]" or
+    /// "[past Unit]", so a test sees which key a label read.
+    /// </summary>
+    private sealed class UnitMarkingLocalizer : IStringLocalizer<AppStrings>
+    {
+        public LocalizedString this[string name] => this[name, []];
+
+        public LocalizedString this[string name, params object[] arguments] => name switch
+        {
+            "RelativeTimeFuture" => new(name, string.Format(CultureInfo.InvariantCulture, "in {0}", arguments)),
+            "RelativeTimePast" => new(name, string.Format(CultureInfo.InvariantCulture, "{0} ago", arguments)),
+            _ when name.StartsWith("RelativeTimeFuture", StringComparison.Ordinal) => new(name, $"[future {name["RelativeTimeFuture".Length..]}]"),
+            _ when name.StartsWith("RelativeTime", StringComparison.Ordinal) => new(name, $"[past {name["RelativeTime".Length..]}]"),
+            _ => new(name, name)
+        };
+
+        public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures) => [];
+    }
 
     private sealed class ManualTimeProvider(DateTimeOffset now) : TimeProvider
     {

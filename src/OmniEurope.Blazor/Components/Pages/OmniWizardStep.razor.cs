@@ -41,6 +41,7 @@ public partial class OmniWizardStep : IDisposable
     [Parameter]
     public Func<Task<bool>>? Validate { get; set; }
 
+    /// <summary>Takes the step's place at the end of the wizard's list of steps.</summary>
     protected override void OnInitialized()
     {
         _announcedTitle = Title;
@@ -48,6 +49,7 @@ public partial class OmniWizardStep : IDisposable
         Context?.Register(this);
     }
 
+    /// <summary>Asks the wizard to redraw when <see cref="Title"/> or <see cref="CanContinue"/> changed, as the wizard shows both outside the step.</summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();

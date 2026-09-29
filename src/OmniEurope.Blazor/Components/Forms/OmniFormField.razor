@@ -4,7 +4,7 @@
 <div @attributes="AdditionalAttributes"
      id="@Id"
      class="@Css("omni-form-field", Disabled ? "omni-form-field--disabled" : null, !string.IsNullOrWhiteSpace(Error) ? "omni-form-field--invalid" : null)">
-    <OmniLabel For="@For" Required="@Required">
+    <OmniLabel Id="@LabelId" For="@For" Required="@Required">
         @if (LabelContent is not null) { @LabelContent } else { @Label }
     </OmniLabel>
     @if (!string.IsNullOrWhiteSpace(Description))
@@ -12,7 +12,11 @@
         <div id="@DescriptionId" class="omni-form-field__description">@Description</div>
     }
     <div class="omni-form-field__control">
-        @ChildContent
+        @* A control that a label for cannot name (an editable div, a radio group) reads the label id
+           from here and points aria-labelledby at it. *@
+        <CascadingValue Value="@FieldLabel">
+            @ChildContent
+        </CascadingValue>
         @EndContent
     </div>
     @OmniFieldError.Region(ErrorId, Error)

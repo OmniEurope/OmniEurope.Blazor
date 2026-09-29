@@ -117,6 +117,11 @@ public partial class OmniAutocomplete<TValue>
         IsSelected(option.Value) ? "omni-autocomplete__option--selected" : null,
         option.Disabled || Disabled ? "omni-autocomplete__option--disabled" : null]);
 
+    /// <summary>
+    /// When the parent replaced the value, writes it in the field (through <see cref="FormatValue"/>, else
+    /// its <c>ToString</c>; empty for null) and drops the suggestions and any search still running. Text
+    /// the user typed is left alone otherwise.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -293,6 +298,11 @@ public partial class OmniAutocomplete<TValue>
         _announcement = Localize("AutocompleteSelected", option.Text);
     }
 
+    /// <summary>Never parses: the value is set by choosing a suggestion, never from the typed text.</summary>
+    /// <param name="value">The text, ignored.</param>
+    /// <param name="result">Always the default value.</param>
+    /// <param name="validationErrorMessage">The localized "invalid value" message.</param>
+    /// <returns>Always false.</returns>
     protected override bool TryParseValueFromString(string? value, out TValue result, out string validationErrorMessage)
     {
         result = default!;

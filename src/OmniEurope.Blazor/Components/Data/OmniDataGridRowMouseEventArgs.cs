@@ -5,6 +5,7 @@ namespace OmniEurope.Blazor.Components;
 /// item and position, and the modifier keys held, so a host can tell a Ctrl or Shift click from a
 /// plain one. Activated from the keyboard, a row reports no modifier and no pointer position.
 /// </summary>
+/// <typeparam name="TItem">The type of the grid rows.</typeparam>
 public sealed class OmniDataGridRowMouseEventArgs<TItem>
 {
     internal OmniDataGridRowMouseEventArgs(TItem item, int index, Microsoft.AspNetCore.Components.Web.MouseEventArgs? mouse)

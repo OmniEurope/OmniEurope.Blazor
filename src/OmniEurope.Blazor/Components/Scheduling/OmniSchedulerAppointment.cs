@@ -14,5 +14,5 @@ public sealed record OmniSchedulerAppointment(
     string? Description = null)
 {
     /// <summary>Classes added to the appointment's element, for a host that marks some appointments apart.</summary>
-    public string? CssClass { get; init; }
+    public string? Class { get; init; }
 }

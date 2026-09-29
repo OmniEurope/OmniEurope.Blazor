@@ -63,6 +63,10 @@ public partial class OmniDynamicForm : IDisposable
     /// <summary>Whether every field currently passes its checks, without showing any message.</summary>
     public bool IsValid => Fields.All(candidate => Check(candidate) is null);
 
+    /// <summary>
+    /// Takes the edit context of the enclosing <see cref="EditForm"/>, or creates one of its own outside a
+    /// form, and joins its validation requests.
+    /// </summary>
     protected override void OnInitialized()
     {
         _context = CascadedEditContext ?? new EditContext(_states);
@@ -70,6 +74,12 @@ public partial class OmniDynamicForm : IDisposable
         _context.OnValidationRequested += HandleValidationRequested;
     }
 
+    /// <summary>
+    /// Throws when <see cref="Fields"/> is null or two fields share a name (compared ignoring case). When
+    /// the fields or the incoming <see cref="Values"/> change, reloads each field from its value, else its
+    /// default, else empty, and re-checks the fields already showing a message; when a default was used,
+    /// raises <see cref="ValuesChanged"/> once.
+    /// </summary>
     protected override async Task OnParametersSetAsync()
     {
         base.OnParametersSet();
@@ -295,6 +305,7 @@ public partial class OmniDynamicForm : IDisposable
         _ => kind.ToString().ToLowerInvariant()
     };
 
+    /// <summary>Leaves the edit context's validation requests and clears the messages this form added to it.</summary>
     public void Dispose()
     {
         _context.OnValidationRequested -= HandleValidationRequested;

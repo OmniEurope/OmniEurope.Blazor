@@ -1173,6 +1173,7 @@ internal static class PhosphorIconGlyphs
         OmniIconName.Headset => Headset,
         OmniIconName.Handshake => Handshake,
         OmniIconName.ArrowUp => ArrowUp,
-        _ => Menu,
+        OmniIconName.Menu => Menu,
+        _ => throw new ArgumentOutOfRangeException(nameof(name), name, "The icon name has no glyph."),
     };
 }

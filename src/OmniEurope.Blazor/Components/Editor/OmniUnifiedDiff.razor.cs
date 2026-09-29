@@ -54,6 +54,10 @@ public partial class OmniUnifiedDiff
 
     private string EffectiveEmptyText => string.IsNullOrWhiteSpace(EmptyText) ? Localize("UnifiedDiffEmpty") : EmptyText;
 
+    /// <summary>
+    /// Takes a new <see cref="Files"/> list as given, or else parses <see cref="Diff"/> again when its
+    /// text changed; either way the folds the reader toggled are reset.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();

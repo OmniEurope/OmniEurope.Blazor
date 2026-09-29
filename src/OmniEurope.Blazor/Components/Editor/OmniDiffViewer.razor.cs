@@ -21,7 +21,7 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniDiffViewer
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-code-editor.js";
+    private const string ModulePath = Internal.OmniModules.CodeEditor;
     private const int LoadTimeoutMilliseconds = 30000;
 
     private ElementReference _root;
@@ -94,6 +94,14 @@ public partial class OmniDiffViewer
 
     private string PhaseName => _phase.ToString().ToLowerInvariant();
 
+    /// <summary>
+    /// Checks <see cref="Height"/> and <see cref="MonacoPath"/>, then switches to the plain text view
+    /// for <see cref="OmniCodeEditorEngine.PlainText"/>, or back to loading when Monaco is chosen again.
+    /// </summary>
+    /// <exception cref="ArgumentException">
+    /// <see cref="Height"/> is not a number followed by px, rem, em, vh or %, or <see cref="MonacoPath"/>
+    /// is not a path on the origin of the page.
+    /// </exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -117,6 +125,13 @@ public partial class OmniDiffViewer
         }
     }
 
+    /// <summary>
+    /// Applies a new height, loads Monaco when the engine turned to it, mounts the diff editor once
+    /// Monaco is ready (falling back to the plain view when mounting fails), then pushes texts or options
+    /// that changed since the last render. A lost circuit is ignored.
+    /// </summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the diff editor is up to date.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_disposed)
@@ -270,6 +285,8 @@ public partial class OmniDiffViewer
         '\u001F',
         Language, IsLocked.ToString(), Inline.ToString(), EffectiveOriginalLabel, EffectiveModifiedLabel);
 
+    /// <summary>Disposes the Monaco diff editor and its module, and the script's reference to the component; a lost circuit is ignored.</summary>
+    /// <returns>A task that completes once the editor is released.</returns>
     public async ValueTask DisposeAsync()
     {
         _disposed = true;

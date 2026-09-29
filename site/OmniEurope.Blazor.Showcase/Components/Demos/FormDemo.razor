@@ -2,22 +2,22 @@
 
 <EditForm Model="Model">
     <OmniStack Gap="OmniSpacing.Medium">
-        <OmniFormField For="demo-name" Required="true" Description="Tel qu'il apparaîtra sur la facture.">
-            <LabelContent>Nom complet</LabelContent>
+        <OmniFormField For="demo-name" Required="true" Description="@Text["DemoFormNameHelp"]">
+            <LabelContent>@Text["DemoFormName"]</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="demo-name" @bind-Value="Model.Name" Placeholder="Camille Durand" />
             </ChildContent>
         </OmniFormField>
 
         <OmniFormField For="demo-notes">
-            <LabelContent>Remarques</LabelContent>
+            <LabelContent>@Text["DemoFormNotes"]</LabelContent>
             <ChildContent>
                 <OmniTextArea Id="demo-notes" @bind-Value="Model.Notes" Rows="3" MaxLength="200" ShowCount="true" />
             </ChildContent>
         </OmniFormField>
 
-        <OmniFormField For="demo-email" Description="Le type choisit le clavier mobile et l'autofill du navigateur.">
-            <LabelContent>Adresse e-mail</LabelContent>
+        <OmniFormField For="demo-email" Description="@Text["DemoFormEmailHelp"]">
+            <LabelContent>@Text["DemoFormEmail"]</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="demo-email" Type="OmniTextBoxType.Email" Autocomplete="email"
                              @bind-Value="Model.Email" Placeholder="camille@exemple.eu" />
@@ -25,7 +25,7 @@
         </OmniFormField>
 
         <OmniFormField For="demo-phone">
-            <LabelContent>Téléphone</LabelContent>
+            <LabelContent>@Text["DemoFormPhone"]</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="demo-phone" Type="OmniTextBoxType.Tel" Autocomplete="tel"
                              @bind-Value="Model.Phone" Placeholder="+32 2 000 00 00" />
@@ -33,7 +33,7 @@
         </OmniFormField>
 
         <OmniFormField For="demo-website">
-            <LabelContent>Site web</LabelContent>
+            <LabelContent>@Text["DemoFormWebsite"]</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="demo-website" Type="OmniTextBoxType.Url" Autocomplete="url"
                              @bind-Value="Model.Website" Placeholder="https://exemple.eu" />
@@ -41,15 +41,15 @@
         </OmniFormField>
 
         <OmniFormField For="demo-search">
-            <LabelContent>Rechercher</LabelContent>
+            <LabelContent>@Text["DemoFormSearch"]</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="demo-search" Type="OmniTextBoxType.Search" @bind-Value="Model.Search"
-                             Placeholder="Filtrer la liste" />
+                             Placeholder="@Text["DemoFormSearchPlaceholder"]" />
             </ChildContent>
         </OmniFormField>
 
         <OmniFormField For="demo-budget">
-            <LabelContent>Budget</LabelContent>
+            <LabelContent>@Text["DemoFormBudget"]</LabelContent>
             <ChildContent>
                 <OmniSlider Id="demo-budget" @bind-Value="Model.Budget" Minimum="0" Maximum="100" Step="5" ShowValue="true" />
             </ChildContent>
@@ -57,11 +57,11 @@
 
         <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
             <OmniCheckBox Id="demo-terms" @bind-Value="Model.Accepted" />
-            <OmniLabel For="demo-terms">J'accepte les conditions d'utilisation</OmniLabel>
+            <OmniLabel For="demo-terms">@Text["DemoFormTerms"]</OmniLabel>
         </OmniStack>
-        <OmniSwitch Id="demo-alerts" @bind-Value="Model.Alerts">Recevoir les alertes</OmniSwitch>
+        <OmniSwitch Id="demo-alerts" @bind-Value="Model.Alerts">@Text["DemoFormAlerts"]</OmniSwitch>
     </OmniStack>
 </EditForm>
 
 <OmniDynamicForm Fields="DynamicFields" @bind-Values="DynamicValues" />
-<p>Valeurs du formulaire : @string.Join(", ", DynamicValues.Select(entry => $"{entry.Key}={entry.Value}"))</p>
+<p>@Text["DemoFormDynamicValues", string.Join(", ", DynamicValues.Select(entry => $"{entry.Key}={entry.Value}"))]</p>

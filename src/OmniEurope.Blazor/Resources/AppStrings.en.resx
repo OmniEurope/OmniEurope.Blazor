@@ -18,14 +18,8 @@
   <data name="SettingsTextSize" xml:space="preserve"><value>Text size</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Density</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Control size</value></data>
-  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Controls</value></data>
-  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Text</value></data>
-  <data name="SettingsDensityShort" xml:space="preserve"><value>Density</value></data>
-  <data name="SettingsScale" xml:space="preserve"><value>Sizes</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Default</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>default</value></data>
-  <data name="SettingsDecrease" xml:space="preserve"><value>Decrease</value></data>
-  <data name="SettingsIncrease" xml:space="preserve"><value>Increase</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Decrease the text size</value></data>
   <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Increase the text size</value></data>
   <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Decrease the size of the controls</value></data>
@@ -97,8 +91,6 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Expand or collapse every row</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Detach the frozen columns</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Freeze the columns again</value></data>
-  <data name="GridShrinkColumn" xml:space="preserve"><value>Shrink the {0} column</value></data>
-  <data name="GridGrowColumn" xml:space="preserve"><value>Grow the {0} column</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>First page</value></data>
   <data name="PagerLast" xml:space="preserve"><value>Last page</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Rows per page</value></data>
@@ -503,6 +495,15 @@
   <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} months</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} year</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} years</value></data>
+  <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} h</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} day</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} days</value></data>
+  <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} month</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} months</value></data>
+  <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} year</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} years</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Underline</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Strikethrough</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Inline code</value></data>

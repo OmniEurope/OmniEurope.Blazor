@@ -18,14 +18,8 @@
   <data name="SettingsTextSize" xml:space="preserve"><value>Taille du texte</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Densité</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Taille des contrôles</value></data>
-  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Contrôles</value></data>
-  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Texte</value></data>
-  <data name="SettingsDensityShort" xml:space="preserve"><value>Densité</value></data>
-  <data name="SettingsScale" xml:space="preserve"><value>Tailles</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Défaut</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>défaut</value></data>
-  <data name="SettingsDecrease" xml:space="preserve"><value>Réduire</value></data>
-  <data name="SettingsIncrease" xml:space="preserve"><value>Augmenter</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Réduire la taille du texte</value></data>
   <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Augmenter la taille du texte</value></data>
   <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Réduire la taille des contrôles</value></data>
@@ -97,8 +91,6 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Développer ou réduire toutes les lignes</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Détacher les colonnes figées</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Refiger les colonnes</value></data>
-  <data name="GridShrinkColumn" xml:space="preserve"><value>Réduire la largeur de {0}</value></data>
-  <data name="GridGrowColumn" xml:space="preserve"><value>Augmenter la largeur de {0}</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Première page</value></data>
   <data name="PagerLast" xml:space="preserve"><value>Dernière page</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Lignes par page</value></data>
@@ -503,6 +495,15 @@
   <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} mois</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} an</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} ans</value></data>
+  <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} h</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} jour</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} jours</value></data>
+  <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} mois</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} mois</value></data>
+  <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} an</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} ans</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Souligné</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Barré</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Code en ligne</value></data>

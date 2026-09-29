@@ -1,20 +1,20 @@
 <OmniStack Gap="OmniSpacing.Large">
-    <OmniTree TValue="string" Label="Arborescence des dossiers" Multiple="true"
+    <OmniTree TValue="string" Label="@Text["DemoTreeLabel"]" Multiple="true"
               @bind-Value="Selected">
-        <OmniTreeItem TValue="string" Value="@("europe")" Text="Europe" Expanded="true">
-            <OmniTreeItem TValue="string" Value="@("be")" Text="Belgique" Expanded="true">
-                <OmniTreeItem TValue="string" Value="@("bru")" Text="Bruxelles, capitale">
-                    <TextContent><OmniIcon Name="OmniIconName.Buildings" /> <span>Bruxelles</span> <em>capitale</em></TextContent>
+        <OmniTreeItem TValue="string" Value="@("europe")" Text="@Text["DemoTreeEurope"]" Expanded="true">
+            <OmniTreeItem TValue="string" Value="@("be")" Text="@Text["DemoTreeBelgium"]" Expanded="true">
+                <OmniTreeItem TValue="string" Value="@("bru")" Text="@Text["DemoTreeCapitalText", "Bruxelles"]">
+                    <TextContent><OmniIcon Name="OmniIconName.Buildings" /> <span>Bruxelles</span> <em>@Text["DemoTreeCapital"]</em></TextContent>
                 </OmniTreeItem>
                 <OmniTreeItem TValue="string" Value="@("anv")" Text="Anvers" />
             </OmniTreeItem>
-            <OmniTreeItem TValue="string" Value="@("fr")" Text="France">
+            <OmniTreeItem TValue="string" Value="@("fr")" Text="@Text["DemoTreeFrance"]">
                 <OmniTreeItem TValue="string" Value="@("par")" Text="Paris" />
                 <OmniTreeItem TValue="string" Value="@("lyo")" Text="Lyon" />
             </OmniTreeItem>
-            <OmniTreeItem TValue="string" Value="@("lu")" Text="Luxembourg" Disabled="true" />
+            <OmniTreeItem TValue="string" Value="@("lu")" Text="@Text["DemoTreeLuxembourg"]" Disabled="true" />
         </OmniTreeItem>
-        <OmniTreeItem TValue="string" Value="@("archives")" Text="Archives, chargées à l'ouverture"
+        <OmniTreeItem TValue="string" Value="@("archives")" Text="@Text["DemoTreeArchives"]"
                       LoadChildren="LoadArchivesAsync">
             @foreach (var year in Archives)
             {
@@ -23,5 +23,5 @@
         </OmniTreeItem>
     </OmniTree>
 
-    <p>Sélection : @(Selected.Count == 0 ? "aucune" : string.Join(", ", Selected))</p>
+    <p>@Text["DemoTreeSelection", Selected.Count == 0 ? Text["DemoTreeNoSelection"] : string.Join(", ", Selected)]</p>
 </OmniStack>

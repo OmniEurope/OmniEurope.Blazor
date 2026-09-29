@@ -6,7 +6,13 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 public partial class OmniFormField
 {
-    /// <summary>The id of the control the label names (its <c>for</c>).</summary>
+    /// <summary>
+    /// The id of the control the label names (its <c>for</c>). Given, the label itself has the id
+    /// <c>{For}-label</c>: a package control that a <c>label for</c> cannot name (the visual face of
+    /// <see cref="OmniHtmlEditor"/>, <see cref="OmniRating"/>, <see cref="OmniSelectBar{TValue}"/>, a
+    /// selectable card group, a choice list without its own label) and whose id is <see cref="For"/>
+    /// points <c>aria-labelledby</c> at it when it has no <c>Label</c> of its own.
+    /// </summary>
     [Parameter]
     public string For { get; set; } = string.Empty;
 
@@ -51,6 +57,8 @@ public partial class OmniFormField
     [Parameter]
     public bool Disabled { get; set; }
 
-    private string? DescriptionId => string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(Description) ? null : $"{Id}-description";
+    private string? LabelId => string.IsNullOrWhiteSpace(For) ? null : $"{For}-label";
+    private Internal.OmniFormFieldLabel? FieldLabel => LabelId is { } labelId ? new(For, labelId) : null;
+    private string? DescriptionId =>string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(Description) ? null : $"{Id}-description";
     private string? ErrorId => string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(Error) ? null : $"{Id}-error";
 }

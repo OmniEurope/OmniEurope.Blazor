@@ -27,18 +27,23 @@ public partial class OmniDatePicker
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;
 
+    /// <summary>The earliest date that can be chosen or typed, included; none when null (the default).</summary>
     [Parameter]
     public DateOnly? Minimum { get; set; }
 
+    /// <summary>The latest date that can be chosen or typed, included; none when null (the default). Not before <see cref="Minimum"/>.</summary>
     [Parameter]
     public DateOnly? Maximum { get; set; }
 
+    /// <summary>Whether the field and its calendar toggle are disabled. Off by default.</summary>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>Whether the date can be read and selected but not changed: the field is <c>readonly</c> and the calendar toggle disabled. Off by default.</summary>
     [Parameter]
     public bool ReadOnly { get; set; }
 
+    /// <summary>Identifiers of the elements that describe the field, written as <c>aria-describedby</c> on the input; none when null.</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
 
@@ -84,6 +89,8 @@ public partial class OmniDatePicker
         builder.CloseComponent();
     };
 
+    /// <summary>Checks the bounds.</summary>
+    /// <exception cref="InvalidOperationException"><see cref="Minimum"/> is later than <see cref="Maximum"/>.</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -93,6 +100,9 @@ public partial class OmniDatePicker
         }
     }
 
+    /// <summary>Attaches the panel script when the calendar opened, detaches it when it closed, and moves the focus into an open grid.</summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the panel is wired.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_popup is not null)
@@ -101,9 +111,20 @@ public partial class OmniDatePicker
         }
     }
 
+    /// <summary>Writes the date in the current culture's short date pattern, with a two-digit day and month and a four-digit year.</summary>
+    /// <param name="value">The date, or null.</param>
+    /// <returns>The text of the date, or null for no date.</returns>
     protected override string? FormatValueAsString(DateOnly? value) =>
         value?.ToString(PickerFormat.DatePattern(Culture), Culture);
 
+    /// <summary>
+    /// Reads the culture's short date, the ISO shape (<c>yyyy-MM-dd</c>) or what the culture's parser
+    /// accepts; blank text means no date. A date out of the bounds is refused.
+    /// </summary>
+    /// <param name="value">The text to parse.</param>
+    /// <param name="result">The date read, or null.</param>
+    /// <param name="validationErrorMessage">Null on success; on failure, the localized "invalid date" message.</param>
+    /// <returns>True when the text is blank or a date within the bounds.</returns>
     protected override bool TryParseValueFromString(string? value, out DateOnly? result, out string validationErrorMessage)
     {
         if (string.IsNullOrWhiteSpace(value))
@@ -125,6 +146,8 @@ public partial class OmniDatePicker
         return false;
     }
 
+    /// <summary>Releases the listeners of a calendar still open, then the form subscription.</summary>
+    /// <param name="disposing">True when called from <see cref="IDisposable.Dispose"/>.</param>
     protected override void Dispose(bool disposing)
     {
         if (disposing)

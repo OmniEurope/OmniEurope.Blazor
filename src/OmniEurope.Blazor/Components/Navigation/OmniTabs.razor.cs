@@ -98,26 +98,40 @@ public partial class OmniTabs
         await ValueChanged.InvokeAsync(key);
     }
 
+    /// <summary>
+    /// On the first render, loads the script that handles the keyboard and the sideways scrolling of the
+    /// strip, and renders again so an unbound component marks its first tab selected. On every render,
+    /// attaches or detaches the wheel scope when <see cref="ScrollablePanels"/> or
+    /// <see cref="WheelScrollScope"/> changed. A lost circuit is ignored.
+    /// </summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the script calls are done.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
+        try
         {
-            _module = await JavaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omni-focus.js");
-            _keyboardInterop = new KeyboardInterop(SelectAsync);
-            _selfReference = DotNetObjectReference.Create(_keyboardInterop);
-            await _module.InvokeVoidAsync("configureTabs", _root, _selfReference);
-            await _module.InvokeVoidAsync("configureTabsOverflow", _strip);
-            if (Value is null && _registeredKeys.Count > 0)
+            if (firstRender)
             {
-                StateHasChanged();
+                _module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
+                _keyboardInterop = new KeyboardInterop(SelectAsync);
+                _selfReference = DotNetObjectReference.Create(_keyboardInterop);
+                await _module.InvokeVoidAsync("configureTabs", _root, _selfReference);
+                await _module.InvokeVoidAsync("configureTabsOverflow", _strip);
+                if (Value is null && _registeredKeys.Count > 0)
+                {
+                    StateHasChanged();
+                }
+            }
+
+            var scope = ScrollablePanels && !string.IsNullOrWhiteSpace(WheelScrollScope) ? WheelScrollScope.Trim() : null;
+            if (_module is not null && !string.Equals(scope, _wheelScopeAttached, StringComparison.Ordinal))
+            {
+                await _module.InvokeVoidAsync(scope is null ? "detachTabsWheelScope" : "attachTabsWheelScope", _container, scope);
+                _wheelScopeAttached = scope;
             }
         }
-
-        var scope = ScrollablePanels && !string.IsNullOrWhiteSpace(WheelScrollScope) ? WheelScrollScope.Trim() : null;
-        if (_module is not null && !string.Equals(scope, _wheelScopeAttached, StringComparison.Ordinal))
+        catch (JSDisconnectedException)
         {
-            await _module.InvokeVoidAsync(scope is null ? "detachTabsWheelScope" : "attachTabsWheelScope", _container, scope);
-            _wheelScopeAttached = scope;
         }
     }
 
@@ -140,6 +154,11 @@ public partial class OmniTabs
         return SelectAsync(keys[next]);
     }
 
+    /// <summary>
+    /// Detaches the wheel scope, the overflow watcher and the keyboard handling, then releases the script
+    /// module and the .NET reference. A lost circuit is ignored.
+    /// </summary>
+    /// <returns>A task that completes once the script resources are released.</returns>
     public async ValueTask DisposeAsync()
     {
         if (_module is not null)

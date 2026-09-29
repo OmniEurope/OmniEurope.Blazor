@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
 /// Holds <see cref="OmniModules"/> to the files it names: every constant is a module of the library's
-/// <c>wwwroot</c>, and every module address still written out in the library has its constant.
+/// <c>wwwroot</c>, and no module address is written out anywhere else in the library.
 /// </summary>
 public sealed partial class OmniModulesTests
 {
@@ -34,21 +34,22 @@ public sealed partial class OmniModulesTests
     }
 
     [Fact]
-    public void EveryModuleAddressWrittenInTheLibrary_HasItsConstant()
+    public void NoModuleAddressIsWrittenOutsideOmniModules()
     {
         var source = Path.Combine(ShippedLookTests.RepositoryRoot(), "src", "OmniEurope.Blazor");
+        var home = Path.Combine(source, "Internal", "OmniModules.cs");
         var written = Directory.EnumerateFiles(source, "*", SearchOption.AllDirectories)
             .Where(path => Path.GetExtension(path) is ".cs" or ".razor")
             .Where(path => !path.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}", StringComparison.Ordinal)
-                && !path.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}", StringComparison.Ordinal))
-            .SelectMany(path => ModuleAddress().Matches(File.ReadAllText(path)).Select(match => match.Value))
-            .Distinct(StringComparer.Ordinal)
+                && !path.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}", StringComparison.Ordinal)
+                && !string.Equals(Path.GetFullPath(path), Path.GetFullPath(home), StringComparison.OrdinalIgnoreCase))
+            .SelectMany(path => ModuleAddress().Matches(File.ReadAllText(path))
+                .Select(match => $"{Path.GetRelativePath(source, path)}: {match.Value}"))
             .ToArray();
 
-        var missing = written.Except(Constants, StringComparer.Ordinal).ToArray();
-        Assert.True(missing.Length == 0, $"Module addresses with no OmniModules constant: {string.Join(", ", missing)}");
+        Assert.True(written.Length == 0, $"Module addresses written outside OmniModules (use its constant): {string.Join(", ", written)}");
     }
 
-    [GeneratedRegex(@"\./_content/OmniEurope\.Blazor/[A-Za-z0-9-]+\.js")]
+    [GeneratedRegex(@"_content/OmniEurope\.Blazor/[A-Za-z0-9._-]+\.js")]
     private static partial Regex ModuleAddress();
 }

@@ -1,29 +1,20 @@
+using OmniEurope.Blazor.Showcase.Resources;
+
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class ChoiceDemo
 {
+    [Inject]
+    private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
+
     private int? Rating { get; set; } = 3;
     private int? ReadonlyRating { get; set; } = 3;
-    private static readonly IReadOnlyList<OmniOption<string>> Shipping =
-    [
-        new("standard", "Standard"),
-        new("express", "Express"),
-        new("retrait", "Retrait en agence", Disabled: true)
-    ];
 
-    private static readonly IReadOnlyList<OmniOption<string>> Extras =
-    [
-        new("accuse", "Accusé de réception"),
-        new("copie", "Copie certifiée"),
-        new("suivi", "Suivi par courriel")
-    ];
+    private IReadOnlyList<OmniOption<string>> Shipping { get; set; } = [];
 
-    private static readonly IReadOnlyList<OmniOption<string>> Periods =
-    [
-        new("jour", "Jour"),
-        new("mois", "Mois"),
-        new("annee", "Année")
-    ];
+    private IReadOnlyList<OmniOption<string>> Extras { get; set; } = [];
+
+    private IReadOnlyList<OmniOption<string>> Periods { get; set; } = [];
 
     private string Method { get; set; } = "standard";
 
@@ -39,12 +30,36 @@ public partial class ChoiceDemo
 
     private bool Runner { get; set; } = true;
 
-    private static readonly IReadOnlyList<OmniOption<string>> Features =
-    [
-        new("cache", "Cache des dépendances"),
-        new("artefacts", "Conservation des artefacts"),
-        new("gpu", "Accélération GPU", Disabled: true)
-    ];
+    private IReadOnlyList<OmniOption<string>> Features { get; set; } = [];
 
     private IReadOnlyList<string> AgentFeatures { get; set; } = ["cache"];
+
+    /// <summary>The options keep their keys; only the texts follow the reader's language.</summary>
+    protected override void OnInitialized()
+    {
+        Shipping =
+        [
+            new("standard", Text["DemoChoiceShippingStandard"]),
+            new("express", Text["DemoChoiceShippingExpress"]),
+            new("retrait", Text["DemoChoiceShippingPickup"], Disabled: true)
+        ];
+        Extras =
+        [
+            new("accuse", Text["DemoChoiceExtraReceipt"]),
+            new("copie", Text["DemoChoiceExtraCertifiedCopy"]),
+            new("suivi", Text["DemoChoiceExtraTracking"])
+        ];
+        Periods =
+        [
+            new("jour", Text["DemoChoicePeriodDay"]),
+            new("mois", Text["DemoChoicePeriodMonth"]),
+            new("annee", Text["DemoChoicePeriodYear"])
+        ];
+        Features =
+        [
+            new("cache", Text["DemoChoiceFeatureCache"]),
+            new("artefacts", Text["DemoChoiceFeatureArtifacts"]),
+            new("gpu", Text["DemoChoiceFeatureGpu"], Disabled: true)
+        ];
+    }
 }

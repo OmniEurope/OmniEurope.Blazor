@@ -18,15 +18,25 @@
   <data name="SettingsTextSize" xml:space="preserve"><value>Velikost besedila</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Gostota</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Velikost kontrolnikov</value></data>
-  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Kontrolniki</value></data>
-  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Besedilo</value></data>
-  <data name="SettingsDensityShort" xml:space="preserve"><value>Gostota</value></data>
-  <data name="SettingsScale" xml:space="preserve"><value>Velikosti</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Privzeto</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>privzeto</value></data>
-  <data name="SettingsDecrease" xml:space="preserve"><value>Zmanjšaj</value></data>
-  <data name="SettingsIncrease" xml:space="preserve"><value>Povečaj</value></data>
+  <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Zmanjšaj velikost besedila</value></data>
+  <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Povečaj velikost besedila</value></data>
+  <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Zmanjšaj velikost kontrolnikov</value></data>
+  <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Povečaj velikost kontrolnikov</value></data>
+  <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
+  <data name="SettingsLook" xml:space="preserve"><value>Tema in velikosti</value></data>
+  <data name="SettingsLookTitle" xml:space="preserve"><value>Tema, paleta in velikosti</value></data>
+  <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Besedilo {1} · {2}</value></data>
+  <data name="SettingsLookSummaryFull" xml:space="preserve"><value>{0} · Besedilo {1} · {2} · Kontrolniki {3}</value></data>
+  <data name="DensityCompact" xml:space="preserve"><value>Kompaktna</value></data>
+  <data name="DensityComfortable" xml:space="preserve"><value>Udobna</value></data>
+  <data name="DensitySpacious" xml:space="preserve"><value>Zračna</value></data>
   <data name="ArcGaugeLabel" xml:space="preserve"><value>Merilnik</value></data>
+  <data name="LabelValuePair" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="ChartCategoryColumn" xml:space="preserve"><value>Kategorija</value></data>
+  <data name="ChartValueColumn" xml:space="preserve"><value>Vrednost</value></data>
+  <data name="ChartSeriesFallback" xml:space="preserve"><value>Serija {0}</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Iskanje ni uspelo. Spremenite vnos in poskusite znova.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>Na voljo je 1 rezultat.</value></data>
   <data name="AutocompleteManyResults" xml:space="preserve"><value>Število razpoložljivih rezultatov: {0}.</value></data>
@@ -81,8 +91,6 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Razširi ali strni vse vrstice</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Odpni zamrznjene stolpce</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Znova zamrzni stolpce</value></data>
-  <data name="GridShrinkColumn" xml:space="preserve"><value>Zmanjšaj širino stolpca {0}</value></data>
-  <data name="GridGrowColumn" xml:space="preserve"><value>Povečaj širino stolpca {0}</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Prva stran</value></data>
   <data name="PagerLast" xml:space="preserve"><value>Zadnja stran</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Vrstic na stran</value></data>
@@ -344,6 +352,10 @@
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Meni profila</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Napredek</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0} %</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>V teku</value></data>
+  <data name="TextAreaCount" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="HeaderHome" xml:space="preserve"><value>Domov</value></data>
+  <data name="HeaderLogo" xml:space="preserve"><value>Logotip</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Izbor izbirnega gumba ni veljaven.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>To polje je obvezno.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Prejšnje obdobje</value></data>
@@ -362,6 +374,7 @@
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} ostane na svojem mestu.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} je premaknjen na {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Segmentirani izbor ni veljaven.</value></data>
+  <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Izbira ni veljavna.</value></data>
   <data name="RatingLabel" xml:space="preserve"><value>Ocena</value></data>
   <data name="RatingStar" xml:space="preserve"><value>{0} od {1}</value></data>
   <data name="RatingValue" xml:space="preserve"><value>{0}: {1} od {2}</value></data>
@@ -447,8 +460,9 @@
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, zagnano ob {1}, trajanje</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Potrdi</value></data>
   <data name="GoBack" xml:space="preserve"><value>Nazaj</value></data>
-  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Pokaži značke in dejanja</value></data>
-  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Skrij značke in dejanja</value></data>
+  <data name="PageHeaderShowMore" xml:space="preserve"><value>Pokaži več</value></data>
+  <data name="PageHeaderScrollTitleStart" xml:space="preserve"><value>Pomakni naslov na začetek</value></data>
+  <data name="PageHeaderScrollTitleEnd" xml:space="preserve"><value>Pomakni naslov na konec</value></data>
   <data name="DetailNotFound" xml:space="preserve"><value>Elementa ni mogoče najti</value></data>
   <data name="SignIn" xml:space="preserve"><value>Prijava</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Povezava je prekinjena</value></data>
@@ -475,12 +489,21 @@
   <data name="RelativeTimeSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} h</value></data>
-  <data name="RelativeTimeDay" xml:space="preserve"><value>{0} d</value></data>
+  <data name="RelativeTimeDay" xml:space="preserve"><value>{0} dnem</value></data>
   <data name="RelativeTimeDays" xml:space="preserve"><value>{0} d</value></data>
-  <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} mes.</value></data>
+  <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} mesecem</value></data>
   <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} mes.</value></data>
-  <data name="RelativeTimeYear" xml:space="preserve"><value>{0} l.</value></data>
+  <data name="RelativeTimeYear" xml:space="preserve"><value>{0} letom</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} l.</value></data>
+  <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} h</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} dan</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} d</value></data>
+  <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} mesec</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} mes.</value></data>
+  <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} leto</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} l.</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Podčrtano</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Prečrtano</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Vrstična koda</value></data>

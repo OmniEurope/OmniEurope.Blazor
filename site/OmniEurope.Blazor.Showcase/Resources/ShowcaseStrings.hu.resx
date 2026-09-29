@@ -35,7 +35,7 @@
   <data name="PillarA11yTitle" xml:space="preserve"><value>Tesztekkel biztosított akadálymentesség</value></data>
   <data name="PillarA11yBody" xml:space="preserve"><value>A szerepköröket, az állapotokat és a címkéket a tesztkészlet ellenőrzi, nem csupán a dokumentáció ígéri.</value></data>
   <data name="PillarWeightTitle" xml:space="preserve"><value>Felügyelt méret</value></data>
-  <data name="PillarWeightBody" xml:space="preserve"><value>A közzétett csomagot minden buildnél egy bájtkerethez mérjük, a stíluslappal együtt.</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>A folyamatos integráció ellenőrzi, hogy a szállított stíluslap a minimalizált példány, és méretkerethez méri az assemblyt és a NuGet-csomagot is.</value></data>
   <data name="DocsPageTitle" xml:space="preserve"><value>Dokumentáció</value></data>
   <data name="DocsTitle" xml:space="preserve"><value>Dokumentáció</value></data>
   <data name="DocsLead" xml:space="preserve"><value>A csomag telepítésétől az első egyéni témáig, öt lépésben.</value></data>
@@ -579,4 +579,919 @@
   <data name="VFormNotSaved" xml:space="preserve"><value>Mentés előtt javítsa a megjelölt mezőket.</value></data>
   <data name="VFormDescriptionValue" xml:space="preserve"><value>Az átvételi tesztek sikeres lefutása után telepíti a fő ágat.</value></data>
   <data name="GridFiledColumn" xml:space="preserve"><value>Beadva</value></data>
+  <data name="DemoGridOpenCases" xml:space="preserve"><value>Nyitott ügyek</value></data>
+  <data name="DemoGridRecentRuns" xml:space="preserve"><value>Legutóbbi futások</value></data>
+  <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Hosszú szöveg keskeny oszlopban</value></data>
+  <data name="DemoGridShortCaption" xml:space="preserve"><value>Három ügy, tartalomhoz igazodó magasság</value></data>
+  <data name="DemoGridLongCaption" xml:space="preserve"><value>Tízezer ügy, 18rem-es felső korlát</value></data>
+  <data name="DemoGridColumnReference" xml:space="preserve"><value>Hivatkozási szám</value></data>
+  <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Kérelmező</value></data>
+  <data name="DemoGridColumnCountry" xml:space="preserve"><value>Ország</value></data>
+  <data name="DemoGridColumnAmount" xml:space="preserve"><value>Összeg</value></data>
+  <data name="DemoGridCountryBelgium" xml:space="preserve"><value>Belgium</value></data>
+  <data name="DemoGridCountryFrance" xml:space="preserve"><value>Franciaország</value></data>
+  <data name="DemoGridCountryLuxembourg" xml:space="preserve"><value>Luxemburg</value></data>
+  <data name="DemoGridCountryNetherlands" xml:space="preserve"><value>Hollandia</value></data>
+  <data name="DemoGridStatusPending" xml:space="preserve"><value>Függőben</value></data>
+  <data name="DemoGridExportFileName" xml:space="preserve"><value>nyitott-ugyek</value></data>
+  <data name="DemoGridExportSort" xml:space="preserve"><value>Rendezés</value></data>
+  <data name="DemoGridExportSortValue" xml:space="preserve"><value>hivatkozási szám, növekvő</value></data>
+  <data name="DemoGridAdvancedLines" xml:space="preserve"><value>Rácsvonalak</value></data>
+  <data name="DemoGridAdvancedDensity" xml:space="preserve"><value>Sűrűség</value></data>
+  <data name="DemoGridAdvancedPager" xml:space="preserve"><value>Lapozó</value></data>
+  <data name="DemoGridAdvancedSelection" xml:space="preserve"><value>Kijelölés</value></data>
+  <data name="DemoGridAdvancedFilters" xml:space="preserve"><value>Szűrők</value></data>
+  <data name="DemoGridAdvancedEdit" xml:space="preserve"><value>Szerkesztés</value></data>
+  <data name="DemoGridAdvancedExpand" xml:space="preserve"><value>Kibontás</value></data>
+  <data name="DemoGridAdvancedFooter" xml:space="preserve"><value>Táblázat lábléce</value></data>
+  <data name="DemoGridAdvancedLinesNone" xml:space="preserve"><value>Nincs</value></data>
+  <data name="DemoGridAdvancedLinesHorizontal" xml:space="preserve"><value>Vízszintes</value></data>
+  <data name="DemoGridAdvancedLinesVertical" xml:space="preserve"><value>Függőleges</value></data>
+  <data name="DemoGridAdvancedLinesBoth" xml:space="preserve"><value>Mindkettő</value></data>
+  <data name="DemoGridAdvancedDensityCompact" xml:space="preserve"><value>Tömör</value></data>
+  <data name="DemoGridAdvancedDensityComfortable" xml:space="preserve"><value>Kényelmes</value></data>
+  <data name="DemoGridAdvancedDensitySpacious" xml:space="preserve"><value>Tágas</value></data>
+  <data name="DemoGridAdvancedPagerBottom" xml:space="preserve"><value>Alul</value></data>
+  <data name="DemoGridAdvancedPagerTop" xml:space="preserve"><value>Felül</value></data>
+  <data name="DemoGridAdvancedPagerBoth" xml:space="preserve"><value>Felül és alul</value></data>
+  <data name="DemoGridAdvancedSelectionNone" xml:space="preserve"><value>Nincs</value></data>
+  <data name="DemoGridAdvancedSelectionSingle" xml:space="preserve"><value>Egy sor</value></data>
+  <data name="DemoGridAdvancedSelectionMultiple" xml:space="preserve"><value>Több sor</value></data>
+  <data name="DemoGridAdvancedFilterSimple" xml:space="preserve"><value>Mező a fejlécben</value></data>
+  <data name="DemoGridAdvancedFilterSimpleWithMenu" xml:space="preserve"><value>Mező és menü</value></data>
+  <data name="DemoGridAdvancedFilterAdvanced" xml:space="preserve"><value>Kétfeltételes menü</value></data>
+  <data name="DemoGridAdvancedEditSingle" xml:space="preserve"><value>Egyszerre egy sor</value></data>
+  <data name="DemoGridAdvancedEditMultiple" xml:space="preserve"><value>Több sor</value></data>
+  <data name="DemoGridAdvancedExpandSingle" xml:space="preserve"><value>Egy nyitott csoport</value></data>
+  <data name="DemoGridAdvancedExpandMultiple" xml:space="preserve"><value>Több nyitott csoport</value></data>
+  <data name="DemoGridAdvancedFooterBottom" xml:space="preserve"><value>A táblázat alatt</value></data>
+  <data name="DemoGridAdvancedFooterTop" xml:space="preserve"><value>A táblázat fölött</value></data>
+  <data name="DemoGridAdvancedFooterBoth" xml:space="preserve"><value>Fölötte és alatta</value></data>
+  <data name="DemoGridAdvancedCaption" xml:space="preserve"><value>Ügyek, teljes nézet</value></data>
+  <data name="DemoGridAdvancedTotal" xml:space="preserve"><value>Összesen: {0:C0}</value></data>
+  <data name="DemoGridAdvancedRetained" xml:space="preserve"><value>Kijelölt sorok: {0}</value></data>
+  <data name="DemoGridAdvancedRetainedNone" xml:space="preserve"><value>nincs</value></data>
+  <data name="DemoDataListEmpty" xml:space="preserve"><value>Ezen az oldalon nincs ügy.</value></data>
+  <data name="DemoDataListLoading" xml:space="preserve"><value>Ügyek betöltése.</value></data>
+  <data name="DemoDataListPager" xml:space="preserve"><value>Ügyek lapozása</value></data>
+  <data name="DemoDataListLog" xml:space="preserve"><value>Feldolgozási napló</value></data>
+  <data name="DemoDataListKanban" xml:space="preserve"><value>Ügyek követése</value></data>
+  <data name="DemoDataListColumnNew" xml:space="preserve"><value>Vizsgálandó</value></data>
+  <data name="DemoDataListColumnReview" xml:space="preserve"><value>Folyamatban</value></data>
+  <data name="DemoDataListColumnDone" xml:space="preserve"><value>Kész</value></data>
+  <data name="DemoDataListLogSearch" xml:space="preserve"><value>Az ügy keresése</value></data>
+  <data name="DemoDataListLogConnected" xml:space="preserve"><value>Kapcsolat létrejött</value></data>
+  <data name="DemoDataListLogStarted" xml:space="preserve"><value>Feldolgozás elindult</value></data>
+  <data name="DemoDataListLogMissing" xml:space="preserve"><value>Hiányzó dokumentum</value></data>
+  <data name="DemoDataListLogRejected" xml:space="preserve"><value>Jóváhagyás elutasítva</value></data>
+  <data name="DemoDataListLogAborted" xml:space="preserve"><value>Feldolgozás megszakítva</value></data>
+  <data name="DemoChartChartTitle" xml:space="preserve"><value>Beadott ügyek negyedévenként</value></data>
+  <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Negyedév</value></data>
+  <data name="DemoChartAxisCases" xml:space="preserve"><value>Ügyek</value></data>
+  <data name="DemoChartQuarter" xml:space="preserve"><value>{0}. n.év</value></data>
+  <data name="DemoChartsExtendedMonthlyTitle" xml:space="preserve"><value>Havi alakulás</value></data>
+  <data name="DemoChartsExtendedMonthlyDescription" xml:space="preserve"><value>Érték rámutatáskor és billentyűzettel</value></data>
+  <data name="DemoChartsExtendedAxisMonth" xml:space="preserve"><value>Hónap</value></data>
+  <data name="DemoChartsExtendedDeposits" xml:space="preserve"><value>Beadványok</value></data>
+  <data name="DemoChartsExtendedDecisions" xml:space="preserve"><value>Döntések</value></data>
+  <data name="DemoChartsExtendedLegend" xml:space="preserve"><value>Sorozatok</value></data>
+  <data name="DemoChartsExtendedDailyTitle" xml:space="preserve"><value>Napi látogatottság harminc napon át</value></data>
+  <data name="DemoChartsExtendedPageViews" xml:space="preserve"><value>Napi oldalmegtekintések</value></data>
+  <data name="DemoChartsExtendedVisitors" xml:space="preserve"><value>Napi egyedi látogatók</value></data>
+  <data name="DemoChartsExtendedStackedTitle" xml:space="preserve"><value>Halmozott megoszlás</value></data>
+  <data name="DemoChartsExtendedIncoming" xml:space="preserve"><value>Beérkező</value></data>
+  <data name="DemoChartsExtendedOutgoing" xml:space="preserve"><value>Kimenő</value></data>
+  <data name="DemoChartsExtendedBacklog" xml:space="preserve"><value>Hátralék</value></data>
+  <data name="DemoChartsExtendedHorizontalTitle" xml:space="preserve"><value>Vízszintes összehasonlítás</value></data>
+  <data name="DemoChartsExtendedByCountry" xml:space="preserve"><value>Ügyek országonként</value></data>
+  <data name="DemoChartsExtendedStackedBarsTitle" xml:space="preserve"><value>Feldolgozott és függő ügyek országonként</value></data>
+  <data name="DemoChartsExtendedProcessed" xml:space="preserve"><value>Feldolgozott</value></data>
+  <data name="DemoChartsExtendedPending" xml:space="preserve"><value>Függőben</value></data>
+  <data name="DemoChartsExtendedPieTitle" xml:space="preserve"><value>Megoszlás eredet szerint</value></data>
+  <data name="DemoChartsExtendedDonutTitle" xml:space="preserve"><value>Megoszlás eredet szerint, gyűrűként</value></data>
+  <data name="DemoChartsExtendedOrigin" xml:space="preserve"><value>Eredet</value></data>
+  <data name="DemoChartsExtendedGauge" xml:space="preserve"><value>Feldolgozási arány</value></data>
+  <data name="DemoChartsExtendedSliceCounter" xml:space="preserve"><value>Ügyfélablak</value></data>
+  <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Posta</value></data>
+  <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Online</value></data>
+  <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Egyéb</value></data>
+  <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Projektütemterv</value></data>
+  <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Megjelenített skála: {0}</value></data>
+  <data name="DemoPlanningScaleDay" xml:space="preserve"><value>nap</value></data>
+  <data name="DemoPlanningScaleWeek" xml:space="preserve"><value>hét</value></data>
+  <data name="DemoPlanningScaleMonth" xml:space="preserve"><value>hónap</value></data>
+  <data name="DemoPlanningMonthHeading" xml:space="preserve"><value>Ugyanaz az ütemterv havi bontásban, csoportok nélkül</value></data>
+  <data name="DemoPlanningMonthLabel" xml:space="preserve"><value>Havi ütemterv</value></data>
+  <data name="DemoPlanningDayLabel" xml:space="preserve"><value>Napi ütemterv</value></data>
+  <data name="DemoPlanningRunHeading" xml:space="preserve"><value>Egy futás menete</value></data>
+  <data name="DemoPlanningRunLabel" xml:space="preserve"><value>{0} futás</value></data>
+  <data name="DemoPlanningTimelineHeading" xml:space="preserve"><value>Idővonal bal oldalon, majd váltakozva mindkét oldalról indítva</value></data>
+  <data name="DemoPlanningTimelineStart" xml:space="preserve"><value>Idővonal bal oldalon</value></data>
+  <data name="DemoPlanningTimelineAlternateStart" xml:space="preserve"><value>Váltakozó idővonal, bal oldali kezdéssel</value></data>
+  <data name="DemoPlanningTimelineAlternateEnd" xml:space="preserve"><value>Váltakozó idővonal, jobb oldali kezdéssel</value></data>
+  <data name="DemoPlanningFiled" xml:space="preserve"><value>Beadás</value></data>
+  <data name="DemoPlanningFiledText" xml:space="preserve"><value>Az ügyet iktatták.</value></data>
+  <data name="DemoPlanningReview" xml:space="preserve"><value>Vizsgálat</value></data>
+  <data name="DemoPlanningReviewText" xml:space="preserve"><value>Ügyintézőt jelöltek ki.</value></data>
+  <data name="DemoPlanningDecision" xml:space="preserve"><value>Döntés</value></data>
+  <data name="DemoPlanningDecisionText" xml:space="preserve"><value>A döntést közölték.</value></data>
+  <data name="DemoPlanningGroupDesign" xml:space="preserve"><value>Tervezés</value></data>
+  <data name="DemoPlanningGroupBuild" xml:space="preserve"><value>Megvalósítás</value></data>
+  <data name="DemoPlanningTaskScoping" xml:space="preserve"><value>Keretezés</value></data>
+  <data name="DemoPlanningTaskMockups" xml:space="preserve"><value>Látványtervek</value></data>
+  <data name="DemoPlanningTaskProofreading" xml:space="preserve"><value>Lektorálás</value></data>
+  <data name="DemoPlanningTaskDevelopment" xml:space="preserve"><value>Fejlesztés</value></data>
+  <data name="DemoPlanningTaskAcceptance" xml:space="preserve"><value>Átvételi tesztelés</value></data>
+  <data name="DemoSchedulerView" xml:space="preserve"><value>Nézet</value></data>
+  <data name="DemoSchedulerTimeGrid" xml:space="preserve"><value>Idősáv 8 és 18 óra között</value></data>
+  <data name="DemoSchedulerViewDay" xml:space="preserve"><value>Nap</value></data>
+  <data name="DemoSchedulerViewWeek" xml:space="preserve"><value>Hét</value></data>
+  <data name="DemoSchedulerViewMonth" xml:space="preserve"><value>Hónap</value></data>
+  <data name="DemoSchedulerCaseReview" xml:space="preserve"><value>Az ügy vizsgálata</value></data>
+  <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Bíráló bizottság</value></data>
+  <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Heti egyeztetés</value></data>
+  <data name="DemoSchedulerRoom" xml:space="preserve"><value>{0} terem</value></data>
+  <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Rugalmas oszlop</value></data>
+  <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Kis képernyőn teljes szélesség, nagy képernyőn egyharmad.</value></data>
+  <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kártya fejléccel</value></data>
+  <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>A fejléc, a törzs és a lábléc három külön terület.</value></data>
+  <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>Egy kártyának lehet csak törzse is.</value></data>
+  <data name="DemoLayoutStart" xml:space="preserve"><value>Eleje</value></data>
+  <data name="DemoLayoutMiddle" xml:space="preserve"><value>Közepe</value></data>
+  <data name="DemoLayoutEnd" xml:space="preserve"><value>Vége</value></data>
+  <data name="DemoLayoutFieldGroup" xml:space="preserve"><value>Mezőcsoport</value></data>
+  <data name="DemoLayoutOne" xml:space="preserve"><value>Egy</value></data>
+  <data name="DemoLayoutTwo" xml:space="preserve"><value>Kettő</value></data>
+  <data name="DemoLayoutAdvanced" xml:space="preserve"><value>Speciális beállítások</value></data>
+  <data name="DemoLayoutAdvancedText" xml:space="preserve"><value>Megnyitáskor összecsukott csoport, amelyet az olvasó szükség esetén kibont.</value></data>
+  <data name="DemoLayoutTracked" xml:space="preserve"><value>Követett beállítások</value></data>
+  <data name="DemoLayoutTrackedText" xml:space="preserve"><value>Az oldal ismeri az összecsukott állapotot, és meg tudja jegyezni.</value></data>
+  <data name="DemoLayoutDisabledGroup" xml:space="preserve"><value>Letiltott csoport</value></data>
+  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>A csoport teljes tartalma egyetlen mozdulattal működésképtelenné válik.</value></data>
+  <data name="DemoLayoutAlignStart" xml:space="preserve"><value>Az elejéhez igazítva</value></data>
+  <data name="DemoLayoutAlignCenter" xml:space="preserve"><value>Középre igazítva</value></data>
+  <data name="DemoLayoutAlignEnd" xml:space="preserve"><value>A végéhez igazítva</value></data>
+  <data name="DemoLayoutTop" xml:space="preserve"><value>Felül</value></data>
+  <data name="DemoLayoutTopText" xml:space="preserve"><value>A szomszédainál magasabb kártya.</value></data>
+  <data name="DemoLayoutBottom" xml:space="preserve"><value>Alul</value></data>
+  <data name="DemoLayoutBottomText" xml:space="preserve"><value>A jelvény a sor aljához igazodik.</value></data>
+  <data name="DemoLayoutStretched" xml:space="preserve"><value>Kinyújtott</value></data>
+  <data name="DemoLayoutStretchedText" xml:space="preserve"><value>A két kártya azonos magasságú.</value></data>
+  <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Az ügy jóváhagyása</value></data>
+  <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Dokumentumok szűrése</value></data>
+  <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>A kérelem lezárása</value></data>
+  <data name="DemoLayoutNotifications" xml:space="preserve"><value>Értesítések</value></data>
+  <data name="DemoLayoutNotificationsText" xml:space="preserve"><value>Miről értesíti az alkalmazás, és hogyan.</value></data>
+  <data name="DemoLayoutEmailAlerts" xml:space="preserve"><value>E-mailes riasztások</value></data>
+  <data name="DemoLayoutEmailAlertsText" xml:space="preserve"><value>Üzenet minden állapotváltozáskor.</value></data>
+  <data name="DemoLayoutWeeklyDigest" xml:space="preserve"><value>Heti összefoglaló</value></data>
+  <data name="DemoLayoutWeeklyDigestText" xml:space="preserve"><value>A hét ügyei hétfő reggel.</value></data>
+  <data name="DemoLayoutServerName" xml:space="preserve"><value>Kiszolgáló neve</value></data>
+  <data name="DemoLayoutServerNameText" xml:space="preserve"><value>A konzolon látható.</value></data>
+  <data name="DemoLayoutIdentifierReadOnly" xml:space="preserve"><value>Azonosító, csak olvasható</value></data>
+  <data name="DemoLayoutZoneDisabled" xml:space="preserve"><value>Zóna, letiltva</value></data>
+  <data name="DemoLayoutLockedRestore" xml:space="preserve"><value>Zárolt visszaállítás</value></data>
+  <data name="DemoLayoutSave" xml:space="preserve"><value>Mentés</value></data>
+  <data name="DemoLayoutCancel" xml:space="preserve"><value>Mégse</value></data>
+  <data name="DemoLayoutDeployed" xml:space="preserve"><value>A telepítés befejeződött</value></data>
+  <data name="DemoLayoutDeployedText" xml:space="preserve"><value>Az 1.0.1-es verzió élesben van.</value></data>
+  <data name="DemoLayoutEachChange" xml:space="preserve"><value>Minden változáskor.</value></data>
+  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Tágas figyelmeztetés egy kényelmes oldalon.</value></data>
+  <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>Tömör lapok</value></data>
+  <data name="DemoLayoutGeneral" xml:space="preserve"><value>Általános</value></data>
+  <data name="DemoLayoutGeneralText" xml:space="preserve"><value>Általános beállítások.</value></data>
+  <data name="DemoLayoutSecurity" xml:space="preserve"><value>Biztonság</value></data>
+  <data name="DemoLayoutSecurityText" xml:space="preserve"><value>Hozzáférés és tokenek.</value></data>
+  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Tágas csempe</value></data>
+  <data name="DemoLayoutOwnDensity" xml:space="preserve"><value>Saját sűrűséggel.</value></data>
+  <data name="DemoLayoutTrackedExpanded" xml:space="preserve"><value>Követett beállítások: kibontva</value></data>
+  <data name="DemoLayoutTrackedCollapsed" xml:space="preserve"><value>Követett beállítások: összecsukva</value></data>
+  <data name="DemoLayoutGapNone1" xml:space="preserve"><value>Nincs</value></data>
+  <data name="DemoLayoutGapNone2" xml:space="preserve"><value>térköz</value></data>
+  <data name="DemoLayoutGapXSmall1" xml:space="preserve"><value>Nagyon</value></data>
+  <data name="DemoLayoutGapXSmall2" xml:space="preserve"><value>szűk</value></data>
+  <data name="DemoLayoutGapSmall1" xml:space="preserve"><value>Szűk</value></data>
+  <data name="DemoLayoutGapSmall2" xml:space="preserve"><value>kicsi</value></data>
+  <data name="DemoLayoutGapMedium1" xml:space="preserve"><value>Szokásos</value></data>
+  <data name="DemoLayoutGapMedium2" xml:space="preserve"><value>közepes</value></data>
+  <data name="DemoLayoutGapLarge1" xml:space="preserve"><value>Tágas</value></data>
+  <data name="DemoLayoutGapLarge2" xml:space="preserve"><value>nagy</value></data>
+  <data name="DemoLayoutGapXLarge1" xml:space="preserve"><value>Nagyon</value></data>
+  <data name="DemoLayoutGapXLarge2" xml:space="preserve"><value>tágas</value></data>
+  <data name="DemoLayoutDensityCompact" xml:space="preserve"><value>Tömör</value></data>
+  <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Kényelmes</value></data>
+  <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Tágas</value></data>
+  <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} riasztás</value></data>
+  <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Kiemelt címsor</value></data>
+  <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Visszafogott címsor</value></data>
+  <data name="DemoTypographyParagraph" xml:space="preserve"><value>Egy hétköznapi bekezdés, a téma alapméretében.</value></data>
+  <data name="DemoTypographySecondary" xml:space="preserve"><value>Egy másodlagos bekezdés, a kísérő, de nem lényegi információhoz.</value></data>
+  <data name="DemoTypographyError" xml:space="preserve"><value>Hibajelzés</value></data>
+  <data name="DemoTypographyStrong" xml:space="preserve"><value>Fontos szöveg</value></data>
+  <data name="DemoTypographyEmphasis" xml:space="preserve"><value>Hangsúlyos szöveg</value></data>
+  <data name="DemoTypographySuccess" xml:space="preserve"><value>Kedvező állapot</value></data>
+  <data name="DemoTypographyTruncated" xml:space="preserve"><value>Egy hosszú szöveg, amelyet a komponens három ponttal levág, ha elfogy a hely, ahelyett hogy szétfeszítené az elrendezést vagy kiszámíthatatlanul törne sorokra.</value></data>
+  <data name="DemoTypographyLabel" xml:space="preserve"><value>Mezőhöz kapcsolt címke</value></data>
+  <data name="DemoTypographyInternalLink" xml:space="preserve"><value>Belső hivatkozás</value></data>
+  <data name="DemoTypographyExternalLink" xml:space="preserve"><value>Külső hivatkozás</value></data>
+  <data name="DemoTypographyLevelHeading" xml:space="preserve"><value>{0}. szintű címsor</value></data>
+  <data name="DemoThemesAppearanceWindow" xml:space="preserve"><value>Megjelenés ablak</value></data>
+  <data name="DemoAppShellMinimize" xml:space="preserve"><value>Az ablak kis méretre állítása</value></data>
+  <data name="DemoAppShellMaximize" xml:space="preserve"><value>Az ablak teljes méretre állítása vagy visszaállítása</value></data>
+  <data name="DemoAppShellClose" xml:space="preserve"><value>Az ablak bezárása</value></data>
+  <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Navigációs útvonal</value></data>
+  <data name="DemoNavigationHome" xml:space="preserve"><value>Kezdőlap</value></data>
+  <data name="DemoNavigationComponents" xml:space="preserve"><value>Komponensek</value></data>
+  <data name="DemoNavigationCurrent" xml:space="preserve"><value>Navigáció</value></data>
+  <data name="DemoNavigationSections" xml:space="preserve"><value>Az ügy részei</value></data>
+  <data name="DemoNavigationTabSummary" xml:space="preserve"><value>Összefoglaló</value></data>
+  <data name="DemoNavigationDocuments" xml:space="preserve"><value>Dokumentumok</value></data>
+  <data name="DemoNavigationDocumentsText" xml:space="preserve"><value>Minden dokumentumon szerepel a beadás dátuma.</value></data>
+  <data name="DemoNavigationHistory" xml:space="preserve"><value>Előzmények</value></data>
+  <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Tizenkét rögzített mozgás.</value></data>
+  <data name="DemoNavigationProgress" xml:space="preserve"><value>Az ügy előrehaladása</value></data>
+  <data name="DemoNavigationFiling" xml:space="preserve"><value>Beadás</value></data>
+  <data name="DemoNavigationFilingText" xml:space="preserve"><value>A dokumentumok beérkeztek.</value></data>
+  <data name="DemoNavigationReview" xml:space="preserve"><value>Vizsgálat</value></data>
+  <data name="DemoNavigationReviewText" xml:space="preserve"><value>Az ügy vizsgálata folyamatban van.</value></data>
+  <data name="DemoNavigationDecision" xml:space="preserve"><value>Döntés</value></data>
+  <data name="DemoNavigationDecisionText" xml:space="preserve"><value>A döntést postán közöljük.</value></data>
+  <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Az ügyhöz {0} dokumentum tartozik.</value></data>
+  <data name="DemoPagesReload" xml:space="preserve"><value>Az adatlap újratöltése</value></data>
+  <data name="DemoPagesMissing" xml:space="preserve"><value>Az adatlap nem található</value></data>
+  <data name="DemoPagesNotFound" xml:space="preserve"><value>A kért adatlapot eltávolították, vagy soha nem létezett.</value></data>
+  <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuális gép a párizsi zónában.</value></data>
+  <data name="DemoPagesOnline" xml:space="preserve"><value>Online</value></data>
+  <data name="DemoPagesEdit" xml:space="preserve"><value>Szerkesztés</value></data>
+  <data name="DemoPagesRemove" xml:space="preserve"><value>Eltávolítás</value></data>
+  <data name="DemoPagesDuplicate" xml:space="preserve"><value>Megkettőzés</value></data>
+  <data name="DemoPagesArchive" xml:space="preserve"><value>Archiválás</value></data>
+  <data name="DemoPagesProduction" xml:space="preserve"><value>Éles</value></data>
+  <data name="DemoPagesName" xml:space="preserve"><value>Név</value></data>
+  <data name="DemoPagesSystem" xml:space="preserve"><value>Rendszer</value></data>
+  <data name="DemoPagesIpAddress" xml:space="preserve"><value>IP-cím</value></data>
+  <data name="DemoPagesToken" xml:space="preserve"><value>Hozzáférési token</value></data>
+  <data name="DemoPagesLastSignal" xml:space="preserve"><value>Utolsó jel</value></data>
+  <data name="DemoPagesCertificate" xml:space="preserve"><value>Tanúsítvány</value></data>
+  <data name="DemoPagesNoBackup" xml:space="preserve"><value>Nincs biztonsági mentés</value></data>
+  <data name="DemoPagesNoBackupText" xml:space="preserve"><value>Az ütemezett biztonsági mentések az első futásuk után jelennek meg itt.</value></data>
+  <data name="DemoPagesSchedule" xml:space="preserve"><value>Ütemezés</value></data>
+  <data name="DemoPagesNoResult" xml:space="preserve"><value>Nincs találat</value></data>
+  <data name="DemoPagesNoResultText" xml:space="preserve"><value>Egyetlen kiszolgáló sem felel meg a szűrőnek.</value></data>
+  <data name="DemoPagesHideToken" xml:space="preserve"><value>Token elrejtése</value></data>
+  <data name="DemoPagesShowToken" xml:space="preserve"><value>Token megjelenítése</value></data>
+  <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1} e</value></data>
+  <data name="DemoPagesTokensToday" xml:space="preserve"><value>Mai tokenek</value></data>
+  <data name="DemoPagesTokensReset" xml:space="preserve"><value>Nullázás: {0:t}</value></data>
+  <data name="DemoPagesWeekly" xml:space="preserve"><value>Heti</value></data>
+  <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Komponensek</value></data>
+  <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Kiszolgálók</value></data>
+  <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Kiszolgáló</value></data>
+  <data name="DemoBadgesNeutral" xml:space="preserve"><value>Semleges</value></data>
+  <data name="DemoBadgesAccent" xml:space="preserve"><value>Kiemelés</value></data>
+  <data name="DemoBadgesInfo" xml:space="preserve"><value>Információ</value></data>
+  <data name="DemoBadgesSuccess" xml:space="preserve"><value>Siker</value></data>
+  <data name="DemoBadgesWarning" xml:space="preserve"><value>Figyelmeztetés</value></data>
+  <data name="DemoBadgesDanger" xml:space="preserve"><value>Veszély</value></data>
+  <data name="DemoBadgesDraft" xml:space="preserve"><value>Piszkozat</value></data>
+  <data name="DemoBadgesOutline" xml:space="preserve"><value>Körvonal</value></data>
+  <data name="DemoBadgesApproved" xml:space="preserve"><value>Jóváhagyva</value></data>
+  <data name="DemoBadgesPending" xml:space="preserve"><value>Függőben</value></data>
+  <data name="DemoBadgesRejected" xml:space="preserve"><value>Elutasítva</value></data>
+  <data name="DemoBadgesNew" xml:space="preserve"><value>Új</value></data>
+  <data name="DemoBadgesInReview" xml:space="preserve"><value>Ellenőrzés alatt</value></data>
+  <data name="DemoBadgesPublished" xml:space="preserve"><value>Közzétéve</value></data>
+  <data name="DemoBadgesFailed" xml:space="preserve"><value>Sikertelen</value></data>
+  <data name="DemoBadgesFixedSize" xml:space="preserve"><value>Rögzített méret</value></data>
+  <data name="DemoAlertsMaintenance" xml:space="preserve"><value>Karbantartás</value></data>
+  <data name="DemoAlertsMaintenanceText" xml:space="preserve"><value>A szolgáltatás vasárnap 2 és 4 óra között nem érhető el.</value></data>
+  <data name="DemoAlertsPublished" xml:space="preserve"><value>A csomag közzétéve</value></data>
+  <data name="DemoAlertsPublishedText" xml:space="preserve"><value>Az OmniEurope.Blazor elérhető a NuGet.org oldalon.</value></data>
+  <data name="DemoAlertsCertificate" xml:space="preserve"><value>Hamarosan lejáró tanúsítvány</value></data>
+  <data name="DemoAlertsFailure" xml:space="preserve"><value>Hiba</value></data>
+  <data name="DemoAlertsFailureText" xml:space="preserve"><value>Nem sikerült csatlakozni a szolgáltatáshoz.</value></data>
+  <data name="DemoAlertsInfo" xml:space="preserve"><value>Információ</value></data>
+  <data name="DemoAlertsInfoText" xml:space="preserve"><value>A könyvtár minden színét CSS-változókból olvassa.</value></data>
+  <data name="DemoAlertsSaved" xml:space="preserve"><value>Mentve</value></data>
+  <data name="DemoAlertsSavedText" xml:space="preserve"><value>A módosítások érvénybe léptek.</value></data>
+  <data name="DemoAlertsNew" xml:space="preserve"><value>Újdonság</value></data>
+  <data name="DemoAlertsNewText" xml:space="preserve"><value>A jelvények és a figyelmeztetések mostantól azonos kitöltést használnak.</value></data>
+  <data name="DemoAlertsCaution" xml:space="preserve"><value>Figyelem</value></data>
+  <data name="DemoAlertsCautionText" xml:space="preserve"><value>Ez a beállítás minden oldalra érvényes lesz.</value></data>
+  <data name="DemoAlertsTooLarge" xml:space="preserve"><value>A fájl meghaladja a megengedett méretet.</value></data>
+  <data name="DemoAlertsTip" xml:space="preserve"><value>Tipp</value></data>
+  <data name="DemoAlertsTipText" xml:space="preserve"><value>Ez a figyelmeztetés az X gombjával zárható be.</value></data>
+  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Az aláíró tanúsítvány {0} nap múlva lejár.</value></data>
+  <data name="DemoButtonsSecondary" xml:space="preserve"><value>Másodlagos</value></data>
+  <data name="DemoButtonsGhost" xml:space="preserve"><value>Visszafogott</value></data>
+  <data name="DemoButtonsApprove" xml:space="preserve"><value>Jóváhagyás</value></data>
+  <data name="DemoButtonsSuspend" xml:space="preserve"><value>Felfüggesztés</value></data>
+  <data name="DemoButtonsDetails" xml:space="preserve"><value>Részletek</value></data>
+  <data name="DemoButtonsDelete" xml:space="preserve"><value>Törlés</value></data>
+  <data name="DemoButtonsUnavailable" xml:space="preserve"><value>Nem érhető el</value></data>
+  <data name="DemoButtonsSaving" xml:space="preserve"><value>Mentés…</value></data>
+  <data name="DemoButtonsSave" xml:space="preserve"><value>Mentés</value></data>
+  <data name="DemoButtonsPublish" xml:space="preserve"><value>Közzététel</value></data>
+  <data name="DemoButtonsPin" xml:space="preserve"><value>Rögzítés</value></data>
+  <data name="DemoButtonsSmall" xml:space="preserve"><value>Kicsi</value></data>
+  <data name="DemoButtonsMedium" xml:space="preserve"><value>Közepes</value></data>
+  <data name="DemoButtonsLarge" xml:space="preserve"><value>Nagy</value></data>
+  <data name="DemoButtonsSearch" xml:space="preserve"><value>Keresés</value></data>
+  <data name="DemoButtonsPublishLater" xml:space="preserve"><value>Közzététel később</value></data>
+  <data name="DemoButtonsDraft" xml:space="preserve"><value>Piszkozat</value></data>
+  <data name="DemoButtonsPreview" xml:space="preserve"><value>Előnézet</value></data>
+  <data name="DemoButtonsView" xml:space="preserve"><value>Megtekintés</value></data>
+  <data name="DemoButtonsSend" xml:space="preserve"><value>Küldés</value></data>
+  <data name="DemoButtonsReset" xml:space="preserve"><value>Alaphelyzet</value></data>
+  <data name="DemoButtonsNoFormEffect" xml:space="preserve"><value>Nincs hatással az űrlapra</value></data>
+  <data name="DemoButtonsPrimary" xml:space="preserve"><value>Elsődleges</value></data>
+  <data name="DemoButtonsClicks" xml:space="preserve"><value>Kattintások az elsődleges gombon: {0}.</value></data>
+  <data name="DemoButtonsSent" xml:space="preserve"><value>Űrlapküldések: {0}.</value></data>
+  <data name="DemoFeedbackUpload" xml:space="preserve"><value>Feltöltés</value></data>
+  <data name="DemoFeedbackIndexing" xml:space="preserve"><value>Indexelés</value></data>
+  <data name="DemoFeedbackSync" xml:space="preserve"><value>Szinkronizálás</value></data>
+  <data name="DemoFeedbackProcessed" xml:space="preserve"><value>Feldolgozott ügyek</value></data>
+  <data name="DemoFeedbackQuotaNear" xml:space="preserve"><value>A kvóta hamarosan elfogy</value></data>
+  <data name="DemoFeedbackImportFailures" xml:space="preserve"><value>Importálási hibák</value></data>
+  <data name="DemoFeedbackAnalysing" xml:space="preserve"><value>Elemzés folyamatban</value></data>
+  <data name="DemoFeedbackProgress" xml:space="preserve"><value>Előrehaladás</value></data>
+  <data name="DemoFeedbackNoKnownEnd" xml:space="preserve"><value>Ismeretlen befejezés</value></data>
+  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>A kvóta a mindenkori utolsó harminc napra vonatkozik.</value></data>
+  <data name="DemoFeedbackQuota" xml:space="preserve"><value>Kvóta</value></data>
+  <data name="DemoFeedbackArchivedTooltip" xml:space="preserve"><value>Az archivált ügy csak olvasásra tekinthető meg.</value></data>
+  <data name="DemoFeedbackArchived" xml:space="preserve"><value>Archivált</value></data>
+  <data name="DemoFeedbackDraftTooltip" xml:space="preserve"><value>Piszkozat.</value></data>
+  <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Keskeny</value></data>
+  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Az archivált ügy csak olvasásra tekinthető meg. Már nem számít bele a kvótákba, nem jelenik meg az alapértelmezett keresésekben, és nem kap értesítéseket. Az újranyitáshoz egy rendszergazda visszaállítja az Archívum lapról; az előzményei, mellékletei és megjegyzései ekkor sértetlenül visszakerülnek, a visszaállítás dátumával együtt.</value></data>
+  <data name="DemoFeedbackLongText" xml:space="preserve"><value>Hosszú szöveg</value></data>
+  <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>A csomag elemleírása egy egyszerű title attribútumon.</value></data>
+  <data name="DemoFeedbackHover" xml:space="preserve"><value>Mutasson rá</value></data>
+  <data name="DemoFeedbackLoadingAvatar" xml:space="preserve"><value>Az avatar betöltése</value></data>
+  <data name="DemoFeedbackLoadingThumbnail" xml:space="preserve"><value>A miniatűr betöltése</value></data>
+  <data name="DemoFeedbackLoadingFile" xml:space="preserve"><value>Az ügy betöltése</value></data>
+  <data name="DemoFeedbackLoadingDemo" xml:space="preserve"><value>A bemutató betöltése</value></data>
+  <data name="DemoFeedbackSimulateLoad" xml:space="preserve"><value>Betöltés szimulálása</value></data>
+  <data name="DemoFeedbackRecentRuns" xml:space="preserve"><value>Legutóbbi futások</value></data>
+  <data name="DemoFeedbackAvailability" xml:space="preserve"><value>Rendelkezésre állás az elmúlt órákban</value></data>
+  <data name="DemoFeedbackReady" xml:space="preserve"><value>Kész</value></data>
+  <data name="DemoFeedbackFailed" xml:space="preserve"><value>Sikertelen</value></data>
+  <data name="DemoFeedbackRunSucceeded" xml:space="preserve"><value>A(z) {0} futás sikeres</value></data>
+  <data name="DemoFeedbackRunWarning" xml:space="preserve"><value>A(z) {0} futás figyelmeztetéssel zárult</value></data>
+  <data name="DemoFeedbackRunFailed" xml:space="preserve"><value>A(z) {0} futás sikertelen</value></data>
+  <data name="DemoFeedbackSucceeded" xml:space="preserve"><value>Sikeres</value></data>
+  <data name="DemoFeedbackWarning" xml:space="preserve"><value>Figyelmeztetés</value></data>
+  <data name="DemoMediaImageContain" xml:space="preserve"><value>Teljes kép, kivágás nélkül</value></data>
+  <data name="DemoMediaImageCover" xml:space="preserve"><value>A dobozt kitöltő, kivágott kép</value></data>
+  <data name="DemoMediaImageNatural" xml:space="preserve"><value>Kép természetes méretben</value></data>
+  <data name="DemoMediaTimeline" xml:space="preserve"><value>Az ügy szakaszai</value></data>
+  <data name="DemoMediaFiling" xml:space="preserve"><value>Beadás</value></data>
+  <data name="DemoMediaFilingText" xml:space="preserve"><value>Az ügyet iktatták.</value></data>
+  <data name="DemoMediaReview" xml:space="preserve"><value>Vizsgálat</value></data>
+  <data name="DemoMediaReviewText" xml:space="preserve"><value>Ügyintézőt jelöltek ki.</value></data>
+  <data name="DemoMediaDecision" xml:space="preserve"><value>Döntés</value></data>
+  <data name="DemoMediaDecisionText" xml:space="preserve"><value>A döntést közölték.</value></data>
+  <data name="DemoMediaIconCheck" xml:space="preserve"><value>Jóváhagyva</value></data>
+  <data name="DemoMediaIconWarning" xml:space="preserve"><value>Figyelem</value></data>
+  <data name="DemoMediaIconFilter" xml:space="preserve"><value>Szűrés</value></data>
+  <data name="DemoMediaIconCompass" xml:space="preserve"><value>Iránytű</value></data>
+  <data name="DemoMediaIconClose" xml:space="preserve"><value>Bezárás</value></data>
+  <data name="DemoMediaIconInfo" xml:space="preserve"><value>Információ</value></data>
+  <data name="DemoMediaIconMenu" xml:space="preserve"><value>Menü</value></data>
+  <data name="DemoMediaIconChevronDown" xml:space="preserve"><value>Kibontás</value></data>
+  <data name="DemoMediaIconSortAscending" xml:space="preserve"><value>Növekvő rendezés</value></data>
+  <data name="DemoMediaIconSortDescending" xml:space="preserve"><value>Csökkenő rendezés</value></data>
+  <data name="DemoMediaIconThemeLight" xml:space="preserve"><value>Világos megjelenés</value></data>
+  <data name="DemoMediaIconThemeDark" xml:space="preserve"><value>Sötét megjelenés</value></data>
+  <data name="DemoMediaIconAdd" xml:space="preserve"><value>Hozzáadás</value></data>
+  <data name="DemoMediaIconAirplane" xml:space="preserve"><value>Repülőgép</value></data>
+  <data name="DemoMediaIconAirplaneLanding" xml:space="preserve"><value>Leszállás</value></data>
+  <data name="DemoMediaIconAirplaneTakeoff" xml:space="preserve"><value>Felszállás</value></data>
+  <data name="DemoMediaIconArchive" xml:space="preserve"><value>Archiválás</value></data>
+  <data name="DemoMediaIconArrowLeft" xml:space="preserve"><value>Vissza</value></data>
+  <data name="DemoMediaIconArrowRight" xml:space="preserve"><value>Tovább</value></data>
+  <data name="DemoMediaIconBed" xml:space="preserve"><value>Szállás</value></data>
+  <data name="DemoMediaIconBell" xml:space="preserve"><value>Értesítések</value></data>
+  <data name="DemoMediaIconBracketsCurly" xml:space="preserve"><value>JSON-adatok</value></data>
+  <data name="DemoMediaIconCalculator" xml:space="preserve"><value>Számológép</value></data>
+  <data name="DemoMediaIconCards" xml:space="preserve"><value>Kártyák</value></data>
+  <data name="DemoMediaIconChartBarHorizontal" xml:space="preserve"><value>Rangsor</value></data>
+  <data name="DemoMediaIconChat" xml:space="preserve"><value>Üzenet</value></data>
+  <data name="DemoMediaIconCheckCircle" xml:space="preserve"><value>Sikeres</value></data>
+  <data name="DemoMediaIconChevronUp" xml:space="preserve"><value>Összecsukás</value></data>
+  <data name="DemoMediaIconCopy" xml:space="preserve"><value>Másolás</value></data>
+  <data name="DemoMediaIconDatabase" xml:space="preserve"><value>Adatbázis</value></data>
+  <data name="DemoMediaIconDelete" xml:space="preserve"><value>Törlés</value></data>
+  <data name="DemoMediaIconDiamond" xml:space="preserve"><value>Drágakő</value></data>
+  <data name="DemoMediaIconDice" xml:space="preserve"><value>Sorsolás</value></data>
+  <data name="DemoMediaIconDocument" xml:space="preserve"><value>Dokumentum</value></data>
+  <data name="DemoMediaIconDownload" xml:space="preserve"><value>Letöltés</value></data>
+  <data name="DemoMediaIconEdit" xml:space="preserve"><value>Szerkesztés</value></data>
+  <data name="DemoMediaIconError" xml:space="preserve"><value>Hiba</value></data>
+  <data name="DemoMediaIconFlask" xml:space="preserve"><value>Kísérlet</value></data>
+  <data name="DemoMediaIconFunction" xml:space="preserve"><value>Képlet</value></data>
+  <data name="DemoMediaIconGlobe" xml:space="preserve"><value>Világ</value></data>
+  <data name="DemoMediaIconGlobeHemisphereWest" xml:space="preserve"><value>Utazások</value></data>
+  <data name="DemoMediaIconGraduationCap" xml:space="preserve"><value>Osztály</value></data>
+  <data name="DemoMediaIconGraph" xml:space="preserve"><value>Kapcsolatok</value></data>
+  <data name="DemoMediaIconHome" xml:space="preserve"><value>Kezdőlap</value></data>
+  <data name="DemoMediaIconHourglass" xml:space="preserve"><value>Várakozás</value></data>
+  <data name="DemoMediaIconImage" xml:space="preserve"><value>Kép</value></data>
+  <data name="DemoMediaIconLayers" xml:space="preserve"><value>Rétegek</value></data>
+  <data name="DemoMediaIconMapPin" xml:space="preserve"><value>Helyszín</value></data>
+  <data name="DemoMediaIconMapPinLine" xml:space="preserve"><value>Helyszínek importálása</value></data>
+  <data name="DemoMediaIconMedal" xml:space="preserve"><value>Helyezés</value></data>
+  <data name="DemoMediaIconMonitor" xml:space="preserve"><value>Megjelenítés</value></data>
+  <data name="DemoMediaIconNumberedList" xml:space="preserve"><value>Számozott lista</value></data>
+  <data name="DemoMediaIconOffline" xml:space="preserve"><value>Offline</value></data>
+  <data name="DemoMediaIconOpenExternal" xml:space="preserve"><value>Megnyitás máshol</value></data>
+  <data name="DemoMediaIconPackage" xml:space="preserve"><value>Tárgy</value></data>
+  <data name="DemoMediaIconPalette" xml:space="preserve"><value>Színek</value></data>
+  <data name="DemoMediaIconPath" xml:space="preserve"><value>Útvonal</value></data>
+  <data name="DemoMediaIconPattern" xml:space="preserve"><value>Minta</value></data>
+  <data name="DemoMediaIconPictureInPicture" xml:space="preserve"><value>Kép a képben</value></data>
+  <data name="DemoMediaIconPin" xml:space="preserve"><value>Rögzítés</value></data>
+  <data name="DemoMediaIconPlay" xml:space="preserve"><value>Indítás</value></data>
+  <data name="DemoMediaIconProhibit" xml:space="preserve"><value>Tiltott</value></data>
+  <data name="DemoMediaIconRefresh" xml:space="preserve"><value>Frissítés</value></data>
+  <data name="DemoMediaIconRemove" xml:space="preserve"><value>Eltávolítás</value></data>
+  <data name="DemoMediaIconReset" xml:space="preserve"><value>Alaphelyzet</value></data>
+  <data name="DemoMediaIconRestore" xml:space="preserve"><value>Archiválás visszavonása</value></data>
+  <data name="DemoMediaIconRows" xml:space="preserve"><value>Sűrűség</value></data>
+  <data name="DemoMediaIconRuler" xml:space="preserve"><value>Mérés</value></data>
+  <data name="DemoMediaIconSave" xml:space="preserve"><value>Mentés</value></data>
+  <data name="DemoMediaIconSearch" xml:space="preserve"><value>Keresés</value></data>
+  <data name="DemoMediaIconSettings" xml:space="preserve"><value>Beállítások</value></data>
+  <data name="DemoMediaIconShieldCheck" xml:space="preserve"><value>Adminisztráció</value></data>
+  <data name="DemoMediaIconSidebar" xml:space="preserve"><value>Oldalsáv</value></data>
+  <data name="DemoMediaIconSliders" xml:space="preserve"><value>Speciális szűrők</value></data>
+  <data name="DemoMediaIconSparkle" xml:space="preserve"><value>Újdonság</value></data>
+  <data name="DemoMediaIconStar" xml:space="preserve"><value>Kedvenc</value></data>
+  <data name="DemoMediaIconStarFilled" xml:space="preserve"><value>Aktív kedvenc</value></data>
+  <data name="DemoMediaIconSwap" xml:space="preserve"><value>Csere</value></data>
+  <data name="DemoMediaIconSync" xml:space="preserve"><value>Szinkronizálás</value></data>
+  <data name="DemoMediaIconTag" xml:space="preserve"><value>Címke</value></data>
+  <data name="DemoMediaIconTextSize" xml:space="preserve"><value>Szövegméret</value></data>
+  <data name="DemoMediaIconThemeSystem" xml:space="preserve"><value>Rendszer szerinti megjelenés</value></data>
+  <data name="DemoMediaIconTimer" xml:space="preserve"><value>Időzítő</value></data>
+  <data name="DemoMediaIconUpgrade" xml:space="preserve"><value>Frissítés magasabb szintre</value></data>
+  <data name="DemoMediaIconUpload" xml:space="preserve"><value>Feltöltés</value></data>
+  <data name="DemoMediaIconUser" xml:space="preserve"><value>Személy</value></data>
+  <data name="DemoMediaIconUserFocus" xml:space="preserve"><value>Személy keresése</value></data>
+  <data name="DemoMediaIconEye" xml:space="preserve"><value>Megjelenítés</value></data>
+  <data name="DemoMediaIconGitCommit" xml:space="preserve"><value>Commit</value></data>
+  <data name="DemoMediaIconLock" xml:space="preserve"><value>Zárolva</value></data>
+  <data name="DemoMediaIconRocketLaunch" xml:space="preserve"><value>Telepítés</value></data>
+  <data name="DemoMediaIconUsers" xml:space="preserve"><value>Csoport</value></data>
+  <data name="DemoMediaIconStop" xml:space="preserve"><value>Leállítás</value></data>
+  <data name="DemoMediaIconListChecks" xml:space="preserve"><value>Szabályok</value></data>
+  <data name="DemoMediaIconFolder" xml:space="preserve"><value>Mappa</value></data>
+  <data name="DemoMediaIconQuestion" xml:space="preserve"><value>Súgó</value></data>
+  <data name="DemoMediaIconSquaresFour" xml:space="preserve"><value>Irányítópult</value></data>
+  <data name="DemoMediaIconTerminalWindow" xml:space="preserve"><value>Terminál</value></data>
+  <data name="DemoMediaIconWrench" xml:space="preserve"><value>Build</value></data>
+  <data name="DemoMediaIconKey" xml:space="preserve"><value>Kulcs</value></data>
+  <data name="DemoMediaIconBuildings" xml:space="preserve"><value>Szervezet</value></data>
+  <data name="DemoMediaIconHeartbeat" xml:space="preserve"><value>Felügyelet</value></data>
+  <data name="DemoMediaIconCloudArrowUp" xml:space="preserve"><value>Online biztonsági mentés</value></data>
+  <data name="DemoMediaIconLink" xml:space="preserve"><value>Hivatkozás</value></data>
+  <data name="DemoMediaIconUserPlus" xml:space="preserve"><value>Személy hozzáadása</value></data>
+  <data name="DemoMediaIconLayout" xml:space="preserve"><value>Elrendezés</value></data>
+  <data name="DemoMediaIconBroadcast" xml:space="preserve"><value>Közvetítés</value></data>
+  <data name="DemoMediaIconCalendarBlank" xml:space="preserve"><value>Dátum</value></data>
+  <data name="DemoMediaIconChartLineUp" xml:space="preserve"><value>Trend</value></data>
+  <data name="DemoMediaIconFolderOpen" xml:space="preserve"><value>Nyitott mappa</value></data>
+  <data name="DemoMediaIconGitFork" xml:space="preserve"><value>Elágazás</value></data>
+  <data name="DemoMediaIconGitMerge" xml:space="preserve"><value>Egyesítés</value></data>
+  <data name="DemoMediaIconLockKey" xml:space="preserve"><value>Jelszó visszaállítása</value></data>
+  <data name="DemoMediaIconRobot" xml:space="preserve"><value>Automatizálás</value></data>
+  <data name="DemoMediaIconArrowDown" xml:space="preserve"><value>Mozgatás lefelé</value></data>
+  <data name="DemoMediaIconBrain" xml:space="preserve"><value>Intelligencia</value></data>
+  <data name="DemoMediaIconCellTower" xml:space="preserve"><value>Antenna</value></data>
+  <data name="DemoMediaIconCloud" xml:space="preserve"><value>Felhő</value></data>
+  <data name="DemoMediaIconGavel" xml:space="preserve"><value>Szabályzat</value></data>
+  <data name="DemoMediaIconGitDiff" xml:space="preserve"><value>Különbségek</value></data>
+  <data name="DemoMediaIconLinkBreak" xml:space="preserve"><value>Megszakadt hivatkozás</value></data>
+  <data name="DemoMediaIconLockOpen" xml:space="preserve"><value>Feloldva</value></data>
+  <data name="DemoMediaIconPaperPlaneRight" xml:space="preserve"><value>Üzenet küldése</value></data>
+  <data name="DemoMediaIconPlugsConnected" xml:space="preserve"><value>Csatlakoztatva</value></data>
+  <data name="DemoMediaIconPuzzlePiece" xml:space="preserve"><value>Bővítmény</value></data>
+  <data name="DemoMediaIconShieldWarning" xml:space="preserve"><value>Kockázat</value></data>
+  <data name="DemoMediaIconSignOut" xml:space="preserve"><value>Kijelentkezés</value></data>
+  <data name="DemoMediaIconArrowElbowDownLeft" xml:space="preserve"><value>Sortörés</value></data>
+  <data name="DemoMediaIconBroom" xml:space="preserve"><value>Tisztítás</value></data>
+  <data name="DemoMediaIconBug" xml:space="preserve"><value>Programhiba</value></data>
+  <data name="DemoMediaIconChartLine" xml:space="preserve"><value>Vonaldiagram</value></data>
+  <data name="DemoMediaIconChevronRight" xml:space="preserve"><value>Megnyitás</value></data>
+  <data name="DemoMediaIconCode" xml:space="preserve"><value>Kód</value></data>
+  <data name="DemoMediaIconGauge" xml:space="preserve"><value>Teljesítmény</value></data>
+  <data name="DemoMediaIconMagnifyingGlassPlus" xml:space="preserve"><value>Nagyítás</value></data>
+  <data name="DemoMediaIconPassword" xml:space="preserve"><value>Jelszó</value></data>
+  <data name="DemoMediaIconShieldSlash" xml:space="preserve"><value>Védelem kikapcsolva</value></data>
+  <data name="DemoMediaIconStamp" xml:space="preserve"><value>Jóváhagyás</value></data>
+  <data name="DemoMediaIconTextAlignLeft" xml:space="preserve"><value>Balra igazítás</value></data>
+  <data name="DemoMediaIconWifiHigh" xml:space="preserve"><value>Hálózat</value></data>
+  <data name="DemoMediaIconArrowElbowDownRight" xml:space="preserve"><value>Alelem</value></data>
+  <data name="DemoMediaIconArrowLineDown" xml:space="preserve"><value>Ugrás az aljára</value></data>
+  <data name="DemoMediaIconArrowLineUp" xml:space="preserve"><value>Ugrás a tetejére</value></data>
+  <data name="DemoMediaIconArrowUUpRight" xml:space="preserve"><value>Ismétlés</value></data>
+  <data name="DemoMediaIconAt" xml:space="preserve"><value>E-mail-cím</value></data>
+  <data name="DemoMediaIconBellSlash" xml:space="preserve"><value>Értesítések némítva</value></data>
+  <data name="DemoMediaIconBooks" xml:space="preserve"><value>Könyvtár</value></data>
+  <data name="DemoMediaIconCalendarCheck" xml:space="preserve"><value>Megerősített dátum</value></data>
+  <data name="DemoMediaIconChecks" xml:space="preserve"><value>Összes jóváhagyása</value></data>
+  <data name="DemoMediaIconCloudArrowDown" xml:space="preserve"><value>Letöltés a felhőből</value></data>
+  <data name="DemoMediaIconColumns" xml:space="preserve"><value>Oszlopok</value></data>
+  <data name="DemoMediaIconCornersOut" xml:space="preserve"><value>Képernyőhöz igazítás</value></data>
+  <data name="DemoMediaIconDotsThreeVertical" xml:space="preserve"><value>További műveletek</value></data>
+  <data name="DemoMediaIconEyeSlash" xml:space="preserve"><value>Elrejtés</value></data>
+  <data name="DemoMediaIconFrameCorners" xml:space="preserve"><value>Újraközpontosítás</value></data>
+  <data name="DemoMediaIconHardDrive" xml:space="preserve"><value>Lemez</value></data>
+  <data name="DemoMediaIconLightning" xml:space="preserve"><value>Gyors</value></data>
+  <data name="DemoMediaIconMagnifyingGlassMinus" xml:space="preserve"><value>Kicsinyítés</value></data>
+  <data name="DemoMediaIconMegaphone" xml:space="preserve"><value>Közlemény</value></data>
+  <data name="DemoMediaIconSignIn" xml:space="preserve"><value>Bejelentkezés</value></data>
+  <data name="DemoMediaIconTarget" xml:space="preserve"><value>Cél</value></data>
+  <data name="DemoMediaIconToggleLeft" xml:space="preserve"><value>Kikapcsolva</value></data>
+  <data name="DemoMediaIconTray" xml:space="preserve"><value>Beérkezett üzenetek</value></data>
+  <data name="DemoMediaIconCpu" xml:space="preserve"><value>Processzor</value></data>
+  <data name="DemoMediaIconFilePlus" xml:space="preserve"><value>Új fájl</value></data>
+  <data name="DemoMediaIconHandTap" xml:space="preserve"><value>Kézi indítás</value></data>
+  <data name="DemoMediaIconPause" xml:space="preserve"><value>Szünet</value></data>
+  <data name="DemoMediaIconToggleRight" xml:space="preserve"><value>Bekapcsolva</value></data>
+  <data name="DemoMediaIconWebhook" xml:space="preserve"><value>Webhook</value></data>
+  <data name="DemoMediaIconWifiSlash" xml:space="preserve"><value>Nincs hálózat</value></data>
+  <data name="DemoMediaIconScissors" xml:space="preserve"><value>Kivágás</value></data>
+  <data name="DemoMediaIconClipboard" xml:space="preserve"><value>Beillesztés</value></data>
+  <data name="DemoMediaIconThumbsUp" xml:space="preserve"><value>Hasznos</value></data>
+  <data name="DemoMediaIconThumbsDown" xml:space="preserve"><value>Nem hasznos</value></data>
+  <data name="DemoMediaIconLightbulb" xml:space="preserve"><value>Tipp</value></data>
+  <data name="DemoMediaIconKeyboard" xml:space="preserve"><value>Billentyűzet</value></data>
+  <data name="DemoMediaIconFlag" xml:space="preserve"><value>Jelentés</value></data>
+  <data name="DemoMediaIconHighlighter" xml:space="preserve"><value>Kiemelés</value></data>
+  <data name="DemoMediaIconChartPie" xml:space="preserve"><value>Megoszlás</value></data>
+  <data name="DemoMediaIconChartDonut" xml:space="preserve"><value>Arány</value></data>
+  <data name="DemoMediaIconCircle" xml:space="preserve"><value>Kör</value></data>
+  <data name="DemoMediaIconBookmark" xml:space="preserve"><value>Könyvjelző</value></data>
+  <data name="DemoMediaIconUserMinus" xml:space="preserve"><value>Tag eltávolítása</value></data>
+  <data name="DemoMediaIconSelectionSlash" xml:space="preserve"><value>Kijelölés megszüntetése</value></data>
+  <data name="DemoMediaIconSmiley" xml:space="preserve"><value>Különleges karakterek</value></data>
+  <data name="DemoMediaIconSkipBack" xml:space="preserve"><value>Előző szám</value></data>
+  <data name="DemoMediaIconSkipForward" xml:space="preserve"><value>Következő szám</value></data>
+  <data name="DemoMediaIconShuffle" xml:space="preserve"><value>Véletlen sorrend</value></data>
+  <data name="DemoMediaIconRepeat" xml:space="preserve"><value>Ismétlés</value></data>
+  <data name="DemoMediaIconRepeatOnce" xml:space="preserve"><value>Egyszeri ismétlés</value></data>
+  <data name="DemoMediaIconSpeakerHigh" xml:space="preserve"><value>Nagy hangerő</value></data>
+  <data name="DemoMediaIconSpeakerLow" xml:space="preserve"><value>Kis hangerő</value></data>
+  <data name="DemoMediaIconSpeakerNone" xml:space="preserve"><value>Nulla hangerő</value></data>
+  <data name="DemoMediaIconSpeakerX" xml:space="preserve"><value>Némítva</value></data>
+  <data name="DemoMediaIconQueue" xml:space="preserve"><value>Várólista</value></data>
+  <data name="DemoMediaIconPlaylist" xml:space="preserve"><value>Lejátszási lista</value></data>
+  <data name="DemoMediaIconListPlus" xml:space="preserve"><value>Hozzáadás a listához</value></data>
+  <data name="DemoMediaIconMusicNote" xml:space="preserve"><value>Zeneszám</value></data>
+  <data name="DemoMediaIconDisc" xml:space="preserve"><value>Album</value></data>
+  <data name="DemoMediaIconWaveform" xml:space="preserve"><value>Hullámforma</value></data>
+  <data name="DemoMediaIconDotsSixVertical" xml:space="preserve"><value>Fogantyú</value></data>
+  <data name="DemoMediaIconCornersIn" xml:space="preserve"><value>Nézet kicsinyítése</value></data>
+  <data name="DemoMediaIconPlayCircle" xml:space="preserve"><value>Lejátszás</value></data>
+  <data name="DemoMediaIconPauseCircle" xml:space="preserve"><value>Szünet</value></data>
+  <data name="DemoMediaIconXCircle" xml:space="preserve"><value>Mégse</value></data>
+  <data name="DemoMediaIconChartBar" xml:space="preserve"><value>Oszlopdiagram</value></data>
+  <data name="DemoMediaIconBookOpen" xml:space="preserve"><value>Nyitott könyv</value></data>
+  <data name="DemoMediaIconArrowsDownUp" xml:space="preserve"><value>Függőleges csere</value></data>
+  <data name="DemoMediaIconFolderPlus" xml:space="preserve"><value>Új mappa</value></data>
+  <data name="DemoMediaIconTelevision" xml:space="preserve"><value>Képernyő</value></data>
+  <data name="DemoMediaIconSealCheck" xml:space="preserve"><value>Ellenőrzött</value></data>
+  <data name="DemoMediaIconCheckSquare" xml:space="preserve"><value>Bejelölt négyzet</value></data>
+  <data name="DemoMediaIconArrowBendUpRight" xml:space="preserve"><value>Áthelyezés</value></data>
+  <data name="DemoMediaIconStethoscope" xml:space="preserve"><value>Diagnózis</value></data>
+  <data name="DemoMediaIconChevronLeft" xml:space="preserve"><value>Előző</value></data>
+  <data name="DemoMediaIconEnvelope" xml:space="preserve"><value>E-mail</value></data>
+  <data name="DemoMediaIconCurrencyEur" xml:space="preserve"><value>Összeg euróban</value></data>
+  <data name="DemoMediaIconShareNetwork" xml:space="preserve"><value>Megosztás</value></data>
+  <data name="DemoMediaIconBank" xml:space="preserve"><value>Pénzintézet</value></data>
+  <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Megbízás</value></data>
+  <data name="DemoMediaIconIdentificationBadge" xml:space="preserve"><value>Azonosítókártya</value></data>
+  <data name="DemoMediaIconFilePdf" xml:space="preserve"><value>PDF-dokumentum</value></data>
+  <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Ügyfélszolgálat</value></data>
+  <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerség</value></data>
+  <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Emelkedés</value></data>
+  <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Projekt neve</value></data>
+  <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>A felelős e-mail-címe</value></data>
+  <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>E-mail-cím megerősítése</value></data>
+  <data name="DemoAnnotatedValidationReplicas" xml:space="preserve"><value>Replikák</value></data>
+  <data name="DemoOverlayOpenDialog" xml:space="preserve"><value>A párbeszédpanel megnyitása</value></data>
+  <data name="DemoOverlaySave" xml:space="preserve"><value>Mentés</value></data>
+  <data name="DemoOverlayMoreSaves" xml:space="preserve"><value>További mentési módok</value></data>
+  <data name="DemoOverlaySaveAndClose" xml:space="preserve"><value>Mentés és bezárás</value></data>
+  <data name="DemoOverlaySaveCopy" xml:space="preserve"><value>Másolat mentése</value></data>
+  <data name="DemoOverlayPublishUnavailable" xml:space="preserve"><value>Közzététel, nem érhető el</value></data>
+  <data name="DemoOverlayFolderActions" xml:space="preserve"><value>Mappaműveletek</value></data>
+  <data name="DemoOverlayContextTrigger" xml:space="preserve"><value>Műveletek (jobb kattintás vagy Shift+F10)</value></data>
+  <data name="DemoOverlayDuplicate" xml:space="preserve"><value>Megkettőzés</value></data>
+  <data name="DemoOverlayExport" xml:space="preserve"><value>Exportálás</value></data>
+  <data name="DemoOverlayDelete" xml:space="preserve"><value>Törlés</value></data>
+  <data name="DemoOverlayDeleteFolder" xml:space="preserve"><value>A mappa törlése</value></data>
+  <data name="DemoOverlayRunningTasks" xml:space="preserve"><value>Futó feladatok</value></data>
+  <data name="DemoOverlayBackupStep" xml:space="preserve"><value>Éjszakai biztonsági mentés, {0}. lépés / {1}.</value></data>
+  <data name="DemoOverlayViewProgress" xml:space="preserve"><value>Állapot megtekintése</value></data>
+  <data name="DemoOverlayProgressOpened" xml:space="preserve"><value>Állapot megnyitva</value></data>
+  <data name="DemoOverlayQuickFilter" xml:space="preserve"><value>Gyorsszűrő</value></data>
+  <data name="DemoOverlayFilter" xml:space="preserve"><value>Szűrés</value></data>
+  <data name="DemoOverlayFilterBody" xml:space="preserve"><value>A panel a gomb elejéhez igazodik.</value></data>
+  <data name="DemoOverlayAccountMenu" xml:space="preserve"><value>Fiókmenü</value></data>
+  <data name="DemoOverlayMyProfile" xml:space="preserve"><value>Saját profil</value></data>
+  <data name="DemoOverlaySignOut" xml:space="preserve"><value>Kijelentkezés</value></data>
+  <data name="DemoOverlaySignedOut" xml:space="preserve"><value>Kijelentkezve</value></data>
+  <data name="DemoOverlayAdminUnavailable" xml:space="preserve"><value>Adminisztráció, nem érhető el</value></data>
+  <data name="DemoOverlayStickyButton" xml:space="preserve"><value>A háttérre nem reagáló párbeszédpanel</value></data>
+  <data name="DemoOverlayBlockingButton" xml:space="preserve"><value>Kötelező bezárású párbeszédpanel</value></data>
+  <data name="DemoOverlaySizeSmall" xml:space="preserve"><value>Kicsi</value></data>
+  <data name="DemoOverlaySizeMedium" xml:space="preserve"><value>Közepes</value></data>
+  <data name="DemoOverlaySizeLarge" xml:space="preserve"><value>Széles</value></data>
+  <data name="DemoOverlaySizeExtraLarge" xml:space="preserve"><value>Nagyon széles</value></data>
+  <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Teljes szélesség</value></data>
+  <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>A párbeszédpanel szélessége</value></data>
+  <data name="DemoOverlaySizedBody" xml:space="preserve"><value>Ez a párbeszédpanel {0} méretben van megnyitva.</value></data>
+  <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Űrlap (kiemelés)</value></data>
+  <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Információ</value></data>
+  <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Siker</value></data>
+  <data name="DemoOverlayIntentWarning" xml:space="preserve"><value>Megerősítés (figyelmeztetés)</value></data>
+  <data name="DemoOverlayIntentDanger" xml:space="preserve"><value>Törlés (veszély)</value></data>
+  <data name="DemoOverlayIntentTitle" xml:space="preserve"><value>Futtatási beállítások</value></data>
+  <data name="DemoOverlayIntentBody" xml:space="preserve"><value>Ennek a párbeszédpanelnek a szándéka: {0}.</value></data>
+  <data name="DemoOverlayConfirm" xml:space="preserve"><value>Jóváhagyás</value></data>
+  <data name="DemoOverlayCancel" xml:space="preserve"><value>Mégse</value></data>
+  <data name="DemoOverlayPipelineActions" xml:space="preserve"><value>Folyamatműveletek</value></data>
+  <data name="DemoOverlayEdit" xml:space="preserve"><value>Szerkesztés</value></data>
+  <data name="DemoOverlayUpdate" xml:space="preserve"><value>Frissítés</value></data>
+  <data name="DemoOverlayRowActions" xml:space="preserve"><value>Sorműveletek</value></data>
+  <data name="DemoOverlayLastAction" xml:space="preserve"><value>Utolsó művelet: {0}</value></data>
+  <data name="DemoOverlayNoAction" xml:space="preserve"><value>nincs</value></data>
+  <data name="DemoOverlayNoticeInfoTitle" xml:space="preserve"><value>Információ</value></data>
+  <data name="DemoOverlayNoticeInfo" xml:space="preserve"><value>Az éjszakai feldolgozás {0}-kor indul.</value></data>
+  <data name="DemoOverlayNoticeDoneTitle" xml:space="preserve"><value>Kész</value></data>
+  <data name="DemoOverlayNoticeDone" xml:space="preserve"><value>A(z) {0} dokumentum importálása megtörtént.</value></data>
+  <data name="DemoOverlayNotificationClosed" xml:space="preserve"><value>Értesítés bezárva</value></data>
+  <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>A kvóta majdnem elfogyott.</value></data>
+  <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Hiba</value></data>
+  <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Nem sikerült csatlakozni a szolgáltatáshoz.</value></data>
+  <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Törlés megerősítése</value></data>
+  <data name="DemoOverlayClose" xml:space="preserve"><value>Bezárás</value></data>
+  <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Ez a művelet eltávolítja a mappát a listából. Harminc napig visszavonható.</value></data>
+  <data name="DemoOverlayDeletionConfirmed" xml:space="preserve"><value>Törlés megerősítve</value></data>
+  <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Szűrés folyamatban</value></data>
+  <data name="DemoOverlayStickyBody" xml:space="preserve"><value>Mellékattintással ez a párbeszédpanel nem zárul be: az X gomb és az Esc bezárja.</value></data>
+  <data name="DemoOverlayBlockingTitle" xml:space="preserve"><value>Migrálás folyamatban</value></data>
+  <data name="DemoOverlayBlockingBody" xml:space="preserve"><value>Sem az X gomb, sem az Esc, sem a háttér: csak a párbeszédpanel saját gombja zárja be.</value></data>
+  <data name="DemoOverlayFinish" xml:space="preserve"><value>Befejezés</value></data>
+  <data name="DemoOverlayMigrationDone" xml:space="preserve"><value>A migrálás befejeződött</value></data>
+  <data name="DemoEditorBodyLabel" xml:space="preserve"><value>A levél szövege</value></data>
+  <data name="DemoEditorSourceLabel" xml:space="preserve"><value>A levél forrása</value></data>
+  <data name="DemoEditorAnnotatedLabel" xml:space="preserve"><value>Jegyzetelt cikk</value></data>
+  <data name="DemoEditorPosition" xml:space="preserve"><value>Pozíció: {0}</value></data>
+  <data name="DemoEditorOutsideText" xml:space="preserve"><value>a szövegen kívül</value></data>
+  <data name="DemoEditorRoot" xml:space="preserve"><value>gyökér</value></data>
+  <data name="DemoEditorExtendedLabel" xml:space="preserve"><value>Jegyzetelt vélemény</value></data>
+  <data name="DemoEditorReportLabel" xml:space="preserve"><value>Jelentés</value></data>
+  <data name="DemoEditorReportFileName" xml:space="preserve"><value>jelentes</value></data>
+  <data name="DemoEditorCodeLabel" xml:space="preserve"><value>JSON-beállítások</value></data>
+  <data name="DemoEditorIconBold" xml:space="preserve"><value>Félkövér</value></data>
+  <data name="DemoEditorIconItalic" xml:space="preserve"><value>Dőlt</value></data>
+  <data name="DemoEditorIconUnderline" xml:space="preserve"><value>Aláhúzott</value></data>
+  <data name="DemoEditorIconStrikethrough" xml:space="preserve"><value>Áthúzott</value></data>
+  <data name="DemoEditorIconSubscript" xml:space="preserve"><value>Alsó index</value></data>
+  <data name="DemoEditorIconSuperscript" xml:space="preserve"><value>Felső index</value></data>
+  <data name="DemoEditorIconBulletList" xml:space="preserve"><value>Felsorolás</value></data>
+  <data name="DemoEditorIconIndent" xml:space="preserve"><value>Behúzás növelése</value></data>
+  <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Behúzás csökkentése</value></data>
+  <data name="DemoEditorIconQuote" xml:space="preserve"><value>Idézet</value></data>
+  <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Beágyazott kód</value></data>
+  <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Kódblokk</value></data>
+  <data name="DemoEditorIconLink" xml:space="preserve"><value>Hivatkozás</value></data>
+  <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Hivatkozás eltávolítása</value></data>
+  <data name="DemoEditorIconAlignLeft" xml:space="preserve"><value>Balra igazítás</value></data>
+  <data name="DemoEditorIconAlignCenter" xml:space="preserve"><value>Középre igazítás</value></data>
+  <data name="DemoEditorIconAlignRight" xml:space="preserve"><value>Jobbra igazítás</value></data>
+  <data name="DemoEditorIconJustify" xml:space="preserve"><value>Sorkizárás</value></data>
+  <data name="DemoEditorIconUndo" xml:space="preserve"><value>Visszavonás</value></data>
+  <data name="DemoEditorIconRedo" xml:space="preserve"><value>Ismétlés</value></data>
+  <data name="DemoEditorIconClearFormatting" xml:space="preserve"><value>Formázás törlése</value></data>
+  <data name="DemoEditorIconHtmlSource" xml:space="preserve"><value>HTML-forrás</value></data>
+  <data name="DemoEditorIconTable" xml:space="preserve"><value>Táblázat</value></data>
+  <data name="DemoEditorManifest" xml:space="preserve"><value>Telepítési jegyzék</value></data>
+  <data name="DemoEditorManifestHelp" xml:space="preserve"><value>Egyetlen fájl, megnyitja a rendszer fájlválasztó ablakát.</value></data>
+  <data name="DemoEditorUploadFailed" xml:space="preserve"><value>A feltöltés nem sikerült.</value></data>
+  <data name="DemoEditorUploaded" xml:space="preserve"><value>Feltöltött fájlok: {0}</value></data>
+  <data name="DemoEditorNoUpload" xml:space="preserve"><value>nincs</value></data>
+  <data name="DemoEditorTestCommand" xml:space="preserve"><value>Tesztparancs</value></data>
+  <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Konfigurációs minta</value></data>
+  <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Részlet, {0}–{1}. sor</value></data>
+  <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Két konfiguráció összehasonlítása</value></data>
+  <data name="DemoEditorSignatureText" xml:space="preserve"><value>Ügyiratkezelési osztály</value></data>
+  <data name="DemoEditorReferenceText" xml:space="preserve"><value>Hivatkozási szám: {0}</value></data>
+  <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Aláírásblokk beszúrása</value></data>
+  <data name="DemoEditorAddSignature" xml:space="preserve"><value>Aláírás hozzáadása</value></data>
+  <data name="DemoEditorInsertReference" xml:space="preserve"><value>Hivatkozási szám beszúrása</value></data>
+  <data name="DemoEditorAddNote" xml:space="preserve"><value>Megjegyzés hozzáadása</value></data>
+  <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>Új megjegyzés.</value></data>
+  <data name="DemoEditorNewNote" xml:space="preserve"><value>Új megjegyzés</value></data>
+  <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Megjegyzés eltávolítása</value></data>
+  <data name="DemoEditorArticleText" xml:space="preserve"><value>1. cikk. Ez a szabályzat a beérkezett ügyekre vonatkozik.</value></data>
+  <data name="DemoEditorArticleDelay" xml:space="preserve"><value>Határidő</value></data>
+  <data name="DemoEditorArticleDocument" xml:space="preserve"><value>Dokumentum</value></data>
+  <data name="DemoEditorArticleDays" xml:space="preserve"><value>{0} nap</value></data>
+  <data name="DemoEditorArticleForm" xml:space="preserve"><value>Űrlap</value></data>
+  <data name="DemoEditorArticleNote" xml:space="preserve"><value>Megjegyzés: január 1-jei egységes szerkezetbe foglalt szöveg.</value></data>
+  <data name="DemoEditorOpinion" xml:space="preserve"><value>Kedvező vélemény azzal a feltétellel{0}.</value></data>
+  <data name="DemoEditorOpinionNote" xml:space="preserve"><value>a határidő ellenőrzése</value></data>
+  <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>azzal a feltétellel</value></data>
+  <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value>, hogy ellenőrizzük</value></data>
+  <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Egy {0} bekezdés.</value></data>
+  <data name="DemoEditorReportImportant" xml:space="preserve"><value>fontos</value></data>
+  <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Első pont</value></data>
+  <data name="DemoEditorReportSecondPoint" xml:space="preserve"><value>Második pont</value></data>
+  <data name="DemoEditorBodyGreeting" xml:space="preserve"><value>Tisztelt Hölgyem/Uram!</value></data>
+  <data name="DemoEditorBodyText" xml:space="preserve"><value>Ügyét megkaptuk.</value></data>
+  <data name="DemoEditorEmptyFile" xml:space="preserve"><value>Az egyik fájl üres.</value></data>
+  <data name="DemoChoiceShippingLabel" xml:space="preserve"><value>Szállítási mód</value></data>
+  <data name="DemoChoiceExtrasLabel" xml:space="preserve"><value>Az ügy beállításai</value></data>
+  <data name="DemoChoicePeriodLabel" xml:space="preserve"><value>Időszak</value></data>
+  <data name="DemoChoicePin" xml:space="preserve"><value>Rögzítés</value></data>
+  <data name="DemoChoiceUnavailable" xml:space="preserve"><value>Nem érhető el</value></data>
+  <data name="DemoChoiceSaving" xml:space="preserve"><value>Mentés…</value></data>
+  <data name="DemoChoiceLabelledCheck" xml:space="preserve"><value>Jelölőnégyzet címkével</value></data>
+  <data name="DemoChoiceTriStateCheck" xml:space="preserve"><value>Háromállapotú jelölőnégyzet</value></data>
+  <data name="DemoChoiceTriStateSwitch" xml:space="preserve"><value>Háromállapotú kapcsoló</value></data>
+  <data name="DemoChoiceTriStateValue" xml:space="preserve"><value>Háromállású állapot: {0}</value></data>
+  <data name="DemoChoiceIndeterminate" xml:space="preserve"><value>meghatározatlan</value></data>
+  <data name="DemoChoiceOn" xml:space="preserve"><value>bekapcsolva</value></data>
+  <data name="DemoChoiceOff" xml:space="preserve"><value>kikapcsolva</value></data>
+  <data name="DemoChoiceTextFirstCheck" xml:space="preserve"><value>Címke a jelölőnégyzet előtt</value></data>
+  <data name="DemoChoiceTextFirstSwitch" xml:space="preserve"><value>Címke a kapcsoló előtt</value></data>
+  <data name="DemoChoicePlatformLabel" xml:space="preserve"><value>Az ügynök operációs rendszere</value></data>
+  <data name="DemoChoiceWindowsDescription" xml:space="preserve"><value>Windows Server 2022 és újabb</value></data>
+  <data name="DemoChoiceFeaturesLabel" xml:space="preserve"><value>Az ügynök funkciói</value></data>
+  <data name="DemoChoiceRunnerTitle" xml:space="preserve"><value>Folyamatfuttató</value></data>
+  <data name="DemoChoiceRunnerDescription" xml:space="preserve"><value>Ezen a gépen futtatja a lépéseket.</value></data>
+  <data name="DemoChoiceDockerDescription" xml:space="preserve"><value>A futtató megköveteli.</value></data>
+  <data name="DemoChoiceRating" xml:space="preserve"><value>Értékelés</value></data>
+  <data name="DemoChoiceRatingReadOnly" xml:space="preserve"><value>Csak olvasható értékelés</value></data>
+  <data name="DemoChoiceRatingDisabled" xml:space="preserve"><value>Letiltott értékelés</value></data>
+  <data name="DemoChoiceShippingStandard" xml:space="preserve"><value>Normál</value></data>
+  <data name="DemoChoiceShippingExpress" xml:space="preserve"><value>Expressz</value></data>
+  <data name="DemoChoiceShippingPickup" xml:space="preserve"><value>Átvétel a fiókban</value></data>
+  <data name="DemoChoiceExtraReceipt" xml:space="preserve"><value>Tértivevény</value></data>
+  <data name="DemoChoiceExtraCertifiedCopy" xml:space="preserve"><value>Hitelesített másolat</value></data>
+  <data name="DemoChoiceExtraTracking" xml:space="preserve"><value>Követés e-mailben</value></data>
+  <data name="DemoChoicePeriodDay" xml:space="preserve"><value>Nap</value></data>
+  <data name="DemoChoicePeriodMonth" xml:space="preserve"><value>Hónap</value></data>
+  <data name="DemoChoicePeriodYear" xml:space="preserve"><value>Év</value></data>
+  <data name="DemoChoiceFeatureCache" xml:space="preserve"><value>Függőségi gyorsítótár</value></data>
+  <data name="DemoChoiceFeatureArtifacts" xml:space="preserve"><value>Összetevők megőrzése</value></data>
+  <data name="DemoChoiceFeatureGpu" xml:space="preserve"><value>GPU-gyorsítás</value></data>
+  <data name="DemoInputsAmount" xml:space="preserve"><value>Összeg</value></data>
+  <data name="DemoInputsQuantity" xml:space="preserve"><value>Mennyiség</value></data>
+  <data name="DemoInputsQuantityHelp" xml:space="preserve"><value>{0} és {1} között: a határon kívüli érték a legközelebbi határra módosul.</value></data>
+  <data name="DemoInputsPassword" xml:space="preserve"><value>Jelszó</value></data>
+  <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>A gomb megjeleníti a beírt szöveget anélkül, hogy bárhová másolná.</value></data>
+  <data name="DemoInputsDate" xml:space="preserve"><value>Hatálybalépés dátuma</value></data>
+  <data name="DemoInputsDateHelp" xml:space="preserve"><value>Billentyűzettel vagy naptárral; a határon kívüli napok nem választhatók.</value></data>
+  <data name="DemoInputsStart" xml:space="preserve"><value>Kezdési időpont</value></data>
+  <data name="DemoInputsStartHelp" xml:space="preserve"><value>Órák 00-tól 23-ig, percek {0} perces lépésközzel.</value></data>
+  <data name="DemoInputsAppointment" xml:space="preserve"><value>Találkozó</value></data>
+  <data name="DemoInputsAppointmentHelp" xml:space="preserve"><value>Naptár és óraoszlopok egyetlen panelen.</value></data>
+  <data name="DemoInputsColor" xml:space="preserve"><value>Jelölőszín</value></data>
+  <data name="DemoInputsCity" xml:space="preserve"><value>Város</value></data>
+  <data name="DemoInputsCityHelp" xml:space="preserve"><value>A keresés két karaktertől indul.</value></data>
+  <data name="DemoInputsCityPlaceholder" xml:space="preserve"><value>Kezdjen el gépelni</value></data>
+  <data name="DemoInputsPickedSummary" xml:space="preserve"><value>Dátum: {0}; időpont: {1}; találkozó: {2}</value></data>
+  <data name="DemoInputsNoDate" xml:space="preserve"><value>nincs</value></data>
+  <data name="DemoInputsNoTime" xml:space="preserve"><value>nincs</value></data>
+  <data name="DemoInputsNoAppointment" xml:space="preserve"><value>nincs</value></data>
+  <data name="DemoFormName" xml:space="preserve"><value>Teljes név</value></data>
+  <data name="DemoFormNameHelp" xml:space="preserve"><value>Ahogyan a számlán szerepelni fog.</value></data>
+  <data name="DemoFormNotes" xml:space="preserve"><value>Megjegyzések</value></data>
+  <data name="DemoFormEmail" xml:space="preserve"><value>E-mail-cím</value></data>
+  <data name="DemoFormEmailHelp" xml:space="preserve"><value>A típus határozza meg a mobil billentyűzetet és a böngésző automatikus kitöltését.</value></data>
+  <data name="DemoFormPhone" xml:space="preserve"><value>Telefon</value></data>
+  <data name="DemoFormWebsite" xml:space="preserve"><value>Webhely</value></data>
+  <data name="DemoFormSearch" xml:space="preserve"><value>Keresés</value></data>
+  <data name="DemoFormSearchPlaceholder" xml:space="preserve"><value>A lista szűrése</value></data>
+  <data name="DemoFormBudget" xml:space="preserve"><value>Költségkeret</value></data>
+  <data name="DemoFormTerms" xml:space="preserve"><value>Elfogadom a felhasználási feltételeket</value></data>
+  <data name="DemoFormAlerts" xml:space="preserve"><value>Riasztások fogadása</value></data>
+  <data name="DemoFormDynamicValues" xml:space="preserve"><value>Az űrlap értékei: {0}</value></data>
+  <data name="DemoFormDynamicName" xml:space="preserve"><value>Név</value></data>
+  <data name="DemoFormDynamicAmount" xml:space="preserve"><value>Összeg</value></data>
+  <data name="DemoFormDynamicComment" xml:space="preserve"><value>Megjegyzés</value></data>
+  <data name="DemoFormDynamicActive" xml:space="preserve"><value>Aktív</value></data>
+  <data name="DemoValidationName" xml:space="preserve"><value>Név</value></data>
+  <data name="DemoValidationNameRequired" xml:space="preserve"><value>A név megadása kötelező.</value></data>
+  <data name="DemoValidationMail" xml:space="preserve"><value>E-mail</value></data>
+  <data name="DemoValidationMailRequired" xml:space="preserve"><value>Az e-mail-cím megadása kötelező.</value></data>
+  <data name="DemoValidationSend" xml:space="preserve"><value>Küldés</value></data>
+  <data name="DemoValidationAccepted" xml:space="preserve"><value>Az űrlapot elfogadtuk.</value></data>
+  <data name="DemoValidationProjectName" xml:space="preserve"><value>Projekt neve</value></data>
+  <data name="DemoValidationOwnerMail" xml:space="preserve"><value>A felelős e-mail-címe</value></data>
+  <data name="DemoValidationMailConfirmation" xml:space="preserve"><value>E-mail-cím megerősítése</value></data>
+  <data name="DemoValidationReplicas" xml:space="preserve"><value>Replikák</value></data>
+  <data name="DemoValidationCheck" xml:space="preserve"><value>Ellenőrzés</value></data>
+  <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Nem mentett módosítások szimulálása</value></data>
+  <data name="DemoSelectionCountry" xml:space="preserve"><value>Ország</value></data>
+  <data name="DemoSelectionCountryPlaceholder" xml:space="preserve"><value>Válasszon országot</value></data>
+  <data name="DemoSelectionCities" xml:space="preserve"><value>Kiszolgált városok</value></data>
+  <data name="DemoSelectionTags" xml:space="preserve"><value>Címkék</value></data>
+  <data name="DemoSelectionTagsCompact" xml:space="preserve"><value>Címkék, tömör forma</value></data>
+  <data name="DemoSelectionTagsFilterable" xml:space="preserve"><value>Címkék, keresés és létrehozás</value></data>
+  <data name="DemoSelectionTagsPlaceholder" xml:space="preserve"><value>Válasszon címkéket</value></data>
+  <data name="DemoSelectionTagSearchPlaceholder" xml:space="preserve"><value>Címke keresése</value></data>
+  <data name="DemoSelectionBelgium" xml:space="preserve"><value>Belgium</value></data>
+  <data name="DemoSelectionFrance" xml:space="preserve"><value>Franciaország</value></data>
+  <data name="DemoSelectionLuxembourg" xml:space="preserve"><value>Luxemburg</value></data>
+  <data name="DemoSelectionNetherlands" xml:space="preserve"><value>Hollandia</value></data>
+  <data name="DemoSelectionTagUrgent" xml:space="preserve"><value>Sürgős</value></data>
+  <data name="DemoSelectionTagInternal" xml:space="preserve"><value>Belső</value></data>
+  <data name="DemoSelectionTagArchived" xml:space="preserve"><value>Archivált</value></data>
+  <data name="DemoFlowsCreateServer" xml:space="preserve"><value>A kiszolgáló létrehozása</value></data>
+  <data name="DemoFlowsStepIdentity" xml:space="preserve"><value>Azonosítás</value></data>
+  <data name="DemoFlowsNameHelp" xml:space="preserve"><value>A Következő gomb a név beírása után válik elérhetővé.</value></data>
+  <data name="DemoFlowsServerName" xml:space="preserve"><value>Kiszolgáló neve</value></data>
+  <data name="DemoFlowsStepOptions" xml:space="preserve"><value>Beállítások</value></data>
+  <data name="DemoFlowsDailyBackup" xml:space="preserve"><value>Napi biztonsági mentés</value></data>
+  <data name="DemoFlowsBackupRequired" xml:space="preserve"><value>Éles kiszolgálóhoz jelölje be a napi biztonsági mentést.</value></data>
+  <data name="DemoFlowsStepSummary" xml:space="preserve"><value>Összegzés</value></data>
+  <data name="DemoFlowsSummaryName" xml:space="preserve"><value>Név</value></data>
+  <data name="DemoFlowsSummaryBackup" xml:space="preserve"><value>Biztonsági mentés</value></data>
+  <data name="DemoFlowsBackupDaily" xml:space="preserve"><value>Napi</value></data>
+  <data name="DemoFlowsBackupNone" xml:space="preserve"><value>Nincs</value></data>
+  <data name="DemoFlowsOutcome" xml:space="preserve"><value>Eredmény: {0}</value></data>
+  <data name="DemoFlowsOutcomePending" xml:space="preserve"><value>folyamatban</value></data>
+  <data name="DemoFlowsOutcomeCreated" xml:space="preserve"><value>a(z) „{0}” kiszolgáló létrejött</value></data>
+  <data name="DemoFlowsOutcomeCancelled" xml:space="preserve"><value>megszakítva</value></data>
+  <data name="DemoFlowsWizardInDialog" xml:space="preserve"><value>Varázsló párbeszédpanelen</value></data>
+  <data name="DemoFlowsInviteTitle" xml:space="preserve"><value>Tag meghívása</value></data>
+  <data name="DemoFlowsInviteSteps" xml:space="preserve"><value>A meghívás lépései</value></data>
+  <data name="DemoFlowsInvite" xml:space="preserve"><value>Meghívás</value></data>
+  <data name="DemoFlowsStepAddress" xml:space="preserve"><value>Cím</value></data>
+  <data name="DemoFlowsAddressBody" xml:space="preserve"><value>A meghívott személy címe.</value></data>
+  <data name="DemoFlowsStepRole" xml:space="preserve"><value>Szerepkör</value></data>
+  <data name="DemoFlowsRoleBody" xml:space="preserve"><value>A szerepkör, amelyet kapni fog.</value></data>
+  <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Adminisztrációs felület</value></data>
+  <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Üzemeltetés</value></data>
+  <data name="DemoFlowsUser" xml:space="preserve"><value>Felhasználónév</value></data>
+  <data name="DemoFlowsPassword" xml:space="preserve"><value>Jelszó</value></data>
+  <data name="DemoFlowsSignIn" xml:space="preserve"><value>Bejelentkezés</value></data>
+  <data name="DemoFlowsSignInNote" xml:space="preserve"><value>Az űrlap átadva a gazdaalkalmazásnak: „{0}”.</value></data>
+  <data name="DemoFlowsReturnAfterSignIn" xml:space="preserve"><value>Visszatérés bejelentkezés után: {0}</value></data>
+  <data name="DemoFlowsExternalRefused" xml:space="preserve"><value>Külső cím elutasítva: {0}</value></data>
+  <data name="DemoFlowsSimulateDrop" xml:space="preserve"><value>Kapcsolatszakadás szimulálása</value></data>
+  <data name="DemoFlowsSimulateReject" xml:space="preserve"><value>Elutasítás szimulálása</value></data>
+  <data name="DemoFlowsConnection" xml:space="preserve"><value>Kapcsolat: {0}</value></data>
+  <data name="DemoFlowsConnectionReconnecting" xml:space="preserve"><value>újracsatlakozás</value></data>
+  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>sikertelen</value></data>
+  <data name="DemoFlowsConnectionRejected" xml:space="preserve"><value>elutasítva</value></data>
+  <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>létrejött</value></data>
+  <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>a kiszolgáló nem válaszol (időtúllépés)</value></data>
+  <data name="DemoFlowsReasonExpired" xml:space="preserve"><value>a munkamenet lejárt a kiszolgálón</value></data>
+  <data name="DemoTreeLabel" xml:space="preserve"><value>Mappastruktúra</value></data>
+  <data name="DemoTreeEurope" xml:space="preserve"><value>Európa</value></data>
+  <data name="DemoTreeBelgium" xml:space="preserve"><value>Belgium</value></data>
+  <data name="DemoTreeCapitalText" xml:space="preserve"><value>{0}, főváros</value></data>
+  <data name="DemoTreeCapital" xml:space="preserve"><value>főváros</value></data>
+  <data name="DemoTreeFrance" xml:space="preserve"><value>Franciaország</value></data>
+  <data name="DemoTreeLuxembourg" xml:space="preserve"><value>Luxemburg</value></data>
+  <data name="DemoTreeArchives" xml:space="preserve"><value>Archívum, megnyitáskor betöltve</value></data>
+  <data name="DemoTreeSelection" xml:space="preserve"><value>Kijelölés: {0}</value></data>
+  <data name="DemoTreeNoSelection" xml:space="preserve"><value>nincs</value></data>
+  <data name="DemoSpreadsheetLabel" xml:space="preserve"><value>Negyedéves költségvetés</value></data>
+  <data name="DemoSpreadsheetStatus" xml:space="preserve"><value>Aktív cella: {0}. Negyedéves összeg: {1}</value></data>
+  <data name="DemoSpreadsheetReadOnlyLabel" xml:space="preserve"><value>Ugyanaz a költségvetés, csak olvasható</value></data>
+  <data name="DemoSpreadsheetItem" xml:space="preserve"><value>Tétel</value></data>
+  <data name="DemoSpreadsheetJanuary" xml:space="preserve"><value>Január</value></data>
+  <data name="DemoSpreadsheetFebruary" xml:space="preserve"><value>Február</value></data>
+  <data name="DemoSpreadsheetMarch" xml:space="preserve"><value>Március</value></data>
+  <data name="DemoSpreadsheetQuarter" xml:space="preserve"><value>Negyedév</value></data>
+  <data name="DemoSpreadsheetRent" xml:space="preserve"><value>Lakbér</value></data>
+  <data name="DemoSpreadsheetGroceries" xml:space="preserve"><value>Bevásárlás</value></data>
+  <data name="DemoSpreadsheetEnergy" xml:space="preserve"><value>Energia</value></data>
+  <data name="DemoSpreadsheetTransport" xml:space="preserve"><value>Közlekedés</value></data>
+  <data name="DemoSpreadsheetLeisure" xml:space="preserve"><value>Szabadidő</value></data>
+  <data name="DemoSpreadsheetTotal" xml:space="preserve"><value>Összesen</value></data>
+  <data name="DemoSpreadsheetAverage" xml:space="preserve"><value>Átlag</value></data>
+  <data name="DemoDiagramReadOnly" xml:space="preserve"><value>Csak olvasható</value></data>
+  <data name="DemoDiagramMindMapLabel" xml:space="preserve"><value>Gondolattérkép: költözés előkészítése</value></data>
+  <data name="DemoDiagramGitGraphLabel" xml:space="preserve"><value>Előzmények egy egyesített ággal</value></data>
+  <data name="DemoDiagramMapSummary" xml:space="preserve"><value>{0} csomópont, {1} kapcsolat, mentve {2} karakter.</value></data>
+  <data name="DemoDiagramNewIdea" xml:space="preserve"><value>Új ötlet</value></data>
+  <data name="DemoDiagramNodeMove" xml:space="preserve"><value>Költözés</value></data>
+  <data name="DemoDiagramNodePaperwork" xml:space="preserve"><value>Ügyintézés</value></data>
+  <data name="DemoDiagramNodeAddress" xml:space="preserve"><value>Lakcímváltozás</value></data>
+  <data name="DemoDiagramNodeInsurance" xml:space="preserve"><value>Lakásbiztosítás</value></data>
+  <data name="DemoDiagramNodeBoxes" xml:space="preserve"><value>Dobozok</value></data>
+  <data name="DemoDiagramNodeKitchen" xml:space="preserve"><value>Konyha</value></data>
+  <data name="DemoDiagramNodeBooks" xml:space="preserve"><value>Könyvek</value></data>
+  <data name="DemoDiagramNodeMovingDay" xml:space="preserve"><value>A nagy nap</value></data>
+  <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Teherautó foglalása</value></data>
+  <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>A szomszédok értesítése</value></data>
+  <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>15-e előtt</value></data>
 </root>

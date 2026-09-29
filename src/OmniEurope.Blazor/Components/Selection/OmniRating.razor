@@ -19,7 +19,7 @@ else
     @* Picking one of N is a radio group: native radio buttons, visually hidden behind their stars, give
        the checked state, the single tab stop and the arrow keys (which move and check) without script. *@
     <span @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-rating", Disabled ? "omni-rating--disabled" : null)"
-          role="radiogroup" aria-label="@EffectiveLabel" aria-disabled="@(Disabled ? "true" : null)" aria-invalid="@AriaInvalid">
+          role="radiogroup" aria-label="@(GroupLabelledBy is null ? EffectiveLabel : null)" aria-labelledby="@GroupLabelledBy" aria-disabled="@(Disabled ? "true" : null)" aria-invalid="@AriaInvalid">
         @foreach (var star in Enumerable.Range(1, Maximum))
         {
             var position = star;

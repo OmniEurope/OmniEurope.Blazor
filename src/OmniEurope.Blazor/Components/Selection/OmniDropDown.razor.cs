@@ -114,9 +114,17 @@ public partial class OmniDropDown<TValue>
         ?? value?.ToString()
         ?? string.Empty;
 
+    /// <summary>
+    /// Reads the text as the index of an option in <see cref="Options"/>, as the native select posts it,
+    /// and takes that option's value. A disabled option cannot be chosen this way either.
+    /// </summary>
+    /// <param name="value">The index of the option, as text.</param>
+    /// <param name="result">The value of the option, or the default value when the index is not valid.</param>
+    /// <param name="validationErrorMessage">Null on success; on failure, the localized "invalid selection" message naming the field.</param>
+    /// <returns>True when the text is the index of an enabled option.</returns>
     protected override bool TryParseValueFromString(string? value, out TValue result, out string validationErrorMessage)
     {
-        if (int.TryParse(value, out var index) && index >= 0 && index < Options.Count)
+        if (int.TryParse(value, out var index) && index >= 0 && index < Options.Count && !Options[index].Disabled)
         {
             result = Options[index].Value;
             validationErrorMessage = null!;

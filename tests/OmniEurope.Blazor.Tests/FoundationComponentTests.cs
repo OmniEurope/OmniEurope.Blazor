@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using OmniEurope.Blazor.Components;
@@ -49,7 +50,7 @@ public sealed class FoundationComponentTests : OmniBunitContext
     {
         var component = Render<OmniIcon>(parameters => parameters
             .Add(item => item.Name, OmniIconName.Info)
-            .Add(item => item.AriaLabel, "Information"));
+            .Add(item => item.Label, "Information"));
 
         Assert.Equal("img", component.Find("svg").GetAttribute("role"));
         Assert.Equal("Information", component.Find("svg").GetAttribute("aria-label"));
@@ -119,8 +120,34 @@ public sealed class FoundationComponentTests : OmniBunitContext
             .Add(item => item.Wrap, true)
             .AddChildContent("Row"));
 
-        Assert.Contains("omni-row--gap-large", component.Find("div").ClassList);
+        Assert.Contains("omni-row--gap-lg", component.Find("div").ClassList);
         Assert.Contains("omni-row--wrap", component.Find("div").ClassList);
+    }
+
+    [Theory]
+    [InlineData(OmniSpacing.None, "none", null)]
+    [InlineData(OmniSpacing.XSmall, "xs", "--omni-space-xs")]
+    [InlineData(OmniSpacing.Small, "sm", "--omni-space-sm")]
+    [InlineData(OmniSpacing.Medium, "md", "--omni-space-md")]
+    [InlineData(OmniSpacing.Large, "lg", "--omni-space-lg")]
+    [InlineData(OmniSpacing.XLarge, "xl", "--omni-space-xl")]
+    public void StackAndRow_GapClass_IsNamedAfterItsSpacingToken(OmniSpacing gap, string suffix, string? token)
+    {
+        var stylesheet = File.ReadAllText(Path.Combine(ShippedLookTests.RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var stack = Render<OmniStack>(parameters => parameters.Add(item => item.Gap, gap).AddChildContent("Stack"));
+        var row = Render<OmniRow>(parameters => parameters.Add(item => item.Gap, gap).AddChildContent("Row"));
+
+        foreach (var (element, block) in new[] { (stack.Find("div"), "omni-stack"), (row.Find("div"), "omni-row") })
+        {
+            var modifier = $"{block}--gap-{suffix}";
+            Assert.Contains(modifier, element.ClassList);
+            var rule = Regex.Match(stylesheet, $@"\.{Regex.Escape(modifier)}\s*\{{([^}}]*)\}}");
+            Assert.True(rule.Success, $".{modifier} has no rule in the stylesheet.");
+            if (token is not null)
+            {
+                Assert.Contains($"var({token})", rule.Groups[1].Value, StringComparison.Ordinal);
+            }
+        }
     }
 
     [Fact]

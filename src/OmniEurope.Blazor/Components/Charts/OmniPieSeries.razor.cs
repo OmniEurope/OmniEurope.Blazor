@@ -28,6 +28,7 @@ public partial class OmniPieSeries
 
     private string CssClass => Donut ? "omni-chart__donut" : "omni-chart__pie";
 
+    /// <summary>Keeps the slices above zero, computes their angles in proportion to their sum, and registers them with the chart.</summary>
     protected override void OnParametersSet()
     {
         _slices = [.. Data.Where(slice => slice.Value > 0)];

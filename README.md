@@ -24,19 +24,21 @@ More than a hundred components, one static stylesheet, no inline style, no `unsa
 
 | Family | Highlights |
 | --- | --- |
-| Actions | Buttons, split buttons, toggle buttons, overflow menus |
+| Actions | Buttons, split buttons, toggle buttons, overflow menus; one `OmniMenuItem` for every menu of the package |
 | Layout | Application shell (layout, header, sidebar, body), rows and columns, stacks, cards, fieldsets, scoped themes |
 | Theming | Appearance settings and a movable appearance window (mode, theme, palette, font, text size, density, control size) |
 | Typography | Headings and text with consistent scale and tone |
-| Forms | Text, multi-line, numeric and password inputs, checkboxes and switches (nullable too), labels, form fields, template forms, validators |
-| Selection | Dropdowns, list boxes, multi-select, autocomplete, radio and checkbox lists, select bars, sliders, date picker, colour picker, upload |
-| Data | Data grid with virtualisation, sorting, filtering, grouping, paging, frozen columns and editing; data lists, trees, pagers |
+| Forms | Text, multi-line, numeric and password inputs, checkboxes and switches (nullable too), labels, form fields, template forms with an unsaved-changes guard, schema-driven forms, validators |
+| Selection | Dropdowns, list boxes, multi-select, autocomplete, radio and checkbox lists, select bars, selectable cards and card groups, rating, sliders, date, time and date-time pickers, colour picker, upload |
+| Data | Data grid with virtualisation, sorting, filtering, grouping, paging, frozen columns, editing and a loading bar; data lists, trees, pagers, spreadsheet, kanban board, log viewer, Markdown export |
 | Navigation | Panel menus, profile menus, sidebars, tabs, steps, breadcrumbs, links |
-| Overlays | Dialogs, notifications, tooltips, context menus |
-| Feedback | Alerts, badges, icons, images, progress bars, skeletons |
-| Charts | Line, area, bar, column, stacked series, pie, donut, arc gauges, with axes, legends, markers, data labels and tooltips |
-| Scheduling | Scheduler with day, week and month views, timelines |
-| Editor | HTML editor with sanitised output |
+| Overlays | Dialogs, notifications, tooltips, popovers, context and overflow menus |
+| Feedback | Alerts, badges, status badges and strips, icons, images, progress and loading bars, skeletons |
+| Charts | Line, area, column and horizontal bar series (stackable), pie and donut, arc gauges, with axes, legends, markers, data labels and an accessible data table |
+| Scheduling | Scheduler with day, week and month views, timelines, Gantt chart, step timeline |
+| Editor | Extensible HTML editor with sanitised output, code editor, diff viewer, code viewer and code block, unified diff |
+| Diagram | Mind map, layered graph layout, commit graph |
+| Pages | Page header with breadcrumb service, detail shell, login shell, connection overlay, empty state, stat tile, wizard, description list, relative time |
 
 ## Getting started
 
@@ -78,8 +80,8 @@ Use a component:
 
 The components capture the attributes they do not declare and write them on their markup, so a parameter that was removed or misspelled would otherwise become an HTML attribute without a word. Two guards stop it:
 
-- **At build time**, the package ships a Roslyn analyzer. `OE0001` is an error, reported at its line in the `.razor` file, for a PascalCase attribute that an OmniEurope.Blazor component has no parameter for: `OmniBadge has no parameter 'IconName'`. Lowercase HTML attributes (`class`, `id`, `aria-*`, `data-*`) and `@attributes` splats are never reported.
-- **At render time**, the component throws `InvalidOperationException` with the same message for such an attribute, including one that only exists at run time (a dictionary given to `@attributes`).
+- **At build time**, the package ships a Roslyn analyzer. `OE0001` is an error, reported at its line in the `.razor` file, for a PascalCase attribute that an OmniEurope.Blazor component has no parameter for: `OmniBadge has no parameter 'IconName'`. It also reports a lowercase `class` or `id` (write `Class` and `Id`) and any unknown attribute on a component that captures none. Other lowercase HTML attributes (`aria-*`, `data-*`) and `@attributes` splats are never reported.
+- **At render time**, the component throws `InvalidOperationException` with the same message for such an attribute, including one that only exists at run time (a dictionary given to `@attributes`), and refuses `class` and `id` in any casing.
 
 A `ProjectReference` to the library does not bring the analyzer packed in the NuGet package. A project that references the source adds one line beside that reference:
 

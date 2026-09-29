@@ -4,7 +4,7 @@ namespace OmniEurope.Blazor.Components;
 /// The blocking overlay shown while the application's live connection is down: what happened, a
 /// countdown to the next attempt, the reason of the last failure and a manual action. It holds no
 /// connection and no clock: the host drives it through <see cref="State"/>,
-/// <see cref="SecondsUntilRetry"/>, <see cref="Busy"/> and the callbacks.
+/// <see cref="TimeUntilRetry"/>, <see cref="Busy"/> and the callbacks.
 /// </summary>
 /// <remarks>
 /// Shown, it takes the focus onto its action and keeps Tab inside itself, as a modal dialog does, and
@@ -12,7 +12,7 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniConnectionOverlay
 {
-    private const string FocusModulePath = "./_content/OmniEurope.Blazor/omni-focus.js";
+    private const string FocusModulePath = Internal.OmniModules.Focus;
 
     private readonly string _focusKey = $"connection-{Guid.NewGuid():N}";
     private readonly string _generatedId = $"omni-connection-{Guid.NewGuid():N}";
@@ -30,9 +30,12 @@ public partial class OmniConnectionOverlay
     [Parameter]
     public OmniConnectionState State { get; set; }
 
-    /// <summary>Seconds before the next automatic attempt, shown while reconnecting; 0 hides the countdown.</summary>
+    /// <summary>
+    /// Time left before the next automatic attempt, shown while reconnecting in whole seconds rounded up;
+    /// <see cref="TimeSpan.Zero"/> (the default) or less hides the countdown.
+    /// </summary>
     [Parameter]
-    public int SecondsUntilRetry { get; set; }
+    public TimeSpan TimeUntilRetry { get; set; }
 
     /// <summary>Why the last attempt failed, shown as given: an overlay that only says "lost" cannot be reported.</summary>
     [Parameter]
@@ -97,7 +100,9 @@ public partial class OmniConnectionOverlay
         ? (!string.IsNullOrWhiteSpace(ReloadText) ? ReloadText : Localize("ConnectionReload"))
         : (!string.IsNullOrWhiteSpace(ReconnectText) ? ReconnectText : Localize("ConnectionReconnectNow"));
 
-    private bool ShowsCountdown => State == OmniConnectionState.Reconnecting && SecondsUntilRetry > 0;
+    private bool ShowsCountdown => State == OmniConnectionState.Reconnecting && TimeUntilRetry > TimeSpan.Zero;
+
+    private long CountdownSeconds => (long)Math.Ceiling(TimeUntilRetry.TotalSeconds);
 
     private bool ShowsReason => !string.IsNullOrWhiteSpace(Reason);
 
@@ -119,6 +124,13 @@ public partial class OmniConnectionOverlay
         }
     }
 
+    /// <summary>
+    /// Loads the focus script on the first render, while the connection is still up (again later if it
+    /// failed), then traps the focus in the card when the overlay shows and gives it back when it hides.
+    /// A script that cannot be loaded or run leaves the overlay working without focus handling.
+    /// </summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the focus is handled.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         // The overlay shows when the server may be unreachable, the static files included: importing

@@ -125,6 +125,12 @@ public partial class OmniTooltip
     /// </summary>
     private string TrackingAttribute => Tracking.ToString().ToLowerInvariant();
 
+    /// <summary>
+    /// On the first render, installs the script that places the tooltips, once for the whole page. Without
+    /// the package's services registered, it installs nothing and the stylesheet's anchored tooltip remains.
+    /// </summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the script is installed.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender)

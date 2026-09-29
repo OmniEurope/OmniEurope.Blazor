@@ -306,8 +306,8 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         module.Setup<string?>("read", _ => true).SetResult(null);
         module.SetupVoid("restoreMenuSelection", _ => true).SetVoidResult();
         var focus = JSInterop.SetupModule(FocusModulePath);
-        focus.SetupVoid("openContextMenu", _ => true).SetVoidResult();
-        focus.SetupVoid("closeContextMenu", _ => true).SetVoidResult();
+        focus.SetupVoid("openMenu", _ => true).SetVoidResult();
+        focus.SetupVoid("closeMenu", _ => true).SetVoidResult();
         var ran = 0;
         var extension = new TestExtension
         {
@@ -326,10 +326,15 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
 
         await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnContextMenu(120, 80, null));
 
-        var open = Assert.Single(focus.Invocations["openContextMenu"]);
-        Assert.Equal(120d, open.Arguments[3]);
-        Assert.Equal(80d, open.Arguments[4]);
+        // The package's one menu engine, opened at the pointer over the surface.
+        var open = Assert.Single(focus.Invocations["openMenu"]);
+        Assert.Equal(editor.Find("[role=menu]").GetAttribute("id"), open.Arguments[0]);
+        Assert.Equal("pointer", open.Arguments[3]);
+        Assert.Equal(120d, open.Arguments[4]);
+        Assert.Equal(80d, open.Arguments[5]);
+        Assert.Contains("omni-menu", editor.Find("[role=menu]").ClassList);
         Assert.Equal(["edit-note", "never"], editor.FindAll("[role=menu] [role=menuitem]").Select(item => item.GetAttribute("data-command")));
+        Assert.All(editor.FindAll("[role=menu] [role=menuitem]"), item => Assert.Contains("omni-menu__item", item.ClassList));
         Assert.True(editor.Find("[role=menuitem][data-command=never]").HasAttribute("disabled"));
         Assert.Single(editor.FindAll("[role=menu] [role=separator]"));
 
@@ -337,9 +342,32 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
 
         Assert.Equal(1, ran);
         Assert.Empty(editor.FindAll("[role=menu]"));
-        Assert.Single(focus.Invocations["closeContextMenu"]);
+        // The item closes the menu first, the focus back where the menu was asked for.
+        var close = Assert.Single(focus.Invocations["closeMenu"]);
+        Assert.Equal(true, close.Arguments[1]);
         // The selection the menu opened on is put back before the command acts.
         Assert.Single(module.Invocations["restoreMenuSelection"]);
+    }
+
+    [Fact]
+    public async Task ContextMenu_Keys_AreThoseOfEveryMenu()
+    {
+        var module = JSInterop.SetupModule(ModulePath);
+        module.Setup<string?>("read", _ => true).SetResult(null);
+        var focus = JSInterop.SetupModule(FocusModulePath);
+        focus.SetupVoid("openMenu", _ => true).SetVoidResult();
+        focus.SetupVoid("closeMenu", _ => true).SetVoidResult();
+        focus.SetupVoid("moveMenuFocus", _ => true).SetVoidResult();
+        var extension = new TestExtension { Menu = [OmniHtmlEditorCommand.Create("edit-note", "Modifier la note", _ => Task.CompletedTask)] };
+        var editor = RenderEditor(extension, null);
+        await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnContextMenu(10, 10, null));
+
+        await editor.Find("[role=menu]").KeyDownAsync(new KeyboardEventArgs { Key = "ArrowDown" });
+        Assert.Equal("ArrowDown", Assert.Single(focus.Invocations["moveMenuFocus"]).Arguments[1]);
+
+        await editor.Find("[role=menu]").KeyDownAsync(new KeyboardEventArgs { Key = "Escape" });
+        Assert.Empty(editor.FindAll("[role=menu]"));
+        Assert.Equal(true, Assert.Single(focus.Invocations["closeMenu"]).Arguments[1]);
     }
 
     [Fact]
@@ -347,7 +375,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
     {
         JSInterop.SetupModule(ModulePath);
         var focus = JSInterop.SetupModule(FocusModulePath);
-        focus.SetupVoid("openContextMenu", _ => true).SetVoidResult();
+        focus.SetupVoid("openMenu", _ => true).SetVoidResult();
         var extension = new TestExtension
         {
             Menu = [OmniHtmlEditorCommand.Create("remove-note", "Retirer", _ => Task.CompletedTask) with { Enabled = selection => selection?.ClosestWithClass("note") is not null }]

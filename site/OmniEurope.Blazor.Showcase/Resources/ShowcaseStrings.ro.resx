@@ -35,7 +35,7 @@
   <data name="PillarA11yTitle" xml:space="preserve"><value>Accesibilitate garantată prin teste</value></data>
   <data name="PillarA11yBody" xml:space="preserve"><value>Rolurile, stările și etichetele sunt verificate de suita de teste, nu doar promise în documentație.</value></data>
   <data name="PillarWeightTitle" xml:space="preserve"><value>Dimensiune monitorizată</value></data>
-  <data name="PillarWeightBody" xml:space="preserve"><value>Pachetul publicat este măsurat la fiecare build față de un buget de octeți, inclusiv foaia de stil.</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Integrarea continuă verifică dacă foaia de stil livrată este copia minificată și măsoară atât assembly-ul, cât și pachetul NuGet în raport cu un buget de dimensiune.</value></data>
   <data name="DocsPageTitle" xml:space="preserve"><value>Documentație</value></data>
   <data name="DocsTitle" xml:space="preserve"><value>Documentație</value></data>
   <data name="DocsLead" xml:space="preserve"><value>De la instalarea pachetului la prima temă personalizată, în cinci pași.</value></data>
@@ -579,4 +579,919 @@
   <data name="VFormNotSaved" xml:space="preserve"><value>Corectați câmpurile semnalate înainte de salvare.</value></data>
   <data name="VFormDescriptionValue" xml:space="preserve"><value>Implementează ramura principală după validarea testelor de recepție.</value></data>
   <data name="GridFiledColumn" xml:space="preserve"><value>Depus la</value></data>
+  <data name="DemoGridOpenCases" xml:space="preserve"><value>Dosare deschise</value></data>
+  <data name="DemoGridRecentRuns" xml:space="preserve"><value>Execuții recente</value></data>
+  <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Text lung într-o coloană îngustă</value></data>
+  <data name="DemoGridShortCaption" xml:space="preserve"><value>Trei dosare, înălțimea conținutului</value></data>
+  <data name="DemoGridLongCaption" xml:space="preserve"><value>Zece mii de dosare, plafon de 18rem</value></data>
+  <data name="DemoGridColumnReference" xml:space="preserve"><value>Referință</value></data>
+  <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Solicitant</value></data>
+  <data name="DemoGridColumnCountry" xml:space="preserve"><value>Țară</value></data>
+  <data name="DemoGridColumnAmount" xml:space="preserve"><value>Sumă</value></data>
+  <data name="DemoGridCountryBelgium" xml:space="preserve"><value>Belgia</value></data>
+  <data name="DemoGridCountryFrance" xml:space="preserve"><value>Franța</value></data>
+  <data name="DemoGridCountryLuxembourg" xml:space="preserve"><value>Luxemburg</value></data>
+  <data name="DemoGridCountryNetherlands" xml:space="preserve"><value>Țările de Jos</value></data>
+  <data name="DemoGridStatusPending" xml:space="preserve"><value>În așteptare</value></data>
+  <data name="DemoGridExportFileName" xml:space="preserve"><value>dosare-deschise</value></data>
+  <data name="DemoGridExportSort" xml:space="preserve"><value>Sortare</value></data>
+  <data name="DemoGridExportSortValue" xml:space="preserve"><value>referință, crescător</value></data>
+  <data name="DemoGridAdvancedLines" xml:space="preserve"><value>Linii</value></data>
+  <data name="DemoGridAdvancedDensity" xml:space="preserve"><value>Densitate</value></data>
+  <data name="DemoGridAdvancedPager" xml:space="preserve"><value>Paginare</value></data>
+  <data name="DemoGridAdvancedSelection" xml:space="preserve"><value>Selecție</value></data>
+  <data name="DemoGridAdvancedFilters" xml:space="preserve"><value>Filtre</value></data>
+  <data name="DemoGridAdvancedEdit" xml:space="preserve"><value>Editare</value></data>
+  <data name="DemoGridAdvancedExpand" xml:space="preserve"><value>Extindere</value></data>
+  <data name="DemoGridAdvancedFooter" xml:space="preserve"><value>Subsol de tabel</value></data>
+  <data name="DemoGridAdvancedLinesNone" xml:space="preserve"><value>Niciuna</value></data>
+  <data name="DemoGridAdvancedLinesHorizontal" xml:space="preserve"><value>Orizontale</value></data>
+  <data name="DemoGridAdvancedLinesVertical" xml:space="preserve"><value>Verticale</value></data>
+  <data name="DemoGridAdvancedLinesBoth" xml:space="preserve"><value>Ambele</value></data>
+  <data name="DemoGridAdvancedDensityCompact" xml:space="preserve"><value>Compactă</value></data>
+  <data name="DemoGridAdvancedDensityComfortable" xml:space="preserve"><value>Confortabilă</value></data>
+  <data name="DemoGridAdvancedDensitySpacious" xml:space="preserve"><value>Aerisită</value></data>
+  <data name="DemoGridAdvancedPagerBottom" xml:space="preserve"><value>Jos</value></data>
+  <data name="DemoGridAdvancedPagerTop" xml:space="preserve"><value>Sus</value></data>
+  <data name="DemoGridAdvancedPagerBoth" xml:space="preserve"><value>Sus și jos</value></data>
+  <data name="DemoGridAdvancedSelectionNone" xml:space="preserve"><value>Niciuna</value></data>
+  <data name="DemoGridAdvancedSelectionSingle" xml:space="preserve"><value>Un rând</value></data>
+  <data name="DemoGridAdvancedSelectionMultiple" xml:space="preserve"><value>Mai multe rânduri</value></data>
+  <data name="DemoGridAdvancedFilterSimple" xml:space="preserve"><value>Câmp în antet</value></data>
+  <data name="DemoGridAdvancedFilterSimpleWithMenu" xml:space="preserve"><value>Câmp și meniu</value></data>
+  <data name="DemoGridAdvancedFilterAdvanced" xml:space="preserve"><value>Meniu cu două condiții</value></data>
+  <data name="DemoGridAdvancedEditSingle" xml:space="preserve"><value>Câte un rând</value></data>
+  <data name="DemoGridAdvancedEditMultiple" xml:space="preserve"><value>Mai multe rânduri</value></data>
+  <data name="DemoGridAdvancedExpandSingle" xml:space="preserve"><value>Un grup deschis</value></data>
+  <data name="DemoGridAdvancedExpandMultiple" xml:space="preserve"><value>Mai multe grupuri deschise</value></data>
+  <data name="DemoGridAdvancedFooterBottom" xml:space="preserve"><value>Sub tabel</value></data>
+  <data name="DemoGridAdvancedFooterTop" xml:space="preserve"><value>Deasupra tabelului</value></data>
+  <data name="DemoGridAdvancedFooterBoth" xml:space="preserve"><value>Deasupra și dedesubt</value></data>
+  <data name="DemoGridAdvancedCaption" xml:space="preserve"><value>Dosare, vizualizare completă</value></data>
+  <data name="DemoGridAdvancedTotal" xml:space="preserve"><value>Total: {0:C0}</value></data>
+  <data name="DemoGridAdvancedRetained" xml:space="preserve"><value>Rânduri selectate: {0}</value></data>
+  <data name="DemoGridAdvancedRetainedNone" xml:space="preserve"><value>niciunul</value></data>
+  <data name="DemoDataListEmpty" xml:space="preserve"><value>Niciun dosar pe această pagină.</value></data>
+  <data name="DemoDataListLoading" xml:space="preserve"><value>Se încarcă dosarele.</value></data>
+  <data name="DemoDataListPager" xml:space="preserve"><value>Paginarea dosarelor</value></data>
+  <data name="DemoDataListLog" xml:space="preserve"><value>Jurnal de procesare</value></data>
+  <data name="DemoDataListKanban" xml:space="preserve"><value>Urmărirea dosarelor</value></data>
+  <data name="DemoDataListColumnNew" xml:space="preserve"><value>De examinat</value></data>
+  <data name="DemoDataListColumnReview" xml:space="preserve"><value>În curs</value></data>
+  <data name="DemoDataListColumnDone" xml:space="preserve"><value>Finalizat</value></data>
+  <data name="DemoDataListLogSearch" xml:space="preserve"><value>Căutarea dosarului</value></data>
+  <data name="DemoDataListLogConnected" xml:space="preserve"><value>Conexiune stabilită</value></data>
+  <data name="DemoDataListLogStarted" xml:space="preserve"><value>Procesare începută</value></data>
+  <data name="DemoDataListLogMissing" xml:space="preserve"><value>Document lipsă</value></data>
+  <data name="DemoDataListLogRejected" xml:space="preserve"><value>Validare refuzată</value></data>
+  <data name="DemoDataListLogAborted" xml:space="preserve"><value>Procesare întreruptă</value></data>
+  <data name="DemoChartChartTitle" xml:space="preserve"><value>Dosare depuse pe trimestru</value></data>
+  <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Trimestru</value></data>
+  <data name="DemoChartAxisCases" xml:space="preserve"><value>Dosare</value></data>
+  <data name="DemoChartQuarter" xml:space="preserve"><value>T{0}</value></data>
+  <data name="DemoChartsExtendedMonthlyTitle" xml:space="preserve"><value>Evoluție lunară</value></data>
+  <data name="DemoChartsExtendedMonthlyDescription" xml:space="preserve"><value>Valoare la trecerea cursorului și de la tastatură</value></data>
+  <data name="DemoChartsExtendedAxisMonth" xml:space="preserve"><value>Lună</value></data>
+  <data name="DemoChartsExtendedDeposits" xml:space="preserve"><value>Depuneri</value></data>
+  <data name="DemoChartsExtendedDecisions" xml:space="preserve"><value>Decizii</value></data>
+  <data name="DemoChartsExtendedLegend" xml:space="preserve"><value>Serii</value></data>
+  <data name="DemoChartsExtendedDailyTitle" xml:space="preserve"><value>Audiență zilnică pe treizeci de zile</value></data>
+  <data name="DemoChartsExtendedPageViews" xml:space="preserve"><value>Pagini vizualizate pe zi</value></data>
+  <data name="DemoChartsExtendedVisitors" xml:space="preserve"><value>Vizitatori unici pe zi</value></data>
+  <data name="DemoChartsExtendedStackedTitle" xml:space="preserve"><value>Distribuție stivuită</value></data>
+  <data name="DemoChartsExtendedIncoming" xml:space="preserve"><value>Intrări</value></data>
+  <data name="DemoChartsExtendedOutgoing" xml:space="preserve"><value>Ieșiri</value></data>
+  <data name="DemoChartsExtendedBacklog" xml:space="preserve"><value>Stoc</value></data>
+  <data name="DemoChartsExtendedHorizontalTitle" xml:space="preserve"><value>Comparație orizontală</value></data>
+  <data name="DemoChartsExtendedByCountry" xml:space="preserve"><value>Dosare pe țară</value></data>
+  <data name="DemoChartsExtendedStackedBarsTitle" xml:space="preserve"><value>Dosare procesate și în așteptare, pe țară</value></data>
+  <data name="DemoChartsExtendedProcessed" xml:space="preserve"><value>Procesate</value></data>
+  <data name="DemoChartsExtendedPending" xml:space="preserve"><value>În așteptare</value></data>
+  <data name="DemoChartsExtendedPieTitle" xml:space="preserve"><value>Ponderi pe origine</value></data>
+  <data name="DemoChartsExtendedDonutTitle" xml:space="preserve"><value>Ponderi pe origine, în inel</value></data>
+  <data name="DemoChartsExtendedOrigin" xml:space="preserve"><value>Origine</value></data>
+  <data name="DemoChartsExtendedGauge" xml:space="preserve"><value>Rată de procesare</value></data>
+  <data name="DemoChartsExtendedSliceCounter" xml:space="preserve"><value>Ghișeu</value></data>
+  <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Poștă</value></data>
+  <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Online</value></data>
+  <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Altele</value></data>
+  <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Planificarea proiectului</value></data>
+  <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Scară afișată: {0}</value></data>
+  <data name="DemoPlanningScaleDay" xml:space="preserve"><value>zi</value></data>
+  <data name="DemoPlanningScaleWeek" xml:space="preserve"><value>săptămână</value></data>
+  <data name="DemoPlanningScaleMonth" xml:space="preserve"><value>lună</value></data>
+  <data name="DemoPlanningMonthHeading" xml:space="preserve"><value>Aceeași planificare, pe luni și fără grupuri</value></data>
+  <data name="DemoPlanningMonthLabel" xml:space="preserve"><value>Planificare lunară</value></data>
+  <data name="DemoPlanningDayLabel" xml:space="preserve"><value>Planificare pe zile</value></data>
+  <data name="DemoPlanningRunHeading" xml:space="preserve"><value>Desfășurarea unei execuții</value></data>
+  <data name="DemoPlanningRunLabel" xml:space="preserve"><value>Execuția {0}</value></data>
+  <data name="DemoPlanningTimelineHeading" xml:space="preserve"><value>Cronologie la stânga, apoi alternată de pe fiecare parte</value></data>
+  <data name="DemoPlanningTimelineStart" xml:space="preserve"><value>Cronologie la stânga</value></data>
+  <data name="DemoPlanningTimelineAlternateStart" xml:space="preserve"><value>Cronologie alternată, pornind din stânga</value></data>
+  <data name="DemoPlanningTimelineAlternateEnd" xml:space="preserve"><value>Cronologie alternată, pornind din dreapta</value></data>
+  <data name="DemoPlanningFiled" xml:space="preserve"><value>Depunere</value></data>
+  <data name="DemoPlanningFiledText" xml:space="preserve"><value>Dosarul a fost înregistrat.</value></data>
+  <data name="DemoPlanningReview" xml:space="preserve"><value>Instrumentare</value></data>
+  <data name="DemoPlanningReviewText" xml:space="preserve"><value>A fost desemnat un agent.</value></data>
+  <data name="DemoPlanningDecision" xml:space="preserve"><value>Decizie</value></data>
+  <data name="DemoPlanningDecisionText" xml:space="preserve"><value>Decizia a fost comunicată.</value></data>
+  <data name="DemoPlanningGroupDesign" xml:space="preserve"><value>Concepție</value></data>
+  <data name="DemoPlanningGroupBuild" xml:space="preserve"><value>Realizare</value></data>
+  <data name="DemoPlanningTaskScoping" xml:space="preserve"><value>Încadrare</value></data>
+  <data name="DemoPlanningTaskMockups" xml:space="preserve"><value>Machete</value></data>
+  <data name="DemoPlanningTaskProofreading" xml:space="preserve"><value>Revizuire</value></data>
+  <data name="DemoPlanningTaskDevelopment" xml:space="preserve"><value>Dezvoltare</value></data>
+  <data name="DemoPlanningTaskAcceptance" xml:space="preserve"><value>Recepție</value></data>
+  <data name="DemoSchedulerView" xml:space="preserve"><value>Vizualizare</value></data>
+  <data name="DemoSchedulerTimeGrid" xml:space="preserve"><value>Grilă orară de la 8:00 la 18:00</value></data>
+  <data name="DemoSchedulerViewDay" xml:space="preserve"><value>Zi</value></data>
+  <data name="DemoSchedulerViewWeek" xml:space="preserve"><value>Săptămână</value></data>
+  <data name="DemoSchedulerViewMonth" xml:space="preserve"><value>Lună</value></data>
+  <data name="DemoSchedulerCaseReview" xml:space="preserve"><value>Instrumentarea dosarului</value></data>
+  <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Comitet de lectură</value></data>
+  <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Ședință săptămânală</value></data>
+  <data name="DemoSchedulerRoom" xml:space="preserve"><value>Sala {0}</value></data>
+  <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Coloană fluidă</value></data>
+  <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Lățime completă pe ecran mic, o treime pe ecran mare.</value></data>
+  <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Card cu antet</value></data>
+  <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>Antetul, corpul și subsolul sunt trei zone distincte.</value></data>
+  <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>Un card poate avea doar corpul.</value></data>
+  <data name="DemoLayoutStart" xml:space="preserve"><value>Început</value></data>
+  <data name="DemoLayoutMiddle" xml:space="preserve"><value>Mijloc</value></data>
+  <data name="DemoLayoutEnd" xml:space="preserve"><value>Sfârșit</value></data>
+  <data name="DemoLayoutFieldGroup" xml:space="preserve"><value>Grup de câmpuri</value></data>
+  <data name="DemoLayoutOne" xml:space="preserve"><value>Unu</value></data>
+  <data name="DemoLayoutTwo" xml:space="preserve"><value>Doi</value></data>
+  <data name="DemoLayoutAdvanced" xml:space="preserve"><value>Setări avansate</value></data>
+  <data name="DemoLayoutAdvancedText" xml:space="preserve"><value>Un grup restrâns la deschidere, pe care cititorul îl extinde dacă are nevoie.</value></data>
+  <data name="DemoLayoutTracked" xml:space="preserve"><value>Opțiuni urmărite</value></data>
+  <data name="DemoLayoutTrackedText" xml:space="preserve"><value>Pagina cunoaște starea restrânsă și o poate reține.</value></data>
+  <data name="DemoLayoutDisabledGroup" xml:space="preserve"><value>Grup dezactivat</value></data>
+  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Tot ce conține acest grup devine inoperant dintr-o singură mișcare.</value></data>
+  <data name="DemoLayoutAlignStart" xml:space="preserve"><value>Aliniat la început</value></data>
+  <data name="DemoLayoutAlignCenter" xml:space="preserve"><value>Centrat</value></data>
+  <data name="DemoLayoutAlignEnd" xml:space="preserve"><value>Aliniat la sfârșit</value></data>
+  <data name="DemoLayoutTop" xml:space="preserve"><value>Sus</value></data>
+  <data name="DemoLayoutTopText" xml:space="preserve"><value>Un card mai înalt decât vecinii săi.</value></data>
+  <data name="DemoLayoutBottom" xml:space="preserve"><value>Jos</value></data>
+  <data name="DemoLayoutBottomText" xml:space="preserve"><value>Insigna se așază la baza rândului.</value></data>
+  <data name="DemoLayoutStretched" xml:space="preserve"><value>Întinsă</value></data>
+  <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Cele două carduri au aceeași înălțime.</value></data>
+  <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Aprobă dosarul</value></data>
+  <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtrează documentele</value></data>
+  <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Închide cererea</value></data>
+  <data name="DemoLayoutNotifications" xml:space="preserve"><value>Notificări</value></data>
+  <data name="DemoLayoutNotificationsText" xml:space="preserve"><value>Ce vă semnalează aplicația și cum.</value></data>
+  <data name="DemoLayoutEmailAlerts" xml:space="preserve"><value>Alerte prin e-mail</value></data>
+  <data name="DemoLayoutEmailAlertsText" xml:space="preserve"><value>Un mesaj la fiecare schimbare de stare.</value></data>
+  <data name="DemoLayoutWeeklyDigest" xml:space="preserve"><value>Rezumat săptămânal</value></data>
+  <data name="DemoLayoutWeeklyDigestText" xml:space="preserve"><value>Dosarele săptămânii, luni dimineața.</value></data>
+  <data name="DemoLayoutServerName" xml:space="preserve"><value>Numele serverului</value></data>
+  <data name="DemoLayoutServerNameText" xml:space="preserve"><value>Vizibil în consolă.</value></data>
+  <data name="DemoLayoutIdentifierReadOnly" xml:space="preserve"><value>Identificator, doar citire</value></data>
+  <data name="DemoLayoutZoneDisabled" xml:space="preserve"><value>Zonă, dezactivată</value></data>
+  <data name="DemoLayoutLockedRestore" xml:space="preserve"><value>Restaurare blocată</value></data>
+  <data name="DemoLayoutSave" xml:space="preserve"><value>Salvează</value></data>
+  <data name="DemoLayoutCancel" xml:space="preserve"><value>Anulează</value></data>
+  <data name="DemoLayoutDeployed" xml:space="preserve"><value>Implementare finalizată</value></data>
+  <data name="DemoLayoutDeployedText" xml:space="preserve"><value>Versiunea 1.0.1 este online.</value></data>
+  <data name="DemoLayoutEachChange" xml:space="preserve"><value>La fiecare modificare.</value></data>
+  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>O alertă aerisită într-o pagină confortabilă.</value></data>
+  <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>File compacte</value></data>
+  <data name="DemoLayoutGeneral" xml:space="preserve"><value>General</value></data>
+  <data name="DemoLayoutGeneralText" xml:space="preserve"><value>Setări generale.</value></data>
+  <data name="DemoLayoutSecurity" xml:space="preserve"><value>Securitate</value></data>
+  <data name="DemoLayoutSecurityText" xml:space="preserve"><value>Acces și token-uri.</value></data>
+  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Placă aerisită</value></data>
+  <data name="DemoLayoutOwnDensity" xml:space="preserve"><value>Propria densitate.</value></data>
+  <data name="DemoLayoutTrackedExpanded" xml:space="preserve"><value>Opțiuni urmărite: extinse</value></data>
+  <data name="DemoLayoutTrackedCollapsed" xml:space="preserve"><value>Opțiuni urmărite: restrânse</value></data>
+  <data name="DemoLayoutGapNone1" xml:space="preserve"><value>Fără</value></data>
+  <data name="DemoLayoutGapNone2" xml:space="preserve"><value>spațiu</value></data>
+  <data name="DemoLayoutGapXSmall1" xml:space="preserve"><value>Foarte</value></data>
+  <data name="DemoLayoutGapXSmall2" xml:space="preserve"><value>strâns</value></data>
+  <data name="DemoLayoutGapSmall1" xml:space="preserve"><value>Strâns</value></data>
+  <data name="DemoLayoutGapSmall2" xml:space="preserve"><value>mic</value></data>
+  <data name="DemoLayoutGapMedium1" xml:space="preserve"><value>Obișnuit</value></data>
+  <data name="DemoLayoutGapMedium2" xml:space="preserve"><value>mediu</value></data>
+  <data name="DemoLayoutGapLarge1" xml:space="preserve"><value>Aerisit</value></data>
+  <data name="DemoLayoutGapLarge2" xml:space="preserve"><value>mare</value></data>
+  <data name="DemoLayoutGapXLarge1" xml:space="preserve"><value>Foarte</value></data>
+  <data name="DemoLayoutGapXLarge2" xml:space="preserve"><value>aerisit</value></data>
+  <data name="DemoLayoutDensityCompact" xml:space="preserve"><value>Compactă</value></data>
+  <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Confortabilă</value></data>
+  <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Aerisită</value></data>
+  <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} alerte</value></data>
+  <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Titlu accentuat</value></data>
+  <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Titlu discret</value></data>
+  <data name="DemoTypographyParagraph" xml:space="preserve"><value>Un paragraf obișnuit, în dimensiunea de bază a temei.</value></data>
+  <data name="DemoTypographySecondary" xml:space="preserve"><value>Un paragraf secundar, pentru ceea ce însoțește fără a purta informația.</value></data>
+  <data name="DemoTypographyError" xml:space="preserve"><value>Mențiune de eroare</value></data>
+  <data name="DemoTypographyStrong" xml:space="preserve"><value>Text important</value></data>
+  <data name="DemoTypographyEmphasis" xml:space="preserve"><value>Text evidențiat</value></data>
+  <data name="DemoTypographySuccess" xml:space="preserve"><value>Stare favorabilă</value></data>
+  <data name="DemoTypographyTruncated" xml:space="preserve"><value>Un text lung pe care componenta îl taie cu puncte de suspensie când lipsește spațiul, în loc să împingă aspectul paginii sau să treacă pe rândul următor în mod imprevizibil.</value></data>
+  <data name="DemoTypographyLabel" xml:space="preserve"><value>Etichetă asociată unui câmp</value></data>
+  <data name="DemoTypographyInternalLink" xml:space="preserve"><value>Link intern</value></data>
+  <data name="DemoTypographyExternalLink" xml:space="preserve"><value>Link extern</value></data>
+  <data name="DemoTypographyLevelHeading" xml:space="preserve"><value>Titlu de nivel {0}</value></data>
+  <data name="DemoThemesAppearanceWindow" xml:space="preserve"><value>Fereastra de aspect</value></data>
+  <data name="DemoAppShellMinimize" xml:space="preserve"><value>Minimizează fereastra</value></data>
+  <data name="DemoAppShellMaximize" xml:space="preserve"><value>Maximizează sau restaurează fereastra</value></data>
+  <data name="DemoAppShellClose" xml:space="preserve"><value>Închide fereastra</value></data>
+  <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Traseu de navigare</value></data>
+  <data name="DemoNavigationHome" xml:space="preserve"><value>Acasă</value></data>
+  <data name="DemoNavigationComponents" xml:space="preserve"><value>Componente</value></data>
+  <data name="DemoNavigationCurrent" xml:space="preserve"><value>Navigare</value></data>
+  <data name="DemoNavigationSections" xml:space="preserve"><value>Secțiunile dosarului</value></data>
+  <data name="DemoNavigationTabSummary" xml:space="preserve"><value>Rezumat</value></data>
+  <data name="DemoNavigationDocuments" xml:space="preserve"><value>Documente</value></data>
+  <data name="DemoNavigationDocumentsText" xml:space="preserve"><value>Fiecare document are data sa de depunere.</value></data>
+  <data name="DemoNavigationHistory" xml:space="preserve"><value>Istoric</value></data>
+  <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Douăsprezece mișcări înregistrate.</value></data>
+  <data name="DemoNavigationProgress" xml:space="preserve"><value>Stadiul dosarului</value></data>
+  <data name="DemoNavigationFiling" xml:space="preserve"><value>Depunere</value></data>
+  <data name="DemoNavigationFilingText" xml:space="preserve"><value>Documentele au fost primite.</value></data>
+  <data name="DemoNavigationReview" xml:space="preserve"><value>Instrumentare</value></data>
+  <data name="DemoNavigationReviewText" xml:space="preserve"><value>Dosarul este în curs de examinare.</value></data>
+  <data name="DemoNavigationDecision" xml:space="preserve"><value>Decizie</value></data>
+  <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Decizia va fi comunicată prin poștă.</value></data>
+  <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Dosarul conține {0} documente.</value></data>
+  <data name="DemoPagesReload" xml:space="preserve"><value>Reîncarcă fișa</value></data>
+  <data name="DemoPagesMissing" xml:space="preserve"><value>Fișă negăsită</value></data>
+  <data name="DemoPagesNotFound" xml:space="preserve"><value>Fișa solicitată a fost eliminată sau nu a existat niciodată.</value></data>
+  <data name="DemoPagesSubtitle" xml:space="preserve"><value>Mașină virtuală din zona Paris.</value></data>
+  <data name="DemoPagesOnline" xml:space="preserve"><value>Online</value></data>
+  <data name="DemoPagesEdit" xml:space="preserve"><value>Editează</value></data>
+  <data name="DemoPagesRemove" xml:space="preserve"><value>Elimină</value></data>
+  <data name="DemoPagesDuplicate" xml:space="preserve"><value>Duplică</value></data>
+  <data name="DemoPagesArchive" xml:space="preserve"><value>Arhivează</value></data>
+  <data name="DemoPagesProduction" xml:space="preserve"><value>Producție</value></data>
+  <data name="DemoPagesName" xml:space="preserve"><value>Nume</value></data>
+  <data name="DemoPagesSystem" xml:space="preserve"><value>Sistem</value></data>
+  <data name="DemoPagesIpAddress" xml:space="preserve"><value>Adresă IP</value></data>
+  <data name="DemoPagesToken" xml:space="preserve"><value>Token de acces</value></data>
+  <data name="DemoPagesLastSignal" xml:space="preserve"><value>Ultimul semnal</value></data>
+  <data name="DemoPagesCertificate" xml:space="preserve"><value>Certificat</value></data>
+  <data name="DemoPagesNoBackup" xml:space="preserve"><value>Nicio copie de rezervă</value></data>
+  <data name="DemoPagesNoBackupText" xml:space="preserve"><value>Copiile de rezervă planificate vor apărea aici după prima lor execuție.</value></data>
+  <data name="DemoPagesSchedule" xml:space="preserve"><value>Planifică</value></data>
+  <data name="DemoPagesNoResult" xml:space="preserve"><value>Niciun rezultat</value></data>
+  <data name="DemoPagesNoResultText" xml:space="preserve"><value>Niciun server nu corespunde filtrului.</value></data>
+  <data name="DemoPagesHideToken" xml:space="preserve"><value>Ascunde token-ul</value></data>
+  <data name="DemoPagesShowToken" xml:space="preserve"><value>Afișează token-ul</value></data>
+  <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1} k</value></data>
+  <data name="DemoPagesTokensToday" xml:space="preserve"><value>Token-uri astăzi</value></data>
+  <data name="DemoPagesTokensReset" xml:space="preserve"><value>Resetare la {0:t}</value></data>
+  <data name="DemoPagesWeekly" xml:space="preserve"><value>Săptămânal</value></data>
+  <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Componente</value></data>
+  <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Servere</value></data>
+  <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Server</value></data>
+  <data name="DemoBadgesNeutral" xml:space="preserve"><value>Neutru</value></data>
+  <data name="DemoBadgesAccent" xml:space="preserve"><value>Accent</value></data>
+  <data name="DemoBadgesInfo" xml:space="preserve"><value>Informație</value></data>
+  <data name="DemoBadgesSuccess" xml:space="preserve"><value>Succes</value></data>
+  <data name="DemoBadgesWarning" xml:space="preserve"><value>Avertisment</value></data>
+  <data name="DemoBadgesDanger" xml:space="preserve"><value>Pericol</value></data>
+  <data name="DemoBadgesDraft" xml:space="preserve"><value>Ciornă</value></data>
+  <data name="DemoBadgesOutline" xml:space="preserve"><value>Contur</value></data>
+  <data name="DemoBadgesApproved" xml:space="preserve"><value>Aprobat</value></data>
+  <data name="DemoBadgesPending" xml:space="preserve"><value>În așteptare</value></data>
+  <data name="DemoBadgesRejected" xml:space="preserve"><value>Respins</value></data>
+  <data name="DemoBadgesNew" xml:space="preserve"><value>Nou</value></data>
+  <data name="DemoBadgesInReview" xml:space="preserve"><value>În revizuire</value></data>
+  <data name="DemoBadgesPublished" xml:space="preserve"><value>Publicat</value></data>
+  <data name="DemoBadgesFailed" xml:space="preserve"><value>Eșec</value></data>
+  <data name="DemoBadgesFixedSize" xml:space="preserve"><value>Dimensiune impusă</value></data>
+  <data name="DemoAlertsMaintenance" xml:space="preserve"><value>Mentenanță</value></data>
+  <data name="DemoAlertsMaintenanceText" xml:space="preserve"><value>Serviciul va fi indisponibil duminică între 2:00 și 4:00.</value></data>
+  <data name="DemoAlertsPublished" xml:space="preserve"><value>Pachet publicat</value></data>
+  <data name="DemoAlertsPublishedText" xml:space="preserve"><value>OmniEurope.Blazor este disponibil pe NuGet.org.</value></data>
+  <data name="DemoAlertsCertificate" xml:space="preserve"><value>Certificat pe cale să expire</value></data>
+  <data name="DemoAlertsFailure" xml:space="preserve"><value>Eșec</value></data>
+  <data name="DemoAlertsFailureText" xml:space="preserve"><value>Conectarea la serviciu a eșuat.</value></data>
+  <data name="DemoAlertsInfo" xml:space="preserve"><value>Informație</value></data>
+  <data name="DemoAlertsInfoText" xml:space="preserve"><value>Biblioteca își citește toate culorile din variabile CSS.</value></data>
+  <data name="DemoAlertsSaved" xml:space="preserve"><value>Salvat</value></data>
+  <data name="DemoAlertsSavedText" xml:space="preserve"><value>Modificările au fost aplicate.</value></data>
+  <data name="DemoAlertsNew" xml:space="preserve"><value>Noutate</value></data>
+  <data name="DemoAlertsNewText" xml:space="preserve"><value>Insignele și alertele au acum aceeași umplere.</value></data>
+  <data name="DemoAlertsCaution" xml:space="preserve"><value>Atenție</value></data>
+  <data name="DemoAlertsCautionText" xml:space="preserve"><value>Această setare va fi aplicată tuturor paginilor.</value></data>
+  <data name="DemoAlertsTooLarge" xml:space="preserve"><value>Fișierul depășește dimensiunea permisă.</value></data>
+  <data name="DemoAlertsTip" xml:space="preserve"><value>Sfat</value></data>
+  <data name="DemoAlertsTipText" xml:space="preserve"><value>Această alertă se închide cu butonul X.</value></data>
+  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Certificatul de semnare expiră în {0} zile.</value></data>
+  <data name="DemoButtonsSecondary" xml:space="preserve"><value>Secundar</value></data>
+  <data name="DemoButtonsGhost" xml:space="preserve"><value>Discret</value></data>
+  <data name="DemoButtonsApprove" xml:space="preserve"><value>Aprobă</value></data>
+  <data name="DemoButtonsSuspend" xml:space="preserve"><value>Suspendă</value></data>
+  <data name="DemoButtonsDetails" xml:space="preserve"><value>Detalii</value></data>
+  <data name="DemoButtonsDelete" xml:space="preserve"><value>Șterge</value></data>
+  <data name="DemoButtonsUnavailable" xml:space="preserve"><value>Indisponibil</value></data>
+  <data name="DemoButtonsSaving" xml:space="preserve"><value>Se salvează</value></data>
+  <data name="DemoButtonsSave" xml:space="preserve"><value>Salvează</value></data>
+  <data name="DemoButtonsPublish" xml:space="preserve"><value>Publică</value></data>
+  <data name="DemoButtonsPin" xml:space="preserve"><value>Fixează</value></data>
+  <data name="DemoButtonsSmall" xml:space="preserve"><value>Mic</value></data>
+  <data name="DemoButtonsMedium" xml:space="preserve"><value>Mediu</value></data>
+  <data name="DemoButtonsLarge" xml:space="preserve"><value>Mare</value></data>
+  <data name="DemoButtonsSearch" xml:space="preserve"><value>Caută</value></data>
+  <data name="DemoButtonsPublishLater" xml:space="preserve"><value>Publică mai târziu</value></data>
+  <data name="DemoButtonsDraft" xml:space="preserve"><value>Ciornă</value></data>
+  <data name="DemoButtonsPreview" xml:space="preserve"><value>Previzualizare</value></data>
+  <data name="DemoButtonsView" xml:space="preserve"><value>Consultă</value></data>
+  <data name="DemoButtonsSend" xml:space="preserve"><value>Trimite</value></data>
+  <data name="DemoButtonsReset" xml:space="preserve"><value>Resetează</value></data>
+  <data name="DemoButtonsNoFormEffect" xml:space="preserve"><value>Fără efect asupra formularului</value></data>
+  <data name="DemoButtonsPrimary" xml:space="preserve"><value>Principal</value></data>
+  <data name="DemoButtonsClicks" xml:space="preserve"><value>Clicuri pe butonul principal: {0}.</value></data>
+  <data name="DemoButtonsSent" xml:space="preserve"><value>Trimiteri ale formularului: {0}.</value></data>
+  <data name="DemoFeedbackUpload" xml:space="preserve"><value>Încărcare</value></data>
+  <data name="DemoFeedbackIndexing" xml:space="preserve"><value>Indexare</value></data>
+  <data name="DemoFeedbackSync" xml:space="preserve"><value>Sincronizare</value></data>
+  <data name="DemoFeedbackProcessed" xml:space="preserve"><value>Dosare procesate</value></data>
+  <data name="DemoFeedbackQuotaNear" xml:space="preserve"><value>Cotă aproape atinsă</value></data>
+  <data name="DemoFeedbackImportFailures" xml:space="preserve"><value>Eșecuri de import</value></data>
+  <data name="DemoFeedbackAnalysing" xml:space="preserve"><value>Analiză în curs</value></data>
+  <data name="DemoFeedbackProgress" xml:space="preserve"><value>Progres</value></data>
+  <data name="DemoFeedbackNoKnownEnd" xml:space="preserve"><value>Fără sfârșit cunoscut</value></data>
+  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>Cota este calculată pe ultimele treizeci de zile.</value></data>
+  <data name="DemoFeedbackQuota" xml:space="preserve"><value>Cotă</value></data>
+  <data name="DemoFeedbackArchivedTooltip" xml:space="preserve"><value>Un dosar arhivat rămâne consultabil doar în citire.</value></data>
+  <data name="DemoFeedbackArchived" xml:space="preserve"><value>Arhivat</value></data>
+  <data name="DemoFeedbackDraftTooltip" xml:space="preserve"><value>Ciornă.</value></data>
+  <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Îngustă</value></data>
+  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Un dosar arhivat rămâne consultabil doar în citire. Nu mai contează în cote, nu mai apare în căutările implicite și nu mai primește notificări. Pentru a-l redeschide, un administrator îl restaurează din fila Arhive; istoricul, atașamentele și comentariile sale revin atunci intacte, împreună cu data restaurării.</value></data>
+  <data name="DemoFeedbackLongText" xml:space="preserve"><value>Text lung</value></data>
+  <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>Sfatul ecran al pachetului pe un simplu atribut title.</value></data>
+  <data name="DemoFeedbackHover" xml:space="preserve"><value>Treceți cursorul</value></data>
+  <data name="DemoFeedbackLoadingAvatar" xml:space="preserve"><value>Se încarcă avatarul</value></data>
+  <data name="DemoFeedbackLoadingThumbnail" xml:space="preserve"><value>Se încarcă miniatura</value></data>
+  <data name="DemoFeedbackLoadingFile" xml:space="preserve"><value>Se încarcă dosarul</value></data>
+  <data name="DemoFeedbackLoadingDemo" xml:space="preserve"><value>Se încarcă demonstrația</value></data>
+  <data name="DemoFeedbackSimulateLoad" xml:space="preserve"><value>Simulează o încărcare</value></data>
+  <data name="DemoFeedbackRecentRuns" xml:space="preserve"><value>Ultimele execuții</value></data>
+  <data name="DemoFeedbackAvailability" xml:space="preserve"><value>Disponibilitate în ultimele ore</value></data>
+  <data name="DemoFeedbackReady" xml:space="preserve"><value>Gata</value></data>
+  <data name="DemoFeedbackFailed" xml:space="preserve"><value>Eșec</value></data>
+  <data name="DemoFeedbackRunSucceeded" xml:space="preserve"><value>Execuția {0} reușită</value></data>
+  <data name="DemoFeedbackRunWarning" xml:space="preserve"><value>Execuția {0} cu avertisment</value></data>
+  <data name="DemoFeedbackRunFailed" xml:space="preserve"><value>Execuția {0} eșuată</value></data>
+  <data name="DemoFeedbackSucceeded" xml:space="preserve"><value>Reușită</value></data>
+  <data name="DemoFeedbackWarning" xml:space="preserve"><value>Avertisment</value></data>
+  <data name="DemoMediaImageContain" xml:space="preserve"><value>Imagine întreagă, fără decupare</value></data>
+  <data name="DemoMediaImageCover" xml:space="preserve"><value>Imagine decupată pentru a umple caseta</value></data>
+  <data name="DemoMediaImageNatural" xml:space="preserve"><value>Imagine la dimensiunea naturală</value></data>
+  <data name="DemoMediaTimeline" xml:space="preserve"><value>Etapele dosarului</value></data>
+  <data name="DemoMediaFiling" xml:space="preserve"><value>Depunere</value></data>
+  <data name="DemoMediaFilingText" xml:space="preserve"><value>Dosarul a fost înregistrat.</value></data>
+  <data name="DemoMediaReview" xml:space="preserve"><value>Instrumentare</value></data>
+  <data name="DemoMediaReviewText" xml:space="preserve"><value>A fost desemnat un agent.</value></data>
+  <data name="DemoMediaDecision" xml:space="preserve"><value>Decizie</value></data>
+  <data name="DemoMediaDecisionText" xml:space="preserve"><value>Decizia a fost comunicată.</value></data>
+  <data name="DemoMediaIconCheck" xml:space="preserve"><value>Aprobat</value></data>
+  <data name="DemoMediaIconWarning" xml:space="preserve"><value>Atenție</value></data>
+  <data name="DemoMediaIconFilter" xml:space="preserve"><value>Filtrează</value></data>
+  <data name="DemoMediaIconCompass" xml:space="preserve"><value>Busolă</value></data>
+  <data name="DemoMediaIconClose" xml:space="preserve"><value>Închide</value></data>
+  <data name="DemoMediaIconInfo" xml:space="preserve"><value>Informație</value></data>
+  <data name="DemoMediaIconMenu" xml:space="preserve"><value>Meniu</value></data>
+  <data name="DemoMediaIconChevronDown" xml:space="preserve"><value>Extinde</value></data>
+  <data name="DemoMediaIconSortAscending" xml:space="preserve"><value>Sortare crescătoare</value></data>
+  <data name="DemoMediaIconSortDescending" xml:space="preserve"><value>Sortare descrescătoare</value></data>
+  <data name="DemoMediaIconThemeLight" xml:space="preserve"><value>Aspect luminos</value></data>
+  <data name="DemoMediaIconThemeDark" xml:space="preserve"><value>Aspect întunecat</value></data>
+  <data name="DemoMediaIconAdd" xml:space="preserve"><value>Adaugă</value></data>
+  <data name="DemoMediaIconAirplane" xml:space="preserve"><value>Avion</value></data>
+  <data name="DemoMediaIconAirplaneLanding" xml:space="preserve"><value>Aterizare</value></data>
+  <data name="DemoMediaIconAirplaneTakeoff" xml:space="preserve"><value>Decolare</value></data>
+  <data name="DemoMediaIconArchive" xml:space="preserve"><value>Arhivează</value></data>
+  <data name="DemoMediaIconArrowLeft" xml:space="preserve"><value>Înapoi</value></data>
+  <data name="DemoMediaIconArrowRight" xml:space="preserve"><value>Următorul</value></data>
+  <data name="DemoMediaIconBed" xml:space="preserve"><value>Cazare</value></data>
+  <data name="DemoMediaIconBell" xml:space="preserve"><value>Notificări</value></data>
+  <data name="DemoMediaIconBracketsCurly" xml:space="preserve"><value>Date JSON</value></data>
+  <data name="DemoMediaIconCalculator" xml:space="preserve"><value>Calculator</value></data>
+  <data name="DemoMediaIconCards" xml:space="preserve"><value>Carduri</value></data>
+  <data name="DemoMediaIconChartBarHorizontal" xml:space="preserve"><value>Clasament</value></data>
+  <data name="DemoMediaIconChat" xml:space="preserve"><value>Mesaj</value></data>
+  <data name="DemoMediaIconCheckCircle" xml:space="preserve"><value>Reușit</value></data>
+  <data name="DemoMediaIconChevronUp" xml:space="preserve"><value>Restrânge</value></data>
+  <data name="DemoMediaIconCopy" xml:space="preserve"><value>Copiază</value></data>
+  <data name="DemoMediaIconDatabase" xml:space="preserve"><value>Bază de date</value></data>
+  <data name="DemoMediaIconDelete" xml:space="preserve"><value>Șterge</value></data>
+  <data name="DemoMediaIconDiamond" xml:space="preserve"><value>Gemă</value></data>
+  <data name="DemoMediaIconDice" xml:space="preserve"><value>Tragere la sorți</value></data>
+  <data name="DemoMediaIconDocument" xml:space="preserve"><value>Document</value></data>
+  <data name="DemoMediaIconDownload" xml:space="preserve"><value>Descarcă</value></data>
+  <data name="DemoMediaIconEdit" xml:space="preserve"><value>Editează</value></data>
+  <data name="DemoMediaIconError" xml:space="preserve"><value>Eroare</value></data>
+  <data name="DemoMediaIconFlask" xml:space="preserve"><value>Test</value></data>
+  <data name="DemoMediaIconFunction" xml:space="preserve"><value>Formulă</value></data>
+  <data name="DemoMediaIconGlobe" xml:space="preserve"><value>Lume</value></data>
+  <data name="DemoMediaIconGlobeHemisphereWest" xml:space="preserve"><value>Călătorii</value></data>
+  <data name="DemoMediaIconGraduationCap" xml:space="preserve"><value>Clasă</value></data>
+  <data name="DemoMediaIconGraph" xml:space="preserve"><value>Legături</value></data>
+  <data name="DemoMediaIconHome" xml:space="preserve"><value>Acasă</value></data>
+  <data name="DemoMediaIconHourglass" xml:space="preserve"><value>Așteptare</value></data>
+  <data name="DemoMediaIconImage" xml:space="preserve"><value>Imagine</value></data>
+  <data name="DemoMediaIconLayers" xml:space="preserve"><value>Straturi</value></data>
+  <data name="DemoMediaIconMapPin" xml:space="preserve"><value>Loc</value></data>
+  <data name="DemoMediaIconMapPinLine" xml:space="preserve"><value>Import de locuri</value></data>
+  <data name="DemoMediaIconMedal" xml:space="preserve"><value>Rang</value></data>
+  <data name="DemoMediaIconMonitor" xml:space="preserve"><value>Afișare</value></data>
+  <data name="DemoMediaIconNumberedList" xml:space="preserve"><value>Listă numerotată</value></data>
+  <data name="DemoMediaIconOffline" xml:space="preserve"><value>Offline</value></data>
+  <data name="DemoMediaIconOpenExternal" xml:space="preserve"><value>Deschide în altă parte</value></data>
+  <data name="DemoMediaIconPackage" xml:space="preserve"><value>Obiect</value></data>
+  <data name="DemoMediaIconPalette" xml:space="preserve"><value>Culori</value></data>
+  <data name="DemoMediaIconPath" xml:space="preserve"><value>Traseu</value></data>
+  <data name="DemoMediaIconPattern" xml:space="preserve"><value>Model</value></data>
+  <data name="DemoMediaIconPictureInPicture" xml:space="preserve"><value>Imagine în imagine</value></data>
+  <data name="DemoMediaIconPin" xml:space="preserve"><value>Fixează</value></data>
+  <data name="DemoMediaIconPlay" xml:space="preserve"><value>Pornește</value></data>
+  <data name="DemoMediaIconProhibit" xml:space="preserve"><value>Interzis</value></data>
+  <data name="DemoMediaIconRefresh" xml:space="preserve"><value>Reîmprospătează</value></data>
+  <data name="DemoMediaIconRemove" xml:space="preserve"><value>Elimină</value></data>
+  <data name="DemoMediaIconReset" xml:space="preserve"><value>Resetează</value></data>
+  <data name="DemoMediaIconRestore" xml:space="preserve"><value>Dezarhivează</value></data>
+  <data name="DemoMediaIconRows" xml:space="preserve"><value>Densitate</value></data>
+  <data name="DemoMediaIconRuler" xml:space="preserve"><value>Măsurare</value></data>
+  <data name="DemoMediaIconSave" xml:space="preserve"><value>Salvează</value></data>
+  <data name="DemoMediaIconSearch" xml:space="preserve"><value>Caută</value></data>
+  <data name="DemoMediaIconSettings" xml:space="preserve"><value>Setări</value></data>
+  <data name="DemoMediaIconShieldCheck" xml:space="preserve"><value>Administrare</value></data>
+  <data name="DemoMediaIconSidebar" xml:space="preserve"><value>Bară laterală</value></data>
+  <data name="DemoMediaIconSliders" xml:space="preserve"><value>Filtre avansate</value></data>
+  <data name="DemoMediaIconSparkle" xml:space="preserve"><value>Noutate</value></data>
+  <data name="DemoMediaIconStar" xml:space="preserve"><value>Favorit</value></data>
+  <data name="DemoMediaIconStarFilled" xml:space="preserve"><value>Favorit activ</value></data>
+  <data name="DemoMediaIconSwap" xml:space="preserve"><value>Schimbă</value></data>
+  <data name="DemoMediaIconSync" xml:space="preserve"><value>Sincronizează</value></data>
+  <data name="DemoMediaIconTag" xml:space="preserve"><value>Etichetă</value></data>
+  <data name="DemoMediaIconTextSize" xml:space="preserve"><value>Dimensiunea textului</value></data>
+  <data name="DemoMediaIconThemeSystem" xml:space="preserve"><value>Aspectul sistemului</value></data>
+  <data name="DemoMediaIconTimer" xml:space="preserve"><value>Cronometru</value></data>
+  <data name="DemoMediaIconUpgrade" xml:space="preserve"><value>Îmbunătățire</value></data>
+  <data name="DemoMediaIconUpload" xml:space="preserve"><value>Încarcă</value></data>
+  <data name="DemoMediaIconUser" xml:space="preserve"><value>Persoană</value></data>
+  <data name="DemoMediaIconUserFocus" xml:space="preserve"><value>Caută o persoană</value></data>
+  <data name="DemoMediaIconEye" xml:space="preserve"><value>Afișează</value></data>
+  <data name="DemoMediaIconGitCommit" xml:space="preserve"><value>Commit</value></data>
+  <data name="DemoMediaIconLock" xml:space="preserve"><value>Blocat</value></data>
+  <data name="DemoMediaIconRocketLaunch" xml:space="preserve"><value>Implementează</value></data>
+  <data name="DemoMediaIconUsers" xml:space="preserve"><value>Grup</value></data>
+  <data name="DemoMediaIconStop" xml:space="preserve"><value>Oprește</value></data>
+  <data name="DemoMediaIconListChecks" xml:space="preserve"><value>Reguli</value></data>
+  <data name="DemoMediaIconFolder" xml:space="preserve"><value>Folder</value></data>
+  <data name="DemoMediaIconQuestion" xml:space="preserve"><value>Ajutor</value></data>
+  <data name="DemoMediaIconSquaresFour" xml:space="preserve"><value>Tablou de bord</value></data>
+  <data name="DemoMediaIconTerminalWindow" xml:space="preserve"><value>Terminal</value></data>
+  <data name="DemoMediaIconWrench" xml:space="preserve"><value>Construiește</value></data>
+  <data name="DemoMediaIconKey" xml:space="preserve"><value>Cheie</value></data>
+  <data name="DemoMediaIconBuildings" xml:space="preserve"><value>Organizație</value></data>
+  <data name="DemoMediaIconHeartbeat" xml:space="preserve"><value>Monitorizare</value></data>
+  <data name="DemoMediaIconCloudArrowUp" xml:space="preserve"><value>Copie de rezervă online</value></data>
+  <data name="DemoMediaIconLink" xml:space="preserve"><value>Link</value></data>
+  <data name="DemoMediaIconUserPlus" xml:space="preserve"><value>Adaugă o persoană</value></data>
+  <data name="DemoMediaIconLayout" xml:space="preserve"><value>Aspect pagină</value></data>
+  <data name="DemoMediaIconBroadcast" xml:space="preserve"><value>Difuzare</value></data>
+  <data name="DemoMediaIconCalendarBlank" xml:space="preserve"><value>Dată</value></data>
+  <data name="DemoMediaIconChartLineUp" xml:space="preserve"><value>Tendință</value></data>
+  <data name="DemoMediaIconFolderOpen" xml:space="preserve"><value>Folder deschis</value></data>
+  <data name="DemoMediaIconGitFork" xml:space="preserve"><value>Bifurcare</value></data>
+  <data name="DemoMediaIconGitMerge" xml:space="preserve"><value>Îmbinare</value></data>
+  <data name="DemoMediaIconLockKey" xml:space="preserve"><value>Resetează parola</value></data>
+  <data name="DemoMediaIconRobot" xml:space="preserve"><value>Automatizare</value></data>
+  <data name="DemoMediaIconArrowDown" xml:space="preserve"><value>Mută în jos</value></data>
+  <data name="DemoMediaIconBrain" xml:space="preserve"><value>Inteligență</value></data>
+  <data name="DemoMediaIconCellTower" xml:space="preserve"><value>Antenă</value></data>
+  <data name="DemoMediaIconCloud" xml:space="preserve"><value>Cloud</value></data>
+  <data name="DemoMediaIconGavel" xml:space="preserve"><value>Regulament</value></data>
+  <data name="DemoMediaIconGitDiff" xml:space="preserve"><value>Diferențe</value></data>
+  <data name="DemoMediaIconLinkBreak" xml:space="preserve"><value>Link întrerupt</value></data>
+  <data name="DemoMediaIconLockOpen" xml:space="preserve"><value>Deblocat</value></data>
+  <data name="DemoMediaIconPaperPlaneRight" xml:space="preserve"><value>Trimite un mesaj</value></data>
+  <data name="DemoMediaIconPlugsConnected" xml:space="preserve"><value>Conectat</value></data>
+  <data name="DemoMediaIconPuzzlePiece" xml:space="preserve"><value>Extensie</value></data>
+  <data name="DemoMediaIconShieldWarning" xml:space="preserve"><value>Risc</value></data>
+  <data name="DemoMediaIconSignOut" xml:space="preserve"><value>Deconectare</value></data>
+  <data name="DemoMediaIconArrowElbowDownLeft" xml:space="preserve"><value>Rând nou</value></data>
+  <data name="DemoMediaIconBroom" xml:space="preserve"><value>Curăță</value></data>
+  <data name="DemoMediaIconBug" xml:space="preserve"><value>Anomalie</value></data>
+  <data name="DemoMediaIconChartLine" xml:space="preserve"><value>Grafic liniar</value></data>
+  <data name="DemoMediaIconChevronRight" xml:space="preserve"><value>Deschide</value></data>
+  <data name="DemoMediaIconCode" xml:space="preserve"><value>Cod</value></data>
+  <data name="DemoMediaIconGauge" xml:space="preserve"><value>Performanță</value></data>
+  <data name="DemoMediaIconMagnifyingGlassPlus" xml:space="preserve"><value>Mărește</value></data>
+  <data name="DemoMediaIconPassword" xml:space="preserve"><value>Parolă</value></data>
+  <data name="DemoMediaIconShieldSlash" xml:space="preserve"><value>Protecție dezactivată</value></data>
+  <data name="DemoMediaIconStamp" xml:space="preserve"><value>Aprobare</value></data>
+  <data name="DemoMediaIconTextAlignLeft" xml:space="preserve"><value>Aliniere la stânga</value></data>
+  <data name="DemoMediaIconWifiHigh" xml:space="preserve"><value>Rețea</value></data>
+  <data name="DemoMediaIconArrowElbowDownRight" xml:space="preserve"><value>Subelement</value></data>
+  <data name="DemoMediaIconArrowLineDown" xml:space="preserve"><value>Salt la sfârșit</value></data>
+  <data name="DemoMediaIconArrowLineUp" xml:space="preserve"><value>Salt la început</value></data>
+  <data name="DemoMediaIconArrowUUpRight" xml:space="preserve"><value>Refă</value></data>
+  <data name="DemoMediaIconAt" xml:space="preserve"><value>Adresă de e-mail</value></data>
+  <data name="DemoMediaIconBellSlash" xml:space="preserve"><value>Notificări dezactivate</value></data>
+  <data name="DemoMediaIconBooks" xml:space="preserve"><value>Bibliotecă</value></data>
+  <data name="DemoMediaIconCalendarCheck" xml:space="preserve"><value>Dată confirmată</value></data>
+  <data name="DemoMediaIconChecks" xml:space="preserve"><value>Aprobă tot</value></data>
+  <data name="DemoMediaIconCloudArrowDown" xml:space="preserve"><value>Preia din cloud</value></data>
+  <data name="DemoMediaIconColumns" xml:space="preserve"><value>Coloane</value></data>
+  <data name="DemoMediaIconCornersOut" xml:space="preserve"><value>Potrivește la ecran</value></data>
+  <data name="DemoMediaIconDotsThreeVertical" xml:space="preserve"><value>Mai multe acțiuni</value></data>
+  <data name="DemoMediaIconEyeSlash" xml:space="preserve"><value>Ascunde</value></data>
+  <data name="DemoMediaIconFrameCorners" xml:space="preserve"><value>Recentrează</value></data>
+  <data name="DemoMediaIconHardDrive" xml:space="preserve"><value>Disc</value></data>
+  <data name="DemoMediaIconLightning" xml:space="preserve"><value>Rapid</value></data>
+  <data name="DemoMediaIconMagnifyingGlassMinus" xml:space="preserve"><value>Micșorează</value></data>
+  <data name="DemoMediaIconMegaphone" xml:space="preserve"><value>Anunț</value></data>
+  <data name="DemoMediaIconSignIn" xml:space="preserve"><value>Conectare</value></data>
+  <data name="DemoMediaIconTarget" xml:space="preserve"><value>Țintă</value></data>
+  <data name="DemoMediaIconToggleLeft" xml:space="preserve"><value>Dezactivat</value></data>
+  <data name="DemoMediaIconTray" xml:space="preserve"><value>Mesaje primite</value></data>
+  <data name="DemoMediaIconCpu" xml:space="preserve"><value>Procesor</value></data>
+  <data name="DemoMediaIconFilePlus" xml:space="preserve"><value>Fișier nou</value></data>
+  <data name="DemoMediaIconHandTap" xml:space="preserve"><value>Declanșare manuală</value></data>
+  <data name="DemoMediaIconPause" xml:space="preserve"><value>Pauză</value></data>
+  <data name="DemoMediaIconToggleRight" xml:space="preserve"><value>Activat</value></data>
+  <data name="DemoMediaIconWebhook" xml:space="preserve"><value>Webhook</value></data>
+  <data name="DemoMediaIconWifiSlash" xml:space="preserve"><value>Rețea întreruptă</value></data>
+  <data name="DemoMediaIconScissors" xml:space="preserve"><value>Decupează</value></data>
+  <data name="DemoMediaIconClipboard" xml:space="preserve"><value>Lipește</value></data>
+  <data name="DemoMediaIconThumbsUp" xml:space="preserve"><value>Util</value></data>
+  <data name="DemoMediaIconThumbsDown" xml:space="preserve"><value>Inutil</value></data>
+  <data name="DemoMediaIconLightbulb" xml:space="preserve"><value>Sfat</value></data>
+  <data name="DemoMediaIconKeyboard" xml:space="preserve"><value>Tastatură</value></data>
+  <data name="DemoMediaIconFlag" xml:space="preserve"><value>Raportează</value></data>
+  <data name="DemoMediaIconHighlighter" xml:space="preserve"><value>Evidențiază</value></data>
+  <data name="DemoMediaIconChartPie" xml:space="preserve"><value>Distribuție</value></data>
+  <data name="DemoMediaIconChartDonut" xml:space="preserve"><value>Proporție</value></data>
+  <data name="DemoMediaIconCircle" xml:space="preserve"><value>Cerc</value></data>
+  <data name="DemoMediaIconBookmark" xml:space="preserve"><value>Semn de carte</value></data>
+  <data name="DemoMediaIconUserMinus" xml:space="preserve"><value>Elimină un membru</value></data>
+  <data name="DemoMediaIconSelectionSlash" xml:space="preserve"><value>Deselectează</value></data>
+  <data name="DemoMediaIconSmiley" xml:space="preserve"><value>Caractere speciale</value></data>
+  <data name="DemoMediaIconSkipBack" xml:space="preserve"><value>Piesa anterioară</value></data>
+  <data name="DemoMediaIconSkipForward" xml:space="preserve"><value>Piesa următoare</value></data>
+  <data name="DemoMediaIconShuffle" xml:space="preserve"><value>Redare aleatorie</value></data>
+  <data name="DemoMediaIconRepeat" xml:space="preserve"><value>Repetă</value></data>
+  <data name="DemoMediaIconRepeatOnce" xml:space="preserve"><value>Repetă o dată</value></data>
+  <data name="DemoMediaIconSpeakerHigh" xml:space="preserve"><value>Volum ridicat</value></data>
+  <data name="DemoMediaIconSpeakerLow" xml:space="preserve"><value>Volum redus</value></data>
+  <data name="DemoMediaIconSpeakerNone" xml:space="preserve"><value>Volum zero</value></data>
+  <data name="DemoMediaIconSpeakerX" xml:space="preserve"><value>Sunet dezactivat</value></data>
+  <data name="DemoMediaIconQueue" xml:space="preserve"><value>Coadă de așteptare</value></data>
+  <data name="DemoMediaIconPlaylist" xml:space="preserve"><value>Listă de redare</value></data>
+  <data name="DemoMediaIconListPlus" xml:space="preserve"><value>Adaugă în listă</value></data>
+  <data name="DemoMediaIconMusicNote" xml:space="preserve"><value>Piesă</value></data>
+  <data name="DemoMediaIconDisc" xml:space="preserve"><value>Album</value></data>
+  <data name="DemoMediaIconWaveform" xml:space="preserve"><value>Formă de undă</value></data>
+  <data name="DemoMediaIconDotsSixVertical" xml:space="preserve"><value>Mâner de glisare</value></data>
+  <data name="DemoMediaIconCornersIn" xml:space="preserve"><value>Restrânge afișarea</value></data>
+  <data name="DemoMediaIconPlayCircle" xml:space="preserve"><value>Redă</value></data>
+  <data name="DemoMediaIconPauseCircle" xml:space="preserve"><value>Pauză</value></data>
+  <data name="DemoMediaIconXCircle" xml:space="preserve"><value>Anulează</value></data>
+  <data name="DemoMediaIconChartBar" xml:space="preserve"><value>Histogramă</value></data>
+  <data name="DemoMediaIconBookOpen" xml:space="preserve"><value>Carte deschisă</value></data>
+  <data name="DemoMediaIconArrowsDownUp" xml:space="preserve"><value>Schimbă pe verticală</value></data>
+  <data name="DemoMediaIconFolderPlus" xml:space="preserve"><value>Folder nou</value></data>
+  <data name="DemoMediaIconTelevision" xml:space="preserve"><value>Ecran</value></data>
+  <data name="DemoMediaIconSealCheck" xml:space="preserve"><value>Verificat</value></data>
+  <data name="DemoMediaIconCheckSquare" xml:space="preserve"><value>Casetă bifată</value></data>
+  <data name="DemoMediaIconArrowBendUpRight" xml:space="preserve"><value>Mută</value></data>
+  <data name="DemoMediaIconStethoscope" xml:space="preserve"><value>Diagnostic</value></data>
+  <data name="DemoMediaIconChevronLeft" xml:space="preserve"><value>Anteriorul</value></data>
+  <data name="DemoMediaIconEnvelope" xml:space="preserve"><value>E-mail</value></data>
+  <data name="DemoMediaIconCurrencyEur" xml:space="preserve"><value>Sumă în euro</value></data>
+  <data name="DemoMediaIconShareNetwork" xml:space="preserve"><value>Partajează</value></data>
+  <data name="DemoMediaIconBank" xml:space="preserve"><value>Instituție financiară</value></data>
+  <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Misiune</value></data>
+  <data name="DemoMediaIconIdentificationBadge" xml:space="preserve"><value>Ecuson de identificare</value></data>
+  <data name="DemoMediaIconFilePdf" xml:space="preserve"><value>Document PDF</value></data>
+  <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Asistență</value></data>
+  <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Parteneriat</value></data>
+  <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Creștere</value></data>
+  <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Numele proiectului</value></data>
+  <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>E-mailul responsabilului</value></data>
+  <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>Confirmarea e-mailului</value></data>
+  <data name="DemoAnnotatedValidationReplicas" xml:space="preserve"><value>Replici</value></data>
+  <data name="DemoOverlayOpenDialog" xml:space="preserve"><value>Deschide dialogul</value></data>
+  <data name="DemoOverlaySave" xml:space="preserve"><value>Salvează</value></data>
+  <data name="DemoOverlayMoreSaves" xml:space="preserve"><value>Alte opțiuni de salvare</value></data>
+  <data name="DemoOverlaySaveAndClose" xml:space="preserve"><value>Salvează și închide</value></data>
+  <data name="DemoOverlaySaveCopy" xml:space="preserve"><value>Salvează o copie</value></data>
+  <data name="DemoOverlayPublishUnavailable" xml:space="preserve"><value>Publică, indisponibil</value></data>
+  <data name="DemoOverlayFolderActions" xml:space="preserve"><value>Acțiunile folderului</value></data>
+  <data name="DemoOverlayContextTrigger" xml:space="preserve"><value>Acțiuni (clic dreapta sau Shift+F10)</value></data>
+  <data name="DemoOverlayDuplicate" xml:space="preserve"><value>Duplică</value></data>
+  <data name="DemoOverlayExport" xml:space="preserve"><value>Exportă</value></data>
+  <data name="DemoOverlayDelete" xml:space="preserve"><value>Șterge</value></data>
+  <data name="DemoOverlayDeleteFolder" xml:space="preserve"><value>Șterge folderul</value></data>
+  <data name="DemoOverlayRunningTasks" xml:space="preserve"><value>Sarcini în curs</value></data>
+  <data name="DemoOverlayBackupStep" xml:space="preserve"><value>Copie de rezervă nocturnă, pasul {0} din {1}.</value></data>
+  <data name="DemoOverlayViewProgress" xml:space="preserve"><value>Vezi progresul</value></data>
+  <data name="DemoOverlayProgressOpened" xml:space="preserve"><value>Progres deschis</value></data>
+  <data name="DemoOverlayQuickFilter" xml:space="preserve"><value>Filtru rapid</value></data>
+  <data name="DemoOverlayFilter" xml:space="preserve"><value>Filtrează</value></data>
+  <data name="DemoOverlayFilterBody" xml:space="preserve"><value>Panoul se aliniază cu începutul butonului.</value></data>
+  <data name="DemoOverlayAccountMenu" xml:space="preserve"><value>Meniul contului</value></data>
+  <data name="DemoOverlayMyProfile" xml:space="preserve"><value>Profilul meu</value></data>
+  <data name="DemoOverlaySignOut" xml:space="preserve"><value>Deconectare</value></data>
+  <data name="DemoOverlaySignedOut" xml:space="preserve"><value>Deconectat</value></data>
+  <data name="DemoOverlayAdminUnavailable" xml:space="preserve"><value>Administrare, indisponibil</value></data>
+  <data name="DemoOverlayStickyButton" xml:space="preserve"><value>Dialog care ignoră fundalul</value></data>
+  <data name="DemoOverlayBlockingButton" xml:space="preserve"><value>Dialog cu închidere impusă</value></data>
+  <data name="DemoOverlaySizeSmall" xml:space="preserve"><value>Mic</value></data>
+  <data name="DemoOverlaySizeMedium" xml:space="preserve"><value>Mediu</value></data>
+  <data name="DemoOverlaySizeLarge" xml:space="preserve"><value>Lat</value></data>
+  <data name="DemoOverlaySizeExtraLarge" xml:space="preserve"><value>Foarte lat</value></data>
+  <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Lățime completă</value></data>
+  <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Lățimea dialogului</value></data>
+  <data name="DemoOverlaySizedBody" xml:space="preserve"><value>Acest dialog este deschis la dimensiunea {0}.</value></data>
+  <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Formular (accent)</value></data>
+  <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Informație</value></data>
+  <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Reușită</value></data>
+  <data name="DemoOverlayIntentWarning" xml:space="preserve"><value>Confirmare (avertisment)</value></data>
+  <data name="DemoOverlayIntentDanger" xml:space="preserve"><value>Ștergere (pericol)</value></data>
+  <data name="DemoOverlayIntentTitle" xml:space="preserve"><value>Parametrii execuției</value></data>
+  <data name="DemoOverlayIntentBody" xml:space="preserve"><value>Acest dialog are intenția {0}.</value></data>
+  <data name="DemoOverlayConfirm" xml:space="preserve"><value>Confirmă</value></data>
+  <data name="DemoOverlayCancel" xml:space="preserve"><value>Anulează</value></data>
+  <data name="DemoOverlayPipelineActions" xml:space="preserve"><value>Acțiunile pipeline-ului</value></data>
+  <data name="DemoOverlayEdit" xml:space="preserve"><value>Editează</value></data>
+  <data name="DemoOverlayUpdate" xml:space="preserve"><value>Actualizează</value></data>
+  <data name="DemoOverlayRowActions" xml:space="preserve"><value>Acțiunile rândului</value></data>
+  <data name="DemoOverlayLastAction" xml:space="preserve"><value>Ultima acțiune: {0}</value></data>
+  <data name="DemoOverlayNoAction" xml:space="preserve"><value>niciuna</value></data>
+  <data name="DemoOverlayNoticeInfoTitle" xml:space="preserve"><value>Informație</value></data>
+  <data name="DemoOverlayNoticeInfo" xml:space="preserve"><value>Procesarea de noapte va începe la {0}.</value></data>
+  <data name="DemoOverlayNoticeDoneTitle" xml:space="preserve"><value>Finalizat</value></data>
+  <data name="DemoOverlayNoticeDone" xml:space="preserve"><value>Cele {0} documente au fost importate.</value></data>
+  <data name="DemoOverlayNotificationClosed" xml:space="preserve"><value>Notificare închisă</value></data>
+  <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Cota este aproape atinsă.</value></data>
+  <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Eșec</value></data>
+  <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Conectarea la serviciu a eșuat.</value></data>
+  <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Confirmă ștergerea</value></data>
+  <data name="DemoOverlayClose" xml:space="preserve"><value>Închide</value></data>
+  <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Această acțiune elimină folderul din listă. Poate fi anulată timp de treizeci de zile.</value></data>
+  <data name="DemoOverlayDeletionConfirmed" xml:space="preserve"><value>Ștergere confirmată</value></data>
+  <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Filtru în curs</value></data>
+  <data name="DemoOverlayStickyBody" xml:space="preserve"><value>Un clic în afară nu închide acest dialog: îl închid butonul X și Esc.</value></data>
+  <data name="DemoOverlayBlockingTitle" xml:space="preserve"><value>Migrare în curs</value></data>
+  <data name="DemoOverlayBlockingBody" xml:space="preserve"><value>Nici butonul X, nici Esc, nici fundalul: doar butonul dialogului îl închide.</value></data>
+  <data name="DemoOverlayFinish" xml:space="preserve"><value>Finalizează</value></data>
+  <data name="DemoOverlayMigrationDone" xml:space="preserve"><value>Migrare finalizată</value></data>
+  <data name="DemoEditorBodyLabel" xml:space="preserve"><value>Corpul scrisorii</value></data>
+  <data name="DemoEditorSourceLabel" xml:space="preserve"><value>Sursa scrisorii</value></data>
+  <data name="DemoEditorAnnotatedLabel" xml:space="preserve"><value>Articol adnotat</value></data>
+  <data name="DemoEditorPosition" xml:space="preserve"><value>Poziție: {0}</value></data>
+  <data name="DemoEditorOutsideText" xml:space="preserve"><value>în afara textului</value></data>
+  <data name="DemoEditorRoot" xml:space="preserve"><value>rădăcină</value></data>
+  <data name="DemoEditorExtendedLabel" xml:space="preserve"><value>Aviz comentat</value></data>
+  <data name="DemoEditorReportLabel" xml:space="preserve"><value>Raport</value></data>
+  <data name="DemoEditorReportFileName" xml:space="preserve"><value>raport</value></data>
+  <data name="DemoEditorCodeLabel" xml:space="preserve"><value>Setări JSON</value></data>
+  <data name="DemoEditorIconBold" xml:space="preserve"><value>Aldin</value></data>
+  <data name="DemoEditorIconItalic" xml:space="preserve"><value>Cursiv</value></data>
+  <data name="DemoEditorIconUnderline" xml:space="preserve"><value>Subliniat</value></data>
+  <data name="DemoEditorIconStrikethrough" xml:space="preserve"><value>Tăiat</value></data>
+  <data name="DemoEditorIconSubscript" xml:space="preserve"><value>Indice</value></data>
+  <data name="DemoEditorIconSuperscript" xml:space="preserve"><value>Exponent</value></data>
+  <data name="DemoEditorIconBulletList" xml:space="preserve"><value>Listă cu marcatori</value></data>
+  <data name="DemoEditorIconIndent" xml:space="preserve"><value>Mărește indentarea</value></data>
+  <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Micșorează indentarea</value></data>
+  <data name="DemoEditorIconQuote" xml:space="preserve"><value>Citat</value></data>
+  <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Cod în linie</value></data>
+  <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Bloc de cod</value></data>
+  <data name="DemoEditorIconLink" xml:space="preserve"><value>Link</value></data>
+  <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Elimină linkul</value></data>
+  <data name="DemoEditorIconAlignLeft" xml:space="preserve"><value>Aliniere la stânga</value></data>
+  <data name="DemoEditorIconAlignCenter" xml:space="preserve"><value>Centrare</value></data>
+  <data name="DemoEditorIconAlignRight" xml:space="preserve"><value>Aliniere la dreapta</value></data>
+  <data name="DemoEditorIconJustify" xml:space="preserve"><value>Aliniere stânga-dreapta</value></data>
+  <data name="DemoEditorIconUndo" xml:space="preserve"><value>Anulează</value></data>
+  <data name="DemoEditorIconRedo" xml:space="preserve"><value>Refă</value></data>
+  <data name="DemoEditorIconClearFormatting" xml:space="preserve"><value>Șterge formatarea</value></data>
+  <data name="DemoEditorIconHtmlSource" xml:space="preserve"><value>Sursă HTML</value></data>
+  <data name="DemoEditorIconTable" xml:space="preserve"><value>Tabel</value></data>
+  <data name="DemoEditorManifest" xml:space="preserve"><value>Manifest de implementare</value></data>
+  <data name="DemoEditorManifestHelp" xml:space="preserve"><value>Un singur fișier; deschide fereastra de selecție a sistemului.</value></data>
+  <data name="DemoEditorUploadFailed" xml:space="preserve"><value>Încărcarea a eșuat.</value></data>
+  <data name="DemoEditorUploaded" xml:space="preserve"><value>Documente încărcate: {0}</value></data>
+  <data name="DemoEditorNoUpload" xml:space="preserve"><value>niciunul</value></data>
+  <data name="DemoEditorTestCommand" xml:space="preserve"><value>Comandă de test</value></data>
+  <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Exemplu de configurație</value></data>
+  <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Extras, liniile {0}-{1}</value></data>
+  <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Compară două configurații</value></data>
+  <data name="DemoEditorSignatureText" xml:space="preserve"><value>Serviciul dosare</value></data>
+  <data name="DemoEditorReferenceText" xml:space="preserve"><value>Referință: {0}</value></data>
+  <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Inserează blocul de semnătură</value></data>
+  <data name="DemoEditorAddSignature" xml:space="preserve"><value>Adaugă semnătura</value></data>
+  <data name="DemoEditorInsertReference" xml:space="preserve"><value>Inserează referința</value></data>
+  <data name="DemoEditorAddNote" xml:space="preserve"><value>Adaugă o notă</value></data>
+  <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>Notă nouă.</value></data>
+  <data name="DemoEditorNewNote" xml:space="preserve"><value>Notă nouă</value></data>
+  <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Elimină nota</value></data>
+  <data name="DemoEditorArticleText" xml:space="preserve"><value>Articolul 1. Prezentul regulament se aplică dosarelor primite.</value></data>
+  <data name="DemoEditorArticleDelay" xml:space="preserve"><value>Termen</value></data>
+  <data name="DemoEditorArticleDocument" xml:space="preserve"><value>Document</value></data>
+  <data name="DemoEditorArticleDays" xml:space="preserve"><value>{0} zile</value></data>
+  <data name="DemoEditorArticleForm" xml:space="preserve"><value>Formular</value></data>
+  <data name="DemoEditorArticleNote" xml:space="preserve"><value>Notă: text consolidat la 1 ianuarie.</value></data>
+  <data name="DemoEditorOpinion" xml:space="preserve"><value>Aviz favorabil sub rezerva{0}.</value></data>
+  <data name="DemoEditorOpinionNote" xml:space="preserve"><value>verifică termenul</value></data>
+  <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>sub rezerva</value></data>
+  <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> verificării</value></data>
+  <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Un paragraf {0}.</value></data>
+  <data name="DemoEditorReportImportant" xml:space="preserve"><value>important</value></data>
+  <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Primul punct</value></data>
+  <data name="DemoEditorReportSecondPoint" xml:space="preserve"><value>Al doilea punct</value></data>
+  <data name="DemoEditorBodyGreeting" xml:space="preserve"><value>Stimată doamnă, stimate domn,</value></data>
+  <data name="DemoEditorBodyText" xml:space="preserve"><value>Dosarul dumneavoastră a fost primit.</value></data>
+  <data name="DemoEditorEmptyFile" xml:space="preserve"><value>Un fișier este gol.</value></data>
+  <data name="DemoChoiceShippingLabel" xml:space="preserve"><value>Mod de expediere</value></data>
+  <data name="DemoChoiceExtrasLabel" xml:space="preserve"><value>Opțiunile dosarului</value></data>
+  <data name="DemoChoicePeriodLabel" xml:space="preserve"><value>Perioadă</value></data>
+  <data name="DemoChoicePin" xml:space="preserve"><value>Fixează</value></data>
+  <data name="DemoChoiceUnavailable" xml:space="preserve"><value>Indisponibil</value></data>
+  <data name="DemoChoiceSaving" xml:space="preserve"><value>Se salvează</value></data>
+  <data name="DemoChoiceLabelledCheck" xml:space="preserve"><value>Casetă cu eticheta sa</value></data>
+  <data name="DemoChoiceTriStateCheck" xml:space="preserve"><value>Casetă cu trei stări</value></data>
+  <data name="DemoChoiceTriStateSwitch" xml:space="preserve"><value>Comutator cu trei stări</value></data>
+  <data name="DemoChoiceTriStateValue" xml:space="preserve"><value>Stare cu trei poziții: {0}</value></data>
+  <data name="DemoChoiceIndeterminate" xml:space="preserve"><value>nedeterminat</value></data>
+  <data name="DemoChoiceOn" xml:space="preserve"><value>activat</value></data>
+  <data name="DemoChoiceOff" xml:space="preserve"><value>dezactivat</value></data>
+  <data name="DemoChoiceTextFirstCheck" xml:space="preserve"><value>Etichetă înaintea casetei</value></data>
+  <data name="DemoChoiceTextFirstSwitch" xml:space="preserve"><value>Etichetă înaintea comutatorului</value></data>
+  <data name="DemoChoicePlatformLabel" xml:space="preserve"><value>Sistemul agentului</value></data>
+  <data name="DemoChoiceWindowsDescription" xml:space="preserve"><value>Windows Server 2022 și versiuni ulterioare</value></data>
+  <data name="DemoChoiceFeaturesLabel" xml:space="preserve"><value>Funcțiile agentului</value></data>
+  <data name="DemoChoiceRunnerTitle" xml:space="preserve"><value>Executor de pipeline-uri</value></data>
+  <data name="DemoChoiceRunnerDescription" xml:space="preserve"><value>Rulează pașii pe această mașină.</value></data>
+  <data name="DemoChoiceDockerDescription" xml:space="preserve"><value>Impus de executor.</value></data>
+  <data name="DemoChoiceRating" xml:space="preserve"><value>Evaluare</value></data>
+  <data name="DemoChoiceRatingReadOnly" xml:space="preserve"><value>Evaluare doar în citire</value></data>
+  <data name="DemoChoiceRatingDisabled" xml:space="preserve"><value>Evaluare dezactivată</value></data>
+  <data name="DemoChoiceShippingStandard" xml:space="preserve"><value>Standard</value></data>
+  <data name="DemoChoiceShippingExpress" xml:space="preserve"><value>Expres</value></data>
+  <data name="DemoChoiceShippingPickup" xml:space="preserve"><value>Ridicare de la agenție</value></data>
+  <data name="DemoChoiceExtraReceipt" xml:space="preserve"><value>Confirmare de primire</value></data>
+  <data name="DemoChoiceExtraCertifiedCopy" xml:space="preserve"><value>Copie certificată</value></data>
+  <data name="DemoChoiceExtraTracking" xml:space="preserve"><value>Urmărire prin e-mail</value></data>
+  <data name="DemoChoicePeriodDay" xml:space="preserve"><value>Zi</value></data>
+  <data name="DemoChoicePeriodMonth" xml:space="preserve"><value>Lună</value></data>
+  <data name="DemoChoicePeriodYear" xml:space="preserve"><value>An</value></data>
+  <data name="DemoChoiceFeatureCache" xml:space="preserve"><value>Cache pentru dependențe</value></data>
+  <data name="DemoChoiceFeatureArtifacts" xml:space="preserve"><value>Păstrarea artefactelor</value></data>
+  <data name="DemoChoiceFeatureGpu" xml:space="preserve"><value>Accelerare GPU</value></data>
+  <data name="DemoInputsAmount" xml:space="preserve"><value>Sumă</value></data>
+  <data name="DemoInputsQuantity" xml:space="preserve"><value>Cantitate</value></data>
+  <data name="DemoInputsQuantityHelp" xml:space="preserve"><value>Între {0} și {1}: o valoare în afara limitelor este readusă la limita cea mai apropiată.</value></data>
+  <data name="DemoInputsPassword" xml:space="preserve"><value>Parolă</value></data>
+  <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Butonul dezvăluie textul introdus fără a-l copia în altă parte.</value></data>
+  <data name="DemoInputsDate" xml:space="preserve"><value>Data intrării în vigoare</value></data>
+  <data name="DemoInputsDateHelp" xml:space="preserve"><value>Introducere de la tastatură sau calendar; zilele din afara limitelor nu pot fi alese.</value></data>
+  <data name="DemoInputsStart" xml:space="preserve"><value>Ora de început</value></data>
+  <data name="DemoInputsStartHelp" xml:space="preserve"><value>Ore de la 00 la 23, minute în pași de {0}.</value></data>
+  <data name="DemoInputsAppointment" xml:space="preserve"><value>Programare</value></data>
+  <data name="DemoInputsAppointmentHelp" xml:space="preserve"><value>Calendar și coloane de oră în același panou.</value></data>
+  <data name="DemoInputsColor" xml:space="preserve"><value>Culoare de marcaj</value></data>
+  <data name="DemoInputsCity" xml:space="preserve"><value>Oraș</value></data>
+  <data name="DemoInputsCityHelp" xml:space="preserve"><value>Căutarea începe de la două caractere.</value></data>
+  <data name="DemoInputsCityPlaceholder" xml:space="preserve"><value>Începeți să scrieți</value></data>
+  <data name="DemoInputsPickedSummary" xml:space="preserve"><value>Dată: {0}; oră: {1}; programare: {2}</value></data>
+  <data name="DemoInputsNoDate" xml:space="preserve"><value>niciuna</value></data>
+  <data name="DemoInputsNoTime" xml:space="preserve"><value>niciuna</value></data>
+  <data name="DemoInputsNoAppointment" xml:space="preserve"><value>niciuna</value></data>
+  <data name="DemoFormName" xml:space="preserve"><value>Nume complet</value></data>
+  <data name="DemoFormNameHelp" xml:space="preserve"><value>Așa cum va apărea pe factură.</value></data>
+  <data name="DemoFormNotes" xml:space="preserve"><value>Observații</value></data>
+  <data name="DemoFormEmail" xml:space="preserve"><value>Adresă de e-mail</value></data>
+  <data name="DemoFormEmailHelp" xml:space="preserve"><value>Tipul alege tastatura mobilă și completarea automată a browserului.</value></data>
+  <data name="DemoFormPhone" xml:space="preserve"><value>Telefon</value></data>
+  <data name="DemoFormWebsite" xml:space="preserve"><value>Site web</value></data>
+  <data name="DemoFormSearch" xml:space="preserve"><value>Caută</value></data>
+  <data name="DemoFormSearchPlaceholder" xml:space="preserve"><value>Filtrează lista</value></data>
+  <data name="DemoFormBudget" xml:space="preserve"><value>Buget</value></data>
+  <data name="DemoFormTerms" xml:space="preserve"><value>Accept condițiile de utilizare</value></data>
+  <data name="DemoFormAlerts" xml:space="preserve"><value>Primește alerte</value></data>
+  <data name="DemoFormDynamicValues" xml:space="preserve"><value>Valorile formularului: {0}</value></data>
+  <data name="DemoFormDynamicName" xml:space="preserve"><value>Nume</value></data>
+  <data name="DemoFormDynamicAmount" xml:space="preserve"><value>Sumă</value></data>
+  <data name="DemoFormDynamicComment" xml:space="preserve"><value>Comentariu</value></data>
+  <data name="DemoFormDynamicActive" xml:space="preserve"><value>Activ</value></data>
+  <data name="DemoValidationName" xml:space="preserve"><value>Nume</value></data>
+  <data name="DemoValidationNameRequired" xml:space="preserve"><value>Numele este obligatoriu.</value></data>
+  <data name="DemoValidationMail" xml:space="preserve"><value>E-mail</value></data>
+  <data name="DemoValidationMailRequired" xml:space="preserve"><value>E-mailul este obligatoriu.</value></data>
+  <data name="DemoValidationSend" xml:space="preserve"><value>Trimite</value></data>
+  <data name="DemoValidationAccepted" xml:space="preserve"><value>Formularul a fost acceptat.</value></data>
+  <data name="DemoValidationProjectName" xml:space="preserve"><value>Numele proiectului</value></data>
+  <data name="DemoValidationOwnerMail" xml:space="preserve"><value>E-mailul responsabilului</value></data>
+  <data name="DemoValidationMailConfirmation" xml:space="preserve"><value>Confirmarea e-mailului</value></data>
+  <data name="DemoValidationReplicas" xml:space="preserve"><value>Replici</value></data>
+  <data name="DemoValidationCheck" xml:space="preserve"><value>Verifică</value></data>
+  <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Simulează modificări nesalvate</value></data>
+  <data name="DemoSelectionCountry" xml:space="preserve"><value>Țară</value></data>
+  <data name="DemoSelectionCountryPlaceholder" xml:space="preserve"><value>Alegeți o țară</value></data>
+  <data name="DemoSelectionCities" xml:space="preserve"><value>Orașe deservite</value></data>
+  <data name="DemoSelectionTags" xml:space="preserve"><value>Etichete</value></data>
+  <data name="DemoSelectionTagsCompact" xml:space="preserve"><value>Etichete, formă compactă</value></data>
+  <data name="DemoSelectionTagsFilterable" xml:space="preserve"><value>Etichete, căutare și creare</value></data>
+  <data name="DemoSelectionTagsPlaceholder" xml:space="preserve"><value>Alegeți etichete</value></data>
+  <data name="DemoSelectionTagSearchPlaceholder" xml:space="preserve"><value>Căutați o etichetă</value></data>
+  <data name="DemoSelectionBelgium" xml:space="preserve"><value>Belgia</value></data>
+  <data name="DemoSelectionFrance" xml:space="preserve"><value>Franța</value></data>
+  <data name="DemoSelectionLuxembourg" xml:space="preserve"><value>Luxemburg</value></data>
+  <data name="DemoSelectionNetherlands" xml:space="preserve"><value>Țările de Jos</value></data>
+  <data name="DemoSelectionTagUrgent" xml:space="preserve"><value>Urgent</value></data>
+  <data name="DemoSelectionTagInternal" xml:space="preserve"><value>Intern</value></data>
+  <data name="DemoSelectionTagArchived" xml:space="preserve"><value>Arhivat</value></data>
+  <data name="DemoFlowsCreateServer" xml:space="preserve"><value>Creează serverul</value></data>
+  <data name="DemoFlowsStepIdentity" xml:space="preserve"><value>Identitate</value></data>
+  <data name="DemoFlowsNameHelp" xml:space="preserve"><value>Următorul devine disponibil imediat ce este introdus numele.</value></data>
+  <data name="DemoFlowsServerName" xml:space="preserve"><value>Numele serverului</value></data>
+  <data name="DemoFlowsStepOptions" xml:space="preserve"><value>Opțiuni</value></data>
+  <data name="DemoFlowsDailyBackup" xml:space="preserve"><value>Copie de rezervă zilnică</value></data>
+  <data name="DemoFlowsBackupRequired" xml:space="preserve"><value>Bifați copia de rezervă zilnică pentru un server de producție.</value></data>
+  <data name="DemoFlowsStepSummary" xml:space="preserve"><value>Rezumat</value></data>
+  <data name="DemoFlowsSummaryName" xml:space="preserve"><value>Nume</value></data>
+  <data name="DemoFlowsSummaryBackup" xml:space="preserve"><value>Copie de rezervă</value></data>
+  <data name="DemoFlowsBackupDaily" xml:space="preserve"><value>Zilnică</value></data>
+  <data name="DemoFlowsBackupNone" xml:space="preserve"><value>Niciuna</value></data>
+  <data name="DemoFlowsOutcome" xml:space="preserve"><value>Rezultat: {0}</value></data>
+  <data name="DemoFlowsOutcomePending" xml:space="preserve"><value>în curs</value></data>
+  <data name="DemoFlowsOutcomeCreated" xml:space="preserve"><value>serverul „{0}” a fost creat</value></data>
+  <data name="DemoFlowsOutcomeCancelled" xml:space="preserve"><value>anulat</value></data>
+  <data name="DemoFlowsWizardInDialog" xml:space="preserve"><value>Expert într-un dialog</value></data>
+  <data name="DemoFlowsInviteTitle" xml:space="preserve"><value>Invită un membru</value></data>
+  <data name="DemoFlowsInviteSteps" xml:space="preserve"><value>Pașii invitației</value></data>
+  <data name="DemoFlowsInvite" xml:space="preserve"><value>Invită</value></data>
+  <data name="DemoFlowsStepAddress" xml:space="preserve"><value>Adresă</value></data>
+  <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Adresa persoanei invitate.</value></data>
+  <data name="DemoFlowsStepRole" xml:space="preserve"><value>Rol</value></data>
+  <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Rolul pe care îl va primi.</value></data>
+  <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Spațiu de administrare</value></data>
+  <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Operațiuni</value></data>
+  <data name="DemoFlowsUser" xml:space="preserve"><value>Nume de utilizator</value></data>
+  <data name="DemoFlowsPassword" xml:space="preserve"><value>Parolă</value></data>
+  <data name="DemoFlowsSignIn" xml:space="preserve"><value>Conectare</value></data>
+  <data name="DemoFlowsSignInNote" xml:space="preserve"><value>Formular transmis gazdei pentru „{0}”.</value></data>
+  <data name="DemoFlowsReturnAfterSignIn" xml:space="preserve"><value>Revenire după conectare: {0}</value></data>
+  <data name="DemoFlowsExternalRefused" xml:space="preserve"><value>Adresă externă refuzată: {0}</value></data>
+  <data name="DemoFlowsSimulateDrop" xml:space="preserve"><value>Simulează o întrerupere</value></data>
+  <data name="DemoFlowsSimulateReject" xml:space="preserve"><value>Simulează un refuz</value></data>
+  <data name="DemoFlowsConnection" xml:space="preserve"><value>Conexiune: {0}</value></data>
+  <data name="DemoFlowsConnectionReconnecting" xml:space="preserve"><value>reconectare</value></data>
+  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>eșec</value></data>
+  <data name="DemoFlowsConnectionRejected" xml:space="preserve"><value>refuzată</value></data>
+  <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>stabilită</value></data>
+  <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>serverul nu mai răspunde (timp expirat)</value></data>
+  <data name="DemoFlowsReasonExpired" xml:space="preserve"><value>sesiune expirată pe server</value></data>
+  <data name="DemoTreeLabel" xml:space="preserve"><value>Arborescența folderelor</value></data>
+  <data name="DemoTreeEurope" xml:space="preserve"><value>Europa</value></data>
+  <data name="DemoTreeBelgium" xml:space="preserve"><value>Belgia</value></data>
+  <data name="DemoTreeCapitalText" xml:space="preserve"><value>{0}, capitală</value></data>
+  <data name="DemoTreeCapital" xml:space="preserve"><value>capitală</value></data>
+  <data name="DemoTreeFrance" xml:space="preserve"><value>Franța</value></data>
+  <data name="DemoTreeLuxembourg" xml:space="preserve"><value>Luxemburg</value></data>
+  <data name="DemoTreeArchives" xml:space="preserve"><value>Arhive, încărcate la deschidere</value></data>
+  <data name="DemoTreeSelection" xml:space="preserve"><value>Selecție: {0}</value></data>
+  <data name="DemoTreeNoSelection" xml:space="preserve"><value>niciuna</value></data>
+  <data name="DemoSpreadsheetLabel" xml:space="preserve"><value>Bugetul trimestrului</value></data>
+  <data name="DemoSpreadsheetStatus" xml:space="preserve"><value>Celula activă: {0}. Totalul trimestrului: {1}</value></data>
+  <data name="DemoSpreadsheetReadOnlyLabel" xml:space="preserve"><value>Același buget, doar în citire</value></data>
+  <data name="DemoSpreadsheetItem" xml:space="preserve"><value>Poziție</value></data>
+  <data name="DemoSpreadsheetJanuary" xml:space="preserve"><value>Ianuarie</value></data>
+  <data name="DemoSpreadsheetFebruary" xml:space="preserve"><value>Februarie</value></data>
+  <data name="DemoSpreadsheetMarch" xml:space="preserve"><value>Martie</value></data>
+  <data name="DemoSpreadsheetQuarter" xml:space="preserve"><value>Trimestru</value></data>
+  <data name="DemoSpreadsheetRent" xml:space="preserve"><value>Chirie</value></data>
+  <data name="DemoSpreadsheetGroceries" xml:space="preserve"><value>Cumpărături</value></data>
+  <data name="DemoSpreadsheetEnergy" xml:space="preserve"><value>Energie</value></data>
+  <data name="DemoSpreadsheetTransport" xml:space="preserve"><value>Transport</value></data>
+  <data name="DemoSpreadsheetLeisure" xml:space="preserve"><value>Timp liber</value></data>
+  <data name="DemoSpreadsheetTotal" xml:space="preserve"><value>Total</value></data>
+  <data name="DemoSpreadsheetAverage" xml:space="preserve"><value>Medie</value></data>
+  <data name="DemoDiagramReadOnly" xml:space="preserve"><value>Doar citire</value></data>
+  <data name="DemoDiagramMindMapLabel" xml:space="preserve"><value>Hartă mentală: pregătirea unei mutări</value></data>
+  <data name="DemoDiagramGitGraphLabel" xml:space="preserve"><value>Istoric cu o ramură îmbinată</value></data>
+  <data name="DemoDiagramMapSummary" xml:space="preserve"><value>{0} noduri, {1} legături, {2} caractere după salvare.</value></data>
+  <data name="DemoDiagramNewIdea" xml:space="preserve"><value>Idee nouă</value></data>
+  <data name="DemoDiagramNodeMove" xml:space="preserve"><value>Mutare</value></data>
+  <data name="DemoDiagramNodePaperwork" xml:space="preserve"><value>Formalități</value></data>
+  <data name="DemoDiagramNodeAddress" xml:space="preserve"><value>Schimbarea adresei</value></data>
+  <data name="DemoDiagramNodeInsurance" xml:space="preserve"><value>Asigurarea locuinței</value></data>
+  <data name="DemoDiagramNodeBoxes" xml:space="preserve"><value>Cutii</value></data>
+  <data name="DemoDiagramNodeKitchen" xml:space="preserve"><value>Bucătărie</value></data>
+  <data name="DemoDiagramNodeBooks" xml:space="preserve"><value>Cărți</value></data>
+  <data name="DemoDiagramNodeMovingDay" xml:space="preserve"><value>Ziua Z</value></data>
+  <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Rezervă camionul</value></data>
+  <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Anunță vecinii</value></data>
+  <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Înainte de 15</value></data>
 </root>

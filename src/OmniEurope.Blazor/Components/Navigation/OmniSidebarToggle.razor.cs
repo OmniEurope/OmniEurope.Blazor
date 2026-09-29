@@ -1,13 +1,21 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// The button that opens and closes an <see cref="OmniSidebar"/>, rendered with <c>aria-controls</c> and
+/// <c>aria-expanded</c>. It is controlled: a click raises <see cref="OpenChanged"/> with the opposite of
+/// <see cref="Open"/>. Its accessible name is <see cref="Label"/>, localized by default.
+/// </summary>
 public partial class OmniSidebarToggle
 {
+    /// <summary>The <c>id</c> of the sidebar the toggle controls, rendered as <c>aria-controls</c>. Required.</summary>
     [Parameter, EditorRequired]
     public string Controls { get; set; } = string.Empty;
 
+    /// <summary>True when the controlled sidebar is open, rendered as <c>aria-expanded</c>. False by default.</summary>
     [Parameter]
     public bool Open { get; set; }
 
+    /// <summary>Raised on every click with the opposite of <see cref="Open"/>.</summary>
     [Parameter]
     public EventCallback<bool> OpenChanged { get; set; }
 
@@ -26,6 +34,10 @@ public partial class OmniSidebarToggle
     [Parameter]
     public OmniIconName? OpenIcon { get; set; }
 
+    /// <summary>
+    /// Replaces the default glyphs, in both states. Null, the default, shows the menu glyph while closed
+    /// and the glyph described on <see cref="OpenIcon"/> while open.
+    /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 

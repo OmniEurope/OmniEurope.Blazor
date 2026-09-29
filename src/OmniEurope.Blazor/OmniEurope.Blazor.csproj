@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
     <EnforceRazorCodeBehind>true</EnforceRazorCodeBehind>
+    <!-- Every public member carries an XML doc (CS1591 is an error under TreatWarningsAsErrors): the
+         file ships in the package so consumers get IntelliSense. -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>OmniEurope.Blazor</PackageId>
     <Version>1.2.0</Version>
     <Authors>OmniEurope contributors</Authors>

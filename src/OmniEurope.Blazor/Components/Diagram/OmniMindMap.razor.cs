@@ -27,7 +27,7 @@ public partial class OmniMindMap
     private const double MenuSeparatorHeight = 9;
     private const double MenuColorsHeight = 148;
     private const double MenuPadding = 14;
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-mindmap.js";
+    private const string ModulePath = Internal.OmniModules.MindMap;
 
     private readonly string _generatedId = $"omni-mindmap-{Guid.NewGuid():N}";
     private readonly List<OmniMindMapDocument> _undo = [];
@@ -112,7 +112,7 @@ public partial class OmniMindMap
     /// single node is selected any more (nothing, a link, or several nodes).
     /// </summary>
     [Parameter]
-    public EventCallback<OmniMindMapNode?> NodeSelected { get; set; }
+    public EventCallback<OmniMindMapNode?> OnNodeSelect { get; set; }
 
     /// <summary>
     /// Raised when the reader asks to rename a node (double click, F2, Enter or the context menu).
@@ -120,7 +120,7 @@ public partial class OmniMindMap
     /// its text field instead.
     /// </summary>
     [Parameter]
-    public EventCallback<OmniMindMapNode> NodeRenameRequested { get; set; }
+    public EventCallback<OmniMindMapNode> OnNodeRename { get; set; }
 
     /// <summary>Content placed above the canvas, typically an <see cref="OmniMindMapToolbar"/>.</summary>
     [Parameter]
@@ -254,6 +254,13 @@ public partial class OmniMindMap
     /// <summary>A localized text of the mind map family, for the toolbar and the panel.</summary>
     internal string Text(string name, params object[] arguments) => Localize(name, arguments);
 
+    /// <summary>
+    /// Adopts a new <see cref="Document"/> instance (null means an empty map): the first one is laid out
+    /// when it carries no positions and starts the undo history; a later one keeps the selection whose
+    /// nodes survive and leaves the history alone. Takes a new <see cref="ViewState"/>, or schedules a fit
+    /// of the whole map when the first one is null, and ends a link in progress once
+    /// <see cref="ReadOnly"/> is set.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -300,15 +307,24 @@ public partial class OmniMindMap
         }
     }
 
+    /// <summary>Raises <see cref="OnNodeSelect"/> with null when a new document dropped the selected node.</summary>
+    /// <returns>A task that completes once the event has been handled.</returns>
     protected override async Task OnParametersSetAsync()
     {
         if (_selectionNotifyPending)
         {
             _selectionNotifyPending = false;
-            await NodeSelected.InvokeAsync(SelectedNode);
+            await OnNodeSelect.InvokeAsync(SelectedNode);
         }
     }
 
+    /// <summary>
+    /// Attaches the canvas script on the first render and reads the canvas size, then runs the pending
+    /// work: measuring the node texts, fitting the map in the canvas, moving the focus to the menu or
+    /// the canvas. A lost circuit is ignored.
+    /// </summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the pending work is done.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_disposed)
@@ -376,6 +392,8 @@ public partial class OmniMindMap
         }
     }
 
+    /// <summary>Detaches the canvas script, releases its module and the script's reference to the component; a lost circuit is ignored.</summary>
+    /// <returns>A task that completes once the script is released.</returns>
     public async ValueTask DisposeAsync()
     {
         _disposed = true;
@@ -484,7 +502,7 @@ public partial class OmniMindMap
         NotifyStateChanged();
         if (hadNode)
         {
-            await NodeSelected.InvokeAsync(null);
+            await OnNodeSelect.InvokeAsync(null);
         }
     }
 
@@ -524,7 +542,7 @@ public partial class OmniMindMap
         NotifyStateChanged();
         if (hadNode)
         {
-            await NodeSelected.InvokeAsync(null);
+            await OnNodeSelect.InvokeAsync(null);
         }
     }
 
@@ -681,7 +699,7 @@ public partial class OmniMindMap
         await CommitAsync(next, Text("MindMapAnnounceDeleted", removed.Count));
         if (hadNode)
         {
-            await NodeSelected.InvokeAsync(null);
+            await OnNodeSelect.InvokeAsync(null);
         }
     }
 
@@ -879,9 +897,9 @@ public partial class OmniMindMap
             return;
         }
 
-        if (NodeRenameRequested.HasDelegate)
+        if (OnNodeRename.HasDelegate)
         {
-            await NodeRenameRequested.InvokeAsync(node);
+            await OnNodeRename.InvokeAsync(node);
         }
         else if (RenameRequested is not null)
         {
@@ -1332,7 +1350,7 @@ public partial class OmniMindMap
         await DocumentChanged.InvokeAsync(snapshot);
         if (hadNode)
         {
-            await NodeSelected.InvokeAsync(null);
+            await OnNodeSelect.InvokeAsync(null);
         }
     }
 
@@ -1356,7 +1374,7 @@ public partial class OmniMindMap
         var node = SelectedNode;
         Announce(node is null ? Text("MindMapAnnounceNoSelection") : DescribeSelection(node));
         NotifyStateChanged();
-        await NodeSelected.InvokeAsync(node);
+        await OnNodeSelect.InvokeAsync(node);
     }
 
     private async Task ClearSelectionAsync()
@@ -1370,7 +1388,7 @@ public partial class OmniMindMap
         NotifyStateChanged();
         if (hadNode)
         {
-            await NodeSelected.InvokeAsync(null);
+            await OnNodeSelect.InvokeAsync(null);
         }
     }
 

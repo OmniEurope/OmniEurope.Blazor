@@ -44,6 +44,7 @@ public partial class OmniLegend
         ChartContext?.LegendEntries(Registration)
         ?? [.. Items.Select((text, index) => new OmniChartContext.LegendEntry(text, ChartColor.Slot(index)))];
 
+    /// <summary>Registers the legend, its label, items and position, with its chart; outside a chart, nothing to register.</summary>
     protected override void OnParametersSet() => ChartContext?.RegisterLegend(this, Registration);
 
     private bool Below => ChartContext?.IsLegendBelow(this) == true;

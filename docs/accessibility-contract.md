@@ -25,13 +25,21 @@ Les couleurs d'état ne sont jamais l'unique information : texte, icône, rôle 
 ## Focus d'ouverture d'une surcouche (exception documentée à `STD-FOCUS`)
 
 La règle `STD-FOCUS` du kit `_Generic` interdit `autofocus` : une page ne réclame jamais le focus
-d'elle-même au démarrage ni pendant la navigation. Deux composants de la bibliothèque portent
+d'elle-même au démarrage ni pendant la navigation. Un seul élément de la bibliothèque porte
 pourtant cet attribut, et c'est voulu :
 
 | Composant | Élément | Pourquoi |
 |---|---|---|
-| `OmniSplitButton` | `div.omni-split-button__menu`, `role="menu"`, `tabindex="-1"` | Le menu n'existe dans le DOM qu'après un clic de l'utilisateur sur le chevron. Le focus doit entrer dans le menu pour que `Échap`, les flèches et le piège de focus fonctionnent (`omni-focus.js`, `activateMenu` ; `restoreFocus` rend le focus au déclencheur à la fermeture). |
-| `OmniDialog` | `button.omni-dialog__close` | Le dialogue est modal (`role="dialog"`, `aria-modal="true"`) et ouvert par l'utilisateur. Déplacer le focus dans le dialogue à l'ouverture est exigé par `STD-DIALOG` ; le bouton de fermeture est la cible la moins destructrice. Le balisage est figé par `OptInEvolutionTests`. |
+| `OmniDialog` | `button.omni-dialog__close`, seulement sur un dialogue modal qui a une croix (`autofocus="@Modal"`) | Le dialogue est modal (`role="dialog"`, `aria-modal="true"`) et ouvert par l'utilisateur. Déplacer le focus dans le dialogue à l'ouverture est exigé par `STD-DIALOG` ; le bouton de fermeture est la cible la moins destructrice. Le balisage est figé par `OptInEvolutionTests`. |
+
+Les menus n'utilisent pas `autofocus` (le bouton scindé le portait avant PLAN-007, exception retirée
+de `.config/verify-rules.json`). Un seul moteur, dans `omni-focus.js`, sert les menus de débordement
+(`OmniOverflowMenu`), contextuel (`OmniContextMenu`), du bouton scindé (`OmniSplitButton`), du profil
+(`OmniProfileMenu`) et le menu contextuel d'`OmniHtmlEditor` :
+
+- `openMenu` pose le menu dans le portail d'`OmniComponentsHost`, le garde dans la fenêtre (au-dessus du déclencheur faute de place en dessous) et donne le focus à sa première entrée, ou à la dernière quand la flèche haut l'a ouvert ;
+- les touches sont routées par .NET, et `moveMenuFocus` parcourt les entrées (flèches, Début, Fin) ;
+- `closeMenu` rend le focus au déclencheur sur Échap, sur le choix d'une entrée ou sur un nouvel appui du déclencheur ; Tab ferme le menu et reprend l'ordre de tabulation depuis le déclencheur ; un appui hors du menu le ferme sans reprendre le focus quand celui-ci est parti sur un autre contrôle.
 
 Le focus d'ouverture d'`OmniDialog` dépend de sa forme (`omni-focus.js`, `activateDialog` et `activateWindow`, qui visent le premier élément focalisable du dialogue, sentinelles exclues) :
 
@@ -41,7 +49,7 @@ Le focus d'ouverture d'`OmniDialog` dépend de sa forme (`omni-focus.js`, `activ
 
 À la fermeture, le focus revient à l'élément qui l'avait avant l'ouverture (`restoreFocus`).
 
-Dans les deux cas le focus suit une action de l'utilisateur sur une surcouche qu'il vient d'ouvrir,
+Dans tous ces cas le focus suit une action de l'utilisateur sur une surcouche qu'il vient d'ouvrir,
 jamais un rendu de page. L'exclusion mécanique correspondante est déclarée dans
 `.config/verify-rules.json` avec cette section pour raison.
 

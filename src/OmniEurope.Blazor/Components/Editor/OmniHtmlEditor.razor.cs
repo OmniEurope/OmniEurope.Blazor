@@ -18,9 +18,9 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniHtmlEditor
 {
-    private const string InteropModulePath = "./_content/OmniEurope.Blazor/omniInterop.js";
-    private const string VisualModulePath = "./_content/OmniEurope.Blazor/omni-html-editor.js";
-    private const string DownloadModulePath = "./_content/OmniEurope.Blazor/omni-document-editor.js";
+    private const string InteropModulePath = OmniModules.Interop;
+    private const string VisualModulePath = OmniModules.HtmlEditor;
+    private const string DownloadModulePath = OmniModules.DocumentEditor;
 
     private static readonly (string Value, string Key)[] BlockFormats =
     [
@@ -71,14 +71,21 @@ public partial class OmniHtmlEditor
     /// <summary>
     /// The accessible name of the editor. In the source face it is the <c>aria-label</c> of the text area,
     /// written only when set, so that the <c>label</c> of an enclosing <see cref="OmniFormField"/> names
-    /// it otherwise. The visual face is an editable <c>div</c>, which a <c>label for</c> cannot name: it,
-    /// and the region around the toolbar, fall back to the localized "HTML editor", or "word processor"
-    /// when <see cref="Sheet"/> is set.
+    /// it otherwise. The visual face is an editable <c>div</c>, which a <c>label for</c> cannot name: inside
+    /// an <see cref="OmniFormField"/> whose <c>For</c> is <see cref="OmniInputBase{TValue}.Id"/>, it and
+    /// the region around the toolbar are named by that field's label (<c>aria-labelledby</c>); elsewhere
+    /// they fall back to the localized "HTML editor", or "word processor" when <see cref="Sheet"/> is set.
     /// </summary>
     [Parameter] public string? Label { get; set; }
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label)
         ? Localize(Sheet ? "DocumentEditorLabel" : "HtmlEditorLabel")
         : Label;
+
+    /// <summary>The label of the enclosing form field when it names this editor and no <see cref="Label"/> is set.</summary>
+    private string? VisualLabelledBy => string.IsNullOrWhiteSpace(Label) ? FormFieldLabelId : null;
+
+    /// <summary>The <c>aria-label</c> of the visual face and its regions: none when a form field label names them.</summary>
+    private string? VisualAriaLabel => VisualLabelledBy is null ? EffectiveLabel : null;
 
     /// <summary>
     /// Presents the visual face as a word processor: a sheet of paper centred on a muted background,
@@ -165,6 +172,7 @@ public partial class OmniHtmlEditor
     /// <summary>Whether the source face shows a sanitised preview under the textarea. The visual face is its own preview.</summary>
     [Parameter] public bool ShowPreview { get; set; } = true;
 
+    /// <summary>Identifiers of the elements that describe the editor, written as <c>aria-describedby</c> on the visual surface and the source text area; none when null.</summary>
     [Parameter] public string? AriaDescribedBy { get; set; }
 
     /// <summary>
@@ -175,6 +183,7 @@ public partial class OmniHtmlEditor
 
     /// <summary>The face shown. The editor's own source button changes it and raises <see cref="ModeChanged"/>.</summary>
     [Parameter] public OmniHtmlEditorMode Mode { get; set; }
+    /// <summary>Raised with the new face when the editor's own source button switches it; not raised when the parent changes <see cref="Mode"/>.</summary>
     [Parameter] public EventCallback<OmniHtmlEditorMode> ModeChanged { get; set; }
 
     /// <summary>
@@ -299,6 +308,12 @@ public partial class OmniHtmlEditor
         }
     }
 
+    /// <summary>
+    /// Rebuilds the extension set when <see cref="Extensions"/> holds other instances, then checks the
+    /// merged sanitiser policy, that every custom command has an <see cref="OmniHtmlEditorCommand.Execute"/>
+    /// handler and that every shortcut names a command the editor holds.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">A custom command has no handler, or a shortcut names an unknown command.</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -323,6 +338,11 @@ public partial class OmniHtmlEditor
         }
     }
 
+    /// <summary>
+    /// Takes the first <see cref="Mode"/> as the face shown, then switches face whenever the parent
+    /// changes it, without raising <see cref="ModeChanged"/>.
+    /// </summary>
+    /// <returns>A task that completes once the face is switched.</returns>
     protected override async Task OnParametersSetAsync()
     {
         if (!_modeInitialized)
@@ -340,6 +360,13 @@ public partial class OmniHtmlEditor
         }
     }
 
+    /// <summary>
+    /// On the visual face, mounts the editing surface with the sanitised value, or pushes a changed value
+    /// or changed options to it; then focuses the link field when asked and brings the context menu script
+    /// in line with the menu's open state (placed at the pointer).
+    /// </summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the surface is up to date.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_disposed)
@@ -389,9 +416,9 @@ public partial class OmniHtmlEditor
             await _linkInput.FocusAsync();
         }
 
-        if (_menuOpen && !_menuPlaced)
+        if (_menuController is not null)
         {
-            await PlaceMenuAsync();
+            await _menuController.SyncAsync(IsMenuOpen, MenuId, _surface, OmniMenuPlacement.Pointer);
         }
     }
 
@@ -1021,23 +1048,37 @@ public partial class OmniHtmlEditor
         await InsertHtmlAsync(html);
     }
 
-    // ── Context menu: the popup and its placement are those of OmniContextMenu (omni-focus.js) ──
+    // ── Context menu: the package's one menu engine (OmniMenuController, omni-focus.js) and its
+    //    OmniMenuItem rows, opened at the pointer over the surface and drawn in place ──
 
-    private const string FocusModulePath = "./_content/OmniEurope.Blazor/omni-focus.js";
-    private bool _menuOpen;
-    private bool _menuPlaced;
-    private double _menuX;
-    private double _menuY;
-    private IJSObjectReference? _focusModule;
-    private DotNetObjectReference<HtmlEditorMenuDismissBridge>? _menuDismiss;
+    private OmniMenuController? _menuController;
+    private EditorMenu? _editorMenu;
+    private RenderFragment<RenderFragment>? _contextMenuList;
     private string MenuId => SurfaceId + "-menu";
-    private string MenuKey => SurfaceId + "-menu-focus";
 
-    internal void HandleContextMenu(double x, double y, string? selection)
+    private OmniMenuController MenuController => _menuController ??= new OmniMenuController(
+        JSRuntime,
+        restoreFocus => DispatchAsync(() => CloseMenuAsync(restoreFocus)));
+
+    private bool IsMenuOpen => _mode == OmniHtmlEditorMode.Visual && _menuController is not null && _menuController.IsOpen(null);
+
+    /// <summary>The <c>role="menu"</c> list around the given rows, drawn by the shared engine.</summary>
+    private RenderFragment<RenderFragment> ContextMenuList => _contextMenuList ??= items => builder => OmniMenuController.BuildMenuList(
+        builder,
+        this,
+        MenuId,
+        "omni-menu omni-html-editor__menu",
+        Localize("HtmlEditorContextMenu"),
+        null,
+        _editorMenu ??= new EditorMenu(this),
+        items,
+        HandleMenuKeyAsync);
+
+    internal Task HandleContextMenuAsync(double x, double y, string? selection)
     {
         if (_extensionSet.ContextMenu.Count == 0 || _mode != OmniHtmlEditorMode.Visual)
         {
-            return;
+            return Task.CompletedTask;
         }
 
         if (selection is not null)
@@ -1045,65 +1086,35 @@ public partial class OmniHtmlEditor
             _caret = OmniHtmlEditorSelection.Parse(selection);
         }
 
-        _menuX = x;
-        _menuY = y;
-        _menuOpen = true;
-        _menuPlaced = false;
+        MenuController.RequestPlacement(focusLast: false, x, y);
+        return MenuController.SetOpenAsync(true, null, default, StateHasChanged);
     }
 
-    private async Task PlaceMenuAsync()
-    {
-        _menuPlaced = true;
-        _focusModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", FocusModulePath);
-        _menuDismiss ??= DotNetObjectReference.Create(new HtmlEditorMenuDismissBridge(this));
-        await _focusModule.InvokeVoidAsync("openContextMenu", MenuId, MenuKey, _surface, _menuX, _menuY, _menuDismiss);
-    }
-
-    internal async Task CloseMenuAsync()
-    {
-        if (!_menuOpen)
-        {
-            return;
-        }
-
-        _menuOpen = false;
-        _menuPlaced = false;
-        if (_focusModule is not null)
-        {
-            await _focusModule.InvokeVoidAsync("closeContextMenu", MenuKey);
-        }
-    }
+    /// <summary>Closes the context menu; the focus goes back to the surface with <paramref name="restoreFocus"/>.</summary>
+    internal Task CloseMenuAsync(bool restoreFocus) => _menuController is null
+        ? Task.CompletedTask
+        : _menuController.SetOpenAsync(false, null, default, StateHasChanged, restoreFocus);
 
     /// <summary>
-    /// Runs an entry of the context menu where the menu was opened, then lets the menu go. The command does
-    /// not wait for the focus to come back: that waits for a frame, which a page not being drawn never has.
+    /// Runs an entry of the context menu where the menu was opened. The item has already closed the menu
+    /// and given the focus back to the surface; the selection the menu opened on is put back first.
     /// </summary>
     private async Task RunFromMenuAsync(OmniHtmlEditorCommand command)
     {
-        _menuOpen = false;
-        _menuPlaced = false;
         if (_mounted && _visualModule is not null)
         {
             await _visualModule.InvokeVoidAsync("restoreMenuSelection", _surface);
         }
 
         await RunAsync(command);
-        if (_focusModule is not null)
-        {
-            await _focusModule.InvokeVoidAsync("closeContextMenu", MenuKey);
-        }
     }
 
-    private async Task HandleMenuKeyAsync(KeyboardEventArgs args)
+    private Task HandleMenuKeyAsync(KeyboardEventArgs args) => MenuController.HandleMenuKeyAsync(args, MenuId, CloseMenuAsync);
+
+    /// <summary>What the <see cref="OmniMenuItem"/> rows of the context menu close when chosen.</summary>
+    private sealed class EditorMenu(OmniHtmlEditor owner) : IOmniMenu
     {
-        if (args.Key == "Escape")
-        {
-            await CloseMenuAsync();
-        }
-        else if (args.Key is "ArrowDown" or "ArrowUp" or "Home" or "End" && _focusModule is not null)
-        {
-            await _focusModule.InvokeVoidAsync("moveContextMenuFocus", MenuId, args.Key);
-        }
+        public Task CloseAsync(bool restoreFocus) => owner.CloseMenuAsync(restoreFocus);
     }
 
     private async Task SwitchModeAsync(OmniHtmlEditorMode target, bool notify)
@@ -1115,6 +1126,8 @@ public partial class OmniHtmlEditor
 
         if (_mode == OmniHtmlEditorMode.Visual)
         {
+            // The context menu belongs to the visual surface: it must not come back with it.
+            await CloseMenuAsync(restoreFocus: false);
             await CaptureVisualAsync();
             await UnmountAsync();
         }
@@ -1339,6 +1352,11 @@ public partial class OmniHtmlEditor
 
     private static string ScriptName(OmniHtmlEditorAction action) => action.ToString().ToLowerInvariant();
 
+    /// <summary>Takes the text as the value once sanitised with the editor's policy; parsing never fails.</summary>
+    /// <param name="value">The HTML to parse.</param>
+    /// <param name="result">The sanitised HTML.</param>
+    /// <param name="validationErrorMessage">Always null.</param>
+    /// <returns>Always true.</returns>
     protected override bool TryParseValueFromString(string? value, out string result, out string validationErrorMessage)
     {
         result = Clean(value);
@@ -1346,6 +1364,12 @@ public partial class OmniHtmlEditor
         return true;
     }
 
+    /// <summary>
+    /// Releases the form subscription, disposes the visual surface, detaches the script from a context
+    /// menu still open, and releases the script modules and the script's reference to the component; a
+    /// lost circuit is ignored.
+    /// </summary>
+    /// <returns>A task that completes once everything is released.</returns>
     public async ValueTask DisposeAsync()
     {
         _disposed = true;
@@ -1369,21 +1393,10 @@ public partial class OmniHtmlEditor
             }
         }
 
-        if (_focusModule is not null)
+        if (_menuController is not null)
         {
-            try
-            {
-                if (_menuOpen)
-                {
-                    await _focusModule.InvokeVoidAsync("closeContextMenu", MenuKey);
-                }
-
-                await _focusModule.DisposeAsync();
-            }
-            catch (JSDisconnectedException)
-            {
-                // The circuit is already gone, and the menu listener with it.
-            }
+            // Detaches the script from a menu still open and releases its module; a lost circuit is ignored there.
+            await _menuController.DisposeAsync();
         }
 
         if (_downloadModule is not null)
@@ -1398,7 +1411,6 @@ public partial class OmniHtmlEditor
             }
         }
 
-        _menuDismiss?.Dispose();
         _bridge?.Dispose();
         GC.SuppressFinalize(this);
     }

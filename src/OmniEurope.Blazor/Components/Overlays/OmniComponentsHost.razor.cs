@@ -34,6 +34,7 @@ public partial class OmniComponentsHost
     private readonly OmniOverlayCoordinator _coordinator = new();
     private bool _ownsService;
 
+    /// <summary>Starts redrawing the host whenever a popup enters or leaves its portal.</summary>
     protected override void OnInitialized()
     {
         _coordinator.Changed += HandleChanged;

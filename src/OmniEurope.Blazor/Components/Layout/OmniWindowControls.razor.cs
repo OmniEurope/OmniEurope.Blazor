@@ -11,15 +11,22 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 public partial class OmniWindowControls
 {
+    /// <summary>Raised when the minimize-to-tray button is clicked; the button is drawn only when this is set.</summary>
     [Parameter]
     public EventCallback OnMinimizeToTray { get; set; }
 
+    /// <summary>Raised when the minimize button is clicked; the button is drawn only when this is set.</summary>
     [Parameter]
     public EventCallback OnMinimize { get; set; }
 
+    /// <summary>
+    /// Raised when the maximize or restore button is clicked; the host flips the window and
+    /// <see cref="IsMaximized"/>. The button is drawn only when this is set.
+    /// </summary>
     [Parameter]
     public EventCallback OnMaximizeRestore { get; set; }
 
+    /// <summary>Raised when the close button is clicked; the button is drawn only when this is set.</summary>
     [Parameter]
     public EventCallback OnClose { get; set; }
 
@@ -27,6 +34,7 @@ public partial class OmniWindowControls
     [Parameter]
     public bool IsMaximized { get; set; }
 
+    /// <summary>Extra header buttons, such as a theme toggle, drawn square before the caption buttons; none by default.</summary>
     [Parameter]
     public RenderFragment? Actions { get; set; }
 

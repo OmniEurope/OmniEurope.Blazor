@@ -219,7 +219,7 @@ public sealed class MindMapComponentTests : OmniBunitContext
         OmniMindMapNode? selected = null;
         var map = Render<OmniMindMap>(parameters => parameters
             .Add(component => component.Document, Sample())
-            .Add(component => component.NodeSelected, value => selected = value));
+            .Add(component => component.OnNodeSelect, value => selected = value));
         var bridge = new MindMapInteropBridge(map.Instance);
 
         await map.InvokeAsync(() => bridge.NodePressed("right"));
@@ -482,7 +482,7 @@ public sealed class MindMapComponentTests : OmniBunitContext
         var map = Render<OmniMindMap>(parameters => parameters
             .Add(component => component.Document, current)
             .Add(component => component.DocumentChanged, value => current = value)
-            .Add(component => component.NodeRenameRequested, value => renamed = value));
+            .Add(component => component.OnNodeRename, value => renamed = value));
         var bridge = new MindMapInteropBridge(map.Instance);
 
         await map.InvokeAsync(() => bridge.NodeDoubleClicked("left"));

@@ -41,6 +41,7 @@ public partial class OmniPanelMenu
     [Parameter]
     public Func<string, Task<bool>>? CanNavigate { get; set; }
 
+    /// <summary>The entries of the menu, <see cref="OmniPanelMenuItem"/> in their order, groups nesting their own.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 

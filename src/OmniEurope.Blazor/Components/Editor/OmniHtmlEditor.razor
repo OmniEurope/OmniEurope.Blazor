@@ -6,8 +6,32 @@
 @* The editor is written once and placed either alone or inside the document frame (the sheet and
    the status bar), which wraps it without changing it. *@
 @{
+    @* The rows of the context menu: the menu around them is the package's one menu (ContextMenuList). *@
+    RenderFragment contextMenuItems =
+        @<text>
+            @foreach (var command in _extensionSet.ContextMenu)
+            {
+                if (command.Action == OmniHtmlEditorAction.Separator)
+                {
+                    <span class="omni-html-editor__menu-separator" role="separator"></span>
+                    continue;
+                }
+
+                var menuIcon = IconOf(command);
+                <OmniMenuItem data-command="@command.Name" Disabled="@IsDisabled(command)" OnClick="() => RunFromMenuAsync(command)">
+                    <Icon>
+                        @if (menuIcon is { } menuIconName)
+                        {
+                            <OmniIcon Name="menuIconName" />
+                        }
+                    </Icon>
+                    <ChildContent>@LabelOf(command)</ChildContent>
+                </OmniMenuItem>
+            }
+        </text>;
+
     RenderFragment editor =
-        @<section class="@EditorClass" aria-label="@EffectiveLabel">
+        @<section class="@EditorClass" aria-label="@VisualAriaLabel" aria-labelledby="@VisualLabelledBy">
             <div class="omni-html-editor__toolbar" role="toolbar" aria-label="@Localize("HtmlEditorToolbar")" aria-controls="@SurfaceId">
                 @foreach (var (group, groupIndex) in ToolbarGroups.Select((group, index) => (group, index)))
                 {
@@ -188,33 +212,16 @@
                      tabindex="@(ReadOnly && !Disabled ? "0" : null)"
                      role="textbox"
                      aria-multiline="true"
-                     aria-label="@EffectiveLabel"
+                     aria-label="@VisualAriaLabel"
+                     aria-labelledby="@VisualLabelledBy"
                      aria-readonly="@(ReadOnly && !Disabled ? "true" : null)"
                      aria-disabled="@(Disabled ? "true" : null)"
                      aria-invalid="@AriaInvalid"
                      aria-describedby="@AriaDescribedBy"
                      spellcheck="true"></div>
-                @if (_menuOpen)
+                @if (IsMenuOpen)
                 {
-                    <div id="@MenuId" class="omni-context-menu__popup omni-html-editor__menu" role="menu" aria-label="@Localize("HtmlEditorContextMenu")" tabindex="-1" @onkeydown="HandleMenuKeyAsync">
-                        @foreach (var command in _extensionSet.ContextMenu)
-                        {
-                            if (command.Action == OmniHtmlEditorAction.Separator)
-                            {
-                                <span class="omni-html-editor__menu-separator" role="separator"></span>
-                                continue;
-                            }
-        
-                            var menuIcon = IconOf(command);
-                            <button type="button" class="omni-html-editor__menu-item" role="menuitem" data-command="@command.Name" disabled="@IsDisabled(command)" @onmousedown:preventDefault @onclick="() => RunFromMenuAsync(command)">
-                                @if (menuIcon is { } menuIconName)
-                                {
-                                    <OmniIcon Name="menuIconName" />
-                                }
-                                <span>@LabelOf(command)</span>
-                            </button>
-                        }
-                    </div>
+                    @ContextMenuList(contextMenuItems)
                 }
             }
             else
@@ -242,7 +249,7 @@
 
 @if (Framed)
 {
-    <section class="@FrameClass" aria-label="@EffectiveLabel">
+    <section class="@FrameClass" aria-label="@VisualAriaLabel" aria-labelledby="@VisualLabelledBy">
         @editor
         @if (ShowStatusBar)
         {

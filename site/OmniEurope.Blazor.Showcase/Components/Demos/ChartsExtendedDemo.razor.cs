@@ -1,13 +1,10 @@
 using System.Globalization;
+using OmniEurope.Blazor.Showcase.Resources;
 
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class ChartsExtendedDemo
 {
-    private static readonly string[] Months = ["Jan", "Fév", "Mar", "Avr", "Mai", "Jui"];
-
-    private static readonly string[] Countries = ["Belgique", "France", "Luxembourg", "Pays-Bas"];
-
     private static readonly string[] Days =
         [.. Enumerable.Range(1, 30).Select(day => new DateOnly(2026, 9, day).ToString("dd/MM", CultureInfo.InvariantCulture))];
 
@@ -42,13 +39,32 @@ public partial class ChartsExtendedDemo
         new(1, 31), new(2, 54), new(3, 12), new(4, 40)
     ];
 
-    private static readonly IReadOnlyList<OmniChartSlice> Slices =
-    [
-        new("Guichet", 46),
-        new("Courrier", 28),
-        new("En ligne", 19),
-        new("Autre", 7)
-    ];
+    [Inject]
+    private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
+
+    // January to June, abbreviated by the culture the page runs in.
+    private string[] Months { get; } =
+        [.. Enumerable.Range(1, 6).Select(month => new DateOnly(2026, month, 1).ToString("MMM", CultureInfo.CurrentCulture))];
+
+    private string[] Countries { get; set; } = [];
+
+    private IReadOnlyList<OmniChartSlice> Slices { get; set; } = [];
+
+    protected override void OnInitialized()
+    {
+        Countries =
+        [
+            Text["DemoGridCountryBelgium"], Text["DemoGridCountryFrance"],
+            Text["DemoGridCountryLuxembourg"], Text["DemoGridCountryNetherlands"]
+        ];
+        Slices =
+        [
+            new(Text["DemoChartsExtendedSliceCounter"], 46),
+            new(Text["DemoChartsExtendedSliceMail"], 28),
+            new(Text["DemoChartsExtendedSliceOnline"], 19),
+            new(Text["DemoChartsExtendedSliceOther"], 7)
+        ];
+    }
 
     private static string FormatPercent(double value) =>
         (value / 100).ToString("P0", CultureInfo.CurrentCulture);

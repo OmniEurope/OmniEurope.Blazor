@@ -35,7 +35,7 @@
   <data name="PillarA11yTitle" xml:space="preserve"><value>Pristupačnost potvrđena testovima</value></data>
   <data name="PillarA11yBody" xml:space="preserve"><value>Uloge, stanja i oznake provjerava skup testova, a ne samo dokumentacija.</value></data>
   <data name="PillarWeightTitle" xml:space="preserve"><value>Nadzirana veličina</value></data>
-  <data name="PillarWeightBody" xml:space="preserve"><value>Objavljeni paket mjeri se pri svakom buildu prema proračunu bajtova, uključujući list stilova.</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Kontinuirana integracija provjerava je li isporučeni list stilova minificirana kopija te mjeri asemblij i NuGet paket prema proračunu veličine.</value></data>
   <data name="DocsPageTitle" xml:space="preserve"><value>Dokumentacija</value></data>
   <data name="DocsTitle" xml:space="preserve"><value>Dokumentacija</value></data>
   <data name="DocsLead" xml:space="preserve"><value>Od instalacije paketa do prve prilagođene teme, u pet koraka.</value></data>
@@ -579,4 +579,919 @@
   <data name="VFormNotSaved" xml:space="preserve"><value>Ispravite označena polja prije spremanja.</value></data>
   <data name="VFormDescriptionValue" xml:space="preserve"><value>Implementira glavnu granu nakon što prođu testovi prihvaćanja.</value></data>
   <data name="GridFiledColumn" xml:space="preserve"><value>Predano</value></data>
+  <data name="DemoGridOpenCases" xml:space="preserve"><value>Otvoreni predmeti</value></data>
+  <data name="DemoGridRecentRuns" xml:space="preserve"><value>Nedavna izvođenja</value></data>
+  <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Dugi tekst u uskom stupcu</value></data>
+  <data name="DemoGridShortCaption" xml:space="preserve"><value>Tri predmeta, visina prema sadržaju</value></data>
+  <data name="DemoGridLongCaption" xml:space="preserve"><value>Deset tisuća predmeta, najviše 18rem</value></data>
+  <data name="DemoGridColumnReference" xml:space="preserve"><value>Referenca</value></data>
+  <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Podnositelj</value></data>
+  <data name="DemoGridColumnCountry" xml:space="preserve"><value>Zemlja</value></data>
+  <data name="DemoGridColumnAmount" xml:space="preserve"><value>Iznos</value></data>
+  <data name="DemoGridCountryBelgium" xml:space="preserve"><value>Belgija</value></data>
+  <data name="DemoGridCountryFrance" xml:space="preserve"><value>Francuska</value></data>
+  <data name="DemoGridCountryLuxembourg" xml:space="preserve"><value>Luksemburg</value></data>
+  <data name="DemoGridCountryNetherlands" xml:space="preserve"><value>Nizozemska</value></data>
+  <data name="DemoGridStatusPending" xml:space="preserve"><value>Na čekanju</value></data>
+  <data name="DemoGridExportFileName" xml:space="preserve"><value>otvoreni-predmeti</value></data>
+  <data name="DemoGridExportSort" xml:space="preserve"><value>Sortiranje</value></data>
+  <data name="DemoGridExportSortValue" xml:space="preserve"><value>referenca, uzlazno</value></data>
+  <data name="DemoGridAdvancedLines" xml:space="preserve"><value>Crte</value></data>
+  <data name="DemoGridAdvancedDensity" xml:space="preserve"><value>Gustoća</value></data>
+  <data name="DemoGridAdvancedPager" xml:space="preserve"><value>Straničenje</value></data>
+  <data name="DemoGridAdvancedSelection" xml:space="preserve"><value>Odabir</value></data>
+  <data name="DemoGridAdvancedFilters" xml:space="preserve"><value>Filtri</value></data>
+  <data name="DemoGridAdvancedEdit" xml:space="preserve"><value>Uređivanje</value></data>
+  <data name="DemoGridAdvancedExpand" xml:space="preserve"><value>Proširivanje</value></data>
+  <data name="DemoGridAdvancedFooter" xml:space="preserve"><value>Podnožje tablice</value></data>
+  <data name="DemoGridAdvancedLinesNone" xml:space="preserve"><value>Nijedne</value></data>
+  <data name="DemoGridAdvancedLinesHorizontal" xml:space="preserve"><value>Vodoravne</value></data>
+  <data name="DemoGridAdvancedLinesVertical" xml:space="preserve"><value>Okomite</value></data>
+  <data name="DemoGridAdvancedLinesBoth" xml:space="preserve"><value>Obje</value></data>
+  <data name="DemoGridAdvancedDensityCompact" xml:space="preserve"><value>Kompaktna</value></data>
+  <data name="DemoGridAdvancedDensityComfortable" xml:space="preserve"><value>Udobna</value></data>
+  <data name="DemoGridAdvancedDensitySpacious" xml:space="preserve"><value>Prozračna</value></data>
+  <data name="DemoGridAdvancedPagerBottom" xml:space="preserve"><value>Dolje</value></data>
+  <data name="DemoGridAdvancedPagerTop" xml:space="preserve"><value>Gore</value></data>
+  <data name="DemoGridAdvancedPagerBoth" xml:space="preserve"><value>Gore i dolje</value></data>
+  <data name="DemoGridAdvancedSelectionNone" xml:space="preserve"><value>Nijedan</value></data>
+  <data name="DemoGridAdvancedSelectionSingle" xml:space="preserve"><value>Jedan redak</value></data>
+  <data name="DemoGridAdvancedSelectionMultiple" xml:space="preserve"><value>Više redaka</value></data>
+  <data name="DemoGridAdvancedFilterSimple" xml:space="preserve"><value>Polje u zaglavlju</value></data>
+  <data name="DemoGridAdvancedFilterSimpleWithMenu" xml:space="preserve"><value>Polje i izbornik</value></data>
+  <data name="DemoGridAdvancedFilterAdvanced" xml:space="preserve"><value>Izbornik s dva uvjeta</value></data>
+  <data name="DemoGridAdvancedEditSingle" xml:space="preserve"><value>Jedan po jedan redak</value></data>
+  <data name="DemoGridAdvancedEditMultiple" xml:space="preserve"><value>Više redaka</value></data>
+  <data name="DemoGridAdvancedExpandSingle" xml:space="preserve"><value>Jedna otvorena grupa</value></data>
+  <data name="DemoGridAdvancedExpandMultiple" xml:space="preserve"><value>Više otvorenih grupa</value></data>
+  <data name="DemoGridAdvancedFooterBottom" xml:space="preserve"><value>Ispod tablice</value></data>
+  <data name="DemoGridAdvancedFooterTop" xml:space="preserve"><value>Iznad tablice</value></data>
+  <data name="DemoGridAdvancedFooterBoth" xml:space="preserve"><value>Iznad i ispod</value></data>
+  <data name="DemoGridAdvancedCaption" xml:space="preserve"><value>Predmeti, potpuni prikaz</value></data>
+  <data name="DemoGridAdvancedTotal" xml:space="preserve"><value>Ukupno: {0:C0}</value></data>
+  <data name="DemoGridAdvancedRetained" xml:space="preserve"><value>Odabrani retci: {0}</value></data>
+  <data name="DemoGridAdvancedRetainedNone" xml:space="preserve"><value>nijedan</value></data>
+  <data name="DemoDataListEmpty" xml:space="preserve"><value>Na ovoj stranici nema predmeta.</value></data>
+  <data name="DemoDataListLoading" xml:space="preserve"><value>Učitavanje predmeta.</value></data>
+  <data name="DemoDataListPager" xml:space="preserve"><value>Straničenje predmeta</value></data>
+  <data name="DemoDataListLog" xml:space="preserve"><value>Zapisnik obrade</value></data>
+  <data name="DemoDataListKanban" xml:space="preserve"><value>Praćenje predmeta</value></data>
+  <data name="DemoDataListColumnNew" xml:space="preserve"><value>Za pregled</value></data>
+  <data name="DemoDataListColumnReview" xml:space="preserve"><value>U tijeku</value></data>
+  <data name="DemoDataListColumnDone" xml:space="preserve"><value>Dovršeno</value></data>
+  <data name="DemoDataListLogSearch" xml:space="preserve"><value>Traženje predmeta</value></data>
+  <data name="DemoDataListLogConnected" xml:space="preserve"><value>Veza je uspostavljena</value></data>
+  <data name="DemoDataListLogStarted" xml:space="preserve"><value>Obrada je započela</value></data>
+  <data name="DemoDataListLogMissing" xml:space="preserve"><value>Nedostaje dokument</value></data>
+  <data name="DemoDataListLogRejected" xml:space="preserve"><value>Provjera je odbijena</value></data>
+  <data name="DemoDataListLogAborted" xml:space="preserve"><value>Obrada je prekinuta</value></data>
+  <data name="DemoChartChartTitle" xml:space="preserve"><value>Podneseni predmeti po tromjesečju</value></data>
+  <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Tromjesečje</value></data>
+  <data name="DemoChartAxisCases" xml:space="preserve"><value>Predmeti</value></data>
+  <data name="DemoChartQuarter" xml:space="preserve"><value>Q{0}</value></data>
+  <data name="DemoChartsExtendedMonthlyTitle" xml:space="preserve"><value>Mjesečni trend</value></data>
+  <data name="DemoChartsExtendedMonthlyDescription" xml:space="preserve"><value>Vrijednost pri prelasku pokazivačem i s tipkovnice</value></data>
+  <data name="DemoChartsExtendedAxisMonth" xml:space="preserve"><value>Mjesec</value></data>
+  <data name="DemoChartsExtendedDeposits" xml:space="preserve"><value>Podnesci</value></data>
+  <data name="DemoChartsExtendedDecisions" xml:space="preserve"><value>Odluke</value></data>
+  <data name="DemoChartsExtendedLegend" xml:space="preserve"><value>Serije</value></data>
+  <data name="DemoChartsExtendedDailyTitle" xml:space="preserve"><value>Dnevna posjećenost tijekom trideset dana</value></data>
+  <data name="DemoChartsExtendedPageViews" xml:space="preserve"><value>Pregledi stranica po danu</value></data>
+  <data name="DemoChartsExtendedVisitors" xml:space="preserve"><value>Jedinstveni posjetitelji po danu</value></data>
+  <data name="DemoChartsExtendedStackedTitle" xml:space="preserve"><value>Složena raspodjela</value></data>
+  <data name="DemoChartsExtendedIncoming" xml:space="preserve"><value>Ulazni</value></data>
+  <data name="DemoChartsExtendedOutgoing" xml:space="preserve"><value>Izlazni</value></data>
+  <data name="DemoChartsExtendedBacklog" xml:space="preserve"><value>Zaostatak</value></data>
+  <data name="DemoChartsExtendedHorizontalTitle" xml:space="preserve"><value>Vodoravna usporedba</value></data>
+  <data name="DemoChartsExtendedByCountry" xml:space="preserve"><value>Predmeti po zemlji</value></data>
+  <data name="DemoChartsExtendedStackedBarsTitle" xml:space="preserve"><value>Obrađeni predmeti i predmeti na čekanju, po zemlji</value></data>
+  <data name="DemoChartsExtendedProcessed" xml:space="preserve"><value>Obrađeni</value></data>
+  <data name="DemoChartsExtendedPending" xml:space="preserve"><value>Na čekanju</value></data>
+  <data name="DemoChartsExtendedPieTitle" xml:space="preserve"><value>Udjeli po podrijetlu</value></data>
+  <data name="DemoChartsExtendedDonutTitle" xml:space="preserve"><value>Udjeli po podrijetlu, kao prsten</value></data>
+  <data name="DemoChartsExtendedOrigin" xml:space="preserve"><value>Podrijetlo</value></data>
+  <data name="DemoChartsExtendedGauge" xml:space="preserve"><value>Stopa obrade</value></data>
+  <data name="DemoChartsExtendedSliceCounter" xml:space="preserve"><value>Šalter</value></data>
+  <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Pošta</value></data>
+  <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Na mreži</value></data>
+  <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Ostalo</value></data>
+  <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Plan projekta</value></data>
+  <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Prikazana skala: {0}</value></data>
+  <data name="DemoPlanningScaleDay" xml:space="preserve"><value>dan</value></data>
+  <data name="DemoPlanningScaleWeek" xml:space="preserve"><value>tjedan</value></data>
+  <data name="DemoPlanningScaleMonth" xml:space="preserve"><value>mjesec</value></data>
+  <data name="DemoPlanningMonthHeading" xml:space="preserve"><value>Isti plan, po mjesecima i bez grupa</value></data>
+  <data name="DemoPlanningMonthLabel" xml:space="preserve"><value>Mjesečni plan</value></data>
+  <data name="DemoPlanningDayLabel" xml:space="preserve"><value>Dnevni plan</value></data>
+  <data name="DemoPlanningRunHeading" xml:space="preserve"><value>Tijek jednog izvođenja</value></data>
+  <data name="DemoPlanningRunLabel" xml:space="preserve"><value>Izvođenje {0}</value></data>
+  <data name="DemoPlanningTimelineHeading" xml:space="preserve"><value>Vremenska crta lijevo, zatim naizmjenično s obje strane</value></data>
+  <data name="DemoPlanningTimelineStart" xml:space="preserve"><value>Vremenska crta lijevo</value></data>
+  <data name="DemoPlanningTimelineAlternateStart" xml:space="preserve"><value>Naizmjenična vremenska crta, početak lijevo</value></data>
+  <data name="DemoPlanningTimelineAlternateEnd" xml:space="preserve"><value>Naizmjenična vremenska crta, početak desno</value></data>
+  <data name="DemoPlanningFiled" xml:space="preserve"><value>Podnošenje</value></data>
+  <data name="DemoPlanningFiledText" xml:space="preserve"><value>Predmet je evidentiran.</value></data>
+  <data name="DemoPlanningReview" xml:space="preserve"><value>Razmatranje</value></data>
+  <data name="DemoPlanningReviewText" xml:space="preserve"><value>Dodijeljen je službenik.</value></data>
+  <data name="DemoPlanningDecision" xml:space="preserve"><value>Odluka</value></data>
+  <data name="DemoPlanningDecisionText" xml:space="preserve"><value>Odluka je dostavljena.</value></data>
+  <data name="DemoPlanningGroupDesign" xml:space="preserve"><value>Dizajn</value></data>
+  <data name="DemoPlanningGroupBuild" xml:space="preserve"><value>Izvedba</value></data>
+  <data name="DemoPlanningTaskScoping" xml:space="preserve"><value>Određivanje opsega</value></data>
+  <data name="DemoPlanningTaskMockups" xml:space="preserve"><value>Makete</value></data>
+  <data name="DemoPlanningTaskProofreading" xml:space="preserve"><value>Lektura</value></data>
+  <data name="DemoPlanningTaskDevelopment" xml:space="preserve"><value>Razvoj</value></data>
+  <data name="DemoPlanningTaskAcceptance" xml:space="preserve"><value>Prihvatno testiranje</value></data>
+  <data name="DemoSchedulerView" xml:space="preserve"><value>Prikaz</value></data>
+  <data name="DemoSchedulerTimeGrid" xml:space="preserve"><value>Vremenska rešetka od 8 do 18 h</value></data>
+  <data name="DemoSchedulerViewDay" xml:space="preserve"><value>Dan</value></data>
+  <data name="DemoSchedulerViewWeek" xml:space="preserve"><value>Tjedan</value></data>
+  <data name="DemoSchedulerViewMonth" xml:space="preserve"><value>Mjesec</value></data>
+  <data name="DemoSchedulerCaseReview" xml:space="preserve"><value>Razmatranje predmeta</value></data>
+  <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Odbor za pregled</value></data>
+  <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Tjedni sastanak</value></data>
+  <data name="DemoSchedulerRoom" xml:space="preserve"><value>Dvorana {0}</value></data>
+  <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Fluidni stupac</value></data>
+  <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Puna širina na malom zaslonu, trećina na velikom.</value></data>
+  <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kartica sa zaglavljem</value></data>
+  <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>Zaglavlje, tijelo i podnožje tri su zasebna područja.</value></data>
+  <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>Kartica može imati samo tijelo.</value></data>
+  <data name="DemoLayoutStart" xml:space="preserve"><value>Početak</value></data>
+  <data name="DemoLayoutMiddle" xml:space="preserve"><value>Sredina</value></data>
+  <data name="DemoLayoutEnd" xml:space="preserve"><value>Kraj</value></data>
+  <data name="DemoLayoutFieldGroup" xml:space="preserve"><value>Grupa polja</value></data>
+  <data name="DemoLayoutOne" xml:space="preserve"><value>Jedan</value></data>
+  <data name="DemoLayoutTwo" xml:space="preserve"><value>Dva</value></data>
+  <data name="DemoLayoutAdvanced" xml:space="preserve"><value>Napredne postavke</value></data>
+  <data name="DemoLayoutAdvancedText" xml:space="preserve"><value>Grupa sažeta pri otvaranju, koju čitatelj proširuje po potrebi.</value></data>
+  <data name="DemoLayoutTracked" xml:space="preserve"><value>Praćene mogućnosti</value></data>
+  <data name="DemoLayoutTrackedText" xml:space="preserve"><value>Stranica zna sažeto stanje i može ga zapamtiti.</value></data>
+  <data name="DemoLayoutDisabledGroup" xml:space="preserve"><value>Onemogućena grupa</value></data>
+  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Sve što ova grupa sadrži postaje neaktivno jednim potezom.</value></data>
+  <data name="DemoLayoutAlignStart" xml:space="preserve"><value>Poravnano na početak</value></data>
+  <data name="DemoLayoutAlignCenter" xml:space="preserve"><value>Centrirano</value></data>
+  <data name="DemoLayoutAlignEnd" xml:space="preserve"><value>Poravnano na kraj</value></data>
+  <data name="DemoLayoutTop" xml:space="preserve"><value>Gore</value></data>
+  <data name="DemoLayoutTopText" xml:space="preserve"><value>Kartica viša od susjednih.</value></data>
+  <data name="DemoLayoutBottom" xml:space="preserve"><value>Dolje</value></data>
+  <data name="DemoLayoutBottomText" xml:space="preserve"><value>Značka se smješta uz dno reda.</value></data>
+  <data name="DemoLayoutStretched" xml:space="preserve"><value>Razvučeno</value></data>
+  <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Obje kartice imaju istu visinu.</value></data>
+  <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Odobri predmet</value></data>
+  <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtriraj dokumente</value></data>
+  <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Zatvori zahtjev</value></data>
+  <data name="DemoLayoutNotifications" xml:space="preserve"><value>Obavijesti</value></data>
+  <data name="DemoLayoutNotificationsText" xml:space="preserve"><value>Što vam aplikacija javlja i kako.</value></data>
+  <data name="DemoLayoutEmailAlerts" xml:space="preserve"><value>Upozorenja e-poštom</value></data>
+  <data name="DemoLayoutEmailAlertsText" xml:space="preserve"><value>Poruka pri svakoj promjeni statusa.</value></data>
+  <data name="DemoLayoutWeeklyDigest" xml:space="preserve"><value>Tjedni sažetak</value></data>
+  <data name="DemoLayoutWeeklyDigestText" xml:space="preserve"><value>Predmeti tjedna, u ponedjeljak ujutro.</value></data>
+  <data name="DemoLayoutServerName" xml:space="preserve"><value>Naziv poslužitelja</value></data>
+  <data name="DemoLayoutServerNameText" xml:space="preserve"><value>Vidljivo u konzoli.</value></data>
+  <data name="DemoLayoutIdentifierReadOnly" xml:space="preserve"><value>Identifikator, samo za čitanje</value></data>
+  <data name="DemoLayoutZoneDisabled" xml:space="preserve"><value>Zona, onemogućena</value></data>
+  <data name="DemoLayoutLockedRestore" xml:space="preserve"><value>Zaključano vraćanje</value></data>
+  <data name="DemoLayoutSave" xml:space="preserve"><value>Spremi</value></data>
+  <data name="DemoLayoutCancel" xml:space="preserve"><value>Odustani</value></data>
+  <data name="DemoLayoutDeployed" xml:space="preserve"><value>Implementacija je dovršena</value></data>
+  <data name="DemoLayoutDeployedText" xml:space="preserve"><value>Verzija 1.0.1 je dostupna.</value></data>
+  <data name="DemoLayoutEachChange" xml:space="preserve"><value>Pri svakoj promjeni.</value></data>
+  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Prozračno upozorenje na udobnoj stranici.</value></data>
+  <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>Kompaktne kartice</value></data>
+  <data name="DemoLayoutGeneral" xml:space="preserve"><value>Općenito</value></data>
+  <data name="DemoLayoutGeneralText" xml:space="preserve"><value>Opće postavke.</value></data>
+  <data name="DemoLayoutSecurity" xml:space="preserve"><value>Sigurnost</value></data>
+  <data name="DemoLayoutSecurityText" xml:space="preserve"><value>Pristup i tokeni.</value></data>
+  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Prozračna pločica</value></data>
+  <data name="DemoLayoutOwnDensity" xml:space="preserve"><value>Vlastita gustoća.</value></data>
+  <data name="DemoLayoutTrackedExpanded" xml:space="preserve"><value>Praćene mogućnosti: proširene</value></data>
+  <data name="DemoLayoutTrackedCollapsed" xml:space="preserve"><value>Praćene mogućnosti: sažete</value></data>
+  <data name="DemoLayoutGapNone1" xml:space="preserve"><value>Bez</value></data>
+  <data name="DemoLayoutGapNone2" xml:space="preserve"><value>razmaka</value></data>
+  <data name="DemoLayoutGapXSmall1" xml:space="preserve"><value>Vrlo</value></data>
+  <data name="DemoLayoutGapXSmall2" xml:space="preserve"><value>usko</value></data>
+  <data name="DemoLayoutGapSmall1" xml:space="preserve"><value>Usko</value></data>
+  <data name="DemoLayoutGapSmall2" xml:space="preserve"><value>malo</value></data>
+  <data name="DemoLayoutGapMedium1" xml:space="preserve"><value>Uobičajeno</value></data>
+  <data name="DemoLayoutGapMedium2" xml:space="preserve"><value>srednje</value></data>
+  <data name="DemoLayoutGapLarge1" xml:space="preserve"><value>Prozračno</value></data>
+  <data name="DemoLayoutGapLarge2" xml:space="preserve"><value>veliko</value></data>
+  <data name="DemoLayoutGapXLarge1" xml:space="preserve"><value>Vrlo</value></data>
+  <data name="DemoLayoutGapXLarge2" xml:space="preserve"><value>prozračno</value></data>
+  <data name="DemoLayoutDensityCompact" xml:space="preserve"><value>Kompaktna</value></data>
+  <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Udobna</value></data>
+  <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Prozračna</value></data>
+  <data name="DemoLayoutAlertCount" xml:space="preserve"><value>Upozorenja: {0}</value></data>
+  <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Naglašeni naslov</value></data>
+  <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Prigušeni naslov</value></data>
+  <data name="DemoTypographyParagraph" xml:space="preserve"><value>Običan odlomak, u osnovnoj veličini teme.</value></data>
+  <data name="DemoTypographySecondary" xml:space="preserve"><value>Sekundarni odlomak, za ono što prati sadržaj, a ne nosi informaciju.</value></data>
+  <data name="DemoTypographyError" xml:space="preserve"><value>Napomena o pogrešci</value></data>
+  <data name="DemoTypographyStrong" xml:space="preserve"><value>Važan tekst</value></data>
+  <data name="DemoTypographyEmphasis" xml:space="preserve"><value>Istaknuti tekst</value></data>
+  <data name="DemoTypographySuccess" xml:space="preserve"><value>Povoljan status</value></data>
+  <data name="DemoTypographyTruncated" xml:space="preserve"><value>Dugi tekst koji komponenta skraćuje trotočjem kada ponestane mjesta, umjesto da gura raspored ili se nepredvidljivo prelama u novi redak.</value></data>
+  <data name="DemoTypographyLabel" xml:space="preserve"><value>Oznaka povezana s poljem</value></data>
+  <data name="DemoTypographyInternalLink" xml:space="preserve"><value>Unutarnja poveznica</value></data>
+  <data name="DemoTypographyExternalLink" xml:space="preserve"><value>Vanjska poveznica</value></data>
+  <data name="DemoTypographyLevelHeading" xml:space="preserve"><value>Naslov razine {0}</value></data>
+  <data name="DemoThemesAppearanceWindow" xml:space="preserve"><value>Prozor izgleda</value></data>
+  <data name="DemoAppShellMinimize" xml:space="preserve"><value>Minimiziraj prozor</value></data>
+  <data name="DemoAppShellMaximize" xml:space="preserve"><value>Maksimiziraj ili vrati prozor</value></data>
+  <data name="DemoAppShellClose" xml:space="preserve"><value>Zatvori prozor</value></data>
+  <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Navigacijski put</value></data>
+  <data name="DemoNavigationHome" xml:space="preserve"><value>Početna</value></data>
+  <data name="DemoNavigationComponents" xml:space="preserve"><value>Komponente</value></data>
+  <data name="DemoNavigationCurrent" xml:space="preserve"><value>Navigacija</value></data>
+  <data name="DemoNavigationSections" xml:space="preserve"><value>Odjeljci predmeta</value></data>
+  <data name="DemoNavigationTabSummary" xml:space="preserve"><value>Sažetak</value></data>
+  <data name="DemoNavigationDocuments" xml:space="preserve"><value>Dokumenti</value></data>
+  <data name="DemoNavigationDocumentsText" xml:space="preserve"><value>Svaki dokument nosi datum podnošenja.</value></data>
+  <data name="DemoNavigationHistory" xml:space="preserve"><value>Povijest</value></data>
+  <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Dvanaest zabilježenih promjena.</value></data>
+  <data name="DemoNavigationProgress" xml:space="preserve"><value>Napredak predmeta</value></data>
+  <data name="DemoNavigationFiling" xml:space="preserve"><value>Podnošenje</value></data>
+  <data name="DemoNavigationFilingText" xml:space="preserve"><value>Dokumenti su zaprimljeni.</value></data>
+  <data name="DemoNavigationReview" xml:space="preserve"><value>Razmatranje</value></data>
+  <data name="DemoNavigationReviewText" xml:space="preserve"><value>Predmet se razmatra.</value></data>
+  <data name="DemoNavigationDecision" xml:space="preserve"><value>Odluka</value></data>
+  <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Odluka će biti dostavljena poštom.</value></data>
+  <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Predmet sadrži dokumenata: {0}.</value></data>
+  <data name="DemoPagesReload" xml:space="preserve"><value>Ponovno učitaj zapis</value></data>
+  <data name="DemoPagesMissing" xml:space="preserve"><value>Zapis nije pronađen</value></data>
+  <data name="DemoPagesNotFound" xml:space="preserve"><value>Zatraženi zapis je uklonjen ili nikada nije postojao.</value></data>
+  <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtualni stroj u zoni Pariz.</value></data>
+  <data name="DemoPagesOnline" xml:space="preserve"><value>Na mreži</value></data>
+  <data name="DemoPagesEdit" xml:space="preserve"><value>Uredi</value></data>
+  <data name="DemoPagesRemove" xml:space="preserve"><value>Ukloni</value></data>
+  <data name="DemoPagesDuplicate" xml:space="preserve"><value>Dupliciraj</value></data>
+  <data name="DemoPagesArchive" xml:space="preserve"><value>Arhiviraj</value></data>
+  <data name="DemoPagesProduction" xml:space="preserve"><value>Produkcija</value></data>
+  <data name="DemoPagesName" xml:space="preserve"><value>Naziv</value></data>
+  <data name="DemoPagesSystem" xml:space="preserve"><value>Sustav</value></data>
+  <data name="DemoPagesIpAddress" xml:space="preserve"><value>IP adresa</value></data>
+  <data name="DemoPagesToken" xml:space="preserve"><value>Pristupni token</value></data>
+  <data name="DemoPagesLastSignal" xml:space="preserve"><value>Posljednji signal</value></data>
+  <data name="DemoPagesCertificate" xml:space="preserve"><value>Certifikat</value></data>
+  <data name="DemoPagesNoBackup" xml:space="preserve"><value>Nema sigurnosnih kopija</value></data>
+  <data name="DemoPagesNoBackupText" xml:space="preserve"><value>Zakazane sigurnosne kopije pojavit će se ovdje nakon prvog izvođenja.</value></data>
+  <data name="DemoPagesSchedule" xml:space="preserve"><value>Zakaži</value></data>
+  <data name="DemoPagesNoResult" xml:space="preserve"><value>Nema rezultata</value></data>
+  <data name="DemoPagesNoResultText" xml:space="preserve"><value>Nijedan poslužitelj ne odgovara filtru.</value></data>
+  <data name="DemoPagesHideToken" xml:space="preserve"><value>Sakrij token</value></data>
+  <data name="DemoPagesShowToken" xml:space="preserve"><value>Prikaži token</value></data>
+  <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1} tis.</value></data>
+  <data name="DemoPagesTokensToday" xml:space="preserve"><value>Tokeni danas</value></data>
+  <data name="DemoPagesTokensReset" xml:space="preserve"><value>Ponovno postavljanje u {0:t}</value></data>
+  <data name="DemoPagesWeekly" xml:space="preserve"><value>Tjedno</value></data>
+  <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Komponente</value></data>
+  <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Poslužitelji</value></data>
+  <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Poslužitelj</value></data>
+  <data name="DemoBadgesNeutral" xml:space="preserve"><value>Neutralno</value></data>
+  <data name="DemoBadgesAccent" xml:space="preserve"><value>Naglasak</value></data>
+  <data name="DemoBadgesInfo" xml:space="preserve"><value>Informacija</value></data>
+  <data name="DemoBadgesSuccess" xml:space="preserve"><value>Uspjeh</value></data>
+  <data name="DemoBadgesWarning" xml:space="preserve"><value>Upozorenje</value></data>
+  <data name="DemoBadgesDanger" xml:space="preserve"><value>Opasnost</value></data>
+  <data name="DemoBadgesDraft" xml:space="preserve"><value>Skica</value></data>
+  <data name="DemoBadgesOutline" xml:space="preserve"><value>Obrub</value></data>
+  <data name="DemoBadgesApproved" xml:space="preserve"><value>Odobreno</value></data>
+  <data name="DemoBadgesPending" xml:space="preserve"><value>Na čekanju</value></data>
+  <data name="DemoBadgesRejected" xml:space="preserve"><value>Odbijeno</value></data>
+  <data name="DemoBadgesNew" xml:space="preserve"><value>Novo</value></data>
+  <data name="DemoBadgesInReview" xml:space="preserve"><value>U pregledu</value></data>
+  <data name="DemoBadgesPublished" xml:space="preserve"><value>Objavljeno</value></data>
+  <data name="DemoBadgesFailed" xml:space="preserve"><value>Neuspjeh</value></data>
+  <data name="DemoBadgesFixedSize" xml:space="preserve"><value>Nametnuta veličina</value></data>
+  <data name="DemoAlertsMaintenance" xml:space="preserve"><value>Održavanje</value></data>
+  <data name="DemoAlertsMaintenanceText" xml:space="preserve"><value>Usluga neće biti dostupna u nedjelju od 2 do 4 h.</value></data>
+  <data name="DemoAlertsPublished" xml:space="preserve"><value>Paket je objavljen</value></data>
+  <data name="DemoAlertsPublishedText" xml:space="preserve"><value>OmniEurope.Blazor dostupan je na NuGet.org.</value></data>
+  <data name="DemoAlertsCertificate" xml:space="preserve"><value>Certifikat uskoro istječe</value></data>
+  <data name="DemoAlertsFailure" xml:space="preserve"><value>Neuspjeh</value></data>
+  <data name="DemoAlertsFailureText" xml:space="preserve"><value>Povezivanje s uslugom nije uspjelo.</value></data>
+  <data name="DemoAlertsInfo" xml:space="preserve"><value>Informacija</value></data>
+  <data name="DemoAlertsInfoText" xml:space="preserve"><value>Biblioteka sve svoje boje čita iz CSS varijabli.</value></data>
+  <data name="DemoAlertsSaved" xml:space="preserve"><value>Spremljeno</value></data>
+  <data name="DemoAlertsSavedText" xml:space="preserve"><value>Promjene su primijenjene.</value></data>
+  <data name="DemoAlertsNew" xml:space="preserve"><value>Novosti</value></data>
+  <data name="DemoAlertsNewText" xml:space="preserve"><value>Značke i upozorenja sada dijele istu ispunu.</value></data>
+  <data name="DemoAlertsCaution" xml:space="preserve"><value>Pozor</value></data>
+  <data name="DemoAlertsCautionText" xml:space="preserve"><value>Ova će se postavka primijeniti na sve stranice.</value></data>
+  <data name="DemoAlertsTooLarge" xml:space="preserve"><value>Datoteka premašuje dopuštenu veličinu.</value></data>
+  <data name="DemoAlertsTip" xml:space="preserve"><value>Savjet</value></data>
+  <data name="DemoAlertsTipText" xml:space="preserve"><value>Ovo se upozorenje zatvara svojim križićem.</value></data>
+  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Certifikat za potpisivanje istječe za {0} dana.</value></data>
+  <data name="DemoButtonsSecondary" xml:space="preserve"><value>Sekundarni</value></data>
+  <data name="DemoButtonsGhost" xml:space="preserve"><value>Prozirni</value></data>
+  <data name="DemoButtonsApprove" xml:space="preserve"><value>Odobri</value></data>
+  <data name="DemoButtonsSuspend" xml:space="preserve"><value>Obustavi</value></data>
+  <data name="DemoButtonsDetails" xml:space="preserve"><value>Detalji</value></data>
+  <data name="DemoButtonsDelete" xml:space="preserve"><value>Izbriši</value></data>
+  <data name="DemoButtonsUnavailable" xml:space="preserve"><value>Nedostupno</value></data>
+  <data name="DemoButtonsSaving" xml:space="preserve"><value>Spremanje</value></data>
+  <data name="DemoButtonsSave" xml:space="preserve"><value>Spremi</value></data>
+  <data name="DemoButtonsPublish" xml:space="preserve"><value>Objavi</value></data>
+  <data name="DemoButtonsPin" xml:space="preserve"><value>Prikvači</value></data>
+  <data name="DemoButtonsSmall" xml:space="preserve"><value>Mali</value></data>
+  <data name="DemoButtonsMedium" xml:space="preserve"><value>Srednji</value></data>
+  <data name="DemoButtonsLarge" xml:space="preserve"><value>Veliki</value></data>
+  <data name="DemoButtonsSearch" xml:space="preserve"><value>Pretraži</value></data>
+  <data name="DemoButtonsPublishLater" xml:space="preserve"><value>Objavi kasnije</value></data>
+  <data name="DemoButtonsDraft" xml:space="preserve"><value>Skica</value></data>
+  <data name="DemoButtonsPreview" xml:space="preserve"><value>Pretpregled</value></data>
+  <data name="DemoButtonsView" xml:space="preserve"><value>Pregledaj</value></data>
+  <data name="DemoButtonsSend" xml:space="preserve"><value>Pošalji</value></data>
+  <data name="DemoButtonsReset" xml:space="preserve"><value>Poništi</value></data>
+  <data name="DemoButtonsNoFormEffect" xml:space="preserve"><value>Bez učinka na obrazac</value></data>
+  <data name="DemoButtonsPrimary" xml:space="preserve"><value>Primarni</value></data>
+  <data name="DemoButtonsClicks" xml:space="preserve"><value>Klikovi na primarni gumb: {0}.</value></data>
+  <data name="DemoButtonsSent" xml:space="preserve"><value>Slanja obrasca: {0}.</value></data>
+  <data name="DemoFeedbackUpload" xml:space="preserve"><value>Prijenos</value></data>
+  <data name="DemoFeedbackIndexing" xml:space="preserve"><value>Indeksiranje</value></data>
+  <data name="DemoFeedbackSync" xml:space="preserve"><value>Sinkronizacija</value></data>
+  <data name="DemoFeedbackProcessed" xml:space="preserve"><value>Obrađeni predmeti</value></data>
+  <data name="DemoFeedbackQuotaNear" xml:space="preserve"><value>Kvota je gotovo dosegnuta</value></data>
+  <data name="DemoFeedbackImportFailures" xml:space="preserve"><value>Neuspjeli uvozi</value></data>
+  <data name="DemoFeedbackAnalysing" xml:space="preserve"><value>Analiza u tijeku</value></data>
+  <data name="DemoFeedbackProgress" xml:space="preserve"><value>Napredak</value></data>
+  <data name="DemoFeedbackNoKnownEnd" xml:space="preserve"><value>Bez poznatog kraja</value></data>
+  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>Kvota se izračunava za kliznih trideset dana.</value></data>
+  <data name="DemoFeedbackQuota" xml:space="preserve"><value>Kvota</value></data>
+  <data name="DemoFeedbackArchivedTooltip" xml:space="preserve"><value>Arhivirani predmet i dalje se može pregledavati samo za čitanje.</value></data>
+  <data name="DemoFeedbackArchived" xml:space="preserve"><value>Arhivirano</value></data>
+  <data name="DemoFeedbackDraftTooltip" xml:space="preserve"><value>Skica.</value></data>
+  <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Uska</value></data>
+  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Arhivirani predmet i dalje se može pregledavati samo za čitanje. Više se ne ubraja u kvote, ne pojavljuje se u zadanim pretraživanjima i ne prima obavijesti. Da bi ga ponovno otvorio, administrator ga vraća s kartice Arhive; njegova povijest, privici i komentari tada se vraćaju netaknuti, zajedno s datumom vraćanja.</value></data>
+  <data name="DemoFeedbackLongText" xml:space="preserve"><value>Dugi tekst</value></data>
+  <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>Opis alata paketa na običnom atributu title.</value></data>
+  <data name="DemoFeedbackHover" xml:space="preserve"><value>Prijeđite pokazivačem</value></data>
+  <data name="DemoFeedbackLoadingAvatar" xml:space="preserve"><value>Učitavanje avatara</value></data>
+  <data name="DemoFeedbackLoadingThumbnail" xml:space="preserve"><value>Učitavanje minijature</value></data>
+  <data name="DemoFeedbackLoadingFile" xml:space="preserve"><value>Učitavanje predmeta</value></data>
+  <data name="DemoFeedbackLoadingDemo" xml:space="preserve"><value>Učitavanje demonstracije</value></data>
+  <data name="DemoFeedbackSimulateLoad" xml:space="preserve"><value>Simuliraj učitavanje</value></data>
+  <data name="DemoFeedbackRecentRuns" xml:space="preserve"><value>Posljednja izvođenja</value></data>
+  <data name="DemoFeedbackAvailability" xml:space="preserve"><value>Dostupnost tijekom posljednjih sati</value></data>
+  <data name="DemoFeedbackReady" xml:space="preserve"><value>Spremno</value></data>
+  <data name="DemoFeedbackFailed" xml:space="preserve"><value>Neuspjeh</value></data>
+  <data name="DemoFeedbackRunSucceeded" xml:space="preserve"><value>Izvođenje {0} je uspjelo</value></data>
+  <data name="DemoFeedbackRunWarning" xml:space="preserve"><value>Izvođenje {0} s upozorenjem</value></data>
+  <data name="DemoFeedbackRunFailed" xml:space="preserve"><value>Izvođenje {0} nije uspjelo</value></data>
+  <data name="DemoFeedbackSucceeded" xml:space="preserve"><value>Uspješno</value></data>
+  <data name="DemoFeedbackWarning" xml:space="preserve"><value>Upozorenje</value></data>
+  <data name="DemoMediaImageContain" xml:space="preserve"><value>Cijela slika, bez obrezivanja</value></data>
+  <data name="DemoMediaImageCover" xml:space="preserve"><value>Slika obrezana da ispuni okvir</value></data>
+  <data name="DemoMediaImageNatural" xml:space="preserve"><value>Slika u prirodnoj veličini</value></data>
+  <data name="DemoMediaTimeline" xml:space="preserve"><value>Faze predmeta</value></data>
+  <data name="DemoMediaFiling" xml:space="preserve"><value>Podnošenje</value></data>
+  <data name="DemoMediaFilingText" xml:space="preserve"><value>Predmet je evidentiran.</value></data>
+  <data name="DemoMediaReview" xml:space="preserve"><value>Razmatranje</value></data>
+  <data name="DemoMediaReviewText" xml:space="preserve"><value>Dodijeljen je službenik.</value></data>
+  <data name="DemoMediaDecision" xml:space="preserve"><value>Odluka</value></data>
+  <data name="DemoMediaDecisionText" xml:space="preserve"><value>Odluka je dostavljena.</value></data>
+  <data name="DemoMediaIconCheck" xml:space="preserve"><value>Potvrđeno</value></data>
+  <data name="DemoMediaIconWarning" xml:space="preserve"><value>Pozor</value></data>
+  <data name="DemoMediaIconFilter" xml:space="preserve"><value>Filtriraj</value></data>
+  <data name="DemoMediaIconCompass" xml:space="preserve"><value>Kompas</value></data>
+  <data name="DemoMediaIconClose" xml:space="preserve"><value>Zatvori</value></data>
+  <data name="DemoMediaIconInfo" xml:space="preserve"><value>Informacija</value></data>
+  <data name="DemoMediaIconMenu" xml:space="preserve"><value>Izbornik</value></data>
+  <data name="DemoMediaIconChevronDown" xml:space="preserve"><value>Proširi</value></data>
+  <data name="DemoMediaIconSortAscending" xml:space="preserve"><value>Uzlazno sortiranje</value></data>
+  <data name="DemoMediaIconSortDescending" xml:space="preserve"><value>Silazno sortiranje</value></data>
+  <data name="DemoMediaIconThemeLight" xml:space="preserve"><value>Svijetli izgled</value></data>
+  <data name="DemoMediaIconThemeDark" xml:space="preserve"><value>Tamni izgled</value></data>
+  <data name="DemoMediaIconAdd" xml:space="preserve"><value>Dodaj</value></data>
+  <data name="DemoMediaIconAirplane" xml:space="preserve"><value>Zrakoplov</value></data>
+  <data name="DemoMediaIconAirplaneLanding" xml:space="preserve"><value>Slijetanje</value></data>
+  <data name="DemoMediaIconAirplaneTakeoff" xml:space="preserve"><value>Polijetanje</value></data>
+  <data name="DemoMediaIconArchive" xml:space="preserve"><value>Arhiviraj</value></data>
+  <data name="DemoMediaIconArrowLeft" xml:space="preserve"><value>Natrag</value></data>
+  <data name="DemoMediaIconArrowRight" xml:space="preserve"><value>Sljedeće</value></data>
+  <data name="DemoMediaIconBed" xml:space="preserve"><value>Smještaj</value></data>
+  <data name="DemoMediaIconBell" xml:space="preserve"><value>Obavijesti</value></data>
+  <data name="DemoMediaIconBracketsCurly" xml:space="preserve"><value>JSON podaci</value></data>
+  <data name="DemoMediaIconCalculator" xml:space="preserve"><value>Kalkulator</value></data>
+  <data name="DemoMediaIconCards" xml:space="preserve"><value>Kartice</value></data>
+  <data name="DemoMediaIconChartBarHorizontal" xml:space="preserve"><value>Poredak</value></data>
+  <data name="DemoMediaIconChat" xml:space="preserve"><value>Poruka</value></data>
+  <data name="DemoMediaIconCheckCircle" xml:space="preserve"><value>Uspješno</value></data>
+  <data name="DemoMediaIconChevronUp" xml:space="preserve"><value>Sažmi</value></data>
+  <data name="DemoMediaIconCopy" xml:space="preserve"><value>Kopiraj</value></data>
+  <data name="DemoMediaIconDatabase" xml:space="preserve"><value>Baza podataka</value></data>
+  <data name="DemoMediaIconDelete" xml:space="preserve"><value>Izbriši</value></data>
+  <data name="DemoMediaIconDiamond" xml:space="preserve"><value>Dragulj</value></data>
+  <data name="DemoMediaIconDice" xml:space="preserve"><value>Izvlačenje</value></data>
+  <data name="DemoMediaIconDocument" xml:space="preserve"><value>Dokument</value></data>
+  <data name="DemoMediaIconDownload" xml:space="preserve"><value>Preuzmi</value></data>
+  <data name="DemoMediaIconEdit" xml:space="preserve"><value>Uredi</value></data>
+  <data name="DemoMediaIconError" xml:space="preserve"><value>Pogreška</value></data>
+  <data name="DemoMediaIconFlask" xml:space="preserve"><value>Pokus</value></data>
+  <data name="DemoMediaIconFunction" xml:space="preserve"><value>Formula</value></data>
+  <data name="DemoMediaIconGlobe" xml:space="preserve"><value>Svijet</value></data>
+  <data name="DemoMediaIconGlobeHemisphereWest" xml:space="preserve"><value>Putovanja</value></data>
+  <data name="DemoMediaIconGraduationCap" xml:space="preserve"><value>Razred</value></data>
+  <data name="DemoMediaIconGraph" xml:space="preserve"><value>Veze</value></data>
+  <data name="DemoMediaIconHome" xml:space="preserve"><value>Početna</value></data>
+  <data name="DemoMediaIconHourglass" xml:space="preserve"><value>Čekanje</value></data>
+  <data name="DemoMediaIconImage" xml:space="preserve"><value>Slika</value></data>
+  <data name="DemoMediaIconLayers" xml:space="preserve"><value>Slojevi</value></data>
+  <data name="DemoMediaIconMapPin" xml:space="preserve"><value>Mjesto</value></data>
+  <data name="DemoMediaIconMapPinLine" xml:space="preserve"><value>Uvoz mjesta</value></data>
+  <data name="DemoMediaIconMedal" xml:space="preserve"><value>Rang</value></data>
+  <data name="DemoMediaIconMonitor" xml:space="preserve"><value>Prikaz</value></data>
+  <data name="DemoMediaIconNumberedList" xml:space="preserve"><value>Numerirani popis</value></data>
+  <data name="DemoMediaIconOffline" xml:space="preserve"><value>Izvan mreže</value></data>
+  <data name="DemoMediaIconOpenExternal" xml:space="preserve"><value>Otvori drugdje</value></data>
+  <data name="DemoMediaIconPackage" xml:space="preserve"><value>Stavka</value></data>
+  <data name="DemoMediaIconPalette" xml:space="preserve"><value>Boje</value></data>
+  <data name="DemoMediaIconPath" xml:space="preserve"><value>Ruta</value></data>
+  <data name="DemoMediaIconPattern" xml:space="preserve"><value>Uzorak</value></data>
+  <data name="DemoMediaIconPictureInPicture" xml:space="preserve"><value>Slika u slici</value></data>
+  <data name="DemoMediaIconPin" xml:space="preserve"><value>Prikvači</value></data>
+  <data name="DemoMediaIconPlay" xml:space="preserve"><value>Pokreni</value></data>
+  <data name="DemoMediaIconProhibit" xml:space="preserve"><value>Zabranjeno</value></data>
+  <data name="DemoMediaIconRefresh" xml:space="preserve"><value>Osvježi</value></data>
+  <data name="DemoMediaIconRemove" xml:space="preserve"><value>Ukloni</value></data>
+  <data name="DemoMediaIconReset" xml:space="preserve"><value>Poništi</value></data>
+  <data name="DemoMediaIconRestore" xml:space="preserve"><value>Vrati iz arhive</value></data>
+  <data name="DemoMediaIconRows" xml:space="preserve"><value>Gustoća</value></data>
+  <data name="DemoMediaIconRuler" xml:space="preserve"><value>Mjerenje</value></data>
+  <data name="DemoMediaIconSave" xml:space="preserve"><value>Spremi</value></data>
+  <data name="DemoMediaIconSearch" xml:space="preserve"><value>Pretraži</value></data>
+  <data name="DemoMediaIconSettings" xml:space="preserve"><value>Postavke</value></data>
+  <data name="DemoMediaIconShieldCheck" xml:space="preserve"><value>Administracija</value></data>
+  <data name="DemoMediaIconSidebar" xml:space="preserve"><value>Bočna traka</value></data>
+  <data name="DemoMediaIconSliders" xml:space="preserve"><value>Napredni filtri</value></data>
+  <data name="DemoMediaIconSparkle" xml:space="preserve"><value>Novosti</value></data>
+  <data name="DemoMediaIconStar" xml:space="preserve"><value>Favorit</value></data>
+  <data name="DemoMediaIconStarFilled" xml:space="preserve"><value>Aktivni favorit</value></data>
+  <data name="DemoMediaIconSwap" xml:space="preserve"><value>Zamijeni</value></data>
+  <data name="DemoMediaIconSync" xml:space="preserve"><value>Sinkroniziraj</value></data>
+  <data name="DemoMediaIconTag" xml:space="preserve"><value>Oznaka</value></data>
+  <data name="DemoMediaIconTextSize" xml:space="preserve"><value>Veličina teksta</value></data>
+  <data name="DemoMediaIconThemeSystem" xml:space="preserve"><value>Izgled sustava</value></data>
+  <data name="DemoMediaIconTimer" xml:space="preserve"><value>Mjerač vremena</value></data>
+  <data name="DemoMediaIconUpgrade" xml:space="preserve"><value>Nadogradnja</value></data>
+  <data name="DemoMediaIconUpload" xml:space="preserve"><value>Prenesi</value></data>
+  <data name="DemoMediaIconUser" xml:space="preserve"><value>Osoba</value></data>
+  <data name="DemoMediaIconUserFocus" xml:space="preserve"><value>Pronađi osobu</value></data>
+  <data name="DemoMediaIconEye" xml:space="preserve"><value>Prikaži</value></data>
+  <data name="DemoMediaIconGitCommit" xml:space="preserve"><value>Commit</value></data>
+  <data name="DemoMediaIconLock" xml:space="preserve"><value>Zaključano</value></data>
+  <data name="DemoMediaIconRocketLaunch" xml:space="preserve"><value>Implementiraj</value></data>
+  <data name="DemoMediaIconUsers" xml:space="preserve"><value>Grupa</value></data>
+  <data name="DemoMediaIconStop" xml:space="preserve"><value>Zaustavi</value></data>
+  <data name="DemoMediaIconListChecks" xml:space="preserve"><value>Pravila</value></data>
+  <data name="DemoMediaIconFolder" xml:space="preserve"><value>Mapa</value></data>
+  <data name="DemoMediaIconQuestion" xml:space="preserve"><value>Pomoć</value></data>
+  <data name="DemoMediaIconSquaresFour" xml:space="preserve"><value>Nadzorna ploča</value></data>
+  <data name="DemoMediaIconTerminalWindow" xml:space="preserve"><value>Terminal</value></data>
+  <data name="DemoMediaIconWrench" xml:space="preserve"><value>Izgradi</value></data>
+  <data name="DemoMediaIconKey" xml:space="preserve"><value>Ključ</value></data>
+  <data name="DemoMediaIconBuildings" xml:space="preserve"><value>Organizacija</value></data>
+  <data name="DemoMediaIconHeartbeat" xml:space="preserve"><value>Nadzor</value></data>
+  <data name="DemoMediaIconCloudArrowUp" xml:space="preserve"><value>Sigurnosna kopija na mreži</value></data>
+  <data name="DemoMediaIconLink" xml:space="preserve"><value>Poveznica</value></data>
+  <data name="DemoMediaIconUserPlus" xml:space="preserve"><value>Dodaj osobu</value></data>
+  <data name="DemoMediaIconLayout" xml:space="preserve"><value>Raspored</value></data>
+  <data name="DemoMediaIconBroadcast" xml:space="preserve"><value>Emitiranje</value></data>
+  <data name="DemoMediaIconCalendarBlank" xml:space="preserve"><value>Datum</value></data>
+  <data name="DemoMediaIconChartLineUp" xml:space="preserve"><value>Trend</value></data>
+  <data name="DemoMediaIconFolderOpen" xml:space="preserve"><value>Otvorena mapa</value></data>
+  <data name="DemoMediaIconGitFork" xml:space="preserve"><value>Račvanje</value></data>
+  <data name="DemoMediaIconGitMerge" xml:space="preserve"><value>Spajanje</value></data>
+  <data name="DemoMediaIconLockKey" xml:space="preserve"><value>Ponovno postavi lozinku</value></data>
+  <data name="DemoMediaIconRobot" xml:space="preserve"><value>Automatizacija</value></data>
+  <data name="DemoMediaIconArrowDown" xml:space="preserve"><value>Premjesti dolje</value></data>
+  <data name="DemoMediaIconBrain" xml:space="preserve"><value>Inteligencija</value></data>
+  <data name="DemoMediaIconCellTower" xml:space="preserve"><value>Antena</value></data>
+  <data name="DemoMediaIconCloud" xml:space="preserve"><value>Oblak</value></data>
+  <data name="DemoMediaIconGavel" xml:space="preserve"><value>Propis</value></data>
+  <data name="DemoMediaIconGitDiff" xml:space="preserve"><value>Razlike</value></data>
+  <data name="DemoMediaIconLinkBreak" xml:space="preserve"><value>Prekinuta poveznica</value></data>
+  <data name="DemoMediaIconLockOpen" xml:space="preserve"><value>Otključano</value></data>
+  <data name="DemoMediaIconPaperPlaneRight" xml:space="preserve"><value>Pošalji poruku</value></data>
+  <data name="DemoMediaIconPlugsConnected" xml:space="preserve"><value>Povezano</value></data>
+  <data name="DemoMediaIconPuzzlePiece" xml:space="preserve"><value>Proširenje</value></data>
+  <data name="DemoMediaIconShieldWarning" xml:space="preserve"><value>Rizik</value></data>
+  <data name="DemoMediaIconSignOut" xml:space="preserve"><value>Odjava</value></data>
+  <data name="DemoMediaIconArrowElbowDownLeft" xml:space="preserve"><value>Novi redak</value></data>
+  <data name="DemoMediaIconBroom" xml:space="preserve"><value>Počisti</value></data>
+  <data name="DemoMediaIconBug" xml:space="preserve"><value>Programska pogreška</value></data>
+  <data name="DemoMediaIconChartLine" xml:space="preserve"><value>Linijski grafikon</value></data>
+  <data name="DemoMediaIconChevronRight" xml:space="preserve"><value>Otvori</value></data>
+  <data name="DemoMediaIconCode" xml:space="preserve"><value>Kôd</value></data>
+  <data name="DemoMediaIconGauge" xml:space="preserve"><value>Performanse</value></data>
+  <data name="DemoMediaIconMagnifyingGlassPlus" xml:space="preserve"><value>Povećaj</value></data>
+  <data name="DemoMediaIconPassword" xml:space="preserve"><value>Lozinka</value></data>
+  <data name="DemoMediaIconShieldSlash" xml:space="preserve"><value>Zaštita isključena</value></data>
+  <data name="DemoMediaIconStamp" xml:space="preserve"><value>Odobrenje</value></data>
+  <data name="DemoMediaIconTextAlignLeft" xml:space="preserve"><value>Poravnaj lijevo</value></data>
+  <data name="DemoMediaIconWifiHigh" xml:space="preserve"><value>Mreža</value></data>
+  <data name="DemoMediaIconArrowElbowDownRight" xml:space="preserve"><value>Podstavka</value></data>
+  <data name="DemoMediaIconArrowLineDown" xml:space="preserve"><value>Idi na dno</value></data>
+  <data name="DemoMediaIconArrowLineUp" xml:space="preserve"><value>Idi na vrh</value></data>
+  <data name="DemoMediaIconArrowUUpRight" xml:space="preserve"><value>Ponovi</value></data>
+  <data name="DemoMediaIconAt" xml:space="preserve"><value>Adresa e-pošte</value></data>
+  <data name="DemoMediaIconBellSlash" xml:space="preserve"><value>Obavijesti isključene</value></data>
+  <data name="DemoMediaIconBooks" xml:space="preserve"><value>Biblioteka</value></data>
+  <data name="DemoMediaIconCalendarCheck" xml:space="preserve"><value>Potvrđeni datum</value></data>
+  <data name="DemoMediaIconChecks" xml:space="preserve"><value>Odobri sve</value></data>
+  <data name="DemoMediaIconCloudArrowDown" xml:space="preserve"><value>Dohvati iz oblaka</value></data>
+  <data name="DemoMediaIconColumns" xml:space="preserve"><value>Stupci</value></data>
+  <data name="DemoMediaIconCornersOut" xml:space="preserve"><value>Prilagodi zaslonu</value></data>
+  <data name="DemoMediaIconDotsThreeVertical" xml:space="preserve"><value>Više radnji</value></data>
+  <data name="DemoMediaIconEyeSlash" xml:space="preserve"><value>Sakrij</value></data>
+  <data name="DemoMediaIconFrameCorners" xml:space="preserve"><value>Ponovno centriraj</value></data>
+  <data name="DemoMediaIconHardDrive" xml:space="preserve"><value>Disk</value></data>
+  <data name="DemoMediaIconLightning" xml:space="preserve"><value>Brzo</value></data>
+  <data name="DemoMediaIconMagnifyingGlassMinus" xml:space="preserve"><value>Smanji</value></data>
+  <data name="DemoMediaIconMegaphone" xml:space="preserve"><value>Najava</value></data>
+  <data name="DemoMediaIconSignIn" xml:space="preserve"><value>Prijava</value></data>
+  <data name="DemoMediaIconTarget" xml:space="preserve"><value>Cilj</value></data>
+  <data name="DemoMediaIconToggleLeft" xml:space="preserve"><value>Isključeno</value></data>
+  <data name="DemoMediaIconTray" xml:space="preserve"><value>Ulazna pošta</value></data>
+  <data name="DemoMediaIconCpu" xml:space="preserve"><value>Procesor</value></data>
+  <data name="DemoMediaIconFilePlus" xml:space="preserve"><value>Nova datoteka</value></data>
+  <data name="DemoMediaIconHandTap" xml:space="preserve"><value>Ručno pokretanje</value></data>
+  <data name="DemoMediaIconPause" xml:space="preserve"><value>Pauza</value></data>
+  <data name="DemoMediaIconToggleRight" xml:space="preserve"><value>Uključeno</value></data>
+  <data name="DemoMediaIconWebhook" xml:space="preserve"><value>Webhook</value></data>
+  <data name="DemoMediaIconWifiSlash" xml:space="preserve"><value>Mreža je prekinuta</value></data>
+  <data name="DemoMediaIconScissors" xml:space="preserve"><value>Izreži</value></data>
+  <data name="DemoMediaIconClipboard" xml:space="preserve"><value>Zalijepi</value></data>
+  <data name="DemoMediaIconThumbsUp" xml:space="preserve"><value>Korisno</value></data>
+  <data name="DemoMediaIconThumbsDown" xml:space="preserve"><value>Nije korisno</value></data>
+  <data name="DemoMediaIconLightbulb" xml:space="preserve"><value>Savjet</value></data>
+  <data name="DemoMediaIconKeyboard" xml:space="preserve"><value>Tipkovnica</value></data>
+  <data name="DemoMediaIconFlag" xml:space="preserve"><value>Prijavi</value></data>
+  <data name="DemoMediaIconHighlighter" xml:space="preserve"><value>Istakni</value></data>
+  <data name="DemoMediaIconChartPie" xml:space="preserve"><value>Raspodjela</value></data>
+  <data name="DemoMediaIconChartDonut" xml:space="preserve"><value>Udio</value></data>
+  <data name="DemoMediaIconCircle" xml:space="preserve"><value>Krug</value></data>
+  <data name="DemoMediaIconBookmark" xml:space="preserve"><value>Knjižna oznaka</value></data>
+  <data name="DemoMediaIconUserMinus" xml:space="preserve"><value>Ukloni člana</value></data>
+  <data name="DemoMediaIconSelectionSlash" xml:space="preserve"><value>Poništi odabir</value></data>
+  <data name="DemoMediaIconSmiley" xml:space="preserve"><value>Posebni znakovi</value></data>
+  <data name="DemoMediaIconSkipBack" xml:space="preserve"><value>Prethodna pjesma</value></data>
+  <data name="DemoMediaIconSkipForward" xml:space="preserve"><value>Sljedeća pjesma</value></data>
+  <data name="DemoMediaIconShuffle" xml:space="preserve"><value>Nasumična reprodukcija</value></data>
+  <data name="DemoMediaIconRepeat" xml:space="preserve"><value>Ponavljaj</value></data>
+  <data name="DemoMediaIconRepeatOnce" xml:space="preserve"><value>Ponovi jednom</value></data>
+  <data name="DemoMediaIconSpeakerHigh" xml:space="preserve"><value>Glasno</value></data>
+  <data name="DemoMediaIconSpeakerLow" xml:space="preserve"><value>Tiho</value></data>
+  <data name="DemoMediaIconSpeakerNone" xml:space="preserve"><value>Bez glasnoće</value></data>
+  <data name="DemoMediaIconSpeakerX" xml:space="preserve"><value>Zvuk isključen</value></data>
+  <data name="DemoMediaIconQueue" xml:space="preserve"><value>Red čekanja</value></data>
+  <data name="DemoMediaIconPlaylist" xml:space="preserve"><value>Popis za reprodukciju</value></data>
+  <data name="DemoMediaIconListPlus" xml:space="preserve"><value>Dodaj na popis</value></data>
+  <data name="DemoMediaIconMusicNote" xml:space="preserve"><value>Pjesma</value></data>
+  <data name="DemoMediaIconDisc" xml:space="preserve"><value>Album</value></data>
+  <data name="DemoMediaIconWaveform" xml:space="preserve"><value>Valni oblik</value></data>
+  <data name="DemoMediaIconDotsSixVertical" xml:space="preserve"><value>Ručica za povlačenje</value></data>
+  <data name="DemoMediaIconCornersIn" xml:space="preserve"><value>Smanji prikaz</value></data>
+  <data name="DemoMediaIconPlayCircle" xml:space="preserve"><value>Reproduciraj</value></data>
+  <data name="DemoMediaIconPauseCircle" xml:space="preserve"><value>Pauza</value></data>
+  <data name="DemoMediaIconXCircle" xml:space="preserve"><value>Odustani</value></data>
+  <data name="DemoMediaIconChartBar" xml:space="preserve"><value>Stupčasti grafikon</value></data>
+  <data name="DemoMediaIconBookOpen" xml:space="preserve"><value>Otvorena knjiga</value></data>
+  <data name="DemoMediaIconArrowsDownUp" xml:space="preserve"><value>Zamijeni okomito</value></data>
+  <data name="DemoMediaIconFolderPlus" xml:space="preserve"><value>Nova mapa</value></data>
+  <data name="DemoMediaIconTelevision" xml:space="preserve"><value>Zaslon</value></data>
+  <data name="DemoMediaIconSealCheck" xml:space="preserve"><value>Provjereno</value></data>
+  <data name="DemoMediaIconCheckSquare" xml:space="preserve"><value>Označeni okvir</value></data>
+  <data name="DemoMediaIconArrowBendUpRight" xml:space="preserve"><value>Premjesti</value></data>
+  <data name="DemoMediaIconStethoscope" xml:space="preserve"><value>Dijagnostika</value></data>
+  <data name="DemoMediaIconChevronLeft" xml:space="preserve"><value>Prethodno</value></data>
+  <data name="DemoMediaIconEnvelope" xml:space="preserve"><value>E-pošta</value></data>
+  <data name="DemoMediaIconCurrencyEur" xml:space="preserve"><value>Iznos u eurima</value></data>
+  <data name="DemoMediaIconShareNetwork" xml:space="preserve"><value>Dijeli</value></data>
+  <data name="DemoMediaIconBank" xml:space="preserve"><value>Financijska institucija</value></data>
+  <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Zadatak</value></data>
+  <data name="DemoMediaIconIdentificationBadge" xml:space="preserve"><value>Identifikacijska iskaznica</value></data>
+  <data name="DemoMediaIconFilePdf" xml:space="preserve"><value>PDF dokument</value></data>
+  <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Podrška</value></data>
+  <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnerstvo</value></data>
+  <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Rast</value></data>
+  <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Naziv projekta</value></data>
+  <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>E-pošta odgovorne osobe</value></data>
+  <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>Potvrda e-pošte</value></data>
+  <data name="DemoAnnotatedValidationReplicas" xml:space="preserve"><value>Replike</value></data>
+  <data name="DemoOverlayOpenDialog" xml:space="preserve"><value>Otvori dijaloški okvir</value></data>
+  <data name="DemoOverlaySave" xml:space="preserve"><value>Spremi</value></data>
+  <data name="DemoOverlayMoreSaves" xml:space="preserve"><value>Drugi načini spremanja</value></data>
+  <data name="DemoOverlaySaveAndClose" xml:space="preserve"><value>Spremi i zatvori</value></data>
+  <data name="DemoOverlaySaveCopy" xml:space="preserve"><value>Spremi kopiju</value></data>
+  <data name="DemoOverlayPublishUnavailable" xml:space="preserve"><value>Objavi, nedostupno</value></data>
+  <data name="DemoOverlayFolderActions" xml:space="preserve"><value>Radnje mape</value></data>
+  <data name="DemoOverlayContextTrigger" xml:space="preserve"><value>Radnje (desni klik ili Shift+F10)</value></data>
+  <data name="DemoOverlayDuplicate" xml:space="preserve"><value>Dupliciraj</value></data>
+  <data name="DemoOverlayExport" xml:space="preserve"><value>Izvezi</value></data>
+  <data name="DemoOverlayDelete" xml:space="preserve"><value>Izbriši</value></data>
+  <data name="DemoOverlayDeleteFolder" xml:space="preserve"><value>Izbriši mapu</value></data>
+  <data name="DemoOverlayRunningTasks" xml:space="preserve"><value>Zadaci u tijeku</value></data>
+  <data name="DemoOverlayBackupStep" xml:space="preserve"><value>Noćna sigurnosna kopija, korak {0} od {1}.</value></data>
+  <data name="DemoOverlayViewProgress" xml:space="preserve"><value>Prikaži napredak</value></data>
+  <data name="DemoOverlayProgressOpened" xml:space="preserve"><value>Napredak je otvoren</value></data>
+  <data name="DemoOverlayQuickFilter" xml:space="preserve"><value>Brzi filtar</value></data>
+  <data name="DemoOverlayFilter" xml:space="preserve"><value>Filtriraj</value></data>
+  <data name="DemoOverlayFilterBody" xml:space="preserve"><value>Ploča se poravnava s početkom gumba.</value></data>
+  <data name="DemoOverlayAccountMenu" xml:space="preserve"><value>Izbornik računa</value></data>
+  <data name="DemoOverlayMyProfile" xml:space="preserve"><value>Moj profil</value></data>
+  <data name="DemoOverlaySignOut" xml:space="preserve"><value>Odjava</value></data>
+  <data name="DemoOverlaySignedOut" xml:space="preserve"><value>Odjavljeni ste</value></data>
+  <data name="DemoOverlayAdminUnavailable" xml:space="preserve"><value>Administracija, nedostupno</value></data>
+  <data name="DemoOverlayStickyButton" xml:space="preserve"><value>Dijalog koji zanemaruje pozadinu</value></data>
+  <data name="DemoOverlayBlockingButton" xml:space="preserve"><value>Dijalog s nametnutim zatvaranjem</value></data>
+  <data name="DemoOverlaySizeSmall" xml:space="preserve"><value>Mali</value></data>
+  <data name="DemoOverlaySizeMedium" xml:space="preserve"><value>Srednji</value></data>
+  <data name="DemoOverlaySizeLarge" xml:space="preserve"><value>Veliki</value></data>
+  <data name="DemoOverlaySizeExtraLarge" xml:space="preserve"><value>Vrlo veliki</value></data>
+  <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Puna širina</value></data>
+  <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Širina dijaloga</value></data>
+  <data name="DemoOverlaySizedBody" xml:space="preserve"><value>Ovaj je dijalog otvoren u veličini {0}.</value></data>
+  <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Obrazac (naglasak)</value></data>
+  <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Informacija</value></data>
+  <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Uspjeh</value></data>
+  <data name="DemoOverlayIntentWarning" xml:space="preserve"><value>Potvrda (upozorenje)</value></data>
+  <data name="DemoOverlayIntentDanger" xml:space="preserve"><value>Brisanje (opasnost)</value></data>
+  <data name="DemoOverlayIntentTitle" xml:space="preserve"><value>Postavke izvođenja</value></data>
+  <data name="DemoOverlayIntentBody" xml:space="preserve"><value>Ovaj dijalog ima namjenu {0}.</value></data>
+  <data name="DemoOverlayConfirm" xml:space="preserve"><value>Potvrdi</value></data>
+  <data name="DemoOverlayCancel" xml:space="preserve"><value>Odustani</value></data>
+  <data name="DemoOverlayPipelineActions" xml:space="preserve"><value>Radnje cjevovoda</value></data>
+  <data name="DemoOverlayEdit" xml:space="preserve"><value>Uredi</value></data>
+  <data name="DemoOverlayUpdate" xml:space="preserve"><value>Ažuriraj</value></data>
+  <data name="DemoOverlayRowActions" xml:space="preserve"><value>Radnje retka</value></data>
+  <data name="DemoOverlayLastAction" xml:space="preserve"><value>Posljednja radnja: {0}</value></data>
+  <data name="DemoOverlayNoAction" xml:space="preserve"><value>nijedna</value></data>
+  <data name="DemoOverlayNoticeInfoTitle" xml:space="preserve"><value>Informacija</value></data>
+  <data name="DemoOverlayNoticeInfo" xml:space="preserve"><value>Noćna obrada započet će u {0}.</value></data>
+  <data name="DemoOverlayNoticeDoneTitle" xml:space="preserve"><value>Dovršeno</value></data>
+  <data name="DemoOverlayNoticeDone" xml:space="preserve"><value>Uvezeno je dokumenata: {0}.</value></data>
+  <data name="DemoOverlayNotificationClosed" xml:space="preserve"><value>Obavijest je zatvorena</value></data>
+  <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Kvota je gotovo dosegnuta.</value></data>
+  <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Neuspjeh</value></data>
+  <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Povezivanje s uslugom nije uspjelo.</value></data>
+  <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Potvrdi brisanje</value></data>
+  <data name="DemoOverlayClose" xml:space="preserve"><value>Zatvori</value></data>
+  <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Ova radnja uklanja mapu s popisa. Može se poništiti tijekom trideset dana.</value></data>
+  <data name="DemoOverlayDeletionConfirmed" xml:space="preserve"><value>Brisanje je potvrđeno</value></data>
+  <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Filtar u tijeku</value></data>
+  <data name="DemoOverlayStickyBody" xml:space="preserve"><value>Klik izvan ne zatvara ovaj dijalog: zatvaraju ga križić i Esc.</value></data>
+  <data name="DemoOverlayBlockingTitle" xml:space="preserve"><value>Migracija u tijeku</value></data>
+  <data name="DemoOverlayBlockingBody" xml:space="preserve"><value>Ni križić, ni Esc, ni pozadina: zatvara ga samo gumb dijaloga.</value></data>
+  <data name="DemoOverlayFinish" xml:space="preserve"><value>Završi</value></data>
+  <data name="DemoOverlayMigrationDone" xml:space="preserve"><value>Migracija je dovršena</value></data>
+  <data name="DemoEditorBodyLabel" xml:space="preserve"><value>Tijelo dopisa</value></data>
+  <data name="DemoEditorSourceLabel" xml:space="preserve"><value>Izvor dopisa</value></data>
+  <data name="DemoEditorAnnotatedLabel" xml:space="preserve"><value>Označeni članak</value></data>
+  <data name="DemoEditorPosition" xml:space="preserve"><value>Položaj: {0}</value></data>
+  <data name="DemoEditorOutsideText" xml:space="preserve"><value>izvan teksta</value></data>
+  <data name="DemoEditorRoot" xml:space="preserve"><value>korijen</value></data>
+  <data name="DemoEditorExtendedLabel" xml:space="preserve"><value>Komentirano mišljenje</value></data>
+  <data name="DemoEditorReportLabel" xml:space="preserve"><value>Izvješće</value></data>
+  <data name="DemoEditorReportFileName" xml:space="preserve"><value>izvjesce</value></data>
+  <data name="DemoEditorCodeLabel" xml:space="preserve"><value>JSON postavke</value></data>
+  <data name="DemoEditorIconBold" xml:space="preserve"><value>Podebljano</value></data>
+  <data name="DemoEditorIconItalic" xml:space="preserve"><value>Kurziv</value></data>
+  <data name="DemoEditorIconUnderline" xml:space="preserve"><value>Podcrtano</value></data>
+  <data name="DemoEditorIconStrikethrough" xml:space="preserve"><value>Precrtano</value></data>
+  <data name="DemoEditorIconSubscript" xml:space="preserve"><value>Indeks</value></data>
+  <data name="DemoEditorIconSuperscript" xml:space="preserve"><value>Eksponent</value></data>
+  <data name="DemoEditorIconBulletList" xml:space="preserve"><value>Popis s grafičkim oznakama</value></data>
+  <data name="DemoEditorIconIndent" xml:space="preserve"><value>Povećaj uvlaku</value></data>
+  <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Smanji uvlaku</value></data>
+  <data name="DemoEditorIconQuote" xml:space="preserve"><value>Citat</value></data>
+  <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Umetnuti kôd</value></data>
+  <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Blok koda</value></data>
+  <data name="DemoEditorIconLink" xml:space="preserve"><value>Poveznica</value></data>
+  <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Ukloni poveznicu</value></data>
+  <data name="DemoEditorIconAlignLeft" xml:space="preserve"><value>Poravnaj lijevo</value></data>
+  <data name="DemoEditorIconAlignCenter" xml:space="preserve"><value>Centriraj</value></data>
+  <data name="DemoEditorIconAlignRight" xml:space="preserve"><value>Poravnaj desno</value></data>
+  <data name="DemoEditorIconJustify" xml:space="preserve"><value>Obostrano poravnaj</value></data>
+  <data name="DemoEditorIconUndo" xml:space="preserve"><value>Poništi</value></data>
+  <data name="DemoEditorIconRedo" xml:space="preserve"><value>Ponovi</value></data>
+  <data name="DemoEditorIconClearFormatting" xml:space="preserve"><value>Očisti oblikovanje</value></data>
+  <data name="DemoEditorIconHtmlSource" xml:space="preserve"><value>HTML izvor</value></data>
+  <data name="DemoEditorIconTable" xml:space="preserve"><value>Tablica</value></data>
+  <data name="DemoEditorManifest" xml:space="preserve"><value>Manifest implementacije</value></data>
+  <data name="DemoEditorManifestHelp" xml:space="preserve"><value>Samo jedna datoteka, otvara sistemski prozor za odabir.</value></data>
+  <data name="DemoEditorUploadFailed" xml:space="preserve"><value>Prijenos nije uspio.</value></data>
+  <data name="DemoEditorUploaded" xml:space="preserve"><value>Preneseni dokumenti: {0}</value></data>
+  <data name="DemoEditorNoUpload" xml:space="preserve"><value>nijedan</value></data>
+  <data name="DemoEditorTestCommand" xml:space="preserve"><value>Naredba za testiranje</value></data>
+  <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Primjer konfiguracije</value></data>
+  <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Izvadak, retci od {0} do {1}</value></data>
+  <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Usporedi dvije konfiguracije</value></data>
+  <data name="DemoEditorSignatureText" xml:space="preserve"><value>Služba za predmete</value></data>
+  <data name="DemoEditorReferenceText" xml:space="preserve"><value>Referenca: {0}</value></data>
+  <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Umetni blok potpisa</value></data>
+  <data name="DemoEditorAddSignature" xml:space="preserve"><value>Dodaj potpis</value></data>
+  <data name="DemoEditorInsertReference" xml:space="preserve"><value>Umetni referencu</value></data>
+  <data name="DemoEditorAddNote" xml:space="preserve"><value>Dodaj bilješku</value></data>
+  <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>Nova bilješka.</value></data>
+  <data name="DemoEditorNewNote" xml:space="preserve"><value>Nova bilješka</value></data>
+  <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Ukloni bilješku</value></data>
+  <data name="DemoEditorArticleText" xml:space="preserve"><value>Članak 1. Ovaj se pravilnik primjenjuje na zaprimljene predmete.</value></data>
+  <data name="DemoEditorArticleDelay" xml:space="preserve"><value>Rok</value></data>
+  <data name="DemoEditorArticleDocument" xml:space="preserve"><value>Dokument</value></data>
+  <data name="DemoEditorArticleDays" xml:space="preserve"><value>{0} dana</value></data>
+  <data name="DemoEditorArticleForm" xml:space="preserve"><value>Obrazac</value></data>
+  <data name="DemoEditorArticleNote" xml:space="preserve"><value>Napomena: pročišćeni tekst na dan 1. siječnja.</value></data>
+  <data name="DemoEditorOpinion" xml:space="preserve"><value>Pozitivno mišljenje uz uvjet{0}.</value></data>
+  <data name="DemoEditorOpinionNote" xml:space="preserve"><value>provjeriti rok</value></data>
+  <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>uz uvjet</value></data>
+  <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> provjere</value></data>
+  <data name="DemoEditorReportParagraph" xml:space="preserve"><value>{0} odlomak.</value></data>
+  <data name="DemoEditorReportImportant" xml:space="preserve"><value>Važan</value></data>
+  <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Prva točka</value></data>
+  <data name="DemoEditorReportSecondPoint" xml:space="preserve"><value>Druga točka</value></data>
+  <data name="DemoEditorBodyGreeting" xml:space="preserve"><value>Poštovani,</value></data>
+  <data name="DemoEditorBodyText" xml:space="preserve"><value>Vaš je predmet zaprimljen.</value></data>
+  <data name="DemoEditorEmptyFile" xml:space="preserve"><value>Jedna je datoteka prazna.</value></data>
+  <data name="DemoChoiceShippingLabel" xml:space="preserve"><value>Način slanja</value></data>
+  <data name="DemoChoiceExtrasLabel" xml:space="preserve"><value>Mogućnosti predmeta</value></data>
+  <data name="DemoChoicePeriodLabel" xml:space="preserve"><value>Razdoblje</value></data>
+  <data name="DemoChoicePin" xml:space="preserve"><value>Prikvači</value></data>
+  <data name="DemoChoiceUnavailable" xml:space="preserve"><value>Nedostupno</value></data>
+  <data name="DemoChoiceSaving" xml:space="preserve"><value>Spremanje</value></data>
+  <data name="DemoChoiceLabelledCheck" xml:space="preserve"><value>Potvrdni okvir s oznakom</value></data>
+  <data name="DemoChoiceTriStateCheck" xml:space="preserve"><value>Potvrdni okvir s tri stanja</value></data>
+  <data name="DemoChoiceTriStateSwitch" xml:space="preserve"><value>Prekidač s tri stanja</value></data>
+  <data name="DemoChoiceTriStateValue" xml:space="preserve"><value>Stanje s tri položaja: {0}</value></data>
+  <data name="DemoChoiceIndeterminate" xml:space="preserve"><value>neodređeno</value></data>
+  <data name="DemoChoiceOn" xml:space="preserve"><value>uključeno</value></data>
+  <data name="DemoChoiceOff" xml:space="preserve"><value>isključeno</value></data>
+  <data name="DemoChoiceTextFirstCheck" xml:space="preserve"><value>Oznaka ispred potvrdnog okvira</value></data>
+  <data name="DemoChoiceTextFirstSwitch" xml:space="preserve"><value>Oznaka ispred prekidača</value></data>
+  <data name="DemoChoicePlatformLabel" xml:space="preserve"><value>Operacijski sustav agenta</value></data>
+  <data name="DemoChoiceWindowsDescription" xml:space="preserve"><value>Windows Server 2022 i noviji</value></data>
+  <data name="DemoChoiceFeaturesLabel" xml:space="preserve"><value>Značajke agenta</value></data>
+  <data name="DemoChoiceRunnerTitle" xml:space="preserve"><value>Izvršitelj cjevovoda</value></data>
+  <data name="DemoChoiceRunnerDescription" xml:space="preserve"><value>Pokreće korake na ovom računalu.</value></data>
+  <data name="DemoChoiceDockerDescription" xml:space="preserve"><value>Zahtijeva ga izvršitelj.</value></data>
+  <data name="DemoChoiceRating" xml:space="preserve"><value>Ocjena</value></data>
+  <data name="DemoChoiceRatingReadOnly" xml:space="preserve"><value>Ocjena samo za čitanje</value></data>
+  <data name="DemoChoiceRatingDisabled" xml:space="preserve"><value>Onemogućena ocjena</value></data>
+  <data name="DemoChoiceShippingStandard" xml:space="preserve"><value>Standardno</value></data>
+  <data name="DemoChoiceShippingExpress" xml:space="preserve"><value>Ekspresno</value></data>
+  <data name="DemoChoiceShippingPickup" xml:space="preserve"><value>Preuzimanje u poslovnici</value></data>
+  <data name="DemoChoiceExtraReceipt" xml:space="preserve"><value>Potvrda primitka</value></data>
+  <data name="DemoChoiceExtraCertifiedCopy" xml:space="preserve"><value>Ovjerena preslika</value></data>
+  <data name="DemoChoiceExtraTracking" xml:space="preserve"><value>Praćenje e-poštom</value></data>
+  <data name="DemoChoicePeriodDay" xml:space="preserve"><value>Dan</value></data>
+  <data name="DemoChoicePeriodMonth" xml:space="preserve"><value>Mjesec</value></data>
+  <data name="DemoChoicePeriodYear" xml:space="preserve"><value>Godina</value></data>
+  <data name="DemoChoiceFeatureCache" xml:space="preserve"><value>Predmemorija ovisnosti</value></data>
+  <data name="DemoChoiceFeatureArtifacts" xml:space="preserve"><value>Čuvanje artefakata</value></data>
+  <data name="DemoChoiceFeatureGpu" xml:space="preserve"><value>GPU ubrzanje</value></data>
+  <data name="DemoInputsAmount" xml:space="preserve"><value>Iznos</value></data>
+  <data name="DemoInputsQuantity" xml:space="preserve"><value>Količina</value></data>
+  <data name="DemoInputsQuantityHelp" xml:space="preserve"><value>Između {0} i {1}: vrijednost izvan granica vraća se na najbližu granicu.</value></data>
+  <data name="DemoInputsPassword" xml:space="preserve"><value>Lozinka</value></data>
+  <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Gumb prikazuje unos, a da ga nikamo ne kopira.</value></data>
+  <data name="DemoInputsDate" xml:space="preserve"><value>Datum stupanja na snagu</value></data>
+  <data name="DemoInputsDateHelp" xml:space="preserve"><value>Unos tipkovnicom ili kalendar; dani izvan granica ne mogu se odabrati.</value></data>
+  <data name="DemoInputsStart" xml:space="preserve"><value>Vrijeme početka</value></data>
+  <data name="DemoInputsStartHelp" xml:space="preserve"><value>Sati od 00 do 23, minute u koracima od {0}.</value></data>
+  <data name="DemoInputsAppointment" xml:space="preserve"><value>Sastanak</value></data>
+  <data name="DemoInputsAppointmentHelp" xml:space="preserve"><value>Kalendar i stupci vremena na istoj ploči.</value></data>
+  <data name="DemoInputsColor" xml:space="preserve"><value>Boja oznake</value></data>
+  <data name="DemoInputsCity" xml:space="preserve"><value>Grad</value></data>
+  <data name="DemoInputsCityHelp" xml:space="preserve"><value>Pretraživanje počinje od dva znaka.</value></data>
+  <data name="DemoInputsCityPlaceholder" xml:space="preserve"><value>Počnite pisati</value></data>
+  <data name="DemoInputsPickedSummary" xml:space="preserve"><value>Datum: {0}; vrijeme: {1}; sastanak: {2}</value></data>
+  <data name="DemoInputsNoDate" xml:space="preserve"><value>nijedan</value></data>
+  <data name="DemoInputsNoTime" xml:space="preserve"><value>nijedno</value></data>
+  <data name="DemoInputsNoAppointment" xml:space="preserve"><value>nijedan</value></data>
+  <data name="DemoFormName" xml:space="preserve"><value>Puno ime</value></data>
+  <data name="DemoFormNameHelp" xml:space="preserve"><value>Kako će se prikazati na računu.</value></data>
+  <data name="DemoFormNotes" xml:space="preserve"><value>Napomene</value></data>
+  <data name="DemoFormEmail" xml:space="preserve"><value>Adresa e-pošte</value></data>
+  <data name="DemoFormEmailHelp" xml:space="preserve"><value>Vrsta određuje mobilnu tipkovnicu i automatsko popunjavanje preglednika.</value></data>
+  <data name="DemoFormPhone" xml:space="preserve"><value>Telefon</value></data>
+  <data name="DemoFormWebsite" xml:space="preserve"><value>Web-mjesto</value></data>
+  <data name="DemoFormSearch" xml:space="preserve"><value>Pretraži</value></data>
+  <data name="DemoFormSearchPlaceholder" xml:space="preserve"><value>Filtriraj popis</value></data>
+  <data name="DemoFormBudget" xml:space="preserve"><value>Proračun</value></data>
+  <data name="DemoFormTerms" xml:space="preserve"><value>Prihvaćam uvjete korištenja</value></data>
+  <data name="DemoFormAlerts" xml:space="preserve"><value>Primaj upozorenja</value></data>
+  <data name="DemoFormDynamicValues" xml:space="preserve"><value>Vrijednosti obrasca: {0}</value></data>
+  <data name="DemoFormDynamicName" xml:space="preserve"><value>Naziv</value></data>
+  <data name="DemoFormDynamicAmount" xml:space="preserve"><value>Iznos</value></data>
+  <data name="DemoFormDynamicComment" xml:space="preserve"><value>Komentar</value></data>
+  <data name="DemoFormDynamicActive" xml:space="preserve"><value>Aktivno</value></data>
+  <data name="DemoValidationName" xml:space="preserve"><value>Ime</value></data>
+  <data name="DemoValidationNameRequired" xml:space="preserve"><value>Ime je obavezno.</value></data>
+  <data name="DemoValidationMail" xml:space="preserve"><value>E-pošta</value></data>
+  <data name="DemoValidationMailRequired" xml:space="preserve"><value>E-pošta je obavezna.</value></data>
+  <data name="DemoValidationSend" xml:space="preserve"><value>Pošalji</value></data>
+  <data name="DemoValidationAccepted" xml:space="preserve"><value>Obrazac je prihvaćen.</value></data>
+  <data name="DemoValidationProjectName" xml:space="preserve"><value>Naziv projekta</value></data>
+  <data name="DemoValidationOwnerMail" xml:space="preserve"><value>E-pošta odgovorne osobe</value></data>
+  <data name="DemoValidationMailConfirmation" xml:space="preserve"><value>Potvrda e-pošte</value></data>
+  <data name="DemoValidationReplicas" xml:space="preserve"><value>Replike</value></data>
+  <data name="DemoValidationCheck" xml:space="preserve"><value>Provjeri</value></data>
+  <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Simuliraj nespremljene promjene</value></data>
+  <data name="DemoSelectionCountry" xml:space="preserve"><value>Zemlja</value></data>
+  <data name="DemoSelectionCountryPlaceholder" xml:space="preserve"><value>Odaberite zemlju</value></data>
+  <data name="DemoSelectionCities" xml:space="preserve"><value>Gradovi koji se opslužuju</value></data>
+  <data name="DemoSelectionTags" xml:space="preserve"><value>Oznake</value></data>
+  <data name="DemoSelectionTagsCompact" xml:space="preserve"><value>Oznake, kompaktni oblik</value></data>
+  <data name="DemoSelectionTagsFilterable" xml:space="preserve"><value>Oznake, pretraživanje i stvaranje</value></data>
+  <data name="DemoSelectionTagsPlaceholder" xml:space="preserve"><value>Odaberite oznake</value></data>
+  <data name="DemoSelectionTagSearchPlaceholder" xml:space="preserve"><value>Traži oznaku</value></data>
+  <data name="DemoSelectionBelgium" xml:space="preserve"><value>Belgija</value></data>
+  <data name="DemoSelectionFrance" xml:space="preserve"><value>Francuska</value></data>
+  <data name="DemoSelectionLuxembourg" xml:space="preserve"><value>Luksemburg</value></data>
+  <data name="DemoSelectionNetherlands" xml:space="preserve"><value>Nizozemska</value></data>
+  <data name="DemoSelectionTagUrgent" xml:space="preserve"><value>Hitno</value></data>
+  <data name="DemoSelectionTagInternal" xml:space="preserve"><value>Interno</value></data>
+  <data name="DemoSelectionTagArchived" xml:space="preserve"><value>Arhivirano</value></data>
+  <data name="DemoFlowsCreateServer" xml:space="preserve"><value>Stvori poslužitelj</value></data>
+  <data name="DemoFlowsStepIdentity" xml:space="preserve"><value>Identitet</value></data>
+  <data name="DemoFlowsNameHelp" xml:space="preserve"><value>Gumb Sljedeće postaje dostupan čim se unese naziv.</value></data>
+  <data name="DemoFlowsServerName" xml:space="preserve"><value>Naziv poslužitelja</value></data>
+  <data name="DemoFlowsStepOptions" xml:space="preserve"><value>Mogućnosti</value></data>
+  <data name="DemoFlowsDailyBackup" xml:space="preserve"><value>Dnevna sigurnosna kopija</value></data>
+  <data name="DemoFlowsBackupRequired" xml:space="preserve"><value>Označite dnevnu sigurnosnu kopiju za produkcijski poslužitelj.</value></data>
+  <data name="DemoFlowsStepSummary" xml:space="preserve"><value>Sažetak</value></data>
+  <data name="DemoFlowsSummaryName" xml:space="preserve"><value>Naziv</value></data>
+  <data name="DemoFlowsSummaryBackup" xml:space="preserve"><value>Sigurnosna kopija</value></data>
+  <data name="DemoFlowsBackupDaily" xml:space="preserve"><value>Dnevna</value></data>
+  <data name="DemoFlowsBackupNone" xml:space="preserve"><value>Nijedna</value></data>
+  <data name="DemoFlowsOutcome" xml:space="preserve"><value>Rezultat: {0}</value></data>
+  <data name="DemoFlowsOutcomePending" xml:space="preserve"><value>u tijeku</value></data>
+  <data name="DemoFlowsOutcomeCreated" xml:space="preserve"><value>poslužitelj „{0}” je stvoren</value></data>
+  <data name="DemoFlowsOutcomeCancelled" xml:space="preserve"><value>otkazano</value></data>
+  <data name="DemoFlowsWizardInDialog" xml:space="preserve"><value>Čarobnjak u dijalogu</value></data>
+  <data name="DemoFlowsInviteTitle" xml:space="preserve"><value>Pozovi člana</value></data>
+  <data name="DemoFlowsInviteSteps" xml:space="preserve"><value>Koraci pozivnice</value></data>
+  <data name="DemoFlowsInvite" xml:space="preserve"><value>Pozovi</value></data>
+  <data name="DemoFlowsStepAddress" xml:space="preserve"><value>Adresa</value></data>
+  <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Adresa pozvane osobe.</value></data>
+  <data name="DemoFlowsStepRole" xml:space="preserve"><value>Uloga</value></data>
+  <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Uloga koju će dobiti.</value></data>
+  <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Administracijsko područje</value></data>
+  <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Operacije</value></data>
+  <data name="DemoFlowsUser" xml:space="preserve"><value>Korisničko ime</value></data>
+  <data name="DemoFlowsPassword" xml:space="preserve"><value>Lozinka</value></data>
+  <data name="DemoFlowsSignIn" xml:space="preserve"><value>Prijava</value></data>
+  <data name="DemoFlowsSignInNote" xml:space="preserve"><value>Obrazac predan aplikaciji domaćinu za „{0}”.</value></data>
+  <data name="DemoFlowsReturnAfterSignIn" xml:space="preserve"><value>Povratak nakon prijave: {0}</value></data>
+  <data name="DemoFlowsExternalRefused" xml:space="preserve"><value>Vanjska adresa je odbijena: {0}</value></data>
+  <data name="DemoFlowsSimulateDrop" xml:space="preserve"><value>Simuliraj prekid</value></data>
+  <data name="DemoFlowsSimulateReject" xml:space="preserve"><value>Simuliraj odbijanje</value></data>
+  <data name="DemoFlowsConnection" xml:space="preserve"><value>Veza: {0}</value></data>
+  <data name="DemoFlowsConnectionReconnecting" xml:space="preserve"><value>ponovno povezivanje</value></data>
+  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>neuspjeh</value></data>
+  <data name="DemoFlowsConnectionRejected" xml:space="preserve"><value>odbijena</value></data>
+  <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>uspostavljena</value></data>
+  <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>poslužitelj više ne odgovara (isteklo vrijeme čekanja)</value></data>
+  <data name="DemoFlowsReasonExpired" xml:space="preserve"><value>sesija je istekla na poslužitelju</value></data>
+  <data name="DemoTreeLabel" xml:space="preserve"><value>Stablo mapa</value></data>
+  <data name="DemoTreeEurope" xml:space="preserve"><value>Europa</value></data>
+  <data name="DemoTreeBelgium" xml:space="preserve"><value>Belgija</value></data>
+  <data name="DemoTreeCapitalText" xml:space="preserve"><value>{0}, glavni grad</value></data>
+  <data name="DemoTreeCapital" xml:space="preserve"><value>glavni grad</value></data>
+  <data name="DemoTreeFrance" xml:space="preserve"><value>Francuska</value></data>
+  <data name="DemoTreeLuxembourg" xml:space="preserve"><value>Luksemburg</value></data>
+  <data name="DemoTreeArchives" xml:space="preserve"><value>Arhive, učitavaju se pri otvaranju</value></data>
+  <data name="DemoTreeSelection" xml:space="preserve"><value>Odabir: {0}</value></data>
+  <data name="DemoTreeNoSelection" xml:space="preserve"><value>ništa</value></data>
+  <data name="DemoSpreadsheetLabel" xml:space="preserve"><value>Tromjesečni proračun</value></data>
+  <data name="DemoSpreadsheetStatus" xml:space="preserve"><value>Aktivna ćelija: {0}. Ukupno za tromjesečje: {1}</value></data>
+  <data name="DemoSpreadsheetReadOnlyLabel" xml:space="preserve"><value>Isti proračun, samo za čitanje</value></data>
+  <data name="DemoSpreadsheetItem" xml:space="preserve"><value>Stavka</value></data>
+  <data name="DemoSpreadsheetJanuary" xml:space="preserve"><value>Siječanj</value></data>
+  <data name="DemoSpreadsheetFebruary" xml:space="preserve"><value>Veljača</value></data>
+  <data name="DemoSpreadsheetMarch" xml:space="preserve"><value>Ožujak</value></data>
+  <data name="DemoSpreadsheetQuarter" xml:space="preserve"><value>Tromjesečje</value></data>
+  <data name="DemoSpreadsheetRent" xml:space="preserve"><value>Najamnina</value></data>
+  <data name="DemoSpreadsheetGroceries" xml:space="preserve"><value>Namirnice</value></data>
+  <data name="DemoSpreadsheetEnergy" xml:space="preserve"><value>Energija</value></data>
+  <data name="DemoSpreadsheetTransport" xml:space="preserve"><value>Prijevoz</value></data>
+  <data name="DemoSpreadsheetLeisure" xml:space="preserve"><value>Slobodno vrijeme</value></data>
+  <data name="DemoSpreadsheetTotal" xml:space="preserve"><value>Ukupno</value></data>
+  <data name="DemoSpreadsheetAverage" xml:space="preserve"><value>Prosjek</value></data>
+  <data name="DemoDiagramReadOnly" xml:space="preserve"><value>Samo za čitanje</value></data>
+  <data name="DemoDiagramMindMapLabel" xml:space="preserve"><value>Umna mapa: priprema selidbe</value></data>
+  <data name="DemoDiagramGitGraphLabel" xml:space="preserve"><value>Povijest sa spojenom granom</value></data>
+  <data name="DemoDiagramMapSummary" xml:space="preserve"><value>Čvorova: {0}, veza: {1}, znakova nakon spremanja: {2}.</value></data>
+  <data name="DemoDiagramNewIdea" xml:space="preserve"><value>Nova ideja</value></data>
+  <data name="DemoDiagramNodeMove" xml:space="preserve"><value>Selidba</value></data>
+  <data name="DemoDiagramNodePaperwork" xml:space="preserve"><value>Administracija</value></data>
+  <data name="DemoDiagramNodeAddress" xml:space="preserve"><value>Promjena adrese</value></data>
+  <data name="DemoDiagramNodeInsurance" xml:space="preserve"><value>Osiguranje kućanstva</value></data>
+  <data name="DemoDiagramNodeBoxes" xml:space="preserve"><value>Kutije</value></data>
+  <data name="DemoDiagramNodeKitchen" xml:space="preserve"><value>Kuhinja</value></data>
+  <data name="DemoDiagramNodeBooks" xml:space="preserve"><value>Knjige</value></data>
+  <data name="DemoDiagramNodeMovingDay" xml:space="preserve"><value>Dan selidbe</value></data>
+  <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Rezerviraj kombi</value></data>
+  <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Obavijesti susjede</value></data>
+  <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Prije 15.</value></data>
 </root>

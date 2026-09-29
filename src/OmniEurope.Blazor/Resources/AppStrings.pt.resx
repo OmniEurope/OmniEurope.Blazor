@@ -18,15 +18,25 @@
   <data name="SettingsTextSize" xml:space="preserve"><value>Tamanho do texto</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Densidade</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Tamanho dos controlos</value></data>
-  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Controlos</value></data>
-  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Texto</value></data>
-  <data name="SettingsDensityShort" xml:space="preserve"><value>Densidade</value></data>
-  <data name="SettingsScale" xml:space="preserve"><value>Tamanhos</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Predefinição</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>predefinição</value></data>
-  <data name="SettingsDecrease" xml:space="preserve"><value>Diminuir</value></data>
-  <data name="SettingsIncrease" xml:space="preserve"><value>Aumentar</value></data>
+  <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Diminuir o tamanho do texto</value></data>
+  <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Aumentar o tamanho do texto</value></data>
+  <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Diminuir o tamanho dos controlos</value></data>
+  <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Aumentar o tamanho dos controlos</value></data>
+  <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
+  <data name="SettingsLook" xml:space="preserve"><value>Tema e tamanhos</value></data>
+  <data name="SettingsLookTitle" xml:space="preserve"><value>Tema, paleta e tamanhos</value></data>
+  <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Texto {1} · {2}</value></data>
+  <data name="SettingsLookSummaryFull" xml:space="preserve"><value>{0} · Texto {1} · {2} · Controlos {3}</value></data>
+  <data name="DensityCompact" xml:space="preserve"><value>Compacta</value></data>
+  <data name="DensityComfortable" xml:space="preserve"><value>Confortável</value></data>
+  <data name="DensitySpacious" xml:space="preserve"><value>Espaçosa</value></data>
   <data name="ArcGaugeLabel" xml:space="preserve"><value>Medidor</value></data>
+  <data name="LabelValuePair" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="ChartCategoryColumn" xml:space="preserve"><value>Categoria</value></data>
+  <data name="ChartValueColumn" xml:space="preserve"><value>Valor</value></data>
+  <data name="ChartSeriesFallback" xml:space="preserve"><value>Série {0}</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>A pesquisa falhou. Altere a entrada para tentar novamente.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>1 resultado disponível.</value></data>
   <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} resultados disponíveis.</value></data>
@@ -81,8 +91,6 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Expandir ou reduzir todas as linhas</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Desafixar as colunas fixas</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Fixar novamente as colunas</value></data>
-  <data name="GridShrinkColumn" xml:space="preserve"><value>Reduzir a largura de {0}</value></data>
-  <data name="GridGrowColumn" xml:space="preserve"><value>Aumentar a largura de {0}</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Primeira página</value></data>
   <data name="PagerLast" xml:space="preserve"><value>Última página</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Linhas por página</value></data>
@@ -303,9 +311,9 @@
   <data name="MindMapFitView" xml:space="preserve"><value>Ajustar</value></data>
   <data name="MindMapFontSize" xml:space="preserve"><value>Tamanho do tipo de letra</value></data>
   <data name="MindMapItalic" xml:space="preserve"><value>Itálico</value></data>
-  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Setas: percorrer os nós, Home: nó central, Shift+setas: mover, Enter ou F2: mudar o nome, N: novo nó, D: duplicar, C: centrar, Delete: eliminar, + e -: zoom, 0: ajustar, Ctrl+Z e Ctrl+Y: anular e refazer, Shift+F10: menu, Escape: anular a seleção.</value></data>
-  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Setas: percorrer os nós, Home: nó central, C: centrar, + e -: zoom, 0: ajustar, Shift+F10: menu, Escape: anular a seleção.</value></data>
-  <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Escape para cancelar</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Setas: percorrer os nós, Home: nó central, Shift+setas: mover, Enter ou F2: mudar o nome, N: novo nó, D: duplicar, C: centrar, Delete: eliminar, + e -: zoom, 0: ajustar, Ctrl+Z e Ctrl+Y: anular e refazer, Shift+F10: menu, Esc: anular a seleção.</value></data>
+  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Setas: percorrer os nós, Home: nó central, C: centrar, + e -: zoom, 0: ajustar, Shift+F10: menu, Esc: anular a seleção.</value></data>
+  <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Esc para cancelar</value></data>
   <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Clique no nó de origem</value></data>
   <data name="MindMapLinkSelectTarget" xml:space="preserve"><value>Clique no nó de destino</value></data>
   <data name="MindMapMenuLabel" xml:space="preserve"><value>Ações do mapa</value></data>
@@ -344,6 +352,10 @@
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Menu do perfil</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Progresso</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>Em curso</value></data>
+  <data name="TextAreaCount" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="HeaderHome" xml:space="preserve"><value>Início</value></data>
+  <data name="HeaderLogo" xml:space="preserve"><value>Logótipo</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>A seleção de opção não é válida.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Este campo é obrigatório.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Período anterior</value></data>
@@ -358,10 +370,14 @@
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Colocar aqui: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Colocar aqui</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Cancelar a movimentação</value></data>
-  <data name="SchedulerMoving" xml:space="preserve"><value>{0} agarrado: escolha a nova posição, Escape para cancelar.</value></data>
+  <data name="SchedulerMoving" xml:space="preserve"><value>{0} agarrado: escolha a nova posição, Esc para cancelar.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} fica no mesmo lugar.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} movido para {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>A seleção segmentada não é válida.</value></data>
+  <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>A opção não é válida.</value></data>
+  <data name="RatingLabel" xml:space="preserve"><value>Classificação</value></data>
+  <data name="RatingStar" xml:space="preserve"><value>{0} de {1}</value></data>
+  <data name="RatingValue" xml:space="preserve"><value>{0}: {1} de {2}</value></data>
   <data name="SidebarLabel" xml:space="preserve"><value>Navegação</value></data>
   <data name="SidebarClose" xml:space="preserve"><value>Fechar a navegação</value></data>
   <data name="LoadingLabel" xml:space="preserve"><value>A carregar</value></data>
@@ -429,6 +445,7 @@
   <data name="GanttScale" xml:space="preserve"><value>Escala de tempo</value></data>
   <data name="GanttScaleDay" xml:space="preserve"><value>Dia</value></data>
   <data name="GanttScaleMonth" xml:space="preserve"><value>Mês</value></data>
+  <data name="GanttWeekNumber" xml:space="preserve"><value>S{0}</value></data>
   <data name="GanttScaleWeek" xml:space="preserve"><value>Semana</value></data>
   <data name="GanttTaskAfter" xml:space="preserve"><value>após {0}</value></data>
   <data name="GanttTaskColumn" xml:space="preserve"><value>Tarefa</value></data>
@@ -443,8 +460,9 @@
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, iniciada às {1}, duração</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Confirmar</value></data>
   <data name="GoBack" xml:space="preserve"><value>Voltar</value></data>
-  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Mostrar os distintivos e as ações</value></data>
-  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Ocultar os distintivos e as ações</value></data>
+  <data name="PageHeaderShowMore" xml:space="preserve"><value>Mostrar mais</value></data>
+  <data name="PageHeaderScrollTitleStart" xml:space="preserve"><value>Deslocar o título para o início</value></data>
+  <data name="PageHeaderScrollTitleEnd" xml:space="preserve"><value>Deslocar o título para o fim</value></data>
   <data name="DetailNotFound" xml:space="preserve"><value>Item não encontrado</value></data>
   <data name="SignIn" xml:space="preserve"><value>Iniciar sessão</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Ligação perdida</value></data>
@@ -477,6 +495,15 @@
   <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} meses</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} ano</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} anos</value></data>
+  <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} h</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} dia</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} dias</value></data>
+  <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} mês</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} meses</value></data>
+  <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} ano</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} anos</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Sublinhado</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Rasurado</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Código em linha</value></data>
@@ -589,7 +616,7 @@
   <data name="StatusStripLabel" xml:space="preserve"><value>Histórico de estados</value></data>
   <data name="StatusStripEmpty" xml:space="preserve"><value>Nenhum estado a apresentar</value></data>
   <data name="KanbanLabel" xml:space="preserve"><value>Quadro de cartões</value></data>
-  <data name="KanbanInstructions" xml:space="preserve"><value>Space ou Enter para agarrar o cartão, setas para o mover, Space ou Enter para o largar, Escape para cancelar.</value></data>
+  <data name="KanbanInstructions" xml:space="preserve"><value>Espaço ou Enter para agarrar o cartão, setas para o mover, Espaço ou Enter para o largar, Esc para cancelar.</value></data>
   <data name="KanbanGrabbed" xml:space="preserve"><value>{0} agarrado, coluna {1}, posição {2} de {3}.</value></data>
   <data name="KanbanMoved" xml:space="preserve"><value>{0}: coluna {1}, posição {2} de {3}.</value></data>
   <data name="KanbanDropped" xml:space="preserve"><value>{0} largado, coluna {1}, posição {2} de {3}.</value></data>

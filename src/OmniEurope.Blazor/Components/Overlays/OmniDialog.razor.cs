@@ -142,16 +142,23 @@ public partial class OmniDialog
         }
     }
 
+    /// <summary>
+    /// Loads the focus script on the first render. When the dialog opens, attaches dragging and the frozen
+    /// scale if asked for, and moves focus into it: a modal traps it, a modeless window lets Tab leave.
+    /// When it closes, detaches them and gives focus back to where it was before the dialog opened.
+    /// </summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the script calls are done.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            _focusModule = await JavaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omni-focus.js");
+            _focusModule = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
         }
 
         if (Open && !_attached && (Draggable || FreezeScale))
         {
-            _dialogModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omni-dialog.js");
+            _dialogModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Dialog);
             await _dialogModule.InvokeVoidAsync("attach", _dialog);
             if (FreezeScale) await _dialogModule.InvokeVoidAsync("freezeScale", _dialog);
             _attached = true;

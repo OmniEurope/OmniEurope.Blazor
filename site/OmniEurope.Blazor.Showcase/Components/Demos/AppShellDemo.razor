@@ -56,9 +56,9 @@
                 </OmniProfileMenu>
             </span>
             @* The caption buttons of a borderless desktop window; in the showcase they only report the click. *@
-            <OmniWindowControls OnMinimize="@(() => Last = "minimize")"
-                                OnMaximizeRestore="@(() => { Maximized = !Maximized; Last = "maximize"; })"
-                                IsMaximized="Maximized" OnClose="@(() => Last = "close")" />
+            <OmniWindowControls OnMinimize="@(() => Last = Text["DemoAppShellMinimize"])"
+                                OnMaximizeRestore="@(() => { Maximized = !Maximized; Last = Text["DemoAppShellMaximize"]; })"
+                                IsMaximized="Maximized" OnClose="@(() => Last = Text["DemoAppShellClose"])" />
         </OmniHeader>
         <OmniBody>
             <OmniSidebar Id="appshell-menu" Open="MenuOpen" OpenChanged="@(value => MenuOpen = value)"

@@ -36,6 +36,7 @@ public partial class OmniArcGaugeScaleValue : IDisposable
     private string DisplayValue => FormatValue?.Invoke(ClampedValue) ?? OmniChartGeometry.Display(ClampedValue);
     private string ColorClass => ChartColor.Class(ColorIndex);
 
+    /// <summary>Hands the displayed text of the value to its gauge, for the gauge's accessible name.</summary>
     protected override void OnParametersSet() => Gauge?.SetValue(this, DisplayValue);
 
     /// <summary>Removes the value from the accessible name of its gauge.</summary>

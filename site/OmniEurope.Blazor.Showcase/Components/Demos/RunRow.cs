@@ -6,5 +6,6 @@ namespace OmniEurope.Blazor.Showcase.Components.Demos;
 /// <param name="Run">The run number.</param>
 /// <param name="Pipeline">The pipeline it ran.</param>
 /// <param name="Seconds">How long it took, a number the grid aligns at the end.</param>
-/// <param name="Status">How it ended.</param>
-public sealed record RunRow(string Run, string Pipeline, int Seconds, string Status);
+/// <param name="Status">How it ended, localized.</param>
+/// <param name="Tone">The intention of that status: success, info, warning or danger.</param>
+public sealed record RunRow(string Run, string Pipeline, int Seconds, string Status, string Tone);

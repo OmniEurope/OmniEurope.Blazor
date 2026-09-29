@@ -1,5 +1,5 @@
 <EditForm EditContext="@EditContext">
-    <OmniRequiredValidator TValue="string" For="@(() => Model.Value)" ValidationDelayMilliseconds="1" ValidationFailed="OnValidationFailed" />
+    <OmniRequiredValidator TValue="string" For="@(() => Model.Value)" ValidationDelay="TimeSpan.FromMilliseconds(1)" ValidationFailed="OnValidationFailed" />
 </EditForm>
 
 @code {

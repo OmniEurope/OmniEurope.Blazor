@@ -4,6 +4,7 @@ namespace OmniEurope.Blazor.Components;
 /// One column of a Markdown table export: its heading and the text a row writes in it. The text is
 /// escaped by the exporter (pipes, line breaks), so the value is given as the reader should see it.
 /// </summary>
+/// <typeparam name="TItem">The type of the exported rows.</typeparam>
 /// <param name="Title">The column heading.</param>
 /// <param name="Value">The cell text of a row; null writes an empty cell.</param>
 public sealed record OmniMarkdownTableColumn<TItem>(string Title, Func<TItem, string?> Value);
@@ -20,6 +21,9 @@ public sealed record OmniMarkdownTableField(string Label, string Value);
 /// One page the exporter asks the row provider for. Pages are numbered from 1 and all have
 /// <see cref="PageSize"/> rows, so a paginated API takes them as they are.
 /// </summary>
+/// <param name="Page">One-based number of the page.</param>
+/// <param name="PageSize">Rows per page: the export's page size, capped by its row limit.</param>
+/// <param name="CancellationToken">The token passed to the export; cancelling it stops the export.</param>
 public sealed record OmniMarkdownTablePageRequest(int Page, int PageSize, CancellationToken CancellationToken)
 {
     /// <summary>Rows to skip before this page.</summary>
@@ -31,6 +35,7 @@ public sealed record OmniMarkdownTablePageRequest(int Page, int PageSize, Cancel
 /// the columns and the header lines; <see cref="LoadPage"/> reads every announced row, page by page,
 /// whatever the grid on screen shows (a page, a virtualized window).
 /// </summary>
+/// <typeparam name="TItem">The type of the exported rows.</typeparam>
 public sealed record OmniMarkdownTableExport<TItem>
 {
     /// <summary>The level-one heading of the document.</summary>
@@ -69,7 +74,10 @@ public sealed record OmniMarkdownTableExport<TItem>
 /// </summary>
 /// <param name="Markdown">The document.</param>
 /// <param name="RowCount">Rows written in the table.</param>
-/// <param name="TotalCount">Rows the source announced.</param>
+/// <param name="TotalCount">
+/// Rows the source announced; the rows read when it returned more than it announced (then at most the
+/// row limit, see <see cref="OmniMarkdownTableExporter.ExportAsync{TItem}"/>).
+/// </param>
 /// <param name="Truncated">True when the source announced more rows than the limit.</param>
 /// <param name="GeneratedAt">When the document was generated.</param>
 public sealed record OmniMarkdownTableDocument(string Markdown, int RowCount, int TotalCount, bool Truncated, DateTimeOffset GeneratedAt)
