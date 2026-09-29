@@ -1,13 +1,12 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-004 : Réunion des branches Aetheus, bande SDK libre, 10 thèmes et 10 palettes
 
-> Statut : en exécution depuis le 2026-09-18 (journal : `PLAN-004-execution-log.md`). Rédigé le 2026-09-17 sur `develop` (`8314ce1`), finalisé le même
+> Statut : **terminé** (11 lots, journal : `PLAN-004-execution-log.md`) ; exécuté à partir du 2026-09-18. Rédigé le 2026-09-17 sur `develop` (`8314ce1`), finalisé le même
 > jour après les décisions de l'utilisateur et la validation de la maquette, puis révisé le 2026-09-18
 > sur huit passes de revue de la maquette (T17 à T24), la dernière couvrant les 10 thèmes en clair et
 > en sombre. Ce plan est clos côté spécification : rien n'y reste en attente d'une décision.
 > Référence visuelle obligatoire : `PLAN-004-maquette-themes.html`, validée par l'utilisateur.
 > L'ouvrir dans un navigateur avant d'écrire la moindre ligne des lots 4 à 9.
-> `plans/` est ignoré par Git (`.gitignore:16`) : ce fichier est local, il ne voyage pas avec un clone.
 > Ce plan est écrit pour être exécuté par un autre agent sans le contexte de la conversation d'origine.
 > Tout ce qui est marqué **À VÉRIFIER** est une information non prouvée par l'auteur du plan.
 

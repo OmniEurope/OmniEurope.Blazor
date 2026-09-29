@@ -1,42 +1,21 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
-@implements IDisposable
+@implements IAsyncDisposable
 
-@* The chrome of a page in one framed block: the ancestors on the first line, then back, title,
-   badges and actions on the second. The last crumb of the trail is the title, so nothing reads
-   twice; a page that knows better passes Title. On a phone the badges and actions fold behind a
-   toggle, since a row of them would push the content off the screen; wider screens never fold. *@
-<div id="@Id" class="@Css("omni-page-header")" @attributes="AdditionalAttributes">
-    <div class="@(Framed ? "omni-page-header__frame" : "omni-page-header__frame omni-page-header__frame--plain")">
-        @if (ShowTrail)
-        {
-            <div class="omni-page-header__trail">
-                @if (TrailAncestors.Count > 0)
-                {
-                    <OmniBreadcrumb Label="@(TrailLabel ?? string.Empty)">
-                        @foreach (var entry in TrailAncestors)
-                        {
-                            if (entry.Loading)
-                            {
-                                <li class="omni-breadcrumb__item omni-page-header__crumb-loading">
-                                    <OmniSkeleton Shape="OmniSkeletonShape.Text" Label="@Localize("LoadingLabel")" />
-                                </li>
-                            }
-                            else
-                            {
-                                <OmniBreadcrumbItem Href="@entry.Href">@entry.Text</OmniBreadcrumbItem>
-                            }
-                        }
-                    </OmniBreadcrumb>
-                }
-            </div>
-        }
+@* The chrome of a page in one block of fixed height, so every page starts its content at the same
+   place. Line 1: back, icon, title, badges, actions and the "⋮" menu. Line 2, always reserved: the
+   ancestors ending with the title (so the title is not written twice), or the subtitle when the page
+   has no ancestor. A title longer than its line scrolls sideways, a chevron showing on each side that
+   still has text (omni-page-header.js). On a phone the badges and actions fold behind a "Show more"
+   toggle. Under the block: the subtitle when line 2 carries the trail, then the filters. *@
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-page-header")">
+    <div @ref="_frame" class="@FrameClass">
         <div class="omni-page-header__row">
             @if (ShowBack)
             {
                 <OmniButton Variant="BackVariant"
                             Class="omni-page-header__back"
-                            AriaLabel="@EffectiveBackLabel"
+                            Label="@EffectiveBackLabel"
                             title="@EffectiveBackLabel"
                             OnClick="GoBackAsync"><OmniIcon Name="OmniIconName.ArrowLeft" /></OmniButton>
             }
@@ -50,14 +29,22 @@
             }
             else
             {
+                <OmniButton Variant="OmniButtonVariant.Ghost"
+                            Class="omni-page-header__scroll omni-page-header__scroll--start"
+                            Label="@Localize("PageHeaderScrollTitleStart")"
+                            title="@Localize("PageHeaderScrollTitleStart")"><OmniIcon Name="OmniIconName.ChevronLeft" /></OmniButton>
                 <OmniHeading Level="Level" Class="omni-page-header__title">@EffectiveTitle</OmniHeading>
+                <OmniButton Variant="OmniButtonVariant.Ghost"
+                            Class="omni-page-header__scroll omni-page-header__scroll--end"
+                            Label="@Localize("PageHeaderScrollTitleEnd")"
+                            title="@Localize("PageHeaderScrollTitleEnd")"><OmniIcon Name="OmniIconName.ChevronRight" /></OmniButton>
             }
             @if (HasDetails)
             {
                 <OmniButton Variant="OmniButtonVariant.Ghost"
                             Class="omni-page-header__toggle"
-                            AriaLabel="@ToggleLabel"
-                            title="@ToggleLabel"
+                            Label="@Localize("PageHeaderShowMore")"
+                            title="@Localize("PageHeaderShowMore")"
                             aria-expanded="@(_expanded ? "true" : "false")"
                             aria-controls="@DetailsId"
                             OnClick="ToggleDetails"><OmniIcon Name="@(_expanded ? OmniIconName.ChevronUp : OmniIconName.ChevronDown)" /></OmniButton>
@@ -72,9 +59,47 @@
                     }
                 </div>
             }
+            @if (MenuContent is not null)
+            {
+                <OmniOverflowMenu Class="omni-page-header__menu">@MenuContent</OmniOverflowMenu>
+            }
+        </div>
+        <div class="omni-page-header__trail">
+            @if (TrailShown)
+            {
+                <OmniBreadcrumb Label="@(TrailLabel ?? string.Empty)">
+                    @foreach (var entry in TrailAncestors)
+                    {
+                        if (entry.Loading)
+                        {
+                            <li class="omni-breadcrumb__item omni-page-header__crumb-loading">
+                                <OmniSkeleton Shape="OmniSkeletonShape.Text" Label="@Localize("LoadingLabel")" />
+                            </li>
+                        }
+                        else
+                        {
+                            <OmniBreadcrumbItem Href="@entry.Href">@entry.Text</OmniBreadcrumbItem>
+                        }
+                    }
+                    @if (TitleLoading)
+                    {
+                        <li class="omni-breadcrumb__item omni-page-header__crumb-loading">
+                            <OmniSkeleton Shape="OmniSkeletonShape.Text" Label="@Localize("LoadingLabel")" />
+                        </li>
+                    }
+                    else
+                    {
+                        <OmniBreadcrumbItem Current="true">@EffectiveTitle</OmniBreadcrumbItem>
+                    }
+                </OmniBreadcrumb>
+            }
+            else if (HasSubtitle)
+            {
+                <p class="omni-page-header__trail-text">@Subtitle</p>
+            }
         </div>
     </div>
-    @if (!string.IsNullOrWhiteSpace(Subtitle))
+    @if (TrailShown && HasSubtitle)
     {
         <p class="omni-page-header__subtitle">@Subtitle</p>
     }

@@ -1,18 +1,23 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
+@implements IDisposable
 
 @* A card the user picks: one choice among several (a radio) or one of many options (a check box). The
    choice shows by the accent frame and tint alone, no check mark, so the text never moves; the frame
    keeps one width in every state for the same reason. A card that cannot change stays focusable and
-   says so (aria-disabled), so a choice forced on by another one is still read out. *@
+   says so (aria-disabled), so a choice forced on by another one is still read out. Inside a radio
+   OmniSelectableCardGroup only one card is in the tab order, and the arrows move the choice. *@
 <button @attributes="AdditionalAttributes"
+        @ref="_element"
         id="@Id"
         type="button"
-        class="@Css("omni-selectable-card", Selected ? "omni-selectable-card--selected" : null)"
-        role="@(Multiple ? "checkbox" : "radio")"
-        aria-checked="@(Selected ? "true" : "false")"
-        aria-disabled="@(Disabled ? "true" : null)"
-        @onclick="ToggleAsync">
+        class="@Css("omni-selectable-card", IsSelected ? "omni-selectable-card--selected" : null)"
+        role="@(IsMultiple ? "checkbox" : "radio")"
+        aria-checked="@(IsSelected ? "true" : "false")"
+        aria-disabled="@(IsDisabled ? "true" : null)"
+        tabindex="@TabIndex"
+        @onclick="ToggleAsync"
+        @onkeydown="HandleKeyDownAsync">
     @if (Icon is not null)
     {
         <span class="omni-selectable-card__icon" aria-hidden="true">@Icon</span>

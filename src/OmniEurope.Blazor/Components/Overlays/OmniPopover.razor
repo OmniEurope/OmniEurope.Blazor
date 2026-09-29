@@ -3,21 +3,30 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JavaScript
 
+@* The panel is named by PopupLabel, else by Label, else by the trigger itself (aria-labelledby). *@
 <div @ref="_root"
      @attributes="AdditionalAttributes"
-     id="@Id"
      class="@Css("omni-popover", PlacementClass)">
-    <OmniButton Variant="@TriggerVariant"
-                AriaLabel="@TriggerLabel"
+    <OmniButton Id="@TriggerId"
+                Variant="@TriggerVariant"
+                Size="Size"
+                Disabled="Disabled"
+                Label="@Label"
                 Class="@TriggerClass"
-                title="@(TriggerTitle ?? TriggerLabel)"
+                title="@(TriggerTitle ?? Label)"
                 OnClick="ToggleAsync"
                 aria-haspopup="dialog"
                 aria-expanded="@(IsOpen ? "true" : "false")"
-                aria-controls="@PanelId">@TriggerContent</OmniButton>
+                aria-controls="@(IsOpen ? PanelId : null)">@TriggerContent</OmniButton>
     @if (IsOpen)
     {
-        <div @ref="_panel" id="@PanelId" class="omni-popover__panel" role="dialog" aria-label="@Label" tabindex="-1">
+        <div @ref="_panel"
+             id="@PanelId"
+             class="omni-popover__panel"
+             role="dialog"
+             aria-label="@EffectivePopupLabel"
+             aria-labelledby="@(EffectivePopupLabel is null ? TriggerId : null)"
+             tabindex="-1">
             @ChildContent
         </div>
     }

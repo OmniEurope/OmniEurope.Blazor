@@ -11,9 +11,9 @@ public partial class RunGridsDemo
 
     private IReadOnlyList<PipelineRun> History { get; set; } = [];
 
-    private IReadOnlyList<object> SortedSelection { get; set; } = ["#2394"];
+    private IReadOnlyList<PipelineRun> SortedSelection { get; set; } = [];
 
-    private IReadOnlyList<object> StripedSelection { get; set; } = ["#2395"];
+    private IReadOnlyList<PipelineRun> StripedSelection { get; set; } = [];
 
     protected override void OnInitialized()
     {
@@ -37,6 +37,8 @@ public partial class RunGridsDemo
             Run("#2392", "aetheus-deploy-prod", "RunsTriggerManual", 271, "warning"),
             Run("#2391", "atlas-candidate", "RunsTriggerPush", 207, "danger")
         ];
+        SortedSelection = [.. Recent.Where(run => run.Run == "#2394")];
+        StripedSelection = [.. History.Where(run => run.Run == "#2395")];
     }
 
     /// <summary>A run whose trigger and status read in the current culture.</summary>

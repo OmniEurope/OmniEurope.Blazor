@@ -66,7 +66,7 @@ public sealed class BusyButtonTests : OmniBunitContext
             .Add(component => component.Text, "Publish")
             .Add(component => component.Busy, true)
             .Add(component => component.OnClick, () => clicks++)
-            .AddChildContent("<button type=\"button\">Draft</button>"));
+            .AddChildContent<OmniMenuItem>(item => item.AddChildContent("Draft")));
         var main = split.Find(".omni-split-button__main");
         var toggle = split.Find(".omni-split-button__toggle");
 
@@ -78,7 +78,7 @@ public sealed class BusyButtonTests : OmniBunitContext
 
         main.Click();
         toggle.Click();
-        split.Find(".omni-split-button").KeyDown(new KeyboardEventArgs { Key = "ArrowDown" });
+        split.Find(".omni-split-button__toggle").KeyDown(new KeyboardEventArgs { Key = "ArrowDown" });
 
         Assert.Equal(0, clicks);
         Assert.Empty(split.FindAll("[role='menu']"));

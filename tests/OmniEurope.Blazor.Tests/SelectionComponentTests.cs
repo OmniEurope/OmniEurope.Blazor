@@ -8,14 +8,17 @@ namespace OmniEurope.Blazor.Tests;
 public sealed class SelectionComponentTests : OmniBunitContext
 {
     [Fact]
-    public void DropDown_PreservesAStandardAriaLabelAttribute()
+    public void DropDown_Label_IsTheAccessibleName_AndWinsOverARawAriaLabel()
     {
+        // @attributes come first and the component's own attributes after (PLAN-007): the accessible
+        // name is the Label parameter, a raw aria-label attribute does not override it.
         var value = string.Empty;
         var dropDown = Render<OmniDropDown<string>>(parameters => parameters
             .Add(component => component.Options, [new OmniOption<string>("alpha", "Alpha")])
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
-            .AddUnmatched("aria-label", "Project"));
+            .Add(component => component.Label, "Project")
+            .AddUnmatched("aria-label", "Raw"));
 
         Assert.Equal("Project", dropDown.Find("select").GetAttribute("aria-label"));
     }
@@ -228,7 +231,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
     [Fact]
     public async Task Autocomplete_DebouncesRapidInputsAndSearchesOnlyTheLatestTerm()
     {
-        var form = Render<SelectionTestHost>(parameters => parameters.Add(component => component.DebounceMilliseconds, 100));
+        var form = Render<SelectionTestHost>(parameters => parameters.Add(component => component.Debounce, TimeSpan.FromMilliseconds(100)));
 
         var input = form.Find("#autocomplete");
         var first = input.InputAsync(new ChangeEventArgs { Value = "a" });
@@ -253,7 +256,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
         var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.DebounceMilliseconds, 0)
+            .Add(component => component.Debounce, TimeSpan.Zero)
             .Add(component => component.Search, (_, _) => ++callCount == 1 ? stale.Task : latest.Task));
 
         var input = autocomplete.Find("input");
@@ -279,9 +282,9 @@ public sealed class SelectionComponentTests : OmniBunitContext
         var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.DebounceMilliseconds, 0)
+            .Add(component => component.Debounce, TimeSpan.Zero)
             .Add(component => component.Search, (_, _) => throw new InvalidOperationException("C:\\secret\\query.txt"))
-            .Add(component => component.SearchFailed, exception => observed = exception));
+            .Add(component => component.OnSearchError, exception => observed = exception));
 
         await autocomplete.Find("input").InputAsync(new ChangeEventArgs { Value = "query" });
 
@@ -320,14 +323,15 @@ public sealed class SelectionComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public void Upload_AppliesTheInputIdToTheNativeFileControl()
+    public void Upload_PutsItsIdOnTheNativeFileControl_SoAFormFieldLabelNamesIt()
     {
         var upload = Render<OmniUpload>(parameters => parameters
-            .Add(component => component.Id, "upload-wrapper")
-            .Add(component => component.InputId, "upload-input"));
+            .Add(component => component.Id, "upload-input"));
 
-        Assert.Equal("upload-wrapper", upload.Find(".omni-upload").Id);
         Assert.Equal("upload-input", upload.Find("input[type=file]").Id);
+        Assert.True(string.IsNullOrEmpty(upload.Find(".omni-upload").Id));
+        Assert.Single(upload.FindAll("#upload-input"));
+        Assert.Contains("upload-input-hint", upload.Find("input[type=file]").GetAttribute("aria-describedby"), StringComparison.Ordinal);
     }
 
     [Fact]

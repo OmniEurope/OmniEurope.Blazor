@@ -4,7 +4,7 @@
 @* The caption buttons of a borderless desktop window (MAUI, Electron, WebView2 host): square, the full
    height of the header, side by side without a gap, the close button in the very corner. Extra header
    actions (a theme toggle) sit before them, square too, with a small gap. *@
-<div id="@Id" class="@Css("omni-window-controls")" role="group" aria-label="@EffectiveLabel" @attributes="AdditionalAttributes">
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-window-controls")" role="group" aria-label="@EffectiveLabel">
     @if (Actions is not null)
     {
         <div class="omni-window-controls__actions">@Actions</div>

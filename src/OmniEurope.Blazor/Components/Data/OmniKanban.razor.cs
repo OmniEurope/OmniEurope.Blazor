@@ -6,8 +6,9 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 /// <remarks>
 /// <para>
-/// The board never changes <see cref="Items"/>: a move is reported through <see cref="OnItemMoved"/>
-/// and the host applies it (and saves it), the card staying where it was otherwise. A card is placed in
+/// The board never changes <see cref="Items"/>: a move is reported through <see cref="OnItemMove"/>
+/// and the host applies it (and saves it), the card staying where it was otherwise. Without a handler
+/// for <see cref="OnItemMove"/> the board is read-only: no card can be picked up. A card is placed in
 /// the column whose key <see cref="ColumnOf"/> returns, in the order of <see cref="Items"/>.
 /// </para>
 /// <para>
@@ -76,13 +77,15 @@ public partial class OmniKanban<TItem>
     [Parameter]
     public RenderFragment<OmniKanbanColumn>? ColumnHeaderTemplate { get; set; }
 
-    /// <summary>Shows the board without letting a card move.</summary>
+    /// <summary>
+    /// Raised when a card is dropped somewhere else than where it was. Cards can be moved only when it
+    /// has a handler: without one the board is read-only.
+    /// </summary>
     [Parameter]
-    public bool ReadOnly { get; set; }
+    public EventCallback<OmniKanbanMove<TItem>> OnItemMove { get; set; }
 
-    /// <summary>Raised when a card is dropped somewhere else than where it was.</summary>
-    [Parameter]
-    public EventCallback<OmniKanbanMove<TItem>> OnItemMoved { get; set; }
+    /// <summary>Whether cards can be picked up: only when a host listens to their moves.</summary>
+    private bool CanMove => OnItemMove.HasDelegate;
 
     /// <summary>Accessible name of the board; the localized "card board" when empty.</summary>
     [Parameter]
@@ -114,8 +117,8 @@ public partial class OmniKanban<TItem>
 
         // A refresh can reorder the cards: the card being carried is found again by its key. A refresh
         // that removed it, or a board turned read-only, ends the move.
-        _grabbed = ReadOnly ? -1 : Relocate(previous, _grabbed);
-        var dragged = ReadOnly ? -1 : Relocate(previous, _dragged);
+        _grabbed = CanMove ? Relocate(previous, _grabbed) : -1;
+        var dragged = CanMove ? Relocate(previous, _dragged) : -1;
         if (dragged < 0)
         {
             ClearDrag();
@@ -208,7 +211,7 @@ public partial class OmniKanban<TItem>
     /// <summary>A key pressed on a card itself, forwarded by the script: Space, Enter, Escape or an arrow.</summary>
     internal Task HandleCardKeyAsync(string card, string key) => InvokeAsync(async () =>
     {
-        if (_disposed || ReadOnly
+        if (_disposed || !CanMove
             || !int.TryParse(card, NumberStyles.None, CultureInfo.InvariantCulture, out var index)
             || index >= _rendered.Count)
         {
@@ -305,7 +308,7 @@ public partial class OmniKanban<TItem>
         Announce(Localize("KanbanDropped", LabelOf(item), TitleOf(to), toIndex + 1, CountWith(to, index)));
         if (!string.Equals(from, to, StringComparison.Ordinal) || fromIndex != toIndex)
         {
-            await OnItemMoved.InvokeAsync(new OmniKanbanMove<TItem>(item, from, to, toIndex));
+            await OnItemMove.InvokeAsync(new OmniKanbanMove<TItem>(item, from, to, toIndex));
         }
     }
 
@@ -328,7 +331,7 @@ public partial class OmniKanban<TItem>
 
     private void StartDrag(int index)
     {
-        if (ReadOnly || _grabbed >= 0)
+        if (!CanMove || _grabbed >= 0)
         {
             return;
         }
@@ -387,7 +390,7 @@ public partial class OmniKanban<TItem>
         Announce(Localize("KanbanDropped", LabelOf(item), TitleOf(column), place + 1, CountWith(column, index)));
         if (!string.Equals(from, column, StringComparison.Ordinal) || fromIndex != place)
         {
-            await OnItemMoved.InvokeAsync(new OmniKanbanMove<TItem>(item, from, column, place));
+            await OnItemMove.InvokeAsync(new OmniKanbanMove<TItem>(item, from, column, place));
         }
     }
 

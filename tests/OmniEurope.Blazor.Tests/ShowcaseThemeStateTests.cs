@@ -117,6 +117,28 @@ public sealed class ShowcaseThemeStateTests
         Assert.Equal(OmniDensity.Comfortable, state.Density);
     }
 
+    /// <summary>A combination kept under a name the catalogue has since renamed comes back under the new name.</summary>
+    [Theory]
+    [InlineData("Défaut", "Crépuscule", "Essentiel", "Opale")]
+    [InlineData("Galet", "Défaut", "Galet", "Essentiel")]
+    public async Task Initialize_MapsRenamedThemeAndPaletteNames(string storedTheme, string storedPalette, string theme, string palette)
+    {
+        var js = new RecordingJsRuntime
+        {
+            Stored = JsonSerializer.Serialize(new Dictionary<string, string>
+            {
+                ["theme"] = storedTheme,
+                ["palette"] = storedPalette
+            })
+        };
+        var state = StateOver(js);
+
+        await state.InitializeAsync(TestContext.Current.CancellationToken);
+
+        Assert.Equal(theme, state.Theme.Name);
+        Assert.Equal(palette, state.Palette.Name);
+    }
+
     [Fact]
     public async Task Initialize_SurvivesAHalfWrittenEntry()
     {
@@ -285,7 +307,7 @@ public sealed class ShowcaseThemeStateTests
     }
 
     /// <summary>
-    /// PLAN-008 lot 9, Contrôle: a theme exported with a palette that is not its own carries the
+    /// PLAN-004 lot 9, Contrôle: a theme exported with a palette that is not its own carries the
     /// palette's colours and the theme's shape, in both halves.
     /// </summary>
     [Fact]

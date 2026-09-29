@@ -2,6 +2,18 @@
 @page "/composants/{DemoKey}"
 @using OmniEurope.Blazor.Showcase.Demos
 
+@if (Current is null)
+{
+    @* An address naming a key the gallery does not have: the same not-found content as the router's. *@
+    <PageTitle>@Text["NotFoundPageTitle"]</PageTitle>
+    <section aria-labelledby="not-found-title">
+        <OmniHeading Id="not-found-title" Level="OmniHeadingLevel.H1">@Text["NotFoundTitle"]</OmniHeading>
+        <p>@Text["NotFoundDescription"]</p>
+        <OmniLink Href="">@Text["BackHome"]</OmniLink>
+    </section>
+    return;
+}
+
 <PageTitle>@Text["GalleryPageTitle"]</PageTitle>
 
 <section aria-labelledby="gallery-title">
@@ -29,7 +41,8 @@
         <ul>
             @foreach (var capability in Current.CapabilityKeys)
             {
-                <li>@Text[capability]</li>
+                var arguments = Current.ArgumentsOf(capability);
+                <li>@(arguments.Length == 0 ? Text[capability] : Text[capability, arguments])</li>
             }
         </ul>
 

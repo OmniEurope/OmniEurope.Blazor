@@ -1,7 +1,7 @@
 <OmniDataGrid TItem="Region"
               Id="regions"
               Items="@Regions"
-              KeyProperty="Id"
+              KeyOf="@(region => region.Id)"
               ScrollMode="OmniDataGridScrollMode.All"
               ShowHeaderFilterMenu="true"
               IgnoreDiacritics="@IgnoreDiacritics">

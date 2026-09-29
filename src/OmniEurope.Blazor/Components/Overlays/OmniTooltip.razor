@@ -4,7 +4,7 @@
 @if (IsExpandable)
 {
     <span @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tooltip", DelayClass, WidthClass, "omni-tooltip--expandable", _expanded ? "omni-tooltip--expanded" : null)" data-omni-tooltip-track="@TrackingAttribute" @onmouseleave="Collapse">
-        <span class="omni-tooltip__trigger" tabindex="@TabIndex" aria-describedby="@FullTextId">@ChildContent</span>
+        <span class="omni-tooltip__trigger" tabindex="@(Focusable ? "0" : null)" aria-describedby="@FullTextId">@ChildContent</span>
         <span id="@TooltipId" class="omni-tooltip__content" role="tooltip">
             @* The full text stays the accessible description whatever is shown; the visible part is a
                preview until "Show more" unfolds the rest, never a silent cut. *@
@@ -17,7 +17,7 @@
 else
 {
     <span @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-tooltip", DelayClass, WidthClass)" data-omni-tooltip-track="@TrackingAttribute">
-        <span class="omni-tooltip__trigger" tabindex="@TabIndex" aria-describedby="@TooltipId">@ChildContent</span>
+        <span class="omni-tooltip__trigger" tabindex="@(Focusable ? "0" : null)" aria-describedby="@TooltipId">@ChildContent</span>
         <span id="@TooltipId" class="omni-tooltip__content" role="tooltip">@Text</span>
     </span>
 }

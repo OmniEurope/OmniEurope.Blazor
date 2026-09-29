@@ -11,7 +11,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class StatusStripAndBootSplashTests : OmniBunitContext
 {
-    private const string InteropPath = "./_content/OmniEurope.Blazor/omniInterop.js";
+    private const string InteropPath = Internal.OmniModules.Interop;
 
     private static readonly IReadOnlyList<OmniStatusStripItem> Runs =
     [
@@ -21,11 +21,12 @@ public sealed class StatusStripAndBootSplashTests : OmniBunitContext
         new() { Status = "unknown", Label = "Exécution 44 : inconnue" }
     ];
 
-    private static readonly IReadOnlyDictionary<string, OmniBadgeVariant> Tones = new Dictionary<string, OmniBadgeVariant>(StringComparer.Ordinal)
+    // The strip reads only the tone of each status; the texts of the map are never shown.
+    private static readonly OmniStatusMap<string> Tones = new(StringComparer.Ordinal)
     {
-        ["success"] = OmniBadgeVariant.Success,
-        ["failed"] = OmniBadgeVariant.Danger,
-        ["running"] = OmniBadgeVariant.Accent
+        { "success", OmniTone.Success, "Réussi" },
+        { "failed", OmniTone.Danger, "Échoué" },
+        { "running", OmniTone.Accent, "En cours" }
     };
 
     [Fact]
@@ -33,7 +34,7 @@ public sealed class StatusStripAndBootSplashTests : OmniBunitContext
     {
         var strip = Render<OmniStatusStrip>(parameters => parameters
             .Add(component => component.Items, Runs)
-            .Add(component => component.Tones, Tones)
+            .Add(component => component.Map, Tones)
             .Add(component => component.Pulsing, ["running"]));
 
         var list = strip.Find("ul.omni-status-strip");
@@ -57,16 +58,25 @@ public sealed class StatusStripAndBootSplashTests : OmniBunitContext
 
     [Theory]
     [MemberData(nameof(Variants))]
-    public void EveryTone_HasItsClass(OmniBadgeVariant variant)
+    public void EveryTone_HasItsClass(OmniTone tone)
     {
         var strip = Render<OmniStatusStrip>(parameters => parameters
             .Add(component => component.Items, [new OmniStatusStripItem { Status = "s", Label = "S" }])
-            .Add(component => component.Tones, new Dictionary<string, OmniBadgeVariant> { ["s"] = variant }));
+            .Add(component => component.Map, new OmniStatusMap<string> { { "s", tone, "S" } }));
 
-        Assert.Contains($"omni-status-strip__item--{variant.ToString().ToLowerInvariant()}", strip.Find(".omni-status-strip__item").ClassList);
+        Assert.Contains($"omni-status-strip__item--{tone.ToString().ToLowerInvariant()}", strip.Find(".omni-status-strip__item").ClassList);
     }
 
-    public static TheoryData<OmniBadgeVariant> Variants() => [.. Enum.GetValues<OmniBadgeVariant>()];
+    [Fact]
+    public void WithoutAMap_EveryItemIsNeutral()
+    {
+        var strip = Render<OmniStatusStrip>(parameters => parameters
+            .Add(component => component.Items, Runs));
+
+        Assert.All(strip.FindAll(".omni-status-strip__item"), mark => Assert.Contains("omni-status-strip__item--neutral", mark.ClassList));
+    }
+
+    public static TheoryData<OmniTone> Variants() => [.. Enum.GetValues<OmniTone>()];
 
     [Theory]
     [InlineData(OmniStatusStripShape.Dot, "omni-status-strip--dot")]

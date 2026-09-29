@@ -1,8 +1,8 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<div id="@Id"
-     class="@Css("omni-column", SpanClass("span", Span), SpanClass("sm", SmallSpan), SpanClass("md", MediumSpan), SpanClass("lg", LargeSpan))"
-     @attributes="AdditionalAttributes">
+<div @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@Css("omni-column", SpanClass("span", Span), SpanClass("sm", SmallSpan), SpanClass("md", MediumSpan), SpanClass("lg", LargeSpan))">
     @ChildContent
 </div>

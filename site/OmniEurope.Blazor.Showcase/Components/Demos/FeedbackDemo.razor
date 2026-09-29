@@ -1,15 +1,20 @@
 <OmniStack Gap="OmniSpacing.Large">
-    @* Les quatre intentions de la barre, dans ses deux formes. *@
+    @* Les six tons de la barre, dans ses deux formes. Indéterminée, elle n'affiche aucun nombre :
+       ShowValue y écrit « En cours ». *@
     <OmniStack Gap="OmniSpacing.Small">
         <OmniProgressBar Label="Téléversement" Value="62" ShowValue="true"
-                         Shape="OmniProgressShape.Linear" Variant="OmniProgressVariant.Accent" />
+                         Shape="OmniProgressShape.Linear" Tone="OmniTone.Accent" />
+        <OmniProgressBar Label="Indexation" Value="40" ShowValue="true"
+                         Tone="OmniTone.Neutral" />
+        <OmniProgressBar Label="Synchronisation" Value="55" ShowValue="true"
+                         Tone="OmniTone.Info" />
         <OmniProgressBar Label="Dossiers traités" Value="88" ShowValue="true"
-                         Variant="OmniProgressVariant.Success" />
+                         Tone="OmniTone.Success" />
         <OmniProgressBar Label="Quota bientôt atteint" Value="76" ShowValue="true"
-                         Variant="OmniProgressVariant.Warning" />
+                         Tone="OmniTone.Warning" />
         <OmniProgressBar Label="Échecs d'import" Value="12" ShowValue="true"
-                         Variant="OmniProgressVariant.Danger" />
-        <OmniProgressBar Label="Analyse en cours" Indeterminate="true" />
+                         Tone="OmniTone.Danger" />
+        <OmniProgressBar Label="Analyse en cours" Indeterminate="true" ShowValue="true" />
     </OmniStack>
 
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Large" Align="OmniAlignment.Center">
@@ -19,19 +24,19 @@
 
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
         <OmniTooltip Text="Le quota est calculé sur trente jours glissants.">
-            <OmniBadge Variant="OmniBadgeVariant.Neutral">Quota</OmniBadge>
+            <OmniBadge Tone="OmniTone.Neutral">Quota</OmniBadge>
         </OmniTooltip>
         <OmniTooltip Text="Un dossier archivé reste consultable en lecture seule." Tracking="OmniTooltipTracking.Pinned">
-            <OmniBadge Variant="OmniBadgeVariant.Accent">Archivé</OmniBadge>
+            <OmniBadge Tone="OmniTone.Accent">Archivé</OmniBadge>
         </OmniTooltip>
         <OmniTooltip Text="Brouillon." MaxWidth="OmniTooltipWidth.Narrow">
-            <OmniBadge Variant="OmniBadgeVariant.Neutral">Étroite</OmniBadge>
+            <OmniBadge Tone="OmniTone.Neutral">Étroite</OmniBadge>
         </OmniTooltip>
         @* Au-delà de CompactLength (240 caractères par défaut), l'infobulle s'ouvre sur un aperçu et
            une action « Afficher plus » que le pointeur peut atteindre ; le texte n'est jamais coupé en silence. *@
         <OmniTooltip MaxWidth="OmniTooltipWidth.Wide" Tracking="OmniTooltipTracking.Pinned"
                      Text="Un dossier archivé reste consultable en lecture seule. Il ne compte plus dans les quotas, n'apparaît plus dans les recherches par défaut et ne reçoit plus de notifications. Pour le rouvrir, un administrateur le restaure depuis l'onglet Archives ; son historique, ses pièces jointes et ses commentaires reviennent alors intacts, avec la date de restauration.">
-            <OmniBadge Variant="OmniBadgeVariant.Accent">Texte long</OmniBadge>
+            <OmniBadge Tone="OmniTone.Accent">Texte long</OmniBadge>
         </OmniTooltip>
     </OmniStack>
 
@@ -59,6 +64,6 @@
     <OmniStatusBadge TValue="string" Value="@("failed")" Map="DemoStatuses" />
 </OmniStack>
 
-<OmniStatusStrip Items="RecentRuns" Tones="RunTones" Label="Dernières exécutions" />
-<OmniStatusStrip Items="RecentRuns" Tones="RunTones" Shape="OmniStatusStripShape.Segment"
+<OmniStatusStrip Items="RecentRuns" Map="RunTones" Label="Dernières exécutions" />
+<OmniStatusStrip Items="RecentRuns" Map="RunTones" Shape="OmniStatusStripShape.Segment"
                  Label="Disponibilité sur les dernières heures" />

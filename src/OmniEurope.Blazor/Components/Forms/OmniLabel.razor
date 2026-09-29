@@ -1,10 +1,10 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<label id="@Id"
+<label @attributes="AdditionalAttributes"
+       id="@Id"
        class="@Css("omni-label", Required ? "omni-label--required" : null)"
-       for="@For"
-       @attributes="AdditionalAttributes">
+       for="@For">
     @ChildContent
     @if (Required)
     {

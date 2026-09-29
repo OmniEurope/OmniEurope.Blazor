@@ -3,7 +3,7 @@
 
 @* Two native pickers, start and end, either left empty. The grid reads the pair through
    OmniDataGridDateRange, so a day alone already covers the whole day. *@
-<div class="@Css("omni-data-grid__date-range")">
+<div @attributes="AdditionalAttributes" class="@Css("omni-data-grid__date-range")">
     <label class="omni-data-grid__date-range-field">
         <span class="omni-data-grid__date-range-label">@Localize("GridFilterDateFrom")</span>
         <input id="@Id"

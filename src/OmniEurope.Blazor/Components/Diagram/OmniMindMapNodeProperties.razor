@@ -10,13 +10,13 @@
              aria-labelledby="@TitleId">
         <div id="@TitleId" class="omni-mindmap-properties__title">@Localize("MindMapPropertiesTitle")</div>
         <OmniFormField For="@LabelId">
-            <Label>@Localize("MindMapNodeText")</Label>
+            <LabelContent>@Localize("MindMapNodeText")</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="@LabelId" @bind-Value:get="node.Label" @bind-Value:set="SetLabelAsync" Disabled="@Map.ReadOnly" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="@ColorId">
-            <Label>@Localize("MindMapNodeColor")</Label>
+            <LabelContent>@Localize("MindMapNodeColor")</LabelContent>
             <ChildContent>
                 <OmniDropDown TValue="string" Id="@ColorId" Options="ColorOptions" @bind-Value:get="SelectedGroup" @bind-Value:set="SetGroupAsync" Disabled="@Map.ReadOnly" />
             </ChildContent>
@@ -34,7 +34,7 @@
             }
         </div>
         <OmniFormField For="@FontSizeId">
-            <Label>@Localize("MindMapFontSize")</Label>
+            <LabelContent>@Localize("MindMapFontSize")</LabelContent>
             <ChildContent>
                 <OmniNumeric TValue="int" Id="@FontSizeId" Minimum="8" Maximum="48" @bind-Value:get="node.FontSize" @bind-Value:set="SetFontSizeAsync" Disabled="@Map.ReadOnly" />
             </ChildContent>
@@ -44,13 +44,13 @@
             <OmniToggleButton Value="@node.Italic" ValueChanged="SetItalicAsync" Disabled="@Map.ReadOnly">@Localize("MindMapItalic")</OmniToggleButton>
         </div>
         <OmniFormField For="@WidthId">
-            <Label>@Localize("MindMapNodeWidth")</Label>
+            <LabelContent>@Localize("MindMapNodeWidth")</LabelContent>
             <ChildContent>
                 <OmniNumeric TValue="int" Id="@WidthId" Minimum="0" Maximum="500" AriaDescribedBy="@HintId" @bind-Value:get="node.Width" @bind-Value:set="SetWidthAsync" Disabled="@Map.ReadOnly" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="@HeightId">
-            <Label>@Localize("MindMapNodeHeight")</Label>
+            <LabelContent>@Localize("MindMapNodeHeight")</LabelContent>
             <ChildContent>
                 <OmniNumeric TValue="int" Id="@HeightId" Minimum="0" Maximum="300" AriaDescribedBy="@HintId" @bind-Value:get="node.Height" @bind-Value:set="SetHeightAsync" Disabled="@Map.ReadOnly" />
             </ChildContent>

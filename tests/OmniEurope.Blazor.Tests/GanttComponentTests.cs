@@ -1,6 +1,7 @@
 using System.Globalization;
 using Bunit;
 using OmniEurope.Blazor.Components;
+using Microsoft.Extensions.DependencyInjection;
 using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Tests;
@@ -8,6 +9,12 @@ namespace OmniEurope.Blazor.Tests;
 public sealed class GanttComponentTests : OmniBunitContext
 {
     private static readonly CultureInfo French = CultureInfo.GetCultureInfo("fr-FR");
+
+    private static string WeekLabel(int week) => "S" + week.ToString(CultureInfo.InvariantCulture);
+
+    /// <summary>Registers a clock whose local date is <paramref name="day"/> (noon UTC, the same date in every time zone the tests run in).</summary>
+    private void UseToday(DateOnly day) =>
+        Services.AddSingleton<TimeProvider>(new FixedTimeProvider(new DateTimeOffset(day.ToDateTime(new TimeOnly(12, 0)), TimeSpan.Zero)));
 
     // Monday 2 March 2026 to Friday 20 March 2026, a group of two and a task without a group.
     private static IReadOnlyList<OmniGanttTask> Tasks() =>
@@ -19,10 +26,10 @@ public sealed class GanttComponentTests : OmniBunitContext
     ];
 
     [Theory]
-    [InlineData(OmniGanttScale.Day, "2026-02-28", "2026-03-23")]
-    [InlineData(OmniGanttScale.Week, "2026-02-23", "2026-03-30")]
-    [InlineData(OmniGanttScale.Month, "2026-03-01", "2026-04-01")]
-    public void Range_AddsAMargin_AndStartsOnWholeWeeksOrMonths(OmniGanttScale scale, string start, string end)
+    [InlineData(OmniCalendarView.Day, "2026-02-28", "2026-03-23")]
+    [InlineData(OmniCalendarView.Week, "2026-02-23", "2026-03-30")]
+    [InlineData(OmniCalendarView.Month, "2026-03-01", "2026-04-01")]
+    public void Range_AddsAMargin_AndStartsOnWholeWeeksOrMonths(OmniCalendarView scale, string start, string end)
     {
         var (from, to) = GanttLayout.Range(new DateOnly(2026, 3, 2), new DateOnly(2026, 3, 20), scale);
 
@@ -33,8 +40,8 @@ public sealed class GanttComponentTests : OmniBunitContext
     [Fact]
     public void Rows_ListUngroupedTasksFirst_ThenEachGroupUnderItsHeading()
     {
-        var grouped = GanttLayout.Build(Tasks(), OmniGanttScale.Day, true, new DateOnly(2026, 3, 11), French);
-        var flat = GanttLayout.Build(Tasks(), OmniGanttScale.Day, false, new DateOnly(2026, 3, 11), French);
+        var grouped = GanttLayout.Build(Tasks(), OmniCalendarView.Day, true, new DateOnly(2026, 3, 11), French, WeekLabel);
+        var flat = GanttLayout.Build(Tasks(), OmniCalendarView.Day, false, new DateOnly(2026, 3, 11), French, WeekLabel);
 
         Assert.Equal(["Lancement", "Conception", "Maquettes", "Relecture", "Réalisation", "Développement"], grouped.Rows.Select(row => row.Label));
         Assert.Equal([false, true, false, false, true, false], grouped.Rows.Select(row => row.IsGroup));
@@ -49,7 +56,7 @@ public sealed class GanttComponentTests : OmniBunitContext
     [Fact]
     public void Bars_RunFromTheFirstDayToTheEndOfTheLast_WithTheShareDoneFilled()
     {
-        var layout = GanttLayout.Build(Tasks(), OmniGanttScale.Day, false, new DateOnly(2026, 3, 11), French);
+        var layout = GanttLayout.Build(Tasks(), OmniCalendarView.Day, false, new DateOnly(2026, 3, 11), French, WeekLabel);
 
         var design = layout.Rows[1].Bar!;
         Assert.Equal(3 * 32, design.X);                      // 28 Feb, 1 and 2 March come first.
@@ -63,7 +70,7 @@ public sealed class GanttComponentTests : OmniBunitContext
     [Fact]
     public void Dependencies_RunFromTheEndOfTheTaskWaitedForToTheStartOfTheTaskWaiting()
     {
-        var layout = GanttLayout.Build(Tasks(), OmniGanttScale.Day, false, new DateOnly(2026, 3, 11), French);
+        var layout = GanttLayout.Build(Tasks(), OmniCalendarView.Day, false, new DateOnly(2026, 3, 11), French, WeekLabel);
 
         // Three known links; "missing" is ignored.
         Assert.Equal(3, layout.Dependencies.Count);
@@ -79,9 +86,9 @@ public sealed class GanttComponentTests : OmniBunitContext
     [Fact]
     public void Header_NamesMonthsAndWeeks_AndShadesWeekEndsAtTheDayZoom()
     {
-        var days = GanttLayout.Build(Tasks(), OmniGanttScale.Day, true, new DateOnly(2026, 3, 11), French);
-        var weeks = GanttLayout.Build(Tasks(), OmniGanttScale.Week, true, new DateOnly(2026, 3, 11), French);
-        var months = GanttLayout.Build(Tasks(), OmniGanttScale.Month, true, new DateOnly(2026, 3, 11), French);
+        var days = GanttLayout.Build(Tasks(), OmniCalendarView.Day, true, new DateOnly(2026, 3, 11), French, WeekLabel);
+        var weeks = GanttLayout.Build(Tasks(), OmniCalendarView.Week, true, new DateOnly(2026, 3, 11), French, WeekLabel);
+        var months = GanttLayout.Build(Tasks(), OmniCalendarView.Month, true, new DateOnly(2026, 3, 11), French, WeekLabel);
 
         Assert.Equal(["février 2026", "mars 2026"], days.TopTier.Select(cell => cell.Label));
         Assert.Equal(23, days.BottomTier.Count);
@@ -95,8 +102,8 @@ public sealed class GanttComponentTests : OmniBunitContext
     [Fact]
     public void Today_IsMarkedInTheMiddleOfItsColumn_OnlyWhenTheChartShowsIt()
     {
-        var inside = GanttLayout.Build(Tasks(), OmniGanttScale.Day, true, new DateOnly(2026, 3, 11), French);
-        var outside = GanttLayout.Build(Tasks(), OmniGanttScale.Day, true, new DateOnly(2027, 1, 1), French);
+        var inside = GanttLayout.Build(Tasks(), OmniCalendarView.Day, true, new DateOnly(2026, 3, 11), French, WeekLabel);
+        var outside = GanttLayout.Build(Tasks(), OmniCalendarView.Day, true, new DateOnly(2027, 1, 1), French, WeekLabel);
 
         Assert.Equal(inside.X(new DateOnly(2026, 3, 11)) + 16, inside.TodayX);
         Assert.Null(outside.TodayX);
@@ -105,14 +112,14 @@ public sealed class GanttComponentTests : OmniBunitContext
     [Fact]
     public void Render_GivesEveryBarANamedButton_AndReportsTheTaskClicked()
     {
+        UseToday(new DateOnly(2026, 3, 11));
         OmniGanttTask? clicked = null;
         var gantt = Render<OmniGantt>(parameters => parameters
             .Add(component => component.Tasks, Tasks())
-            .Add(component => component.Scale, OmniGanttScale.Day)
-            .Add(component => component.Today, new DateOnly(2026, 3, 11))
+            .Add(component => component.Scale, OmniCalendarView.Day)
             .Add(component => component.Culture, French)
             .Add(component => component.SelectedTaskId, "review")
-            .Add(component => component.TaskClicked, task => clicked = task));
+            .Add(component => component.OnTaskClick, task => clicked = task));
 
         var buttons = gantt.FindAll("button.omni-gantt__hit");
         Assert.Equal(4, buttons.Count);
@@ -134,9 +141,10 @@ public sealed class GanttComponentTests : OmniBunitContext
     [Fact]
     public void Render_KeepsNamesAndBarsRowForRow()
     {
+        UseToday(new DateOnly(2026, 3, 11));
         var gantt = Render<OmniGantt>(parameters => parameters
             .Add(component => component.Tasks, Tasks())
-            .Add(component => component.Today, new DateOnly(2026, 3, 11)));
+);
 
         Assert.Equal(
             ["Lancement", "Conception", "Maquettes", "Relecture", "Réalisation", "Développement"],
@@ -148,7 +156,7 @@ public sealed class GanttComponentTests : OmniBunitContext
     [Fact]
     public void ScalePicker_ZoomsWithoutABinding_AndReportsTheNewScale()
     {
-        var reported = new List<OmniGanttScale>();
+        var reported = new List<OmniCalendarView>();
         var gantt = Render<OmniGantt>(parameters => parameters
             .Add(component => component.Tasks, Tasks())
             .Add(component => component.ScaleChanged, scale => reported.Add(scale)));
@@ -156,8 +164,8 @@ public sealed class GanttComponentTests : OmniBunitContext
 
         gantt.FindAll(".omni-select-bar [role=radio]")[0].Click();
 
-        Assert.Equal([OmniGanttScale.Day], reported);
-        Assert.Equal(OmniGanttScale.Day, gantt.Instance.CurrentScale);
+        Assert.Equal([OmniCalendarView.Day], reported);
+        Assert.Equal(OmniCalendarView.Day, gantt.Instance.CurrentScale);
         Assert.Contains("omni-gantt--day", gantt.Find("section").ClassList);
         Assert.NotEqual(weekWidth, gantt.Find("svg.omni-gantt__svg").GetAttribute("width"));
     }
@@ -173,5 +181,10 @@ public sealed class GanttComponentTests : OmniBunitContext
         Assert.Equal($"url(#{first.Find("marker").Id})", first.Find(".omni-gantt__dependencies path").GetAttribute("marker-end"));
         Assert.Equal("Aucune tâche à afficher.", empty.Find(".omni-gantt__empty").TextContent);
         Assert.Empty(empty.FindAll(".omni-select-bar"));
+    }
+
+    private sealed class FixedTimeProvider(DateTimeOffset value) : TimeProvider
+    {
+        public override DateTimeOffset GetUtcNow() => value;
     }
 }

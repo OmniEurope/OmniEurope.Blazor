@@ -12,7 +12,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DataGridFrozenDetachTests : OmniBunitContext
 {
-    private const string GridModule = "./_content/OmniEurope.Blazor/omni-grid.js";
+    private const string GridModule = Internal.OmniModules.Grid;
     private const string Toggle = ".omni-data-grid__frozen-toggle";
 
     [Fact]

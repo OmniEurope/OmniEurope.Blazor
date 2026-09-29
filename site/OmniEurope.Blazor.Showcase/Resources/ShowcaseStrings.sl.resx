@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="HeaderBadge" xml:space="preserve"><value>Knjižnica komponent</value></data>
+  <data name="ModeLight" xml:space="preserve"><value>Svetla tema</value></data>
+  <data name="ModeDark" xml:space="preserve"><value>Temna tema</value></data>
+  <data name="LanguageSelectorLabel" xml:space="preserve"><value>Jezik predstavitve</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Glavno krmarjenje</value></data>
+  <data name="MenuLabel" xml:space="preserve"><value>Razdelki spletnega mesta</value></data>
+  <data name="NavShowcase" xml:space="preserve"><value>Pregled</value></data>
+  <data name="NavDocumentation" xml:space="preserve"><value>Dokumentacija</value></data>
+  <data name="NavComponents" xml:space="preserve"><value>Komponente</value></data>
+  <data name="NavCustomize" xml:space="preserve"><value>Prilagajanje</value></data>
+  <data name="ErrorTitle" xml:space="preserve"><value>Prišlo je do napake</value></data>
+  <data name="ErrorMessage" xml:space="preserve"><value>Strani ni bilo mogoče pravilno prikazati.</value></data>
+  <data name="Retry" xml:space="preserve"><value>Poskusite znova</value></data>
+  <data name="NotFoundPageTitle" xml:space="preserve"><value>Strani ni mogoče najti</value></data>
+  <data name="NotFoundTitle" xml:space="preserve"><value>Strani ni mogoče najti</value></data>
+  <data name="NotFoundDescription" xml:space="preserve"><value>Zahtevani naslov se ne ujema z nobeno stranjo tega spletnega mesta.</value></data>
+  <data name="BackHome" xml:space="preserve"><value>Nazaj na domačo stran</value></data>
+  <data name="HomePageTitle" xml:space="preserve"><value>OmniEurope.Blazor</value></data>
+  <data name="HomeKicker" xml:space="preserve"><value>Blazor</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Dostopne komponente Blazor pod strogim varnostnim pravilnikom</value></data>
+  <data name="HomeLead" xml:space="preserve"><value>Knjižnica komponent, zasnovana za aplikacije, ki prepovedujejo vrstične sloge, zahtevajo dostopnost in želijo temo, ki jo je mogoče upravljati od začetka do konca.</value></data>
+  <data name="HomeSeeComponents" xml:space="preserve"><value>Oglejte si komponente</value></data>
+  <data name="HomeSeeCustomize" xml:space="preserve"><value>Prilagodite temo</value></data>
+  <data name="HomePillarsTitle" xml:space="preserve"><value>Po čem se knjižnica razlikuje</value></data>
+  <data name="PillarCspTitle" xml:space="preserve"><value>Strog varnostni pravilnik</value></data>
+  <data name="PillarCspBody" xml:space="preserve"><value>Brez vrstičnih atributov sloga, brez vstavljenih oznak sloga, brez dinamičnega izvajanja skriptov. Knjižnica deluje pod pravilnikom, ki vse to zavrača.</value></data>
+  <data name="PillarThemeTitle" xml:space="preserve"><value>Tema v celoti na spremenljivkah</value></data>
+  <data name="PillarThemeBody" xml:space="preserve"><value>Barve, tipografija, razmiki, zaobljenja, sence in paleta grafikonov gredo vsi skozi spremenljivke CSS, brez ene same fiksne vrednosti v pravilih.</value></data>
+  <data name="PillarA11yTitle" xml:space="preserve"><value>Dostopnost, ki jo zagotavljajo testi</value></data>
+  <data name="PillarA11yBody" xml:space="preserve"><value>Vloge, stanja in oznake preverja nabor testov, ne le dokumentacija.</value></data>
+  <data name="PillarWeightTitle" xml:space="preserve"><value>Nadzorovana velikost</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Objavljeni paket se ob vsaki gradnji izmeri glede na proračun bajtov, vključno s slogovno predlogo.</value></data>
+  <data name="DocsPageTitle" xml:space="preserve"><value>Dokumentacija</value></data>
+  <data name="DocsTitle" xml:space="preserve"><value>Dokumentacija</value></data>
+  <data name="DocsLead" xml:space="preserve"><value>Od namestitve paketa do prve prilagojene teme, v petih korakih.</value></data>
+  <data name="DocsInstallTitle" xml:space="preserve"><value>Namestite paket</value></data>
+  <data name="DocsInstallBody" xml:space="preserve"><value>Na knjižnico se sklicujete kot na kateri koli drug paket NuGet.</value></data>
+  <data name="DocsRegisterTitle" xml:space="preserve"><value>Registrirajte storitve</value></data>
+  <data name="DocsRegisterBody" xml:space="preserve"><value>En sam klic registrira vse storitve, ki jih komponente potrebujejo.</value></data>
+  <data name="DocsCssTitle" xml:space="preserve"><value>Sklicujte se na slogovno predlogo</value></data>
+  <data name="DocsCssBody" xml:space="preserve"><value>Slogovna predloga je na voljo kot statični vir paketa.</value></data>
+  <data name="DocsCspTitle" xml:space="preserve"><value>Varnostni pravilnik</value></data>
+  <data name="DocsCspBody" xml:space="preserve"><value>Knjižnica ne zahteva nobenih dovoljenj poleg teh: ne vrstičnih slogov ne dinamičnega izvajanja skriptov.</value></data>
+  <data name="DocsThemeTitle" xml:space="preserve"><value>Prilagodite temo</value></data>
+  <data name="DocsThemeBody" xml:space="preserve"><value>Dovolj je, da na novo določite eno spremenljivko, in spremeni se videz vseh komponent, ki jo berejo.</value></data>
+  <data name="DocsThemePointer" xml:space="preserve"><value>Za sestavo celotne teme brez pisanja CSS:</value></data>
+  <data name="GalleryPageTitle" xml:space="preserve"><value>Komponente</value></data>
+  <data name="GalleryTitle" xml:space="preserve"><value>Komponente</value></data>
+  <data name="GalleryLead" xml:space="preserve"><value>Vsaka družina je predstavljena s tem, kar zna, z živo predstavitvijo in s kodo, ki jo ustvari.</value></data>
+  <data name="GalleryNavLabel" xml:space="preserve"><value>Družine komponent</value></data>
+  <data name="GalleryCapabilities" xml:space="preserve"><value>Kaj komponenta zna</value></data>
+  <data name="GalleryPreview" xml:space="preserve"><value>Predstavitev</value></data>
+  <data name="GallerySource" xml:space="preserve"><value>Izvorna koda</value></data>
+  <data name="GallerySourceNote" xml:space="preserve"><value>Ta koda je datoteka, ki jo zgornja predstavitev dejansko prevede in izvede, prebrana iz sestava, nikoli ročno prepisana.</value></data>
+  <data name="GallerySourceMissingTitle" xml:space="preserve"><value>Vir ni na voljo</value></data>
+  <data name="GallerySourceMissing" xml:space="preserve"><value>Datoteke predstavitve ni bilo mogoče najti med viri sestava.</value></data>
+  <data name="DemoButtonsTitle" xml:space="preserve"><value>Gumbi</value></data>
+  <data name="DemoButtonsSummary" xml:space="preserve"><value>Sprožilec dejanja, v vizualnih namenih in stanjih.</value></data>
+  <data name="DemoButtonsCapability1" xml:space="preserve"><value>Štirje nameni: primarni, sekundarni, prosojni in uničevalni.</value></data>
+  <data name="DemoButtonsCapability2" xml:space="preserve"><value>Zasedeno stanje, ki prepreči dvojno pošiljanje in se najavi bralnikom zaslona.</value></data>
+  <data name="DemoButtonsCapability3" xml:space="preserve"><value>Onemogočeno stanje, ločeno od zasedenega.</value></data>
+  <data name="DemoButtonsCapability4" xml:space="preserve"><value>Tri velikosti in trije tipi gumbov obrazca: pošiljanje, ponastavitev in nevtralno dejanje.</value></data>
+  <data name="DemoBadgesTitle" xml:space="preserve"><value>Značke</value></data>
+  <data name="DemoBadgesSummary" xml:space="preserve"><value>Kratka oznaka, ki opredeli element, ne da bi ga preobremenila.</value></data>
+  <data name="DemoBadgesCapability1" xml:space="preserve"><value>Pet različic, usklajenih z ravnmi resnosti teme.</value></data>
+  <data name="DemoBadgesCapability2" xml:space="preserve"><value>Obarvana ozadja, izpeljana iz spremenljivk, zato se spreminjajo s temo.</value></data>
+  <data name="DemoAlertsTitle" xml:space="preserve"><value>Opozorila</value></data>
+  <data name="DemoAlertsSummary" xml:space="preserve"><value>Kontekstno sporočilo, od preprostega obvestila do blokirajoče napake.</value></data>
+  <data name="DemoAlertsCapability1" xml:space="preserve"><value>Štiri ravni resnosti: informacija, uspeh, opozorilo in nevarnost.</value></data>
+  <data name="DemoAlertsCapability2" xml:space="preserve"><value>Dve različici: diskretna obroba ali polno ozadje.</value></data>
+  <data name="DemoAlertsCapability3" xml:space="preserve"><value>Način v živo, ki sporočilo najavi podpornim tehnologijam.</value></data>
+  <data name="CustomizePageTitle" xml:space="preserve"><value>Prilagajanje</value></data>
+  <data name="CustomizeTitle" xml:space="preserve"><value>Prilagajanje</value></data>
+  <data name="CustomizeLead" xml:space="preserve"><value>Izberite temo, ki določa obliko, nato pa paleto, ki določa barve: vsaka paleta pobarva vsako temo, celotno spletno mesto pa se sproti spreminja. Predogled povzema kompozicije referenčne makete.</value></data>
+  <data name="CustomizeTokensTitle" xml:space="preserve"><value>Spremenljivke</value></data>
+  <data name="CustomizeTokensLead" xml:space="preserve"><value>Ta seznam se bere iz dobavljene slogovne predloge, zato ne more odstopati od tega, kar knjižnica dejansko izpostavlja. Spremenjena spremenljivka se doda prek kombinacije, v obeh načinih; izbira druge teme ali palete jo izbriše.</value></data>
+  <data name="CustomizeReset" xml:space="preserve"><value>Počisti spremembe</value></data>
+  <data name="TokenGroupColor" xml:space="preserve"><value>Barve</value></data>
+  <data name="TokenGroupTypography" xml:space="preserve"><value>Tipografija</value></data>
+  <data name="TokenGroupSpacing" xml:space="preserve"><value>Razmiki in gostota</value></data>
+  <data name="TokenGroupShape" xml:space="preserve"><value>Oblike, obrobe in pritisk</value></data>
+  <data name="TokenGroupElevation" xml:space="preserve"><value>Sence, sloj in prekrivanja</value></data>
+  <data name="TokenGroupChart" xml:space="preserve"><value>Grafikoni</value></data>
+  <data name="TokenGroupGrid" xml:space="preserve"><value>Podatkovna mreža v temnem načinu</value></data>
+  <data name="TokenGroupDiagram" xml:space="preserve"><value>Miselni vzorec</value></data>
+  <data name="CustomizeExportTitle" xml:space="preserve"><value>Izvoz</value></data>
+  <data name="CustomizeExportLead" xml:space="preserve"><value>Spodnji CSS vsebuje celotno kombinacijo, vključno s spremenjenimi spremenljivkami, za svetli, temni in sistemski način. Cilja na obseg teme (OmniThemeScope, data-omni-theme), kjer slogovna predloga znova deklarira svoje spremenljivke; naložite ga za slogovno predlogo knjižnice.</value></data>
+  <data name="CustomizeCopy" xml:space="preserve"><value>Kopiraj</value></data>
+  <data name="CustomizeDownload" xml:space="preserve"><value>Prenesi</value></data>
+  <data name="CustomizeCopied" xml:space="preserve"><value>CSS je kopiran v odložišče.</value></data>
+  <data name="CustomizeCopyFailed" xml:space="preserve"><value>Kopiranje ni uspelo. Izberite spodnjo kodo in jo kopirajte ročno.</value></data>
+  <data name="CustomizeDownloaded" xml:space="preserve"><value>Datoteka omnieurope-theme.css je prenesena.</value></data>
+  <data name="CustomizeDownloadFailed" xml:space="preserve"><value>Prenos ni uspel. Namesto tega kopirajte spodnjo kodo.</value></data>
+  <data name="DemoFormTitle" xml:space="preserve"><value>Obrazci</value></data>
+  <data name="DemoFormSummary" xml:space="preserve"><value>Vnosna polja in njihova dostopna oznaka.</value></data>
+  <data name="DemoFormCapability1" xml:space="preserve"><value>Oznaka, opis in sporočilo o napaki, povezani s poljem prek identifikatorja.</value></data>
+  <data name="DemoFormCapability2" xml:space="preserve"><value>Besedilno polje s števcem znakov in omejitvijo.</value></data>
+  <data name="DemoFormCapability3" xml:space="preserve"><value>Drsnik, potrditveno polje in stikalo, upravljani s tipkovnico.</value></data>
+  <data name="DemoSelectionTitle" xml:space="preserve"><value>Izbira</value></data>
+  <data name="DemoSelectionSummary" xml:space="preserve"><value>Izbira ene vrednosti s seznama ali več vrednosti.</value></data>
+  <data name="DemoSelectionCapability1" xml:space="preserve"><value>Spustni seznam z dovoljeno prazno vrednostjo.</value></data>
+  <data name="DemoSelectionCapability2" xml:space="preserve"><value>Seznam z višino, določeno s številom vidnih vrstic.</value></data>
+  <data name="DemoSelectionCapability3" xml:space="preserve"><value>Večkratni izbor, ki vrne seznam izbranih vrednosti.</value></data>
+  <data name="DemoNavigationTitle" xml:space="preserve"><value>Krmarjenje</value></data>
+  <data name="DemoNavigationSummary" xml:space="preserve"><value>Umestitev uporabnika in premikanje med razdelki.</value></data>
+  <data name="DemoNavigationCapability1" xml:space="preserve"><value>Drobtinice, ki označujejo trenutno stran.</value></data>
+  <data name="DemoNavigationCapability2" xml:space="preserve"><value>Nadzorovani zavihki, z vlogami in krmarjenjem s tipkovnico.</value></data>
+  <data name="DemoNavigationCapability3" xml:space="preserve"><value>Oštevilčeni koraki s preverjanjem pred menjavo.</value></data>
+  <data name="DemoFeedbackTitle" xml:space="preserve"><value>Povratne informacije o stanju</value></data>
+  <data name="DemoFeedbackSummary" xml:space="preserve"><value>Prikaz stanja sistema, ne da bi oviral branje.</value></data>
+  <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Vrstica napredka, določena ali nedoločena.</value></data>
+  <data name="DemoFeedbackCapability2" xml:space="preserve"><value>Opis orodja, dosegljiv s tipkovnico, ne le s premikom kazalca.</value></data>
+  <data name="DemoFeedbackCapability3" xml:space="preserve"><value>Okostje nalaganja, najavljeno bralnikom zaslona.</value></data>
+  <data name="DemoFeedbackCapability4" xml:space="preserve"><value>Linearna ali krožna vrstica v štirih namenih in okostje, ki prevzame obliko tega, kar nadomešča.</value></data>
+  <data name="DemoGridTitle" xml:space="preserve"><value>Podatkovna mreža</value></data>
+  <data name="DemoGridSummary" xml:space="preserve"><value>Delovna tabela: razvrščanje, filtriranje, številčenje strani in skupine.</value></data>
+  <data name="DemoGridCapability1" xml:space="preserve"><value>Razvrščanje in filtriranje po stolpcih, na dejanskih podatkih.</value></data>
+  <data name="DemoGridCapability2" xml:space="preserve"><value>Številčenje strani z nastavljivo velikostjo strani.</value></data>
+  <data name="DemoGridCapability3" xml:space="preserve"><value>Izmenične vrstice in deklarativne oblike stolpcev.</value></data>
+  <data name="DemoChartTitle" xml:space="preserve"><value>Grafikoni</value></data>
+  <data name="DemoChartSummary" xml:space="preserve"><value>Kategorične serije, v barvah teme.</value></data>
+  <data name="DemoChartCapability1" xml:space="preserve"><value>Stolpčne serije z naslovljenimi osmi.</value></data>
+  <data name="DemoChartCapability2" xml:space="preserve"><value>Barve, vzete iz spremenljivk grafikonov teme.</value></data>
+  <data name="DemoTypographyTitle" xml:space="preserve"><value>Tipografija</value></data>
+  <data name="DemoTypographySummary" xml:space="preserve"><value>Naslovi, odstavki, oznake in povezave.</value></data>
+  <data name="DemoTypographyCapability1" xml:space="preserve"><value>Šest ravni naslovov, v več tonih.</value></data>
+  <data name="DemoTypographyCapability2" xml:space="preserve"><value>Pet besedilnih elementov, od odstavka do poudarka.</value></data>
+  <data name="DemoTypographyCapability3" xml:space="preserve"><value>Krajšanje s tropičjem in oznaka, povezana s poljem.</value></data>
+  <data name="DemoLayoutTitle" xml:space="preserve"><value>Postavitev</value></data>
+  <data name="DemoLayoutSummary" xml:space="preserve"><value>Mreža, vrstice, kartice in skupine polj.</value></data>
+  <data name="DemoLayoutCapability1" xml:space="preserve"><value>Mreža z dvanajstimi stolpci in razponi po prelomnih točkah zaslona.</value></data>
+  <data name="DemoLayoutCapability2" xml:space="preserve"><value>Kartica s tremi območji: glava, telo in noga.</value></data>
+  <data name="DemoLayoutCapability3" xml:space="preserve"><value>Skupina polj, ki jo je mogoče onemogočiti z eno potezo.</value></data>
+  <data name="DemoLayoutCapability4" xml:space="preserve"><value>Celotna lestvica razmikov ter razporeditve in poravnave, ki jih vrstica sprejme.</value></data>
+  <data name="DemoShellTitle" xml:space="preserve"><value>Ogrodje aplikacije</value></data>
+  <data name="DemoShellSummary" xml:space="preserve"><value>Ogrodje aplikacije, tisto, iz katerega je narejeno to spletno mesto.</value></data>
+  <data name="DemoShellCapability1" xml:space="preserve"><value>Glava, zložljiva stranska vrstica in glavno območje.</value></data>
+  <data name="DemoShellCapability2" xml:space="preserve"><value>Meni za krmarjenje z razširljivimi skupinami.</value></data>
+  <data name="DemoShellCapability3" xml:space="preserve"><value>Preklop videza in lokalni obseg teme.</value></data>
+  <data name="DemoShellCapability4" xml:space="preserve"><value>Obe postavitvi: sredinski stolpec za branje ali polna širina, meni levo ali desno.</value></data>
+  <data name="DemoMediaTitle" xml:space="preserve"><value>Ikone in mediji</value></data>
+  <data name="DemoMediaSummary" xml:space="preserve"><value>Ikone, slike in časovnica.</value></data>
+  <data name="DemoMediaCapability1" xml:space="preserve"><value>Vgrajene ikone v treh velikostih.</value></data>
+  <data name="DemoMediaCapability2" xml:space="preserve"><value>Pot ikone, ki jo zagotovi gostiteljska aplikacija, brez povečanja paketa.</value></data>
+  <data name="DemoMediaCapability3" xml:space="preserve"><value>Slika z nastavljivim prileganjem in odloženim nalaganjem.</value></data>
+  <data name="DemoMediaCapability4" xml:space="preserve"><value>Celoten vgrajeni nabor ikon in trije načini prileganja slike.</value></data>
+  <data name="DemoInputsTitle" xml:space="preserve"><value>Napredni vnos</value></data>
+  <data name="DemoInputsSummary" xml:space="preserve"><value>Števila, gesla, datumi, časi, barve in samodokončanje.</value></data>
+  <data name="DemoInputsCapability1" xml:space="preserve"><value>Omejeno številsko polje z nastavljivim korakom.</value></data>
+  <data name="DemoInputsCapability2" xml:space="preserve"><value>Geslo, ki ga je mogoče prikazati, a se nikamor ne kopira.</value></data>
+  <data name="DemoInputsCapability3" xml:space="preserve"><value>Asinhrono samodokončanje, z zakasnitvijo in najmanjšo dolžino.</value></data>
+  <data name="DemoInputsCapability4" xml:space="preserve"><value>Datum, čas, datum in čas: lastni koledar in stolpci na plavajočem sloju, tipkovnica mreže, meje in gostota.</value></data>
+  <data name="DemoChoiceTitle" xml:space="preserve"><value>Izbira možnosti</value></data>
+  <data name="DemoChoiceSummary" xml:space="preserve"><value>Izbirni gumbi, več potrditvenih polj, vrstice za izbiro in preklopi.</value></data>
+  <data name="DemoChoiceCapability1" xml:space="preserve"><value>Seznami, ki jih vodijo možnosti ali so postavljeni element za elementom.</value></data>
+  <data name="DemoChoiceCapability2" xml:space="preserve"><value>Vrstica za izbiro in preklopni gumb, z zasedenim in onemogočenim stanjem.</value></data>
+  <data name="DemoChoiceCapability3" xml:space="preserve"><value>Potrditveno polje in stikalo s tremi položaji, vključno z nedoločenim.</value></data>
+  <data name="DemoValidationTitle" xml:space="preserve"><value>Preverjanje veljavnosti</value></data>
+  <data name="DemoValidationSummary" xml:space="preserve"><value>Pravila, deklarirana ob polju, ki ga varujejo.</value></data>
+  <data name="DemoValidationCapability1" xml:space="preserve"><value>Obveznost, dolžina, oblika e-pošte in primerjava.</value></data>
+  <data name="DemoValidationCapability2" xml:space="preserve"><value>Ob pošiljanju se fokus premakne na prvo neveljavno polje.</value></data>
+  <data name="DemoValidationCapability3" xml:space="preserve"><value>Nobenih opomb na modelu, vse je v označevanju.</value></data>
+  <data name="DemoEditorTitle" xml:space="preserve"><value>Urejevalniki in nalaganje</value></data>
+  <data name="DemoEditorSummary" xml:space="preserve"><value>Urejevalnik WYSIWYG in njegov vir HTML, urejevalnik besedil, urejevalnik kode in nalaganje datotek.</value></data>
+  <data name="DemoEditorCapability1" xml:space="preserve"><value>Ukazna vrstica, ki jo gostiteljska aplikacija dopolni ali preuredi, prečiščeno lepljenje, način izvorne kode.</value></data>
+  <data name="DemoEditorCapability2" xml:space="preserve"><value>Urejevalnik besedil na strani, štetje besed, izvoz v HTML in besedilo.</value></data>
+  <data name="DemoEditorCapability3" xml:space="preserve"><value>Urejevalnik kode (Monaco pri gostiteljski aplikaciji, navadno besedilo pod strogim CSP) in omejeno nalaganje.</value></data>
+  <data name="DemoOverlayTitle" xml:space="preserve"><value>Prekrivanja</value></data>
+  <data name="DemoOverlaySummary" xml:space="preserve"><value>Pogovorna okna, obvestila in pojavni meniji.</value></data>
+  <data name="DemoOverlayCapability1" xml:space="preserve"><value>Modalno pogovorno okno, ki se zapre s tipko Esc ali s klikom na ozadje.</value></data>
+  <data name="DemoOverlayCapability2" xml:space="preserve"><value>Štiri ravni resnosti obvestil, z neobveznim zapiranjem.</value></data>
+  <data name="DemoOverlayCapability3" xml:space="preserve"><value>Priročni meni, razdeljeni gumb in meni računa.</value></data>
+  <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Mreža, celoten pregled</value></data>
+  <data name="DemoGridAdvancedSummary" xml:space="preserve"><value>Izbor, skupine, urejanje, zamrznjeni stolpci in bogati filtri.</value></data>
+  <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Večkratni izbor s klikom na vrstico.</value></data>
+  <data name="DemoGridAdvancedCapability2" xml:space="preserve"><value>Filtri s spustnim seznamom in večkratnim izborom po stolpcih.</value></data>
+  <data name="DemoGridAdvancedCapability3" xml:space="preserve"><value>Zamrznjen stolpec, razširjene skupine in izračunana noga stolpca.</value></data>
+  <data name="DemoGridAdvancedCapability4" xml:space="preserve"><value>Nastavitve prikaza v živo: vrstice, gostota, številčenje strani, izbor, urejanje in filtri.</value></data>
+  <data name="DemoDataListTitle" xml:space="preserve"><value>Seznami in številčenje strani</value></data>
+  <data name="DemoDataListSummary" xml:space="preserve"><value>Seznam s prosto predlogo in njegov številčnik strani.</value></data>
+  <data name="DemoDataListCapability1" xml:space="preserve"><value>Predloga elementa, ki jo v celoti zagotovi gostiteljska aplikacija.</value></data>
+  <data name="DemoDataListCapability2" xml:space="preserve"><value>Ločena stanja: prazno, nalaganje in napaka.</value></data>
+  <data name="DemoDataListCapability3" xml:space="preserve"><value>Številčnik strani z nastavljivo velikostjo strani in bližnjicami za prvo in zadnjo.</value></data>
+  <data name="DemoTreeTitle" xml:space="preserve"><value>Drevesna struktura</value></data>
+  <data name="DemoTreeSummary" xml:space="preserve"><value>Razširljiva hierarhija, z enojnim ali večkratnim izborom.</value></data>
+  <data name="DemoTreeCapability1" xml:space="preserve"><value>Večkratni izbor in krmarjenje s tipkovnico.</value></data>
+  <data name="DemoTreeCapability2" xml:space="preserve"><value>Veja, naložena na zahtevo, ob odprtju vozlišča.</value></data>
+  <data name="DemoTreeCapability3" xml:space="preserve"><value>Vozlišča, ki jih je mogoče onemogočiti, ne da bi se prekinilo premikanje.</value></data>
+  <data name="DemoSpreadsheetTitle" xml:space="preserve"><value>Preglednica</value></data>
+  <data name="DemoSpreadsheetSummary" xml:space="preserve"><value>Preprosta preglednica: celice, formule in vrstica za formule.</value></data>
+  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Formule s sklici, obsegi, SUM, AVERAGE, MIN, MAX in kodami napak.</value></data>
+  <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Krmarjenje s tipkovnico, urejanje na mestu in vrstica za formule.</value></data>
+  <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Vsebina, povezana v obe smeri in serializabilna v JSON.</value></data>
+  <data name="DemoSchedulerTitle" xml:space="preserve"><value>Rokovnik</value></data>
+  <data name="DemoSchedulerSummary" xml:space="preserve"><value>Koledar in njegovi trije pogledi.</value></data>
+  <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Dnevni, tedenski in mesečni pogled, s preklapljanjem.</value></data>
+  <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Ponavljajoči se sestanki, opisani s pravilom.</value></data>
+  <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Vsak pogled je mogoče uporabiti tudi samostojno, zunaj koledarja.</value></data>
+  <data name="DemoChartsExtendedTitle" xml:space="preserve"><value>Grafikoni, celoten pregled</value></data>
+  <data name="DemoChartsExtendedSummary" xml:space="preserve"><value>Vse serije, legenda, oznake in merilnik.</value></data>
+  <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Črte, ploščine, stolpci, palice, zlaganja, tortni in kolobarni grafikon.</value></data>
+  <data name="DemoChartsExtendedCapability2" xml:space="preserve"><value>Legenda, označevalniki, oznake vrednosti in opis orodja.</value></data>
+  <data name="DemoChartsExtendedCapability3" xml:space="preserve"><value>Ločni merilnik, z lestvico in obliko vrednosti.</value></data>
+  <data name="DemoDiagramTitle" xml:space="preserve"><value>Miselni vzorec</value></data>
+  <data name="DemoDiagramSummary" xml:space="preserve"><value>Miselni vzorec, ki ga urejate z miško, dotikom in tipkovnico.</value></data>
+  <data name="DemoDiagramCapability1" xml:space="preserve"><value>Vlečenje, laso, povečava s kolescem ali s ščipom, priročni meni.</value></data>
+  <data name="DemoDiagramCapability2" xml:space="preserve"><value>Vsako dejanje ima svojo bližnjico na tipkovnici, najavljeno bralnikom zaslona.</value></data>
+  <data name="DemoDiagramCapability3" xml:space="preserve"><value>Vrstica dejanj in podokno lastnosti izbranega vozlišča.</value></data>
+  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Prebere in znova zapiše shranjeno obliko grafa, ne da bi karkoli izgubil.</value></data>
+  <data name="DemoPlanningTitle" xml:space="preserve"><value>Načrtovanje</value></data>
+  <data name="DemoPlanningSummary" xml:space="preserve"><value>Ganttov diagram, potek izvajanja in časovnica za postavitev.</value></data>
+  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt po dnevih, tednih ali mesecih, s skupinami, odvisnostmi in današnjim dnem.</value></data>
+  <data name="DemoPlanningCapability2" xml:space="preserve"><value>Potek korakov na časovnem merilu, s koraki, ki se nikoli niso začeli.</value></data>
+  <data name="DemoPlanningCapability3" xml:space="preserve"><value>Časovnica desno, levo ali izmenično, z izbiro prve strani.</value></data>
+  <data name="DemoPagesTitle" xml:space="preserve"><value>Strani</value></data>
+  <data name="DemoPagesSummary" xml:space="preserve"><value>Glava, stran s podrobnostmi in to, kar jo napolni.</value></data>
+  <data name="DemoPagesCapability1" xml:space="preserve"><value>Glava strani: drobtinice, ki jih vzdržuje storitev, vrnitev, naslov, značke in dejanja, strnjeni na telefonu.</value></data>
+  <data name="DemoPagesCapability2" xml:space="preserve"><value>Stran s podrobnostmi: glava, izrisana pred prihodom podatkov, vsebina, skrita med nalaganjem, stanje »ni mogoče najti« z vrnitvijo.</value></data>
+  <data name="DemoPagesCapability3" xml:space="preserve"><value>Seznam definicij v stolpcih, z enim dejanjem na vrednost.</value></data>
+  <data name="DemoPagesCapability4" xml:space="preserve"><value>Relativni datum s točnim datumom ob premiku kazalca in fokusu ter prazno stanje s pripadajočim dejanjem.</value></data>
+  <data name="DemoFlowsTitle" xml:space="preserve"><value>Poteki</value></data>
+  <data name="DemoFlowsSummary" xml:space="preserve"><value>Čarovnik, prijava in izguba povezave.</value></data>
+  <data name="DemoFlowsCapability1" xml:space="preserve"><value>Čarovnik s koraki: napredek, preverjanje po korakih, na strani ali v pogovornem oknu.</value></data>
+  <data name="DemoFlowsCapability2" xml:space="preserve"><value>Stran za prijavo brez vgrajenega preverjanja pristnosti in povratni naslov, omejen na aplikacijo.</value></data>
+  <data name="DemoFlowsCapability3" xml:space="preserve"><value>Prekrivni sloj izgubljene povezave: odštevanje, vzrok, ročni vnovični poskus, neuspeh in zavrnitev.</value></data>
+  <data name="WorkshopBarTitle" xml:space="preserve"><value>Nastavitve predogleda</value></data>
+  <data name="WorkshopTheme" xml:space="preserve"><value>Tema (oblika)</value></data>
+  <data name="WorkshopPalette" xml:space="preserve"><value>Paleta (barve)</value></data>
+  <data name="WorkshopThemePalette" xml:space="preserve"><value>Paleta teme</value></data>
+  <data name="WorkshopDefault" xml:space="preserve"><value>Privzeto</value></data>
+  <data name="WorkshopMode" xml:space="preserve"><value>Način</value></data>
+  <data name="WorkshopModeLight" xml:space="preserve"><value>Svetlo</value></data>
+  <data name="WorkshopModeDark" xml:space="preserve"><value>Temno</value></data>
+  <data name="WorkshopModeSystem" xml:space="preserve"><value>Sistem</value></data>
+  <data name="WorkshopDensity" xml:space="preserve"><value>Splošna gostota</value></data>
+  <data name="WorkshopDensityCompact" xml:space="preserve"><value>Kompaktna</value></data>
+  <data name="WorkshopDensityComfortable" xml:space="preserve"><value>Udobna</value></data>
+  <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Zračna</value></data>
+  <data name="WorkshopDensityInherited" xml:space="preserve"><value>Podedovana</value></data>
+  <data name="WorkshopSectionDensity" xml:space="preserve"><value>Gostota</value></data>
+  <data name="WorkshopHover" xml:space="preserve"><value>Premik kazalca</value></data>
+  <data name="WorkshopHoverForce" xml:space="preserve"><value>Vsili</value></data>
+  <data name="WorkshopHoverForced" xml:space="preserve"><value>Vsiljeno</value></data>
+  <data name="WorkshopStageTitle" xml:space="preserve"><value>Predogled</value></data>
+  <data name="WorkshopStageLead" xml:space="preserve"><value>Tema {0}: {1} Paleta {2}: {3}</value></data>
+  <data name="WorkshopContrastWaiver" xml:space="preserve"><value>Kontrast ni zagotovljen: {0}</value></data>
+  <data name="WorkshopContrastTitle" xml:space="preserve"><value>Izračunani kontrasti</value></data>
+  <data name="WorkshopContrastLead" xml:space="preserve"><value>Razmerje, izmerjeno na žetonih prikazanega načina, nato prag, ki ga je treba doseči.</value></data>
+  <data name="WorkshopContrastSystem" xml:space="preserve"><value>Sistemski način: razmerja se merijo na svetli polovici, saj je polovica, ki jo izbere brskalnik, znana šele na strani.</value></data>
+  <data name="WorkshopContrastVerdict" xml:space="preserve"><value>{0} od {1} parov doseže svoj prag.</value></data>
+  <data name="WorkshopSwatchesTitle" xml:space="preserve"><value>Barvni žetoni</value></data>
+  <data name="ContrastPair01" xml:space="preserve"><value>besedilo / površina</value></data>
+  <data name="ContrastPair02" xml:space="preserve"><value>besedilo / pridušena površina</value></data>
+  <data name="ContrastPair03" xml:space="preserve"><value>besedilo / površina pod kazalcem</value></data>
+  <data name="ContrastPair04" xml:space="preserve"><value>pridušeno besedilo / površina</value></data>
+  <data name="ContrastPair05" xml:space="preserve"><value>pridušeno besedilo / pridušena površina</value></data>
+  <data name="ContrastPair06" xml:space="preserve"><value>pridušeno besedilo / površina pod kazalcem</value></data>
+  <data name="ContrastPair07" xml:space="preserve"><value>močan poudarek / površina</value></data>
+  <data name="ContrastPair08" xml:space="preserve"><value>močan poudarek / nežen poudarek</value></data>
+  <data name="ContrastPair09" xml:space="preserve"><value>močan poudarek / površina pod kazalcem</value></data>
+  <data name="ContrastPair10" xml:space="preserve"><value>na poudarku / poudarek</value></data>
+  <data name="ContrastPair11" xml:space="preserve"><value>na uspehu / uspeh</value></data>
+  <data name="ContrastPair12" xml:space="preserve"><value>na opozorilu / opozorilo</value></data>
+  <data name="ContrastPair13" xml:space="preserve"><value>na nevarnosti / nevarnost</value></data>
+  <data name="ContrastPair14" xml:space="preserve"><value>na obratni / obratna</value></data>
+  <data name="ContrastPair15" xml:space="preserve"><value>uspeh / površina</value></data>
+  <data name="ContrastPair16" xml:space="preserve"><value>uspeh / nežen uspeh</value></data>
+  <data name="ContrastPair17" xml:space="preserve"><value>opozorilo / površina</value></data>
+  <data name="ContrastPair18" xml:space="preserve"><value>nevarnost / površina</value></data>
+  <data name="ContrastPair19" xml:space="preserve"><value>nevarnost / nežna nevarnost</value></data>
+  <data name="ContrastPair20" xml:space="preserve"><value>besedilo na polnem poudarku</value></data>
+  <data name="ContrastPair21" xml:space="preserve"><value>besedilo na polnem uspehu</value></data>
+  <data name="ContrastPair22" xml:space="preserve"><value>besedilo na polni informaciji</value></data>
+  <data name="ContrastPair23" xml:space="preserve"><value>črnilo na svetli informaciji (opozorilo)</value></data>
+  <data name="ContrastPair24" xml:space="preserve"><value>črnilo na svetlem uspehu (opozorilo)</value></data>
+  <data name="ContrastPair25" xml:space="preserve"><value>črnilo na svetli informaciji pod kazalcem</value></data>
+  <data name="ContrastPair26" xml:space="preserve"><value>črnilo na pritisnjeni svetli informaciji</value></data>
+  <data name="ContrastPair27" xml:space="preserve"><value>črnilo na svetlem uspehu pod kazalcem</value></data>
+  <data name="ContrastPair28" xml:space="preserve"><value>črnilo na pritisnjenem svetlem uspehu</value></data>
+  <data name="ContrastPair29" xml:space="preserve"><value>črnilo na globokem opozorilu (gumb)</value></data>
+  <data name="ContrastPair30" xml:space="preserve"><value>črnilo na globokem opozorilu pod kazalcem</value></data>
+  <data name="ContrastPair31" xml:space="preserve"><value>črnilo na pritisnjenem globokem opozorilu</value></data>
+  <data name="ContrastPair32" xml:space="preserve"><value>črnilo na globoki nevarnosti (gumb)</value></data>
+  <data name="ContrastPair33" xml:space="preserve"><value>črnilo na globoki nevarnosti pod kazalcem</value></data>
+  <data name="ContrastPair34" xml:space="preserve"><value>črnilo na pritisnjeni globoki nevarnosti</value></data>
+  <data name="ContrastPair35" xml:space="preserve"><value>besedilo na polnem poudarku, kazalec</value></data>
+  <data name="ContrastPair36" xml:space="preserve"><value>besedilo na polnem poudarku, pritisk</value></data>
+  <data name="ContrastPair37" xml:space="preserve"><value>sekundarni v mirovanju</value></data>
+  <data name="ContrastPair38" xml:space="preserve"><value>sekundarni pod kazalcem</value></data>
+  <data name="ContrastPair39" xml:space="preserve"><value>sekundarni ob pritisku</value></data>
+  <data name="ContrastPair40" xml:space="preserve"><value>prosojni ob pritisku</value></data>
+  <data name="ContrastPair41" xml:space="preserve"><value>poln poudarek / površina</value></data>
+  <data name="ContrastPair42" xml:space="preserve"><value>poln uspeh / površina</value></data>
+  <data name="ContrastPair43" xml:space="preserve"><value>polna informacija / površina</value></data>
+  <data name="ContrastPair44" xml:space="preserve"><value>polno opozorilo / površina</value></data>
+  <data name="ContrastPair45" xml:space="preserve"><value>polna nevarnost / površina</value></data>
+  <data name="ContrastPair46" xml:space="preserve"><value>poudarek / površina</value></data>
+  <data name="ContrastPair47" xml:space="preserve"><value>obroba / površina (spodnja meja OE 1,7)</value></data>
+  <data name="DemoStatesTitle" xml:space="preserve"><value>Mirovanje, kazalec in pritisk</value></data>
+  <data name="DemoStatesSummary" xml:space="preserve"><value>Tri stanja ene različice gumba drugo ob drugem.</value></data>
+  <data name="DemoStatesCapability1" xml:space="preserve"><value>Kazalec in pritisk bereta žetone teme: polnilo pod kazalcem, polnilo ob pritisku in gib pritiska.</value></data>
+  <data name="DemoStatesCapability2" xml:space="preserve"><value>Pripomoček za primerjavo v predstavitvi: brskalnik ne more zamrzniti ne :hover ne :active.</value></data>
+  <data name="DemoAppShellTitle" xml:space="preserve"><value>Ogrodje aplikacije</value></data>
+  <data name="DemoAppShellSummary" xml:space="preserve"><value>Zgornja vrstica, stranski meni, ki se strne v vrstico ikon, vsebina.</value></data>
+  <data name="DemoAppShellCapability1" xml:space="preserve"><value>Gumb za strnitev, iskanje, pomoč, zvonec z oznako in meni računa, zaprt v mirovanju.</value></data>
+  <data name="DemoAppShellCapability2" xml:space="preserve"><value>Stranski meni ohrani svoje ikone, ko je strnjen (Collapse Icons).</value></data>
+  <data name="DemoAppShellCapability3" xml:space="preserve"><value>Oznako, povečevalno steklo, logotip in avatar nariše predstavitev: paket zanje nima komponente.</value></data>
+  <data name="DemoThemesTitle" xml:space="preserve"><value>Teme in palete</value></data>
+  <data name="DemoThemesSummary" xml:space="preserve"><value>Tema določa obliko, paleta barve; vsaka paleta pobarva vsako temo.</value></data>
+  <data name="DemoThemesCapability1" xml:space="preserve"><value>OmniThemeScope.Preset in OmniThemeScope.Palette spremenita videz obsega in njegove vsebine, in ničesar drugega.</value></data>
+  <data name="DemoThemesCapability2" xml:space="preserve"><value>Paleta sama spremeni barve in ohrani dobavljeno obliko.</value></data>
+  <data name="DemoThemesCapability3" xml:space="preserve"><value>Teme: {0}, palete: {1}, torej {2} kombinacij, vsaka v svetli in temni različici.</value></data>
+  <data name="DemoSurfacesTitle" xml:space="preserve"><value>Površine</value></data>
+  <data name="DemoSurfacesSummary" xml:space="preserve"><value>Kartice, plavajoči meni, zavihki, stranski meni, povezava in opis orodja.</value></data>
+  <data name="DemoSurfacesCapability1" xml:space="preserve"><value>Kartice in plavajoči meni berejo obliko teme: ozadje, rob, polmer in senco.</value></data>
+  <data name="DemoSurfacesCapability2" xml:space="preserve"><value>Plavajoči meni se odpre na sloju plavajočih površin.</value></data>
+  <data name="DemoSurfacesCapability3" xml:space="preserve"><value>Trenutni element menija je označen z ozadjem in debelino besedila, nikoli s stransko črto.</value></data>
+  <data name="DemoVerticalFormTitle" xml:space="preserve"><value>Navpični obrazec</value></data>
+  <data name="DemoVerticalFormSummary" xml:space="preserve"><value>Vse vrste polj, napake in njihov povzetek, onemogočeno stanje in stanje samo za branje.</value></data>
+  <data name="DemoVerticalFormCapability1" xml:space="preserve"><value>Oznaka zgoraj, zvezdica obveznega polja, pomoč in napaka z ikono.</value></data>
+  <data name="DemoVerticalFormCapability2" xml:space="preserve"><value>Napake so napake konteksta urejanja: polje iz njih prevzame aria-invalid, njihov popravek pa jih odstrani iz povzetka.</value></data>
+  <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Spojeno polje za datoteko, območje za eno datoteko, območje za več datotek s strnjenim seznamom.</value></data>
+  <data name="DemoVerticalFormCapability4" xml:space="preserve"><value>Onemogočeno stanje in stanje samo za branje ostaneta ločena, v vseh treh gostotah.</value></data>
+  <data name="DemoSettingsTabsTitle" xml:space="preserve"><value>Nastavitve v zavihkih</value></data>
+  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>En zavihek z ikono na temo, en razdelek na zavihek, ena ploščica na nastavitev.</value></data>
+  <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>Stikalo v ploščici prevzame ime ploščice kot oznako; klik na ploščico ga preklopi.</value></data>
+  <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>Kontrolnik je na desni, ime, pomoč in ikona pa na levi.</value></data>
+  <data name="DemoNoticesTitle" xml:space="preserve"><value>Obvestila in pogovorna okna</value></data>
+  <data name="DemoNoticesSummary" xml:space="preserve"><value>Obvestila, ki jih je mogoče zapreti, pogovorna okna na zatemnjenem ozadju.</value></data>
+  <data name="DemoNoticesCapability1" xml:space="preserve"><value>Vsako obvestilo se zapre s svojim križcem.</value></data>
+  <data name="DemoNoticesCapability2" xml:space="preserve"><value>Noga pogovornih oken sledi dogovoru paketa: najprej dejanje, nato Prekliči.</value></data>
+  <data name="DemoLoadingTitle" xml:space="preserve"><value>Nalaganje</value></data>
+  <data name="DemoLoadingSummary" xml:space="preserve"><value>Vrstica nalaganja, čakanje, zasedeni gumbi, napredek in okostje.</value></data>
+  <data name="DemoLoadingCapability1" xml:space="preserve"><value>Vrstica sledi dejanskemu nalaganju, s preletom ali polnjenjem, pride do konca in nato izgine.</value></data>
+  <data name="DemoLoadingCapability2" xml:space="preserve"><value>Zaseden gumb ohrani velikost in vsebino: čezenj »diha« tančica.</value></data>
+  <data name="DemoLoadingCapability3" xml:space="preserve"><value>Okostje prevzame obliko tega, kar nadomešča.</value></data>
+  <data name="DemoRunGridsTitle" xml:space="preserve"><value>Mreže izvajanj</value></data>
+  <data name="DemoRunGridsSummary" xml:space="preserve"><value>Dve mreži iz makete: razvrščena z aktivnim stolpcem, črtasta z lepljivo glavo.</value></data>
+  <data name="DemoRunGridsCapability1" xml:space="preserve"><value>Razvrščeni stolpec je obarvan svetleje kot izbrana vrstica, da se razlikujeta.</value></data>
+  <data name="DemoRunGridsCapability2" xml:space="preserve"><value>Glava ostane vidna, ko se mreža pomika; trajanje je poravnano na koncu.</value></data>
+  <data name="DemoRunGridsCapability3" xml:space="preserve"><value>Stanje je kompaktna oznaka (omni-status).</value></data>
+  <data name="LoadingFrameBrand" xml:space="preserve"><value>Aetheus</value></data>
+  <data name="LoadingFramePage" xml:space="preserve"><value>Nadzorna plošča</value></data>
+  <data name="LoadingBarLabel" xml:space="preserve"><value>Nalaganje strani</value></data>
+  <data name="LoadingSweep" xml:space="preserve"><value>Preletna vrstica</value></data>
+  <data name="LoadingFill" xml:space="preserve"><value>Polnilna vrstica</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>Vrstica je pod zgornjo glavo. Na koncu pride do roba in nato izgine.</value></data>
+  <data name="LoadingWaiting" xml:space="preserve"><value>Čakanje</value></data>
+  <data name="LoadingDeploying" xml:space="preserve"><value>Uvajanje poteka</value></data>
+  <data name="LoadingChecking" xml:space="preserve"><value>Preverjanje</value></data>
+  <data name="LoadingSaving" xml:space="preserve"><value>Shranjevanje poteka</value></data>
+  <data name="LoadingAnalysis" xml:space="preserve"><value>Analiza poteka</value></data>
+  <data name="LoadingCoverage" xml:space="preserve"><value>Pokritost</value></data>
+  <data name="LoadingContent" xml:space="preserve"><value>Nalaganje vsebine</value></data>
+  <data name="NoticeDoneTitle" xml:space="preserve"><value>Uvajanje je končano</value></data>
+  <data name="NoticeDoneMessage" xml:space="preserve"><value>aetheus-deploy-prod #2399 v 1 min 48 s.</value></data>
+  <data name="NoticeRefusedTitle" xml:space="preserve"><value>Zaklenjena obnovitev je zavrnjena</value></data>
+  <data name="NoticeRefusedMessage" xml:space="preserve"><value>Graf NuGet se je razšel z datoteko zaklepanja.</value></data>
+  <data name="NoticeShowAgain" xml:space="preserve"><value>Znova prikaži obvestila</value></data>
+  <data name="NoticeUnlistOpen" xml:space="preserve"><value>Odstrani različico 1.0.0 s seznama</value></data>
+  <data name="NoticeUnlistTitle" xml:space="preserve"><value>Odstrani različico 1.0.0 s seznama</value></data>
+  <data name="NoticeUnlistBody" xml:space="preserve"><value>Različica bo izginila iz iskanja in iz plavajočih obsegov. Še vedno jo bo mogoče prenesti z natančno številko.</value></data>
+  <data name="NoticeUnlistAlpha" xml:space="preserve"><value>S seznama odstrani tudi 0.1.0-alpha.1</value></data>
+  <data name="NoticeUnlist" xml:space="preserve"><value>Odstrani s seznama</value></data>
+  <data name="NoticeUnlistDone" xml:space="preserve"><value>Različica je odstranjena s seznama</value></data>
+  <data name="NoticeRerunOpen" xml:space="preserve"><value>Znova zaženi cevovod</value></data>
+  <data name="NoticeRerunTitle" xml:space="preserve"><value>Želite znova zagnati cevovod?</value></data>
+  <data name="NoticeRerunBody" xml:space="preserve"><value>aetheus-deploy-prod #2399 se bo znova zagnal v strežniku vps2577917, z enakimi spremenljivkami.</value></data>
+  <data name="NoticeRerunNotify" xml:space="preserve"><value>Obvesti me ob koncu</value></data>
+  <data name="NoticeRerun" xml:space="preserve"><value>Znova zaženi</value></data>
+  <data name="NoticeRerunDone" xml:space="preserve"><value>Cevovod je znova zagnan</value></data>
+  <data name="NoticeCancel" xml:space="preserve"><value>Prekliči</value></data>
+  <data name="NoticeClose" xml:space="preserve"><value>Zapri</value></data>
+  <data name="NoticeLast" xml:space="preserve"><value>Zadnje dejanje: {0}</value></data>
+  <data name="RunsSortedCaption" xml:space="preserve"><value>Izvajanja, razvrščena po cevovodu</value></data>
+  <data name="RunsStripedCaption" xml:space="preserve"><value>Zgodovina izvajanj</value></data>
+  <data name="RunsRun" xml:space="preserve"><value>Izvajanje</value></data>
+  <data name="RunsPipeline" xml:space="preserve"><value>Cevovod</value></data>
+  <data name="RunsTrigger" xml:space="preserve"><value>Sprožilec</value></data>
+  <data name="RunsSeconds" xml:space="preserve"><value>Trajanje (s)</value></data>
+  <data name="RunsStatus" xml:space="preserve"><value>Stanje</value></data>
+  <data name="RunsTriggerPush" xml:space="preserve"><value>Push</value></data>
+  <data name="RunsTriggerManual" xml:space="preserve"><value>Ročno</value></data>
+  <data name="RunsTriggerScheduled" xml:space="preserve"><value>Načrtovano</value></data>
+  <data name="RunsStatusSuccess" xml:space="preserve"><value>Uspeh</value></data>
+  <data name="RunsStatusInfo" xml:space="preserve"><value>V teku</value></data>
+  <data name="RunsStatusWarning" xml:space="preserve"><value>Preklicano</value></data>
+  <data name="RunsStatusDanger" xml:space="preserve"><value>Neuspeh</value></data>
+  <data name="SettingsTabsLabel" xml:space="preserve"><value>Nastavitve</value></data>
+  <data name="SettingsGeneral" xml:space="preserve"><value>Splošno</value></data>
+  <data name="SettingsGeneralLead" xml:space="preserve"><value>Delovne lokacije in vedenje ob zagonu.</value></data>
+  <data name="SettingsFolder" xml:space="preserve"><value>Mapa artefaktov</value></data>
+  <data name="SettingsFolderHint" xml:space="preserve"><value>Kamor gradnje odložijo svoje pakete.</value></data>
+  <data name="SettingsBrowse" xml:space="preserve"><value>Prebrskaj</value></data>
+  <data name="SettingsStartup" xml:space="preserve"><value>Zaženi z operacijskim sistemom Windows</value></data>
+  <data name="SettingsStartupHint" xml:space="preserve"><value>Zažene agenta ob prijavi.</value></data>
+  <data name="SettingsLanguage" xml:space="preserve"><value>Jezik</value></data>
+  <data name="SettingsLanguageHint" xml:space="preserve"><value>Jezik vmesnika in obvestil.</value></data>
+  <data name="SettingsLanguageFrench" xml:space="preserve"><value>Français</value></data>
+  <data name="SettingsLanguageEnglish" xml:space="preserve"><value>English</value></data>
+  <data name="SettingsDisplay" xml:space="preserve"><value>Prikaz</value></data>
+  <data name="SettingsDisplayLead" xml:space="preserve"><value>Videz in gostota vmesnika.</value></data>
+  <data name="SettingsDarkMode" xml:space="preserve"><value>Temni način</value></data>
+  <data name="SettingsDarkModeHint" xml:space="preserve"><value>Sledite sistemu ali vsilite način.</value></data>
+  <data name="SettingsModeSystem" xml:space="preserve"><value>Sledi sistemu</value></data>
+  <data name="SettingsModeLight" xml:space="preserve"><value>Svetlo</value></data>
+  <data name="SettingsModeDark" xml:space="preserve"><value>Temno</value></data>
+  <data name="SettingsCompact" xml:space="preserve"><value>Kompakten vmesnik</value></data>
+  <data name="SettingsCompactHint" xml:space="preserve"><value>Zmanjša robove mrež in obrazcev.</value></data>
+  <data name="SettingsNotifications" xml:space="preserve"><value>Obvestila</value></data>
+  <data name="SettingsNotificationsLead" xml:space="preserve"><value>O čem ste obveščeni in po katerem kanalu.</value></data>
+  <data name="SettingsFailures" xml:space="preserve"><value>Neuspehi cevovoda</value></data>
+  <data name="SettingsFailuresHint" xml:space="preserve"><value>Obvestilo ob vsakem neuspelem izvajanju.</value></data>
+  <data name="SettingsDigest" xml:space="preserve"><value>Dnevni povzetek</value></data>
+  <data name="SettingsDigestHint" xml:space="preserve"><value>Pošlje se vsako jutro ob 8.00.</value></data>
+  <data name="SettingsDigestAddress" xml:space="preserve"><value>Naslov za povzetek</value></data>
+  <data name="DemoShellDashboard" xml:space="preserve"><value>Nadzorna plošča</value></data>
+  <data name="DemoShellInProgress" xml:space="preserve"><value>V teku</value></data>
+  <data name="DemoShellArchived" xml:space="preserve"><value>Arhivirano</value></data>
+  <data name="DemoShellSettings" xml:space="preserve"><value>Nastavitve</value></data>
+  <data name="DemoShellOneOffAction" xml:space="preserve"><value>Enkratno dejanje</value></data>
+  <data name="DemoShellToggleMenu" xml:space="preserve"><value>Pokaži ali skrij meni</value></data>
+  <data name="DemoShellAppName" xml:space="preserve"><value>Moja aplikacija</value></data>
+  <data name="DemoShellChangeAppearance" xml:space="preserve"><value>Spremeni videz</value></data>
+  <data name="DemoShellMenu" xml:space="preserve"><value>Meni predstavitve</value></data>
+  <data name="DemoShellSections" xml:space="preserve"><value>Razdelki</value></data>
+  <data name="DemoShellFolders" xml:space="preserve"><value>Mape</value></data>
+  <data name="DemoShellMainContent" xml:space="preserve"><value>Glavna vsebina</value></data>
+  <data name="DemoShellAppearanceDark" xml:space="preserve"><value>Tu je izbran temni videz.</value></data>
+  <data name="DemoShellAppearanceLight" xml:space="preserve"><value>Tu je izbran svetli videz.</value></data>
+  <data name="DemoShellConsole" xml:space="preserve"><value>Operativna konzola</value></data>
+  <data name="DemoShellSecondaryMenu" xml:space="preserve"><value>Sekundarni meni</value></data>
+  <data name="DemoShellTools" xml:space="preserve"><value>Orodja</value></data>
+  <data name="DemoShellLogs" xml:space="preserve"><value>Dnevniki</value></data>
+  <data name="DemoShellWideView" xml:space="preserve"><value>Širok pogled</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>Območje vsebine sega od roba do roba, omejeno na široko širino (90 rem), brez ozkega stolpca za branje.</value></data>
+  <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Pokaži ali skrij plavajoči meni</value></data>
+  <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Plavajoči meni</value></data>
+  <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Plavajoči meni predstavitve</value></data>
+  <data name="DemoShellFilters" xml:space="preserve"><value>Filtri</value></data>
+  <data name="DemoShellContent" xml:space="preserve"><value>Vsebina</value></data>
+  <data name="DemoShellFloatingText" xml:space="preserve"><value>Odpiranje menija ne premakne tega besedila: podokno zdrsne čezenj.</value></data>
+  <data name="DemoShellScrollTitle" xml:space="preserve"><value>Vsebina na sredini, pomikanje ob robu</value></data>
+  <data name="DemoShellScrollMenu" xml:space="preserve"><value>Meni pomične predstavitve</value></data>
+  <data name="DemoShellReadingColumn" xml:space="preserve"><value>Stolpec za branje</value></data>
+  <data name="DemoShellScroll1" xml:space="preserve"><value>Stolpec je omejen na 72rem in postavljen na sredino; preostala širina še vedno pripada glavnemu elementu.</value></data>
+  <data name="DemoShellScroll2" xml:space="preserve"><value>Zato se pomika prav on, po vsej širini območja: njegov drsni trak je ob desnem robu okvirja.</value></data>
+  <data name="DemoShellScroll3" xml:space="preserve"><value>Podrejeni element z višino 100 % bi natanko zapolnil območje; višja vsebina povzroči pomikanje.</value></data>
+  <data name="DemoShellScroll4" xml:space="preserve"><value>Spodnji rob ostane ohranjen na koncu pomikanja.</value></data>
+  <data name="DemoShellScroll5" xml:space="preserve"><value>Zožitev okna vrne stolpec na razpoložljivo širino, vključno z medprostorom.</value></data>
+  <data name="DemoShellSplashChecking" xml:space="preserve"><value>Preverjanje zagonskega zaslona</value></data>
+  <data name="DemoShellSplashRemoved" xml:space="preserve"><value>Zagonski zaslon je odstranjen</value></data>
+  <data name="DemoShellSplashAbsent" xml:space="preserve"><value>V tej predstavitvi ni zagonskega zaslona</value></data>
+  <data name="ShellToggle" xml:space="preserve"><value>Strni ali razširi meni</value></data>
+  <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
+  <data name="ShellBrand" xml:space="preserve"><value>Aetheus</value></data>
+  <data name="ShellSearch" xml:space="preserve"><value>Iskanje</value></data>
+  <data name="ShellSearchPlaceholder" xml:space="preserve"><value>Poišči cevovod</value></data>
+  <data name="ShellHelp" xml:space="preserve"><value>Pomoč</value></data>
+  <data name="ShellNotifications" xml:space="preserve"><value>Obvestila, neprebrana: {0}</value></data>
+  <data name="ShellAccount" xml:space="preserve"><value>Račun</value></data>
+  <data name="ShellSettings" xml:space="preserve"><value>Nastavitve</value></data>
+  <data name="ShellSettingsHint" xml:space="preserve"><value>Tema, jezik, obvestila</value></data>
+  <data name="ShellAppearance" xml:space="preserve"><value>Videz</value></data>
+  <data name="ShellAppearanceHint" xml:space="preserve"><value>Svetlo, temno ali sistem</value></data>
+  <data name="ShellSignOut" xml:space="preserve"><value>Odjava</value></data>
+  <data name="ShellMenu" xml:space="preserve"><value>Glavni meni</value></data>
+  <data name="ShellDashboard" xml:space="preserve"><value>Nadzorna plošča</value></data>
+  <data name="ShellPipelines" xml:space="preserve"><value>Cevovodi</value></data>
+  <data name="ShellServers" xml:space="preserve"><value>Strežniki</value></data>
+  <data name="ShellProjects" xml:space="preserve"><value>Projekti</value></data>
+  <data name="ShellHelpCenter" xml:space="preserve"><value>Središče za pomoč</value></data>
+  <data name="ShellAdministration" xml:space="preserve"><value>Skrbništvo</value></data>
+  <data name="ShellServersOnline" xml:space="preserve"><value>Strežnik je povezan</value></data>
+  <data name="ShellAppsTracked" xml:space="preserve"><value>Spremljane aplikacije</value></data>
+  <data name="ShellPipelinesRunning" xml:space="preserve"><value>Cevovodi v teku</value></data>
+  <data name="ShellLoading" xml:space="preserve"><value>Nalaganje nadzorne plošče</value></data>
+  <data name="ShellLastAction" xml:space="preserve"><value>Zadnje dejanje: {0}</value></data>
+  <data name="StatesRest" xml:space="preserve"><value>Mirovanje</value></data>
+  <data name="StatesHover" xml:space="preserve"><value>Kazalec</value></data>
+  <data name="StatesPress" xml:space="preserve"><value>Pritisk</value></data>
+  <data name="StatesPrimary" xml:space="preserve"><value>Primarni</value></data>
+  <data name="StatesSuccess" xml:space="preserve"><value>Uspeh</value></data>
+  <data name="StatesSecondary" xml:space="preserve"><value>Sekundarni</value></data>
+  <data name="StatesGhost" xml:space="preserve"><value>Prosojni</value></data>
+  <data name="SurfServers" xml:space="preserve"><value>Strežniki</value></data>
+  <data name="SurfServersText" xml:space="preserve"><value>Zadnji signal delovanja pred 4 minutami.</value></data>
+  <data name="SurfPipelines" xml:space="preserve"><value>Cevovodi</value></data>
+  <data name="SurfPipelinesFigure" xml:space="preserve"><value>2.400</value></data>
+  <data name="SurfPipelinesText" xml:space="preserve"><value>Tri neuspela izvajanja od zadnjih desetih.</value></data>
+  <data name="SurfCoverage" xml:space="preserve"><value>Pokritost</value></data>
+  <data name="SurfCoverageFigure" xml:space="preserve"><value>87 %</value></data>
+  <data name="SurfAccount" xml:space="preserve"><value>Račun</value></data>
+  <data name="SurfPerson" xml:space="preserve"><value>Camille Durand</value></data>
+  <data name="SurfPersonRole" xml:space="preserve"><value>Skrbnica, OmniEurope</value></data>
+  <data name="SurfSettings" xml:space="preserve"><value>Nastavitve</value></data>
+  <data name="SurfSettingsHint" xml:space="preserve"><value>Tema, jezik, obvestila</value></data>
+  <data name="SurfSwitch" xml:space="preserve"><value>Zamenjaj delovni prostor</value></data>
+  <data name="SurfSwitchHint" xml:space="preserve"><value>Aetheus, Atlas, Portfolio</value></data>
+  <data name="SurfSignOut" xml:space="preserve"><value>Odjava</value></data>
+  <data name="SurfTabsLabel" xml:space="preserve"><value>Razdelki izvajanja</value></data>
+  <data name="SurfTabOverview" xml:space="preserve"><value>Pregled</value></data>
+  <data name="SurfTabOverviewText" xml:space="preserve"><value>Izvajanje #2399, končano v 1 min 48 s.</value></data>
+  <data name="SurfTabLogs" xml:space="preserve"><value>Dnevniki</value></data>
+  <data name="SurfTabLogsText" xml:space="preserve"><value>412 vrstic, brez napak.</value></data>
+  <data name="SurfTabArtifacts" xml:space="preserve"><value>Artefakti</value></data>
+  <data name="SurfTabArtifactsText" xml:space="preserve"><value>Dva paketa in njuni simboli.</value></data>
+  <data name="SurfTabSettings" xml:space="preserve"><value>Nastavitve</value></data>
+  <data name="SurfTabSettingsText" xml:space="preserve"><value>Zaklenjena obnovitev, obvezno podpisovanje.</value></data>
+  <data name="SurfMenuLabel" xml:space="preserve"><value>Razdelki</value></data>
+  <data name="SurfMenuDashboard" xml:space="preserve"><value>Nadzorna plošča</value></data>
+  <data name="SurfMenuServers" xml:space="preserve"><value>Strežniki</value></data>
+  <data name="SurfMenuProjects" xml:space="preserve"><value>Projekti</value></data>
+  <data name="SurfMenuAdministration" xml:space="preserve"><value>Skrbništvo</value></data>
+  <data name="SurfLinkBefore" xml:space="preserve"><value>Preberite</value></data>
+  <data name="SurfLink" xml:space="preserve"><value>postopek objave</value></data>
+  <data name="SurfLinkAfter" xml:space="preserve"><value>preden različico odstranite s seznama.</value></data>
+  <data name="SurfTooltip" xml:space="preserve"><value>Obratna površina, obratno besedilo</value></data>
+  <data name="SurfTooltipTrigger" xml:space="preserve"><value>Opis orodja</value></data>
+  <data name="SurfLast" xml:space="preserve"><value>Zadnje dejanje: {0}</value></data>
+  <data name="ThemesThemeWithPalette" xml:space="preserve"><value>Tema {0}, paleta {1}</value></data>
+  <data name="ThemesThemeAlone" xml:space="preserve"><value>Tema {0}, lastna paleta</value></data>
+  <data name="ThemesPaletteAlone" xml:space="preserve"><value>Paleta {0}, dobavljena oblika</value></data>
+  <data name="ThemesShipped" xml:space="preserve"><value>Dobavljeni videz</value></data>
+  <data name="ThemesLivePreview" xml:space="preserve"><value>Predogled: {0}</value></data>
+  <data name="ThemesSave" xml:space="preserve"><value>Shrani</value></data>
+  <data name="ThemesCancel" xml:space="preserve"><value>Prekliči</value></data>
+  <data name="ThemesBadge" xml:space="preserve"><value>Objavljeno</value></data>
+  <data name="ThemesAlert" xml:space="preserve"><value>Vsaka paleta pobarva vsako temo.</value></data>
+  <data name="VFormSummaryTitle" xml:space="preserve"><value>Polja za popravek: {0}.</value></data>
+  <data name="VFormName" xml:space="preserve"><value>Ime cevovoda</value></data>
+  <data name="VFormNameHelp" xml:space="preserve"><value>Male črke, števke in vezaji.</value></data>
+  <data name="VFormNameError" xml:space="preserve"><value>Ime cevovoda je obvezno.</value></data>
+  <data name="VFormMail" xml:space="preserve"><value>Naslov za obvestila</value></data>
+  <data name="VFormMailError" xml:space="preserve"><value>Dodajte celotno domeno, na primer ekipa@primer.si.</value></data>
+  <data name="VFormToken" xml:space="preserve"><value>Žeton za dostop</value></data>
+  <data name="VFormReplicas" xml:space="preserve"><value>Replike</value></data>
+  <data name="VFormEnvironment" xml:space="preserve"><value>Okolje</value></data>
+  <data name="VFormEnvironmentProduction" xml:space="preserve"><value>Produkcija</value></data>
+  <data name="VFormEnvironmentAcceptance" xml:space="preserve"><value>Prevzemno testiranje</value></data>
+  <data name="VFormEnvironmentDevelopment" xml:space="preserve"><value>Razvoj</value></data>
+  <data name="VFormDate" xml:space="preserve"><value>Datum uvajanja</value></data>
+  <data name="VFormTime" xml:space="preserve"><value>Čas uvajanja</value></data>
+  <data name="VFormMoment" xml:space="preserve"><value>Okno vzdrževanja</value></data>
+  <data name="VFormDescription" xml:space="preserve"><value>Opis</value></data>
+  <data name="VFormStrategy" xml:space="preserve"><value>Strategija uvajanja</value></data>
+  <data name="VFormStrategyRolling" xml:space="preserve"><value>Postopna zamenjava</value></data>
+  <data name="VFormStrategyBlueGreen" xml:space="preserve"><value>Modro-zelena</value></data>
+  <data name="VFormStrategyCanary" xml:space="preserve"><value>Canary (kmalu na voljo)</value></data>
+  <data name="VFormStrategyError" xml:space="preserve"><value>Izberite strategijo uvajanja.</value></data>
+  <data name="VFormOptions" xml:space="preserve"><value>Možnosti</value></data>
+  <data name="VFormLocked" xml:space="preserve"><value>Zaklenjena obnovitev</value></data>
+  <data name="VFormSymbols" xml:space="preserve"><value>Objavi simbole</value></data>
+  <data name="VFormSigning" xml:space="preserve"><value>Podpisovanje paketa (obvezno)</value></data>
+  <data name="VFormNotify" xml:space="preserve"><value>Obvesti ob koncu</value></data>
+  <data name="VFormAutoDeploy" xml:space="preserve"><value>Samodejno uvajanje (onemogočeno)</value></data>
+  <data name="VFormFiles" xml:space="preserve"><value>Datoteke</value></data>
+  <data name="VFormManifest" xml:space="preserve"><value>Manifest uvajanja</value></data>
+  <data name="VFormManifestHelp" xml:space="preserve"><value>Ena sama datoteka, odpre sistemsko okno za izbiro.</value></data>
+  <data name="VFormArchive" xml:space="preserve"><value>Arhiv aplikacije</value></data>
+  <data name="VFormArchiveHelp" xml:space="preserve"><value>ZIP ali TAR, največ 50 MB.</value></data>
+  <data name="VFormAttachments" xml:space="preserve"><value>Priloge</value></data>
+  <data name="VFormAttachmentsHelp" xml:space="preserve"><value>Do 10 datotek, vsaka do 20 MB. Nič se ne pošlje: predstavitev obdrži datoteke na seznamu.</value></data>
+  <data name="VFormServer" xml:space="preserve"><value>Ciljni strežnik</value></data>
+  <data name="VFormServerHelp" xml:space="preserve"><value>Onemogočeno: določa ga okolje.</value></data>
+  <data name="VFormIdentifier" xml:space="preserve"><value>Identifikator</value></data>
+  <data name="VFormIdentifierHelp" xml:space="preserve"><value>Samo za branje: mogoče ga je kopirati, ne pa spremeniti.</value></data>
+  <data name="VFormAgent" xml:space="preserve"><value>Agent</value></data>
+  <data name="VFormAgentShared" xml:space="preserve"><value>Skupni agent</value></data>
+  <data name="VFormCancel" xml:space="preserve"><value>Prekliči</value></data>
+  <data name="VFormSave" xml:space="preserve"><value>Shrani</value></data>
+  <data name="VFormSaved" xml:space="preserve"><value>Cevovod je shranjen.</value></data>
+  <data name="VFormNotSaved" xml:space="preserve"><value>Pred shranjevanjem popravite označena polja.</value></data>
+  <data name="VFormDescriptionValue" xml:space="preserve"><value>Uvede glavno vejo, ko prevzemni testi uspejo.</value></data>
+  <data name="GridFiledColumn" xml:space="preserve"><value>Oddano</value></data>
+</root>

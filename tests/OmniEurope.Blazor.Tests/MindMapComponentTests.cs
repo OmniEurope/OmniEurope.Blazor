@@ -17,7 +17,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class MindMapComponentTests : OmniBunitContext
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-mindmap.js";
+    private const string ModulePath = OmniModules.MindMap;
 
     // A centre, two children on either side and a grandchild, placed so that the arrow keys have an
     // unambiguous answer: right of the root is "right", left of it is "left", below "right" is "below".
@@ -634,7 +634,7 @@ public sealed class MindMapComponentTests : OmniBunitContext
     {
         var map = Render<OmniMindMap>(parameters => parameters
             .Add(component => component.Document, Sample())
-            .Add(component => component.AriaLabel, "Plan du projet")
+            .Add(component => component.Label, "Plan du projet")
             .Add(component => component.ContextLabels, new OmniMindMapLabels { NewNodeLabel = "Idée", AddNode = "Ajouter une idée" }));
 
         Assert.Equal("Plan du projet", map.Find("svg").GetAttribute("aria-label"));

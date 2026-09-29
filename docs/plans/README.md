@@ -18,15 +18,17 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 
 | Plan | Travail restant | ADR |
 |---|---|---|
-| [PLAN-001](PLAN-001-remise-equerre-kit.md) | Phase A du plan maître `_Generic` PLAN-001 (lot 7) : lots 1 et 2 livrés, lot 3 (contrats) et lot 4 (`STD-I18N` de la vitrine) ouverts | [ADR-001](../adr/ADR-001-global-json-rollforward-latestpatch.md) |
-| [PLAN-005](PLAN-005-remediation-audit-2026-09-27.md) | Remédiation de l'audit 360 du 2026-09-27 : lots 1 à 4 livrés ; reste SCR-001, à corriger dans le kit `_Generic` | - |
+| [PLAN-001](PLAN-001-remise-equerre-kit.md) | Phase A du plan maître `_Generic` PLAN-001 (lot 7) : lots 1 et 2 livrés, lot 3 (contrats) et lot 4 (`STD-I18N` de la vitrine) ouverts | [ADR-002](../adr/ADR-002-sdk-floor-latestfeature-pinned-implicit-packs.md) (remplace ADR-001) |
+| [PLAN-005](PLAN-005-remediation-audit-2026-09-27.md) | Remédiation de l'audit 360 du 2026-09-27 : lots 1 à 4 livrés, SCR-001 réglé par `dce120d` ; reste KIT-001/KIT-002, qui attendent la décision de publier `docs/code-rules.md` et `docs/agents.md` (ignorés par Git) | - |
+| [PLAN-007](PLAN-007-coherence-et-24-langues.md) | Passe de cohérence de la 1.2.0 et textes du paquet et de la vitrine dans les 24 langues de l'Union : lots 1 à 12, exécutés en parallèle ; lot 1 livré par `240d4f3` | - |
 
-Total comparable : **2 lots ouverts** dans PLAN-001 (3 et 4), plus SCR-001 de PLAN-005, hors dépôt.
+Total comparable : **2 lots ouverts** dans PLAN-001 (3 et 4), KIT-001/KIT-002 de PLAN-005 et **11 lots ouverts** dans PLAN-007 (2 à 12).
 
 ## Plans livrés (conservés pour la traçabilité)
 
-Déplacés de `plans/` (dossier racine ignoré par Git) vers ce répertoire le 2026-09-20 et renumérotés
-en dense (PLAN-001, lot 2). Leurs anciens numéros locaux étaient respectivement 004, 007 et 008.
+PLAN-002 à PLAN-004 ont été déplacés de `plans/` (dossier racine ignoré par Git) vers ce répertoire le
+2026-09-20 et renumérotés en dense (PLAN-001, lot 2) ; leurs anciens numéros locaux étaient
+respectivement 004, 007 et 008.
 
 | Plan | Objet | État |
 |---|---|---|

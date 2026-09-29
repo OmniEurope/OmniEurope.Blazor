@@ -3,5 +3,7 @@
 
 <figure @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-arc-gauge")">
     @* A half circle of radius 40 centred on (50, 50), its bounds written under both ends. *@
-    <svg class="omni-arc-gauge__svg" viewBox="0 0 100 62" role="img" aria-label="@EffectiveLabel">@ChildContent</svg>
+    <svg class="omni-arc-gauge__svg" viewBox="0 0 100 62" role="img" aria-label="@AccessibleName">
+        <CascadingValue Value="this" IsFixed="true">@ChildContent</CascadingValue>
+    </svg>
 </figure>

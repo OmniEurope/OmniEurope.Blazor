@@ -1,15 +1,15 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<div id="@Id"
-     class="@Css("omni-progress", $"omni-progress--{Shape.ToString().ToLowerInvariant()}", $"omni-progress--{Variant.ToString().ToLowerInvariant()}", Indeterminate ? "omni-progress--indeterminate" : null)"
+<div @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@Css("omni-progress", $"omni-progress--{Shape.ToString().ToLowerInvariant()}", $"omni-progress--{Tone.ToString().ToLowerInvariant()}", Indeterminate ? "omni-progress--indeterminate" : null)"
      role="progressbar"
      aria-label="@EffectiveLabel"
      aria-valuemin="0"
      aria-valuemax="@MaximumText"
      aria-valuenow="@CurrentValueText"
-     aria-valuetext="@ValueText"
-     @attributes="AdditionalAttributes">
+     aria-valuetext="@ValueText">
     @if (Shape == OmniProgressShape.Circular)
     {
         <svg class="omni-progress__circle" viewBox="0 0 44 44" aria-hidden="true" focusable="false">

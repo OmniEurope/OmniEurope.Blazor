@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="HeaderBadge" xml:space="preserve"><value>Komponenttikirjasto</value></data>
+  <data name="ModeLight" xml:space="preserve"><value>Vaalea teema</value></data>
+  <data name="ModeDark" xml:space="preserve"><value>Tumma teema</value></data>
+  <data name="LanguageSelectorLabel" xml:space="preserve"><value>Esittelyn kieli</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Päänavigointi</value></data>
+  <data name="MenuLabel" xml:space="preserve"><value>Sivuston osiot</value></data>
+  <data name="NavShowcase" xml:space="preserve"><value>Esittely</value></data>
+  <data name="NavDocumentation" xml:space="preserve"><value>Dokumentaatio</value></data>
+  <data name="NavComponents" xml:space="preserve"><value>Komponentit</value></data>
+  <data name="NavCustomize" xml:space="preserve"><value>Mukauttaminen</value></data>
+  <data name="ErrorTitle" xml:space="preserve"><value>Tapahtui virhe</value></data>
+  <data name="ErrorMessage" xml:space="preserve"><value>Sivua ei voitu näyttää oikein.</value></data>
+  <data name="Retry" xml:space="preserve"><value>Yritä uudelleen</value></data>
+  <data name="NotFoundPageTitle" xml:space="preserve"><value>Sivua ei löydy</value></data>
+  <data name="NotFoundTitle" xml:space="preserve"><value>Sivua ei löydy</value></data>
+  <data name="NotFoundDescription" xml:space="preserve"><value>Pyydetty osoite ei vastaa mitään sivuston sivua.</value></data>
+  <data name="BackHome" xml:space="preserve"><value>Palaa etusivulle</value></data>
+  <data name="HomePageTitle" xml:space="preserve"><value>OmniEurope.Blazor</value></data>
+  <data name="HomeKicker" xml:space="preserve"><value>Blazor</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Saavutettavia Blazor-komponentteja tiukan tietoturvakäytännön alla</value></data>
+  <data name="HomeLead" xml:space="preserve"><value>Komponenttikirjasto sovelluksille, jotka kieltävät tekstinsisäiset tyylit, vaativat saavutettavuutta ja haluavat teeman, jota voi ohjata alusta loppuun.</value></data>
+  <data name="HomeSeeComponents" xml:space="preserve"><value>Katso komponentit</value></data>
+  <data name="HomeSeeCustomize" xml:space="preserve"><value>Mukauta teemaa</value></data>
+  <data name="HomePillarsTitle" xml:space="preserve"><value>Mikä erottaa kirjaston muista</value></data>
+  <data name="PillarCspTitle" xml:space="preserve"><value>Tiukka tietoturvakäytäntö</value></data>
+  <data name="PillarCspBody" xml:space="preserve"><value>Ei tekstinsisäisiä style-attribuutteja, ei lisättyjä style-elementtejä, ei dynaamista skriptien arviointia. Kirjasto toimii käytännön alla, joka kieltää ne kaikki.</value></data>
+  <data name="PillarThemeTitle" xml:space="preserve"><value>Täysin muuttujiin perustuva teema</value></data>
+  <data name="PillarThemeBody" xml:space="preserve"><value>Värit, typografia, välit, pyöristykset, varjot ja kaavioiden paletti kulkevat kaikki CSS-muuttujien kautta, eikä yhtään arvoa ole kiinnitetty sääntöihin.</value></data>
+  <data name="PillarA11yTitle" xml:space="preserve"><value>Testeillä varmistettu saavutettavuus</value></data>
+  <data name="PillarA11yBody" xml:space="preserve"><value>Roolit, tilat ja nimet tarkistetaan testisarjassa, eikä niitä vain luvata dokumentaatiossa.</value></data>
+  <data name="PillarWeightTitle" xml:space="preserve"><value>Valvottu koko</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Julkaistu paketti mitataan jokaisessa koontiversiossa tavubudjettia vasten tyylitiedosto mukaan lukien.</value></data>
+  <data name="DocsPageTitle" xml:space="preserve"><value>Dokumentaatio</value></data>
+  <data name="DocsTitle" xml:space="preserve"><value>Dokumentaatio</value></data>
+  <data name="DocsLead" xml:space="preserve"><value>Paketin asennuksesta ensimmäiseen mukautettuun teemaan viidessä vaiheessa.</value></data>
+  <data name="DocsInstallTitle" xml:space="preserve"><value>Asenna paketti</value></data>
+  <data name="DocsInstallBody" xml:space="preserve"><value>Kirjastoon viitataan kuten mihin tahansa NuGet-pakettiin.</value></data>
+  <data name="DocsRegisterTitle" xml:space="preserve"><value>Rekisteröi palvelut</value></data>
+  <data name="DocsRegisterBody" xml:space="preserve"><value>Yksi kutsu rekisteröi kaikki palvelut, joita komponentit tarvitsevat.</value></data>
+  <data name="DocsCssTitle" xml:space="preserve"><value>Viittaa tyylitiedostoon</value></data>
+  <data name="DocsCssBody" xml:space="preserve"><value>Tyylitiedosto tarjotaan paketin staattisena resurssina.</value></data>
+  <data name="DocsCspTitle" xml:space="preserve"><value>Tietoturvakäytäntö</value></data>
+  <data name="DocsCspBody" xml:space="preserve"><value>Kirjasto ei vaadi näiden lisäksi mitään oikeuksia: ei tekstinsisäisiä tyylejä eikä dynaamista skriptien arviointia.</value></data>
+  <data name="DocsThemeTitle" xml:space="preserve"><value>Mukauta teemaa</value></data>
+  <data name="DocsThemeBody" xml:space="preserve"><value>Yhden muuttujan uudelleenmäärittely riittää värittämään uudelleen kaikki sitä lukevat komponentit.</value></data>
+  <data name="DocsThemePointer" xml:space="preserve"><value>Kokonaisen teeman koostaminen ilman CSS:n kirjoittamista:</value></data>
+  <data name="GalleryPageTitle" xml:space="preserve"><value>Komponentit</value></data>
+  <data name="GalleryTitle" xml:space="preserve"><value>Komponentit</value></data>
+  <data name="GalleryLead" xml:space="preserve"><value>Jokainen ryhmä esitellään kykyineen, elävän esimerkin ja sen tuottavan koodin kanssa.</value></data>
+  <data name="GalleryNavLabel" xml:space="preserve"><value>Komponenttiryhmät</value></data>
+  <data name="GalleryCapabilities" xml:space="preserve"><value>Mitä komponentti osaa</value></data>
+  <data name="GalleryPreview" xml:space="preserve"><value>Esimerkki</value></data>
+  <data name="GallerySource" xml:space="preserve"><value>Lähdekoodi</value></data>
+  <data name="GallerySourceNote" xml:space="preserve"><value>Tämä koodi on juuri se tiedosto, jonka yllä oleva esimerkki kääntää ja suorittaa. Se luetaan kokoonpanosta, eikä sitä ole koskaan kopioitu käsin.</value></data>
+  <data name="GallerySourceMissingTitle" xml:space="preserve"><value>Lähdekoodi ei saatavilla</value></data>
+  <data name="GallerySourceMissing" xml:space="preserve"><value>Esimerkin tiedostoa ei löytynyt kokoonpanon resursseista.</value></data>
+  <data name="DemoButtonsTitle" xml:space="preserve"><value>Painikkeet</value></data>
+  <data name="DemoButtonsSummary" xml:space="preserve"><value>Toiminnon käynnistäjä visuaalisine tarkoituksineen ja tiloineen.</value></data>
+  <data name="DemoButtonsCapability1" xml:space="preserve"><value>Neljä tarkoitusta: ensisijainen, toissijainen, huomaamaton ja tuhoava.</value></data>
+  <data name="DemoButtonsCapability2" xml:space="preserve"><value>Varattu tila, joka estää kaksoislähetyksen ja ilmoittaa itsestään näytönlukuohjelmille.</value></data>
+  <data name="DemoButtonsCapability3" xml:space="preserve"><value>Poistettu käytöstä -tila, joka pidetään erillään varatusta tilasta.</value></data>
+  <data name="DemoButtonsCapability4" xml:space="preserve"><value>Kolme kokoa ja lomakkeen kolme painiketyyppiä: lähetys, palautus ja tavallinen toiminto.</value></data>
+  <data name="DemoBadgesTitle" xml:space="preserve"><value>Merkit</value></data>
+  <data name="DemoBadgesSummary" xml:space="preserve"><value>Lyhyt tunniste, joka luonnehtii kohdetta kuormittamatta sitä.</value></data>
+  <data name="DemoBadgesCapability1" xml:space="preserve"><value>Viisi muunnelmaa teeman vakavuustasojen mukaan.</value></data>
+  <data name="DemoBadgesCapability2" xml:space="preserve"><value>Muuttujista johdetut sävytetyt taustat, jotka siis värittyvät teeman mukana.</value></data>
+  <data name="DemoAlertsTitle" xml:space="preserve"><value>Hälytykset</value></data>
+  <data name="DemoAlertsSummary" xml:space="preserve"><value>Tilannekohtainen viesti tavallisesta ilmoituksesta estävään virheeseen.</value></data>
+  <data name="DemoAlertsCapability1" xml:space="preserve"><value>Neljä vakavuustasoa: tieto, onnistuminen, varoitus ja vaara.</value></data>
+  <data name="DemoAlertsCapability2" xml:space="preserve"><value>Kaksi muunnelmaa: hillitty ääriviiva tai täytetty pinta.</value></data>
+  <data name="DemoAlertsCapability3" xml:space="preserve"><value>Reaaliaikainen tila, joka välittää viestin avustaville teknologioille.</value></data>
+  <data name="CustomizePageTitle" xml:space="preserve"><value>Mukauttaminen</value></data>
+  <data name="CustomizeTitle" xml:space="preserve"><value>Mukauttaminen</value></data>
+  <data name="CustomizeLead" xml:space="preserve"><value>Valitse teema, joka antaa muodon, ja sitten paletti, joka antaa värit: mikä tahansa paletti värittää minkä tahansa teeman, ja koko sivusto värittyy uudelleen samalla. Esikatselu toistaa referenssimallin sommitelmat.</value></data>
+  <data name="CustomizeTokensTitle" xml:space="preserve"><value>Muuttujat</value></data>
+  <data name="CustomizeTokensLead" xml:space="preserve"><value>Tämä luettelo luetaan toimitetusta tyylitiedostosta, joten se ei voi poiketa siitä, mitä kirjasto todella tarjoaa. Muokattu muuttuja lisätään yhdistelmän päälle molemmissa tiloissa. Toisen teeman tai paletin valitseminen poistaa sen.</value></data>
+  <data name="CustomizeReset" xml:space="preserve"><value>Poista muutokset</value></data>
+  <data name="TokenGroupColor" xml:space="preserve"><value>Värit</value></data>
+  <data name="TokenGroupTypography" xml:space="preserve"><value>Typografia</value></data>
+  <data name="TokenGroupSpacing" xml:space="preserve"><value>Välit ja tiiviys</value></data>
+  <data name="TokenGroupShape" xml:space="preserve"><value>Muodot, reunat ja painallus</value></data>
+  <data name="TokenGroupElevation" xml:space="preserve"><value>Varjot, taso ja päällekkäiset elementit</value></data>
+  <data name="TokenGroupChart" xml:space="preserve"><value>Kaaviot</value></data>
+  <data name="TokenGroupGrid" xml:space="preserve"><value>Tietotaulukko tummassa tilassa</value></data>
+  <data name="TokenGroupDiagram" xml:space="preserve"><value>Miellekartta</value></data>
+  <data name="CustomizeExportTitle" xml:space="preserve"><value>Vie</value></data>
+  <data name="CustomizeExportLead" xml:space="preserve"><value>Alla oleva CSS sisältää koko yhdistelmän muokatut muuttujat mukaan lukien vaalealle, tummalle ja järjestelmän tilalle. Se kohdistuu teeman alueeseen (OmniThemeScope, data-omni-theme), jossa tyylitiedosto määrittelee muuttujansa uudelleen. Lataa se kirjaston tyylitiedoston jälkeen.</value></data>
+  <data name="CustomizeCopy" xml:space="preserve"><value>Kopioi</value></data>
+  <data name="CustomizeDownload" xml:space="preserve"><value>Lataa</value></data>
+  <data name="CustomizeCopied" xml:space="preserve"><value>CSS kopioitiin leikepöydälle.</value></data>
+  <data name="CustomizeCopyFailed" xml:space="preserve"><value>Kopiointi epäonnistui. Valitse alla oleva koodi ja kopioi se käsin.</value></data>
+  <data name="CustomizeDownloaded" xml:space="preserve"><value>Tiedosto omnieurope-theme.css ladattiin.</value></data>
+  <data name="CustomizeDownloadFailed" xml:space="preserve"><value>Lataus epäonnistui. Kopioi alla oleva koodi sen sijaan.</value></data>
+  <data name="DemoFormTitle" xml:space="preserve"><value>Lomakkeet</value></data>
+  <data name="DemoFormSummary" xml:space="preserve"><value>Syöttökentät ja niiden saavutettavat nimet.</value></data>
+  <data name="DemoFormCapability1" xml:space="preserve"><value>Nimi, kuvaus ja virheilmoitus liitetty kenttään tunnisteella.</value></data>
+  <data name="DemoFormCapability2" xml:space="preserve"><value>Tekstialue merkkilaskurilla ja rajalla.</value></data>
+  <data name="DemoFormCapability3" xml:space="preserve"><value>Liukusäädin, valintaruutu ja valitsin, joita ohjataan näppäimistöllä.</value></data>
+  <data name="DemoSelectionTitle" xml:space="preserve"><value>Valinta</value></data>
+  <data name="DemoSelectionSummary" xml:space="preserve"><value>Yhden tai useamman arvon valitseminen luettelosta.</value></data>
+  <data name="DemoSelectionCapability1" xml:space="preserve"><value>Avattava luettelo, jossa tyhjä arvo on sallittu.</value></data>
+  <data name="DemoSelectionCapability2" xml:space="preserve"><value>Luettelo, jonka korkeus määräytyy näkyvien rivien määrästä.</value></data>
+  <data name="DemoSelectionCapability3" xml:space="preserve"><value>Monivalinta, joka palauttaa valittujen arvojen luettelon.</value></data>
+  <data name="DemoNavigationTitle" xml:space="preserve"><value>Navigointi</value></data>
+  <data name="DemoNavigationSummary" xml:space="preserve"><value>Käyttäjän sijainnin osoittaminen ja siirtyminen osioiden välillä.</value></data>
+  <data name="DemoNavigationCapability1" xml:space="preserve"><value>Murupolku, joka merkitsee nykyisen sivun.</value></data>
+  <data name="DemoNavigationCapability2" xml:space="preserve"><value>Ohjatut välilehdet rooleineen ja näppäimistönavigointeineen.</value></data>
+  <data name="DemoNavigationCapability3" xml:space="preserve"><value>Numeroidut vaiheet, jotka tarkistetaan ennen siirtymistä.</value></data>
+  <data name="DemoFeedbackTitle" xml:space="preserve"><value>Tilapalaute</value></data>
+  <data name="DemoFeedbackSummary" xml:space="preserve"><value>Järjestelmän tilan kertominen estämättä sivun lukemista.</value></data>
+  <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Edistymispalkki, määritetty tai määrittämätön.</value></data>
+  <data name="DemoFeedbackCapability2" xml:space="preserve"><value>Työkaluvihje, johon pääsee näppäimistöllä eikä vain osoittamalla.</value></data>
+  <data name="DemoFeedbackCapability3" xml:space="preserve"><value>Latauksen luuranko, joka ilmoitetaan näytönlukuohjelmille.</value></data>
+  <data name="DemoFeedbackCapability4" xml:space="preserve"><value>Lineaarinen tai pyöreä palkki neljällä tarkoituksella sekä luuranko, joka ottaa korvaamansa sisällön muodon.</value></data>
+  <data name="DemoGridTitle" xml:space="preserve"><value>Tietotaulukko</value></data>
+  <data name="DemoGridSummary" xml:space="preserve"><value>Työtaulukko: lajittelu, suodatus, sivutus ja ryhmät.</value></data>
+  <data name="DemoGridCapability1" xml:space="preserve"><value>Sarakekohtainen lajittelu ja suodatus todellisista tiedoista.</value></data>
+  <data name="DemoGridCapability2" xml:space="preserve"><value>Sivutus säädettävällä sivukoolla.</value></data>
+  <data name="DemoGridCapability3" xml:space="preserve"><value>Vuorottelevat rivit ja deklaratiiviset sarakemuodot.</value></data>
+  <data name="DemoChartTitle" xml:space="preserve"><value>Kaaviot</value></data>
+  <data name="DemoChartSummary" xml:space="preserve"><value>Luokittelevat sarjat teeman väreissä.</value></data>
+  <data name="DemoChartCapability1" xml:space="preserve"><value>Pylvässarjat nimetyillä akseleilla.</value></data>
+  <data name="DemoChartCapability2" xml:space="preserve"><value>Värit otetaan teeman kaaviomuuttujista.</value></data>
+  <data name="DemoTypographyTitle" xml:space="preserve"><value>Typografia</value></data>
+  <data name="DemoTypographySummary" xml:space="preserve"><value>Otsikot, kappaleet, nimet ja linkit.</value></data>
+  <data name="DemoTypographyCapability1" xml:space="preserve"><value>Kuusi otsikkotasoa, kukin useana sävynä.</value></data>
+  <data name="DemoTypographyCapability2" xml:space="preserve"><value>Viisi tekstielementtiä kappaleesta korostukseen.</value></data>
+  <data name="DemoTypographyCapability3" xml:space="preserve"><value>Katkaisu kolmella pisteellä ja kenttään liitetty nimi.</value></data>
+  <data name="DemoLayoutTitle" xml:space="preserve"><value>Asettelu</value></data>
+  <data name="DemoLayoutSummary" xml:space="preserve"><value>Ruudukko, rivit, kortit ja kenttäryhmät.</value></data>
+  <data name="DemoLayoutCapability1" xml:space="preserve"><value>Kahdentoista sarakkeen ruudukko, jonka ulottuvuudet määritetään näyttökoon mukaan.</value></data>
+  <data name="DemoLayoutCapability2" xml:space="preserve"><value>Kolmiosainen kortti: ylätunniste, runko ja alatunniste.</value></data>
+  <data name="DemoLayoutCapability3" xml:space="preserve"><value>Kenttäryhmä, jonka voi poistaa käytöstä yhdellä kertaa.</value></data>
+  <data name="DemoLayoutCapability4" xml:space="preserve"><value>Koko välien asteikko sekä rivin hyväksymät jaot ja tasaukset.</value></data>
+  <data name="DemoShellTitle" xml:space="preserve"><value>Sovelluksen kehys</value></data>
+  <data name="DemoShellSummary" xml:space="preserve"><value>Sovelluksen runko, sama josta tämä sivusto on rakennettu.</value></data>
+  <data name="DemoShellCapability1" xml:space="preserve"><value>Ylätunniste, kutistettava sivupalkki ja pääalue.</value></data>
+  <data name="DemoShellCapability2" xml:space="preserve"><value>Navigointivalikko laajennettavine ryhmineen.</value></data>
+  <data name="DemoShellCapability3" xml:space="preserve"><value>Ulkoasun vaihto ja paikallinen teema-alue.</value></data>
+  <data name="DemoShellCapability4" xml:space="preserve"><value>Molemmat järjestelyt: keskitetty lukupalsta tai koko leveys, valikko vasemmalla tai oikealla.</value></data>
+  <data name="DemoMediaTitle" xml:space="preserve"><value>Kuvakkeet ja media</value></data>
+  <data name="DemoMediaSummary" xml:space="preserve"><value>Kuvakkeet, kuvat ja aikajana.</value></data>
+  <data name="DemoMediaCapability1" xml:space="preserve"><value>Sisäänrakennetut kuvakkeet kolmessa koossa.</value></data>
+  <data name="DemoMediaCapability2" xml:space="preserve"><value>Isännän toimittama kuvakepolku, joka ei kasvata pakettia.</value></data>
+  <data name="DemoMediaCapability3" xml:space="preserve"><value>Kuva säädettävällä rajauksella ja viivästetyllä latauksella.</value></data>
+  <data name="DemoMediaCapability4" xml:space="preserve"><value>Koko sisäänrakennettu kuvakesarja ja kuvan kolme rajaustapaa.</value></data>
+  <data name="DemoInputsTitle" xml:space="preserve"><value>Edistynyt syöttö</value></data>
+  <data name="DemoInputsSummary" xml:space="preserve"><value>Luvut, salasanat, päivämäärät, ajat, värit ja automaattinen täydennys.</value></data>
+  <data name="DemoInputsCapability1" xml:space="preserve"><value>Rajattu numerokenttä säädettävällä askeleella.</value></data>
+  <data name="DemoInputsCapability2" xml:space="preserve"><value>Näytettävissä oleva salasana, jota ei koskaan kopioida muualle.</value></data>
+  <data name="DemoInputsCapability3" xml:space="preserve"><value>Asynkroninen automaattinen täydennys viiveellä ja vähimmäispituudella.</value></data>
+  <data name="DemoInputsCapability4" xml:space="preserve"><value>Päivämäärä, aika, päivämäärä ja aika: oma kalenteri ja sarakkeet kelluvalla tasolla, ruudukon näppäimistöohjaus, rajat ja tiiviys.</value></data>
+  <data name="DemoChoiceTitle" xml:space="preserve"><value>Valinnat</value></data>
+  <data name="DemoChoiceSummary" xml:space="preserve"><value>Valintanapit, monivalintaruudut, valintapalkit ja vaihtopainikkeet.</value></data>
+  <data name="DemoChoiceCapability1" xml:space="preserve"><value>Vaihtoehdoista muodostetut tai kohde kerrallaan kootut luettelot.</value></data>
+  <data name="DemoChoiceCapability2" xml:space="preserve"><value>Valintapalkki ja vaihtopainike varattu- ja poistettu käytöstä -tiloineen.</value></data>
+  <data name="DemoChoiceCapability3" xml:space="preserve"><value>Kolmiasentoinen valintaruutu ja valitsin, määrittämätön tila mukaan lukien.</value></data>
+  <data name="DemoValidationTitle" xml:space="preserve"><value>Validointi</value></data>
+  <data name="DemoValidationSummary" xml:space="preserve"><value>Säännöt määritellään suojaamansa kentän viereen.</value></data>
+  <data name="DemoValidationCapability1" xml:space="preserve"><value>Pakollisuus, pituus, sähköpostin muoto ja vertailu.</value></data>
+  <data name="DemoValidationCapability2" xml:space="preserve"><value>Lähetettäessä kohdistus siirtyy ensimmäiseen virheelliseen kenttään.</value></data>
+  <data name="DemoValidationCapability3" xml:space="preserve"><value>Mallissa ei ole yhtään attribuuttia, kaikki on merkinnöissä.</value></data>
+  <data name="DemoEditorTitle" xml:space="preserve"><value>Editorit ja lähetys</value></data>
+  <data name="DemoEditorSummary" xml:space="preserve"><value>WYSIWYG-editori ja sen HTML-lähdekoodi, tekstinkäsittely, koodieditori ja tiedostojen lähetys.</value></data>
+  <data name="DemoEditorCapability1" xml:space="preserve"><value>Komentopalkki, jota isäntä täydentää tai järjestää uudelleen, puhdistettu liittäminen, lähdekooditila.</value></data>
+  <data name="DemoEditorCapability2" xml:space="preserve"><value>Tekstinkäsittely sivulla, sanamäärä, vienti HTML- ja tekstimuotoon.</value></data>
+  <data name="DemoEditorCapability3" xml:space="preserve"><value>Koodieditori (Monaco isännän tarjoamana, pelkkä teksti tiukan CSP:n alla) ja rajattu lähetys.</value></data>
+  <data name="DemoOverlayTitle" xml:space="preserve"><value>Päällekkäiset elementit</value></data>
+  <data name="DemoOverlaySummary" xml:space="preserve"><value>Valintaikkunat, ilmoitukset ja ponnahdusvalikot.</value></data>
+  <data name="DemoOverlayCapability1" xml:space="preserve"><value>Modaalinen valintaikkuna, jonka voi sulkea Esc-näppäimellä tai taustaa napsauttamalla.</value></data>
+  <data name="DemoOverlayCapability2" xml:space="preserve"><value>Neljä ilmoitusten vakavuustasoa, valinnainen sulkeminen.</value></data>
+  <data name="DemoOverlayCapability3" xml:space="preserve"><value>Pikavalikko, jaettu painike ja tilivalikko.</value></data>
+  <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Tietotaulukko, kaikki ominaisuudet</value></data>
+  <data name="DemoGridAdvancedSummary" xml:space="preserve"><value>Valinta, ryhmät, muokkaus, kiinnitetyt sarakkeet ja monipuoliset suodattimet.</value></data>
+  <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Monivalinta rivin napsautuksella.</value></data>
+  <data name="DemoGridAdvancedCapability2" xml:space="preserve"><value>Sarakekohtaiset avattavat ja monivalintasuodattimet.</value></data>
+  <data name="DemoGridAdvancedCapability3" xml:space="preserve"><value>Kiinnitetty sarake, laajennetut ryhmät ja laskettu sarakkeen alatunniste.</value></data>
+  <data name="DemoGridAdvancedCapability4" xml:space="preserve"><value>Reaaliaikaisesti ohjatut näyttöasetukset: rivit, tiiviys, sivutus, valinta, muokkaus ja suodattimet.</value></data>
+  <data name="DemoDataListTitle" xml:space="preserve"><value>Luettelot ja sivutus</value></data>
+  <data name="DemoDataListSummary" xml:space="preserve"><value>Vapaamallinen luettelo ja sen sivutin.</value></data>
+  <data name="DemoDataListCapability1" xml:space="preserve"><value>Kohteen malli kokonaan isännän toimittama.</value></data>
+  <data name="DemoDataListCapability2" xml:space="preserve"><value>Tyhjä, latautuva ja virhetila pidetään erillään.</value></data>
+  <data name="DemoDataListCapability3" xml:space="preserve"><value>Sivutin säädettävällä sivukoolla sekä ensimmäisen ja viimeisen sivun pikavalinnoilla.</value></data>
+  <data name="DemoTreeTitle" xml:space="preserve"><value>Puunäkymä</value></data>
+  <data name="DemoTreeSummary" xml:space="preserve"><value>Laajennettava hierarkia, yksittäis- tai monivalinta.</value></data>
+  <data name="DemoTreeCapability1" xml:space="preserve"><value>Monivalinta ja näppäimistönavigointi.</value></data>
+  <data name="DemoTreeCapability2" xml:space="preserve"><value>Haara ladataan tarvittaessa, kun solmu avataan.</value></data>
+  <data name="DemoTreeCapability3" xml:space="preserve"><value>Solmuja voi poistaa käytöstä rikkomatta läpikäyntiä.</value></data>
+  <data name="DemoSpreadsheetTitle" xml:space="preserve"><value>Taulukkolaskenta</value></data>
+  <data name="DemoSpreadsheetSummary" xml:space="preserve"><value>Yksinkertainen laskentataulukko: solut, kaavat ja kaavarivi.</value></data>
+  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Kaavat viittauksilla, alueilla, SUM, AVERAGE, MIN, MAX ja virhekoodeilla.</value></data>
+  <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Näppäimistönavigointi, muokkaus paikallaan ja kaavarivi.</value></data>
+  <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Kaksisuuntaisesti sidottu sisältö, joka voidaan sarjallistaa JSON-muotoon.</value></data>
+  <data name="DemoSchedulerTitle" xml:space="preserve"><value>Ajanvaraus</value></data>
+  <data name="DemoSchedulerSummary" xml:space="preserve"><value>Kalenteri ja sen kolme näkymää.</value></data>
+  <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Vaihdettavat päivä-, viikko- ja kuukausinäkymät.</value></data>
+  <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Säännöllä kuvatut toistuvat tapaamiset.</value></data>
+  <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Jokaista näkymää voi käyttää myös yksinään kalenterin ulkopuolella.</value></data>
+  <data name="DemoChartsExtendedTitle" xml:space="preserve"><value>Kaaviot, kaikki ominaisuudet</value></data>
+  <data name="DemoChartsExtendedSummary" xml:space="preserve"><value>Kaikki sarjat, selite, nimikkeet ja mittari.</value></data>
+  <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Viivat, alueet, pylväät, palkit, pinot, sektori ja rengas.</value></data>
+  <data name="DemoChartsExtendedCapability2" xml:space="preserve"><value>Selite, merkit, arvonimikkeet ja työkaluvihje.</value></data>
+  <data name="DemoChartsExtendedCapability3" xml:space="preserve"><value>Kaarimittari asteikolla ja arvon muodolla.</value></data>
+  <data name="DemoDiagramTitle" xml:space="preserve"><value>Miellekartta</value></data>
+  <data name="DemoDiagramSummary" xml:space="preserve"><value>Miellekartta, jota muokataan hiirellä, kosketuksella ja näppäimistöllä.</value></data>
+  <data name="DemoDiagramCapability1" xml:space="preserve"><value>Vetäminen, lasso, zoomaus rullalla tai nipistämällä, pikavalikko.</value></data>
+  <data name="DemoDiagramCapability2" xml:space="preserve"><value>Jokaisella toiminnolla on pikanäppäin, joka ilmoitetaan näytönlukuohjelmille.</value></data>
+  <data name="DemoDiagramCapability3" xml:space="preserve"><value>Toimintopalkki ja valitun solmun ominaisuuspaneeli.</value></data>
+  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Lukee ja kirjoittaa tallennetun graafimuodon menettämättä mitään.</value></data>
+  <data name="DemoPlanningTitle" xml:space="preserve"><value>Suunnittelu</value></data>
+  <data name="DemoPlanningSummary" xml:space="preserve"><value>Gantt-kaavio, suorituksen vaiheet ja sijoiteltava aikajana.</value></data>
+  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt päivä-, viikko- tai kuukausitasolla ryhmineen, riippuvuuksineen ja tämän päivän merkinnöin.</value></data>
+  <data name="DemoPlanningCapability2" xml:space="preserve"><value>Suorituksen vaiheet aika-asteikolla, mukana vaiheet, jotka eivät koskaan alkaneet.</value></data>
+  <data name="DemoPlanningCapability3" xml:space="preserve"><value>Aikajana oikealla, vasemmalla tai vuorotellen, ensimmäinen puoli valittavissa.</value></data>
+  <data name="DemoPagesTitle" xml:space="preserve"><value>Sivut</value></data>
+  <data name="DemoPagesSummary" xml:space="preserve"><value>Ylätunniste, tietosivu ja sen sisältö.</value></data>
+  <data name="DemoPagesCapability1" xml:space="preserve"><value>Sivun ylätunniste: palvelun ylläpitämä murupolku, paluu, otsikko, merkit ja puhelimessa kootut toiminnot.</value></data>
+  <data name="DemoPagesCapability2" xml:space="preserve"><value>Tietosivu: ylätunniste piirretään ennen tietojen saapumista, sisältö piilotetaan latauksen ajaksi, ei löydy -tila paluulinkillä.</value></data>
+  <data name="DemoPagesCapability3" xml:space="preserve"><value>Määritelmäluettelo sarakkeissa, toiminto kullekin arvolle.</value></data>
+  <data name="DemoPagesCapability4" xml:space="preserve"><value>Suhteellinen aika, jonka tarkka päivämäärä näkyy osoitettaessa ja kohdistettaessa, sekä tyhjä tila toimintoineen.</value></data>
+  <data name="DemoFlowsTitle" xml:space="preserve"><value>Polut</value></data>
+  <data name="DemoFlowsSummary" xml:space="preserve"><value>Ohjattu toiminto, kirjautuminen ja yhteyden katkeaminen.</value></data>
+  <data name="DemoFlowsCapability1" xml:space="preserve"><value>Vaiheittainen ohjattu toiminto: edistyminen, vaihekohtainen validointi, sivulla tai valintaikkunassa.</value></data>
+  <data name="DemoFlowsCapability2" xml:space="preserve"><value>Kirjautumissivu ilman sisäänrakennettua todennusta ja paluuosoite, joka pysyy sovelluksen sisällä.</value></data>
+  <data name="DemoFlowsCapability3" xml:space="preserve"><value>Katkenneen yhteyden peite: lähtölaskenta, syy, manuaalinen uudelleenyritys, epäonnistuminen ja hylkäys.</value></data>
+  <data name="WorkshopBarTitle" xml:space="preserve"><value>Esikatselun asetukset</value></data>
+  <data name="WorkshopTheme" xml:space="preserve"><value>Teema (muoto)</value></data>
+  <data name="WorkshopPalette" xml:space="preserve"><value>Paletti (värit)</value></data>
+  <data name="WorkshopThemePalette" xml:space="preserve"><value>Teeman paletti</value></data>
+  <data name="WorkshopDefault" xml:space="preserve"><value>Oletus</value></data>
+  <data name="WorkshopMode" xml:space="preserve"><value>Tila</value></data>
+  <data name="WorkshopModeLight" xml:space="preserve"><value>Vaalea</value></data>
+  <data name="WorkshopModeDark" xml:space="preserve"><value>Tumma</value></data>
+  <data name="WorkshopModeSystem" xml:space="preserve"><value>Järjestelmä</value></data>
+  <data name="WorkshopDensity" xml:space="preserve"><value>Yleinen tiiviys</value></data>
+  <data name="WorkshopDensityCompact" xml:space="preserve"><value>Tiivis</value></data>
+  <data name="WorkshopDensityComfortable" xml:space="preserve"><value>Mukava</value></data>
+  <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Väljä</value></data>
+  <data name="WorkshopDensityInherited" xml:space="preserve"><value>Peritty</value></data>
+  <data name="WorkshopSectionDensity" xml:space="preserve"><value>Tiiviys</value></data>
+  <data name="WorkshopHover" xml:space="preserve"><value>Osoitus</value></data>
+  <data name="WorkshopHoverForce" xml:space="preserve"><value>Pakota</value></data>
+  <data name="WorkshopHoverForced" xml:space="preserve"><value>Pakotettu</value></data>
+  <data name="WorkshopStageTitle" xml:space="preserve"><value>Esikatselu</value></data>
+  <data name="WorkshopStageLead" xml:space="preserve"><value>Teema {0}: {1} Paletti {2}: {3}</value></data>
+  <data name="WorkshopContrastWaiver" xml:space="preserve"><value>Kontrastia ei taata: {0}</value></data>
+  <data name="WorkshopContrastTitle" xml:space="preserve"><value>Lasketut kontrastit</value></data>
+  <data name="WorkshopContrastLead" xml:space="preserve"><value>Näytetyn tilan tokeneista mitattu suhde ja sen jälkeen saavutettava kynnys.</value></data>
+  <data name="WorkshopContrastSystem" xml:space="preserve"><value>Järjestelmätila: suhteet mitataan vaaleasta puoliskosta, koska selaimen valitsema puolisko selviää vasta sivulla.</value></data>
+  <data name="WorkshopContrastVerdict" xml:space="preserve"><value>{0}/{1} paria saavuttaa kynnyksensä.</value></data>
+  <data name="WorkshopSwatchesTitle" xml:space="preserve"><value>Värien tokenit</value></data>
+  <data name="ContrastPair01" xml:space="preserve"><value>teksti / pinta</value></data>
+  <data name="ContrastPair02" xml:space="preserve"><value>teksti / himmennetty pinta</value></data>
+  <data name="ContrastPair03" xml:space="preserve"><value>teksti / osoitettu pinta</value></data>
+  <data name="ContrastPair04" xml:space="preserve"><value>himmennetty teksti / pinta</value></data>
+  <data name="ContrastPair05" xml:space="preserve"><value>himmennetty teksti / himmennetty pinta</value></data>
+  <data name="ContrastPair06" xml:space="preserve"><value>himmennetty teksti / osoitettu pinta</value></data>
+  <data name="ContrastPair07" xml:space="preserve"><value>vahva korostus / pinta</value></data>
+  <data name="ContrastPair08" xml:space="preserve"><value>vahva korostus / hillitty korostus</value></data>
+  <data name="ContrastPair09" xml:space="preserve"><value>vahva korostus / osoitettu pinta</value></data>
+  <data name="ContrastPair10" xml:space="preserve"><value>korostuksen päällä / korostus</value></data>
+  <data name="ContrastPair11" xml:space="preserve"><value>onnistumisen päällä / onnistuminen</value></data>
+  <data name="ContrastPair12" xml:space="preserve"><value>varoituksen päällä / varoitus</value></data>
+  <data name="ContrastPair13" xml:space="preserve"><value>vaaran päällä / vaara</value></data>
+  <data name="ContrastPair14" xml:space="preserve"><value>käänteisen päällä / käänteinen</value></data>
+  <data name="ContrastPair15" xml:space="preserve"><value>onnistuminen / pinta</value></data>
+  <data name="ContrastPair16" xml:space="preserve"><value>onnistuminen / hillitty onnistuminen</value></data>
+  <data name="ContrastPair17" xml:space="preserve"><value>varoitus / pinta</value></data>
+  <data name="ContrastPair18" xml:space="preserve"><value>vaara / pinta</value></data>
+  <data name="ContrastPair19" xml:space="preserve"><value>vaara / hillitty vaara</value></data>
+  <data name="ContrastPair20" xml:space="preserve"><value>teksti täytetyllä korostuksella</value></data>
+  <data name="ContrastPair21" xml:space="preserve"><value>teksti täytetyllä onnistumisella</value></data>
+  <data name="ContrastPair22" xml:space="preserve"><value>teksti täytetyllä tiedolla</value></data>
+  <data name="ContrastPair23" xml:space="preserve"><value>muste kirkkaalla tiedolla (hälytys)</value></data>
+  <data name="ContrastPair24" xml:space="preserve"><value>muste kirkkaalla onnistumisella (hälytys)</value></data>
+  <data name="ContrastPair25" xml:space="preserve"><value>muste osoitetulla kirkkaalla tiedolla</value></data>
+  <data name="ContrastPair26" xml:space="preserve"><value>muste painetulla kirkkaalla tiedolla</value></data>
+  <data name="ContrastPair27" xml:space="preserve"><value>muste osoitetulla kirkkaalla onnistumisella</value></data>
+  <data name="ContrastPair28" xml:space="preserve"><value>muste painetulla kirkkaalla onnistumisella</value></data>
+  <data name="ContrastPair29" xml:space="preserve"><value>muste syvällä varoituksella (painike)</value></data>
+  <data name="ContrastPair30" xml:space="preserve"><value>muste osoitetulla syvällä varoituksella</value></data>
+  <data name="ContrastPair31" xml:space="preserve"><value>muste painetulla syvällä varoituksella</value></data>
+  <data name="ContrastPair32" xml:space="preserve"><value>muste syvällä vaaralla (painike)</value></data>
+  <data name="ContrastPair33" xml:space="preserve"><value>muste osoitetulla syvällä vaaralla</value></data>
+  <data name="ContrastPair34" xml:space="preserve"><value>muste painetulla syvällä vaaralla</value></data>
+  <data name="ContrastPair35" xml:space="preserve"><value>teksti täytetyllä korostuksella, osoitus</value></data>
+  <data name="ContrastPair36" xml:space="preserve"><value>teksti täytetyllä korostuksella, painallus</value></data>
+  <data name="ContrastPair37" xml:space="preserve"><value>toissijainen levossa</value></data>
+  <data name="ContrastPair38" xml:space="preserve"><value>toissijainen osoitettaessa</value></data>
+  <data name="ContrastPair39" xml:space="preserve"><value>toissijainen painettaessa</value></data>
+  <data name="ContrastPair40" xml:space="preserve"><value>haamu painettaessa</value></data>
+  <data name="ContrastPair41" xml:space="preserve"><value>täytetty korostus / pinta</value></data>
+  <data name="ContrastPair42" xml:space="preserve"><value>täytetty onnistuminen / pinta</value></data>
+  <data name="ContrastPair43" xml:space="preserve"><value>täytetty tieto / pinta</value></data>
+  <data name="ContrastPair44" xml:space="preserve"><value>täytetty varoitus / pinta</value></data>
+  <data name="ContrastPair45" xml:space="preserve"><value>täytetty vaara / pinta</value></data>
+  <data name="ContrastPair46" xml:space="preserve"><value>korostus / pinta</value></data>
+  <data name="ContrastPair47" xml:space="preserve"><value>reuna / pinta (OE-alaraja 1,7)</value></data>
+  <data name="DemoStatesTitle" xml:space="preserve"><value>Lepo, osoitus ja painallus</value></data>
+  <data name="DemoStatesSummary" xml:space="preserve"><value>Painikemuunnelman kolme tilaa rinnakkain.</value></data>
+  <data name="DemoStatesCapability1" xml:space="preserve"><value>Osoitus ja painallus lukevat teeman tokenit: osoitettu täyttö, painettu täyttö ja painallusele.</value></data>
+  <data name="DemoStatesCapability2" xml:space="preserve"><value>Esittelyn vertailuapu: selain ei voi jäädyttää tiloja :hover ja :active.</value></data>
+  <data name="DemoAppShellTitle" xml:space="preserve"><value>Sovelluskehys</value></data>
+  <data name="DemoAppShellSummary" xml:space="preserve"><value>Yläpalkki, sivuvalikko, joka kutistuu kuvakepalkiksi, ja sisältö.</value></data>
+  <data name="DemoAppShellCapability1" xml:space="preserve"><value>Kutistuspainike, haku, ohje, kello merkkipisteellä ja levossa suljettu tilivalikko.</value></data>
+  <data name="DemoAppShellCapability2" xml:space="preserve"><value>Sivuvalikko säilyttää kuvakkeensa kutistettuna (Collapse Icons).</value></data>
+  <data name="DemoAppShellCapability3" xml:space="preserve"><value>Merkkipisteen, suurennuslasin, logon ja avatarin piirtää esittely: paketissa ei ole niille komponenttia.</value></data>
+  <data name="DemoThemesTitle" xml:space="preserve"><value>Teemat ja paletit</value></data>
+  <data name="DemoThemesSummary" xml:space="preserve"><value>Teema antaa muodon, paletti värit. Mikä tahansa paletti värittää minkä tahansa teeman.</value></data>
+  <data name="DemoThemesCapability1" xml:space="preserve"><value>OmniThemeScope.Preset ja OmniThemeScope.Palette värittävät uudelleen alueen ja sen sisällön, eivätkä mitään muuta.</value></data>
+  <data name="DemoThemesCapability2" xml:space="preserve"><value>Pelkkä paletti vaihtaa värit ja säilyttää toimitetun muodon.</value></data>
+  <data name="DemoThemesCapability3" xml:space="preserve"><value>{0} teemaa ja {1} palettia eli {2} yhdistelmää, kukin vaaleana ja tummana.</value></data>
+  <data name="DemoSurfacesTitle" xml:space="preserve"><value>Pinnat</value></data>
+  <data name="DemoSurfacesSummary" xml:space="preserve"><value>Kortit, kelluva valikko, välilehdet, sivuvalikko, linkki ja työkaluvihje.</value></data>
+  <data name="DemoSurfacesCapability1" xml:space="preserve"><value>Kortit ja kelluva valikko lukevat teeman muodon: täytön, reunaviivan, säteen ja varjon.</value></data>
+  <data name="DemoSurfacesCapability2" xml:space="preserve"><value>Kelluva valikko avautuu kelluvien pintojen tasolle.</value></data>
+  <data name="DemoSurfacesCapability3" xml:space="preserve"><value>Valikon nykyinen kohde merkitään täytöllä ja tekstin painolla, ei koskaan sivuviivalla.</value></data>
+  <data name="DemoVerticalFormTitle" xml:space="preserve"><value>Pystysuuntainen lomake</value></data>
+  <data name="DemoVerticalFormSummary" xml:space="preserve"><value>Kaikki kenttätyypit, virheet ja niiden yhteenveto, poistettu käytöstä- ja vain luku -tilat.</value></data>
+  <data name="DemoVerticalFormCapability1" xml:space="preserve"><value>Nimi yläpuolella, pakollisuuden tähti, ohje ja virhe kuvakkeen kanssa.</value></data>
+  <data name="DemoVerticalFormCapability2" xml:space="preserve"><value>Virheet tulevat muokkauskontekstista: kenttä saa niistä aria-invalid-arvon, ja niiden korjaaminen poistaa ne yhteenvedosta.</value></data>
+  <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Yhdistetty tiedostokenttä, yhden tiedoston alue, useiden tiedostojen alue supistetulla luettelolla.</value></data>
+  <data name="DemoVerticalFormCapability4" xml:space="preserve"><value>Poistettu käytöstä ja vain luku pysyvät erillisinä kaikissa kolmessa tiiviydessä.</value></data>
+  <data name="DemoSettingsTabsTitle" xml:space="preserve"><value>Asetukset välilehdillä</value></data>
+  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>Yksi kuvakkeellinen välilehti aihetta kohden, yksi osio välilehteä kohden, yksi ruutu asetusta kohden.</value></data>
+  <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>Ruutuun sijoitettu valitsin saa nimekseen ruudun nimen. Ruudun napsauttaminen vaihtaa sen tilaa.</value></data>
+  <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>Säädin on oikealla, nimi, ohje ja kuvake vasemmalla.</value></data>
+  <data name="DemoNoticesTitle" xml:space="preserve"><value>Ilmoitukset ja valintaikkunat</value></data>
+  <data name="DemoNoticesSummary" xml:space="preserve"><value>Suljettavat ilmoitukset, valintaikkunat taustaverhon päällä.</value></data>
+  <data name="DemoNoticesCapability1" xml:space="preserve"><value>Jokainen ilmoitus suljetaan sen ruksista.</value></data>
+  <data name="DemoNoticesCapability2" xml:space="preserve"><value>Valintaikkunoiden alatunniste noudattaa paketin käytäntöä: ensin toiminto, sitten Peruuta.</value></data>
+  <data name="DemoLoadingTitle" xml:space="preserve"><value>Lataus</value></data>
+  <data name="DemoLoadingSummary" xml:space="preserve"><value>Latauspalkki, odotus, varatut painikkeet, edistyminen ja luuranko.</value></data>
+  <data name="DemoLoadingCapability1" xml:space="preserve"><value>Palkki seuraa todellista latausta pyyhkäisten tai täyttyen, menee loppuun ja häviää.</value></data>
+  <data name="DemoLoadingCapability2" xml:space="preserve"><value>Varattu painike säilyttää kokonsa ja sisältönsä: sen päällä sykkii verho.</value></data>
+  <data name="DemoLoadingCapability3" xml:space="preserve"><value>Luuranko ottaa korvaamansa sisällön muodon.</value></data>
+  <data name="DemoRunGridsTitle" xml:space="preserve"><value>Suoritustaulukot</value></data>
+  <data name="DemoRunGridsSummary" xml:space="preserve"><value>Mallin kaksi taulukkoa: lajiteltu aktiivisella sarakkeella ja raidallinen kiinteällä otsikolla.</value></data>
+  <data name="DemoRunGridsCapability1" xml:space="preserve"><value>Lajiteltu sarake on sävytetty kevyemmin kuin valittu rivi, jotta ne erottuvat toisistaan.</value></data>
+  <data name="DemoRunGridsCapability2" xml:space="preserve"><value>Otsikko pysyy näkyvissä taulukkoa vieritettäessä. Kesto tasataan loppuun.</value></data>
+  <data name="DemoRunGridsCapability3" xml:space="preserve"><value>Tila on kompakti pistemerkki (omni-status).</value></data>
+  <data name="LoadingFrameBrand" xml:space="preserve"><value>Aetheus</value></data>
+  <data name="LoadingFramePage" xml:space="preserve"><value>Koontinäyttö</value></data>
+  <data name="LoadingBarLabel" xml:space="preserve"><value>Sivun lataus</value></data>
+  <data name="LoadingSweep" xml:space="preserve"><value>Pyyhkäisevä palkki</value></data>
+  <data name="LoadingFill" xml:space="preserve"><value>Täyttyvä palkki</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>Palkki on kiinnitetty yllä olevan ylätunnisteen alle. Lopuksi se menee loppuun ja häviää.</value></data>
+  <data name="LoadingWaiting" xml:space="preserve"><value>Odotus</value></data>
+  <data name="LoadingDeploying" xml:space="preserve"><value>Käyttöönotto käynnissä</value></data>
+  <data name="LoadingChecking" xml:space="preserve"><value>Tarkistus</value></data>
+  <data name="LoadingSaving" xml:space="preserve"><value>Tallennetaan</value></data>
+  <data name="LoadingAnalysis" xml:space="preserve"><value>Analyysi käynnissä</value></data>
+  <data name="LoadingCoverage" xml:space="preserve"><value>Kattavuus</value></data>
+  <data name="LoadingContent" xml:space="preserve"><value>Ladataan sisältöä</value></data>
+  <data name="NoticeDoneTitle" xml:space="preserve"><value>Käyttöönotto valmis</value></data>
+  <data name="NoticeDoneMessage" xml:space="preserve"><value>aetheus-deploy-prod #2399 ajassa 1 min 48 s.</value></data>
+  <data name="NoticeRefusedTitle" xml:space="preserve"><value>Lukittu palautus hylätty</value></data>
+  <data name="NoticeRefusedMessage" xml:space="preserve"><value>NuGet-graafi poikkesi lukitustiedostosta.</value></data>
+  <data name="NoticeShowAgain" xml:space="preserve"><value>Näytä ilmoitukset uudelleen</value></data>
+  <data name="NoticeUnlistOpen" xml:space="preserve"><value>Poista version 1.0.0 listaus</value></data>
+  <data name="NoticeUnlistTitle" xml:space="preserve"><value>Poista version 1.0.0 listaus</value></data>
+  <data name="NoticeUnlistBody" xml:space="preserve"><value>Versio katoaa hausta ja liukuvista versioalueista. Sen voi yhä ladata tarkalla versionumerolla.</value></data>
+  <data name="NoticeUnlistAlpha" xml:space="preserve"><value>Poista myös version 0.1.0-alpha.1 listaus</value></data>
+  <data name="NoticeUnlist" xml:space="preserve"><value>Poista listaus</value></data>
+  <data name="NoticeUnlistDone" xml:space="preserve"><value>Version listaus poistettu</value></data>
+  <data name="NoticeRerunOpen" xml:space="preserve"><value>Suorita putki uudelleen</value></data>
+  <data name="NoticeRerunTitle" xml:space="preserve"><value>Suoritetaanko putki uudelleen?</value></data>
+  <data name="NoticeRerunBody" xml:space="preserve"><value>aetheus-deploy-prod #2399 suoritetaan uudelleen palvelimella vps2577917 samoilla muuttujilla.</value></data>
+  <data name="NoticeRerunNotify" xml:space="preserve"><value>Ilmoita minulle lopuksi</value></data>
+  <data name="NoticeRerun" xml:space="preserve"><value>Suorita uudelleen</value></data>
+  <data name="NoticeRerunDone" xml:space="preserve"><value>Putki suoritettu uudelleen</value></data>
+  <data name="NoticeCancel" xml:space="preserve"><value>Peruuta</value></data>
+  <data name="NoticeClose" xml:space="preserve"><value>Sulje</value></data>
+  <data name="NoticeLast" xml:space="preserve"><value>Viimeisin toiminto: {0}</value></data>
+  <data name="RunsSortedCaption" xml:space="preserve"><value>Suoritukset putken mukaan lajiteltuina</value></data>
+  <data name="RunsStripedCaption" xml:space="preserve"><value>Suoritushistoria</value></data>
+  <data name="RunsRun" xml:space="preserve"><value>Suoritus</value></data>
+  <data name="RunsPipeline" xml:space="preserve"><value>Putki</value></data>
+  <data name="RunsTrigger" xml:space="preserve"><value>Käynnistäjä</value></data>
+  <data name="RunsSeconds" xml:space="preserve"><value>Kesto (s)</value></data>
+  <data name="RunsStatus" xml:space="preserve"><value>Tila</value></data>
+  <data name="RunsTriggerPush" xml:space="preserve"><value>Push</value></data>
+  <data name="RunsTriggerManual" xml:space="preserve"><value>Manuaalinen</value></data>
+  <data name="RunsTriggerScheduled" xml:space="preserve"><value>Ajoitettu</value></data>
+  <data name="RunsStatusSuccess" xml:space="preserve"><value>Onnistui</value></data>
+  <data name="RunsStatusInfo" xml:space="preserve"><value>Käynnissä</value></data>
+  <data name="RunsStatusWarning" xml:space="preserve"><value>Peruttu</value></data>
+  <data name="RunsStatusDanger" xml:space="preserve"><value>Epäonnistui</value></data>
+  <data name="SettingsTabsLabel" xml:space="preserve"><value>Asetukset</value></data>
+  <data name="SettingsGeneral" xml:space="preserve"><value>Yleiset</value></data>
+  <data name="SettingsGeneralLead" xml:space="preserve"><value>Työkansiot ja käynnistyksen toiminta.</value></data>
+  <data name="SettingsFolder" xml:space="preserve"><value>Artefaktikansio</value></data>
+  <data name="SettingsFolderHint" xml:space="preserve"><value>Minne koontiversiot tallentavat pakettinsa.</value></data>
+  <data name="SettingsBrowse" xml:space="preserve"><value>Selaa</value></data>
+  <data name="SettingsStartup" xml:space="preserve"><value>Käynnistä Windowsin mukana</value></data>
+  <data name="SettingsStartupHint" xml:space="preserve"><value>Käynnistää agentin kirjautumisen yhteydessä.</value></data>
+  <data name="SettingsLanguage" xml:space="preserve"><value>Kieli</value></data>
+  <data name="SettingsLanguageHint" xml:space="preserve"><value>Käyttöliittymän ja ilmoitusten kieli.</value></data>
+  <data name="SettingsLanguageFrench" xml:space="preserve"><value>Français</value></data>
+  <data name="SettingsLanguageEnglish" xml:space="preserve"><value>English</value></data>
+  <data name="SettingsDisplay" xml:space="preserve"><value>Näyttö</value></data>
+  <data name="SettingsDisplayLead" xml:space="preserve"><value>Käyttöliittymän ulkoasu ja tiiviys.</value></data>
+  <data name="SettingsDarkMode" xml:space="preserve"><value>Tumma tila</value></data>
+  <data name="SettingsDarkModeHint" xml:space="preserve"><value>Seuraa järjestelmää tai pakota tila.</value></data>
+  <data name="SettingsModeSystem" xml:space="preserve"><value>Seuraa järjestelmää</value></data>
+  <data name="SettingsModeLight" xml:space="preserve"><value>Vaalea</value></data>
+  <data name="SettingsModeDark" xml:space="preserve"><value>Tumma</value></data>
+  <data name="SettingsCompact" xml:space="preserve"><value>Tiivis käyttöliittymä</value></data>
+  <data name="SettingsCompactHint" xml:space="preserve"><value>Pienentää taulukoiden ja lomakkeiden marginaaleja.</value></data>
+  <data name="SettingsNotifications" xml:space="preserve"><value>Ilmoitukset</value></data>
+  <data name="SettingsNotificationsLead" xml:space="preserve"><value>Mistä sinulle ilmoitetaan ja minkä kanavan kautta.</value></data>
+  <data name="SettingsFailures" xml:space="preserve"><value>Putkien virheet</value></data>
+  <data name="SettingsFailuresHint" xml:space="preserve"><value>Ilmoitus jokaisesta epäonnistuneesta suorituksesta.</value></data>
+  <data name="SettingsDigest" xml:space="preserve"><value>Päivittäinen yhteenveto</value></data>
+  <data name="SettingsDigestHint" xml:space="preserve"><value>Lähetetään joka aamu klo 8.</value></data>
+  <data name="SettingsDigestAddress" xml:space="preserve"><value>Yhteenvedon osoite</value></data>
+  <data name="DemoShellDashboard" xml:space="preserve"><value>Koontinäyttö</value></data>
+  <data name="DemoShellInProgress" xml:space="preserve"><value>Käynnissä</value></data>
+  <data name="DemoShellArchived" xml:space="preserve"><value>Arkistoidut</value></data>
+  <data name="DemoShellSettings" xml:space="preserve"><value>Asetukset</value></data>
+  <data name="DemoShellOneOffAction" xml:space="preserve"><value>Kertaluonteinen toiminto</value></data>
+  <data name="DemoShellToggleMenu" xml:space="preserve"><value>Näytä tai piilota valikko</value></data>
+  <data name="DemoShellAppName" xml:space="preserve"><value>Oma sovellus</value></data>
+  <data name="DemoShellChangeAppearance" xml:space="preserve"><value>Vaihda ulkoasua</value></data>
+  <data name="DemoShellMenu" xml:space="preserve"><value>Esittelyn valikko</value></data>
+  <data name="DemoShellSections" xml:space="preserve"><value>Osiot</value></data>
+  <data name="DemoShellFolders" xml:space="preserve"><value>Kansiot</value></data>
+  <data name="DemoShellMainContent" xml:space="preserve"><value>Pääsisältö</value></data>
+  <data name="DemoShellAppearanceDark" xml:space="preserve"><value>Tässä valittu ulkoasu on tumma.</value></data>
+  <data name="DemoShellAppearanceLight" xml:space="preserve"><value>Tässä valittu ulkoasu on vaalea.</value></data>
+  <data name="DemoShellConsole" xml:space="preserve"><value>Ylläpitokonsoli</value></data>
+  <data name="DemoShellSecondaryMenu" xml:space="preserve"><value>Toissijainen valikko</value></data>
+  <data name="DemoShellTools" xml:space="preserve"><value>Työkalut</value></data>
+  <data name="DemoShellLogs" xml:space="preserve"><value>Lokit</value></data>
+  <data name="DemoShellWideView" xml:space="preserve"><value>Leveä näkymä</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>Sisältöalue ulottuu reunasta reunaan leveän leveyden (90 rem) rajoissa ilman kapeaa lukupalstaa.</value></data>
+  <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Näytä tai piilota kelluva valikko</value></data>
+  <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Kelluva valikko</value></data>
+  <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Esittelyn kelluva valikko</value></data>
+  <data name="DemoShellFilters" xml:space="preserve"><value>Suodattimet</value></data>
+  <data name="DemoShellContent" xml:space="preserve"><value>Sisältö</value></data>
+  <data name="DemoShellFloatingText" xml:space="preserve"><value>Valikon avaaminen ei siirrä tätä tekstiä: paneeli liukuu sen päälle.</value></data>
+  <data name="DemoShellScrollTitle" xml:space="preserve"><value>Keskitetty sisältö, vieritys reunassa</value></data>
+  <data name="DemoShellScrollMenu" xml:space="preserve"><value>Vierittyvän esittelyn valikko</value></data>
+  <data name="DemoShellReadingColumn" xml:space="preserve"><value>Lukupalsta</value></data>
+  <data name="DemoShellScroll1" xml:space="preserve"><value>Palstan enimmäisleveys on 72rem ja se on keskitetty; loppu leveydestä kuuluu yhä pääelementille.</value></data>
+  <data name="DemoShellScroll2" xml:space="preserve"><value>Siksi juuri pääelementti vierittyy koko alueen leveydeltä: sen vierityspalkki pysyy kehyksen oikeassa reunassa.</value></data>
+  <data name="DemoShellScroll3" xml:space="preserve"><value>Lapsielementti, jonka korkeus on 100 %, täyttäisi alueen tarkalleen; korkeampi sisältö saa sen vierittymään.</value></data>
+  <data name="DemoShellScroll4" xml:space="preserve"><value>Alamarginaali säilyy vierityksen lopussa.</value></data>
+  <data name="DemoShellScroll5" xml:space="preserve"><value>Ikkunan kaventaminen kaventaa palstan käytettävissä olevaan leveyteen reunaväli mukaan lukien.</value></data>
+  <data name="DemoShellSplashChecking" xml:space="preserve"><value>Tarkistetaan käynnistysnäyttöä</value></data>
+  <data name="DemoShellSplashRemoved" xml:space="preserve"><value>Käynnistysnäyttö poistettu</value></data>
+  <data name="DemoShellSplashAbsent" xml:space="preserve"><value>Tässä esittelyssä ei ole käynnistysnäyttöä</value></data>
+  <data name="ShellToggle" xml:space="preserve"><value>Kutista tai laajenna valikko</value></data>
+  <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
+  <data name="ShellBrand" xml:space="preserve"><value>Aetheus</value></data>
+  <data name="ShellSearch" xml:space="preserve"><value>Hae</value></data>
+  <data name="ShellSearchPlaceholder" xml:space="preserve"><value>Hae putkea</value></data>
+  <data name="ShellHelp" xml:space="preserve"><value>Ohje</value></data>
+  <data name="ShellNotifications" xml:space="preserve"><value>Ilmoitukset, lukemattomia {0}</value></data>
+  <data name="ShellAccount" xml:space="preserve"><value>Tili</value></data>
+  <data name="ShellSettings" xml:space="preserve"><value>Asetukset</value></data>
+  <data name="ShellSettingsHint" xml:space="preserve"><value>Teema, kieli, ilmoitukset</value></data>
+  <data name="ShellAppearance" xml:space="preserve"><value>Ulkoasu</value></data>
+  <data name="ShellAppearanceHint" xml:space="preserve"><value>Vaalea, tumma tai järjestelmä</value></data>
+  <data name="ShellSignOut" xml:space="preserve"><value>Kirjaudu ulos</value></data>
+  <data name="ShellMenu" xml:space="preserve"><value>Päävalikko</value></data>
+  <data name="ShellDashboard" xml:space="preserve"><value>Koontinäyttö</value></data>
+  <data name="ShellPipelines" xml:space="preserve"><value>Putket</value></data>
+  <data name="ShellServers" xml:space="preserve"><value>Palvelimet</value></data>
+  <data name="ShellProjects" xml:space="preserve"><value>Projektit</value></data>
+  <data name="ShellHelpCenter" xml:space="preserve"><value>Tukikeskus</value></data>
+  <data name="ShellAdministration" xml:space="preserve"><value>Hallinta</value></data>
+  <data name="ShellServersOnline" xml:space="preserve"><value>Palvelin verkossa</value></data>
+  <data name="ShellAppsTracked" xml:space="preserve"><value>Seuratut sovellukset</value></data>
+  <data name="ShellPipelinesRunning" xml:space="preserve"><value>Käynnissä olevat putket</value></data>
+  <data name="ShellLoading" xml:space="preserve"><value>Ladataan koontinäyttöä</value></data>
+  <data name="ShellLastAction" xml:space="preserve"><value>Viimeisin toiminto: {0}</value></data>
+  <data name="StatesRest" xml:space="preserve"><value>Lepo</value></data>
+  <data name="StatesHover" xml:space="preserve"><value>Osoitus</value></data>
+  <data name="StatesPress" xml:space="preserve"><value>Painallus</value></data>
+  <data name="StatesPrimary" xml:space="preserve"><value>Ensisijainen</value></data>
+  <data name="StatesSuccess" xml:space="preserve"><value>Onnistuminen</value></data>
+  <data name="StatesSecondary" xml:space="preserve"><value>Toissijainen</value></data>
+  <data name="StatesGhost" xml:space="preserve"><value>Haamu</value></data>
+  <data name="SurfServers" xml:space="preserve"><value>Palvelimet</value></data>
+  <data name="SurfServersText" xml:space="preserve"><value>Viimeisin sydämenlyönti 4 minuuttia sitten.</value></data>
+  <data name="SurfPipelines" xml:space="preserve"><value>Putket</value></data>
+  <data name="SurfPipelinesFigure" xml:space="preserve"><value>2 400</value></data>
+  <data name="SurfPipelinesText" xml:space="preserve"><value>Kolme epäonnistunutta suoritusta kymmenestä viimeisimmästä.</value></data>
+  <data name="SurfCoverage" xml:space="preserve"><value>Kattavuus</value></data>
+  <data name="SurfCoverageFigure" xml:space="preserve"><value>87 %</value></data>
+  <data name="SurfAccount" xml:space="preserve"><value>Tili</value></data>
+  <data name="SurfPerson" xml:space="preserve"><value>Camille Durand</value></data>
+  <data name="SurfPersonRole" xml:space="preserve"><value>Ylläpitäjä, OmniEurope</value></data>
+  <data name="SurfSettings" xml:space="preserve"><value>Asetukset</value></data>
+  <data name="SurfSettingsHint" xml:space="preserve"><value>Teema, kieli, ilmoitukset</value></data>
+  <data name="SurfSwitch" xml:space="preserve"><value>Vaihda työtilaa</value></data>
+  <data name="SurfSwitchHint" xml:space="preserve"><value>Aetheus, Atlas, Portfolio</value></data>
+  <data name="SurfSignOut" xml:space="preserve"><value>Kirjaudu ulos</value></data>
+  <data name="SurfTabsLabel" xml:space="preserve"><value>Suorituksen osiot</value></data>
+  <data name="SurfTabOverview" xml:space="preserve"><value>Yleiskatsaus</value></data>
+  <data name="SurfTabOverviewText" xml:space="preserve"><value>Suoritus #2399 valmistui ajassa 1 min 48 s.</value></data>
+  <data name="SurfTabLogs" xml:space="preserve"><value>Lokit</value></data>
+  <data name="SurfTabLogsText" xml:space="preserve"><value>412 riviä, ei virheitä.</value></data>
+  <data name="SurfTabArtifacts" xml:space="preserve"><value>Artefaktit</value></data>
+  <data name="SurfTabArtifactsText" xml:space="preserve"><value>Kaksi pakettia ja niiden symbolit.</value></data>
+  <data name="SurfTabSettings" xml:space="preserve"><value>Asetukset</value></data>
+  <data name="SurfTabSettingsText" xml:space="preserve"><value>Lukittu palautus, pakollinen allekirjoitus.</value></data>
+  <data name="SurfMenuLabel" xml:space="preserve"><value>Osiot</value></data>
+  <data name="SurfMenuDashboard" xml:space="preserve"><value>Koontinäyttö</value></data>
+  <data name="SurfMenuServers" xml:space="preserve"><value>Palvelimet</value></data>
+  <data name="SurfMenuProjects" xml:space="preserve"><value>Projektit</value></data>
+  <data name="SurfMenuAdministration" xml:space="preserve"><value>Hallinta</value></data>
+  <data name="SurfLinkBefore" xml:space="preserve"><value>Lue</value></data>
+  <data name="SurfLink" xml:space="preserve"><value>julkaisuohje</value></data>
+  <data name="SurfLinkAfter" xml:space="preserve"><value>ennen version listauksen poistamista.</value></data>
+  <data name="SurfTooltip" xml:space="preserve"><value>Käänteinen pinta, käänteinen teksti</value></data>
+  <data name="SurfTooltipTrigger" xml:space="preserve"><value>Työkaluvihje</value></data>
+  <data name="SurfLast" xml:space="preserve"><value>Viimeisin toiminto: {0}</value></data>
+  <data name="ThemesThemeWithPalette" xml:space="preserve"><value>Teema {0}, paletti {1}</value></data>
+  <data name="ThemesThemeAlone" xml:space="preserve"><value>Teema {0}, oma paletti</value></data>
+  <data name="ThemesPaletteAlone" xml:space="preserve"><value>Paletti {0}, toimitettu muoto</value></data>
+  <data name="ThemesShipped" xml:space="preserve"><value>Toimitettu ulkoasu</value></data>
+  <data name="ThemesLivePreview" xml:space="preserve"><value>Esikatselu: {0}</value></data>
+  <data name="ThemesSave" xml:space="preserve"><value>Tallenna</value></data>
+  <data name="ThemesCancel" xml:space="preserve"><value>Peruuta</value></data>
+  <data name="ThemesBadge" xml:space="preserve"><value>Julkaistu</value></data>
+  <data name="ThemesAlert" xml:space="preserve"><value>Mikä tahansa paletti värittää minkä tahansa teeman.</value></data>
+  <data name="VFormSummaryTitle" xml:space="preserve"><value>Korjattavia kenttiä: {0}.</value></data>
+  <data name="VFormName" xml:space="preserve"><value>Putken nimi</value></data>
+  <data name="VFormNameHelp" xml:space="preserve"><value>Pieniä kirjaimia, numeroita ja yhdysmerkkejä.</value></data>
+  <data name="VFormNameError" xml:space="preserve"><value>Putken nimi on pakollinen.</value></data>
+  <data name="VFormMail" xml:space="preserve"><value>Ilmoitusosoite</value></data>
+  <data name="VFormMailError" xml:space="preserve"><value>Lisää täydellinen verkkotunnus, esimerkiksi tiimi@example.com.</value></data>
+  <data name="VFormToken" xml:space="preserve"><value>Käyttöoikeustunnus</value></data>
+  <data name="VFormReplicas" xml:space="preserve"><value>Replikat</value></data>
+  <data name="VFormEnvironment" xml:space="preserve"><value>Ympäristö</value></data>
+  <data name="VFormEnvironmentProduction" xml:space="preserve"><value>Tuotanto</value></data>
+  <data name="VFormEnvironmentAcceptance" xml:space="preserve"><value>Hyväksyntätestaus</value></data>
+  <data name="VFormEnvironmentDevelopment" xml:space="preserve"><value>Kehitys</value></data>
+  <data name="VFormDate" xml:space="preserve"><value>Käyttöönottopäivä</value></data>
+  <data name="VFormTime" xml:space="preserve"><value>Käyttöönottoaika</value></data>
+  <data name="VFormMoment" xml:space="preserve"><value>Huoltoikkuna</value></data>
+  <data name="VFormDescription" xml:space="preserve"><value>Kuvaus</value></data>
+  <data name="VFormStrategy" xml:space="preserve"><value>Käyttöönottostrategia</value></data>
+  <data name="VFormStrategyRolling" xml:space="preserve"><value>Asteittainen korvaus</value></data>
+  <data name="VFormStrategyBlueGreen" xml:space="preserve"><value>Sini-vihreä</value></data>
+  <data name="VFormStrategyCanary" xml:space="preserve"><value>Kanarialintu (tulossa pian)</value></data>
+  <data name="VFormStrategyError" xml:space="preserve"><value>Valitse käyttöönottostrategia.</value></data>
+  <data name="VFormOptions" xml:space="preserve"><value>Asetukset</value></data>
+  <data name="VFormLocked" xml:space="preserve"><value>Lukittu palautus</value></data>
+  <data name="VFormSymbols" xml:space="preserve"><value>Julkaise symbolit</value></data>
+  <data name="VFormSigning" xml:space="preserve"><value>Paketin allekirjoitus (pakollinen)</value></data>
+  <data name="VFormNotify" xml:space="preserve"><value>Ilmoita lopuksi</value></data>
+  <data name="VFormAutoDeploy" xml:space="preserve"><value>Automaattinen käyttöönotto (ei käytössä)</value></data>
+  <data name="VFormFiles" xml:space="preserve"><value>Tiedostot</value></data>
+  <data name="VFormManifest" xml:space="preserve"><value>Käyttöönottomanifesti</value></data>
+  <data name="VFormManifestHelp" xml:space="preserve"><value>Yksi tiedosto, avaa järjestelmän tiedostonvalitsimen.</value></data>
+  <data name="VFormArchive" xml:space="preserve"><value>Sovelluksen arkisto</value></data>
+  <data name="VFormArchiveHelp" xml:space="preserve"><value>ZIP tai TAR, enintään 50 Mt.</value></data>
+  <data name="VFormAttachments" xml:space="preserve"><value>Liitteet</value></data>
+  <data name="VFormAttachmentsHelp" xml:space="preserve"><value>Enintään 10 tiedostoa, kukin enintään 20 Mt. Mitään ei lähetetä: esimerkki pitää tiedostot luettelossa.</value></data>
+  <data name="VFormServer" xml:space="preserve"><value>Kohdepalvelin</value></data>
+  <data name="VFormServerHelp" xml:space="preserve"><value>Ei käytössä: ympäristö määrää sen.</value></data>
+  <data name="VFormIdentifier" xml:space="preserve"><value>Tunniste</value></data>
+  <data name="VFormIdentifierHelp" xml:space="preserve"><value>Vain luku: kopioitavissa, ei muokattavissa.</value></data>
+  <data name="VFormAgent" xml:space="preserve"><value>Agentti</value></data>
+  <data name="VFormAgentShared" xml:space="preserve"><value>Jaettu agentti</value></data>
+  <data name="VFormCancel" xml:space="preserve"><value>Peruuta</value></data>
+  <data name="VFormSave" xml:space="preserve"><value>Tallenna</value></data>
+  <data name="VFormSaved" xml:space="preserve"><value>Putki tallennettu.</value></data>
+  <data name="VFormNotSaved" xml:space="preserve"><value>Korjaa merkityt kentät ennen tallentamista.</value></data>
+  <data name="VFormDescriptionValue" xml:space="preserve"><value>Ottaa päähaaran käyttöön, kun hyväksyntätestit on läpäisty.</value></data>
+  <data name="GridFiledColumn" xml:space="preserve"><value>Jätetty</value></data>
+</root>

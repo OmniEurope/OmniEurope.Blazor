@@ -20,9 +20,6 @@ public partial class OmniUpload
     public bool Disabled { get; set; }
 
     [Parameter]
-    public string? InputId { get; set; }
-
-    [Parameter]
     public int MaximumFiles { get; set; } = 10;
 
     [Parameter]
@@ -51,8 +48,9 @@ public partial class OmniUpload
     [Parameter]
     public EventCallback<IReadOnlyList<IBrowserFile>> FilesSelected { get; set; }
 
+    /// <summary>The message shown when <see cref="Upload"/> throws; null uses the localized default.</summary>
     [Parameter]
-    public string UploadErrorMessage { get; set; } = string.Empty;
+    public string? UploadErrorMessage { get; set; }
 
     /// <summary>
     /// The files the field holds, listed under the drop zone with their size and a remove button:
@@ -86,7 +84,7 @@ public partial class OmniUpload
         ? Accept
         : AllowedContentTypes.Count == 0 ? null : string.Join(',', AllowedContentTypes);
     private string MessageClass => CssClassBuilder.Combine(["omni-upload__message", _hasError ? "omni-upload__message--error" : null]);
-    private string HintId => $"{InputId ?? Id ?? _generatedId}-hint";
+    private string HintId => $"{BaseId}-hint";
 
     private string RootClass => Css(
         "omni-upload",
@@ -328,7 +326,7 @@ public partial class OmniUpload
     private const int ReducedCount = 3;
 
     private bool IsField => Display == OmniUploadDisplay.Field && !Multiple;
-    private string BaseId => InputId ?? Id ?? _generatedId;
+    private string BaseId => Id ?? _generatedId;
     private string ListId => $"{BaseId}-list";
     private string FieldValueId => $"{BaseId}-value";
     private int ListedCount => IsBound ? Files.Count : _files.Count;

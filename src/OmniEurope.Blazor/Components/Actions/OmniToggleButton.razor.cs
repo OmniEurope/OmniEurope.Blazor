@@ -22,11 +22,11 @@ public partial class OmniToggleButton
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// The accessible name, needed when the content is an icon alone. An <c>aria-label</c> passed as
-    /// an additional attribute still takes precedence, as it did before this parameter existed.
+    /// The accessible name, needed when the content is an icon alone. Null, the default, leaves the
+    /// button named by its content. It wins over an <c>aria-label</c> passed as an attribute.
     /// </summary>
     [Parameter]
-    public string? AriaLabel { get; set; }
+    public string? Label { get; set; }
 
     private Task ToggleAsync() => Disabled || Busy ? Task.CompletedTask : ValueChanged.InvokeAsync(!Value);
 }

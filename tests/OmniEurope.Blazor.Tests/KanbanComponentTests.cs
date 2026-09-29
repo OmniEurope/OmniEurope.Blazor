@@ -15,7 +15,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class KanbanComponentTests : OmniBunitContext
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-kanban.js";
+    private const string ModulePath = OmniModules.Kanban;
 
     private static readonly IReadOnlyList<OmniKanbanColumn> Columns =
     [
@@ -241,10 +241,10 @@ public sealed class KanbanComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public async Task ReadOnly_ShowsTheBoard_WithoutAnyMove()
+    public async Task WithoutAMoveHandler_ShowsTheBoard_WithoutAnyMove()
     {
         JSInterop.SetupModule(ModulePath);
-        var board = RenderBoard(parameters => parameters.Add(component => component.ReadOnly, true));
+        var board = RenderBoard(movable: false);
 
         Assert.Contains("omni-kanban--readonly", board.Find(".omni-kanban").ClassList);
         var card = board.Find("[data-omni-kanban-card='0']");
@@ -261,13 +261,13 @@ public sealed class KanbanComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public async Task ReadOnly_SetWhileACardIsHeld_EndsTheMove()
+    public async Task MoveHandlerRemovedWhileACardIsHeld_EndsTheMove()
     {
         JSInterop.SetupModule(ModulePath);
         var board = RenderBoard();
         await KeyAsync(board, 0, " ");
 
-        board.Render(parameters => parameters.Add(component => component.ReadOnly, true));
+        board.Render(parameters => parameters.Add(component => component.OnItemMove, default(EventCallback<OmniKanbanMove<Card>>)));
 
         Assert.False(board.Instance.IsGrabbing);
         Assert.Equal(["A", "B"], CardsOf(board, "todo"));
@@ -420,7 +420,7 @@ public sealed class KanbanComponentTests : OmniBunitContext
         Assert.Equal(new OmniKanbanMove<Card>(Cards[0], "todo", "doing", 1), Assert.Single(_moves));
     }
 
-    private IRenderedComponent<OmniKanban<Card>> RenderBoard(Action<ComponentParameterCollectionBuilder<OmniKanban<Card>>>? configure = null) =>
+    private IRenderedComponent<OmniKanban<Card>> RenderBoard(Action<ComponentParameterCollectionBuilder<OmniKanban<Card>>>? configure = null, bool movable = true) =>
         Render<OmniKanban<Card>>(parameters =>
         {
             parameters
@@ -428,8 +428,12 @@ public sealed class KanbanComponentTests : OmniBunitContext
                 .Add(component => component.Items, Cards)
                 .Add(component => component.ColumnOf, card => card.Column)
                 .Add(component => component.KeyOf, card => card.Name)
-                .Add(component => component.CardTemplate, card => builder => builder.AddContent(0, card.Name))
-                .Add(component => component.OnItemMoved, EventCallback.Factory.Create<OmniKanbanMove<Card>>(this, move => _moves.Add(move)));
+                .Add(component => component.CardTemplate, card => builder => builder.AddContent(0, card.Name));
+            if (movable)
+            {
+                parameters.Add(component => component.OnItemMove, EventCallback.Factory.Create<OmniKanbanMove<Card>>(this, move => _moves.Add(move)));
+            }
+
             configure?.Invoke(parameters);
         });
 

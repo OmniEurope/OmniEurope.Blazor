@@ -2,7 +2,7 @@
 @inherits OmniComponentBase
 @implements IAsyncDisposable
 
-<div id="@Id" class="@Css("omni-log-viewer", WrapLines ? "omni-log-viewer--wrap" : null)" @attributes="AdditionalAttributes">
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-log-viewer", Wrap ? "omni-log-viewer--wrap" : null)">
     @if (HasToolbar)
     {
         <div class="omni-log-viewer__toolbar">
@@ -29,11 +29,11 @@
                 {
                     <span class="omni-log-viewer__matches" role="status" aria-live="polite">@MatchSummary</span>
                     <OmniButton Class="omni-log-viewer__previous" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small"
-                                Disabled="@(_matches.Count == 0)" AriaLabel="@Localize("LogViewerPreviousMatch")" OnClick="PreviousMatchAsync">
+                                Disabled="@(_matches.Count == 0)" Label="@Localize("LogViewerPreviousMatch")" OnClick="PreviousMatchAsync">
                         <OmniIcon Name="OmniIconName.ChevronUp" Size="OmniControlSize.Small" />
                     </OmniButton>
                     <OmniButton Class="omni-log-viewer__next" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small"
-                                Disabled="@(_matches.Count == 0)" AriaLabel="@Localize("LogViewerNextMatch")" OnClick="NextMatchAsync">
+                                Disabled="@(_matches.Count == 0)" Label="@Localize("LogViewerNextMatch")" OnClick="NextMatchAsync">
                         <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
                     </OmniButton>
                 }

@@ -4,7 +4,6 @@ namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class SettingsTabsDemo
 {
-    private static readonly string[] Keys = ["general", "display", "notifications"];
 
     [Inject]
     private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;

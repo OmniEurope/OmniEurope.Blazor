@@ -1,5 +1,11 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// A dialog: a titled panel over a veil that makes the page inert and traps the focus (modal, the
+/// default), or a modeless window with <see cref="Modal"/> off. It closes by its close button,
+/// Escape and a press on the veil while <see cref="Dismissible"/>, and gives the focus back to what
+/// had it when it opened.
+/// </summary>
 public partial class OmniDialog
 {
     private readonly string _focusKey = $"dialog-{Guid.NewGuid():N}";
@@ -16,12 +22,15 @@ public partial class OmniDialog
     /// <summary>Capture the current text scale and density until this window closes.</summary>
     [Parameter] public bool FreezeScale { get; set; }
 
+    /// <summary>Whether the dialog is shown; the host owns it (<c>@bind-Open</c>).</summary>
     [Parameter]
     public bool Open { get; set; }
 
+    /// <summary>Raised with false when the reader closes the dialog (close button, Escape, veil).</summary>
     [Parameter]
     public EventCallback<bool> OpenChanged { get; set; }
 
+    /// <summary>The title, the heading that names the dialog.</summary>
     [Parameter, EditorRequired]
     public string Title { get; set; } = string.Empty;
 
@@ -33,35 +42,38 @@ public partial class OmniDialog
     [Parameter]
     public RenderFragment? TitleContent { get; set; }
 
+    /// <summary>Accessible name and tooltip of the close button. Null, the default, is the localized "Close".</summary>
     [Parameter]
-    public string CloseLabel { get; set; } = string.Empty;
+    public string? CloseLabel { get; set; }
 
-    private string EffectiveCloseLabel => string.IsNullOrWhiteSpace(CloseLabel)
-        ? Localize("Close")
-        : CloseLabel;
+    private string EffectiveCloseLabel => LocalizeOr(CloseLabel, "Close");
 
+    /// <summary>Whether a press on the veil closes a dismissible dialog. True by default.</summary>
     [Parameter]
     public bool CloseOnBackdrop { get; set; } = true;
 
-    [Parameter]
-    public bool CloseOnEscape { get; set; } = true;
-
     /// <summary>
-    /// Whether the reader can dismiss the dialog. True by default, as before. False removes the
-    /// close button, ignores Escape and the backdrop whatever <see cref="CloseOnEscape"/> and
-    /// <see cref="CloseOnBackdrop"/> say, and announces the panel as an <c>alertdialog</c>
-    /// described by its content: only the host, through <see cref="Open"/>, closes it. Focus stays
-    /// trapped inside it; with nothing focusable in its content, the panel itself takes focus.
+    /// Whether the reader can dismiss the dialog. True by default: the close button, Escape and the
+    /// veil (see <see cref="CloseOnBackdrop"/>) close it. False removes the close button, ignores
+    /// Escape and the veil, and announces the panel as an <c>alertdialog</c> described by its content:
+    /// only the host, through <see cref="Open"/>, closes it. Focus stays trapped inside a modal one;
+    /// with nothing focusable in its content, the panel itself takes the focus.
     /// </summary>
     [Parameter]
     public bool Dismissible { get; set; } = true;
 
+    /// <summary>
+    /// Draws the close button of a dismissible dialog. True by default; false leaves Escape and the
+    /// veil to close it. A modal dialog puts the focus on this button when it opens.
+    /// </summary>
     [Parameter]
     public bool ShowClose { get; set; } = true;
 
+    /// <summary>Lets the reader move the dialog by its header.</summary>
     [Parameter]
     public bool Draggable { get; set; }
 
+    /// <summary>Lets the reader resize the dialog by its corner.</summary>
     [Parameter]
     public bool Resizable { get; set; }
 
@@ -73,24 +85,29 @@ public partial class OmniDialog
     public OmniDialogSize Size { get; set; }
 
     /// <summary>
-    /// What the dialog is for: <see cref="OmniDialogIntent.Accent"/> for a form,
-    /// <see cref="OmniDialogIntent.Warning"/> for a question that is hard to undo. The header and the
-    /// footer take its tint and the title is led by a round mark with its icon.
-    /// <see cref="OmniDialogIntent.None"/> by default: no tint and no mark, as before.
+    /// What the dialog is for: <see cref="OmniTone.Accent"/> for a form, <see cref="OmniTone.Warning"/>
+    /// for a question that is hard to undo, <see cref="OmniTone.Danger"/> for what is lost for good.
+    /// The header and the footer take its tint and the title is led by a round mark carrying the glyph
+    /// of the severity of the same name (the information glyph for Accent), the glyph of
+    /// <see cref="OmniAlert"/> and <see cref="OmniNotification"/>. <see cref="OmniTone.Neutral"/>,
+    /// the default, draws no tint and no mark.
     /// </summary>
     [Parameter]
-    public OmniDialogIntent Intent { get; set; }
+    public OmniTone Intent { get; set; } = OmniTone.Neutral;
 
     /// <summary>
-    /// The icon of the intention mark, in place of the one <see cref="Intent"/> brings (information,
-    /// warning, error); decorative, the title names the dialog. Ignored without an intention.
+    /// The icon of the intention mark, in place of the glyph <see cref="Intent"/> brings; decorative,
+    /// the title names the dialog. Shown only with an intention other than <see cref="OmniTone.Neutral"/>:
+    /// without one there is no mark to hold it.
     /// </summary>
     [Parameter]
     public RenderFragment? Icon { get; set; }
 
+    /// <summary>The body of the dialog.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>The footer, in general the action buttons, at its end. Null, the default, draws no footer.</summary>
     [Parameter]
     public RenderFragment? Footer { get; set; }
 
@@ -109,21 +126,12 @@ public partial class OmniDialog
         _ => null
     };
 
-    // None carries no modifier either: a dialog without an intention keeps its markup and its classes.
-    private string? IntentClass => Intent switch
-    {
-        OmniDialogIntent.Accent => "omni-dialog--intent-accent",
-        OmniDialogIntent.Warning => "omni-dialog--intent-warning",
-        OmniDialogIntent.Danger => "omni-dialog--intent-danger",
-        _ => null
-    };
+    // Neutral carries no modifier either: a dialog without an intention keeps its markup and its classes.
+    private string? IntentClass => Intent == OmniTone.Neutral
+        ? null
+        : $"omni-dialog--intent-{Intent.ToString().ToLowerInvariant()}";
 
-    private OmniIconName IntentIcon => Intent switch
-    {
-        OmniDialogIntent.Warning => OmniIconName.Warning,
-        OmniDialogIntent.Danger => OmniIconName.Error,
-        _ => OmniIconName.Info
-    };
+    private string IntentGlyph => OmniSeverityGlyph.For(Intent);
 
     private async Task CloseAsync()
     {
@@ -188,7 +196,7 @@ public partial class OmniDialog
     private Task HandleBackdropAsync() => CloseOnBackdrop && Dismissible ? CloseAsync() : Task.CompletedTask;
     private async Task HandleKeyDownAsync(KeyboardEventArgs args)
     {
-        if (args.Key == "Escape" && CloseOnEscape && Dismissible)
+        if (args.Key == "Escape" && Dismissible)
         {
             await CloseAsync();
         }
@@ -206,6 +214,7 @@ public partial class OmniDialog
 
     }
 
+    /// <summary>Gives the focus back and detaches the scripts of a dialog still open.</summary>
     public async ValueTask DisposeAsync()
     {
         if (_focusModule is not null)

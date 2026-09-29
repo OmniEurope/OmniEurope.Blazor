@@ -2,15 +2,25 @@ using System.Globalization;
 
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// A short text shown over its trigger (<see cref="ChildContent"/>) on hover and focus, and read as the
+/// trigger's accessible description. A long text opens on a preview with a "Show more" action.
+/// </summary>
 public partial class OmniTooltip
 {
     private readonly string _generatedId = $"omni-tooltip-{Guid.NewGuid():N}";
 
+    /// <summary>The text of the tooltip, also the accessible description of the trigger.</summary>
     [Parameter, EditorRequired]
     public string Text { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Puts the trigger in the Tab order (<c>tabindex="0"</c>), so a keyboard reader reaches the tooltip
+    /// of content that takes no focus of its own (a text, an icon). False, the default, leaves the
+    /// trigger out of it: a focusable control inside it shows the tooltip on its own focus.
+    /// </summary>
     [Parameter]
-    public int? TabIndex { get; set; }
+    public bool Focusable { get; set; }
 
     /// <summary>
     /// Whether the open tooltip follows the pointer or stays where it first appeared.
@@ -28,6 +38,7 @@ public partial class OmniTooltip
     [Parameter]
     public TimeSpan? Delay { get; set; }
 
+    /// <summary>The trigger the tooltip describes.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 

@@ -82,9 +82,9 @@
 
         @* Un seul fichier : le champ en lecture seule soudé au bouton Parcourir ; un clic sur l'un ou
            l'autre, ou Entrée, ouvre la fenêtre de sélection. *@
-        <OmniFormField For="editor-manifest" Text="Manifeste de déploiement" Description="Un seul fichier, ouvre la fenêtre de sélection du système.">
+        <OmniFormField For="editor-manifest" Label="Manifeste de déploiement" Description="Un seul fichier, ouvre la fenêtre de sélection du système.">
             <OmniUpload Display="OmniUploadDisplay.Field"
-                        InputId="editor-manifest"
+                        Id="editor-manifest"
                         Accept=".json,.yaml,.yml"
                         MaximumFileSize="1048576"
                         @bind-Files="Manifest"
@@ -96,7 +96,7 @@
                     MaximumFiles="6"
                     MaximumFileSize="1048576"
                     AllowedContentTypes="Accepted"
-                    InputId="editor-attachments"
+                    Id="editor-attachments"
                     @bind-Files="Attachments"
                     Upload="UploadAsync"
                     UploadErrorMessage="Le dépôt a échoué."
@@ -107,7 +107,7 @@
 </EditForm>
 
 <OmniStack Gap="OmniSpacing.Medium">
-    <OmniCodeBlock Code="dotnet test OmniEurope.Blazor.slnx" Label="Commande de test" Language="shell" />
+    <OmniCodeBlock Code="dotnet test OmniEurope.Blazor.slnx" Title="Commande de test" Language="shell" />
     <OmniCodeViewer Code="@ViewerCode" Title="Exemple de configuration" Language="json"
                     HighlightedLines="ViewerHighlights" />
     @* Un extrait garde les numéros de ses lignes dans le fichier : FirstLineNumber. *@

@@ -8,12 +8,6 @@ public partial class ChartsExtendedDemo
 
     private static readonly string[] Countries = ["Belgique", "France", "Luxembourg", "Pays-Bas"];
 
-    private static readonly string[] LineLegend = ["Dépôts", "Décisions"];
-
-    private static readonly string[] AudienceLegend = ["Visiteurs uniques par jour", "Pages vues par jour"];
-
-    private static readonly int[] AudienceColors = [0, 1];
-
     private static readonly string[] Days =
         [.. Enumerable.Range(1, 30).Select(day => new DateOnly(2026, 9, day).ToString("dd/MM", CultureInfo.InvariantCulture))];
 
@@ -41,6 +35,11 @@ public partial class ChartsExtendedDemo
     private static readonly IReadOnlyList<OmniChartPoint> ByCountry =
     [
         new(1, 124), new(2, 187), new(3, 63), new(4, 98)
+    ];
+
+    private static readonly IReadOnlyList<OmniChartPoint> ByCountryPending =
+    [
+        new(1, 31), new(2, 54), new(3, 12), new(4, 40)
     ];
 
     private static readonly IReadOnlyList<OmniChartSlice> Slices =

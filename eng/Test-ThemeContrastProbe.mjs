@@ -1,5 +1,5 @@
-// PLAN-008 lot 10: the contrasts of the published showcase measured in a real Chromium, on the 392
-// combinations a visitor can build (14 themes x 14 palettes x light and dark). The static matrix
+// PLAN-004 lot 10: the contrasts of the published showcase measured in a real Chromium, on every
+// combination a visitor can build (every theme x every palette x light and dark). The static matrix
 // (ThemeContrastMatrixTests) proves the token pairs; this probe proves what the browser paints once the
 // stylesheet has combined them: the colour a text really gets, on the background it really sits on, at
 // rest, under a forced hover and under focus.
@@ -327,7 +327,7 @@ const pageLibrary = String.raw`
       add('fermeture d\'alerte', first(alerts, '.omni-alert__dismiss'), 'icon', true);
       const settings = block('reglages-onglets');
       add('titre de tuile de réglage', first(settings, '.omni-settings-tile__title'));
-      add('indice de tuile de réglage', first(settings, '.omni-settings-hint, .omni-settings-tile__description'));
+      add('indice de tuile de réglage', first(settings, '.omni-settings-hint'));
       add('texte de la page', first(document.querySelector('main'), 'section > p'));
     } else if (page === '/composants/listes') {
       const board = first(document, '.omni-kanban');
@@ -664,7 +664,7 @@ const shots = [];
 // only source. Their contrast shortfalls (text, border, non-text mark, content under the busy veil, at
 // rest, hovered or focused) are counted under acceptedContrastWaiver instead of failing. The focus ring
 // itself is not measured here: ThemePaletteTests.The_style_themes_draw_a_solid_focus_ring keeps it at
-// 3:1 in every theme with every palette, waiver or not (owner decision of 2026-09-28: only the ring
+// 3:1 in the four themes that draw a solid ring (Relief, Givre, Aplat, Épure) with every palette, waiver or not (owner decision of 2026-09-28: only the ring
 // stays mandatory). Geometry, overflow, CSP, console and coverage are never waived.
 const waivers = {};
 const acceptedContrastWaiver = [];
@@ -882,8 +882,10 @@ const shootPage = async name => {
 await navigate(CUSTOMIZER, READY[CUSTOMIZER]);
 const themes = await evaluate("[...document.getElementById('workshop-theme').options].map(option => option.textContent.trim())");
 const palettes = await evaluate("[...document.getElementById('workshop-palette').options].map(option => option.textContent.trim())");
-if (themes.length !== 14 || palettes.length !== 14) {
-  failures.push({ check: 'catalogue', detail: `${themes.length} thèmes et ${palettes.length} palettes au lieu de 14 et 14` });
+// The catalogue sizes are pinned once, by ThemePaletteTests; the probe only refuses empty pickers, and
+// measures whatever the customizer offers.
+if (themes.length === 0 || palettes.length === 0) {
+  failures.push({ check: 'catalogue', detail: `${themes.length} thèmes et ${palettes.length} palettes proposés` });
 }
 const modes = ['light', 'dark'];
 const chosenThemes = themes.filter(theme => !themeFilter || themeFilter.includes(theme));
@@ -921,7 +923,7 @@ if (chosenModes.length > 0) {
   }
 }
 
-// 2. The 392 combinations.
+// 2. Every combination (theme x palette x mode).
 const defaultPalette = {};
 const startedAt = Date.now();
 for (const theme of chosenThemes) {
@@ -979,7 +981,7 @@ for (const violation of csp) failures.push({ check: 'CSP', detail: violation });
 for (const error of consoleErrors) failures.push({ check: 'console', detail: error });
 
 const expected = chosenThemes.length * chosenPalettes.length * chosenModes.length;
-if (!partial && combinations !== 392) failures.push({ check: 'couverture', detail: `${combinations} combinaisons mesurées au lieu de 392` });
+if (!partial && combinations !== expected) failures.push({ check: 'couverture', detail: `${combinations} combinaisons mesurées au lieu de ${expected}` });
 
 await mkdir(artifacts, { recursive: true });
 await writeFile(registryPath, JSON.stringify({

@@ -15,10 +15,9 @@ public partial class Home : IDisposable
     private bool ToggleValue;
     private string? Tab = "list";
     private IReadOnlyList<string> TreeSelection = Array.Empty<string>();
-    private IReadOnlyList<object> GridSelection = Array.Empty<object>();
+    private IReadOnlyList<CatalogRow> GridSelection = Array.Empty<CatalogRow>();
     private string Alpha { get; } = "europe";
     private string Beta { get; } = "belgium";
-    private IReadOnlyList<string> TabKeys { get; } = ["list", "tree"];
     private IReadOnlyList<string> Names { get; } = ["Alpha", "Beta", "Gamma"];
     private IReadOnlyList<string> AllowedTypes { get; } = ["text/plain", "image/png"];
     private IReadOnlyList<OmniOption<string>> Options { get; set; } = Array.Empty<OmniOption<string>>();
@@ -27,7 +26,6 @@ public partial class Home : IDisposable
     private IReadOnlyList<string> ChartLabels { get; } = ["A", "B", "C"];
     private DateTimeOffset SchedulerDate { get; } = new(2026, 8, 10, 0, 0, 0, TimeSpan.Zero);
     private IReadOnlyList<OmniSchedulerAppointment> Appointments { get; set; } = Array.Empty<OmniSchedulerAppointment>();
-    private RenderFragment NameLabel => builder => builder.AddContent(0, Text["NameLabel"]);
     private RenderFragment<string> NameTemplate => value => builder => builder.AddContent(0, value);
     private RenderFragment ChartTable => builder =>
     {

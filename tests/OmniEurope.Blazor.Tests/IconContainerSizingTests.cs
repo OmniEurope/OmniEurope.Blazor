@@ -61,7 +61,7 @@ public sealed class IconContainerSizingTests : OmniBunitContext
     public void Badge_DrawsItsIconFragmentBeforeTheText()
     {
         var badge = Render<OmniBadge>(parameters => parameters
-            .Add(component => component.Text, "Publié")
+            .AddChildContent("Publié")
             .Add(component => component.Icon, Icon(OmniIconName.Check, size: null)));
 
         var root = badge.Find(".omni-badge");

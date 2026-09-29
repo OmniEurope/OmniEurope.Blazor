@@ -6,8 +6,8 @@ using OmniEurope.Blazor.Components;
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
-/// RowMouseClick and RowContextMenu: a host that selects with Ctrl or Shift and opens its own menu on
-/// a right-click needs the modifier keys and the row, which RowClick alone does not carry.
+/// OnRowClick, OnRowDoubleClick and OnRowContextMenu: a host that selects with Ctrl or Shift and opens
+/// its own menu on a right-click needs the modifier keys and the row.
 /// </summary>
 public sealed class DataGridRowMouseTests : OmniBunitContext
 {
@@ -17,7 +17,8 @@ public sealed class DataGridRowMouseTests : OmniBunitContext
 
     private IRenderedComponent<OmniDataGrid<Row>> RenderGrid(
         Action<OmniDataGridRowMouseEventArgs<Row>>? onClick = null,
-        Action<OmniDataGridRowMouseEventArgs<Row>>? onContextMenu = null)
+        Action<OmniDataGridRowMouseEventArgs<Row>>? onContextMenu = null,
+        Action<OmniDataGridRowMouseEventArgs<Row>>? onDoubleClick = null)
     {
         RenderFragment columns = builder =>
         {
@@ -31,14 +32,16 @@ public sealed class DataGridRowMouseTests : OmniBunitContext
         {
             parameters.Add(grid => grid.Items, Rows).Add(grid => grid.Columns, columns);
             if (onClick is not null)
-                parameters.Add(grid => grid.RowMouseClick, onClick);
+                parameters.Add(grid => grid.OnRowClick, onClick);
             if (onContextMenu is not null)
-                parameters.Add(grid => grid.RowContextMenu, onContextMenu);
+                parameters.Add(grid => grid.OnRowContextMenu, onContextMenu);
+            if (onDoubleClick is not null)
+                parameters.Add(grid => grid.OnRowDoubleClick, onDoubleClick);
         });
     }
 
     [Fact]
-    public void RowMouseClick_CarriesTheRowAndTheModifierKeys()
+    public void OnRowClick_CarriesTheRowAndTheModifierKeys()
     {
         OmniDataGridRowMouseEventArgs<Row>? received = null;
         var grid = RenderGrid(onClick: args => received = args);
@@ -54,7 +57,7 @@ public sealed class DataGridRowMouseTests : OmniBunitContext
     }
 
     [Fact]
-    public void RowMouseClick_FromTheKeyboard_ReportsNoModifier()
+    public void OnRowClick_FromTheKeyboard_ReportsNoModifier()
     {
         OmniDataGridRowMouseEventArgs<Row>? received = null;
         var grid = RenderGrid(onClick: args => received = args);
@@ -68,7 +71,7 @@ public sealed class DataGridRowMouseTests : OmniBunitContext
     }
 
     [Fact]
-    public void RowContextMenu_ReportsTheRightClickedRow()
+    public void OnRowContextMenu_ReportsTheRightClickedRow()
     {
         OmniDataGridRowMouseEventArgs<Row>? received = null;
         var grid = RenderGrid(onContextMenu: args => received = args);
@@ -79,6 +82,20 @@ public sealed class DataGridRowMouseTests : OmniBunitContext
         Assert.Equal(3, received!.Item.Id);
         Assert.Equal(40, received.ClientX);
         Assert.Equal(60, received.ClientY);
+    }
+
+    [Fact]
+    public void OnRowDoubleClick_CarriesTheRowAndTheModifierKeys()
+    {
+        OmniDataGridRowMouseEventArgs<Row>? received = null;
+        var grid = RenderGrid(onDoubleClick: args => received = args);
+
+        grid.FindAll("tbody tr[data-omni-row-index]")[2].DoubleClick(new MouseEventArgs { AltKey = true });
+
+        Assert.NotNull(received);
+        Assert.Equal(3, received!.Item.Id);
+        Assert.Equal(2, received.Index);
+        Assert.True(received.AltKey);
     }
 
     [Fact]

@@ -5,7 +5,7 @@
                   OnValidSubmit="@(_ => Submitted = true)" OnInvalidSubmit="@(_ => Submitted = false)">
     <OmniStack Gap="OmniSpacing.Medium">
         <OmniFormField For="validation-name" Required="true">
-            <Label>Nom</Label>
+            <LabelContent>Nom</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="validation-name" @bind-Value="Model.Name" />
                 <OmniRequiredValidator TValue="string" For="@(() => Model.Name)" Message="Le nom est obligatoire." />
@@ -13,7 +13,7 @@
         </OmniFormField>
 
         <OmniFormField For="validation-mail" Required="true">
-            <Label>Courriel</Label>
+            <LabelContent>Courriel</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="validation-mail" @bind-Value="Model.Mail" />
                 <OmniRequiredValidator TValue="string" For="@(() => Model.Mail)" Message="Le courriel est obligatoire." />
@@ -35,28 +35,28 @@
     <OmniDataAnnotationsValidator />
     <OmniStack Gap="OmniSpacing.Medium">
         <OmniFormField For="annotated-name" Required="true">
-            <Label>Nom du projet</Label>
+            <LabelContent>Nom du projet</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="annotated-name" @bind-Value="Annotated.Name" />
                 <ValidationMessage For="@(() => Annotated.Name)" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="annotated-mail" Required="true">
-            <Label>Courriel du responsable</Label>
+            <LabelContent>Courriel du responsable</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="annotated-mail" @bind-Value="Annotated.Mail" />
                 <ValidationMessage For="@(() => Annotated.Mail)" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="annotated-mail-confirm" Required="true">
-            <Label>Confirmation du courriel</Label>
+            <LabelContent>Confirmation du courriel</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="annotated-mail-confirm" @bind-Value="Annotated.MailConfirmation" />
                 <ValidationMessage For="@(() => Annotated.MailConfirmation)" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="annotated-replicas">
-            <Label>Réplicas</Label>
+            <LabelContent>Réplicas</LabelContent>
             <ChildContent>
                 <OmniNumeric TValue="int" Id="annotated-replicas" @bind-Value="Annotated.Replicas" />
                 <ValidationMessage For="@(() => Annotated.Replicas)" />

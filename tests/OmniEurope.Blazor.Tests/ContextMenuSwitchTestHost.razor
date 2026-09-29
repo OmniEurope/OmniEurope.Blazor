@@ -6,7 +6,7 @@
                          OpenChanged="@(open => OnOpenChanged(name, open))"
                          MenuLabel="@name"
                          TriggerContent="@Trigger(name)">
-            <button type="button" role="menuitem">@($"{name} {Revision}")</button>
+            <OmniMenuItem>@($"{name} {Revision}")</OmniMenuItem>
         </OmniContextMenu>
     }
 </OmniComponentsHost>

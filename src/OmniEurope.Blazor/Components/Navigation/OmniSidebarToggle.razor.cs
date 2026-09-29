@@ -11,12 +11,11 @@ public partial class OmniSidebarToggle
     [Parameter]
     public EventCallback<bool> OpenChanged { get; set; }
 
+    /// <summary>Accessible name of the toggle. Null, the default, is the localized "Show or hide navigation".</summary>
     [Parameter]
-    public string AriaLabel { get; set; } = string.Empty;
+    public string? Label { get; set; }
 
-    private string EffectiveAriaLabel => string.IsNullOrWhiteSpace(AriaLabel)
-        ? Localize("SidebarToggleLabel")
-        : AriaLabel;
+    private string EffectiveLabel => LocalizeOr(Label, "SidebarToggleLabel");
 
     /// <summary>
     /// The glyph shown while the sidebar is open, when no content replaces the default one. Left unset,

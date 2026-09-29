@@ -1,10 +1,18 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>The title of an axis: centred below the category labels, or turned upwards left of the value labels.</summary>
+/// <remarks>
+/// A chart part: it derives from <see cref="ComponentBase"/>, not <see cref="OmniComponentBase"/>, on
+/// purpose. It draws SVG inside its chart, so it takes no <c>Id</c>, <c>Class</c> or extra attributes.
+/// </remarks>
 public partial class OmniAxisTitle
 {
-
     [CascadingParameter] private OmniChartContext? ChartContext { get; set; }
+
+    /// <summary>The title.</summary>
     [Parameter, EditorRequired] public string Text { get; set; } = string.Empty;
+
+    /// <summary>Writes the title upwards along the left edge, for a vertical value axis. Off by default: below the plot.</summary>
     [Parameter] public bool Vertical { get; set; }
 
     // Below the category labels, or left of the value labels, turned to read upwards.

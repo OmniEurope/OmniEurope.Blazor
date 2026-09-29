@@ -1,25 +1,32 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
+@implements IOmniMenu
 @implements IAsyncDisposable
 @inject IJSRuntime JavaScript
 
-<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-split-button", $"omni-split-button--{Size.ToString().ToLowerInvariant()}", VariantClass)" @onkeydown="HandleKeyDownAsync">
+@* The main part runs the main action; the chevron opens the menu of the others, drawn in the overlay
+   portal (or here, fixed to the window, without a host) and placed under the whole button. *@
+<div @attributes="AdditionalAttributes"
+     @ref="_root"
+     id="@Id"
+     class="@Css("omni-split-button", $"omni-split-button--{Size.ToString().ToLowerInvariant()}", VariantClass)">
     <button type="button"
-            @ref="_toggle"
             class="@(Busy ? "omni-split-button__main omni-busy" : "omni-split-button__main")"
             disabled="@Disabled"
             aria-busy="@(Busy ? "true" : null)"
-            aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? null : AriaLabel)"
+            aria-label="@(string.IsNullOrWhiteSpace(Label) ? null : Label)"
             @onclick="InvokeMainAsync">@Icon@Text</button>
     <button type="button"
             class="@(Busy ? "omni-split-button__toggle omni-busy" : "omni-split-button__toggle")"
             disabled="@Disabled"
             aria-haspopup="menu"
-            aria-expanded="@(_open ? "true" : "false")"
+            aria-expanded="@(IsOpen ? "true" : "false")"
+            aria-controls="@(IsOpen ? MenuId : null)"
             aria-label="@EffectiveMenuLabel"
-            @onclick="ToggleMenuAsync"><OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" /></button>
-    @if (_open)
+            @onclick="ToggleMenuAsync"
+            @onkeydown="HandleToggleKeyDownAsync"><OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" /></button>
+    @if (IsOpen && Coordinator is null)
     {
-        <div @ref="_menu" class="omni-split-button__menu" role="menu" tabindex="-1" autofocus>@ChildContent</div>
+        @Popup
     }
 </div>

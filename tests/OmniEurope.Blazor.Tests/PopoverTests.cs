@@ -14,7 +14,46 @@ public sealed class PopoverTests : OmniBunitContext
         Assert.Equal("false", trigger.GetAttribute("aria-expanded"));
         Assert.Equal("dialog", trigger.GetAttribute("aria-haspopup"));
         Assert.Empty(popover.FindAll("[role='dialog']"));
+        // Nothing to point at while closed: aria-controls only names a panel that is there.
+        Assert.False(trigger.HasAttribute("aria-controls"));
         Assert.DoesNotContain("style=", popover.Markup, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void PopupLabel_NamesThePanel_ElseTheLabel_ElseTheTrigger()
+    {
+        var named = Render<OmniPopover>(parameters => parameters
+            .Add(component => component.Label, "Tâches")
+            .Add(component => component.PopupLabel, "Tâches en cours")
+            .Add(component => component.Open, true)
+            .Add(component => component.TriggerContent, builder => builder.AddContent(0, "3")));
+        Assert.Equal("Tâches en cours", named.Find("[role='dialog']").GetAttribute("aria-label"));
+        Assert.Equal("Tâches", named.Find("button").GetAttribute("aria-label"));
+
+        var bare = Render<OmniPopover>(parameters => parameters
+            .Add(component => component.Id, "filtre")
+            .Add(component => component.Open, true)
+            .Add(component => component.TriggerContent, builder => builder.AddContent(0, "Filtrer")));
+        var panel = bare.Find("[role='dialog']");
+        Assert.False(panel.HasAttribute("aria-label"));
+        Assert.Equal("filtre", panel.GetAttribute("aria-labelledby"));
+        Assert.Equal("filtre", bare.Find("button").GetAttribute("id"));
+    }
+
+    [Fact]
+    public void DisabledTrigger_OpensNothing_AndTakesTheButtonSize()
+    {
+        var popover = Render<OmniPopover>(parameters => parameters
+            .Add(component => component.Label, "Filtre")
+            .Add(component => component.Disabled, true)
+            .Add(component => component.Size, OmniControlSize.Small)
+            .Add(component => component.TriggerContent, builder => builder.AddContent(0, "Filtrer")));
+
+        var trigger = popover.Find("button");
+        Assert.True(trigger.HasAttribute("disabled"));
+        Assert.Contains("omni-button--small", trigger.ClassList);
+        trigger.Click();
+        Assert.Empty(popover.FindAll("[role='dialog']"));
     }
 
     [Fact]
@@ -51,7 +90,7 @@ public sealed class PopoverTests : OmniBunitContext
     public void BoundOpen_IsFollowedAndPlacementPicksTheAlignment()
     {
         var popover = Render<OmniPopover>(parameters => parameters
-            .Add(component => component.Label, "Filtre")
+            .Add(component => component.PopupLabel, "Filtre")
             .Add(component => component.Open, true)
             .Add(component => component.Placement, OmniPopoverPlacement.BottomStart)
             .Add(component => component.TriggerContent, builder => builder.AddContent(0, "Filtrer"))
@@ -74,7 +113,6 @@ public sealed class PopoverTests : OmniBunitContext
     private IRenderedComponent<OmniPopover> RenderPopover(Action<bool>? onChanged = null) =>
         Render<OmniPopover>(parameters => parameters
             .Add(component => component.Label, "Tâches en cours")
-            .Add(component => component.TriggerLabel, "Tâches en cours")
             .Add(component => component.TriggerContent, builder => builder.AddContent(0, "3"))
             .Add(component => component.ChildContent, builder => builder.AddContent(0, "Contenu du panneau"))
             .Add(component => component.OpenChanged, value => onChanged?.Invoke(value)));

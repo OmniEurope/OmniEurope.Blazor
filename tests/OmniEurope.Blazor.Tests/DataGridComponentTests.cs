@@ -66,7 +66,7 @@ public sealed class DataGridComponentTests : OmniBunitContext
 
         grid.Find("tbody input[type=checkbox]").Change(true);
 
-        Assert.Equal([1], grid.Instance.SelectedKeys);
+        Assert.Equal([1], grid.Instance.Selected.Select(person => person.Id));
     }
 
     [Fact]
@@ -165,44 +165,6 @@ public sealed class DataGridComponentTests : OmniBunitContext
         Assert.Equal(10, received.PageSize);
         Assert.False(received.CancellationToken.IsCancellationRequested);
         Assert.Contains("Page 1 sur 3", grid.Markup, StringComparison.Ordinal);
-    }
-
-    [Fact]
-    public void DataGrid_RequestsControlledExternalDataOnceAndRendersTheSuppliedPage()
-    {
-        var requests = new List<OmniDataGridLoadRequest>();
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.PageSize, 2)
-            .Add(component => component.Items, Array.Empty<int>())
-            .Add(component => component.Count, 3)
-            .Add(component => component.LoadRequested, request => requests.Add(request)));
-
-        Assert.Single(requests);
-        Assert.Equal(1, requests[0].Page);
-        Assert.Equal(2, requests[0].PageSize);
-
-        grid.Render(parameters => parameters
-            .Add(component => component.PageSize, 2)
-            .Add(component => component.Items, new[] { 10, 20 })
-            .Add(component => component.Count, 3)
-            .Add(component => component.LoadRequested, request => requests.Add(request)));
-
-        Assert.Single(requests);
-        Assert.Equal(2, grid.FindAll("tbody tr").Count);
-        Assert.Contains("10", grid.FindAll("tbody tr")[0].TextContent, StringComparison.Ordinal);
-        Assert.Contains("Page 1 sur 2", grid.Markup, StringComparison.Ordinal);
-    }
-
-    [Fact]
-    public void DataGrid_RejectsAmbiguousOrVirtualizedControlledExternalData()
-    {
-        Assert.Throws<InvalidOperationException>(() => Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.Load, _ => Task.FromResult(new OmniDataGridResult<int>([], 0)))
-            .Add(component => component.LoadRequested, _ => { })));
-
-        Assert.Throws<InvalidOperationException>(() => Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
-            .Add(component => component.LoadRequested, _ => { })));
     }
 
     [Fact]

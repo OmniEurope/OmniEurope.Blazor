@@ -49,8 +49,21 @@ public partial class OmniDiffViewer
     /// <summary>The Monaco language identifier of both texts: <c>yaml</c>, <c>json</c>, <c>csharp</c>...</summary>
     [Parameter] public string Language { get; set; } = "plaintext";
 
-    /// <summary>Whether the modified text is locked; on by default, the original text is never editable.</summary>
+    /// <summary>
+    /// Whether the modified text can be read, selected and copied but not changed; on by default. The
+    /// original text is never editable. The comparison is not dimmed.
+    /// </summary>
     [Parameter] public bool ReadOnly { get; set; } = true;
+
+    /// <summary>
+    /// Whether the comparison is disabled: the modified text cannot be changed even with
+    /// <see cref="ReadOnly"/> off (Monaco read-only, the fallback text area disabled) and the whole
+    /// comparison is dimmed.
+    /// </summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>Whether the modified text is closed to editing, read-only or disabled.</summary>
+    private bool IsLocked => ReadOnly || Disabled;
 
     /// <summary>One column with the removed and added lines interleaved, instead of the two texts side by side.</summary>
     [Parameter] public bool Inline { get; set; }
@@ -230,7 +243,7 @@ public partial class OmniDiffViewer
 
     private Task HandleModifiedChangedAsync(string value) => InvokeAsync(async () =>
     {
-        if (_disposed || ReadOnly)
+        if (_disposed || IsLocked)
         {
             return;
         }
@@ -240,14 +253,14 @@ public partial class OmniDiffViewer
     });
 
     private Task HandleFallbackInputAsync(ChangeEventArgs args) =>
-        ReadOnly ? Task.CompletedTask : ModifiedChanged.InvokeAsync(args.Value?.ToString() ?? string.Empty);
+        IsLocked ? Task.CompletedTask : ModifiedChanged.InvokeAsync(args.Value?.ToString() ?? string.Empty);
 
     private object Options(string? original, string? modified) => new
     {
         original,
         modified,
         language = string.IsNullOrWhiteSpace(Language) ? "plaintext" : Language,
-        readOnly = ReadOnly,
+        readOnly = IsLocked,
         inline = Inline,
         originalLabel = EffectiveOriginalLabel,
         modifiedLabel = EffectiveModifiedLabel
@@ -255,7 +268,7 @@ public partial class OmniDiffViewer
 
     private string OptionsSignature() => string.Join(
         '\u001F',
-        Language, ReadOnly.ToString(), Inline.ToString(), EffectiveOriginalLabel, EffectiveModifiedLabel);
+        Language, IsLocked.ToString(), Inline.ToString(), EffectiveOriginalLabel, EffectiveModifiedLabel);
 
     public async ValueTask DisposeAsync()
     {

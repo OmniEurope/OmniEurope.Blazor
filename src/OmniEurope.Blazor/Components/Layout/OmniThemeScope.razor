@@ -3,11 +3,11 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JavaScript
 
-<div @ref="_element"
+<div @attributes="AdditionalAttributes"
+     @ref="_element"
      id="@Id"
      class="@Css("omni-theme-scope")"
      data-omni-theme="@Appearance.ToString().ToLowerInvariant()"
-     data-omni-density="@Density.ToString().ToLowerInvariant()"
-     @attributes="AdditionalAttributes">
+     data-omni-density="@Density.ToString().ToLowerInvariant()">
     @ChildContent
 </div>

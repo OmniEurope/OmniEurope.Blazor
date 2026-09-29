@@ -1,4 +1,5 @@
 using Bunit;
+using Microsoft.Extensions.DependencyInjection;
 using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Internal;
 
@@ -36,9 +37,9 @@ public sealed class StepTimelineColumnsTests : OmniBunitContext
     [Fact]
     public void RunningStep_FillsItsBarUpToItsUsualDuration_AndSaysHowFar()
     {
+        UseNow(Run.AddSeconds(180));
         var timeline = Render<OmniStepTimeline>(parameters => parameters
-            .Add(component => component.Steps, Steps)
-            .Add(component => component.Now, Run.AddSeconds(180)));
+            .Add(component => component.Steps, Steps));
 
         var rows = timeline.FindAll(".omni-step-timeline__step");
         Assert.Empty(rows[0].QuerySelectorAll(".omni-step-timeline__progress"));
@@ -54,9 +55,9 @@ public sealed class StepTimelineColumnsTests : OmniBunitContext
     [Fact]
     public void RunningStep_PastItsUsualDuration_DrawsTheOverrunAndSaysSo()
     {
+        UseNow(Run.AddSeconds(60));
         var timeline = Render<OmniStepTimeline>(parameters => parameters
-            .Add(component => component.Steps, [new OmniStepTimelineStep("Deploy", Run, null, OmniStepTimelineStatus.Running) { ExpectedDuration = TimeSpan.FromSeconds(40) }])
-            .Add(component => component.Now, Run.AddSeconds(60)));
+            .Add(component => component.Steps, [new OmniStepTimelineStep("Deploy", Run, null, OmniStepTimelineStatus.Running) { ExpectedDuration = TimeSpan.FromSeconds(40) }]));
 
         var row = timeline.Find(".omni-step-timeline__step");
         Assert.Equal("100%", row.QuerySelector(".omni-step-timeline__progress")!.GetAttribute("width"));
@@ -68,9 +69,9 @@ public sealed class StepTimelineColumnsTests : OmniBunitContext
     [Fact]
     public void Columns_AreHeadedOnce_AndEachValueIsHeardWithItsTitle()
     {
+        UseNow(Run.AddSeconds(180));
         var timeline = Render<OmniStepTimeline>(parameters => parameters
             .Add(component => component.Steps, Steps)
-            .Add(component => component.Now, Run.AddSeconds(180))
             .Add(component => component.Columns,
             [
                 new OmniStepTimelineColumn("Habituelle", step => step.ExpectedDuration is { } expected ? StepTimelineLayout.Format(expected) : null) { Description = "Durée médiane des dernières exécutions" },
@@ -103,9 +104,9 @@ public sealed class StepTimelineColumnsTests : OmniBunitContext
     [Fact]
     public void WithoutColumns_TheRowsAreDrawnAsBefore()
     {
+        UseNow(Run.AddSeconds(180));
         var timeline = Render<OmniStepTimeline>(parameters => parameters
             .Add(component => component.Steps, Steps)
-            .Add(component => component.Now, Run.AddSeconds(180))
             .Add(component => component.Columns, [new OmniStepTimelineColumn("Vide", _ => string.Empty)]));
 
         Assert.DoesNotContain("omni-step-timeline--columns", timeline.Find("section").ClassList);
@@ -120,11 +121,19 @@ public sealed class StepTimelineColumnsTests : OmniBunitContext
     [InlineData(OmniStepTimelineStatus.Cancelled)]
     public void EveryStatus_HasItsClass(OmniStepTimelineStatus status)
     {
+        UseNow(Run.AddSeconds(10));
         var timeline = Render<OmniStepTimeline>(parameters => parameters
-            .Add(component => component.Steps, [new OmniStepTimelineStep("S", Run, Run.AddSeconds(10), status)])
-            .Add(component => component.Now, Run.AddSeconds(10)));
+            .Add(component => component.Steps, [new OmniStepTimelineStep("S", Run, Run.AddSeconds(10), status)]));
 
         Assert.Contains($"omni-step-timeline__step--{status.ToString().ToLowerInvariant()}", timeline.Find(".omni-step-timeline__step").ClassList);
         Assert.Equal(5, Enum.GetValues<OmniStepTimelineStatus>().Length);
+    }
+
+    /// <summary>Registers a component clock reading <paramref name="now"/>, where a running step ends.</summary>
+    private void UseNow(DateTimeOffset now) => Services.AddSingleton<TimeProvider>(new FixedTimeProvider(now));
+
+    private sealed class FixedTimeProvider(DateTimeOffset value) : TimeProvider
+    {
+        public override DateTimeOffset GetUtcNow() => value;
     }
 }

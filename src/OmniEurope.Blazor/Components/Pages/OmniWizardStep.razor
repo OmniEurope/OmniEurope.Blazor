@@ -4,5 +4,5 @@
 
 @if (Context?.IsCurrent(this) == true)
 {
-    <div id="@Id" class="@Css("omni-wizard-step")" @attributes="AdditionalAttributes">@ChildContent</div>
+    <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-wizard-step")">@ChildContent</div>
 }

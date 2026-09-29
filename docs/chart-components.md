@@ -4,6 +4,22 @@ Les graphiques sont dessinés en SVG dans une boîte de 100 sur 100, sans script
 Toutes les parties d'un `OmniChart` (séries, axes, lignes de grille, légende, titres d'axe) lisent
 leurs coordonnées dans un même contexte : elles s'alignent par construction.
 
+## Parties d'un graphique
+
+| Composant | Rôle |
+| --- | --- |
+| `OmniChart` | Conteneur SVG : titre, description, rapport largeur sur hauteur ; toutes les parties y lisent leurs coordonnées. |
+| `OmniCategoryAxis`, `OmniValueAxis` | Axe des catégories et axe des valeurs (bornes fixes ou automatiques), graduations et libellés. |
+| `OmniAxisTitle` | Titre d'un axe, horizontal en bas ou vertical à gauche, tourné. |
+| `OmniGridLines` | Lignes de grille du tracé. |
+| `OmniLineSeries`, `OmniAreaSeries` | Série en courbe, ou en aire, empilable (`Stacked`). |
+| `OmniColumnSeries`, `OmniBarSeries` | Colonnes verticales groupées par catégorie, empilables ; barres horizontales sur axes tournés. |
+| `OmniPieSeries` | Secteurs d'un disque, ou d'un anneau (`Donut`). |
+| `OmniMarkers` | Points marqués sur les valeurs d'une série. |
+| `OmniSeriesDataLabels` | Valeurs écrites sur les points d'une série, avec leur format. |
+| `OmniLegend` | Légende hors du tracé, à droite ou dessous. |
+| `OmniArcGauge`, `OmniArcGaugeScale`, `OmniArcGaugeScaleValue` | Jauge en demi-cercle, son échelle et la valeur qu'elle montre. |
+
 ## Disposition
 
 - La zone de tracé va de 14 à 96 en largeur et de 4 à 86 en hauteur. Les valeurs de l'axe vertical

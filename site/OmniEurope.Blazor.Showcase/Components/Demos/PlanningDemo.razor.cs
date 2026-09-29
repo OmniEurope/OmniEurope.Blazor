@@ -2,19 +2,19 @@ namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class PlanningDemo
 {
-    private static readonly DateOnly Today = new(2026, 3, 11);
+    // The planning sits around today, the day the Gantt chart marks: the Monday of last week starts it.
+    private static readonly DateOnly Monday = MondayBefore(DateOnly.FromDateTime(DateTime.Today)).AddDays(-7);
 
-    private static readonly DateTimeOffset RunStart = new(2026, 3, 11, 9, 0, 0, TimeSpan.Zero);
-
-    private static readonly DateTimeOffset RunNow = RunStart.AddMinutes(20).AddSeconds(15);
+    // The run started twenty minutes ago, so the step still running reaches the present time.
+    private static readonly DateTimeOffset RunStart = DateTimeOffset.UtcNow.AddMinutes(-20).AddSeconds(-15);
 
     private static readonly IReadOnlyList<OmniGanttTask> Tasks =
     [
-        new() { Id = "cadrage", Title = "Cadrage", Start = new(2026, 3, 2), End = new(2026, 3, 4), Progress = 1 },
-        new() { Id = "maquettes", Title = "Maquettes", Start = new(2026, 3, 5), End = new(2026, 3, 13), Progress = 0.6, Group = "Conception", DependsOn = ["cadrage"], ColorIndex = 1 },
-        new() { Id = "relecture", Title = "Relecture", Start = new(2026, 3, 16), End = new(2026, 3, 18), Group = "Conception", DependsOn = ["maquettes"], ColorIndex = 1 },
-        new() { Id = "dev", Title = "Développement", Start = new(2026, 3, 16), End = new(2026, 4, 3), Progress = 0.1, Group = "Réalisation", DependsOn = ["maquettes"], ColorIndex = 2 },
-        new() { Id = "recette", Title = "Recette", Start = new(2026, 4, 6), End = new(2026, 4, 10), Group = "Réalisation", DependsOn = ["dev"], ColorIndex = 3 }
+        new() { Id = "cadrage", Title = "Cadrage", Start = Monday, End = Monday.AddDays(2), Progress = 1 },
+        new() { Id = "maquettes", Title = "Maquettes", Start = Monday.AddDays(3), End = Monday.AddDays(11), Progress = 0.6, Group = "Conception", DependsOn = ["cadrage"], ColorIndex = 1 },
+        new() { Id = "relecture", Title = "Relecture", Start = Monday.AddDays(14), End = Monday.AddDays(16), Group = "Conception", DependsOn = ["maquettes"], ColorIndex = 1 },
+        new() { Id = "dev", Title = "Développement", Start = Monday.AddDays(14), End = Monday.AddDays(32), Progress = 0.1, Group = "Réalisation", DependsOn = ["maquettes"], ColorIndex = 2 },
+        new() { Id = "recette", Title = "Recette", Start = Monday.AddDays(35), End = Monday.AddDays(39), Group = "Réalisation", DependsOn = ["dev"], ColorIndex = 3 }
     ];
 
     private static readonly IReadOnlyList<OmniStepTimelineStep> Steps =
@@ -30,14 +30,16 @@ public partial class PlanningDemo
         new("Record release", null, null, OmniStepTimelineStatus.Skipped)
     ];
 
-    private OmniGanttScale Scale { get; set; } = OmniGanttScale.Week;
+    private OmniCalendarView Scale { get; set; } = OmniCalendarView.Week;
 
     private string? SelectedTaskId { get; set; }
 
     private string ScaleName => Scale switch
     {
-        OmniGanttScale.Day => "jour",
-        OmniGanttScale.Month => "mois",
+        OmniCalendarView.Day => "jour",
+        OmniCalendarView.Month => "mois",
         _ => "semaine"
     };
+
+    private static DateOnly MondayBefore(DateOnly day) => day.AddDays(-(((int)day.DayOfWeek + 6) % 7));
 }

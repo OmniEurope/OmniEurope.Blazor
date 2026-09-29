@@ -1,13 +1,13 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<button id="@Id"
+<button @attributes="AdditionalAttributes"
+        id="@Id"
         class="@Css("omni-sidebar-toggle")"
         type="button"
         aria-controls="@Controls"
         aria-expanded="@(Open ? "true" : "false")"
-        aria-label="@EffectiveAriaLabel"
-        @attributes="AdditionalAttributes"
+        aria-label="@EffectiveLabel"
         @onclick="ToggleAsync">
     @if (ChildContent is not null)
     {

@@ -69,10 +69,13 @@ public partial class OmniHtmlEditor
     private IJSRuntime JSRuntime { get; set; } = default!;
 
     /// <summary>
-    /// The accessible name of the editor. Empty uses the localized "HTML editor", or "word processor"
+    /// The accessible name of the editor. In the source face it is the <c>aria-label</c> of the text area,
+    /// written only when set, so that the <c>label</c> of an enclosing <see cref="OmniFormField"/> names
+    /// it otherwise. The visual face is an editable <c>div</c>, which a <c>label for</c> cannot name: it,
+    /// and the region around the toolbar, fall back to the localized "HTML editor", or "word processor"
     /// when <see cref="Sheet"/> is set.
     /// </summary>
-    [Parameter] public string Label { get; set; } = string.Empty;
+    [Parameter] public string? Label { get; set; }
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label)
         ? Localize(Sheet ? "DocumentEditorLabel" : "HtmlEditorLabel")
         : Label;
@@ -110,7 +113,17 @@ public partial class OmniHtmlEditor
     /// <summary>Whether the editor is framed as a document: the sheet, the status bar, or both.</summary>
     private bool Framed => Sheet || ShowStatusBar;
 
-    private string FrameClass => Sheet ? "omni-document-editor omni-document-editor--sheet" : "omni-document-editor";
+    // Class goes on the outermost element: the document frame when there is one, the editor otherwise.
+    private string FrameClass => CssClassBuilder.Combine(["omni-document-editor", Sheet ? "omni-document-editor--sheet" : null, Class]);
+
+    private string EditorClass => CssClassBuilder.Combine([
+        "omni-html-editor",
+        _mode == OmniHtmlEditorMode.Visual ? "omni-html-editor--visual" : "omni-html-editor--source",
+        _showBlocks && _mode == OmniHtmlEditorMode.Visual ? "omni-html-editor--show-blocks" : null,
+        Disabled ? "omni-html-editor--disabled" : null,
+        ReadOnly && !Disabled ? "omni-html-editor--readonly" : null,
+        CssClass,
+        Framed ? null : Class]);
 
     /// <summary>The counts of the value, computed again only when it changes.</summary>
     private (int Words, int Characters) Statistics
@@ -131,7 +144,23 @@ public partial class OmniHtmlEditor
 
     /// <summary>The height of the source textarea in rows, and the minimum height of the visual surface.</summary>
     [Parameter] public int Rows { get; set; } = 12;
+
+    /// <summary>
+    /// Whether the editor is disabled: nothing can be typed or run, the toolbar is disabled, the source
+    /// text area is disabled and the whole editor is dimmed.
+    /// </summary>
     [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>
+    /// Whether the value can be read, selected and copied but not changed: nothing can be typed, the
+    /// toolbar is disabled, the visual surface is announced read-only (<c>aria-readonly</c>) and the
+    /// source text area is <c>readonly</c>; the editor keeps its focus and is not dimmed. Inline elements
+    /// still act when clicked. <see cref="Disabled"/> wins over it.
+    /// </summary>
+    [Parameter] public bool ReadOnly { get; set; }
+
+    /// <summary>Whether the value is closed to editing, read-only or disabled.</summary>
+    private bool IsLocked => ReadOnly || Disabled;
 
     /// <summary>Whether the source face shows a sanitised preview under the textarea. The visual face is its own preview.</summary>
     [Parameter] public bool ShowPreview { get; set; } = true;
@@ -385,7 +414,7 @@ public partial class OmniHtmlEditor
 
     internal Task HandleVisualInputAsync(string html)
     {
-        if (Disabled || _mode != OmniHtmlEditorMode.Visual)
+        if (IsLocked || _mode != OmniHtmlEditorMode.Visual)
         {
             return Task.CompletedTask;
         }
@@ -409,7 +438,7 @@ public partial class OmniHtmlEditor
         await _extensionSet.NotifySelectionAsync(_caret);
     }
 
-    private Task HandleInputAsync(ChangeEventArgs args) => Disabled
+    private Task HandleInputAsync(ChangeEventArgs args) => IsLocked
         ? Task.CompletedTask
         : CommitAsync(Clean(args.Value?.ToString()));
 
@@ -438,7 +467,7 @@ public partial class OmniHtmlEditor
 
     internal async Task RunBuiltInAsync(OmniHtmlEditorAction action, string? argument)
     {
-        if (Disabled)
+        if (IsLocked)
         {
             return;
         }
@@ -529,7 +558,7 @@ public partial class OmniHtmlEditor
                     : Task.CompletedTask;
             case OmniHtmlEditorAction.AlignLeft: return WrapSelectionAsync("<p>", "</p>");
             case OmniHtmlEditorAction.AlignCenter: return WrapSelectionAsync("<p class=\"omni-align-center\">", "</p>");
-            case OmniHtmlEditorAction.AlignRight: return WrapSelectionAsync("<p class=\"omni-align-right\">", "</p>");
+            case OmniHtmlEditorAction.AlignRight: return WrapSelectionAsync("<p class=\"omni-align-end\">", "</p>");
             case OmniHtmlEditorAction.AlignJustify: return WrapSelectionAsync("<p class=\"omni-align-justify\">", "</p>");
             case OmniHtmlEditorAction.InsertTable: return WrapSelectionAsync(TableSource, string.Empty);
             case OmniHtmlEditorAction.Link when !string.IsNullOrEmpty(argument):
@@ -544,7 +573,7 @@ public partial class OmniHtmlEditor
 
     private async Task WrapSelectionAsync(string prefix, string suffix)
     {
-        if (Disabled)
+        if (IsLocked)
         {
             return;
         }
@@ -559,13 +588,13 @@ public partial class OmniHtmlEditor
         await module.InvokeVoidAsync("restoreTextSelection", _source, start, end);
     }
 
-    private Task ApplyAsync(Func<string, string> transform) => Disabled
+    private Task ApplyAsync(Func<string, string> transform) => IsLocked
         ? Task.CompletedTask
         : CommitAsync(Clean(transform(CurrentValue ?? string.Empty)));
 
     internal async Task InsertHtmlAsync(string html)
     {
-        if (Disabled || string.IsNullOrEmpty(html))
+        if (IsLocked || string.IsNullOrEmpty(html))
         {
             return;
         }
@@ -583,7 +612,7 @@ public partial class OmniHtmlEditor
 
     internal async Task ReplaceHtmlAsync(string html)
     {
-        if (Disabled)
+        if (IsLocked)
         {
             return;
         }
@@ -605,7 +634,7 @@ public partial class OmniHtmlEditor
 
     internal async Task UndoAsync()
     {
-        if (Disabled)
+        if (IsLocked)
         {
             return;
         }
@@ -620,7 +649,7 @@ public partial class OmniHtmlEditor
 
     internal async Task RedoAsync()
     {
-        if (Disabled)
+        if (IsLocked)
         {
             return;
         }
@@ -675,7 +704,7 @@ public partial class OmniHtmlEditor
     /// <summary>The body of <see cref="CommitDomAsync"/>, already on the dispatcher (a command's context calls it).</summary>
     internal async Task CommitSurfaceAsync()
     {
-        if (Disabled || _mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
+        if (IsLocked || _mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
         {
             return;
         }
@@ -737,7 +766,7 @@ public partial class OmniHtmlEditor
     internal async Task<bool> ReplaceClosestAsync(string selector, string html)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(selector);
-        if (Disabled || _mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
+        if (IsLocked || _mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
         {
             return false;
         }
@@ -755,7 +784,7 @@ public partial class OmniHtmlEditor
 
     internal async Task ReplaceActivatedAsync(string html)
     {
-        if (Disabled || _mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
+        if (IsLocked || _mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
         {
             return;
         }
@@ -771,7 +800,7 @@ public partial class OmniHtmlEditor
     /// <summary>The first proposal of the extensions that suggest text, or null.</summary>
     internal async Task<string?> SuggestAsync(string textBeforeCaret)
     {
-        if (Disabled || _mode != OmniHtmlEditorMode.Visual || string.IsNullOrWhiteSpace(textBeforeCaret))
+        if (IsLocked || _mode != OmniHtmlEditorMode.Visual || string.IsNullOrWhiteSpace(textBeforeCaret))
         {
             return null;
         }
@@ -790,7 +819,7 @@ public partial class OmniHtmlEditor
 
     internal async Task SetActivatedTextAsync(string text)
     {
-        if (Disabled || _mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
+        if (IsLocked || _mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
         {
             return;
         }
@@ -1115,7 +1144,7 @@ public partial class OmniHtmlEditor
 
     internal Task OpenLinkAsync()
     {
-        if (Disabled)
+        if (IsLocked)
         {
             return Task.CompletedTask;
         }
@@ -1165,7 +1194,7 @@ public partial class OmniHtmlEditor
         _ => Task.CompletedTask
     };
 
-    private bool IsDisabled(OmniHtmlEditorCommand command) => Disabled
+    private bool IsDisabled(OmniHtmlEditorCommand command) => IsLocked
         || (command.Enabled is { } enabled && !enabled(_mode == OmniHtmlEditorMode.Visual ? _caret : null))
         || command.Action switch
     {

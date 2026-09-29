@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="UploadFailed" xml:space="preserve"><value>Augšupielāde neizdevās.</value></data>
+  <data name="Today" xml:space="preserve"><value>Šodien</value></data>
+  <data name="Retry" xml:space="preserve"><value>Mēģināt vēlreiz</value></data>
+  <data name="Loading" xml:space="preserve"><value>Ielādē…</value></data>
+  <data name="AppearanceLight" xml:space="preserve"><value>Gaišs</value></data>
+  <data name="AppearanceDark" xml:space="preserve"><value>Tumšs</value></data>
+  <data name="AppearanceSystem" xml:space="preserve"><value>Sistēmas</value></data>
+  <data name="SettingsMode" xml:space="preserve"><value>Režīms</value></data>
+  <data name="SettingsTheme" xml:space="preserve"><value>Motīvs</value></data>
+  <data name="SettingsPalette" xml:space="preserve"><value>Palete</value></data>
+  <data name="SettingsFont" xml:space="preserve"><value>Fonts</value></data>
+  <data name="SettingsTextSize" xml:space="preserve"><value>Teksta lielums</value></data>
+  <data name="SettingsDensity" xml:space="preserve"><value>Blīvums</value></data>
+  <data name="SettingsControlSize" xml:space="preserve"><value>Vadīklu lielums</value></data>
+  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Vadīklas</value></data>
+  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Teksts</value></data>
+  <data name="SettingsDensityShort" xml:space="preserve"><value>Blīvums</value></data>
+  <data name="SettingsScale" xml:space="preserve"><value>Izmēri</value></data>
+  <data name="SettingsDefault" xml:space="preserve"><value>Noklusējums</value></data>
+  <data name="SettingsDefaultSuffix" xml:space="preserve"><value>noklusējums</value></data>
+  <data name="SettingsDecrease" xml:space="preserve"><value>Samazināt</value></data>
+  <data name="SettingsIncrease" xml:space="preserve"><value>Palielināt</value></data>
+  <data name="ArcGaugeLabel" xml:space="preserve"><value>Mērītājs</value></data>
+  <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Meklēšana neizdevās. Mainiet ievadi, lai mēģinātu vēlreiz.</value></data>
+  <data name="AutocompleteOneResult" xml:space="preserve"><value>Pieejams 1 rezultāts.</value></data>
+  <data name="AutocompleteManyResults" xml:space="preserve"><value>Pieejamie rezultāti: {0}.</value></data>
+  <data name="AutocompleteSelected" xml:space="preserve"><value>Atlasīts: {0}.</value></data>
+  <data name="AutocompleteInvalid" xml:space="preserve"><value>Automātiskās pabeigšanas vērtība nav derīga.</value></data>
+  <data name="BreadcrumbLabel" xml:space="preserve"><value>Navigācijas ceļš</value></data>
+  <data name="CheckBoxInvalid" xml:space="preserve"><value>Izvēles rūtiņas vērtība nav derīga.</value></data>
+  <data name="CheckBoxListInvalid" xml:space="preserve"><value>Izvēles rūtiņu saraksts nav derīgs.</value></data>
+  <data name="ColorPickerInvalid" xml:space="preserve"><value>Krāsai jābūt formātā #RRGGBB.</value></data>
+  <data name="NotificationsRegionLabel" xml:space="preserve"><value>Paziņojumi</value></data>
+  <data name="ContextMenuLabel" xml:space="preserve"><value>Konteksta izvēlne</value></data>
+  <data name="GridLoadFailed" xml:space="preserve"><value>Režģi neizdevās ielādēt.</value></data>
+  <data name="GridDetailColumn" xml:space="preserve"><value>Detalizēta informācija</value></data>
+  <data name="GridSelectionColumn" xml:space="preserve"><value>Atlase</value></data>
+  <data name="GridResizeColumn" xml:space="preserve"><value>Mainīt platumu: {0}</value></data>
+  <data name="GridEditColumn" xml:space="preserve"><value>Rediģēšana</value></data>
+  <data name="GridFilterColumn" xml:space="preserve"><value>Filtrēt: {0}</value></data>
+  <data name="GridEmpty" xml:space="preserve"><value>Nav datu.</value></data>
+  <data name="GridEmptyFiltered" xml:space="preserve"><value>Filtriem neatbilst neviens rezultāts.</value></data>
+  <data name="GridValueColumn" xml:space="preserve"><value>Vērtība</value></data>
+  <data name="GridFilterPlaceholder" xml:space="preserve"><value>Filtrēt</value></data>
+  <data name="GridFilterOperator" xml:space="preserve"><value>Filtra operators: {0}</value></data>
+  <data name="GridFilterSecondOperator" xml:space="preserve"><value>Otrais filtra operators: {0}</value></data>
+  <data name="GridFilterSecondValue" xml:space="preserve"><value>Otrā filtra vērtība: {0}</value></data>
+  <data name="GridFilterLogical" xml:space="preserve"><value>Loģiskais operators: {0}</value></data>
+  <data name="GridFilterApply" xml:space="preserve"><value>Lietot</value></data>
+  <data name="GridFilterClear" xml:space="preserve"><value>Notīrīt</value></data>
+  <data name="TooltipShowMore" xml:space="preserve"><value>Rādīt vairāk</value></data>
+  <data name="TooltipShowLess" xml:space="preserve"><value>Rādīt mazāk</value></data>
+  <data name="GridFilterDateFrom" xml:space="preserve"><value>No</value></data>
+  <data name="GridFilterDateTo" xml:space="preserve"><value>Līdz</value></data>
+  <data name="GridFilterContains" xml:space="preserve"><value>Satur</value></data>
+  <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Nesatur</value></data>
+  <data name="GridFilterEquals" xml:space="preserve"><value>Vienāds ar</value></data>
+  <data name="GridFilterNotEquals" xml:space="preserve"><value>Nav vienāds ar</value></data>
+  <data name="GridFilterStartsWith" xml:space="preserve"><value>Sākas ar</value></data>
+  <data name="GridFilterEndsWith" xml:space="preserve"><value>Beidzas ar</value></data>
+  <data name="GridFilterGreaterThan" xml:space="preserve"><value>Lielāks par</value></data>
+  <data name="GridFilterGreaterThanOrEquals" xml:space="preserve"><value>Lielāks vai vienāds ar</value></data>
+  <data name="GridFilterLessThan" xml:space="preserve"><value>Mazāks par</value></data>
+  <data name="GridFilterLessThanOrEquals" xml:space="preserve"><value>Mazāks vai vienāds ar</value></data>
+  <data name="GridFilterIsNull" xml:space="preserve"><value>Nav definēts</value></data>
+  <data name="GridFilterIsNotNull" xml:space="preserve"><value>Ir definēts</value></data>
+  <data name="GridFilterIsEmpty" xml:space="preserve"><value>Ir tukšs</value></data>
+  <data name="GridFilterIsNotEmpty" xml:space="preserve"><value>Nav tukšs</value></data>
+  <data name="GridFilterAnd" xml:space="preserve"><value>Un</value></data>
+  <data name="GridFilterOr" xml:space="preserve"><value>Vai</value></data>
+  <data name="GridGroupPanel" xml:space="preserve"><value>Aktīvās grupas</value></data>
+  <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Nav grupēšanas.</value></data>
+  <data name="GridGroupColumn" xml:space="preserve"><value>Grupēt pēc: {0}</value></data>
+  <data name="GridUngroupColumn" xml:space="preserve"><value>Noņemt grupēšanu: {0}</value></data>
+  <data name="GridExpandAll" xml:space="preserve"><value>Izvērst vai sakļaut visas rindas</value></data>
+  <data name="GridDetachFrozen" xml:space="preserve"><value>Atdalīt fiksētās kolonnas</value></data>
+  <data name="GridRefreezeFrozen" xml:space="preserve"><value>Vēlreiz fiksēt kolonnas</value></data>
+  <data name="GridShrinkColumn" xml:space="preserve"><value>Sašaurināt kolonnu: {0}</value></data>
+  <data name="GridGrowColumn" xml:space="preserve"><value>Paplašināt kolonnu: {0}</value></data>
+  <data name="PagerFirst" xml:space="preserve"><value>Pirmā lapa</value></data>
+  <data name="PagerLast" xml:space="preserve"><value>Pēdējā lapa</value></data>
+  <data name="PagerPageSize" xml:space="preserve"><value>Rindas lapā</value></data>
+  <data name="GridPagingSummary" xml:space="preserve"><value>{0}–{1} no {2}</value></data>
+  <data name="GridRowsLoading" xml:space="preserve"><value>Ielādē rindas…</value></data>
+  <data name="GridCollapseRow" xml:space="preserve"><value>Sakļaut rindu</value></data>
+  <data name="GridExpandRow" xml:space="preserve"><value>Izvērst rindu</value></data>
+  <data name="GridSelectRow" xml:space="preserve"><value>Atlasīt rindu</value></data>
+  <data name="GridSelectAll" xml:space="preserve"><value>Atlasīt visas redzamās rindas</value></data>
+  <data name="SpreadsheetLabel" xml:space="preserve"><value>Izklājlapa</value></data>
+  <data name="SpreadsheetAddRow" xml:space="preserve"><value>Rinda</value></data>
+  <data name="SpreadsheetAddRowLabel" xml:space="preserve"><value>Pievienot rindu</value></data>
+  <data name="SpreadsheetAddColumn" xml:space="preserve"><value>Kolonna</value></data>
+  <data name="SpreadsheetAddColumnLabel" xml:space="preserve"><value>Pievienot kolonnu</value></data>
+  <data name="SpreadsheetActiveCell" xml:space="preserve"><value>Aktīvā šūna</value></data>
+  <data name="SpreadsheetFormulaBar" xml:space="preserve"><value>Šūnas {0} saturs</value></data>
+  <data name="SpreadsheetCell" xml:space="preserve"><value>Šūna {0}</value></data>
+  <data name="Save" xml:space="preserve"><value>Saglabāt</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Atcelt</value></data>
+  <data name="Edit" xml:space="preserve"><value>Rediģēt</value></data>
+  <data name="DataListLoadFailed" xml:space="preserve"><value>Ielāde neizdevās.</value></data>
+  <data name="DataListEmpty" xml:space="preserve"><value>Nav vienumu.</value></data>
+  <data name="DatePickerInvalid" xml:space="preserve"><value>Ievadītais datums nav derīgs.</value></data>
+  <data name="DateTimePickerInvalid" xml:space="preserve"><value>Ievadītais datums un laiks nav derīgs.</value></data>
+  <data name="DatePickerToggle" xml:space="preserve"><value>Izvēlēties datumu</value></data>
+  <data name="DatePickerToday" xml:space="preserve"><value>Šodien</value></data>
+  <data name="DatePickerClear" xml:space="preserve"><value>Notīrīt</value></data>
+  <data name="CalendarPreviousMonth" xml:space="preserve"><value>Iepriekšējais mēnesis</value></data>
+  <data name="CalendarNextMonth" xml:space="preserve"><value>Nākamais mēnesis</value></data>
+  <data name="TimePickerToggle" xml:space="preserve"><value>Izvēlēties laiku</value></data>
+  <data name="DateTimePickerToggle" xml:space="preserve"><value>Izvēlēties datumu un laiku</value></data>
+  <data name="TimePickerNow" xml:space="preserve"><value>Tagad</value></data>
+  <data name="TimePickerConfirm" xml:space="preserve"><value>Apstiprināt</value></data>
+  <data name="TimePickerHours" xml:space="preserve"><value>Stundas</value></data>
+  <data name="TimePickerMinutes" xml:space="preserve"><value>Minūtes</value></data>
+  <data name="TimePickerSeconds" xml:space="preserve"><value>Sekundes</value></data>
+  <data name="TimePickerHourCaption" xml:space="preserve"><value>h</value></data>
+  <data name="TimePickerMinuteCaption" xml:space="preserve"><value>min</value></data>
+  <data name="TimePickerSecondCaption" xml:space="preserve"><value>s</value></data>
+  <data name="TimePickerInvalid" xml:space="preserve"><value>Ievadītais laiks nav derīgs.</value></data>
+  <data name="PickerLetterDay" xml:space="preserve"><value>d</value></data>
+  <data name="PickerLetterMonth" xml:space="preserve"><value>m</value></data>
+  <data name="PickerLetterYear" xml:space="preserve"><value>g</value></data>
+  <data name="PickerLetterHour" xml:space="preserve"><value>h</value></data>
+  <data name="PickerLetterMinute" xml:space="preserve"><value>m</value></data>
+  <data name="PickerLetterSecond" xml:space="preserve"><value>s</value></data>
+  <data name="DayViewLabel" xml:space="preserve"><value>Dienas skats</value></data>
+  <data name="DialogEnd" xml:space="preserve"><value>Dialoglodziņa beigas</value></data>
+  <data name="Close" xml:space="preserve"><value>Aizvērt</value></data>
+  <data name="DialogStart" xml:space="preserve"><value>Dialoglodziņa sākums</value></data>
+  <data name="DropDownPlaceholder" xml:space="preserve"><value>Atlasiet</value></data>
+  <data name="DropDownInvalid" xml:space="preserve"><value>Atlase nav derīga: {0}.</value></data>
+  <data name="HtmlEditorLabel" xml:space="preserve"><value>HTML redaktors</value></data>
+  <data name="HtmlEditorToolbar" xml:space="preserve"><value>Formatēšanas rīki</value></data>
+  <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Redaktora darbības</value></data>
+  <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Burtu reģistrs</value></data>
+  <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>LIELIE BURTI</value></data>
+  <data name="HtmlEditorCaseLower" xml:space="preserve"><value>mazie burti</value></data>
+  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Virsraksta Burti</value></data>
+  <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Speciālā rakstzīme</value></data>
+  <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Meklēt rakstzīmi</value></data>
+  <data name="HtmlEditorCharNone" xml:space="preserve"><value>Neviena rakstzīme neatbilst.</value></data>
+  <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Bieži lietotās</value></data>
+  <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Valūtas</value></data>
+  <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Bultiņas</value></data>
+  <data name="HtmlEditorCharCategoryMath" xml:space="preserve"><value>Matemātika</value></data>
+  <data name="HtmlEditorCharCategoryGreek" xml:space="preserve"><value>Grieķu</value></data>
+  <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Juridiskās</value></data>
+  <data name="HtmlEditorImportTable" xml:space="preserve"><value>Importēt tabulu</value></data>
+  <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>{0} fails, ne vairāk kā 100 rindas un 50 kolonnas.</value></data>
+  <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Pirmā rinda kā galvene</value></data>
+  <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Ievietot</value></data>
+  <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Tabulas priekšskatījums</value></data>
+  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>Rindas: {0}, kolonnas: {1}</value></data>
+  <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>Failu neizdevās nolasīt.</value></data>
+  <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>Failā nav nevienas rindas.</value></data>
+  <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Šis faila tips netiek atbalstīts.</value></data>
+  <data name="HtmlEditorClosePanel" xml:space="preserve"><value>Aizvērt</value></data>
+  <data name="HtmlEditorShowBlocks" xml:space="preserve"><value>Rādīt blokus</value></data>
+  <data name="HtmlEditorHighlight" xml:space="preserve"><value>Iezīmēt</value></data>
+  <data name="HtmlEditorChar00A9" xml:space="preserve"><value>Autortiesības</value></data>
+  <data name="HtmlEditorChar00AE" xml:space="preserve"><value>Reģistrēta preču zīme</value></data>
+  <data name="HtmlEditorChar2122" xml:space="preserve"><value>Preču zīme</value></data>
+  <data name="HtmlEditorChar00A7" xml:space="preserve"><value>Paragrāfs</value></data>
+  <data name="HtmlEditorChar00B6" xml:space="preserve"><value>Rindkopas zīme</value></data>
+  <data name="HtmlEditorChar2020" xml:space="preserve"><value>Krustiņš</value></data>
+  <data name="HtmlEditorChar2021" xml:space="preserve"><value>Dubultais krustiņš</value></data>
+  <data name="HtmlEditorChar2022" xml:space="preserve"><value>Aizzīme</value></data>
+  <data name="HtmlEditorChar2026" xml:space="preserve"><value>Daudzpunkte</value></data>
+  <data name="HtmlEditorChar2013" xml:space="preserve"><value>Īsā domuzīme</value></data>
+  <data name="HtmlEditorChar2014" xml:space="preserve"><value>Garā domuzīme</value></data>
+  <data name="HtmlEditorChar00AB" xml:space="preserve"><value>Kreisās leņķa pēdiņas</value></data>
+  <data name="HtmlEditorChar00BB" xml:space="preserve"><value>Labās leņķa pēdiņas</value></data>
+  <data name="HtmlEditorChar2039" xml:space="preserve"><value>Vienkāršā kreisā leņķa pēdiņa</value></data>
+  <data name="HtmlEditorChar203A" xml:space="preserve"><value>Vienkāršā labā leņķa pēdiņa</value></data>
+  <data name="HtmlEditorChar2018" xml:space="preserve"><value>Kreisā vienkāršā pēdiņa</value></data>
+  <data name="HtmlEditorChar2019" xml:space="preserve"><value>Apostrofs</value></data>
+  <data name="HtmlEditorChar201C" xml:space="preserve"><value>Kreisās dubultpēdiņas</value></data>
+  <data name="HtmlEditorChar201D" xml:space="preserve"><value>Labās dubultpēdiņas</value></data>
+  <data name="HtmlEditorChar00B0" xml:space="preserve"><value>Grāds</value></data>
+  <data name="HtmlEditorChar00B1" xml:space="preserve"><value>Plus mīnus</value></data>
+  <data name="HtmlEditorChar00D7" xml:space="preserve"><value>Reizināšana</value></data>
+  <data name="HtmlEditorChar00F7" xml:space="preserve"><value>Dalīšana</value></data>
+  <data name="HtmlEditorChar00A0" xml:space="preserve"><value>Nedalāmā atstarpe</value></data>
+  <data name="HtmlEditorChar20AC" xml:space="preserve"><value>Eiro</value></data>
+  <data name="HtmlEditorChar00A3" xml:space="preserve"><value>Sterliņu mārciņa</value></data>
+  <data name="HtmlEditorChar00A5" xml:space="preserve"><value>Jena</value></data>
+  <data name="HtmlEditorChar00A2" xml:space="preserve"><value>Cents</value></data>
+  <data name="HtmlEditorChar20BD" xml:space="preserve"><value>Rublis</value></data>
+  <data name="HtmlEditorChar20B9" xml:space="preserve"><value>Rūpija</value></data>
+  <data name="HtmlEditorChar20A9" xml:space="preserve"><value>Vona</value></data>
+  <data name="HtmlEditorChar20AA" xml:space="preserve"><value>Šekelis</value></data>
+  <data name="HtmlEditorChar20B1" xml:space="preserve"><value>Peso</value></data>
+  <data name="HtmlEditorChar20BA" xml:space="preserve"><value>Turcijas lira</value></data>
+  <data name="HtmlEditorChar2190" xml:space="preserve"><value>Bultiņa pa kreisi</value></data>
+  <data name="HtmlEditorChar2192" xml:space="preserve"><value>Bultiņa pa labi</value></data>
+  <data name="HtmlEditorChar2191" xml:space="preserve"><value>Bultiņa uz augšu</value></data>
+  <data name="HtmlEditorChar2193" xml:space="preserve"><value>Bultiņa uz leju</value></data>
+  <data name="HtmlEditorChar2194" xml:space="preserve"><value>Bultiņa pa kreisi un pa labi</value></data>
+  <data name="HtmlEditorChar2195" xml:space="preserve"><value>Bultiņa uz augšu un uz leju</value></data>
+  <data name="HtmlEditorChar21D0" xml:space="preserve"><value>Dubultbultiņa pa kreisi</value></data>
+  <data name="HtmlEditorChar21D2" xml:space="preserve"><value>Dubultbultiņa pa labi</value></data>
+  <data name="HtmlEditorChar21D1" xml:space="preserve"><value>Dubultbultiņa uz augšu</value></data>
+  <data name="HtmlEditorChar21D3" xml:space="preserve"><value>Dubultbultiņa uz leju</value></data>
+  <data name="HtmlEditorChar21B5" xml:space="preserve"><value>Atgriešanās bultiņa</value></data>
+  <data name="HtmlEditorChar21B6" xml:space="preserve"><value>Bultiņa pretēji pulksteņrādītājam</value></data>
+  <data name="HtmlEditorChar2200" xml:space="preserve"><value>Visiem</value></data>
+  <data name="HtmlEditorChar2203" xml:space="preserve"><value>Eksistē</value></data>
+  <data name="HtmlEditorChar2205" xml:space="preserve"><value>Tukšā kopa</value></data>
+  <data name="HtmlEditorChar2208" xml:space="preserve"><value>Pieder</value></data>
+  <data name="HtmlEditorChar2209" xml:space="preserve"><value>Nepieder</value></data>
+  <data name="HtmlEditorChar2282" xml:space="preserve"><value>Apakškopa</value></data>
+  <data name="HtmlEditorChar2283" xml:space="preserve"><value>Virskopa</value></data>
+  <data name="HtmlEditorChar222A" xml:space="preserve"><value>Apvienojums</value></data>
+  <data name="HtmlEditorChar2229" xml:space="preserve"><value>Šķēlums</value></data>
+  <data name="HtmlEditorChar2227" xml:space="preserve"><value>Loģiskais UN</value></data>
+  <data name="HtmlEditorChar2228" xml:space="preserve"><value>Loģiskais VAI</value></data>
+  <data name="HtmlEditorChar00AC" xml:space="preserve"><value>Noliegums</value></data>
+  <data name="HtmlEditorChar2248" xml:space="preserve"><value>Aptuveni vienāds</value></data>
+  <data name="HtmlEditorChar2260" xml:space="preserve"><value>Nav vienāds</value></data>
+  <data name="HtmlEditorChar2264" xml:space="preserve"><value>Mazāks vai vienāds</value></data>
+  <data name="HtmlEditorChar2265" xml:space="preserve"><value>Lielāks vai vienāds</value></data>
+  <data name="HtmlEditorChar221E" xml:space="preserve"><value>Bezgalība</value></data>
+  <data name="HtmlEditorChar221A" xml:space="preserve"><value>Kvadrātsakne</value></data>
+  <data name="HtmlEditorChar2211" xml:space="preserve"><value>Summa</value></data>
+  <data name="HtmlEditorChar220F" xml:space="preserve"><value>Reizinājums</value></data>
+  <data name="HtmlEditorChar2202" xml:space="preserve"><value>Parciālais atvasinājums</value></data>
+  <data name="HtmlEditorChar222B" xml:space="preserve"><value>Integrālis</value></data>
+  <data name="HtmlEditorChar03B1" xml:space="preserve"><value>Alfa</value></data>
+  <data name="HtmlEditorChar03B2" xml:space="preserve"><value>Beta</value></data>
+  <data name="HtmlEditorChar03B3" xml:space="preserve"><value>Gamma</value></data>
+  <data name="HtmlEditorChar03B4" xml:space="preserve"><value>Delta</value></data>
+  <data name="HtmlEditorChar03B5" xml:space="preserve"><value>Epsilons</value></data>
+  <data name="HtmlEditorChar03B6" xml:space="preserve"><value>Dzeta</value></data>
+  <data name="HtmlEditorChar03B7" xml:space="preserve"><value>Eta</value></data>
+  <data name="HtmlEditorChar03B8" xml:space="preserve"><value>Teta</value></data>
+  <data name="HtmlEditorChar03B9" xml:space="preserve"><value>Jota</value></data>
+  <data name="HtmlEditorChar03BA" xml:space="preserve"><value>Kapa</value></data>
+  <data name="HtmlEditorChar03BB" xml:space="preserve"><value>Lambda</value></data>
+  <data name="HtmlEditorChar03BC" xml:space="preserve"><value>Mī</value></data>
+  <data name="HtmlEditorChar03BD" xml:space="preserve"><value>Nī</value></data>
+  <data name="HtmlEditorChar03BE" xml:space="preserve"><value>Ksī</value></data>
+  <data name="HtmlEditorChar03C0" xml:space="preserve"><value>Pī</value></data>
+  <data name="HtmlEditorChar03C1" xml:space="preserve"><value>Ro</value></data>
+  <data name="HtmlEditorChar03C3" xml:space="preserve"><value>Sigma</value></data>
+  <data name="HtmlEditorChar03C4" xml:space="preserve"><value>Tau</value></data>
+  <data name="HtmlEditorChar03C5" xml:space="preserve"><value>Ipsilons</value></data>
+  <data name="HtmlEditorChar03C6" xml:space="preserve"><value>Fī</value></data>
+  <data name="HtmlEditorChar03C7" xml:space="preserve"><value>Hī</value></data>
+  <data name="HtmlEditorChar03C8" xml:space="preserve"><value>Psī</value></data>
+  <data name="HtmlEditorChar03C9" xml:space="preserve"><value>Omega</value></data>
+  <data name="HtmlEditorChar2116" xml:space="preserve"><value>Numurs</value></data>
+  <data name="HtmlEditorBold" xml:space="preserve"><value>Treknraksts</value></data>
+  <data name="HtmlEditorItalic" xml:space="preserve"><value>Slīpraksts</value></data>
+  <data name="HtmlEditorSubscript" xml:space="preserve"><value>Apakšraksts</value></data>
+  <data name="HtmlEditorSuperscript" xml:space="preserve"><value>Augšraksts</value></data>
+  <data name="HtmlEditorIndent" xml:space="preserve"><value>Palielināt atkāpi</value></data>
+  <data name="HtmlEditorOutdent" xml:space="preserve"><value>Samazināt atkāpi</value></data>
+  <data name="HtmlEditorUndo" xml:space="preserve"><value>Atsaukt</value></data>
+  <data name="HtmlEditorRedo" xml:space="preserve"><value>Atcelt atsaukšanu</value></data>
+  <data name="HtmlEditorPreview" xml:space="preserve"><value>Satura priekšskatījums</value></data>
+  <data name="LegendLabel" xml:space="preserve"><value>Leģenda</value></data>
+  <data name="ListBoxInvalid" xml:space="preserve"><value>Saraksta atlase nav derīga.</value></data>
+  <data name="MindMapAddLink" xml:space="preserve"><value>Saite</value></data>
+  <data name="MindMapAddNode" xml:space="preserve"><value>Mezgls</value></data>
+  <data name="MindMapAnnounceAdded" xml:space="preserve"><value>Pievienots mezgls {0}.</value></data>
+  <data name="MindMapAnnounceDeleted" xml:space="preserve"><value>Izdzēstie mezgli: {0}.</value></data>
+  <data name="MindMapAnnounceDuplicated" xml:space="preserve"><value>Mezgls {0} dublēts.</value></data>
+  <data name="MindMapAnnounceLaidOut" xml:space="preserve"><value>Karte pārkārtota.</value></data>
+  <data name="MindMapAnnounceLimit" xml:space="preserve"><value>Sasniegts maksimālais mezglu skaits.</value></data>
+  <data name="MindMapAnnounceLinkCancelled" xml:space="preserve"><value>Saites izveide atcelta.</value></data>
+  <data name="MindMapAnnounceLinkDeleted" xml:space="preserve"><value>Saite izdzēsta.</value></data>
+  <data name="MindMapAnnounceLinkSelected" xml:space="preserve"><value>Saite atlasīta.</value></data>
+  <data name="MindMapAnnounceLinked" xml:space="preserve"><value>Izveidota saite no {0} uz {1}.</value></data>
+  <data name="MindMapAnnounceManySelected" xml:space="preserve"><value>Atlasītie mezgli: {0}.</value></data>
+  <data name="MindMapAnnounceNoSelection" xml:space="preserve"><value>Nekas nav atlasīts.</value></data>
+  <data name="MindMapAnnounceRedone" xml:space="preserve"><value>Izmaiņa atkārtota.</value></data>
+  <data name="MindMapAnnounceSelected" xml:space="preserve"><value>{0}, saites: {1}.</value></data>
+  <data name="MindMapAnnounceUndone" xml:space="preserve"><value>Izmaiņa atsaukta.</value></data>
+  <data name="MindMapAnnounceZoom" xml:space="preserve"><value>Tālummaiņa {0}%.</value></data>
+  <data name="MindMapAutoLayout" xml:space="preserve"><value>Pārkārtot</value></data>
+  <data name="MindMapBold" xml:space="preserve"><value>Treknraksts</value></data>
+  <data name="MindMapCanvasLabel" xml:space="preserve"><value>Domu karte</value></data>
+  <data name="MindMapCenter" xml:space="preserve"><value>Centrēt</value></data>
+  <data name="MindMapColorBlue" xml:space="preserve"><value>Zila</value></data>
+  <data name="MindMapColorGray" xml:space="preserve"><value>Pelēka</value></data>
+  <data name="MindMapColorGreen" xml:space="preserve"><value>Zaļa</value></data>
+  <data name="MindMapColorIndigo" xml:space="preserve"><value>Indigo</value></data>
+  <data name="MindMapColorOrange" xml:space="preserve"><value>Oranža</value></data>
+  <data name="MindMapColorPink" xml:space="preserve"><value>Rozā</value></data>
+  <data name="MindMapColorPurple" xml:space="preserve"><value>Violeta</value></data>
+  <data name="MindMapColorRed" xml:space="preserve"><value>Sarkana</value></data>
+  <data name="MindMapColorTeal" xml:space="preserve"><value>Zilganzaļa</value></data>
+  <data name="MindMapColorWhite" xml:space="preserve"><value>Balta</value></data>
+  <data name="MindMapColorYellow" xml:space="preserve"><value>Dzeltena</value></data>
+  <data name="MindMapDelete" xml:space="preserve"><value>Dzēst</value></data>
+  <data name="MindMapDuplicate" xml:space="preserve"><value>Dublēt</value></data>
+  <data name="MindMapFitView" xml:space="preserve"><value>Ietilpināt</value></data>
+  <data name="MindMapFontSize" xml:space="preserve"><value>Fonta lielums</value></data>
+  <data name="MindMapItalic" xml:space="preserve"><value>Slīpraksts</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Bultiņas: pāriet starp mezgliem, Home: centrālais mezgls, Shift+bultiņas: pārvietot, Enter vai F2: pārdēvēt, N: jauns mezgls, D: dublēt, C: centrēt, Delete: dzēst, + un -: tālummaiņa, 0: ietilpināt, Ctrl+Z un Ctrl+Y: atsaukt un atkārtot, Shift+F10: izvēlne, Esc: noņemt atlasi.</value></data>
+  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Bultiņas: pāriet starp mezgliem, Home: centrālais mezgls, C: centrēt, + un -: tālummaiņa, 0: ietilpināt, Shift+F10: izvēlne, Esc: noņemt atlasi.</value></data>
+  <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Esc, lai atceltu</value></data>
+  <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Noklikšķiniet uz avota mezgla</value></data>
+  <data name="MindMapLinkSelectTarget" xml:space="preserve"><value>Noklikšķiniet uz mērķa mezgla</value></data>
+  <data name="MindMapMenuLabel" xml:space="preserve"><value>Kartes darbības</value></data>
+  <data name="MindMapNewNode" xml:space="preserve"><value>Jauns</value></data>
+  <data name="MindMapNodeColor" xml:space="preserve"><value>Krāsa</value></data>
+  <data name="MindMapNodeHeight" xml:space="preserve"><value>Augstums</value></data>
+  <data name="MindMapNodeText" xml:space="preserve"><value>Teksts</value></data>
+  <data name="MindMapNodeWidth" xml:space="preserve"><value>Platums</value></data>
+  <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, piezīme: {1}</value></data>
+  <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Mezgla rekvizīti</value></data>
+  <data name="MindMapRename" xml:space="preserve"><value>Pārdēvēt mezglu</value></data>
+  <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automātisks izmērs</value></data>
+  <data name="MindMapToolbarLabel" xml:space="preserve"><value>Domu kartes darbības</value></data>
+  <data name="MonthViewLabel" xml:space="preserve"><value>Mēneša skats</value></data>
+  <data name="MultiSelectInvalid" xml:space="preserve"><value>Vairākatlase nav derīga.</value></data>
+  <data name="MultiSelectEmpty" xml:space="preserve"><value>Visi</value></data>
+  <data name="MultiSelectSelected" xml:space="preserve"><value>Atlasīti: {0}</value></data>
+  <data name="MultiSelectClear" xml:space="preserve"><value>Notīrīt atlasi</value></data>
+  <data name="MultiSelectFilter" xml:space="preserve"><value>Meklēt</value></data>
+  <data name="MultiSelectNoMatch" xml:space="preserve"><value>Nav atbilstību</value></data>
+  <data name="NotificationDismiss" xml:space="preserve"><value>Nerādīt paziņojumu</value></data>
+  <data name="NotificationExpand" xml:space="preserve"><value>Rādīt visu</value></data>
+  <data name="NotificationCollapse" xml:space="preserve"><value>Sakļaut</value></data>
+  <data name="NotificationOpenDetails" xml:space="preserve"><value>Atvērt žurnālu</value></data>
+  <data name="NullableSwitchIndeterminate" xml:space="preserve"><value>Nenoteikts stāvoklis</value></data>
+  <data name="NumericInvalid" xml:space="preserve"><value>Ievadītā vērtība nav derīga.</value></data>
+  <data name="NumericInvalidNamed" xml:space="preserve"><value>Ievadītā vērtība nav derīga: {0}.</value></data>
+  <data name="PagerLabel" xml:space="preserve"><value>Lappušu numerācija</value></data>
+  <data name="PagerPrevious" xml:space="preserve"><value>Iepriekšējā lapa</value></data>
+  <data name="PagerStatus" xml:space="preserve"><value>Lapa {0} no {1}</value></data>
+  <data name="PagerNext" xml:space="preserve"><value>Nākamā lapa</value></data>
+  <data name="PanelMenuLabel" xml:space="preserve"><value>Navigācija</value></data>
+  <data name="PanelMenuToggle" xml:space="preserve"><value>Izvērst vai sakļaut: {0}</value></data>
+  <data name="PasswordRevealLabel" xml:space="preserve"><value>Rādīt paroli</value></data>
+  <data name="PasswordHideLabel" xml:space="preserve"><value>Slēpt paroli</value></data>
+  <data name="ProfileMenuLabel" xml:space="preserve"><value>Profila izvēlne</value></data>
+  <data name="ProgressLabel" xml:space="preserve"><value>Progress</value></data>
+  <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="RadioButtonListInvalid" xml:space="preserve"><value>Radiopogu atlase nav derīga.</value></data>
+  <data name="RequiredValidatorMessage" xml:space="preserve"><value>Šis lauks ir obligāts.</value></data>
+  <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Iepriekšējais periods</value></data>
+  <data name="SchedulerNextPeriod" xml:space="preserve"><value>Nākamais periods</value></data>
+  <data name="SchedulerViewLabel" xml:space="preserve"><value>Kalendāra skats</value></data>
+  <data name="SchedulerDay" xml:space="preserve"><value>Diena</value></data>
+  <data name="SchedulerWeek" xml:space="preserve"><value>Nedēļa</value></data>
+  <data name="SchedulerMonth" xml:space="preserve"><value>Mēnesis</value></data>
+  <data name="SchedulerLoadFailed" xml:space="preserve"><value>Kalendāru neizdevās ielādēt.</value></data>
+  <data name="SchedulerTimeColumn" xml:space="preserve"><value>Laiks</value></data>
+  <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Pārvietot: {0}</value></data>
+  <data name="SchedulerMoveHere" xml:space="preserve"><value>Novietot šeit: {0}, {1}</value></data>
+  <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Novietot šeit</value></data>
+  <data name="SchedulerMoveCancel" xml:space="preserve"><value>Atcelt pārvietošanu</value></data>
+  <data name="SchedulerMoving" xml:space="preserve"><value>Paņemts: {0}. Izvēlieties jaunu vietu, Esc, lai atceltu.</value></data>
+  <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} paliek savā vietā.</value></data>
+  <data name="SchedulerMoved" xml:space="preserve"><value>{0} pārvietots uz {1}.</value></data>
+  <data name="SelectBarInvalid" xml:space="preserve"><value>Segmentētā atlase nav derīga.</value></data>
+  <data name="RatingLabel" xml:space="preserve"><value>Vērtējums</value></data>
+  <data name="RatingStar" xml:space="preserve"><value>{0} no {1}</value></data>
+  <data name="RatingValue" xml:space="preserve"><value>{0}: {1} no {2}</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Navigācija</value></data>
+  <data name="SidebarClose" xml:space="preserve"><value>Aizvērt navigāciju</value></data>
+  <data name="LoadingLabel" xml:space="preserve"><value>Notiek ielāde</value></data>
+  <data name="WindowControlsLabel" xml:space="preserve"><value>Loga vadīklas</value></data>
+  <data name="WindowMinimizeToTray" xml:space="preserve"><value>Minimizēt paziņojumu apgabalā</value></data>
+  <data name="WindowMinimize" xml:space="preserve"><value>Minimizēt</value></data>
+  <data name="WindowMaximize" xml:space="preserve"><value>Maksimizēt</value></data>
+  <data name="WindowRestore" xml:space="preserve"><value>Atjaunot</value></data>
+  <data name="WindowClose" xml:space="preserve"><value>Aizvērt</value></data>
+  <data name="SidebarToggleLabel" xml:space="preserve"><value>Rādīt vai slēpt navigāciju</value></data>
+  <data name="SliderInvalid" xml:space="preserve"><value>Slīdņa vērtība nav derīga.</value></data>
+  <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Citas darbības</value></data>
+  <data name="StepsLabel" xml:space="preserve"><value>Darbības</value></data>
+  <data name="SwitchInvalid" xml:space="preserve"><value>Slēdža vērtība nav derīga.</value></data>
+  <data name="TabsLabel" xml:space="preserve"><value>Cilnes</value></data>
+  <data name="TimelineLabel" xml:space="preserve"><value>Laika skala</value></data>
+  <data name="TreeLabel" xml:space="preserve"><value>Koks</value></data>
+  <data name="TreeCollapse" xml:space="preserve"><value>Sakļaut</value></data>
+  <data name="TreeExpand" xml:space="preserve"><value>Izvērst</value></data>
+  <data name="TreeLoadFailed" xml:space="preserve"><value>Ielāde neizdevās.</value></data>
+  <data name="UploadSelectedFiles" xml:space="preserve"><value>Atlasītie faili</value></data>
+  <data name="UploadProgressLabel" xml:space="preserve"><value>Augšupielāde</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Maksimālais atlasāmo failu skaits: {0}.</value></data>
+  <data name="UploadFileTooLarge" xml:space="preserve"><value>Fails {0} pārsniedz maksimālo atļauto lielumu.</value></data>
+  <data name="UploadTypeRejected" xml:space="preserve"><value>Faila {0} tips nav atļauts.</value></data>
+  <data name="UploadOneSelected" xml:space="preserve"><value>Atlasīts 1 fails.</value></data>
+  <data name="UploadManySelected" xml:space="preserve"><value>Atlasītie faili: {0}.</value></data>
+  <data name="UploadInProgress" xml:space="preserve"><value>Notiek augšupielāde.</value></data>
+  <data name="UploadCompleted" xml:space="preserve"><value>Augšupielāde pabeigta.</value></data>
+  <data name="UploadCancelled" xml:space="preserve"><value>Augšupielāde atcelta.</value></data>
+  <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0:0.##} MB</value></data>
+  <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} KB</value></data>
+  <data name="UploadSizeBytes" xml:space="preserve"><value>{0} B</value></data>
+  <data name="UploadDropOne" xml:space="preserve"><value>Nometiet failu šeit vai</value></data>
+  <data name="UploadDropMany" xml:space="preserve"><value>Nometiet failus šeit vai</value></data>
+  <data name="UploadBrowse" xml:space="preserve"><value>pārlūkojiet</value></data>
+  <data name="UploadHintMaximumSize" xml:space="preserve"><value>Līdz {0} vienam failam</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Maksimālais failu skaits: {0}</value></data>
+  <data name="UploadAttachedFiles" xml:space="preserve"><value>Pievienotie faili</value></data>
+  <data name="UploadRemove" xml:space="preserve"><value>Noņemt: {0}</value></data>
+  <data name="UploadBrowseButton" xml:space="preserve"><value>Pārlūkot</value></data>
+  <data name="UploadNoFile" xml:space="preserve"><value>Nav izvēlēts neviens fails</value></data>
+  <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
+  <data name="UploadFileCountNone" xml:space="preserve"><value>Nav failu</value></data>
+  <data name="UploadFileCountOne" xml:space="preserve"><value>1 fails</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>Faili: {0}</value></data>
+  <data name="UploadShowAll" xml:space="preserve"><value>Rādīt visu ({0})</value></data>
+  <data name="UploadShowLess" xml:space="preserve"><value>Rādīt mazāk</value></data>
+  <data name="UploadRemoveAll" xml:space="preserve"><value>Noņemt visus</value></data>
+  <data name="UploadRemovedAll" xml:space="preserve"><value>Visi faili ir noņemti no saraksta.</value></data>
+  <data name="UploadRemoved" xml:space="preserve"><value>{0} noņemts no saraksta.</value></data>
+  <data name="WeekViewLabel" xml:space="preserve"><value>Nedēļas skats</value></data>
+  <data name="DataAnnotationsRequired" xml:space="preserve"><value>Lauks “{0}” ir obligāts.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Laukā “{0}” jābūt no {1} līdz {2} rakstz.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Laukā “{0}” drīkst būt ne vairāk kā {1} rakstz.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Laukā “{0}” jābūt vismaz {1} rakstz.</value></data>
+  <data name="DataAnnotationsRange" xml:space="preserve"><value>Lauka “{0}” vērtībai jābūt no {1} līdz {2}.</value></data>
+  <data name="DataAnnotationsEmail" xml:space="preserve"><value>Laukā “{0}” nav derīgas e-pasta adreses.</value></data>
+  <data name="DataAnnotationsUrl" xml:space="preserve"><value>Laukā “{0}” nav derīgas tīmekļa adreses.</value></data>
+  <data name="DataAnnotationsCompare" xml:space="preserve"><value>{0} un {1} nesakrīt.</value></data>
+  <data name="DataAnnotationsPattern" xml:space="preserve"><value>Lauka “{0}” formāts nav paredzētais.</value></data>
+  <data name="DataAnnotationsInvalid" xml:space="preserve"><value>Lauks “{0}” nav derīgs.</value></data>
+  <data name="GanttEmpty" xml:space="preserve"><value>Nav uzdevumu, ko parādīt.</value></data>
+  <data name="GanttLabel" xml:space="preserve"><value>Ganta diagramma</value></data>
+  <data name="GanttScale" xml:space="preserve"><value>Laika mērogs</value></data>
+  <data name="GanttScaleDay" xml:space="preserve"><value>Diena</value></data>
+  <data name="GanttScaleMonth" xml:space="preserve"><value>Mēnesis</value></data>
+  <data name="GanttWeekNumber" xml:space="preserve"><value>{0}. ned.</value></data>
+  <data name="GanttScaleWeek" xml:space="preserve"><value>Nedēļa</value></data>
+  <data name="GanttTaskAfter" xml:space="preserve"><value>pēc {0}</value></data>
+  <data name="GanttTaskColumn" xml:space="preserve"><value>Uzdevums</value></data>
+  <data name="GanttTaskDescription" xml:space="preserve"><value>{0}, no {1} līdz {2}, izpildīts {3}</value></data>
+  <data name="StepTimelineLabel" xml:space="preserve"><value>Izpildes gaita</value></data>
+  <data name="StepTimelineNeverStarted" xml:space="preserve"><value>Nekad nav sākti:</value></data>
+  <data name="StepTimelineStatusCancelled" xml:space="preserve"><value>atcelts</value></data>
+  <data name="StepTimelineStatusFailed" xml:space="preserve"><value>neizdevās</value></data>
+  <data name="StepTimelineStatusRunning" xml:space="preserve"><value>notiek</value></data>
+  <data name="StepTimelineStatusSkipped" xml:space="preserve"><value>izlaists</value></data>
+  <data name="StepTimelineStatusSuccess" xml:space="preserve"><value>izdevās</value></data>
+  <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, sākts {1}, ilgums</value></data>
+  <data name="ConfirmAction" xml:space="preserve"><value>Apstiprināt</value></data>
+  <data name="GoBack" xml:space="preserve"><value>Atpakaļ</value></data>
+  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Rādīt emblēmas un darbības</value></data>
+  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Slēpt emblēmas un darbības</value></data>
+  <data name="DetailNotFound" xml:space="preserve"><value>Vienums nav atrasts</value></data>
+  <data name="SignIn" xml:space="preserve"><value>Pierakstīties</value></data>
+  <data name="ConnectionLostTitle" xml:space="preserve"><value>Savienojums zaudēts</value></data>
+  <data name="ConnectionLostDescription" xml:space="preserve"><value>Savienojums ar serveri ir pārtraukts. Lietotne mēģina to atjaunot.</value></data>
+  <data name="ConnectionFailedTitle" xml:space="preserve"><value>Nevar izveidot savienojumu</value></data>
+  <data name="ConnectionFailedDescription" xml:space="preserve"><value>Automātiskie mēģinājumi neizdevās. Mēģiniet vēlreiz, kad tīkls būs atjaunots.</value></data>
+  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Sesija beigusies</value></data>
+  <data name="ConnectionRejectedDescription" xml:space="preserve"><value>Serveris atteicās atsākt sesiju. Lai turpinātu, atkārtoti ielādējiet lapu.</value></data>
+  <data name="ConnectionRetryIn" xml:space="preserve"><value>Nākamais mēģinājums pēc {0} s</value></data>
+  <data name="ConnectionReason" xml:space="preserve"><value>Iemesls: {0}</value></data>
+  <data name="ConnectionReconnectNow" xml:space="preserve"><value>Atjaunot savienojumu tūlīt</value></data>
+  <data name="ConnectionReload" xml:space="preserve"><value>Atkārtoti ielādēt lapu</value></data>
+  <data name="ConnectionReconnecting" xml:space="preserve"><value>Notiek savienojuma atjaunošana</value></data>
+  <data name="WizardLabel" xml:space="preserve"><value>Vedņa darbības</value></data>
+  <data name="WizardProgress" xml:space="preserve"><value>Vedņa progress</value></data>
+  <data name="WizardPosition" xml:space="preserve"><value>Darbība {0} no {1}</value></data>
+  <data name="WizardAnnouncement" xml:space="preserve"><value>Darbība {0} no {1}: {2}</value></data>
+  <data name="WizardPrevious" xml:space="preserve"><value>Atpakaļ</value></data>
+  <data name="WizardNext" xml:space="preserve"><value>Tālāk</value></data>
+  <data name="WizardFinish" xml:space="preserve"><value>Pabeigt</value></data>
+  <data name="RelativeTimeNow" xml:space="preserve"><value>tikko</value></data>
+  <data name="RelativeTimePast" xml:space="preserve"><value>pirms {0}</value></data>
+  <data name="RelativeTimeFuture" xml:space="preserve"><value>pēc {0}</value></data>
+  <data name="RelativeTimeSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeHours" xml:space="preserve"><value>{0} h</value></data>
+  <data name="RelativeTimeDay" xml:space="preserve"><value>{0} dienas</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} dienām</value></data>
+  <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} mēneša</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} mēnešiem</value></data>
+  <data name="RelativeTimeYear" xml:space="preserve"><value>{0} gada</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} gadiem</value></data>
+  <data name="HtmlEditorUnderline" xml:space="preserve"><value>Pasvītrojums</value></data>
+  <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Pārsvītrojums</value></data>
+  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Iekļauts kods</value></data>
+  <data name="HtmlEditorBlockFormat" xml:space="preserve"><value>Rindkopas stils</value></data>
+  <data name="HtmlEditorParagraph" xml:space="preserve"><value>Rindkopa</value></data>
+  <data name="HtmlEditorHeading1" xml:space="preserve"><value>Virsraksts 1</value></data>
+  <data name="HtmlEditorHeading2" xml:space="preserve"><value>Virsraksts 2</value></data>
+  <data name="HtmlEditorHeading3" xml:space="preserve"><value>Virsraksts 3</value></data>
+  <data name="HtmlEditorHeading4" xml:space="preserve"><value>Virsraksts 4</value></data>
+  <data name="HtmlEditorFontSize" xml:space="preserve"><value>Teksta lielums</value></data>
+  <data name="HtmlEditorFontSizeSmall" xml:space="preserve"><value>Mazs</value></data>
+  <data name="HtmlEditorFontSizeNormal" xml:space="preserve"><value>Parasts</value></data>
+  <data name="HtmlEditorFontSizeLarge" xml:space="preserve"><value>Liels</value></data>
+  <data name="HtmlEditorFontSizeXLarge" xml:space="preserve"><value>Ļoti liels</value></data>
+  <data name="HtmlEditorBulletList" xml:space="preserve"><value>Saraksts ar aizzīmēm</value></data>
+  <data name="HtmlEditorNumberedList" xml:space="preserve"><value>Numurēts saraksts</value></data>
+  <data name="HtmlEditorQuote" xml:space="preserve"><value>Citāts</value></data>
+  <data name="HtmlEditorCodeBlock" xml:space="preserve"><value>Koda bloks</value></data>
+  <data name="HtmlEditorLink" xml:space="preserve"><value>Saite</value></data>
+  <data name="HtmlEditorUnlink" xml:space="preserve"><value>Noņemt saiti</value></data>
+  <data name="HtmlEditorAlignLeft" xml:space="preserve"><value>Līdzināt pa kreisi</value></data>
+  <data name="HtmlEditorAlignCenter" xml:space="preserve"><value>Centrēt</value></data>
+  <data name="HtmlEditorAlignRight" xml:space="preserve"><value>Līdzināt pa labi</value></data>
+  <data name="HtmlEditorAlignJustify" xml:space="preserve"><value>Taisnot</value></data>
+  <data name="HtmlEditorInsertTable" xml:space="preserve"><value>Ievietot tabulu</value></data>
+  <data name="HtmlEditorClearFormatting" xml:space="preserve"><value>Notīrīt formatējumu</value></data>
+  <data name="HtmlEditorSource" xml:space="preserve"><value>HTML avots</value></data>
+  <data name="HtmlEditorCustomCommand" xml:space="preserve"><value>Komanda</value></data>
+  <data name="HtmlEditorCut" xml:space="preserve"><value>Izgriezt</value></data>
+  <data name="HtmlEditorCopy" xml:space="preserve"><value>Kopēt</value></data>
+  <data name="HtmlEditorPaste" xml:space="preserve"><value>Ielīmēt</value></data>
+  <data name="HtmlEditorInsertParagraph" xml:space="preserve"><value>Jauna rindkopa</value></data>
+  <data name="HtmlEditorAddRowAbove" xml:space="preserve"><value>Ievietot rindu virs</value></data>
+  <data name="HtmlEditorAddRowBelow" xml:space="preserve"><value>Ievietot rindu zem</value></data>
+  <data name="HtmlEditorDeleteRow" xml:space="preserve"><value>Dzēst rindu</value></data>
+  <data name="HtmlEditorAddColumnBefore" xml:space="preserve"><value>Ievietot kolonnu pirms</value></data>
+  <data name="HtmlEditorAddColumnAfter" xml:space="preserve"><value>Ievietot kolonnu pēc</value></data>
+  <data name="HtmlEditorDeleteColumn" xml:space="preserve"><value>Dzēst kolonnu</value></data>
+  <data name="HtmlEditorMergeCellRight" xml:space="preserve"><value>Sapludināt ar labo šūnu</value></data>
+  <data name="HtmlEditorMergeCellDown" xml:space="preserve"><value>Sapludināt ar apakšējo šūnu</value></data>
+  <data name="HtmlEditorSplitCell" xml:space="preserve"><value>Sadalīt šūnu</value></data>
+  <data name="HtmlEditorSetCellSpan" xml:space="preserve"><value>Izplest šūnu</value></data>
+  <data name="HtmlEditorLinkUrl" xml:space="preserve"><value>Saites adrese</value></data>
+  <data name="HtmlEditorLinkApply" xml:space="preserve"><value>Lietot</value></data>
+  <data name="HtmlEditorLinkCancel" xml:space="preserve"><value>Atcelt</value></data>
+  <data name="HtmlEditorLinkInvalid" xml:space="preserve"><value>Adrese noraidīta: izmantojiet relatīvu, http, https, mailto vai tel adresi.</value></data>
+  <data name="DocumentEditorLabel" xml:space="preserve"><value>Teksta procesors</value></data>
+  <data name="DocumentEditorStatus" xml:space="preserve"><value>Dokumenta statistika</value></data>
+  <data name="DocumentEditorWords" xml:space="preserve"><value>Vārdi: {0}</value></data>
+  <data name="DocumentEditorCharacters" xml:space="preserve"><value>Rakstzīmes: {0}</value></data>
+  <data name="DocumentEditorExportHtml" xml:space="preserve"><value>Eksportēt kā HTML</value></data>
+  <data name="DocumentEditorExportText" xml:space="preserve"><value>Eksportēt kā tekstu</value></data>
+  <data name="DocumentEditorDefaultTitle" xml:space="preserve"><value>Dokuments</value></data>
+  <data name="CodeEditorLabel" xml:space="preserve"><value>Koda redaktors</value></data>
+  <data name="CodeEditorLoading" xml:space="preserve"><value>Ielādē koda redaktoru.</value></data>
+  <data name="CodeEditorUnavailable" xml:space="preserve"><value>Monaco redaktoru neizdevās ielādēt: kods tiek rediģēts kā vienkāršs teksts.</value></data>
+  <data name="CodeEditorPosition" xml:space="preserve"><value>Rinda {0}, kolonna {1}</value></data>
+  <data name="CodeEditorLinkHint" xml:space="preserve"><value>Ctrl+klikšķis, lai atvērtu saiti</value></data>
+  <data name="StatusBadgeStale" xml:space="preserve"><value>novecojis</value></data>
+  <data name="StatusBadgeStaleSince" xml:space="preserve"><value>Pēdējoreiz atjaunināts: {0}</value></data>
+  <data name="LogViewerLabel" xml:space="preserve"><value>Žurnāls</value></data>
+  <data name="LogViewerEmpty" xml:space="preserve"><value>Pagaidām nav rindu.</value></data>
+  <data name="LogViewerSearch" xml:space="preserve"><value>Meklēt žurnālā</value></data>
+  <data name="LogViewerAllLevels" xml:space="preserve"><value>Visi līmeņi</value></data>
+  <data name="LogViewerLevelFilter" xml:space="preserve"><value>Minimālais līmenis</value></data>
+  <data name="LogViewerFromLevel" xml:space="preserve"><value>{0} un nopietnāki</value></data>
+  <data name="LogViewerPreviousMatch" xml:space="preserve"><value>Iepriekšējā atbilstība</value></data>
+  <data name="LogViewerNextMatch" xml:space="preserve"><value>Nākamā atbilstība</value></data>
+  <data name="LogViewerNoMatch" xml:space="preserve"><value>Nav atbilstību</value></data>
+  <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} no {1}</value></data>
+  <data name="LogViewerFollow" xml:space="preserve"><value>Sekot</value></data>
+  <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Pāriet uz jaunākajām</value></data>
+  <data name="LogViewerNewLines" xml:space="preserve"><value>Jaunas rindas: {0}</value></data>
+  <data name="LogViewerLevelPrefix" xml:space="preserve"><value>{0}: </value></data>
+  <data name="LogLevelTrace" xml:space="preserve"><value>Izsekošana</value></data>
+  <data name="LogLevelDebug" xml:space="preserve"><value>Atkļūdošana</value></data>
+  <data name="LogLevelInformation" xml:space="preserve"><value>Informācija</value></data>
+  <data name="LogLevelWarning" xml:space="preserve"><value>Brīdinājums</value></data>
+  <data name="LogLevelError" xml:space="preserve"><value>Kļūda</value></data>
+  <data name="LogLevelCritical" xml:space="preserve"><value>Kritiska</value></data>
+  <data name="CodeBlockCopy" xml:space="preserve"><value>Kopēt</value></data>
+  <data name="CodeBlockCopied" xml:space="preserve"><value>Nokopēts starpliktuvē</value></data>
+  <data name="CodeBlockCopyFailed" xml:space="preserve"><value>Kopēšana neizdevās</value></data>
+  <data name="CodeBlockReveal" xml:space="preserve"><value>Rādīt vērtību</value></data>
+  <data name="CodeBlockHide" xml:space="preserve"><value>Slēpt vērtību</value></data>
+  <data name="CodeViewerLabel" xml:space="preserve"><value>Kods</value></data>
+  <data name="CodeViewerEmpty" xml:space="preserve"><value>Nav ko rādīt.</value></data>
+  <data name="CodeViewerWrap" xml:space="preserve"><value>Aplauzt rindas</value></data>
+  <data name="CodeViewerLinkHint" xml:space="preserve"><value>Atvērt saiti</value></data>
+  <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Nav izmaiņu.</value></data>
+  <data name="UnifiedDiffStats" xml:space="preserve"><value>Pievienotas rindas: {0}, noņemtas: {1}</value></data>
+  <data name="UnifiedDiffBinary" xml:space="preserve"><value>Binārs fails: nav rindu, ko salīdzināt.</value></data>
+  <data name="UnifiedDiffNoLines" xml:space="preserve"><value>Nav mainītu rindu.</value></data>
+  <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Vecā rinda</value></data>
+  <data name="UnifiedDiffNewLine" xml:space="preserve"><value>Jaunā rinda</value></data>
+  <data name="UnifiedDiffContent" xml:space="preserve"><value>Saturs</value></data>
+  <data name="UnifiedDiffAdded" xml:space="preserve"><value>Pievienots: </value></data>
+  <data name="UnifiedDiffRemoved" xml:space="preserve"><value>Noņemts: </value></data>
+  <data name="UnifiedDiffRenamedPath" xml:space="preserve"><value>{0} uz {1}</value></data>
+  <data name="UnifiedDiffUntitled" xml:space="preserve"><value>Izmaiņa</value></data>
+  <data name="UnifiedDiffStatusModified" xml:space="preserve"><value>Mainīts</value></data>
+  <data name="UnifiedDiffStatusAdded" xml:space="preserve"><value>Pievienots</value></data>
+  <data name="UnifiedDiffStatusDeleted" xml:space="preserve"><value>Izdzēsts</value></data>
+  <data name="UnifiedDiffStatusRenamed" xml:space="preserve"><value>Pārdēvēts</value></data>
+  <data name="DynamicFormRequired" xml:space="preserve"><value>“{0}” ir obligāts.</value></data>
+  <data name="DynamicFormNumber" xml:space="preserve"><value>“{0}” jābūt skaitlim.</value></data>
+  <data name="DynamicFormMinimum" xml:space="preserve"><value>“{0}” jābūt vismaz {1}.</value></data>
+  <data name="DynamicFormMaximum" xml:space="preserve"><value>“{0}” jābūt ne vairāk kā {1}.</value></data>
+  <data name="DynamicFormChoice" xml:space="preserve"><value>“{0}” jābūt vienai no piedāvātajām vērtībām.</value></data>
+  <data name="StatusStripLabel" xml:space="preserve"><value>Statusu vēsture</value></data>
+  <data name="StatusStripEmpty" xml:space="preserve"><value>Nav statusu, ko parādīt</value></data>
+  <data name="KanbanLabel" xml:space="preserve"><value>Kartīšu dēlis</value></data>
+  <data name="KanbanInstructions" xml:space="preserve"><value>Atstarpe vai Enter, lai paņemtu kartīti, bulttaustiņi, lai to pārvietotu, Atstarpe vai Enter, lai to nomestu, Esc, lai atceltu.</value></data>
+  <data name="KanbanGrabbed" xml:space="preserve"><value>Paņemts: {0}, kolonna {1}, pozīcija {2} no {3}.</value></data>
+  <data name="KanbanMoved" xml:space="preserve"><value>{0}: kolonna {1}, pozīcija {2} no {3}.</value></data>
+  <data name="KanbanDropped" xml:space="preserve"><value>Nomests: {0}, kolonna {1}, pozīcija {2} no {3}.</value></data>
+  <data name="KanbanCancelled" xml:space="preserve"><value>Pārvietošana atcelta: {0} paliek kolonnā {1}.</value></data>
+  <data name="KanbanEmptyColumn" xml:space="preserve"><value>Nav kartīšu</value></data>
+  <data name="KanbanCardCount" xml:space="preserve"><value>Kartītes: {0}</value></data>
+  <data name="GitGraphLabel" xml:space="preserve"><value>Iesūtījumu vēsture</value></data>
+  <data name="GitGraphEmpty" xml:space="preserve"><value>Nav iesūtījumu</value></data>
+  <data name="StepTimelineExpected" xml:space="preserve"><value>Patērētā ierastā ilguma daļa: {0}%</value></data>
+  <data name="StepTimelineOverrun" xml:space="preserve"><value>pārsniegts ierastais ilgums</value></data>
+  <data name="DiffViewerLabel" xml:space="preserve"><value>Salīdzinājums</value></data>
+  <data name="DiffViewerOriginal" xml:space="preserve"><value>Pirms</value></data>
+  <data name="DiffViewerModified" xml:space="preserve"><value>Pēc</value></data>
+  <data name="DiffViewerUnavailable" xml:space="preserve"><value>Monaco redaktoru neizdevās ielādēt: abas versijas tiek rādītas kā vienkāršs teksts, neiezīmējot izmaiņas.</value></data>
+  <data name="GitGraphMerge" xml:space="preserve"><value>Sapludināšanas iesūtījums.</value></data>
+  <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="LinkOpensInNewTab" xml:space="preserve"><value>(tiek atvērta jaunā cilnē)</value></data>
+  <data name="MarkdownExportButton" xml:space="preserve"><value>Eksportēt kā .md</value></data>
+  <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Rindu ierobežojums: {0}</value></data>
+  <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Ģenerēts (UTC): {0}</value></data>
+  <data name="MarkdownExportRowCount" xml:space="preserve"><value>Eksportētās rindas: {0} no {1} norādītajām</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Eksports saīsināts: eksportēto rindu skaits {0} no {1}, sasniegts rindu ierobežojums ({2}).</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Eksports nepilnīgs: eksportēto rindu skaits {0} no {1} norādītajām, lasīšanas laikā dati mainījās.</value></data>
+  <data name="MarkdownExportEmpty" xml:space="preserve"><value>Nav rindu.</value></data>
+  <data name="SignUp" xml:space="preserve"><value>Reģistrēties</value></data>
+  <data name="SignUpPrompt" xml:space="preserve"><value>Nav konta?</value></data>
+  <data name="UnsavedChangesTitle" xml:space="preserve"><value>Nesaglabātas izmaiņas</value></data>
+  <data name="UnsavedChangesMessage" xml:space="preserve"><value>Dažas izmaiņas nav saglabātas. Vai aiziet no lapas, tās nesaglabājot?</value></data>
+  <data name="UnsavedChangesLeave" xml:space="preserve"><value>Aiziet, nesaglabājot</value></data>
+  <data name="UnsavedChangesStay" xml:space="preserve"><value>Palikt lapā</value></data>
+  <data name="MoreActions" xml:space="preserve"><value>Citas darbības</value></data>
+  <data name="AppearanceWindowTitle" xml:space="preserve"><value>Izskats</value></data>
+</root>

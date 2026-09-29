@@ -59,11 +59,13 @@ public partial class OmniSidebar
     [Parameter]
     public RenderFragment? Header { get; set; }
 
+    /// <summary>Accessible name of the sidebar landmark. Null, the default, is the localized "Navigation".</summary>
     [Parameter]
-    public string AriaLabel { get; set; } = string.Empty;
+    public string? Label { get; set; }
 
+    /// <summary>Accessible name and tooltip of the veil that closes an open floating sidebar. Null, the default, is the localized "Close navigation".</summary>
     [Parameter]
-    public string CloseLabel { get; set; } = string.Empty;
+    public string? CloseLabel { get; set; }
 
     /// <summary>
     /// A closed sidebar still renders when it leaves a rail behind: the rail is what is left of it,
@@ -87,13 +89,9 @@ public partial class OmniSidebar
 
     private OmniSidebarState State => new(Open, Collapse) { Expand = OpenChanged.HasDelegate ? _expand ??= () => OpenChanged.InvokeAsync(true) : null };
 
-    private string EffectiveAriaLabel => string.IsNullOrWhiteSpace(AriaLabel)
-        ? Localize("SidebarLabel")
-        : AriaLabel;
+    private string EffectiveLabel => LocalizeOr(Label, "SidebarLabel");
 
-    private string EffectiveCloseLabel => string.IsNullOrWhiteSpace(CloseLabel)
-        ? Localize("SidebarClose")
-        : CloseLabel;
+    private string EffectiveCloseLabel => LocalizeOr(CloseLabel, "SidebarClose");
 
     private Task CloseAsync() => OpenChanged.InvokeAsync(false);
 

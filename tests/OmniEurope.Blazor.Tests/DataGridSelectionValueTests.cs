@@ -5,9 +5,8 @@ using OmniEurope.Blazor.Components;
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
-/// <see cref="OmniDataGrid{TItem}.Value"/> as the selection when the host binds rows rather than
-/// <see cref="OmniDataGrid{TItem}.SelectedKeys"/>: it preselects, and a change keeps the selected
-/// rows of the other pages.
+/// <see cref="OmniDataGrid{TItem}.Value"/> as the selection: it preselects, and a change keeps the
+/// selected rows of the other pages.
 /// </summary>
 public sealed class DataGridSelectionValueTests : OmniBunitContext
 {

@@ -20,7 +20,7 @@ public sealed class DataGridLiveRefreshTests : OmniBunitContext
         var rows = new List<Row> { new(1, "alpha"), new(2, "beta") };
         TaskCompletionSource<OmniDataGridResult<Row>>? pending = null;
         var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.KeyProperty, nameof(Row.Id))
+            .Add(component => component.KeyOf, row => row.Id)
             .Add(component => component.NewRowHighlight, TimeSpan.FromSeconds(30))
             .Add(component => component.Load, _ => pending?.Task
                 ?? Task.FromResult(new OmniDataGridResult<Row>([.. rows], rows.Count))));
@@ -50,7 +50,7 @@ public sealed class DataGridLiveRefreshTests : OmniBunitContext
     {
         var rows = new List<Row> { new(1, "alpha") };
         var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.KeyProperty, nameof(Row.Id))
+            .Add(component => component.KeyOf, row => row.Id)
             .Add(component => component.NewRowHighlight, TimeSpan.FromMilliseconds(80))
             .Add(component => component.Load, _ => Task.FromResult(new OmniDataGridResult<Row>([.. rows], rows.Count))));
 
@@ -66,7 +66,7 @@ public sealed class DataGridLiveRefreshTests : OmniBunitContext
     {
         Row[] before = [new(1, "alpha"), new(2, "beta")];
         var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.KeyProperty, nameof(Row.Id))
+            .Add(component => component.KeyOf, row => row.Id)
             .Add(component => component.NewRowHighlight, TimeSpan.FromSeconds(30))
             .Add(component => component.Items, before));
 
@@ -105,7 +105,7 @@ public sealed class DataGridLiveRefreshTests : OmniBunitContext
             .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.EstimatedRowHeight, 40d)
             .Add(component => component.VirtualBlockSize, 50)
-            .Add(component => component.KeyProperty, nameof(Row.Id))
+            .Add(component => component.KeyOf, row => row.Id)
             .Add(component => component.NewRowHighlight, TimeSpan.FromSeconds(30))
             .Add(component => component.Load, request => Task.FromResult(new OmniDataGridResult<Row>(
                 rows.Skip(request.Skip).Take(request.Top).ToArray(), rows.Count))));

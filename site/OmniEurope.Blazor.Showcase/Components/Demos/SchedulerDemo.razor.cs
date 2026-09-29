@@ -4,11 +4,11 @@ public partial class SchedulerDemo
 {
     private static readonly DateTimeOffset Day = new(2026, 3, 2, 0, 0, 0, TimeSpan.Zero);
 
-    private static readonly IReadOnlyList<OmniOption<OmniSchedulerView>> ViewOptions =
+    private static readonly IReadOnlyList<OmniOption<OmniCalendarView>> ViewOptions =
     [
-        new(OmniSchedulerView.Day, "Jour"),
-        new(OmniSchedulerView.Week, "Semaine"),
-        new(OmniSchedulerView.Month, "Mois")
+        new(OmniCalendarView.Day, "Jour"),
+        new(OmniCalendarView.Week, "Semaine"),
+        new(OmniCalendarView.Month, "Mois")
     ];
 
     private IReadOnlyList<OmniSchedulerAppointment> Appointments { get; set; } =
@@ -20,7 +20,7 @@ public partial class SchedulerDemo
 
     private DateTimeOffset Anchor { get; set; } = Day;
 
-    private OmniSchedulerView View { get; set; } = OmniSchedulerView.Week;
+    private OmniCalendarView View { get; set; } = OmniCalendarView.Week;
 
     private bool TimeGrid { get; set; } = true;
 

@@ -5,7 +5,8 @@ namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
 /// A filtering <see cref="OmniDropDown{TValue}"/> renders an <see cref="OmniAutocomplete{TValue}"/>:
-/// its field must carry the drop-down's id and accessible names, so a label can target it.
+/// its field must carry the drop-down's id, accessible names and class, so a label can target it and
+/// the host's styling still applies.
 /// </summary>
 public sealed class DropDownFilteringIdTests : OmniBunitContext
 {
@@ -21,9 +22,9 @@ public sealed class DropDownFilteringIdTests : OmniBunitContext
         int? value = null;
         var dropDown = Render<OmniDropDown<int?>>(parameters => parameters
             .Add(component => component.Id, "country")
-            .Add(component => component.AllowFiltering, true)
+            .Add(component => component.Filterable, true)
             .Add(component => component.Options, Countries)
-            .Add(component => component.AriaLabel, "Pays")
+            .Add(component => component.Label, "Pays")
             .Add(component => component.AriaDescribedBy, "country-help")
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value));
@@ -32,5 +33,21 @@ public sealed class DropDownFilteringIdTests : OmniBunitContext
         Assert.Equal("Pays", field.GetAttribute("aria-label"));
         Assert.Contains("country-help", field.GetAttribute("aria-describedby") ?? string.Empty, StringComparison.Ordinal);
         Assert.Single(dropDown.FindAll("#country"));
+    }
+
+    [Fact]
+    public void FilteringDropDown_KeepsItsClass_OnTheOutermostElement()
+    {
+        int? value = null;
+        var dropDown = Render<OmniDropDown<int?>>(parameters => parameters
+            .Add(component => component.Filterable, true)
+            .Add(component => component.Class, "probe-width")
+            .Add(component => component.Options, Countries)
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value));
+
+        var root = dropDown.Find(".omni-autocomplete");
+        Assert.Contains("probe-width", root.ClassList);
+        Assert.DoesNotContain("probe-width", dropDown.Find("input").ClassList);
     }
 }

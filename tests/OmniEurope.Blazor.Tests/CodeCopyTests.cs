@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class CodeCopyTests : OmniBunitContext
 {
-    private const string InteropModulePath = "./_content/OmniEurope.Blazor/omniInterop.js";
+    private const string InteropModulePath = Internal.OmniModules.Interop;
 
     [Theory]
     [InlineData(true, "Copié dans le presse-papiers")]
@@ -22,7 +22,7 @@ public sealed class CodeCopyTests : OmniBunitContext
         var block = Render<OmniCodeBlock>(parameters => parameters
             .Add(component => component.Code, "sk-1234567890abcdef")
             .Add(component => component.Secret, true)
-            .Add(component => component.OnCopied, copied => reported = copied));
+            .Add(component => component.OnCopy, copied => reported = copied));
 
         Assert.Equal("Copier", block.Find(".omni-code-block__copy").GetAttribute("aria-label"));
         Assert.Equal(string.Empty, block.Find("[role=status]").TextContent);
@@ -45,7 +45,7 @@ public sealed class CodeCopyTests : OmniBunitContext
         bool? reported = null;
         var viewer = Render<OmniCodeViewer>(parameters => parameters
             .Add(component => component.Code, "var answer = 42;")
-            .Add(component => component.OnCopied, copied => reported = copied));
+            .Add(component => component.OnCopy, copied => reported = copied));
 
         Assert.Equal("Copier", viewer.Find(".omni-code-viewer__copy").TextContent.Trim());
         Assert.Equal(string.Empty, viewer.Find("[role=status]").TextContent);

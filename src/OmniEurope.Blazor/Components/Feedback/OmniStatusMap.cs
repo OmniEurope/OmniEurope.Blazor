@@ -13,8 +13,8 @@ namespace OmniEurope.Blazor.Components;
 /// <code>
 /// new OmniStatusMap&lt;RunState&gt;
 /// {
-///     { RunState.Succeeded, OmniBadgeVariant.Success, "Succeeded", OmniIconName.CheckCircle },
-///     { RunState.Failed, OmniBadgeVariant.Danger, "Failed", OmniIconName.Error }
+///     { RunState.Succeeded, OmniTone.Success, "Succeeded", OmniIconName.CheckCircle },
+///     { RunState.Failed, OmniTone.Danger, "Failed", OmniIconName.Error }
 /// };
 /// </code>
 /// A value absent from the map is drawn with <see cref="Fallback"/>, or as a neutral badge carrying
@@ -64,9 +64,9 @@ public sealed class OmniStatusMap<TValue> : IEnumerable<KeyValuePair<TValue, Omn
         return this;
     }
 
-    /// <summary>Maps <paramref name="value"/> to a badge of <paramref name="variant"/> labelled <paramref name="text"/>.</summary>
-    public OmniStatusMap<TValue> Add(TValue value, OmniBadgeVariant variant, string text, OmniIconName? icon = null) =>
-        Add(value, new OmniStatus(variant, text) { Icon = icon });
+    /// <summary>Maps <paramref name="value"/> to a badge of <paramref name="tone"/> labelled <paramref name="text"/>.</summary>
+    public OmniStatusMap<TValue> Add(TValue value, OmniTone tone, string text, OmniIconName? icon = null) =>
+        Add(value, new OmniStatus(tone, text) { Icon = icon });
 
     /// <summary>The status mapped to <paramref name="value"/>, without falling back.</summary>
     public bool TryGet(TValue value, out OmniStatus status)
@@ -95,7 +95,7 @@ public sealed class OmniStatusMap<TValue> : IEnumerable<KeyValuePair<TValue, Omn
     {
         if (value is null)
         {
-            return Empty ?? new OmniStatus(OmniBadgeVariant.Neutral, "-");
+            return Empty ?? new OmniStatus(OmniTone.Neutral, "-");
         }
 
         if (TryGet(value, out var status))
@@ -103,7 +103,7 @@ public sealed class OmniStatusMap<TValue> : IEnumerable<KeyValuePair<TValue, Omn
             return status;
         }
 
-        return Fallback ?? new OmniStatus(OmniBadgeVariant.Neutral, value.ToString() ?? string.Empty);
+        return Fallback ?? new OmniStatus(OmniTone.Neutral, value.ToString() ?? string.Empty);
     }
 
     /// <summary>A text of a status as it is shown: through <see cref="Localizer"/> when the map has one.</summary>

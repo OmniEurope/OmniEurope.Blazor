@@ -8,7 +8,7 @@
                     OnFinish="Finish" OnCancel="Reset">
             <OmniWizardStep Title="Identité" CanContinue="@(!string.IsNullOrWhiteSpace(Model.Name))">
                 <OmniFormField For="flows-demo-name" Required="true" Description="Suivant s'active dès que le nom est saisi.">
-                    <Label>Nom du serveur</Label>
+                    <LabelContent>Nom du serveur</LabelContent>
                     <ChildContent>
                         <OmniTextBox Id="flows-demo-name" @bind-Value="Model.Name" Placeholder="srv-paris-02" />
                     </ChildContent>
@@ -49,17 +49,17 @@
        OmniReturnUrl ne rend qu'un chemin de l'application, jamais une adresse extérieure. *@
     <div class="showcase-preview-frame">
         @* SignUpHref : le lien d'inscription discret en tête du pied, jamais un second bouton. *@
-        <OmniLoginShell Description="Espace d'administration" SignUpHref="composants/flux">
+        <OmniLoginShell Description="Espace d'administration" SignUpHref="composants/parcours">
             <Logo><OmniIcon Name="OmniIconName.ShieldCheck" Size="OmniControlSize.Large" AriaLabel="Exploitation" /></Logo>
             <ChildContent>
                 <EditForm Model="Credentials" OnSubmit="SubmitSignIn">
                     <OmniStack Gap="OmniSpacing.Medium">
                         <OmniFormField For="flows-demo-user">
-                            <Label>Identifiant</Label>
+                            <LabelContent>Identifiant</LabelContent>
                             <ChildContent><OmniTextBox Id="flows-demo-user" @bind-Value="Credentials.Name" Autocomplete="username" /></ChildContent>
                         </OmniFormField>
                         <OmniFormField For="flows-demo-password">
-                            <Label>Mot de passe</Label>
+                            <LabelContent>Mot de passe</LabelContent>
                             <ChildContent><OmniPassword Id="flows-demo-password" @bind-Value="Credentials.Secret" Revealable="true" Autocomplete="current-password" /></ChildContent>
                         </OmniFormField>
                         <OmniButton ButtonType="OmniButtonType.Submit"><OmniIcon Name="OmniIconName.SignIn" /><span>Se connecter</span></OmniButton>

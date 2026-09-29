@@ -4,12 +4,14 @@
    the drawing, and this part draws nothing inside it. *@
 @if (!Below)
 {
+    var entries = Entries;
+    @* Named for a legend drawn in an SVG of the host; inside a chart, the image and its data table speak. *@
     <g class="omni-chart__legend" aria-label="@EffectiveLabel">
-        @for (var index = 0; index < Items.Count; index++)
+        @for (var index = 0; index < entries.Count; index++)
         {
             var top = OmniChartContext.PlotTop + (index * 5);
-            <rect class="omni-chart-color-@Registration.ColorOf(index)" x="@N(LegendLeft)" y="@N(top)" width="3" height="3" rx="0.5" />
-            <g><text x="@N(LegendLeft + 4.5)" y="@N(top + 1.5)" dominant-baseline="central">@Items[index]</text></g>
+            <rect class="omni-chart-color-@entries[index].ColorSlot" x="@N(LegendLeft)" y="@N(top)" width="3" height="3" rx="0.5" />
+            <g><text x="@N(LegendLeft + 4.5)" y="@N(top + 1.5)" dominant-baseline="central">@entries[index].Text</text></g>
         }
     </g>
 }

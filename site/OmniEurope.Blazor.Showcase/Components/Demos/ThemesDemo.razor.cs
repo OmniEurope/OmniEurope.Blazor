@@ -9,7 +9,7 @@ public partial class ThemesDemo
     private OmniThemePreset? _preset;
     private OmniThemePalette? _palette;
     private int _textSizeLevel = 5;
-    private int _densityLevel = 5;
+    private OmniDensity _density = OmniDensity.Comfortable;
     private bool _windowOpen;
     private Sample LiveSample => new(_preset, _palette, _appearance);
     private int _appliedTextSizeLevel;
@@ -48,13 +48,6 @@ public partial class ThemesDemo
 
         GC.SuppressFinalize(this);
     }
-    private OmniDensity DemoDensity => _densityLevel switch
-    {
-        <= 3 => OmniDensity.Compact,
-        >= 8 => OmniDensity.Spacious,
-        _ => OmniDensity.Comfortable,
-    };
-
     /// <summary>
     /// A theme with a palette that is not its own, the same in dark, a theme with its own palette,
     /// and a palette alone over the shipped shape. Looked up by name so a renamed catalogue entry

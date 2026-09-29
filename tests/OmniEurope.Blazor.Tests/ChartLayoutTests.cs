@@ -162,7 +162,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
     }
 
     [Fact]
-    public void BarSeries_TurnTheChart_CategoriesDownTheLeftAndValuesAlongTheBottom()
+    public void HorizontalColumns_TurnTheChart_CategoriesDownTheLeftAndValuesAlongTheBottom()
     {
         var chart = Render<OmniChart>(parameters => parameters
             .Add(component => component.Title, "Barres")
@@ -174,8 +174,9 @@ public sealed class ChartLayoutTests : OmniBunitContext
                 builder.OpenComponent<OmniValueAxis>(2);
                 builder.AddAttribute(3, nameof(OmniValueAxis.Maximum), 100d);
                 builder.CloseComponent();
-                builder.OpenComponent<OmniBarSeries>(4);
-                builder.AddAttribute(5, nameof(OmniBarSeries.Data), Points((1, 40), (2, 60)));
+                builder.OpenComponent<OmniColumnSeries>(4);
+                builder.AddAttribute(5, nameof(OmniColumnSeries.Data), Points((1, 40), (2, 60)));
+                builder.AddAttribute(6, nameof(OmniColumnSeries.Horizontal), true);
                 builder.CloseComponent();
             }));
 
@@ -211,7 +212,6 @@ public sealed class ChartLayoutTests : OmniBunitContext
                 builder.CloseComponent();
                 builder.OpenComponent<OmniLegend>(4);
                 builder.AddAttribute(5, nameof(OmniLegend.Items), Labels("Série", "Autre"));
-                builder.AddAttribute(6, nameof(OmniLegend.ColorIndexes), (IReadOnlyList<int>)[3]);
                 builder.CloseComponent();
             }));
 
@@ -316,9 +316,10 @@ public sealed class ChartLayoutTests : OmniBunitContext
             var list = chart.Find("figure > ul.omni-chart__legend--below");
             Assert.False(string.IsNullOrWhiteSpace(list.GetAttribute("aria-label")));
             var items = list.QuerySelectorAll("li");
-            Assert.Equal(["Visiteurs uniques par jour", "Pages vues par jour"], items.Select(item => item.TextContent));
-            Assert.Contains("omni-chart-color-0", items[0].QuerySelector(".omni-chart__swatch")!.ClassList);
-            Assert.Contains("omni-chart-color-1", items[1].QuerySelector(".omni-chart__swatch")!.ClassList);
+            // Built from the series, in their order and their own colours.
+            Assert.Equal(["Pages vues par jour", "Visiteurs uniques par jour"], items.Select(item => item.TextContent));
+            Assert.Contains("omni-chart-color-1", items[0].QuerySelector(".omni-chart__swatch")!.ClassList);
+            Assert.Contains("omni-chart-color-0", items[1].QuerySelector(".omni-chart__swatch")!.ClassList);
             Assert.Equal("true", items[0].QuerySelector(".omni-chart__swatch")!.GetAttribute("aria-hidden"));
             Assert.All(chart.FindAll(".omni-chart__grid-lines line"), line => Assert.Equal("96", line.GetAttribute("x2")));
         });
@@ -405,15 +406,16 @@ public sealed class ChartLayoutTests : OmniBunitContext
                 builder.OpenComponent<OmniColumnSeries>(3);
                 builder.AddAttribute(4, nameof(OmniColumnSeries.Data), (IReadOnlyList<OmniChartPoint>)views);
                 builder.AddAttribute(5, nameof(OmniColumnSeries.ColorIndex), 1);
+                builder.AddAttribute(6, nameof(OmniColumnSeries.Title), "Pages vues par jour");
                 builder.CloseComponent();
-                builder.OpenComponent<OmniLineSeries>(6);
-                builder.AddAttribute(7, nameof(OmniLineSeries.Data), (IReadOnlyList<OmniChartPoint>)visitors);
+                builder.OpenComponent<OmniLineSeries>(7);
+                builder.AddAttribute(8, nameof(OmniLineSeries.Data), (IReadOnlyList<OmniChartPoint>)visitors);
+                builder.AddAttribute(9, nameof(OmniLineSeries.Title), "Visiteurs uniques par jour");
                 builder.CloseComponent();
                 if (legend is { } position)
                 {
-                    builder.OpenComponent<OmniLegend>(8);
-                    builder.AddAttribute(9, nameof(OmniLegend.Items), Labels("Visiteurs uniques par jour", "Pages vues par jour"));
-                    builder.AddAttribute(10, nameof(OmniLegend.Position), position);
+                    builder.OpenComponent<OmniLegend>(10);
+                    builder.AddAttribute(11, nameof(OmniLegend.Position), position);
                     builder.CloseComponent();
                 }
             });

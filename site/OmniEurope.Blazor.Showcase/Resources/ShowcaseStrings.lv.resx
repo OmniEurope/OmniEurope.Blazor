@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="HeaderBadge" xml:space="preserve"><value>Komponentu bibliotēka</value></data>
+  <data name="ModeLight" xml:space="preserve"><value>Gaišais motīvs</value></data>
+  <data name="ModeDark" xml:space="preserve"><value>Tumšais motīvs</value></data>
+  <data name="LanguageSelectorLabel" xml:space="preserve"><value>Vitrīnas valoda</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Galvenā navigācija</value></data>
+  <data name="MenuLabel" xml:space="preserve"><value>Vietnes sadaļas</value></data>
+  <data name="NavShowcase" xml:space="preserve"><value>Pārskats</value></data>
+  <data name="NavDocumentation" xml:space="preserve"><value>Dokumentācija</value></data>
+  <data name="NavComponents" xml:space="preserve"><value>Komponenti</value></data>
+  <data name="NavCustomize" xml:space="preserve"><value>Pielāgošana</value></data>
+  <data name="ErrorTitle" xml:space="preserve"><value>Radās kļūda</value></data>
+  <data name="ErrorMessage" xml:space="preserve"><value>Lapu neizdevās pareizi attēlot.</value></data>
+  <data name="Retry" xml:space="preserve"><value>Mēģināt vēlreiz</value></data>
+  <data name="NotFoundPageTitle" xml:space="preserve"><value>Lapa nav atrasta</value></data>
+  <data name="NotFoundTitle" xml:space="preserve"><value>Lapa nav atrasta</value></data>
+  <data name="NotFoundDescription" xml:space="preserve"><value>Šai adresei neatbilst neviena vietnes lapa.</value></data>
+  <data name="BackHome" xml:space="preserve"><value>Atgriezties sākumlapā</value></data>
+  <data name="HomePageTitle" xml:space="preserve"><value>OmniEurope.Blazor</value></data>
+  <data name="HomeKicker" xml:space="preserve"><value>Blazor</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Pieejami Blazor komponenti stingrai drošības politikai</value></data>
+  <data name="HomeLead" xml:space="preserve"><value>Komponentu bibliotēka lietotnēm, kas aizliedz iekļautos stilus, pieprasa pieejamību un vēlas no sākuma līdz beigām vadāmu motīvu.</value></data>
+  <data name="HomeSeeComponents" xml:space="preserve"><value>Skatīt komponentus</value></data>
+  <data name="HomeSeeCustomize" xml:space="preserve"><value>Pielāgot motīvu</value></data>
+  <data name="HomePillarsTitle" xml:space="preserve"><value>Ar ko bibliotēka izceļas</value></data>
+  <data name="PillarCspTitle" xml:space="preserve"><value>Stingra drošības politika</value></data>
+  <data name="PillarCspBody" xml:space="preserve"><value>Nekādu iekļauto stila atribūtu, nekādu ievietotu stila elementu, nekādas dinamiskas skriptu izpildes. Bibliotēka darbojas ar politiku, kas to visu aizliedz.</value></data>
+  <data name="PillarThemeTitle" xml:space="preserve"><value>Pilnībā mainīgajos balstīts motīvs</value></data>
+  <data name="PillarThemeBody" xml:space="preserve"><value>Krāsas, rakstzīmes, atstarpes, noapaļojumi, ēnas un diagrammu palete iet caur CSS mainīgajiem, bez nevienas kārtulā iesaldētas vērtības.</value></data>
+  <data name="PillarA11yTitle" xml:space="preserve"><value>Pieejamību nodrošina testi</value></data>
+  <data name="PillarA11yBody" xml:space="preserve"><value>Lomas, stāvokļus un etiķetes pārbauda testu komplekts, nevis tikai sola dokumentācija.</value></data>
+  <data name="PillarWeightTitle" xml:space="preserve"><value>Kontrolēts apjoms</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Publicētā pakotne katrā būvējumā tiek mērīta pret baitu budžetu, ieskaitot stilu lapu.</value></data>
+  <data name="DocsPageTitle" xml:space="preserve"><value>Dokumentācija</value></data>
+  <data name="DocsTitle" xml:space="preserve"><value>Dokumentācija</value></data>
+  <data name="DocsLead" xml:space="preserve"><value>No pakotnes instalēšanas līdz pirmajam pielāgotajam motīvam piecos soļos.</value></data>
+  <data name="DocsInstallTitle" xml:space="preserve"><value>Instalēt pakotni</value></data>
+  <data name="DocsInstallBody" xml:space="preserve"><value>Uz bibliotēku atsaucas tāpat kā uz jebkuru citu NuGet pakotni.</value></data>
+  <data name="DocsRegisterTitle" xml:space="preserve"><value>Reģistrēt pakalpojumus</value></data>
+  <data name="DocsRegisterBody" xml:space="preserve"><value>Viens izsaukums reģistrē visu, kas nepieciešams komponentiem.</value></data>
+  <data name="DocsCssTitle" xml:space="preserve"><value>Norādīt stilu lapu</value></data>
+  <data name="DocsCssBody" xml:space="preserve"><value>Stilu lapa tiek piegādāta kā pakotnes statisks resurss.</value></data>
+  <data name="DocsCspTitle" xml:space="preserve"><value>Drošības politika</value></data>
+  <data name="DocsCspBody" xml:space="preserve"><value>Bibliotēkai nav vajadzīgs nekas vairāk par šīm direktīvām: nekādu iekļauto stilu, nekādas dinamiskas skriptu izpildes.</value></data>
+  <data name="DocsThemeTitle" xml:space="preserve"><value>Pielāgot motīvu</value></data>
+  <data name="DocsThemeBody" xml:space="preserve"><value>Pārdefinējot vienu mainīgo, tiek pārkrāsoti visi komponenti, kas to lasa.</value></data>
+  <data name="DocsThemePointer" xml:space="preserve"><value>Lai izveidotu pilnu motīvu, nerakstot CSS:</value></data>
+  <data name="GalleryPageTitle" xml:space="preserve"><value>Komponenti</value></data>
+  <data name="GalleryTitle" xml:space="preserve"><value>Komponenti</value></data>
+  <data name="GalleryLead" xml:space="preserve"><value>Katra saime tiek parādīta ar tās iespējām, dzīvu demonstrāciju un kodu, kas to veido.</value></data>
+  <data name="GalleryNavLabel" xml:space="preserve"><value>Komponentu saimes</value></data>
+  <data name="GalleryCapabilities" xml:space="preserve"><value>Ko komponents prot</value></data>
+  <data name="GalleryPreview" xml:space="preserve"><value>Demonstrācija</value></data>
+  <data name="GallerySource" xml:space="preserve"><value>Pirmkods</value></data>
+  <data name="GallerySourceNote" xml:space="preserve"><value>Šis ir tieši tas fails, ko kompilē un izpilda iepriekš redzamā demonstrācija, nolasīts no komplekta, nekad nepārrakstīts ar roku.</value></data>
+  <data name="GallerySourceMissingTitle" xml:space="preserve"><value>Pirmkods nav pieejams</value></data>
+  <data name="GallerySourceMissing" xml:space="preserve"><value>Demonstrācijas fails netika atrasts komplekta resursos.</value></data>
+  <data name="DemoButtonsTitle" xml:space="preserve"><value>Pogas</value></data>
+  <data name="DemoButtonsSummary" xml:space="preserve"><value>Darbības aktivizētājs dažādos vizuālajos nolūkos un stāvokļos.</value></data>
+  <data name="DemoButtonsCapability1" xml:space="preserve"><value>Četri nolūki: primārā, sekundārā, spoka un destruktīvā.</value></data>
+  <data name="DemoButtonsCapability2" xml:space="preserve"><value>Aizņemts stāvoklis, kas bloķē dubultu iesniegšanu un paziņo par sevi ekrāna lasītājiem.</value></data>
+  <data name="DemoButtonsCapability3" xml:space="preserve"><value>Atspējots stāvoklis, kas nošķirts no aizņemtā stāvokļa.</value></data>
+  <data name="DemoButtonsCapability4" xml:space="preserve"><value>Trīs izmēri un trīs formas pogu tipi: iesniegt, atiestatīt un vienkārša darbība.</value></data>
+  <data name="DemoBadgesTitle" xml:space="preserve"><value>Emblēmas</value></data>
+  <data name="DemoBadgesSummary" xml:space="preserve"><value>Īsa etiķete, kas raksturo vienumu, to nepārslogojot.</value></data>
+  <data name="DemoBadgesCapability1" xml:space="preserve"><value>Pieci varianti, saskaņoti ar motīva nopietnības līmeņiem.</value></data>
+  <data name="DemoBadgesCapability2" xml:space="preserve"><value>Tonēti foni, kas atvasināti no mainīgajiem, tāpēc tiek pārkrāsoti kopā ar motīvu.</value></data>
+  <data name="DemoAlertsTitle" xml:space="preserve"><value>Brīdinājumi</value></data>
+  <data name="DemoAlertsSummary" xml:space="preserve"><value>Konteksta ziņojums no vienkārša paziņojuma līdz bloķējošai kļūmei.</value></data>
+  <data name="DemoAlertsCapability1" xml:space="preserve"><value>Četri nopietnības līmeņi: informācija, panākums, brīdinājums un bīstamība.</value></data>
+  <data name="DemoAlertsCapability2" xml:space="preserve"><value>Divi varianti: diskrēta kontūra vai aizpildīts fons.</value></data>
+  <data name="DemoAlertsCapability3" xml:space="preserve"><value>Tiešais režīms, kas paziņo ziņojumu palīgtehnoloģijām.</value></data>
+  <data name="CustomizePageTitle" xml:space="preserve"><value>Pielāgošana</value></data>
+  <data name="CustomizeTitle" xml:space="preserve"><value>Pielāgošana</value></data>
+  <data name="CustomizeLead" xml:space="preserve"><value>Izvēlieties motīvu, kas nosaka formu, pēc tam paleti, kas nosaka krāsas: jebkura palete krāso jebkuru motīvu, un visa vietne tiek pārkrāsota uzreiz. Priekšskatījumā atveidotas atsauces maketa kompozīcijas.</value></data>
+  <data name="CustomizeTokensTitle" xml:space="preserve"><value>Mainīgie</value></data>
+  <data name="CustomizeTokensLead" xml:space="preserve"><value>Šis saraksts tiek nolasīts no piegādātās stilu lapas, tāpēc tas nevar atšķirties no tā, ko bibliotēka patiesībā piedāvā. Mainīts mainīgais tiek uzklāts virs kombinācijas abos režīmos; izvēloties citu motīvu vai paleti, tas tiek notīrīts.</value></data>
+  <data name="CustomizeReset" xml:space="preserve"><value>Notīrīt izmaiņas</value></data>
+  <data name="TokenGroupColor" xml:space="preserve"><value>Krāsas</value></data>
+  <data name="TokenGroupTypography" xml:space="preserve"><value>Tipogrāfija</value></data>
+  <data name="TokenGroupSpacing" xml:space="preserve"><value>Atstarpes un blīvums</value></data>
+  <data name="TokenGroupShape" xml:space="preserve"><value>Forma, apmales un nospiešana</value></data>
+  <data name="TokenGroupElevation" xml:space="preserve"><value>Ēnas, slānis un pārklājumi</value></data>
+  <data name="TokenGroupChart" xml:space="preserve"><value>Diagrammas</value></data>
+  <data name="TokenGroupGrid" xml:space="preserve"><value>Datu režģis tumšajā režīmā</value></data>
+  <data name="TokenGroupDiagram" xml:space="preserve"><value>Domu karte</value></data>
+  <data name="CustomizeExportTitle" xml:space="preserve"><value>Eksportēt</value></data>
+  <data name="CustomizeExportLead" xml:space="preserve"><value>Tālāk redzamais CSS satur visu kombināciju, ieskaitot mainītos mainīgos, gaišajam, tumšajam un sistēmas režīmam. Tas ir paredzēts motīva tvērumam (OmniThemeScope, data-omni-theme), kurā stilu lapa atkārtoti deklarē savus mainīgos; ielādējiet to pēc bibliotēkas stilu lapas.</value></data>
+  <data name="CustomizeCopy" xml:space="preserve"><value>Kopēt</value></data>
+  <data name="CustomizeDownload" xml:space="preserve"><value>Lejupielādēt</value></data>
+  <data name="CustomizeCopied" xml:space="preserve"><value>CSS ir nokopēts starpliktuvē.</value></data>
+  <data name="CustomizeCopyFailed" xml:space="preserve"><value>Kopēšana neizdevās. Atlasiet tālāk redzamo kodu un nokopējiet to manuāli.</value></data>
+  <data name="CustomizeDownloaded" xml:space="preserve"><value>Fails omnieurope-theme.css ir lejupielādēts.</value></data>
+  <data name="CustomizeDownloadFailed" xml:space="preserve"><value>Lejupielāde neizdevās. Tā vietā nokopējiet tālāk redzamo kodu.</value></data>
+  <data name="DemoFormTitle" xml:space="preserve"><value>Veidlapas</value></data>
+  <data name="DemoFormSummary" xml:space="preserve"><value>Ievades lauki un to pieejamās etiķetes.</value></data>
+  <data name="DemoFormCapability1" xml:space="preserve"><value>Etiķete, apraksts un kļūdas ziņojums, kas ar identifikatoru saistīti ar lauku.</value></data>
+  <data name="DemoFormCapability2" xml:space="preserve"><value>Teksta apgabals ar rakstzīmju skaitītāju un ierobežojumu.</value></data>
+  <data name="DemoFormCapability3" xml:space="preserve"><value>Slīdnis, izvēles rūtiņa un slēdzis, vadāmi ar tastatūru.</value></data>
+  <data name="DemoSelectionTitle" xml:space="preserve"><value>Atlase</value></data>
+  <data name="DemoSelectionSummary" xml:space="preserve"><value>Vienas vai vairāku vērtību izvēle no saraksta.</value></data>
+  <data name="DemoSelectionCapability1" xml:space="preserve"><value>Nolaižamais saraksts ar atļautu tukšu vērtību.</value></data>
+  <data name="DemoSelectionCapability2" xml:space="preserve"><value>Saraksts, kura augstums noteikts pēc redzamo rindu skaita.</value></data>
+  <data name="DemoSelectionCapability3" xml:space="preserve"><value>Vairākatlase, kas atgriež atlasīto vērtību sarakstu.</value></data>
+  <data name="DemoNavigationTitle" xml:space="preserve"><value>Navigācija</value></data>
+  <data name="DemoNavigationSummary" xml:space="preserve"><value>Parādīt lietotājam, kur viņš atrodas, un pārvietot viņu starp sadaļām.</value></data>
+  <data name="DemoNavigationCapability1" xml:space="preserve"><value>Navigācijas ceļš, kas iezīmē pašreizējo lapu.</value></data>
+  <data name="DemoNavigationCapability2" xml:space="preserve"><value>Vadāmas cilnes ar lomām un navigāciju ar tastatūru.</value></data>
+  <data name="DemoNavigationCapability3" xml:space="preserve"><value>Numurēti soļi ar pārbaudi pirms pārejas.</value></data>
+  <data name="DemoFeedbackTitle" xml:space="preserve"><value>Statusa informācija</value></data>
+  <data name="DemoFeedbackSummary" xml:space="preserve"><value>Parādīt, kur atrodas sistēma, nebloķējot lapu.</value></data>
+  <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Progresa josla, noteikta vai nenoteikta.</value></data>
+  <data name="DemoFeedbackCapability2" xml:space="preserve"><value>Rīka padoms, sasniedzams ar tastatūru, ne tikai novietojot kursoru.</value></data>
+  <data name="DemoFeedbackCapability3" xml:space="preserve"><value>Ielādes skelets, par kuru tiek paziņots ekrāna lasītājiem.</value></data>
+  <data name="DemoFeedbackCapability4" xml:space="preserve"><value>Lineāra vai apļveida josla četros nolūkos un skelets, kas atveido aizstājamā satura formu.</value></data>
+  <data name="DemoGridTitle" xml:space="preserve"><value>Datu režģis</value></data>
+  <data name="DemoGridSummary" xml:space="preserve"><value>Darba tabula: kārtošana, filtrēšana, lappušu dalījums un grupas.</value></data>
+  <data name="DemoGridCapability1" xml:space="preserve"><value>Kārtošana un filtrēšana pēc kolonnas, izmantojot īstos datus.</value></data>
+  <data name="DemoGridCapability2" xml:space="preserve"><value>Lappušu dalījums ar regulējamu lapas lielumu.</value></data>
+  <data name="DemoGridCapability3" xml:space="preserve"><value>Mainīgas krāsas rindas un deklaratīvi kolonnu formāti.</value></data>
+  <data name="DemoChartTitle" xml:space="preserve"><value>Diagrammas</value></data>
+  <data name="DemoChartSummary" xml:space="preserve"><value>Kategoriju sērijas motīva krāsās.</value></data>
+  <data name="DemoChartCapability1" xml:space="preserve"><value>Stabiņu sērijas ar nosauktām asīm.</value></data>
+  <data name="DemoChartCapability2" xml:space="preserve"><value>Krāsas ņemtas no motīva diagrammu mainīgajiem.</value></data>
+  <data name="DemoTypographyTitle" xml:space="preserve"><value>Tipogrāfija</value></data>
+  <data name="DemoTypographySummary" xml:space="preserve"><value>Virsraksti, rindkopas, etiķetes un saites.</value></data>
+  <data name="DemoTypographyCapability1" xml:space="preserve"><value>Seši virsrakstu līmeņi, katrs vairākos toņos.</value></data>
+  <data name="DemoTypographyCapability2" xml:space="preserve"><value>Pieci teksta elementi no rindkopas līdz izcēlumam.</value></data>
+  <data name="DemoTypographyCapability3" xml:space="preserve"><value>Saīsināšana ar daudzpunkti un ar lauku saistīta etiķete.</value></data>
+  <data name="DemoLayoutTitle" xml:space="preserve"><value>Izkārtojums</value></data>
+  <data name="DemoLayoutSummary" xml:space="preserve"><value>Režģis, rindas, kartītes un lauku grupas.</value></data>
+  <data name="DemoLayoutCapability1" xml:space="preserve"><value>Divpadsmit kolonnu režģis ar platumiem katram ekrāna pārtraukumpunktam.</value></data>
+  <data name="DemoLayoutCapability2" xml:space="preserve"><value>Kartīte ar trim zonām: galvene, pamatteksts un kājene.</value></data>
+  <data name="DemoLayoutCapability3" xml:space="preserve"><value>Lauku grupa, ko var atspējot ar vienu darbību.</value></data>
+  <data name="DemoLayoutCapability4" xml:space="preserve"><value>Pilna atstarpju skala un līdzinājumi, ko pieņem rinda.</value></data>
+  <data name="DemoShellTitle" xml:space="preserve"><value>Lietotnes karkass</value></data>
+  <data name="DemoShellSummary" xml:space="preserve"><value>Lietotnes ietvars, no kura veidota arī šī vietne.</value></data>
+  <data name="DemoShellCapability1" xml:space="preserve"><value>Galvene, sakļaujama sānjosla un galvenais apgabals.</value></data>
+  <data name="DemoShellCapability2" xml:space="preserve"><value>Navigācijas izvēlne ar izvēršamām grupām.</value></data>
+  <data name="DemoShellCapability3" xml:space="preserve"><value>Izskata pārslēgs un lokāls motīva tvērums.</value></data>
+  <data name="DemoShellCapability4" xml:space="preserve"><value>Abi izkārtojumi: centrēta lasīšanas kolonna vai pilns platums, izvēlne kreisajā vai labajā pusē.</value></data>
+  <data name="DemoMediaTitle" xml:space="preserve"><value>Ikonas un multivide</value></data>
+  <data name="DemoMediaSummary" xml:space="preserve"><value>Ikonas, attēli un laika skala.</value></data>
+  <data name="DemoMediaCapability1" xml:space="preserve"><value>Iebūvētas ikonas trīs izmēros.</value></data>
+  <data name="DemoMediaCapability2" xml:space="preserve"><value>Resursdatora lietotnes nodrošināts ikonas kontūrs, kas nepalielina pakotni.</value></data>
+  <data name="DemoMediaCapability3" xml:space="preserve"><value>Attēls ar regulējamu ietilpināšanu un atliktu ielādi.</value></data>
+  <data name="DemoMediaCapability4" xml:space="preserve"><value>Viss iegultais ikonu komplekts un trīs attēla ietilpināšanas veidi.</value></data>
+  <data name="DemoInputsTitle" xml:space="preserve"><value>Papildu ievade</value></data>
+  <data name="DemoInputsSummary" xml:space="preserve"><value>Skaitļi, paroles, datumi, laiks, krāsas un automātiskā pabeigšana.</value></data>
+  <data name="DemoInputsCapability1" xml:space="preserve"><value>Ierobežots skaitlisks lauks ar regulējamu soli.</value></data>
+  <data name="DemoInputsCapability2" xml:space="preserve"><value>Atklājama parole, kas nekur netiek kopēta.</value></data>
+  <data name="DemoInputsCapability3" xml:space="preserve"><value>Asinhrona automātiskā pabeigšana ar aizturi un minimālo garumu.</value></data>
+  <data name="DemoInputsCapability4" xml:space="preserve"><value>Datums, laiks, datums un laiks: pašu kalendārs un kolonnas peldošajā slānī, režģa tastatūra, robežas un blīvums.</value></data>
+  <data name="DemoChoiceTitle" xml:space="preserve"><value>Izvēle</value></data>
+  <data name="DemoChoiceSummary" xml:space="preserve"><value>Radiopogas, vairākas izvēles rūtiņas, atlases joslas un pārslēgi.</value></data>
+  <data name="DemoChoiceCapability1" xml:space="preserve"><value>Saraksti, ko vada opcijas vai kas izkārtoti pa vienam vienumam.</value></data>
+  <data name="DemoChoiceCapability2" xml:space="preserve"><value>Atlases josla un pārslēgšanas poga ar aizņemtu un atspējotu stāvokli.</value></data>
+  <data name="DemoChoiceCapability3" xml:space="preserve"><value>Izvēles rūtiņa un slēdzis ar trim pozīcijām, ieskaitot nenoteikto.</value></data>
+  <data name="DemoValidationTitle" xml:space="preserve"><value>Validācija</value></data>
+  <data name="DemoValidationSummary" xml:space="preserve"><value>Kārtulas, kas deklarētas blakus laukam, ko tās sargā.</value></data>
+  <data name="DemoValidationCapability1" xml:space="preserve"><value>Obligātums, garums, e-pasta formāts un salīdzināšana.</value></data>
+  <data name="DemoValidationCapability2" xml:space="preserve"><value>Iesniedzot fokuss pāriet uz pirmo nederīgo lauku.</value></data>
+  <data name="DemoValidationCapability3" xml:space="preserve"><value>Modelī nav atribūtu, viss atrodas iezīmējumā.</value></data>
+  <data name="DemoEditorTitle" xml:space="preserve"><value>Redaktori un augšupielāde</value></data>
+  <data name="DemoEditorSummary" xml:space="preserve"><value>WYSIWYG redaktors un tā HTML avots, teksta procesors, koda redaktors un failu augšupielāde.</value></data>
+  <data name="DemoEditorCapability1" xml:space="preserve"><value>Komandu josla, ko resursdatora lietotne papildina vai pārkārto, attīrīta ielīmēšana, avota režīms.</value></data>
+  <data name="DemoEditorCapability2" xml:space="preserve"><value>Teksta procesors lapā, vārdu skaits, eksports uz HTML un tekstu.</value></data>
+  <data name="DemoEditorCapability3" xml:space="preserve"><value>Koda redaktors (Monaco no resursdatora lietotnes, vienkāršs teksts stingras CSP apstākļos) un ierobežota augšupielāde.</value></data>
+  <data name="DemoOverlayTitle" xml:space="preserve"><value>Pārklājumi</value></data>
+  <data name="DemoOverlaySummary" xml:space="preserve"><value>Dialoglodziņi, paziņojumi un uznirstošās izvēlnes.</value></data>
+  <data name="DemoOverlayCapability1" xml:space="preserve"><value>Modāls dialoglodziņš, aizverams ar Esc vai noklikšķinot uz fona.</value></data>
+  <data name="DemoOverlayCapability2" xml:space="preserve"><value>Četri paziņojumu nopietnības līmeņi ar neobligātu aizvēršanu.</value></data>
+  <data name="DemoOverlayCapability3" xml:space="preserve"><value>Konteksta izvēlne, dalītā poga un konta izvēlne.</value></data>
+  <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Datu režģis, visas iespējas</value></data>
+  <data name="DemoGridAdvancedSummary" xml:space="preserve"><value>Atlase, grupas, rediģēšana, fiksētas kolonnas un paplašināti filtri.</value></data>
+  <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Vairāku rindu atlase, noklikšķinot uz rindas.</value></data>
+  <data name="DemoGridAdvancedCapability2" xml:space="preserve"><value>Nolaižamā saraksta un vairākatlases filtri katrai kolonnai.</value></data>
+  <data name="DemoGridAdvancedCapability3" xml:space="preserve"><value>Fiksēta kolonna, izvērstas grupas un aprēķināta kolonnas kājene.</value></data>
+  <data name="DemoGridAdvancedCapability4" xml:space="preserve"><value>Attēlojuma iestatījumi tiek mainīti uzreiz: līnijas, blīvums, lappušu dalījums, atlase, rediģēšana un filtri.</value></data>
+  <data name="DemoDataListTitle" xml:space="preserve"><value>Saraksti un lappušu dalījums</value></data>
+  <data name="DemoDataListSummary" xml:space="preserve"><value>Brīvas veidnes saraksts un tā lappušu pārslēgs.</value></data>
+  <data name="DemoDataListCapability1" xml:space="preserve"><value>Vienuma veidni pilnībā nodrošina resursdatora lietotne.</value></data>
+  <data name="DemoDataListCapability2" xml:space="preserve"><value>Nošķirti tukšs, ielādes un kļūdas stāvokļi.</value></data>
+  <data name="DemoDataListCapability3" xml:space="preserve"><value>Lappušu pārslēgs ar regulējamu lapas lielumu un saīsnēm uz sākumu un beigām.</value></data>
+  <data name="DemoTreeTitle" xml:space="preserve"><value>Koks</value></data>
+  <data name="DemoTreeSummary" xml:space="preserve"><value>Izvēršama hierarhija ar vienas vai vairāku vienumu atlasi.</value></data>
+  <data name="DemoTreeCapability1" xml:space="preserve"><value>Vairākatlase un navigācija ar tastatūru.</value></data>
+  <data name="DemoTreeCapability2" xml:space="preserve"><value>Zars tiek ielādēts pēc pieprasījuma, atverot mezglu.</value></data>
+  <data name="DemoTreeCapability3" xml:space="preserve"><value>Mezglus var atspējot, netraucējot pārvietošanos.</value></data>
+  <data name="DemoSpreadsheetTitle" xml:space="preserve"><value>Izklājlapa</value></data>
+  <data name="DemoSpreadsheetSummary" xml:space="preserve"><value>Vienkārša izklājlapa: šūnas, formulas un formulu josla.</value></data>
+  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Formulas ar atsaucēm, diapazoniem, SUM, AVERAGE, MIN, MAX un kļūdu kodiem.</value></data>
+  <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Navigācija ar tastatūru, rediģēšana uz vietas un formulu josla.</value></data>
+  <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Saturs saistīts abos virzienos un serializējams JSON formātā.</value></data>
+  <data name="DemoSchedulerTitle" xml:space="preserve"><value>Plānotājs</value></data>
+  <data name="DemoSchedulerSummary" xml:space="preserve"><value>Kalendārs un tā trīs skati.</value></data>
+  <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Pārslēdzami dienas, nedēļas un mēneša skati.</value></data>
+  <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Periodiskas tikšanās, kas aprakstītas ar kārtulu.</value></data>
+  <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Katru skatu var izmantot arī atsevišķi, ārpus kalendāra.</value></data>
+  <data name="DemoChartsExtendedTitle" xml:space="preserve"><value>Diagrammas, visas iespējas</value></data>
+  <data name="DemoChartsExtendedSummary" xml:space="preserve"><value>Visas sērijas, leģenda, etiķetes un mērītājs.</value></data>
+  <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Līnijas, laukumi, stabiņi, joslas, grēdas, sektoru un gredzenveida diagramma.</value></data>
+  <data name="DemoChartsExtendedCapability2" xml:space="preserve"><value>Leģenda, marķieri, vērtību etiķetes un rīka padoms.</value></data>
+  <data name="DemoChartsExtendedCapability3" xml:space="preserve"><value>Loka mērītājs ar skalu un vērtības formātu.</value></data>
+  <data name="DemoDiagramTitle" xml:space="preserve"><value>Domu karte</value></data>
+  <data name="DemoDiagramSummary" xml:space="preserve"><value>Domu karte, rediģējama ar peli, skārienu un tastatūru.</value></data>
+  <data name="DemoDiagramCapability1" xml:space="preserve"><value>Vilkšana, laso atlase, tālummaiņa ar ritenīti vai savilkšanu, konteksta izvēlne.</value></data>
+  <data name="DemoDiagramCapability2" xml:space="preserve"><value>Katrai darbībai ir īsinājumtaustiņš, par ko tiek paziņots ekrāna lasītājiem.</value></data>
+  <data name="DemoDiagramCapability3" xml:space="preserve"><value>Darbību josla un atlasītā mezgla rekvizītu panelis.</value></data>
+  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Nolasa un ieraksta atpakaļ saglabāto grafa formātu, neko nezaudējot.</value></data>
+  <data name="DemoPlanningTitle" xml:space="preserve"><value>Plānošana</value></data>
+  <data name="DemoPlanningSummary" xml:space="preserve"><value>Ganta diagramma, izpildes soļi un laika skala.</value></data>
+  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Ganta diagramma pa dienām, nedēļām vai mēnešiem ar grupām, atkarībām un šodienu.</value></data>
+  <data name="DemoPlanningCapability2" xml:space="preserve"><value>Izpildes soļi laika skalā, ieskaitot nekad nesāktos soļus.</value></data>
+  <data name="DemoPlanningCapability3" xml:space="preserve"><value>Laika skala labajā, kreisajā pusē vai pamīšus, izvēloties pirmo pusi.</value></data>
+  <data name="DemoPagesTitle" xml:space="preserve"><value>Lapas</value></data>
+  <data name="DemoPagesSummary" xml:space="preserve"><value>Galvene, detalizētā lapa un tās saturs.</value></data>
+  <data name="DemoPagesCapability1" xml:space="preserve"><value>Lapas galvene: pakalpojuma uzturēts navigācijas ceļš, atpakaļ, virsraksts, emblēmas un darbības, tālrunī sakļautas.</value></data>
+  <data name="DemoPagesCapability2" xml:space="preserve"><value>Detalizētā lapa: galvene uzzīmēta pirms datu saņemšanas, saturs ielādes laikā paslēpts, stāvoklis “nav atrasts” ar iespēju atgriezties.</value></data>
+  <data name="DemoPagesCapability3" xml:space="preserve"><value>Aprakstu saraksts kolonnās ar darbību katrai vērtībai.</value></data>
+  <data name="DemoPagesCapability4" xml:space="preserve"><value>Relatīvs laiks ar precīzu datumu, novietojot kursoru vai fokusējot, un tukšs stāvoklis ar darbību.</value></data>
+  <data name="DemoFlowsTitle" xml:space="preserve"><value>Plūsmas</value></data>
+  <data name="DemoFlowsSummary" xml:space="preserve"><value>Vednis, pierakstīšanās lapa un zaudēts savienojums.</value></data>
+  <data name="DemoFlowsCapability1" xml:space="preserve"><value>Soļu vednis: progress, pārbaude katrā solī, lapā vai dialoglodziņā.</value></data>
+  <data name="DemoFlowsCapability2" xml:space="preserve"><value>Pierakstīšanās lapa bez iebūvētas autentifikācijas, un atgriešanās adrese nepārsniedz lietotnes robežas.</value></data>
+  <data name="DemoFlowsCapability3" xml:space="preserve"><value>Zaudēta savienojuma pārklājums: atpakaļskaitīšana, iemesls, manuāls atkārtojums, kļūme un atteikums.</value></data>
+  <data name="WorkshopBarTitle" xml:space="preserve"><value>Priekšskatījuma iestatījumi</value></data>
+  <data name="WorkshopTheme" xml:space="preserve"><value>Motīvs (forma)</value></data>
+  <data name="WorkshopPalette" xml:space="preserve"><value>Palete (krāsas)</value></data>
+  <data name="WorkshopThemePalette" xml:space="preserve"><value>Motīva palete</value></data>
+  <data name="WorkshopDefault" xml:space="preserve"><value>Noklusējums</value></data>
+  <data name="WorkshopMode" xml:space="preserve"><value>Režīms</value></data>
+  <data name="WorkshopModeLight" xml:space="preserve"><value>Gaišs</value></data>
+  <data name="WorkshopModeDark" xml:space="preserve"><value>Tumšs</value></data>
+  <data name="WorkshopModeSystem" xml:space="preserve"><value>Sistēmas</value></data>
+  <data name="WorkshopDensity" xml:space="preserve"><value>Vispārējais blīvums</value></data>
+  <data name="WorkshopDensityCompact" xml:space="preserve"><value>Kompakts</value></data>
+  <data name="WorkshopDensityComfortable" xml:space="preserve"><value>Ērts</value></data>
+  <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Plašs</value></data>
+  <data name="WorkshopDensityInherited" xml:space="preserve"><value>Mantots</value></data>
+  <data name="WorkshopSectionDensity" xml:space="preserve"><value>Blīvums</value></data>
+  <data name="WorkshopHover" xml:space="preserve"><value>Kursors virs</value></data>
+  <data name="WorkshopHoverForce" xml:space="preserve"><value>Piespiest</value></data>
+  <data name="WorkshopHoverForced" xml:space="preserve"><value>Piespiests</value></data>
+  <data name="WorkshopStageTitle" xml:space="preserve"><value>Priekšskatījums</value></data>
+  <data name="WorkshopStageLead" xml:space="preserve"><value>Motīvs {0}: {1} Palete {2}: {3}</value></data>
+  <data name="WorkshopContrastWaiver" xml:space="preserve"><value>Kontrasts netiek garantēts: {0}</value></data>
+  <data name="WorkshopContrastTitle" xml:space="preserve"><value>Aprēķinātie kontrasti</value></data>
+  <data name="WorkshopContrastLead" xml:space="preserve"><value>Attiecība, kas izmērīta rādītā režīma marķieriem, pēc tam sasniedzamais slieksnis.</value></data>
+  <data name="WorkshopContrastSystem" xml:space="preserve"><value>Sistēmas režīms: attiecības tiek mērītas gaišajai pusei, jo pārlūka izvēlētā puse ir zināma tikai lapā.</value></data>
+  <data name="WorkshopContrastVerdict" xml:space="preserve"><value>Savu slieksni sasniedz {0} no {1} pāriem.</value></data>
+  <data name="WorkshopSwatchesTitle" xml:space="preserve"><value>Krāsu marķieri</value></data>
+  <data name="ContrastPair01" xml:space="preserve"><value>teksts / virsma</value></data>
+  <data name="ContrastPair02" xml:space="preserve"><value>teksts / blāva virsma</value></data>
+  <data name="ContrastPair03" xml:space="preserve"><value>teksts / virsma ar kursoru</value></data>
+  <data name="ContrastPair04" xml:space="preserve"><value>blāvs teksts / virsma</value></data>
+  <data name="ContrastPair05" xml:space="preserve"><value>blāvs teksts / blāva virsma</value></data>
+  <data name="ContrastPair06" xml:space="preserve"><value>blāvs teksts / virsma ar kursoru</value></data>
+  <data name="ContrastPair07" xml:space="preserve"><value>spēcīgs akcents / virsma</value></data>
+  <data name="ContrastPair08" xml:space="preserve"><value>spēcīgs akcents / diskrēts akcents</value></data>
+  <data name="ContrastPair09" xml:space="preserve"><value>spēcīgs akcents / virsma ar kursoru</value></data>
+  <data name="ContrastPair10" xml:space="preserve"><value>uz akcenta / akcents</value></data>
+  <data name="ContrastPair11" xml:space="preserve"><value>uz panākuma / panākums</value></data>
+  <data name="ContrastPair12" xml:space="preserve"><value>uz brīdinājuma / brīdinājums</value></data>
+  <data name="ContrastPair13" xml:space="preserve"><value>uz bīstamības / bīstamība</value></data>
+  <data name="ContrastPair14" xml:space="preserve"><value>uz inversā / inversais</value></data>
+  <data name="ContrastPair15" xml:space="preserve"><value>panākums / virsma</value></data>
+  <data name="ContrastPair16" xml:space="preserve"><value>panākums / diskrēts panākums</value></data>
+  <data name="ContrastPair17" xml:space="preserve"><value>brīdinājums / virsma</value></data>
+  <data name="ContrastPair18" xml:space="preserve"><value>bīstamība / virsma</value></data>
+  <data name="ContrastPair19" xml:space="preserve"><value>bīstamība / diskrēta bīstamība</value></data>
+  <data name="ContrastPair20" xml:space="preserve"><value>teksts uz akcenta aizpildījuma</value></data>
+  <data name="ContrastPair21" xml:space="preserve"><value>teksts uz panākuma aizpildījuma</value></data>
+  <data name="ContrastPair22" xml:space="preserve"><value>teksts uz informācijas aizpildījuma</value></data>
+  <data name="ContrastPair23" xml:space="preserve"><value>tinte uz gaišas informācijas (brīdinājums)</value></data>
+  <data name="ContrastPair24" xml:space="preserve"><value>tinte uz gaiša panākuma (brīdinājums)</value></data>
+  <data name="ContrastPair25" xml:space="preserve"><value>tinte uz gaišas informācijas ar kursoru</value></data>
+  <data name="ContrastPair26" xml:space="preserve"><value>tinte uz nospiestas gaišas informācijas</value></data>
+  <data name="ContrastPair27" xml:space="preserve"><value>tinte uz gaiša panākuma ar kursoru</value></data>
+  <data name="ContrastPair28" xml:space="preserve"><value>tinte uz nospiesta gaiša panākuma</value></data>
+  <data name="ContrastPair29" xml:space="preserve"><value>tinte uz piesātināta brīdinājuma (poga)</value></data>
+  <data name="ContrastPair30" xml:space="preserve"><value>tinte uz piesātināta brīdinājuma ar kursoru</value></data>
+  <data name="ContrastPair31" xml:space="preserve"><value>tinte uz nospiesta piesātināta brīdinājuma</value></data>
+  <data name="ContrastPair32" xml:space="preserve"><value>tinte uz piesātinātas bīstamības (poga)</value></data>
+  <data name="ContrastPair33" xml:space="preserve"><value>tinte uz piesātinātas bīstamības ar kursoru</value></data>
+  <data name="ContrastPair34" xml:space="preserve"><value>tinte uz nospiestas piesātinātas bīstamības</value></data>
+  <data name="ContrastPair35" xml:space="preserve"><value>teksts uz akcenta aizpildījuma, kursors virs</value></data>
+  <data name="ContrastPair36" xml:space="preserve"><value>teksts uz akcenta aizpildījuma, nospiests</value></data>
+  <data name="ContrastPair37" xml:space="preserve"><value>sekundārā miera stāvoklī</value></data>
+  <data name="ContrastPair38" xml:space="preserve"><value>sekundārā ar kursoru</value></data>
+  <data name="ContrastPair39" xml:space="preserve"><value>sekundārā nospiesta</value></data>
+  <data name="ContrastPair40" xml:space="preserve"><value>spoka nospiesta</value></data>
+  <data name="ContrastPair41" xml:space="preserve"><value>akcenta aizpildījums / virsma</value></data>
+  <data name="ContrastPair42" xml:space="preserve"><value>panākuma aizpildījums / virsma</value></data>
+  <data name="ContrastPair43" xml:space="preserve"><value>informācijas aizpildījums / virsma</value></data>
+  <data name="ContrastPair44" xml:space="preserve"><value>brīdinājuma aizpildījums / virsma</value></data>
+  <data name="ContrastPair45" xml:space="preserve"><value>bīstamības aizpildījums / virsma</value></data>
+  <data name="ContrastPair46" xml:space="preserve"><value>akcents / virsma</value></data>
+  <data name="ContrastPair47" xml:space="preserve"><value>apmale / virsma (OE minimums 1,7)</value></data>
+  <data name="DemoStatesTitle" xml:space="preserve"><value>Miera stāvoklis, kursors virs un nospiešana</value></data>
+  <data name="DemoStatesSummary" xml:space="preserve"><value>Pogas varianta trīs stāvokļi blakus.</value></data>
+  <data name="DemoStatesCapability1" xml:space="preserve"><value>Kursors virs un nospiešana lasa motīva marķierus: aizpildījumu ar kursoru, nospiestu aizpildījumu un nospiešanas žestu.</value></data>
+  <data name="DemoStatesCapability2" xml:space="preserve"><value>Vitrīnas salīdzināšanas palīglīdzeklis: pārlūks nevar iesaldēt :hover vai :active.</value></data>
+  <data name="DemoAppShellTitle" xml:space="preserve"><value>Lietotnes karkass</value></data>
+  <data name="DemoAppShellSummary" xml:space="preserve"><value>Augšējā josla, sānu izvēlne, kas sakļaujas ikonu joslā, saturs.</value></data>
+  <data name="DemoAppShellCapability1" xml:space="preserve"><value>Sakļaušanas poga, meklēšana, palīdzība, zvaniņš ar punktu un miera stāvoklī aizvērta konta izvēlne.</value></data>
+  <data name="DemoAppShellCapability2" xml:space="preserve"><value>Sakļauta sānu izvēlne saglabā savas ikonas (Collapse Icons).</value></data>
+  <data name="DemoAppShellCapability3" xml:space="preserve"><value>Punktu, lupu, logotipu un avatāru zīmē vitrīna: pakotnē tiem nav komponenta.</value></data>
+  <data name="DemoThemesTitle" xml:space="preserve"><value>Motīvi un paletes</value></data>
+  <data name="DemoThemesSummary" xml:space="preserve"><value>Motīvs nosaka formu, palete – krāsas; jebkura palete krāso jebkuru motīvu.</value></data>
+  <data name="DemoThemesCapability1" xml:space="preserve"><value>OmniThemeScope.Preset un OmniThemeScope.Palette pārkrāso tvērumu un tā saturu un neko citu.</value></data>
+  <data name="DemoThemesCapability2" xml:space="preserve"><value>Palete viena pati maina krāsas un saglabā piegādāto formu.</value></data>
+  <data name="DemoThemesCapability3" xml:space="preserve"><value>Motīvi: {0}, paletes: {1}, kopā apvienojumi: {2}, katrs gaišajā un tumšajā režīmā.</value></data>
+  <data name="DemoSurfacesTitle" xml:space="preserve"><value>Virsmas</value></data>
+  <data name="DemoSurfacesSummary" xml:space="preserve"><value>Kartītes, peldoša izvēlne, cilnes, sānu izvēlne, saite un rīka padoms.</value></data>
+  <data name="DemoSurfacesCapability1" xml:space="preserve"><value>Kartītes un peldošā izvēlne lasa motīva formu: aizpildījumu, kontūru, rādiusu un ēnu.</value></data>
+  <data name="DemoSurfacesCapability2" xml:space="preserve"><value>Peldošā izvēlne tiek atvērta peldošo virsmu slānī.</value></data>
+  <data name="DemoSurfacesCapability3" xml:space="preserve"><value>Izvēlnes pašreizējo vienumu iezīmē fons un teksta biezums, nekad sānu josla.</value></data>
+  <data name="DemoVerticalFormTitle" xml:space="preserve"><value>Vertikāla veidlapa</value></data>
+  <data name="DemoVerticalFormSummary" xml:space="preserve"><value>Visi lauku tipi, kļūdas un to kopsavilkums, atspējots un tikai lasāms stāvoklis.</value></data>
+  <data name="DemoVerticalFormCapability1" xml:space="preserve"><value>Etiķete virs lauka, obligātuma zvaigznīte, palīdzība un kļūda ar ikonu.</value></data>
+  <data name="DemoVerticalFormCapability2" xml:space="preserve"><value>Kļūdas ir rediģēšanas konteksta kļūdas: lauks no tām iegūst aria-invalid, un pēc to izlabošanas tās pazūd no kopsavilkuma.</value></data>
+  <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Sapludināts faila lauks, viena faila zona, vairāku failu zona ar saīsinātu sarakstu.</value></data>
+  <data name="DemoVerticalFormCapability4" xml:space="preserve"><value>Atspējots un tikai lasāms stāvoklis paliek atšķirīgi visos trīs blīvumos.</value></data>
+  <data name="DemoSettingsTabsTitle" xml:space="preserve"><value>Iestatījumi cilnēs</value></data>
+  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>Viena cilne ar ikonu katrai tēmai, viena sadaļa katrā cilnē, viena flīze katram iestatījumam.</value></data>
+  <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>Flīzē novietots slēdzis par etiķeti izmanto flīzes nosaukumu; noklikšķinot uz flīzes, tas tiek pārslēgts.</value></data>
+  <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>Vadīkla atrodas labajā pusē, nosaukums, padoms un ikona – kreisajā.</value></data>
+  <data name="DemoNoticesTitle" xml:space="preserve"><value>Paziņojumi un dialoglodziņi</value></data>
+  <data name="DemoNoticesSummary" xml:space="preserve"><value>Aizverami paziņojumi, dialoglodziņi uz pārklājuma.</value></data>
+  <data name="DemoNoticesCapability1" xml:space="preserve"><value>Katrs paziņojums aizveras ar savu krustiņu.</value></data>
+  <data name="DemoNoticesCapability2" xml:space="preserve"><value>Dialoglodziņu kājene ievēro pakotnes konvenciju: vispirms darbība, tad Atcelt.</value></data>
+  <data name="DemoLoadingTitle" xml:space="preserve"><value>Ielāde</value></data>
+  <data name="DemoLoadingSummary" xml:space="preserve"><value>Ielādes josla, gaidīšana, aizņemtas pogas, progress un skelets.</value></data>
+  <data name="DemoLoadingCapability1" xml:space="preserve"><value>Josla seko īstai ielādei, slīdot vai pildoties, sasniedz beigas un izgaist.</value></data>
+  <data name="DemoLoadingCapability2" xml:space="preserve"><value>Aizņemta poga saglabā savu izmēru un saturu: virs tās “elpo” plīvurs.</value></data>
+  <data name="DemoLoadingCapability3" xml:space="preserve"><value>Skelets pieņem aizstājamā satura formu.</value></data>
+  <data name="DemoRunGridsTitle" xml:space="preserve"><value>Izpilžu režģi</value></data>
+  <data name="DemoRunGridsSummary" xml:space="preserve"><value>Divi maketa režģi: kārtots ar aktīvu kolonnu un svītrots ar piespraustu galveni.</value></data>
+  <data name="DemoRunGridsCapability1" xml:space="preserve"><value>Kārtotā kolonna ir tonēta gaišāk nekā izvēlētā rinda, lai tās varētu atšķirt.</value></data>
+  <data name="DemoRunGridsCapability2" xml:space="preserve"><value>Galvene paliek redzama, ritinot režģi; ilgums tiek līdzināts beigās.</value></data>
+  <data name="DemoRunGridsCapability3" xml:space="preserve"><value>Statuss ir kompakts punkts (omni-status).</value></data>
+  <data name="LoadingFrameBrand" xml:space="preserve"><value>Aetheus</value></data>
+  <data name="LoadingFramePage" xml:space="preserve"><value>Informācijas panelis</value></data>
+  <data name="LoadingBarLabel" xml:space="preserve"><value>Lapas ielāde</value></data>
+  <data name="LoadingSweep" xml:space="preserve"><value>Slīdoša josla</value></data>
+  <data name="LoadingFill" xml:space="preserve"><value>Pildoša josla</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>Josla atrodas zem iepriekš redzamās galvenes. Beigās tā sasniedz galu un izgaist.</value></data>
+  <data name="LoadingWaiting" xml:space="preserve"><value>Gaidīšana</value></data>
+  <data name="LoadingDeploying" xml:space="preserve"><value>Notiek izvietošana</value></data>
+  <data name="LoadingChecking" xml:space="preserve"><value>Pārbaude</value></data>
+  <data name="LoadingSaving" xml:space="preserve"><value>Notiek saglabāšana</value></data>
+  <data name="LoadingAnalysis" xml:space="preserve"><value>Notiek analīze</value></data>
+  <data name="LoadingCoverage" xml:space="preserve"><value>Pārklājums</value></data>
+  <data name="LoadingContent" xml:space="preserve"><value>Ielādē saturu</value></data>
+  <data name="NoticeDoneTitle" xml:space="preserve"><value>Izvietošana pabeigta</value></data>
+  <data name="NoticeDoneMessage" xml:space="preserve"><value>aetheus-deploy-prod #2399 izpildīts 1 min 48 s laikā.</value></data>
+  <data name="NoticeRefusedTitle" xml:space="preserve"><value>Bloķētā atjaunošana noraidīta</value></data>
+  <data name="NoticeRefusedMessage" xml:space="preserve"><value>NuGet grafs ir atšķīries no bloķēšanas faila.</value></data>
+  <data name="NoticeShowAgain" xml:space="preserve"><value>Atkal rādīt paziņojumus</value></data>
+  <data name="NoticeUnlistOpen" xml:space="preserve"><value>Izņemt versiju 1.0.0 no saraksta</value></data>
+  <data name="NoticeUnlistTitle" xml:space="preserve"><value>Izņemt versiju 1.0.0 no saraksta</value></data>
+  <data name="NoticeUnlistBody" xml:space="preserve"><value>Versija pazudīs no meklēšanas un peldošajiem diapazoniem. To joprojām varēs lejupielādēt pēc precīza numura.</value></data>
+  <data name="NoticeUnlistAlpha" xml:space="preserve"><value>Izņemt no saraksta arī 0.1.0-alpha.1</value></data>
+  <data name="NoticeUnlist" xml:space="preserve"><value>Izņemt no saraksta</value></data>
+  <data name="NoticeUnlistDone" xml:space="preserve"><value>Versija izņemta no saraksta</value></data>
+  <data name="NoticeRerunOpen" xml:space="preserve"><value>Atkārtoti palaist konveijeru</value></data>
+  <data name="NoticeRerunTitle" xml:space="preserve"><value>Vai atkārtoti palaist konveijeru?</value></data>
+  <data name="NoticeRerunBody" xml:space="preserve"><value>aetheus-deploy-prod #2399 tiks atkārtoti palaists serverī vps2577917 ar tiem pašiem mainīgajiem.</value></data>
+  <data name="NoticeRerunNotify" xml:space="preserve"><value>Paziņot man beigās</value></data>
+  <data name="NoticeRerun" xml:space="preserve"><value>Palaist atkārtoti</value></data>
+  <data name="NoticeRerunDone" xml:space="preserve"><value>Konveijers palaists atkārtoti</value></data>
+  <data name="NoticeCancel" xml:space="preserve"><value>Atcelt</value></data>
+  <data name="NoticeClose" xml:space="preserve"><value>Aizvērt</value></data>
+  <data name="NoticeLast" xml:space="preserve"><value>Pēdējā darbība: {0}</value></data>
+  <data name="RunsSortedCaption" xml:space="preserve"><value>Izpildes, kārtotas pēc konveijera</value></data>
+  <data name="RunsStripedCaption" xml:space="preserve"><value>Izpilžu vēsture</value></data>
+  <data name="RunsRun" xml:space="preserve"><value>Izpilde</value></data>
+  <data name="RunsPipeline" xml:space="preserve"><value>Konveijers</value></data>
+  <data name="RunsTrigger" xml:space="preserve"><value>Aktivizētājs</value></data>
+  <data name="RunsSeconds" xml:space="preserve"><value>Ilgums (s)</value></data>
+  <data name="RunsStatus" xml:space="preserve"><value>Statuss</value></data>
+  <data name="RunsTriggerPush" xml:space="preserve"><value>Push</value></data>
+  <data name="RunsTriggerManual" xml:space="preserve"><value>Manuāli</value></data>
+  <data name="RunsTriggerScheduled" xml:space="preserve"><value>Ieplānots</value></data>
+  <data name="RunsStatusSuccess" xml:space="preserve"><value>Izdevās</value></data>
+  <data name="RunsStatusInfo" xml:space="preserve"><value>Notiek</value></data>
+  <data name="RunsStatusWarning" xml:space="preserve"><value>Atcelts</value></data>
+  <data name="RunsStatusDanger" xml:space="preserve"><value>Neizdevās</value></data>
+  <data name="SettingsTabsLabel" xml:space="preserve"><value>Iestatījumi</value></data>
+  <data name="SettingsGeneral" xml:space="preserve"><value>Vispārīgi</value></data>
+  <data name="SettingsGeneralLead" xml:space="preserve"><value>Darba atrašanās vietas un darbība startēšanas laikā.</value></data>
+  <data name="SettingsFolder" xml:space="preserve"><value>Artefaktu mape</value></data>
+  <data name="SettingsFolderHint" xml:space="preserve"><value>Kur būvējumi novieto savas pakotnes.</value></data>
+  <data name="SettingsBrowse" xml:space="preserve"><value>Pārlūkot</value></data>
+  <data name="SettingsStartup" xml:space="preserve"><value>Startēt kopā ar Windows</value></data>
+  <data name="SettingsStartupHint" xml:space="preserve"><value>Palaiž aģentu, atverot sesiju.</value></data>
+  <data name="SettingsLanguage" xml:space="preserve"><value>Valoda</value></data>
+  <data name="SettingsLanguageHint" xml:space="preserve"><value>Saskarnes un paziņojumu valoda.</value></data>
+  <data name="SettingsLanguageFrench" xml:space="preserve"><value>Français</value></data>
+  <data name="SettingsLanguageEnglish" xml:space="preserve"><value>English</value></data>
+  <data name="SettingsDisplay" xml:space="preserve"><value>Displejs</value></data>
+  <data name="SettingsDisplayLead" xml:space="preserve"><value>Saskarnes izskats un blīvums.</value></data>
+  <data name="SettingsDarkMode" xml:space="preserve"><value>Tumšais režīms</value></data>
+  <data name="SettingsDarkModeHint" xml:space="preserve"><value>Sekot sistēmai vai piespiest režīmu.</value></data>
+  <data name="SettingsModeSystem" xml:space="preserve"><value>Sekot sistēmai</value></data>
+  <data name="SettingsModeLight" xml:space="preserve"><value>Gaišs</value></data>
+  <data name="SettingsModeDark" xml:space="preserve"><value>Tumšs</value></data>
+  <data name="SettingsCompact" xml:space="preserve"><value>Kompakta saskarne</value></data>
+  <data name="SettingsCompactHint" xml:space="preserve"><value>Samazina režģu un veidlapu malas.</value></data>
+  <data name="SettingsNotifications" xml:space="preserve"><value>Paziņojumi</value></data>
+  <data name="SettingsNotificationsLead" xml:space="preserve"><value>Par ko jums tiek paziņots un pa kuru kanālu.</value></data>
+  <data name="SettingsFailures" xml:space="preserve"><value>Konveijera kļūmes</value></data>
+  <data name="SettingsFailuresHint" xml:space="preserve"><value>Paziņojums par katru neizdevušos izpildi.</value></data>
+  <data name="SettingsDigest" xml:space="preserve"><value>Dienas kopsavilkums</value></data>
+  <data name="SettingsDigestHint" xml:space="preserve"><value>Tiek sūtīts katru rītu plkst. 8.00.</value></data>
+  <data name="SettingsDigestAddress" xml:space="preserve"><value>Kopsavilkuma adrese</value></data>
+  <data name="DemoShellDashboard" xml:space="preserve"><value>Informācijas panelis</value></data>
+  <data name="DemoShellInProgress" xml:space="preserve"><value>Notiek</value></data>
+  <data name="DemoShellArchived" xml:space="preserve"><value>Arhivēti</value></data>
+  <data name="DemoShellSettings" xml:space="preserve"><value>Iestatījumi</value></data>
+  <data name="DemoShellOneOffAction" xml:space="preserve"><value>Vienreizēja darbība</value></data>
+  <data name="ShellToggle" xml:space="preserve"><value>Sakļaut vai izvērst izvēlni</value></data>
+  <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
+  <data name="ShellBrand" xml:space="preserve"><value>Aetheus</value></data>
+  <data name="ShellSearch" xml:space="preserve"><value>Meklēt</value></data>
+  <data name="ShellSearchPlaceholder" xml:space="preserve"><value>Meklēt konveijeru</value></data>
+  <data name="ShellHelp" xml:space="preserve"><value>Palīdzība</value></data>
+  <data name="ShellNotifications" xml:space="preserve"><value>Paziņojumi, nelasīti: {0}</value></data>
+  <data name="ShellAccount" xml:space="preserve"><value>Konts</value></data>
+  <data name="ShellSettings" xml:space="preserve"><value>Iestatījumi</value></data>
+  <data name="ShellSettingsHint" xml:space="preserve"><value>Motīvs, valoda, paziņojumi</value></data>
+  <data name="ShellAppearance" xml:space="preserve"><value>Izskats</value></data>
+  <data name="ShellAppearanceHint" xml:space="preserve"><value>Gaišs, tumšs vai sistēmas</value></data>
+  <data name="ShellSignOut" xml:space="preserve"><value>Izrakstīties</value></data>
+  <data name="ShellMenu" xml:space="preserve"><value>Galvenā izvēlne</value></data>
+  <data name="ShellDashboard" xml:space="preserve"><value>Informācijas panelis</value></data>
+  <data name="ShellPipelines" xml:space="preserve"><value>Konveijeri</value></data>
+  <data name="ShellServers" xml:space="preserve"><value>Serveri</value></data>
+  <data name="ShellProjects" xml:space="preserve"><value>Projekti</value></data>
+  <data name="ShellHelpCenter" xml:space="preserve"><value>Palīdzības centrs</value></data>
+  <data name="ShellAdministration" xml:space="preserve"><value>Administrēšana</value></data>
+  <data name="ShellServersOnline" xml:space="preserve"><value>Serveris tiešsaistē</value></data>
+  <data name="ShellAppsTracked" xml:space="preserve"><value>Izsekotās lietotnes</value></data>
+  <data name="ShellPipelinesRunning" xml:space="preserve"><value>Aktīvie konveijeri</value></data>
+  <data name="ShellLoading" xml:space="preserve"><value>Ielādē informācijas paneli</value></data>
+  <data name="ShellLastAction" xml:space="preserve"><value>Pēdējā darbība: {0}</value></data>
+  <data name="StatesRest" xml:space="preserve"><value>Miera stāvoklis</value></data>
+  <data name="StatesHover" xml:space="preserve"><value>Kursors virs</value></data>
+  <data name="StatesPress" xml:space="preserve"><value>Nospiešana</value></data>
+  <data name="StatesPrimary" xml:space="preserve"><value>Primārā</value></data>
+  <data name="StatesSuccess" xml:space="preserve"><value>Panākums</value></data>
+  <data name="StatesSecondary" xml:space="preserve"><value>Sekundārā</value></data>
+  <data name="StatesGhost" xml:space="preserve"><value>Spoka</value></data>
+  <data name="SurfServers" xml:space="preserve"><value>Serveri</value></data>
+  <data name="SurfServersText" xml:space="preserve"><value>Pēdējais dzīvības signāls pirms 4 minūtēm.</value></data>
+  <data name="SurfPipelines" xml:space="preserve"><value>Konveijeri</value></data>
+  <data name="SurfPipelinesFigure" xml:space="preserve"><value>2 400</value></data>
+  <data name="SurfPipelinesText" xml:space="preserve"><value>Trīs neizdevušās izpildes no pēdējām desmit.</value></data>
+  <data name="SurfCoverage" xml:space="preserve"><value>Pārklājums</value></data>
+  <data name="SurfCoverageFigure" xml:space="preserve"><value>87%</value></data>
+  <data name="SurfAccount" xml:space="preserve"><value>Konts</value></data>
+  <data name="SurfPerson" xml:space="preserve"><value>Camille Durand</value></data>
+  <data name="SurfPersonRole" xml:space="preserve"><value>Administratore, OmniEurope</value></data>
+  <data name="SurfSettings" xml:space="preserve"><value>Iestatījumi</value></data>
+  <data name="SurfSettingsHint" xml:space="preserve"><value>Motīvs, valoda, paziņojumi</value></data>
+  <data name="SurfSwitch" xml:space="preserve"><value>Mainīt darbvietu</value></data>
+  <data name="SurfSwitchHint" xml:space="preserve"><value>Aetheus, Atlas, Portfolio</value></data>
+  <data name="SurfSignOut" xml:space="preserve"><value>Izrakstīties</value></data>
+  <data name="SurfTabsLabel" xml:space="preserve"><value>Izpildes sadaļas</value></data>
+  <data name="SurfTabOverview" xml:space="preserve"><value>Pārskats</value></data>
+  <data name="SurfTabOverviewText" xml:space="preserve"><value>Izpilde #2399, pabeigta 1 min 48 s laikā.</value></data>
+  <data name="SurfTabLogs" xml:space="preserve"><value>Žurnāli</value></data>
+  <data name="SurfTabLogsText" xml:space="preserve"><value>412 rindas, nav kļūdu.</value></data>
+  <data name="SurfTabArtifacts" xml:space="preserve"><value>Artefakti</value></data>
+  <data name="SurfTabArtifactsText" xml:space="preserve"><value>Divas pakotnes un to simboli.</value></data>
+  <data name="SurfTabSettings" xml:space="preserve"><value>Iestatījumi</value></data>
+  <data name="SurfTabSettingsText" xml:space="preserve"><value>Bloķēta atjaunošana, obligāta parakstīšana.</value></data>
+  <data name="SurfMenuLabel" xml:space="preserve"><value>Sadaļas</value></data>
+  <data name="SurfMenuDashboard" xml:space="preserve"><value>Informācijas panelis</value></data>
+  <data name="SurfMenuServers" xml:space="preserve"><value>Serveri</value></data>
+  <data name="SurfMenuProjects" xml:space="preserve"><value>Projekti</value></data>
+  <data name="SurfMenuAdministration" xml:space="preserve"><value>Administrēšana</value></data>
+  <data name="SurfLinkBefore" xml:space="preserve"><value>Izlasiet</value></data>
+  <data name="SurfLink" xml:space="preserve"><value>publicēšanas procedūru</value></data>
+  <data name="SurfLinkAfter" xml:space="preserve"><value>pirms versijas izņemšanas no saraksta.</value></data>
+  <data name="SurfTooltip" xml:space="preserve"><value>Inversā virsma, inversais teksts</value></data>
+  <data name="SurfTooltipTrigger" xml:space="preserve"><value>Rīka padoms</value></data>
+  <data name="SurfLast" xml:space="preserve"><value>Pēdējā darbība: {0}</value></data>
+  <data name="ThemesThemeWithPalette" xml:space="preserve"><value>Motīvs {0}, palete {1}</value></data>
+  <data name="ThemesThemeAlone" xml:space="preserve"><value>Motīvs {0}, tā palete</value></data>
+  <data name="ThemesPaletteAlone" xml:space="preserve"><value>Palete {0}, piegādātā forma</value></data>
+  <data name="ThemesShipped" xml:space="preserve"><value>Piegādātais izskats</value></data>
+  <data name="ThemesLivePreview" xml:space="preserve"><value>Priekšskatījums: {0}</value></data>
+  <data name="ThemesSave" xml:space="preserve"><value>Saglabāt</value></data>
+  <data name="ThemesCancel" xml:space="preserve"><value>Atcelt</value></data>
+  <data name="ThemesBadge" xml:space="preserve"><value>Publicēts</value></data>
+  <data name="ThemesAlert" xml:space="preserve"><value>Jebkura palete krāso jebkuru motīvu.</value></data>
+  <data name="VFormSummaryTitle" xml:space="preserve"><value>Jālabo lauki: {0}.</value></data>
+  <data name="VFormName" xml:space="preserve"><value>Konveijera nosaukums</value></data>
+  <data name="VFormNameHelp" xml:space="preserve"><value>Mazie burti, cipari un defises.</value></data>
+  <data name="VFormNameError" xml:space="preserve"><value>Konveijera nosaukums ir obligāts.</value></data>
+  <data name="VFormMail" xml:space="preserve"><value>Paziņojumu adrese</value></data>
+  <data name="VFormMailError" xml:space="preserve"><value>Norādiet pilnu domēnu, piemēram, komanda@piemers.lv.</value></data>
+  <data name="VFormToken" xml:space="preserve"><value>Piekļuves pilnvara</value></data>
+  <data name="VFormReplicas" xml:space="preserve"><value>Replikas</value></data>
+  <data name="VFormEnvironment" xml:space="preserve"><value>Vide</value></data>
+  <data name="VFormEnvironmentProduction" xml:space="preserve"><value>Ražošanas</value></data>
+  <data name="VFormEnvironmentAcceptance" xml:space="preserve"><value>Pieņemšanas</value></data>
+  <data name="VFormEnvironmentDevelopment" xml:space="preserve"><value>Izstrādes</value></data>
+  <data name="VFormDate" xml:space="preserve"><value>Izvietošanas datums</value></data>
+  <data name="VFormTime" xml:space="preserve"><value>Izvietošanas laiks</value></data>
+  <data name="VFormMoment" xml:space="preserve"><value>Apkopes logs</value></data>
+  <data name="VFormDescription" xml:space="preserve"><value>Apraksts</value></data>
+  <data name="VFormStrategy" xml:space="preserve"><value>Izvietošanas stratēģija</value></data>
+  <data name="VFormStrategyRolling" xml:space="preserve"><value>Pakāpeniska aizstāšana</value></data>
+  <data name="VFormStrategyBlueGreen" xml:space="preserve"><value>Zili zaļā</value></data>
+  <data name="VFormStrategyCanary" xml:space="preserve"><value>Kanārijputniņš (drīzumā)</value></data>
+  <data name="VFormStrategyError" xml:space="preserve"><value>Izvēlieties izvietošanas stratēģiju.</value></data>
+  <data name="VFormOptions" xml:space="preserve"><value>Opcijas</value></data>
+  <data name="VFormLocked" xml:space="preserve"><value>Bloķēta atjaunošana</value></data>
+  <data name="VFormSymbols" xml:space="preserve"><value>Publicēt simbolus</value></data>
+  <data name="VFormSigning" xml:space="preserve"><value>Pakotnes parakstīšana (obligāta)</value></data>
+  <data name="VFormNotify" xml:space="preserve"><value>Paziņot beigās</value></data>
+  <data name="VFormAutoDeploy" xml:space="preserve"><value>Automātiska izvietošana (atspējota)</value></data>
+  <data name="VFormFiles" xml:space="preserve"><value>Faili</value></data>
+  <data name="VFormManifest" xml:space="preserve"><value>Izvietošanas manifests</value></data>
+  <data name="VFormManifestHelp" xml:space="preserve"><value>Viens fails, atver sistēmas failu atlasītāju.</value></data>
+  <data name="VFormArchive" xml:space="preserve"><value>Lietotnes arhīvs</value></data>
+  <data name="VFormArchiveHelp" xml:space="preserve"><value>ZIP vai TAR, ne vairāk kā 50 MB.</value></data>
+  <data name="VFormAttachments" xml:space="preserve"><value>Pielikumi</value></data>
+  <data name="VFormAttachmentsHelp" xml:space="preserve"><value>Līdz 10 failiem, katrs līdz 20 MB. Nekas netiek nosūtīts: demonstrācija patur failus sarakstā.</value></data>
+  <data name="VFormServer" xml:space="preserve"><value>Mērķa serveris</value></data>
+  <data name="VFormServerHelp" xml:space="preserve"><value>Atspējots: nosaka vide.</value></data>
+  <data name="VFormIdentifier" xml:space="preserve"><value>Identifikators</value></data>
+  <data name="VFormIdentifierHelp" xml:space="preserve"><value>Tikai lasāms: var kopēt, nevar mainīt.</value></data>
+  <data name="VFormAgent" xml:space="preserve"><value>Aģents</value></data>
+  <data name="VFormAgentShared" xml:space="preserve"><value>Koplietots aģents</value></data>
+  <data name="VFormCancel" xml:space="preserve"><value>Atcelt</value></data>
+  <data name="VFormSave" xml:space="preserve"><value>Saglabāt</value></data>
+  <data name="VFormSaved" xml:space="preserve"><value>Konveijers saglabāts.</value></data>
+  <data name="VFormNotSaved" xml:space="preserve"><value>Pirms saglabāšanas izlabojiet atzīmētos laukus.</value></data>
+  <data name="VFormDescriptionValue" xml:space="preserve"><value>Izvieto galveno zaru, kad pieņemšanas testi ir sekmīgi.</value></data>
+  <data name="GridFiledColumn" xml:space="preserve"><value>Iesniegts</value></data>
+</root>

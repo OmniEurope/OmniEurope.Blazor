@@ -5,8 +5,8 @@
               PageSize="2"
               @bind-Page="Page"
               SelectionMode="OmniDataGridSelectionMode.Multiple"
-              KeySelector="person => person.Id"
-              @bind-SelectedKeys="SelectedKeys">
+              KeyOf="person => person.Id"
+              @bind-Value="Selected">
     <Columns>
         <OmniDataGridColumn TItem="Person" Key="name" Title="@NameTitle" Value="person => person.Name" Filterable="true" />
         <OmniDataGridColumn TItem="Person" Key="age" Title="Âge" Value="person => person.Age" />
@@ -23,7 +23,7 @@
 
     public int Page { get; set; } = 1;
     public string NameTitle { get; set; } = "Nom";
-    public IReadOnlyList<object> SelectedKeys { get; set; } = Array.Empty<object>();
+    public IReadOnlyList<Person> Selected { get; set; } = Array.Empty<Person>();
     public void RenameColumn()
     {
         NameTitle = "Nom complet";

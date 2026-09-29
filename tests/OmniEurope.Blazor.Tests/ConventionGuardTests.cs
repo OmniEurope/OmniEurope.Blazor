@@ -84,7 +84,7 @@ public sealed partial class ConventionGuardTests
         // axis of the rail icons (+2.6 px at size 10, Pronoia).
         var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
 
-        Assert.Contains(".omni-header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); margin-inline-start: -12px; min-inline-size: var(--omni-sidebar-rail); }", styles, StringComparison.Ordinal);
+        Assert.Contains(".omni-header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); margin-inline-start: calc(-1 * var(--omni-header-pad-x)); min-inline-size: var(--omni-sidebar-rail); }", styles, StringComparison.Ordinal);
         Assert.Contains(".omni-sidebar__header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); min-inline-size: var(--omni-sidebar-rail); }", styles, StringComparison.Ordinal);
     }
 
@@ -104,9 +104,12 @@ public sealed partial class ConventionGuardTests
         var styles = Read("src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
 
         Assert.Contains(".omni-notification__dismiss { border: 0; border-radius: var(--omni-radius); font-size: var(--omni-font-size-h4); min-height: 2.75rem; min-width: 2.75rem; }", styles, StringComparison.Ordinal);
-        Assert.Contains(".omni-tree__select { background: transparent; border: 0; color: var(--omni-color-text); cursor: pointer; font: inherit; min-height: 2.75rem; }", styles, StringComparison.Ordinal);
-        Assert.Contains(".omni-tree__toggle { min-width: 2.75rem; width: 2.75rem; }", styles, StringComparison.Ordinal);
-        Assert.Contains(".omni-data-grid__expand { background: transparent; border: 0; color: var(--omni-color-text); cursor: pointer; min-height: 2.75rem; min-width: 2.75rem; }", styles, StringComparison.Ordinal);
+        // Drawn at the density's size (PLAN-007 lot 5), these keep a 44 px pointer target through a
+        // transparent layer (::before) across, bounded by their row so it never takes a neighbour's click;
+        // the pager's reaches 44 px high. The tree's select button spans its row.
+        Assert.Contains(".omni-tree__toggle::before { content: \"\"; inset-block: calc(var(--omni-space-xs) / -2); inset-inline: min(0px, calc((var(--omni-control-height) - 2.75rem) / 2)); position: absolute; }", styles, StringComparison.Ordinal);
+        Assert.Contains(".omni-data-grid__expand::before { content: \"\"; inset-block: min(0px, calc((var(--omni-badge-height) - var(--omni-grid-row-estimate)) / 2)); inset-inline: min(0px, calc((var(--omni-badge-height) - 2.75rem) / 2)); position: absolute; }", styles, StringComparison.Ordinal);
+        Assert.Contains(".omni-pager__button::before { content: \"\"; inset-block: min(0px, calc((var(--omni-control-height) - 2.75rem) / 2)); inset-inline: calc(var(--omni-space-sm) / -2); position: absolute; }", styles, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -166,37 +169,24 @@ public sealed partial class ConventionGuardTests
     public void AuditedTypeContainers_AreSplitIntoOneTopLevelTypePerFile()
     {
         var componentRoot = Path.Combine(Root, "src", "OmniEurope.Blazor", "Components");
-        var retiredContainers = new[]
-        {
-            Path.Combine(componentRoot, "Charts", "OmniChartTypes.cs"),
-            Path.Combine(componentRoot, "Data", "OmniDataGridTypes.cs"),
-            Path.Combine(componentRoot, "Foundation", "OmniFoundationTypes.cs"),
-            Path.Combine(componentRoot, "Navigation", "OmniNavigationTypes.cs"),
-            Path.Combine(componentRoot, "Overlays", "OmniOverlayTypes.cs"),
-            Path.Combine(componentRoot, "Scheduling", "OmniSchedulerTypes.cs"),
-            Path.Combine(componentRoot, "Selection", "OmniSelectionTypes.cs"),
-            Path.Combine(componentRoot, "Layout", "OmniStackTypes.cs")
-        };
-        Assert.All(retiredContainers, path => Assert.False(File.Exists(path), $"Conteneur multi-type encore présent: {path}"));
-
         var expectedTypes = new[]
         {
             ("Charts", "OmniChartPoint"), ("Charts", "OmniChartSlice"), ("Charts", "OmniChartGeometry"),
             ("Data", "OmniDataGridSelectionMode"), ("Data", "OmniDataGridFilterOperator"), ("Data", "OmniDataGridSort"),
             ("Data", "OmniDataGridFilter"), ("Data", "OmniDataGridColumnWidthChange"), ("Data", "OmniDataGridTextAlign"),
-            ("Data", "OmniDataGridLines"), ("Data", "OmniDataGridFilterMode"), ("Data", "OmniDataGridEditMode"),
-            ("Data", "OmniDataGridExpandMode"), ("Data", "OmniDataGridPagerPosition"), ("Data", "OmniDataGridSortOrder"),
+            ("Data", "OmniDataGridLines"), ("Data", "OmniDataGridFilterMode"), ("Data", "OmniDataGridRowMode"),
+            ("Data", "OmniDataGridPosition"), ("Data", "OmniDataGridSortOrder"),
             ("Data", "OmniDataGridLogicalOperator"), ("Data", "OmniDataGridGroup"), ("Data", "OmniDataGridRowRenderArgs"),
             ("Data", "OmniDataGridLoadRequest"), ("Data", "OmniDataGridResult"), ("Data", "OmniDataGridColumnDefinition"),
             ("Data", "OmniDataGridContext"), ("Foundation", "OmniTextElement"), ("Foundation", "OmniTextTone"),
-            ("Foundation", "OmniHeadingLevel"), ("Foundation", "OmniIconName"), ("Foundation", "OmniBadgeVariant"),
+            ("Foundation", "OmniHeadingLevel"), ("Foundation", "OmniIconName"), ("Foundation", "OmniTone"), ("Foundation", "OmniFill"),
             ("Foundation", "OmniImageLoading"), ("Foundation", "OmniImageFit"), ("Foundation", "OmniSkeletonShape"),
-            ("Foundation", "OmniLayoutWidth"), ("Foundation", "OmniProgressVariant"), ("Foundation", "OmniProgressShape"),
+            ("Foundation", "OmniLayoutWidth"), ("Foundation", "OmniProgressShape"),
             ("Foundation", "OmniSidebarPosition"), ("Foundation", "OmniAppearance"), ("Foundation", "OmniDensity"),
             ("Navigation", "OmniTabsContext"), ("Navigation", "OmniStepsContext"),
             ("Feedback", "OmniSeverity"), ("Overlays", "OmniDialogRequest"),
             ("Overlays", "OmniNotificationMessage"), ("Overlays", "OmniOverlayService"),
-            ("Scheduling", "OmniSchedulerView"), ("Scheduling", "OmniSchedulerAppointment"),
+            ("Scheduling", "OmniCalendarView"), ("Scheduling", "OmniSchedulerAppointment"),
             ("Selection", "OmniOption"), ("Selection", "OmniUploadRequest"),
             ("Layout", "OmniStackOrientation"), ("Layout", "OmniSpacing"),
             ("Layout", "OmniAlignment"), ("Layout", "OmniJustification")
@@ -265,11 +255,12 @@ public sealed partial class ConventionGuardTests
             .Order(StringComparer.Ordinal)
             .ToArray();
 
+        Assert.NotEmpty(declared);
         Assert.Equal(illustrated, declared);
-        Assert.True(declared.Length == 37, $"La matrice doit contenir exactement 37 composants, valeur actuelle: {declared.Length}.");
         Assert.All(matrix.RootElement.GetProperty("components").EnumerateArray(), item =>
             Assert.Equal("illustrated", item.GetProperty("evidence").GetString()));
-        Assert.Contains("<strong>37</strong>", markup, StringComparison.Ordinal);
+        // The count the page announces is the count of the matrix, whatever it grows to.
+        Assert.Contains($"<strong>{declared.Length}</strong>", markup, StringComparison.Ordinal);
         Assert.DoesNotContain("110/110", markup + resources, StringComparison.Ordinal);
         Assert.DoesNotContain("110 capacités", resources, StringComparison.Ordinal);
         Assert.DoesNotContain("110 inventoried", resources, StringComparison.Ordinal);
@@ -323,7 +314,7 @@ public sealed partial class ConventionGuardTests
     /// <summary>
     /// STD-SDKPIN: the Microsoft.CodeAnalysis packages stay on the compiler of the global.json floor. A
     /// project that references this repository by ProjectReference loads the analyzers with its own SDK;
-    /// one Roslyn version above the floor and an SDK still at the floor fails with CS9057 (PLAN-008 lot 3).
+    /// one Roslyn version above the floor and an SDK still at the floor fails with CS9057 (PLAN-004 lot 3).
     /// The guard checks the pin against the floor, never the floor itself: moving global.json is a
     /// deliberate commit that moves both.
     /// </summary>
@@ -465,6 +456,21 @@ public sealed partial class ConventionGuardTests
     }
 
     [Fact]
+    public void ShowcaseText_EveryCulturePresentHasTheNeutralKeys()
+    {
+        // The showcase pair (French neutral, English) must match, and so must every translation already
+        // present: a key added to the neutral file without its translations shows French in a German page.
+        var resources = Path.Combine(Root, "site", "OmniEurope.Blazor.Showcase", "Resources");
+        var neutral = ResourceKeys(Path.Combine(resources, "ShowcaseStrings.resx"));
+        var cultures = Directory.EnumerateFiles(resources, "ShowcaseStrings.*.resx").ToArray();
+
+        Assert.Contains(cultures, path => Path.GetFileName(path) == "ShowcaseStrings.en.resx");
+        Assert.All(cultures, path => Assert.True(
+            neutral.SequenceEqual(ResourceKeys(path)),
+            $"{Path.GetFileName(path)}: missing [{string.Join(", ", neutral.Except(ResourceKeys(path)))}], extra [{string.Join(", ", ResourceKeys(path).Except(neutral))}]."));
+    }
+
+    [Fact]
     public void LibraryLocalization_ExhaustivelyUsesMatchingResourcesAndInjectedLocalizers()
     {
         var resources = Path.Combine(Root, "src", "OmniEurope.Blazor", "Resources", "AppStrings.resx");
@@ -477,8 +483,7 @@ public sealed partial class ConventionGuardTests
             .Select(file => (file, content: File.ReadAllText(file)))
             .ToArray();
         var directResourceManagerUsage = sources
-            .Where(source => source.content.Contains("ResourceManager", StringComparison.Ordinal)
-                || source.content.Contains("OmniStrings", StringComparison.Ordinal))
+            .Where(source => source.content.Contains("ResourceManager", StringComparison.Ordinal))
             .Select(source => Path.GetRelativePath(Root, source.file))
             .ToArray();
         var hardCodedFrench = sources

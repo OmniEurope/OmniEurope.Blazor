@@ -1,23 +1,32 @@
 using Microsoft.Extensions.Localization;
+using OmniEurope.Blazor.Internal;
 using OmniEurope.Blazor.Resources;
 
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// The legend of a chart: a swatch and a name for each series, or for each slice of a pie. Built from
+/// the series of the chart by default (every series with a <c>Title</c>, in its own colour), so titles
+/// and colours are written once, on the series.
+/// </summary>
+/// <remarks>
+/// A chart part: it derives from <see cref="ComponentBase"/>, not <see cref="OmniComponentBase"/>, on
+/// purpose. It draws inside its chart, so it takes no <c>Id</c>, <c>Class</c> or extra attributes.
+/// </remarks>
 public partial class OmniLegend
 {
     [Inject] private IStringLocalizer<AppStrings> StringLocalizer { get; set; } = default!;
     [CascadingParameter] private OmniChartContext? ChartContext { get; set; }
-    [Parameter] public string Label { get; set; } = string.Empty;
-    private string EffectiveLabel => string.IsNullOrWhiteSpace(Label)
-        ? Localize("LegendLabel")
-        : Label;
-    [Parameter] public IReadOnlyList<string> Items { get; set; } = Array.Empty<string>();
+
+    /// <summary>Accessible name of the legend; null (the default) takes the localized "Legend".</summary>
+    [Parameter] public string? Label { get; set; }
 
     /// <summary>
-    /// The <c>ColorIndex</c> of the series each item names, in the order of <see cref="Items"/>. Empty,
-    /// or shorter than the items, the remaining items take the colours 0, 1, 2 and on by position.
+    /// Entries written by the host instead of the names of the series. Entry <c>i</c> takes the colour
+    /// of series <c>i</c> of the chart (colour <c>i</c> of the palette past the last series, or in a pie
+    /// chart). Empty by default: the legend lists the series of the chart.
     /// </summary>
-    [Parameter] public IReadOnlyList<int> ColorIndexes { get; set; } = Array.Empty<int>();
+    [Parameter] public IReadOnlyList<string> Items { get; set; } = Array.Empty<string>();
 
     /// <summary>
     /// Right of the plot, below the chart, or <see cref="OmniLegendPosition.Auto"/> (the default):
@@ -26,14 +35,28 @@ public partial class OmniLegend
     /// </summary>
     [Parameter] public OmniLegendPosition Position { get; set; } = OmniLegendPosition.Auto;
 
-    private OmniChartContext.LegendRegistration Registration =>
-        new(EffectiveLabel, Items, ColorIndexes, Position);
+    private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? StringLocalizer["LegendLabel"].Value : Label;
+
+    private OmniChartContext.LegendRegistration Registration => new(EffectiveLabel, Items, Position);
+
+    /// <summary>What the legend draws: from the chart, or its own items in palette order outside one.</summary>
+    private IReadOnlyList<OmniChartContext.LegendEntry> Entries =>
+        ChartContext?.LegendEntries(Registration)
+        ?? [.. Items.Select((text, index) => new OmniChartContext.LegendEntry(text, ChartColor.Slot(index)))];
 
     protected override void OnParametersSet() => ChartContext?.RegisterLegend(this, Registration);
+
     private bool Below => ChartContext?.IsLegendBelow(this) == true;
+
     // The legend column right of the plot; it moves with the plot when the chart is wide.
     private double LegendLeft => ChartContext?.LegendLeft ?? 79;
-    private string Localize(string name) => StringLocalizer[name].Value;
+
     private static string N(double value) => OmniChartGeometry.Number(value);
-    public void Dispose() { ChartContext?.UnregisterLegend(this); GC.SuppressFinalize(this); }
+
+    /// <summary>Removes the legend from its chart.</summary>
+    public void Dispose()
+    {
+        ChartContext?.UnregisterLegend(this);
+        GC.SuppressFinalize(this);
+    }
 }

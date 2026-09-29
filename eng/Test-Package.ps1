@@ -25,6 +25,7 @@ function Read-EntryText([System.IO.Compression.ZipArchiveEntry]$Entry) {
     $reader = [IO.StreamReader]::new($Entry.Open(), [Text.Encoding]::UTF8, $true)
     try { return $reader.ReadToEnd() } finally { $reader.Dispose() }
 }
+$repoRoot = Split-Path -Parent $PSScriptRoot
 $resolved = (Resolve-Path -LiteralPath $PackagePath).Path
 $archive = [System.IO.Compression.ZipFile]::OpenRead($resolved)
 try {
@@ -44,6 +45,34 @@ try {
     )
     foreach ($pattern in $requiredPatterns) {
         if (-not ($entries -match $pattern)) { throw "Package entry missing: $pattern" }
+    }
+
+    # Every file of the library's wwwroot is a static web asset a host loads by its path (the JS
+    # modules, the fonts and their licences): each must ship at the same relative path, so a module
+    # added to wwwroot and dropped by packaging fails here instead of in the host's browser.
+    $webRoot = Join-Path $repoRoot 'src/OmniEurope.Blazor/wwwroot'
+    $expectedAssets = @(Get-ChildItem -LiteralPath $webRoot -Recurse -File |
+        ForEach-Object { 'staticwebassets/' + [IO.Path]::GetRelativePath($webRoot, $_.FullName).Replace('\', '/') } |
+        Sort-Object -Unique)
+    if ($expectedAssets.Count -eq 0) { throw "No file found under $webRoot." }
+    $missingAssets = @($expectedAssets | Where-Object { $entries -cnotcontains $_ })
+    if ($missingAssets.Count -gt 0) {
+        throw "Package is missing static web assets: $($missingAssets -join ', ')"
+    }
+
+    # Every culture a resource file of the library is translated into ships as a satellite assembly.
+    # The list is read from the resx files present, so a new translation is checked without editing
+    # this script.
+    $resourceRoot = Join-Path $repoRoot 'src/OmniEurope.Blazor/Resources'
+    $cultures = @(Get-ChildItem -LiteralPath $resourceRoot -Filter '*.resx' -File |
+        ForEach-Object { if ($_.Name -match '^[^.]+\.(?<culture>[a-z]{2,3}(?:-[A-Za-z0-9]+)*)\.resx$') { $Matches.culture } } |
+        Sort-Object -Unique)
+    if ($cultures.Count -eq 0) { throw "No translated resource file found under $resourceRoot." }
+    $missingSatellites = @($cultures |
+        ForEach-Object { "lib/net10.0/$_/OmniEurope.Blazor.resources.dll" } |
+        Where-Object { $entries -cnotcontains $_ })
+    if ($missingSatellites.Count -gt 0) {
+        throw "Package is missing satellite resource assemblies: $($missingSatellites -join ', ')"
     }
 
     # The analyzer (OE0001) runs inside the consumer's compiler, which provides Roslyn: the package
@@ -111,7 +140,6 @@ try {
     }
     if ($nuspec -notmatch '<license type="expression">EUPL-1\.2</license>') { throw 'NuGet license expression is missing or incorrect.' }
 
-    $repoRoot = Split-Path -Parent $PSScriptRoot
     [xml]$central = Get-Content -LiteralPath (Join-Path $repoRoot 'Directory.Packages.props') -Raw
     [xml]$project = Get-Content -LiteralPath (Join-Path $repoRoot 'src/OmniEurope.Blazor/OmniEurope.Blazor.csproj') -Raw
     $centralVersions = @{}
@@ -141,7 +169,7 @@ try {
     if ($nuspec -match 'Microsoft\.AspNetCore\.App|frameworkReference') {
         throw 'NuGet package still declares a server-only framework reference.'
     }
-    Write-Host "NuGet content passed: $($entries.Count) entries."
+    Write-Host "NuGet content passed: $($entries.Count) entries, $($expectedAssets.Count) static web assets, $($cultures.Count) satellite cultures ($($cultures -join ', '))."
 } finally {
     $archive.Dispose()
 }

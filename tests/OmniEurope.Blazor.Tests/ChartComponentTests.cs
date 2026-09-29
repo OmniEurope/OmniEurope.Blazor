@@ -43,8 +43,9 @@ public sealed class ChartComponentTests : OmniBunitContext
     public void PublicBarColumnAndArea_RenderNegativeEmptyAndStackedStates()
     {
         var points = new[] { new OmniChartPoint(0, -5, "Loss"), new OmniChartPoint(1, 10, "Gain") };
-        var bars = Render<OmniBarSeries>(parameters => parameters
+        var bars = Render<OmniColumnSeries>(parameters => parameters
             .Add(component => component.Data, points)
+            .Add(component => component.Horizontal, true)
             .Add(component => component.Title, "Bars"));
         var columns = Render<OmniColumnSeries>(parameters => parameters
             .Add(component => component.Data, points)
@@ -53,14 +54,14 @@ public sealed class ChartComponentTests : OmniBunitContext
             .Add(component => component.Stacked, true)
             .Add(component => component.Data, points)
             .Add(component => component.Title, "Area"));
-        var empty = Render<OmniBarSeries>();
+        var empty = Render<OmniColumnSeries>(parameters => parameters.Add(component => component.Horizontal, true));
 
         Assert.Equal(2, bars.FindAll("rect").Count);
         Assert.All(bars.FindAll("rect"), rectangle => Assert.True(Number(rectangle, "width") >= 0));
         Assert.Equal(2, columns.FindAll("rect").Count);
         Assert.All(columns.FindAll("rect"), rectangle => Assert.True(Number(rectangle, "height") >= 0));
-        Assert.Equal("Bars", bars.Find("g").GetAttribute("aria-label"));
-        Assert.Equal("Columns", columns.Find("g").GetAttribute("aria-label"));
+        Assert.Contains("omni-chart__bars", bars.Find("g").ClassList);
+        Assert.Contains("omni-chart__columns", columns.Find("g").ClassList);
         Assert.Contains("Loss", bars.Markup, StringComparison.Ordinal);
         Assert.Contains("Loss", columns.Markup, StringComparison.Ordinal);
         Assert.StartsWith("5,95", area.Find("polygon").GetAttribute("points"), StringComparison.Ordinal);
@@ -83,7 +84,8 @@ public sealed class ChartComponentTests : OmniBunitContext
     {
         var gauge = Render<ChartTestHost>();
         Assert.Contains("75", gauge.Find(".omni-arc-gauge__value text").TextContent, StringComparison.Ordinal);
-        Assert.Equal("Progression", gauge.Find(".omni-arc-gauge__svg").GetAttribute("aria-label"));
+        // The accessible name carries the value, which a role="img" drawing would otherwise hide.
+        Assert.Equal("Progression : 75", gauge.Find(".omni-arc-gauge__svg").GetAttribute("aria-label"));
         Assert.StartsWith("M ", gauge.Find(".omni-arc-gauge__value path").GetAttribute("d"), StringComparison.Ordinal);
 
         var below = Render<OmniArcGaugeScaleValue>(parameters => parameters

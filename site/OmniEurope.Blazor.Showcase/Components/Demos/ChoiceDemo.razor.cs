@@ -38,4 +38,13 @@ public partial class ChoiceDemo
     private string Platform { get; set; } = "linux";
 
     private bool Runner { get; set; } = true;
+
+    private static readonly IReadOnlyList<OmniOption<string>> Features =
+    [
+        new("cache", "Cache des dépendances"),
+        new("artefacts", "Conservation des artefacts"),
+        new("gpu", "Accélération GPU", Disabled: true)
+    ];
+
+    private IReadOnlyList<string> AgentFeatures { get; set; } = ["cache"];
 }

@@ -31,11 +31,12 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
     {
         var settings = Render<OmniAppearanceSettings>(parameters => parameters
             .Add(component => component.TextSizeLevelChanged, _ => { })
-            .Add(component => component.DensityLevelChanged, _ => { }));
+            .Add(component => component.DensityChanged, _ => { }));
 
-        settings.FindAll(".omni-appearance-settings__row")[4].QuerySelector("button")!.Click();
+        settings.Find(".omni-appearance-settings__row--scale button").Click();
 
-        Assert.Equal(2, settings.FindAll(".omni-appearance-settings--scale input[type=range]").Count);
+        // The text size has its slider; the density is a choice of three, without one.
+        Assert.Single(settings.FindAll(".omni-appearance-settings--scale input[type=range]"));
         Assert.DoesNotContain("Taille des contrôles", settings.Markup, StringComparison.Ordinal);
     }
 
@@ -47,14 +48,14 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
             .Add(component => component.ControlSizeLevel, 8)
             .Add(component => component.ControlSizeLevelChanged, value => controlSize = value));
 
-        Assert.Contains("Taille du texte / Densité / Contrôles", settings.Markup, StringComparison.Ordinal);
-        settings.FindAll(".omni-appearance-settings__row")[4].QuerySelector("button")!.Click();
+        settings.Find(".omni-appearance-settings__row--scale button").Click();
         var rows = settings.FindAll(".omni-appearance-settings--scale .omni-appearance-settings__row");
         Assert.Equal(3, rows.Count);
         Assert.Contains("Taille des contrôles", rows[2].TextContent, StringComparison.Ordinal);
         Assert.Contains("8/10", rows[2].TextContent, StringComparison.Ordinal);
 
-        settings.FindAll(".omni-appearance-settings--scale input[type=range]")[2].Input("3");
+        // Text size and controls have a slider each; the density row between them has none.
+        settings.FindAll(".omni-appearance-settings--scale input[type=range]")[1].Input("3");
         Assert.Equal(3, controlSize);
 
         settings.FindAll(".omni-appearance-settings--scale .omni-appearance-settings__row")[2].QuerySelectorAll("button").Last().Click();
@@ -110,7 +111,7 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
     [Fact]
     public void Wheel_scope_is_handed_to_the_grid_script_only_when_named()
     {
-        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-grid.js");
+        var module = JSInterop.SetupModule(Internal.OmniModules.Grid);
 
         Render<OmniDataGrid<int>>(parameters => parameters.Add(component => component.Items, new[] { 1, 2, 3 }));
         Assert.Empty(module.Invocations["attachWheelScope"]);
@@ -126,7 +127,7 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
     [Fact]
     public void Tabs_hand_their_wheel_scope_to_the_script_only_with_scrollable_panels()
     {
-        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-focus.js");
+        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
         RenderFragment panels = builder =>
         {
             builder.OpenComponent<OmniTabsItem>(0);
@@ -156,7 +157,7 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
     {
         var grid = Render<OmniDataGrid<Row>>(parameters => parameters
             .Add(component => component.Items, new[] { new Row(1, "Alpha"), new Row(12, "Beta"), new Row(28, "Gamma") })
-            .Add(component => component.AllowFiltering, true)
+            .Add(component => component.Filterable, true)
             .Add(component => component.FilterMode, OmniDataGridFilterMode.SimpleWithMenu)
             .Add(component => component.ShowHeaderFilterMenu, true)
             .Add(component => component.Columns, (RenderFragment)(builder =>

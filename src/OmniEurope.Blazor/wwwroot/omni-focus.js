@@ -24,28 +24,6 @@ function rememberTarget(key) {
     }
 }
 
-export function activateMenu(menu, key) {
-    rememberTarget(key);
-    const items = Array.from(menu?.querySelectorAll('[role="menuitem"]:not([disabled])') ?? []);
-    (items[0] ?? menu)?.focus({ preventScroll: true });
-}
-
-export function moveMenuFocus(menu, key) {
-    const items = Array.from(menu?.querySelectorAll('[role="menuitem"]:not([disabled])') ?? []);
-    if (items.length === 0) {
-        menu?.focus();
-        return;
-    }
-
-    const current = Math.max(0, items.indexOf(document.activeElement));
-    let next = current;
-    if (key === 'ArrowDown') next = (current + 1) % items.length;
-    if (key === 'ArrowUp') next = (current - 1 + items.length) % items.length;
-    if (key === 'Home') next = 0;
-    if (key === 'End') next = items.length - 1;
-    items[next].focus();
-}
-
 export function activateDialog(dialog, key, holdBackdrop) {
     rememberTarget(key);
     const items = focusableElements(dialog);
@@ -550,219 +528,220 @@ export function disposeFieldsetToggle(details) {
     }
 }
 
-const contextMenus = new Map();
+// ---- menus ------------------------------------------------------------------------------------
+// One engine for every menu of the package: the overflow ("⋮"), context, split button and profile
+// menus, and the context menu of the HTML editor. It places the open menu, focuses its first or last
+// item, reports a press outside and gives the focus back when the menu closes. The keys of the open
+// menu are routed by .NET (OmniMenuController) and move the focus through moveMenuFocus; the script
+// only keeps the page from scrolling on them, and on Tab puts the focus back on the trigger at once
+// so the browser's own move goes on from there, as it does from a native menu.
+//
+// The menu is found by id: the overlay portal may render it far from its component, and a reference
+// the portal never captured reached this script as an empty object. It lives in the portal, so no
+// scrolling area or containment of the page clips it or becomes the containing block of its fixed
+// position. Placements: 'start' and 'end' align the menu under its anchor by that edge, flipped in a
+// right-to-left page, and above the anchor when there is no room below; 'pointer' opens at (x, y),
+// towards the other side of the pointer past an edge, and under the anchor when the keyboard opened
+// it. The menu is moved back inside the window either way. A second call while open only moves it.
+const menus = new Map();
+const menuNavigationKeys = new Set(['ArrowDown', 'ArrowUp', 'Home', 'End', 'Escape']);
 
-// A context menu opens where it was asked for: at the pointer, or under its trigger when the
-// keyboard opened it, and moves back inside the viewport rather than past its edge. The popup is
-// found by id because the overlay portal may render it far from the component, which is also why no
-// element reference is passed: a reference the portal never captured reached this script as an
-// empty object and threw. A second call while open only moves the menu.
-export function openContextMenu(popupId, key, trigger, x, y, dotnet) {
-    let state = contextMenus.get(key);
-    if (!state) {
-        rememberTarget(key);
-        state = { popup: null, attempts: 0 };
-        state.onPointerDown = event => {
-            // A second right-click on the trigger moves the menu instead of closing it.
-            if (event.button === 2 && trigger?.contains(event.target)) {
-                return;
-            }
-
-            if (pressedOutside(event, state.popup)) {
-                void dotnet.invokeMethodAsync('OmniContextMenu.Dismiss');
-            }
-        };
-        document.addEventListener('pointerdown', state.onPointerDown, true);
-        contextMenus.set(key, state);
-    }
-
-    const popup = document.getElementById(popupId);
-    if (!popup) {
-        if (state.attempts++ < 10) {
-            setTimeout(() => contextMenus.get(key) === state && openContextMenu(popupId, key, trigger, x, y, dotnet), 16);
-        }
-
-        return;
-    }
-
-    state.attempts = 0;
-    state.popup = popup;
-    placeMenu(popup, trigger, x, y);
-    const items = Array.from(popup.querySelectorAll('[role="menuitem"]:not([disabled])'));
-    (items[0] ?? popup).focus({ preventScroll: true });
+function menuItems(menu) {
+    return Array.from(menu?.querySelectorAll('[role="menuitem"]:not([disabled]):not([aria-disabled="true"])') ?? []);
 }
 
-function placeMenu(popup, trigger, x, y) {
-    let left = x;
-    let top = y;
-    if (typeof left !== 'number' || typeof top !== 'number') {
-        const anchor = trigger?.getBoundingClientRect();
-        left = anchor?.left ?? 0;
-        top = anchor?.bottom ?? 0;
-    }
-
-    const place = () => {
-        popup.style.setProperty('--omni-menu-x', `${Math.round(left)}px`);
-        popup.style.setProperty('--omni-menu-y', `${Math.round(top)}px`);
-    };
-    popup.setAttribute('data-omni-placed', '');
-    place();
-
-    // Past the right or bottom edge, the menu opens towards the other side of the pointer, as a
-    // native one does, and never starts outside the viewport.
-    const margin = 8;
-    const box = popup.getBoundingClientRect();
-    const width = document.documentElement.clientWidth;
-    const height = document.documentElement.clientHeight;
-    if (box.right > width - margin) {
-        left = Math.max(margin, Math.min(left - box.width, width - box.width - margin));
-    }
-
-    if (box.bottom > height - margin) {
-        top = Math.max(margin, Math.min(top - box.height, height - box.height - margin));
-    }
-
-    place();
+// The floating surface: the menu itself, or the panel around it when a header sits above the list.
+function menuSurface(menu) {
+    return menu?.closest('[data-omni-menu-surface]') ?? menu;
 }
 
-export function moveContextMenuFocus(popupId, key) {
-    moveMenuFocus(document.getElementById(popupId), key);
+// The control that opened the menu: the anchor itself, or the button in it that announces the menu.
+function menuTrigger(anchor) {
+    if (!(anchor instanceof HTMLElement)) {
+        return null;
+    }
+
+    return anchor.matches('[aria-haspopup]') ? anchor : anchor.querySelector('[aria-haspopup]') ?? anchor;
 }
 
-// Focus goes back to where it was only when the menu still held it: a press outside that moved it
-// to another control leaves it there.
-export function closeContextMenu(key) {
-    const state = contextMenus.get(key);
-    if (state) {
-        document.removeEventListener('pointerdown', state.onPointerDown, true);
-        contextMenus.delete(key);
-    }
-
-    const active = document.activeElement;
-    if (active instanceof HTMLElement && active !== document.body && active.isConnected && !state?.popup?.contains(active)) {
-        returnTargets.delete(key);
-        return;
-    }
-
-    return restoreFocus(key);
-}
-
-// ---- overflow ("⋮") menu --------------------------------------------------------------------
-// The menu opens under its trigger, its end edge on the trigger's end edge, and is moved back inside
-// the viewport: to the side when it would pass an edge, above the trigger when there is no room
-// below. It lives in the overlay portal, so no scrolling area or containment of the page clips it or
-// becomes the containing block of its fixed position. A press on the trigger is left to the trigger's
-// own click, which toggles: dismissing on that press as well made the click open the menu again.
-const overflowMenus = new Map();
-
-function placeOverflowMenu(popup, trigger) {
-    const anchor = trigger?.getBoundingClientRect();
-    if (!anchor) {
-        return;
-    }
-
-    popup.setAttribute('data-omni-placed', '');
+function placeMenu(surface, anchor, placement, x, y) {
     const margin = viewportMargin;
     const gap = 4;
     const width = document.documentElement.clientWidth;
     const height = document.documentElement.clientHeight;
-    const box = popup.getBoundingClientRect();
-    const rtl = getComputedStyle(trigger).direction === 'rtl';
-    let left = rtl ? anchor.left : anchor.right - box.width;
-    left = Math.min(left, width - margin - box.width);
-    left = Math.max(margin, left);
-    let top = anchor.bottom + gap;
-    if (top + box.height > height - margin) {
-        const above = anchor.top - gap - box.height;
-        top = above >= margin ? above : Math.max(margin, height - margin - box.height);
+    surface.setAttribute('data-omni-placed', '');
+    const box = surface.getBoundingClientRect();
+    let left;
+    let top;
+    if (placement === 'pointer' && typeof x === 'number' && typeof y === 'number') {
+        left = x + box.width > width - margin ? x - box.width : x;
+        top = y + box.height > height - margin ? y - box.height : y;
+    } else {
+        const rect = anchor instanceof HTMLElement ? anchor.getBoundingClientRect() : null;
+        if (!rect) {
+            return;
+        }
+
+        const rtl = getComputedStyle(anchor).direction === 'rtl';
+        left = (placement === 'end') !== rtl ? rect.right - box.width : rect.left;
+        top = rect.bottom + gap;
+        if (top + box.height > height - margin) {
+            const above = rect.top - gap - box.height;
+            top = above >= margin ? above : height - margin - box.height;
+        }
     }
 
-    popup.style.setProperty('--omni-menu-x', `${Math.round(left)}px`);
-    popup.style.setProperty('--omni-menu-y', `${Math.round(top)}px`);
+    left = Math.max(margin, Math.min(left, width - margin - box.width));
+    top = Math.max(margin, Math.min(top, height - margin - box.height));
+    surface.style.setProperty('--omni-menu-x', `${Math.round(left)}px`);
+    surface.style.setProperty('--omni-menu-y', `${Math.round(top)}px`);
 }
 
-function overflowTrigger(root) {
-    return root?.querySelector('.omni-overflow-menu__trigger') ?? root;
-}
-
-export function openOverflowMenu(popupId, key, root, dotnet, focusLast) {
-    let state = overflowMenus.get(key);
+function showMenu(key, options) {
+    let state = menus.get(key);
     if (!state) {
         rememberTarget(key);
-        state = { popup: null, attempts: 0, root };
+        state = { menu: null, attempts: 0, options };
         state.onPointerDown = event => {
-            if (pressedOutside(event, state.popup, root)) {
-                void dotnet.invokeMethodAsync('OmniOverflowMenu.Dismiss', false);
-            }
-        };
-        state.onPlace = () => state.popup?.isConnected && placeOverflowMenu(state.popup, root);
-        state.onKeyDown = event => {
-            if (event.key === 'Escape' || event.key === 'Tab') {
-                // Back to the trigger at once: Escape stays there, Tab goes on from there to the next
-                // control, as it does from a native menu.
-                returnTargets.delete(key);
-                overflowTrigger(root)?.focus({ preventScroll: true });
-                if (event.key === 'Escape') {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-
-                void dotnet.invokeMethodAsync('OmniOverflowMenu.Dismiss', false);
+            const { anchor, placement } = state.options;
+            // A press on the trigger is left to its own click, which toggles: dismissing on that press
+            // as well made the click open the menu again. A second right-click on the region of a
+            // context menu moves the menu instead of closing it.
+            if (anchor?.contains(event.target) && (placement !== 'pointer' || event.button === 2)) {
                 return;
             }
 
-            if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+            if (state.options.closeOnOutsideClick !== false && pressedOutside(event, menuSurface(state.menu))) {
+                state.options.dismiss(false);
+            }
+        };
+        state.onPlace = () => {
+            const { anchor, placement, x, y } = state.options;
+            if (state.menu?.isConnected && !(placement === 'pointer' && typeof x === 'number')) {
+                placeMenu(menuSurface(state.menu), anchor, placement, x, y);
+            }
+        };
+        state.onKeyDown = event => {
+            if (menuNavigationKeys.has(event.key)) {
                 event.preventDefault();
-                moveMenuFocus(state.popup, event.key);
+            } else if (event.key === 'Tab') {
+                returnTargets.delete(key);
+                menuTrigger(state.options.anchor)?.focus({ preventScroll: true });
             }
         };
         document.addEventListener('pointerdown', state.onPointerDown, true);
         window.addEventListener('resize', state.onPlace);
         window.addEventListener('scroll', state.onPlace, true);
-        overflowMenus.set(key, state);
+        menus.set(key, state);
     }
 
-    const popup = document.getElementById(popupId);
-    if (!popup) {
+    state.options = options;
+    const menu = document.getElementById(options.menuId);
+    if (!menu) {
         if (state.attempts++ < 10) {
-            setTimeout(() => overflowMenus.get(key) === state && openOverflowMenu(popupId, key, root, dotnet, focusLast), 16);
+            setTimeout(() => menus.get(key) === state && showMenu(key, state.options), 16);
         }
 
         return;
     }
 
     state.attempts = 0;
-    if (state.popup !== popup) {
-        state.popup?.removeEventListener('keydown', state.onKeyDown);
-        popup.addEventListener('keydown', state.onKeyDown);
-        state.popup = popup;
+    if (state.menu !== menu) {
+        state.menu?.removeEventListener('keydown', state.onKeyDown);
+        if (options.keys !== false) {
+            menu.addEventListener('keydown', state.onKeyDown);
+        }
+
+        state.menu = menu;
     }
 
-    placeOverflowMenu(popup, root);
-    const items = Array.from(popup.querySelectorAll('[role="menuitem"]:not([disabled])'));
-    ((focusLast ? items.at(-1) : items[0]) ?? popup).focus({ preventScroll: true });
+    placeMenu(menuSurface(menu), options.anchor, options.placement, options.x, options.y);
+    const items = menuItems(menu);
+    ((options.focusLast ? items.at(-1) : items[0]) ?? menu).focus({ preventScroll: true });
 }
 
-// restore: the focus goes back to the trigger (an item was chosen, the trigger pressed again);
-// without it, it stays where a press outside put it.
-export function closeOverflowMenu(key, restore) {
-    const state = overflowMenus.get(key);
+export function openMenu(menuId, key, anchor, placement, x, y, focusLast, closeOnOutsideClick, dotnet) {
+    showMenu(key, {
+        menuId,
+        anchor,
+        placement,
+        x,
+        y,
+        focusLast,
+        closeOnOutsideClick,
+        dismiss: restore => void dotnet.invokeMethodAsync('OmniMenu.Dismiss', restore)
+    });
+}
+
+// The focus goes back to the trigger with restore (Escape, an item chosen, the trigger pressed
+// again), or when it was still in the menu, which is about to leave the page; a press outside that
+// moved it to another control leaves it there. A menu opened at the pointer gives it back to where it
+// was before, a menu with a trigger to that trigger (a click does not focus a button everywhere).
+export function closeMenu(key, restore) {
+    const state = menus.get(key);
     if (state) {
         document.removeEventListener('pointerdown', state.onPointerDown, true);
         window.removeEventListener('resize', state.onPlace);
         window.removeEventListener('scroll', state.onPlace, true);
-        state.popup?.removeEventListener('keydown', state.onKeyDown);
-        overflowMenus.delete(key);
+        state.menu?.removeEventListener('keydown', state.onKeyDown);
+        menus.delete(key);
     }
 
-    const target = returnTargets.get(key);
+    const before = returnTargets.get(key);
     returnTargets.delete(key);
-    if (restore) {
-        const trigger = overflowTrigger(state?.root) ?? target;
-        if (trigger?.isConnected && !trigger.closest('[inert]')) {
-            trigger.focus({ preventScroll: true });
-        }
+    const active = document.activeElement;
+    const surface = menuSurface(state?.menu);
+    const focusLeft = active instanceof HTMLElement && active !== document.body && active.isConnected && !surface?.contains(active);
+    if (!restore && focusLeft) {
+        return;
     }
+
+    const trigger = menuTrigger(state?.options.anchor);
+    const target = state?.options.placement === 'pointer' ? before ?? trigger : trigger ?? before;
+    if (target?.isConnected && !target.closest('[inert]')) {
+        target.focus({ preventScroll: true });
+    }
+}
+
+export function moveMenuFocus(menuOrId, key) {
+    const menu = typeof menuOrId === 'string' ? document.getElementById(menuOrId) : menuOrId;
+    const items = menuItems(menu);
+    if (items.length === 0) {
+        menu?.focus();
+        return;
+    }
+
+    const current = Math.max(0, items.indexOf(document.activeElement));
+    let next = current;
+    if (key === 'ArrowDown') next = (current + 1) % items.length;
+    if (key === 'ArrowUp') next = (current - 1 + items.length) % items.length;
+    if (key === 'Home') next = 0;
+    if (key === 'End') next = items.length - 1;
+    items[next].focus();
+}
+
+// The context menu of OmniHtmlEditor, which draws its own list and routes its own keys: the same
+// engine, opened at the pointer, its press outside reported without an argument.
+export function openContextMenu(popupId, key, trigger, x, y, dotnet) {
+    showMenu(key, {
+        menuId: popupId,
+        anchor: trigger,
+        placement: 'pointer',
+        x,
+        y,
+        focusLast: false,
+        closeOnOutsideClick: true,
+        keys: false,
+        dismiss: () => void dotnet.invokeMethodAsync('OmniContextMenu.Dismiss')
+    });
+}
+
+export function moveContextMenuFocus(popupId, key) {
+    moveMenuFocus(popupId, key);
+}
+
+export function closeContextMenu(key) {
+    closeMenu(key, false);
 }
 
 const tabsWheelScopes = new Map();

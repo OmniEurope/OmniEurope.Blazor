@@ -13,8 +13,8 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class HtmlEditorExtensionTests : OmniBunitContext
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-html-editor.js";
-    private const string FocusModulePath = "./_content/OmniEurope.Blazor/omni-focus.js";
+    private const string ModulePath = OmniModules.HtmlEditor;
+    private const string FocusModulePath = OmniModules.Focus;
 
     [Fact]
     public void ArrangeToolbar_ByDefault_AppendsTheCommandsAfterASeparator()

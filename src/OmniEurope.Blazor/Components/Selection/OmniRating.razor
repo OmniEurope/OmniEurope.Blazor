@@ -3,9 +3,9 @@
 
 @if (IsReadOnlyDisplay)
 {
-    @* Read-only: one focusable image that announces the value, with the stars drawn inside it; nothing
-       to press, and not dimmed like a disabled control. *@
-    <span @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-rating", "omni-rating--readonly")" role="img" tabindex="0" aria-label="@ValueLabel">
+    @* Read-only: one image that announces the value ("Note : 3 sur 5"), with the stars drawn inside it;
+       nothing to press, so no tab stop, and not dimmed like a disabled control. *@
+    <span @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-rating", "omni-rating--readonly")" role="img" aria-label="@ValueLabel">
         @foreach (var star in Enumerable.Range(1, Maximum))
         {
             <span class="omni-rating__star" aria-hidden="true">
@@ -16,14 +16,24 @@
 }
 else
 {
-    <span @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-rating", Disabled ? "omni-rating--disabled" : null)" role="group" aria-label="@Label">
+    @* Picking one of N is a radio group: native radio buttons, visually hidden behind their stars, give
+       the checked state, the single tab stop and the arrow keys (which move and check) without script. *@
+    <span @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-rating", Disabled ? "omni-rating--disabled" : null)"
+          role="radiogroup" aria-label="@EffectiveLabel" aria-disabled="@(Disabled ? "true" : null)" aria-invalid="@AriaInvalid">
         @foreach (var star in Enumerable.Range(1, Maximum))
         {
-            <button type="button" class="omni-rating__star" disabled="@Disabled"
-                    aria-label="@StarLabel(star)" aria-pressed="@(CurrentValue == star ? "true" : "false")"
-                    @onclick="() => Select(star)">
-                <OmniIcon Name="@(star <= CurrentValue ? OmniIconName.StarFilled : OmniIconName.Star)" Size="OmniControlSize.Small" />
-            </button>
+            var position = star;
+            <label class="omni-rating__star">
+                <input type="radio"
+                       class="omni-rating__input"
+                       name="@GroupName"
+                       value="@position"
+                       checked="@(CurrentValue == position)"
+                       disabled="@Disabled"
+                       aria-label="@StarLabel(position)"
+                       @onchange="() => Select(position)" />
+                <OmniIcon Name="@(position <= CurrentValue ? OmniIconName.StarFilled : OmniIconName.Star)" Size="OmniControlSize.Small" />
+            </label>
         }
     </span>
 }

@@ -15,8 +15,8 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class OptInEvolutionTests : OmniBunitContext
 {
-    private const string FocusModule = "./_content/OmniEurope.Blazor/omni-focus.js";
-    private const string GridModule = "./_content/OmniEurope.Blazor/omni-grid.js";
+    private const string FocusModule = Internal.OmniModules.Focus;
+    private const string GridModule = Internal.OmniModules.Grid;
 
     [Fact]
     public void Tabs_WithoutExternalBinding_SwitchTheirVisiblePanel()
@@ -61,7 +61,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
                 <button type="button" class="omni-visually-hidden" data-focus-sentinel aria-label="Fin du dialogue"></button>
                 <header class="omni-dialog__header">
                   <h2 id="confirm-title" class="omni-dialog__title">Confirmation</h2>
-                  <button type="button" class="omni-dialog__close" aria-label="Fermer" autofocus>×</button>
+                  <button type="button" class="omni-dialog__close" aria-label="Fermer" title="Fermer" autofocus diff:ignoreChildren></button>
                 </header>
                 <div class="omni-dialog__content" tabindex="-1">Continuer ?</div>
                 <button type="button" class="omni-visually-hidden" data-focus-sentinel aria-label="Début du dialogue"></button>
@@ -195,14 +195,13 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     }
 
     [Fact]
-    public void Dialog_NotDismissible_OverridesCloseOnEscapeAndCloseOnBackdrop()
+    public void Dialog_NotDismissible_IgnoresEscapeAndOverridesCloseOnBackdrop()
     {
         var open = true;
         var dialog = Render<OmniDialog>(parameters => parameters
             .Add(component => component.Open, open)
             .Add(component => component.OpenChanged, value => open = value)
             .Add(component => component.Title, "Mise à jour")
-            .Add(component => component.CloseOnEscape, true)
             .Add(component => component.CloseOnBackdrop, true)
             .Add(component => component.Dismissible, false)
             .AddChildContent("Installation en cours."));
@@ -212,6 +211,31 @@ public sealed class OptInEvolutionTests : OmniBunitContext
 
         Assert.True(open);
         Assert.Equal("alertdialog", dialog.Find(".omni-dialog").GetAttribute("role"));
+        // No close button, so no autofocus on a button that is not there: the panel takes the focus.
+        Assert.Empty(dialog.FindAll(".omni-dialog__close"));
+        Assert.Empty(dialog.FindAll("[autofocus]"));
+        Assert.Equal("-1", dialog.Find(".omni-dialog").GetAttribute("tabindex"));
+    }
+
+    [Fact]
+    public void Dialog_ModelessWindow_KeepsItsCloseButtonWithoutAutofocus_AndEscapeStillClosesIt()
+    {
+        var open = true;
+        var dialog = Render<OmniDialog>(parameters => parameters
+            .Add(component => component.Open, open)
+            .Add(component => component.OpenChanged, value => open = value)
+            .Add(component => component.Modal, false)
+            .Add(component => component.Title, "Journal")
+            .AddChildContent("Lignes"));
+
+        var close = dialog.Find(".omni-dialog__close");
+        Assert.False(close.HasAttribute("autofocus"));
+        Assert.Equal(close.GetAttribute("aria-label"), close.GetAttribute("title"));
+        Assert.NotNull(close.QuerySelector("svg.omni-icon"));
+        Assert.DoesNotContain("×", close.TextContent, StringComparison.Ordinal);
+
+        dialog.Find(".omni-dialog").KeyDown(new KeyboardEventArgs { Key = "Escape" });
+        Assert.False(open);
     }
 
     // ---- numeric ---------------------------------------------------------------------------------
@@ -226,8 +250,8 @@ public sealed class OptInEvolutionTests : OmniBunitContext
                 .Add(component => component.Value, value)
                 .Add(component => component.ValueChanged, next => value = next)
                 .Add(component => component.ValueExpression, () => value)
-                .Add(component => component.Minimum, "0")
-                .Add(component => component.Maximum, "100"));
+                .Add(component => component.Minimum, 0d)
+                .Add(component => component.Maximum, 100d));
 
             numeric.MarkupMatches("""<input class="omni-input omni-numeric" type="number" value="5" min="0" max="100" />""");
 
@@ -251,8 +275,8 @@ public sealed class OptInEvolutionTests : OmniBunitContext
                 .Add(component => component.Value, value)
                 .Add(component => component.ValueChanged, received.Add)
                 .Add(component => component.ValueExpression, () => value)
-                .Add(component => component.Minimum, "0")
-                .Add(component => component.Maximum, "100")
+                .Add(component => component.Minimum, 0d)
+                .Add(component => component.Maximum, 100d)
                 .Add(component => component.Clamp, true));
 
             numeric.Find("input").Change("150");
@@ -280,8 +304,8 @@ public sealed class OptInEvolutionTests : OmniBunitContext
                 .Add(component => component.Value, value)
                 .Add(component => component.ValueChanged, next => value = next)
                 .Add(component => component.ValueExpression, () => value)
-                .Add(component => component.Minimum, "0")
-                .Add(component => component.Maximum, "20")
+                .Add(component => component.Minimum, 0d)
+                .Add(component => component.Maximum, 20d)
                 .Add(component => component.Clamp, true));
 
             var before = numeric.RenderCount;
@@ -308,8 +332,8 @@ public sealed class OptInEvolutionTests : OmniBunitContext
                 .Add(component => component.Value, value)
                 .Add(component => component.ValueChanged, next => value = next)
                 .Add(component => component.ValueExpression, () => value)
-                .Add(component => component.Minimum, "0")
-                .Add(component => component.Maximum, "20"));
+                .Add(component => component.Minimum, 0d)
+                .Add(component => component.Maximum, 20d));
 
             var before = numeric.RenderCount;
             numeric.Find("input").Change("150");
@@ -346,15 +370,18 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     }
 
     [Fact]
-    public void Numeric_Clamp_IgnoresABoundThatIsMissingOrUnreadable()
+    public void Numeric_Clamp_IgnoresABoundThatIsMissingOrDoesNotConvert()
     {
         WithCulture(CultureInfo.InvariantCulture, () =>
         {
-            Assert.Equal(500, ClampThrough<int>(null, "abc", "500", 0));
+            // 2.5 is no int: the bound is ignored, as an unreadable text bound was.
+            Assert.Equal(500, ClampThrough<int>(null, "2.5", "500", 0));
             Assert.Equal(0, ClampThrough<int>("0", null, "-4", 5));
         });
     }
 
+    // The bounds are written as the invariant text the browser reads, then passed as the double the
+    // parameters are.
     private TValue ClampThrough<TValue>(string? minimum, string? maximum, string typed, TValue initial)
     {
         var value = initial;
@@ -362,8 +389,8 @@ public sealed class OptInEvolutionTests : OmniBunitContext
             .Add(component => component.Value, initial)
             .Add(component => component.ValueChanged, next => value = next)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.Minimum, minimum)
-            .Add(component => component.Maximum, maximum)
+            .Add(component => component.Minimum, minimum is null ? null : double.Parse(minimum, CultureInfo.InvariantCulture))
+            .Add(component => component.Maximum, maximum is null ? null : double.Parse(maximum, CultureInfo.InvariantCulture))
             .Add(component => component.Clamp, true));
 
         numeric.Find("input").Change(typed);
@@ -373,12 +400,12 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     // ---- split button ----------------------------------------------------------------------------
 
     [Fact]
-    public void SplitButton_IconOnly_NamesItsMainPartThroughAriaLabel()
+    public void SplitButton_IconOnly_NamesItsMainPartThroughLabel()
     {
         var split = Render<OmniSplitButton>(parameters => parameters
             .Add(component => component.Text, string.Empty)
             .Add(component => component.Icon, Icon(OmniIconName.Eye))
-            .Add(component => component.AriaLabel, "Aperçu")
+            .Add(component => component.Label, "Aperçu")
             .Add(component => component.MenuLabel, "Autres actions"));
 
         var main = split.Find(".omni-split-button__main");
@@ -452,7 +479,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     // ---- fieldset --------------------------------------------------------------------------------
 
     [Fact]
-    public void Fieldset_WithoutCollapsedChanged_RendersAsBeforeAndRunsNoScript()
+    public void Fieldset_WithoutExpandedChanged_RendersAsBeforeAndRunsNoScript()
     {
         JSInterop.Mode = JSRuntimeMode.Strict;
 
@@ -463,7 +490,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
         var folded = Render<OmniFieldset>(parameters => parameters
             .Add(component => component.Legend, Content("Avancé"))
             .Add(component => component.Collapsible, true)
-            .Add(component => component.Collapsed, true)
+            .Add(component => component.Expanded, false)
             .AddChildContent("Champs"));
         var plain = Render<OmniFieldset>(parameters => parameters
             .Add(component => component.Legend, Content("Contact"))
@@ -495,7 +522,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     }
 
     [Fact]
-    public async Task Fieldset_CollapsedChanged_ReportsWhatTheReaderDoesButNotWhatTheHostDid()
+    public async Task Fieldset_ExpandedChanged_ReportsWhatTheReaderDoesButNotWhatTheHostDid()
     {
         var module = JSInterop.SetupModule(FocusModule);
         var host = Render<FieldsetToggleTestHost>();
@@ -506,16 +533,16 @@ public sealed class OptInEvolutionTests : OmniBunitContext
 
         // The reader opens, then closes the group; the bound value follows.
         await host.InvokeAsync(() => InvokeJsCallback(reference, "OmniFieldset.Toggled", true));
-        Assert.False(host.Instance.Collapsed);
+        Assert.True(host.Instance.Expanded);
         await host.InvokeAsync(() => InvokeJsCallback(reference, "OmniFieldset.Toggled", false));
-        Assert.True(host.Instance.Collapsed);
-        Assert.Equal(new[] { false, true }, host.Instance.Reported);
+        Assert.False(host.Instance.Expanded);
+        Assert.Equal(new[] { true, false }, host.Instance.Reported);
 
         // The host opens it: the toggle the browser fires for that change is not echoed back.
-        await host.InvokeAsync(() => host.Instance.Fold(false));
+        await host.InvokeAsync(() => host.Instance.Open(true));
         Assert.True(host.Find("details").HasAttribute("open"));
         await host.InvokeAsync(() => InvokeJsCallback(reference, "OmniFieldset.Toggled", true));
-        Assert.Equal(new[] { false, true }, host.Instance.Reported);
+        Assert.Equal(new[] { true, false }, host.Instance.Reported);
 
         // The listener goes when the callback does, on the same fieldset.
         await host.InvokeAsync(host.Instance.StopListening);
@@ -524,13 +551,13 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     }
 
     [Fact]
-    public void Fieldset_CollapsedChangedOnANonCollapsibleGroup_RunsNoScript()
+    public void Fieldset_ExpandedChangedOnANonCollapsibleGroup_RunsNoScript()
     {
         JSInterop.Mode = JSRuntimeMode.Strict;
 
         Render<OmniFieldset>(parameters => parameters
             .Add(component => component.Legend, Content("Contact"))
-            .Add(component => component.CollapsedChanged, (bool _) => { })
+            .Add(component => component.ExpandedChanged, (bool _) => { })
             .AddChildContent("Champs"));
 
         Assert.Empty(JSInterop.Invocations);

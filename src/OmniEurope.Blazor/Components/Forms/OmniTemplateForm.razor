@@ -1,13 +1,20 @@
 @namespace OmniEurope.Blazor.Components
 @typeparam TModel where TModel : class
+@inherits OmniComponentBase
 @inject IJSRuntime JavaScript
 @inject Microsoft.Extensions.Logging.ILogger<OmniTemplateForm<TModel>> Logger
 @implements IAsyncDisposable
 
+@* The form carries Id, Class and the additional attributes. The wrapper is only the root the focus
+   script searches for the first invalid field: it draws no box (display: contents), so the form is
+   laid out as the outermost element. *@
 @if (_resolvedEditContext is not null)
 {
-    <div @ref="_formRoot">
-        <EditForm EditContext="@_resolvedEditContext"
+    <div @ref="_formRoot" class="omni-template-form">
+        <EditForm @attributes="AdditionalAttributes"
+                  id="@Id"
+                  class="@Css("omni-template-form__form")"
+                  EditContext="@_resolvedEditContext"
                   OnValidSubmit="HandleValidSubmitAsync"
                   OnInvalidSubmit="HandleInvalidSubmitAsync"
                   FormName="@FormName">

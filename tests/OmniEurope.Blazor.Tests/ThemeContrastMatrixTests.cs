@@ -1,14 +1,15 @@
 using System.Globalization;
+using System.Text.RegularExpressions;
 using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
-/// PLAN-008 lot 8: the static contrast pairs, checked on every one of the 392 token sets a consumer
-/// can obtain (14 themes, each painted with any of the 14 palettes, in light and in dark), not only on
-/// each theme's default palette. The pairs start from the 47 of the reference mockup (<c>PAIRS</c> in
-/// <c>plans/PLAN-008-maquette-themes.html</c>) and add the ones the plan requires on top of them.
+/// PLAN-004 lot 8: the static contrast pairs, checked on every token set a consumer can obtain (every
+/// theme, each painted with any palette, in light and in dark), not only on each theme's default
+/// palette. The pairs start from the 47 of the reference mockup (<c>PAIRS</c> in
+/// <c>docs/plans/PLAN-004-maquette-themes.html</c>) and add the ones the plan requires on top of them.
 /// </summary>
 /// <remarks>
 /// A theme's shape may write a colour token as a reference or a <c>color-mix</c> (the borders of Halo,
@@ -16,7 +17,7 @@ namespace OmniEurope.Blazor.Tests;
 /// <see cref="ShowcaseThemeTests.EveryPalette_KeepsItsBordersVisible"/> resolves it before being
 /// measured, and a form it cannot resolve fails the set.
 /// </remarks>
-public sealed class ThemeContrastMatrixTests
+public sealed partial class ThemeContrastMatrixTests
 {
     private const double Text = 4.5;
     private const double Component = 3.0;
@@ -27,7 +28,7 @@ public sealed class ThemeContrastMatrixTests
     /// must stay at least as visible as the generator's, a third of the text in the surface.
     /// </summary>
     /// <remarks>
-    /// Arbitration (PLAN-008 lot 8): WCAG 1.4.11 asks 3.0 for the boundary of a component only when
+    /// Arbitration (PLAN-004 lot 8): WCAG 1.4.11 asks 3.0 for the boundary of a component only when
     /// that boundary is the one thing that identifies it. The OE controls that draw a border are also
     /// told apart by their fill, their label or their focus ring, and a 3.0 hairline on every card,
     /// table cell and separator would weigh on every palette. The owner kept 1.7 on 2026-09-18;
@@ -38,7 +39,7 @@ public sealed class ThemeContrastMatrixTests
     /// <summary>
     /// The rendering margin of RET-002 n°51, applied where
     /// <see cref="ShowcaseThemeTests.ShippedLightTheme_KeepsRenderingMarginForFilledControls"/> applies
-    /// it: the shipped look (theme and palette <c>Défaut</c>) in light mode, on its filled controls.
+    /// it: the shipped look (theme and palette <c>Essentiel</c>) in light mode, on its filled controls.
     /// </summary>
     private const double RenderingMargin = 5.0;
 
@@ -173,9 +174,11 @@ public sealed class ThemeContrastMatrixTests
     }
 
     /// <summary>
-    /// A theme may paint a colour field behind the page (<c>--omni-backdrop</c>, Givre), a gradient
-    /// between the stops it declares as <c>--omni-backdrop-start</c>, <c>-middle</c> and <c>-end</c>.
-    /// Every text the page writes directly on the scope must read on each stop as it reads on the
+    /// A theme may paint a colour field behind the page (<c>--omni-backdrop</c>, Givre), gradients
+    /// between the stops it declares as <c>--omni-backdrop-*</c> tokens (Givre: <c>-start</c>,
+    /// <c>-middle</c>, <c>-end</c> and <c>-glow</c>). The stops are read from the field itself, and
+    /// every declared stop must be painted by it, so a stop added to a theme is measured without editing
+    /// this test. Every text the page writes directly on the scope must read on each stop as it reads on the
     /// surface, the translucent card laid over each stop too, the border must keep its floor there, and
     /// the solid neutral badge must stand
     /// out from that card. The contrast probe measures the painted gradient itself, stop by stop.
@@ -187,18 +190,23 @@ public sealed class ThemeContrastMatrixTests
         var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
         var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
         var tokens = theme.With(palette).For(mode);
-        var stops = BackdropStops.Where(tokens.ContainsKey).ToArray();
+        var declared = tokens.Keys
+            .Where(key => key.StartsWith("--omni-backdrop-", StringComparison.Ordinal))
+            .Order(StringComparer.Ordinal)
+            .ToArray();
         if (!tokens.TryGetValue("--omni-backdrop", out var backdrop) || backdrop == "none")
         {
-            Assert.Empty(stops);
+            Assert.Empty(declared);
             return;
         }
 
-        Assert.Equal(BackdropStops, stops);
-        foreach (var stop in stops)
-        {
-            Assert.Contains($"var({stop})", backdrop, StringComparison.Ordinal);
-        }
+        var stops = BackdropStop().Matches(backdrop)
+            .Select(match => match.Groups["name"].Value)
+            .Distinct(StringComparer.Ordinal)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        Assert.NotEmpty(stops);
+        Assert.Equal(declared, stops);
 
         var failures = new List<string>();
         foreach (var stop in stops)
@@ -270,19 +278,44 @@ public sealed class ThemeContrastMatrixTests
         }
     }
 
-    private static readonly string[] BackdropStops = ["--omni-backdrop-start", "--omni-backdrop-middle", "--omni-backdrop-end"];
+    /// <summary>A stop the backdrop paints: a <c>var()</c> of an <c>--omni-backdrop-*</c> token.</summary>
+    [GeneratedRegex(@"var\((?<name>--omni-backdrop-[a-z0-9-]+)\)")]
+    private static partial Regex BackdropStop();
 
-    /// <summary>The size of the matrix, so that a shrinking catalogue or pair list cannot pass unseen.</summary>
+    /// <summary>
+    /// The size of the matrix: every theme with every palette in both modes, every pair of each, so
+    /// that a set or a pair skipped by the enumeration cannot pass unseen. The catalogue sizes
+    /// themselves are pinned once, by <see cref="ThemePaletteTests"/>.
+    /// </summary>
     [Fact]
-    public void The_matrix_covers_392_sets_and_every_pair_of_each()
+    public void The_matrix_covers_every_set_and_every_pair_of_each()
     {
         var sets = Sets().Select(row => row.Data).ToArray();
         var checks = sets.Sum(set => Measure(set.Item1, set.Item2, set.Item3).Count);
+        var expected = OmniThemePresets.All.Count * OmniThemePalettes.All.Count * 2;
 
-        Assert.Equal(392, sets.Length);
-        Assert.Equal(392, sets.Distinct().Count());
+        Assert.Equal(expected, sets.Length);
+        Assert.Equal(expected, sets.Distinct().Count());
         Assert.Equal(Pairs.Length, Pairs.Select(pair => (pair.Foreground, pair.Background)).Distinct().Count());
-        Assert.Equal((392 * Pairs.Length) + RenderingMarginPairs.Length, checks);
+        Assert.Equal((expected * Pairs.Length) + RenderingMarginPairs.Length, checks);
+    }
+
+    /// <summary>
+    /// The customizer's live audit (<see cref="Showcase.Theming.ContrastAudit"/>) shows a visitor the
+    /// pairs of the mockup: each must be one this matrix holds on every set, at the same threshold, or
+    /// the page would grade a pair the package never promised, or at another bar than the package's.
+    /// </summary>
+    [Fact]
+    public void The_customizer_audit_shows_only_pairs_this_matrix_holds_at_the_same_threshold()
+    {
+        var held = Pairs.ToDictionary(pair => (pair.Foreground, pair.Background), pair => pair.Ratio);
+
+        Assert.NotEmpty(Showcase.Theming.ContrastAudit.Pairs);
+        var foreign = Showcase.Theming.ContrastAudit.Pairs
+            .Where(pair => !held.TryGetValue((pair.Foreground, pair.Background), out var ratio) || ratio != pair.Minimum)
+            .Select(pair => string.Create(CultureInfo.InvariantCulture, $"{pair.LabelKey}: {pair.Foreground} on {pair.Background} at {pair.Minimum:F1}"))
+            .ToArray();
+        Assert.True(foreign.Length == 0, $"Audit pairs absent from the matrix or at another threshold:\n{string.Join('\n', foreign)}");
     }
 
     private static List<(string Foreground, string ForegroundValue, string Background, string BackgroundValue, double Contrast, double Required)> Measure(

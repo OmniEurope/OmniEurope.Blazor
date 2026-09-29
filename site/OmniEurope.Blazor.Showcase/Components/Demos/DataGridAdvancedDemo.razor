@@ -4,51 +4,51 @@
 <OmniStack Gap="OmniSpacing.Medium">
     <OmniRow Gap="OmniSpacing.Medium" Wrap="true" Align="OmniAlignment.End">
         <OmniFormField For="grid-lines">
-            <Label>Lignes</Label>
+            <LabelContent>Lignes</LabelContent>
             <ChildContent>
                 <OmniDropDown TValue="OmniDataGridLines" Id="grid-lines" Options="LineOptions" @bind-Value="Lines" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-density">
-            <Label>Densité</Label>
+            <LabelContent>Densité</LabelContent>
             <ChildContent>
                 <OmniDropDown TValue="OmniDensity" Id="grid-density" Options="DensityOptions" @bind-Value="Density" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-pager">
-            <Label>Pagination</Label>
+            <LabelContent>Pagination</LabelContent>
             <ChildContent>
-                <OmniDropDown TValue="OmniDataGridPagerPosition" Id="grid-pager" Options="PagerOptions" @bind-Value="Pager" />
+                <OmniDropDown TValue="OmniDataGridPosition" Id="grid-pager" Options="PagerOptions" @bind-Value="Pager" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-selection">
-            <Label>Sélection</Label>
+            <LabelContent>Sélection</LabelContent>
             <ChildContent>
                 <OmniDropDown TValue="OmniDataGridSelectionMode" Id="grid-selection" Options="SelectionOptions" @bind-Value="Mode" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-filter">
-            <Label>Filtres</Label>
+            <LabelContent>Filtres</LabelContent>
             <ChildContent>
                 <OmniDropDown TValue="OmniDataGridFilterMode" Id="grid-filter" Options="FilterOptions" @bind-Value="Filters" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-edit">
-            <Label>Édition</Label>
+            <LabelContent>Édition</LabelContent>
             <ChildContent>
-                <OmniDropDown TValue="OmniDataGridEditMode" Id="grid-edit" Options="EditOptions" @bind-Value="Edit" />
+                <OmniDropDown TValue="OmniDataGridRowMode" Id="grid-edit" Options="EditOptions" @bind-Value="Edit" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-expand">
-            <Label>Dépliage</Label>
+            <LabelContent>Dépliage</LabelContent>
             <ChildContent>
-                <OmniDropDown TValue="OmniDataGridExpandMode" Id="grid-expand" Options="ExpandOptions" @bind-Value="Expand" />
+                <OmniDropDown TValue="OmniDataGridRowMode" Id="grid-expand" Options="ExpandOptions" @bind-Value="Expand" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-footer">
-            <Label>Pied de tableau</Label>
+            <LabelContent>Pied de tableau</LabelContent>
             <ChildContent>
-                <OmniDropDown TValue="OmniDataGridFooterPosition" Id="grid-footer" Options="FooterOptions" @bind-Value="Footer" />
+                <OmniDropDown TValue="OmniDataGridPosition" Id="grid-footer" Options="FooterOptions" @bind-Value="Footer" />
             </ChildContent>
         </OmniFormField>
     </OmniRow>
@@ -58,7 +58,7 @@
               Caption="Dossiers, vue complète"
               HeaderWrap="OmniDataGridHeaderWrap.Wrap"
               AllowSorting="true"
-              AllowFiltering="true"
+              Filterable="true"
               AllowGrouping="true"
               AllowColumnResize="true"
               AllowRowSelectOnRowClick="true"
@@ -98,7 +98,7 @@
                                                ValueChanged="@(value => context.ValueChanged(value))"
                                                Suggestions="@context.Suggestions"
                                                Placeholder="@context.Placeholder"
-                                               Searchable="true"
+                                               Filterable="true"
                                                MaxSuggestions="8"
                                                Presentation="@(context.InPopover ? OmniMultiSelectPresentation.List : OmniMultiSelectPresentation.Compact)" />
             </FilterTemplate>
@@ -113,7 +113,7 @@
         </OmniDataGridColumn>
         <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="Montant" FormatString="{0:C0}" FilterType="OmniDataGridColumnFilterType.Number"
                             TextAlign="OmniDataGridTextAlign.End">
-            <FooterTemplate>Total : @Rows.Sum(row => row.Amount).ToString("C0")</FooterTemplate>
+            <FooterContent>Total : @Rows.Sum(row => row.Amount).ToString("C0")</FooterContent>
         </OmniDataGridColumn>
     </Columns>
 </OmniDataGrid>

@@ -13,7 +13,7 @@ public sealed class TreeItemTextContentTests : OmniBunitContext
         IReadOnlyList<int> selected = [];
         var tree = Render<OmniTree<int>>(parameters => parameters
             .Add(component => component.Label, "Structure")
-            .Add(component => component.SelectedValuesChanged, values => selected = values)
+            .Add(component => component.ValueChanged, values => selected = values)
             .Add(component => component.ChildContent, (RenderFragment)(builder =>
             {
                 builder.OpenComponent<OmniTreeItem<int>>(0);

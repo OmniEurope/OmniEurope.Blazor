@@ -21,7 +21,7 @@ public sealed class DataGridTypedFilterTests : OmniBunitContext
 
     private IRenderedComponent<OmniDataGrid<Row>> RenderGrid() => Render<OmniDataGrid<Row>>(parameters => parameters
         .Add(grid => grid.Items, Rows)
-        .Add(grid => grid.AllowFiltering, true)
+        .Add(grid => grid.Filterable, true)
         .Add(grid => grid.FilterMode, OmniDataGridFilterMode.SimpleWithMenu)
         .Add(grid => grid.Columns, (RenderFragment)(builder =>
         {

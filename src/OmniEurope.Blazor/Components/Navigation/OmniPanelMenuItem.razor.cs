@@ -1,5 +1,10 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// One entry of <see cref="OmniPanelMenu"/>: a link (<see cref="Href"/>), an action (<see cref="OnClick"/>),
+/// a label, or a group that folds its child entries. The entry matching the current route is marked
+/// current and the groups holding it unfold.
+/// </summary>
 public partial class OmniPanelMenuItem
 {
     private readonly string _childrenId = $"omni-panel-menu-children-{Guid.NewGuid():N}";
@@ -11,6 +16,7 @@ public partial class OmniPanelMenuItem
     private bool? _open;
 
     private bool _wasActive;
+    private bool? _lastExpanded;
     private OmniPanelMenuGroupContext? _ownContext;
 
     /// <summary>Group this item is nested in, if any, so it can report being the current page.</summary>
@@ -27,6 +33,7 @@ public partial class OmniPanelMenuItem
     /// </summary>
     private bool IconsOnly => Menu?.IconsOnly ?? false;
 
+    /// <summary>The text of the entry, also its accessible name when the menu is down to its icons.</summary>
     [Parameter, EditorRequired]
     public string Text { get; set; } = string.Empty;
 
@@ -44,9 +51,11 @@ public partial class OmniPanelMenuItem
     [Parameter]
     public RenderFragment? Badge { get; set; }
 
+    /// <summary>The address the entry navigates to, checked by the package's URI policy. Null, the default, for an action, a label or a group without a page.</summary>
     [Parameter]
     public string? Href { get; set; }
 
+    /// <summary>Marks the entry as the current page whatever the route says (<c>aria-current="page"</c>).</summary>
     [Parameter]
     public bool Current { get; set; }
 
@@ -59,11 +68,16 @@ public partial class OmniPanelMenuItem
     public OmniNavMatch Match { get; set; }
 
     /// <summary>
-    /// Initial state of a group. The active route still opens the group that contains it, and a
-    /// hand toggle still wins over both.
+    /// Whether a group is unfolded, for <c>@bind-Expanded</c>. False by default: the active route still
+    /// opens the group that contains it. A new value from the host wins over a hand toggle, and a hand
+    /// toggle wins over the route until the route moves back inside the group.
     /// </summary>
     [Parameter]
     public bool Expanded { get; set; }
+
+    /// <summary>Raised with the new state when the reader unfolds or folds the group by hand.</summary>
+    [Parameter]
+    public EventCallback<bool> ExpandedChanged { get; set; }
 
     /// <summary>
     /// Makes an entry without <see cref="Href"/> and without children an action: a button of the menu's look
@@ -73,6 +87,7 @@ public partial class OmniPanelMenuItem
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 
+    /// <summary>The child entries, which make this entry a group.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -188,7 +203,31 @@ public partial class OmniPanelMenuItem
         Descendant
     }
 
-    private void Toggle() => _open = !IsOpen;
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        // A value the host changes is applied as if the reader had toggled the group; the first one
+        // is only the initial state, which the route may still override.
+        if (_lastExpanded is { } last && last != Expanded)
+        {
+            _open = Expanded;
+        }
+
+        _lastExpanded = Expanded;
+    }
+
+    private Task Toggle() => SetOpenAsync(!IsOpen);
+
+    private async Task SetOpenAsync(bool open)
+    {
+        var changed = open != IsOpen;
+        _open = open;
+        if (changed)
+        {
+            await ExpandedChanged.InvokeAsync(open);
+        }
+    }
 
     /// <summary>
     /// On the rail a group has no room to show its entries, so its icon opens the sidebar on the
@@ -199,12 +238,12 @@ public partial class OmniPanelMenuItem
         var expand = Menu?.ExpandSidebar;
         if (IconsOnly && expand is not null)
         {
-            _open = true;
+            await SetOpenAsync(true);
             await expand();
             return;
         }
 
-        Toggle();
+        await Toggle();
     }
 
     private async Task HandleNavigateAsync()
@@ -217,6 +256,7 @@ public partial class OmniPanelMenuItem
         }
     }
 
+    /// <summary>Stops following the route and leaves the parent group.</summary>
     public void Dispose()
     {
         ParentGroup?.Remove(this);

@@ -31,15 +31,15 @@
         <OmniButton Size="OmniControlSize.Small">Petit</OmniButton>
         <OmniButton Size="OmniControlSize.Medium">Moyen</OmniButton>
         <OmniButton Size="OmniControlSize.Large">Grand</OmniButton>
-        <OmniButton Size="OmniControlSize.Small" Variant="OmniButtonVariant.Secondary" AriaLabel="Rechercher"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
-        <OmniButton Size="OmniControlSize.Medium" Variant="OmniButtonVariant.Secondary" AriaLabel="Rechercher"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
-        <OmniButton Size="OmniControlSize.Large" Variant="OmniButtonVariant.Secondary" AriaLabel="Rechercher"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
+        <OmniButton Size="OmniControlSize.Small" Variant="OmniButtonVariant.Secondary" Label="Rechercher"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
+        <OmniButton Size="OmniControlSize.Medium" Variant="OmniButtonVariant.Secondary" Label="Rechercher"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
+        <OmniButton Size="OmniControlSize.Large" Variant="OmniButtonVariant.Secondary" Label="Rechercher"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
     </OmniStack>
 
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
         <OmniToggleButton Size="OmniControlSize.Small" @bind-Value="Pinned">Épingler</OmniToggleButton>
         <OmniToggleButton Size="OmniControlSize.Large" @bind-Value="Pinned">Épingler</OmniToggleButton>
-        <OmniToggleButton @bind-Value="Pinned" AriaLabel="Épingler"><OmniIcon Name="OmniIconName.Pin" /></OmniToggleButton>
+        <OmniToggleButton @bind-Value="Pinned" Label="Épingler"><OmniIcon Name="OmniIconName.Pin" /></OmniToggleButton>
         <OmniSplitButton Size="OmniControlSize.Small" Text="Publier" OnClick="SaveAsync"><Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon></OmniSplitButton>
         <OmniSplitButton Size="OmniControlSize.Large" Text="Publier" OnClick="SaveAsync"><Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon></OmniSplitButton>
     </OmniStack>
@@ -51,7 +51,7 @@
         <OmniSplitButton Id="demo-split-primary" Text="Publier" Variant="OmniButtonVariant.Primary" OnClick="@(() => Count++)">
             <Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon>
             <ChildContent>
-                <OmniSplitButtonItem OnClick="@(() => Count++)">Publier plus tard</OmniSplitButtonItem>
+                <OmniMenuItem OnClick="@(() => Count++)">Publier plus tard</OmniMenuItem>
             </ChildContent>
         </OmniSplitButton>
         <OmniSplitButton Text="Brouillon" Variant="OmniButtonVariant.Secondary" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Save" /></Icon></OmniSplitButton>

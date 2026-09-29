@@ -3,7 +3,7 @@ namespace OmniEurope.Blazor.Internal;
 /// <summary>
 /// The fourteen themes of the library, drawn for this project. A theme decides the shape only: radii,
 /// borders, shadows, fonts and the way buttons are drawn and pressed. The first ten take the values of
-/// the reference mockup (<c>plans/PLAN-008-maquette-themes.html</c>, constant <c>THEMES</c>); Relief,
+/// the reference mockup (<c>docs/plans/PLAN-004-maquette-themes.html</c>, constant <c>THEMES</c>); Relief,
 /// Givre, Aplat and Épure recreate four interface styles (neumorphism, glassmorphism, flat design and
 /// minimalism) from our own tokens. Relief, Givre and Aplat declare a <see cref="ThemeDefinition.ContrastWaiver"/>:
 /// their style wins over the contrast thresholds (owner decision of 2026-09-28), Épure keeps them.
@@ -27,7 +27,7 @@ internal static class ThemeCatalog
     private const string Humanist = FontCatalog.Humanist;
     private const string NoShadow = "0 0 #0000";
 
-    // One radius everywhere for Défaut, the button's: small, medium, large, cards, alerts and floating
+    // One radius everywhere for Essentiel, the button's: small, medium, large, cards, alerts and floating
     // surfaces are all 2.5 px. Chosen smaller than the 4 px of the reference production on purpose.
     private const string DefaultRadius = "0.15625rem";
 
@@ -40,7 +40,7 @@ internal static class ThemeCatalog
                 // Button elevation reads two mode tokens: a denser black shadow in dark mode, where
                 // 22 % no longer shows, and a light top-edge highlight that only exists there.
                 ("--omni-button-shadow", "inset 0 1px 0 var(--omni-elevation-highlight), 0 0.0625rem 0.125rem var(--omni-elevation-shadow)"),
-                // Trial (PLAN-008 T14), removable as a block: the layer of cards, tiles, alerts,
+                // Trial (PLAN-004 T14), removable as a block: the layer of cards, tiles, alerts,
                 // notifications, dialogs and menus.
                 ("--omni-card-radius", DefaultRadius), ("--omni-alert-radius", DefaultRadius),
                 ("--omni-card-background", "var(--omni-layer-fill)"),
@@ -214,7 +214,7 @@ internal static class ThemeCatalog
                 ("--omni-color-neutral-fill-active", "var(--omni-color-surface-muted)"),
                 ("--omni-overlay-background", "var(--omni-color-surface)"), ("--omni-overlay-filter", "none"),
                 ("--omni-overlay-shadow", $"-0.375rem -0.375rem 1rem rgb(255 255 255 / 80%), 0.625rem 0.75rem 1.75rem {ReliefShade}"),
-                ("--omni-focus-ring", FocusRing),
+                ("--omni-focus-ring", FocusRing), ("--omni-focus-ring-danger", FocusRingDanger), ("--omni-focus-ring-inset", FocusRingInset),
                 ("--omni-button-font-weight", "600"), ("--omni-heading-font-weight", "700"),
                 ("--omni-font-family", Rounded)),
             Shape(
@@ -247,16 +247,17 @@ internal static class ThemeCatalog
                 ("--omni-backdrop-end", "color-mix(in srgb, var(--omni-color-success-fill) 36%, var(--omni-color-surface))"),
                 ("--omni-backdrop-glow", "color-mix(in srgb, var(--omni-color-warning-fill) 34%, var(--omni-color-surface))"),
                 ("--omni-backdrop", GivreField),
+                // One hook frosts every card surface; the scope isolates so the frost paints just above the field.
                 ("--omni-scope-isolation", "isolate"),
-                ("--omni-card-position", "relative"), ("--omni-card-frost", "\"\""),
                 ("--omni-card-filter", "blur(22px) saturate(1.6)"),
                 ("--omni-color-text-muted", "color-mix(in srgb, var(--omni-color-text) 76%, var(--omni-color-surface))"),
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 26%, transparent)"),
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-surface) 58%, transparent)"),
                 ("--omni-card-border-color", "rgb(255 255 255 / 90%)"),
                 ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 95%), 0 0.25rem 0.75rem rgb(0 0 0 / 4%), 0 1.5rem 3rem rgb(0 0 0 / 7%)"),
-                // A grid is read row by row: a denser pane than the cards.
-                ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-surface) 70%, transparent)"),
+                // A grid, an editor or a log is read line by line, and its scrolling frame cannot carry
+                // the frost: a pane dense enough to read as the frosted cards do.
+                ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-surface) 86%, transparent)"),
                 // The dialog sits on the frosted scrim, which already blurs the page: a dense pane.
                 ("--omni-dialog-background", "color-mix(in srgb, var(--omni-color-surface) 92%, transparent)"),
                 // Fields and the secondary button are glass as well.
@@ -270,7 +271,7 @@ internal static class ThemeCatalog
                 ("--omni-overlay-shadow", "inset 0 1px 0 rgb(255 255 255 / 85%), 0 1.25rem 3rem rgb(0 0 0 / 14%)"),
                 // A light frosted veil: the page keeps its colours behind the dialog.
                 ("--omni-color-overlay", "rgb(0 0 0 / 22%)"), ("--omni-scrim-filter", "blur(12px) saturate(1.4)"),
-                ("--omni-focus-ring", FocusRing),
+                ("--omni-focus-ring", FocusRing), ("--omni-focus-ring-danger", FocusRingDanger), ("--omni-focus-ring-inset", FocusRingInset),
                 ("--omni-button-font-weight", "500"), ("--omni-heading-font-weight", "600"),
                 ("--omni-font-family", Sans)),
             Shape(
@@ -283,7 +284,7 @@ internal static class ThemeCatalog
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-surface) 50%, transparent)"),
                 ("--omni-card-border-color", "rgb(255 255 255 / 12%)"),
                 ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 14%), 0 0.25rem 0.75rem rgb(0 0 0 / 16%), 0 1.5rem 3rem rgb(0 0 0 / 30%)"),
-                ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-surface) 66%, transparent)"),
+                ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-surface) 84%, transparent)"),
                 ("--omni-dialog-background", "color-mix(in srgb, var(--omni-color-surface) 90%, transparent)"),
                 ("--omni-input-background", "color-mix(in srgb, var(--omni-color-surface) 52%, transparent)"),
                 ("--omni-color-neutral-fill", "color-mix(in srgb, var(--omni-color-text) 9%, transparent)"),
@@ -324,7 +325,7 @@ internal static class ThemeCatalog
                 ("--omni-overlay-background", "var(--omni-color-surface)"), ("--omni-overlay-filter", "none"),
                 ("--omni-overlay-shadow", NoShadow),
                 ("--omni-elevation-shadow-soft", "transparent"), ("--omni-elevation-highlight", "transparent"),
-                ("--omni-focus-ring", FocusRing),
+                ("--omni-focus-ring", FocusRing), ("--omni-focus-ring-danger", FocusRingDanger), ("--omni-focus-ring-inset", FocusRingInset),
                 ("--omni-button-font-weight", "600"), ("--omni-heading-font-weight", "700"),
                 ("--omni-font-family", Geometric)),
             Shape(
@@ -356,6 +357,8 @@ internal static class ThemeCatalog
                 ("--omni-overlay-shadow", NoShadow),
                 ("--omni-elevation-shadow-soft", "transparent"), ("--omni-elevation-highlight", "transparent"),
                 ("--omni-focus-ring", "0 0 0 2px var(--omni-color-surface), 0 0 0 3px var(--omni-color-text)"),
+                ("--omni-focus-ring-danger", "0 0 0 2px var(--omni-color-surface), 0 0 0 3px var(--omni-color-danger)"),
+                ("--omni-focus-ring-inset", "inset 0 0 0 2px var(--omni-color-text)"),
                 ("--omni-font-size-h1", "clamp(2rem, 1.25rem + 3vw, 3.25rem)"), ("--omni-font-size-h2", "clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem)"),
                 ("--omni-font-size-h3", "1.5rem"), ("--omni-font-size-h4", "1.25rem"),
                 ("--omni-heading-font-weight", "800"), ("--omni-heading-letter-spacing", "-0.03em"),
@@ -365,11 +368,20 @@ internal static class ThemeCatalog
     ];
 
     /// <summary>
-    /// The focus ring of the four themes whose surfaces stand out by relief, translucency or fill
+    /// The focus ring of the three themes (Relief, Givre, Aplat) whose surfaces stand out by relief, translucency or fill
     /// alone: a solid accent ring of 2 px separated from the control by a ring of the surface, so it
     /// shows on a pressed hollow, a glass pane or a filled block alike.
     /// </summary>
     private const string FocusRing = "0 0 0 2px var(--omni-color-surface), 0 0 0 4px var(--omni-color-accent)";
+
+    /// <summary>The same solid ring in the danger colour, around an invalid field.</summary>
+    private const string FocusRingDanger = "0 0 0 2px var(--omni-color-surface), 0 0 0 4px var(--omni-color-danger)";
+
+    /// <summary>
+    /// The same ring drawn inside a surface whose overflow would clip an outer one (an editor, a
+    /// scrolling list): 2 px of solid accent within the edge.
+    /// </summary>
+    private const string FocusRingInset = "inset 0 0 0 2px var(--omni-color-accent)";
 
     /// <summary>
     /// Givre's colour field: four large pastel orbs (sky, lavender, mint and peach: the three stops the

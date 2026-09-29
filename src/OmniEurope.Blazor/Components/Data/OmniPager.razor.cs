@@ -2,20 +2,30 @@ using Microsoft.AspNetCore.Components;
 
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// Page navigation: previous and next (first and last with <see cref="ShowFirstLast"/>), numbered page
+/// buttons or a "page n of m" status, and an optional page size selector. Its texts come from the
+/// library resources; a host rewords them through <c>AddOmniEuropeTextOverrides</c>.
+/// </summary>
 public partial class OmniPager
 {
+    /// <summary>The current page, from 1.</summary>
     [Parameter]
     public int Page { get; set; } = 1;
 
+    /// <summary>The number of pages, at least 1.</summary>
     [Parameter]
     public int PageCount { get; set; } = 1;
 
+    /// <summary>Raised with the page the reader asked for; the host updates <see cref="Page"/>.</summary>
     [Parameter]
     public EventCallback<int> PageChanged { get; set; }
 
+    /// <summary>Accessible name of the navigation; null uses the localized "pagination".</summary>
     [Parameter]
-    public string Label { get; set; } = string.Empty;
+    public string? Label { get; set; }
 
+    /// <summary>Disables every control of the pager.</summary>
     [Parameter]
     public bool Disabled { get; set; }
 
@@ -27,51 +37,19 @@ public partial class OmniPager
     [Parameter]
     public IReadOnlyList<int> PageSizeOptions { get; set; } = Array.Empty<int>();
 
+    /// <summary>The page size selected in the selector.</summary>
     [Parameter]
     public int PageSize { get; set; } = 20;
 
+    /// <summary>Raised with the page size the reader picked.</summary>
     [Parameter]
     public EventCallback<int> PageSizeChanged { get; set; }
 
-    [Parameter]
-    public string? PageSizeText { get; set; }
-
-    [Parameter]
-    public string? FirstPageAriaLabel { get; set; }
-
-    [Parameter]
-    public string? FirstPageTitle { get; set; }
-
-    [Parameter]
-    public string? LastPageAriaLabel { get; set; }
-
-    [Parameter]
-    public string? LastPageTitle { get; set; }
-
-    [Parameter]
-    public string? PrevPageAriaLabel { get; set; }
-
-    [Parameter]
-    public string? PrevPageTitle { get; set; }
-
-    [Parameter]
-    public string? NextPageAriaLabel { get; set; }
-
-    [Parameter]
-    public string? NextPageTitle { get; set; }
-
-    /// <summary>Composite format receiving the page number, used on the numbered page buttons.</summary>
-    [Parameter]
-    public string? PageTitleFormat { get; set; }
-
-    /// <summary>Composite format receiving the page number, used as the accessible name.</summary>
-    [Parameter]
-    public string? PageAriaLabelFormat { get; set; }
-
-    /// <summary>How many numbered page buttons are rendered around the current page.</summary>
+    /// <summary>How many numbered page buttons are rendered around the current page. Zero shows the "page n of m" status instead.</summary>
     [Parameter]
     public int NumericPageCount { get; set; }
 
+    /// <summary>How the controls are aligned along the pager's row; the start by default.</summary>
     [Parameter]
     public OmniJustification HorizontalAlign { get; set; } = OmniJustification.Start;
 
@@ -82,8 +60,6 @@ public partial class OmniPager
     private string PagerClass() => Css(
         "omni-pager",
         $"omni-pager--align-{HorizontalAlign.ToString().ToLowerInvariant()}");
-
-    private string Text(string? candidate, string key) => string.IsNullOrWhiteSpace(candidate) ? Localize(key) : candidate;
 
     private string PageSizeId => $"{Id ?? "omni-pager"}-page-size";
 
@@ -111,9 +87,7 @@ public partial class OmniPager
         }
     }
 
-    private string PageLabel(string? format, int page) => string.IsNullOrWhiteSpace(format)
-        ? page.ToString(System.Globalization.CultureInfo.CurrentCulture)
-        : string.Format(System.Globalization.CultureInfo.CurrentCulture, format, page);
+    private static string PageNumber(int page) => page.ToString(System.Globalization.CultureInfo.CurrentCulture);
 
     private Task ChangePageSizeAsync(string? value) =>
         int.TryParse(value, out var size) && size > 0 ? PageSizeChanged.InvokeAsync(size) : Task.CompletedTask;

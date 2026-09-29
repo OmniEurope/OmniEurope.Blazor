@@ -1,11 +1,11 @@
-@* A host that binds the folded state both ways, and can stop listening on the same instance. *@
-<OmniFieldset Collapsible="true" Collapsed="Collapsed" CollapsedChanged="Callback">
+@* A host that binds the open state both ways, and can stop listening on the same instance. *@
+<OmniFieldset Collapsible="true" Expanded="Expanded" ExpandedChanged="Callback">
     <Legend>Avancé</Legend>
     <ChildContent>Champs</ChildContent>
 </OmniFieldset>
 
 @code {
-    public bool Collapsed { get; set; } = true;
+    public bool Expanded { get; set; }
 
     public bool Listening { get; set; } = true;
 
@@ -15,15 +15,15 @@
         ? EventCallback.Factory.Create<bool>(this, HandleChanged)
         : default;
 
-    private void HandleChanged(bool collapsed)
+    private void HandleChanged(bool expanded)
     {
-        Reported.Add(collapsed);
-        Collapsed = collapsed;
+        Reported.Add(expanded);
+        Expanded = expanded;
     }
 
-    public void Fold(bool collapsed)
+    public void Open(bool expanded)
     {
-        Collapsed = collapsed;
+        Expanded = expanded;
         StateHasChanged();
     }
 

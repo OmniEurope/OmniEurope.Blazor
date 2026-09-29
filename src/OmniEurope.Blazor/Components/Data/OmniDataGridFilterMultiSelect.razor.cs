@@ -6,28 +6,34 @@ namespace OmniEurope.Blazor.Components;
 /// Checkable list of candidate values behind the MultiSelect filter type. The value
 /// it reads and writes is the encoded list of <see cref="OmniDataGridFilterValues"/>, so a
 /// multi-valued filter travels as the same single string as any other.
+/// <see cref="OmniComponentBase.Id"/> goes on the search box when there is one, on the folded summary
+/// otherwise; <see cref="OmniComponentBase.Class"/> and the additional attributes on the outer element.
 /// </summary>
 public partial class OmniDataGridFilterMultiSelect
 {
     private string _search = string.Empty;
 
+    /// <summary>The ticked values, encoded by <see cref="OmniDataGridFilterValues.Join"/>.</summary>
     [Parameter]
     public string Value { get; set; } = string.Empty;
 
+    /// <summary>Raised with the encoded list each time a value is ticked or unticked.</summary>
     [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
 
+    /// <summary>The candidate values listed.</summary>
     [Parameter]
     public IReadOnlyList<string> Suggestions { get; set; } = [];
 
     /// <summary>What a candidate reads as (a translated enum name); null shows the value itself.</summary>
     [Parameter]
-    public Func<string, string>? TextFor { get; set; }
+    public Func<string, string>? FormatValue { get; set; }
 
-    /// <summary>Adds a box that narrows the list as it is typed into.</summary>
+    /// <summary>Adds a box that narrows the list as it is typed into, ignoring case and accents.</summary>
     [Parameter]
-    public bool Searchable { get; set; }
+    public bool Filterable { get; set; }
 
+    /// <summary>Placeholder of the search box, and text of the folded summary while nothing is ticked.</summary>
     [Parameter]
     public string? Placeholder { get; set; }
 
@@ -62,11 +68,11 @@ public partial class OmniDataGridFilterMultiSelect
 
     private IReadOnlyList<string> Matches => (string.IsNullOrEmpty(_search)
             ? Suggestions
-            : Suggestions.Where(candidate => Display(candidate).Contains(_search, StringComparison.OrdinalIgnoreCase)))
+            : Suggestions.Where(candidate => OmniTextMatch.Contains(Display(candidate), _search)))
         .Take(Math.Max(1, MaxSuggestions))
         .ToArray();
 
-    private string Display(string candidate) => TextFor?.Invoke(candidate) ?? candidate;
+    private string Display(string candidate) => FormatValue?.Invoke(candidate) ?? candidate;
 
     private void OnSearchInput(ChangeEventArgs args) => _search = args.Value?.ToString() ?? string.Empty;
 
@@ -87,27 +93,4 @@ public partial class OmniDataGridFilterMultiSelect
             OmniDataGridFilterValues.Join(values.Order(StringComparer.Ordinal)));
     }
 
-    /// <summary>
-    /// Renders an option with the searched fragment wrapped in a mark element, built by hand so the
-    /// candidate is never treated as markup.
-    /// </summary>
-    private RenderFragment Highlighted(string value) => builder =>
-    {
-        var candidate = Display(value);
-        var index = string.IsNullOrEmpty(_search)
-            ? -1
-            : candidate.IndexOf(_search, StringComparison.OrdinalIgnoreCase);
-        if (index < 0)
-        {
-            builder.AddContent(0, candidate);
-            return;
-        }
-
-        builder.AddContent(1, candidate[..index]);
-        builder.OpenElement(2, "mark");
-        builder.AddAttribute(3, "class", "omni-combo__match");
-        builder.AddContent(4, candidate.Substring(index, _search.Length));
-        builder.CloseElement();
-        builder.AddContent(5, candidate[(index + _search.Length)..]);
-    };
 }

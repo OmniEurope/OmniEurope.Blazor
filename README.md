@@ -15,17 +15,18 @@ More than a hundred components, one static stylesheet, no inline style, no `unsa
 
 - **Strict CSP by design.** Components never emit `style` attributes, `<style>` tags, or inline event handlers. `default-src 'self'; script-src 'self'; style-src 'self'` is a tested target, not an aspiration.
 - **Accessibility built in.** Keyboard navigation, focus containment and restoration, ARIA states, 44 px interactive targets, and reduced-motion support are part of every component, not an option you enable.
-- **Fully tokenised theme.** Colours, type, spacing, radii, shadows, and the chart palette are CSS variables. Light and dark modes ship out of the box, with ten themes (shape) and ten palettes (colour) that combine freely and a three-step density; your own palette is a stylesheet away.
-- **Localised from the start.** French and English are included; add any culture through standard .NET resources, or pass your own text to any component.
+- **Fully tokenised theme.** Colours, type, spacing, radii, shadows, and the chart palette are CSS variables. Light and dark modes ship out of the box, with fourteen themes (shape) and fourteen palettes (colour) that combine freely and a three-step density; your own palette is a stylesheet away.
+- **Localised from the start.** The texts ship in the 24 official languages of the European Union (French as the neutral culture, then English, Bulgarian, Croatian, Czech, Danish, Dutch, Estonian, Finnish, German, Greek, Hungarian, Irish, Italian, Latvian, Lithuanian, Maltese, Polish, Portuguese, Romanian, Slovak, Slovenian, Spanish and Swedish); override any text through standard .NET resources, or pass your own text to any component.
 - **Every Blazor host.** Server, WebAssembly, Interactive Auto, and MAUI Blazor Hybrid, verified on each in continuous integration.
-- **No JavaScript framework.** A single static stylesheet and a small interop module. Nothing to bundle, nothing to trust.
+- **No JavaScript framework.** A single static stylesheet and a few small JavaScript modules, each loaded on demand by the component that needs it. Nothing to bundle, nothing to trust.
 
 ## What is in the box
 
 | Family | Highlights |
 | --- | --- |
-| Actions | Buttons, split buttons, toggle buttons, light/dark appearance toggle |
-| Layout | Application shell (layout, header, sidebar, body), rows and columns, grid, stacks, cards, fieldsets, scoped themes |
+| Actions | Buttons, split buttons, toggle buttons, overflow menus |
+| Layout | Application shell (layout, header, sidebar, body), rows and columns, stacks, cards, fieldsets, scoped themes |
+| Theming | Appearance settings and a movable appearance window (mode, theme, palette, font, text size, density, control size) |
 | Typography | Headings and text with consistent scale and tone |
 | Forms | Text, multi-line, numeric and password inputs, checkboxes and switches (nullable too), labels, form fields, template forms, validators |
 | Selection | Dropdowns, list boxes, multi-select, autocomplete, radio and checkbox lists, select bars, sliders, date picker, colour picker, upload |

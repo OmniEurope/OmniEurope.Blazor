@@ -5,7 +5,7 @@
     @if (ShowScalePicker)
     {
         <div class="omni-gantt__toolbar">
-            <OmniSelectBar TValue="OmniGanttScale" Options="@ScaleOptions" Value="@_scale" ValueChanged="@SetScaleAsync" ValueExpression="@(() => _scale)" Label="@ScaleLabel" />
+            <OmniSelectBar TValue="OmniCalendarView" Options="@ScaleOptions" Value="@_scale" ValueChanged="@SetScaleAsync" ValueExpression="@(() => _scale)" Label="@ScaleLabel" />
         </div>
     }
     @if (Tasks.Count == 0)
@@ -109,7 +109,7 @@
                                     data-task-id="@task.Id"
                                     aria-label="@Describe(task)"
                                     aria-pressed="@Pressed(task)"
-                                    @onclick="() => OnTaskClickedAsync(task)"></button>
+                                    @onclick="() => ClickTaskAsync(task)"></button>
                         </foreignObject>
                     }
                 </svg>

@@ -78,6 +78,7 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
         var model = new GuardedModel();
         var form = Render<OmniTemplateForm<GuardedModel>>(parameters => parameters
             .Add(component => component.Model, model)
+            .Add(component => component.GuardUnsavedChanges, true)
             .Add(component => component.OnValidSubmit, _ => { })
             .Add(component => component.ChildContent, (RenderFragment<EditContext>)(context => builder =>
             {
@@ -98,14 +99,36 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     }
 
     [Fact]
-    public void TemplateForm_GuardCanBeTurnedOff()
+    public void TemplateForm_GuardIsOptIn()
     {
+        // Off by default: a page that already guards its changes would otherwise ask twice.
         var form = Render<OmniTemplateForm<GuardedModel>>(parameters => parameters
             .Add(component => component.Model, new GuardedModel())
-            .Add(component => component.GuardUnsavedChanges, false)
             .Add(component => component.ChildContent, (RenderFragment<EditContext>)(_ => _ => { })));
 
         Assert.Empty(form.FindComponents<OmniUnsavedChangesGuard>());
+    }
+
+    [Fact]
+    public void TemplateForm_PutsIdClassAndAttributesOnTheForm()
+    {
+        var form = Render<OmniTemplateForm<GuardedModel>>(parameters => parameters
+            .Add(component => component.Model, new GuardedModel())
+            .Add(component => component.Id, "profil")
+            .Add(component => component.Class, "profil-form")
+            .AddUnmatched("aria-label", "Profil")
+            .Add(component => component.ChildContent, (RenderFragment<EditContext>)(_ => _ => { })));
+
+        var element = form.Find("form");
+        Assert.Equal("profil", element.GetAttribute("id"));
+        Assert.Contains("profil-form", element.ClassList);
+        Assert.Contains("omni-template-form__form", element.ClassList);
+        Assert.Equal("Profil", element.GetAttribute("aria-label"));
+        Assert.Contains("omni-template-form", form.Find("div").ClassList);
+        Assert.Throws<InvalidOperationException>(() => Render<OmniTemplateForm<GuardedModel>>(parameters => parameters
+            .Add(component => component.Model, new GuardedModel())
+            .AddUnmatched("style", "color: red")
+            .Add(component => component.ChildContent, (RenderFragment<EditContext>)(_ => _ => { }))));
     }
 
     // ---- selectable card ------------------------------------------------------------------------
@@ -117,8 +140,8 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
         var card = Render<OmniSelectableCard>(parameters => parameters
             .Add(component => component.Title, "Linux")
             .Add(component => component.Description, "Debian, Ubuntu")
-            .Add(component => component.Selected, true)
-            .Add(component => component.SelectedChanged, value => picked.Add(value)));
+            .Add(component => component.Value, true)
+            .Add(component => component.ValueChanged, value => picked.Add(value)));
 
         var button = card.Find("button.omni-selectable-card");
         Assert.Equal("radio", button.GetAttribute("role"));
@@ -140,8 +163,8 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
         var card = Render<OmniSelectableCard>(parameters => parameters
             .Add(component => component.Title, "Docker")
             .Add(component => component.Multiple, true)
-            .Add(component => component.Selected, true)
-            .Add(component => component.SelectedChanged, value => picked.Add(value)));
+            .Add(component => component.Value, true)
+            .Add(component => component.ValueChanged, value => picked.Add(value)));
 
         Assert.Equal("checkbox", card.Find("button").GetAttribute("role"));
         card.Find("button").Click();
@@ -256,20 +279,21 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     }
 
     [Fact]
-    public void PageHeader_BackVariant_ColoursTheBackButton_GhostByDefault()
+    public void PageHeader_BackVariant_ColoursTheBackButton_PrimaryByDefault()
     {
-        var plain = Render<OmniPageHeader>(parameters => parameters
-            .Add(component => component.Title, "Détail")
-            .Add(component => component.ShowTrail, false)
-            .Add(component => component.ShowBack, true));
-        Assert.Contains("omni-button--ghost", plain.Find(".omni-page-header__back").ClassList);
-
+        // Owner decision (R-395): the same blue back arrow on every site; Ghost stays available.
         var blue = Render<OmniPageHeader>(parameters => parameters
             .Add(component => component.Title, "Détail")
             .Add(component => component.ShowTrail, false)
-            .Add(component => component.ShowBack, true)
-            .Add(component => component.BackVariant, OmniButtonVariant.Primary));
+            .Add(component => component.ShowBack, true));
         Assert.Contains("omni-button--primary", blue.Find(".omni-page-header__back").ClassList);
+
+        var plain = Render<OmniPageHeader>(parameters => parameters
+            .Add(component => component.Title, "Détail")
+            .Add(component => component.ShowTrail, false)
+            .Add(component => component.ShowBack, true)
+            .Add(component => component.BackVariant, OmniButtonVariant.Ghost));
+        Assert.Contains("omni-button--ghost", plain.Find(".omni-page-header__back").ClassList);
     }
 
     [Fact]
@@ -336,7 +360,7 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
         var withScales = Render<OmniAppearanceWindow>(parameters => parameters
             .Add(component => component.Open, true)
             .Add(component => component.TextSizeLevelChanged, _ => { })
-            .Add(component => component.DensityLevelChanged, _ => { }));
+            .Add(component => component.DensityChanged, _ => { }));
         Assert.Empty(withScales.FindAll(".omni-appearance-settings--look"));
         Assert.Equal(2, withScales.FindAll(".omni-appearance-settings--scale .omni-appearance-settings__row").Count);
     }
@@ -348,9 +372,9 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
             .Add(component => component.PresetChanged, _ => { })
             .Add(component => component.PaletteChanged, _ => { })
             .Add(component => component.TextSizeLevelChanged, _ => { })
-            .Add(component => component.DensityLevelChanged, _ => { }));
+            .Add(component => component.DensityChanged, _ => { }));
 
-        settings.FindAll(".omni-appearance-settings__row")[4].QuerySelector("button")!.Click();
+        settings.Find(".omni-appearance-settings__row--scale button").Click();
 
         Assert.Equal(2, settings.FindAll(".omni-appearance-window .omni-appearance-settings--look .omni-appearance-settings__row").Count);
         Assert.Equal(2, settings.FindAll(".omni-appearance-window .omni-appearance-settings--scale .omni-appearance-settings__row").Count);
@@ -363,7 +387,7 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     {
         var grid = Render<OmniDataGrid<string>>(parameters => parameters
             .Add(component => component.Items, ["a", "b"])
-            .Add(component => component.IsLoading, true));
+            .Add(component => component.Busy, true));
 
         var row = grid.Find("thead > tr.omni-data-grid__progress");
         Assert.Equal("true", row.GetAttribute("aria-hidden"));
@@ -380,7 +404,7 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
 
         grid.Render(parameters => parameters
             .Add(component => component.ShowLoadingBar, true)
-            .Add(component => component.IsLoading, false));
+            .Add(component => component.Busy, false));
         Assert.Empty(grid.FindAll(".omni-data-grid__progress"));
     }
 

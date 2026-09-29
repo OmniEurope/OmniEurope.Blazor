@@ -18,8 +18,8 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public Func<TItem, object?>? SortValue { get; init; }
     public RenderFragment<TItem>? Template { get; set; }
     public RenderFragment<TItem>? EditTemplate { get; set; }
-    public RenderFragment<TItem>? FooterTemplate { get; set; }
-    public RenderFragment? HeaderTemplate { get; set; }
+    public RenderFragment? FooterContent { get; set; }
+    public RenderFragment? HeaderContent { get; set; }
     public Func<TItem, string, bool>? FilterPredicate { get; set; }
     public string? FormatString { get; init; }
     public bool Sortable { get; init; } = true;
@@ -29,11 +29,11 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     /// <summary>Adds a narrowing box above a MultiSelect filter; ignored by the other types.</summary>
     public bool FilterSearchable { get; init; }
     /// <summary>Explicit Select/Combo suggestions; null derives them from the column's own values.</summary>
-    public IEnumerable<string>? FilterValues { get; set; }
+    public IReadOnlyList<string>? FilterValues { get; set; }
     /// <summary>Column-supplied filter editor, overriding <see cref="FilterType"/>.</summary>
     public RenderFragment<OmniDataGridFilterContext>? FilterTemplate { get; set; }
     /// <summary>Display text of a filter candidate; null shows the value itself.</summary>
-    public Func<string, string>? FilterValueText { get; set; }
+    public Func<string, string>? FormatFilterValue { get; set; }
     /// <summary>Filter applied when the column first registers, unless saved state restored one.</summary>
     public string? DefaultFilterValue { get; init; }
     /// <summary>A DateRange filter picks hours too.</summary>
@@ -56,7 +56,7 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public OmniDataGridTextAlign TextAlign { get; init; }
     /// <summary>The property read is a number: the column aligns at the end unless its alignment was set.</summary>
     public bool Numeric { get; init; }
-    public string? CssClass { get; init; }
-    public string? HeaderCssClass { get; init; }
+    public string? Class { get; init; }
+    public string? HeaderClass { get; init; }
     public bool Groupable { get; init; } = true;
 }

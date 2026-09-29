@@ -12,10 +12,7 @@
         @foreach (var column in VisibleColumns)
         {
             <td class="@ColumnClass(column, false)" data-omni-col="@column.Key">
-                @if (column.FooterTemplate is not null)
-                {
-                    @column.FooterTemplate(default!)
-                }
+                @column.FooterContent
             </td>
         }
         @if (HasEditing) { <td></td> }
@@ -24,7 +21,7 @@
     @* Every clear action of a filter editor is the same square icon button of the standard control
        size, whatever the editor: one condition, two conditions or a list of checkboxes. *@
     RenderFragment<OmniDataGridColumnDefinition<TItem>> clearIcon = column => @<button type="button" class="omni-button omni-button--secondary omni-data-grid__filter-clear omni-data-grid__filter-clear--icon"
-            aria-label="@Text(ClearFilterText, "GridFilterClear")" title="@Text(ClearFilterText, "GridFilterClear")"
+            aria-label="@Localize("GridFilterClear")" title="@Localize("GridFilterClear")"
             @onclick="() => ClearFilterAsync(column)"><span class="omni-button__content"><OmniIcon Name="OmniIconName.Close" /></span></button>;
 
     @* The filter editor of one column, shared by the inline filter row and the popovers: in a
@@ -72,7 +69,7 @@
             <label class="omni-visually-hidden" for="@($"{context.Id}-second")">@Localize("GridFilterSecondValue", context.Column.Title)</label>
             @FilterValueControl(context.Column, $"{context.Id}-second", SecondFilterValue(context.Column), value => SecondFilterValueChangedAsync(context.Column, value), context.InPanel)
             <span class="omni-data-grid__filter-actions">
-                <button type="button" class="omni-button omni-button--primary omni-data-grid__filter-apply" @onclick="() => ApplyFilterAsync(context.Column)">@Text(ApplyFilterText, "GridFilterApply")</button>
+                <button type="button" class="omni-button omni-button--primary omni-data-grid__filter-apply" @onclick="() => ApplyFilterAsync(context.Column)">@Localize("GridFilterApply")</button>
                 @clearIcon(context.Column)
             </span>
         }
@@ -88,8 +85,8 @@
        exists while there is something to empty. *@
     RenderFragment<OmniDataGridColumnDefinition<TItem>> filterReset = context => @<button type="button"
             class="omni-data-grid__icon-button omni-data-grid__filter-reset"
-            aria-label="@Text(ClearFilterText, "GridFilterClear")"
-            title="@Text(ClearFilterText, "GridFilterClear")"
+            aria-label="@Localize("GridFilterClear")"
+            title="@Localize("GridFilterClear")"
             @onclick:stopPropagation="true"
             @onclick="() => ClearFilterAsync(context)">
         <OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" />
@@ -102,7 +99,14 @@
     @if (Failure is not null)
     {
         <div class="omni-data-grid__state" role="alert">
-            <span>@Localize("GridLoadFailed")</span>
+            @if (ErrorContent is not null)
+            {
+                @ErrorContent(Failure)
+            }
+            else
+            {
+                <span>@Localize("GridLoadFailed")</span>
+            }
             <button type="button" class="omni-button omni-button--small omni-button--secondary" @onclick="ReloadAsync">@Localize("Retry")</button>
         </div>
     }
@@ -135,21 +139,11 @@
             <OmniPager Page="@EffectivePage"
                        PageCount="@PageCount"
                        PageChanged="ChangePageAsync"
-                       PageSize="@PageSize"
+                       PageSize="@_pageSize"
                        PageSizeOptions="@PageSizeOptions"
                        PageSizeChanged="ChangePageSizeAsync"
                        ShowFirstLast="true"
                        HorizontalAlign="@PagerHorizontalAlign"
-                       FirstPageAriaLabel="@FirstPageAriaLabel"
-                       FirstPageTitle="@FirstPageTitle"
-                       LastPageAriaLabel="@LastPageAriaLabel"
-                       LastPageTitle="@LastPageTitle"
-                       PrevPageAriaLabel="@PrevPageAriaLabel"
-                       PrevPageTitle="@PrevPageTitle"
-                       NextPageAriaLabel="@NextPageAriaLabel"
-                       NextPageTitle="@NextPageTitle"
-                       PageTitleFormat="@PageTitleFormat"
-                       PageAriaLabelFormat="@PageAriaLabelFormat"
                        NumericPageCount="@NumericPageCount" />
         }
         @* Detach control of the frozen columns: outside the scrolled area so it stays put, placed on
@@ -228,9 +222,9 @@
                                 aria-sort="@AriaSort(column)"
                                 @onclick="args => SortAsync(column.Key, args.ShiftKey)">
                                 <div class="omni-data-grid__header">
-                                    @if (column.HeaderTemplate is not null)
+                                    @if (column.HeaderContent is not null)
                                     {
-                                        @column.HeaderTemplate
+                                        @column.HeaderContent
                                     }
                                     else if (IsSortable(column))
                                     {
@@ -352,9 +346,9 @@
                     {
                         @footerRow
                     }
-                    @* A request to the server is running: a bar drawn over the foot of the headers, on the table
-                       only, in a row of no height, so nothing moves when it comes or goes and the rows already
-                       there stay readable under it. *@
+                    @* A load is running, the grid's own request or the host's (Busy): a bar drawn over the foot of
+                       the headers, on the table only, in a row of no height, so nothing moves when it comes or goes
+                       and the rows already there stay readable under it. *@
                     @if (ShowsLoadingBar)
                     {
                         <tr class="omni-data-grid__progress" aria-hidden="true">
@@ -373,7 +367,13 @@
                     {
                         <tr class="omni-data-grid__preparation"><td colspan="@ColumnSpan" class="omni-data-grid__state omni-data-grid__state--loading" role="status">@LoadingContent</td></tr>
                     }
-                    @if (ShowLoadingRow)
+                    @* No row yet, loading under the bar: the body waits empty (the host's template when it gave one)
+                       rather than announcing an empty grid the rows are about to fill. *@
+                    @if (ShowPendingRow)
+                    {
+                        <tr class="omni-data-grid__pending"><td colspan="@ColumnSpan" class="omni-data-grid__state omni-data-grid__state--loading" role="status">@if (LoadingContent is not null) { @LoadingContent } else { <span class="omni-visually-hidden">@Localize("Loading")</span> }</td></tr>
+                    }
+                    else if (ShowLoadingRow)
                     {
                         <tr><td colspan="@ColumnSpan" class="omni-data-grid__state omni-data-grid__state--loading" role="status">@if (LoadingContent is not null) { @LoadingContent } else { @Localize("Loading") }</td></tr>
                     }
@@ -419,7 +419,7 @@
                                     @onclick="RowClickCallback(row)"
                                     @ondblclick="RowDoubleClickCallback(row)"
                                     @oncontextmenu="RowContextMenuCallback(row)"
-                                    @oncontextmenu:preventDefault="RowContextMenu.HasDelegate"
+                                    @oncontextmenu:preventDefault="OnRowContextMenu.HasDelegate"
                                     @onkeydown="RowKeyDownCallback(row)">
                                     @* The control cells and a row being edited keep their clicks and keys to
                                        themselves: a tick in the checkbox is not also a row click, and a space typed
@@ -429,7 +429,7 @@
                                         <td class="@ControlClass("expand")" data-omni-control="expand" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true" @onkeydown:stopPropagation="true">
                                             @if (row.Expandable)
                                             {
-                                                <button type="button" class="@ExpandButtonClass(IsExpanded(ItemKey(row.Item)))" aria-expanded="@(IsExpanded(ItemKey(row.Item)) ? "true" : "false")" aria-label="@(IsExpanded(ItemKey(row.Item)) ? Localize("GridCollapseRow") : Text(ExpandChildItemAriaLabel, "GridExpandRow"))" @onclick="() => ToggleExpandedAsync(row.Item)">
+                                                <button type="button" class="@ExpandButtonClass(IsExpanded(ItemKey(row.Item)))" aria-expanded="@(IsExpanded(ItemKey(row.Item)) ? "true" : "false")" aria-label="@(IsExpanded(ItemKey(row.Item)) ? Localize("GridCollapseRow") : Localize("GridExpandRow"))" @onclick="() => ToggleExpandedAsync(row.Item)">
                                                     <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
                                                 </button>
                                             }
@@ -489,21 +489,11 @@
             <OmniPager Page="@EffectivePage"
                        PageCount="@PageCount"
                        PageChanged="ChangePageAsync"
-                       PageSize="@PageSize"
+                       PageSize="@_pageSize"
                        PageSizeOptions="@PageSizeOptions"
                        PageSizeChanged="ChangePageSizeAsync"
                        ShowFirstLast="true"
                        HorizontalAlign="@PagerHorizontalAlign"
-                       FirstPageAriaLabel="@FirstPageAriaLabel"
-                       FirstPageTitle="@FirstPageTitle"
-                       LastPageAriaLabel="@LastPageAriaLabel"
-                       LastPageTitle="@LastPageTitle"
-                       PrevPageAriaLabel="@PrevPageAriaLabel"
-                       PrevPageTitle="@PrevPageTitle"
-                       NextPageAriaLabel="@NextPageAriaLabel"
-                       NextPageTitle="@NextPageTitle"
-                       PageTitleFormat="@PageTitleFormat"
-                       PageAriaLabelFormat="@PageAriaLabelFormat"
                        NumericPageCount="@NumericPageCount" />
         }
     }

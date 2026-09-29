@@ -4,8 +4,8 @@ public partial class FeedbackDemo
 {
     private static readonly OmniStatusMap<string> DemoStatuses = new()
     {
-        { "ready", OmniBadgeVariant.Success, "Prêt", OmniIconName.CheckCircle },
-        { "failed", OmniBadgeVariant.Danger, "Échec", OmniIconName.Error }
+        { "ready", OmniTone.Success, "Prêt", OmniIconName.CheckCircle },
+        { "failed", OmniTone.Danger, "Échec", OmniIconName.Error }
     };
 
     private static readonly IReadOnlyList<OmniStatusStripItem> RecentRuns =
@@ -15,13 +15,13 @@ public partial class FeedbackDemo
         new() { Status = "failure", Label = "Exécution 43 échouée" }
     ];
 
-    private static readonly IReadOnlyDictionary<string, OmniBadgeVariant> RunTones =
-        new Dictionary<string, OmniBadgeVariant>
-        {
-            ["success"] = OmniBadgeVariant.Success,
-            ["warning"] = OmniBadgeVariant.Warning,
-            ["failure"] = OmniBadgeVariant.Danger
-        };
+    // The strip reads only the tone of each status: each run keeps its own label.
+    private static readonly OmniStatusMap<string> RunTones = new()
+    {
+        { "success", OmniTone.Success, "Réussie" },
+        { "warning", OmniTone.Warning, "Avertissement" },
+        { "failure", OmniTone.Danger, "Échec" }
+    };
 
     [Inject] private OmniLoadingState Loading { get; set; } = null!;
 

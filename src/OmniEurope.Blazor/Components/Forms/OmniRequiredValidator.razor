@@ -2,7 +2,9 @@
 @typeparam TValue
 @inherits OmniValidatorBase<TValue>
 
-@if (ShowMessage && !string.IsNullOrWhiteSpace(CurrentError))
+@* A polite live region, present before the message is: the message is announced when it appears, not
+   interrupting (role="alert" is kept for blocking errors). Empty, it takes no room. *@
+@if (ShowMessage)
 {
-    <div class="omni-validation-message" role="alert">@CurrentError</div>
+    <div class="omni-validation-message" aria-live="polite">@CurrentError</div>
 }

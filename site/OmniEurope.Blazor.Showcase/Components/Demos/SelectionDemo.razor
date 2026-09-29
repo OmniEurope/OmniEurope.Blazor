@@ -3,34 +3,34 @@
 <EditForm Model="this">
     <OmniStack Gap="OmniSpacing.Medium">
         <OmniFormField For="demo-country">
-            <Label>Pays</Label>
+            <LabelContent>Pays</LabelContent>
             <ChildContent>
                 <OmniDropDown TValue="string" Id="demo-country" Options="Countries" @bind-Value="Country" Placeholder="Choisir un pays" />
             </ChildContent>
         </OmniFormField>
 
         <OmniFormField For="demo-city">
-            <Label>Villes desservies</Label>
+            <LabelContent>Villes desservies</LabelContent>
             <ChildContent>
                 <OmniListBox Id="demo-city" Options="Cities" @bind-Value="City" VisibleRows="4" />
             </ChildContent>
         </OmniFormField>
 
         <OmniFormField For="demo-tags">
-            <Label>Étiquettes</Label>
+            <LabelContent>Étiquettes</LabelContent>
             <ChildContent>
                 <OmniListBox Id="demo-tags" Multiple="true" Options="Tags" @bind-Value="SelectedTags" VisibleRows="4" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="demo-tags-compact">
-            <Label>Étiquettes, forme compacte</Label>
+            <LabelContent>Étiquettes, forme compacte</LabelContent>
             <ChildContent>
                 <OmniMultiSelect TValue="string" Id="demo-tags-compact" Options="Tags" @bind-Value="CompactTags"
                                  Placeholder="Choisir des étiquettes" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="demo-tags-filterable">
-            <Label>Étiquettes, recherche et création</Label>
+            <LabelContent>Étiquettes, recherche et création</LabelContent>
             <ChildContent>
                 <OmniMultiSelect TValue="string" Id="demo-tags-filterable" Options="EditableTags"
                                  @bind-Value="FilterableTags"
@@ -43,14 +43,14 @@
                         </svg>
                         <span>@tag.Text</span>
                     </OptionTemplate>
-                    <FooterTemplate>
+                    <FooterContent>
                         @if (CanCreateSearchedTag)
                         {
                             <OmniButton Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small" OnClick="CreateSearchedTag">
                                 + @TagSearch
                             </OmniButton>
                         }
-                    </FooterTemplate>
+                    </FooterContent>
                 </OmniMultiSelect>
             </ChildContent>
         </OmniFormField>

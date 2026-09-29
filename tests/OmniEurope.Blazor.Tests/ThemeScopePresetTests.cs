@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class ThemeScopePresetTests : OmniBunitContext
 {
-    private const string ThemeModule = "./_content/OmniEurope.Blazor/omni-theme.js";
+    private const string ThemeModule = Internal.OmniModules.Theme;
 
     [Fact]
     public void A_scope_without_a_preset_never_loads_the_theme_script()

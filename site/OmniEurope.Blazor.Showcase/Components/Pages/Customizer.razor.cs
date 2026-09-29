@@ -69,12 +69,12 @@ public partial class Customizer : IDisposable
             new(OmniDensity.Comfortable, Text["WorkshopDensityComfortable"]),
             new(OmniDensity.Spacious, Text["WorkshopDensitySpacious"])
         ];
+        // A section's density is written straight into data-omni-density, whose values are the
+        // OmniDensity names in lower case: derived from the enum, so the two cannot drift apart.
         SectionDensityOptions =
         [
             new(string.Empty, Text["WorkshopDensityInherited"]),
-            new("compact", Text["WorkshopDensityCompact"]),
-            new("comfortable", Text["WorkshopDensityComfortable"]),
-            new("spacious", Text["WorkshopDensitySpacious"])
+            .. DensityOptions.Select(option => new OmniOption<string>(option.Value.ToString().ToLowerInvariant(), option.Text))
         ];
         Theme.Changed += OnThemeChanged;
     }

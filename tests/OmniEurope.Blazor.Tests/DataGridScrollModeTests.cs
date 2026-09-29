@@ -11,7 +11,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DataGridScrollModeTests : OmniBunitContext
 {
-    private const string GridModule = "./_content/OmniEurope.Blazor/omni-grid.js";
+    private const string GridModule = Internal.OmniModules.Grid;
 
     [Fact]
     public void Paged_IsTheDefault_AndRendersOnePageUnderAPager()

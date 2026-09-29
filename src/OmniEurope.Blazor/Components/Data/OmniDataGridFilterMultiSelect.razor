@@ -4,7 +4,7 @@
 @* The search box and the list are the same in both presentations; only their frame changes. *@
 @{
     RenderFragment list = @<text>
-        @if (Searchable)
+        @if (Filterable)
         {
             <input id="@Id"
                    type="text"
@@ -25,7 +25,19 @@
                                class="omni-multi-select__checkbox"
                                checked="@checkedNow"
                                @onchange="args => ToggleAsync(option, args.Value is true)" />
-                        <span>@Highlighted(option)</span>
+                        <span>
+                            @foreach (var segment in OmniTextMatch.Split(Display(option), _search))
+                            {
+                                if (segment.Matched)
+                                {
+                                    <mark class="omni-combo__match">@segment.Text</mark>
+                                }
+                                else
+                                {
+                                    @segment.Text
+                                }
+                            }
+                        </span>
                     </label>
                 </li>
             }
@@ -38,8 +50,8 @@
     @* Folded on one line: the summary reads the ticked values and the list opens on demand over the
        rows. Outside click, Escape and placement past the grid's scroll box are the behaviour the
        grid gives every [data-omni-popover]. *@
-    <details class="@Css("omni-data-grid__popover", "omni-data-grid__multi")" data-omni-popover>
-        <summary id="@(Searchable ? null : Id)" class="omni-input omni-data-grid__multi-summary" aria-haspopup="listbox">
+    <details @attributes="AdditionalAttributes" class="@Css("omni-data-grid__popover", "omni-data-grid__multi")" data-omni-popover>
+        <summary id="@(Filterable ? null : Id)" class="omni-input omni-data-grid__multi-summary" aria-haspopup="listbox">
             <span class="@SummaryClass">@SummaryText</span>
             <OmniIcon Name="OmniIconName.ChevronDown" Size="OmniControlSize.Small" />
         </summary>
@@ -50,7 +62,7 @@
 }
 else
 {
-    <div class="@Css("omni-multi-select")">
+    <div @attributes="AdditionalAttributes" class="@Css("omni-multi-select")">
         @list
     </div>
 }

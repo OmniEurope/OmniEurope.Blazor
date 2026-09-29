@@ -90,7 +90,7 @@ public partial class OmniSpreadsheet
 
     /// <summary>Accessible name of the sheet. Defaults to a localized "Spreadsheet".</summary>
     [Parameter]
-    public string? AriaLabel { get; set; }
+    public string? Label { get; set; }
 
     /// <summary>Raised with the A1 address of the active cell whenever it moves.</summary>
     [Parameter]
@@ -102,7 +102,7 @@ public partial class OmniSpreadsheet
 
     private bool HasCells => Sheet.RowCount > 0 && Sheet.ColumnCount > 0;
 
-    private string Label => string.IsNullOrWhiteSpace(AriaLabel) ? Localize("SpreadsheetLabel") : AriaLabel;
+    private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Localize("SpreadsheetLabel") : Label;
 
     private bool ShowToolbar => !ReadOnly && (AllowAddRows || AllowAddColumns);
 

@@ -19,14 +19,14 @@
                  @onkeydown="HandleKeyDownAsync">
             @if (Modal) { <button type="button" class="omni-visually-hidden" data-focus-sentinel aria-label="@Localize("DialogEnd")" @onfocus="FocusLastAsync"></button> }
             <header class="omni-dialog__header" data-omni-dialog-drag-handle="@(Draggable ? string.Empty : null)">
-                @if (Intent != OmniDialogIntent.None)
+                @if (Intent != OmniTone.Neutral)
                 {
-                    <span class="omni-dialog__intent" aria-hidden="true">@if (Icon is not null) { @Icon } else { <OmniIcon Name="IntentIcon" /> }</span>
+                    <span class="omni-dialog__intent" aria-hidden="true">@if (Icon is not null) { @Icon } else { <svg class="omni-dialog__glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="@IntentGlyph" /></svg> }</span>
                 }
                 <h2 id="@TitleId" class="omni-dialog__title">@(TitleContent ?? (RenderFragment)(builder => builder.AddContent(0, Title)))</h2>
                 @if (Dismissible && ShowClose)
                 {
-                    <button type="button" class="omni-dialog__close" aria-label="@EffectiveCloseLabel" autofocus @onclick="CloseAsync">×</button>
+                    <button type="button" class="omni-dialog__close" aria-label="@EffectiveCloseLabel" title="@EffectiveCloseLabel" autofocus="@Modal" @onclick="CloseAsync"><OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" /></button>
                 }
             </header>
             <div class="omni-dialog__content" id="@(Dismissible ? null : ContentId)" tabindex="-1">@ChildContent</div>

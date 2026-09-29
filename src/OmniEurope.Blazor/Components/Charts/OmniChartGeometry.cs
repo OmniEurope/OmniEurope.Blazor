@@ -2,9 +2,24 @@ using System.Globalization;
 
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// Chart arithmetic and number writing. Two ways to write a number: <see cref="Number"/> for SVG
+/// geometry (invariant, the only form an attribute accepts) and <see cref="Display"/> for text a
+/// reader sees or hears (the current culture: a comma decimal separator in French).
+/// </summary>
 internal static class OmniChartGeometry
 {
+    /// <summary>Between a category and its value in a hover text, whatever the chart: "mars · 12".</summary>
+    public const string Separator = " · ";
+
+    /// <summary>A number for an SVG attribute: invariant culture, at most three decimals.</summary>
     public static string Number(double value) => value.ToString("0.###", CultureInfo.InvariantCulture);
+
+    /// <summary>A number for display: current culture, at most three decimals.</summary>
+    public static string Display(double value) => value.ToString("0.###", CultureInfo.CurrentCulture);
+
+    /// <summary>A category and its value, joined by <see cref="Separator"/>.</summary>
+    public static string Pair(string category, string value) => category + Separator + value;
 
     public static string Points(IReadOnlyList<OmniChartPoint> points) =>
         string.Join(' ', points.Select((_, index) =>

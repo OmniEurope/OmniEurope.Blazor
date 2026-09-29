@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="UploadFailed" xml:space="preserve"><value>Het uploaden is mislukt.</value></data>
+  <data name="Today" xml:space="preserve"><value>Vandaag</value></data>
+  <data name="Retry" xml:space="preserve"><value>Opnieuw proberen</value></data>
+  <data name="Loading" xml:space="preserve"><value>Laden…</value></data>
+  <data name="AppearanceLight" xml:space="preserve"><value>Licht</value></data>
+  <data name="AppearanceDark" xml:space="preserve"><value>Donker</value></data>
+  <data name="AppearanceSystem" xml:space="preserve"><value>Systeem</value></data>
+  <data name="SettingsMode" xml:space="preserve"><value>Modus</value></data>
+  <data name="SettingsTheme" xml:space="preserve"><value>Thema</value></data>
+  <data name="SettingsPalette" xml:space="preserve"><value>Palet</value></data>
+  <data name="SettingsFont" xml:space="preserve"><value>Lettertype</value></data>
+  <data name="SettingsTextSize" xml:space="preserve"><value>Tekstgrootte</value></data>
+  <data name="SettingsDensity" xml:space="preserve"><value>Dichtheid</value></data>
+  <data name="SettingsControlSize" xml:space="preserve"><value>Grootte van besturingselementen</value></data>
+  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Bediening</value></data>
+  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Tekst</value></data>
+  <data name="SettingsDensityShort" xml:space="preserve"><value>Dichtheid</value></data>
+  <data name="SettingsScale" xml:space="preserve"><value>Formaten</value></data>
+  <data name="SettingsDefault" xml:space="preserve"><value>Standaard</value></data>
+  <data name="SettingsDefaultSuffix" xml:space="preserve"><value>standaard</value></data>
+  <data name="SettingsDecrease" xml:space="preserve"><value>Verkleinen</value></data>
+  <data name="SettingsIncrease" xml:space="preserve"><value>Vergroten</value></data>
+  <data name="ArcGaugeLabel" xml:space="preserve"><value>Meter</value></data>
+  <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Het zoeken is mislukt. Wijzig de invoer om het opnieuw te proberen.</value></data>
+  <data name="AutocompleteOneResult" xml:space="preserve"><value>1 resultaat beschikbaar.</value></data>
+  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} resultaten beschikbaar.</value></data>
+  <data name="AutocompleteSelected" xml:space="preserve"><value>{0} geselecteerd.</value></data>
+  <data name="AutocompleteInvalid" xml:space="preserve"><value>De waarde van automatisch aanvullen is ongeldig.</value></data>
+  <data name="BreadcrumbLabel" xml:space="preserve"><value>Kruimelpad</value></data>
+  <data name="CheckBoxInvalid" xml:space="preserve"><value>De waarde van het selectievakje is ongeldig.</value></data>
+  <data name="CheckBoxListInvalid" xml:space="preserve"><value>De lijst met selectievakjes is ongeldig.</value></data>
+  <data name="ColorPickerInvalid" xml:space="preserve"><value>De kleur moet de notatie #RRGGBB hebben.</value></data>
+  <data name="NotificationsRegionLabel" xml:space="preserve"><value>Meldingen</value></data>
+  <data name="ContextMenuLabel" xml:space="preserve"><value>Contextmenu</value></data>
+  <data name="GridLoadFailed" xml:space="preserve"><value>Het laden van de tabel is mislukt.</value></data>
+  <data name="GridDetailColumn" xml:space="preserve"><value>Details</value></data>
+  <data name="GridSelectionColumn" xml:space="preserve"><value>Selectie</value></data>
+  <data name="GridResizeColumn" xml:space="preserve"><value>Grootte van {0} wijzigen</value></data>
+  <data name="GridEditColumn" xml:space="preserve"><value>Bewerken</value></data>
+  <data name="GridFilterColumn" xml:space="preserve"><value>{0} filteren</value></data>
+  <data name="GridEmpty" xml:space="preserve"><value>Geen gegevens.</value></data>
+  <data name="GridEmptyFiltered" xml:space="preserve"><value>Geen resultaten voldoen aan de filters.</value></data>
+  <data name="GridValueColumn" xml:space="preserve"><value>Waarde</value></data>
+  <data name="GridFilterPlaceholder" xml:space="preserve"><value>Filteren</value></data>
+  <data name="GridFilterOperator" xml:space="preserve"><value>Filteroperator voor {0}</value></data>
+  <data name="GridFilterSecondOperator" xml:space="preserve"><value>Tweede filteroperator voor {0}</value></data>
+  <data name="GridFilterSecondValue" xml:space="preserve"><value>Tweede filterwaarde voor {0}</value></data>
+  <data name="GridFilterLogical" xml:space="preserve"><value>Logische operator voor {0}</value></data>
+  <data name="GridFilterApply" xml:space="preserve"><value>Toepassen</value></data>
+  <data name="GridFilterClear" xml:space="preserve"><value>Wissen</value></data>
+  <data name="TooltipShowMore" xml:space="preserve"><value>Meer tonen</value></data>
+  <data name="TooltipShowLess" xml:space="preserve"><value>Minder tonen</value></data>
+  <data name="GridFilterDateFrom" xml:space="preserve"><value>Van</value></data>
+  <data name="GridFilterDateTo" xml:space="preserve"><value>Tot</value></data>
+  <data name="GridFilterContains" xml:space="preserve"><value>Bevat</value></data>
+  <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Bevat niet</value></data>
+  <data name="GridFilterEquals" xml:space="preserve"><value>Gelijk aan</value></data>
+  <data name="GridFilterNotEquals" xml:space="preserve"><value>Niet gelijk aan</value></data>
+  <data name="GridFilterStartsWith" xml:space="preserve"><value>Begint met</value></data>
+  <data name="GridFilterEndsWith" xml:space="preserve"><value>Eindigt op</value></data>
+  <data name="GridFilterGreaterThan" xml:space="preserve"><value>Groter dan</value></data>
+  <data name="GridFilterGreaterThanOrEquals" xml:space="preserve"><value>Groter dan of gelijk aan</value></data>
+  <data name="GridFilterLessThan" xml:space="preserve"><value>Kleiner dan</value></data>
+  <data name="GridFilterLessThanOrEquals" xml:space="preserve"><value>Kleiner dan of gelijk aan</value></data>
+  <data name="GridFilterIsNull" xml:space="preserve"><value>Is null</value></data>
+  <data name="GridFilterIsNotNull" xml:space="preserve"><value>Is niet null</value></data>
+  <data name="GridFilterIsEmpty" xml:space="preserve"><value>Is leeg</value></data>
+  <data name="GridFilterIsNotEmpty" xml:space="preserve"><value>Is niet leeg</value></data>
+  <data name="GridFilterAnd" xml:space="preserve"><value>En</value></data>
+  <data name="GridFilterOr" xml:space="preserve"><value>Of</value></data>
+  <data name="GridGroupPanel" xml:space="preserve"><value>Actieve groeperingen</value></data>
+  <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Geen groepering.</value></data>
+  <data name="GridGroupColumn" xml:space="preserve"><value>Groeperen op {0}</value></data>
+  <data name="GridUngroupColumn" xml:space="preserve"><value>Groepering op {0} verwijderen</value></data>
+  <data name="GridExpandAll" xml:space="preserve"><value>Alle rijen uit- of samenvouwen</value></data>
+  <data name="GridDetachFrozen" xml:space="preserve"><value>Vastgezette kolommen losmaken</value></data>
+  <data name="GridRefreezeFrozen" xml:space="preserve"><value>Kolommen opnieuw vastzetten</value></data>
+  <data name="GridShrinkColumn" xml:space="preserve"><value>Kolom {0} smaller maken</value></data>
+  <data name="GridGrowColumn" xml:space="preserve"><value>Kolom {0} breder maken</value></data>
+  <data name="PagerFirst" xml:space="preserve"><value>Eerste pagina</value></data>
+  <data name="PagerLast" xml:space="preserve"><value>Laatste pagina</value></data>
+  <data name="PagerPageSize" xml:space="preserve"><value>Rijen per pagina</value></data>
+  <data name="GridPagingSummary" xml:space="preserve"><value>{0} tot {1} van {2}</value></data>
+  <data name="GridRowsLoading" xml:space="preserve"><value>Rijen laden…</value></data>
+  <data name="GridCollapseRow" xml:space="preserve"><value>Rij samenvouwen</value></data>
+  <data name="GridExpandRow" xml:space="preserve"><value>Rij uitvouwen</value></data>
+  <data name="GridSelectRow" xml:space="preserve"><value>Rij selecteren</value></data>
+  <data name="GridSelectAll" xml:space="preserve"><value>Alle weergegeven rijen selecteren</value></data>
+  <data name="SpreadsheetLabel" xml:space="preserve"><value>Rekenblad</value></data>
+  <data name="SpreadsheetAddRow" xml:space="preserve"><value>Rij</value></data>
+  <data name="SpreadsheetAddRowLabel" xml:space="preserve"><value>Rij toevoegen</value></data>
+  <data name="SpreadsheetAddColumn" xml:space="preserve"><value>Kolom</value></data>
+  <data name="SpreadsheetAddColumnLabel" xml:space="preserve"><value>Kolom toevoegen</value></data>
+  <data name="SpreadsheetActiveCell" xml:space="preserve"><value>Actieve cel</value></data>
+  <data name="SpreadsheetFormulaBar" xml:space="preserve"><value>Inhoud van cel {0}</value></data>
+  <data name="SpreadsheetCell" xml:space="preserve"><value>Cel {0}</value></data>
+  <data name="Save" xml:space="preserve"><value>Opslaan</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Annuleren</value></data>
+  <data name="Edit" xml:space="preserve"><value>Bewerken</value></data>
+  <data name="DataListLoadFailed" xml:space="preserve"><value>Het laden is mislukt.</value></data>
+  <data name="DataListEmpty" xml:space="preserve"><value>Geen items.</value></data>
+  <data name="DatePickerInvalid" xml:space="preserve"><value>De ingevoerde datum is ongeldig.</value></data>
+  <data name="DateTimePickerInvalid" xml:space="preserve"><value>De ingevoerde datum en tijd zijn ongeldig.</value></data>
+  <data name="DatePickerToggle" xml:space="preserve"><value>Datum kiezen</value></data>
+  <data name="DatePickerToday" xml:space="preserve"><value>Vandaag</value></data>
+  <data name="DatePickerClear" xml:space="preserve"><value>Wissen</value></data>
+  <data name="CalendarPreviousMonth" xml:space="preserve"><value>Vorige maand</value></data>
+  <data name="CalendarNextMonth" xml:space="preserve"><value>Volgende maand</value></data>
+  <data name="TimePickerToggle" xml:space="preserve"><value>Tijd kiezen</value></data>
+  <data name="DateTimePickerToggle" xml:space="preserve"><value>Datum en tijd kiezen</value></data>
+  <data name="TimePickerNow" xml:space="preserve"><value>Nu</value></data>
+  <data name="TimePickerConfirm" xml:space="preserve"><value>Bevestigen</value></data>
+  <data name="TimePickerHours" xml:space="preserve"><value>Uren</value></data>
+  <data name="TimePickerMinutes" xml:space="preserve"><value>Minuten</value></data>
+  <data name="TimePickerSeconds" xml:space="preserve"><value>Seconden</value></data>
+  <data name="TimePickerHourCaption" xml:space="preserve"><value>u</value></data>
+  <data name="TimePickerMinuteCaption" xml:space="preserve"><value>min</value></data>
+  <data name="TimePickerSecondCaption" xml:space="preserve"><value>s</value></data>
+  <data name="TimePickerInvalid" xml:space="preserve"><value>De ingevoerde tijd is ongeldig.</value></data>
+  <data name="PickerLetterDay" xml:space="preserve"><value>d</value></data>
+  <data name="PickerLetterMonth" xml:space="preserve"><value>m</value></data>
+  <data name="PickerLetterYear" xml:space="preserve"><value>j</value></data>
+  <data name="PickerLetterHour" xml:space="preserve"><value>u</value></data>
+  <data name="PickerLetterMinute" xml:space="preserve"><value>m</value></data>
+  <data name="PickerLetterSecond" xml:space="preserve"><value>s</value></data>
+  <data name="DayViewLabel" xml:space="preserve"><value>Dagweergave</value></data>
+  <data name="DialogEnd" xml:space="preserve"><value>Einde van het dialoogvenster</value></data>
+  <data name="Close" xml:space="preserve"><value>Sluiten</value></data>
+  <data name="DialogStart" xml:space="preserve"><value>Begin van het dialoogvenster</value></data>
+  <data name="DropDownPlaceholder" xml:space="preserve"><value>Selecteren</value></data>
+  <data name="DropDownInvalid" xml:space="preserve"><value>De selectie is ongeldig voor {0}.</value></data>
+  <data name="HtmlEditorLabel" xml:space="preserve"><value>HTML-editor</value></data>
+  <data name="HtmlEditorToolbar" xml:space="preserve"><value>Opmaakhulpmiddelen</value></data>
+  <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Editoracties</value></data>
+  <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Hoofdlettergebruik</value></data>
+  <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>HOOFDLETTERS</value></data>
+  <data name="HtmlEditorCaseLower" xml:space="preserve"><value>kleine letters</value></data>
+  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Elk Woord Met Hoofdletter</value></data>
+  <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Speciaal teken</value></data>
+  <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Teken zoeken</value></data>
+  <data name="HtmlEditorCharNone" xml:space="preserve"><value>Geen teken gevonden.</value></data>
+  <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Veelgebruikt</value></data>
+  <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Valuta</value></data>
+  <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Pijlen</value></data>
+  <data name="HtmlEditorCharCategoryMath" xml:space="preserve"><value>Wiskunde</value></data>
+  <data name="HtmlEditorCharCategoryGreek" xml:space="preserve"><value>Grieks</value></data>
+  <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Juridisch</value></data>
+  <data name="HtmlEditorImportTable" xml:space="preserve"><value>Tabel importeren</value></data>
+  <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>{0}-bestand, maximaal 100 rijen en 50 kolommen.</value></data>
+  <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Eerste rij als koptekst</value></data>
+  <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Invoegen</value></data>
+  <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Voorbeeld van de tabel</value></data>
+  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0} rijen, {1} kolommen</value></data>
+  <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>Het bestand kon niet worden gelezen.</value></data>
+  <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>Het bestand bevat geen rijen.</value></data>
+  <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Dit bestandstype wordt niet ondersteund.</value></data>
+  <data name="HtmlEditorClosePanel" xml:space="preserve"><value>Sluiten</value></data>
+  <data name="HtmlEditorShowBlocks" xml:space="preserve"><value>Blokken tonen</value></data>
+  <data name="HtmlEditorHighlight" xml:space="preserve"><value>Markeren</value></data>
+  <data name="HtmlEditorChar00A9" xml:space="preserve"><value>Copyright</value></data>
+  <data name="HtmlEditorChar00AE" xml:space="preserve"><value>Gedeponeerd handelsmerk</value></data>
+  <data name="HtmlEditorChar2122" xml:space="preserve"><value>Handelsmerk</value></data>
+  <data name="HtmlEditorChar00A7" xml:space="preserve"><value>Paragraaf</value></data>
+  <data name="HtmlEditorChar00B6" xml:space="preserve"><value>Alineateken</value></data>
+  <data name="HtmlEditorChar2020" xml:space="preserve"><value>Kruisje</value></data>
+  <data name="HtmlEditorChar2021" xml:space="preserve"><value>Dubbel kruisje</value></data>
+  <data name="HtmlEditorChar2022" xml:space="preserve"><value>Opsommingsteken</value></data>
+  <data name="HtmlEditorChar2026" xml:space="preserve"><value>Beletselteken</value></data>
+  <data name="HtmlEditorChar2013" xml:space="preserve"><value>En-streepje</value></data>
+  <data name="HtmlEditorChar2014" xml:space="preserve"><value>Em-streepje</value></data>
+  <data name="HtmlEditorChar00AB" xml:space="preserve"><value>Linker guillemet</value></data>
+  <data name="HtmlEditorChar00BB" xml:space="preserve"><value>Rechter guillemet</value></data>
+  <data name="HtmlEditorChar2039" xml:space="preserve"><value>Enkel linker guillemet</value></data>
+  <data name="HtmlEditorChar203A" xml:space="preserve"><value>Enkel rechter guillemet</value></data>
+  <data name="HtmlEditorChar2018" xml:space="preserve"><value>Enkel openingsaanhalingsteken</value></data>
+  <data name="HtmlEditorChar2019" xml:space="preserve"><value>Apostrof</value></data>
+  <data name="HtmlEditorChar201C" xml:space="preserve"><value>Openingsaanhalingsteken</value></data>
+  <data name="HtmlEditorChar201D" xml:space="preserve"><value>Sluitaanhalingsteken</value></data>
+  <data name="HtmlEditorChar00B0" xml:space="preserve"><value>Graden</value></data>
+  <data name="HtmlEditorChar00B1" xml:space="preserve"><value>Plus-minus</value></data>
+  <data name="HtmlEditorChar00D7" xml:space="preserve"><value>Vermenigvuldiging</value></data>
+  <data name="HtmlEditorChar00F7" xml:space="preserve"><value>Deling</value></data>
+  <data name="HtmlEditorChar00A0" xml:space="preserve"><value>Vaste spatie</value></data>
+  <data name="HtmlEditorChar20AC" xml:space="preserve"><value>Euro</value></data>
+  <data name="HtmlEditorChar00A3" xml:space="preserve"><value>Pond sterling</value></data>
+  <data name="HtmlEditorChar00A5" xml:space="preserve"><value>Yen</value></data>
+  <data name="HtmlEditorChar00A2" xml:space="preserve"><value>Cent</value></data>
+  <data name="HtmlEditorChar20BD" xml:space="preserve"><value>Roebel</value></data>
+  <data name="HtmlEditorChar20B9" xml:space="preserve"><value>Roepie</value></data>
+  <data name="HtmlEditorChar20A9" xml:space="preserve"><value>Won</value></data>
+  <data name="HtmlEditorChar20AA" xml:space="preserve"><value>Sjekel</value></data>
+  <data name="HtmlEditorChar20B1" xml:space="preserve"><value>Peso</value></data>
+  <data name="HtmlEditorChar20BA" xml:space="preserve"><value>Turkse lira</value></data>
+  <data name="HtmlEditorChar2190" xml:space="preserve"><value>Pijl naar links</value></data>
+  <data name="HtmlEditorChar2192" xml:space="preserve"><value>Pijl naar rechts</value></data>
+  <data name="HtmlEditorChar2191" xml:space="preserve"><value>Pijl omhoog</value></data>
+  <data name="HtmlEditorChar2193" xml:space="preserve"><value>Pijl omlaag</value></data>
+  <data name="HtmlEditorChar2194" xml:space="preserve"><value>Pijl links-rechts</value></data>
+  <data name="HtmlEditorChar2195" xml:space="preserve"><value>Pijl omhoog-omlaag</value></data>
+  <data name="HtmlEditorChar21D0" xml:space="preserve"><value>Dubbele pijl naar links</value></data>
+  <data name="HtmlEditorChar21D2" xml:space="preserve"><value>Dubbele pijl naar rechts</value></data>
+  <data name="HtmlEditorChar21D1" xml:space="preserve"><value>Dubbele pijl omhoog</value></data>
+  <data name="HtmlEditorChar21D3" xml:space="preserve"><value>Dubbele pijl omlaag</value></data>
+  <data name="HtmlEditorChar21B5" xml:space="preserve"><value>Regeleindepijl</value></data>
+  <data name="HtmlEditorChar21B6" xml:space="preserve"><value>Pijl tegen de klok in</value></data>
+  <data name="HtmlEditorChar2200" xml:space="preserve"><value>Voor alle</value></data>
+  <data name="HtmlEditorChar2203" xml:space="preserve"><value>Er bestaat</value></data>
+  <data name="HtmlEditorChar2205" xml:space="preserve"><value>Lege verzameling</value></data>
+  <data name="HtmlEditorChar2208" xml:space="preserve"><value>Element van</value></data>
+  <data name="HtmlEditorChar2209" xml:space="preserve"><value>Geen element van</value></data>
+  <data name="HtmlEditorChar2282" xml:space="preserve"><value>Deelverzameling van</value></data>
+  <data name="HtmlEditorChar2283" xml:space="preserve"><value>Superverzameling van</value></data>
+  <data name="HtmlEditorChar222A" xml:space="preserve"><value>Vereniging</value></data>
+  <data name="HtmlEditorChar2229" xml:space="preserve"><value>Doorsnede</value></data>
+  <data name="HtmlEditorChar2227" xml:space="preserve"><value>Logische en</value></data>
+  <data name="HtmlEditorChar2228" xml:space="preserve"><value>Logische of</value></data>
+  <data name="HtmlEditorChar00AC" xml:space="preserve"><value>Negatie</value></data>
+  <data name="HtmlEditorChar2248" xml:space="preserve"><value>Ongeveer gelijk</value></data>
+  <data name="HtmlEditorChar2260" xml:space="preserve"><value>Niet gelijk aan</value></data>
+  <data name="HtmlEditorChar2264" xml:space="preserve"><value>Kleiner dan of gelijk aan</value></data>
+  <data name="HtmlEditorChar2265" xml:space="preserve"><value>Groter dan of gelijk aan</value></data>
+  <data name="HtmlEditorChar221E" xml:space="preserve"><value>Oneindig</value></data>
+  <data name="HtmlEditorChar221A" xml:space="preserve"><value>Vierkantswortel</value></data>
+  <data name="HtmlEditorChar2211" xml:space="preserve"><value>Som</value></data>
+  <data name="HtmlEditorChar220F" xml:space="preserve"><value>Product</value></data>
+  <data name="HtmlEditorChar2202" xml:space="preserve"><value>Partiële afgeleide</value></data>
+  <data name="HtmlEditorChar222B" xml:space="preserve"><value>Integraal</value></data>
+  <data name="HtmlEditorChar03B1" xml:space="preserve"><value>Alfa</value></data>
+  <data name="HtmlEditorChar03B2" xml:space="preserve"><value>Bèta</value></data>
+  <data name="HtmlEditorChar03B3" xml:space="preserve"><value>Gamma</value></data>
+  <data name="HtmlEditorChar03B4" xml:space="preserve"><value>Delta</value></data>
+  <data name="HtmlEditorChar03B5" xml:space="preserve"><value>Epsilon</value></data>
+  <data name="HtmlEditorChar03B6" xml:space="preserve"><value>Zèta</value></data>
+  <data name="HtmlEditorChar03B7" xml:space="preserve"><value>Èta</value></data>
+  <data name="HtmlEditorChar03B8" xml:space="preserve"><value>Thèta</value></data>
+  <data name="HtmlEditorChar03B9" xml:space="preserve"><value>Jota</value></data>
+  <data name="HtmlEditorChar03BA" xml:space="preserve"><value>Kappa</value></data>
+  <data name="HtmlEditorChar03BB" xml:space="preserve"><value>Lambda</value></data>
+  <data name="HtmlEditorChar03BC" xml:space="preserve"><value>Mu</value></data>
+  <data name="HtmlEditorChar03BD" xml:space="preserve"><value>Nu</value></data>
+  <data name="HtmlEditorChar03BE" xml:space="preserve"><value>Xi</value></data>
+  <data name="HtmlEditorChar03C0" xml:space="preserve"><value>Pi</value></data>
+  <data name="HtmlEditorChar03C1" xml:space="preserve"><value>Rho</value></data>
+  <data name="HtmlEditorChar03C3" xml:space="preserve"><value>Sigma</value></data>
+  <data name="HtmlEditorChar03C4" xml:space="preserve"><value>Tau</value></data>
+  <data name="HtmlEditorChar03C5" xml:space="preserve"><value>Ypsilon</value></data>
+  <data name="HtmlEditorChar03C6" xml:space="preserve"><value>Phi</value></data>
+  <data name="HtmlEditorChar03C7" xml:space="preserve"><value>Chi</value></data>
+  <data name="HtmlEditorChar03C8" xml:space="preserve"><value>Psi</value></data>
+  <data name="HtmlEditorChar03C9" xml:space="preserve"><value>Omega</value></data>
+  <data name="HtmlEditorChar2116" xml:space="preserve"><value>Nummerteken</value></data>
+  <data name="HtmlEditorBold" xml:space="preserve"><value>Vet</value></data>
+  <data name="HtmlEditorItalic" xml:space="preserve"><value>Cursief</value></data>
+  <data name="HtmlEditorSubscript" xml:space="preserve"><value>Subscript</value></data>
+  <data name="HtmlEditorSuperscript" xml:space="preserve"><value>Superscript</value></data>
+  <data name="HtmlEditorIndent" xml:space="preserve"><value>Inspringing vergroten</value></data>
+  <data name="HtmlEditorOutdent" xml:space="preserve"><value>Inspringing verkleinen</value></data>
+  <data name="HtmlEditorUndo" xml:space="preserve"><value>Ongedaan maken</value></data>
+  <data name="HtmlEditorRedo" xml:space="preserve"><value>Opnieuw</value></data>
+  <data name="HtmlEditorPreview" xml:space="preserve"><value>Voorbeeld van de inhoud</value></data>
+  <data name="LegendLabel" xml:space="preserve"><value>Legenda</value></data>
+  <data name="ListBoxInvalid" xml:space="preserve"><value>De lijstselectie is ongeldig.</value></data>
+  <data name="MindMapAddLink" xml:space="preserve"><value>Koppeling</value></data>
+  <data name="MindMapAddNode" xml:space="preserve"><value>Knooppunt</value></data>
+  <data name="MindMapAnnounceAdded" xml:space="preserve"><value>Knooppunt {0} toegevoegd.</value></data>
+  <data name="MindMapAnnounceDeleted" xml:space="preserve"><value>Verwijderde knooppunten: {0}.</value></data>
+  <data name="MindMapAnnounceDuplicated" xml:space="preserve"><value>Knooppunt {0} gedupliceerd.</value></data>
+  <data name="MindMapAnnounceLaidOut" xml:space="preserve"><value>Kaart opnieuw geordend.</value></data>
+  <data name="MindMapAnnounceLimit" xml:space="preserve"><value>Het maximale aantal knooppunten is bereikt.</value></data>
+  <data name="MindMapAnnounceLinkCancelled" xml:space="preserve"><value>Maken van de koppeling geannuleerd.</value></data>
+  <data name="MindMapAnnounceLinkDeleted" xml:space="preserve"><value>Koppeling verwijderd.</value></data>
+  <data name="MindMapAnnounceLinkSelected" xml:space="preserve"><value>Koppeling geselecteerd.</value></data>
+  <data name="MindMapAnnounceLinked" xml:space="preserve"><value>Koppeling gemaakt van {0} naar {1}.</value></data>
+  <data name="MindMapAnnounceManySelected" xml:space="preserve"><value>Geselecteerde knooppunten: {0}.</value></data>
+  <data name="MindMapAnnounceNoSelection" xml:space="preserve"><value>Geen selectie.</value></data>
+  <data name="MindMapAnnounceRedone" xml:space="preserve"><value>Wijziging opnieuw uitgevoerd.</value></data>
+  <data name="MindMapAnnounceSelected" xml:space="preserve"><value>{0}, koppelingen: {1}.</value></data>
+  <data name="MindMapAnnounceUndone" xml:space="preserve"><value>Wijziging ongedaan gemaakt.</value></data>
+  <data name="MindMapAnnounceZoom" xml:space="preserve"><value>Zoom {0}%.</value></data>
+  <data name="MindMapAutoLayout" xml:space="preserve"><value>Opnieuw ordenen</value></data>
+  <data name="MindMapBold" xml:space="preserve"><value>Vet</value></data>
+  <data name="MindMapCanvasLabel" xml:space="preserve"><value>Mindmap</value></data>
+  <data name="MindMapCenter" xml:space="preserve"><value>Centreren</value></data>
+  <data name="MindMapColorBlue" xml:space="preserve"><value>Blauw</value></data>
+  <data name="MindMapColorGray" xml:space="preserve"><value>Grijs</value></data>
+  <data name="MindMapColorGreen" xml:space="preserve"><value>Groen</value></data>
+  <data name="MindMapColorIndigo" xml:space="preserve"><value>Indigo</value></data>
+  <data name="MindMapColorOrange" xml:space="preserve"><value>Oranje</value></data>
+  <data name="MindMapColorPink" xml:space="preserve"><value>Roze</value></data>
+  <data name="MindMapColorPurple" xml:space="preserve"><value>Paars</value></data>
+  <data name="MindMapColorRed" xml:space="preserve"><value>Rood</value></data>
+  <data name="MindMapColorTeal" xml:space="preserve"><value>Turquoise</value></data>
+  <data name="MindMapColorWhite" xml:space="preserve"><value>Wit</value></data>
+  <data name="MindMapColorYellow" xml:space="preserve"><value>Geel</value></data>
+  <data name="MindMapDelete" xml:space="preserve"><value>Verwijderen</value></data>
+  <data name="MindMapDuplicate" xml:space="preserve"><value>Dupliceren</value></data>
+  <data name="MindMapFitView" xml:space="preserve"><value>Passend maken</value></data>
+  <data name="MindMapFontSize" xml:space="preserve"><value>Tekengrootte</value></data>
+  <data name="MindMapItalic" xml:space="preserve"><value>Cursief</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Pijltoetsen: tussen knooppunten wisselen, Home: centraal knooppunt, Shift+pijltoetsen: verplaatsen, Enter of F2: hernoemen, N: nieuw knooppunt, D: dupliceren, C: centreren, Delete: verwijderen, + en -: zoomen, 0: passend maken, Ctrl+Z en Ctrl+Y: ongedaan maken en opnieuw, Shift+F10: menu, Esc: selectie opheffen.</value></data>
+  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Pijltoetsen: tussen knooppunten wisselen, Home: centraal knooppunt, C: centreren, + en -: zoomen, 0: passend maken, Shift+F10: menu, Esc: selectie opheffen.</value></data>
+  <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Esc om te annuleren</value></data>
+  <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Klik op het bronknooppunt</value></data>
+  <data name="MindMapLinkSelectTarget" xml:space="preserve"><value>Klik op het doelknooppunt</value></data>
+  <data name="MindMapMenuLabel" xml:space="preserve"><value>Kaartacties</value></data>
+  <data name="MindMapNewNode" xml:space="preserve"><value>Nieuw</value></data>
+  <data name="MindMapNodeColor" xml:space="preserve"><value>Kleur</value></data>
+  <data name="MindMapNodeHeight" xml:space="preserve"><value>Hoogte</value></data>
+  <data name="MindMapNodeText" xml:space="preserve"><value>Tekst</value></data>
+  <data name="MindMapNodeWidth" xml:space="preserve"><value>Breedte</value></data>
+  <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, notitie: {1}</value></data>
+  <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Eigenschappen van knooppunt</value></data>
+  <data name="MindMapRename" xml:space="preserve"><value>Knooppunt hernoemen</value></data>
+  <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automatische grootte</value></data>
+  <data name="MindMapToolbarLabel" xml:space="preserve"><value>Mindmapacties</value></data>
+  <data name="MonthViewLabel" xml:space="preserve"><value>Maandweergave</value></data>
+  <data name="MultiSelectInvalid" xml:space="preserve"><value>De meervoudige selectie is ongeldig.</value></data>
+  <data name="MultiSelectEmpty" xml:space="preserve"><value>Alle</value></data>
+  <data name="MultiSelectSelected" xml:space="preserve"><value>{0} geselecteerd</value></data>
+  <data name="MultiSelectClear" xml:space="preserve"><value>Selectie wissen</value></data>
+  <data name="MultiSelectFilter" xml:space="preserve"><value>Zoeken</value></data>
+  <data name="MultiSelectNoMatch" xml:space="preserve"><value>Geen resultaten</value></data>
+  <data name="NotificationDismiss" xml:space="preserve"><value>Melding sluiten</value></data>
+  <data name="NotificationExpand" xml:space="preserve"><value>Alles tonen</value></data>
+  <data name="NotificationCollapse" xml:space="preserve"><value>Samenvouwen</value></data>
+  <data name="NotificationOpenDetails" xml:space="preserve"><value>Logboek openen</value></data>
+  <data name="NullableSwitchIndeterminate" xml:space="preserve"><value>Onbepaalde status</value></data>
+  <data name="NumericInvalid" xml:space="preserve"><value>De ingevoerde waarde is ongeldig.</value></data>
+  <data name="NumericInvalidNamed" xml:space="preserve"><value>De ingevoerde waarde is ongeldig voor {0}.</value></data>
+  <data name="PagerLabel" xml:space="preserve"><value>Paginering</value></data>
+  <data name="PagerPrevious" xml:space="preserve"><value>Vorige pagina</value></data>
+  <data name="PagerStatus" xml:space="preserve"><value>Pagina {0} van {1}</value></data>
+  <data name="PagerNext" xml:space="preserve"><value>Volgende pagina</value></data>
+  <data name="PanelMenuLabel" xml:space="preserve"><value>Navigatie</value></data>
+  <data name="PanelMenuToggle" xml:space="preserve"><value>{0} uit- of samenvouwen</value></data>
+  <data name="PasswordRevealLabel" xml:space="preserve"><value>Wachtwoord tonen</value></data>
+  <data name="PasswordHideLabel" xml:space="preserve"><value>Wachtwoord verbergen</value></data>
+  <data name="ProfileMenuLabel" xml:space="preserve"><value>Profielmenu</value></data>
+  <data name="ProgressLabel" xml:space="preserve"><value>Voortgang</value></data>
+  <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="RadioButtonListInvalid" xml:space="preserve"><value>De keuzerondjesselectie is ongeldig.</value></data>
+  <data name="RequiredValidatorMessage" xml:space="preserve"><value>Dit veld is verplicht.</value></data>
+  <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Vorige periode</value></data>
+  <data name="SchedulerNextPeriod" xml:space="preserve"><value>Volgende periode</value></data>
+  <data name="SchedulerViewLabel" xml:space="preserve"><value>Agendaweergave</value></data>
+  <data name="SchedulerDay" xml:space="preserve"><value>Dag</value></data>
+  <data name="SchedulerWeek" xml:space="preserve"><value>Week</value></data>
+  <data name="SchedulerMonth" xml:space="preserve"><value>Maand</value></data>
+  <data name="SchedulerLoadFailed" xml:space="preserve"><value>De agenda kon niet worden geladen.</value></data>
+  <data name="SchedulerTimeColumn" xml:space="preserve"><value>Tijd</value></data>
+  <data name="SchedulerMoveAppointment" xml:space="preserve"><value>{0} verplaatsen</value></data>
+  <data name="SchedulerMoveHere" xml:space="preserve"><value>Hier plaatsen: {0}, {1}</value></data>
+  <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Hier plaatsen</value></data>
+  <data name="SchedulerMoveCancel" xml:space="preserve"><value>Verplaatsen annuleren</value></data>
+  <data name="SchedulerMoving" xml:space="preserve"><value>{0} opgepakt: kies de nieuwe plaats, Esc om te annuleren.</value></data>
+  <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} blijft op zijn plaats.</value></data>
+  <data name="SchedulerMoved" xml:space="preserve"><value>{0} verplaatst naar {1}.</value></data>
+  <data name="SelectBarInvalid" xml:space="preserve"><value>De gesegmenteerde selectie is ongeldig.</value></data>
+  <data name="RatingLabel" xml:space="preserve"><value>Beoordeling</value></data>
+  <data name="RatingStar" xml:space="preserve"><value>{0} van {1}</value></data>
+  <data name="RatingValue" xml:space="preserve"><value>{0}: {1} van {2}</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Navigatie</value></data>
+  <data name="SidebarClose" xml:space="preserve"><value>Navigatie sluiten</value></data>
+  <data name="LoadingLabel" xml:space="preserve"><value>Bezig met laden</value></data>
+  <data name="WindowControlsLabel" xml:space="preserve"><value>Vensterbediening</value></data>
+  <data name="WindowMinimizeToTray" xml:space="preserve"><value>Minimaliseren naar systeemvak</value></data>
+  <data name="WindowMinimize" xml:space="preserve"><value>Minimaliseren</value></data>
+  <data name="WindowMaximize" xml:space="preserve"><value>Maximaliseren</value></data>
+  <data name="WindowRestore" xml:space="preserve"><value>Herstellen</value></data>
+  <data name="WindowClose" xml:space="preserve"><value>Sluiten</value></data>
+  <data name="SidebarToggleLabel" xml:space="preserve"><value>Navigatie tonen of verbergen</value></data>
+  <data name="SliderInvalid" xml:space="preserve"><value>De waarde van de schuifregelaar is ongeldig.</value></data>
+  <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Meer acties</value></data>
+  <data name="StepsLabel" xml:space="preserve"><value>Stappen</value></data>
+  <data name="SwitchInvalid" xml:space="preserve"><value>De waarde van de schakelaar is ongeldig.</value></data>
+  <data name="TabsLabel" xml:space="preserve"><value>Tabbladen</value></data>
+  <data name="TimelineLabel" xml:space="preserve"><value>Tijdlijn</value></data>
+  <data name="TreeLabel" xml:space="preserve"><value>Boomstructuur</value></data>
+  <data name="TreeCollapse" xml:space="preserve"><value>Samenvouwen</value></data>
+  <data name="TreeExpand" xml:space="preserve"><value>Uitvouwen</value></data>
+  <data name="TreeLoadFailed" xml:space="preserve"><value>Het laden is mislukt.</value></data>
+  <data name="UploadSelectedFiles" xml:space="preserve"><value>Geselecteerde bestanden</value></data>
+  <data name="UploadProgressLabel" xml:space="preserve"><value>Upload</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>U kunt maximaal {0} bestanden selecteren.</value></data>
+  <data name="UploadFileTooLarge" xml:space="preserve"><value>Het bestand {0} overschrijdt de maximaal toegestane grootte.</value></data>
+  <data name="UploadTypeRejected" xml:space="preserve"><value>Het bestandstype van {0} is niet toegestaan.</value></data>
+  <data name="UploadOneSelected" xml:space="preserve"><value>1 bestand geselecteerd.</value></data>
+  <data name="UploadManySelected" xml:space="preserve"><value>{0} bestanden geselecteerd.</value></data>
+  <data name="UploadInProgress" xml:space="preserve"><value>Uploaden bezig.</value></data>
+  <data name="UploadCompleted" xml:space="preserve"><value>Uploaden voltooid.</value></data>
+  <data name="UploadCancelled" xml:space="preserve"><value>Uploaden geannuleerd.</value></data>
+  <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0:0.##} MB</value></data>
+  <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} kB</value></data>
+  <data name="UploadSizeBytes" xml:space="preserve"><value>{0} B</value></data>
+  <data name="UploadDropOne" xml:space="preserve"><value>Sleep een bestand hierheen of</value></data>
+  <data name="UploadDropMany" xml:space="preserve"><value>Sleep bestanden hierheen of</value></data>
+  <data name="UploadBrowse" xml:space="preserve"><value>blader</value></data>
+  <data name="UploadHintMaximumSize" xml:space="preserve"><value>Maximaal {0} per bestand</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Maximaal {0} bestanden</value></data>
+  <data name="UploadAttachedFiles" xml:space="preserve"><value>Bijgevoegde bestanden</value></data>
+  <data name="UploadRemove" xml:space="preserve"><value>{0} verwijderen</value></data>
+  <data name="UploadBrowseButton" xml:space="preserve"><value>Bladeren</value></data>
+  <data name="UploadNoFile" xml:space="preserve"><value>Geen bestand gekozen</value></data>
+  <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
+  <data name="UploadFileCountNone" xml:space="preserve"><value>Geen bestanden</value></data>
+  <data name="UploadFileCountOne" xml:space="preserve"><value>1 bestand</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} bestanden</value></data>
+  <data name="UploadShowAll" xml:space="preserve"><value>Alles tonen ({0})</value></data>
+  <data name="UploadShowLess" xml:space="preserve"><value>Minder tonen</value></data>
+  <data name="UploadRemoveAll" xml:space="preserve"><value>Alles verwijderen</value></data>
+  <data name="UploadRemovedAll" xml:space="preserve"><value>Alle bestanden zijn uit de lijst verwijderd.</value></data>
+  <data name="UploadRemoved" xml:space="preserve"><value>{0} uit de lijst verwijderd.</value></data>
+  <data name="WeekViewLabel" xml:space="preserve"><value>Weekweergave</value></data>
+  <data name="DataAnnotationsRequired" xml:space="preserve"><value>Het veld {0} is verplicht.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Het veld {0} moet tussen {1} en {2} tekens bevatten.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Het veld {0} mag maximaal {1} tekens bevatten.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Het veld {0} moet minstens {1} tekens bevatten.</value></data>
+  <data name="DataAnnotationsRange" xml:space="preserve"><value>Het veld {0} moet tussen {1} en {2} liggen.</value></data>
+  <data name="DataAnnotationsEmail" xml:space="preserve"><value>Het veld {0} is geen geldig e-mailadres.</value></data>
+  <data name="DataAnnotationsUrl" xml:space="preserve"><value>Het veld {0} is geen geldig webadres.</value></data>
+  <data name="DataAnnotationsCompare" xml:space="preserve"><value>{0} en {1} komen niet overeen.</value></data>
+  <data name="DataAnnotationsPattern" xml:space="preserve"><value>Het veld {0} heeft niet de verwachte notatie.</value></data>
+  <data name="DataAnnotationsInvalid" xml:space="preserve"><value>Het veld {0} is ongeldig.</value></data>
+  <data name="GanttEmpty" xml:space="preserve"><value>Geen taken om te tonen.</value></data>
+  <data name="GanttLabel" xml:space="preserve"><value>Gantt-diagram</value></data>
+  <data name="GanttScale" xml:space="preserve"><value>Tijdschaal</value></data>
+  <data name="GanttScaleDay" xml:space="preserve"><value>Dag</value></data>
+  <data name="GanttScaleMonth" xml:space="preserve"><value>Maand</value></data>
+  <data name="GanttScaleWeek" xml:space="preserve"><value>Week</value></data>
+  <data name="GanttTaskAfter" xml:space="preserve"><value>na {0}</value></data>
+  <data name="GanttTaskColumn" xml:space="preserve"><value>Taak</value></data>
+  <data name="GanttTaskDescription" xml:space="preserve"><value>{0}, van {1} tot {2}, {3} voltooid</value></data>
+  <data name="StepTimelineLabel" xml:space="preserve"><value>Verloop</value></data>
+  <data name="StepTimelineNeverStarted" xml:space="preserve"><value>Nooit gestart:</value></data>
+  <data name="StepTimelineStatusCancelled" xml:space="preserve"><value>geannuleerd</value></data>
+  <data name="StepTimelineStatusFailed" xml:space="preserve"><value>mislukt</value></data>
+  <data name="StepTimelineStatusRunning" xml:space="preserve"><value>bezig</value></data>
+  <data name="StepTimelineStatusSkipped" xml:space="preserve"><value>overgeslagen</value></data>
+  <data name="StepTimelineStatusSuccess" xml:space="preserve"><value>geslaagd</value></data>
+  <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, gestart om {1}, duur</value></data>
+  <data name="ConfirmAction" xml:space="preserve"><value>Bevestigen</value></data>
+  <data name="GoBack" xml:space="preserve"><value>Terug</value></data>
+  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Badges en acties tonen</value></data>
+  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Badges en acties verbergen</value></data>
+  <data name="DetailNotFound" xml:space="preserve"><value>Item niet gevonden</value></data>
+  <data name="SignIn" xml:space="preserve"><value>Aanmelden</value></data>
+  <data name="ConnectionLostTitle" xml:space="preserve"><value>Verbinding verbroken</value></data>
+  <data name="ConnectionLostDescription" xml:space="preserve"><value>De verbinding met de server is verbroken. De toepassing probeert deze te herstellen.</value></data>
+  <data name="ConnectionFailedTitle" xml:space="preserve"><value>Verbinden niet mogelijk</value></data>
+  <data name="ConnectionFailedDescription" xml:space="preserve"><value>De automatische pogingen zijn mislukt. Probeer het opnieuw zodra het netwerk terug is.</value></data>
+  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Sessie beëindigd</value></data>
+  <data name="ConnectionRejectedDescription" xml:space="preserve"><value>De server heeft geweigerd de sessie te hervatten. Laad de pagina opnieuw om door te gaan.</value></data>
+  <data name="ConnectionRetryIn" xml:space="preserve"><value>Nieuwe poging over {0} s</value></data>
+  <data name="ConnectionReason" xml:space="preserve"><value>Oorzaak: {0}</value></data>
+  <data name="ConnectionReconnectNow" xml:space="preserve"><value>Nu opnieuw verbinden</value></data>
+  <data name="ConnectionReload" xml:space="preserve"><value>Pagina opnieuw laden</value></data>
+  <data name="ConnectionReconnecting" xml:space="preserve"><value>Opnieuw verbinden</value></data>
+  <data name="WizardLabel" xml:space="preserve"><value>Stappen van de wizard</value></data>
+  <data name="WizardProgress" xml:space="preserve"><value>Voortgang van de wizard</value></data>
+  <data name="WizardPosition" xml:space="preserve"><value>Stap {0} van {1}</value></data>
+  <data name="WizardAnnouncement" xml:space="preserve"><value>Stap {0} van {1}: {2}</value></data>
+  <data name="WizardPrevious" xml:space="preserve"><value>Vorige</value></data>
+  <data name="WizardNext" xml:space="preserve"><value>Volgende</value></data>
+  <data name="WizardFinish" xml:space="preserve"><value>Voltooien</value></data>
+  <data name="RelativeTimeNow" xml:space="preserve"><value>zojuist</value></data>
+  <data name="RelativeTimePast" xml:space="preserve"><value>{0} geleden</value></data>
+  <data name="RelativeTimeFuture" xml:space="preserve"><value>over {0}</value></data>
+  <data name="RelativeTimeSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeHours" xml:space="preserve"><value>{0} u</value></data>
+  <data name="RelativeTimeDay" xml:space="preserve"><value>{0} dag</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} dagen</value></data>
+  <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} maand</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} maanden</value></data>
+  <data name="RelativeTimeYear" xml:space="preserve"><value>{0} jaar</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} jaar</value></data>
+  <data name="HtmlEditorUnderline" xml:space="preserve"><value>Onderstrepen</value></data>
+  <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Doorhalen</value></data>
+  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Inline code</value></data>
+  <data name="HtmlEditorBlockFormat" xml:space="preserve"><value>Alineastijl</value></data>
+  <data name="HtmlEditorParagraph" xml:space="preserve"><value>Alinea</value></data>
+  <data name="HtmlEditorHeading1" xml:space="preserve"><value>Kop 1</value></data>
+  <data name="HtmlEditorHeading2" xml:space="preserve"><value>Kop 2</value></data>
+  <data name="HtmlEditorHeading3" xml:space="preserve"><value>Kop 3</value></data>
+  <data name="HtmlEditorHeading4" xml:space="preserve"><value>Kop 4</value></data>
+  <data name="HtmlEditorFontSize" xml:space="preserve"><value>Tekstgrootte</value></data>
+  <data name="HtmlEditorFontSizeSmall" xml:space="preserve"><value>Klein</value></data>
+  <data name="HtmlEditorFontSizeNormal" xml:space="preserve"><value>Normaal</value></data>
+  <data name="HtmlEditorFontSizeLarge" xml:space="preserve"><value>Groot</value></data>
+  <data name="HtmlEditorFontSizeXLarge" xml:space="preserve"><value>Zeer groot</value></data>
+  <data name="HtmlEditorBulletList" xml:space="preserve"><value>Lijst met opsommingstekens</value></data>
+  <data name="HtmlEditorNumberedList" xml:space="preserve"><value>Genummerde lijst</value></data>
+  <data name="HtmlEditorQuote" xml:space="preserve"><value>Citaat</value></data>
+  <data name="HtmlEditorCodeBlock" xml:space="preserve"><value>Codeblok</value></data>
+  <data name="HtmlEditorLink" xml:space="preserve"><value>Link</value></data>
+  <data name="HtmlEditorUnlink" xml:space="preserve"><value>Link verwijderen</value></data>
+  <data name="HtmlEditorAlignLeft" xml:space="preserve"><value>Links uitlijnen</value></data>
+  <data name="HtmlEditorAlignCenter" xml:space="preserve"><value>Centreren</value></data>
+  <data name="HtmlEditorAlignRight" xml:space="preserve"><value>Rechts uitlijnen</value></data>
+  <data name="HtmlEditorAlignJustify" xml:space="preserve"><value>Uitvullen</value></data>
+  <data name="HtmlEditorInsertTable" xml:space="preserve"><value>Tabel invoegen</value></data>
+  <data name="HtmlEditorClearFormatting" xml:space="preserve"><value>Opmaak wissen</value></data>
+  <data name="HtmlEditorSource" xml:space="preserve"><value>HTML-bron</value></data>
+  <data name="HtmlEditorCustomCommand" xml:space="preserve"><value>Opdracht</value></data>
+  <data name="HtmlEditorCut" xml:space="preserve"><value>Knippen</value></data>
+  <data name="HtmlEditorCopy" xml:space="preserve"><value>Kopiëren</value></data>
+  <data name="HtmlEditorPaste" xml:space="preserve"><value>Plakken</value></data>
+  <data name="HtmlEditorInsertParagraph" xml:space="preserve"><value>Nieuwe alinea</value></data>
+  <data name="HtmlEditorAddRowAbove" xml:space="preserve"><value>Rij erboven invoegen</value></data>
+  <data name="HtmlEditorAddRowBelow" xml:space="preserve"><value>Rij eronder invoegen</value></data>
+  <data name="HtmlEditorDeleteRow" xml:space="preserve"><value>Rij verwijderen</value></data>
+  <data name="HtmlEditorAddColumnBefore" xml:space="preserve"><value>Kolom ervoor invoegen</value></data>
+  <data name="HtmlEditorAddColumnAfter" xml:space="preserve"><value>Kolom erna invoegen</value></data>
+  <data name="HtmlEditorDeleteColumn" xml:space="preserve"><value>Kolom verwijderen</value></data>
+  <data name="HtmlEditorMergeCellRight" xml:space="preserve"><value>Samenvoegen met de cel rechts</value></data>
+  <data name="HtmlEditorMergeCellDown" xml:space="preserve"><value>Samenvoegen met de cel eronder</value></data>
+  <data name="HtmlEditorSplitCell" xml:space="preserve"><value>Cel splitsen</value></data>
+  <data name="HtmlEditorSetCellSpan" xml:space="preserve"><value>Cel uitbreiden</value></data>
+  <data name="HtmlEditorLinkUrl" xml:space="preserve"><value>Linkadres</value></data>
+  <data name="HtmlEditorLinkApply" xml:space="preserve"><value>Toepassen</value></data>
+  <data name="HtmlEditorLinkCancel" xml:space="preserve"><value>Annuleren</value></data>
+  <data name="HtmlEditorLinkInvalid" xml:space="preserve"><value>Adres geweigerd: gebruik een relatief, http-, https-, mailto- of tel-adres.</value></data>
+  <data name="DocumentEditorLabel" xml:space="preserve"><value>Tekstverwerker</value></data>
+  <data name="DocumentEditorStatus" xml:space="preserve"><value>Documentstatistieken</value></data>
+  <data name="DocumentEditorWords" xml:space="preserve"><value>Woorden: {0}</value></data>
+  <data name="DocumentEditorCharacters" xml:space="preserve"><value>Tekens: {0}</value></data>
+  <data name="DocumentEditorExportHtml" xml:space="preserve"><value>Exporteren als HTML</value></data>
+  <data name="DocumentEditorExportText" xml:space="preserve"><value>Exporteren als tekst</value></data>
+  <data name="DocumentEditorDefaultTitle" xml:space="preserve"><value>Document</value></data>
+  <data name="CodeEditorLabel" xml:space="preserve"><value>Code-editor</value></data>
+  <data name="CodeEditorLoading" xml:space="preserve"><value>Code-editor wordt geladen.</value></data>
+  <data name="CodeEditorUnavailable" xml:space="preserve"><value>De Monaco-editor kon niet worden geladen: de code wordt als platte tekst bewerkt.</value></data>
+  <data name="CodeEditorPosition" xml:space="preserve"><value>Regel {0}, kolom {1}</value></data>
+  <data name="CodeEditorLinkHint" xml:space="preserve"><value>Ctrl+klik om de link te volgen</value></data>
+  <data name="StatusBadgeStale" xml:space="preserve"><value>verouderd</value></data>
+  <data name="StatusBadgeStaleSince" xml:space="preserve"><value>Laatst bijgewerkt: {0}</value></data>
+  <data name="LogViewerLabel" xml:space="preserve"><value>Logboek</value></data>
+  <data name="LogViewerEmpty" xml:space="preserve"><value>Nog geen regels.</value></data>
+  <data name="LogViewerSearch" xml:space="preserve"><value>Zoeken in het logboek</value></data>
+  <data name="LogViewerAllLevels" xml:space="preserve"><value>Alle niveaus</value></data>
+  <data name="LogViewerLevelFilter" xml:space="preserve"><value>Minimumniveau</value></data>
+  <data name="LogViewerFromLevel" xml:space="preserve"><value>{0} en hoger</value></data>
+  <data name="LogViewerPreviousMatch" xml:space="preserve"><value>Vorige overeenkomst</value></data>
+  <data name="LogViewerNextMatch" xml:space="preserve"><value>Volgende overeenkomst</value></data>
+  <data name="LogViewerNoMatch" xml:space="preserve"><value>Geen overeenkomsten</value></data>
+  <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} van {1}</value></data>
+  <data name="LogViewerFollow" xml:space="preserve"><value>Volgen</value></data>
+  <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Naar de nieuwste regels</value></data>
+  <data name="LogViewerNewLines" xml:space="preserve"><value>{0} nieuwe regels</value></data>
+  <data name="LogViewerLevelPrefix" xml:space="preserve"><value>{0}: </value></data>
+  <data name="LogLevelTrace" xml:space="preserve"><value>Tracering</value></data>
+  <data name="LogLevelDebug" xml:space="preserve"><value>Foutopsporing</value></data>
+  <data name="LogLevelInformation" xml:space="preserve"><value>Informatie</value></data>
+  <data name="LogLevelWarning" xml:space="preserve"><value>Waarschuwing</value></data>
+  <data name="LogLevelError" xml:space="preserve"><value>Fout</value></data>
+  <data name="LogLevelCritical" xml:space="preserve"><value>Kritiek</value></data>
+  <data name="CodeBlockCopy" xml:space="preserve"><value>Kopiëren</value></data>
+  <data name="CodeBlockCopied" xml:space="preserve"><value>Gekopieerd naar het klembord</value></data>
+  <data name="CodeBlockCopyFailed" xml:space="preserve"><value>Kopiëren mislukt</value></data>
+  <data name="CodeBlockReveal" xml:space="preserve"><value>Waarde tonen</value></data>
+  <data name="CodeBlockHide" xml:space="preserve"><value>Waarde verbergen</value></data>
+  <data name="CodeViewerLabel" xml:space="preserve"><value>Code</value></data>
+  <data name="CodeViewerEmpty" xml:space="preserve"><value>Niets om te tonen.</value></data>
+  <data name="CodeViewerWrap" xml:space="preserve"><value>Regelterugloop</value></data>
+  <data name="CodeViewerLinkHint" xml:space="preserve"><value>Link volgen</value></data>
+  <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Geen wijzigingen.</value></data>
+  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0} regels toegevoegd, {1} regels verwijderd</value></data>
+  <data name="UnifiedDiffBinary" xml:space="preserve"><value>Binair bestand: geen regels om te vergelijken.</value></data>
+  <data name="UnifiedDiffNoLines" xml:space="preserve"><value>Geen gewijzigde regels.</value></data>
+  <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Regel voor</value></data>
+  <data name="UnifiedDiffNewLine" xml:space="preserve"><value>Regel na</value></data>
+  <data name="UnifiedDiffContent" xml:space="preserve"><value>Inhoud</value></data>
+  <data name="UnifiedDiffAdded" xml:space="preserve"><value>Toegevoegd: </value></data>
+  <data name="UnifiedDiffRemoved" xml:space="preserve"><value>Verwijderd: </value></data>
+  <data name="UnifiedDiffRenamedPath" xml:space="preserve"><value>{0} naar {1}</value></data>
+  <data name="UnifiedDiffUntitled" xml:space="preserve"><value>Wijziging</value></data>
+  <data name="UnifiedDiffStatusModified" xml:space="preserve"><value>Gewijzigd</value></data>
+  <data name="UnifiedDiffStatusAdded" xml:space="preserve"><value>Toegevoegd</value></data>
+  <data name="UnifiedDiffStatusDeleted" xml:space="preserve"><value>Verwijderd</value></data>
+  <data name="UnifiedDiffStatusRenamed" xml:space="preserve"><value>Hernoemd</value></data>
+  <data name="DynamicFormRequired" xml:space="preserve"><value>{0} is verplicht.</value></data>
+  <data name="DynamicFormNumber" xml:space="preserve"><value>{0} moet een getal zijn.</value></data>
+  <data name="DynamicFormMinimum" xml:space="preserve"><value>{0} moet minstens {1} zijn.</value></data>
+  <data name="DynamicFormMaximum" xml:space="preserve"><value>{0} mag hoogstens {1} zijn.</value></data>
+  <data name="DynamicFormChoice" xml:space="preserve"><value>{0} moet een van de aangeboden waarden zijn.</value></data>
+  <data name="StatusStripLabel" xml:space="preserve"><value>Statusgeschiedenis</value></data>
+  <data name="StatusStripEmpty" xml:space="preserve"><value>Geen status om te tonen</value></data>
+  <data name="KanbanLabel" xml:space="preserve"><value>Kaartenbord</value></data>
+  <data name="KanbanInstructions" xml:space="preserve"><value>Spatie of Enter om de kaart op te pakken, pijltoetsen om haar te verplaatsen, Spatie of Enter om haar neer te zetten, Esc om te annuleren.</value></data>
+  <data name="KanbanGrabbed" xml:space="preserve"><value>{0} opgepakt, kolom {1}, positie {2} van {3}.</value></data>
+  <data name="KanbanMoved" xml:space="preserve"><value>{0}: kolom {1}, positie {2} van {3}.</value></data>
+  <data name="KanbanDropped" xml:space="preserve"><value>{0} neergezet, kolom {1}, positie {2} van {3}.</value></data>
+  <data name="KanbanCancelled" xml:space="preserve"><value>Verplaatsen geannuleerd: {0} blijft in kolom {1}.</value></data>
+  <data name="KanbanEmptyColumn" xml:space="preserve"><value>Geen kaarten</value></data>
+  <data name="KanbanCardCount" xml:space="preserve"><value>Kaarten: {0}</value></data>
+  <data name="GitGraphLabel" xml:space="preserve"><value>Commitgeschiedenis</value></data>
+  <data name="GitGraphEmpty" xml:space="preserve"><value>Geen commits</value></data>
+  <data name="StepTimelineExpected" xml:space="preserve"><value>{0}% van de gebruikelijke duur verstreken</value></data>
+  <data name="StepTimelineOverrun" xml:space="preserve"><value>langer dan de gebruikelijke duur</value></data>
+  <data name="DiffViewerLabel" xml:space="preserve"><value>Vergelijking</value></data>
+  <data name="DiffViewerOriginal" xml:space="preserve"><value>Voor</value></data>
+  <data name="DiffViewerModified" xml:space="preserve"><value>Na</value></data>
+  <data name="DiffViewerUnavailable" xml:space="preserve"><value>De Monaco-editor kon niet worden geladen: beide versies worden als platte tekst getoond, zonder gemarkeerde verschillen.</value></data>
+  <data name="GitGraphMerge" xml:space="preserve"><value>Mergecommit.</value></data>
+  <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="LinkOpensInNewTab" xml:space="preserve"><value>(opent in een nieuw tabblad)</value></data>
+  <data name="MarkdownExportButton" xml:space="preserve"><value>Exporteren als .md</value></data>
+  <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limiet: maximaal {0} rijen</value></data>
+  <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Gegenereerd op (UTC): {0}</value></data>
+  <data name="MarkdownExportRowCount" xml:space="preserve"><value>Geëxporteerde rijen: {0} van {1} aangekondigde</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Export ingekort: {0} van {1} rijen geëxporteerd, de limiet van {2} rijen is bereikt.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export onvolledig: {0} van {1} aangekondigde rijen geëxporteerd, de gegevens zijn tijdens het lezen gewijzigd.</value></data>
+  <data name="MarkdownExportEmpty" xml:space="preserve"><value>Geen rijen.</value></data>
+  <data name="SignUp" xml:space="preserve"><value>Registreren</value></data>
+  <data name="SignUpPrompt" xml:space="preserve"><value>Nog geen account?</value></data>
+  <data name="UnsavedChangesTitle" xml:space="preserve"><value>Niet-opgeslagen wijzigingen</value></data>
+  <data name="UnsavedChangesMessage" xml:space="preserve"><value>Sommige wijzigingen zijn niet opgeslagen. De pagina verlaten zonder ze op te slaan?</value></data>
+  <data name="UnsavedChangesLeave" xml:space="preserve"><value>Verlaten zonder opslaan</value></data>
+  <data name="UnsavedChangesStay" xml:space="preserve"><value>Op de pagina blijven</value></data>
+  <data name="MoreActions" xml:space="preserve"><value>Meer acties</value></data>
+  <data name="AppearanceWindowTitle" xml:space="preserve"><value>Weergave</value></data>
+</root>

@@ -52,7 +52,7 @@ public partial class OmniMultiSelect<TValue>
 
     /// <summary>Sits at the bottom of the panel, below the list and outside its scroll.</summary>
     [Parameter]
-    public RenderFragment? FooterTemplate { get; set; }
+    public RenderFragment? FooterContent { get; set; }
 
     [Parameter]
     public bool Disabled { get; set; }

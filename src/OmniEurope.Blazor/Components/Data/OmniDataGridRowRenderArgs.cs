@@ -12,12 +12,14 @@ public sealed class OmniDataGridRowRenderArgs<TItem>
         Index = index;
     }
 
+    /// <summary>The row's item.</summary>
     public TItem Item { get; }
 
+    /// <summary>The row's position among the rows rendered, from 0.</summary>
     public int Index { get; }
 
     /// <summary>Extra CSS classes applied to the row.</summary>
-    public string? CssClass { get; set; }
+    public string? Class { get; set; }
 
     /// <summary>Set to <c>false</c> to hide the expand control of this row.</summary>
     public bool Expandable { get; set; } = true;

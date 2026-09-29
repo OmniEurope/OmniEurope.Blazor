@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="UploadFailed" xml:space="preserve"><value>Η μεταφόρτωση απέτυχε.</value></data>
+  <data name="Today" xml:space="preserve"><value>Σήμερα</value></data>
+  <data name="Retry" xml:space="preserve"><value>Νέα προσπάθεια</value></data>
+  <data name="Loading" xml:space="preserve"><value>Φόρτωση…</value></data>
+  <data name="AppearanceLight" xml:space="preserve"><value>Φωτεινό</value></data>
+  <data name="AppearanceDark" xml:space="preserve"><value>Σκοτεινό</value></data>
+  <data name="AppearanceSystem" xml:space="preserve"><value>Σύστημα</value></data>
+  <data name="SettingsMode" xml:space="preserve"><value>Λειτουργία</value></data>
+  <data name="SettingsTheme" xml:space="preserve"><value>Θέμα</value></data>
+  <data name="SettingsPalette" xml:space="preserve"><value>Παλέτα</value></data>
+  <data name="SettingsFont" xml:space="preserve"><value>Γραμματοσειρά</value></data>
+  <data name="SettingsTextSize" xml:space="preserve"><value>Μέγεθος κειμένου</value></data>
+  <data name="SettingsDensity" xml:space="preserve"><value>Πυκνότητα</value></data>
+  <data name="SettingsControlSize" xml:space="preserve"><value>Μέγεθος στοιχείων ελέγχου</value></data>
+  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Στοιχεία ελέγχου</value></data>
+  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Κείμενο</value></data>
+  <data name="SettingsDensityShort" xml:space="preserve"><value>Πυκνότητα</value></data>
+  <data name="SettingsScale" xml:space="preserve"><value>Μεγέθη</value></data>
+  <data name="SettingsDefault" xml:space="preserve"><value>Προεπιλογή</value></data>
+  <data name="SettingsDefaultSuffix" xml:space="preserve"><value>προεπιλογή</value></data>
+  <data name="SettingsDecrease" xml:space="preserve"><value>Μείωση</value></data>
+  <data name="SettingsIncrease" xml:space="preserve"><value>Αύξηση</value></data>
+  <data name="ArcGaugeLabel" xml:space="preserve"><value>Μετρητής</value></data>
+  <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Η αναζήτηση απέτυχε. Τροποποιήστε την καταχώριση για να δοκιμάσετε ξανά.</value></data>
+  <data name="AutocompleteOneResult" xml:space="preserve"><value>1 διαθέσιμο αποτέλεσμα.</value></data>
+  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} διαθέσιμα αποτελέσματα.</value></data>
+  <data name="AutocompleteSelected" xml:space="preserve"><value>Επιλέχθηκε: {0}.</value></data>
+  <data name="AutocompleteInvalid" xml:space="preserve"><value>Η τιμή αυτόματης συμπλήρωσης δεν είναι έγκυρη.</value></data>
+  <data name="BreadcrumbLabel" xml:space="preserve"><value>Διαδρομή πλοήγησης</value></data>
+  <data name="CheckBoxInvalid" xml:space="preserve"><value>Η τιμή του πλαισίου ελέγχου δεν είναι έγκυρη.</value></data>
+  <data name="CheckBoxListInvalid" xml:space="preserve"><value>Η λίστα πλαισίων ελέγχου δεν είναι έγκυρη.</value></data>
+  <data name="ColorPickerInvalid" xml:space="preserve"><value>Το χρώμα πρέπει να έχει τη μορφή #RRGGBB.</value></data>
+  <data name="NotificationsRegionLabel" xml:space="preserve"><value>Ειδοποιήσεις</value></data>
+  <data name="ContextMenuLabel" xml:space="preserve"><value>Μενού περιβάλλοντος</value></data>
+  <data name="GridLoadFailed" xml:space="preserve"><value>Η φόρτωση του πλέγματος απέτυχε.</value></data>
+  <data name="GridDetailColumn" xml:space="preserve"><value>Λεπτομέρειες</value></data>
+  <data name="GridSelectionColumn" xml:space="preserve"><value>Επιλογή</value></data>
+  <data name="GridResizeColumn" xml:space="preserve"><value>Αλλαγή μεγέθους {0}</value></data>
+  <data name="GridEditColumn" xml:space="preserve"><value>Επεξεργασία</value></data>
+  <data name="GridFilterColumn" xml:space="preserve"><value>Φιλτράρισμα {0}</value></data>
+  <data name="GridEmpty" xml:space="preserve"><value>Δεν υπάρχουν δεδομένα.</value></data>
+  <data name="GridEmptyFiltered" xml:space="preserve"><value>Κανένα αποτέλεσμα δεν ταιριάζει με τα φίλτρα.</value></data>
+  <data name="GridValueColumn" xml:space="preserve"><value>Τιμή</value></data>
+  <data name="GridFilterPlaceholder" xml:space="preserve"><value>Φιλτράρισμα</value></data>
+  <data name="GridFilterOperator" xml:space="preserve"><value>Τελεστής φίλτρου για {0}</value></data>
+  <data name="GridFilterSecondOperator" xml:space="preserve"><value>Δεύτερος τελεστής φίλτρου για {0}</value></data>
+  <data name="GridFilterSecondValue" xml:space="preserve"><value>Δεύτερη τιμή φίλτρου για {0}</value></data>
+  <data name="GridFilterLogical" xml:space="preserve"><value>Λογικός τελεστής για {0}</value></data>
+  <data name="GridFilterApply" xml:space="preserve"><value>Εφαρμογή</value></data>
+  <data name="GridFilterClear" xml:space="preserve"><value>Απαλοιφή</value></data>
+  <data name="TooltipShowMore" xml:space="preserve"><value>Εμφάνιση περισσότερων</value></data>
+  <data name="TooltipShowLess" xml:space="preserve"><value>Εμφάνιση λιγότερων</value></data>
+  <data name="GridFilterDateFrom" xml:space="preserve"><value>Από</value></data>
+  <data name="GridFilterDateTo" xml:space="preserve"><value>Έως</value></data>
+  <data name="GridFilterContains" xml:space="preserve"><value>Περιέχει</value></data>
+  <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Δεν περιέχει</value></data>
+  <data name="GridFilterEquals" xml:space="preserve"><value>Ίσο με</value></data>
+  <data name="GridFilterNotEquals" xml:space="preserve"><value>Διάφορο από</value></data>
+  <data name="GridFilterStartsWith" xml:space="preserve"><value>Ξεκινά με</value></data>
+  <data name="GridFilterEndsWith" xml:space="preserve"><value>Τελειώνει σε</value></data>
+  <data name="GridFilterGreaterThan" xml:space="preserve"><value>Μεγαλύτερο από</value></data>
+  <data name="GridFilterGreaterThanOrEquals" xml:space="preserve"><value>Μεγαλύτερο ή ίσο με</value></data>
+  <data name="GridFilterLessThan" xml:space="preserve"><value>Μικρότερο από</value></data>
+  <data name="GridFilterLessThanOrEquals" xml:space="preserve"><value>Μικρότερο ή ίσο με</value></data>
+  <data name="GridFilterIsNull" xml:space="preserve"><value>Χωρίς τιμή</value></data>
+  <data name="GridFilterIsNotNull" xml:space="preserve"><value>Με τιμή</value></data>
+  <data name="GridFilterIsEmpty" xml:space="preserve"><value>Είναι κενό</value></data>
+  <data name="GridFilterIsNotEmpty" xml:space="preserve"><value>Δεν είναι κενό</value></data>
+  <data name="GridFilterAnd" xml:space="preserve"><value>Και</value></data>
+  <data name="GridFilterOr" xml:space="preserve"><value>Ή</value></data>
+  <data name="GridGroupPanel" xml:space="preserve"><value>Ενεργές ομαδοποιήσεις</value></data>
+  <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Καμία ομαδοποίηση.</value></data>
+  <data name="GridGroupColumn" xml:space="preserve"><value>Ομαδοποίηση κατά {0}</value></data>
+  <data name="GridUngroupColumn" xml:space="preserve"><value>Κατάργηση ομαδοποίησης {0}</value></data>
+  <data name="GridExpandAll" xml:space="preserve"><value>Ανάπτυξη ή σύμπτυξη όλων των γραμμών</value></data>
+  <data name="GridDetachFrozen" xml:space="preserve"><value>Αποδέσμευση σταθερών στηλών</value></data>
+  <data name="GridRefreezeFrozen" xml:space="preserve"><value>Εκ νέου σταθεροποίηση στηλών</value></data>
+  <data name="GridShrinkColumn" xml:space="preserve"><value>Μείωση πλάτους της στήλης {0}</value></data>
+  <data name="GridGrowColumn" xml:space="preserve"><value>Αύξηση πλάτους της στήλης {0}</value></data>
+  <data name="PagerFirst" xml:space="preserve"><value>Πρώτη σελίδα</value></data>
+  <data name="PagerLast" xml:space="preserve"><value>Τελευταία σελίδα</value></data>
+  <data name="PagerPageSize" xml:space="preserve"><value>Γραμμές ανά σελίδα</value></data>
+  <data name="GridPagingSummary" xml:space="preserve"><value>{0} έως {1} από {2}</value></data>
+  <data name="GridRowsLoading" xml:space="preserve"><value>Φόρτωση γραμμών…</value></data>
+  <data name="GridCollapseRow" xml:space="preserve"><value>Σύμπτυξη γραμμής</value></data>
+  <data name="GridExpandRow" xml:space="preserve"><value>Ανάπτυξη γραμμής</value></data>
+  <data name="GridSelectRow" xml:space="preserve"><value>Επιλογή γραμμής</value></data>
+  <data name="GridSelectAll" xml:space="preserve"><value>Επιλογή όλων των εμφανιζόμενων γραμμών</value></data>
+  <data name="SpreadsheetLabel" xml:space="preserve"><value>Υπολογιστικό φύλλο</value></data>
+  <data name="SpreadsheetAddRow" xml:space="preserve"><value>Γραμμή</value></data>
+  <data name="SpreadsheetAddRowLabel" xml:space="preserve"><value>Προσθήκη γραμμής</value></data>
+  <data name="SpreadsheetAddColumn" xml:space="preserve"><value>Στήλη</value></data>
+  <data name="SpreadsheetAddColumnLabel" xml:space="preserve"><value>Προσθήκη στήλης</value></data>
+  <data name="SpreadsheetActiveCell" xml:space="preserve"><value>Ενεργό κελί</value></data>
+  <data name="SpreadsheetFormulaBar" xml:space="preserve"><value>Περιεχόμενο του κελιού {0}</value></data>
+  <data name="SpreadsheetCell" xml:space="preserve"><value>Κελί {0}</value></data>
+  <data name="Save" xml:space="preserve"><value>Αποθήκευση</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Ακύρωση</value></data>
+  <data name="Edit" xml:space="preserve"><value>Επεξεργασία</value></data>
+  <data name="DataListLoadFailed" xml:space="preserve"><value>Η φόρτωση απέτυχε.</value></data>
+  <data name="DataListEmpty" xml:space="preserve"><value>Δεν υπάρχουν στοιχεία.</value></data>
+  <data name="DatePickerInvalid" xml:space="preserve"><value>Η ημερομηνία που καταχωρίσατε δεν είναι έγκυρη.</value></data>
+  <data name="DateTimePickerInvalid" xml:space="preserve"><value>Η ημερομηνία και η ώρα που καταχωρίσατε δεν είναι έγκυρες.</value></data>
+  <data name="DatePickerToggle" xml:space="preserve"><value>Επιλογή ημερομηνίας</value></data>
+  <data name="DatePickerToday" xml:space="preserve"><value>Σήμερα</value></data>
+  <data name="DatePickerClear" xml:space="preserve"><value>Απαλοιφή</value></data>
+  <data name="CalendarPreviousMonth" xml:space="preserve"><value>Προηγούμενος μήνας</value></data>
+  <data name="CalendarNextMonth" xml:space="preserve"><value>Επόμενος μήνας</value></data>
+  <data name="TimePickerToggle" xml:space="preserve"><value>Επιλογή ώρας</value></data>
+  <data name="DateTimePickerToggle" xml:space="preserve"><value>Επιλογή ημερομηνίας και ώρας</value></data>
+  <data name="TimePickerNow" xml:space="preserve"><value>Τώρα</value></data>
+  <data name="TimePickerConfirm" xml:space="preserve"><value>Επιβεβαίωση</value></data>
+  <data name="TimePickerHours" xml:space="preserve"><value>Ώρες</value></data>
+  <data name="TimePickerMinutes" xml:space="preserve"><value>Λεπτά</value></data>
+  <data name="TimePickerSeconds" xml:space="preserve"><value>Δευτερόλεπτα</value></data>
+  <data name="TimePickerHourCaption" xml:space="preserve"><value>ώ</value></data>
+  <data name="TimePickerMinuteCaption" xml:space="preserve"><value>λ</value></data>
+  <data name="TimePickerSecondCaption" xml:space="preserve"><value>δ</value></data>
+  <data name="TimePickerInvalid" xml:space="preserve"><value>Η ώρα που καταχωρίσατε δεν είναι έγκυρη.</value></data>
+  <data name="PickerLetterDay" xml:space="preserve"><value>η</value></data>
+  <data name="PickerLetterMonth" xml:space="preserve"><value>μ</value></data>
+  <data name="PickerLetterYear" xml:space="preserve"><value>ε</value></data>
+  <data name="PickerLetterHour" xml:space="preserve"><value>ω</value></data>
+  <data name="PickerLetterMinute" xml:space="preserve"><value>λ</value></data>
+  <data name="PickerLetterSecond" xml:space="preserve"><value>δ</value></data>
+  <data name="DayViewLabel" xml:space="preserve"><value>Προβολή ημέρας</value></data>
+  <data name="DialogEnd" xml:space="preserve"><value>Τέλος παραθύρου διαλόγου</value></data>
+  <data name="Close" xml:space="preserve"><value>Κλείσιμο</value></data>
+  <data name="DialogStart" xml:space="preserve"><value>Αρχή παραθύρου διαλόγου</value></data>
+  <data name="DropDownPlaceholder" xml:space="preserve"><value>Επιλέξτε</value></data>
+  <data name="DropDownInvalid" xml:space="preserve"><value>Η επιλογή δεν είναι έγκυρη για {0}.</value></data>
+  <data name="HtmlEditorLabel" xml:space="preserve"><value>Πρόγραμμα επεξεργασίας HTML</value></data>
+  <data name="HtmlEditorToolbar" xml:space="preserve"><value>Εργαλεία μορφοποίησης</value></data>
+  <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Ενέργειες προγράμματος επεξεργασίας</value></data>
+  <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Πεζά-κεφαλαία</value></data>
+  <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>ΚΕΦΑΛΑΙΑ</value></data>
+  <data name="HtmlEditorCaseLower" xml:space="preserve"><value>πεζά</value></data>
+  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Κεφαλαίο Πρώτο Γράμμα</value></data>
+  <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Ειδικός χαρακτήρας</value></data>
+  <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Αναζήτηση χαρακτήρα</value></data>
+  <data name="HtmlEditorCharNone" xml:space="preserve"><value>Κανένας χαρακτήρας δεν ταιριάζει.</value></data>
+  <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Συνήθεις</value></data>
+  <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Νομίσματα</value></data>
+  <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Βέλη</value></data>
+  <data name="HtmlEditorCharCategoryMath" xml:space="preserve"><value>Μαθηματικά</value></data>
+  <data name="HtmlEditorCharCategoryGreek" xml:space="preserve"><value>Ελληνικά</value></data>
+  <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Νομικά</value></data>
+  <data name="HtmlEditorImportTable" xml:space="preserve"><value>Εισαγωγή πίνακα</value></data>
+  <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>Αρχείο {0}, έως 100 γραμμές και 50 στήλες.</value></data>
+  <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Πρώτη γραμμή ως κεφαλίδα</value></data>
+  <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Εισαγωγή</value></data>
+  <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Προεπισκόπηση πίνακα</value></data>
+  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0} γραμμές, {1} στήλες</value></data>
+  <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>Δεν ήταν δυνατή η ανάγνωση του αρχείου.</value></data>
+  <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>Το αρχείο δεν περιέχει καμία γραμμή.</value></data>
+  <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Αυτός ο τύπος αρχείου δεν υποστηρίζεται.</value></data>
+  <data name="HtmlEditorClosePanel" xml:space="preserve"><value>Κλείσιμο</value></data>
+  <data name="HtmlEditorShowBlocks" xml:space="preserve"><value>Εμφάνιση μπλοκ</value></data>
+  <data name="HtmlEditorHighlight" xml:space="preserve"><value>Επισήμανση</value></data>
+  <data name="HtmlEditorChar00A9" xml:space="preserve"><value>Πνευματικά δικαιώματα</value></data>
+  <data name="HtmlEditorChar00AE" xml:space="preserve"><value>Σήμα κατατεθέν</value></data>
+  <data name="HtmlEditorChar2122" xml:space="preserve"><value>Εμπορικό σήμα</value></data>
+  <data name="HtmlEditorChar00A7" xml:space="preserve"><value>Σύμβολο ενότητας</value></data>
+  <data name="HtmlEditorChar00B6" xml:space="preserve"><value>Σύμβολο παραγράφου</value></data>
+  <data name="HtmlEditorChar2020" xml:space="preserve"><value>Οβελός</value></data>
+  <data name="HtmlEditorChar2021" xml:space="preserve"><value>Διπλός οβελός</value></data>
+  <data name="HtmlEditorChar2022" xml:space="preserve"><value>Κουκκίδα</value></data>
+  <data name="HtmlEditorChar2026" xml:space="preserve"><value>Αποσιωπητικά</value></data>
+  <data name="HtmlEditorChar2013" xml:space="preserve"><value>Μεσαία παύλα</value></data>
+  <data name="HtmlEditorChar2014" xml:space="preserve"><value>Μακριά παύλα</value></data>
+  <data name="HtmlEditorChar00AB" xml:space="preserve"><value>Γωνιώδες εισαγωγικό ανοίγματος</value></data>
+  <data name="HtmlEditorChar00BB" xml:space="preserve"><value>Γωνιώδες εισαγωγικό κλεισίματος</value></data>
+  <data name="HtmlEditorChar2039" xml:space="preserve"><value>Μονό γωνιώδες εισαγωγικό ανοίγματος</value></data>
+  <data name="HtmlEditorChar203A" xml:space="preserve"><value>Μονό γωνιώδες εισαγωγικό κλεισίματος</value></data>
+  <data name="HtmlEditorChar2018" xml:space="preserve"><value>Αριστερό μονό εισαγωγικό</value></data>
+  <data name="HtmlEditorChar2019" xml:space="preserve"><value>Δεξί μονό εισαγωγικό</value></data>
+  <data name="HtmlEditorChar201C" xml:space="preserve"><value>Αριστερό διπλό εισαγωγικό</value></data>
+  <data name="HtmlEditorChar201D" xml:space="preserve"><value>Δεξί διπλό εισαγωγικό</value></data>
+  <data name="HtmlEditorChar00B0" xml:space="preserve"><value>Μοίρα</value></data>
+  <data name="HtmlEditorChar00B1" xml:space="preserve"><value>Συν πλην</value></data>
+  <data name="HtmlEditorChar00D7" xml:space="preserve"><value>Πολλαπλασιασμός</value></data>
+  <data name="HtmlEditorChar00F7" xml:space="preserve"><value>Διαίρεση</value></data>
+  <data name="HtmlEditorChar00A0" xml:space="preserve"><value>Αδιάσπαστο κενό</value></data>
+  <data name="HtmlEditorChar20AC" xml:space="preserve"><value>Ευρώ</value></data>
+  <data name="HtmlEditorChar00A3" xml:space="preserve"><value>Λίρα στερλίνα</value></data>
+  <data name="HtmlEditorChar00A5" xml:space="preserve"><value>Γιεν</value></data>
+  <data name="HtmlEditorChar00A2" xml:space="preserve"><value>Σεντ</value></data>
+  <data name="HtmlEditorChar20BD" xml:space="preserve"><value>Ρούβλι</value></data>
+  <data name="HtmlEditorChar20B9" xml:space="preserve"><value>Ρουπία</value></data>
+  <data name="HtmlEditorChar20A9" xml:space="preserve"><value>Γουόν</value></data>
+  <data name="HtmlEditorChar20AA" xml:space="preserve"><value>Σέκελ</value></data>
+  <data name="HtmlEditorChar20B1" xml:space="preserve"><value>Πέσο</value></data>
+  <data name="HtmlEditorChar20BA" xml:space="preserve"><value>Τουρκική λίρα</value></data>
+  <data name="HtmlEditorChar2190" xml:space="preserve"><value>Βέλος αριστερά</value></data>
+  <data name="HtmlEditorChar2192" xml:space="preserve"><value>Βέλος δεξιά</value></data>
+  <data name="HtmlEditorChar2191" xml:space="preserve"><value>Βέλος πάνω</value></data>
+  <data name="HtmlEditorChar2193" xml:space="preserve"><value>Βέλος κάτω</value></data>
+  <data name="HtmlEditorChar2194" xml:space="preserve"><value>Βέλος αριστερά-δεξιά</value></data>
+  <data name="HtmlEditorChar2195" xml:space="preserve"><value>Βέλος πάνω-κάτω</value></data>
+  <data name="HtmlEditorChar21D0" xml:space="preserve"><value>Διπλό βέλος αριστερά</value></data>
+  <data name="HtmlEditorChar21D2" xml:space="preserve"><value>Διπλό βέλος δεξιά</value></data>
+  <data name="HtmlEditorChar21D1" xml:space="preserve"><value>Διπλό βέλος πάνω</value></data>
+  <data name="HtmlEditorChar21D3" xml:space="preserve"><value>Διπλό βέλος κάτω</value></data>
+  <data name="HtmlEditorChar21B5" xml:space="preserve"><value>Αλλαγή γραμμής</value></data>
+  <data name="HtmlEditorChar21B6" xml:space="preserve"><value>Αριστερόστροφο βέλος</value></data>
+  <data name="HtmlEditorChar2200" xml:space="preserve"><value>Για κάθε</value></data>
+  <data name="HtmlEditorChar2203" xml:space="preserve"><value>Υπάρχει</value></data>
+  <data name="HtmlEditorChar2205" xml:space="preserve"><value>Κενό σύνολο</value></data>
+  <data name="HtmlEditorChar2208" xml:space="preserve"><value>Ανήκει σε</value></data>
+  <data name="HtmlEditorChar2209" xml:space="preserve"><value>Δεν ανήκει σε</value></data>
+  <data name="HtmlEditorChar2282" xml:space="preserve"><value>Υποσύνολο του</value></data>
+  <data name="HtmlEditorChar2283" xml:space="preserve"><value>Υπερσύνολο του</value></data>
+  <data name="HtmlEditorChar222A" xml:space="preserve"><value>Ένωση</value></data>
+  <data name="HtmlEditorChar2229" xml:space="preserve"><value>Τομή</value></data>
+  <data name="HtmlEditorChar2227" xml:space="preserve"><value>Λογικό ΚΑΙ</value></data>
+  <data name="HtmlEditorChar2228" xml:space="preserve"><value>Λογικό Ή</value></data>
+  <data name="HtmlEditorChar00AC" xml:space="preserve"><value>Άρνηση</value></data>
+  <data name="HtmlEditorChar2248" xml:space="preserve"><value>Περίπου ίσο</value></data>
+  <data name="HtmlEditorChar2260" xml:space="preserve"><value>Διάφορο</value></data>
+  <data name="HtmlEditorChar2264" xml:space="preserve"><value>Μικρότερο ή ίσο</value></data>
+  <data name="HtmlEditorChar2265" xml:space="preserve"><value>Μεγαλύτερο ή ίσο</value></data>
+  <data name="HtmlEditorChar221E" xml:space="preserve"><value>Άπειρο</value></data>
+  <data name="HtmlEditorChar221A" xml:space="preserve"><value>Τετραγωνική ρίζα</value></data>
+  <data name="HtmlEditorChar2211" xml:space="preserve"><value>Άθροισμα</value></data>
+  <data name="HtmlEditorChar220F" xml:space="preserve"><value>Γινόμενο</value></data>
+  <data name="HtmlEditorChar2202" xml:space="preserve"><value>Μερική παράγωγος</value></data>
+  <data name="HtmlEditorChar222B" xml:space="preserve"><value>Ολοκλήρωμα</value></data>
+  <data name="HtmlEditorChar03B1" xml:space="preserve"><value>Άλφα</value></data>
+  <data name="HtmlEditorChar03B2" xml:space="preserve"><value>Βήτα</value></data>
+  <data name="HtmlEditorChar03B3" xml:space="preserve"><value>Γάμμα</value></data>
+  <data name="HtmlEditorChar03B4" xml:space="preserve"><value>Δέλτα</value></data>
+  <data name="HtmlEditorChar03B5" xml:space="preserve"><value>Έψιλον</value></data>
+  <data name="HtmlEditorChar03B6" xml:space="preserve"><value>Ζήτα</value></data>
+  <data name="HtmlEditorChar03B7" xml:space="preserve"><value>Ήτα</value></data>
+  <data name="HtmlEditorChar03B8" xml:space="preserve"><value>Θήτα</value></data>
+  <data name="HtmlEditorChar03B9" xml:space="preserve"><value>Γιώτα</value></data>
+  <data name="HtmlEditorChar03BA" xml:space="preserve"><value>Κάππα</value></data>
+  <data name="HtmlEditorChar03BB" xml:space="preserve"><value>Λάμδα</value></data>
+  <data name="HtmlEditorChar03BC" xml:space="preserve"><value>Μι</value></data>
+  <data name="HtmlEditorChar03BD" xml:space="preserve"><value>Νι</value></data>
+  <data name="HtmlEditorChar03BE" xml:space="preserve"><value>Ξι</value></data>
+  <data name="HtmlEditorChar03C0" xml:space="preserve"><value>Πι</value></data>
+  <data name="HtmlEditorChar03C1" xml:space="preserve"><value>Ρο</value></data>
+  <data name="HtmlEditorChar03C3" xml:space="preserve"><value>Σίγμα</value></data>
+  <data name="HtmlEditorChar03C4" xml:space="preserve"><value>Ταυ</value></data>
+  <data name="HtmlEditorChar03C5" xml:space="preserve"><value>Ύψιλον</value></data>
+  <data name="HtmlEditorChar03C6" xml:space="preserve"><value>Φι</value></data>
+  <data name="HtmlEditorChar03C7" xml:space="preserve"><value>Χι</value></data>
+  <data name="HtmlEditorChar03C8" xml:space="preserve"><value>Ψι</value></data>
+  <data name="HtmlEditorChar03C9" xml:space="preserve"><value>Ωμέγα</value></data>
+  <data name="HtmlEditorChar2116" xml:space="preserve"><value>Αριθμός</value></data>
+  <data name="HtmlEditorBold" xml:space="preserve"><value>Έντονα</value></data>
+  <data name="HtmlEditorItalic" xml:space="preserve"><value>Πλάγια</value></data>
+  <data name="HtmlEditorSubscript" xml:space="preserve"><value>Δείκτης</value></data>
+  <data name="HtmlEditorSuperscript" xml:space="preserve"><value>Εκθέτης</value></data>
+  <data name="HtmlEditorIndent" xml:space="preserve"><value>Αύξηση εσοχής</value></data>
+  <data name="HtmlEditorOutdent" xml:space="preserve"><value>Μείωση εσοχής</value></data>
+  <data name="HtmlEditorUndo" xml:space="preserve"><value>Αναίρεση</value></data>
+  <data name="HtmlEditorRedo" xml:space="preserve"><value>Επανάληψη</value></data>
+  <data name="HtmlEditorPreview" xml:space="preserve"><value>Προεπισκόπηση περιεχομένου</value></data>
+  <data name="LegendLabel" xml:space="preserve"><value>Υπόμνημα</value></data>
+  <data name="ListBoxInvalid" xml:space="preserve"><value>Η επιλογή λίστας δεν είναι έγκυρη.</value></data>
+  <data name="MindMapAddLink" xml:space="preserve"><value>Σύνδεση</value></data>
+  <data name="MindMapAddNode" xml:space="preserve"><value>Κόμβος</value></data>
+  <data name="MindMapAnnounceAdded" xml:space="preserve"><value>Ο κόμβος {0} προστέθηκε.</value></data>
+  <data name="MindMapAnnounceDeleted" xml:space="preserve"><value>Διαγραμμένοι κόμβοι: {0}.</value></data>
+  <data name="MindMapAnnounceDuplicated" xml:space="preserve"><value>Ο κόμβος {0} αναπαράχθηκε.</value></data>
+  <data name="MindMapAnnounceLaidOut" xml:space="preserve"><value>Ο χάρτης αναδιοργανώθηκε.</value></data>
+  <data name="MindMapAnnounceLimit" xml:space="preserve"><value>Συμπληρώθηκε ο μέγιστος αριθμός κόμβων.</value></data>
+  <data name="MindMapAnnounceLinkCancelled" xml:space="preserve"><value>Η δημιουργία σύνδεσης ακυρώθηκε.</value></data>
+  <data name="MindMapAnnounceLinkDeleted" xml:space="preserve"><value>Η σύνδεση διαγράφηκε.</value></data>
+  <data name="MindMapAnnounceLinkSelected" xml:space="preserve"><value>Επιλέχθηκε σύνδεση.</value></data>
+  <data name="MindMapAnnounceLinked" xml:space="preserve"><value>Δημιουργήθηκε σύνδεση από {0} προς {1}.</value></data>
+  <data name="MindMapAnnounceManySelected" xml:space="preserve"><value>Επιλεγμένοι κόμβοι: {0}.</value></data>
+  <data name="MindMapAnnounceNoSelection" xml:space="preserve"><value>Καμία επιλογή.</value></data>
+  <data name="MindMapAnnounceRedone" xml:space="preserve"><value>Η αλλαγή επαναλήφθηκε.</value></data>
+  <data name="MindMapAnnounceSelected" xml:space="preserve"><value>{0}, συνδέσεις: {1}.</value></data>
+  <data name="MindMapAnnounceUndone" xml:space="preserve"><value>Η αλλαγή αναιρέθηκε.</value></data>
+  <data name="MindMapAnnounceZoom" xml:space="preserve"><value>Ζουμ {0}%.</value></data>
+  <data name="MindMapAutoLayout" xml:space="preserve"><value>Αναδιοργάνωση</value></data>
+  <data name="MindMapBold" xml:space="preserve"><value>Έντονα</value></data>
+  <data name="MindMapCanvasLabel" xml:space="preserve"><value>Νοητικός χάρτης</value></data>
+  <data name="MindMapCenter" xml:space="preserve"><value>Κεντράρισμα</value></data>
+  <data name="MindMapColorBlue" xml:space="preserve"><value>Μπλε</value></data>
+  <data name="MindMapColorGray" xml:space="preserve"><value>Γκρι</value></data>
+  <data name="MindMapColorGreen" xml:space="preserve"><value>Πράσινο</value></data>
+  <data name="MindMapColorIndigo" xml:space="preserve"><value>Λουλακί</value></data>
+  <data name="MindMapColorOrange" xml:space="preserve"><value>Πορτοκαλί</value></data>
+  <data name="MindMapColorPink" xml:space="preserve"><value>Ροζ</value></data>
+  <data name="MindMapColorPurple" xml:space="preserve"><value>Μωβ</value></data>
+  <data name="MindMapColorRed" xml:space="preserve"><value>Κόκκινο</value></data>
+  <data name="MindMapColorTeal" xml:space="preserve"><value>Γαλαζοπράσινο</value></data>
+  <data name="MindMapColorWhite" xml:space="preserve"><value>Λευκό</value></data>
+  <data name="MindMapColorYellow" xml:space="preserve"><value>Κίτρινο</value></data>
+  <data name="MindMapDelete" xml:space="preserve"><value>Διαγραφή</value></data>
+  <data name="MindMapDuplicate" xml:space="preserve"><value>Αναπαραγωγή</value></data>
+  <data name="MindMapFitView" xml:space="preserve"><value>Προσαρμογή</value></data>
+  <data name="MindMapFontSize" xml:space="preserve"><value>Μέγεθος γραμματοσειράς</value></data>
+  <data name="MindMapItalic" xml:space="preserve"><value>Πλάγια</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Βέλη: μετάβαση μεταξύ κόμβων, Home: κεντρικός κόμβος, Shift+βέλη: μετακίνηση, Enter ή F2: μετονομασία, N: νέος κόμβος, D: αναπαραγωγή, C: κεντράρισμα, Delete: διαγραφή, + και -: ζουμ, 0: προσαρμογή, Ctrl+Z και Ctrl+Y: αναίρεση και επανάληψη, Shift+F10: μενού, Esc: κατάργηση επιλογής.</value></data>
+  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Βέλη: μετάβαση μεταξύ κόμβων, Home: κεντρικός κόμβος, C: κεντράρισμα, + και -: ζουμ, 0: προσαρμογή, Shift+F10: μενού, Esc: κατάργηση επιλογής.</value></data>
+  <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Esc για ακύρωση</value></data>
+  <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Κάντε κλικ στον κόμβο προέλευσης</value></data>
+  <data name="MindMapLinkSelectTarget" xml:space="preserve"><value>Κάντε κλικ στον κόμβο προορισμού</value></data>
+  <data name="MindMapMenuLabel" xml:space="preserve"><value>Ενέργειες χάρτη</value></data>
+  <data name="MindMapNewNode" xml:space="preserve"><value>Νέος</value></data>
+  <data name="MindMapNodeColor" xml:space="preserve"><value>Χρώμα</value></data>
+  <data name="MindMapNodeHeight" xml:space="preserve"><value>Ύψος</value></data>
+  <data name="MindMapNodeText" xml:space="preserve"><value>Κείμενο</value></data>
+  <data name="MindMapNodeWidth" xml:space="preserve"><value>Πλάτος</value></data>
+  <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, σημείωση: {1}</value></data>
+  <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Ιδιότητες κόμβου</value></data>
+  <data name="MindMapRename" xml:space="preserve"><value>Μετονομασία κόμβου</value></data>
+  <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = αυτόματο μέγεθος</value></data>
+  <data name="MindMapToolbarLabel" xml:space="preserve"><value>Ενέργειες νοητικού χάρτη</value></data>
+  <data name="MonthViewLabel" xml:space="preserve"><value>Προβολή μήνα</value></data>
+  <data name="MultiSelectInvalid" xml:space="preserve"><value>Η πολλαπλή επιλογή δεν είναι έγκυρη.</value></data>
+  <data name="MultiSelectEmpty" xml:space="preserve"><value>Όλα</value></data>
+  <data name="MultiSelectSelected" xml:space="preserve"><value>Επιλεγμένα: {0}</value></data>
+  <data name="MultiSelectClear" xml:space="preserve"><value>Κατάργηση επιλογής</value></data>
+  <data name="MultiSelectFilter" xml:space="preserve"><value>Αναζήτηση</value></data>
+  <data name="MultiSelectNoMatch" xml:space="preserve"><value>Κανένα αποτέλεσμα</value></data>
+  <data name="NotificationDismiss" xml:space="preserve"><value>Απόρριψη ειδοποίησης</value></data>
+  <data name="NotificationExpand" xml:space="preserve"><value>Εμφάνιση όλων</value></data>
+  <data name="NotificationCollapse" xml:space="preserve"><value>Σύμπτυξη</value></data>
+  <data name="NotificationOpenDetails" xml:space="preserve"><value>Άνοιγμα αρχείου καταγραφής</value></data>
+  <data name="NullableSwitchIndeterminate" xml:space="preserve"><value>Απροσδιόριστη κατάσταση</value></data>
+  <data name="NumericInvalid" xml:space="preserve"><value>Η τιμή που καταχωρίσατε δεν είναι έγκυρη.</value></data>
+  <data name="NumericInvalidNamed" xml:space="preserve"><value>Η τιμή που καταχωρίσατε δεν είναι έγκυρη για {0}.</value></data>
+  <data name="PagerLabel" xml:space="preserve"><value>Σελιδοποίηση</value></data>
+  <data name="PagerPrevious" xml:space="preserve"><value>Προηγούμενη σελίδα</value></data>
+  <data name="PagerStatus" xml:space="preserve"><value>Σελίδα {0} από {1}</value></data>
+  <data name="PagerNext" xml:space="preserve"><value>Επόμενη σελίδα</value></data>
+  <data name="PanelMenuLabel" xml:space="preserve"><value>Πλοήγηση</value></data>
+  <data name="PanelMenuToggle" xml:space="preserve"><value>Ανάπτυξη ή σύμπτυξη {0}</value></data>
+  <data name="PasswordRevealLabel" xml:space="preserve"><value>Εμφάνιση κωδικού πρόσβασης</value></data>
+  <data name="PasswordHideLabel" xml:space="preserve"><value>Απόκρυψη κωδικού πρόσβασης</value></data>
+  <data name="ProfileMenuLabel" xml:space="preserve"><value>Μενού προφίλ</value></data>
+  <data name="ProgressLabel" xml:space="preserve"><value>Πρόοδος</value></data>
+  <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="RadioButtonListInvalid" xml:space="preserve"><value>Η επιλογή κουμπιού επιλογής δεν είναι έγκυρη.</value></data>
+  <data name="RequiredValidatorMessage" xml:space="preserve"><value>Αυτό το πεδίο είναι υποχρεωτικό.</value></data>
+  <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Προηγούμενη περίοδος</value></data>
+  <data name="SchedulerNextPeriod" xml:space="preserve"><value>Επόμενη περίοδος</value></data>
+  <data name="SchedulerViewLabel" xml:space="preserve"><value>Προβολή ημερολογίου</value></data>
+  <data name="SchedulerDay" xml:space="preserve"><value>Ημέρα</value></data>
+  <data name="SchedulerWeek" xml:space="preserve"><value>Εβδομάδα</value></data>
+  <data name="SchedulerMonth" xml:space="preserve"><value>Μήνας</value></data>
+  <data name="SchedulerLoadFailed" xml:space="preserve"><value>Δεν ήταν δυνατή η φόρτωση του ημερολογίου.</value></data>
+  <data name="SchedulerTimeColumn" xml:space="preserve"><value>Ώρα</value></data>
+  <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Μετακίνηση {0}</value></data>
+  <data name="SchedulerMoveHere" xml:space="preserve"><value>Τοποθέτηση εδώ: {0}, {1}</value></data>
+  <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Τοποθέτηση εδώ</value></data>
+  <data name="SchedulerMoveCancel" xml:space="preserve"><value>Ακύρωση μετακίνησης</value></data>
+  <data name="SchedulerMoving" xml:space="preserve"><value>Το {0} επιλέχθηκε: διαλέξτε τη νέα του θέση, Esc για ακύρωση.</value></data>
+  <data name="SchedulerMoveCancelled" xml:space="preserve"><value>Το {0} παραμένει στη θέση του.</value></data>
+  <data name="SchedulerMoved" xml:space="preserve"><value>Το {0} μετακινήθηκε στις {1}.</value></data>
+  <data name="SelectBarInvalid" xml:space="preserve"><value>Η τμηματική επιλογή δεν είναι έγκυρη.</value></data>
+  <data name="RatingLabel" xml:space="preserve"><value>Βαθμολογία</value></data>
+  <data name="RatingStar" xml:space="preserve"><value>{0} από {1}</value></data>
+  <data name="RatingValue" xml:space="preserve"><value>{0}: {1} από {2}</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Πλοήγηση</value></data>
+  <data name="SidebarClose" xml:space="preserve"><value>Κλείσιμο πλοήγησης</value></data>
+  <data name="LoadingLabel" xml:space="preserve"><value>Φόρτωση σε εξέλιξη</value></data>
+  <data name="WindowControlsLabel" xml:space="preserve"><value>Στοιχεία ελέγχου παραθύρου</value></data>
+  <data name="WindowMinimizeToTray" xml:space="preserve"><value>Ελαχιστοποίηση στην περιοχή ειδοποιήσεων</value></data>
+  <data name="WindowMinimize" xml:space="preserve"><value>Ελαχιστοποίηση</value></data>
+  <data name="WindowMaximize" xml:space="preserve"><value>Μεγιστοποίηση</value></data>
+  <data name="WindowRestore" xml:space="preserve"><value>Επαναφορά</value></data>
+  <data name="WindowClose" xml:space="preserve"><value>Κλείσιμο</value></data>
+  <data name="SidebarToggleLabel" xml:space="preserve"><value>Εμφάνιση ή απόκρυψη πλοήγησης</value></data>
+  <data name="SliderInvalid" xml:space="preserve"><value>Η τιμή του ρυθμιστικού δεν είναι έγκυρη.</value></data>
+  <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Περισσότερες ενέργειες</value></data>
+  <data name="StepsLabel" xml:space="preserve"><value>Βήματα</value></data>
+  <data name="SwitchInvalid" xml:space="preserve"><value>Η τιμή του διακόπτη δεν είναι έγκυρη.</value></data>
+  <data name="TabsLabel" xml:space="preserve"><value>Καρτέλες</value></data>
+  <data name="TimelineLabel" xml:space="preserve"><value>Χρονολόγιο</value></data>
+  <data name="TreeLabel" xml:space="preserve"><value>Δέντρο</value></data>
+  <data name="TreeCollapse" xml:space="preserve"><value>Σύμπτυξη</value></data>
+  <data name="TreeExpand" xml:space="preserve"><value>Ανάπτυξη</value></data>
+  <data name="TreeLoadFailed" xml:space="preserve"><value>Η φόρτωση απέτυχε.</value></data>
+  <data name="UploadSelectedFiles" xml:space="preserve"><value>Επιλεγμένα αρχεία</value></data>
+  <data name="UploadProgressLabel" xml:space="preserve"><value>Μεταφόρτωση</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Μπορείτε να επιλέξετε έως {0} αρχεία.</value></data>
+  <data name="UploadFileTooLarge" xml:space="preserve"><value>Το αρχείο {0} υπερβαίνει το μέγιστο επιτρεπόμενο μέγεθος.</value></data>
+  <data name="UploadTypeRejected" xml:space="preserve"><value>Ο τύπος του αρχείου {0} δεν επιτρέπεται.</value></data>
+  <data name="UploadOneSelected" xml:space="preserve"><value>Επιλέχθηκε 1 αρχείο.</value></data>
+  <data name="UploadManySelected" xml:space="preserve"><value>Επιλέχθηκαν {0} αρχεία.</value></data>
+  <data name="UploadInProgress" xml:space="preserve"><value>Μεταφόρτωση σε εξέλιξη.</value></data>
+  <data name="UploadCompleted" xml:space="preserve"><value>Η μεταφόρτωση ολοκληρώθηκε.</value></data>
+  <data name="UploadCancelled" xml:space="preserve"><value>Η μεταφόρτωση ακυρώθηκε.</value></data>
+  <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0:0.##} MB</value></data>
+  <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} KB</value></data>
+  <data name="UploadSizeBytes" xml:space="preserve"><value>{0} B</value></data>
+  <data name="UploadDropOne" xml:space="preserve"><value>Αποθέστε ένα αρχείο εδώ ή</value></data>
+  <data name="UploadDropMany" xml:space="preserve"><value>Αποθέστε αρχεία εδώ ή</value></data>
+  <data name="UploadBrowse" xml:space="preserve"><value>κάντε αναζήτηση</value></data>
+  <data name="UploadHintMaximumSize" xml:space="preserve"><value>Έως {0} ανά αρχείο</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Έως {0} αρχεία</value></data>
+  <data name="UploadAttachedFiles" xml:space="preserve"><value>Συνημμένα αρχεία</value></data>
+  <data name="UploadRemove" xml:space="preserve"><value>Αφαίρεση {0}</value></data>
+  <data name="UploadBrowseButton" xml:space="preserve"><value>Αναζήτηση</value></data>
+  <data name="UploadNoFile" xml:space="preserve"><value>Δεν επιλέχθηκε αρχείο</value></data>
+  <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
+  <data name="UploadFileCountNone" xml:space="preserve"><value>Κανένα αρχείο</value></data>
+  <data name="UploadFileCountOne" xml:space="preserve"><value>1 αρχείο</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} αρχεία</value></data>
+  <data name="UploadShowAll" xml:space="preserve"><value>Εμφάνιση όλων ({0})</value></data>
+  <data name="UploadShowLess" xml:space="preserve"><value>Εμφάνιση λιγότερων</value></data>
+  <data name="UploadRemoveAll" xml:space="preserve"><value>Αφαίρεση όλων</value></data>
+  <data name="UploadRemovedAll" xml:space="preserve"><value>Όλα τα αρχεία αφαιρέθηκαν από τη λίστα.</value></data>
+  <data name="UploadRemoved" xml:space="preserve"><value>Το {0} αφαιρέθηκε από τη λίστα.</value></data>
+  <data name="WeekViewLabel" xml:space="preserve"><value>Προβολή εβδομάδας</value></data>
+  <data name="DataAnnotationsRequired" xml:space="preserve"><value>Το πεδίο {0} είναι υποχρεωτικό.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Το πεδίο {0} πρέπει να περιέχει από {1} έως {2} χαρακτήρες.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Το πεδίο {0} πρέπει να περιέχει το πολύ {1} χαρακτήρες.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Το πεδίο {0} πρέπει να περιέχει τουλάχιστον {1} χαρακτήρες.</value></data>
+  <data name="DataAnnotationsRange" xml:space="preserve"><value>Το πεδίο {0} πρέπει να είναι μεταξύ {1} και {2}.</value></data>
+  <data name="DataAnnotationsEmail" xml:space="preserve"><value>Το πεδίο {0} δεν είναι έγκυρη διεύθυνση e-mail.</value></data>
+  <data name="DataAnnotationsUrl" xml:space="preserve"><value>Το πεδίο {0} δεν είναι έγκυρη διεύθυνση web.</value></data>
+  <data name="DataAnnotationsCompare" xml:space="preserve"><value>Τα {0} και {1} δεν ταιριάζουν.</value></data>
+  <data name="DataAnnotationsPattern" xml:space="preserve"><value>Το πεδίο {0} δεν έχει την αναμενόμενη μορφή.</value></data>
+  <data name="DataAnnotationsInvalid" xml:space="preserve"><value>Το πεδίο {0} δεν είναι έγκυρο.</value></data>
+  <data name="GanttEmpty" xml:space="preserve"><value>Δεν υπάρχουν εργασίες για εμφάνιση.</value></data>
+  <data name="GanttLabel" xml:space="preserve"><value>Διάγραμμα Gantt</value></data>
+  <data name="GanttScale" xml:space="preserve"><value>Χρονική κλίμακα</value></data>
+  <data name="GanttScaleDay" xml:space="preserve"><value>Ημέρα</value></data>
+  <data name="GanttScaleMonth" xml:space="preserve"><value>Μήνας</value></data>
+  <data name="GanttWeekNumber" xml:space="preserve"><value>Ε{0}</value></data>
+  <data name="GanttScaleWeek" xml:space="preserve"><value>Εβδομάδα</value></data>
+  <data name="GanttTaskAfter" xml:space="preserve"><value>μετά από {0}</value></data>
+  <data name="GanttTaskColumn" xml:space="preserve"><value>Εργασία</value></data>
+  <data name="GanttTaskDescription" xml:space="preserve"><value>{0}, από {1} έως {2}, ολοκληρώθηκε {3}</value></data>
+  <data name="StepTimelineLabel" xml:space="preserve"><value>Εξέλιξη εκτέλεσης</value></data>
+  <data name="StepTimelineNeverStarted" xml:space="preserve"><value>Δεν ξεκίνησαν ποτέ:</value></data>
+  <data name="StepTimelineStatusCancelled" xml:space="preserve"><value>ακυρώθηκε</value></data>
+  <data name="StepTimelineStatusFailed" xml:space="preserve"><value>απέτυχε</value></data>
+  <data name="StepTimelineStatusRunning" xml:space="preserve"><value>σε εξέλιξη</value></data>
+  <data name="StepTimelineStatusSkipped" xml:space="preserve"><value>παραλείφθηκε</value></data>
+  <data name="StepTimelineStatusSuccess" xml:space="preserve"><value>ολοκληρώθηκε</value></data>
+  <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, ξεκίνησε στις {1}, διάρκεια</value></data>
+  <data name="ConfirmAction" xml:space="preserve"><value>Επιβεβαίωση</value></data>
+  <data name="GoBack" xml:space="preserve"><value>Πίσω</value></data>
+  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Εμφάνιση σημάτων και ενεργειών</value></data>
+  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Απόκρυψη σημάτων και ενεργειών</value></data>
+  <data name="DetailNotFound" xml:space="preserve"><value>Το στοιχείο δεν βρέθηκε</value></data>
+  <data name="SignIn" xml:space="preserve"><value>Σύνδεση</value></data>
+  <data name="ConnectionLostTitle" xml:space="preserve"><value>Η σύνδεση χάθηκε</value></data>
+  <data name="ConnectionLostDescription" xml:space="preserve"><value>Η σύνδεση με τον διακομιστή διακόπηκε. Η εφαρμογή προσπαθεί να την αποκαταστήσει.</value></data>
+  <data name="ConnectionFailedTitle" xml:space="preserve"><value>Αδυναμία σύνδεσης</value></data>
+  <data name="ConnectionFailedDescription" xml:space="preserve"><value>Οι αυτόματες προσπάθειες απέτυχαν. Δοκιμάστε ξανά όταν αποκατασταθεί το δίκτυο.</value></data>
+  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Η περίοδος σύνδεσης διακόπηκε</value></data>
+  <data name="ConnectionRejectedDescription" xml:space="preserve"><value>Ο διακομιστής αρνήθηκε να συνεχίσει την περίοδο σύνδεσης. Φορτώστε ξανά τη σελίδα για να συνεχίσετε.</value></data>
+  <data name="ConnectionRetryIn" xml:space="preserve"><value>Νέα προσπάθεια σε {0} δευτ.</value></data>
+  <data name="ConnectionReason" xml:space="preserve"><value>Αιτία: {0}</value></data>
+  <data name="ConnectionReconnectNow" xml:space="preserve"><value>Επανασύνδεση τώρα</value></data>
+  <data name="ConnectionReload" xml:space="preserve"><value>Επαναφόρτωση σελίδας</value></data>
+  <data name="ConnectionReconnecting" xml:space="preserve"><value>Επανασύνδεση σε εξέλιξη</value></data>
+  <data name="WizardLabel" xml:space="preserve"><value>Βήματα οδηγού</value></data>
+  <data name="WizardProgress" xml:space="preserve"><value>Πρόοδος οδηγού</value></data>
+  <data name="WizardPosition" xml:space="preserve"><value>Βήμα {0} από {1}</value></data>
+  <data name="WizardAnnouncement" xml:space="preserve"><value>Βήμα {0} από {1}: {2}</value></data>
+  <data name="WizardPrevious" xml:space="preserve"><value>Προηγούμενο</value></data>
+  <data name="WizardNext" xml:space="preserve"><value>Επόμενο</value></data>
+  <data name="WizardFinish" xml:space="preserve"><value>Τέλος</value></data>
+  <data name="RelativeTimeNow" xml:space="preserve"><value>μόλις τώρα</value></data>
+  <data name="RelativeTimePast" xml:space="preserve"><value>πριν από {0}</value></data>
+  <data name="RelativeTimeFuture" xml:space="preserve"><value>σε {0}</value></data>
+  <data name="RelativeTimeSeconds" xml:space="preserve"><value>{0} δευτ.</value></data>
+  <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} λεπ.</value></data>
+  <data name="RelativeTimeHours" xml:space="preserve"><value>{0} ώρ.</value></data>
+  <data name="RelativeTimeDay" xml:space="preserve"><value>{0} ημέρα</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} ημέρες</value></data>
+  <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} μήνα</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} μήνες</value></data>
+  <data name="RelativeTimeYear" xml:space="preserve"><value>{0} έτος</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} έτη</value></data>
+  <data name="HtmlEditorUnderline" xml:space="preserve"><value>Υπογράμμιση</value></data>
+  <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Διακριτή διαγραφή</value></data>
+  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Ενσωματωμένος κώδικας</value></data>
+  <data name="HtmlEditorBlockFormat" xml:space="preserve"><value>Στυλ παραγράφου</value></data>
+  <data name="HtmlEditorParagraph" xml:space="preserve"><value>Παράγραφος</value></data>
+  <data name="HtmlEditorHeading1" xml:space="preserve"><value>Επικεφαλίδα 1</value></data>
+  <data name="HtmlEditorHeading2" xml:space="preserve"><value>Επικεφαλίδα 2</value></data>
+  <data name="HtmlEditorHeading3" xml:space="preserve"><value>Επικεφαλίδα 3</value></data>
+  <data name="HtmlEditorHeading4" xml:space="preserve"><value>Επικεφαλίδα 4</value></data>
+  <data name="HtmlEditorFontSize" xml:space="preserve"><value>Μέγεθος κειμένου</value></data>
+  <data name="HtmlEditorFontSizeSmall" xml:space="preserve"><value>Μικρό</value></data>
+  <data name="HtmlEditorFontSizeNormal" xml:space="preserve"><value>Κανονικό</value></data>
+  <data name="HtmlEditorFontSizeLarge" xml:space="preserve"><value>Μεγάλο</value></data>
+  <data name="HtmlEditorFontSizeXLarge" xml:space="preserve"><value>Πολύ μεγάλο</value></data>
+  <data name="HtmlEditorBulletList" xml:space="preserve"><value>Λίστα με κουκκίδες</value></data>
+  <data name="HtmlEditorNumberedList" xml:space="preserve"><value>Αριθμημένη λίστα</value></data>
+  <data name="HtmlEditorQuote" xml:space="preserve"><value>Παράθεση</value></data>
+  <data name="HtmlEditorCodeBlock" xml:space="preserve"><value>Μπλοκ κώδικα</value></data>
+  <data name="HtmlEditorLink" xml:space="preserve"><value>Σύνδεσμος</value></data>
+  <data name="HtmlEditorUnlink" xml:space="preserve"><value>Κατάργηση συνδέσμου</value></data>
+  <data name="HtmlEditorAlignLeft" xml:space="preserve"><value>Στοίχιση αριστερά</value></data>
+  <data name="HtmlEditorAlignCenter" xml:space="preserve"><value>Στοίχιση στο κέντρο</value></data>
+  <data name="HtmlEditorAlignRight" xml:space="preserve"><value>Στοίχιση δεξιά</value></data>
+  <data name="HtmlEditorAlignJustify" xml:space="preserve"><value>Πλήρης στοίχιση</value></data>
+  <data name="HtmlEditorInsertTable" xml:space="preserve"><value>Εισαγωγή πίνακα</value></data>
+  <data name="HtmlEditorClearFormatting" xml:space="preserve"><value>Απαλοιφή μορφοποίησης</value></data>
+  <data name="HtmlEditorSource" xml:space="preserve"><value>Κώδικας HTML</value></data>
+  <data name="HtmlEditorCustomCommand" xml:space="preserve"><value>Εντολή</value></data>
+  <data name="HtmlEditorCut" xml:space="preserve"><value>Αποκοπή</value></data>
+  <data name="HtmlEditorCopy" xml:space="preserve"><value>Αντιγραφή</value></data>
+  <data name="HtmlEditorPaste" xml:space="preserve"><value>Επικόλληση</value></data>
+  <data name="HtmlEditorInsertParagraph" xml:space="preserve"><value>Νέα παράγραφος</value></data>
+  <data name="HtmlEditorAddRowAbove" xml:space="preserve"><value>Εισαγωγή γραμμής από πάνω</value></data>
+  <data name="HtmlEditorAddRowBelow" xml:space="preserve"><value>Εισαγωγή γραμμής από κάτω</value></data>
+  <data name="HtmlEditorDeleteRow" xml:space="preserve"><value>Διαγραφή γραμμής</value></data>
+  <data name="HtmlEditorAddColumnBefore" xml:space="preserve"><value>Εισαγωγή στήλης πριν</value></data>
+  <data name="HtmlEditorAddColumnAfter" xml:space="preserve"><value>Εισαγωγή στήλης μετά</value></data>
+  <data name="HtmlEditorDeleteColumn" xml:space="preserve"><value>Διαγραφή στήλης</value></data>
+  <data name="HtmlEditorMergeCellRight" xml:space="preserve"><value>Συγχώνευση με το δεξί κελί</value></data>
+  <data name="HtmlEditorMergeCellDown" xml:space="preserve"><value>Συγχώνευση με το κάτω κελί</value></data>
+  <data name="HtmlEditorSplitCell" xml:space="preserve"><value>Διαίρεση κελιού</value></data>
+  <data name="HtmlEditorSetCellSpan" xml:space="preserve"><value>Επέκταση κελιού</value></data>
+  <data name="HtmlEditorLinkUrl" xml:space="preserve"><value>Διεύθυνση συνδέσμου</value></data>
+  <data name="HtmlEditorLinkApply" xml:space="preserve"><value>Εφαρμογή</value></data>
+  <data name="HtmlEditorLinkCancel" xml:space="preserve"><value>Ακύρωση</value></data>
+  <data name="HtmlEditorLinkInvalid" xml:space="preserve"><value>Η διεύθυνση απορρίφθηκε: χρησιμοποιήστε σχετική διεύθυνση ή διεύθυνση http, https, mailto ή tel.</value></data>
+  <data name="DocumentEditorLabel" xml:space="preserve"><value>Επεξεργασία κειμένου</value></data>
+  <data name="DocumentEditorStatus" xml:space="preserve"><value>Στατιστικά εγγράφου</value></data>
+  <data name="DocumentEditorWords" xml:space="preserve"><value>Λέξεις: {0}</value></data>
+  <data name="DocumentEditorCharacters" xml:space="preserve"><value>Χαρακτήρες: {0}</value></data>
+  <data name="DocumentEditorExportHtml" xml:space="preserve"><value>Εξαγωγή σε HTML</value></data>
+  <data name="DocumentEditorExportText" xml:space="preserve"><value>Εξαγωγή σε κείμενο</value></data>
+  <data name="DocumentEditorDefaultTitle" xml:space="preserve"><value>Έγγραφο</value></data>
+  <data name="CodeEditorLabel" xml:space="preserve"><value>Πρόγραμμα επεξεργασίας κώδικα</value></data>
+  <data name="CodeEditorLoading" xml:space="preserve"><value>Φόρτωση του προγράμματος επεξεργασίας κώδικα.</value></data>
+  <data name="CodeEditorUnavailable" xml:space="preserve"><value>Δεν ήταν δυνατή η φόρτωση του Monaco: ο κώδικας επεξεργάζεται ως απλό κείμενο.</value></data>
+  <data name="CodeEditorPosition" xml:space="preserve"><value>Γραμμή {0}, στήλη {1}</value></data>
+  <data name="CodeEditorLinkHint" xml:space="preserve"><value>Ctrl+κλικ για μετάβαση στον σύνδεσμο</value></data>
+  <data name="StatusBadgeStale" xml:space="preserve"><value>παρωχημένο</value></data>
+  <data name="StatusBadgeStaleSince" xml:space="preserve"><value>Τελευταία ενημέρωση: {0}</value></data>
+  <data name="LogViewerLabel" xml:space="preserve"><value>Αρχείο καταγραφής</value></data>
+  <data name="LogViewerEmpty" xml:space="preserve"><value>Δεν υπάρχουν γραμμές ακόμη.</value></data>
+  <data name="LogViewerSearch" xml:space="preserve"><value>Αναζήτηση στο αρχείο καταγραφής</value></data>
+  <data name="LogViewerAllLevels" xml:space="preserve"><value>Όλα τα επίπεδα</value></data>
+  <data name="LogViewerLevelFilter" xml:space="preserve"><value>Ελάχιστο επίπεδο</value></data>
+  <data name="LogViewerFromLevel" xml:space="preserve"><value>{0} και σοβαρότερα</value></data>
+  <data name="LogViewerPreviousMatch" xml:space="preserve"><value>Προηγούμενο αποτέλεσμα</value></data>
+  <data name="LogViewerNextMatch" xml:space="preserve"><value>Επόμενο αποτέλεσμα</value></data>
+  <data name="LogViewerNoMatch" xml:space="preserve"><value>Κανένα αποτέλεσμα</value></data>
+  <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} από {1}</value></data>
+  <data name="LogViewerFollow" xml:space="preserve"><value>Παρακολούθηση</value></data>
+  <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Μετάβαση στις πιο πρόσφατες γραμμές</value></data>
+  <data name="LogViewerNewLines" xml:space="preserve"><value>{0} νέες γραμμές</value></data>
+  <data name="LogViewerLevelPrefix" xml:space="preserve"><value>{0}: </value></data>
+  <data name="LogLevelTrace" xml:space="preserve"><value>Ιχνηλάτηση</value></data>
+  <data name="LogLevelDebug" xml:space="preserve"><value>Εντοπισμός σφαλμάτων</value></data>
+  <data name="LogLevelInformation" xml:space="preserve"><value>Πληροφορίες</value></data>
+  <data name="LogLevelWarning" xml:space="preserve"><value>Προειδοποίηση</value></data>
+  <data name="LogLevelError" xml:space="preserve"><value>Σφάλμα</value></data>
+  <data name="LogLevelCritical" xml:space="preserve"><value>Κρίσιμο</value></data>
+  <data name="CodeBlockCopy" xml:space="preserve"><value>Αντιγραφή</value></data>
+  <data name="CodeBlockCopied" xml:space="preserve"><value>Αντιγράφηκε στο πρόχειρο</value></data>
+  <data name="CodeBlockCopyFailed" xml:space="preserve"><value>Η αντιγραφή απέτυχε</value></data>
+  <data name="CodeBlockReveal" xml:space="preserve"><value>Εμφάνιση τιμής</value></data>
+  <data name="CodeBlockHide" xml:space="preserve"><value>Απόκρυψη τιμής</value></data>
+  <data name="CodeViewerLabel" xml:space="preserve"><value>Κώδικας</value></data>
+  <data name="CodeViewerEmpty" xml:space="preserve"><value>Τίποτα για εμφάνιση.</value></data>
+  <data name="CodeViewerWrap" xml:space="preserve"><value>Αναδίπλωση γραμμών</value></data>
+  <data name="CodeViewerLinkHint" xml:space="preserve"><value>Μετάβαση στον σύνδεσμο</value></data>
+  <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Καμία αλλαγή.</value></data>
+  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0} γραμμές προστέθηκαν, {1} γραμμές διαγράφηκαν</value></data>
+  <data name="UnifiedDiffBinary" xml:space="preserve"><value>Δυαδικό αρχείο: δεν υπάρχουν γραμμές για σύγκριση.</value></data>
+  <data name="UnifiedDiffNoLines" xml:space="preserve"><value>Καμία γραμμή δεν άλλαξε.</value></data>
+  <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Παλιά γραμμή</value></data>
+  <data name="UnifiedDiffNewLine" xml:space="preserve"><value>Νέα γραμμή</value></data>
+  <data name="UnifiedDiffContent" xml:space="preserve"><value>Περιεχόμενο</value></data>
+  <data name="UnifiedDiffAdded" xml:space="preserve"><value>Προστέθηκε: </value></data>
+  <data name="UnifiedDiffRemoved" xml:space="preserve"><value>Διαγράφηκε: </value></data>
+  <data name="UnifiedDiffRenamedPath" xml:space="preserve"><value>{0} σε {1}</value></data>
+  <data name="UnifiedDiffUntitled" xml:space="preserve"><value>Αλλαγή</value></data>
+  <data name="UnifiedDiffStatusModified" xml:space="preserve"><value>Τροποποιήθηκε</value></data>
+  <data name="UnifiedDiffStatusAdded" xml:space="preserve"><value>Προστέθηκε</value></data>
+  <data name="UnifiedDiffStatusDeleted" xml:space="preserve"><value>Διαγράφηκε</value></data>
+  <data name="UnifiedDiffStatusRenamed" xml:space="preserve"><value>Μετονομάστηκε</value></data>
+  <data name="DynamicFormRequired" xml:space="preserve"><value>Το πεδίο {0} είναι υποχρεωτικό.</value></data>
+  <data name="DynamicFormNumber" xml:space="preserve"><value>Το πεδίο {0} πρέπει να είναι αριθμός.</value></data>
+  <data name="DynamicFormMinimum" xml:space="preserve"><value>Το πεδίο {0} πρέπει να είναι τουλάχιστον {1}.</value></data>
+  <data name="DynamicFormMaximum" xml:space="preserve"><value>Το πεδίο {0} πρέπει να είναι το πολύ {1}.</value></data>
+  <data name="DynamicFormChoice" xml:space="preserve"><value>Το πεδίο {0} πρέπει να είναι μία από τις προτεινόμενες τιμές.</value></data>
+  <data name="StatusStripLabel" xml:space="preserve"><value>Ιστορικό καταστάσεων</value></data>
+  <data name="StatusStripEmpty" xml:space="preserve"><value>Δεν υπάρχουν καταστάσεις για εμφάνιση</value></data>
+  <data name="KanbanLabel" xml:space="preserve"><value>Πίνακας καρτών</value></data>
+  <data name="KanbanInstructions" xml:space="preserve"><value>Διάστημα ή Enter για να πιάσετε την κάρτα, βέλη για να τη μετακινήσετε, Διάστημα ή Enter για να την αφήσετε, Esc για ακύρωση.</value></data>
+  <data name="KanbanGrabbed" xml:space="preserve"><value>Η κάρτα {0} επιλέχθηκε, στήλη {1}, θέση {2} από {3}.</value></data>
+  <data name="KanbanMoved" xml:space="preserve"><value>{0}: στήλη {1}, θέση {2} από {3}.</value></data>
+  <data name="KanbanDropped" xml:space="preserve"><value>Η κάρτα {0} τοποθετήθηκε, στήλη {1}, θέση {2} από {3}.</value></data>
+  <data name="KanbanCancelled" xml:space="preserve"><value>Η μετακίνηση ακυρώθηκε: η κάρτα {0} παραμένει στη στήλη {1}.</value></data>
+  <data name="KanbanEmptyColumn" xml:space="preserve"><value>Καμία κάρτα</value></data>
+  <data name="KanbanCardCount" xml:space="preserve"><value>Κάρτες: {0}</value></data>
+  <data name="GitGraphLabel" xml:space="preserve"><value>Ιστορικό commit</value></data>
+  <data name="GitGraphEmpty" xml:space="preserve"><value>Κανένα commit</value></data>
+  <data name="StepTimelineExpected" xml:space="preserve"><value>Έχει παρέλθει το {0}% της συνήθους διάρκειας</value></data>
+  <data name="StepTimelineOverrun" xml:space="preserve"><value>πέρα από τη συνήθη διάρκεια</value></data>
+  <data name="DiffViewerLabel" xml:space="preserve"><value>Σύγκριση</value></data>
+  <data name="DiffViewerOriginal" xml:space="preserve"><value>Πριν</value></data>
+  <data name="DiffViewerModified" xml:space="preserve"><value>Μετά</value></data>
+  <data name="DiffViewerUnavailable" xml:space="preserve"><value>Δεν ήταν δυνατή η φόρτωση του Monaco: οι δύο εκδόσεις εμφανίζονται ως απλό κείμενο, χωρίς επισήμανση των διαφορών.</value></data>
+  <data name="GitGraphMerge" xml:space="preserve"><value>Commit συγχώνευσης.</value></data>
+  <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="LinkOpensInNewTab" xml:space="preserve"><value>(ανοίγει σε νέα καρτέλα)</value></data>
+  <data name="MarkdownExportButton" xml:space="preserve"><value>Εξαγωγή σε .md</value></data>
+  <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Όριο: έως {0} γραμμές</value></data>
+  <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Δημιουργήθηκε (UTC): {0}</value></data>
+  <data name="MarkdownExportRowCount" xml:space="preserve"><value>Γραμμές που εξήχθησαν: {0} από {1} που δηλώθηκαν</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Περικομμένη εξαγωγή: εξήχθησαν {0} γραμμές από {1}, συμπληρώθηκε το όριο των {2} γραμμών.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Ελλιπής εξαγωγή: εξήχθησαν {0} γραμμές από {1} που δηλώθηκαν, τα δεδομένα άλλαξαν κατά την ανάγνωση.</value></data>
+  <data name="MarkdownExportEmpty" xml:space="preserve"><value>Καμία γραμμή.</value></data>
+  <data name="SignUp" xml:space="preserve"><value>Εγγραφή</value></data>
+  <data name="SignUpPrompt" xml:space="preserve"><value>Δεν έχετε λογαριασμό;</value></data>
+  <data name="UnsavedChangesTitle" xml:space="preserve"><value>Μη αποθηκευμένες αλλαγές</value></data>
+  <data name="UnsavedChangesMessage" xml:space="preserve"><value>Ορισμένες αλλαγές δεν έχουν αποθηκευτεί. Έξοδος από τη σελίδα χωρίς αποθήκευση;</value></data>
+  <data name="UnsavedChangesLeave" xml:space="preserve"><value>Έξοδος χωρίς αποθήκευση</value></data>
+  <data name="UnsavedChangesStay" xml:space="preserve"><value>Παραμονή στη σελίδα</value></data>
+  <data name="MoreActions" xml:space="preserve"><value>Περισσότερες ενέργειες</value></data>
+  <data name="AppearanceWindowTitle" xml:space="preserve"><value>Εμφάνιση</value></data>
+</root>

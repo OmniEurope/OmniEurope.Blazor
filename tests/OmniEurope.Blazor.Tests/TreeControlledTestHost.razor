@@ -3,7 +3,7 @@
               Text="Racine"
               Expanded="@Expanded"
               LoadChildren="LoadChildrenAsync"
-              LoadFailed="OnLoadFailed" />
+              OnLoadError="OnLoadFailed" />
 
 @code {
     public bool Expanded { get; private set; }

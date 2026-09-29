@@ -59,7 +59,7 @@ public sealed class NotificationTests : OmniBunitContext
         host.WaitForAssertion(() => Assert.Single(host.FindAll(".omni-notification-region__pile--stacked")));
         var region = host.Find(".omni-notification-region");
         Assert.Equal(2, region.QuerySelectorAll(".omni-notification-region__pile > .omni-notification").Length);
-        Assert.Single(region.QuerySelectorAll(":scope > .omni-notification.omni-notification--error"));
+        Assert.Single(region.QuerySelectorAll(":scope > .omni-notification.omni-notification--danger"));
         Assert.Equal("2", region.QuerySelector(":scope > .omni-notification-region__count")!.TextContent);
     }
 
@@ -196,8 +196,8 @@ public sealed class NotificationTests : OmniBunitContext
     [Theory]
     [InlineData(OmniSeverity.Success, "omni-notification--success", "m6.5 12.5 3.5 3.5 7.5-8")]
     [InlineData(OmniSeverity.Warning, "omni-notification--warning", "M12 7v6M12 17h.01")]
-    [InlineData(OmniSeverity.Danger, "omni-notification--error", "M8 8l8 8M16 8l-8 8")]
-    [InlineData(OmniSeverity.Info, "omni-notification--information", "M12 11v6M12 7h.01")]
+    [InlineData(OmniSeverity.Danger, "omni-notification--danger", "M8 8l8 8M16 8l-8 8")]
+    [InlineData(OmniSeverity.Info, "omni-notification--info", "M12 11v6M12 7h.01")]
     public void Notification_CarriesItsRoleMarkAndClass(OmniSeverity severity, string expectedClass, string expectedGlyph)
     {
         var notification = Render<OmniNotification>(parameters => parameters
@@ -257,7 +257,7 @@ public sealed class NotificationTests : OmniBunitContext
         var changes = new List<bool>();
         var notification = Render<OmniNotification>(parameters => parameters
             .Add(component => component.Message, "Saved")
-            .Add(component => component.OnHeldChanged, (bool held) => changes.Add(held)));
+            .Add(component => component.OnHeldChange, (bool held) => changes.Add(held)));
         var article = notification.Find("article");
 
         article.MouseEnter();

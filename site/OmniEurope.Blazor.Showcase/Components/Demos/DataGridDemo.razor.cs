@@ -52,7 +52,7 @@ public partial class DataGridDemo
         .. Rows.Skip(1).Take(2)
     ];
 
-    private IReadOnlyList<object> SelectedRuns { get; set; } = ["#2395"];
+    private IReadOnlyList<RunRow> SelectedRuns { get; set; } = [.. Runs.Where(run => run.Run == "#2395")];
 
     /// <summary>The compact status of a list: a dot in the fill colour of the intention, the page text.</summary>
     private static string StatusClass(string status) => status switch

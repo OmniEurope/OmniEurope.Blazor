@@ -27,19 +27,22 @@
         </OmniStack>
 
         @* Cartes à choisir : l'encadré et la teinte d'accent montrent le choix, sans coche qui déplacerait
-           le texte. Un choix unique se pose dans un radiogroup nommé ; Multiple en fait des cases. *@
-        <OmniStack Gap="OmniSpacing.Small" role="radiogroup" aria-label="Système de l'agent">
-            <OmniSelectableCard Title="Linux" Description="Debian, Ubuntu, Fedora" Selected="@(Platform == "linux")" SelectedChanged="@(_ => Platform = "linux")">
+           le texte. Le groupe lie le choix : une seule carte dans l'ordre de tabulation, les flèches
+           déplacent le choix. Multiple en fait des cases, liées à une liste. Seule, une carte lie un
+           booléen. *@
+        <OmniSelectableCardGroup TValue="string" TSelection="string" Label="Système de l'agent" @bind-Value="Platform">
+            <OmniSelectableCard Choice="@("linux")" Title="Linux" Description="Debian, Ubuntu, Fedora">
                 <Icon><OmniIcon Name="OmniIconName.TerminalWindow" /></Icon>
             </OmniSelectableCard>
-            <OmniSelectableCard Title="Windows" Description="Windows Server 2022 et plus" Selected="@(Platform == "windows")" SelectedChanged="@(_ => Platform = "windows")">
+            <OmniSelectableCard Choice="@("windows")" Title="Windows" Description="Windows Server 2022 et plus">
                 <Icon><OmniIcon Name="OmniIconName.WindowsLogo" /></Icon>
             </OmniSelectableCard>
-        </OmniStack>
-        <OmniSelectableCard Title="Exécuteur de pipelines" Description="Lance les étapes sur cette machine." Multiple="true" @bind-Selected="Runner">
+        </OmniSelectableCardGroup>
+        <OmniSelectableCardGroup Options="Features" Multiple="true" Label="Fonctions de l'agent" @bind-Value="AgentFeatures" />
+        <OmniSelectableCard Title="Exécuteur de pipelines" Description="Lance les étapes sur cette machine." Multiple="true" @bind-Value="Runner">
             <Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon>
         </OmniSelectableCard>
-        <OmniSelectableCard Title="Docker" Description="Imposé par l'exécuteur." Multiple="true" Selected="true" Disabled="true">
+        <OmniSelectableCard Title="Docker" Description="Imposé par l'exécuteur." Multiple="true" Value="true" Disabled="true">
             <Icon><OmniIcon Name="OmniIconName.Package" /></Icon>
         </OmniSelectableCard>
         <OmniRating @bind-Value="Rating" Label="Notation" />

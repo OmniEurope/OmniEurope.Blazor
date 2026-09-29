@@ -3,17 +3,17 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JavaScript
 
-<fieldset id="@Id"
+<fieldset @attributes="AdditionalAttributes"
+          id="@Id"
           class="@Css("omni-fieldset", Collapsible ? "omni-fieldset--collapsible" : null)"
-          disabled="@Disabled"
-          @attributes="AdditionalAttributes">
+          disabled="@Disabled">
     @if (Collapsible)
     {
         @* Native disclosure: it opens and closes without script, keeps its keyboard and screen
            reader semantics, and survives a strict CSP. The same mechanism as the compact
            multi-select and the grid filter menus. Script only listens to it when the host asks
-           through CollapsedChanged. *@
-        <details @ref="_details" open="@(!Collapsed)">
+           through ExpandedChanged. *@
+        <details @ref="_details" open="@Expanded">
             <summary class="omni-fieldset__legend omni-fieldset__summary">@Legend</summary>
             <div class="omni-fieldset__content">@ChildContent</div>
         </details>

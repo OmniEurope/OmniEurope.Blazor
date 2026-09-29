@@ -2,17 +2,18 @@
 @inherits OmniComponentBase
 
 @* The brand opens the header in the source; a sidebar toggle among the children is drawn before it
-   (CSS order), since the toggle belongs at the very edge. The logo is decorative, the name is text.
-   Given BrandHref, the brand is a link, which is how an application's name leads back home. *@
-<header id="@Id"
-        class="@Css("omni-header", Sticky ? "omni-header--sticky" : null, Tone == OmniHeaderTone.Accent ? "omni-header--accent" : null, HasBrand ? "omni-header--branded" : null)"
-        @attributes="AdditionalAttributes">
+   (CSS order), since the toggle belongs at the very edge. Beside a name, the logo is decorative and
+   the name is text; alone, the logo carries a name of its own (LogoAlt), so a logo-only link is never
+   nameless. Given BrandHref, the brand is a link, which is how an application's name leads back home. *@
+<header @attributes="AdditionalAttributes"
+        id="@Id"
+        class="@Css("omni-header", Sticky ? "omni-header--sticky" : null, Tone == OmniHeaderTone.Accent ? "omni-header--accent" : null, HasBrand ? "omni-header--branded" : null)">
     @if (HasBrand && SafeBrandHref is not null)
     {
         <a class="omni-header__brand omni-header__brand--link" href="@SafeBrandHref">
             @if (!string.IsNullOrWhiteSpace(BrandLogo))
             {
-                <img class="omni-header__logo-image" src="@BrandLogo" alt="" aria-hidden="true" />
+                <img class="omni-header__logo-image" src="@BrandLogo" alt="@LogoAlt" aria-hidden="@LogoHidden" />
             }
             @if (!string.IsNullOrWhiteSpace(Brand))
             {
@@ -25,7 +26,7 @@
         <span class="omni-header__brand">
             @if (!string.IsNullOrWhiteSpace(BrandLogo))
             {
-                <img class="omni-header__logo-image" src="@BrandLogo" alt="" aria-hidden="true" />
+                <img class="omni-header__logo-image" src="@BrandLogo" alt="@LogoAlt" aria-hidden="@LogoHidden" />
             }
             @if (!string.IsNullOrWhiteSpace(Brand))
             {

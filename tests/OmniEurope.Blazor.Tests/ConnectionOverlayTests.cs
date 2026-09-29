@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Tests;
 
 public sealed class ConnectionOverlayTests : OmniBunitContext
 {
-    private const string FocusModule = "./_content/OmniEurope.Blazor/omni-focus.js";
+    private const string FocusModule = Internal.OmniModules.Focus;
 
     private readonly BunitJSModuleInterop _focus;
 

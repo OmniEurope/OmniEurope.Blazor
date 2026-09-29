@@ -14,8 +14,14 @@ public enum OmniTimelineLayout
     Start,
 
     /// <summary>
-    /// The line runs down the middle and the entries take turns on either side of it, the first on
-    /// <see cref="OmniTimeline.FirstSide"/>. A timeline narrower than 30rem stacks them after the line.
+    /// The line runs down the middle and the entries take turns on either side of it, the first after
+    /// the line (on the end side). A timeline narrower than 30rem stacks them after the line.
     /// </summary>
-    Alternate
+    AlternateEnd,
+
+    /// <summary>
+    /// The line runs down the middle and the entries take turns on either side of it, the first before
+    /// the line (on the start side). A timeline narrower than 30rem stacks them after the line.
+    /// </summary>
+    AlternateStart
 }

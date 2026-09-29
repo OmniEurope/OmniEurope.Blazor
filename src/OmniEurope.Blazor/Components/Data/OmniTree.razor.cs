@@ -1,26 +1,39 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// A tree of <see cref="OmniTreeItem{TValue}"/> with single or multiple selection, bound through
+/// <see cref="Value"/>.
+/// </summary>
 public partial class OmniTree<TValue>
 {
     private OmniTreeContext<TValue> _context = default!;
     private IReadOnlyList<TValue>? _lastReceivedValues;
 
+    /// <summary>
+    /// The values of the selected items (<c>@bind-Value</c>), empty when none is. The tree keeps its own
+    /// selection and reports each change through <see cref="ValueChanged"/>; a new list from the host
+    /// replaces it.
+    /// </summary>
     [Parameter]
-    public IReadOnlyList<TValue> SelectedValues { get; set; } = Array.Empty<TValue>();
+    public IReadOnlyList<TValue> Value { get; set; } = Array.Empty<TValue>();
 
+    /// <summary>Raised with the selected values each time an item is selected or unselected.</summary>
     [Parameter]
-    public EventCallback<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
+    public EventCallback<IReadOnlyList<TValue>> ValueChanged { get; set; }
 
+    /// <summary>Lets several items be selected at once; off, selecting an item unselects the other.</summary>
     [Parameter]
     public bool Multiple { get; set; }
 
+    /// <summary>Accessible name of the tree; null uses the localized "tree".</summary>
     [Parameter]
-    public string Label { get; set; } = string.Empty;
+    public string? Label { get; set; }
 
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label)
         ? Localize("TreeLabel")
         : Label;
 
+    /// <summary>The root <see cref="OmniTreeItem{TValue}"/> items.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -31,10 +44,10 @@ public partial class OmniTree<TValue>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (!ReferenceEquals(_lastReceivedValues, SelectedValues))
+        if (!ReferenceEquals(_lastReceivedValues, Value))
         {
-            _context.SelectedValues = SelectedValues;
-            _lastReceivedValues = SelectedValues;
+            _context.SelectedValues = Value;
+            _lastReceivedValues = Value;
         }
     }
 
@@ -56,6 +69,6 @@ public partial class OmniTree<TValue>
         }
 
         _context.SelectedValues = selected;
-        return SelectedValuesChanged.InvokeAsync(selected);
+        return ValueChanged.InvokeAsync(selected);
     }
 }

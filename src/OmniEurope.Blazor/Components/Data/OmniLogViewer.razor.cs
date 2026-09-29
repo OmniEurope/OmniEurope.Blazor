@@ -103,7 +103,7 @@ public partial class OmniLogViewer : IAsyncDisposable
 
     /// <summary>Whether long lines wrap instead of scrolling sideways.</summary>
     [Parameter]
-    public bool WrapLines { get; set; }
+    public bool Wrap { get; set; }
 
     /// <summary>
     /// Whether the viewport follows the newest line. A reader scrolling up turns it off, scrolling back
@@ -128,7 +128,11 @@ public partial class OmniLogViewer : IAsyncDisposable
     [Parameter]
     public EventCallback<OmniLogLevel?> MinimumLevelChanged { get; set; }
 
-    /// <summary>Shows the search box above the log.</summary>
+    /// <summary>
+    /// Shows the search box above the log. The search marks the occurrences and steps through them without
+    /// hiding a line, so it is not an option filter (<c>Filterable</c> elsewhere); the name follows the
+    /// other toolbar switches of this component (<see cref="ShowLevelFilter"/>).
+    /// </summary>
     [Parameter]
     public bool ShowSearch { get; set; }
 

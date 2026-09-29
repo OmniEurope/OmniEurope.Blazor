@@ -1,4 +1,4 @@
-// PLAN-008 T22, "Contrôle": walks the published showcase in compact then in spacious density and
+// PLAN-004 T22, "Contrôle": walks the published showcase in compact then in spacious density and
 // fails if an element with a size of its own keeps the same height. It runs in a real Chromium
 // through CDP because the check is about applied CSS, which bUnit does not have.
 //
@@ -29,12 +29,13 @@ const EXEMPT = [
   // Text: a line of text keeps the height of its font, and density sets fonts on controls, not on
   // prose. Text for screen readers only is one pixel by construction.
   ['.omni-visually-hidden', 'texte réservé aux technologies d\'assistance, 1 px par construction'],
-  // Icon glyphs are text marks: the mockup (plans/PLAN-008-maquette-themes.html) sizes every glyph
+  // Icon glyphs are text marks: the mockup (docs/plans/PLAN-004-maquette-themes.html) sizes every glyph
   // in fixed rem outside the density blocks (button, tab, menu, upload, dialog close, date toggle at
   // 1.05rem), the alert glyph being the one token of its own, while the box around a glyph (disc,
   // button, toggle) follows the density. OmniIcon's size is also the consumer's explicit choice.
   // The field error glyph is one of them: 0.875rem beside an error line of fixed 0.75rem text in the
-  // mockup (.omni-field__error svg), which no density rule of the mockup resizes.
+  // mockup (.omni-field__error svg there, .omni-form-field__error-icon in the package), which no
+  // density rule of the mockup resizes.
   ['.omni-icon, .omni-date__toggle svg, .omni-form-field__error-icon', 'glyphe d\'icône, marque de texte gardée fixe par la maquette ; sa boîte suit la densité'],
   // Status dots: a mark the size of a letter, not a control; the plan exempts them. The status strip
   // is a row of them (or, in its segment form, a status bar).
@@ -45,12 +46,13 @@ const EXEMPT = [
   // Progress bars: the track is a hairline whose thickness is the drawing, the plan exempts them.
   ['.omni-progress, .omni-loading-bar, [role="progressbar"]', 'barre de progression : épaisseur fixe par dessin'],
   // Separators: a rule of one border width.
-  ['hr, [role="separator"], .omni-separator', 'séparateur : un trait d\'une épaisseur de bordure'],
-  // STD-BTN: these targets keep 44 px whatever the density, by rule; the tree's toggle and row are in
-  // the audited list of ConventionGuardTests.AuditedInteractiveTargets_MeetTheMinimumTouchSize. Only
-  // the ones named here: an element that merely measures 44 px in both densities is not exempted, it
-  // is a size to derive.
-  ['.omni-pager__button, .omni-notification__dismiss, .omni-tree__toggle, .omni-tree__select', 'cible de 44 px exigée par STD-BTN'],
+  ['hr, [role="separator"]','séparateur : un trait d\'une épaisseur de bordure'],
+  // STD-BTN: this target keeps 44 px whatever the density, by rule (audited by
+  // ConventionGuardTests.AuditedInteractiveTargets_MeetTheMinimumTouchSize). Only the one named here:
+  // an element that merely measures 44 px in both densities is not exempted, it is a size to derive.
+  // The pager and the tree follow the density since PLAN-007 lot 5, their 44 px target drawn by a
+  // transparent layer, so they are measured like every other control.
+  ['.omni-notification__dismiss', 'cible de 44 px exigée par STD-BTN'],
   // A height the consumer sets through a Height parameter (applied by the component's module as an
   // inline custom property) is the consumer's explicit length, as a Density of its own would be: the
   // page density must not override it. Only such an explicit height is exempted; without it the
@@ -226,7 +228,7 @@ await evaluate(measureSource);
 await evaluate("Blazor.navigateTo('/composants')");
 await waitFor('la galerie', "document.querySelectorAll('a[href*=\"composants/\"]').length > 0");
 const demoPaths = await evaluate(`[...new Set([...document.querySelectorAll('a[href*="composants/"]')].map(link => new URL(link.href).pathname))]`);
-const paths = ['/', '/personnalisation', ...demoPaths];
+const paths = ['/', '/personnalisation', '/documentation', ...demoPaths];
 
 const exemptSelectors = EXEMPT.map(([selector]) => selector);
 const failures = [];

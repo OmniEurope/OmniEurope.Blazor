@@ -3,9 +3,9 @@ namespace OmniEurope.Blazor.Showcase.Components.Demos;
 public partial class EditorDemo
 {
     private const string ViewerCode = "{\n  \"mode\": \"lecture\",\n  \"actif\": true\n}";
-    private static readonly IReadOnlyCollection<int> ViewerHighlights = [2];
+    private static readonly IReadOnlyList<int> ViewerHighlights = [2];
     private const string ExcerptCode = "var total = items.Count;\nvar average = total / count;\nreturn average;";
-    private static readonly IReadOnlyCollection<int> ExcerptHighlights = [42];
+    private static readonly IReadOnlyList<int> ExcerptHighlights = [42];
     private const string ExampleDiff = "--- a/config.json\n+++ b/config.json\n@@ -1 +1 @@\n-ancien\n+nouveau\n";
 
     private const string OriginalConfiguration = "{\n  \"mode\": \"ancien\"\n}";

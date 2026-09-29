@@ -37,7 +37,7 @@ public sealed class HtmlEditorComponentTests : OmniBunitContext
     [Fact]
     public void Editor_AdoptsMockedInteropResultsAndSupportsDeterministicUndoRedo()
     {
-        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omniInterop.js");
+        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
         var selection = JsonDocument.Parse("""{"value":"<p><strong>Bonjour</strong></p>","selectionStart":11,"selectionEnd":18}""").RootElement.Clone();
         module.Setup<JsonElement>("wrapTextSelection", _ => true).SetResult(selection);
         module.SetupVoid("restoreTextSelection", _ => true);

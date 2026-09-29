@@ -1,6 +1,6 @@
 @using Microsoft.AspNetCore.Components.Forms
 
-@* La coquille d'application de la maquette (PLAN-008 T18 b) : barre supérieure avec bouton de repli,
+@* La coquille d'application de la maquette (PLAN-004 T18 b) : barre supérieure avec bouton de repli,
    recherche, cloche à pastille et menu de compte fermé au repos ; menu latéral à icônes qui se replie
    en rail d'icônes ; contenu. Le menu ne navigue pas : il marque la section choisie.
    La pastille de la cloche, la loupe du champ de recherche, le logo et l'avatar sont dessinés par la
@@ -9,7 +9,7 @@
     <OmniLayout>
         <OmniHeader>
             <OmniSidebarToggle Controls="appshell-menu" Open="MenuOpen" OpenChanged="@(value => MenuOpen = value)"
-                               AriaLabel="@Text["ShellToggle"]" />
+                               Label="@Text["ShellToggle"]" />
             <span class="demo-appbar__brand">
                 <span class="demo-appbar__logo" aria-hidden="true">@Text["ShellLogo"]</span>
                 <span>@Text["ShellBrand"]</span>
@@ -20,11 +20,11 @@
                              Placeholder="@Text["ShellSearchPlaceholder"]" @bind-Value="Search" />
             </EditForm>
             <span class="demo-appbar__actions">
-                <OmniButton Variant="OmniButtonVariant.Ghost" AriaLabel="@Text["ShellHelp"]">
+                <OmniButton Variant="OmniButtonVariant.Ghost" Label="@Text["ShellHelp"]">
                     <OmniIcon Name="OmniIconName.Question" />
                 </OmniButton>
                 <span class="demo-appbar__bell">
-                    <OmniButton Variant="OmniButtonVariant.Ghost" AriaLabel="@Text["ShellNotifications", Unread]">
+                    <OmniButton Variant="OmniButtonVariant.Ghost" Label="@Text["ShellNotifications", Unread]">
                         <OmniIcon Name="OmniIconName.Bell" />
                     </OmniButton>
                     <span class="demo-appbar__dot" aria-hidden="true"></span>
@@ -34,24 +34,24 @@
                         <span class="omni-disc demo-appbar__avatar"><OmniIcon Name="OmniIconName.User" /></span>
                     </Summary>
                     <ChildContent>
-                        <OmniProfileMenuItem OnClick="@(() => Last = Text["ShellSettings"])">
+                        <OmniMenuItem OnClick="@(() => Last = Text["ShellSettings"])">
                             <span class="demo-menu-item">
                                 <span class="omni-disc"><OmniIcon Name="OmniIconName.Settings" /></span>
                                 <span>@Text["ShellSettings"]<small>@Text["ShellSettingsHint"]</small></span>
                             </span>
-                        </OmniProfileMenuItem>
-                        <OmniProfileMenuItem OnClick="@(() => Last = Text["ShellAppearance"])">
+                        </OmniMenuItem>
+                        <OmniMenuItem OnClick="@(() => Last = Text["ShellAppearance"])">
                             <span class="demo-menu-item">
                                 <span class="omni-disc"><OmniIcon Name="OmniIconName.Palette" /></span>
                                 <span>@Text["ShellAppearance"]<small>@Text["ShellAppearanceHint"]</small></span>
                             </span>
-                        </OmniProfileMenuItem>
-                        <OmniProfileMenuItem OnClick="@(() => Last = Text["ShellSignOut"])">
+                        </OmniMenuItem>
+                        <OmniMenuItem OnClick="@(() => Last = Text["ShellSignOut"])">
                             <span class="demo-menu-item">
                                 <span class="omni-disc"><OmniIcon Name="OmniIconName.SignOut" /></span>
                                 <span>@Text["ShellSignOut"]</span>
                             </span>
-                        </OmniProfileMenuItem>
+                        </OmniMenuItem>
                     </ChildContent>
                 </OmniProfileMenu>
             </span>
@@ -63,7 +63,7 @@
         <OmniBody>
             <OmniSidebar Id="appshell-menu" Open="MenuOpen" OpenChanged="@(value => MenuOpen = value)"
                          Collapse="OmniSidebarCollapse.Icons" Transition="OmniSidebarTransition.Smooth"
-                         AriaLabel="@Text["ShellMenu"]">
+                         Label="@Text["ShellMenu"]">
                 <OmniPanelMenu Label="@Text["ShellMenu"]" DisplayStyle="OmniPanelMenuDisplayStyle.IconAndText" CanNavigate="SelectAsync">
                     @foreach (var section in Sections)
                     {

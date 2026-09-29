@@ -3,6 +3,6 @@
     <path class="omni-arc-gauge__track" d="@OmniChartGeometry.Gauge(100)" />
     @* Values left without bounds take the scale's, so the bounds are written once. *@
     <CascadingValue Value="this" IsFixed="false">@ChildContent</CascadingValue>
-    <text class="omni-arc-gauge__limit" x="10" y="60" text-anchor="middle">@Minimum</text>
-    <text class="omni-arc-gauge__limit" x="90" y="60" text-anchor="middle">@Maximum</text>
+    <text class="omni-arc-gauge__limit" x="10" y="60" text-anchor="middle">@OmniChartGeometry.Display(Minimum)</text>
+    <text class="omni-arc-gauge__limit" x="90" y="60" text-anchor="middle">@OmniChartGeometry.Display(Maximum)</text>
 </g>

@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Components;
 /// <remarks>
 /// Give it the text of a diff in <see cref="Diff"/>, read by <see cref="OmniUnifiedDiffParser"/>, or
 /// files already read in <see cref="Files"/>. Every line of an unfolded file is rendered: for a large
-/// change, <see cref="CollapsedByDefault"/> keeps the files folded until the reader opens one.
+/// change, <see cref="ExpandedByDefault"/> off keeps the files folded until the reader opens one.
 /// </remarks>
 public partial class OmniUnifiedDiff
 {
@@ -30,9 +30,12 @@ public partial class OmniUnifiedDiff
     [Parameter]
     public bool Collapsible { get; set; } = true;
 
-    /// <summary>Whether the files start folded, for a change too large to read at once.</summary>
+    /// <summary>
+    /// Whether the files start unfolded; on by default. Turn it off for a change too large to read at
+    /// once. Without <see cref="Collapsible"/> the files are always unfolded.
+    /// </summary>
     [Parameter]
-    public bool CollapsedByDefault { get; set; }
+    public bool ExpandedByDefault { get; set; } = true;
 
     /// <summary>Whether long lines wrap instead of scrolling sideways.</summary>
     [Parameter]
@@ -40,7 +43,7 @@ public partial class OmniUnifiedDiff
 
     /// <summary>Actions of the host at the end of each file header: open the file, view it whole.</summary>
     [Parameter]
-    public RenderFragment<OmniDiffFile>? FileActions { get; set; }
+    public RenderFragment<OmniDiffFile>? FileActionsTemplate { get; set; }
 
     /// <summary>What an empty diff says; the localized "no change" when empty.</summary>
     [Parameter]
@@ -76,7 +79,7 @@ public partial class OmniUnifiedDiff
         }
     }
 
-    private bool IsCollapsed(int index) => Collapsible && (_toggled.TryGetValue(index, out var toggled) ? toggled : CollapsedByDefault);
+    private bool IsCollapsed(int index) => Collapsible && (_toggled.TryGetValue(index, out var toggled) ? toggled : !ExpandedByDefault);
 
     private void Toggle(int index) => _toggled[index] = !IsCollapsed(index);
 
@@ -88,12 +91,12 @@ public partial class OmniUnifiedDiff
         ? Localize("UnifiedDiffRenamedPath", file.OldPath, file.NewPath)
         : file.Path ?? Localize("UnifiedDiffUntitled");
 
-    private static OmniBadgeVariant StatusVariant(OmniDiffFileStatus status) => status switch
+    private static OmniTone StatusTone(OmniDiffFileStatus status) => status switch
     {
-        OmniDiffFileStatus.Added => OmniBadgeVariant.Success,
-        OmniDiffFileStatus.Deleted => OmniBadgeVariant.Danger,
-        OmniDiffFileStatus.Renamed => OmniBadgeVariant.Accent,
-        _ => OmniBadgeVariant.Neutral
+        OmniDiffFileStatus.Added => OmniTone.Success,
+        OmniDiffFileStatus.Deleted => OmniTone.Danger,
+        OmniDiffFileStatus.Renamed => OmniTone.Accent,
+        _ => OmniTone.Neutral
     };
 
     private string StatusText(OmniDiffFileStatus status) => Localize($"UnifiedDiffStatus{status}");

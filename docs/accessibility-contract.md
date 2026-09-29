@@ -33,6 +33,14 @@ pourtant cet attribut, et c'est voulu :
 | `OmniSplitButton` | `div.omni-split-button__menu`, `role="menu"`, `tabindex="-1"` | Le menu n'existe dans le DOM qu'après un clic de l'utilisateur sur le chevron. Le focus doit entrer dans le menu pour que `Échap`, les flèches et le piège de focus fonctionnent (`omni-focus.js`, `activateMenu` ; `restoreFocus` rend le focus au déclencheur à la fermeture). |
 | `OmniDialog` | `button.omni-dialog__close` | Le dialogue est modal (`role="dialog"`, `aria-modal="true"`) et ouvert par l'utilisateur. Déplacer le focus dans le dialogue à l'ouverture est exigé par `STD-DIALOG` ; le bouton de fermeture est la cible la moins destructrice. Le balisage est figé par `OptInEvolutionTests`. |
 
+Le focus d'ouverture d'`OmniDialog` dépend de sa forme (`omni-focus.js`, `activateDialog` et `activateWindow`, qui visent le premier élément focalisable du dialogue, sentinelles exclues) :
+
+- modal et fermable (par défaut) : le focus va au bouton de fermeture, premier élément focalisable, et reste piégé dans le dialogue ;
+- `Dismissible="false"` : aucun bouton de fermeture n'est rendu ; le dialogue devient `role="alertdialog"`, décrit par son contenu (`aria-describedby`), et le focus va au premier élément focalisable du contenu ou du pied, ou, faute d'élément, au dialogue lui-même (`tabindex="-1"`). Le piège de focus tient aussi contre un appui sur le voile ;
+- `Modal="false"` : fenêtre non modale (`aria-modal="false"`, sans voile ni sentinelles) ; le focus va au premier élément focalisable, bouton de fermeture compris, mais il n'est pas piégé : Tab peut sortir vers la page, qui reste utilisable.
+
+À la fermeture, le focus revient à l'élément qui l'avait avant l'ouverture (`restoreFocus`).
+
 Dans les deux cas le focus suit une action de l'utilisateur sur une surcouche qu'il vient d'ouvrir,
 jamais un rendu de page. L'exclusion mécanique correspondante est déclarée dans
 `.config/verify-rules.json` avec cette section pour raison.

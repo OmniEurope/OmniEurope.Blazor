@@ -15,17 +15,6 @@ namespace OmniEurope.Blazor.Tests;
 /// </remarks>
 public sealed class ShowcaseCoverageTests
 {
-    /// <summary>
-    /// Components that cannot sit in a gallery entry, each for a reason that would not change by
-    /// writing more demos. Kept deliberately short: anything else belongs in a demo.
-    /// </summary>
-    private static readonly HashSet<string> NotDemonstrable = new(StringComparer.Ordinal)
-    {
-        // Mounted once at the application root to host dialogs and notifications; the showcase
-        // itself mounts it in App.razor, and a second instance inside a demo would fight the first.
-        "OmniComponentsHost"
-    };
-
     private static IReadOnlyList<Type> PublicComponents =>
     [
         .. typeof(OmniButton).Assembly.GetTypes()
@@ -43,23 +32,12 @@ public sealed class ShowcaseCoverageTests
 
         var missing = PublicComponents
             .Select(TagName)
-            .Where(tag => !NotDemonstrable.Contains(tag))
             .Where(tag => !sources.Any(source => Mentions(source, tag)))
             .ToArray();
 
         Assert.True(
             missing.Length == 0,
             $"{missing.Length} component(s) have no demonstration: {string.Join(", ", missing)}");
-    }
-
-    [Fact]
-    public void ExcludedComponents_AreStillRealComponents()
-    {
-        var known = PublicComponents.Select(TagName).ToHashSet(StringComparer.Ordinal);
-        foreach (var excluded in NotDemonstrable)
-        {
-            Assert.True(known.Contains(excluded), $"The exclusion list names {excluded}, which is not a public component.");
-        }
     }
 
     [Fact]

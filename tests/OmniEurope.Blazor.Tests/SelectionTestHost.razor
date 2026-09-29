@@ -2,7 +2,7 @@
     <OmniDropDown TValue="string" Id="drop-down" Options="@Options" AllowEmpty="true" @bind-Value="Model.Single" />
     <OmniListBox Id="multi-select" Multiple="true" Options="@Options" @bind-Value="Model.Multiple" />
     <OmniListBox Id="list-box" Options="@Options" @bind-Value="Model.ListValue" />
-    <OmniAutocomplete TValue="string" Id="autocomplete" Search="SearchAsync" DebounceMilliseconds="@DebounceMilliseconds" @bind-Value="Model.Autocomplete" />
+    <OmniAutocomplete TValue="string" Id="autocomplete" Search="SearchAsync" Debounce="@Debounce" @bind-Value="Model.Autocomplete" />
     <OmniCheckBoxList TValue="string" Id="checkbox-list" Label="Choix" Options="@Options" @bind-Value="Model.Checked" />
     <OmniRadioButtonList TValue="string" Id="radio-list" Label="Choix unique" Options="@Options" @bind-Value="Model.Radio" />
     <OmniSelectBar TValue="string" Id="select-bar" Label="Vue" Options="@Options" @bind-Value="Model.Bar" />
@@ -21,7 +21,7 @@
     ];
 
     [Parameter]
-    public int DebounceMilliseconds { get; set; } = 1;
+    public TimeSpan Debounce { get; set; } = TimeSpan.FromMilliseconds(1);
 
     public SelectionTestModel Model { get; } = new();
     public EditContext EditContext { get; private set; } = default!;

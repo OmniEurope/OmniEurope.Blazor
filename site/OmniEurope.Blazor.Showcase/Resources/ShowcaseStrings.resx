@@ -7,6 +7,7 @@
   <data name="HeaderBadge" xml:space="preserve"><value>Bibliothèque de composants</value></data>
   <data name="ModeLight" xml:space="preserve"><value>Thème clair</value></data>
   <data name="ModeDark" xml:space="preserve"><value>Thème sombre</value></data>
+  <data name="LanguageSelectorLabel" xml:space="preserve"><value>Langue de la vitrine</value></data>
   <data name="SidebarLabel" xml:space="preserve"><value>Navigation principale</value></data>
   <data name="MenuLabel" xml:space="preserve"><value>Sections du site</value></data>
   <data name="NavShowcase" xml:space="preserve"><value>Présentation</value></data>
@@ -314,7 +315,7 @@
   <data name="DemoThemesSummary" xml:space="preserve"><value>Un thème donne la forme, une palette les couleurs ; toute palette peint tout thème.</value></data>
   <data name="DemoThemesCapability1" xml:space="preserve"><value>OmniThemeScope.Preset et OmniThemeScope.Palette repeignent le scope et son contenu, et lui seul.</value></data>
   <data name="DemoThemesCapability2" xml:space="preserve"><value>Une palette seule change les couleurs et garde la forme livrée.</value></data>
-  <data name="DemoThemesCapability3" xml:space="preserve"><value>Quatorze thèmes et quatorze palettes, soit cent quatre-vingt-seize combinaisons, chacune en clair et en sombre.</value></data>
+  <data name="DemoThemesCapability3" xml:space="preserve"><value>{0} thèmes et {1} palettes, soit {2} combinaisons, chacune en clair et en sombre.</value></data>
   <data name="DemoSurfacesTitle" xml:space="preserve"><value>Surfaces</value></data>
   <data name="DemoSurfacesSummary" xml:space="preserve"><value>Cartes, menu flottant, onglets, menu latéral, lien et infobulle.</value></data>
   <data name="DemoSurfacesCapability1" xml:space="preserve"><value>Les cartes et le menu flottant lisent la forme du thème : fond, filet, rayon et ombre.</value></data>
@@ -424,6 +425,38 @@
   <data name="DemoShellArchived" xml:space="preserve"><value>Archivés</value></data>
   <data name="DemoShellSettings" xml:space="preserve"><value>Réglages</value></data>
   <data name="DemoShellOneOffAction" xml:space="preserve"><value>Action ponctuelle</value></data>
+  <data name="DemoShellToggleMenu" xml:space="preserve"><value>Afficher ou masquer le menu</value></data>
+  <data name="DemoShellAppName" xml:space="preserve"><value>Mon application</value></data>
+  <data name="DemoShellChangeAppearance" xml:space="preserve"><value>Changer l'apparence</value></data>
+  <data name="DemoShellMenu" xml:space="preserve"><value>Menu de la démonstration</value></data>
+  <data name="DemoShellSections" xml:space="preserve"><value>Sections</value></data>
+  <data name="DemoShellFolders" xml:space="preserve"><value>Dossiers</value></data>
+  <data name="DemoShellMainContent" xml:space="preserve"><value>Contenu principal</value></data>
+  <data name="DemoShellAppearanceDark" xml:space="preserve"><value>L'apparence retenue ici est sombre.</value></data>
+  <data name="DemoShellAppearanceLight" xml:space="preserve"><value>L'apparence retenue ici est claire.</value></data>
+  <data name="DemoShellConsole" xml:space="preserve"><value>Console d'exploitation</value></data>
+  <data name="DemoShellSecondaryMenu" xml:space="preserve"><value>Menu secondaire</value></data>
+  <data name="DemoShellTools" xml:space="preserve"><value>Outils</value></data>
+  <data name="DemoShellLogs" xml:space="preserve"><value>Journaux</value></data>
+  <data name="DemoShellWideView" xml:space="preserve"><value>Vue large</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>La zone de contenu court d'un bord à l'autre, plafonnée à la largeur large (90 rem) sans colonne de lecture étroite.</value></data>
+  <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Afficher ou masquer le menu flottant</value></data>
+  <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Menu flottant</value></data>
+  <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Menu flottant de la démonstration</value></data>
+  <data name="DemoShellFilters" xml:space="preserve"><value>Filtres</value></data>
+  <data name="DemoShellContent" xml:space="preserve"><value>Contenu</value></data>
+  <data name="DemoShellFloatingText" xml:space="preserve"><value>Ouvrir le menu ne décale pas ce texte : le panneau passe par-dessus.</value></data>
+  <data name="DemoShellScrollTitle" xml:space="preserve"><value>Contenu centré, défilement au bord</value></data>
+  <data name="DemoShellScrollMenu" xml:space="preserve"><value>Menu de la démonstration défilante</value></data>
+  <data name="DemoShellReadingColumn" xml:space="preserve"><value>Colonne de lecture</value></data>
+  <data name="DemoShellScroll1" xml:space="preserve"><value>La colonne est plafonnée à 72rem et centrée ; le reste de la largeur appartient encore à l'élément principal.</value></data>
+  <data name="DemoShellScroll2" xml:space="preserve"><value>C'est donc lui qui défile, sur toute la largeur de la zone : sa barre se tient au bord droit du cadre.</value></data>
+  <data name="DemoShellScroll3" xml:space="preserve"><value>Un enfant à 100 % de hauteur remplirait exactement la zone ; un contenu plus haut la fait défiler.</value></data>
+  <data name="DemoShellScroll4" xml:space="preserve"><value>La marge du bas reste acquise à la fin du défilement.</value></data>
+  <data name="DemoShellScroll5" xml:space="preserve"><value>Réduire la fenêtre ramène la colonne à la largeur disponible, gouttière comprise.</value></data>
+  <data name="DemoShellSplashChecking" xml:space="preserve"><value>Vérification de l'écran de démarrage</value></data>
+  <data name="DemoShellSplashRemoved" xml:space="preserve"><value>Écran de démarrage retiré</value></data>
+  <data name="DemoShellSplashAbsent" xml:space="preserve"><value>Aucun écran de démarrage dans cette démonstration</value></data>
   <data name="ShellToggle" xml:space="preserve"><value>Replier ou déplier le menu</value></data>
   <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
   <data name="ShellBrand" xml:space="preserve"><value>Aetheus</value></data>

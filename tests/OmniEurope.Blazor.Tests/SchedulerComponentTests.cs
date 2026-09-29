@@ -52,7 +52,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
     public void Scheduler_ChangesPeriodAndViewWithTimezoneAwareAppointments()
     {
         var date = new DateTimeOffset(2026, 8, 10, 0, 0, 0, TimeSpan.Zero);
-        var view = OmniSchedulerView.Month;
+        var view = OmniCalendarView.Month;
         var appointments = new[]
         {
             new OmniSchedulerAppointment("1", "Réunion", date.AddHours(9), date.AddHours(10))
@@ -70,7 +70,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         Assert.Equal(new DateTimeOffset(2026, 9, 10, 0, 0, 0, TimeSpan.Zero), date);
 
         scheduler.FindAll("[role=radio]")[1].Click();
-        Assert.Equal(OmniSchedulerView.Week, view);
+        Assert.Equal(OmniCalendarView.Week, view);
         Assert.NotNull(scheduler.Find(".omni-week-view"));
     }
 
@@ -83,7 +83,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         var date = new DateTimeOffset(2026, 8, 10, 0, 0, 0, TimeSpan.Zero);
         var scheduler = Render<OmniScheduler>(parameters => parameters
             .Add(component => component.Date, date)
-            .Add(component => component.View, OmniSchedulerView.Day)
+            .Add(component => component.View, OmniCalendarView.Day)
             .Add(component => component.TimeZone, TimeZoneInfo.Utc)
             .Add(component => component.Load, (start, end, token) =>
             {
@@ -108,7 +108,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
 
         Render<OmniScheduler>(parameters => parameters
             .Add(component => component.Date, new DateTimeOffset(2026, 8, 12, 12, 0, 0, TimeSpan.Zero))
-            .Add(component => component.View, OmniSchedulerView.Week)
+            .Add(component => component.View, OmniCalendarView.Week)
             .Add(component => component.Culture, CultureInfo.GetCultureInfo(cultureName))
             .Add(component => component.TimeZone, TimeZoneInfo.Utc)
             .Add(component => component.Load, (start, end, _) =>
@@ -140,20 +140,20 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         var initial = new DateTimeOffset(2026, 8, 10, 0, 0, 0, TimeSpan.Zero);
         var scheduler = Render<OmniScheduler>(parameters => parameters
             .Add(component => component.Date, initial)
-            .Add(component => component.View, OmniSchedulerView.Day)
+            .Add(component => component.View, OmniCalendarView.Day)
             .Add(component => component.TimeZone, TimeZoneInfo.Utc)
             .Add(component => component.Load, first));
 
         scheduler.Render(parameters => parameters
             .Add(component => component.Date, initial)
-            .Add(component => component.View, OmniSchedulerView.Day)
+            .Add(component => component.View, OmniCalendarView.Day)
             .Add(component => component.TimeZone, TimeZoneInfo.Utc)
             .Add(component => component.Load, first));
         Assert.Equal(1, firstCalls);
 
         scheduler.Render(parameters => parameters
             .Add(component => component.Date, initial.AddDays(1))
-            .Add(component => component.View, OmniSchedulerView.Week)
+            .Add(component => component.View, OmniCalendarView.Week)
             .Add(component => component.TimeZone, TimeZoneInfo.Utc)
             .Add(component => component.Load, second));
         Assert.Equal(1, secondCalls);
@@ -168,7 +168,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
 
         Render<OmniScheduler>(parameters => parameters
             .Add(component => component.Date, new DateTimeOffset(2026, 3, 29, 12, 0, 0, TimeSpan.Zero))
-            .Add(component => component.View, OmniSchedulerView.Day)
+            .Add(component => component.View, OmniCalendarView.Day)
             .Add(component => component.TimeZone, paris)
             .Add(component => component.Load, (start, end, _) =>
             {
@@ -203,7 +203,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
     {
         var month = Render<OmniScheduler>(parameters => parameters
             .Add(component => component.Date, new DateTimeOffset(2026, 8, 1, 0, 0, 0, TimeSpan.Zero))
-            .Add(component => component.View, OmniSchedulerView.Month)
+            .Add(component => component.View, OmniCalendarView.Month)
             .Add(component => component.TimeZone, TimeZoneInfo.Utc)
             .Add(component => component.Culture, CultureInfo.GetCultureInfo("fr-FR")));
 
@@ -232,13 +232,13 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         };
         void RenderOn(IRenderedComponent<OmniScheduler> scheduler, DateTimeOffset day) => scheduler.Render(parameters => parameters
             .Add(component => component.Date, day)
-            .Add(component => component.View, OmniSchedulerView.Day)
+            .Add(component => component.View, OmniCalendarView.Day)
             .Add(component => component.TimeZone, TimeZoneInfo.Utc)
             .Add(component => component.Load, load));
 
         var scheduler = Render<OmniScheduler>(parameters => parameters
             .Add(component => component.Date, date)
-            .Add(component => component.View, OmniSchedulerView.Day)
+            .Add(component => component.View, OmniCalendarView.Day)
             .Add(component => component.TimeZone, TimeZoneInfo.Utc)
             .Add(component => component.Load, load));
 
@@ -262,7 +262,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         CancellationToken latestToken = default;
         var scheduler = Render<OmniScheduler>(parameters => parameters
             .Add(component => component.Date, date)
-            .Add(component => component.View, OmniSchedulerView.Day)
+            .Add(component => component.View, OmniCalendarView.Day)
             .Add(component => component.TimeZone, TimeZoneInfo.Utc)
             .Add(component => component.Load, (_, _, token) =>
             {
@@ -302,7 +302,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         };
         var scheduler = Render<OmniScheduler>(parameters => parameters
             .Add(component => component.Date, date)
-            .Add(component => component.View, OmniSchedulerView.Day)
+            .Add(component => component.View, OmniCalendarView.Day)
             .Add(component => component.TimeZone, paris)
             .Add(component => component.Items, items));
 
@@ -323,7 +323,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         var paris = TimeZoneInfo.FindSystemTimeZoneById("Europe/Paris");
         var scheduler = Render<OmniScheduler>(parameters => parameters
             .Add(component => component.Date, new DateTimeOffset(2026, 10, 25, 0, 0, 0, TimeSpan.Zero))
-            .Add(component => component.View, OmniSchedulerView.Day)
+            .Add(component => component.View, OmniCalendarView.Day)
             .Add(component => component.TimeZone, paris)
             .Add(component => component.Items, new[]
             {
@@ -346,7 +346,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         {
             parameters
                 .Add(component => component.Date, Monday)
-                .Add(component => component.View, OmniSchedulerView.Week)
+                .Add(component => component.View, OmniCalendarView.Week)
                 .Add(component => component.TimeZone, TimeZoneInfo.Utc)
                 .Add(component => component.Culture, CultureInfo.GetCultureInfo("fr-FR"))
                 .Add(component => component.DayStart, new TimeOnly(8, 0))
@@ -393,13 +393,13 @@ public sealed class SchedulerComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public void AppointmentClicked_ReportsTheAppointmentAsTheHostGaveIt()
+    public void OnAppointmentClick_ReportsTheAppointmentAsTheHostGaveIt()
     {
         var paris = new DateTimeOffset(2026, 6, 8, 11, 0, 0, TimeSpan.FromHours(2));
         var given = new OmniSchedulerAppointment("a", "Revue", paris, paris.AddHours(1));
         OmniSchedulerAppointment? clicked = null;
         var scheduler = RenderWeekGrid([given], parameters => parameters
-            .Add(component => component.AppointmentClicked, value => clicked = value));
+            .Add(component => component.OnAppointmentClick, value => clicked = value));
 
         scheduler.Find(".omni-scheduler__open").Click();
 
@@ -412,7 +412,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         var given = new OmniSchedulerAppointment("a", "Revue", Monday.AddHours(9), Monday.AddHours(10).AddMinutes(30));
         OmniSchedulerAppointmentMove? moved = null;
         var scheduler = RenderWeekGrid([given], parameters => parameters
-            .Add(component => component.AppointmentMoved, value => moved = value));
+            .Add(component => component.OnAppointmentMove, value => moved = value));
 
         Assert.Empty(scheduler.FindAll(".omni-scheduler__place"));
         scheduler.Find(".omni-scheduler__move").Click();
@@ -444,7 +444,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
     {
         var moves = 0;
         var scheduler = RenderWeekGrid([new("a", "Revue", Monday.AddHours(9), Monday.AddHours(10))], parameters => parameters
-            .Add(component => component.AppointmentMoved, _ => moves++));
+            .Add(component => component.OnAppointmentMove, _ => moves++));
 
         scheduler.Find(".omni-scheduler__move").Click();
         scheduler.Find("section.omni-scheduler").KeyDown(new KeyboardEventArgs { Key = "Escape" });
@@ -461,11 +461,11 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         OmniSchedulerAppointmentMove? moved = null;
         var scheduler = Render<OmniScheduler>(parameters => parameters
             .Add(component => component.Date, Monday)
-            .Add(component => component.View, OmniSchedulerView.Month)
+            .Add(component => component.View, OmniCalendarView.Month)
             .Add(component => component.TimeZone, TimeZoneInfo.Utc)
             .Add(component => component.Culture, CultureInfo.GetCultureInfo("fr-FR"))
             .Add(component => component.Items, new[] { given })
-            .Add(component => component.AppointmentMoved, value => moved = value));
+            .Add(component => component.OnAppointmentMove, value => moved = value));
 
         var appointment = scheduler.Find("[data-omni-scheduler-appointment='a']");
         Assert.Equal("true", appointment.GetAttribute("draggable"));
@@ -477,7 +477,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         Assert.Equal(Monday.AddDays(4).AddHours(9).AddMinutes(15), moved!.Start);
         Assert.Equal(Monday.AddDays(4).AddHours(10), moved.End);
         Assert.Contains(JSInterop.Invocations, invocation => invocation.Identifier == "import"
-            && invocation.Arguments.Contains("./_content/OmniEurope.Blazor/omni-scheduler.js"));
+            && invocation.Arguments.Contains(Internal.OmniModules.Scheduler));
     }
 
     [Fact]
@@ -486,10 +486,10 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         var moves = 0;
         var scheduler = Render<OmniScheduler>(parameters => parameters
             .Add(component => component.Date, Monday)
-            .Add(component => component.View, OmniSchedulerView.Month)
+            .Add(component => component.View, OmniCalendarView.Month)
             .Add(component => component.TimeZone, TimeZoneInfo.Utc)
             .Add(component => component.Items, new[] { new OmniSchedulerAppointment("a", "Revue", Monday.AddHours(9), Monday.AddHours(10)) })
-            .Add(component => component.AppointmentMoved, _ => moves++));
+            .Add(component => component.OnAppointmentMove, _ => moves++));
 
         scheduler.Find("[data-omni-scheduler-appointment='a']").DragStart();
         scheduler.Find("[data-date='2026-06-08']").Drop();

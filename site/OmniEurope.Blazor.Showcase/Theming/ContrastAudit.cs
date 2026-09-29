@@ -5,7 +5,7 @@ namespace OmniEurope.Blazor.Showcase.Theming;
 
 /// <summary>
 /// The contrast ratios of the combination the visitor is previewing, pair by pair, as the reference
-/// mockup lists them next to its preview (<c>plans/PLAN-008-maquette-themes.html</c>, <c>PAIRS</c>).
+/// mockup lists them next to its preview (<c>docs/plans/PLAN-004-maquette-themes.html</c>, <c>PAIRS</c>).
 /// </summary>
 /// <remarks>
 /// The ratios are computed from the token values the page receives, with the WCAG 2 relative
@@ -18,7 +18,8 @@ public static partial class ContrastAudit
     /// The pairs of the mockup, in its order: text on the surfaces, the accents, every ink on its
     /// fill (hover and press included), then the fills and the border against the surface. The last
     /// threshold is the 1.7 floor of the package, argued in
-    /// <c>ShowcaseThemeTests.EveryPalette_KeepsItsBordersVisible</c>.
+    /// <c>ShowcaseThemeTests.EveryPalette_KeepsItsBordersVisible</c>. Each pair is one the package's
+    /// contrast matrix holds at the same threshold (checked by <c>ThemeContrastMatrixTests</c>).
     /// </summary>
     public static IReadOnlyList<ContrastPair> Pairs { get; } =
     [

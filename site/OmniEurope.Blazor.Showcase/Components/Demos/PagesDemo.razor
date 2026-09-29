@@ -13,18 +13,24 @@
     <OmniDetailShell Id="pages-demo-shell" State="State" BackHref="composants/pages"
                      NotFoundDescription="La fiche demandée a été retirée ou n'a jamais existé.">
         <Header>
-            @* BackVariant : Ghost par défaut (navigation discrète) ; Primary pour une flèche de retour mise en avant. *@
-            <OmniPageHeader Framed="true" ShowBack="true" BackHref="composants/pages" BackVariant="OmniButtonVariant.Primary" Subtitle="Machine virtuelle de la zone Paris.">
+            @* Ligne 1 : retour (Primary par défaut), titre, badges, actions et menu « ⋮ » ; ligne 2 : le fil
+               d'Ariane, qui finit par le titre. Le sous-titre passe sous le bloc, la ligne 2 portant le fil.
+               Framed dessine le cadre ; sans lui, le bloc est posé sur la page, à la même hauteur fixe. *@
+            <OmniPageHeader Framed="true" ShowBack="true" BackHref="composants/pages" Subtitle="Machine virtuelle de la zone Paris.">
                 <Badges>
-                    <OmniBadge Variant="OmniBadgeVariant.Success">En ligne</OmniBadge>
+                    <OmniBadge Tone="OmniTone.Success">En ligne</OmniBadge>
                 </Badges>
                 <Actions>
                     <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small"><OmniIcon Name="OmniIconName.Edit" /><span>Modifier</span></OmniButton>
                     <OmniButton Variant="OmniButtonVariant.Danger" Size="OmniControlSize.Small"><OmniIcon Name="OmniIconName.Delete" /><span>Retirer</span></OmniButton>
                 </Actions>
+                <MenuContent>
+                    <OmniMenuItem><Icon><OmniIcon Name="OmniIconName.Copy" /></Icon><ChildContent>Dupliquer</ChildContent></OmniMenuItem>
+                    <OmniMenuItem><Icon><OmniIcon Name="OmniIconName.Archive" /></Icon><ChildContent>Archiver</ChildContent></OmniMenuItem>
+                </MenuContent>
                 <Filters>
-                    <OmniBadge Variant="OmniBadgeVariant.Neutral">Production</OmniBadge>
-                    <OmniBadge Variant="OmniBadgeVariant.Neutral">Linux</OmniBadge>
+                    <OmniBadge Tone="OmniTone.Neutral">Production</OmniBadge>
+                    <OmniBadge Tone="OmniTone.Neutral">Linux</OmniBadge>
                 </Filters>
             </OmniPageHeader>
         </Header>
@@ -37,7 +43,7 @@
                     <ChildContent>@(TokenShown ? "7f3a-91c2-0bd4" : "••••-••••-••••")</ChildContent>
                     <Actions>
                         <OmniButton Id="pages-demo-reveal" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small"
-                                    AriaLabel="@(TokenShown ? "Masquer le jeton" : "Afficher le jeton")"
+                                    Label="@(TokenShown ? "Masquer le jeton" : "Afficher le jeton")"
                                     OnClick="@(_ => TokenShown = !TokenShown)">
                             <OmniIcon Name="@(TokenShown ? OmniIconName.EyeSlash : OmniIconName.Eye)" />
                         </OmniButton>

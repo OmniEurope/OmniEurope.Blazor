@@ -130,7 +130,7 @@ public sealed class LocalizationTests : OmniBunitContext
 
             var list = Render<OmniDataList<int>>(parameters => parameters
                 .Add(component => component.ItemTemplate, item => builder => builder.AddContent(0, item)));
-            var day = Render<OmniScheduler>(parameters => parameters.Add(component => component.View, OmniSchedulerView.Day).Add(component => component.TimeZone, TimeZoneInfo.Utc));
+            var day = Render<OmniScheduler>(parameters => parameters.Add(component => component.View, OmniCalendarView.Day).Add(component => component.TimeZone, TimeZoneInfo.Utc));
             var dropDown = Render<OmniDropDown<int>>(parameters => parameters
                 .Add(component => component.Options, [new OmniOption<int>(1, "One")])
                 .Add(component => component.AllowEmpty, true)
@@ -226,7 +226,7 @@ public sealed class LocalizationTests : OmniBunitContext
             bool? nullable = null;
 
             var legend = Render<OmniLegend>();
-            var month = Render<OmniScheduler>(parameters => parameters.Add(component => component.View, OmniSchedulerView.Month).Add(component => component.TimeZone, TimeZoneInfo.Utc));
+            var month = Render<OmniScheduler>(parameters => parameters.Add(component => component.View, OmniCalendarView.Month).Add(component => component.TimeZone, TimeZoneInfo.Utc));
             var notification = Render<OmniNotification>(parameters => parameters.Add(component => component.Message, "Message"));
             var nullableSwitch = Render<OmniSwitch<bool?>>(parameters => parameters
                 .Add(component => component.Value, nullable)
@@ -276,7 +276,7 @@ public sealed class LocalizationTests : OmniBunitContext
                 .Add(component => component.ShowValue, true));
 
             Assert.Equal(navigationLabel, panel.Find("nav").GetAttribute("aria-label"));
-            Assert.Equal(profileLabel, profile.Find("summary").GetAttribute("aria-label"));
+            Assert.Equal(profileLabel, profile.Find(".omni-profile-menu__trigger").GetAttribute("aria-label"));
             Assert.Equal(revealLabel, password.Find("button").GetAttribute("aria-label"));
             // The button is an eye by default: its name is the localized label, it carries no word.
             Assert.Empty(password.Find("button").TextContent.Trim());
@@ -369,7 +369,7 @@ public sealed class LocalizationTests : OmniBunitContext
             var steps = Render<OmniSteps>();
             var timeline = Render<OmniTimeline>();
             var tree = Render<OmniTree<int>>();
-            var week = Render<OmniScheduler>(parameters => parameters.Add(component => component.View, OmniSchedulerView.Week).Add(component => component.TimeZone, TimeZoneInfo.Utc));
+            var week = Render<OmniScheduler>(parameters => parameters.Add(component => component.View, OmniCalendarView.Week).Add(component => component.TimeZone, TimeZoneInfo.Utc));
 
             Assert.Equal(splitLabel, split.Find(".omni-split-button__toggle").GetAttribute("aria-label"));
             Assert.Equal(stepsLabel, steps.Find("[role=list]").GetAttribute("aria-label"));

@@ -11,6 +11,16 @@ internal static class CspAttributeGuard
 
         foreach (var attribute in attributes)
         {
+            // Class and Id are parameters, placed by the component on the right element (Class on the
+            // outermost, Id on the focusable control). A lowercase one handed over in a dictionary would
+            // bypass that and replace the component's own class or id.
+            if (string.Equals(attribute.Key, "class", StringComparison.OrdinalIgnoreCase) || string.Equals(attribute.Key, "id", StringComparison.OrdinalIgnoreCase))
+            {
+                var parameter = attribute.Key.Length == 5 ? "Class" : "Id";
+                throw new InvalidOperationException(
+                    $"{ComponentName(component)} does not take a '{attribute.Key}' attribute: use its '{parameter}' parameter.");
+            }
+
             // HTML attributes are lowercase: a captured PascalCase name is a parameter the component does
             // not have (removed or misspelled), which would otherwise land in the markup silently. The
             // shipped analyzer (OE0001) reports it at build; this is the backstop for everything else.

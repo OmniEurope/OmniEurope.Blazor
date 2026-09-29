@@ -2,9 +2,14 @@
 @inherits OmniComponentBase
 
 <figure @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-chart")">
-    <svg class="@SvgClass" viewBox="@ViewBox" role="img" aria-labelledby="@TitleId @DescriptionId" preserveAspectRatio="xMidYMid meet">
+    @* One image for assistive technology, named by the title and described by the description when
+       there is one; what the drawing shows is read from the data table after it. *@
+    <svg class="@SvgClass" viewBox="@ViewBox" role="img" aria-labelledby="@TitleId" aria-describedby="@(HasDescription ? DescriptionId : null)" preserveAspectRatio="xMidYMid meet">
         <title id="@TitleId">@Title</title>
-        <desc id="@DescriptionId">@Description</desc>
+        @if (HasDescription)
+        {
+            <desc id="@DescriptionId">@Description</desc>
+        }
         @* Not fixed: every render of the chart refreshes every part, so a part registered late (a legend
            narrowing the plot, a series turning it into bands) moves the parts that rendered before it. *@
         <CascadingValue Value="_context" IsFixed="false">@ChildContent</CascadingValue>
@@ -13,16 +18,72 @@
        where text inside the drawing shrinks with it. *@
     @foreach (var legend in _context.LegendsBelow)
     {
+        var entries = _context.LegendEntries(legend);
         <ul class="omni-chart__legend omni-chart__legend--below" aria-label="@legend.Label">
-            @for (var index = 0; index < legend.Items.Count; index++)
+            @foreach (var entry in entries)
             {
-                <li class="omni-chart__legend-item"><span class="omni-chart__swatch omni-chart-color-@legend.ColorOf(index)" aria-hidden="true"></span>@legend.Items[index]</li>
+                <li class="omni-chart__legend-item"><span class="omni-chart__swatch omni-chart-color-@entry.ColorSlot" aria-hidden="true"></span>@entry.Text</li>
             }
         </ul>
     }
-    @if (DataTable is not null)
+    @if (DataTableContent is not null)
     {
-        <div class="omni-chart__data">@DataTable</div>
+        <div class="omni-chart__data">@DataTableContent</div>
+    }
+    else
+    {
+        @* Without a table of the host, the chart writes its own for screen readers: one row per
+           category, one column per series, and one table per pie. *@
+        var series = _context.TableSeries;
+        if (series.Count > 0)
+        {
+            var rows = series.Max(item => item.Data.Count);
+            <table class="omni-chart__table omni-visually-hidden">
+                <caption>@Title</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">@Localize("ChartCategoryColumn")</th>
+                        @for (var column = 0; column < series.Count; column++)
+                        {
+                            <th scope="col">@SeriesName(series[column], column)</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var row = 0; row < rows; row++)
+                    {
+                        <tr>
+                            <th scope="row">@RowName(series, row)</th>
+                            @foreach (var item in series)
+                            {
+                                <td>@(row < item.Data.Count ? OmniChartGeometry.Display(item.Data[row].Y) : null)</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        foreach (var pie in _context.Pies)
+        {
+            <table class="omni-chart__table omni-visually-hidden">
+                <caption>@(string.IsNullOrWhiteSpace(pie.Title) ? Title : pie.Title)</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">@Localize("ChartCategoryColumn")</th>
+                        <th scope="col">@Localize("ChartValueColumn")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var slice in pie.Slices)
+                    {
+                        <tr>
+                            <th scope="row">@slice.Label</th>
+                            <td>@OmniChartGeometry.Display(slice.Value)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     }
 </figure>
 

@@ -13,7 +13,7 @@
     [Parameter] public TimeOnly? TimeMaximum { get; set; }
     [Parameter] public DateTime? MomentMinimum { get; set; }
     [Parameter] public DateTime? MomentMaximum { get; set; }
-    [Parameter] public int Step { get; set; } = 5;
+    [Parameter] public TimeSpan Step { get; set; } = TimeSpan.FromMinutes(5);
     [Parameter] public bool ShowSeconds { get; set; }
     [Parameter] public PickerTestModel Model { get; set; } = new();
 

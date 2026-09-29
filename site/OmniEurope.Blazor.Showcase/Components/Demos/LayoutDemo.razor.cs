@@ -2,20 +2,23 @@ namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class LayoutDemo
 {
+    // The key names the card's id after the density, in lower case like data-omni-density: derived
+    // from the enum rather than written a second time.
     private static readonly (OmniDensity Density, string Key, string Title)[] Densities =
     [
-        (OmniDensity.Compact, "compact", "Compacte"),
-        (OmniDensity.Comfortable, "comfortable", "Confortable"),
-        (OmniDensity.Spacious, "spacious", "Aérée")
+        (OmniDensity.Compact, KeyOf(OmniDensity.Compact), "Compacte"),
+        (OmniDensity.Comfortable, KeyOf(OmniDensity.Comfortable), "Confortable"),
+        (OmniDensity.Spacious, KeyOf(OmniDensity.Spacious), "Aérée")
     ];
 
-    private static readonly string[] DensityTabKeys = ["general", "securite"];
+    private static string KeyOf(OmniDensity density) => density.ToString().ToLowerInvariant();
+
 
     private bool EmailAlerts { get; set; } = true;
 
     private bool WeeklyDigest { get; set; }
 
-    private bool OptionsCollapsed { get; set; } = true;
+    private bool OptionsExpanded { get; set; }
 
     private string? ServerName { get; set; } = "srv-paris-02";
 

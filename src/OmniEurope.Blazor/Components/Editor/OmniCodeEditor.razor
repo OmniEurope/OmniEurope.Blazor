@@ -12,8 +12,8 @@
               readonly="@ReadOnly"
               disabled="@Disabled"
               spellcheck="false"
-              wrap="@(WordWrap ? "soft" : "off")"
-              aria-label="@EffectiveLabel"
+              wrap="@(Wrap ? "soft" : "off")"
+              aria-label="@Label"
               aria-invalid="@AriaInvalid"
               aria-describedby="@AriaDescribedBy"
               @oninput="HandleFallbackInputAsync"></textarea>

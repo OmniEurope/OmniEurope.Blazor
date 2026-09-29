@@ -11,7 +11,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class HtmlEditorTableAndClipboardTests : OmniBunitContext
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-html-editor.js";
+    private const string ModulePath = OmniModules.HtmlEditor;
 
     private static readonly string[] TableCommandNames =
         ["add-row-above", "add-row-below", "delete-row", "add-column-before", "add-column-after", "delete-column", "merge-cell-right", "merge-cell-down", "split-cell"];

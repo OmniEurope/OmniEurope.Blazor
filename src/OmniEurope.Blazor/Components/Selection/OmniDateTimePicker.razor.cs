@@ -52,13 +52,21 @@ public partial class OmniDateTimePicker
     [Parameter]
     public string? AriaDescribedBy { get; set; }
 
-    /// <summary>Minutes between two items of the minute column, from 1 to 30; 5 by default.</summary>
+    /// <summary>
+    /// The time between two items of the minute column, a whole number of minutes from 1 to 30; five
+    /// minutes by default. Any other value throws <see cref="ArgumentOutOfRangeException"/>.
+    /// </summary>
     [Parameter]
-    public int Step { get; set; } = 5;
+    public TimeSpan Step { get; set; } = TimeSpan.FromMinutes(5);
 
     /// <summary>Hint shown in the empty field; the culture's pattern (<c>jj/mm/aaaa hh:mm</c>) when null.</summary>
     [Parameter]
     public string? Placeholder { get; set; }
+
+    // Class goes on the outermost element; the validation classes of the form stay on the input they describe.
+    private string RootClass => OmniEurope.Blazor.Internal.CssClassBuilder.Combine(["omni-date", "omni-date--datetime", Class]);
+
+    private string InputClass => OmniEurope.Blazor.Internal.CssClassBuilder.Combine(["omni-input", "omni-date-input", "omni-date-time-picker", CssClass]);
 
     private PickerPopup Popup => _popup ??= new PickerPopup(JavaScript, DismissAsync);
 
@@ -80,7 +88,7 @@ public partial class OmniDateTimePicker
         get
         {
             var now = LocalNow;
-            return new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute - (now.Minute % Step), 0, DateTimeKind.Unspecified);
+            return new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute - (now.Minute % OmniTimePicker.StepMinutes(Step)), 0, DateTimeKind.Unspecified);
         }
     }
 
@@ -118,7 +126,7 @@ public partial class OmniDateTimePicker
         builder.OpenComponent<PickerTimeColumns>(0);
         builder.AddComponentParameter(1, nameof(PickerTimeColumns.IdPrefix), PanelId);
         builder.AddComponentParameter(2, nameof(PickerTimeColumns.Value), SelectedTime);
-        builder.AddComponentParameter(3, nameof(PickerTimeColumns.Step), Step);
+        builder.AddComponentParameter(3, nameof(PickerTimeColumns.Step), OmniTimePicker.StepMinutes(Step));
         builder.AddComponentParameter(4, nameof(PickerTimeColumns.ShowSeconds), ShowSeconds);
         builder.AddComponentParameter(5, nameof(PickerTimeColumns.IsRangeAllowed), (Func<TimeOnly, TimeOnly, bool>)IsRangeAllowed);
         builder.AddComponentParameter(6, nameof(PickerTimeColumns.OnChange), EventCallback.Factory.Create<PickerTimeChange>(this, ChangeTime));
@@ -128,8 +136,7 @@ public partial class OmniDateTimePicker
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        ArgumentOutOfRangeException.ThrowIfLessThan(Step, 1, nameof(Step));
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(Step, 30, nameof(Step));
+        OmniTimePicker.StepMinutes(Step);
         if (Minimum is not null && Maximum is not null && Minimum > Maximum)
         {
             throw new InvalidOperationException("Minimum cannot be greater than Maximum.");

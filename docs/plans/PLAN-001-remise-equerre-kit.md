@@ -176,7 +176,7 @@ tous `STD-I18N`.
 
 | Règle | Nombre | Où | Classement |
 |---|---|---|---|
-| `STD-SDKPIN` | 1 | `global.json` | exclu au lot 2, raison ADR-001 |
+| `STD-SDKPIN` | 1 | `global.json` | exclu au lot 2 (ADR-001), puis conforme depuis [ADR-002](../adr/ADR-002-sdk-floor-latestfeature-pinned-implicit-packs.md) (plancher `latestFeature`) : l'exclusion a quitté `.config/verify-rules.json` |
 | `STD-FOCUS` | 2 | `src/.../OmniSplitButton.razor:22`, `src/.../OmniDialog.razor:25` | exclus au lot 2, raison `docs/accessibility-contract.md` |
 | `STD-I18N` | 9 | `tests/OmniEurope.Blazor.Tests/*TestHost.razor` (`ChartProjectionTestHost` 2, `ChartTestHost` 2, `NumericColumnsTestHost` 2, `NavigationTestHost` 1, `SelectionTestHost` 1, `WizardTestHost` 1) | faux positifs : hôtes de test bUnit, jamais livrés |
 | `STD-I18N` | 2 | `site/.../Demos/FormDemo.razor:8` (`Camille Durand`), `:39` (`https://exemple.eu`) | faux positifs : nom propre et URL d'exemple, valeurs non traduisibles |

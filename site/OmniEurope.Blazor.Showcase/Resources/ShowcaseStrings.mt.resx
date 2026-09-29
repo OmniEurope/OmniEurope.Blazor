@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="HeaderBadge" xml:space="preserve"><value>Librerija ta' komponenti</value></data>
+  <data name="ModeLight" xml:space="preserve"><value>Tema ċara</value></data>
+  <data name="ModeDark" xml:space="preserve"><value>Tema skura</value></data>
+  <data name="LanguageSelectorLabel" xml:space="preserve"><value>Lingwa tal-vetrina</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Navigazzjoni prinċipali</value></data>
+  <data name="MenuLabel" xml:space="preserve"><value>Taqsimiet tas-sit</value></data>
+  <data name="NavShowcase" xml:space="preserve"><value>Ħarsa ġenerali</value></data>
+  <data name="NavDocumentation" xml:space="preserve"><value>Dokumentazzjoni</value></data>
+  <data name="NavComponents" xml:space="preserve"><value>Komponenti</value></data>
+  <data name="NavCustomize" xml:space="preserve"><value>Personalizzazzjoni</value></data>
+  <data name="ErrorTitle" xml:space="preserve"><value>Seħħ żball</value></data>
+  <data name="ErrorMessage" xml:space="preserve"><value>Il-paġna ma setgħetx tintwera sew.</value></data>
+  <data name="Retry" xml:space="preserve"><value>Erġa' pprova</value></data>
+  <data name="NotFoundPageTitle" xml:space="preserve"><value>Il-paġna ma nstabitx</value></data>
+  <data name="NotFoundTitle" xml:space="preserve"><value>Il-paġna ma nstabitx</value></data>
+  <data name="NotFoundDescription" xml:space="preserve"><value>L-ebda paġna ta' dan is-sit ma taqbel ma' dak l-indirizz.</value></data>
+  <data name="BackHome" xml:space="preserve"><value>Lura għall-paġna ewlenija</value></data>
+  <data name="HomePageTitle" xml:space="preserve"><value>OmniEurope.Blazor</value></data>
+  <data name="HomeKicker" xml:space="preserve"><value>Blazor</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Komponenti Blazor aċċessibbli, taħt politika ta' sigurtà stretta</value></data>
+  <data name="HomeLead" xml:space="preserve"><value>Librerija ta' komponenti mfassla għal applikazzjonijiet li jipprojbixxu l-istil inline, jeħtieġu l-aċċessibbiltà u jridu tema li jistgħu jikkontrollaw minn tarf sa tarf.</value></data>
+  <data name="HomeSeeComponents" xml:space="preserve"><value>Ara l-komponenti</value></data>
+  <data name="HomeSeeCustomize" xml:space="preserve"><value>Ippersonalizza t-tema</value></data>
+  <data name="HomePillarsTitle" xml:space="preserve"><value>X'jagħmel il-librerija differenti</value></data>
+  <data name="PillarCspTitle" xml:space="preserve"><value>Politika ta' sigurtà stretta</value></data>
+  <data name="PillarCspBody" xml:space="preserve"><value>L-ebda attribut ta' stil inline, l-ebda element ta' stil injettat, l-ebda evalwazzjoni dinamika ta' skripts. Il-librerija taħdem taħt politika li tirrifjuta dan kollu.</value></data>
+  <data name="PillarThemeTitle" xml:space="preserve"><value>Tema kompletament ibbażata fuq varjabbli</value></data>
+  <data name="PillarThemeBody" xml:space="preserve"><value>Il-kuluri, it-tipografija, l-ispazjar, il-kantunieri, id-dellijiet u l-paletta tal-grafiċi kollha jgħaddu minn varjabbli CSS, mingħajr ebda valur iffriżat f'xi regola.</value></data>
+  <data name="PillarA11yTitle" xml:space="preserve"><value>Aċċessibbiltà garantita mit-testijiet</value></data>
+  <data name="PillarA11yBody" xml:space="preserve"><value>Ir-rwoli, l-istati u t-tikketti jiġu vverifikati mis-sett tat-testijiet, mhux sempliċement imwiegħda fid-dokumentazzjoni.</value></data>
+  <data name="PillarWeightTitle" xml:space="preserve"><value>Piż taħt kontroll</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Il-pakkett ippubblikat jitkejjel ma' baġit ta' bytes f'kull build, inkluż il-folja tal-istil.</value></data>
+  <data name="DocsPageTitle" xml:space="preserve"><value>Dokumentazzjoni</value></data>
+  <data name="DocsTitle" xml:space="preserve"><value>Dokumentazzjoni</value></data>
+  <data name="DocsLead" xml:space="preserve"><value>Mill-installazzjoni tal-pakkett sal-ewwel tema personalizzata tiegħek, f'ħames passi.</value></data>
+  <data name="DocsInstallTitle" xml:space="preserve"><value>Installa l-pakkett</value></data>
+  <data name="DocsInstallBody" xml:space="preserve"><value>Il-librerija tiġi referenzjata bħal kull pakkett NuGet ieħor.</value></data>
+  <data name="DocsRegisterTitle" xml:space="preserve"><value>Irreġistra s-servizzi</value></data>
+  <data name="DocsRegisterBody" xml:space="preserve"><value>Sejħa waħda tirreġistra dak kollu li l-komponenti għandhom bżonn.</value></data>
+  <data name="DocsCssTitle" xml:space="preserve"><value>Irreferi għall-folja tal-istil</value></data>
+  <data name="DocsCssBody" xml:space="preserve"><value>Il-folja tal-istil tiġi mogħtija bħala riżorsa statika tal-pakkett.</value></data>
+  <data name="DocsCspTitle" xml:space="preserve"><value>Politika ta' sigurtà</value></data>
+  <data name="DocsCspBody" xml:space="preserve"><value>Il-librerija ma titlob xejn lil hinn minn dawn id-direttivi: l-ebda stil inline, l-ebda evalwazzjoni dinamika ta' skripts.</value></data>
+  <data name="DocsThemeTitle" xml:space="preserve"><value>Ippersonalizza t-tema</value></data>
+  <data name="DocsThemeBody" xml:space="preserve"><value>Meta tiddefinixxi mill-ġdid varjabbli waħda, jinżebgħu mill-ġdid il-komponenti kollha li jaqrawha.</value></data>
+  <data name="DocsThemePointer" xml:space="preserve"><value>Biex tikkomponi tema sħiħa mingħajr ma tikteb CSS:</value></data>
+  <data name="GalleryPageTitle" xml:space="preserve"><value>Komponenti</value></data>
+  <data name="GalleryTitle" xml:space="preserve"><value>Komponenti</value></data>
+  <data name="GalleryLead" xml:space="preserve"><value>Kull familja tiġi ppreżentata b'dak li kapaċi tagħmel, dimostrazzjoni diretta u l-kodiċi li jipproduċiha.</value></data>
+  <data name="GalleryNavLabel" xml:space="preserve"><value>Familji ta' komponenti</value></data>
+  <data name="GalleryCapabilities" xml:space="preserve"><value>X'jista' jagħmel il-komponent</value></data>
+  <data name="GalleryPreview" xml:space="preserve"><value>Dimostrazzjoni</value></data>
+  <data name="GallerySource" xml:space="preserve"><value>Kodiċi sors</value></data>
+  <data name="GallerySourceNote" xml:space="preserve"><value>Dan il-kodiċi huwa l-istess fajl ikkumpilat u eżegwit mid-dimostrazzjoni ta' hawn fuq, moqri mill-assembly, qatt miktub mill-ġdid bl-idejn.</value></data>
+  <data name="GallerySourceMissingTitle" xml:space="preserve"><value>Is-sors mhux disponibbli</value></data>
+  <data name="GallerySourceMissing" xml:space="preserve"><value>Il-fajl tad-dimostrazzjoni ma nstabx fost ir-riżorsi tal-assembly.</value></data>
+  <data name="DemoButtonsTitle" xml:space="preserve"><value>Buttuni</value></data>
+  <data name="DemoButtonsSummary" xml:space="preserve"><value>L-attivatur tal-azzjoni, fl-intenzjonijiet viżivi u fl-istati tiegħu.</value></data>
+  <data name="DemoButtonsCapability1" xml:space="preserve"><value>Erba' intenzjonijiet: primarja, sekondarja, fantażma u distruttiva.</value></data>
+  <data name="DemoButtonsCapability2" xml:space="preserve"><value>Stat okkupat li jimblokka l-bgħit doppju u jħabbar lilu nnifsu lill-qarrejja tal-iskrin.</value></data>
+  <data name="DemoButtonsCapability3" xml:space="preserve"><value>Stat diżattivat distint mill-istat okkupat.</value></data>
+  <data name="DemoButtonsCapability4" xml:space="preserve"><value>Tliet daqsijiet, u t-tliet tipi ta' buttuni li juża formola: ibgħat, irrisettja u azzjoni sempliċi.</value></data>
+  <data name="DemoBadgesTitle" xml:space="preserve"><value>Badges</value></data>
+  <data name="DemoBadgesSummary" xml:space="preserve"><value>It-tikketta qasira li tikkwalifika element mingħajr ma tgħabbih.</value></data>
+  <data name="DemoBadgesCapability1" xml:space="preserve"><value>Ħames varjanti allinjati mal-livelli ta' severità tat-tema.</value></data>
+  <data name="DemoBadgesCapability2" xml:space="preserve"><value>Sfondi kkuluriti derivati mill-varjabbli, għalhekk jinżebgħu mill-ġdid mat-tema.</value></data>
+  <data name="DemoAlertsTitle" xml:space="preserve"><value>Allerti</value></data>
+  <data name="DemoAlertsSummary" xml:space="preserve"><value>Il-messaġġ kuntestwali, minn avviż sempliċi sa falliment li jimblokka.</value></data>
+  <data name="DemoAlertsCapability1" xml:space="preserve"><value>Erba' livelli ta' severità: informazzjoni, suċċess, twissija u periklu.</value></data>
+  <data name="DemoAlertsCapability2" xml:space="preserve"><value>Żewġ varjanti: kontorn diskret jew wiċċ mimli.</value></data>
+  <data name="DemoAlertsCapability3" xml:space="preserve"><value>Modalità diretta li tħabbar il-messaġġ lit-teknoloġija assistiva.</value></data>
+  <data name="CustomizePageTitle" xml:space="preserve"><value>Personalizzazzjoni</value></data>
+  <data name="CustomizeTitle" xml:space="preserve"><value>Personalizzazzjoni</value></data>
+  <data name="CustomizeLead" xml:space="preserve"><value>Agħżel tema, li tagħti l-forma, imbagħad paletta, li tagħti l-kuluri: kull paletta tiżbogħ kull tema, u s-sit kollu jinżebagħ mill-ġdid hekk kif tagħżel. Id-dehra minn qabel tieħu l-kompożizzjonijiet tal-mockup ta' referenza.</value></data>
+  <data name="CustomizeTokensTitle" xml:space="preserve"><value>Varjabbli</value></data>
+  <data name="CustomizeTokensLead" xml:space="preserve"><value>Din il-lista tinqara mill-folja tal-istil mogħtija, għalhekk ma tistax titbiegħed minn dak li l-librerija tesponi verament. Varjabbli mibdula titqiegħed fuq il-kombinazzjoni, fiż-żewġ modalitajiet; l-għażla ta' tema jew paletta oħra tħassarha.</value></data>
+  <data name="CustomizeReset" xml:space="preserve"><value>Ħassar il-bidliet</value></data>
+  <data name="TokenGroupColor" xml:space="preserve"><value>Kuluri</value></data>
+  <data name="TokenGroupTypography" xml:space="preserve"><value>Tipografija</value></data>
+  <data name="TokenGroupSpacing" xml:space="preserve"><value>Spazjar u densità</value></data>
+  <data name="TokenGroupShape" xml:space="preserve"><value>Forma, bordi u pressjoni</value></data>
+  <data name="TokenGroupElevation" xml:space="preserve"><value>Dellijiet, saff u saffi sovrapposti</value></data>
+  <data name="TokenGroupChart" xml:space="preserve"><value>Grafiċi</value></data>
+  <data name="TokenGroupGrid" xml:space="preserve"><value>Grilja tad-data fil-modalità skura</value></data>
+  <data name="TokenGroupDiagram" xml:space="preserve"><value>Mappa mentali</value></data>
+  <data name="CustomizeExportTitle" xml:space="preserve"><value>Esporta</value></data>
+  <data name="CustomizeExportLead" xml:space="preserve"><value>Is-CSS hawn taħt iġorr il-kombinazzjoni kollha, inklużi l-varjabbli mibdula, f'ċar, f'skur u għall-modalità tas-sistema. Huwa mmirat għall-ambitu tat-tema (OmniThemeScope, data-omni-theme), fejn il-folja tal-istil terġa' tiddikjara l-varjabbli tagħha; għabbih wara l-folja tal-istil tal-librerija.</value></data>
+  <data name="CustomizeCopy" xml:space="preserve"><value>Ikkopja</value></data>
+  <data name="CustomizeDownload" xml:space="preserve"><value>Niżżel</value></data>
+  <data name="CustomizeCopied" xml:space="preserve"><value>Is-CSS ġie kkupjat fil-clipboard.</value></data>
+  <data name="CustomizeCopyFailed" xml:space="preserve"><value>L-ikkupjar ma rnexxiex. Agħżel il-kodiċi hawn taħt u kkopjah bl-idejn.</value></data>
+  <data name="CustomizeDownloaded" xml:space="preserve"><value>Il-fajl omnieurope-theme.css tniżżel.</value></data>
+  <data name="CustomizeDownloadFailed" xml:space="preserve"><value>It-tniżżil ma rnexxiex. Minflok, ikkopja l-kodiċi hawn taħt.</value></data>
+  <data name="DemoFormTitle" xml:space="preserve"><value>Formoli</value></data>
+  <data name="DemoFormSummary" xml:space="preserve"><value>Oqsma tad-dħul u t-tikketti aċċessibbli tagħhom.</value></data>
+  <data name="DemoFormCapability1" xml:space="preserve"><value>Tikketta, deskrizzjoni u messaġġ ta' żball marbuta mal-qasam permezz ta' identifikatur.</value></data>
+  <data name="DemoFormCapability2" xml:space="preserve"><value>Żona tat-test b'għadd tal-karattri u limitu.</value></data>
+  <data name="DemoFormCapability3" xml:space="preserve"><value>Slajder, kaxxa tal-immarkar u swiċċ ikkontrollati mit-tastiera.</value></data>
+  <data name="DemoSelectionTitle" xml:space="preserve"><value>Għażla</value></data>
+  <data name="DemoSelectionSummary" xml:space="preserve"><value>L-għażla ta' valur wieħed minn lista, jew ta' diversi valuri.</value></data>
+  <data name="DemoSelectionCapability1" xml:space="preserve"><value>Lista li tinżel b'valur vojt fakultattiv.</value></data>
+  <data name="DemoSelectionCapability2" xml:space="preserve"><value>Kaxxa tal-lista b'daqs skont in-numru ta' ringieli viżibbli.</value></data>
+  <data name="DemoSelectionCapability3" xml:space="preserve"><value>Għażla multipla li tagħti lura l-lista tal-valuri magħżula.</value></data>
+  <data name="DemoNavigationTitle" xml:space="preserve"><value>Navigazzjoni</value></data>
+  <data name="DemoNavigationSummary" xml:space="preserve"><value>Kif tpoġġi lill-utent u tmexxih bejn it-taqsimiet.</value></data>
+  <data name="DemoNavigationCapability1" xml:space="preserve"><value>Traċċa tan-navigazzjoni li timmarka l-paġna kurrenti.</value></data>
+  <data name="DemoNavigationCapability2" xml:space="preserve"><value>Tabs ikkontrollati, b'rwoli u navigazzjoni bit-tastiera.</value></data>
+  <data name="DemoNavigationCapability3" xml:space="preserve"><value>Passi nnumerati b'validazzjoni qabel ma tgħaddi għall-pass li jmiss.</value></data>
+  <data name="DemoFeedbackTitle" xml:space="preserve"><value>Feedback tal-istatus</value></data>
+  <data name="DemoFeedbackSummary" xml:space="preserve"><value>Tgħid fejn wasla s-sistema mingħajr ma timblokka l-paġna.</value></data>
+  <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Bar tal-progress, determinat jew indeterminat.</value></data>
+  <data name="DemoFeedbackCapability2" xml:space="preserve"><value>Tooltip li tista' tilħaqha mit-tastiera, mhux biss bil-hover.</value></data>
+  <data name="DemoFeedbackCapability3" xml:space="preserve"><value>Skeletru tat-tagħbija mħabbar lill-qarrejja tal-iskrin.</value></data>
+  <data name="DemoFeedbackCapability4" xml:space="preserve"><value>Bar lineari jew ċirkolari f'erba' intenzjonijiet, u skeletru li jieħu l-forma ta' dak li qed jissostitwixxi.</value></data>
+  <data name="DemoGridTitle" xml:space="preserve"><value>Grilja tad-data</value></data>
+  <data name="DemoGridSummary" xml:space="preserve"><value>It-tabella tax-xogħol: issortjar, iffiltrar, paġnazzjoni u gruppi.</value></data>
+  <data name="DemoGridCapability1" xml:space="preserve"><value>Issortjar u ffiltrar għal kull kolonna, fuq id-data vera.</value></data>
+  <data name="DemoGridCapability2" xml:space="preserve"><value>Paġnazzjoni b'daqs tal-paġna aġġustabbli.</value></data>
+  <data name="DemoGridCapability3" xml:space="preserve"><value>Ringieli alternati u formati tal-kolonni dikjarattivi.</value></data>
+  <data name="DemoChartTitle" xml:space="preserve"><value>Grafiċi</value></data>
+  <data name="DemoChartSummary" xml:space="preserve"><value>Serje kategoriċi, fil-kuluri tat-tema.</value></data>
+  <data name="DemoChartCapability1" xml:space="preserve"><value>Serje ta' kolonni b'assi b'titlu.</value></data>
+  <data name="DemoChartCapability2" xml:space="preserve"><value>Kuluri meħuda mill-varjabbli tal-grafiċi tat-tema.</value></data>
+  <data name="DemoTypographyTitle" xml:space="preserve"><value>Tipografija</value></data>
+  <data name="DemoTypographySummary" xml:space="preserve"><value>Intestaturi, paragrafi, tikketti u links.</value></data>
+  <data name="DemoTypographyCapability1" xml:space="preserve"><value>Sitt livelli ta' intestaturi, kull wieħed disponibbli f'diversi toni.</value></data>
+  <data name="DemoTypographyCapability2" xml:space="preserve"><value>Ħames elementi tat-test, mill-paragrafu sal-enfasi.</value></data>
+  <data name="DemoTypographyCapability3" xml:space="preserve"><value>Qtugħ b'ellissi, u tikketta marbuta mal-qasam tagħha.</value></data>
+  <data name="DemoLayoutTitle" xml:space="preserve"><value>Tqassim</value></data>
+  <data name="DemoLayoutSummary" xml:space="preserve"><value>Il-grilja, ir-ringieli, il-kards u l-gruppi tal-oqsma.</value></data>
+  <data name="DemoLayoutCapability1" xml:space="preserve"><value>Grilja ta' tnax-il kolonna b'firxiet għal kull breakpoint.</value></data>
+  <data name="DemoLayoutCapability2" xml:space="preserve"><value>Kard fi tliet żoni: intestatura, korp u footer.</value></data>
+  <data name="DemoLayoutCapability3" xml:space="preserve"><value>Grupp ta' oqsma li jista' jiġi diżattivat f'mossa waħda.</value></data>
+  <data name="DemoLayoutCapability4" xml:space="preserve"><value>L-iskala sħiħa tal-ispazjar, u l-allinjamenti li taċċetta ringiela.</value></data>
+  <data name="DemoShellTitle" xml:space="preserve"><value>Qafas tal-applikazzjoni</value></data>
+  <data name="DemoShellSummary" xml:space="preserve"><value>L-iskeletru ta' applikazzjoni, dak li minnu hu mibni dan is-sit.</value></data>
+  <data name="DemoShellCapability1" xml:space="preserve"><value>Intestatura, sidebar li tingħalaq u reġjun prinċipali.</value></data>
+  <data name="DemoShellCapability2" xml:space="preserve"><value>Menu tan-navigazzjoni bi gruppi li jistgħu jiġu espansi.</value></data>
+  <data name="DemoShellCapability3" xml:space="preserve"><value>Swiċċ tad-dehra u ambitu ta' tema lokali.</value></data>
+  <data name="DemoShellCapability4" xml:space="preserve"><value>Iż-żewġ arranġamenti: kolonna tal-qari ċċentrata jew wisa' sħiħa, menu fuq kull naħa.</value></data>
+  <data name="DemoMediaTitle" xml:space="preserve"><value>Ikoni u midja</value></data>
+  <data name="DemoMediaSummary" xml:space="preserve"><value>L-ikoni, l-istampi u l-kronoloġija.</value></data>
+  <data name="DemoMediaCapability1" xml:space="preserve"><value>Ikoni integrati fi tliet daqsijiet.</value></data>
+  <data name="DemoMediaCapability2" xml:space="preserve"><value>Traċċat ta' ikona pprovdut mill-host, mingħajr ma jiżdied il-piż tal-pakkett.</value></data>
+  <data name="DemoMediaCapability3" xml:space="preserve"><value>Stampa b'adattament aġġustabbli u tagħbija posposta.</value></data>
+  <data name="DemoMediaCapability4" xml:space="preserve"><value>Is-sett sħiħ tal-ikoni integrati, u t-tliet modi kif stampa timla l-kaxxa tagħha.</value></data>
+  <data name="DemoInputsTitle" xml:space="preserve"><value>Dħul avvanzat</value></data>
+  <data name="DemoInputsSummary" xml:space="preserve"><value>Numri, passwords, dati, ħinijiet, kuluri u kompletar awtomatiku.</value></data>
+  <data name="DemoInputsCapability1" xml:space="preserve"><value>Qasam numeriku limitat b'pass aġġustabbli.</value></data>
+  <data name="DemoInputsCapability2" xml:space="preserve"><value>Password li tista' tinkixef u li qatt ma tiġi kkupjata x'imkien ieħor.</value></data>
+  <data name="DemoInputsCapability3" xml:space="preserve"><value>Kompletar awtomatiku asinkroniku, b'dewmien u tul minimu.</value></data>
+  <data name="DemoInputsCapability4" xml:space="preserve"><value>Data, ħin, data u ħin: il-kalendarju u l-kolonni tal-librerija fuq is-saff li jżomm f'wiċċ l-ilma, tastiera tal-grilja, limiti u densità.</value></data>
+  <data name="DemoChoiceTitle" xml:space="preserve"><value>Għażla</value></data>
+  <data name="DemoChoiceSummary" xml:space="preserve"><value>Buttuni tar-radju, kaxxi tal-immarkar multipli, bars tal-għażla u swiċċijiet.</value></data>
+  <data name="DemoChoiceCapability1" xml:space="preserve"><value>Listi mmexxija minn għażliet, jew imqiegħda element b'element.</value></data>
+  <data name="DemoChoiceCapability2" xml:space="preserve"><value>Bar tal-għażla u buttuna toggle, bl-istati okkupat u diżattivat.</value></data>
+  <data name="DemoChoiceCapability3" xml:space="preserve"><value>Kaxxa tal-immarkar u swiċċ bi tliet pożizzjonijiet, inkluż dak indeterminat.</value></data>
+  <data name="DemoValidationTitle" xml:space="preserve"><value>Validazzjoni</value></data>
+  <data name="DemoValidationSummary" xml:space="preserve"><value>Regoli ddikjarati ħdejn il-qasam li jħarsu.</value></data>
+  <data name="DemoValidationCapability1" xml:space="preserve"><value>Obbligatorju, tul, format tal-email u tqabbil.</value></data>
+  <data name="DemoValidationCapability2" xml:space="preserve"><value>Il-fokus imur fuq l-ewwel qasam invalidu meta tibgħat.</value></data>
+  <data name="DemoValidationCapability3" xml:space="preserve"><value>L-ebda attribut fuq il-mudell, kollox jinsab fil-markup.</value></data>
+  <data name="DemoEditorTitle" xml:space="preserve"><value>Edituri u tlugħ</value></data>
+  <data name="DemoEditorSummary" xml:space="preserve"><value>L-editur WYSIWYG u s-sors HTML tiegħu, il-proċessur tal-kliem, l-editur tal-kodiċi u t-tlugħ tal-fajls.</value></data>
+  <data name="DemoEditorCapability1" xml:space="preserve"><value>Bar tal-kmandi li l-host jestendi jew jirranġa, waħħil sanitizzat, modalità tas-sors.</value></data>
+  <data name="DemoEditorCapability2" xml:space="preserve"><value>Proċessur tal-kliem fuq paġna, għadd tal-kliem, esportazzjoni HTML u test.</value></data>
+  <data name="DemoEditorCapability3" xml:space="preserve"><value>Editur tal-kodiċi (Monaco mogħti mill-host, test sempliċi taħt CSP stretta) u tlugħ limitat.</value></data>
+  <data name="DemoOverlayTitle" xml:space="preserve"><value>Saffi sovrapposti</value></data>
+  <data name="DemoOverlaySummary" xml:space="preserve"><value>Djalogi, notifiki u menus li jitfaċċaw.</value></data>
+  <data name="DemoOverlayCapability1" xml:space="preserve"><value>Djalogu modali, li jingħalaq b'Escape jew mill-isfond.</value></data>
+  <data name="DemoOverlayCapability2" xml:space="preserve"><value>Erba' livelli ta' severità tan-notifiki, b'għeluq fakultattiv.</value></data>
+  <data name="DemoOverlayCapability3" xml:space="preserve"><value>Menu kuntestwali, buttuna maqsuma u menu tal-kont.</value></data>
+  <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Grilja tad-data, firxa sħiħa</value></data>
+  <data name="DemoGridAdvancedSummary" xml:space="preserve"><value>Għażla, gruppi, editjar, kolonni ffriżati u filtri avvanzati.</value></data>
+  <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Għażla multipla, bi klikk fuq ir-ringiela.</value></data>
+  <data name="DemoGridAdvancedCapability2" xml:space="preserve"><value>Filtri b'lista li tinżel u b'għażla multipla, għal kull kolonna.</value></data>
+  <data name="DemoGridAdvancedCapability3" xml:space="preserve"><value>Kolonna ffriżata, gruppi espansi u footer tal-kolonna kkalkulat.</value></data>
+  <data name="DemoGridAdvancedCapability4" xml:space="preserve"><value>Settings tal-wiri kkontrollati b'mod dirett: linji, densità, paġnazzjoni, għażla, editjar u filtri.</value></data>
+  <data name="DemoDataListTitle" xml:space="preserve"><value>Listi u paġnazzjoni</value></data>
+  <data name="DemoDataListSummary" xml:space="preserve"><value>Il-lista b'mudell liberu u l-paġnatur tagħha.</value></data>
+  <data name="DemoDataListCapability1" xml:space="preserve"><value>Mudell tal-element ipprovdut kompletament mill-host.</value></data>
+  <data name="DemoDataListCapability2" xml:space="preserve"><value>Stati vojt, tat-tagħbija u taż-żball distinti minn xulxin.</value></data>
+  <data name="DemoDataListCapability3" xml:space="preserve"><value>Paġnatur b'daqs tal-paġna aġġustabbli u shortcuts għall-ewwel u l-aħħar paġna.</value></data>
+  <data name="DemoTreeTitle" xml:space="preserve"><value>Siġra</value></data>
+  <data name="DemoTreeSummary" xml:space="preserve"><value>Il-ġerarkija li tista' tiġi espansa, b'għażla waħda jew multipla.</value></data>
+  <data name="DemoTreeCapability1" xml:space="preserve"><value>Għażla multipla u navigazzjoni bit-tastiera.</value></data>
+  <data name="DemoTreeCapability2" xml:space="preserve"><value>Fergħa mġiba fuq talba, meta jinfetaħ in-nodu.</value></data>
+  <data name="DemoTreeCapability3" xml:space="preserve"><value>In-nodi jistgħu jiġu diżattivati mingħajr ma tinkiser in-navigazzjoni.</value></data>
+  <data name="DemoSpreadsheetTitle" xml:space="preserve"><value>Folja elettronika</value></data>
+  <data name="DemoSpreadsheetSummary" xml:space="preserve"><value>Folja elettronika bażika: ċelluli, formuli u bar tal-formula.</value></data>
+  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Formuli b'referenzi, firxiet, SUM, AVERAGE, MIN, MAX u kodiċijiet ta' żball.</value></data>
+  <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Navigazzjoni bit-tastiera, editjar fil-post u bar tal-formula.</value></data>
+  <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Kontenut marbut fiż-żewġ direzzjonijiet u li jista' jiġi serjalizzat f'JSON.</value></data>
+  <data name="DemoSchedulerTitle" xml:space="preserve"><value>Skedar</value></data>
+  <data name="DemoSchedulerSummary" xml:space="preserve"><value>Il-kalendarju u t-tliet vedutiet tiegħu.</value></data>
+  <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Vedutiet tal-jum, tal-ġimgħa u tax-xahar, li jistgħu jinbidlu.</value></data>
+  <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Appuntamenti rikorrenti deskritti b'regola.</value></data>
+  <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Kull veduta tista' tintuża wkoll waħedha, barra mill-kalendarju.</value></data>
+  <data name="DemoChartsExtendedTitle" xml:space="preserve"><value>Grafiċi, firxa sħiħa</value></data>
+  <data name="DemoChartsExtendedSummary" xml:space="preserve"><value>Is-serje kollha, il-leġġenda, it-tikketti u l-indikatur.</value></data>
+  <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Linji, żoni, kolonni, bars, munzelli, torta u ċirku.</value></data>
+  <data name="DemoChartsExtendedCapability2" xml:space="preserve"><value>Leġġenda, markaturi, tikketti tal-valur u tooltip.</value></data>
+  <data name="DemoChartsExtendedCapability3" xml:space="preserve"><value>Indikatur f'forma ta' ark, bi skala u format tal-valur.</value></data>
+  <data name="DemoDiagramTitle" xml:space="preserve"><value>Mappa mentali</value></data>
+  <data name="DemoDiagramSummary" xml:space="preserve"><value>Mappa mentali editjata bil-maws, bil-mess u bit-tastiera.</value></data>
+  <data name="DemoDiagramCapability1" xml:space="preserve"><value>Kaxkar, lasso, żum bir-rota jew bil-qrusa, menu kuntestwali.</value></data>
+  <data name="DemoDiagramCapability2" xml:space="preserve"><value>Kull azzjoni għandha shortcut tat-tastiera, imħabbar lill-qarrejja tal-iskrin.</value></data>
+  <data name="DemoDiagramCapability3" xml:space="preserve"><value>Bar tal-azzjonijiet u pannell tal-proprjetajiet għan-nodu magħżul.</value></data>
+  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Jaqra u jerġa' jikteb il-format tal-graff maħżun mingħajr ma jitlef xejn.</value></data>
+  <data name="DemoPlanningTitle" xml:space="preserve"><value>Ippjanar</value></data>
+  <data name="DemoPlanningSummary" xml:space="preserve"><value>Dijagramma ta' Gantt, il-passi ta' tħaddim u kronoloġija biex tqiegħed.</value></data>
+  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt skont il-jum, il-ġimgħa jew ix-xahar, bi gruppi, dipendenzi u l-lum.</value></data>
+  <data name="DemoPlanningCapability2" xml:space="preserve"><value>Passi ta' tħaddim fuq skala tal-ħin, flimkien mal-passi li qatt ma bdew.</value></data>
+  <data name="DemoPlanningCapability3" xml:space="preserve"><value>Kronoloġija fuq il-lemin, fuq ix-xellug jew alternata, bl-għażla tal-ewwel naħa.</value></data>
+  <data name="DemoPagesTitle" xml:space="preserve"><value>Paġni</value></data>
+  <data name="DemoPagesSummary" xml:space="preserve"><value>L-intestatura, il-paġna tad-dettalji u dak li jimlieha.</value></data>
+  <data name="DemoPagesCapability1" xml:space="preserve"><value>Intestatura tal-paġna: traċċa tan-navigazzjoni miżmuma minn servizz, lura, titlu, badges u azzjonijiet mitwija fuq it-telefown.</value></data>
+  <data name="DemoPagesCapability2" xml:space="preserve"><value>Paġna tad-dettalji: l-intestatura tintwera qabel ma tasal id-data, il-kontenut moħbi waqt it-tagħbija, stat ta' mhux misjub b'mod kif tmur lura.</value></data>
+  <data name="DemoPagesCapability3" xml:space="preserve"><value>Lista ta' deskrizzjonijiet f'kolonni, b'azzjoni għal kull valur.</value></data>
+  <data name="DemoPagesCapability4" xml:space="preserve"><value>Ħin relattiv bid-data eżatta bil-hover u bil-fokus, u stat vojt bl-azzjoni tiegħu.</value></data>
+  <data name="DemoFlowsTitle" xml:space="preserve"><value>Flussi</value></data>
+  <data name="DemoFlowsSummary" xml:space="preserve"><value>Assistent, paġna tad-dħul u konnessjoni mitlufa.</value></data>
+  <data name="DemoFlowsCapability1" xml:space="preserve"><value>Assistent bil-passi: progress, validazzjoni għal kull pass, f'paġna jew f'djalogu.</value></data>
+  <data name="DemoFlowsCapability2" xml:space="preserve"><value>Paġna tad-dħul mingħajr awtentikazzjoni integrata, u indirizz ta' ritorn miżmum ġewwa l-applikazzjoni.</value></data>
+  <data name="DemoFlowsCapability3" xml:space="preserve"><value>Saff ta' konnessjoni mitlufa: għadd lura, raġuni, tentattiv manwali, falliment u rifjut.</value></data>
+  <data name="WorkshopBarTitle" xml:space="preserve"><value>Settings tad-dehra minn qabel</value></data>
+  <data name="WorkshopTheme" xml:space="preserve"><value>Tema (forma)</value></data>
+  <data name="WorkshopPalette" xml:space="preserve"><value>Paletta (kuluri)</value></data>
+  <data name="WorkshopThemePalette" xml:space="preserve"><value>Paletta tat-tema</value></data>
+  <data name="WorkshopDefault" xml:space="preserve"><value>Prestabbilit</value></data>
+  <data name="WorkshopMode" xml:space="preserve"><value>Modalità</value></data>
+  <data name="WorkshopModeLight" xml:space="preserve"><value>Ċar</value></data>
+  <data name="WorkshopModeDark" xml:space="preserve"><value>Skur</value></data>
+  <data name="WorkshopModeSystem" xml:space="preserve"><value>Sistema</value></data>
+  <data name="WorkshopDensity" xml:space="preserve"><value>Densità globali</value></data>
+  <data name="WorkshopDensityCompact" xml:space="preserve"><value>Kompatta</value></data>
+  <data name="WorkshopDensityComfortable" xml:space="preserve"><value>Komda</value></data>
+  <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Spazjuża</value></data>
+  <data name="WorkshopDensityInherited" xml:space="preserve"><value>Ereditata</value></data>
+  <data name="WorkshopSectionDensity" xml:space="preserve"><value>Densità</value></data>
+  <data name="WorkshopHover" xml:space="preserve"><value>Hover</value></data>
+  <data name="WorkshopHoverForce" xml:space="preserve"><value>Sfurza</value></data>
+  <data name="WorkshopHoverForced" xml:space="preserve"><value>Sfurzat</value></data>
+  <data name="WorkshopStageTitle" xml:space="preserve"><value>Dehra minn qabel</value></data>
+  <data name="WorkshopStageLead" xml:space="preserve"><value>Tema {0}: {1} Paletta {2}: {3}</value></data>
+  <data name="WorkshopContrastWaiver" xml:space="preserve"><value>Kuntrast mhux garantit: {0}</value></data>
+  <data name="WorkshopContrastTitle" xml:space="preserve"><value>Kuntrasti kkalkulati</value></data>
+  <data name="WorkshopContrastLead" xml:space="preserve"><value>Proporzjon imkejjel fuq it-tokens tal-modalità murija, imbagħad il-limitu li għandu jintlaħaq.</value></data>
+  <data name="WorkshopContrastSystem" xml:space="preserve"><value>Modalità tas-sistema: il-proporzjonijiet jitkejlu fuq in-nofs ċar, għax in-nofs li jagħżel il-browser jiġi magħruf biss fil-paġna.</value></data>
+  <data name="WorkshopContrastVerdict" xml:space="preserve"><value>{0} pari minn {1} jilħqu l-limitu tagħhom.</value></data>
+  <data name="WorkshopSwatchesTitle" xml:space="preserve"><value>Tokens tal-kulur</value></data>
+  <data name="ContrastPair01" xml:space="preserve"><value>test / wiċċ</value></data>
+  <data name="ContrastPair02" xml:space="preserve"><value>test / wiċċ attenwat</value></data>
+  <data name="ContrastPair03" xml:space="preserve"><value>test / wiċċ bil-hover</value></data>
+  <data name="ContrastPair04" xml:space="preserve"><value>test attenwat / wiċċ</value></data>
+  <data name="ContrastPair05" xml:space="preserve"><value>test attenwat / wiċċ attenwat</value></data>
+  <data name="ContrastPair06" xml:space="preserve"><value>test attenwat / wiċċ bil-hover</value></data>
+  <data name="ContrastPair07" xml:space="preserve"><value>aċċent qawwi / wiċċ</value></data>
+  <data name="ContrastPair08" xml:space="preserve"><value>aċċent qawwi / aċċent diskret</value></data>
+  <data name="ContrastPair09" xml:space="preserve"><value>aċċent qawwi / wiċċ bil-hover</value></data>
+  <data name="ContrastPair10" xml:space="preserve"><value>fuq aċċent / aċċent</value></data>
+  <data name="ContrastPair11" xml:space="preserve"><value>fuq suċċess / suċċess</value></data>
+  <data name="ContrastPair12" xml:space="preserve"><value>fuq twissija / twissija</value></data>
+  <data name="ContrastPair13" xml:space="preserve"><value>fuq periklu / periklu</value></data>
+  <data name="ContrastPair14" xml:space="preserve"><value>fuq invers / invers</value></data>
+  <data name="ContrastPair15" xml:space="preserve"><value>suċċess / wiċċ</value></data>
+  <data name="ContrastPair16" xml:space="preserve"><value>suċċess / suċċess diskret</value></data>
+  <data name="ContrastPair17" xml:space="preserve"><value>twissija / wiċċ</value></data>
+  <data name="ContrastPair18" xml:space="preserve"><value>periklu / wiċċ</value></data>
+  <data name="ContrastPair19" xml:space="preserve"><value>periklu / periklu diskret</value></data>
+  <data name="ContrastPair20" xml:space="preserve"><value>test fuq mili tal-aċċent</value></data>
+  <data name="ContrastPair21" xml:space="preserve"><value>test fuq mili tas-suċċess</value></data>
+  <data name="ContrastPair22" xml:space="preserve"><value>test fuq mili tal-informazzjoni</value></data>
+  <data name="ContrastPair23" xml:space="preserve"><value>linka fuq informazzjoni ċara (allert)</value></data>
+  <data name="ContrastPair24" xml:space="preserve"><value>linka fuq suċċess ċar (allert)</value></data>
+  <data name="ContrastPair25" xml:space="preserve"><value>linka fuq informazzjoni ċara bil-hover</value></data>
+  <data name="ContrastPair26" xml:space="preserve"><value>linka fuq informazzjoni ċara ppressata</value></data>
+  <data name="ContrastPair27" xml:space="preserve"><value>linka fuq suċċess ċar bil-hover</value></data>
+  <data name="ContrastPair28" xml:space="preserve"><value>linka fuq suċċess ċar ippressat</value></data>
+  <data name="ContrastPair29" xml:space="preserve"><value>linka fuq twissija profonda (buttuna)</value></data>
+  <data name="ContrastPair30" xml:space="preserve"><value>linka fuq twissija profonda bil-hover</value></data>
+  <data name="ContrastPair31" xml:space="preserve"><value>linka fuq twissija profonda ppressata</value></data>
+  <data name="ContrastPair32" xml:space="preserve"><value>linka fuq periklu profond (buttuna)</value></data>
+  <data name="ContrastPair33" xml:space="preserve"><value>linka fuq periklu profond bil-hover</value></data>
+  <data name="ContrastPair34" xml:space="preserve"><value>linka fuq periklu profond ippressat</value></data>
+  <data name="ContrastPair35" xml:space="preserve"><value>test fuq mili tal-aċċent, hover</value></data>
+  <data name="ContrastPair36" xml:space="preserve"><value>test fuq mili tal-aċċent, pressjoni</value></data>
+  <data name="ContrastPair37" xml:space="preserve"><value>sekondarja fil-mistrieħ</value></data>
+  <data name="ContrastPair38" xml:space="preserve"><value>sekondarja bil-hover</value></data>
+  <data name="ContrastPair39" xml:space="preserve"><value>sekondarja ppressata</value></data>
+  <data name="ContrastPair40" xml:space="preserve"><value>fantażma ppressata</value></data>
+  <data name="ContrastPair41" xml:space="preserve"><value>mili tal-aċċent / wiċċ</value></data>
+  <data name="ContrastPair42" xml:space="preserve"><value>mili tas-suċċess / wiċċ</value></data>
+  <data name="ContrastPair43" xml:space="preserve"><value>mili tal-informazzjoni / wiċċ</value></data>
+  <data name="ContrastPair44" xml:space="preserve"><value>mili tat-twissija / wiċċ</value></data>
+  <data name="ContrastPair45" xml:space="preserve"><value>mili tal-periklu / wiċċ</value></data>
+  <data name="ContrastPair46" xml:space="preserve"><value>aċċent / wiċċ</value></data>
+  <data name="ContrastPair47" xml:space="preserve"><value>bordura / wiċċ (minimu OE 1.7)</value></data>
+  <data name="DemoStatesTitle" xml:space="preserve"><value>Mistrieħ, hover u pressjoni</value></data>
+  <data name="DemoStatesSummary" xml:space="preserve"><value>It-tliet stati ta' varjant ta' buttuna ħdejn xulxin.</value></data>
+  <data name="DemoStatesCapability1" xml:space="preserve"><value>Il-hover u l-pressjoni jaqraw it-tokens tat-tema: mili bil-hover, mili ppressat u ġest tal-pressjoni.</value></data>
+  <data name="DemoStatesCapability2" xml:space="preserve"><value>Għajnuna għat-tqabbil tal-vetrina: browser ma jistax jiffriża :hover jew :active.</value></data>
+  <data name="DemoAppShellTitle" xml:space="preserve"><value>Qafas tal-applikazzjoni</value></data>
+  <data name="DemoAppShellSummary" xml:space="preserve"><value>Bar ta' fuq, menu tal-ġenb li jingħalaq f'rail ta' ikoni, kontenut.</value></data>
+  <data name="DemoAppShellCapability1" xml:space="preserve"><value>Buttuna tal-għeluq, tfittxija, għajnuna, qanpiena b'tikka u menu tal-kont magħluq fil-mistrieħ.</value></data>
+  <data name="DemoAppShellCapability2" xml:space="preserve"><value>Il-menu tal-ġenb iżomm l-ikoni tiegħu meta jingħalaq (Collapse Icons).</value></data>
+  <data name="DemoAppShellCapability3" xml:space="preserve"><value>It-tikka, il-lenti, il-logo u l-avatar huma mpinġija mill-vetrina: il-pakkett m'għandux komponent għalihom.</value></data>
+  <data name="DemoThemesTitle" xml:space="preserve"><value>Temi u paletti</value></data>
+  <data name="DemoThemesSummary" xml:space="preserve"><value>Tema tagħti l-forma, paletta tagħti l-kuluri; kull paletta tiżbogħ kull tema.</value></data>
+  <data name="DemoThemesCapability1" xml:space="preserve"><value>OmniThemeScope.Preset u OmniThemeScope.Palette jerġgħu jiżbgħu l-ambitu u l-kontenut tiegħu, u xejn aktar.</value></data>
+  <data name="DemoThemesCapability2" xml:space="preserve"><value>Paletta waħedha tbiddel il-kuluri u żżomm il-forma mogħtija.</value></data>
+  <data name="DemoThemesCapability3" xml:space="preserve"><value>{0} temi u {1} paletti, jiġifieri {2} kombinazzjonijiet, kull waħda f'ċar u f'skur.</value></data>
+  <data name="DemoSurfacesTitle" xml:space="preserve"><value>Uċuħ</value></data>
+  <data name="DemoSurfacesSummary" xml:space="preserve"><value>Kards, menu li jżomm f'wiċċ l-ilma, tabs, menu tal-ġenb, link u tooltip.</value></data>
+  <data name="DemoSurfacesCapability1" xml:space="preserve"><value>Il-kards u l-menu li jżomm f'wiċċ l-ilma jaqraw il-forma tat-tema: mili, kontorn, raġġ u dell.</value></data>
+  <data name="DemoSurfacesCapability2" xml:space="preserve"><value>Il-menu li jżomm f'wiċċ l-ilma jinfetaħ fuq is-saff tal-uċuħ li jżommu f'wiċċ l-ilma.</value></data>
+  <data name="DemoSurfacesCapability3" xml:space="preserve"><value>L-element kurrenti ta' menu jiġi mmarkat bil-mili tiegħu u bil-piż tat-test, qatt b'linja tal-ġenb.</value></data>
+  <data name="DemoVerticalFormTitle" xml:space="preserve"><value>Formola vertikali</value></data>
+  <data name="DemoVerticalFormSummary" xml:space="preserve"><value>Kull tip ta' qasam, l-iżbalji u s-sommarju tagħhom, l-istati diżattivat u għall-qari biss.</value></data>
+  <data name="DemoVerticalFormCapability1" xml:space="preserve"><value>Tikketta fuq, asterisk ta' obbligu, għajnuna u żball b'ikona.</value></data>
+  <data name="DemoVerticalFormCapability2" xml:space="preserve"><value>L-iżbalji huma dawk tal-kuntest tal-editjar: il-qasam jieħu aria-invalid minnhom, u meta tikkoreġihom jitneħħew mis-sommarju.</value></data>
+  <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Qasam tal-fajl iwweldjat, żona ta' fajl wieħed, żona ta' diversi fajls b'lista mnaqqsa.</value></data>
+  <data name="DemoVerticalFormCapability4" xml:space="preserve"><value>Diżattivat u għall-qari biss jibqgħu distinti, fit-tliet densitajiet.</value></data>
+  <data name="DemoSettingsTabsTitle" xml:space="preserve"><value>Settings f'tabs</value></data>
+  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>Tab b'ikona għal kull suġġett, taqsima għal kull tab, madum għal kull setting.</value></data>
+  <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>Swiċċ f'madum jieħu l-isem tal-madum bħala tikketta; klikk fuq il-madum jaqilbu.</value></data>
+  <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>Il-kontroll jinsab fuq il-lemin, l-isem, il-ħjiel u l-ikona fuq ix-xellug.</value></data>
+  <data name="DemoNoticesTitle" xml:space="preserve"><value>Notifiki u djalogi</value></data>
+  <data name="DemoNoticesSummary" xml:space="preserve"><value>Notifiki li jistgħu jingħalqu, djalogi fuq l-isfond.</value></data>
+  <data name="DemoNoticesCapability1" xml:space="preserve"><value>Kull notifika tingħalaq bis-salib tagħha.</value></data>
+  <data name="DemoNoticesCapability2" xml:space="preserve"><value>Il-footer tad-djalogi jsegwi l-konvenzjoni tal-pakkett: l-azzjoni l-ewwel, imbagħad Ikkanċella.</value></data>
+  <data name="DemoLoadingTitle" xml:space="preserve"><value>Tagħbija</value></data>
+  <data name="DemoLoadingSummary" xml:space="preserve"><value>Bar tat-tagħbija, stennija, buttuni okkupati, progress u skeletru.</value></data>
+  <data name="DemoLoadingCapability1" xml:space="preserve"><value>Il-bar isegwi tagħbija vera, jiknes jew jimtela, jasal sat-tmiem u mbagħad jgħib.</value></data>
+  <data name="DemoLoadingCapability2" xml:space="preserve"><value>Buttuna okkupata żżomm id-daqs u l-kontenut tagħha: velu jieħu n-nifs fuqha.</value></data>
+  <data name="DemoLoadingCapability3" xml:space="preserve"><value>L-iskeletru jieħu l-forma ta' dak li qed jissostitwixxi.</value></data>
+  <data name="DemoRunGridsTitle" xml:space="preserve"><value>Gradilji tat-tħaddim</value></data>
+  <data name="DemoRunGridsSummary" xml:space="preserve"><value>Iż-żewġ gradilji tal-mockup: issortjata b'kolonna attiva, strixxata b'intestatura li teħel.</value></data>
+  <data name="DemoRunGridsCapability1" xml:space="preserve"><value>Il-kolonna ssortjata hija kkulurita eħfef mir-ringiela magħżula, biex jintgħarfu minn xulxin.</value></data>
+  <data name="DemoRunGridsCapability2" xml:space="preserve"><value>L-intestatura tibqa' viżibbli waqt li l-grilja tiskrollja; it-tul jiġi allinjat fl-aħħar.</value></data>
+  <data name="DemoRunGridsCapability3" xml:space="preserve"><value>L-istatus huwa tikka kompatta (omni-status).</value></data>
+  <data name="LoadingFrameBrand" xml:space="preserve"><value>Aetheus</value></data>
+  <data name="LoadingFramePage" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="LoadingBarLabel" xml:space="preserve"><value>Il-paġna qed titgħabba</value></data>
+  <data name="LoadingSweep" xml:space="preserve"><value>Bar li jiknes</value></data>
+  <data name="LoadingFill" xml:space="preserve"><value>Bar li jimtela</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>Il-bar jinsab taħt l-intestatura ta' hawn fuq. Fl-aħħar jasal sat-tmiem, imbagħad jgħib.</value></data>
+  <data name="LoadingWaiting" xml:space="preserve"><value>Stennija</value></data>
+  <data name="LoadingDeploying" xml:space="preserve"><value>Qed jiġi skjerat</value></data>
+  <data name="LoadingChecking" xml:space="preserve"><value>Verifika</value></data>
+  <data name="LoadingSaving" xml:space="preserve"><value>Qed jiġi ssejvjat</value></data>
+  <data name="LoadingAnalysis" xml:space="preserve"><value>Analiżi għaddejja</value></data>
+  <data name="LoadingCoverage" xml:space="preserve"><value>Kopertura</value></data>
+  <data name="LoadingContent" xml:space="preserve"><value>Il-kontenut qed jitgħabba</value></data>
+  <data name="NoticeDoneTitle" xml:space="preserve"><value>Skjerament lest</value></data>
+  <data name="NoticeDoneMessage" xml:space="preserve"><value>aetheus-deploy-prod #2399 f'1 min 48 s.</value></data>
+  <data name="NoticeRefusedTitle" xml:space="preserve"><value>Restawr imsakkar rifjutat</value></data>
+  <data name="NoticeRefusedMessage" xml:space="preserve"><value>Il-graff NuGet tbiegħed mill-fajl tas-serratura.</value></data>
+  <data name="NoticeShowAgain" xml:space="preserve"><value>Erġa' uri n-notifiki</value></data>
+  <data name="NoticeUnlistOpen" xml:space="preserve"><value>Neħħi l-verżjoni 1.0.0 mil-lista</value></data>
+  <data name="NoticeUnlistTitle" xml:space="preserve"><value>Neħħi l-verżjoni 1.0.0 mil-lista</value></data>
+  <data name="NoticeUnlistBody" xml:space="preserve"><value>Il-verżjoni se tisparixxi mit-tfittxija u mill-firxiet varjabbli. Tibqa' tista' titniżżel bin-numru eżatt.</value></data>
+  <data name="NoticeUnlistAlpha" xml:space="preserve"><value>Neħħi wkoll 0.1.0-alpha.1 mil-lista</value></data>
+  <data name="NoticeUnlist" xml:space="preserve"><value>Neħħi mil-lista</value></data>
+  <data name="NoticeUnlistDone" xml:space="preserve"><value>Verżjoni mneħħija mil-lista</value></data>
+  <data name="NoticeRerunOpen" xml:space="preserve"><value>Erġa' ħaddem il-pipeline</value></data>
+  <data name="NoticeRerunTitle" xml:space="preserve"><value>Terġa' tħaddem il-pipeline?</value></data>
+  <data name="NoticeRerunBody" xml:space="preserve"><value>aetheus-deploy-prod #2399 se jerġa' jitħaddem fuq is-server vps2577917, bl-istess varjabbli.</value></data>
+  <data name="NoticeRerunNotify" xml:space="preserve"><value>Innotifikani fl-aħħar</value></data>
+  <data name="NoticeRerun" xml:space="preserve"><value>Erġa' ħaddem</value></data>
+  <data name="NoticeRerunDone" xml:space="preserve"><value>Pipeline imħaddem mill-ġdid</value></data>
+  <data name="NoticeCancel" xml:space="preserve"><value>Ikkanċella</value></data>
+  <data name="NoticeClose" xml:space="preserve"><value>Agħlaq</value></data>
+  <data name="NoticeLast" xml:space="preserve"><value>L-aħħar azzjoni: {0}</value></data>
+  <data name="RunsSortedCaption" xml:space="preserve"><value>Tħaddimiet, issortjati skont il-pipeline</value></data>
+  <data name="RunsStripedCaption" xml:space="preserve"><value>Storja tat-tħaddimiet</value></data>
+  <data name="RunsRun" xml:space="preserve"><value>Tħaddim</value></data>
+  <data name="RunsPipeline" xml:space="preserve"><value>Pipeline</value></data>
+  <data name="RunsTrigger" xml:space="preserve"><value>Attivatur</value></data>
+  <data name="RunsSeconds" xml:space="preserve"><value>Tul (s)</value></data>
+  <data name="RunsStatus" xml:space="preserve"><value>Status</value></data>
+  <data name="RunsTriggerPush" xml:space="preserve"><value>Push</value></data>
+  <data name="RunsTriggerManual" xml:space="preserve"><value>Manwali</value></data>
+  <data name="RunsTriggerScheduled" xml:space="preserve"><value>Skedat</value></data>
+  <data name="RunsStatusSuccess" xml:space="preserve"><value>Suċċess</value></data>
+  <data name="RunsStatusInfo" xml:space="preserve"><value>Għaddej</value></data>
+  <data name="RunsStatusWarning" xml:space="preserve"><value>Ikkanċellat</value></data>
+  <data name="RunsStatusDanger" xml:space="preserve"><value>Falla</value></data>
+  <data name="SettingsTabsLabel" xml:space="preserve"><value>Settings</value></data>
+  <data name="SettingsGeneral" xml:space="preserve"><value>Ġenerali</value></data>
+  <data name="SettingsGeneralLead" xml:space="preserve"><value>Postijiet tax-xogħol u mġiba mal-bidu.</value></data>
+  <data name="SettingsFolder" xml:space="preserve"><value>Folder tal-artifacts</value></data>
+  <data name="SettingsFolderHint" xml:space="preserve"><value>Fejn il-builds iħallu l-pakketti tagħhom.</value></data>
+  <data name="SettingsBrowse" xml:space="preserve"><value>Ibbrawżja</value></data>
+  <data name="SettingsStartup" xml:space="preserve"><value>Ibda ma' Windows</value></data>
+  <data name="SettingsStartupHint" xml:space="preserve"><value>Jibda l-aġent meta tinfetaħ is-sessjoni.</value></data>
+  <data name="SettingsLanguage" xml:space="preserve"><value>Lingwa</value></data>
+  <data name="SettingsLanguageHint" xml:space="preserve"><value>Lingwa tal-interfaċċja u tan-notifiki.</value></data>
+  <data name="SettingsLanguageFrench" xml:space="preserve"><value>Français</value></data>
+  <data name="SettingsLanguageEnglish" xml:space="preserve"><value>English</value></data>
+  <data name="SettingsDisplay" xml:space="preserve"><value>Wiri</value></data>
+  <data name="SettingsDisplayLead" xml:space="preserve"><value>Dehra u densità tal-interfaċċja.</value></data>
+  <data name="SettingsDarkMode" xml:space="preserve"><value>Modalità skura</value></data>
+  <data name="SettingsDarkModeHint" xml:space="preserve"><value>Segwi s-sistema jew sfurza modalità.</value></data>
+  <data name="SettingsModeSystem" xml:space="preserve"><value>Segwi s-sistema</value></data>
+  <data name="SettingsModeLight" xml:space="preserve"><value>Ċar</value></data>
+  <data name="SettingsModeDark" xml:space="preserve"><value>Skur</value></data>
+  <data name="SettingsCompact" xml:space="preserve"><value>Interfaċċja kompatta</value></data>
+  <data name="SettingsCompactHint" xml:space="preserve"><value>Tnaqqas il-marġni tal-gradilji u tal-formoli.</value></data>
+  <data name="SettingsNotifications" xml:space="preserve"><value>Notifiki</value></data>
+  <data name="SettingsNotificationsLead" xml:space="preserve"><value>X'jiġi nnotifikat lilek, u permezz ta' liema kanal.</value></data>
+  <data name="SettingsFailures" xml:space="preserve"><value>Fallimenti tal-pipeline</value></data>
+  <data name="SettingsFailuresHint" xml:space="preserve"><value>Notifika għal kull tħaddim li jfalli.</value></data>
+  <data name="SettingsDigest" xml:space="preserve"><value>Sommarju ta' kuljum</value></data>
+  <data name="SettingsDigestHint" xml:space="preserve"><value>Jintbagħat kull filgħodu fit-8.</value></data>
+  <data name="SettingsDigestAddress" xml:space="preserve"><value>Indirizz tas-sommarju</value></data>
+  <data name="DemoShellDashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="DemoShellInProgress" xml:space="preserve"><value>Għaddej</value></data>
+  <data name="DemoShellArchived" xml:space="preserve"><value>Arkivjati</value></data>
+  <data name="DemoShellSettings" xml:space="preserve"><value>Settings</value></data>
+  <data name="DemoShellOneOffAction" xml:space="preserve"><value>Azzjoni ta' darba</value></data>
+  <data name="DemoShellToggleMenu" xml:space="preserve"><value>Uri jew aħbi l-menu</value></data>
+  <data name="DemoShellAppName" xml:space="preserve"><value>L-applikazzjoni tiegħi</value></data>
+  <data name="DemoShellChangeAppearance" xml:space="preserve"><value>Biddel id-dehra</value></data>
+  <data name="DemoShellMenu" xml:space="preserve"><value>Menu tad-dimostrazzjoni</value></data>
+  <data name="DemoShellSections" xml:space="preserve"><value>Taqsimiet</value></data>
+  <data name="DemoShellFolders" xml:space="preserve"><value>Folders</value></data>
+  <data name="DemoShellMainContent" xml:space="preserve"><value>Kontenut prinċipali</value></data>
+  <data name="DemoShellAppearanceDark" xml:space="preserve"><value>Id-dehra magħżula hawn hija skura.</value></data>
+  <data name="DemoShellAppearanceLight" xml:space="preserve"><value>Id-dehra magħżula hawn hija ċara.</value></data>
+  <data name="DemoShellConsole" xml:space="preserve"><value>Console tal-operazzjonijiet</value></data>
+  <data name="DemoShellSecondaryMenu" xml:space="preserve"><value>Menu sekondarju</value></data>
+  <data name="DemoShellTools" xml:space="preserve"><value>Għodod</value></data>
+  <data name="DemoShellLogs" xml:space="preserve"><value>Logs</value></data>
+  <data name="DemoShellWideView" xml:space="preserve"><value>Veduta wiesgħa</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>Iż-żona tal-kontenut tmur minn tarf għal tarf, limitata għall-wisa' l-wiesgħa (90 rem), mingħajr kolonna tal-qari dejqa.</value></data>
+  <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Uri jew aħbi l-menu li jżomm f'wiċċ l-ilma</value></data>
+  <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Menu li jżomm f'wiċċ l-ilma</value></data>
+  <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Menu tad-dimostrazzjoni li jżomm f'wiċċ l-ilma</value></data>
+  <data name="DemoShellFilters" xml:space="preserve"><value>Filtri</value></data>
+  <data name="DemoShellContent" xml:space="preserve"><value>Kontenut</value></data>
+  <data name="DemoShellFloatingText" xml:space="preserve"><value>Meta tiftaħ il-menu, dan it-test ma jiċċaqlaqx: il-pannell jgħaddi minn fuqu.</value></data>
+  <data name="DemoShellScrollTitle" xml:space="preserve"><value>Kontenut iċċentrat, skrolljar fit-tarf</value></data>
+  <data name="DemoShellScrollMenu" xml:space="preserve"><value>Menu tad-dimostrazzjoni li tiskrollja</value></data>
+  <data name="DemoShellReadingColumn" xml:space="preserve"><value>Kolonna tal-qari</value></data>
+  <data name="DemoShellScroll1" xml:space="preserve"><value>Il-kolonna hija limitata għal 72rem u ċċentrata; il-bqija tal-wisa' għadha tappartjeni lill-element prinċipali.</value></data>
+  <data name="DemoShellScroll2" xml:space="preserve"><value>Għalhekk huwa l-element prinċipali li jiskrollja, fuq il-wisa' kollha taż-żona: il-bar tal-iskrolljar tiegħu jibqa' fit-tarf tal-lemin tal-qafas.</value></data>
+  <data name="DemoShellScroll3" xml:space="preserve"><value>Element tifel b'għoli ta' 100% jimla ż-żona eżattament; kontenut ogħla jġegħelha tiskrollja.</value></data>
+  <data name="DemoShellScroll4" xml:space="preserve"><value>Il-marġni t'isfel jinżamm fl-aħħar tal-iskrolljar.</value></data>
+  <data name="DemoShellScroll5" xml:space="preserve"><value>Meta tidjieq it-tieqa, il-kolonna tiġi mnaqqsa għall-wisa' disponibbli, inkluż il-marġni.</value></data>
+  <data name="DemoShellSplashChecking" xml:space="preserve"><value>Verifika tal-iskrin tal-bidu</value></data>
+  <data name="DemoShellSplashRemoved" xml:space="preserve"><value>Skrin tal-bidu mneħħi</value></data>
+  <data name="DemoShellSplashAbsent" xml:space="preserve"><value>L-ebda skrin tal-bidu f'din id-dimostrazzjoni</value></data>
+  <data name="ShellToggle" xml:space="preserve"><value>Iġbor jew espandi l-menu</value></data>
+  <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
+  <data name="ShellBrand" xml:space="preserve"><value>Aetheus</value></data>
+  <data name="ShellSearch" xml:space="preserve"><value>Fittex</value></data>
+  <data name="ShellSearchPlaceholder" xml:space="preserve"><value>Fittex pipeline</value></data>
+  <data name="ShellHelp" xml:space="preserve"><value>Għajnuna</value></data>
+  <data name="ShellNotifications" xml:space="preserve"><value>Notifiki, {0} mhux moqrija</value></data>
+  <data name="ShellAccount" xml:space="preserve"><value>Kont</value></data>
+  <data name="ShellSettings" xml:space="preserve"><value>Settings</value></data>
+  <data name="ShellSettingsHint" xml:space="preserve"><value>Tema, lingwa, notifiki</value></data>
+  <data name="ShellAppearance" xml:space="preserve"><value>Dehra</value></data>
+  <data name="ShellAppearanceHint" xml:space="preserve"><value>Ċar, skur jew sistema</value></data>
+  <data name="ShellSignOut" xml:space="preserve"><value>Oħroġ</value></data>
+  <data name="ShellMenu" xml:space="preserve"><value>Menu prinċipali</value></data>
+  <data name="ShellDashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="ShellPipelines" xml:space="preserve"><value>Pipelines</value></data>
+  <data name="ShellServers" xml:space="preserve"><value>Servers</value></data>
+  <data name="ShellProjects" xml:space="preserve"><value>Proġetti</value></data>
+  <data name="ShellHelpCenter" xml:space="preserve"><value>Ċentru tal-għajnuna</value></data>
+  <data name="ShellAdministration" xml:space="preserve"><value>Amministrazzjoni</value></data>
+  <data name="ShellServersOnline" xml:space="preserve"><value>Server online</value></data>
+  <data name="ShellAppsTracked" xml:space="preserve"><value>Applikazzjonijiet segwiti</value></data>
+  <data name="ShellPipelinesRunning" xml:space="preserve"><value>Pipelines għaddejjin</value></data>
+  <data name="ShellLoading" xml:space="preserve"><value>Id-dashboard qed titgħabba</value></data>
+  <data name="ShellLastAction" xml:space="preserve"><value>L-aħħar azzjoni: {0}</value></data>
+  <data name="StatesRest" xml:space="preserve"><value>Mistrieħ</value></data>
+  <data name="StatesHover" xml:space="preserve"><value>Hover</value></data>
+  <data name="StatesPress" xml:space="preserve"><value>Pressjoni</value></data>
+  <data name="StatesPrimary" xml:space="preserve"><value>Primarja</value></data>
+  <data name="StatesSuccess" xml:space="preserve"><value>Suċċess</value></data>
+  <data name="StatesSecondary" xml:space="preserve"><value>Sekondarja</value></data>
+  <data name="StatesGhost" xml:space="preserve"><value>Fantażma</value></data>
+  <data name="SurfServers" xml:space="preserve"><value>Servers</value></data>
+  <data name="SurfServersText" xml:space="preserve"><value>L-aħħar taħbita tal-qalb 4 minuti ilu.</value></data>
+  <data name="SurfPipelines" xml:space="preserve"><value>Pipelines</value></data>
+  <data name="SurfPipelinesFigure" xml:space="preserve"><value>2,400</value></data>
+  <data name="SurfPipelinesText" xml:space="preserve"><value>Tliet tħaddimiet fallew mill-aħħar għaxra.</value></data>
+  <data name="SurfCoverage" xml:space="preserve"><value>Kopertura</value></data>
+  <data name="SurfCoverageFigure" xml:space="preserve"><value>87%</value></data>
+  <data name="SurfAccount" xml:space="preserve"><value>Kont</value></data>
+  <data name="SurfPerson" xml:space="preserve"><value>Camille Durand</value></data>
+  <data name="SurfPersonRole" xml:space="preserve"><value>Amministratriċi, OmniEurope</value></data>
+  <data name="SurfSettings" xml:space="preserve"><value>Settings</value></data>
+  <data name="SurfSettingsHint" xml:space="preserve"><value>Tema, lingwa, notifiki</value></data>
+  <data name="SurfSwitch" xml:space="preserve"><value>Biddel l-ispazju tax-xogħol</value></data>
+  <data name="SurfSwitchHint" xml:space="preserve"><value>Aetheus, Atlas, Portfolio</value></data>
+  <data name="SurfSignOut" xml:space="preserve"><value>Oħroġ</value></data>
+  <data name="SurfTabsLabel" xml:space="preserve"><value>Taqsimiet tat-tħaddim</value></data>
+  <data name="SurfTabOverview" xml:space="preserve"><value>Ħarsa ġenerali</value></data>
+  <data name="SurfTabOverviewText" xml:space="preserve"><value>Tħaddim #2399, lest f'1 min 48 s.</value></data>
+  <data name="SurfTabLogs" xml:space="preserve"><value>Logs</value></data>
+  <data name="SurfTabLogsText" xml:space="preserve"><value>412-il linja, l-ebda żball.</value></data>
+  <data name="SurfTabArtifacts" xml:space="preserve"><value>Artifacts</value></data>
+  <data name="SurfTabArtifactsText" xml:space="preserve"><value>Żewġ pakketti u s-simboli tagħhom.</value></data>
+  <data name="SurfTabSettings" xml:space="preserve"><value>Settings</value></data>
+  <data name="SurfTabSettingsText" xml:space="preserve"><value>Restawr imsakkar, firma obbligatorja.</value></data>
+  <data name="SurfMenuLabel" xml:space="preserve"><value>Taqsimiet</value></data>
+  <data name="SurfMenuDashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="SurfMenuServers" xml:space="preserve"><value>Servers</value></data>
+  <data name="SurfMenuProjects" xml:space="preserve"><value>Proġetti</value></data>
+  <data name="SurfMenuAdministration" xml:space="preserve"><value>Amministrazzjoni</value></data>
+  <data name="SurfLinkBefore" xml:space="preserve"><value>Aqra</value></data>
+  <data name="SurfLink" xml:space="preserve"><value>il-proċedura tal-pubblikazzjoni</value></data>
+  <data name="SurfLinkAfter" xml:space="preserve"><value>qabel ma tneħħi verżjoni mil-lista.</value></data>
+  <data name="SurfTooltip" xml:space="preserve"><value>Wiċċ invers, test invers</value></data>
+  <data name="SurfTooltipTrigger" xml:space="preserve"><value>Tooltip</value></data>
+  <data name="SurfLast" xml:space="preserve"><value>L-aħħar azzjoni: {0}</value></data>
+  <data name="ThemesThemeWithPalette" xml:space="preserve"><value>Tema {0}, paletta {1}</value></data>
+  <data name="ThemesThemeAlone" xml:space="preserve"><value>Tema {0}, bil-paletta tagħha</value></data>
+  <data name="ThemesPaletteAlone" xml:space="preserve"><value>Paletta {0}, forma mogħtija</value></data>
+  <data name="ThemesShipped" xml:space="preserve"><value>Dehra mogħtija</value></data>
+  <data name="ThemesLivePreview" xml:space="preserve"><value>Dehra minn qabel: {0}</value></data>
+  <data name="ThemesSave" xml:space="preserve"><value>Issejvja</value></data>
+  <data name="ThemesCancel" xml:space="preserve"><value>Ikkanċella</value></data>
+  <data name="ThemesBadge" xml:space="preserve"><value>Ippubblikat</value></data>
+  <data name="ThemesAlert" xml:space="preserve"><value>Kull paletta tiżbogħ kull tema.</value></data>
+  <data name="VFormSummaryTitle" xml:space="preserve"><value>Oqsma x'jiġu kkoreġuti: {0}.</value></data>
+  <data name="VFormName" xml:space="preserve"><value>Isem il-pipeline</value></data>
+  <data name="VFormNameHelp" xml:space="preserve"><value>Ittri żgħar, ċifri u sing.</value></data>
+  <data name="VFormNameError" xml:space="preserve"><value>L-isem tal-pipeline huwa obbligatorju.</value></data>
+  <data name="VFormMail" xml:space="preserve"><value>Indirizz tan-notifiki</value></data>
+  <data name="VFormMailError" xml:space="preserve"><value>Żid dominju sħiħ, pereżempju tim@example.com.</value></data>
+  <data name="VFormToken" xml:space="preserve"><value>Token tal-aċċess</value></data>
+  <data name="VFormReplicas" xml:space="preserve"><value>Repliki</value></data>
+  <data name="VFormEnvironment" xml:space="preserve"><value>Ambjent</value></data>
+  <data name="VFormEnvironmentProduction" xml:space="preserve"><value>Produzzjoni</value></data>
+  <data name="VFormEnvironmentAcceptance" xml:space="preserve"><value>Aċċettazzjoni</value></data>
+  <data name="VFormEnvironmentDevelopment" xml:space="preserve"><value>Żvilupp</value></data>
+  <data name="VFormDate" xml:space="preserve"><value>Data tal-iskjerament</value></data>
+  <data name="VFormTime" xml:space="preserve"><value>Ħin tal-iskjerament</value></data>
+  <data name="VFormMoment" xml:space="preserve"><value>Perjodu ta' manutenzjoni</value></data>
+  <data name="VFormDescription" xml:space="preserve"><value>Deskrizzjoni</value></data>
+  <data name="VFormStrategy" xml:space="preserve"><value>Strateġija tal-iskjerament</value></data>
+  <data name="VFormStrategyRolling" xml:space="preserve"><value>Sostituzzjoni progressiva</value></data>
+  <data name="VFormStrategyBlueGreen" xml:space="preserve"><value>Blu aħdar</value></data>
+  <data name="VFormStrategyCanary" xml:space="preserve"><value>Canary (dalwaqt disponibbli)</value></data>
+  <data name="VFormStrategyError" xml:space="preserve"><value>Agħżel strateġija tal-iskjerament.</value></data>
+  <data name="VFormOptions" xml:space="preserve"><value>Għażliet</value></data>
+  <data name="VFormLocked" xml:space="preserve"><value>Restawr imsakkar</value></data>
+  <data name="VFormSymbols" xml:space="preserve"><value>Ippubblika s-simboli</value></data>
+  <data name="VFormSigning" xml:space="preserve"><value>Firma tal-pakkett (obbligatorja)</value></data>
+  <data name="VFormNotify" xml:space="preserve"><value>Innotifika fl-aħħar</value></data>
+  <data name="VFormAutoDeploy" xml:space="preserve"><value>Skjerament awtomatiku (diżattivat)</value></data>
+  <data name="VFormFiles" xml:space="preserve"><value>Fajls</value></data>
+  <data name="VFormManifest" xml:space="preserve"><value>Manifest tal-iskjerament</value></data>
+  <data name="VFormManifestHelp" xml:space="preserve"><value>Fajl wieħed, jiftaħ it-tieqa tal-għażla tal-fajls tas-sistema.</value></data>
+  <data name="VFormArchive" xml:space="preserve"><value>Arkivju tal-applikazzjoni</value></data>
+  <data name="VFormArchiveHelp" xml:space="preserve"><value>ZIP jew TAR, mhux aktar minn 50 MB.</value></data>
+  <data name="VFormAttachments" xml:space="preserve"><value>Annessi</value></data>
+  <data name="VFormAttachmentsHelp" xml:space="preserve"><value>Sa 10 fajls, 20 MB kull wieħed. Xejn ma jintbagħat: id-dimostrazzjoni żżomm il-fajls fil-lista.</value></data>
+  <data name="VFormServer" xml:space="preserve"><value>Server fil-mira</value></data>
+  <data name="VFormServerHelp" xml:space="preserve"><value>Diżattivat: stabbilit mill-ambjent.</value></data>
+  <data name="VFormIdentifier" xml:space="preserve"><value>Identifikatur</value></data>
+  <data name="VFormIdentifierHelp" xml:space="preserve"><value>Għall-qari biss: jista' jiġi kkupjat, ma jistax jinbidel.</value></data>
+  <data name="VFormAgent" xml:space="preserve"><value>Aġent</value></data>
+  <data name="VFormAgentShared" xml:space="preserve"><value>Aġent kondiviż</value></data>
+  <data name="VFormCancel" xml:space="preserve"><value>Ikkanċella</value></data>
+  <data name="VFormSave" xml:space="preserve"><value>Issejvja</value></data>
+  <data name="VFormSaved" xml:space="preserve"><value>Pipeline issejvjat.</value></data>
+  <data name="VFormNotSaved" xml:space="preserve"><value>Ikkoreġi l-oqsma indikati qabel ma tissejvja.</value></data>
+  <data name="VFormDescriptionValue" xml:space="preserve"><value>Jiskjera l-fergħa prinċipali ladarba jgħaddu t-testijiet tal-aċċettazzjoni.</value></data>
+  <data name="GridFiledColumn" xml:space="preserve"><value>Iddepożitat fi</value></data>
+</root>

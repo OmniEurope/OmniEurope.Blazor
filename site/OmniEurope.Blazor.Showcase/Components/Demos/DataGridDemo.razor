@@ -3,7 +3,7 @@
               Items="Rows"
               Caption="Dossiers ouverts"
               AllowSorting="true"
-              AllowFiltering="true"
+              Filterable="true"
               ScrollMode="OmniDataGridScrollMode.Paged"
               AllowAlternatingRows="true"
               PageSize="5"
@@ -41,8 +41,8 @@
               HighlightActiveColumn="true"
               MaxHeight="17rem"
               SelectionMode="OmniDataGridSelectionMode.Single"
-              KeySelector="run => run.Run"
-              @bind-SelectedKeys="SelectedRuns">
+              KeyOf="run => run.Run"
+              @bind-Value="SelectedRuns">
     <Columns>
         <OmniDataGridColumn TItem="RunRow" Property="Run" Title="Exécution" />
         <OmniDataGridColumn TItem="RunRow" Property="Pipeline" Title="Pipeline" SortOrder="OmniDataGridSortOrder.Ascending" />
@@ -64,7 +64,7 @@
         <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" Width="7rem" />
         <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur" Width="11rem" />
         <OmniDataGridColumn TItem="GridRow" Property="Country" Title="Pays">
-            <Template Context="row"><OmniBadge Variant="OmniBadgeVariant.Info">@row.Country</OmniBadge></Template>
+            <Template Context="row"><OmniBadge Tone="OmniTone.Info">@row.Country</OmniBadge></Template>
         </OmniDataGridColumn>
     </Columns>
 </OmniDataGrid>

@@ -145,7 +145,7 @@ public sealed class GitGraphComponentTests : OmniBunitContext
 
         var custom = Render<OmniGitGraph<Commit>>(parameters => parameters
             .Add(component => component.Items, [])
-            .Add(component => component.IdOf, commit => commit.Id)
+            .Add(component => component.KeyOf, commit => commit.Id)
             .Add(component => component.ParentsOf, commit => commit.Parents)
             .Add(component => component.EmptyText, "Rien à montrer")
             .Add(component => component.Id, "history"));
@@ -153,7 +153,7 @@ public sealed class GitGraphComponentTests : OmniBunitContext
 
         var named = Render<OmniGitGraph<Commit>>(parameters => parameters
             .Add(component => component.Items, Branched)
-            .Add(component => component.IdOf, commit => commit.Id)
+            .Add(component => component.KeyOf, commit => commit.Id)
             .Add(component => component.ParentsOf, commit => commit.Parents)
             .Add(component => component.Label, "Branche main"));
         Assert.Equal("Branche main", named.Find("ol").GetAttribute("aria-label"));
@@ -164,7 +164,7 @@ public sealed class GitGraphComponentTests : OmniBunitContext
     {
         var graph = Render<OmniGitGraph<Commit>>(parameters => parameters
             .Add(component => component.Items, [new Commit("root", [])])
-            .Add(component => component.IdOf, commit => commit.Id)
+            .Add(component => component.KeyOf, commit => commit.Id)
             .Add(component => component.ParentsOf, _ => null!));
 
         Assert.Single(graph.FindAll("li"));
@@ -179,7 +179,7 @@ public sealed class GitGraphComponentTests : OmniBunitContext
             .Add(component => component.ParentsOf, commit => commit.Parents)));
         Assert.Throws<ArgumentNullException>(() => Render<OmniGitGraph<Commit>>(parameters => parameters
             .Add(component => component.Items, Branched)
-            .Add(component => component.IdOf, commit => commit.Id)));
+            .Add(component => component.KeyOf, commit => commit.Id)));
     }
 
     private static GitGraphLayout Build(IReadOnlyList<Commit> commits) =>
@@ -188,7 +188,7 @@ public sealed class GitGraphComponentTests : OmniBunitContext
     private IRenderedComponent<OmniGitGraph<Commit>> RenderGraph(IReadOnlyList<Commit> commits) =>
         Render<OmniGitGraph<Commit>>(parameters => parameters
             .Add(component => component.Items, commits)
-            .Add(component => component.IdOf, commit => commit.Id)
+            .Add(component => component.KeyOf, commit => commit.Id)
             .Add(component => component.ParentsOf, commit => commit.Parents)
             .Add(component => component.RowTemplate, commit => builder =>
             {

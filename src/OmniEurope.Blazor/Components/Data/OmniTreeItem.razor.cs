@@ -1,5 +1,6 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>An item of an <see cref="OmniTree{TValue}"/>, with its child items declared or loaded on demand.</summary>
 public partial class OmniTreeItem<TValue>
 {
     private bool _expanded;
@@ -13,9 +14,11 @@ public partial class OmniTreeItem<TValue>
     [CascadingParameter]
     private OmniTreeContext<TValue>? Context { get; set; }
 
+    /// <summary>The value this item stands for in the tree's selection.</summary>
     [Parameter]
     public TValue Value { get; set; } = default!;
 
+    /// <summary>The item's text, also its accessible name.</summary>
     [Parameter, EditorRequired]
     public string Text { get; set; } = string.Empty;
 
@@ -28,21 +31,33 @@ public partial class OmniTreeItem<TValue>
     [Parameter]
     public RenderFragment? TextContent { get; set; }
 
+    /// <summary>Whether the child items are shown (<c>@bind-Expanded</c>).</summary>
     [Parameter]
     public bool Expanded { get; set; }
 
+    /// <summary>Raised when the reader opens or closes the item.</summary>
     [Parameter]
     public EventCallback<bool> ExpandedChanged { get; set; }
 
+    /// <summary>
+    /// Loads the child items the first time the item opens (the host then renders them in
+    /// <see cref="ChildContent"/>); a newer opening cancels a load still running.
+    /// </summary>
     [Parameter]
     public Func<CancellationToken, Task>? LoadChildren { get; set; }
 
+    /// <summary>
+    /// Raised with the exception when <see cref="LoadChildren"/> fails (a cancelled load is not a
+    /// failure); the item then shows a localized error message.
+    /// </summary>
     [Parameter]
-    public EventCallback<Exception> LoadFailed { get; set; }
+    public EventCallback<Exception> OnLoadError { get; set; }
 
+    /// <summary>Makes the item impossible to select.</summary>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>The child items.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -123,7 +138,7 @@ public partial class OmniTreeItem<TValue>
         catch (Exception exception)
         {
             _loadError = true;
-            await LoadFailed.InvokeAsync(exception);
+            await OnLoadError.InvokeAsync(exception);
         }
         finally { _loading = false; }
     }

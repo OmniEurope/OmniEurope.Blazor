@@ -1,35 +1,15 @@
-using System.Collections;
-using System.Globalization;
-using System.Reflection;
-
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// A choice of one option in a closed list: a native <c>select</c>, or, with <see cref="Filterable"/>,
+/// an <see cref="OmniAutocomplete{TValue}"/> that narrows <see cref="Options"/> as the user types.
+/// </summary>
+/// <typeparam name="TValue">The value of each option.</typeparam>
 public partial class OmniDropDown<TValue>
 {
+    /// <summary>The options, in order; an option with a <see cref="OmniOption{TValue}.Group"/> is listed under that group.</summary>
     [Parameter]
     public IReadOnlyList<OmniOption<TValue>> Options { get; set; } = Array.Empty<OmniOption<TValue>>();
-
-    /// <summary>
-    /// Optional data source for model-backed options. Use <see cref="Options"/> for new code when
-    /// the values are already available as <see cref="OmniOption{TValue}"/> instances.
-    /// </summary>
-    [Parameter]
-    public IEnumerable? Data { get; set; }
-
-    /// <summary>
-    /// Public property of each <see cref="Data"/> item that gives the option text. Unset, the item's own text is
-    /// used; set, a null property value gives an empty text and an unknown name throws.
-    /// </summary>
-    [Parameter]
-    public string? TextProperty { get; set; }
-
-    /// <summary>
-    /// Public property of each <see cref="Data"/> item that gives the option value. Unset, the item itself is the
-    /// value; set, a null property value gives <c>default</c> (null for a nullable <typeparamref name="TValue"/>)
-    /// and an unknown name throws <see cref="InvalidOperationException"/>.
-    /// </summary>
-    [Parameter]
-    public string? ValueProperty { get; set; }
 
     /// <summary>
     /// Adds an empty first option that clears the value (<c>default</c>, null for a nullable
@@ -38,56 +18,47 @@ public partial class OmniDropDown<TValue>
     [Parameter]
     public bool AllowEmpty { get; set; }
 
+    /// <summary>
+    /// Lets the user type to narrow the options: the list becomes an editable combobox with the keyboard
+    /// of <see cref="OmniAutocomplete{TValue}"/>. Off by default.
+    /// </summary>
     [Parameter]
-    public bool AllowFiltering { get; set; }
+    public bool Filterable { get; set; }
 
+    /// <summary>
+    /// The text of the empty option (<see cref="AllowEmpty"/>) and the hint of the filter field. Null uses
+    /// the localized "Select".
+    /// </summary>
     [Parameter]
-    public string Placeholder { get; set; } = string.Empty;
+    public string? Placeholder { get; set; }
 
+    /// <summary>
+    /// The accessible name of the control, written as its <c>aria-label</c>. Null, the default, writes
+    /// none, so the <c>label</c> of an enclosing <see cref="OmniFormField"/> (or any <c>label for</c> the
+    /// <see cref="OmniInputBase{TValue}.Id"/>) names it.
+    /// </summary>
     [Parameter]
-    public string? AriaLabel { get; set; }
+    public string? Label { get; set; }
+
+    /// <summary>Whether the control is disabled.</summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    /// <summary>Ids of elements that describe the control, written in its <c>aria-describedby</c>.</summary>
+    [Parameter]
+    public string? AriaDescribedBy { get; set; }
 
     private string EffectivePlaceholder => string.IsNullOrWhiteSpace(Placeholder)
         ? Localize("DropDownPlaceholder")
         : Placeholder;
 
-    private string EffectiveAriaLabel
-    {
-        get
-        {
-            if (!string.IsNullOrWhiteSpace(AriaLabel))
-            {
-                return AriaLabel;
-            }
-
-            if (AdditionalAttributes?.TryGetValue("aria-label", out var label) == true
-                && !string.IsNullOrWhiteSpace(label?.ToString()))
-            {
-                return label.ToString()!;
-            }
-
-            return EffectivePlaceholder;
-        }
-    }
-
-    [Parameter]
-    public bool Disabled { get; set; }
-
-    [Parameter]
-    public string? AriaDescribedBy { get; set; }
-
-    private IReadOnlyList<OmniOption<TValue>> EffectiveOptions => Data is null
-        ? Options
-        : Data.Cast<object?>().Select(ToOption).ToArray();
-
-
     private IEnumerable<(OmniOption<TValue> Option, int Index)> IndexedOptions =>
-        EffectiveOptions.Select((option, index) => (option, index));
+        Options.Select((option, index) => (option, index));
 
     private RenderFragment OptionMarkup(OmniOption<TValue> option, int index) => builder =>
     {
         builder.OpenElement(0, "option");
-        builder.AddAttribute(1, "value", index.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        builder.AddAttribute(1, "value", index.ToString(CultureInfo.InvariantCulture));
         builder.AddAttribute(2, "disabled", option.Disabled);
         builder.AddAttribute(3, "selected", EqualityComparer<TValue>.Default.Equals(CurrentValue, option.Value));
         builder.AddContent(4, option.Text);
@@ -103,12 +74,11 @@ public partial class OmniDropDown<TValue>
     {
         get
         {
-            var options = EffectiveOptions;
-            for (var index = 0; index < options.Count; index++)
+            for (var index = 0; index < Options.Count; index++)
             {
-                if (EqualityComparer<TValue>.Default.Equals(CurrentValue, options[index].Value))
+                if (EqualityComparer<TValue>.Default.Equals(CurrentValue, Options[index].Value))
                 {
-                    return index.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    return index.ToString(CultureInfo.InvariantCulture);
                 }
             }
 
@@ -123,15 +93,15 @@ public partial class OmniDropDown<TValue>
         {
             CurrentValue = default!;
         }
-        else if (int.TryParse(raw, out var index) && index >= 0 && index < EffectiveOptions.Count && !EffectiveOptions[index].Disabled)
+        else if (int.TryParse(raw, out var index) && index >= 0 && index < Options.Count && !Options[index].Disabled)
         {
-            CurrentValue = EffectiveOptions[index].Value;
+            CurrentValue = Options[index].Value;
         }
     }
 
     private Task<IReadOnlyList<OmniOption<TValue>>> SearchOptionsAsync(string text, CancellationToken _)
     {
-        IReadOnlyList<OmniOption<TValue>> result = EffectiveOptions
+        IReadOnlyList<OmniOption<TValue>> result = Options
             .Where(option => option.Text.Contains(text, StringComparison.CurrentCultureIgnoreCase))
             .ToArray();
         return Task.FromResult(result);
@@ -139,16 +109,16 @@ public partial class OmniDropDown<TValue>
 
     private void HandleAutocompleteChange(TValue value) => CurrentValue = value;
 
-    private string FormatValue(TValue value) => EffectiveOptions
+    private string FormatValue(TValue value) => Options
         .FirstOrDefault(option => EqualityComparer<TValue>.Default.Equals(option.Value, value))?.Text
         ?? value?.ToString()
         ?? string.Empty;
 
     protected override bool TryParseValueFromString(string? value, out TValue result, out string validationErrorMessage)
     {
-        if (int.TryParse(value, out var index) && index >= 0 && index < EffectiveOptions.Count)
+        if (int.TryParse(value, out var index) && index >= 0 && index < Options.Count)
         {
-            result = EffectiveOptions[index].Value;
+            result = Options[index].Value;
             validationErrorMessage = null!;
             return true;
         }
@@ -156,39 +126,5 @@ public partial class OmniDropDown<TValue>
         result = default!;
         validationErrorMessage = Localize("DropDownInvalid", FieldIdentifier.FieldName);
         return false;
-    }
-
-    private OmniOption<TValue> ToOption(object? item)
-    {
-        var rawValue = Read(item, ValueProperty);
-        var targetType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
-        var value = rawValue is null
-            ? default!
-            : rawValue is TValue typed
-                ? typed
-                : targetType.IsEnum
-                    ? (TValue)Enum.Parse(targetType, rawValue.ToString()!, ignoreCase: true)
-                    : (TValue)Convert.ChangeType(rawValue, targetType, CultureInfo.InvariantCulture);
-        var text = Read(item, TextProperty)?.ToString() ?? string.Empty;
-        return new OmniOption<TValue>(value, text);
-    }
-
-    /// <summary>
-    /// The item itself when no property is named; otherwise the named property's value, null included.
-    /// A null property value never falls back to the item: converting the whole model to <typeparamref name="TValue"/>
-    /// threw "Object must implement IConvertible". A name the item's type does not declare as a public instance
-    /// property throws, instead of silently using the item.
-    /// </summary>
-    private static object? Read(object? item, string? property)
-    {
-        if (item is null || string.IsNullOrWhiteSpace(property))
-        {
-            return item;
-        }
-
-        var accessor = item.GetType().GetProperty(property, BindingFlags.Instance | BindingFlags.Public)
-            ?? throw new InvalidOperationException(
-                $"OmniDropDown: '{item.GetType().Name}' has no public instance property '{property}'.");
-        return accessor.GetValue(item);
     }
 }

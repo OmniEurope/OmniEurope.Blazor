@@ -155,9 +155,9 @@ public sealed class DataCompositionTests : OmniBunitContext
 
     private static readonly OmniStatusMap<RunState?> RunStates = new()
     {
-        { RunState.Succeeded, OmniBadgeVariant.Success, "Réussi", OmniIconName.CheckCircle },
-        { RunState.Failed, new OmniStatus(OmniBadgeVariant.Danger, "Échoué") { Icon = OmniIconName.Error, Description = "Une étape a échoué." } },
-        { RunState.Queued, new OmniStatus(OmniBadgeVariant.Neutral, "En file") { Fill = OmniBadgeFill.Outline } }
+        { RunState.Succeeded, OmniTone.Success, "Réussi", OmniIconName.CheckCircle },
+        { RunState.Failed, new OmniStatus(OmniTone.Danger, "Échoué") { Icon = OmniIconName.Error, Description = "Une étape a échoué." } },
+        { RunState.Queued, new OmniStatus(OmniTone.Neutral, "En file") { Fill = OmniFill.Outline } }
     };
 
     [Fact]
@@ -169,7 +169,7 @@ public sealed class DataCompositionTests : OmniBunitContext
 
         var inner = badge.Find(".omni-badge");
         Assert.Contains("omni-badge--danger", inner.ClassName, StringComparison.Ordinal);
-        Assert.Contains("omni-badge--filled", inner.ClassName, StringComparison.Ordinal);
+        Assert.Contains("omni-badge--tonal", inner.ClassName, StringComparison.Ordinal);
         Assert.Equal("Échoué", badge.Find(".omni-status-badge__text").TextContent);
         Assert.Single(badge.FindAll(".omni-status-badge__icon"));
         Assert.Equal("Une étape a échoué.", badge.Find(".omni-status-badge").GetAttribute("title"));
@@ -190,7 +190,7 @@ public sealed class DataCompositionTests : OmniBunitContext
             .Add(component => component.Map, RunStates));
         Assert.Equal("-", missing.Find(".omni-status-badge__text").TextContent);
 
-        var custom = new OmniStatusMap<string> { Fallback = new OmniStatus(OmniBadgeVariant.Warning, "Autre") };
+        var custom = new OmniStatusMap<string> { Fallback = new OmniStatus(OmniTone.Warning, "Autre") };
         Assert.Equal("Autre", custom.Resolve("x").Text);
         Assert.Contains("omni-badge--outline", Render<OmniStatusBadge<RunState?>>(parameters => parameters
             .Add(component => component.Value, RunState.Queued)
@@ -201,7 +201,7 @@ public sealed class DataCompositionTests : OmniBunitContext
     public void StatusMap_WithALocalizer_ReadsTheTextsAsResourceKeys()
     {
         var map = new OmniStatusMap<int> { Localizer = new KeyLocalizer() };
-        map.Add(1, OmniBadgeVariant.Accent, "State_Running");
+        map.Add(1, OmniTone.Accent, "State_Running");
 
         var badge = Render<OmniStatusBadge<int>>(parameters => parameters
             .Add(component => component.Value, 1)

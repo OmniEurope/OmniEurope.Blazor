@@ -7,13 +7,14 @@ public partial class ShellDemo
 {
     [Inject] private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
     private bool? SplashFound { get; set; }
+    /// <summary>Resource keys of the paragraphs that make the reading column scroll.</summary>
     private static readonly string[] ScrollParagraphs =
     [
-        "La colonne est plafonnée à 72rem et centrée ; le reste de la largeur appartient encore à l'élément principal.",
-        "C'est donc lui qui défile, sur toute la largeur de la zone : sa barre se tient au bord droit du cadre.",
-        "Un enfant à 100 % de hauteur remplirait exactement la zone ; un contenu plus haut la fait défiler.",
-        "La marge du bas reste acquise à la fin du défilement.",
-        "Réduire la fenêtre ramène la colonne à la largeur disponible, gouttière comprise."
+        "DemoShellScroll1",
+        "DemoShellScroll2",
+        "DemoShellScroll3",
+        "DemoShellScroll4",
+        "DemoShellScroll5"
     ];
 
     private bool SidebarOpen { get; set; } = true;

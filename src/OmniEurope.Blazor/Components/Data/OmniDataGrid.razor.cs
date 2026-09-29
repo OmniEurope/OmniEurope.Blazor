@@ -7,6 +7,13 @@ using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// A data table: paging, virtual scroll, sorting, column filters, grouping, selection, detail rows,
+/// inline editing, resizable and frozen columns, from <see cref="Items"/> held in memory or a remote
+/// <see cref="Load"/>. Columns are declared with <see cref="OmniDataGridColumn{TItem}"/> in <see cref="Columns"/>.
+/// Its texts come from the library resources; a host rewords them through <c>AddOmniEuropeTextOverrides</c>.
+/// </summary>
+/// <typeparam name="TItem">The type of the rows.</typeparam>
 public partial class OmniDataGrid<TItem>
 {
     private const string GridModulePath = "./_content/OmniEurope.Blazor/omni-grid.js";
@@ -48,7 +55,14 @@ public partial class OmniDataGrid<TItem>
     private IReadOnlyList<TItem>? _observedItems;
     private int _columnSpan;
     private Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<TItem>>>? _observedLoader;
-    private bool _externalRequested;
+    // The grid's own page, page size and selection, mirrored from the parameters when the host passes a
+    // new value: a component never writes its own parameters.
+    private int _page = 1;
+    private int? _receivedPage;
+    private int _pageSize = 20;
+    private int? _receivedPageSize;
+    private IReadOnlyList<TItem> _selection = Array.Empty<TItem>();
+    private IReadOnlyList<TItem>? _receivedValue;
     private static readonly object NullGroupKey = new();
 
     private ElementReference _viewport;
@@ -80,36 +94,56 @@ public partial class OmniDataGrid<TItem>
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;
 
+    /// <summary>
+    /// The rows the grid holds and pages, sorts, filters and groups itself. Ignored when
+    /// <see cref="Load"/> is set.
+    /// </summary>
     [Parameter]
     public IReadOnlyList<TItem> Items { get; set; } = Array.Empty<TItem>();
 
+    /// <summary>
+    /// Remote data: called with the page, the sorts, the filters and a cancellation token each time the
+    /// grid needs rows (first render, page change, sort, filter, or a block while virtualizing). A newer
+    /// request cancels the previous one. A failure is shown in the grid (<see cref="ErrorContent"/>) with
+    /// a retry action and reported through <see cref="OnLoadError"/>.
+    /// </summary>
     [Parameter]
     public Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<TItem>>>? Load { get; set; }
 
-    /// <summary>Requests data from a parent that supplies <see cref="Items"/> and <see cref="Count"/> on its next render.</summary>
-    [Parameter]
-    public EventCallback<OmniDataGridLoadRequest> LoadRequested { get; set; }
-
+    /// <summary>The <see cref="OmniDataGridColumn{TItem}"/> declarations. Without any, a single column shows each item as text.</summary>
     [Parameter]
     public RenderFragment? Columns { get; set; }
 
+    /// <summary>Visible caption of the table, which is also its accessible name.</summary>
     [Parameter]
     public string? Caption { get; set; }
 
     // ---- paging -----------------------------------------------------------------------------
 
+    /// <summary>
+    /// The page shown, from 1. The grid keeps its own page and reports every change through
+    /// <see cref="PageChanged"/>; a new value from the host moves it.
+    /// </summary>
     [Parameter]
     public int Page { get; set; } = 1;
 
+    /// <summary>Raised with the new page when the reader, a sort, a filter or a shrinking row set changes it.</summary>
     [Parameter]
     public EventCallback<int> PageChanged { get; set; }
 
+    /// <summary>
+    /// Rows per page, 20 by default; also the block size of a remote virtualized grid unless
+    /// <see cref="VirtualBlockSize"/> is set. The grid keeps its own value and reports a change picked in
+    /// the pager through <see cref="PageSizeChanged"/>.
+    /// </summary>
     [Parameter]
     public int PageSize { get; set; } = 20;
 
+    /// <summary>Raised with the page size the reader picked in the pager.</summary>
     [Parameter]
     public EventCallback<int> PageSizeChanged { get; set; }
 
+    /// <summary>Page sizes offered in the pager. Empty, the default, hides the selector.</summary>
     [Parameter]
     public IReadOnlyList<int> PageSizeOptions { get; set; } = Array.Empty<int>();
 
@@ -121,46 +155,17 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public OmniDataGridScrollMode ScrollMode { get; set; } = OmniDataGridScrollMode.Paged;
 
+    /// <summary>Where the pager goes: under the table (the default), above it, or both.</summary>
     [Parameter]
-    public OmniDataGridPagerPosition PagerPosition { get; set; } = OmniDataGridPagerPosition.Bottom;
+    public OmniDataGridPosition PagerPosition { get; set; } = OmniDataGridPosition.Bottom;
 
+    /// <summary>How the pager's controls are aligned along its row; the start by default.</summary>
     [Parameter]
     public OmniJustification PagerHorizontalAlign { get; set; } = OmniJustification.Start;
 
+    /// <summary>Shows the localized "first to last of total" line under the table, announced politely.</summary>
     [Parameter]
     public bool ShowPagingSummary { get; set; }
-
-    [Parameter]
-    public string? FirstPageAriaLabel { get; set; }
-
-    [Parameter]
-    public string? FirstPageTitle { get; set; }
-
-    [Parameter]
-    public string? LastPageAriaLabel { get; set; }
-
-    [Parameter]
-    public string? LastPageTitle { get; set; }
-
-    [Parameter]
-    public string? PrevPageAriaLabel { get; set; }
-
-    [Parameter]
-    public string? PrevPageTitle { get; set; }
-
-    [Parameter]
-    public string? NextPageAriaLabel { get; set; }
-
-    [Parameter]
-    public string? NextPageTitle { get; set; }
-
-    /// <summary>Composite format receiving the page number, used on the numbered page buttons.</summary>
-    [Parameter]
-    public string? PageTitleFormat { get; set; }
-
-    /// <summary>Composite format receiving the page number, used as the accessible name.</summary>
-    [Parameter]
-    public string? PageAriaLabelFormat { get; set; }
 
     /// <summary>Numbered page buttons rendered around the current page. Zero keeps the compact status.</summary>
     [Parameter]
@@ -180,64 +185,61 @@ public partial class OmniDataGrid<TItem>
 
     // ---- selection --------------------------------------------------------------------------
 
+    /// <summary>Whether rows can be selected, one or several, with a checkbox column. None by default.</summary>
     [Parameter]
     public OmniDataGridSelectionMode SelectionMode { get; set; }
 
+    /// <summary>
+    /// A stable identity for a row, used by selection, expansion, editing and the new-row highlight. Null
+    /// uses the item itself, which then must compare by value (a record) for the selection to survive a
+    /// reload that hands new instances.
+    /// </summary>
     [Parameter]
-    public Func<TItem, object>? KeySelector { get; set; }
+    public Func<TItem, object>? KeyOf { get; set; }
 
     /// <summary>
     /// How long a row brought in by <see cref="RefreshAsync"/> reads as new (bold), for live data;
-    /// null, the default, marks nothing. Rows are told apart by <see cref="KeySelector"/> or
-    /// <see cref="KeyProperty"/>, so without one of them nothing is marked either.
+    /// null, the default, marks nothing. Rows are told apart by <see cref="KeyOf"/>, so without it
+    /// nothing is marked either.
     /// </summary>
     [Parameter]
     public TimeSpan? NewRowHighlight { get; set; }
 
-    /// <summary>Property path identifying a row when no <see cref="KeySelector"/> is supplied.</summary>
-    [Parameter]
-    public string? KeyProperty { get; set; }
-
-    [Parameter]
-    public IReadOnlyList<object> SelectedKeys { get; set; } = Array.Empty<object>();
-
-    [Parameter]
-    public EventCallback<IReadOnlyList<object>> SelectedKeysChanged { get; set; }
-
     /// <summary>
-    /// Currently selected rows. Kept in step with <see cref="SelectedKeys"/>, which stays the selection
-    /// when the host binds or sets it; bound alone (<c>@bind-Value</c>), it is the selection itself,
-    /// matched to the rows through <see cref="KeySelector"/> or <see cref="KeyProperty"/>. A change
-    /// keeps the selected rows of other pages.
+    /// The selected rows (<c>@bind-Value</c>), matched to the rows on screen through <see cref="KeyOf"/>.
+    /// The grid keeps its own selection and reports each change through <see cref="ValueChanged"/>; a new
+    /// list from the host replaces it. A change keeps the selected rows of other pages.
     /// </summary>
     [Parameter]
     public IReadOnlyList<TItem> Value { get; set; } = Array.Empty<TItem>();
 
+    /// <summary>Raised with the selected rows each time the selection changes.</summary>
     [Parameter]
     public EventCallback<IReadOnlyList<TItem>> ValueChanged { get; set; }
 
+    /// <summary>A click (or Enter, Space) on a row also toggles its selection, when <see cref="SelectionMode"/> allows one.</summary>
     [Parameter]
     public bool AllowRowSelectOnRowClick { get; set; }
 
-    [Parameter]
-    public EventCallback<TItem> RowClick { get; set; }
-
-    [Parameter]
-    public EventCallback<TItem> RowDoubleClick { get; set; }
-
     /// <summary>
-    /// Raised with <see cref="RowClick"/>, carrying the modifier keys held (Ctrl, Shift…), so a host can
-    /// select with Ctrl or Shift and act on a plain click. Unset, rows behave as before.
+    /// Raised by a click on a data row, or Enter or Space on a focused one, with the row's item and index
+    /// and the modifier keys held (Ctrl, Shift...), so a host can select with Ctrl or Shift and act on a
+    /// plain click. Activated from the keyboard, a row reports no modifier and no pointer position. Set,
+    /// rows become focusable and interactive.
     /// </summary>
     [Parameter]
-    public EventCallback<OmniDataGridRowMouseEventArgs<TItem>> RowMouseClick { get; set; }
+    public EventCallback<OmniDataGridRowMouseEventArgs<TItem>> OnRowClick { get; set; }
+
+    /// <summary>Raised by a double click on a data row, with the row's item, index and modifier keys.</summary>
+    [Parameter]
+    public EventCallback<OmniDataGridRowMouseEventArgs<TItem>> OnRowDoubleClick { get; set; }
 
     /// <summary>
     /// Raised by a right-click on a data row; the browser menu is then not shown there. The event still
     /// bubbles, so an enclosing context menu opens at the pointer. Unset, rows keep the browser menu.
     /// </summary>
     [Parameter]
-    public EventCallback<OmniDataGridRowMouseEventArgs<TItem>> RowContextMenu { get; set; }
+    public EventCallback<OmniDataGridRowMouseEventArgs<TItem>> OnRowContextMenu { get; set; }
 
     /// <summary>Called for every rendered row so the host can add a class or veto its controls.</summary>
     [Parameter]
@@ -245,32 +247,41 @@ public partial class OmniDataGrid<TItem>
 
     // ---- editing ----------------------------------------------------------------------------
 
+    /// <summary>Whether editing a row closes the row already being edited (the default) or several rows can be edited at once.</summary>
     [Parameter]
-    public OmniDataGridEditMode EditMode { get; set; } = OmniDataGridEditMode.Single;
+    public OmniDataGridRowMode EditMode { get; set; } = OmniDataGridRowMode.Single;
 
+    /// <summary>Raised when a row enters edit mode, from its edit button or <see cref="EditRowAsync"/>.</summary>
     [Parameter]
-    public EventCallback<TItem> EditRequested { get; set; }
+    public EventCallback<TItem> OnRowEdit { get; set; }
 
+    /// <summary>Raised when a row in edit mode is saved, from its save button or <see cref="UpdateRowAsync"/>. The host persists the change.</summary>
     [Parameter]
-    public EventCallback<TItem> RowUpdated { get; set; }
+    public EventCallback<TItem> OnRowUpdate { get; set; }
 
+    /// <summary>Raised when a row leaves edit mode without saving, from its cancel button or <see cref="CancelEditAsync"/>.</summary>
     [Parameter]
-    public EventCallback<TItem> EditCancelled { get; set; }
+    public EventCallback<TItem> OnRowEditCancel { get; set; }
 
     // ---- detail rows ------------------------------------------------------------------------
 
+    /// <summary>Content of the detail row opened under an item; set, each row gets an expand button.</summary>
     [Parameter]
     public RenderFragment<TItem>? DetailTemplate { get; set; }
 
+    /// <summary>Keys (see <see cref="KeyOf"/>) of the rows whose detail row is open.</summary>
     [Parameter]
     public IReadOnlyList<object> ExpandedKeys { get; set; } = Array.Empty<object>();
 
+    /// <summary>Raised with the keys of the open rows each time a row opens or closes.</summary>
     [Parameter]
     public EventCallback<IReadOnlyList<object>> ExpandedKeysChanged { get; set; }
 
+    /// <summary>Whether several detail rows can be open at once (the default) or opening one closes the other.</summary>
     [Parameter]
-    public OmniDataGridExpandMode ExpandMode { get; set; } = OmniDataGridExpandMode.Multiple;
+    public OmniDataGridRowMode ExpandMode { get; set; } = OmniDataGridRowMode.Multiple;
 
+    /// <summary>Shows the column of expand buttons when <see cref="DetailTemplate"/> is set. True by default.</summary>
     [Parameter]
     public bool ShowExpandColumn { get; set; } = true;
 
@@ -283,46 +294,67 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public bool ShowEditColumn { get; set; } = true;
 
+    /// <summary>
+    /// Puts a button in the expand column header that opens every expandable row on screen, or closes
+    /// them. Only offered under <see cref="OmniDataGridRowMode.Multiple"/> <see cref="ExpandMode"/>.
+    /// </summary>
     [Parameter]
     public bool ShowExpandAll { get; set; }
 
+    /// <summary>Raised with the item whose detail row was opened.</summary>
     [Parameter]
-    public string? ExpandChildItemAriaLabel { get; set; }
+    public EventCallback<TItem> OnRowExpand { get; set; }
 
+    /// <summary>Raised with the item whose detail row was closed.</summary>
     [Parameter]
-    public EventCallback<TItem> RowExpand { get; set; }
-
-    [Parameter]
-    public EventCallback<TItem> RowCollapse { get; set; }
+    public EventCallback<TItem> OnRowCollapse { get; set; }
 
     // ---- grouping ---------------------------------------------------------------------------
 
+    /// <summary>Lets the reader group rows by a column from its header; <see cref="Groups"/> is applied only while this is on.</summary>
     [Parameter]
     public bool AllowGrouping { get; set; }
 
+    /// <summary>Shows the band above the table that lists the active groups, each removable.</summary>
     [Parameter]
     public bool ShowGroupPanel { get; set; }
 
+    /// <summary>The active groups, outermost first. Bind it (<c>@bind-Groups</c>) for the header toggles to take effect.</summary>
     [Parameter]
     public IReadOnlyList<OmniDataGridGroup> Groups { get; set; } = Array.Empty<OmniDataGridGroup>();
 
+    /// <summary>Raised with the new groups when the reader adds or removes one.</summary>
     [Parameter]
     public EventCallback<IReadOnlyList<OmniDataGridGroup>> GroupsChanged { get; set; }
 
+    /// <summary>Whether groups start open (the default) or closed.</summary>
     [Parameter]
     public bool AllGroupsExpanded { get; set; } = true;
 
+    /// <summary>
+    /// Text of a group header from the group's value and its row count; null shows
+    /// <c>Title : value (count)</c>.
+    /// </summary>
     [Parameter]
     public Func<object?, int, string>? GroupLabel { get; set; }
 
     // ---- sorting and filtering ----------------------------------------------------------------
 
+    /// <summary>Lets the reader sort by a column from its header (Shift adds a sort). True by default; a column opts out with its own <c>Sortable</c>.</summary>
     [Parameter]
     public bool AllowSorting { get; set; } = true;
 
+    /// <summary>
+    /// Shows the filters of the columns that declare <c>Filterable</c>. True by default; false hides every
+    /// column filter at once.
+    /// </summary>
     [Parameter]
-    public bool AllowFiltering { get; set; } = true;
+    public bool Filterable { get; set; } = true;
 
+    /// <summary>
+    /// How a column filter is built: a value only (the default), an operator and a value, or two
+    /// conditions joined by and/or applied with a button.
+    /// </summary>
     [Parameter]
     public OmniDataGridFilterMode FilterMode { get; set; } = OmniDataGridFilterMode.Simple;
 
@@ -357,41 +389,9 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public bool IgnoreDiacritics { get; set; }
 
-    [Parameter]
-    public string? FilterText { get; set; }
-
-    [Parameter]
-    public string? ApplyFilterText { get; set; }
-
-    [Parameter]
-    public string? ClearFilterText { get; set; }
-
-    [Parameter]
-    public string? ContainsText { get; set; }
-
-    [Parameter]
-    public string? DoesNotContainText { get; set; }
-
-    [Parameter]
-    public string? EqualsText { get; set; }
-
-    [Parameter]
-    public string? NotEqualsText { get; set; }
-
-    [Parameter]
-    public string? StartsWithText { get; set; }
-
-    [Parameter]
-    public string? EndsWithText { get; set; }
-
-    [Parameter]
-    public string? AndOperatorText { get; set; }
-
-    [Parameter]
-    public string? OrOperatorText { get; set; }
-
     // ---- presentation -------------------------------------------------------------------------
 
+    /// <summary>Gives each column a drag handle on its trailing edge (and arrow keys on it). True by default; a column opts out with <c>Resizable</c>.</summary>
     [Parameter]
     public bool AllowColumnResize { get; set; } = true;
 
@@ -404,9 +404,14 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public bool AllowColumnAutoFit { get; set; }
 
+    /// <summary>
+    /// Raised with the column key and its new CSS width once a resize ends: a drag, a fit to content or
+    /// an arrow key on the handle.
+    /// </summary>
     [Parameter]
-    public EventCallback<OmniDataGridColumnWidthChange> ColumnWidthChanged { get; set; }
+    public EventCallback<OmniDataGridColumnWidthChange> OnColumnResize { get; set; }
 
+    /// <summary>Tints every other row.</summary>
     [Parameter]
     public bool AllowAlternatingRows { get; set; }
 
@@ -422,6 +427,7 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public OmniDataGridLines GridLines { get; set; } = OmniDataGridLines.Horizontal;
 
+    /// <summary>Row height and cell padding; comfortable by default.</summary>
     [Parameter]
     public OmniDensity Density { get; set; } = OmniDensity.Comfortable;
 
@@ -429,6 +435,10 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public bool Responsive { get; set; }
 
+    /// <summary>
+    /// What a grid without rows says when no filter is active; null shows the localized "no row". A grid
+    /// emptied by its filters always says so instead.
+    /// </summary>
     [Parameter]
     public string? EmptyText { get; set; }
 
@@ -439,17 +449,43 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public RenderFragment? EmptyContent { get; set; }
 
-    /// <summary>Content displayed inside the table while data is loading, with the column headers kept visible.</summary>
+    /// <summary>
+    /// Content displayed inside the table, under the column headers, while a grid with no row yet loads
+    /// and while the images of the rows are awaited. With <see cref="ShowLoadingBar"/> off it replaces the
+    /// rows during every load.
+    /// </summary>
     [Parameter]
     public RenderFragment? LoadingContent { get; set; }
 
+    /// <summary>
+    /// Replaces the default failure message ("loading failed", followed by a retry button) when
+    /// <see cref="Load"/> throws; receives the exception. The retry button stays.
+    /// </summary>
     [Parameter]
-    public bool IsLoading { get; set; }
+    public RenderFragment<Exception>? ErrorContent { get; set; }
 
     /// <summary>
-    /// Whether a request to the server shows a bar between the headers and the first row, on the table
-    /// only, while the rows already there stay in place. True by default; false keeps only the loading
-    /// row an empty grid shows.
+    /// Raised with the exception when <see cref="Load"/> fails (a cancelled request is not a failure).
+    /// The grid still shows its error state; this is where the host logs or reports it.
+    /// </summary>
+    [Parameter]
+    public EventCallback<Exception> OnLoadError { get; set; }
+
+    /// <summary>
+    /// The host is loading the grid's data itself (a grid fed through <see cref="Items"/>): the grid
+    /// reads as busy and shows the same loading indicator as for its own requests, the bar of
+    /// <see cref="ShowLoadingBar"/> by default.
+    /// </summary>
+    [Parameter]
+    public bool Busy { get; set; }
+
+    /// <summary>
+    /// Whether every load of the grid, its own requests (first load, page, sort, filter, a block while
+    /// virtualizing) as well as a host load signalled by <see cref="Busy"/>, shows a bar between the headers
+    /// and the first row, on the table only: the rows already there stay in place, and a grid with no row
+    /// yet keeps its body empty under the bar (<see cref="LoadingContent"/> when set). True by default;
+    /// false replaces the rows with a loading row (<see cref="LoadingContent"/> or the localized
+    /// "loading") during every load instead.
     /// </summary>
     [Parameter]
     public bool ShowLoadingBar { get; set; } = true;
@@ -533,7 +569,7 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public OmniDataGridHeaderWrap HeaderWrap { get; set; } = OmniDataGridHeaderWrap.Wrap;
 
-    /// <summary>Rows fetched per remote request while virtualizing. Defaults to <see cref="PageSize"/>.</summary>
+    /// <summary>Rows fetched per remote request while virtualizing. Zero, the default, uses <see cref="PageSize"/>.</summary>
     [Parameter]
     public int VirtualBlockSize { get; set; }
 
@@ -564,7 +600,6 @@ public partial class OmniDataGrid<TItem>
 
     private bool Virtualized => ScrollMode == OmniDataGridScrollMode.Virtual;
     private bool Paged => ScrollMode == OmniDataGridScrollMode.Paged;
-    private bool ExternalData => LoadRequested.HasDelegate;
 
     /// <summary>
     /// A local virtualized grid whose body is not one row per item: group header rows and detail rows
@@ -595,25 +630,25 @@ public partial class OmniDataGrid<TItem>
         GridProjection<TItem>.Create(Items, EffectiveColumns, _filters, _sorts, CaseSensitiveFilters, IgnoreDiacritics, 1, int.MaxValue).Items;
 
     private GridProjectionResult<TItem> LocalView => _localProjection ??= GridProjection<TItem>.Create(
-        Items, EffectiveColumns, _filters, _sorts, CaseSensitiveFilters, IgnoreDiacritics, Page, Paged ? PageSize : int.MaxValue);
+        Items, EffectiveColumns, _filters, _sorts, CaseSensitiveFilters, IgnoreDiacritics, _page, Paged ? _pageSize : int.MaxValue);
 
     private IReadOnlyList<TItem> VisibleItems => Virtualized
         ? Array.Empty<TItem>()
-        : ExternalData ? Items : Load is null ? LocalView.Items : _remote.Items;
+        : Load is null ? LocalView.Items : _remote.Items;
 
     private int TotalCount => Count
         ?? (Virtualized
             ? Load is null ? VirtualLocalItems.Count : _virtualSource.TotalCount
-            : ExternalData ? Items.Count : Load is null ? LocalView.TotalCount : _remote.TotalCount);
+            : Load is null ? LocalView.TotalCount : _remote.TotalCount);
 
-    private int PageCount => Math.Max(1, (int)Math.Ceiling(TotalCount / (double)Math.Max(1, PageSize)));
+    private int PageCount => Math.Max(1, (int)Math.Ceiling(TotalCount / (double)Math.Max(1, _pageSize)));
 
     /// <summary>
     /// The page actually shown. The local projection already clamps a page past the end to the last
     /// one; the pager and the summary read the same value, instead of announcing "page 5 of 1" over
     /// the rows of page 1 once the item list shrinks.
     /// </summary>
-    private int EffectivePage => Math.Clamp(Page, 1, PageCount);
+    private int EffectivePage => Math.Clamp(_page, 1, PageCount);
     private bool HasEditing => _hasEditing;
     private int ColumnSpan => _columnSpan;
     private bool _renderReady;
@@ -622,46 +657,64 @@ public partial class OmniDataGrid<TItem>
     // a row under them, while the rows load and while their images do: a veil over the whole grid hid the
     // headers, against the shared acceptance rule (RET-002 §3.8, Pronoia).
     private bool Veiled => Preparing && !Loading;
-    private bool Loading => IsLoading || (!ExternalData && _remote.Loading) || (Virtualized && _virtualSource.Loading && _virtualSource.CachedItemCount == 0);
+    private bool Loading => Busy || _remote.Loading || (Virtualized && _virtualSource.Loading && _virtualSource.CachedItemCount == 0);
 
-    // The bar follows every request, also the blocks a virtualized grid fetches while rows are already
-    // shown; a live refresh keeps the rows and shows no loading state, so it shows no bar either.
+    // The bar follows every load: the grid's own requests, also the blocks a virtualized grid fetches while
+    // rows are already shown, and a host load signalled by Busy. A live refresh keeps the rows and shows no
+    // loading state, so it shows no bar either.
     private bool ShowsLoadingBar => ShowLoadingBar
-        && (IsLoading || (!ExternalData && _remote.Loading) || (Virtualized && _virtualSource.Loading));
+        && (Busy || _remote.Loading || (Virtualized && _virtualSource.Loading));
 
     private string LoadingBarClass => LoadingBarMode == OmniLoadingBarMode.Continuous
         ? "omni-loading-bar omni-loading-bar--continuous omni-loading-bar--active omni-data-grid__loading-bar"
         : "omni-loading-bar omni-loading-bar--sweep omni-loading-bar--active omni-data-grid__loading-bar";
 
-    private Exception? Failure => ExternalData ? null : Virtualized ? _virtualSource.Error : _remote.Error;
+    private Exception? Failure => Virtualized ? _virtualSource.Error : _remote.Error;
     private bool ShowPager => Paged && (PageCount > 1 || AlwaysShowPager);
-    private bool ShowPagerTop => ShowPager && PagerPosition is OmniDataGridPagerPosition.Top or OmniDataGridPagerPosition.TopAndBottom;
-    private bool ShowPagerBottom => ShowPager && PagerPosition is OmniDataGridPagerPosition.Bottom or OmniDataGridPagerPosition.TopAndBottom;
-    private int BlockSize => VirtualBlockSize > 0 ? VirtualBlockSize : Math.Max(1, PageSize);
+    private bool ShowPagerTop => ShowPager && PagerPosition is OmniDataGridPosition.Top or OmniDataGridPosition.TopAndBottom;
+    private bool ShowPagerBottom => ShowPager && PagerPosition is OmniDataGridPosition.Bottom or OmniDataGridPosition.TopAndBottom;
+    private int BlockSize => VirtualBlockSize > 0 ? VirtualBlockSize : Math.Max(1, _pageSize);
     private string EmptyMessage => _filters.Values.Any(filter => filter.IsActive)
         ? Localize("GridEmptyFiltered")
         : string.IsNullOrWhiteSpace(EmptyText) ? Localize("GridEmpty") : EmptyText;
-    private bool RowsAreInteractive => AllowRowSelectOnRowClick || RowClick.HasDelegate || RowMouseClick.HasDelegate || RowDoubleClick.HasDelegate;
+    private bool RowsAreInteractive => AllowRowSelectOnRowClick || OnRowClick.HasDelegate || OnRowDoubleClick.HasDelegate;
     private bool ShowDetailColumn => DetailTemplate is not null && ShowExpandColumn;
-    private bool ShowLoadingRow => Virtualized ? Loading && TotalCount == 0 : Loading;
+
+    /// <summary>
+    /// The loading row that replaces the rows: only when the bar is turned off (<see cref="ShowLoadingBar"/>).
+    /// A virtualized grid keeps the rows it holds and shows it only while it has none.
+    /// </summary>
+    private bool ShowLoadingRow => !ShowLoadingBar && (Virtualized ? Loading && TotalCount == 0 : Loading);
+
+    /// <summary>
+    /// A grid with no row yet, loading under the bar: its body holds the <see cref="LoadingContent"/> or a
+    /// status read to screen readers only, never the empty message, which would be false until the rows arrive.
+    /// </summary>
+    private bool ShowPendingRow => ShowLoadingBar && Loading && IsEmpty;
     private bool IsEmpty => Virtualized ? TotalCount == 0 : VisibleItems.Count == 0;
     private GridVirtualRange Range => _range;
-    private bool UsesAdvancedFilter => AllowFiltering && FilterMode == OmniDataGridFilterMode.Advanced;
-    private bool ShowsOperatorSelector => AllowFiltering && FilterMode != OmniDataGridFilterMode.Simple;
+    private bool UsesAdvancedFilter => Filterable && FilterMode == OmniDataGridFilterMode.Advanced;
+    private bool ShowsOperatorSelector => Filterable && FilterMode != OmniDataGridFilterMode.Simple;
     private IReadOnlyList<OmniDataGridGroup> ActiveGroups => AllowGrouping ? Groups : Array.Empty<OmniDataGridGroup>();
-    /// <summary>Where the footer row goes. See <see cref="OmniDataGridFooterPosition"/>.</summary>
+
+    /// <summary>
+    /// Where the footer row goes (the columns' <c>FooterContent</c>): in a real table footer after the
+    /// rows (the default), directly under the header, or both.
+    /// </summary>
     [Parameter]
-    public OmniDataGridFooterPosition FooterPosition { get; set; }
+    public OmniDataGridPosition FooterPosition { get; set; }
 
-    private bool HasFooter => VisibleColumns.Any(column => column.FooterTemplate is not null);
+    private bool HasFooter => VisibleColumns.Any(column => column.FooterContent is not null);
 
-    private bool HasTopFooter => HasFooter && FooterPosition == OmniDataGridFooterPosition.Top;
+    private bool HasTopFooter => HasFooter && FooterPosition is OmniDataGridPosition.Top or OmniDataGridPosition.TopAndBottom;
 
-    private bool HasBottomFooter => HasFooter && FooterPosition == OmniDataGridFooterPosition.Bottom;
+    private bool HasBottomFooter => HasFooter && FooterPosition is OmniDataGridPosition.Bottom or OmniDataGridPosition.TopAndBottom;
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         _context = new OmniDataGridContext<TItem> { Register = RegisterColumn, Unregister = UnregisterColumn, DelegatesAdopted = RenderAdoptedDelegates };
+        MirrorParameters();
     }
 
     /// <summary>
@@ -770,17 +823,10 @@ public partial class OmniDataGrid<TItem>
         }
     }
 
-    protected override async Task OnParametersSetAsync()
+    /// <inheritdoc />
+    protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (Load is not null && ExternalData)
-        {
-            throw new InvalidOperationException("OmniDataGrid accepts either Load or LoadRequested, not both.");
-        }
-        if (Virtualized && ExternalData)
-        {
-            throw new InvalidOperationException("LoadRequested is a paged external-data contract and cannot be virtualized. Use Load for remote virtualization.");
-        }
         if (Virtualized && Load is not null && (DetailTemplate is not null || ActiveGroups.Count > 0))
         {
             throw new InvalidOperationException(
@@ -789,6 +835,38 @@ public partial class OmniDataGrid<TItem>
                 + "Use Items for a grouped or detailed virtualized grid.");
         }
 
+        MirrorParameters();
+    }
+
+    /// <summary>
+    /// Takes the page, page size and selection the host passes when they are new values. Also run from
+    /// <see cref="OnInitialized"/>: a state restored asynchronously renders the grid once before
+    /// <see cref="OnParametersSet"/>, and that render must already use the host's values.
+    /// </summary>
+    private void MirrorParameters()
+    {
+        if (_receivedPage != Page)
+        {
+            _receivedPage = Page;
+            _page = Page;
+        }
+
+        if (_receivedPageSize != PageSize)
+        {
+            _receivedPageSize = PageSize;
+            _pageSize = PageSize;
+        }
+
+        if (!ReferenceEquals(_receivedValue, Value))
+        {
+            _receivedValue = Value;
+            _selection = Value;
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
         _implicitColumn = null;
         InvalidateLocalProjection();
         if (!ReferenceEquals(_observedItems, Items))
@@ -842,11 +920,11 @@ public partial class OmniDataGrid<TItem>
 
         // A local list that shrank under the current page (rows removed, another data set) is
         // shown from its last page; the host's bound page is told, so it never disagrees with it.
-        if (Load is null && !ExternalData && Paged && Page > PageCount)
+        if (Load is null && Paged && _page > PageCount)
         {
-            Page = PageCount;
+            _page = PageCount;
             InvalidateLocalProjection();
-            await PageChanged.InvokeAsync(Page);
+            await PageChanged.InvokeAsync(_page);
         }
     }
 
@@ -983,7 +1061,7 @@ public partial class OmniDataGrid<TItem>
         RebuildRenderSnapshot();
         _ = InvokeAsync(async () =>
         {
-            if (Load is not null || ExternalData)
+            if (Load is not null)
             {
                 await ReloadAsync();
             }
@@ -999,16 +1077,7 @@ public partial class OmniDataGrid<TItem>
         _slots = null;
     }
 
-    private object ItemKey(TItem item)
-    {
-        if (KeySelector is not null)
-        {
-            return KeySelector(item);
-        }
-
-        var accessor = GridPropertyAccessor.Create<TItem>(KeyProperty);
-        return accessor?.Invoke(item) ?? item!;
-    }
+    private object ItemKey(TItem item) => KeyOf is not null ? KeyOf(item) : item!;
 
     private bool IsSelected(object key) => _selectedKeyIndex.Contains(key);
     private bool IsExpanded(object key) => _expandedKeyIndex.Contains(key);
@@ -1126,6 +1195,7 @@ public partial class OmniDataGrid<TItem>
         }
 
         var count = Math.Max(1, _range.Count);
+        var failedBefore = _virtualSource.Error;
         var pending = _virtualSource.EnsureRangeAsync(_range.StartIndex, count, BlockSize, LoadWindowAsync);
         // A block still on its way: draw the loading bar now, not only once the rows are in.
         var showedBar = !pending.IsCompleted && ShowsLoadingBar;
@@ -1135,6 +1205,7 @@ public partial class OmniDataGrid<TItem>
         }
 
         var changed = await pending;
+        await ReportLoadErrorAsync(failedBefore, _virtualSource.Error);
         if (changed || showedBar)
         {
             SyncVirtualWindow();
@@ -1148,6 +1219,7 @@ public partial class OmniDataGrid<TItem>
         return Load!(new OmniDataGridLoadRequest(page, take, CurrentSorts(), CurrentFilters(), token));
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await _lifecycleGate.WaitAsync();
@@ -1169,10 +1241,6 @@ public partial class OmniDataGrid<TItem>
                 await EnsureWheelScopeInteropAsync();
                 await EnsureFrozenScrollInteropAsync();
                 await CompletePreparationAsync();
-                if (ExternalData && !_externalRequested)
-                {
-                    await RequestExternalDataAsync();
-                }
                 return;
             }
 
@@ -1804,7 +1872,7 @@ public partial class OmniDataGrid<TItem>
 
         var args = new OmniDataGridRowRenderArgs<TItem>(item, index);
         RowRender(args);
-        return new GridRenderRow<TItem>(index, item, true, headers, showDetail, args.CssClass, args.Expandable, args.Selectable);
+        return new GridRenderRow<TItem>(index, item, true, headers, showDetail, args.Class, args.Expandable, args.Selectable);
     }
 
     private bool IsGroupExpanded(string path) => AllGroupsExpanded
@@ -1837,12 +1905,7 @@ public partial class OmniDataGrid<TItem>
             keys.Add(key);
         }
 
-        _selectedKeyIndex = keys.ToHashSet();
-        await SelectedKeysChanged.InvokeAsync(keys);
-        if (ValueChanged.HasDelegate)
-        {
-            await ValueChanged.InvokeAsync(SelectedItems());
-        }
+        await CommitSelectionAsync(keys);
     }
 
     /// <summary>
@@ -1884,12 +1947,7 @@ public partial class OmniDataGrid<TItem>
             }
         }
 
-        _selectedKeyIndex = keys.ToHashSet();
-        await SelectedKeysChanged.InvokeAsync(keys);
-        if (ValueChanged.HasDelegate)
-        {
-            await ValueChanged.InvokeAsync(SelectedItems());
-        }
+        await CommitSelectionAsync(keys);
     }
 
     private IEnumerable<TItem> CurrentRows() => StructuredVirtual
@@ -1900,23 +1958,25 @@ public partial class OmniDataGrid<TItem>
             .Where(item => item is not null)
         : VisibleItems;
 
-    /// <summary>
-    /// The keys of the selected rows. <see cref="SelectedKeys"/> is the selection when the host binds
-    /// or sets it; a host that binds <see cref="Value"/> alone selects through the keys of its rows.
-    /// </summary>
-    private IReadOnlyList<object> SelectionKeys() =>
-        !SelectedKeysChanged.HasDelegate && SelectedKeys.Count == 0 && (ValueChanged.HasDelegate || Value.Count > 0)
-            ? Value.Select(ItemKey).ToArray()
-            : SelectedKeys;
+    /// <summary>The keys of the selected rows, read from the grid's own selection through <see cref="KeyOf"/>.</summary>
+    private IReadOnlyList<object> SelectionKeys() => _selection.Select(ItemKey).ToArray();
+
+    /// <summary>Keeps the new selection and reports it through <see cref="ValueChanged"/>.</summary>
+    private async Task CommitSelectionAsync(IReadOnlyCollection<object> keys)
+    {
+        _selectedKeyIndex = keys.ToHashSet();
+        _selection = SelectedItems();
+        await ValueChanged.InvokeAsync(_selection);
+    }
 
     /// <summary>
-    /// The selected rows once the keys changed: the rows of <see cref="Value"/> still selected, rows
-    /// of other pages included, then the rows on screen newly selected.
+    /// The selected rows once the keys changed: the rows already selected that still are, rows of other
+    /// pages included, then the rows on screen newly selected.
     /// </summary>
     private TItem[] SelectedItems()
     {
         var reported = new HashSet<object>();
-        return Value.Concat(CurrentRows())
+        return _selection.Concat(CurrentRows())
             .Where(candidate =>
             {
                 var key = ItemKey(candidate);
@@ -1937,10 +1997,9 @@ public partial class OmniDataGrid<TItem>
             await ToggleSelectionAsync(row.Item);
         }
 
-        await RowClick.InvokeAsync(row.Item);
-        if (RowMouseClick.HasDelegate)
+        if (OnRowClick.HasDelegate)
         {
-            await RowMouseClick.InvokeAsync(new OmniDataGridRowMouseEventArgs<TItem>(row.Item, row.Index, mouse));
+            await OnRowClick.InvokeAsync(new OmniDataGridRowMouseEventArgs<TItem>(row.Item, row.Index, mouse));
         }
     }
 
@@ -1951,13 +2010,14 @@ public partial class OmniDataGrid<TItem>
         ? EventCallback.Factory.Create<MouseEventArgs>(this, mouse => ActivateRowAsync(row, mouse))
         : default;
 
-    private EventCallback<MouseEventArgs> RowContextMenuCallback(GridRenderRow<TItem> row) => RowContextMenu.HasDelegate
+    private EventCallback<MouseEventArgs> RowContextMenuCallback(GridRenderRow<TItem> row) => OnRowContextMenu.HasDelegate
         ? EventCallback.Factory.Create<MouseEventArgs>(this, mouse =>
-            RowContextMenu.InvokeAsync(new OmniDataGridRowMouseEventArgs<TItem>(row.Item, row.Index, mouse)))
+            OnRowContextMenu.InvokeAsync(new OmniDataGridRowMouseEventArgs<TItem>(row.Item, row.Index, mouse)))
         : default;
 
-    private EventCallback RowDoubleClickCallback(GridRenderRow<TItem> row) => RowDoubleClick.HasDelegate
-        ? EventCallback.Factory.Create(this, () => RowDoubleClick.InvokeAsync(row.Item))
+    private EventCallback<MouseEventArgs> RowDoubleClickCallback(GridRenderRow<TItem> row) => OnRowDoubleClick.HasDelegate
+        ? EventCallback.Factory.Create<MouseEventArgs>(this, mouse =>
+            OnRowDoubleClick.InvokeAsync(new OmniDataGridRowMouseEventArgs<TItem>(row.Item, row.Index, mouse)))
         : default;
 
     private EventCallback<KeyboardEventArgs> RowKeyDownCallback(GridRenderRow<TItem> row) => RowsAreInteractive
@@ -1977,7 +2037,7 @@ public partial class OmniDataGrid<TItem>
         var expanding = !keys.Remove(key);
         if (expanding)
         {
-            if (ExpandMode == OmniDataGridExpandMode.Single)
+            if (ExpandMode == OmniDataGridRowMode.Single)
             {
                 keys.Clear();
             }
@@ -1987,7 +2047,7 @@ public partial class OmniDataGrid<TItem>
         _expandedKeyIndex = keys.ToHashSet();
         RefreshSlots();
         await ExpandedKeysChanged.InvokeAsync(keys);
-        await (expanding ? RowExpand.InvokeAsync(item) : RowCollapse.InvokeAsync(item));
+        await (expanding ? OnRowExpand.InvokeAsync(item) : OnRowCollapse.InvokeAsync(item));
     }
 
     /// <summary>The expandable rows on screen, the ones the header button acts on.</summary>
@@ -2009,7 +2069,7 @@ public partial class OmniDataGrid<TItem>
     /// Only offered when several rows may be open at once: under a single-row expand mode the
     /// button could only ever break the rule it sits above.
     /// </summary>
-    private bool ShowsExpandAll => ShowExpandAll && ExpandMode == OmniDataGridExpandMode.Multiple;
+    private bool ShowsExpandAll => ShowExpandAll && ExpandMode == OmniDataGridRowMode.Multiple;
 
     /// <summary>
     /// Opens every expandable row on screen, or closes them all when they already are open. Rows of
@@ -2043,13 +2103,13 @@ public partial class OmniDataGrid<TItem>
     /// <summary>Puts a row in edit mode, honouring <see cref="EditMode"/>.</summary>
     public async Task EditRowAsync(TItem item)
     {
-        if (EditMode == OmniDataGridEditMode.Single)
+        if (EditMode == OmniDataGridRowMode.Single)
         {
             _editedKeys.Clear();
         }
 
         _editedKeys.Add(ItemKey(item));
-        await EditRequested.InvokeAsync(item);
+        await OnRowEdit.InvokeAsync(item);
         StateHasChanged();
     }
 
@@ -2057,7 +2117,7 @@ public partial class OmniDataGrid<TItem>
     public async Task UpdateRowAsync(TItem item)
     {
         _editedKeys.Remove(ItemKey(item));
-        await RowUpdated.InvokeAsync(item);
+        await OnRowUpdate.InvokeAsync(item);
         StateHasChanged();
     }
 
@@ -2065,7 +2125,7 @@ public partial class OmniDataGrid<TItem>
     public async Task CancelEditAsync(TItem item)
     {
         _editedKeys.Remove(ItemKey(item));
-        await EditCancelled.InvokeAsync(item);
+        await OnRowEditCancel.InvokeAsync(item);
         StateHasChanged();
     }
 
@@ -2153,7 +2213,7 @@ public partial class OmniDataGrid<TItem>
     {
         if (!_filters.TryGetValue(column.Key, out var filter) || !filter.IsActive)
         {
-            return Text(FilterText, "GridFilterPlaceholder");
+            return Localize("GridFilterPlaceholder");
         }
 
         var first = filter.HasFirst ? Condition(filter.Operator, filter.Value) : null;
@@ -2175,7 +2235,7 @@ public partial class OmniDataGrid<TItem>
 
     /// <summary>What one filter candidate reads as: the column's text for it, or the value itself.</summary>
     private static string CandidateText(OmniDataGridColumnDefinition<TItem> column, string candidate) =>
-        column.FilterValueText?.Invoke(candidate) ?? candidate;
+        column.FormatFilterValue?.Invoke(candidate) ?? candidate;
 
     private sealed record FilterEditorRequest(OmniDataGridColumnDefinition<TItem> Column, string Id, bool InPanel);
 
@@ -2434,7 +2494,7 @@ public partial class OmniDataGrid<TItem>
             return;
         }
 
-        if (Load is not null || ExternalData)
+        if (Load is not null)
         {
             await ReloadAsync();
         }
@@ -2469,39 +2529,39 @@ public partial class OmniDataGrid<TItem>
 
     private async Task ResetToFirstPageAsync()
     {
-        if (Page == 1)
+        if (_page == 1)
         {
             return;
         }
 
-        Page = 1;
+        _page = 1;
         await PageChanged.InvokeAsync(1);
     }
 
     private async Task ChangePageAsync(int page)
     {
-        Page = page;
+        _page = page;
         InvalidateLocalProjection();
         await PageChanged.InvokeAsync(page);
-        if ((Load is not null || ExternalData) && !Virtualized) await ReloadAsync();
+        if (Load is not null && !Virtualized) await ReloadAsync();
         RebuildRenderSnapshot();
     }
 
     private async Task ChangePageSizeAsync(int pageSize)
     {
-        PageSize = pageSize;
+        _pageSize = pageSize;
         InvalidateLocalProjection();
         await PageSizeChanged.InvokeAsync(pageSize);
         await ResetToFirstPageAsync();
-        if ((Load is not null || ExternalData) && !Virtualized) await ReloadAsync();
+        if (Load is not null && !Virtualized) await ReloadAsync();
         RebuildRenderSnapshot();
     }
 
     private string PagingSummary()
     {
         var total = TotalCount;
-        var first = total == 0 ? 0 : ((EffectivePage - 1) * Math.Max(1, PageSize)) + 1;
-        var last = total == 0 ? 0 : Math.Min(total, first + Math.Max(1, PageSize) - 1);
+        var first = total == 0 ? 0 : ((EffectivePage - 1) * Math.Max(1, _pageSize)) + 1;
+        var last = total == 0 ? 0 : Math.Min(total, first + Math.Max(1, _pageSize) - 1);
         return Localize("GridPagingSummary", first, last, total);
     }
 
@@ -2511,20 +2571,11 @@ public partial class OmniDataGrid<TItem>
     /// rows on screen are replaced only once the new ones are in, so a new row slides in and moves
     /// the others down. A sort or filter change still restarts from the top through
     /// <see cref="ReloadAsync"/>. With <see cref="NewRowHighlight"/>, rows that were not held
-    /// before read as new for that long. For a grid fed through <c>Items</c> or
-    /// <c>LoadRequested</c>, call it before handing the new rows: they are compared to the ones
-    /// held at the call.
+    /// before read as new for that long. For a grid fed through <c>Items</c>, call it before handing
+    /// the new rows: they are compared to the ones held at the call.
     /// </summary>
     public async Task RefreshAsync()
     {
-        if (ExternalData)
-        {
-            _refreshBaseline = HeldKeys(Items);
-            await RequestExternalDataAsync();
-            RebuildRenderSnapshot();
-            return;
-        }
-
         if (Load is null)
         {
             _refreshBaseline = HeldKeys(Items);
@@ -2534,7 +2585,9 @@ public partial class OmniDataGrid<TItem>
         if (Virtualized)
         {
             var before = HeldKeys(_virtualSource.CachedItems);
+            var failedBefore = _virtualSource.Error;
             var changed = await _virtualSource.RefreshAsync(_range.StartIndex, Math.Max(1, _range.Count), BlockSize, LoadWindowAsync);
+            await ReportLoadErrorAsync(failedBefore, _virtualSource.Error);
             if (!changed)
             {
                 return;
@@ -2550,14 +2603,15 @@ public partial class OmniDataGrid<TItem>
         var held = HeldKeys(_remote.Items);
         var sorts = CurrentSorts();
         var filters = CurrentFilters();
-        await _remote.LoadAsync(token => Load(new OmniDataGridLoadRequest(Page, PageSize, sorts, filters, token)), quiet: true);
+        await _remote.LoadAsync(token => Load(new OmniDataGridLoadRequest(_page, _pageSize, sorts, filters, token)), quiet: true);
+        await ReportLoadErrorAsync(null, _remote.Error);
         MarkNewRows(held, _remote.Items);
         RebuildRenderSnapshot();
         StateHasChanged();
     }
 
     private bool HighlightsNewRows => NewRowHighlight is { } duration && duration > TimeSpan.Zero
-        && (KeySelector is not null || GridPropertyAccessor.Create<TItem>(KeyProperty) is not null);
+        && KeyOf is not null;
 
     private HashSet<object>? HeldKeys(IEnumerable<TItem> items) =>
         HighlightsNewRows ? items.Select(ItemKey).ToHashSet() : null;
@@ -2614,14 +2668,13 @@ public partial class OmniDataGrid<TItem>
 
     private bool IsNewRow(TItem item) => _newRowKeys.Count > 0 && _newRowKeys.ContainsKey(ItemKey(item));
 
+    /// <summary>
+    /// Fetches the rows of a <see cref="Load"/> grid again from the start of the current query, with the
+    /// loading state (the bar by default); a virtualized grid starts again from its first block. Does
+    /// nothing for a grid fed through <see cref="Items"/>.
+    /// </summary>
     public async Task ReloadAsync()
     {
-        if (ExternalData)
-        {
-            await RequestExternalDataAsync();
-            RebuildRenderSnapshot();
-            return;
-        }
         if (Load is null) return;
         if (Virtualized)
         {
@@ -2635,26 +2688,32 @@ public partial class OmniDataGrid<TItem>
 
         var sorts = CurrentSorts();
         var filters = CurrentFilters();
-        await _remote.LoadAsync(token => Load(new OmniDataGridLoadRequest(Page, PageSize, sorts, filters, token)));
+        var load = _remote.LoadAsync(token => Load(new OmniDataGridLoadRequest(_page, _pageSize, sorts, filters, token)));
+        // A reload the host starts from its own code (a timer, another component) is not wrapped in an
+        // event of the grid, which would render it: the loading state is drawn here, then the result.
+        if (!load.IsCompleted)
+        {
+            StateHasChanged();
+        }
+
+        await load;
+        await ReportLoadErrorAsync(null, _remote.Error);
         RebuildRenderSnapshot();
+        StateHasChanged();
     }
 
-    private async Task RequestExternalDataAsync()
-    {
-        if (!ExternalData) return;
-        _externalRequested = true;
-        await LoadRequested.InvokeAsync(new OmniDataGridLoadRequest(
-            Page,
-            PageSize,
-            CurrentSorts(),
-            CurrentFilters(),
-            CancellationToken.None));
-    }
+    /// <summary>
+    /// Reports a load failure to <see cref="OnLoadError"/> once: <paramref name="after"/> is the error the
+    /// load left, <paramref name="before"/> the one held before it, so an error already reported is not
+    /// reported again by a later pass that did not load.
+    /// </summary>
+    private Task ReportLoadErrorAsync(Exception? before, Exception? after) =>
+        after is not null && !ReferenceEquals(before, after) ? OnLoadError.InvokeAsync(after) : Task.CompletedTask;
 
     // ---- presentation -------------------------------------------------------------------------
 
     private bool IsSortable(OmniDataGridColumnDefinition<TItem> column) => AllowSorting && column.Sortable;
-    private bool IsFilterable(OmniDataGridColumnDefinition<TItem> column) => AllowFiltering && column.Filterable;
+    private bool IsFilterable(OmniDataGridColumnDefinition<TItem> column) => Filterable && column.Filterable;
     private bool IsResizable(OmniDataGridColumnDefinition<TItem> column) => AllowColumnResize && column.Resizable != false;
     private bool IsAutoFit(OmniDataGridColumnDefinition<TItem> column) => column.AutoFit ?? AllowColumnAutoFit;
 
@@ -2680,16 +2739,14 @@ public partial class OmniDataGrid<TItem>
     private string SecondOperatorId(OmniDataGridColumnDefinition<TItem> column) => $"{FilterId(column)}-second-operator";
     private string LogicalId(OmniDataGridColumnDefinition<TItem> column) => $"{FilterId(column)}-logical";
 
-    private string Text(string? candidate, string key) => string.IsNullOrWhiteSpace(candidate) ? Localize(key) : candidate;
-
     private string OperatorLabel(OmniDataGridFilterOperator candidate) => candidate switch
     {
-        OmniDataGridFilterOperator.Contains => Text(ContainsText, "GridFilterContains"),
-        OmniDataGridFilterOperator.DoesNotContain => Text(DoesNotContainText, "GridFilterDoesNotContain"),
-        OmniDataGridFilterOperator.Equals => Text(EqualsText, "GridFilterEquals"),
-        OmniDataGridFilterOperator.NotEquals => Text(NotEqualsText, "GridFilterNotEquals"),
-        OmniDataGridFilterOperator.StartsWith => Text(StartsWithText, "GridFilterStartsWith"),
-        OmniDataGridFilterOperator.EndsWith => Text(EndsWithText, "GridFilterEndsWith"),
+        OmniDataGridFilterOperator.Contains => Localize("GridFilterContains"),
+        OmniDataGridFilterOperator.DoesNotContain => Localize("GridFilterDoesNotContain"),
+        OmniDataGridFilterOperator.Equals => Localize("GridFilterEquals"),
+        OmniDataGridFilterOperator.NotEquals => Localize("GridFilterNotEquals"),
+        OmniDataGridFilterOperator.StartsWith => Localize("GridFilterStartsWith"),
+        OmniDataGridFilterOperator.EndsWith => Localize("GridFilterEndsWith"),
         OmniDataGridFilterOperator.GreaterThan => Localize("GridFilterGreaterThan"),
         OmniDataGridFilterOperator.GreaterThanOrEquals => Localize("GridFilterGreaterThanOrEquals"),
         OmniDataGridFilterOperator.LessThan => Localize("GridFilterLessThan"),
@@ -2701,8 +2758,8 @@ public partial class OmniDataGrid<TItem>
     };
 
     private string LogicalLabel(OmniDataGridLogicalOperator candidate) => candidate == OmniDataGridLogicalOperator.Or
-        ? Text(OrOperatorText, "GridFilterOr")
-        : Text(AndOperatorText, "GridFilterAnd");
+        ? Localize("GridFilterOr")
+        : Localize("GridFilterAnd");
 
     private static IReadOnlyList<OmniDataGridFilterOperator> TextOperators { get; } =
     [
@@ -2812,7 +2869,7 @@ public partial class OmniDataGrid<TItem>
         column.Frozen ? "omni-data-grid__column--frozen" : null,
         HighlightActiveColumn && IsColumnActive(column) ? "omni-data-grid__column--active" : null,
         header && IsSortable(column) ? "omni-data-grid__column--sortable" : null,
-        header ? column.HeaderCssClass : column.CssClass
+        header ? column.HeaderClass : column.Class
     ]);
 
     /// <summary>
@@ -2820,7 +2877,7 @@ public partial class OmniDataGrid<TItem>
     /// template) keeps to one line and ends in an ellipsis instead of spilling into the next column.
     /// A templated cell stays unclipped, so its badges, buttons, menus and edit inputs keep their
     /// focus rings and popups; a column opts its template in through
-    /// <c>CssClass="omni-data-grid__cell--text"</c>.
+    /// <c>Class="omni-data-grid__cell--text"</c>.
     /// </summary>
     private string BodyCellClass(OmniDataGridColumnDefinition<TItem> column, bool editing) => CssClassBuilder.Combine([
         ColumnClass(column, false),
@@ -2838,7 +2895,7 @@ public partial class OmniDataGrid<TItem>
         row.HasItem && IsNewRow(row.Item) ? "omni-data-grid__row--new" : null,
         AllowAlternatingRows && row.Index % 2 == 1 ? "omni-data-grid__row--alternate" : null,
         RowsAreInteractive && row.Selectable ? "omni-data-grid__row--interactive" : null,
-        row.CssClass
+        row.Class
     ]);
 
     private string? RowCountAttribute() => Virtualized
@@ -2895,11 +2952,9 @@ public partial class OmniDataGrid<TItem>
     /// sorted local set (all pages, all virtual rows), the external or remote page, or the blocks a
     /// remote virtualized grid has fetched so far.
     /// </summary>
-    private IEnumerable<TItem> LoadedItems() => ExternalData
-        ? Items
-        : Load is null
-            ? VirtualLocalItems
-            : Virtualized ? _virtualSource.CachedItems : _remote.Items;
+    private IEnumerable<TItem> LoadedItems() => Load is null
+        ? VirtualLocalItems
+        : Virtualized ? _virtualSource.CachedItems : _remote.Items;
 
     /// <summary>
     /// Width chosen by a fit to content, in CSS pixels measured by omni-grid.js. Reported once per
@@ -2941,7 +2996,7 @@ public partial class OmniDataGrid<TItem>
         _columnWidths[key] = value;
         _appliedColumnLayout = null;
         var change = new OmniDataGridColumnWidthChange(key, value);
-        await ColumnWidthChanged.InvokeAsync(change);
+        await OnColumnResize.InvokeAsync(change);
         await PersistStateAsync();
     }
 
@@ -2998,7 +3053,7 @@ public partial class OmniDataGrid<TItem>
                 id,
                 value,
                 DistinctFilterValues(column),
-                Text(FilterText, "GridFilterPlaceholder"),
+                Localize("GridFilterPlaceholder"),
                 async changed =>
                 {
                     await onChanged(changed);
@@ -3030,9 +3085,9 @@ public partial class OmniDataGrid<TItem>
                 builder.AddComponentParameter(1, nameof(OmniDataGridFilterMultiSelect.Id), id);
                 builder.AddComponentParameter(2, nameof(OmniDataGridFilterMultiSelect.Value), value);
                 builder.AddComponentParameter(3, nameof(OmniDataGridFilterMultiSelect.Suggestions), DistinctFilterValues(column));
-                builder.AddComponentParameter(4, nameof(OmniDataGridFilterMultiSelect.Placeholder), Text(FilterText, "GridFilterPlaceholder"));
-                builder.AddComponentParameter(5, nameof(OmniDataGridFilterMultiSelect.Searchable), column.FilterSearchable);
-                builder.AddComponentParameter(8, nameof(OmniDataGridFilterMultiSelect.TextFor), column.FilterValueText);
+                builder.AddComponentParameter(4, nameof(OmniDataGridFilterMultiSelect.Placeholder), Localize("GridFilterPlaceholder"));
+                builder.AddComponentParameter(5, nameof(OmniDataGridFilterMultiSelect.Filterable), column.FilterSearchable);
+                builder.AddComponentParameter(8, nameof(OmniDataGridFilterMultiSelect.FormatValue), column.FormatFilterValue);
                 builder.AddComponentParameter(
                     6,
                     nameof(OmniDataGridFilterMultiSelect.ValueChanged),
@@ -3054,7 +3109,7 @@ public partial class OmniDataGrid<TItem>
                 builder.AddAttribute(4, "onchange", onChange);
                 builder.OpenElement(5, "option");
                 builder.AddAttribute(6, "value", string.Empty);
-                builder.AddContent(7, Text(FilterText, "GridFilterPlaceholder"));
+                builder.AddContent(7, Localize("GridFilterPlaceholder"));
                 builder.CloseElement();
                 var selectSeq = 8;
                 foreach (var candidate in DistinctFilterValues(column))
@@ -3073,14 +3128,14 @@ public partial class OmniDataGrid<TItem>
                 builder.AddComponentParameter(1, nameof(OmniDataGridFilterCombo.Id), id);
                 builder.AddComponentParameter(2, nameof(OmniDataGridFilterCombo.Value), value);
                 builder.AddComponentParameter(3, nameof(OmniDataGridFilterCombo.Suggestions), DistinctFilterValues(column));
-                builder.AddComponentParameter(4, nameof(OmniDataGridFilterCombo.Placeholder), Text(FilterText, "GridFilterPlaceholder"));
+                builder.AddComponentParameter(4, nameof(OmniDataGridFilterCombo.Placeholder), Localize("GridFilterPlaceholder"));
                 builder.AddComponentParameter(
                     5,
                     nameof(OmniDataGridFilterCombo.ValueChanged),
                     EventCallback.Factory.Create<string>(this, typed => onChanged(typed)));
                 builder.AddComponentParameter(
                     6,
-                    nameof(OmniDataGridFilterCombo.Picked),
+                    nameof(OmniDataGridFilterCombo.OnPick),
                     EventCallback.Factory.Create(this, CloseFilterMenusAsync));
                 builder.CloseComponent();
                 break;
@@ -3089,7 +3144,7 @@ public partial class OmniDataGrid<TItem>
                 builder.OpenElement(0, "input");
                 builder.AddAttribute(1, "id", id);
                 builder.AddAttribute(2, "class", "omni-input omni-data-grid__filter");
-                builder.AddAttribute(3, "placeholder", Text(FilterText, "GridFilterPlaceholder"));
+                builder.AddAttribute(3, "placeholder", Localize("GridFilterPlaceholder"));
                 builder.AddAttribute(4, "value", value);
                 // Filters as the user types rather than on blur, so the table follows the keystrokes.
                 builder.AddAttribute(5, "oninput", onChange);
@@ -3146,6 +3201,7 @@ public partial class OmniDataGrid<TItem>
         }
     }
 
+    /// <summary>Cancels the loads still running and detaches the grid script.</summary>
     public async ValueTask DisposeAsync()
     {
         _disposeRequested = true;

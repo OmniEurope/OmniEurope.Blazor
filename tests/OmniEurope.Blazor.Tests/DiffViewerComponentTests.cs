@@ -13,7 +13,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DiffViewerComponentTests : OmniBunitContext
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-code-editor.js";
+    private const string ModulePath = OmniModules.CodeEditor;
 
     [Fact]
     public void PlainText_ShowsTheTwoTextsInTwoNamedPanes_WithNoScriptAtAll()

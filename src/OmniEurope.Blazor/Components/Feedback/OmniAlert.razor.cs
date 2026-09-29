@@ -1,24 +1,34 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// A message in the page: information, a success, a warning or an error, with an optional title, a
+/// close button and an announcement to assistive technologies.
+/// </summary>
 public partial class OmniAlert
 {
     private bool _dismissed;
 
+    /// <summary>A title in bold before the message; none when null or blank.</summary>
     [Parameter]
     public string? Title { get; set; }
 
+    /// <summary>The message.</summary>
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>What the message is: its colour and its glyph. <see cref="OmniSeverity.Info"/> by default.</summary>
     [Parameter]
     public OmniSeverity Severity { get; set; } = OmniSeverity.Info;
 
     /// <summary>
-    /// Outline keeps the message light on the page; Filled paints the severity colour behind it,
-    /// which is what a blocking message needs to be read as one.
+    /// How much of the severity colour the alert carries. <see cref="OmniFill.Outline"/>, the default,
+    /// keeps the message light on the page (the card surface, a rule in the colour);
+    /// <see cref="OmniFill.Tonal"/> lays a light tint of it behind the page text;
+    /// <see cref="OmniFill.Solid"/> paints the full colour behind it, which is what a blocking message
+    /// needs to be read as one.
     /// </summary>
     [Parameter]
-    public OmniAlertVariant Variant { get; set; } = OmniAlertVariant.Outline;
+    public OmniFill Fill { get; set; } = OmniFill.Outline;
 
     /// <summary>
     /// Drawn in the icon disc before the title, in place of the severity's own glyph. A slot rather
@@ -28,6 +38,11 @@ public partial class OmniAlert
     [Parameter]
     public RenderFragment? Icon { get; set; }
 
+    /// <summary>
+    /// Announces the message as soon as it appears (<c>role="alert"</c>, assertive): for a blocking error
+    /// only, as the accessibility contract reserves assertive announcements. False, the default, gives
+    /// the alert no live role: it is read where it stands.
+    /// </summary>
     [Parameter]
     public bool Live { get; set; }
 
@@ -46,15 +61,9 @@ public partial class OmniAlert
     [Parameter]
     public EventCallback OnDismiss { get; set; }
 
-    private string GlyphPath => Severity switch
-    {
-        OmniSeverity.Success => OmniSeverityGlyph.Success,
-        OmniSeverity.Warning => OmniSeverityGlyph.Warning,
-        OmniSeverity.Danger => OmniSeverityGlyph.Danger,
-        _ => OmniSeverityGlyph.Information
-    };
+    private string GlyphPath => OmniSeverityGlyph.For(Severity);
 
-    private string EffectiveCloseLabel => string.IsNullOrWhiteSpace(CloseLabel) ? Localize("Close") : CloseLabel;
+    private string EffectiveCloseLabel => LocalizeOr(CloseLabel, "Close");
 
     private async Task DismissAsync()
     {

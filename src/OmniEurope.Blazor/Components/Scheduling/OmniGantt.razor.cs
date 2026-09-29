@@ -9,19 +9,25 @@ namespace OmniEurope.Blazor.Components;
 /// header at the day, week or month zoom, and a line on today. Drawn in SVG with geometry attributes
 /// only; each bar carries a named button, reached with Tab.
 /// </summary>
+/// <remarks>
+/// Today is the local date of the component clock (the host's registered <see cref="TimeProvider"/>,
+/// the system clock otherwise). <see cref="Culture"/>, when set, drives dates and texts alike: month
+/// names, week numbers, the zoom picker and the names read to a screen reader are all in that culture.
+/// </remarks>
 public partial class OmniGantt
 {
     private readonly string _generatedId = $"omni-gantt-{Guid.NewGuid():N}";
-    private OmniGanttScale _scale = OmniGanttScale.Week;
-    private OmniGanttScale? _lastScaleParameter;
+    private OmniCalendarView _scale = OmniCalendarView.Week;
+    private OmniCalendarView? _lastScaleParameter;
 
     /// <summary>The tasks, in the order the rows list them (within their group when grouped).</summary>
     [Parameter] public IReadOnlyList<OmniGanttTask> Tasks { get; set; } = Array.Empty<OmniGanttTask>();
 
     /// <summary>The zoom: one column per day, per week or per month.</summary>
-    [Parameter] public OmniGanttScale Scale { get; set; } = OmniGanttScale.Week;
+    [Parameter] public OmniCalendarView Scale { get; set; } = OmniCalendarView.Week;
 
-    [Parameter] public EventCallback<OmniGanttScale> ScaleChanged { get; set; }
+    /// <summary>Raised with the zoom the reader picks in the zoom picker.</summary>
+    [Parameter] public EventCallback<OmniCalendarView> ScaleChanged { get; set; }
 
     /// <summary>Shows the day, week and month picker above the chart; a host with its own toolbar hides it.</summary>
     [Parameter] public bool ShowScalePicker { get; set; } = true;
@@ -32,26 +38,29 @@ public partial class OmniGantt
     /// <summary>Draws an arrow from each task in <see cref="OmniGanttTask.DependsOn"/> to the task that waits for it.</summary>
     [Parameter] public bool ShowDependencies { get; set; } = true;
 
-    /// <summary>Draws a line down the column of <see cref="Today"/>.</summary>
+    /// <summary>Draws a line down the column of today, the local date of the component clock.</summary>
     [Parameter] public bool ShowToday { get; set; } = true;
 
-    /// <summary>The day the today line marks; null takes the current date.</summary>
-    [Parameter] public DateOnly? Today { get; set; }
-
     /// <summary>Raised when a bar is clicked, or activated with Enter or Space.</summary>
-    [Parameter] public EventCallback<OmniGanttTask> TaskClicked { get; set; }
+    [Parameter] public EventCallback<OmniGanttTask> OnTaskClick { get; set; }
 
     /// <summary>The task shown as chosen, by identifier: its bar is outlined, and pressed for a screen reader.</summary>
     [Parameter] public string? SelectedTaskId { get; set; }
 
-    /// <summary>Accessible name of the chart; the localized GanttLabel by default.</summary>
-    [Parameter] public string Label { get; set; } = string.Empty;
+    /// <summary>Accessible name of the chart; null (the default) takes the localized "Gantt chart".</summary>
+    [Parameter] public string? Label { get; set; }
 
-    /// <summary>The culture month names, week numbers and dates are written in.</summary>
-    [Parameter] public CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
+    /// <summary>
+    /// The culture of the dates, month names and week numbers, and of every text of the chart. Null (the
+    /// default) follows the page: dates in the current culture, texts in the current UI culture.
+    /// </summary>
+    [Parameter] public CultureInfo? Culture { get; set; }
+
+    /// <summary>The culture dates are written in: <see cref="Culture"/>, else the current culture.</summary>
+    private CultureInfo Formats => Culture ?? CultureInfo.CurrentCulture;
 
     internal GanttLayout Layout { get; private set; } =
-        GanttLayout.Build([], OmniGanttScale.Week, true, new DateOnly(2000, 1, 3), CultureInfo.InvariantCulture);
+        GanttLayout.Build([], OmniCalendarView.Week, true, new DateOnly(2000, 1, 3), CultureInfo.InvariantCulture, week => week.ToString(CultureInfo.InvariantCulture));
 
     private string BaseId => Id ?? _generatedId;
 
@@ -60,26 +69,29 @@ public partial class OmniGantt
     private string ArrowReference => $"url(#{ArrowId})";
 
     /// <summary>The zoom drawn: the parameter, until the reader picks another one.</summary>
-    internal OmniGanttScale CurrentScale => _scale;
+    internal OmniCalendarView CurrentScale => _scale;
 
     private string ScaleCss => $"omni-gantt--{_scale.ToString().ToLowerInvariant()}";
 
-    private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Localize("GanttLabel") : Label;
+    private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Text("GanttLabel") : Label;
 
-    private string ScaleLabel => Localize("GanttScale");
+    private string ScaleLabel => Text("GanttScale");
 
-    private string EmptyText => Localize("GanttEmpty");
+    private string EmptyText => Text("GanttEmpty");
 
-    private string TaskColumnText => Localize("GanttTaskColumn");
+    private string TaskColumnText => Text("GanttTaskColumn");
 
-    private string TodayText => Localize("Today");
+    private string TodayText => Text("Today");
 
-    private IReadOnlyList<OmniOption<OmniGanttScale>> ScaleOptions =>
+    private IReadOnlyList<OmniOption<OmniCalendarView>> ScaleOptions =>
     [
-        new(OmniGanttScale.Day, Localize("GanttScaleDay")),
-        new(OmniGanttScale.Week, Localize("GanttScaleWeek")),
-        new(OmniGanttScale.Month, Localize("GanttScaleMonth"))
+        new(OmniCalendarView.Day, Text("GanttScaleDay")),
+        new(OmniCalendarView.Week, Text("GanttScaleWeek")),
+        new(OmniCalendarView.Month, Text("GanttScaleMonth"))
     ];
+
+    /// <summary>A library text in <see cref="Culture"/> when it is set, else in the current UI culture.</summary>
+    private string Text(string key, params object[] arguments) => CultureText.In(Culture, () => Localize(key, arguments));
 
     protected override void OnParametersSet()
     {
@@ -94,9 +106,12 @@ public partial class OmniGantt
     }
 
     private GanttLayout BuildLayout() =>
-        GanttLayout.Build(Tasks, _scale, ShowGroups, Today ?? DateOnly.FromDateTime(DateTime.Today), Culture);
+        GanttLayout.Build(Tasks, _scale, ShowGroups, DateOnly.FromDateTime(Clock.GetLocalNow().Date), Formats, WeekLabel);
 
-    private async Task SetScaleAsync(OmniGanttScale scale)
+    /// <summary>The short name of an ISO week in the week zoom header: "S12" in French, "W12" in English.</summary>
+    private string WeekLabel(int week) => Text("GanttWeekNumber", week.ToString(Formats));
+
+    private async Task SetScaleAsync(OmniCalendarView scale)
     {
         if (scale == _scale)
         {
@@ -109,17 +124,17 @@ public partial class OmniGantt
         await ScaleChanged.InvokeAsync(scale);
     }
 
-    private Task OnTaskClickedAsync(OmniGanttTask task) => TaskClicked.InvokeAsync(task);
+    private Task ClickTaskAsync(OmniGanttTask task) => OnTaskClick.InvokeAsync(task);
 
     private bool IsSelected(OmniGanttTask task) => string.Equals(SelectedTaskId, task.Id, StringComparison.Ordinal);
 
     // Pressed only means something when the host listens for clicks; otherwise the bar is a plain button.
-    private string? Pressed(OmniGanttTask task) => TaskClicked.HasDelegate ? (IsSelected(task) ? "true" : "false") : null;
+    private string? Pressed(OmniGanttTask task) => OnTaskClick.HasDelegate ? (IsSelected(task) ? "true" : "false") : null;
 
     private string TaskCss(OmniGanttTask task) => CssClassBuilder.Combine(
     [
         "omni-gantt__bar",
-        $"omni-chart-color-{Math.Abs(task.ColorIndex) % 8}",
+        ChartColor.Class(task.ColorIndex),
         IsSelected(task) ? "omni-gantt__bar--selected" : null
     ]);
 
@@ -137,17 +152,17 @@ public partial class OmniGantt
     internal string Describe(OmniGanttTask task)
     {
         var progress = double.IsFinite(task.Progress) ? Math.Clamp(task.Progress, 0, 1) : 0;
-        var text = Localize(
+        var text = Text(
             "GanttTaskDescription",
             task.Title,
-            task.Start.ToString("d MMMM yyyy", Culture),
-            task.End.ToString("d MMMM yyyy", Culture),
-            progress.ToString("P0", Culture));
+            task.Start.ToString("d MMMM yyyy", Formats),
+            task.End.ToString("d MMMM yyyy", Formats),
+            progress.ToString("P0", Formats));
         var before = task.DependsOn
             .Select(id => Tasks.FirstOrDefault(other => string.Equals(other.Id, id, StringComparison.Ordinal))?.Title)
             .OfType<string>()
             .ToArray();
-        return before.Length == 0 ? text : $"{text}, {Localize("GanttTaskAfter", string.Join(", ", before))}";
+        return before.Length == 0 ? text : $"{text}, {Text("GanttTaskAfter", string.Join(", ", before))}";
     }
 
     private static string N(double value) => GanttLayout.N(value);

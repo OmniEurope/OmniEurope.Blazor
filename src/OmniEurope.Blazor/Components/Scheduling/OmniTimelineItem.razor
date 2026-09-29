@@ -9,7 +9,13 @@
            empty header is a heading with nothing under it for a screen reader. *@
         @if (HasHeader)
         {
-            <header><time datetime="@DateTimeValue">@DateLabel</time><h3>@Title</h3></header>
+            <header>
+                <time datetime="@DateTimeValue">@DateLabel</time>
+                @if (HasTitle)
+                {
+                    <OmniHeading Level="Level" Class="omni-timeline__title">@Title</OmniHeading>
+                }
+            </header>
         }
         @ChildContent
     </article>

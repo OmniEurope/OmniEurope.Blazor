@@ -3,7 +3,7 @@ namespace OmniEurope.Blazor.Components;
 /// <summary>
 /// The severity of a message, shared by <see cref="OmniAlert"/>, <see cref="OmniNotification"/> and
 /// <see cref="OmniOverlayService.Notify(string, OmniSeverity, string?, TimeSpan?)"/>. The member names
-/// are those of the intentions of <see cref="OmniButtonVariant"/> and <see cref="OmniBadgeVariant"/>.
+/// are those of the intentions of <see cref="OmniButtonVariant"/> and <see cref="OmniTone"/>.
 /// </summary>
 public enum OmniSeverity
 {

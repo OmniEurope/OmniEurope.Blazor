@@ -2,11 +2,13 @@
   <PropertyGroup>
     <EnforceRazorCodeBehind>true</EnforceRazorCodeBehind>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-    <!-- STD-WASMOPT: the showcase runs in fr-FR (Program.cs), so only the ICU shard of the European
-         languages (English, French, Italian, German, Spanish) is shipped, loaded whatever the browser
-         language; invariant globalization would format amounts with the generic currency sign. -->
+    <!-- STD-WASMOPT: the showcase runs in the language picked in its header, one of the 24 official
+         EU languages (Program.cs, Localization/ShowcaseLanguages.cs). No ICU shard covers them all
+         (EFIGS lacks Bulgarian, Greek, Polish...), so the full ICU data is loaded, with the satellite
+         resource assemblies of every culture; invariant globalization would format amounts with the
+         generic currency sign. No SatelliteResourceLanguages filter: every culture is published. -->
     <InvariantGlobalization>false</InvariantGlobalization>
-    <BlazorIcuDataFileName>icudt_EFIGS.dat</BlazorIcuDataFileName>
+    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
   </PropertyGroup>
 
   <ItemGroup>

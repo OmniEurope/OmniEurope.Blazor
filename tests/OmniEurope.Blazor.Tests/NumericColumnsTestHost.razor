@@ -4,8 +4,8 @@
 <OmniDataGrid TItem="NumericRun"
               Items="@Runs"
               SelectionMode="OmniDataGridSelectionMode.Single"
-              KeySelector="run => run.Name"
-              SelectedKeys="@Selected">
+              KeyOf="run => run.Name"
+              Value="@Selected">
     <Columns>
         <OmniDataGridColumn TItem="NumericRun" Key="name" Title="Nom" Property="Name" />
         <OmniDataGridColumn TItem="NumericRun" Key="duration" Title="Durée" Property="Duration" />
@@ -20,7 +20,7 @@
 @code {
     public IReadOnlyList<NumericRun> Runs { get; } = [new("a", 12, 1.5m), new("b", 7, 2m)];
 
-    public IReadOnlyList<object> Selected { get; } = ["b"];
+    public IReadOnlyList<NumericRun> Selected => [Runs[1]];
 
     public sealed record NumericRun(string Name, int Duration, decimal? Cost);
 }
