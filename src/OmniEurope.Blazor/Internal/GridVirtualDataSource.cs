@@ -13,6 +13,10 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
 
     private readonly Dictionary<int, TItem> _items = [];
     private readonly HashSet<int> _loadedBlocks = [];
+    // Blocks asked of the loader and not answered yet, of the current generation. A window asked again
+    // while its block is on its way (the render the loading bar causes, the window sync after it) waits
+    // for that answer instead of sending the same request a second time.
+    private readonly Dictionary<int, Task<OmniDataGridResult<TItem>>> _inFlight = [];
     private CancellationTokenSource? _cancellation;
     private int _generation;
     private int _refreshGeneration;
@@ -37,6 +41,7 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         _cancellation = null;
         _items.Clear();
         _loadedBlocks.Clear();
+        _inFlight.Clear();
         TotalCount = 0;
         Loading = false;
         Error = null;
@@ -74,7 +79,27 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         {
             foreach (var block in missing)
             {
-                var result = await loader(block * size, size, token).WaitAsync(token);
+                if (!_inFlight.TryGetValue(block, out var request))
+                {
+                    request = loader(block * size, size, token);
+                    _inFlight[block] = request;
+                }
+
+                OmniDataGridResult<TItem> result;
+                try
+                {
+                    result = await request.WaitAsync(token);
+                }
+                finally
+                {
+                    // Only this generation owns the entry: a reset cleared it, and a newer query may
+                    // already have put its own request for the same block there.
+                    if (generation == _generation && _inFlight.TryGetValue(block, out var current) && ReferenceEquals(current, request))
+                    {
+                        _inFlight.Remove(block);
+                    }
+                }
+
                 if (generation != _generation || token.IsCancellationRequested)
                 {
                     return changed;
