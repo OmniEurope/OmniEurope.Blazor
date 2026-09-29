@@ -187,7 +187,7 @@
   <data name="HtmlEditorChar2039" xml:space="preserve"><value>Отваряща единична френска кавичка</value></data>
   <data name="HtmlEditorChar203A" xml:space="preserve"><value>Затваряща единична френска кавичка</value></data>
   <data name="HtmlEditorChar2018" xml:space="preserve"><value>Отваряща единична кавичка</value></data>
-  <data name="HtmlEditorChar2019" xml:space="preserve"><value>Апостроф</value></data>
+  <data name="HtmlEditorChar2019" xml:space="preserve"><value>Затваряща единична кавичка</value></data>
   <data name="HtmlEditorChar201C" xml:space="preserve"><value>Отваряща английска кавичка</value></data>
   <data name="HtmlEditorChar201D" xml:space="preserve"><value>Затваряща английска кавичка</value></data>
   <data name="HtmlEditorChar00B0" xml:space="preserve"><value>Градус</value></data>
@@ -262,7 +262,7 @@
   <data name="HtmlEditorChar03C7" xml:space="preserve"><value>Хи</value></data>
   <data name="HtmlEditorChar03C8" xml:space="preserve"><value>Пси</value></data>
   <data name="HtmlEditorChar03C9" xml:space="preserve"><value>Омега</value></data>
-  <data name="HtmlEditorChar2116" xml:space="preserve"><value>Номер</value></data>
+  <data name="HtmlEditorChar2116" xml:space="preserve"><value>Знак за номер</value></data>
   <data name="HtmlEditorBold" xml:space="preserve"><value>Получер</value></data>
   <data name="HtmlEditorItalic" xml:space="preserve"><value>Курсив</value></data>
   <data name="HtmlEditorSubscript" xml:space="preserve"><value>Долен индекс</value></data>
@@ -451,7 +451,7 @@
   <data name="GanttTaskColumn" xml:space="preserve"><value>Задача</value></data>
   <data name="GanttTaskDescription" xml:space="preserve"><value>{0}, от {1} до {2}, изпълнено {3}</value></data>
   <data name="StepTimelineLabel" xml:space="preserve"><value>Стъпки на изпълнението</value></data>
-  <data name="StepTimelineNeverStarted" xml:space="preserve"><value>Никога не са стартирали:</value></data>
+  <data name="StepTimelineNeverStarted" xml:space="preserve"><value>Нестартирали:</value></data>
   <data name="StepTimelineStatusCancelled" xml:space="preserve"><value>отменена</value></data>
   <data name="StepTimelineStatusFailed" xml:space="preserve"><value>неуспешна</value></data>
   <data name="StepTimelineStatusRunning" xml:space="preserve"><value>изпълнява се</value></data>
@@ -467,13 +467,13 @@
   <data name="SignIn" xml:space="preserve"><value>Вход</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Връзката е загубена</value></data>
   <data name="ConnectionLostDescription" xml:space="preserve"><value>Връзката със сървъра е прекъсната. Приложението се опитва да я възстанови.</value></data>
-  <data name="ConnectionFailedTitle" xml:space="preserve"><value>Няма връзка</value></data>
+  <data name="ConnectionFailedTitle" xml:space="preserve"><value>Неуспешно свързване</value></data>
   <data name="ConnectionFailedDescription" xml:space="preserve"><value>Автоматичните опити бяха неуспешни. Опитайте отново, когато мрежата се възстанови.</value></data>
-  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Сесията е прекъсната</value></data>
+  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Сесията е приключила</value></data>
   <data name="ConnectionRejectedDescription" xml:space="preserve"><value>Сървърът отказа да поднови сесията. Презаредете страницата, за да продължите.</value></data>
   <data name="ConnectionRetryIn" xml:space="preserve"><value>Нов опит след {0} с</value></data>
   <data name="ConnectionReason" xml:space="preserve"><value>Причина: {0}</value></data>
-  <data name="ConnectionReconnectNow" xml:space="preserve"><value>Свързване отново сега</value></data>
+  <data name="ConnectionReconnectNow" xml:space="preserve"><value>Повторно свързване сега</value></data>
   <data name="ConnectionReload" xml:space="preserve"><value>Презареждане на страницата</value></data>
   <data name="ConnectionReconnecting" xml:space="preserve"><value>Повторно свързване</value></data>
   <data name="WizardLabel" xml:space="preserve"><value>Стъпки на съветника</value></data>
@@ -506,7 +506,7 @@
   <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} години</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Подчертан</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Зачертан</value></data>
-  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Код в реда</value></data>
+  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Вграден код</value></data>
   <data name="HtmlEditorBlockFormat" xml:space="preserve"><value>Стил на абзаца</value></data>
   <data name="HtmlEditorParagraph" xml:space="preserve"><value>Абзац</value></data>
   <data name="HtmlEditorHeading1" xml:space="preserve"><value>Заглавие 1</value></data>
@@ -602,7 +602,7 @@
   <data name="UnifiedDiffContent" xml:space="preserve"><value>Съдържание</value></data>
   <data name="UnifiedDiffAdded" xml:space="preserve"><value>Добавено: </value></data>
   <data name="UnifiedDiffRemoved" xml:space="preserve"><value>Изтрито: </value></data>
-  <data name="UnifiedDiffRenamedPath" xml:space="preserve"><value>{0} към {1}</value></data>
+  <data name="UnifiedDiffRenamedPath" xml:space="preserve"><value>{0} → {1}</value></data>
   <data name="UnifiedDiffUntitled" xml:space="preserve"><value>Промяна</value></data>
   <data name="UnifiedDiffStatusModified" xml:space="preserve"><value>Променен</value></data>
   <data name="UnifiedDiffStatusAdded" xml:space="preserve"><value>Добавен</value></data>
@@ -634,7 +634,7 @@
   <data name="GitGraphMerge" xml:space="preserve"><value>Комит за сливане.</value></data>
   <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(отваря се в нов раздел)</value></data>
-  <data name="MarkdownExportButton" xml:space="preserve"><value>Експортиране в .md</value></data>
+  <data name="MarkdownExportButton" xml:space="preserve"><value>Експортиране в Markdown</value></data>
   <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Ограничение: най-много {0} реда</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Генерирано на (UTC): {0}</value></data>

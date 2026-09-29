@@ -78,8 +78,8 @@
   <data name="GridFilterGreaterThanOrEquals" xml:space="preserve"><value>Nagyobb vagy egyenlő</value></data>
   <data name="GridFilterLessThan" xml:space="preserve"><value>Kisebb, mint</value></data>
   <data name="GridFilterLessThanOrEquals" xml:space="preserve"><value>Kisebb vagy egyenlő</value></data>
-  <data name="GridFilterIsNull" xml:space="preserve"><value>Null</value></data>
-  <data name="GridFilterIsNotNull" xml:space="preserve"><value>Nem null</value></data>
+  <data name="GridFilterIsNull" xml:space="preserve"><value>Null értékű</value></data>
+  <data name="GridFilterIsNotNull" xml:space="preserve"><value>Nem null értékű</value></data>
   <data name="GridFilterIsEmpty" xml:space="preserve"><value>Üres</value></data>
   <data name="GridFilterIsNotEmpty" xml:space="preserve"><value>Nem üres</value></data>
   <data name="GridFilterAnd" xml:space="preserve"><value>És</value></data>
@@ -187,7 +187,7 @@
   <data name="HtmlEditorChar2039" xml:space="preserve"><value>Nyitó szimpla francia idézőjel</value></data>
   <data name="HtmlEditorChar203A" xml:space="preserve"><value>Záró szimpla francia idézőjel</value></data>
   <data name="HtmlEditorChar2018" xml:space="preserve"><value>Nyitó szimpla idézőjel</value></data>
-  <data name="HtmlEditorChar2019" xml:space="preserve"><value>Aposztróf</value></data>
+  <data name="HtmlEditorChar2019" xml:space="preserve"><value>Záró szimpla idézőjel</value></data>
   <data name="HtmlEditorChar201C" xml:space="preserve"><value>Nyitó angol idézőjel</value></data>
   <data name="HtmlEditorChar201D" xml:space="preserve"><value>Záró angol idézőjel</value></data>
   <data name="HtmlEditorChar00B0" xml:space="preserve"><value>Fok</value></data>
@@ -308,11 +308,11 @@
   <data name="MindMapColorYellow" xml:space="preserve"><value>Sárga</value></data>
   <data name="MindMapDelete" xml:space="preserve"><value>Törlés</value></data>
   <data name="MindMapDuplicate" xml:space="preserve"><value>Megkettőzés</value></data>
-  <data name="MindMapFitView" xml:space="preserve"><value>Igazítás</value></data>
+  <data name="MindMapFitView" xml:space="preserve"><value>Illesztés</value></data>
   <data name="MindMapFontSize" xml:space="preserve"><value>Betűméret</value></data>
   <data name="MindMapItalic" xml:space="preserve"><value>Dőlt</value></data>
-  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Nyilak: lépés a csomópontok között, Home: központi csomópont, Shift+nyilak: mozgatás, Enter vagy F2: átnevezés, N: új csomópont, D: megkettőzés, C: középre, Delete: törlés, + és -: nagyítás, 0: igazítás, Ctrl+Z és Ctrl+Y: visszavonás és ismétlés, Shift+F10: menü, Esc: kijelölés megszüntetése.</value></data>
-  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Nyilak: lépés a csomópontok között, Home: központi csomópont, C: középre, + és -: nagyítás, 0: igazítás, Shift+F10: menü, Esc: kijelölés megszüntetése.</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Nyilak: lépés a csomópontok között, Home: központi csomópont, Shift+nyilak: mozgatás, Enter vagy F2: átnevezés, N: új csomópont, D: megkettőzés, C: középre, Delete: törlés, + és -: nagyítás, 0: illesztés, Ctrl+Z és Ctrl+Y: visszavonás és ismétlés, Shift+F10: menü, Esc: kijelölés megszüntetése.</value></data>
+  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Nyilak: lépés a csomópontok között, Home: központi csomópont, C: középre, + és -: nagyítás, 0: illesztés, Shift+F10: menü, Esc: kijelölés megszüntetése.</value></data>
   <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Megszakítás: Esc</value></data>
   <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Kattintson a forráscsomópontra</value></data>
   <data name="MindMapLinkSelectTarget" xml:space="preserve"><value>Kattintson a célcsomópontra</value></data>
@@ -350,7 +350,7 @@
   <data name="PasswordRevealLabel" xml:space="preserve"><value>Jelszó megjelenítése</value></data>
   <data name="PasswordHideLabel" xml:space="preserve"><value>Jelszó elrejtése</value></data>
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Profilmenü</value></data>
-  <data name="ProgressLabel" xml:space="preserve"><value>Folyamat</value></data>
+  <data name="ProgressLabel" xml:space="preserve"><value>Előrehaladás</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
   <data name="ProgressIndeterminate" xml:space="preserve"><value>Folyamatban</value></data>
   <data name="TextAreaCount" xml:space="preserve"><value>{0} / {1}</value></data>
@@ -431,7 +431,7 @@
   <data name="UploadRemoved" xml:space="preserve"><value>{0} eltávolítva a listából.</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Heti nézet</value></data>
   <data name="DataAnnotationsRequired" xml:space="preserve"><value>A(z) {0} mező kitöltése kötelező.</value></data>
-  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>A(z) {0} mező hossza {1} és {2} karakter között lehet.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>A(z) {0} mező hosszának {1} és {2} karakter között kell lennie.</value></data>
   <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>A(z) {0} mező legfeljebb {1} karakter lehet.</value></data>
   <data name="DataAnnotationsMinLength" xml:space="preserve"><value>A(z) {0} mezőnek legalább {1} karakterből kell állnia.</value></data>
   <data name="DataAnnotationsRange" xml:space="preserve"><value>A(z) {0} mező értékének {1} és {2} között kell lennie.</value></data>
@@ -610,15 +610,15 @@
   <data name="UnifiedDiffStatusRenamed" xml:space="preserve"><value>Átnevezve</value></data>
   <data name="DynamicFormRequired" xml:space="preserve"><value>{0} megadása kötelező.</value></data>
   <data name="DynamicFormNumber" xml:space="preserve"><value>{0}: számot kell megadni.</value></data>
-  <data name="DynamicFormMinimum" xml:space="preserve"><value>{0}: legalább {1} lehet.</value></data>
-  <data name="DynamicFormMaximum" xml:space="preserve"><value>{0}: legfeljebb {1} lehet.</value></data>
+  <data name="DynamicFormMinimum" xml:space="preserve"><value>{0}: legalább {1} legyen.</value></data>
+  <data name="DynamicFormMaximum" xml:space="preserve"><value>{0}: legfeljebb {1} legyen.</value></data>
   <data name="DynamicFormChoice" xml:space="preserve"><value>{0}: a felkínált értékek egyikét kell választani.</value></data>
   <data name="StatusStripLabel" xml:space="preserve"><value>Állapotelőzmények</value></data>
   <data name="StatusStripEmpty" xml:space="preserve"><value>Nincs megjeleníthető állapot</value></data>
   <data name="KanbanLabel" xml:space="preserve"><value>Kártyatábla</value></data>
   <data name="KanbanInstructions" xml:space="preserve"><value>Szóköz vagy Enter: a kártya felvétele, nyílbillentyűk: mozgatás, Szóköz vagy Enter: lerakás, Esc: megszakítás.</value></data>
   <data name="KanbanGrabbed" xml:space="preserve"><value>{0} felvéve, oszlop: {1}, pozíció: {2} / {3}.</value></data>
-  <data name="KanbanMoved" xml:space="preserve"><value>{0}: oszlop: {1}, pozíció: {2} / {3}.</value></data>
+  <data name="KanbanMoved" xml:space="preserve"><value>{0}, oszlop: {1}, pozíció: {2} / {3}.</value></data>
   <data name="KanbanDropped" xml:space="preserve"><value>{0} lerakva, oszlop: {1}, pozíció: {2} / {3}.</value></data>
   <data name="KanbanCancelled" xml:space="preserve"><value>Áthelyezés megszakítva: {0} a(z) {1} oszlopban marad.</value></data>
   <data name="KanbanEmptyColumn" xml:space="preserve"><value>Nincs kártya</value></data>
@@ -634,7 +634,7 @@
   <data name="GitGraphMerge" xml:space="preserve"><value>Egyesítő commit.</value></data>
   <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(új lapon nyílik meg)</value></data>
-  <data name="MarkdownExportButton" xml:space="preserve"><value>Exportálás .md-be</value></data>
+  <data name="MarkdownExportButton" xml:space="preserve"><value>Exportálás Markdownba</value></data>
   <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Korlát: legfeljebb {0} sor</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Létrehozva (UTC): {0}</value></data>

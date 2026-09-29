@@ -149,7 +149,7 @@
   <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Groß-/Kleinschreibung</value></data>
   <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>GROSSBUCHSTABEN</value></data>
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>kleinbuchstaben</value></data>
-  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Erster Buchstabe Groß</value></data>
+  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Jedes Wort Großgeschrieben</value></data>
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Sonderzeichen</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Zeichen suchen</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Kein Zeichen gefunden.</value></data>
@@ -173,7 +173,7 @@
   <data name="HtmlEditorHighlight" xml:space="preserve"><value>Hervorheben</value></data>
   <data name="HtmlEditorChar00A9" xml:space="preserve"><value>Copyright</value></data>
   <data name="HtmlEditorChar00AE" xml:space="preserve"><value>Eingetragene Marke</value></data>
-  <data name="HtmlEditorChar2122" xml:space="preserve"><value>Marke</value></data>
+  <data name="HtmlEditorChar2122" xml:space="preserve"><value>Markenzeichen</value></data>
   <data name="HtmlEditorChar00A7" xml:space="preserve"><value>Paragraf</value></data>
   <data name="HtmlEditorChar00B6" xml:space="preserve"><value>Absatzmarke</value></data>
   <data name="HtmlEditorChar2020" xml:space="preserve"><value>Kreuz</value></data>
@@ -311,7 +311,7 @@
   <data name="MindMapFitView" xml:space="preserve"><value>Einpassen</value></data>
   <data name="MindMapFontSize" xml:space="preserve"><value>Schriftgröße</value></data>
   <data name="MindMapItalic" xml:space="preserve"><value>Kursiv</value></data>
-  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Pfeiltasten: zwischen Knoten wechseln, Pos1: zentraler Knoten, Umschalt+Pfeiltasten: verschieben, Eingabe oder F2: umbenennen, N: neuer Knoten, D: duplizieren, C: zentrieren, Entf: löschen, + und -: zoomen, 0: einpassen, Strg+Z und Strg+Y: rückgängig und wiederholen, Umschalt+F10: Menü, Esc: Auswahl aufheben.</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Pfeiltasten: zwischen Knoten wechseln, Pos1: zentraler Knoten, Umschalt+Pfeiltasten: verschieben, Eingabetaste oder F2: umbenennen, N: neuer Knoten, D: duplizieren, C: zentrieren, Entf: löschen, + und -: zoomen, 0: einpassen, Strg+Z und Strg+Y: rückgängig und wiederholen, Umschalt+F10: Menü, Esc: Auswahl aufheben.</value></data>
   <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Pfeiltasten: zwischen Knoten wechseln, Pos1: zentraler Knoten, C: zentrieren, + und -: zoomen, 0: einpassen, Umschalt+F10: Menü, Esc: Auswahl aufheben.</value></data>
   <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Esc zum Abbrechen</value></data>
   <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Klicken Sie auf den Quellknoten</value></data>
@@ -616,7 +616,7 @@
   <data name="StatusStripLabel" xml:space="preserve"><value>Statusverlauf</value></data>
   <data name="StatusStripEmpty" xml:space="preserve"><value>Kein Status anzuzeigen</value></data>
   <data name="KanbanLabel" xml:space="preserve"><value>Kartenboard</value></data>
-  <data name="KanbanInstructions" xml:space="preserve"><value>Leertaste oder Eingabe, um die Karte aufzunehmen, Pfeiltasten, um sie zu verschieben, Leertaste oder Eingabe, um sie abzulegen, Esc zum Abbrechen.</value></data>
+  <data name="KanbanInstructions" xml:space="preserve"><value>Leertaste oder Eingabetaste, um die Karte aufzunehmen, Pfeiltasten, um sie zu verschieben, Leertaste oder Eingabetaste, um sie abzulegen, Esc zum Abbrechen.</value></data>
   <data name="KanbanGrabbed" xml:space="preserve"><value>{0} aufgenommen, Spalte {1}, Position {2} von {3}.</value></data>
   <data name="KanbanMoved" xml:space="preserve"><value>{0}: Spalte {1}, Position {2} von {3}.</value></data>
   <data name="KanbanDropped" xml:space="preserve"><value>{0} abgelegt, Spalte {1}, Position {2} von {3}.</value></data>

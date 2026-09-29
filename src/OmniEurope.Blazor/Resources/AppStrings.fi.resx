@@ -438,7 +438,7 @@
   <data name="DataAnnotationsEmail" xml:space="preserve"><value>Kenttä {0} ei ole kelvollinen sähköpostiosoite.</value></data>
   <data name="DataAnnotationsUrl" xml:space="preserve"><value>Kenttä {0} ei ole kelvollinen verkko-osoite.</value></data>
   <data name="DataAnnotationsCompare" xml:space="preserve"><value>{0} ja {1} eivät täsmää.</value></data>
-  <data name="DataAnnotationsPattern" xml:space="preserve"><value>Kentän {0} muoto ei ole odotettu.</value></data>
+  <data name="DataAnnotationsPattern" xml:space="preserve"><value>Kentän {0} muoto on virheellinen.</value></data>
   <data name="DataAnnotationsInvalid" xml:space="preserve"><value>Kenttä {0} ei kelpaa.</value></data>
   <data name="GanttEmpty" xml:space="preserve"><value>Ei näytettäviä tehtäviä.</value></data>
   <data name="GanttLabel" xml:space="preserve"><value>Gantt-kaavio</value></data>
@@ -552,8 +552,8 @@
   <data name="HtmlEditorLinkInvalid" xml:space="preserve"><value>Osoite hylättiin: käytä suhteellista osoitetta tai http-, https-, mailto- tai tel-osoitetta.</value></data>
   <data name="DocumentEditorLabel" xml:space="preserve"><value>Tekstinkäsittely</value></data>
   <data name="DocumentEditorStatus" xml:space="preserve"><value>Asiakirjan tilastot</value></data>
-  <data name="DocumentEditorWords" xml:space="preserve"><value>Sanat: {0}</value></data>
-  <data name="DocumentEditorCharacters" xml:space="preserve"><value>Merkit: {0}</value></data>
+  <data name="DocumentEditorWords" xml:space="preserve"><value>Sanoja: {0}</value></data>
+  <data name="DocumentEditorCharacters" xml:space="preserve"><value>Merkkejä: {0}</value></data>
   <data name="DocumentEditorExportHtml" xml:space="preserve"><value>Vie HTML-muodossa</value></data>
   <data name="DocumentEditorExportText" xml:space="preserve"><value>Vie tekstinä</value></data>
   <data name="DocumentEditorDefaultTitle" xml:space="preserve"><value>Asiakirja</value></data>
@@ -622,7 +622,7 @@
   <data name="KanbanDropped" xml:space="preserve"><value>{0} pudotettu, sarake {1}, sijainti {2}/{3}.</value></data>
   <data name="KanbanCancelled" xml:space="preserve"><value>Siirto peruttu: {0} pysyy sarakkeessa {1}.</value></data>
   <data name="KanbanEmptyColumn" xml:space="preserve"><value>Ei kortteja</value></data>
-  <data name="KanbanCardCount" xml:space="preserve"><value>Kortit: {0}</value></data>
+  <data name="KanbanCardCount" xml:space="preserve"><value>Kortteja: {0}</value></data>
   <data name="GitGraphLabel" xml:space="preserve"><value>Commit-historia</value></data>
   <data name="GitGraphEmpty" xml:space="preserve"><value>Ei committeja</value></data>
   <data name="StepTimelineExpected" xml:space="preserve"><value>{0} % tavanomaisesta kestosta kulunut</value></data>

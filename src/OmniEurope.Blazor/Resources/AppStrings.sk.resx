@@ -413,7 +413,7 @@
   <data name="UploadSizeBytes" xml:space="preserve"><value>{0} B</value></data>
   <data name="UploadDropOne" xml:space="preserve"><value>Presuňte súbor sem alebo</value></data>
   <data name="UploadDropMany" xml:space="preserve"><value>Presuňte súbory sem alebo</value></data>
-  <data name="UploadBrowse" xml:space="preserve"><value>prehľadávajte</value></data>
+  <data name="UploadBrowse" xml:space="preserve"><value>vyberte</value></data>
   <data name="UploadHintMaximumSize" xml:space="preserve"><value>Najviac {0} na súbor</value></data>
   <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Max. počet súborov: {0}</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Pripojené súbory</value></data>
@@ -506,7 +506,7 @@
   <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} r.</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Podčiarknutie</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Prečiarknutie</value></data>
-  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Vložený kód</value></data>
+  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Kód v riadku</value></data>
   <data name="HtmlEditorBlockFormat" xml:space="preserve"><value>Štýl odseku</value></data>
   <data name="HtmlEditorParagraph" xml:space="preserve"><value>Odsek</value></data>
   <data name="HtmlEditorHeading1" xml:space="preserve"><value>Nadpis 1</value></data>
@@ -543,7 +543,7 @@
   <data name="HtmlEditorAddColumnAfter" xml:space="preserve"><value>Vložiť stĺpec za</value></data>
   <data name="HtmlEditorDeleteColumn" xml:space="preserve"><value>Odstrániť stĺpec</value></data>
   <data name="HtmlEditorMergeCellRight" xml:space="preserve"><value>Zlúčiť s bunkou vpravo</value></data>
-  <data name="HtmlEditorMergeCellDown" xml:space="preserve"><value>Zlúčiť s bunkou pod</value></data>
+  <data name="HtmlEditorMergeCellDown" xml:space="preserve"><value>Zlúčiť s bunkou nižšie</value></data>
   <data name="HtmlEditorSplitCell" xml:space="preserve"><value>Rozdeliť bunku</value></data>
   <data name="HtmlEditorSetCellSpan" xml:space="preserve"><value>Roztiahnuť bunku</value></data>
   <data name="HtmlEditorLinkUrl" xml:space="preserve"><value>Adresa odkazu</value></data>
@@ -555,7 +555,7 @@
   <data name="DocumentEditorWords" xml:space="preserve"><value>Slová: {0}</value></data>
   <data name="DocumentEditorCharacters" xml:space="preserve"><value>Znaky: {0}</value></data>
   <data name="DocumentEditorExportHtml" xml:space="preserve"><value>Exportovať do HTML</value></data>
-  <data name="DocumentEditorExportText" xml:space="preserve"><value>Exportovať do textu</value></data>
+  <data name="DocumentEditorExportText" xml:space="preserve"><value>Exportovať ako text</value></data>
   <data name="DocumentEditorDefaultTitle" xml:space="preserve"><value>Dokument</value></data>
   <data name="CodeEditorLabel" xml:space="preserve"><value>Editor kódu</value></data>
   <data name="CodeEditorLoading" xml:space="preserve"><value>Načítava sa editor kódu.</value></data>

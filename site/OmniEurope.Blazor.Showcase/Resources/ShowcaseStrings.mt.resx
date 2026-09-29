@@ -113,7 +113,7 @@
   <data name="DemoNavigationCapability2" xml:space="preserve"><value>Tabs ikkontrollati, b'rwoli u navigazzjoni bit-tastiera.</value></data>
   <data name="DemoNavigationCapability3" xml:space="preserve"><value>Passi nnumerati b'validazzjoni qabel ma tgħaddi għall-pass li jmiss.</value></data>
   <data name="DemoFeedbackTitle" xml:space="preserve"><value>Feedback tal-istatus</value></data>
-  <data name="DemoFeedbackSummary" xml:space="preserve"><value>Tgħid fejn wasla s-sistema mingħajr ma timblokka l-paġna.</value></data>
+  <data name="DemoFeedbackSummary" xml:space="preserve"><value>Tgħid fejn waslet is-sistema mingħajr ma timblokka l-paġna.</value></data>
   <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Bar tal-progress, determinat jew indeterminat.</value></data>
   <data name="DemoFeedbackCapability2" xml:space="preserve"><value>Tooltip li tista' tilħaqha mit-tastiera, mhux biss bil-hover.</value></data>
   <data name="DemoFeedbackCapability3" xml:space="preserve"><value>Skeletru tat-tagħbija mħabbar lill-qarrejja tal-iskrin.</value></data>
@@ -197,7 +197,7 @@
   <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Formuli b'referenzi, firxiet, SUM, AVERAGE, MIN, MAX u kodiċijiet ta' żball.</value></data>
   <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Navigazzjoni bit-tastiera, editjar fil-post u bar tal-formula.</value></data>
   <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Kontenut marbut fiż-żewġ direzzjonijiet u li jista' jiġi serjalizzat f'JSON.</value></data>
-  <data name="DemoSchedulerTitle" xml:space="preserve"><value>Skedar</value></data>
+  <data name="DemoSchedulerTitle" xml:space="preserve"><value>Aġenda</value></data>
   <data name="DemoSchedulerSummary" xml:space="preserve"><value>Il-kalendarju u t-tliet vedutiet tiegħu.</value></data>
   <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Vedutiet tal-jum, tal-ġimgħa u tax-xahar, li jistgħu jinbidlu.</value></data>
   <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Appuntamenti rikorrenti deskritti b'regola.</value></data>
@@ -215,7 +215,7 @@
   <data name="DemoDiagramCapability4" xml:space="preserve"><value>Jaqra u jerġa' jikteb il-format tal-graff maħżun mingħajr ma jitlef xejn.</value></data>
   <data name="DemoPlanningTitle" xml:space="preserve"><value>Ippjanar</value></data>
   <data name="DemoPlanningSummary" xml:space="preserve"><value>Dijagramma ta' Gantt, il-passi ta' tħaddim u kronoloġija biex tqiegħed.</value></data>
-  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt skont il-jum, il-ġimgħa jew ix-xahar, bi gruppi, dipendenzi u l-lum.</value></data>
+  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt skont il-jum, il-ġimgħa jew ix-xahar, bi gruppi, dipendenzi u l-jum tal-lum.</value></data>
   <data name="DemoPlanningCapability2" xml:space="preserve"><value>Passi ta' tħaddim fuq skala tal-ħin, flimkien mal-passi li qatt ma bdew.</value></data>
   <data name="DemoPlanningCapability3" xml:space="preserve"><value>Kronoloġija fuq il-lemin, fuq ix-xellug jew alternata, bl-għażla tal-ewwel naħa.</value></data>
   <data name="DemoPagesTitle" xml:space="preserve"><value>Paġni</value></data>
@@ -340,8 +340,8 @@
   <data name="DemoLoadingCapability1" xml:space="preserve"><value>Il-bar isegwi tagħbija vera, jiknes jew jimtela, jasal sat-tmiem u mbagħad jgħib.</value></data>
   <data name="DemoLoadingCapability2" xml:space="preserve"><value>Buttuna okkupata żżomm id-daqs u l-kontenut tagħha: velu jieħu n-nifs fuqha.</value></data>
   <data name="DemoLoadingCapability3" xml:space="preserve"><value>L-iskeletru jieħu l-forma ta' dak li qed jissostitwixxi.</value></data>
-  <data name="DemoRunGridsTitle" xml:space="preserve"><value>Gradilji tat-tħaddim</value></data>
-  <data name="DemoRunGridsSummary" xml:space="preserve"><value>Iż-żewġ gradilji tal-mockup: issortjata b'kolonna attiva, strixxata b'intestatura li teħel.</value></data>
+  <data name="DemoRunGridsTitle" xml:space="preserve"><value>Griljiet tat-tħaddim</value></data>
+  <data name="DemoRunGridsSummary" xml:space="preserve"><value>Iż-żewġ griljiet tal-mockup: issortjata b'kolonna attiva, strixxata b'intestatura li teħel.</value></data>
   <data name="DemoRunGridsCapability1" xml:space="preserve"><value>Il-kolonna ssortjata hija kkulurita eħfef mir-ringiela magħżula, biex jintgħarfu minn xulxin.</value></data>
   <data name="DemoRunGridsCapability2" xml:space="preserve"><value>L-intestatura tibqa' viżibbli waqt li l-grilja tiskrollja; it-tul jiġi allinjat fl-aħħar.</value></data>
   <data name="DemoRunGridsCapability3" xml:space="preserve"><value>L-istatus huwa tikka kompatta (omni-status).</value></data>
@@ -412,7 +412,7 @@
   <data name="SettingsModeLight" xml:space="preserve"><value>Ċar</value></data>
   <data name="SettingsModeDark" xml:space="preserve"><value>Skur</value></data>
   <data name="SettingsCompact" xml:space="preserve"><value>Interfaċċja kompatta</value></data>
-  <data name="SettingsCompactHint" xml:space="preserve"><value>Tnaqqas il-marġni tal-gradilji u tal-formoli.</value></data>
+  <data name="SettingsCompactHint" xml:space="preserve"><value>Tnaqqas il-marġni tal-griljiet u tal-formoli.</value></data>
   <data name="SettingsNotifications" xml:space="preserve"><value>Notifiki</value></data>
   <data name="SettingsNotificationsLead" xml:space="preserve"><value>X'jiġi nnotifikat lilek, u permezz ta' liema kanal.</value></data>
   <data name="SettingsFailures" xml:space="preserve"><value>Fallimenti tal-pipeline</value></data>
@@ -535,7 +535,7 @@
   <data name="ThemesAlert" xml:space="preserve"><value>Kull paletta tiżbogħ kull tema.</value></data>
   <data name="VFormSummaryTitle" xml:space="preserve"><value>Oqsma x'jiġu kkoreġuti: {0}.</value></data>
   <data name="VFormName" xml:space="preserve"><value>Isem il-pipeline</value></data>
-  <data name="VFormNameHelp" xml:space="preserve"><value>Ittri żgħar, ċifri u sing.</value></data>
+  <data name="VFormNameHelp" xml:space="preserve"><value>Ittri żgħar, ċifri u singijiet.</value></data>
   <data name="VFormNameError" xml:space="preserve"><value>L-isem tal-pipeline huwa obbligatorju.</value></data>
   <data name="VFormMail" xml:space="preserve"><value>Indirizz tan-notifiki</value></data>
   <data name="VFormMailError" xml:space="preserve"><value>Żid dominju sħiħ, pereżempju tim@example.com.</value></data>
@@ -674,7 +674,7 @@
   <data name="DemoChartsExtendedSliceCounter" xml:space="preserve"><value>Kontro</value></data>
   <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Posta</value></data>
   <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Online</value></data>
-  <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Oħrajn</value></data>
+  <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Oħra</value></data>
   <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Pjan tal-proġett</value></data>
   <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Skala murija: {0}</value></data>
   <data name="DemoPlanningScaleDay" xml:space="preserve"><value>jum</value></data>
@@ -699,7 +699,7 @@
   <data name="DemoPlanningGroupBuild" xml:space="preserve"><value>Implimentazzjoni</value></data>
   <data name="DemoPlanningTaskScoping" xml:space="preserve"><value>Definizzjoni tal-ambitu</value></data>
   <data name="DemoPlanningTaskMockups" xml:space="preserve"><value>Mockups</value></data>
-  <data name="DemoPlanningTaskProofreading" xml:space="preserve"><value>Provi</value></data>
+  <data name="DemoPlanningTaskProofreading" xml:space="preserve"><value>Reviżjoni tat-test</value></data>
   <data name="DemoPlanningTaskDevelopment" xml:space="preserve"><value>Żvilupp</value></data>
   <data name="DemoPlanningTaskAcceptance" xml:space="preserve"><value>Testijiet tal-aċċettazzjoni</value></data>
   <data name="DemoSchedulerView" xml:space="preserve"><value>Veduta</value></data>
@@ -715,7 +715,7 @@
   <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Wisa' sħiħa fuq skrin żgħir, terz fuq skrin kbir.</value></data>
   <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kard b'intestatura</value></data>
   <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>L-intestatura, il-korp u l-footer huma tliet żoni distinti.</value></data>
-  <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>Kard jista' jkollha biss il-korp.</value></data>
+  <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>Kard tista' jkollha biss il-korp.</value></data>
   <data name="DemoLayoutStart" xml:space="preserve"><value>Bidu</value></data>
   <data name="DemoLayoutMiddle" xml:space="preserve"><value>Nofs</value></data>
   <data name="DemoLayoutEnd" xml:space="preserve"><value>Tmiem</value></data>
@@ -1007,7 +1007,7 @@
   <data name="DemoMediaIconPackage" xml:space="preserve"><value>Oġġett</value></data>
   <data name="DemoMediaIconPalette" xml:space="preserve"><value>Kuluri</value></data>
   <data name="DemoMediaIconPath" xml:space="preserve"><value>Rotta</value></data>
-  <data name="DemoMediaIconPattern" xml:space="preserve"><value>Disinn</value></data>
+  <data name="DemoMediaIconPattern" xml:space="preserve"><value>Motiv</value></data>
   <data name="DemoMediaIconPictureInPicture" xml:space="preserve"><value>Stampa fi stampa</value></data>
   <data name="DemoMediaIconPin" xml:space="preserve"><value>Waħħal</value></data>
   <data name="DemoMediaIconPlay" xml:space="preserve"><value>Ibda</value></data>
@@ -1033,7 +1033,7 @@
   <data name="DemoMediaIconTextSize" xml:space="preserve"><value>Daqs tat-test</value></data>
   <data name="DemoMediaIconThemeSystem" xml:space="preserve"><value>Dehra tas-sistema</value></data>
   <data name="DemoMediaIconTimer" xml:space="preserve"><value>Tajmer</value></data>
-  <data name="DemoMediaIconUpgrade" xml:space="preserve"><value>Aġġornament</value></data>
+  <data name="DemoMediaIconUpgrade" xml:space="preserve"><value>Titjib</value></data>
   <data name="DemoMediaIconUpload" xml:space="preserve"><value>Tella'</value></data>
   <data name="DemoMediaIconUser" xml:space="preserve"><value>Persuna</value></data>
   <data name="DemoMediaIconUserFocus" xml:space="preserve"><value>Sib persuna</value></data>
@@ -1064,14 +1064,14 @@
   <data name="DemoMediaIconGitMerge" xml:space="preserve"><value>Għaqda</value></data>
   <data name="DemoMediaIconLockKey" xml:space="preserve"><value>Irrisettja l-password</value></data>
   <data name="DemoMediaIconRobot" xml:space="preserve"><value>Awtomazzjoni</value></data>
-  <data name="DemoMediaIconArrowDown" xml:space="preserve"><value>Niżżel</value></data>
+  <data name="DemoMediaIconArrowDown" xml:space="preserve"><value>Ċaqlaq 'l isfel</value></data>
   <data name="DemoMediaIconBrain" xml:space="preserve"><value>Intelliġenza</value></data>
   <data name="DemoMediaIconCellTower" xml:space="preserve"><value>Antenna</value></data>
   <data name="DemoMediaIconCloud" xml:space="preserve"><value>Sħaba</value></data>
   <data name="DemoMediaIconGavel" xml:space="preserve"><value>Regolament</value></data>
   <data name="DemoMediaIconGitDiff" xml:space="preserve"><value>Differenzi</value></data>
   <data name="DemoMediaIconLinkBreak" xml:space="preserve"><value>Link miksur</value></data>
-  <data name="DemoMediaIconLockOpen" xml:space="preserve"><value>Miftuħ</value></data>
+  <data name="DemoMediaIconLockOpen" xml:space="preserve"><value>Mhux imsakkar</value></data>
   <data name="DemoMediaIconPaperPlaneRight" xml:space="preserve"><value>Ibgħat messaġġ</value></data>
   <data name="DemoMediaIconPlugsConnected" xml:space="preserve"><value>Konness</value></data>
   <data name="DemoMediaIconPuzzlePiece" xml:space="preserve"><value>Estensjoni</value></data>
@@ -1135,8 +1135,8 @@
   <data name="DemoMediaIconUserMinus" xml:space="preserve"><value>Neħħi membru</value></data>
   <data name="DemoMediaIconSelectionSlash" xml:space="preserve"><value>Neħħi l-għażla</value></data>
   <data name="DemoMediaIconSmiley" xml:space="preserve"><value>Karattri speċjali</value></data>
-  <data name="DemoMediaIconSkipBack" xml:space="preserve"><value>Il-korsa ta' qabel</value></data>
-  <data name="DemoMediaIconSkipForward" xml:space="preserve"><value>Il-korsa li jmiss</value></data>
+  <data name="DemoMediaIconSkipBack" xml:space="preserve"><value>It-traċċa ta' qabel</value></data>
+  <data name="DemoMediaIconSkipForward" xml:space="preserve"><value>It-traċċa li jmiss</value></data>
   <data name="DemoMediaIconShuffle" xml:space="preserve"><value>Daqq bl-addoċċ</value></data>
   <data name="DemoMediaIconRepeat" xml:space="preserve"><value>Irrepeti</value></data>
   <data name="DemoMediaIconRepeatOnce" xml:space="preserve"><value>Irrepeti darba</value></data>
@@ -1147,7 +1147,7 @@
   <data name="DemoMediaIconQueue" xml:space="preserve"><value>Kju</value></data>
   <data name="DemoMediaIconPlaylist" xml:space="preserve"><value>Playlist</value></data>
   <data name="DemoMediaIconListPlus" xml:space="preserve"><value>Żid mal-lista</value></data>
-  <data name="DemoMediaIconMusicNote" xml:space="preserve"><value>Korsa</value></data>
+  <data name="DemoMediaIconMusicNote" xml:space="preserve"><value>Traċċa</value></data>
   <data name="DemoMediaIconDisc" xml:space="preserve"><value>Album</value></data>
   <data name="DemoMediaIconWaveform" xml:space="preserve"><value>Forma tal-mewġa</value></data>
   <data name="DemoMediaIconDotsSixVertical" xml:space="preserve"><value>Manku tal-kaxkar</value></data>

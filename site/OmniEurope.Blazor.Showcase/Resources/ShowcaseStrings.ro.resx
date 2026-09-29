@@ -450,7 +450,7 @@
   <data name="DemoShellScrollMenu" xml:space="preserve"><value>Meniul demonstrației cu derulare</value></data>
   <data name="DemoShellReadingColumn" xml:space="preserve"><value>Coloană de lectură</value></data>
   <data name="DemoShellScroll1" xml:space="preserve"><value>Coloana este limitată la 72rem și centrată; restul lățimii aparține în continuare elementului principal.</value></data>
-  <data name="DemoShellScroll2" xml:space="preserve"><value>Așadar el este cel care derulează, pe toată lățimea zonei: bara lui de derulare stă la marginea dreaptă a cadrului.</value></data>
+  <data name="DemoShellScroll2" xml:space="preserve"><value>Așadar elementul principal este cel care derulează, pe toată lățimea zonei: bara lui de derulare stă la marginea dreaptă a cadrului.</value></data>
   <data name="DemoShellScroll3" xml:space="preserve"><value>Un copil cu înălțimea de 100% ar umple exact zona; un conținut mai înalt o face să deruleze.</value></data>
   <data name="DemoShellScroll4" xml:space="preserve"><value>Marginea de jos se păstrează la sfârșitul derulării.</value></data>
   <data name="DemoShellScroll5" xml:space="preserve"><value>Îngustarea ferestrei aduce coloana la lățimea disponibilă, inclusiv spațiul lateral.</value></data>
@@ -533,7 +533,7 @@
   <data name="ThemesCancel" xml:space="preserve"><value>Anulează</value></data>
   <data name="ThemesBadge" xml:space="preserve"><value>Publicat</value></data>
   <data name="ThemesAlert" xml:space="preserve"><value>Orice paletă colorează orice temă.</value></data>
-  <data name="VFormSummaryTitle" xml:space="preserve"><value>{0} câmp(uri) de corectat.</value></data>
+  <data name="VFormSummaryTitle" xml:space="preserve"><value>Câmpuri de corectat: {0}.</value></data>
   <data name="VFormName" xml:space="preserve"><value>Numele pipeline-ului</value></data>
   <data name="VFormNameHelp" xml:space="preserve"><value>Litere mici, cifre și cratime.</value></data>
   <data name="VFormNameError" xml:space="preserve"><value>Numele pipeline-ului este obligatoriu.</value></data>
@@ -661,7 +661,7 @@
   <data name="DemoChartsExtendedStackedTitle" xml:space="preserve"><value>Distribuție stivuită</value></data>
   <data name="DemoChartsExtendedIncoming" xml:space="preserve"><value>Intrări</value></data>
   <data name="DemoChartsExtendedOutgoing" xml:space="preserve"><value>Ieșiri</value></data>
-  <data name="DemoChartsExtendedBacklog" xml:space="preserve"><value>Stoc</value></data>
+  <data name="DemoChartsExtendedBacklog" xml:space="preserve"><value>Restanțe</value></data>
   <data name="DemoChartsExtendedHorizontalTitle" xml:space="preserve"><value>Comparație orizontală</value></data>
   <data name="DemoChartsExtendedByCountry" xml:space="preserve"><value>Dosare pe țară</value></data>
   <data name="DemoChartsExtendedStackedBarsTitle" xml:space="preserve"><value>Dosare procesate și în așteptare, pe țară</value></data>
@@ -762,7 +762,7 @@
   <data name="DemoLayoutGeneralText" xml:space="preserve"><value>Setări generale.</value></data>
   <data name="DemoLayoutSecurity" xml:space="preserve"><value>Securitate</value></data>
   <data name="DemoLayoutSecurityText" xml:space="preserve"><value>Acces și token-uri.</value></data>
-  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Placă aerisită</value></data>
+  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Dală aerisită</value></data>
   <data name="DemoLayoutOwnDensity" xml:space="preserve"><value>Propria densitate.</value></data>
   <data name="DemoLayoutTrackedExpanded" xml:space="preserve"><value>Opțiuni urmărite: extinse</value></data>
   <data name="DemoLayoutTrackedCollapsed" xml:space="preserve"><value>Opțiuni urmărite: restrânse</value></data>
@@ -935,9 +935,9 @@
   <data name="DemoFeedbackAvailability" xml:space="preserve"><value>Disponibilitate în ultimele ore</value></data>
   <data name="DemoFeedbackReady" xml:space="preserve"><value>Gata</value></data>
   <data name="DemoFeedbackFailed" xml:space="preserve"><value>Eșec</value></data>
-  <data name="DemoFeedbackRunSucceeded" xml:space="preserve"><value>Execuția {0} reușită</value></data>
-  <data name="DemoFeedbackRunWarning" xml:space="preserve"><value>Execuția {0} cu avertisment</value></data>
-  <data name="DemoFeedbackRunFailed" xml:space="preserve"><value>Execuția {0} eșuată</value></data>
+  <data name="DemoFeedbackRunSucceeded" xml:space="preserve"><value>Execuția {0} a reușit</value></data>
+  <data name="DemoFeedbackRunWarning" xml:space="preserve"><value>Execuția {0} s-a încheiat cu avertisment</value></data>
+  <data name="DemoFeedbackRunFailed" xml:space="preserve"><value>Execuția {0} a eșuat</value></data>
   <data name="DemoFeedbackSucceeded" xml:space="preserve"><value>Reușită</value></data>
   <data name="DemoFeedbackWarning" xml:space="preserve"><value>Avertisment</value></data>
   <data name="DemoMediaImageContain" xml:space="preserve"><value>Imagine întreagă, fără decupare</value></data>
@@ -981,7 +981,7 @@
   <data name="DemoMediaIconCopy" xml:space="preserve"><value>Copiază</value></data>
   <data name="DemoMediaIconDatabase" xml:space="preserve"><value>Bază de date</value></data>
   <data name="DemoMediaIconDelete" xml:space="preserve"><value>Șterge</value></data>
-  <data name="DemoMediaIconDiamond" xml:space="preserve"><value>Gemă</value></data>
+  <data name="DemoMediaIconDiamond" xml:space="preserve"><value>Piatră prețioasă</value></data>
   <data name="DemoMediaIconDice" xml:space="preserve"><value>Tragere la sorți</value></data>
   <data name="DemoMediaIconDocument" xml:space="preserve"><value>Document</value></data>
   <data name="DemoMediaIconDownload" xml:space="preserve"><value>Descarcă</value></data>
@@ -1155,7 +1155,7 @@
   <data name="DemoMediaIconPlayCircle" xml:space="preserve"><value>Redă</value></data>
   <data name="DemoMediaIconPauseCircle" xml:space="preserve"><value>Pauză</value></data>
   <data name="DemoMediaIconXCircle" xml:space="preserve"><value>Anulează</value></data>
-  <data name="DemoMediaIconChartBar" xml:space="preserve"><value>Histogramă</value></data>
+  <data name="DemoMediaIconChartBar" xml:space="preserve"><value>Grafic cu bare</value></data>
   <data name="DemoMediaIconBookOpen" xml:space="preserve"><value>Carte deschisă</value></data>
   <data name="DemoMediaIconArrowsDownUp" xml:space="preserve"><value>Schimbă pe verticală</value></data>
   <data name="DemoMediaIconFolderPlus" xml:space="preserve"><value>Folder nou</value></data>
@@ -1281,11 +1281,11 @@
   <data name="DemoEditorManifest" xml:space="preserve"><value>Manifest de implementare</value></data>
   <data name="DemoEditorManifestHelp" xml:space="preserve"><value>Un singur fișier; deschide fereastra de selecție a sistemului.</value></data>
   <data name="DemoEditorUploadFailed" xml:space="preserve"><value>Încărcarea a eșuat.</value></data>
-  <data name="DemoEditorUploaded" xml:space="preserve"><value>Documente încărcate: {0}</value></data>
+  <data name="DemoEditorUploaded" xml:space="preserve"><value>Fișiere încărcate: {0}</value></data>
   <data name="DemoEditorNoUpload" xml:space="preserve"><value>niciunul</value></data>
   <data name="DemoEditorTestCommand" xml:space="preserve"><value>Comandă de test</value></data>
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Exemplu de configurație</value></data>
-  <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Extras, liniile {0}-{1}</value></data>
+  <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Extras, rândurile {0}–{1}</value></data>
   <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Compară două configurații</value></data>
   <data name="DemoEditorSignatureText" xml:space="preserve"><value>Serviciul dosare</value></data>
   <data name="DemoEditorReferenceText" xml:space="preserve"><value>Referință: {0}</value></data>
@@ -1303,7 +1303,7 @@
   <data name="DemoEditorArticleForm" xml:space="preserve"><value>Formular</value></data>
   <data name="DemoEditorArticleNote" xml:space="preserve"><value>Notă: text consolidat la 1 ianuarie.</value></data>
   <data name="DemoEditorOpinion" xml:space="preserve"><value>Aviz favorabil sub rezerva{0}.</value></data>
-  <data name="DemoEditorOpinionNote" xml:space="preserve"><value>verifică termenul</value></data>
+  <data name="DemoEditorOpinionNote" xml:space="preserve"><value>verificării termenului</value></data>
   <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>sub rezerva</value></data>
   <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> verificării</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Un paragraf {0}.</value></data>
@@ -1328,7 +1328,7 @@
   <data name="DemoChoiceOff" xml:space="preserve"><value>dezactivat</value></data>
   <data name="DemoChoiceTextFirstCheck" xml:space="preserve"><value>Etichetă înaintea casetei</value></data>
   <data name="DemoChoiceTextFirstSwitch" xml:space="preserve"><value>Etichetă înaintea comutatorului</value></data>
-  <data name="DemoChoicePlatformLabel" xml:space="preserve"><value>Sistemul agentului</value></data>
+  <data name="DemoChoicePlatformLabel" xml:space="preserve"><value>Sistemul de operare al agentului</value></data>
   <data name="DemoChoiceWindowsDescription" xml:space="preserve"><value>Windows Server 2022 și versiuni ulterioare</value></data>
   <data name="DemoChoiceFeaturesLabel" xml:space="preserve"><value>Funcțiile agentului</value></data>
   <data name="DemoChoiceRunnerTitle" xml:space="preserve"><value>Executor de pipeline-uri</value></data>
@@ -1428,7 +1428,7 @@
   <data name="DemoFlowsOutcomePending" xml:space="preserve"><value>în curs</value></data>
   <data name="DemoFlowsOutcomeCreated" xml:space="preserve"><value>serverul „{0}” a fost creat</value></data>
   <data name="DemoFlowsOutcomeCancelled" xml:space="preserve"><value>anulat</value></data>
-  <data name="DemoFlowsWizardInDialog" xml:space="preserve"><value>Expert într-un dialog</value></data>
+  <data name="DemoFlowsWizardInDialog" xml:space="preserve"><value>Asistent într-un dialog</value></data>
   <data name="DemoFlowsInviteTitle" xml:space="preserve"><value>Invită un membru</value></data>
   <data name="DemoFlowsInviteSteps" xml:space="preserve"><value>Pașii invitației</value></data>
   <data name="DemoFlowsInvite" xml:space="preserve"><value>Invită</value></data>
@@ -1448,7 +1448,7 @@
   <data name="DemoFlowsSimulateReject" xml:space="preserve"><value>Simulează un refuz</value></data>
   <data name="DemoFlowsConnection" xml:space="preserve"><value>Conexiune: {0}</value></data>
   <data name="DemoFlowsConnectionReconnecting" xml:space="preserve"><value>reconectare</value></data>
-  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>eșec</value></data>
+  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>eșuată</value></data>
   <data name="DemoFlowsConnectionRejected" xml:space="preserve"><value>refuzată</value></data>
   <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>stabilită</value></data>
   <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>serverul nu mai răspunde (timp expirat)</value></data>

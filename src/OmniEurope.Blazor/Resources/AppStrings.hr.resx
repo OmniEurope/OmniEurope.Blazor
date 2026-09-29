@@ -75,9 +75,9 @@
   <data name="GridFilterStartsWith" xml:space="preserve"><value>Počinje s</value></data>
   <data name="GridFilterEndsWith" xml:space="preserve"><value>Završava s</value></data>
   <data name="GridFilterGreaterThan" xml:space="preserve"><value>Veće od</value></data>
-  <data name="GridFilterGreaterThanOrEquals" xml:space="preserve"><value>Veće od ili jednako</value></data>
+  <data name="GridFilterGreaterThanOrEquals" xml:space="preserve"><value>Veće ili jednako</value></data>
   <data name="GridFilterLessThan" xml:space="preserve"><value>Manje od</value></data>
-  <data name="GridFilterLessThanOrEquals" xml:space="preserve"><value>Manje od ili jednako</value></data>
+  <data name="GridFilterLessThanOrEquals" xml:space="preserve"><value>Manje ili jednako</value></data>
   <data name="GridFilterIsNull" xml:space="preserve"><value>Nema vrijednost</value></data>
   <data name="GridFilterIsNotNull" xml:space="preserve"><value>Ima vrijednost</value></data>
   <data name="GridFilterIsEmpty" xml:space="preserve"><value>Prazno je</value></data>
@@ -370,9 +370,9 @@
   <data name="SchedulerMoveHere" xml:space="preserve"><value>Smjesti ovdje: {0}, {1}</value></data>
   <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Smjesti ovdje</value></data>
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Otkaži premještanje</value></data>
-  <data name="SchedulerMoving" xml:space="preserve"><value>{0} je podignut: odaberite novo mjesto, Esc za odustajanje.</value></data>
+  <data name="SchedulerMoving" xml:space="preserve"><value>Odabrano za premještanje: {0}. Odaberite novo mjesto, Esc za odustajanje.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} ostaje na svojem mjestu.</value></data>
-  <data name="SchedulerMoved" xml:space="preserve"><value>{0} je premješten na {1}.</value></data>
+  <data name="SchedulerMoved" xml:space="preserve"><value>{0}: premješteno na {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Segmentirani odabir nije valjan.</value></data>
   <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Odabir nije valjan.</value></data>
   <data name="RatingLabel" xml:space="preserve"><value>Ocjena</value></data>
@@ -428,7 +428,7 @@
   <data name="UploadShowLess" xml:space="preserve"><value>Prikaži manje</value></data>
   <data name="UploadRemoveAll" xml:space="preserve"><value>Ukloni sve</value></data>
   <data name="UploadRemovedAll" xml:space="preserve"><value>Sve su datoteke uklonjene s popisa.</value></data>
-  <data name="UploadRemoved" xml:space="preserve"><value>{0} je uklonjeno s popisa.</value></data>
+  <data name="UploadRemoved" xml:space="preserve"><value>Datoteka {0} uklonjena je s popisa.</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Tjedni prikaz</value></data>
   <data name="DataAnnotationsRequired" xml:space="preserve"><value>Polje {0} je obavezno.</value></data>
   <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Polje {0} mora sadržavati od {1} do {2} znakova.</value></data>
@@ -550,7 +550,7 @@
   <data name="HtmlEditorLinkApply" xml:space="preserve"><value>Primijeni</value></data>
   <data name="HtmlEditorLinkCancel" xml:space="preserve"><value>Odustani</value></data>
   <data name="HtmlEditorLinkInvalid" xml:space="preserve"><value>Adresa je odbijena: upotrijebite relativnu adresu ili adresu http, https, mailto ili tel.</value></data>
-  <data name="DocumentEditorLabel" xml:space="preserve"><value>Obrada teksta</value></data>
+  <data name="DocumentEditorLabel" xml:space="preserve"><value>Program za obradu teksta</value></data>
   <data name="DocumentEditorStatus" xml:space="preserve"><value>Statistika dokumenta</value></data>
   <data name="DocumentEditorWords" xml:space="preserve"><value>Riječi: {0}</value></data>
   <data name="DocumentEditorCharacters" xml:space="preserve"><value>Znakovi: {0}</value></data>
@@ -617,9 +617,9 @@
   <data name="StatusStripEmpty" xml:space="preserve"><value>Nema stanja za prikaz</value></data>
   <data name="KanbanLabel" xml:space="preserve"><value>Ploča s karticama</value></data>
   <data name="KanbanInstructions" xml:space="preserve"><value>Razmaknica ili Enter za podizanje kartice, strelice za premještanje, Razmaknica ili Enter za spuštanje, Esc za odustajanje.</value></data>
-  <data name="KanbanGrabbed" xml:space="preserve"><value>{0} je podignuta, stupac {1}, položaj {2} od {3}.</value></data>
+  <data name="KanbanGrabbed" xml:space="preserve"><value>Kartica {0} je podignuta, stupac {1}, položaj {2} od {3}.</value></data>
   <data name="KanbanMoved" xml:space="preserve"><value>{0}: stupac {1}, položaj {2} od {3}.</value></data>
-  <data name="KanbanDropped" xml:space="preserve"><value>{0} je spuštena, stupac {1}, položaj {2} od {3}.</value></data>
+  <data name="KanbanDropped" xml:space="preserve"><value>Kartica {0} je spuštena, stupac {1}, položaj {2} od {3}.</value></data>
   <data name="KanbanCancelled" xml:space="preserve"><value>Premještanje je otkazano: {0} ostaje u stupcu {1}.</value></data>
   <data name="KanbanEmptyColumn" xml:space="preserve"><value>Nema kartica</value></data>
   <data name="KanbanCardCount" xml:space="preserve"><value>Kartice: {0}</value></data>
@@ -644,7 +644,7 @@
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Nepotpun izvoz: izvezeno {0} od {1} najavljenih redaka, podaci su se promijenili tijekom čitanja.</value></data>
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ograničen izvoz: dosegnuto je ograničenje od {0} redaka, a izvor ne navodi ukupan broj, možda postoji još redaka.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Nema redaka.</value></data>
-  <data name="SignUp" xml:space="preserve"><value>Registriraj se</value></data>
+  <data name="SignUp" xml:space="preserve"><value>Registracija</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nemate račun?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Nespremljene promjene</value></data>
   <data name="UnsavedChangesMessage" xml:space="preserve"><value>Neke promjene nisu spremljene. Napustiti stranicu bez spremanja?</value></data>

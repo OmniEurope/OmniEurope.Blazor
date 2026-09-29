@@ -55,7 +55,7 @@
   <data name="GridEditColumn" xml:space="preserve"><value>Edycja</value></data>
   <data name="GridFilterColumn" xml:space="preserve"><value>Filtruj: {0}</value></data>
   <data name="GridEmpty" xml:space="preserve"><value>Brak danych.</value></data>
-  <data name="GridEmptyFiltered" xml:space="preserve"><value>Żaden wynik nie pasuje do filtrów.</value></data>
+  <data name="GridEmptyFiltered" xml:space="preserve"><value>Brak wyników pasujących do filtrów.</value></data>
   <data name="GridValueColumn" xml:space="preserve"><value>Wartość</value></data>
   <data name="GridFilterPlaceholder" xml:space="preserve"><value>Filtruj</value></data>
   <data name="GridFilterOperator" xml:space="preserve"><value>Operator filtru dla {0}</value></data>
@@ -149,7 +149,7 @@
   <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Wielkość liter</value></data>
   <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>WIELKIE LITERY</value></data>
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>małe litery</value></data>
-  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Jak W Tytule</value></data>
+  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Każdy Wyraz Z Wielkiej Litery</value></data>
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Znak specjalny</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Szukaj znaku</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Brak pasujących znaków.</value></data>
@@ -175,7 +175,7 @@
   <data name="HtmlEditorChar00AE" xml:space="preserve"><value>Zastrzeżony znak towarowy</value></data>
   <data name="HtmlEditorChar2122" xml:space="preserve"><value>Znak towarowy</value></data>
   <data name="HtmlEditorChar00A7" xml:space="preserve"><value>Paragraf</value></data>
-  <data name="HtmlEditorChar00B6" xml:space="preserve"><value>Akapit (pilcrow)</value></data>
+  <data name="HtmlEditorChar00B6" xml:space="preserve"><value>Znak akapitu</value></data>
   <data name="HtmlEditorChar2020" xml:space="preserve"><value>Krzyżyk</value></data>
   <data name="HtmlEditorChar2021" xml:space="preserve"><value>Podwójny krzyżyk</value></data>
   <data name="HtmlEditorChar2022" xml:space="preserve"><value>Punktor</value></data>
@@ -411,9 +411,9 @@
   <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0:0.##} MB</value></data>
   <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} kB</value></data>
   <data name="UploadSizeBytes" xml:space="preserve"><value>{0} B</value></data>
-  <data name="UploadDropOne" xml:space="preserve"><value>Upuść plik tutaj lub</value></data>
-  <data name="UploadDropMany" xml:space="preserve"><value>Upuść pliki tutaj lub</value></data>
-  <data name="UploadBrowse" xml:space="preserve"><value>przeglądaj</value></data>
+  <data name="UploadDropOne" xml:space="preserve"><value>Przeciągnij plik tutaj lub</value></data>
+  <data name="UploadDropMany" xml:space="preserve"><value>Przeciągnij pliki tutaj lub</value></data>
+  <data name="UploadBrowse" xml:space="preserve"><value>wybierz</value></data>
   <data name="UploadHintMaximumSize" xml:space="preserve"><value>Maks. {0} na plik</value></data>
   <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Maks. liczba plików: {0}</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Załączone pliki</value></data>
@@ -555,7 +555,7 @@
   <data name="DocumentEditorWords" xml:space="preserve"><value>Słowa: {0}</value></data>
   <data name="DocumentEditorCharacters" xml:space="preserve"><value>Znaki: {0}</value></data>
   <data name="DocumentEditorExportHtml" xml:space="preserve"><value>Eksportuj do HTML</value></data>
-  <data name="DocumentEditorExportText" xml:space="preserve"><value>Eksportuj do tekstu</value></data>
+  <data name="DocumentEditorExportText" xml:space="preserve"><value>Eksportuj jako tekst</value></data>
   <data name="DocumentEditorDefaultTitle" xml:space="preserve"><value>Dokument</value></data>
   <data name="CodeEditorLabel" xml:space="preserve"><value>Edytor kodu</value></data>
   <data name="CodeEditorLoading" xml:space="preserve"><value>Ładowanie edytora kodu.</value></data>

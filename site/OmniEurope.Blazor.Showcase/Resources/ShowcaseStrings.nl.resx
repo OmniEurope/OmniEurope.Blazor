@@ -63,9 +63,9 @@
   <data name="DemoButtonsTitle" xml:space="preserve"><value>Knoppen</value></data>
   <data name="DemoButtonsSummary" xml:space="preserve"><value>De actieknop, uitgewerkt naar visuele intentie en status.</value></data>
   <data name="DemoButtonsCapability1" xml:space="preserve"><value>Vier intenties: primair, secundair, subtiel en destructief.</value></data>
-  <data name="DemoButtonsCapability2" xml:space="preserve"><value>Een bezetstatus die dubbel verzenden blokkeert en zich aankondigt bij schermlezers.</value></data>
-  <data name="DemoButtonsCapability3" xml:space="preserve"><value>Een uitgeschakelde status, los van de bezetstatus.</value></data>
-  <data name="DemoButtonsCapability4" xml:space="preserve"><value>Drie formaten en de drie knoptypen van een formulier: verzenden, herstellen, neutrale actie.</value></data>
+  <data name="DemoButtonsCapability2" xml:space="preserve"><value>Een bezig-status die dubbel verzenden blokkeert en zich aankondigt bij schermlezers.</value></data>
+  <data name="DemoButtonsCapability3" xml:space="preserve"><value>Een uitgeschakelde status, los van de bezig-status.</value></data>
+  <data name="DemoButtonsCapability4" xml:space="preserve"><value>Drie formaten en de drie knoptypen van een formulier: verzenden, opnieuw instellen, neutrale actie.</value></data>
   <data name="DemoBadgesTitle" xml:space="preserve"><value>Badges</value></data>
   <data name="DemoBadgesSummary" xml:space="preserve"><value>Het korte label dat een element typeert zonder het te overladen.</value></data>
   <data name="DemoBadgesCapability1" xml:space="preserve"><value>Vijf varianten, afgestemd op de ernstniveaus van het thema.</value></data>
@@ -90,7 +90,7 @@
   <data name="TokenGroupGrid" xml:space="preserve"><value>Gegevenstabel in donkere modus</value></data>
   <data name="TokenGroupDiagram" xml:space="preserve"><value>Mindmap</value></data>
   <data name="CustomizeExportTitle" xml:space="preserve"><value>Exporteren</value></data>
-  <data name="CustomizeExportLead" xml:space="preserve"><value>De onderstaande CSS bevat de hele combinatie, inclusief gewijzigde variabelen, in licht, in donker en voor de systeemmodus. Ze richt zich op de themascope (OmniThemeScope, data-omni-theme), waar de stylesheet zijn variabelen opnieuw declareert; laad haar na de stylesheet van de bibliotheek.</value></data>
+  <data name="CustomizeExportLead" xml:space="preserve"><value>De onderstaande CSS bevat de hele combinatie, inclusief gewijzigde variabelen, in licht, in donker en voor de systeemmodus. Deze richt zich op de themascope (OmniThemeScope, data-omni-theme), waar de stylesheet zijn variabelen opnieuw declareert; laad deze na de stylesheet van de bibliotheek.</value></data>
   <data name="CustomizeCopy" xml:space="preserve"><value>Kopiëren</value></data>
   <data name="CustomizeDownload" xml:space="preserve"><value>Downloaden</value></data>
   <data name="CustomizeCopied" xml:space="preserve"><value>De CSS is naar het klembord gekopieerd.</value></data>
@@ -159,7 +159,7 @@
   <data name="DemoChoiceTitle" xml:space="preserve"><value>Keuze</value></data>
   <data name="DemoChoiceSummary" xml:space="preserve"><value>Keuzerondjes, meervoudige selectievakjes, selectiebalken en schakelknoppen.</value></data>
   <data name="DemoChoiceCapability1" xml:space="preserve"><value>Lijsten gestuurd door opties of item voor item opgebouwd.</value></data>
-  <data name="DemoChoiceCapability2" xml:space="preserve"><value>Selectiebalk en schakelknop, met bezette en uitgeschakelde status.</value></data>
+  <data name="DemoChoiceCapability2" xml:space="preserve"><value>Selectiebalk en schakelknop, met bezig- en uitgeschakelde status.</value></data>
   <data name="DemoChoiceCapability3" xml:space="preserve"><value>Selectievakje en schakelaar met drie standen, onbepaald inbegrepen.</value></data>
   <data name="DemoValidationTitle" xml:space="preserve"><value>Validatie</value></data>
   <data name="DemoValidationSummary" xml:space="preserve"><value>De regels worden gedeclareerd naast het veld dat ze bewaken.</value></data>
@@ -212,7 +212,7 @@
   <data name="DemoDiagramCapability1" xml:space="preserve"><value>Slepen, lasso, zoomen met het scrollwiel of door te knijpen, contextmenu.</value></data>
   <data name="DemoDiagramCapability2" xml:space="preserve"><value>Elke actie heeft een sneltoets, aangekondigd aan schermlezers.</value></data>
   <data name="DemoDiagramCapability3" xml:space="preserve"><value>Actiebalk en eigenschappenvenster voor het geselecteerde knooppunt.</value></data>
-  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Leest en schrijft de opgeslagen grafiekindeling terug zonder iets te verliezen.</value></data>
+  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Leest en schrijft het opgeslagen graafformaat terug zonder iets te verliezen.</value></data>
   <data name="DemoPlanningTitle" xml:space="preserve"><value>Planning</value></data>
   <data name="DemoPlanningSummary" xml:space="preserve"><value>Een Gantt-diagram, het verloop van een uitvoering en een tijdlijn om te plaatsen.</value></data>
   <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt per dag, week of maand, met groepen, afhankelijkheden en vandaag.</value></data>
@@ -336,9 +336,9 @@
   <data name="DemoNoticesCapability1" xml:space="preserve"><value>Elke melding sluit met haar kruisje.</value></data>
   <data name="DemoNoticesCapability2" xml:space="preserve"><value>De voettekst van de dialoogvensters volgt de conventie van het pakket: eerst de actie, dan Annuleren.</value></data>
   <data name="DemoLoadingTitle" xml:space="preserve"><value>Laden</value></data>
-  <data name="DemoLoadingSummary" xml:space="preserve"><value>Laadbalk, wachten, bezette knoppen, voortgang en skelet.</value></data>
+  <data name="DemoLoadingSummary" xml:space="preserve"><value>Laadbalk, wachten, knoppen in bezig-status, voortgang en skelet.</value></data>
   <data name="DemoLoadingCapability1" xml:space="preserve"><value>De balk volgt een echte laadactie, als sweep of vulling, loopt tot het einde en vervaagt dan.</value></data>
-  <data name="DemoLoadingCapability2" xml:space="preserve"><value>Een bezette knop behoudt zijn grootte en inhoud: er ademt een sluier overheen.</value></data>
+  <data name="DemoLoadingCapability2" xml:space="preserve"><value>Een knop in bezig-status behoudt zijn grootte en inhoud: er ademt een sluier overheen.</value></data>
   <data name="DemoLoadingCapability3" xml:space="preserve"><value>Het skelet neemt de vorm aan van wat het vervangt.</value></data>
   <data name="DemoRunGridsTitle" xml:space="preserve"><value>Uitvoeringstabellen</value></data>
   <data name="DemoRunGridsSummary" xml:space="preserve"><value>De twee tabellen van het ontwerp: gesorteerd met actieve kolom, afwisselend met vaste koptekst.</value></data>
@@ -350,7 +350,7 @@
   <data name="LoadingBarLabel" xml:space="preserve"><value>Pagina laden</value></data>
   <data name="LoadingSweep" xml:space="preserve"><value>Balk met sweep</value></data>
   <data name="LoadingFill" xml:space="preserve"><value>Balk met vulling</value></data>
-  <data name="LoadingHint" xml:space="preserve"><value>De balk staat onder de koptekst hierboven. Aan het eind loopt hij tot het einde en vervaagt dan.</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>De balk staat onder de koptekst hierboven. Tot slot loopt hij helemaal door en vervaagt dan.</value></data>
   <data name="LoadingWaiting" xml:space="preserve"><value>Wachten</value></data>
   <data name="LoadingDeploying" xml:space="preserve"><value>Bezig met implementeren</value></data>
   <data name="LoadingChecking" xml:space="preserve"><value>Controle</value></data>
@@ -372,7 +372,7 @@
   <data name="NoticeRerunOpen" xml:space="preserve"><value>Pipeline opnieuw uitvoeren</value></data>
   <data name="NoticeRerunTitle" xml:space="preserve"><value>Pipeline opnieuw uitvoeren?</value></data>
   <data name="NoticeRerunBody" xml:space="preserve"><value>orders-deploy-prod #2399 wordt opnieuw uitgevoerd op server srv-01, met dezelfde variabelen.</value></data>
-  <data name="NoticeRerunNotify" xml:space="preserve"><value>Mij aan het einde verwittigen</value></data>
+  <data name="NoticeRerunNotify" xml:space="preserve"><value>Stuur mij na afloop een melding</value></data>
   <data name="NoticeRerun" xml:space="preserve"><value>Opnieuw uitvoeren</value></data>
   <data name="NoticeRerunDone" xml:space="preserve"><value>Pipeline opnieuw gestart</value></data>
   <data name="NoticeCancel" xml:space="preserve"><value>Annuleren</value></data>
@@ -439,7 +439,7 @@
   <data name="DemoShellTools" xml:space="preserve"><value>Hulpmiddelen</value></data>
   <data name="DemoShellLogs" xml:space="preserve"><value>Logboeken</value></data>
   <data name="DemoShellWideView" xml:space="preserve"><value>Brede weergave</value></data>
-  <data name="DemoShellWideText" xml:space="preserve"><value>Het inhoudsgebied loopt van rand tot rand, begrensd tot de brede breedte (90 rem), zonder smalle leeskolom.</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>Het inhoudsgebied loopt van rand tot rand, begrensd tot de grote maximale breedte (90 rem), zonder smalle leeskolom.</value></data>
   <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Zwevend menu tonen of verbergen</value></data>
   <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Zwevend menu</value></data>
   <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Zwevend menu van de demo</value></data>
@@ -451,9 +451,9 @@
   <data name="DemoShellReadingColumn" xml:space="preserve"><value>Leeskolom</value></data>
   <data name="DemoShellScroll1" xml:space="preserve"><value>De kolom is begrensd tot 72rem en gecentreerd; de rest van de breedte hoort nog bij het hoofdelement.</value></data>
   <data name="DemoShellScroll2" xml:space="preserve"><value>Het is dus het hoofdelement dat over de hele breedte van het gebied schuift: de schuifbalk staat aan de rechterrand van het kader.</value></data>
-  <data name="DemoShellScroll3" xml:space="preserve"><value>Een kind met 100% hoogte zou het gebied precies vullen; hogere inhoud laat het schuiven.</value></data>
+  <data name="DemoShellScroll3" xml:space="preserve"><value>Een kindelement met 100% hoogte zou het gebied precies vullen; hogere inhoud laat het schuiven.</value></data>
   <data name="DemoShellScroll4" xml:space="preserve"><value>De ondermarge blijft aan het einde van het schuiven behouden.</value></data>
-  <data name="DemoShellScroll5" xml:space="preserve"><value>Een smaller venster brengt de kolom terug tot de beschikbare breedte, goot inbegrepen.</value></data>
+  <data name="DemoShellScroll5" xml:space="preserve"><value>Een smaller venster brengt de kolom terug tot de beschikbare breedte, zijmarge inbegrepen.</value></data>
   <data name="DemoShellSplashChecking" xml:space="preserve"><value>Opstartscherm controleren</value></data>
   <data name="DemoShellSplashRemoved" xml:space="preserve"><value>Opstartscherm verwijderd</value></data>
   <data name="DemoShellSplashAbsent" xml:space="preserve"><value>Geen opstartscherm in deze demo</value></data>
@@ -533,7 +533,7 @@
   <data name="ThemesCancel" xml:space="preserve"><value>Annuleren</value></data>
   <data name="ThemesBadge" xml:space="preserve"><value>Gepubliceerd</value></data>
   <data name="ThemesAlert" xml:space="preserve"><value>Elk palet kleurt elk thema.</value></data>
-  <data name="VFormSummaryTitle" xml:space="preserve"><value>{0} veld(en) te corrigeren.</value></data>
+  <data name="VFormSummaryTitle" xml:space="preserve"><value>Te corrigeren velden: {0}.</value></data>
   <data name="VFormName" xml:space="preserve"><value>Naam van de pipeline</value></data>
   <data name="VFormNameHelp" xml:space="preserve"><value>Kleine letters, cijfers en koppeltekens.</value></data>
   <data name="VFormNameError" xml:space="preserve"><value>De naam van de pipeline is verplicht.</value></data>
@@ -558,7 +558,7 @@
   <data name="VFormLocked" xml:space="preserve"><value>Vergrendeld herstel</value></data>
   <data name="VFormSymbols" xml:space="preserve"><value>Symbolen publiceren</value></data>
   <data name="VFormSigning" xml:space="preserve"><value>Ondertekening van het pakket (verplicht)</value></data>
-  <data name="VFormNotify" xml:space="preserve"><value>Aan het einde verwittigen</value></data>
+  <data name="VFormNotify" xml:space="preserve"><value>Melding sturen na afloop</value></data>
   <data name="VFormAutoDeploy" xml:space="preserve"><value>Automatische implementatie (uitgeschakeld)</value></data>
   <data name="VFormFiles" xml:space="preserve"><value>Bestanden</value></data>
   <data name="VFormManifest" xml:space="preserve"><value>Implementatiemanifest</value></data>
@@ -720,7 +720,7 @@
   <data name="DemoLayoutMiddle" xml:space="preserve"><value>Midden</value></data>
   <data name="DemoLayoutEnd" xml:space="preserve"><value>Einde</value></data>
   <data name="DemoLayoutFieldGroup" xml:space="preserve"><value>Veldgroep</value></data>
-  <data name="DemoLayoutOne" xml:space="preserve"><value>Een</value></data>
+  <data name="DemoLayoutOne" xml:space="preserve"><value>Eén</value></data>
   <data name="DemoLayoutTwo" xml:space="preserve"><value>Twee</value></data>
   <data name="DemoLayoutAdvanced" xml:space="preserve"><value>Geavanceerde instellingen</value></data>
   <data name="DemoLayoutAdvancedText" xml:space="preserve"><value>Een groep die bij het openen is ingeklapt en die de lezer uitklapt als dat nodig is.</value></data>
@@ -817,9 +817,9 @@
   <data name="DemoNavigationDecision" xml:space="preserve"><value>Beslissing</value></data>
   <data name="DemoNavigationDecisionText" xml:space="preserve"><value>De beslissing wordt per post meegedeeld.</value></data>
   <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Het dossier telt {0} documenten.</value></data>
-  <data name="DemoPagesReload" xml:space="preserve"><value>Fiche opnieuw laden</value></data>
-  <data name="DemoPagesMissing" xml:space="preserve"><value>Fiche niet gevonden</value></data>
-  <data name="DemoPagesNotFound" xml:space="preserve"><value>De gevraagde fiche is verwijderd of heeft nooit bestaan.</value></data>
+  <data name="DemoPagesReload" xml:space="preserve"><value>Record opnieuw laden</value></data>
+  <data name="DemoPagesMissing" xml:space="preserve"><value>Record niet gevonden</value></data>
+  <data name="DemoPagesNotFound" xml:space="preserve"><value>Het gevraagde record is verwijderd of heeft nooit bestaan.</value></data>
   <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuele machine in de zone Parijs.</value></data>
   <data name="DemoPagesOnline" xml:space="preserve"><value>Online</value></data>
   <data name="DemoPagesEdit" xml:space="preserve"><value>Bewerken</value></data>
@@ -902,7 +902,7 @@
   <data name="DemoButtonsPreview" xml:space="preserve"><value>Voorbeeld</value></data>
   <data name="DemoButtonsView" xml:space="preserve"><value>Bekijken</value></data>
   <data name="DemoButtonsSend" xml:space="preserve"><value>Verzenden</value></data>
-  <data name="DemoButtonsReset" xml:space="preserve"><value>Herstellen</value></data>
+  <data name="DemoButtonsReset" xml:space="preserve"><value>Opnieuw instellen</value></data>
   <data name="DemoButtonsNoFormEffect" xml:space="preserve"><value>Zonder effect op het formulier</value></data>
   <data name="DemoButtonsPrimary" xml:space="preserve"><value>Primair</value></data>
   <data name="DemoButtonsClicks" xml:space="preserve"><value>Klikken op de primaire knop: {0}.</value></data>
@@ -1014,7 +1014,7 @@
   <data name="DemoMediaIconProhibit" xml:space="preserve"><value>Verboden</value></data>
   <data name="DemoMediaIconRefresh" xml:space="preserve"><value>Vernieuwen</value></data>
   <data name="DemoMediaIconRemove" xml:space="preserve"><value>Verwijderen</value></data>
-  <data name="DemoMediaIconReset" xml:space="preserve"><value>Herstellen</value></data>
+  <data name="DemoMediaIconReset" xml:space="preserve"><value>Opnieuw instellen</value></data>
   <data name="DemoMediaIconRestore" xml:space="preserve"><value>Uit archief halen</value></data>
   <data name="DemoMediaIconRows" xml:space="preserve"><value>Dichtheid</value></data>
   <data name="DemoMediaIconRuler" xml:space="preserve"><value>Meten</value></data>
@@ -1339,7 +1339,7 @@
   <data name="DemoChoiceRatingDisabled" xml:space="preserve"><value>Uitgeschakelde beoordeling</value></data>
   <data name="DemoChoiceShippingStandard" xml:space="preserve"><value>Standaard</value></data>
   <data name="DemoChoiceShippingExpress" xml:space="preserve"><value>Express</value></data>
-  <data name="DemoChoiceShippingPickup" xml:space="preserve"><value>Afhalen in het kantoor</value></data>
+  <data name="DemoChoiceShippingPickup" xml:space="preserve"><value>Afhalen in het filiaal</value></data>
   <data name="DemoChoiceExtraReceipt" xml:space="preserve"><value>Ontvangstbevestiging</value></data>
   <data name="DemoChoiceExtraCertifiedCopy" xml:space="preserve"><value>Gewaarmerkte kopie</value></data>
   <data name="DemoChoiceExtraTracking" xml:space="preserve"><value>Opvolging per e-mail</value></data>
@@ -1399,7 +1399,7 @@
   <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Niet-opgeslagen wijzigingen simuleren</value></data>
   <data name="DemoSelectionCountry" xml:space="preserve"><value>Land</value></data>
   <data name="DemoSelectionCountryPlaceholder" xml:space="preserve"><value>Kies een land</value></data>
-  <data name="DemoSelectionCities" xml:space="preserve"><value>Bediende steden</value></data>
+  <data name="DemoSelectionCities" xml:space="preserve"><value>Beleverde steden</value></data>
   <data name="DemoSelectionTags" xml:space="preserve"><value>Tags</value></data>
   <data name="DemoSelectionTagsCompact" xml:space="preserve"><value>Tags, compacte vorm</value></data>
   <data name="DemoSelectionTagsFilterable" xml:space="preserve"><value>Tags, zoeken en aanmaken</value></data>

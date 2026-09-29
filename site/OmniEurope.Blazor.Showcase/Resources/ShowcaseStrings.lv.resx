@@ -23,7 +23,7 @@
   <data name="BackHome" xml:space="preserve"><value>Atgriezties sākumlapā</value></data>
   <data name="HomePageTitle" xml:space="preserve"><value>OmniEurope.Blazor</value></data>
   <data name="HomeKicker" xml:space="preserve"><value>Blazor</value></data>
-  <data name="HomeTitle" xml:space="preserve"><value>Pieejami Blazor komponenti stingrai drošības politikai</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Pieejami Blazor komponenti, kas darbojas ar stingru drošības politiku</value></data>
   <data name="HomeLead" xml:space="preserve"><value>Komponentu bibliotēka lietotnēm, kas aizliedz iekļautos stilus, pieprasa pieejamību un vēlas no sākuma līdz beigām vadāmu motīvu.</value></data>
   <data name="HomeSeeComponents" xml:space="preserve"><value>Skatīt komponentus</value></data>
   <data name="HomeSeeCustomize" xml:space="preserve"><value>Pielāgot motīvu</value></data>
@@ -351,9 +351,9 @@
   <data name="LoadingSweep" xml:space="preserve"><value>Slīdoša josla</value></data>
   <data name="LoadingFill" xml:space="preserve"><value>Pildoša josla</value></data>
   <data name="LoadingHint" xml:space="preserve"><value>Josla atrodas zem iepriekš redzamās galvenes. Beigās tā sasniedz galu un izgaist.</value></data>
-  <data name="LoadingWaiting" xml:space="preserve"><value>Gaidīšana</value></data>
+  <data name="LoadingWaiting" xml:space="preserve"><value>Gaida</value></data>
   <data name="LoadingDeploying" xml:space="preserve"><value>Notiek izvietošana</value></data>
-  <data name="LoadingChecking" xml:space="preserve"><value>Pārbaude</value></data>
+  <data name="LoadingChecking" xml:space="preserve"><value>Notiek pārbaude</value></data>
   <data name="LoadingSaving" xml:space="preserve"><value>Notiek saglabāšana</value></data>
   <data name="LoadingAnalysis" xml:space="preserve"><value>Notiek analīze</value></data>
   <data name="LoadingCoverage" xml:space="preserve"><value>Pārklājums</value></data>
@@ -386,7 +386,7 @@
   <data name="RunsSeconds" xml:space="preserve"><value>Ilgums (s)</value></data>
   <data name="RunsStatus" xml:space="preserve"><value>Statuss</value></data>
   <data name="RunsTriggerPush" xml:space="preserve"><value>Push</value></data>
-  <data name="RunsTriggerManual" xml:space="preserve"><value>Manuāli</value></data>
+  <data name="RunsTriggerManual" xml:space="preserve"><value>Manuāls</value></data>
   <data name="RunsTriggerScheduled" xml:space="preserve"><value>Ieplānots</value></data>
   <data name="RunsStatusSuccess" xml:space="preserve"><value>Izdevās</value></data>
   <data name="RunsStatusInfo" xml:space="preserve"><value>Notiek</value></data>
@@ -404,7 +404,7 @@
   <data name="SettingsLanguageHint" xml:space="preserve"><value>Saskarnes un paziņojumu valoda.</value></data>
   <data name="SettingsLanguageFrench" xml:space="preserve"><value>Français</value></data>
   <data name="SettingsLanguageEnglish" xml:space="preserve"><value>English</value></data>
-  <data name="SettingsDisplay" xml:space="preserve"><value>Displejs</value></data>
+  <data name="SettingsDisplay" xml:space="preserve"><value>Attēlojums</value></data>
   <data name="SettingsDisplayLead" xml:space="preserve"><value>Saskarnes izskats un blīvums.</value></data>
   <data name="SettingsDarkMode" xml:space="preserve"><value>Tumšais režīms</value></data>
   <data name="SettingsDarkModeHint" xml:space="preserve"><value>Sekot sistēmai vai piespiest režīmu.</value></data>
@@ -580,7 +580,7 @@
   <data name="VFormDescriptionValue" xml:space="preserve"><value>Izvieto galveno zaru, kad pieņemšanas testi ir sekmīgi.</value></data>
   <data name="GridFiledColumn" xml:space="preserve"><value>Iesniegts</value></data>
   <data name="DemoGridOpenCases" xml:space="preserve"><value>Atvērtās lietas</value></data>
-  <data name="DemoGridRecentRuns" xml:space="preserve"><value>Nesenās izpildes</value></data>
+  <data name="DemoGridRecentRuns" xml:space="preserve"><value>Pēdējās izpildes</value></data>
   <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Garš teksts šaurā kolonnā</value></data>
   <data name="DemoGridShortCaption" xml:space="preserve"><value>Trīs lietas, satura augstums</value></data>
   <data name="DemoGridLongCaption" xml:space="preserve"><value>Desmit tūkstoši lietu, ierobežojums 18rem</value></data>
@@ -1239,7 +1239,7 @@
   <data name="DemoOverlayClose" xml:space="preserve"><value>Aizvērt</value></data>
   <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Šī darbība noņem mapi no saraksta. To var atsaukt trīsdesmit dienu laikā.</value></data>
   <data name="DemoOverlayDeletionConfirmed" xml:space="preserve"><value>Dzēšana apstiprināta</value></data>
-  <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Filtrs procesā</value></data>
+  <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Notiek filtrēšana</value></data>
   <data name="DemoOverlayStickyBody" xml:space="preserve"><value>Klikšķis ārpusē šo dialoglodziņu neaizver: to aizver krustiņš un Esc.</value></data>
   <data name="DemoOverlayBlockingTitle" xml:space="preserve"><value>Notiek migrācija</value></data>
   <data name="DemoOverlayBlockingBody" xml:space="preserve"><value>Ne krustiņš, ne Esc, ne pārklājums: to aizver tikai paša dialoglodziņa poga.</value></data>

@@ -278,7 +278,7 @@
   <data name="MindMapAddNode" xml:space="preserve"><value>Κόμβος</value></data>
   <data name="MindMapAnnounceAdded" xml:space="preserve"><value>Ο κόμβος {0} προστέθηκε.</value></data>
   <data name="MindMapAnnounceDeleted" xml:space="preserve"><value>Διαγραμμένοι κόμβοι: {0}.</value></data>
-  <data name="MindMapAnnounceDuplicated" xml:space="preserve"><value>Ο κόμβος {0} αναπαράχθηκε.</value></data>
+  <data name="MindMapAnnounceDuplicated" xml:space="preserve"><value>Δημιουργήθηκε διπλότυπο του κόμβου {0}.</value></data>
   <data name="MindMapAnnounceLaidOut" xml:space="preserve"><value>Ο χάρτης αναδιοργανώθηκε.</value></data>
   <data name="MindMapAnnounceLimit" xml:space="preserve"><value>Συμπληρώθηκε ο μέγιστος αριθμός κόμβων.</value></data>
   <data name="MindMapAnnounceLinkCancelled" xml:space="preserve"><value>Η δημιουργία σύνδεσης ακυρώθηκε.</value></data>
@@ -307,11 +307,11 @@
   <data name="MindMapColorWhite" xml:space="preserve"><value>Λευκό</value></data>
   <data name="MindMapColorYellow" xml:space="preserve"><value>Κίτρινο</value></data>
   <data name="MindMapDelete" xml:space="preserve"><value>Διαγραφή</value></data>
-  <data name="MindMapDuplicate" xml:space="preserve"><value>Αναπαραγωγή</value></data>
+  <data name="MindMapDuplicate" xml:space="preserve"><value>Διπλότυπο</value></data>
   <data name="MindMapFitView" xml:space="preserve"><value>Προσαρμογή</value></data>
   <data name="MindMapFontSize" xml:space="preserve"><value>Μέγεθος γραμματοσειράς</value></data>
   <data name="MindMapItalic" xml:space="preserve"><value>Πλάγια</value></data>
-  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Βέλη: μετάβαση μεταξύ κόμβων, Home: κεντρικός κόμβος, Shift+βέλη: μετακίνηση, Enter ή F2: μετονομασία, N: νέος κόμβος, D: αναπαραγωγή, C: κεντράρισμα, Delete: διαγραφή, + και -: ζουμ, 0: προσαρμογή, Ctrl+Z και Ctrl+Y: αναίρεση και επανάληψη, Shift+F10: μενού, Esc: κατάργηση επιλογής.</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Βέλη: μετάβαση μεταξύ κόμβων, Home: κεντρικός κόμβος, Shift+βέλη: μετακίνηση, Enter ή F2: μετονομασία, N: νέος κόμβος, D: διπλότυπο, C: κεντράρισμα, Delete: διαγραφή, + και -: ζουμ, 0: προσαρμογή, Ctrl+Z και Ctrl+Y: αναίρεση και επανάληψη, Shift+F10: μενού, Esc: κατάργηση επιλογής.</value></data>
   <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Βέλη: μετάβαση μεταξύ κόμβων, Home: κεντρικός κόμβος, C: κεντράρισμα, + και -: ζουμ, 0: προσαρμογή, Shift+F10: μενού, Esc: κατάργηση επιλογής.</value></data>
   <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Esc για ακύρωση</value></data>
   <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Κάντε κλικ στον κόμβο προέλευσης</value></data>
@@ -372,7 +372,7 @@
   <data name="SchedulerMoveCancel" xml:space="preserve"><value>Ακύρωση μετακίνησης</value></data>
   <data name="SchedulerMoving" xml:space="preserve"><value>Το {0} επιλέχθηκε: διαλέξτε τη νέα του θέση, Esc για ακύρωση.</value></data>
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>Το {0} παραμένει στη θέση του.</value></data>
-  <data name="SchedulerMoved" xml:space="preserve"><value>Το {0} μετακινήθηκε στις {1}.</value></data>
+  <data name="SchedulerMoved" xml:space="preserve"><value>Το {0} μετακινήθηκε. Νέα ώρα: {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Η τμηματική επιλογή δεν είναι έγκυρη.</value></data>
   <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Η επιλογή δεν είναι έγκυρη.</value></data>
   <data name="RatingLabel" xml:space="preserve"><value>Βαθμολογία</value></data>
@@ -469,7 +469,7 @@
   <data name="ConnectionLostDescription" xml:space="preserve"><value>Η σύνδεση με τον διακομιστή διακόπηκε. Η εφαρμογή προσπαθεί να την αποκαταστήσει.</value></data>
   <data name="ConnectionFailedTitle" xml:space="preserve"><value>Αδυναμία σύνδεσης</value></data>
   <data name="ConnectionFailedDescription" xml:space="preserve"><value>Οι αυτόματες προσπάθειες απέτυχαν. Δοκιμάστε ξανά όταν αποκατασταθεί το δίκτυο.</value></data>
-  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Η περίοδος σύνδεσης διακόπηκε</value></data>
+  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Η περίοδος σύνδεσης έληξε</value></data>
   <data name="ConnectionRejectedDescription" xml:space="preserve"><value>Ο διακομιστής αρνήθηκε να συνεχίσει την περίοδο σύνδεσης. Φορτώστε ξανά τη σελίδα για να συνεχίσετε.</value></data>
   <data name="ConnectionRetryIn" xml:space="preserve"><value>Νέα προσπάθεια σε {0} δευτ.</value></data>
   <data name="ConnectionReason" xml:space="preserve"><value>Αιτία: {0}</value></data>
@@ -550,7 +550,7 @@
   <data name="HtmlEditorLinkApply" xml:space="preserve"><value>Εφαρμογή</value></data>
   <data name="HtmlEditorLinkCancel" xml:space="preserve"><value>Ακύρωση</value></data>
   <data name="HtmlEditorLinkInvalid" xml:space="preserve"><value>Η διεύθυνση απορρίφθηκε: χρησιμοποιήστε σχετική διεύθυνση ή διεύθυνση http, https, mailto ή tel.</value></data>
-  <data name="DocumentEditorLabel" xml:space="preserve"><value>Επεξεργασία κειμένου</value></data>
+  <data name="DocumentEditorLabel" xml:space="preserve"><value>Επεξεργαστής κειμένου</value></data>
   <data name="DocumentEditorStatus" xml:space="preserve"><value>Στατιστικά εγγράφου</value></data>
   <data name="DocumentEditorWords" xml:space="preserve"><value>Λέξεις: {0}</value></data>
   <data name="DocumentEditorCharacters" xml:space="preserve"><value>Χαρακτήρες: {0}</value></data>

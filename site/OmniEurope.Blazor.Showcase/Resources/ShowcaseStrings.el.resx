@@ -167,9 +167,9 @@
   <data name="DemoValidationCapability2" xml:space="preserve"><value>Κατά την υποβολή, η εστίαση μεταφέρεται στο πρώτο μη έγκυρο πεδίο.</value></data>
   <data name="DemoValidationCapability3" xml:space="preserve"><value>Καμία σημείωση στο μοντέλο, όλα βρίσκονται στη σήμανση.</value></data>
   <data name="DemoEditorTitle" xml:space="preserve"><value>Προγράμματα επεξεργασίας και μεταφόρτωση</value></data>
-  <data name="DemoEditorSummary" xml:space="preserve"><value>Το πρόγραμμα επεξεργασίας WYSIWYG και η πηγή HTML του, η επεξεργασία κειμένου, το πρόγραμμα επεξεργασίας κώδικα και η μεταφόρτωση αρχείων.</value></data>
+  <data name="DemoEditorSummary" xml:space="preserve"><value>Το πρόγραμμα επεξεργασίας WYSIWYG και η πηγή HTML του, ο επεξεργαστής κειμένου, το πρόγραμμα επεξεργασίας κώδικα και η μεταφόρτωση αρχείων.</value></data>
   <data name="DemoEditorCapability1" xml:space="preserve"><value>Γραμμή εντολών που η εφαρμογή υποδοχής συμπληρώνει ή αναδιατάσσει, ασφαλής επικόλληση, λειτουργία πηγαίου κώδικα.</value></data>
-  <data name="DemoEditorCapability2" xml:space="preserve"><value>Επεξεργασία κειμένου σε σελίδα, καταμέτρηση λέξεων, εξαγωγή σε HTML και κείμενο.</value></data>
+  <data name="DemoEditorCapability2" xml:space="preserve"><value>Επεξεργαστής κειμένου σε σελίδα, καταμέτρηση λέξεων, εξαγωγή σε HTML και κείμενο.</value></data>
   <data name="DemoEditorCapability3" xml:space="preserve"><value>Πρόγραμμα επεξεργασίας κώδικα (Monaco από την εφαρμογή υποδοχής, απλό κείμενο υπό αυστηρό CSP) και μεταφόρτωση με όρια.</value></data>
   <data name="DemoOverlayTitle" xml:space="preserve"><value>Επικαλύψεις</value></data>
   <data name="DemoOverlaySummary" xml:space="preserve"><value>Παράθυρα διαλόγου, ειδοποιήσεις και αναδυόμενα μενού.</value></data>
@@ -824,7 +824,7 @@
   <data name="DemoPagesOnline" xml:space="preserve"><value>Σε σύνδεση</value></data>
   <data name="DemoPagesEdit" xml:space="preserve"><value>Επεξεργασία</value></data>
   <data name="DemoPagesRemove" xml:space="preserve"><value>Αφαίρεση</value></data>
-  <data name="DemoPagesDuplicate" xml:space="preserve"><value>Αναπαραγωγή</value></data>
+  <data name="DemoPagesDuplicate" xml:space="preserve"><value>Διπλότυπο</value></data>
   <data name="DemoPagesArchive" xml:space="preserve"><value>Αρχειοθέτηση</value></data>
   <data name="DemoPagesProduction" xml:space="preserve"><value>Παραγωγή</value></data>
   <data name="DemoPagesName" xml:space="preserve"><value>Όνομα</value></data>
@@ -1034,7 +1034,7 @@
   <data name="DemoMediaIconThemeSystem" xml:space="preserve"><value>Εμφάνιση συστήματος</value></data>
   <data name="DemoMediaIconTimer" xml:space="preserve"><value>Χρονόμετρο</value></data>
   <data name="DemoMediaIconUpgrade" xml:space="preserve"><value>Αναβάθμιση</value></data>
-  <data name="DemoMediaIconUpload" xml:space="preserve"><value>Αποστολή</value></data>
+  <data name="DemoMediaIconUpload" xml:space="preserve"><value>Μεταφόρτωση</value></data>
   <data name="DemoMediaIconUser" xml:space="preserve"><value>Άτομο</value></data>
   <data name="DemoMediaIconUserFocus" xml:space="preserve"><value>Αναζήτηση ατόμου</value></data>
   <data name="DemoMediaIconEye" xml:space="preserve"><value>Εμφάνιση</value></data>
@@ -1070,7 +1070,7 @@
   <data name="DemoMediaIconCloud" xml:space="preserve"><value>Νέφος</value></data>
   <data name="DemoMediaIconGavel" xml:space="preserve"><value>Κανονισμός</value></data>
   <data name="DemoMediaIconGitDiff" xml:space="preserve"><value>Διαφορές</value></data>
-  <data name="DemoMediaIconLinkBreak" xml:space="preserve"><value>Κατεστραμμένος σύνδεσμος</value></data>
+  <data name="DemoMediaIconLinkBreak" xml:space="preserve"><value>Σπασμένος σύνδεσμος</value></data>
   <data name="DemoMediaIconLockOpen" xml:space="preserve"><value>Ξεκλείδωτο</value></data>
   <data name="DemoMediaIconPaperPlaneRight" xml:space="preserve"><value>Αποστολή μηνύματος</value></data>
   <data name="DemoMediaIconPlugsConnected" xml:space="preserve"><value>Συνδεδεμένο</value></data>
@@ -1169,7 +1169,7 @@
   <data name="DemoMediaIconCurrencyEur" xml:space="preserve"><value>Ποσό σε ευρώ</value></data>
   <data name="DemoMediaIconShareNetwork" xml:space="preserve"><value>Κοινή χρήση</value></data>
   <data name="DemoMediaIconBank" xml:space="preserve"><value>Χρηματοπιστωτικό ίδρυμα</value></data>
-  <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Αποστολή εργασίας</value></data>
+  <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Ανάθεση εργασίας</value></data>
   <data name="DemoMediaIconIdentificationBadge" xml:space="preserve"><value>Κάρτα αναγνώρισης</value></data>
   <data name="DemoMediaIconFilePdf" xml:space="preserve"><value>Έγγραφο PDF</value></data>
   <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Υποστήριξη</value></data>
@@ -1187,7 +1187,7 @@
   <data name="DemoOverlayPublishUnavailable" xml:space="preserve"><value>Δημοσίευση, μη διαθέσιμη</value></data>
   <data name="DemoOverlayFolderActions" xml:space="preserve"><value>Ενέργειες φακέλου</value></data>
   <data name="DemoOverlayContextTrigger" xml:space="preserve"><value>Ενέργειες (δεξί κλικ ή Shift+F10)</value></data>
-  <data name="DemoOverlayDuplicate" xml:space="preserve"><value>Αναπαραγωγή</value></data>
+  <data name="DemoOverlayDuplicate" xml:space="preserve"><value>Διπλότυπο</value></data>
   <data name="DemoOverlayExport" xml:space="preserve"><value>Εξαγωγή</value></data>
   <data name="DemoOverlayDelete" xml:space="preserve"><value>Διαγραφή</value></data>
   <data name="DemoOverlayDeleteFolder" xml:space="preserve"><value>Διαγραφή του φακέλου</value></data>

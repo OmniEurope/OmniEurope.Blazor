@@ -149,7 +149,7 @@
   <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Burtu reģistrs</value></data>
   <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>LIELIE BURTI</value></data>
   <data name="HtmlEditorCaseLower" xml:space="preserve"><value>mazie burti</value></data>
-  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Virsraksta Burti</value></data>
+  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Katrs Vārds Ar Lielo Burtu</value></data>
   <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Speciālā rakstzīme</value></data>
   <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Meklēt rakstzīmi</value></data>
   <data name="HtmlEditorCharNone" xml:space="preserve"><value>Neviena rakstzīme neatbilst.</value></data>
@@ -182,14 +182,14 @@
   <data name="HtmlEditorChar2026" xml:space="preserve"><value>Daudzpunkte</value></data>
   <data name="HtmlEditorChar2013" xml:space="preserve"><value>Īsā domuzīme</value></data>
   <data name="HtmlEditorChar2014" xml:space="preserve"><value>Garā domuzīme</value></data>
-  <data name="HtmlEditorChar00AB" xml:space="preserve"><value>Kreisās leņķa pēdiņas</value></data>
-  <data name="HtmlEditorChar00BB" xml:space="preserve"><value>Labās leņķa pēdiņas</value></data>
-  <data name="HtmlEditorChar2039" xml:space="preserve"><value>Vienkāršā kreisā leņķa pēdiņa</value></data>
-  <data name="HtmlEditorChar203A" xml:space="preserve"><value>Vienkāršā labā leņķa pēdiņa</value></data>
+  <data name="HtmlEditorChar00AB" xml:space="preserve"><value>Kreisā dubultā leņķa pēdiņa</value></data>
+  <data name="HtmlEditorChar00BB" xml:space="preserve"><value>Labā dubultā leņķa pēdiņa</value></data>
+  <data name="HtmlEditorChar2039" xml:space="preserve"><value>Kreisā vienkāršā leņķa pēdiņa</value></data>
+  <data name="HtmlEditorChar203A" xml:space="preserve"><value>Labā vienkāršā leņķa pēdiņa</value></data>
   <data name="HtmlEditorChar2018" xml:space="preserve"><value>Kreisā vienkāršā pēdiņa</value></data>
   <data name="HtmlEditorChar2019" xml:space="preserve"><value>Apostrofs</value></data>
-  <data name="HtmlEditorChar201C" xml:space="preserve"><value>Kreisās dubultpēdiņas</value></data>
-  <data name="HtmlEditorChar201D" xml:space="preserve"><value>Labās dubultpēdiņas</value></data>
+  <data name="HtmlEditorChar201C" xml:space="preserve"><value>Kreisā dubultpēdiņa</value></data>
+  <data name="HtmlEditorChar201D" xml:space="preserve"><value>Labā dubultpēdiņa</value></data>
   <data name="HtmlEditorChar00B0" xml:space="preserve"><value>Grāds</value></data>
   <data name="HtmlEditorChar00B1" xml:space="preserve"><value>Plus mīnus</value></data>
   <data name="HtmlEditorChar00D7" xml:space="preserve"><value>Reizināšana</value></data>
@@ -438,7 +438,7 @@
   <data name="DataAnnotationsEmail" xml:space="preserve"><value>Laukā “{0}” nav derīgas e-pasta adreses.</value></data>
   <data name="DataAnnotationsUrl" xml:space="preserve"><value>Laukā “{0}” nav derīgas tīmekļa adreses.</value></data>
   <data name="DataAnnotationsCompare" xml:space="preserve"><value>{0} un {1} nesakrīt.</value></data>
-  <data name="DataAnnotationsPattern" xml:space="preserve"><value>Lauka “{0}” formāts nav paredzētais.</value></data>
+  <data name="DataAnnotationsPattern" xml:space="preserve"><value>Lauka “{0}” formāts nav pareizs.</value></data>
   <data name="DataAnnotationsInvalid" xml:space="preserve"><value>Lauks “{0}” nav derīgs.</value></data>
   <data name="GanttEmpty" xml:space="preserve"><value>Nav uzdevumu, ko parādīt.</value></data>
   <data name="GanttLabel" xml:space="preserve"><value>Ganta diagramma</value></data>

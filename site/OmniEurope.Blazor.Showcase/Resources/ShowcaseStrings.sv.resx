@@ -165,7 +165,7 @@
   <data name="DemoValidationSummary" xml:space="preserve"><value>Regler som deklareras bredvid fältet de skyddar.</value></data>
   <data name="DemoValidationCapability1" xml:space="preserve"><value>Obligatoriskt, längd, e-postformat och jämförelse.</value></data>
   <data name="DemoValidationCapability2" xml:space="preserve"><value>Fokus flyttas till det första ogiltiga fältet när formuläret skickas.</value></data>
-  <data name="DemoValidationCapability3" xml:space="preserve"><value>Inga attribut på modellen, allt finns i markeringen.</value></data>
+  <data name="DemoValidationCapability3" xml:space="preserve"><value>Inga attribut på modellen, allt finns i uppmärkningen.</value></data>
   <data name="DemoEditorTitle" xml:space="preserve"><value>Redigerare och uppladdning</value></data>
   <data name="DemoEditorSummary" xml:space="preserve"><value>WYSIWYG-redigeraren och dess HTML-källa, ordbehandlaren, kodredigeraren och filuppladdningen.</value></data>
   <data name="DemoEditorCapability1" xml:space="preserve"><value>Ett kommandofält som värden utökar eller ordnar om, sanerad inklistring, källkodsläge.</value></data>
@@ -215,7 +215,7 @@
   <data name="DemoDiagramCapability4" xml:space="preserve"><value>Läser och skriver tillbaka det sparade grafformatet utan att förlora något.</value></data>
   <data name="DemoPlanningTitle" xml:space="preserve"><value>Planering</value></data>
   <data name="DemoPlanningSummary" xml:space="preserve"><value>Ett Gantt-schema, en körnings steg och en tidslinje att placera.</value></data>
-  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt per dag, vecka eller månad, med grupper, beroenden och idag.</value></data>
+  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt per dag, vecka eller månad, med grupper, beroenden och dagens datum.</value></data>
   <data name="DemoPlanningCapability2" xml:space="preserve"><value>En körnings steg på en tidsskala, med de steg som aldrig startade.</value></data>
   <data name="DemoPlanningCapability3" xml:space="preserve"><value>Tidslinje till höger, till vänster eller alternerande, med val av första sida.</value></data>
   <data name="DemoPagesTitle" xml:space="preserve"><value>Sidor</value></data>
@@ -370,7 +370,7 @@
   <data name="NoticeUnlist" xml:space="preserve"><value>Avlista</value></data>
   <data name="NoticeUnlistDone" xml:space="preserve"><value>Versionen har avlistats</value></data>
   <data name="NoticeRerunOpen" xml:space="preserve"><value>Kör pipelinen igen</value></data>
-  <data name="NoticeRerunTitle" xml:space="preserve"><value>Köra pipelinen igen?</value></data>
+  <data name="NoticeRerunTitle" xml:space="preserve"><value>Vill du köra pipelinen igen?</value></data>
   <data name="NoticeRerunBody" xml:space="preserve"><value>orders-deploy-prod #2399 körs igen på servern srv-01, med samma variabler.</value></data>
   <data name="NoticeRerunNotify" xml:space="preserve"><value>Meddela mig när den är klar</value></data>
   <data name="NoticeRerun" xml:space="preserve"><value>Kör igen</value></data>
@@ -703,7 +703,7 @@
   <data name="DemoPlanningTaskDevelopment" xml:space="preserve"><value>Utveckling</value></data>
   <data name="DemoPlanningTaskAcceptance" xml:space="preserve"><value>Acceptanstest</value></data>
   <data name="DemoSchedulerView" xml:space="preserve"><value>Vy</value></data>
-  <data name="DemoSchedulerTimeGrid" xml:space="preserve"><value>Tidsrutnät från 8 till 18</value></data>
+  <data name="DemoSchedulerTimeGrid" xml:space="preserve"><value>Tidsrutnät kl. 8–18</value></data>
   <data name="DemoSchedulerViewDay" xml:space="preserve"><value>Dag</value></data>
   <data name="DemoSchedulerViewWeek" xml:space="preserve"><value>Vecka</value></data>
   <data name="DemoSchedulerViewMonth" xml:space="preserve"><value>Månad</value></data>
@@ -727,7 +727,7 @@
   <data name="DemoLayoutTracked" xml:space="preserve"><value>Bevakade alternativ</value></data>
   <data name="DemoLayoutTrackedText" xml:space="preserve"><value>Sidan känner till det hopfällda läget och kan komma ihåg det.</value></data>
   <data name="DemoLayoutDisabledGroup" xml:space="preserve"><value>Inaktiverad grupp</value></data>
-  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Allt som gruppen innehåller blir overksamt med ett enda grepp.</value></data>
+  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Allt som gruppen innehåller inaktiveras med ett enda grepp.</value></data>
   <data name="DemoLayoutAlignStart" xml:space="preserve"><value>Justerad mot början</value></data>
   <data name="DemoLayoutAlignCenter" xml:space="preserve"><value>Centrerad</value></data>
   <data name="DemoLayoutAlignEnd" xml:space="preserve"><value>Justerad mot slutet</value></data>
@@ -841,7 +841,7 @@
   <data name="DemoPagesHideToken" xml:space="preserve"><value>Dölj token</value></data>
   <data name="DemoPagesShowToken" xml:space="preserve"><value>Visa token</value></data>
   <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1} k</value></data>
-  <data name="DemoPagesTokensToday" xml:space="preserve"><value>Tokens idag</value></data>
+  <data name="DemoPagesTokensToday" xml:space="preserve"><value>Tokens i dag</value></data>
   <data name="DemoPagesTokensReset" xml:space="preserve"><value>Återställs kl. {0:t}</value></data>
   <data name="DemoPagesWeekly" xml:space="preserve"><value>Varje vecka</value></data>
   <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Komponenter</value></data>

@@ -40,7 +40,7 @@
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Căutarea a eșuat. Modificați textul introdus pentru a reîncerca.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>1 rezultat disponibil.</value></data>
   <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} rezultate disponibile.</value></data>
-  <data name="AutocompleteSelected" xml:space="preserve"><value>{0} selectat.</value></data>
+  <data name="AutocompleteSelected" xml:space="preserve"><value>Selectat: {0}.</value></data>
   <data name="AutocompleteInvalid" xml:space="preserve"><value>Valoarea de completare automată nu este validă.</value></data>
   <data name="BreadcrumbLabel" xml:space="preserve"><value>Traseu de navigare</value></data>
   <data name="CheckBoxInvalid" xml:space="preserve"><value>Valoarea casetei de selectare nu este validă.</value></data>
@@ -184,10 +184,10 @@
   <data name="HtmlEditorChar2014" xml:space="preserve"><value>Linie de pauză lungă</value></data>
   <data name="HtmlEditorChar00AB" xml:space="preserve"><value>Ghilimele franceze de deschidere</value></data>
   <data name="HtmlEditorChar00BB" xml:space="preserve"><value>Ghilimele franceze de închidere</value></data>
-  <data name="HtmlEditorChar2039" xml:space="preserve"><value>Ghilimea simplă de deschidere</value></data>
-  <data name="HtmlEditorChar203A" xml:space="preserve"><value>Ghilimea simplă de închidere</value></data>
-  <data name="HtmlEditorChar2018" xml:space="preserve"><value>Apostrof de deschidere</value></data>
-  <data name="HtmlEditorChar2019" xml:space="preserve"><value>Apostrof</value></data>
+  <data name="HtmlEditorChar2039" xml:space="preserve"><value>Ghilimea franceză simplă de deschidere</value></data>
+  <data name="HtmlEditorChar203A" xml:space="preserve"><value>Ghilimea franceză simplă de închidere</value></data>
+  <data name="HtmlEditorChar2018" xml:space="preserve"><value>Ghilimea simplă de deschidere</value></data>
+  <data name="HtmlEditorChar2019" xml:space="preserve"><value>Ghilimea simplă de închidere</value></data>
   <data name="HtmlEditorChar201C" xml:space="preserve"><value>Ghilimele englezești de deschidere</value></data>
   <data name="HtmlEditorChar201D" xml:space="preserve"><value>Ghilimele englezești de închidere</value></data>
   <data name="HtmlEditorChar00B0" xml:space="preserve"><value>Grad</value></data>
@@ -262,7 +262,7 @@
   <data name="HtmlEditorChar03C7" xml:space="preserve"><value>Hi</value></data>
   <data name="HtmlEditorChar03C8" xml:space="preserve"><value>Psi</value></data>
   <data name="HtmlEditorChar03C9" xml:space="preserve"><value>Omega</value></data>
-  <data name="HtmlEditorChar2116" xml:space="preserve"><value>Număr</value></data>
+  <data name="HtmlEditorChar2116" xml:space="preserve"><value>Semnul numero</value></data>
   <data name="HtmlEditorBold" xml:space="preserve"><value>Aldin</value></data>
   <data name="HtmlEditorItalic" xml:space="preserve"><value>Cursiv</value></data>
   <data name="HtmlEditorSubscript" xml:space="preserve"><value>Indice</value></data>
@@ -330,7 +330,7 @@
   <data name="MonthViewLabel" xml:space="preserve"><value>Vizualizare lună</value></data>
   <data name="MultiSelectInvalid" xml:space="preserve"><value>Selecția multiplă nu este validă.</value></data>
   <data name="MultiSelectEmpty" xml:space="preserve"><value>Toate</value></data>
-  <data name="MultiSelectSelected" xml:space="preserve"><value>{0} selectate</value></data>
+  <data name="MultiSelectSelected" xml:space="preserve"><value>Selectate: {0}</value></data>
   <data name="MultiSelectClear" xml:space="preserve"><value>Deselectează tot</value></data>
   <data name="MultiSelectFilter" xml:space="preserve"><value>Caută</value></data>
   <data name="MultiSelectNoMatch" xml:space="preserve"><value>Niciun rezultat</value></data>
@@ -469,11 +469,11 @@
   <data name="ConnectionLostDescription" xml:space="preserve"><value>Conexiunea la server s-a întrerupt. Aplicația încearcă să o restabilească.</value></data>
   <data name="ConnectionFailedTitle" xml:space="preserve"><value>Conectare imposibilă</value></data>
   <data name="ConnectionFailedDescription" xml:space="preserve"><value>Încercările automate au eșuat. Reîncercați după ce rețeaua revine.</value></data>
-  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Sesiune întreruptă</value></data>
+  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Sesiune încheiată</value></data>
   <data name="ConnectionRejectedDescription" xml:space="preserve"><value>Serverul a refuzat reluarea sesiunii. Reîncărcați pagina pentru a continua.</value></data>
   <data name="ConnectionRetryIn" xml:space="preserve"><value>Nouă încercare în {0} s</value></data>
   <data name="ConnectionReason" xml:space="preserve"><value>Cauză: {0}</value></data>
-  <data name="ConnectionReconnectNow" xml:space="preserve"><value>Reconectează-te acum</value></data>
+  <data name="ConnectionReconnectNow" xml:space="preserve"><value>Reconectează acum</value></data>
   <data name="ConnectionReload" xml:space="preserve"><value>Reîncarcă pagina</value></data>
   <data name="ConnectionReconnecting" xml:space="preserve"><value>Reconectare în curs</value></data>
   <data name="WizardLabel" xml:space="preserve"><value>Pașii asistentului</value></data>
@@ -591,7 +591,7 @@
   <data name="CodeBlockHide" xml:space="preserve"><value>Ascunde valoarea</value></data>
   <data name="CodeViewerLabel" xml:space="preserve"><value>Cod</value></data>
   <data name="CodeViewerEmpty" xml:space="preserve"><value>Nimic de afișat.</value></data>
-  <data name="CodeViewerWrap" xml:space="preserve"><value>Încadrare rânduri</value></data>
+  <data name="CodeViewerWrap" xml:space="preserve"><value>Încadrare text</value></data>
   <data name="CodeViewerLinkHint" xml:space="preserve"><value>Urmează linkul</value></data>
   <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Nicio modificare.</value></data>
   <data name="UnifiedDiffStats" xml:space="preserve"><value>{0} rânduri adăugate, {1} rânduri șterse</value></data>
@@ -602,7 +602,7 @@
   <data name="UnifiedDiffContent" xml:space="preserve"><value>Conținut</value></data>
   <data name="UnifiedDiffAdded" xml:space="preserve"><value>Adăugat: </value></data>
   <data name="UnifiedDiffRemoved" xml:space="preserve"><value>Șters: </value></data>
-  <data name="UnifiedDiffRenamedPath" xml:space="preserve"><value>{0} în {1}</value></data>
+  <data name="UnifiedDiffRenamedPath" xml:space="preserve"><value>{0} → {1}</value></data>
   <data name="UnifiedDiffUntitled" xml:space="preserve"><value>Modificare</value></data>
   <data name="UnifiedDiffStatusModified" xml:space="preserve"><value>Modificat</value></data>
   <data name="UnifiedDiffStatusAdded" xml:space="preserve"><value>Adăugat</value></data>
@@ -625,7 +625,7 @@
   <data name="KanbanCardCount" xml:space="preserve"><value>Carduri: {0}</value></data>
   <data name="GitGraphLabel" xml:space="preserve"><value>Istoricul commiturilor</value></data>
   <data name="GitGraphEmpty" xml:space="preserve"><value>Niciun commit</value></data>
-  <data name="StepTimelineExpected" xml:space="preserve"><value>{0}% din durata obișnuită a trecut</value></data>
+  <data name="StepTimelineExpected" xml:space="preserve"><value>A trecut {0}% din durata obișnuită</value></data>
   <data name="StepTimelineOverrun" xml:space="preserve"><value>peste durata obișnuită</value></data>
   <data name="DiffViewerLabel" xml:space="preserve"><value>Comparație</value></data>
   <data name="DiffViewerOriginal" xml:space="preserve"><value>Înainte</value></data>
@@ -634,7 +634,7 @@
   <data name="GitGraphMerge" xml:space="preserve"><value>Commit de îmbinare.</value></data>
   <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(se deschide într-o filă nouă)</value></data>
-  <data name="MarkdownExportButton" xml:space="preserve"><value>Exportă ca .md</value></data>
+  <data name="MarkdownExportButton" xml:space="preserve"><value>Exportă în Markdown</value></data>
   <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limită: cel mult {0} rânduri</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Generat la (UTC): {0}</value></data>

@@ -135,7 +135,7 @@
   <data name="DemoLayoutTitle" xml:space="preserve"><value>Оформление</value></data>
   <data name="DemoLayoutSummary" xml:space="preserve"><value>Мрежата, редовете, картите и групите полета.</value></data>
   <data name="DemoLayoutCapability1" xml:space="preserve"><value>Мрежа от дванадесет колони с обхват за всеки праг на екрана.</value></data>
-  <data name="DemoLayoutCapability2" xml:space="preserve"><value>Карта в три зони: горен колонтитул, основна част и долен колонтитул.</value></data>
+  <data name="DemoLayoutCapability2" xml:space="preserve"><value>Карта в три зони: заглавка, тяло и долна част.</value></data>
   <data name="DemoLayoutCapability3" xml:space="preserve"><value>Група полета, която може да се забрани с едно движение.</value></data>
   <data name="DemoLayoutCapability4" xml:space="preserve"><value>Цялата скала на разстоянията и разпределенията и подравняванията, които приема един ред.</value></data>
   <data name="DemoShellTitle" xml:space="preserve"><value>Рамка на приложението</value></data>
@@ -355,7 +355,7 @@
   <data name="LoadingDeploying" xml:space="preserve"><value>Внедряване</value></data>
   <data name="LoadingChecking" xml:space="preserve"><value>Проверка</value></data>
   <data name="LoadingSaving" xml:space="preserve"><value>Запазване</value></data>
-  <data name="LoadingAnalysis" xml:space="preserve"><value>Анализ</value></data>
+  <data name="LoadingAnalysis" xml:space="preserve"><value>Анализ в ход</value></data>
   <data name="LoadingCoverage" xml:space="preserve"><value>Покритие</value></data>
   <data name="LoadingContent" xml:space="preserve"><value>Зареждане на съдържанието</value></data>
   <data name="NoticeDoneTitle" xml:space="preserve"><value>Внедряването завърши</value></data>
@@ -450,7 +450,7 @@
   <data name="DemoShellScrollMenu" xml:space="preserve"><value>Меню на демонстрацията с превъртане</value></data>
   <data name="DemoShellReadingColumn" xml:space="preserve"><value>Колона за четене</value></data>
   <data name="DemoShellScroll1" xml:space="preserve"><value>Колоната е ограничена до 72rem и центрирана; останалата ширина все още принадлежи на основния елемент.</value></data>
-  <data name="DemoShellScroll2" xml:space="preserve"><value>Затова той е този, който се превърта, по цялата ширина на областта: лентата му за превъртане стои в десния край на рамката.</value></data>
+  <data name="DemoShellScroll2" xml:space="preserve"><value>Затова именно основният елемент се превърта, по цялата ширина на областта: лентата му за превъртане стои в десния край на рамката.</value></data>
   <data name="DemoShellScroll3" xml:space="preserve"><value>Дъщерен елемент със 100% височина би запълнил областта точно; по-високо съдържание я кара да се превърта.</value></data>
   <data name="DemoShellScroll4" xml:space="preserve"><value>Долното поле се запазва в края на превъртането.</value></data>
   <data name="DemoShellScroll5" xml:space="preserve"><value>Стесняването на прозореца свежда колоната до наличната ширина, включително страничното поле.</value></data>
@@ -598,7 +598,7 @@
   <data name="DemoGridExportSortValue" xml:space="preserve"><value>референция, възходящо</value></data>
   <data name="DemoGridAdvancedLines" xml:space="preserve"><value>Линии</value></data>
   <data name="DemoGridAdvancedDensity" xml:space="preserve"><value>Плътност</value></data>
-  <data name="DemoGridAdvancedPager" xml:space="preserve"><value>Странициране</value></data>
+  <data name="DemoGridAdvancedPager" xml:space="preserve"><value>Страниране</value></data>
   <data name="DemoGridAdvancedSelection" xml:space="preserve"><value>Избор</value></data>
   <data name="DemoGridAdvancedFilters" xml:space="preserve"><value>Филтри</value></data>
   <data name="DemoGridAdvancedEdit" xml:space="preserve"><value>Редактиране</value></data>
@@ -633,7 +633,7 @@
   <data name="DemoGridAdvancedRetainedNone" xml:space="preserve"><value>няма</value></data>
   <data name="DemoDataListEmpty" xml:space="preserve"><value>Няма дела на тази страница.</value></data>
   <data name="DemoDataListLoading" xml:space="preserve"><value>Зареждане на делата.</value></data>
-  <data name="DemoDataListPager" xml:space="preserve"><value>Странициране на делата</value></data>
+  <data name="DemoDataListPager" xml:space="preserve"><value>Страниране на делата</value></data>
   <data name="DemoDataListLog" xml:space="preserve"><value>Журнал на обработката</value></data>
   <data name="DemoDataListKanban" xml:space="preserve"><value>Проследяване на делата</value></data>
   <data name="DemoDataListColumnNew" xml:space="preserve"><value>За преглед</value></data>
@@ -756,7 +756,7 @@
   <data name="DemoLayoutDeployed" xml:space="preserve"><value>Внедряването завърши</value></data>
   <data name="DemoLayoutDeployedText" xml:space="preserve"><value>Версия 1.0.1 е публикувана.</value></data>
   <data name="DemoLayoutEachChange" xml:space="preserve"><value>При всяка промяна.</value></data>
-  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Просторно предупреждение в удобна страница.</value></data>
+  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Просторен сигнал в удобна страница.</value></data>
   <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>Компактни раздели</value></data>
   <data name="DemoLayoutGeneral" xml:space="preserve"><value>Общи</value></data>
   <data name="DemoLayoutGeneralText" xml:space="preserve"><value>Общи настройки.</value></data>
@@ -781,7 +781,7 @@
   <data name="DemoLayoutDensityCompact" xml:space="preserve"><value>Компактна</value></data>
   <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Удобна</value></data>
   <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Просторна</value></data>
-  <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} предупреждения</value></data>
+  <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} сигнала</value></data>
   <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Акцентирано заглавие</value></data>
   <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Приглушено заглавие</value></data>
   <data name="DemoTypographyParagraph" xml:space="preserve"><value>Обикновен абзац в основния размер на темата.</value></data>
@@ -799,7 +799,7 @@
   <data name="DemoAppShellMinimize" xml:space="preserve"><value>Минимизиране на прозореца</value></data>
   <data name="DemoAppShellMaximize" xml:space="preserve"><value>Увеличаване или възстановяване на прозореца</value></data>
   <data name="DemoAppShellClose" xml:space="preserve"><value>Затваряне на прозореца</value></data>
-  <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Навигационна пътечка</value></data>
+  <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Навигационна пътека</value></data>
   <data name="DemoNavigationHome" xml:space="preserve"><value>Начало</value></data>
   <data name="DemoNavigationComponents" xml:space="preserve"><value>Компоненти</value></data>
   <data name="DemoNavigationCurrent" xml:space="preserve"><value>Навигация</value></data>
@@ -826,7 +826,7 @@
   <data name="DemoPagesRemove" xml:space="preserve"><value>Премахване</value></data>
   <data name="DemoPagesDuplicate" xml:space="preserve"><value>Дублиране</value></data>
   <data name="DemoPagesArchive" xml:space="preserve"><value>Архивиране</value></data>
-  <data name="DemoPagesProduction" xml:space="preserve"><value>Продукция</value></data>
+  <data name="DemoPagesProduction" xml:space="preserve"><value>Продукционна</value></data>
   <data name="DemoPagesName" xml:space="preserve"><value>Име</value></data>
   <data name="DemoPagesSystem" xml:space="preserve"><value>Система</value></data>
   <data name="DemoPagesIpAddress" xml:space="preserve"><value>IP адрес</value></data>
@@ -875,12 +875,12 @@
   <data name="DemoAlertsSaved" xml:space="preserve"><value>Запазено</value></data>
   <data name="DemoAlertsSavedText" xml:space="preserve"><value>Промените са приложени.</value></data>
   <data name="DemoAlertsNew" xml:space="preserve"><value>Новост</value></data>
-  <data name="DemoAlertsNewText" xml:space="preserve"><value>Значките и предупрежденията вече споделят еднакво запълване.</value></data>
+  <data name="DemoAlertsNewText" xml:space="preserve"><value>Значките и сигналите вече споделят еднакво запълване.</value></data>
   <data name="DemoAlertsCaution" xml:space="preserve"><value>Внимание</value></data>
   <data name="DemoAlertsCautionText" xml:space="preserve"><value>Тази настройка ще бъде приложена към всички страници.</value></data>
   <data name="DemoAlertsTooLarge" xml:space="preserve"><value>Файлът надвишава разрешения размер.</value></data>
   <data name="DemoAlertsTip" xml:space="preserve"><value>Съвет</value></data>
-  <data name="DemoAlertsTipText" xml:space="preserve"><value>Това предупреждение се затваря с кръстчето си.</value></data>
+  <data name="DemoAlertsTipText" xml:space="preserve"><value>Този сигнал се затваря с кръстчето си.</value></data>
   <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Сертификатът за подписване изтича след {0} дни.</value></data>
   <data name="DemoButtonsSecondary" xml:space="preserve"><value>Вторичен</value></data>
   <data name="DemoButtonsGhost" xml:space="preserve"><value>Дискретен</value></data>
@@ -1155,13 +1155,13 @@
   <data name="DemoMediaIconPlayCircle" xml:space="preserve"><value>Възпроизвеждане</value></data>
   <data name="DemoMediaIconPauseCircle" xml:space="preserve"><value>Пауза</value></data>
   <data name="DemoMediaIconXCircle" xml:space="preserve"><value>Отказ</value></data>
-  <data name="DemoMediaIconChartBar" xml:space="preserve"><value>Хистограма</value></data>
+  <data name="DemoMediaIconChartBar" xml:space="preserve"><value>Стълбовидна диаграма</value></data>
   <data name="DemoMediaIconBookOpen" xml:space="preserve"><value>Отворена книга</value></data>
   <data name="DemoMediaIconArrowsDownUp" xml:space="preserve"><value>Размяна по вертикала</value></data>
   <data name="DemoMediaIconFolderPlus" xml:space="preserve"><value>Нова папка</value></data>
   <data name="DemoMediaIconTelevision" xml:space="preserve"><value>Екран</value></data>
   <data name="DemoMediaIconSealCheck" xml:space="preserve"><value>Проверено</value></data>
-  <data name="DemoMediaIconCheckSquare" xml:space="preserve"><value>Отметнато поле</value></data>
+  <data name="DemoMediaIconCheckSquare" xml:space="preserve"><value>Отметнато квадратче</value></data>
   <data name="DemoMediaIconArrowBendUpRight" xml:space="preserve"><value>Преместване</value></data>
   <data name="DemoMediaIconStethoscope" xml:space="preserve"><value>Диагностика</value></data>
   <data name="DemoMediaIconChevronLeft" xml:space="preserve"><value>Предишен</value></data>
@@ -1246,7 +1246,7 @@
   <data name="DemoOverlayFinish" xml:space="preserve"><value>Завършване</value></data>
   <data name="DemoOverlayMigrationDone" xml:space="preserve"><value>Мигрирането завърши</value></data>
   <data name="DemoEditorBodyLabel" xml:space="preserve"><value>Тяло на писмото</value></data>
-  <data name="DemoEditorSourceLabel" xml:space="preserve"><value>Източник на писмото</value></data>
+  <data name="DemoEditorSourceLabel" xml:space="preserve"><value>Изходен код на писмото</value></data>
   <data name="DemoEditorAnnotatedLabel" xml:space="preserve"><value>Анотиран член</value></data>
   <data name="DemoEditorPosition" xml:space="preserve"><value>Позиция: {0}</value></data>
   <data name="DemoEditorOutsideText" xml:space="preserve"><value>извън текста</value></data>
@@ -1255,18 +1255,18 @@
   <data name="DemoEditorReportLabel" xml:space="preserve"><value>Доклад</value></data>
   <data name="DemoEditorReportFileName" xml:space="preserve"><value>doklad</value></data>
   <data name="DemoEditorCodeLabel" xml:space="preserve"><value>JSON настройки</value></data>
-  <data name="DemoEditorIconBold" xml:space="preserve"><value>Удебелен</value></data>
+  <data name="DemoEditorIconBold" xml:space="preserve"><value>Получер</value></data>
   <data name="DemoEditorIconItalic" xml:space="preserve"><value>Курсив</value></data>
   <data name="DemoEditorIconUnderline" xml:space="preserve"><value>Подчертан</value></data>
   <data name="DemoEditorIconStrikethrough" xml:space="preserve"><value>Зачертан</value></data>
   <data name="DemoEditorIconSubscript" xml:space="preserve"><value>Долен индекс</value></data>
   <data name="DemoEditorIconSuperscript" xml:space="preserve"><value>Горен индекс</value></data>
-  <data name="DemoEditorIconBulletList" xml:space="preserve"><value>Списък с водещи символи</value></data>
+  <data name="DemoEditorIconBulletList" xml:space="preserve"><value>Списък с водачи</value></data>
   <data name="DemoEditorIconIndent" xml:space="preserve"><value>Увеличаване на отстъпа</value></data>
   <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Намаляване на отстъпа</value></data>
   <data name="DemoEditorIconQuote" xml:space="preserve"><value>Цитат</value></data>
   <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Вграден код</value></data>
-  <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Блок код</value></data>
+  <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Блок с код</value></data>
   <data name="DemoEditorIconLink" xml:space="preserve"><value>Връзка</value></data>
   <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Премахване на връзката</value></data>
   <data name="DemoEditorIconAlignLeft" xml:space="preserve"><value>Подравняване вляво</value></data>
@@ -1276,12 +1276,12 @@
   <data name="DemoEditorIconUndo" xml:space="preserve"><value>Отмяна</value></data>
   <data name="DemoEditorIconRedo" xml:space="preserve"><value>Повторение</value></data>
   <data name="DemoEditorIconClearFormatting" xml:space="preserve"><value>Изчистване на форматирането</value></data>
-  <data name="DemoEditorIconHtmlSource" xml:space="preserve"><value>HTML източник</value></data>
+  <data name="DemoEditorIconHtmlSource" xml:space="preserve"><value>HTML код</value></data>
   <data name="DemoEditorIconTable" xml:space="preserve"><value>Таблица</value></data>
   <data name="DemoEditorManifest" xml:space="preserve"><value>Манифест за внедряване</value></data>
   <data name="DemoEditorManifestHelp" xml:space="preserve"><value>Един файл, отваря системния прозорец за избор.</value></data>
   <data name="DemoEditorUploadFailed" xml:space="preserve"><value>Качването е неуспешно.</value></data>
-  <data name="DemoEditorUploaded" xml:space="preserve"><value>Качени документи: {0}</value></data>
+  <data name="DemoEditorUploaded" xml:space="preserve"><value>Качени файлове: {0}</value></data>
   <data name="DemoEditorNoUpload" xml:space="preserve"><value>няма</value></data>
   <data name="DemoEditorTestCommand" xml:space="preserve"><value>Тестова команда</value></data>
   <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Примерна конфигурация</value></data>
@@ -1302,10 +1302,10 @@
   <data name="DemoEditorArticleDays" xml:space="preserve"><value>{0} дни</value></data>
   <data name="DemoEditorArticleForm" xml:space="preserve"><value>Формуляр</value></data>
   <data name="DemoEditorArticleNote" xml:space="preserve"><value>Бележка: текст, консолидиран към 1 януари.</value></data>
-  <data name="DemoEditorOpinion" xml:space="preserve"><value>Положително становище при условие{0}.</value></data>
+  <data name="DemoEditorOpinion" xml:space="preserve"><value>Положително становище с резерва за{0}.</value></data>
   <data name="DemoEditorOpinionNote" xml:space="preserve"><value>проверка на срока</value></data>
-  <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>при условие</value></data>
-  <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> за проверка</value></data>
+  <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>с резерва за</value></data>
+  <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> проверка</value></data>
   <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Един {0} абзац.</value></data>
   <data name="DemoEditorReportImportant" xml:space="preserve"><value>важен</value></data>
   <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Първа точка</value></data>
@@ -1319,14 +1319,14 @@
   <data name="DemoChoicePin" xml:space="preserve"><value>Закачване</value></data>
   <data name="DemoChoiceUnavailable" xml:space="preserve"><value>Недостъпно</value></data>
   <data name="DemoChoiceSaving" xml:space="preserve"><value>Запазва се</value></data>
-  <data name="DemoChoiceLabelledCheck" xml:space="preserve"><value>Поле за отметка с етикет</value></data>
-  <data name="DemoChoiceTriStateCheck" xml:space="preserve"><value>Поле за отметка с три състояния</value></data>
+  <data name="DemoChoiceLabelledCheck" xml:space="preserve"><value>Квадратче за отметка с етикет</value></data>
+  <data name="DemoChoiceTriStateCheck" xml:space="preserve"><value>Квадратче за отметка с три състояния</value></data>
   <data name="DemoChoiceTriStateSwitch" xml:space="preserve"><value>Превключвател с три състояния</value></data>
   <data name="DemoChoiceTriStateValue" xml:space="preserve"><value>Състояние с три позиции: {0}</value></data>
   <data name="DemoChoiceIndeterminate" xml:space="preserve"><value>неопределено</value></data>
   <data name="DemoChoiceOn" xml:space="preserve"><value>включено</value></data>
   <data name="DemoChoiceOff" xml:space="preserve"><value>изключено</value></data>
-  <data name="DemoChoiceTextFirstCheck" xml:space="preserve"><value>Етикет преди полето за отметка</value></data>
+  <data name="DemoChoiceTextFirstCheck" xml:space="preserve"><value>Етикет преди квадратчето за отметка</value></data>
   <data name="DemoChoiceTextFirstSwitch" xml:space="preserve"><value>Етикет преди превключвателя</value></data>
   <data name="DemoChoicePlatformLabel" xml:space="preserve"><value>Операционна система на агента</value></data>
   <data name="DemoChoiceWindowsDescription" xml:space="preserve"><value>Windows Server 2022 и по-нова</value></data>
@@ -1418,7 +1418,7 @@
   <data name="DemoFlowsServerName" xml:space="preserve"><value>Име на сървъра</value></data>
   <data name="DemoFlowsStepOptions" xml:space="preserve"><value>Опции</value></data>
   <data name="DemoFlowsDailyBackup" xml:space="preserve"><value>Ежедневно архивиране</value></data>
-  <data name="DemoFlowsBackupRequired" xml:space="preserve"><value>Отметнете ежедневното архивиране за производствен сървър.</value></data>
+  <data name="DemoFlowsBackupRequired" xml:space="preserve"><value>Отметнете ежедневното архивиране за продукционен сървър.</value></data>
   <data name="DemoFlowsStepSummary" xml:space="preserve"><value>Обобщение</value></data>
   <data name="DemoFlowsSummaryName" xml:space="preserve"><value>Име</value></data>
   <data name="DemoFlowsSummaryBackup" xml:space="preserve"><value>Архивиране</value></data>
@@ -1427,7 +1427,7 @@
   <data name="DemoFlowsOutcome" xml:space="preserve"><value>Резултат: {0}</value></data>
   <data name="DemoFlowsOutcomePending" xml:space="preserve"><value>в ход</value></data>
   <data name="DemoFlowsOutcomeCreated" xml:space="preserve"><value>сървърът „{0}“ е създаден</value></data>
-  <data name="DemoFlowsOutcomeCancelled" xml:space="preserve"><value>отказано</value></data>
+  <data name="DemoFlowsOutcomeCancelled" xml:space="preserve"><value>отменено</value></data>
   <data name="DemoFlowsWizardInDialog" xml:space="preserve"><value>Съветник в диалогов прозорец</value></data>
   <data name="DemoFlowsInviteTitle" xml:space="preserve"><value>Поканване на член</value></data>
   <data name="DemoFlowsInviteSteps" xml:space="preserve"><value>Стъпки на поканата</value></data>
@@ -1448,7 +1448,7 @@
   <data name="DemoFlowsSimulateReject" xml:space="preserve"><value>Симулиране на отказ</value></data>
   <data name="DemoFlowsConnection" xml:space="preserve"><value>Връзка: {0}</value></data>
   <data name="DemoFlowsConnectionReconnecting" xml:space="preserve"><value>повторно свързване</value></data>
-  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>неуспех</value></data>
+  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>неуспешна</value></data>
   <data name="DemoFlowsConnectionRejected" xml:space="preserve"><value>отказана</value></data>
   <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>установена</value></data>
   <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>сървърът вече не отговаря (изтекло време)</value></data>
