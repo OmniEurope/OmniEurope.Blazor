@@ -251,7 +251,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
     [Fact]
     public async Task VirtualizedGrid_UsesTheCssRowEstimateForScrollOffsets()
     {
-        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-grid.js");
+        var module = JSInterop.SetupModule(OmniModules.Grid);
         var sync = module.Setup<GridViewportSnapshot?>("sync", _ => true);
         sync.SetResult(new GridViewportSnapshot
         {
@@ -303,7 +303,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
     [Fact]
     public void Grid_SendsTheTableHeightToTheLayoutInteropAsACssLength()
     {
-        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-grid.js");
+        var module = JSInterop.SetupModule(OmniModules.Grid);
 
         var grid = Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, new[] { 1, 2, 3 })
@@ -318,7 +318,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
     [Fact]
     public void VirtualizedGrid_SendsTheTableHeightAndTheSpacersTogether()
     {
-        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-grid.js");
+        var module = JSInterop.SetupModule(OmniModules.Grid);
 
         var grid = Render<OmniDataGrid<int>>(parameters => parameters
             .Add(component => component.Items, Enumerable.Range(0, 5_000).ToArray())

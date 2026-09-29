@@ -7,14 +7,14 @@
    Reserving a strip kept the layout still, but left an empty gap under the header outside of every
    load, which is most of the time. Drawn in the header's edge, it moves nothing, leaves no gap and
    covers nothing of what follows. *@
-<div id="@Id"
+<div @attributes="AdditionalAttributes"
+     id="@Id"
      class="@Css("omni-loading-bar", $"omni-loading-bar--{Mode.ToString().ToLowerInvariant()}", State.Loading ? "omni-loading-bar--active" : null, _finishing ? "omni-loading-bar--done" : null)"
      role="@(State.Loading ? "progressbar" : null)"
      aria-label="@(State.Loading ? EffectiveLabel : null)"
      aria-valuemin="@(State.Loading && !Unmeasured ? "0" : null)"
      aria-valuemax="@(State.Loading && !Unmeasured ? "100" : null)"
-     aria-valuenow="@ValueNow"
-     @attributes="AdditionalAttributes">
+     aria-valuenow="@ValueNow">
     @if (Visible)
     {
         <span class="omni-loading-bar__track" aria-hidden="true">

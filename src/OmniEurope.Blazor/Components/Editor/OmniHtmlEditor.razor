@@ -7,7 +7,7 @@
    the status bar), which wraps it without changing it. *@
 @{
     RenderFragment editor =
-        @<section class="@InputCss("omni-html-editor", _mode == OmniHtmlEditorMode.Visual ? "omni-html-editor--visual" : "omni-html-editor--source", _showBlocks && _mode == OmniHtmlEditorMode.Visual ? "omni-html-editor--show-blocks" : null)" aria-label="@EffectiveLabel">
+        @<section class="@EditorClass" aria-label="@EffectiveLabel">
             <div class="omni-html-editor__toolbar" role="toolbar" aria-label="@Localize("HtmlEditorToolbar")" aria-controls="@SurfaceId">
                 @foreach (var (group, groupIndex) in ToolbarGroups.Select((group, index) => (group, index)))
                 {
@@ -148,7 +148,7 @@
                 <div class="omni-html-editor__panel" role="group" aria-label="@Localize("HtmlEditorImportTable")">
                     <div class="omni-html-editor__panel-bar">
                         <OmniUpload Display="OmniUploadDisplay.Field" Accept="@TableAccept" MaximumFileSize="@HtmlEditorTableFile.MaxBytes"
-                                    FilesSelected="ReadTableFileAsync" Disabled="@_tableBusy" class="omni-html-editor__table-file" />
+                                    FilesSelected="ReadTableFileAsync" Disabled="@_tableBusy" Class="omni-html-editor__table-file" />
                         <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ClosePanel">
                             <OmniIcon Name="OmniIconName.Close" />
                             <span>@Localize("HtmlEditorClosePanel")</span>
@@ -184,10 +184,12 @@
                      @ref="_surface"
                      id="@SurfaceId"
                      class="omni-html-editor__surface omni-rich-text"
-                     contenteditable="@(Disabled ? "false" : "true")"
+                     contenteditable="@(IsLocked ? "false" : "true")"
+                     tabindex="@(ReadOnly && !Disabled ? "0" : null)"
                      role="textbox"
                      aria-multiline="true"
                      aria-label="@EffectiveLabel"
+                     aria-readonly="@(ReadOnly && !Disabled ? "true" : null)"
                      aria-disabled="@(Disabled ? "true" : null)"
                      aria-invalid="@AriaInvalid"
                      aria-describedby="@AriaDescribedBy"
@@ -223,7 +225,9 @@
                           value="@CurrentValue"
                           rows="@Rows"
                           disabled="@Disabled"
+                          readonly="@ReadOnly"
                           spellcheck="false"
+                          aria-label="@Label"
                           aria-invalid="@AriaInvalid"
                           aria-describedby="@AriaDescribedBy"
                           @ref="_source"

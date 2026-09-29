@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="HeaderBadge" xml:space="preserve"><value>Knižnica komponentov</value></data>
+  <data name="ModeLight" xml:space="preserve"><value>Svetlý motív</value></data>
+  <data name="ModeDark" xml:space="preserve"><value>Tmavý motív</value></data>
+  <data name="LanguageSelectorLabel" xml:space="preserve"><value>Jazyk ukážkového webu</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Hlavná navigácia</value></data>
+  <data name="MenuLabel" xml:space="preserve"><value>Sekcie webu</value></data>
+  <data name="NavShowcase" xml:space="preserve"><value>Prehľad</value></data>
+  <data name="NavDocumentation" xml:space="preserve"><value>Dokumentácia</value></data>
+  <data name="NavComponents" xml:space="preserve"><value>Komponenty</value></data>
+  <data name="NavCustomize" xml:space="preserve"><value>Prispôsobenie</value></data>
+  <data name="ErrorTitle" xml:space="preserve"><value>Vyskytla sa chyba</value></data>
+  <data name="ErrorMessage" xml:space="preserve"><value>Stránku sa nepodarilo správne zobraziť.</value></data>
+  <data name="Retry" xml:space="preserve"><value>Skúsiť znova</value></data>
+  <data name="NotFoundPageTitle" xml:space="preserve"><value>Stránka sa nenašla</value></data>
+  <data name="NotFoundTitle" xml:space="preserve"><value>Stránka sa nenašla</value></data>
+  <data name="NotFoundDescription" xml:space="preserve"><value>Zadanej adrese nezodpovedá žiadna stránka tohto webu.</value></data>
+  <data name="BackHome" xml:space="preserve"><value>Späť na úvodnú stránku</value></data>
+  <data name="HomePageTitle" xml:space="preserve"><value>OmniEurope.Blazor</value></data>
+  <data name="HomeKicker" xml:space="preserve"><value>Blazor</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Prístupné komponenty Blazor pod prísnou bezpečnostnou politikou</value></data>
+  <data name="HomeLead" xml:space="preserve"><value>Knižnica komponentov navrhnutá pre aplikácie, ktoré zakazujú vložené štýly, vyžadujú prístupnosť a chcú motív ovládateľný od začiatku do konca.</value></data>
+  <data name="HomeSeeComponents" xml:space="preserve"><value>Zobraziť komponenty</value></data>
+  <data name="HomeSeeCustomize" xml:space="preserve"><value>Prispôsobiť motív</value></data>
+  <data name="HomePillarsTitle" xml:space="preserve"><value>Čím sa knižnica odlišuje</value></data>
+  <data name="PillarCspTitle" xml:space="preserve"><value>Prísna bezpečnostná politika</value></data>
+  <data name="PillarCspBody" xml:space="preserve"><value>Žiadny atribút vloženého štýlu, žiadny vkladaný element štýlu, žiadne dynamické vyhodnocovanie skriptov. Knižnica funguje pod politikou, ktorá to všetko odmieta.</value></data>
+  <data name="PillarThemeTitle" xml:space="preserve"><value>Motív plne založený na premenných</value></data>
+  <data name="PillarThemeBody" xml:space="preserve"><value>Farby, typografia, rozostupy, zaoblenia, tiene aj paleta grafov prechádzajú premennými CSS, bez jedinej pevnej hodnoty v pravidlách.</value></data>
+  <data name="PillarA11yTitle" xml:space="preserve"><value>Prístupnosť podložená testami</value></data>
+  <data name="PillarA11yBody" xml:space="preserve"><value>Roly, stavy a popisy overuje sada testov, nielen dokumentácia.</value></data>
+  <data name="PillarWeightTitle" xml:space="preserve"><value>Strážená veľkosť</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Publikovaný balík sa pri každom zostavení meria voči rozpočtu bajtov, vrátane šablóny štýlov.</value></data>
+  <data name="DocsPageTitle" xml:space="preserve"><value>Dokumentácia</value></data>
+  <data name="DocsTitle" xml:space="preserve"><value>Dokumentácia</value></data>
+  <data name="DocsLead" xml:space="preserve"><value>Od inštalácie balíka po prvý vlastný motív, v piatich krokoch.</value></data>
+  <data name="DocsInstallTitle" xml:space="preserve"><value>Inštalácia balíka</value></data>
+  <data name="DocsInstallBody" xml:space="preserve"><value>Knižnica sa odkazuje ako akýkoľvek iný balík NuGet.</value></data>
+  <data name="DocsRegisterTitle" xml:space="preserve"><value>Registrácia služieb</value></data>
+  <data name="DocsRegisterBody" xml:space="preserve"><value>Jediné volanie zaregistruje všetko, čo komponenty potrebujú.</value></data>
+  <data name="DocsCssTitle" xml:space="preserve"><value>Odkaz na šablónu štýlov</value></data>
+  <data name="DocsCssBody" xml:space="preserve"><value>Šablóna sa poskytuje ako statický prostriedok balíka.</value></data>
+  <data name="DocsCspTitle" xml:space="preserve"><value>Bezpečnostná politika</value></data>
+  <data name="DocsCspBody" xml:space="preserve"><value>Knižnica nevyžaduje nič nad rámec týchto direktív: žiadne vložené štýly ani dynamické vyhodnocovanie skriptov.</value></data>
+  <data name="DocsThemeTitle" xml:space="preserve"><value>Prispôsobenie motívu</value></data>
+  <data name="DocsThemeBody" xml:space="preserve"><value>Stačí predefinovať jednu premennú a prefarbia sa všetky komponenty, ktoré ju čítajú.</value></data>
+  <data name="DocsThemePointer" xml:space="preserve"><value>Ak chcete zostaviť celý motív bez písania CSS:</value></data>
+  <data name="GalleryPageTitle" xml:space="preserve"><value>Komponenty</value></data>
+  <data name="GalleryTitle" xml:space="preserve"><value>Komponenty</value></data>
+  <data name="GalleryLead" xml:space="preserve"><value>Každá rodina je predstavená s tým, čo dokáže, so živou ukážkou a s kódom, ktorý ju vytvára.</value></data>
+  <data name="GalleryNavLabel" xml:space="preserve"><value>Rodiny komponentov</value></data>
+  <data name="GalleryCapabilities" xml:space="preserve"><value>Čo komponent dokáže</value></data>
+  <data name="GalleryPreview" xml:space="preserve"><value>Ukážka</value></data>
+  <data name="GallerySource" xml:space="preserve"><value>Zdrojový kód</value></data>
+  <data name="GallerySourceNote" xml:space="preserve"><value>Toto je presne ten súbor, ktorý uvedená ukážka kompiluje a spúšťa, načítaný zo zostavenia, nikdy nie ručne prepísaný.</value></data>
+  <data name="GallerySourceMissingTitle" xml:space="preserve"><value>Zdroj nie je k dispozícii</value></data>
+  <data name="GallerySourceMissing" xml:space="preserve"><value>Súbor ukážky sa nenašiel v prostriedkoch zostavenia.</value></data>
+  <data name="DemoButtonsTitle" xml:space="preserve"><value>Tlačidlá</value></data>
+  <data name="DemoButtonsSummary" xml:space="preserve"><value>Spúšťač akcie vo vizuálnych variantoch a stavoch.</value></data>
+  <data name="DemoButtonsCapability1" xml:space="preserve"><value>Štyri varianty: primárny, sekundárny, nenápadný a deštruktívny.</value></data>
+  <data name="DemoButtonsCapability2" xml:space="preserve"><value>Stav zaneprázdnenia, ktorý bráni dvojitému odoslaniu a oznamuje sa čítačkám obrazovky.</value></data>
+  <data name="DemoButtonsCapability3" xml:space="preserve"><value>Zakázaný stav oddelený od stavu zaneprázdnenia.</value></data>
+  <data name="DemoButtonsCapability4" xml:space="preserve"><value>Tri veľkosti a tri typy tlačidiel formulára: odoslanie, obnovenie a bežná akcia.</value></data>
+  <data name="DemoBadgesTitle" xml:space="preserve"><value>Štítky</value></data>
+  <data name="DemoBadgesSummary" xml:space="preserve"><value>Krátky štítok, ktorý prvok opíše bez toho, aby ho preťažil.</value></data>
+  <data name="DemoBadgesCapability1" xml:space="preserve"><value>Päť variantov zosúladených so závažnosťami motívu.</value></data>
+  <data name="DemoBadgesCapability2" xml:space="preserve"><value>Tónované pozadia odvodené z premenných, takže sa prefarbia spolu s motívom.</value></data>
+  <data name="DemoAlertsTitle" xml:space="preserve"><value>Upozornenia</value></data>
+  <data name="DemoAlertsSummary" xml:space="preserve"><value>Kontextová správa, od jednoduchého oznámenia po blokujúce zlyhanie.</value></data>
+  <data name="DemoAlertsCapability1" xml:space="preserve"><value>Štyri závažnosti: informácia, úspech, varovanie a nebezpečenstvo.</value></data>
+  <data name="DemoAlertsCapability2" xml:space="preserve"><value>Dva varianty: nenápadný obrys alebo plné pozadie.</value></data>
+  <data name="DemoAlertsCapability3" xml:space="preserve"><value>Živý režim, ktorý správu oznámi asistenčným technológiám.</value></data>
+  <data name="CustomizePageTitle" xml:space="preserve"><value>Prispôsobenie</value></data>
+  <data name="CustomizeTitle" xml:space="preserve"><value>Prispôsobenie</value></data>
+  <data name="CustomizeLead" xml:space="preserve"><value>Vyberte motív, ktorý dáva tvar, a potom paletu, ktorá dáva farby: každá paleta zafarbí každý motív a celý web sa priebežne prefarbuje. Náhľad preberá kompozície z referenčného návrhu.</value></data>
+  <data name="CustomizeTokensTitle" xml:space="preserve"><value>Premenné</value></data>
+  <data name="CustomizeTokensLead" xml:space="preserve"><value>Tento zoznam sa číta z dodávanej šablóny štýlov, takže sa nemôže odchýliť od toho, čo knižnica skutočne sprístupňuje. Upravená premenná sa pridá nad kombináciu, v oboch režimoch; výber iného motívu alebo inej palety ju vymaže.</value></data>
+  <data name="CustomizeReset" xml:space="preserve"><value>Vymazať úpravy</value></data>
+  <data name="TokenGroupColor" xml:space="preserve"><value>Farby</value></data>
+  <data name="TokenGroupTypography" xml:space="preserve"><value>Typografia</value></data>
+  <data name="TokenGroupSpacing" xml:space="preserve"><value>Rozostupy a hustota</value></data>
+  <data name="TokenGroupShape" xml:space="preserve"><value>Tvary, okraje a stlačenie</value></data>
+  <data name="TokenGroupElevation" xml:space="preserve"><value>Tiene, vrstva a prekryvy</value></data>
+  <data name="TokenGroupChart" xml:space="preserve"><value>Grafy</value></data>
+  <data name="TokenGroupGrid" xml:space="preserve"><value>Dátová mriežka v tmavom režime</value></data>
+  <data name="TokenGroupDiagram" xml:space="preserve"><value>Myšlienková mapa</value></data>
+  <data name="CustomizeExportTitle" xml:space="preserve"><value>Export</value></data>
+  <data name="CustomizeExportLead" xml:space="preserve"><value>CSS nižšie nesie celú kombináciu vrátane upravených premenných, vo svetlom, tmavom aj systémovom režime. Cieli na rozsah motívu (OmniThemeScope, data-omni-theme), kde šablóna znova deklaruje svoje premenné; načítajte ho až po šablóne knižnice.</value></data>
+  <data name="CustomizeCopy" xml:space="preserve"><value>Kopírovať</value></data>
+  <data name="CustomizeDownload" xml:space="preserve"><value>Stiahnuť</value></data>
+  <data name="CustomizeCopied" xml:space="preserve"><value>CSS sa skopírovalo do schránky.</value></data>
+  <data name="CustomizeCopyFailed" xml:space="preserve"><value>Kopírovanie zlyhalo. Označte kód nižšie a skopírujte ho ručne.</value></data>
+  <data name="CustomizeDownloaded" xml:space="preserve"><value>Súbor omnieurope-theme.css sa stiahol.</value></data>
+  <data name="CustomizeDownloadFailed" xml:space="preserve"><value>Sťahovanie zlyhalo. Skopírujte namiesto toho kód nižšie.</value></data>
+  <data name="DemoFormTitle" xml:space="preserve"><value>Formuláre</value></data>
+  <data name="DemoFormSummary" xml:space="preserve"><value>Vstupné polia a ich prístupné popisy.</value></data>
+  <data name="DemoFormCapability1" xml:space="preserve"><value>Popis, opis a chybová správa prepojené s poľom pomocou identifikátora.</value></data>
+  <data name="DemoFormCapability2" xml:space="preserve"><value>Textová oblasť s počítadlom znakov a limitom.</value></data>
+  <data name="DemoFormCapability3" xml:space="preserve"><value>Posúvač, začiarkavacie políčko a prepínač ovládané klávesnicou.</value></data>
+  <data name="DemoSelectionTitle" xml:space="preserve"><value>Výber</value></data>
+  <data name="DemoSelectionSummary" xml:space="preserve"><value>Výber jednej hodnoty zo zoznamu, alebo viacerých.</value></data>
+  <data name="DemoSelectionCapability1" xml:space="preserve"><value>Rozbaľovací zoznam s povolenou prázdnou hodnotou.</value></data>
+  <data name="DemoSelectionCapability2" xml:space="preserve"><value>Zoznam s výškou určenou počtom viditeľných riadkov.</value></data>
+  <data name="DemoSelectionCapability3" xml:space="preserve"><value>Viacnásobný výber vracajúci zoznam zvolených hodnôt.</value></data>
+  <data name="DemoNavigationTitle" xml:space="preserve"><value>Navigácia</value></data>
+  <data name="DemoNavigationSummary" xml:space="preserve"><value>Ukázať používateľovi, kde sa nachádza, a presúvať ho medzi sekciami.</value></data>
+  <data name="DemoNavigationCapability1" xml:space="preserve"><value>Navigačná cesta označujúca aktuálnu stránku.</value></data>
+  <data name="DemoNavigationCapability2" xml:space="preserve"><value>Riadené karty s rolami a navigáciou klávesnicou.</value></data>
+  <data name="DemoNavigationCapability3" xml:space="preserve"><value>Číslované kroky s overením pred prechodom ďalej.</value></data>
+  <data name="DemoFeedbackTitle" xml:space="preserve"><value>Spätná väzba o stave</value></data>
+  <data name="DemoFeedbackSummary" xml:space="preserve"><value>Oznámiť, v akom stave je systém, bez blokovania stránky.</value></data>
+  <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Indikátor priebehu, určitý alebo neurčitý.</value></data>
+  <data name="DemoFeedbackCapability2" xml:space="preserve"><value>Popis dosiahnuteľný klávesnicou, nielen pri prejdení myšou.</value></data>
+  <data name="DemoFeedbackCapability3" xml:space="preserve"><value>Kostra načítania oznamovaná čítačkám obrazovky.</value></data>
+  <data name="DemoFeedbackCapability4" xml:space="preserve"><value>Lineárny alebo kruhový indikátor v štyroch variantoch a kostra v tvare toho, čo nahrádza.</value></data>
+  <data name="DemoGridTitle" xml:space="preserve"><value>Dátová mriežka</value></data>
+  <data name="DemoGridSummary" xml:space="preserve"><value>Pracovná tabuľka: triedenie, filtrovanie, stránkovanie a skupiny.</value></data>
+  <data name="DemoGridCapability1" xml:space="preserve"><value>Triedenie a filtrovanie podľa stĺpcov nad skutočnými údajmi.</value></data>
+  <data name="DemoGridCapability2" xml:space="preserve"><value>Stránkovanie s nastaviteľnou veľkosťou strany.</value></data>
+  <data name="DemoGridCapability3" xml:space="preserve"><value>Striedavé riadky a deklaratívne formáty stĺpcov.</value></data>
+  <data name="DemoChartTitle" xml:space="preserve"><value>Grafy</value></data>
+  <data name="DemoChartSummary" xml:space="preserve"><value>Kategoriálne rady vo farbách motívu.</value></data>
+  <data name="DemoChartCapability1" xml:space="preserve"><value>Stĺpcové rady s popísanými osami.</value></data>
+  <data name="DemoChartCapability2" xml:space="preserve"><value>Farby prevzaté z premenných grafov motívu.</value></data>
+  <data name="DemoTypographyTitle" xml:space="preserve"><value>Typografia</value></data>
+  <data name="DemoTypographySummary" xml:space="preserve"><value>Nadpisy, odseky, popisy a odkazy.</value></data>
+  <data name="DemoTypographyCapability1" xml:space="preserve"><value>Šesť úrovní nadpisov, každá v niekoľkých tónoch.</value></data>
+  <data name="DemoTypographyCapability2" xml:space="preserve"><value>Päť textových prvkov, od odseku po zdôraznenie.</value></data>
+  <data name="DemoTypographyCapability3" xml:space="preserve"><value>Skrátenie tromi bodkami a popis prepojený s poľom.</value></data>
+  <data name="DemoLayoutTitle" xml:space="preserve"><value>Rozloženie</value></data>
+  <data name="DemoLayoutSummary" xml:space="preserve"><value>Mriežka, rady, karty a skupiny polí.</value></data>
+  <data name="DemoLayoutCapability1" xml:space="preserve"><value>Mriežka s dvanástimi stĺpcami s rozpätím podľa zlomových bodov.</value></data>
+  <data name="DemoLayoutCapability2" xml:space="preserve"><value>Karta v troch zónach: hlavička, telo a päta.</value></data>
+  <data name="DemoLayoutCapability3" xml:space="preserve"><value>Skupina polí, ktorú možno zakázať jedným krokom.</value></data>
+  <data name="DemoLayoutCapability4" xml:space="preserve"><value>Celá škála rozostupov a rozloženia a zarovnania, ktoré rad prijíma.</value></data>
+  <data name="DemoShellTitle" xml:space="preserve"><value>Kostra aplikácie</value></data>
+  <data name="DemoShellSummary" xml:space="preserve"><value>Kostra aplikácie, tá, z ktorej je postavený tento web.</value></data>
+  <data name="DemoShellCapability1" xml:space="preserve"><value>Hlavička, zbaliteľný bočný panel a hlavná oblasť.</value></data>
+  <data name="DemoShellCapability2" xml:space="preserve"><value>Navigačná ponuka s rozbaľovacími skupinami.</value></data>
+  <data name="DemoShellCapability3" xml:space="preserve"><value>Prepínač vzhľadu a miestny rozsah motívu.</value></data>
+  <data name="DemoShellCapability4" xml:space="preserve"><value>Obe usporiadania: vycentrovaný stĺpec na čítanie alebo plná šírka, ponuka vľavo alebo vpravo.</value></data>
+  <data name="DemoMediaTitle" xml:space="preserve"><value>Ikony a médiá</value></data>
+  <data name="DemoMediaSummary" xml:space="preserve"><value>Ikony, obrázky a časová os.</value></data>
+  <data name="DemoMediaCapability1" xml:space="preserve"><value>Vstavané ikony v troch veľkostiach.</value></data>
+  <data name="DemoMediaCapability2" xml:space="preserve"><value>Cesta ikony dodaná hostiteľom, bez zväčšenia balíka.</value></data>
+  <data name="DemoMediaCapability3" xml:space="preserve"><value>Obrázok s nastaviteľným orezom a oneskoreným načítaním.</value></data>
+  <data name="DemoMediaCapability4" xml:space="preserve"><value>Celá vstavaná sada ikon a tri spôsoby orezu obrázka.</value></data>
+  <data name="DemoInputsTitle" xml:space="preserve"><value>Pokročilé vstupy</value></data>
+  <data name="DemoInputsSummary" xml:space="preserve"><value>Čísla, heslá, dátumy, časy, farby a automatické dopĺňanie.</value></data>
+  <data name="DemoInputsCapability1" xml:space="preserve"><value>Obmedzené číselné pole s nastaviteľným krokom.</value></data>
+  <data name="DemoInputsCapability2" xml:space="preserve"><value>Zobraziteľné heslo, ktoré sa nikam inam nekopíruje.</value></data>
+  <data name="DemoInputsCapability3" xml:space="preserve"><value>Asynchrónne automatické dopĺňanie s oneskorením a minimálnou dĺžkou.</value></data>
+  <data name="DemoInputsCapability4" xml:space="preserve"><value>Dátum, čas, dátum a čas: vlastný kalendár a stĺpce na plávajúcej vrstve, ovládanie mriežky klávesnicou, hranice a hustota.</value></data>
+  <data name="DemoChoiceTitle" xml:space="preserve"><value>Voľby</value></data>
+  <data name="DemoChoiceSummary" xml:space="preserve"><value>Prepínače, viacnásobné začiarkavacie políčka, výberové lišty a prepínacie tlačidlá.</value></data>
+  <data name="DemoChoiceCapability1" xml:space="preserve"><value>Zoznamy riadené možnosťami alebo skladané prvok po prvku.</value></data>
+  <data name="DemoChoiceCapability2" xml:space="preserve"><value>Výberová lišta a prepínacie tlačidlo so stavmi zaneprázdnenia a zákazu.</value></data>
+  <data name="DemoChoiceCapability3" xml:space="preserve"><value>Začiarkavacie políčko a prepínač s tromi polohami vrátane neurčitej.</value></data>
+  <data name="DemoValidationTitle" xml:space="preserve"><value>Overovanie</value></data>
+  <data name="DemoValidationSummary" xml:space="preserve"><value>Pravidlá deklarované vedľa poľa, ktoré strážia.</value></data>
+  <data name="DemoValidationCapability1" xml:space="preserve"><value>Povinnosť, dĺžka, formát e-mailu a porovnanie.</value></data>
+  <data name="DemoValidationCapability2" xml:space="preserve"><value>Pri odoslaní prejde fokus na prvé neplatné pole.</value></data>
+  <data name="DemoValidationCapability3" xml:space="preserve"><value>Žiadna anotácia v modeli, všetko je v značkách.</value></data>
+  <data name="DemoEditorTitle" xml:space="preserve"><value>Editory a nahrávanie</value></data>
+  <data name="DemoEditorSummary" xml:space="preserve"><value>Editor WYSIWYG a jeho zdrojový kód HTML, textový editor, editor kódu a nahrávanie súborov.</value></data>
+  <data name="DemoEditorCapability1" xml:space="preserve"><value>Panel príkazov, ktorý hostiteľ doplní alebo preusporiada, ošetrené prilepovanie, režim zdroja.</value></data>
+  <data name="DemoEditorCapability2" xml:space="preserve"><value>Textový editor na stránke, počet slov, export do HTML a textu.</value></data>
+  <data name="DemoEditorCapability3" xml:space="preserve"><value>Editor kódu (Monaco u hostiteľa, obyčajný text pod prísnym CSP) a obmedzené nahrávanie.</value></data>
+  <data name="DemoOverlayTitle" xml:space="preserve"><value>Prekryvy</value></data>
+  <data name="DemoOverlaySummary" xml:space="preserve"><value>Dialógové okná, oznámenia a kontextové ponuky.</value></data>
+  <data name="DemoOverlayCapability1" xml:space="preserve"><value>Modálny dialóg, zatvárateľný klávesom Esc alebo kliknutím na pozadie.</value></data>
+  <data name="DemoOverlayCapability2" xml:space="preserve"><value>Štyri závažnosti oznámení s voliteľným zatvorením.</value></data>
+  <data name="DemoOverlayCapability3" xml:space="preserve"><value>Kontextová ponuka, rozdelené tlačidlo a ponuka účtu.</value></data>
+  <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Mriežka, úplný rozsah</value></data>
+  <data name="DemoGridAdvancedSummary" xml:space="preserve"><value>Výber, skupiny, úpravy, ukotvené stĺpce a pokročilé filtre.</value></data>
+  <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Viacnásobný výber kliknutím na riadok.</value></data>
+  <data name="DemoGridAdvancedCapability2" xml:space="preserve"><value>Filtre s rozbaľovacím zoznamom a viacnásobným výberom pre každý stĺpec.</value></data>
+  <data name="DemoGridAdvancedCapability3" xml:space="preserve"><value>Ukotvený stĺpec, rozbalené skupiny a počítaná päta stĺpca.</value></data>
+  <data name="DemoGridAdvancedCapability4" xml:space="preserve"><value>Nastavenia zobrazenia riadené naživo: čiary, hustota, stránkovanie, výber, úpravy a filtre.</value></data>
+  <data name="DemoDataListTitle" xml:space="preserve"><value>Zoznamy a stránkovanie</value></data>
+  <data name="DemoDataListSummary" xml:space="preserve"><value>Zoznam s voľnou šablónou a jeho stránkovač.</value></data>
+  <data name="DemoDataListCapability1" xml:space="preserve"><value>Šablóna položky plne dodaná hostiteľom.</value></data>
+  <data name="DemoDataListCapability2" xml:space="preserve"><value>Oddelené stavy: prázdny, načítanie a chyba.</value></data>
+  <data name="DemoDataListCapability3" xml:space="preserve"><value>Stránkovač s nastaviteľnou veľkosťou strany a skratkami na prvú a poslednú stranu.</value></data>
+  <data name="DemoTreeTitle" xml:space="preserve"><value>Strom</value></data>
+  <data name="DemoTreeSummary" xml:space="preserve"><value>Rozbaľovacia hierarchia s jednoduchým alebo viacnásobným výberom.</value></data>
+  <data name="DemoTreeCapability1" xml:space="preserve"><value>Viacnásobný výber a navigácia klávesnicou.</value></data>
+  <data name="DemoTreeCapability2" xml:space="preserve"><value>Vetva načítaná na požiadanie pri otvorení uzla.</value></data>
+  <data name="DemoTreeCapability3" xml:space="preserve"><value>Uzly možno zakázať bez narušenia prechodu stromom.</value></data>
+  <data name="DemoSpreadsheetTitle" xml:space="preserve"><value>Tabuľkový procesor</value></data>
+  <data name="DemoSpreadsheetSummary" xml:space="preserve"><value>Jednoduchá tabuľka: bunky, vzorce a riadok vzorcov.</value></data>
+  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Vzorce s odkazmi, rozsahmi, SUM, AVERAGE, MIN, MAX a chybovými kódmi.</value></data>
+  <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Navigácia klávesnicou, úpravy na mieste a riadok vzorcov.</value></data>
+  <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Obsah viazaný oboma smermi a serializovateľný do JSON.</value></data>
+  <data name="DemoSchedulerTitle" xml:space="preserve"><value>Plánovač</value></data>
+  <data name="DemoSchedulerSummary" xml:space="preserve"><value>Kalendár a jeho tri zobrazenia.</value></data>
+  <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Prepínateľné zobrazenia dňa, týždňa a mesiaca.</value></data>
+  <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Opakované stretnutia opísané pravidlom.</value></data>
+  <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Každé zobrazenie možno použiť aj samostatne, mimo kalendára.</value></data>
+  <data name="DemoChartsExtendedTitle" xml:space="preserve"><value>Grafy, úplný rozsah</value></data>
+  <data name="DemoChartsExtendedSummary" xml:space="preserve"><value>Všetky rady, legenda, popisy a ukazovateľ.</value></data>
+  <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Čiary, plochy, stĺpce, pruhy, skladané, koláčový a prstencový.</value></data>
+  <data name="DemoChartsExtendedCapability2" xml:space="preserve"><value>Legenda, značky, popisy hodnôt a tip.</value></data>
+  <data name="DemoChartsExtendedCapability3" xml:space="preserve"><value>Oblúkový ukazovateľ so stupnicou a formátom hodnoty.</value></data>
+  <data name="DemoDiagramTitle" xml:space="preserve"><value>Myšlienková mapa</value></data>
+  <data name="DemoDiagramSummary" xml:space="preserve"><value>Myšlienková mapa upravovaná myšou, dotykom a klávesnicou.</value></data>
+  <data name="DemoDiagramCapability1" xml:space="preserve"><value>Presúvanie, laso, priblíženie kolieskom alebo stiahnutím prstov, kontextová ponuka.</value></data>
+  <data name="DemoDiagramCapability2" xml:space="preserve"><value>Každá akcia má klávesovú skratku oznamovanú čítačkám obrazovky.</value></data>
+  <data name="DemoDiagramCapability3" xml:space="preserve"><value>Panel akcií a panel vlastností vybraného uzla.</value></data>
+  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Číta a späť zapisuje uložený formát grafu bez akejkoľvek straty.</value></data>
+  <data name="DemoPlanningTitle" xml:space="preserve"><value>Plánovanie</value></data>
+  <data name="DemoPlanningSummary" xml:space="preserve"><value>Ganttov diagram, priebeh spustenia a časová os na rozmiestnenie.</value></data>
+  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt po dňoch, týždňoch alebo mesiacoch so skupinami, závislosťami a dneškom.</value></data>
+  <data name="DemoPlanningCapability2" xml:space="preserve"><value>Priebeh krokov na časovej mierke vrátane krokov, ktoré sa nikdy nezačali.</value></data>
+  <data name="DemoPlanningCapability3" xml:space="preserve"><value>Časová os vpravo, vľavo alebo striedavo, s voľbou prvej strany.</value></data>
+  <data name="DemoPagesTitle" xml:space="preserve"><value>Stránky</value></data>
+  <data name="DemoPagesSummary" xml:space="preserve"><value>Hlavička, stránka s podrobnosťami a to, čo ju vypĺňa.</value></data>
+  <data name="DemoPagesCapability1" xml:space="preserve"><value>Hlavička stránky: navigačná cesta spravovaná službou, späť, nadpis, štítky a akcie zbalené na telefóne.</value></data>
+  <data name="DemoPagesCapability2" xml:space="preserve"><value>Stránka s podrobnosťami: hlavička vykreslená pred príchodom údajov, obsah skrytý počas načítania, stav „nenájdené“ s cestou späť.</value></data>
+  <data name="DemoPagesCapability3" xml:space="preserve"><value>Zoznam definícií v stĺpcoch s akciou pre každú hodnotu.</value></data>
+  <data name="DemoPagesCapability4" xml:space="preserve"><value>Relatívny čas s presným dátumom pri prejdení a fokuse a prázdny stav s akciou.</value></data>
+  <data name="DemoFlowsTitle" xml:space="preserve"><value>Postupy</value></data>
+  <data name="DemoFlowsSummary" xml:space="preserve"><value>Sprievodca, prihlásenie a strata pripojenia.</value></data>
+  <data name="DemoFlowsCapability1" xml:space="preserve"><value>Krokový sprievodca: priebeh, overenie po krokoch, na stránke alebo v dialógu.</value></data>
+  <data name="DemoFlowsCapability2" xml:space="preserve"><value>Prihlasovacia stránka bez vstavaného overovania a s návratovou adresou obmedzenou na aplikáciu.</value></data>
+  <data name="DemoFlowsCapability3" xml:space="preserve"><value>Prekryv straty pripojenia: odpočítavanie, príčina, ručné obnovenie, zlyhanie a odmietnutie.</value></data>
+  <data name="WorkshopBarTitle" xml:space="preserve"><value>Nastavenia náhľadu</value></data>
+  <data name="WorkshopTheme" xml:space="preserve"><value>Motív (tvar)</value></data>
+  <data name="WorkshopPalette" xml:space="preserve"><value>Paleta (farby)</value></data>
+  <data name="WorkshopThemePalette" xml:space="preserve"><value>Paleta motívu</value></data>
+  <data name="WorkshopDefault" xml:space="preserve"><value>Predvolený</value></data>
+  <data name="WorkshopMode" xml:space="preserve"><value>Režim</value></data>
+  <data name="WorkshopModeLight" xml:space="preserve"><value>Svetlý</value></data>
+  <data name="WorkshopModeDark" xml:space="preserve"><value>Tmavý</value></data>
+  <data name="WorkshopModeSystem" xml:space="preserve"><value>Systémový</value></data>
+  <data name="WorkshopDensity" xml:space="preserve"><value>Celková hustota</value></data>
+  <data name="WorkshopDensityCompact" xml:space="preserve"><value>Kompaktná</value></data>
+  <data name="WorkshopDensityComfortable" xml:space="preserve"><value>Pohodlná</value></data>
+  <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Vzdušná</value></data>
+  <data name="WorkshopDensityInherited" xml:space="preserve"><value>Zdedená</value></data>
+  <data name="WorkshopSectionDensity" xml:space="preserve"><value>Hustota</value></data>
+  <data name="WorkshopHover" xml:space="preserve"><value>Prejdenie</value></data>
+  <data name="WorkshopHoverForce" xml:space="preserve"><value>Vynútiť</value></data>
+  <data name="WorkshopHoverForced" xml:space="preserve"><value>Vynútené</value></data>
+  <data name="WorkshopStageTitle" xml:space="preserve"><value>Náhľad</value></data>
+  <data name="WorkshopStageLead" xml:space="preserve"><value>Motív {0}: {1} Paleta {2}: {3}</value></data>
+  <data name="WorkshopContrastWaiver" xml:space="preserve"><value>Kontrast nie je zaručený: {0}</value></data>
+  <data name="WorkshopContrastTitle" xml:space="preserve"><value>Vypočítané kontrasty</value></data>
+  <data name="WorkshopContrastLead" xml:space="preserve"><value>Pomer nameraný na tokenoch zobrazeného režimu a potom prah, ktorý treba dosiahnuť.</value></data>
+  <data name="WorkshopContrastSystem" xml:space="preserve"><value>Systémový režim: pomery sa merajú na svetlej polovici, pretože ktorú zvolí prehliadač, je známe až na stránke.</value></data>
+  <data name="WorkshopContrastVerdict" xml:space="preserve"><value>Páry spĺňajúce svoj prah: {0} z {1}.</value></data>
+  <data name="WorkshopSwatchesTitle" xml:space="preserve"><value>Farebné tokeny</value></data>
+  <data name="ContrastPair01" xml:space="preserve"><value>text / plocha</value></data>
+  <data name="ContrastPair02" xml:space="preserve"><value>text / tlmená plocha</value></data>
+  <data name="ContrastPair03" xml:space="preserve"><value>text / plocha pri prejdení</value></data>
+  <data name="ContrastPair04" xml:space="preserve"><value>tlmený text / plocha</value></data>
+  <data name="ContrastPair05" xml:space="preserve"><value>tlmený text / tlmená plocha</value></data>
+  <data name="ContrastPair06" xml:space="preserve"><value>tlmený text / plocha pri prejdení</value></data>
+  <data name="ContrastPair07" xml:space="preserve"><value>silný akcent / plocha</value></data>
+  <data name="ContrastPair08" xml:space="preserve"><value>silný akcent / jemný akcent</value></data>
+  <data name="ContrastPair09" xml:space="preserve"><value>silný akcent / plocha pri prejdení</value></data>
+  <data name="ContrastPair10" xml:space="preserve"><value>na akcente / akcent</value></data>
+  <data name="ContrastPair11" xml:space="preserve"><value>na úspechu / úspech</value></data>
+  <data name="ContrastPair12" xml:space="preserve"><value>na varovaní / varovanie</value></data>
+  <data name="ContrastPair13" xml:space="preserve"><value>na nebezpečenstve / nebezpečenstvo</value></data>
+  <data name="ContrastPair14" xml:space="preserve"><value>na inverznej / inverzná</value></data>
+  <data name="ContrastPair15" xml:space="preserve"><value>úspech / plocha</value></data>
+  <data name="ContrastPair16" xml:space="preserve"><value>úspech / jemný úspech</value></data>
+  <data name="ContrastPair17" xml:space="preserve"><value>varovanie / plocha</value></data>
+  <data name="ContrastPair18" xml:space="preserve"><value>nebezpečenstvo / plocha</value></data>
+  <data name="ContrastPair19" xml:space="preserve"><value>nebezpečenstvo / jemné nebezpečenstvo</value></data>
+  <data name="ContrastPair20" xml:space="preserve"><value>text na plnom akcente</value></data>
+  <data name="ContrastPair21" xml:space="preserve"><value>text na plnom úspechu</value></data>
+  <data name="ContrastPair22" xml:space="preserve"><value>text na plnej informácii</value></data>
+  <data name="ContrastPair23" xml:space="preserve"><value>atrament na svetlej informácii (upozornenie)</value></data>
+  <data name="ContrastPair24" xml:space="preserve"><value>atrament na svetlom úspechu (upozornenie)</value></data>
+  <data name="ContrastPair25" xml:space="preserve"><value>atrament na svetlej informácii pri prejdení</value></data>
+  <data name="ContrastPair26" xml:space="preserve"><value>atrament na svetlej informácii pri stlačení</value></data>
+  <data name="ContrastPair27" xml:space="preserve"><value>atrament na svetlom úspechu pri prejdení</value></data>
+  <data name="ContrastPair28" xml:space="preserve"><value>atrament na svetlom úspechu pri stlačení</value></data>
+  <data name="ContrastPair29" xml:space="preserve"><value>atrament na sýtom varovaní (tlačidlo)</value></data>
+  <data name="ContrastPair30" xml:space="preserve"><value>atrament na sýtom varovaní pri prejdení</value></data>
+  <data name="ContrastPair31" xml:space="preserve"><value>atrament na sýtom varovaní pri stlačení</value></data>
+  <data name="ContrastPair32" xml:space="preserve"><value>atrament na sýtom nebezpečenstve (tlačidlo)</value></data>
+  <data name="ContrastPair33" xml:space="preserve"><value>atrament na sýtom nebezpečenstve pri prejdení</value></data>
+  <data name="ContrastPair34" xml:space="preserve"><value>atrament na sýtom nebezpečenstve pri stlačení</value></data>
+  <data name="ContrastPair35" xml:space="preserve"><value>text na plnom akcente, prejdenie</value></data>
+  <data name="ContrastPair36" xml:space="preserve"><value>text na plnom akcente, stlačenie</value></data>
+  <data name="ContrastPair37" xml:space="preserve"><value>sekundárny v pokoji</value></data>
+  <data name="ContrastPair38" xml:space="preserve"><value>sekundárny pri prejdení</value></data>
+  <data name="ContrastPair39" xml:space="preserve"><value>sekundárny pri stlačení</value></data>
+  <data name="ContrastPair40" xml:space="preserve"><value>priehľadný pri stlačení</value></data>
+  <data name="ContrastPair41" xml:space="preserve"><value>plný akcent / plocha</value></data>
+  <data name="ContrastPair42" xml:space="preserve"><value>plný úspech / plocha</value></data>
+  <data name="ContrastPair43" xml:space="preserve"><value>plná informácia / plocha</value></data>
+  <data name="ContrastPair44" xml:space="preserve"><value>plné varovanie / plocha</value></data>
+  <data name="ContrastPair45" xml:space="preserve"><value>plné nebezpečenstvo / plocha</value></data>
+  <data name="ContrastPair46" xml:space="preserve"><value>akcent / plocha</value></data>
+  <data name="ContrastPair47" xml:space="preserve"><value>okraj / plocha (minimum OE 1,7)</value></data>
+  <data name="DemoStatesTitle" xml:space="preserve"><value>Pokoj, prejdenie a stlačenie</value></data>
+  <data name="DemoStatesSummary" xml:space="preserve"><value>Tri stavy variantu tlačidla vedľa seba.</value></data>
+  <data name="DemoStatesCapability1" xml:space="preserve"><value>Prejdenie a stlačenie čítajú tokeny motívu: výplň pri prejdení, výplň pri stlačení a gesto stlačenia.</value></data>
+  <data name="DemoStatesCapability2" xml:space="preserve"><value>Pomôcka na porovnanie v ukážkovom webe: prehliadač nedokáže zmraziť :hover ani :active.</value></data>
+  <data name="DemoAppShellTitle" xml:space="preserve"><value>Kostra aplikácie</value></data>
+  <data name="DemoAppShellSummary" xml:space="preserve"><value>Horná lišta, bočná ponuka zbaliteľná na lištu ikon, obsah.</value></data>
+  <data name="DemoAppShellCapability1" xml:space="preserve"><value>Tlačidlo zbalenia, hľadanie, pomocník, zvonček s bodkou a ponuka účtu zatvorená v pokoji.</value></data>
+  <data name="DemoAppShellCapability2" xml:space="preserve"><value>Bočná ponuka si po zbalení ponechá ikony (Collapse Icons).</value></data>
+  <data name="DemoAppShellCapability3" xml:space="preserve"><value>Bodku, lupu, logo a avatar kreslí ukážkový web: balík pre ne nemá komponent.</value></data>
+  <data name="DemoThemesTitle" xml:space="preserve"><value>Motívy a palety</value></data>
+  <data name="DemoThemesSummary" xml:space="preserve"><value>Motív dáva tvar, paleta farby; každá paleta zafarbí každý motív.</value></data>
+  <data name="DemoThemesCapability1" xml:space="preserve"><value>OmniThemeScope.Preset a OmniThemeScope.Palette prefarbia rozsah a jeho obsah, a nič iné.</value></data>
+  <data name="DemoThemesCapability2" xml:space="preserve"><value>Samotná paleta zmení farby a zachová dodaný tvar.</value></data>
+  <data name="DemoThemesCapability3" xml:space="preserve"><value>Motívy: {0}, palety: {1}, teda kombinácie: {2}, každá vo svetlej aj tmavej verzii.</value></data>
+  <data name="DemoSurfacesTitle" xml:space="preserve"><value>Plochy</value></data>
+  <data name="DemoSurfacesSummary" xml:space="preserve"><value>Karty, plávajúca ponuka, záložky, bočná ponuka, odkaz a tip.</value></data>
+  <data name="DemoSurfacesCapability1" xml:space="preserve"><value>Karty a plávajúca ponuka čítajú tvar motívu: výplň, obrys, polomer a tieň.</value></data>
+  <data name="DemoSurfacesCapability2" xml:space="preserve"><value>Plávajúca ponuka sa otvára na vrstve plávajúcich plôch.</value></data>
+  <data name="DemoSurfacesCapability3" xml:space="preserve"><value>Aktuálna položka ponuky sa vyznačuje výplňou a hrúbkou písma, nikdy bočnou čiarou.</value></data>
+  <data name="DemoVerticalFormTitle" xml:space="preserve"><value>Zvislý formulár</value></data>
+  <data name="DemoVerticalFormSummary" xml:space="preserve"><value>Všetky typy polí, chyby a ich súhrn, stavy zakázané a len na čítanie.</value></data>
+  <data name="DemoVerticalFormCapability1" xml:space="preserve"><value>Popis nad poľom, hviezdička povinnosti, pomoc a chyba s ikonou.</value></data>
+  <data name="DemoVerticalFormCapability2" xml:space="preserve"><value>Chyby pochádzajú z kontextu úprav: pole z nich preberá aria-invalid a ich oprava ich odstráni zo súhrnu.</value></data>
+  <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Spojené pole súboru, zóna pre jeden súbor, zóna pre viac súborov so skráteným zoznamom.</value></data>
+  <data name="DemoVerticalFormCapability4" xml:space="preserve"><value>Zakázané a len na čítanie zostávajú odlišné vo všetkých troch hustotách.</value></data>
+  <data name="DemoSettingsTabsTitle" xml:space="preserve"><value>Nastavenia na kartách</value></data>
+  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>Jedna karta s ikonou na tému, jedna sekcia na kartu, jedna dlaždica na nastavenie.</value></data>
+  <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>Prepínač umiestnený v dlaždici preberá názov dlaždice ako popis; kliknutie na dlaždicu ho prepne.</value></data>
+  <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>Ovládací prvok je vpravo, názov, pomoc a ikona vľavo.</value></data>
+  <data name="DemoNoticesTitle" xml:space="preserve"><value>Oznámenia a dialógy</value></data>
+  <data name="DemoNoticesSummary" xml:space="preserve"><value>Zatvárateľné oznámenia, dialógy na pozadí.</value></data>
+  <data name="DemoNoticesCapability1" xml:space="preserve"><value>Každé oznámenie sa zatvára krížikom.</value></data>
+  <data name="DemoNoticesCapability2" xml:space="preserve"><value>Päta dialógov dodržiava konvenciu balíka: najprv akcia, potom Zrušiť.</value></data>
+  <data name="DemoLoadingTitle" xml:space="preserve"><value>Načítanie</value></data>
+  <data name="DemoLoadingSummary" xml:space="preserve"><value>Pruh načítania, čakanie, zaneprázdnené tlačidlá, priebeh a kostra.</value></data>
+  <data name="DemoLoadingCapability1" xml:space="preserve"><value>Pruh sleduje skutočné načítanie, prechádzaním alebo plnením, dôjde na koniec a potom zmizne.</value></data>
+  <data name="DemoLoadingCapability2" xml:space="preserve"><value>Zaneprázdnené tlačidlo si zachová veľkosť aj obsah: nad ním pulzuje závoj.</value></data>
+  <data name="DemoLoadingCapability3" xml:space="preserve"><value>Kostra má tvar toho, čo nahrádza.</value></data>
+  <data name="DemoRunGridsTitle" xml:space="preserve"><value>Mriežky spustení</value></data>
+  <data name="DemoRunGridsSummary" xml:space="preserve"><value>Dve mriežky z návrhu: zoradená s aktívnym stĺpcom a striedavá s prichytenou hlavičkou.</value></data>
+  <data name="DemoRunGridsCapability1" xml:space="preserve"><value>Zoradený stĺpec je tónovaný slabšie ako vybraný riadok, aby sa dali rozlíšiť.</value></data>
+  <data name="DemoRunGridsCapability2" xml:space="preserve"><value>Hlavička zostáva viditeľná pri posúvaní mriežky; trvanie je zarovnané na koniec.</value></data>
+  <data name="DemoRunGridsCapability3" xml:space="preserve"><value>Stav je kompaktná bodka (omni-status).</value></data>
+  <data name="LoadingFrameBrand" xml:space="preserve"><value>Boutique</value></data>
+  <data name="LoadingFramePage" xml:space="preserve"><value>Nástenka</value></data>
+  <data name="LoadingBarLabel" xml:space="preserve"><value>Načítanie stránky</value></data>
+  <data name="LoadingSweep" xml:space="preserve"><value>Prechádzajúci pruh</value></data>
+  <data name="LoadingFill" xml:space="preserve"><value>Plniaci pruh</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>Pruh je prichytený pod hlavičkou vyššie. Na konci dôjde až na koniec a potom zmizne.</value></data>
+  <data name="LoadingWaiting" xml:space="preserve"><value>Čakanie</value></data>
+  <data name="LoadingDeploying" xml:space="preserve"><value>Prebieha nasadenie</value></data>
+  <data name="LoadingChecking" xml:space="preserve"><value>Kontrola</value></data>
+  <data name="LoadingSaving" xml:space="preserve"><value>Prebieha ukladanie</value></data>
+  <data name="LoadingAnalysis" xml:space="preserve"><value>Prebieha analýza</value></data>
+  <data name="LoadingCoverage" xml:space="preserve"><value>Pokrytie</value></data>
+  <data name="LoadingContent" xml:space="preserve"><value>Načítanie obsahu</value></data>
+  <data name="NoticeDoneTitle" xml:space="preserve"><value>Nasadenie dokončené</value></data>
+  <data name="NoticeDoneMessage" xml:space="preserve"><value>orders-deploy-prod #2399 za 1 min 48 s.</value></data>
+  <data name="NoticeRefusedTitle" xml:space="preserve"><value>Uzamknuté obnovenie odmietnuté</value></data>
+  <data name="NoticeRefusedMessage" xml:space="preserve"><value>Graf NuGet sa odchýlil od súboru zámku.</value></data>
+  <data name="NoticeShowAgain" xml:space="preserve"><value>Znova zobraziť oznámenia</value></data>
+  <data name="NoticeUnlistOpen" xml:space="preserve"><value>Skryť verziu 1.0.0 zo zoznamu</value></data>
+  <data name="NoticeUnlistTitle" xml:space="preserve"><value>Skryť verziu 1.0.0 zo zoznamu</value></data>
+  <data name="NoticeUnlistBody" xml:space="preserve"><value>Verzia zmizne z vyhľadávania a z plávajúcich rozsahov. Stále ju bude možné stiahnuť podľa presného čísla.</value></data>
+  <data name="NoticeUnlistAlpha" xml:space="preserve"><value>Skryť zo zoznamu aj 0.1.0-alpha.1</value></data>
+  <data name="NoticeUnlist" xml:space="preserve"><value>Skryť zo zoznamu</value></data>
+  <data name="NoticeUnlistDone" xml:space="preserve"><value>Verzia skrytá zo zoznamu</value></data>
+  <data name="NoticeRerunOpen" xml:space="preserve"><value>Znova spustiť pipeline</value></data>
+  <data name="NoticeRerunTitle" xml:space="preserve"><value>Znova spustiť pipeline?</value></data>
+  <data name="NoticeRerunBody" xml:space="preserve"><value>orders-deploy-prod #2399 sa znova spustí na serveri srv-01 s rovnakými premennými.</value></data>
+  <data name="NoticeRerunNotify" xml:space="preserve"><value>Upozorniť ma po dokončení</value></data>
+  <data name="NoticeRerun" xml:space="preserve"><value>Spustiť znova</value></data>
+  <data name="NoticeRerunDone" xml:space="preserve"><value>Pipeline znova spustená</value></data>
+  <data name="NoticeCancel" xml:space="preserve"><value>Zrušiť</value></data>
+  <data name="NoticeClose" xml:space="preserve"><value>Zavrieť</value></data>
+  <data name="NoticeLast" xml:space="preserve"><value>Posledná akcia: {0}</value></data>
+  <data name="RunsSortedCaption" xml:space="preserve"><value>Spustenia zoradené podľa pipeline</value></data>
+  <data name="RunsStripedCaption" xml:space="preserve"><value>História spustení</value></data>
+  <data name="RunsRun" xml:space="preserve"><value>Spustenie</value></data>
+  <data name="RunsPipeline" xml:space="preserve"><value>Pipeline</value></data>
+  <data name="RunsTrigger" xml:space="preserve"><value>Spúšťač</value></data>
+  <data name="RunsSeconds" xml:space="preserve"><value>Trvanie (s)</value></data>
+  <data name="RunsStatus" xml:space="preserve"><value>Stav</value></data>
+  <data name="RunsTriggerPush" xml:space="preserve"><value>Push</value></data>
+  <data name="RunsTriggerManual" xml:space="preserve"><value>Ručný</value></data>
+  <data name="RunsTriggerScheduled" xml:space="preserve"><value>Plánovaný</value></data>
+  <data name="RunsStatusSuccess" xml:space="preserve"><value>Úspech</value></data>
+  <data name="RunsStatusInfo" xml:space="preserve"><value>Prebieha</value></data>
+  <data name="RunsStatusWarning" xml:space="preserve"><value>Zrušené</value></data>
+  <data name="RunsStatusDanger" xml:space="preserve"><value>Zlyhanie</value></data>
+  <data name="SettingsTabsLabel" xml:space="preserve"><value>Nastavenia</value></data>
+  <data name="SettingsGeneral" xml:space="preserve"><value>Všeobecné</value></data>
+  <data name="SettingsGeneralLead" xml:space="preserve"><value>Pracovné umiestnenia a správanie pri spustení.</value></data>
+  <data name="SettingsFolder" xml:space="preserve"><value>Priečinok artefaktov</value></data>
+  <data name="SettingsFolderHint" xml:space="preserve"><value>Kam zostavenia ukladajú svoje balíky.</value></data>
+  <data name="SettingsBrowse" xml:space="preserve"><value>Prehľadávať</value></data>
+  <data name="SettingsStartup" xml:space="preserve"><value>Spúšťať so systémom Windows</value></data>
+  <data name="SettingsStartupHint" xml:space="preserve"><value>Spustí agenta po prihlásení.</value></data>
+  <data name="SettingsLanguage" xml:space="preserve"><value>Jazyk</value></data>
+  <data name="SettingsLanguageHint" xml:space="preserve"><value>Jazyk rozhrania a oznámení.</value></data>
+  <data name="SettingsLanguageFrench" xml:space="preserve"><value>Français</value></data>
+  <data name="SettingsLanguageEnglish" xml:space="preserve"><value>English</value></data>
+  <data name="SettingsDisplay" xml:space="preserve"><value>Zobrazenie</value></data>
+  <data name="SettingsDisplayLead" xml:space="preserve"><value>Vzhľad a hustota rozhrania.</value></data>
+  <data name="SettingsDarkMode" xml:space="preserve"><value>Tmavý režim</value></data>
+  <data name="SettingsDarkModeHint" xml:space="preserve"><value>Riadiť sa systémom alebo vynútiť režim.</value></data>
+  <data name="SettingsModeSystem" xml:space="preserve"><value>Podľa systému</value></data>
+  <data name="SettingsModeLight" xml:space="preserve"><value>Svetlý</value></data>
+  <data name="SettingsModeDark" xml:space="preserve"><value>Tmavý</value></data>
+  <data name="SettingsCompact" xml:space="preserve"><value>Kompaktné rozhranie</value></data>
+  <data name="SettingsCompactHint" xml:space="preserve"><value>Zmenší okraje mriežok a formulárov.</value></data>
+  <data name="SettingsNotifications" xml:space="preserve"><value>Oznámenia</value></data>
+  <data name="SettingsNotificationsLead" xml:space="preserve"><value>Na čo ste upozorňovaní a akým kanálom.</value></data>
+  <data name="SettingsFailures" xml:space="preserve"><value>Zlyhania pipeline</value></data>
+  <data name="SettingsFailuresHint" xml:space="preserve"><value>Oznámenie pri každom neúspešnom spustení.</value></data>
+  <data name="SettingsDigest" xml:space="preserve"><value>Denný súhrn</value></data>
+  <data name="SettingsDigestHint" xml:space="preserve"><value>Odosiela sa každé ráno o 8:00.</value></data>
+  <data name="SettingsDigestAddress" xml:space="preserve"><value>Adresa súhrnu</value></data>
+  <data name="DemoShellDashboard" xml:space="preserve"><value>Nástenka</value></data>
+  <data name="DemoShellInProgress" xml:space="preserve"><value>Prebiehajúce</value></data>
+  <data name="DemoShellArchived" xml:space="preserve"><value>Archivované</value></data>
+  <data name="DemoShellSettings" xml:space="preserve"><value>Nastavenia</value></data>
+  <data name="DemoShellOneOffAction" xml:space="preserve"><value>Jednorazová akcia</value></data>
+  <data name="DemoShellToggleMenu" xml:space="preserve"><value>Zobraziť alebo skryť ponuku</value></data>
+  <data name="DemoShellAppName" xml:space="preserve"><value>Moja aplikácia</value></data>
+  <data name="DemoShellChangeAppearance" xml:space="preserve"><value>Zmeniť vzhľad</value></data>
+  <data name="DemoShellMenu" xml:space="preserve"><value>Ponuka ukážky</value></data>
+  <data name="DemoShellSections" xml:space="preserve"><value>Sekcie</value></data>
+  <data name="DemoShellFolders" xml:space="preserve"><value>Priečinky</value></data>
+  <data name="DemoShellMainContent" xml:space="preserve"><value>Hlavný obsah</value></data>
+  <data name="DemoShellAppearanceDark" xml:space="preserve"><value>Tu zvolený vzhľad je tmavý.</value></data>
+  <data name="DemoShellAppearanceLight" xml:space="preserve"><value>Tu zvolený vzhľad je svetlý.</value></data>
+  <data name="DemoShellConsole" xml:space="preserve"><value>Prevádzková konzola</value></data>
+  <data name="DemoShellSecondaryMenu" xml:space="preserve"><value>Vedľajšia ponuka</value></data>
+  <data name="DemoShellTools" xml:space="preserve"><value>Nástroje</value></data>
+  <data name="DemoShellLogs" xml:space="preserve"><value>Protokoly</value></data>
+  <data name="DemoShellWideView" xml:space="preserve"><value>Široké zobrazenie</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>Obsahová oblasť vedie od okraja k okraju, obmedzená širokou šírkou (90 rem), bez úzkeho stĺpca na čítanie.</value></data>
+  <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Zobraziť alebo skryť plávajúcu ponuku</value></data>
+  <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Plávajúca ponuka</value></data>
+  <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Plávajúca ponuka ukážky</value></data>
+  <data name="DemoShellFilters" xml:space="preserve"><value>Filtre</value></data>
+  <data name="DemoShellContent" xml:space="preserve"><value>Obsah</value></data>
+  <data name="DemoShellFloatingText" xml:space="preserve"><value>Otvorenie ponuky tento text neposunie: panel sa cez neho presunie.</value></data>
+  <data name="DemoShellScrollTitle" xml:space="preserve"><value>Vycentrovaný obsah, posúvanie pri okraji</value></data>
+  <data name="DemoShellScrollMenu" xml:space="preserve"><value>Ponuka posúvacej ukážky</value></data>
+  <data name="DemoShellReadingColumn" xml:space="preserve"><value>Stĺpec na čítanie</value></data>
+  <data name="DemoShellScroll1" xml:space="preserve"><value>Stĺpec je obmedzený na 72rem a vycentrovaný; zvyšok šírky stále patrí hlavnému prvku.</value></data>
+  <data name="DemoShellScroll2" xml:space="preserve"><value>Posúva sa teda práve on, cez celú šírku oblasti: jeho posúvač zostáva pri pravom okraji rámu.</value></data>
+  <data name="DemoShellScroll3" xml:space="preserve"><value>Potomok s výškou 100 % by oblasť presne vyplnil; vyšší obsah spôsobí posúvanie.</value></data>
+  <data name="DemoShellScroll4" xml:space="preserve"><value>Spodný okraj zostane zachovaný na konci posúvania.</value></data>
+  <data name="DemoShellScroll5" xml:space="preserve"><value>Zúženie okna zmenší stĺpec na dostupnú šírku vrátane medzery.</value></data>
+  <data name="DemoShellSplashChecking" xml:space="preserve"><value>Kontrola úvodnej obrazovky</value></data>
+  <data name="DemoShellSplashRemoved" xml:space="preserve"><value>Úvodná obrazovka odstránená</value></data>
+  <data name="DemoShellSplashAbsent" xml:space="preserve"><value>V tejto ukážke nie je žiadna úvodná obrazovka</value></data>
+  <data name="ShellToggle" xml:space="preserve"><value>Zbaliť alebo rozbaliť ponuku</value></data>
+  <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
+  <data name="ShellBrand" xml:space="preserve"><value>Boutique</value></data>
+  <data name="ShellSearch" xml:space="preserve"><value>Hľadať</value></data>
+  <data name="ShellSearchPlaceholder" xml:space="preserve"><value>Hľadať pipeline</value></data>
+  <data name="ShellHelp" xml:space="preserve"><value>Pomocník</value></data>
+  <data name="ShellNotifications" xml:space="preserve"><value>Oznámenia, neprečítané: {0}</value></data>
+  <data name="ShellAccount" xml:space="preserve"><value>Účet</value></data>
+  <data name="ShellSettings" xml:space="preserve"><value>Nastavenia</value></data>
+  <data name="ShellSettingsHint" xml:space="preserve"><value>Motív, jazyk, oznámenia</value></data>
+  <data name="ShellAppearance" xml:space="preserve"><value>Vzhľad</value></data>
+  <data name="ShellAppearanceHint" xml:space="preserve"><value>Svetlý, tmavý alebo systémový</value></data>
+  <data name="ShellSignOut" xml:space="preserve"><value>Odhlásiť sa</value></data>
+  <data name="ShellMenu" xml:space="preserve"><value>Hlavná ponuka</value></data>
+  <data name="ShellDashboard" xml:space="preserve"><value>Nástenka</value></data>
+  <data name="ShellPipelines" xml:space="preserve"><value>Pipeline</value></data>
+  <data name="ShellServers" xml:space="preserve"><value>Servery</value></data>
+  <data name="ShellProjects" xml:space="preserve"><value>Projekty</value></data>
+  <data name="ShellHelpCenter" xml:space="preserve"><value>Centrum pomoci</value></data>
+  <data name="ShellAdministration" xml:space="preserve"><value>Správa</value></data>
+  <data name="ShellServersOnline" xml:space="preserve"><value>Server online</value></data>
+  <data name="ShellAppsTracked" xml:space="preserve"><value>Sledované aplikácie</value></data>
+  <data name="ShellPipelinesRunning" xml:space="preserve"><value>Prebiehajúce pipeline</value></data>
+  <data name="ShellLoading" xml:space="preserve"><value>Načítanie nástenky</value></data>
+  <data name="ShellLastAction" xml:space="preserve"><value>Posledná akcia: {0}</value></data>
+  <data name="StatesRest" xml:space="preserve"><value>Pokoj</value></data>
+  <data name="StatesHover" xml:space="preserve"><value>Prejdenie</value></data>
+  <data name="StatesPress" xml:space="preserve"><value>Stlačenie</value></data>
+  <data name="StatesPrimary" xml:space="preserve"><value>Primárny</value></data>
+  <data name="StatesSuccess" xml:space="preserve"><value>Úspech</value></data>
+  <data name="StatesSecondary" xml:space="preserve"><value>Sekundárny</value></data>
+  <data name="StatesGhost" xml:space="preserve"><value>Priehľadný</value></data>
+  <data name="SurfServers" xml:space="preserve"><value>Servery</value></data>
+  <data name="SurfServersText" xml:space="preserve"><value>Posledný signál aktivity pred 4 minútami.</value></data>
+  <data name="SurfPipelines" xml:space="preserve"><value>Pipeline</value></data>
+  <data name="SurfPipelinesFigure" xml:space="preserve"><value>2 400</value></data>
+  <data name="SurfPipelinesText" xml:space="preserve"><value>Tri neúspešné spustenia z posledných desiatich.</value></data>
+  <data name="SurfCoverage" xml:space="preserve"><value>Pokrytie</value></data>
+  <data name="SurfCoverageFigure" xml:space="preserve"><value>87 %</value></data>
+  <data name="SurfAccount" xml:space="preserve"><value>Účet</value></data>
+  <data name="SurfPerson" xml:space="preserve"><value>Camille Durand</value></data>
+  <data name="SurfPersonRole" xml:space="preserve"><value>Administrátorka, OmniEurope</value></data>
+  <data name="SurfSettings" xml:space="preserve"><value>Nastavenia</value></data>
+  <data name="SurfSettingsHint" xml:space="preserve"><value>Motív, jazyk, oznámenia</value></data>
+  <data name="SurfSwitch" xml:space="preserve"><value>Prepnúť pracovný priestor</value></data>
+  <data name="SurfSwitchHint" xml:space="preserve"><value>Boutique, Agenda, Atelier</value></data>
+  <data name="SurfSignOut" xml:space="preserve"><value>Odhlásiť sa</value></data>
+  <data name="SurfTabsLabel" xml:space="preserve"><value>Sekcie spustenia</value></data>
+  <data name="SurfTabOverview" xml:space="preserve"><value>Prehľad</value></data>
+  <data name="SurfTabOverviewText" xml:space="preserve"><value>Spustenie #2399, dokončené za 1 min 48 s.</value></data>
+  <data name="SurfTabLogs" xml:space="preserve"><value>Protokoly</value></data>
+  <data name="SurfTabLogsText" xml:space="preserve"><value>412 riadkov, žiadna chyba.</value></data>
+  <data name="SurfTabArtifacts" xml:space="preserve"><value>Artefakty</value></data>
+  <data name="SurfTabArtifactsText" xml:space="preserve"><value>Dva balíky a ich symboly.</value></data>
+  <data name="SurfTabSettings" xml:space="preserve"><value>Nastavenia</value></data>
+  <data name="SurfTabSettingsText" xml:space="preserve"><value>Uzamknuté obnovenie, vynútené podpisovanie.</value></data>
+  <data name="SurfMenuLabel" xml:space="preserve"><value>Sekcie</value></data>
+  <data name="SurfMenuDashboard" xml:space="preserve"><value>Nástenka</value></data>
+  <data name="SurfMenuServers" xml:space="preserve"><value>Servery</value></data>
+  <data name="SurfMenuProjects" xml:space="preserve"><value>Projekty</value></data>
+  <data name="SurfMenuAdministration" xml:space="preserve"><value>Správa</value></data>
+  <data name="SurfLinkBefore" xml:space="preserve"><value>Prečítajte si</value></data>
+  <data name="SurfLink" xml:space="preserve"><value>postup publikovania</value></data>
+  <data name="SurfLinkAfter" xml:space="preserve"><value>pred skrytím verzie zo zoznamu.</value></data>
+  <data name="SurfTooltip" xml:space="preserve"><value>Inverzná plocha, inverzný text</value></data>
+  <data name="SurfTooltipTrigger" xml:space="preserve"><value>Tip</value></data>
+  <data name="SurfLast" xml:space="preserve"><value>Posledná akcia: {0}</value></data>
+  <data name="ThemesThemeWithPalette" xml:space="preserve"><value>Motív {0}, paleta {1}</value></data>
+  <data name="ThemesThemeAlone" xml:space="preserve"><value>Motív {0}, vlastná paleta</value></data>
+  <data name="ThemesPaletteAlone" xml:space="preserve"><value>Paleta {0}, dodaný tvar</value></data>
+  <data name="ThemesShipped" xml:space="preserve"><value>Dodaný vzhľad</value></data>
+  <data name="ThemesLivePreview" xml:space="preserve"><value>Náhľad: {0}</value></data>
+  <data name="ThemesSave" xml:space="preserve"><value>Uložiť</value></data>
+  <data name="ThemesCancel" xml:space="preserve"><value>Zrušiť</value></data>
+  <data name="ThemesBadge" xml:space="preserve"><value>Publikované</value></data>
+  <data name="ThemesAlert" xml:space="preserve"><value>Každá paleta zafarbí každý motív.</value></data>
+  <data name="VFormSummaryTitle" xml:space="preserve"><value>Polia na opravu: {0}.</value></data>
+  <data name="VFormName" xml:space="preserve"><value>Názov pipeline</value></data>
+  <data name="VFormNameHelp" xml:space="preserve"><value>Malé písmená, číslice a spojovníky.</value></data>
+  <data name="VFormNameError" xml:space="preserve"><value>Názov pipeline je povinný.</value></data>
+  <data name="VFormMail" xml:space="preserve"><value>Adresa na oznámenia</value></data>
+  <data name="VFormMailError" xml:space="preserve"><value>Doplňte úplnú doménu, napríklad tim@priklad.sk.</value></data>
+  <data name="VFormToken" xml:space="preserve"><value>Prístupový token</value></data>
+  <data name="VFormReplicas" xml:space="preserve"><value>Repliky</value></data>
+  <data name="VFormEnvironment" xml:space="preserve"><value>Prostredie</value></data>
+  <data name="VFormEnvironmentProduction" xml:space="preserve"><value>Produkcia</value></data>
+  <data name="VFormEnvironmentAcceptance" xml:space="preserve"><value>Akceptačné testy</value></data>
+  <data name="VFormEnvironmentDevelopment" xml:space="preserve"><value>Vývoj</value></data>
+  <data name="VFormDate" xml:space="preserve"><value>Dátum nasadenia</value></data>
+  <data name="VFormTime" xml:space="preserve"><value>Čas nasadenia</value></data>
+  <data name="VFormMoment" xml:space="preserve"><value>Okno údržby</value></data>
+  <data name="VFormDescription" xml:space="preserve"><value>Popis</value></data>
+  <data name="VFormStrategy" xml:space="preserve"><value>Stratégia nasadenia</value></data>
+  <data name="VFormStrategyRolling" xml:space="preserve"><value>Postupná výmena</value></data>
+  <data name="VFormStrategyBlueGreen" xml:space="preserve"><value>Modrozelené</value></data>
+  <data name="VFormStrategyCanary" xml:space="preserve"><value>Kanárikové (čoskoro k dispozícii)</value></data>
+  <data name="VFormStrategyError" xml:space="preserve"><value>Vyberte stratégiu nasadenia.</value></data>
+  <data name="VFormOptions" xml:space="preserve"><value>Možnosti</value></data>
+  <data name="VFormLocked" xml:space="preserve"><value>Uzamknuté obnovenie</value></data>
+  <data name="VFormSymbols" xml:space="preserve"><value>Publikovať symboly</value></data>
+  <data name="VFormSigning" xml:space="preserve"><value>Podpísanie balíka (vynútené)</value></data>
+  <data name="VFormNotify" xml:space="preserve"><value>Upozorniť po dokončení</value></data>
+  <data name="VFormAutoDeploy" xml:space="preserve"><value>Automatické nasadenie (zakázané)</value></data>
+  <data name="VFormFiles" xml:space="preserve"><value>Súbory</value></data>
+  <data name="VFormManifest" xml:space="preserve"><value>Manifest nasadenia</value></data>
+  <data name="VFormManifestHelp" xml:space="preserve"><value>Jeden súbor, otvorí systémové okno výberu.</value></data>
+  <data name="VFormArchive" xml:space="preserve"><value>Archív aplikácie</value></data>
+  <data name="VFormArchiveHelp" xml:space="preserve"><value>ZIP alebo TAR, najviac 50 MB.</value></data>
+  <data name="VFormAttachments" xml:space="preserve"><value>Prílohy</value></data>
+  <data name="VFormAttachmentsHelp" xml:space="preserve"><value>Až 10 súborov, každý do 20 MB. Nič sa neodosiela: ukážka ponecháva súbory v zozname.</value></data>
+  <data name="VFormServer" xml:space="preserve"><value>Cieľový server</value></data>
+  <data name="VFormServerHelp" xml:space="preserve"><value>Zakázané: určuje prostredie.</value></data>
+  <data name="VFormIdentifier" xml:space="preserve"><value>Identifikátor</value></data>
+  <data name="VFormIdentifierHelp" xml:space="preserve"><value>Len na čítanie: dá sa kopírovať, nedá sa upraviť.</value></data>
+  <data name="VFormAgent" xml:space="preserve"><value>Agent</value></data>
+  <data name="VFormAgentShared" xml:space="preserve"><value>Zdieľaný agent</value></data>
+  <data name="VFormCancel" xml:space="preserve"><value>Zrušiť</value></data>
+  <data name="VFormSave" xml:space="preserve"><value>Uložiť</value></data>
+  <data name="VFormSaved" xml:space="preserve"><value>Pipeline uložená.</value></data>
+  <data name="VFormNotSaved" xml:space="preserve"><value>Pred uložením opravte označené polia.</value></data>
+  <data name="VFormDescriptionValue" xml:space="preserve"><value>Nasadí hlavnú vetvu po úspešnom absolvovaní akceptačných testov.</value></data>
+  <data name="GridFiledColumn" xml:space="preserve"><value>Dátum podania</value></data>
+</root>

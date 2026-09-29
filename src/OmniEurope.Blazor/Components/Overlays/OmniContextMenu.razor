@@ -1,8 +1,11 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
+@implements IOmniMenu
 @implements IAsyncDisposable
 @inject IJSRuntime JavaScript
 
+@* The wrapped content is the trigger: a right-click opens the menu at the pointer, the ContextMenu key
+   or Shift+F10 under the trigger. The menu is drawn in the overlay portal, or here without a host. *@
 <div @attributes="AdditionalAttributes"
      @ref="_trigger"
      id="@Id"
@@ -10,10 +13,10 @@
      data-omni-density="@OmniDensityAttribute.Of(Density)"
      tabindex="0"
      @oncontextmenu="OpenAtPointerAsync"
-     @oncontextmenu:preventDefault="true"
-     @onkeydown="HandleKeyDownAsync">
+     @oncontextmenu:preventDefault="!Disabled"
+     @onkeydown="HandleTriggerKeyDownAsync">
     <div class="omni-context-menu__trigger">@TriggerContent</div>
-    @if (Open && Coordinator is null)
+    @if (IsOpen && Coordinator is null)
     {
         @Popup
     }

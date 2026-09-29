@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="UploadFailed" xml:space="preserve"><value>A feltöltés nem sikerült.</value></data>
+  <data name="Today" xml:space="preserve"><value>Ma</value></data>
+  <data name="Retry" xml:space="preserve"><value>Újra</value></data>
+  <data name="Loading" xml:space="preserve"><value>Betöltés…</value></data>
+  <data name="AppearanceLight" xml:space="preserve"><value>Világos</value></data>
+  <data name="AppearanceDark" xml:space="preserve"><value>Sötét</value></data>
+  <data name="AppearanceSystem" xml:space="preserve"><value>Rendszer</value></data>
+  <data name="SettingsMode" xml:space="preserve"><value>Mód</value></data>
+  <data name="SettingsTheme" xml:space="preserve"><value>Téma</value></data>
+  <data name="SettingsPalette" xml:space="preserve"><value>Paletta</value></data>
+  <data name="SettingsFont" xml:space="preserve"><value>Betűtípus</value></data>
+  <data name="SettingsTextSize" xml:space="preserve"><value>Szövegméret</value></data>
+  <data name="SettingsDensity" xml:space="preserve"><value>Sűrűség</value></data>
+  <data name="SettingsControlSize" xml:space="preserve"><value>Vezérlők mérete</value></data>
+  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Vezérlők</value></data>
+  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Szöveg</value></data>
+  <data name="SettingsDensityShort" xml:space="preserve"><value>Sűrűség</value></data>
+  <data name="SettingsScale" xml:space="preserve"><value>Méretek</value></data>
+  <data name="SettingsDefault" xml:space="preserve"><value>Alapértelmezett</value></data>
+  <data name="SettingsDefaultSuffix" xml:space="preserve"><value>alapértelmezett</value></data>
+  <data name="SettingsDecrease" xml:space="preserve"><value>Csökkentés</value></data>
+  <data name="SettingsIncrease" xml:space="preserve"><value>Növelés</value></data>
+  <data name="ArcGaugeLabel" xml:space="preserve"><value>Mérőműszer</value></data>
+  <data name="AutocompleteSearchFailed" xml:space="preserve"><value>A keresés nem sikerült. Módosítsa a bevitelt az újrapróbáláshoz.</value></data>
+  <data name="AutocompleteOneResult" xml:space="preserve"><value>1 találat érhető el.</value></data>
+  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} találat érhető el.</value></data>
+  <data name="AutocompleteSelected" xml:space="preserve"><value>Kijelölve: {0}.</value></data>
+  <data name="AutocompleteInvalid" xml:space="preserve"><value>Az automatikus kiegészítés értéke érvénytelen.</value></data>
+  <data name="BreadcrumbLabel" xml:space="preserve"><value>Navigációs útvonal</value></data>
+  <data name="CheckBoxInvalid" xml:space="preserve"><value>A jelölőnégyzet értéke érvénytelen.</value></data>
+  <data name="CheckBoxListInvalid" xml:space="preserve"><value>A jelölőnégyzet-lista érvénytelen.</value></data>
+  <data name="ColorPickerInvalid" xml:space="preserve"><value>A színt #RRGGBB formátumban kell megadni.</value></data>
+  <data name="NotificationsRegionLabel" xml:space="preserve"><value>Értesítések</value></data>
+  <data name="ContextMenuLabel" xml:space="preserve"><value>Helyi menü</value></data>
+  <data name="GridLoadFailed" xml:space="preserve"><value>A táblázat betöltése nem sikerült.</value></data>
+  <data name="GridDetailColumn" xml:space="preserve"><value>Részletek</value></data>
+  <data name="GridSelectionColumn" xml:space="preserve"><value>Kijelölés</value></data>
+  <data name="GridResizeColumn" xml:space="preserve"><value>{0} átméretezése</value></data>
+  <data name="GridEditColumn" xml:space="preserve"><value>Szerkesztés</value></data>
+  <data name="GridFilterColumn" xml:space="preserve"><value>{0} szűrése</value></data>
+  <data name="GridEmpty" xml:space="preserve"><value>Nincs adat.</value></data>
+  <data name="GridEmptyFiltered" xml:space="preserve"><value>Nincs a szűrőknek megfelelő találat.</value></data>
+  <data name="GridValueColumn" xml:space="preserve"><value>Érték</value></data>
+  <data name="GridFilterPlaceholder" xml:space="preserve"><value>Szűrés</value></data>
+  <data name="GridFilterOperator" xml:space="preserve"><value>Szűrési operátor: {0}</value></data>
+  <data name="GridFilterSecondOperator" xml:space="preserve"><value>Második szűrési operátor: {0}</value></data>
+  <data name="GridFilterSecondValue" xml:space="preserve"><value>Második szűrési érték: {0}</value></data>
+  <data name="GridFilterLogical" xml:space="preserve"><value>Logikai operátor: {0}</value></data>
+  <data name="GridFilterApply" xml:space="preserve"><value>Alkalmaz</value></data>
+  <data name="GridFilterClear" xml:space="preserve"><value>Törlés</value></data>
+  <data name="TooltipShowMore" xml:space="preserve"><value>Több megjelenítése</value></data>
+  <data name="TooltipShowLess" xml:space="preserve"><value>Kevesebb megjelenítése</value></data>
+  <data name="GridFilterDateFrom" xml:space="preserve"><value>Ettől</value></data>
+  <data name="GridFilterDateTo" xml:space="preserve"><value>Eddig</value></data>
+  <data name="GridFilterContains" xml:space="preserve"><value>Tartalmazza</value></data>
+  <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Nem tartalmazza</value></data>
+  <data name="GridFilterEquals" xml:space="preserve"><value>Egyenlő</value></data>
+  <data name="GridFilterNotEquals" xml:space="preserve"><value>Nem egyenlő</value></data>
+  <data name="GridFilterStartsWith" xml:space="preserve"><value>Ezzel kezdődik</value></data>
+  <data name="GridFilterEndsWith" xml:space="preserve"><value>Ezzel végződik</value></data>
+  <data name="GridFilterGreaterThan" xml:space="preserve"><value>Nagyobb, mint</value></data>
+  <data name="GridFilterGreaterThanOrEquals" xml:space="preserve"><value>Nagyobb vagy egyenlő</value></data>
+  <data name="GridFilterLessThan" xml:space="preserve"><value>Kisebb, mint</value></data>
+  <data name="GridFilterLessThanOrEquals" xml:space="preserve"><value>Kisebb vagy egyenlő</value></data>
+  <data name="GridFilterIsNull" xml:space="preserve"><value>Null</value></data>
+  <data name="GridFilterIsNotNull" xml:space="preserve"><value>Nem null</value></data>
+  <data name="GridFilterIsEmpty" xml:space="preserve"><value>Üres</value></data>
+  <data name="GridFilterIsNotEmpty" xml:space="preserve"><value>Nem üres</value></data>
+  <data name="GridFilterAnd" xml:space="preserve"><value>És</value></data>
+  <data name="GridFilterOr" xml:space="preserve"><value>Vagy</value></data>
+  <data name="GridGroupPanel" xml:space="preserve"><value>Aktív csoportosítások</value></data>
+  <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Nincs csoportosítás.</value></data>
+  <data name="GridGroupColumn" xml:space="preserve"><value>Csoportosítás: {0}</value></data>
+  <data name="GridUngroupColumn" xml:space="preserve"><value>Csoportosítás megszüntetése: {0}</value></data>
+  <data name="GridExpandAll" xml:space="preserve"><value>Összes sor kibontása vagy összecsukása</value></data>
+  <data name="GridDetachFrozen" xml:space="preserve"><value>Rögzített oszlopok feloldása</value></data>
+  <data name="GridRefreezeFrozen" xml:space="preserve"><value>Oszlopok újbóli rögzítése</value></data>
+  <data name="GridShrinkColumn" xml:space="preserve"><value>{0} oszlop keskenyítése</value></data>
+  <data name="GridGrowColumn" xml:space="preserve"><value>{0} oszlop szélesítése</value></data>
+  <data name="PagerFirst" xml:space="preserve"><value>Első oldal</value></data>
+  <data name="PagerLast" xml:space="preserve"><value>Utolsó oldal</value></data>
+  <data name="PagerPageSize" xml:space="preserve"><value>Sorok oldalanként</value></data>
+  <data name="GridPagingSummary" xml:space="preserve"><value>{0}–{1} / {2}</value></data>
+  <data name="GridRowsLoading" xml:space="preserve"><value>Sorok betöltése…</value></data>
+  <data name="GridCollapseRow" xml:space="preserve"><value>Sor összecsukása</value></data>
+  <data name="GridExpandRow" xml:space="preserve"><value>Sor kibontása</value></data>
+  <data name="GridSelectRow" xml:space="preserve"><value>Sor kijelölése</value></data>
+  <data name="GridSelectAll" xml:space="preserve"><value>Összes megjelenített sor kijelölése</value></data>
+  <data name="SpreadsheetLabel" xml:space="preserve"><value>Munkalap</value></data>
+  <data name="SpreadsheetAddRow" xml:space="preserve"><value>Sor</value></data>
+  <data name="SpreadsheetAddRowLabel" xml:space="preserve"><value>Sor hozzáadása</value></data>
+  <data name="SpreadsheetAddColumn" xml:space="preserve"><value>Oszlop</value></data>
+  <data name="SpreadsheetAddColumnLabel" xml:space="preserve"><value>Oszlop hozzáadása</value></data>
+  <data name="SpreadsheetActiveCell" xml:space="preserve"><value>Aktív cella</value></data>
+  <data name="SpreadsheetFormulaBar" xml:space="preserve"><value>{0} cella tartalma</value></data>
+  <data name="SpreadsheetCell" xml:space="preserve"><value>{0} cella</value></data>
+  <data name="Save" xml:space="preserve"><value>Mentés</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Mégse</value></data>
+  <data name="Edit" xml:space="preserve"><value>Szerkesztés</value></data>
+  <data name="DataListLoadFailed" xml:space="preserve"><value>A betöltés nem sikerült.</value></data>
+  <data name="DataListEmpty" xml:space="preserve"><value>Nincsenek elemek.</value></data>
+  <data name="DatePickerInvalid" xml:space="preserve"><value>A megadott dátum érvénytelen.</value></data>
+  <data name="DateTimePickerInvalid" xml:space="preserve"><value>A megadott dátum és idő érvénytelen.</value></data>
+  <data name="DatePickerToggle" xml:space="preserve"><value>Dátum kiválasztása</value></data>
+  <data name="DatePickerToday" xml:space="preserve"><value>Ma</value></data>
+  <data name="DatePickerClear" xml:space="preserve"><value>Törlés</value></data>
+  <data name="CalendarPreviousMonth" xml:space="preserve"><value>Előző hónap</value></data>
+  <data name="CalendarNextMonth" xml:space="preserve"><value>Következő hónap</value></data>
+  <data name="TimePickerToggle" xml:space="preserve"><value>Időpont kiválasztása</value></data>
+  <data name="DateTimePickerToggle" xml:space="preserve"><value>Dátum és idő kiválasztása</value></data>
+  <data name="TimePickerNow" xml:space="preserve"><value>Most</value></data>
+  <data name="TimePickerConfirm" xml:space="preserve"><value>Jóváhagyás</value></data>
+  <data name="TimePickerHours" xml:space="preserve"><value>Óra</value></data>
+  <data name="TimePickerMinutes" xml:space="preserve"><value>Perc</value></data>
+  <data name="TimePickerSeconds" xml:space="preserve"><value>Másodperc</value></data>
+  <data name="TimePickerHourCaption" xml:space="preserve"><value>ó</value></data>
+  <data name="TimePickerMinuteCaption" xml:space="preserve"><value>p</value></data>
+  <data name="TimePickerSecondCaption" xml:space="preserve"><value>mp</value></data>
+  <data name="TimePickerInvalid" xml:space="preserve"><value>A megadott időpont érvénytelen.</value></data>
+  <data name="PickerLetterDay" xml:space="preserve"><value>n</value></data>
+  <data name="PickerLetterMonth" xml:space="preserve"><value>h</value></data>
+  <data name="PickerLetterYear" xml:space="preserve"><value>é</value></data>
+  <data name="PickerLetterHour" xml:space="preserve"><value>ó</value></data>
+  <data name="PickerLetterMinute" xml:space="preserve"><value>p</value></data>
+  <data name="PickerLetterSecond" xml:space="preserve"><value>m</value></data>
+  <data name="DayViewLabel" xml:space="preserve"><value>Napi nézet</value></data>
+  <data name="DialogEnd" xml:space="preserve"><value>Párbeszédpanel vége</value></data>
+  <data name="Close" xml:space="preserve"><value>Bezárás</value></data>
+  <data name="DialogStart" xml:space="preserve"><value>Párbeszédpanel eleje</value></data>
+  <data name="DropDownPlaceholder" xml:space="preserve"><value>Válasszon</value></data>
+  <data name="DropDownInvalid" xml:space="preserve"><value>Érvénytelen kijelölés: {0}.</value></data>
+  <data name="HtmlEditorLabel" xml:space="preserve"><value>HTML-szerkesztő</value></data>
+  <data name="HtmlEditorToolbar" xml:space="preserve"><value>Formázóeszközök</value></data>
+  <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Szerkesztő műveletei</value></data>
+  <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Kis- és nagybetűk</value></data>
+  <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>NAGYBETŰK</value></data>
+  <data name="HtmlEditorCaseLower" xml:space="preserve"><value>kisbetűk</value></data>
+  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Szavak Nagy Kezdőbetűvel</value></data>
+  <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Különleges karakter</value></data>
+  <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Karakter keresése</value></data>
+  <data name="HtmlEditorCharNone" xml:space="preserve"><value>Nincs egyező karakter.</value></data>
+  <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Gyakori</value></data>
+  <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Pénznemek</value></data>
+  <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Nyilak</value></data>
+  <data name="HtmlEditorCharCategoryMath" xml:space="preserve"><value>Matematika</value></data>
+  <data name="HtmlEditorCharCategoryGreek" xml:space="preserve"><value>Görög</value></data>
+  <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Jogi</value></data>
+  <data name="HtmlEditorImportTable" xml:space="preserve"><value>Táblázat importálása</value></data>
+  <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>{0} fájl, legfeljebb 100 sor és 50 oszlop.</value></data>
+  <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Első sor fejlécként</value></data>
+  <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Beszúrás</value></data>
+  <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Táblázat előnézete</value></data>
+  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0} sor, {1} oszlop</value></data>
+  <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>A fájlt nem sikerült beolvasni.</value></data>
+  <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>A fájl egyetlen sort sem tartalmaz.</value></data>
+  <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Ez a fájltípus nem támogatott.</value></data>
+  <data name="HtmlEditorClosePanel" xml:space="preserve"><value>Bezárás</value></data>
+  <data name="HtmlEditorShowBlocks" xml:space="preserve"><value>Blokkok megjelenítése</value></data>
+  <data name="HtmlEditorHighlight" xml:space="preserve"><value>Kiemelés</value></data>
+  <data name="HtmlEditorChar00A9" xml:space="preserve"><value>Szerzői jog</value></data>
+  <data name="HtmlEditorChar00AE" xml:space="preserve"><value>Bejegyzett védjegy</value></data>
+  <data name="HtmlEditorChar2122" xml:space="preserve"><value>Védjegy</value></data>
+  <data name="HtmlEditorChar00A7" xml:space="preserve"><value>Paragrafusjel</value></data>
+  <data name="HtmlEditorChar00B6" xml:space="preserve"><value>Bekezdésjel</value></data>
+  <data name="HtmlEditorChar2020" xml:space="preserve"><value>Kereszt</value></data>
+  <data name="HtmlEditorChar2021" xml:space="preserve"><value>Kettős kereszt</value></data>
+  <data name="HtmlEditorChar2022" xml:space="preserve"><value>Felsorolásjel</value></data>
+  <data name="HtmlEditorChar2026" xml:space="preserve"><value>Három pont</value></data>
+  <data name="HtmlEditorChar2013" xml:space="preserve"><value>Nagykötőjel</value></data>
+  <data name="HtmlEditorChar2014" xml:space="preserve"><value>Hosszú gondolatjel</value></data>
+  <data name="HtmlEditorChar00AB" xml:space="preserve"><value>Nyitó francia idézőjel</value></data>
+  <data name="HtmlEditorChar00BB" xml:space="preserve"><value>Záró francia idézőjel</value></data>
+  <data name="HtmlEditorChar2039" xml:space="preserve"><value>Nyitó szimpla francia idézőjel</value></data>
+  <data name="HtmlEditorChar203A" xml:space="preserve"><value>Záró szimpla francia idézőjel</value></data>
+  <data name="HtmlEditorChar2018" xml:space="preserve"><value>Nyitó szimpla idézőjel</value></data>
+  <data name="HtmlEditorChar2019" xml:space="preserve"><value>Aposztróf</value></data>
+  <data name="HtmlEditorChar201C" xml:space="preserve"><value>Nyitó angol idézőjel</value></data>
+  <data name="HtmlEditorChar201D" xml:space="preserve"><value>Záró angol idézőjel</value></data>
+  <data name="HtmlEditorChar00B0" xml:space="preserve"><value>Fok</value></data>
+  <data name="HtmlEditorChar00B1" xml:space="preserve"><value>Plusz-mínusz</value></data>
+  <data name="HtmlEditorChar00D7" xml:space="preserve"><value>Szorzás</value></data>
+  <data name="HtmlEditorChar00F7" xml:space="preserve"><value>Osztás</value></data>
+  <data name="HtmlEditorChar00A0" xml:space="preserve"><value>Nem törhető szóköz</value></data>
+  <data name="HtmlEditorChar20AC" xml:space="preserve"><value>Euró</value></data>
+  <data name="HtmlEditorChar00A3" xml:space="preserve"><value>Font sterling</value></data>
+  <data name="HtmlEditorChar00A5" xml:space="preserve"><value>Jen</value></data>
+  <data name="HtmlEditorChar00A2" xml:space="preserve"><value>Cent</value></data>
+  <data name="HtmlEditorChar20BD" xml:space="preserve"><value>Rubel</value></data>
+  <data name="HtmlEditorChar20B9" xml:space="preserve"><value>Rúpia</value></data>
+  <data name="HtmlEditorChar20A9" xml:space="preserve"><value>Von</value></data>
+  <data name="HtmlEditorChar20AA" xml:space="preserve"><value>Sékel</value></data>
+  <data name="HtmlEditorChar20B1" xml:space="preserve"><value>Peso</value></data>
+  <data name="HtmlEditorChar20BA" xml:space="preserve"><value>Török líra</value></data>
+  <data name="HtmlEditorChar2190" xml:space="preserve"><value>Balra mutató nyíl</value></data>
+  <data name="HtmlEditorChar2192" xml:space="preserve"><value>Jobbra mutató nyíl</value></data>
+  <data name="HtmlEditorChar2191" xml:space="preserve"><value>Felfelé mutató nyíl</value></data>
+  <data name="HtmlEditorChar2193" xml:space="preserve"><value>Lefelé mutató nyíl</value></data>
+  <data name="HtmlEditorChar2194" xml:space="preserve"><value>Balra-jobbra mutató nyíl</value></data>
+  <data name="HtmlEditorChar2195" xml:space="preserve"><value>Fel-le mutató nyíl</value></data>
+  <data name="HtmlEditorChar21D0" xml:space="preserve"><value>Balra mutató dupla nyíl</value></data>
+  <data name="HtmlEditorChar21D2" xml:space="preserve"><value>Jobbra mutató dupla nyíl</value></data>
+  <data name="HtmlEditorChar21D1" xml:space="preserve"><value>Felfelé mutató dupla nyíl</value></data>
+  <data name="HtmlEditorChar21D3" xml:space="preserve"><value>Lefelé mutató dupla nyíl</value></data>
+  <data name="HtmlEditorChar21B5" xml:space="preserve"><value>Sortörés</value></data>
+  <data name="HtmlEditorChar21B6" xml:space="preserve"><value>Óramutatóval ellentétes nyíl</value></data>
+  <data name="HtmlEditorChar2200" xml:space="preserve"><value>Minden</value></data>
+  <data name="HtmlEditorChar2203" xml:space="preserve"><value>Létezik</value></data>
+  <data name="HtmlEditorChar2205" xml:space="preserve"><value>Üres halmaz</value></data>
+  <data name="HtmlEditorChar2208" xml:space="preserve"><value>Eleme</value></data>
+  <data name="HtmlEditorChar2209" xml:space="preserve"><value>Nem eleme</value></data>
+  <data name="HtmlEditorChar2282" xml:space="preserve"><value>Részhalmaza</value></data>
+  <data name="HtmlEditorChar2283" xml:space="preserve"><value>Tartalmazza</value></data>
+  <data name="HtmlEditorChar222A" xml:space="preserve"><value>Unió</value></data>
+  <data name="HtmlEditorChar2229" xml:space="preserve"><value>Metszet</value></data>
+  <data name="HtmlEditorChar2227" xml:space="preserve"><value>Logikai és</value></data>
+  <data name="HtmlEditorChar2228" xml:space="preserve"><value>Logikai vagy</value></data>
+  <data name="HtmlEditorChar00AC" xml:space="preserve"><value>Tagadás</value></data>
+  <data name="HtmlEditorChar2248" xml:space="preserve"><value>Közel egyenlő</value></data>
+  <data name="HtmlEditorChar2260" xml:space="preserve"><value>Nem egyenlő</value></data>
+  <data name="HtmlEditorChar2264" xml:space="preserve"><value>Kisebb vagy egyenlő</value></data>
+  <data name="HtmlEditorChar2265" xml:space="preserve"><value>Nagyobb vagy egyenlő</value></data>
+  <data name="HtmlEditorChar221E" xml:space="preserve"><value>Végtelen</value></data>
+  <data name="HtmlEditorChar221A" xml:space="preserve"><value>Négyzetgyök</value></data>
+  <data name="HtmlEditorChar2211" xml:space="preserve"><value>Összegzés</value></data>
+  <data name="HtmlEditorChar220F" xml:space="preserve"><value>Szorzat</value></data>
+  <data name="HtmlEditorChar2202" xml:space="preserve"><value>Parciális derivált</value></data>
+  <data name="HtmlEditorChar222B" xml:space="preserve"><value>Integrál</value></data>
+  <data name="HtmlEditorChar03B1" xml:space="preserve"><value>Alfa</value></data>
+  <data name="HtmlEditorChar03B2" xml:space="preserve"><value>Béta</value></data>
+  <data name="HtmlEditorChar03B3" xml:space="preserve"><value>Gamma</value></data>
+  <data name="HtmlEditorChar03B4" xml:space="preserve"><value>Delta</value></data>
+  <data name="HtmlEditorChar03B5" xml:space="preserve"><value>Epszilon</value></data>
+  <data name="HtmlEditorChar03B6" xml:space="preserve"><value>Dzéta</value></data>
+  <data name="HtmlEditorChar03B7" xml:space="preserve"><value>Éta</value></data>
+  <data name="HtmlEditorChar03B8" xml:space="preserve"><value>Théta</value></data>
+  <data name="HtmlEditorChar03B9" xml:space="preserve"><value>Ióta</value></data>
+  <data name="HtmlEditorChar03BA" xml:space="preserve"><value>Kappa</value></data>
+  <data name="HtmlEditorChar03BB" xml:space="preserve"><value>Lambda</value></data>
+  <data name="HtmlEditorChar03BC" xml:space="preserve"><value>Mű</value></data>
+  <data name="HtmlEditorChar03BD" xml:space="preserve"><value>Nű</value></data>
+  <data name="HtmlEditorChar03BE" xml:space="preserve"><value>Kszí</value></data>
+  <data name="HtmlEditorChar03C0" xml:space="preserve"><value>Pí</value></data>
+  <data name="HtmlEditorChar03C1" xml:space="preserve"><value>Rhó</value></data>
+  <data name="HtmlEditorChar03C3" xml:space="preserve"><value>Szigma</value></data>
+  <data name="HtmlEditorChar03C4" xml:space="preserve"><value>Tau</value></data>
+  <data name="HtmlEditorChar03C5" xml:space="preserve"><value>Üpszilon</value></data>
+  <data name="HtmlEditorChar03C6" xml:space="preserve"><value>Fí</value></data>
+  <data name="HtmlEditorChar03C7" xml:space="preserve"><value>Khí</value></data>
+  <data name="HtmlEditorChar03C8" xml:space="preserve"><value>Pszí</value></data>
+  <data name="HtmlEditorChar03C9" xml:space="preserve"><value>Ómega</value></data>
+  <data name="HtmlEditorChar2116" xml:space="preserve"><value>Numero jel</value></data>
+  <data name="HtmlEditorBold" xml:space="preserve"><value>Félkövér</value></data>
+  <data name="HtmlEditorItalic" xml:space="preserve"><value>Dőlt</value></data>
+  <data name="HtmlEditorSubscript" xml:space="preserve"><value>Alsó index</value></data>
+  <data name="HtmlEditorSuperscript" xml:space="preserve"><value>Felső index</value></data>
+  <data name="HtmlEditorIndent" xml:space="preserve"><value>Behúzás növelése</value></data>
+  <data name="HtmlEditorOutdent" xml:space="preserve"><value>Behúzás csökkentése</value></data>
+  <data name="HtmlEditorUndo" xml:space="preserve"><value>Visszavonás</value></data>
+  <data name="HtmlEditorRedo" xml:space="preserve"><value>Ismétlés</value></data>
+  <data name="HtmlEditorPreview" xml:space="preserve"><value>Tartalom előnézete</value></data>
+  <data name="LegendLabel" xml:space="preserve"><value>Jelmagyarázat</value></data>
+  <data name="ListBoxInvalid" xml:space="preserve"><value>A listában kijelölt érték érvénytelen.</value></data>
+  <data name="MindMapAddLink" xml:space="preserve"><value>Kapcsolat</value></data>
+  <data name="MindMapAddNode" xml:space="preserve"><value>Csomópont</value></data>
+  <data name="MindMapAnnounceAdded" xml:space="preserve"><value>Csomópont hozzáadva: {0}.</value></data>
+  <data name="MindMapAnnounceDeleted" xml:space="preserve"><value>Törölt csomópontok: {0}.</value></data>
+  <data name="MindMapAnnounceDuplicated" xml:space="preserve"><value>Csomópont megkettőzve: {0}.</value></data>
+  <data name="MindMapAnnounceLaidOut" xml:space="preserve"><value>A térkép átrendezve.</value></data>
+  <data name="MindMapAnnounceLimit" xml:space="preserve"><value>Elérte a csomópontok maximális számát.</value></data>
+  <data name="MindMapAnnounceLinkCancelled" xml:space="preserve"><value>A kapcsolat létrehozása megszakítva.</value></data>
+  <data name="MindMapAnnounceLinkDeleted" xml:space="preserve"><value>Kapcsolat törölve.</value></data>
+  <data name="MindMapAnnounceLinkSelected" xml:space="preserve"><value>Kapcsolat kijelölve.</value></data>
+  <data name="MindMapAnnounceLinked" xml:space="preserve"><value>Kapcsolat létrehozva: {0} → {1}.</value></data>
+  <data name="MindMapAnnounceManySelected" xml:space="preserve"><value>Kijelölt csomópontok: {0}.</value></data>
+  <data name="MindMapAnnounceNoSelection" xml:space="preserve"><value>Nincs kijelölés.</value></data>
+  <data name="MindMapAnnounceRedone" xml:space="preserve"><value>Módosítás megismételve.</value></data>
+  <data name="MindMapAnnounceSelected" xml:space="preserve"><value>{0}, kapcsolatok: {1}.</value></data>
+  <data name="MindMapAnnounceUndone" xml:space="preserve"><value>Módosítás visszavonva.</value></data>
+  <data name="MindMapAnnounceZoom" xml:space="preserve"><value>Nagyítás: {0}%.</value></data>
+  <data name="MindMapAutoLayout" xml:space="preserve"><value>Átrendezés</value></data>
+  <data name="MindMapBold" xml:space="preserve"><value>Félkövér</value></data>
+  <data name="MindMapCanvasLabel" xml:space="preserve"><value>Gondolattérkép</value></data>
+  <data name="MindMapCenter" xml:space="preserve"><value>Középre</value></data>
+  <data name="MindMapColorBlue" xml:space="preserve"><value>Kék</value></data>
+  <data name="MindMapColorGray" xml:space="preserve"><value>Szürke</value></data>
+  <data name="MindMapColorGreen" xml:space="preserve"><value>Zöld</value></data>
+  <data name="MindMapColorIndigo" xml:space="preserve"><value>Indigó</value></data>
+  <data name="MindMapColorOrange" xml:space="preserve"><value>Narancs</value></data>
+  <data name="MindMapColorPink" xml:space="preserve"><value>Rózsaszín</value></data>
+  <data name="MindMapColorPurple" xml:space="preserve"><value>Lila</value></data>
+  <data name="MindMapColorRed" xml:space="preserve"><value>Piros</value></data>
+  <data name="MindMapColorTeal" xml:space="preserve"><value>Türkiz</value></data>
+  <data name="MindMapColorWhite" xml:space="preserve"><value>Fehér</value></data>
+  <data name="MindMapColorYellow" xml:space="preserve"><value>Sárga</value></data>
+  <data name="MindMapDelete" xml:space="preserve"><value>Törlés</value></data>
+  <data name="MindMapDuplicate" xml:space="preserve"><value>Megkettőzés</value></data>
+  <data name="MindMapFitView" xml:space="preserve"><value>Igazítás</value></data>
+  <data name="MindMapFontSize" xml:space="preserve"><value>Betűméret</value></data>
+  <data name="MindMapItalic" xml:space="preserve"><value>Dőlt</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Nyilak: lépés a csomópontok között, Home: központi csomópont, Shift+nyilak: mozgatás, Enter vagy F2: átnevezés, N: új csomópont, D: megkettőzés, C: középre, Delete: törlés, + és -: nagyítás, 0: igazítás, Ctrl+Z és Ctrl+Y: visszavonás és ismétlés, Shift+F10: menü, Esc: kijelölés megszüntetése.</value></data>
+  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Nyilak: lépés a csomópontok között, Home: központi csomópont, C: középre, + és -: nagyítás, 0: igazítás, Shift+F10: menü, Esc: kijelölés megszüntetése.</value></data>
+  <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Megszakítás: Esc</value></data>
+  <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Kattintson a forráscsomópontra</value></data>
+  <data name="MindMapLinkSelectTarget" xml:space="preserve"><value>Kattintson a célcsomópontra</value></data>
+  <data name="MindMapMenuLabel" xml:space="preserve"><value>Térkép műveletei</value></data>
+  <data name="MindMapNewNode" xml:space="preserve"><value>Új</value></data>
+  <data name="MindMapNodeColor" xml:space="preserve"><value>Szín</value></data>
+  <data name="MindMapNodeHeight" xml:space="preserve"><value>Magasság</value></data>
+  <data name="MindMapNodeText" xml:space="preserve"><value>Szöveg</value></data>
+  <data name="MindMapNodeWidth" xml:space="preserve"><value>Szélesség</value></data>
+  <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, megjegyzés: {1}</value></data>
+  <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Csomópont tulajdonságai</value></data>
+  <data name="MindMapRename" xml:space="preserve"><value>Csomópont átnevezése</value></data>
+  <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automatikus méret</value></data>
+  <data name="MindMapToolbarLabel" xml:space="preserve"><value>Gondolattérkép műveletei</value></data>
+  <data name="MonthViewLabel" xml:space="preserve"><value>Havi nézet</value></data>
+  <data name="MultiSelectInvalid" xml:space="preserve"><value>A többszörös kijelölés érvénytelen.</value></data>
+  <data name="MultiSelectEmpty" xml:space="preserve"><value>Mind</value></data>
+  <data name="MultiSelectSelected" xml:space="preserve"><value>{0} kijelölve</value></data>
+  <data name="MultiSelectClear" xml:space="preserve"><value>Kijelölés törlése</value></data>
+  <data name="MultiSelectFilter" xml:space="preserve"><value>Keresés</value></data>
+  <data name="MultiSelectNoMatch" xml:space="preserve"><value>Nincs találat</value></data>
+  <data name="NotificationDismiss" xml:space="preserve"><value>Értesítés elvetése</value></data>
+  <data name="NotificationExpand" xml:space="preserve"><value>Összes megjelenítése</value></data>
+  <data name="NotificationCollapse" xml:space="preserve"><value>Összecsukás</value></data>
+  <data name="NotificationOpenDetails" xml:space="preserve"><value>Napló megnyitása</value></data>
+  <data name="NullableSwitchIndeterminate" xml:space="preserve"><value>Meghatározatlan állapot</value></data>
+  <data name="NumericInvalid" xml:space="preserve"><value>A megadott érték érvénytelen.</value></data>
+  <data name="NumericInvalidNamed" xml:space="preserve"><value>A megadott érték érvénytelen: {0}.</value></data>
+  <data name="PagerLabel" xml:space="preserve"><value>Lapozás</value></data>
+  <data name="PagerPrevious" xml:space="preserve"><value>Előző oldal</value></data>
+  <data name="PagerStatus" xml:space="preserve"><value>{0}. oldal / {1}</value></data>
+  <data name="PagerNext" xml:space="preserve"><value>Következő oldal</value></data>
+  <data name="PanelMenuLabel" xml:space="preserve"><value>Navigáció</value></data>
+  <data name="PanelMenuToggle" xml:space="preserve"><value>{0} kibontása vagy összecsukása</value></data>
+  <data name="PasswordRevealLabel" xml:space="preserve"><value>Jelszó megjelenítése</value></data>
+  <data name="PasswordHideLabel" xml:space="preserve"><value>Jelszó elrejtése</value></data>
+  <data name="ProfileMenuLabel" xml:space="preserve"><value>Profilmenü</value></data>
+  <data name="ProgressLabel" xml:space="preserve"><value>Folyamat</value></data>
+  <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="RadioButtonListInvalid" xml:space="preserve"><value>A választógombos kijelölés érvénytelen.</value></data>
+  <data name="RequiredValidatorMessage" xml:space="preserve"><value>A mező kitöltése kötelező.</value></data>
+  <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Előző időszak</value></data>
+  <data name="SchedulerNextPeriod" xml:space="preserve"><value>Következő időszak</value></data>
+  <data name="SchedulerViewLabel" xml:space="preserve"><value>Naptárnézet</value></data>
+  <data name="SchedulerDay" xml:space="preserve"><value>Nap</value></data>
+  <data name="SchedulerWeek" xml:space="preserve"><value>Hét</value></data>
+  <data name="SchedulerMonth" xml:space="preserve"><value>Hónap</value></data>
+  <data name="SchedulerLoadFailed" xml:space="preserve"><value>A naptárat nem sikerült betölteni.</value></data>
+  <data name="SchedulerTimeColumn" xml:space="preserve"><value>Idő</value></data>
+  <data name="SchedulerMoveAppointment" xml:space="preserve"><value>{0} áthelyezése</value></data>
+  <data name="SchedulerMoveHere" xml:space="preserve"><value>Elhelyezés ide: {0}, {1}</value></data>
+  <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Elhelyezés ide</value></data>
+  <data name="SchedulerMoveCancel" xml:space="preserve"><value>Áthelyezés megszakítása</value></data>
+  <data name="SchedulerMoving" xml:space="preserve"><value>{0} felvéve: válassza ki az új helyét, megszakítás: Esc.</value></data>
+  <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} a helyén marad.</value></data>
+  <data name="SchedulerMoved" xml:space="preserve"><value>{0} áthelyezve ide: {1}.</value></data>
+  <data name="SelectBarInvalid" xml:space="preserve"><value>A szegmentált kijelölés érvénytelen.</value></data>
+  <data name="RatingLabel" xml:space="preserve"><value>Értékelés</value></data>
+  <data name="RatingStar" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="RatingValue" xml:space="preserve"><value>{0}: {1} / {2}</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Navigáció</value></data>
+  <data name="SidebarClose" xml:space="preserve"><value>Navigáció bezárása</value></data>
+  <data name="LoadingLabel" xml:space="preserve"><value>Betöltés folyamatban</value></data>
+  <data name="WindowControlsLabel" xml:space="preserve"><value>Ablakvezérlők</value></data>
+  <data name="WindowMinimizeToTray" xml:space="preserve"><value>Kis méret az értesítési területre</value></data>
+  <data name="WindowMinimize" xml:space="preserve"><value>Kis méret</value></data>
+  <data name="WindowMaximize" xml:space="preserve"><value>Teljes méret</value></data>
+  <data name="WindowRestore" xml:space="preserve"><value>Előző méret</value></data>
+  <data name="WindowClose" xml:space="preserve"><value>Bezárás</value></data>
+  <data name="SidebarToggleLabel" xml:space="preserve"><value>Navigáció megjelenítése vagy elrejtése</value></data>
+  <data name="SliderInvalid" xml:space="preserve"><value>A csúszka értéke érvénytelen.</value></data>
+  <data name="SplitButtonMenuLabel" xml:space="preserve"><value>További műveletek</value></data>
+  <data name="StepsLabel" xml:space="preserve"><value>Lépések</value></data>
+  <data name="SwitchInvalid" xml:space="preserve"><value>A kapcsoló értéke érvénytelen.</value></data>
+  <data name="TabsLabel" xml:space="preserve"><value>Lapok</value></data>
+  <data name="TimelineLabel" xml:space="preserve"><value>Idővonal</value></data>
+  <data name="TreeLabel" xml:space="preserve"><value>Fa</value></data>
+  <data name="TreeCollapse" xml:space="preserve"><value>Összecsukás</value></data>
+  <data name="TreeExpand" xml:space="preserve"><value>Kibontás</value></data>
+  <data name="TreeLoadFailed" xml:space="preserve"><value>A betöltés nem sikerült.</value></data>
+  <data name="UploadSelectedFiles" xml:space="preserve"><value>Kijelölt fájlok</value></data>
+  <data name="UploadProgressLabel" xml:space="preserve"><value>Feltöltés</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Legfeljebb {0} fájlt jelölhet ki.</value></data>
+  <data name="UploadFileTooLarge" xml:space="preserve"><value>A(z) {0} fájl meghaladja a megengedett legnagyobb méretet.</value></data>
+  <data name="UploadTypeRejected" xml:space="preserve"><value>A(z) {0} fájl típusa nem engedélyezett.</value></data>
+  <data name="UploadOneSelected" xml:space="preserve"><value>1 fájl kijelölve.</value></data>
+  <data name="UploadManySelected" xml:space="preserve"><value>{0} fájl kijelölve.</value></data>
+  <data name="UploadInProgress" xml:space="preserve"><value>Feltöltés folyamatban.</value></data>
+  <data name="UploadCompleted" xml:space="preserve"><value>A feltöltés befejeződött.</value></data>
+  <data name="UploadCancelled" xml:space="preserve"><value>A feltöltés megszakítva.</value></data>
+  <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0:0.##} MB</value></data>
+  <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} KB</value></data>
+  <data name="UploadSizeBytes" xml:space="preserve"><value>{0} B</value></data>
+  <data name="UploadDropOne" xml:space="preserve"><value>Húzzon ide egy fájlt, vagy</value></data>
+  <data name="UploadDropMany" xml:space="preserve"><value>Húzzon ide fájlokat, vagy</value></data>
+  <data name="UploadBrowse" xml:space="preserve"><value>tallózzon</value></data>
+  <data name="UploadHintMaximumSize" xml:space="preserve"><value>Fájlonként legfeljebb {0}</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Legfeljebb {0} fájl</value></data>
+  <data name="UploadAttachedFiles" xml:space="preserve"><value>Csatolt fájlok</value></data>
+  <data name="UploadRemove" xml:space="preserve"><value>{0} eltávolítása</value></data>
+  <data name="UploadBrowseButton" xml:space="preserve"><value>Tallózás</value></data>
+  <data name="UploadNoFile" xml:space="preserve"><value>Nincs kiválasztott fájl</value></data>
+  <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
+  <data name="UploadFileCountNone" xml:space="preserve"><value>Nincs fájl</value></data>
+  <data name="UploadFileCountOne" xml:space="preserve"><value>1 fájl</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} fájl</value></data>
+  <data name="UploadShowAll" xml:space="preserve"><value>Összes megjelenítése ({0})</value></data>
+  <data name="UploadShowLess" xml:space="preserve"><value>Kevesebb</value></data>
+  <data name="UploadRemoveAll" xml:space="preserve"><value>Összes eltávolítása</value></data>
+  <data name="UploadRemovedAll" xml:space="preserve"><value>Minden fájl eltávolítva a listából.</value></data>
+  <data name="UploadRemoved" xml:space="preserve"><value>{0} eltávolítva a listából.</value></data>
+  <data name="WeekViewLabel" xml:space="preserve"><value>Heti nézet</value></data>
+  <data name="DataAnnotationsRequired" xml:space="preserve"><value>A(z) {0} mező kitöltése kötelező.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>A(z) {0} mező hossza {1} és {2} karakter között lehet.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>A(z) {0} mező legfeljebb {1} karakter lehet.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>A(z) {0} mezőnek legalább {1} karakterből kell állnia.</value></data>
+  <data name="DataAnnotationsRange" xml:space="preserve"><value>A(z) {0} mező értékének {1} és {2} között kell lennie.</value></data>
+  <data name="DataAnnotationsEmail" xml:space="preserve"><value>A(z) {0} mező nem érvényes e-mail-cím.</value></data>
+  <data name="DataAnnotationsUrl" xml:space="preserve"><value>A(z) {0} mező nem érvényes webcím.</value></data>
+  <data name="DataAnnotationsCompare" xml:space="preserve"><value>{0} és {1} nem egyezik.</value></data>
+  <data name="DataAnnotationsPattern" xml:space="preserve"><value>A(z) {0} mező formátuma nem megfelelő.</value></data>
+  <data name="DataAnnotationsInvalid" xml:space="preserve"><value>A(z) {0} mező érvénytelen.</value></data>
+  <data name="GanttEmpty" xml:space="preserve"><value>Nincs megjeleníthető feladat.</value></data>
+  <data name="GanttLabel" xml:space="preserve"><value>Gantt-diagram</value></data>
+  <data name="GanttScale" xml:space="preserve"><value>Időskála</value></data>
+  <data name="GanttScaleDay" xml:space="preserve"><value>Nap</value></data>
+  <data name="GanttScaleMonth" xml:space="preserve"><value>Hónap</value></data>
+  <data name="GanttWeekNumber" xml:space="preserve"><value>{0}. hét</value></data>
+  <data name="GanttScaleWeek" xml:space="preserve"><value>Hét</value></data>
+  <data name="GanttTaskAfter" xml:space="preserve"><value>{0} után</value></data>
+  <data name="GanttTaskColumn" xml:space="preserve"><value>Feladat</value></data>
+  <data name="GanttTaskDescription" xml:space="preserve"><value>{0}, {1} – {2}, {3} kész</value></data>
+  <data name="StepTimelineLabel" xml:space="preserve"><value>Futás lépései</value></data>
+  <data name="StepTimelineNeverStarted" xml:space="preserve"><value>El sem indult:</value></data>
+  <data name="StepTimelineStatusCancelled" xml:space="preserve"><value>megszakítva</value></data>
+  <data name="StepTimelineStatusFailed" xml:space="preserve"><value>sikertelen</value></data>
+  <data name="StepTimelineStatusRunning" xml:space="preserve"><value>folyamatban</value></data>
+  <data name="StepTimelineStatusSkipped" xml:space="preserve"><value>kihagyva</value></data>
+  <data name="StepTimelineStatusSuccess" xml:space="preserve"><value>sikeres</value></data>
+  <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, kezdés: {1}, időtartam:</value></data>
+  <data name="ConfirmAction" xml:space="preserve"><value>Megerősítés</value></data>
+  <data name="GoBack" xml:space="preserve"><value>Vissza</value></data>
+  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Jelvények és műveletek megjelenítése</value></data>
+  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Jelvények és műveletek elrejtése</value></data>
+  <data name="DetailNotFound" xml:space="preserve"><value>Az elem nem található</value></data>
+  <data name="SignIn" xml:space="preserve"><value>Bejelentkezés</value></data>
+  <data name="ConnectionLostTitle" xml:space="preserve"><value>Megszakadt a kapcsolat</value></data>
+  <data name="ConnectionLostDescription" xml:space="preserve"><value>A kapcsolat a kiszolgálóval megszakadt. Az alkalmazás megpróbálja helyreállítani.</value></data>
+  <data name="ConnectionFailedTitle" xml:space="preserve"><value>Nem sikerült csatlakozni</value></data>
+  <data name="ConnectionFailedDescription" xml:space="preserve"><value>Az automatikus próbálkozások sikertelenek voltak. Próbálja újra, amikor a hálózat helyreállt.</value></data>
+  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>A munkamenet véget ért</value></data>
+  <data name="ConnectionRejectedDescription" xml:space="preserve"><value>A kiszolgáló elutasította a munkamenet folytatását. A folytatáshoz töltse újra az oldalt.</value></data>
+  <data name="ConnectionRetryIn" xml:space="preserve"><value>Újrapróbálkozás {0} mp múlva</value></data>
+  <data name="ConnectionReason" xml:space="preserve"><value>Ok: {0}</value></data>
+  <data name="ConnectionReconnectNow" xml:space="preserve"><value>Újracsatlakozás most</value></data>
+  <data name="ConnectionReload" xml:space="preserve"><value>Oldal újratöltése</value></data>
+  <data name="ConnectionReconnecting" xml:space="preserve"><value>Újracsatlakozás…</value></data>
+  <data name="WizardLabel" xml:space="preserve"><value>A varázsló lépései</value></data>
+  <data name="WizardProgress" xml:space="preserve"><value>A varázsló állapota</value></data>
+  <data name="WizardPosition" xml:space="preserve"><value>{0}. lépés / {1}</value></data>
+  <data name="WizardAnnouncement" xml:space="preserve"><value>{0}. lépés / {1}: {2}</value></data>
+  <data name="WizardPrevious" xml:space="preserve"><value>Előző</value></data>
+  <data name="WizardNext" xml:space="preserve"><value>Következő</value></data>
+  <data name="WizardFinish" xml:space="preserve"><value>Befejezés</value></data>
+  <data name="RelativeTimeNow" xml:space="preserve"><value>épp most</value></data>
+  <data name="RelativeTimePast" xml:space="preserve"><value>{0} ezelőtt</value></data>
+  <data name="RelativeTimeFuture" xml:space="preserve"><value>{0} múlva</value></data>
+  <data name="RelativeTimeSeconds" xml:space="preserve"><value>{0} mp</value></data>
+  <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} perc</value></data>
+  <data name="RelativeTimeHours" xml:space="preserve"><value>{0} óra</value></data>
+  <data name="RelativeTimeDay" xml:space="preserve"><value>{0} nap</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} nap</value></data>
+  <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} hónap</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} hónap</value></data>
+  <data name="RelativeTimeYear" xml:space="preserve"><value>{0} év</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} év</value></data>
+  <data name="HtmlEditorUnderline" xml:space="preserve"><value>Aláhúzott</value></data>
+  <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Áthúzott</value></data>
+  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Beágyazott kód</value></data>
+  <data name="HtmlEditorBlockFormat" xml:space="preserve"><value>Bekezdésstílus</value></data>
+  <data name="HtmlEditorParagraph" xml:space="preserve"><value>Bekezdés</value></data>
+  <data name="HtmlEditorHeading1" xml:space="preserve"><value>Címsor 1</value></data>
+  <data name="HtmlEditorHeading2" xml:space="preserve"><value>Címsor 2</value></data>
+  <data name="HtmlEditorHeading3" xml:space="preserve"><value>Címsor 3</value></data>
+  <data name="HtmlEditorHeading4" xml:space="preserve"><value>Címsor 4</value></data>
+  <data name="HtmlEditorFontSize" xml:space="preserve"><value>Szövegméret</value></data>
+  <data name="HtmlEditorFontSizeSmall" xml:space="preserve"><value>Kicsi</value></data>
+  <data name="HtmlEditorFontSizeNormal" xml:space="preserve"><value>Normál</value></data>
+  <data name="HtmlEditorFontSizeLarge" xml:space="preserve"><value>Nagy</value></data>
+  <data name="HtmlEditorFontSizeXLarge" xml:space="preserve"><value>Nagyon nagy</value></data>
+  <data name="HtmlEditorBulletList" xml:space="preserve"><value>Felsorolás</value></data>
+  <data name="HtmlEditorNumberedList" xml:space="preserve"><value>Számozott lista</value></data>
+  <data name="HtmlEditorQuote" xml:space="preserve"><value>Idézet</value></data>
+  <data name="HtmlEditorCodeBlock" xml:space="preserve"><value>Kódblokk</value></data>
+  <data name="HtmlEditorLink" xml:space="preserve"><value>Hivatkozás</value></data>
+  <data name="HtmlEditorUnlink" xml:space="preserve"><value>Hivatkozás eltávolítása</value></data>
+  <data name="HtmlEditorAlignLeft" xml:space="preserve"><value>Balra igazítás</value></data>
+  <data name="HtmlEditorAlignCenter" xml:space="preserve"><value>Középre igazítás</value></data>
+  <data name="HtmlEditorAlignRight" xml:space="preserve"><value>Jobbra igazítás</value></data>
+  <data name="HtmlEditorAlignJustify" xml:space="preserve"><value>Sorkizárás</value></data>
+  <data name="HtmlEditorInsertTable" xml:space="preserve"><value>Táblázat beszúrása</value></data>
+  <data name="HtmlEditorClearFormatting" xml:space="preserve"><value>Formázás törlése</value></data>
+  <data name="HtmlEditorSource" xml:space="preserve"><value>HTML-forrás</value></data>
+  <data name="HtmlEditorCustomCommand" xml:space="preserve"><value>Parancs</value></data>
+  <data name="HtmlEditorCut" xml:space="preserve"><value>Kivágás</value></data>
+  <data name="HtmlEditorCopy" xml:space="preserve"><value>Másolás</value></data>
+  <data name="HtmlEditorPaste" xml:space="preserve"><value>Beillesztés</value></data>
+  <data name="HtmlEditorInsertParagraph" xml:space="preserve"><value>Új bekezdés</value></data>
+  <data name="HtmlEditorAddRowAbove" xml:space="preserve"><value>Sor beszúrása fölé</value></data>
+  <data name="HtmlEditorAddRowBelow" xml:space="preserve"><value>Sor beszúrása alá</value></data>
+  <data name="HtmlEditorDeleteRow" xml:space="preserve"><value>Sor törlése</value></data>
+  <data name="HtmlEditorAddColumnBefore" xml:space="preserve"><value>Oszlop beszúrása elé</value></data>
+  <data name="HtmlEditorAddColumnAfter" xml:space="preserve"><value>Oszlop beszúrása mögé</value></data>
+  <data name="HtmlEditorDeleteColumn" xml:space="preserve"><value>Oszlop törlése</value></data>
+  <data name="HtmlEditorMergeCellRight" xml:space="preserve"><value>Egyesítés a jobb oldali cellával</value></data>
+  <data name="HtmlEditorMergeCellDown" xml:space="preserve"><value>Egyesítés az alatta lévő cellával</value></data>
+  <data name="HtmlEditorSplitCell" xml:space="preserve"><value>Cella felosztása</value></data>
+  <data name="HtmlEditorSetCellSpan" xml:space="preserve"><value>Cella kiterjesztése</value></data>
+  <data name="HtmlEditorLinkUrl" xml:space="preserve"><value>Hivatkozás címe</value></data>
+  <data name="HtmlEditorLinkApply" xml:space="preserve"><value>Alkalmaz</value></data>
+  <data name="HtmlEditorLinkCancel" xml:space="preserve"><value>Mégse</value></data>
+  <data name="HtmlEditorLinkInvalid" xml:space="preserve"><value>A cím elutasítva: relatív, http, https, mailto vagy tel címet használjon.</value></data>
+  <data name="DocumentEditorLabel" xml:space="preserve"><value>Szövegszerkesztő</value></data>
+  <data name="DocumentEditorStatus" xml:space="preserve"><value>Dokumentumstatisztika</value></data>
+  <data name="DocumentEditorWords" xml:space="preserve"><value>Szavak: {0}</value></data>
+  <data name="DocumentEditorCharacters" xml:space="preserve"><value>Karakterek: {0}</value></data>
+  <data name="DocumentEditorExportHtml" xml:space="preserve"><value>Exportálás HTML-be</value></data>
+  <data name="DocumentEditorExportText" xml:space="preserve"><value>Exportálás szövegként</value></data>
+  <data name="DocumentEditorDefaultTitle" xml:space="preserve"><value>Dokumentum</value></data>
+  <data name="CodeEditorLabel" xml:space="preserve"><value>Kódszerkesztő</value></data>
+  <data name="CodeEditorLoading" xml:space="preserve"><value>A kódszerkesztő betöltése.</value></data>
+  <data name="CodeEditorUnavailable" xml:space="preserve"><value>A Monaco szerkesztőt nem sikerült betölteni: a kód egyszerű szövegként szerkeszthető.</value></data>
+  <data name="CodeEditorPosition" xml:space="preserve"><value>{0}. sor, {1}. oszlop</value></data>
+  <data name="CodeEditorLinkHint" xml:space="preserve"><value>Ctrl+kattintás a hivatkozás követéséhez</value></data>
+  <data name="StatusBadgeStale" xml:space="preserve"><value>elavult</value></data>
+  <data name="StatusBadgeStaleSince" xml:space="preserve"><value>Utolsó frissítés: {0}</value></data>
+  <data name="LogViewerLabel" xml:space="preserve"><value>Napló</value></data>
+  <data name="LogViewerEmpty" xml:space="preserve"><value>Még nincs sor.</value></data>
+  <data name="LogViewerSearch" xml:space="preserve"><value>Keresés a naplóban</value></data>
+  <data name="LogViewerAllLevels" xml:space="preserve"><value>Minden szint</value></data>
+  <data name="LogViewerLevelFilter" xml:space="preserve"><value>Minimális szint</value></data>
+  <data name="LogViewerFromLevel" xml:space="preserve"><value>{0} és súlyosabb</value></data>
+  <data name="LogViewerPreviousMatch" xml:space="preserve"><value>Előző találat</value></data>
+  <data name="LogViewerNextMatch" xml:space="preserve"><value>Következő találat</value></data>
+  <data name="LogViewerNoMatch" xml:space="preserve"><value>Nincs találat</value></data>
+  <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="LogViewerFollow" xml:space="preserve"><value>Követés</value></data>
+  <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Ugrás a legújabb sorokhoz</value></data>
+  <data name="LogViewerNewLines" xml:space="preserve"><value>{0} új sor</value></data>
+  <data name="LogViewerLevelPrefix" xml:space="preserve"><value>{0}: </value></data>
+  <data name="LogLevelTrace" xml:space="preserve"><value>Nyomkövetés</value></data>
+  <data name="LogLevelDebug" xml:space="preserve"><value>Hibakeresés</value></data>
+  <data name="LogLevelInformation" xml:space="preserve"><value>Információ</value></data>
+  <data name="LogLevelWarning" xml:space="preserve"><value>Figyelmeztetés</value></data>
+  <data name="LogLevelError" xml:space="preserve"><value>Hiba</value></data>
+  <data name="LogLevelCritical" xml:space="preserve"><value>Kritikus</value></data>
+  <data name="CodeBlockCopy" xml:space="preserve"><value>Másolás</value></data>
+  <data name="CodeBlockCopied" xml:space="preserve"><value>Vágólapra másolva</value></data>
+  <data name="CodeBlockCopyFailed" xml:space="preserve"><value>A másolás nem sikerült</value></data>
+  <data name="CodeBlockReveal" xml:space="preserve"><value>Érték megjelenítése</value></data>
+  <data name="CodeBlockHide" xml:space="preserve"><value>Érték elrejtése</value></data>
+  <data name="CodeViewerLabel" xml:space="preserve"><value>Kód</value></data>
+  <data name="CodeViewerEmpty" xml:space="preserve"><value>Nincs mit megjeleníteni.</value></data>
+  <data name="CodeViewerWrap" xml:space="preserve"><value>Sortörés</value></data>
+  <data name="CodeViewerLinkHint" xml:space="preserve"><value>Hivatkozás követése</value></data>
+  <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Nincs módosítás.</value></data>
+  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0} sor hozzáadva, {1} sor törölve</value></data>
+  <data name="UnifiedDiffBinary" xml:space="preserve"><value>Bináris fájl: nincs összehasonlítható sor.</value></data>
+  <data name="UnifiedDiffNoLines" xml:space="preserve"><value>Nincs módosított sor.</value></data>
+  <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Régi sor</value></data>
+  <data name="UnifiedDiffNewLine" xml:space="preserve"><value>Új sor</value></data>
+  <data name="UnifiedDiffContent" xml:space="preserve"><value>Tartalom</value></data>
+  <data name="UnifiedDiffAdded" xml:space="preserve"><value>Hozzáadva: </value></data>
+  <data name="UnifiedDiffRemoved" xml:space="preserve"><value>Törölve: </value></data>
+  <data name="UnifiedDiffRenamedPath" xml:space="preserve"><value>{0} → {1}</value></data>
+  <data name="UnifiedDiffUntitled" xml:space="preserve"><value>Módosítás</value></data>
+  <data name="UnifiedDiffStatusModified" xml:space="preserve"><value>Módosítva</value></data>
+  <data name="UnifiedDiffStatusAdded" xml:space="preserve"><value>Hozzáadva</value></data>
+  <data name="UnifiedDiffStatusDeleted" xml:space="preserve"><value>Törölve</value></data>
+  <data name="UnifiedDiffStatusRenamed" xml:space="preserve"><value>Átnevezve</value></data>
+  <data name="DynamicFormRequired" xml:space="preserve"><value>{0} megadása kötelező.</value></data>
+  <data name="DynamicFormNumber" xml:space="preserve"><value>{0}: számot kell megadni.</value></data>
+  <data name="DynamicFormMinimum" xml:space="preserve"><value>{0}: legalább {1} lehet.</value></data>
+  <data name="DynamicFormMaximum" xml:space="preserve"><value>{0}: legfeljebb {1} lehet.</value></data>
+  <data name="DynamicFormChoice" xml:space="preserve"><value>{0}: a felkínált értékek egyikét kell választani.</value></data>
+  <data name="StatusStripLabel" xml:space="preserve"><value>Állapotelőzmények</value></data>
+  <data name="StatusStripEmpty" xml:space="preserve"><value>Nincs megjeleníthető állapot</value></data>
+  <data name="KanbanLabel" xml:space="preserve"><value>Kártyatábla</value></data>
+  <data name="KanbanInstructions" xml:space="preserve"><value>Szóköz vagy Enter: a kártya felvétele, nyílbillentyűk: mozgatás, Szóköz vagy Enter: lerakás, Esc: megszakítás.</value></data>
+  <data name="KanbanGrabbed" xml:space="preserve"><value>{0} felvéve, oszlop: {1}, pozíció: {2} / {3}.</value></data>
+  <data name="KanbanMoved" xml:space="preserve"><value>{0}: oszlop: {1}, pozíció: {2} / {3}.</value></data>
+  <data name="KanbanDropped" xml:space="preserve"><value>{0} lerakva, oszlop: {1}, pozíció: {2} / {3}.</value></data>
+  <data name="KanbanCancelled" xml:space="preserve"><value>Áthelyezés megszakítva: {0} a(z) {1} oszlopban marad.</value></data>
+  <data name="KanbanEmptyColumn" xml:space="preserve"><value>Nincs kártya</value></data>
+  <data name="KanbanCardCount" xml:space="preserve"><value>Kártyák: {0}</value></data>
+  <data name="GitGraphLabel" xml:space="preserve"><value>Commitelőzmények</value></data>
+  <data name="GitGraphEmpty" xml:space="preserve"><value>Nincs commit</value></data>
+  <data name="StepTimelineExpected" xml:space="preserve"><value>A szokásos időtartam {0}%-a telt el</value></data>
+  <data name="StepTimelineOverrun" xml:space="preserve"><value>túllépte a szokásos időtartamot</value></data>
+  <data name="DiffViewerLabel" xml:space="preserve"><value>Összehasonlítás</value></data>
+  <data name="DiffViewerOriginal" xml:space="preserve"><value>Előtte</value></data>
+  <data name="DiffViewerModified" xml:space="preserve"><value>Utána</value></data>
+  <data name="DiffViewerUnavailable" xml:space="preserve"><value>A Monaco szerkesztőt nem sikerült betölteni: mindkét változat egyszerű szövegként jelenik meg, a különbségek jelölése nélkül.</value></data>
+  <data name="GitGraphMerge" xml:space="preserve"><value>Egyesítő commit.</value></data>
+  <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="LinkOpensInNewTab" xml:space="preserve"><value>(új lapon nyílik meg)</value></data>
+  <data name="MarkdownExportButton" xml:space="preserve"><value>Exportálás .md-be</value></data>
+  <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Korlát: legfeljebb {0} sor</value></data>
+  <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Létrehozva (UTC): {0}</value></data>
+  <data name="MarkdownExportRowCount" xml:space="preserve"><value>Exportált sorok: {0} / {1} jelzett</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Csonkolt export: {0} sor exportálva a(z) {1} sorból, elérte a(z) {2} soros korlátot.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Hiányos export: {0} sor exportálva a jelzett {1} sorból, az adatok olvasás közben megváltoztak.</value></data>
+  <data name="MarkdownExportEmpty" xml:space="preserve"><value>Nincs sor.</value></data>
+  <data name="SignUp" xml:space="preserve"><value>Regisztráció</value></data>
+  <data name="SignUpPrompt" xml:space="preserve"><value>Nincs fiókja?</value></data>
+  <data name="UnsavedChangesTitle" xml:space="preserve"><value>Nem mentett módosítások</value></data>
+  <data name="UnsavedChangesMessage" xml:space="preserve"><value>Egyes módosítások nincsenek mentve. Elhagyja az oldalt mentés nélkül?</value></data>
+  <data name="UnsavedChangesLeave" xml:space="preserve"><value>Kilépés mentés nélkül</value></data>
+  <data name="UnsavedChangesStay" xml:space="preserve"><value>Maradás az oldalon</value></data>
+  <data name="MoreActions" xml:space="preserve"><value>További műveletek</value></data>
+  <data name="AppearanceWindowTitle" xml:space="preserve"><value>Megjelenés</value></data>
+</root>

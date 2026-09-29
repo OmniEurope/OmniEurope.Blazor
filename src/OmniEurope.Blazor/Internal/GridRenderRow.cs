@@ -12,7 +12,7 @@ internal sealed record GridRenderRow<TItem>(
     bool HasItem,
     IReadOnlyList<GridGroupHeader> Headers,
     bool ShowDetail,
-    string? CssClass,
+    string? Class,
     bool Expandable,
     bool Selectable,
     int Slot = -1);

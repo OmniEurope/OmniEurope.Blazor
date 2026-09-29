@@ -6,7 +6,7 @@ using OmniEurope.Blazor.Components;
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
-/// Non-regression of the shipped look ported from the PLAN-008 mockup (lot 7): button states, the
+/// Non-regression of the shipped look ported from the PLAN-004 mockup (lot 7): button states, the
 /// fills shared by buttons, badges and alerts, letter spacing, progress, busy veil, the layer tokens
 /// and the small radius. Each test reads the source stylesheet, or renders the component when the
 /// markup is what matters.
@@ -76,8 +76,10 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     public void ButtonPress_AnimatesTransformAndShadowExceptUnderReducedMotion()
     {
         var transition = Value(Body(".omni-button"), "transition");
-        Assert.Contains("transform 80ms", transition, StringComparison.Ordinal);
-        Assert.Contains("box-shadow 120ms", transition, StringComparison.Ordinal);
+        Assert.Contains("transform var(--omni-duration-press)", transition, StringComparison.Ordinal);
+        Assert.Contains("box-shadow var(--omni-duration-fast)", transition, StringComparison.Ordinal);
+        Assert.Equal("80ms", Value(Body(":root"), "--omni-duration-press"));
+        Assert.Equal("120ms", Value(Body(":root"), "--omni-duration-fast"));
         Assert.Matches(@"@media \(prefers-reduced-motion: reduce\) \{\s*\.omni-button \{ animation: none; transition: none; \}", Css);
     }
 
@@ -112,7 +114,7 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     [Fact]
     public void LetterSpacing_DefaultsToZeroEmAndIsSubtractedFromTheEndPadding()
     {
-        Assert.Equal("0em", Value(Body(":root"), "--omni-button-letter-spacing"));
+        Assert.Equal("0em", Value(ShapeDefaults(), "--omni-button-letter-spacing"));
         Assert.Equal(
             "var(--omni-button-padding-inline, var(--omni-button-pad-x)) calc(var(--omni-button-padding-inline, var(--omni-button-pad-x)) - var(--omni-button-letter-spacing, 0em))",
             Value(Rules().Single(rule => rule.Selector == ".omni-button" && rule.Body.Contains("padding-inline", StringComparison.Ordinal)).Body, "padding-inline"));
@@ -159,14 +161,14 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     // ---- T22, T24: one fill and one ink per intention for buttons, solid badges and alerts ----
 
     [Theory]
-    [InlineData(OmniBadgeVariant.Accent, OmniButtonVariant.Primary)]
-    [InlineData(OmniBadgeVariant.Info, OmniButtonVariant.Info)]
-    [InlineData(OmniBadgeVariant.Success, OmniButtonVariant.Success)]
-    [InlineData(OmniBadgeVariant.Warning, OmniButtonVariant.Warning)]
-    [InlineData(OmniBadgeVariant.Danger, OmniButtonVariant.Danger)]
-    public void SolidBadge_TakesExactlyTheFillAndInkOfTheMatchingButton(OmniBadgeVariant badge, OmniButtonVariant button)
+    [InlineData(OmniTone.Accent, OmniButtonVariant.Primary)]
+    [InlineData(OmniTone.Info, OmniButtonVariant.Info)]
+    [InlineData(OmniTone.Success, OmniButtonVariant.Success)]
+    [InlineData(OmniTone.Warning, OmniButtonVariant.Warning)]
+    [InlineData(OmniTone.Danger, OmniButtonVariant.Danger)]
+    public void SolidBadge_TakesExactlyTheFillAndInkOfTheMatchingButton(OmniTone badge, OmniButtonVariant button)
     {
-        var solid = badge == OmniBadgeVariant.Accent ? Body(".omni-badge--solid") : Body($".omni-badge--solid.omni-badge--{badge.ToString().ToLowerInvariant()}");
+        var solid = badge == OmniTone.Accent ? Body(".omni-badge--solid") : Body($".omni-badge--solid.omni-badge--{badge.ToString().ToLowerInvariant()}");
         var fills = Body($".omni-button--{button.ToString().ToLowerInvariant()}");
 
         Assert.Equal(Value(fills, "--omni-button-fill"), Value(solid, "background"));
@@ -191,7 +193,7 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     [Fact]
     public void EveryBadgeVariant_HasItsTonalInk()
     {
-        foreach (var variant in Enum.GetNames<OmniBadgeVariant>().Select(name => name.ToLowerInvariant()))
+        foreach (var variant in Enum.GetNames<OmniTone>().Select(name => name.ToLowerInvariant()))
         {
             Assert.Contains("--omni-badge-ink:", Body($".omni-badge--{variant}"), StringComparison.Ordinal);
         }
@@ -201,9 +203,9 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     public void Badge_RendersTheSolidFillAndTheInfoIntention()
     {
         var badge = Render<OmniBadge>(parameters => parameters
-            .Add(component => component.Variant, OmniBadgeVariant.Info)
-            .Add(component => component.Fill, OmniBadgeFill.Solid)
-            .Add(component => component.Text, "En revue"));
+            .Add(component => component.Tone, OmniTone.Info)
+            .Add(component => component.Fill, OmniFill.Solid)
+            .AddChildContent("En revue"));
 
         var classes = badge.Find(".omni-badge").ClassList;
         Assert.Contains("omni-badge--info", classes);
@@ -225,9 +227,9 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     }
 
     [Fact]
-    public void FilledAlert_IsDrawnLikeAButtonWithoutAnySideBar()
+    public void SolidAlert_IsDrawnLikeAButtonWithoutAnySideBar()
     {
-        var filled = Body(".omni-alert--filled");
+        var filled = Body(".omni-alert--solid");
         Assert.Equal("var(--omni-alert-fill)", Value(filled, "background"));
         Assert.Equal("var(--omni-alert-on)", Value(filled, "color"));
         // A theme may flatten it (--omni-alert-shadow, Aplat); the package draws it otherwise.
@@ -279,7 +281,7 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     {
         var alert = Render<OmniAlert>(parameters => parameters
             .Add(component => component.Severity, severity)
-            .Add(component => component.Variant, OmniAlertVariant.Filled)
+            .Add(component => component.Fill, OmniFill.Solid)
             .Add(component => component.Title, "Titre")
             .AddChildContent("Message."));
 
@@ -307,9 +309,9 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     [InlineData(".omni-card", "border", "var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border))")]
     [InlineData(".omni-dialog", "background", "var(--omni-dialog-background, var(--omni-card-background, var(--omni-color-surface)))")]
     [InlineData(".omni-dialog", "box-shadow", "inset 0 0 0 var(--omni-border-width) var(--omni-card-border-color, transparent), var(--omni-overlay-shadow, var(--omni-shadow-lg))")]
-    [InlineData(".omni-split-button__menu,\n.omni-context-menu__popup", "box-shadow", "var(--omni-overlay-shadow, var(--omni-shadow-md))")]
+    [InlineData(".omni-context-menu__popup", "box-shadow", "var(--omni-overlay-shadow, var(--omni-shadow-md))")]
+    [InlineData(".omni-menu", "box-shadow", "var(--omni-overlay-shadow, var(--omni-shadow-md))")]
     [InlineData(".omni-popover__panel", "box-shadow", "var(--omni-overlay-shadow, var(--omni-shadow-md))")]
-    [InlineData(".omni-profile-menu__items", "box-shadow", "var(--omni-overlay-shadow, var(--omni-shadow-md))")]
     [InlineData(".omni-data-grid__popover-panel", "box-shadow", "var(--omni-overlay-shadow, var(--omni-shadow-md))")]
     [InlineData(".omni-combo__list", "box-shadow", "var(--omni-overlay-shadow, var(--omni-shadow-md))")]
     [InlineData(".omni-autocomplete__results", "box-shadow", "var(--omni-overlay-shadow, var(--omni-shadow-md))")]
@@ -325,10 +327,6 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     [Theory]
     [InlineData(".omni-theme-scope", "background-image", "var(--omni-backdrop, none)")]
     [InlineData(".omni-theme-scope", "isolation", "var(--omni-scope-isolation, auto)")]
-    [InlineData(".omni-card", "position", "var(--omni-card-position, static)")]
-    [InlineData(".omni-card::before", "content", "var(--omni-card-frost, none)")]
-    [InlineData(".omni-card::before", "backdrop-filter", "var(--omni-card-filter, none)")]
-    [InlineData(".omni-card::before", "z-index", "-1")]
     [InlineData(".omni-input", "box-shadow", "var(--omni-input-shadow, 0 0 #0000)")]
     [InlineData(".omni-input:focus-visible", "box-shadow", "var(--omni-focus-ring), var(--omni-input-shadow, 0 0 #0000)")]
     [InlineData(".omni-overlay", "backdrop-filter", "var(--omni-scrim-filter, none)")]
@@ -347,8 +345,6 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         var body = Body("[data-omni-theme]");
         Assert.Equal("none", Value(body, "--omni-backdrop"));
         Assert.Equal("auto", Value(body, "--omni-scope-isolation"));
-        Assert.Equal("static", Value(body, "--omni-card-position"));
-        Assert.Equal("none", Value(body, "--omni-card-frost"));
         Assert.Equal("none", Value(body, "--omni-card-filter"));
         Assert.Equal("0 0 #0000", Value(body, "--omni-input-shadow"));
         Assert.Equal("none", Value(body, "--omni-scrim-filter"));
@@ -357,6 +353,185 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         Assert.Equal("initial", Value(body, "--omni-input-border-color"));
         Assert.Equal("initial", Value(body, "--omni-grid-background"));
         Assert.Equal("initial", Value(body, "--omni-alert-shadow"));
+    }
+
+    /// <summary>
+    /// Givre's frost is one hook on the card surfaces (--omni-card-filter): every surface drawn on the
+    /// card fill is positioned and carries the pseudo-element, which paints nothing without the hook.
+    /// The two hooks that used to have to be set with it are gone.
+    /// </summary>
+    [Fact]
+    public void FrostedSurfaces_ShareOneHook()
+    {
+        string[] surfaces = [".omni-card", ".omni-stat-tile", ".omni-settings-tile", ".omni-appearance-settings__row", ".omni-selectable-card", ".omni-upload__file"];
+        var positioned = Rules().Single(rule => rule.Selector.StartsWith(".omni-card,", StringComparison.Ordinal) && rule.Body.Contains("position", StringComparison.Ordinal));
+        var frost = Rules().Single(rule => rule.Selector.StartsWith(".omni-card::before,", StringComparison.Ordinal));
+
+        Assert.Equal("relative", Value(positioned.Body, "position"));
+        Assert.Equal(surfaces, positioned.Selector.Split(",\n"));
+        Assert.Equal(surfaces.Select(surface => surface + "::before"), frost.Selector.Split(",\n"));
+        Assert.Equal("var(--omni-card-filter, none)", Value(frost.Body, "backdrop-filter"));
+        Assert.Equal("\"\"", Value(frost.Body, "content"));
+        Assert.Equal("-1", Value(frost.Body, "z-index"));
+        Assert.Equal("none", Value(frost.Body, "pointer-events"));
+
+        Assert.DoesNotContain("--omni-card-position", Css, StringComparison.Ordinal);
+        Assert.DoesNotContain("--omni-card-frost", Css, StringComparison.Ordinal);
+        Assert.All(OmniThemePresets.All, preset =>
+        {
+            Assert.False(preset.Shape.ContainsKey("--omni-card-position"), preset.Name);
+            Assert.False(preset.Shape.ContainsKey("--omni-card-frost"), preset.Name);
+            Assert.Equal(preset.Shape.ContainsKey("--omni-card-filter"), preset.Shape.ContainsKey("--omni-scope-isolation"));
+        });
+    }
+
+    /// <summary>
+    /// A theme scope nested in another inherits nothing of the outer theme's shape: every shape token a
+    /// theme of the catalogue sets is declared again on every scope, by the generated block (the tokens
+    /// of the shipped theme), the theme hooks or the shape defaults. Palette and mode tokens are the
+    /// generated colour blocks' concern; Givre's field stops are read only inside --omni-backdrop.
+    /// </summary>
+    [Fact]
+    public void EveryShapeTokenOfTheCatalogue_IsDeclaredAgainOnEveryScope()
+    {
+        var shipped = OmniThemePresets.All[0].Shape.Keys;
+        var hooks = Body("[data-omni-theme]");
+        var defaults = ShapeDefaults();
+        var missing = OmniThemePresets.All
+            .SelectMany(preset => preset.Shape.Keys.Concat(preset.DarkShape.Keys))
+            .Distinct(StringComparer.Ordinal)
+            .Where(name => !name.StartsWith("--omni-color-", StringComparison.Ordinal)
+                && !name.StartsWith("--omni-elevation-", StringComparison.Ordinal)
+                && !name.StartsWith("--omni-backdrop-", StringComparison.Ordinal))
+            .Where(name => !shipped.Contains(name))
+            .Where(name => !Declares(hooks, name) && !Declares(defaults, name))
+            .ToList();
+
+        Assert.Empty(missing);
+        Assert.Equal("1px", Value(defaults, "--omni-border-width"));
+        Assert.Equal("initial", Value(defaults, "--omni-button-press-transform"));
+        Assert.Equal("initial", Value(defaults, "--omni-heading-font-family"));
+        Assert.Equal("2rem", Value(defaults, "--omni-font-size-h1"));
+        Assert.Equal("rgb(0 0 0 / 55%)", Value(defaults, "--omni-color-overlay"));
+    }
+
+    /// <summary>
+    /// One ring per state, in tokens a theme can restyle: the focus ring, its danger form around an
+    /// invalid field and its inset form where an outer ring would be clipped. No rule writes a ring of
+    /// its own, and a theme that draws its own ring draws all three.
+    /// </summary>
+    [Fact]
+    public void FocusRings_AreThreeTokensThatEveryThemeRingSetsTogether()
+    {
+        var defaults = ShapeDefaults();
+        Assert.StartsWith("0 0 0 0.2rem color-mix(in srgb, var(--omni-color-accent)", Value(defaults, "--omni-focus-ring"), StringComparison.Ordinal);
+        Assert.StartsWith("0 0 0 0.2rem color-mix(in srgb, var(--omni-color-danger)", Value(defaults, "--omni-focus-ring-danger"), StringComparison.Ordinal);
+        Assert.StartsWith("inset 0 0 0 0.2rem", Value(defaults, "--omni-focus-ring-inset"), StringComparison.Ordinal);
+
+        var handWritten = Rules()
+            .Where(rule => rule.Selector.Contains(":focus", StringComparison.Ordinal))
+            .Where(rule => Regex.IsMatch(rule.Body, @"inset var\(--omni-focus-ring\)|0 0 0 0\.2rem|outline:\s*2px solid var\(--omni-color-accent\)"))
+            .Select(rule => rule.Selector)
+            .ToList();
+        Assert.Empty(handWritten);
+        Assert.Contains("var(--omni-focus-ring-danger)", Body(".omni-input[aria-invalid=\"true\"]:focus-visible"), StringComparison.Ordinal);
+        Assert.Contains("var(--omni-focus-ring-danger)", Body(".omni-password--invalid:focus-within"), StringComparison.Ordinal);
+        Assert.Contains("var(--omni-focus-ring-inset)", Body(".omni-password__toggle:focus-visible"), StringComparison.Ordinal);
+
+        Assert.All(OmniThemePresets.All.Where(preset => preset.Shape.ContainsKey("--omni-focus-ring")), preset =>
+        {
+            Assert.True(preset.Shape.ContainsKey("--omni-focus-ring-danger"), preset.Name);
+            Assert.True(preset.Shape.ContainsKey("--omni-focus-ring-inset"), preset.Name);
+        });
+    }
+
+    /// <summary>Every control named by the plan takes the shared ring, the button-like ones beside their relief.</summary>
+    [Theory]
+    [InlineData(".omni-pager__button")]
+    [InlineData(".omni-steps__button")]
+    [InlineData(".omni-stack-scroll__button")]
+    [InlineData(".omni-tabs__tab")]
+    [InlineData(".omni-tabs__scroll")]
+    [InlineData(".omni-tree__toggle")]
+    [InlineData(".omni-tree__select")]
+    [InlineData(".omni-fieldset__summary")]
+    [InlineData(".omni-notification__dismiss")]
+    [InlineData(".omni-notification__more")]
+    [InlineData(".omni-multi-select-compact__clear")]
+    [InlineData(".omni-toggle-button")]
+    [InlineData(".omni-split-button__main")]
+    [InlineData(".omni-split-button__toggle")]
+    public void Controls_TakeTheSharedFocusRing(string control)
+    {
+        var ring = Rules().Where(rule => rule.Selector.Contains(":focus-visible", StringComparison.Ordinal)
+                && Regex.IsMatch(rule.Selector, Regex.Escape(control) + @"[,)\s:]"))
+            .Select(rule => rule.Body)
+            .FirstOrDefault(body => body.Contains("var(--omni-focus-ring)", StringComparison.Ordinal));
+
+        Assert.True(ring is not null, $"{control} has no focus ring.");
+        Assert.Contains("outline: none", ring, StringComparison.Ordinal);
+    }
+
+    /// <summary>
+    /// The layers are one scale of tokens: no surface writes a layer number of its own, and the
+    /// connection overlay, which says nothing under it can be acted on, stands above windows and
+    /// tooltips, themselves above dialogs.
+    /// </summary>
+    [Fact]
+    public void Layers_AreOneScaleWithTheConnectionOverlayOnTop()
+    {
+        var root = Body(":root");
+        int Layer(string name) => int.Parse(Value(root, name), CultureInfo.InvariantCulture);
+
+        Assert.True(Layer("--omni-z-blocking") > Layer("--omni-z-tooltip"));
+        Assert.True(Layer("--omni-z-tooltip") > Layer("--omni-z-window"));
+        Assert.True(Layer("--omni-z-window") > Layer("--omni-z-toast"));
+        Assert.True(Layer("--omni-z-toast") > Layer("--omni-z-overlay"));
+        Assert.True(Layer("--omni-z-overlay") > Layer("--omni-z-popover"));
+        Assert.Equal("var(--omni-z-blocking)", Value(Body(".omni-connection-overlay"), "z-index"));
+        Assert.Equal("var(--omni-z-window)", Value(BodyWith(".omni-window-layer", "z-index"), "z-index"));
+        Assert.Equal("var(--omni-z-tooltip)", Value(Body(".omni-title-tooltip"), "z-index"));
+        Assert.Equal("var(--omni-z-overlay)", Value(Body(".omni-overlay"), "z-index"));
+
+        // A literal of two digits or more is a layer written by hand; 1 to 4 order the parts of one component.
+        var literals = Rules().Where(rule => Regex.IsMatch(rule.Body, @"z-index:\s*\d{2,}")).Select(rule => rule.Selector).ToList();
+        Assert.Empty(literals);
+    }
+
+    /// <summary>
+    /// The owner's rule: no accent bar on one edge. A rule on the start edge is a structural hairline of
+    /// the border width, or none; no inset shadow is offset sideways to draw one.
+    /// </summary>
+    [Fact]
+    public void NoRule_DrawsASideBar()
+    {
+        var edges = Rules()
+            .SelectMany(rule => Regex.Matches(rule.Body, @"border-(?:inline-start|inline-end|left|right)\s*:\s*(?<value>[^;]+)").Select(match => (rule.Selector, Value: match.Groups["value"].Value.Trim())))
+            .Where(edge => !edge.Value.StartsWith('0') && !edge.Value.StartsWith("var(--omni-border-width", StringComparison.Ordinal))
+            .Select(edge => $"{edge.Selector}: {edge.Value}")
+            .ToList();
+        var insetBars = Rules()
+            .Where(rule => Regex.IsMatch(rule.Body, @"inset\s+-?(?!0[\s)])[0-9.]+(?:rem|px|em)\s+0\s+0"))
+            .Select(rule => rule.Selector)
+            .ToList();
+
+        Assert.Empty(edges);
+        Assert.Empty(insetBars);
+        Assert.Contains("font-weight: 600", Body(".omni-log-viewer__line--current"), StringComparison.Ordinal);
+        Assert.Contains("background", Body(".omni-rich-text blockquote"), StringComparison.Ordinal);
+    }
+
+    /// <summary>Selected, pressed and current take one fill everywhere: the accent fill and its ink.</summary>
+    [Theory]
+    [InlineData(".omni-select-bar__item--selected")]
+    [InlineData(".omni-toggle-button--pressed")]
+    [InlineData(".omni-steps__item--selected .omni-steps__number")]
+    [InlineData(".omni-pager__button[aria-current=\"page\"]")]
+    public void SelectedStates_TakeTheAccentFillAndItsInk(string selector)
+    {
+        var body = Body(selector);
+        Assert.Equal("var(--omni-color-accent-fill)", Value(body, "background"));
+        Assert.Equal("var(--omni-color-on-accent-fill)", Value(body, "color"));
     }
 
     [Fact]
@@ -369,10 +544,9 @@ public sealed partial class ShippedLookTests : OmniBunitContext
 
     [Theory]
     [InlineData(".omni-notification")]
-    [InlineData(".omni-split-button__menu,\n.omni-context-menu__popup")]
+    [InlineData(".omni-context-menu__popup")]
+    [InlineData(".omni-menu")]
     [InlineData(".omni-popover__panel")]
-    [InlineData(".omni-profile-menu__items")]
-    [InlineData(".omni-profile-menu__panel")]
     [InlineData(".omni-data-grid__popover-panel")]
     [InlineData(".omni-combo__list")]
     [InlineData(".omni-autocomplete__results")]
@@ -408,7 +582,9 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     [InlineData(".omni-checkbox-nullable__indicator")]
     public void BadgesAndCheckboxes_TakeTheThemesSmallRadius(string selector)
     {
-        Assert.Equal("var(--omni-radius-sm, calc(var(--omni-radius) / 2))", Value(Body(selector), "border-radius"));
+        Assert.Equal("var(--omni-radius-sm)", Value(Body(selector), "border-radius"));
+        // The half radius used to stand in for the small one in a dozen rules: the token is always declared.
+        Assert.DoesNotContain("var(--omni-radius) / 2", Css, StringComparison.Ordinal);
     }
 
     // ---- helpers ----
@@ -435,6 +611,12 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     // at-rule, so a multi-line list is looked up as written.
     private static string Normalise(string selector) =>
         Regex.Replace(selector.Trim(), @"\s*\n\s*", "\n");
+
+    /// <summary>The shape defaults declared on the root and again on every theme scope.</summary>
+    internal static string ShapeDefaults() => BodyWith(":root,\n[data-omni-theme]", "--omni-border-width:");
+
+    private static bool Declares(string body, string name) =>
+        Regex.IsMatch(body, @"(?:^|;|\{)\s*" + Regex.Escape(name) + @"\s*:");
 
     private static string BodyWith(string selector, string declaration)
     {

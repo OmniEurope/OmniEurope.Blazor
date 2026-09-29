@@ -16,13 +16,16 @@
 else
 {
     @* The drop lands on the wrapper, never on the tab button: a button is not a valid container for
-       what a drag carries, and the wrapper covers exactly the same area. *@
+       what a drag carries, and the wrapper covers exactly the same area. The wrapper draws no box
+       (display: contents), so the feedback of a drag over it is drawn by the tab button. *@
     <div @attributes="AdditionalAttributes"
          id="@Id"
-         class="@Css("omni-tabs__item", AcceptsDrop ? "omni-tabs__item--drop-target" : null)"
+         class="@Css("omni-tabs__item")"
          @ondragover:preventDefault="AcceptsDrop"
+         @ondragenter="DragEnterCallback"
+         @ondragleave="DragLeaveCallback"
          @ondrop="HandleDropAsync">
-        <button id="@TabId" type="button" class="omni-tabs__tab" role="tab" data-key="@Key" aria-selected="@(Selected ? "true" : "false")" aria-controls="@PanelId" tabindex="@(Selected ? 0 : -1)" disabled="@Disabled" @onclick="SelectAsync">
+        <button id="@TabId" type="button" class="@TabCss" role="tab" data-key="@RegisteredKey" aria-selected="@(Selected ? "true" : "false")" aria-controls="@PanelId" tabindex="@(Selected ? 0 : -1)" disabled="@Disabled" @onclick="SelectAsync">
             @if (Icon is not null)
             {
                 <span class="omni-tabs__icon" aria-hidden="true">@Icon</span>

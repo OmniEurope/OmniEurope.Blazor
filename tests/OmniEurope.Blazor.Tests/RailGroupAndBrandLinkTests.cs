@@ -96,13 +96,12 @@ public sealed class RailGroupAndBrandLinkTests : OmniBunitContext
             "repeat(auto-fit, minmax(min(100%, max(30rem, calc((100% - var(--omni-space-md)) / 2))), 1fr))",
             ShippedLookTests.Value(grid, "grid-template-columns"));
 
-        // Mode then font, theme then palette, then the scales.
+        // Mode then font, then the row that opens the window of the theme, the palette and the scales.
         var settings = Render<OmniAppearanceSettings>();
         var labels = settings.FindAll(".omni-appearance-settings > .omni-appearance-settings__row > .omni-appearance-settings__label")
             .Select(label => label.TextContent.Trim())
-            .Take(4)
             .ToArray();
-        Assert.Equal(["Mode", "Police", "Thème", "Palette"], labels);
+        Assert.Equal(["Mode", "Police", "Thème, palette et tailles"], labels);
     }
 
     [Fact]

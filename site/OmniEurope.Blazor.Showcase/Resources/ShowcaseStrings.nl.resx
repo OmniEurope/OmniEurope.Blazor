@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="HeaderBadge" xml:space="preserve"><value>Componentenbibliotheek</value></data>
+  <data name="ModeLight" xml:space="preserve"><value>Licht thema</value></data>
+  <data name="ModeDark" xml:space="preserve"><value>Donker thema</value></data>
+  <data name="LanguageSelectorLabel" xml:space="preserve"><value>Taal van de showcase</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Hoofdnavigatie</value></data>
+  <data name="MenuLabel" xml:space="preserve"><value>Onderdelen van de site</value></data>
+  <data name="NavShowcase" xml:space="preserve"><value>Overzicht</value></data>
+  <data name="NavDocumentation" xml:space="preserve"><value>Documentatie</value></data>
+  <data name="NavComponents" xml:space="preserve"><value>Componenten</value></data>
+  <data name="NavCustomize" xml:space="preserve"><value>Aanpassen</value></data>
+  <data name="ErrorTitle" xml:space="preserve"><value>Er is een fout opgetreden</value></data>
+  <data name="ErrorMessage" xml:space="preserve"><value>De pagina kon niet correct worden weergegeven.</value></data>
+  <data name="Retry" xml:space="preserve"><value>Opnieuw proberen</value></data>
+  <data name="NotFoundPageTitle" xml:space="preserve"><value>Pagina niet gevonden</value></data>
+  <data name="NotFoundTitle" xml:space="preserve"><value>Pagina niet gevonden</value></data>
+  <data name="NotFoundDescription" xml:space="preserve"><value>Het opgevraagde adres komt met geen enkele pagina van deze site overeen.</value></data>
+  <data name="BackHome" xml:space="preserve"><value>Terug naar de startpagina</value></data>
+  <data name="HomePageTitle" xml:space="preserve"><value>OmniEurope.Blazor</value></data>
+  <data name="HomeKicker" xml:space="preserve"><value>Blazor</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Toegankelijke Blazor-componenten onder een strikt beveiligingsbeleid</value></data>
+  <data name="HomeLead" xml:space="preserve"><value>Een componentenbibliotheek voor toepassingen die inline-stijlen verbieden, toegankelijkheid eisen en een thema willen dat van begin tot eind aan te sturen is.</value></data>
+  <data name="HomeSeeComponents" xml:space="preserve"><value>Componenten bekijken</value></data>
+  <data name="HomeSeeCustomize" xml:space="preserve"><value>Thema aanpassen</value></data>
+  <data name="HomePillarsTitle" xml:space="preserve"><value>Wat de bibliotheek onderscheidt</value></data>
+  <data name="PillarCspTitle" xml:space="preserve"><value>Strikt beveiligingsbeleid</value></data>
+  <data name="PillarCspBody" xml:space="preserve"><value>Geen inline stijlattributen, geen geïnjecteerde stijlelementen, geen dynamische scriptevaluatie. De bibliotheek werkt onder een beleid dat dat allemaal weigert.</value></data>
+  <data name="PillarThemeTitle" xml:space="preserve"><value>Volledig met variabelen opgebouwd thema</value></data>
+  <data name="PillarThemeBody" xml:space="preserve"><value>Kleuren, typografie, afstanden, afrondingen, schaduwen en het grafiekpalet lopen allemaal via CSS-variabelen, zonder één vaste waarde in de regels.</value></data>
+  <data name="PillarA11yTitle" xml:space="preserve"><value>Toegankelijkheid geborgd door tests</value></data>
+  <data name="PillarA11yBody" xml:space="preserve"><value>Rollen, statussen en labels worden door de testsuite gecontroleerd, niet alleen in de documentatie beloofd.</value></data>
+  <data name="PillarWeightTitle" xml:space="preserve"><value>Bewaakt gewicht</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Het gepubliceerde pakket wordt bij elke build gemeten tegen een bytebudget, stylesheet inbegrepen.</value></data>
+  <data name="DocsPageTitle" xml:space="preserve"><value>Documentatie</value></data>
+  <data name="DocsTitle" xml:space="preserve"><value>Documentatie</value></data>
+  <data name="DocsLead" xml:space="preserve"><value>Van het installeren van het pakket tot uw eerste eigen thema, in vijf stappen.</value></data>
+  <data name="DocsInstallTitle" xml:space="preserve"><value>Het pakket installeren</value></data>
+  <data name="DocsInstallBody" xml:space="preserve"><value>De bibliotheek wordt als elk ander NuGet-pakket gerefereerd.</value></data>
+  <data name="DocsRegisterTitle" xml:space="preserve"><value>De services registreren</value></data>
+  <data name="DocsRegisterBody" xml:space="preserve"><value>Eén aanroep registreert alle services die de componenten nodig hebben.</value></data>
+  <data name="DocsCssTitle" xml:space="preserve"><value>Naar de stylesheet verwijzen</value></data>
+  <data name="DocsCssBody" xml:space="preserve"><value>De stylesheet wordt als statische resource van het pakket geleverd.</value></data>
+  <data name="DocsCspTitle" xml:space="preserve"><value>Beveiligingsbeleid</value></data>
+  <data name="DocsCspBody" xml:space="preserve"><value>De bibliotheek vraagt geen machtigingen buiten deze, geen inline stijlen en geen dynamische scriptevaluatie.</value></data>
+  <data name="DocsThemeTitle" xml:space="preserve"><value>Thema aanpassen</value></data>
+  <data name="DocsThemeBody" xml:space="preserve"><value>Eén variabele opnieuw definiëren volstaat om alle componenten die haar lezen opnieuw te kleuren.</value></data>
+  <data name="DocsThemePointer" xml:space="preserve"><value>Om een volledig thema samen te stellen zonder CSS te schrijven:</value></data>
+  <data name="GalleryPageTitle" xml:space="preserve"><value>Componenten</value></data>
+  <data name="GalleryTitle" xml:space="preserve"><value>Componenten</value></data>
+  <data name="GalleryLead" xml:space="preserve"><value>Elke familie wordt getoond met wat ze kan, een live demo en de code die haar produceert.</value></data>
+  <data name="GalleryNavLabel" xml:space="preserve"><value>Componentfamilies</value></data>
+  <data name="GalleryCapabilities" xml:space="preserve"><value>Wat de component kan</value></data>
+  <data name="GalleryPreview" xml:space="preserve"><value>Demo</value></data>
+  <data name="GallerySource" xml:space="preserve"><value>Broncode</value></data>
+  <data name="GallerySourceNote" xml:space="preserve"><value>Deze code is precies het bestand dat door de demo hierboven wordt gecompileerd en uitgevoerd, uit de assembly gelezen en nooit met de hand overgetypt.</value></data>
+  <data name="GallerySourceMissingTitle" xml:space="preserve"><value>Bron niet beschikbaar</value></data>
+  <data name="GallerySourceMissing" xml:space="preserve"><value>Het bestand van de demo is niet gevonden in de resources van de assembly.</value></data>
+  <data name="DemoButtonsTitle" xml:space="preserve"><value>Knoppen</value></data>
+  <data name="DemoButtonsSummary" xml:space="preserve"><value>De actieknop, uitgewerkt naar visuele intentie en status.</value></data>
+  <data name="DemoButtonsCapability1" xml:space="preserve"><value>Vier intenties: primair, secundair, subtiel en destructief.</value></data>
+  <data name="DemoButtonsCapability2" xml:space="preserve"><value>Een bezetstatus die dubbel verzenden blokkeert en zich aankondigt bij schermlezers.</value></data>
+  <data name="DemoButtonsCapability3" xml:space="preserve"><value>Een uitgeschakelde status, los van de bezetstatus.</value></data>
+  <data name="DemoButtonsCapability4" xml:space="preserve"><value>Drie formaten en de drie knoptypen van een formulier: verzenden, herstellen, neutrale actie.</value></data>
+  <data name="DemoBadgesTitle" xml:space="preserve"><value>Badges</value></data>
+  <data name="DemoBadgesSummary" xml:space="preserve"><value>Het korte label dat een element typeert zonder het te overladen.</value></data>
+  <data name="DemoBadgesCapability1" xml:space="preserve"><value>Vijf varianten, afgestemd op de ernstniveaus van het thema.</value></data>
+  <data name="DemoBadgesCapability2" xml:space="preserve"><value>Getinte achtergronden afgeleid van de variabelen, dus opnieuw gekleurd met het thema.</value></data>
+  <data name="DemoAlertsTitle" xml:space="preserve"><value>Waarschuwingen</value></data>
+  <data name="DemoAlertsSummary" xml:space="preserve"><value>Het contextuele bericht, van een eenvoudige melding tot een blokkerende fout.</value></data>
+  <data name="DemoAlertsCapability1" xml:space="preserve"><value>Vier ernstniveaus: informatie, succes, waarschuwing en gevaar.</value></data>
+  <data name="DemoAlertsCapability2" xml:space="preserve"><value>Twee varianten: subtiele omlijning of gevuld vlak.</value></data>
+  <data name="DemoAlertsCapability3" xml:space="preserve"><value>Een live modus die het bericht aankondigt aan hulptechnologieën.</value></data>
+  <data name="CustomizePageTitle" xml:space="preserve"><value>Aanpassen</value></data>
+  <data name="CustomizeTitle" xml:space="preserve"><value>Aanpassen</value></data>
+  <data name="CustomizeLead" xml:space="preserve"><value>Kies een thema, dat de vorm bepaalt, en daarna een palet, dat de kleuren bepaalt: elk palet kleurt elk thema, en de hele site kleurt direct mee. Het voorbeeld neemt de composities van het referentieontwerp over.</value></data>
+  <data name="CustomizeTokensTitle" xml:space="preserve"><value>Variabelen</value></data>
+  <data name="CustomizeTokensLead" xml:space="preserve"><value>Deze lijst wordt uit de geleverde stylesheet gelezen en kan dus niet afwijken van wat de bibliotheek werkelijk aanbiedt. Een gewijzigde variabele wordt in beide modi over de combinatie gelegd; een ander thema of palet kiezen wist haar.</value></data>
+  <data name="CustomizeReset" xml:space="preserve"><value>Wijzigingen wissen</value></data>
+  <data name="TokenGroupColor" xml:space="preserve"><value>Kleuren</value></data>
+  <data name="TokenGroupTypography" xml:space="preserve"><value>Typografie</value></data>
+  <data name="TokenGroupSpacing" xml:space="preserve"><value>Afstanden en dichtheid</value></data>
+  <data name="TokenGroupShape" xml:space="preserve"><value>Vormen, randen en indrukken</value></data>
+  <data name="TokenGroupElevation" xml:space="preserve"><value>Schaduwen, laag en overlays</value></data>
+  <data name="TokenGroupChart" xml:space="preserve"><value>Grafieken</value></data>
+  <data name="TokenGroupGrid" xml:space="preserve"><value>Gegevenstabel in donkere modus</value></data>
+  <data name="TokenGroupDiagram" xml:space="preserve"><value>Mindmap</value></data>
+  <data name="CustomizeExportTitle" xml:space="preserve"><value>Exporteren</value></data>
+  <data name="CustomizeExportLead" xml:space="preserve"><value>De onderstaande CSS bevat de hele combinatie, inclusief gewijzigde variabelen, in licht, in donker en voor de systeemmodus. Ze richt zich op de themascope (OmniThemeScope, data-omni-theme), waar de stylesheet zijn variabelen opnieuw declareert; laad haar na de stylesheet van de bibliotheek.</value></data>
+  <data name="CustomizeCopy" xml:space="preserve"><value>Kopiëren</value></data>
+  <data name="CustomizeDownload" xml:space="preserve"><value>Downloaden</value></data>
+  <data name="CustomizeCopied" xml:space="preserve"><value>De CSS is naar het klembord gekopieerd.</value></data>
+  <data name="CustomizeCopyFailed" xml:space="preserve"><value>Het kopiëren is mislukt. Selecteer de code hieronder en kopieer deze handmatig.</value></data>
+  <data name="CustomizeDownloaded" xml:space="preserve"><value>Het bestand omnieurope-theme.css is gedownload.</value></data>
+  <data name="CustomizeDownloadFailed" xml:space="preserve"><value>Het downloaden is mislukt. Kopieer in plaats daarvan de code hieronder.</value></data>
+  <data name="DemoFormTitle" xml:space="preserve"><value>Formulieren</value></data>
+  <data name="DemoFormSummary" xml:space="preserve"><value>De invoervelden en hun toegankelijke label.</value></data>
+  <data name="DemoFormCapability1" xml:space="preserve"><value>Label, beschrijving en foutmelding via een id aan het veld gekoppeld.</value></data>
+  <data name="DemoFormCapability2" xml:space="preserve"><value>Tekstvak met tekenteller en limiet.</value></data>
+  <data name="DemoFormCapability3" xml:space="preserve"><value>Schuifregelaar, selectievakje en schakelaar met het toetsenbord te bedienen.</value></data>
+  <data name="DemoSelectionTitle" xml:space="preserve"><value>Selectie</value></data>
+  <data name="DemoSelectionSummary" xml:space="preserve"><value>Eén waarde uit een lijst kiezen, of meerdere.</value></data>
+  <data name="DemoSelectionCapability1" xml:space="preserve"><value>Vervolgkeuzelijst met toegestane lege waarde.</value></data>
+  <data name="DemoSelectionCapability2" xml:space="preserve"><value>Lijst met vaste hoogte in aantal zichtbare rijen.</value></data>
+  <data name="DemoSelectionCapability3" xml:space="preserve"><value>Meervoudige selectie die de lijst met gekozen waarden teruggeeft.</value></data>
+  <data name="DemoNavigationTitle" xml:space="preserve"><value>Navigatie</value></data>
+  <data name="DemoNavigationSummary" xml:space="preserve"><value>De gebruiker situeren en tussen de onderdelen verplaatsen.</value></data>
+  <data name="DemoNavigationCapability1" xml:space="preserve"><value>Kruimelpad dat de huidige pagina markeert.</value></data>
+  <data name="DemoNavigationCapability2" xml:space="preserve"><value>Gestuurde tabbladen, met rollen en toetsenbordnavigatie.</value></data>
+  <data name="DemoNavigationCapability3" xml:space="preserve"><value>Genummerde stappen met validatie voor het wisselen.</value></data>
+  <data name="DemoFeedbackTitle" xml:space="preserve"><value>Statusfeedback</value></data>
+  <data name="DemoFeedbackSummary" xml:space="preserve"><value>Tonen waar het systeem staat zonder het lezen te blokkeren.</value></data>
+  <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Voortgangsbalk, bepaald of onbepaald.</value></data>
+  <data name="DemoFeedbackCapability2" xml:space="preserve"><value>Tooltip bereikbaar met het toetsenbord, niet alleen bij aanwijzen.</value></data>
+  <data name="DemoFeedbackCapability3" xml:space="preserve"><value>Laadskelet dat wordt aangekondigd aan schermlezers.</value></data>
+  <data name="DemoFeedbackCapability4" xml:space="preserve"><value>Lineaire of cirkelvormige balk in vier intenties, en een skelet dat de vorm aanneemt van wat het vervangt.</value></data>
+  <data name="DemoGridTitle" xml:space="preserve"><value>Gegevenstabel</value></data>
+  <data name="DemoGridSummary" xml:space="preserve"><value>De werktabel: sorteren, filteren, paginering en groepen.</value></data>
+  <data name="DemoGridCapability1" xml:space="preserve"><value>Sorteren en filteren per kolom, op de echte gegevens.</value></data>
+  <data name="DemoGridCapability2" xml:space="preserve"><value>Paginering met instelbaar paginaformaat.</value></data>
+  <data name="DemoGridCapability3" xml:space="preserve"><value>Afwisselende rijen en declaratieve kolomnotaties.</value></data>
+  <data name="DemoChartTitle" xml:space="preserve"><value>Grafieken</value></data>
+  <data name="DemoChartSummary" xml:space="preserve"><value>Categorische reeksen, in de kleuren van het thema.</value></data>
+  <data name="DemoChartCapability1" xml:space="preserve"><value>Kolomreeksen met assen met titels.</value></data>
+  <data name="DemoChartCapability2" xml:space="preserve"><value>Kleuren uit de grafiekvariabelen van het thema.</value></data>
+  <data name="DemoTypographyTitle" xml:space="preserve"><value>Typografie</value></data>
+  <data name="DemoTypographySummary" xml:space="preserve"><value>Koppen, alinea's, labels en links.</value></data>
+  <data name="DemoTypographyCapability1" xml:space="preserve"><value>Zes kopniveaus, elk in meerdere tinten.</value></data>
+  <data name="DemoTypographyCapability2" xml:space="preserve"><value>Vijf tekstelementen, van alinea tot nadruk.</value></data>
+  <data name="DemoTypographyCapability3" xml:space="preserve"><value>Afkapping met beletselteken en een label gekoppeld aan een veld.</value></data>
+  <data name="DemoLayoutTitle" xml:space="preserve"><value>Lay-out</value></data>
+  <data name="DemoLayoutSummary" xml:space="preserve"><value>Het raster, de rijen, de kaarten en de veldgroepen.</value></data>
+  <data name="DemoLayoutCapability1" xml:space="preserve"><value>Raster van twaalf kolommen met breedtes per breekpunt.</value></data>
+  <data name="DemoLayoutCapability2" xml:space="preserve"><value>Een kaart in drie zones: koptekst, inhoud en voettekst.</value></data>
+  <data name="DemoLayoutCapability3" xml:space="preserve"><value>Een veldgroep die in één keer kan worden uitgeschakeld.</value></data>
+  <data name="DemoLayoutCapability4" xml:space="preserve"><value>De volledige afstandsschaal, en de verdelingen en uitlijningen die een rij accepteert.</value></data>
+  <data name="DemoShellTitle" xml:space="preserve"><value>Applicatieshell</value></data>
+  <data name="DemoShellSummary" xml:space="preserve"><value>Het geraamte van een applicatie, het geraamte waarop deze site is gebouwd.</value></data>
+  <data name="DemoShellCapability1" xml:space="preserve"><value>Koptekst, inklapbare zijbalk en hoofdgebied.</value></data>
+  <data name="DemoShellCapability2" xml:space="preserve"><value>Een navigatiemenu met uitklapbare groepen.</value></data>
+  <data name="DemoShellCapability3" xml:space="preserve"><value>Schakelaar voor de weergave en een lokale themascope.</value></data>
+  <data name="DemoShellCapability4" xml:space="preserve"><value>Beide indelingen: gecentreerde leeskolom of volledige breedte, menu links of rechts.</value></data>
+  <data name="DemoMediaTitle" xml:space="preserve"><value>Pictogrammen en media</value></data>
+  <data name="DemoMediaSummary" xml:space="preserve"><value>De pictogrammen, de afbeeldingen en de tijdlijn.</value></data>
+  <data name="DemoMediaCapability1" xml:space="preserve"><value>Ingebouwde pictogrammen in drie formaten.</value></data>
+  <data name="DemoMediaCapability2" xml:space="preserve"><value>Een pictogrampad aangeleverd door de host, zonder het pakket zwaarder te maken.</value></data>
+  <data name="DemoMediaCapability3" xml:space="preserve"><value>Afbeelding met instelbare uitsnede en uitgesteld laden.</value></data>
+  <data name="DemoMediaCapability4" xml:space="preserve"><value>De volledige ingebouwde pictogrammenset, en de drie uitsneden van een afbeelding.</value></data>
+  <data name="DemoInputsTitle" xml:space="preserve"><value>Geavanceerde invoer</value></data>
+  <data name="DemoInputsSummary" xml:space="preserve"><value>Getallen, wachtwoorden, datums, tijden, kleuren en automatisch aanvullen.</value></data>
+  <data name="DemoInputsCapability1" xml:space="preserve"><value>Begrensd numeriek veld met instelbare stap.</value></data>
+  <data name="DemoInputsCapability2" xml:space="preserve"><value>Zichtbaar te maken wachtwoord dat nergens anders wordt gekopieerd.</value></data>
+  <data name="DemoInputsCapability3" xml:space="preserve"><value>Asynchroon automatisch aanvullen, vertraagd en met minimale lengte.</value></data>
+  <data name="DemoInputsCapability4" xml:space="preserve"><value>Datum, tijd, datum en tijd: eigen kalender en kolommen op de zwevende laag, rastertoetsenbord, grenzen en dichtheid.</value></data>
+  <data name="DemoChoiceTitle" xml:space="preserve"><value>Keuze</value></data>
+  <data name="DemoChoiceSummary" xml:space="preserve"><value>Keuzerondjes, meervoudige selectievakjes, selectiebalken en schakelknoppen.</value></data>
+  <data name="DemoChoiceCapability1" xml:space="preserve"><value>Lijsten gestuurd door opties of item voor item opgebouwd.</value></data>
+  <data name="DemoChoiceCapability2" xml:space="preserve"><value>Selectiebalk en schakelknop, met bezette en uitgeschakelde status.</value></data>
+  <data name="DemoChoiceCapability3" xml:space="preserve"><value>Selectievakje en schakelaar met drie standen, onbepaald inbegrepen.</value></data>
+  <data name="DemoValidationTitle" xml:space="preserve"><value>Validatie</value></data>
+  <data name="DemoValidationSummary" xml:space="preserve"><value>De regels worden gedeclareerd naast het veld dat ze bewaken.</value></data>
+  <data name="DemoValidationCapability1" xml:space="preserve"><value>Verplicht, lengte, e-mailnotatie en vergelijking.</value></data>
+  <data name="DemoValidationCapability2" xml:space="preserve"><value>Bij verzenden gaat de focus naar het eerste ongeldige veld.</value></data>
+  <data name="DemoValidationCapability3" xml:space="preserve"><value>Geen annotatie op het model, alles staat in de opmaak.</value></data>
+  <data name="DemoEditorTitle" xml:space="preserve"><value>Editors en uploaden</value></data>
+  <data name="DemoEditorSummary" xml:space="preserve"><value>De WYSIWYG-editor en zijn HTML-bron, de tekstverwerker, de code-editor en het uploaden van bestanden.</value></data>
+  <data name="DemoEditorCapability1" xml:space="preserve"><value>Opdrachtbalk die de host aanvult of herschikt, opgeschoond plakken, bronmodus.</value></data>
+  <data name="DemoEditorCapability2" xml:space="preserve"><value>Tekstverwerker op een pagina, woordtelling, export als HTML en tekst.</value></data>
+  <data name="DemoEditorCapability3" xml:space="preserve"><value>Code-editor (Monaco bij de host, platte tekst onder strikte CSP) en begrensd uploaden.</value></data>
+  <data name="DemoOverlayTitle" xml:space="preserve"><value>Overlays</value></data>
+  <data name="DemoOverlaySummary" xml:space="preserve"><value>Dialoogvensters, meldingen en pop-upmenu's.</value></data>
+  <data name="DemoOverlayCapability1" xml:space="preserve"><value>Modaal dialoogvenster, te sluiten met Esc of via de achtergrond.</value></data>
+  <data name="DemoOverlayCapability2" xml:space="preserve"><value>Vier ernstniveaus voor meldingen, met optioneel sluiten.</value></data>
+  <data name="DemoOverlayCapability3" xml:space="preserve"><value>Contextmenu, gesplitste knop en accountmenu.</value></data>
+  <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Gegevenstabel, volledig overzicht</value></data>
+  <data name="DemoGridAdvancedSummary" xml:space="preserve"><value>Selectie, groepen, bewerken, vastgezette kolommen en uitgebreide filters.</value></data>
+  <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Meervoudige selectie door op de rij te klikken.</value></data>
+  <data name="DemoGridAdvancedCapability2" xml:space="preserve"><value>Filters met vervolgkeuzelijst en meervoudige selectie per kolom.</value></data>
+  <data name="DemoGridAdvancedCapability3" xml:space="preserve"><value>Vastgezette kolom, uitgevouwen groepen en berekende kolomvoettekst.</value></data>
+  <data name="DemoGridAdvancedCapability4" xml:space="preserve"><value>Live gestuurde weergave-instellingen: lijnen, dichtheid, paginering, selectie, bewerken en filters.</value></data>
+  <data name="DemoDataListTitle" xml:space="preserve"><value>Lijsten en paginering</value></data>
+  <data name="DemoDataListSummary" xml:space="preserve"><value>De lijst met vrije sjabloon en de bijbehorende paginering.</value></data>
+  <data name="DemoDataListCapability1" xml:space="preserve"><value>Itemsjabloon volledig aangeleverd door de host.</value></data>
+  <data name="DemoDataListCapability2" xml:space="preserve"><value>Aparte statussen voor leeg, laden en fout.</value></data>
+  <data name="DemoDataListCapability3" xml:space="preserve"><value>Paginering met instelbaar paginaformaat en snelkoppelingen naar begin en einde.</value></data>
+  <data name="DemoTreeTitle" xml:space="preserve"><value>Boomstructuur</value></data>
+  <data name="DemoTreeSummary" xml:space="preserve"><value>De uitklapbare hiërarchie, met enkelvoudige of meervoudige selectie.</value></data>
+  <data name="DemoTreeCapability1" xml:space="preserve"><value>Meervoudige selectie en toetsenbordnavigatie.</value></data>
+  <data name="DemoTreeCapability2" xml:space="preserve"><value>Tak die op aanvraag wordt geladen bij het openen van het knooppunt.</value></data>
+  <data name="DemoTreeCapability3" xml:space="preserve"><value>Knooppunten die kunnen worden uitgeschakeld zonder de navigatie te breken.</value></data>
+  <data name="DemoSpreadsheetTitle" xml:space="preserve"><value>Rekenblad</value></data>
+  <data name="DemoSpreadsheetSummary" xml:space="preserve"><value>Een eenvoudig rekenblad: cellen, formules en formulebalk.</value></data>
+  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Formules met verwijzingen, bereiken, SOM, GEMIDDELDE, MIN, MAX en foutcodes.</value></data>
+  <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Toetsenbordnavigatie, bewerken ter plaatse en formulebalk.</value></data>
+  <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Inhoud die in beide richtingen is gebonden en naar JSON kan worden geserialiseerd.</value></data>
+  <data name="DemoSchedulerTitle" xml:space="preserve"><value>Agenda</value></data>
+  <data name="DemoSchedulerSummary" xml:space="preserve"><value>De agenda en de drie weergaven.</value></data>
+  <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Dag-, week- en maandweergave, omschakelbaar.</value></data>
+  <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Terugkerende afspraken beschreven door een regel.</value></data>
+  <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Elke weergave kan ook afzonderlijk worden gebruikt, buiten de agenda.</value></data>
+  <data name="DemoChartsExtendedTitle" xml:space="preserve"><value>Grafieken, volledig overzicht</value></data>
+  <data name="DemoChartsExtendedSummary" xml:space="preserve"><value>Alle reeksen, de legenda, de labels en de meter.</value></data>
+  <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Lijnen, vlakken, kolommen, staven, stapels, cirkel en ring.</value></data>
+  <data name="DemoChartsExtendedCapability2" xml:space="preserve"><value>Legenda, markeringen, waardelabels en tooltip.</value></data>
+  <data name="DemoChartsExtendedCapability3" xml:space="preserve"><value>Boogmeter met schaal en waardenotatie.</value></data>
+  <data name="DemoDiagramTitle" xml:space="preserve"><value>Mindmap</value></data>
+  <data name="DemoDiagramSummary" xml:space="preserve"><value>Een mindmap die met muis, aanraking en toetsenbord te bewerken is.</value></data>
+  <data name="DemoDiagramCapability1" xml:space="preserve"><value>Slepen, lasso, zoomen met het scrollwiel of door te knijpen, contextmenu.</value></data>
+  <data name="DemoDiagramCapability2" xml:space="preserve"><value>Elke actie heeft een sneltoets, aangekondigd aan schermlezers.</value></data>
+  <data name="DemoDiagramCapability3" xml:space="preserve"><value>Actiebalk en eigenschappenvenster voor het geselecteerde knooppunt.</value></data>
+  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Leest en schrijft de opgeslagen grafiekindeling terug zonder iets te verliezen.</value></data>
+  <data name="DemoPlanningTitle" xml:space="preserve"><value>Planning</value></data>
+  <data name="DemoPlanningSummary" xml:space="preserve"><value>Een Gantt-diagram, het verloop van een uitvoering en een tijdlijn om te plaatsen.</value></data>
+  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt per dag, week of maand, met groepen, afhankelijkheden en vandaag.</value></data>
+  <data name="DemoPlanningCapability2" xml:space="preserve"><value>Verloop van stappen op een tijdschaal, met de stappen die nooit zijn gestart.</value></data>
+  <data name="DemoPlanningCapability3" xml:space="preserve"><value>Tijdlijn rechts, links of afwisselend, met keuze van de eerste kant.</value></data>
+  <data name="DemoPagesTitle" xml:space="preserve"><value>Pagina's</value></data>
+  <data name="DemoPagesSummary" xml:space="preserve"><value>De koptekst, de detailpagina en wat die vult.</value></data>
+  <data name="DemoPagesCapability1" xml:space="preserve"><value>Paginakop: kruimelpad beheerd door een service, terug, titel, badges en acties, ingeklapt op een telefoon.</value></data>
+  <data name="DemoPagesCapability2" xml:space="preserve"><value>Detailpagina: koptekst getekend voordat de gegevens binnen zijn, inhoud verborgen tijdens het laden, niet-gevonden-status met een weg terug.</value></data>
+  <data name="DemoPagesCapability3" xml:space="preserve"><value>Definitielijst in kolommen, met een actie per waarde.</value></data>
+  <data name="DemoPagesCapability4" xml:space="preserve"><value>Relatieve tijd met de exacte datum bij aanwijzen en focus, en een lege status met bijbehorende actie.</value></data>
+  <data name="DemoFlowsTitle" xml:space="preserve"><value>Trajecten</value></data>
+  <data name="DemoFlowsSummary" xml:space="preserve"><value>Wizard, aanmelding en verbroken verbinding.</value></data>
+  <data name="DemoFlowsCapability1" xml:space="preserve"><value>Stappenwizard: voortgang, validatie per stap, in een pagina of een dialoogvenster.</value></data>
+  <data name="DemoFlowsCapability2" xml:space="preserve"><value>Aanmeldpagina zonder ingebouwde authenticatie, met een retouradres dat binnen de toepassing blijft.</value></data>
+  <data name="DemoFlowsCapability3" xml:space="preserve"><value>Overlay bij verbroken verbinding: aftelling, oorzaak, handmatig hervatten, mislukking en weigering.</value></data>
+  <data name="WorkshopBarTitle" xml:space="preserve"><value>Instellingen van het voorbeeld</value></data>
+  <data name="WorkshopTheme" xml:space="preserve"><value>Thema (vorm)</value></data>
+  <data name="WorkshopPalette" xml:space="preserve"><value>Palet (kleuren)</value></data>
+  <data name="WorkshopThemePalette" xml:space="preserve"><value>Palet van het thema</value></data>
+  <data name="WorkshopDefault" xml:space="preserve"><value>Standaard</value></data>
+  <data name="WorkshopMode" xml:space="preserve"><value>Modus</value></data>
+  <data name="WorkshopModeLight" xml:space="preserve"><value>Licht</value></data>
+  <data name="WorkshopModeDark" xml:space="preserve"><value>Donker</value></data>
+  <data name="WorkshopModeSystem" xml:space="preserve"><value>Systeem</value></data>
+  <data name="WorkshopDensity" xml:space="preserve"><value>Algemene dichtheid</value></data>
+  <data name="WorkshopDensityCompact" xml:space="preserve"><value>Compact</value></data>
+  <data name="WorkshopDensityComfortable" xml:space="preserve"><value>Comfortabel</value></data>
+  <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Ruim</value></data>
+  <data name="WorkshopDensityInherited" xml:space="preserve"><value>Overgenomen</value></data>
+  <data name="WorkshopSectionDensity" xml:space="preserve"><value>Dichtheid</value></data>
+  <data name="WorkshopHover" xml:space="preserve"><value>Aanwijzen</value></data>
+  <data name="WorkshopHoverForce" xml:space="preserve"><value>Forceren</value></data>
+  <data name="WorkshopHoverForced" xml:space="preserve"><value>Geforceerd</value></data>
+  <data name="WorkshopStageTitle" xml:space="preserve"><value>Voorbeeld</value></data>
+  <data name="WorkshopStageLead" xml:space="preserve"><value>Thema {0}: {1} Palet {2}: {3}</value></data>
+  <data name="WorkshopContrastWaiver" xml:space="preserve"><value>Contrast niet gegarandeerd: {0}</value></data>
+  <data name="WorkshopContrastTitle" xml:space="preserve"><value>Berekende contrasten</value></data>
+  <data name="WorkshopContrastLead" xml:space="preserve"><value>Verhouding gemeten op de tokens van de getoonde modus, daarna de te halen drempel.</value></data>
+  <data name="WorkshopContrastSystem" xml:space="preserve"><value>Systeemmodus: de verhoudingen worden gemeten op de lichte helft, want welke helft de browser kiest, is pas in de pagina bekend.</value></data>
+  <data name="WorkshopContrastVerdict" xml:space="preserve"><value>{0} van {1} paren halen hun drempel.</value></data>
+  <data name="WorkshopSwatchesTitle" xml:space="preserve"><value>Kleurtokens</value></data>
+  <data name="ContrastPair01" xml:space="preserve"><value>tekst / vlak</value></data>
+  <data name="ContrastPair02" xml:space="preserve"><value>tekst / gedempt vlak</value></data>
+  <data name="ContrastPair03" xml:space="preserve"><value>tekst / aangewezen vlak</value></data>
+  <data name="ContrastPair04" xml:space="preserve"><value>gedempte tekst / vlak</value></data>
+  <data name="ContrastPair05" xml:space="preserve"><value>gedempte tekst / gedempt vlak</value></data>
+  <data name="ContrastPair06" xml:space="preserve"><value>gedempte tekst / aangewezen vlak</value></data>
+  <data name="ContrastPair07" xml:space="preserve"><value>sterk accent / vlak</value></data>
+  <data name="ContrastPair08" xml:space="preserve"><value>sterk accent / subtiel accent</value></data>
+  <data name="ContrastPair09" xml:space="preserve"><value>sterk accent / aangewezen vlak</value></data>
+  <data name="ContrastPair10" xml:space="preserve"><value>op accent / accent</value></data>
+  <data name="ContrastPair11" xml:space="preserve"><value>op succes / succes</value></data>
+  <data name="ContrastPair12" xml:space="preserve"><value>op waarschuwing / waarschuwing</value></data>
+  <data name="ContrastPair13" xml:space="preserve"><value>op gevaar / gevaar</value></data>
+  <data name="ContrastPair14" xml:space="preserve"><value>op invers / invers</value></data>
+  <data name="ContrastPair15" xml:space="preserve"><value>succes / vlak</value></data>
+  <data name="ContrastPair16" xml:space="preserve"><value>succes / subtiel succes</value></data>
+  <data name="ContrastPair17" xml:space="preserve"><value>waarschuwing / vlak</value></data>
+  <data name="ContrastPair18" xml:space="preserve"><value>gevaar / vlak</value></data>
+  <data name="ContrastPair19" xml:space="preserve"><value>gevaar / subtiel gevaar</value></data>
+  <data name="ContrastPair20" xml:space="preserve"><value>tekst op accentvulling</value></data>
+  <data name="ContrastPair21" xml:space="preserve"><value>tekst op succesvulling</value></data>
+  <data name="ContrastPair22" xml:space="preserve"><value>tekst op infovulling</value></data>
+  <data name="ContrastPair23" xml:space="preserve"><value>inkt op helder info (waarschuwing)</value></data>
+  <data name="ContrastPair24" xml:space="preserve"><value>inkt op helder succes (waarschuwing)</value></data>
+  <data name="ContrastPair25" xml:space="preserve"><value>inkt op aangewezen helder info</value></data>
+  <data name="ContrastPair26" xml:space="preserve"><value>inkt op ingedrukt helder info</value></data>
+  <data name="ContrastPair27" xml:space="preserve"><value>inkt op aangewezen helder succes</value></data>
+  <data name="ContrastPair28" xml:space="preserve"><value>inkt op ingedrukt helder succes</value></data>
+  <data name="ContrastPair29" xml:space="preserve"><value>inkt op diepe waarschuwing (knop)</value></data>
+  <data name="ContrastPair30" xml:space="preserve"><value>inkt op aangewezen diepe waarschuwing</value></data>
+  <data name="ContrastPair31" xml:space="preserve"><value>inkt op ingedrukte diepe waarschuwing</value></data>
+  <data name="ContrastPair32" xml:space="preserve"><value>inkt op diep gevaar (knop)</value></data>
+  <data name="ContrastPair33" xml:space="preserve"><value>inkt op aangewezen diep gevaar</value></data>
+  <data name="ContrastPair34" xml:space="preserve"><value>inkt op ingedrukt diep gevaar</value></data>
+  <data name="ContrastPair35" xml:space="preserve"><value>tekst op accentvulling, aanwijzen</value></data>
+  <data name="ContrastPair36" xml:space="preserve"><value>tekst op accentvulling, indrukken</value></data>
+  <data name="ContrastPair37" xml:space="preserve"><value>secundair in rust</value></data>
+  <data name="ContrastPair38" xml:space="preserve"><value>secundair bij aanwijzen</value></data>
+  <data name="ContrastPair39" xml:space="preserve"><value>secundair bij indrukken</value></data>
+  <data name="ContrastPair40" xml:space="preserve"><value>ghost bij indrukken</value></data>
+  <data name="ContrastPair41" xml:space="preserve"><value>accentvulling / vlak</value></data>
+  <data name="ContrastPair42" xml:space="preserve"><value>succesvulling / vlak</value></data>
+  <data name="ContrastPair43" xml:space="preserve"><value>infovulling / vlak</value></data>
+  <data name="ContrastPair44" xml:space="preserve"><value>waarschuwingsvulling / vlak</value></data>
+  <data name="ContrastPair45" xml:space="preserve"><value>gevaarvulling / vlak</value></data>
+  <data name="ContrastPair46" xml:space="preserve"><value>accent / vlak</value></data>
+  <data name="ContrastPair47" xml:space="preserve"><value>rand / vlak (OE-ondergrens 1,7)</value></data>
+  <data name="DemoStatesTitle" xml:space="preserve"><value>Rust, aanwijzen en indrukken</value></data>
+  <data name="DemoStatesSummary" xml:space="preserve"><value>De drie statussen van een knopvariant naast elkaar.</value></data>
+  <data name="DemoStatesCapability1" xml:space="preserve"><value>Aanwijzen en indrukken lezen de tokens van het thema: vulling bij aanwijzen, vulling bij indrukken en drukgebaar.</value></data>
+  <data name="DemoStatesCapability2" xml:space="preserve"><value>Vergelijkingshulp van de showcase: een browser kan :hover en :active niet bevriezen.</value></data>
+  <data name="DemoAppShellTitle" xml:space="preserve"><value>Applicatieshell</value></data>
+  <data name="DemoAppShellSummary" xml:space="preserve"><value>Bovenbalk, zijmenu dat inklapt tot een pictogramstrook, inhoud.</value></data>
+  <data name="DemoAppShellCapability1" xml:space="preserve"><value>Inklapknop, zoeken, help, bel met stip en een accountmenu dat in rust gesloten is.</value></data>
+  <data name="DemoAppShellCapability2" xml:space="preserve"><value>Het zijmenu behoudt zijn pictogrammen wanneer het is ingeklapt (Collapse Icons).</value></data>
+  <data name="DemoAppShellCapability3" xml:space="preserve"><value>De stip, het vergrootglas, het logo en de avatar worden door de showcase getekend: het pakket heeft er geen component voor.</value></data>
+  <data name="DemoThemesTitle" xml:space="preserve"><value>Thema's en paletten</value></data>
+  <data name="DemoThemesSummary" xml:space="preserve"><value>Een thema geeft de vorm, een palet de kleuren; elk palet kleurt elk thema.</value></data>
+  <data name="DemoThemesCapability1" xml:space="preserve"><value>OmniThemeScope.Preset en OmniThemeScope.Palette kleuren de scope en de inhoud ervan opnieuw, en alleen die.</value></data>
+  <data name="DemoThemesCapability2" xml:space="preserve"><value>Een palet alleen wijzigt de kleuren en behoudt de geleverde vorm.</value></data>
+  <data name="DemoThemesCapability3" xml:space="preserve"><value>{0} thema's en {1} paletten, dus {2} combinaties, elk in licht en donker.</value></data>
+  <data name="DemoSurfacesTitle" xml:space="preserve"><value>Vlakken</value></data>
+  <data name="DemoSurfacesSummary" xml:space="preserve"><value>Kaarten, zwevend menu, tabbladen, zijmenu, link en tooltip.</value></data>
+  <data name="DemoSurfacesCapability1" xml:space="preserve"><value>De kaarten en het zwevende menu lezen de vorm van het thema: achtergrond, lijn, straal en schaduw.</value></data>
+  <data name="DemoSurfacesCapability2" xml:space="preserve"><value>Het zwevende menu opent op de laag van de zwevende vlakken.</value></data>
+  <data name="DemoSurfacesCapability3" xml:space="preserve"><value>Het huidige item van een menu wordt gemarkeerd door de achtergrond en het tekstgewicht, nooit door een zijstreep.</value></data>
+  <data name="DemoVerticalFormTitle" xml:space="preserve"><value>Verticaal formulier</value></data>
+  <data name="DemoVerticalFormSummary" xml:space="preserve"><value>Alle veldtypen, de fouten en hun samenvatting, de statussen uitgeschakeld en alleen-lezen.</value></data>
+  <data name="DemoVerticalFormCapability1" xml:space="preserve"><value>Label erboven, sterretje voor verplicht, hulp en fout met pictogram.</value></data>
+  <data name="DemoVerticalFormCapability2" xml:space="preserve"><value>De fouten zijn die van de bewerkingscontext: het veld haalt er aria-invalid uit, en ze corrigeren haalt ze uit de samenvatting.</value></data>
+  <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Samengesmolten bestandsveld, zone voor één bestand, zone voor meerdere bestanden met ingekorte lijst.</value></data>
+  <data name="DemoVerticalFormCapability4" xml:space="preserve"><value>Uitgeschakeld en alleen-lezen blijven onderscheiden, in de drie dichtheden.</value></data>
+  <data name="DemoSettingsTabsTitle" xml:space="preserve"><value>Instellingen in tabbladen</value></data>
+  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>Eén tabblad met pictogram per onderwerp, één sectie per tabblad, één tegel per instelling.</value></data>
+  <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>Een schakelaar in een tegel neemt de naam van de tegel als label; een klik op de tegel schakelt hem om.</value></data>
+  <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>Het besturingselement staat rechts, de naam, de hulp en het pictogram links.</value></data>
+  <data name="DemoNoticesTitle" xml:space="preserve"><value>Meldingen en dialoogvensters</value></data>
+  <data name="DemoNoticesSummary" xml:space="preserve"><value>Sluitbare meldingen, dialoogvensters op de achtergrond.</value></data>
+  <data name="DemoNoticesCapability1" xml:space="preserve"><value>Elke melding sluit met haar kruisje.</value></data>
+  <data name="DemoNoticesCapability2" xml:space="preserve"><value>De voettekst van de dialoogvensters volgt de conventie van het pakket: eerst de actie, dan Annuleren.</value></data>
+  <data name="DemoLoadingTitle" xml:space="preserve"><value>Laden</value></data>
+  <data name="DemoLoadingSummary" xml:space="preserve"><value>Laadbalk, wachten, bezette knoppen, voortgang en skelet.</value></data>
+  <data name="DemoLoadingCapability1" xml:space="preserve"><value>De balk volgt een echte laadactie, als sweep of vulling, loopt tot het einde en vervaagt dan.</value></data>
+  <data name="DemoLoadingCapability2" xml:space="preserve"><value>Een bezette knop behoudt zijn grootte en inhoud: er ademt een sluier overheen.</value></data>
+  <data name="DemoLoadingCapability3" xml:space="preserve"><value>Het skelet neemt de vorm aan van wat het vervangt.</value></data>
+  <data name="DemoRunGridsTitle" xml:space="preserve"><value>Uitvoeringstabellen</value></data>
+  <data name="DemoRunGridsSummary" xml:space="preserve"><value>De twee tabellen van het ontwerp: gesorteerd met actieve kolom, afwisselend met vaste koptekst.</value></data>
+  <data name="DemoRunGridsCapability1" xml:space="preserve"><value>De gesorteerde kolom is lichter getint dan de gekozen rij, zodat ze te onderscheiden zijn.</value></data>
+  <data name="DemoRunGridsCapability2" xml:space="preserve"><value>De koptekst blijft zichtbaar als de tabel schuift; de duur wordt aan het einde uitgelijnd.</value></data>
+  <data name="DemoRunGridsCapability3" xml:space="preserve"><value>De status is een compacte stip (omni-status).</value></data>
+  <data name="LoadingFrameBrand" xml:space="preserve"><value>Boutique</value></data>
+  <data name="LoadingFramePage" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="LoadingBarLabel" xml:space="preserve"><value>Pagina laden</value></data>
+  <data name="LoadingSweep" xml:space="preserve"><value>Balk met sweep</value></data>
+  <data name="LoadingFill" xml:space="preserve"><value>Balk met vulling</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>De balk staat onder de koptekst hierboven. Aan het eind loopt hij tot het einde en vervaagt dan.</value></data>
+  <data name="LoadingWaiting" xml:space="preserve"><value>Wachten</value></data>
+  <data name="LoadingDeploying" xml:space="preserve"><value>Bezig met implementeren</value></data>
+  <data name="LoadingChecking" xml:space="preserve"><value>Controle</value></data>
+  <data name="LoadingSaving" xml:space="preserve"><value>Bezig met opslaan</value></data>
+  <data name="LoadingAnalysis" xml:space="preserve"><value>Analyse bezig</value></data>
+  <data name="LoadingCoverage" xml:space="preserve"><value>Dekking</value></data>
+  <data name="LoadingContent" xml:space="preserve"><value>Inhoud laden</value></data>
+  <data name="NoticeDoneTitle" xml:space="preserve"><value>Implementatie voltooid</value></data>
+  <data name="NoticeDoneMessage" xml:space="preserve"><value>orders-deploy-prod #2399 in 1 min 48 s.</value></data>
+  <data name="NoticeRefusedTitle" xml:space="preserve"><value>Vergrendeld herstel geweigerd</value></data>
+  <data name="NoticeRefusedMessage" xml:space="preserve"><value>De NuGet-graaf wijkt af van het lock-bestand.</value></data>
+  <data name="NoticeShowAgain" xml:space="preserve"><value>Meldingen opnieuw tonen</value></data>
+  <data name="NoticeUnlistOpen" xml:space="preserve"><value>Versie 1.0.0 onzichtbaar maken</value></data>
+  <data name="NoticeUnlistTitle" xml:space="preserve"><value>Versie 1.0.0 onzichtbaar maken</value></data>
+  <data name="NoticeUnlistBody" xml:space="preserve"><value>De versie verdwijnt uit de zoekresultaten en de zwevende bereiken. Ze blijft downloadbaar via het exacte nummer.</value></data>
+  <data name="NoticeUnlistAlpha" xml:space="preserve"><value>Ook 0.1.0-alpha.1 onzichtbaar maken</value></data>
+  <data name="NoticeUnlist" xml:space="preserve"><value>Onzichtbaar maken</value></data>
+  <data name="NoticeUnlistDone" xml:space="preserve"><value>Versie onzichtbaar gemaakt</value></data>
+  <data name="NoticeRerunOpen" xml:space="preserve"><value>Pipeline opnieuw uitvoeren</value></data>
+  <data name="NoticeRerunTitle" xml:space="preserve"><value>Pipeline opnieuw uitvoeren?</value></data>
+  <data name="NoticeRerunBody" xml:space="preserve"><value>orders-deploy-prod #2399 wordt opnieuw uitgevoerd op server srv-01, met dezelfde variabelen.</value></data>
+  <data name="NoticeRerunNotify" xml:space="preserve"><value>Mij aan het einde verwittigen</value></data>
+  <data name="NoticeRerun" xml:space="preserve"><value>Opnieuw uitvoeren</value></data>
+  <data name="NoticeRerunDone" xml:space="preserve"><value>Pipeline opnieuw gestart</value></data>
+  <data name="NoticeCancel" xml:space="preserve"><value>Annuleren</value></data>
+  <data name="NoticeClose" xml:space="preserve"><value>Sluiten</value></data>
+  <data name="NoticeLast" xml:space="preserve"><value>Laatste actie: {0}</value></data>
+  <data name="RunsSortedCaption" xml:space="preserve"><value>Uitvoeringen, gesorteerd op pipeline</value></data>
+  <data name="RunsStripedCaption" xml:space="preserve"><value>Uitvoeringsgeschiedenis</value></data>
+  <data name="RunsRun" xml:space="preserve"><value>Uitvoering</value></data>
+  <data name="RunsPipeline" xml:space="preserve"><value>Pipeline</value></data>
+  <data name="RunsTrigger" xml:space="preserve"><value>Trigger</value></data>
+  <data name="RunsSeconds" xml:space="preserve"><value>Duur (s)</value></data>
+  <data name="RunsStatus" xml:space="preserve"><value>Status</value></data>
+  <data name="RunsTriggerPush" xml:space="preserve"><value>Push</value></data>
+  <data name="RunsTriggerManual" xml:space="preserve"><value>Handmatig</value></data>
+  <data name="RunsTriggerScheduled" xml:space="preserve"><value>Gepland</value></data>
+  <data name="RunsStatusSuccess" xml:space="preserve"><value>Geslaagd</value></data>
+  <data name="RunsStatusInfo" xml:space="preserve"><value>Bezig</value></data>
+  <data name="RunsStatusWarning" xml:space="preserve"><value>Geannuleerd</value></data>
+  <data name="RunsStatusDanger" xml:space="preserve"><value>Mislukt</value></data>
+  <data name="SettingsTabsLabel" xml:space="preserve"><value>Instellingen</value></data>
+  <data name="SettingsGeneral" xml:space="preserve"><value>Algemeen</value></data>
+  <data name="SettingsGeneralLead" xml:space="preserve"><value>Werklocaties en gedrag bij het opstarten.</value></data>
+  <data name="SettingsFolder" xml:space="preserve"><value>Map voor artefacten</value></data>
+  <data name="SettingsFolderHint" xml:space="preserve"><value>Waar de builds hun pakketten neerzetten.</value></data>
+  <data name="SettingsBrowse" xml:space="preserve"><value>Bladeren</value></data>
+  <data name="SettingsStartup" xml:space="preserve"><value>Starten met Windows</value></data>
+  <data name="SettingsStartupHint" xml:space="preserve"><value>Start de agent bij het aanmelden.</value></data>
+  <data name="SettingsLanguage" xml:space="preserve"><value>Taal</value></data>
+  <data name="SettingsLanguageHint" xml:space="preserve"><value>Taal van de interface en de meldingen.</value></data>
+  <data name="SettingsLanguageFrench" xml:space="preserve"><value>Français</value></data>
+  <data name="SettingsLanguageEnglish" xml:space="preserve"><value>English</value></data>
+  <data name="SettingsDisplay" xml:space="preserve"><value>Weergave</value></data>
+  <data name="SettingsDisplayLead" xml:space="preserve"><value>Weergave en dichtheid van de interface.</value></data>
+  <data name="SettingsDarkMode" xml:space="preserve"><value>Donkere modus</value></data>
+  <data name="SettingsDarkModeHint" xml:space="preserve"><value>Het systeem volgen of een modus forceren.</value></data>
+  <data name="SettingsModeSystem" xml:space="preserve"><value>Systeem volgen</value></data>
+  <data name="SettingsModeLight" xml:space="preserve"><value>Licht</value></data>
+  <data name="SettingsModeDark" xml:space="preserve"><value>Donker</value></data>
+  <data name="SettingsCompact" xml:space="preserve"><value>Compacte interface</value></data>
+  <data name="SettingsCompactHint" xml:space="preserve"><value>Verkleint de marges van tabellen en formulieren.</value></data>
+  <data name="SettingsNotifications" xml:space="preserve"><value>Meldingen</value></data>
+  <data name="SettingsNotificationsLead" xml:space="preserve"><value>Waarover u wordt ingelicht, en via welk kanaal.</value></data>
+  <data name="SettingsFailures" xml:space="preserve"><value>Mislukte pipelines</value></data>
+  <data name="SettingsFailuresHint" xml:space="preserve"><value>Een melding bij elke mislukte uitvoering.</value></data>
+  <data name="SettingsDigest" xml:space="preserve"><value>Dagelijks overzicht</value></data>
+  <data name="SettingsDigestHint" xml:space="preserve"><value>Elke ochtend om 8 uur verzonden.</value></data>
+  <data name="SettingsDigestAddress" xml:space="preserve"><value>Adres voor het overzicht</value></data>
+  <data name="DemoShellDashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="DemoShellInProgress" xml:space="preserve"><value>Bezig</value></data>
+  <data name="DemoShellArchived" xml:space="preserve"><value>Gearchiveerd</value></data>
+  <data name="DemoShellSettings" xml:space="preserve"><value>Instellingen</value></data>
+  <data name="DemoShellOneOffAction" xml:space="preserve"><value>Eenmalige actie</value></data>
+  <data name="ShellToggle" xml:space="preserve"><value>Menu in- of uitklappen</value></data>
+  <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
+  <data name="ShellBrand" xml:space="preserve"><value>Boutique</value></data>
+  <data name="ShellSearch" xml:space="preserve"><value>Zoeken</value></data>
+  <data name="ShellSearchPlaceholder" xml:space="preserve"><value>Pipeline zoeken</value></data>
+  <data name="ShellHelp" xml:space="preserve"><value>Help</value></data>
+  <data name="ShellNotifications" xml:space="preserve"><value>Meldingen, {0} ongelezen</value></data>
+  <data name="ShellAccount" xml:space="preserve"><value>Account</value></data>
+  <data name="ShellSettings" xml:space="preserve"><value>Instellingen</value></data>
+  <data name="ShellSettingsHint" xml:space="preserve"><value>Thema, taal, meldingen</value></data>
+  <data name="ShellAppearance" xml:space="preserve"><value>Weergave</value></data>
+  <data name="ShellAppearanceHint" xml:space="preserve"><value>Licht, donker of systeem</value></data>
+  <data name="ShellSignOut" xml:space="preserve"><value>Afmelden</value></data>
+  <data name="ShellMenu" xml:space="preserve"><value>Hoofdmenu</value></data>
+  <data name="ShellDashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="ShellPipelines" xml:space="preserve"><value>Pipelines</value></data>
+  <data name="ShellServers" xml:space="preserve"><value>Servers</value></data>
+  <data name="ShellProjects" xml:space="preserve"><value>Projecten</value></data>
+  <data name="ShellHelpCenter" xml:space="preserve"><value>Helpcentrum</value></data>
+  <data name="ShellAdministration" xml:space="preserve"><value>Beheer</value></data>
+  <data name="ShellServersOnline" xml:space="preserve"><value>Server online</value></data>
+  <data name="ShellAppsTracked" xml:space="preserve"><value>Gevolgde applicaties</value></data>
+  <data name="ShellPipelinesRunning" xml:space="preserve"><value>Actieve pipelines</value></data>
+  <data name="ShellLoading" xml:space="preserve"><value>Dashboard laden</value></data>
+  <data name="ShellLastAction" xml:space="preserve"><value>Laatste actie: {0}</value></data>
+  <data name="StatesRest" xml:space="preserve"><value>Rust</value></data>
+  <data name="StatesHover" xml:space="preserve"><value>Aanwijzen</value></data>
+  <data name="StatesPress" xml:space="preserve"><value>Indrukken</value></data>
+  <data name="StatesPrimary" xml:space="preserve"><value>Primair</value></data>
+  <data name="StatesSuccess" xml:space="preserve"><value>Succes</value></data>
+  <data name="StatesSecondary" xml:space="preserve"><value>Secundair</value></data>
+  <data name="StatesGhost" xml:space="preserve"><value>Ghost</value></data>
+  <data name="SurfServers" xml:space="preserve"><value>Servers</value></data>
+  <data name="SurfServersText" xml:space="preserve"><value>Laatste heartbeat 4 minuten geleden.</value></data>
+  <data name="SurfPipelines" xml:space="preserve"><value>Pipelines</value></data>
+  <data name="SurfPipelinesFigure" xml:space="preserve"><value>2.400</value></data>
+  <data name="SurfPipelinesText" xml:space="preserve"><value>Drie mislukte uitvoeringen van de laatste tien.</value></data>
+  <data name="SurfCoverage" xml:space="preserve"><value>Dekking</value></data>
+  <data name="SurfCoverageFigure" xml:space="preserve"><value>87%</value></data>
+  <data name="SurfAccount" xml:space="preserve"><value>Account</value></data>
+  <data name="SurfPerson" xml:space="preserve"><value>Camille Durand</value></data>
+  <data name="SurfPersonRole" xml:space="preserve"><value>Beheerder, OmniEurope</value></data>
+  <data name="SurfSettings" xml:space="preserve"><value>Instellingen</value></data>
+  <data name="SurfSettingsHint" xml:space="preserve"><value>Thema, taal, meldingen</value></data>
+  <data name="SurfSwitch" xml:space="preserve"><value>Van werkruimte wisselen</value></data>
+  <data name="SurfSwitchHint" xml:space="preserve"><value>Boutique, Agenda, Atelier</value></data>
+  <data name="SurfSignOut" xml:space="preserve"><value>Afmelden</value></data>
+  <data name="SurfTabsLabel" xml:space="preserve"><value>Onderdelen van de uitvoering</value></data>
+  <data name="SurfTabOverview" xml:space="preserve"><value>Overzicht</value></data>
+  <data name="SurfTabOverviewText" xml:space="preserve"><value>Uitvoering #2399, voltooid in 1 min 48 s.</value></data>
+  <data name="SurfTabLogs" xml:space="preserve"><value>Logboeken</value></data>
+  <data name="SurfTabLogsText" xml:space="preserve"><value>412 regels, geen fouten.</value></data>
+  <data name="SurfTabArtifacts" xml:space="preserve"><value>Artefacten</value></data>
+  <data name="SurfTabArtifactsText" xml:space="preserve"><value>Twee pakketten en hun symbolen.</value></data>
+  <data name="SurfTabSettings" xml:space="preserve"><value>Instellingen</value></data>
+  <data name="SurfTabSettingsText" xml:space="preserve"><value>Vergrendeld herstel, ondertekening verplicht.</value></data>
+  <data name="SurfMenuLabel" xml:space="preserve"><value>Onderdelen</value></data>
+  <data name="SurfMenuDashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="SurfMenuServers" xml:space="preserve"><value>Servers</value></data>
+  <data name="SurfMenuProjects" xml:space="preserve"><value>Projecten</value></data>
+  <data name="SurfMenuAdministration" xml:space="preserve"><value>Beheer</value></data>
+  <data name="SurfLinkBefore" xml:space="preserve"><value>Lees de</value></data>
+  <data name="SurfLink" xml:space="preserve"><value>publicatieprocedure</value></data>
+  <data name="SurfLinkAfter" xml:space="preserve"><value>voordat u een versie onzichtbaar maakt.</value></data>
+  <data name="SurfTooltip" xml:space="preserve"><value>Omgekeerd vlak, omgekeerde tekst</value></data>
+  <data name="SurfTooltipTrigger" xml:space="preserve"><value>Tooltip</value></data>
+  <data name="SurfLast" xml:space="preserve"><value>Laatste actie: {0}</value></data>
+  <data name="ThemesThemeWithPalette" xml:space="preserve"><value>Thema {0}, palet {1}</value></data>
+  <data name="ThemesThemeAlone" xml:space="preserve"><value>Thema {0}, eigen palet</value></data>
+  <data name="ThemesPaletteAlone" xml:space="preserve"><value>Palet {0}, geleverde vorm</value></data>
+  <data name="ThemesShipped" xml:space="preserve"><value>Geleverde weergave</value></data>
+  <data name="ThemesLivePreview" xml:space="preserve"><value>Voorbeeld: {0}</value></data>
+  <data name="ThemesSave" xml:space="preserve"><value>Opslaan</value></data>
+  <data name="ThemesCancel" xml:space="preserve"><value>Annuleren</value></data>
+  <data name="ThemesBadge" xml:space="preserve"><value>Gepubliceerd</value></data>
+  <data name="ThemesAlert" xml:space="preserve"><value>Elk palet kleurt elk thema.</value></data>
+  <data name="VFormSummaryTitle" xml:space="preserve"><value>{0} veld(en) te corrigeren.</value></data>
+  <data name="VFormName" xml:space="preserve"><value>Naam van de pipeline</value></data>
+  <data name="VFormNameHelp" xml:space="preserve"><value>Kleine letters, cijfers en koppeltekens.</value></data>
+  <data name="VFormNameError" xml:space="preserve"><value>De naam van de pipeline is verplicht.</value></data>
+  <data name="VFormMail" xml:space="preserve"><value>Meldingsadres</value></data>
+  <data name="VFormMailError" xml:space="preserve"><value>Voeg een volledig domein toe, bijvoorbeeld team@example.com.</value></data>
+  <data name="VFormToken" xml:space="preserve"><value>Toegangstoken</value></data>
+  <data name="VFormReplicas" xml:space="preserve"><value>Replica's</value></data>
+  <data name="VFormEnvironment" xml:space="preserve"><value>Omgeving</value></data>
+  <data name="VFormEnvironmentProduction" xml:space="preserve"><value>Productie</value></data>
+  <data name="VFormEnvironmentAcceptance" xml:space="preserve"><value>Acceptatie</value></data>
+  <data name="VFormEnvironmentDevelopment" xml:space="preserve"><value>Ontwikkeling</value></data>
+  <data name="VFormDate" xml:space="preserve"><value>Implementatiedatum</value></data>
+  <data name="VFormTime" xml:space="preserve"><value>Implementatietijd</value></data>
+  <data name="VFormMoment" xml:space="preserve"><value>Onderhoudsvenster</value></data>
+  <data name="VFormDescription" xml:space="preserve"><value>Beschrijving</value></data>
+  <data name="VFormStrategy" xml:space="preserve"><value>Implementatiestrategie</value></data>
+  <data name="VFormStrategyRolling" xml:space="preserve"><value>Geleidelijke vervanging</value></data>
+  <data name="VFormStrategyBlueGreen" xml:space="preserve"><value>Blauw-groen</value></data>
+  <data name="VFormStrategyCanary" xml:space="preserve"><value>Canary (binnenkort beschikbaar)</value></data>
+  <data name="VFormStrategyError" xml:space="preserve"><value>Kies een implementatiestrategie.</value></data>
+  <data name="VFormOptions" xml:space="preserve"><value>Opties</value></data>
+  <data name="VFormLocked" xml:space="preserve"><value>Vergrendeld herstel</value></data>
+  <data name="VFormSymbols" xml:space="preserve"><value>Symbolen publiceren</value></data>
+  <data name="VFormSigning" xml:space="preserve"><value>Ondertekening van het pakket (verplicht)</value></data>
+  <data name="VFormNotify" xml:space="preserve"><value>Aan het einde verwittigen</value></data>
+  <data name="VFormAutoDeploy" xml:space="preserve"><value>Automatische implementatie (uitgeschakeld)</value></data>
+  <data name="VFormFiles" xml:space="preserve"><value>Bestanden</value></data>
+  <data name="VFormManifest" xml:space="preserve"><value>Implementatiemanifest</value></data>
+  <data name="VFormManifestHelp" xml:space="preserve"><value>Eén bestand, opent het selectievenster van het systeem.</value></data>
+  <data name="VFormArchive" xml:space="preserve"><value>Archief van de applicatie</value></data>
+  <data name="VFormArchiveHelp" xml:space="preserve"><value>ZIP of TAR, maximaal 50 MB.</value></data>
+  <data name="VFormAttachments" xml:space="preserve"><value>Bijlagen</value></data>
+  <data name="VFormAttachmentsHelp" xml:space="preserve"><value>Tot 10 bestanden, elk 20 MB. Er wordt niets verzonden: de demo houdt de bestanden in de lijst.</value></data>
+  <data name="VFormServer" xml:space="preserve"><value>Doelserver</value></data>
+  <data name="VFormServerHelp" xml:space="preserve"><value>Uitgeschakeld: vastgelegd door de omgeving.</value></data>
+  <data name="VFormIdentifier" xml:space="preserve"><value>Id</value></data>
+  <data name="VFormIdentifierHelp" xml:space="preserve"><value>Alleen-lezen: kopieerbaar, niet te wijzigen.</value></data>
+  <data name="VFormAgent" xml:space="preserve"><value>Agent</value></data>
+  <data name="VFormAgentShared" xml:space="preserve"><value>Gedeelde agent</value></data>
+  <data name="VFormCancel" xml:space="preserve"><value>Annuleren</value></data>
+  <data name="VFormSave" xml:space="preserve"><value>Opslaan</value></data>
+  <data name="VFormSaved" xml:space="preserve"><value>Pipeline opgeslagen.</value></data>
+  <data name="VFormNotSaved" xml:space="preserve"><value>Corrigeer de gemarkeerde velden voordat u opslaat.</value></data>
+  <data name="VFormDescriptionValue" xml:space="preserve"><value>Implementeert de hoofdbranch zodra de acceptatietests slagen.</value></data>
+  <data name="GridFiledColumn" xml:space="preserve"><value>Ingediend op</value></data>
+</root>

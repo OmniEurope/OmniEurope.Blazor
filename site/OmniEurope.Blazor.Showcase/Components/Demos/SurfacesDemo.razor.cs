@@ -4,7 +4,6 @@ namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class SurfacesDemo
 {
-    private static readonly string[] TabKeys = ["overview", "logs", "artifacts", "settings"];
 
     private static readonly (string Key, string TextKey)[] MenuEntries =
     [

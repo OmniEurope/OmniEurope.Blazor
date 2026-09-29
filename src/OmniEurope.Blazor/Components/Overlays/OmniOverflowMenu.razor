@@ -1,5 +1,6 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
+@implements IOmniMenu
 @implements IAsyncDisposable
 @inject IJSRuntime JavaScript
 
@@ -8,20 +9,20 @@
    window by omni-focus.js. Without an OmniComponentsHost it is drawn here, fixed to the window. *@
 <div @ref="_root"
      @attributes="AdditionalAttributes"
-     id="@Id"
      class="@Css("omni-overflow-menu")"
      @onkeydown="HandleTriggerKeyDownAsync">
-    <OmniButton Variant="OmniButtonVariant.Ghost"
+    <OmniButton Id="@Id"
+                Variant="OmniButtonVariant.Ghost"
                 Size="Size"
                 Class="omni-overflow-menu__trigger"
-                AriaLabel="@EffectiveLabel"
+                Label="@EffectiveLabel"
                 title="@EffectiveLabel"
                 Disabled="Disabled"
                 OnClick="ToggleAsync"
                 aria-haspopup="menu"
-                aria-expanded="@(_open ? "true" : "false")"
-                aria-controls="@(_open ? MenuId : null)"><OmniIcon Name="OmniIconName.DotsThreeVertical" /></OmniButton>
-    @if (_open && Coordinator is null)
+                aria-expanded="@(IsOpen ? "true" : "false")"
+                aria-controls="@(IsOpen ? MenuId : null)"><OmniIcon Name="OmniIconName.DotsThreeVertical" /></OmniButton>
+    @if (IsOpen && Coordinator is null)
     {
         @Popup
     }

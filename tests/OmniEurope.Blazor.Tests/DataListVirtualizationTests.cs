@@ -7,7 +7,7 @@ namespace OmniEurope.Blazor.Tests;
 
 public sealed class DataListVirtualizationTests : OmniBunitContext
 {
-    private const string GridModulePath = "./_content/OmniEurope.Blazor/omni-grid.js";
+    private const string GridModulePath = Internal.OmniModules.Grid;
 
     [Fact]
     public void VirtualizedList_RendersOnlyAWindowAndNoStyleAttribute()

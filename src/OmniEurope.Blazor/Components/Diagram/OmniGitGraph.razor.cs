@@ -21,7 +21,7 @@ public partial class OmniGitGraph<TItem>
 
     /// <summary>The identifier of a commit, the one its children name among their parents.</summary>
     [Parameter, EditorRequired]
-    public Func<TItem, string> IdOf { get; set; } = default!;
+    public Func<TItem, string> KeyOf { get; set; } = default!;
 
     /// <summary>The identifiers of a commit's parents, the first parent first.</summary>
     [Parameter, EditorRequired]
@@ -51,10 +51,10 @@ public partial class OmniGitGraph<TItem>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        ArgumentNullException.ThrowIfNull(IdOf);
+        ArgumentNullException.ThrowIfNull(KeyOf);
         ArgumentNullException.ThrowIfNull(ParentsOf);
         Layout = GitGraphLayout.Build(
-            [.. Items.Select(IdOf)],
+            [.. Items.Select(KeyOf)],
             [.. Items.Select(item => ParentsOf(item) ?? [])]);
     }
 

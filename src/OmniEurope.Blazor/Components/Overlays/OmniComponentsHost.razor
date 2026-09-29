@@ -1,9 +1,11 @@
 @namespace OmniEurope.Blazor.Components
-@inherits OmniComponentBase
+@inherits ComponentBase
 @implements IDisposable
 
 @* The coordinator lives as long as the host; the service can be swapped through OverlayService,
-   so its cascade is not fixed and reaches the children already on the page. *@
+   so its cascade is not fixed and reaches the children already on the page. The host draws no element
+   of its own, so it takes no Id, Class, preset or attribute: one passed to it is refused, at build by
+   OE0001 and at render by Blazor, rather than silently dropped. *@
 <CascadingValue Value="_coordinator" IsFixed="true">
     <CascadingValue Value="Service">
         @ChildContent

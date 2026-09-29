@@ -25,9 +25,9 @@ public partial class OmniCodeBlock : IAsyncDisposable
     [Parameter, EditorRequired]
     public string Code { get; set; } = string.Empty;
 
-    /// <summary>A caption above the code: what the command does, where it runs.</summary>
+    /// <summary>A caption above the code: what the command does, where it runs. Nothing is drawn when null.</summary>
     [Parameter]
-    public string? Label { get; set; }
+    public string? Title { get; set; }
 
     /// <summary>The language, shown as a small label: <c>bash</c>, <c>yaml</c>, <c>powershell</c>.</summary>
     [Parameter]
@@ -59,7 +59,7 @@ public partial class OmniCodeBlock : IAsyncDisposable
 
     /// <summary>Raised after a copy, with whether the clipboard accepted it.</summary>
     [Parameter]
-    public EventCallback<bool> OnCopied { get; set; }
+    public EventCallback<bool> OnCopy { get; set; }
 
     /// <summary>Whether the secret is shown in clear.</summary>
     public bool IsRevealed => _revealed;
@@ -73,6 +73,48 @@ public partial class OmniCodeBlock : IAsyncDisposable
     private bool? CopyResult => _clipboard?.Result;
 
     private string CopyLabel => Localize(OmniClipboardCopy.LabelKey(CopyResult));
+
+    private string RevealLabel => Localize(_revealed ? "CodeBlockHide" : "CodeBlockReveal");
+
+    /// <summary>The header shared with <see cref="OmniCodeViewer"/>, with the reveal button of a secret before the copy.</summary>
+    private RenderFragment Header => builder =>
+    {
+        builder.OpenComponent<CodeHeader>(0);
+        builder.AddComponentParameter(1, nameof(CodeHeader.Block), "omni-code-block");
+        builder.AddComponentParameter(2, nameof(CodeHeader.Element), "figcaption");
+        builder.AddComponentParameter(3, nameof(CodeHeader.Title), Title);
+        builder.AddComponentParameter(4, nameof(CodeHeader.Language), Language);
+        builder.AddComponentParameter(5, nameof(CodeHeader.ShowCopy), ShowCopy);
+        builder.AddComponentParameter(6, nameof(CodeHeader.CopyResult), CopyResult);
+        builder.AddComponentParameter(7, nameof(CodeHeader.CopyLabel), CopyLabel);
+        builder.AddComponentParameter(8, nameof(CodeHeader.OnCopy), EventCallback.Factory.Create<MouseEventArgs>(this, CopyAsync));
+        if (Secret)
+        {
+            builder.AddComponentParameter(9, nameof(CodeHeader.LeadingActions), RevealButton);
+        }
+
+        builder.CloseComponent();
+    };
+
+    private RenderFragment RevealButton => builder =>
+    {
+        builder.OpenComponent<OmniButton>(0);
+        builder.AddComponentParameter(1, nameof(OmniButton.Class), "omni-code-block__reveal");
+        builder.AddComponentParameter(2, nameof(OmniButton.Variant), OmniButtonVariant.Ghost);
+        builder.AddComponentParameter(3, nameof(OmniButton.Size), OmniControlSize.Small);
+        builder.AddComponentParameter(4, nameof(OmniButton.Label), RevealLabel);
+        builder.AddComponentParameter(5, "aria-pressed", _revealed ? "true" : "false");
+        builder.AddComponentParameter(6, "title", RevealLabel);
+        builder.AddComponentParameter(7, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, ToggleReveal));
+        builder.AddComponentParameter(8, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
+        {
+            content.OpenComponent<OmniIcon>(0);
+            content.AddComponentParameter(1, nameof(OmniIcon.Name), _revealed ? OmniIconName.EyeSlash : OmniIconName.Eye);
+            content.AddComponentParameter(2, nameof(OmniIcon.Size), OmniControlSize.Small);
+            content.CloseComponent();
+        }));
+        builder.CloseComponent();
+    };
 
     private string CopyAnnouncement => OmniClipboardCopy.AnnouncementKey(CopyResult) is { } key ? Localize(key) : string.Empty;
 
@@ -107,7 +149,7 @@ public partial class OmniCodeBlock : IAsyncDisposable
     {
         var copied = await Clipboard.CopyAsync(Code, CopiedFeedbackDuration, Clock);
         StateHasChanged();
-        await OnCopied.InvokeAsync(copied);
+        await OnCopy.InvokeAsync(copied);
         return copied;
     }
 

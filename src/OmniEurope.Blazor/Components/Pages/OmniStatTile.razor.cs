@@ -14,7 +14,7 @@ public partial class OmniStatTile
     [Parameter]
     public string? Value { get; set; }
 
-    /// <summary>What the figure measures: "Tokens aujourd'hui".</summary>
+    /// <summary>What the figure measures ("Tokens today"), written under the value; with <see cref="OnClick"/>, the start of the accessible name of the button.</summary>
     [Parameter, EditorRequired]
     public string Label { get; set; } = string.Empty;
 
@@ -23,17 +23,11 @@ public partial class OmniStatTile
     public string? Detail { get; set; }
 
     /// <summary>
-    /// Makes the tile a button. Its accessible name is <see cref="AriaLabel"/> when set, otherwise the
-    /// label followed by the value.
+    /// Makes the tile a button, named by <see cref="Label"/> followed by <see cref="Value"/>, as the
+    /// tile reads them.
     /// </summary>
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-    /// <summary>Accessible name of the button form; ignored when the tile is not clickable.</summary>
-    [Parameter]
-    public string? AriaLabel { get; set; }
-
-    private string AccessibleName => !string.IsNullOrWhiteSpace(AriaLabel)
-        ? AriaLabel
-        : string.IsNullOrWhiteSpace(Value) ? Label : $"{Label} : {Value}";
+    private string AccessibleName => string.IsNullOrWhiteSpace(Value) ? Label : Localize("LabelValuePair", Label, Value);
 }

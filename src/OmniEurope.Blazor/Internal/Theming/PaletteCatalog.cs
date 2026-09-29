@@ -2,7 +2,7 @@ namespace OmniEurope.Blazor.Internal;
 
 /// <summary>
 /// The fourteen palettes of the library. Any palette paints any theme. The first ten are those of the
-/// reference mockup (<c>plans/PLAN-008-maquette-themes.html</c>, constant <c>PALETTES</c>); the last four
+/// reference mockup (<c>docs/plans/PLAN-004-maquette-themes.html</c>, constant <c>PALETTES</c>); the last four
 /// (Nuage, Opale, Pastel, Encre) go with the themes Relief, Givre, Aplat and Épure. Each palette carries
 /// its dark accent as its own value: equal to the light one by default (recette R-053, a
 /// button keeps one colour in both modes), and free to differ for a palette that wants it.

@@ -5,12 +5,12 @@ using OmniEurope.Blazor.Internal;
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
-/// Themes decide the shape, palettes the colours, and any palette paints any theme (PLAN-008 lots 4
+/// Themes decide the shape, palettes the colours, and any palette paints any theme (PLAN-004 lots 4
 /// to 6). The scope sends the combination to its script only when one of the two changes.
 /// </summary>
 public sealed class ThemePaletteTests : OmniBunitContext
 {
-    private const string ThemeModule = "./_content/OmniEurope.Blazor/omni-theme.js";
+    private const string ThemeModule = OmniModules.Theme;
 
     [Fact]
     public void A_palette_alone_sends_its_colours_and_no_shape()
@@ -94,15 +94,14 @@ public sealed class ThemePaletteTests : OmniBunitContext
     }
 
     /// <summary>
-    /// PLAN-008 T23: the dark shape reaches the dark half only. Galet, Halo, Papier, Nénuphar, Relief and Givre give
-    /// their cards other tokens in dark mode than in light mode; the eight other themes give the same.
+    /// PLAN-004 T23: the dark shape reaches the dark half only. Galet, Halo, Papier, Nénuphar, Relief and Givre give
+    /// their cards other tokens in dark mode than in light mode; every other theme gives the same.
     /// </summary>
     [Fact]
     public void Only_the_themes_with_a_dark_card_shape_change_their_card_tokens_in_dark_mode()
     {
         string[] withDarkCards = ["Galet", "Halo", "Papier", "Nénuphar", "Relief", "Givre"];
 
-        Assert.Equal(14, OmniThemePresets.All.Count);
         foreach (var preset in OmniThemePresets.All)
         {
             var cardTokens = preset.Light.Keys.Concat(preset.Dark.Keys)
@@ -117,7 +116,7 @@ public sealed class ThemePaletteTests : OmniBunitContext
     }
 
     /// <summary>
-    /// PLAN-008 T5: Rétro's hard shadow starts with a ring of the surface colour, so a button filled
+    /// PLAN-004 T5: Rétro's hard shadow starts with a ring of the surface colour, so a button filled
     /// with the text colour does not merge with its offset shadow of the same colour.
     /// </summary>
     [Fact]
@@ -129,11 +128,11 @@ public sealed class ThemePaletteTests : OmniBunitContext
     }
 
     /// <summary>
-    /// PLAN-008 T9: each of the fourteen themes presses its buttons its own way. The stylesheet's defaults
+    /// PLAN-004 T9: each theme presses its buttons its own way. The stylesheet's defaults
     /// (<c>translateY(1px)</c>, and the button's own shadow) stand in for a token a theme omits.
     /// </summary>
     [Fact]
-    public void The_fourteen_themes_give_fourteen_distinct_press_couples()
+    public void Every_theme_gives_a_distinct_press_couple()
     {
         var couples = OmniThemePresets.All
             .Select(preset => (
@@ -141,13 +140,13 @@ public sealed class ThemePaletteTests : OmniBunitContext
                 Shadow: preset.Light.GetValueOrDefault("--omni-button-press-shadow") ?? preset.Light.GetValueOrDefault("--omni-button-shadow", string.Empty)))
             .ToArray();
 
-        Assert.Equal(14, couples.Length);
-        Assert.Equal(14, couples.Distinct().Count());
+        Assert.Equal(OmniThemePresets.All.Count, couples.Length);
+        Assert.Equal(OmniThemePresets.All.Count, couples.Distinct().Count());
     }
 
     /// <summary>
-    /// The values the reference mockup produces for the palette <c>Défaut</c> in light mode. A
-    /// difference means the generator was not ported faithfully (PLAN-008 lot 4 control).
+    /// The values the reference mockup produces for the palette <c>Essentiel</c> in light mode. A
+    /// difference means the generator was not ported faithfully (PLAN-004 lot 4 control).
     /// </summary>
     [Theory]
     // The accent fill is one colour for both modes since recette R-053 (decided 2026-09-21):
@@ -173,6 +172,10 @@ public sealed class ThemePaletteTests : OmniBunitContext
         Assert.Equal(expected, palette.Light[token]);
     }
 
+    /// <summary>
+    /// The one catalogue-size tripwire: adding or removing a theme or a palette is a deliberate edit of
+    /// these two numbers. Every other test reads the sizes from the catalogues.
+    /// </summary>
     [Fact]
     public void The_catalogues_ship_fourteen_themes_and_fourteen_palettes_default_first_each_theme_naming_one()
     {
@@ -180,11 +183,11 @@ public sealed class ThemePaletteTests : OmniBunitContext
         Assert.Equal(14, OmniThemePalettes.All.Count);
         Assert.Equal("Essentiel", OmniThemePresets.All[0].Name);
         Assert.Equal("Essentiel", OmniThemePalettes.All[0].Name);
-        Assert.Equal(14, OmniThemePresets.All.Select(preset => preset.Name).Distinct(StringComparer.Ordinal).Count());
-        Assert.Equal(14, OmniThemePalettes.All.Select(palette => palette.Name).Distinct(StringComparer.Ordinal).Count());
+        Assert.Equal(OmniThemePresets.All.Count, OmniThemePresets.All.Select(preset => preset.Name).Distinct(StringComparer.Ordinal).Count());
+        Assert.Equal(OmniThemePalettes.All.Count, OmniThemePalettes.All.Select(palette => palette.Name).Distinct(StringComparer.Ordinal).Count());
 
         var defaults = ThemeCatalog.All.Select(theme => theme.DefaultPalette).ToArray();
-        Assert.Equal(14, defaults.Distinct(StringComparer.Ordinal).Count());
+        Assert.Equal(defaults.Length, defaults.Distinct(StringComparer.Ordinal).Count());
         Assert.All(defaults, name => Assert.Contains(OmniThemePalettes.All, palette => palette.Name == name));
         Assert.All(OmniThemePresets.All, preset =>
         {
@@ -200,7 +203,7 @@ public sealed class ThemePaletteTests : OmniBunitContext
 
     /// <summary>
     /// Ten themes that differed only by a detail would be one theme ten times: every pair differs on
-    /// at least three of the tokens that decide how things are drawn (PLAN-008 lot 6).
+    /// at least three of the tokens that decide how things are drawn (PLAN-004 lot 6).
     /// </summary>
     [Fact]
     public void Every_pair_of_themes_differs_on_at_least_three_shape_tokens()
@@ -224,7 +227,7 @@ public sealed class ThemePaletteTests : OmniBunitContext
 
     /// <summary>
     /// A shape follows any palette only if it writes no colour of its own. Neutral shadows are the one
-    /// tolerated exception (PLAN-008 lot 6).
+    /// tolerated exception (PLAN-004 lot 6).
     /// </summary>
     [Fact]
     public void No_theme_shape_writes_a_colour_of_its_own()

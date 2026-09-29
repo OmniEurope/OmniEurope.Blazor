@@ -4,7 +4,7 @@
     {
         var point = Data[index];
         var projected = Projected(index);
-        var text = point.Label ?? Formatter?.Invoke(point.Y) ?? OmniChartGeometry.Number(point.Y);
+        var text = Text(point);
         @* Above the point, or past the end of a horizontal bar. *@
         if (ChartContext?.Horizontal == true)
         {

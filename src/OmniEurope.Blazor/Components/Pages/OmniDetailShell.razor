@@ -4,7 +4,7 @@
 @* The content is always rendered and only hidden while the entity is not there: a child that
    triggers the load from its own lifecycle must exist for the load to start, and gating it behind
    the state would wait forever for data nobody asks for. *@
-<div id="@Id" class="@Css("omni-detail-shell")" aria-busy="@(State == OmniDetailState.Loading ? "true" : null)" @attributes="AdditionalAttributes">
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-detail-shell")" aria-busy="@(State == OmniDetailState.Loading ? "true" : null)">
     @if (State == OmniDetailState.NotFound)
     {
         if (NotFoundContent is not null)

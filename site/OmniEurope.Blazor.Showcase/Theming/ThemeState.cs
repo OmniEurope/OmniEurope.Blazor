@@ -27,6 +27,19 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     private const string ModeKey = "mode";
     private const string DensityKey = "density";
 
+    // Names a theme or a palette of the catalogue carried before it was renamed, mapped to its current
+    // name, so a combination a visitor kept in the browser under the old name still comes back.
+    private static readonly Dictionary<string, string> RenamedThemes = new(StringComparer.Ordinal)
+    {
+        ["Défaut"] = "Essentiel"
+    };
+
+    private static readonly Dictionary<string, string> RenamedPalettes = new(StringComparer.Ordinal)
+    {
+        ["Défaut"] = "Essentiel",
+        ["Crépuscule"] = "Opale"
+    };
+
     private readonly Dictionary<string, string> _edits = new(StringComparer.Ordinal);
     private IReadOnlyList<ThemeToken> _tokens = [];
     private OmniThemePreset _painted = OmniThemePresets.All[0];
@@ -246,6 +259,10 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
 
     private void Repaint() => _painted = Theme.With(Palette);
 
+    /// <summary>The current name of a stored theme or palette name, the name itself when it was never renamed.</summary>
+    private static string LegacyName(string stored, IReadOnlyDictionary<string, string> renamed) =>
+        renamed.TryGetValue(stored, out var current) ? current : stored;
+
     private void Restore(string stored)
     {
         Dictionary<string, string>? saved;
@@ -266,14 +283,14 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
         }
 
         if (saved.TryGetValue(ThemeKey, out var themeName)
-            && OmniThemePresets.All.FirstOrDefault(theme => theme.Name == (themeName == "Défaut" ? "Essentiel" : themeName)) is { } theme)
+            && OmniThemePresets.All.FirstOrDefault(theme => theme.Name == LegacyName(themeName, RenamedThemes)) is { } theme)
         {
             Theme = theme;
             Palette = DefaultPaletteOf(theme);
         }
 
         if (saved.TryGetValue(PaletteKey, out var paletteName)
-            && OmniThemePalettes.All.FirstOrDefault(palette => palette.Name == paletteName) is { } palette)
+            && OmniThemePalettes.All.FirstOrDefault(palette => palette.Name == LegacyName(paletteName, RenamedPalettes)) is { } palette)
         {
             Palette = palette;
         }

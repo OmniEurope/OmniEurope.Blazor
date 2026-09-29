@@ -1,6 +1,7 @@
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
@@ -11,15 +12,17 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DialogIntentAndOverflowMenuTests : OmniBunitContext
 {
-    private const string FocusModule = "./_content/OmniEurope.Blazor/omni-focus.js";
+    private const string FocusModule = Internal.OmniModules.Focus;
 
     // ---- dialog intention -----------------------------------------------------------------------
 
     [Theory]
-    [InlineData(OmniDialogIntent.Accent, "omni-dialog--intent-accent")]
-    [InlineData(OmniDialogIntent.Warning, "omni-dialog--intent-warning")]
-    [InlineData(OmniDialogIntent.Danger, "omni-dialog--intent-danger")]
-    public void Dialog_WithAnIntention_TintsItsBandsAndLeadsTheTitleWithADecorativeMark(OmniDialogIntent intent, string expectedClass)
+    [InlineData(OmniTone.Accent, "omni-dialog--intent-accent", OmniSeverity.Info)]
+    [InlineData(OmniTone.Info, "omni-dialog--intent-info", OmniSeverity.Info)]
+    [InlineData(OmniTone.Success, "omni-dialog--intent-success", OmniSeverity.Success)]
+    [InlineData(OmniTone.Warning, "omni-dialog--intent-warning", OmniSeverity.Warning)]
+    [InlineData(OmniTone.Danger, "omni-dialog--intent-danger", OmniSeverity.Danger)]
+    public void Dialog_WithAnIntention_TintsItsBandsAndLeadsTheTitleWithTheGlyphOfTheSameSeverity(OmniTone intent, string expectedClass, OmniSeverity severity)
     {
         var dialog = Render<OmniDialog>(parameters => parameters
             .Add(component => component.Open, true)
@@ -30,7 +33,9 @@ public sealed class DialogIntentAndOverflowMenuTests : OmniBunitContext
         Assert.Contains(expectedClass, dialog.Find(".omni-dialog").ClassList);
         var mark = dialog.Find(".omni-dialog__header > .omni-dialog__intent");
         Assert.Equal("true", mark.GetAttribute("aria-hidden"));
-        Assert.NotNull(mark.QuerySelector("svg.omni-icon"));
+        // The glyph is the one the alert and the notification draw for the severity of the same name.
+        var alert = Render<OmniAlert>(parameters => parameters.Add(component => component.Severity, severity).AddChildContent("x"));
+        Assert.Equal(alert.Find(".omni-alert__glyph path").GetAttribute("d"), mark.QuerySelector("svg.omni-dialog__glyph path")!.GetAttribute("d"));
         // The mark leads the title and does not enter the heading that names the dialog.
         Assert.Equal("omni-dialog__title", mark.NextElementSibling!.ClassName);
         Assert.Equal("Annuler l'exécution", dialog.Find(".omni-dialog__title").TextContent);
@@ -42,7 +47,7 @@ public sealed class DialogIntentAndOverflowMenuTests : OmniBunitContext
         var dialog = Render<OmniDialog>(parameters => parameters
             .Add(component => component.Open, true)
             .Add(component => component.Title, "Paramètres d'exécution")
-            .Add(component => component.Intent, OmniDialogIntent.Accent)
+            .Add(component => component.Intent, OmniTone.Accent)
             .Add(component => component.Icon, builder => builder.AddMarkupContent(0, "<span class=\"host-icon\"></span>")));
 
         Assert.NotNull(dialog.Find(".omni-dialog__intent .host-icon"));
@@ -74,7 +79,7 @@ public sealed class DialogIntentAndOverflowMenuTests : OmniBunitContext
         host.WaitForAssertion(() => Assert.Contains(expectedClass, host.Find(".omni-dialog").ClassList));
         service.CloseDialog(false);
 
-        _ = service.ConfirmAsync(new OmniConfirmRequest("Publier", "Publier la page ?") { ConfirmVariant = variant, Intent = OmniDialogIntent.Danger });
+        _ = service.ConfirmAsync(new OmniConfirmRequest("Publier", "Publier la page ?") { ConfirmVariant = variant, Intent = OmniTone.Danger });
         host.WaitForAssertion(() => Assert.Contains("omni-dialog--intent-danger", host.Find(".omni-dialog").ClassList));
     }
 
@@ -84,10 +89,10 @@ public sealed class DialogIntentAndOverflowMenuTests : OmniBunitContext
         using var service = new OmniOverlayService();
         var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
 
-        service.OpenDialog(new OmniDialogRequest("Créer une alerte", builder => builder.AddContent(0, "Formulaire")) { Intent = OmniDialogIntent.Accent });
+        service.OpenDialog(new OmniDialogRequest("Créer une alerte", builder => builder.AddContent(0, "Formulaire")) { Intent = OmniTone.Accent });
 
         host.WaitForAssertion(() => Assert.Contains("omni-dialog--intent-accent", host.Find(".omni-dialog").ClassList));
-        Assert.Equal(OmniDialogIntent.None, new OmniDialogRequest("Titre", _ => { }).Intent);
+        Assert.Equal(OmniTone.Neutral, new OmniDialogRequest("Titre", _ => { }).Intent);
     }
 
     [Fact]
@@ -101,7 +106,7 @@ public sealed class DialogIntentAndOverflowMenuTests : OmniBunitContext
         Assert.Equal("0", ShippedLookTests.Value(close, "border"));
         // The drawn button is smaller, its target keeps the audited 44 px.
         Assert.Equal("min(0px, calc((var(--omni-control-height) - 2.75rem) / 2))", ShippedLookTests.Value(ShippedLookTests.Body(".omni-dialog .omni-dialog__close::before"), "inset"));
-        var bands = ShippedLookTests.Body(":is(.omni-dialog--intent-accent, .omni-dialog--intent-warning, .omni-dialog--intent-danger) > :is(.omni-dialog__header, .omni-dialog__footer)");
+        var bands = ShippedLookTests.Body(":is(.omni-dialog--intent-accent, .omni-dialog--intent-info, .omni-dialog--intent-success, .omni-dialog--intent-warning, .omni-dialog--intent-danger) > :is(.omni-dialog__header, .omni-dialog__footer)");
         Assert.Equal("var(--omni-dialog-band)", ShippedLookTests.Value(bands, "background"));
         Assert.Equal("var(--omni-color-warning-subtle)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-dialog--intent-warning"), "--omni-dialog-band"));
         Assert.Equal("var(--omni-color-accent-subtle)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-dialog--intent-accent"), "--omni-dialog-band"));
@@ -141,12 +146,12 @@ public sealed class DialogIntentAndOverflowMenuTests : OmniBunitContext
         Assert.Equal("true", menu.Find(".omni-overflow-menu__trigger").GetAttribute("aria-expanded"));
         Assert.Equal("row-actions-menu", menu.Find(".omni-overflow-menu__trigger").GetAttribute("aria-controls"));
         var items = menu.FindAll("[role=menuitem]");
-        Assert.Equal(["Modifier", "Supprimer"], items.Select(item => item.QuerySelector(".omni-overflow-menu__label")!.TextContent));
+        Assert.Equal(["Modifier", "Supprimer"], items.Select(item => item.QuerySelector(".omni-menu__label")!.TextContent));
         Assert.All(items, item => Assert.Equal("-1", item.GetAttribute("tabindex")));
         // The rows are menu rows, not buttons: the grid's button rules cannot size them.
         Assert.All(items, item => Assert.DoesNotContain("omni-button", item.ClassList));
-        menu.WaitForAssertion(() => Assert.Single(module.Invocations, call => call.Identifier == "openOverflowMenu"));
-        Assert.Equal("row-actions-menu", module.Invocations.First(call => call.Identifier == "openOverflowMenu").Arguments[0]);
+        menu.WaitForAssertion(() => Assert.Single(module.Invocations, call => call.Identifier == "openMenu"));
+        Assert.Equal("row-actions-menu", module.Invocations.First(call => call.Identifier == "openMenu").Arguments[0]);
     }
 
     [Fact]
@@ -155,15 +160,15 @@ public sealed class DialogIntentAndOverflowMenuTests : OmniBunitContext
         var module = JSInterop.SetupModule(FocusModule);
         var calls = new List<string>();
         var menu = Render<OmniOverflowMenu>(parameters => parameters
-            .Add(component => component.ChildContent, Items(label => calls.Add($"{label}:{module.Invocations.Count(call => call.Identifier == "closeOverflowMenu")}"))));
+            .Add(component => component.ChildContent, Items(label => calls.Add($"{label}:{module.Invocations.Count(call => call.Identifier == "closeMenu")}"))));
 
         menu.Find(".omni-overflow-menu__trigger").Click();
-        menu.WaitForAssertion(() => Assert.Single(module.Invocations, call => call.Identifier == "openOverflowMenu"));
-        menu.Find(".omni-overflow-menu__item").Click();
+        menu.WaitForAssertion(() => Assert.Single(module.Invocations, call => call.Identifier == "openMenu"));
+        menu.Find(".omni-menu__item").Click();
 
         // The menu was closed (focus restored) once when the action ran.
         Assert.Equal(["Modifier:1"], calls);
-        var close = module.Invocations.Single(call => call.Identifier == "closeOverflowMenu");
+        var close = module.Invocations.Single(call => call.Identifier == "closeMenu");
         Assert.Equal(true, close.Arguments[1]);
         Assert.Empty(menu.FindAll("[role=menu]"));
         Assert.Equal("false", menu.Find(".omni-overflow-menu__trigger").GetAttribute("aria-expanded"));
@@ -190,10 +195,10 @@ public sealed class DialogIntentAndOverflowMenuTests : OmniBunitContext
         var menu = Render<OmniOverflowMenu>(parameters => parameters
             .Add(component => component.ChildContent, builder =>
             {
-                builder.OpenComponent<OmniOverflowMenuItem>(0);
-                builder.AddComponentParameter(1, nameof(OmniOverflowMenuItem.Disabled), true);
-                builder.AddComponentParameter(2, nameof(OmniOverflowMenuItem.OnClick), EventCallback.Factory.Create(this, () => ran = true));
-                builder.AddComponentParameter(3, nameof(OmniOverflowMenuItem.ChildContent), (RenderFragment)(label => label.AddContent(0, "Publier")));
+                builder.OpenComponent<OmniMenuItem>(0);
+                builder.AddComponentParameter(1, nameof(OmniMenuItem.Disabled), true);
+                builder.AddComponentParameter(2, nameof(OmniMenuItem.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, () => ran = true));
+                builder.AddComponentParameter(3, nameof(OmniMenuItem.ChildContent), (RenderFragment)(label => label.AddContent(0, "Publier")));
                 builder.CloseComponent();
             }));
 
@@ -227,10 +232,10 @@ public sealed class DialogIntentAndOverflowMenuTests : OmniBunitContext
     public void Stylesheet_OverflowMenu_HasNoFrameAtRestAndAFixedIconColumn()
     {
         Assert.Equal("transparent", ShippedLookTests.Value(ShippedLookTests.Body(".omni-overflow-menu > .omni-overflow-menu__trigger"), "border-color"));
-        var popup = BodyWith(".omni-overflow-menu__popup", "backdrop-filter");
+        var popup = BodyWith(".omni-menu", "backdrop-filter");
         Assert.Equal("fixed", ShippedLookTests.Value(popup, "position"));
         Assert.Equal("var(--omni-menu-x, var(--omni-space-md))", ShippedLookTests.Value(popup, "left"));
-        var icon = ShippedLookTests.Body(".omni-overflow-menu__icon");
+        var icon = ShippedLookTests.Body(".omni-menu__icon");
         Assert.Equal("1.25rem", ShippedLookTests.Value(icon, "inline-size"));
         Assert.Equal("none", ShippedLookTests.Value(icon, "flex"));
     }
@@ -246,15 +251,15 @@ public sealed class DialogIntentAndOverflowMenuTests : OmniBunitContext
 
     private void AddItem(RenderTreeBuilder builder, int sequence, string label, Action<string> clicked)
     {
-        builder.OpenComponent<OmniOverflowMenuItem>(sequence);
-        builder.AddComponentParameter(sequence + 1, nameof(OmniOverflowMenuItem.OnClick), EventCallback.Factory.Create(this, () => clicked(label)));
-        builder.AddComponentParameter(sequence + 2, nameof(OmniOverflowMenuItem.Icon), (RenderFragment)(icon =>
+        builder.OpenComponent<OmniMenuItem>(sequence);
+        builder.AddComponentParameter(sequence + 1, nameof(OmniMenuItem.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, () => clicked(label)));
+        builder.AddComponentParameter(sequence + 2, nameof(OmniMenuItem.Icon), (RenderFragment)(icon =>
         {
             icon.OpenComponent<OmniIcon>(0);
             icon.AddComponentParameter(1, nameof(OmniIcon.Name), OmniIconName.Edit);
             icon.CloseComponent();
         }));
-        builder.AddComponentParameter(sequence + 3, nameof(OmniOverflowMenuItem.ChildContent), (RenderFragment)(text => text.AddContent(0, label)));
+        builder.AddComponentParameter(sequence + 3, nameof(OmniMenuItem.ChildContent), (RenderFragment)(text => text.AddContent(0, label)));
         builder.CloseComponent();
     }
 }

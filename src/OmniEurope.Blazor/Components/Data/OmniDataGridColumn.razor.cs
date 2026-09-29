@@ -12,10 +12,15 @@ public partial class OmniDataGridColumn<TItem>
     [CascadingParameter]
     private OmniDataGridContext<TItem>? Context { get; set; }
 
-    /// <summary>Stable identity of the column. Defaults to <see cref="Property"/> when omitted.</summary>
+    /// <summary>
+    /// Stable identity of the column: the key of its sort, filter, width and group, in the grid's saved
+    /// state and in <see cref="OmniDataGridLoadRequest"/>. Left empty it is <see cref="Property"/>, or
+    /// <see cref="Title"/> when no property is set either.
+    /// </summary>
     [Parameter]
-    public string Key { get; set; } = string.Empty;
+    public string? Key { get; set; }
 
+    /// <summary>The header text, also the label of the cell in the stacked (responsive) layout and of the filter.</summary>
     [Parameter, EditorRequired]
     public string Title { get; set; } = string.Empty;
 
@@ -31,18 +36,27 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public string? SortProperty { get; set; }
 
+    /// <summary>Content of each body cell, in place of the value as text.</summary>
     [Parameter]
     public RenderFragment<TItem>? Template { get; set; }
 
+    /// <summary>Content of the cell while its row is in edit mode; set on any column, the grid adds its edit column.</summary>
     [Parameter]
     public RenderFragment<TItem>? EditTemplate { get; set; }
 
+    /// <summary>Content of this column's cell in the footer row (a total, a creation field); see the grid's <c>FooterPosition</c>.</summary>
     [Parameter]
-    public RenderFragment<TItem>? FooterTemplate { get; set; }
+    public RenderFragment? FooterContent { get; set; }
 
+    /// <summary>Replaces the header's title (and its sort button) with custom content; the grouping, filter and resize controls stay.</summary>
     [Parameter]
-    public RenderFragment? HeaderTemplate { get; set; }
+    public RenderFragment? HeaderContent { get; set; }
 
+    /// <summary>
+    /// Decides whether a row passes this column's filter, from the row and the filter value, in place of
+    /// the built-in comparison. Applied to rows the grid holds (<c>Items</c>); a <c>Load</c> grid filters
+    /// on the server.
+    /// </summary>
     [Parameter]
     public Func<TItem, string, bool>? FilterPredicate { get; set; }
 
@@ -52,7 +66,7 @@ public partial class OmniDataGridColumn<TItem>
     /// every row. Set it for a column built from a collection, or for a grid fed page by page.
     /// </summary>
     [Parameter]
-    public IEnumerable<string>? FilterValues { get; set; }
+    public IReadOnlyList<string>? FilterValues { get; set; }
 
     /// <summary>
     /// This column's own filter editor, overriding <see cref="FilterType"/>. Use it for a filter
@@ -66,6 +80,7 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public string? FormatString { get; set; }
 
+    /// <summary>Whether the header sorts the rows by this column, when the grid's <c>AllowSorting</c> is on. True by default.</summary>
     [Parameter]
     public bool Sortable { get; set; } = true;
 
@@ -73,25 +88,33 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public OmniDataGridSortOrder? SortOrder { get; set; }
 
+    /// <summary>Gives this column a filter, shown while the grid's own <c>Filterable</c> is on (its default). Off by default.</summary>
     [Parameter]
     public bool Filterable { get; set; }
 
+    /// <summary>
+    /// The filter editor: free text (the default, a date range for a date property), number, closed list,
+    /// list with free text (combo), checkable list or date range.
+    /// </summary>
     [Parameter]
     public OmniDataGridColumnFilterType FilterType { get; set; }
 
     /// <summary>
-    /// Puts a narrowing box above a MultiSelect filter, for a column whose candidate list is too
-    /// long to scan by eye. Ignored by the other filter types.
+    /// Puts a narrowing box above the checkable list of a MultiSelect filter, for a column whose candidate
+    /// list is too long to scan by eye; it is the <c>Filterable</c> option of that list. Ignored by the
+    /// other filter types. Named after the column's own filter, which <see cref="Filterable"/> already
+    /// switches on.
     /// </summary>
     [Parameter]
     public bool FilterSearchable { get; set; }
 
     /// <summary>
     /// The text a filter shows for one candidate value (an enum member's translated name, for
-    /// example). The value itself is what the filter keeps and sends; only its display changes.
+    /// example). The value itself is what the filter keeps and sends; only its display changes. The
+    /// cell's own text is formatted by <see cref="FormatString"/> or <see cref="Template"/>.
     /// </summary>
     [Parameter]
-    public Func<string, string>? FilterValueText { get; set; }
+    public Func<string, string>? FormatFilterValue { get; set; }
 
     /// <summary>
     /// Filter applied when the grid first shows this column, so a default narrowing (open items
@@ -114,9 +137,14 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public IReadOnlyList<OmniDataGridFilterOperator>? FilterOperators { get; set; }
 
+    /// <summary>
+    /// The operator a text or number filter starts with (contains by default), when the column's type
+    /// offers it; the first operator it offers otherwise.
+    /// </summary>
     [Parameter]
     public OmniDataGridFilterOperator FilterOperator { get; set; }
 
+    /// <summary>Whether the column is shown. A hidden column keeps its sort and filter. True by default.</summary>
     [Parameter]
     public bool Visible { get; set; } = true;
 
@@ -149,15 +177,25 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public string? MinWidth { get; set; }
 
+    /// <summary>
+    /// Alignment of the header and the cells. Left at the start, a number column aligns at the end in
+    /// figures of one width, unless it has a <see cref="Template"/>.
+    /// </summary>
     [Parameter]
     public OmniDataGridTextAlign TextAlign { get; set; }
 
+    /// <summary>
+    /// CSS class added to each body cell and footer cell of the column. A templated column opts into the
+    /// one-line ellipsis of text cells with <c>omni-data-grid__cell--text</c>.
+    /// </summary>
     [Parameter]
-    public string? CssClass { get; set; }
+    public string? Class { get; set; }
 
+    /// <summary>CSS class added to the column's header cell.</summary>
     [Parameter]
-    public string? HeaderCssClass { get; set; }
+    public string? HeaderClass { get; set; }
 
+    /// <summary>Whether the reader can group rows by this column, when the grid's <c>AllowGrouping</c> is on. True by default.</summary>
     [Parameter]
     public bool Groupable { get; set; } = true;
 
@@ -190,8 +228,8 @@ public partial class OmniDataGridColumn<TItem>
             SortValue = sortAccessor,
             Template = Template,
             EditTemplate = EditTemplate,
-            FooterTemplate = FooterTemplate,
-            HeaderTemplate = HeaderTemplate,
+            FooterContent = FooterContent,
+            HeaderContent = HeaderContent,
             FilterPredicate = FilterPredicate,
             FilterValues = FilterValues,
             FilterTemplate = FilterTemplate,
@@ -201,7 +239,7 @@ public partial class OmniDataGridColumn<TItem>
             Filterable = Filterable,
             FilterType = ResolveFilterType(),
             FilterSearchable = FilterSearchable,
-            FilterValueText = FilterValueText,
+            FormatFilterValue = FormatFilterValue,
             DefaultFilterValue = DefaultFilterValue,
             FilterIncludesTime = FilterIncludesTime,
             EnumType = GridPropertyAccessor.EnumType<TItem>(Property),
@@ -216,8 +254,8 @@ public partial class OmniDataGridColumn<TItem>
             MinWidth = MinWidth,
             TextAlign = TextAlign,
             Numeric = GridPropertyAccessor.IsNumeric<TItem>(Property),
-            CssClass = CssClass,
-            HeaderCssClass = HeaderCssClass,
+            Class = Class,
+            HeaderClass = HeaderClass,
             Groupable = Groupable
         };
         if (Context is null)
@@ -255,19 +293,19 @@ public partial class OmniDataGridColumn<TItem>
         var changed = !Equals(registered.Value, latest.Value)
             || !Equals(registered.Template, latest.Template)
             || !Equals(registered.EditTemplate, latest.EditTemplate)
-            || !Equals(registered.FooterTemplate, latest.FooterTemplate)
-            || !Equals(registered.HeaderTemplate, latest.HeaderTemplate)
+            || !Equals(registered.FooterContent, latest.FooterContent)
+            || !Equals(registered.HeaderContent, latest.HeaderContent)
             || !Equals(registered.FilterPredicate, latest.FilterPredicate)
             || !Equals(registered.FilterTemplate, latest.FilterTemplate)
-            || !Equals(registered.FilterValueText, latest.FilterValueText);
+            || !Equals(registered.FormatFilterValue, latest.FormatFilterValue);
         registered.Value = latest.Value;
         registered.Template = latest.Template;
         registered.EditTemplate = latest.EditTemplate;
-        registered.FooterTemplate = latest.FooterTemplate;
-        registered.HeaderTemplate = latest.HeaderTemplate;
+        registered.FooterContent = latest.FooterContent;
+        registered.HeaderContent = latest.HeaderContent;
         registered.FilterPredicate = latest.FilterPredicate;
         registered.FilterTemplate = latest.FilterTemplate;
-        registered.FilterValueText = latest.FilterValueText;
+        registered.FormatFilterValue = latest.FormatFilterValue;
         registered.FilterValues = latest.FilterValues;
         registered.FilterOperators = latest.FilterOperators;
         return changed;
@@ -302,6 +340,8 @@ public partial class OmniDataGridColumn<TItem>
             ? OmniDataGridColumnFilterType.DateRange
             : FilterType;
     }
+
+    /// <summary>Removes the column from its grid.</summary>
     public void Dispose() => _registeredContext?.Unregister(_registeredKey!);
 
     private static bool Matches(OmniDataGridColumnDefinition<TItem>? left, OmniDataGridColumnDefinition<TItem> right) =>
@@ -313,8 +353,8 @@ public partial class OmniDataGridColumn<TItem>
         && string.Equals(left.SortProperty, right.SortProperty, StringComparison.Ordinal)
         && Equivalent(left.Template, right.Template)
         && Equivalent(left.EditTemplate, right.EditTemplate)
-        && Equivalent(left.FooterTemplate, right.FooterTemplate)
-        && Equivalent(left.HeaderTemplate, right.HeaderTemplate)
+        && Equivalent(left.FooterContent, right.FooterContent)
+        && Equivalent(left.HeaderContent, right.HeaderContent)
         && Equivalent(left.FilterPredicate, right.FilterPredicate)
         && SameContent(left.FilterValues, right.FilterValues)
         && Equivalent(left.FilterTemplate, right.FilterTemplate)
@@ -324,7 +364,7 @@ public partial class OmniDataGridColumn<TItem>
         && left.Filterable == right.Filterable
         && left.FilterType == right.FilterType
         && left.FilterSearchable == right.FilterSearchable
-        && Equivalent(left.FilterValueText, right.FilterValueText)
+        && Equivalent(left.FormatFilterValue, right.FormatFilterValue)
         && string.Equals(left.DefaultFilterValue, right.DefaultFilterValue, StringComparison.Ordinal)
         && left.FilterIncludesTime == right.FilterIncludesTime
         && SameContent(left.FilterOperators, right.FilterOperators)
@@ -336,7 +376,7 @@ public partial class OmniDataGridColumn<TItem>
         && string.Equals(left.Width, right.Width, StringComparison.Ordinal)
         && string.Equals(left.MinWidth, right.MinWidth, StringComparison.Ordinal)
         && left.TextAlign == right.TextAlign
-        && string.Equals(left.CssClass, right.CssClass, StringComparison.Ordinal)
-        && string.Equals(left.HeaderCssClass, right.HeaderCssClass, StringComparison.Ordinal)
+        && string.Equals(left.Class, right.Class, StringComparison.Ordinal)
+        && string.Equals(left.HeaderClass, right.HeaderClass, StringComparison.Ordinal)
         && left.Groupable == right.Groupable;
 }

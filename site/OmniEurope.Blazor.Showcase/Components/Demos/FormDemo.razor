@@ -3,21 +3,21 @@
 <EditForm Model="Model">
     <OmniStack Gap="OmniSpacing.Medium">
         <OmniFormField For="demo-name" Required="true" Description="Tel qu'il apparaîtra sur la facture.">
-            <Label>Nom complet</Label>
+            <LabelContent>Nom complet</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="demo-name" @bind-Value="Model.Name" Placeholder="Camille Durand" />
             </ChildContent>
         </OmniFormField>
 
         <OmniFormField For="demo-notes">
-            <Label>Remarques</Label>
+            <LabelContent>Remarques</LabelContent>
             <ChildContent>
                 <OmniTextArea Id="demo-notes" @bind-Value="Model.Notes" Rows="3" MaxLength="200" ShowCount="true" />
             </ChildContent>
         </OmniFormField>
 
         <OmniFormField For="demo-email" Description="Le type choisit le clavier mobile et l'autofill du navigateur.">
-            <Label>Adresse e-mail</Label>
+            <LabelContent>Adresse e-mail</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="demo-email" Type="OmniTextBoxType.Email" Autocomplete="email"
                              @bind-Value="Model.Email" Placeholder="camille@exemple.eu" />
@@ -25,7 +25,7 @@
         </OmniFormField>
 
         <OmniFormField For="demo-phone">
-            <Label>Téléphone</Label>
+            <LabelContent>Téléphone</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="demo-phone" Type="OmniTextBoxType.Tel" Autocomplete="tel"
                              @bind-Value="Model.Phone" Placeholder="+32 2 000 00 00" />
@@ -33,7 +33,7 @@
         </OmniFormField>
 
         <OmniFormField For="demo-website">
-            <Label>Site web</Label>
+            <LabelContent>Site web</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="demo-website" Type="OmniTextBoxType.Url" Autocomplete="url"
                              @bind-Value="Model.Website" Placeholder="https://exemple.eu" />
@@ -41,7 +41,7 @@
         </OmniFormField>
 
         <OmniFormField For="demo-search">
-            <Label>Rechercher</Label>
+            <LabelContent>Rechercher</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="demo-search" Type="OmniTextBoxType.Search" @bind-Value="Model.Search"
                              Placeholder="Filtrer la liste" />
@@ -49,7 +49,7 @@
         </OmniFormField>
 
         <OmniFormField For="demo-budget">
-            <Label>Budget</Label>
+            <LabelContent>Budget</LabelContent>
             <ChildContent>
                 <OmniSlider Id="demo-budget" @bind-Value="Model.Budget" Minimum="0" Maximum="100" Step="5" ShowValue="true" />
             </ChildContent>

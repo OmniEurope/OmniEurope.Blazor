@@ -3,7 +3,7 @@
 
 @* Each file is a section whose header button folds its lines away. Added and removed lines are
    tinted and also say what they are to a screen reader, the tint alone carrying nothing. *@
-<div id="@Id" class="@Css("omni-unified-diff", Wrap ? "omni-unified-diff--wrap" : null)" @attributes="AdditionalAttributes">
+<div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-unified-diff", Wrap ? "omni-unified-diff--wrap" : null)">
     @if (_files.Count == 0)
     {
         <p class="omni-unified-diff__empty">@EffectiveEmptyText</p>
@@ -30,16 +30,16 @@
                 }
                 @if (file.Status != OmniDiffFileStatus.Modified)
                 {
-                    <OmniBadge Variant="@StatusVariant(file.Status)" Fill="OmniBadgeFill.Outline">@StatusText(file.Status)</OmniBadge>
+                    <OmniBadge Tone="@StatusTone(file.Status)" Fill="OmniFill.Outline">@StatusText(file.Status)</OmniBadge>
                 }
                 <span class="omni-unified-diff__stats">
                     <span class="omni-unified-diff__stat omni-unified-diff__stat--added" aria-hidden="true">+@file.Additions</span>
                     <span class="omni-unified-diff__stat omni-unified-diff__stat--removed" aria-hidden="true">-@file.Deletions</span>
                     <span class="omni-visually-hidden">@Localize("UnifiedDiffStats", file.Additions, file.Deletions)</span>
                 </span>
-                @if (FileActions is not null)
+                @if (FileActionsTemplate is not null)
                 {
-                    <span class="omni-unified-diff__file-actions">@FileActions(file)</span>
+                    <span class="omni-unified-diff__file-actions">@FileActionsTemplate(file)</span>
                 }
             </header>
             <div id="@BodyId(index)" class="omni-unified-diff__body" hidden="@collapsed">

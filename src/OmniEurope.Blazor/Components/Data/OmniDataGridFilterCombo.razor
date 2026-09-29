@@ -1,7 +1,7 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<div class="@Css("omni-combo")">
+<div @attributes="AdditionalAttributes" class="@Css("omni-combo")">
     <input id="@Id"
            type="text"
            class="omni-input omni-data-grid__filter omni-combo__input"
@@ -30,7 +30,17 @@
                     aria-selected="@(position == _activeIndex ? "true" : "false")"
                     @onmousedown:preventDefault="true"
                     @onmousedown="() => PickAsync(candidate)">
-                    @Highlighted(candidate)
+                    @foreach (var segment in OmniTextMatch.Split(candidate, Value))
+                    {
+                        if (segment.Matched)
+                        {
+                            <mark class="omni-combo__match">@segment.Text</mark>
+                        }
+                        else
+                        {
+                            @segment.Text
+                        }
+                    }
                 </li>
             }
         </ul>

@@ -1,20 +1,20 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
-@using OmniEurope.Blazor.Internal
 
-@* The validated href comes after the attributes, so that none of them can replace it. *@
-<a id="@Id"
+@* The host's attributes come first; the validated href, the target and the merged rel come after,
+   so that none of them can replace the link's own. *@
+<a @attributes="AdditionalAttributes"
+   id="@Id"
    class="@Css("omni-link", ShowsExternalIcon ? "omni-link--external" : null)"
-   target="@(NewTab ? "_blank" : null)"
-   rel="@(NewTab ? "noopener noreferrer" : null)"
-   aria-label="@AriaLabel"
+   target="@EffectiveTarget"
+   rel="@EffectiveRel"
+   aria-label="@Label"
    @onclick="OnClick"
-   @attributes="AdditionalAttributes"
    href="@SafeHref">
     @ChildContent
     @if (ShowsExternalIcon)
     {
         <OmniIcon Name="OmniIconName.OpenExternal" Size="OmniControlSize.Small" Class="omni-link__external" />
-        <span class="omni-visually-hidden">@StringLocalizer["LinkOpensInNewTab"]</span>
+        <span class="omni-visually-hidden">@Localize("LinkOpensInNewTab")</span>
     }
 </a>

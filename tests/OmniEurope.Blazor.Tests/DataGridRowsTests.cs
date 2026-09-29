@@ -11,7 +11,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DataGridRowsTests : OmniBunitContext
 {
-    private const string GridModule = "./_content/OmniEurope.Blazor/omni-grid.js";
+    private const string GridModule = Internal.OmniModules.Grid;
 
     [Fact]
     public void SelectAll_TicksTheSelectableRowsOnScreenThenClearsThem()
@@ -137,7 +137,7 @@ public sealed class DataGridRowsTests : OmniBunitContext
     public void ExpandAll_IsNotOfferedWhenOnlyOneRowMayBeOpen()
     {
         var host = Render<DataGridRowsTestHost>(parameters => parameters
-            .Add(component => component.ExpandMode, OmniDataGridExpandMode.Single));
+            .Add(component => component.ExpandMode, OmniDataGridRowMode.Single));
 
         Assert.Empty(host.FindAll("thead .omni-data-grid__expand"));
     }

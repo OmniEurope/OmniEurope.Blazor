@@ -4,7 +4,7 @@
                  @bind-Document="Map"
                  @bind-ViewState="View"
                  ReadOnly="ReadOnly"
-                 AriaLabel="Carte mentale : préparer un déménagement"
+                 Label="Carte mentale : préparer un déménagement"
                  ContextLabels="Labels">
         <ToolbarContent>
             <OmniMindMapToolbar />
@@ -13,7 +13,7 @@
             <OmniMindMapNodeProperties />
         </PanelContent>
     </OmniMindMap>
-    <OmniGitGraph TItem="string" Items="RecentCommits" IdOf="CommitId" ParentsOf="CommitParents"
+    <OmniGitGraph TItem="string" Items="RecentCommits" KeyOf="CommitId" ParentsOf="CommitParents"
                   Label="Historique avec une branche fusionnée">
         <RowTemplate Context="commit"><code>@commit</code></RowTemplate>
     </OmniGitGraph>

@@ -18,9 +18,9 @@ public partial class OverlayDemo : IDisposable
 
     private bool IntentOpen { get; set; }
 
-    private OmniDialogIntent IntentDialog { get; set; }
+    private OmniTone IntentDialog { get; set; }
 
-    private void OpenIntent(OmniDialogIntent intent)
+    private void OpenIntent(OmniTone intent)
     {
         IntentDialog = intent;
         IntentOpen = true;

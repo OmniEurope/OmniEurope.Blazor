@@ -4,7 +4,7 @@
             <OmniCard>
                 <Header><OmniHeading Level="OmniHeadingLevel.H4">Colonne fluide</OmniHeading></Header>
                 <ChildContent>Pleine largeur en petit écran, un tiers en grand.</ChildContent>
-                <Footer><OmniBadge Variant="OmniBadgeVariant.Neutral">12 / 6 / 4</OmniBadge></Footer>
+                <Footer><OmniBadge Tone="OmniTone.Neutral">12 / 6 / 4</OmniBadge></Footer>
             </OmniCard>
         </OmniColumn>
         <OmniColumn Span="12" MediumSpan="6" LargeSpan="4">
@@ -21,33 +21,33 @@
     </OmniRow>
 
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Wrap="true" Gap="OmniSpacing.Small" Justify="OmniJustification.Between" Align="OmniAlignment.Center">
-        <OmniBadge Variant="OmniBadgeVariant.Accent">Début</OmniBadge>
-        <OmniBadge Variant="OmniBadgeVariant.Neutral">Milieu</OmniBadge>
-        <OmniBadge Variant="OmniBadgeVariant.Success">Fin</OmniBadge>
+        <OmniBadge Tone="OmniTone.Accent">Début</OmniBadge>
+        <OmniBadge Tone="OmniTone.Neutral">Milieu</OmniBadge>
+        <OmniBadge Tone="OmniTone.Success">Fin</OmniBadge>
     </OmniStack>
 
     <OmniFieldset>
         <Legend>Groupe de champs</Legend>
         <ChildContent>
             <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
-                <OmniBadge Variant="OmniBadgeVariant.Neutral">Un</OmniBadge>
-                <OmniBadge Variant="OmniBadgeVariant.Neutral">Deux</OmniBadge>
+                <OmniBadge Tone="OmniTone.Neutral">Un</OmniBadge>
+                <OmniBadge Tone="OmniTone.Neutral">Deux</OmniBadge>
             </OmniStack>
         </ChildContent>
     </OmniFieldset>
 
-    <OmniFieldset Collapsible="true" Collapsed="true">
+    <OmniFieldset Collapsible="true" Expanded="false">
         <Legend>Réglages avancés</Legend>
         <ChildContent>Un groupe replié à l'ouverture, que le lecteur déplie s'il en a besoin.</ChildContent>
     </OmniFieldset>
 
-    @* Lié dans les deux sens : CollapsedChanged rapporte ce que fait le lecteur. Sans lui, le groupe
+    @* Lié dans les deux sens : ExpandedChanged rapporte ce que fait le lecteur. Sans lui, le groupe
        ne charge aucun script, comme avant. *@
-    <OmniFieldset Id="demo-fieldset-bound" Collapsible="true" @bind-Collapsed="OptionsCollapsed">
+    <OmniFieldset Id="demo-fieldset-bound" Collapsible="true" @bind-Expanded="OptionsExpanded">
         <Legend>Options suivies</Legend>
         <ChildContent>L'état replié est connu de la page, qui peut le retenir.</ChildContent>
     </OmniFieldset>
-    <p id="demo-fieldset-state">Options suivies : @(OptionsCollapsed ? "repliées" : "dépliées")</p>
+    <p id="demo-fieldset-state">Options suivies : @(OptionsExpanded ? "dépliées" : "repliées")</p>
 
     <OmniFieldset Disabled="true">
         <Legend>Groupe désactivé</Legend>
@@ -67,13 +67,13 @@
     @* Les quatre répartitions horizontales et les quatre alignements verticaux. *@
     <OmniStack Gap="OmniSpacing.Small">
         <OmniRow Justify="OmniJustification.Start" Gap="OmniSpacing.Small">
-            <OmniBadge Variant="OmniBadgeVariant.Accent">Aligné au début</OmniBadge>
+            <OmniBadge Tone="OmniTone.Accent">Aligné au début</OmniBadge>
         </OmniRow>
         <OmniRow Justify="OmniJustification.Center" Gap="OmniSpacing.Small">
-            <OmniBadge Variant="OmniBadgeVariant.Accent">Centré</OmniBadge>
+            <OmniBadge Tone="OmniTone.Accent">Centré</OmniBadge>
         </OmniRow>
         <OmniRow Justify="OmniJustification.End" Gap="OmniSpacing.Small">
-            <OmniBadge Variant="OmniBadgeVariant.Accent">Aligné à la fin</OmniBadge>
+            <OmniBadge Tone="OmniTone.Accent">Aligné à la fin</OmniBadge>
         </OmniRow>
     </OmniStack>
 
@@ -125,20 +125,20 @@
                     <Header><OmniHeading Level="OmniHeadingLevel.H4">@level.Title</OmniHeading></Header>
                     <ChildContent>
                         <OmniStack Gap="OmniSpacing.Small">
-                            <OmniFormField For="@($"density-{level.Key}-name")" Text="Nom du serveur" Required="true" Description="Visible dans la console.">
+                            <OmniFormField For="@($"density-{level.Key}-name")" Label="Nom du serveur" Required="true" Description="Visible dans la console.">
                                 <OmniTextBox Id="@($"density-{level.Key}-name")" @bind-Value="ServerName" />
                             </OmniFormField>
-                            <OmniFormField For="@($"density-{level.Key}-id")" Text="Identifiant, lecture seule">
+                            <OmniFormField For="@($"density-{level.Key}-id")" Label="Identifiant, lecture seule">
                                 <OmniTextBox Id="@($"density-{level.Key}-id")" @bind-Value="ServerId" ReadOnly="true" />
                             </OmniFormField>
-                            <OmniFormField For="@($"density-{level.Key}-zone")" Text="Zone, désactivée" Disabled="true">
+                            <OmniFormField For="@($"density-{level.Key}-zone")" Label="Zone, désactivée" Disabled="true">
                                 <OmniTextBox Id="@($"density-{level.Key}-zone")" @bind-Value="ServerZone" Disabled="true" />
                             </OmniFormField>
                             <OmniCheckBox Id="@($"density-{level.Key}-lock")" @bind-Value="LockedRestore" aria-label="Restauration verrouillée" />
                             <OmniRow Gap="OmniSpacing.Small" Wrap="true">
                                 <OmniButton><OmniIcon Name="OmniIconName.Save" /><span>Enregistrer</span></OmniButton>
                                 <OmniButton Variant="OmniButtonVariant.Secondary"><OmniIcon Name="OmniIconName.Close" /><span>Annuler</span></OmniButton>
-                                <OmniBadge Variant="OmniBadgeVariant.Info">3 alertes</OmniBadge>
+                                <OmniBadge Tone="OmniTone.Info">3 alertes</OmniBadge>
                             </OmniRow>
                             <OmniAlert Severity="OmniSeverity.Success" Title="Déploiement terminé">La version 1.0.1 est en ligne.</OmniAlert>
                             <OmniSettingsTile Title="Alertes par courriel" Description="À chaque changement.">
@@ -155,7 +155,7 @@
     @* Densité propre à un composant : dans une page confortable, chacun de ces composants porte la sienne. *@
     <OmniStack Gap="OmniSpacing.Small">
         <OmniAlert Severity="OmniSeverity.Info" Density="OmniDensity.Spacious">Une alerte aérée dans une page confortable.</OmniAlert>
-        <OmniTabs Label="Onglets compacts" Density="OmniDensity.Compact" @bind-Value="DensityTab" Keys="DensityTabKeys">
+        <OmniTabs Label="Onglets compacts" Density="OmniDensity.Compact" @bind-Value="DensityTab">
             <OmniTabsItem Key="general" Title="Général">Réglages généraux.</OmniTabsItem>
             <OmniTabsItem Key="securite" Title="Sécurité">Accès et jetons.</OmniTabsItem>
         </OmniTabs>

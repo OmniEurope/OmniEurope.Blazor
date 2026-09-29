@@ -1,7 +1,7 @@
 <OmniStack Gap="OmniSpacing.Large">
     <OmniSpreadsheet Id="demo-sheet"
                      @bind-Value="Budget"
-                     AriaLabel="Budget du trimestre"
+                     Label="Budget du trimestre"
                      ActiveCellChanged="@(address => Active = address)" />
 
     <p>Cellule active : @Active. Total du trimestre : @Budget.Evaluate("E7").ToDisplayString()</p>
@@ -11,5 +11,5 @@
                      ReadOnly="true"
                      ShowFormulaBar="false"
                      ShowGridLines="false"
-                     AriaLabel="Le même budget, en lecture seule" />
+                     Label="Le même budget, en lecture seule" />
 </OmniStack>

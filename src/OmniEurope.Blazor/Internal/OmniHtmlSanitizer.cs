@@ -25,7 +25,7 @@ internal static class OmniHtmlSanitizer
     /// </summary>
     internal static readonly string[] AllowedClassNames =
     [
-        "omni-align-left", "omni-align-center", "omni-align-right", "omni-align-justify",
+        "omni-align-left", "omni-align-center", "omni-align-end", "omni-align-justify",
         "omni-font-size-small", "omni-font-size-normal", "omni-font-size-large", "omni-font-size-xlarge"
     ];
 

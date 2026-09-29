@@ -5,11 +5,16 @@
 ## Structure
 
 - `src/OmniEurope.Blazor/Components` : point d'import commun et familles `Actions`, `Charts`, `Data`, `Diagram`, `Editor`, `Feedback`, `Forms`, `Foundation`, `Layout`, `Navigation`, `Overlays`, `Pages`, `Scheduling`, `Selection` et `Theming` ; l'espace de noms public reste `OmniEurope.Blazor.Components` indépendamment du dossier ;
-- `src/OmniEurope.Blazor/Internal` : utilitaires non exposés ;
-- `src/OmniEurope.Blazor/wwwroot` : CSS et éventuels modules JavaScript statiques ;
-- `tests/OmniEurope.Blazor.Tests` : contrat de rendu et garde-fous CSP ;
-- `docs` : contrats, conventions et guides de famille ;
-- `eng` : scripts de vérification et de génération, décrits dans [reproducibility.md](reproducibility.md) ;
+- `src/OmniEurope.Blazor/Internal` : utilitaires non exposés (moteurs, catalogues de thèmes et de palettes, gardes CSP) ;
+- `src/OmniEurope.Blazor/Localization` et `src/OmniEurope.Blazor/Resources` : localiseur de remplacement des textes et ressources `AppStrings` des 24 langues ([localization.md](localization.md)) ;
+- `src/OmniEurope.Blazor/wwwroot` : feuille de style statique, polices servies et modules JavaScript chargés à la demande ;
+- `src/OmniEurope.Blazor.Analyzers` : l'analyseur `OE0001`, livré dans le paquet sous `analyzers/dotnet/cs` ([analyzers.md](analyzers.md)) ;
+- `tests/OmniEurope.Blazor.Tests` : contrat de rendu, garde-fous CSP, gardes d'architecture, de conventions et de couverture de la vitrine ;
+- `tests/OmniEurope.Blazor.Analyzers.Tests` : tests de `OE0001` sur la sortie réelle du générateur Razor ;
+- `samples/` : hôte Server de référence (`OmniEurope.Blazor.Catalog`) et hôtes de fumée WebAssembly, Interactive Auto (serveur et client) et MAUI Hybrid, ce dernier hors de `OmniEurope.Blazor.slnx` ([compatibility.md](compatibility.md)) ;
+- `site/OmniEurope.Blazor.Showcase` : vitrine WebAssembly statique (page produit, documentation, galerie, personnalisateur de thème) ;
+- `docs` : contrats, conventions, guides de famille et plans numérotés (`docs/plans`) ;
+- `eng` : scripts de vérification et de génération, décrits dans [reproducibility.md](reproducibility.md), analyseurs de conventions du dépôt `GEN001` à `GEN008` (`eng/OmniEurope.Analyzers`, tests dans `eng/OmniEurope.Analyzers.Tests`) et extracteur de la baseline d'API publique (`eng/OmniEurope.PublicApiGuard`) ;
 - `artifacts/packages` : paquets locaux, ignorés par Git.
 
 Les composants complexes conservent une façade déclarative publique et délèguent leurs mécanismes à des moteurs internes : projection/chargement pour la grille, projection/domaines pour les graphiques et coordination ordonnée pour les superpositions. Les contextes en cascade de grille, onglets, étapes et arbre ne font pas partie de l'API publique.

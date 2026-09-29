@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="HeaderBadge" xml:space="preserve"><value>Библиотека с компоненти</value></data>
+  <data name="ModeLight" xml:space="preserve"><value>Светла тема</value></data>
+  <data name="ModeDark" xml:space="preserve"><value>Тъмна тема</value></data>
+  <data name="LanguageSelectorLabel" xml:space="preserve"><value>Език на витрината</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Основна навигация</value></data>
+  <data name="MenuLabel" xml:space="preserve"><value>Раздели на сайта</value></data>
+  <data name="NavShowcase" xml:space="preserve"><value>Представяне</value></data>
+  <data name="NavDocumentation" xml:space="preserve"><value>Документация</value></data>
+  <data name="NavComponents" xml:space="preserve"><value>Компоненти</value></data>
+  <data name="NavCustomize" xml:space="preserve"><value>Персонализиране</value></data>
+  <data name="ErrorTitle" xml:space="preserve"><value>Възникна грешка</value></data>
+  <data name="ErrorMessage" xml:space="preserve"><value>Страницата не можа да се покаже правилно.</value></data>
+  <data name="Retry" xml:space="preserve"><value>Нов опит</value></data>
+  <data name="NotFoundPageTitle" xml:space="preserve"><value>Страницата не е намерена</value></data>
+  <data name="NotFoundTitle" xml:space="preserve"><value>Страницата не е намерена</value></data>
+  <data name="NotFoundDescription" xml:space="preserve"><value>Заявеният адрес не съответства на нито една страница от сайта.</value></data>
+  <data name="BackHome" xml:space="preserve"><value>Към началната страница</value></data>
+  <data name="HomePageTitle" xml:space="preserve"><value>OmniEurope.Blazor</value></data>
+  <data name="HomeKicker" xml:space="preserve"><value>Blazor</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Достъпни Blazor компоненти при строга политика за сигурност</value></data>
+  <data name="HomeLead" xml:space="preserve"><value>Библиотека с компоненти, създадена за приложения, които забраняват вградените стилове, изискват достъпност и искат тема, управляема от край до край.</value></data>
+  <data name="HomeSeeComponents" xml:space="preserve"><value>Разгледайте компонентите</value></data>
+  <data name="HomeSeeCustomize" xml:space="preserve"><value>Персонализирайте темата</value></data>
+  <data name="HomePillarsTitle" xml:space="preserve"><value>Какво отличава библиотеката</value></data>
+  <data name="PillarCspTitle" xml:space="preserve"><value>Строга политика за сигурност</value></data>
+  <data name="PillarCspBody" xml:space="preserve"><value>Никакви вградени атрибути за стил, никакви инжектирани елементи за стил, никакво динамично изпълнение на скриптове. Библиотеката работи при политика, която забранява всичко това.</value></data>
+  <data name="PillarThemeTitle" xml:space="preserve"><value>Тема, изцяло изградена с променливи</value></data>
+  <data name="PillarThemeBody" xml:space="preserve"><value>Цветовете, типографията, разстоянията, заобленията, сенките и палитрата на диаграмите минават през CSS променливи, без нито една фиксирана стойност в правилата.</value></data>
+  <data name="PillarA11yTitle" xml:space="preserve"><value>Достъпност, гарантирана от тестове</value></data>
+  <data name="PillarA11yBody" xml:space="preserve"><value>Ролите, състоянията и етикетите се проверяват от набора тестове, а не само се обещават в документацията.</value></data>
+  <data name="PillarWeightTitle" xml:space="preserve"><value>Контролиран размер</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Публикуваният пакет се измерва при всяка компилация спрямо бюджет в байтове, включително стиловия файл.</value></data>
+  <data name="DocsPageTitle" xml:space="preserve"><value>Документация</value></data>
+  <data name="DocsTitle" xml:space="preserve"><value>Документация</value></data>
+  <data name="DocsLead" xml:space="preserve"><value>От инсталирането на пакета до първата персонализирана тема, в пет стъпки.</value></data>
+  <data name="DocsInstallTitle" xml:space="preserve"><value>Инсталиране на пакета</value></data>
+  <data name="DocsInstallBody" xml:space="preserve"><value>Библиотеката се добавя като всеки друг NuGet пакет.</value></data>
+  <data name="DocsRegisterTitle" xml:space="preserve"><value>Регистриране на услугите</value></data>
+  <data name="DocsRegisterBody" xml:space="preserve"><value>Едно извикване регистрира всичко, от което се нуждаят компонентите.</value></data>
+  <data name="DocsCssTitle" xml:space="preserve"><value>Свързване на стиловия файл</value></data>
+  <data name="DocsCssBody" xml:space="preserve"><value>Стиловият файл се предоставя като статичен ресурс на пакета.</value></data>
+  <data name="DocsCspTitle" xml:space="preserve"><value>Политика за сигурност</value></data>
+  <data name="DocsCspBody" xml:space="preserve"><value>Библиотеката не изисква нищо извън тези директиви: нито вградени стилове, нито динамично изпълнение на скриптове.</value></data>
+  <data name="DocsThemeTitle" xml:space="preserve"><value>Персонализиране на темата</value></data>
+  <data name="DocsThemeBody" xml:space="preserve"><value>Предефинирането на една променлива пребоядисва всички компоненти, които я четат.</value></data>
+  <data name="DocsThemePointer" xml:space="preserve"><value>За да съставите цяла тема, без да пишете CSS:</value></data>
+  <data name="GalleryPageTitle" xml:space="preserve"><value>Компоненти</value></data>
+  <data name="GalleryTitle" xml:space="preserve"><value>Компоненти</value></data>
+  <data name="GalleryLead" xml:space="preserve"><value>Всяко семейство е представено с възможностите си, жива демонстрация и кода, който я създава.</value></data>
+  <data name="GalleryNavLabel" xml:space="preserve"><value>Семейства компоненти</value></data>
+  <data name="GalleryCapabilities" xml:space="preserve"><value>Какво може компонентът</value></data>
+  <data name="GalleryPreview" xml:space="preserve"><value>Демонстрация</value></data>
+  <data name="GallerySource" xml:space="preserve"><value>Изходен код</value></data>
+  <data name="GallerySourceNote" xml:space="preserve"><value>Това е точно файлът, компилиран и изпълнен от горната демонстрация, прочетен от асемблито, никога преписван на ръка.</value></data>
+  <data name="GallerySourceMissingTitle" xml:space="preserve"><value>Изходният код не е наличен</value></data>
+  <data name="GallerySourceMissing" xml:space="preserve"><value>Файлът на демонстрацията не бе намерен сред ресурсите на асемблито.</value></data>
+  <data name="DemoButtonsTitle" xml:space="preserve"><value>Бутони</value></data>
+  <data name="DemoButtonsSummary" xml:space="preserve"><value>Задействащият елемент за действие, във визуални намерения и състояния.</value></data>
+  <data name="DemoButtonsCapability1" xml:space="preserve"><value>Четири намерения: основно, вторично, дискретно и разрушително.</value></data>
+  <data name="DemoButtonsCapability2" xml:space="preserve"><value>Състояние „зает“, което блокира двойното изпращане и се обявява на екранните четци.</value></data>
+  <data name="DemoButtonsCapability3" xml:space="preserve"><value>Състояние „забранен“, различно от състоянието „зает“.</value></data>
+  <data name="DemoButtonsCapability4" xml:space="preserve"><value>Три размера и трите типа бутони във формуляр: изпращане, нулиране, неутрално действие.</value></data>
+  <data name="DemoBadgesTitle" xml:space="preserve"><value>Значки</value></data>
+  <data name="DemoBadgesSummary" xml:space="preserve"><value>Краткият етикет, който характеризира елемент, без да го претоварва.</value></data>
+  <data name="DemoBadgesCapability1" xml:space="preserve"><value>Пет варианта, съобразени с нивата на сериозност на темата.</value></data>
+  <data name="DemoBadgesCapability2" xml:space="preserve"><value>Оцветени фонове, получени от променливите, затова се пребоядисват заедно с темата.</value></data>
+  <data name="DemoAlertsTitle" xml:space="preserve"><value>Сигнали</value></data>
+  <data name="DemoAlertsSummary" xml:space="preserve"><value>Контекстното съобщение, от обикновено известие до блокираща грешка.</value></data>
+  <data name="DemoAlertsCapability1" xml:space="preserve"><value>Четири нива на сериозност: информация, успех, предупреждение и опасност.</value></data>
+  <data name="DemoAlertsCapability2" xml:space="preserve"><value>Два варианта: дискретен контур или плътен фон.</value></data>
+  <data name="DemoAlertsCapability3" xml:space="preserve"><value>Режим на живо, който обявява съобщението на помощните технологии.</value></data>
+  <data name="CustomizePageTitle" xml:space="preserve"><value>Персонализиране</value></data>
+  <data name="CustomizeTitle" xml:space="preserve"><value>Персонализиране</value></data>
+  <data name="CustomizeLead" xml:space="preserve"><value>Изберете тема, която задава формата, после палитра, която задава цветовете: всяка палитра оцветява всяка тема и целият сайт се пребоядисва в движение. Прегледът възпроизвежда композициите от еталонния макет.</value></data>
+  <data name="CustomizeTokensTitle" xml:space="preserve"><value>Променливи</value></data>
+  <data name="CustomizeTokensLead" xml:space="preserve"><value>Този списък се чете от доставения стилов файл, така че не може да се отклони от това, което библиотеката реално предоставя. Променената променлива се наслагва върху комбинацията и в двата режима; изборът на друга тема или палитра я изчиства.</value></data>
+  <data name="CustomizeReset" xml:space="preserve"><value>Изчистване на промените</value></data>
+  <data name="TokenGroupColor" xml:space="preserve"><value>Цветове</value></data>
+  <data name="TokenGroupTypography" xml:space="preserve"><value>Типография</value></data>
+  <data name="TokenGroupSpacing" xml:space="preserve"><value>Разстояния и плътност</value></data>
+  <data name="TokenGroupShape" xml:space="preserve"><value>Форми, рамки и натискане</value></data>
+  <data name="TokenGroupElevation" xml:space="preserve"><value>Сенки, слой и наслагвания</value></data>
+  <data name="TokenGroupChart" xml:space="preserve"><value>Диаграми</value></data>
+  <data name="TokenGroupGrid" xml:space="preserve"><value>Таблица с данни в тъмен режим</value></data>
+  <data name="TokenGroupDiagram" xml:space="preserve"><value>Мисловна карта</value></data>
+  <data name="CustomizeExportTitle" xml:space="preserve"><value>Експортиране</value></data>
+  <data name="CustomizeExportLead" xml:space="preserve"><value>CSS кодът по-долу съдържа цялата комбинация, включително променените променливи, за светъл, тъмен и системен режим. Насочен е към обхвата на темата (OmniThemeScope, data-omni-theme), където стиловият файл декларира отново своите променливи; заредете го след стиловия файл на библиотеката.</value></data>
+  <data name="CustomizeCopy" xml:space="preserve"><value>Копиране</value></data>
+  <data name="CustomizeDownload" xml:space="preserve"><value>Изтегляне</value></data>
+  <data name="CustomizeCopied" xml:space="preserve"><value>CSS кодът е копиран в клипборда.</value></data>
+  <data name="CustomizeCopyFailed" xml:space="preserve"><value>Копирането не бе успешно. Изберете кода по-долу и го копирайте ръчно.</value></data>
+  <data name="CustomizeDownloaded" xml:space="preserve"><value>Файлът omnieurope-theme.css е изтеглен.</value></data>
+  <data name="CustomizeDownloadFailed" xml:space="preserve"><value>Изтеглянето не бе успешно. Вместо това копирайте кода по-долу.</value></data>
+  <data name="DemoFormTitle" xml:space="preserve"><value>Формуляри</value></data>
+  <data name="DemoFormSummary" xml:space="preserve"><value>Полетата за въвеждане и техните достъпни етикети.</value></data>
+  <data name="DemoFormCapability1" xml:space="preserve"><value>Етикет, описание и съобщение за грешка, свързани с полето чрез идентификатор.</value></data>
+  <data name="DemoFormCapability2" xml:space="preserve"><value>Текстова област с брояч на знаци и ограничение.</value></data>
+  <data name="DemoFormCapability3" xml:space="preserve"><value>Плъзгач, квадратче за отметка и превключвател, управлявани от клавиатурата.</value></data>
+  <data name="DemoSelectionTitle" xml:space="preserve"><value>Избор</value></data>
+  <data name="DemoSelectionSummary" xml:space="preserve"><value>Избор на една или няколко стойности от списък.</value></data>
+  <data name="DemoSelectionCapability1" xml:space="preserve"><value>Падащ списък с разрешена празна стойност.</value></data>
+  <data name="DemoSelectionCapability2" xml:space="preserve"><value>Списък с височина, зададена чрез броя видими редове.</value></data>
+  <data name="DemoSelectionCapability3" xml:space="preserve"><value>Множествен избор, връщащ списъка с избраните стойности.</value></data>
+  <data name="DemoNavigationTitle" xml:space="preserve"><value>Навигация</value></data>
+  <data name="DemoNavigationSummary" xml:space="preserve"><value>Ориентиране на потребителя и придвижването му между разделите.</value></data>
+  <data name="DemoNavigationCapability1" xml:space="preserve"><value>Навигационна пътека, отбелязваща текущата страница.</value></data>
+  <data name="DemoNavigationCapability2" xml:space="preserve"><value>Управлявани раздели с роли и навигация от клавиатурата.</value></data>
+  <data name="DemoNavigationCapability3" xml:space="preserve"><value>Номерирани стъпки с валидиране преди преминаване.</value></data>
+  <data name="DemoFeedbackTitle" xml:space="preserve"><value>Индикатори за състояние</value></data>
+  <data name="DemoFeedbackSummary" xml:space="preserve"><value>Показват докъде е стигнала системата, без да пречат на четенето.</value></data>
+  <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Лента за напредък, определена или неопределена.</value></data>
+  <data name="DemoFeedbackCapability2" xml:space="preserve"><value>Подсказка, достъпна от клавиатурата, а не само при посочване.</value></data>
+  <data name="DemoFeedbackCapability3" xml:space="preserve"><value>Скелет за зареждане, обявяван на екранните четци.</value></data>
+  <data name="DemoFeedbackCapability4" xml:space="preserve"><value>Линейна или кръгова лента в четири намерения и скелет, който приема формата на това, което замества.</value></data>
+  <data name="DemoGridTitle" xml:space="preserve"><value>Таблица с данни</value></data>
+  <data name="DemoGridSummary" xml:space="preserve"><value>Работната таблица: сортиране, филтриране, страниране и групи.</value></data>
+  <data name="DemoGridCapability1" xml:space="preserve"><value>Сортиране и филтриране по колона върху реалните данни.</value></data>
+  <data name="DemoGridCapability2" xml:space="preserve"><value>Страниране с регулируем размер на страницата.</value></data>
+  <data name="DemoGridCapability3" xml:space="preserve"><value>Редуващи се редове и декларативни формати на колоните.</value></data>
+  <data name="DemoChartTitle" xml:space="preserve"><value>Диаграми</value></data>
+  <data name="DemoChartSummary" xml:space="preserve"><value>Категорийни серии в цветовете на темата.</value></data>
+  <data name="DemoChartCapability1" xml:space="preserve"><value>Колонни серии с озаглавени оси.</value></data>
+  <data name="DemoChartCapability2" xml:space="preserve"><value>Цветове, взети от променливите за диаграми на темата.</value></data>
+  <data name="DemoTypographyTitle" xml:space="preserve"><value>Типография</value></data>
+  <data name="DemoTypographySummary" xml:space="preserve"><value>Заглавия, абзаци, етикети и връзки.</value></data>
+  <data name="DemoTypographyCapability1" xml:space="preserve"><value>Шест нива на заглавия в няколко тоналности.</value></data>
+  <data name="DemoTypographyCapability2" xml:space="preserve"><value>Пет текстови елемента, от абзаца до акцента.</value></data>
+  <data name="DemoTypographyCapability3" xml:space="preserve"><value>Съкращаване с многоточие и етикет, свързан с поле.</value></data>
+  <data name="DemoLayoutTitle" xml:space="preserve"><value>Оформление</value></data>
+  <data name="DemoLayoutSummary" xml:space="preserve"><value>Мрежата, редовете, картите и групите полета.</value></data>
+  <data name="DemoLayoutCapability1" xml:space="preserve"><value>Мрежа от дванадесет колони с обхват за всеки праг на екрана.</value></data>
+  <data name="DemoLayoutCapability2" xml:space="preserve"><value>Карта в три зони: горен колонтитул, основна част и долен колонтитул.</value></data>
+  <data name="DemoLayoutCapability3" xml:space="preserve"><value>Група полета, която може да се забрани с едно движение.</value></data>
+  <data name="DemoLayoutCapability4" xml:space="preserve"><value>Цялата скала на разстоянията и разпределенията и подравняванията, които приема един ред.</value></data>
+  <data name="DemoShellTitle" xml:space="preserve"><value>Рамка на приложението</value></data>
+  <data name="DemoShellSummary" xml:space="preserve"><value>Скелетът на едно приложение, същият, от който е изграден този сайт.</value></data>
+  <data name="DemoShellCapability1" xml:space="preserve"><value>Заглавна лента, сгъваема странична лента и основна област.</value></data>
+  <data name="DemoShellCapability2" xml:space="preserve"><value>Навигационно меню с разгъваеми групи.</value></data>
+  <data name="DemoShellCapability3" xml:space="preserve"><value>Превключвател на облика и локален обхват на темата.</value></data>
+  <data name="DemoShellCapability4" xml:space="preserve"><value>И двете подредби: центрирана колона за четене или пълна ширина, меню отляво или отдясно.</value></data>
+  <data name="DemoMediaTitle" xml:space="preserve"><value>Икони и медия</value></data>
+  <data name="DemoMediaSummary" xml:space="preserve"><value>Иконите, изображенията и хронологията.</value></data>
+  <data name="DemoMediaCapability1" xml:space="preserve"><value>Вградени икони в три размера.</value></data>
+  <data name="DemoMediaCapability2" xml:space="preserve"><value>Контур на икона, предоставен от хоста, без да натоварва пакета.</value></data>
+  <data name="DemoMediaCapability3" xml:space="preserve"><value>Изображение с регулируемо кадриране и отложено зареждане.</value></data>
+  <data name="DemoMediaCapability4" xml:space="preserve"><value>Целият вграден набор от икони и трите начина на кадриране на изображение.</value></data>
+  <data name="DemoInputsTitle" xml:space="preserve"><value>Разширено въвеждане</value></data>
+  <data name="DemoInputsSummary" xml:space="preserve"><value>Числа, пароли, дати, часове, цветове и автоматично довършване.</value></data>
+  <data name="DemoInputsCapability1" xml:space="preserve"><value>Числово поле с граници и регулируема стъпка.</value></data>
+  <data name="DemoInputsCapability2" xml:space="preserve"><value>Парола, която може да се покаже, без да се копира другаде.</value></data>
+  <data name="DemoInputsCapability3" xml:space="preserve"><value>Асинхронно автоматично довършване със закъснение и минимална дължина.</value></data>
+  <data name="DemoInputsCapability4" xml:space="preserve"><value>Дата, час, дата и час: собствен календар и колони в плаващия слой, клавиатурна навигация в мрежата, граници и плътност.</value></data>
+  <data name="DemoChoiceTitle" xml:space="preserve"><value>Избор на опции</value></data>
+  <data name="DemoChoiceSummary" xml:space="preserve"><value>Радиобутони, множество квадратчета, ленти за избор и превключватели.</value></data>
+  <data name="DemoChoiceCapability1" xml:space="preserve"><value>Списъци, управлявани чрез опции или изградени елемент по елемент.</value></data>
+  <data name="DemoChoiceCapability2" xml:space="preserve"><value>Лента за избор и бутон превключвател със състояния „зает“ и „забранен“.</value></data>
+  <data name="DemoChoiceCapability3" xml:space="preserve"><value>Квадратче и превключвател с три позиции, включително неопределената.</value></data>
+  <data name="DemoValidationTitle" xml:space="preserve"><value>Валидиране</value></data>
+  <data name="DemoValidationSummary" xml:space="preserve"><value>Правилата, декларирани до полето, което пазят.</value></data>
+  <data name="DemoValidationCapability1" xml:space="preserve"><value>Задължителност, дължина, формат на имейл и сравнение.</value></data>
+  <data name="DemoValidationCapability2" xml:space="preserve"><value>При изпращане фокусът отива на първото невалидно поле.</value></data>
+  <data name="DemoValidationCapability3" xml:space="preserve"><value>Никакви атрибути в модела, всичко е в маркирането.</value></data>
+  <data name="DemoEditorTitle" xml:space="preserve"><value>Редактори и качване</value></data>
+  <data name="DemoEditorSummary" xml:space="preserve"><value>WYSIWYG редакторът и неговият HTML код, текстообработката, редакторът на код и качването на файлове.</value></data>
+  <data name="DemoEditorCapability1" xml:space="preserve"><value>Лента с команди, която хостът допълва или пренарежда, почистено поставяне, режим на изходен код.</value></data>
+  <data name="DemoEditorCapability2" xml:space="preserve"><value>Текстообработка върху страница, брой думи, експорт в HTML и текст.</value></data>
+  <data name="DemoEditorCapability3" xml:space="preserve"><value>Редактор на код (Monaco от хоста, обикновен текст при строг CSP) и ограничено качване.</value></data>
+  <data name="DemoOverlayTitle" xml:space="preserve"><value>Наслагвания</value></data>
+  <data name="DemoOverlaySummary" xml:space="preserve"><value>Диалогови прозорци, известия и изскачащи менюта.</value></data>
+  <data name="DemoOverlayCapability1" xml:space="preserve"><value>Модален диалогов прозорец, който се затваря с Esc или от фона.</value></data>
+  <data name="DemoOverlayCapability2" xml:space="preserve"><value>Четири нива на сериозност на известията, с незадължително затваряне.</value></data>
+  <data name="DemoOverlayCapability3" xml:space="preserve"><value>Контекстно меню, разделен бутон и меню на акаунта.</value></data>
+  <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Таблица, пълен изглед</value></data>
+  <data name="DemoGridAdvancedSummary" xml:space="preserve"><value>Избор, групи, редактиране, фиксирани колони и разширени филтри.</value></data>
+  <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Множествен избор с щракване върху реда.</value></data>
+  <data name="DemoGridAdvancedCapability2" xml:space="preserve"><value>Филтри с падащ списък и с множествен избор по колона.</value></data>
+  <data name="DemoGridAdvancedCapability3" xml:space="preserve"><value>Фиксирана колона, разгънати групи и изчислен долен ред на колона.</value></data>
+  <data name="DemoGridAdvancedCapability4" xml:space="preserve"><value>Настройки на показването, управлявани на живо: линии, плътност, страниране, избор, редактиране и филтри.</value></data>
+  <data name="DemoDataListTitle" xml:space="preserve"><value>Списъци и страниране</value></data>
+  <data name="DemoDataListSummary" xml:space="preserve"><value>Списъкът със свободен шаблон и неговото страниране.</value></data>
+  <data name="DemoDataListCapability1" xml:space="preserve"><value>Шаблон на елемента, изцяло предоставен от хоста.</value></data>
+  <data name="DemoDataListCapability2" xml:space="preserve"><value>Отделни състояния: празно, зареждане и грешка.</value></data>
+  <data name="DemoDataListCapability3" xml:space="preserve"><value>Страниране с регулируем размер на страницата и преход към първата и последната страница.</value></data>
+  <data name="DemoTreeTitle" xml:space="preserve"><value>Дървовидна структура</value></data>
+  <data name="DemoTreeSummary" xml:space="preserve"><value>Разгъваемата йерархия с единичен или множествен избор.</value></data>
+  <data name="DemoTreeCapability1" xml:space="preserve"><value>Множествен избор и навигация от клавиатурата.</value></data>
+  <data name="DemoTreeCapability2" xml:space="preserve"><value>Клон, зареждан при поискване, при отваряне на възела.</value></data>
+  <data name="DemoTreeCapability3" xml:space="preserve"><value>Възли, които могат да се забранят, без да се нарушава обхождането.</value></data>
+  <data name="DemoSpreadsheetTitle" xml:space="preserve"><value>Електронна таблица</value></data>
+  <data name="DemoSpreadsheetSummary" xml:space="preserve"><value>Проста електронна таблица: клетки, формули и лента за формули.</value></data>
+  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Формули с препратки, диапазони, SUM, AVERAGE, MIN, MAX и кодове за грешки.</value></data>
+  <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Навигация от клавиатурата, редактиране на място и лента за формули.</value></data>
+  <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Съдържание с двупосочно свързване, сериализуемо в JSON.</value></data>
+  <data name="DemoSchedulerTitle" xml:space="preserve"><value>График</value></data>
+  <data name="DemoSchedulerSummary" xml:space="preserve"><value>Календарът и трите му изгледа.</value></data>
+  <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Превключваеми изгледи за ден, седмица и месец.</value></data>
+  <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Повтарящи се срещи, описани с правило.</value></data>
+  <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Всеки изглед може да се използва и самостоятелно, извън календара.</value></data>
+  <data name="DemoChartsExtendedTitle" xml:space="preserve"><value>Диаграми, пълен изглед</value></data>
+  <data name="DemoChartsExtendedSummary" xml:space="preserve"><value>Всички серии, легендата, етикетите и индикаторът.</value></data>
+  <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Линии, области, колони, ленти, натрупвания, кръгова и пръстеновидна диаграма.</value></data>
+  <data name="DemoChartsExtendedCapability2" xml:space="preserve"><value>Легенда, маркери, етикети на стойностите и подсказка.</value></data>
+  <data name="DemoChartsExtendedCapability3" xml:space="preserve"><value>Дъгов индикатор със скала и формат на стойността.</value></data>
+  <data name="DemoDiagramTitle" xml:space="preserve"><value>Мисловна карта</value></data>
+  <data name="DemoDiagramSummary" xml:space="preserve"><value>Мисловна карта, редактируема с мишката, с докосване и от клавиатурата.</value></data>
+  <data name="DemoDiagramCapability1" xml:space="preserve"><value>Плъзгане, ласо, мащабиране с колелцето или с щипване, контекстно меню.</value></data>
+  <data name="DemoDiagramCapability2" xml:space="preserve"><value>Всяко действие има клавишна комбинация, обявявана на екранните четци.</value></data>
+  <data name="DemoDiagramCapability3" xml:space="preserve"><value>Лента с действия и панел със свойствата на избрания възел.</value></data>
+  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Чете и записва обратно съхранения формат на графа, без да губи нищо.</value></data>
+  <data name="DemoPlanningTitle" xml:space="preserve"><value>Планиране</value></data>
+  <data name="DemoPlanningSummary" xml:space="preserve"><value>Диаграма на Гант, стъпките на едно изпълнение и хронология за разполагане.</value></data>
+  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Гант по дни, седмици или месеци, с групи, зависимости и днешния ден.</value></data>
+  <data name="DemoPlanningCapability2" xml:space="preserve"><value>Стъпки на изпълнението върху времева скала, включително никога нестартиралите.</value></data>
+  <data name="DemoPlanningCapability3" xml:space="preserve"><value>Хронология отдясно, отляво или редуваща се, с избор на първата страна.</value></data>
+  <data name="DemoPagesTitle" xml:space="preserve"><value>Страници</value></data>
+  <data name="DemoPagesSummary" xml:space="preserve"><value>Заглавната част, подробната карта и това, което я изпълва.</value></data>
+  <data name="DemoPagesCapability1" xml:space="preserve"><value>Заглавна част на страницата: навигационна пътека, поддържана от услуга, назад, заглавие, значки и действия, сгънати на телефон.</value></data>
+  <data name="DemoPagesCapability2" xml:space="preserve"><value>Подробна карта: заглавна част, показана преди пристигането на данните, съдържание, скрито при зареждане, състояние „не е намерено“ с връщане.</value></data>
+  <data name="DemoPagesCapability3" xml:space="preserve"><value>Списък с определения в колони, с по едно действие за всяка стойност.</value></data>
+  <data name="DemoPagesCapability4" xml:space="preserve"><value>Относителна дата с точната дата при посочване и фокус, и празно състояние със свое действие.</value></data>
+  <data name="DemoFlowsTitle" xml:space="preserve"><value>Потоци</value></data>
+  <data name="DemoFlowsSummary" xml:space="preserve"><value>Съветник, вход и загубена връзка.</value></data>
+  <data name="DemoFlowsCapability1" xml:space="preserve"><value>Съветник със стъпки: напредък, валидиране на всяка стъпка, в страница или в диалогов прозорец.</value></data>
+  <data name="DemoFlowsCapability2" xml:space="preserve"><value>Страница за вход без вградено удостоверяване и адрес за връщане, ограничен до приложението.</value></data>
+  <data name="DemoFlowsCapability3" xml:space="preserve"><value>Наслагване при загубена връзка: обратно броене, причина, ръчно подновяване, неуспех и отказ.</value></data>
+  <data name="WorkshopBarTitle" xml:space="preserve"><value>Настройки на прегледа</value></data>
+  <data name="WorkshopTheme" xml:space="preserve"><value>Тема (форма)</value></data>
+  <data name="WorkshopPalette" xml:space="preserve"><value>Палитра (цветове)</value></data>
+  <data name="WorkshopThemePalette" xml:space="preserve"><value>Палитра на темата</value></data>
+  <data name="WorkshopDefault" xml:space="preserve"><value>По подразбиране</value></data>
+  <data name="WorkshopMode" xml:space="preserve"><value>Режим</value></data>
+  <data name="WorkshopModeLight" xml:space="preserve"><value>Светъл</value></data>
+  <data name="WorkshopModeDark" xml:space="preserve"><value>Тъмен</value></data>
+  <data name="WorkshopModeSystem" xml:space="preserve"><value>Системен</value></data>
+  <data name="WorkshopDensity" xml:space="preserve"><value>Обща плътност</value></data>
+  <data name="WorkshopDensityCompact" xml:space="preserve"><value>Компактна</value></data>
+  <data name="WorkshopDensityComfortable" xml:space="preserve"><value>Удобна</value></data>
+  <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Просторна</value></data>
+  <data name="WorkshopDensityInherited" xml:space="preserve"><value>Наследена</value></data>
+  <data name="WorkshopSectionDensity" xml:space="preserve"><value>Плътност</value></data>
+  <data name="WorkshopHover" xml:space="preserve"><value>Посочване</value></data>
+  <data name="WorkshopHoverForce" xml:space="preserve"><value>Принудително</value></data>
+  <data name="WorkshopHoverForced" xml:space="preserve"><value>Принудено</value></data>
+  <data name="WorkshopStageTitle" xml:space="preserve"><value>Преглед</value></data>
+  <data name="WorkshopStageLead" xml:space="preserve"><value>Тема {0}: {1} Палитра {2}: {3}</value></data>
+  <data name="WorkshopContrastWaiver" xml:space="preserve"><value>Контрастът не е гарантиран: {0}</value></data>
+  <data name="WorkshopContrastTitle" xml:space="preserve"><value>Изчислени контрасти</value></data>
+  <data name="WorkshopContrastLead" xml:space="preserve"><value>Съотношение, измерено върху токените на показания режим, след това прагът, който трябва да се достигне.</value></data>
+  <data name="WorkshopContrastSystem" xml:space="preserve"><value>Системен режим: съотношенията се измерват върху светлата половина, тъй като коя ще избере браузърът се знае само в страницата.</value></data>
+  <data name="WorkshopContrastVerdict" xml:space="preserve"><value>{0} от {1} двойки достигат своя праг.</value></data>
+  <data name="WorkshopSwatchesTitle" xml:space="preserve"><value>Цветови токени</value></data>
+  <data name="ContrastPair01" xml:space="preserve"><value>текст / повърхност</value></data>
+  <data name="ContrastPair02" xml:space="preserve"><value>текст / приглушена повърхност</value></data>
+  <data name="ContrastPair03" xml:space="preserve"><value>текст / посочена повърхност</value></data>
+  <data name="ContrastPair04" xml:space="preserve"><value>приглушен текст / повърхност</value></data>
+  <data name="ContrastPair05" xml:space="preserve"><value>приглушен текст / приглушена повърхност</value></data>
+  <data name="ContrastPair06" xml:space="preserve"><value>приглушен текст / посочена повърхност</value></data>
+  <data name="ContrastPair07" xml:space="preserve"><value>силен акцент / повърхност</value></data>
+  <data name="ContrastPair08" xml:space="preserve"><value>силен акцент / дискретен акцент</value></data>
+  <data name="ContrastPair09" xml:space="preserve"><value>силен акцент / посочена повърхност</value></data>
+  <data name="ContrastPair10" xml:space="preserve"><value>върху акцент / акцент</value></data>
+  <data name="ContrastPair11" xml:space="preserve"><value>върху успех / успех</value></data>
+  <data name="ContrastPair12" xml:space="preserve"><value>върху предупреждение / предупреждение</value></data>
+  <data name="ContrastPair13" xml:space="preserve"><value>върху грешка / грешка</value></data>
+  <data name="ContrastPair14" xml:space="preserve"><value>върху обратен / обратен</value></data>
+  <data name="ContrastPair15" xml:space="preserve"><value>успех / повърхност</value></data>
+  <data name="ContrastPair16" xml:space="preserve"><value>успех / дискретен успех</value></data>
+  <data name="ContrastPair17" xml:space="preserve"><value>предупреждение / повърхност</value></data>
+  <data name="ContrastPair18" xml:space="preserve"><value>грешка / повърхност</value></data>
+  <data name="ContrastPair19" xml:space="preserve"><value>грешка / дискретна грешка</value></data>
+  <data name="ContrastPair20" xml:space="preserve"><value>текст върху плътен акцент</value></data>
+  <data name="ContrastPair21" xml:space="preserve"><value>текст върху плътен успех</value></data>
+  <data name="ContrastPair22" xml:space="preserve"><value>текст върху плътна информация</value></data>
+  <data name="ContrastPair23" xml:space="preserve"><value>мастило върху светла информация (сигнал)</value></data>
+  <data name="ContrastPair24" xml:space="preserve"><value>мастило върху светъл успех (сигнал)</value></data>
+  <data name="ContrastPair25" xml:space="preserve"><value>мастило върху посочена светла информация</value></data>
+  <data name="ContrastPair26" xml:space="preserve"><value>мастило върху натисната светла информация</value></data>
+  <data name="ContrastPair27" xml:space="preserve"><value>мастило върху посочен светъл успех</value></data>
+  <data name="ContrastPair28" xml:space="preserve"><value>мастило върху натиснат светъл успех</value></data>
+  <data name="ContrastPair29" xml:space="preserve"><value>мастило върху наситено предупреждение (бутон)</value></data>
+  <data name="ContrastPair30" xml:space="preserve"><value>мастило върху посочено наситено предупреждение</value></data>
+  <data name="ContrastPair31" xml:space="preserve"><value>мастило върху натиснато наситено предупреждение</value></data>
+  <data name="ContrastPair32" xml:space="preserve"><value>мастило върху наситена грешка (бутон)</value></data>
+  <data name="ContrastPair33" xml:space="preserve"><value>мастило върху посочена наситена грешка</value></data>
+  <data name="ContrastPair34" xml:space="preserve"><value>мастило върху натисната наситена грешка</value></data>
+  <data name="ContrastPair35" xml:space="preserve"><value>текст върху плътен акцент, посочване</value></data>
+  <data name="ContrastPair36" xml:space="preserve"><value>текст върху плътен акцент, натискане</value></data>
+  <data name="ContrastPair37" xml:space="preserve"><value>вторичен в покой</value></data>
+  <data name="ContrastPair38" xml:space="preserve"><value>вторичен при посочване</value></data>
+  <data name="ContrastPair39" xml:space="preserve"><value>вторичен при натискане</value></data>
+  <data name="ContrastPair40" xml:space="preserve"><value>призрачен при натискане</value></data>
+  <data name="ContrastPair41" xml:space="preserve"><value>плътен акцент / повърхност</value></data>
+  <data name="ContrastPair42" xml:space="preserve"><value>плътен успех / повърхност</value></data>
+  <data name="ContrastPair43" xml:space="preserve"><value>плътна информация / повърхност</value></data>
+  <data name="ContrastPair44" xml:space="preserve"><value>плътно предупреждение / повърхност</value></data>
+  <data name="ContrastPair45" xml:space="preserve"><value>плътна грешка / повърхност</value></data>
+  <data name="ContrastPair46" xml:space="preserve"><value>акцент / повърхност</value></data>
+  <data name="ContrastPair47" xml:space="preserve"><value>рамка / повърхност (минимум OE 1,7)</value></data>
+  <data name="DemoStatesTitle" xml:space="preserve"><value>Покой, посочване и натискане</value></data>
+  <data name="DemoStatesSummary" xml:space="preserve"><value>Трите състояния на вариант на бутон едно до друго.</value></data>
+  <data name="DemoStatesCapability1" xml:space="preserve"><value>Посочването и натискането четат токените на темата: запълване при посочване, запълване при натискане и жест на натискане.</value></data>
+  <data name="DemoStatesCapability2" xml:space="preserve"><value>Помощно средство за сравнение във витрината: браузърът не може да замрази :hover или :active.</value></data>
+  <data name="DemoAppShellTitle" xml:space="preserve"><value>Рамка на приложението</value></data>
+  <data name="DemoAppShellSummary" xml:space="preserve"><value>Горна лента, странично меню, което се свива в лента с икони, съдържание.</value></data>
+  <data name="DemoAppShellCapability1" xml:space="preserve"><value>Бутон за свиване, търсене, помощ, звънче с точка и меню на акаунта, затворено в покой.</value></data>
+  <data name="DemoAppShellCapability2" xml:space="preserve"><value>Страничното меню запазва иконите си, когато е свито (Collapse Icons).</value></data>
+  <data name="DemoAppShellCapability3" xml:space="preserve"><value>Точката, лупата, логото и аватарът са нарисувани от витрината: пакетът няма компонент за тях.</value></data>
+  <data name="DemoThemesTitle" xml:space="preserve"><value>Теми и палитри</value></data>
+  <data name="DemoThemesSummary" xml:space="preserve"><value>Темата задава формата, палитрата задава цветовете; всяка палитра оцветява всяка тема.</value></data>
+  <data name="DemoThemesCapability1" xml:space="preserve"><value>OmniThemeScope.Preset и OmniThemeScope.Palette пребоядисват обхвата и съдържанието му и нищо друго.</value></data>
+  <data name="DemoThemesCapability2" xml:space="preserve"><value>Палитра сама по себе си променя цветовете и запазва доставената форма.</value></data>
+  <data name="DemoThemesCapability3" xml:space="preserve"><value>{0} теми и {1} палитри, т.е. {2} комбинации, всяка в светъл и тъмен вариант.</value></data>
+  <data name="DemoSurfacesTitle" xml:space="preserve"><value>Повърхности</value></data>
+  <data name="DemoSurfacesSummary" xml:space="preserve"><value>Карти, плаващо меню, раздели, странично меню, връзка и подсказка.</value></data>
+  <data name="DemoSurfacesCapability1" xml:space="preserve"><value>Картите и плаващото меню четат формата на темата: фон, контур, радиус и сянка.</value></data>
+  <data name="DemoSurfacesCapability2" xml:space="preserve"><value>Плаващото меню се отваря в слоя на плаващите повърхности.</value></data>
+  <data name="DemoSurfacesCapability3" xml:space="preserve"><value>Текущият елемент на менюто се отбелязва с фона и дебелината на текста, никога със странична черта.</value></data>
+  <data name="DemoVerticalFormTitle" xml:space="preserve"><value>Вертикален формуляр</value></data>
+  <data name="DemoVerticalFormSummary" xml:space="preserve"><value>Всички типове полета, грешките и тяхното обобщение, състоянията „забранено“ и „само за четене“.</value></data>
+  <data name="DemoVerticalFormCapability1" xml:space="preserve"><value>Етикет отгоре, звездичка за задължително поле, помощен текст и грешка с икона.</value></data>
+  <data name="DemoVerticalFormCapability2" xml:space="preserve"><value>Грешките са тези от контекста на редактиране: полето получава от тях aria-invalid, а поправянето им ги премахва от обобщението.</value></data>
+  <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Слято поле за файл, зона за един файл, зона за няколко файла със съкратен списък.</value></data>
+  <data name="DemoVerticalFormCapability4" xml:space="preserve"><value>„Забранено“ и „само за четене“ остават различими и в трите плътности.</value></data>
+  <data name="DemoSettingsTabsTitle" xml:space="preserve"><value>Настройки в раздели</value></data>
+  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>По един раздел с икона за всяка тематика, по един дял на раздел, по една плочка на настройка.</value></data>
+  <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>Превключвател в плочка приема името на плочката за етикет; щракването върху плочката го превключва.</value></data>
+  <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>Контролата е отдясно, а името, подсказката и иконата отляво.</value></data>
+  <data name="DemoNoticesTitle" xml:space="preserve"><value>Известия и диалогови прозорци</value></data>
+  <data name="DemoNoticesSummary" xml:space="preserve"><value>Известия, които могат да се затварят, диалогови прозорци върху затъмнения фон.</value></data>
+  <data name="DemoNoticesCapability1" xml:space="preserve"><value>Всяко известие се затваря с кръстчето си.</value></data>
+  <data name="DemoNoticesCapability2" xml:space="preserve"><value>Долната част на диалоговите прозорци следва конвенцията на пакета: първо действието, после Отказ.</value></data>
+  <data name="DemoLoadingTitle" xml:space="preserve"><value>Зареждане</value></data>
+  <data name="DemoLoadingSummary" xml:space="preserve"><value>Лента за зареждане, изчакване, заети бутони, напредък и скелет.</value></data>
+  <data name="DemoLoadingCapability1" xml:space="preserve"><value>Лентата следва реално зареждане, с обхождане или запълване, стига до края и след това изчезва.</value></data>
+  <data name="DemoLoadingCapability2" xml:space="preserve"><value>Зает бутон запазва размера и съдържанието си: воал пулсира върху него.</value></data>
+  <data name="DemoLoadingCapability3" xml:space="preserve"><value>Скелетът приема формата на това, което замества.</value></data>
+  <data name="DemoRunGridsTitle" xml:space="preserve"><value>Таблици с изпълнения</value></data>
+  <data name="DemoRunGridsSummary" xml:space="preserve"><value>Двете таблици от макета: сортирана с активна колона и на редуващи се ивици с фиксирана заглавна част.</value></data>
+  <data name="DemoRunGridsCapability1" xml:space="preserve"><value>Сортираната колона е оцветена по-леко от избрания ред, за да се различават.</value></data>
+  <data name="DemoRunGridsCapability2" xml:space="preserve"><value>Заглавната част остава видима при превъртане на таблицата; продължителността се подравнява в края.</value></data>
+  <data name="DemoRunGridsCapability3" xml:space="preserve"><value>Статусът е компактна точка (omni-status).</value></data>
+  <data name="LoadingFrameBrand" xml:space="preserve"><value>Boutique</value></data>
+  <data name="LoadingFramePage" xml:space="preserve"><value>Табло</value></data>
+  <data name="LoadingBarLabel" xml:space="preserve"><value>Зареждане на страницата</value></data>
+  <data name="LoadingSweep" xml:space="preserve"><value>Лента с обхождане</value></data>
+  <data name="LoadingFill" xml:space="preserve"><value>Лента със запълване</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>Лентата е залепена под заглавната част отгоре. Накрая стига до края и после изчезва.</value></data>
+  <data name="LoadingWaiting" xml:space="preserve"><value>Изчакване</value></data>
+  <data name="LoadingDeploying" xml:space="preserve"><value>Внедряване</value></data>
+  <data name="LoadingChecking" xml:space="preserve"><value>Проверка</value></data>
+  <data name="LoadingSaving" xml:space="preserve"><value>Запазване</value></data>
+  <data name="LoadingAnalysis" xml:space="preserve"><value>Анализ</value></data>
+  <data name="LoadingCoverage" xml:space="preserve"><value>Покритие</value></data>
+  <data name="LoadingContent" xml:space="preserve"><value>Зареждане на съдържанието</value></data>
+  <data name="NoticeDoneTitle" xml:space="preserve"><value>Внедряването завърши</value></data>
+  <data name="NoticeDoneMessage" xml:space="preserve"><value>orders-deploy-prod #2399 за 1 мин 48 с.</value></data>
+  <data name="NoticeRefusedTitle" xml:space="preserve"><value>Заключеното възстановяване е отказано</value></data>
+  <data name="NoticeRefusedMessage" xml:space="preserve"><value>Графът на NuGet се е отклонил от заключващия файл.</value></data>
+  <data name="NoticeShowAgain" xml:space="preserve"><value>Повторно показване на известията</value></data>
+  <data name="NoticeUnlistOpen" xml:space="preserve"><value>Скриване на версия 1.0.0 от списъка</value></data>
+  <data name="NoticeUnlistTitle" xml:space="preserve"><value>Скриване на версия 1.0.0 от списъка</value></data>
+  <data name="NoticeUnlistBody" xml:space="preserve"><value>Версията ще изчезне от търсенето и от плаващите диапазони. Ще остане достъпна за изтегляне по точния номер.</value></data>
+  <data name="NoticeUnlistAlpha" xml:space="preserve"><value>Скриване и на 0.1.0-alpha.1</value></data>
+  <data name="NoticeUnlist" xml:space="preserve"><value>Скриване от списъка</value></data>
+  <data name="NoticeUnlistDone" xml:space="preserve"><value>Версията е скрита от списъка</value></data>
+  <data name="NoticeRerunOpen" xml:space="preserve"><value>Повторно стартиране на конвейера</value></data>
+  <data name="NoticeRerunTitle" xml:space="preserve"><value>Да се стартира ли отново конвейерът?</value></data>
+  <data name="NoticeRerunBody" xml:space="preserve"><value>orders-deploy-prod #2399 ще бъде стартиран отново на сървъра srv-01 със същите променливи.</value></data>
+  <data name="NoticeRerunNotify" xml:space="preserve"><value>Уведоми ме накрая</value></data>
+  <data name="NoticeRerun" xml:space="preserve"><value>Повторно стартиране</value></data>
+  <data name="NoticeRerunDone" xml:space="preserve"><value>Конвейерът е стартиран отново</value></data>
+  <data name="NoticeCancel" xml:space="preserve"><value>Отказ</value></data>
+  <data name="NoticeClose" xml:space="preserve"><value>Затваряне</value></data>
+  <data name="NoticeLast" xml:space="preserve"><value>Последно действие: {0}</value></data>
+  <data name="RunsSortedCaption" xml:space="preserve"><value>Изпълнения, сортирани по конвейер</value></data>
+  <data name="RunsStripedCaption" xml:space="preserve"><value>История на изпълненията</value></data>
+  <data name="RunsRun" xml:space="preserve"><value>Изпълнение</value></data>
+  <data name="RunsPipeline" xml:space="preserve"><value>Конвейер</value></data>
+  <data name="RunsTrigger" xml:space="preserve"><value>Задействане</value></data>
+  <data name="RunsSeconds" xml:space="preserve"><value>Продължителност (с)</value></data>
+  <data name="RunsStatus" xml:space="preserve"><value>Статус</value></data>
+  <data name="RunsTriggerPush" xml:space="preserve"><value>Push</value></data>
+  <data name="RunsTriggerManual" xml:space="preserve"><value>Ръчно</value></data>
+  <data name="RunsTriggerScheduled" xml:space="preserve"><value>По график</value></data>
+  <data name="RunsStatusSuccess" xml:space="preserve"><value>Успех</value></data>
+  <data name="RunsStatusInfo" xml:space="preserve"><value>Изпълнява се</value></data>
+  <data name="RunsStatusWarning" xml:space="preserve"><value>Отменено</value></data>
+  <data name="RunsStatusDanger" xml:space="preserve"><value>Неуспех</value></data>
+  <data name="SettingsTabsLabel" xml:space="preserve"><value>Настройки</value></data>
+  <data name="SettingsGeneral" xml:space="preserve"><value>Общи</value></data>
+  <data name="SettingsGeneralLead" xml:space="preserve"><value>Работни местоположения и поведение при стартиране.</value></data>
+  <data name="SettingsFolder" xml:space="preserve"><value>Папка за артефакти</value></data>
+  <data name="SettingsFolderHint" xml:space="preserve"><value>Където компилациите поставят своите пакети.</value></data>
+  <data name="SettingsBrowse" xml:space="preserve"><value>Преглед</value></data>
+  <data name="SettingsStartup" xml:space="preserve"><value>Стартиране с Windows</value></data>
+  <data name="SettingsStartupHint" xml:space="preserve"><value>Стартира агента при влизане в сесията.</value></data>
+  <data name="SettingsLanguage" xml:space="preserve"><value>Език</value></data>
+  <data name="SettingsLanguageHint" xml:space="preserve"><value>Език на интерфейса и известията.</value></data>
+  <data name="SettingsLanguageFrench" xml:space="preserve"><value>Français</value></data>
+  <data name="SettingsLanguageEnglish" xml:space="preserve"><value>English</value></data>
+  <data name="SettingsDisplay" xml:space="preserve"><value>Показване</value></data>
+  <data name="SettingsDisplayLead" xml:space="preserve"><value>Облик и плътност на интерфейса.</value></data>
+  <data name="SettingsDarkMode" xml:space="preserve"><value>Тъмен режим</value></data>
+  <data name="SettingsDarkModeHint" xml:space="preserve"><value>Следване на системата или налагане на режим.</value></data>
+  <data name="SettingsModeSystem" xml:space="preserve"><value>Следване на системата</value></data>
+  <data name="SettingsModeLight" xml:space="preserve"><value>Светъл</value></data>
+  <data name="SettingsModeDark" xml:space="preserve"><value>Тъмен</value></data>
+  <data name="SettingsCompact" xml:space="preserve"><value>Компактен интерфейс</value></data>
+  <data name="SettingsCompactHint" xml:space="preserve"><value>Намалява полетата в таблиците и формулярите.</value></data>
+  <data name="SettingsNotifications" xml:space="preserve"><value>Известия</value></data>
+  <data name="SettingsNotificationsLead" xml:space="preserve"><value>За какво ви уведомяваме и по кой канал.</value></data>
+  <data name="SettingsFailures" xml:space="preserve"><value>Неуспешни конвейери</value></data>
+  <data name="SettingsFailuresHint" xml:space="preserve"><value>Известие при всяко неуспешно изпълнение.</value></data>
+  <data name="SettingsDigest" xml:space="preserve"><value>Дневно обобщение</value></data>
+  <data name="SettingsDigestHint" xml:space="preserve"><value>Изпраща се всяка сутрин в 8 ч.</value></data>
+  <data name="SettingsDigestAddress" xml:space="preserve"><value>Адрес за обобщението</value></data>
+  <data name="DemoShellDashboard" xml:space="preserve"><value>Табло</value></data>
+  <data name="DemoShellInProgress" xml:space="preserve"><value>В ход</value></data>
+  <data name="DemoShellArchived" xml:space="preserve"><value>Архивирани</value></data>
+  <data name="DemoShellSettings" xml:space="preserve"><value>Настройки</value></data>
+  <data name="DemoShellOneOffAction" xml:space="preserve"><value>Еднократно действие</value></data>
+  <data name="DemoShellToggleMenu" xml:space="preserve"><value>Показване или скриване на менюто</value></data>
+  <data name="DemoShellAppName" xml:space="preserve"><value>Моето приложение</value></data>
+  <data name="DemoShellChangeAppearance" xml:space="preserve"><value>Смяна на облика</value></data>
+  <data name="DemoShellMenu" xml:space="preserve"><value>Меню на демонстрацията</value></data>
+  <data name="DemoShellSections" xml:space="preserve"><value>Раздели</value></data>
+  <data name="DemoShellFolders" xml:space="preserve"><value>Папки</value></data>
+  <data name="DemoShellMainContent" xml:space="preserve"><value>Основно съдържание</value></data>
+  <data name="DemoShellAppearanceDark" xml:space="preserve"><value>Тук е избран тъмен облик.</value></data>
+  <data name="DemoShellAppearanceLight" xml:space="preserve"><value>Тук е избран светъл облик.</value></data>
+  <data name="DemoShellConsole" xml:space="preserve"><value>Конзола за експлоатация</value></data>
+  <data name="DemoShellSecondaryMenu" xml:space="preserve"><value>Второстепенно меню</value></data>
+  <data name="DemoShellTools" xml:space="preserve"><value>Инструменти</value></data>
+  <data name="DemoShellLogs" xml:space="preserve"><value>Дневници</value></data>
+  <data name="DemoShellWideView" xml:space="preserve"><value>Широк изглед</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>Областта на съдържанието се простира от край до край, ограничена до широката ширина (90 rem), без тясна колона за четене.</value></data>
+  <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Показване или скриване на плаващото меню</value></data>
+  <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Плаващо меню</value></data>
+  <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Плаващо меню на демонстрацията</value></data>
+  <data name="DemoShellFilters" xml:space="preserve"><value>Филтри</value></data>
+  <data name="DemoShellContent" xml:space="preserve"><value>Съдържание</value></data>
+  <data name="DemoShellFloatingText" xml:space="preserve"><value>Отварянето на менюто не измества този текст: панелът минава отгоре.</value></data>
+  <data name="DemoShellScrollTitle" xml:space="preserve"><value>Центрирано съдържание, превъртане в края</value></data>
+  <data name="DemoShellScrollMenu" xml:space="preserve"><value>Меню на демонстрацията с превъртане</value></data>
+  <data name="DemoShellReadingColumn" xml:space="preserve"><value>Колона за четене</value></data>
+  <data name="DemoShellScroll1" xml:space="preserve"><value>Колоната е ограничена до 72rem и центрирана; останалата ширина все още принадлежи на основния елемент.</value></data>
+  <data name="DemoShellScroll2" xml:space="preserve"><value>Затова той е този, който се превърта, по цялата ширина на областта: лентата му за превъртане стои в десния край на рамката.</value></data>
+  <data name="DemoShellScroll3" xml:space="preserve"><value>Дъщерен елемент със 100% височина би запълнил областта точно; по-високо съдържание я кара да се превърта.</value></data>
+  <data name="DemoShellScroll4" xml:space="preserve"><value>Долното поле се запазва в края на превъртането.</value></data>
+  <data name="DemoShellScroll5" xml:space="preserve"><value>Стесняването на прозореца свежда колоната до наличната ширина, включително страничното поле.</value></data>
+  <data name="DemoShellSplashChecking" xml:space="preserve"><value>Проверка на началния екран</value></data>
+  <data name="DemoShellSplashRemoved" xml:space="preserve"><value>Началният екран е премахнат</value></data>
+  <data name="DemoShellSplashAbsent" xml:space="preserve"><value>В тази демонстрация няма начален екран</value></data>
+  <data name="ShellToggle" xml:space="preserve"><value>Свиване или разгъване на менюто</value></data>
+  <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
+  <data name="ShellBrand" xml:space="preserve"><value>Boutique</value></data>
+  <data name="ShellSearch" xml:space="preserve"><value>Търсене</value></data>
+  <data name="ShellSearchPlaceholder" xml:space="preserve"><value>Търсене на конвейер</value></data>
+  <data name="ShellHelp" xml:space="preserve"><value>Помощ</value></data>
+  <data name="ShellNotifications" xml:space="preserve"><value>Известия, непрочетени: {0}</value></data>
+  <data name="ShellAccount" xml:space="preserve"><value>Акаунт</value></data>
+  <data name="ShellSettings" xml:space="preserve"><value>Настройки</value></data>
+  <data name="ShellSettingsHint" xml:space="preserve"><value>Тема, език, известия</value></data>
+  <data name="ShellAppearance" xml:space="preserve"><value>Облик</value></data>
+  <data name="ShellAppearanceHint" xml:space="preserve"><value>Светъл, тъмен или системен</value></data>
+  <data name="ShellSignOut" xml:space="preserve"><value>Изход</value></data>
+  <data name="ShellMenu" xml:space="preserve"><value>Главно меню</value></data>
+  <data name="ShellDashboard" xml:space="preserve"><value>Табло</value></data>
+  <data name="ShellPipelines" xml:space="preserve"><value>Конвейери</value></data>
+  <data name="ShellServers" xml:space="preserve"><value>Сървъри</value></data>
+  <data name="ShellProjects" xml:space="preserve"><value>Проекти</value></data>
+  <data name="ShellHelpCenter" xml:space="preserve"><value>Център за помощ</value></data>
+  <data name="ShellAdministration" xml:space="preserve"><value>Администриране</value></data>
+  <data name="ShellServersOnline" xml:space="preserve"><value>Сървър на линия</value></data>
+  <data name="ShellAppsTracked" xml:space="preserve"><value>Проследявани приложения</value></data>
+  <data name="ShellPipelinesRunning" xml:space="preserve"><value>Изпълняващи се конвейери</value></data>
+  <data name="ShellLoading" xml:space="preserve"><value>Зареждане на таблото</value></data>
+  <data name="ShellLastAction" xml:space="preserve"><value>Последно действие: {0}</value></data>
+  <data name="StatesRest" xml:space="preserve"><value>Покой</value></data>
+  <data name="StatesHover" xml:space="preserve"><value>Посочване</value></data>
+  <data name="StatesPress" xml:space="preserve"><value>Натискане</value></data>
+  <data name="StatesPrimary" xml:space="preserve"><value>Основен</value></data>
+  <data name="StatesSuccess" xml:space="preserve"><value>Успех</value></data>
+  <data name="StatesSecondary" xml:space="preserve"><value>Вторичен</value></data>
+  <data name="StatesGhost" xml:space="preserve"><value>Призрачен</value></data>
+  <data name="SurfServers" xml:space="preserve"><value>Сървъри</value></data>
+  <data name="SurfServersText" xml:space="preserve"><value>Последен сигнал за активност преди 4 минути.</value></data>
+  <data name="SurfPipelines" xml:space="preserve"><value>Конвейери</value></data>
+  <data name="SurfPipelinesFigure" xml:space="preserve"><value>2400</value></data>
+  <data name="SurfPipelinesText" xml:space="preserve"><value>Три неуспешни изпълнения от последните десет.</value></data>
+  <data name="SurfCoverage" xml:space="preserve"><value>Покритие</value></data>
+  <data name="SurfCoverageFigure" xml:space="preserve"><value>87%</value></data>
+  <data name="SurfAccount" xml:space="preserve"><value>Акаунт</value></data>
+  <data name="SurfPerson" xml:space="preserve"><value>Camille Durand</value></data>
+  <data name="SurfPersonRole" xml:space="preserve"><value>Администратор, OmniEurope</value></data>
+  <data name="SurfSettings" xml:space="preserve"><value>Настройки</value></data>
+  <data name="SurfSettingsHint" xml:space="preserve"><value>Тема, език, известия</value></data>
+  <data name="SurfSwitch" xml:space="preserve"><value>Смяна на работното пространство</value></data>
+  <data name="SurfSwitchHint" xml:space="preserve"><value>Boutique, Agenda, Atelier</value></data>
+  <data name="SurfSignOut" xml:space="preserve"><value>Изход</value></data>
+  <data name="SurfTabsLabel" xml:space="preserve"><value>Раздели на изпълнението</value></data>
+  <data name="SurfTabOverview" xml:space="preserve"><value>Общ преглед</value></data>
+  <data name="SurfTabOverviewText" xml:space="preserve"><value>Изпълнение #2399, завършено за 1 мин 48 с.</value></data>
+  <data name="SurfTabLogs" xml:space="preserve"><value>Дневници</value></data>
+  <data name="SurfTabLogsText" xml:space="preserve"><value>412 реда, без грешки.</value></data>
+  <data name="SurfTabArtifacts" xml:space="preserve"><value>Артефакти</value></data>
+  <data name="SurfTabArtifactsText" xml:space="preserve"><value>Два пакета и техните символи.</value></data>
+  <data name="SurfTabSettings" xml:space="preserve"><value>Настройки</value></data>
+  <data name="SurfTabSettingsText" xml:space="preserve"><value>Заключено възстановяване, задължително подписване.</value></data>
+  <data name="SurfMenuLabel" xml:space="preserve"><value>Раздели</value></data>
+  <data name="SurfMenuDashboard" xml:space="preserve"><value>Табло</value></data>
+  <data name="SurfMenuServers" xml:space="preserve"><value>Сървъри</value></data>
+  <data name="SurfMenuProjects" xml:space="preserve"><value>Проекти</value></data>
+  <data name="SurfMenuAdministration" xml:space="preserve"><value>Администриране</value></data>
+  <data name="SurfLinkBefore" xml:space="preserve"><value>Прочетете</value></data>
+  <data name="SurfLink" xml:space="preserve"><value>процедурата за публикуване</value></data>
+  <data name="SurfLinkAfter" xml:space="preserve"><value>преди да скриете версия от списъка.</value></data>
+  <data name="SurfTooltip" xml:space="preserve"><value>Обратна повърхност, обратен текст</value></data>
+  <data name="SurfTooltipTrigger" xml:space="preserve"><value>Подсказка</value></data>
+  <data name="SurfLast" xml:space="preserve"><value>Последно действие: {0}</value></data>
+  <data name="ThemesThemeWithPalette" xml:space="preserve"><value>Тема {0}, палитра {1}</value></data>
+  <data name="ThemesThemeAlone" xml:space="preserve"><value>Тема {0}, собствената ѝ палитра</value></data>
+  <data name="ThemesPaletteAlone" xml:space="preserve"><value>Палитра {0}, доставена форма</value></data>
+  <data name="ThemesShipped" xml:space="preserve"><value>Доставен облик</value></data>
+  <data name="ThemesLivePreview" xml:space="preserve"><value>Преглед: {0}</value></data>
+  <data name="ThemesSave" xml:space="preserve"><value>Запазване</value></data>
+  <data name="ThemesCancel" xml:space="preserve"><value>Отказ</value></data>
+  <data name="ThemesBadge" xml:space="preserve"><value>Публикувано</value></data>
+  <data name="ThemesAlert" xml:space="preserve"><value>Всяка палитра оцветява всяка тема.</value></data>
+  <data name="VFormSummaryTitle" xml:space="preserve"><value>Полета за поправяне: {0}.</value></data>
+  <data name="VFormName" xml:space="preserve"><value>Име на конвейера</value></data>
+  <data name="VFormNameHelp" xml:space="preserve"><value>Малки букви, цифри и тирета.</value></data>
+  <data name="VFormNameError" xml:space="preserve"><value>Името на конвейера е задължително.</value></data>
+  <data name="VFormMail" xml:space="preserve"><value>Адрес за известия</value></data>
+  <data name="VFormMailError" xml:space="preserve"><value>Добавете пълен домейн, например ekip@primer.bg.</value></data>
+  <data name="VFormToken" xml:space="preserve"><value>Токен за достъп</value></data>
+  <data name="VFormReplicas" xml:space="preserve"><value>Реплики</value></data>
+  <data name="VFormEnvironment" xml:space="preserve"><value>Среда</value></data>
+  <data name="VFormEnvironmentProduction" xml:space="preserve"><value>Продукционна</value></data>
+  <data name="VFormEnvironmentAcceptance" xml:space="preserve"><value>Приемателна</value></data>
+  <data name="VFormEnvironmentDevelopment" xml:space="preserve"><value>Разработка</value></data>
+  <data name="VFormDate" xml:space="preserve"><value>Дата на внедряване</value></data>
+  <data name="VFormTime" xml:space="preserve"><value>Час на внедряване</value></data>
+  <data name="VFormMoment" xml:space="preserve"><value>Прозорец за поддръжка</value></data>
+  <data name="VFormDescription" xml:space="preserve"><value>Описание</value></data>
+  <data name="VFormStrategy" xml:space="preserve"><value>Стратегия за внедряване</value></data>
+  <data name="VFormStrategyRolling" xml:space="preserve"><value>Постепенна замяна</value></data>
+  <data name="VFormStrategyBlueGreen" xml:space="preserve"><value>Синьо-зелено</value></data>
+  <data name="VFormStrategyCanary" xml:space="preserve"><value>Канарче (скоро)</value></data>
+  <data name="VFormStrategyError" xml:space="preserve"><value>Изберете стратегия за внедряване.</value></data>
+  <data name="VFormOptions" xml:space="preserve"><value>Опции</value></data>
+  <data name="VFormLocked" xml:space="preserve"><value>Заключено възстановяване</value></data>
+  <data name="VFormSymbols" xml:space="preserve"><value>Публикуване на символите</value></data>
+  <data name="VFormSigning" xml:space="preserve"><value>Подписване на пакета (задължително)</value></data>
+  <data name="VFormNotify" xml:space="preserve"><value>Уведомяване накрая</value></data>
+  <data name="VFormAutoDeploy" xml:space="preserve"><value>Автоматично внедряване (забранено)</value></data>
+  <data name="VFormFiles" xml:space="preserve"><value>Файлове</value></data>
+  <data name="VFormManifest" xml:space="preserve"><value>Манифест за внедряване</value></data>
+  <data name="VFormManifestHelp" xml:space="preserve"><value>Един файл, отваря системния прозорец за избор на файл.</value></data>
+  <data name="VFormArchive" xml:space="preserve"><value>Архив на приложението</value></data>
+  <data name="VFormArchiveHelp" xml:space="preserve"><value>ZIP или TAR, най-много 50 МБ.</value></data>
+  <data name="VFormAttachments" xml:space="preserve"><value>Прикачени файлове</value></data>
+  <data name="VFormAttachmentsHelp" xml:space="preserve"><value>До 10 файла, по 20 МБ всеки. Нищо не се изпраща: демонстрацията запазва файловете в списъка.</value></data>
+  <data name="VFormServer" xml:space="preserve"><value>Целеви сървър</value></data>
+  <data name="VFormServerHelp" xml:space="preserve"><value>Забранено: определя се от средата.</value></data>
+  <data name="VFormIdentifier" xml:space="preserve"><value>Идентификатор</value></data>
+  <data name="VFormIdentifierHelp" xml:space="preserve"><value>Само за четене: може да се копира, не може да се променя.</value></data>
+  <data name="VFormAgent" xml:space="preserve"><value>Агент</value></data>
+  <data name="VFormAgentShared" xml:space="preserve"><value>Споделен агент</value></data>
+  <data name="VFormCancel" xml:space="preserve"><value>Отказ</value></data>
+  <data name="VFormSave" xml:space="preserve"><value>Запазване</value></data>
+  <data name="VFormSaved" xml:space="preserve"><value>Конвейерът е запазен.</value></data>
+  <data name="VFormNotSaved" xml:space="preserve"><value>Поправете отбелязаните полета, преди да запазите.</value></data>
+  <data name="VFormDescriptionValue" xml:space="preserve"><value>Внедрява основния клон, след като приемателните тестове преминат успешно.</value></data>
+  <data name="GridFiledColumn" xml:space="preserve"><value>Подадено на</value></data>
+</root>

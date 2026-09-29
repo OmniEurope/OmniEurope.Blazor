@@ -1,16 +1,32 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// The header of a page: breadcrumb ancestors, back action, title, badges and actions in one framed
-/// block, then an optional subtitle and a row of filters under it. The trail and, when no
-/// <see cref="Title"/> is given, the title itself come from <see cref="OmniBreadcrumbService"/>, so a
-/// page names itself through its route and renames itself by updating the service.
+/// The header of a page, as one block of fixed height so every page starts its content at the same
+/// place. Line 1: back button, icon, title, badges, actions and a "⋮" menu. Line 2, always reserved:
+/// the breadcrumb, its last item being the title, or the subtitle when the page has no ancestor. Under
+/// the block: the subtitle when line 2 carries the breadcrumb, then a row of filters.
 /// </summary>
-public partial class OmniPageHeader : IDisposable
+/// <remarks>
+/// <para>
+/// The breadcrumb and, when no <see cref="Title"/> is given, the title itself come from
+/// <see cref="OmniBreadcrumbService"/>, so a page names itself through its route and renames itself by
+/// updating the service.
+/// </para>
+/// <para>
+/// A title longer than its line is not cut: it scrolls sideways on one line, and a chevron button
+/// shows on each side that still has text (the module <c>omni-page-header.js</c> measures it and marks
+/// the block; it writes no style). On a phone the badges and actions fold behind a "Show more" toggle,
+/// whose <c>aria-expanded</c> says whether they are shown; the "⋮" menu stays in sight.
+/// </para>
+/// </remarks>
+public partial class OmniPageHeader
 {
     private readonly string _generatedId = $"omni-page-header-{Guid.NewGuid():N}";
     private OmniBreadcrumbService? _breadcrumb;
+    private ElementReference _frame;
+    private IJSObjectReference? _module;
     private bool _expanded;
+    private bool _disposed;
 
     [Inject]
     private IServiceProvider Services { get; set; } = default!;
@@ -28,32 +44,33 @@ public partial class OmniPageHeader : IDisposable
     [Parameter]
     public string? Title { get; set; }
 
-    /// <summary>A line of explanation under the frame.</summary>
+    /// <summary>
+    /// A line of explanation. On line 2 when the page has no ancestor to show, under the block when
+    /// line 2 carries the breadcrumb.
+    /// </summary>
     [Parameter]
     public string? Subtitle { get; set; }
 
     /// <summary>
-    /// Whether the back action, title, badges and actions sit in a bordered block on the surface
-    /// colour. False, the default, draws them straight on the page, without border, background or
-    /// inner padding; true puts them in that frame.
+    /// Whether the block is drawn as a bordered frame on the surface colour. False, the default, draws
+    /// the two lines straight on the page, without border, background or inner padding, the title then
+    /// starting on the same vertical as the content under it; the block keeps its fixed height either way.
     /// </summary>
     [Parameter]
     public bool Framed { get; set; }
 
-    /// <summary>Heading level of the title; the header of a page is its first heading.</summary>
+    /// <summary>Heading level of the title; the header of a page is its first heading. Its size stays the same whatever the level.</summary>
     [Parameter]
     public OmniHeadingLevel Level { get; set; } = OmniHeadingLevel.H1;
 
     /// <summary>
-    /// Whether the first line shows the ancestors of the page. The line keeps its height when the
-    /// page has none, so every page starts its content at the same height; false removes it.
+    /// Whether line 2 shows the breadcrumb when the page has ancestors; true by default. False, line 2
+    /// shows the subtitle instead. The line keeps its height either way.
     /// </summary>
     [Parameter]
     public bool ShowTrail { get; set; } = true;
 
-    /// <summary>
-    /// Accessible name of the trail; the localized "Breadcrumb" when empty.
-    /// </summary>
+    /// <summary>Accessible name of the breadcrumb; the localized "Breadcrumb" when empty.</summary>
     [Parameter]
     public string? TrailLabel { get; set; }
 
@@ -73,16 +90,15 @@ public partial class OmniPageHeader : IDisposable
     public string? BackLabel { get; set; }
 
     /// <summary>
-    /// Look of the back button. <see cref="OmniButtonVariant.Ghost"/> by default, the web's discreet
-    /// navigation; a site that wants the arrow to stand out passes
-    /// <see cref="OmniButtonVariant.Primary"/>.
+    /// Look of the back button: <see cref="OmniButtonVariant.Primary"/> by default, the same accent
+    /// arrow on every page; a site that wants it discreet passes <see cref="OmniButtonVariant.Ghost"/>.
     /// </summary>
     [Parameter]
-    public OmniButtonVariant BackVariant { get; set; } = OmniButtonVariant.Ghost;
+    public OmniButtonVariant BackVariant { get; set; } = OmniButtonVariant.Primary;
 
     /// <summary>
-    /// Icon drawn before the title, its centre on the centre of the title's capital letters. Null, the
-    /// default, renders the title alone.
+    /// Icon drawn before the title in the accent colour, centred on the title line. Null, the default,
+    /// renders the title alone.
     /// </summary>
     [Parameter]
     public RenderFragment? Icon { get; set; }
@@ -91,11 +107,18 @@ public partial class OmniPageHeader : IDisposable
     [Parameter]
     public RenderFragment? Badges { get; set; }
 
-    /// <summary>Actions at the end of the row. Folded with the badges on a phone.</summary>
+    /// <summary>Actions at the end of line 1, before the "⋮" menu. Folded with the badges on a phone.</summary>
     [Parameter]
     public RenderFragment? Actions { get; set; }
 
-    /// <summary>Search and filter controls, on a row of their own under the frame.</summary>
+    /// <summary>
+    /// The items of the "⋮" menu at the end of line 1: the menu items an <see cref="OmniOverflowMenu"/>
+    /// takes. No menu when null (the default). It stays in sight on a phone.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? MenuContent { get; set; }
+
+    /// <summary>Search and filter controls, on a row of their own under the block.</summary>
     [Parameter]
     public RenderFragment? Filters { get; set; }
 
@@ -103,17 +126,22 @@ public partial class OmniPageHeader : IDisposable
 
     private OmniBreadcrumbEntry? CurrentCrumb => _breadcrumb?.Current;
 
+    /// <summary>Line 2 carries the breadcrumb: the page has ancestors and the trail is not switched off.</summary>
+    private bool TrailShown => ShowTrail && TrailAncestors.Count > 0;
+
+    private bool HasSubtitle => !string.IsNullOrWhiteSpace(Subtitle);
+
     private bool TitleLoading => string.IsNullOrWhiteSpace(Title) && CurrentCrumb is { Loading: true };
 
     private string EffectiveTitle => !string.IsNullOrWhiteSpace(Title) ? Title : CurrentCrumb?.Text ?? string.Empty;
 
     private string EffectiveBackLabel => string.IsNullOrWhiteSpace(BackLabel) ? Localize("GoBack") : BackLabel;
 
-    private string ToggleLabel => Localize(_expanded ? "PageHeaderHideDetails" : "PageHeaderShowDetails");
-
     private bool HasDetails => Badges is not null || Actions is not null;
 
     private string DetailsId => $"{Id ?? _generatedId}-details";
+
+    private string FrameClass => Framed ? "omni-page-header__frame" : "omni-page-header__frame omni-page-header__frame--plain";
 
     private string DetailsClass => _expanded
         ? "omni-page-header__details omni-page-header__details--open"
@@ -130,19 +158,57 @@ public partial class OmniPageHeader : IDisposable
         }
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        try
+        {
+            var module = await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.PageHeader);
+            if (_disposed)
+            {
+                await module.DisposeAsync();
+                return;
+            }
+
+            _module = module;
+            await _module.InvokeVoidAsync("attach", _frame);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is gone, and the header with it.
+        }
+    }
+
     private void OnBreadcrumbChanged() => _ = InvokeAsync(StateHasChanged);
 
     private void ToggleDetails() => _expanded = !_expanded;
 
     private Task GoBackAsync() =>
-        OmniBackNavigation.GoBackAsync(Navigation, JavaScript, !string.IsNullOrWhiteSpace(BackHref) ? BackHref : _breadcrumb?.ParentHref);
+        Internal.OmniBackNavigation.GoBackAsync(Navigation, JavaScript, !string.IsNullOrWhiteSpace(BackHref) ? BackHref : _breadcrumb?.ParentHref);
 
-    /// <summary>Stops listening to the breadcrumb service.</summary>
-    public void Dispose()
+    /// <summary>Stops listening to the breadcrumb service and detaches the title scroll.</summary>
+    public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_breadcrumb is not null)
         {
             _breadcrumb.Changed -= OnBreadcrumbChanged;
+        }
+
+        if (_module is not null)
+        {
+            try
+            {
+                await _module.InvokeVoidAsync("detach", _frame);
+                await _module.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+            }
         }
 
         GC.SuppressFinalize(this);

@@ -23,20 +23,36 @@ public sealed class AlertAndMultiSelectTests : OmniBunitContext
     {
         var alert = Render<OmniAlert>(parameters => parameters
             .Add(component => component.Severity, OmniSeverity.Warning)
-            .Add(component => component.Variant, OmniAlertVariant.Filled)
+            .Add(component => component.Fill, OmniFill.Solid)
             .Add(component => component.Title, "Espace disque")
             .Add(component => component.Icon, builder => builder.AddMarkupContent(0, "<i class=\"probe-icon\"></i>"))
             .AddChildContent("Le volume est presque plein."));
 
         var root = alert.Find(".omni-alert");
         Assert.Contains("omni-alert--warning", root.ClassName);
-        Assert.Contains("omni-alert--filled", root.ClassName);
+        Assert.Contains("omni-alert--solid", root.ClassName);
         Assert.Equal("Espace disque", alert.Find(".omni-alert__title").TextContent);
         Assert.Single(alert.FindAll(".omni-alert__icon .probe-icon"));
-        Assert.Equal("status", root.GetAttribute("role"));
+        // Not Live: ordinary content, read in its place. It used to carry role="status", a live region
+        // that announced it anyway.
+        Assert.False(root.HasAttribute("role"));
+        Assert.False(root.HasAttribute("aria-live"));
     }
 
-    // Updated to the PLAN-008 spec (T22): an alert without an Icon no longer renders without one, its
+    [Theory]
+    [InlineData(OmniFill.Tonal, "omni-alert--tonal")]
+    [InlineData(OmniFill.Outline, "omni-alert--outline")]
+    [InlineData(OmniFill.Solid, "omni-alert--solid")]
+    public void Alert_EveryFill_HasItsModifier(OmniFill fill, string expected)
+    {
+        var alert = Render<OmniAlert>(parameters => parameters
+            .Add(component => component.Fill, fill)
+            .AddChildContent("Message."));
+
+        Assert.Contains(expected, alert.Find(".omni-alert").ClassList);
+    }
+
+    // Updated to the PLAN-004 spec (T22): an alert without an Icon no longer renders without one, its
     // disc carries the severity's own glyph. The title slot is still omitted when empty.
     [Fact]
     public void Alert_DefaultsToOutlineOmitsTheTitleAndDrawsTheSeverityGlyph()
@@ -210,7 +226,7 @@ public sealed class AlertAndMultiSelectTests : OmniBunitContext
             .Add(component => component.ValueExpression, () => bound)
             .Add(component => component.OptionTemplate,
                 option => builder => builder.AddMarkupContent(0, $"<i class=\"probe-swatch\">{option.Text}</i>"))
-            .Add(component => component.FooterTemplate,
+            .Add(component => component.FooterContent,
                 builder => builder.AddMarkupContent(0, "<button class=\"probe-create\">+ nouveau</button>")));
 
         Assert.Equal(3, select.FindAll(".omni-multi-select-compact__option .probe-swatch").Count);

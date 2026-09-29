@@ -4,14 +4,15 @@
     <OmniLayout>
         <OmniHeader Sticky="true">
             <a class="showcase-brand" href="">OmniEurope.Blazor</a>
-            <OmniBadge Variant="OmniBadgeVariant.Accent">@Text["HeaderBadge"]</OmniBadge>
+            <OmniBadge Tone="OmniTone.Accent">@Text["HeaderBadge"]</OmniBadge>
             <span class="showcase-header__spacer"></span>
+            <LanguageSelector />
             <OmniButton Variant="OmniButtonVariant.Ghost" OnClick="@(_ => ToggleModeAsync())">
                 @(Theme.Mode is ThemeMode.Dark ? Text["ModeLight"] : Text["ModeDark"])
             </OmniButton>
         </OmniHeader>
         <OmniBody>
-            <OmniSidebar AriaLabel="@Text["SidebarLabel"]" Open="true">
+            <OmniSidebar Label="@Text["SidebarLabel"]" Open="true">
                 <OmniPanelMenu Label="@Text["MenuLabel"]">
                     <OmniPanelMenuItem Href="" Text="@Text["NavShowcase"]" Match="OmniNavMatch.Exact" />
                     <OmniPanelMenuItem Href="documentation" Text="@Text["NavDocumentation"]" />

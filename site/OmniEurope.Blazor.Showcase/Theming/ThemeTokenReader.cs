@@ -15,6 +15,9 @@ public sealed partial class ThemeTokenReader(HttpClient http)
 {
     private const string StylesheetPath = "_content/OmniEurope.Blazor/omnieurope.blazor.css";
 
+    // The theme scope with no value: the block that declares the neutral theme hooks.
+    private const string ThemeScope = "[data-omni-theme]";
+
     private IReadOnlyList<ThemeToken>? _cached;
 
     /// <summary>
@@ -33,11 +36,14 @@ public sealed partial class ThemeTokenReader(HttpClient http)
     }
 
     /// <summary>
-    /// Extracts the declarations of every top-level block whose selector list names <c>:root</c>, in
-    /// the order the file declares them so the editor presents them the way the stylesheet is
-    /// written. The shipped colours and shape live in generated blocks that also name the theme
-    /// scopes (<c>:root, [data-omni-theme="light"]</c>); a token declared twice keeps its last value,
-    /// as the cascade does.
+    /// Extracts the declarations of every top-level block whose selector list names <c>:root</c>, and
+    /// of the bare theme-scope block (<c>[data-omni-theme]</c> alone), in the order the file declares
+    /// them so the editor presents them the way the stylesheet is written. The shipped colours and
+    /// shape live in generated blocks that also name the theme scopes
+    /// (<c>:root, [data-omni-theme="light"]</c>); the theme hooks only some themes set (Givre's colour
+    /// field, frosted cards, Aplat's plain grids) are declared with their neutral value on the bare
+    /// scope block only, and are part of a theme like the rest. A token declared twice keeps its last
+    /// value, as the cascade does.
     /// </summary>
     public static IReadOnlyList<ThemeToken> Parse(string css)
     {
@@ -50,7 +56,7 @@ public sealed partial class ThemeTokenReader(HttpClient http)
         foreach (Match block in blocks)
         {
             var selectors = block.Groups["selector"].Value.Split(',', StringSplitOptions.TrimEntries);
-            if (!selectors.Contains(":root", StringComparer.Ordinal))
+            if (!selectors.Contains(":root", StringComparer.Ordinal) && selectors is not [ThemeScope])
             {
                 continue;
             }
@@ -113,8 +119,12 @@ public sealed partial class ThemeTokenReader(HttpClient http)
         // How surfaces stand off the page: shadows, the floating layer and its acrylic, the overlay.
         _ when name.StartsWith("--omni-shadow", StringComparison.Ordinal) || name.EndsWith("-shadow", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
         _ when name.StartsWith("--omni-layer-", StringComparison.Ordinal) || name.StartsWith("--omni-elevation-", StringComparison.Ordinal) || name.StartsWith("--omni-overlay-", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
-        "--omni-focus-ring" or "--omni-color-overlay" or "--omni-scrim-filter" or "--omni-card-filter" => ThemeTokenGroup.Elevation,
+        "--omni-focus-ring" or "--omni-focus-ring-danger" or "--omni-focus-ring-inset" or "--omni-color-overlay" or "--omni-scrim-filter" or "--omni-card-filter" => ThemeTokenGroup.Elevation,
         _ when name.StartsWith("--omni-backdrop", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
+        // The stacking layers: how high a surface stands above the page.
+        _ when name.StartsWith("--omni-z-", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
+        // How long a part takes to move, beside the movement of a pressed button.
+        _ when name.StartsWith("--omni-duration-", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
         _ when name.StartsWith("--omni-color-", StringComparison.Ordinal) => ThemeTokenGroup.Color,
         _ when name.StartsWith("--omni-font", StringComparison.Ordinal) => ThemeTokenGroup.Typography,
         // How buttons and headings set their text: weight, case, tracking and the heading face.
@@ -123,7 +133,7 @@ public sealed partial class ThemeTokenReader(HttpClient http)
         _ when name.StartsWith("--omni-radius", StringComparison.Ordinal) || name.EndsWith("-radius", StringComparison.Ordinal) || name.Contains("-border-", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
         _ when name.EndsWith("-transform", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
         "--omni-border-width" or "--omni-card-background" or "--omni-dialog-background" or "--omni-input-background" => ThemeTokenGroup.Shape,
-        "--omni-scope-isolation" or "--omni-card-position" or "--omni-card-frost" => ThemeTokenGroup.Shape,
+        "--omni-scope-isolation" => ThemeTokenGroup.Shape,
         _ => ThemeTokenGroup.Color
     };
 

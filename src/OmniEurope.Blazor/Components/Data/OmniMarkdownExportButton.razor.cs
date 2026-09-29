@@ -32,29 +32,32 @@ public partial class OmniMarkdownExportButton<TItem>
     [Parameter]
     public string FileName { get; set; } = "export";
 
-    /// <summary>The button text. Empty uses the localized "Export Markdown".</summary>
+    /// <summary>The button text. Null uses the localized "Export Markdown".</summary>
     [Parameter]
-    public string Text { get; set; } = string.Empty;
+    public string? Text { get; set; }
 
+    /// <summary>The button's emphasis; secondary by default.</summary>
     [Parameter]
     public OmniButtonVariant Variant { get; set; } = OmniButtonVariant.Secondary;
 
+    /// <summary>The button's size; medium by default.</summary>
     [Parameter]
     public OmniControlSize Size { get; set; } = OmniControlSize.Medium;
 
+    /// <summary>Disables the button.</summary>
     [Parameter]
     public bool Disabled { get; set; }
 
-    /// <summary>Raised after the file was handed to the browser.</summary>
+    /// <summary>Raised with the generated document after the file was handed to the browser.</summary>
     [Parameter]
-    public EventCallback<OmniMarkdownTableDocument> OnExported { get; set; }
+    public EventCallback<OmniMarkdownTableDocument> OnExport { get; set; }
 
     /// <summary>
     /// Raised when the export fails (a page that could not be read); no file is produced. Without a
     /// handler the exception propagates to the renderer.
     /// </summary>
     [Parameter]
-    public EventCallback<Exception> OnError { get; set; }
+    public EventCallback<Exception> OnExportError { get; set; }
 
     private string EffectiveText => string.IsNullOrWhiteSpace(Text) ? Localize("MarkdownExportButton") : Text;
 
@@ -79,11 +82,11 @@ public partial class OmniMarkdownExportButton<TItem>
             _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", DownloadModulePath);
             await _module.InvokeVoidAsync("download", StampedFileName(FileName, document.GeneratedAt),
                 "text/markdown;charset=utf-8", document.Markdown);
-            await OnExported.InvokeAsync(document);
+            await OnExport.InvokeAsync(document);
         }
-        catch (Exception exception) when (OnError.HasDelegate && exception is not OperationCanceledException)
+        catch (Exception exception) when (OnExportError.HasDelegate && exception is not OperationCanceledException)
         {
-            await OnError.InvokeAsync(exception);
+            await OnExportError.InvokeAsync(exception);
         }
         finally
         {
@@ -91,6 +94,7 @@ public partial class OmniMarkdownExportButton<TItem>
         }
     }
 
+    /// <summary>Releases the download script module.</summary>
     public async ValueTask DisposeAsync()
     {
         if (_module is not null)

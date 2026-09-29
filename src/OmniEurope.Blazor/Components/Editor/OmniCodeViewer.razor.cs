@@ -80,7 +80,7 @@ public partial class OmniCodeViewer : IAsyncDisposable
 
     /// <summary>Numbers of the lines to mark, counted from <see cref="FirstLineNumber"/>: the lines of an error, a search hit.</summary>
     [Parameter]
-    public IReadOnlyCollection<int>? HighlightedLines { get; set; }
+    public IReadOnlyList<int>? HighlightedLines { get; set; }
 
     /// <summary>Patterns whose matches become links, reported through <see cref="LinkActivated"/>.</summary>
     [Parameter]
@@ -112,7 +112,7 @@ public partial class OmniCodeViewer : IAsyncDisposable
 
     /// <summary>Raised after a copy, with whether the clipboard accepted it.</summary>
     [Parameter]
-    public EventCallback<bool> OnCopied { get; set; }
+    public EventCallback<bool> OnCopy { get; set; }
 
     private string TitleId => $"{Id ?? _generatedId}-title";
 
@@ -125,6 +125,49 @@ public partial class OmniCodeViewer : IAsyncDisposable
     private bool? CopyResult => _clipboard?.Result;
 
     private string CopyLabel => Localize(OmniClipboardCopy.LabelKey(CopyResult));
+
+    /// <summary>The header shared with <see cref="OmniCodeBlock"/>: the wrap toggle before the copy button, the host actions after it.</summary>
+    private RenderFragment Header => builder =>
+    {
+        builder.OpenComponent<CodeHeader>(0);
+        builder.AddComponentParameter(1, nameof(CodeHeader.Block), "omni-code-viewer");
+        builder.AddComponentParameter(2, nameof(CodeHeader.TitleId), TitleId);
+        builder.AddComponentParameter(3, nameof(CodeHeader.Title), EffectiveTitle);
+        builder.AddComponentParameter(4, nameof(CodeHeader.Language), Language);
+        builder.AddComponentParameter(5, nameof(CodeHeader.ShowCopy), ShowCopy);
+        builder.AddComponentParameter(6, nameof(CodeHeader.CopyText), true);
+        builder.AddComponentParameter(7, nameof(CodeHeader.CopyResult), CopyResult);
+        builder.AddComponentParameter(8, nameof(CodeHeader.CopyLabel), CopyLabel);
+        builder.AddComponentParameter(9, nameof(CodeHeader.OnCopy), EventCallback.Factory.Create<MouseEventArgs>(this, CopyAsync));
+        if (ShowWrapToggle)
+        {
+            builder.AddComponentParameter(10, nameof(CodeHeader.LeadingActions), WrapToggle);
+        }
+
+        builder.AddComponentParameter(11, nameof(CodeHeader.TrailingActions), Actions);
+        builder.CloseComponent();
+    };
+
+    private RenderFragment WrapToggle => builder =>
+    {
+        builder.OpenComponent<OmniButton>(0);
+        builder.AddComponentParameter(1, nameof(OmniButton.Class), "omni-code-viewer__wrap");
+        builder.AddComponentParameter(2, nameof(OmniButton.Variant), _wrap ? OmniButtonVariant.Secondary : OmniButtonVariant.Ghost);
+        builder.AddComponentParameter(3, nameof(OmniButton.Size), OmniControlSize.Small);
+        builder.AddComponentParameter(4, "aria-pressed", _wrap ? "true" : "false");
+        builder.AddComponentParameter(5, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, ToggleWrap));
+        builder.AddComponentParameter(6, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
+        {
+            content.OpenComponent<OmniIcon>(0);
+            content.AddComponentParameter(1, nameof(OmniIcon.Name), OmniIconName.TextAlignLeft);
+            content.AddComponentParameter(2, nameof(OmniIcon.Size), OmniControlSize.Small);
+            content.CloseComponent();
+            content.OpenElement(3, "span");
+            content.AddContent(4, Localize("CodeViewerWrap"));
+            content.CloseElement();
+        }));
+        builder.CloseComponent();
+    };
 
     private string CopyAnnouncement => OmniClipboardCopy.AnnouncementKey(CopyResult) is { } key ? Localize(key) : string.Empty;
 
@@ -239,7 +282,7 @@ public partial class OmniCodeViewer : IAsyncDisposable
     {
         var copied = await Clipboard.CopyAsync(Code ?? string.Empty, CopiedFeedbackDuration, Clock);
         StateHasChanged();
-        await OnCopied.InvokeAsync(copied);
+        await OnCopy.InvokeAsync(copied);
         return copied;
     }
 

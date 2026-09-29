@@ -4,7 +4,8 @@ internal sealed class OmniTabsContext
 {
     public required string? Value { get; init; }
     public required Func<string, Task> SelectAsync { get; init; }
-    public required Func<string, string> RegisterKey { get; init; }
+    /// <summary>Records an item's key, in the order the items render, and whether it is disabled; returns the key.</summary>
+    public required Func<string, bool, string> RegisterKey { get; init; }
     public required OmniTabsPhase Phase { get; init; }
 
     /// <summary>

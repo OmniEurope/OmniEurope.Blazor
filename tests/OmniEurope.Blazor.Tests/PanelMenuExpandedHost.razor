@@ -1,0 +1,19 @@
+@namespace OmniEurope.Blazor.Tests
+@using OmniEurope.Blazor.Components
+
+@* A group whose unfolding the host binds: the host's value opens and closes it, a hand toggle is reported back. *@
+<OmniPanelMenu>
+    <OmniPanelMenuItem Text="Section" Id="bound" @bind-Expanded="Expanded">
+        <OmniPanelMenuItem Text="Entrée" />
+    </OmniPanelMenuItem>
+</OmniPanelMenu>
+
+@code {
+    public bool Expanded { get; set; }
+
+    public void Set(bool expanded)
+    {
+        Expanded = expanded;
+        StateHasChanged();
+    }
+}

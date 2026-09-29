@@ -12,7 +12,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class HtmlEditorSanitizerPolicyTests : OmniBunitContext
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-html-editor.js";
+    private const string ModulePath = OmniModules.HtmlEditor;
 
     private const string HostMarkup =
         "<aside class=\"akn-authorial-note\" data-marker=\"1\" data-eid=\"n_1\" contenteditable=\"false\">Note</aside>" +

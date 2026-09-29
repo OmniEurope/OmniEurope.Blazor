@@ -3,7 +3,7 @@ namespace OmniEurope.Blazor.Components;
 /// <summary>One point or segment of an <see cref="OmniStatusStrip"/>.</summary>
 public sealed record OmniStatusStripItem
 {
-    /// <summary>The host's status key, looked up in <see cref="OmniStatusStrip.Tones"/> and <see cref="OmniStatusStrip.Pulsing"/>.</summary>
+    /// <summary>The host's status key, looked up in <see cref="OmniStatusStrip.Map"/> and <see cref="OmniStatusStrip.Pulsing"/>.</summary>
     public required string Status { get; init; }
 
     /// <summary>What the item stands for, read as its accessible name and shown as its tooltip.</summary>

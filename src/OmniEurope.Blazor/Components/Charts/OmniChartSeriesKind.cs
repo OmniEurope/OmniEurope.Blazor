@@ -6,6 +6,7 @@ internal enum OmniChartSeriesKind
     Area,
     StackedArea,
     Bar,
+    StackedBar,
     Column,
     StackedColumn,
     Auxiliary

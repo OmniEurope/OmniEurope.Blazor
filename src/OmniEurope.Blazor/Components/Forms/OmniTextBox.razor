@@ -3,7 +3,8 @@
 
 @* With an Icon the input sits in a positioning wrapper and the icon is laid over its start padding,
    decorative and click-through, like the magnifier of a search field. Without one the input is
-   rendered alone, as it always was. *@
+   rendered alone, as it always was. Class goes on the outermost element (the input alone, or the
+   wrapper); Id and the additional attributes always on the input. *@
 @if (Icon is null)
 {
     <input @attributes="AdditionalAttributes"
@@ -21,11 +22,11 @@
 }
 else
 {
-    <span class="omni-text-box-field">
+    <span class="@WrapperCss("omni-text-box-field")">
         <span class="omni-text-box-field__icon" aria-hidden="true">@Icon</span>
         <input @attributes="AdditionalAttributes"
                id="@Id"
-               class="@InputCss("omni-input", "omni-text-box", "omni-text-box--icon")"
+               class="@InnerInputCss("omni-input", "omni-text-box", "omni-text-box--icon")"
                type="@TypeAttribute"
                value="@CurrentValueAsString"
                placeholder="@Placeholder"

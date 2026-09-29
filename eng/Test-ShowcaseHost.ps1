@@ -2,12 +2,14 @@
 param(
     [int]$Port = 5195,
     [string]$WebRoot = (Join-Path $PSScriptRoot '..\artifacts\showcase-smoke\wwwroot'),
-    # Pickers: the date, time and date and time pickers (PLAN-008 T18 a, T19).
+    # Pickers: the date, time and date and time pickers (PLAN-004 T18 a, T19).
     # Density: the T22 control, every sized element changes height between compact and spacious.
-    # Contrast: the lot 10 control, contrasts and geometry measured on the 392 theme x palette x mode.
+    # Contrast: the lot 10 control, contrasts and geometry measured on every theme x palette x mode.
     # AutoFit: the fit to content of a grid column, double click, off-screen virtual row and Enter.
-    [ValidateSet('Pickers', 'Density', 'Contrast', 'AutoFit')]
-    [string[]]$Probe = @('Pickers', 'Density', 'Contrast', 'AutoFit')
+    # MindMap: the mind map gestures, trusted drag, wheel zoom, keyboard, context menu, double click.
+    # Omitted: every probe of $scripts below, in its order.
+    [ValidateSet('Pickers', 'Density', 'Contrast', 'AutoFit', 'MindMap')]
+    [string[]]$Probe
 )
 
 # Serves the published showcase (dotnet publish site/OmniEurope.Blazor.Showcase -o artifacts/showcase-smoke)
@@ -24,12 +26,14 @@ $stderr = New-TemporaryFile
 $server = $null
 $browser = $null
 $browserProfile = $null
-$scripts = @{
+$scripts = [ordered]@{
     Pickers = 'Test-ShowcasePickerProbe.mjs'
     Density = 'Test-ShowcaseDensityProbe.mjs'
     Contrast = 'Test-ThemeContrastProbe.mjs'
     AutoFit = 'Test-ShowcaseGridAutoFitProbe.mjs'
+    MindMap = 'Test-ShowcaseMindMapProbe.mjs'
 }
+if (-not $Probe) { $Probe = @($scripts.Keys) }
 
 try {
     $existingHost = $false

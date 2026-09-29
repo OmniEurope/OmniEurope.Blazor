@@ -25,14 +25,15 @@ public sealed class GeneratedFallbackIdTests : OmniBunitContext
     [Fact]
     public void Chart_WithoutId_IsLabelledByItsOwnTitleAndDescription()
     {
-        var first = Render<OmniChart>(parameters => parameters.Add(component => component.Title, "Ventes"));
-        var second = Render<OmniChart>(parameters => parameters.Add(component => component.Title, "Achats"));
+        var first = Render<OmniChart>(parameters => parameters.Add(component => component.Title, "Ventes").Add(component => component.Description, "Par mois"));
+        var second = Render<OmniChart>(parameters => parameters.Add(component => component.Title, "Achats").Add(component => component.Description, "Par mois"));
 
         var title = first.Find("svg title").Id;
         var description = first.Find("svg desc").Id;
         Assert.NotEqual(title, second.Find("svg title").Id);
         Assert.NotEqual(description, second.Find("svg desc").Id);
-        Assert.Equal($"{title} {description}", first.Find("svg").GetAttribute("aria-labelledby"));
+        Assert.Equal(title, first.Find("svg").GetAttribute("aria-labelledby"));
+        Assert.Equal(description, first.Find("svg").GetAttribute("aria-describedby"));
     }
 
     [Fact]

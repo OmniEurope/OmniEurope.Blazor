@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-005 - Remédiation de l'audit 360 du 2026-09-27
 
-> Statut : lots 1 à 4 livrés le 2026-09-27 ; restent les points hors dépôt ou à décider.
+> Statut : lots 1 à 4 livrés le 2026-09-27, SCR-001 réglé le 2026-09-28 (`dce120d`) ; reste KIT-001/KIT-002, en attente d'une décision du propriétaire.
 > Objectif : corriger les constats de l'audit 360 du 2026-09-27 (52 constats relevés sur `develop` à
 > `4f2a2c2`) que le tri contradictoire a confirmés. Chaque correctif de comportement arrive avec un test
 > qui échoue avant lui.
@@ -83,10 +83,15 @@ ANA-001, API-001, CI-001, ENG-001, ENG-002, ENG-004.
 
 ## Hors dépôt ou à décider
 
-- KIT-001, KIT-002 : `docs/code-rules.md` et `docs/agents.md` sont ignorés par Git ; corrigés en local
-  seulement.
-- SCR-001 : `-ta` de le lanceur local échoue sans bloc E2E ; le défaut est dans le cœur du kit
-  le kit (copie verbatim), il se corrige là-bas puis se recopie.
+- KIT-001, KIT-002 : `docs/code-rules.md` et `docs/agents.md` sont ignorés par Git (`.gitignore`, avec
+  `AGENTS.md`, `docs/test-config.md` et `docs/build-and-ci-pitfalls.md`) ; corrigés en local
+  seulement. Pour les clore, il faut décider de publier ces fichiers (retirer leurs lignes du
+  `.gitignore` et les suivre) ou d'acter qu'ils restent privés (décision 6 ouverte de PLAN-001) ; tant que
+  rien n'est tranché, `AGENTS.md` renvoie à des documents qu'un clone ne reçoit pas.
+- [x] SCR-001 : `-ta` de le lanceur local échouait sans bloc E2E, défaut du cœur du kit. Réglé
+  par `dce120d` (2026-09-28) : cœur du lanceur 1.0.4 (kit `e818ed4`), qui admet les exceptions
+  déclarées ; le paquet déclare l'exception E2E, et `-ta` la signale puis lance les suites unitaires
+  (bibliothèque et analyseurs) et sort en 0.
 - [x] DOC-007 : décision du propriétaire du 2026-09-27, les couleurs d'Essentiel restent ; la règle
   d'indépendance d'`AGENTS.md` (fichier local) précise que des valeurs isolées sont des données, et
   PLAN-004 consigne la décision.

@@ -2,21 +2,23 @@
 @typeparam TValue
 @inherits OmniInputBase<TValue>
 
-@if (AllowFiltering)
+@if (Filterable)
 {
     <OmniAutocomplete TValue="TValue"
+                      @attributes="AdditionalAttributes"
                       Id="@Id"
+                      Class="@Class"
                       Value="@CurrentValue"
                       ValueChanged="HandleAutocompleteChange"
                       ValueExpression="@ValueExpression"
                       Search="SearchOptionsAsync"
                       FormatValue="FormatValue"
                       MinimumLength="0"
+                      Debounce="TimeSpan.Zero"
                       Placeholder="@EffectivePlaceholder"
-                      AriaLabel="@EffectiveAriaLabel"
+                      Label="@Label"
                       Disabled="@Disabled"
-                      AriaDescribedBy="@AriaDescribedBy"
-                      @attributes="AdditionalAttributes" />
+                      AriaDescribedBy="@AriaDescribedBy" />
 }
 else
 {
@@ -24,7 +26,7 @@ else
             id="@Id"
             class="@InputCss("omni-input", "omni-drop-down")"
             disabled="@Disabled"
-            aria-label="@EffectiveAriaLabel"
+            aria-label="@Label"
             aria-invalid="@AriaInvalid"
             aria-describedby="@AriaDescribedBy"
             value="@SelectedOptionValue"

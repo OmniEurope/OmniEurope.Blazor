@@ -1,4 +1,4 @@
-@* Les deux grilles de la maquette (PLAN-008 T15, T17 b). La première, sans alternance, triée par
+@* Les deux grilles de la maquette (PLAN-004 T15, T17 b). La première, sans alternance, triée par
    pipeline : la colonne triée est teintée (HighlightActiveColumn), plus légèrement que la ligne
    choisie, pour qu'elles se distinguent là où elles se croisent ; la ligne survolée se teinte aussi.
    La seconde alterne ses lignes et garde son en-tête collé en haut quand elle défile (MaxHeight). La
@@ -11,8 +11,8 @@
                   HighlightActiveColumn="true"
                   HighlightRowOnHover="true"
                   SelectionMode="OmniDataGridSelectionMode.Single"
-                  KeySelector="run => run.Run"
-                  @bind-SelectedKeys="SortedSelection">
+                  KeyOf="run => run.Run"
+                  @bind-Value="SortedSelection">
         <Columns>
             <OmniDataGridColumn TItem="PipelineRun" Property="Run" Title="@Text["RunsRun"]" />
             <OmniDataGridColumn TItem="PipelineRun" Property="Pipeline" Title="@Text["RunsPipeline"]" SortOrder="OmniDataGridSortOrder.Ascending" />
@@ -30,8 +30,8 @@
                   HighlightRowOnHover="true"
                   MaxHeight="15rem"
                   SelectionMode="OmniDataGridSelectionMode.Single"
-                  KeySelector="run => run.Run"
-                  @bind-SelectedKeys="StripedSelection">
+                  KeyOf="run => run.Run"
+                  @bind-Value="StripedSelection">
         <Columns>
             <OmniDataGridColumn TItem="PipelineRun" Property="Run" Title="@Text["RunsRun"]" />
             <OmniDataGridColumn TItem="PipelineRun" Property="Pipeline" Title="@Text["RunsPipeline"]" />

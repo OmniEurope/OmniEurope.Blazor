@@ -112,11 +112,11 @@ public sealed class PageLayoutTests : OmniBunitContext
         button.Click();
         Assert.Equal(1, clicks);
 
+        // Without a value, the label alone names the button.
         var named = Render<OmniStatTile>(parameters => parameters
             .Add(component => component.Label, "Tokens")
-            .Add(component => component.AriaLabel, "Ouvrir le détail des tokens")
             .Add(component => component.OnClick, () => { }));
-        Assert.Equal("Ouvrir le détail des tokens", named.Find("button").GetAttribute("aria-label"));
+        Assert.Equal("Tokens", named.Find("button").GetAttribute("aria-label"));
     }
 
     [Fact]

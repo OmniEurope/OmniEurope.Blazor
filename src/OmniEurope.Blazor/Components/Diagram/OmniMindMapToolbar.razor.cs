@@ -13,9 +13,9 @@ public partial class OmniMindMapToolbar : IDisposable
 {
     private OmniMindMap? _subscribed;
 
-    /// <summary>Accessible name of the action group. Defaults to the localized "mind map actions".</summary>
+    /// <summary>Accessible name of the action group; null (the default) takes the localized "Mind map actions".</summary>
     [Parameter]
-    public string? AriaLabel { get; set; }
+    public string? Label { get; set; }
 
     [CascadingParameter]
     private OmniMindMap? Owner { get; set; }
@@ -23,7 +23,7 @@ public partial class OmniMindMapToolbar : IDisposable
     private OmniMindMap Map => Owner
         ?? throw new InvalidOperationException($"{nameof(OmniMindMapToolbar)} must be placed inside the ToolbarContent of an {nameof(OmniMindMap)}.");
 
-    private string EffectiveAriaLabel => string.IsNullOrWhiteSpace(AriaLabel) ? Localize("MindMapToolbarLabel") : AriaLabel;
+    private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Localize("MindMapToolbarLabel") : Label;
 
     protected override void OnParametersSet()
     {

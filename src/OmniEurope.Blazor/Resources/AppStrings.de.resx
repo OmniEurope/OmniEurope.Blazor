@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="UploadFailed" xml:space="preserve"><value>Der Upload ist fehlgeschlagen.</value></data>
+  <data name="Today" xml:space="preserve"><value>Heute</value></data>
+  <data name="Retry" xml:space="preserve"><value>Erneut versuchen</value></data>
+  <data name="Loading" xml:space="preserve"><value>Wird geladen…</value></data>
+  <data name="AppearanceLight" xml:space="preserve"><value>Hell</value></data>
+  <data name="AppearanceDark" xml:space="preserve"><value>Dunkel</value></data>
+  <data name="AppearanceSystem" xml:space="preserve"><value>System</value></data>
+  <data name="SettingsMode" xml:space="preserve"><value>Modus</value></data>
+  <data name="SettingsTheme" xml:space="preserve"><value>Design</value></data>
+  <data name="SettingsPalette" xml:space="preserve"><value>Palette</value></data>
+  <data name="SettingsFont" xml:space="preserve"><value>Schriftart</value></data>
+  <data name="SettingsTextSize" xml:space="preserve"><value>Textgröße</value></data>
+  <data name="SettingsDensity" xml:space="preserve"><value>Dichte</value></data>
+  <data name="SettingsControlSize" xml:space="preserve"><value>Steuerelementgröße</value></data>
+  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Steuerelemente</value></data>
+  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Text</value></data>
+  <data name="SettingsDensityShort" xml:space="preserve"><value>Dichte</value></data>
+  <data name="SettingsScale" xml:space="preserve"><value>Größen</value></data>
+  <data name="SettingsDefault" xml:space="preserve"><value>Standard</value></data>
+  <data name="SettingsDefaultSuffix" xml:space="preserve"><value>Standard</value></data>
+  <data name="SettingsDecrease" xml:space="preserve"><value>Verkleinern</value></data>
+  <data name="SettingsIncrease" xml:space="preserve"><value>Vergrößern</value></data>
+  <data name="ArcGaugeLabel" xml:space="preserve"><value>Anzeige</value></data>
+  <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Die Suche ist fehlgeschlagen. Ändern Sie die Eingabe, um es erneut zu versuchen.</value></data>
+  <data name="AutocompleteOneResult" xml:space="preserve"><value>1 Ergebnis verfügbar.</value></data>
+  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} Ergebnisse verfügbar.</value></data>
+  <data name="AutocompleteSelected" xml:space="preserve"><value>{0} ausgewählt.</value></data>
+  <data name="AutocompleteInvalid" xml:space="preserve"><value>Der Wert der Autovervollständigung ist ungültig.</value></data>
+  <data name="BreadcrumbLabel" xml:space="preserve"><value>Brotkrümelnavigation</value></data>
+  <data name="CheckBoxInvalid" xml:space="preserve"><value>Der Wert des Kontrollkästchens ist ungültig.</value></data>
+  <data name="CheckBoxListInvalid" xml:space="preserve"><value>Die Liste der Kontrollkästchen ist ungültig.</value></data>
+  <data name="ColorPickerInvalid" xml:space="preserve"><value>Die Farbe muss im Format #RRGGBB angegeben werden.</value></data>
+  <data name="NotificationsRegionLabel" xml:space="preserve"><value>Benachrichtigungen</value></data>
+  <data name="ContextMenuLabel" xml:space="preserve"><value>Kontextmenü</value></data>
+  <data name="GridLoadFailed" xml:space="preserve"><value>Das Laden der Tabelle ist fehlgeschlagen.</value></data>
+  <data name="GridDetailColumn" xml:space="preserve"><value>Details</value></data>
+  <data name="GridSelectionColumn" xml:space="preserve"><value>Auswahl</value></data>
+  <data name="GridResizeColumn" xml:space="preserve"><value>Größe von {0} ändern</value></data>
+  <data name="GridEditColumn" xml:space="preserve"><value>Bearbeitung</value></data>
+  <data name="GridFilterColumn" xml:space="preserve"><value>{0} filtern</value></data>
+  <data name="GridEmpty" xml:space="preserve"><value>Keine Daten.</value></data>
+  <data name="GridEmptyFiltered" xml:space="preserve"><value>Keine Ergebnisse entsprechen den Filtern.</value></data>
+  <data name="GridValueColumn" xml:space="preserve"><value>Wert</value></data>
+  <data name="GridFilterPlaceholder" xml:space="preserve"><value>Filtern</value></data>
+  <data name="GridFilterOperator" xml:space="preserve"><value>Filteroperator für {0}</value></data>
+  <data name="GridFilterSecondOperator" xml:space="preserve"><value>Zweiter Filteroperator für {0}</value></data>
+  <data name="GridFilterSecondValue" xml:space="preserve"><value>Zweiter Filterwert für {0}</value></data>
+  <data name="GridFilterLogical" xml:space="preserve"><value>Logischer Operator für {0}</value></data>
+  <data name="GridFilterApply" xml:space="preserve"><value>Anwenden</value></data>
+  <data name="GridFilterClear" xml:space="preserve"><value>Zurücksetzen</value></data>
+  <data name="TooltipShowMore" xml:space="preserve"><value>Mehr anzeigen</value></data>
+  <data name="TooltipShowLess" xml:space="preserve"><value>Weniger anzeigen</value></data>
+  <data name="GridFilterDateFrom" xml:space="preserve"><value>Von</value></data>
+  <data name="GridFilterDateTo" xml:space="preserve"><value>Bis</value></data>
+  <data name="GridFilterContains" xml:space="preserve"><value>Enthält</value></data>
+  <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Enthält nicht</value></data>
+  <data name="GridFilterEquals" xml:space="preserve"><value>Gleich</value></data>
+  <data name="GridFilterNotEquals" xml:space="preserve"><value>Ungleich</value></data>
+  <data name="GridFilterStartsWith" xml:space="preserve"><value>Beginnt mit</value></data>
+  <data name="GridFilterEndsWith" xml:space="preserve"><value>Endet mit</value></data>
+  <data name="GridFilterGreaterThan" xml:space="preserve"><value>Größer als</value></data>
+  <data name="GridFilterGreaterThanOrEquals" xml:space="preserve"><value>Größer oder gleich</value></data>
+  <data name="GridFilterLessThan" xml:space="preserve"><value>Kleiner als</value></data>
+  <data name="GridFilterLessThanOrEquals" xml:space="preserve"><value>Kleiner oder gleich</value></data>
+  <data name="GridFilterIsNull" xml:space="preserve"><value>Ist null</value></data>
+  <data name="GridFilterIsNotNull" xml:space="preserve"><value>Ist nicht null</value></data>
+  <data name="GridFilterIsEmpty" xml:space="preserve"><value>Ist leer</value></data>
+  <data name="GridFilterIsNotEmpty" xml:space="preserve"><value>Ist nicht leer</value></data>
+  <data name="GridFilterAnd" xml:space="preserve"><value>Und</value></data>
+  <data name="GridFilterOr" xml:space="preserve"><value>Oder</value></data>
+  <data name="GridGroupPanel" xml:space="preserve"><value>Aktive Gruppierungen</value></data>
+  <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Keine Gruppierung.</value></data>
+  <data name="GridGroupColumn" xml:space="preserve"><value>Nach {0} gruppieren</value></data>
+  <data name="GridUngroupColumn" xml:space="preserve"><value>Gruppierung nach {0} entfernen</value></data>
+  <data name="GridExpandAll" xml:space="preserve"><value>Alle Zeilen erweitern oder reduzieren</value></data>
+  <data name="GridDetachFrozen" xml:space="preserve"><value>Fixierte Spalten lösen</value></data>
+  <data name="GridRefreezeFrozen" xml:space="preserve"><value>Spalten erneut fixieren</value></data>
+  <data name="GridShrinkColumn" xml:space="preserve"><value>Spalte {0} schmaler machen</value></data>
+  <data name="GridGrowColumn" xml:space="preserve"><value>Spalte {0} breiter machen</value></data>
+  <data name="PagerFirst" xml:space="preserve"><value>Erste Seite</value></data>
+  <data name="PagerLast" xml:space="preserve"><value>Letzte Seite</value></data>
+  <data name="PagerPageSize" xml:space="preserve"><value>Zeilen pro Seite</value></data>
+  <data name="GridPagingSummary" xml:space="preserve"><value>{0} bis {1} von {2}</value></data>
+  <data name="GridRowsLoading" xml:space="preserve"><value>Zeilen werden geladen…</value></data>
+  <data name="GridCollapseRow" xml:space="preserve"><value>Zeile reduzieren</value></data>
+  <data name="GridExpandRow" xml:space="preserve"><value>Zeile erweitern</value></data>
+  <data name="GridSelectRow" xml:space="preserve"><value>Zeile auswählen</value></data>
+  <data name="GridSelectAll" xml:space="preserve"><value>Alle angezeigten Zeilen auswählen</value></data>
+  <data name="SpreadsheetLabel" xml:space="preserve"><value>Tabellenblatt</value></data>
+  <data name="SpreadsheetAddRow" xml:space="preserve"><value>Zeile</value></data>
+  <data name="SpreadsheetAddRowLabel" xml:space="preserve"><value>Zeile hinzufügen</value></data>
+  <data name="SpreadsheetAddColumn" xml:space="preserve"><value>Spalte</value></data>
+  <data name="SpreadsheetAddColumnLabel" xml:space="preserve"><value>Spalte hinzufügen</value></data>
+  <data name="SpreadsheetActiveCell" xml:space="preserve"><value>Aktive Zelle</value></data>
+  <data name="SpreadsheetFormulaBar" xml:space="preserve"><value>Inhalt der Zelle {0}</value></data>
+  <data name="SpreadsheetCell" xml:space="preserve"><value>Zelle {0}</value></data>
+  <data name="Save" xml:space="preserve"><value>Speichern</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Abbrechen</value></data>
+  <data name="Edit" xml:space="preserve"><value>Bearbeiten</value></data>
+  <data name="DataListLoadFailed" xml:space="preserve"><value>Das Laden ist fehlgeschlagen.</value></data>
+  <data name="DataListEmpty" xml:space="preserve"><value>Keine Elemente.</value></data>
+  <data name="DatePickerInvalid" xml:space="preserve"><value>Das eingegebene Datum ist ungültig.</value></data>
+  <data name="DateTimePickerInvalid" xml:space="preserve"><value>Das eingegebene Datum und die Uhrzeit sind ungültig.</value></data>
+  <data name="DatePickerToggle" xml:space="preserve"><value>Datum auswählen</value></data>
+  <data name="DatePickerToday" xml:space="preserve"><value>Heute</value></data>
+  <data name="DatePickerClear" xml:space="preserve"><value>Leeren</value></data>
+  <data name="CalendarPreviousMonth" xml:space="preserve"><value>Vorheriger Monat</value></data>
+  <data name="CalendarNextMonth" xml:space="preserve"><value>Nächster Monat</value></data>
+  <data name="TimePickerToggle" xml:space="preserve"><value>Uhrzeit auswählen</value></data>
+  <data name="DateTimePickerToggle" xml:space="preserve"><value>Datum und Uhrzeit auswählen</value></data>
+  <data name="TimePickerNow" xml:space="preserve"><value>Jetzt</value></data>
+  <data name="TimePickerConfirm" xml:space="preserve"><value>Bestätigen</value></data>
+  <data name="TimePickerHours" xml:space="preserve"><value>Stunden</value></data>
+  <data name="TimePickerMinutes" xml:space="preserve"><value>Minuten</value></data>
+  <data name="TimePickerSeconds" xml:space="preserve"><value>Sekunden</value></data>
+  <data name="TimePickerHourCaption" xml:space="preserve"><value>h</value></data>
+  <data name="TimePickerMinuteCaption" xml:space="preserve"><value>min</value></data>
+  <data name="TimePickerSecondCaption" xml:space="preserve"><value>s</value></data>
+  <data name="TimePickerInvalid" xml:space="preserve"><value>Die eingegebene Uhrzeit ist ungültig.</value></data>
+  <data name="PickerLetterDay" xml:space="preserve"><value>t</value></data>
+  <data name="PickerLetterMonth" xml:space="preserve"><value>m</value></data>
+  <data name="PickerLetterYear" xml:space="preserve"><value>j</value></data>
+  <data name="PickerLetterHour" xml:space="preserve"><value>h</value></data>
+  <data name="PickerLetterMinute" xml:space="preserve"><value>m</value></data>
+  <data name="PickerLetterSecond" xml:space="preserve"><value>s</value></data>
+  <data name="DayViewLabel" xml:space="preserve"><value>Tagesansicht</value></data>
+  <data name="DialogEnd" xml:space="preserve"><value>Ende des Dialogs</value></data>
+  <data name="Close" xml:space="preserve"><value>Schließen</value></data>
+  <data name="DialogStart" xml:space="preserve"><value>Anfang des Dialogs</value></data>
+  <data name="DropDownPlaceholder" xml:space="preserve"><value>Auswählen</value></data>
+  <data name="DropDownInvalid" xml:space="preserve"><value>Die Auswahl für {0} ist ungültig.</value></data>
+  <data name="HtmlEditorLabel" xml:space="preserve"><value>HTML-Editor</value></data>
+  <data name="HtmlEditorToolbar" xml:space="preserve"><value>Formatierungswerkzeuge</value></data>
+  <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Editor-Aktionen</value></data>
+  <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Groß-/Kleinschreibung</value></data>
+  <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>GROSSBUCHSTABEN</value></data>
+  <data name="HtmlEditorCaseLower" xml:space="preserve"><value>kleinbuchstaben</value></data>
+  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Erster Buchstabe Groß</value></data>
+  <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Sonderzeichen</value></data>
+  <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Zeichen suchen</value></data>
+  <data name="HtmlEditorCharNone" xml:space="preserve"><value>Kein Zeichen gefunden.</value></data>
+  <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Häufig</value></data>
+  <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Währungen</value></data>
+  <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Pfeile</value></data>
+  <data name="HtmlEditorCharCategoryMath" xml:space="preserve"><value>Mathematik</value></data>
+  <data name="HtmlEditorCharCategoryGreek" xml:space="preserve"><value>Griechisch</value></data>
+  <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Rechtlich</value></data>
+  <data name="HtmlEditorImportTable" xml:space="preserve"><value>Tabelle importieren</value></data>
+  <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>{0}-Datei, höchstens 100 Zeilen und 50 Spalten.</value></data>
+  <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Erste Zeile als Kopfzeile</value></data>
+  <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Einfügen</value></data>
+  <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Tabellenvorschau</value></data>
+  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0} Zeilen, {1} Spalten</value></data>
+  <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>Die Datei konnte nicht gelesen werden.</value></data>
+  <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>Die Datei enthält keine Zeilen.</value></data>
+  <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Dieser Dateityp wird nicht unterstützt.</value></data>
+  <data name="HtmlEditorClosePanel" xml:space="preserve"><value>Schließen</value></data>
+  <data name="HtmlEditorShowBlocks" xml:space="preserve"><value>Blöcke anzeigen</value></data>
+  <data name="HtmlEditorHighlight" xml:space="preserve"><value>Hervorheben</value></data>
+  <data name="HtmlEditorChar00A9" xml:space="preserve"><value>Copyright</value></data>
+  <data name="HtmlEditorChar00AE" xml:space="preserve"><value>Eingetragene Marke</value></data>
+  <data name="HtmlEditorChar2122" xml:space="preserve"><value>Marke</value></data>
+  <data name="HtmlEditorChar00A7" xml:space="preserve"><value>Paragraf</value></data>
+  <data name="HtmlEditorChar00B6" xml:space="preserve"><value>Absatzmarke</value></data>
+  <data name="HtmlEditorChar2020" xml:space="preserve"><value>Kreuz</value></data>
+  <data name="HtmlEditorChar2021" xml:space="preserve"><value>Doppelkreuz</value></data>
+  <data name="HtmlEditorChar2022" xml:space="preserve"><value>Aufzählungszeichen</value></data>
+  <data name="HtmlEditorChar2026" xml:space="preserve"><value>Auslassungspunkte</value></data>
+  <data name="HtmlEditorChar2013" xml:space="preserve"><value>Halbgeviertstrich</value></data>
+  <data name="HtmlEditorChar2014" xml:space="preserve"><value>Geviertstrich</value></data>
+  <data name="HtmlEditorChar00AB" xml:space="preserve"><value>Linkes Guillemet</value></data>
+  <data name="HtmlEditorChar00BB" xml:space="preserve"><value>Rechtes Guillemet</value></data>
+  <data name="HtmlEditorChar2039" xml:space="preserve"><value>Einfaches linkes Guillemet</value></data>
+  <data name="HtmlEditorChar203A" xml:space="preserve"><value>Einfaches rechtes Guillemet</value></data>
+  <data name="HtmlEditorChar2018" xml:space="preserve"><value>Einfaches öffnendes Anführungszeichen</value></data>
+  <data name="HtmlEditorChar2019" xml:space="preserve"><value>Apostroph</value></data>
+  <data name="HtmlEditorChar201C" xml:space="preserve"><value>Öffnendes Anführungszeichen</value></data>
+  <data name="HtmlEditorChar201D" xml:space="preserve"><value>Schließendes Anführungszeichen</value></data>
+  <data name="HtmlEditorChar00B0" xml:space="preserve"><value>Grad</value></data>
+  <data name="HtmlEditorChar00B1" xml:space="preserve"><value>Plus-Minus</value></data>
+  <data name="HtmlEditorChar00D7" xml:space="preserve"><value>Multiplikation</value></data>
+  <data name="HtmlEditorChar00F7" xml:space="preserve"><value>Division</value></data>
+  <data name="HtmlEditorChar00A0" xml:space="preserve"><value>Geschütztes Leerzeichen</value></data>
+  <data name="HtmlEditorChar20AC" xml:space="preserve"><value>Euro</value></data>
+  <data name="HtmlEditorChar00A3" xml:space="preserve"><value>Pfund Sterling</value></data>
+  <data name="HtmlEditorChar00A5" xml:space="preserve"><value>Yen</value></data>
+  <data name="HtmlEditorChar00A2" xml:space="preserve"><value>Cent</value></data>
+  <data name="HtmlEditorChar20BD" xml:space="preserve"><value>Rubel</value></data>
+  <data name="HtmlEditorChar20B9" xml:space="preserve"><value>Rupie</value></data>
+  <data name="HtmlEditorChar20A9" xml:space="preserve"><value>Won</value></data>
+  <data name="HtmlEditorChar20AA" xml:space="preserve"><value>Schekel</value></data>
+  <data name="HtmlEditorChar20B1" xml:space="preserve"><value>Peso</value></data>
+  <data name="HtmlEditorChar20BA" xml:space="preserve"><value>Türkische Lira</value></data>
+  <data name="HtmlEditorChar2190" xml:space="preserve"><value>Pfeil nach links</value></data>
+  <data name="HtmlEditorChar2192" xml:space="preserve"><value>Pfeil nach rechts</value></data>
+  <data name="HtmlEditorChar2191" xml:space="preserve"><value>Pfeil nach oben</value></data>
+  <data name="HtmlEditorChar2193" xml:space="preserve"><value>Pfeil nach unten</value></data>
+  <data name="HtmlEditorChar2194" xml:space="preserve"><value>Pfeil links-rechts</value></data>
+  <data name="HtmlEditorChar2195" xml:space="preserve"><value>Pfeil oben-unten</value></data>
+  <data name="HtmlEditorChar21D0" xml:space="preserve"><value>Doppelpfeil nach links</value></data>
+  <data name="HtmlEditorChar21D2" xml:space="preserve"><value>Doppelpfeil nach rechts</value></data>
+  <data name="HtmlEditorChar21D1" xml:space="preserve"><value>Doppelpfeil nach oben</value></data>
+  <data name="HtmlEditorChar21D3" xml:space="preserve"><value>Doppelpfeil nach unten</value></data>
+  <data name="HtmlEditorChar21B5" xml:space="preserve"><value>Zeilenumbruchpfeil</value></data>
+  <data name="HtmlEditorChar21B6" xml:space="preserve"><value>Pfeil gegen den Uhrzeigersinn</value></data>
+  <data name="HtmlEditorChar2200" xml:space="preserve"><value>Für alle</value></data>
+  <data name="HtmlEditorChar2203" xml:space="preserve"><value>Es existiert</value></data>
+  <data name="HtmlEditorChar2205" xml:space="preserve"><value>Leere Menge</value></data>
+  <data name="HtmlEditorChar2208" xml:space="preserve"><value>Element von</value></data>
+  <data name="HtmlEditorChar2209" xml:space="preserve"><value>Kein Element von</value></data>
+  <data name="HtmlEditorChar2282" xml:space="preserve"><value>Teilmenge von</value></data>
+  <data name="HtmlEditorChar2283" xml:space="preserve"><value>Obermenge von</value></data>
+  <data name="HtmlEditorChar222A" xml:space="preserve"><value>Vereinigung</value></data>
+  <data name="HtmlEditorChar2229" xml:space="preserve"><value>Schnittmenge</value></data>
+  <data name="HtmlEditorChar2227" xml:space="preserve"><value>Logisches Und</value></data>
+  <data name="HtmlEditorChar2228" xml:space="preserve"><value>Logisches Oder</value></data>
+  <data name="HtmlEditorChar00AC" xml:space="preserve"><value>Negation</value></data>
+  <data name="HtmlEditorChar2248" xml:space="preserve"><value>Ungefähr gleich</value></data>
+  <data name="HtmlEditorChar2260" xml:space="preserve"><value>Ungleich</value></data>
+  <data name="HtmlEditorChar2264" xml:space="preserve"><value>Kleiner oder gleich</value></data>
+  <data name="HtmlEditorChar2265" xml:space="preserve"><value>Größer oder gleich</value></data>
+  <data name="HtmlEditorChar221E" xml:space="preserve"><value>Unendlich</value></data>
+  <data name="HtmlEditorChar221A" xml:space="preserve"><value>Quadratwurzel</value></data>
+  <data name="HtmlEditorChar2211" xml:space="preserve"><value>Summe</value></data>
+  <data name="HtmlEditorChar220F" xml:space="preserve"><value>Produkt</value></data>
+  <data name="HtmlEditorChar2202" xml:space="preserve"><value>Partielle Ableitung</value></data>
+  <data name="HtmlEditorChar222B" xml:space="preserve"><value>Integral</value></data>
+  <data name="HtmlEditorChar03B1" xml:space="preserve"><value>Alpha</value></data>
+  <data name="HtmlEditorChar03B2" xml:space="preserve"><value>Beta</value></data>
+  <data name="HtmlEditorChar03B3" xml:space="preserve"><value>Gamma</value></data>
+  <data name="HtmlEditorChar03B4" xml:space="preserve"><value>Delta</value></data>
+  <data name="HtmlEditorChar03B5" xml:space="preserve"><value>Epsilon</value></data>
+  <data name="HtmlEditorChar03B6" xml:space="preserve"><value>Zeta</value></data>
+  <data name="HtmlEditorChar03B7" xml:space="preserve"><value>Eta</value></data>
+  <data name="HtmlEditorChar03B8" xml:space="preserve"><value>Theta</value></data>
+  <data name="HtmlEditorChar03B9" xml:space="preserve"><value>Iota</value></data>
+  <data name="HtmlEditorChar03BA" xml:space="preserve"><value>Kappa</value></data>
+  <data name="HtmlEditorChar03BB" xml:space="preserve"><value>Lambda</value></data>
+  <data name="HtmlEditorChar03BC" xml:space="preserve"><value>My</value></data>
+  <data name="HtmlEditorChar03BD" xml:space="preserve"><value>Ny</value></data>
+  <data name="HtmlEditorChar03BE" xml:space="preserve"><value>Xi</value></data>
+  <data name="HtmlEditorChar03C0" xml:space="preserve"><value>Pi</value></data>
+  <data name="HtmlEditorChar03C1" xml:space="preserve"><value>Rho</value></data>
+  <data name="HtmlEditorChar03C3" xml:space="preserve"><value>Sigma</value></data>
+  <data name="HtmlEditorChar03C4" xml:space="preserve"><value>Tau</value></data>
+  <data name="HtmlEditorChar03C5" xml:space="preserve"><value>Ypsilon</value></data>
+  <data name="HtmlEditorChar03C6" xml:space="preserve"><value>Phi</value></data>
+  <data name="HtmlEditorChar03C7" xml:space="preserve"><value>Chi</value></data>
+  <data name="HtmlEditorChar03C8" xml:space="preserve"><value>Psi</value></data>
+  <data name="HtmlEditorChar03C9" xml:space="preserve"><value>Omega</value></data>
+  <data name="HtmlEditorChar2116" xml:space="preserve"><value>Nummernzeichen</value></data>
+  <data name="HtmlEditorBold" xml:space="preserve"><value>Fett</value></data>
+  <data name="HtmlEditorItalic" xml:space="preserve"><value>Kursiv</value></data>
+  <data name="HtmlEditorSubscript" xml:space="preserve"><value>Tiefgestellt</value></data>
+  <data name="HtmlEditorSuperscript" xml:space="preserve"><value>Hochgestellt</value></data>
+  <data name="HtmlEditorIndent" xml:space="preserve"><value>Einzug vergrößern</value></data>
+  <data name="HtmlEditorOutdent" xml:space="preserve"><value>Einzug verkleinern</value></data>
+  <data name="HtmlEditorUndo" xml:space="preserve"><value>Rückgängig</value></data>
+  <data name="HtmlEditorRedo" xml:space="preserve"><value>Wiederholen</value></data>
+  <data name="HtmlEditorPreview" xml:space="preserve"><value>Inhaltsvorschau</value></data>
+  <data name="LegendLabel" xml:space="preserve"><value>Legende</value></data>
+  <data name="ListBoxInvalid" xml:space="preserve"><value>Die Listenauswahl ist ungültig.</value></data>
+  <data name="MindMapAddLink" xml:space="preserve"><value>Verbindung</value></data>
+  <data name="MindMapAddNode" xml:space="preserve"><value>Knoten</value></data>
+  <data name="MindMapAnnounceAdded" xml:space="preserve"><value>Knoten {0} hinzugefügt.</value></data>
+  <data name="MindMapAnnounceDeleted" xml:space="preserve"><value>Gelöschte Knoten: {0}.</value></data>
+  <data name="MindMapAnnounceDuplicated" xml:space="preserve"><value>Knoten {0} dupliziert.</value></data>
+  <data name="MindMapAnnounceLaidOut" xml:space="preserve"><value>Karte neu angeordnet.</value></data>
+  <data name="MindMapAnnounceLimit" xml:space="preserve"><value>Die maximale Anzahl an Knoten ist erreicht.</value></data>
+  <data name="MindMapAnnounceLinkCancelled" xml:space="preserve"><value>Erstellen der Verbindung abgebrochen.</value></data>
+  <data name="MindMapAnnounceLinkDeleted" xml:space="preserve"><value>Verbindung gelöscht.</value></data>
+  <data name="MindMapAnnounceLinkSelected" xml:space="preserve"><value>Verbindung ausgewählt.</value></data>
+  <data name="MindMapAnnounceLinked" xml:space="preserve"><value>Verbindung von {0} nach {1} erstellt.</value></data>
+  <data name="MindMapAnnounceManySelected" xml:space="preserve"><value>Ausgewählte Knoten: {0}.</value></data>
+  <data name="MindMapAnnounceNoSelection" xml:space="preserve"><value>Keine Auswahl.</value></data>
+  <data name="MindMapAnnounceRedone" xml:space="preserve"><value>Änderung wiederhergestellt.</value></data>
+  <data name="MindMapAnnounceSelected" xml:space="preserve"><value>{0}, Verbindungen: {1}.</value></data>
+  <data name="MindMapAnnounceUndone" xml:space="preserve"><value>Änderung rückgängig gemacht.</value></data>
+  <data name="MindMapAnnounceZoom" xml:space="preserve"><value>Zoom {0} %.</value></data>
+  <data name="MindMapAutoLayout" xml:space="preserve"><value>Neu anordnen</value></data>
+  <data name="MindMapBold" xml:space="preserve"><value>Fett</value></data>
+  <data name="MindMapCanvasLabel" xml:space="preserve"><value>Mindmap</value></data>
+  <data name="MindMapCenter" xml:space="preserve"><value>Zentrieren</value></data>
+  <data name="MindMapColorBlue" xml:space="preserve"><value>Blau</value></data>
+  <data name="MindMapColorGray" xml:space="preserve"><value>Grau</value></data>
+  <data name="MindMapColorGreen" xml:space="preserve"><value>Grün</value></data>
+  <data name="MindMapColorIndigo" xml:space="preserve"><value>Indigo</value></data>
+  <data name="MindMapColorOrange" xml:space="preserve"><value>Orange</value></data>
+  <data name="MindMapColorPink" xml:space="preserve"><value>Rosa</value></data>
+  <data name="MindMapColorPurple" xml:space="preserve"><value>Violett</value></data>
+  <data name="MindMapColorRed" xml:space="preserve"><value>Rot</value></data>
+  <data name="MindMapColorTeal" xml:space="preserve"><value>Türkis</value></data>
+  <data name="MindMapColorWhite" xml:space="preserve"><value>Weiß</value></data>
+  <data name="MindMapColorYellow" xml:space="preserve"><value>Gelb</value></data>
+  <data name="MindMapDelete" xml:space="preserve"><value>Löschen</value></data>
+  <data name="MindMapDuplicate" xml:space="preserve"><value>Duplizieren</value></data>
+  <data name="MindMapFitView" xml:space="preserve"><value>Einpassen</value></data>
+  <data name="MindMapFontSize" xml:space="preserve"><value>Schriftgröße</value></data>
+  <data name="MindMapItalic" xml:space="preserve"><value>Kursiv</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Pfeiltasten: zwischen Knoten wechseln, Pos1: zentraler Knoten, Umschalt+Pfeiltasten: verschieben, Eingabe oder F2: umbenennen, N: neuer Knoten, D: duplizieren, C: zentrieren, Entf: löschen, + und -: zoomen, 0: einpassen, Strg+Z und Strg+Y: rückgängig und wiederholen, Umschalt+F10: Menü, Esc: Auswahl aufheben.</value></data>
+  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Pfeiltasten: zwischen Knoten wechseln, Pos1: zentraler Knoten, C: zentrieren, + und -: zoomen, 0: einpassen, Umschalt+F10: Menü, Esc: Auswahl aufheben.</value></data>
+  <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Esc zum Abbrechen</value></data>
+  <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Klicken Sie auf den Quellknoten</value></data>
+  <data name="MindMapLinkSelectTarget" xml:space="preserve"><value>Klicken Sie auf den Zielknoten</value></data>
+  <data name="MindMapMenuLabel" xml:space="preserve"><value>Kartenaktionen</value></data>
+  <data name="MindMapNewNode" xml:space="preserve"><value>Neu</value></data>
+  <data name="MindMapNodeColor" xml:space="preserve"><value>Farbe</value></data>
+  <data name="MindMapNodeHeight" xml:space="preserve"><value>Höhe</value></data>
+  <data name="MindMapNodeText" xml:space="preserve"><value>Text</value></data>
+  <data name="MindMapNodeWidth" xml:space="preserve"><value>Breite</value></data>
+  <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, Notiz: {1}</value></data>
+  <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Knoteneigenschaften</value></data>
+  <data name="MindMapRename" xml:space="preserve"><value>Knoten umbenennen</value></data>
+  <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automatische Größe</value></data>
+  <data name="MindMapToolbarLabel" xml:space="preserve"><value>Mindmap-Aktionen</value></data>
+  <data name="MonthViewLabel" xml:space="preserve"><value>Monatsansicht</value></data>
+  <data name="MultiSelectInvalid" xml:space="preserve"><value>Die Mehrfachauswahl ist ungültig.</value></data>
+  <data name="MultiSelectEmpty" xml:space="preserve"><value>Alle</value></data>
+  <data name="MultiSelectSelected" xml:space="preserve"><value>{0} ausgewählt</value></data>
+  <data name="MultiSelectClear" xml:space="preserve"><value>Auswahl aufheben</value></data>
+  <data name="MultiSelectFilter" xml:space="preserve"><value>Suchen</value></data>
+  <data name="MultiSelectNoMatch" xml:space="preserve"><value>Keine Ergebnisse</value></data>
+  <data name="NotificationDismiss" xml:space="preserve"><value>Benachrichtigung schließen</value></data>
+  <data name="NotificationExpand" xml:space="preserve"><value>Alles anzeigen</value></data>
+  <data name="NotificationCollapse" xml:space="preserve"><value>Reduzieren</value></data>
+  <data name="NotificationOpenDetails" xml:space="preserve"><value>Protokoll öffnen</value></data>
+  <data name="NullableSwitchIndeterminate" xml:space="preserve"><value>Unbestimmter Zustand</value></data>
+  <data name="NumericInvalid" xml:space="preserve"><value>Der eingegebene Wert ist ungültig.</value></data>
+  <data name="NumericInvalidNamed" xml:space="preserve"><value>Der eingegebene Wert für {0} ist ungültig.</value></data>
+  <data name="PagerLabel" xml:space="preserve"><value>Seitennavigation</value></data>
+  <data name="PagerPrevious" xml:space="preserve"><value>Vorherige Seite</value></data>
+  <data name="PagerStatus" xml:space="preserve"><value>Seite {0} von {1}</value></data>
+  <data name="PagerNext" xml:space="preserve"><value>Nächste Seite</value></data>
+  <data name="PanelMenuLabel" xml:space="preserve"><value>Navigation</value></data>
+  <data name="PanelMenuToggle" xml:space="preserve"><value>{0} ein- oder ausklappen</value></data>
+  <data name="PasswordRevealLabel" xml:space="preserve"><value>Passwort anzeigen</value></data>
+  <data name="PasswordHideLabel" xml:space="preserve"><value>Passwort ausblenden</value></data>
+  <data name="ProfileMenuLabel" xml:space="preserve"><value>Profilmenü</value></data>
+  <data name="ProgressLabel" xml:space="preserve"><value>Fortschritt</value></data>
+  <data name="ProgressValue" xml:space="preserve"><value>{0:0} %</value></data>
+  <data name="RadioButtonListInvalid" xml:space="preserve"><value>Die Optionsauswahl ist ungültig.</value></data>
+  <data name="RequiredValidatorMessage" xml:space="preserve"><value>Dieses Feld ist erforderlich.</value></data>
+  <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Vorheriger Zeitraum</value></data>
+  <data name="SchedulerNextPeriod" xml:space="preserve"><value>Nächster Zeitraum</value></data>
+  <data name="SchedulerViewLabel" xml:space="preserve"><value>Kalenderansicht</value></data>
+  <data name="SchedulerDay" xml:space="preserve"><value>Tag</value></data>
+  <data name="SchedulerWeek" xml:space="preserve"><value>Woche</value></data>
+  <data name="SchedulerMonth" xml:space="preserve"><value>Monat</value></data>
+  <data name="SchedulerLoadFailed" xml:space="preserve"><value>Der Kalender konnte nicht geladen werden.</value></data>
+  <data name="SchedulerTimeColumn" xml:space="preserve"><value>Uhrzeit</value></data>
+  <data name="SchedulerMoveAppointment" xml:space="preserve"><value>{0} verschieben</value></data>
+  <data name="SchedulerMoveHere" xml:space="preserve"><value>Hier platzieren: {0}, {1}</value></data>
+  <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Hier platzieren</value></data>
+  <data name="SchedulerMoveCancel" xml:space="preserve"><value>Verschieben abbrechen</value></data>
+  <data name="SchedulerMoving" xml:space="preserve"><value>{0} aufgenommen: Wählen Sie den neuen Platz, Esc zum Abbrechen.</value></data>
+  <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} bleibt an seinem Platz.</value></data>
+  <data name="SchedulerMoved" xml:space="preserve"><value>{0} verschoben auf {1}.</value></data>
+  <data name="SelectBarInvalid" xml:space="preserve"><value>Die segmentierte Auswahl ist ungültig.</value></data>
+  <data name="RatingLabel" xml:space="preserve"><value>Bewertung</value></data>
+  <data name="RatingStar" xml:space="preserve"><value>{0} von {1}</value></data>
+  <data name="RatingValue" xml:space="preserve"><value>{0}: {1} von {2}</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Navigation</value></data>
+  <data name="SidebarClose" xml:space="preserve"><value>Navigation schließen</value></data>
+  <data name="LoadingLabel" xml:space="preserve"><value>Wird geladen</value></data>
+  <data name="WindowControlsLabel" xml:space="preserve"><value>Fenstersteuerung</value></data>
+  <data name="WindowMinimizeToTray" xml:space="preserve"><value>In den Infobereich minimieren</value></data>
+  <data name="WindowMinimize" xml:space="preserve"><value>Minimieren</value></data>
+  <data name="WindowMaximize" xml:space="preserve"><value>Maximieren</value></data>
+  <data name="WindowRestore" xml:space="preserve"><value>Wiederherstellen</value></data>
+  <data name="WindowClose" xml:space="preserve"><value>Schließen</value></data>
+  <data name="SidebarToggleLabel" xml:space="preserve"><value>Navigation ein- oder ausblenden</value></data>
+  <data name="SliderInvalid" xml:space="preserve"><value>Der Wert des Schiebereglers ist ungültig.</value></data>
+  <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Weitere Aktionen</value></data>
+  <data name="StepsLabel" xml:space="preserve"><value>Schritte</value></data>
+  <data name="SwitchInvalid" xml:space="preserve"><value>Der Wert des Schalters ist ungültig.</value></data>
+  <data name="TabsLabel" xml:space="preserve"><value>Registerkarten</value></data>
+  <data name="TimelineLabel" xml:space="preserve"><value>Zeitleiste</value></data>
+  <data name="TreeLabel" xml:space="preserve"><value>Baum</value></data>
+  <data name="TreeCollapse" xml:space="preserve"><value>Reduzieren</value></data>
+  <data name="TreeExpand" xml:space="preserve"><value>Erweitern</value></data>
+  <data name="TreeLoadFailed" xml:space="preserve"><value>Das Laden ist fehlgeschlagen.</value></data>
+  <data name="UploadSelectedFiles" xml:space="preserve"><value>Ausgewählte Dateien</value></data>
+  <data name="UploadProgressLabel" xml:space="preserve"><value>Upload</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Sie können höchstens {0} Dateien auswählen.</value></data>
+  <data name="UploadFileTooLarge" xml:space="preserve"><value>Die Datei {0} überschreitet die maximal zulässige Größe.</value></data>
+  <data name="UploadTypeRejected" xml:space="preserve"><value>Der Dateityp von {0} ist nicht zulässig.</value></data>
+  <data name="UploadOneSelected" xml:space="preserve"><value>1 Datei ausgewählt.</value></data>
+  <data name="UploadManySelected" xml:space="preserve"><value>{0} Dateien ausgewählt.</value></data>
+  <data name="UploadInProgress" xml:space="preserve"><value>Upload läuft.</value></data>
+  <data name="UploadCompleted" xml:space="preserve"><value>Upload abgeschlossen.</value></data>
+  <data name="UploadCancelled" xml:space="preserve"><value>Upload abgebrochen.</value></data>
+  <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0:0.##} MB</value></data>
+  <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} KB</value></data>
+  <data name="UploadSizeBytes" xml:space="preserve"><value>{0} B</value></data>
+  <data name="UploadDropOne" xml:space="preserve"><value>Datei hier ablegen oder</value></data>
+  <data name="UploadDropMany" xml:space="preserve"><value>Dateien hier ablegen oder</value></data>
+  <data name="UploadBrowse" xml:space="preserve"><value>durchsuchen</value></data>
+  <data name="UploadHintMaximumSize" xml:space="preserve"><value>Höchstens {0} pro Datei</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Höchstens {0} Dateien</value></data>
+  <data name="UploadAttachedFiles" xml:space="preserve"><value>Angehängte Dateien</value></data>
+  <data name="UploadRemove" xml:space="preserve"><value>{0} entfernen</value></data>
+  <data name="UploadBrowseButton" xml:space="preserve"><value>Durchsuchen</value></data>
+  <data name="UploadNoFile" xml:space="preserve"><value>Keine Datei ausgewählt</value></data>
+  <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
+  <data name="UploadFileCountNone" xml:space="preserve"><value>Keine Dateien</value></data>
+  <data name="UploadFileCountOne" xml:space="preserve"><value>1 Datei</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} Dateien</value></data>
+  <data name="UploadShowAll" xml:space="preserve"><value>Alle anzeigen ({0})</value></data>
+  <data name="UploadShowLess" xml:space="preserve"><value>Weniger anzeigen</value></data>
+  <data name="UploadRemoveAll" xml:space="preserve"><value>Alle entfernen</value></data>
+  <data name="UploadRemovedAll" xml:space="preserve"><value>Alle Dateien wurden aus der Liste entfernt.</value></data>
+  <data name="UploadRemoved" xml:space="preserve"><value>{0} aus der Liste entfernt.</value></data>
+  <data name="WeekViewLabel" xml:space="preserve"><value>Wochenansicht</value></data>
+  <data name="DataAnnotationsRequired" xml:space="preserve"><value>Das Feld {0} ist erforderlich.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Das Feld {0} muss zwischen {1} und {2} Zeichen lang sein.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Das Feld {0} darf höchstens {1} Zeichen lang sein.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Das Feld {0} muss mindestens {1} Zeichen lang sein.</value></data>
+  <data name="DataAnnotationsRange" xml:space="preserve"><value>Das Feld {0} muss zwischen {1} und {2} liegen.</value></data>
+  <data name="DataAnnotationsEmail" xml:space="preserve"><value>Das Feld {0} ist keine gültige E-Mail-Adresse.</value></data>
+  <data name="DataAnnotationsUrl" xml:space="preserve"><value>Das Feld {0} ist keine gültige Webadresse.</value></data>
+  <data name="DataAnnotationsCompare" xml:space="preserve"><value>{0} und {1} stimmen nicht überein.</value></data>
+  <data name="DataAnnotationsPattern" xml:space="preserve"><value>Das Feld {0} hat nicht das erwartete Format.</value></data>
+  <data name="DataAnnotationsInvalid" xml:space="preserve"><value>Das Feld {0} ist ungültig.</value></data>
+  <data name="GanttEmpty" xml:space="preserve"><value>Keine Aufgaben zum Anzeigen.</value></data>
+  <data name="GanttLabel" xml:space="preserve"><value>Gantt-Diagramm</value></data>
+  <data name="GanttScale" xml:space="preserve"><value>Zeitskala</value></data>
+  <data name="GanttScaleDay" xml:space="preserve"><value>Tag</value></data>
+  <data name="GanttScaleMonth" xml:space="preserve"><value>Monat</value></data>
+  <data name="GanttScaleWeek" xml:space="preserve"><value>Woche</value></data>
+  <data name="GanttTaskAfter" xml:space="preserve"><value>nach {0}</value></data>
+  <data name="GanttTaskColumn" xml:space="preserve"><value>Aufgabe</value></data>
+  <data name="GanttTaskDescription" xml:space="preserve"><value>{0}, vom {1} bis {2}, {3} erledigt</value></data>
+  <data name="StepTimelineLabel" xml:space="preserve"><value>Ablauf</value></data>
+  <data name="StepTimelineNeverStarted" xml:space="preserve"><value>Nie gestartet:</value></data>
+  <data name="StepTimelineStatusCancelled" xml:space="preserve"><value>abgebrochen</value></data>
+  <data name="StepTimelineStatusFailed" xml:space="preserve"><value>fehlgeschlagen</value></data>
+  <data name="StepTimelineStatusRunning" xml:space="preserve"><value>läuft</value></data>
+  <data name="StepTimelineStatusSkipped" xml:space="preserve"><value>übersprungen</value></data>
+  <data name="StepTimelineStatusSuccess" xml:space="preserve"><value>erfolgreich</value></data>
+  <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, gestartet um {1}, Dauer</value></data>
+  <data name="ConfirmAction" xml:space="preserve"><value>Bestätigen</value></data>
+  <data name="GoBack" xml:space="preserve"><value>Zurück</value></data>
+  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Badges und Aktionen anzeigen</value></data>
+  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Badges und Aktionen ausblenden</value></data>
+  <data name="DetailNotFound" xml:space="preserve"><value>Element nicht gefunden</value></data>
+  <data name="SignIn" xml:space="preserve"><value>Anmelden</value></data>
+  <data name="ConnectionLostTitle" xml:space="preserve"><value>Verbindung unterbrochen</value></data>
+  <data name="ConnectionLostDescription" xml:space="preserve"><value>Die Verbindung zum Server ist unterbrochen. Die Anwendung versucht, sie wiederherzustellen.</value></data>
+  <data name="ConnectionFailedTitle" xml:space="preserve"><value>Verbindung nicht möglich</value></data>
+  <data name="ConnectionFailedDescription" xml:space="preserve"><value>Die automatischen Versuche sind fehlgeschlagen. Versuchen Sie es erneut, sobald das Netzwerk wieder verfügbar ist.</value></data>
+  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Sitzung beendet</value></data>
+  <data name="ConnectionRejectedDescription" xml:space="preserve"><value>Der Server hat die Fortsetzung der Sitzung abgelehnt. Laden Sie die Seite neu, um fortzufahren.</value></data>
+  <data name="ConnectionRetryIn" xml:space="preserve"><value>Neuer Versuch in {0} s</value></data>
+  <data name="ConnectionReason" xml:space="preserve"><value>Ursache: {0}</value></data>
+  <data name="ConnectionReconnectNow" xml:space="preserve"><value>Jetzt neu verbinden</value></data>
+  <data name="ConnectionReload" xml:space="preserve"><value>Seite neu laden</value></data>
+  <data name="ConnectionReconnecting" xml:space="preserve"><value>Verbindung wird wiederhergestellt</value></data>
+  <data name="WizardLabel" xml:space="preserve"><value>Schritte des Assistenten</value></data>
+  <data name="WizardProgress" xml:space="preserve"><value>Fortschritt des Assistenten</value></data>
+  <data name="WizardPosition" xml:space="preserve"><value>Schritt {0} von {1}</value></data>
+  <data name="WizardAnnouncement" xml:space="preserve"><value>Schritt {0} von {1}: {2}</value></data>
+  <data name="WizardPrevious" xml:space="preserve"><value>Zurück</value></data>
+  <data name="WizardNext" xml:space="preserve"><value>Weiter</value></data>
+  <data name="WizardFinish" xml:space="preserve"><value>Fertigstellen</value></data>
+  <data name="RelativeTimeNow" xml:space="preserve"><value>gerade eben</value></data>
+  <data name="RelativeTimePast" xml:space="preserve"><value>vor {0}</value></data>
+  <data name="RelativeTimeFuture" xml:space="preserve"><value>in {0}</value></data>
+  <data name="RelativeTimeSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} Min.</value></data>
+  <data name="RelativeTimeHours" xml:space="preserve"><value>{0} Std.</value></data>
+  <data name="RelativeTimeDay" xml:space="preserve"><value>{0} Tag</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} Tagen</value></data>
+  <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} Monat</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} Monaten</value></data>
+  <data name="RelativeTimeYear" xml:space="preserve"><value>{0} Jahr</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} Jahren</value></data>
+  <data name="HtmlEditorUnderline" xml:space="preserve"><value>Unterstrichen</value></data>
+  <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Durchgestrichen</value></data>
+  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Inline-Code</value></data>
+  <data name="HtmlEditorBlockFormat" xml:space="preserve"><value>Absatzformat</value></data>
+  <data name="HtmlEditorParagraph" xml:space="preserve"><value>Absatz</value></data>
+  <data name="HtmlEditorHeading1" xml:space="preserve"><value>Überschrift 1</value></data>
+  <data name="HtmlEditorHeading2" xml:space="preserve"><value>Überschrift 2</value></data>
+  <data name="HtmlEditorHeading3" xml:space="preserve"><value>Überschrift 3</value></data>
+  <data name="HtmlEditorHeading4" xml:space="preserve"><value>Überschrift 4</value></data>
+  <data name="HtmlEditorFontSize" xml:space="preserve"><value>Textgröße</value></data>
+  <data name="HtmlEditorFontSizeSmall" xml:space="preserve"><value>Klein</value></data>
+  <data name="HtmlEditorFontSizeNormal" xml:space="preserve"><value>Normal</value></data>
+  <data name="HtmlEditorFontSizeLarge" xml:space="preserve"><value>Groß</value></data>
+  <data name="HtmlEditorFontSizeXLarge" xml:space="preserve"><value>Sehr groß</value></data>
+  <data name="HtmlEditorBulletList" xml:space="preserve"><value>Aufzählung</value></data>
+  <data name="HtmlEditorNumberedList" xml:space="preserve"><value>Nummerierte Liste</value></data>
+  <data name="HtmlEditorQuote" xml:space="preserve"><value>Zitat</value></data>
+  <data name="HtmlEditorCodeBlock" xml:space="preserve"><value>Codeblock</value></data>
+  <data name="HtmlEditorLink" xml:space="preserve"><value>Link</value></data>
+  <data name="HtmlEditorUnlink" xml:space="preserve"><value>Link entfernen</value></data>
+  <data name="HtmlEditorAlignLeft" xml:space="preserve"><value>Linksbündig</value></data>
+  <data name="HtmlEditorAlignCenter" xml:space="preserve"><value>Zentriert</value></data>
+  <data name="HtmlEditorAlignRight" xml:space="preserve"><value>Rechtsbündig</value></data>
+  <data name="HtmlEditorAlignJustify" xml:space="preserve"><value>Blocksatz</value></data>
+  <data name="HtmlEditorInsertTable" xml:space="preserve"><value>Tabelle einfügen</value></data>
+  <data name="HtmlEditorClearFormatting" xml:space="preserve"><value>Formatierung entfernen</value></data>
+  <data name="HtmlEditorSource" xml:space="preserve"><value>HTML-Quelltext</value></data>
+  <data name="HtmlEditorCustomCommand" xml:space="preserve"><value>Befehl</value></data>
+  <data name="HtmlEditorCut" xml:space="preserve"><value>Ausschneiden</value></data>
+  <data name="HtmlEditorCopy" xml:space="preserve"><value>Kopieren</value></data>
+  <data name="HtmlEditorPaste" xml:space="preserve"><value>Einfügen</value></data>
+  <data name="HtmlEditorInsertParagraph" xml:space="preserve"><value>Neuer Absatz</value></data>
+  <data name="HtmlEditorAddRowAbove" xml:space="preserve"><value>Zeile oberhalb einfügen</value></data>
+  <data name="HtmlEditorAddRowBelow" xml:space="preserve"><value>Zeile unterhalb einfügen</value></data>
+  <data name="HtmlEditorDeleteRow" xml:space="preserve"><value>Zeile löschen</value></data>
+  <data name="HtmlEditorAddColumnBefore" xml:space="preserve"><value>Spalte davor einfügen</value></data>
+  <data name="HtmlEditorAddColumnAfter" xml:space="preserve"><value>Spalte danach einfügen</value></data>
+  <data name="HtmlEditorDeleteColumn" xml:space="preserve"><value>Spalte löschen</value></data>
+  <data name="HtmlEditorMergeCellRight" xml:space="preserve"><value>Mit der rechten Zelle verbinden</value></data>
+  <data name="HtmlEditorMergeCellDown" xml:space="preserve"><value>Mit der unteren Zelle verbinden</value></data>
+  <data name="HtmlEditorSplitCell" xml:space="preserve"><value>Zelle teilen</value></data>
+  <data name="HtmlEditorSetCellSpan" xml:space="preserve"><value>Zelle erweitern</value></data>
+  <data name="HtmlEditorLinkUrl" xml:space="preserve"><value>Linkadresse</value></data>
+  <data name="HtmlEditorLinkApply" xml:space="preserve"><value>Anwenden</value></data>
+  <data name="HtmlEditorLinkCancel" xml:space="preserve"><value>Abbrechen</value></data>
+  <data name="HtmlEditorLinkInvalid" xml:space="preserve"><value>Adresse abgelehnt: Verwenden Sie eine relative, http-, https-, mailto- oder tel-Adresse.</value></data>
+  <data name="DocumentEditorLabel" xml:space="preserve"><value>Textverarbeitung</value></data>
+  <data name="DocumentEditorStatus" xml:space="preserve"><value>Dokumentstatistik</value></data>
+  <data name="DocumentEditorWords" xml:space="preserve"><value>Wörter: {0}</value></data>
+  <data name="DocumentEditorCharacters" xml:space="preserve"><value>Zeichen: {0}</value></data>
+  <data name="DocumentEditorExportHtml" xml:space="preserve"><value>Als HTML exportieren</value></data>
+  <data name="DocumentEditorExportText" xml:space="preserve"><value>Als Text exportieren</value></data>
+  <data name="DocumentEditorDefaultTitle" xml:space="preserve"><value>Dokument</value></data>
+  <data name="CodeEditorLabel" xml:space="preserve"><value>Code-Editor</value></data>
+  <data name="CodeEditorLoading" xml:space="preserve"><value>Code-Editor wird geladen.</value></data>
+  <data name="CodeEditorUnavailable" xml:space="preserve"><value>Der Monaco-Editor konnte nicht geladen werden: Der Code wird als reiner Text bearbeitet.</value></data>
+  <data name="CodeEditorPosition" xml:space="preserve"><value>Zeile {0}, Spalte {1}</value></data>
+  <data name="CodeEditorLinkHint" xml:space="preserve"><value>Strg+Klick, um dem Link zu folgen</value></data>
+  <data name="StatusBadgeStale" xml:space="preserve"><value>veraltet</value></data>
+  <data name="StatusBadgeStaleSince" xml:space="preserve"><value>Letzte Aktualisierung: {0}</value></data>
+  <data name="LogViewerLabel" xml:space="preserve"><value>Protokoll</value></data>
+  <data name="LogViewerEmpty" xml:space="preserve"><value>Noch keine Zeilen.</value></data>
+  <data name="LogViewerSearch" xml:space="preserve"><value>Im Protokoll suchen</value></data>
+  <data name="LogViewerAllLevels" xml:space="preserve"><value>Alle Stufen</value></data>
+  <data name="LogViewerLevelFilter" xml:space="preserve"><value>Mindeststufe</value></data>
+  <data name="LogViewerFromLevel" xml:space="preserve"><value>{0} und höher</value></data>
+  <data name="LogViewerPreviousMatch" xml:space="preserve"><value>Vorheriger Treffer</value></data>
+  <data name="LogViewerNextMatch" xml:space="preserve"><value>Nächster Treffer</value></data>
+  <data name="LogViewerNoMatch" xml:space="preserve"><value>Keine Treffer</value></data>
+  <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} von {1}</value></data>
+  <data name="LogViewerFollow" xml:space="preserve"><value>Folgen</value></data>
+  <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Zu den neuesten Zeilen</value></data>
+  <data name="LogViewerNewLines" xml:space="preserve"><value>{0} neue Zeilen</value></data>
+  <data name="LogViewerLevelPrefix" xml:space="preserve"><value>{0}: </value></data>
+  <data name="LogLevelTrace" xml:space="preserve"><value>Ablaufverfolgung</value></data>
+  <data name="LogLevelDebug" xml:space="preserve"><value>Debug</value></data>
+  <data name="LogLevelInformation" xml:space="preserve"><value>Information</value></data>
+  <data name="LogLevelWarning" xml:space="preserve"><value>Warnung</value></data>
+  <data name="LogLevelError" xml:space="preserve"><value>Fehler</value></data>
+  <data name="LogLevelCritical" xml:space="preserve"><value>Kritisch</value></data>
+  <data name="CodeBlockCopy" xml:space="preserve"><value>Kopieren</value></data>
+  <data name="CodeBlockCopied" xml:space="preserve"><value>In die Zwischenablage kopiert</value></data>
+  <data name="CodeBlockCopyFailed" xml:space="preserve"><value>Kopieren fehlgeschlagen</value></data>
+  <data name="CodeBlockReveal" xml:space="preserve"><value>Wert anzeigen</value></data>
+  <data name="CodeBlockHide" xml:space="preserve"><value>Wert ausblenden</value></data>
+  <data name="CodeViewerLabel" xml:space="preserve"><value>Code</value></data>
+  <data name="CodeViewerEmpty" xml:space="preserve"><value>Nichts anzuzeigen.</value></data>
+  <data name="CodeViewerWrap" xml:space="preserve"><value>Zeilenumbruch</value></data>
+  <data name="CodeViewerLinkHint" xml:space="preserve"><value>Link folgen</value></data>
+  <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Keine Änderungen.</value></data>
+  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0} Zeilen hinzugefügt, {1} Zeilen entfernt</value></data>
+  <data name="UnifiedDiffBinary" xml:space="preserve"><value>Binärdatei: keine Zeilen zu vergleichen.</value></data>
+  <data name="UnifiedDiffNoLines" xml:space="preserve"><value>Keine geänderten Zeilen.</value></data>
+  <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Zeile vorher</value></data>
+  <data name="UnifiedDiffNewLine" xml:space="preserve"><value>Zeile nachher</value></data>
+  <data name="UnifiedDiffContent" xml:space="preserve"><value>Inhalt</value></data>
+  <data name="UnifiedDiffAdded" xml:space="preserve"><value>Hinzugefügt: </value></data>
+  <data name="UnifiedDiffRemoved" xml:space="preserve"><value>Entfernt: </value></data>
+  <data name="UnifiedDiffRenamedPath" xml:space="preserve"><value>{0} nach {1}</value></data>
+  <data name="UnifiedDiffUntitled" xml:space="preserve"><value>Änderung</value></data>
+  <data name="UnifiedDiffStatusModified" xml:space="preserve"><value>Geändert</value></data>
+  <data name="UnifiedDiffStatusAdded" xml:space="preserve"><value>Hinzugefügt</value></data>
+  <data name="UnifiedDiffStatusDeleted" xml:space="preserve"><value>Gelöscht</value></data>
+  <data name="UnifiedDiffStatusRenamed" xml:space="preserve"><value>Umbenannt</value></data>
+  <data name="DynamicFormRequired" xml:space="preserve"><value>{0} ist erforderlich.</value></data>
+  <data name="DynamicFormNumber" xml:space="preserve"><value>{0} muss eine Zahl sein.</value></data>
+  <data name="DynamicFormMinimum" xml:space="preserve"><value>{0} muss mindestens {1} betragen.</value></data>
+  <data name="DynamicFormMaximum" xml:space="preserve"><value>{0} darf höchstens {1} betragen.</value></data>
+  <data name="DynamicFormChoice" xml:space="preserve"><value>{0} muss einer der angebotenen Werte sein.</value></data>
+  <data name="StatusStripLabel" xml:space="preserve"><value>Statusverlauf</value></data>
+  <data name="StatusStripEmpty" xml:space="preserve"><value>Kein Status anzuzeigen</value></data>
+  <data name="KanbanLabel" xml:space="preserve"><value>Kartenboard</value></data>
+  <data name="KanbanInstructions" xml:space="preserve"><value>Leertaste oder Eingabe, um die Karte aufzunehmen, Pfeiltasten, um sie zu verschieben, Leertaste oder Eingabe, um sie abzulegen, Esc zum Abbrechen.</value></data>
+  <data name="KanbanGrabbed" xml:space="preserve"><value>{0} aufgenommen, Spalte {1}, Position {2} von {3}.</value></data>
+  <data name="KanbanMoved" xml:space="preserve"><value>{0}: Spalte {1}, Position {2} von {3}.</value></data>
+  <data name="KanbanDropped" xml:space="preserve"><value>{0} abgelegt, Spalte {1}, Position {2} von {3}.</value></data>
+  <data name="KanbanCancelled" xml:space="preserve"><value>Verschieben abgebrochen: {0} bleibt in Spalte {1}.</value></data>
+  <data name="KanbanEmptyColumn" xml:space="preserve"><value>Keine Karten</value></data>
+  <data name="KanbanCardCount" xml:space="preserve"><value>Karten: {0}</value></data>
+  <data name="GitGraphLabel" xml:space="preserve"><value>Commit-Verlauf</value></data>
+  <data name="GitGraphEmpty" xml:space="preserve"><value>Keine Commits</value></data>
+  <data name="StepTimelineExpected" xml:space="preserve"><value>{0} % der üblichen Dauer vergangen</value></data>
+  <data name="StepTimelineOverrun" xml:space="preserve"><value>über der üblichen Dauer</value></data>
+  <data name="DiffViewerLabel" xml:space="preserve"><value>Vergleich</value></data>
+  <data name="DiffViewerOriginal" xml:space="preserve"><value>Vorher</value></data>
+  <data name="DiffViewerModified" xml:space="preserve"><value>Nachher</value></data>
+  <data name="DiffViewerUnavailable" xml:space="preserve"><value>Der Monaco-Editor konnte nicht geladen werden: Beide Versionen werden als reiner Text angezeigt, ohne markierte Unterschiede.</value></data>
+  <data name="GitGraphMerge" xml:space="preserve"><value>Merge-Commit.</value></data>
+  <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="LinkOpensInNewTab" xml:space="preserve"><value>(öffnet in einem neuen Tab)</value></data>
+  <data name="MarkdownExportButton" xml:space="preserve"><value>Als .md exportieren</value></data>
+  <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limit: höchstens {0} Zeilen</value></data>
+  <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Erstellt am (UTC): {0}</value></data>
+  <data name="MarkdownExportRowCount" xml:space="preserve"><value>Exportierte Zeilen: {0} von {1} angekündigten</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Export gekürzt: {0} von {1} Zeilen exportiert, das Limit von {2} Zeilen ist erreicht.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export unvollständig: {0} von {1} angekündigten Zeilen exportiert, die Daten haben sich während des Lesens geändert.</value></data>
+  <data name="MarkdownExportEmpty" xml:space="preserve"><value>Keine Zeilen.</value></data>
+  <data name="SignUp" xml:space="preserve"><value>Registrieren</value></data>
+  <data name="SignUpPrompt" xml:space="preserve"><value>Noch kein Konto?</value></data>
+  <data name="UnsavedChangesTitle" xml:space="preserve"><value>Nicht gespeicherte Änderungen</value></data>
+  <data name="UnsavedChangesMessage" xml:space="preserve"><value>Einige Änderungen sind nicht gespeichert. Seite verlassen, ohne sie zu speichern?</value></data>
+  <data name="UnsavedChangesLeave" xml:space="preserve"><value>Ohne Speichern verlassen</value></data>
+  <data name="UnsavedChangesStay" xml:space="preserve"><value>Auf der Seite bleiben</value></data>
+  <data name="MoreActions" xml:space="preserve"><value>Weitere Aktionen</value></data>
+  <data name="AppearanceWindowTitle" xml:space="preserve"><value>Darstellung</value></data>
+</root>

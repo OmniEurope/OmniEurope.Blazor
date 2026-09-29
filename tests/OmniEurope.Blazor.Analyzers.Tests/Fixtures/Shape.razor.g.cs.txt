@@ -34,7 +34,7 @@ using OmniEurope.Blazor.Components
             __builder.AddComponentParameter(1, nameof(global::OmniEurope.Blazor.Components.OmniBadge.
 #nullable restore
 #line (1,12)-(1,16) "C:\fixture\Shape.razor"
-Text
+Tone
 
 #line default
 #line hidden

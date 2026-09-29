@@ -17,7 +17,7 @@ public sealed class SelectionLifecycleTests : OmniBunitContext
     [Fact]
     public async Task SelectBar_LeavingThePage_UnsubscribesFromTheEditContext()
     {
-        JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-focus.js").Mode = JSRuntimeMode.Loose;
+        JSInterop.SetupModule(Internal.OmniModules.Focus).Mode = JSRuntimeMode.Loose;
         var model = new Model();
         var context = new EditContext(model);
         Render<OmniSelectBar<string>>(parameters => parameters
@@ -89,7 +89,7 @@ public sealed class SelectionLifecycleTests : OmniBunitContext
     {
         string? value = null;
         var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
-            .Add(component => component.DebounceMilliseconds, 0)
+            .Add(component => component.Debounce, TimeSpan.Zero)
             .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>(Options))
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value!)
@@ -108,7 +108,7 @@ public sealed class SelectionLifecycleTests : OmniBunitContext
     {
         var value = "a";
         var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
-            .Add(component => component.DebounceMilliseconds, 0)
+            .Add(component => component.Debounce, TimeSpan.Zero)
             .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>(Options))
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
@@ -117,7 +117,7 @@ public sealed class SelectionLifecycleTests : OmniBunitContext
 
         autocomplete.Render(parameters => parameters.Add(component => component.Disabled, true));
         var option = autocomplete.FindAll(".omni-autocomplete__option")[1];
-        Assert.True(option.HasAttribute("disabled"));
+        Assert.Equal("true", option.GetAttribute("aria-disabled"));
         await autocomplete.InvokeAsync(() => option.Click());
 
         Assert.Equal("a", value);

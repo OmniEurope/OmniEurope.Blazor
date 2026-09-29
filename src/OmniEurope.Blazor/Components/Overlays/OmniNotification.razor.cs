@@ -3,6 +3,12 @@ using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// One notification card: a severity mark, an optional title, the message (folded past a length, with
+/// a control to unfold it), an optional action, a link to the details of a very long message and a
+/// close button. Announced politely, assertively for <see cref="OmniSeverity.Danger"/>. Drawn by
+/// <see cref="OmniComponentsHost"/> for <see cref="OmniOverlayService.Notify(string, OmniSeverity, string?, TimeSpan?)"/>, or directly.
+/// </summary>
 public partial class OmniNotification
 {
     /// <summary>Longest life the stylesheet has a class for, in whole seconds.</summary>
@@ -17,17 +23,25 @@ public partial class OmniNotification
     private bool _focusInside;
     private bool _held;
 
+    /// <summary>The text of the notification.</summary>
     [Parameter, EditorRequired]
     public string Message { get; set; } = string.Empty;
 
+    /// <summary>A short title above the message. Null, the default, draws none.</summary>
     [Parameter]
     public string? Title { get; set; }
 
+    /// <summary>The severity: the mark, the colour and how the card is announced. <see cref="OmniSeverity.Info"/> by default.</summary>
     [Parameter]
     public OmniSeverity Severity { get; set; }
 
+    /// <summary>Draws the close button, which raises <see cref="OnDismiss"/>. On by default.</summary>
     [Parameter]
     public bool Dismissible { get; set; } = true;
+
+    /// <summary>Accessible name and tooltip of the close button. Null, the default, is the localized "Dismiss notification".</summary>
+    [Parameter]
+    public string? CloseLabel { get; set; }
 
     /// <summary>
     /// Tints the card in the colour of its severity and drains the tint over the time it has left.
@@ -45,14 +59,15 @@ public partial class OmniNotification
     [Parameter]
     public string? DetailsHref { get; set; }
 
-    /// <summary>The label of the action offered as a button; with <see cref="OnAction"/>, the button shows.</summary>
+    /// <summary>The label of the action offered as a button; with <see cref="OnActionClick"/>, the button shows.</summary>
     [Parameter]
     public string? ActionText { get; set; }
 
     /// <summary>Raised when the reader chooses the action.</summary>
     [Parameter]
-    public EventCallback OnAction { get; set; }
+    public EventCallback OnActionClick { get; set; }
 
+    /// <summary>Raised when the reader presses the close button.</summary>
     [Parameter]
     public EventCallback OnDismiss { get; set; }
 
@@ -62,28 +77,24 @@ public partial class OmniNotification
     /// stylesheet holds the tint.
     /// </summary>
     [Parameter]
-    public EventCallback<bool> OnHeldChanged { get; set; }
+    public EventCallback<bool> OnHeldChange { get; set; }
 
     // The classes keep the names they had before the severities were merged with those of the alert.
     private string SeverityClass => Severity switch
     {
         OmniSeverity.Success => "omni-notification--success",
         OmniSeverity.Warning => "omni-notification--warning",
-        OmniSeverity.Danger => "omni-notification--error",
-        _ => "omni-notification--information"
+        OmniSeverity.Danger => "omni-notification--danger",
+        _ => "omni-notification--info"
     };
     private string Role => Severity == OmniSeverity.Danger ? "alert" : "status";
     private string LiveMode => Severity == OmniSeverity.Danger ? "assertive" : "polite";
     private string MessageId => _messageId;
 
+    private string EffectiveCloseLabel => LocalizeOr(CloseLabel, "NotificationDismiss");
+
     // The mark is the alert disc: the same glyph per severity, on the same bright or deep fill.
-    private string GlyphPath => Severity switch
-    {
-        OmniSeverity.Success => OmniSeverityGlyph.Success,
-        OmniSeverity.Warning => OmniSeverityGlyph.Warning,
-        OmniSeverity.Danger => OmniSeverityGlyph.Danger,
-        _ => OmniSeverityGlyph.Information
-    };
+    private string GlyphPath => OmniSeverityGlyph.For(Severity);
 
     private bool IsLong => Message.Length > OmniNotificationStore.LongMessageThreshold;
     private bool Folded => IsLong && !_expanded;
@@ -133,6 +144,6 @@ public partial class OmniNotification
         }
 
         _held = held;
-        return OnHeldChanged.InvokeAsync(held);
+        return OnHeldChange.InvokeAsync(held);
     }
 }

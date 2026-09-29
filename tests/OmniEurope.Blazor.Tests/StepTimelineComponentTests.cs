@@ -1,4 +1,5 @@
 using Bunit;
+using Microsoft.Extensions.DependencyInjection;
 using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Internal;
 
@@ -68,9 +69,9 @@ public sealed class StepTimelineComponentTests : OmniBunitContext
     [Fact]
     public void Render_DrawsARowPerStartedStep_WithItsBarItsDurationAndItsStatus()
     {
+        UseNow(Run.AddSeconds(240));
         var timeline = Render<OmniStepTimeline>(parameters => parameters
-            .Add(component => component.Steps, Steps())
-            .Add(component => component.Now, Run.AddSeconds(240)));
+            .Add(component => component.Steps, Steps()));
 
         var rows = timeline.FindAll(".omni-step-timeline__step");
         Assert.Equal(3, rows.Count);
@@ -101,5 +102,13 @@ public sealed class StepTimelineComponentTests : OmniBunitContext
         Assert.Empty(timeline.FindAll(".omni-step-timeline__scale"));
         Assert.Contains("Seule", timeline.Find(".omni-step-timeline__never").TextContent, StringComparison.Ordinal);
         Assert.Equal("Exécution 12", timeline.Find("section").GetAttribute("aria-label"));
+    }
+
+    /// <summary>Registers a component clock reading <paramref name="now"/>, where a running step ends.</summary>
+    private void UseNow(DateTimeOffset now) => Services.AddSingleton<TimeProvider>(new FixedTimeProvider(now));
+
+    private sealed class FixedTimeProvider(DateTimeOffset value) : TimeProvider
+    {
+        public override DateTimeOffset GetUtcNow() => value;
     }
 }

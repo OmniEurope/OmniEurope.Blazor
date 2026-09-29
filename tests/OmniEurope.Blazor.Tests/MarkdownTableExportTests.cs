@@ -12,7 +12,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class MarkdownTableExportTests : OmniBunitContext
 {
-    private const string DownloadModulePath = "./_content/OmniEurope.Blazor/omni-document-editor.js";
+    private const string DownloadModulePath = Internal.OmniModules.DocumentEditor;
     private static readonly DateTimeOffset Now = new(2026, 9, 26, 14, 5, 9, TimeSpan.Zero);
 
     private sealed record Row(int Id, string Name, string? Note = null);
@@ -186,7 +186,7 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
         var button = Render<OmniMarkdownExportButton<Row>>(parameters => parameters
             .Add(component => component.Export, () => Export(250, requests))
             .Add(component => component.FileName, "erreurs-app3")
-            .Add(component => component.OnExported, document => exported = document));
+            .Add(component => component.OnExport, document => exported = document));
 
         Assert.Contains("Exporter en .md", button.Markup, StringComparison.Ordinal);
         button.Find("button").Click();
@@ -209,7 +209,7 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
         var button = Render<OmniMarkdownExportButton<Row>>(parameters => parameters
             .Add(component => component.Export, () => Export(0, []) with { LoadPage = _ => throw new HttpRequestException("down") })
             .Add(component => component.Text, "Exporter les erreurs")
-            .Add(component => component.OnError, exception => error = exception));
+            .Add(component => component.OnExportError, exception => error = exception));
 
         Assert.Contains("Exporter les erreurs", button.Markup, StringComparison.Ordinal);
         button.Find("button").Click();

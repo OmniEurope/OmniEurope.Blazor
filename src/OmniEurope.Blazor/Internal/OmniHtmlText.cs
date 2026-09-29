@@ -92,10 +92,10 @@ internal static partial class OmniHtmlText
     private static string? Declaration(string className) => className switch
     {
         "omni-align-center" => "text-align: center",
-        "omni-align-right" => "text-align: right",
+        "omni-align-end" => "text-align: end",
         "omni-align-justify" => "text-align: justify",
         "omni-font-size-small" => "font-size: 0.85em",
-        "omni-font-size-normal" => "font-size: 1rem",
+        "omni-font-size-normal" => "font-size: 1em",
         "omni-font-size-large" => "font-size: 1.3em",
         "omni-font-size-xlarge" => "font-size: 1.7em",
         _ => null

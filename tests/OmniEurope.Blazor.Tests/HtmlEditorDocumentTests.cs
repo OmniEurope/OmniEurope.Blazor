@@ -10,8 +10,8 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class HtmlEditorDocumentTests : OmniBunitContext
 {
-    private const string EditorModulePath = "./_content/OmniEurope.Blazor/omni-html-editor.js";
-    private const string DocumentModulePath = "./_content/OmniEurope.Blazor/omni-document-editor.js";
+    private const string EditorModulePath = OmniModules.HtmlEditor;
+    private const string DocumentModulePath = OmniModules.DocumentEditor;
 
     private const string Sample =
         "<h1>Rapport annuel</h1><p class=\"omni-align-center\">Un <span class=\"omni-font-size-large\">grand</span> résumé.</p>" +

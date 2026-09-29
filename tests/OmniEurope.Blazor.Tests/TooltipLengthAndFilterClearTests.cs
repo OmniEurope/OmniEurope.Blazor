@@ -93,7 +93,7 @@ public sealed class TooltipLengthAndFilterClearTests : OmniBunitContext
     {
         var grid = Render<OmniDataGrid<Row>>(parameters => parameters
             .Add(component => component.Items, new[] { new Row(1, "Alpha"), new Row(2, "Beta") })
-            .Add(component => component.AllowFiltering, true)
+            .Add(component => component.Filterable, true)
             .Add(component => component.FilterMode, mode)
             .Add(component => component.ShowHeaderFilterMenu, true)
             .Add(component => component.Columns, (RenderFragment)(builder =>
@@ -124,7 +124,7 @@ public sealed class TooltipLengthAndFilterClearTests : OmniBunitContext
     [Fact]
     public void Heading_scale_decreases_and_a_page_title_takes_the_h1_size()
     {
-        var root = ShippedLookTests.Body(":root");
+        var root = ShippedLookTests.ShapeDefaults();
         var sizes = Enumerable.Range(1, 6)
             .Select(level => double.Parse(ShippedLookTests.Value(root, $"--omni-font-size-h{level}").Replace("rem", string.Empty, StringComparison.Ordinal), CultureInfo.InvariantCulture))
             .ToArray();
@@ -146,15 +146,15 @@ public sealed class TooltipLengthAndFilterClearTests : OmniBunitContext
         var settings = Render<OmniAppearanceSettings>(parameters => parameters
             .Add(component => component.Compact, true)
             .Add(component => component.TextSizeLevel, 6)
-            .Add(component => component.DensityLevel, 4)
+            .Add(component => component.Density, OmniDensity.Compact)
             .Add(component => component.ControlSizeLevel, 7)
             .Add(component => component.TextSizeLevelChanged, _ => { })
-            .Add(component => component.DensityLevelChanged, _ => { })
+            .Add(component => component.DensityChanged, _ => { })
             .Add(component => component.ControlSizeLevelChanged, _ => { }));
 
         var row = settings.Find(".omni-appearance-settings__row--scale");
-        Assert.Equal("Tailles", row.QuerySelector(".omni-appearance-settings__label")!.TextContent.Trim());
-        Assert.Equal("Texte 6 · Densité 4 · Contrôles 7", row.QuerySelector(".omni-appearance-settings__summary")!.TextContent);
+        Assert.Equal("Thème et tailles", row.QuerySelector(".omni-appearance-settings__label")!.TextContent.Trim());
+        Assert.Equal("Essentiel · Texte 6 · Compacte · Contrôles 7", row.QuerySelector(".omni-appearance-settings__summary")!.TextContent);
         Assert.Contains("omni-button--success", row.QuerySelector("button")!.ClassName, StringComparison.Ordinal);
     }
 
@@ -163,10 +163,10 @@ public sealed class TooltipLengthAndFilterClearTests : OmniBunitContext
     {
         var settings = Render<OmniAppearanceSettings>(parameters => parameters
             .Add(component => component.TextSizeLevelChanged, _ => { })
-            .Add(component => component.DensityLevelChanged, _ => { }));
+            .Add(component => component.DensityChanged, _ => { }));
 
         var row = settings.Find(".omni-appearance-settings__row--scale");
-        Assert.Equal("Taille du texte / Densité", row.QuerySelector(".omni-appearance-settings__label")!.TextContent.Trim());
+        Assert.Equal("Thème, palette et tailles", row.QuerySelector(".omni-appearance-settings__label")!.TextContent.Trim());
         Assert.Empty(row.QuerySelectorAll(".omni-appearance-settings__summary"));
         Assert.Contains("omni-button--success", row.QuerySelector("button")!.ClassName, StringComparison.Ordinal);
     }
@@ -180,9 +180,9 @@ public sealed class TooltipLengthAndFilterClearTests : OmniBunitContext
         var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.DebounceMilliseconds, 0)
+            .Add(component => component.Debounce, TimeSpan.Zero)
             .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>([new("FR", "France"), new("BE", "Belgique")]))
-            .Add(component => component.OptionIcon, option => builder => builder.AddMarkupContent(0, $"<i class=\"flag\">{option.Value}</i>")));
+            .Add(component => component.OptionIconTemplate, option => builder => builder.AddMarkupContent(0, $"<i class=\"flag\">{option.Value}</i>")));
 
         await autocomplete.Find("input").InputAsync(new ChangeEventArgs { Value = "fr" });
 

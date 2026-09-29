@@ -9,7 +9,7 @@
     </OmniPanelMenuItem>
 </OmniPanelMenu>
 
-<OmniTabs @bind-Value="Tab" Keys="@TabKeys">
+<OmniTabs @bind-Value="Tab">
     <OmniTabsItem Key="first" Title="Premier">Contenu 1</OmniTabsItem>
     <OmniTabsItem Key="second" Title="Second" OnDrop="OnTabDrop">
         <TitleContent><span class="host-tab-count">Second (2)</span></TitleContent>
@@ -23,8 +23,8 @@
 </OmniSteps>
 
 <OmniProfileMenu Summary="@ProfileSummary">
-    <OmniProfileMenuItem Href="/profile">Profil</OmniProfileMenuItem>
-    <OmniProfileMenuItem OnClick="SignOut">Déconnexion</OmniProfileMenuItem>
+    <OmniMenuItem Href="/profile">Profil</OmniMenuItem>
+    <OmniMenuItem OnClick="SignOut">Déconnexion</OmniMenuItem>
 </OmniProfileMenu>
 
 @code {
@@ -34,7 +34,6 @@
     public bool SignedOut { get; set; }
     public int Dropped { get; set; }
     private void OnTabDrop(Microsoft.AspNetCore.Components.Web.DragEventArgs _) => Dropped++;
-    private IReadOnlyList<string> TabKeys { get; } = ["first", "second"];
     private RenderFragment ProfileSummary => builder => builder.AddContent(0, "Alice");
     private Task<bool> CanNavigateAsync(int _) => Task.FromResult(AllowStep);
     private void SignOut() => SignedOut = true;

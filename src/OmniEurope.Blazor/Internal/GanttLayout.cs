@@ -32,14 +32,14 @@ internal sealed class GanttLayout
     private const double LabelPadding = 6;
 
     /// <summary>Width of one day in pixels, per zoom.</summary>
-    internal static double DayWidth(OmniGanttScale scale) => scale switch
+    internal static double DayWidth(OmniCalendarView scale) => scale switch
     {
-        OmniGanttScale.Day => 32,
-        OmniGanttScale.Week => 14,
+        OmniCalendarView.Day => 32,
+        OmniCalendarView.Week => 14,
         _ => 4
     };
 
-    private GanttLayout(OmniGanttScale scale, DateOnly start, DateOnly end)
+    private GanttLayout(OmniCalendarView scale, DateOnly start, DateOnly end)
     {
         Scale = scale;
         RangeStart = start;
@@ -47,7 +47,7 @@ internal sealed class GanttLayout
         PixelsPerDay = DayWidth(scale);
     }
 
-    internal OmniGanttScale Scale { get; }
+    internal OmniCalendarView Scale { get; }
 
     /// <summary>First day drawn.</summary>
     internal DateOnly RangeStart { get; }
@@ -78,7 +78,7 @@ internal sealed class GanttLayout
     /// <summary>Distance of a day's left edge from the chart's left edge.</summary>
     internal double X(DateOnly day) => (day.DayNumber - RangeStart.DayNumber) * PixelsPerDay;
 
-    internal static GanttLayout Build(IReadOnlyList<OmniGanttTask> tasks, OmniGanttScale scale, bool grouped, DateOnly today, CultureInfo culture)
+    internal static GanttLayout Build(IReadOnlyList<OmniGanttTask> tasks, OmniCalendarView scale, bool grouped, DateOnly today, CultureInfo culture, Func<int, string> weekLabel)
     {
         var (first, last) = tasks.Count == 0
             ? (today, today)
@@ -86,7 +86,7 @@ internal sealed class GanttLayout
         var (start, end) = Range(first, last, scale);
         var layout = new GanttLayout(scale, start, end);
         layout.PlaceRows(tasks, grouped);
-        layout.PlaceHeader(culture);
+        layout.PlaceHeader(culture, weekLabel);
         layout.PlaceDependencies();
         if (today >= start && today < end)
         {
@@ -100,13 +100,13 @@ internal sealed class GanttLayout
     /// The days drawn: the tasks' span with a margin, and whole weeks or whole months at those zooms
     /// so the header never starts on a cut column.
     /// </summary>
-    internal static (DateOnly Start, DateOnly End) Range(DateOnly first, DateOnly last, OmniGanttScale scale)
+    internal static (DateOnly Start, DateOnly End) Range(DateOnly first, DateOnly last, OmniCalendarView scale)
     {
         switch (scale)
         {
-            case OmniGanttScale.Day:
+            case OmniCalendarView.Day:
                 return (first.AddDays(-2), last.AddDays(3));
-            case OmniGanttScale.Week:
+            case OmniCalendarView.Week:
                 var monday = first.AddDays(-(((int)first.DayOfWeek + 6) % 7));
                 var nextMonday = last.AddDays(7 - (((int)last.DayOfWeek + 6) % 7));
                 return (monday.AddDays(-7), nextMonday.AddDays(7));
@@ -163,9 +163,9 @@ internal sealed class GanttLayout
         Rows.Add(new GanttRow(top, task.Title, task, new GanttBar(x, top + ((RowHeight - BarHeight) / 2), width, BarHeight, width * progress, fits), false));
     }
 
-    private void PlaceHeader(CultureInfo culture)
+    private void PlaceHeader(CultureInfo culture, Func<int, string> weekLabel)
     {
-        if (Scale == OmniGanttScale.Month)
+        if (Scale == OmniCalendarView.Month)
         {
             AddSpans(TopTier, day => new DateOnly(day.Year, 1, 1), day => day.AddYears(1), day => day.Year.ToString(culture));
             AddSpans(BottomTier, day => new DateOnly(day.Year, day.Month, 1), day => day.AddMonths(1), day => day.ToString("MMM", culture));
@@ -173,13 +173,13 @@ internal sealed class GanttLayout
         }
 
         AddSpans(TopTier, day => new DateOnly(day.Year, day.Month, 1), day => day.AddMonths(1), day => day.ToString("MMMM yyyy", culture));
-        if (Scale == OmniGanttScale.Week)
+        if (Scale == OmniCalendarView.Week)
         {
             AddSpans(
                 BottomTier,
                 day => day.AddDays(-(((int)day.DayOfWeek + 6) % 7)),
                 day => day.AddDays(7),
-                day => "S" + ISOWeek.GetWeekOfYear(day.ToDateTime(TimeOnly.MinValue)).ToString(culture));
+                day => weekLabel(ISOWeek.GetWeekOfYear(day.ToDateTime(TimeOnly.MinValue))));
             return;
         }
 

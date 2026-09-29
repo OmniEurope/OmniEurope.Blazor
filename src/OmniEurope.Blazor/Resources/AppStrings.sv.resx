@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="UploadFailed" xml:space="preserve"><value>Uppladdningen misslyckades.</value></data>
+  <data name="Today" xml:space="preserve"><value>Idag</value></data>
+  <data name="Retry" xml:space="preserve"><value>Försök igen</value></data>
+  <data name="Loading" xml:space="preserve"><value>Läser in…</value></data>
+  <data name="AppearanceLight" xml:space="preserve"><value>Ljust</value></data>
+  <data name="AppearanceDark" xml:space="preserve"><value>Mörkt</value></data>
+  <data name="AppearanceSystem" xml:space="preserve"><value>System</value></data>
+  <data name="SettingsMode" xml:space="preserve"><value>Läge</value></data>
+  <data name="SettingsTheme" xml:space="preserve"><value>Tema</value></data>
+  <data name="SettingsPalette" xml:space="preserve"><value>Palett</value></data>
+  <data name="SettingsFont" xml:space="preserve"><value>Teckensnitt</value></data>
+  <data name="SettingsTextSize" xml:space="preserve"><value>Textstorlek</value></data>
+  <data name="SettingsDensity" xml:space="preserve"><value>Täthet</value></data>
+  <data name="SettingsControlSize" xml:space="preserve"><value>Kontrollernas storlek</value></data>
+  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Kontroller</value></data>
+  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Text</value></data>
+  <data name="SettingsDensityShort" xml:space="preserve"><value>Täthet</value></data>
+  <data name="SettingsScale" xml:space="preserve"><value>Storlekar</value></data>
+  <data name="SettingsDefault" xml:space="preserve"><value>Standard</value></data>
+  <data name="SettingsDefaultSuffix" xml:space="preserve"><value>standard</value></data>
+  <data name="SettingsDecrease" xml:space="preserve"><value>Minska</value></data>
+  <data name="SettingsIncrease" xml:space="preserve"><value>Öka</value></data>
+  <data name="ArcGaugeLabel" xml:space="preserve"><value>Mätare</value></data>
+  <data name="LabelValuePair" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="ChartCategoryColumn" xml:space="preserve"><value>Kategori</value></data>
+  <data name="ChartValueColumn" xml:space="preserve"><value>Värde</value></data>
+  <data name="ChartSeriesFallback" xml:space="preserve"><value>Serie {0}</value></data>
+  <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Sökningen misslyckades. Ändra inmatningen för att försöka igen.</value></data>
+  <data name="AutocompleteOneResult" xml:space="preserve"><value>1 resultat tillgängligt.</value></data>
+  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} resultat tillgängliga.</value></data>
+  <data name="AutocompleteSelected" xml:space="preserve"><value>{0} har valts.</value></data>
+  <data name="AutocompleteInvalid" xml:space="preserve"><value>Värdet för autokomplettering är ogiltigt.</value></data>
+  <data name="BreadcrumbLabel" xml:space="preserve"><value>Sökväg</value></data>
+  <data name="CheckBoxInvalid" xml:space="preserve"><value>Kryssrutans värde är ogiltigt.</value></data>
+  <data name="CheckBoxListInvalid" xml:space="preserve"><value>Listan med kryssrutor är ogiltig.</value></data>
+  <data name="ColorPickerInvalid" xml:space="preserve"><value>Färgen måste ha formatet #RRGGBB.</value></data>
+  <data name="NotificationsRegionLabel" xml:space="preserve"><value>Aviseringar</value></data>
+  <data name="ContextMenuLabel" xml:space="preserve"><value>Snabbmeny</value></data>
+  <data name="GridLoadFailed" xml:space="preserve"><value>Det gick inte att läsa in tabellen.</value></data>
+  <data name="GridDetailColumn" xml:space="preserve"><value>Detaljer</value></data>
+  <data name="GridSelectionColumn" xml:space="preserve"><value>Markering</value></data>
+  <data name="GridResizeColumn" xml:space="preserve"><value>Ändra storlek på {0}</value></data>
+  <data name="GridEditColumn" xml:space="preserve"><value>Redigering</value></data>
+  <data name="GridFilterColumn" xml:space="preserve"><value>Filtrera {0}</value></data>
+  <data name="GridEmpty" xml:space="preserve"><value>Inga data.</value></data>
+  <data name="GridEmptyFiltered" xml:space="preserve"><value>Inga resultat matchar filtren.</value></data>
+  <data name="GridValueColumn" xml:space="preserve"><value>Värde</value></data>
+  <data name="GridFilterPlaceholder" xml:space="preserve"><value>Filtrera</value></data>
+  <data name="GridFilterOperator" xml:space="preserve"><value>Filteroperator för {0}</value></data>
+  <data name="GridFilterSecondOperator" xml:space="preserve"><value>Andra filteroperator för {0}</value></data>
+  <data name="GridFilterSecondValue" xml:space="preserve"><value>Andra filtervärde för {0}</value></data>
+  <data name="GridFilterLogical" xml:space="preserve"><value>Logisk operator för {0}</value></data>
+  <data name="GridFilterApply" xml:space="preserve"><value>Använd</value></data>
+  <data name="GridFilterClear" xml:space="preserve"><value>Rensa</value></data>
+  <data name="TooltipShowMore" xml:space="preserve"><value>Visa mer</value></data>
+  <data name="TooltipShowLess" xml:space="preserve"><value>Visa mindre</value></data>
+  <data name="GridFilterDateFrom" xml:space="preserve"><value>Från</value></data>
+  <data name="GridFilterDateTo" xml:space="preserve"><value>Till</value></data>
+  <data name="GridFilterContains" xml:space="preserve"><value>Innehåller</value></data>
+  <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Innehåller inte</value></data>
+  <data name="GridFilterEquals" xml:space="preserve"><value>Lika med</value></data>
+  <data name="GridFilterNotEquals" xml:space="preserve"><value>Inte lika med</value></data>
+  <data name="GridFilterStartsWith" xml:space="preserve"><value>Börjar med</value></data>
+  <data name="GridFilterEndsWith" xml:space="preserve"><value>Slutar med</value></data>
+  <data name="GridFilterGreaterThan" xml:space="preserve"><value>Större än</value></data>
+  <data name="GridFilterGreaterThanOrEquals" xml:space="preserve"><value>Större än eller lika med</value></data>
+  <data name="GridFilterLessThan" xml:space="preserve"><value>Mindre än</value></data>
+  <data name="GridFilterLessThanOrEquals" xml:space="preserve"><value>Mindre än eller lika med</value></data>
+  <data name="GridFilterIsNull" xml:space="preserve"><value>Saknar värde</value></data>
+  <data name="GridFilterIsNotNull" xml:space="preserve"><value>Har ett värde</value></data>
+  <data name="GridFilterIsEmpty" xml:space="preserve"><value>Är tom</value></data>
+  <data name="GridFilterIsNotEmpty" xml:space="preserve"><value>Är inte tom</value></data>
+  <data name="GridFilterAnd" xml:space="preserve"><value>Och</value></data>
+  <data name="GridFilterOr" xml:space="preserve"><value>Eller</value></data>
+  <data name="GridGroupPanel" xml:space="preserve"><value>Aktiva grupperingar</value></data>
+  <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Ingen gruppering.</value></data>
+  <data name="GridGroupColumn" xml:space="preserve"><value>Gruppera efter {0}</value></data>
+  <data name="GridUngroupColumn" xml:space="preserve"><value>Ta bort grupperingen {0}</value></data>
+  <data name="GridExpandAll" xml:space="preserve"><value>Visa eller dölj alla rader</value></data>
+  <data name="GridDetachFrozen" xml:space="preserve"><value>Lossa de låsta kolumnerna</value></data>
+  <data name="GridRefreezeFrozen" xml:space="preserve"><value>Lås kolumnerna igen</value></data>
+  <data name="GridShrinkColumn" xml:space="preserve"><value>Gör kolumnen {0} smalare</value></data>
+  <data name="GridGrowColumn" xml:space="preserve"><value>Gör kolumnen {0} bredare</value></data>
+  <data name="PagerFirst" xml:space="preserve"><value>Första sidan</value></data>
+  <data name="PagerLast" xml:space="preserve"><value>Sista sidan</value></data>
+  <data name="PagerPageSize" xml:space="preserve"><value>Rader per sida</value></data>
+  <data name="GridPagingSummary" xml:space="preserve"><value>{0}–{1} av {2}</value></data>
+  <data name="GridRowsLoading" xml:space="preserve"><value>Läser in rader…</value></data>
+  <data name="GridCollapseRow" xml:space="preserve"><value>Dölj raden</value></data>
+  <data name="GridExpandRow" xml:space="preserve"><value>Visa raden</value></data>
+  <data name="GridSelectRow" xml:space="preserve"><value>Markera raden</value></data>
+  <data name="GridSelectAll" xml:space="preserve"><value>Markera alla visade rader</value></data>
+  <data name="SpreadsheetLabel" xml:space="preserve"><value>Kalkylblad</value></data>
+  <data name="SpreadsheetAddRow" xml:space="preserve"><value>Rad</value></data>
+  <data name="SpreadsheetAddRowLabel" xml:space="preserve"><value>Lägg till en rad</value></data>
+  <data name="SpreadsheetAddColumn" xml:space="preserve"><value>Kolumn</value></data>
+  <data name="SpreadsheetAddColumnLabel" xml:space="preserve"><value>Lägg till en kolumn</value></data>
+  <data name="SpreadsheetActiveCell" xml:space="preserve"><value>Aktiv cell</value></data>
+  <data name="SpreadsheetFormulaBar" xml:space="preserve"><value>Innehåll i cell {0}</value></data>
+  <data name="SpreadsheetCell" xml:space="preserve"><value>Cell {0}</value></data>
+  <data name="Save" xml:space="preserve"><value>Spara</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Avbryt</value></data>
+  <data name="Edit" xml:space="preserve"><value>Redigera</value></data>
+  <data name="DataListLoadFailed" xml:space="preserve"><value>Det gick inte att läsa in.</value></data>
+  <data name="DataListEmpty" xml:space="preserve"><value>Inga objekt.</value></data>
+  <data name="DatePickerInvalid" xml:space="preserve"><value>Det angivna datumet är ogiltigt.</value></data>
+  <data name="DateTimePickerInvalid" xml:space="preserve"><value>Angivet datum och angiven tid är ogiltiga.</value></data>
+  <data name="DatePickerToggle" xml:space="preserve"><value>Välj ett datum</value></data>
+  <data name="DatePickerToday" xml:space="preserve"><value>Idag</value></data>
+  <data name="DatePickerClear" xml:space="preserve"><value>Rensa</value></data>
+  <data name="CalendarPreviousMonth" xml:space="preserve"><value>Föregående månad</value></data>
+  <data name="CalendarNextMonth" xml:space="preserve"><value>Nästa månad</value></data>
+  <data name="TimePickerToggle" xml:space="preserve"><value>Välj en tid</value></data>
+  <data name="DateTimePickerToggle" xml:space="preserve"><value>Välj datum och tid</value></data>
+  <data name="TimePickerNow" xml:space="preserve"><value>Nu</value></data>
+  <data name="TimePickerConfirm" xml:space="preserve"><value>Bekräfta</value></data>
+  <data name="TimePickerHours" xml:space="preserve"><value>Timmar</value></data>
+  <data name="TimePickerMinutes" xml:space="preserve"><value>Minuter</value></data>
+  <data name="TimePickerSeconds" xml:space="preserve"><value>Sekunder</value></data>
+  <data name="TimePickerHourCaption" xml:space="preserve"><value>h</value></data>
+  <data name="TimePickerMinuteCaption" xml:space="preserve"><value>min</value></data>
+  <data name="TimePickerSecondCaption" xml:space="preserve"><value>s</value></data>
+  <data name="TimePickerInvalid" xml:space="preserve"><value>Den angivna tiden är ogiltig.</value></data>
+  <data name="PickerLetterDay" xml:space="preserve"><value>d</value></data>
+  <data name="PickerLetterMonth" xml:space="preserve"><value>m</value></data>
+  <data name="PickerLetterYear" xml:space="preserve"><value>å</value></data>
+  <data name="PickerLetterHour" xml:space="preserve"><value>t</value></data>
+  <data name="PickerLetterMinute" xml:space="preserve"><value>m</value></data>
+  <data name="PickerLetterSecond" xml:space="preserve"><value>s</value></data>
+  <data name="DayViewLabel" xml:space="preserve"><value>Dagsvy</value></data>
+  <data name="DialogEnd" xml:space="preserve"><value>Dialogrutans slut</value></data>
+  <data name="Close" xml:space="preserve"><value>Stäng</value></data>
+  <data name="DialogStart" xml:space="preserve"><value>Dialogrutans början</value></data>
+  <data name="DropDownPlaceholder" xml:space="preserve"><value>Välj</value></data>
+  <data name="DropDownInvalid" xml:space="preserve"><value>Valet är ogiltigt för {0}.</value></data>
+  <data name="HtmlEditorLabel" xml:space="preserve"><value>HTML-redigerare</value></data>
+  <data name="HtmlEditorToolbar" xml:space="preserve"><value>Formateringsverktyg</value></data>
+  <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Redigerarens åtgärder</value></data>
+  <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Skiftläge</value></data>
+  <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>VERSALER</value></data>
+  <data name="HtmlEditorCaseLower" xml:space="preserve"><value>gemener</value></data>
+  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Inledande Versaler</value></data>
+  <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Specialtecken</value></data>
+  <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Sök efter ett tecken</value></data>
+  <data name="HtmlEditorCharNone" xml:space="preserve"><value>Inget tecken matchar.</value></data>
+  <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Vanliga</value></data>
+  <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Valutor</value></data>
+  <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Pilar</value></data>
+  <data name="HtmlEditorCharCategoryMath" xml:space="preserve"><value>Matematik</value></data>
+  <data name="HtmlEditorCharCategoryGreek" xml:space="preserve"><value>Grekiska</value></data>
+  <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Juridik</value></data>
+  <data name="HtmlEditorImportTable" xml:space="preserve"><value>Importera en tabell</value></data>
+  <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>{0}-fil, högst 100 rader och 50 kolumner.</value></data>
+  <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Första raden som rubrik</value></data>
+  <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Infoga</value></data>
+  <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Förhandsgranskning av tabellen</value></data>
+  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0} rader, {1} kolumner</value></data>
+  <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>Det gick inte att läsa filen.</value></data>
+  <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>Filen innehåller inga rader.</value></data>
+  <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Den här filtypen stöds inte.</value></data>
+  <data name="HtmlEditorClosePanel" xml:space="preserve"><value>Stäng</value></data>
+  <data name="HtmlEditorShowBlocks" xml:space="preserve"><value>Visa block</value></data>
+  <data name="HtmlEditorHighlight" xml:space="preserve"><value>Markera</value></data>
+  <data name="HtmlEditorChar00A9" xml:space="preserve"><value>Upphovsrätt</value></data>
+  <data name="HtmlEditorChar00AE" xml:space="preserve"><value>Registrerat varumärke</value></data>
+  <data name="HtmlEditorChar2122" xml:space="preserve"><value>Varumärke</value></data>
+  <data name="HtmlEditorChar00A7" xml:space="preserve"><value>Paragraf</value></data>
+  <data name="HtmlEditorChar00B6" xml:space="preserve"><value>Stycketecken</value></data>
+  <data name="HtmlEditorChar2020" xml:space="preserve"><value>Kors</value></data>
+  <data name="HtmlEditorChar2021" xml:space="preserve"><value>Dubbelkors</value></data>
+  <data name="HtmlEditorChar2022" xml:space="preserve"><value>Punkt</value></data>
+  <data name="HtmlEditorChar2026" xml:space="preserve"><value>Ellips</value></data>
+  <data name="HtmlEditorChar2013" xml:space="preserve"><value>Kort tankstreck</value></data>
+  <data name="HtmlEditorChar2014" xml:space="preserve"><value>Långt tankstreck</value></data>
+  <data name="HtmlEditorChar00AB" xml:space="preserve"><value>Vänster vinkelcitattecken</value></data>
+  <data name="HtmlEditorChar00BB" xml:space="preserve"><value>Höger vinkelcitattecken</value></data>
+  <data name="HtmlEditorChar2039" xml:space="preserve"><value>Enkelt vänster vinkelcitattecken</value></data>
+  <data name="HtmlEditorChar203A" xml:space="preserve"><value>Enkelt höger vinkelcitattecken</value></data>
+  <data name="HtmlEditorChar2018" xml:space="preserve"><value>Vänster enkelt citattecken</value></data>
+  <data name="HtmlEditorChar2019" xml:space="preserve"><value>Höger enkelt citattecken</value></data>
+  <data name="HtmlEditorChar201C" xml:space="preserve"><value>Vänster citattecken</value></data>
+  <data name="HtmlEditorChar201D" xml:space="preserve"><value>Höger citattecken</value></data>
+  <data name="HtmlEditorChar00B0" xml:space="preserve"><value>Grad</value></data>
+  <data name="HtmlEditorChar00B1" xml:space="preserve"><value>Plus-minus</value></data>
+  <data name="HtmlEditorChar00D7" xml:space="preserve"><value>Multiplikation</value></data>
+  <data name="HtmlEditorChar00F7" xml:space="preserve"><value>Division</value></data>
+  <data name="HtmlEditorChar00A0" xml:space="preserve"><value>Hårt blanksteg</value></data>
+  <data name="HtmlEditorChar20AC" xml:space="preserve"><value>Euro</value></data>
+  <data name="HtmlEditorChar00A3" xml:space="preserve"><value>Pund</value></data>
+  <data name="HtmlEditorChar00A5" xml:space="preserve"><value>Yen</value></data>
+  <data name="HtmlEditorChar00A2" xml:space="preserve"><value>Cent</value></data>
+  <data name="HtmlEditorChar20BD" xml:space="preserve"><value>Rubel</value></data>
+  <data name="HtmlEditorChar20B9" xml:space="preserve"><value>Rupie</value></data>
+  <data name="HtmlEditorChar20A9" xml:space="preserve"><value>Won</value></data>
+  <data name="HtmlEditorChar20AA" xml:space="preserve"><value>Shekel</value></data>
+  <data name="HtmlEditorChar20B1" xml:space="preserve"><value>Peso</value></data>
+  <data name="HtmlEditorChar20BA" xml:space="preserve"><value>Lira</value></data>
+  <data name="HtmlEditorChar2190" xml:space="preserve"><value>Vänsterpil</value></data>
+  <data name="HtmlEditorChar2192" xml:space="preserve"><value>Högerpil</value></data>
+  <data name="HtmlEditorChar2191" xml:space="preserve"><value>Uppåtpil</value></data>
+  <data name="HtmlEditorChar2193" xml:space="preserve"><value>Nedåtpil</value></data>
+  <data name="HtmlEditorChar2194" xml:space="preserve"><value>Vänster-högerpil</value></data>
+  <data name="HtmlEditorChar2195" xml:space="preserve"><value>Upp-nedpil</value></data>
+  <data name="HtmlEditorChar21D0" xml:space="preserve"><value>Dubbel vänsterpil</value></data>
+  <data name="HtmlEditorChar21D2" xml:space="preserve"><value>Dubbel högerpil</value></data>
+  <data name="HtmlEditorChar21D1" xml:space="preserve"><value>Dubbel uppåtpil</value></data>
+  <data name="HtmlEditorChar21D3" xml:space="preserve"><value>Dubbel nedåtpil</value></data>
+  <data name="HtmlEditorChar21B5" xml:space="preserve"><value>Returpil</value></data>
+  <data name="HtmlEditorChar21B6" xml:space="preserve"><value>Moturs pil</value></data>
+  <data name="HtmlEditorChar2200" xml:space="preserve"><value>För alla</value></data>
+  <data name="HtmlEditorChar2203" xml:space="preserve"><value>Det finns</value></data>
+  <data name="HtmlEditorChar2205" xml:space="preserve"><value>Tomma mängden</value></data>
+  <data name="HtmlEditorChar2208" xml:space="preserve"><value>Element i</value></data>
+  <data name="HtmlEditorChar2209" xml:space="preserve"><value>Inte element i</value></data>
+  <data name="HtmlEditorChar2282" xml:space="preserve"><value>Delmängd av</value></data>
+  <data name="HtmlEditorChar2283" xml:space="preserve"><value>Övermängd av</value></data>
+  <data name="HtmlEditorChar222A" xml:space="preserve"><value>Union</value></data>
+  <data name="HtmlEditorChar2229" xml:space="preserve"><value>Snitt</value></data>
+  <data name="HtmlEditorChar2227" xml:space="preserve"><value>Logiskt och</value></data>
+  <data name="HtmlEditorChar2228" xml:space="preserve"><value>Logiskt eller</value></data>
+  <data name="HtmlEditorChar00AC" xml:space="preserve"><value>Negation</value></data>
+  <data name="HtmlEditorChar2248" xml:space="preserve"><value>Ungefär lika med</value></data>
+  <data name="HtmlEditorChar2260" xml:space="preserve"><value>Inte lika med</value></data>
+  <data name="HtmlEditorChar2264" xml:space="preserve"><value>Mindre än eller lika med</value></data>
+  <data name="HtmlEditorChar2265" xml:space="preserve"><value>Större än eller lika med</value></data>
+  <data name="HtmlEditorChar221E" xml:space="preserve"><value>Oändlighet</value></data>
+  <data name="HtmlEditorChar221A" xml:space="preserve"><value>Kvadratrot</value></data>
+  <data name="HtmlEditorChar2211" xml:space="preserve"><value>Summa</value></data>
+  <data name="HtmlEditorChar220F" xml:space="preserve"><value>Produkt</value></data>
+  <data name="HtmlEditorChar2202" xml:space="preserve"><value>Partiell derivata</value></data>
+  <data name="HtmlEditorChar222B" xml:space="preserve"><value>Integral</value></data>
+  <data name="HtmlEditorChar03B1" xml:space="preserve"><value>Alfa</value></data>
+  <data name="HtmlEditorChar03B2" xml:space="preserve"><value>Beta</value></data>
+  <data name="HtmlEditorChar03B3" xml:space="preserve"><value>Gamma</value></data>
+  <data name="HtmlEditorChar03B4" xml:space="preserve"><value>Delta</value></data>
+  <data name="HtmlEditorChar03B5" xml:space="preserve"><value>Epsilon</value></data>
+  <data name="HtmlEditorChar03B6" xml:space="preserve"><value>Zeta</value></data>
+  <data name="HtmlEditorChar03B7" xml:space="preserve"><value>Eta</value></data>
+  <data name="HtmlEditorChar03B8" xml:space="preserve"><value>Theta</value></data>
+  <data name="HtmlEditorChar03B9" xml:space="preserve"><value>Iota</value></data>
+  <data name="HtmlEditorChar03BA" xml:space="preserve"><value>Kappa</value></data>
+  <data name="HtmlEditorChar03BB" xml:space="preserve"><value>Lambda</value></data>
+  <data name="HtmlEditorChar03BC" xml:space="preserve"><value>My</value></data>
+  <data name="HtmlEditorChar03BD" xml:space="preserve"><value>Ny</value></data>
+  <data name="HtmlEditorChar03BE" xml:space="preserve"><value>Xi</value></data>
+  <data name="HtmlEditorChar03C0" xml:space="preserve"><value>Pi</value></data>
+  <data name="HtmlEditorChar03C1" xml:space="preserve"><value>Rho</value></data>
+  <data name="HtmlEditorChar03C3" xml:space="preserve"><value>Sigma</value></data>
+  <data name="HtmlEditorChar03C4" xml:space="preserve"><value>Tau</value></data>
+  <data name="HtmlEditorChar03C5" xml:space="preserve"><value>Ypsilon</value></data>
+  <data name="HtmlEditorChar03C6" xml:space="preserve"><value>Fi</value></data>
+  <data name="HtmlEditorChar03C7" xml:space="preserve"><value>Chi</value></data>
+  <data name="HtmlEditorChar03C8" xml:space="preserve"><value>Psi</value></data>
+  <data name="HtmlEditorChar03C9" xml:space="preserve"><value>Omega</value></data>
+  <data name="HtmlEditorChar2116" xml:space="preserve"><value>Nummertecken</value></data>
+  <data name="HtmlEditorBold" xml:space="preserve"><value>Fetstil</value></data>
+  <data name="HtmlEditorItalic" xml:space="preserve"><value>Kursiv</value></data>
+  <data name="HtmlEditorSubscript" xml:space="preserve"><value>Nedsänkt</value></data>
+  <data name="HtmlEditorSuperscript" xml:space="preserve"><value>Upphöjd</value></data>
+  <data name="HtmlEditorIndent" xml:space="preserve"><value>Öka indrag</value></data>
+  <data name="HtmlEditorOutdent" xml:space="preserve"><value>Minska indrag</value></data>
+  <data name="HtmlEditorUndo" xml:space="preserve"><value>Ångra</value></data>
+  <data name="HtmlEditorRedo" xml:space="preserve"><value>Gör om</value></data>
+  <data name="HtmlEditorPreview" xml:space="preserve"><value>Förhandsgranskning av innehållet</value></data>
+  <data name="LegendLabel" xml:space="preserve"><value>Teckenförklaring</value></data>
+  <data name="ListBoxInvalid" xml:space="preserve"><value>Listmarkeringen är ogiltig.</value></data>
+  <data name="MindMapAddLink" xml:space="preserve"><value>Länk</value></data>
+  <data name="MindMapAddNode" xml:space="preserve"><value>Nod</value></data>
+  <data name="MindMapAnnounceAdded" xml:space="preserve"><value>Noden {0} har lagts till.</value></data>
+  <data name="MindMapAnnounceDeleted" xml:space="preserve"><value>Borttagna noder: {0}.</value></data>
+  <data name="MindMapAnnounceDuplicated" xml:space="preserve"><value>Noden {0} har duplicerats.</value></data>
+  <data name="MindMapAnnounceLaidOut" xml:space="preserve"><value>Kartan har ordnats om.</value></data>
+  <data name="MindMapAnnounceLimit" xml:space="preserve"><value>Det högsta antalet noder har nåtts.</value></data>
+  <data name="MindMapAnnounceLinkCancelled" xml:space="preserve"><value>Skapandet av länken avbröts.</value></data>
+  <data name="MindMapAnnounceLinkDeleted" xml:space="preserve"><value>Länken har tagits bort.</value></data>
+  <data name="MindMapAnnounceLinkSelected" xml:space="preserve"><value>Länken har markerats.</value></data>
+  <data name="MindMapAnnounceLinked" xml:space="preserve"><value>Länk skapad från {0} till {1}.</value></data>
+  <data name="MindMapAnnounceManySelected" xml:space="preserve"><value>Markerade noder: {0}.</value></data>
+  <data name="MindMapAnnounceNoSelection" xml:space="preserve"><value>Inget markerat.</value></data>
+  <data name="MindMapAnnounceRedone" xml:space="preserve"><value>Ändringen har gjorts om.</value></data>
+  <data name="MindMapAnnounceSelected" xml:space="preserve"><value>{0}, länkar: {1}.</value></data>
+  <data name="MindMapAnnounceUndone" xml:space="preserve"><value>Ändringen har ångrats.</value></data>
+  <data name="MindMapAnnounceZoom" xml:space="preserve"><value>Zoom {0} %.</value></data>
+  <data name="MindMapAutoLayout" xml:space="preserve"><value>Ordna om</value></data>
+  <data name="MindMapBold" xml:space="preserve"><value>Fetstil</value></data>
+  <data name="MindMapCanvasLabel" xml:space="preserve"><value>Tankekarta</value></data>
+  <data name="MindMapCenter" xml:space="preserve"><value>Centrera</value></data>
+  <data name="MindMapColorBlue" xml:space="preserve"><value>Blå</value></data>
+  <data name="MindMapColorGray" xml:space="preserve"><value>Grå</value></data>
+  <data name="MindMapColorGreen" xml:space="preserve"><value>Grön</value></data>
+  <data name="MindMapColorIndigo" xml:space="preserve"><value>Indigo</value></data>
+  <data name="MindMapColorOrange" xml:space="preserve"><value>Orange</value></data>
+  <data name="MindMapColorPink" xml:space="preserve"><value>Rosa</value></data>
+  <data name="MindMapColorPurple" xml:space="preserve"><value>Lila</value></data>
+  <data name="MindMapColorRed" xml:space="preserve"><value>Röd</value></data>
+  <data name="MindMapColorTeal" xml:space="preserve"><value>Blågrön</value></data>
+  <data name="MindMapColorWhite" xml:space="preserve"><value>Vit</value></data>
+  <data name="MindMapColorYellow" xml:space="preserve"><value>Gul</value></data>
+  <data name="MindMapDelete" xml:space="preserve"><value>Ta bort</value></data>
+  <data name="MindMapDuplicate" xml:space="preserve"><value>Duplicera</value></data>
+  <data name="MindMapFitView" xml:space="preserve"><value>Anpassa</value></data>
+  <data name="MindMapFontSize" xml:space="preserve"><value>Teckenstorlek</value></data>
+  <data name="MindMapItalic" xml:space="preserve"><value>Kursiv</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Pilar: flytta mellan noder, Home: central nod, Shift+pilar: flytta, Enter eller F2: byt namn, N: ny nod, D: duplicera, C: centrera, Delete: ta bort, + och -: zooma, 0: anpassa, Ctrl+Z och Ctrl+Y: ångra och gör om, Shift+F10: meny, Esc: avmarkera.</value></data>
+  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Pilar: flytta mellan noder, Home: central nod, C: centrera, + och -: zooma, 0: anpassa, Shift+F10: meny, Esc: avmarkera.</value></data>
+  <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Esc för att avbryta</value></data>
+  <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Klicka på källnoden</value></data>
+  <data name="MindMapLinkSelectTarget" xml:space="preserve"><value>Klicka på målnoden</value></data>
+  <data name="MindMapMenuLabel" xml:space="preserve"><value>Kartans åtgärder</value></data>
+  <data name="MindMapNewNode" xml:space="preserve"><value>Ny</value></data>
+  <data name="MindMapNodeColor" xml:space="preserve"><value>Färg</value></data>
+  <data name="MindMapNodeHeight" xml:space="preserve"><value>Höjd</value></data>
+  <data name="MindMapNodeText" xml:space="preserve"><value>Text</value></data>
+  <data name="MindMapNodeWidth" xml:space="preserve"><value>Bredd</value></data>
+  <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, anteckning: {1}</value></data>
+  <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Nodens egenskaper</value></data>
+  <data name="MindMapRename" xml:space="preserve"><value>Byt namn på noden</value></data>
+  <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = automatisk storlek</value></data>
+  <data name="MindMapToolbarLabel" xml:space="preserve"><value>Tankekartans åtgärder</value></data>
+  <data name="MonthViewLabel" xml:space="preserve"><value>Månadsvy</value></data>
+  <data name="MultiSelectInvalid" xml:space="preserve"><value>Flervalet är ogiltigt.</value></data>
+  <data name="MultiSelectEmpty" xml:space="preserve"><value>Alla</value></data>
+  <data name="MultiSelectSelected" xml:space="preserve"><value>{0} valda</value></data>
+  <data name="MultiSelectClear" xml:space="preserve"><value>Avmarkera alla</value></data>
+  <data name="MultiSelectFilter" xml:space="preserve"><value>Sök</value></data>
+  <data name="MultiSelectNoMatch" xml:space="preserve"><value>Inga träffar</value></data>
+  <data name="NotificationDismiss" xml:space="preserve"><value>Stäng aviseringen</value></data>
+  <data name="NotificationExpand" xml:space="preserve"><value>Visa alla</value></data>
+  <data name="NotificationCollapse" xml:space="preserve"><value>Dölj</value></data>
+  <data name="NotificationOpenDetails" xml:space="preserve"><value>Öppna loggen</value></data>
+  <data name="NullableSwitchIndeterminate" xml:space="preserve"><value>Obestämt läge</value></data>
+  <data name="NumericInvalid" xml:space="preserve"><value>Det angivna värdet är ogiltigt.</value></data>
+  <data name="NumericInvalidNamed" xml:space="preserve"><value>Det angivna värdet är ogiltigt för {0}.</value></data>
+  <data name="PagerLabel" xml:space="preserve"><value>Sidnumrering</value></data>
+  <data name="PagerPrevious" xml:space="preserve"><value>Föregående sida</value></data>
+  <data name="PagerStatus" xml:space="preserve"><value>Sida {0} av {1}</value></data>
+  <data name="PagerNext" xml:space="preserve"><value>Nästa sida</value></data>
+  <data name="PanelMenuLabel" xml:space="preserve"><value>Navigering</value></data>
+  <data name="PanelMenuToggle" xml:space="preserve"><value>Visa eller dölj {0}</value></data>
+  <data name="PasswordRevealLabel" xml:space="preserve"><value>Visa lösenordet</value></data>
+  <data name="PasswordHideLabel" xml:space="preserve"><value>Dölj lösenordet</value></data>
+  <data name="ProfileMenuLabel" xml:space="preserve"><value>Profilmeny</value></data>
+  <data name="ProgressLabel" xml:space="preserve"><value>Förlopp</value></data>
+  <data name="ProgressValue" xml:space="preserve"><value>{0:0} %</value></data>
+  <data name="RadioButtonListInvalid" xml:space="preserve"><value>Alternativvalet är ogiltigt.</value></data>
+  <data name="RequiredValidatorMessage" xml:space="preserve"><value>Fältet är obligatoriskt.</value></data>
+  <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Föregående period</value></data>
+  <data name="SchedulerNextPeriod" xml:space="preserve"><value>Nästa period</value></data>
+  <data name="SchedulerViewLabel" xml:space="preserve"><value>Kalendervy</value></data>
+  <data name="SchedulerDay" xml:space="preserve"><value>Dag</value></data>
+  <data name="SchedulerWeek" xml:space="preserve"><value>Vecka</value></data>
+  <data name="SchedulerMonth" xml:space="preserve"><value>Månad</value></data>
+  <data name="SchedulerLoadFailed" xml:space="preserve"><value>Det gick inte att läsa in kalendern.</value></data>
+  <data name="SchedulerTimeColumn" xml:space="preserve"><value>Tid</value></data>
+  <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Flytta {0}</value></data>
+  <data name="SchedulerMoveHere" xml:space="preserve"><value>Placera här: {0}, {1}</value></data>
+  <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Placera här</value></data>
+  <data name="SchedulerMoveCancel" xml:space="preserve"><value>Avbryt flytten</value></data>
+  <data name="SchedulerMoving" xml:space="preserve"><value>{0} har plockats upp: välj en ny plats, Esc för att avbryta.</value></data>
+  <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} ligger kvar på sin plats.</value></data>
+  <data name="SchedulerMoved" xml:space="preserve"><value>{0} flyttades till {1}.</value></data>
+  <data name="SelectBarInvalid" xml:space="preserve"><value>Det segmenterade valet är ogiltigt.</value></data>
+  <data name="RatingLabel" xml:space="preserve"><value>Betyg</value></data>
+  <data name="RatingStar" xml:space="preserve"><value>{0} av {1}</value></data>
+  <data name="RatingValue" xml:space="preserve"><value>{0}: {1} av {2}</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Navigering</value></data>
+  <data name="SidebarClose" xml:space="preserve"><value>Stäng navigeringen</value></data>
+  <data name="LoadingLabel" xml:space="preserve"><value>Läser in</value></data>
+  <data name="WindowControlsLabel" xml:space="preserve"><value>Fönsterkontroller</value></data>
+  <data name="WindowMinimizeToTray" xml:space="preserve"><value>Minimera till meddelandefältet</value></data>
+  <data name="WindowMinimize" xml:space="preserve"><value>Minimera</value></data>
+  <data name="WindowMaximize" xml:space="preserve"><value>Maximera</value></data>
+  <data name="WindowRestore" xml:space="preserve"><value>Återställ</value></data>
+  <data name="WindowClose" xml:space="preserve"><value>Stäng</value></data>
+  <data name="SidebarToggleLabel" xml:space="preserve"><value>Visa eller dölj navigeringen</value></data>
+  <data name="SliderInvalid" xml:space="preserve"><value>Skjutreglagets värde är ogiltigt.</value></data>
+  <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Fler åtgärder</value></data>
+  <data name="StepsLabel" xml:space="preserve"><value>Steg</value></data>
+  <data name="SwitchInvalid" xml:space="preserve"><value>Växelns värde är ogiltigt.</value></data>
+  <data name="TabsLabel" xml:space="preserve"><value>Flikar</value></data>
+  <data name="TimelineLabel" xml:space="preserve"><value>Tidslinje</value></data>
+  <data name="TreeLabel" xml:space="preserve"><value>Träd</value></data>
+  <data name="TreeCollapse" xml:space="preserve"><value>Dölj</value></data>
+  <data name="TreeExpand" xml:space="preserve"><value>Visa</value></data>
+  <data name="TreeLoadFailed" xml:space="preserve"><value>Det gick inte att läsa in.</value></data>
+  <data name="UploadSelectedFiles" xml:space="preserve"><value>Valda filer</value></data>
+  <data name="UploadProgressLabel" xml:space="preserve"><value>Uppladdning</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Du kan välja högst {0} filer.</value></data>
+  <data name="UploadFileTooLarge" xml:space="preserve"><value>Filen {0} överskrider den största tillåtna storleken.</value></data>
+  <data name="UploadTypeRejected" xml:space="preserve"><value>Filtypen för {0} är inte tillåten.</value></data>
+  <data name="UploadOneSelected" xml:space="preserve"><value>1 fil har valts.</value></data>
+  <data name="UploadManySelected" xml:space="preserve"><value>{0} filer har valts.</value></data>
+  <data name="UploadInProgress" xml:space="preserve"><value>Uppladdning pågår.</value></data>
+  <data name="UploadCompleted" xml:space="preserve"><value>Uppladdningen är klar.</value></data>
+  <data name="UploadCancelled" xml:space="preserve"><value>Uppladdningen avbröts.</value></data>
+  <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0:0.##} MB</value></data>
+  <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} kB</value></data>
+  <data name="UploadSizeBytes" xml:space="preserve"><value>{0} byte</value></data>
+  <data name="UploadDropOne" xml:space="preserve"><value>Släpp en fil här eller</value></data>
+  <data name="UploadDropMany" xml:space="preserve"><value>Släpp filer här eller</value></data>
+  <data name="UploadBrowse" xml:space="preserve"><value>bläddra</value></data>
+  <data name="UploadHintMaximumSize" xml:space="preserve"><value>Högst {0} per fil</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Högst {0} filer</value></data>
+  <data name="UploadAttachedFiles" xml:space="preserve"><value>Bifogade filer</value></data>
+  <data name="UploadRemove" xml:space="preserve"><value>Ta bort {0}</value></data>
+  <data name="UploadBrowseButton" xml:space="preserve"><value>Bläddra</value></data>
+  <data name="UploadNoFile" xml:space="preserve"><value>Ingen fil har valts</value></data>
+  <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
+  <data name="UploadFileCountNone" xml:space="preserve"><value>Inga filer</value></data>
+  <data name="UploadFileCountOne" xml:space="preserve"><value>1 fil</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} filer</value></data>
+  <data name="UploadShowAll" xml:space="preserve"><value>Visa alla ({0})</value></data>
+  <data name="UploadShowLess" xml:space="preserve"><value>Visa färre</value></data>
+  <data name="UploadRemoveAll" xml:space="preserve"><value>Ta bort alla</value></data>
+  <data name="UploadRemovedAll" xml:space="preserve"><value>Alla filer har tagits bort från listan.</value></data>
+  <data name="UploadRemoved" xml:space="preserve"><value>{0} har tagits bort från listan.</value></data>
+  <data name="WeekViewLabel" xml:space="preserve"><value>Veckovy</value></data>
+  <data name="DataAnnotationsRequired" xml:space="preserve"><value>Fältet {0} är obligatoriskt.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Fältet {0} måste innehålla mellan {1} och {2} tecken.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Fältet {0} får innehålla högst {1} tecken.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Fältet {0} måste innehålla minst {1} tecken.</value></data>
+  <data name="DataAnnotationsRange" xml:space="preserve"><value>Fältet {0} måste ligga mellan {1} och {2}.</value></data>
+  <data name="DataAnnotationsEmail" xml:space="preserve"><value>Fältet {0} är inte en giltig e-postadress.</value></data>
+  <data name="DataAnnotationsUrl" xml:space="preserve"><value>Fältet {0} är inte en giltig webbadress.</value></data>
+  <data name="DataAnnotationsCompare" xml:space="preserve"><value>{0} och {1} stämmer inte överens.</value></data>
+  <data name="DataAnnotationsPattern" xml:space="preserve"><value>Fältet {0} har inte det förväntade formatet.</value></data>
+  <data name="DataAnnotationsInvalid" xml:space="preserve"><value>Fältet {0} är ogiltigt.</value></data>
+  <data name="GanttEmpty" xml:space="preserve"><value>Inga uppgifter att visa.</value></data>
+  <data name="GanttLabel" xml:space="preserve"><value>Gantt-schema</value></data>
+  <data name="GanttScale" xml:space="preserve"><value>Tidsskala</value></data>
+  <data name="GanttScaleDay" xml:space="preserve"><value>Dag</value></data>
+  <data name="GanttScaleMonth" xml:space="preserve"><value>Månad</value></data>
+  <data name="GanttWeekNumber" xml:space="preserve"><value>V{0}</value></data>
+  <data name="GanttScaleWeek" xml:space="preserve"><value>Vecka</value></data>
+  <data name="GanttTaskAfter" xml:space="preserve"><value>efter {0}</value></data>
+  <data name="GanttTaskColumn" xml:space="preserve"><value>Uppgift</value></data>
+  <data name="GanttTaskDescription" xml:space="preserve"><value>{0}, från {1} till {2}, {3} klart</value></data>
+  <data name="StepTimelineLabel" xml:space="preserve"><value>Körningens steg</value></data>
+  <data name="StepTimelineNeverStarted" xml:space="preserve"><value>Aldrig startade:</value></data>
+  <data name="StepTimelineStatusCancelled" xml:space="preserve"><value>avbrutet</value></data>
+  <data name="StepTimelineStatusFailed" xml:space="preserve"><value>misslyckat</value></data>
+  <data name="StepTimelineStatusRunning" xml:space="preserve"><value>pågår</value></data>
+  <data name="StepTimelineStatusSkipped" xml:space="preserve"><value>överhoppat</value></data>
+  <data name="StepTimelineStatusSuccess" xml:space="preserve"><value>lyckat</value></data>
+  <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, startade {1}, varaktighet</value></data>
+  <data name="ConfirmAction" xml:space="preserve"><value>Bekräfta</value></data>
+  <data name="GoBack" xml:space="preserve"><value>Tillbaka</value></data>
+  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Visa märken och åtgärder</value></data>
+  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Dölj märken och åtgärder</value></data>
+  <data name="DetailNotFound" xml:space="preserve"><value>Objektet hittades inte</value></data>
+  <data name="SignIn" xml:space="preserve"><value>Logga in</value></data>
+  <data name="ConnectionLostTitle" xml:space="preserve"><value>Anslutningen bröts</value></data>
+  <data name="ConnectionLostDescription" xml:space="preserve"><value>Anslutningen till servern har brutits. Programmet försöker återupprätta den.</value></data>
+  <data name="ConnectionFailedTitle" xml:space="preserve"><value>Det går inte att ansluta</value></data>
+  <data name="ConnectionFailedDescription" xml:space="preserve"><value>De automatiska försöken misslyckades. Försök igen när nätverket fungerar igen.</value></data>
+  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Sessionen avbröts</value></data>
+  <data name="ConnectionRejectedDescription" xml:space="preserve"><value>Servern vägrade att återuppta sessionen. Läs in sidan igen för att fortsätta.</value></data>
+  <data name="ConnectionRetryIn" xml:space="preserve"><value>Nytt försök om {0} s</value></data>
+  <data name="ConnectionReason" xml:space="preserve"><value>Orsak: {0}</value></data>
+  <data name="ConnectionReconnectNow" xml:space="preserve"><value>Återanslut nu</value></data>
+  <data name="ConnectionReload" xml:space="preserve"><value>Läs in sidan igen</value></data>
+  <data name="ConnectionReconnecting" xml:space="preserve"><value>Återansluter</value></data>
+  <data name="WizardLabel" xml:space="preserve"><value>Guidens steg</value></data>
+  <data name="WizardProgress" xml:space="preserve"><value>Guidens förlopp</value></data>
+  <data name="WizardPosition" xml:space="preserve"><value>Steg {0} av {1}</value></data>
+  <data name="WizardAnnouncement" xml:space="preserve"><value>Steg {0} av {1}: {2}</value></data>
+  <data name="WizardPrevious" xml:space="preserve"><value>Föregående</value></data>
+  <data name="WizardNext" xml:space="preserve"><value>Nästa</value></data>
+  <data name="WizardFinish" xml:space="preserve"><value>Slutför</value></data>
+  <data name="RelativeTimeNow" xml:space="preserve"><value>just nu</value></data>
+  <data name="RelativeTimePast" xml:space="preserve"><value>för {0} sedan</value></data>
+  <data name="RelativeTimeFuture" xml:space="preserve"><value>om {0}</value></data>
+  <data name="RelativeTimeSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeHours" xml:space="preserve"><value>{0} tim</value></data>
+  <data name="RelativeTimeDay" xml:space="preserve"><value>{0} dag</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} dagar</value></data>
+  <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} månad</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} månader</value></data>
+  <data name="RelativeTimeYear" xml:space="preserve"><value>{0} år</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} år</value></data>
+  <data name="HtmlEditorUnderline" xml:space="preserve"><value>Understruken</value></data>
+  <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Genomstruken</value></data>
+  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Kod i text</value></data>
+  <data name="HtmlEditorBlockFormat" xml:space="preserve"><value>Styckeformat</value></data>
+  <data name="HtmlEditorParagraph" xml:space="preserve"><value>Stycke</value></data>
+  <data name="HtmlEditorHeading1" xml:space="preserve"><value>Rubrik 1</value></data>
+  <data name="HtmlEditorHeading2" xml:space="preserve"><value>Rubrik 2</value></data>
+  <data name="HtmlEditorHeading3" xml:space="preserve"><value>Rubrik 3</value></data>
+  <data name="HtmlEditorHeading4" xml:space="preserve"><value>Rubrik 4</value></data>
+  <data name="HtmlEditorFontSize" xml:space="preserve"><value>Textstorlek</value></data>
+  <data name="HtmlEditorFontSizeSmall" xml:space="preserve"><value>Liten</value></data>
+  <data name="HtmlEditorFontSizeNormal" xml:space="preserve"><value>Normal</value></data>
+  <data name="HtmlEditorFontSizeLarge" xml:space="preserve"><value>Stor</value></data>
+  <data name="HtmlEditorFontSizeXLarge" xml:space="preserve"><value>Mycket stor</value></data>
+  <data name="HtmlEditorBulletList" xml:space="preserve"><value>Punktlista</value></data>
+  <data name="HtmlEditorNumberedList" xml:space="preserve"><value>Numrerad lista</value></data>
+  <data name="HtmlEditorQuote" xml:space="preserve"><value>Citat</value></data>
+  <data name="HtmlEditorCodeBlock" xml:space="preserve"><value>Kodblock</value></data>
+  <data name="HtmlEditorLink" xml:space="preserve"><value>Länk</value></data>
+  <data name="HtmlEditorUnlink" xml:space="preserve"><value>Ta bort länk</value></data>
+  <data name="HtmlEditorAlignLeft" xml:space="preserve"><value>Vänsterjustera</value></data>
+  <data name="HtmlEditorAlignCenter" xml:space="preserve"><value>Centrera</value></data>
+  <data name="HtmlEditorAlignRight" xml:space="preserve"><value>Högerjustera</value></data>
+  <data name="HtmlEditorAlignJustify" xml:space="preserve"><value>Marginaljustera</value></data>
+  <data name="HtmlEditorInsertTable" xml:space="preserve"><value>Infoga en tabell</value></data>
+  <data name="HtmlEditorClearFormatting" xml:space="preserve"><value>Rensa formatering</value></data>
+  <data name="HtmlEditorSource" xml:space="preserve"><value>HTML-källkod</value></data>
+  <data name="HtmlEditorCustomCommand" xml:space="preserve"><value>Kommando</value></data>
+  <data name="HtmlEditorCut" xml:space="preserve"><value>Klipp ut</value></data>
+  <data name="HtmlEditorCopy" xml:space="preserve"><value>Kopiera</value></data>
+  <data name="HtmlEditorPaste" xml:space="preserve"><value>Klistra in</value></data>
+  <data name="HtmlEditorInsertParagraph" xml:space="preserve"><value>Nytt stycke</value></data>
+  <data name="HtmlEditorAddRowAbove" xml:space="preserve"><value>Infoga rad ovanför</value></data>
+  <data name="HtmlEditorAddRowBelow" xml:space="preserve"><value>Infoga rad nedanför</value></data>
+  <data name="HtmlEditorDeleteRow" xml:space="preserve"><value>Ta bort rad</value></data>
+  <data name="HtmlEditorAddColumnBefore" xml:space="preserve"><value>Infoga kolumn före</value></data>
+  <data name="HtmlEditorAddColumnAfter" xml:space="preserve"><value>Infoga kolumn efter</value></data>
+  <data name="HtmlEditorDeleteColumn" xml:space="preserve"><value>Ta bort kolumn</value></data>
+  <data name="HtmlEditorMergeCellRight" xml:space="preserve"><value>Sammanfoga med cellen till höger</value></data>
+  <data name="HtmlEditorMergeCellDown" xml:space="preserve"><value>Sammanfoga med cellen nedanför</value></data>
+  <data name="HtmlEditorSplitCell" xml:space="preserve"><value>Dela cell</value></data>
+  <data name="HtmlEditorSetCellSpan" xml:space="preserve"><value>Utöka cell</value></data>
+  <data name="HtmlEditorLinkUrl" xml:space="preserve"><value>Länkadress</value></data>
+  <data name="HtmlEditorLinkApply" xml:space="preserve"><value>Använd</value></data>
+  <data name="HtmlEditorLinkCancel" xml:space="preserve"><value>Avbryt</value></data>
+  <data name="HtmlEditorLinkInvalid" xml:space="preserve"><value>Adressen avvisades: använd en relativ adress eller en http-, https-, mailto- eller tel-adress.</value></data>
+  <data name="DocumentEditorLabel" xml:space="preserve"><value>Ordbehandlare</value></data>
+  <data name="DocumentEditorStatus" xml:space="preserve"><value>Dokumentstatistik</value></data>
+  <data name="DocumentEditorWords" xml:space="preserve"><value>Ord: {0}</value></data>
+  <data name="DocumentEditorCharacters" xml:space="preserve"><value>Tecken: {0}</value></data>
+  <data name="DocumentEditorExportHtml" xml:space="preserve"><value>Exportera som HTML</value></data>
+  <data name="DocumentEditorExportText" xml:space="preserve"><value>Exportera som text</value></data>
+  <data name="DocumentEditorDefaultTitle" xml:space="preserve"><value>Dokument</value></data>
+  <data name="CodeEditorLabel" xml:space="preserve"><value>Kodredigerare</value></data>
+  <data name="CodeEditorLoading" xml:space="preserve"><value>Läser in kodredigeraren.</value></data>
+  <data name="CodeEditorUnavailable" xml:space="preserve"><value>Monaco-redigeraren kunde inte läsas in: koden redigeras som oformaterad text.</value></data>
+  <data name="CodeEditorPosition" xml:space="preserve"><value>Rad {0}, kolumn {1}</value></data>
+  <data name="CodeEditorLinkHint" xml:space="preserve"><value>Ctrl+klicka för att följa länken</value></data>
+  <data name="StatusBadgeStale" xml:space="preserve"><value>inaktuell</value></data>
+  <data name="StatusBadgeStaleSince" xml:space="preserve"><value>Senast uppdaterad: {0}</value></data>
+  <data name="LogViewerLabel" xml:space="preserve"><value>Logg</value></data>
+  <data name="LogViewerEmpty" xml:space="preserve"><value>Inga rader ännu.</value></data>
+  <data name="LogViewerSearch" xml:space="preserve"><value>Sök i loggen</value></data>
+  <data name="LogViewerAllLevels" xml:space="preserve"><value>Alla nivåer</value></data>
+  <data name="LogViewerLevelFilter" xml:space="preserve"><value>Lägsta nivå</value></data>
+  <data name="LogViewerFromLevel" xml:space="preserve"><value>{0} och allvarligare</value></data>
+  <data name="LogViewerPreviousMatch" xml:space="preserve"><value>Föregående träff</value></data>
+  <data name="LogViewerNextMatch" xml:space="preserve"><value>Nästa träff</value></data>
+  <data name="LogViewerNoMatch" xml:space="preserve"><value>Inga träffar</value></data>
+  <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} av {1}</value></data>
+  <data name="LogViewerFollow" xml:space="preserve"><value>Följ</value></data>
+  <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Gå till senaste raderna</value></data>
+  <data name="LogViewerNewLines" xml:space="preserve"><value>{0} nya rader</value></data>
+  <data name="LogViewerLevelPrefix" xml:space="preserve"><value>{0}: </value></data>
+  <data name="LogLevelTrace" xml:space="preserve"><value>Spårning</value></data>
+  <data name="LogLevelDebug" xml:space="preserve"><value>Felsökning</value></data>
+  <data name="LogLevelInformation" xml:space="preserve"><value>Information</value></data>
+  <data name="LogLevelWarning" xml:space="preserve"><value>Varning</value></data>
+  <data name="LogLevelError" xml:space="preserve"><value>Fel</value></data>
+  <data name="LogLevelCritical" xml:space="preserve"><value>Kritisk</value></data>
+  <data name="CodeBlockCopy" xml:space="preserve"><value>Kopiera</value></data>
+  <data name="CodeBlockCopied" xml:space="preserve"><value>Kopierat till urklipp</value></data>
+  <data name="CodeBlockCopyFailed" xml:space="preserve"><value>Kopieringen misslyckades</value></data>
+  <data name="CodeBlockReveal" xml:space="preserve"><value>Visa värdet</value></data>
+  <data name="CodeBlockHide" xml:space="preserve"><value>Dölj värdet</value></data>
+  <data name="CodeViewerLabel" xml:space="preserve"><value>Kod</value></data>
+  <data name="CodeViewerEmpty" xml:space="preserve"><value>Inget att visa.</value></data>
+  <data name="CodeViewerWrap" xml:space="preserve"><value>Radbrytning</value></data>
+  <data name="CodeViewerLinkHint" xml:space="preserve"><value>Följ länken</value></data>
+  <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Inga ändringar.</value></data>
+  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0} rader tillagda, {1} rader borttagna</value></data>
+  <data name="UnifiedDiffBinary" xml:space="preserve"><value>Binärfil: inga rader att jämföra.</value></data>
+  <data name="UnifiedDiffNoLines" xml:space="preserve"><value>Inga ändrade rader.</value></data>
+  <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Rad före</value></data>
+  <data name="UnifiedDiffNewLine" xml:space="preserve"><value>Rad efter</value></data>
+  <data name="UnifiedDiffContent" xml:space="preserve"><value>Innehåll</value></data>
+  <data name="UnifiedDiffAdded" xml:space="preserve"><value>Tillagd: </value></data>
+  <data name="UnifiedDiffRemoved" xml:space="preserve"><value>Borttagen: </value></data>
+  <data name="UnifiedDiffRenamedPath" xml:space="preserve"><value>{0} till {1}</value></data>
+  <data name="UnifiedDiffUntitled" xml:space="preserve"><value>Ändring</value></data>
+  <data name="UnifiedDiffStatusModified" xml:space="preserve"><value>Ändrad</value></data>
+  <data name="UnifiedDiffStatusAdded" xml:space="preserve"><value>Tillagd</value></data>
+  <data name="UnifiedDiffStatusDeleted" xml:space="preserve"><value>Borttagen</value></data>
+  <data name="UnifiedDiffStatusRenamed" xml:space="preserve"><value>Namnbytt</value></data>
+  <data name="DynamicFormRequired" xml:space="preserve"><value>{0} är obligatoriskt.</value></data>
+  <data name="DynamicFormNumber" xml:space="preserve"><value>{0} måste vara ett tal.</value></data>
+  <data name="DynamicFormMinimum" xml:space="preserve"><value>{0} måste vara minst {1}.</value></data>
+  <data name="DynamicFormMaximum" xml:space="preserve"><value>{0} får vara högst {1}.</value></data>
+  <data name="DynamicFormChoice" xml:space="preserve"><value>{0} måste vara ett av de erbjudna värdena.</value></data>
+  <data name="StatusStripLabel" xml:space="preserve"><value>Statushistorik</value></data>
+  <data name="StatusStripEmpty" xml:space="preserve"><value>Ingen status att visa</value></data>
+  <data name="KanbanLabel" xml:space="preserve"><value>Korttavla</value></data>
+  <data name="KanbanInstructions" xml:space="preserve"><value>Blanksteg eller Enter för att plocka upp kortet, piltangenter för att flytta det, Blanksteg eller Enter för att släppa det, Esc för att avbryta.</value></data>
+  <data name="KanbanGrabbed" xml:space="preserve"><value>{0} har plockats upp, kolumn {1}, position {2} av {3}.</value></data>
+  <data name="KanbanMoved" xml:space="preserve"><value>{0}: kolumn {1}, position {2} av {3}.</value></data>
+  <data name="KanbanDropped" xml:space="preserve"><value>{0} har släppts, kolumn {1}, position {2} av {3}.</value></data>
+  <data name="KanbanCancelled" xml:space="preserve"><value>Flytten avbröts: {0} ligger kvar i kolumn {1}.</value></data>
+  <data name="KanbanEmptyColumn" xml:space="preserve"><value>Inga kort</value></data>
+  <data name="KanbanCardCount" xml:space="preserve"><value>Kort: {0}</value></data>
+  <data name="GitGraphLabel" xml:space="preserve"><value>Commit-historik</value></data>
+  <data name="GitGraphEmpty" xml:space="preserve"><value>Inga commits</value></data>
+  <data name="StepTimelineExpected" xml:space="preserve"><value>{0} % av den vanliga varaktigheten har gått</value></data>
+  <data name="StepTimelineOverrun" xml:space="preserve"><value>utöver den vanliga varaktigheten</value></data>
+  <data name="DiffViewerLabel" xml:space="preserve"><value>Jämförelse</value></data>
+  <data name="DiffViewerOriginal" xml:space="preserve"><value>Före</value></data>
+  <data name="DiffViewerModified" xml:space="preserve"><value>Efter</value></data>
+  <data name="DiffViewerUnavailable" xml:space="preserve"><value>Monaco-redigeraren kunde inte läsas in: båda versionerna visas som oformaterad text, utan markerade skillnader.</value></data>
+  <data name="GitGraphMerge" xml:space="preserve"><value>Sammanslagnings-commit.</value></data>
+  <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="LinkOpensInNewTab" xml:space="preserve"><value>(öppnas i en ny flik)</value></data>
+  <data name="MarkdownExportButton" xml:space="preserve"><value>Exportera som .md</value></data>
+  <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Gräns: högst {0} rader</value></data>
+  <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Genererad (UTC): {0}</value></data>
+  <data name="MarkdownExportRowCount" xml:space="preserve"><value>Exporterade rader: {0} av {1} angivna</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Avkortad export: {0} av {1} rader exporterade, gränsen på {2} rader har nåtts.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Ofullständig export: {0} av {1} angivna rader exporterade, data ändrades under läsningen.</value></data>
+  <data name="MarkdownExportEmpty" xml:space="preserve"><value>Inga rader.</value></data>
+  <data name="SignUp" xml:space="preserve"><value>Registrera dig</value></data>
+  <data name="SignUpPrompt" xml:space="preserve"><value>Inget konto?</value></data>
+  <data name="UnsavedChangesTitle" xml:space="preserve"><value>Osparade ändringar</value></data>
+  <data name="UnsavedChangesMessage" xml:space="preserve"><value>Vissa ändringar har inte sparats. Vill du lämna sidan utan att spara dem?</value></data>
+  <data name="UnsavedChangesLeave" xml:space="preserve"><value>Lämna utan att spara</value></data>
+  <data name="UnsavedChangesStay" xml:space="preserve"><value>Stanna på sidan</value></data>
+  <data name="MoreActions" xml:space="preserve"><value>Fler åtgärder</value></data>
+  <data name="AppearanceWindowTitle" xml:space="preserve"><value>Utseende</value></data>
+</root>

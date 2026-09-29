@@ -223,7 +223,7 @@ public sealed class FoundationComponentTests : OmniBunitContext
         var component = Render<OmniFieldset>(parameters => parameters
             .Add(item => item.Legend, Content("Advanced"))
             .Add(item => item.Collapsible, true)
-            .Add(item => item.Collapsed, true)
+            .Add(item => item.Expanded, false)
             .AddChildContent("Fields"));
 
         // The native disclosure, not a legend: the group has to be openable by keyboard with no

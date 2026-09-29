@@ -3,23 +3,30 @@
 @inherits OmniInputBase<TValue>
 @implements IAsyncDisposable
 
-<div class="omni-autocomplete">
+@* The editable combobox pattern: the focus stays in the input, the arrows move a visual focus through
+   the suggestions (announced through aria-activedescendant), Enter picks it and Escape closes the list.
+   The suggestions are plain options, not buttons: a button inside an option is a second, conflicting
+   role that screen readers announce twice. *@
+<div class="@RootClass">
     <input @attributes="AdditionalAttributes"
            id="@Id"
-           class="@InputCss("omni-input", "omni-autocomplete__input")"
+           class="@InputClass"
            type="search"
            value="@_searchText"
            placeholder="@Placeholder"
-           aria-label="@AriaLabel"
+           aria-label="@Label"
            autocomplete="off"
            disabled="@Disabled"
            role="combobox"
            aria-autocomplete="list"
-           aria-expanded="@(_results.Count > 0 ? "true" : "false")"
+           aria-expanded="@(IsOpen ? "true" : "false")"
            aria-controls="@ResultsId"
+           aria-activedescendant="@ActiveOptionId"
            aria-invalid="@AriaInvalid"
            aria-describedby="@CombinedAriaDescribedBy"
-           @oninput="HandleInputAsync" />
+           @oninput="HandleInputAsync"
+           @onkeydown="HandleKeyDownAsync"
+           @onblur="Close" />
     @if (_error is not null)
     {
         <div id="@ErrorId" class="omni-autocomplete__error" role="alert">
@@ -33,39 +40,43 @@
             }
         </div>
     }
-    @if (_results.Count > 0)
+    @if (IsOpen)
     {
-        <ul id="@ResultsId" class="omni-autocomplete__results" role="listbox">
-            @foreach (var option in _results)
+        <ul id="@ResultsId" class="omni-autocomplete__results" role="listbox" aria-label="@Label">
+            @for (var index = 0; index < _results.Count; index++)
             {
-                <li role="option" aria-selected="@(IsSelected(option.Value) ? "true" : "false")">
-                    <button type="button"
-                            class="omni-autocomplete__option"
-                            disabled="@(option.Disabled || Disabled)"
-                            @onclick="() => Select(option)">
-                        @if (OptionIcon is not null)
+                var position = index;
+                var option = _results[position];
+                var unavailable = option.Disabled || Disabled;
+                <li id="@OptionId(position)"
+                    class="@OptionClass(position, option)"
+                    role="option"
+                    aria-selected="@(position == _activeIndex ? "true" : "false")"
+                    aria-disabled="@(unavailable ? "true" : null)"
+                    @onmousedown:preventDefault="true"
+                    @onclick="() => Select(option)">
+                    @if (OptionIconTemplate is not null)
+                    {
+                        <span class="omni-autocomplete__option-icon" aria-hidden="true">@OptionIconTemplate(option)</span>
+                    }
+                    @if (HighlightMatches)
+                    {
+                        @foreach (var segment in OmniTextMatch.Split(option.Text, _resultsQuery))
                         {
-                            <span class="omni-autocomplete__option-icon" aria-hidden="true">@OptionIcon(option)</span>
-                        }
-                        @if (HighlightMatches)
-                        {
-                            @foreach (var segment in OmniTextMatch.Split(option.Text, _resultsQuery))
+                            if (segment.Matched)
                             {
-                                if (segment.Matched)
-                                {
-                                    <mark class="omni-autocomplete__match">@segment.Text</mark>
-                                }
-                                else
-                                {
-                                    @segment.Text
-                                }
+                                <mark class="omni-autocomplete__match">@segment.Text</mark>
+                            }
+                            else
+                            {
+                                @segment.Text
                             }
                         }
-                        else
-                        {
-                            @option.Text
-                        }
-                    </button>
+                    }
+                    else
+                    {
+                        @option.Text
+                    }
                 </li>
             }
         </ul>

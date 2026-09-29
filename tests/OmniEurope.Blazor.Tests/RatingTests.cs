@@ -3,6 +3,11 @@ using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
 
+/// <summary>
+/// <see cref="OmniRating"/> picks one of N as a radio group: native radio buttons give the checked
+/// state, the single tab stop and the arrow keys; each star is announced "n sur N" in a group named by
+/// <see cref="OmniRating.Label"/>, the localized "Note" by default.
+/// </summary>
 public sealed class RatingTests : OmniBunitContext
 {
     [Fact]
@@ -13,12 +18,47 @@ public sealed class RatingTests : OmniBunitContext
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
             .Add(component => component.ValueChanged, selected => value = selected));
-        rating.FindAll("button")[3].Click();
+        rating.FindAll("input[type=radio]")[3].Change(true);
         Assert.Equal(4, value);
-        Assert.Equal("true", rating.FindAll("button")[3].GetAttribute("aria-pressed"));
-        rating.FindAll("button")[1].Click();
+        Assert.True(rating.FindAll("input[type=radio]")[3].HasAttribute("checked"));
+        var filled = OmniEurope.Blazor.Internal.PhosphorIconGlyphs.For(OmniIconName.StarFilled).PathData;
+        Assert.Equal(4, rating.FindAll(".omni-rating__star path").Count(path => path.GetAttribute("d") == filled));
+        rating.FindAll("input[type=radio]")[1].Change(true);
         Assert.Equal(2, value);
-        Assert.Equal(5, rating.FindAll("button").Count);
+        Assert.Equal(5, rating.FindAll("input[type=radio]").Count);
+    }
+
+    [Fact]
+    public void Editable_rating_is_a_named_radio_group_of_native_radios_sharing_one_name()
+    {
+        int? value = 3;
+        var rating = Render<OmniRating>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value));
+
+        var group = rating.Find(".omni-rating");
+        Assert.Equal("radiogroup", group.GetAttribute("role"));
+        Assert.Equal("Note", group.GetAttribute("aria-label"));
+        var radios = rating.FindAll("input[type=radio]");
+        Assert.Single(radios.Select(radio => radio.GetAttribute("name")).Distinct());
+        Assert.Equal(["1 sur 5", "2 sur 5", "3 sur 5", "4 sur 5", "5 sur 5"], radios.Select(radio => radio.GetAttribute("aria-label")));
+        Assert.Equal([false, false, true, false, false], radios.Select(radio => radio.HasAttribute("checked")));
+        // One tab stop and the arrows come from the native radios: no roving tabindex to keep in step.
+        Assert.All(radios, radio => Assert.Null(radio.GetAttribute("tabindex")));
+        Assert.Empty(rating.FindAll("button"));
+        Assert.Empty(rating.FindAll("[aria-pressed]"));
+    }
+
+    [Fact]
+    public void Label_names_the_group()
+    {
+        int? value = null;
+        var rating = Render<OmniRating>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Label, "Qualité"));
+
+        Assert.Equal("Qualité", rating.Find("[role=radiogroup]").GetAttribute("aria-label"));
     }
 
     [Fact]
@@ -30,12 +70,12 @@ public sealed class RatingTests : OmniBunitContext
             .Add(component => component.ValueExpression, () => value)
             .Add(component => component.ReadOnly, true)
             .Add(component => component.Disabled, true));
-        Assert.Equal(5, rating.FindAll("button:disabled").Count);
+        Assert.Equal(5, rating.FindAll("input[type=radio]:disabled").Count);
         Assert.Contains("omni-rating--disabled", rating.Find(".omni-rating").ClassList);
     }
 
     [Fact]
-    public void ReadOnly_rating_is_one_focusable_announced_value_that_cannot_change()
+    public void ReadOnly_rating_is_one_announced_value_outside_the_tab_order_that_cannot_change()
     {
         int? value = 3;
         var rating = Render<OmniRating>(parameters => parameters
@@ -47,18 +87,30 @@ public sealed class RatingTests : OmniBunitContext
 
         var root = rating.Find(".omni-rating");
         Assert.Equal("img", root.GetAttribute("role"));
-        Assert.Equal("0", root.GetAttribute("tabindex"));
-        Assert.Equal("Note 3/5", root.GetAttribute("aria-label"));
+        Assert.Null(root.GetAttribute("tabindex"));
+        Assert.Equal("Note : 3 sur 5", root.GetAttribute("aria-label"));
         Assert.Contains("omni-rating--readonly", root.ClassList);
         Assert.DoesNotContain("omni-rating--disabled", root.ClassList);
-        Assert.Empty(rating.FindAll("button"));
+        Assert.Empty(rating.FindAll("input"));
         var filled = OmniEurope.Blazor.Internal.PhosphorIconGlyphs.For(OmniIconName.StarFilled).PathData;
         Assert.Equal(3, rating.FindAll(".omni-rating__star path").Count(path => path.GetAttribute("d") == filled));
         Assert.Equal(5, rating.FindAll(".omni-rating__star").Count);
     }
 
     [Fact]
-    public void Disabled_rating_keeps_disabled_star_buttons_out_of_the_tab_order()
+    public void ReadOnly_rating_without_label_announces_the_localized_default()
+    {
+        int? value = null;
+        var rating = Render<OmniRating>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.ReadOnly, true));
+
+        Assert.Equal("Note : 0 sur 5", rating.Find(".omni-rating").GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Disabled_rating_keeps_disabled_radios_out_of_the_tab_order()
     {
         int? value = 2;
         var rating = Render<OmniRating>(parameters => parameters
@@ -68,9 +120,10 @@ public sealed class RatingTests : OmniBunitContext
             .Add(component => component.Disabled, true));
 
         var root = rating.Find(".omni-rating");
-        Assert.Equal("group", root.GetAttribute("role"));
+        Assert.Equal("radiogroup", root.GetAttribute("role"));
+        Assert.Equal("true", root.GetAttribute("aria-disabled"));
         Assert.Null(root.GetAttribute("tabindex"));
         Assert.Contains("omni-rating--disabled", root.ClassList);
-        Assert.Equal(5, rating.FindAll("button:disabled").Count);
+        Assert.Equal(5, rating.FindAll("input[type=radio]:disabled").Count);
     }
 }

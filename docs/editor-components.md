@@ -1,7 +1,17 @@
 # Éditeurs : WYSIWYG, traitement de texte et code
 
-Ce lot couvre `OmniHtmlEditor`, qui sert aussi de traitement de texte léger, et `OmniCodeEditor`. Le
-premier produit du HTML assaini ; le second édite du texte brut.
+La famille Editor couvre six composants :
+
+| Composant | Rôle |
+| --- | --- |
+| `OmniHtmlEditor` | Éditeur WYSIWYG à face source HTML, barre de commandes extensible, sortie assainie ; sert aussi de traitement de texte léger. |
+| `OmniCodeEditor` | Éditeur de code Monaco servi par l'hôte, avec repli en zone de texte brut. |
+| `OmniDiffViewer` | Comparaison de deux versions d'un texte avec Monaco, repli en deux volets. |
+| `OmniCodeViewer` | Code en lecture seule, numéroté, lignes surlignées et liens, bouton de copie. |
+| `OmniCodeBlock` | Commande, extrait ou jeton à copier ; un secret reste masqué jusqu'à ce qu'on le révèle. |
+| `OmniUnifiedDiff` | Diff unifié (`git diff`) dessiné sans Monaco, un bloc repliable par fichier. |
+
+`OmniHtmlEditor` produit du HTML assaini ; `OmniCodeEditor` édite du texte brut ; les quatre autres affichent sans éditer.
 
 ## OmniHtmlEditor
 
@@ -356,6 +366,22 @@ pendant le chargement de Monaco et, avec un message d'état, s'il ne se charge p
 - Preuves : `DiffViewerComponentTests` (volets, saisie de repli, hauteur, chargement, échec, montage,
   mises à jour, passage au texte brut, libération). Monaco lui-même n'a pas été exercé dans un
   navigateur pour ce composant : la vitrine le montre en texte brut.
+
+## OmniCodeBlock : commande ou secret à copier
+
+`OmniCodeBlock` affiche en lecture seule un bloc de code, une commande ou un jeton, avec un bouton qui le
+copie dans le presse-papiers ; le résultat est annoncé par une région live polie. Un secret est masqué à
+l'écran (ses premiers et derniers caractères gardés, pour le reconnaître) jusqu'au bouton qui le révèle ;
+la copie prend toujours la valeur entière. La copie passe par `omniInterop.js` : l'API asynchrone du
+presse-papiers, ou une zone de texte cachée et la commande de copie quand elle est refusée.
+
+## OmniUnifiedDiff : diff unifié sans Monaco
+
+`OmniUnifiedDiff` dessine un diff unifié (texte brut d'un `git diff`, ou fichiers déjà analysés par
+`OmniUnifiedDiffParser`) sans Monaco ni style en ligne : une section repliable par fichier avec son
+chemin, ce qui lui est arrivé et ses nombres de lignes ajoutées et retirées, puis ses blocs avec les
+numéros d'avant et d'après côte à côte et les lignes ajoutées et retirées teintées. Un en-tête de bloc
+malformé (nombres hors d'un `int`) est ignoré. Il marche donc sous la politique CSP stricte.
 
 ## Limites connues
 

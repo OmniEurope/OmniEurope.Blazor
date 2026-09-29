@@ -1,17 +1,19 @@
 # Analyseurs de conventions
 
-Le projet `eng/OmniEurope.Analyzers` fournit les diagnostics compilés avec la RCL. `.editorconfig` porte leur sévérité et `tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs` protège les conventions qui nécessitent une vue dépôt.
+Le projet `eng/OmniEurope.Analyzers` fournit les diagnostics `GEN*` compilés avec la RCL ; `src/OmniEurope.Blazor.Analyzers` fournit `OE0001`, livré dans le paquet (voir plus bas). `.editorconfig` porte leur sévérité et `tests/OmniEurope.Blazor.Tests/ConventionGuardTests.cs` protège les conventions qui nécessitent une vue dépôt.
 
-| Diagnostic | Contrat | Applicabilité à la RCL |
-| --- | --- | --- |
-| `GEN001` | pas d'injection directe de contexte de données | actif, aucun contexte attendu |
-| `GEN002` | accès aux données via dépôt | actif en prévention |
-| `GEN003` | horloge injectée via `TimeProvider` | actif |
-| `GEN004` | aucun bloc `@code` dans les fichiers Razor livrés | actif et promu à erreur |
-| `GEN005` | ordre correct des opérations de requête | actif en prévention |
-| `GEN006` | matérialisation potentiellement non bornée | avertissement informatif |
-| `GEN007` | autorisation explicite des contrôleurs | actif en prévention, aucun contrôleur attendu |
-| `GEN008` | types partiels limités aux raisons autorisées | actif et promu à erreur; les code-behind Razor sont reconnus |
+| Diagnostic | Contrat | Sévérité (`.editorconfig`) | Applicabilité à la RCL |
+| --- | --- | --- | --- |
+| `GEN001` | pas d'injection directe de contexte de données | erreur | actif, aucun contexte attendu |
+| `GEN002` | accès aux données via dépôt | erreur | actif en prévention |
+| `GEN003` | horloge injectée via `TimeProvider` | erreur | actif |
+| `GEN004` | aucun bloc `@code` dans les fichiers Razor livrés | erreur (`*.razor`, `*.cshtml`) | actif |
+| `GEN005` | ordre correct des opérations de requête | erreur | actif en prévention |
+| `GEN006` | matérialisation potentiellement non bornée | avertissement, donc erreur sous `TreatWarningsAsErrors` | actif |
+| `GEN007` | autorisation explicite des contrôleurs | erreur | actif en prévention, aucun contrôleur attendu |
+| `GEN008` | types partiels limités aux raisons autorisées | erreur | actif ; les code-behind Razor sont reconnus |
+
+Les descripteurs déclarent une sévérité par défaut plus basse (`GEN001` erreur, `GEN006` information, les autres avertissement) ; `.editorconfig` les relève comme ci-dessus pour ce dépôt, et les dossiers `Migrations` éteignent `GEN003` et `GEN008`.
 
 La suite dédiée `eng/OmniEurope.Analyzers.Tests` exécute chaque diagnostic contre un cas positif et un cas négatif au moyen d'une compilation Roslyn réelle. Les règles sémantiques lient les symboles BCL, LINQ, EF et ASP.NET Core au lieu de se fier à leur texte ou à un nom homonyme. `GEN008` n'accepte comme preuve de génération que les attributs de générateurs connus; une méthode `partial` utilisateur sans corps ne constitue pas une exemption.
 

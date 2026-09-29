@@ -10,14 +10,14 @@ using OmniEurope.Blazor.Internal;
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
-/// The date, time and date and time pickers of PLAN-008 (T18 a, T19): the field, the house panel on
+/// The date, time and date and time pickers of PLAN-004 (T18 a, T19): the field, the house panel on
 /// the floating layer, the grid and column keyboard, the bounds, the binding and both languages. What
 /// only a browser can prove (the single open panel, the page not scrolling under the arrows, the real
 /// focus) is left to the showcase probe; here the script calls are checked as calls.
 /// </summary>
 public sealed class PickerTests : OmniBunitContext
 {
-    private const string FocusModule = "./_content/OmniEurope.Blazor/omni-focus.js";
+    private const string FocusModule = OmniModules.Focus;
 
     /// <summary>Friday 18 September 2026, 14:33:20, the day of the mockup.</summary>
     private static readonly FixedClock Clock = new(new DateTimeOffset(2026, 9, 18, 14, 33, 20, TimeSpan.Zero));
@@ -324,7 +324,7 @@ public sealed class PickerTests : OmniBunitContext
     [Fact]
     public void TimePicker_Step_SetsTheMinuteColumn_AndIsBounded()
     {
-        var host = RenderHost(parameters: parameters => parameters.Add(component => component.Step, 15));
+        var host = RenderHost(parameters: parameters => parameters.Add(component => component.Step, TimeSpan.FromMinutes(15)));
         Toggle(host, "time").Click();
         Assert.Equal(["00", "15", "30", "45"], host.FindAll("[data-omni-part='minute'] [role='option']").Select(item => item.TextContent));
 
@@ -332,11 +332,16 @@ public sealed class PickerTests : OmniBunitContext
         Assert.ThrowsAny<ArgumentOutOfRangeException>(() => Render<OmniTimePicker>(parameters => parameters
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.Step, 0)));
+            .Add(component => component.Step, TimeSpan.Zero)));
         Assert.ThrowsAny<ArgumentOutOfRangeException>(() => Render<OmniTimePicker>(parameters => parameters
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.Step, 31)));
+            .Add(component => component.Step, TimeSpan.FromMinutes(31))));
+        // A fraction of a minute cannot be drawn by the minute column.
+        Assert.ThrowsAny<ArgumentOutOfRangeException>(() => Render<OmniTimePicker>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Step, TimeSpan.FromSeconds(90))));
     }
 
     [Fact]

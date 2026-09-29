@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace OmniEurope.Blazor.Components;
@@ -8,21 +7,27 @@ namespace OmniEurope.Blazor.Components;
 /// Free-text filter input backed by a list of suggestions. Unlike a native <c>datalist</c>, the list
 /// is ordinary markup, so it can be styled and the typed fragment can be highlighted inside each
 /// suggestion. Every keystroke raises <see cref="ValueChanged"/>: the grid filters as the user types.
+/// <see cref="OmniComponentBase.Id"/> goes on the input, <see cref="OmniComponentBase.Class"/> and the
+/// additional attributes on the outer element.
 /// </summary>
 public partial class OmniDataGridFilterCombo
 {
     private int _activeIndex = -1;
     private bool _open;
 
+    /// <summary>The typed text, which is the filter value.</summary>
     [Parameter]
     public string Value { get; set; } = string.Empty;
 
+    /// <summary>Raised with the text at every keystroke, and with the suggestion picked.</summary>
     [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
 
+    /// <summary>The candidates listed under the input, narrowed to those containing the typed text (case and accents ignored).</summary>
     [Parameter]
     public IReadOnlyList<string> Suggestions { get; set; } = [];
 
+    /// <summary>Placeholder of the input.</summary>
     [Parameter]
     public string? Placeholder { get; set; }
 
@@ -32,7 +37,7 @@ public partial class OmniDataGridFilterCombo
     /// to hear about it from here rather than from the event.
     /// </summary>
     [Parameter]
-    public EventCallback Picked { get; set; }
+    public EventCallback OnPick { get; set; }
 
     /// <summary>Maximum suggestions rendered at once, so a large catalogue stays usable.</summary>
     [Parameter]
@@ -51,12 +56,12 @@ public partial class OmniDataGridFilterCombo
         : "omni-combo__option";
 
     /// <summary>
-    /// Suggestions containing what has been typed so far. An empty box lists everything, so the
-    /// control also works as a plain picker.
+    /// Suggestions containing what has been typed so far, ignoring case and accents, the rule that marks
+    /// the match. An empty box lists everything, so the control also works as a plain picker.
     /// </summary>
     private IReadOnlyList<string> Matches => (string.IsNullOrEmpty(Value)
             ? Suggestions
-            : Suggestions.Where(candidate => candidate.Contains(Value, StringComparison.OrdinalIgnoreCase)))
+            : Suggestions.Where(candidate => OmniTextMatch.Contains(candidate, Value)))
         .Take(Math.Max(1, MaxSuggestions))
         .ToArray();
 
@@ -101,29 +106,7 @@ public partial class OmniDataGridFilterCombo
     {
         CloseList();
         await ValueChanged.InvokeAsync(candidate);
-        await Picked.InvokeAsync();
+        await OnPick.InvokeAsync();
     }
 
-    /// <summary>
-    /// Renders a suggestion with the typed fragment wrapped in a mark element. Built by hand rather
-    /// than by string concatenation so the candidate is never treated as markup.
-    /// </summary>
-    private RenderFragment Highlighted(string candidate) => builder =>
-    {
-        var index = string.IsNullOrEmpty(Value)
-            ? -1
-            : candidate.IndexOf(Value, StringComparison.OrdinalIgnoreCase);
-        if (index < 0)
-        {
-            builder.AddContent(0, candidate);
-            return;
-        }
-
-        builder.AddContent(1, candidate[..index]);
-        builder.OpenElement(2, "mark");
-        builder.AddAttribute(3, "class", "omni-combo__match");
-        builder.AddContent(4, candidate.Substring(index, Value.Length));
-        builder.CloseElement();
-        builder.AddContent(5, candidate[(index + Value.Length)..]);
-    };
 }

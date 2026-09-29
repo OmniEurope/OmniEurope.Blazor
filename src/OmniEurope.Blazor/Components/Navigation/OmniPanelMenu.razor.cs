@@ -1,9 +1,14 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// A vertical navigation menu of <see cref="OmniPanelMenuItem"/>, groups folding their entries, the
+/// entry of the current route marked; down to its icons on the rail of an <see cref="OmniSidebar"/>.
+/// </summary>
 public partial class OmniPanelMenu
 {
+    /// <summary>Accessible name of the navigation landmark. Null, the default, is the localized "Navigation".</summary>
     [Parameter]
-    public string Label { get; set; } = string.Empty;
+    public string? Label { get; set; }
 
     /// <summary>
     /// Narrow the items down to their icons. The text stays in the markup so a screen reader still
@@ -26,9 +31,7 @@ public partial class OmniPanelMenu
 
     private OmniPanelMenuContext OwnContext => new(EffectiveDisplayStyle) { ExpandSidebar = Sidebar?.Expand, CanNavigate = CanNavigate };
 
-    private string EffectiveLabel => string.IsNullOrWhiteSpace(Label)
-        ? Localize("PanelMenuLabel")
-        : Label;
+    private string EffectiveLabel => LocalizeOr(Label, "PanelMenuLabel");
 
     /// <summary>
     /// Asked, with the address, before any entry of the menu navigates: the entry navigates only when

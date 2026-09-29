@@ -1,5 +1,9 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// A group of fields under a legend (<c>fieldset</c>); <see cref="Collapsible"/>, a native disclosure
+/// that folds away.
+/// </summary>
 public partial class OmniFieldset
 {
     private const string ModulePath = "./_content/OmniEurope.Blazor/omni-focus.js";
@@ -8,20 +12,23 @@ public partial class OmniFieldset
     private IJSObjectReference? _module;
     private DotNetObjectReference<ToggleInterop>? _selfReference;
     private bool _observing;
-    private bool _collapsed;
-    private bool? _collapsedParameter;
+    private bool _expanded;
+    private bool? _expandedParameter;
 
     public OmniFieldset()
     {
         _toggleInterop = new ToggleInterop(HandleToggledAsync);
     }
 
+    /// <summary>The title of the group.</summary>
     [Parameter, EditorRequired]
     public RenderFragment? Legend { get; set; }
 
+    /// <summary>The fields of the group.</summary>
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>Disables every control of the group (<c>fieldset disabled</c>).</summary>
     [Parameter]
     public bool Disabled { get; set; }
 
@@ -33,40 +40,40 @@ public partial class OmniFieldset
     public bool Collapsible { get; set; }
 
     /// <summary>
-    /// Whether a collapsible group is folded when it first renders. The disclosure is the browser's
-    /// own from then on: it opens and closes without a round trip. Without
-    /// <see cref="CollapsedChanged"/> this parameter does not track it; with it, it can be bound
-    /// both ways.
+    /// Whether a collapsible group is open; true, the default. The disclosure is the browser's own
+    /// from then on: it opens and closes without a round trip. Without <see cref="ExpandedChanged"/>
+    /// this parameter only sets the state the group renders with; with it, it can be bound both ways.
     /// </summary>
     [Parameter]
-    public bool Collapsed { get; set; }
+    public bool Expanded { get; set; } = true;
 
     /// <summary>
-    /// Raised with the new folded state when the reader opens or closes a
-    /// <see cref="Collapsible"/> group. The native element's <c>toggle</c> event is heard by a
-    /// listener the package script adds, no inline handler, and only while this callback has a
-    /// delegate: without one the group renders and behaves exactly as before, with no script. A
-    /// change the host makes through <see cref="Collapsed"/> is not reported back.
+    /// Raised with the new open state when the reader opens or closes a <see cref="Collapsible"/>
+    /// group. The native element's <c>toggle</c> event is heard by a listener the package script
+    /// adds, no inline handler, and only while this callback has a delegate: without one the group
+    /// renders and behaves exactly as before, with no script. A change the host makes through
+    /// <see cref="Expanded"/> is not reported back.
     /// </summary>
     [Parameter]
-    public EventCallback<bool> CollapsedChanged { get; set; }
+    public EventCallback<bool> ExpandedChanged { get; set; }
 
+    /// <summary>Tracks the open state the host sets.</summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
 
         // The state the disclosure is known to be in: the host's value whenever it changes it, the
         // reader's otherwise, so a toggle the host caused itself is not echoed back to it.
-        if (_collapsedParameter != Collapsed)
+        if (_expandedParameter != Expanded)
         {
-            _collapsedParameter = Collapsed;
-            _collapsed = Collapsed;
+            _expandedParameter = Expanded;
+            _expanded = Expanded;
         }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var wanted = Collapsible && CollapsedChanged.HasDelegate;
+        var wanted = Collapsible && ExpandedChanged.HasDelegate;
         if (wanted == _observing)
         {
             return;
@@ -90,14 +97,13 @@ public partial class OmniFieldset
 
     private async Task HandleToggledAsync(bool open)
     {
-        var collapsed = !open;
-        if (collapsed == _collapsed)
+        if (open == _expanded)
         {
             return;
         }
 
-        _collapsed = collapsed;
-        await CollapsedChanged.InvokeAsync(collapsed);
+        _expanded = open;
+        await ExpandedChanged.InvokeAsync(open);
     }
 
     public async ValueTask DisposeAsync()

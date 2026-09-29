@@ -1,0 +1,22 @@
+@namespace OmniEurope.Blazor.Components
+@typeparam TValue
+@typeparam TSelection
+@inherits OmniInputBase<TSelection>
+
+@* A radio group (one choice) or a group of check boxes (Multiple) made of selectable cards: the cards of
+   Options, then the cards written inside it, each standing for its Choice. *@
+<div @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@InputCss("omni-selectable-card-group")"
+     role="@(Multiple ? "group" : "radiogroup")"
+     aria-label="@Label"
+     aria-disabled="@(Disabled ? "true" : null)"
+     aria-invalid="@AriaInvalid">
+    <CascadingValue TValue="IOmniSelectableCardGroup" Value="this" IsFixed="true">
+        @foreach (var option in Options)
+        {
+            <OmniSelectableCard @key="option" Title="@option.Text" Disabled="@option.Disabled" Choice="@option.Value" />
+        }
+        @ChildContent
+    </CascadingValue>
+</div>

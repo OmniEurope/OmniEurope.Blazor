@@ -31,11 +31,11 @@ public partial class DataGridAdvancedDemo
         new(OmniDensity.Spacious, "Aérée")
     ];
 
-    private static readonly IReadOnlyList<OmniOption<OmniDataGridPagerPosition>> PagerOptions =
+    private static readonly IReadOnlyList<OmniOption<OmniDataGridPosition>> PagerOptions =
     [
-        new(OmniDataGridPagerPosition.Bottom, "En bas"),
-        new(OmniDataGridPagerPosition.Top, "En haut"),
-        new(OmniDataGridPagerPosition.TopAndBottom, "En haut et en bas")
+        new(OmniDataGridPosition.Bottom, "En bas"),
+        new(OmniDataGridPosition.Top, "En haut"),
+        new(OmniDataGridPosition.TopAndBottom, "En haut et en bas")
     ];
 
     private static readonly IReadOnlyList<OmniOption<OmniDataGridSelectionMode>> SelectionOptions =
@@ -52,22 +52,23 @@ public partial class DataGridAdvancedDemo
         new(OmniDataGridFilterMode.Advanced, "Menu à deux conditions")
     ];
 
-    private static readonly IReadOnlyList<OmniOption<OmniDataGridEditMode>> EditOptions =
+    private static readonly IReadOnlyList<OmniOption<OmniDataGridRowMode>> EditOptions =
     [
-        new(OmniDataGridEditMode.Single, "Une ligne à la fois"),
-        new(OmniDataGridEditMode.Multiple, "Plusieurs lignes")
+        new(OmniDataGridRowMode.Single, "Une ligne à la fois"),
+        new(OmniDataGridRowMode.Multiple, "Plusieurs lignes")
     ];
 
-    private static readonly IReadOnlyList<OmniOption<OmniDataGridExpandMode>> ExpandOptions =
+    private static readonly IReadOnlyList<OmniOption<OmniDataGridRowMode>> ExpandOptions =
     [
-        new(OmniDataGridExpandMode.Single, "Un groupe ouvert"),
-        new(OmniDataGridExpandMode.Multiple, "Plusieurs groupes ouverts")
+        new(OmniDataGridRowMode.Single, "Un groupe ouvert"),
+        new(OmniDataGridRowMode.Multiple, "Plusieurs groupes ouverts")
     ];
 
-    private static readonly IReadOnlyList<OmniOption<OmniDataGridFooterPosition>> FooterOptions =
+    private static readonly IReadOnlyList<OmniOption<OmniDataGridPosition>> FooterOptions =
     [
-        new(OmniDataGridFooterPosition.Bottom, "Sous le tableau"),
-        new(OmniDataGridFooterPosition.Top, "Au-dessus du tableau")
+        new(OmniDataGridPosition.Bottom, "Sous le tableau"),
+        new(OmniDataGridPosition.Top, "Au-dessus du tableau"),
+        new(OmniDataGridPosition.TopAndBottom, "Au-dessus et en dessous")
     ];
 
     private static readonly IReadOnlyList<GridRow> Rows =
@@ -87,15 +88,15 @@ public partial class DataGridAdvancedDemo
 
     private OmniDensity Density { get; set; } = OmniDensity.Comfortable;
 
-    private OmniDataGridPagerPosition Pager { get; set; } = OmniDataGridPagerPosition.Bottom;
+    private OmniDataGridPosition Pager { get; set; } = OmniDataGridPosition.Bottom;
 
     private OmniDataGridSelectionMode Mode { get; set; } = OmniDataGridSelectionMode.Multiple;
 
     private OmniDataGridFilterMode Filters { get; set; } = OmniDataGridFilterMode.Advanced;
 
-    private OmniDataGridEditMode Edit { get; set; } = OmniDataGridEditMode.Single;
+    private OmniDataGridRowMode Edit { get; set; } = OmniDataGridRowMode.Single;
 
-    private OmniDataGridExpandMode Expand { get; set; } = OmniDataGridExpandMode.Multiple;
+    private OmniDataGridRowMode Expand { get; set; } = OmniDataGridRowMode.Multiple;
 
-    private OmniDataGridFooterPosition Footer { get; set; } = OmniDataGridFooterPosition.Bottom;
+    private OmniDataGridPosition Footer { get; set; } = OmniDataGridPosition.Bottom;
 }

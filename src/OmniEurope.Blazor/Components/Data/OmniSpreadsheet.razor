@@ -5,7 +5,7 @@
 <div @attributes="AdditionalAttributes" id="@Id" class="@RootClass()" @ref="_root">
     @if (ShowToolbar)
     {
-        <div class="omni-spreadsheet__toolbar" role="toolbar" aria-label="@Label">
+        <div class="omni-spreadsheet__toolbar" role="toolbar" aria-label="@EffectiveLabel">
             @if (AllowAddRows)
             {
                 <button type="button" class="omni-button omni-button--small omni-button--secondary omni-spreadsheet__add-row" aria-label="@Localize("SpreadsheetAddRowLabel")" title="@Localize("SpreadsheetAddRowLabel")" @onclick="AddRowAsync">
@@ -51,7 +51,7 @@
          data-omni-sheet-grid
          data-active-column="@_column"
          data-column-count="@Sheet.ColumnCount"
-         aria-label="@Label"
+         aria-label="@EffectiveLabel"
          aria-readonly="@(ReadOnly ? "true" : null)"
          aria-rowcount="@(Sheet.RowCount + 1)"
          aria-colcount="@(Sheet.ColumnCount + 1)"

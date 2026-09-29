@@ -48,7 +48,7 @@ public partial class OmniStatusBadge<TValue> : IDisposable
 
     private string? DescriptionText => string.IsNullOrWhiteSpace(Status.Description) ? null : Map.Localize(Status.Description);
 
-    private string EffectiveStaleText => string.IsNullOrWhiteSpace(StaleText) ? Localize("StatusBadgeStale") : StaleText;
+    private string EffectiveStaleText => LocalizeOr(StaleText, "StatusBadgeStale");
 
     private DateTimeOffset Reference => Clock.GetUtcNow();
 
@@ -63,6 +63,7 @@ public partial class OmniStatusBadge<TValue> : IDisposable
         ? timestamp + threshold
         : null;
 
+    /// <summary>Refuses a missing <see cref="Map"/>.</summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();

@@ -1,55 +1,42 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
+@* The mode and the font inline; the theme, the palette and the scales in the appearance window, opened
+   from the last row, so no setting is offered twice. The mode is a segmented choice (radio group):
+   the chosen mode reads by its state, not by its colour alone. *@
 <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-appearance-settings", Compact ? "omni-appearance-settings--compact" : null)">
     <div class="omni-appearance-settings__row">
         <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Palette" /> @Localize("SettingsMode")</span>
         <div class="omni-appearance-settings__actions">
-            <OmniButton Variant="@ModeVariant(OmniAppearance.Light)" OnClick="@(() => AppearanceChanged.InvokeAsync(OmniAppearance.Light))"><OmniIcon Name="OmniIconName.ThemeLight" /><span>@Localize("AppearanceLight")</span></OmniButton>
-            <OmniButton Variant="@ModeVariant(OmniAppearance.Dark)" OnClick="@(() => AppearanceChanged.InvokeAsync(OmniAppearance.Dark))"><OmniIcon Name="OmniIconName.ThemeDark" /><span>@Localize("AppearanceDark")</span></OmniButton>
-            <OmniButton Variant="@ModeVariant(OmniAppearance.System)" OnClick="@(() => AppearanceChanged.InvokeAsync(OmniAppearance.System))"><OmniIcon Name="OmniIconName.ThemeSystem" /><span>@Localize("AppearanceSystem")</span></OmniButton>
+            <OmniSelectBar TValue="OmniAppearance" Options="@ModeOptions" IconFor="@ModeIcon" Label="@Localize("SettingsMode")"
+                           @bind-Value:get="Appearance" @bind-Value:set="SetAppearanceAsync" />
         </div>
     </div>
     <div class="omni-appearance-settings__row">
-        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.TextItalic" /> @Localize("SettingsFont")</span>
-        <div class="omni-appearance-settings__actions">
-            <OmniDropDown TValue="string" Options="@FontOptions" @bind-Value:get="FontName" @bind-Value:set="SetFontAsync" AriaLabel="@Localize("SettingsFont")" />
-            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Font is null)" OnClick="@(() => FontChanged.InvokeAsync(null))"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
+        <span class="omni-appearance-settings__label" id="@RowId("font")"><OmniIcon Name="OmniIconName.TextItalic" /> @Localize("SettingsFont")</span>
+        <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("font")">
+            <OmniDropDown TValue="string" Options="@FontOptions" @bind-Value:get="FontName" @bind-Value:set="SetFontAsync" Label="@Localize("SettingsFont")" />
+            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Font is null)" OnClick="ResetFontAsync"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
         </div>
     </div>
-    <div class="omni-appearance-settings__row">
-        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Layers" /> @Localize("SettingsTheme")</span>
-        <div class="omni-appearance-settings__actions">
-            <OmniDropDown TValue="string" Options="@ThemeOptions" @bind-Value:get="ThemeName" @bind-Value:set="SetThemeAsync" AriaLabel="@Localize("SettingsTheme")" />
-            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Preset is null)" OnClick="@(() => ChangeThemeAsync(null))"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
-        </div>
-    </div>
-    <div class="omni-appearance-settings__row">
-        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Palette" /> @Localize("SettingsPalette")</span>
-        <div class="omni-appearance-settings__actions">
-            <OmniDropDown TValue="string" Options="@PaletteOptions" @bind-Value:get="PaletteName" @bind-Value:set="SetPaletteAsync" AriaLabel="@Localize("SettingsPalette")" />
-            <OmniButton Variant="OmniButtonVariant.Secondary" Disabled="@(Palette is null)" OnClick="@(() => PaletteChanged.InvokeAsync(null))"><OmniIcon Name="OmniIconName.Reset" /><span>@Localize("SettingsDefault")</span></OmniButton>
-        </div>
-    </div>
-    @* Compact, the three scales read as one short label and a summary of their levels beside the
-       edit action, instead of a title wrapped over three lines. Edit is the one action of the row:
-       Success, the package's green. *@
+    @* Compact, the look reads as one short label and a summary beside the edit action, instead of a
+       title wrapped over several lines. Edit is the one action of the row: Success, the package's green. *@
     <div class="omni-appearance-settings__row omni-appearance-settings__row--scale">
-        <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.TextSize" /> @(Compact ? Localize("SettingsScale") : ScaleTitle)</span>
-        <div class="omni-appearance-settings__actions">
+        <span class="omni-appearance-settings__label" id="@RowId("look")"><OmniIcon Name="OmniIconName.Layers" /> @LookTitle</span>
+        <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("look")">
             @if (Compact)
             {
-                <span class="omni-appearance-settings__summary">@ScaleSummary</span>
+                <span class="omni-appearance-settings__summary">@LookSummary</span>
             }
-            <OmniButton AriaLabel="@Localize("Edit")" Variant="OmniButtonVariant.Success" OnClick="OpenScaleAsync"><OmniIcon Name="OmniIconName.Edit" /><span>@Localize("Edit")</span></OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Success" OnClick="OpenWindowAsync"><OmniIcon Name="OmniIconName.Edit" /><span>@Localize("Edit")</span></OmniButton>
         </div>
     </div>
 </div>
 @* The window of the look: theme and palette, then the scales. The same window a host opens from its
-   own menu entry (OmniAppearanceWindow). *@
-<OmniAppearanceWindow Open="@_scaleOpen" OpenChanged="SetScaleOpenAsync"
+   own menu entry (OmniAppearanceWindow); the font stays inline here, so it is not bound in the window. *@
+<OmniAppearanceWindow Open="@_windowOpen" OpenChanged="SetWindowOpenAsync"
                       Preset="Preset" PresetChanged="ChangeThemeAsync"
-                      Palette="Palette" PaletteChanged="@(palette => PaletteChanged.InvokeAsync(palette))"
-                      TextSizeLevel="TextSizeLevel" TextSizeLevelChanged="@(level => TextSizeLevelChanged.InvokeAsync(level))"
-                      DensityLevel="DensityLevel" DensityLevelChanged="@(level => DensityLevelChanged.InvokeAsync(level))"
+                      Palette="Palette" PaletteChanged="ChangePaletteAsync"
+                      TextSizeLevel="TextSizeLevel" TextSizeLevelChanged="ChangeTextSizeAsync"
+                      Density="Density" DensityChanged="ChangeDensityAsync"
                       ControlSizeLevel="ControlSizeLevel" ControlSizeLevelChanged="WindowControlSizeChanged" />

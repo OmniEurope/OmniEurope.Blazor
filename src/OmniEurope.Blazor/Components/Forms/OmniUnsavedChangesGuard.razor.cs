@@ -5,8 +5,9 @@ namespace OmniEurope.Blazor.Components;
 /// <summary>
 /// Warns before the user leaves a page whose changes are not saved: a navigation inside the
 /// application waits for a confirmation, and leaving the application (closing the tab, reloading)
-/// raises the browser's own question. <see cref="OmniTemplateForm{TModel}"/> places one by default;
-/// place one yourself for changes a form does not see (a list edited in place, a drawing).
+/// raises the browser's own question. <see cref="OmniTemplateForm{TModel}"/> places one when its
+/// <see cref="OmniTemplateForm{TModel}.GuardUnsavedChanges"/> is set; place one yourself for changes a
+/// form does not see (a list edited in place, a drawing).
 /// </summary>
 public partial class OmniUnsavedChangesGuard
 {

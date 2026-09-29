@@ -1,10 +1,9 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<span id="@Id"
-      class="@Css("omni-badge", $"omni-badge--{Variant.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}", IconOnly ? "omni-badge--icon" : null)"
-      @attributes="AdditionalAttributes">
+<span @attributes="AdditionalAttributes"
+      id="@Id"
+      class="@Css("omni-badge", $"omni-badge--{Tone.ToString().ToLowerInvariant()}", $"omni-badge--{Fill.ToString().ToLowerInvariant()}", IconOnly ? "omni-badge--icon" : null)">
     @Icon
-    @Text
     @ChildContent
 </span>

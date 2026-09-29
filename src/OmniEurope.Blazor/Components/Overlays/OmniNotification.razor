@@ -29,9 +29,9 @@
                     aria-controls="@MessageId"
                     @onclick="ToggleExpanded">@Localize(_expanded ? "NotificationCollapse" : "NotificationExpand")</button>
         }
-        @if (!string.IsNullOrWhiteSpace(ActionText) && OnAction.HasDelegate)
+        @if (!string.IsNullOrWhiteSpace(ActionText) && OnActionClick.HasDelegate)
         {
-            <button type="button" class="omni-notification__action" @onclick="OnAction">@ActionText</button>
+            <button type="button" class="omni-notification__action" @onclick="OnActionClick">@ActionText</button>
         }
         @if (ShowDetails)
         {
@@ -40,7 +40,7 @@
     </div>
     @if (Dismissible)
     {
-        <button type="button" class="omni-notification__dismiss" aria-label="@Localize("NotificationDismiss")" title="@Localize("NotificationDismiss")" @onclick="OnDismiss">
+        <button type="button" class="omni-notification__dismiss" aria-label="@EffectiveCloseLabel" title="@EffectiveCloseLabel" @onclick="OnDismiss">
             <OmniIcon Name="OmniIconName.Close" Size="OmniControlSize.Small" />
         </button>
     }

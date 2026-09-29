@@ -171,7 +171,7 @@ public sealed class MindMapToolbarAndPropertiesTests : OmniBunitContext
     [Fact]
     public async Task RenameRequest_WithoutAHostHandler_FocusesThePanelTextField()
     {
-        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-mindmap.js");
+        var module = JSInterop.SetupModule(OmniModules.MindMap);
         module.SetupVoid("focusById", "props-label");
         var map = RenderMap(MindMapComponentTests.Sample());
         await map.InvokeAsync(() => new MindMapInteropBridge(map.Instance).NodePressed("left"));

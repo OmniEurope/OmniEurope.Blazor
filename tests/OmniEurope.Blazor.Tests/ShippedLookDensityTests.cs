@@ -7,7 +7,7 @@ using OmniEurope.Blazor.Components;
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
-/// Non-regression of the second batch of the PLAN-008 mockup (lot 7): density (T21, T22), grids
+/// Non-regression of the second batch of the PLAN-004 mockup (lot 7): density (T21, T22), grids
 /// (T15, T17 a and b), form states (T17 c, T18 c), settings tiles and the file field (T20, T21), the
 /// notification mark and the shell (T18 b). Each test reads the source stylesheet, or renders the
 /// component when the markup is what matters.
@@ -46,8 +46,9 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     // The control tokens keep the mockup values at the drawn control size (scale 1).
     [InlineData("--omni-control-height", "calc(2.25rem * var(--omni-control-scale, 1))", "calc(1.625rem * var(--omni-control-scale, 1))", "calc(2.75rem * var(--omni-control-scale, 1))")]
     [InlineData("--omni-control-font", "calc(0.875rem * var(--omni-control-scale, 1))", "calc(0.75rem * var(--omni-control-scale, 1))", "calc(0.9375rem * var(--omni-control-scale, 1))")]
-    [InlineData("--omni-cell-pad-y", "8px", "2px", "12px")]
-    [InlineData("--omni-card-pad", "14px", "8px", "18px")]
+    // The mockup's pixels written in rem (16 px each), so the host's text size scales them with the text.
+    [InlineData("--omni-cell-pad-y", "0.5rem", "0.125rem", "0.75rem")]
+    [InlineData("--omni-card-pad", "0.875rem", "0.5rem", "1.125rem")]
     [InlineData("--omni-switch-h", "1.25rem", "1rem", "1.5rem")]
     [InlineData("--omni-icon-box", "2.25rem", "1.625rem", "2.75rem")]
     public void DensityLevels_TakeTheValuesOfTheMockup(string token, string comfortable, string compact, string spacious)
@@ -67,9 +68,8 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     [InlineData(".omni-data-grid__table :is(th, td)", "padding", "var(--omni-cell-pad-y)")]
     [InlineData(".omni-card__body", "padding", "var(--omni-card-pad)")]
     [InlineData(".omni-alert", "padding", "var(--omni-alert-pad-y) var(--omni-alert-pad-x)")]
-    [InlineData(".omni-split-button__item", "padding", "var(--omni-item-pad-y)")]
-    [InlineData(".omni-profile-menu__item", "padding", "var(--omni-item-pad-y)")]
-    [InlineData(".omni-profile-menu__items", "padding", "var(--omni-pop-pad)")]
+    [InlineData(".omni-menu__item", "padding", "var(--omni-item-pad-y)")]
+    [InlineData(".omni-menu", "padding", "var(--omni-pop-pad)")]
     [InlineData(".omni-tabs__tab", "padding-block", "var(--omni-item-pad-y)")]
     [InlineData(".omni-settings-tile", "padding", "var(--omni-tile-pad-y)")]
     [InlineData(".omni-settings-tile__icon", "block-size", "var(--omni-icon-box)")]
@@ -198,6 +198,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
             .Add(component => component.TriggerContent, (RenderFragment)(builder => builder.AddContent(0, "Cible"))));
 
         Assert.Equal("spacious", menu.Find(".omni-context-menu__popup").GetAttribute("data-omni-density"));
+        Assert.Contains("omni-menu", menu.Find(".omni-context-menu__popup").ClassList);
     }
 
     private AngleSharp.Dom.IElement RenderWithDensity(string component, OmniDensity? density)
@@ -330,7 +331,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         Assert.Matches(@"@media \(prefers-color-scheme: dark\) \{\s*\[data-omni-theme=""system""\] \{[^}]*color-scheme: dark;", css);
 
         // A preset scope following the system keeps the attribute these rules read.
-        JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-theme.js");
+        JSInterop.SetupModule(Internal.OmniModules.Theme);
         var scope = Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Appearance, OmniAppearance.System)
             .Add(component => component.Preset, OmniThemePresets.All[0])
@@ -389,7 +390,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     {
         var field = Render<OmniFormField>(parameters => parameters
             .Add(component => component.Id, "name")
-            .Add(component => component.Text, "Nom")
+            .Add(component => component.Label, "Nom")
             .Add(component => component.Error, "Obligatoire"));
 
         var error = field.Find(".omni-form-field__error");
@@ -416,7 +417,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         IReadOnlyList<OmniUploadFile> files = [];
         var upload = Render<OmniUpload>(parameters => parameters
             .Add(component => component.Display, OmniUploadDisplay.Field)
-            .Add(component => component.InputId, "manifest")
+            .Add(component => component.Id, "manifest")
             .Add(component => component.Files, files)
             .Add(component => component.FilesChanged, next => files = next));
 
@@ -542,7 +543,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         Assert.Equal("var(--omni-color-info-bright)", ShippedLookTests.Value(mark, "--omni-notification-mark-fill"));
         Assert.Equal("var(--omni-color-on-bright)", ShippedLookTests.Value(mark, "--omni-notification-mark-ink"));
         Assert.Equal("var(--omni-color-success-bright)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-notification--success .omni-notification__mark"), "--omni-notification-mark-fill"));
-        foreach (var (severity, fill) in new[] { ("warning", "warning"), ("error", "danger") })
+        foreach (var (severity, fill) in new[] { ("warning", "warning"), ("danger", "danger") })
         {
             var body = ShippedLookTests.Body($".omni-notification--{severity} .omni-notification__mark");
             Assert.Equal($"var(--omni-color-{fill}-deep)", ShippedLookTests.Value(body, "--omni-notification-mark-fill"));
@@ -660,10 +661,11 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         Assert.Equal("var(--omni-control-height)", ShippedLookTests.Value(burger, "min-inline-size"));
         Assert.Equal("color-mix(in srgb, currentColor 14%, transparent)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-sidebar-toggle:hover"), "background"));
 
-        // The account menu is a disclosure: closed at rest.
+        // The account menu is closed at rest: its trigger says so and no menu is drawn.
         var menu = Render<OmniProfileMenu>(parameters => parameters
             .Add(component => component.Summary, (RenderFragment)(builder => builder.AddContent(0, "AB"))));
-        Assert.False(menu.Find("details.omni-profile-menu").HasAttribute("open"));
+        Assert.Equal("false", menu.Find(".omni-profile-menu__trigger").GetAttribute("aria-expanded"));
+        Assert.Empty(menu.FindAll("[role=menu]"));
     }
 
     private static HashSet<string> Declared(string body) =>

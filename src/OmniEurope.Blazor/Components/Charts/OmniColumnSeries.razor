@@ -1,10 +1,10 @@
 @namespace OmniEurope.Blazor.Components
-<g class="@CssClass" aria-label="@Title">
+<g class="@CssClass">
     @for (var index = 0; index < Data.Count; index++)
     {
         var point = Data[index];
-        var rectangle = ChartContext?.ColumnRect(this, index, Stacked) ?? OmniChartGeometry.ColumnRect(Data, index);
-        <rect x="@OmniChartGeometry.Number(rectangle.X)" y="@OmniChartGeometry.Number(rectangle.Y)" width="@OmniChartGeometry.Number(rectangle.Width)" height="@OmniChartGeometry.Number(rectangle.Height)"><title>@(ChartContext?.PointTitle(index, point) ?? point.Label ?? point.Y.ToString())</title></rect>
+        var rectangle = Rectangle(index);
+        <rect x="@OmniChartGeometry.Number(rectangle.X)" y="@OmniChartGeometry.Number(rectangle.Y)" width="@OmniChartGeometry.Number(rectangle.Width)" height="@OmniChartGeometry.Number(rectangle.Height)"><title>@(ChartContext?.PointTitle(index, point) ?? point.Label ?? OmniChartGeometry.Display(point.Y))</title></rect>
     }
 </g>
 

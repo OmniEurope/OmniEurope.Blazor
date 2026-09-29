@@ -1,8 +1,14 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// Tabs: a strip of <see cref="OmniTabsItem"/> tabs over the panel of the selected one. The strip
+/// scrolls sideways when it does not fit; the Left and Right arrows, Home and End move between the
+/// tabs that are not disabled, in the order the items are written.
+/// </summary>
 public partial class OmniTabs
 {
     private readonly List<string> _registeredKeys = [];
+    private readonly HashSet<string> _disabledKeys = new(StringComparer.Ordinal);
     private readonly string _generatedId = $"omni-tabs-{Guid.NewGuid():N}";
     private ElementReference _root;
     private ElementReference _strip;
@@ -24,12 +30,11 @@ public partial class OmniTabs
     [Parameter]
     public EventCallback<string?> ValueChanged { get; set; }
 
+    /// <summary>Accessible name of the strip (<c>role="tablist"</c>). Null, the default, is the localized "Tabs".</summary>
     [Parameter]
-    public IReadOnlyList<string> Keys { get; set; } = Array.Empty<string>();
+    public string? Label { get; set; }
 
-    [Parameter]
-    public string Label { get; set; } = string.Empty;
-
+    /// <summary>The tabs, <see cref="OmniTabsItem"/> in the order they are shown.</summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -56,24 +61,33 @@ public partial class OmniTabs
     [Parameter]
     public string? WheelScrollScope { get; set; }
 
-    private string EffectiveLabel => string.IsNullOrWhiteSpace(Label)
-        ? Localize("TabsLabel")
-        : Label;
+    private string EffectiveLabel => LocalizeOr(Label, "TabsLabel");
 
     private string? EffectiveValue => Value ?? _selectedValue ?? (_registeredKeys.Count > 0 ? _registeredKeys[0] : null);
 
-    private IReadOnlyList<string> EffectiveKeys => Keys.Count > 0 ? Keys : _registeredKeys;
+    /// <summary>The keys the arrows move through: the registered items, in their order, less the disabled ones.</summary>
+    private List<string> NavigableKeys => _registeredKeys.Where(key => !_disabledKeys.Contains(key)).ToList();
 
     private OmniTabsContext TabContext => new() { Value = EffectiveValue, SelectAsync = SelectAsync, RegisterKey = RegisterKey, Phase = OmniTabsPhase.Tab, IdPrefix = _generatedId };
 
     private OmniTabsContext PanelContext => new() { Value = EffectiveValue, SelectAsync = SelectAsync, RegisterKey = RegisterKey, Phase = OmniTabsPhase.Panel, RenderAllPanels = RenderAllPanels, IdPrefix = _generatedId };
 
-    private string RegisterKey(string key)
+    private string RegisterKey(string key, bool disabled)
     {
         if (!_registeredKeys.Contains(key, StringComparer.Ordinal))
         {
             _registeredKeys.Add(key);
         }
+
+        if (disabled)
+        {
+            _disabledKeys.Add(key);
+        }
+        else
+        {
+            _disabledKeys.Remove(key);
+        }
+
         return key;
     }
 
@@ -109,20 +123,21 @@ public partial class OmniTabs
 
     private Task HandleKeyDownAsync(KeyboardEventArgs args)
     {
-        if (EffectiveKeys.Count == 0 || args.Key is not ("ArrowLeft" or "ArrowRight" or "Home" or "End"))
+        var keys = NavigableKeys;
+        if (keys.Count == 0 || args.Key is not ("ArrowLeft" or "ArrowRight" or "Home" or "End"))
         {
             return Task.CompletedTask;
         }
 
-        var current = Math.Max(0, Array.IndexOf(EffectiveKeys.ToArray(), EffectiveValue));
+        var current = Math.Max(0, keys.IndexOf(EffectiveValue ?? string.Empty));
         var next = args.Key switch
         {
             "Home" => 0,
-            "End" => EffectiveKeys.Count - 1,
-            "ArrowLeft" => (current - 1 + EffectiveKeys.Count) % EffectiveKeys.Count,
-            _ => (current + 1) % EffectiveKeys.Count
+            "End" => keys.Count - 1,
+            "ArrowLeft" => (current - 1 + keys.Count) % keys.Count,
+            _ => (current + 1) % keys.Count
         };
-        return SelectAsync(EffectiveKeys[next]);
+        return SelectAsync(keys[next]);
     }
 
     public async ValueTask DisposeAsync()

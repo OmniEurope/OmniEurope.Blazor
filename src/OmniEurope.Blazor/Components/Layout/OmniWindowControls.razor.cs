@@ -30,29 +30,33 @@ public partial class OmniWindowControls
     [Parameter]
     public RenderFragment? Actions { get; set; }
 
+    /// <summary>Accessible name of the group of buttons. Null, the default, is the localized "Window controls".</summary>
     [Parameter]
-    public string AriaLabel { get; set; } = string.Empty;
+    public string? Label { get; set; }
 
+    /// <summary>Accessible name and tooltip of the minimize-to-tray button. Null, the default, is the localized text.</summary>
     [Parameter]
-    public string MinimizeToTrayLabel { get; set; } = string.Empty;
+    public string? MinimizeToTrayLabel { get; set; }
 
+    /// <summary>Accessible name and tooltip of the minimize button. Null, the default, is the localized text.</summary>
     [Parameter]
-    public string MinimizeLabel { get; set; } = string.Empty;
+    public string? MinimizeLabel { get; set; }
 
+    /// <summary>Accessible name and tooltip of the maximize button. Null, the default, is the localized text.</summary>
     [Parameter]
-    public string MaximizeLabel { get; set; } = string.Empty;
+    public string? MaximizeLabel { get; set; }
 
+    /// <summary>Accessible name and tooltip of the restore button, shown while <see cref="IsMaximized"/>. Null, the default, is the localized text.</summary>
     [Parameter]
-    public string RestoreLabel { get; set; } = string.Empty;
+    public string? RestoreLabel { get; set; }
 
+    /// <summary>Accessible name and tooltip of the close button. Null, the default, is the localized text.</summary>
     [Parameter]
-    public string CloseLabel { get; set; } = string.Empty;
+    public string? CloseLabel { get; set; }
 
-    private string EffectiveLabel => Or(AriaLabel, "WindowControlsLabel");
-    private string EffectiveMinimizeToTrayLabel => Or(MinimizeToTrayLabel, "WindowMinimizeToTray");
-    private string EffectiveMinimizeLabel => Or(MinimizeLabel, "WindowMinimize");
-    private string EffectiveMaximizeLabel => IsMaximized ? Or(RestoreLabel, "WindowRestore") : Or(MaximizeLabel, "WindowMaximize");
-    private string EffectiveCloseLabel => Or(CloseLabel, "WindowClose");
-
-    private string Or(string value, string key) => string.IsNullOrWhiteSpace(value) ? Localize(key) : value;
+    private string EffectiveLabel => LocalizeOr(Label, "WindowControlsLabel");
+    private string EffectiveMinimizeToTrayLabel => LocalizeOr(MinimizeToTrayLabel, "WindowMinimizeToTray");
+    private string EffectiveMinimizeLabel => LocalizeOr(MinimizeLabel, "WindowMinimize");
+    private string EffectiveMaximizeLabel => IsMaximized ? LocalizeOr(RestoreLabel, "WindowRestore") : LocalizeOr(MaximizeLabel, "WindowMaximize");
+    private string EffectiveCloseLabel => LocalizeOr(CloseLabel, "WindowClose");
 }

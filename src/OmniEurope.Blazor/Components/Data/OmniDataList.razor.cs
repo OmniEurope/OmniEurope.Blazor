@@ -3,6 +3,10 @@ using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// A list of items drawn by <see cref="ItemTemplate"/>, from <see cref="Items"/> or a remote
+/// <see cref="Load"/>, with loading, empty and error states and optional virtualization.
+/// </summary>
 public partial class OmniDataList<TItem>
 {
     private const string GridModulePath = "./_content/OmniEurope.Blazor/omni-grid.js";
@@ -32,23 +36,42 @@ public partial class OmniDataList<TItem>
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;
 
+    /// <summary>The items shown. Ignored when <see cref="Load"/> is set.</summary>
     [Parameter]
     public IReadOnlyList<TItem> Items { get; set; } = Array.Empty<TItem>();
 
+    /// <summary>
+    /// Remote data: called on first render and whenever the loader changes, with a token that a newer load
+    /// cancels. A failure shows <see cref="ErrorContent"/> with a retry and is reported through <see cref="OnLoadError"/>.
+    /// </summary>
     [Parameter]
     public Func<CancellationToken, Task<IReadOnlyList<TItem>>>? Load { get; set; }
 
+    /// <summary>Content of each item.</summary>
     [Parameter, EditorRequired]
     public RenderFragment<TItem> ItemTemplate { get; set; } = default!;
 
+    /// <summary>Shown while <see cref="Load"/> runs; null shows the localized "loading".</summary>
     [Parameter]
     public RenderFragment? LoadingContent { get; set; }
 
+    /// <summary>Shown when there is no item; null shows the localized "no item".</summary>
     [Parameter]
     public RenderFragment? EmptyContent { get; set; }
 
+    /// <summary>
+    /// Replaces the default failure message when <see cref="Load"/> throws; receives the exception. The
+    /// retry button stays.
+    /// </summary>
     [Parameter]
     public RenderFragment<Exception>? ErrorContent { get; set; }
+
+    /// <summary>
+    /// Raised with the exception when <see cref="Load"/> fails (a cancelled load is not a failure). The list
+    /// still shows its error state; this is where the host logs or reports it.
+    /// </summary>
+    [Parameter]
+    public EventCallback<Exception> OnLoadError { get; set; }
 
     /// <summary>
     /// Renders only the items around the visible part of the list, inside whichever ancestor scrolls
@@ -61,9 +84,9 @@ public partial class OmniDataList<TItem>
     private RenderFragment DefaultLoading => builder => builder.AddContent(0, Localize("Loading"));
     private RenderFragment DefaultEmpty => builder => builder.AddContent(0, Localize("DataListEmpty"));
 
+    /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
-        base.OnParametersSet();
         if (Load is null)
         {
             _loadCancellation?.Cancel();
@@ -90,6 +113,7 @@ public partial class OmniDataList<TItem>
         SyncWindow();
     }
 
+    /// <summary>Runs <see cref="Load"/> again, with the loading state; does nothing without a loader.</summary>
     public Task ReloadAsync() => LoadAsync();
 
     private async Task LoadAsync()
@@ -107,6 +131,7 @@ public partial class OmniDataList<TItem>
         var generation = ++_loadGeneration;
         _loading = true;
         _error = null;
+        Exception? failure = null;
 
         try
         {
@@ -126,6 +151,7 @@ public partial class OmniDataList<TItem>
             {
                 _error = exception;
                 _items = Array.Empty<TItem>();
+                failure = exception;
             }
         }
         finally
@@ -135,6 +161,11 @@ public partial class OmniDataList<TItem>
                 _loading = false;
                 SyncWindow();
             }
+        }
+
+        if (failure is not null)
+        {
+            await OnLoadError.InvokeAsync(failure);
         }
     }
 
@@ -242,6 +273,7 @@ public partial class OmniDataList<TItem>
         }
     }
 
+    /// <summary>Cancels a load still running and releases the list script.</summary>
     public async ValueTask DisposeAsync()
     {
         _loadCancellation?.Cancel();

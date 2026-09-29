@@ -21,7 +21,7 @@ public sealed class InteractionComponentTests : OmniBunitContext
             Render<OmniLabel>(parameters => parameters.Add(component => component.For, "field").AddChildContent("Field")).Markup,
             Render<OmniFormField>(parameters => parameters
                 .Add(component => component.For, "field")
-                .Add(component => component.Label, Content("Field"))
+                .Add(component => component.LabelContent, Content("Field"))
                 .AddChildContent("Control")).Markup
         };
 
@@ -35,7 +35,7 @@ public sealed class InteractionComponentTests : OmniBunitContext
         var field = Render<OmniFormField>(parameters => parameters
             .Add(component => component.Id, "name-field")
             .Add(component => component.For, "name")
-            .Add(component => component.Text, "Nom")
+            .Add(component => component.Label, "Nom")
             .Add(component => component.Description, "Tel qu'il apparaîtra sur la facture.")
             .AddChildContent("<input id=\"name\" />"));
 
@@ -161,14 +161,18 @@ public sealed class InteractionComponentTests : OmniBunitContext
         form.WaitForAssertion(() =>
         {
             Assert.Equal("true", form.Find("#name").GetAttribute("aria-invalid"));
-            Assert.Contains("Ce champ est obligatoire.", form.Find("[role=alert]").TextContent, StringComparison.Ordinal);
+            // A polite live region, present before the message: a field error is not role="alert".
+            var message = form.Find(".omni-validation-message");
+            Assert.Equal("polite", message.GetAttribute("aria-live"));
+            Assert.False(message.HasAttribute("role"));
+            Assert.Contains("Ce champ est obligatoire.", message.TextContent, StringComparison.Ordinal);
         });
 
         form.Find("#name").Input("Alice");
 
         Assert.True(await form.InvokeAsync(() => form.Instance.EditContext.Validate()));
         Assert.Empty(form.Instance.EditContext.GetValidationMessages());
-        form.WaitForAssertion(() => Assert.Empty(form.FindAll(".omni-validation-message")));
+        form.WaitForAssertion(() => Assert.All(form.FindAll(".omni-validation-message"), message => Assert.Equal(string.Empty, message.TextContent)));
     }
 
     [Fact]
@@ -341,7 +345,7 @@ public sealed class InteractionComponentTests : OmniBunitContext
     public void TemplateForm_FocusesTheFirstInvalidControlThroughTheStaticModule()
     {
         JSInterop.Mode = JSRuntimeMode.Strict;
-        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omniInterop.js");
+        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
         module.SetupVoid("focusFirstInvalid", _ => true);
         var form = Render<TemplateFormTestHost>();
 
@@ -351,7 +355,7 @@ public sealed class InteractionComponentTests : OmniBunitContext
         {
             Assert.Single(module.Invocations["focusFirstInvalid"]);
             Assert.Equal("true", form.Find("#template-name").GetAttribute("aria-invalid"));
-            Assert.Contains("Ce champ est obligatoire.", form.Find("[role=alert]").TextContent, StringComparison.Ordinal);
+            Assert.Contains("Ce champ est obligatoire.", form.Find(".omni-validation-message").TextContent, StringComparison.Ordinal);
         });
     }
 
@@ -359,7 +363,7 @@ public sealed class InteractionComponentTests : OmniBunitContext
     public void TemplateForm_ContainsExpectedInteropFailuresDuringInvalidSubmission()
     {
         JSInterop.Mode = JSRuntimeMode.Strict;
-        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omniInterop.js");
+        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
         module.SetupVoid("focusFirstInvalid", _ => true).SetException(new JSException("unavailable"));
         var form = Render<TemplateFormTestHost>();
 

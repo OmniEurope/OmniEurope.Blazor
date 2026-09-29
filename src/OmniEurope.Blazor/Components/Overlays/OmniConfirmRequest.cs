@@ -9,11 +9,11 @@ namespace OmniEurope.Blazor.Components;
 /// <param name="Message">The question, shown as the dialog's content.</param>
 public sealed record OmniConfirmRequest(string Title, string Message)
 {
-    /// <summary>The action's label. Empty: the localized "Confirmer".</summary>
-    public string ConfirmText { get; init; } = string.Empty;
+    /// <summary>The action's label. Null, the default, is the localized "Confirm".</summary>
+    public string? ConfirmText { get; init; }
 
-    /// <summary>The cancel button's label. Empty: the localized "Annuler".</summary>
-    public string CancelText { get; init; } = string.Empty;
+    /// <summary>The cancel button's label. Null, the default, is the localized "Cancel".</summary>
+    public string? CancelText { get; init; }
 
     /// <summary>
     /// The action's variant: <see cref="OmniButtonVariant.Primary"/> by default,
@@ -32,11 +32,12 @@ public sealed record OmniConfirmRequest(string Title, string Message)
 
     /// <summary>
     /// The dialog's intention (<see cref="OmniDialog.Intent"/>). Null, the default, derives it from
-    /// <see cref="ConfirmVariant"/>: <see cref="OmniDialogIntent.Warning"/> for a
-    /// <see cref="OmniButtonVariant.Danger"/> action, <see cref="OmniDialogIntent.Accent"/> otherwise.
+    /// <see cref="ConfirmVariant"/>: <see cref="OmniTone.Warning"/> for a
+    /// <see cref="OmniButtonVariant.Danger"/> action, <see cref="OmniTone.Accent"/> otherwise.
+    /// <see cref="OmniTone.Neutral"/> draws the dialog without tint or mark.
     /// </summary>
-    public OmniDialogIntent? Intent { get; init; }
+    public OmniTone? Intent { get; init; }
 
-    internal OmniDialogIntent EffectiveIntent => Intent
-        ?? (ConfirmVariant == OmniButtonVariant.Danger ? OmniDialogIntent.Warning : OmniDialogIntent.Accent);
+    internal OmniTone EffectiveIntent => Intent
+        ?? (ConfirmVariant == OmniButtonVariant.Danger ? OmniTone.Warning : OmniTone.Accent);
 }

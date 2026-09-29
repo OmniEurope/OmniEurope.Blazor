@@ -29,7 +29,16 @@ public static class DemoCatalog
         new("coquille-application", typeof(AppShellDemo), "DemoAppShellTitle", "DemoAppShellSummary",
             ["DemoAppShellCapability1", "DemoAppShellCapability2", "DemoAppShellCapability3"]),
         new("themes", typeof(ThemesDemo), "DemoThemesTitle", "DemoThemesSummary",
-            ["DemoThemesCapability1", "DemoThemesCapability2", "DemoThemesCapability3"]),
+            ["DemoThemesCapability1", "DemoThemesCapability2", "DemoThemesCapability3"],
+            new Dictionary<string, object[]>
+            {
+                ["DemoThemesCapability3"] =
+                [
+                    OmniThemePresets.All.Count,
+                    OmniThemePalettes.All.Count,
+                    OmniThemePresets.All.Count * OmniThemePalettes.All.Count
+                ]
+            }),
         new("medias", typeof(MediaDemo), "DemoMediaTitle", "DemoMediaSummary",
             ["DemoMediaCapability1", "DemoMediaCapability2", "DemoMediaCapability3", "DemoMediaCapability4"]),
         new("alertes", typeof(AlertsDemo), "DemoAlertsTitle", "DemoAlertsSummary",
@@ -90,7 +99,16 @@ public static class DemoCatalog
             ["DemoDiagramCapability1", "DemoDiagramCapability2", "DemoDiagramCapability3", "DemoDiagramCapability4"])
     ];
 
-    /// <summary>The entry with the given key, or the first entry when the key is unknown.</summary>
-    public static DemoDefinition Resolve(string? key) =>
-        All.FirstOrDefault(demo => string.Equals(demo.Key, key, StringComparison.Ordinal)) ?? All[0];
+    /// <summary>The entry with the given key, or <see langword="null"/> when no entry has it.</summary>
+    /// <remarks>
+    /// An unknown key is not quietly mapped to another entry: an address the gallery does not know
+    /// must read as "not found", not show the first demo under a wrong address.
+    /// </remarks>
+    public static DemoDefinition? Find(string? key) =>
+        All.FirstOrDefault(demo => string.Equals(demo.Key, key, StringComparison.Ordinal));
+
+    /// <summary>The entry with the given key, for a key the caller knows to exist.</summary>
+    /// <exception cref="ArgumentException">No entry has <paramref name="key"/>.</exception>
+    public static DemoDefinition Resolve(string key) =>
+        Find(key) ?? throw new ArgumentException($"The gallery has no entry '{key}'.", nameof(key));
 }

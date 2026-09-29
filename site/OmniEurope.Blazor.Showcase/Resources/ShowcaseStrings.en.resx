@@ -7,6 +7,7 @@
   <data name="HeaderBadge" xml:space="preserve"><value>Component library</value></data>
   <data name="ModeLight" xml:space="preserve"><value>Light theme</value></data>
   <data name="ModeDark" xml:space="preserve"><value>Dark theme</value></data>
+  <data name="LanguageSelectorLabel" xml:space="preserve"><value>Showcase language</value></data>
   <data name="SidebarLabel" xml:space="preserve"><value>Main navigation</value></data>
   <data name="MenuLabel" xml:space="preserve"><value>Site sections</value></data>
   <data name="NavShowcase" xml:space="preserve"><value>Overview</value></data>
@@ -314,7 +315,7 @@
   <data name="DemoThemesSummary" xml:space="preserve"><value>A theme gives the shape, a palette the colours; any palette paints any theme.</value></data>
   <data name="DemoThemesCapability1" xml:space="preserve"><value>OmniThemeScope.Preset and OmniThemeScope.Palette repaint the scope and its content, and nothing else.</value></data>
   <data name="DemoThemesCapability2" xml:space="preserve"><value>A palette alone changes the colours and keeps the shipped shape.</value></data>
-  <data name="DemoThemesCapability3" xml:space="preserve"><value>Fourteen themes and fourteen palettes, a hundred and ninety-six combinations, each in light and dark.</value></data>
+  <data name="DemoThemesCapability3" xml:space="preserve"><value>{0} themes and {1} palettes, {2} combinations, each in light and dark.</value></data>
   <data name="DemoSurfacesTitle" xml:space="preserve"><value>Surfaces</value></data>
   <data name="DemoSurfacesSummary" xml:space="preserve"><value>Cards, floating menu, tabs, side menu, link and tooltip.</value></data>
   <data name="DemoSurfacesCapability1" xml:space="preserve"><value>Cards and the floating menu read the theme's shape: fill, stroke, radius and shadow.</value></data>
@@ -424,6 +425,38 @@
   <data name="DemoShellArchived" xml:space="preserve"><value>Archived</value></data>
   <data name="DemoShellSettings" xml:space="preserve"><value>Settings</value></data>
   <data name="DemoShellOneOffAction" xml:space="preserve"><value>One-off action</value></data>
+  <data name="DemoShellToggleMenu" xml:space="preserve"><value>Show or hide the menu</value></data>
+  <data name="DemoShellAppName" xml:space="preserve"><value>My application</value></data>
+  <data name="DemoShellChangeAppearance" xml:space="preserve"><value>Change the appearance</value></data>
+  <data name="DemoShellMenu" xml:space="preserve"><value>Demo menu</value></data>
+  <data name="DemoShellSections" xml:space="preserve"><value>Sections</value></data>
+  <data name="DemoShellFolders" xml:space="preserve"><value>Folders</value></data>
+  <data name="DemoShellMainContent" xml:space="preserve"><value>Main content</value></data>
+  <data name="DemoShellAppearanceDark" xml:space="preserve"><value>The appearance chosen here is dark.</value></data>
+  <data name="DemoShellAppearanceLight" xml:space="preserve"><value>The appearance chosen here is light.</value></data>
+  <data name="DemoShellConsole" xml:space="preserve"><value>Operations console</value></data>
+  <data name="DemoShellSecondaryMenu" xml:space="preserve"><value>Secondary menu</value></data>
+  <data name="DemoShellTools" xml:space="preserve"><value>Tools</value></data>
+  <data name="DemoShellLogs" xml:space="preserve"><value>Logs</value></data>
+  <data name="DemoShellWideView" xml:space="preserve"><value>Wide view</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>The content area runs from edge to edge, capped at the wide width (90 rem), with no narrow reading column.</value></data>
+  <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Show or hide the floating menu</value></data>
+  <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Floating menu</value></data>
+  <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Floating demo menu</value></data>
+  <data name="DemoShellFilters" xml:space="preserve"><value>Filters</value></data>
+  <data name="DemoShellContent" xml:space="preserve"><value>Content</value></data>
+  <data name="DemoShellFloatingText" xml:space="preserve"><value>Opening the menu does not shift this text: the panel slides over it.</value></data>
+  <data name="DemoShellScrollTitle" xml:space="preserve"><value>Centred content, scrolling at the edge</value></data>
+  <data name="DemoShellScrollMenu" xml:space="preserve"><value>Scrolling demo menu</value></data>
+  <data name="DemoShellReadingColumn" xml:space="preserve"><value>Reading column</value></data>
+  <data name="DemoShellScroll1" xml:space="preserve"><value>The column is capped at 72rem and centred; the rest of the width still belongs to the main element.</value></data>
+  <data name="DemoShellScroll2" xml:space="preserve"><value>So the main element is what scrolls, across the whole width of the area: its scroll bar stays at the right edge of the frame.</value></data>
+  <data name="DemoShellScroll3" xml:space="preserve"><value>A child at 100% height would fill the area exactly; taller content makes it scroll.</value></data>
+  <data name="DemoShellScroll4" xml:space="preserve"><value>The bottom margin is kept at the end of the scroll.</value></data>
+  <data name="DemoShellScroll5" xml:space="preserve"><value>Narrowing the window brings the column down to the available width, gutter included.</value></data>
+  <data name="DemoShellSplashChecking" xml:space="preserve"><value>Checking the startup screen</value></data>
+  <data name="DemoShellSplashRemoved" xml:space="preserve"><value>Startup screen removed</value></data>
+  <data name="DemoShellSplashAbsent" xml:space="preserve"><value>No startup screen in this demo</value></data>
   <data name="ShellToggle" xml:space="preserve"><value>Collapse or expand the menu</value></data>
   <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
   <data name="ShellBrand" xml:space="preserve"><value>Boutique</value></data>

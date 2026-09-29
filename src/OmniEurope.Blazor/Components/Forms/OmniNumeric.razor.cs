@@ -1,25 +1,38 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// A number field (<c>type="number"</c>) bound to a numeric type (<c>int</c>, <c>long</c>,
+/// <c>decimal</c>, <c>double</c>... or their nullable forms). The browser reads the bounds and the step
+/// in the invariant culture; the field writes the value the same way.
+/// </summary>
+/// <typeparam name="TValue">The numeric type of the bound value, inferred from <c>@bind-Value</c>.</typeparam>
 public partial class OmniNumeric<TValue>
 {
+    /// <summary>The lowest value (<c>min</c>); null, the default, for none. See <see cref="Clamp"/>.</summary>
     [Parameter]
-    public string? Minimum { get; set; }
+    public double? Minimum { get; set; }
 
+    /// <summary>The highest value (<c>max</c>); null, the default, for none. See <see cref="Clamp"/>.</summary>
     [Parameter]
-    public string? Maximum { get; set; }
+    public double? Maximum { get; set; }
 
+    /// <summary>The step of the arrows and of the browser's own validation (<c>step</c>); null for the browser's 1.</summary>
     [Parameter]
-    public string? Step { get; set; }
+    public double? Step { get; set; }
 
+    /// <summary>A hint shown while the field is empty.</summary>
     [Parameter]
     public string? Placeholder { get; set; }
 
+    /// <summary>Disables the field.</summary>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>Shows the value without letting it change.</summary>
     [Parameter]
     public bool ReadOnly { get; set; }
 
+    /// <summary>The id of the element that describes the field (<c>aria-describedby</c>).</summary>
     [Parameter]
     public string? AriaDescribedBy { get; set; }
 
@@ -27,8 +40,8 @@ public partial class OmniNumeric<TValue>
     /// Brings a committed value outside <see cref="Minimum"/> or <see cref="Maximum"/> back to the
     /// nearest bound: the bound is what <c>ValueChanged</c> receives and what the field then shows.
     /// Off by default, as before: the value is taken as typed and the bounds only guide the
-    /// browser. The bounds are read the way the browser reads <c>min</c> and <c>max</c>, in the
-    /// invariant culture; one that does not convert to <typeparamref name="TValue"/> is ignored.
+    /// browser. A bound that does not convert to <typeparamref name="TValue"/> (a fraction for an
+    /// integer type, a value out of its range) is ignored.
     /// An empty field on a nullable type stays null.
     /// </summary>
     [Parameter]
@@ -111,10 +124,14 @@ public partial class OmniNumeric<TValue>
         return value;
     }
 
-    private static bool TryReadBound(string? bound, out TValue value)
+    // The bound goes through its invariant text, the one the browser reads, so it converts to the bound
+    // type exactly as the field's own value does.
+    private static string? Invariant(double? value) => value?.ToString("R", System.Globalization.CultureInfo.InvariantCulture);
+
+    private static bool TryReadBound(double? bound, out TValue value)
     {
-        if (!string.IsNullOrWhiteSpace(bound)
-            && BindConverter.TryConvertTo<TValue>(bound.Trim(), System.Globalization.CultureInfo.InvariantCulture, out var parsed)
+        if (Invariant(bound) is { } text
+            && BindConverter.TryConvertTo<TValue>(text, System.Globalization.CultureInfo.InvariantCulture, out var parsed)
             && parsed is not null)
         {
             value = parsed;

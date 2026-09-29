@@ -8,23 +8,23 @@
 @if (Scrollable)
 {
     <div class="omni-main-scroll">
-        <main @ref="_main"
+        <main @attributes="AdditionalAttributes"
+              @ref="_main"
               id="@Id"
               class="@Css("omni-main", "omni-main--scrollable", WidthClass, AutoHideScrollbar ? "omni-main--scrollbar-autohide" : null)"
               tabindex="@(FocusTarget ? "-1" : null)"
-              aria-labelledby="@AriaLabelledBy"
-              @attributes="AdditionalAttributes">
+              aria-labelledby="@AriaLabelledBy">
             @ChildContent
         </main>
     </div>
 }
 else
 {
-    <main id="@Id"
+    <main @attributes="AdditionalAttributes"
+          id="@Id"
           class="@Css("omni-main", WidthClass)"
           tabindex="@(FocusTarget ? "-1" : null)"
-          aria-labelledby="@AriaLabelledBy"
-          @attributes="AdditionalAttributes">
+          aria-labelledby="@AriaLabelledBy">
         @ChildContent
     </main>
 }

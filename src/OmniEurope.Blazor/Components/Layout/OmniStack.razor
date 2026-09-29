@@ -8,7 +8,7 @@
     @* A scrolling row shows no scrollbar: like a tab strip, it says what it hides with a chevron on
        whichever side still holds content, and each goes out at its stop. The wrapper carries the
        host's class and attributes, so a group label covers the chevrons as well as the items. *@
-    <div id="@Id" class="@Css("omni-stack-scroll")" @attributes="AdditionalAttributes" @ref="_strip">
+    <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-stack-scroll")" @ref="_strip">
         <button type="button"
                 class="omni-stack-scroll__button omni-stack-scroll__button--start"
                 tabindex="-1"
@@ -36,9 +36,9 @@
 }
 else
 {
-    <div id="@Id"
-         class="@Css(StackClasses)"
-         @attributes="AdditionalAttributes">
+    <div @attributes="AdditionalAttributes"
+         id="@Id"
+         class="@Css(StackClasses)">
         @ChildContent
     </div>
 }

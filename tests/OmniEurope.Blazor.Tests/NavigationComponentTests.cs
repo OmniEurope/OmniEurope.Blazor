@@ -9,7 +9,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
 {
     public NavigationComponentTests()
     {
-        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-focus.js");
+        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
         module.SetupVoid("configureTabs", _ => true);
         module.SetupVoid("disposeTabs", _ => true);
     }
@@ -43,9 +43,21 @@ public sealed class NavigationComponentTests : OmniBunitContext
         target.Drop();
         Assert.Equal(1, host.Instance.Dropped);
 
-        // A tab with no handler is not a drop target and stays marked as such.
-        Assert.DoesNotContain("omni-tabs__item--drop-target", host.FindAll(".omni-tabs__item")[0].ClassName ?? string.Empty, StringComparison.Ordinal);
-        Assert.Contains("omni-tabs__item--drop-target", target.ClassName ?? string.Empty, StringComparison.Ordinal);
+        // The wrapper draws no box (display: contents): the marks go on the tab button. A tab with no
+        // handler is not a drop target.
+        var buttons = host.FindAll(".omni-tabs__tab");
+        Assert.DoesNotContain("omni-tabs__tab--drop-target", buttons[0].ClassList);
+        Assert.Contains("omni-tabs__tab--drop-target", buttons[1].ClassList);
+
+        // A drag over the tab lights its button until it leaves, a drag entering a child included.
+        host.FindAll(".omni-tabs__item")[1].DragEnter();
+        host.FindAll(".omni-tabs__item")[1].DragEnter();
+        Assert.Contains("omni-tabs__tab--drag-over", host.FindAll(".omni-tabs__tab")[1].ClassList);
+        host.FindAll(".omni-tabs__item")[1].DragLeave();
+        Assert.Contains("omni-tabs__tab--drag-over", host.FindAll(".omni-tabs__tab")[1].ClassList);
+        host.FindAll(".omni-tabs__item")[1].DragLeave();
+        Assert.DoesNotContain("omni-tabs__tab--drag-over", host.FindAll(".omni-tabs__tab")[1].ClassList);
+        Assert.Equal("var(--omni-color-accent-subtle)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-tabs__tab--drag-over"), "background"));
     }
 
     [Fact]
@@ -71,10 +83,12 @@ public sealed class NavigationComponentTests : OmniBunitContext
     {
         var host = Render<NavigationTestHost>();
 
-        host.Find(".omni-profile-menu button").Click();
+        host.Find(".omni-profile-menu__trigger").Click();
+        Assert.Equal("menu", host.Find(".omni-profile-menu__popup").GetAttribute("role"));
+        host.FindAll("[role=menuitem]")[1].Click();
 
         Assert.True(host.Instance.SignedOut);
-        Assert.Equal("menu", host.Find(".omni-profile-menu__items").GetAttribute("role"));
+        Assert.Empty(host.FindAll("[role=menu]"));
     }
 
     [Fact]
@@ -102,7 +116,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
         Assert.Throws<InvalidOperationException>(() => Render<OmniPanelMenuItem>(parameters => parameters
             .Add(component => component.Text, "Unsafe")
             .Add(component => component.Href, "data:text/html,unsafe")));
-        Assert.Throws<InvalidOperationException>(() => Render<OmniProfileMenuItem>(parameters => parameters
+        Assert.Throws<InvalidOperationException>(() => Render<OmniMenuItem>(parameters => parameters
             .Add(component => component.Href, "vbscript:msgbox(1)")
             .AddChildContent("Unsafe")));
     }
@@ -168,7 +182,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
     [Fact]
     public async Task Sidebar_FloatingOpen_ClosesOnTheBackdropAndOnEscapeFromAnywhere()
     {
-        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-focus.js");
+        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
         var open = true;
         var sidebar = Render<OmniSidebar>(parameters => parameters
             .Add(component => component.Open, true)
@@ -199,7 +213,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
     [Fact]
     public void Sidebar_Pushing_NeverListensForEscape()
     {
-        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-focus.js");
+        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
         Render<OmniSidebar>(parameters => parameters
             .Add(component => component.Open, true)
             .Add(component => component.Reveal, OmniSidebarReveal.Push)

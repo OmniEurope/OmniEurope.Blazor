@@ -8,7 +8,7 @@
         <OmniMarkers ColorIndex="0" Data="Deposits" Radius="3" />
         <OmniAreaSeries Title="Décisions" ColorIndex="1" Data="Decisions" />
         <OmniSeriesDataLabels Data="Deposits" />
-        <OmniLegend Label="Séries" Items="LineLegend" Position="OmniLegendPosition.Right" />
+        <OmniLegend Label="Séries" Position="OmniLegendPosition.Right" />
     </OmniChart>
 
     @* Thirty days: the chart widens on its own, the day labels thin out without overlapping, and the
@@ -19,7 +19,7 @@
         <OmniValueAxis Maximum="400" TickCount="4" />
         <OmniColumnSeries Title="Pages vues par jour" ColorIndex="1" Data="PageViews" />
         <OmniLineSeries Title="Visiteurs uniques par jour" ColorIndex="0" Data="Visitors" />
-        <OmniLegend Items="AudienceLegend" ColorIndexes="AudienceColors" Position="OmniLegendPosition.Bottom" />
+        <OmniLegend Position="OmniLegendPosition.Bottom" />
     </OmniChart>
 
     <OmniChart Title="Répartition empilée">
@@ -33,7 +33,16 @@
     <OmniChart Title="Comparatif horizontal">
         <OmniCategoryAxis Labels="Countries" />
         <OmniValueAxis />
-        <OmniBarSeries Title="Dossiers par pays" ColorIndex="4" Data="ByCountry" />
+        <OmniColumnSeries Horizontal="true" Title="Dossiers par pays" ColorIndex="4" Data="ByCountry" />
+    </OmniChart>
+
+    @* Horizontal and stacked: the bars of a country sit end to end, the legend reads the series. *@
+    <OmniChart Title="Dossiers traités et en attente, par pays">
+        <OmniCategoryAxis Labels="Countries" />
+        <OmniValueAxis Automatic="true" />
+        <OmniColumnSeries Horizontal="true" Stacked="true" Title="Traités" ColorIndex="0" Data="ByCountry" />
+        <OmniColumnSeries Horizontal="true" Stacked="true" Title="En attente" ColorIndex="2" Data="ByCountryPending" />
+        <OmniLegend Position="OmniLegendPosition.Bottom" />
     </OmniChart>
 
     <OmniChart Title="Parts par origine">
@@ -47,7 +56,7 @@
     <OmniArcGauge Label="Taux de traitement">
         <OmniArcGaugeScale Minimum="0" Maximum="100">
             <OmniArcGaugeScaleValue Value="72" ColorIndex="1"
-                                    Formatter="FormatPercent" />
+                                    FormatValue="FormatPercent" />
         </OmniArcGaugeScale>
     </OmniArcGauge>
 </OmniStack>

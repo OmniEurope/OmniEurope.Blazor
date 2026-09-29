@@ -25,7 +25,7 @@ public sealed class DataGridCellClipTests : OmniBunitContext
     public void ARowInEdit_UnclipsTheCellsThatShowAnEditInput()
     {
         var grid = Render<DataGridSurfaceTestHost>(parameters => parameters
-            .Add(component => component.EditMode, OmniDataGridEditMode.Single));
+            .Add(component => component.EditMode, OmniDataGridRowMode.Single));
 
         grid.FindAll(".omni-data-grid__actions button")[0].Click();
 

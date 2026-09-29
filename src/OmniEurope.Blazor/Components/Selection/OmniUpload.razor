@@ -3,7 +3,8 @@
 @implements IAsyncDisposable
 @inject Microsoft.Extensions.Logging.ILogger<OmniUpload> Logger
 
-<div @attributes="AdditionalAttributes" id="@Id" class="@RootClass">
+@* Id goes on the native file control, the focusable element, so an OmniFormField For= names it. *@
+<div @attributes="AdditionalAttributes" class="@RootClass">
     @if (IsField)
     {
         @* A read-only field welded to a Browse button. The native file control covers both, invisible,
@@ -22,7 +23,7 @@
                 </span>
             </span>
             <InputFile class="omni-upload__input"
-                       id="@InputId"
+                       id="@Id"
                        OnChange="HandleFilesAsync"
                        accept="@EffectiveAccept"
                        disabled="@(Disabled || _uploading)"
@@ -39,7 +40,7 @@
              @ondragleave="() => SetDragging(false)"
              @ondrop="() => SetDragging(false)">
             <InputFile class="omni-upload__input"
-                       id="@InputId"
+                       id="@Id"
                        OnChange="HandleFilesAsync"
                        multiple="@Multiple"
                        accept="@EffectiveAccept"

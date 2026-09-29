@@ -1,7 +1,8 @@
 # Données : grille, liste, pagination, arbre et tableur
 
 Ce lot couvre `OmniDataGrid<TItem>`, `OmniDataGridColumn<TItem>`, `OmniDataList<TItem>`, `OmniPager`,
-l'arbre et le tableur `OmniSpreadsheet`. La surface de la grille est dimensionnée sur les paramètres
+l'arbre (`OmniTree<TValue>`, `OmniTreeItem<TValue>`), le tableur `OmniSpreadsheet`, le tableau de cartes
+`OmniKanban<TItem>`, le journal `OmniLogViewer` et l'export Markdown `OmniMarkdownExportButton<TItem>`. La surface de la grille est dimensionnée sur les paramètres
 réellement utilisés par les applications consommatrices.
 
 ## Sources de données
@@ -235,7 +236,7 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
   et n'est pas vide. Les filtres ignorent la casse ; `CaseSensitiveFilters` la fait compter.
 ### Forme du contrôle de filtre
 
-`FilterType` choisit la forme du contrôle, sur un seul axe :
+`FilterType` (`OmniDataGridColumnFilterType`) choisit la forme du contrôle, sur un seul axe, parmi six formes :
 
 | `FilterType` | Contrôle rendu |
 | --- | --- |
@@ -243,6 +244,10 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
 | `Select` | liste déroulante fermée des valeurs distinctes, comparée par égalité |
 | `Combo` | saisie libre avec liste de suggestions |
 | `MultiSelect` | liste cochable, la ligne correspond à une valeur cochée |
+| `DateRange` | début et fin facultatifs (`OmniDataGridFilterDateRange`) ; un jour seul couvre toute la journée, `FilterIncludesTime` ajoute les heures, et un chargeur distant reçoit deux bornes (`OmniDataGridDateRange`) |
+| `Number` | saisie numérique et opérateurs ordonnés (égal, supérieur, inférieur...), pour une colonne dont la valeur est lue par une fonction et dont la grille ne peut pas déduire le type |
+
+Les contrôles de `Combo`, `MultiSelect` et `DateRange` sont aussi publics, `OmniDataGridFilterCombo`, `OmniDataGridFilterMultiSelect` et `OmniDataGridFilterDateRange`, pour être posés à la main dans un `FilterTemplate`.
 
 `FilterSearchable` ajoute une boîte de recherche au-dessus d'une liste `MultiSelect`, pour une colonne
 dont le catalogue est trop long à parcourir à l'oeil. Les autres formes l'ignorent.
@@ -263,7 +268,7 @@ grille alimentée par `Load` qui ne voit que la page courante.
 
 ### Filtre entièrement sur mesure
 
-Quand aucune des quatre formes ne convient, `FilterTemplate` remplace le contrôle sans toucher à la
+Quand aucune des six formes ne convient, `FilterTemplate` remplace le contrôle sans toucher à la
 grille. Le contexte porte l'identifiant à poser sur le champ, la valeur courante, les valeurs
 candidates, le texte indicatif et le rappel qui applique une nouvelle valeur.
 
@@ -318,11 +323,10 @@ comme n'importe quel autre filtre.
 
 ## Pagination
 
-`OmniPager` sert la grille et reste utilisable seul : boutons première, précédente, numéros de page,
-suivante et dernière, sélecteur `PageSizeOptions`, libellés et titres par bouton,
-`PageTitleFormat`/`PageAriaLabelFormat` pour les numéros, alignement `PagerHorizontalAlign`.
-`PagerPosition` place la barre en haut, en bas ou aux deux. `ShowPagingSummary` produit le résumé
-localisé « premier à dernier sur total ».
+`OmniPager` sert la grille et reste utilisable seul : boutons précédente, numéros de page et suivante, première et dernière avec `ShowFirstLast`, sélecteur de taille de page. Ses textes (titres et noms accessibles des boutons, résumé) viennent des ressources du paquet, remplaçables par `AddOmniEuropeTextOverrides` ([localization.md](localization.md)).
+
+- Seul, il prend ses propres paramètres : `Page`/`PageChanged` et `PageCount`, `PageSize`/`PageSizeChanged` et `PageSizeOptions`, `NumericPageCount` (nombre de numéros affichés), `ShowFirstLast`, `HorizontalAlign`, `Label` (nom de la navigation) et `Disabled`.
+- Dans la grille, on ne le pose pas : la grille le rend et le règle par ses paramètres à elle, `PageSize`/`PageSizeChanged`, `PageSizeOptions`, `NumericPageCount`, `PagerHorizontalAlign` (transmis comme `HorizontalAlign`), `PagerPosition` (barre en haut, en bas ou aux deux) et `ShowPagingSummary` (résumé localisé « premier à dernier sur total ») ; première et dernière y sont toujours montrées.
 
 Dans la grille, la barre n'apparaît qu'en `ScrollMode` `Paged` et s'il existe plus d'une page. `AlwaysShowPager` la maintient visible même sur une page
 unique, pour une mise en page qui ne doit pas se réorganiser au fil des filtres. Une liste locale
@@ -346,7 +350,15 @@ sous 40 rem.
   le menu d'en-tête (`ShowHeaderFilterMenu`) ; `FilterTemplate` remplace le contrôle, pas son cadre.
 - Le sélecteur de colonnes visibles : `Visible` reste piloté par l'hôte.
 
-## Arbre : ligne enrichie
+## Arbre : `OmniTree` et `OmniTreeItem`
+
+`OmniTree<TValue>` est un arbre (`role="tree"`) d'`OmniTreeItem<TValue>`, à sélection simple ou multiple
+(`aria-multiselectable`), la sélection étant liée par `Value`. Chaque entrée (`role="treeitem"`) déclare
+ses enfants dans son contenu ou les charge à la demande à sa première ouverture (état de chargement
+annoncé, échec signalé), y compris quand elle est ouverte d'emblée. Au clavier, Droite développe, Gauche
+réduit, Entrée et Espace sélectionnent sans remonter à l'ancêtre ([accessibility-contract.md](accessibility-contract.md)).
+
+### Ligne enrichie
 
 `OmniTreeItem.TextContent` remplace le texte de la ligne par un fragment (icône, libellé mis en forme,
 mention), indépendamment des éléments enfants de `ChildContent`. Il est rendu dans le bouton de la
@@ -408,6 +420,23 @@ des formules calculées sur la feuille.
 Hors périmètre, délibérément : sélection de plages, copier-coller, recopie de formules, formats de
 nombre par cellule, largeur propre à une colonne, insertion ou suppression au milieu de la feuille,
 fonctions conditionnelles et opérateurs de comparaison.
+
+## Journal : `OmniLogViewer`
+
+`OmniLogViewer` affiche un journal : lignes numérotées avec leur heure et leur sévérité, avertissements et
+erreurs teintés. Il suit la dernière ligne tant que des lignes arrivent et lâche prise dès que le lecteur
+remonte, avec un bouton pour revenir à la plus récente. Un filtre de niveau masque les lignes sous une
+sévérité, et une recherche marque chaque occurrence d'un texte et passe de l'une à l'autre. Le composant
+n'ouvre aucune connexion : l'hôte lui passe les lignes, en ajout seul (une ligne remplacée avant la
+dernière position déjà vue n'est pas détectée ; une liste plus courte ou dont cette ligne a changé repart
+de zéro).
+
+## Export Markdown : `OmniMarkdownExportButton`
+
+`OmniMarkdownExportButton<TItem>` est un bouton qui télécharge les lignes d'une grille en fichier Markdown
+(`OmniMarkdownTableExporter`, service enregistré par `AddOmniEuropeBlazor`), pour une lecture par une IA :
+toutes les lignes annoncées, lues par le fournisseur de pages de l'export, et non la seule page ou fenêtre
+que la grille affiche. Il est occupé pendant la lecture, et une page en échec ne produit aucun fichier.
 
 ## Tableau de cartes : `OmniKanban`
 

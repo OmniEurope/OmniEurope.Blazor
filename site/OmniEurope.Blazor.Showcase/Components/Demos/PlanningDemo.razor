@@ -1,28 +1,34 @@
 <OmniStack Gap="OmniSpacing.Large">
-    @* Le Gantt tient son échelle lui-même ; la vitrine la lie pour montrer les trois zooms. *@
+    @* Le Gantt tient son échelle lui-même ; la vitrine la lie pour montrer les trois zooms. Le
+       planning est placé autour de la date du jour, que le Gantt lit sur l'horloge du composant. *@
     <OmniGantt Tasks="Tasks"
                @bind-Scale="Scale"
-               Today="Today"
                SelectedTaskId="@SelectedTaskId"
-               TaskClicked="@(task => SelectedTaskId = task.Id)"
+               OnTaskClick="@(task => SelectedTaskId = task.Id)"
                Label="Planning du projet" />
     <OmniText Tone="OmniTextTone.Muted">Échelle affichée : @ScaleName</OmniText>
 
     <OmniHeading Level="OmniHeadingLevel.H4">Le même planning, au mois et sans groupes</OmniHeading>
-    <OmniGantt Tasks="Tasks" Scale="OmniGanttScale.Month" ShowGroups="false" ShowScalePicker="false" Today="Today" Label="Planning mensuel" />
-    <OmniGantt Tasks="Tasks" Scale="OmniGanttScale.Day" ShowDependencies="false" ShowToday="false" ShowScalePicker="false" Label="Planning au jour" />
+    <OmniGantt Tasks="Tasks" Scale="OmniCalendarView.Month" ShowGroups="false" ShowScalePicker="false" Label="Planning mensuel" />
+    <OmniGantt Tasks="Tasks" Scale="OmniCalendarView.Day" ShowDependencies="false" ShowToday="false" ShowScalePicker="false" Label="Planning au jour" />
 
     <OmniHeading Level="OmniHeadingLevel.H4">Déroulement d'une exécution</OmniHeading>
-    <OmniStepTimeline Steps="Steps" Now="RunNow" Label="Exécution 42" />
+    @* L'étape en cours s'arrête à l'heure de l'horloge du composant, lue à chaque rendu du parent. *@
+    <OmniStepTimeline Steps="Steps" Label="Exécution 42" />
 
-    <OmniHeading Level="OmniHeadingLevel.H4">Frise, à gauche puis en alterné</OmniHeading>
+    <OmniHeading Level="OmniHeadingLevel.H4">Frise à gauche, puis en alterné depuis chaque côté</OmniHeading>
     <OmniTimeline Label="Frise à gauche" Layout="OmniTimelineLayout.Start">
         <OmniTimelineItem Title="Dépôt" DateText="2 mars">Le dossier a été enregistré.</OmniTimelineItem>
         <OmniTimelineItem Title="Décision" DateText="24 mars">La décision a été notifiée.</OmniTimelineItem>
     </OmniTimeline>
-    <OmniTimeline Label="Frise alternée" Layout="OmniTimelineLayout.Alternate" FirstSide="OmniTimelineSide.Start">
+    <OmniTimeline Label="Frise alternée, départ à gauche" Layout="OmniTimelineLayout.AlternateStart">
         <OmniTimelineItem Title="Dépôt" DateText="2 mars">Le dossier a été enregistré.</OmniTimelineItem>
         <OmniTimelineItem Title="Instruction" DateText="9 mars">Un agent a été désigné.</OmniTimelineItem>
         <OmniTimelineItem Title="Décision" DateText="24 mars">La décision a été notifiée.</OmniTimelineItem>
+    </OmniTimeline>
+    @* Le titre d'une entrée est un titre de niveau 3 par défaut ; Level l'accorde au plan de la page. *@
+    <OmniTimeline Label="Frise alternée, départ à droite" Layout="OmniTimelineLayout.AlternateEnd">
+        <OmniTimelineItem Title="Dépôt" DateText="2 mars" Level="OmniHeadingLevel.H5">Le dossier a été enregistré.</OmniTimelineItem>
+        <OmniTimelineItem Title="Instruction" DateText="9 mars" Level="OmniHeadingLevel.H5">Un agent a été désigné.</OmniTimelineItem>
     </OmniTimeline>
 </OmniStack>

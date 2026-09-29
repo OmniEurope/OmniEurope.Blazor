@@ -11,13 +11,17 @@ public partial class ComponentGallery
     [Inject]
     private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
 
-    private DemoDefinition Current { get; set; } = DemoCatalog.All[0];
+    /// <summary>
+    /// The entry on show: the first one on the bare gallery address, <see langword="null"/> when the
+    /// address names a key the gallery does not have (the page then renders its not-found content).
+    /// </summary>
+    private DemoDefinition? Current { get; set; } = DemoCatalog.All[0];
 
     private string? Source { get; set; }
 
     protected override void OnParametersSet()
     {
-        Current = DemoCatalog.Resolve(DemoKey);
-        Source = DemoSource.Read(Current.Component);
+        Current = DemoKey is null ? DemoCatalog.All[0] : DemoCatalog.Find(DemoKey);
+        Source = Current is null ? null : DemoSource.Read(Current.Component);
     }
 }

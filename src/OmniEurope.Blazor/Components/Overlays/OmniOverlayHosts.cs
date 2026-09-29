@@ -28,12 +28,11 @@ internal static class OmniOverlayHosts
                 sequence++,
                 nameof(OmniDialog.CloseLabel),
                 string.Equals(dialog.CloseLabel, LegacyFrenchCloseLabel, StringComparison.Ordinal)
-                    ? string.Empty
+                    ? null
                     : dialog.CloseLabel);
             builder.AddAttribute(sequence++, nameof(OmniDialog.CloseOnBackdrop), dialog.CloseOnBackdrop);
             builder.AddAttribute(sequence++, nameof(OmniDialog.Dismissible), dialog.Dismissible);
             builder.AddAttribute(sequence++, nameof(OmniDialog.ShowClose), dialog.ShowClose);
-            builder.AddAttribute(sequence++, nameof(OmniDialog.CloseOnEscape), dialog.CloseOnEscape);
             builder.AddAttribute(sequence++, nameof(OmniDialog.Draggable), dialog.Draggable);
             builder.AddAttribute(sequence++, nameof(OmniDialog.Resizable), dialog.Resizable);
             builder.AddAttribute(sequence++, nameof(OmniDialog.Size), dialog.Size);
@@ -137,7 +136,7 @@ internal static class OmniOverlayHosts
         builder.AddAttribute(5, nameof(OmniNotification.ShowCountdown), options.ShowCountdown);
         builder.AddAttribute(6, nameof(OmniNotification.Duration), notification.Duration);
         builder.AddAttribute(7, nameof(OmniNotification.DetailsHref), notification.DetailsHref);
-        builder.AddAttribute(8, nameof(OmniNotification.OnHeldChanged), EventCallback.Factory.Create<bool>(service, held =>
+        builder.AddAttribute(8, nameof(OmniNotification.OnHeldChange), EventCallback.Factory.Create<bool>(service, held =>
         {
             if (held)
             {
@@ -152,7 +151,7 @@ internal static class OmniOverlayHosts
         if (notification.Action is { } action && !string.IsNullOrWhiteSpace(notification.ActionText))
         {
             builder.AddAttribute(10, nameof(OmniNotification.ActionText), notification.ActionText);
-            builder.AddAttribute(11, nameof(OmniNotification.OnAction), EventCallback.Factory.Create(service, async () =>
+            builder.AddAttribute(11, nameof(OmniNotification.OnActionClick), EventCallback.Factory.Create(service, async () =>
             {
                 // Closed first: the action runs once, even if the reader clicks again while it works.
                 if (service.Dismiss(notification.Id))

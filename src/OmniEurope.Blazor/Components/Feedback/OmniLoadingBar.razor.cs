@@ -8,10 +8,11 @@ public partial class OmniLoadingBar
     [Parameter]
     public OmniLoadingBarMode Mode { get; set; } = OmniLoadingBarMode.Sweep;
 
+    /// <summary>Accessible name of the bar while it loads; the localized "Loading" when null or blank.</summary>
     [Parameter]
-    public string Label { get; set; } = string.Empty;
+    public string? Label { get; set; }
 
-    private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Localize("LoadingLabel") : Label;
+    private string EffectiveLabel => LocalizeOr(Label, "LoadingLabel");
 
     /// <summary>
     /// A load nobody reported a figure for. The sweep can still run on the animation alone, and the

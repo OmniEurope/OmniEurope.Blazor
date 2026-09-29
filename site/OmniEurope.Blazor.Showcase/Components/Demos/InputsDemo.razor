@@ -3,7 +3,7 @@
 <EditForm Model="Model">
     <OmniStack Gap="OmniSpacing.Medium">
         <OmniFormField For="inputs-amount">
-            <Label>Montant</Label>
+            <LabelContent>Montant</LabelContent>
             <ChildContent>
                 <OmniNumeric TValue="decimal" Id="inputs-amount" @bind-Value="Model.Amount"
                              Minimum="0" Maximum="100000" Step="50" Placeholder="0" />
@@ -13,7 +13,7 @@
         @* Clamp ramène une saisie hors bornes à la borne la plus proche, dans le modèle comme dans le
            champ. Sans lui, la valeur est prise telle quelle, comme avant. *@
         <OmniFormField For="inputs-quantity" Description="Entre 0 et 20 : une saisie hors bornes est ramenée à la borne la plus proche.">
-            <Label>Quantité</Label>
+            <LabelContent>Quantité</LabelContent>
             <ChildContent>
                 <OmniNumeric TValue="int" Id="inputs-quantity" @bind-Value="Model.Quantity"
                              Minimum="0" Maximum="20" Clamp="true" />
@@ -21,7 +21,7 @@
         </OmniFormField>
 
         <OmniFormField For="inputs-secret" Description="Le bouton révèle la saisie sans la copier ailleurs.">
-            <Label>Mot de passe</Label>
+            <LabelContent>Mot de passe</LabelContent>
             <ChildContent>
                 <OmniPassword Id="inputs-secret" @bind-Value="Model.Secret" Revealable="true"
                               Autocomplete="new-password" />
@@ -31,7 +31,7 @@
         @* Les trois sélecteurs ouvrent leur panneau sur le calque des surfaces flottantes ; un seul
            panneau est ouvert à la fois. *@
         <OmniFormField For="inputs-date" Description="Saisie au clavier ou calendrier ; les jours hors bornes ne se choisissent pas.">
-            <Label>Date d'effet</Label>
+            <LabelContent>Date d'effet</LabelContent>
             <ChildContent>
                 <OmniDatePicker Id="inputs-date" @bind-Value="Model.Date"
                                 Minimum="Floor" Maximum="Ceiling" />
@@ -39,14 +39,14 @@
         </OmniFormField>
 
         <OmniFormField For="inputs-start" Description="Heures de 00 à 23, minutes par pas de 5.">
-            <Label>Heure de début</Label>
+            <LabelContent>Heure de début</LabelContent>
             <ChildContent>
-                <OmniTimePicker Id="inputs-start" @bind-Value="Model.Start" Step="5" />
+                <OmniTimePicker Id="inputs-start" @bind-Value="Model.Start" Step="TimeSpan.FromMinutes(5)" />
             </ChildContent>
         </OmniFormField>
 
         <OmniFormField For="inputs-appointment" Description="Calendrier et colonnes d'heure dans un même panneau.">
-            <Label>Rendez-vous</Label>
+            <LabelContent>Rendez-vous</LabelContent>
             <ChildContent>
                 <OmniDateTimePicker Id="inputs-appointment" @bind-Value="Model.Appointment"
                                     Minimum="AppointmentFloor" Maximum="AppointmentCeiling" />
@@ -55,18 +55,18 @@
         <p id="inputs-picked">@PickedSummary</p>
 
         <OmniFormField For="inputs-color">
-            <Label>Couleur de repère</Label>
+            <LabelContent>Couleur de repère</LabelContent>
             <ChildContent>
                 <OmniColorPicker Id="inputs-color" @bind-Value="Model.Color" ShowValue="true" />
             </ChildContent>
         </OmniFormField>
 
         <OmniFormField For="inputs-city" Description="La recherche démarre à deux caractères.">
-            <Label>Ville</Label>
+            <LabelContent>Ville</LabelContent>
             <ChildContent>
                 <OmniAutocomplete TValue="string" Id="inputs-city" @bind-Value="Model.City"
                                   Search="SearchCitiesAsync" MinimumLength="2"
-                                  DebounceMilliseconds="150" Placeholder="Commencez à écrire"
+                                  Debounce="TimeSpan.FromMilliseconds(150)" Placeholder="Commencez à écrire"
                                   HighlightMatches="true" />
             </ChildContent>
         </OmniFormField>

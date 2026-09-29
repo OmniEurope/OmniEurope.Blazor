@@ -62,6 +62,28 @@ public sealed class ShowcaseThemeTests
     }
 
     /// <summary>
+    /// The theme hooks only some themes set are declared on the bare theme scope, not on
+    /// <c>:root</c>: the reader takes that block too and files them with the shape of a theme, while a
+    /// scope with a value (a mode block) is not a declaration of the catalogue.
+    /// </summary>
+    [Theory]
+    [InlineData("--omni-backdrop", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-card-filter", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-scrim-filter", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-dialog-background", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-input-background", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-scope-isolation", ThemeTokenGroup.Shape)]
+    public void TokenReader_ReadsTheThemeHooksOfTheBareThemeScope(string name, ThemeTokenGroup expected)
+    {
+        var token = Assert.Single(ThemeTokenReader.Parse($"[data-omni-theme] {{ {name}: none; }} [data-omni-theme=\"dark\"] {{ --omni-other: x; }}"));
+        Assert.Equal(name, token.Name);
+        Assert.Equal(expected, token.Group);
+
+        var css = File.ReadAllText(Path.Combine(Root, "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        Assert.Contains(ThemeTokenReader.Parse(css), parsed => parsed.Name == name);
+    }
+
+    /// <summary>
     /// Every size a density block declares is filed with the spacing, whatever its name: the alert's
     /// disc and glyph, the paddings, the gaps, the control height and font.
     /// </summary>
@@ -287,7 +309,7 @@ public sealed class ShowcaseThemeTests
     /// The pairs above only protect what the stylesheet actually draws: every filled surface must
     /// take the text colour the generator picked for that very fill, never the accent's. Information
     /// and success sit on the bright fill with its dark ink, warning and danger on the deep fill with
-    /// its light ink: the one rule buttons and alerts share (PLAN-008, T22 and T24).
+    /// its light ink: the one rule buttons and alerts share (PLAN-004, T22 and T24).
     /// </summary>
     [Fact]
     public void FilledSurfaces_UseTheTextColourPickedForThem()
@@ -305,7 +327,7 @@ public sealed class ShowcaseThemeTests
         Assert.Matches(@"\.omni-alert--success \{[^}]*--omni-alert-fill: var\(--omni-color-success-bright\)[^}]*--omni-alert-on: var\(--omni-color-on-bright\)", css);
         Assert.Matches(@"\.omni-alert--warning \{[^}]*--omni-alert-fill: var\(--omni-color-warning-deep\)[^}]*--omni-alert-on: var\(--omni-color-on-deep\)", css);
         Assert.Matches(@"\.omni-alert--danger \{[^}]*--omni-alert-fill: var\(--omni-color-danger-deep\)[^}]*--omni-alert-on: var\(--omni-color-on-deep\)", css);
-        Assert.Matches(@"\.omni-alert--filled \{[^}]*background: var\(--omni-alert-fill\)[^}]*color: var\(--omni-alert-on\)", css);
+        Assert.Matches(@"\.omni-alert--solid \{[^}]*background: var\(--omni-alert-fill\)[^}]*color: var\(--omni-alert-on\)", css);
         Assert.Matches(@"\.omni-tooltip__content \{[^}]*color: var\(--omni-color-on-inverse\)", css);
     }
 
@@ -364,8 +386,9 @@ public sealed class ShowcaseThemeTests
 
     /// <summary>
     /// Every custom property declared in a top-level block whose selector list starts with
-    /// <c>:root</c>, first occurrence order, read line by line from the unminified source: an
-    /// independent reading of what the token reader parses from the same text.
+    /// <c>:root</c> or is the bare theme scope <c>[data-omni-theme]</c>, first occurrence order, read
+    /// line by line from the unminified source: an independent reading of what the token reader
+    /// parses from the same text.
     /// </summary>
     private static string[] DeclaredRootTokens(string css)
     {
@@ -374,7 +397,7 @@ public sealed class ShowcaseThemeTests
         var selectorNamesRoot = false;
         foreach (var line in css.ReplaceLineEndings("\n").Split('\n'))
         {
-            if (!inRootBlock && line.StartsWith(":root", StringComparison.Ordinal))
+            if (!inRootBlock && (line.StartsWith(":root", StringComparison.Ordinal) || line == "[data-omni-theme] {"))
             {
                 selectorNamesRoot = true;
             }

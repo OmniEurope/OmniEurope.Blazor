@@ -4,6 +4,6 @@
 
 @* The label tells how recent, the tooltip keeps the exact date: on hover, on keyboard focus, and
    to a screen reader through the description the tooltip gives its trigger. *@
-<OmniTooltip Id="@TooltipId" Text="@AbsoluteText" TabIndex="0" Class="omni-relative-time__tooltip">
-    <time id="@Id" class="@Css("omni-relative-time")" datetime="@MachineText" @attributes="AdditionalAttributes">@RelativeText</time>
+<OmniTooltip Id="@TooltipId" Text="@AbsoluteText" Focusable="true" Class="omni-relative-time__tooltip">
+    <time @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-relative-time")" datetime="@MachineText">@RelativeText</time>
 </OmniTooltip>

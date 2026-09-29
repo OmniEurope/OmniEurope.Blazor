@@ -1,22 +1,30 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// A form field laid out: its label (with the required mark), an optional description, the control and
+/// an error line. The control keeps its own id, which <see cref="For"/> names.
+/// </summary>
 public partial class OmniFormField
 {
+    /// <summary>The id of the control the label names (its <c>for</c>).</summary>
     [Parameter]
     public string For { get; set; } = string.Empty;
 
+    /// <summary>The label as plain text. Ignored when <see cref="LabelContent"/> is given.</summary>
     [Parameter]
-    public RenderFragment? Label { get; set; }
+    public string? Label { get; set; }
 
-    /// <summary>Plain-text label shorthand for markup-driven forms.</summary>
+    /// <summary>The label as markup, when plain text is not enough; it wins over <see cref="Label"/>.</summary>
     [Parameter]
-    public string? Text { get; set; }
+    public RenderFragment? LabelContent { get; set; }
 
+    /// <summary>The control.</summary>
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>Content after the control on the same line: a unit, a button.</summary>
     [Parameter]
-    public RenderFragment? End { get; set; }
+    public RenderFragment? EndContent { get; set; }
 
     /// <summary>
     /// A short explanation between the label and the control, in muted text. Given an <see cref="OmniComponentBase.Id"/>,
@@ -26,12 +34,20 @@ public partial class OmniFormField
     [Parameter]
     public string? Description { get; set; }
 
+    /// <summary>
+    /// The error shown under the control, which marks the field invalid. It is announced politely when it
+    /// appears (a live region, not <c>role="alert"</c>); given an <see cref="OmniComponentBase.Id"/>, the
+    /// line has the id <c>{Id}-error</c>, which the control names in <c>aria-describedby</c>. Null or
+    /// blank, the default, shows none.
+    /// </summary>
     [Parameter]
     public string? Error { get; set; }
 
+    /// <summary>Adds the required mark to the label (the control carries its own requirement).</summary>
     [Parameter]
     public bool Required { get; set; }
 
+    /// <summary>Draws the field dimmed (the control is disabled by its own parameter).</summary>
     [Parameter]
     public bool Disabled { get; set; }
 

@@ -1,10 +1,23 @@
+using OmniEurope.Blazor.Internal;
+
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>A series drawn as a filled area between its line and zero, or on the stacked areas below it.</summary>
+/// <remarks>
+/// A chart part: it derives from <see cref="ComponentBase"/>, not <see cref="OmniComponentBase"/>, on
+/// purpose. It draws SVG inside its chart, so it takes no <c>Id</c>, <c>Class</c> or extra attributes.
+/// </remarks>
 public partial class OmniAreaSeries
 {
     [CascadingParameter] private OmniChartContext? ChartContext { get; set; }
+
+    /// <summary>The points: <see cref="OmniChartPoint.X"/> along the categories, <see cref="OmniChartPoint.Y"/> the value.</summary>
     [Parameter] public IReadOnlyList<OmniChartPoint> Data { get; set; } = Array.Empty<OmniChartPoint>();
+
+    /// <summary>The name of the series, which the legend and the data table of the chart show.</summary>
     [Parameter] public string? Title { get; set; }
+
+    /// <summary>Rank in the palette of eight chart colours; a larger index wraps around.</summary>
     [Parameter] public int ColorIndex { get; set; }
 
     /// <summary>
@@ -15,10 +28,18 @@ public partial class OmniAreaSeries
     [Parameter] public bool Stacked { get; set; }
 
     protected override void OnParametersSet() =>
-        ChartContext?.RegisterSeries(this, Stacked ? OmniChartSeriesKind.StackedArea : OmniChartSeriesKind.Area, Data);
+        ChartContext?.RegisterSeries(this, Stacked ? OmniChartSeriesKind.StackedArea : OmniChartSeriesKind.Area, Data, Title, ColorIndex);
 
     private string AreaPoints => ChartContext?.AreaPoints(this, Stacked) ?? OmniChartGeometry.AreaPoints(Data);
-    private string ColorClass => $"omni-chart-color-{Math.Abs(ColorIndex) % 8}";
+
+    private string ColorClass => ChartColor.Class(ColorIndex);
+
     private string CssClass => Stacked ? $"omni-chart__area omni-chart__area--stacked {ColorClass}" : $"omni-chart__area {ColorClass}";
-    public void Dispose() { ChartContext?.UnregisterSeries(this); GC.SuppressFinalize(this); }
+
+    /// <summary>Removes the series from its chart.</summary>
+    public void Dispose()
+    {
+        ChartContext?.UnregisterSeries(this);
+        GC.SuppressFinalize(this);
+    }
 }

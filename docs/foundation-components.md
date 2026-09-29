@@ -34,7 +34,7 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 
 ## Barre d'application
 
-Les pièces de la barre supérieure de la maquette PLAN-008 sont dans le paquet, sans feuille de l'hôte :
+Les pièces de la barre supérieure de la maquette de PLAN-004 (`docs/plans/PLAN-004-maquette-themes.html`) sont dans le paquet, sans feuille de l'hôte :
 
 - logo et nom : `OmniHeader.BrandLogo` et `OmniHeader.Brand` ;
 - recherche : `OmniTextBox` avec `Icon` (voir `docs/form-components.md`) ;
@@ -95,7 +95,7 @@ Toute palette peint tout thème : quatorze thèmes par quatorze palettes, cent q
 
 | Thème | Signature de forme | Palette par défaut |
 |---|---|---|
-| Essentiel | Un seul arrondi de 2,5 px partout, bordure de 1 px, élévation discrète, sans empattement, titres en 600 | Défaut |
+| Essentiel | Un seul arrondi de 2,5 px partout, bordure de 1 px, élévation discrète, sans empattement, titres en 600 | Essentiel |
 | Ardoise | Angles vifs, aucune ombre, boutons et titres en capitales espacées | Océan |
 | Galet | Boutons pilule, grandes cartes sans bordure, liseré et ombre diffuse, police arrondie | Forêt |
 | Halo | Grandes rondeurs, boutons pilule, halo coloré tiré de l'accent, bordure teintée | Lavande |
@@ -112,7 +112,7 @@ Toute palette peint tout thème : quatorze thèmes par quatorze palettes, cent q
 
 | Palette | Accent clair | Allure |
 |---|---|---|
-| Défaut | `#4340d2` | Indigo en clair, violet en sombre, sévérités franches |
+| Essentiel | `#4340d2` | Indigo dans les deux modes, sévérités franches |
 | Océan | `#0b63ce` | Bleu franc sur fond d'écume, nuit marine en sombre |
 | Forêt | `#2f6f4f` | Vert sapin sur fond de mousse, sous-bois en sombre |
 | Lavande | `#7c5cbf` | Violet lavande sur blanc lilas, nuit mauve en sombre |
@@ -124,7 +124,7 @@ Toute palette peint tout thème : quatorze thèmes par quatorze palettes, cent q
 | Prune | `#7b2d6e` | Prune et rose, velours sombre en sombre |
 | Nuage | `#2f6bff` | Bleu vif sur gris nuage, anthracite en sombre, rouge orangé en alerte |
 | Opale | `#4f46e5` | Indigo franc sur blanc nacré, ciel, menthe et pêche en sévérités, nuit bleutée en sombre |
-| Pastel | `#c77ddf` | Lilas et rose sur blanc, bleu marine en sombre, ciel en information |
+| Pastel | `#b04fd0` | Lilas et rose sur blanc, bleu marine en sombre, ciel en information |
 | Encre | `#27466f` | Encre noire sur blanc cassé, un seul bleu d’encre discret |
 
 ### Combiner un thème et une palette
@@ -136,7 +136,7 @@ Toute palette peint tout thème : quatorze thèmes par quatorze palettes, cent q
 - `Palette` seule : les couleurs de la palette sur la forme livrée ;
 - ni l'un ni l'autre : l'apparence livrée, sans aucun script.
 
-`OmniThemePreset.With(palette)` fait la même combinaison en code : les jetons de la palette, puis `Shape` (la forme, posée sur les deux modes), puis `DarkShape` (les réglages propres au sombre, posés sur le seul mode sombre ; Galet, Halo, Papier, Nénuphar, Relief et Givre y relèvent leurs cartes ou leurs ombres ; les huit autres thèmes n’en ont pas). Le nom et la description restent ceux du thème. Un preset écrit à la main (`new OmniThemePreset(nom, description, clair, sombre)`) a une `Shape` et une `DarkShape` vides.
+`OmniThemePreset.With(palette)` fait la même combinaison en code : les jetons de la palette, puis `Shape` (la forme, posée sur les deux modes), puis `DarkShape` (les réglages propres au sombre, posés sur le seul mode sombre ; Galet, Halo, Papier, Nénuphar, Relief et Givre y relèvent leurs cartes ou leurs ombres, et Aplat rapproche ses aplats clairs du texte clair ; les sept autres thèmes n’en ont pas). Le nom et la description restent ceux du thème. Un preset écrit à la main (`new OmniThemePreset(nom, description, clair, sombre)`) a une `Shape` et une `DarkShape` vides.
 
 ```razor
 <OmniThemeScope Appearance="OmniAppearance.System"
@@ -185,7 +185,7 @@ Le parti pris de chacun (sous les seuils pour les trois premiers) :
 
 ### L'apparence livrée
 
-Sans `OmniThemeScope`, ou avec une portée sans thème ni palette, la page a l'aspect du thème Défaut avec la palette Défaut. Ces jetons ne sont pas écrits à la main : ils sont générés par la fabrique entre les marqueurs `omni:theme-tokens` de la feuille, pour le clair (`:root`, `[data-omni-theme="light"]`), le sombre et le mode système, et `ShippedThemeTokensTests` refuse toute retouche manuelle. Chaque jeton de couleur a donc sa valeur sombre.
+Sans `OmniThemeScope`, ou avec une portée sans thème ni palette, la page a l'aspect du thème Essentiel avec la palette Essentiel. Ces jetons ne sont pas écrits à la main : ils sont générés par la fabrique entre les marqueurs `omni:theme-tokens` de la feuille, pour le clair (`:root`, `[data-omni-theme="light"]`), le sombre et le mode système, et `ShippedThemeTokensTests` refuse toute retouche manuelle. Chaque jeton de couleur a donc sa valeur sombre.
 
 ### Jetons de couleur
 
@@ -322,7 +322,8 @@ retrait et son résultat).
 Les tests du lot vérifient le rendu des 15 composants, leur sémantique principale, les classes responsive, les états ARIA, les bornes numériques et l'absence de style inline. Le scanner CSP inspecte l'ensemble des sources Razor, C# et JavaScript de la bibliothèque.
 
 ## Classes utilitaires `omni-u-*`
- le balisage qu'une application écrit autour des composants, pas pour restyler un composant : chaque règle vise une seule classe utilitaire, jamais la classe d'un composant (garde `UtilityClassesTests`). Déclarées en fin de feuille, elles l'emportent sur une règle de composant de même spécificité.
+
+Le paquet livre des classes utilitaires préfixées `omni-u-`, pour mettre en forme le balisage qu'une application écrit autour des composants, pas pour restyler un composant : chaque règle vise une seule classe utilitaire, jamais la classe d'un composant (garde `UtilityClassesTests`). Déclarées en fin de feuille, elles l'emportent sur une règle de composant de même spécificité.
 
 | Famille | Classes |
 |---|---|

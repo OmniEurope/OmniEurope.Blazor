@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="HeaderBadge" xml:space="preserve"><value>Komponenskönyvtár</value></data>
+  <data name="ModeLight" xml:space="preserve"><value>Világos téma</value></data>
+  <data name="ModeDark" xml:space="preserve"><value>Sötét téma</value></data>
+  <data name="LanguageSelectorLabel" xml:space="preserve"><value>A bemutató nyelve</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Fő navigáció</value></data>
+  <data name="MenuLabel" xml:space="preserve"><value>A webhely részei</value></data>
+  <data name="NavShowcase" xml:space="preserve"><value>Áttekintés</value></data>
+  <data name="NavDocumentation" xml:space="preserve"><value>Dokumentáció</value></data>
+  <data name="NavComponents" xml:space="preserve"><value>Komponensek</value></data>
+  <data name="NavCustomize" xml:space="preserve"><value>Testreszabás</value></data>
+  <data name="ErrorTitle" xml:space="preserve"><value>Hiba történt</value></data>
+  <data name="ErrorMessage" xml:space="preserve"><value>Az oldalt nem sikerült megfelelően megjeleníteni.</value></data>
+  <data name="Retry" xml:space="preserve"><value>Újra</value></data>
+  <data name="NotFoundPageTitle" xml:space="preserve"><value>Az oldal nem található</value></data>
+  <data name="NotFoundTitle" xml:space="preserve"><value>Az oldal nem található</value></data>
+  <data name="NotFoundDescription" xml:space="preserve"><value>A kért cím a webhely egyetlen oldalának sem felel meg.</value></data>
+  <data name="BackHome" xml:space="preserve"><value>Vissza a kezdőlapra</value></data>
+  <data name="HomePageTitle" xml:space="preserve"><value>OmniEurope.Blazor</value></data>
+  <data name="HomeKicker" xml:space="preserve"><value>Blazor</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Akadálymentes Blazor-komponensek szigorú biztonsági szabályzat mellett</value></data>
+  <data name="HomeLead" xml:space="preserve"><value>Komponenskönyvtár olyan alkalmazásokhoz, amelyek tiltják a beágyazott stílust, megkövetelik az akadálymentességet, és elejétől a végéig vezérelhető témát szeretnének.</value></data>
+  <data name="HomeSeeComponents" xml:space="preserve"><value>A komponensek megtekintése</value></data>
+  <data name="HomeSeeCustomize" xml:space="preserve"><value>A téma testreszabása</value></data>
+  <data name="HomePillarsTitle" xml:space="preserve"><value>Ami megkülönbözteti a könyvtárat</value></data>
+  <data name="PillarCspTitle" xml:space="preserve"><value>Szigorú biztonsági szabályzat</value></data>
+  <data name="PillarCspBody" xml:space="preserve"><value>Nincs beágyazott stílusattribútum, nincs beinjektált stíluselem, nincs dinamikus szkriptkiértékelés. A könyvtár olyan szabályzat alatt működik, amely mindezt tiltja.</value></data>
+  <data name="PillarThemeTitle" xml:space="preserve"><value>Teljesen változókra épülő téma</value></data>
+  <data name="PillarThemeBody" xml:space="preserve"><value>A színek, a tipográfia, a térközök, a lekerekítések, az árnyékok és a diagramok palettája mind CSS-változókon keresztül működik, a szabályokban egyetlen rögzített érték sincs.</value></data>
+  <data name="PillarA11yTitle" xml:space="preserve"><value>Tesztekkel biztosított akadálymentesség</value></data>
+  <data name="PillarA11yBody" xml:space="preserve"><value>A szerepköröket, az állapotokat és a címkéket a tesztkészlet ellenőrzi, nem csupán a dokumentáció ígéri.</value></data>
+  <data name="PillarWeightTitle" xml:space="preserve"><value>Felügyelt méret</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>A közzétett csomagot minden buildnél egy bájtkerethez mérjük, a stíluslappal együtt.</value></data>
+  <data name="DocsPageTitle" xml:space="preserve"><value>Dokumentáció</value></data>
+  <data name="DocsTitle" xml:space="preserve"><value>Dokumentáció</value></data>
+  <data name="DocsLead" xml:space="preserve"><value>A csomag telepítésétől az első egyéni témáig, öt lépésben.</value></data>
+  <data name="DocsInstallTitle" xml:space="preserve"><value>A csomag telepítése</value></data>
+  <data name="DocsInstallBody" xml:space="preserve"><value>A könyvtárra ugyanúgy kell hivatkozni, mint bármely más NuGet-csomagra.</value></data>
+  <data name="DocsRegisterTitle" xml:space="preserve"><value>A szolgáltatások regisztrálása</value></data>
+  <data name="DocsRegisterBody" xml:space="preserve"><value>Egyetlen hívás regisztrálja mindazt, amire a komponenseknek szükségük van.</value></data>
+  <data name="DocsCssTitle" xml:space="preserve"><value>Hivatkozás a stíluslapra</value></data>
+  <data name="DocsCssBody" xml:space="preserve"><value>A stíluslapot a csomag statikus erőforrásként szolgálja ki.</value></data>
+  <data name="DocsCspTitle" xml:space="preserve"><value>Biztonsági szabályzat</value></data>
+  <data name="DocsCspBody" xml:space="preserve"><value>A könyvtár ezeken túl semmilyen engedélyt nem igényel: sem beágyazott stílust, sem dinamikus szkriptkiértékelést.</value></data>
+  <data name="DocsThemeTitle" xml:space="preserve"><value>A téma testreszabása</value></data>
+  <data name="DocsThemeBody" xml:space="preserve"><value>Egyetlen változó újradefiniálása átfesti az összes komponenst, amely azt olvassa.</value></data>
+  <data name="DocsThemePointer" xml:space="preserve"><value>Teljes téma összeállításához CSS írása nélkül:</value></data>
+  <data name="GalleryPageTitle" xml:space="preserve"><value>Komponensek</value></data>
+  <data name="GalleryTitle" xml:space="preserve"><value>Komponensek</value></data>
+  <data name="GalleryLead" xml:space="preserve"><value>Minden családot bemutatunk azzal, amire képes, egy élő bemutatóval és az azt létrehozó kóddal.</value></data>
+  <data name="GalleryNavLabel" xml:space="preserve"><value>Komponenscsaládok</value></data>
+  <data name="GalleryCapabilities" xml:space="preserve"><value>Amire a komponens képes</value></data>
+  <data name="GalleryPreview" xml:space="preserve"><value>Bemutató</value></data>
+  <data name="GallerySource" xml:space="preserve"><value>Forráskód</value></data>
+  <data name="GallerySourceNote" xml:space="preserve"><value>Ez pontosan az a fájl, amelyet a fenti bemutató lefordít és futtat, az assemblyből beolvasva, soha nem kézzel átmásolva.</value></data>
+  <data name="GallerySourceMissingTitle" xml:space="preserve"><value>A forrás nem érhető el</value></data>
+  <data name="GallerySourceMissing" xml:space="preserve"><value>A bemutató fájlja nem található az assembly erőforrásai között.</value></data>
+  <data name="DemoButtonsTitle" xml:space="preserve"><value>Gombok</value></data>
+  <data name="DemoButtonsSummary" xml:space="preserve"><value>A művelet indítója, vizuális szándék és állapot szerint.</value></data>
+  <data name="DemoButtonsCapability1" xml:space="preserve"><value>Négy szándék: elsődleges, másodlagos, visszafogott és romboló.</value></data>
+  <data name="DemoButtonsCapability2" xml:space="preserve"><value>Foglalt állapot, amely megakadályozza a dupla küldést, és jelzi magát a képernyőolvasóknak.</value></data>
+  <data name="DemoButtonsCapability3" xml:space="preserve"><value>A letiltott állapot elkülönül a foglalt állapottól.</value></data>
+  <data name="DemoButtonsCapability4" xml:space="preserve"><value>Három méret és egy űrlap három gombtípusa: küldés, alaphelyzetbe állítás, semleges művelet.</value></data>
+  <data name="DemoBadgesTitle" xml:space="preserve"><value>Jelvények</value></data>
+  <data name="DemoBadgesSummary" xml:space="preserve"><value>A rövid címke, amely minősít egy elemet anélkül, hogy túlterhelné.</value></data>
+  <data name="DemoBadgesCapability1" xml:space="preserve"><value>Öt változat a téma súlyossági szintjeihez igazítva.</value></data>
+  <data name="DemoBadgesCapability2" xml:space="preserve"><value>A változókból származtatott színezett hátterek, így a témával együtt változnak.</value></data>
+  <data name="DemoAlertsTitle" xml:space="preserve"><value>Figyelmeztetések</value></data>
+  <data name="DemoAlertsSummary" xml:space="preserve"><value>A környezetfüggő üzenet, az egyszerű tájékoztatástól a blokkoló hibáig.</value></data>
+  <data name="DemoAlertsCapability1" xml:space="preserve"><value>Négy súlyossági szint: információ, siker, figyelmeztetés és veszély.</value></data>
+  <data name="DemoAlertsCapability2" xml:space="preserve"><value>Két változat: visszafogott körvonal vagy teli háttér.</value></data>
+  <data name="DemoAlertsCapability3" xml:space="preserve"><value>Élő mód, amely felolvassa az üzenetet a kisegítő technológiáknak.</value></data>
+  <data name="CustomizePageTitle" xml:space="preserve"><value>Testreszabás</value></data>
+  <data name="CustomizeTitle" xml:space="preserve"><value>Testreszabás</value></data>
+  <data name="CustomizeLead" xml:space="preserve"><value>Válasszon egy témát, amely a formát adja, majd egy palettát, amely a színeket: bármely paletta bármely témát kifesti, és az egész webhely menet közben átfestődik. Az előnézet a referenciaterv kompozícióit követi.</value></data>
+  <data name="CustomizeTokensTitle" xml:space="preserve"><value>Változók</value></data>
+  <data name="CustomizeTokensLead" xml:space="preserve"><value>Ez a lista a szállított stíluslapból olvasódik be, így nem térhet el attól, amit a könyvtár valóban közzétesz. A módosított változó a kombináció fölé kerül, mindkét módban; másik téma vagy paletta választása törli.</value></data>
+  <data name="CustomizeReset" xml:space="preserve"><value>Módosítások törlése</value></data>
+  <data name="TokenGroupColor" xml:space="preserve"><value>Színek</value></data>
+  <data name="TokenGroupTypography" xml:space="preserve"><value>Tipográfia</value></data>
+  <data name="TokenGroupSpacing" xml:space="preserve"><value>Térközök és sűrűség</value></data>
+  <data name="TokenGroupShape" xml:space="preserve"><value>Formák, szegélyek és lenyomás</value></data>
+  <data name="TokenGroupElevation" xml:space="preserve"><value>Árnyékok, réteg és átfedések</value></data>
+  <data name="TokenGroupChart" xml:space="preserve"><value>Diagramok</value></data>
+  <data name="TokenGroupGrid" xml:space="preserve"><value>Adattáblázat sötét módban</value></data>
+  <data name="TokenGroupDiagram" xml:space="preserve"><value>Gondolattérkép</value></data>
+  <data name="CustomizeExportTitle" xml:space="preserve"><value>Exportálás</value></data>
+  <data name="CustomizeExportLead" xml:space="preserve"><value>Az alábbi CSS a teljes kombinációt tartalmazza, a módosított változókkal együtt, világos, sötét és rendszer módra. A téma hatókörét célozza (OmniThemeScope, data-omni-theme), ahol a stíluslap újradeklarálja a változóit; a könyvtár stíluslapja után töltse be.</value></data>
+  <data name="CustomizeCopy" xml:space="preserve"><value>Másolás</value></data>
+  <data name="CustomizeDownload" xml:space="preserve"><value>Letöltés</value></data>
+  <data name="CustomizeCopied" xml:space="preserve"><value>A CSS a vágólapra került.</value></data>
+  <data name="CustomizeCopyFailed" xml:space="preserve"><value>A másolás nem sikerült. Jelölje ki az alábbi kódot, és másolja ki kézzel.</value></data>
+  <data name="CustomizeDownloaded" xml:space="preserve"><value>Az omnieurope-theme.css fájl letöltődött.</value></data>
+  <data name="CustomizeDownloadFailed" xml:space="preserve"><value>A letöltés nem sikerült. Másolja ki helyette az alábbi kódot.</value></data>
+  <data name="DemoFormTitle" xml:space="preserve"><value>Űrlapok</value></data>
+  <data name="DemoFormSummary" xml:space="preserve"><value>A beviteli mezők és akadálymentes címkéik.</value></data>
+  <data name="DemoFormCapability1" xml:space="preserve"><value>A címke, a leírás és a hibaüzenet azonosítóval kapcsolódik a mezőhöz.</value></data>
+  <data name="DemoFormCapability2" xml:space="preserve"><value>Szövegterület karakterszámlálóval és korláttal.</value></data>
+  <data name="DemoFormCapability3" xml:space="preserve"><value>Billentyűzettel vezérelhető csúszka, jelölőnégyzet és kapcsoló.</value></data>
+  <data name="DemoSelectionTitle" xml:space="preserve"><value>Kijelölés</value></data>
+  <data name="DemoSelectionSummary" xml:space="preserve"><value>Egy vagy több érték kiválasztása egy listából.</value></data>
+  <data name="DemoSelectionCapability1" xml:space="preserve"><value>Legördülő lista, amely üres értéket is megenged.</value></data>
+  <data name="DemoSelectionCapability2" xml:space="preserve"><value>A látható sorok számával rögzített magasságú lista.</value></data>
+  <data name="DemoSelectionCapability3" xml:space="preserve"><value>Többszörös kijelölés, amely visszaadja a kiválasztott értékek listáját.</value></data>
+  <data name="DemoNavigationTitle" xml:space="preserve"><value>Navigáció</value></data>
+  <data name="DemoNavigationSummary" xml:space="preserve"><value>A felhasználó tájékoztatása a helyéről, és mozgatása a részek között.</value></data>
+  <data name="DemoNavigationCapability1" xml:space="preserve"><value>Navigációs útvonal, amely jelöli az aktuális oldalt.</value></data>
+  <data name="DemoNavigationCapability2" xml:space="preserve"><value>Vezérelt lapok szerepkörökkel és billentyűzetes navigációval.</value></data>
+  <data name="DemoNavigationCapability3" xml:space="preserve"><value>Számozott lépések, érvényesítéssel a váltás előtt.</value></data>
+  <data name="DemoFeedbackTitle" xml:space="preserve"><value>Állapotjelzések</value></data>
+  <data name="DemoFeedbackSummary" xml:space="preserve"><value>Megmutatja, hol tart a rendszer, anélkül hogy akadályozná az olvasást.</value></data>
+  <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Meghatározott vagy meghatározatlan folyamatjelző.</value></data>
+  <data name="DemoFeedbackCapability2" xml:space="preserve"><value>Billentyűzettel is elérhető elemleírás, nem csak rámutatással.</value></data>
+  <data name="DemoFeedbackCapability3" xml:space="preserve"><value>A képernyőolvasóknak jelzett betöltési váz.</value></data>
+  <data name="DemoFeedbackCapability4" xml:space="preserve"><value>Lineáris vagy kör alakú sáv négy szándékkal, és egy váz, amely a helyettesített tartalom formáját veszi fel.</value></data>
+  <data name="DemoGridTitle" xml:space="preserve"><value>Adattáblázat</value></data>
+  <data name="DemoGridSummary" xml:space="preserve"><value>A munkatáblázat: rendezés, szűrés, lapozás és csoportok.</value></data>
+  <data name="DemoGridCapability1" xml:space="preserve"><value>Oszloponkénti rendezés és szűrés a valódi adatokon.</value></data>
+  <data name="DemoGridCapability2" xml:space="preserve"><value>Lapozás állítható oldalmérettel.</value></data>
+  <data name="DemoGridCapability3" xml:space="preserve"><value>Váltakozó sorok és deklaratív oszlopformátumok.</value></data>
+  <data name="DemoChartTitle" xml:space="preserve"><value>Diagramok</value></data>
+  <data name="DemoChartSummary" xml:space="preserve"><value>Kategóriasorozatok a téma színeiben.</value></data>
+  <data name="DemoChartCapability1" xml:space="preserve"><value>Oszlopsorozatok feliratozott tengelyekkel.</value></data>
+  <data name="DemoChartCapability2" xml:space="preserve"><value>A színek a téma diagramváltozóiból származnak.</value></data>
+  <data name="DemoTypographyTitle" xml:space="preserve"><value>Tipográfia</value></data>
+  <data name="DemoTypographySummary" xml:space="preserve"><value>Címsorok, bekezdések, címkék és hivatkozások.</value></data>
+  <data name="DemoTypographyCapability1" xml:space="preserve"><value>Hat címsorszint, több tónusban.</value></data>
+  <data name="DemoTypographyCapability2" xml:space="preserve"><value>Öt szövegelem, a bekezdéstől a kiemelésig.</value></data>
+  <data name="DemoTypographyCapability3" xml:space="preserve"><value>Csonkolás három ponttal, és mezőhöz kapcsolt címke.</value></data>
+  <data name="DemoLayoutTitle" xml:space="preserve"><value>Elrendezés</value></data>
+  <data name="DemoLayoutSummary" xml:space="preserve"><value>A rács, a sorok, a kártyák és a mezőcsoportok.</value></data>
+  <data name="DemoLayoutCapability1" xml:space="preserve"><value>Tizenkét oszlopos rács, képernyőméret-töréspontonkénti átfogással.</value></data>
+  <data name="DemoLayoutCapability2" xml:space="preserve"><value>Háromrészes kártya: fejléc, törzs és lábléc.</value></data>
+  <data name="DemoLayoutCapability3" xml:space="preserve"><value>Egyetlen mozdulattal letiltható mezőcsoport.</value></data>
+  <data name="DemoLayoutCapability4" xml:space="preserve"><value>A teljes térközskála, valamint a sorok által elfogadott elosztások és igazítások.</value></data>
+  <data name="DemoShellTitle" xml:space="preserve"><value>Alkalmazáskeret</value></data>
+  <data name="DemoShellSummary" xml:space="preserve"><value>Egy alkalmazás váza, amelyből ez a webhely is felépül.</value></data>
+  <data name="DemoShellCapability1" xml:space="preserve"><value>Fejléc, összecsukható oldalsáv és fő terület.</value></data>
+  <data name="DemoShellCapability2" xml:space="preserve"><value>Navigációs menü kibontható csoportokkal.</value></data>
+  <data name="DemoShellCapability3" xml:space="preserve"><value>Megjelenésváltó és helyi téma-hatókör.</value></data>
+  <data name="DemoShellCapability4" xml:space="preserve"><value>Mindkét elrendezés: középre igazított olvasóoszlop vagy teljes szélesség, menü bal vagy jobb oldalon.</value></data>
+  <data name="DemoMediaTitle" xml:space="preserve"><value>Ikonok és média</value></data>
+  <data name="DemoMediaSummary" xml:space="preserve"><value>Az ikonok, a képek és az idővonal.</value></data>
+  <data name="DemoMediaCapability1" xml:space="preserve"><value>Beépített ikonok három méretben.</value></data>
+  <data name="DemoMediaCapability2" xml:space="preserve"><value>A gazdaalkalmazás által biztosított ikonútvonal, a csomag növelése nélkül.</value></data>
+  <data name="DemoMediaCapability3" xml:space="preserve"><value>Állítható kivágású, késleltetve betöltődő kép.</value></data>
+  <data name="DemoMediaCapability4" xml:space="preserve"><value>A teljes beépített ikonkészlet és a három képkitöltési mód.</value></data>
+  <data name="DemoInputsTitle" xml:space="preserve"><value>Speciális bevitel</value></data>
+  <data name="DemoInputsSummary" xml:space="preserve"><value>Számok, jelszavak, dátumok, időpontok, színek és automatikus kiegészítés.</value></data>
+  <data name="DemoInputsCapability1" xml:space="preserve"><value>Korlátozott számmező állítható lépésközzel.</value></data>
+  <data name="DemoInputsCapability2" xml:space="preserve"><value>Megjeleníthető jelszó, amely sehová nem másolódik.</value></data>
+  <data name="DemoInputsCapability3" xml:space="preserve"><value>Aszinkron automatikus kiegészítés késleltetéssel és minimális hosszal.</value></data>
+  <data name="DemoInputsCapability4" xml:space="preserve"><value>Dátum, idő, dátum és idő: saját naptár és oszlopok a lebegő rétegen, rácsos billentyűkezelés, korlátok és sűrűség.</value></data>
+  <data name="DemoChoiceTitle" xml:space="preserve"><value>Választás</value></data>
+  <data name="DemoChoiceSummary" xml:space="preserve"><value>Választógombok, többszörös jelölőnégyzetek, kijelölősávok és váltógombok.</value></data>
+  <data name="DemoChoiceCapability1" xml:space="preserve"><value>Beállításokkal vezérelt vagy elemenként összeállított listák.</value></data>
+  <data name="DemoChoiceCapability2" xml:space="preserve"><value>Kijelölősáv és váltógomb, foglalt és letiltott állapottal.</value></data>
+  <data name="DemoChoiceCapability3" xml:space="preserve"><value>Háromállású jelölőnégyzet és kapcsoló, a meghatározatlan állapottal együtt.</value></data>
+  <data name="DemoValidationTitle" xml:space="preserve"><value>Érvényesítés</value></data>
+  <data name="DemoValidationSummary" xml:space="preserve"><value>A szabályok az általuk védett mező mellett vannak megadva.</value></data>
+  <data name="DemoValidationCapability1" xml:space="preserve"><value>Kötelező kitöltés, hossz, e-mail-formátum és összehasonlítás.</value></data>
+  <data name="DemoValidationCapability2" xml:space="preserve"><value>Küldéskor a fókusz az első érvénytelen mezőre kerül.</value></data>
+  <data name="DemoValidationCapability3" xml:space="preserve"><value>Nincs attribútum a modellen, minden a jelölőnyelvben van.</value></data>
+  <data name="DemoEditorTitle" xml:space="preserve"><value>Szerkesztők és feltöltés</value></data>
+  <data name="DemoEditorSummary" xml:space="preserve"><value>A WYSIWYG-szerkesztő és HTML-forrása, a szövegszerkesztő, a kódszerkesztő és a fájlfeltöltés.</value></data>
+  <data name="DemoEditorCapability1" xml:space="preserve"><value>A gazdaalkalmazás által bővíthető vagy átrendezhető parancssáv, megtisztított beillesztés, forrásmód.</value></data>
+  <data name="DemoEditorCapability2" xml:space="preserve"><value>Szövegszerkesztő egy oldalon, szószámlálás, HTML- és szövegexportálás.</value></data>
+  <data name="DemoEditorCapability3" xml:space="preserve"><value>Kódszerkesztő (a gazdaalkalmazás Monacója, szigorú CSP alatt egyszerű szöveg) és korlátozott feltöltés.</value></data>
+  <data name="DemoOverlayTitle" xml:space="preserve"><value>Átfedések</value></data>
+  <data name="DemoOverlaySummary" xml:space="preserve"><value>Párbeszédpanelek, értesítések és felugró menük.</value></data>
+  <data name="DemoOverlayCapability1" xml:space="preserve"><value>Modális párbeszédpanel, amely Esc billentyűvel vagy a háttérre kattintva zárható.</value></data>
+  <data name="DemoOverlayCapability2" xml:space="preserve"><value>Négy értesítési súlyossági szint, opcionális bezárással.</value></data>
+  <data name="DemoOverlayCapability3" xml:space="preserve"><value>Helyi menü, osztott gomb és fiókmenü.</value></data>
+  <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Táblázat, teljes nézet</value></data>
+  <data name="DemoGridAdvancedSummary" xml:space="preserve"><value>Kijelölés, csoportok, szerkesztés, rögzített oszlopok és részletes szűrők.</value></data>
+  <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Többszörös kijelölés a sorra kattintva.</value></data>
+  <data name="DemoGridAdvancedCapability2" xml:space="preserve"><value>Legördülő és többszörös kijelölésű szűrők oszloponként.</value></data>
+  <data name="DemoGridAdvancedCapability3" xml:space="preserve"><value>Rögzített oszlop, kibontott csoportok és számított oszloplábléc.</value></data>
+  <data name="DemoGridAdvancedCapability4" xml:space="preserve"><value>Élőben vezérelt megjelenítési beállítások: vonalak, sűrűség, lapozás, kijelölés, szerkesztés és szűrők.</value></data>
+  <data name="DemoDataListTitle" xml:space="preserve"><value>Listák és lapozás</value></data>
+  <data name="DemoDataListSummary" xml:space="preserve"><value>A szabad sablonú lista és a lapozója.</value></data>
+  <data name="DemoDataListCapability1" xml:space="preserve"><value>Az elemsablont teljes egészében a gazdaalkalmazás adja.</value></data>
+  <data name="DemoDataListCapability2" xml:space="preserve"><value>Elkülönülő üres, betöltési és hibaállapot.</value></data>
+  <data name="DemoDataListCapability3" xml:space="preserve"><value>Lapozó állítható oldalmérettel és az első és utolsó oldalra ugrással.</value></data>
+  <data name="DemoTreeTitle" xml:space="preserve"><value>Fastruktúra</value></data>
+  <data name="DemoTreeSummary" xml:space="preserve"><value>A kibontható hierarchia egyszeres vagy többszörös kijelöléssel.</value></data>
+  <data name="DemoTreeCapability1" xml:space="preserve"><value>Többszörös kijelölés és billentyűzetes navigáció.</value></data>
+  <data name="DemoTreeCapability2" xml:space="preserve"><value>Igény szerint, a csomópont megnyitásakor betöltött ág.</value></data>
+  <data name="DemoTreeCapability3" xml:space="preserve"><value>Letiltható csomópontok a bejárás megtörése nélkül.</value></data>
+  <data name="DemoSpreadsheetTitle" xml:space="preserve"><value>Táblázatkezelő</value></data>
+  <data name="DemoSpreadsheetSummary" xml:space="preserve"><value>Egyszerű munkalap: cellák, képletek és szerkesztőléc.</value></data>
+  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Képletek hivatkozásokkal, tartományokkal, SUM, AVERAGE, MIN, MAX függvénnyel és hibakódokkal.</value></data>
+  <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Billentyűzetes navigáció, helyben szerkesztés és szerkesztőléc.</value></data>
+  <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Kétirányú adatkötés és JSON-ba szerializálható tartalom.</value></data>
+  <data name="DemoSchedulerTitle" xml:space="preserve"><value>Naptár</value></data>
+  <data name="DemoSchedulerSummary" xml:space="preserve"><value>A naptár és három nézete.</value></data>
+  <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Váltható napi, heti és havi nézet.</value></data>
+  <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Szabállyal leírt ismétlődő találkozók.</value></data>
+  <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Minden nézet önállóan, a naptáron kívül is használható.</value></data>
+  <data name="DemoChartsExtendedTitle" xml:space="preserve"><value>Diagramok, teljes nézet</value></data>
+  <data name="DemoChartsExtendedSummary" xml:space="preserve"><value>Az összes sorozat, a jelmagyarázat, a feliratok és a mérőműszer.</value></data>
+  <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Vonalak, területek, oszlopok, sávok, halmozások, kör- és gyűrűdiagram.</value></data>
+  <data name="DemoChartsExtendedCapability2" xml:space="preserve"><value>Jelmagyarázat, jelölők, értékfeliratok és elemleírás.</value></data>
+  <data name="DemoChartsExtendedCapability3" xml:space="preserve"><value>Ív alakú mérőműszer skálával és értékformátummal.</value></data>
+  <data name="DemoDiagramTitle" xml:space="preserve"><value>Gondolattérkép</value></data>
+  <data name="DemoDiagramSummary" xml:space="preserve"><value>Egérrel, érintéssel és billentyűzettel szerkeszthető gondolattérkép.</value></data>
+  <data name="DemoDiagramCapability1" xml:space="preserve"><value>Húzás, lasszó, nagyítás görgővel vagy csippentéssel, helyi menü.</value></data>
+  <data name="DemoDiagramCapability2" xml:space="preserve"><value>Minden műveletnek van billentyűparancsa, amelyet a képernyőolvasók felolvasnak.</value></data>
+  <data name="DemoDiagramCapability3" xml:space="preserve"><value>Műveletsáv és tulajdonságpanel a kijelölt csomóponthoz.</value></data>
+  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Veszteség nélkül beolvassa és visszaírja a tárolt gráfformátumot.</value></data>
+  <data name="DemoPlanningTitle" xml:space="preserve"><value>Tervezés</value></data>
+  <data name="DemoPlanningSummary" xml:space="preserve"><value>Gantt-diagram, egy futás lépései és egy elhelyezendő idővonal.</value></data>
+  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt-diagram napi, heti vagy havi bontásban, csoportokkal, függőségekkel és a mai nappal.</value></data>
+  <data name="DemoPlanningCapability2" xml:space="preserve"><value>Futási lépések időskálán, az el sem indult lépésekkel együtt.</value></data>
+  <data name="DemoPlanningCapability3" xml:space="preserve"><value>Idővonal jobb oldalon, bal oldalon vagy váltakozva, az első oldal megválasztásával.</value></data>
+  <data name="DemoPagesTitle" xml:space="preserve"><value>Oldalak</value></data>
+  <data name="DemoPagesSummary" xml:space="preserve"><value>A fejléc, a részletes adatlap és annak tartalma.</value></data>
+  <data name="DemoPagesCapability1" xml:space="preserve"><value>Oldalfejléc: szolgáltatás által kezelt navigációs útvonal, vissza, cím, jelvények és telefonon összecsukott műveletek.</value></data>
+  <data name="DemoPagesCapability2" xml:space="preserve"><value>Részletes adatlap: az adatok megérkezése előtt megjelenő fejléc, betöltés közben elrejtett tartalom, nem található állapot visszalépési lehetőséggel.</value></data>
+  <data name="DemoPagesCapability3" xml:space="preserve"><value>Oszlopos definíciós lista, értékenként egy művelettel.</value></data>
+  <data name="DemoPagesCapability4" xml:space="preserve"><value>Relatív dátum a pontos dátummal rámutatáskor és fókuszkor, valamint üres állapot a hozzá tartozó művelettel.</value></data>
+  <data name="DemoFlowsTitle" xml:space="preserve"><value>Folyamatok</value></data>
+  <data name="DemoFlowsSummary" xml:space="preserve"><value>Varázsló, bejelentkezés és megszakadt kapcsolat.</value></data>
+  <data name="DemoFlowsCapability1" xml:space="preserve"><value>Lépésenkénti varázsló: előrehaladás, lépésenkénti érvényesítés, oldalon vagy párbeszédpanelen.</value></data>
+  <data name="DemoFlowsCapability2" xml:space="preserve"><value>Bejelentkezési oldal beépített hitelesítés nélkül, az alkalmazáson belülre korlátozott visszatérési címmel.</value></data>
+  <data name="DemoFlowsCapability3" xml:space="preserve"><value>Megszakadt kapcsolat fedőréteg: visszaszámlálás, ok, kézi újrapróbálás, sikertelenség és elutasítás.</value></data>
+  <data name="WorkshopBarTitle" xml:space="preserve"><value>Előnézeti beállítások</value></data>
+  <data name="WorkshopTheme" xml:space="preserve"><value>Téma (forma)</value></data>
+  <data name="WorkshopPalette" xml:space="preserve"><value>Paletta (színek)</value></data>
+  <data name="WorkshopThemePalette" xml:space="preserve"><value>A téma palettája</value></data>
+  <data name="WorkshopDefault" xml:space="preserve"><value>Alapértelmezett</value></data>
+  <data name="WorkshopMode" xml:space="preserve"><value>Mód</value></data>
+  <data name="WorkshopModeLight" xml:space="preserve"><value>Világos</value></data>
+  <data name="WorkshopModeDark" xml:space="preserve"><value>Sötét</value></data>
+  <data name="WorkshopModeSystem" xml:space="preserve"><value>Rendszer</value></data>
+  <data name="WorkshopDensity" xml:space="preserve"><value>Általános sűrűség</value></data>
+  <data name="WorkshopDensityCompact" xml:space="preserve"><value>Tömör</value></data>
+  <data name="WorkshopDensityComfortable" xml:space="preserve"><value>Kényelmes</value></data>
+  <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Tágas</value></data>
+  <data name="WorkshopDensityInherited" xml:space="preserve"><value>Örökölt</value></data>
+  <data name="WorkshopSectionDensity" xml:space="preserve"><value>Sűrűség</value></data>
+  <data name="WorkshopHover" xml:space="preserve"><value>Rámutatás</value></data>
+  <data name="WorkshopHoverForce" xml:space="preserve"><value>Kényszerítés</value></data>
+  <data name="WorkshopHoverForced" xml:space="preserve"><value>Kényszerítve</value></data>
+  <data name="WorkshopStageTitle" xml:space="preserve"><value>Előnézet</value></data>
+  <data name="WorkshopStageLead" xml:space="preserve"><value>Téma {0}: {1} Paletta {2}: {3}</value></data>
+  <data name="WorkshopContrastWaiver" xml:space="preserve"><value>A kontraszt nem garantált: {0}</value></data>
+  <data name="WorkshopContrastTitle" xml:space="preserve"><value>Számított kontrasztok</value></data>
+  <data name="WorkshopContrastLead" xml:space="preserve"><value>A megjelenített mód tokenjein mért arány, majd a teljesítendő küszöb.</value></data>
+  <data name="WorkshopContrastSystem" xml:space="preserve"><value>Rendszer mód: az arányokat a világos felén mérjük, mert hogy a böngésző melyiket választja, az csak az oldalon derül ki.</value></data>
+  <data name="WorkshopContrastVerdict" xml:space="preserve"><value>{1} párból {0} teljesíti a küszöbét.</value></data>
+  <data name="WorkshopSwatchesTitle" xml:space="preserve"><value>Színtokenek</value></data>
+  <data name="ContrastPair01" xml:space="preserve"><value>szöveg / felület</value></data>
+  <data name="ContrastPair02" xml:space="preserve"><value>szöveg / halvány felület</value></data>
+  <data name="ContrastPair03" xml:space="preserve"><value>szöveg / rámutatott felület</value></data>
+  <data name="ContrastPair04" xml:space="preserve"><value>halvány szöveg / felület</value></data>
+  <data name="ContrastPair05" xml:space="preserve"><value>halvány szöveg / halvány felület</value></data>
+  <data name="ContrastPair06" xml:space="preserve"><value>halvány szöveg / rámutatott felület</value></data>
+  <data name="ContrastPair07" xml:space="preserve"><value>erős kiemelőszín / felület</value></data>
+  <data name="ContrastPair08" xml:space="preserve"><value>erős kiemelőszín / visszafogott kiemelőszín</value></data>
+  <data name="ContrastPair09" xml:space="preserve"><value>erős kiemelőszín / rámutatott felület</value></data>
+  <data name="ContrastPair10" xml:space="preserve"><value>kiemelőszínen / kiemelőszín</value></data>
+  <data name="ContrastPair11" xml:space="preserve"><value>sikeren / siker</value></data>
+  <data name="ContrastPair12" xml:space="preserve"><value>figyelmeztetésen / figyelmeztetés</value></data>
+  <data name="ContrastPair13" xml:space="preserve"><value>hibán / hiba</value></data>
+  <data name="ContrastPair14" xml:space="preserve"><value>inverzen / inverz</value></data>
+  <data name="ContrastPair15" xml:space="preserve"><value>siker / felület</value></data>
+  <data name="ContrastPair16" xml:space="preserve"><value>siker / visszafogott siker</value></data>
+  <data name="ContrastPair17" xml:space="preserve"><value>figyelmeztetés / felület</value></data>
+  <data name="ContrastPair18" xml:space="preserve"><value>hiba / felület</value></data>
+  <data name="ContrastPair19" xml:space="preserve"><value>hiba / visszafogott hiba</value></data>
+  <data name="ContrastPair20" xml:space="preserve"><value>szöveg teli kiemelőszínen</value></data>
+  <data name="ContrastPair21" xml:space="preserve"><value>szöveg teli sikeren</value></data>
+  <data name="ContrastPair22" xml:space="preserve"><value>szöveg teli információn</value></data>
+  <data name="ContrastPair23" xml:space="preserve"><value>tinta világos információn (figyelmeztetés)</value></data>
+  <data name="ContrastPair24" xml:space="preserve"><value>tinta világos sikeren (figyelmeztetés)</value></data>
+  <data name="ContrastPair25" xml:space="preserve"><value>tinta rámutatott világos információn</value></data>
+  <data name="ContrastPair26" xml:space="preserve"><value>tinta lenyomott világos információn</value></data>
+  <data name="ContrastPair27" xml:space="preserve"><value>tinta rámutatott világos sikeren</value></data>
+  <data name="ContrastPair28" xml:space="preserve"><value>tinta lenyomott világos sikeren</value></data>
+  <data name="ContrastPair29" xml:space="preserve"><value>tinta mély figyelmeztetésen (gomb)</value></data>
+  <data name="ContrastPair30" xml:space="preserve"><value>tinta rámutatott mély figyelmeztetésen</value></data>
+  <data name="ContrastPair31" xml:space="preserve"><value>tinta lenyomott mély figyelmeztetésen</value></data>
+  <data name="ContrastPair32" xml:space="preserve"><value>tinta mély hibán (gomb)</value></data>
+  <data name="ContrastPair33" xml:space="preserve"><value>tinta rámutatott mély hibán</value></data>
+  <data name="ContrastPair34" xml:space="preserve"><value>tinta lenyomott mély hibán</value></data>
+  <data name="ContrastPair35" xml:space="preserve"><value>szöveg teli kiemelőszínen, rámutatás</value></data>
+  <data name="ContrastPair36" xml:space="preserve"><value>szöveg teli kiemelőszínen, lenyomás</value></data>
+  <data name="ContrastPair37" xml:space="preserve"><value>másodlagos alaphelyzetben</value></data>
+  <data name="ContrastPair38" xml:space="preserve"><value>másodlagos rámutatáskor</value></data>
+  <data name="ContrastPair39" xml:space="preserve"><value>másodlagos lenyomáskor</value></data>
+  <data name="ContrastPair40" xml:space="preserve"><value>szellem lenyomáskor</value></data>
+  <data name="ContrastPair41" xml:space="preserve"><value>teli kiemelőszín / felület</value></data>
+  <data name="ContrastPair42" xml:space="preserve"><value>teli siker / felület</value></data>
+  <data name="ContrastPair43" xml:space="preserve"><value>teli információ / felület</value></data>
+  <data name="ContrastPair44" xml:space="preserve"><value>teli figyelmeztetés / felület</value></data>
+  <data name="ContrastPair45" xml:space="preserve"><value>teli hiba / felület</value></data>
+  <data name="ContrastPair46" xml:space="preserve"><value>kiemelőszín / felület</value></data>
+  <data name="ContrastPair47" xml:space="preserve"><value>szegély / felület (OE minimum 1,7)</value></data>
+  <data name="DemoStatesTitle" xml:space="preserve"><value>Alaphelyzet, rámutatás és lenyomás</value></data>
+  <data name="DemoStatesSummary" xml:space="preserve"><value>Egy gombváltozat három állapota egymás mellett.</value></data>
+  <data name="DemoStatesCapability1" xml:space="preserve"><value>A rámutatás és a lenyomás a téma tokenjeit olvassa: rámutatott kitöltés, lenyomott kitöltés és lenyomási gesztus.</value></data>
+  <data name="DemoStatesCapability2" xml:space="preserve"><value>A bemutató összehasonlító segédeszköze: a böngésző nem tudja rögzíteni a :hover és az :active állapotot.</value></data>
+  <data name="DemoAppShellTitle" xml:space="preserve"><value>Alkalmazáskeret</value></data>
+  <data name="DemoAppShellSummary" xml:space="preserve"><value>Felső sáv, ikonsávvá összecsukható oldalmenü, tartalom.</value></data>
+  <data name="DemoAppShellCapability1" xml:space="preserve"><value>Összecsukó gomb, keresés, súgó, jelzőpöttyös csengő és alaphelyzetben zárt fiókmenü.</value></data>
+  <data name="DemoAppShellCapability2" xml:space="preserve"><value>Az oldalmenü összecsukva is megtartja az ikonjait (Collapse Icons).</value></data>
+  <data name="DemoAppShellCapability3" xml:space="preserve"><value>A pöttyöt, a nagyítót, a logót és az avatart a bemutató rajzolja: a csomagban nincs hozzájuk komponens.</value></data>
+  <data name="DemoThemesTitle" xml:space="preserve"><value>Témák és paletták</value></data>
+  <data name="DemoThemesSummary" xml:space="preserve"><value>A téma a formát adja, a paletta a színeket; bármely paletta bármely témát kifesti.</value></data>
+  <data name="DemoThemesCapability1" xml:space="preserve"><value>Az OmniThemeScope.Preset és az OmniThemeScope.Palette a hatókört és annak tartalmát festi át, semmi mást.</value></data>
+  <data name="DemoThemesCapability2" xml:space="preserve"><value>Egy paletta önmagában a színeket változtatja meg, és megtartja a szállított formát.</value></data>
+  <data name="DemoThemesCapability3" xml:space="preserve"><value>{0} téma és {1} paletta, azaz {2} kombináció, mindegyik világos és sötét változatban.</value></data>
+  <data name="DemoSurfacesTitle" xml:space="preserve"><value>Felületek</value></data>
+  <data name="DemoSurfacesSummary" xml:space="preserve"><value>Kártyák, lebegő menü, lapok, oldalmenü, hivatkozás és elemleírás.</value></data>
+  <data name="DemoSurfacesCapability1" xml:space="preserve"><value>A kártyák és a lebegő menü a téma formáját olvassák: kitöltés, körvonal, sugár és árnyék.</value></data>
+  <data name="DemoSurfacesCapability2" xml:space="preserve"><value>A lebegő menü a lebegő felületek rétegén nyílik meg.</value></data>
+  <data name="DemoSurfacesCapability3" xml:space="preserve"><value>A menü aktuális elemét a háttere és a szöveg vastagsága jelöli, soha nem oldalsó vonal.</value></data>
+  <data name="DemoVerticalFormTitle" xml:space="preserve"><value>Függőleges űrlap</value></data>
+  <data name="DemoVerticalFormSummary" xml:space="preserve"><value>Minden mezőtípus, a hibák és összesítőjük, a letiltott és a csak olvasható állapot.</value></data>
+  <data name="DemoVerticalFormCapability1" xml:space="preserve"><value>Felül címke, kötelezőséget jelző csillag, súgó és hiba ikonnal.</value></data>
+  <data name="DemoVerticalFormCapability2" xml:space="preserve"><value>A hibák a szerkesztési környezetből származnak: a mező ebből kapja az aria-invalid attribútumot, javításuk eltávolítja őket az összesítőből.</value></data>
+  <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Egybeépített fájlmező, egyfájlos terület, többfájlos terület összecsukott listával.</value></data>
+  <data name="DemoVerticalFormCapability4" xml:space="preserve"><value>A letiltott és a csak olvasható állapot mindhárom sűrűségben megkülönböztethető marad.</value></data>
+  <data name="DemoSettingsTabsTitle" xml:space="preserve"><value>Beállítások lapokon</value></data>
+  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>Témakörönként egy ikonos lap, laponként egy szakasz, beállításonként egy csempe.</value></data>
+  <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>A csempébe helyezett kapcsoló a csempe nevét kapja címkeként; a csempére kattintás átváltja.</value></data>
+  <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>A vezérlő jobb oldalon áll, a név, a súgó és az ikon bal oldalon.</value></data>
+  <data name="DemoNoticesTitle" xml:space="preserve"><value>Értesítések és párbeszédpanelek</value></data>
+  <data name="DemoNoticesSummary" xml:space="preserve"><value>Bezárható értesítések, párbeszédpanelek a háttérfátyol fölött.</value></data>
+  <data name="DemoNoticesCapability1" xml:space="preserve"><value>Minden értesítés az X gombjával zárható be.</value></data>
+  <data name="DemoNoticesCapability2" xml:space="preserve"><value>A párbeszédpanelek lábléce a csomag konvencióját követi: előbb a művelet, aztán a Mégse.</value></data>
+  <data name="DemoLoadingTitle" xml:space="preserve"><value>Betöltés</value></data>
+  <data name="DemoLoadingSummary" xml:space="preserve"><value>Betöltési sáv, várakozás, foglalt gombok, folyamatjelző és váz.</value></data>
+  <data name="DemoLoadingCapability1" xml:space="preserve"><value>A sáv valódi betöltést követ, pásztázva vagy feltöltődve, a végéig halad, majd eltűnik.</value></data>
+  <data name="DemoLoadingCapability2" xml:space="preserve"><value>A foglalt gomb megtartja méretét és tartalmát: egy fátyol lélegzik fölötte.</value></data>
+  <data name="DemoLoadingCapability3" xml:space="preserve"><value>A váz a helyettesített tartalom formáját veszi fel.</value></data>
+  <data name="DemoRunGridsTitle" xml:space="preserve"><value>Futástáblázatok</value></data>
+  <data name="DemoRunGridsSummary" xml:space="preserve"><value>A terv két táblázata: rendezett, aktív oszloppal, illetve csíkozott, rögzített fejléccel.</value></data>
+  <data name="DemoRunGridsCapability1" xml:space="preserve"><value>A rendezett oszlop halványabb árnyalatot kap, mint a kiválasztott sor, hogy megkülönböztethetők legyenek.</value></data>
+  <data name="DemoRunGridsCapability2" xml:space="preserve"><value>A fejléc görgetéskor is látható marad; az időtartam a végére igazodik.</value></data>
+  <data name="DemoRunGridsCapability3" xml:space="preserve"><value>Az állapot egy kompakt pötty (omni-status).</value></data>
+  <data name="LoadingFrameBrand" xml:space="preserve"><value>Boutique</value></data>
+  <data name="LoadingFramePage" xml:space="preserve"><value>Irányítópult</value></data>
+  <data name="LoadingBarLabel" xml:space="preserve"><value>Az oldal betöltése</value></data>
+  <data name="LoadingSweep" xml:space="preserve"><value>Pásztázó sáv</value></data>
+  <data name="LoadingFill" xml:space="preserve"><value>Feltöltődő sáv</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>A sáv a fenti fejléc alá van rögzítve. A végén végigfut, majd eltűnik.</value></data>
+  <data name="LoadingWaiting" xml:space="preserve"><value>Várakozás</value></data>
+  <data name="LoadingDeploying" xml:space="preserve"><value>Telepítés folyamatban</value></data>
+  <data name="LoadingChecking" xml:space="preserve"><value>Ellenőrzés</value></data>
+  <data name="LoadingSaving" xml:space="preserve"><value>Mentés folyamatban</value></data>
+  <data name="LoadingAnalysis" xml:space="preserve"><value>Elemzés folyamatban</value></data>
+  <data name="LoadingCoverage" xml:space="preserve"><value>Lefedettség</value></data>
+  <data name="LoadingContent" xml:space="preserve"><value>A tartalom betöltése</value></data>
+  <data name="NoticeDoneTitle" xml:space="preserve"><value>A telepítés befejeződött</value></data>
+  <data name="NoticeDoneMessage" xml:space="preserve"><value>orders-deploy-prod #2399, 1 perc 48 mp alatt.</value></data>
+  <data name="NoticeRefusedTitle" xml:space="preserve"><value>A zárolt visszaállítás elutasítva</value></data>
+  <data name="NoticeRefusedMessage" xml:space="preserve"><value>A NuGet-gráf eltért a zárolási fájltól.</value></data>
+  <data name="NoticeShowAgain" xml:space="preserve"><value>Értesítések ismételt megjelenítése</value></data>
+  <data name="NoticeUnlistOpen" xml:space="preserve"><value>Az 1.0.0-s verzió listázásának megszüntetése</value></data>
+  <data name="NoticeUnlistTitle" xml:space="preserve"><value>Az 1.0.0-s verzió listázásának megszüntetése</value></data>
+  <data name="NoticeUnlistBody" xml:space="preserve"><value>A verzió eltűnik a keresésből és a lebegő tartományokból. Pontos verziószámmal továbbra is letölthető marad.</value></data>
+  <data name="NoticeUnlistAlpha" xml:space="preserve"><value>A 0.1.0-alpha.1 listázásának megszüntetése is</value></data>
+  <data name="NoticeUnlist" xml:space="preserve"><value>Listázás megszüntetése</value></data>
+  <data name="NoticeUnlistDone" xml:space="preserve"><value>A verzió listázása megszűnt</value></data>
+  <data name="NoticeRerunOpen" xml:space="preserve"><value>A folyamat újraindítása</value></data>
+  <data name="NoticeRerunTitle" xml:space="preserve"><value>Újraindítja a folyamatot?</value></data>
+  <data name="NoticeRerunBody" xml:space="preserve"><value>Az orders-deploy-prod #2399 újraindul a srv-01 kiszolgálón, ugyanazokkal a változókkal.</value></data>
+  <data name="NoticeRerunNotify" xml:space="preserve"><value>Értesítés a végén</value></data>
+  <data name="NoticeRerun" xml:space="preserve"><value>Újraindítás</value></data>
+  <data name="NoticeRerunDone" xml:space="preserve"><value>A folyamat újraindult</value></data>
+  <data name="NoticeCancel" xml:space="preserve"><value>Mégse</value></data>
+  <data name="NoticeClose" xml:space="preserve"><value>Bezárás</value></data>
+  <data name="NoticeLast" xml:space="preserve"><value>Utolsó művelet: {0}</value></data>
+  <data name="RunsSortedCaption" xml:space="preserve"><value>Futások folyamat szerint rendezve</value></data>
+  <data name="RunsStripedCaption" xml:space="preserve"><value>Futási előzmények</value></data>
+  <data name="RunsRun" xml:space="preserve"><value>Futás</value></data>
+  <data name="RunsPipeline" xml:space="preserve"><value>Folyamat</value></data>
+  <data name="RunsTrigger" xml:space="preserve"><value>Indító</value></data>
+  <data name="RunsSeconds" xml:space="preserve"><value>Időtartam (mp)</value></data>
+  <data name="RunsStatus" xml:space="preserve"><value>Állapot</value></data>
+  <data name="RunsTriggerPush" xml:space="preserve"><value>Push</value></data>
+  <data name="RunsTriggerManual" xml:space="preserve"><value>Kézi</value></data>
+  <data name="RunsTriggerScheduled" xml:space="preserve"><value>Ütemezett</value></data>
+  <data name="RunsStatusSuccess" xml:space="preserve"><value>Sikeres</value></data>
+  <data name="RunsStatusInfo" xml:space="preserve"><value>Folyamatban</value></data>
+  <data name="RunsStatusWarning" xml:space="preserve"><value>Megszakítva</value></data>
+  <data name="RunsStatusDanger" xml:space="preserve"><value>Sikertelen</value></data>
+  <data name="SettingsTabsLabel" xml:space="preserve"><value>Beállítások</value></data>
+  <data name="SettingsGeneral" xml:space="preserve"><value>Általános</value></data>
+  <data name="SettingsGeneralLead" xml:space="preserve"><value>Munkahelyek és indítási viselkedés.</value></data>
+  <data name="SettingsFolder" xml:space="preserve"><value>Összetevők mappája</value></data>
+  <data name="SettingsFolderHint" xml:space="preserve"><value>Ahová a buildek a csomagjaikat helyezik.</value></data>
+  <data name="SettingsBrowse" xml:space="preserve"><value>Tallózás</value></data>
+  <data name="SettingsStartup" xml:space="preserve"><value>Indítás a Windows-zal</value></data>
+  <data name="SettingsStartupHint" xml:space="preserve"><value>Bejelentkezéskor elindítja az ügynököt.</value></data>
+  <data name="SettingsLanguage" xml:space="preserve"><value>Nyelv</value></data>
+  <data name="SettingsLanguageHint" xml:space="preserve"><value>A felület és az értesítések nyelve.</value></data>
+  <data name="SettingsLanguageFrench" xml:space="preserve"><value>Français</value></data>
+  <data name="SettingsLanguageEnglish" xml:space="preserve"><value>English</value></data>
+  <data name="SettingsDisplay" xml:space="preserve"><value>Megjelenítés</value></data>
+  <data name="SettingsDisplayLead" xml:space="preserve"><value>A felület megjelenése és sűrűsége.</value></data>
+  <data name="SettingsDarkMode" xml:space="preserve"><value>Sötét mód</value></data>
+  <data name="SettingsDarkModeHint" xml:space="preserve"><value>A rendszer követése vagy egy mód kényszerítése.</value></data>
+  <data name="SettingsModeSystem" xml:space="preserve"><value>A rendszer követése</value></data>
+  <data name="SettingsModeLight" xml:space="preserve"><value>Világos</value></data>
+  <data name="SettingsModeDark" xml:space="preserve"><value>Sötét</value></data>
+  <data name="SettingsCompact" xml:space="preserve"><value>Tömör felület</value></data>
+  <data name="SettingsCompactHint" xml:space="preserve"><value>Csökkenti a táblázatok és űrlapok margóit.</value></data>
+  <data name="SettingsNotifications" xml:space="preserve"><value>Értesítések</value></data>
+  <data name="SettingsNotificationsLead" xml:space="preserve"><value>Miről kap értesítést, és milyen csatornán.</value></data>
+  <data name="SettingsFailures" xml:space="preserve"><value>Sikertelen folyamatok</value></data>
+  <data name="SettingsFailuresHint" xml:space="preserve"><value>Értesítés minden sikertelen futásról.</value></data>
+  <data name="SettingsDigest" xml:space="preserve"><value>Napi összefoglaló</value></data>
+  <data name="SettingsDigestHint" xml:space="preserve"><value>Minden reggel 8 órakor küldjük.</value></data>
+  <data name="SettingsDigestAddress" xml:space="preserve"><value>Az összefoglaló címe</value></data>
+  <data name="DemoShellDashboard" xml:space="preserve"><value>Irányítópult</value></data>
+  <data name="DemoShellInProgress" xml:space="preserve"><value>Folyamatban</value></data>
+  <data name="DemoShellArchived" xml:space="preserve"><value>Archivált</value></data>
+  <data name="DemoShellSettings" xml:space="preserve"><value>Beállítások</value></data>
+  <data name="DemoShellOneOffAction" xml:space="preserve"><value>Egyszeri művelet</value></data>
+  <data name="DemoShellToggleMenu" xml:space="preserve"><value>A menü megjelenítése vagy elrejtése</value></data>
+  <data name="DemoShellAppName" xml:space="preserve"><value>Saját alkalmazás</value></data>
+  <data name="DemoShellChangeAppearance" xml:space="preserve"><value>Megjelenés módosítása</value></data>
+  <data name="DemoShellMenu" xml:space="preserve"><value>A bemutató menüje</value></data>
+  <data name="DemoShellSections" xml:space="preserve"><value>Részek</value></data>
+  <data name="DemoShellFolders" xml:space="preserve"><value>Mappák</value></data>
+  <data name="DemoShellMainContent" xml:space="preserve"><value>Fő tartalom</value></data>
+  <data name="DemoShellAppearanceDark" xml:space="preserve"><value>Itt a sötét megjelenés van kiválasztva.</value></data>
+  <data name="DemoShellAppearanceLight" xml:space="preserve"><value>Itt a világos megjelenés van kiválasztva.</value></data>
+  <data name="DemoShellConsole" xml:space="preserve"><value>Üzemeltetési konzol</value></data>
+  <data name="DemoShellSecondaryMenu" xml:space="preserve"><value>Másodlagos menü</value></data>
+  <data name="DemoShellTools" xml:space="preserve"><value>Eszközök</value></data>
+  <data name="DemoShellLogs" xml:space="preserve"><value>Naplók</value></data>
+  <data name="DemoShellWideView" xml:space="preserve"><value>Széles nézet</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>A tartalomterület széltől szélig ér, a széles szélességre (90 rem) korlátozva, keskeny olvasóoszlop nélkül.</value></data>
+  <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>A lebegő menü megjelenítése vagy elrejtése</value></data>
+  <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Lebegő menü</value></data>
+  <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>A bemutató lebegő menüje</value></data>
+  <data name="DemoShellFilters" xml:space="preserve"><value>Szűrők</value></data>
+  <data name="DemoShellContent" xml:space="preserve"><value>Tartalom</value></data>
+  <data name="DemoShellFloatingText" xml:space="preserve"><value>A menü megnyitása nem tolja el ezt a szöveget: a panel fölé csúszik.</value></data>
+  <data name="DemoShellScrollTitle" xml:space="preserve"><value>Középre igazított tartalom, görgetés a szélen</value></data>
+  <data name="DemoShellScrollMenu" xml:space="preserve"><value>A görgethető bemutató menüje</value></data>
+  <data name="DemoShellReadingColumn" xml:space="preserve"><value>Olvasóoszlop</value></data>
+  <data name="DemoShellScroll1" xml:space="preserve"><value>Az oszlop legfeljebb 72rem széles és középre igazított; a fennmaradó szélesség továbbra is a fő elemhez tartozik.</value></data>
+  <data name="DemoShellScroll2" xml:space="preserve"><value>Így az görget, a terület teljes szélességében: a görgetősávja a keret jobb szélén marad.</value></data>
+  <data name="DemoShellScroll3" xml:space="preserve"><value>Egy 100%-os magasságú gyermekelem pontosan kitöltené a területet; a magasabb tartalom görgetést okoz.</value></data>
+  <data name="DemoShellScroll4" xml:space="preserve"><value>Az alsó margó a görgetés végén is megmarad.</value></data>
+  <data name="DemoShellScroll5" xml:space="preserve"><value>Az ablak szűkítése az oszlopot a rendelkezésre álló szélességre csökkenti, a margóval együtt.</value></data>
+  <data name="DemoShellSplashChecking" xml:space="preserve"><value>Az indítóképernyő ellenőrzése</value></data>
+  <data name="DemoShellSplashRemoved" xml:space="preserve"><value>Az indítóképernyő eltávolítva</value></data>
+  <data name="DemoShellSplashAbsent" xml:space="preserve"><value>Ebben a bemutatóban nincs indítóképernyő</value></data>
+  <data name="ShellToggle" xml:space="preserve"><value>A menü összecsukása vagy kibontása</value></data>
+  <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
+  <data name="ShellBrand" xml:space="preserve"><value>Boutique</value></data>
+  <data name="ShellSearch" xml:space="preserve"><value>Keresés</value></data>
+  <data name="ShellSearchPlaceholder" xml:space="preserve"><value>Folyamat keresése</value></data>
+  <data name="ShellHelp" xml:space="preserve"><value>Súgó</value></data>
+  <data name="ShellNotifications" xml:space="preserve"><value>Értesítések, {0} olvasatlan</value></data>
+  <data name="ShellAccount" xml:space="preserve"><value>Fiók</value></data>
+  <data name="ShellSettings" xml:space="preserve"><value>Beállítások</value></data>
+  <data name="ShellSettingsHint" xml:space="preserve"><value>Téma, nyelv, értesítések</value></data>
+  <data name="ShellAppearance" xml:space="preserve"><value>Megjelenés</value></data>
+  <data name="ShellAppearanceHint" xml:space="preserve"><value>Világos, sötét vagy rendszer</value></data>
+  <data name="ShellSignOut" xml:space="preserve"><value>Kijelentkezés</value></data>
+  <data name="ShellMenu" xml:space="preserve"><value>Főmenü</value></data>
+  <data name="ShellDashboard" xml:space="preserve"><value>Irányítópult</value></data>
+  <data name="ShellPipelines" xml:space="preserve"><value>Folyamatok</value></data>
+  <data name="ShellServers" xml:space="preserve"><value>Kiszolgálók</value></data>
+  <data name="ShellProjects" xml:space="preserve"><value>Projektek</value></data>
+  <data name="ShellHelpCenter" xml:space="preserve"><value>Súgóközpont</value></data>
+  <data name="ShellAdministration" xml:space="preserve"><value>Adminisztráció</value></data>
+  <data name="ShellServersOnline" xml:space="preserve"><value>Online kiszolgáló</value></data>
+  <data name="ShellAppsTracked" xml:space="preserve"><value>Követett alkalmazások</value></data>
+  <data name="ShellPipelinesRunning" xml:space="preserve"><value>Futó folyamatok</value></data>
+  <data name="ShellLoading" xml:space="preserve"><value>Az irányítópult betöltése</value></data>
+  <data name="ShellLastAction" xml:space="preserve"><value>Utolsó művelet: {0}</value></data>
+  <data name="StatesRest" xml:space="preserve"><value>Alaphelyzet</value></data>
+  <data name="StatesHover" xml:space="preserve"><value>Rámutatás</value></data>
+  <data name="StatesPress" xml:space="preserve"><value>Lenyomás</value></data>
+  <data name="StatesPrimary" xml:space="preserve"><value>Elsődleges</value></data>
+  <data name="StatesSuccess" xml:space="preserve"><value>Siker</value></data>
+  <data name="StatesSecondary" xml:space="preserve"><value>Másodlagos</value></data>
+  <data name="StatesGhost" xml:space="preserve"><value>Szellem</value></data>
+  <data name="SurfServers" xml:space="preserve"><value>Kiszolgálók</value></data>
+  <data name="SurfServersText" xml:space="preserve"><value>Utolsó életjel 4 perce.</value></data>
+  <data name="SurfPipelines" xml:space="preserve"><value>Folyamatok</value></data>
+  <data name="SurfPipelinesFigure" xml:space="preserve"><value>2400</value></data>
+  <data name="SurfPipelinesText" xml:space="preserve"><value>Az utolsó tíz futásból három sikertelen.</value></data>
+  <data name="SurfCoverage" xml:space="preserve"><value>Lefedettség</value></data>
+  <data name="SurfCoverageFigure" xml:space="preserve"><value>87%</value></data>
+  <data name="SurfAccount" xml:space="preserve"><value>Fiók</value></data>
+  <data name="SurfPerson" xml:space="preserve"><value>Camille Durand</value></data>
+  <data name="SurfPersonRole" xml:space="preserve"><value>Adminisztrátor, OmniEurope</value></data>
+  <data name="SurfSettings" xml:space="preserve"><value>Beállítások</value></data>
+  <data name="SurfSettingsHint" xml:space="preserve"><value>Téma, nyelv, értesítések</value></data>
+  <data name="SurfSwitch" xml:space="preserve"><value>Munkaterület váltása</value></data>
+  <data name="SurfSwitchHint" xml:space="preserve"><value>Boutique, Agenda, Atelier</value></data>
+  <data name="SurfSignOut" xml:space="preserve"><value>Kijelentkezés</value></data>
+  <data name="SurfTabsLabel" xml:space="preserve"><value>A futás részei</value></data>
+  <data name="SurfTabOverview" xml:space="preserve"><value>Áttekintés</value></data>
+  <data name="SurfTabOverviewText" xml:space="preserve"><value>#2399-es futás, 1 perc 48 mp alatt befejeződött.</value></data>
+  <data name="SurfTabLogs" xml:space="preserve"><value>Naplók</value></data>
+  <data name="SurfTabLogsText" xml:space="preserve"><value>412 sor, nincs hiba.</value></data>
+  <data name="SurfTabArtifacts" xml:space="preserve"><value>Összetevők</value></data>
+  <data name="SurfTabArtifactsText" xml:space="preserve"><value>Két csomag és a szimbólumaik.</value></data>
+  <data name="SurfTabSettings" xml:space="preserve"><value>Beállítások</value></data>
+  <data name="SurfTabSettingsText" xml:space="preserve"><value>Zárolt visszaállítás, kötelező aláírás.</value></data>
+  <data name="SurfMenuLabel" xml:space="preserve"><value>Részek</value></data>
+  <data name="SurfMenuDashboard" xml:space="preserve"><value>Irányítópult</value></data>
+  <data name="SurfMenuServers" xml:space="preserve"><value>Kiszolgálók</value></data>
+  <data name="SurfMenuProjects" xml:space="preserve"><value>Projektek</value></data>
+  <data name="SurfMenuAdministration" xml:space="preserve"><value>Adminisztráció</value></data>
+  <data name="SurfLinkBefore" xml:space="preserve"><value>Olvassa el a</value></data>
+  <data name="SurfLink" xml:space="preserve"><value>közzétételi eljárást</value></data>
+  <data name="SurfLinkAfter" xml:space="preserve"><value>egy verzió listázásának megszüntetése előtt.</value></data>
+  <data name="SurfTooltip" xml:space="preserve"><value>Inverz felület, inverz szöveg</value></data>
+  <data name="SurfTooltipTrigger" xml:space="preserve"><value>Elemleírás</value></data>
+  <data name="SurfLast" xml:space="preserve"><value>Utolsó művelet: {0}</value></data>
+  <data name="ThemesThemeWithPalette" xml:space="preserve"><value>{0} téma, {1} paletta</value></data>
+  <data name="ThemesThemeAlone" xml:space="preserve"><value>{0} téma, saját palettával</value></data>
+  <data name="ThemesPaletteAlone" xml:space="preserve"><value>{0} paletta, szállított formával</value></data>
+  <data name="ThemesShipped" xml:space="preserve"><value>Szállított megjelenés</value></data>
+  <data name="ThemesLivePreview" xml:space="preserve"><value>Előnézet: {0}</value></data>
+  <data name="ThemesSave" xml:space="preserve"><value>Mentés</value></data>
+  <data name="ThemesCancel" xml:space="preserve"><value>Mégse</value></data>
+  <data name="ThemesBadge" xml:space="preserve"><value>Közzétéve</value></data>
+  <data name="ThemesAlert" xml:space="preserve"><value>Bármely paletta bármely témát kifesti.</value></data>
+  <data name="VFormSummaryTitle" xml:space="preserve"><value>Javítandó mezők: {0}.</value></data>
+  <data name="VFormName" xml:space="preserve"><value>A folyamat neve</value></data>
+  <data name="VFormNameHelp" xml:space="preserve"><value>Kisbetűk, számjegyek és kötőjelek.</value></data>
+  <data name="VFormNameError" xml:space="preserve"><value>A folyamat nevének megadása kötelező.</value></data>
+  <data name="VFormMail" xml:space="preserve"><value>Értesítési cím</value></data>
+  <data name="VFormMailError" xml:space="preserve"><value>Adjon meg teljes tartományt, például csapat@pelda.hu.</value></data>
+  <data name="VFormToken" xml:space="preserve"><value>Hozzáférési token</value></data>
+  <data name="VFormReplicas" xml:space="preserve"><value>Replikák</value></data>
+  <data name="VFormEnvironment" xml:space="preserve"><value>Környezet</value></data>
+  <data name="VFormEnvironmentProduction" xml:space="preserve"><value>Éles</value></data>
+  <data name="VFormEnvironmentAcceptance" xml:space="preserve"><value>Átvételi</value></data>
+  <data name="VFormEnvironmentDevelopment" xml:space="preserve"><value>Fejlesztői</value></data>
+  <data name="VFormDate" xml:space="preserve"><value>Telepítés dátuma</value></data>
+  <data name="VFormTime" xml:space="preserve"><value>Telepítés időpontja</value></data>
+  <data name="VFormMoment" xml:space="preserve"><value>Karbantartási időablak</value></data>
+  <data name="VFormDescription" xml:space="preserve"><value>Leírás</value></data>
+  <data name="VFormStrategy" xml:space="preserve"><value>Telepítési stratégia</value></data>
+  <data name="VFormStrategyRolling" xml:space="preserve"><value>Fokozatos csere</value></data>
+  <data name="VFormStrategyBlueGreen" xml:space="preserve"><value>Kék-zöld</value></data>
+  <data name="VFormStrategyCanary" xml:space="preserve"><value>Kanári (hamarosan)</value></data>
+  <data name="VFormStrategyError" xml:space="preserve"><value>Válasszon telepítési stratégiát.</value></data>
+  <data name="VFormOptions" xml:space="preserve"><value>Beállítások</value></data>
+  <data name="VFormLocked" xml:space="preserve"><value>Zárolt visszaállítás</value></data>
+  <data name="VFormSymbols" xml:space="preserve"><value>A szimbólumok közzététele</value></data>
+  <data name="VFormSigning" xml:space="preserve"><value>A csomag aláírása (kötelező)</value></data>
+  <data name="VFormNotify" xml:space="preserve"><value>Értesítés a végén</value></data>
+  <data name="VFormAutoDeploy" xml:space="preserve"><value>Automatikus telepítés (letiltva)</value></data>
+  <data name="VFormFiles" xml:space="preserve"><value>Fájlok</value></data>
+  <data name="VFormManifest" xml:space="preserve"><value>Telepítési jegyzék</value></data>
+  <data name="VFormManifestHelp" xml:space="preserve"><value>Egyetlen fájl, megnyitja a rendszer fájlválasztó ablakát.</value></data>
+  <data name="VFormArchive" xml:space="preserve"><value>Az alkalmazás archívuma</value></data>
+  <data name="VFormArchiveHelp" xml:space="preserve"><value>ZIP vagy TAR, legfeljebb 50 MB.</value></data>
+  <data name="VFormAttachments" xml:space="preserve"><value>Mellékletek</value></data>
+  <data name="VFormAttachmentsHelp" xml:space="preserve"><value>Legfeljebb 10 fájl, egyenként 20 MB. Semmi sem kerül elküldésre: a bemutató a listában tartja a fájlokat.</value></data>
+  <data name="VFormServer" xml:space="preserve"><value>Célkiszolgáló</value></data>
+  <data name="VFormServerHelp" xml:space="preserve"><value>Letiltva: a környezet határozza meg.</value></data>
+  <data name="VFormIdentifier" xml:space="preserve"><value>Azonosító</value></data>
+  <data name="VFormIdentifierHelp" xml:space="preserve"><value>Csak olvasható: másolható, nem módosítható.</value></data>
+  <data name="VFormAgent" xml:space="preserve"><value>Ügynök</value></data>
+  <data name="VFormAgentShared" xml:space="preserve"><value>Megosztott ügynök</value></data>
+  <data name="VFormCancel" xml:space="preserve"><value>Mégse</value></data>
+  <data name="VFormSave" xml:space="preserve"><value>Mentés</value></data>
+  <data name="VFormSaved" xml:space="preserve"><value>A folyamat mentve.</value></data>
+  <data name="VFormNotSaved" xml:space="preserve"><value>Mentés előtt javítsa a megjelölt mezőket.</value></data>
+  <data name="VFormDescriptionValue" xml:space="preserve"><value>Az átvételi tesztek sikeres lefutása után telepíti a fő ágat.</value></data>
+  <data name="GridFiledColumn" xml:space="preserve"><value>Beadva</value></data>
+</root>

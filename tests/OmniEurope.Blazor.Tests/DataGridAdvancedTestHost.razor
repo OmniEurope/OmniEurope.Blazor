@@ -1,16 +1,16 @@
 <OmniDataGrid TItem="AdvancedRow"
               Items="@Rows"
-              KeySelector="row => row.Id"
+              KeyOf="row => row.Id"
               AllowGrouping="true"
               Groups="@Groups"
               GroupLabel="FormatGroup"
               DetailTemplate="DetailTemplate"
               ExpandedKeys="@ExpandedKeys"
               ExpandedKeysChanged="OnExpandedKeysChanged"
-              EditRequested="OnEditRequested"
-              RowUpdated="OnRowUpdated"
-              EditCancelled="OnEditCancelled"
-              ColumnWidthChanged="OnWidthChanged">
+              OnRowEdit="OnEditRequested"
+              OnRowUpdate="OnRowUpdated"
+              OnRowEditCancel="OnEditCancelled"
+              OnColumnResize="OnWidthChanged">
     <Columns>
         <OmniDataGridColumn TItem="AdvancedRow" Key="name" Title="Nom" Value="row => row.Name" Resizable="true" Width="160px">
             <EditTemplate Context="row"><input class="advanced-edit" value="@row.Name" /></EditTemplate>

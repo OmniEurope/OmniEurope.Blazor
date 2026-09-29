@@ -2,21 +2,24 @@
 @typeparam TValue
 @inherits OmniInputBase<IReadOnlyList<TValue>>
 
-<fieldset @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-choice-list")" disabled="@Disabled">
+@* The same surface as OmniRadioButtonList: an Error line inside the fieldset after the choices, the
+   group marked invalid by it or by a validation message of the form, and described by it. *@
+<fieldset @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-choice-list", IsInvalid ? "omni-choice-list--invalid" : null)" disabled="@Disabled"
+          aria-invalid="@(IsInvalid ? "true" : null)" aria-describedby="@DescribedBy">
     @if (!string.IsNullOrWhiteSpace(Label))
     {
         <legend class="omni-choice-list__legend">@Label</legend>
     }
     @foreach (var option in Options)
     {
-        <label class="omni-choice-list__item">
+        <label class="@ItemClass(option)">
             <input type="checkbox"
                    class="omni-checkbox"
                    checked="@IsSelected(option.Value)"
                    disabled="@option.Disabled"
-                   aria-describedby="@AriaDescribedBy"
                    @onchange="args => Toggle(option, args)" />
             <span>@option.Text</span>
         </label>
     }
+    @OmniFieldError.Region(ErrorId, HasError ? Error : null)
 </fieldset>

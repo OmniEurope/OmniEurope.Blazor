@@ -9,19 +9,19 @@ namespace OmniEurope.Blazor.Components;
 /// named below. Where a list says in which order steps came, this says where the run spent its time
 /// and which steps really overlapped.
 /// </summary>
+/// <remarks>
+/// A step still running reaches the current time of the component clock (the host's registered
+/// <see cref="TimeProvider"/>, the system clock otherwise). The clock is read each time the
+/// parameters are set, which a parent re-render does: a host showing a live run re-renders it on its
+/// own refresh; the timeline starts no timer of its own.
+/// </remarks>
 public partial class OmniStepTimeline
 {
     /// <summary>The steps, in the order the rows show them.</summary>
     [Parameter] public IReadOnlyList<OmniStepTimelineStep> Steps { get; set; } = Array.Empty<OmniStepTimelineStep>();
 
-    /// <summary>
-    /// The right edge of a step still running. Null reads the clock at each render; a host that
-    /// refreshes a live run, or a test, passes its own.
-    /// </summary>
-    [Parameter] public DateTimeOffset? Now { get; set; }
-
-    /// <summary>Accessible name of the section; the localized StepTimelineLabel by default.</summary>
-    [Parameter] public string Label { get; set; } = string.Empty;
+    /// <summary>Accessible name of the section; null (the default) takes the localized "Run steps".</summary>
+    [Parameter] public string? Label { get; set; }
 
     /// <summary>
     /// Columns of values to the right of the durations, aligned from row to row; a column no drawn
@@ -38,7 +38,7 @@ public partial class OmniStepTimeline
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        Layout = StepTimelineLayout.Build(Steps, Now ?? DateTimeOffset.UtcNow);
+        Layout = StepTimelineLayout.Build(Steps, Clock.GetUtcNow());
         VisibleColumns = [.. (Columns ?? []).Where(column => Layout.Bars.Any(bar => !string.IsNullOrEmpty(column.Value(bar.Step))))];
     }
 

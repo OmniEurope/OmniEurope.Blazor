@@ -289,8 +289,6 @@ public partial class OmniDynamicForm : IDisposable
 
     private static string? RequiredAttribute(OmniDynamicField field) => field.Required ? "true" : null;
 
-    private static string? Invariant(decimal? value) => value?.ToString(CultureInfo.InvariantCulture);
-
     private static string KindName(OmniDynamicFieldKind kind) => kind switch
     {
         OmniDynamicFieldKind.MultilineText => "multiline",

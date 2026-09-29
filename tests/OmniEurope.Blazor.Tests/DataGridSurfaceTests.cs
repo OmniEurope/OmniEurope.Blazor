@@ -13,7 +13,7 @@ public sealed class DataGridSurfaceTests : OmniBunitContext
     public void Loading_template_stays_inside_the_table_below_its_header()
     {
         var grid = Render<OmniDataGrid<string>>(parameters => parameters
-            .Add(component => component.IsLoading, true)
+            .Add(component => component.Busy, true)
             .Add(component => component.LoadingContent, builder => builder.AddContent(0, "Brand loading")));
 
         Assert.NotEmpty(grid.FindAll("thead th"));
@@ -139,7 +139,7 @@ public sealed class DataGridSurfaceTests : OmniBunitContext
             .Add(component => component.SelectionMode, OmniDataGridSelectionMode.Multiple)
             .Add(component => component.RowRender, args =>
             {
-                args.CssClass = "flagged";
+                args.Class = "flagged";
                 args.Selectable = args.Index != 0;
             }));
 
@@ -180,7 +180,7 @@ public sealed class DataGridSurfaceTests : OmniBunitContext
         var grid = Render<DataGridSurfaceTestHost>(parameters => parameters
             .Add(component => component.PageSize, 1)
             .Add(component => component.AllowSorting, false)
-            .Add(component => component.AllowFiltering, false)
+            .Add(component => component.Filterable, false)
             .Add(component => component.ScrollMode, OmniDataGridScrollMode.All));
 
         Assert.Empty(grid.FindAll(".omni-data-grid__sort"));
@@ -208,7 +208,7 @@ public sealed class DataGridSurfaceTests : OmniBunitContext
     public void Grid_TracksItsOwnEditStateInSingleEditMode()
     {
         var grid = Render<DataGridSurfaceTestHost>(parameters => parameters
-            .Add(component => component.EditMode, OmniDataGridEditMode.Single));
+            .Add(component => component.EditMode, OmniDataGridRowMode.Single));
 
         grid.FindAll(".omni-data-grid__actions button")[0].Click();
         Assert.Single(grid.FindAll(".surface-edit"));

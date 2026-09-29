@@ -1,0 +1,33 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+
+@* One item of any menu of the package: the icon in a fixed column, then the label, on one line.
+   Choosing it closes the menu first, the focus back on the trigger, then runs the action. The host's
+   attributes come first so the menu's own role, tabindex and class win. *@
+@if (Href is not null && !Disabled)
+{
+    <a @attributes="AdditionalAttributes"
+       id="@Id"
+       class="@ItemCss"
+       role="menuitem"
+       tabindex="-1"
+       href="@SafeHref"
+       @onclick="ActivateAsync">
+        <span class="omni-menu__icon" aria-hidden="true">@Icon</span>
+        <span class="omni-menu__label">@ChildContent</span>
+    </a>
+}
+else
+{
+    <button @attributes="AdditionalAttributes"
+            id="@Id"
+            type="button"
+            class="@ItemCss"
+            role="menuitem"
+            tabindex="-1"
+            disabled="@Disabled"
+            @onclick="ActivateAsync">
+        <span class="omni-menu__icon" aria-hidden="true">@Icon</span>
+        <span class="omni-menu__label">@ChildContent</span>
+    </button>
+}

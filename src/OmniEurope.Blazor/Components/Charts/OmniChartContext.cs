@@ -1,4 +1,4 @@
-using System.Globalization;
+using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 
@@ -125,6 +125,7 @@ internal sealed class OmniChartContext
     private readonly Dictionary<object, int> _automaticValueAxes = [];
     private readonly Dictionary<object, IReadOnlyList<string>> _categoryAxes = [];
     private readonly Dictionary<object, LegendRegistration> _legends = [];
+    private readonly List<PieRegistration> _pies = [];
     private bool _domainsDirty = true;
     private (double Minimum, double Maximum) _xDomain = (0, 1);
     private (double Minimum, double Maximum) _valueDomain = (0, 1);
@@ -164,12 +165,44 @@ internal sealed class OmniChartContext
 
     /// <summary>
     /// The hover text of one point: its own label, else its category and value, so a category whose
-    /// axis label was thinned out still names its date or name.
+    /// axis label was thinned out still names its date or name. The value is written in the current
+    /// culture, the category and the value separated by <see cref="OmniChartGeometry.Separator"/>.
     /// </summary>
     internal string PointTitle(int index, OmniChartPoint point) =>
         point.Label ?? (CategoryLabel(index) is { } category
-            ? string.Create(CultureInfo.CurrentCulture, $"{category} · {point.Y}")
-            : point.Y.ToString(CultureInfo.CurrentCulture));
+            ? OmniChartGeometry.Pair(category, OmniChartGeometry.Display(point.Y))
+            : OmniChartGeometry.Display(point.Y));
+
+    /// <summary>The series a data table lists: every drawn series (markers and data labels excepted), in the order they registered.</summary>
+    internal IReadOnlyList<ChartSeriesView> TableSeries =>
+        [.. _series.Where(item => item.Kind != OmniChartSeriesKind.Auxiliary).Select(item => new ChartSeriesView(item.Title, item.ColorIndex, item.Data))];
+
+    /// <summary>The pie and donut series of the chart, in the order they registered.</summary>
+    internal IReadOnlyList<PieRegistration> Pies => _pies;
+
+    /// <summary>
+    /// The entries a legend shows: its own <see cref="LegendRegistration.Items"/> when it has some,
+    /// each taking the colour of the series at the same position (its position in the palette past the
+    /// last series); otherwise the slices of the first pie, or else every titled series with its own
+    /// colour.
+    /// </summary>
+    internal IReadOnlyList<LegendEntry> LegendEntries(LegendRegistration legend)
+    {
+        if (legend.Items is { Count: > 0 } items)
+        {
+            var drawn = TableSeries;
+            return [.. items.Select((text, index) => new LegendEntry(text, ChartColor.Slot(index < drawn.Count ? drawn[index].ColorIndex : index)))];
+        }
+
+        if (_pies.Count > 0)
+        {
+            return [.. _pies[0].Slices.Select((slice, index) => new LegendEntry(slice.Label, ChartColor.Slot(index)))];
+        }
+
+        return [.. TableSeries
+            .Where(series => !string.IsNullOrWhiteSpace(series.Title))
+            .Select(series => new LegendEntry(series.Title!, ChartColor.Slot(series.ColorIndex)))];
+    }
 
     /// <summary>
     /// The categories whose label is drawn: all of them when they fit, otherwise one every so many so
@@ -211,7 +244,7 @@ internal sealed class OmniChartContext
     }
 
     /// <summary>Horizontal bars turn the chart: values run along the bottom, categories down the left.</summary>
-    internal bool Horizontal => _series.Any(item => item.Kind == OmniChartSeriesKind.Bar);
+    internal bool Horizontal => _series.Any(item => item.Kind is OmniChartSeriesKind.Bar or OmniChartSeriesKind.StackedBar);
 
     /// <summary>
     /// Columns and bars need bands, one per category, so a category label sits under the middle of
@@ -233,16 +266,24 @@ internal sealed class OmniChartContext
         }
     }
 
-    internal void RegisterSeries(object owner, OmniChartSeriesKind kind, IReadOnlyList<OmniChartPoint> data)
+    /// <summary>
+    /// Adds or updates a series: its kind, its points, and the title and colour a legend and the data
+    /// table name it with (none for markers and data labels, which only decorate another series).
+    /// </summary>
+    internal void RegisterSeries(object owner, OmniChartSeriesKind kind, IReadOnlyList<OmniChartPoint> data, string? title = null, int colorIndex = 0)
     {
         var snapshot = data.ToArray();
         var index = _series.FindIndex(item => ReferenceEquals(item.Owner, owner));
-        if (index >= 0 && _series[index].Kind == kind && _series[index].Data.SequenceEqual(snapshot))
+        if (index >= 0
+            && _series[index].Kind == kind
+            && _series[index].Title == title
+            && _series[index].ColorIndex == colorIndex
+            && _series[index].Data.SequenceEqual(snapshot))
         {
             return;
         }
 
-        var registration = new SeriesRegistration(owner, kind, snapshot);
+        var registration = new SeriesRegistration(owner, kind, snapshot, title, colorIndex);
         if (index >= 0)
         {
             _series[index] = registration;
@@ -260,6 +301,37 @@ internal sealed class OmniChartContext
         if (_series.RemoveAll(item => ReferenceEquals(item.Owner, owner)) > 0)
         {
             _domainsDirty = true;
+            Changed?.Invoke();
+        }
+    }
+
+    /// <summary>Adds or updates a pie or donut series: its title and the slices it draws, positive values only.</summary>
+    internal void RegisterPie(object owner, string? title, IReadOnlyList<OmniChartSlice> slices)
+    {
+        var snapshot = slices.ToArray();
+        var index = _pies.FindIndex(item => ReferenceEquals(item.Owner, owner));
+        if (index >= 0 && _pies[index].Title == title && _pies[index].Slices.SequenceEqual(snapshot))
+        {
+            return;
+        }
+
+        var registration = new PieRegistration(owner, title, snapshot);
+        if (index >= 0)
+        {
+            _pies[index] = registration;
+        }
+        else
+        {
+            _pies.Add(registration);
+        }
+
+        Changed?.Invoke();
+    }
+
+    internal void UnregisterPie(object owner)
+    {
+        if (_pies.RemoveAll(item => ReferenceEquals(item.Owner, owner)) > 0)
+        {
             Changed?.Invoke();
         }
     }
@@ -378,15 +450,19 @@ internal sealed class OmniChartContext
         return (start, Math.Min(first, second), width, Math.Abs(first - second));
     }
 
-    /// <summary>A horizontal bar inside its category band, bar series standing one above the other.</summary>
-    internal (double X, double Y, double Width, double Height) BarRect(object owner, int index)
+    /// <summary>
+    /// A horizontal bar inside its category band. Bar series stand one above the other in the band,
+    /// every stacked series sharing one place, each value starting where the previous one ended.
+    /// </summary>
+    internal (double X, double Y, double Width, double Height) BarRect(object owner, int index, bool stacked)
     {
         var series = GetSeries(owner);
         var point = series.Data[index];
-        var (slot, slots) = SlotOf(series, OmniChartSeriesKind.Bar, null);
+        var (slot, slots) = SlotOf(series, OmniChartSeriesKind.Bar, OmniChartSeriesKind.StackedBar);
         var (start, height) = SlotSpan(PlotTop, PlotBottom, index, slot, slots);
-        var first = ValueToX(0);
-        var second = ValueToX(point.Y);
+        var from = stacked ? StackBaseline(series, index, point.Y) : 0;
+        var first = ValueToX(from);
+        var second = ValueToX(from + point.Y);
         return (Math.Min(first, second), start, Math.Abs(first - second), height);
     }
 
@@ -421,7 +497,7 @@ internal sealed class OmniChartContext
     }
 
     private static bool IsBanded(OmniChartSeriesKind kind) =>
-        kind is OmniChartSeriesKind.Bar or OmniChartSeriesKind.Column or OmniChartSeriesKind.StackedColumn;
+        kind is OmniChartSeriesKind.Bar or OmniChartSeriesKind.StackedBar or OmniChartSeriesKind.Column or OmniChartSeriesKind.StackedColumn;
 
     private string Project(double x, double y)
     {
@@ -531,11 +607,11 @@ internal sealed class OmniChartContext
         else
         {
             var values = new List<double> { 0 };
-            foreach (var series in _series.Where(item => item.Kind is not OmniChartSeriesKind.StackedArea and not OmniChartSeriesKind.StackedColumn))
+            foreach (var series in _series.Where(item => item.Kind is not OmniChartSeriesKind.StackedArea and not OmniChartSeriesKind.StackedColumn and not OmniChartSeriesKind.StackedBar))
             {
                 values.AddRange(series.Data.Select(point => point.Y));
             }
-            foreach (var kind in new[] { OmniChartSeriesKind.StackedArea, OmniChartSeriesKind.StackedColumn })
+            foreach (var kind in new[] { OmniChartSeriesKind.StackedArea, OmniChartSeriesKind.StackedColumn, OmniChartSeriesKind.StackedBar })
             {
                 var stacked = _series.Where(item => item.Kind == kind).ToArray();
                 var maximumCount = stacked.Length == 0 ? 0 : stacked.Max(item => item.Data.Count);
@@ -625,25 +701,32 @@ internal sealed class OmniChartContext
         _ => ColumnNeeded(legend) > Math.Max(DefaultLegendColumn, 0.2 * ViewWidth)
     };
 
-    private static double ColumnNeeded(LegendRegistration legend) =>
-        LegendTextOffset + legend.Items.Select(item => (item?.Length ?? 0) * CharacterWidth).DefaultIfEmpty(0).Max() + 1;
+    private double ColumnNeeded(LegendRegistration legend) =>
+        LegendTextOffset + LegendEntries(legend).Select(entry => (entry.Text?.Length ?? 0) * CharacterWidth).DefaultIfEmpty(0).Max() + 1;
 
-    /// <summary>What one <see cref="OmniLegend"/> shows, which the chart needs to draw it below the plot.</summary>
+    /// <summary>
+    /// What one <see cref="OmniLegend"/> asks for, which the chart needs to draw it below the plot:
+    /// its name, its own entries (empty to take them from the series) and its position.
+    /// </summary>
     internal sealed record LegendRegistration(
         string Label,
         IReadOnlyList<string> Items,
-        IReadOnlyList<int> ColorIndexes,
         OmniLegendPosition Position)
     {
-        /// <summary>The colour class index of entry <paramref name="index"/>, as the legend draws it.</summary>
-        internal int ColorOf(int index) => Math.Abs(index < ColorIndexes.Count ? ColorIndexes[index] : index) % 8;
-
         internal bool SameAs(LegendRegistration other) =>
             Label == other.Label
             && Position == other.Position
-            && Items.SequenceEqual(other.Items)
-            && ColorIndexes.SequenceEqual(other.ColorIndexes);
+            && Items.SequenceEqual(other.Items);
     }
 
-    private sealed record SeriesRegistration(object Owner, OmniChartSeriesKind Kind, IReadOnlyList<OmniChartPoint> Data);
+    /// <summary>One entry of a legend: its text and the palette slot of its swatch.</summary>
+    internal readonly record struct LegendEntry(string Text, int ColorSlot);
+
+    /// <summary>A drawn series as a legend and a data table see it.</summary>
+    internal sealed record ChartSeriesView(string? Title, int ColorIndex, IReadOnlyList<OmniChartPoint> Data);
+
+    /// <summary>A pie or donut series: its title and its slices, positive values only, in the order they are drawn.</summary>
+    internal sealed record PieRegistration(object Owner, string? Title, IReadOnlyList<OmniChartSlice> Slices);
+
+    private sealed record SeriesRegistration(object Owner, OmniChartSeriesKind Kind, IReadOnlyList<OmniChartPoint> Data, string? Title, int ColorIndex);
 }

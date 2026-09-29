@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="HeaderBadge" xml:space="preserve"><value>Βιβλιοθήκη στοιχείων</value></data>
+  <data name="ModeLight" xml:space="preserve"><value>Φωτεινό θέμα</value></data>
+  <data name="ModeDark" xml:space="preserve"><value>Σκοτεινό θέμα</value></data>
+  <data name="LanguageSelectorLabel" xml:space="preserve"><value>Γλώσσα της βιτρίνας</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Κύρια πλοήγηση</value></data>
+  <data name="MenuLabel" xml:space="preserve"><value>Ενότητες του ιστότοπου</value></data>
+  <data name="NavShowcase" xml:space="preserve"><value>Επισκόπηση</value></data>
+  <data name="NavDocumentation" xml:space="preserve"><value>Τεκμηρίωση</value></data>
+  <data name="NavComponents" xml:space="preserve"><value>Στοιχεία</value></data>
+  <data name="NavCustomize" xml:space="preserve"><value>Προσαρμογή</value></data>
+  <data name="ErrorTitle" xml:space="preserve"><value>Παρουσιάστηκε σφάλμα</value></data>
+  <data name="ErrorMessage" xml:space="preserve"><value>Δεν ήταν δυνατή η σωστή εμφάνιση της σελίδας.</value></data>
+  <data name="Retry" xml:space="preserve"><value>Δοκιμάστε ξανά</value></data>
+  <data name="NotFoundPageTitle" xml:space="preserve"><value>Η σελίδα δεν βρέθηκε</value></data>
+  <data name="NotFoundTitle" xml:space="preserve"><value>Η σελίδα δεν βρέθηκε</value></data>
+  <data name="NotFoundDescription" xml:space="preserve"><value>Η διεύθυνση που ζητήθηκε δεν αντιστοιχεί σε καμία σελίδα του ιστότοπου.</value></data>
+  <data name="BackHome" xml:space="preserve"><value>Επιστροφή στην αρχική σελίδα</value></data>
+  <data name="HomePageTitle" xml:space="preserve"><value>OmniEurope.Blazor</value></data>
+  <data name="HomeKicker" xml:space="preserve"><value>Blazor</value></data>
+  <data name="HomeTitle" xml:space="preserve"><value>Προσβάσιμα στοιχεία Blazor, υπό αυστηρή πολιτική ασφαλείας</value></data>
+  <data name="HomeLead" xml:space="preserve"><value>Μια βιβλιοθήκη στοιχείων σχεδιασμένη για εφαρμογές που απαγορεύουν τα ενσωματωμένα στυλ, απαιτούν προσβασιμότητα και θέλουν ένα θέμα πλήρως ελεγχόμενο από άκρη σε άκρη.</value></data>
+  <data name="HomeSeeComponents" xml:space="preserve"><value>Δείτε τα στοιχεία</value></data>
+  <data name="HomeSeeCustomize" xml:space="preserve"><value>Προσαρμόστε το θέμα</value></data>
+  <data name="HomePillarsTitle" xml:space="preserve"><value>Τι ξεχωρίζει τη βιβλιοθήκη</value></data>
+  <data name="PillarCspTitle" xml:space="preserve"><value>Αυστηρή πολιτική ασφαλείας</value></data>
+  <data name="PillarCspBody" xml:space="preserve"><value>Κανένα ενσωματωμένο χαρακτηριστικό στυλ, καμία εισαγόμενη ετικέτα στυλ, καμία δυναμική αποτίμηση σεναρίων. Η βιβλιοθήκη λειτουργεί υπό μια πολιτική που τα απαγορεύει όλα αυτά.</value></data>
+  <data name="PillarThemeTitle" xml:space="preserve"><value>Θέμα πλήρως βασισμένο σε μεταβλητές</value></data>
+  <data name="PillarThemeBody" xml:space="preserve"><value>Χρώματα, τυπογραφία, αποστάσεις, στρογγυλέματα, σκιές και παλέτα γραφημάτων περνούν όλα από μεταβλητές CSS, χωρίς καμία παγιωμένη τιμή μέσα στους κανόνες.</value></data>
+  <data name="PillarA11yTitle" xml:space="preserve"><value>Προσβασιμότητα που διασφαλίζεται με δοκιμές</value></data>
+  <data name="PillarA11yBody" xml:space="preserve"><value>Οι ρόλοι, οι καταστάσεις και οι ετικέτες ελέγχονται από τη σουίτα δοκιμών, δεν περιγράφονται απλώς στην τεκμηρίωση.</value></data>
+  <data name="PillarWeightTitle" xml:space="preserve"><value>Ελεγχόμενο μέγεθος</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Το δημοσιευμένο πακέτο μετριέται σε κάθε build με βάση έναν προϋπολογισμό byte, μαζί με το φύλλο στυλ.</value></data>
+  <data name="DocsPageTitle" xml:space="preserve"><value>Τεκμηρίωση</value></data>
+  <data name="DocsTitle" xml:space="preserve"><value>Τεκμηρίωση</value></data>
+  <data name="DocsLead" xml:space="preserve"><value>Από την εγκατάσταση του πακέτου έως το πρώτο προσαρμοσμένο θέμα, σε πέντε βήματα.</value></data>
+  <data name="DocsInstallTitle" xml:space="preserve"><value>Εγκατάσταση του πακέτου</value></data>
+  <data name="DocsInstallBody" xml:space="preserve"><value>Η βιβλιοθήκη προστίθεται ως αναφορά όπως κάθε άλλο πακέτο NuGet.</value></data>
+  <data name="DocsRegisterTitle" xml:space="preserve"><value>Καταχώριση των υπηρεσιών</value></data>
+  <data name="DocsRegisterBody" xml:space="preserve"><value>Μία μόνο κλήση καταχωρίζει τις υπηρεσίες που χρειάζονται τα στοιχεία.</value></data>
+  <data name="DocsCssTitle" xml:space="preserve"><value>Αναφορά στο φύλλο στυλ</value></data>
+  <data name="DocsCssBody" xml:space="preserve"><value>Το φύλλο στυλ παρέχεται ως στατικός πόρος του πακέτου.</value></data>
+  <data name="DocsCspTitle" xml:space="preserve"><value>Πολιτική ασφαλείας</value></data>
+  <data name="DocsCspBody" xml:space="preserve"><value>Η βιβλιοθήκη δεν απαιτεί καμία άδεια πέρα από αυτές: ούτε ενσωματωμένα στυλ ούτε δυναμική αποτίμηση σεναρίων.</value></data>
+  <data name="DocsThemeTitle" xml:space="preserve"><value>Προσαρμογή του θέματος</value></data>
+  <data name="DocsThemeBody" xml:space="preserve"><value>Αρκεί να επαναορίσετε μια μεταβλητή για να αλλάξει η εμφάνιση όλων των στοιχείων που τη διαβάζουν.</value></data>
+  <data name="DocsThemePointer" xml:space="preserve"><value>Για να συνθέσετε ένα πλήρες θέμα χωρίς να γράψετε CSS:</value></data>
+  <data name="GalleryPageTitle" xml:space="preserve"><value>Στοιχεία</value></data>
+  <data name="GalleryTitle" xml:space="preserve"><value>Στοιχεία</value></data>
+  <data name="GalleryLead" xml:space="preserve"><value>Κάθε οικογένεια παρουσιάζεται με τις δυνατότητές της, μια ζωντανή επίδειξη και τον κώδικα που την παράγει.</value></data>
+  <data name="GalleryNavLabel" xml:space="preserve"><value>Οικογένειες στοιχείων</value></data>
+  <data name="GalleryCapabilities" xml:space="preserve"><value>Τι μπορεί να κάνει το στοιχείο</value></data>
+  <data name="GalleryPreview" xml:space="preserve"><value>Επίδειξη</value></data>
+  <data name="GallerySource" xml:space="preserve"><value>Πηγαίος κώδικας</value></data>
+  <data name="GallerySourceNote" xml:space="preserve"><value>Αυτός ο κώδικας είναι το αρχείο που πράγματι μεταγλωττίζεται και εκτελείται από την παραπάνω επίδειξη, διαβάζεται από το assembly και δεν αντιγράφεται ποτέ με το χέρι.</value></data>
+  <data name="GallerySourceMissingTitle" xml:space="preserve"><value>Ο πηγαίος κώδικας δεν είναι διαθέσιμος</value></data>
+  <data name="GallerySourceMissing" xml:space="preserve"><value>Το αρχείο της επίδειξης δεν βρέθηκε στους πόρους του assembly.</value></data>
+  <data name="DemoButtonsTitle" xml:space="preserve"><value>Κουμπιά</value></data>
+  <data name="DemoButtonsSummary" xml:space="preserve"><value>Το στοιχείο ενεργοποίησης ενεργειών, σε διάφορες οπτικές προθέσεις και καταστάσεις.</value></data>
+  <data name="DemoButtonsCapability1" xml:space="preserve"><value>Τέσσερις προθέσεις: κύριο, δευτερεύον, διαφανές και καταστροφικό.</value></data>
+  <data name="DemoButtonsCapability2" xml:space="preserve"><value>Κατάσταση απασχόλησης που αποτρέπει τη διπλή υποβολή και την ανακοινώνει στα προγράμματα ανάγνωσης οθόνης.</value></data>
+  <data name="DemoButtonsCapability3" xml:space="preserve"><value>Κατάσταση απενεργοποίησης διακριτή από την κατάσταση απασχόλησης.</value></data>
+  <data name="DemoButtonsCapability4" xml:space="preserve"><value>Τρία μεγέθη και οι τρεις τύποι κουμπιών μιας φόρμας: υποβολή, επαναφορά, ουδέτερη ενέργεια.</value></data>
+  <data name="DemoBadgesTitle" xml:space="preserve"><value>Σήματα</value></data>
+  <data name="DemoBadgesSummary" xml:space="preserve"><value>Η σύντομη ετικέτα που χαρακτηρίζει ένα στοιχείο χωρίς να το επιβαρύνει.</value></data>
+  <data name="DemoBadgesCapability1" xml:space="preserve"><value>Πέντε παραλλαγές ευθυγραμμισμένες με τα επίπεδα σοβαρότητας του θέματος.</value></data>
+  <data name="DemoBadgesCapability2" xml:space="preserve"><value>Χρωματισμένα φόντα που προκύπτουν από τις μεταβλητές, οπότε αλλάζουν μαζί με το θέμα.</value></data>
+  <data name="DemoAlertsTitle" xml:space="preserve"><value>Ειδοποιήσεις</value></data>
+  <data name="DemoAlertsSummary" xml:space="preserve"><value>Το μήνυμα περιεχομένου, από την απλή ενημέρωση έως την αποτυχία που μπλοκάρει.</value></data>
+  <data name="DemoAlertsCapability1" xml:space="preserve"><value>Τέσσερα επίπεδα σοβαρότητας: πληροφορία, επιτυχία, προειδοποίηση και κίνδυνος.</value></data>
+  <data name="DemoAlertsCapability2" xml:space="preserve"><value>Δύο παραλλαγές: διακριτικό περίγραμμα ή συμπαγές φόντο.</value></data>
+  <data name="DemoAlertsCapability3" xml:space="preserve"><value>Ζωντανή λειτουργία που ανακοινώνει το μήνυμα στις τεχνολογίες υποβοήθησης.</value></data>
+  <data name="CustomizePageTitle" xml:space="preserve"><value>Προσαρμογή</value></data>
+  <data name="CustomizeTitle" xml:space="preserve"><value>Προσαρμογή</value></data>
+  <data name="CustomizeLead" xml:space="preserve"><value>Επιλέξτε ένα θέμα, που δίνει το σχήμα, και μετά μια παλέτα, που δίνει τα χρώματα: κάθε παλέτα χρωματίζει κάθε θέμα, και ολόκληρος ο ιστότοπος ανανεώνεται καθώς επιλέγετε. Η προεπισκόπηση αναπαράγει τις συνθέσεις της μακέτας αναφοράς.</value></data>
+  <data name="CustomizeTokensTitle" xml:space="preserve"><value>Μεταβλητές</value></data>
+  <data name="CustomizeTokensLead" xml:space="preserve"><value>Αυτή η λίστα διαβάζεται από το φύλλο στυλ που παρέχεται, επομένως δεν μπορεί να αποκλίνει από όσα εκθέτει πραγματικά η βιβλιοθήκη. Μια τροποποιημένη μεταβλητή εφαρμόζεται πάνω από τον συνδυασμό, και στις δύο λειτουργίες· η επιλογή άλλου θέματος ή άλλης παλέτας τη διαγράφει.</value></data>
+  <data name="CustomizeReset" xml:space="preserve"><value>Απαλοιφή τροποποιήσεων</value></data>
+  <data name="TokenGroupColor" xml:space="preserve"><value>Χρώματα</value></data>
+  <data name="TokenGroupTypography" xml:space="preserve"><value>Τυπογραφία</value></data>
+  <data name="TokenGroupSpacing" xml:space="preserve"><value>Αποστάσεις και πυκνότητα</value></data>
+  <data name="TokenGroupShape" xml:space="preserve"><value>Σχήματα, περιγράμματα και πάτημα</value></data>
+  <data name="TokenGroupElevation" xml:space="preserve"><value>Σκιές, επίπεδο και επικαλύψεις</value></data>
+  <data name="TokenGroupChart" xml:space="preserve"><value>Γραφήματα</value></data>
+  <data name="TokenGroupGrid" xml:space="preserve"><value>Πλέγμα δεδομένων σε σκοτεινή λειτουργία</value></data>
+  <data name="TokenGroupDiagram" xml:space="preserve"><value>Νοητικός χάρτης</value></data>
+  <data name="CustomizeExportTitle" xml:space="preserve"><value>Εξαγωγή</value></data>
+  <data name="CustomizeExportLead" xml:space="preserve"><value>Το παρακάτω CSS περιέχει ολόκληρο τον συνδυασμό, μαζί με τις τροποποιημένες μεταβλητές, σε φωτεινή, σκοτεινή και λειτουργία συστήματος. Στοχεύει την εμβέλεια θέματος (OmniThemeScope, data-omni-theme), όπου το φύλλο στυλ επαναδηλώνει τις μεταβλητές του· φορτώστε το μετά το φύλλο στυλ της βιβλιοθήκης.</value></data>
+  <data name="CustomizeCopy" xml:space="preserve"><value>Αντιγραφή</value></data>
+  <data name="CustomizeDownload" xml:space="preserve"><value>Λήψη</value></data>
+  <data name="CustomizeCopied" xml:space="preserve"><value>Το CSS αντιγράφηκε στο πρόχειρο.</value></data>
+  <data name="CustomizeCopyFailed" xml:space="preserve"><value>Η αντιγραφή απέτυχε. Επιλέξτε τον παρακάτω κώδικα και αντιγράψτε τον με μη αυτόματο τρόπο.</value></data>
+  <data name="CustomizeDownloaded" xml:space="preserve"><value>Έγινε λήψη του αρχείου omnieurope-theme.css.</value></data>
+  <data name="CustomizeDownloadFailed" xml:space="preserve"><value>Η λήψη απέτυχε. Αντιγράψτε αντί γι' αυτό τον παρακάτω κώδικα.</value></data>
+  <data name="DemoFormTitle" xml:space="preserve"><value>Φόρμες</value></data>
+  <data name="DemoFormSummary" xml:space="preserve"><value>Τα πεδία εισαγωγής και η προσβάσιμη ετικέτα τους.</value></data>
+  <data name="DemoFormCapability1" xml:space="preserve"><value>Ετικέτα, περιγραφή και μήνυμα σφάλματος συνδεδεμένα με το πεδίο μέσω αναγνωριστικού.</value></data>
+  <data name="DemoFormCapability2" xml:space="preserve"><value>Περιοχή κειμένου με μετρητή χαρακτήρων και όριο.</value></data>
+  <data name="DemoFormCapability3" xml:space="preserve"><value>Ρυθμιστικό, πλαίσιο ελέγχου και διακόπτης που χειρίζονται από το πληκτρολόγιο.</value></data>
+  <data name="DemoSelectionTitle" xml:space="preserve"><value>Επιλογή</value></data>
+  <data name="DemoSelectionSummary" xml:space="preserve"><value>Επιλογή μίας τιμής από μια λίστα, ή περισσότερων.</value></data>
+  <data name="DemoSelectionCapability1" xml:space="preserve"><value>Αναπτυσσόμενη λίστα που επιτρέπει κενή τιμή.</value></data>
+  <data name="DemoSelectionCapability2" xml:space="preserve"><value>Λίστα με ύψος καθορισμένο σε αριθμό ορατών γραμμών.</value></data>
+  <data name="DemoSelectionCapability3" xml:space="preserve"><value>Πολλαπλή επιλογή που επιστρέφει τη λίστα των επιλεγμένων τιμών.</value></data>
+  <data name="DemoNavigationTitle" xml:space="preserve"><value>Πλοήγηση</value></data>
+  <data name="DemoNavigationSummary" xml:space="preserve"><value>Προσανατολισμός του χρήστη και μετάβαση μεταξύ ενοτήτων.</value></data>
+  <data name="DemoNavigationCapability1" xml:space="preserve"><value>Διαδρομή πλοήγησης που επισημαίνει την τρέχουσα σελίδα.</value></data>
+  <data name="DemoNavigationCapability2" xml:space="preserve"><value>Ελεγχόμενες καρτέλες, με ρόλους και πλοήγηση από το πληκτρολόγιο.</value></data>
+  <data name="DemoNavigationCapability3" xml:space="preserve"><value>Αριθμημένα βήματα με επικύρωση πριν από την αλλαγή.</value></data>
+  <data name="DemoFeedbackTitle" xml:space="preserve"><value>Ενδείξεις κατάστασης</value></data>
+  <data name="DemoFeedbackSummary" xml:space="preserve"><value>Ενημέρωση για την κατάσταση του συστήματος χωρίς να μπλοκάρεται η ανάγνωση.</value></data>
+  <data name="DemoFeedbackCapability1" xml:space="preserve"><value>Γραμμή προόδου καθορισμένη ή απροσδιόριστη.</value></data>
+  <data name="DemoFeedbackCapability2" xml:space="preserve"><value>Επεξήγηση προσβάσιμη από το πληκτρολόγιο, όχι μόνο με την αιώρηση.</value></data>
+  <data name="DemoFeedbackCapability3" xml:space="preserve"><value>Σκελετός φόρτωσης που ανακοινώνεται στα προγράμματα ανάγνωσης οθόνης.</value></data>
+  <data name="DemoFeedbackCapability4" xml:space="preserve"><value>Γραμμική ή κυκλική γραμμή σε τέσσερις προθέσεις, και ένας σκελετός που παίρνει τη μορφή αυτού που αντικαθιστά.</value></data>
+  <data name="DemoGridTitle" xml:space="preserve"><value>Πλέγμα δεδομένων</value></data>
+  <data name="DemoGridSummary" xml:space="preserve"><value>Ο πίνακας εργασίας: ταξινόμηση, φιλτράρισμα, σελιδοποίηση και ομάδες.</value></data>
+  <data name="DemoGridCapability1" xml:space="preserve"><value>Ταξινόμηση και φιλτράρισμα ανά στήλη, στα πραγματικά δεδομένα.</value></data>
+  <data name="DemoGridCapability2" xml:space="preserve"><value>Σελιδοποίηση με ρυθμιζόμενο μέγεθος σελίδας.</value></data>
+  <data name="DemoGridCapability3" xml:space="preserve"><value>Εναλλασσόμενες γραμμές και δηλωτικές μορφές στηλών.</value></data>
+  <data name="DemoChartTitle" xml:space="preserve"><value>Γραφήματα</value></data>
+  <data name="DemoChartSummary" xml:space="preserve"><value>Οι κατηγορικές σειρές, στα χρώματα του θέματος.</value></data>
+  <data name="DemoChartCapability1" xml:space="preserve"><value>Σειρές στηλών με άξονες που έχουν τίτλο.</value></data>
+  <data name="DemoChartCapability2" xml:space="preserve"><value>Χρώματα από τις μεταβλητές γραφημάτων του θέματος.</value></data>
+  <data name="DemoTypographyTitle" xml:space="preserve"><value>Τυπογραφία</value></data>
+  <data name="DemoTypographySummary" xml:space="preserve"><value>Επικεφαλίδες, παράγραφοι, ετικέτες και σύνδεσμοι.</value></data>
+  <data name="DemoTypographyCapability1" xml:space="preserve"><value>Έξι επίπεδα επικεφαλίδων, σε διάφορους τόνους.</value></data>
+  <data name="DemoTypographyCapability2" xml:space="preserve"><value>Πέντε στοιχεία κειμένου, από την παράγραφο έως την έμφαση.</value></data>
+  <data name="DemoTypographyCapability3" xml:space="preserve"><value>Περικοπή με αποσιωπητικά και ετικέτα συνδεδεμένη με πεδίο.</value></data>
+  <data name="DemoLayoutTitle" xml:space="preserve"><value>Διάταξη</value></data>
+  <data name="DemoLayoutSummary" xml:space="preserve"><value>Το πλέγμα, οι σειρές, οι κάρτες και οι ομάδες πεδίων.</value></data>
+  <data name="DemoLayoutCapability1" xml:space="preserve"><value>Πλέγμα δώδεκα στηλών με εύρος ανά σημείο διακοπής οθόνης.</value></data>
+  <data name="DemoLayoutCapability2" xml:space="preserve"><value>Κάρτα με τρεις ζώνες: κεφαλίδα, σώμα και υποσέλιδο.</value></data>
+  <data name="DemoLayoutCapability3" xml:space="preserve"><value>Ομάδα πεδίων που απενεργοποιείται με μία κίνηση.</value></data>
+  <data name="DemoLayoutCapability4" xml:space="preserve"><value>Η πλήρης κλίμακα αποστάσεων, και οι κατανομές και στοιχίσεις που δέχεται μια σειρά.</value></data>
+  <data name="DemoShellTitle" xml:space="preserve"><value>Κέλυφος εφαρμογής</value></data>
+  <data name="DemoShellSummary" xml:space="preserve"><value>Ο σκελετός μιας εφαρμογής, αυτός από τον οποίο είναι φτιαγμένος αυτός ο ιστότοπος.</value></data>
+  <data name="DemoShellCapability1" xml:space="preserve"><value>Κεφαλίδα, πτυσσόμενη πλευρική γραμμή και κύρια περιοχή.</value></data>
+  <data name="DemoShellCapability2" xml:space="preserve"><value>Μενού πλοήγησης με αναπτυσσόμενες ομάδες.</value></data>
+  <data name="DemoShellCapability3" xml:space="preserve"><value>Εναλλαγή εμφάνισης και τοπική εμβέλεια θέματος.</value></data>
+  <data name="DemoShellCapability4" xml:space="preserve"><value>Οι δύο διατάξεις: κεντραρισμένη στήλη ανάγνωσης ή πλήρες πλάτος, μενού αριστερά ή δεξιά.</value></data>
+  <data name="DemoMediaTitle" xml:space="preserve"><value>Εικονίδια και πολυμέσα</value></data>
+  <data name="DemoMediaSummary" xml:space="preserve"><value>Τα εικονίδια, οι εικόνες και το χρονολόγιο.</value></data>
+  <data name="DemoMediaCapability1" xml:space="preserve"><value>Ενσωματωμένα εικονίδια σε τρία μεγέθη.</value></data>
+  <data name="DemoMediaCapability2" xml:space="preserve"><value>Διαδρομή εικονιδίου που παρέχει η εφαρμογή υποδοχής, χωρίς επιβάρυνση του πακέτου.</value></data>
+  <data name="DemoMediaCapability3" xml:space="preserve"><value>Εικόνα με ρυθμιζόμενη προσαρμογή και καθυστερημένη φόρτωση.</value></data>
+  <data name="DemoMediaCapability4" xml:space="preserve"><value>Το πλήρες ενσωματωμένο σύνολο εικονιδίων, και οι τρεις τρόποι προσαρμογής εικόνας.</value></data>
+  <data name="DemoInputsTitle" xml:space="preserve"><value>Προηγμένη εισαγωγή</value></data>
+  <data name="DemoInputsSummary" xml:space="preserve"><value>Αριθμοί, κωδικοί πρόσβασης, ημερομηνίες, ώρες, χρώματα και αυτόματη συμπλήρωση.</value></data>
+  <data name="DemoInputsCapability1" xml:space="preserve"><value>Αριθμητικό πεδίο με όρια και ρυθμιζόμενο βήμα.</value></data>
+  <data name="DemoInputsCapability2" xml:space="preserve"><value>Κωδικός πρόσβασης που μπορεί να εμφανιστεί, χωρίς να αντιγράφεται αλλού.</value></data>
+  <data name="DemoInputsCapability3" xml:space="preserve"><value>Ασύγχρονη αυτόματη συμπλήρωση, με καθυστέρηση και ελάχιστο μήκος.</value></data>
+  <data name="DemoInputsCapability4" xml:space="preserve"><value>Ημερομηνία, ώρα, ημερομηνία και ώρα: ημερολόγιο και στήλες της βιβλιοθήκης στο αιωρούμενο επίπεδο, πληκτρολόγιο πλέγματος, όρια και πυκνότητα.</value></data>
+  <data name="DemoChoiceTitle" xml:space="preserve"><value>Επιλογές</value></data>
+  <data name="DemoChoiceSummary" xml:space="preserve"><value>Κουμπιά επιλογής, πολλαπλά πλαίσια ελέγχου, γραμμές επιλογής και εναλλαγές.</value></data>
+  <data name="DemoChoiceCapability1" xml:space="preserve"><value>Λίστες που καθοδηγούνται από επιλογές ή δηλώνονται στοιχείο προς στοιχείο.</value></data>
+  <data name="DemoChoiceCapability2" xml:space="preserve"><value>Γραμμή επιλογής και κουμπί εναλλαγής, με καταστάσεις απασχόλησης και απενεργοποίησης.</value></data>
+  <data name="DemoChoiceCapability3" xml:space="preserve"><value>Πλαίσιο ελέγχου και διακόπτης τριών θέσεων, μαζί με την απροσδιόριστη.</value></data>
+  <data name="DemoValidationTitle" xml:space="preserve"><value>Επικύρωση</value></data>
+  <data name="DemoValidationSummary" xml:space="preserve"><value>Οι κανόνες δηλώνονται δίπλα στο πεδίο που προστατεύουν.</value></data>
+  <data name="DemoValidationCapability1" xml:space="preserve"><value>Υποχρεωτικό, μήκος, μορφή e-mail και σύγκριση.</value></data>
+  <data name="DemoValidationCapability2" xml:space="preserve"><value>Κατά την υποβολή, η εστίαση μεταφέρεται στο πρώτο μη έγκυρο πεδίο.</value></data>
+  <data name="DemoValidationCapability3" xml:space="preserve"><value>Καμία σημείωση στο μοντέλο, όλα βρίσκονται στη σήμανση.</value></data>
+  <data name="DemoEditorTitle" xml:space="preserve"><value>Προγράμματα επεξεργασίας και μεταφόρτωση</value></data>
+  <data name="DemoEditorSummary" xml:space="preserve"><value>Το πρόγραμμα επεξεργασίας WYSIWYG και η πηγή HTML του, η επεξεργασία κειμένου, το πρόγραμμα επεξεργασίας κώδικα και η μεταφόρτωση αρχείων.</value></data>
+  <data name="DemoEditorCapability1" xml:space="preserve"><value>Γραμμή εντολών που η εφαρμογή υποδοχής συμπληρώνει ή αναδιατάσσει, ασφαλής επικόλληση, λειτουργία πηγαίου κώδικα.</value></data>
+  <data name="DemoEditorCapability2" xml:space="preserve"><value>Επεξεργασία κειμένου σε σελίδα, καταμέτρηση λέξεων, εξαγωγή σε HTML και κείμενο.</value></data>
+  <data name="DemoEditorCapability3" xml:space="preserve"><value>Πρόγραμμα επεξεργασίας κώδικα (Monaco από την εφαρμογή υποδοχής, απλό κείμενο υπό αυστηρό CSP) και μεταφόρτωση με όρια.</value></data>
+  <data name="DemoOverlayTitle" xml:space="preserve"><value>Επικαλύψεις</value></data>
+  <data name="DemoOverlaySummary" xml:space="preserve"><value>Παράθυρα διαλόγου, ειδοποιήσεις και αναδυόμενα μενού.</value></data>
+  <data name="DemoOverlayCapability1" xml:space="preserve"><value>Αποκλειστικό παράθυρο διαλόγου, που κλείνει με Esc ή από το φόντο.</value></data>
+  <data name="DemoOverlayCapability2" xml:space="preserve"><value>Τέσσερα επίπεδα σοβαρότητας ειδοποιήσεων, με προαιρετικό κλείσιμο.</value></data>
+  <data name="DemoOverlayCapability3" xml:space="preserve"><value>Μενού περιβάλλοντος, διαιρεμένο κουμπί και μενού λογαριασμού.</value></data>
+  <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Πλέγμα, πλήρης εικόνα</value></data>
+  <data name="DemoGridAdvancedSummary" xml:space="preserve"><value>Επιλογή, ομάδες, επεξεργασία, σταθερές στήλες και πλούσια φίλτρα.</value></data>
+  <data name="DemoGridAdvancedCapability1" xml:space="preserve"><value>Πολλαπλή επιλογή, με κλικ στη γραμμή.</value></data>
+  <data name="DemoGridAdvancedCapability2" xml:space="preserve"><value>Φίλτρα με αναπτυσσόμενη λίστα και πολλαπλή επιλογή ανά στήλη.</value></data>
+  <data name="DemoGridAdvancedCapability3" xml:space="preserve"><value>Σταθερή στήλη, αναπτυγμένες ομάδες και υπολογιζόμενο υποσέλιδο στήλης.</value></data>
+  <data name="DemoGridAdvancedCapability4" xml:space="preserve"><value>Ρυθμίσεις εμφάνισης σε πραγματικό χρόνο: γραμμές, πυκνότητα, σελιδοποίηση, επιλογή, επεξεργασία και φίλτρα.</value></data>
+  <data name="DemoDataListTitle" xml:space="preserve"><value>Λίστες και σελιδοποίηση</value></data>
+  <data name="DemoDataListSummary" xml:space="preserve"><value>Η λίστα με ελεύθερο πρότυπο και η σελιδοποίησή της.</value></data>
+  <data name="DemoDataListCapability1" xml:space="preserve"><value>Πρότυπο στοιχείου που παρέχεται εξ ολοκλήρου από την εφαρμογή υποδοχής.</value></data>
+  <data name="DemoDataListCapability2" xml:space="preserve"><value>Διακριτές καταστάσεις κενού, φόρτωσης και σφάλματος.</value></data>
+  <data name="DemoDataListCapability3" xml:space="preserve"><value>Σελιδοποίηση με ρυθμιζόμενο μέγεθος σελίδας και συντομεύσεις για την πρώτη και την τελευταία.</value></data>
+  <data name="DemoTreeTitle" xml:space="preserve"><value>Δενδρική δομή</value></data>
+  <data name="DemoTreeSummary" xml:space="preserve"><value>Η αναπτυσσόμενη ιεραρχία, με απλή ή πολλαπλή επιλογή.</value></data>
+  <data name="DemoTreeCapability1" xml:space="preserve"><value>Πολλαπλή επιλογή και πλοήγηση από το πληκτρολόγιο.</value></data>
+  <data name="DemoTreeCapability2" xml:space="preserve"><value>Κλάδος που φορτώνεται κατ' απαίτηση, όταν ανοίγει ο κόμβος.</value></data>
+  <data name="DemoTreeCapability3" xml:space="preserve"><value>Κόμβοι που απενεργοποιούνται χωρίς να διακόπτεται η περιήγηση.</value></data>
+  <data name="DemoSpreadsheetTitle" xml:space="preserve"><value>Υπολογιστικό φύλλο</value></data>
+  <data name="DemoSpreadsheetSummary" xml:space="preserve"><value>Ένα απλό υπολογιστικό φύλλο: κελιά, τύποι και γραμμή τύπων.</value></data>
+  <data name="DemoSpreadsheetCapability1" xml:space="preserve"><value>Τύποι με αναφορές, περιοχές, SUM, AVERAGE, MIN, MAX και κωδικούς σφαλμάτων.</value></data>
+  <data name="DemoSpreadsheetCapability2" xml:space="preserve"><value>Πλοήγηση από το πληκτρολόγιο, επεξεργασία επί τόπου και γραμμή τύπων.</value></data>
+  <data name="DemoSpreadsheetCapability3" xml:space="preserve"><value>Περιεχόμενο με αμφίδρομη σύνδεση, που σειριοποιείται σε JSON.</value></data>
+  <data name="DemoSchedulerTitle" xml:space="preserve"><value>Ημερολόγιο</value></data>
+  <data name="DemoSchedulerSummary" xml:space="preserve"><value>Το ημερολόγιο και οι τρεις προβολές του.</value></data>
+  <data name="DemoSchedulerCapability1" xml:space="preserve"><value>Προβολές ημέρας, εβδομάδας και μήνα, με εναλλαγή.</value></data>
+  <data name="DemoSchedulerCapability2" xml:space="preserve"><value>Επαναλαμβανόμενα ραντεβού που περιγράφονται από έναν κανόνα.</value></data>
+  <data name="DemoSchedulerCapability3" xml:space="preserve"><value>Κάθε προβολή χρησιμοποιείται και μόνη της, εκτός ημερολογίου.</value></data>
+  <data name="DemoChartsExtendedTitle" xml:space="preserve"><value>Γραφήματα, πλήρης εικόνα</value></data>
+  <data name="DemoChartsExtendedSummary" xml:space="preserve"><value>Όλες οι σειρές, το υπόμνημα, οι ετικέτες και ο μετρητής.</value></data>
+  <data name="DemoChartsExtendedCapability1" xml:space="preserve"><value>Γραμμές, περιοχές, στήλες, ράβδοι, στοιβάξεις, πίτα και δακτύλιος.</value></data>
+  <data name="DemoChartsExtendedCapability2" xml:space="preserve"><value>Υπόμνημα, δείκτες, ετικέτες τιμών και επεξήγηση.</value></data>
+  <data name="DemoChartsExtendedCapability3" xml:space="preserve"><value>Μετρητής τόξου, με κλίμακα και μορφή τιμής.</value></data>
+  <data name="DemoDiagramTitle" xml:space="preserve"><value>Νοητικός χάρτης</value></data>
+  <data name="DemoDiagramSummary" xml:space="preserve"><value>Ένας νοητικός χάρτης που επεξεργάζεται με το ποντίκι, την αφή και το πληκτρολόγιο.</value></data>
+  <data name="DemoDiagramCapability1" xml:space="preserve"><value>Σύρσιμο, λάσο, ζουμ με τη ροδέλα ή με τσίμπημα, μενού περιβάλλοντος.</value></data>
+  <data name="DemoDiagramCapability2" xml:space="preserve"><value>Κάθε ενέργεια έχει τη συντόμευση πληκτρολογίου της, που ανακοινώνεται στα προγράμματα ανάγνωσης οθόνης.</value></data>
+  <data name="DemoDiagramCapability3" xml:space="preserve"><value>Γραμμή ενεργειών και πλαίσιο ιδιοτήτων του επιλεγμένου κόμβου.</value></data>
+  <data name="DemoDiagramCapability4" xml:space="preserve"><value>Διαβάζει και ξαναγράφει την αποθηκευμένη μορφή γράφου χωρίς καμία απώλεια.</value></data>
+  <data name="DemoPlanningTitle" xml:space="preserve"><value>Προγραμματισμός</value></data>
+  <data name="DemoPlanningSummary" xml:space="preserve"><value>Ένα διάγραμμα Gantt, η εξέλιξη μιας εκτέλεσης και ένα χρονολόγιο για τοποθέτηση.</value></data>
+  <data name="DemoPlanningCapability1" xml:space="preserve"><value>Gantt ανά ημέρα, εβδομάδα ή μήνα, με ομάδες, εξαρτήσεις και τη σημερινή ημέρα.</value></data>
+  <data name="DemoPlanningCapability2" xml:space="preserve"><value>Εξέλιξη βημάτων σε χρονική κλίμακα, με τα βήματα που δεν ξεκίνησαν ποτέ.</value></data>
+  <data name="DemoPlanningCapability3" xml:space="preserve"><value>Χρονολόγιο δεξιά, αριστερά ή εναλλάξ, με επιλογή της πρώτης πλευράς.</value></data>
+  <data name="DemoPagesTitle" xml:space="preserve"><value>Σελίδες</value></data>
+  <data name="DemoPagesSummary" xml:space="preserve"><value>Η κεφαλίδα, η σελίδα λεπτομερειών και ό,τι την γεμίζει.</value></data>
+  <data name="DemoPagesCapability1" xml:space="preserve"><value>Κεφαλίδα σελίδας: διαδρομή πλοήγησης που διατηρείται από μια υπηρεσία, επιστροφή, τίτλος, σήματα και ενέργειες συμπτυγμένα σε τηλέφωνο.</value></data>
+  <data name="DemoPagesCapability2" xml:space="preserve"><value>Σελίδα λεπτομερειών: κεφαλίδα που σχεδιάζεται πριν από την άφιξη των δεδομένων, περιεχόμενο κρυφό κατά τη φόρτωση, κατάσταση «δεν βρέθηκε» με επιστροφή.</value></data>
+  <data name="DemoPagesCapability3" xml:space="preserve"><value>Λίστα ορισμών σε στήλες, με μία ενέργεια ανά τιμή.</value></data>
+  <data name="DemoPagesCapability4" xml:space="preserve"><value>Σχετική ημερομηνία με την ακριβή ημερομηνία κατά την αιώρηση και την εστίαση, και κενή κατάσταση με την ενέργειά της.</value></data>
+  <data name="DemoFlowsTitle" xml:space="preserve"><value>Ροές</value></data>
+  <data name="DemoFlowsSummary" xml:space="preserve"><value>Οδηγός, σύνδεση και απώλεια σύνδεσης.</value></data>
+  <data name="DemoFlowsCapability1" xml:space="preserve"><value>Οδηγός βημάτων: πρόοδος, επικύρωση ανά βήμα, σε σελίδα ή σε παράθυρο διαλόγου.</value></data>
+  <data name="DemoFlowsCapability2" xml:space="preserve"><value>Σελίδα σύνδεσης χωρίς ενσωματωμένο έλεγχο ταυτότητας, και διεύθυνση επιστροφής περιορισμένη στην εφαρμογή.</value></data>
+  <data name="DemoFlowsCapability3" xml:space="preserve"><value>Επικάλυψη απώλειας σύνδεσης: αντίστροφη μέτρηση, αιτία, μη αυτόματη επανάληψη, αποτυχία και άρνηση.</value></data>
+  <data name="WorkshopBarTitle" xml:space="preserve"><value>Ρυθμίσεις προεπισκόπησης</value></data>
+  <data name="WorkshopTheme" xml:space="preserve"><value>Θέμα (σχήμα)</value></data>
+  <data name="WorkshopPalette" xml:space="preserve"><value>Παλέτα (χρώματα)</value></data>
+  <data name="WorkshopThemePalette" xml:space="preserve"><value>Παλέτα του θέματος</value></data>
+  <data name="WorkshopDefault" xml:space="preserve"><value>Προεπιλογή</value></data>
+  <data name="WorkshopMode" xml:space="preserve"><value>Λειτουργία</value></data>
+  <data name="WorkshopModeLight" xml:space="preserve"><value>Φωτεινό</value></data>
+  <data name="WorkshopModeDark" xml:space="preserve"><value>Σκοτεινό</value></data>
+  <data name="WorkshopModeSystem" xml:space="preserve"><value>Σύστημα</value></data>
+  <data name="WorkshopDensity" xml:space="preserve"><value>Συνολική πυκνότητα</value></data>
+  <data name="WorkshopDensityCompact" xml:space="preserve"><value>Συμπαγής</value></data>
+  <data name="WorkshopDensityComfortable" xml:space="preserve"><value>Άνετη</value></data>
+  <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Ευρύχωρη</value></data>
+  <data name="WorkshopDensityInherited" xml:space="preserve"><value>Κληρονομημένη</value></data>
+  <data name="WorkshopSectionDensity" xml:space="preserve"><value>Πυκνότητα</value></data>
+  <data name="WorkshopHover" xml:space="preserve"><value>Αιώρηση</value></data>
+  <data name="WorkshopHoverForce" xml:space="preserve"><value>Επιβολή</value></data>
+  <data name="WorkshopHoverForced" xml:space="preserve"><value>Επιβεβλημένη</value></data>
+  <data name="WorkshopStageTitle" xml:space="preserve"><value>Προεπισκόπηση</value></data>
+  <data name="WorkshopStageLead" xml:space="preserve"><value>Θέμα {0}: {1} Παλέτα {2}: {3}</value></data>
+  <data name="WorkshopContrastWaiver" xml:space="preserve"><value>Η αντίθεση δεν είναι εγγυημένη: {0}</value></data>
+  <data name="WorkshopContrastTitle" xml:space="preserve"><value>Υπολογισμένες αντιθέσεις</value></data>
+  <data name="WorkshopContrastLead" xml:space="preserve"><value>Λόγος που μετρήθηκε στα διακριτικά της εμφανιζόμενης λειτουργίας, και στη συνέχεια το όριο που πρέπει να επιτευχθεί.</value></data>
+  <data name="WorkshopContrastSystem" xml:space="preserve"><value>Λειτουργία συστήματος: οι λόγοι μετρώνται στο φωτεινό μισό, αφού το μισό που επιλέγει το πρόγραμμα περιήγησης είναι γνωστό μόνο μέσα στη σελίδα.</value></data>
+  <data name="WorkshopContrastVerdict" xml:space="preserve"><value>{0} από {1} ζεύγη επιτυγχάνουν το όριό τους.</value></data>
+  <data name="WorkshopSwatchesTitle" xml:space="preserve"><value>Διακριτικά χρώματος</value></data>
+  <data name="ContrastPair01" xml:space="preserve"><value>κείμενο / επιφάνεια</value></data>
+  <data name="ContrastPair02" xml:space="preserve"><value>κείμενο / αχνή επιφάνεια</value></data>
+  <data name="ContrastPair03" xml:space="preserve"><value>κείμενο / επιφάνεια σε αιώρηση</value></data>
+  <data name="ContrastPair04" xml:space="preserve"><value>αχνό κείμενο / επιφάνεια</value></data>
+  <data name="ContrastPair05" xml:space="preserve"><value>αχνό κείμενο / αχνή επιφάνεια</value></data>
+  <data name="ContrastPair06" xml:space="preserve"><value>αχνό κείμενο / επιφάνεια σε αιώρηση</value></data>
+  <data name="ContrastPair07" xml:space="preserve"><value>έντονη έμφαση / επιφάνεια</value></data>
+  <data name="ContrastPair08" xml:space="preserve"><value>έντονη έμφαση / διακριτική έμφαση</value></data>
+  <data name="ContrastPair09" xml:space="preserve"><value>έντονη έμφαση / επιφάνεια σε αιώρηση</value></data>
+  <data name="ContrastPair10" xml:space="preserve"><value>σε έμφαση / έμφαση</value></data>
+  <data name="ContrastPair11" xml:space="preserve"><value>σε επιτυχία / επιτυχία</value></data>
+  <data name="ContrastPair12" xml:space="preserve"><value>σε προειδοποίηση / προειδοποίηση</value></data>
+  <data name="ContrastPair13" xml:space="preserve"><value>σε κίνδυνο / κίνδυνος</value></data>
+  <data name="ContrastPair14" xml:space="preserve"><value>σε αντίστροφο / αντίστροφο</value></data>
+  <data name="ContrastPair15" xml:space="preserve"><value>επιτυχία / επιφάνεια</value></data>
+  <data name="ContrastPair16" xml:space="preserve"><value>επιτυχία / διακριτική επιτυχία</value></data>
+  <data name="ContrastPair17" xml:space="preserve"><value>προειδοποίηση / επιφάνεια</value></data>
+  <data name="ContrastPair18" xml:space="preserve"><value>κίνδυνος / επιφάνεια</value></data>
+  <data name="ContrastPair19" xml:space="preserve"><value>κίνδυνος / διακριτικός κίνδυνος</value></data>
+  <data name="ContrastPair20" xml:space="preserve"><value>κείμενο σε συμπαγή έμφαση</value></data>
+  <data name="ContrastPair21" xml:space="preserve"><value>κείμενο σε συμπαγή επιτυχία</value></data>
+  <data name="ContrastPair22" xml:space="preserve"><value>κείμενο σε συμπαγή πληροφορία</value></data>
+  <data name="ContrastPair23" xml:space="preserve"><value>μελάνι σε φωτεινή πληροφορία (ειδοποίηση)</value></data>
+  <data name="ContrastPair24" xml:space="preserve"><value>μελάνι σε φωτεινή επιτυχία (ειδοποίηση)</value></data>
+  <data name="ContrastPair25" xml:space="preserve"><value>μελάνι σε φωτεινή πληροφορία σε αιώρηση</value></data>
+  <data name="ContrastPair26" xml:space="preserve"><value>μελάνι σε φωτεινή πληροφορία πατημένη</value></data>
+  <data name="ContrastPair27" xml:space="preserve"><value>μελάνι σε φωτεινή επιτυχία σε αιώρηση</value></data>
+  <data name="ContrastPair28" xml:space="preserve"><value>μελάνι σε φωτεινή επιτυχία πατημένη</value></data>
+  <data name="ContrastPair29" xml:space="preserve"><value>μελάνι σε βαθιά προειδοποίηση (κουμπί)</value></data>
+  <data name="ContrastPair30" xml:space="preserve"><value>μελάνι σε βαθιά προειδοποίηση σε αιώρηση</value></data>
+  <data name="ContrastPair31" xml:space="preserve"><value>μελάνι σε βαθιά προειδοποίηση πατημένη</value></data>
+  <data name="ContrastPair32" xml:space="preserve"><value>μελάνι σε βαθύ κίνδυνο (κουμπί)</value></data>
+  <data name="ContrastPair33" xml:space="preserve"><value>μελάνι σε βαθύ κίνδυνο σε αιώρηση</value></data>
+  <data name="ContrastPair34" xml:space="preserve"><value>μελάνι σε βαθύ κίνδυνο πατημένο</value></data>
+  <data name="ContrastPair35" xml:space="preserve"><value>κείμενο σε συμπαγή έμφαση, αιώρηση</value></data>
+  <data name="ContrastPair36" xml:space="preserve"><value>κείμενο σε συμπαγή έμφαση, πάτημα</value></data>
+  <data name="ContrastPair37" xml:space="preserve"><value>δευτερεύον σε ηρεμία</value></data>
+  <data name="ContrastPair38" xml:space="preserve"><value>δευτερεύον σε αιώρηση</value></data>
+  <data name="ContrastPair39" xml:space="preserve"><value>δευτερεύον σε πάτημα</value></data>
+  <data name="ContrastPair40" xml:space="preserve"><value>διαφανές σε πάτημα</value></data>
+  <data name="ContrastPair41" xml:space="preserve"><value>συμπαγής έμφαση / επιφάνεια</value></data>
+  <data name="ContrastPair42" xml:space="preserve"><value>συμπαγής επιτυχία / επιφάνεια</value></data>
+  <data name="ContrastPair43" xml:space="preserve"><value>συμπαγής πληροφορία / επιφάνεια</value></data>
+  <data name="ContrastPair44" xml:space="preserve"><value>συμπαγής προειδοποίηση / επιφάνεια</value></data>
+  <data name="ContrastPair45" xml:space="preserve"><value>συμπαγής κίνδυνος / επιφάνεια</value></data>
+  <data name="ContrastPair46" xml:space="preserve"><value>έμφαση / επιφάνεια</value></data>
+  <data name="ContrastPair47" xml:space="preserve"><value>περίγραμμα / επιφάνεια (κατώτατο όριο OE 1,7)</value></data>
+  <data name="DemoStatesTitle" xml:space="preserve"><value>Ηρεμία, αιώρηση και πάτημα</value></data>
+  <data name="DemoStatesSummary" xml:space="preserve"><value>Οι τρεις καταστάσεις μιας παραλλαγής κουμπιού δίπλα-δίπλα.</value></data>
+  <data name="DemoStatesCapability1" xml:space="preserve"><value>Η αιώρηση και το πάτημα διαβάζουν τα διακριτικά του θέματος: γέμισμα σε αιώρηση, γέμισμα σε πάτημα και κίνηση πίεσης.</value></data>
+  <data name="DemoStatesCapability2" xml:space="preserve"><value>Βοήθημα σύγκρισης της βιτρίνας: ένα πρόγραμμα περιήγησης δεν παγώνει ούτε το :hover ούτε το :active.</value></data>
+  <data name="DemoAppShellTitle" xml:space="preserve"><value>Κέλυφος εφαρμογής</value></data>
+  <data name="DemoAppShellSummary" xml:space="preserve"><value>Επάνω γραμμή, πλευρικό μενού που συμπτύσσεται σε στήλη εικονιδίων, περιεχόμενο.</value></data>
+  <data name="DemoAppShellCapability1" xml:space="preserve"><value>Κουμπί σύμπτυξης, αναζήτηση, βοήθεια, καμπανάκι με ένδειξη και μενού λογαριασμού κλειστό σε ηρεμία.</value></data>
+  <data name="DemoAppShellCapability2" xml:space="preserve"><value>Το πλευρικό μενού διατηρεί τα εικονίδιά του όταν συμπτύσσεται (Collapse Icons).</value></data>
+  <data name="DemoAppShellCapability3" xml:space="preserve"><value>Η ένδειξη, ο μεγεθυντικός φακός, το λογότυπο και το άβαταρ σχεδιάζονται από τη βιτρίνα: το πακέτο δεν έχει στοιχείο γι' αυτά.</value></data>
+  <data name="DemoThemesTitle" xml:space="preserve"><value>Θέματα και παλέτες</value></data>
+  <data name="DemoThemesSummary" xml:space="preserve"><value>Ένα θέμα δίνει το σχήμα, μια παλέτα τα χρώματα· κάθε παλέτα χρωματίζει κάθε θέμα.</value></data>
+  <data name="DemoThemesCapability1" xml:space="preserve"><value>Τα OmniThemeScope.Preset και OmniThemeScope.Palette αλλάζουν την εμφάνιση της εμβέλειας και του περιεχομένου της, και μόνο αυτής.</value></data>
+  <data name="DemoThemesCapability2" xml:space="preserve"><value>Μια παλέτα μόνη της αλλάζει τα χρώματα και διατηρεί το παρεχόμενο σχήμα.</value></data>
+  <data name="DemoThemesCapability3" xml:space="preserve"><value>{0} θέματα και {1} παλέτες, δηλαδή {2} συνδυασμοί, ο καθένας σε φωτεινή και σκοτεινή εκδοχή.</value></data>
+  <data name="DemoSurfacesTitle" xml:space="preserve"><value>Επιφάνειες</value></data>
+  <data name="DemoSurfacesSummary" xml:space="preserve"><value>Κάρτες, αιωρούμενο μενού, καρτέλες, πλευρικό μενού, σύνδεσμος και επεξήγηση.</value></data>
+  <data name="DemoSurfacesCapability1" xml:space="preserve"><value>Οι κάρτες και το αιωρούμενο μενού διαβάζουν το σχήμα του θέματος: φόντο, γραμμή, ακτίνα και σκιά.</value></data>
+  <data name="DemoSurfacesCapability2" xml:space="preserve"><value>Το αιωρούμενο μενού ανοίγει στο επίπεδο των αιωρούμενων επιφανειών.</value></data>
+  <data name="DemoSurfacesCapability3" xml:space="preserve"><value>Το τρέχον στοιχείο ενός μενού επισημαίνεται με το φόντο και το πάχος του κειμένου, ποτέ με πλευρική γραμμή.</value></data>
+  <data name="DemoVerticalFormTitle" xml:space="preserve"><value>Κάθετη φόρμα</value></data>
+  <data name="DemoVerticalFormSummary" xml:space="preserve"><value>Όλοι οι τύποι πεδίων, τα σφάλματα και η σύνοψή τους, οι καταστάσεις απενεργοποίησης και μόνο ανάγνωσης.</value></data>
+  <data name="DemoVerticalFormCapability1" xml:space="preserve"><value>Ετικέτα από πάνω, αστερίσκος υποχρεωτικού πεδίου, βοήθεια και σφάλμα με εικονίδιο.</value></data>
+  <data name="DemoVerticalFormCapability2" xml:space="preserve"><value>Τα σφάλματα είναι αυτά του περιβάλλοντος επεξεργασίας: το πεδίο παίρνει από αυτά το aria-invalid, και η διόρθωσή τους τα αφαιρεί από τη σύνοψη.</value></data>
+  <data name="DemoVerticalFormCapability3" xml:space="preserve"><value>Ενιαίο πεδίο αρχείου, ζώνη ενός αρχείου, ζώνη πολλών αρχείων με συμπτυγμένη λίστα.</value></data>
+  <data name="DemoVerticalFormCapability4" xml:space="preserve"><value>Οι καταστάσεις απενεργοποίησης και μόνο ανάγνωσης παραμένουν διακριτές, και στις τρεις πυκνότητες.</value></data>
+  <data name="DemoSettingsTabsTitle" xml:space="preserve"><value>Ρυθμίσεις σε καρτέλες</value></data>
+  <data name="DemoSettingsTabsSummary" xml:space="preserve"><value>Μία καρτέλα με εικονίδιο ανά θέμα, μία ενότητα ανά καρτέλα, ένα πλακίδιο ανά ρύθμιση.</value></data>
+  <data name="DemoSettingsTabsCapability1" xml:space="preserve"><value>Ένας διακόπτης μέσα σε πλακίδιο παίρνει ως ετικέτα το όνομα του πλακιδίου· ένα κλικ στο πλακίδιο τον εναλλάσσει.</value></data>
+  <data name="DemoSettingsTabsCapability2" xml:space="preserve"><value>Το στοιχείο ελέγχου βρίσκεται δεξιά, το όνομα, η βοήθεια και το εικονίδιο αριστερά.</value></data>
+  <data name="DemoNoticesTitle" xml:space="preserve"><value>Ειδοποιήσεις και παράθυρα διαλόγου</value></data>
+  <data name="DemoNoticesSummary" xml:space="preserve"><value>Ειδοποιήσεις που κλείνουν, παράθυρα διαλόγου πάνω στο φόντο.</value></data>
+  <data name="DemoNoticesCapability1" xml:space="preserve"><value>Κάθε ειδοποίηση κλείνει με το δικό της Χ.</value></data>
+  <data name="DemoNoticesCapability2" xml:space="preserve"><value>Το υποσέλιδο των παραθύρων διαλόγου ακολουθεί τη σύμβαση του πακέτου: πρώτα η ενέργεια, μετά η Ακύρωση.</value></data>
+  <data name="DemoLoadingTitle" xml:space="preserve"><value>Φόρτωση</value></data>
+  <data name="DemoLoadingSummary" xml:space="preserve"><value>Γραμμή φόρτωσης, αναμονή, απασχολημένα κουμπιά, πρόοδος και σκελετός.</value></data>
+  <data name="DemoLoadingCapability1" xml:space="preserve"><value>Η γραμμή ακολουθεί μια πραγματική φόρτωση, με σάρωση ή γέμισμα, φτάνει στο τέλος και μετά σβήνει.</value></data>
+  <data name="DemoLoadingCapability2" xml:space="preserve"><value>Ένα απασχολημένο κουμπί διατηρεί το μέγεθος και το περιεχόμενό του: από πάνω του «αναπνέει» ένα πέπλο.</value></data>
+  <data name="DemoLoadingCapability3" xml:space="preserve"><value>Ο σκελετός παίρνει τη μορφή αυτού που αντικαθιστά.</value></data>
+  <data name="DemoRunGridsTitle" xml:space="preserve"><value>Πλέγματα εκτελέσεων</value></data>
+  <data name="DemoRunGridsSummary" xml:space="preserve"><value>Τα δύο πλέγματα της μακέτας: ταξινομημένο με ενεργή στήλη, εναλλασσόμενο με σταθερή κεφαλίδα.</value></data>
+  <data name="DemoRunGridsCapability1" xml:space="preserve"><value>Η ταξινομημένη στήλη χρωματίζεται πιο απαλά από την επιλεγμένη γραμμή, ώστε να ξεχωρίζουν.</value></data>
+  <data name="DemoRunGridsCapability2" xml:space="preserve"><value>Η κεφαλίδα παραμένει ορατή όταν το πλέγμα κυλίεται· η διάρκεια στοιχίζεται στο τέλος.</value></data>
+  <data name="DemoRunGridsCapability3" xml:space="preserve"><value>Η κατάσταση είναι μια συμπαγής ένδειξη (omni-status).</value></data>
+  <data name="LoadingFrameBrand" xml:space="preserve"><value>Boutique</value></data>
+  <data name="LoadingFramePage" xml:space="preserve"><value>Πίνακας ελέγχου</value></data>
+  <data name="LoadingBarLabel" xml:space="preserve"><value>Φόρτωση της σελίδας</value></data>
+  <data name="LoadingSweep" xml:space="preserve"><value>Γραμμή σάρωσης</value></data>
+  <data name="LoadingFill" xml:space="preserve"><value>Γραμμή γεμίσματος</value></data>
+  <data name="LoadingHint" xml:space="preserve"><value>Η γραμμή βρίσκεται κάτω από την παραπάνω κεφαλίδα. Στο τέλος φτάνει ως την άκρη και μετά σβήνει.</value></data>
+  <data name="LoadingWaiting" xml:space="preserve"><value>Αναμονή</value></data>
+  <data name="LoadingDeploying" xml:space="preserve"><value>Ανάπτυξη σε εξέλιξη</value></data>
+  <data name="LoadingChecking" xml:space="preserve"><value>Έλεγχος</value></data>
+  <data name="LoadingSaving" xml:space="preserve"><value>Αποθήκευση σε εξέλιξη</value></data>
+  <data name="LoadingAnalysis" xml:space="preserve"><value>Ανάλυση σε εξέλιξη</value></data>
+  <data name="LoadingCoverage" xml:space="preserve"><value>Κάλυψη</value></data>
+  <data name="LoadingContent" xml:space="preserve"><value>Φόρτωση του περιεχομένου</value></data>
+  <data name="NoticeDoneTitle" xml:space="preserve"><value>Η ανάπτυξη ολοκληρώθηκε</value></data>
+  <data name="NoticeDoneMessage" xml:space="preserve"><value>orders-deploy-prod #2399 σε 1 λεπ. 48 δευτ.</value></data>
+  <data name="NoticeRefusedTitle" xml:space="preserve"><value>Η κλειδωμένη επαναφορά απορρίφθηκε</value></data>
+  <data name="NoticeRefusedMessage" xml:space="preserve"><value>Ο γράφος NuGet απέκλινε από το αρχείο κλειδώματος.</value></data>
+  <data name="NoticeShowAgain" xml:space="preserve"><value>Εμφάνιση ξανά των ειδοποιήσεων</value></data>
+  <data name="NoticeUnlistOpen" xml:space="preserve"><value>Κατάργηση καταχώρισης της έκδοσης 1.0.0</value></data>
+  <data name="NoticeUnlistTitle" xml:space="preserve"><value>Κατάργηση καταχώρισης της έκδοσης 1.0.0</value></data>
+  <data name="NoticeUnlistBody" xml:space="preserve"><value>Η έκδοση θα εξαφανιστεί από την αναζήτηση και από τα κινητά εύρη εκδόσεων. Θα παραμείνει διαθέσιμη για λήψη με τον ακριβή αριθμό της.</value></data>
+  <data name="NoticeUnlistAlpha" xml:space="preserve"><value>Κατάργηση καταχώρισης και της 0.1.0-alpha.1</value></data>
+  <data name="NoticeUnlist" xml:space="preserve"><value>Κατάργηση καταχώρισης</value></data>
+  <data name="NoticeUnlistDone" xml:space="preserve"><value>Η καταχώριση της έκδοσης καταργήθηκε</value></data>
+  <data name="NoticeRerunOpen" xml:space="preserve"><value>Επανεκτέλεση της διοχέτευσης</value></data>
+  <data name="NoticeRerunTitle" xml:space="preserve"><value>Επανεκτέλεση της διοχέτευσης;</value></data>
+  <data name="NoticeRerunBody" xml:space="preserve"><value>Η orders-deploy-prod #2399 θα εκτελεστεί ξανά στον διακομιστή srv-01, με τις ίδιες μεταβλητές.</value></data>
+  <data name="NoticeRerunNotify" xml:space="preserve"><value>Να ειδοποιηθώ στο τέλος</value></data>
+  <data name="NoticeRerun" xml:space="preserve"><value>Επανεκτέλεση</value></data>
+  <data name="NoticeRerunDone" xml:space="preserve"><value>Η διοχέτευση εκτελείται ξανά</value></data>
+  <data name="NoticeCancel" xml:space="preserve"><value>Ακύρωση</value></data>
+  <data name="NoticeClose" xml:space="preserve"><value>Κλείσιμο</value></data>
+  <data name="NoticeLast" xml:space="preserve"><value>Τελευταία ενέργεια: {0}</value></data>
+  <data name="RunsSortedCaption" xml:space="preserve"><value>Εκτελέσεις, ταξινομημένες ανά διοχέτευση</value></data>
+  <data name="RunsStripedCaption" xml:space="preserve"><value>Ιστορικό εκτελέσεων</value></data>
+  <data name="RunsRun" xml:space="preserve"><value>Εκτέλεση</value></data>
+  <data name="RunsPipeline" xml:space="preserve"><value>Διοχέτευση</value></data>
+  <data name="RunsTrigger" xml:space="preserve"><value>Έναυσμα</value></data>
+  <data name="RunsSeconds" xml:space="preserve"><value>Διάρκεια (δευτ.)</value></data>
+  <data name="RunsStatus" xml:space="preserve"><value>Κατάσταση</value></data>
+  <data name="RunsTriggerPush" xml:space="preserve"><value>Push</value></data>
+  <data name="RunsTriggerManual" xml:space="preserve"><value>Μη αυτόματο</value></data>
+  <data name="RunsTriggerScheduled" xml:space="preserve"><value>Προγραμματισμένο</value></data>
+  <data name="RunsStatusSuccess" xml:space="preserve"><value>Επιτυχία</value></data>
+  <data name="RunsStatusInfo" xml:space="preserve"><value>Σε εξέλιξη</value></data>
+  <data name="RunsStatusWarning" xml:space="preserve"><value>Ακυρώθηκε</value></data>
+  <data name="RunsStatusDanger" xml:space="preserve"><value>Αποτυχία</value></data>
+  <data name="SettingsTabsLabel" xml:space="preserve"><value>Ρυθμίσεις</value></data>
+  <data name="SettingsGeneral" xml:space="preserve"><value>Γενικά</value></data>
+  <data name="SettingsGeneralLead" xml:space="preserve"><value>Θέσεις εργασίας και συμπεριφορά κατά την εκκίνηση.</value></data>
+  <data name="SettingsFolder" xml:space="preserve"><value>Φάκελος αντικειμένων build</value></data>
+  <data name="SettingsFolderHint" xml:space="preserve"><value>Πού τοποθετούν τα build τα πακέτα τους.</value></data>
+  <data name="SettingsBrowse" xml:space="preserve"><value>Αναζήτηση</value></data>
+  <data name="SettingsStartup" xml:space="preserve"><value>Εκκίνηση με τα Windows</value></data>
+  <data name="SettingsStartupHint" xml:space="preserve"><value>Εκκινεί τον αντιπρόσωπο κατά τη σύνδεση.</value></data>
+  <data name="SettingsLanguage" xml:space="preserve"><value>Γλώσσα</value></data>
+  <data name="SettingsLanguageHint" xml:space="preserve"><value>Γλώσσα της διασύνδεσης και των ειδοποιήσεων.</value></data>
+  <data name="SettingsLanguageFrench" xml:space="preserve"><value>Français</value></data>
+  <data name="SettingsLanguageEnglish" xml:space="preserve"><value>English</value></data>
+  <data name="SettingsDisplay" xml:space="preserve"><value>Προβολή</value></data>
+  <data name="SettingsDisplayLead" xml:space="preserve"><value>Εμφάνιση και πυκνότητα της διασύνδεσης.</value></data>
+  <data name="SettingsDarkMode" xml:space="preserve"><value>Σκοτεινή λειτουργία</value></data>
+  <data name="SettingsDarkModeHint" xml:space="preserve"><value>Ακολουθήστε το σύστημα ή επιβάλετε μια λειτουργία.</value></data>
+  <data name="SettingsModeSystem" xml:space="preserve"><value>Όπως το σύστημα</value></data>
+  <data name="SettingsModeLight" xml:space="preserve"><value>Φωτεινό</value></data>
+  <data name="SettingsModeDark" xml:space="preserve"><value>Σκοτεινό</value></data>
+  <data name="SettingsCompact" xml:space="preserve"><value>Συμπαγής διασύνδεση</value></data>
+  <data name="SettingsCompactHint" xml:space="preserve"><value>Μειώνει τα περιθώρια των πλεγμάτων και των φορμών.</value></data>
+  <data name="SettingsNotifications" xml:space="preserve"><value>Ειδοποιήσεις</value></data>
+  <data name="SettingsNotificationsLead" xml:space="preserve"><value>Για τι ειδοποιείστε και μέσω ποιου καναλιού.</value></data>
+  <data name="SettingsFailures" xml:space="preserve"><value>Αποτυχίες διοχέτευσης</value></data>
+  <data name="SettingsFailuresHint" xml:space="preserve"><value>Μια ειδοποίηση για κάθε αποτυχημένη εκτέλεση.</value></data>
+  <data name="SettingsDigest" xml:space="preserve"><value>Ημερήσια σύνοψη</value></data>
+  <data name="SettingsDigestHint" xml:space="preserve"><value>Αποστέλλεται κάθε πρωί στις 8:00.</value></data>
+  <data name="SettingsDigestAddress" xml:space="preserve"><value>Διεύθυνση σύνοψης</value></data>
+  <data name="DemoShellDashboard" xml:space="preserve"><value>Πίνακας ελέγχου</value></data>
+  <data name="DemoShellInProgress" xml:space="preserve"><value>Σε εξέλιξη</value></data>
+  <data name="DemoShellArchived" xml:space="preserve"><value>Αρχειοθετημένα</value></data>
+  <data name="DemoShellSettings" xml:space="preserve"><value>Ρυθμίσεις</value></data>
+  <data name="DemoShellOneOffAction" xml:space="preserve"><value>Μεμονωμένη ενέργεια</value></data>
+  <data name="DemoShellToggleMenu" xml:space="preserve"><value>Εμφάνιση ή απόκρυψη του μενού</value></data>
+  <data name="DemoShellAppName" xml:space="preserve"><value>Η εφαρμογή μου</value></data>
+  <data name="DemoShellChangeAppearance" xml:space="preserve"><value>Αλλαγή εμφάνισης</value></data>
+  <data name="DemoShellMenu" xml:space="preserve"><value>Μενού της επίδειξης</value></data>
+  <data name="DemoShellSections" xml:space="preserve"><value>Ενότητες</value></data>
+  <data name="DemoShellFolders" xml:space="preserve"><value>Φάκελοι</value></data>
+  <data name="DemoShellMainContent" xml:space="preserve"><value>Κύριο περιεχόμενο</value></data>
+  <data name="DemoShellAppearanceDark" xml:space="preserve"><value>Η εμφάνιση που επιλέχθηκε εδώ είναι σκοτεινή.</value></data>
+  <data name="DemoShellAppearanceLight" xml:space="preserve"><value>Η εμφάνιση που επιλέχθηκε εδώ είναι φωτεινή.</value></data>
+  <data name="DemoShellConsole" xml:space="preserve"><value>Κονσόλα λειτουργιών</value></data>
+  <data name="DemoShellSecondaryMenu" xml:space="preserve"><value>Δευτερεύον μενού</value></data>
+  <data name="DemoShellTools" xml:space="preserve"><value>Εργαλεία</value></data>
+  <data name="DemoShellLogs" xml:space="preserve"><value>Αρχεία καταγραφής</value></data>
+  <data name="DemoShellWideView" xml:space="preserve"><value>Ευρεία προβολή</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>Η περιοχή περιεχομένου εκτείνεται από άκρη σε άκρη, με μέγιστο το ευρύ πλάτος (90 rem), χωρίς στενή στήλη ανάγνωσης.</value></data>
+  <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Εμφάνιση ή απόκρυψη του αιωρούμενου μενού</value></data>
+  <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Αιωρούμενο μενού</value></data>
+  <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Αιωρούμενο μενού της επίδειξης</value></data>
+  <data name="DemoShellFilters" xml:space="preserve"><value>Φίλτρα</value></data>
+  <data name="DemoShellContent" xml:space="preserve"><value>Περιεχόμενο</value></data>
+  <data name="DemoShellFloatingText" xml:space="preserve"><value>Το άνοιγμα του μενού δεν μετακινεί αυτό το κείμενο: το πλαίσιο περνά από πάνω του.</value></data>
+  <data name="DemoShellScrollTitle" xml:space="preserve"><value>Κεντραρισμένο περιεχόμενο, κύλιση στην άκρη</value></data>
+  <data name="DemoShellScrollMenu" xml:space="preserve"><value>Μενού της επίδειξης με κύλιση</value></data>
+  <data name="DemoShellReadingColumn" xml:space="preserve"><value>Στήλη ανάγνωσης</value></data>
+  <data name="DemoShellScroll1" xml:space="preserve"><value>Η στήλη έχει μέγιστο πλάτος 72rem και είναι κεντραρισμένη· το υπόλοιπο πλάτος εξακολουθεί να ανήκει στο κύριο στοιχείο.</value></data>
+  <data name="DemoShellScroll2" xml:space="preserve"><value>Επομένως αυτό κυλίεται, σε όλο το πλάτος της περιοχής: η γραμμή κύλισής του βρίσκεται στη δεξιά άκρη του πλαισίου.</value></data>
+  <data name="DemoShellScroll3" xml:space="preserve"><value>Ένα θυγατρικό στοιχείο με ύψος 100% θα γέμιζε ακριβώς την περιοχή· ένα ψηλότερο περιεχόμενο την κάνει να κυλίεται.</value></data>
+  <data name="DemoShellScroll4" xml:space="preserve"><value>Το κάτω περιθώριο διατηρείται στο τέλος της κύλισης.</value></data>
+  <data name="DemoShellScroll5" xml:space="preserve"><value>Η σμίκρυνση του παραθύρου επαναφέρει τη στήλη στο διαθέσιμο πλάτος, μαζί με το περιθώριο.</value></data>
+  <data name="DemoShellSplashChecking" xml:space="preserve"><value>Έλεγχος της οθόνης εκκίνησης</value></data>
+  <data name="DemoShellSplashRemoved" xml:space="preserve"><value>Η οθόνη εκκίνησης αφαιρέθηκε</value></data>
+  <data name="DemoShellSplashAbsent" xml:space="preserve"><value>Καμία οθόνη εκκίνησης σε αυτή την επίδειξη</value></data>
+  <data name="ShellToggle" xml:space="preserve"><value>Σύμπτυξη ή ανάπτυξη του μενού</value></data>
+  <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
+  <data name="ShellBrand" xml:space="preserve"><value>Boutique</value></data>
+  <data name="ShellSearch" xml:space="preserve"><value>Αναζήτηση</value></data>
+  <data name="ShellSearchPlaceholder" xml:space="preserve"><value>Αναζήτηση διοχέτευσης</value></data>
+  <data name="ShellHelp" xml:space="preserve"><value>Βοήθεια</value></data>
+  <data name="ShellNotifications" xml:space="preserve"><value>Ειδοποιήσεις, {0} μη αναγνωσμένες</value></data>
+  <data name="ShellAccount" xml:space="preserve"><value>Λογαριασμός</value></data>
+  <data name="ShellSettings" xml:space="preserve"><value>Ρυθμίσεις</value></data>
+  <data name="ShellSettingsHint" xml:space="preserve"><value>Θέμα, γλώσσα, ειδοποιήσεις</value></data>
+  <data name="ShellAppearance" xml:space="preserve"><value>Εμφάνιση</value></data>
+  <data name="ShellAppearanceHint" xml:space="preserve"><value>Φωτεινό, σκοτεινό ή σύστημα</value></data>
+  <data name="ShellSignOut" xml:space="preserve"><value>Αποσύνδεση</value></data>
+  <data name="ShellMenu" xml:space="preserve"><value>Κύριο μενού</value></data>
+  <data name="ShellDashboard" xml:space="preserve"><value>Πίνακας ελέγχου</value></data>
+  <data name="ShellPipelines" xml:space="preserve"><value>Διοχετεύσεις</value></data>
+  <data name="ShellServers" xml:space="preserve"><value>Διακομιστές</value></data>
+  <data name="ShellProjects" xml:space="preserve"><value>Έργα</value></data>
+  <data name="ShellHelpCenter" xml:space="preserve"><value>Κέντρο βοήθειας</value></data>
+  <data name="ShellAdministration" xml:space="preserve"><value>Διαχείριση</value></data>
+  <data name="ShellServersOnline" xml:space="preserve"><value>Διακομιστής σε σύνδεση</value></data>
+  <data name="ShellAppsTracked" xml:space="preserve"><value>Παρακολουθούμενες εφαρμογές</value></data>
+  <data name="ShellPipelinesRunning" xml:space="preserve"><value>Διοχετεύσεις σε εξέλιξη</value></data>
+  <data name="ShellLoading" xml:space="preserve"><value>Φόρτωση του πίνακα ελέγχου</value></data>
+  <data name="ShellLastAction" xml:space="preserve"><value>Τελευταία ενέργεια: {0}</value></data>
+  <data name="StatesRest" xml:space="preserve"><value>Ηρεμία</value></data>
+  <data name="StatesHover" xml:space="preserve"><value>Αιώρηση</value></data>
+  <data name="StatesPress" xml:space="preserve"><value>Πάτημα</value></data>
+  <data name="StatesPrimary" xml:space="preserve"><value>Κύριο</value></data>
+  <data name="StatesSuccess" xml:space="preserve"><value>Επιτυχία</value></data>
+  <data name="StatesSecondary" xml:space="preserve"><value>Δευτερεύον</value></data>
+  <data name="StatesGhost" xml:space="preserve"><value>Διαφανές</value></data>
+  <data name="SurfServers" xml:space="preserve"><value>Διακομιστές</value></data>
+  <data name="SurfServersText" xml:space="preserve"><value>Τελευταίο σήμα ζωής πριν από 4 λεπτά.</value></data>
+  <data name="SurfPipelines" xml:space="preserve"><value>Διοχετεύσεις</value></data>
+  <data name="SurfPipelinesFigure" xml:space="preserve"><value>2.400</value></data>
+  <data name="SurfPipelinesText" xml:space="preserve"><value>Τρεις αποτυχημένες εκτελέσεις από τις δέκα τελευταίες.</value></data>
+  <data name="SurfCoverage" xml:space="preserve"><value>Κάλυψη</value></data>
+  <data name="SurfCoverageFigure" xml:space="preserve"><value>87%</value></data>
+  <data name="SurfAccount" xml:space="preserve"><value>Λογαριασμός</value></data>
+  <data name="SurfPerson" xml:space="preserve"><value>Camille Durand</value></data>
+  <data name="SurfPersonRole" xml:space="preserve"><value>Διαχειρίστρια, OmniEurope</value></data>
+  <data name="SurfSettings" xml:space="preserve"><value>Ρυθμίσεις</value></data>
+  <data name="SurfSettingsHint" xml:space="preserve"><value>Θέμα, γλώσσα, ειδοποιήσεις</value></data>
+  <data name="SurfSwitch" xml:space="preserve"><value>Αλλαγή χώρου εργασίας</value></data>
+  <data name="SurfSwitchHint" xml:space="preserve"><value>Boutique, Agenda, Atelier</value></data>
+  <data name="SurfSignOut" xml:space="preserve"><value>Αποσύνδεση</value></data>
+  <data name="SurfTabsLabel" xml:space="preserve"><value>Ενότητες της εκτέλεσης</value></data>
+  <data name="SurfTabOverview" xml:space="preserve"><value>Επισκόπηση</value></data>
+  <data name="SurfTabOverviewText" xml:space="preserve"><value>Εκτέλεση #2399, ολοκληρώθηκε σε 1 λεπ. 48 δευτ.</value></data>
+  <data name="SurfTabLogs" xml:space="preserve"><value>Αρχεία καταγραφής</value></data>
+  <data name="SurfTabLogsText" xml:space="preserve"><value>412 γραμμές, κανένα σφάλμα.</value></data>
+  <data name="SurfTabArtifacts" xml:space="preserve"><value>Αντικείμενα build</value></data>
+  <data name="SurfTabArtifactsText" xml:space="preserve"><value>Δύο πακέτα και τα σύμβολά τους.</value></data>
+  <data name="SurfTabSettings" xml:space="preserve"><value>Ρυθμίσεις</value></data>
+  <data name="SurfTabSettingsText" xml:space="preserve"><value>Κλειδωμένη επαναφορά, υποχρεωτική υπογραφή.</value></data>
+  <data name="SurfMenuLabel" xml:space="preserve"><value>Ενότητες</value></data>
+  <data name="SurfMenuDashboard" xml:space="preserve"><value>Πίνακας ελέγχου</value></data>
+  <data name="SurfMenuServers" xml:space="preserve"><value>Διακομιστές</value></data>
+  <data name="SurfMenuProjects" xml:space="preserve"><value>Έργα</value></data>
+  <data name="SurfMenuAdministration" xml:space="preserve"><value>Διαχείριση</value></data>
+  <data name="SurfLinkBefore" xml:space="preserve"><value>Συμβουλευτείτε τη</value></data>
+  <data name="SurfLink" xml:space="preserve"><value>διαδικασία δημοσίευσης</value></data>
+  <data name="SurfLinkAfter" xml:space="preserve"><value>πριν καταργήσετε την καταχώριση μιας έκδοσης.</value></data>
+  <data name="SurfTooltip" xml:space="preserve"><value>Αντίστροφη επιφάνεια, αντίστροφο κείμενο</value></data>
+  <data name="SurfTooltipTrigger" xml:space="preserve"><value>Επεξήγηση</value></data>
+  <data name="SurfLast" xml:space="preserve"><value>Τελευταία ενέργεια: {0}</value></data>
+  <data name="ThemesThemeWithPalette" xml:space="preserve"><value>Θέμα {0}, παλέτα {1}</value></data>
+  <data name="ThemesThemeAlone" xml:space="preserve"><value>Θέμα {0}, με τη δική του παλέτα</value></data>
+  <data name="ThemesPaletteAlone" xml:space="preserve"><value>Παλέτα {0}, παρεχόμενο σχήμα</value></data>
+  <data name="ThemesShipped" xml:space="preserve"><value>Παρεχόμενη εμφάνιση</value></data>
+  <data name="ThemesLivePreview" xml:space="preserve"><value>Προεπισκόπηση: {0}</value></data>
+  <data name="ThemesSave" xml:space="preserve"><value>Αποθήκευση</value></data>
+  <data name="ThemesCancel" xml:space="preserve"><value>Ακύρωση</value></data>
+  <data name="ThemesBadge" xml:space="preserve"><value>Δημοσιευμένο</value></data>
+  <data name="ThemesAlert" xml:space="preserve"><value>Κάθε παλέτα χρωματίζει κάθε θέμα.</value></data>
+  <data name="VFormSummaryTitle" xml:space="preserve"><value>Πεδία για διόρθωση: {0}.</value></data>
+  <data name="VFormName" xml:space="preserve"><value>Όνομα διοχέτευσης</value></data>
+  <data name="VFormNameHelp" xml:space="preserve"><value>Πεζά γράμματα, ψηφία και παύλες.</value></data>
+  <data name="VFormNameError" xml:space="preserve"><value>Το όνομα της διοχέτευσης είναι υποχρεωτικό.</value></data>
+  <data name="VFormMail" xml:space="preserve"><value>Διεύθυνση ειδοποίησης</value></data>
+  <data name="VFormMailError" xml:space="preserve"><value>Προσθέστε έναν πλήρη τομέα, για παράδειγμα omada@example.gr.</value></data>
+  <data name="VFormToken" xml:space="preserve"><value>Διακριτικό πρόσβασης</value></data>
+  <data name="VFormReplicas" xml:space="preserve"><value>Αντίγραφα</value></data>
+  <data name="VFormEnvironment" xml:space="preserve"><value>Περιβάλλον</value></data>
+  <data name="VFormEnvironmentProduction" xml:space="preserve"><value>Παραγωγή</value></data>
+  <data name="VFormEnvironmentAcceptance" xml:space="preserve"><value>Αποδοχή</value></data>
+  <data name="VFormEnvironmentDevelopment" xml:space="preserve"><value>Ανάπτυξη</value></data>
+  <data name="VFormDate" xml:space="preserve"><value>Ημερομηνία ανάπτυξης</value></data>
+  <data name="VFormTime" xml:space="preserve"><value>Ώρα ανάπτυξης</value></data>
+  <data name="VFormMoment" xml:space="preserve"><value>Παράθυρο συντήρησης</value></data>
+  <data name="VFormDescription" xml:space="preserve"><value>Περιγραφή</value></data>
+  <data name="VFormStrategy" xml:space="preserve"><value>Στρατηγική ανάπτυξης</value></data>
+  <data name="VFormStrategyRolling" xml:space="preserve"><value>Σταδιακή αντικατάσταση</value></data>
+  <data name="VFormStrategyBlueGreen" xml:space="preserve"><value>Μπλε-πράσινη</value></data>
+  <data name="VFormStrategyCanary" xml:space="preserve"><value>Canary (σύντομα διαθέσιμη)</value></data>
+  <data name="VFormStrategyError" xml:space="preserve"><value>Επιλέξτε μια στρατηγική ανάπτυξης.</value></data>
+  <data name="VFormOptions" xml:space="preserve"><value>Επιλογές</value></data>
+  <data name="VFormLocked" xml:space="preserve"><value>Κλειδωμένη επαναφορά</value></data>
+  <data name="VFormSymbols" xml:space="preserve"><value>Δημοσίευση των συμβόλων</value></data>
+  <data name="VFormSigning" xml:space="preserve"><value>Υπογραφή του πακέτου (υποχρεωτική)</value></data>
+  <data name="VFormNotify" xml:space="preserve"><value>Ειδοποίηση στο τέλος</value></data>
+  <data name="VFormAutoDeploy" xml:space="preserve"><value>Αυτόματη ανάπτυξη (απενεργοποιημένη)</value></data>
+  <data name="VFormFiles" xml:space="preserve"><value>Αρχεία</value></data>
+  <data name="VFormManifest" xml:space="preserve"><value>Μανιφέστο ανάπτυξης</value></data>
+  <data name="VFormManifestHelp" xml:space="preserve"><value>Ένα μόνο αρχείο, ανοίγει το παράθυρο επιλογής του συστήματος.</value></data>
+  <data name="VFormArchive" xml:space="preserve"><value>Αρχείο της εφαρμογής</value></data>
+  <data name="VFormArchiveHelp" xml:space="preserve"><value>ZIP ή TAR, έως 50 MB.</value></data>
+  <data name="VFormAttachments" xml:space="preserve"><value>Συνημμένα</value></data>
+  <data name="VFormAttachmentsHelp" xml:space="preserve"><value>Έως 10 αρχεία, 20 MB το καθένα. Τίποτα δεν αποστέλλεται: η επίδειξη κρατά τα αρχεία στη λίστα.</value></data>
+  <data name="VFormServer" xml:space="preserve"><value>Διακομιστής προορισμού</value></data>
+  <data name="VFormServerHelp" xml:space="preserve"><value>Απενεργοποιημένο: καθορίζεται από το περιβάλλον.</value></data>
+  <data name="VFormIdentifier" xml:space="preserve"><value>Αναγνωριστικό</value></data>
+  <data name="VFormIdentifierHelp" xml:space="preserve"><value>Μόνο για ανάγνωση: μπορεί να αντιγραφεί, όχι να τροποποιηθεί.</value></data>
+  <data name="VFormAgent" xml:space="preserve"><value>Αντιπρόσωπος</value></data>
+  <data name="VFormAgentShared" xml:space="preserve"><value>Κοινόχρηστος αντιπρόσωπος</value></data>
+  <data name="VFormCancel" xml:space="preserve"><value>Ακύρωση</value></data>
+  <data name="VFormSave" xml:space="preserve"><value>Αποθήκευση</value></data>
+  <data name="VFormSaved" xml:space="preserve"><value>Η διοχέτευση αποθηκεύτηκε.</value></data>
+  <data name="VFormNotSaved" xml:space="preserve"><value>Διορθώστε τα επισημασμένα πεδία πριν από την αποθήκευση.</value></data>
+  <data name="VFormDescriptionValue" xml:space="preserve"><value>Αναπτύσσει τον κύριο κλάδο αφού περάσουν οι δοκιμές αποδοχής.</value></data>
+  <data name="GridFiledColumn" xml:space="preserve"><value>Κατατέθηκε στις</value></data>
+</root>

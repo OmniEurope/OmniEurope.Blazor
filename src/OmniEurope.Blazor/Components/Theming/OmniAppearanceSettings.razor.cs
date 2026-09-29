@@ -1,38 +1,62 @@
 namespace OmniEurope.Blazor.Components;
 
-/// <summary>Controlled appearance picker. The host owns persistence and applies the values to its theme scope.</summary>
+/// <summary>
+/// Controlled appearance picker: the mode (light, dark, system) and the font inline, then a row that
+/// opens the <see cref="OmniAppearanceWindow"/> for the theme, the palette and the scales. The host
+/// keeps every value and applies it to its theme scope; this component only raises the changes.
+/// </summary>
+/// <remarks>
+/// A new theme comes with its own palette and font: picking one raises <see cref="PresetChanged"/>, then
+/// <see cref="PaletteChanged"/> and <see cref="FontChanged"/> with null for a palette or a font chosen
+/// for the previous theme, as <see cref="OmniAppearanceWindow"/> does.
+/// </remarks>
 public partial class OmniAppearanceSettings
 {
-    private bool _scaleOpen;
-    private string ScaleTitle => ShowsControlSize
-        ? $"{Localize("SettingsTextSize")} / {Localize("SettingsDensity")} / {Localize("SettingsControlSizeShort")}"
-        : $"{Localize("SettingsTextSize")} / {Localize("SettingsDensity")}";
-    private string ScaleSummary => ShowsControlSize
-        ? $"{Localize("SettingsTextSizeShort")} {TextSizeLevel} · {Localize("SettingsDensityShort")} {DensityLevel} · {Localize("SettingsControlSizeShort")} {ControlSizeLevel}"
-        : $"{Localize("SettingsTextSizeShort")} {TextSizeLevel} · {Localize("SettingsDensityShort")} {DensityLevel}";
-    /// <summary>Notifies the host so an enclosing menu can release its outside-click shield.</summary>
-    [Parameter] public EventCallback<bool> ScaleEditorOpenChanged { get; set; }
-    private Task OpenScaleAsync() => SetScaleOpenAsync(true);
-    private async Task SetScaleOpenAsync(bool open)
-    {
-        _scaleOpen = open;
-        await ScaleEditorOpenChanged.InvokeAsync(open);
-    }
+    private readonly string _idPrefix = $"omni-appearance-settings-{Guid.NewGuid():N}";
+    private bool _windowOpen;
+    private bool? _windowOpenParameter;
 
+    /// <summary>Lays the settings out for a narrow place, a menu: the look row shows a summary of the values.</summary>
     [Parameter] public bool Compact { get; set; }
+
+    /// <summary>The mode; <see cref="OmniAppearance.System"/> by default.</summary>
     [Parameter] public OmniAppearance Appearance { get; set; } = OmniAppearance.System;
+
+    /// <summary>Raised with the mode picked.</summary>
     [Parameter] public EventCallback<OmniAppearance> AppearanceChanged { get; set; }
+
+    /// <summary>The chosen theme, or null for the first one of the catalogue.</summary>
     [Parameter] public OmniThemePreset? Preset { get; set; }
+
+    /// <summary>Raised with the theme picked in the window, null for the default one.</summary>
     [Parameter] public EventCallback<OmniThemePreset?> PresetChanged { get; set; }
+
+    /// <summary>The chosen palette, or null for the theme's own.</summary>
     [Parameter] public OmniThemePalette? Palette { get; set; }
+
+    /// <summary>Raised with the palette picked in the window, null for the theme's own.</summary>
     [Parameter] public EventCallback<OmniThemePalette?> PaletteChanged { get; set; }
+
     /// <summary>The chosen font, or null for the one the theme is drawn with.</summary>
     [Parameter] public OmniThemeFont? Font { get; set; }
+
+    /// <summary>Raised with the font picked, null for the theme's own.</summary>
     [Parameter] public EventCallback<OmniThemeFont?> FontChanged { get; set; }
+
+    /// <summary>Text size, 1 to 10 with 5 as drawn (the host applies it, <c>data-oe-text-size</c>).</summary>
     [Parameter] public int TextSizeLevel { get; set; } = 5;
+
+    /// <summary>Raised with the new text size; bound, the window shows the text size row.</summary>
     [Parameter] public EventCallback<int> TextSizeLevelChanged { get; set; }
-    [Parameter] public int DensityLevel { get; set; } = 5;
-    [Parameter] public EventCallback<int> DensityLevelChanged { get; set; }
+
+    /// <summary>
+    /// The density of the page, one of three; the host applies it, for example through
+    /// <see cref="OmniThemeScope.Density"/>. <see cref="OmniDensity.Comfortable"/> by default.
+    /// </summary>
+    [Parameter] public OmniDensity Density { get; set; } = OmniDensity.Comfortable;
+
+    /// <summary>Raised with the density picked; bound, the window shows the density row.</summary>
+    [Parameter] public EventCallback<OmniDensity> DensityChanged { get; set; }
 
     /// <summary>
     /// Size of the controls (buttons, fields, lists), 1 to 10 with 5 as drawn. The host applies it, for
@@ -41,51 +65,106 @@ public partial class OmniAppearanceSettings
     /// apply it never offers a control that does nothing.
     /// </summary>
     [Parameter] public int ControlSizeLevel { get; set; } = 5;
+
+    /// <summary>Raised with the new size of the controls; bound, the window shows that row.</summary>
     [Parameter] public EventCallback<int> ControlSizeLevelChanged { get; set; }
-    private bool ShowsControlSize => ControlSizeLevelChanged.HasDelegate;
-
-    private OmniThemePreset EffectivePreset => AppearanceChoices.EffectivePreset(Preset);
-    private string ThemeName => AppearanceChoices.ThemeName(Preset);
-    private string PaletteName => AppearanceChoices.PaletteName(Preset, Palette);
-    private IReadOnlyList<OmniOption<string>> ThemeOptions => AppearanceChoices.ThemeOptions(Localize("SettingsDefaultSuffix"));
-    private IReadOnlyList<OmniOption<string>> PaletteOptions => AppearanceChoices.PaletteOptions(Preset, Localize("SettingsDefaultSuffix"));
-
-    /// <summary>The window gets the control size change only when the host binds it, as the list does.</summary>
-    private EventCallback<int> WindowControlSizeChanged => ShowsControlSize
-        ? EventCallback.Factory.Create<int>(this, level => ControlSizeLevelChanged.InvokeAsync(level))
-        : default;
-
-    private OmniThemeFont DefaultFont => OmniThemePresets.DefaultFontFor(EffectivePreset);
-    private string FontName => (Font ?? DefaultFont).Name;
-    private IReadOnlyList<OmniOption<string>> FontOptions =>
-        [.. OmniThemeFonts.All.Select(font => new OmniOption<string>(font.Name,
-            font.Name == DefaultFont.Name ? $"{font.Name} ({Localize("SettingsDefaultSuffix")})" : font.Name))];
-
-    private Task SetFontAsync(string? name) => FontChanged.InvokeAsync(
-        name == DefaultFont.Name ? null : OmniThemeFonts.All.FirstOrDefault(font => font.Name == name));
-
-    private OmniButtonVariant ModeVariant(OmniAppearance mode) =>
-        Appearance == mode ? OmniButtonVariant.Primary : OmniButtonVariant.Secondary;
-
-    private Task SetThemeAsync(string? name) => ChangeThemeAsync(AppearanceChoices.Theme(name));
 
     /// <summary>
-    /// A new theme comes with its own palette and font: a palette or a font picked for the previous
-    /// theme is dropped, so the new one shows as it was drawn.
+    /// Whether the appearance window is open. The component opens it from its look row and closes it
+    /// with the window; a host may open or close it too, and bind it both ways.
+    /// </summary>
+    [Parameter] public bool WindowOpen { get; set; }
+
+    /// <summary>
+    /// Raised when the window opens or closes, so an enclosing menu can release its outside-click shield
+    /// while the window is on screen.
+    /// </summary>
+    [Parameter] public EventCallback<bool> WindowOpenChanged { get; set; }
+
+    private bool ShowsControlSize => ControlSizeLevelChanged.HasDelegate;
+
+    private string LookTitle => Localize(Compact ? "SettingsLook" : "SettingsLookTitle");
+
+    private string LookSummary
+    {
+        get
+        {
+            var theme = AppearanceChoices.EffectivePreset(Preset).Name;
+            var density = Localize(OmniAppearanceWindow.DensityKey(Density));
+            return ShowsControlSize
+                ? Localize("SettingsLookSummaryFull", theme, TextSizeLevel, density, ControlSizeLevel)
+                : Localize("SettingsLookSummary", theme, TextSizeLevel, density);
+        }
+    }
+
+    private IReadOnlyList<OmniOption<OmniAppearance>> ModeOptions =>
+    [
+        new(OmniAppearance.Light, Localize("AppearanceLight")),
+        new(OmniAppearance.Dark, Localize("AppearanceDark")),
+        new(OmniAppearance.System, Localize("AppearanceSystem"))
+    ];
+
+    private string FontName => AppearanceChoices.FontName(Preset, Font);
+
+    private IReadOnlyList<OmniOption<string>> FontOptions => AppearanceChoices.FontOptions(Preset, Localize("SettingsDefaultSuffix"));
+
+    /// <summary>The window gets the control size change only when the host binds it, as it shows the row only then.</summary>
+    private EventCallback<int> WindowControlSizeChanged => ShowsControlSize
+        ? EventCallback.Factory.Create<int>(this, ChangeControlSizeAsync)
+        : default;
+
+    private static OmniIconName? ModeIcon(OmniAppearance mode) => mode switch
+    {
+        OmniAppearance.Light => OmniIconName.ThemeLight,
+        OmniAppearance.Dark => OmniIconName.ThemeDark,
+        _ => OmniIconName.ThemeSystem
+    };
+
+    private string RowId(string row) => $"{_idPrefix}-{row}";
+
+    /// <summary>Adopts the open state the host sets, whenever it changes it.</summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (_windowOpenParameter != WindowOpen)
+        {
+            _windowOpenParameter = WindowOpen;
+            _windowOpen = WindowOpen;
+        }
+    }
+
+    private Task SetAppearanceAsync(OmniAppearance mode) => AppearanceChanged.InvokeAsync(mode);
+
+    private Task SetFontAsync(string? name) => FontChanged.InvokeAsync(AppearanceChoices.Font(Preset, name));
+
+    private Task ResetFontAsync() => FontChanged.InvokeAsync(null);
+
+    private Task OpenWindowAsync() => SetWindowOpenAsync(true);
+
+    private async Task SetWindowOpenAsync(bool open)
+    {
+        _windowOpen = open;
+        await WindowOpenChanged.InvokeAsync(open);
+    }
+
+    /// <summary>
+    /// The theme picked in the window. The window drops the palette itself; the font is picked here, not
+    /// in the window, so it is dropped here.
     /// </summary>
     private async Task ChangeThemeAsync(OmniThemePreset? preset)
     {
         await PresetChanged.InvokeAsync(preset);
-        if (Palette is not null)
-        {
-            await PaletteChanged.InvokeAsync(null);
-        }
-
         if (Font is not null)
         {
             await FontChanged.InvokeAsync(null);
         }
     }
 
-    private Task SetPaletteAsync(string? name) => PaletteChanged.InvokeAsync(AppearanceChoices.Palette(Preset, name));
+    private Task ChangePaletteAsync(OmniThemePalette? palette) => PaletteChanged.InvokeAsync(palette);
+
+    private Task ChangeTextSizeAsync(int level) => TextSizeLevelChanged.InvokeAsync(level);
+
+    private Task ChangeDensityAsync(OmniDensity density) => DensityChanged.InvokeAsync(density);
+
+    private Task ChangeControlSizeAsync(int level) => ControlSizeLevelChanged.InvokeAsync(level);
 }

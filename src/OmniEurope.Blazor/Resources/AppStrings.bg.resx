@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="UploadFailed" xml:space="preserve"><value>Качването не бе успешно.</value></data>
+  <data name="Today" xml:space="preserve"><value>Днес</value></data>
+  <data name="Retry" xml:space="preserve"><value>Нов опит</value></data>
+  <data name="Loading" xml:space="preserve"><value>Зареждане…</value></data>
+  <data name="AppearanceLight" xml:space="preserve"><value>Светла</value></data>
+  <data name="AppearanceDark" xml:space="preserve"><value>Тъмна</value></data>
+  <data name="AppearanceSystem" xml:space="preserve"><value>Системна</value></data>
+  <data name="SettingsMode" xml:space="preserve"><value>Режим</value></data>
+  <data name="SettingsTheme" xml:space="preserve"><value>Тема</value></data>
+  <data name="SettingsPalette" xml:space="preserve"><value>Палитра</value></data>
+  <data name="SettingsFont" xml:space="preserve"><value>Шрифт</value></data>
+  <data name="SettingsTextSize" xml:space="preserve"><value>Размер на текста</value></data>
+  <data name="SettingsDensity" xml:space="preserve"><value>Плътност</value></data>
+  <data name="SettingsControlSize" xml:space="preserve"><value>Размер на контролите</value></data>
+  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Контроли</value></data>
+  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Текст</value></data>
+  <data name="SettingsDensityShort" xml:space="preserve"><value>Плътност</value></data>
+  <data name="SettingsScale" xml:space="preserve"><value>Размери</value></data>
+  <data name="SettingsDefault" xml:space="preserve"><value>По подразбиране</value></data>
+  <data name="SettingsDefaultSuffix" xml:space="preserve"><value>по подразбиране</value></data>
+  <data name="SettingsDecrease" xml:space="preserve"><value>Намаляване</value></data>
+  <data name="SettingsIncrease" xml:space="preserve"><value>Увеличаване</value></data>
+  <data name="ArcGaugeLabel" xml:space="preserve"><value>Индикатор</value></data>
+  <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Търсенето не бе успешно. Променете въведеното, за да опитате отново.</value></data>
+  <data name="AutocompleteOneResult" xml:space="preserve"><value>Наличен е 1 резултат.</value></data>
+  <data name="AutocompleteManyResults" xml:space="preserve"><value>Налични резултати: {0}.</value></data>
+  <data name="AutocompleteSelected" xml:space="preserve"><value>Избрано: {0}.</value></data>
+  <data name="AutocompleteInvalid" xml:space="preserve"><value>Стойността за автоматично довършване е невалидна.</value></data>
+  <data name="BreadcrumbLabel" xml:space="preserve"><value>Навигационна пътека</value></data>
+  <data name="CheckBoxInvalid" xml:space="preserve"><value>Стойността на квадратчето за отметка е невалидна.</value></data>
+  <data name="CheckBoxListInvalid" xml:space="preserve"><value>Списъкът с квадратчета за отметка е невалиден.</value></data>
+  <data name="ColorPickerInvalid" xml:space="preserve"><value>Цветът трябва да е във формат #RRGGBB.</value></data>
+  <data name="NotificationsRegionLabel" xml:space="preserve"><value>Известия</value></data>
+  <data name="ContextMenuLabel" xml:space="preserve"><value>Контекстно меню</value></data>
+  <data name="GridLoadFailed" xml:space="preserve"><value>Зареждането на таблицата не бе успешно.</value></data>
+  <data name="GridDetailColumn" xml:space="preserve"><value>Подробности</value></data>
+  <data name="GridSelectionColumn" xml:space="preserve"><value>Избор</value></data>
+  <data name="GridResizeColumn" xml:space="preserve"><value>Преоразмеряване на {0}</value></data>
+  <data name="GridEditColumn" xml:space="preserve"><value>Редактиране</value></data>
+  <data name="GridFilterColumn" xml:space="preserve"><value>Филтриране на {0}</value></data>
+  <data name="GridEmpty" xml:space="preserve"><value>Няма данни.</value></data>
+  <data name="GridEmptyFiltered" xml:space="preserve"><value>Няма резултати, отговарящи на филтрите.</value></data>
+  <data name="GridValueColumn" xml:space="preserve"><value>Стойност</value></data>
+  <data name="GridFilterPlaceholder" xml:space="preserve"><value>Филтър</value></data>
+  <data name="GridFilterOperator" xml:space="preserve"><value>Оператор на филтъра за {0}</value></data>
+  <data name="GridFilterSecondOperator" xml:space="preserve"><value>Втори оператор на филтъра за {0}</value></data>
+  <data name="GridFilterSecondValue" xml:space="preserve"><value>Втора стойност на филтъра за {0}</value></data>
+  <data name="GridFilterLogical" xml:space="preserve"><value>Логически оператор за {0}</value></data>
+  <data name="GridFilterApply" xml:space="preserve"><value>Прилагане</value></data>
+  <data name="GridFilterClear" xml:space="preserve"><value>Изчистване</value></data>
+  <data name="TooltipShowMore" xml:space="preserve"><value>Показване на повече</value></data>
+  <data name="TooltipShowLess" xml:space="preserve"><value>Показване на по-малко</value></data>
+  <data name="GridFilterDateFrom" xml:space="preserve"><value>От</value></data>
+  <data name="GridFilterDateTo" xml:space="preserve"><value>До</value></data>
+  <data name="GridFilterContains" xml:space="preserve"><value>Съдържа</value></data>
+  <data name="GridFilterDoesNotContain" xml:space="preserve"><value>Не съдържа</value></data>
+  <data name="GridFilterEquals" xml:space="preserve"><value>Равно на</value></data>
+  <data name="GridFilterNotEquals" xml:space="preserve"><value>Различно от</value></data>
+  <data name="GridFilterStartsWith" xml:space="preserve"><value>Започва с</value></data>
+  <data name="GridFilterEndsWith" xml:space="preserve"><value>Завършва с</value></data>
+  <data name="GridFilterGreaterThan" xml:space="preserve"><value>По-голямо от</value></data>
+  <data name="GridFilterGreaterThanOrEquals" xml:space="preserve"><value>По-голямо или равно на</value></data>
+  <data name="GridFilterLessThan" xml:space="preserve"><value>По-малко от</value></data>
+  <data name="GridFilterLessThanOrEquals" xml:space="preserve"><value>По-малко или равно на</value></data>
+  <data name="GridFilterIsNull" xml:space="preserve"><value>Е null</value></data>
+  <data name="GridFilterIsNotNull" xml:space="preserve"><value>Не е null</value></data>
+  <data name="GridFilterIsEmpty" xml:space="preserve"><value>Е празно</value></data>
+  <data name="GridFilterIsNotEmpty" xml:space="preserve"><value>Не е празно</value></data>
+  <data name="GridFilterAnd" xml:space="preserve"><value>И</value></data>
+  <data name="GridFilterOr" xml:space="preserve"><value>Или</value></data>
+  <data name="GridGroupPanel" xml:space="preserve"><value>Активни групирания</value></data>
+  <data name="GridGroupPanelEmpty" xml:space="preserve"><value>Няма групиране.</value></data>
+  <data name="GridGroupColumn" xml:space="preserve"><value>Групиране по {0}</value></data>
+  <data name="GridUngroupColumn" xml:space="preserve"><value>Премахване на групирането по {0}</value></data>
+  <data name="GridExpandAll" xml:space="preserve"><value>Разгъване или свиване на всички редове</value></data>
+  <data name="GridDetachFrozen" xml:space="preserve"><value>Освобождаване на фиксираните колони</value></data>
+  <data name="GridRefreezeFrozen" xml:space="preserve"><value>Повторно фиксиране на колоните</value></data>
+  <data name="GridShrinkColumn" xml:space="preserve"><value>Стесняване на колоната {0}</value></data>
+  <data name="GridGrowColumn" xml:space="preserve"><value>Разширяване на колоната {0}</value></data>
+  <data name="PagerFirst" xml:space="preserve"><value>Първа страница</value></data>
+  <data name="PagerLast" xml:space="preserve"><value>Последна страница</value></data>
+  <data name="PagerPageSize" xml:space="preserve"><value>Редове на страница</value></data>
+  <data name="GridPagingSummary" xml:space="preserve"><value>{0} до {1} от {2}</value></data>
+  <data name="GridRowsLoading" xml:space="preserve"><value>Зареждане на редовете…</value></data>
+  <data name="GridCollapseRow" xml:space="preserve"><value>Свиване на реда</value></data>
+  <data name="GridExpandRow" xml:space="preserve"><value>Разгъване на реда</value></data>
+  <data name="GridSelectRow" xml:space="preserve"><value>Избор на реда</value></data>
+  <data name="GridSelectAll" xml:space="preserve"><value>Избор на всички показани редове</value></data>
+  <data name="SpreadsheetLabel" xml:space="preserve"><value>Електронна таблица</value></data>
+  <data name="SpreadsheetAddRow" xml:space="preserve"><value>Ред</value></data>
+  <data name="SpreadsheetAddRowLabel" xml:space="preserve"><value>Добавяне на ред</value></data>
+  <data name="SpreadsheetAddColumn" xml:space="preserve"><value>Колона</value></data>
+  <data name="SpreadsheetAddColumnLabel" xml:space="preserve"><value>Добавяне на колона</value></data>
+  <data name="SpreadsheetActiveCell" xml:space="preserve"><value>Активна клетка</value></data>
+  <data name="SpreadsheetFormulaBar" xml:space="preserve"><value>Съдържание на клетка {0}</value></data>
+  <data name="SpreadsheetCell" xml:space="preserve"><value>Клетка {0}</value></data>
+  <data name="Save" xml:space="preserve"><value>Запазване</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Отказ</value></data>
+  <data name="Edit" xml:space="preserve"><value>Редактиране</value></data>
+  <data name="DataListLoadFailed" xml:space="preserve"><value>Зареждането не бе успешно.</value></data>
+  <data name="DataListEmpty" xml:space="preserve"><value>Няма елементи.</value></data>
+  <data name="DatePickerInvalid" xml:space="preserve"><value>Въведената дата е невалидна.</value></data>
+  <data name="DateTimePickerInvalid" xml:space="preserve"><value>Въведените дата и час са невалидни.</value></data>
+  <data name="DatePickerToggle" xml:space="preserve"><value>Избор на дата</value></data>
+  <data name="DatePickerToday" xml:space="preserve"><value>Днес</value></data>
+  <data name="DatePickerClear" xml:space="preserve"><value>Изчистване</value></data>
+  <data name="CalendarPreviousMonth" xml:space="preserve"><value>Предишен месец</value></data>
+  <data name="CalendarNextMonth" xml:space="preserve"><value>Следващ месец</value></data>
+  <data name="TimePickerToggle" xml:space="preserve"><value>Избор на час</value></data>
+  <data name="DateTimePickerToggle" xml:space="preserve"><value>Избор на дата и час</value></data>
+  <data name="TimePickerNow" xml:space="preserve"><value>Сега</value></data>
+  <data name="TimePickerConfirm" xml:space="preserve"><value>Потвърждаване</value></data>
+  <data name="TimePickerHours" xml:space="preserve"><value>Часове</value></data>
+  <data name="TimePickerMinutes" xml:space="preserve"><value>Минути</value></data>
+  <data name="TimePickerSeconds" xml:space="preserve"><value>Секунди</value></data>
+  <data name="TimePickerHourCaption" xml:space="preserve"><value>ч</value></data>
+  <data name="TimePickerMinuteCaption" xml:space="preserve"><value>мин</value></data>
+  <data name="TimePickerSecondCaption" xml:space="preserve"><value>с</value></data>
+  <data name="TimePickerInvalid" xml:space="preserve"><value>Въведеният час е невалиден.</value></data>
+  <data name="PickerLetterDay" xml:space="preserve"><value>д</value></data>
+  <data name="PickerLetterMonth" xml:space="preserve"><value>м</value></data>
+  <data name="PickerLetterYear" xml:space="preserve"><value>г</value></data>
+  <data name="PickerLetterHour" xml:space="preserve"><value>ч</value></data>
+  <data name="PickerLetterMinute" xml:space="preserve"><value>м</value></data>
+  <data name="PickerLetterSecond" xml:space="preserve"><value>с</value></data>
+  <data name="DayViewLabel" xml:space="preserve"><value>Дневен изглед</value></data>
+  <data name="DialogEnd" xml:space="preserve"><value>Край на диалоговия прозорец</value></data>
+  <data name="Close" xml:space="preserve"><value>Затваряне</value></data>
+  <data name="DialogStart" xml:space="preserve"><value>Начало на диалоговия прозорец</value></data>
+  <data name="DropDownPlaceholder" xml:space="preserve"><value>Изберете</value></data>
+  <data name="DropDownInvalid" xml:space="preserve"><value>Изборът за {0} е невалиден.</value></data>
+  <data name="HtmlEditorLabel" xml:space="preserve"><value>HTML редактор</value></data>
+  <data name="HtmlEditorToolbar" xml:space="preserve"><value>Инструменти за форматиране</value></data>
+  <data name="HtmlEditorContextMenu" xml:space="preserve"><value>Действия на редактора</value></data>
+  <data name="HtmlEditorChangeCase" xml:space="preserve"><value>Регистър</value></data>
+  <data name="HtmlEditorCaseUpper" xml:space="preserve"><value>ГЛАВНИ БУКВИ</value></data>
+  <data name="HtmlEditorCaseLower" xml:space="preserve"><value>малки букви</value></data>
+  <data name="HtmlEditorCaseTitle" xml:space="preserve"><value>Всяка Дума С Главна</value></data>
+  <data name="HtmlEditorInsertSpecialCharacter" xml:space="preserve"><value>Специален знак</value></data>
+  <data name="HtmlEditorCharSearch" xml:space="preserve"><value>Търсене на знак</value></data>
+  <data name="HtmlEditorCharNone" xml:space="preserve"><value>Няма съвпадащ знак.</value></data>
+  <data name="HtmlEditorCharCategoryCommon" xml:space="preserve"><value>Често използвани</value></data>
+  <data name="HtmlEditorCharCategoryCurrency" xml:space="preserve"><value>Валути</value></data>
+  <data name="HtmlEditorCharCategoryArrows" xml:space="preserve"><value>Стрелки</value></data>
+  <data name="HtmlEditorCharCategoryMath" xml:space="preserve"><value>Математика</value></data>
+  <data name="HtmlEditorCharCategoryGreek" xml:space="preserve"><value>Гръцки</value></data>
+  <data name="HtmlEditorCharCategoryLegal" xml:space="preserve"><value>Правни</value></data>
+  <data name="HtmlEditorImportTable" xml:space="preserve"><value>Импортиране на таблица</value></data>
+  <data name="HtmlEditorImportTableHint" xml:space="preserve"><value>Файл {0}, най-много 100 реда и 50 колони.</value></data>
+  <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Първият ред като заглавен</value></data>
+  <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Вмъкване</value></data>
+  <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Преглед на таблицата</value></data>
+  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0} реда, {1} колони</value></data>
+  <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>Файлът не можа да бъде прочетен.</value></data>
+  <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>Файлът не съдържа нито един ред.</value></data>
+  <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Този тип файл не се поддържа.</value></data>
+  <data name="HtmlEditorClosePanel" xml:space="preserve"><value>Затваряне</value></data>
+  <data name="HtmlEditorShowBlocks" xml:space="preserve"><value>Показване на блоковете</value></data>
+  <data name="HtmlEditorHighlight" xml:space="preserve"><value>Осветяване</value></data>
+  <data name="HtmlEditorChar00A9" xml:space="preserve"><value>Авторско право</value></data>
+  <data name="HtmlEditorChar00AE" xml:space="preserve"><value>Регистрирана марка</value></data>
+  <data name="HtmlEditorChar2122" xml:space="preserve"><value>Търговска марка</value></data>
+  <data name="HtmlEditorChar00A7" xml:space="preserve"><value>Параграф (раздел)</value></data>
+  <data name="HtmlEditorChar00B6" xml:space="preserve"><value>Знак за абзац</value></data>
+  <data name="HtmlEditorChar2020" xml:space="preserve"><value>Кръстче</value></data>
+  <data name="HtmlEditorChar2021" xml:space="preserve"><value>Двойно кръстче</value></data>
+  <data name="HtmlEditorChar2022" xml:space="preserve"><value>Водач</value></data>
+  <data name="HtmlEditorChar2026" xml:space="preserve"><value>Многоточие</value></data>
+  <data name="HtmlEditorChar2013" xml:space="preserve"><value>Средно тире</value></data>
+  <data name="HtmlEditorChar2014" xml:space="preserve"><value>Дълго тире</value></data>
+  <data name="HtmlEditorChar00AB" xml:space="preserve"><value>Отваряща френска кавичка</value></data>
+  <data name="HtmlEditorChar00BB" xml:space="preserve"><value>Затваряща френска кавичка</value></data>
+  <data name="HtmlEditorChar2039" xml:space="preserve"><value>Отваряща единична френска кавичка</value></data>
+  <data name="HtmlEditorChar203A" xml:space="preserve"><value>Затваряща единична френска кавичка</value></data>
+  <data name="HtmlEditorChar2018" xml:space="preserve"><value>Отваряща единична кавичка</value></data>
+  <data name="HtmlEditorChar2019" xml:space="preserve"><value>Апостроф</value></data>
+  <data name="HtmlEditorChar201C" xml:space="preserve"><value>Отваряща английска кавичка</value></data>
+  <data name="HtmlEditorChar201D" xml:space="preserve"><value>Затваряща английска кавичка</value></data>
+  <data name="HtmlEditorChar00B0" xml:space="preserve"><value>Градус</value></data>
+  <data name="HtmlEditorChar00B1" xml:space="preserve"><value>Плюс-минус</value></data>
+  <data name="HtmlEditorChar00D7" xml:space="preserve"><value>Умножение</value></data>
+  <data name="HtmlEditorChar00F7" xml:space="preserve"><value>Деление</value></data>
+  <data name="HtmlEditorChar00A0" xml:space="preserve"><value>Непрекъсваем интервал</value></data>
+  <data name="HtmlEditorChar20AC" xml:space="preserve"><value>Евро</value></data>
+  <data name="HtmlEditorChar00A3" xml:space="preserve"><value>Британска лира</value></data>
+  <data name="HtmlEditorChar00A5" xml:space="preserve"><value>Йена</value></data>
+  <data name="HtmlEditorChar00A2" xml:space="preserve"><value>Цент</value></data>
+  <data name="HtmlEditorChar20BD" xml:space="preserve"><value>Рубла</value></data>
+  <data name="HtmlEditorChar20B9" xml:space="preserve"><value>Рупия</value></data>
+  <data name="HtmlEditorChar20A9" xml:space="preserve"><value>Вона</value></data>
+  <data name="HtmlEditorChar20AA" xml:space="preserve"><value>Шекел</value></data>
+  <data name="HtmlEditorChar20B1" xml:space="preserve"><value>Песо</value></data>
+  <data name="HtmlEditorChar20BA" xml:space="preserve"><value>Турска лира</value></data>
+  <data name="HtmlEditorChar2190" xml:space="preserve"><value>Стрелка наляво</value></data>
+  <data name="HtmlEditorChar2192" xml:space="preserve"><value>Стрелка надясно</value></data>
+  <data name="HtmlEditorChar2191" xml:space="preserve"><value>Стрелка нагоре</value></data>
+  <data name="HtmlEditorChar2193" xml:space="preserve"><value>Стрелка надолу</value></data>
+  <data name="HtmlEditorChar2194" xml:space="preserve"><value>Стрелка наляво-надясно</value></data>
+  <data name="HtmlEditorChar2195" xml:space="preserve"><value>Стрелка нагоре-надолу</value></data>
+  <data name="HtmlEditorChar21D0" xml:space="preserve"><value>Двойна стрелка наляво</value></data>
+  <data name="HtmlEditorChar21D2" xml:space="preserve"><value>Двойна стрелка надясно</value></data>
+  <data name="HtmlEditorChar21D1" xml:space="preserve"><value>Двойна стрелка нагоре</value></data>
+  <data name="HtmlEditorChar21D3" xml:space="preserve"><value>Двойна стрелка надолу</value></data>
+  <data name="HtmlEditorChar21B5" xml:space="preserve"><value>Нов ред</value></data>
+  <data name="HtmlEditorChar21B6" xml:space="preserve"><value>Стрелка обратно на часовниковата стрелка</value></data>
+  <data name="HtmlEditorChar2200" xml:space="preserve"><value>За всяко</value></data>
+  <data name="HtmlEditorChar2203" xml:space="preserve"><value>Съществува</value></data>
+  <data name="HtmlEditorChar2205" xml:space="preserve"><value>Празно множество</value></data>
+  <data name="HtmlEditorChar2208" xml:space="preserve"><value>Принадлежи на</value></data>
+  <data name="HtmlEditorChar2209" xml:space="preserve"><value>Не принадлежи на</value></data>
+  <data name="HtmlEditorChar2282" xml:space="preserve"><value>Подмножество на</value></data>
+  <data name="HtmlEditorChar2283" xml:space="preserve"><value>Съдържа</value></data>
+  <data name="HtmlEditorChar222A" xml:space="preserve"><value>Обединение</value></data>
+  <data name="HtmlEditorChar2229" xml:space="preserve"><value>Сечение</value></data>
+  <data name="HtmlEditorChar2227" xml:space="preserve"><value>Логическо И</value></data>
+  <data name="HtmlEditorChar2228" xml:space="preserve"><value>Логическо ИЛИ</value></data>
+  <data name="HtmlEditorChar00AC" xml:space="preserve"><value>Отрицание</value></data>
+  <data name="HtmlEditorChar2248" xml:space="preserve"><value>Приблизително равно</value></data>
+  <data name="HtmlEditorChar2260" xml:space="preserve"><value>Различно от</value></data>
+  <data name="HtmlEditorChar2264" xml:space="preserve"><value>По-малко или равно</value></data>
+  <data name="HtmlEditorChar2265" xml:space="preserve"><value>По-голямо или равно</value></data>
+  <data name="HtmlEditorChar221E" xml:space="preserve"><value>Безкрайност</value></data>
+  <data name="HtmlEditorChar221A" xml:space="preserve"><value>Квадратен корен</value></data>
+  <data name="HtmlEditorChar2211" xml:space="preserve"><value>Сума</value></data>
+  <data name="HtmlEditorChar220F" xml:space="preserve"><value>Произведение</value></data>
+  <data name="HtmlEditorChar2202" xml:space="preserve"><value>Частна производна</value></data>
+  <data name="HtmlEditorChar222B" xml:space="preserve"><value>Интеграл</value></data>
+  <data name="HtmlEditorChar03B1" xml:space="preserve"><value>Алфа</value></data>
+  <data name="HtmlEditorChar03B2" xml:space="preserve"><value>Бета</value></data>
+  <data name="HtmlEditorChar03B3" xml:space="preserve"><value>Гама</value></data>
+  <data name="HtmlEditorChar03B4" xml:space="preserve"><value>Делта</value></data>
+  <data name="HtmlEditorChar03B5" xml:space="preserve"><value>Епсилон</value></data>
+  <data name="HtmlEditorChar03B6" xml:space="preserve"><value>Дзета</value></data>
+  <data name="HtmlEditorChar03B7" xml:space="preserve"><value>Ета</value></data>
+  <data name="HtmlEditorChar03B8" xml:space="preserve"><value>Тета</value></data>
+  <data name="HtmlEditorChar03B9" xml:space="preserve"><value>Йота</value></data>
+  <data name="HtmlEditorChar03BA" xml:space="preserve"><value>Капа</value></data>
+  <data name="HtmlEditorChar03BB" xml:space="preserve"><value>Ламбда</value></data>
+  <data name="HtmlEditorChar03BC" xml:space="preserve"><value>Ми</value></data>
+  <data name="HtmlEditorChar03BD" xml:space="preserve"><value>Ни</value></data>
+  <data name="HtmlEditorChar03BE" xml:space="preserve"><value>Кси</value></data>
+  <data name="HtmlEditorChar03C0" xml:space="preserve"><value>Пи</value></data>
+  <data name="HtmlEditorChar03C1" xml:space="preserve"><value>Ро</value></data>
+  <data name="HtmlEditorChar03C3" xml:space="preserve"><value>Сигма</value></data>
+  <data name="HtmlEditorChar03C4" xml:space="preserve"><value>Тау</value></data>
+  <data name="HtmlEditorChar03C5" xml:space="preserve"><value>Ипсилон</value></data>
+  <data name="HtmlEditorChar03C6" xml:space="preserve"><value>Фи</value></data>
+  <data name="HtmlEditorChar03C7" xml:space="preserve"><value>Хи</value></data>
+  <data name="HtmlEditorChar03C8" xml:space="preserve"><value>Пси</value></data>
+  <data name="HtmlEditorChar03C9" xml:space="preserve"><value>Омега</value></data>
+  <data name="HtmlEditorChar2116" xml:space="preserve"><value>Номер</value></data>
+  <data name="HtmlEditorBold" xml:space="preserve"><value>Получер</value></data>
+  <data name="HtmlEditorItalic" xml:space="preserve"><value>Курсив</value></data>
+  <data name="HtmlEditorSubscript" xml:space="preserve"><value>Долен индекс</value></data>
+  <data name="HtmlEditorSuperscript" xml:space="preserve"><value>Горен индекс</value></data>
+  <data name="HtmlEditorIndent" xml:space="preserve"><value>Увеличаване на отстъпа</value></data>
+  <data name="HtmlEditorOutdent" xml:space="preserve"><value>Намаляване на отстъпа</value></data>
+  <data name="HtmlEditorUndo" xml:space="preserve"><value>Отмяна</value></data>
+  <data name="HtmlEditorRedo" xml:space="preserve"><value>Повторение</value></data>
+  <data name="HtmlEditorPreview" xml:space="preserve"><value>Преглед на съдържанието</value></data>
+  <data name="LegendLabel" xml:space="preserve"><value>Легенда</value></data>
+  <data name="ListBoxInvalid" xml:space="preserve"><value>Изборът в списъка е невалиден.</value></data>
+  <data name="MindMapAddLink" xml:space="preserve"><value>Връзка</value></data>
+  <data name="MindMapAddNode" xml:space="preserve"><value>Възел</value></data>
+  <data name="MindMapAnnounceAdded" xml:space="preserve"><value>Добавен е възел {0}.</value></data>
+  <data name="MindMapAnnounceDeleted" xml:space="preserve"><value>Изтрити възли: {0}.</value></data>
+  <data name="MindMapAnnounceDuplicated" xml:space="preserve"><value>Възелът {0} е дублиран.</value></data>
+  <data name="MindMapAnnounceLaidOut" xml:space="preserve"><value>Картата е пренаредена.</value></data>
+  <data name="MindMapAnnounceLimit" xml:space="preserve"><value>Достигнат е максималният брой възли.</value></data>
+  <data name="MindMapAnnounceLinkCancelled" xml:space="preserve"><value>Създаването на връзката е отменено.</value></data>
+  <data name="MindMapAnnounceLinkDeleted" xml:space="preserve"><value>Връзката е изтрита.</value></data>
+  <data name="MindMapAnnounceLinkSelected" xml:space="preserve"><value>Връзката е избрана.</value></data>
+  <data name="MindMapAnnounceLinked" xml:space="preserve"><value>Създадена е връзка от {0} към {1}.</value></data>
+  <data name="MindMapAnnounceManySelected" xml:space="preserve"><value>Избрани възли: {0}.</value></data>
+  <data name="MindMapAnnounceNoSelection" xml:space="preserve"><value>Няма избрано.</value></data>
+  <data name="MindMapAnnounceRedone" xml:space="preserve"><value>Промяната е повторена.</value></data>
+  <data name="MindMapAnnounceSelected" xml:space="preserve"><value>{0}, връзки: {1}.</value></data>
+  <data name="MindMapAnnounceUndone" xml:space="preserve"><value>Промяната е отменена.</value></data>
+  <data name="MindMapAnnounceZoom" xml:space="preserve"><value>Мащаб {0}%.</value></data>
+  <data name="MindMapAutoLayout" xml:space="preserve"><value>Пренареждане</value></data>
+  <data name="MindMapBold" xml:space="preserve"><value>Получер</value></data>
+  <data name="MindMapCanvasLabel" xml:space="preserve"><value>Мисловна карта</value></data>
+  <data name="MindMapCenter" xml:space="preserve"><value>Центриране</value></data>
+  <data name="MindMapColorBlue" xml:space="preserve"><value>Син</value></data>
+  <data name="MindMapColorGray" xml:space="preserve"><value>Сив</value></data>
+  <data name="MindMapColorGreen" xml:space="preserve"><value>Зелен</value></data>
+  <data name="MindMapColorIndigo" xml:space="preserve"><value>Индиго</value></data>
+  <data name="MindMapColorOrange" xml:space="preserve"><value>Оранжев</value></data>
+  <data name="MindMapColorPink" xml:space="preserve"><value>Розов</value></data>
+  <data name="MindMapColorPurple" xml:space="preserve"><value>Лилав</value></data>
+  <data name="MindMapColorRed" xml:space="preserve"><value>Червен</value></data>
+  <data name="MindMapColorTeal" xml:space="preserve"><value>Тюркоазен</value></data>
+  <data name="MindMapColorWhite" xml:space="preserve"><value>Бял</value></data>
+  <data name="MindMapColorYellow" xml:space="preserve"><value>Жълт</value></data>
+  <data name="MindMapDelete" xml:space="preserve"><value>Изтриване</value></data>
+  <data name="MindMapDuplicate" xml:space="preserve"><value>Дублиране</value></data>
+  <data name="MindMapFitView" xml:space="preserve"><value>Побиране</value></data>
+  <data name="MindMapFontSize" xml:space="preserve"><value>Размер на шрифта</value></data>
+  <data name="MindMapItalic" xml:space="preserve"><value>Курсив</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Стрелки: придвижване между възлите, Home: централен възел, Shift+стрелки: преместване, Enter или F2: преименуване, N: нов възел, D: дублиране, C: центриране, Delete: изтриване, + и -: мащаб, 0: побиране, Ctrl+Z и Ctrl+Y: отмяна и повторение, Shift+F10: меню, Esc: премахване на избора.</value></data>
+  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Стрелки: придвижване между възлите, Home: централен възел, C: центриране, + и -: мащаб, 0: побиране, Shift+F10: меню, Esc: премахване на избора.</value></data>
+  <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Esc за отказ</value></data>
+  <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Щракнете върху изходния възел</value></data>
+  <data name="MindMapLinkSelectTarget" xml:space="preserve"><value>Щракнете върху целевия възел</value></data>
+  <data name="MindMapMenuLabel" xml:space="preserve"><value>Действия с картата</value></data>
+  <data name="MindMapNewNode" xml:space="preserve"><value>Нов</value></data>
+  <data name="MindMapNodeColor" xml:space="preserve"><value>Цвят</value></data>
+  <data name="MindMapNodeHeight" xml:space="preserve"><value>Височина</value></data>
+  <data name="MindMapNodeText" xml:space="preserve"><value>Текст</value></data>
+  <data name="MindMapNodeWidth" xml:space="preserve"><value>Ширина</value></data>
+  <data name="MindMapNodeWithNote" xml:space="preserve"><value>{0}, бележка: {1}</value></data>
+  <data name="MindMapPropertiesTitle" xml:space="preserve"><value>Свойства на възела</value></data>
+  <data name="MindMapRename" xml:space="preserve"><value>Преименуване на възела</value></data>
+  <data name="MindMapSizeAutoHint" xml:space="preserve"><value>0 = автоматичен размер</value></data>
+  <data name="MindMapToolbarLabel" xml:space="preserve"><value>Действия с мисловната карта</value></data>
+  <data name="MonthViewLabel" xml:space="preserve"><value>Месечен изглед</value></data>
+  <data name="MultiSelectInvalid" xml:space="preserve"><value>Множественият избор е невалиден.</value></data>
+  <data name="MultiSelectEmpty" xml:space="preserve"><value>Всички</value></data>
+  <data name="MultiSelectSelected" xml:space="preserve"><value>Избрани: {0}</value></data>
+  <data name="MultiSelectClear" xml:space="preserve"><value>Премахване на избора</value></data>
+  <data name="MultiSelectFilter" xml:space="preserve"><value>Търсене</value></data>
+  <data name="MultiSelectNoMatch" xml:space="preserve"><value>Няма резултати</value></data>
+  <data name="NotificationDismiss" xml:space="preserve"><value>Затваряне на известието</value></data>
+  <data name="NotificationExpand" xml:space="preserve"><value>Показване на всички</value></data>
+  <data name="NotificationCollapse" xml:space="preserve"><value>Свиване</value></data>
+  <data name="NotificationOpenDetails" xml:space="preserve"><value>Отваряне на дневника</value></data>
+  <data name="NullableSwitchIndeterminate" xml:space="preserve"><value>Неопределено състояние</value></data>
+  <data name="NumericInvalid" xml:space="preserve"><value>Въведената стойност е невалидна.</value></data>
+  <data name="NumericInvalidNamed" xml:space="preserve"><value>Въведената стойност за {0} е невалидна.</value></data>
+  <data name="PagerLabel" xml:space="preserve"><value>Страниране</value></data>
+  <data name="PagerPrevious" xml:space="preserve"><value>Предишна страница</value></data>
+  <data name="PagerStatus" xml:space="preserve"><value>Страница {0} от {1}</value></data>
+  <data name="PagerNext" xml:space="preserve"><value>Следваща страница</value></data>
+  <data name="PanelMenuLabel" xml:space="preserve"><value>Навигация</value></data>
+  <data name="PanelMenuToggle" xml:space="preserve"><value>Разгъване или свиване на {0}</value></data>
+  <data name="PasswordRevealLabel" xml:space="preserve"><value>Показване на паролата</value></data>
+  <data name="PasswordHideLabel" xml:space="preserve"><value>Скриване на паролата</value></data>
+  <data name="ProfileMenuLabel" xml:space="preserve"><value>Меню на профила</value></data>
+  <data name="ProgressLabel" xml:space="preserve"><value>Напредък</value></data>
+  <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="RadioButtonListInvalid" xml:space="preserve"><value>Изборът с радиобутони е невалиден.</value></data>
+  <data name="RequiredValidatorMessage" xml:space="preserve"><value>Това поле е задължително.</value></data>
+  <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Предишен период</value></data>
+  <data name="SchedulerNextPeriod" xml:space="preserve"><value>Следващ период</value></data>
+  <data name="SchedulerViewLabel" xml:space="preserve"><value>Изглед на календара</value></data>
+  <data name="SchedulerDay" xml:space="preserve"><value>Ден</value></data>
+  <data name="SchedulerWeek" xml:space="preserve"><value>Седмица</value></data>
+  <data name="SchedulerMonth" xml:space="preserve"><value>Месец</value></data>
+  <data name="SchedulerLoadFailed" xml:space="preserve"><value>Календарът не можа да бъде зареден.</value></data>
+  <data name="SchedulerTimeColumn" xml:space="preserve"><value>Час</value></data>
+  <data name="SchedulerMoveAppointment" xml:space="preserve"><value>Преместване на {0}</value></data>
+  <data name="SchedulerMoveHere" xml:space="preserve"><value>Поставяне тук: {0}, {1}</value></data>
+  <data name="SchedulerMoveHereShort" xml:space="preserve"><value>Поставяне тук</value></data>
+  <data name="SchedulerMoveCancel" xml:space="preserve"><value>Отказ от преместването</value></data>
+  <data name="SchedulerMoving" xml:space="preserve"><value>{0} е взето: изберете новото място, Esc за отказ.</value></data>
+  <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} остава на мястото си.</value></data>
+  <data name="SchedulerMoved" xml:space="preserve"><value>{0} е преместено на {1}.</value></data>
+  <data name="SelectBarInvalid" xml:space="preserve"><value>Сегментираният избор е невалиден.</value></data>
+  <data name="RatingLabel" xml:space="preserve"><value>Оценка</value></data>
+  <data name="RatingStar" xml:space="preserve"><value>{0} от {1}</value></data>
+  <data name="RatingValue" xml:space="preserve"><value>{0}: {1} от {2}</value></data>
+  <data name="SidebarLabel" xml:space="preserve"><value>Навигация</value></data>
+  <data name="SidebarClose" xml:space="preserve"><value>Затваряне на навигацията</value></data>
+  <data name="LoadingLabel" xml:space="preserve"><value>Зарежда се</value></data>
+  <data name="WindowControlsLabel" xml:space="preserve"><value>Контроли на прозореца</value></data>
+  <data name="WindowMinimizeToTray" xml:space="preserve"><value>Минимизиране в областта за уведомяване</value></data>
+  <data name="WindowMinimize" xml:space="preserve"><value>Минимизиране</value></data>
+  <data name="WindowMaximize" xml:space="preserve"><value>Максимизиране</value></data>
+  <data name="WindowRestore" xml:space="preserve"><value>Възстановяване</value></data>
+  <data name="WindowClose" xml:space="preserve"><value>Затваряне</value></data>
+  <data name="SidebarToggleLabel" xml:space="preserve"><value>Показване или скриване на навигацията</value></data>
+  <data name="SliderInvalid" xml:space="preserve"><value>Стойността на плъзгача е невалидна.</value></data>
+  <data name="SplitButtonMenuLabel" xml:space="preserve"><value>Още действия</value></data>
+  <data name="StepsLabel" xml:space="preserve"><value>Стъпки</value></data>
+  <data name="SwitchInvalid" xml:space="preserve"><value>Стойността на превключвателя е невалидна.</value></data>
+  <data name="TabsLabel" xml:space="preserve"><value>Раздели</value></data>
+  <data name="TimelineLabel" xml:space="preserve"><value>Хронология</value></data>
+  <data name="TreeLabel" xml:space="preserve"><value>Дърво</value></data>
+  <data name="TreeCollapse" xml:space="preserve"><value>Свиване</value></data>
+  <data name="TreeExpand" xml:space="preserve"><value>Разгъване</value></data>
+  <data name="TreeLoadFailed" xml:space="preserve"><value>Зареждането не бе успешно.</value></data>
+  <data name="UploadSelectedFiles" xml:space="preserve"><value>Избрани файлове</value></data>
+  <data name="UploadProgressLabel" xml:space="preserve"><value>Качване</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Можете да изберете най-много {0} файла.</value></data>
+  <data name="UploadFileTooLarge" xml:space="preserve"><value>Файлът {0} надвишава максимално разрешения размер.</value></data>
+  <data name="UploadTypeRejected" xml:space="preserve"><value>Типът на файла {0} не е разрешен.</value></data>
+  <data name="UploadOneSelected" xml:space="preserve"><value>Избран е 1 файл.</value></data>
+  <data name="UploadManySelected" xml:space="preserve"><value>Избрани файлове: {0}.</value></data>
+  <data name="UploadInProgress" xml:space="preserve"><value>Качването е в ход.</value></data>
+  <data name="UploadCompleted" xml:space="preserve"><value>Качването завърши.</value></data>
+  <data name="UploadCancelled" xml:space="preserve"><value>Качването е отменено.</value></data>
+  <data name="UploadSizeMegabytes" xml:space="preserve"><value>{0:0.##} МБ</value></data>
+  <data name="UploadSizeKilobytes" xml:space="preserve"><value>{0:0.##} КБ</value></data>
+  <data name="UploadSizeBytes" xml:space="preserve"><value>{0} Б</value></data>
+  <data name="UploadDropOne" xml:space="preserve"><value>Пуснете файл тук или</value></data>
+  <data name="UploadDropMany" xml:space="preserve"><value>Пуснете файлове тук или</value></data>
+  <data name="UploadBrowse" xml:space="preserve"><value>прегледайте</value></data>
+  <data name="UploadHintMaximumSize" xml:space="preserve"><value>До {0} на файл</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>До {0} файла</value></data>
+  <data name="UploadAttachedFiles" xml:space="preserve"><value>Прикачени файлове</value></data>
+  <data name="UploadRemove" xml:space="preserve"><value>Премахване на {0}</value></data>
+  <data name="UploadBrowseButton" xml:space="preserve"><value>Преглед</value></data>
+  <data name="UploadNoFile" xml:space="preserve"><value>Няма избран файл</value></data>
+  <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
+  <data name="UploadFileCountNone" xml:space="preserve"><value>Няма файлове</value></data>
+  <data name="UploadFileCountOne" xml:space="preserve"><value>1 файл</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} файла</value></data>
+  <data name="UploadShowAll" xml:space="preserve"><value>Показване на всички ({0})</value></data>
+  <data name="UploadShowLess" xml:space="preserve"><value>По-малко</value></data>
+  <data name="UploadRemoveAll" xml:space="preserve"><value>Премахване на всички</value></data>
+  <data name="UploadRemovedAll" xml:space="preserve"><value>Всички файлове са премахнати от списъка.</value></data>
+  <data name="UploadRemoved" xml:space="preserve"><value>{0} е премахнат от списъка.</value></data>
+  <data name="WeekViewLabel" xml:space="preserve"><value>Седмичен изглед</value></data>
+  <data name="DataAnnotationsRequired" xml:space="preserve"><value>Полето {0} е задължително.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Полето {0} трябва да съдържа между {1} и {2} знака.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Полето {0} трябва да съдържа най-много {1} знака.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Полето {0} трябва да съдържа поне {1} знака.</value></data>
+  <data name="DataAnnotationsRange" xml:space="preserve"><value>Полето {0} трябва да е между {1} и {2}.</value></data>
+  <data name="DataAnnotationsEmail" xml:space="preserve"><value>Полето {0} не е валиден имейл адрес.</value></data>
+  <data name="DataAnnotationsUrl" xml:space="preserve"><value>Полето {0} не е валиден уеб адрес.</value></data>
+  <data name="DataAnnotationsCompare" xml:space="preserve"><value>{0} и {1} не съвпадат.</value></data>
+  <data name="DataAnnotationsPattern" xml:space="preserve"><value>Полето {0} не е в очаквания формат.</value></data>
+  <data name="DataAnnotationsInvalid" xml:space="preserve"><value>Полето {0} е невалидно.</value></data>
+  <data name="GanttEmpty" xml:space="preserve"><value>Няма задачи за показване.</value></data>
+  <data name="GanttLabel" xml:space="preserve"><value>Диаграма на Гант</value></data>
+  <data name="GanttScale" xml:space="preserve"><value>Времева скала</value></data>
+  <data name="GanttScaleDay" xml:space="preserve"><value>Ден</value></data>
+  <data name="GanttScaleMonth" xml:space="preserve"><value>Месец</value></data>
+  <data name="GanttWeekNumber" xml:space="preserve"><value>С{0}</value></data>
+  <data name="GanttScaleWeek" xml:space="preserve"><value>Седмица</value></data>
+  <data name="GanttTaskAfter" xml:space="preserve"><value>след {0}</value></data>
+  <data name="GanttTaskColumn" xml:space="preserve"><value>Задача</value></data>
+  <data name="GanttTaskDescription" xml:space="preserve"><value>{0}, от {1} до {2}, изпълнено {3}</value></data>
+  <data name="StepTimelineLabel" xml:space="preserve"><value>Стъпки на изпълнението</value></data>
+  <data name="StepTimelineNeverStarted" xml:space="preserve"><value>Никога не са стартирали:</value></data>
+  <data name="StepTimelineStatusCancelled" xml:space="preserve"><value>отменена</value></data>
+  <data name="StepTimelineStatusFailed" xml:space="preserve"><value>неуспешна</value></data>
+  <data name="StepTimelineStatusRunning" xml:space="preserve"><value>изпълнява се</value></data>
+  <data name="StepTimelineStatusSkipped" xml:space="preserve"><value>пропусната</value></data>
+  <data name="StepTimelineStatusSuccess" xml:space="preserve"><value>успешна</value></data>
+  <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, стартирана в {1}, продължителност</value></data>
+  <data name="ConfirmAction" xml:space="preserve"><value>Потвърждаване</value></data>
+  <data name="GoBack" xml:space="preserve"><value>Назад</value></data>
+  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Показване на значките и действията</value></data>
+  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Скриване на значките и действията</value></data>
+  <data name="DetailNotFound" xml:space="preserve"><value>Елементът не е намерен</value></data>
+  <data name="SignIn" xml:space="preserve"><value>Вход</value></data>
+  <data name="ConnectionLostTitle" xml:space="preserve"><value>Връзката е загубена</value></data>
+  <data name="ConnectionLostDescription" xml:space="preserve"><value>Връзката със сървъра е прекъсната. Приложението се опитва да я възстанови.</value></data>
+  <data name="ConnectionFailedTitle" xml:space="preserve"><value>Няма връзка</value></data>
+  <data name="ConnectionFailedDescription" xml:space="preserve"><value>Автоматичните опити бяха неуспешни. Опитайте отново, когато мрежата се възстанови.</value></data>
+  <data name="ConnectionRejectedTitle" xml:space="preserve"><value>Сесията е прекъсната</value></data>
+  <data name="ConnectionRejectedDescription" xml:space="preserve"><value>Сървърът отказа да поднови сесията. Презаредете страницата, за да продължите.</value></data>
+  <data name="ConnectionRetryIn" xml:space="preserve"><value>Нов опит след {0} с</value></data>
+  <data name="ConnectionReason" xml:space="preserve"><value>Причина: {0}</value></data>
+  <data name="ConnectionReconnectNow" xml:space="preserve"><value>Свързване отново сега</value></data>
+  <data name="ConnectionReload" xml:space="preserve"><value>Презареждане на страницата</value></data>
+  <data name="ConnectionReconnecting" xml:space="preserve"><value>Повторно свързване</value></data>
+  <data name="WizardLabel" xml:space="preserve"><value>Стъпки на съветника</value></data>
+  <data name="WizardProgress" xml:space="preserve"><value>Напредък на съветника</value></data>
+  <data name="WizardPosition" xml:space="preserve"><value>Стъпка {0} от {1}</value></data>
+  <data name="WizardAnnouncement" xml:space="preserve"><value>Стъпка {0} от {1}: {2}</value></data>
+  <data name="WizardPrevious" xml:space="preserve"><value>Назад</value></data>
+  <data name="WizardNext" xml:space="preserve"><value>Напред</value></data>
+  <data name="WizardFinish" xml:space="preserve"><value>Готово</value></data>
+  <data name="RelativeTimeNow" xml:space="preserve"><value>току-що</value></data>
+  <data name="RelativeTimePast" xml:space="preserve"><value>преди {0}</value></data>
+  <data name="RelativeTimeFuture" xml:space="preserve"><value>след {0}</value></data>
+  <data name="RelativeTimeSeconds" xml:space="preserve"><value>{0} с</value></data>
+  <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} мин</value></data>
+  <data name="RelativeTimeHours" xml:space="preserve"><value>{0} ч</value></data>
+  <data name="RelativeTimeDay" xml:space="preserve"><value>{0} ден</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} дни</value></data>
+  <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} месец</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} месеца</value></data>
+  <data name="RelativeTimeYear" xml:space="preserve"><value>{0} година</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} години</value></data>
+  <data name="HtmlEditorUnderline" xml:space="preserve"><value>Подчертан</value></data>
+  <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Зачертан</value></data>
+  <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Код в реда</value></data>
+  <data name="HtmlEditorBlockFormat" xml:space="preserve"><value>Стил на абзаца</value></data>
+  <data name="HtmlEditorParagraph" xml:space="preserve"><value>Абзац</value></data>
+  <data name="HtmlEditorHeading1" xml:space="preserve"><value>Заглавие 1</value></data>
+  <data name="HtmlEditorHeading2" xml:space="preserve"><value>Заглавие 2</value></data>
+  <data name="HtmlEditorHeading3" xml:space="preserve"><value>Заглавие 3</value></data>
+  <data name="HtmlEditorHeading4" xml:space="preserve"><value>Заглавие 4</value></data>
+  <data name="HtmlEditorFontSize" xml:space="preserve"><value>Размер на текста</value></data>
+  <data name="HtmlEditorFontSizeSmall" xml:space="preserve"><value>Малък</value></data>
+  <data name="HtmlEditorFontSizeNormal" xml:space="preserve"><value>Нормален</value></data>
+  <data name="HtmlEditorFontSizeLarge" xml:space="preserve"><value>Голям</value></data>
+  <data name="HtmlEditorFontSizeXLarge" xml:space="preserve"><value>Много голям</value></data>
+  <data name="HtmlEditorBulletList" xml:space="preserve"><value>Списък с водачи</value></data>
+  <data name="HtmlEditorNumberedList" xml:space="preserve"><value>Номериран списък</value></data>
+  <data name="HtmlEditorQuote" xml:space="preserve"><value>Цитат</value></data>
+  <data name="HtmlEditorCodeBlock" xml:space="preserve"><value>Блок с код</value></data>
+  <data name="HtmlEditorLink" xml:space="preserve"><value>Връзка</value></data>
+  <data name="HtmlEditorUnlink" xml:space="preserve"><value>Премахване на връзката</value></data>
+  <data name="HtmlEditorAlignLeft" xml:space="preserve"><value>Подравняване вляво</value></data>
+  <data name="HtmlEditorAlignCenter" xml:space="preserve"><value>Центриране</value></data>
+  <data name="HtmlEditorAlignRight" xml:space="preserve"><value>Подравняване вдясно</value></data>
+  <data name="HtmlEditorAlignJustify" xml:space="preserve"><value>Двустранно подравняване</value></data>
+  <data name="HtmlEditorInsertTable" xml:space="preserve"><value>Вмъкване на таблица</value></data>
+  <data name="HtmlEditorClearFormatting" xml:space="preserve"><value>Изчистване на форматирането</value></data>
+  <data name="HtmlEditorSource" xml:space="preserve"><value>HTML код</value></data>
+  <data name="HtmlEditorCustomCommand" xml:space="preserve"><value>Команда</value></data>
+  <data name="HtmlEditorCut" xml:space="preserve"><value>Изрязване</value></data>
+  <data name="HtmlEditorCopy" xml:space="preserve"><value>Копиране</value></data>
+  <data name="HtmlEditorPaste" xml:space="preserve"><value>Поставяне</value></data>
+  <data name="HtmlEditorInsertParagraph" xml:space="preserve"><value>Нов абзац</value></data>
+  <data name="HtmlEditorAddRowAbove" xml:space="preserve"><value>Вмъкване на ред отгоре</value></data>
+  <data name="HtmlEditorAddRowBelow" xml:space="preserve"><value>Вмъкване на ред отдолу</value></data>
+  <data name="HtmlEditorDeleteRow" xml:space="preserve"><value>Изтриване на реда</value></data>
+  <data name="HtmlEditorAddColumnBefore" xml:space="preserve"><value>Вмъкване на колона преди</value></data>
+  <data name="HtmlEditorAddColumnAfter" xml:space="preserve"><value>Вмъкване на колона след</value></data>
+  <data name="HtmlEditorDeleteColumn" xml:space="preserve"><value>Изтриване на колоната</value></data>
+  <data name="HtmlEditorMergeCellRight" xml:space="preserve"><value>Обединяване с клетката вдясно</value></data>
+  <data name="HtmlEditorMergeCellDown" xml:space="preserve"><value>Обединяване с клетката отдолу</value></data>
+  <data name="HtmlEditorSplitCell" xml:space="preserve"><value>Разделяне на клетката</value></data>
+  <data name="HtmlEditorSetCellSpan" xml:space="preserve"><value>Разширяване на клетката</value></data>
+  <data name="HtmlEditorLinkUrl" xml:space="preserve"><value>Адрес на връзката</value></data>
+  <data name="HtmlEditorLinkApply" xml:space="preserve"><value>Прилагане</value></data>
+  <data name="HtmlEditorLinkCancel" xml:space="preserve"><value>Отказ</value></data>
+  <data name="HtmlEditorLinkInvalid" xml:space="preserve"><value>Адресът е отхвърлен: използвайте относителен, http, https, mailto или tel адрес.</value></data>
+  <data name="DocumentEditorLabel" xml:space="preserve"><value>Текстообработка</value></data>
+  <data name="DocumentEditorStatus" xml:space="preserve"><value>Статистика на документа</value></data>
+  <data name="DocumentEditorWords" xml:space="preserve"><value>Думи: {0}</value></data>
+  <data name="DocumentEditorCharacters" xml:space="preserve"><value>Знаци: {0}</value></data>
+  <data name="DocumentEditorExportHtml" xml:space="preserve"><value>Експортиране като HTML</value></data>
+  <data name="DocumentEditorExportText" xml:space="preserve"><value>Експортиране като текст</value></data>
+  <data name="DocumentEditorDefaultTitle" xml:space="preserve"><value>Документ</value></data>
+  <data name="CodeEditorLabel" xml:space="preserve"><value>Редактор на код</value></data>
+  <data name="CodeEditorLoading" xml:space="preserve"><value>Зареждане на редактора на код.</value></data>
+  <data name="CodeEditorUnavailable" xml:space="preserve"><value>Редакторът Monaco не можа да бъде зареден: кодът се редактира като обикновен текст.</value></data>
+  <data name="CodeEditorPosition" xml:space="preserve"><value>Ред {0}, колона {1}</value></data>
+  <data name="CodeEditorLinkHint" xml:space="preserve"><value>Ctrl+щракване, за да последвате връзката</value></data>
+  <data name="StatusBadgeStale" xml:space="preserve"><value>остаряло</value></data>
+  <data name="StatusBadgeStaleSince" xml:space="preserve"><value>Последна актуализация: {0}</value></data>
+  <data name="LogViewerLabel" xml:space="preserve"><value>Дневник</value></data>
+  <data name="LogViewerEmpty" xml:space="preserve"><value>Засега няма редове.</value></data>
+  <data name="LogViewerSearch" xml:space="preserve"><value>Търсене в дневника</value></data>
+  <data name="LogViewerAllLevels" xml:space="preserve"><value>Всички нива</value></data>
+  <data name="LogViewerLevelFilter" xml:space="preserve"><value>Минимално ниво</value></data>
+  <data name="LogViewerFromLevel" xml:space="preserve"><value>{0} и по-сериозни</value></data>
+  <data name="LogViewerPreviousMatch" xml:space="preserve"><value>Предишно съвпадение</value></data>
+  <data name="LogViewerNextMatch" xml:space="preserve"><value>Следващо съвпадение</value></data>
+  <data name="LogViewerNoMatch" xml:space="preserve"><value>Няма съвпадения</value></data>
+  <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} от {1}</value></data>
+  <data name="LogViewerFollow" xml:space="preserve"><value>Следене</value></data>
+  <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Към последните редове</value></data>
+  <data name="LogViewerNewLines" xml:space="preserve"><value>Нови редове: {0}</value></data>
+  <data name="LogViewerLevelPrefix" xml:space="preserve"><value>{0}: </value></data>
+  <data name="LogLevelTrace" xml:space="preserve"><value>Проследяване</value></data>
+  <data name="LogLevelDebug" xml:space="preserve"><value>Отстраняване на грешки</value></data>
+  <data name="LogLevelInformation" xml:space="preserve"><value>Информация</value></data>
+  <data name="LogLevelWarning" xml:space="preserve"><value>Предупреждение</value></data>
+  <data name="LogLevelError" xml:space="preserve"><value>Грешка</value></data>
+  <data name="LogLevelCritical" xml:space="preserve"><value>Критично</value></data>
+  <data name="CodeBlockCopy" xml:space="preserve"><value>Копиране</value></data>
+  <data name="CodeBlockCopied" xml:space="preserve"><value>Копирано в клипборда</value></data>
+  <data name="CodeBlockCopyFailed" xml:space="preserve"><value>Копирането не бе успешно</value></data>
+  <data name="CodeBlockReveal" xml:space="preserve"><value>Показване на стойността</value></data>
+  <data name="CodeBlockHide" xml:space="preserve"><value>Скриване на стойността</value></data>
+  <data name="CodeViewerLabel" xml:space="preserve"><value>Код</value></data>
+  <data name="CodeViewerEmpty" xml:space="preserve"><value>Няма нищо за показване.</value></data>
+  <data name="CodeViewerWrap" xml:space="preserve"><value>Пренасяне на редовете</value></data>
+  <data name="CodeViewerLinkHint" xml:space="preserve"><value>Последване на връзката</value></data>
+  <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Няма промени.</value></data>
+  <data name="UnifiedDiffStats" xml:space="preserve"><value>Добавени редове: {0}, изтрити редове: {1}</value></data>
+  <data name="UnifiedDiffBinary" xml:space="preserve"><value>Двоичен файл: няма редове за сравнение.</value></data>
+  <data name="UnifiedDiffNoLines" xml:space="preserve"><value>Няма променени редове.</value></data>
+  <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Стар ред</value></data>
+  <data name="UnifiedDiffNewLine" xml:space="preserve"><value>Нов ред</value></data>
+  <data name="UnifiedDiffContent" xml:space="preserve"><value>Съдържание</value></data>
+  <data name="UnifiedDiffAdded" xml:space="preserve"><value>Добавено: </value></data>
+  <data name="UnifiedDiffRemoved" xml:space="preserve"><value>Изтрито: </value></data>
+  <data name="UnifiedDiffRenamedPath" xml:space="preserve"><value>{0} към {1}</value></data>
+  <data name="UnifiedDiffUntitled" xml:space="preserve"><value>Промяна</value></data>
+  <data name="UnifiedDiffStatusModified" xml:space="preserve"><value>Променен</value></data>
+  <data name="UnifiedDiffStatusAdded" xml:space="preserve"><value>Добавен</value></data>
+  <data name="UnifiedDiffStatusDeleted" xml:space="preserve"><value>Изтрит</value></data>
+  <data name="UnifiedDiffStatusRenamed" xml:space="preserve"><value>Преименуван</value></data>
+  <data name="DynamicFormRequired" xml:space="preserve"><value>{0} е задължително.</value></data>
+  <data name="DynamicFormNumber" xml:space="preserve"><value>{0} трябва да е число.</value></data>
+  <data name="DynamicFormMinimum" xml:space="preserve"><value>{0} трябва да е поне {1}.</value></data>
+  <data name="DynamicFormMaximum" xml:space="preserve"><value>{0} трябва да е най-много {1}.</value></data>
+  <data name="DynamicFormChoice" xml:space="preserve"><value>{0} трябва да е една от предложените стойности.</value></data>
+  <data name="StatusStripLabel" xml:space="preserve"><value>История на състоянията</value></data>
+  <data name="StatusStripEmpty" xml:space="preserve"><value>Няма състояния за показване</value></data>
+  <data name="KanbanLabel" xml:space="preserve"><value>Табло с карти</value></data>
+  <data name="KanbanInstructions" xml:space="preserve"><value>Интервал или Enter, за да вземете картата, стрелките, за да я преместите, Интервал или Enter, за да я пуснете, Esc за отказ.</value></data>
+  <data name="KanbanGrabbed" xml:space="preserve"><value>{0} е взета, колона {1}, позиция {2} от {3}.</value></data>
+  <data name="KanbanMoved" xml:space="preserve"><value>{0}: колона {1}, позиция {2} от {3}.</value></data>
+  <data name="KanbanDropped" xml:space="preserve"><value>{0} е пусната, колона {1}, позиция {2} от {3}.</value></data>
+  <data name="KanbanCancelled" xml:space="preserve"><value>Преместването е отменено: {0} остава в колона {1}.</value></data>
+  <data name="KanbanEmptyColumn" xml:space="preserve"><value>Няма карти</value></data>
+  <data name="KanbanCardCount" xml:space="preserve"><value>Карти: {0}</value></data>
+  <data name="GitGraphLabel" xml:space="preserve"><value>История на комитите</value></data>
+  <data name="GitGraphEmpty" xml:space="preserve"><value>Няма комити</value></data>
+  <data name="StepTimelineExpected" xml:space="preserve"><value>Изминали са {0}% от обичайната продължителност</value></data>
+  <data name="StepTimelineOverrun" xml:space="preserve"><value>над обичайната продължителност</value></data>
+  <data name="DiffViewerLabel" xml:space="preserve"><value>Сравнение</value></data>
+  <data name="DiffViewerOriginal" xml:space="preserve"><value>Преди</value></data>
+  <data name="DiffViewerModified" xml:space="preserve"><value>След</value></data>
+  <data name="DiffViewerUnavailable" xml:space="preserve"><value>Редакторът Monaco не можа да бъде зареден: двете версии са показани като обикновен текст, без отбелязани разлики.</value></data>
+  <data name="GitGraphMerge" xml:space="preserve"><value>Комит за сливане.</value></data>
+  <data name="StepTimelineColumnValue" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="LinkOpensInNewTab" xml:space="preserve"><value>(отваря се в нов раздел)</value></data>
+  <data name="MarkdownExportButton" xml:space="preserve"><value>Експортиране в .md</value></data>
+  <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Ограничение: най-много {0} реда</value></data>
+  <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Генерирано на (UTC): {0}</value></data>
+  <data name="MarkdownExportRowCount" xml:space="preserve"><value>Експортирани редове: {0} от {1} обявени</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Съкратен експорт: експортирани {0} реда от {1}, достигнато е ограничението от {2} реда.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Непълен експорт: експортирани {0} реда от {1} обявени, данните се промениха по време на четенето.</value></data>
+  <data name="MarkdownExportEmpty" xml:space="preserve"><value>Няма редове.</value></data>
+  <data name="SignUp" xml:space="preserve"><value>Регистрация</value></data>
+  <data name="SignUpPrompt" xml:space="preserve"><value>Нямате акаунт?</value></data>
+  <data name="UnsavedChangesTitle" xml:space="preserve"><value>Незапазени промени</value></data>
+  <data name="UnsavedChangesMessage" xml:space="preserve"><value>Има незапазени промени. Да напуснете ли страницата, без да ги запазите?</value></data>
+  <data name="UnsavedChangesLeave" xml:space="preserve"><value>Изход без запазване</value></data>
+  <data name="UnsavedChangesStay" xml:space="preserve"><value>Оставане на страницата</value></data>
+  <data name="MoreActions" xml:space="preserve"><value>Още действия</value></data>
+  <data name="AppearanceWindowTitle" xml:space="preserve"><value>Облик</value></data>
+</root>

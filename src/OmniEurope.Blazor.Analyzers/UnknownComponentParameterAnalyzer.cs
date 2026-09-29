@@ -14,9 +14,11 @@ using Microsoft.CodeAnalysis.Text;
 namespace OmniEurope.Blazor.Analyzers;
 
 /// <summary>
-/// OE0001: an OmniEurope.Blazor component given a PascalCase attribute it has no parameter for. The
-/// components capture unmatched attributes, so without this rule a removed or misspelled parameter
-/// compiles and silently becomes an HTML attribute.
+/// OE0001: an OmniEurope.Blazor component given an attribute it cannot take. Three cases: a PascalCase
+/// attribute it has no parameter for (the components capture unmatched attributes, so a removed or
+/// misspelled parameter would compile and silently become an HTML attribute); any attribute it has no
+/// parameter for, even lowercase, on a component that captures none (it would only fail at render);
+/// and a lowercase <c>class</c> or <c>id</c>, which must be written <c>Class</c> or <c>Id</c>.
 /// </summary>
 /// <remarks>
 /// The rule reads the code the Razor source generator emits for a component tag: a block that opens
@@ -25,10 +27,17 @@ namespace OmniEurope.Blazor.Analyzers;
 /// not recognise keeps its name as a string literal, <c>AddComponentParameter(seq, "Name", value)</c>
 /// (render fragments use <c>AddAttribute</c> with a literal of a real parameter). A literal whose name
 /// starts with an uppercase ASCII letter, on a component of the OmniEurope.Blazor assembly that has no
-/// public <c>[Parameter]</c> property of that name (case-insensitive, as Blazor matches), is reported.
-/// Lowercase names are HTML attributes and <c>@attributes</c> splats are
-/// <c>AddMultipleAttributes</c>: neither is ever reported. The generator leaves that literal in a
-/// <c>#line hidden</c> region, so the location is recovered in the <c>.razor</c> file itself.
+/// public <c>[Parameter]</c> property of that name (case-insensitive, as Blazor matches), is reported;
+/// on a component with no <c>CaptureUnmatchedValues</c> parameter, any such literal is. Otherwise
+/// lowercase names are HTML attributes and <c>@attributes</c> splats are <c>AddMultipleAttributes</c>:
+/// neither is reported. The generator leaves that literal in a <c>#line hidden</c> region, so the
+/// location is recovered in the <c>.razor</c> file itself.
+/// Blazor matches parameter names case-insensitively, so the generator binds a lowercase <c>class</c>
+/// or <c>id</c> to the <c>Class</c> or <c>Id</c> parameter and writes <c>nameof(T.Class)</c>, mapped by
+/// a <c>#line</c> directive to the attribute as written: the rule reads that span of the <c>.razor</c>
+/// file and reports it when it is lowercase. Without the <c>.razor</c> file (the Razor SDK passes it as
+/// an additional file) that case cannot be seen; a literal <c>"class"</c> or <c>"id"</c> is reported
+/// in any code.
 /// </remarks>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class UnknownComponentParameterAnalyzer : DiagnosticAnalyzer
@@ -46,7 +55,16 @@ public sealed class UnknownComponentParameterAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: "The component captures unmatched attributes, so a parameter it does not have would become an HTML attribute. Remove the attribute or use the parameter that replaced it.");
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    private static readonly DiagnosticDescriptor LowercaseRule = new(
+        DiagnosticId,
+        "Lowercase class or id on an OmniEurope.Blazor component",
+        "{0} takes '{2}', not '{1}': write {2}=\"...\"",
+        "OmniEurope.Usage",
+        DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Class and Id are parameters the component places itself (Class on its outermost element, Id on its focusable control); the runtime guard refuses a lowercase class or id.");
+
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule, LowercaseRule);
 
     public override void Initialize(AnalysisContext context)
     {
@@ -62,7 +80,7 @@ public sealed class UnknownComponentParameterAnalyzer : DiagnosticAnalyzer
             var razorFiles = start.Options.AdditionalFiles
                 .Where(file => file.Path.EndsWith(".razor", StringComparison.OrdinalIgnoreCase))
                 .ToImmutableArray();
-            var parameters = new ConcurrentDictionary<INamedTypeSymbol, HashSet<string>>(SymbolEqualityComparer.Default);
+            var parameters = new ConcurrentDictionary<INamedTypeSymbol, ComponentShape>(SymbolEqualityComparer.Default);
             start.RegisterSemanticModelAction(model => new TreeAnalysis(model, builder, parameter, razorFiles, parameters).Run());
         });
     }
@@ -72,7 +90,7 @@ public sealed class UnknownComponentParameterAnalyzer : DiagnosticAnalyzer
         INamedTypeSymbol builder,
         INamedTypeSymbol parameterAttribute,
         ImmutableArray<AdditionalText> razorFiles,
-        ConcurrentDictionary<INamedTypeSymbol, HashSet<string>> parameterCache)
+        ConcurrentDictionary<INamedTypeSymbol, ComponentShape> parameterCache)
     {
         private readonly SemanticModel _model = context.SemanticModel;
         private readonly CancellationToken _cancellation = context.CancellationToken;
@@ -128,33 +146,66 @@ public sealed class UnknownComponentParameterAnalyzer : DiagnosticAnalyzer
         {
             var arguments = invocation.ArgumentList.Arguments;
             if (arguments.Count < 2
-                || arguments[1].Expression is not LiteralExpressionSyntax literal
-                || !literal.IsKind(SyntaxKind.StringLiteralExpression)) return null;
+                || !string.Equals(component.ContainingAssembly?.Name, LibraryAssemblyName, StringComparison.Ordinal)) return null;
 
-            var name = literal.Token.ValueText;
-            if (name.Length == 0 || name[0] < 'A' || name[0] > 'Z') return null;
-            if (!string.Equals(component.ContainingAssembly?.Name, LibraryAssemblyName, StringComparison.Ordinal)) return null;
-            if (ParametersOf(component).Contains(name)) return null;
+            switch (arguments[1].Expression)
+            {
+                case LiteralExpressionSyntax literal when literal.IsKind(SyntaxKind.StringLiteralExpression):
+                {
+                    var name = literal.Token.ValueText;
+                    if (name.Length == 0) return null;
 
-            var value = arguments.Count > 2 ? arguments[2].Expression : null;
-            return new Finding(literal, component.Name, name, EffectivePosition(invocation, value));
+                    var shape = ShapeOf(component);
+                    var value = arguments.Count > 2 ? arguments[2].Expression : null;
+                    if (name is "class" or "id" && shape.Parameters.Contains(name))
+                        return new Finding(literal, component.Name, name, EffectivePosition(invocation, value)) { Replacement = Capitalized(name) };
+                    if (shape.Parameters.Contains(name)) return null;
+                    return name[0] is >= 'A' and <= 'Z' || !shape.Captures
+                        ? new Finding(literal, component.Name, name, EffectivePosition(invocation, value))
+                        : null;
+                }
+
+                // A parameter the generator bound: nameof(T.Class) or nameof(T.Id), whose #line directive
+                // maps to the attribute as the .razor file writes it. Checked against that text in Report.
+                case InvocationExpressionSyntax { Expression: IdentifierNameSyntax { Identifier.ValueText: "nameof" } } nameOf
+                    when nameOf.ArgumentList.Arguments.Count == 1:
+                {
+                    var token = nameOf.ArgumentList.Arguments[0].Expression.GetLastToken();
+                    if (token.ValueText is not ("Class" or "Id")) return null;
+                    var mapping = token.LeadingTrivia
+                        .Select(trivia => trivia.GetStructure())
+                        .OfType<LineSpanDirectiveTriviaSyntax>()
+                        .LastOrDefault();
+                    return mapping is null
+                        ? null
+                        : new Finding(null, component.Name, token.ValueText.ToLowerInvariant(), invocation.SpanStart) { Replacement = token.ValueText, Mapping = mapping };
+                }
+
+                default:
+                    return null;
+            }
         }
 
-        private HashSet<string> ParametersOf(INamedTypeSymbol component) =>
+        private static string Capitalized(string name) => char.ToUpperInvariant(name[0]) + name.Substring(1);
+
+        private ComponentShape ShapeOf(INamedTypeSymbol component) =>
             parameterCache.GetOrAdd(component.OriginalDefinition, type =>
             {
                 var names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                var captures = false;
                 for (var current = type; current is not null; current = current.BaseType)
                 {
                     foreach (var property in current.GetMembers().OfType<IPropertySymbol>())
                     {
-                        if (property.DeclaredAccessibility == Accessibility.Public
-                            && property.GetAttributes().Any(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, parameterAttribute)))
-                            names.Add(property.Name);
+                        if (property.DeclaredAccessibility != Accessibility.Public) continue;
+                        var attribute = property.GetAttributes().FirstOrDefault(candidate => SymbolEqualityComparer.Default.Equals(candidate.AttributeClass, parameterAttribute));
+                        if (attribute is null) continue;
+                        names.Add(property.Name);
+                        captures |= attribute.NamedArguments.Any(argument => argument.Key == "CaptureUnmatchedValues" && argument.Value.Value is true);
                     }
                 }
 
-                return names;
+                return new ComponentShape(names, captures);
             });
 
         /// <summary>
@@ -190,12 +241,20 @@ public sealed class UnknownComponentParameterAnalyzer : DiagnosticAnalyzer
             var razorFile = razorPath is null ? null : FindRazorFile(razorPath);
             var razorText = razorFile?.GetText(_cancellation);
             var cursor = 0;
+            var texts = new Dictionary<string, SourceText?>(StringComparer.OrdinalIgnoreCase);
             foreach (var finding in findings.OrderBy(finding => finding.Position))
             {
+                if (finding.Mapping is { } mapping)
+                {
+                    if (LowercaseInRazor(mapping, finding.Name, texts) is { } written)
+                        context.ReportDiagnostic(Diagnostic.Create(LowercaseRule, written, finding.Component, finding.Name, finding.Replacement));
+                    continue;
+                }
+
                 Location location;
                 if (razorPath is null)
                 {
-                    location = finding.Literal.GetLocation();
+                    location = finding.Literal!.GetLocation();
                 }
                 else
                 {
@@ -203,8 +262,31 @@ public sealed class UnknownComponentParameterAnalyzer : DiagnosticAnalyzer
                     location = LocateInRazor(razorPath, razorText, anchor, finding.Name, ref cursor);
                 }
 
-                context.ReportDiagnostic(Diagnostic.Create(Rule, location, finding.Component, finding.Name));
+                context.ReportDiagnostic(finding.Replacement is null
+                    ? Diagnostic.Create(Rule, location, finding.Component, finding.Name)
+                    : Diagnostic.Create(LowercaseRule, location, finding.Component, finding.Name, finding.Replacement));
             }
+        }
+
+        /// <summary>
+        /// The location of a bound Class or Id attribute when the .razor file writes it in lowercase
+        /// (<paramref name="lowercase"/>), read at the span its #line directive maps to; null when it is
+        /// written as the parameter, or when the file is not available.
+        /// </summary>
+        private Location? LowercaseInRazor(LineSpanDirectiveTriviaSyntax mapping, string lowercase, Dictionary<string, SourceText?> texts)
+        {
+            if (!int.TryParse(mapping.Start.Line.ValueText, out var line)
+                || !int.TryParse(mapping.Start.Character.ValueText, out var character)) return null;
+            var path = mapping.File.ValueText;
+            if (!texts.TryGetValue(path, out var text)) texts[path] = text = FindRazorFile(path)?.GetText(_cancellation);
+            if (text is null || line < 1 || line > text.Lines.Count) return null;
+
+            var start = text.Lines[line - 1].Start + character - 1;
+            if (character < 1 || start + lowercase.Length > text.Length
+                || !string.Equals(text.ToString(new TextSpan(start, lowercase.Length)), lowercase, StringComparison.Ordinal)) return null;
+
+            var span = new TextSpan(start, lowercase.Length);
+            return Location.Create(path, span, text.Lines.GetLinePositionSpan(span));
         }
 
         /// <summary>
@@ -276,12 +358,28 @@ public sealed class UnknownComponentParameterAnalyzer : DiagnosticAnalyzer
         }
     }
 
-    private sealed class Finding(LiteralExpressionSyntax literal, string component, string name, int position)
+    private sealed class Finding(LiteralExpressionSyntax? literal, string component, string name, int position)
     {
-        internal LiteralExpressionSyntax Literal { get; } = literal;
+        /// <summary>The literal naming the attribute; null for a parameter the generator bound with nameof.</summary>
+        internal LiteralExpressionSyntax? Literal { get; } = literal;
         internal string Component { get; } = component;
         internal string Name { get; } = name;
         internal int Position { get; } = position;
+
+        /// <summary>For a lowercase class or id, the parameter to write instead; null for an unknown attribute.</summary>
+        internal string? Replacement { get; set; }
+
+        /// <summary>For a bound Class or Id, the #line directive mapping it into the .razor file.</summary>
+        internal LineSpanDirectiveTriviaSyntax? Mapping { get; set; }
+    }
+
+    private sealed class ComponentShape(HashSet<string> parameters, bool captures)
+    {
+        /// <summary>The public parameter names, compared case-insensitively as Blazor does.</summary>
+        internal HashSet<string> Parameters { get; } = parameters;
+
+        /// <summary>Whether a parameter captures unmatched attributes.</summary>
+        internal bool Captures { get; } = captures;
     }
 
     private sealed class LineMapping(int position, string file, int line, int character)

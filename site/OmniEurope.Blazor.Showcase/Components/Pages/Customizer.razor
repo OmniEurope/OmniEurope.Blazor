@@ -13,21 +13,21 @@
 <section class="showcase-workshop-bar" aria-labelledby="customize-bar-title">
     <OmniHeading Id="customize-bar-title" Level="OmniHeadingLevel.H2" Class="omni-visually-hidden">@Text["WorkshopBarTitle"]</OmniHeading>
     <OmniFormField For="workshop-theme">
-        <Label>@Text["WorkshopTheme"]</Label>
+        <LabelContent>@Text["WorkshopTheme"]</LabelContent>
         <ChildContent>
             <OmniDropDown TValue="string" Id="workshop-theme" Options="ThemeOptions"
                           @bind-Value:get="Theme.Theme.Name" @bind-Value:set="SelectThemeAsync" />
         </ChildContent>
     </OmniFormField>
     <OmniFormField For="workshop-palette">
-        <Label>@Text["WorkshopPalette"]</Label>
+        <LabelContent>@Text["WorkshopPalette"]</LabelContent>
         <ChildContent>
             <OmniDropDown TValue="string" Id="workshop-palette" Options="PaletteOptions"
                           @bind-Value:get="Theme.Palette.Name" @bind-Value:set="SelectPaletteAsync" />
         </ChildContent>
     </OmniFormField>
     <OmniFormField For="workshop-reset-palette">
-        <Label>@Text["WorkshopThemePalette"]</Label>
+        <LabelContent>@Text["WorkshopThemePalette"]</LabelContent>
         <ChildContent>
             <OmniButton Id="workshop-reset-palette" Variant="OmniButtonVariant.Secondary"
                         Disabled="@Theme.HasThemePalette" OnClick="@(_ => Theme.ResetPaletteAsync())">
@@ -42,14 +42,14 @@
                        @bind-Value:get="Theme.Mode" @bind-Value:set="SetModeAsync" />
     </div>
     <OmniFormField For="workshop-density">
-        <Label>@Text["WorkshopDensity"]</Label>
+        <LabelContent>@Text["WorkshopDensity"]</LabelContent>
         <ChildContent>
             <OmniDropDown TValue="OmniDensity" Id="workshop-density" Options="DensityOptions"
                           @bind-Value:get="Theme.Density" @bind-Value:set="SetDensityAsync" />
         </ChildContent>
     </OmniFormField>
     <OmniFormField For="workshop-hover">
-        <Label>@Text["WorkshopHover"]</Label>
+        <LabelContent>@Text["WorkshopHover"]</LabelContent>
         <ChildContent>
             <OmniToggleButton Id="workshop-hover" @bind-Value="ForceHover">
                 @(ForceHover ? Text["WorkshopHoverForced"] : Text["WorkshopHoverForce"])

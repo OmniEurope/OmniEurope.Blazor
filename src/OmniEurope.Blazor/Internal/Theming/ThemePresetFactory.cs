@@ -58,7 +58,7 @@ internal static class ThemePresetFactory
 
     /// <summary>
     /// The colour tokens of one mode. The order of the operations is the one of the reference mockup
-    /// (<c>plans/PLAN-008-maquette-themes.html</c>, <c>buildTokens</c>): a divergence changes values.
+    /// (<c>docs/plans/PLAN-004-maquette-themes.html</c>, <c>buildTokens</c>): a divergence changes values.
     /// </summary>
     public static Dictionary<string, string> BuildColors(PaletteDefinition palette, OmniAppearance mode)
     {
@@ -123,7 +123,7 @@ internal static class ThemePresetFactory
             ["--omni-color-text"] = text,
             // Measured against the hovered surface, the furthest from the page of the three it sits on
             // (page, muted, hovered: darker in light mode, lighter in dark mode), so the discreet text of
-            // a hovered row or menu item stays readable, and on the two others with it (PLAN-008 lot 8).
+            // a hovered row or menu item stays readable, and on the two others with it (PLAN-004 lot 8).
             ["--omni-color-text-muted"] = PushApart(ThemeColor.Mix(text, surface, 0.65), surfaceHover, BodyTextRatio),
             ["--omni-color-success"] = success,
             ["--omni-color-warning"] = warning,
@@ -163,7 +163,7 @@ internal static class ThemePresetFactory
             ["--omni-elevation-shadow"] = dark ? "rgb(0 0 0 / 60%)" : "rgb(0 0 0 / 22%)",
             ["--omni-elevation-shadow-soft"] = dark ? "rgb(0 0 0 / 40%)" : "rgb(0 0 0 / 12%)",
             ["--omni-elevation-highlight"] = dark ? "rgb(255 255 255 / 7%)" : "rgb(255 255 255 / 0%)",
-            // Trial (PLAN-008 T14), kept together so that removing it is one commit: a layer drawn
+            // Trial (PLAN-004 T14), kept together so that removing it is one commit: a layer drawn
             // after the menus of a desktop system, recreated from the rendering, no code reused. In
             // dark mode the layer is one step lighter than the page with a light hairline and a top
             // highlight, since a shadow alone detaches nothing there.
@@ -183,12 +183,94 @@ internal static class ThemePresetFactory
             ["--omni-chart-color-4"] = danger,
         };
 
+        var extraSeries = ExtraSeries([accent, success, warning, info, danger]);
+        for (var index = 0; index < extraSeries.Count; index++)
+        {
+            tokens[$"--omni-chart-color-{index + 5}"] = Visible(extraSeries[index], surface);
+        }
+
         AddFill(tokens, "accent", accentFill);
         AddFill(tokens, "success", successFill);
         AddFill(tokens, "info", infoFill);
         AddFill(tokens, "warning", warningFill);
         AddFill(tokens, "danger", dangerFill);
         return tokens;
+    }
+
+    /// <summary>
+    /// The categorical colours of series 5 to 7, after the five the palette gives (accent, success,
+    /// warning, information, danger). Candidates are taken in order when their hue stands at least
+    /// <see cref="SeriesHueGap"/> degrees from every chromatic series already chosen, so no extra series
+    /// repeats the palette's accent or a severity (the fixed indigo of series 7 was the accent of
+    /// Opale). The slate is neutral and always fits. Should fewer than three candidates fit, the first
+    /// unused ones complete the set, so every palette gets three colours.
+    /// </summary>
+    private static List<string> ExtraSeries(IEnumerable<string> paletteSeries)
+    {
+        var hues = paletteSeries.Select(Hue).OfType<double>().ToList();
+        var chosen = new List<string>(3);
+        foreach (var candidate in SeriesCandidates)
+        {
+            if (chosen.Count == 3)
+            {
+                break;
+            }
+
+            var hue = Hue(candidate);
+            if (hue is null || hues.TrueForAll(taken => HueDistance(taken, hue.Value) >= SeriesHueGap))
+            {
+                chosen.Add(candidate);
+                if (hue is not null)
+                {
+                    hues.Add(hue.Value);
+                }
+            }
+        }
+
+        foreach (var candidate in SeriesCandidates.Where(candidate => !chosen.Contains(candidate)))
+        {
+            if (chosen.Count == 3)
+            {
+                break;
+            }
+
+            chosen.Add(candidate);
+        }
+
+        return chosen;
+    }
+
+    /// <summary>The smallest hue difference, in degrees, below which two series read as one colour.</summary>
+    private const double SeriesHueGap = 36;
+
+    /// <summary>Lime, magenta, rose, teal, violet, indigo, amber, sky, brown, then a neutral slate.</summary>
+    private static readonly string[] SeriesCandidates =
+        ["#65a30d", "#c026d3", "#db2777", "#0d9488", "#7c3aed", "#4f46e5", "#ca8a04", "#0284c7", "#92400e", "#64748b"];
+
+    /// <summary>The hue of a colour in degrees, or <see langword="null"/> for a near-neutral one (saturation under 0.25).</summary>
+    private static double? Hue(string hex)
+    {
+        var (r, g, b) = ThemeColor.Parse(hex);
+        var max = Math.Max(r, Math.Max(g, b));
+        var min = Math.Min(r, Math.Min(g, b));
+        var delta = max - min;
+        var lightness = (max + min) / 510d;
+        var saturation = delta == 0 ? 0 : delta / 255d / (1 - Math.Abs(2 * lightness - 1));
+        if (saturation < 0.25)
+        {
+            return null;
+        }
+
+        double hue = max == r ? (g - b) / (double)delta % 6
+            : max == g ? (b - r) / (double)delta + 2
+            : (r - g) / (double)delta + 4;
+        return (hue * 60 + 360) % 360;
+    }
+
+    private static double HueDistance(double first, double second)
+    {
+        var difference = Math.Abs(first - second) % 360;
+        return Math.Min(difference, 360 - difference);
     }
 
     /// <summary>

@@ -1,11 +1,11 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<div id="@Id"
+<div @attributes="AdditionalAttributes"
+     id="@Id"
      class="@Css("omni-skeleton", $"omni-skeleton--{Shape.ToString().ToLowerInvariant()}")"
      role="@(string.IsNullOrWhiteSpace(Label) ? null : "status")"
-     aria-hidden="@(string.IsNullOrWhiteSpace(Label) ? "true" : null)"
-     @attributes="AdditionalAttributes">
+     aria-hidden="@(string.IsNullOrWhiteSpace(Label) ? "true" : null)">
     @for (var index = 0; index < NormalizedLineCount; index++)
     {
         <span class="omni-skeleton__item"></span>

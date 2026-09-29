@@ -1,8 +1,11 @@
 @namespace OmniEurope.Blazor.Components
-<g class="@CssClass" aria-label="@Title">
-    @foreach (var slice in Slices)
+@using OmniEurope.Blazor.Internal
+<g class="@CssClass">
+    @for (var index = 0; index < _slices.Count; index++)
     {
-        <path class="omni-chart-color-@(_index % 8)" d="@SlicePath(slice)"><title>@slice.Label : @slice.Value</title></path>
-        _index++;
+        var slice = _slices[index];
+        <path class="@ChartColor.Class(index)" d="@SlicePath(index)"><title>@OmniChartGeometry.Pair(slice.Label, OmniChartGeometry.Display(slice.Value))</title></path>
     }
 </g>
+
+@implements IDisposable

@@ -1,10 +1,16 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// The application bar at the top of a layout: the brand (logo and name, optionally a link home), then
+/// the host's content (navigation, actions, window controls).
+/// </summary>
 public partial class OmniHeader
 {
+    /// <summary>What the header holds after the brand.</summary>
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>Keeps the header at the top of the page while it scrolls.</summary>
     [Parameter]
     public bool Sticky { get; set; }
 
@@ -20,8 +26,10 @@ public partial class OmniHeader
     public string? Brand { get; set; }
 
     /// <summary>
-    /// The logo as an image, before <see cref="Brand"/>, decorative
-    /// (<c>aria-hidden</c>): the name says what it stands for. Null or blank, the default, renders no logo.
+    /// The logo as an image, before <see cref="Brand"/>. Beside a name it is decorative
+    /// (<c>aria-hidden</c>): the name says what it stands for. Without a name it carries one itself, the
+    /// localized "Home" when it is a link (<see cref="BrandHref"/>), else the localized "Logo", so a
+    /// logo-only brand is never a nameless link. Null or blank, the default, renders no logo.
     /// </summary>
     [Parameter]
     public string? BrandLogo { get; set; }
@@ -34,6 +42,14 @@ public partial class OmniHeader
     public string? BrandHref { get; set; }
 
     private bool HasBrand => !string.IsNullOrWhiteSpace(Brand) || !string.IsNullOrWhiteSpace(BrandLogo);
+
+    private bool HasName => !string.IsNullOrWhiteSpace(Brand);
+
+    // Beside the name, the logo repeats it: an empty alt hides it. Alone, it names the brand, or the
+    // link it is: where the link leads.
+    private string LogoAlt => HasName ? string.Empty : Localize(SafeBrandHref is null ? "HeaderLogo" : "HeaderHome");
+
+    private string? LogoHidden => HasName ? "true" : null;
 
     private string? SafeBrandHref => string.IsNullOrWhiteSpace(BrandHref) ? null : OmniUriPolicy.EnsureSafe(BrandHref, nameof(BrandHref));
 }

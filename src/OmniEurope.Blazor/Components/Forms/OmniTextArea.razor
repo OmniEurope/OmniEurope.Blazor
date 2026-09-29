@@ -1,10 +1,12 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniInputBase<string>
 
-<div class="omni-text-area">
+@* Class goes on the wrapper, the outermost element; Id and the additional attributes on the text area,
+   the control. *@
+<div class="@WrapperCss("omni-text-area")">
     <textarea @attributes="AdditionalAttributes"
               id="@Id"
-              class="@InputCss("omni-input", "omni-text-area__input")"
+              class="@InnerInputCss("omni-input", "omni-text-area__input")"
               rows="@Rows"
               maxlength="@MaxLength"
               placeholder="@Placeholder"
@@ -16,6 +18,6 @@
               @oninput="HandleInput"></textarea>
     @if (ShowCount && MaxLength is not null)
     {
-        <span class="omni-text-area__count" aria-live="polite">@CurrentLength / @MaxLength</span>
+        <span class="omni-text-area__count" aria-live="polite">@Localize("TextAreaCount", CurrentLength, MaxLength)</span>
     }
 </div>

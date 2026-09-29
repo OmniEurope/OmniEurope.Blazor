@@ -1,6 +1,6 @@
 @using Microsoft.AspNetCore.Components.Forms
 
-@* Le formulaire vertical de la maquette (PLAN-008 T17 c) : libellé au-dessus, astérisque
+@* Le formulaire vertical de la maquette (PLAN-004 T17 c) : libellé au-dessus, astérisque
    d'obligation, aide, erreur avec icône, récapitulatif des erreurs en tête, tous les types de champ,
    puis les états désactivé et lecture seule, distincts. Les deux erreurs sont de vraies erreurs de
    validation posées dans le contexte d'édition : chaque champ en tire aria-invalid lui-même, et les
@@ -9,7 +9,7 @@
     <OmniStack Gap="OmniSpacing.Medium">
         @if (Errors.Count > 0)
         {
-            <OmniAlert Severity="OmniSeverity.Danger" Variant="OmniAlertVariant.Filled"
+            <OmniAlert Severity="OmniSeverity.Danger" Fill="OmniFill.Solid"
                        Title="@Text["VFormSummaryTitle", Errors.Count]">
                 <ul class="demo-form-errors">
                     @foreach (var error in Errors)
@@ -21,14 +21,14 @@
         }
 
         <OmniFormField For="vform-name" Required="true" Description="@Text["VFormNameHelp"]" Error="@ErrorOf(nameof(Model.Name))">
-            <Label>@Text["VFormName"]</Label>
+            <LabelContent>@Text["VFormName"]</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="vform-name" @bind-Value="Model.Name" />
             </ChildContent>
         </OmniFormField>
 
         <OmniFormField Id="vform-mail-field" For="vform-mail" Required="true" Error="@ErrorOf(nameof(Model.Email))">
-            <Label>@Text["VFormMail"]</Label>
+            <LabelContent>@Text["VFormMail"]</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="vform-mail" Type="OmniTextBoxType.Email" Autocomplete="email"
                              AriaDescribedBy="@(ErrorOf(nameof(Model.Email)) is null ? null : "vform-mail-field-error")"
@@ -38,13 +38,13 @@
 
         <div class="demo-form-row">
             <OmniFormField For="vform-token">
-                <Label>@Text["VFormToken"]</Label>
+                <LabelContent>@Text["VFormToken"]</LabelContent>
                 <ChildContent>
                     <OmniPassword Id="vform-token" Autocomplete="off" Revealable="true" @bind-Value="Model.Token" />
                 </ChildContent>
             </OmniFormField>
             <OmniFormField For="vform-replicas">
-                <Label>@Text["VFormReplicas"]</Label>
+                <LabelContent>@Text["VFormReplicas"]</LabelContent>
                 <ChildContent>
                     <OmniNumeric TValue="int" Id="vform-replicas" Minimum="1" Maximum="12" Clamp="true" @bind-Value="Model.Replicas" />
                 </ChildContent>
@@ -53,13 +53,13 @@
 
         <div class="demo-form-row">
             <OmniFormField For="vform-environment">
-                <Label>@Text["VFormEnvironment"]</Label>
+                <LabelContent>@Text["VFormEnvironment"]</LabelContent>
                 <ChildContent>
                     <OmniDropDown TValue="string" Id="vform-environment" Options="Environments" @bind-Value="Model.Environment" />
                 </ChildContent>
             </OmniFormField>
             <OmniFormField For="vform-date">
-                <Label>@Text["VFormDate"]</Label>
+                <LabelContent>@Text["VFormDate"]</LabelContent>
                 <ChildContent>
                     <OmniDatePicker Id="vform-date" @bind-Value="Model.Date" />
                 </ChildContent>
@@ -68,13 +68,13 @@
 
         <div class="demo-form-row">
             <OmniFormField For="vform-time">
-                <Label>@Text["VFormTime"]</Label>
+                <LabelContent>@Text["VFormTime"]</LabelContent>
                 <ChildContent>
-                    <OmniTimePicker Id="vform-time" Step="5" @bind-Value="Model.Time" />
+                    <OmniTimePicker Id="vform-time" Step="TimeSpan.FromMinutes(5)" @bind-Value="Model.Time" />
                 </ChildContent>
             </OmniFormField>
             <OmniFormField For="vform-moment">
-                <Label>@Text["VFormMoment"]</Label>
+                <LabelContent>@Text["VFormMoment"]</LabelContent>
                 <ChildContent>
                     <OmniDateTimePicker Id="vform-moment" @bind-Value="Model.Moment" />
                 </ChildContent>
@@ -82,7 +82,7 @@
         </div>
 
         <OmniFormField For="vform-description">
-            <Label>@Text["VFormDescription"]</Label>
+            <LabelContent>@Text["VFormDescription"]</LabelContent>
             <ChildContent>
                 <OmniTextArea Id="vform-description" Rows="3" @bind-Value="Model.Description" />
             </ChildContent>
@@ -93,7 +93,7 @@
         <div class="demo-choice">
             <OmniRadioButtonList TValue="string" Id="vform-strategy" Name="vform-strategy"
                                  Label="@Text["VFormStrategy"]" Options="Strategies"
-                                 aria-describedby="@(ErrorOf(nameof(Model.Strategy)) is null ? null : "vform-strategy-error")"
+                                 AriaDescribedBy="@(ErrorOf(nameof(Model.Strategy)) is null ? null : "vform-strategy-error")"
                                  @bind-Value="Model.Strategy" />
             @if (ErrorOf(nameof(Model.Strategy)) is { } strategyError)
             {
@@ -134,23 +134,23 @@
             <ChildContent>
                 <OmniStack Gap="OmniSpacing.Medium">
                     <OmniFormField For="vform-manifest" Description="@Text["VFormManifestHelp"]">
-                        <Label>@Text["VFormManifest"]</Label>
+                        <LabelContent>@Text["VFormManifest"]</LabelContent>
                         <ChildContent>
-                            <OmniUpload Display="OmniUploadDisplay.Field" InputId="vform-manifest"
+                            <OmniUpload Display="OmniUploadDisplay.Field" Id="vform-manifest"
                                         MaximumFileSize="1048576" Upload="KeepAsync" @bind-Files="Manifest" />
                         </ChildContent>
                     </OmniFormField>
                     <OmniFormField For="vform-archive" Description="@Text["VFormArchiveHelp"]">
-                        <Label>@Text["VFormArchive"]</Label>
+                        <LabelContent>@Text["VFormArchive"]</LabelContent>
                         <ChildContent>
-                            <OmniUpload InputId="vform-archive" MaximumFiles="1" MaximumFileSize="52428800"
+                            <OmniUpload Id="vform-archive" MaximumFiles="1" MaximumFileSize="52428800"
                                         Upload="KeepAsync" @bind-Files="Archive" />
                         </ChildContent>
                     </OmniFormField>
                     <OmniFormField For="vform-attachments" Description="@Text["VFormAttachmentsHelp"]">
-                        <Label>@Text["VFormAttachments"]</Label>
+                        <LabelContent>@Text["VFormAttachments"]</LabelContent>
                         <ChildContent>
-                            <OmniUpload Multiple="true" InputId="vform-attachments" MaximumFiles="10"
+                            <OmniUpload Multiple="true" Id="vform-attachments" MaximumFiles="10"
                                         MaximumFileSize="20971520" ReducedList="true"
                                         Upload="KeepAsync" @bind-Files="Attachments" />
                         </ChildContent>
@@ -161,13 +161,13 @@
 
         <div class="demo-form-row">
             <OmniFormField For="vform-server" Disabled="true" Description="@Text["VFormServerHelp"]">
-                <Label>@Text["VFormServer"]</Label>
+                <LabelContent>@Text["VFormServer"]</LabelContent>
                 <ChildContent>
                     <OmniTextBox Id="vform-server" Disabled="true" @bind-Value="Model.Server" />
                 </ChildContent>
             </OmniFormField>
             <OmniFormField For="vform-identifier" Description="@Text["VFormIdentifierHelp"]">
-                <Label>@Text["VFormIdentifier"]</Label>
+                <LabelContent>@Text["VFormIdentifier"]</LabelContent>
                 <ChildContent>
                     <OmniTextBox Id="vform-identifier" ReadOnly="true" @bind-Value="Model.Identifier" />
                 </ChildContent>
@@ -175,7 +175,7 @@
         </div>
 
         <OmniFormField For="vform-agent" Disabled="true">
-            <Label>@Text["VFormAgent"]</Label>
+            <LabelContent>@Text["VFormAgent"]</LabelContent>
             <ChildContent>
                 <OmniDropDown TValue="string" Id="vform-agent" Disabled="true" Options="Agents" @bind-Value="Model.Agent" />
             </ChildContent>

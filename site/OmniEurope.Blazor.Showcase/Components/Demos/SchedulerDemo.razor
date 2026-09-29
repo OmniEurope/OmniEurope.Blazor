@@ -2,9 +2,9 @@
     @* Le sélecteur pose les trois vues que l'agenda accepte ; le composant offre les siennes, mais
        une application les pilote souvent depuis sa propre barre d'outils. *@
     <OmniFormField For="scheduler-view">
-        <Label>Vue</Label>
+        <LabelContent>Vue</LabelContent>
         <ChildContent>
-            <OmniDropDown TValue="OmniSchedulerView" Id="scheduler-view" Options="ViewOptions" @bind-Value="View" />
+            <OmniDropDown TValue="OmniCalendarView" Id="scheduler-view" Options="ViewOptions" @bind-Value="View" />
         </ChildContent>
     </OmniFormField>
     <OmniSwitch Id="scheduler-time-grid" @bind-Value="TimeGrid">Grille horaire de 8 h à 18 h</OmniSwitch>
@@ -20,7 +20,7 @@
                    Items="Appointments"
                    DayStart="@(TimeGrid ? new TimeOnly(8, 0) : null)"
                    DayEnd="@(TimeGrid ? new TimeOnly(18, 0) : null)"
-                   AppointmentClicked="Open"
-                   AppointmentMoved="Move" />
+                   OnAppointmentClick="Open"
+                   OnAppointmentMove="Move" />
     <p role="status">@Chosen</p>
 </OmniStack>

@@ -12,7 +12,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class HtmlEditorBuiltInPanelTests : OmniBunitContext
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-html-editor.js";
+    private const string ModulePath = Internal.OmniModules.HtmlEditor;
 
     [Fact]
     public async Task ShowBlocks_TogglesTheOutlineClassAndItsPressedState()

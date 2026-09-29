@@ -43,7 +43,10 @@ public partial class OmniCodeEditor
     /// <summary>The Monaco language identifier: <c>yaml</c>, <c>json</c>, <c>csharp</c>, <c>javascript</c>, <c>html</c>, <c>sql</c>...</summary>
     [Parameter] public string Language { get; set; } = "plaintext";
 
-    /// <summary>Whether the code can be read and selected but not changed.</summary>
+    /// <summary>
+    /// Whether the code can be read, selected and copied but not changed: Monaco is read-only and the
+    /// fallback text area <c>readonly</c>, both keep the focus, and the editor is not dimmed.
+    /// </summary>
     [Parameter] public bool ReadOnly { get; set; }
 
     /// <summary>
@@ -65,7 +68,8 @@ public partial class OmniCodeEditor
 
     [Parameter] public bool ShowLineNumbers { get; set; } = true;
 
-    [Parameter] public bool WordWrap { get; set; }
+    /// <summary>Whether long lines wrap instead of scrolling sideways. Off by default.</summary>
+    [Parameter] public bool Wrap { get; set; }
 
     [Parameter] public int TabSize { get; set; } = 4;
 
@@ -78,8 +82,13 @@ public partial class OmniCodeEditor
     /// <summary>Raised when a link produced by <see cref="Links"/> is followed.</summary>
     [Parameter] public EventCallback<OmniCodeEditorLinkEventArgs> LinkActivated { get; set; }
 
-    /// <summary>The accessible name. Empty uses the localized "code editor".</summary>
-    [Parameter] public string Label { get; set; } = string.Empty;
+    /// <summary>
+    /// The accessible name. On the fallback text area it is written as <c>aria-label</c> only when set, so
+    /// that the <c>label</c> of an enclosing <see cref="OmniFormField"/> names it otherwise. Monaco draws a
+    /// text area of its own that no <c>label for</c> reaches: it takes this name, or the localized "code
+    /// editor" when null.
+    /// </summary>
+    [Parameter] public string? Label { get; set; }
 
     [Parameter] public string? AriaDescribedBy { get; set; }
 
@@ -260,7 +269,7 @@ public partial class OmniCodeEditor
         language = string.IsNullOrWhiteSpace(Language) ? "plaintext" : Language,
         readOnly = IsLocked,
         lineNumbers = ShowLineNumbers,
-        wordWrap = WordWrap,
+        wordWrap = Wrap,
         tabSize = TabSize,
         label = EffectiveLabel,
         links = Links.Select(link => new
@@ -273,7 +282,7 @@ public partial class OmniCodeEditor
 
     private string OptionsSignature() => string.Join(
         '',
-        new[] { Language, IsLocked.ToString(), ShowLineNumbers.ToString(), WordWrap.ToString(), TabSize.ToString(CultureInfo.InvariantCulture), EffectiveLabel }
+        new[] { Language, IsLocked.ToString(), ShowLineNumbers.ToString(), Wrap.ToString(), TabSize.ToString(CultureInfo.InvariantCulture), EffectiveLabel }
             .Concat(Links.Select(link => $"{link.Name}{link.Pattern}{link.Tooltip}")));
 
     protected override bool TryParseValueFromString(string? value, out string result, out string validationErrorMessage)

@@ -30,9 +30,12 @@ public partial class OmniTimePicker
     [Parameter]
     public TimeOnly? Maximum { get; set; }
 
-    /// <summary>Minutes between two items of the minute column, from 1 to 30; 5 by default.</summary>
+    /// <summary>
+    /// The time between two items of the minute column, a whole number of minutes from 1 to 30; five
+    /// minutes by default. Any other value throws <see cref="ArgumentOutOfRangeException"/>.
+    /// </summary>
     [Parameter]
-    public int Step { get; set; } = 5;
+    public TimeSpan Step { get; set; } = TimeSpan.FromMinutes(5);
 
     [Parameter]
     public bool Disabled { get; set; }
@@ -47,6 +50,11 @@ public partial class OmniTimePicker
     [Parameter]
     public string? Placeholder { get; set; }
 
+    // Class goes on the outermost element; the validation classes of the form stay on the input they describe.
+    private string RootClass => OmniEurope.Blazor.Internal.CssClassBuilder.Combine(["omni-date", "omni-date--time", Class]);
+
+    private string InputClass => OmniEurope.Blazor.Internal.CssClassBuilder.Combine(["omni-input", "omni-time-picker", CssClass]);
+
     private PickerPopup Popup => _popup ??= new PickerPopup(JavaScript, DismissAsync);
 
     private static CultureInfo Culture => CultureInfo.CurrentCulture;
@@ -58,7 +66,7 @@ public partial class OmniTimePicker
     private string EffectivePlaceholder => Placeholder
         ?? PickerFormat.Placeholder(PickerFormat.TimePattern(seconds: false), PickerLetters.From(key => Localize(key)));
 
-    private TimeOnly Now => RoundDown(TimeOnly.FromDateTime(Clock.GetLocalNow().DateTime), Step);
+    private TimeOnly Now => RoundDown(TimeOnly.FromDateTime(Clock.GetLocalNow().DateTime), StepMinutes(Step));
 
     private bool NowIsOutside => IsOutside(Now);
 
@@ -68,7 +76,7 @@ public partial class OmniTimePicker
         builder.OpenComponent<PickerTimeColumns>(0);
         builder.AddComponentParameter(1, nameof(PickerTimeColumns.IdPrefix), PanelId);
         builder.AddComponentParameter(2, nameof(PickerTimeColumns.Value), CurrentValue);
-        builder.AddComponentParameter(3, nameof(PickerTimeColumns.Step), Step);
+        builder.AddComponentParameter(3, nameof(PickerTimeColumns.Step), StepMinutes(Step));
         builder.AddComponentParameter(4, nameof(PickerTimeColumns.IsRangeAllowed), (Func<TimeOnly, TimeOnly, bool>)IsRangeAllowed);
         builder.AddComponentParameter(5, nameof(PickerTimeColumns.OnChange), EventCallback.Factory.Create<PickerTimeChange>(this, Change));
         builder.CloseComponent();
@@ -76,11 +84,24 @@ public partial class OmniTimePicker
 
     internal static TimeOnly RoundDown(TimeOnly time, int step) => new(time.Hour, time.Minute - (time.Minute % step));
 
+    /// <summary>
+    /// The step of a time picker in whole minutes, from 1 to 30, the only steps the minute column can
+    /// draw; anything else, a fraction of a minute included, throws.
+    /// </summary>
+    internal static int StepMinutes(TimeSpan step)
+    {
+        if (step < TimeSpan.FromMinutes(1) || step > TimeSpan.FromMinutes(30) || step.Ticks % TimeSpan.TicksPerMinute != 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(Step), step, "Step must be a whole number of minutes from 1 to 30.");
+        }
+
+        return (int)step.TotalMinutes;
+    }
+
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        ArgumentOutOfRangeException.ThrowIfLessThan(Step, 1, nameof(Step));
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(Step, 30, nameof(Step));
+        StepMinutes(Step);
         if (Minimum is not null && Maximum is not null && Minimum > Maximum)
         {
             throw new InvalidOperationException("Minimum cannot be greater than Maximum.");

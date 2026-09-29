@@ -46,7 +46,7 @@
                     <div class="catalog-row">
                         <OmniButton Id="catalog-open-dialog" OnClick="@(_ => OpenDialog())"><OmniIcon Name="OmniIconName.Info" Size="OmniControlSize.Small" /> <span>@Text["OpenDialog"]</span></OmniButton>
                         <OmniButton Id="catalog-notify" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => Notify())"><OmniIcon Name="OmniIconName.Warning" Size="OmniControlSize.Small" /> <span>@Text["Notify"]</span></OmniButton>
-                        <OmniTooltip Text="@Text["Tooltip"]" TabIndex="0">@Text["TooltipTrigger"]</OmniTooltip>
+                        <OmniTooltip Text="@Text["Tooltip"]" Focusable="true">@Text["TooltipTrigger"]</OmniTooltip>
                     </div>
                 </ChildContent>
             </OmniCard>
@@ -57,37 +57,37 @@
         <OmniHeading Level="OmniHeadingLevel.H2" Id="forms-title">@Text["FormsTitle"]</OmniHeading>
         <OmniCard Class="catalog-card">
             <EditForm EditContext="@EditContext" class="catalog-form">
-                <OmniFormField For="catalog-name" Label="@NameLabel" Required="true">
+                <OmniFormField For="catalog-name" Label="@Text["NameLabel"]" Required="true">
                     <OmniTextBox Id="catalog-name" Placeholder="@Text["NamePlaceholder"]" @bind-Value="Model.Name" />
                     <OmniRequiredValidator TValue="string" For="@(() => Model.Name)" />
                 </OmniFormField>
                 <OmniFormField For="catalog-notes">
-                    <Label>@Text["Notes"]</Label>
+                    <LabelContent>@Text["Notes"]</LabelContent>
                     <ChildContent><OmniTextArea Id="catalog-notes" ShowCount="true" MaxLength="120" @bind-Value="Model.Notes" /></ChildContent>
                 </OmniFormField>
                 <OmniFormField For="catalog-choice">
-                    <Label>@Text["Choice"]</Label>
+                    <LabelContent>@Text["Choice"]</LabelContent>
                     <ChildContent><OmniDropDown TValue="string" Id="catalog-choice" Options="@Options" @bind-Value="Model.Choice" /></ChildContent>
                 </OmniFormField>
                 <OmniFormField For="catalog-search">
-                    <Label>@Text["Search"]</Label>
-                    <ChildContent><OmniAutocomplete TValue="string" Id="catalog-search" Search="SearchAsync" DebounceMilliseconds="100" @bind-Value="Model.Search" /></ChildContent>
+                    <LabelContent>@Text["Search"]</LabelContent>
+                    <ChildContent><OmniAutocomplete TValue="string" Id="catalog-search" Search="SearchAsync" Debounce="TimeSpan.FromMilliseconds(100)" @bind-Value="Model.Search" /></ChildContent>
                 </OmniFormField>
                 <OmniFormField For="catalog-date">
-                    <Label>@Text["Date"]</Label>
+                    <LabelContent>@Text["Date"]</LabelContent>
                     <ChildContent><OmniDatePicker Id="catalog-date" @bind-Value="Model.Date" /></ChildContent>
                 </OmniFormField>
                 <OmniFormField For="catalog-slider">
-                    <Label>@Text["Value"]</Label>
+                    <LabelContent>@Text["Value"]</LabelContent>
                     <ChildContent><OmniSlider Id="catalog-slider" @bind-Value="Model.Amount" /></ChildContent>
                 </OmniFormField>
                 <OmniFormField For="catalog-color">
-                    <Label>@Text["Color"]</Label>
+                    <LabelContent>@Text["Color"]</LabelContent>
                     <ChildContent><OmniColorPicker Id="catalog-color" @bind-Value="Model.Color" /></ChildContent>
                 </OmniFormField>
                 <OmniFormField For="catalog-upload-input">
-                    <Label>@Text["File"]</Label>
-                    <ChildContent><OmniUpload Id="catalog-upload" InputId="catalog-upload-input" AllowedContentTypes="@AllowedTypes" /></ChildContent>
+                    <LabelContent>@Text["File"]</LabelContent>
+                    <ChildContent><OmniUpload Id="catalog-upload-input" AllowedContentTypes="@AllowedTypes" /></ChildContent>
                 </OmniFormField>
             </EditForm>
         </OmniCard>
@@ -96,12 +96,12 @@
     <section class="catalog-section" aria-labelledby="navigation-title">
         <OmniHeading Level="OmniHeadingLevel.H2" Id="navigation-title">@Text["NavigationTitle"]</OmniHeading>
         <OmniBreadcrumb><OmniBreadcrumbItem Href="/">@Text["Home"]</OmniBreadcrumbItem><OmniBreadcrumbItem Current="true">@Text["Catalog"]</OmniBreadcrumbItem></OmniBreadcrumb>
-        <OmniTabs @bind-Value="Tab" Keys="@TabKeys">
+        <OmniTabs @bind-Value="Tab">
             <OmniTabsItem Key="list" Title="@Text["List"]">
                 <OmniDataList TItem="string" Items="@Names" ItemTemplate="@NameTemplate" />
             </OmniTabsItem>
             <OmniTabsItem Key="tree" Title="@Text["Tree"]">
-                <OmniTree TValue="string" Multiple="true" @bind-SelectedValues="TreeSelection">
+                <OmniTree TValue="string" Multiple="true" @bind-Value="TreeSelection">
                     <OmniTreeItem TValue="string" Value="@Alpha" Text="@Text["Europe"]" Expanded="true">
                         <OmniTreeItem TValue="string" Value="@Beta" Text="@Text["Belgium"]" />
                     </OmniTreeItem>
@@ -112,14 +112,14 @@
 
     <section class="catalog-section" aria-labelledby="data-title">
         <OmniHeading Level="OmniHeadingLevel.H2" Id="data-title">@Text["DataTitle"]</OmniHeading>
-        <OmniDataGrid TItem="CatalogRow" Items="@Rows" Caption="@Text["GridCaption"]" PageSize="5" SelectionMode="OmniDataGridSelectionMode.Multiple" KeySelector="row => row.Id" @bind-SelectedKeys="GridSelection">
+        <OmniDataGrid TItem="CatalogRow" Items="@Rows" Caption="@Text["GridCaption"]" PageSize="5" SelectionMode="OmniDataGridSelectionMode.Multiple" KeyOf="row => row.Id" @bind-Value="GridSelection">
             <Columns>
                 <OmniDataGridColumn TItem="CatalogRow" Key="name" Title="@Text["NameColumn"]" Value="row => row.Name" Filterable="true" />
                 <OmniDataGridColumn TItem="CatalogRow" Key="value" Title="@Text["ValueColumn"]" Value="row => row.Value" />
             </Columns>
         </OmniDataGrid>
         <div class="catalog-chart">
-            <OmniChart Id="catalog-chart" Title="@Text["ChartTitle"]" Description="@Text["ChartDescription"]" DataTable="@ChartTable">
+            <OmniChart Id="catalog-chart" Title="@Text["ChartTitle"]" Description="@Text["ChartDescription"]" DataTableContent="@ChartTable">
                 <OmniGridLines />
                 <OmniCategoryAxis Labels="@ChartLabels" />
                 <OmniValueAxis />

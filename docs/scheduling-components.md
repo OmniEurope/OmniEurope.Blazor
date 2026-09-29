@@ -55,6 +55,8 @@ style.
 | `Layout` | `End` (défaut) : la ligne court sur le bord de début, les entrées après elle. `Start` : la ligne sur le bord de fin, les entrées avant elle, alignées contre elle. `Alternate` : la ligne au milieu, les entrées de part et d'autre, chacune son tour. |
 | `FirstSide` | En `Alternate` seulement, le côté de la première entrée (`Start` ou `End`, défaut `End`) ; la suivante prend l'autre. Ignoré par les deux autres dispositions. |
 
+Chaque entrée est un `OmniTimelineItem` : un titre (niveau de titre réglable), une date, ou un texte de date à sa place, et un contenu libre.
+
 Les côtés suivent le sens de lecture : `Start` est à gauche en français, à droite dans une langue lue
 de droite à gauche. L'alternance est tirée du rang de l'entrée dans la liste par la feuille de style,
 si bien qu'une entrée insérée au milieu décale les suivantes sans rendu supplémentaire. La frise

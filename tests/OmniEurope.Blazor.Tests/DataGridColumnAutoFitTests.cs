@@ -66,7 +66,7 @@ public sealed class DataGridColumnAutoFitTests : OmniBunitContext
     [Fact]
     public void AutoFit_EnterAsksTheScriptToFitThatColumn()
     {
-        var fit = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-grid.js")
+        var fit = JSInterop.SetupModule(Internal.OmniModules.Grid)
             .SetupVoid("autoFitColumn", _ => true);
         fit.SetVoidResult();
         var rendered = RenderGrid(grid: true, column: null, allowResize: true);
@@ -198,7 +198,7 @@ public sealed class DataGridColumnAutoFitTests : OmniBunitContext
 
             builder.AddComponentParameter(4, nameof(OmniDataGrid<Row>.ScrollMode), Virtualized ? OmniDataGridScrollMode.Virtual : OmniDataGridScrollMode.Paged);
             builder.AddComponentParameter(5, nameof(OmniDataGrid<Row>.EstimatedRowHeight), 40d);
-            builder.AddComponentParameter(6, nameof(OmniDataGrid<Row>.ColumnWidthChanged),
+            builder.AddComponentParameter(6, nameof(OmniDataGrid<Row>.OnColumnResize),
                 EventCallback.Factory.Create<OmniDataGridColumnWidthChange>(this, WidthChanges.Add));
             if (Store is not null)
             {

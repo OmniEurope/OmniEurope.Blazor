@@ -41,7 +41,28 @@
       "host": "Static WebAssembly showcase with strict CSP headers, run by hand, not in CI",
       "script": "eng/Test-ShowcaseGridAutoFitProbe.mjs",
       "components": ["OmniDataGrid", "OmniDataGridColumn"],
-      "assertions": ["AllowColumnAutoFit offers the fit on Demandeur, AutoFit=\"false\" withdraws it from Référence, both keep the drag", "trusted double click on Référence leaves its width unchanged", "trusted double click on Demandeur fits it to the long value of virtual row 7777, off screen", "row 7777 scrolled into view is not clipped", "a drag narrows the column, Enter on the focused handle fits it again", "no measurement probe left in the grid", "zero CSP violations", "zero browser console errors"]
+      "assertions": ["AllowColumnAutoFit offers the fit on Demandeur, AutoFit=\"false\" withdraws it from Référence, both keep the drag", "trusted double click on Référence leaves its width unchanged", "trusted double click on Demandeur fits it to the long value of virtual row 7777, off screen", "row 7777 scrolled into view is not clipped", "a drag narrows the column, Enter on the focused handle fits it again", "a second fit keeps the width", "no measurement probe left in the grid", "zero CSP violations", "zero browser console errors"]
+    },
+    {
+      "id": "showcase-pickers-keyboard-mouse",
+      "host": "Static WebAssembly showcase with strict CSP headers, run by hand, not in CI",
+      "script": "eng/Test-ShowcasePickerProbe.mjs",
+      "components": ["OmniDatePicker", "OmniTimePicker", "OmniDateTimePicker"],
+      "assertions": ["trusted keyboard and mouse events drive the calendar grid and the time columns", "Escape closes the panel and returns the focus to the field", "an outside press closes the panel", "one panel open at a time", "density, light and dark", "zero CSP violations", "zero browser console errors"]
+    },
+    {
+      "id": "showcase-density-every-page",
+      "host": "Static WebAssembly showcase with strict CSP headers, run by hand, not in CI",
+      "script": "eng/Test-ShowcaseDensityProbe.mjs",
+      "components": ["every component of the showcase gallery"],
+      "assertions": ["every gallery page measured in compact then spacious density", "an element the package stylesheet sizes (block size, minimum block size, vertical padding) changes height between the two", "exemptions only for the selectors listed with their reason in the script", "fails when nothing is measured"]
+    },
+    {
+      "id": "showcase-theme-contrast-matrix",
+      "host": "Static WebAssembly showcase with strict CSP headers, run by hand, not in CI",
+      "script": "eng/Test-ThemeContrastProbe.mjs",
+      "components": ["OmniThemeScope", "OmniButton", "OmniLink", "OmniTabs", "OmniDataGrid", "OmniBadge", "OmniAlert", "OmniCard", "OmniKanban", "OmniStatusStrip"],
+      "assertions": ["392 theme x palette x mode combinations applied through the customizer pickers", "painted colour against the effective background at rest, under forced hover and under focus, at the static thresholds", "shortfalls of the waived themes (Relief, Givre, Aplat) counted under acceptedContrastWaiver, the focus state never waived", "shipped look equal to Essentiel + Essentiel", "grid cells stay table-cell, icon-only buttons show their icon whole", "no horizontal overflow at 375 px", "empty failure registry in artifacts/theme-contrast-registry.json"]
     }
   ]
 }

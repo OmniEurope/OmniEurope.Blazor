@@ -6,12 +6,16 @@ namespace OmniEurope.Blazor.Components;
 /// Editor behind the DateRange filter type: a start and an end picker, dates only or dates and
 /// times. The value it reads and writes is the encoded range of <see cref="OmniDataGridDateRange"/>,
 /// so the filter travels as the same single string as any other until the grid resolves it.
+/// <see cref="OmniComponentBase.Id"/> goes on the start picker (the end one takes <c>{Id}-end</c>);
+/// <see cref="OmniComponentBase.Class"/> and the additional attributes on the outer element.
 /// </summary>
 public partial class OmniDataGridFilterDateRange
 {
+    /// <summary>The range, encoded by <see cref="OmniDataGridDateRange.Join"/>.</summary>
     [Parameter]
     public string Value { get; set; } = string.Empty;
 
+    /// <summary>Raised with the encoded range when either picker changes.</summary>
     [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
 

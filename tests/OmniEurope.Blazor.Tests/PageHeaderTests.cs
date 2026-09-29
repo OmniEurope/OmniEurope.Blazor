@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Tests;
 /// <summary>The page header and the breadcrumb service it reads its trail and its title from.</summary>
 public sealed class PageHeaderTests : OmniBunitContext
 {
-    private const string InteropModule = "./_content/OmniEurope.Blazor/omniInterop.js";
+    private const string InteropModule = Internal.OmniModules.Interop;
 
     public PageHeaderTests()
     {
@@ -77,7 +77,7 @@ public sealed class PageHeaderTests : OmniBunitContext
     }
 
     [Fact]
-    public void Header_TitlesItselfWithTheLastCrumbAndShowsOnlyTheAncestorsInTheTrail()
+    public void Header_TitlesItselfWithTheLastCrumb_AndTheTrailUnderItEndsWithThatTitle()
     {
         Services.GetRequiredService<NavigationManager>().NavigateTo("projects/12/overview");
 
@@ -86,9 +86,80 @@ public sealed class PageHeaderTests : OmniBunitContext
         Assert.Equal("Overview", header.Find("h1.omni-page-header__title").TextContent);
         var trail = header.Find(".omni-page-header__trail nav.omni-breadcrumb");
         Assert.Equal("Fil d'Ariane", trail.GetAttribute("aria-label"));
-        Assert.Equal(["Projets", "12"], header.FindAll(".omni-breadcrumb__item").Select(item => item.TextContent.Trim()));
+        Assert.Equal(["Projets", "12", "Overview"], header.FindAll(".omni-breadcrumb__item").Select(item => item.TextContent.Trim()));
         Assert.Equal("/projects", header.Find(".omni-breadcrumb__item a").GetAttribute("href"));
+        // The last item is the page itself: the title, not a link, marked as the current page.
+        var last = header.FindAll(".omni-breadcrumb__item")[^1];
+        Assert.Empty(last.QuerySelectorAll("a"));
+        Assert.Equal("page", last.QuerySelector("span")!.GetAttribute("aria-current"));
         Assert.DoesNotContain("style=", header.Markup, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void Header_Line1IsTheTitleRow_AndLine2UnderItIsTheTrail()
+    {
+        Services.GetRequiredService<NavigationManager>().NavigateTo("projects/12/overview");
+
+        var header = Render<OmniPageHeader>(parameters => parameters.Add(component => component.ShowBack, true));
+
+        var frame = header.Find(".omni-page-header__frame");
+        Assert.Equal(["omni-page-header__row", "omni-page-header__trail"], frame.Children.Select(child => child.ClassName));
+        Assert.NotNull(frame.Children[0].QuerySelector(".omni-page-header__back"));
+        Assert.NotNull(frame.Children[0].QuerySelector("h1.omni-page-header__title"));
+        Assert.NotNull(frame.Children[1].QuerySelector("nav.omni-breadcrumb"));
+    }
+
+    [Fact]
+    public void Header_WithoutAncestors_WritesTheSubtitleOnLine2_AndWithAncestorsUnderTheBlock()
+    {
+        var service = Services.GetRequiredService<OmniBreadcrumbService>();
+        service.Set(new OmniBreadcrumbEntry("Tableau de bord"));
+
+        var alone = Render<OmniPageHeader>(parameters => parameters.Add(component => component.Subtitle, "Vue d'ensemble du parc."));
+        Assert.Equal("Vue d'ensemble du parc.", alone.Find(".omni-page-header__trail .omni-page-header__trail-text").TextContent);
+        Assert.Empty(alone.FindAll(".omni-page-header__subtitle"));
+        Assert.Empty(alone.FindAll("nav"));
+
+        service.Set(new OmniBreadcrumbEntry("Serveurs", "/servers"), new OmniBreadcrumbEntry("srv-01"));
+        var nested = Render<OmniPageHeader>(parameters => parameters.Add(component => component.Subtitle, "Machine virtuelle."));
+        Assert.Empty(nested.FindAll(".omni-page-header__trail-text"));
+        Assert.Equal("Machine virtuelle.", nested.Find(".omni-page-header__frame + .omni-page-header__subtitle").TextContent);
+    }
+
+    [Fact]
+    public void Title_HasAScrollButtonOnEachSide_AndTheHeaderAttachesTheTitleScroll()
+    {
+        var module = JSInterop.SetupModule(Internal.OmniModules.PageHeader);
+        module.SetupVoid("attach", _ => true).SetVoidResult();
+
+        var header = Render<OmniPageHeader>(parameters => parameters.Add(component => component.Title, "Un titre bien trop long pour sa ligne"));
+
+        var row = header.Find(".omni-page-header__row");
+        var start = row.QuerySelector(".omni-page-header__scroll--start")!;
+        var end = row.QuerySelector(".omni-page-header__scroll--end")!;
+        Assert.Equal("Faire défiler le titre vers le début", start.GetAttribute("aria-label"));
+        Assert.Equal("Faire défiler le titre vers la fin", end.GetAttribute("aria-label"));
+        Assert.Same(row.QuerySelector(".omni-page-header__title"), start.NextElementSibling);
+        Assert.Same(end, row.QuerySelector(".omni-page-header__title")!.NextElementSibling);
+        module.VerifyInvoke("attach");
+    }
+
+    [Fact]
+    public void MenuContent_PutsAnOverflowMenuAtTheEndOfLine1_OutsideTheFoldedDetails()
+    {
+        var header = Render<OmniPageHeader>(parameters => parameters
+            .Add(component => component.Title, "Serveur")
+            .Add(component => component.Actions, builder => builder.AddContent(0, "Modifier"))
+            .Add(component => component.MenuContent, builder => builder.AddContent(0, "Dupliquer")));
+
+        var row = header.Find(".omni-page-header__row");
+        var menu = row.Children[^1];
+        Assert.Contains("omni-page-header__menu", menu.ClassList);
+        Assert.Contains("omni-overflow-menu", menu.ClassList);
+        Assert.Empty(header.Find(".omni-page-header__details").QuerySelectorAll(".omni-overflow-menu"));
+
+        var bare = Render<OmniPageHeader>(parameters => parameters.Add(component => component.Title, "Sans menu"));
+        Assert.Empty(bare.FindAll(".omni-overflow-menu"));
     }
 
     [Fact]
@@ -120,7 +191,7 @@ public sealed class PageHeaderTests : OmniBunitContext
             })));
 
         var row = header.Find(".omni-page-header__row");
-        Assert.Equal(["omni-page-header__icon", "omni-page-header__title"],
+        Assert.Equal(["omni-page-header__icon", "omni-page-header__scroll", "omni-page-header__title", "omni-page-header__scroll"],
             row.Children.Select(child => child.ClassList.First(name => name.StartsWith("omni-page-header__", StringComparison.Ordinal))));
         Assert.Equal("true", row.Children[0].GetAttribute("aria-hidden"));
         Assert.NotNull(row.Children[0].QuerySelector("svg.omni-icon"));
@@ -157,9 +228,11 @@ public sealed class PageHeaderTests : OmniBunitContext
 
         Assert.Empty(header.FindAll("h1"));
         Assert.Equal("status", header.Find(".omni-page-header__title-loading").GetAttribute("role"));
+        // The ancestors, then the title as last crumb: both still loading show a placeholder.
         var crumbs = header.FindAll(".omni-breadcrumb__item");
-        Assert.Equal(2, crumbs.Count);
+        Assert.Equal(3, crumbs.Count);
         Assert.Contains("omni-page-header__crumb-loading", crumbs[1].ClassName, StringComparison.Ordinal);
+        Assert.Contains("omni-page-header__crumb-loading", crumbs[2].ClassName, StringComparison.Ordinal);
         Assert.DoesNotContain("Serveur", crumbs[1].TextContent, StringComparison.Ordinal);
 
         await header.InvokeAsync(() => service.Replace(2, new OmniBreadcrumbEntry("Vue d'ensemble")));
@@ -167,7 +240,7 @@ public sealed class PageHeaderTests : OmniBunitContext
     }
 
     [Fact]
-    public void Header_WithoutAncestors_KeepsTheTrailLineWithoutAnEmptyLandmark_AndShowTrailRemovesIt()
+    public void Header_Line2IsAlwaysReserved_WithoutAnEmptyLandmark_AndShowTrailOnlyRemovesTheBreadcrumb()
     {
         var service = Services.GetRequiredService<OmniBreadcrumbService>();
         service.Set(new OmniBreadcrumbEntry("Tableau de bord"));
@@ -176,8 +249,13 @@ public sealed class PageHeaderTests : OmniBunitContext
         Assert.Single(header.FindAll(".omni-page-header__trail"));
         Assert.Empty(header.FindAll("nav"));
 
-        var bare = Render<OmniPageHeader>(parameters => parameters.Add(component => component.ShowTrail, false));
-        Assert.Empty(bare.FindAll(".omni-page-header__trail"));
+        service.Set(new OmniBreadcrumbEntry("Serveurs", "/servers"), new OmniBreadcrumbEntry("srv-01"));
+        var bare = Render<OmniPageHeader>(parameters => parameters
+            .Add(component => component.ShowTrail, false)
+            .Add(component => component.Subtitle, "Machine virtuelle."));
+        Assert.Single(bare.FindAll(".omni-page-header__trail"));
+        Assert.Empty(bare.FindAll("nav"));
+        Assert.Equal("Machine virtuelle.", bare.Find(".omni-page-header__trail-text").TextContent);
     }
 
     [Fact]
@@ -229,14 +307,15 @@ public sealed class PageHeaderTests : OmniBunitContext
         var details = header.Find(".omni-page-header__details");
         Assert.Equal(details.Id, toggle.GetAttribute("aria-controls"));
         Assert.Equal("false", toggle.GetAttribute("aria-expanded"));
-        Assert.Equal("Afficher les badges et les actions", toggle.GetAttribute("aria-label"));
+        Assert.Equal("Voir plus", toggle.GetAttribute("aria-label"));
         Assert.Equal("En ligne", header.Find(".omni-page-header__badges").TextContent);
         Assert.Equal("Modifier", header.Find(".omni-page-header__actions").TextContent);
         Assert.Equal("Filtres", header.Find(".omni-page-header__filters").TextContent);
 
         toggle.Click();
+        // The name stays "Show more"; aria-expanded alone says the details are now shown.
         Assert.Equal("true", header.Find(".omni-page-header__toggle").GetAttribute("aria-expanded"));
-        Assert.Equal("Masquer les badges et les actions", header.Find(".omni-page-header__toggle").GetAttribute("aria-label"));
+        Assert.Equal("Voir plus", header.Find(".omni-page-header__toggle").GetAttribute("aria-label"));
         Assert.Contains("omni-page-header__details--open", header.Find(".omni-page-header__details").ClassName, StringComparison.Ordinal);
 
         var plain = Render<OmniPageHeader>(parameters => parameters.Add(component => component.Title, "Sans actions"));
@@ -245,8 +324,8 @@ public sealed class PageHeaderTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData("fr-FR", "Retour", "Afficher les badges et les actions")]
-    [InlineData("en-US", "Back", "Show badges and actions")]
+    [InlineData("fr-FR", "Retour", "Voir plus")]
+    [InlineData("en-US", "Back", "Show more")]
     public void Header_DefaultsFollowTheUiCulture(string cultureName, string back, string toggle)
     {
         var previous = CultureInfo.CurrentUICulture;

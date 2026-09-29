@@ -5,7 +5,7 @@ public enum OmniStepTimelineStatus
 {
     Success,
 
-    /// <summary>Still going: without an end, its bar reaches <see cref="OmniStepTimeline.Now"/>.</summary>
+    /// <summary>Still going: without an end, its bar reaches the current time of the component clock.</summary>
     Running,
 
     Failed,

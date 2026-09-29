@@ -93,9 +93,9 @@ public partial class OmniMindMap
     [Parameter]
     public OmniMindMapLabels? ContextLabels { get; set; }
 
-    /// <summary>Accessible name of the canvas. Defaults to the localized "mind map".</summary>
+    /// <summary>Accessible name of the canvas; null (the default) takes the localized "Mind map".</summary>
     [Parameter]
-    public string? AriaLabel { get; set; }
+    public string? Label { get; set; }
 
     /// <summary>
     /// Where the map is looked at from. Null on first render fits the whole map in the canvas.
@@ -220,7 +220,7 @@ public partial class OmniMindMap
 
     private string? ArrowReference => Directed ? $"url(#{ArrowId})" : null;
 
-    private string EffectiveAriaLabel => string.IsNullOrWhiteSpace(AriaLabel) ? Localize("MindMapCanvasLabel") : AriaLabel;
+    private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Localize("MindMapCanvasLabel") : Label;
 
     private string KeyboardHint => Localize(ReadOnly ? "MindMapKeyboardHintReadOnly" : "MindMapKeyboardHint");
 

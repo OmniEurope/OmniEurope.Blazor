@@ -6,22 +6,24 @@
 
         <OmniSplitButton Text="Enregistrer" MenuLabel="Autres enregistrements"
                          OnClick="@(() => Last = "Enregistrer")">
-            <OmniSplitButtonItem OnClick="@(() => Last = "Enregistrer et fermer")">Enregistrer et fermer</OmniSplitButtonItem>
-            <OmniSplitButtonItem OnClick="@(() => Last = "Enregistrer une copie")">Enregistrer une copie</OmniSplitButtonItem>
-            <OmniSplitButtonItem Disabled="true">Publier, indisponible</OmniSplitButtonItem>
+            <OmniMenuItem OnClick="@(() => Last = "Enregistrer et fermer")">Enregistrer et fermer</OmniMenuItem>
+            <OmniMenuItem OnClick="@(() => Last = "Enregistrer une copie")">Enregistrer une copie</OmniMenuItem>
+            <OmniMenuItem Disabled="true">Publier, indisponible</OmniMenuItem>
         </OmniSplitButton>
 
-        <OmniContextMenu MenuLabel="Actions du dossier" Open="MenuOpen" Density="OmniDensity.Compact"
-                         OpenChanged="@(value => MenuOpen = value)">
-            <TriggerContent>Actions</TriggerContent>
+        @* Clic droit sur la zone, ou touche Menu / Maj+F10 depuis le clavier : les flèches parcourent les
+           actions, Échap ferme et rend le focus à la zone. *@
+        <OmniContextMenu Id="demo-context-menu" MenuLabel="Actions du dossier" @bind-Open="MenuOpen" Density="OmniDensity.Compact">
+            <TriggerContent>Actions (clic droit ou Maj+F10)</TriggerContent>
             <ChildContent>
-                <button type="button" @onclick="@(() => Last = "Dupliquer")">Dupliquer</button>
-                <button type="button" @onclick="@(() => Last = "Exporter")">Exporter</button>
+                <OmniMenuItem OnClick="@(() => Last = "Dupliquer")"><Icon><OmniIcon Name="OmniIconName.Copy" /></Icon><ChildContent>Dupliquer</ChildContent></OmniMenuItem>
+                <OmniMenuItem OnClick="@(() => Last = "Exporter")"><Icon><OmniIcon Name="OmniIconName.Download" /></Icon><ChildContent>Exporter</ChildContent></OmniMenuItem>
+                <OmniMenuItem Tone="OmniTone.Danger" OnClick="@(() => Last = "Supprimer le dossier")"><Icon><OmniIcon Name="OmniIconName.Delete" /></Icon><ChildContent>Supprimer</ChildContent></OmniMenuItem>
             </ChildContent>
         </OmniContextMenu>
 
         @* Panneau non modal : un clic ailleurs ou Échap le ferme, Échap rend le focus au bouton. *@
-        <OmniPopover Label="Tâches en cours" TriggerLabel="Tâches en cours">
+        <OmniPopover Label="Tâches en cours">
             <TriggerContent><OmniIcon Name="OmniIconName.Hourglass" /> <span>3</span></TriggerContent>
             <ChildContent>
                 <p>Sauvegarde nocturne, étape 2 sur 4.</p>
@@ -30,7 +32,7 @@
             </ChildContent>
         </OmniPopover>
 
-        <OmniPopover Label="Filtre rapide" Placement="OmniPopoverPlacement.BottomStart"
+        <OmniPopover PopupLabel="Filtre rapide" Placement="OmniPopoverPlacement.BottomStart"
                      TriggerVariant="OmniButtonVariant.Secondary">
             <TriggerContent>Filtrer</TriggerContent>
             <ChildContent>
@@ -41,9 +43,9 @@
         <OmniProfileMenu Label="Menu du compte" Density="OmniDensity.Compact">
             <Summary>Camille Durand</Summary>
             <ChildContent>
-                <OmniProfileMenuItem Href="documentation">Mon profil</OmniProfileMenuItem>
-                <OmniProfileMenuItem OnClick="@(() => Last = "Déconnexion")">Se déconnecter</OmniProfileMenuItem>
-                <OmniProfileMenuItem Disabled="true">Administration, indisponible</OmniProfileMenuItem>
+                <OmniMenuItem Href="documentation">Mon profil</OmniMenuItem>
+                <OmniMenuItem OnClick="@(() => Last = "Déconnexion")">Se déconnecter</OmniMenuItem>
+                <OmniMenuItem Disabled="true">Administration, indisponible</OmniMenuItem>
             </ChildContent>
         </OmniProfileMenu>
     </OmniStack>
@@ -79,9 +81,11 @@
     @* Intention : l'en-tête et le pied prennent la teinte de l'intention, le titre est précédé d'une pastille
        portant son icône ; le corps reste sur la surface du dialogue. Sans intention, rien ne change. *@
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Overflow="OmniStackOverflow.Scroll">
-        <OmniButton Id="demo-dialog-intent-accent" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniDialogIntent.Accent))">Formulaire (accent)</OmniButton>
-        <OmniButton Id="demo-dialog-intent-warning" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniDialogIntent.Warning))">Confirmation (avertissement)</OmniButton>
-        <OmniButton Id="demo-dialog-intent-danger" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniDialogIntent.Danger))">Suppression (danger)</OmniButton>
+        <OmniButton Id="demo-dialog-intent-accent" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Accent))">Formulaire (accent)</OmniButton>
+        <OmniButton Id="demo-dialog-intent-info" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Info))">Information</OmniButton>
+        <OmniButton Id="demo-dialog-intent-success" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Success))">Réussite</OmniButton>
+        <OmniButton Id="demo-dialog-intent-warning" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Warning))">Confirmation (avertissement)</OmniButton>
+        <OmniButton Id="demo-dialog-intent-danger" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Danger))">Suppression (danger)</OmniButton>
     </OmniStack>
 
     <OmniDialog Title="Paramètres d'exécution" Open="IntentOpen" OpenChanged="@(value => IntentOpen = value)" Intent="IntentDialog">
@@ -96,13 +100,13 @@
        Il reste dans la fenêtre, s'ouvre au-dessus faute de place, et rend le focus au bouton. *@
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
         <OmniOverflowMenu Id="demo-overflow-menu" Label="Actions du pipeline">
-            <OmniOverflowMenuItem OnClick="@(() => Last = "Modifier")"><Icon><OmniIcon Name="OmniIconName.Edit" /></Icon><ChildContent>Modifier</ChildContent></OmniOverflowMenuItem>
-            <OmniOverflowMenuItem OnClick="@(() => Last = "Mettre à jour")"><Icon><OmniIcon Name="OmniIconName.Refresh" /></Icon><ChildContent>Mettre à jour</ChildContent></OmniOverflowMenuItem>
-            <OmniOverflowMenuItem Disabled="true"><Icon><OmniIcon Name="OmniIconName.Upload" /></Icon><ChildContent>Publier, indisponible</ChildContent></OmniOverflowMenuItem>
-            <OmniOverflowMenuItem Danger="true" OnClick="@(() => Last = "Supprimer")"><Icon><OmniIcon Name="OmniIconName.Delete" /></Icon><ChildContent>Supprimer</ChildContent></OmniOverflowMenuItem>
+            <OmniMenuItem OnClick="@(() => Last = "Modifier")"><Icon><OmniIcon Name="OmniIconName.Edit" /></Icon><ChildContent>Modifier</ChildContent></OmniMenuItem>
+            <OmniMenuItem OnClick="@(() => Last = "Mettre à jour")"><Icon><OmniIcon Name="OmniIconName.Refresh" /></Icon><ChildContent>Mettre à jour</ChildContent></OmniMenuItem>
+            <OmniMenuItem Disabled="true"><Icon><OmniIcon Name="OmniIconName.Upload" /></Icon><ChildContent>Publier, indisponible</ChildContent></OmniMenuItem>
+            <OmniMenuItem Tone="OmniTone.Danger" OnClick="@(() => Last = "Supprimer")"><Icon><OmniIcon Name="OmniIconName.Delete" /></Icon><ChildContent>Supprimer</ChildContent></OmniMenuItem>
         </OmniOverflowMenu>
         <OmniOverflowMenu Label="Actions de la ligne" Size="OmniControlSize.Small">
-            <OmniOverflowMenuItem OnClick="@(() => Last = "Dupliquer")"><Icon><OmniIcon Name="OmniIconName.Copy" /></Icon><ChildContent>Dupliquer</ChildContent></OmniOverflowMenuItem>
+            <OmniMenuItem OnClick="@(() => Last = "Dupliquer")"><Icon><OmniIcon Name="OmniIconName.Copy" /></Icon><ChildContent>Dupliquer</ChildContent></OmniMenuItem>
         </OmniOverflowMenu>
     </OmniStack>
 
@@ -119,7 +123,7 @@
 
     <OmniDialog Title="Confirmer la suppression" Open="DialogOpen"
                 OpenChanged="@(value => DialogOpen = value)"
-                CloseOnEscape="true" CloseOnBackdrop="true" CloseLabel="Fermer">
+                CloseOnBackdrop="true" CloseLabel="Fermer">
         <ChildContent>
             <p>Cette action retire le dossier de la liste. Elle est réversible pendant trente jours.</p>
         </ChildContent>

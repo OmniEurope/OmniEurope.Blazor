@@ -11,6 +11,13 @@
     flex: 1 1 auto;
 }
 
+/* The language selector sizes to its longest language name instead of taking the header's width. */
+.showcase-language {
+    flex: 0 0 auto;
+    inline-size: auto;
+    min-inline-size: 9rem;
+}
+
 .showcase-hero {
     display: grid;
     gap: var(--omni-space-md);
@@ -130,7 +137,7 @@
 }
 
 /* On a narrow screen the site menu goes above the page instead of taking 18rem beside it, which left
-   the page a sliver and made it scroll sideways at 375 px (RET-002 n°28, PLAN-008 lot 10). */
+   the page a sliver and made it scroll sideways at 375 px (RET-002 n°28, PLAN-004 lot 10). */
 @media (max-width: 47.99rem) {
     #showcase-theme > .omni-layout > .omni-body { flex-direction: column; }
     #showcase-theme > .omni-layout > .omni-body > .omni-sidebar { flex: 0 0 auto; max-inline-size: none; }
@@ -171,7 +178,7 @@
 .showcase-force-hover .omni-button:not(:disabled),
 .showcase-force-hover .omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle):not(:disabled) { background: var(--omni-button-fill-hover); }
 .showcase-force-hover .omni-tabs__tab { background: var(--omni-color-surface-hover); color: var(--omni-color-text); }
-.showcase-force-hover :is(.omni-panel-menu__link, .omni-panel-menu__summary, .omni-profile-menu__item) { background: var(--omni-color-surface-hover); }
+.showcase-force-hover :is(.omni-panel-menu__link, .omni-panel-menu__summary, .omni-menu__item) { background: var(--omni-color-surface-hover); }
 .showcase-force-hover .omni-data-grid--row-hover tbody > tr { --omni-row-fill: color-mix(in srgb, var(--omni-color-text) 7%, transparent); }
 .showcase-force-hover .omni-data-grid thead > tr > .omni-data-grid__column--sortable { background: var(--omni-header-fill-hover); color: var(--omni-color-text); }
 
@@ -252,9 +259,7 @@
 .demo-appbar__actions { align-items: center; display: flex; gap: 6px; }
 .demo-appbar__bell { position: relative; }
 .demo-appbar__dot { background: var(--omni-color-danger-fill); block-size: 0.5rem; border-radius: var(--omni-radius-circle); box-shadow: 0 0 0 2px var(--omni-color-surface); inline-size: 0.5rem; inset-block-start: 5px; inset-inline-end: 5px; pointer-events: none; position: absolute; }
-.demo-appbar__account .omni-profile-menu__summary { border-radius: var(--omni-radius-circle); display: block; }
-.demo-appbar__account .omni-profile-menu__summary::-webkit-details-marker { display: none; }
-.demo-appbar__account .omni-profile-menu__summary:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.demo-appbar__account .omni-profile-menu__trigger { border-radius: var(--omni-radius-circle); display: block; }
 .demo-appbar__avatar { block-size: calc(var(--omni-icon-box) * 0.9); inline-size: calc(var(--omni-icon-box) * 0.9); }
 .demo-appshell .omni-main { align-content: start; display: grid; flex: 1 1 auto; gap: var(--omni-space-md); padding: var(--omni-section-pad); }
 .demo-appshell__tiles { display: grid; gap: var(--omni-space-sm); grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); }

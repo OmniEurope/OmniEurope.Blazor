@@ -28,12 +28,12 @@ public sealed class OverlayComponentTests : OmniBunitContext
         var split = Render<OmniSplitButton>(parameters => parameters
             .Add(component => component.Text, "Enregistrer")
             .Add(component => component.OnClick, () => clicked = true)
-            .AddChildContent<OmniSplitButtonItem>(item => item
+            .AddChildContent<OmniMenuItem>(item => item
                 .Add(component => component.OnClick, () => itemClicked = true)
                 .AddChildContent("Dupliquer")));
 
         split.Find(".omni-split-button__main").Click();
-        split.Find(".omni-split-button").KeyDown("ArrowDown");
+        split.Find(".omni-split-button__toggle").KeyDown("ArrowDown");
 
         Assert.True(clicked);
         Assert.NotNull(split.Find("[role=menu]"));
@@ -41,9 +41,12 @@ public sealed class OverlayComponentTests : OmniBunitContext
 
         split.Find("[role=menuitem]").Click();
         Assert.True(itemClicked);
+        // Choosing an item closes the menu before its action runs.
+        Assert.Empty(split.FindAll("[role=menu]"));
+        Assert.Equal("false", split.Find(".omni-split-button__toggle").GetAttribute("aria-expanded"));
 
         var disabledClicked = false;
-        var disabledItem = Render<OmniSplitButtonItem>(parameters => parameters
+        var disabledItem = Render<OmniMenuItem>(parameters => parameters
             .Add(component => component.Disabled, true)
             .Add(component => component.OnClick, () => disabledClicked = true)
             .AddChildContent("Indisponible"));
@@ -276,7 +279,7 @@ public sealed class OverlayComponentTests : OmniBunitContext
 
         var focusableTooltip = Render<OmniTooltip>(parameters => parameters
             .Add(component => component.Text, "Information")
-            .Add(component => component.TabIndex, 0)
+            .Add(component => component.Focusable, true)
             .AddChildContent("Texte non interactif"));
         Assert.Equal("0", focusableTooltip.Find(".omni-tooltip__trigger").GetAttribute("tabindex"));
 
@@ -285,7 +288,7 @@ public sealed class OverlayComponentTests : OmniBunitContext
             .Add(component => component.Open, open)
             .Add(component => component.OpenChanged, value => open = value)
             .Add(component => component.TriggerContent, Content("Cible"))
-            .AddChildContent("Action"));
+            .AddChildContent<OmniMenuItem>(item => item.AddChildContent("Action")));
 
         menu.Find(".omni-context-menu").KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs
         {
@@ -377,19 +380,16 @@ public sealed class OverlayComponentTests : OmniBunitContext
     [Fact]
     public void MenuAndDialog_DelegateFocusMovementAndRestorationToTheStaticModule()
     {
-        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-focus.js");
+        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
         var split = Render<OmniSplitButton>(parameters => parameters
             .Add(component => component.Text, "Actions")
-            .AddChildContent<OmniSplitButtonItem>(item => item.AddChildContent("Dupliquer")));
+            .AddChildContent<OmniMenuItem>(item => item.AddChildContent("Dupliquer")));
 
         split.Find(".omni-split-button__toggle").Click();
-        split.Find(".omni-split-button").KeyDown("End");
+        split.WaitForAssertion(() => Assert.Single(module.Invocations["openMenu"]));
+        split.Find("[role=menu]").KeyDown("End");
 
-        split.WaitForAssertion(() =>
-        {
-            Assert.Single(module.Invocations["activateMenu"]);
-            Assert.Single(module.Invocations["moveMenuFocus"]);
-        });
+        split.WaitForAssertion(() => Assert.Single(module.Invocations["moveMenuFocus"]));
 
         var dialog = Render<OmniDialog>(parameters => parameters
             .Add(component => component.Open, true)

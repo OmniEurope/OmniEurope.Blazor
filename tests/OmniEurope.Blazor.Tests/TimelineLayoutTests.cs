@@ -21,11 +21,10 @@ public sealed class TimelineLayoutTests : OmniBunitContext
     }
 
     [Fact]
-    public void StartLayout_SetsTheEntriesBeforeTheLine_AndIgnoresTheFirstSide()
+    public void StartLayout_SetsTheEntriesBeforeTheLine_WithoutAFirstSide()
     {
         var timeline = Render<OmniTimeline>(parameters => parameters
-            .Add(component => component.Layout, OmniTimelineLayout.Start)
-            .Add(component => component.FirstSide, OmniTimelineSide.Start));
+            .Add(component => component.Layout, OmniTimelineLayout.Start));
 
         var section = timeline.Find("section");
         Assert.Contains("omni-timeline--start", section.ClassList);
@@ -33,13 +32,12 @@ public sealed class TimelineLayoutTests : OmniBunitContext
     }
 
     [Theory]
-    [InlineData(OmniTimelineSide.Start, "omni-timeline--first-start")]
-    [InlineData(OmniTimelineSide.End, "omni-timeline--first-end")]
-    public void AlternateLayout_NamesTheSideOfTheFirstEntry(OmniTimelineSide side, string expected)
+    [InlineData(OmniTimelineLayout.AlternateStart, "omni-timeline--first-start")]
+    [InlineData(OmniTimelineLayout.AlternateEnd, "omni-timeline--first-end")]
+    public void AlternateLayouts_NameTheSideOfTheFirstEntry(OmniTimelineLayout layout, string expected)
     {
         var timeline = Render<OmniTimeline>(parameters => parameters
-            .Add(component => component.Layout, OmniTimelineLayout.Alternate)
-            .Add(component => component.FirstSide, side)
+            .Add(component => component.Layout, layout)
             .Add(component => component.Class, "hote"));
 
         var section = timeline.Find("section");
@@ -47,6 +45,25 @@ public sealed class TimelineLayoutTests : OmniBunitContext
         Assert.Contains(expected, section.ClassList);
         Assert.Contains("hote", section.ClassList);
         Assert.DoesNotContain("style=", timeline.Markup, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void Item_TitleIsAHeadingOfTheChosenLevel_H3ByDefault_AndNoHeadingWithoutTitle()
+    {
+        var timeline = Render<OmniTimeline>(parameters => parameters
+            .AddChildContent<OmniTimelineItem>(item => item.Add(component => component.Title, "Dépôt")));
+        var leveled = Render<OmniTimeline>(parameters => parameters
+            .AddChildContent<OmniTimelineItem>(item => item
+                .Add(component => component.Title, "Dépôt")
+                .Add(component => component.Level, OmniHeadingLevel.H5)));
+        var untitled = Render<OmniTimeline>(parameters => parameters
+            .AddChildContent<OmniTimelineItem>(item => item.Add(component => component.DateText, "hier")));
+
+        Assert.Equal("Dépôt", timeline.Find("h3.omni-timeline__title").TextContent);
+        Assert.Equal("Dépôt", leveled.Find("h5.omni-timeline__title").TextContent);
+        Assert.Empty(leveled.FindAll("h3"));
+        Assert.Empty(untitled.FindAll("h1, h2, h3, h4, h5, h6"));
+        Assert.Equal("hier", untitled.Find("time").TextContent);
     }
 
     [Fact]

@@ -26,7 +26,23 @@
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>default</value></data>
   <data name="SettingsDecrease" xml:space="preserve"><value>Decrease</value></data>
   <data name="SettingsIncrease" xml:space="preserve"><value>Increase</value></data>
+  <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Decrease the text size</value></data>
+  <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Increase the text size</value></data>
+  <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Decrease the size of the controls</value></data>
+  <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Increase the size of the controls</value></data>
+  <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
+  <data name="SettingsLook" xml:space="preserve"><value>Theme and sizes</value></data>
+  <data name="SettingsLookTitle" xml:space="preserve"><value>Theme, palette and sizes</value></data>
+  <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Text {1} · {2}</value></data>
+  <data name="SettingsLookSummaryFull" xml:space="preserve"><value>{0} · Text {1} · {2} · Controls {3}</value></data>
+  <data name="DensityCompact" xml:space="preserve"><value>Compact</value></data>
+  <data name="DensityComfortable" xml:space="preserve"><value>Comfortable</value></data>
+  <data name="DensitySpacious" xml:space="preserve"><value>Spacious</value></data>
   <data name="ArcGaugeLabel" xml:space="preserve"><value>Gauge</value></data>
+  <data name="LabelValuePair" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="ChartCategoryColumn" xml:space="preserve"><value>Category</value></data>
+  <data name="ChartValueColumn" xml:space="preserve"><value>Value</value></data>
+  <data name="ChartSeriesFallback" xml:space="preserve"><value>Series {0}</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Search failed. Change the input to try again.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>1 result available.</value></data>
   <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} results available.</value></data>
@@ -344,6 +360,10 @@
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Profile menu</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Progress</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>In progress</value></data>
+  <data name="TextAreaCount" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="HeaderHome" xml:space="preserve"><value>Home</value></data>
+  <data name="HeaderLogo" xml:space="preserve"><value>Logo</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>The radio selection is invalid.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>This field is required.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Previous period</value></data>
@@ -362,6 +382,10 @@
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} stays where it was.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} moved to {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>The segmented selection is invalid.</value></data>
+  <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>The choice is invalid.</value></data>
+  <data name="RatingLabel" xml:space="preserve"><value>Rating</value></data>
+  <data name="RatingStar" xml:space="preserve"><value>{0} of {1}</value></data>
+  <data name="RatingValue" xml:space="preserve"><value>{0}: {1} of {2}</value></data>
   <data name="SidebarLabel" xml:space="preserve"><value>Navigation</value></data>
   <data name="SidebarClose" xml:space="preserve"><value>Close navigation</value></data>
   <data name="LoadingLabel" xml:space="preserve"><value>Loading</value></data>
@@ -429,6 +453,7 @@
   <data name="GanttScale" xml:space="preserve"><value>Time scale</value></data>
   <data name="GanttScaleDay" xml:space="preserve"><value>Day</value></data>
   <data name="GanttScaleMonth" xml:space="preserve"><value>Month</value></data>
+  <data name="GanttWeekNumber" xml:space="preserve"><value>W{0}</value></data>
   <data name="GanttScaleWeek" xml:space="preserve"><value>Week</value></data>
   <data name="GanttTaskAfter" xml:space="preserve"><value>after {0}</value></data>
   <data name="GanttTaskColumn" xml:space="preserve"><value>Task</value></data>
@@ -443,8 +468,9 @@
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, started at {1}, lasting</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Confirm</value></data>
   <data name="GoBack" xml:space="preserve"><value>Back</value></data>
-  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Show badges and actions</value></data>
-  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Hide badges and actions</value></data>
+  <data name="PageHeaderShowMore" xml:space="preserve"><value>Show more</value></data>
+  <data name="PageHeaderScrollTitleStart" xml:space="preserve"><value>Scroll the title back to its start</value></data>
+  <data name="PageHeaderScrollTitleEnd" xml:space="preserve"><value>Scroll the title to its end</value></data>
   <data name="DetailNotFound" xml:space="preserve"><value>Item not found</value></data>
   <data name="SignIn" xml:space="preserve"><value>Sign in</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Connection lost</value></data>

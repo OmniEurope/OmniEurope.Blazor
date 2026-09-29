@@ -1,9 +1,9 @@
 <OmniDataGrid TItem="DataGridSurfaceTests.Order"
               Items="@Orders"
-              KeyProperty="Id"
+              KeyOf="@(order => order.Id)"
               PageSize="@PageSize"
               AllowSorting="@AllowSorting"
-              AllowFiltering="@AllowFiltering"
+              Filterable="@Filterable"
               ScrollMode="@ScrollMode"
               AllowGrouping="@AllowGrouping"
               ShowGroupPanel="@ShowGroupPanel"
@@ -38,13 +38,13 @@
 
     [Parameter] public int PageSize { get; set; } = 20;
     [Parameter] public bool AllowSorting { get; set; } = true;
-    [Parameter] public bool AllowFiltering { get; set; } = true;
+    [Parameter] public bool Filterable { get; set; } = true;
     [Parameter] public OmniDataGridScrollMode ScrollMode { get; set; } = OmniDataGridScrollMode.Paged;
     [Parameter] public bool AllowGrouping { get; set; }
     [Parameter] public bool ShowGroupPanel { get; set; }
     [Parameter] public OmniDataGridFilterMode FilterMode { get; set; } = OmniDataGridFilterMode.Simple;
     [Parameter] public OmniDataGridSelectionMode SelectionMode { get; set; }
-    [Parameter] public OmniDataGridEditMode EditMode { get; set; } = OmniDataGridEditMode.Single;
+    [Parameter] public OmniDataGridRowMode EditMode { get; set; } = OmniDataGridRowMode.Single;
     [Parameter] public OmniDataGridLines GridLines { get; set; } = OmniDataGridLines.Horizontal;
     [Parameter] public OmniDensity Density { get; set; } = OmniDensity.Comfortable;
     [Parameter] public bool Responsive { get; set; }

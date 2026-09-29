@@ -14,27 +14,33 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class SelectionRecetteTests : OmniBunitContext
 {
-    private const string FocusModule = "./_content/OmniEurope.Blazor/omni-focus.js";
+    private const string FocusModule = OmniModules.Focus;
 
     [Fact]
-    public void ProfileMenu_AsksTheScriptToCloseOnAnOutsidePressAndOnAChosenItem()
+    public void ProfileMenu_AsksTheScriptToCloseOnAnOutsidePress_AndAChosenItemClosesIt()
     {
         var module = JSInterop.SetupModule(FocusModule);
         module.Mode = JSRuntimeMode.Loose;
         var menu = Render<OmniProfileMenu>(parameters => parameters
             .Add(component => component.Summary, (RenderFragment)(builder => builder.AddContent(0, "Camille")))
-            .AddChildContent<OmniProfileMenuItem>(item => item.AddChildContent("Profil")));
+            .AddChildContent<OmniMenuItem>(item => item.AddChildContent("Profil")));
 
-        menu.WaitForAssertion(() => Assert.Single(module.Invocations["configureDisclosure"]));
-        var arguments = module.Invocations["configureDisclosure"][0].Arguments;
-        Assert.False(string.IsNullOrEmpty(((ElementReference)arguments[0]!).Id));
-        Assert.Equal(true, arguments[1]);
-        Assert.Equal(true, arguments[2]);
+        menu.Find(".omni-profile-menu__trigger").Click();
+        menu.WaitForAssertion(() => Assert.Single(module.Invocations["openMenu"]));
+        var arguments = module.Invocations["openMenu"][0].Arguments;
+        Assert.False(string.IsNullOrEmpty(((ElementReference)arguments[2]!).Id));
+        Assert.Equal("end", arguments[3]);
+        Assert.Equal(true, arguments[7]);
+
+        menu.Find("[role=menuitem]").Click();
+        Assert.Empty(menu.FindAll("[role=menu]"));
+        Assert.Equal(true, Assert.Single(module.Invocations["closeMenu"]).Arguments[1]);
 
         menu.Render(parameters => parameters.Add(component => component.CloseOnOutsideClick, false));
+        menu.Find(".omni-profile-menu__trigger").Click();
 
-        menu.WaitForAssertion(() => Assert.Equal(2, module.Invocations["configureDisclosure"].Count));
-        Assert.Equal(false, module.Invocations["configureDisclosure"][1].Arguments[1]);
+        menu.WaitForAssertion(() => Assert.Equal(2, module.Invocations["openMenu"].Count));
+        Assert.Equal(false, module.Invocations["openMenu"][1].Arguments[7]);
     }
 
     [Fact]
@@ -141,7 +147,7 @@ public sealed class SelectionRecetteTests : OmniBunitContext
         var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.DebounceMilliseconds, 0)
+            .Add(component => component.Debounce, TimeSpan.Zero)
             .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>(
                 [new("liege", "Liège (Belgique)"), new("lille", "Lille, Lille-Flandres")])));
 
@@ -175,7 +181,7 @@ public sealed class SelectionRecetteTests : OmniBunitContext
     public void Upload_ZoneStatesItsLimitsAndPaintsADrag()
     {
         var upload = Render<OmniUpload>(parameters => parameters
-            .Add(component => component.InputId, "files")
+            .Add(component => component.Id, "files")
             .Add(component => component.Multiple, true)
             .Add(component => component.MaximumFiles, 3)
             .Add(component => component.MaximumFileSize, 1024 * 1024)

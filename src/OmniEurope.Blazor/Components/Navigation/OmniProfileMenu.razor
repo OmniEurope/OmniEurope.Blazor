@@ -1,13 +1,27 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
+@implements IOmniMenu
 @implements IAsyncDisposable
 @inject IJSRuntime JavaScript
 
 @* Without a Summary the trigger is the avatar: a disc with the Initials, or the user glyph, named by
-   Label. A Header puts the identity above the items, outside role="menu", which may only hold
-   menu items: the panel then carries the floating surface and the list sits inside it. *@
-<details @attributes="AdditionalAttributes" @ref="_details" id="@Id" class="@Css("omni-profile-menu", Summary is null ? "omni-profile-menu--avatar" : null)" data-omni-density="@OmniDensityAttribute.Of(Density)">
-    <summary class="omni-profile-menu__summary" aria-label="@EffectiveLabel">
+   Label. The menu is drawn in the overlay portal (or here without a host), end-aligned under the
+   trigger; a Header puts the identity above the items, outside role="menu", which may only hold
+   menu items. *@
+<div @attributes="AdditionalAttributes"
+     @ref="_root"
+     class="@Css("omni-profile-menu", Summary is null ? "omni-profile-menu--avatar" : null)"
+     data-omni-density="@OmniDensityAttribute.Of(Density)">
+    <button type="button"
+            id="@Id"
+            class="omni-profile-menu__trigger"
+            aria-label="@EffectiveLabel"
+            aria-haspopup="menu"
+            aria-expanded="@(IsOpen ? "true" : "false")"
+            aria-controls="@(IsOpen ? MenuId : null)"
+            disabled="@Disabled"
+            @onclick="ToggleAsync"
+            @onkeydown="HandleTriggerKeyDownAsync">
         @if (Summary is not null)
         {
             @Summary
@@ -16,19 +30,9 @@
         {
             <span class="omni-disc omni-profile-menu__avatar" aria-hidden="true">@AvatarContent</span>
         }
-    </summary>
-    @if (Header is not null)
+    </button>
+    @if (IsOpen && Coordinator is null)
     {
-        <div class="omni-profile-menu__panel">
-            <div class="omni-profile-menu__header">
-                <span class="omni-disc omni-disc--lg omni-profile-menu__avatar" aria-hidden="true">@AvatarContent</span>
-                <div class="omni-profile-menu__identity">@Header</div>
-            </div>
-            <div class="omni-profile-menu__items" role="menu">@ChildContent</div>
-        </div>
+        @Popup
     }
-    else
-    {
-        <div class="omni-profile-menu__items" role="menu">@ChildContent</div>
-    }
-</details>
+</div>

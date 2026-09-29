@@ -10,6 +10,18 @@ internal static class OmniTextMatch
 {
     private const CompareOptions Options = CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace;
 
+    /// <summary>
+    /// Whether <paramref name="text"/> contains <paramref name="query"/> under the same rule as
+    /// <see cref="Split"/>, so a list narrowed with it keeps exactly the entries it can mark. An empty
+    /// query matches everything.
+    /// </summary>
+    internal static bool Contains(string text, string? query)
+    {
+        var needle = query?.Trim();
+        return string.IsNullOrEmpty(needle)
+            || CultureInfo.CurrentCulture.CompareInfo.IndexOf(text ?? string.Empty, needle, Options) >= 0;
+    }
+
     internal static IReadOnlyList<OmniTextSegment> Split(string text, string? query)
     {
         var needle = query?.Trim();

@@ -1,14 +1,15 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-@* Busy is not disabled (it would change size and colours); preventDefault stops a form resubmitting on Enter. *@
-<button id="@Id"
+@* Busy is not disabled (it would change size and colours); preventDefault stops a form resubmitting on Enter.
+   The host's attributes come first, so the button's own class, type and state attributes win. *@
+<button @attributes="AdditionalAttributes"
+        id="@Id"
         class="@Css("omni-button", $"omni-button--{Variant.ToString().ToLowerInvariant()}", $"omni-button--{Size.ToString().ToLowerInvariant()}", Busy ? "omni-busy" : null, Indicator ? "omni-button--indicator" : null)"
         type="@ButtonType.ToString().ToLowerInvariant()"
         disabled="@Disabled"
         aria-busy="@(Busy ? "true" : null)"
-        aria-label="@AriaLabel"
-        @attributes="AdditionalAttributes"
+        aria-label="@Label"
         @onclick="HandleClickAsync"
         @onclick:preventDefault="Busy">
     <span class="omni-button__content">@ChildContent</span>

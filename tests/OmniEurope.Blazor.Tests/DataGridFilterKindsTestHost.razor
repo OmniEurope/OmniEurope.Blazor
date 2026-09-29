@@ -3,7 +3,7 @@
               Id="tickets"
               Items="@(Load is null ? Tickets : Array.Empty<Ticket>())"
               Load="@Load"
-              KeyProperty="Id"
+              KeyOf="@(ticket => ticket.Id)"
               ScrollMode="OmniDataGridScrollMode.All"
               FilterMode="@FilterMode"
               ShowHeaderFilterMenu="true">
@@ -14,7 +14,7 @@
                             Title="Statut"
                             Filterable="true"
                             FilterType="OmniDataGridColumnFilterType.MultiSelect"
-                            FilterValueText="@(value => $"T:{value}")"
+                            FormatFilterValue="@(value => $"T:{value}")"
                             DefaultFilterValue="@StatusDefault" />
         <OmniDataGridColumn TItem="Ticket"
                             Property="Opened"

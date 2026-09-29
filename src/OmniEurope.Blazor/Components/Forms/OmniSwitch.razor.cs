@@ -34,10 +34,10 @@ public partial class OmniSwitch<TValue>
 
     /// <summary>
     /// The description (<c>aria-description</c>) of a switch bound to a <c>bool?</c> while its value is
-    /// null. Empty uses the localized "indeterminate state". Ignored for a <c>bool</c>.
+    /// null. Null or blank, the default, uses the localized "indeterminate state". Ignored for a <c>bool</c>.
     /// </summary>
     [Parameter]
-    public string IndeterminateDescription { get; set; } = string.Empty;
+    public string? IndeterminateDescription { get; set; }
 
     /// <summary>The id of the element that describes the switch.</summary>
     [Parameter]
@@ -56,9 +56,7 @@ public partial class OmniSwitch<TValue>
 
     private bool? State => OmniBooleanValue<TValue>.Read(CurrentValue);
 
-    private string EffectiveIndeterminateDescription => string.IsNullOrWhiteSpace(IndeterminateDescription)
-        ? Localize("NullableSwitchIndeterminate")
-        : IndeterminateDescription;
+    private string EffectiveIndeterminateDescription => LocalizeOr(IndeterminateDescription, "NullableSwitchIndeterminate");
 
     private void Toggle()
     {
