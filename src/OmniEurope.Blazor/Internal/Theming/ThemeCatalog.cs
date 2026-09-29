@@ -226,65 +226,73 @@ internal static class ThemeCatalog
                 ("--omni-overlay-shadow", "-0.375rem -0.375rem 1rem rgb(255 255 255 / 6%), 0.625rem 0.75rem 1.75rem rgb(0 0 0 / 60%)")),
             ContrastWaiver: "Relief par ombres douces : bordures et marques non textuelles sous les seuils WCAG."),
 
-        // Glassmorphism: translucent panels over a colour field painted by the theme scope. Below the
-        // contrast thresholds (waiver): the field is a rich gradient of the palette (accent, danger,
-        // information, about two thirds of the colour in light and in dark), and the cards are clearly
-        // translucent panes over it, rimmed by a light edge, a top highlight and a sheen from the top
-        // left. Only the focus ring keeps its guarantee; the field stays light enough in light mode for
-        // the dark text, and the muted text, a step lighter than the text, to be read on it. The cards
-        // have no blur of their own: a filter would make them the containing block of the positioned
-        // popovers and tooltips they hold (the reason the dialog has none), and the field under them is a
-        // smooth gradient a blur would barely change, so the frosted blur goes to the floating layers and
-        // the dialog scrim, which cover what they blur.
-        new("Givre", "Panneaux de verre dépoli sur un fond de couleurs fondues, liseré clair et grands arrondis.", "Crépuscule",
+        // Glassmorphism, airy glass: frosted panes over a light colour field painted by the theme scope.
+        // The field is four large pastel orbs of the palette (information as sky, the accent as
+        // lavender, success as mint, warning as a peach glow, laid as radial gradients) over a cool white
+        // page in light mode; dimmed on a calm night page in dark mode, where the warm glow turns to the
+        // accent so the night stays cool. The accent stays one deep confident colour for actions, so
+        // it stands out from the pale hues under it. Cards are clearly frosted: a pseudo-element under each card blurs and saturates the field (the card
+        // itself takes no filter, which would make it the containing block of the fixed popovers and
+        // tooltips it holds), and the card lays over it a milky translucent fill, a 1 px light rim, a top
+        // highlight and a large soft shadow. Below the contrast thresholds (waiver): only the focus ring
+        // keeps its guarantee.
+        new("Givre", "Panneaux de verre dépoli sur un fond de grandes taches pastel, liseré clair et grands arrondis.", "Opale",
             Shape(
                 // Press: the pane gives a little under the finger and frosts from inside.
-                ("--omni-button-press-transform", "scale(0.96)"), ("--omni-button-press-shadow", "inset 0 0.125rem 0.5rem rgb(0 0 0 / 22%)"),
-                ("--omni-radius", "0.75rem"), ("--omni-radius-sm", "0.5rem"), ("--omni-radius-lg", "1.25rem"),
-                ("--omni-button-radius", "999px"), ("--omni-card-radius", "1.25rem"), ("--omni-alert-radius", "1rem"),
-                ("--omni-backdrop-start", "color-mix(in srgb, var(--omni-color-accent) 64%, var(--omni-color-surface))"),
-                ("--omni-backdrop-middle", "color-mix(in srgb, var(--omni-color-danger) 52%, var(--omni-color-surface))"),
-                ("--omni-backdrop-end", "color-mix(in srgb, var(--omni-color-info) 62%, var(--omni-color-surface))"),
-                ("--omni-backdrop", "linear-gradient(135deg, var(--omni-backdrop-start), var(--omni-backdrop-middle) 50%, var(--omni-backdrop-end))"),
-                ("--omni-color-text-muted", "color-mix(in srgb, var(--omni-color-text) 86%, var(--omni-color-surface))"),
-                ("--omni-color-accent-strong", "color-mix(in srgb, var(--omni-color-accent) 40%, var(--omni-color-text))"),
-                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 28%, transparent)"),
-                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-surface) 34%, transparent)"),
-                // The dialog sits on the scrim, not on the colour field: it keeps an opaque pane.
-                ("--omni-dialog-background", "var(--omni-color-surface)"),
+                ("--omni-button-press-transform", "scale(0.96)"), ("--omni-button-press-shadow", "inset 0 0.125rem 0.5rem rgb(0 0 0 / 20%)"),
+                ("--omni-radius", "0.875rem"), ("--omni-radius-sm", "0.625rem"), ("--omni-radius-lg", "1.5rem"),
+                ("--omni-button-radius", "999px"), ("--omni-card-radius", "1.5rem"), ("--omni-alert-radius", "1.125rem"),
+                ("--omni-backdrop-start", "color-mix(in srgb, var(--omni-color-info-fill) 40%, var(--omni-color-surface))"),
+                ("--omni-backdrop-middle", "color-mix(in srgb, var(--omni-color-accent-fill) 30%, var(--omni-color-surface))"),
+                ("--omni-backdrop-end", "color-mix(in srgb, var(--omni-color-success-fill) 36%, var(--omni-color-surface))"),
+                ("--omni-backdrop-glow", "color-mix(in srgb, var(--omni-color-warning-fill) 34%, var(--omni-color-surface))"),
+                ("--omni-backdrop", GivreField),
+                ("--omni-scope-isolation", "isolate"),
+                ("--omni-card-position", "relative"), ("--omni-card-frost", "\"\""),
+                ("--omni-card-filter", "blur(22px) saturate(1.6)"),
+                ("--omni-color-text-muted", "color-mix(in srgb, var(--omni-color-text) 76%, var(--omni-color-surface))"),
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 26%, transparent)"),
+                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-surface) 58%, transparent)"),
+                ("--omni-card-border-color", "rgb(255 255 255 / 90%)"),
+                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 95%), 0 0.25rem 0.75rem rgb(0 0 0 / 4%), 0 1.5rem 3rem rgb(0 0 0 / 7%)"),
+                // A grid is read row by row: a denser pane than the cards.
+                ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-surface) 70%, transparent)"),
+                // The dialog sits on the frosted scrim, which already blurs the page: a dense pane.
+                ("--omni-dialog-background", "color-mix(in srgb, var(--omni-color-surface) 92%, transparent)"),
                 // Fields and the secondary button are glass as well.
-                ("--omni-input-background", "color-mix(in srgb, var(--omni-color-surface) 50%, transparent)"),
-                ("--omni-color-neutral-fill", "color-mix(in srgb, var(--omni-color-surface) 45%, transparent)"),
-                ("--omni-color-neutral-fill-hover", "color-mix(in srgb, var(--omni-color-surface) 70%, transparent)"),
-                ("--omni-color-neutral-fill-active", "color-mix(in srgb, var(--omni-color-surface) 85%, transparent)"),
-                ("--omni-card-border-color", "rgb(255 255 255 / 80%)"),
-                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 90%), inset 0.75rem 0.75rem 2rem -1rem rgb(255 255 255 / 60%), inset 0 0 2rem rgb(255 255 255 / 22%), 0 1rem 2.5rem rgb(0 0 0 / 16%)"),
-                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 45%), 0 0.25rem 0.875rem rgb(0 0 0 / 16%)"),
-                ("--omni-overlay-background", "rgb(255 255 255 / 55%)"),
+                ("--omni-input-background", "color-mix(in srgb, var(--omni-color-surface) 66%, transparent)"),
+                ("--omni-color-neutral-fill", "color-mix(in srgb, var(--omni-color-surface) 64%, transparent)"),
+                ("--omni-color-neutral-fill-hover", "color-mix(in srgb, var(--omni-color-surface) 84%, transparent)"),
+                ("--omni-color-neutral-fill-active", "color-mix(in srgb, var(--omni-color-surface) 94%, transparent)"),
+                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 35%), 0 0.25rem 0.875rem rgb(0 0 0 / 9%)"),
+                ("--omni-overlay-background", "color-mix(in srgb, var(--omni-color-surface) 72%, transparent)"),
                 ("--omni-overlay-filter", "blur(24px) saturate(1.6)"),
-                ("--omni-overlay-shadow", "inset 0 1px 0 rgb(255 255 255 / 70%), 0 1rem 2.5rem rgb(0 0 0 / 22%)"),
-                ("--omni-scrim-filter", "blur(8px)"),
+                ("--omni-overlay-shadow", "inset 0 1px 0 rgb(255 255 255 / 85%), 0 1.25rem 3rem rgb(0 0 0 / 14%)"),
+                // A light frosted veil: the page keeps its colours behind the dialog.
+                ("--omni-color-overlay", "rgb(0 0 0 / 22%)"), ("--omni-scrim-filter", "blur(12px) saturate(1.4)"),
                 ("--omni-focus-ring", FocusRing),
                 ("--omni-button-font-weight", "500"), ("--omni-heading-font-weight", "600"),
                 ("--omni-font-family", Sans)),
             Shape(
-                ("--omni-backdrop-start", "color-mix(in srgb, var(--omni-color-accent) 58%, var(--omni-color-surface))"),
-                ("--omni-backdrop-middle", "color-mix(in srgb, var(--omni-color-danger) 45%, var(--omni-color-surface))"),
-                ("--omni-backdrop-end", "color-mix(in srgb, var(--omni-color-info) 52%, var(--omni-color-surface))"),
-                ("--omni-color-text-muted", "color-mix(in srgb, var(--omni-color-text) 88%, var(--omni-color-surface))"),
-                ("--omni-color-accent-strong", "color-mix(in srgb, var(--omni-color-accent) 28%, var(--omni-color-text))"),
-                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-text) 10%, transparent)"),
-                // A grid is read row by row: on the dark field it takes a darker pane than the cards.
-                ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-surface) 55%, transparent)"),
-                ("--omni-input-background", "color-mix(in srgb, var(--omni-color-text) 6%, transparent)"),
-                ("--omni-color-neutral-fill", "color-mix(in srgb, var(--omni-color-text) 10%, transparent)"),
-                ("--omni-color-neutral-fill-hover", "color-mix(in srgb, var(--omni-color-text) 16%, transparent)"),
-                ("--omni-color-neutral-fill-active", "color-mix(in srgb, var(--omni-color-text) 22%, transparent)"),
-                ("--omni-card-border-color", "rgb(255 255 255 / 30%)"),
-                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 35%), inset 0.75rem 0.75rem 2rem -1rem rgb(255 255 255 / 18%), inset 0 0 2rem rgb(255 255 255 / 8%), 0 1rem 2.5rem rgb(0 0 0 / 40%)"),
-                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 22%), 0 0.25rem 1rem rgb(0 0 0 / 35%)"),
-                ("--omni-overlay-background", "rgb(255 255 255 / 12%)"),
-                ("--omni-overlay-shadow", "inset 0 1px 0 rgb(255 255 255 / 18%), 0 1rem 2.5rem rgb(0 0 0 / 50%)")),
+                ("--omni-backdrop-start", "color-mix(in srgb, var(--omni-color-info-fill) 40%, var(--omni-color-surface))"),
+                ("--omni-backdrop-middle", "color-mix(in srgb, var(--omni-color-accent-fill) 44%, var(--omni-color-surface))"),
+                ("--omni-backdrop-end", "color-mix(in srgb, var(--omni-color-success-fill) 32%, var(--omni-color-surface))"),
+                ("--omni-backdrop-glow", "color-mix(in srgb, var(--omni-color-accent-fill) 26%, var(--omni-color-surface))"),
+                ("--omni-color-text-muted", "color-mix(in srgb, var(--omni-color-text) 80%, var(--omni-color-surface))"),
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 28%, transparent)"),
+                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-surface) 50%, transparent)"),
+                ("--omni-card-border-color", "rgb(255 255 255 / 12%)"),
+                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 14%), 0 0.25rem 0.75rem rgb(0 0 0 / 16%), 0 1.5rem 3rem rgb(0 0 0 / 30%)"),
+                ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-surface) 66%, transparent)"),
+                ("--omni-dialog-background", "color-mix(in srgb, var(--omni-color-surface) 90%, transparent)"),
+                ("--omni-input-background", "color-mix(in srgb, var(--omni-color-surface) 52%, transparent)"),
+                ("--omni-color-neutral-fill", "color-mix(in srgb, var(--omni-color-text) 9%, transparent)"),
+                ("--omni-color-neutral-fill-hover", "color-mix(in srgb, var(--omni-color-text) 15%, transparent)"),
+                ("--omni-color-neutral-fill-active", "color-mix(in srgb, var(--omni-color-text) 21%, transparent)"),
+                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 18%), 0 0.25rem 1rem rgb(0 0 0 / 28%)"),
+                ("--omni-overlay-background", "color-mix(in srgb, var(--omni-color-surface) 76%, transparent)"),
+                ("--omni-color-overlay", "rgb(0 0 0 / 45%)"),
+                ("--omni-overlay-shadow", "inset 0 1px 0 rgb(255 255 255 / 12%), 0 1.25rem 3rem rgb(0 0 0 / 48%)")),
             ContrastWaiver: "Panneaux translucides sur un fond coloré : la lisibilité dépend du fond, les seuils WCAG ne sont pas garantis."),
 
         // Flat design: no shadow, no gradient, no relief anywhere; solid colour fields, pill buttons,
@@ -362,6 +370,19 @@ internal static class ThemeCatalog
     /// shows on a pressed hollow, a glass pane or a filled block alike.
     /// </summary>
     private const string FocusRing = "0 0 0 2px var(--omni-color-surface), 0 0 0 4px var(--omni-color-accent)";
+
+    /// <summary>
+    /// Givre's colour field: four large pastel orbs (sky, lavender, mint and peach: the three stops the
+    /// contrast checks measure, and a warm glow), each a solid core fading out, laid as radial gradients
+    /// over a base that drifts from the page towards the information hue. Pinned to the viewport by the
+    /// scope, so the frosted panes scroll over it.
+    /// </summary>
+    private const string GivreField =
+        "radial-gradient(circle at 6% 8%, var(--omni-backdrop-start) 0 11rem, transparent 32rem), "
+        + "radial-gradient(circle at 96% 10%, var(--omni-backdrop-middle) 0 10rem, transparent 30rem), "
+        + "radial-gradient(circle at 82% 96%, var(--omni-backdrop-end) 0 11rem, transparent 32rem), "
+        + "radial-gradient(circle at 18% 100%, var(--omni-backdrop-glow) 0 8rem, transparent 26rem), "
+        + "linear-gradient(160deg, var(--omni-color-surface) 30%, color-mix(in srgb, var(--omni-color-info-fill) 10%, var(--omni-color-surface)))";
 
     /// <summary>
     /// Relief's dark shadow in light mode: the page darkened, so the shadow keeps the hue of the

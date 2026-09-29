@@ -113,7 +113,7 @@ public sealed partial class ThemeTokenReader(HttpClient http)
         // How surfaces stand off the page: shadows, the floating layer and its acrylic, the overlay.
         _ when name.StartsWith("--omni-shadow", StringComparison.Ordinal) || name.EndsWith("-shadow", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
         _ when name.StartsWith("--omni-layer-", StringComparison.Ordinal) || name.StartsWith("--omni-elevation-", StringComparison.Ordinal) || name.StartsWith("--omni-overlay-", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
-        "--omni-focus-ring" or "--omni-color-overlay" or "--omni-scrim-filter" => ThemeTokenGroup.Elevation,
+        "--omni-focus-ring" or "--omni-color-overlay" or "--omni-scrim-filter" or "--omni-card-filter" => ThemeTokenGroup.Elevation,
         _ when name.StartsWith("--omni-backdrop", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
         _ when name.StartsWith("--omni-color-", StringComparison.Ordinal) => ThemeTokenGroup.Color,
         _ when name.StartsWith("--omni-font", StringComparison.Ordinal) => ThemeTokenGroup.Typography,
@@ -123,6 +123,7 @@ public sealed partial class ThemeTokenReader(HttpClient http)
         _ when name.StartsWith("--omni-radius", StringComparison.Ordinal) || name.EndsWith("-radius", StringComparison.Ordinal) || name.Contains("-border-", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
         _ when name.EndsWith("-transform", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
         "--omni-border-width" or "--omni-card-background" or "--omni-dialog-background" or "--omni-input-background" => ThemeTokenGroup.Shape,
+        "--omni-scope-isolation" or "--omni-card-position" or "--omni-card-frost" => ThemeTokenGroup.Shape,
         _ => ThemeTokenGroup.Color
     };
 
