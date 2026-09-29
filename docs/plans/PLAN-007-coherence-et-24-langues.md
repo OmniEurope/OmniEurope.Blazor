@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-007 : Passe de cohérence 1.2.0 et traduction en 24 langues
 
-> Statut : **ouvert**, lots 1 à 11 faits (lot 1 : 240d4f3 ; lots 2 à 11 : 60315bb), lot 12 (clôture) en cours. Établi le 2026-09-29 après la passe de cohérence du même jour (5 revues, environ
+> Statut : **terminé** le 2026-09-29, 12 lots sur 12 (lot 1 : 240d4f3 ; lots 2 à 11 : 60315bb ; lot 12 : 24fbdef, 879bba8, 9889582), CI verte. Établi le 2026-09-29 après la passe de cohérence du même jour (5 revues, environ
 > 150 constats) ; exécuté en parallèle par sous-agents, un propriétaire par chantier.
 
 ## Objectif
@@ -119,12 +119,12 @@ Controle : suites concernées vertes ; nom accessible d'une jauge contient sa va
       paires de contraste, commentaires et sélecteurs morts, `/documentation` sondé.
 Controle : `Test-ShowcaseHost.ps1` (5 sondes) vert ; `Test-Package.ps1` vérifie chaque fichier de `wwwroot`.
 
-### Lot 12 - Clôture (après les lots 2 à 11) (en cours)
+### Lot 12 - Clôture (après les lots 2 à 11) (fait)
 - [x] Doc XML de chaque membre public, `GenerateDocumentationFile`, CS1591 en erreur.
 - [x] Constantes des chemins de modules JS ; docs de composants resynchronisées avec les renommages.
 - [x] Clés ajoutées pendant les lots traduites dans les 22 langues.
 - [x] Textes des démos de la vitrine passés en ressources (environ 915 clés) et traduits ; 20 défauts relevés pendant la doc XML corrigés avec test (19 corrigés, 1 non avéré).
-- [ ] CHANGELOG, baseline d'API, build, tests, sondes, CI.
+- [x] CHANGELOG, baseline d'API, build, tests, sondes (5 vertes), CI verte sur `develop` au commit 9889582.
 Controle : CI verte sur `develop`, build 0 avertissement, `Test-PublicApi.ps1` vert.
 
 ## Ordre et dépendances
