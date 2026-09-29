@@ -17,7 +17,7 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     // ---- unsaved changes ------------------------------------------------------------------------
 
     [Fact]
-    public void Guard_WithChanges_AsksBeforeAnInternalNavigation_AndStayKeepsThePage()
+    public async Task Guard_WithChanges_AsksBeforeAnInternalNavigation_AndStayKeepsThePage()
     {
         using var service = new OmniOverlayService();
         var navigation = Services.GetRequiredService<NavigationManager>();
@@ -35,12 +35,17 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
         host.Find(".omni-confirm__cancel").Click();
 
         host.WaitForAssertion(() => Assert.Empty(host.FindAll(".omni-dialog")), TimeSpan.FromSeconds(10));
+        // The navigation manager records the prevented attempt when the location-changing handler
+        // returns, after the last render of the dialog: WaitForAssertion only re-checks on a render, so it
+        // would check once and time out (flaky on CI). The record is awaited by polling instead.
+        var history = ((BunitNavigationManager)navigation).History;
+        await UntilAsync(() => history.Count > 0);
+        Assert.Equal(NavigationState.Prevented, Assert.Single(history).State);
         Assert.Equal(start, navigation.Uri);
-        Assert.Equal(NavigationState.Prevented, Assert.Single(((BunitNavigationManager)navigation).History).State);
     }
 
     [Fact]
-    public void Guard_WithChanges_LetsTheNavigationThroughOnceConfirmed()
+    public async Task Guard_WithChanges_LetsTheNavigationThroughOnceConfirmed()
     {
         using var service = new OmniOverlayService();
         var navigation = Services.GetRequiredService<NavigationManager>();
@@ -54,11 +59,24 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
         host.Find(".omni-confirm__action").Click();
 
         host.WaitForAssertion(() => Assert.Empty(host.FindAll(".omni-dialog")), TimeSpan.FromSeconds(10));
-        host.WaitForAssertion(() => Assert.EndsWith("/ailleurs", navigation.Uri, StringComparison.Ordinal), TimeSpan.FromSeconds(10));
+        // The address changes once the location-changing handler returns, after the last render of the
+        // host, so a render-driven WaitForAssertion would never re-check it: poll the address instead.
+        await UntilAsync(() => navigation.Uri.EndsWith("/ailleurs", StringComparison.Ordinal));
+        Assert.EndsWith("/ailleurs", navigation.Uri, StringComparison.Ordinal);
+    }
+
+    /// <summary>Polls <paramref name="condition"/> until it holds, for state that changes without a render.</summary>
+    private static async Task UntilAsync(Func<bool> condition)
+    {
+        var watch = System.Diagnostics.Stopwatch.StartNew();
+        while (!condition() && watch.Elapsed < TimeSpan.FromSeconds(10))
+        {
+            await Task.Delay(10);
+        }
     }
 
     [Fact]
-    public void Guard_WithoutChanges_NeverAsks()
+    public async Task Guard_WithoutChanges_NeverAsks()
     {
         using var service = new OmniOverlayService();
         var navigation = Services.GetRequiredService<NavigationManager>();
@@ -68,7 +86,8 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
 
         _ = host.InvokeAsync(() => navigation.NavigateTo("/ailleurs"));
 
-        host.WaitForAssertion(() => Assert.EndsWith("/ailleurs", navigation.Uri, StringComparison.Ordinal), TimeSpan.FromSeconds(10));
+        await UntilAsync(() => navigation.Uri.EndsWith("/ailleurs", StringComparison.Ordinal));
+        Assert.EndsWith("/ailleurs", navigation.Uri, StringComparison.Ordinal);
         Assert.Empty(host.FindAll(".omni-dialog"));
     }
 
