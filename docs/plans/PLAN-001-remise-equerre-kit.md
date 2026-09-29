@@ -189,9 +189,10 @@ localisées par `IStringLocalizer<ShowcaseStrings>`. Les 114 textes en dur reste
 la vitrine s'affiche en anglais. Le message du kit (`IStringLocalizer<AppStrings>`) ne s'applique pas
 à la vitrine : la cible est `ShowcaseStrings`.
 
-- [ ] Localiser les 114 textes des démos dans `ShowcaseStrings.resx` / `.en.resx`, par lots de 15
+- [x] Localiser les 114 textes des démos dans `ShowcaseStrings.resx` / `.en.resx`, par lots de 15
   fichiers au plus (pages `.razor` : hors phase A, règle 7 du plan maître ; OE n'est pas réécrit par la
-  phase B, ce lot reste donc ici).
+  phase B, ce lot reste donc ici). Fait par PLAN-007 lot 12 (`24fbdef`) : environ 915 textes de démos
+  passés en ressources et traduits dans les 24 langues.
 - [x] `STD-FOCUS` : réglé au lot 2 par la configuration locale du contrôle des règles, le mécanisme d'exclusion par
   dépôt livré dans le kit le 2026-09-19 (voir les `.NOTES` de le contrôle des règles).
 - [ ] Reste à proposer au kit (`kit/rules-check`, non modifié par ce plan) :
