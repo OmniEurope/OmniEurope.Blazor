@@ -41,21 +41,6 @@ public partial class OmniAppearanceWindow
     [Parameter]
     public EventCallback<OmniThemePalette?> PaletteChanged { get; set; }
 
-    /// <summary>
-    /// Name of the host's own look, for a host whose look without a theme is its own (not the first
-    /// theme of the catalogue): the theme list then starts with this option, standing for a null
-    /// <see cref="Preset"/>, and lists every catalogue theme under its name. Empty keeps the default list.
-    /// </summary>
-    [Parameter]
-    public string? DefaultThemeText { get; set; }
-
-    /// <summary>
-    /// Name of the host's own palette, shown first while no theme is chosen and <see cref="DefaultThemeText"/>
-    /// is set; it stands for a null <see cref="Palette"/>.
-    /// </summary>
-    [Parameter]
-    public string? DefaultPaletteText { get; set; }
-
     /// <summary>Text size, 1 to 10 with 5 as drawn (the host applies it, <c>data-oe-text-size</c>).</summary>
     [Parameter]
     public int TextSizeLevel { get; set; } = 5;
@@ -86,17 +71,13 @@ public partial class OmniAppearanceWindow
 
     private bool ShowsScale => TextSizeLevelChanged.HasDelegate || DensityLevelChanged.HasDelegate || ControlSizeLevelChanged.HasDelegate;
 
-    private bool HostDefault => !string.IsNullOrWhiteSpace(DefaultThemeText);
+    private string ThemeName => AppearanceChoices.ThemeName(Preset);
 
-    private string ThemeName => AppearanceChoices.ThemeName(Preset, HostDefault);
+    private string PaletteName => AppearanceChoices.PaletteName(Preset, Palette);
 
-    private string PaletteName => AppearanceChoices.PaletteName(Preset, Palette, HostDefault);
+    private IReadOnlyList<OmniOption<string>> ThemeOptions => AppearanceChoices.ThemeOptions(Localize("SettingsDefaultSuffix"));
 
-    private IReadOnlyList<OmniOption<string>> ThemeOptions =>
-        AppearanceChoices.ThemeOptions(Localize("SettingsDefaultSuffix"), HostDefault ? DefaultThemeText : null);
-
-    private IReadOnlyList<OmniOption<string>> PaletteOptions =>
-        AppearanceChoices.PaletteOptions(Preset, Localize("SettingsDefaultSuffix"), HostDefault ? DefaultPaletteText ?? DefaultThemeText : null);
+    private IReadOnlyList<OmniOption<string>> PaletteOptions => AppearanceChoices.PaletteOptions(Preset, Localize("SettingsDefaultSuffix"));
 
     private double TextSizeValue => TextSizeLevel;
 
@@ -106,7 +87,7 @@ public partial class OmniAppearanceWindow
 
     private Task SetThemeAsync(string? name) => PresetChanged.InvokeAsync(AppearanceChoices.Theme(name));
 
-    private Task SetPaletteAsync(string? name) => PaletteChanged.InvokeAsync(AppearanceChoices.Palette(Preset, name, HostDefault));
+    private Task SetPaletteAsync(string? name) => PaletteChanged.InvokeAsync(AppearanceChoices.Palette(Preset, name));
 
     private Task OnTextSizeSlider(double value) => TextSizeLevelChanged.InvokeAsync((int)value);
 

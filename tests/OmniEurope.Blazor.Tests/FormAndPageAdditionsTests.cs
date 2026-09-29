@@ -342,44 +342,6 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     }
 
     [Fact]
-    public void AppearanceWindow_WithTheHostsOwnLook_NamesItFirst_AndListsEveryThemeByName()
-    {
-        OmniThemePreset? theme = OmniThemePresets.All[1];
-        OmniThemePalette? palette = OmniThemePalettes.All[1];
-        var window = Render<OmniAppearanceWindow>(parameters => parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.DefaultThemeText, "Boutique")
-            .Add(component => component.DefaultPaletteText, "Palette du thème")
-            .Add(component => component.PresetChanged, value => theme = value)
-            .Add(component => component.PaletteChanged, value => palette = value));
-
-        var selects = window.FindAll("select");
-        var themes = selects[0].QuerySelectorAll("option").Select(option => option.TextContent).ToList();
-        // The host's look comes first, then the whole catalogue, the first theme included by its own name.
-        Assert.Equal("Boutique", themes[0]);
-        Assert.Equal(OmniThemePresets.All.Count + 1, themes.Count);
-        Assert.Contains(OmniThemePresets.All[0].Name, themes.Skip(1));
-        Assert.DoesNotContain(themes, text => text.Contains("(", StringComparison.Ordinal));
-        // No theme chosen: the palette list starts with the host's own palette.
-        Assert.Equal("Palette du thème", selects[1].QuerySelectorAll("option")[0].TextContent);
-
-        // The drop-down posts the option's own value: pick by the visible name.
-        static string ValueOf(AngleSharp.Dom.IElement select, string text) =>
-            select.QuerySelectorAll("option").First(option => option.TextContent == text).GetAttribute("value")!;
-        selects[0].Change(ValueOf(selects[0], OmniThemePresets.All[0].Name));
-        Assert.Same(OmniThemePresets.All[0], theme);
-        // The host keeps the value: render the window with the theme it now holds.
-        window.Render(parameters => parameters.Add(component => component.Preset, theme));
-        var themeSelect = window.FindAll("select")[0];
-        themeSelect.Change(ValueOf(themeSelect, "Boutique"));
-        Assert.Null(theme);
-        window.Render(parameters => parameters.Add(component => component.Preset, theme).Add(component => component.Palette, OmniThemePalettes.All[1]));
-        var paletteSelect = window.FindAll("select")[1];
-        paletteSelect.Change(ValueOf(paletteSelect, "Palette du thème"));
-        Assert.Null(palette);
-    }
-
-    [Fact]
     public void AppearanceSettings_Window_NowHoldsThemeAndPaletteAboveTheScales()
     {
         var settings = Render<OmniAppearanceSettings>(parameters => parameters
