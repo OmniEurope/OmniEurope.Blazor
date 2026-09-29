@@ -93,7 +93,7 @@ l'entrée ; il est décoratif (`aria-hidden`), le texte et son surlignage nomman
 
 ## Menus : profil et contextuel
 
-Tous les menus du paquet prennent les mêmes entrées, `OmniMenuItem` (`Icon`, `Href`, `Disabled`, `Tone`, `OnClick` en `EventCallback<MouseEventArgs>`, contenu enfant obligatoire), et le même moteur (`omni-focus.js`, voir [accessibility-contract.md](accessibility-contract.md)) : rendus dans le portail d'`OmniComponentsHost`, flèches, Début et Fin, Échap qui rend le focus au déclencheur, Tab qui ferme. Une entrée destructrice prend `Tone="OmniTone.Danger"`. Un menu à déclencheur (`OmniOverflowMenu`, `OmniSplitButton`, `OmniProfileMenu`) se pilote par `Open` (`bool?`, `null` = état propre) et `OpenChanged` ; `Label` nomme le déclencheur, `MenuLabel` la liste.
+Tous les menus du paquet prennent les mêmes entrées, `OmniMenuItem` (`Icon`, `Href`, `Disabled`, `Tone`, `OnClick` en `EventCallback<MouseEventArgs>`, contenu enfant obligatoire), et le même moteur (`omni-focus.js`, voir [accessibility-contract.md](contracts/accessibility-contract.md)) : rendus dans le portail d'`OmniComponentsHost`, flèches, Début et Fin, Échap qui rend le focus au déclencheur, Tab qui ferme. Une entrée destructrice prend `Tone="OmniTone.Danger"`. Un menu à déclencheur (`OmniOverflowMenu`, `OmniSplitButton`, `OmniProfileMenu`) se pilote par `Open` (`bool?`, `null` = état propre) et `OpenChanged` ; `Label` nomme le déclencheur, `MenuLabel` la liste.
 
 `OmniProfileMenu` est un bouton (`omni-profile-menu__trigger`, qui porte `Id`) qui ouvre son menu dans le portail. Il se ferme sur Échap, une fois une entrée
 choisie et, avec `CloseOnOutsideClick` (vrai par défaut), sur un appui ailleurs dans la page, avec la

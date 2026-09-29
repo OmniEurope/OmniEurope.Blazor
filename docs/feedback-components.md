@@ -1,6 +1,6 @@
 # Retours d'état (famille Feedback)
 
-Ces composants disent où en est quelque chose : un message, un état, une progression, un chargement. La couleur n'est jamais le seul signal : un texte, une icône, un rôle ou un attribut ARIA l'accompagne toujours ([accessibility-contract.md](accessibility-contract.md)).
+Ces composants disent où en est quelque chose : un message, un état, une progression, un chargement. La couleur n'est jamais le seul signal : un texte, une icône, un rôle ou un attribut ARIA l'accompagne toujours ([accessibility-contract.md](contracts/accessibility-contract.md)).
 
 | Composant | Rôle |
 | --- | --- |

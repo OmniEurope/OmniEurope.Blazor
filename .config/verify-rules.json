@@ -6,7 +6,7 @@
       "paths": [
         "src/OmniEurope.Blazor/Components/Overlays/OmniDialog.razor"
       ],
-      "reason": "Exception d'accessibilite documentee dans docs/accessibility-contract.md : bibliotheque de composants, l'autofocus porte sur le bouton de fermeture du dialogue modal ouvert par l'utilisateur, pas sur un focus de demarrage ou de navigation. Le deplacement du focus est exige par STD-DIALOG, realise par omni-focus.js (activateDialog, restoreFocus) et fige par OptInEvolutionTests."
+      "reason": "Exception d'accessibilite documentee dans docs/contracts/accessibility-contract.md : bibliotheque de composants, l'autofocus porte sur le bouton de fermeture du dialogue modal ouvert par l'utilisateur, pas sur un focus de demarrage ou de navigation. Le deplacement du focus est exige par STD-DIALOG, realise par omni-focus.js (activateDialog, restoreFocus) et fige par OptInEvolutionTests."
     }
   ]
 }

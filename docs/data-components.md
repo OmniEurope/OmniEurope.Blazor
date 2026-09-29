@@ -373,7 +373,7 @@ sous 40 rem.
 Chaque entrée (`role="treeitem"`) déclare ses enfants dans son contenu ou les charge à la demande à sa
 première ouverture (état de chargement annoncé, échec signalé et rapporté par `OnLoadError`), y compris
 quand elle est ouverte d'emblée. Au clavier, Droite développe, Gauche
-réduit, Entrée et Espace sélectionnent sans remonter à l'ancêtre ([accessibility-contract.md](accessibility-contract.md)).
+réduit, Entrée et Espace sélectionnent sans remonter à l'ancêtre ([accessibility-contract.md](contracts/accessibility-contract.md)).
 
 ### Ligne enrichie
 
