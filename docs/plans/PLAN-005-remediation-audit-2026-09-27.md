@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-005 - Remédiation de l'audit 360 du 2026-09-27
 
-> Statut : lots 1 à 4 livrés le 2026-09-27, SCR-001 réglé le 2026-09-28 (`dce120d`) ; reste KIT-001/KIT-002, en attente d'une décision du propriétaire.
+> Statut : **terminé** le 2026-09-29. Lots 1 à 4 livrés le 2026-09-27, SCR-001 réglé le 2026-09-28 (`dce120d`) ; KIT-001/KIT-002 clos par décision du propriétaire le 2026-09-29 : le dépôt est public, les fichiers d'agent et de règles restent ignorés par Git.
 > Objectif : corriger les constats de l'audit 360 du 2026-09-27 (52 constats relevés sur `develop` à
 > `4f2a2c2`) que le tri contradictoire a confirmés. Chaque correctif de comportement arrive avec un test
 > qui échoue avant lui.

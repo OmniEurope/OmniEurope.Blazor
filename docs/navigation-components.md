@@ -1,6 +1,6 @@
 # Navigation (famille Navigation)
 
-Ces composants mènent d'une page ou d'une vue à une autre et disent où l'on est (`aria-current`). Les motifs clavier (onglets en `tabindex` itinérant, menus) sont décrits dans [accessibility-contract.md](accessibility-contract.md).
+Ces composants mènent d'une page ou d'une vue à une autre et disent où l'on est (`aria-current`). Les motifs clavier (onglets en `tabindex` itinérant, menus) sont décrits dans [accessibility-contract.md](contracts/accessibility-contract.md).
 
 | Composant | Rôle |
 | --- | --- |

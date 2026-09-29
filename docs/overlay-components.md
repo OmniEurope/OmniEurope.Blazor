@@ -1,6 +1,6 @@
 # Surcouches (famille Overlays)
 
-Les surcouches s'affichent au-dessus de la page : dialogues, notifications, menus, panneaux et infobulles. Les surfaces flottantes sont rendues par le portail d'`OmniComponentsHost` quand il est présent, gardées dans la fenêtre, et rendent le focus à leur déclencheur en se fermant. Le focus d'ouverture des dialogues est décrit dans [accessibility-contract.md](accessibility-contract.md).
+Les surcouches s'affichent au-dessus de la page : dialogues, notifications, menus, panneaux et infobulles. Les surfaces flottantes sont rendues par le portail d'`OmniComponentsHost` quand il est présent, gardées dans la fenêtre, et rendent le focus à leur déclencheur en se fermant. Le focus d'ouverture des dialogues est décrit dans [accessibility-contract.md](contracts/accessibility-contract.md).
 
 | Composant | Rôle |
 | --- | --- |

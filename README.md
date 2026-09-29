@@ -93,7 +93,7 @@ A `ProjectReference` to the library does not bring the analyzer packed in the Nu
 
 The library targets, at minimum, a policy that grants neither `'unsafe-inline'` to `style-src` nor `'unsafe-eval'` to `script-src`. WebAssembly and Interactive Auto hosts add `'wasm-unsafe-eval'` to `script-src` for the .NET runtime itself; nothing broader is required by the rest of the library.
 
-One opt-in exception: `OmniCodeEditor` and `OmniDiffViewer` with their default `Monaco` engine load a Monaco editor served by the host, and Monaco writes `style` elements at runtime, so that page needs `style-src 'unsafe-inline'`. Under the strict policy, `Engine="OmniCodeEditorEngine.PlainText"` keeps a plain text area without Monaco, which is also the fallback when Monaco fails to load. See [docs/csp-contract.md](docs/csp-contract.md).
+One opt-in exception: `OmniCodeEditor` and `OmniDiffViewer` with their default `Monaco` engine load a Monaco editor served by the host, and Monaco writes `style` elements at runtime, so that page needs `style-src 'unsafe-inline'`. Under the strict policy, `Engine="OmniCodeEditorEngine.PlainText"` keeps a plain text area without Monaco, which is also the fallback when Monaco fails to load. See [docs/contracts/csp-contract.md](docs/contracts/csp-contract.md).
 
 ## License
 

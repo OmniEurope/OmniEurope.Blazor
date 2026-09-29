@@ -162,8 +162,8 @@ sous `site\`, `OmniEurope.Blazor.Catalog.exe` PID 3364 sous `samples\`), la prem
 Le contrôle des règles : 128 constats avant, 125 après (les 3 exclusions sont imprimées avec leur
 raison) ; le reliquat est entièrement `STD-I18N` (lot 4).
 
-### Lot 3 - Contrats vers `docs/contracts/` (à valider)
-- [ ] `git mv docs/csp-contract.md docs/contracts/csp-contract.md` et
+### Lot 3 - Contrats vers `docs/contracts/` (fait le 2026-09-29, PLAN-008 lot 1)
+- [x] `git mv docs/csp-contract.md docs/contracts/csp-contract.md` et
   `git mv docs/accessibility-contract.md docs/contracts/accessibility-contract.md` (2 fichiers suivis),
   un commit par opération, références mises à jour dans le même commit (`git grep` des deux noms :
   `README.md`, `docs/`, `AGENTS.md` local, `CHANGELOG.md` hors mentions datées).
@@ -195,7 +195,7 @@ la vitrine s'affiche en anglais. Le message du kit (`IStringLocalizer<AppStrings
   passés en ressources et traduits dans les 24 langues.
 - [x] `STD-FOCUS` : réglé au lot 2 par la configuration locale du contrôle des règles, le mécanisme d'exclusion par
   dépôt livré dans le kit le 2026-09-19 (voir les `.NOTES` de le contrôle des règles).
-- [ ] Reste à proposer au kit (`kit/rules-check`, non modifié par ce plan) :
+- [x] Reste à proposer au kit (`kit/rules-check`, non modifié par ce plan), proposition abandonnée par décision du propriétaire le 2026-09-29 :
   - `STD-I18N` (et les autres règles d'interface sur `*.razor`) : ignorer les projets de test, par
     exemple `Get-SourceFiles @('*.razor') | Where-Object { $_.FullName -notmatch '\\tests\\|\.Tests\\' }`.
   - `STD-I18N` : ignorer une valeur qui est une URL (`^[a-z]+://`).
