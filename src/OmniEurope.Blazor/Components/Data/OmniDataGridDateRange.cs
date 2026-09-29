@@ -17,6 +17,9 @@ public static class OmniDataGridDateRange
     private static readonly string[] Formats = ["yyyy-MM-dd", "yyyy-MM-ddTHH:mm", "yyyy-MM-ddTHH:mm:ss"];
 
     /// <summary>The encoded value of a range; empty when neither side is set.</summary>
+    /// <param name="start">The start as picked (<c>yyyy-MM-dd</c> or <c>yyyy-MM-ddTHH:mm</c>), trimmed; null or empty for an open start.</param>
+    /// <param name="end">The end as picked, trimmed; null or empty for an open end.</param>
+    /// <returns>The <c>start/end</c> value, or an empty string.</returns>
     public static string Join(string? start, string? end)
     {
         var from = start?.Trim() ?? string.Empty;
@@ -25,6 +28,8 @@ public static class OmniDataGridDateRange
     }
 
     /// <summary>The two sides as picked, each possibly empty.</summary>
+    /// <param name="value">The encoded value; a value without separator is read as a start alone.</param>
+    /// <returns>The trimmed start and end; both empty when <paramref name="value"/> is null or blank.</returns>
     public static (string Start, string End) Split(string? value)
     {
         if (string.IsNullOrWhiteSpace(value))
@@ -42,6 +47,8 @@ public static class OmniDataGridDateRange
     /// The inclusive start and the exclusive end the value stands for. A side that is empty or
     /// unreadable is null, so a half-typed range narrows by the side that is complete.
     /// </summary>
+    /// <param name="value">The encoded value.</param>
+    /// <returns>The inclusive start and the exclusive end, each null when open or unreadable.</returns>
     public static (DateTime? Start, DateTime? EndExclusive) Resolve(string? value)
     {
         var (start, end) = Split(value);
@@ -59,6 +66,9 @@ public static class OmniDataGridDateRange
     /// a <see cref="DateTimeOffset"/> by its own date and time, a <see cref="DateOnly"/> as its day.
     /// A value that is not a date matches no active range.
     /// </summary>
+    /// <param name="value">The encoded range.</param>
+    /// <param name="candidate">The cell value: a <see cref="DateTime"/>, <see cref="DateTimeOffset"/> or <see cref="DateOnly"/>.</param>
+    /// <returns>True when the range has no readable side, or when the cell date lies in it.</returns>
     public static bool Contains(string? value, object? candidate)
     {
         var (start, endExclusive) = Resolve(value);
@@ -80,6 +90,8 @@ public static class OmniDataGridDateRange
     }
 
     /// <summary>How a bound travels to a remote loader: invariant, sortable, without offset.</summary>
+    /// <param name="value">The bound, as returned by <see cref="Resolve"/>.</param>
+    /// <returns>The bound written as <c>yyyy-MM-ddTHH:mm:ss</c>.</returns>
     public static string FormatBound(DateTime value) =>
         value.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
 

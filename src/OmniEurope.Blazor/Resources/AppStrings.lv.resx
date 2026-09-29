@@ -18,15 +18,25 @@
   <data name="SettingsTextSize" xml:space="preserve"><value>Teksta lielums</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Blīvums</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Vadīklu lielums</value></data>
-  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Vadīklas</value></data>
-  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Teksts</value></data>
-  <data name="SettingsDensityShort" xml:space="preserve"><value>Blīvums</value></data>
-  <data name="SettingsScale" xml:space="preserve"><value>Izmēri</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Noklusējums</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>noklusējums</value></data>
-  <data name="SettingsDecrease" xml:space="preserve"><value>Samazināt</value></data>
-  <data name="SettingsIncrease" xml:space="preserve"><value>Palielināt</value></data>
+  <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Samazināt teksta lielumu</value></data>
+  <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Palielināt teksta lielumu</value></data>
+  <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Samazināt vadīklu lielumu</value></data>
+  <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Palielināt vadīklu lielumu</value></data>
+  <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
+  <data name="SettingsLook" xml:space="preserve"><value>Motīvs un izmēri</value></data>
+  <data name="SettingsLookTitle" xml:space="preserve"><value>Motīvs, palete un izmēri</value></data>
+  <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Teksts {1} · {2}</value></data>
+  <data name="SettingsLookSummaryFull" xml:space="preserve"><value>{0} · Teksts {1} · {2} · Vadīklas {3}</value></data>
+  <data name="DensityCompact" xml:space="preserve"><value>Kompakts</value></data>
+  <data name="DensityComfortable" xml:space="preserve"><value>Ērts</value></data>
+  <data name="DensitySpacious" xml:space="preserve"><value>Plašs</value></data>
   <data name="ArcGaugeLabel" xml:space="preserve"><value>Mērītājs</value></data>
+  <data name="LabelValuePair" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="ChartCategoryColumn" xml:space="preserve"><value>Kategorija</value></data>
+  <data name="ChartValueColumn" xml:space="preserve"><value>Vērtība</value></data>
+  <data name="ChartSeriesFallback" xml:space="preserve"><value>Sērija {0}</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Meklēšana neizdevās. Mainiet ievadi, lai mēģinātu vēlreiz.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>Pieejams 1 rezultāts.</value></data>
   <data name="AutocompleteManyResults" xml:space="preserve"><value>Pieejamie rezultāti: {0}.</value></data>
@@ -81,8 +91,6 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Izvērst vai sakļaut visas rindas</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Atdalīt fiksētās kolonnas</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Vēlreiz fiksēt kolonnas</value></data>
-  <data name="GridShrinkColumn" xml:space="preserve"><value>Sašaurināt kolonnu: {0}</value></data>
-  <data name="GridGrowColumn" xml:space="preserve"><value>Paplašināt kolonnu: {0}</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Pirmā lapa</value></data>
   <data name="PagerLast" xml:space="preserve"><value>Pēdējā lapa</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Rindas lapā</value></data>
@@ -344,6 +352,10 @@
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Profila izvēlne</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Progress</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>Notiek</value></data>
+  <data name="TextAreaCount" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="HeaderHome" xml:space="preserve"><value>Sākums</value></data>
+  <data name="HeaderLogo" xml:space="preserve"><value>Logotips</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Radiopogu atlase nav derīga.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Šis lauks ir obligāts.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Iepriekšējais periods</value></data>
@@ -362,6 +374,7 @@
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} paliek savā vietā.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} pārvietots uz {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Segmentētā atlase nav derīga.</value></data>
+  <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Izvēle nav derīga.</value></data>
   <data name="RatingLabel" xml:space="preserve"><value>Vērtējums</value></data>
   <data name="RatingStar" xml:space="preserve"><value>{0} no {1}</value></data>
   <data name="RatingValue" xml:space="preserve"><value>{0}: {1} no {2}</value></data>
@@ -447,8 +460,9 @@
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, sākts {1}, ilgums</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Apstiprināt</value></data>
   <data name="GoBack" xml:space="preserve"><value>Atpakaļ</value></data>
-  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Rādīt emblēmas un darbības</value></data>
-  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Slēpt emblēmas un darbības</value></data>
+  <data name="PageHeaderShowMore" xml:space="preserve"><value>Rādīt vairāk</value></data>
+  <data name="PageHeaderScrollTitleStart" xml:space="preserve"><value>Ritināt virsrakstu uz sākumu</value></data>
+  <data name="PageHeaderScrollTitleEnd" xml:space="preserve"><value>Ritināt virsrakstu uz beigām</value></data>
   <data name="DetailNotFound" xml:space="preserve"><value>Vienums nav atrasts</value></data>
   <data name="SignIn" xml:space="preserve"><value>Pierakstīties</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Savienojums zaudēts</value></data>
@@ -481,6 +495,15 @@
   <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} mēnešiem</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} gada</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} gadiem</value></data>
+  <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} h</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} dienas</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} dienām</value></data>
+  <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} mēneša</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} mēnešiem</value></data>
+  <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} gada</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} gadiem</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Pasvītrojums</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Pārsvītrojums</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Iekļauts kods</value></data>

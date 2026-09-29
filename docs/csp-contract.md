@@ -18,7 +18,9 @@ Les variations visuelles dynamiques passent par un ensemble fini de classes CSS,
 - `omni-theme.js` : jetons d'un préréglage appliqués à une portée (propriétés personnalisées, posées et retirées) ;
 - `omni-code-editor.js` : hauteur de l'éditeur (`--omni-code-editor-height`) ;
 - `omni-html-editor.js` : nombre de lignes de la surface (`--omni-html-editor-rows`) ;
-- `omni-focus.js` : position d'un menu contextuel au pointeur (`--omni-menu-x`, `--omni-menu-y`).
+- `omni-focus.js` : position de tout menu du moteur commun, sous son déclencheur ou au pointeur (`--omni-menu-x`, `--omni-menu-y`), et décalage d'un popover recadré dans la fenêtre (`--omni-popover-shift-x`).
+
+`omni-page-header.js` (défilement du titre et dépliage de l'en-tête de page sur téléphone) mesure et bascule des attributs seulement ; il n'écrit aucun style.
 
 `omni-mindmap.js` ne passe même pas par le CSSOM : pendant un geste, il n'écrit que des attributs SVG (`transform`, `d`, géométrie du lasso) et des classes. Les écritures du CSSOM ne sont pas soumises à `style-src` et aucun attribut `style` ni aucune balise `<style>` n'est produit ; le scan CSP couvre ces fichiers. La feuille `_content/OmniEurope.Blazor/omnieurope.blazor.css` est une ressource statique que l'application peut autoriser via `'self'`.
 
@@ -28,7 +30,7 @@ Les variations visuelles dynamiques passent par un ensemble fini de classes CSS,
 
 ## Responsabilité de l'application hôte
 
-L'hôte doit charger la feuille statique et, s'il utilise l'apparence enregistrée ou l'écran de démarrage, `_content/OmniEurope.Blazor/omni-boot.js` en script classique dans le `<head>`, avant Blazor (fichier servi depuis l'origine, aucun script en ligne, donc compatible `script-src 'self'`). Il doit aussi définir ses propres en-têtes CSP et éviter de transmettre un attribut `style` ou un gestionnaire HTML inline. Les composants de base rejettent ces attributs lorsqu'ils arrivent par le dictionnaire d'attributs supplémentaires.
+L'hôte doit charger la feuille statique et, s'il utilise l'apparence enregistrée ou l'écran de démarrage, `_content/OmniEurope.Blazor/omni-boot.js` en script classique dans le `<head>`, avant Blazor (fichier servi depuis l'origine, aucun script en ligne, donc compatible `script-src 'self'`). Il doit aussi définir ses propres en-têtes CSP et éviter de transmettre un attribut `style` ou un gestionnaire HTML inline. Les composants de base rejettent ces attributs lorsqu'ils arrivent par le dictionnaire d'attributs supplémentaires ; la même garde (`CspAttributeGuard`) refuse aussi `class` et `id` en toute casse, qui passent par les paramètres `Class` et `Id`.
 
 Politique de validation indicative :
 

@@ -6,6 +6,10 @@ public sealed record OmniGanttTask
     /// <summary>Identifies the task, for <see cref="DependsOn"/> and for the host's own lookups.</summary>
     public required string Id { get; init; }
 
+    /// <summary>
+    /// Name of the task, written inside its bar when it fits and just past its end otherwise, and read
+    /// in the accessible description of this task and of the tasks that depend on it.
+    /// </summary>
     public required string Title { get; init; }
 
     /// <summary>First day of the task.</summary>

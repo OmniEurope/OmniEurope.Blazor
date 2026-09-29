@@ -5,9 +5,10 @@ namespace OmniEurope.Blazor.Components;
 /// every announced row, read through the export's page provider, not the page or window the grid
 /// shows. While it reads it is busy; a page that fails produces no file.
 /// </summary>
+/// <typeparam name="TItem">The type of the exported rows.</typeparam>
 public partial class OmniMarkdownExportButton<TItem>
 {
-    private const string DownloadModulePath = "./_content/OmniEurope.Blazor/omni-document-editor.js";
+    private const string DownloadModulePath = Internal.OmniModules.DocumentEditor;
 
     private IJSObjectReference? _module;
     private bool _busy;

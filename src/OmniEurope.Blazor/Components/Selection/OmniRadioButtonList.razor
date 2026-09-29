@@ -6,7 +6,8 @@
    the group is then marked invalid and described by that line. A validation message of the form marks
    it invalid too. *@
 <fieldset @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-choice-list", IsInvalid ? "omni-choice-list--invalid" : null)" disabled="@Disabled"
-          aria-invalid="@(IsInvalid ? "true" : null)" aria-describedby="@DescribedBy">
+          aria-invalid="@(IsInvalid ? "true" : null)" aria-describedby="@DescribedBy"
+          aria-labelledby="@(string.IsNullOrWhiteSpace(Label) ? FormFieldLabelId : null)">
     @if (!string.IsNullOrWhiteSpace(Label))
     {
         <legend class="omni-choice-list__legend">@Label</legend>

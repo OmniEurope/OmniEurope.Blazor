@@ -21,7 +21,7 @@ namespace OmniEurope.Blazor.Components;
 /// <typeparam name="TItem">The type of the cards.</typeparam>
 public partial class OmniKanban<TItem>
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-kanban.js";
+    private const string ModulePath = Internal.OmniModules.Kanban;
 
     private readonly string _generatedId = $"omni-kanban-{Guid.NewGuid():N}";
     private ElementReference _root;
@@ -107,6 +107,12 @@ public partial class OmniKanban<TItem>
 
     private string EffectiveEmptyColumnText => string.IsNullOrWhiteSpace(EmptyColumnText) ? Localize("KanbanEmptyColumn") : EmptyColumnText;
 
+    /// <summary>
+    /// Refuses a missing <see cref="ColumnOf"/> or <see cref="CardTemplate"/>, takes the new items (none
+    /// when <see cref="Items"/> is null), and finds the card being moved again by its key. A refresh that
+    /// removed that card, or a board left without <see cref="OnItemMove"/>, ends the move.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><see cref="ColumnOf"/> or <see cref="CardTemplate"/> is null.</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -151,6 +157,13 @@ public partial class OmniKanban<TItem>
         return -1;
     }
 
+    /// <summary>
+    /// On the first render, loads the board script and attaches the card keyboard handling; after a
+    /// keyboard move, puts the focus back on the moved card. Does nothing once disposed, and ignores a
+    /// lost circuit.
+    /// </summary>
+    /// <param name="firstRender">True on the first render, when the script is attached.</param>
+    /// <returns>A task that completes when the script calls are done.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_disposed)
@@ -187,6 +200,8 @@ public partial class OmniKanban<TItem>
         }
     }
 
+    /// <summary>Detaches and releases the board script and its .NET reference.</summary>
+    /// <returns>A task that completes when the script is released.</returns>
     public async ValueTask DisposeAsync()
     {
         _disposed = true;

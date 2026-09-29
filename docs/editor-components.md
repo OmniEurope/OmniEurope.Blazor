@@ -28,6 +28,13 @@ Le bouton « Source HTML » de la barre bascule d'une face à l'autre ; ce qui v
 repris avant le changement. Un parent qui ne lie pas `Mode` ne ramène pas la face en arrière en se
 redessinant : le paramètre n'est suivi que lorsqu'il change.
 
+`Label` (`string?`) nomme la surface ; sans lui, dans un `OmniFormField`, la surface (un élément modifiable
+qu'un `label for` ne peut pas nommer) pose `aria-labelledby` sur le libellé du champ (`{For}-label`).
+`ReadOnly` laisse lire, sélectionner et copier sans modifier : rien ne se tape, la barre est désactivée,
+la surface est annoncée `aria-readonly` et la zone source est `readonly`, sans estomper l'éditeur ; les
+éléments en ligne réagissent toujours au clic. `Disabled` l'emporte : rien ne se fait et l'éditeur est
+estompé.
+
 ### Barre de commandes extensible
 
 La barre est la liste `Commands`, rendue dans l'ordre. Sans valeur, c'est
@@ -135,7 +142,7 @@ chacune une étape, et l'annulation du menu contextuel du navigateur y est aussi
 La valeur est toujours passée par la liste blanche HtmlSanitizer : balises de texte, titres, listes,
 citations, code, liens `http`, `https`, `mailto`, `tel` (avec `rel="noopener noreferrer"`), tableaux
 (`colspan`, `rowspan`) et règle horizontale. Le seul attribut de présentation admis est `class`,
-restreint à `omni-align-left|center|right|justify` et `omni-font-size-small|normal|large|xlarge`.
+restreint à `omni-align-left|center|end|justify` et `omni-font-size-small|normal|large|xlarge`.
 Les conteneurs de présentation d'un collage (`font`, `section`, `article`...) sont retirés en gardant
 leur texte ; un script, une feuille de style, un document intégré ou un contrôle de formulaire part
 avec son contenu.
@@ -223,7 +230,7 @@ Les extensions sont comparées par instance : un parent peut repasser une nouvel
 | `SanitizerPolicy` | Fusionnée avec celles des autres extensions (`OmniHtmlSanitizerPolicy.Merge`) ; n'élargit que dans les limites de toute politique. |
 | `Shortcuts` | `new OmniHtmlEditorShortcut("Ctrl+Shift+N", "nom-de-commande")` ; Ctrl vaut aussi Cmd. Ctrl+Z, Ctrl+Y, Ctrl+Maj+Z et Ctrl+K restent à l'éditeur ; une combinaison en double ou une commande introuvable lève une exception au rendu. |
 | `InlineElements` | `new OmniHtmlEditorInlineElement(".note[data-marker]", context => ...)` : un clic sur l'élément (le plus proche qui correspond) appelle la fonction avec l'élément (`Element`, `Text`) ; `SetTextAsync` (texte brut, l'élément et ses attributs gardés), `ReplaceAsync` et `RemoveAsync` le changent en une étape d'historique. |
-| `ContextMenu` | Commandes du menu ouvert au clic droit ou à la touche menu dans la face visuelle, à la place de celui du navigateur. Un clic droit sur un élément en ligne le sélectionne, pour que les commandes agissent sur lui ; `Enabled` est évalué pour la sélection où le menu s'ouvre. |
+| `ContextMenu` | Commandes du menu ouvert au clic droit ou à la touche menu dans la face visuelle, à la place de celui du navigateur, servi par le moteur de menu commun du paquet (`omni-focus.js`). Un clic droit sur un élément en ligne le sélectionne, pour que les commandes agissent sur lui ; `Enabled` est évalué pour la sélection où le menu s'ouvre. |
 | `TableReaders` | `new OmniHtmlEditorTableReader([".xlsx"], (nom, flux) => ...)` : lignes de cellules pour un format que `ImportTable` ne lit pas lui-même (une feuille lue par un serveur). |
 | `TracksSelection`, `OnSelectionChangedAsync` | Reçoit la position du curseur, comme `SelectionChanged`. |
 | `SuggestsText`, `SuggestAsync(texteAvant)` | Propose la suite après le curseur quand la frappe marque une pause (au moins cinq caractères avant lui dans son texte) : affichée en grisé, Tab la tape, Échap ou toute autre touche l'écarte ; elle n'entre jamais dans la valeur. La première extension qui propose l'emporte. |
@@ -305,7 +312,7 @@ composant garde sa zone de texte et le dit dans un message d'état ; la valeur r
 
 - `Language` : identifiant Monaco (`yaml`, `json`, `csharp`, `javascript`, `html`, `css`, `sql`,
   `markdown`, `plaintext`...), changeable à chaud.
-- `ReadOnly`, `ShowLineNumbers`, `WordWrap`, `TabSize`, `Label`, `AriaDescribedBy`.
+- `ReadOnly`, `ShowLineNumbers`, `Wrap` (retour à la ligne), `TabSize`, `Label` (`string?`), `AriaDescribedBy`.
 - `Disabled` : Monaco passe en lecture seule, la zone de texte de repli est désactivée et l'éditeur est
   estompé ; la valeur ne change plus, que Monaco soit chargé ou non.
 - `Height` : longueur CSS (`20rem`, `320px`, `50vh`, `%`), posée par le CSSOM ; toute autre valeur lève.
@@ -338,7 +345,9 @@ C'est le fournisseur de liens YAML d'une application cliente (`pipeline: nom`) r
 `OmniCodeViewer` affiche du code en lecture seule, numéros de ligne à côté du texte (jamais dedans,
 une copie à la main ne les prend pas). `FirstLineNumber` (1 par défaut, ramené à 1 en dessous) numérote
 un extrait comme dans son fichier : les lignes 631 à 640 autour d'un constat gardent leurs numéros.
-`HighlightedLines` et les numéros rapportés par `LinkActivated` comptent de la même façon.
+`HighlightedLines` (`IReadOnlyList<int>`) et les numéros rapportés par `LinkActivated` comptent de la même façon.
+`OnCopy` (`EventCallback<bool>`) est levé après une copie, avec l'acceptation du presse-papiers ;
+`OmniCodeViewer` et `OmniCodeBlock` partagent le même en-tête (titre et bouton de copie).
 
 ```razor
 <OmniCodeViewer Code="@Extrait" Title="src/Service.cs" FirstLineNumber="631" HighlightedLines="@([635])" />
@@ -354,7 +363,8 @@ les deux textes dans deux volets nommés, sans les différences marquées ; c'es
 pendant le chargement de Monaco et, avec un message d'état, s'il ne se charge pas.
 
 - `Original`, `Modified` et `ModifiedChanged` : le texte modifié n'est éditable que si `ReadOnly` est
-  faux (vrai par défaut) ; l'original ne l'est jamais. Une modification remonte comme dans
+  faux (vrai par défaut) ; l'original ne l'est jamais. `Disabled` verrouille aussi le texte modifié,
+  `ReadOnly` faux compris (Monaco en lecture seule, volet de repli désactivé), et estompe la comparaison. Une modification remonte comme dans
   `OmniCodeEditor`, sans écho.
 - `Language`, `Inline`, `Height` (longueur CSS posée par le CSSOM, toute autre valeur lève), `Label`
   (« Comparaison »), `OriginalLabel` (« Avant ») et `ModifiedLabel` (« Après ») ; textes et options
@@ -372,7 +382,8 @@ pendant le chargement de Monaco et, avec un message d'état, s'il ne se charge p
 `OmniCodeBlock` affiche en lecture seule un bloc de code, une commande ou un jeton, avec un bouton qui le
 copie dans le presse-papiers ; le résultat est annoncé par une région live polie. Un secret est masqué à
 l'écran (ses premiers et derniers caractères gardés, pour le reconnaître) jusqu'au bouton qui le révèle ;
-la copie prend toujours la valeur entière. La copie passe par `omniInterop.js` : l'API asynchrone du
+la copie prend toujours la valeur entière. `Title` nomme le bloc (classe `omni-code-block__title`) et
+`OnCopy` rapporte chaque copie. La copie passe par `omniInterop.js` : l'API asynchrone du
 presse-papiers, ou une zone de texte cachée et la commande de copie quand elle est refusée.
 
 ## OmniUnifiedDiff : diff unifié sans Monaco
@@ -382,6 +393,8 @@ presse-papiers, ou une zone de texte cachée et la commande de copie quand elle 
 chemin, ce qui lui est arrivé et ses nombres de lignes ajoutées et retirées, puis ses blocs avec les
 numéros d'avant et d'après côte à côte et les lignes ajoutées et retirées teintées. Un en-tête de bloc
 malformé (nombres hors d'un `int`) est ignoré. Il marche donc sous la politique CSP stricte.
+`ExpandedByDefault` (vrai par défaut) ouvre chaque section de fichier ; `FileActionsTemplate` ajoute des
+actions à l'en-tête de chaque fichier.
 
 ## Limites connues
 

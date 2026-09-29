@@ -93,6 +93,10 @@ public partial class OmniGantt
     /// <summary>A library text in <see cref="Culture"/> when it is set, else in the current UI culture.</summary>
     private string Text(string key, params object[] arguments) => CultureText.In(Culture, () => Localize(key, arguments));
 
+    /// <summary>
+    /// Adopts a new <see cref="Scale"/> from the host (a zoom chosen by the user stays while the host
+    /// passes the same value), then lays the tasks out again, today taken from the component clock.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();

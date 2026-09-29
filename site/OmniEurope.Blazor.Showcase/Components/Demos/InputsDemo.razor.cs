@@ -1,4 +1,5 @@
 using System.Globalization;
+using OmniEurope.Blazor.Showcase.Resources;
 
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
@@ -18,12 +19,17 @@ public partial class InputsDemo
         "Luxembourg", "Liège", "Louvain", "Amsterdam", "Anvers", "Arlon"
     ];
 
+    [Inject]
+    private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
+
     private InputsDemoModel Model { get; } = new();
 
     /// <summary>The three bound values, read back from the model so a choice is visibly applied.</summary>
-    private string PickedSummary => string.Create(
-        CultureInfo.CurrentCulture,
-        $"Date : {Model.Date?.ToString("d", CultureInfo.CurrentCulture) ?? "aucune"} ; heure : {Model.Start?.ToString("HH:mm", CultureInfo.InvariantCulture) ?? "aucune"} ; rendez-vous : {Model.Appointment?.ToString("g", CultureInfo.CurrentCulture) ?? "aucun"}");
+    private string PickedSummary => Text[
+        "DemoInputsPickedSummary",
+        Model.Date?.ToString("d", CultureInfo.CurrentCulture) ?? Text["DemoInputsNoDate"],
+        Model.Start?.ToString("HH:mm", CultureInfo.InvariantCulture) ?? Text["DemoInputsNoTime"],
+        Model.Appointment?.ToString("g", CultureInfo.CurrentCulture) ?? Text["DemoInputsNoAppointment"]];
 
     /// <summary>
     /// Stands in for a remote lookup: the component only asks for matches, it does not care where

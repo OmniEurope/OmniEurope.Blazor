@@ -35,7 +35,7 @@
   <data name="PillarA11yTitle" xml:space="preserve"><value>Προσβασιμότητα που διασφαλίζεται με δοκιμές</value></data>
   <data name="PillarA11yBody" xml:space="preserve"><value>Οι ρόλοι, οι καταστάσεις και οι ετικέτες ελέγχονται από τη σουίτα δοκιμών, δεν περιγράφονται απλώς στην τεκμηρίωση.</value></data>
   <data name="PillarWeightTitle" xml:space="preserve"><value>Ελεγχόμενο μέγεθος</value></data>
-  <data name="PillarWeightBody" xml:space="preserve"><value>Το δημοσιευμένο πακέτο μετριέται σε κάθε build με βάση έναν προϋπολογισμό byte, μαζί με το φύλλο στυλ.</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Η συνεχής ενοποίηση ελέγχει ότι το παρεχόμενο φύλλο στυλ είναι το ελαχιστοποιημένο αντίγραφο και μετρά το assembly και το πακέτο NuGet με βάση έναν προϋπολογισμό μεγέθους.</value></data>
   <data name="DocsPageTitle" xml:space="preserve"><value>Τεκμηρίωση</value></data>
   <data name="DocsTitle" xml:space="preserve"><value>Τεκμηρίωση</value></data>
   <data name="DocsLead" xml:space="preserve"><value>Από την εγκατάσταση του πακέτου έως το πρώτο προσαρμοσμένο θέμα, σε πέντε βήματα.</value></data>
@@ -579,4 +579,919 @@
   <data name="VFormNotSaved" xml:space="preserve"><value>Διορθώστε τα επισημασμένα πεδία πριν από την αποθήκευση.</value></data>
   <data name="VFormDescriptionValue" xml:space="preserve"><value>Αναπτύσσει τον κύριο κλάδο αφού περάσουν οι δοκιμές αποδοχής.</value></data>
   <data name="GridFiledColumn" xml:space="preserve"><value>Κατατέθηκε στις</value></data>
+  <data name="DemoGridOpenCases" xml:space="preserve"><value>Ανοιχτοί φάκελοι</value></data>
+  <data name="DemoGridRecentRuns" xml:space="preserve"><value>Πρόσφατες εκτελέσεις</value></data>
+  <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Μακρύ κείμενο σε στενή στήλη</value></data>
+  <data name="DemoGridShortCaption" xml:space="preserve"><value>Τρεις φάκελοι, ύψος περιεχομένου</value></data>
+  <data name="DemoGridLongCaption" xml:space="preserve"><value>Δέκα χιλιάδες φάκελοι, όριο 18rem</value></data>
+  <data name="DemoGridColumnReference" xml:space="preserve"><value>Αναφορά</value></data>
+  <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Αιτών</value></data>
+  <data name="DemoGridColumnCountry" xml:space="preserve"><value>Χώρα</value></data>
+  <data name="DemoGridColumnAmount" xml:space="preserve"><value>Ποσό</value></data>
+  <data name="DemoGridCountryBelgium" xml:space="preserve"><value>Βέλγιο</value></data>
+  <data name="DemoGridCountryFrance" xml:space="preserve"><value>Γαλλία</value></data>
+  <data name="DemoGridCountryLuxembourg" xml:space="preserve"><value>Λουξεμβούργο</value></data>
+  <data name="DemoGridCountryNetherlands" xml:space="preserve"><value>Κάτω Χώρες</value></data>
+  <data name="DemoGridStatusPending" xml:space="preserve"><value>Σε αναμονή</value></data>
+  <data name="DemoGridExportFileName" xml:space="preserve"><value>anoixtoi-fakeloi</value></data>
+  <data name="DemoGridExportSort" xml:space="preserve"><value>Ταξινόμηση</value></data>
+  <data name="DemoGridExportSortValue" xml:space="preserve"><value>αναφορά, αύξουσα</value></data>
+  <data name="DemoGridAdvancedLines" xml:space="preserve"><value>Γραμμές πλέγματος</value></data>
+  <data name="DemoGridAdvancedDensity" xml:space="preserve"><value>Πυκνότητα</value></data>
+  <data name="DemoGridAdvancedPager" xml:space="preserve"><value>Σελιδοποίηση</value></data>
+  <data name="DemoGridAdvancedSelection" xml:space="preserve"><value>Επιλογή</value></data>
+  <data name="DemoGridAdvancedFilters" xml:space="preserve"><value>Φίλτρα</value></data>
+  <data name="DemoGridAdvancedEdit" xml:space="preserve"><value>Επεξεργασία</value></data>
+  <data name="DemoGridAdvancedExpand" xml:space="preserve"><value>Ανάπτυξη</value></data>
+  <data name="DemoGridAdvancedFooter" xml:space="preserve"><value>Υποσέλιδο πίνακα</value></data>
+  <data name="DemoGridAdvancedLinesNone" xml:space="preserve"><value>Καμία</value></data>
+  <data name="DemoGridAdvancedLinesHorizontal" xml:space="preserve"><value>Οριζόντιες</value></data>
+  <data name="DemoGridAdvancedLinesVertical" xml:space="preserve"><value>Κάθετες</value></data>
+  <data name="DemoGridAdvancedLinesBoth" xml:space="preserve"><value>Και οι δύο</value></data>
+  <data name="DemoGridAdvancedDensityCompact" xml:space="preserve"><value>Συμπαγής</value></data>
+  <data name="DemoGridAdvancedDensityComfortable" xml:space="preserve"><value>Άνετη</value></data>
+  <data name="DemoGridAdvancedDensitySpacious" xml:space="preserve"><value>Ευρύχωρη</value></data>
+  <data name="DemoGridAdvancedPagerBottom" xml:space="preserve"><value>Κάτω</value></data>
+  <data name="DemoGridAdvancedPagerTop" xml:space="preserve"><value>Επάνω</value></data>
+  <data name="DemoGridAdvancedPagerBoth" xml:space="preserve"><value>Επάνω και κάτω</value></data>
+  <data name="DemoGridAdvancedSelectionNone" xml:space="preserve"><value>Καμία</value></data>
+  <data name="DemoGridAdvancedSelectionSingle" xml:space="preserve"><value>Μία γραμμή</value></data>
+  <data name="DemoGridAdvancedSelectionMultiple" xml:space="preserve"><value>Πολλές γραμμές</value></data>
+  <data name="DemoGridAdvancedFilterSimple" xml:space="preserve"><value>Πεδίο στην κεφαλίδα</value></data>
+  <data name="DemoGridAdvancedFilterSimpleWithMenu" xml:space="preserve"><value>Πεδίο και μενού</value></data>
+  <data name="DemoGridAdvancedFilterAdvanced" xml:space="preserve"><value>Μενού με δύο συνθήκες</value></data>
+  <data name="DemoGridAdvancedEditSingle" xml:space="preserve"><value>Μία γραμμή κάθε φορά</value></data>
+  <data name="DemoGridAdvancedEditMultiple" xml:space="preserve"><value>Πολλές γραμμές</value></data>
+  <data name="DemoGridAdvancedExpandSingle" xml:space="preserve"><value>Μία ανοιχτή ομάδα</value></data>
+  <data name="DemoGridAdvancedExpandMultiple" xml:space="preserve"><value>Πολλές ανοιχτές ομάδες</value></data>
+  <data name="DemoGridAdvancedFooterBottom" xml:space="preserve"><value>Κάτω από τον πίνακα</value></data>
+  <data name="DemoGridAdvancedFooterTop" xml:space="preserve"><value>Πάνω από τον πίνακα</value></data>
+  <data name="DemoGridAdvancedFooterBoth" xml:space="preserve"><value>Πάνω και κάτω</value></data>
+  <data name="DemoGridAdvancedCaption" xml:space="preserve"><value>Φάκελοι, πλήρης προβολή</value></data>
+  <data name="DemoGridAdvancedTotal" xml:space="preserve"><value>Σύνολο: {0:C0}</value></data>
+  <data name="DemoGridAdvancedRetained" xml:space="preserve"><value>Επιλεγμένες γραμμές: {0}</value></data>
+  <data name="DemoGridAdvancedRetainedNone" xml:space="preserve"><value>καμία</value></data>
+  <data name="DemoDataListEmpty" xml:space="preserve"><value>Κανένας φάκελος σε αυτή τη σελίδα.</value></data>
+  <data name="DemoDataListLoading" xml:space="preserve"><value>Φόρτωση φακέλων.</value></data>
+  <data name="DemoDataListPager" xml:space="preserve"><value>Σελιδοποίηση φακέλων</value></data>
+  <data name="DemoDataListLog" xml:space="preserve"><value>Αρχείο καταγραφής επεξεργασίας</value></data>
+  <data name="DemoDataListKanban" xml:space="preserve"><value>Παρακολούθηση φακέλων</value></data>
+  <data name="DemoDataListColumnNew" xml:space="preserve"><value>Προς εξέταση</value></data>
+  <data name="DemoDataListColumnReview" xml:space="preserve"><value>Σε εξέλιξη</value></data>
+  <data name="DemoDataListColumnDone" xml:space="preserve"><value>Ολοκληρώθηκε</value></data>
+  <data name="DemoDataListLogSearch" xml:space="preserve"><value>Αναζήτηση του φακέλου</value></data>
+  <data name="DemoDataListLogConnected" xml:space="preserve"><value>Η σύνδεση πραγματοποιήθηκε</value></data>
+  <data name="DemoDataListLogStarted" xml:space="preserve"><value>Η επεξεργασία ξεκίνησε</value></data>
+  <data name="DemoDataListLogMissing" xml:space="preserve"><value>Λείπει δικαιολογητικό</value></data>
+  <data name="DemoDataListLogRejected" xml:space="preserve"><value>Η επικύρωση απορρίφθηκε</value></data>
+  <data name="DemoDataListLogAborted" xml:space="preserve"><value>Η επεξεργασία διακόπηκε</value></data>
+  <data name="DemoChartChartTitle" xml:space="preserve"><value>Φάκελοι που κατατέθηκαν ανά τρίμηνο</value></data>
+  <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Τρίμηνο</value></data>
+  <data name="DemoChartAxisCases" xml:space="preserve"><value>Φάκελοι</value></data>
+  <data name="DemoChartQuarter" xml:space="preserve"><value>Τ{0}</value></data>
+  <data name="DemoChartsExtendedMonthlyTitle" xml:space="preserve"><value>Μηνιαία εξέλιξη</value></data>
+  <data name="DemoChartsExtendedMonthlyDescription" xml:space="preserve"><value>Τιμή με αιώρηση και από το πληκτρολόγιο</value></data>
+  <data name="DemoChartsExtendedAxisMonth" xml:space="preserve"><value>Μήνας</value></data>
+  <data name="DemoChartsExtendedDeposits" xml:space="preserve"><value>Καταθέσεις</value></data>
+  <data name="DemoChartsExtendedDecisions" xml:space="preserve"><value>Αποφάσεις</value></data>
+  <data name="DemoChartsExtendedLegend" xml:space="preserve"><value>Σειρές</value></data>
+  <data name="DemoChartsExtendedDailyTitle" xml:space="preserve"><value>Ημερήσια επισκεψιμότητα σε τριάντα ημέρες</value></data>
+  <data name="DemoChartsExtendedPageViews" xml:space="preserve"><value>Προβολές σελίδων ανά ημέρα</value></data>
+  <data name="DemoChartsExtendedVisitors" xml:space="preserve"><value>Μοναδικοί επισκέπτες ανά ημέρα</value></data>
+  <data name="DemoChartsExtendedStackedTitle" xml:space="preserve"><value>Στοιβαγμένη κατανομή</value></data>
+  <data name="DemoChartsExtendedIncoming" xml:space="preserve"><value>Εισερχόμενα</value></data>
+  <data name="DemoChartsExtendedOutgoing" xml:space="preserve"><value>Εξερχόμενα</value></data>
+  <data name="DemoChartsExtendedBacklog" xml:space="preserve"><value>Εκκρεμότητες</value></data>
+  <data name="DemoChartsExtendedHorizontalTitle" xml:space="preserve"><value>Οριζόντια σύγκριση</value></data>
+  <data name="DemoChartsExtendedByCountry" xml:space="preserve"><value>Φάκελοι ανά χώρα</value></data>
+  <data name="DemoChartsExtendedStackedBarsTitle" xml:space="preserve"><value>Φάκελοι που διεκπεραιώθηκαν και σε αναμονή, ανά χώρα</value></data>
+  <data name="DemoChartsExtendedProcessed" xml:space="preserve"><value>Διεκπεραιωμένοι</value></data>
+  <data name="DemoChartsExtendedPending" xml:space="preserve"><value>Σε αναμονή</value></data>
+  <data name="DemoChartsExtendedPieTitle" xml:space="preserve"><value>Μερίδια ανά προέλευση</value></data>
+  <data name="DemoChartsExtendedDonutTitle" xml:space="preserve"><value>Μερίδια ανά προέλευση, σε δακτύλιο</value></data>
+  <data name="DemoChartsExtendedOrigin" xml:space="preserve"><value>Προέλευση</value></data>
+  <data name="DemoChartsExtendedGauge" xml:space="preserve"><value>Ποσοστό διεκπεραίωσης</value></data>
+  <data name="DemoChartsExtendedSliceCounter" xml:space="preserve"><value>Γκισέ</value></data>
+  <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Ταχυδρομείο</value></data>
+  <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Διαδικτυακά</value></data>
+  <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Άλλο</value></data>
+  <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Χρονοδιάγραμμα του έργου</value></data>
+  <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Εμφανιζόμενη κλίμακα: {0}</value></data>
+  <data name="DemoPlanningScaleDay" xml:space="preserve"><value>ημέρα</value></data>
+  <data name="DemoPlanningScaleWeek" xml:space="preserve"><value>εβδομάδα</value></data>
+  <data name="DemoPlanningScaleMonth" xml:space="preserve"><value>μήνας</value></data>
+  <data name="DemoPlanningMonthHeading" xml:space="preserve"><value>Το ίδιο χρονοδιάγραμμα, ανά μήνα και χωρίς ομάδες</value></data>
+  <data name="DemoPlanningMonthLabel" xml:space="preserve"><value>Μηνιαίο χρονοδιάγραμμα</value></data>
+  <data name="DemoPlanningDayLabel" xml:space="preserve"><value>Ημερήσιο χρονοδιάγραμμα</value></data>
+  <data name="DemoPlanningRunHeading" xml:space="preserve"><value>Εξέλιξη μιας εκτέλεσης</value></data>
+  <data name="DemoPlanningRunLabel" xml:space="preserve"><value>Εκτέλεση {0}</value></data>
+  <data name="DemoPlanningTimelineHeading" xml:space="preserve"><value>Χρονολόγιο αριστερά, και μετά εναλλάξ από κάθε πλευρά</value></data>
+  <data name="DemoPlanningTimelineStart" xml:space="preserve"><value>Χρονολόγιο αριστερά</value></data>
+  <data name="DemoPlanningTimelineAlternateStart" xml:space="preserve"><value>Εναλλασσόμενο χρονολόγιο, έναρξη αριστερά</value></data>
+  <data name="DemoPlanningTimelineAlternateEnd" xml:space="preserve"><value>Εναλλασσόμενο χρονολόγιο, έναρξη δεξιά</value></data>
+  <data name="DemoPlanningFiled" xml:space="preserve"><value>Κατάθεση</value></data>
+  <data name="DemoPlanningFiledText" xml:space="preserve"><value>Ο φάκελος καταχωρίστηκε.</value></data>
+  <data name="DemoPlanningReview" xml:space="preserve"><value>Εξέταση</value></data>
+  <data name="DemoPlanningReviewText" xml:space="preserve"><value>Ορίστηκε υπάλληλος.</value></data>
+  <data name="DemoPlanningDecision" xml:space="preserve"><value>Απόφαση</value></data>
+  <data name="DemoPlanningDecisionText" xml:space="preserve"><value>Η απόφαση κοινοποιήθηκε.</value></data>
+  <data name="DemoPlanningGroupDesign" xml:space="preserve"><value>Σχεδιασμός</value></data>
+  <data name="DemoPlanningGroupBuild" xml:space="preserve"><value>Υλοποίηση</value></data>
+  <data name="DemoPlanningTaskScoping" xml:space="preserve"><value>Καθορισμός εύρους</value></data>
+  <data name="DemoPlanningTaskMockups" xml:space="preserve"><value>Μακέτες</value></data>
+  <data name="DemoPlanningTaskProofreading" xml:space="preserve"><value>Διόρθωση</value></data>
+  <data name="DemoPlanningTaskDevelopment" xml:space="preserve"><value>Ανάπτυξη</value></data>
+  <data name="DemoPlanningTaskAcceptance" xml:space="preserve"><value>Δοκιμές αποδοχής</value></data>
+  <data name="DemoSchedulerView" xml:space="preserve"><value>Προβολή</value></data>
+  <data name="DemoSchedulerTimeGrid" xml:space="preserve"><value>Ωριαίο πλέγμα από 8:00 έως 18:00</value></data>
+  <data name="DemoSchedulerViewDay" xml:space="preserve"><value>Ημέρα</value></data>
+  <data name="DemoSchedulerViewWeek" xml:space="preserve"><value>Εβδομάδα</value></data>
+  <data name="DemoSchedulerViewMonth" xml:space="preserve"><value>Μήνας</value></data>
+  <data name="DemoSchedulerCaseReview" xml:space="preserve"><value>Εξέταση του φακέλου</value></data>
+  <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Επιτροπή αξιολόγησης</value></data>
+  <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Εβδομαδιαία ενημέρωση</value></data>
+  <data name="DemoSchedulerRoom" xml:space="preserve"><value>Αίθουσα {0}</value></data>
+  <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Ρευστή στήλη</value></data>
+  <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Πλήρες πλάτος σε μικρή οθόνη, ένα τρίτο σε μεγάλη.</value></data>
+  <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Κάρτα με κεφαλίδα</value></data>
+  <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>Η κεφαλίδα, το σώμα και το υποσέλιδο είναι τρεις διακριτές ζώνες.</value></data>
+  <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>Μια κάρτα μπορεί να έχει μόνο σώμα.</value></data>
+  <data name="DemoLayoutStart" xml:space="preserve"><value>Αρχή</value></data>
+  <data name="DemoLayoutMiddle" xml:space="preserve"><value>Μέση</value></data>
+  <data name="DemoLayoutEnd" xml:space="preserve"><value>Τέλος</value></data>
+  <data name="DemoLayoutFieldGroup" xml:space="preserve"><value>Ομάδα πεδίων</value></data>
+  <data name="DemoLayoutOne" xml:space="preserve"><value>Ένα</value></data>
+  <data name="DemoLayoutTwo" xml:space="preserve"><value>Δύο</value></data>
+  <data name="DemoLayoutAdvanced" xml:space="preserve"><value>Ρυθμίσεις για προχωρημένους</value></data>
+  <data name="DemoLayoutAdvancedText" xml:space="preserve"><value>Μια ομάδα συμπτυγμένη κατά το άνοιγμα, την οποία ο αναγνώστης αναπτύσσει αν τη χρειαστεί.</value></data>
+  <data name="DemoLayoutTracked" xml:space="preserve"><value>Παρακολουθούμενες επιλογές</value></data>
+  <data name="DemoLayoutTrackedText" xml:space="preserve"><value>Η σελίδα γνωρίζει τη συμπτυγμένη κατάσταση και μπορεί να τη θυμάται.</value></data>
+  <data name="DemoLayoutDisabledGroup" xml:space="preserve"><value>Απενεργοποιημένη ομάδα</value></data>
+  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Όλα όσα περιέχει αυτή η ομάδα απενεργοποιούνται με μία κίνηση.</value></data>
+  <data name="DemoLayoutAlignStart" xml:space="preserve"><value>Στοίχιση στην αρχή</value></data>
+  <data name="DemoLayoutAlignCenter" xml:space="preserve"><value>Στο κέντρο</value></data>
+  <data name="DemoLayoutAlignEnd" xml:space="preserve"><value>Στοίχιση στο τέλος</value></data>
+  <data name="DemoLayoutTop" xml:space="preserve"><value>Επάνω</value></data>
+  <data name="DemoLayoutTopText" xml:space="preserve"><value>Μια κάρτα ψηλότερη από τις διπλανές της.</value></data>
+  <data name="DemoLayoutBottom" xml:space="preserve"><value>Κάτω</value></data>
+  <data name="DemoLayoutBottomText" xml:space="preserve"><value>Το σήμα στοιχίζεται στο κάτω μέρος της σειράς.</value></data>
+  <data name="DemoLayoutStretched" xml:space="preserve"><value>Τεντωμένη</value></data>
+  <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Οι δύο κάρτες παίρνουν το ίδιο ύψος.</value></data>
+  <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Έγκριση του φακέλου</value></data>
+  <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Φιλτράρισμα δικαιολογητικών</value></data>
+  <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Κλείσιμο του αιτήματος</value></data>
+  <data name="DemoLayoutNotifications" xml:space="preserve"><value>Ειδοποιήσεις</value></data>
+  <data name="DemoLayoutNotificationsText" xml:space="preserve"><value>Για τι σας ειδοποιεί η εφαρμογή, και πώς.</value></data>
+  <data name="DemoLayoutEmailAlerts" xml:space="preserve"><value>Ειδοποιήσεις μέσω e-mail</value></data>
+  <data name="DemoLayoutEmailAlertsText" xml:space="preserve"><value>Ένα μήνυμα σε κάθε αλλαγή κατάστασης.</value></data>
+  <data name="DemoLayoutWeeklyDigest" xml:space="preserve"><value>Εβδομαδιαία σύνοψη</value></data>
+  <data name="DemoLayoutWeeklyDigestText" xml:space="preserve"><value>Οι φάκελοι της εβδομάδας, τη Δευτέρα το πρωί.</value></data>
+  <data name="DemoLayoutServerName" xml:space="preserve"><value>Όνομα διακομιστή</value></data>
+  <data name="DemoLayoutServerNameText" xml:space="preserve"><value>Ορατό στην κονσόλα.</value></data>
+  <data name="DemoLayoutIdentifierReadOnly" xml:space="preserve"><value>Αναγνωριστικό, μόνο για ανάγνωση</value></data>
+  <data name="DemoLayoutZoneDisabled" xml:space="preserve"><value>Ζώνη, απενεργοποιημένη</value></data>
+  <data name="DemoLayoutLockedRestore" xml:space="preserve"><value>Κλειδωμένη επαναφορά</value></data>
+  <data name="DemoLayoutSave" xml:space="preserve"><value>Αποθήκευση</value></data>
+  <data name="DemoLayoutCancel" xml:space="preserve"><value>Ακύρωση</value></data>
+  <data name="DemoLayoutDeployed" xml:space="preserve"><value>Η ανάπτυξη ολοκληρώθηκε</value></data>
+  <data name="DemoLayoutDeployedText" xml:space="preserve"><value>Η έκδοση 1.0.1 είναι διαθέσιμη.</value></data>
+  <data name="DemoLayoutEachChange" xml:space="preserve"><value>Σε κάθε αλλαγή.</value></data>
+  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Μια ευρύχωρη ειδοποίηση σε μια άνετη σελίδα.</value></data>
+  <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>Συμπαγείς καρτέλες</value></data>
+  <data name="DemoLayoutGeneral" xml:space="preserve"><value>Γενικά</value></data>
+  <data name="DemoLayoutGeneralText" xml:space="preserve"><value>Γενικές ρυθμίσεις.</value></data>
+  <data name="DemoLayoutSecurity" xml:space="preserve"><value>Ασφάλεια</value></data>
+  <data name="DemoLayoutSecurityText" xml:space="preserve"><value>Πρόσβαση και διακριτικά.</value></data>
+  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Ευρύχωρο πλακίδιο</value></data>
+  <data name="DemoLayoutOwnDensity" xml:space="preserve"><value>Η δική του πυκνότητα.</value></data>
+  <data name="DemoLayoutTrackedExpanded" xml:space="preserve"><value>Παρακολουθούμενες επιλογές: αναπτυγμένες</value></data>
+  <data name="DemoLayoutTrackedCollapsed" xml:space="preserve"><value>Παρακολουθούμενες επιλογές: συμπτυγμένες</value></data>
+  <data name="DemoLayoutGapNone1" xml:space="preserve"><value>Χωρίς</value></data>
+  <data name="DemoLayoutGapNone2" xml:space="preserve"><value>κενό</value></data>
+  <data name="DemoLayoutGapXSmall1" xml:space="preserve"><value>Πολύ</value></data>
+  <data name="DemoLayoutGapXSmall2" xml:space="preserve"><value>σφιχτό</value></data>
+  <data name="DemoLayoutGapSmall1" xml:space="preserve"><value>Σφιχτό</value></data>
+  <data name="DemoLayoutGapSmall2" xml:space="preserve"><value>μικρό</value></data>
+  <data name="DemoLayoutGapMedium1" xml:space="preserve"><value>Συνηθισμένο</value></data>
+  <data name="DemoLayoutGapMedium2" xml:space="preserve"><value>μεσαίο</value></data>
+  <data name="DemoLayoutGapLarge1" xml:space="preserve"><value>Άνετο</value></data>
+  <data name="DemoLayoutGapLarge2" xml:space="preserve"><value>μεγάλο</value></data>
+  <data name="DemoLayoutGapXLarge1" xml:space="preserve"><value>Πολύ</value></data>
+  <data name="DemoLayoutGapXLarge2" xml:space="preserve"><value>άνετο</value></data>
+  <data name="DemoLayoutDensityCompact" xml:space="preserve"><value>Συμπαγής</value></data>
+  <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Άνετη</value></data>
+  <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Ευρύχωρη</value></data>
+  <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} ειδοποιήσεις</value></data>
+  <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Τονισμένη επικεφαλίδα</value></data>
+  <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Διακριτική επικεφαλίδα</value></data>
+  <data name="DemoTypographyParagraph" xml:space="preserve"><value>Μια συνηθισμένη παράγραφος, στο βασικό μέγεθος του θέματος.</value></data>
+  <data name="DemoTypographySecondary" xml:space="preserve"><value>Μια δευτερεύουσα παράγραφος, για ό,τι συνοδεύει χωρίς να μεταφέρει την πληροφορία.</value></data>
+  <data name="DemoTypographyError" xml:space="preserve"><value>Ένδειξη σφάλματος</value></data>
+  <data name="DemoTypographyStrong" xml:space="preserve"><value>Σημαντικό κείμενο</value></data>
+  <data name="DemoTypographyEmphasis" xml:space="preserve"><value>Κείμενο με έμφαση</value></data>
+  <data name="DemoTypographySuccess" xml:space="preserve"><value>Ευνοϊκή κατάσταση</value></data>
+  <data name="DemoTypographyTruncated" xml:space="preserve"><value>Ένα μακρύ κείμενο που το στοιχείο περικόπτει με αποσιωπητικά όταν δεν υπάρχει χώρος, αντί να σπρώχνει τη διάταξη ή να αλλάζει γραμμή απρόβλεπτα.</value></data>
+  <data name="DemoTypographyLabel" xml:space="preserve"><value>Ετικέτα συνδεδεμένη με πεδίο</value></data>
+  <data name="DemoTypographyInternalLink" xml:space="preserve"><value>Εσωτερικός σύνδεσμος</value></data>
+  <data name="DemoTypographyExternalLink" xml:space="preserve"><value>Εξωτερικός σύνδεσμος</value></data>
+  <data name="DemoTypographyLevelHeading" xml:space="preserve"><value>Επικεφαλίδα επιπέδου {0}</value></data>
+  <data name="DemoThemesAppearanceWindow" xml:space="preserve"><value>Παράθυρο εμφάνισης</value></data>
+  <data name="DemoAppShellMinimize" xml:space="preserve"><value>Ελαχιστοποίηση του παραθύρου</value></data>
+  <data name="DemoAppShellMaximize" xml:space="preserve"><value>Μεγιστοποίηση ή επαναφορά του παραθύρου</value></data>
+  <data name="DemoAppShellClose" xml:space="preserve"><value>Κλείσιμο του παραθύρου</value></data>
+  <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Διαδρομή πλοήγησης</value></data>
+  <data name="DemoNavigationHome" xml:space="preserve"><value>Αρχική</value></data>
+  <data name="DemoNavigationComponents" xml:space="preserve"><value>Στοιχεία</value></data>
+  <data name="DemoNavigationCurrent" xml:space="preserve"><value>Πλοήγηση</value></data>
+  <data name="DemoNavigationSections" xml:space="preserve"><value>Ενότητες του φακέλου</value></data>
+  <data name="DemoNavigationTabSummary" xml:space="preserve"><value>Σύνοψη</value></data>
+  <data name="DemoNavigationDocuments" xml:space="preserve"><value>Δικαιολογητικά</value></data>
+  <data name="DemoNavigationDocumentsText" xml:space="preserve"><value>Κάθε δικαιολογητικό φέρει την ημερομηνία κατάθεσής του.</value></data>
+  <data name="DemoNavigationHistory" xml:space="preserve"><value>Ιστορικό</value></data>
+  <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Δώδεκα καταγεγραμμένες κινήσεις.</value></data>
+  <data name="DemoNavigationProgress" xml:space="preserve"><value>Πρόοδος του φακέλου</value></data>
+  <data name="DemoNavigationFiling" xml:space="preserve"><value>Κατάθεση</value></data>
+  <data name="DemoNavigationFilingText" xml:space="preserve"><value>Τα δικαιολογητικά παραλήφθηκαν.</value></data>
+  <data name="DemoNavigationReview" xml:space="preserve"><value>Εξέταση</value></data>
+  <data name="DemoNavigationReviewText" xml:space="preserve"><value>Ο φάκελος εξετάζεται.</value></data>
+  <data name="DemoNavigationDecision" xml:space="preserve"><value>Απόφαση</value></data>
+  <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Η απόφαση θα κοινοποιηθεί ταχυδρομικώς.</value></data>
+  <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Ο φάκελος περιέχει {0} δικαιολογητικά.</value></data>
+  <data name="DemoPagesReload" xml:space="preserve"><value>Επαναφόρτωση της καρτέλας</value></data>
+  <data name="DemoPagesMissing" xml:space="preserve"><value>Η καρτέλα δεν βρέθηκε</value></data>
+  <data name="DemoPagesNotFound" xml:space="preserve"><value>Η καρτέλα που ζητήθηκε έχει αφαιρεθεί ή δεν υπήρξε ποτέ.</value></data>
+  <data name="DemoPagesSubtitle" xml:space="preserve"><value>Εικονική μηχανή στη ζώνη Παρισιού.</value></data>
+  <data name="DemoPagesOnline" xml:space="preserve"><value>Σε σύνδεση</value></data>
+  <data name="DemoPagesEdit" xml:space="preserve"><value>Επεξεργασία</value></data>
+  <data name="DemoPagesRemove" xml:space="preserve"><value>Αφαίρεση</value></data>
+  <data name="DemoPagesDuplicate" xml:space="preserve"><value>Αναπαραγωγή</value></data>
+  <data name="DemoPagesArchive" xml:space="preserve"><value>Αρχειοθέτηση</value></data>
+  <data name="DemoPagesProduction" xml:space="preserve"><value>Παραγωγή</value></data>
+  <data name="DemoPagesName" xml:space="preserve"><value>Όνομα</value></data>
+  <data name="DemoPagesSystem" xml:space="preserve"><value>Σύστημα</value></data>
+  <data name="DemoPagesIpAddress" xml:space="preserve"><value>Διεύθυνση IP</value></data>
+  <data name="DemoPagesToken" xml:space="preserve"><value>Διακριτικό πρόσβασης</value></data>
+  <data name="DemoPagesLastSignal" xml:space="preserve"><value>Τελευταίο σήμα</value></data>
+  <data name="DemoPagesCertificate" xml:space="preserve"><value>Πιστοποιητικό</value></data>
+  <data name="DemoPagesNoBackup" xml:space="preserve"><value>Κανένα αντίγραφο ασφαλείας</value></data>
+  <data name="DemoPagesNoBackupText" xml:space="preserve"><value>Τα προγραμματισμένα αντίγραφα ασφαλείας θα εμφανιστούν εδώ μετά την πρώτη εκτέλεσή τους.</value></data>
+  <data name="DemoPagesSchedule" xml:space="preserve"><value>Προγραμματισμός</value></data>
+  <data name="DemoPagesNoResult" xml:space="preserve"><value>Κανένα αποτέλεσμα</value></data>
+  <data name="DemoPagesNoResultText" xml:space="preserve"><value>Κανένας διακομιστής δεν ταιριάζει με το φίλτρο.</value></data>
+  <data name="DemoPagesHideToken" xml:space="preserve"><value>Απόκρυψη διακριτικού</value></data>
+  <data name="DemoPagesShowToken" xml:space="preserve"><value>Εμφάνιση διακριτικού</value></data>
+  <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1} χιλ.</value></data>
+  <data name="DemoPagesTokensToday" xml:space="preserve"><value>Tokens σήμερα</value></data>
+  <data name="DemoPagesTokensReset" xml:space="preserve"><value>Επαναφορά στις {0:t}</value></data>
+  <data name="DemoPagesWeekly" xml:space="preserve"><value>Εβδομαδιαία</value></data>
+  <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Στοιχεία</value></data>
+  <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Διακομιστές</value></data>
+  <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Διακομιστής</value></data>
+  <data name="DemoBadgesNeutral" xml:space="preserve"><value>Ουδέτερο</value></data>
+  <data name="DemoBadgesAccent" xml:space="preserve"><value>Έμφαση</value></data>
+  <data name="DemoBadgesInfo" xml:space="preserve"><value>Πληροφορία</value></data>
+  <data name="DemoBadgesSuccess" xml:space="preserve"><value>Επιτυχία</value></data>
+  <data name="DemoBadgesWarning" xml:space="preserve"><value>Προειδοποίηση</value></data>
+  <data name="DemoBadgesDanger" xml:space="preserve"><value>Κίνδυνος</value></data>
+  <data name="DemoBadgesDraft" xml:space="preserve"><value>Πρόχειρο</value></data>
+  <data name="DemoBadgesOutline" xml:space="preserve"><value>Περίγραμμα</value></data>
+  <data name="DemoBadgesApproved" xml:space="preserve"><value>Εγκρίθηκε</value></data>
+  <data name="DemoBadgesPending" xml:space="preserve"><value>Σε αναμονή</value></data>
+  <data name="DemoBadgesRejected" xml:space="preserve"><value>Απορρίφθηκε</value></data>
+  <data name="DemoBadgesNew" xml:space="preserve"><value>Νέο</value></data>
+  <data name="DemoBadgesInReview" xml:space="preserve"><value>Υπό έλεγχο</value></data>
+  <data name="DemoBadgesPublished" xml:space="preserve"><value>Δημοσιευμένο</value></data>
+  <data name="DemoBadgesFailed" xml:space="preserve"><value>Αποτυχία</value></data>
+  <data name="DemoBadgesFixedSize" xml:space="preserve"><value>Σταθερό μέγεθος</value></data>
+  <data name="DemoAlertsMaintenance" xml:space="preserve"><value>Συντήρηση</value></data>
+  <data name="DemoAlertsMaintenanceText" xml:space="preserve"><value>Η υπηρεσία δεν θα είναι διαθέσιμη την Κυριακή από τις 2:00 έως τις 4:00.</value></data>
+  <data name="DemoAlertsPublished" xml:space="preserve"><value>Το πακέτο δημοσιεύτηκε</value></data>
+  <data name="DemoAlertsPublishedText" xml:space="preserve"><value>Το OmniEurope.Blazor είναι διαθέσιμο στο NuGet.org.</value></data>
+  <data name="DemoAlertsCertificate" xml:space="preserve"><value>Το πιστοποιητικό λήγει σύντομα</value></data>
+  <data name="DemoAlertsFailure" xml:space="preserve"><value>Αποτυχία</value></data>
+  <data name="DemoAlertsFailureText" xml:space="preserve"><value>Η σύνδεση με την υπηρεσία απέτυχε.</value></data>
+  <data name="DemoAlertsInfo" xml:space="preserve"><value>Πληροφορία</value></data>
+  <data name="DemoAlertsInfoText" xml:space="preserve"><value>Η βιβλιοθήκη διαβάζει όλα τα χρώματά της από μεταβλητές CSS.</value></data>
+  <data name="DemoAlertsSaved" xml:space="preserve"><value>Αποθηκεύτηκε</value></data>
+  <data name="DemoAlertsSavedText" xml:space="preserve"><value>Οι αλλαγές εφαρμόστηκαν.</value></data>
+  <data name="DemoAlertsNew" xml:space="preserve"><value>Τι νέο υπάρχει</value></data>
+  <data name="DemoAlertsNewText" xml:space="preserve"><value>Τα σήματα και οι ειδοποιήσεις μοιράζονται πλέον το ίδιο γέμισμα.</value></data>
+  <data name="DemoAlertsCaution" xml:space="preserve"><value>Προσοχή</value></data>
+  <data name="DemoAlertsCautionText" xml:space="preserve"><value>Αυτή η ρύθμιση θα εφαρμοστεί σε όλες τις σελίδες.</value></data>
+  <data name="DemoAlertsTooLarge" xml:space="preserve"><value>Το αρχείο υπερβαίνει το επιτρεπόμενο μέγεθος.</value></data>
+  <data name="DemoAlertsTip" xml:space="preserve"><value>Συμβουλή</value></data>
+  <data name="DemoAlertsTipText" xml:space="preserve"><value>Αυτή η ειδοποίηση κλείνει με το Χ της.</value></data>
+  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Το πιστοποιητικό υπογραφής λήγει σε {0} ημέρες.</value></data>
+  <data name="DemoButtonsSecondary" xml:space="preserve"><value>Δευτερεύον</value></data>
+  <data name="DemoButtonsGhost" xml:space="preserve"><value>Διακριτικό</value></data>
+  <data name="DemoButtonsApprove" xml:space="preserve"><value>Έγκριση</value></data>
+  <data name="DemoButtonsSuspend" xml:space="preserve"><value>Αναστολή</value></data>
+  <data name="DemoButtonsDetails" xml:space="preserve"><value>Λεπτομέρειες</value></data>
+  <data name="DemoButtonsDelete" xml:space="preserve"><value>Διαγραφή</value></data>
+  <data name="DemoButtonsUnavailable" xml:space="preserve"><value>Μη διαθέσιμο</value></data>
+  <data name="DemoButtonsSaving" xml:space="preserve"><value>Αποθήκευση</value></data>
+  <data name="DemoButtonsSave" xml:space="preserve"><value>Αποθήκευση</value></data>
+  <data name="DemoButtonsPublish" xml:space="preserve"><value>Δημοσίευση</value></data>
+  <data name="DemoButtonsPin" xml:space="preserve"><value>Καρφίτσωμα</value></data>
+  <data name="DemoButtonsSmall" xml:space="preserve"><value>Μικρό</value></data>
+  <data name="DemoButtonsMedium" xml:space="preserve"><value>Μεσαίο</value></data>
+  <data name="DemoButtonsLarge" xml:space="preserve"><value>Μεγάλο</value></data>
+  <data name="DemoButtonsSearch" xml:space="preserve"><value>Αναζήτηση</value></data>
+  <data name="DemoButtonsPublishLater" xml:space="preserve"><value>Δημοσίευση αργότερα</value></data>
+  <data name="DemoButtonsDraft" xml:space="preserve"><value>Πρόχειρο</value></data>
+  <data name="DemoButtonsPreview" xml:space="preserve"><value>Προεπισκόπηση</value></data>
+  <data name="DemoButtonsView" xml:space="preserve"><value>Προβολή</value></data>
+  <data name="DemoButtonsSend" xml:space="preserve"><value>Αποστολή</value></data>
+  <data name="DemoButtonsReset" xml:space="preserve"><value>Επαναφορά</value></data>
+  <data name="DemoButtonsNoFormEffect" xml:space="preserve"><value>Χωρίς επίδραση στη φόρμα</value></data>
+  <data name="DemoButtonsPrimary" xml:space="preserve"><value>Κύριο</value></data>
+  <data name="DemoButtonsClicks" xml:space="preserve"><value>Κλικ στο κύριο κουμπί: {0}.</value></data>
+  <data name="DemoButtonsSent" xml:space="preserve"><value>Υποβολές της φόρμας: {0}.</value></data>
+  <data name="DemoFeedbackUpload" xml:space="preserve"><value>Μεταφόρτωση</value></data>
+  <data name="DemoFeedbackIndexing" xml:space="preserve"><value>Ευρετηρίαση</value></data>
+  <data name="DemoFeedbackSync" xml:space="preserve"><value>Συγχρονισμός</value></data>
+  <data name="DemoFeedbackProcessed" xml:space="preserve"><value>Διεκπεραιωμένοι φάκελοι</value></data>
+  <data name="DemoFeedbackQuotaNear" xml:space="preserve"><value>Το όριο πλησιάζει</value></data>
+  <data name="DemoFeedbackImportFailures" xml:space="preserve"><value>Αποτυχίες εισαγωγής</value></data>
+  <data name="DemoFeedbackAnalysing" xml:space="preserve"><value>Ανάλυση σε εξέλιξη</value></data>
+  <data name="DemoFeedbackProgress" xml:space="preserve"><value>Πρόοδος</value></data>
+  <data name="DemoFeedbackNoKnownEnd" xml:space="preserve"><value>Χωρίς γνωστό τέλος</value></data>
+  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>Το όριο υπολογίζεται σε κυλιόμενες τριάντα ημέρες.</value></data>
+  <data name="DemoFeedbackQuota" xml:space="preserve"><value>Όριο</value></data>
+  <data name="DemoFeedbackArchivedTooltip" xml:space="preserve"><value>Ένας αρχειοθετημένος φάκελος παραμένει διαθέσιμος μόνο για ανάγνωση.</value></data>
+  <data name="DemoFeedbackArchived" xml:space="preserve"><value>Αρχειοθετημένο</value></data>
+  <data name="DemoFeedbackDraftTooltip" xml:space="preserve"><value>Πρόχειρο.</value></data>
+  <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Στενή</value></data>
+  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Ένας αρχειοθετημένος φάκελος παραμένει διαθέσιμος μόνο για ανάγνωση. Δεν μετρά πλέον στα όρια, δεν εμφανίζεται πλέον στις προεπιλεγμένες αναζητήσεις και δεν λαμβάνει πλέον ειδοποιήσεις. Για να ανοίξει ξανά, ένας διαχειριστής τον επαναφέρει από την καρτέλα Αρχεία· το ιστορικό, τα συνημμένα και τα σχόλιά του επιστρέφουν τότε ανέπαφα, μαζί με την ημερομηνία επαναφοράς.</value></data>
+  <data name="DemoFeedbackLongText" xml:space="preserve"><value>Μακρύ κείμενο</value></data>
+  <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>Η επεξήγηση του πακέτου σε ένα απλό χαρακτηριστικό title.</value></data>
+  <data name="DemoFeedbackHover" xml:space="preserve"><value>Αιώρηση</value></data>
+  <data name="DemoFeedbackLoadingAvatar" xml:space="preserve"><value>Φόρτωση του άβαταρ</value></data>
+  <data name="DemoFeedbackLoadingThumbnail" xml:space="preserve"><value>Φόρτωση της μικρογραφίας</value></data>
+  <data name="DemoFeedbackLoadingFile" xml:space="preserve"><value>Φόρτωση του φακέλου</value></data>
+  <data name="DemoFeedbackLoadingDemo" xml:space="preserve"><value>Φόρτωση της επίδειξης</value></data>
+  <data name="DemoFeedbackSimulateLoad" xml:space="preserve"><value>Προσομοίωση φόρτωσης</value></data>
+  <data name="DemoFeedbackRecentRuns" xml:space="preserve"><value>Πρόσφατες εκτελέσεις</value></data>
+  <data name="DemoFeedbackAvailability" xml:space="preserve"><value>Διαθεσιμότητα τις τελευταίες ώρες</value></data>
+  <data name="DemoFeedbackReady" xml:space="preserve"><value>Έτοιμο</value></data>
+  <data name="DemoFeedbackFailed" xml:space="preserve"><value>Αποτυχία</value></data>
+  <data name="DemoFeedbackRunSucceeded" xml:space="preserve"><value>Η εκτέλεση {0} ολοκληρώθηκε με επιτυχία</value></data>
+  <data name="DemoFeedbackRunWarning" xml:space="preserve"><value>Η εκτέλεση {0} ολοκληρώθηκε με προειδοποίηση</value></data>
+  <data name="DemoFeedbackRunFailed" xml:space="preserve"><value>Η εκτέλεση {0} απέτυχε</value></data>
+  <data name="DemoFeedbackSucceeded" xml:space="preserve"><value>Επιτυχής</value></data>
+  <data name="DemoFeedbackWarning" xml:space="preserve"><value>Προειδοποίηση</value></data>
+  <data name="DemoMediaImageContain" xml:space="preserve"><value>Ολόκληρη εικόνα, χωρίς περικοπή</value></data>
+  <data name="DemoMediaImageCover" xml:space="preserve"><value>Εικόνα περικομμένη ώστε να γεμίζει το πλαίσιο</value></data>
+  <data name="DemoMediaImageNatural" xml:space="preserve"><value>Εικόνα στο φυσικό της μέγεθος</value></data>
+  <data name="DemoMediaTimeline" xml:space="preserve"><value>Στάδια του φακέλου</value></data>
+  <data name="DemoMediaFiling" xml:space="preserve"><value>Κατάθεση</value></data>
+  <data name="DemoMediaFilingText" xml:space="preserve"><value>Ο φάκελος καταχωρίστηκε.</value></data>
+  <data name="DemoMediaReview" xml:space="preserve"><value>Εξέταση</value></data>
+  <data name="DemoMediaReviewText" xml:space="preserve"><value>Ορίστηκε υπάλληλος.</value></data>
+  <data name="DemoMediaDecision" xml:space="preserve"><value>Απόφαση</value></data>
+  <data name="DemoMediaDecisionText" xml:space="preserve"><value>Η απόφαση κοινοποιήθηκε.</value></data>
+  <data name="DemoMediaIconCheck" xml:space="preserve"><value>Εγκρίθηκε</value></data>
+  <data name="DemoMediaIconWarning" xml:space="preserve"><value>Προσοχή</value></data>
+  <data name="DemoMediaIconFilter" xml:space="preserve"><value>Φιλτράρισμα</value></data>
+  <data name="DemoMediaIconCompass" xml:space="preserve"><value>Πυξίδα</value></data>
+  <data name="DemoMediaIconClose" xml:space="preserve"><value>Κλείσιμο</value></data>
+  <data name="DemoMediaIconInfo" xml:space="preserve"><value>Πληροφορία</value></data>
+  <data name="DemoMediaIconMenu" xml:space="preserve"><value>Μενού</value></data>
+  <data name="DemoMediaIconChevronDown" xml:space="preserve"><value>Ανάπτυξη</value></data>
+  <data name="DemoMediaIconSortAscending" xml:space="preserve"><value>Αύξουσα ταξινόμηση</value></data>
+  <data name="DemoMediaIconSortDescending" xml:space="preserve"><value>Φθίνουσα ταξινόμηση</value></data>
+  <data name="DemoMediaIconThemeLight" xml:space="preserve"><value>Φωτεινή εμφάνιση</value></data>
+  <data name="DemoMediaIconThemeDark" xml:space="preserve"><value>Σκοτεινή εμφάνιση</value></data>
+  <data name="DemoMediaIconAdd" xml:space="preserve"><value>Προσθήκη</value></data>
+  <data name="DemoMediaIconAirplane" xml:space="preserve"><value>Αεροπλάνο</value></data>
+  <data name="DemoMediaIconAirplaneLanding" xml:space="preserve"><value>Προσγείωση</value></data>
+  <data name="DemoMediaIconAirplaneTakeoff" xml:space="preserve"><value>Απογείωση</value></data>
+  <data name="DemoMediaIconArchive" xml:space="preserve"><value>Αρχειοθέτηση</value></data>
+  <data name="DemoMediaIconArrowLeft" xml:space="preserve"><value>Πίσω</value></data>
+  <data name="DemoMediaIconArrowRight" xml:space="preserve"><value>Επόμενο</value></data>
+  <data name="DemoMediaIconBed" xml:space="preserve"><value>Διαμονή</value></data>
+  <data name="DemoMediaIconBell" xml:space="preserve"><value>Ειδοποιήσεις</value></data>
+  <data name="DemoMediaIconBracketsCurly" xml:space="preserve"><value>Δεδομένα JSON</value></data>
+  <data name="DemoMediaIconCalculator" xml:space="preserve"><value>Αριθμομηχανή</value></data>
+  <data name="DemoMediaIconCards" xml:space="preserve"><value>Κάρτες</value></data>
+  <data name="DemoMediaIconChartBarHorizontal" xml:space="preserve"><value>Κατάταξη</value></data>
+  <data name="DemoMediaIconChat" xml:space="preserve"><value>Μήνυμα</value></data>
+  <data name="DemoMediaIconCheckCircle" xml:space="preserve"><value>Επιτυχία</value></data>
+  <data name="DemoMediaIconChevronUp" xml:space="preserve"><value>Σύμπτυξη</value></data>
+  <data name="DemoMediaIconCopy" xml:space="preserve"><value>Αντιγραφή</value></data>
+  <data name="DemoMediaIconDatabase" xml:space="preserve"><value>Βάση δεδομένων</value></data>
+  <data name="DemoMediaIconDelete" xml:space="preserve"><value>Διαγραφή</value></data>
+  <data name="DemoMediaIconDiamond" xml:space="preserve"><value>Πολύτιμος λίθος</value></data>
+  <data name="DemoMediaIconDice" xml:space="preserve"><value>Κλήρωση</value></data>
+  <data name="DemoMediaIconDocument" xml:space="preserve"><value>Έγγραφο</value></data>
+  <data name="DemoMediaIconDownload" xml:space="preserve"><value>Λήψη</value></data>
+  <data name="DemoMediaIconEdit" xml:space="preserve"><value>Επεξεργασία</value></data>
+  <data name="DemoMediaIconError" xml:space="preserve"><value>Σφάλμα</value></data>
+  <data name="DemoMediaIconFlask" xml:space="preserve"><value>Δοκιμή</value></data>
+  <data name="DemoMediaIconFunction" xml:space="preserve"><value>Τύπος</value></data>
+  <data name="DemoMediaIconGlobe" xml:space="preserve"><value>Κόσμος</value></data>
+  <data name="DemoMediaIconGlobeHemisphereWest" xml:space="preserve"><value>Ταξίδια</value></data>
+  <data name="DemoMediaIconGraduationCap" xml:space="preserve"><value>Τάξη</value></data>
+  <data name="DemoMediaIconGraph" xml:space="preserve"><value>Συνδέσεις</value></data>
+  <data name="DemoMediaIconHome" xml:space="preserve"><value>Αρχική</value></data>
+  <data name="DemoMediaIconHourglass" xml:space="preserve"><value>Αναμονή</value></data>
+  <data name="DemoMediaIconImage" xml:space="preserve"><value>Εικόνα</value></data>
+  <data name="DemoMediaIconLayers" xml:space="preserve"><value>Επίπεδα</value></data>
+  <data name="DemoMediaIconMapPin" xml:space="preserve"><value>Τοποθεσία</value></data>
+  <data name="DemoMediaIconMapPinLine" xml:space="preserve"><value>Εισαγωγή τοποθεσιών</value></data>
+  <data name="DemoMediaIconMedal" xml:space="preserve"><value>Κατάταξη θέσης</value></data>
+  <data name="DemoMediaIconMonitor" xml:space="preserve"><value>Οθόνη</value></data>
+  <data name="DemoMediaIconNumberedList" xml:space="preserve"><value>Αριθμημένη λίστα</value></data>
+  <data name="DemoMediaIconOffline" xml:space="preserve"><value>Εκτός σύνδεσης</value></data>
+  <data name="DemoMediaIconOpenExternal" xml:space="preserve"><value>Άνοιγμα αλλού</value></data>
+  <data name="DemoMediaIconPackage" xml:space="preserve"><value>Αντικείμενο</value></data>
+  <data name="DemoMediaIconPalette" xml:space="preserve"><value>Χρώματα</value></data>
+  <data name="DemoMediaIconPath" xml:space="preserve"><value>Διαδρομή</value></data>
+  <data name="DemoMediaIconPattern" xml:space="preserve"><value>Μοτίβο</value></data>
+  <data name="DemoMediaIconPictureInPicture" xml:space="preserve"><value>Εικόνα σε εικόνα</value></data>
+  <data name="DemoMediaIconPin" xml:space="preserve"><value>Καρφίτσωμα</value></data>
+  <data name="DemoMediaIconPlay" xml:space="preserve"><value>Εκκίνηση</value></data>
+  <data name="DemoMediaIconProhibit" xml:space="preserve"><value>Απαγορεύεται</value></data>
+  <data name="DemoMediaIconRefresh" xml:space="preserve"><value>Ανανέωση</value></data>
+  <data name="DemoMediaIconRemove" xml:space="preserve"><value>Αφαίρεση</value></data>
+  <data name="DemoMediaIconReset" xml:space="preserve"><value>Επαναφορά</value></data>
+  <data name="DemoMediaIconRestore" xml:space="preserve"><value>Κατάργηση αρχειοθέτησης</value></data>
+  <data name="DemoMediaIconRows" xml:space="preserve"><value>Πυκνότητα</value></data>
+  <data name="DemoMediaIconRuler" xml:space="preserve"><value>Μέτρηση</value></data>
+  <data name="DemoMediaIconSave" xml:space="preserve"><value>Αποθήκευση</value></data>
+  <data name="DemoMediaIconSearch" xml:space="preserve"><value>Αναζήτηση</value></data>
+  <data name="DemoMediaIconSettings" xml:space="preserve"><value>Ρυθμίσεις</value></data>
+  <data name="DemoMediaIconShieldCheck" xml:space="preserve"><value>Διαχείριση</value></data>
+  <data name="DemoMediaIconSidebar" xml:space="preserve"><value>Πλευρική γραμμή</value></data>
+  <data name="DemoMediaIconSliders" xml:space="preserve"><value>Σύνθετα φίλτρα</value></data>
+  <data name="DemoMediaIconSparkle" xml:space="preserve"><value>Τι νέο υπάρχει</value></data>
+  <data name="DemoMediaIconStar" xml:space="preserve"><value>Αγαπημένο</value></data>
+  <data name="DemoMediaIconStarFilled" xml:space="preserve"><value>Ενεργό αγαπημένο</value></data>
+  <data name="DemoMediaIconSwap" xml:space="preserve"><value>Εναλλαγή</value></data>
+  <data name="DemoMediaIconSync" xml:space="preserve"><value>Συγχρονισμός</value></data>
+  <data name="DemoMediaIconTag" xml:space="preserve"><value>Ετικέτα</value></data>
+  <data name="DemoMediaIconTextSize" xml:space="preserve"><value>Μέγεθος κειμένου</value></data>
+  <data name="DemoMediaIconThemeSystem" xml:space="preserve"><value>Εμφάνιση συστήματος</value></data>
+  <data name="DemoMediaIconTimer" xml:space="preserve"><value>Χρονόμετρο</value></data>
+  <data name="DemoMediaIconUpgrade" xml:space="preserve"><value>Αναβάθμιση</value></data>
+  <data name="DemoMediaIconUpload" xml:space="preserve"><value>Αποστολή</value></data>
+  <data name="DemoMediaIconUser" xml:space="preserve"><value>Άτομο</value></data>
+  <data name="DemoMediaIconUserFocus" xml:space="preserve"><value>Αναζήτηση ατόμου</value></data>
+  <data name="DemoMediaIconEye" xml:space="preserve"><value>Εμφάνιση</value></data>
+  <data name="DemoMediaIconGitCommit" xml:space="preserve"><value>Commit</value></data>
+  <data name="DemoMediaIconLock" xml:space="preserve"><value>Κλειδωμένο</value></data>
+  <data name="DemoMediaIconRocketLaunch" xml:space="preserve"><value>Ανάπτυξη</value></data>
+  <data name="DemoMediaIconUsers" xml:space="preserve"><value>Ομάδα</value></data>
+  <data name="DemoMediaIconStop" xml:space="preserve"><value>Διακοπή</value></data>
+  <data name="DemoMediaIconListChecks" xml:space="preserve"><value>Κανόνες</value></data>
+  <data name="DemoMediaIconFolder" xml:space="preserve"><value>Φάκελος</value></data>
+  <data name="DemoMediaIconQuestion" xml:space="preserve"><value>Βοήθεια</value></data>
+  <data name="DemoMediaIconSquaresFour" xml:space="preserve"><value>Πίνακας ελέγχου</value></data>
+  <data name="DemoMediaIconTerminalWindow" xml:space="preserve"><value>Τερματικό</value></data>
+  <data name="DemoMediaIconWrench" xml:space="preserve"><value>Κατασκευή</value></data>
+  <data name="DemoMediaIconKey" xml:space="preserve"><value>Κλειδί</value></data>
+  <data name="DemoMediaIconBuildings" xml:space="preserve"><value>Οργανισμός</value></data>
+  <data name="DemoMediaIconHeartbeat" xml:space="preserve"><value>Παρακολούθηση</value></data>
+  <data name="DemoMediaIconCloudArrowUp" xml:space="preserve"><value>Διαδικτυακό αντίγραφο ασφαλείας</value></data>
+  <data name="DemoMediaIconLink" xml:space="preserve"><value>Σύνδεσμος</value></data>
+  <data name="DemoMediaIconUserPlus" xml:space="preserve"><value>Προσθήκη ατόμου</value></data>
+  <data name="DemoMediaIconLayout" xml:space="preserve"><value>Διάταξη</value></data>
+  <data name="DemoMediaIconBroadcast" xml:space="preserve"><value>Μετάδοση</value></data>
+  <data name="DemoMediaIconCalendarBlank" xml:space="preserve"><value>Ημερομηνία</value></data>
+  <data name="DemoMediaIconChartLineUp" xml:space="preserve"><value>Τάση</value></data>
+  <data name="DemoMediaIconFolderOpen" xml:space="preserve"><value>Ανοιχτός φάκελος</value></data>
+  <data name="DemoMediaIconGitFork" xml:space="preserve"><value>Διακλάδωση</value></data>
+  <data name="DemoMediaIconGitMerge" xml:space="preserve"><value>Συγχώνευση</value></data>
+  <data name="DemoMediaIconLockKey" xml:space="preserve"><value>Επαναφορά κωδικού πρόσβασης</value></data>
+  <data name="DemoMediaIconRobot" xml:space="preserve"><value>Αυτοματισμός</value></data>
+  <data name="DemoMediaIconArrowDown" xml:space="preserve"><value>Μετακίνηση κάτω</value></data>
+  <data name="DemoMediaIconBrain" xml:space="preserve"><value>Νοημοσύνη</value></data>
+  <data name="DemoMediaIconCellTower" xml:space="preserve"><value>Κεραία</value></data>
+  <data name="DemoMediaIconCloud" xml:space="preserve"><value>Νέφος</value></data>
+  <data name="DemoMediaIconGavel" xml:space="preserve"><value>Κανονισμός</value></data>
+  <data name="DemoMediaIconGitDiff" xml:space="preserve"><value>Διαφορές</value></data>
+  <data name="DemoMediaIconLinkBreak" xml:space="preserve"><value>Κατεστραμμένος σύνδεσμος</value></data>
+  <data name="DemoMediaIconLockOpen" xml:space="preserve"><value>Ξεκλείδωτο</value></data>
+  <data name="DemoMediaIconPaperPlaneRight" xml:space="preserve"><value>Αποστολή μηνύματος</value></data>
+  <data name="DemoMediaIconPlugsConnected" xml:space="preserve"><value>Συνδεδεμένο</value></data>
+  <data name="DemoMediaIconPuzzlePiece" xml:space="preserve"><value>Επέκταση</value></data>
+  <data name="DemoMediaIconShieldWarning" xml:space="preserve"><value>Κίνδυνος</value></data>
+  <data name="DemoMediaIconSignOut" xml:space="preserve"><value>Αποσύνδεση</value></data>
+  <data name="DemoMediaIconArrowElbowDownLeft" xml:space="preserve"><value>Αλλαγή γραμμής</value></data>
+  <data name="DemoMediaIconBroom" xml:space="preserve"><value>Εκκαθάριση</value></data>
+  <data name="DemoMediaIconBug" xml:space="preserve"><value>Σφάλμα λογισμικού</value></data>
+  <data name="DemoMediaIconChartLine" xml:space="preserve"><value>Γράφημα γραμμής</value></data>
+  <data name="DemoMediaIconChevronRight" xml:space="preserve"><value>Άνοιγμα</value></data>
+  <data name="DemoMediaIconCode" xml:space="preserve"><value>Κώδικας</value></data>
+  <data name="DemoMediaIconGauge" xml:space="preserve"><value>Απόδοση</value></data>
+  <data name="DemoMediaIconMagnifyingGlassPlus" xml:space="preserve"><value>Μεγέθυνση</value></data>
+  <data name="DemoMediaIconPassword" xml:space="preserve"><value>Κωδικός πρόσβασης</value></data>
+  <data name="DemoMediaIconShieldSlash" xml:space="preserve"><value>Η προστασία απενεργοποιήθηκε</value></data>
+  <data name="DemoMediaIconStamp" xml:space="preserve"><value>Έγκριση</value></data>
+  <data name="DemoMediaIconTextAlignLeft" xml:space="preserve"><value>Στοίχιση αριστερά</value></data>
+  <data name="DemoMediaIconWifiHigh" xml:space="preserve"><value>Δίκτυο</value></data>
+  <data name="DemoMediaIconArrowElbowDownRight" xml:space="preserve"><value>Δευτερεύον στοιχείο</value></data>
+  <data name="DemoMediaIconArrowLineDown" xml:space="preserve"><value>Μετάβαση στο τέλος</value></data>
+  <data name="DemoMediaIconArrowLineUp" xml:space="preserve"><value>Μετάβαση στην αρχή</value></data>
+  <data name="DemoMediaIconArrowUUpRight" xml:space="preserve"><value>Επανάληψη</value></data>
+  <data name="DemoMediaIconAt" xml:space="preserve"><value>Διεύθυνση e-mail</value></data>
+  <data name="DemoMediaIconBellSlash" xml:space="preserve"><value>Σίγαση ειδοποιήσεων</value></data>
+  <data name="DemoMediaIconBooks" xml:space="preserve"><value>Βιβλιοθήκη</value></data>
+  <data name="DemoMediaIconCalendarCheck" xml:space="preserve"><value>Επιβεβαιωμένη ημερομηνία</value></data>
+  <data name="DemoMediaIconChecks" xml:space="preserve"><value>Έγκριση όλων</value></data>
+  <data name="DemoMediaIconCloudArrowDown" xml:space="preserve"><value>Λήψη από το νέφος</value></data>
+  <data name="DemoMediaIconColumns" xml:space="preserve"><value>Στήλες</value></data>
+  <data name="DemoMediaIconCornersOut" xml:space="preserve"><value>Προσαρμογή στην οθόνη</value></data>
+  <data name="DemoMediaIconDotsThreeVertical" xml:space="preserve"><value>Περισσότερες ενέργειες</value></data>
+  <data name="DemoMediaIconEyeSlash" xml:space="preserve"><value>Απόκρυψη</value></data>
+  <data name="DemoMediaIconFrameCorners" xml:space="preserve"><value>Επανακεντράρισμα</value></data>
+  <data name="DemoMediaIconHardDrive" xml:space="preserve"><value>Δίσκος</value></data>
+  <data name="DemoMediaIconLightning" xml:space="preserve"><value>Γρήγορο</value></data>
+  <data name="DemoMediaIconMagnifyingGlassMinus" xml:space="preserve"><value>Σμίκρυνση</value></data>
+  <data name="DemoMediaIconMegaphone" xml:space="preserve"><value>Ανακοίνωση</value></data>
+  <data name="DemoMediaIconSignIn" xml:space="preserve"><value>Σύνδεση</value></data>
+  <data name="DemoMediaIconTarget" xml:space="preserve"><value>Στόχος</value></data>
+  <data name="DemoMediaIconToggleLeft" xml:space="preserve"><value>Ανενεργό</value></data>
+  <data name="DemoMediaIconTray" xml:space="preserve"><value>Εισερχόμενα</value></data>
+  <data name="DemoMediaIconCpu" xml:space="preserve"><value>Επεξεργαστής</value></data>
+  <data name="DemoMediaIconFilePlus" xml:space="preserve"><value>Νέο αρχείο</value></data>
+  <data name="DemoMediaIconHandTap" xml:space="preserve"><value>Μη αυτόματη εκκίνηση</value></data>
+  <data name="DemoMediaIconPause" xml:space="preserve"><value>Παύση</value></data>
+  <data name="DemoMediaIconToggleRight" xml:space="preserve"><value>Ενεργό</value></data>
+  <data name="DemoMediaIconWebhook" xml:space="preserve"><value>Webhook</value></data>
+  <data name="DemoMediaIconWifiSlash" xml:space="preserve"><value>Δεν υπάρχει δίκτυο</value></data>
+  <data name="DemoMediaIconScissors" xml:space="preserve"><value>Αποκοπή</value></data>
+  <data name="DemoMediaIconClipboard" xml:space="preserve"><value>Επικόλληση</value></data>
+  <data name="DemoMediaIconThumbsUp" xml:space="preserve"><value>Χρήσιμο</value></data>
+  <data name="DemoMediaIconThumbsDown" xml:space="preserve"><value>Μη χρήσιμο</value></data>
+  <data name="DemoMediaIconLightbulb" xml:space="preserve"><value>Συμβουλή</value></data>
+  <data name="DemoMediaIconKeyboard" xml:space="preserve"><value>Πληκτρολόγιο</value></data>
+  <data name="DemoMediaIconFlag" xml:space="preserve"><value>Αναφορά</value></data>
+  <data name="DemoMediaIconHighlighter" xml:space="preserve"><value>Επισήμανση</value></data>
+  <data name="DemoMediaIconChartPie" xml:space="preserve"><value>Κατανομή</value></data>
+  <data name="DemoMediaIconChartDonut" xml:space="preserve"><value>Αναλογία</value></data>
+  <data name="DemoMediaIconCircle" xml:space="preserve"><value>Κύκλος</value></data>
+  <data name="DemoMediaIconBookmark" xml:space="preserve"><value>Σελιδοδείκτης</value></data>
+  <data name="DemoMediaIconUserMinus" xml:space="preserve"><value>Αφαίρεση μέλους</value></data>
+  <data name="DemoMediaIconSelectionSlash" xml:space="preserve"><value>Κατάργηση επιλογής</value></data>
+  <data name="DemoMediaIconSmiley" xml:space="preserve"><value>Ειδικοί χαρακτήρες</value></data>
+  <data name="DemoMediaIconSkipBack" xml:space="preserve"><value>Προηγούμενο κομμάτι</value></data>
+  <data name="DemoMediaIconSkipForward" xml:space="preserve"><value>Επόμενο κομμάτι</value></data>
+  <data name="DemoMediaIconShuffle" xml:space="preserve"><value>Τυχαία αναπαραγωγή</value></data>
+  <data name="DemoMediaIconRepeat" xml:space="preserve"><value>Επανάληψη</value></data>
+  <data name="DemoMediaIconRepeatOnce" xml:space="preserve"><value>Επανάληψη μία φορά</value></data>
+  <data name="DemoMediaIconSpeakerHigh" xml:space="preserve"><value>Υψηλή ένταση</value></data>
+  <data name="DemoMediaIconSpeakerLow" xml:space="preserve"><value>Χαμηλή ένταση</value></data>
+  <data name="DemoMediaIconSpeakerNone" xml:space="preserve"><value>Μηδενική ένταση</value></data>
+  <data name="DemoMediaIconSpeakerX" xml:space="preserve"><value>Σίγαση ήχου</value></data>
+  <data name="DemoMediaIconQueue" xml:space="preserve"><value>Ουρά αναμονής</value></data>
+  <data name="DemoMediaIconPlaylist" xml:space="preserve"><value>Λίστα αναπαραγωγής</value></data>
+  <data name="DemoMediaIconListPlus" xml:space="preserve"><value>Προσθήκη στη λίστα</value></data>
+  <data name="DemoMediaIconMusicNote" xml:space="preserve"><value>Κομμάτι</value></data>
+  <data name="DemoMediaIconDisc" xml:space="preserve"><value>Άλμπουμ</value></data>
+  <data name="DemoMediaIconWaveform" xml:space="preserve"><value>Κυματομορφή</value></data>
+  <data name="DemoMediaIconDotsSixVertical" xml:space="preserve"><value>Λαβή μετακίνησης</value></data>
+  <data name="DemoMediaIconCornersIn" xml:space="preserve"><value>Σμίκρυνση προβολής</value></data>
+  <data name="DemoMediaIconPlayCircle" xml:space="preserve"><value>Αναπαραγωγή</value></data>
+  <data name="DemoMediaIconPauseCircle" xml:space="preserve"><value>Παύση</value></data>
+  <data name="DemoMediaIconXCircle" xml:space="preserve"><value>Ακύρωση</value></data>
+  <data name="DemoMediaIconChartBar" xml:space="preserve"><value>Ραβδόγραμμα</value></data>
+  <data name="DemoMediaIconBookOpen" xml:space="preserve"><value>Ανοιχτό βιβλίο</value></data>
+  <data name="DemoMediaIconArrowsDownUp" xml:space="preserve"><value>Κατακόρυφη εναλλαγή</value></data>
+  <data name="DemoMediaIconFolderPlus" xml:space="preserve"><value>Νέος φάκελος</value></data>
+  <data name="DemoMediaIconTelevision" xml:space="preserve"><value>Οθόνη τηλεόρασης</value></data>
+  <data name="DemoMediaIconSealCheck" xml:space="preserve"><value>Επαληθευμένο</value></data>
+  <data name="DemoMediaIconCheckSquare" xml:space="preserve"><value>Επιλεγμένο πλαίσιο</value></data>
+  <data name="DemoMediaIconArrowBendUpRight" xml:space="preserve"><value>Μετακίνηση</value></data>
+  <data name="DemoMediaIconStethoscope" xml:space="preserve"><value>Διάγνωση</value></data>
+  <data name="DemoMediaIconChevronLeft" xml:space="preserve"><value>Προηγούμενο</value></data>
+  <data name="DemoMediaIconEnvelope" xml:space="preserve"><value>E-mail</value></data>
+  <data name="DemoMediaIconCurrencyEur" xml:space="preserve"><value>Ποσό σε ευρώ</value></data>
+  <data name="DemoMediaIconShareNetwork" xml:space="preserve"><value>Κοινή χρήση</value></data>
+  <data name="DemoMediaIconBank" xml:space="preserve"><value>Χρηματοπιστωτικό ίδρυμα</value></data>
+  <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Αποστολή εργασίας</value></data>
+  <data name="DemoMediaIconIdentificationBadge" xml:space="preserve"><value>Κάρτα αναγνώρισης</value></data>
+  <data name="DemoMediaIconFilePdf" xml:space="preserve"><value>Έγγραφο PDF</value></data>
+  <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Υποστήριξη</value></data>
+  <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Συνεργασία</value></data>
+  <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Άνοδος</value></data>
+  <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Όνομα του έργου</value></data>
+  <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>E-mail του υπευθύνου</value></data>
+  <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>Επιβεβαίωση του e-mail</value></data>
+  <data name="DemoAnnotatedValidationReplicas" xml:space="preserve"><value>Αντίγραφα</value></data>
+  <data name="DemoOverlayOpenDialog" xml:space="preserve"><value>Άνοιγμα του παραθύρου διαλόγου</value></data>
+  <data name="DemoOverlaySave" xml:space="preserve"><value>Αποθήκευση</value></data>
+  <data name="DemoOverlayMoreSaves" xml:space="preserve"><value>Άλλοι τρόποι αποθήκευσης</value></data>
+  <data name="DemoOverlaySaveAndClose" xml:space="preserve"><value>Αποθήκευση και κλείσιμο</value></data>
+  <data name="DemoOverlaySaveCopy" xml:space="preserve"><value>Αποθήκευση αντιγράφου</value></data>
+  <data name="DemoOverlayPublishUnavailable" xml:space="preserve"><value>Δημοσίευση, μη διαθέσιμη</value></data>
+  <data name="DemoOverlayFolderActions" xml:space="preserve"><value>Ενέργειες φακέλου</value></data>
+  <data name="DemoOverlayContextTrigger" xml:space="preserve"><value>Ενέργειες (δεξί κλικ ή Shift+F10)</value></data>
+  <data name="DemoOverlayDuplicate" xml:space="preserve"><value>Αναπαραγωγή</value></data>
+  <data name="DemoOverlayExport" xml:space="preserve"><value>Εξαγωγή</value></data>
+  <data name="DemoOverlayDelete" xml:space="preserve"><value>Διαγραφή</value></data>
+  <data name="DemoOverlayDeleteFolder" xml:space="preserve"><value>Διαγραφή του φακέλου</value></data>
+  <data name="DemoOverlayRunningTasks" xml:space="preserve"><value>Εργασίες σε εξέλιξη</value></data>
+  <data name="DemoOverlayBackupStep" xml:space="preserve"><value>Νυχτερινό αντίγραφο ασφαλείας, βήμα {0} από {1}.</value></data>
+  <data name="DemoOverlayViewProgress" xml:space="preserve"><value>Προβολή προόδου</value></data>
+  <data name="DemoOverlayProgressOpened" xml:space="preserve"><value>Η παρακολούθηση άνοιξε</value></data>
+  <data name="DemoOverlayQuickFilter" xml:space="preserve"><value>Γρήγορο φίλτρο</value></data>
+  <data name="DemoOverlayFilter" xml:space="preserve"><value>Φιλτράρισμα</value></data>
+  <data name="DemoOverlayFilterBody" xml:space="preserve"><value>Το πλαίσιο στοιχίζεται με την αρχή του κουμπιού.</value></data>
+  <data name="DemoOverlayAccountMenu" xml:space="preserve"><value>Μενού λογαριασμού</value></data>
+  <data name="DemoOverlayMyProfile" xml:space="preserve"><value>Το προφίλ μου</value></data>
+  <data name="DemoOverlaySignOut" xml:space="preserve"><value>Αποσύνδεση</value></data>
+  <data name="DemoOverlaySignedOut" xml:space="preserve"><value>Αποσυνδεθήκατε</value></data>
+  <data name="DemoOverlayAdminUnavailable" xml:space="preserve"><value>Διαχείριση, μη διαθέσιμη</value></data>
+  <data name="DemoOverlayStickyButton" xml:space="preserve"><value>Παράθυρο διαλόγου που αγνοεί το φόντο</value></data>
+  <data name="DemoOverlayBlockingButton" xml:space="preserve"><value>Παράθυρο διαλόγου με υποχρεωτικό κλείσιμο</value></data>
+  <data name="DemoOverlaySizeSmall" xml:space="preserve"><value>Μικρό</value></data>
+  <data name="DemoOverlaySizeMedium" xml:space="preserve"><value>Μεσαίο</value></data>
+  <data name="DemoOverlaySizeLarge" xml:space="preserve"><value>Μεγάλο</value></data>
+  <data name="DemoOverlaySizeExtraLarge" xml:space="preserve"><value>Πολύ μεγάλο</value></data>
+  <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Πλήρες πλάτος</value></data>
+  <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Πλάτος παραθύρου διαλόγου</value></data>
+  <data name="DemoOverlaySizedBody" xml:space="preserve"><value>Αυτό το παράθυρο διαλόγου είναι ανοιχτό σε μέγεθος {0}.</value></data>
+  <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Φόρμα (έμφαση)</value></data>
+  <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Πληροφορία</value></data>
+  <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Επιτυχία</value></data>
+  <data name="DemoOverlayIntentWarning" xml:space="preserve"><value>Επιβεβαίωση (προειδοποίηση)</value></data>
+  <data name="DemoOverlayIntentDanger" xml:space="preserve"><value>Διαγραφή (κίνδυνος)</value></data>
+  <data name="DemoOverlayIntentTitle" xml:space="preserve"><value>Ρυθμίσεις εκτέλεσης</value></data>
+  <data name="DemoOverlayIntentBody" xml:space="preserve"><value>Αυτό το παράθυρο διαλόγου έχει την πρόθεση {0}.</value></data>
+  <data name="DemoOverlayConfirm" xml:space="preserve"><value>Επιβεβαίωση</value></data>
+  <data name="DemoOverlayCancel" xml:space="preserve"><value>Ακύρωση</value></data>
+  <data name="DemoOverlayPipelineActions" xml:space="preserve"><value>Ενέργειες διοχέτευσης</value></data>
+  <data name="DemoOverlayEdit" xml:space="preserve"><value>Επεξεργασία</value></data>
+  <data name="DemoOverlayUpdate" xml:space="preserve"><value>Ενημέρωση</value></data>
+  <data name="DemoOverlayRowActions" xml:space="preserve"><value>Ενέργειες γραμμής</value></data>
+  <data name="DemoOverlayLastAction" xml:space="preserve"><value>Τελευταία ενέργεια: {0}</value></data>
+  <data name="DemoOverlayNoAction" xml:space="preserve"><value>καμία</value></data>
+  <data name="DemoOverlayNoticeInfoTitle" xml:space="preserve"><value>Πληροφορία</value></data>
+  <data name="DemoOverlayNoticeInfo" xml:space="preserve"><value>Η νυχτερινή επεξεργασία θα ξεκινήσει στις {0}.</value></data>
+  <data name="DemoOverlayNoticeDoneTitle" xml:space="preserve"><value>Ολοκληρώθηκε</value></data>
+  <data name="DemoOverlayNoticeDone" xml:space="preserve"><value>Εισήχθησαν τα {0} δικαιολογητικά.</value></data>
+  <data name="DemoOverlayNotificationClosed" xml:space="preserve"><value>Η ειδοποίηση έκλεισε</value></data>
+  <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Το όριο έχει σχεδόν συμπληρωθεί.</value></data>
+  <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Αποτυχία</value></data>
+  <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Η σύνδεση με την υπηρεσία απέτυχε.</value></data>
+  <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Επιβεβαίωση διαγραφής</value></data>
+  <data name="DemoOverlayClose" xml:space="preserve"><value>Κλείσιμο</value></data>
+  <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Αυτή η ενέργεια αφαιρεί τον φάκελο από τη λίστα. Μπορεί να αναιρεθεί για τριάντα ημέρες.</value></data>
+  <data name="DemoOverlayDeletionConfirmed" xml:space="preserve"><value>Η διαγραφή επιβεβαιώθηκε</value></data>
+  <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Φίλτρο σε εξέλιξη</value></data>
+  <data name="DemoOverlayStickyBody" xml:space="preserve"><value>Ένα κλικ έξω δεν κλείνει αυτό το παράθυρο διαλόγου: κλείνει με το Χ και με Esc.</value></data>
+  <data name="DemoOverlayBlockingTitle" xml:space="preserve"><value>Μετεγκατάσταση σε εξέλιξη</value></data>
+  <data name="DemoOverlayBlockingBody" xml:space="preserve"><value>Ούτε το Χ, ούτε το Esc, ούτε το φόντο: μόνο το κουμπί του παραθύρου διαλόγου το κλείνει.</value></data>
+  <data name="DemoOverlayFinish" xml:space="preserve"><value>Τέλος</value></data>
+  <data name="DemoOverlayMigrationDone" xml:space="preserve"><value>Η μετεγκατάσταση ολοκληρώθηκε</value></data>
+  <data name="DemoEditorBodyLabel" xml:space="preserve"><value>Σώμα της επιστολής</value></data>
+  <data name="DemoEditorSourceLabel" xml:space="preserve"><value>Πηγαίος κώδικας της επιστολής</value></data>
+  <data name="DemoEditorAnnotatedLabel" xml:space="preserve"><value>Σχολιασμένο άρθρο</value></data>
+  <data name="DemoEditorPosition" xml:space="preserve"><value>Θέση: {0}</value></data>
+  <data name="DemoEditorOutsideText" xml:space="preserve"><value>εκτός κειμένου</value></data>
+  <data name="DemoEditorRoot" xml:space="preserve"><value>ρίζα</value></data>
+  <data name="DemoEditorExtendedLabel" xml:space="preserve"><value>Σχολιασμένη γνωμοδότηση</value></data>
+  <data name="DemoEditorReportLabel" xml:space="preserve"><value>Αναφορά</value></data>
+  <data name="DemoEditorReportFileName" xml:space="preserve"><value>anafora</value></data>
+  <data name="DemoEditorCodeLabel" xml:space="preserve"><value>Ρυθμίσεις JSON</value></data>
+  <data name="DemoEditorIconBold" xml:space="preserve"><value>Έντονα</value></data>
+  <data name="DemoEditorIconItalic" xml:space="preserve"><value>Πλάγια</value></data>
+  <data name="DemoEditorIconUnderline" xml:space="preserve"><value>Υπογράμμιση</value></data>
+  <data name="DemoEditorIconStrikethrough" xml:space="preserve"><value>Διακριτή διαγραφή</value></data>
+  <data name="DemoEditorIconSubscript" xml:space="preserve"><value>Δείκτης</value></data>
+  <data name="DemoEditorIconSuperscript" xml:space="preserve"><value>Εκθέτης</value></data>
+  <data name="DemoEditorIconBulletList" xml:space="preserve"><value>Λίστα με κουκκίδες</value></data>
+  <data name="DemoEditorIconIndent" xml:space="preserve"><value>Αύξηση εσοχής</value></data>
+  <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Μείωση εσοχής</value></data>
+  <data name="DemoEditorIconQuote" xml:space="preserve"><value>Παράθεση</value></data>
+  <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Ενσωματωμένος κώδικας</value></data>
+  <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Μπλοκ κώδικα</value></data>
+  <data name="DemoEditorIconLink" xml:space="preserve"><value>Σύνδεσμος</value></data>
+  <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Κατάργηση συνδέσμου</value></data>
+  <data name="DemoEditorIconAlignLeft" xml:space="preserve"><value>Στοίχιση αριστερά</value></data>
+  <data name="DemoEditorIconAlignCenter" xml:space="preserve"><value>Στοίχιση στο κέντρο</value></data>
+  <data name="DemoEditorIconAlignRight" xml:space="preserve"><value>Στοίχιση δεξιά</value></data>
+  <data name="DemoEditorIconJustify" xml:space="preserve"><value>Πλήρης στοίχιση</value></data>
+  <data name="DemoEditorIconUndo" xml:space="preserve"><value>Αναίρεση</value></data>
+  <data name="DemoEditorIconRedo" xml:space="preserve"><value>Επανάληψη</value></data>
+  <data name="DemoEditorIconClearFormatting" xml:space="preserve"><value>Απαλοιφή μορφοποίησης</value></data>
+  <data name="DemoEditorIconHtmlSource" xml:space="preserve"><value>Κώδικας HTML</value></data>
+  <data name="DemoEditorIconTable" xml:space="preserve"><value>Πίνακας</value></data>
+  <data name="DemoEditorManifest" xml:space="preserve"><value>Μανιφέστο ανάπτυξης</value></data>
+  <data name="DemoEditorManifestHelp" xml:space="preserve"><value>Ένα μόνο αρχείο, ανοίγει το παράθυρο επιλογής του συστήματος.</value></data>
+  <data name="DemoEditorUploadFailed" xml:space="preserve"><value>Η μεταφόρτωση απέτυχε.</value></data>
+  <data name="DemoEditorUploaded" xml:space="preserve"><value>Μεταφορτωμένα αρχεία: {0}</value></data>
+  <data name="DemoEditorNoUpload" xml:space="preserve"><value>κανένα</value></data>
+  <data name="DemoEditorTestCommand" xml:space="preserve"><value>Δοκιμαστική εντολή</value></data>
+  <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Παράδειγμα διαμόρφωσης</value></data>
+  <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Απόσπασμα, γραμμές {0} έως {1}</value></data>
+  <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Σύγκριση δύο διαμορφώσεων</value></data>
+  <data name="DemoEditorSignatureText" xml:space="preserve"><value>Η υπηρεσία φακέλων</value></data>
+  <data name="DemoEditorReferenceText" xml:space="preserve"><value>Αριθμός αναφοράς: {0}</value></data>
+  <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Εισαγωγή του μπλοκ υπογραφής</value></data>
+  <data name="DemoEditorAddSignature" xml:space="preserve"><value>Προσθήκη υπογραφής</value></data>
+  <data name="DemoEditorInsertReference" xml:space="preserve"><value>Εισαγωγή του αριθμού αναφοράς</value></data>
+  <data name="DemoEditorAddNote" xml:space="preserve"><value>Προσθήκη σημείωσης</value></data>
+  <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>Νέα σημείωση.</value></data>
+  <data name="DemoEditorNewNote" xml:space="preserve"><value>Νέα σημείωση</value></data>
+  <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Αφαίρεση της σημείωσης</value></data>
+  <data name="DemoEditorArticleText" xml:space="preserve"><value>Άρθρο 1. Ο παρών κανονισμός εφαρμόζεται στους φακέλους που παραλαμβάνονται.</value></data>
+  <data name="DemoEditorArticleDelay" xml:space="preserve"><value>Προθεσμία</value></data>
+  <data name="DemoEditorArticleDocument" xml:space="preserve"><value>Δικαιολογητικό</value></data>
+  <data name="DemoEditorArticleDays" xml:space="preserve"><value>{0} ημέρες</value></data>
+  <data name="DemoEditorArticleForm" xml:space="preserve"><value>Έντυπο</value></data>
+  <data name="DemoEditorArticleNote" xml:space="preserve"><value>Σημείωση: κωδικοποιημένο κείμενο την 1η Ιανουαρίου.</value></data>
+  <data name="DemoEditorOpinion" xml:space="preserve"><value>Θετική γνώμη υπό την επιφύλαξη{0}.</value></data>
+  <data name="DemoEditorOpinionNote" xml:space="preserve"><value>να ελεγχθεί η προθεσμία</value></data>
+  <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>υπό την επιφύλαξη</value></data>
+  <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> επαλήθευσης</value></data>
+  <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Μια {0} παράγραφος.</value></data>
+  <data name="DemoEditorReportImportant" xml:space="preserve"><value>σημαντική</value></data>
+  <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Πρώτο σημείο</value></data>
+  <data name="DemoEditorReportSecondPoint" xml:space="preserve"><value>Δεύτερο σημείο</value></data>
+  <data name="DemoEditorBodyGreeting" xml:space="preserve"><value>Αξιότιμε κύριε / Αξιότιμη κυρία,</value></data>
+  <data name="DemoEditorBodyText" xml:space="preserve"><value>Ο φάκελός σας παραλήφθηκε.</value></data>
+  <data name="DemoEditorEmptyFile" xml:space="preserve"><value>Ένα αρχείο είναι κενό.</value></data>
+  <data name="DemoChoiceShippingLabel" xml:space="preserve"><value>Τρόπος αποστολής</value></data>
+  <data name="DemoChoiceExtrasLabel" xml:space="preserve"><value>Επιλογές φακέλου</value></data>
+  <data name="DemoChoicePeriodLabel" xml:space="preserve"><value>Περίοδος</value></data>
+  <data name="DemoChoicePin" xml:space="preserve"><value>Καρφίτσωμα</value></data>
+  <data name="DemoChoiceUnavailable" xml:space="preserve"><value>Μη διαθέσιμο</value></data>
+  <data name="DemoChoiceSaving" xml:space="preserve"><value>Αποθήκευση</value></data>
+  <data name="DemoChoiceLabelledCheck" xml:space="preserve"><value>Πλαίσιο ελέγχου με ετικέτα</value></data>
+  <data name="DemoChoiceTriStateCheck" xml:space="preserve"><value>Πλαίσιο ελέγχου τριών καταστάσεων</value></data>
+  <data name="DemoChoiceTriStateSwitch" xml:space="preserve"><value>Διακόπτης τριών καταστάσεων</value></data>
+  <data name="DemoChoiceTriStateValue" xml:space="preserve"><value>Κατάσταση τριών θέσεων: {0}</value></data>
+  <data name="DemoChoiceIndeterminate" xml:space="preserve"><value>απροσδιόριστη</value></data>
+  <data name="DemoChoiceOn" xml:space="preserve"><value>ενεργή</value></data>
+  <data name="DemoChoiceOff" xml:space="preserve"><value>ανενεργή</value></data>
+  <data name="DemoChoiceTextFirstCheck" xml:space="preserve"><value>Ετικέτα πριν από το πλαίσιο ελέγχου</value></data>
+  <data name="DemoChoiceTextFirstSwitch" xml:space="preserve"><value>Ετικέτα πριν από τον διακόπτη</value></data>
+  <data name="DemoChoicePlatformLabel" xml:space="preserve"><value>Λειτουργικό σύστημα του αντιπροσώπου</value></data>
+  <data name="DemoChoiceWindowsDescription" xml:space="preserve"><value>Windows Server 2022 και νεότερα</value></data>
+  <data name="DemoChoiceFeaturesLabel" xml:space="preserve"><value>Λειτουργίες του αντιπροσώπου</value></data>
+  <data name="DemoChoiceRunnerTitle" xml:space="preserve"><value>Εκτελεστής διοχετεύσεων</value></data>
+  <data name="DemoChoiceRunnerDescription" xml:space="preserve"><value>Εκτελεί τα βήματα σε αυτό το μηχάνημα.</value></data>
+  <data name="DemoChoiceDockerDescription" xml:space="preserve"><value>Απαιτείται από τον εκτελεστή.</value></data>
+  <data name="DemoChoiceRating" xml:space="preserve"><value>Βαθμολόγηση</value></data>
+  <data name="DemoChoiceRatingReadOnly" xml:space="preserve"><value>Βαθμολόγηση μόνο για ανάγνωση</value></data>
+  <data name="DemoChoiceRatingDisabled" xml:space="preserve"><value>Απενεργοποιημένη βαθμολόγηση</value></data>
+  <data name="DemoChoiceShippingStandard" xml:space="preserve"><value>Κανονική</value></data>
+  <data name="DemoChoiceShippingExpress" xml:space="preserve"><value>Ταχεία</value></data>
+  <data name="DemoChoiceShippingPickup" xml:space="preserve"><value>Παραλαβή από το κατάστημα</value></data>
+  <data name="DemoChoiceExtraReceipt" xml:space="preserve"><value>Απόδειξη παραλαβής</value></data>
+  <data name="DemoChoiceExtraCertifiedCopy" xml:space="preserve"><value>Επικυρωμένο αντίγραφο</value></data>
+  <data name="DemoChoiceExtraTracking" xml:space="preserve"><value>Παρακολούθηση μέσω e-mail</value></data>
+  <data name="DemoChoicePeriodDay" xml:space="preserve"><value>Ημέρα</value></data>
+  <data name="DemoChoicePeriodMonth" xml:space="preserve"><value>Μήνας</value></data>
+  <data name="DemoChoicePeriodYear" xml:space="preserve"><value>Έτος</value></data>
+  <data name="DemoChoiceFeatureCache" xml:space="preserve"><value>Κρυφή μνήμη εξαρτήσεων</value></data>
+  <data name="DemoChoiceFeatureArtifacts" xml:space="preserve"><value>Διατήρηση αντικειμένων build</value></data>
+  <data name="DemoChoiceFeatureGpu" xml:space="preserve"><value>Επιτάχυνση GPU</value></data>
+  <data name="DemoInputsAmount" xml:space="preserve"><value>Ποσό</value></data>
+  <data name="DemoInputsQuantity" xml:space="preserve"><value>Ποσότητα</value></data>
+  <data name="DemoInputsQuantityHelp" xml:space="preserve"><value>Από {0} έως {1}: μια τιμή εκτός ορίων επαναφέρεται στο πλησιέστερο όριο.</value></data>
+  <data name="DemoInputsPassword" xml:space="preserve"><value>Κωδικός πρόσβασης</value></data>
+  <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Το κουμπί εμφανίζει ό,τι πληκτρολογήθηκε χωρίς να το αντιγράφει πουθενά.</value></data>
+  <data name="DemoInputsDate" xml:space="preserve"><value>Ημερομηνία έναρξης ισχύος</value></data>
+  <data name="DemoInputsDateHelp" xml:space="preserve"><value>Πληκτρολογήστε την ή χρησιμοποιήστε το ημερολόγιο· οι ημέρες εκτός ορίων δεν επιλέγονται.</value></data>
+  <data name="DemoInputsStart" xml:space="preserve"><value>Ώρα έναρξης</value></data>
+  <data name="DemoInputsStartHelp" xml:space="preserve"><value>Ώρες από 00 έως 23, λεπτά σε βήματα των {0}.</value></data>
+  <data name="DemoInputsAppointment" xml:space="preserve"><value>Ραντεβού</value></data>
+  <data name="DemoInputsAppointmentHelp" xml:space="preserve"><value>Ημερολόγιο και στήλες ώρας στο ίδιο πλαίσιο.</value></data>
+  <data name="DemoInputsColor" xml:space="preserve"><value>Χρώμα σήμανσης</value></data>
+  <data name="DemoInputsCity" xml:space="preserve"><value>Πόλη</value></data>
+  <data name="DemoInputsCityHelp" xml:space="preserve"><value>Η αναζήτηση ξεκινά από δύο χαρακτήρες.</value></data>
+  <data name="DemoInputsCityPlaceholder" xml:space="preserve"><value>Αρχίστε να πληκτρολογείτε</value></data>
+  <data name="DemoInputsPickedSummary" xml:space="preserve"><value>Ημερομηνία: {0}· ώρα: {1}· ραντεβού: {2}</value></data>
+  <data name="DemoInputsNoDate" xml:space="preserve"><value>καμία</value></data>
+  <data name="DemoInputsNoTime" xml:space="preserve"><value>καμία</value></data>
+  <data name="DemoInputsNoAppointment" xml:space="preserve"><value>κανένα</value></data>
+  <data name="DemoFormName" xml:space="preserve"><value>Ονοματεπώνυμο</value></data>
+  <data name="DemoFormNameHelp" xml:space="preserve"><value>Όπως θα εμφανίζεται στο τιμολόγιο.</value></data>
+  <data name="DemoFormNotes" xml:space="preserve"><value>Παρατηρήσεις</value></data>
+  <data name="DemoFormEmail" xml:space="preserve"><value>Διεύθυνση e-mail</value></data>
+  <data name="DemoFormEmailHelp" xml:space="preserve"><value>Ο τύπος καθορίζει το πληκτρολόγιο σε κινητές συσκευές και την αυτόματη συμπλήρωση του προγράμματος περιήγησης.</value></data>
+  <data name="DemoFormPhone" xml:space="preserve"><value>Τηλέφωνο</value></data>
+  <data name="DemoFormWebsite" xml:space="preserve"><value>Ιστότοπος</value></data>
+  <data name="DemoFormSearch" xml:space="preserve"><value>Αναζήτηση</value></data>
+  <data name="DemoFormSearchPlaceholder" xml:space="preserve"><value>Φιλτράρισμα της λίστας</value></data>
+  <data name="DemoFormBudget" xml:space="preserve"><value>Προϋπολογισμός</value></data>
+  <data name="DemoFormTerms" xml:space="preserve"><value>Αποδέχομαι τους όρους χρήσης</value></data>
+  <data name="DemoFormAlerts" xml:space="preserve"><value>Λήψη ειδοποιήσεων</value></data>
+  <data name="DemoFormDynamicValues" xml:space="preserve"><value>Τιμές της φόρμας: {0}</value></data>
+  <data name="DemoFormDynamicName" xml:space="preserve"><value>Όνομα</value></data>
+  <data name="DemoFormDynamicAmount" xml:space="preserve"><value>Ποσό</value></data>
+  <data name="DemoFormDynamicComment" xml:space="preserve"><value>Σχόλιο</value></data>
+  <data name="DemoFormDynamicActive" xml:space="preserve"><value>Ενεργό</value></data>
+  <data name="DemoValidationName" xml:space="preserve"><value>Όνομα</value></data>
+  <data name="DemoValidationNameRequired" xml:space="preserve"><value>Το όνομα είναι υποχρεωτικό.</value></data>
+  <data name="DemoValidationMail" xml:space="preserve"><value>E-mail</value></data>
+  <data name="DemoValidationMailRequired" xml:space="preserve"><value>Το e-mail είναι υποχρεωτικό.</value></data>
+  <data name="DemoValidationSend" xml:space="preserve"><value>Αποστολή</value></data>
+  <data name="DemoValidationAccepted" xml:space="preserve"><value>Η φόρμα έγινε αποδεκτή.</value></data>
+  <data name="DemoValidationProjectName" xml:space="preserve"><value>Όνομα του έργου</value></data>
+  <data name="DemoValidationOwnerMail" xml:space="preserve"><value>E-mail του υπευθύνου</value></data>
+  <data name="DemoValidationMailConfirmation" xml:space="preserve"><value>Επιβεβαίωση του e-mail</value></data>
+  <data name="DemoValidationReplicas" xml:space="preserve"><value>Αντίγραφα</value></data>
+  <data name="DemoValidationCheck" xml:space="preserve"><value>Έλεγχος</value></data>
+  <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Προσομοίωση μη αποθηκευμένων αλλαγών</value></data>
+  <data name="DemoSelectionCountry" xml:space="preserve"><value>Χώρα</value></data>
+  <data name="DemoSelectionCountryPlaceholder" xml:space="preserve"><value>Επιλέξτε χώρα</value></data>
+  <data name="DemoSelectionCities" xml:space="preserve"><value>Εξυπηρετούμενες πόλεις</value></data>
+  <data name="DemoSelectionTags" xml:space="preserve"><value>Ετικέτες</value></data>
+  <data name="DemoSelectionTagsCompact" xml:space="preserve"><value>Ετικέτες, συμπαγής μορφή</value></data>
+  <data name="DemoSelectionTagsFilterable" xml:space="preserve"><value>Ετικέτες, αναζήτηση και δημιουργία</value></data>
+  <data name="DemoSelectionTagsPlaceholder" xml:space="preserve"><value>Επιλέξτε ετικέτες</value></data>
+  <data name="DemoSelectionTagSearchPlaceholder" xml:space="preserve"><value>Αναζήτηση ετικέτας</value></data>
+  <data name="DemoSelectionBelgium" xml:space="preserve"><value>Βέλγιο</value></data>
+  <data name="DemoSelectionFrance" xml:space="preserve"><value>Γαλλία</value></data>
+  <data name="DemoSelectionLuxembourg" xml:space="preserve"><value>Λουξεμβούργο</value></data>
+  <data name="DemoSelectionNetherlands" xml:space="preserve"><value>Κάτω Χώρες</value></data>
+  <data name="DemoSelectionTagUrgent" xml:space="preserve"><value>Επείγον</value></data>
+  <data name="DemoSelectionTagInternal" xml:space="preserve"><value>Εσωτερικό</value></data>
+  <data name="DemoSelectionTagArchived" xml:space="preserve"><value>Αρχειοθετημένο</value></data>
+  <data name="DemoFlowsCreateServer" xml:space="preserve"><value>Δημιουργία του διακομιστή</value></data>
+  <data name="DemoFlowsStepIdentity" xml:space="preserve"><value>Ταυτότητα</value></data>
+  <data name="DemoFlowsNameHelp" xml:space="preserve"><value>Το «Επόμενο» ενεργοποιείται μόλις πληκτρολογηθεί το όνομα.</value></data>
+  <data name="DemoFlowsServerName" xml:space="preserve"><value>Όνομα διακομιστή</value></data>
+  <data name="DemoFlowsStepOptions" xml:space="preserve"><value>Επιλογές</value></data>
+  <data name="DemoFlowsDailyBackup" xml:space="preserve"><value>Ημερήσιο αντίγραφο ασφαλείας</value></data>
+  <data name="DemoFlowsBackupRequired" xml:space="preserve"><value>Επιλέξτε το ημερήσιο αντίγραφο ασφαλείας για διακομιστή παραγωγής.</value></data>
+  <data name="DemoFlowsStepSummary" xml:space="preserve"><value>Σύνοψη</value></data>
+  <data name="DemoFlowsSummaryName" xml:space="preserve"><value>Όνομα</value></data>
+  <data name="DemoFlowsSummaryBackup" xml:space="preserve"><value>Αντίγραφο ασφαλείας</value></data>
+  <data name="DemoFlowsBackupDaily" xml:space="preserve"><value>Ημερήσιο</value></data>
+  <data name="DemoFlowsBackupNone" xml:space="preserve"><value>Κανένα</value></data>
+  <data name="DemoFlowsOutcome" xml:space="preserve"><value>Αποτέλεσμα: {0}</value></data>
+  <data name="DemoFlowsOutcomePending" xml:space="preserve"><value>σε εξέλιξη</value></data>
+  <data name="DemoFlowsOutcomeCreated" xml:space="preserve"><value>ο διακομιστής «{0}» δημιουργήθηκε</value></data>
+  <data name="DemoFlowsOutcomeCancelled" xml:space="preserve"><value>ακυρώθηκε</value></data>
+  <data name="DemoFlowsWizardInDialog" xml:space="preserve"><value>Οδηγός σε παράθυρο διαλόγου</value></data>
+  <data name="DemoFlowsInviteTitle" xml:space="preserve"><value>Πρόσκληση μέλους</value></data>
+  <data name="DemoFlowsInviteSteps" xml:space="preserve"><value>Βήματα πρόσκλησης</value></data>
+  <data name="DemoFlowsInvite" xml:space="preserve"><value>Πρόσκληση</value></data>
+  <data name="DemoFlowsStepAddress" xml:space="preserve"><value>Διεύθυνση</value></data>
+  <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Η διεύθυνση του προσκεκλημένου ατόμου.</value></data>
+  <data name="DemoFlowsStepRole" xml:space="preserve"><value>Ρόλος</value></data>
+  <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Ο ρόλος που θα λάβει.</value></data>
+  <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Χώρος διαχείρισης</value></data>
+  <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Λειτουργίες</value></data>
+  <data name="DemoFlowsUser" xml:space="preserve"><value>Όνομα χρήστη</value></data>
+  <data name="DemoFlowsPassword" xml:space="preserve"><value>Κωδικός πρόσβασης</value></data>
+  <data name="DemoFlowsSignIn" xml:space="preserve"><value>Σύνδεση</value></data>
+  <data name="DemoFlowsSignInNote" xml:space="preserve"><value>Η φόρμα παραδόθηκε στην εφαρμογή υποδοχής για «{0}».</value></data>
+  <data name="DemoFlowsReturnAfterSignIn" xml:space="preserve"><value>Επιστροφή μετά τη σύνδεση: {0}</value></data>
+  <data name="DemoFlowsExternalRefused" xml:space="preserve"><value>Η εξωτερική διεύθυνση απορρίφθηκε: {0}</value></data>
+  <data name="DemoFlowsSimulateDrop" xml:space="preserve"><value>Προσομοίωση διακοπής</value></data>
+  <data name="DemoFlowsSimulateReject" xml:space="preserve"><value>Προσομοίωση άρνησης</value></data>
+  <data name="DemoFlowsConnection" xml:space="preserve"><value>Σύνδεση: {0}</value></data>
+  <data name="DemoFlowsConnectionReconnecting" xml:space="preserve"><value>επανασύνδεση</value></data>
+  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>αποτυχία</value></data>
+  <data name="DemoFlowsConnectionRejected" xml:space="preserve"><value>απορρίφθηκε</value></data>
+  <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>συνδέθηκε</value></data>
+  <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>ο διακομιστής δεν αποκρίνεται πλέον (λήξη χρονικού ορίου)</value></data>
+  <data name="DemoFlowsReasonExpired" xml:space="preserve"><value>η περίοδος σύνδεσης έληξε στον διακομιστή</value></data>
+  <data name="DemoTreeLabel" xml:space="preserve"><value>Δενδρική δομή φακέλων</value></data>
+  <data name="DemoTreeEurope" xml:space="preserve"><value>Ευρώπη</value></data>
+  <data name="DemoTreeBelgium" xml:space="preserve"><value>Βέλγιο</value></data>
+  <data name="DemoTreeCapitalText" xml:space="preserve"><value>{0}, πρωτεύουσα</value></data>
+  <data name="DemoTreeCapital" xml:space="preserve"><value>πρωτεύουσα</value></data>
+  <data name="DemoTreeFrance" xml:space="preserve"><value>Γαλλία</value></data>
+  <data name="DemoTreeLuxembourg" xml:space="preserve"><value>Λουξεμβούργο</value></data>
+  <data name="DemoTreeArchives" xml:space="preserve"><value>Αρχεία, φορτώνονται κατά το άνοιγμα</value></data>
+  <data name="DemoTreeSelection" xml:space="preserve"><value>Επιλογή: {0}</value></data>
+  <data name="DemoTreeNoSelection" xml:space="preserve"><value>καμία</value></data>
+  <data name="DemoSpreadsheetLabel" xml:space="preserve"><value>Προϋπολογισμός τριμήνου</value></data>
+  <data name="DemoSpreadsheetStatus" xml:space="preserve"><value>Ενεργό κελί: {0}. Σύνολο τριμήνου: {1}</value></data>
+  <data name="DemoSpreadsheetReadOnlyLabel" xml:space="preserve"><value>Ο ίδιος προϋπολογισμός, μόνο για ανάγνωση</value></data>
+  <data name="DemoSpreadsheetItem" xml:space="preserve"><value>Κονδύλι</value></data>
+  <data name="DemoSpreadsheetJanuary" xml:space="preserve"><value>Ιανουάριος</value></data>
+  <data name="DemoSpreadsheetFebruary" xml:space="preserve"><value>Φεβρουάριος</value></data>
+  <data name="DemoSpreadsheetMarch" xml:space="preserve"><value>Μάρτιος</value></data>
+  <data name="DemoSpreadsheetQuarter" xml:space="preserve"><value>Τρίμηνο</value></data>
+  <data name="DemoSpreadsheetRent" xml:space="preserve"><value>Ενοίκιο</value></data>
+  <data name="DemoSpreadsheetGroceries" xml:space="preserve"><value>Ψώνια</value></data>
+  <data name="DemoSpreadsheetEnergy" xml:space="preserve"><value>Ενέργεια</value></data>
+  <data name="DemoSpreadsheetTransport" xml:space="preserve"><value>Μετακινήσεις</value></data>
+  <data name="DemoSpreadsheetLeisure" xml:space="preserve"><value>Ψυχαγωγία</value></data>
+  <data name="DemoSpreadsheetTotal" xml:space="preserve"><value>Σύνολο</value></data>
+  <data name="DemoSpreadsheetAverage" xml:space="preserve"><value>Μέσος όρος</value></data>
+  <data name="DemoDiagramReadOnly" xml:space="preserve"><value>Μόνο για ανάγνωση</value></data>
+  <data name="DemoDiagramMindMapLabel" xml:space="preserve"><value>Νοητικός χάρτης: προετοιμασία μετακόμισης</value></data>
+  <data name="DemoDiagramGitGraphLabel" xml:space="preserve"><value>Ιστορικό με συγχωνευμένο κλάδο</value></data>
+  <data name="DemoDiagramMapSummary" xml:space="preserve"><value>{0} κόμβοι, {1} συνδέσεις, {2} χαρακτήρες μετά την αποθήκευση.</value></data>
+  <data name="DemoDiagramNewIdea" xml:space="preserve"><value>Νέα ιδέα</value></data>
+  <data name="DemoDiagramNodeMove" xml:space="preserve"><value>Μετακόμιση</value></data>
+  <data name="DemoDiagramNodePaperwork" xml:space="preserve"><value>Γραφειοκρατικά</value></data>
+  <data name="DemoDiagramNodeAddress" xml:space="preserve"><value>Αλλαγή διεύθυνσης</value></data>
+  <data name="DemoDiagramNodeInsurance" xml:space="preserve"><value>Ασφάλεια κατοικίας</value></data>
+  <data name="DemoDiagramNodeBoxes" xml:space="preserve"><value>Κούτες</value></data>
+  <data name="DemoDiagramNodeKitchen" xml:space="preserve"><value>Κουζίνα</value></data>
+  <data name="DemoDiagramNodeBooks" xml:space="preserve"><value>Βιβλία</value></data>
+  <data name="DemoDiagramNodeMovingDay" xml:space="preserve"><value>Ημέρα μετακόμισης</value></data>
+  <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Κράτηση φορτηγού</value></data>
+  <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Ενημέρωση των γειτόνων</value></data>
+  <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Πριν από τις 15</value></data>
 </root>

@@ -7,7 +7,7 @@ namespace OmniEurope.Blazor.Internal;
 /// </summary>
 internal sealed class OmniClipboardCopy(IJSRuntime javaScript, Func<Task> redraw) : IAsyncDisposable
 {
-    private const string InteropModulePath = "./_content/OmniEurope.Blazor/omniInterop.js";
+    private const string InteropModulePath = OmniModules.Interop;
 
     private IJSObjectReference? _module;
     private CancellationTokenSource? _feedback;

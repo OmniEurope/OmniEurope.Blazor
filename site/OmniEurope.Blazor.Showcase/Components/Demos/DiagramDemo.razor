@@ -1,10 +1,10 @@
 <OmniStack Gap="OmniSpacing.Large">
-    <OmniToggleButton @bind-Value="ReadOnly">Lecture seule</OmniToggleButton>
+    <OmniToggleButton @bind-Value="ReadOnly">@Text["DemoDiagramReadOnly"]</OmniToggleButton>
     <OmniMindMap Id="demo-mindmap"
                  @bind-Document="Map"
                  @bind-ViewState="View"
                  ReadOnly="ReadOnly"
-                 Label="Carte mentale : préparer un déménagement"
+                 Label="@Text["DemoDiagramMindMapLabel"]"
                  ContextLabels="Labels">
         <ToolbarContent>
             <OmniMindMapToolbar />
@@ -14,7 +14,7 @@
         </PanelContent>
     </OmniMindMap>
     <OmniGitGraph TItem="string" Items="RecentCommits" KeyOf="CommitId" ParentsOf="CommitParents"
-                  Label="Historique avec une branche fusionnée">
+                  Label="@Text["DemoDiagramGitGraphLabel"]">
         <RowTemplate Context="commit"><code>@commit</code></RowTemplate>
     </OmniGitGraph>
     <p>@Summary</p>

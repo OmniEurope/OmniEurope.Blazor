@@ -1,5 +1,11 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// The application's navigation column, an <c>&lt;aside&gt;</c> landmark. It is controlled: it shows
+/// <see cref="Open"/> and asks the host to change it through <see cref="OpenChanged"/>. It either pushes
+/// the content aside or floats over it (<see cref="Reveal"/>), and when closed either leaves a rail of
+/// icons or disappears (<see cref="Collapse"/>). Its open state is cascaded to the menu inside it.
+/// </summary>
 public partial class OmniSidebar
 {
     private IJSObjectReference? _focusModule;
@@ -7,9 +13,14 @@ public partial class OmniSidebar
     private bool _escapeAttached;
     private readonly string _escapeKey = Guid.NewGuid().ToString("N");
 
+    /// <summary>The content of the sidebar, typically an <see cref="OmniPanelMenu"/>. Required.</summary>
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// True when the sidebar is open. False by default. The sidebar never changes it itself: it raises
+    /// <see cref="OpenChanged"/> and waits for the host to pass the new value back.
+    /// </summary>
     [Parameter]
     public bool Open { get; set; }
 
@@ -22,6 +33,7 @@ public partial class OmniSidebar
     [Parameter]
     public EventCallback<bool> OpenChanged { get; set; }
 
+    /// <summary>The side of the page the sidebar sits on. <see cref="OmniSidebarPosition.Start"/> by default.</summary>
     [Parameter]
     public OmniSidebarPosition Position { get; set; }
 
@@ -98,6 +110,12 @@ public partial class OmniSidebar
     /// <summary>A floating sidebar listens for Escape on the whole document while it is open.</summary>
     private bool Floating => Open && Reveal == OmniSidebarReveal.Overlay;
 
+    /// <summary>
+    /// Attaches the document-wide Escape listener when the sidebar starts floating open, and detaches it
+    /// when it stops. A lost circuit is ignored.
+    /// </summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the listener is attached or detached.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (Floating == _escapeAttached)
@@ -107,7 +125,7 @@ public partial class OmniSidebar
 
         try
         {
-            _focusModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omni-focus.js");
+            _focusModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Focus);
             if (Floating)
             {
                 _selfReference ??= DotNetObjectReference.Create(this);
@@ -129,6 +147,7 @@ public partial class OmniSidebar
     [JSInvokable]
     public Task CloseFromEscapeAsync() => Floating ? InvokeAsync(CloseAsync) : Task.CompletedTask;
 
+    /// <summary>Subscribes to navigation, so that choosing an entry closes a floating sidebar.</summary>
     protected override void OnInitialized() => Navigation.LocationChanged += HandleLocationChanged;
 
     /// <summary>
@@ -143,8 +162,14 @@ public partial class OmniSidebar
         }
     }
 
+    /// <summary>Unsubscribes from navigation.</summary>
     public void Dispose() => Navigation.LocationChanged -= HandleLocationChanged;
 
+    /// <summary>
+    /// Unsubscribes from navigation, detaches the Escape listener if it is attached, and releases the
+    /// script module and the .NET reference. A lost circuit is ignored.
+    /// </summary>
+    /// <returns>A task that completes once the script resources are released.</returns>
     public async ValueTask DisposeAsync()
     {
         Dispose();

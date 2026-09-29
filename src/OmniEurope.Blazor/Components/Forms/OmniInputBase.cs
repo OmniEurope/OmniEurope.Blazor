@@ -41,6 +41,17 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
     [Parameter]
     public string? Class { get; set; }
 
+    /// <summary>What an enclosing <see cref="OmniFormField"/> cascades: the id its label names and the label's id.</summary>
+    [CascadingParameter]
+    private OmniFormFieldLabel? EnclosingFormFieldLabel { get; set; }
+
+    /// <summary>
+    /// The id of the label of the enclosing <see cref="OmniFormField"/> when that label names this control
+    /// (its <c>For</c> is <see cref="Id"/>), else null. A control that a <c>label for</c> cannot name
+    /// writes it as <c>aria-labelledby</c> when it has no label of its own.
+    /// </summary>
+    private protected string? FormFieldLabelId => OmniFormFieldLabel.For(EnclosingFormFieldLabel, Id);
+
     /// <summary><c>"true"</c> while the edit context holds a message for the bound field, else null.</summary>
     protected string? AriaInvalid => EditContext is not null && EditContext.GetValidationMessages(FieldIdentifier).Any()
         ? "true"

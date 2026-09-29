@@ -25,11 +25,11 @@ Les règles `GEN*` ne servent qu'à la construction de ce dépôt. `src/OmniEuro
 
 | Diagnostic | Sévérité | Contrat |
 | --- | --- | --- |
-| `OE0001` | erreur | un composant OmniEurope.Blazor ne reçoit aucun attribut en PascalCase qu'il n'a pas pour paramètre : `OmniBadge has no parameter 'IconName'` |
+| `OE0001` | erreur | un composant OmniEurope.Blazor ne reçoit aucun attribut en PascalCase qu'il n'a pas pour paramètre (`OmniBadge has no parameter 'IconName'`) ; sur un composant qui ne capture aucun attribut (`OmniComponentsHost`, `OmniBootSplash`, validateurs, `OmniUnsavedChangesGuard`), aucun attribut inconnu, même en minuscules ; et jamais `class` ni `id` en minuscules, à écrire `Class` et `Id` (PLAN-007) |
 
 Les composants capturent les attributs qu'ils ne déclarent pas ; sans cette règle, un paramètre retiré ou mal orthographié compilait et devenait un attribut HTML. L'analyseur lit le code que le générateur Razor émet (bloc `OpenComponent<T>` ... `CloseComponent`) : un paramètre reconnu y est écrit `AddComponentParameter(n, nameof(T.Nom), valeur)`, un attribut inconnu garde son nom en littéral, `AddComponentParameter(n, "Nom", valeur)`. Un littéral qui commence par une majuscule ASCII, sur un composant de l'assemblage `OmniEurope.Blazor` qui n'a ni lui ni ses types de base de propriété publique `[Parameter]` de ce nom (sans tenir compte de la casse, comme Blazor), est une erreur signalée à sa ligne dans le fichier `.razor`. Les attributs en minuscules (`class`, `id`, `aria-*`, `data-*`) et les `@attributes` (`AddMultipleAttributes`) ne sont jamais signalés. Le générateur laisse ce littéral dans une zone `#line hidden` : l'emplacement est retrouvé dans le `.razor` lui-même, à partir de la dernière position que le générateur y a reliée.
 
-Au rendu, `CspAttributeGuard` sert de filet : un attribut capturé en PascalCase lève `InvalidOperationException` (`OmniBadge has no parameter 'IconName'.`), y compris quand il n'existe qu'à l'exécution.
+Au rendu, `CspAttributeGuard` sert de filet : un attribut capturé en PascalCase lève `InvalidOperationException` (`OmniBadge has no parameter 'IconName'.`), y compris quand il n'existe qu'à l'exécution ; il refuse de même `class` et `id` en toute casse.
 
 Consommation :
 

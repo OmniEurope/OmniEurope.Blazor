@@ -47,6 +47,7 @@ public partial class OmniColumnSeries
         _ => OmniChartSeriesKind.Column
     };
 
+    /// <summary>Registers the series with its chart, as columns or bars, stacked or not, so the shared plot takes its points into account.</summary>
     protected override void OnParametersSet() => ChartContext?.RegisterSeries(this, Kind, Data, Title, ColorIndex);
 
     private (double X, double Y, double Width, double Height) Rectangle(int index) => Horizontal

@@ -2,40 +2,40 @@
     @* Plein : la sévérité peint le fond, dessiné comme un bouton. Information et succès sur un fond
        clair à texte sombre, attention et danger sur un fond profond à texte clair. Le disque porte le
        glyphe de la sévérité. *@
-    <OmniAlert Severity="OmniSeverity.Info" Fill="OmniFill.Solid" Title="Maintenance">
-        Le service sera indisponible dimanche de 2 h à 4 h.
+    <OmniAlert Severity="OmniSeverity.Info" Fill="OmniFill.Solid" Title="@Text["DemoAlertsMaintenance"]">
+        @Text["DemoAlertsMaintenanceText"]
     </OmniAlert>
-    <OmniAlert Severity="OmniSeverity.Success" Fill="OmniFill.Solid" Title="Paquet publié">
-        OmniEurope.Blazor est disponible sur NuGet.org.
+    <OmniAlert Severity="OmniSeverity.Success" Fill="OmniFill.Solid" Title="@Text["DemoAlertsPublished"]">
+        @Text["DemoAlertsPublishedText"]
     </OmniAlert>
-    <OmniAlert Severity="OmniSeverity.Warning" Fill="OmniFill.Solid" Title="Certificat bientôt expiré" Dismissible="true">
-        Le certificat de signature expire dans 12 jours.
+    <OmniAlert Severity="OmniSeverity.Warning" Fill="OmniFill.Solid" Title="@Text["DemoAlertsCertificate"]" Dismissible="true">
+        @Text["DemoAlertsCertificateText", 12]
     </OmniAlert>
-    <OmniAlert Severity="OmniSeverity.Danger" Fill="OmniFill.Solid" Title="Échec">
-        La connexion au service a échoué.
+    <OmniAlert Severity="OmniSeverity.Danger" Fill="OmniFill.Solid" Title="@Text["DemoAlertsFailure"]">
+        @Text["DemoAlertsFailureText"]
     </OmniAlert>
     @* En contour : la surface de la page, un filet de la sévérité, le texte de la page ; le disque
        garde le fond et le glyphe de la sévérité. *@
-    <OmniAlert Severity="OmniSeverity.Info" Title="Information">
-        La bibliothèque lit toutes ses couleurs dans des variables CSS.
+    <OmniAlert Severity="OmniSeverity.Info" Title="@Text["DemoAlertsInfo"]">
+        @Text["DemoAlertsInfoText"]
     </OmniAlert>
-    <OmniAlert Severity="OmniSeverity.Success" Title="Enregistré">
-        Les modifications ont été prises en compte.
+    <OmniAlert Severity="OmniSeverity.Success" Title="@Text["DemoAlertsSaved"]">
+        @Text["DemoAlertsSavedText"]
     </OmniAlert>
     @* Tonal : une teinte légère de la sévérité derrière le texte de la page, sans filet. *@
-    <OmniAlert Severity="OmniSeverity.Info" Fill="OmniFill.Tonal" Title="Nouveauté">
-        Les badges et les alertes partagent désormais le même remplissage.
+    <OmniAlert Severity="OmniSeverity.Info" Fill="OmniFill.Tonal" Title="@Text["DemoAlertsNew"]">
+        @Text["DemoAlertsNewText"]
     </OmniAlert>
     @* Icon remplace le glyphe dans le disque par une icône de l'application. *@
-    <OmniAlert Severity="OmniSeverity.Warning" Title="Attention">
+    <OmniAlert Severity="OmniSeverity.Warning" Title="@Text["DemoAlertsCaution"]">
         <Icon><OmniIcon Name="OmniIconName.Warning" /></Icon>
-        <ChildContent>Ce réglage sera appliqué à toutes les pages.</ChildContent>
+        <ChildContent>@Text["DemoAlertsCautionText"]</ChildContent>
     </OmniAlert>
     <OmniAlert Severity="OmniSeverity.Danger">
-        Le fichier dépasse la taille autorisée.
+        @Text["DemoAlertsTooLarge"]
     </OmniAlert>
     @* Dismissible ajoute la croix ; sans lui, une alerte reste affichée. *@
-    <OmniAlert Severity="OmniSeverity.Info" Title="Astuce" Dismissible="true">
-        Cette alerte se ferme avec sa croix.
+    <OmniAlert Severity="OmniSeverity.Info" Title="@Text["DemoAlertsTip"]" Dismissible="true">
+        @Text["DemoAlertsTipText"]
     </OmniAlert>
 </OmniStack>

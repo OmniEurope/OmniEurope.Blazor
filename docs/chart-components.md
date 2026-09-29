@@ -8,17 +8,17 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
 
 | Composant | Rôle |
 | --- | --- |
-| `OmniChart` | Conteneur SVG : titre, description, rapport largeur sur hauteur ; toutes les parties y lisent leurs coordonnées. |
+| `OmniChart` | Conteneur SVG : titre, description (`Description`, `string?`, posée en `desc` et `aria-describedby` seulement quand elle est donnée), rapport largeur sur hauteur ; toutes les parties y lisent leurs coordonnées. `DataTableContent` fournit l'alternative en tableau ; sans lui, un tableau des données masqué visuellement est généré depuis les séries. |
 | `OmniCategoryAxis`, `OmniValueAxis` | Axe des catégories et axe des valeurs (bornes fixes ou automatiques), graduations et libellés. |
 | `OmniAxisTitle` | Titre d'un axe, horizontal en bas ou vertical à gauche, tourné. |
 | `OmniGridLines` | Lignes de grille du tracé. |
 | `OmniLineSeries`, `OmniAreaSeries` | Série en courbe, ou en aire, empilable (`Stacked`). |
-| `OmniColumnSeries`, `OmniBarSeries` | Colonnes verticales groupées par catégorie, empilables ; barres horizontales sur axes tournés. |
+| `OmniColumnSeries` | Colonnes verticales groupées par catégorie, empilables (`Stacked`) ; `Horizontal="true"` en fait des barres horizontales sur axes tournés. |
 | `OmniPieSeries` | Secteurs d'un disque, ou d'un anneau (`Donut`). |
 | `OmniMarkers` | Points marqués sur les valeurs d'une série. |
-| `OmniSeriesDataLabels` | Valeurs écrites sur les points d'une série, avec leur format. |
+| `OmniSeriesDataLabels` | Valeurs écrites sur les points d'une série, avec leur format (`FormatValue`). |
 | `OmniLegend` | Légende hors du tracé, à droite ou dessous. |
-| `OmniArcGauge`, `OmniArcGaugeScale`, `OmniArcGaugeScaleValue` | Jauge en demi-cercle, son échelle et la valeur qu'elle montre. |
+| `OmniArcGauge`, `OmniArcGaugeScale`, `OmniArcGaugeScaleValue` | Jauge en demi-cercle, son échelle et la valeur qu'elle montre (`FormatValue`) ; le nom accessible de la jauge porte sa valeur. |
 
 ## Disposition
 
@@ -36,19 +36,24 @@ leurs coordonnées dans un même contexte : elles s'alignent par construction.
   élargit la colonne à l'entrée la plus longue, jusqu'à 40 % du dessin. `Bottom` (ou `Auto` avec des
   entrées longues) la dessine sous le SVG en liste HTML (`ul.omni-chart__legend--below`) : elle
   garde la taille de texte de la page au lieu de rétrécir avec le dessin, passe à la ligne sur un
-  écran étroit, et le tracé reprend toute la largeur. `ColorIndexes` donne à chaque entrée la teinte
-  de la série qu'elle nomme ; sans lui, les entrées prennent 0, 1, 2 dans l'ordre.
+  écran étroit, et le tracé reprend toute la largeur. Les entrées se construisent depuis les séries du graphique,
+  chacune avec la teinte de la série qu'elle nomme ; `Items` les remplace. `Label` (`string?`) nomme la
+  légende.
 - `OmniCategoryAxis` n'écrit que les libellés qui tiennent sans se chevaucher : quand tous ne
   tiennent pas, un sur N, le premier et le dernier toujours gardés. La largeur d'un libellé est
   estimée à 1,7 unité par caractère (0,57 em), ce qui laisse un peu de marge. Le texte de survol de
   chaque colonne, barre ou marqueur sans `Label` propre nomme sa catégorie et sa valeur
-  (« 05/09 · 123 »), et le `DataTable` du graphique reste l'alternative accessible complète.
+  (« 05/09 · 123 »), et le tableau de données du graphique (`DataTableContent`, ou celui généré) reste
+  l'alternative accessible complète. Les nombres (graduations, valeurs, texte de survol) suivent la culture
+  courante, et `FormatValue` d'`OmniValueAxis`, d'`OmniSeriesDataLabels` et d'`OmniArcGaugeScaleValue`
+  remplace leur texte.
 - Des colonnes ou des barres découpent l'axe des catégories en bandes, une par catégorie, et chaque
   libellé se place au milieu de sa bande. Plusieurs `OmniColumnSeries` se rangent côte à côte dans la
   bande ; toutes les séries empilées y partagent une place. Une ligne tracée avec des colonnes passe
   au-dessus de leurs centres.
-- Une `OmniBarSeries` tourne le graphique : les catégories descendent à gauche, les valeurs courent en
-  bas, les lignes de grille deviennent verticales.
+- Une `OmniColumnSeries Horizontal="true"` tourne le graphique : les catégories descendent à gauche, les
+  valeurs courent en bas, les lignes de grille deviennent verticales ; `Stacked` les empile comme des
+  colonnes. Les couleurs de série 5 à 7 sont générées pour chaque palette, à distance de son accent.
 - `OmniGridLines` trace `Count` lignes régulières sur la hauteur du tracé : avec autant de lignes que
   de graduations, chaque ligne passe par une graduation.
 - Les traits (lignes, aires, axes, grille, contours des marqueurs) ont une épaisseur en pixels

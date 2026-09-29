@@ -817,11 +817,11 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
 .omni-stack--vertical { flex-direction: column; }
 .omni-stack--wrap { flex-wrap: wrap; }
 .omni-stack--gap-none { gap: 0; }
-.omni-stack--gap-xsmall { gap: var(--omni-space-xs); }
-.omni-stack--gap-small { gap: var(--omni-space-sm); }
-.omni-stack--gap-medium { gap: var(--omni-space-md); }
-.omni-stack--gap-large { gap: var(--omni-space-lg); }
-.omni-stack--gap-xlarge { gap: var(--omni-space-xl); }
+.omni-stack--gap-xs { gap: var(--omni-space-xs); }
+.omni-stack--gap-sm { gap: var(--omni-space-sm); }
+.omni-stack--gap-md { gap: var(--omni-space-md); }
+.omni-stack--gap-lg { gap: var(--omni-space-lg); }
+.omni-stack--gap-xl { gap: var(--omni-space-xl); }
 .omni-stack--align-start { align-items: flex-start; }
 .omni-stack--align-center { align-items: center; }
 .omni-stack--align-end { align-items: flex-end; }
@@ -1002,7 +1002,11 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
 /* A link that opens a new tab says so with the external-link icon after its text, on the same baseline. */
 .omni-link__external { display: inline-block; height: 0.875em; margin-inline-start: 0.25em; vertical-align: -0.0625em; width: 0.875em; }
 
-.omni-image { display: block; height: auto; max-width: 100%; }
+/* A natural image follows its own ratio when max-width narrows it. Contain and cover keep the box the
+   width and height attributes give them, the only box object-fit can fill; height:auto there would
+   replace it by the picture's own ratio and leave nothing to letterbox or crop. */
+.omni-image { display: block; max-width: 100%; }
+.omni-image--natural { height: auto; }
 .omni-image--contain { object-fit: contain; }
 .omni-image--cover { object-fit: cover; }
 
@@ -1036,11 +1040,11 @@ html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
    dépassent la ligne, et la quatrième passait au rang suivant. Chaque classe de portée retranche
    donc sa part de gouttière de sa base. */
 .omni-row--gap-none { --omni-row-gap: 0px; gap: 0; }
-.omni-row--gap-xsmall { --omni-row-gap: var(--omni-space-xs); gap: var(--omni-space-xs); }
-.omni-row--gap-small { --omni-row-gap: var(--omni-space-sm); gap: var(--omni-space-sm); }
-.omni-row--gap-medium { --omni-row-gap: var(--omni-space-md); gap: var(--omni-space-md); }
-.omni-row--gap-large { --omni-row-gap: var(--omni-space-lg); gap: var(--omni-space-lg); }
-.omni-row--gap-xlarge { --omni-row-gap: var(--omni-space-xl); gap: var(--omni-space-xl); }
+.omni-row--gap-xs { --omni-row-gap: var(--omni-space-xs); gap: var(--omni-space-xs); }
+.omni-row--gap-sm { --omni-row-gap: var(--omni-space-sm); gap: var(--omni-space-sm); }
+.omni-row--gap-md { --omni-row-gap: var(--omni-space-md); gap: var(--omni-space-md); }
+.omni-row--gap-lg { --omni-row-gap: var(--omni-space-lg); gap: var(--omni-space-lg); }
+.omni-row--gap-xl { --omni-row-gap: var(--omni-space-xl); gap: var(--omni-space-xl); }
 .omni-row--align-start { align-items: flex-start; }
 .omni-row--align-center { align-items: center; }
 .omni-row--align-end { align-items: flex-end; }
@@ -1659,7 +1663,9 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
 /* The row centres the box on the middle of the letters, not on the line box: trimmed to the cap height
    and the baseline, the text box is its letters, whose middle sits below the middle of the line box in
    most fonts. The line keeps its height (1lh), so trimming moves nothing around it. */
-.omni-checkbox-label { min-block-size: 1lh; }
+/* A labelled check box is a control: its text follows the control font, so the label grows and shrinks
+   with the density and the control size like a button (the comfortable default is the body size). */
+.omni-checkbox-label { font-size: var(--omni-control-font); min-block-size: 1lh; }
 .omni-checkbox-label__text { text-box: trim-both cap alphabetic; }
 /* Text before the box: the line reads "label ....... box" while the box stays the control. */
 .omni-checkbox-label--text-first > .omni-checkbox { order: 1; }
@@ -2020,21 +2026,8 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
 /* Floating surfaces (menus, popovers, lists, notifications) share one layer: a theme may give them a
    translucent blurred fill (--omni-overlay-background, --omni-overlay-filter), the card's rule and a
    deeper shadow than a card's (--omni-overlay-shadow). Without those tokens each keeps its previous
-   surface, border and shadow. The menus of the package are .omni-menu below; this surface stays for
-   the context menu the HTML editor draws itself. */
-.omni-context-menu__popup {
-    backdrop-filter: var(--omni-overlay-filter, none);
-    background: var(--omni-overlay-background, var(--omni-color-surface));
-    border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border));
-    border-radius: var(--omni-card-radius, var(--omni-radius));
-    box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md));
-    display: grid;
-    min-width: 12rem;
-    padding: calc(var(--omni-pop-pad) - 2px);
-    position: absolute;
-    top: calc(100% + var(--omni-space-xs));
-    z-index: var(--omni-z-popover);
-}
+   surface, border and shadow. Every menu of the package, the HTML editor's context menu included,
+   is .omni-menu below. */
 /* A theme may frost the scrim (--omni-scrim-filter, Givre). The scrim covers the viewport exactly, so
    becoming the containing block of the dialog's position: fixed descendants moves none of them. */
 .omni-overlay { align-items: center; backdrop-filter: var(--omni-scrim-filter, none); background: var(--omni-color-overlay); display: flex; inset: 0; justify-content: center; padding: var(--omni-space-lg); position: fixed; z-index: var(--omni-z-overlay); }
@@ -2243,14 +2236,8 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-tooltip--delay-1900 { --omni-tooltip-delay: 1900ms; }
 .omni-tooltip--delay-2000 { --omni-tooltip-delay: 2000ms; }
 .omni-context-menu { position: relative; }
-.omni-context-menu__popup { inset-inline-start: 0; }
 .omni-overlay-portal { inset: 0; pointer-events: none; position: fixed; z-index: var(--omni-z-portal); }
 .omni-overlay-portal__entry { pointer-events: auto; position: relative; }
-/* Posé par omni-focus.js au pointeur, ou sous le déclencheur au clavier, et ramené dans la fenêtre.
-   Porté hors de la page, le menu sans position (script absent) reste en haut à gauche plutôt que
-   sous le bord de l'écran, où « 100 % » de la fenêtre l'envoyait. */
-.omni-context-menu__popup[data-omni-placed],
-.omni-overlay-portal__entry--contextmenu .omni-context-menu__popup { inset: auto; left: var(--omni-menu-x, var(--omni-space-md)); position: fixed; top: var(--omni-menu-y, var(--omni-space-md)); }
 /* The "⋮" menu: a borderless three-dot trigger, a vertical list of icon and label rows, placed under
    the trigger by omni-focus.js and kept inside the window. Its rows are menu rows, not buttons, so the
    rules that size the buttons of a grid row do not reach them. */
@@ -3079,11 +3066,8 @@ polyline.omni-chart__line { fill: none; }
 .omni-html-editor__toolbar { column-gap: calc(var(--omni-space-xs) * 4 + var(--omni-border-width)); overflow: hidden; }
 .omni-html-editor__group { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); position: relative; }
 .omni-html-editor__separator { border-inline-start: var(--omni-border-width) solid var(--omni-color-border); inset-block: 0; inset-inline-start: calc(-2 * var(--omni-space-xs) - var(--omni-border-width)); position: absolute; }
-/* The context menu of the extensions: its entries look like those of a split button's menu, and a
-   disabled one stays in place, dimmed. */
-.omni-html-editor__menu-item { align-items: center; background: transparent; border: 0; border-radius: var(--omni-radius-sm); color: var(--omni-color-text); cursor: pointer; display: flex; font: inherit; font-size: var(--omni-control-font); gap: var(--omni-space-sm); padding: var(--omni-item-pad-y) 0.625rem; text-align: start; }
-.omni-html-editor__menu-item:hover:not(:disabled), .omni-html-editor__menu-item:focus-visible { background: var(--omni-color-surface-hover); outline: none; }
-.omni-html-editor__menu-item:disabled { cursor: default; opacity: 0.5; }
+/* The context menu of the extensions is a package menu (.omni-menu, OmniMenuItem rows); only the line
+   between two groups of entries is its own. */
 .omni-html-editor__menu-separator { border-block-start: var(--omni-border-width) solid var(--omni-color-border); margin-block: var(--omni-space-xs); }
 .omni-html-editor__link-input { cursor: text; flex: 1 1 14rem; }
 .omni-html-editor__link-error { color: var(--omni-color-danger); flex-basis: 100%; margin: 0; }
@@ -3284,7 +3268,7 @@ polyline.omni-chart__line { fill: none; }
    subtitle, always reserved) so every page starts its content at the same height. A title longer
    than its line scrolls sideways; omni-page-header.js marks the block with data-title-start and
    data-title-end, which show the chevron of the side that still has text. */
-.omni-page-header { --omni-page-header-line: max(var(--omni-control-height), 2.25rem); --omni-page-header-trail: 1.25rem; display: flex; flex-direction: column; gap: var(--omni-space-sm); margin-block-end: var(--omni-space-lg); min-inline-size: 0; }
+.omni-page-header { --omni-page-header-line: max(var(--omni-control-height), 2.25rem); --omni-page-header-trail: max(1.125rem, calc(var(--omni-control-height) * 0.55)); display: flex; flex-direction: column; gap: var(--omni-space-sm); margin-block-end: var(--omni-space-lg); min-inline-size: 0; }
 .omni-page-header__frame { background: var(--omni-color-surface); block-size: calc(var(--omni-page-header-line) + 0.125rem + var(--omni-page-header-trail)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-color-accent) 24%, var(--omni-color-border)); border-radius: var(--omni-radius); box-sizing: content-box; display: flex; flex-direction: column; gap: 0.125rem; min-inline-size: 0; padding: var(--omni-space-sm) var(--omni-space-md); }
 .omni-page-header__frame--plain { background: transparent; border: 0; border-radius: 0; padding: 0; }
 .omni-page-header__row { align-items: center; block-size: var(--omni-page-header-line); display: flex; flex: none; flex-wrap: nowrap; gap: var(--omni-space-sm); min-inline-size: 0; }
@@ -3522,7 +3506,7 @@ span.omni-unified-diff__toggle { cursor: default; }
 .omni-kanban { display: grid; min-inline-size: 0; }
 .omni-kanban__columns { align-items: start; display: grid; gap: var(--omni-space-md); grid-auto-columns: minmax(12rem, 1fr); grid-auto-flow: column; overflow-x: auto; padding-block-end: var(--omni-space-xs); }
 /* A column is a lane tinted like a settings tile, a card is drawn with the card tokens. */
-.omni-kanban__column { background: color-mix(in srgb, var(--omni-color-text) 4%, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); display: grid; gap: var(--omni-space-sm); min-inline-size: 0; padding: var(--omni-space-sm); }
+.omni-kanban__column { background: color-mix(in srgb, var(--omni-color-text) 4%, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-card-radius, var(--omni-radius)); display: grid; gap: var(--omni-space-sm); min-inline-size: 0; padding: var(--omni-space-sm); }
 .omni-kanban__column--drop { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent); }
 .omni-kanban__header { align-items: center; display: flex; gap: var(--omni-space-sm); justify-content: space-between; min-block-size: calc(var(--omni-control-height) - 0.25rem); }
 .omni-kanban__title { font-weight: 650; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

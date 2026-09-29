@@ -147,6 +147,10 @@ public partial class OmniPageHeader
         ? "omni-page-header__details omni-page-header__details--open"
         : "omni-page-header__details";
 
+    /// <summary>
+    /// Starts listening to the breadcrumb service when one is registered; without it the header is
+    /// titled by <see cref="Title"/> alone.
+    /// </summary>
     protected override void OnInitialized()
     {
         // Resolved through the provider: a host that never called AddOmniEuropeBlazor still gets a
@@ -158,6 +162,9 @@ public partial class OmniPageHeader
         }
     }
 
+    /// <summary>On the first render, attaches the title scroll script to the frame; a lost circuit is ignored.</summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the script is attached.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender)

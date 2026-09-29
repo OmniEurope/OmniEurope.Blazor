@@ -11,7 +11,7 @@ attributs géométriques SVG.
 ```razor
 <OmniScheduler Items="Rendezvous" @bind-Date="Jour" @bind-View="Vue"
                DayStart="new TimeOnly(6, 0)" DayEnd="new TimeOnly(22, 0)"
-               AppointmentClicked="Ouvrir" AppointmentMoved="Deplacer" />
+               OnAppointmentClick="Ouvrir" OnAppointmentMove="Deplacer" />
 ```
 
 Un rendez-vous est un `OmniSchedulerAppointment` : `Id`, `Title`, `Start`, `End` (`DateTimeOffset`),
@@ -20,12 +20,12 @@ pour qu'un hôte en distingue certains, par exemple les heures facturables).
 
 | Paramètre | Rôle |
 | --- | --- |
-| `Items` ou `Load` | Les rendez-vous, donnés en liste ou chargés pour la période visible (annulable, chargement et échec affichés, bouton Réessayer). |
-| `Date` / `DateChanged`, `View` / `ViewChanged` | Le jour affiché et la vue (`Day`, `Week`, `Month`, défaut `Month`) ; les boutons de l'en-tête les changent. |
-| `TimeZone`, `Culture` | Le fuseau où les rendez-vous sont dessinés, et la culture des dates et du premier jour de la semaine. |
-| `DayStart`, `DayEnd`, `SlotMinutes` | Avec les deux bornes, les vues jour et semaine deviennent une grille horaire de créneaux de `SlotMinutes` minutes (60 par défaut). |
-| `AppointmentClicked` | Fait de chaque rendez-vous un bouton ; reçoit le rendez-vous tel que l'hôte l'a donné. |
-| `AppointmentMoved` | Rend les rendez-vous déplaçables ; reçoit un `OmniSchedulerAppointmentMove` (le rendez-vous d'origine, son nouveau début et sa nouvelle fin). |
+| `Items` ou `Load` | Les rendez-vous, donnés en liste ou chargés pour la période visible (annulable, chargement et échec affichés, bouton Réessayer). `LoadingContent` et `ErrorContent` (`RenderFragment<Exception>`) remplacent l'indicateur et le message d'échec ; `OnLoadError` reçoit l'exception. |
+| `Date` / `DateChanged`, `View` / `ViewChanged` | Le jour affiché et la vue (`OmniCalendarView` : `Day`, `Week`, `Month`, défaut `Month`) ; les boutons de l'en-tête les changent. L'agenda tient son propre état, recopié depuis ces paramètres quand l'hôte les change : sans liaison, la navigation fonctionne quand même. |
+| `TimeZone`, `Culture` | Le fuseau où les rendez-vous sont dessinés, et la culture (`CultureInfo?`) des dates, du premier jour de la semaine et des textes ; nulle, la culture courante. |
+| `DayStart`, `DayEnd`, `SlotDuration` | Avec les deux bornes, les vues jour et semaine deviennent une grille horaire de créneaux de `SlotDuration` (`TimeSpan`, une heure par défaut). |
+| `OnAppointmentClick` | Fait de chaque rendez-vous un bouton ; reçoit le rendez-vous tel que l'hôte l'a donné. |
+| `OnAppointmentMove` | Rend les rendez-vous déplaçables ; reçoit un `OmniSchedulerAppointmentMove` (le rendez-vous d'origine, son nouveau début et sa nouvelle fin). |
 
 La grille horaire est un tableau : une ligne par créneau, une colonne par jour. Un rendez-vous se
 place dans le créneau où il commence, ses heures écrites dessus ; celui qui commence avant le premier
@@ -44,7 +44,7 @@ l'enregistre), le rendez-vous restant à sa place sinon. Il se fait de deux faç
 
 Un créneau donne le nouveau début ; un jour garde l'heure du rendez-vous. La durée ne change jamais,
 et un dépôt à l'endroit où il commence déjà ne rapporte rien. La vue jour sans grille n'offre pas de
-destination. `omni-scheduler.js` n'est chargé que si `AppointmentMoved` est posé, et ne fait que
+destination. `omni-scheduler.js` n'est chargé que si `OnAppointmentMove` est posé, et ne fait que
 donner au glisser les données que certains navigateurs exigent pour le commencer ; il n'écrit aucun
 style.
 
@@ -52,10 +52,10 @@ style.
 
 | Paramètre | Rôle |
 | --- | --- |
-| `Layout` | `End` (défaut) : la ligne court sur le bord de début, les entrées après elle. `Start` : la ligne sur le bord de fin, les entrées avant elle, alignées contre elle. `Alternate` : la ligne au milieu, les entrées de part et d'autre, chacune son tour. |
-| `FirstSide` | En `Alternate` seulement, le côté de la première entrée (`Start` ou `End`, défaut `End`) ; la suivante prend l'autre. Ignoré par les deux autres dispositions. |
+| `Layout` | `End` (défaut) : la ligne court sur le bord de début, les entrées après elle. `Start` : la ligne sur le bord de fin, les entrées avant elle, alignées contre elle. `AlternateEnd` : la ligne au milieu, les entrées de part et d'autre, chacune son tour, la première du côté de fin. `AlternateStart` : de même, la première du côté de début. |
+| `Label` | Nom accessible de la frise (`string?`, texte localisé par défaut). |
 
-Chaque entrée est un `OmniTimelineItem` : un titre (niveau de titre réglable), une date, ou un texte de date à sa place, et un contenu libre.
+Chaque entrée est un `OmniTimelineItem` : un titre (`Title`, `string?`, niveau de titre réglable par `Level`), une date, ou un texte de date à sa place, et un contenu libre.
 
 Les côtés suivent le sens de lecture : `Start` est à gauche en français, à droite dans une langue lue
 de droite à gauche. L'alternance est tirée du rang de l'entrée dans la liste par la feuille de style,
@@ -66,7 +66,7 @@ empile ses entrées après la ligne, quelle que soit la largeur de la fenêtre.
 ## Gantt : `OmniGantt`
 
 ```razor
-<OmniGantt Tasks="Taches" @bind-Scale="Echelle" TaskClicked="Choisir" SelectedTaskId="@Choisie" />
+<OmniGantt Tasks="Taches" @bind-Scale="Echelle" OnTaskClick="Choisir" SelectedTaskId="@Choisie" />
 ```
 
 Une tâche est un `OmniGanttTask` : `Id`, `Title`, `Start` et `End` (`DateOnly`, le dernier jour
@@ -76,13 +76,13 @@ inclus), `Progress` (0 à 1), `Group`, `DependsOn` (identifiants des tâches à 
 | Paramètre | Rôle |
 | --- | --- |
 | `Tasks` | Les tâches, dans l'ordre des lignes. |
-| `Scale` / `ScaleChanged` | Zoom : `Day` (une colonne par jour, fins de semaine grisées), `Week` (défaut, semaines ISO, du lundi) ou `Month`. |
+| `Scale` / `ScaleChanged` | Zoom (`OmniCalendarView`) : `Day` (une colonne par jour, fins de semaine grisées), `Week` (défaut, semaines ISO, du lundi) ou `Month`. |
 | `ShowScalePicker` | Le choix jour, semaine, mois au-dessus du graphique ; sans liaison, le graphique garde le zoom choisi. |
 | `ShowGroups` | Range les tâches sous leur groupe, chacun avec une barre qui couvre ses tâches ; les tâches sans groupe viennent d'abord. |
 | `ShowDependencies` | Une flèche de la fin de chaque tâche attendue au début de la tâche qui l'attend ; quand la seconde commence trop tôt, la flèche revient par l'intervalle entre les deux lignes. Un identifiant inconnu est ignoré. |
-| `ShowToday`, `Today` | Un trait pointillé au milieu de la colonne du jour ; `Today` nul prend la date courante. |
-| `TaskClicked`, `SelectedTaskId` | La tâche activée par clic, Entrée ou Espace ; celle désignée est contournée et `aria-pressed`. |
-| `Label`, `Culture` | Nom accessible (« Diagramme de Gantt ») et culture des mois, numéros de semaine et dates. |
+| `ShowToday` | Un trait pointillé au milieu de la colonne du jour, lu sur le `TimeProvider` de l'hôte (l'horloge système sinon). |
+| `OnTaskClick`, `SelectedTaskId` | La tâche activée par clic, Entrée ou Espace ; celle désignée est contournée et `aria-pressed`. |
+| `Label`, `Culture` | Nom accessible (`string?`, « Diagramme de Gantt » par défaut) et culture (`CultureInfo?`) des mois, numéros et en-têtes de semaine et dates. |
 
 L'axe couvre les tâches avec une marge : deux jours avant et trois après au zoom jour, une semaine
 entière de part et d'autre au zoom semaine, les mois entiers au zoom mois. Un jour mesure 32, 14 ou
@@ -106,7 +106,7 @@ n'ont occupé aucun temps. L'en-tête porte `0s` et la durée totale (`20m15`).
 
 Une étape est un `OmniStepTimelineStep(Name, StartedAt, CompletedAt, Status, Secondary)` :
 `StartedAt` nul la range parmi les jamais démarrées, `CompletedAt` nul avec le statut `Running` la fait
-courir jusqu'à `Now` (l'horloge par défaut), `Secondary` met son nom en italique et en gris
+courir jusqu'à l'instant présent (le `TimeProvider` de l'hôte, l'horloge système sinon), `Secondary` met son nom en italique et en gris
 (préparation, nettoyage). `OmniStepTimelineStatus` donne la couleur : `Success` succès, `Failed`
 danger, `Running` accent, `Skipped` et
 `Cancelled` bordure.

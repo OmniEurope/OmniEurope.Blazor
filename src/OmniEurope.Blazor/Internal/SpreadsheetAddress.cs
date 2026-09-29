@@ -23,8 +23,11 @@ internal static class SpreadsheetAddress
         return name;
     }
 
-    internal static string Format(int row, int column) =>
-        string.Create(CultureInfo.InvariantCulture, $"{ColumnName(column)}{row + 1}");
+    internal static string Format(int row, int column)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(row);
+        return string.Create(CultureInfo.InvariantCulture, $"{ColumnName(column)}{row + 1}");
+    }
 
     /// <summary>
     /// Reads an address such as <c>B3</c> or <c>$B$3</c>, whatever the case of its letters. Fails

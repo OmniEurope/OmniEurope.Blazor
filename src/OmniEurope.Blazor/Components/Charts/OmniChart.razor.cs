@@ -51,12 +51,19 @@ public partial class OmniChart
 
     private string DescriptionId => $"{Id ?? _generatedId}-description";
 
+    /// <summary>Notes whether <see cref="AspectRatio"/> is among the parameters given, then sets them.</summary>
+    /// <param name="parameters">The parameters supplied by the parent.</param>
+    /// <returns>The task of the base implementation.</returns>
     public override Task SetParametersAsync(ParameterView parameters)
     {
         _aspectRatioSet = parameters.TryGetValue<double>(nameof(AspectRatio), out _);
         return base.SetParametersAsync(parameters);
     }
 
+    /// <summary>
+    /// Hands the aspect ratio to the layout: the value given, when it was set or differs from 1, else
+    /// none, so the layout chooses from the series.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -64,6 +71,7 @@ public partial class OmniChart
         _context.SetAspectRatio(_aspectRatioSet || AspectRatio != 1 ? AspectRatio : null);
     }
 
+    /// <summary>Starts listening to the layout of the parts, and redraws the chart whenever it changes.</summary>
     protected override void OnInitialized() => _context.Changed += HandleProjectionChanged;
 
     private void HandleProjectionChanged() => _ = InvokeAsync(StateHasChanged);

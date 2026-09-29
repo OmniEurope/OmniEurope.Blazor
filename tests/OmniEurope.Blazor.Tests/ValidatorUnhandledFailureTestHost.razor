@@ -1,0 +1,22 @@
+<ErrorBoundary>
+    <ChildContent>
+        <EditForm EditContext="@EditContext">
+            <OmniRequiredValidator TValue="string" For="@(() => Model.Value)" />
+        </EditForm>
+    </ChildContent>
+    <ErrorContent Context="error">
+        <p class="boundary-error">@error.Message</p>
+    </ErrorContent>
+</ErrorBoundary>
+
+@code {
+    public ValidatorFailureTestHost.ThrowingValidatorModel Model { get; } = new();
+    public EditContext EditContext { get; }
+
+    public ValidatorUnhandledFailureTestHost()
+    {
+        EditContext = new EditContext(Model);
+    }
+
+    public void Trigger() => EditContext.NotifyFieldChanged(new FieldIdentifier(Model, nameof(Model.Value)));
+}

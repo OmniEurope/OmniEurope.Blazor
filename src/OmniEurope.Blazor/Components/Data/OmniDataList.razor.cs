@@ -7,9 +7,10 @@ namespace OmniEurope.Blazor.Components;
 /// A list of items drawn by <see cref="ItemTemplate"/>, from <see cref="Items"/> or a remote
 /// <see cref="Load"/>, with loading, empty and error states and optional virtualization.
 /// </summary>
+/// <typeparam name="TItem">The type of the items.</typeparam>
 public partial class OmniDataList<TItem>
 {
-    private const string GridModulePath = "./_content/OmniEurope.Blazor/omni-grid.js";
+    private const string GridModulePath = OmniModules.Grid;
 
     // Starting estimate for an item that has not been measured yet; every rendered item is then
     // measured, so the estimate only shapes the scroll range of the part not seen so far.
@@ -182,6 +183,13 @@ public partial class OmniDataList<TItem>
         _range = _window.Compute(_scrollTop, _viewportHeight, OverscanCount);
     }
 
+    /// <summary>
+    /// While virtualizing a non-empty list, attaches the scroll script, reads the viewport, recomputes
+    /// the rendered window and its spacers, and renders again when the window moved. Otherwise detaches
+    /// the script.
+    /// </summary>
+    /// <param name="firstRender">Unused: the script is attached on the first render that virtualizes.</param>
+    /// <returns>A task that completes when the viewport has been synchronized.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!Virtualize || _items.Count == 0)
@@ -240,7 +248,11 @@ public partial class OmniDataList<TItem>
     /// <summary>
     /// Invoked by the list script when the scrolling ancestor moves or resizes. <paramref name="scrollTop"/>
     /// is the offset of the visible area inside the list, not the scroll position of the ancestor.
+    /// Renders again only when the window of rendered items moved.
     /// </summary>
+    /// <param name="scrollTop">Offset of the visible area inside the list, in CSS pixels.</param>
+    /// <param name="viewportHeight">Height of the visible area, in CSS pixels.</param>
+    /// <returns>A completed task.</returns>
     [JSInvokable]
     public Task OnViewportChangedAsync(double scrollTop, double viewportHeight)
     {

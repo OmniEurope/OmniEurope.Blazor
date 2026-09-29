@@ -6,8 +6,17 @@ using OmniEurope.Blazor.Resources;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
+/// <summary>Registers the services of the OmniEurope.Blazor component library in a host.</summary>
 public static class OmniEuropeBlazorServiceCollectionExtensions
 {
+    /// <summary>
+    /// Registers what the components need: localization, and, scoped to each circuit, the overlay service,
+    /// the tooltip interop, the loading state, the breadcrumb service, the Markdown table exporter and a
+    /// browser-storage fallback for the data grid state store. Each service is added only when the host
+    /// has not registered its own, so calling it after the host's registrations keeps them.
+    /// </summary>
+    /// <param name="services">The host's service collection; must not be null.</param>
+    /// <returns><paramref name="services"/>, for chaining.</returns>
     public static IServiceCollection AddOmniEuropeBlazor(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
@@ -44,6 +53,10 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
     /// package text, in every culture the host translates; a key the host does not define keeps the
     /// package text. Call after <see cref="AddOmniEuropeBlazor"/>.
     /// </summary>
+    /// <typeparam name="THostResource">The marker type of the host's resources that hold the overrides.</typeparam>
+    /// <param name="services">The host's service collection; must not be null.</param>
+    /// <param name="prefix">The prefix of an overriding key; <c>Omni_</c> by default, must not be null or empty.</param>
+    /// <returns><paramref name="services"/>, for chaining.</returns>
     public static IServiceCollection AddOmniEuropeTextOverrides<THostResource>(this IServiceCollection services, string prefix = "Omni_")
     {
         ArgumentNullException.ThrowIfNull(services);
@@ -69,6 +82,12 @@ public static class OmniEuropeBlazorServiceCollectionExtensions
     /// definition (<c>typeof(OmniDataGrid&lt;&gt;)</c>). Explicit parameters always win. An unknown
     /// parameter, a wrongly typed value or a duplicate name or default throws here, at startup.
     /// </summary>
+    /// <param name="services">The host's service collection; must not be null.</param>
+    /// <param name="componentType">The component the preset applies to, or its generic definition.</param>
+    /// <param name="name">The name a component asks for through <c>PresetName</c>.</param>
+    /// <param name="values">The parameter values of the preset, by parameter name.</param>
+    /// <param name="isDefault">Whether the preset also applies to every instance that names no preset.</param>
+    /// <returns><paramref name="services"/>, for chaining.</returns>
     public static IServiceCollection AddOmniEuropePreset(this IServiceCollection services, Type componentType, string name,
         IReadOnlyDictionary<string, object?> values, bool isDefault = false)
     {

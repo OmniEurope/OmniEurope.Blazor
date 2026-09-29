@@ -60,6 +60,7 @@ public partial class OmniPassword
     private void HandleInput(ChangeEventArgs args) => CurrentValueAsString = args.Value?.ToString();
     private void ToggleReveal() => _revealed = !_revealed;
 
+    /// <summary>Takes the text as it is, null as an empty string; never fails.</summary>
     protected override bool TryParseValueFromString(string? value, out string result, out string validationErrorMessage)
     {
         result = value ?? string.Empty;

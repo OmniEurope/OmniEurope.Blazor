@@ -18,16 +18,22 @@
   <data name="SettingsTextSize" xml:space="preserve"><value>Méid an téacs</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Dlús</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Méid na rialtán</value></data>
-  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Rialtáin</value></data>
-  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Téacs</value></data>
-  <data name="SettingsDensityShort" xml:space="preserve"><value>Dlús</value></data>
-  <data name="SettingsScale" xml:space="preserve"><value>Méideanna</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Réamhshocrú</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>réamhshocrú</value></data>
-  <data name="SettingsDecrease" xml:space="preserve"><value>Laghdaigh</value></data>
-  <data name="SettingsIncrease" xml:space="preserve"><value>Méadaigh</value></data>
+  <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Laghdaigh méid an téacs</value></data>
+  <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Méadaigh méid an téacs</value></data>
+  <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Laghdaigh méid na rialtán</value></data>
+  <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Méadaigh méid na rialtán</value></data>
+  <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
+  <data name="SettingsLook" xml:space="preserve"><value>Téama agus méideanna</value></data>
+  <data name="SettingsLookTitle" xml:space="preserve"><value>Téama, pailéad agus méideanna</value></data>
+  <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Téacs {1} · {2}</value></data>
+  <data name="SettingsLookSummaryFull" xml:space="preserve"><value>{0} · Téacs {1} · {2} · Rialtáin {3}</value></data>
+  <data name="DensityCompact" xml:space="preserve"><value>Dlúth</value></data>
+  <data name="DensityComfortable" xml:space="preserve"><value>Compordach</value></data>
+  <data name="DensitySpacious" xml:space="preserve"><value>Fairsing</value></data>
   <data name="ArcGaugeLabel" xml:space="preserve"><value>Tomhsaire</value></data>
-  <data name="ArcGaugeAccessibleName" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="LabelValuePair" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="ChartCategoryColumn" xml:space="preserve"><value>Catagóir</value></data>
   <data name="ChartValueColumn" xml:space="preserve"><value>Luach</value></data>
   <data name="ChartSeriesFallback" xml:space="preserve"><value>Sraith {0}</value></data>
@@ -85,8 +91,6 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Leathnaigh nó laghdaigh gach ró</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Scoir na colúin reoite</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Reoigh na colúin arís</value></data>
-  <data name="GridShrinkColumn" xml:space="preserve"><value>Caolaigh an colún {0}</value></data>
-  <data name="GridGrowColumn" xml:space="preserve"><value>Leathnaigh an colún {0}</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>An chéad leathanach</value></data>
   <data name="PagerLast" xml:space="preserve"><value>An leathanach deireanach</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Rónna in aghaidh an leathanaigh</value></data>
@@ -348,6 +352,10 @@
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Roghchlár na próifíle</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Dul chun cinn</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>Ar siúl</value></data>
+  <data name="TextAreaCount" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="HeaderHome" xml:space="preserve"><value>Baile</value></data>
+  <data name="HeaderLogo" xml:space="preserve"><value>Lógó</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Tá an rogha raidió neamhbhailí.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Tá an réimse seo riachtanach.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>An tréimhse roimhe seo</value></data>
@@ -366,6 +374,7 @@
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>Fanann {0} san áit a raibh sé.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} bogtha go {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Tá an rogha deighilte neamhbhailí.</value></data>
+  <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Tá an rogha neamhbhailí.</value></data>
   <data name="RatingLabel" xml:space="preserve"><value>Rátáil</value></data>
   <data name="RatingStar" xml:space="preserve"><value>{0} as {1}</value></data>
   <data name="RatingValue" xml:space="preserve"><value>{0}: {1} as {2}</value></data>
@@ -451,8 +460,9 @@
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, tosaithe ag {1}, fad</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Deimhnigh</value></data>
   <data name="GoBack" xml:space="preserve"><value>Siar</value></data>
-  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Taispeáin na suaitheantais agus na gníomhartha</value></data>
-  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Folaigh na suaitheantais agus na gníomhartha</value></data>
+  <data name="PageHeaderShowMore" xml:space="preserve"><value>Taispeáin níos mó</value></data>
+  <data name="PageHeaderScrollTitleStart" xml:space="preserve"><value>Scrollaigh an teideal siar go dtí a thús</value></data>
+  <data name="PageHeaderScrollTitleEnd" xml:space="preserve"><value>Scrollaigh an teideal go dtí a dheireadh</value></data>
   <data name="DetailNotFound" xml:space="preserve"><value>Níor aimsíodh an mhír</value></data>
   <data name="SignIn" xml:space="preserve"><value>Sínigh isteach</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Ceangal caillte</value></data>
@@ -485,6 +495,15 @@
   <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} mí</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} bliain</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} bliain</value></data>
+  <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} h</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} lá</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} lá</value></data>
+  <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} mí</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} mí</value></data>
+  <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} bliain</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} bliain</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Líne faoi</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Líne tríd</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Cód inlíne</value></data>

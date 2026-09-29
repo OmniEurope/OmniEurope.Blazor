@@ -133,7 +133,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
             .Add(component => component.Value, holder.Value)
             .Add(component => component.ValueExpression, () => holder.Value)
             .Add(component => component.ValueChanged, value => steps.Add(value))
-            .Add(component => component.ValueCommitted, value => committed = value));
+            .Add(component => component.OnValueCommit, value => committed = value));
 
         slider.Find("input").Input("10");
         slider.Find("input").Input("20");

@@ -1,3 +1,7 @@
+using System.Globalization;
+using System.Net;
+using OmniEurope.Blazor.Showcase.Resources;
+
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class EditorDemo
@@ -13,19 +17,15 @@ public partial class EditorDemo
 
     private static readonly IReadOnlyList<string> Accepted = ["image/png", "image/jpeg", "application/pdf"];
 
+    [Inject]
+    private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
+
     /// <summary>
     /// The default toolbar with commands of the host at the end: a command receives a context through
     /// which it inserts sanitised HTML at the caret, or rewrites the whole value, in either face of the
     /// editor. A command without an icon shows its label as text.
     /// </summary>
-    private static readonly IReadOnlyList<OmniHtmlEditorCommand> Commands =
-    [
-        .. OmniHtmlEditorCommands.Default,
-        OmniHtmlEditorCommands.Separator,
-        OmniHtmlEditorCommand.Create("signature-block", "Insérer le bloc de signature", context => context.InsertHtmlAsync("<p><strong>Le service des dossiers</strong></p>"), OmniIconName.Edit),
-        OmniHtmlEditorCommand.Create("signature", "Ajouter la signature", context => context.SetHtmlAsync(context.Html + "<p>Le service des dossiers</p>")),
-        OmniHtmlEditorCommand.Create("reference", "Insérer la référence", context => context.SetHtmlAsync(context.Html + "<p>Référence : D-2401</p>"))
-    ];
+    private IReadOnlyList<OmniHtmlEditorCommand> Commands { get; set; } = [];
 
     /// <summary>
     /// The host's own markup kept by the editor: a note carried by an aside, its marker and
@@ -47,26 +47,12 @@ public partial class EditorDemo
     /// Inline formatting, the clipboard, a paragraph break and the table commands, which act on
     /// the cell at the caret and stay disabled elsewhere.
     /// </summary>
-    private static readonly IReadOnlyList<OmniHtmlEditorCommand> AnnotatedCommands =
-    [
-        OmniHtmlEditorCommands.Bold, OmniHtmlEditorCommands.Italic,
-        OmniHtmlEditorCommand.Create(
-            "demo-note",
-            "Ajouter une note",
-            context => context.InsertHtmlAsync("<aside class=\"demo-note\" data-marker=\"2\">Nouvelle note.</aside>"),
-            OmniIconName.Chat) with { Pressed = selection => selection?.ClosestWithClass("demo-note") is not null },
-        OmniHtmlEditorCommands.Separator,
-        .. OmniHtmlEditorCommands.Clipboard, OmniHtmlEditorCommands.InsertParagraph, OmniHtmlEditorCommands.Separator,
-        .. OmniHtmlEditorCommands.Table, OmniHtmlEditorCommands.Separator,
-        OmniHtmlEditorCommands.Undo, OmniHtmlEditorCommands.Redo
-    ];
+    private IReadOnlyList<OmniHtmlEditorCommand> AnnotatedCommands { get; set; } = [];
 
-    private string Annotated { get; set; } =
-        "<p>Article 1. Le présent règlement s'applique aux dossiers reçus.</p>" +
-        "<table><tbody><tr><th>Délai</th><th>Pièce</th></tr><tr><td>30 jours</td><td>Formulaire</td></tr></tbody></table>" +
-        "<aside class=\"demo-note\" data-marker=\"1\" contenteditable=\"false\">Note : texte consolidé au 1er janvier.</aside>";
+    private string Annotated { get; set; } = string.Empty;
 
-    private string SelectionPath { get; set; } = "hors du texte";
+    /// <summary>Where the caret is; <see langword="null"/> while it is outside the text.</summary>
+    private string? SelectionPath { get; set; }
 
     /// <summary>The built-in commands that applications used to write themselves, then the extension's.</summary>
     private static readonly IReadOnlyList<OmniHtmlEditorCommand> ExtendedCommands =
@@ -76,75 +62,15 @@ public partial class EditorDemo
         OmniHtmlEditorCommands.Undo, OmniHtmlEditorCommands.Redo
     ];
 
-    private DemoNoteExtension NoteExtension { get; } = new();
+    private DemoNoteExtension NoteExtension { get; set; } = default!;
 
-    private string Extended { get; set; } =
-        "<p>Avis favorable sous réserve<span class=\"demo-note\" data-state=\"new\" contenteditable=\"false\">vérifier le délai</span>.</p>";
+    private string Extended { get; set; } = string.Empty;
 
-    /// <summary>
-    /// A note extension: a command and its shortcut insert a note, a click on a note marks it as read,
-    /// and the context menu removes the note at the caret. It never touches the surface itself.
-    /// </summary>
-    /// <summary>An extension whose only member is a policy: the markup of the annotated article.</summary>
-    private sealed class AnnotationPolicyExtension : OmniHtmlEditorExtension
-    {
-        public override OmniHtmlSanitizerPolicy SanitizerPolicy => AnnotationPolicy;
-    }
-
-    private sealed class DemoNoteExtension : OmniHtmlEditorExtension
-    {
-        private static readonly OmniHtmlEditorCommand AddNote = OmniHtmlEditorCommand.Create(
-            "demo-add-note", "Ajouter une note",
-            context => context.InsertHtmlAsync("<span class=\"demo-note\" data-state=\"new\" contenteditable=\"false\">Nouvelle note</span>"),
-            OmniIconName.Chat);
-
-        private static readonly OmniHtmlEditorCommand RemoveNote = OmniHtmlEditorCommand.Create(
-            "demo-remove-note", "Retirer la note",
-            context => context.ReplaceClosestAsync(".demo-note", string.Empty),
-            OmniIconName.Delete) with { Enabled = selection => selection?.ClosestWithClass("demo-note") is not null };
-
-        public override IReadOnlyList<OmniHtmlEditorCommand> Commands => [AddNote];
-
-        public override OmniHtmlSanitizerPolicy SanitizerPolicy { get; } = new()
-        {
-            AdditionalAttributes = ["contenteditable"],
-            AdditionalCssClasses = ["demo-note"],
-            AllowDataAttributes = true
-        };
-
-        public override IReadOnlyList<OmniHtmlEditorShortcut> Shortcuts { get; } = [new("Ctrl+Shift+N", "demo-add-note")];
-
-        public override IReadOnlyList<OmniHtmlEditorInlineElement> InlineElements { get; } =
-        [
-            new(".demo-note", context => context.ReplaceAsync(
-                $"<span class=\"demo-note\" data-state=\"read\" contenteditable=\"false\">{System.Net.WebUtility.HtmlEncode(context.Text)}</span>"))
-        ];
-
-        public override IReadOnlyList<OmniHtmlEditorCommand> ContextMenu => [AddNote, RemoveNote];
-
-        public override bool SuggestsText => true;
-
-        /// <summary>Proposes the end of a stock phrase, as a writing assistant would; Tab types it.</summary>
-        public override Task<string?> SuggestAsync(string textBeforeCaret) =>
-            Task.FromResult<string?>(textBeforeCaret.EndsWith("sous réserve", StringComparison.OrdinalIgnoreCase) ? " de vérification" : null);
-    }
-
-    /// <summary>
-    /// Shows where the caret is, outermost element first, as the host of a structured editor
-    /// would to enable the commands that fit there.
-    /// </summary>
-    private void ShowSelection(OmniHtmlEditorSelection selection) =>
-        SelectionPath = selection.Ancestors.Count == 0
-            ? "racine"
-            : string.Join(" › ", selection.Ancestors.Reverse().Select(node =>
-                node.TagName + string.Concat(node.CssClasses.Select(name => "." + name)) +
-                string.Concat(node.DataAttributes.Select(entry => $"[{entry.Key}={entry.Value}]"))));
-
-    private string Report { get; set; } = "<h1>Rapport</h1><p>Un paragraphe <strong>important</strong>.</p><ul><li>Premier point</li><li>Second point</li></ul>";
+    private string Report { get; set; } = string.Empty;
 
     private string Settings { get; set; } = "{\n  \"langue\": \"fr\"\n}";
 
-    private string Body { get; set; } = "<p>Madame, Monsieur,</p><p>Votre dossier a bien été reçu.</p>";
+    private string Body { get; set; } = string.Empty;
 
     private List<string> Uploaded { get; } = [];
 
@@ -162,6 +88,134 @@ public partial class EditorDemo
 
     private IReadOnlyList<OmniUploadFile> Manifest { get; set; } = [];
 
+    /// <summary>Builds the commands and the sample documents in the reader's language.</summary>
+    protected override void OnInitialized()
+    {
+        var signature = Encoded("DemoEditorSignatureText");
+        var reference = Escape(Text["DemoEditorReferenceText", "D-2401"]);
+        Commands =
+        [
+            .. OmniHtmlEditorCommands.Default,
+            OmniHtmlEditorCommands.Separator,
+            OmniHtmlEditorCommand.Create("signature-block", Text["DemoEditorInsertSignatureBlock"], context => context.InsertHtmlAsync($"<p><strong>{signature}</strong></p>"), OmniIconName.Edit),
+            OmniHtmlEditorCommand.Create("signature", Text["DemoEditorAddSignature"], context => context.SetHtmlAsync(context.Html + $"<p>{signature}</p>")),
+            OmniHtmlEditorCommand.Create("reference", Text["DemoEditorInsertReference"], context => context.SetHtmlAsync(context.Html + $"<p>{reference}</p>"))
+        ];
+
+        var newNote = Encoded("DemoEditorNewNoteSentence");
+        AnnotatedCommands =
+        [
+            OmniHtmlEditorCommands.Bold, OmniHtmlEditorCommands.Italic,
+            OmniHtmlEditorCommand.Create(
+                "demo-note",
+                Text["DemoEditorAddNote"],
+                context => context.InsertHtmlAsync($"<aside class=\"demo-note\" data-marker=\"2\">{newNote}</aside>"),
+                OmniIconName.Chat) with { Pressed = selection => selection?.ClosestWithClass("demo-note") is not null },
+            OmniHtmlEditorCommands.Separator,
+            .. OmniHtmlEditorCommands.Clipboard, OmniHtmlEditorCommands.InsertParagraph, OmniHtmlEditorCommands.Separator,
+            .. OmniHtmlEditorCommands.Table, OmniHtmlEditorCommands.Separator,
+            OmniHtmlEditorCommands.Undo, OmniHtmlEditorCommands.Redo
+        ];
+
+        Annotated =
+            $"<p>{Encoded("DemoEditorArticleText")}</p>" +
+            $"<table><tbody><tr><th>{Encoded("DemoEditorArticleDelay")}</th><th>{Encoded("DemoEditorArticleDocument")}</th></tr>" +
+            $"<tr><td>{Escape(Text["DemoEditorArticleDays", 30])}</td><td>{Encoded("DemoEditorArticleForm")}</td></tr></tbody></table>" +
+            $"<aside class=\"demo-note\" data-marker=\"1\" contenteditable=\"false\">{Encoded("DemoEditorArticleNote")}</aside>";
+
+        NoteExtension = new DemoNoteExtension(Text);
+        Extended = "<p>" + string.Format(
+            CultureInfo.CurrentCulture,
+            Encoded("DemoEditorOpinion"),
+            $"<span class=\"demo-note\" data-state=\"new\" contenteditable=\"false\">{Encoded("DemoEditorOpinionNote")}</span>") + "</p>";
+
+        Report =
+            $"<h1>{Encoded("DemoEditorReportLabel")}</h1>" +
+            "<p>" + string.Format(CultureInfo.CurrentCulture, Encoded("DemoEditorReportParagraph"), $"<strong>{Encoded("DemoEditorReportImportant")}</strong>") + "</p>" +
+            $"<ul><li>{Encoded("DemoEditorReportFirstPoint")}</li><li>{Encoded("DemoEditorReportSecondPoint")}</li></ul>";
+
+        Body = $"<p>{Encoded("DemoEditorBodyGreeting")}</p><p>{Encoded("DemoEditorBodyText")}</p>";
+    }
+
+    /// <summary>A text of the resources, encoded to sit inside the sample markup.</summary>
+    private string Encoded(string key) => Escape(Text[key]);
+
+    /// <summary>Escapes the characters that would open markup; accented letters stay as they are.</summary>
+    private static string Escape(string text) =>
+        text.Replace("&", "&amp;", StringComparison.Ordinal).Replace("<", "&lt;", StringComparison.Ordinal).Replace(">", "&gt;", StringComparison.Ordinal);
+
+    /// <summary>An extension whose only member is a policy: the markup of the annotated article.</summary>
+    private sealed class AnnotationPolicyExtension : OmniHtmlEditorExtension
+    {
+        public override OmniHtmlSanitizerPolicy SanitizerPolicy => AnnotationPolicy;
+    }
+
+    /// <summary>
+    /// A note extension: a command and its shortcut insert a note, a click on a note marks it as read,
+    /// and the context menu removes the note at the caret. It never touches the surface itself.
+    /// </summary>
+    private sealed class DemoNoteExtension : OmniHtmlEditorExtension
+    {
+        private readonly OmniHtmlEditorCommand _addNote;
+
+        private readonly OmniHtmlEditorCommand _removeNote;
+
+        private readonly string _suggestTrigger;
+
+        private readonly string _suggestCompletion;
+
+        public DemoNoteExtension(IStringLocalizer<ShowcaseStrings> text)
+        {
+            var newNote = Escape(text["DemoEditorNewNote"]);
+            _addNote = OmniHtmlEditorCommand.Create(
+                "demo-add-note", text["DemoEditorAddNote"],
+                context => context.InsertHtmlAsync($"<span class=\"demo-note\" data-state=\"new\" contenteditable=\"false\">{newNote}</span>"),
+                OmniIconName.Chat);
+            _removeNote = OmniHtmlEditorCommand.Create(
+                "demo-remove-note", text["DemoEditorRemoveNote"],
+                context => context.ReplaceClosestAsync(".demo-note", string.Empty),
+                OmniIconName.Delete) with { Enabled = selection => selection?.ClosestWithClass("demo-note") is not null };
+            _suggestTrigger = text["DemoEditorSuggestTrigger"];
+            _suggestCompletion = text["DemoEditorSuggestCompletion"];
+        }
+
+        public override IReadOnlyList<OmniHtmlEditorCommand> Commands => [_addNote];
+
+        public override OmniHtmlSanitizerPolicy SanitizerPolicy { get; } = new()
+        {
+            AdditionalAttributes = ["contenteditable"],
+            AdditionalCssClasses = ["demo-note"],
+            AllowDataAttributes = true
+        };
+
+        public override IReadOnlyList<OmniHtmlEditorShortcut> Shortcuts { get; } = [new("Ctrl+Shift+N", "demo-add-note")];
+
+        public override IReadOnlyList<OmniHtmlEditorInlineElement> InlineElements { get; } =
+        [
+            new(".demo-note", context => context.ReplaceAsync(
+                $"<span class=\"demo-note\" data-state=\"read\" contenteditable=\"false\">{WebUtility.HtmlEncode(context.Text)}</span>"))
+        ];
+
+        public override IReadOnlyList<OmniHtmlEditorCommand> ContextMenu => [_addNote, _removeNote];
+
+        public override bool SuggestsText => true;
+
+        /// <summary>Proposes the end of a stock phrase, as a writing assistant would; Tab types it.</summary>
+        public override Task<string?> SuggestAsync(string textBeforeCaret) =>
+            Task.FromResult<string?>(textBeforeCaret.EndsWith(_suggestTrigger, StringComparison.OrdinalIgnoreCase) ? _suggestCompletion : null);
+    }
+
+    /// <summary>
+    /// Shows where the caret is, outermost element first, as the host of a structured editor
+    /// would to enable the commands that fit there.
+    /// </summary>
+    private void ShowSelection(OmniHtmlEditorSelection selection) =>
+        SelectionPath = selection.Ancestors.Count == 0
+            ? Text["DemoEditorRoot"]
+            : string.Join(" › ", selection.Ancestors.Reverse().Select(node =>
+                node.TagName + string.Concat(node.CssClasses.Select(name => "." + name)) +
+                string.Concat(node.DataAttributes.Select(entry => $"[{entry.Key}={entry.Value}]"))));
+
     /// <summary>
     /// Stands in for a transfer: nothing leaves the browser, the demonstration only records the name.
     /// It first refuses what it will not keep: a rejected selection is neither stored nor listed.
@@ -170,7 +224,7 @@ public partial class EditorDemo
     {
         if (request.Files.Any(file => file.Size == 0))
         {
-            request.Reject("Un fichier est vide.");
+            request.Reject(Text["DemoEditorEmptyFile"]);
             return Task.CompletedTask;
         }
 

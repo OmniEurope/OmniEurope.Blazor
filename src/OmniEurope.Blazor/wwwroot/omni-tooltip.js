@@ -186,7 +186,8 @@ export function install() {
 // and every title selector stay intact.
 
 const TITLE_DELAY = 450;
-let titleInstalled = false;
+// How many OmniTitleTooltips are placed: the listeners are installed by the first and removed with the last.
+let titleInstalls = 0;
 let titleBox = null;
 let titleTarget = null;
 let titleTimer = 0;
@@ -288,17 +289,47 @@ const onTitleFocus = event => {
     showTitle(text, box.left + box.width / 2, box.top);
 };
 
+const onTitleKey = event => {
+    if (event.key === 'Escape') {
+        hideTitle();
+    }
+};
+
 export function installTitleTooltips() {
-    if (titleInstalled) {
+    titleInstalls++;
+    if (titleInstalls > 1) {
         return;
     }
 
-    titleInstalled = true;
     document.addEventListener('pointerover', onTitleOver, { capture: true, passive: true });
     document.addEventListener('pointermove', onTitleMove, { capture: true, passive: true });
     document.addEventListener('pointerdown', hideTitle, { capture: true, passive: true });
     document.addEventListener('focusin', onTitleFocus, { capture: true, passive: true });
     document.addEventListener('focusout', hideTitle, { capture: true, passive: true });
     document.addEventListener('scroll', hideTitle, { capture: true, passive: true });
-    document.addEventListener('keydown', event => { if (event.key === 'Escape') hideTitle(); }, { capture: true });
+    document.addEventListener('keydown', onTitleKey, { capture: true });
+}
+
+// Called by each OmniTitleTooltips that goes away: the last one removes the listeners, gives the
+// hovered element its title back and removes the floating box, so the browser's tooltips return.
+export function uninstallTitleTooltips() {
+    if (titleInstalls === 0) {
+        return;
+    }
+
+    titleInstalls--;
+    if (titleInstalls > 0) {
+        return;
+    }
+
+    document.removeEventListener('pointerover', onTitleOver, { capture: true });
+    document.removeEventListener('pointermove', onTitleMove, { capture: true });
+    document.removeEventListener('pointerdown', hideTitle, { capture: true });
+    document.removeEventListener('focusin', onTitleFocus, { capture: true });
+    document.removeEventListener('focusout', hideTitle, { capture: true });
+    document.removeEventListener('scroll', hideTitle, { capture: true });
+    document.removeEventListener('keydown', onTitleKey, { capture: true });
+    hideTitle();
+    titleBox?.remove();
+    titleBox = null;
 }

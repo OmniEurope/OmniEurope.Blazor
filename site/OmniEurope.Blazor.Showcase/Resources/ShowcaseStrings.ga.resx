@@ -35,7 +35,7 @@
   <data name="PillarA11yTitle" xml:space="preserve"><value>Inrochtaineacht faoi chosaint tástálacha</value></data>
   <data name="PillarA11yBody" xml:space="preserve"><value>Seiceálann an tsraith tástálacha róil, staideanna agus lipéid, ní hamháin go ngealltar iad sa doiciméadú.</value></data>
   <data name="PillarWeightTitle" xml:space="preserve"><value>Meáchan faoi smacht</value></data>
-  <data name="PillarWeightBody" xml:space="preserve"><value>Tomhaistear an pacáiste foilsithe i gcoinne buiséad beart ag gach tógáil, an stílbhileog san áireamh.</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Seiceálann an comhtháthú leanúnach gurb í an stílbhileog a sheachadtar an chóip mhionaithe, agus tomhaiseann sé an tionól agus an pacáiste NuGet i gcoinne buiséad méide.</value></data>
   <data name="DocsPageTitle" xml:space="preserve"><value>Doiciméadú</value></data>
   <data name="DocsTitle" xml:space="preserve"><value>Doiciméadú</value></data>
   <data name="DocsLead" xml:space="preserve"><value>Ó shuiteáil an phacáiste go dtí do chéad téama saincheaptha, i gcúig chéim.</value></data>
@@ -579,4 +579,919 @@
   <data name="VFormNotSaved" xml:space="preserve"><value>Ceartaigh na réimsí a tuairiscíodh sula sábhálfar.</value></data>
   <data name="VFormDescriptionValue" xml:space="preserve"><value>Imscarann sé an phríomhchraobh nuair a éiríonn leis na tástálacha glactha.</value></data>
   <data name="GridFiledColumn" xml:space="preserve"><value>Comhdaithe ar</value></data>
+  <data name="DemoGridOpenCases" xml:space="preserve"><value>Comhaid oscailte</value></data>
+  <data name="DemoGridRecentRuns" xml:space="preserve"><value>Rití le déanaí</value></data>
+  <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Téacs fada i gcolún caol</value></data>
+  <data name="DemoGridShortCaption" xml:space="preserve"><value>Trí chomhad, airde an ábhair</value></data>
+  <data name="DemoGridLongCaption" xml:space="preserve"><value>Deich míle comhad, uasteorainn 18rem</value></data>
+  <data name="DemoGridColumnReference" xml:space="preserve"><value>Tagairt</value></data>
+  <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Iarratasóir</value></data>
+  <data name="DemoGridColumnCountry" xml:space="preserve"><value>Tír</value></data>
+  <data name="DemoGridColumnAmount" xml:space="preserve"><value>Méid</value></data>
+  <data name="DemoGridCountryBelgium" xml:space="preserve"><value>An Bheilg</value></data>
+  <data name="DemoGridCountryFrance" xml:space="preserve"><value>An Fhrainc</value></data>
+  <data name="DemoGridCountryLuxembourg" xml:space="preserve"><value>Lucsamburg</value></data>
+  <data name="DemoGridCountryNetherlands" xml:space="preserve"><value>An Ísiltír</value></data>
+  <data name="DemoGridStatusPending" xml:space="preserve"><value>Ar feitheamh</value></data>
+  <data name="DemoGridExportFileName" xml:space="preserve"><value>comhaid-oscailte</value></data>
+  <data name="DemoGridExportSort" xml:space="preserve"><value>Sórtáil</value></data>
+  <data name="DemoGridExportSortValue" xml:space="preserve"><value>tagairt, ag dul suas</value></data>
+  <data name="DemoGridAdvancedLines" xml:space="preserve"><value>Línte</value></data>
+  <data name="DemoGridAdvancedDensity" xml:space="preserve"><value>Dlús</value></data>
+  <data name="DemoGridAdvancedPager" xml:space="preserve"><value>Uimhriú leathanach</value></data>
+  <data name="DemoGridAdvancedSelection" xml:space="preserve"><value>Roghnú</value></data>
+  <data name="DemoGridAdvancedFilters" xml:space="preserve"><value>Scagairí</value></data>
+  <data name="DemoGridAdvancedEdit" xml:space="preserve"><value>Eagarthóireacht</value></data>
+  <data name="DemoGridAdvancedExpand" xml:space="preserve"><value>Leathnú</value></data>
+  <data name="DemoGridAdvancedFooter" xml:space="preserve"><value>Buntásc an tábla</value></data>
+  <data name="DemoGridAdvancedLinesNone" xml:space="preserve"><value>Dada</value></data>
+  <data name="DemoGridAdvancedLinesHorizontal" xml:space="preserve"><value>Cothrománach</value></data>
+  <data name="DemoGridAdvancedLinesVertical" xml:space="preserve"><value>Ingearach</value></data>
+  <data name="DemoGridAdvancedLinesBoth" xml:space="preserve"><value>An dá cheann</value></data>
+  <data name="DemoGridAdvancedDensityCompact" xml:space="preserve"><value>Dlúth</value></data>
+  <data name="DemoGridAdvancedDensityComfortable" xml:space="preserve"><value>Compordach</value></data>
+  <data name="DemoGridAdvancedDensitySpacious" xml:space="preserve"><value>Fairsing</value></data>
+  <data name="DemoGridAdvancedPagerBottom" xml:space="preserve"><value>Thíos</value></data>
+  <data name="DemoGridAdvancedPagerTop" xml:space="preserve"><value>Thuas</value></data>
+  <data name="DemoGridAdvancedPagerBoth" xml:space="preserve"><value>Thuas agus thíos</value></data>
+  <data name="DemoGridAdvancedSelectionNone" xml:space="preserve"><value>Dada</value></data>
+  <data name="DemoGridAdvancedSelectionSingle" xml:space="preserve"><value>Ró amháin</value></data>
+  <data name="DemoGridAdvancedSelectionMultiple" xml:space="preserve"><value>Roinnt rónna</value></data>
+  <data name="DemoGridAdvancedFilterSimple" xml:space="preserve"><value>Réimse sa cheanntásc</value></data>
+  <data name="DemoGridAdvancedFilterSimpleWithMenu" xml:space="preserve"><value>Réimse agus roghchlár</value></data>
+  <data name="DemoGridAdvancedFilterAdvanced" xml:space="preserve"><value>Roghchlár dhá choinníoll</value></data>
+  <data name="DemoGridAdvancedEditSingle" xml:space="preserve"><value>Ró amháin ag an am</value></data>
+  <data name="DemoGridAdvancedEditMultiple" xml:space="preserve"><value>Roinnt rónna</value></data>
+  <data name="DemoGridAdvancedExpandSingle" xml:space="preserve"><value>Grúpa amháin oscailte</value></data>
+  <data name="DemoGridAdvancedExpandMultiple" xml:space="preserve"><value>Roinnt grúpaí oscailte</value></data>
+  <data name="DemoGridAdvancedFooterBottom" xml:space="preserve"><value>Faoin tábla</value></data>
+  <data name="DemoGridAdvancedFooterTop" xml:space="preserve"><value>Os cionn an tábla</value></data>
+  <data name="DemoGridAdvancedFooterBoth" xml:space="preserve"><value>Os a chionn agus faoi</value></data>
+  <data name="DemoGridAdvancedCaption" xml:space="preserve"><value>Comhaid, amharc iomlán</value></data>
+  <data name="DemoGridAdvancedTotal" xml:space="preserve"><value>Iomlán: {0:C0}</value></data>
+  <data name="DemoGridAdvancedRetained" xml:space="preserve"><value>Rónna roghnaithe: {0}</value></data>
+  <data name="DemoGridAdvancedRetainedNone" xml:space="preserve"><value>dada</value></data>
+  <data name="DemoDataListEmpty" xml:space="preserve"><value>Níl aon chomhad ar an leathanach seo.</value></data>
+  <data name="DemoDataListLoading" xml:space="preserve"><value>Comhaid á lódáil.</value></data>
+  <data name="DemoDataListPager" xml:space="preserve"><value>Uimhriú leathanach na gcomhad</value></data>
+  <data name="DemoDataListLog" xml:space="preserve"><value>Loga próiseála</value></data>
+  <data name="DemoDataListKanban" xml:space="preserve"><value>Rianú na gcomhad</value></data>
+  <data name="DemoDataListColumnNew" xml:space="preserve"><value>Le scrúdú</value></data>
+  <data name="DemoDataListColumnReview" xml:space="preserve"><value>Ar siúl</value></data>
+  <data name="DemoDataListColumnDone" xml:space="preserve"><value>Críochnaithe</value></data>
+  <data name="DemoDataListLogSearch" xml:space="preserve"><value>Cuardach an chomhaid</value></data>
+  <data name="DemoDataListLogConnected" xml:space="preserve"><value>Ceangal bunaithe</value></data>
+  <data name="DemoDataListLogStarted" xml:space="preserve"><value>Próiseáil tosaithe</value></data>
+  <data name="DemoDataListLogMissing" xml:space="preserve"><value>Doiciméad ar iarraidh</value></data>
+  <data name="DemoDataListLogRejected" xml:space="preserve"><value>Diúltaíodh don bhailíochtú</value></data>
+  <data name="DemoDataListLogAborted" xml:space="preserve"><value>Próiseáil idirbhriste</value></data>
+  <data name="DemoChartChartTitle" xml:space="preserve"><value>Comhaid a taisceadh in aghaidh na ráithe</value></data>
+  <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Ráithe</value></data>
+  <data name="DemoChartAxisCases" xml:space="preserve"><value>Comhaid</value></data>
+  <data name="DemoChartQuarter" xml:space="preserve"><value>R{0}</value></data>
+  <data name="DemoChartsExtendedMonthlyTitle" xml:space="preserve"><value>Forbairt mhíosúil</value></data>
+  <data name="DemoChartsExtendedMonthlyDescription" xml:space="preserve"><value>Luach ar ainliú agus ón méarchlár</value></data>
+  <data name="DemoChartsExtendedAxisMonth" xml:space="preserve"><value>Mí</value></data>
+  <data name="DemoChartsExtendedDeposits" xml:space="preserve"><value>Taiscí</value></data>
+  <data name="DemoChartsExtendedDecisions" xml:space="preserve"><value>Cinntí</value></data>
+  <data name="DemoChartsExtendedLegend" xml:space="preserve"><value>Sraitheanna</value></data>
+  <data name="DemoChartsExtendedDailyTitle" xml:space="preserve"><value>Lucht féachana laethúil thar tríocha lá</value></data>
+  <data name="DemoChartsExtendedPageViews" xml:space="preserve"><value>Radhairc leathanaigh in aghaidh an lae</value></data>
+  <data name="DemoChartsExtendedVisitors" xml:space="preserve"><value>Cuairteoirí uathúla in aghaidh an lae</value></data>
+  <data name="DemoChartsExtendedStackedTitle" xml:space="preserve"><value>Dáileadh cruachta</value></data>
+  <data name="DemoChartsExtendedIncoming" xml:space="preserve"><value>Isteach</value></data>
+  <data name="DemoChartsExtendedOutgoing" xml:space="preserve"><value>Amach</value></data>
+  <data name="DemoChartsExtendedBacklog" xml:space="preserve"><value>Riaráiste</value></data>
+  <data name="DemoChartsExtendedHorizontalTitle" xml:space="preserve"><value>Comparáid chothrománach</value></data>
+  <data name="DemoChartsExtendedByCountry" xml:space="preserve"><value>Comhaid de réir tíre</value></data>
+  <data name="DemoChartsExtendedStackedBarsTitle" xml:space="preserve"><value>Comhaid próiseáilte agus ar feitheamh, de réir tíre</value></data>
+  <data name="DemoChartsExtendedProcessed" xml:space="preserve"><value>Próiseáilte</value></data>
+  <data name="DemoChartsExtendedPending" xml:space="preserve"><value>Ar feitheamh</value></data>
+  <data name="DemoChartsExtendedPieTitle" xml:space="preserve"><value>Scaireanna de réir foinse</value></data>
+  <data name="DemoChartsExtendedDonutTitle" xml:space="preserve"><value>Scaireanna de réir foinse, mar fháinne</value></data>
+  <data name="DemoChartsExtendedOrigin" xml:space="preserve"><value>Foinse</value></data>
+  <data name="DemoChartsExtendedGauge" xml:space="preserve"><value>Ráta próiseála</value></data>
+  <data name="DemoChartsExtendedSliceCounter" xml:space="preserve"><value>Cuntar</value></data>
+  <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Post</value></data>
+  <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Ar líne</value></data>
+  <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Eile</value></data>
+  <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Plean an tionscadail</value></data>
+  <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Scála taispeánta: {0}</value></data>
+  <data name="DemoPlanningScaleDay" xml:space="preserve"><value>lá</value></data>
+  <data name="DemoPlanningScaleWeek" xml:space="preserve"><value>seachtain</value></data>
+  <data name="DemoPlanningScaleMonth" xml:space="preserve"><value>mí</value></data>
+  <data name="DemoPlanningMonthHeading" xml:space="preserve"><value>An plean céanna, de réir míosa agus gan ghrúpaí</value></data>
+  <data name="DemoPlanningMonthLabel" xml:space="preserve"><value>Plean míosúil</value></data>
+  <data name="DemoPlanningDayLabel" xml:space="preserve"><value>Plean laethúil</value></data>
+  <data name="DemoPlanningRunHeading" xml:space="preserve"><value>Céimeanna rite</value></data>
+  <data name="DemoPlanningRunLabel" xml:space="preserve"><value>Rith {0}</value></data>
+  <data name="DemoPlanningTimelineHeading" xml:space="preserve"><value>Amlíne ar chlé, ansin ailtéarnach ó gach taobh</value></data>
+  <data name="DemoPlanningTimelineStart" xml:space="preserve"><value>Amlíne ar chlé</value></data>
+  <data name="DemoPlanningTimelineAlternateStart" xml:space="preserve"><value>Amlíne ailtéarnach, ag tosú ar chlé</value></data>
+  <data name="DemoPlanningTimelineAlternateEnd" xml:space="preserve"><value>Amlíne ailtéarnach, ag tosú ar dheis</value></data>
+  <data name="DemoPlanningFiled" xml:space="preserve"><value>Taisceadh</value></data>
+  <data name="DemoPlanningFiledText" xml:space="preserve"><value>Cláraíodh an comhad.</value></data>
+  <data name="DemoPlanningReview" xml:space="preserve"><value>Scrúdú</value></data>
+  <data name="DemoPlanningReviewText" xml:space="preserve"><value>Ceapadh oifigeach.</value></data>
+  <data name="DemoPlanningDecision" xml:space="preserve"><value>Cinneadh</value></data>
+  <data name="DemoPlanningDecisionText" xml:space="preserve"><value>Cuireadh an cinneadh in iúl.</value></data>
+  <data name="DemoPlanningGroupDesign" xml:space="preserve"><value>Dearadh</value></data>
+  <data name="DemoPlanningGroupBuild" xml:space="preserve"><value>Cur i gcrích</value></data>
+  <data name="DemoPlanningTaskScoping" xml:space="preserve"><value>Raonú</value></data>
+  <data name="DemoPlanningTaskMockups" xml:space="preserve"><value>Samhlacha</value></data>
+  <data name="DemoPlanningTaskProofreading" xml:space="preserve"><value>Profléamh</value></data>
+  <data name="DemoPlanningTaskDevelopment" xml:space="preserve"><value>Forbairt</value></data>
+  <data name="DemoPlanningTaskAcceptance" xml:space="preserve"><value>Tástáil ghlactha</value></data>
+  <data name="DemoSchedulerView" xml:space="preserve"><value>Amharc</value></data>
+  <data name="DemoSchedulerTimeGrid" xml:space="preserve"><value>Greille ama ó 8 go 18</value></data>
+  <data name="DemoSchedulerViewDay" xml:space="preserve"><value>Lá</value></data>
+  <data name="DemoSchedulerViewWeek" xml:space="preserve"><value>Seachtain</value></data>
+  <data name="DemoSchedulerViewMonth" xml:space="preserve"><value>Mí</value></data>
+  <data name="DemoSchedulerCaseReview" xml:space="preserve"><value>Scrúdú an chomhaid</value></data>
+  <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Coiste léitheoireachta</value></data>
+  <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Cruinniú seachtainiúil</value></data>
+  <data name="DemoSchedulerRoom" xml:space="preserve"><value>Seomra {0}</value></data>
+  <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Colún solúbtha</value></data>
+  <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Leithead iomlán ar scáileán beag, trian ar scáileán mór.</value></data>
+  <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Cárta le ceanntásc</value></data>
+  <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>Is trí chrios ar leith iad an ceanntásc, an corp agus an buntásc.</value></data>
+  <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>Is féidir nach mbeadh ach corp ag cárta.</value></data>
+  <data name="DemoLayoutStart" xml:space="preserve"><value>Tús</value></data>
+  <data name="DemoLayoutMiddle" xml:space="preserve"><value>Lár</value></data>
+  <data name="DemoLayoutEnd" xml:space="preserve"><value>Deireadh</value></data>
+  <data name="DemoLayoutFieldGroup" xml:space="preserve"><value>Grúpa réimsí</value></data>
+  <data name="DemoLayoutOne" xml:space="preserve"><value>A haon</value></data>
+  <data name="DemoLayoutTwo" xml:space="preserve"><value>A dó</value></data>
+  <data name="DemoLayoutAdvanced" xml:space="preserve"><value>Socruithe ardleibhéil</value></data>
+  <data name="DemoLayoutAdvancedText" xml:space="preserve"><value>Grúpa atá laghdaithe ar oscailt, a leathnaíonn an léitheoir más gá.</value></data>
+  <data name="DemoLayoutTracked" xml:space="preserve"><value>Roghanna rianaithe</value></data>
+  <data name="DemoLayoutTrackedText" xml:space="preserve"><value>Tá an staid laghdaithe ar eolas ag an leathanach, ar féidir leis í a choinneáil.</value></data>
+  <data name="DemoLayoutDisabledGroup" xml:space="preserve"><value>Grúpa díchumasaithe</value></data>
+  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Éiríonn gach rud sa ghrúpa seo neamhghníomhach in aon ghluaiseacht amháin.</value></data>
+  <data name="DemoLayoutAlignStart" xml:space="preserve"><value>Ailínithe ag an tús</value></data>
+  <data name="DemoLayoutAlignCenter" xml:space="preserve"><value>Láraithe</value></data>
+  <data name="DemoLayoutAlignEnd" xml:space="preserve"><value>Ailínithe ag an deireadh</value></data>
+  <data name="DemoLayoutTop" xml:space="preserve"><value>Thuas</value></data>
+  <data name="DemoLayoutTopText" xml:space="preserve"><value>Cárta níos airde ná a chomharsana.</value></data>
+  <data name="DemoLayoutBottom" xml:space="preserve"><value>Thíos</value></data>
+  <data name="DemoLayoutBottomText" xml:space="preserve"><value>Suíonn an suaitheantas ag bun an ró.</value></data>
+  <data name="DemoLayoutStretched" xml:space="preserve"><value>Sínte</value></data>
+  <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Tá an airde chéanna ag an dá chárta.</value></data>
+  <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Faomh an comhad</value></data>
+  <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Scag na doiciméid</value></data>
+  <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Dún an t-iarratas</value></data>
+  <data name="DemoLayoutNotifications" xml:space="preserve"><value>Fógraí</value></data>
+  <data name="DemoLayoutNotificationsText" xml:space="preserve"><value>An méid a chuireann an feidhmchlár in iúl duit, agus conas.</value></data>
+  <data name="DemoLayoutEmailAlerts" xml:space="preserve"><value>Foláirimh ríomhphoist</value></data>
+  <data name="DemoLayoutEmailAlertsText" xml:space="preserve"><value>Teachtaireacht ag gach athrú stádais.</value></data>
+  <data name="DemoLayoutWeeklyDigest" xml:space="preserve"><value>Achoimre sheachtainiúil</value></data>
+  <data name="DemoLayoutWeeklyDigestText" xml:space="preserve"><value>Comhaid na seachtaine, maidin Dé Luain.</value></data>
+  <data name="DemoLayoutServerName" xml:space="preserve"><value>Ainm an fhreastalaí</value></data>
+  <data name="DemoLayoutServerNameText" xml:space="preserve"><value>Le feiceáil sa chonsól.</value></data>
+  <data name="DemoLayoutIdentifierReadOnly" xml:space="preserve"><value>Aitheantóir, inléite amháin</value></data>
+  <data name="DemoLayoutZoneDisabled" xml:space="preserve"><value>Crios, díchumasaithe</value></data>
+  <data name="DemoLayoutLockedRestore" xml:space="preserve"><value>Athchóiriú faoi ghlas</value></data>
+  <data name="DemoLayoutSave" xml:space="preserve"><value>Sábháil</value></data>
+  <data name="DemoLayoutCancel" xml:space="preserve"><value>Cealaigh</value></data>
+  <data name="DemoLayoutDeployed" xml:space="preserve"><value>Imscaradh críochnaithe</value></data>
+  <data name="DemoLayoutDeployedText" xml:space="preserve"><value>Tá leagan 1.0.1 beo.</value></data>
+  <data name="DemoLayoutEachChange" xml:space="preserve"><value>Ag gach athrú.</value></data>
+  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Foláireamh fairsing i leathanach compordach.</value></data>
+  <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>Cluaisíní dlútha</value></data>
+  <data name="DemoLayoutGeneral" xml:space="preserve"><value>Ginearálta</value></data>
+  <data name="DemoLayoutGeneralText" xml:space="preserve"><value>Socruithe ginearálta.</value></data>
+  <data name="DemoLayoutSecurity" xml:space="preserve"><value>Slándáil</value></data>
+  <data name="DemoLayoutSecurityText" xml:space="preserve"><value>Rochtain agus comharthaí.</value></data>
+  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Tíl fhairsing</value></data>
+  <data name="DemoLayoutOwnDensity" xml:space="preserve"><value>A dlús féin.</value></data>
+  <data name="DemoLayoutTrackedExpanded" xml:space="preserve"><value>Roghanna rianaithe: leathnaithe</value></data>
+  <data name="DemoLayoutTrackedCollapsed" xml:space="preserve"><value>Roghanna rianaithe: laghdaithe</value></data>
+  <data name="DemoLayoutGapNone1" xml:space="preserve"><value>Gan</value></data>
+  <data name="DemoLayoutGapNone2" xml:space="preserve"><value>bhearna</value></data>
+  <data name="DemoLayoutGapXSmall1" xml:space="preserve"><value>An-</value></data>
+  <data name="DemoLayoutGapXSmall2" xml:space="preserve"><value>dlúth</value></data>
+  <data name="DemoLayoutGapSmall1" xml:space="preserve"><value>Dlúth</value></data>
+  <data name="DemoLayoutGapSmall2" xml:space="preserve"><value>beag</value></data>
+  <data name="DemoLayoutGapMedium1" xml:space="preserve"><value>Gnáth</value></data>
+  <data name="DemoLayoutGapMedium2" xml:space="preserve"><value>meánach</value></data>
+  <data name="DemoLayoutGapLarge1" xml:space="preserve"><value>Fairsing</value></data>
+  <data name="DemoLayoutGapLarge2" xml:space="preserve"><value>mór</value></data>
+  <data name="DemoLayoutGapXLarge1" xml:space="preserve"><value>An-</value></data>
+  <data name="DemoLayoutGapXLarge2" xml:space="preserve"><value>fhairsing</value></data>
+  <data name="DemoLayoutDensityCompact" xml:space="preserve"><value>Dlúth</value></data>
+  <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Compordach</value></data>
+  <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Fairsing</value></data>
+  <data name="DemoLayoutAlertCount" xml:space="preserve"><value>Foláirimh: {0}</value></data>
+  <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Ceannteideal béime</value></data>
+  <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Ceannteideal ciúin</value></data>
+  <data name="DemoTypographyParagraph" xml:space="preserve"><value>Gnáthalt, i mbunmhéid an téama.</value></data>
+  <data name="DemoTypographySecondary" xml:space="preserve"><value>Alt tánaisteach, don rud a théann leis an bhfaisnéis gan í a iompar.</value></data>
+  <data name="DemoTypographyError" xml:space="preserve"><value>Nóta earráide</value></data>
+  <data name="DemoTypographyStrong" xml:space="preserve"><value>Téacs tábhachtach</value></data>
+  <data name="DemoTypographyEmphasis" xml:space="preserve"><value>Téacs béime</value></data>
+  <data name="DemoTypographySuccess" xml:space="preserve"><value>Stádas fabhrach</value></data>
+  <data name="DemoTypographyTruncated" xml:space="preserve"><value>Téacs fada a ghearrann an chomhpháirt le héilips nuair nach leor an spás, in ionad an leagan amach a bhrú nó dul ar líne nua ar bhealach nach féidir a thuar.</value></data>
+  <data name="DemoTypographyLabel" xml:space="preserve"><value>Lipéad nasctha le réimse</value></data>
+  <data name="DemoTypographyInternalLink" xml:space="preserve"><value>Nasc inmheánach</value></data>
+  <data name="DemoTypographyExternalLink" xml:space="preserve"><value>Nasc seachtrach</value></data>
+  <data name="DemoTypographyLevelHeading" xml:space="preserve"><value>Ceannteideal leibhéal {0}</value></data>
+  <data name="DemoThemesAppearanceWindow" xml:space="preserve"><value>Fuinneog chuma</value></data>
+  <data name="DemoAppShellMinimize" xml:space="preserve"><value>Íoslaghdaigh an fhuinneog</value></data>
+  <data name="DemoAppShellMaximize" xml:space="preserve"><value>Uasmhéadaigh nó athchóirigh an fhuinneog</value></data>
+  <data name="DemoAppShellClose" xml:space="preserve"><value>Dún an fhuinneog</value></data>
+  <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Brioscarán</value></data>
+  <data name="DemoNavigationHome" xml:space="preserve"><value>Baile</value></data>
+  <data name="DemoNavigationComponents" xml:space="preserve"><value>Comhpháirteanna</value></data>
+  <data name="DemoNavigationCurrent" xml:space="preserve"><value>Nascleanúint</value></data>
+  <data name="DemoNavigationSections" xml:space="preserve"><value>Rannáin an chomhaid</value></data>
+  <data name="DemoNavigationTabSummary" xml:space="preserve"><value>Achoimre</value></data>
+  <data name="DemoNavigationDocuments" xml:space="preserve"><value>Doiciméid</value></data>
+  <data name="DemoNavigationDocumentsText" xml:space="preserve"><value>Tá dáta a thaiscthe ar gach doiciméad.</value></data>
+  <data name="DemoNavigationHistory" xml:space="preserve"><value>Stair</value></data>
+  <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Dhá ghluaiseacht déag taifeadta.</value></data>
+  <data name="DemoNavigationProgress" xml:space="preserve"><value>Dul chun cinn an chomhaid</value></data>
+  <data name="DemoNavigationFiling" xml:space="preserve"><value>Taisceadh</value></data>
+  <data name="DemoNavigationFilingText" xml:space="preserve"><value>Fuarthas na doiciméid.</value></data>
+  <data name="DemoNavigationReview" xml:space="preserve"><value>Scrúdú</value></data>
+  <data name="DemoNavigationReviewText" xml:space="preserve"><value>Tá an comhad á scrúdú.</value></data>
+  <data name="DemoNavigationDecision" xml:space="preserve"><value>Cinneadh</value></data>
+  <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Cuirfear an cinneadh in iúl tríd an bpost.</value></data>
+  <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Doiciméid sa chomhad: {0}.</value></data>
+  <data name="DemoPagesReload" xml:space="preserve"><value>Athlódáil an taifead</value></data>
+  <data name="DemoPagesMissing" xml:space="preserve"><value>Níor aimsíodh an taifead</value></data>
+  <data name="DemoPagesNotFound" xml:space="preserve"><value>Baineadh an taifead a iarradh nó ní raibh sé ann riamh.</value></data>
+  <data name="DemoPagesSubtitle" xml:space="preserve"><value>Meaisín fíorúil i gcrios Pháras.</value></data>
+  <data name="DemoPagesOnline" xml:space="preserve"><value>Ar líne</value></data>
+  <data name="DemoPagesEdit" xml:space="preserve"><value>Cuir in eagar</value></data>
+  <data name="DemoPagesRemove" xml:space="preserve"><value>Bain</value></data>
+  <data name="DemoPagesDuplicate" xml:space="preserve"><value>Dúblaigh</value></data>
+  <data name="DemoPagesArchive" xml:space="preserve"><value>Cartlannaigh</value></data>
+  <data name="DemoPagesProduction" xml:space="preserve"><value>Táirgeadh</value></data>
+  <data name="DemoPagesName" xml:space="preserve"><value>Ainm</value></data>
+  <data name="DemoPagesSystem" xml:space="preserve"><value>Córas</value></data>
+  <data name="DemoPagesIpAddress" xml:space="preserve"><value>Seoladh IP</value></data>
+  <data name="DemoPagesToken" xml:space="preserve"><value>Comhartha rochtana</value></data>
+  <data name="DemoPagesLastSignal" xml:space="preserve"><value>Comhartha deireanach</value></data>
+  <data name="DemoPagesCertificate" xml:space="preserve"><value>Deimhniú</value></data>
+  <data name="DemoPagesNoBackup" xml:space="preserve"><value>Gan chúltacaí</value></data>
+  <data name="DemoPagesNoBackupText" xml:space="preserve"><value>Beidh na cúltacaí sceidealaithe le feiceáil anseo tar éis a gcéad rith.</value></data>
+  <data name="DemoPagesSchedule" xml:space="preserve"><value>Sceidealaigh</value></data>
+  <data name="DemoPagesNoResult" xml:space="preserve"><value>Gan torthaí</value></data>
+  <data name="DemoPagesNoResultText" xml:space="preserve"><value>Níl aon fhreastalaí a mheaitseálann an scagaire.</value></data>
+  <data name="DemoPagesHideToken" xml:space="preserve"><value>Folaigh an comhartha</value></data>
+  <data name="DemoPagesShowToken" xml:space="preserve"><value>Taispeáin an comhartha</value></data>
+  <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1}k</value></data>
+  <data name="DemoPagesTokensToday" xml:space="preserve"><value>Tocain inniu</value></data>
+  <data name="DemoPagesTokensReset" xml:space="preserve"><value>Athshocraítear ag {0:t}</value></data>
+  <data name="DemoPagesWeekly" xml:space="preserve"><value>Seachtainiúil</value></data>
+  <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Comhpháirteanna</value></data>
+  <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Freastalaithe</value></data>
+  <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Freastalaí</value></data>
+  <data name="DemoBadgesNeutral" xml:space="preserve"><value>Neodrach</value></data>
+  <data name="DemoBadgesAccent" xml:space="preserve"><value>Béim</value></data>
+  <data name="DemoBadgesInfo" xml:space="preserve"><value>Faisnéis</value></data>
+  <data name="DemoBadgesSuccess" xml:space="preserve"><value>Rath</value></data>
+  <data name="DemoBadgesWarning" xml:space="preserve"><value>Rabhadh</value></data>
+  <data name="DemoBadgesDanger" xml:space="preserve"><value>Contúirt</value></data>
+  <data name="DemoBadgesDraft" xml:space="preserve"><value>Dréacht</value></data>
+  <data name="DemoBadgesOutline" xml:space="preserve"><value>Imlíne</value></data>
+  <data name="DemoBadgesApproved" xml:space="preserve"><value>Faofa</value></data>
+  <data name="DemoBadgesPending" xml:space="preserve"><value>Ar feitheamh</value></data>
+  <data name="DemoBadgesRejected" xml:space="preserve"><value>Diúltaithe</value></data>
+  <data name="DemoBadgesNew" xml:space="preserve"><value>Nua</value></data>
+  <data name="DemoBadgesInReview" xml:space="preserve"><value>Á athbhreithniú</value></data>
+  <data name="DemoBadgesPublished" xml:space="preserve"><value>Foilsithe</value></data>
+  <data name="DemoBadgesFailed" xml:space="preserve"><value>Teipthe</value></data>
+  <data name="DemoBadgesFixedSize" xml:space="preserve"><value>Méid socraithe</value></data>
+  <data name="DemoAlertsMaintenance" xml:space="preserve"><value>Cothabháil</value></data>
+  <data name="DemoAlertsMaintenanceText" xml:space="preserve"><value>Ní bheidh an tseirbhís ar fáil Dé Domhnaigh ó 2 go 4 r.n.</value></data>
+  <data name="DemoAlertsPublished" xml:space="preserve"><value>Pacáiste foilsithe</value></data>
+  <data name="DemoAlertsPublishedText" xml:space="preserve"><value>Tá OmniEurope.Blazor ar fáil ar NuGet.org.</value></data>
+  <data name="DemoAlertsCertificate" xml:space="preserve"><value>Deimhniú ag dul in éag go luath</value></data>
+  <data name="DemoAlertsFailure" xml:space="preserve"><value>Teip</value></data>
+  <data name="DemoAlertsFailureText" xml:space="preserve"><value>Theip ar an gceangal leis an tseirbhís.</value></data>
+  <data name="DemoAlertsInfo" xml:space="preserve"><value>Faisnéis</value></data>
+  <data name="DemoAlertsInfoText" xml:space="preserve"><value>Léann an leabharlann a dathanna go léir ó athróga CSS.</value></data>
+  <data name="DemoAlertsSaved" xml:space="preserve"><value>Sábháilte</value></data>
+  <data name="DemoAlertsSavedText" xml:space="preserve"><value>Cuireadh na hathruithe i bhfeidhm.</value></data>
+  <data name="DemoAlertsNew" xml:space="preserve"><value>Nua</value></data>
+  <data name="DemoAlertsNewText" xml:space="preserve"><value>Roinneann suaitheantais agus foláirimh an líonadh céanna anois.</value></data>
+  <data name="DemoAlertsCaution" xml:space="preserve"><value>Aire</value></data>
+  <data name="DemoAlertsCautionText" xml:space="preserve"><value>Cuirfear an socrú seo i bhfeidhm ar gach leathanach.</value></data>
+  <data name="DemoAlertsTooLarge" xml:space="preserve"><value>Sáraíonn an comhad an méid ceadaithe.</value></data>
+  <data name="DemoAlertsTip" xml:space="preserve"><value>Leid</value></data>
+  <data name="DemoAlertsTipText" xml:space="preserve"><value>Dúntar an foláireamh seo lena chros.</value></data>
+  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Rachaidh an deimhniú sínithe in éag i gceann {0} lá.</value></data>
+  <data name="DemoButtonsSecondary" xml:space="preserve"><value>Tánaisteach</value></data>
+  <data name="DemoButtonsGhost" xml:space="preserve"><value>Caolchúiseach</value></data>
+  <data name="DemoButtonsApprove" xml:space="preserve"><value>Faomh</value></data>
+  <data name="DemoButtonsSuspend" xml:space="preserve"><value>Cuir ar fionraí</value></data>
+  <data name="DemoButtonsDetails" xml:space="preserve"><value>Sonraí</value></data>
+  <data name="DemoButtonsDelete" xml:space="preserve"><value>Scrios</value></data>
+  <data name="DemoButtonsUnavailable" xml:space="preserve"><value>Níl ar fáil</value></data>
+  <data name="DemoButtonsSaving" xml:space="preserve"><value>Á shábháil</value></data>
+  <data name="DemoButtonsSave" xml:space="preserve"><value>Sábháil</value></data>
+  <data name="DemoButtonsPublish" xml:space="preserve"><value>Foilsigh</value></data>
+  <data name="DemoButtonsPin" xml:space="preserve"><value>Pionnáil</value></data>
+  <data name="DemoButtonsSmall" xml:space="preserve"><value>Beag</value></data>
+  <data name="DemoButtonsMedium" xml:space="preserve"><value>Meánach</value></data>
+  <data name="DemoButtonsLarge" xml:space="preserve"><value>Mór</value></data>
+  <data name="DemoButtonsSearch" xml:space="preserve"><value>Cuardaigh</value></data>
+  <data name="DemoButtonsPublishLater" xml:space="preserve"><value>Foilsigh níos déanaí</value></data>
+  <data name="DemoButtonsDraft" xml:space="preserve"><value>Dréacht</value></data>
+  <data name="DemoButtonsPreview" xml:space="preserve"><value>Réamhamharc</value></data>
+  <data name="DemoButtonsView" xml:space="preserve"><value>Féach</value></data>
+  <data name="DemoButtonsSend" xml:space="preserve"><value>Seol</value></data>
+  <data name="DemoButtonsReset" xml:space="preserve"><value>Athshocraigh</value></data>
+  <data name="DemoButtonsNoFormEffect" xml:space="preserve"><value>Gan tionchar ar an bhfoirm</value></data>
+  <data name="DemoButtonsPrimary" xml:space="preserve"><value>Príomhúil</value></data>
+  <data name="DemoButtonsClicks" xml:space="preserve"><value>Cliceanna ar an bpríomhchnaipe: {0}.</value></data>
+  <data name="DemoButtonsSent" xml:space="preserve"><value>Seoltaí foirme: {0}.</value></data>
+  <data name="DemoFeedbackUpload" xml:space="preserve"><value>Uaslódáil</value></data>
+  <data name="DemoFeedbackIndexing" xml:space="preserve"><value>Innéacsú</value></data>
+  <data name="DemoFeedbackSync" xml:space="preserve"><value>Sioncrónú</value></data>
+  <data name="DemoFeedbackProcessed" xml:space="preserve"><value>Comhaid phróiseáilte</value></data>
+  <data name="DemoFeedbackQuotaNear" xml:space="preserve"><value>Cuóta beagnach bainte amach</value></data>
+  <data name="DemoFeedbackImportFailures" xml:space="preserve"><value>Teipeanna iompórtála</value></data>
+  <data name="DemoFeedbackAnalysing" xml:space="preserve"><value>Anailís ar siúl</value></data>
+  <data name="DemoFeedbackProgress" xml:space="preserve"><value>Dul chun cinn</value></data>
+  <data name="DemoFeedbackNoKnownEnd" xml:space="preserve"><value>Gan deireadh ar eolas</value></data>
+  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>Ríomhtar an cuóta thar tríocha lá rollach.</value></data>
+  <data name="DemoFeedbackQuota" xml:space="preserve"><value>Cuóta</value></data>
+  <data name="DemoFeedbackArchivedTooltip" xml:space="preserve"><value>Is féidir comhad cartlannaithe a fheiceáil fós, inléite amháin.</value></data>
+  <data name="DemoFeedbackArchived" xml:space="preserve"><value>Cartlannaithe</value></data>
+  <data name="DemoFeedbackDraftTooltip" xml:space="preserve"><value>Dréacht.</value></data>
+  <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Caol</value></data>
+  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Is féidir comhad cartlannaithe a fheiceáil fós, inléite amháin. Ní áirítear é sna cuótaí a thuilleadh, ní thaispeántar é sna cuardaigh réamhshocraithe a thuilleadh agus ní fhaigheann sé fógraí a thuilleadh. Chun é a athoscailt, athchóiríonn riarthóir é ón gcluaisín Cartlanna; filleann a stair, a cheangaltáin agus a thráchtanna ansin slán, mar aon le dáta an athchóirithe.</value></data>
+  <data name="DemoFeedbackLongText" xml:space="preserve"><value>Téacs fada</value></data>
+  <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>Leid uirlise an phacáiste ar aitreabúid title shimplí.</value></data>
+  <data name="DemoFeedbackHover" xml:space="preserve"><value>Ainligh</value></data>
+  <data name="DemoFeedbackLoadingAvatar" xml:space="preserve"><value>Abhatár á lódáil</value></data>
+  <data name="DemoFeedbackLoadingThumbnail" xml:space="preserve"><value>Mionsamhail á lódáil</value></data>
+  <data name="DemoFeedbackLoadingFile" xml:space="preserve"><value>Comhad á lódáil</value></data>
+  <data name="DemoFeedbackLoadingDemo" xml:space="preserve"><value>Taispeántas á lódáil</value></data>
+  <data name="DemoFeedbackSimulateLoad" xml:space="preserve"><value>Ionsamhlaigh lódáil</value></data>
+  <data name="DemoFeedbackRecentRuns" xml:space="preserve"><value>Rití is déanaí</value></data>
+  <data name="DemoFeedbackAvailability" xml:space="preserve"><value>Infhaighteacht le cúpla uair an chloig anuas</value></data>
+  <data name="DemoFeedbackReady" xml:space="preserve"><value>Réidh</value></data>
+  <data name="DemoFeedbackFailed" xml:space="preserve"><value>Teipthe</value></data>
+  <data name="DemoFeedbackRunSucceeded" xml:space="preserve"><value>D'éirigh le rith {0}</value></data>
+  <data name="DemoFeedbackRunWarning" xml:space="preserve"><value>Rith {0} le rabhadh</value></data>
+  <data name="DemoFeedbackRunFailed" xml:space="preserve"><value>Theip ar rith {0}</value></data>
+  <data name="DemoFeedbackSucceeded" xml:space="preserve"><value>Rathúil</value></data>
+  <data name="DemoFeedbackWarning" xml:space="preserve"><value>Rabhadh</value></data>
+  <data name="DemoMediaImageContain" xml:space="preserve"><value>Íomhá iomlán, gan bhearradh</value></data>
+  <data name="DemoMediaImageCover" xml:space="preserve"><value>Íomhá bearrtha chun an bosca a líonadh</value></data>
+  <data name="DemoMediaImageNatural" xml:space="preserve"><value>Íomhá ina méid nádúrtha</value></data>
+  <data name="DemoMediaTimeline" xml:space="preserve"><value>Céimeanna an chomhaid</value></data>
+  <data name="DemoMediaFiling" xml:space="preserve"><value>Taisceadh</value></data>
+  <data name="DemoMediaFilingText" xml:space="preserve"><value>Cláraíodh an comhad.</value></data>
+  <data name="DemoMediaReview" xml:space="preserve"><value>Scrúdú</value></data>
+  <data name="DemoMediaReviewText" xml:space="preserve"><value>Ceapadh oifigeach.</value></data>
+  <data name="DemoMediaDecision" xml:space="preserve"><value>Cinneadh</value></data>
+  <data name="DemoMediaDecisionText" xml:space="preserve"><value>Cuireadh an cinneadh in iúl.</value></data>
+  <data name="DemoMediaIconCheck" xml:space="preserve"><value>Bailíochtaithe</value></data>
+  <data name="DemoMediaIconWarning" xml:space="preserve"><value>Rabhadh</value></data>
+  <data name="DemoMediaIconFilter" xml:space="preserve"><value>Scag</value></data>
+  <data name="DemoMediaIconCompass" xml:space="preserve"><value>Compás</value></data>
+  <data name="DemoMediaIconClose" xml:space="preserve"><value>Dún</value></data>
+  <data name="DemoMediaIconInfo" xml:space="preserve"><value>Faisnéis</value></data>
+  <data name="DemoMediaIconMenu" xml:space="preserve"><value>Roghchlár</value></data>
+  <data name="DemoMediaIconChevronDown" xml:space="preserve"><value>Leathnaigh</value></data>
+  <data name="DemoMediaIconSortAscending" xml:space="preserve"><value>Sórtáil ag dul suas</value></data>
+  <data name="DemoMediaIconSortDescending" xml:space="preserve"><value>Sórtáil ag dul síos</value></data>
+  <data name="DemoMediaIconThemeLight" xml:space="preserve"><value>Cuma gheal</value></data>
+  <data name="DemoMediaIconThemeDark" xml:space="preserve"><value>Cuma dhorcha</value></data>
+  <data name="DemoMediaIconAdd" xml:space="preserve"><value>Cuir leis</value></data>
+  <data name="DemoMediaIconAirplane" xml:space="preserve"><value>Eitleán</value></data>
+  <data name="DemoMediaIconAirplaneLanding" xml:space="preserve"><value>Tuirlingt</value></data>
+  <data name="DemoMediaIconAirplaneTakeoff" xml:space="preserve"><value>Éirí de thalamh</value></data>
+  <data name="DemoMediaIconArchive" xml:space="preserve"><value>Cartlannaigh</value></data>
+  <data name="DemoMediaIconArrowLeft" xml:space="preserve"><value>Siar</value></data>
+  <data name="DemoMediaIconArrowRight" xml:space="preserve"><value>Ar aghaidh</value></data>
+  <data name="DemoMediaIconBed" xml:space="preserve"><value>Lóistín</value></data>
+  <data name="DemoMediaIconBell" xml:space="preserve"><value>Fógraí</value></data>
+  <data name="DemoMediaIconBracketsCurly" xml:space="preserve"><value>Sonraí JSON</value></data>
+  <data name="DemoMediaIconCalculator" xml:space="preserve"><value>Áireamhán</value></data>
+  <data name="DemoMediaIconCards" xml:space="preserve"><value>Cártaí</value></data>
+  <data name="DemoMediaIconChartBarHorizontal" xml:space="preserve"><value>Rangú</value></data>
+  <data name="DemoMediaIconChat" xml:space="preserve"><value>Teachtaireacht</value></data>
+  <data name="DemoMediaIconCheckCircle" xml:space="preserve"><value>D'éirigh leis</value></data>
+  <data name="DemoMediaIconChevronUp" xml:space="preserve"><value>Laghdaigh</value></data>
+  <data name="DemoMediaIconCopy" xml:space="preserve"><value>Cóipeáil</value></data>
+  <data name="DemoMediaIconDatabase" xml:space="preserve"><value>Bunachar sonraí</value></data>
+  <data name="DemoMediaIconDelete" xml:space="preserve"><value>Scrios</value></data>
+  <data name="DemoMediaIconDiamond" xml:space="preserve"><value>Seoid</value></data>
+  <data name="DemoMediaIconDice" xml:space="preserve"><value>Tarraingt</value></data>
+  <data name="DemoMediaIconDocument" xml:space="preserve"><value>Doiciméad</value></data>
+  <data name="DemoMediaIconDownload" xml:space="preserve"><value>Íoslódáil</value></data>
+  <data name="DemoMediaIconEdit" xml:space="preserve"><value>Cuir in eagar</value></data>
+  <data name="DemoMediaIconError" xml:space="preserve"><value>Earráid</value></data>
+  <data name="DemoMediaIconFlask" xml:space="preserve"><value>Triail</value></data>
+  <data name="DemoMediaIconFunction" xml:space="preserve"><value>Foirmle</value></data>
+  <data name="DemoMediaIconGlobe" xml:space="preserve"><value>Domhan</value></data>
+  <data name="DemoMediaIconGlobeHemisphereWest" xml:space="preserve"><value>Taisteal</value></data>
+  <data name="DemoMediaIconGraduationCap" xml:space="preserve"><value>Rang</value></data>
+  <data name="DemoMediaIconGraph" xml:space="preserve"><value>Naisc</value></data>
+  <data name="DemoMediaIconHome" xml:space="preserve"><value>Baile</value></data>
+  <data name="DemoMediaIconHourglass" xml:space="preserve"><value>Ag fanacht</value></data>
+  <data name="DemoMediaIconImage" xml:space="preserve"><value>Íomhá</value></data>
+  <data name="DemoMediaIconLayers" xml:space="preserve"><value>Cisil</value></data>
+  <data name="DemoMediaIconMapPin" xml:space="preserve"><value>Áit</value></data>
+  <data name="DemoMediaIconMapPinLine" xml:space="preserve"><value>Iompórtáil áiteanna</value></data>
+  <data name="DemoMediaIconMedal" xml:space="preserve"><value>Céim</value></data>
+  <data name="DemoMediaIconMonitor" xml:space="preserve"><value>Taispeáint</value></data>
+  <data name="DemoMediaIconNumberedList" xml:space="preserve"><value>Liosta uimhrithe</value></data>
+  <data name="DemoMediaIconOffline" xml:space="preserve"><value>As líne</value></data>
+  <data name="DemoMediaIconOpenExternal" xml:space="preserve"><value>Oscail in áit eile</value></data>
+  <data name="DemoMediaIconPackage" xml:space="preserve"><value>Mír</value></data>
+  <data name="DemoMediaIconPalette" xml:space="preserve"><value>Dathanna</value></data>
+  <data name="DemoMediaIconPath" xml:space="preserve"><value>Bealach</value></data>
+  <data name="DemoMediaIconPattern" xml:space="preserve"><value>Patrún</value></data>
+  <data name="DemoMediaIconPictureInPicture" xml:space="preserve"><value>Pictiúr i bpictiúr</value></data>
+  <data name="DemoMediaIconPin" xml:space="preserve"><value>Pionnáil</value></data>
+  <data name="DemoMediaIconPlay" xml:space="preserve"><value>Tosaigh</value></data>
+  <data name="DemoMediaIconProhibit" xml:space="preserve"><value>Toirmiscthe</value></data>
+  <data name="DemoMediaIconRefresh" xml:space="preserve"><value>Athnuaigh</value></data>
+  <data name="DemoMediaIconRemove" xml:space="preserve"><value>Bain</value></data>
+  <data name="DemoMediaIconReset" xml:space="preserve"><value>Athshocraigh</value></data>
+  <data name="DemoMediaIconRestore" xml:space="preserve"><value>Díchartlannaigh</value></data>
+  <data name="DemoMediaIconRows" xml:space="preserve"><value>Dlús</value></data>
+  <data name="DemoMediaIconRuler" xml:space="preserve"><value>Tomhas</value></data>
+  <data name="DemoMediaIconSave" xml:space="preserve"><value>Sábháil</value></data>
+  <data name="DemoMediaIconSearch" xml:space="preserve"><value>Cuardaigh</value></data>
+  <data name="DemoMediaIconSettings" xml:space="preserve"><value>Socruithe</value></data>
+  <data name="DemoMediaIconShieldCheck" xml:space="preserve"><value>Riarachán</value></data>
+  <data name="DemoMediaIconSidebar" xml:space="preserve"><value>Barra taoibh</value></data>
+  <data name="DemoMediaIconSliders" xml:space="preserve"><value>Scagairí ardleibhéil</value></data>
+  <data name="DemoMediaIconSparkle" xml:space="preserve"><value>Nua</value></data>
+  <data name="DemoMediaIconStar" xml:space="preserve"><value>Ceanán</value></data>
+  <data name="DemoMediaIconStarFilled" xml:space="preserve"><value>Ceanán gníomhach</value></data>
+  <data name="DemoMediaIconSwap" xml:space="preserve"><value>Babhtáil</value></data>
+  <data name="DemoMediaIconSync" xml:space="preserve"><value>Sioncrónaigh</value></data>
+  <data name="DemoMediaIconTag" xml:space="preserve"><value>Clib</value></data>
+  <data name="DemoMediaIconTextSize" xml:space="preserve"><value>Méid an téacs</value></data>
+  <data name="DemoMediaIconThemeSystem" xml:space="preserve"><value>Cuma an chórais</value></data>
+  <data name="DemoMediaIconTimer" xml:space="preserve"><value>Amadóir</value></data>
+  <data name="DemoMediaIconUpgrade" xml:space="preserve"><value>Uasghrádú</value></data>
+  <data name="DemoMediaIconUpload" xml:space="preserve"><value>Uaslódáil</value></data>
+  <data name="DemoMediaIconUser" xml:space="preserve"><value>Duine</value></data>
+  <data name="DemoMediaIconUserFocus" xml:space="preserve"><value>Aimsigh duine</value></data>
+  <data name="DemoMediaIconEye" xml:space="preserve"><value>Taispeáin</value></data>
+  <data name="DemoMediaIconGitCommit" xml:space="preserve"><value>Tiomantas</value></data>
+  <data name="DemoMediaIconLock" xml:space="preserve"><value>Faoi ghlas</value></data>
+  <data name="DemoMediaIconRocketLaunch" xml:space="preserve"><value>Imscar</value></data>
+  <data name="DemoMediaIconUsers" xml:space="preserve"><value>Grúpa</value></data>
+  <data name="DemoMediaIconStop" xml:space="preserve"><value>Stop</value></data>
+  <data name="DemoMediaIconListChecks" xml:space="preserve"><value>Rialacha</value></data>
+  <data name="DemoMediaIconFolder" xml:space="preserve"><value>Fillteán</value></data>
+  <data name="DemoMediaIconQuestion" xml:space="preserve"><value>Cabhair</value></data>
+  <data name="DemoMediaIconSquaresFour" xml:space="preserve"><value>Painéal</value></data>
+  <data name="DemoMediaIconTerminalWindow" xml:space="preserve"><value>Teirminéal</value></data>
+  <data name="DemoMediaIconWrench" xml:space="preserve"><value>Tóg</value></data>
+  <data name="DemoMediaIconKey" xml:space="preserve"><value>Eochair</value></data>
+  <data name="DemoMediaIconBuildings" xml:space="preserve"><value>Eagraíocht</value></data>
+  <data name="DemoMediaIconHeartbeat" xml:space="preserve"><value>Monatóireacht</value></data>
+  <data name="DemoMediaIconCloudArrowUp" xml:space="preserve"><value>Cúltaca ar líne</value></data>
+  <data name="DemoMediaIconLink" xml:space="preserve"><value>Nasc</value></data>
+  <data name="DemoMediaIconUserPlus" xml:space="preserve"><value>Cuir duine leis</value></data>
+  <data name="DemoMediaIconLayout" xml:space="preserve"><value>Leagan amach</value></data>
+  <data name="DemoMediaIconBroadcast" xml:space="preserve"><value>Craoladh</value></data>
+  <data name="DemoMediaIconCalendarBlank" xml:space="preserve"><value>Dáta</value></data>
+  <data name="DemoMediaIconChartLineUp" xml:space="preserve"><value>Treocht</value></data>
+  <data name="DemoMediaIconFolderOpen" xml:space="preserve"><value>Fillteán oscailte</value></data>
+  <data name="DemoMediaIconGitFork" xml:space="preserve"><value>Forc</value></data>
+  <data name="DemoMediaIconGitMerge" xml:space="preserve"><value>Cumasc</value></data>
+  <data name="DemoMediaIconLockKey" xml:space="preserve"><value>Athshocraigh an pasfhocal</value></data>
+  <data name="DemoMediaIconRobot" xml:space="preserve"><value>Uathoibriú</value></data>
+  <data name="DemoMediaIconArrowDown" xml:space="preserve"><value>Bog síos</value></data>
+  <data name="DemoMediaIconBrain" xml:space="preserve"><value>Intleacht</value></data>
+  <data name="DemoMediaIconCellTower" xml:space="preserve"><value>Aeróg</value></data>
+  <data name="DemoMediaIconCloud" xml:space="preserve"><value>Scamall</value></data>
+  <data name="DemoMediaIconGavel" xml:space="preserve"><value>Rialachán</value></data>
+  <data name="DemoMediaIconGitDiff" xml:space="preserve"><value>Difríochtaí</value></data>
+  <data name="DemoMediaIconLinkBreak" xml:space="preserve"><value>Nasc briste</value></data>
+  <data name="DemoMediaIconLockOpen" xml:space="preserve"><value>Díghlasáilte</value></data>
+  <data name="DemoMediaIconPaperPlaneRight" xml:space="preserve"><value>Seol teachtaireacht</value></data>
+  <data name="DemoMediaIconPlugsConnected" xml:space="preserve"><value>Ceangailte</value></data>
+  <data name="DemoMediaIconPuzzlePiece" xml:space="preserve"><value>Eisínteacht</value></data>
+  <data name="DemoMediaIconShieldWarning" xml:space="preserve"><value>Riosca</value></data>
+  <data name="DemoMediaIconSignOut" xml:space="preserve"><value>Sínigh amach</value></data>
+  <data name="DemoMediaIconArrowElbowDownLeft" xml:space="preserve"><value>Briseadh líne</value></data>
+  <data name="DemoMediaIconBroom" xml:space="preserve"><value>Glan suas</value></data>
+  <data name="DemoMediaIconBug" xml:space="preserve"><value>Fabht</value></data>
+  <data name="DemoMediaIconChartLine" xml:space="preserve"><value>Líneghraf</value></data>
+  <data name="DemoMediaIconChevronRight" xml:space="preserve"><value>Oscail</value></data>
+  <data name="DemoMediaIconCode" xml:space="preserve"><value>Cód</value></data>
+  <data name="DemoMediaIconGauge" xml:space="preserve"><value>Feidhmíocht</value></data>
+  <data name="DemoMediaIconMagnifyingGlassPlus" xml:space="preserve"><value>Súmáil isteach</value></data>
+  <data name="DemoMediaIconPassword" xml:space="preserve"><value>Pasfhocal</value></data>
+  <data name="DemoMediaIconShieldSlash" xml:space="preserve"><value>Cosaint múchta</value></data>
+  <data name="DemoMediaIconStamp" xml:space="preserve"><value>Faomhadh</value></data>
+  <data name="DemoMediaIconTextAlignLeft" xml:space="preserve"><value>Ailínigh ar chlé</value></data>
+  <data name="DemoMediaIconWifiHigh" xml:space="preserve"><value>Líonra</value></data>
+  <data name="DemoMediaIconArrowElbowDownRight" xml:space="preserve"><value>Fomhír</value></data>
+  <data name="DemoMediaIconArrowLineDown" xml:space="preserve"><value>Téigh go dtí an bun</value></data>
+  <data name="DemoMediaIconArrowLineUp" xml:space="preserve"><value>Téigh go dtí an barr</value></data>
+  <data name="DemoMediaIconArrowUUpRight" xml:space="preserve"><value>Athdhéan</value></data>
+  <data name="DemoMediaIconAt" xml:space="preserve"><value>Seoladh ríomhphoist</value></data>
+  <data name="DemoMediaIconBellSlash" xml:space="preserve"><value>Fógraí balbhaithe</value></data>
+  <data name="DemoMediaIconBooks" xml:space="preserve"><value>Leabharlann</value></data>
+  <data name="DemoMediaIconCalendarCheck" xml:space="preserve"><value>Dáta deimhnithe</value></data>
+  <data name="DemoMediaIconChecks" xml:space="preserve"><value>Faomh gach rud</value></data>
+  <data name="DemoMediaIconCloudArrowDown" xml:space="preserve"><value>Faigh ón scamall</value></data>
+  <data name="DemoMediaIconColumns" xml:space="preserve"><value>Colúin</value></data>
+  <data name="DemoMediaIconCornersOut" xml:space="preserve"><value>Oiriúnaigh don scáileán</value></data>
+  <data name="DemoMediaIconDotsThreeVertical" xml:space="preserve"><value>Tuilleadh gníomhartha</value></data>
+  <data name="DemoMediaIconEyeSlash" xml:space="preserve"><value>Folaigh</value></data>
+  <data name="DemoMediaIconFrameCorners" xml:space="preserve"><value>Athláraigh</value></data>
+  <data name="DemoMediaIconHardDrive" xml:space="preserve"><value>Diosca</value></data>
+  <data name="DemoMediaIconLightning" xml:space="preserve"><value>Tapa</value></data>
+  <data name="DemoMediaIconMagnifyingGlassMinus" xml:space="preserve"><value>Súmáil amach</value></data>
+  <data name="DemoMediaIconMegaphone" xml:space="preserve"><value>Fógra</value></data>
+  <data name="DemoMediaIconSignIn" xml:space="preserve"><value>Sínigh isteach</value></data>
+  <data name="DemoMediaIconTarget" xml:space="preserve"><value>Sprioc</value></data>
+  <data name="DemoMediaIconToggleLeft" xml:space="preserve"><value>As</value></data>
+  <data name="DemoMediaIconTray" xml:space="preserve"><value>Bosca isteach</value></data>
+  <data name="DemoMediaIconCpu" xml:space="preserve"><value>Próiseálaí</value></data>
+  <data name="DemoMediaIconFilePlus" xml:space="preserve"><value>Comhad nua</value></data>
+  <data name="DemoMediaIconHandTap" xml:space="preserve"><value>Truicear de láimh</value></data>
+  <data name="DemoMediaIconPause" xml:space="preserve"><value>Sos</value></data>
+  <data name="DemoMediaIconToggleRight" xml:space="preserve"><value>Air</value></data>
+  <data name="DemoMediaIconWebhook" xml:space="preserve"><value>Webhook</value></data>
+  <data name="DemoMediaIconWifiSlash" xml:space="preserve"><value>Líonra síos</value></data>
+  <data name="DemoMediaIconScissors" xml:space="preserve"><value>Gearr</value></data>
+  <data name="DemoMediaIconClipboard" xml:space="preserve"><value>Greamaigh</value></data>
+  <data name="DemoMediaIconThumbsUp" xml:space="preserve"><value>Cabhrach</value></data>
+  <data name="DemoMediaIconThumbsDown" xml:space="preserve"><value>Gan chabhair</value></data>
+  <data name="DemoMediaIconLightbulb" xml:space="preserve"><value>Leid</value></data>
+  <data name="DemoMediaIconKeyboard" xml:space="preserve"><value>Méarchlár</value></data>
+  <data name="DemoMediaIconFlag" xml:space="preserve"><value>Tuairiscigh</value></data>
+  <data name="DemoMediaIconHighlighter" xml:space="preserve"><value>Aibhsigh</value></data>
+  <data name="DemoMediaIconChartPie" xml:space="preserve"><value>Miondealú</value></data>
+  <data name="DemoMediaIconChartDonut" xml:space="preserve"><value>Cion</value></data>
+  <data name="DemoMediaIconCircle" xml:space="preserve"><value>Ciorcal</value></data>
+  <data name="DemoMediaIconBookmark" xml:space="preserve"><value>Leabharmharc</value></data>
+  <data name="DemoMediaIconUserMinus" xml:space="preserve"><value>Bain ball</value></data>
+  <data name="DemoMediaIconSelectionSlash" xml:space="preserve"><value>Díroghnaigh</value></data>
+  <data name="DemoMediaIconSmiley" xml:space="preserve"><value>Carachtair speisialta</value></data>
+  <data name="DemoMediaIconSkipBack" xml:space="preserve"><value>An rian roimhe seo</value></data>
+  <data name="DemoMediaIconSkipForward" xml:space="preserve"><value>An chéad rian eile</value></data>
+  <data name="DemoMediaIconShuffle" xml:space="preserve"><value>Seinm randamach</value></data>
+  <data name="DemoMediaIconRepeat" xml:space="preserve"><value>Athdhéan</value></data>
+  <data name="DemoMediaIconRepeatOnce" xml:space="preserve"><value>Athdhéan uair amháin</value></data>
+  <data name="DemoMediaIconSpeakerHigh" xml:space="preserve"><value>Airde fuaime ard</value></data>
+  <data name="DemoMediaIconSpeakerLow" xml:space="preserve"><value>Airde fuaime íseal</value></data>
+  <data name="DemoMediaIconSpeakerNone" xml:space="preserve"><value>Gan fuaim</value></data>
+  <data name="DemoMediaIconSpeakerX" xml:space="preserve"><value>Fuaim balbhaithe</value></data>
+  <data name="DemoMediaIconQueue" xml:space="preserve"><value>Scuaine</value></data>
+  <data name="DemoMediaIconPlaylist" xml:space="preserve"><value>Seinmliosta</value></data>
+  <data name="DemoMediaIconListPlus" xml:space="preserve"><value>Cuir leis an liosta</value></data>
+  <data name="DemoMediaIconMusicNote" xml:space="preserve"><value>Rian</value></data>
+  <data name="DemoMediaIconDisc" xml:space="preserve"><value>Albam</value></data>
+  <data name="DemoMediaIconWaveform" xml:space="preserve"><value>Tonnchruth</value></data>
+  <data name="DemoMediaIconDotsSixVertical" xml:space="preserve"><value>Hanla tarraingthe</value></data>
+  <data name="DemoMediaIconCornersIn" xml:space="preserve"><value>Laghdaigh an t-amharc</value></data>
+  <data name="DemoMediaIconPlayCircle" xml:space="preserve"><value>Seinn</value></data>
+  <data name="DemoMediaIconPauseCircle" xml:space="preserve"><value>Sos</value></data>
+  <data name="DemoMediaIconXCircle" xml:space="preserve"><value>Cealaigh</value></data>
+  <data name="DemoMediaIconChartBar" xml:space="preserve"><value>Barrachairt</value></data>
+  <data name="DemoMediaIconBookOpen" xml:space="preserve"><value>Leabhar oscailte</value></data>
+  <data name="DemoMediaIconArrowsDownUp" xml:space="preserve"><value>Babhtáil go hingearach</value></data>
+  <data name="DemoMediaIconFolderPlus" xml:space="preserve"><value>Fillteán nua</value></data>
+  <data name="DemoMediaIconTelevision" xml:space="preserve"><value>Scáileán</value></data>
+  <data name="DemoMediaIconSealCheck" xml:space="preserve"><value>Fíoraithe</value></data>
+  <data name="DemoMediaIconCheckSquare" xml:space="preserve"><value>Bosca ticeáilte</value></data>
+  <data name="DemoMediaIconArrowBendUpRight" xml:space="preserve"><value>Bog</value></data>
+  <data name="DemoMediaIconStethoscope" xml:space="preserve"><value>Diagnóis</value></data>
+  <data name="DemoMediaIconChevronLeft" xml:space="preserve"><value>Roimhe seo</value></data>
+  <data name="DemoMediaIconEnvelope" xml:space="preserve"><value>Ríomhphost</value></data>
+  <data name="DemoMediaIconCurrencyEur" xml:space="preserve"><value>Méid in euro</value></data>
+  <data name="DemoMediaIconShareNetwork" xml:space="preserve"><value>Comhroinn</value></data>
+  <data name="DemoMediaIconBank" xml:space="preserve"><value>Institiúid airgeadais</value></data>
+  <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Sannadh</value></data>
+  <data name="DemoMediaIconIdentificationBadge" xml:space="preserve"><value>Suaitheantas aitheantais</value></data>
+  <data name="DemoMediaIconFilePdf" xml:space="preserve"><value>Doiciméad PDF</value></data>
+  <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Tacaíocht</value></data>
+  <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Comhpháirtíocht</value></data>
+  <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Ardú</value></data>
+  <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Ainm an tionscadail</value></data>
+  <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Ríomhphost an úinéara</value></data>
+  <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>Deimhniú ríomhphoist</value></data>
+  <data name="DemoAnnotatedValidationReplicas" xml:space="preserve"><value>Macasamhla</value></data>
+  <data name="DemoOverlayOpenDialog" xml:space="preserve"><value>Oscail an dialóg</value></data>
+  <data name="DemoOverlaySave" xml:space="preserve"><value>Sábháil</value></data>
+  <data name="DemoOverlayMoreSaves" xml:space="preserve"><value>Tuilleadh bealaí le sábháil</value></data>
+  <data name="DemoOverlaySaveAndClose" xml:space="preserve"><value>Sábháil agus dún</value></data>
+  <data name="DemoOverlaySaveCopy" xml:space="preserve"><value>Sábháil cóip</value></data>
+  <data name="DemoOverlayPublishUnavailable" xml:space="preserve"><value>Foilsigh, níl ar fáil</value></data>
+  <data name="DemoOverlayFolderActions" xml:space="preserve"><value>Gníomhartha an fhillteáin</value></data>
+  <data name="DemoOverlayContextTrigger" xml:space="preserve"><value>Gníomhartha (deaschliceáil nó Shift+F10)</value></data>
+  <data name="DemoOverlayDuplicate" xml:space="preserve"><value>Dúblaigh</value></data>
+  <data name="DemoOverlayExport" xml:space="preserve"><value>Easpórtáil</value></data>
+  <data name="DemoOverlayDelete" xml:space="preserve"><value>Scrios</value></data>
+  <data name="DemoOverlayDeleteFolder" xml:space="preserve"><value>Scrios an fillteán</value></data>
+  <data name="DemoOverlayRunningTasks" xml:space="preserve"><value>Tascanna ar siúl</value></data>
+  <data name="DemoOverlayBackupStep" xml:space="preserve"><value>Cúltaca oíche, céim {0} as {1}.</value></data>
+  <data name="DemoOverlayViewProgress" xml:space="preserve"><value>Féach ar an dul chun cinn</value></data>
+  <data name="DemoOverlayProgressOpened" xml:space="preserve"><value>Dul chun cinn oscailte</value></data>
+  <data name="DemoOverlayQuickFilter" xml:space="preserve"><value>Scagaire tapa</value></data>
+  <data name="DemoOverlayFilter" xml:space="preserve"><value>Scag</value></data>
+  <data name="DemoOverlayFilterBody" xml:space="preserve"><value>Ailíníonn an painéal le tús an chnaipe.</value></data>
+  <data name="DemoOverlayAccountMenu" xml:space="preserve"><value>Roghchlár an chuntais</value></data>
+  <data name="DemoOverlayMyProfile" xml:space="preserve"><value>Mo phróifíl</value></data>
+  <data name="DemoOverlaySignOut" xml:space="preserve"><value>Sínigh amach</value></data>
+  <data name="DemoOverlaySignedOut" xml:space="preserve"><value>Sínithe amach</value></data>
+  <data name="DemoOverlayAdminUnavailable" xml:space="preserve"><value>Riarachán, níl ar fáil</value></data>
+  <data name="DemoOverlayStickyButton" xml:space="preserve"><value>Dialóg nach dtugann aird ar an gcúlra</value></data>
+  <data name="DemoOverlayBlockingButton" xml:space="preserve"><value>Dialóg le dúnadh éigeantach</value></data>
+  <data name="DemoOverlaySizeSmall" xml:space="preserve"><value>Beag</value></data>
+  <data name="DemoOverlaySizeMedium" xml:space="preserve"><value>Meánach</value></data>
+  <data name="DemoOverlaySizeLarge" xml:space="preserve"><value>Leathan</value></data>
+  <data name="DemoOverlaySizeExtraLarge" xml:space="preserve"><value>An-leathan</value></data>
+  <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Leithead iomlán</value></data>
+  <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Leithead na dialóige</value></data>
+  <data name="DemoOverlaySizedBody" xml:space="preserve"><value>Tá an dialóg seo oscailte i méid {0}.</value></data>
+  <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Foirm (béim)</value></data>
+  <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Faisnéis</value></data>
+  <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Rath</value></data>
+  <data name="DemoOverlayIntentWarning" xml:space="preserve"><value>Deimhniú (rabhadh)</value></data>
+  <data name="DemoOverlayIntentDanger" xml:space="preserve"><value>Scriosadh (contúirt)</value></data>
+  <data name="DemoOverlayIntentTitle" xml:space="preserve"><value>Socruithe rite</value></data>
+  <data name="DemoOverlayIntentBody" xml:space="preserve"><value>Tá an intinn {0} ag an dialóg seo.</value></data>
+  <data name="DemoOverlayConfirm" xml:space="preserve"><value>Deimhnigh</value></data>
+  <data name="DemoOverlayCancel" xml:space="preserve"><value>Cealaigh</value></data>
+  <data name="DemoOverlayPipelineActions" xml:space="preserve"><value>Gníomhartha na píblíne</value></data>
+  <data name="DemoOverlayEdit" xml:space="preserve"><value>Cuir in eagar</value></data>
+  <data name="DemoOverlayUpdate" xml:space="preserve"><value>Nuashonraigh</value></data>
+  <data name="DemoOverlayRowActions" xml:space="preserve"><value>Gníomhartha an ró</value></data>
+  <data name="DemoOverlayLastAction" xml:space="preserve"><value>Gníomh deireanach: {0}</value></data>
+  <data name="DemoOverlayNoAction" xml:space="preserve"><value>dada</value></data>
+  <data name="DemoOverlayNoticeInfoTitle" xml:space="preserve"><value>Faisnéis</value></data>
+  <data name="DemoOverlayNoticeInfo" xml:space="preserve"><value>Tosóidh an jab oíche ag {0}.</value></data>
+  <data name="DemoOverlayNoticeDoneTitle" xml:space="preserve"><value>Déanta</value></data>
+  <data name="DemoOverlayNoticeDone" xml:space="preserve"><value>Iompórtáladh na doiciméid ({0}).</value></data>
+  <data name="DemoOverlayNotificationClosed" xml:space="preserve"><value>Fógra dúnta</value></data>
+  <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Tá an cuóta beagnach bainte amach.</value></data>
+  <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Teip</value></data>
+  <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Theip ar an gceangal leis an tseirbhís.</value></data>
+  <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Deimhnigh an scriosadh</value></data>
+  <data name="DemoOverlayClose" xml:space="preserve"><value>Dún</value></data>
+  <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Baineann an gníomh seo an fillteán den liosta. Is féidir é a chealú ar feadh tríocha lá.</value></data>
+  <data name="DemoOverlayDeletionConfirmed" xml:space="preserve"><value>Scriosadh deimhnithe</value></data>
+  <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Scagaire ar siúl</value></data>
+  <data name="DemoOverlayStickyBody" xml:space="preserve"><value>Ní dhúnann cliceáil lasmuigh an dialóg seo: dúnann an chros agus Escape í.</value></data>
+  <data name="DemoOverlayBlockingTitle" xml:space="preserve"><value>Imirce ar siúl</value></data>
+  <data name="DemoOverlayBlockingBody" xml:space="preserve"><value>Ní dhúnann an chros, Escape ná an cúlra í: ní dhúnann ach cnaipe na dialóige féin í.</value></data>
+  <data name="DemoOverlayFinish" xml:space="preserve"><value>Críochnaigh</value></data>
+  <data name="DemoOverlayMigrationDone" xml:space="preserve"><value>Imirce críochnaithe</value></data>
+  <data name="DemoEditorBodyLabel" xml:space="preserve"><value>Corp na litreach</value></data>
+  <data name="DemoEditorSourceLabel" xml:space="preserve"><value>Foinse na litreach</value></data>
+  <data name="DemoEditorAnnotatedLabel" xml:space="preserve"><value>Alt anótáilte</value></data>
+  <data name="DemoEditorPosition" xml:space="preserve"><value>Suíomh: {0}</value></data>
+  <data name="DemoEditorOutsideText" xml:space="preserve"><value>lasmuigh den téacs</value></data>
+  <data name="DemoEditorRoot" xml:space="preserve"><value>fréamh</value></data>
+  <data name="DemoEditorExtendedLabel" xml:space="preserve"><value>Tuairim anótáilte</value></data>
+  <data name="DemoEditorReportLabel" xml:space="preserve"><value>Tuarascáil</value></data>
+  <data name="DemoEditorReportFileName" xml:space="preserve"><value>tuarascail</value></data>
+  <data name="DemoEditorCodeLabel" xml:space="preserve"><value>Socruithe JSON</value></data>
+  <data name="DemoEditorIconBold" xml:space="preserve"><value>Trom</value></data>
+  <data name="DemoEditorIconItalic" xml:space="preserve"><value>Iodálach</value></data>
+  <data name="DemoEditorIconUnderline" xml:space="preserve"><value>Líne faoi</value></data>
+  <data name="DemoEditorIconStrikethrough" xml:space="preserve"><value>Líne tríd</value></data>
+  <data name="DemoEditorIconSubscript" xml:space="preserve"><value>Foscript</value></data>
+  <data name="DemoEditorIconSuperscript" xml:space="preserve"><value>Forscript</value></data>
+  <data name="DemoEditorIconBulletList" xml:space="preserve"><value>Liosta urchar</value></data>
+  <data name="DemoEditorIconIndent" xml:space="preserve"><value>Méadaigh an eangú</value></data>
+  <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Laghdaigh an eangú</value></data>
+  <data name="DemoEditorIconQuote" xml:space="preserve"><value>Athfhriotal</value></data>
+  <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Cód inlíne</value></data>
+  <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Bloc cóid</value></data>
+  <data name="DemoEditorIconLink" xml:space="preserve"><value>Nasc</value></data>
+  <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Bain an nasc</value></data>
+  <data name="DemoEditorIconAlignLeft" xml:space="preserve"><value>Ailínigh ar chlé</value></data>
+  <data name="DemoEditorIconAlignCenter" xml:space="preserve"><value>Láraigh</value></data>
+  <data name="DemoEditorIconAlignRight" xml:space="preserve"><value>Ailínigh ar dheis</value></data>
+  <data name="DemoEditorIconJustify" xml:space="preserve"><value>Comhfhadaigh</value></data>
+  <data name="DemoEditorIconUndo" xml:space="preserve"><value>Cealaigh</value></data>
+  <data name="DemoEditorIconRedo" xml:space="preserve"><value>Athdhéan</value></data>
+  <data name="DemoEditorIconClearFormatting" xml:space="preserve"><value>Glan an formáidiú</value></data>
+  <data name="DemoEditorIconHtmlSource" xml:space="preserve"><value>Foinse HTML</value></data>
+  <data name="DemoEditorIconTable" xml:space="preserve"><value>Tábla</value></data>
+  <data name="DemoEditorManifest" xml:space="preserve"><value>Léiriú imscartha</value></data>
+  <data name="DemoEditorManifestHelp" xml:space="preserve"><value>Comhad amháin; osclaíonn sé roghnóir comhad an chórais.</value></data>
+  <data name="DemoEditorUploadFailed" xml:space="preserve"><value>Theip ar an uaslódáil.</value></data>
+  <data name="DemoEditorUploaded" xml:space="preserve"><value>Comhaid uaslódáilte: {0}</value></data>
+  <data name="DemoEditorNoUpload" xml:space="preserve"><value>dada</value></data>
+  <data name="DemoEditorTestCommand" xml:space="preserve"><value>Ordú tástála</value></data>
+  <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Sampla cumraíochta</value></data>
+  <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Sliocht, línte {0} go {1}</value></data>
+  <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Cuir dhá chumraíocht i gcomparáid</value></data>
+  <data name="DemoEditorSignatureText" xml:space="preserve"><value>Seirbhís na gcomhad</value></data>
+  <data name="DemoEditorReferenceText" xml:space="preserve"><value>Tagairt: {0}</value></data>
+  <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Ionsáigh an bloc sínithe</value></data>
+  <data name="DemoEditorAddSignature" xml:space="preserve"><value>Cuir an síniú leis</value></data>
+  <data name="DemoEditorInsertReference" xml:space="preserve"><value>Ionsáigh an tagairt</value></data>
+  <data name="DemoEditorAddNote" xml:space="preserve"><value>Cuir nóta leis</value></data>
+  <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>Nóta nua.</value></data>
+  <data name="DemoEditorNewNote" xml:space="preserve"><value>Nóta nua</value></data>
+  <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Bain an nóta</value></data>
+  <data name="DemoEditorArticleText" xml:space="preserve"><value>Airteagal 1. Baineann na rialacha seo leis na comhaid a fuarthas.</value></data>
+  <data name="DemoEditorArticleDelay" xml:space="preserve"><value>Spriocdháta</value></data>
+  <data name="DemoEditorArticleDocument" xml:space="preserve"><value>Doiciméad</value></data>
+  <data name="DemoEditorArticleDays" xml:space="preserve"><value>{0} lá</value></data>
+  <data name="DemoEditorArticleForm" xml:space="preserve"><value>Foirm</value></data>
+  <data name="DemoEditorArticleNote" xml:space="preserve"><value>Nóta: téacs comhdhlúite amhail an 1 Eanáir.</value></data>
+  <data name="DemoEditorOpinion" xml:space="preserve"><value>Faofa faoi réir{0}.</value></data>
+  <data name="DemoEditorOpinionNote" xml:space="preserve"><value>seiceáil an spriocdháta</value></data>
+  <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>faoi réir</value></data>
+  <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> fíoraithe</value></data>
+  <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Alt {0}.</value></data>
+  <data name="DemoEditorReportImportant" xml:space="preserve"><value>tábhachtach</value></data>
+  <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>An chéad phointe</value></data>
+  <data name="DemoEditorReportSecondPoint" xml:space="preserve"><value>An dara pointe</value></data>
+  <data name="DemoEditorBodyGreeting" xml:space="preserve"><value>A dhuine uasail,</value></data>
+  <data name="DemoEditorBodyText" xml:space="preserve"><value>Fuarthas do chomhad.</value></data>
+  <data name="DemoEditorEmptyFile" xml:space="preserve"><value>Tá comhad folamh.</value></data>
+  <data name="DemoChoiceShippingLabel" xml:space="preserve"><value>Modh seolta</value></data>
+  <data name="DemoChoiceExtrasLabel" xml:space="preserve"><value>Roghanna an chomhaid</value></data>
+  <data name="DemoChoicePeriodLabel" xml:space="preserve"><value>Tréimhse</value></data>
+  <data name="DemoChoicePin" xml:space="preserve"><value>Pionnáil</value></data>
+  <data name="DemoChoiceUnavailable" xml:space="preserve"><value>Níl ar fáil</value></data>
+  <data name="DemoChoiceSaving" xml:space="preserve"><value>Á shábháil</value></data>
+  <data name="DemoChoiceLabelledCheck" xml:space="preserve"><value>Ticbhosca lena lipéad</value></data>
+  <data name="DemoChoiceTriStateCheck" xml:space="preserve"><value>Ticbhosca trí staid</value></data>
+  <data name="DemoChoiceTriStateSwitch" xml:space="preserve"><value>Lasc trí staid</value></data>
+  <data name="DemoChoiceTriStateValue" xml:space="preserve"><value>Staid trí shuíomh: {0}</value></data>
+  <data name="DemoChoiceIndeterminate" xml:space="preserve"><value>éiginnte</value></data>
+  <data name="DemoChoiceOn" xml:space="preserve"><value>air</value></data>
+  <data name="DemoChoiceOff" xml:space="preserve"><value>as</value></data>
+  <data name="DemoChoiceTextFirstCheck" xml:space="preserve"><value>Lipéad roimh an ticbhosca</value></data>
+  <data name="DemoChoiceTextFirstSwitch" xml:space="preserve"><value>Lipéad roimh an lasc</value></data>
+  <data name="DemoChoicePlatformLabel" xml:space="preserve"><value>Córas oibriúcháin an ghníomhaire</value></data>
+  <data name="DemoChoiceWindowsDescription" xml:space="preserve"><value>Windows Server 2022 agus níos déanaí</value></data>
+  <data name="DemoChoiceFeaturesLabel" xml:space="preserve"><value>Gnéithe an ghníomhaire</value></data>
+  <data name="DemoChoiceRunnerTitle" xml:space="preserve"><value>Reathaí píblínte</value></data>
+  <data name="DemoChoiceRunnerDescription" xml:space="preserve"><value>Ritheann sé na céimeanna ar an meaisín seo.</value></data>
+  <data name="DemoChoiceDockerDescription" xml:space="preserve"><value>Riachtanach don reathaí.</value></data>
+  <data name="DemoChoiceRating" xml:space="preserve"><value>Rátáil</value></data>
+  <data name="DemoChoiceRatingReadOnly" xml:space="preserve"><value>Rátáil inléite amháin</value></data>
+  <data name="DemoChoiceRatingDisabled" xml:space="preserve"><value>Rátáil dhíchumasaithe</value></data>
+  <data name="DemoChoiceShippingStandard" xml:space="preserve"><value>Caighdeánach</value></data>
+  <data name="DemoChoiceShippingExpress" xml:space="preserve"><value>Luathsheachadadh</value></data>
+  <data name="DemoChoiceShippingPickup" xml:space="preserve"><value>Bailiú ón mbrainse</value></data>
+  <data name="DemoChoiceExtraReceipt" xml:space="preserve"><value>Admháil</value></data>
+  <data name="DemoChoiceExtraCertifiedCopy" xml:space="preserve"><value>Cóip dheimhnithe</value></data>
+  <data name="DemoChoiceExtraTracking" xml:space="preserve"><value>Rianú ríomhphoist</value></data>
+  <data name="DemoChoicePeriodDay" xml:space="preserve"><value>Lá</value></data>
+  <data name="DemoChoicePeriodMonth" xml:space="preserve"><value>Mí</value></data>
+  <data name="DemoChoicePeriodYear" xml:space="preserve"><value>Bliain</value></data>
+  <data name="DemoChoiceFeatureCache" xml:space="preserve"><value>Taisce spleáchais</value></data>
+  <data name="DemoChoiceFeatureArtifacts" xml:space="preserve"><value>Coinneáil déantán</value></data>
+  <data name="DemoChoiceFeatureGpu" xml:space="preserve"><value>Luasghéarú GPU</value></data>
+  <data name="DemoInputsAmount" xml:space="preserve"><value>Méid</value></data>
+  <data name="DemoInputsQuantity" xml:space="preserve"><value>Cainníocht</value></data>
+  <data name="DemoInputsQuantityHelp" xml:space="preserve"><value>Idir {0} agus {1}: tugtar luach lasmuigh de na teorainneacha ar ais go dtí an teorainn is gaire.</value></data>
+  <data name="DemoInputsPassword" xml:space="preserve"><value>Pasfhocal</value></data>
+  <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Nochtann an cnaipe an méid a clóscríobhadh gan é a chóipeáil áit ar bith.</value></data>
+  <data name="DemoInputsDate" xml:space="preserve"><value>Dáta éifeachta</value></data>
+  <data name="DemoInputsDateHelp" xml:space="preserve"><value>Clóscríobh é nó úsáid an féilire; ní féidir laethanta lasmuigh de na teorainneacha a roghnú.</value></data>
+  <data name="DemoInputsStart" xml:space="preserve"><value>Am tosaithe</value></data>
+  <data name="DemoInputsStartHelp" xml:space="preserve"><value>Uaireanta ó 00 go 23, nóiméid i gcéimeanna de {0}.</value></data>
+  <data name="DemoInputsAppointment" xml:space="preserve"><value>Coinne</value></data>
+  <data name="DemoInputsAppointmentHelp" xml:space="preserve"><value>Féilire agus colúin ama i bpainéal amháin.</value></data>
+  <data name="DemoInputsColor" xml:space="preserve"><value>Dath marcóra</value></data>
+  <data name="DemoInputsCity" xml:space="preserve"><value>Cathair</value></data>
+  <data name="DemoInputsCityHelp" xml:space="preserve"><value>Tosaíonn an cuardach ag dhá charachtar.</value></data>
+  <data name="DemoInputsCityPlaceholder" xml:space="preserve"><value>Tosaigh ag clóscríobh</value></data>
+  <data name="DemoInputsPickedSummary" xml:space="preserve"><value>Dáta: {0}; am: {1}; coinne: {2}</value></data>
+  <data name="DemoInputsNoDate" xml:space="preserve"><value>dada</value></data>
+  <data name="DemoInputsNoTime" xml:space="preserve"><value>dada</value></data>
+  <data name="DemoInputsNoAppointment" xml:space="preserve"><value>dada</value></data>
+  <data name="DemoFormName" xml:space="preserve"><value>Ainm iomlán</value></data>
+  <data name="DemoFormNameHelp" xml:space="preserve"><value>Mar a bheidh sé ar an sonrasc.</value></data>
+  <data name="DemoFormNotes" xml:space="preserve"><value>Nótaí</value></data>
+  <data name="DemoFormEmail" xml:space="preserve"><value>Seoladh ríomhphoist</value></data>
+  <data name="DemoFormEmailHelp" xml:space="preserve"><value>Roghnaíonn an cineál méarchlár an ghutháin agus uathlíonadh an bhrabhsálaí.</value></data>
+  <data name="DemoFormPhone" xml:space="preserve"><value>Fón</value></data>
+  <data name="DemoFormWebsite" xml:space="preserve"><value>Suíomh gréasáin</value></data>
+  <data name="DemoFormSearch" xml:space="preserve"><value>Cuardaigh</value></data>
+  <data name="DemoFormSearchPlaceholder" xml:space="preserve"><value>Scag an liosta</value></data>
+  <data name="DemoFormBudget" xml:space="preserve"><value>Buiséad</value></data>
+  <data name="DemoFormTerms" xml:space="preserve"><value>Glacaim le téarmaí úsáide</value></data>
+  <data name="DemoFormAlerts" xml:space="preserve"><value>Faigh foláirimh</value></data>
+  <data name="DemoFormDynamicValues" xml:space="preserve"><value>Luachanna na foirme: {0}</value></data>
+  <data name="DemoFormDynamicName" xml:space="preserve"><value>Ainm</value></data>
+  <data name="DemoFormDynamicAmount" xml:space="preserve"><value>Méid</value></data>
+  <data name="DemoFormDynamicComment" xml:space="preserve"><value>Trácht</value></data>
+  <data name="DemoFormDynamicActive" xml:space="preserve"><value>Gníomhach</value></data>
+  <data name="DemoValidationName" xml:space="preserve"><value>Ainm</value></data>
+  <data name="DemoValidationNameRequired" xml:space="preserve"><value>Tá an t-ainm riachtanach.</value></data>
+  <data name="DemoValidationMail" xml:space="preserve"><value>Ríomhphost</value></data>
+  <data name="DemoValidationMailRequired" xml:space="preserve"><value>Tá an ríomhphost riachtanach.</value></data>
+  <data name="DemoValidationSend" xml:space="preserve"><value>Seol</value></data>
+  <data name="DemoValidationAccepted" xml:space="preserve"><value>Glacadh leis an bhfoirm.</value></data>
+  <data name="DemoValidationProjectName" xml:space="preserve"><value>Ainm an tionscadail</value></data>
+  <data name="DemoValidationOwnerMail" xml:space="preserve"><value>Ríomhphost an úinéara</value></data>
+  <data name="DemoValidationMailConfirmation" xml:space="preserve"><value>Deimhniú ríomhphoist</value></data>
+  <data name="DemoValidationReplicas" xml:space="preserve"><value>Macasamhla</value></data>
+  <data name="DemoValidationCheck" xml:space="preserve"><value>Seiceáil</value></data>
+  <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Ionsamhlaigh athruithe nár sábháladh</value></data>
+  <data name="DemoSelectionCountry" xml:space="preserve"><value>Tír</value></data>
+  <data name="DemoSelectionCountryPlaceholder" xml:space="preserve"><value>Roghnaigh tír</value></data>
+  <data name="DemoSelectionCities" xml:space="preserve"><value>Cathracha a bhfreastalaítear orthu</value></data>
+  <data name="DemoSelectionTags" xml:space="preserve"><value>Clibeanna</value></data>
+  <data name="DemoSelectionTagsCompact" xml:space="preserve"><value>Clibeanna, foirm dhlúth</value></data>
+  <data name="DemoSelectionTagsFilterable" xml:space="preserve"><value>Clibeanna, cuardach agus cruthú</value></data>
+  <data name="DemoSelectionTagsPlaceholder" xml:space="preserve"><value>Roghnaigh clibeanna</value></data>
+  <data name="DemoSelectionTagSearchPlaceholder" xml:space="preserve"><value>Cuardaigh clib</value></data>
+  <data name="DemoSelectionBelgium" xml:space="preserve"><value>An Bheilg</value></data>
+  <data name="DemoSelectionFrance" xml:space="preserve"><value>An Fhrainc</value></data>
+  <data name="DemoSelectionLuxembourg" xml:space="preserve"><value>Lucsamburg</value></data>
+  <data name="DemoSelectionNetherlands" xml:space="preserve"><value>An Ísiltír</value></data>
+  <data name="DemoSelectionTagUrgent" xml:space="preserve"><value>Práinneach</value></data>
+  <data name="DemoSelectionTagInternal" xml:space="preserve"><value>Inmheánach</value></data>
+  <data name="DemoSelectionTagArchived" xml:space="preserve"><value>Cartlannaithe</value></data>
+  <data name="DemoFlowsCreateServer" xml:space="preserve"><value>Cruthaigh an freastalaí</value></data>
+  <data name="DemoFlowsStepIdentity" xml:space="preserve"><value>Aitheantas</value></data>
+  <data name="DemoFlowsNameHelp" xml:space="preserve"><value>Beidh Ar aghaidh ar fáil a luaithe a chlóscríobhtar an t-ainm.</value></data>
+  <data name="DemoFlowsServerName" xml:space="preserve"><value>Ainm an fhreastalaí</value></data>
+  <data name="DemoFlowsStepOptions" xml:space="preserve"><value>Roghanna</value></data>
+  <data name="DemoFlowsDailyBackup" xml:space="preserve"><value>Cúltaca laethúil</value></data>
+  <data name="DemoFlowsBackupRequired" xml:space="preserve"><value>Ticeáil an cúltaca laethúil do fhreastalaí táirgthe.</value></data>
+  <data name="DemoFlowsStepSummary" xml:space="preserve"><value>Achoimre</value></data>
+  <data name="DemoFlowsSummaryName" xml:space="preserve"><value>Ainm</value></data>
+  <data name="DemoFlowsSummaryBackup" xml:space="preserve"><value>Cúltaca</value></data>
+  <data name="DemoFlowsBackupDaily" xml:space="preserve"><value>Laethúil</value></data>
+  <data name="DemoFlowsBackupNone" xml:space="preserve"><value>Dada</value></data>
+  <data name="DemoFlowsOutcome" xml:space="preserve"><value>Toradh: {0}</value></data>
+  <data name="DemoFlowsOutcomePending" xml:space="preserve"><value>ar siúl</value></data>
+  <data name="DemoFlowsOutcomeCreated" xml:space="preserve"><value>freastalaí “{0}” cruthaithe</value></data>
+  <data name="DemoFlowsOutcomeCancelled" xml:space="preserve"><value>cealaithe</value></data>
+  <data name="DemoFlowsWizardInDialog" xml:space="preserve"><value>Draoi i ndialóg</value></data>
+  <data name="DemoFlowsInviteTitle" xml:space="preserve"><value>Tabhair cuireadh do bhall</value></data>
+  <data name="DemoFlowsInviteSteps" xml:space="preserve"><value>Céimeanna an chuiridh</value></data>
+  <data name="DemoFlowsInvite" xml:space="preserve"><value>Tabhair cuireadh</value></data>
+  <data name="DemoFlowsStepAddress" xml:space="preserve"><value>Seoladh</value></data>
+  <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Seoladh an duine a dtugtar cuireadh dó.</value></data>
+  <data name="DemoFlowsStepRole" xml:space="preserve"><value>Ról</value></data>
+  <data name="DemoFlowsRoleBody" xml:space="preserve"><value>An ról a gheobhaidh sé.</value></data>
+  <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Limistéar riaracháin</value></data>
+  <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Oibríochtaí</value></data>
+  <data name="DemoFlowsUser" xml:space="preserve"><value>Ainm úsáideora</value></data>
+  <data name="DemoFlowsPassword" xml:space="preserve"><value>Pasfhocal</value></data>
+  <data name="DemoFlowsSignIn" xml:space="preserve"><value>Sínigh isteach</value></data>
+  <data name="DemoFlowsSignInNote" xml:space="preserve"><value>Foirm tugtha don óstach do “{0}”.</value></data>
+  <data name="DemoFlowsReturnAfterSignIn" xml:space="preserve"><value>Filleadh tar éis síniú isteach: {0}</value></data>
+  <data name="DemoFlowsExternalRefused" xml:space="preserve"><value>Seoladh seachtrach diúltaithe: {0}</value></data>
+  <data name="DemoFlowsSimulateDrop" xml:space="preserve"><value>Ionsamhlaigh briseadh ceangail</value></data>
+  <data name="DemoFlowsSimulateReject" xml:space="preserve"><value>Ionsamhlaigh diúltú</value></data>
+  <data name="DemoFlowsConnection" xml:space="preserve"><value>Ceangal: {0}</value></data>
+  <data name="DemoFlowsConnectionReconnecting" xml:space="preserve"><value>ag athcheangal</value></data>
+  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>teipthe</value></data>
+  <data name="DemoFlowsConnectionRejected" xml:space="preserve"><value>diúltaithe</value></data>
+  <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>bunaithe</value></data>
+  <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>ní fhreagraíonn an freastalaí a thuilleadh (am istigh)</value></data>
+  <data name="DemoFlowsReasonExpired" xml:space="preserve"><value>d'imigh an seisiún in éag ar an bhfreastalaí</value></data>
+  <data name="DemoTreeLabel" xml:space="preserve"><value>Crann fillteán</value></data>
+  <data name="DemoTreeEurope" xml:space="preserve"><value>An Eoraip</value></data>
+  <data name="DemoTreeBelgium" xml:space="preserve"><value>An Bheilg</value></data>
+  <data name="DemoTreeCapitalText" xml:space="preserve"><value>{0}, príomhchathair</value></data>
+  <data name="DemoTreeCapital" xml:space="preserve"><value>príomhchathair</value></data>
+  <data name="DemoTreeFrance" xml:space="preserve"><value>An Fhrainc</value></data>
+  <data name="DemoTreeLuxembourg" xml:space="preserve"><value>Lucsamburg</value></data>
+  <data name="DemoTreeArchives" xml:space="preserve"><value>Cartlanna, lódáilte nuair a osclaítear iad</value></data>
+  <data name="DemoTreeSelection" xml:space="preserve"><value>Roghnú: {0}</value></data>
+  <data name="DemoTreeNoSelection" xml:space="preserve"><value>dada</value></data>
+  <data name="DemoSpreadsheetLabel" xml:space="preserve"><value>Buiséad na ráithe</value></data>
+  <data name="DemoSpreadsheetStatus" xml:space="preserve"><value>Cill ghníomhach: {0}. Iomlán na ráithe: {1}</value></data>
+  <data name="DemoSpreadsheetReadOnlyLabel" xml:space="preserve"><value>An buiséad céanna, inléite amháin</value></data>
+  <data name="DemoSpreadsheetItem" xml:space="preserve"><value>Mír</value></data>
+  <data name="DemoSpreadsheetJanuary" xml:space="preserve"><value>Eanáir</value></data>
+  <data name="DemoSpreadsheetFebruary" xml:space="preserve"><value>Feabhra</value></data>
+  <data name="DemoSpreadsheetMarch" xml:space="preserve"><value>Márta</value></data>
+  <data name="DemoSpreadsheetQuarter" xml:space="preserve"><value>Ráithe</value></data>
+  <data name="DemoSpreadsheetRent" xml:space="preserve"><value>Cíos</value></data>
+  <data name="DemoSpreadsheetGroceries" xml:space="preserve"><value>Grósaeireacht</value></data>
+  <data name="DemoSpreadsheetEnergy" xml:space="preserve"><value>Fuinneamh</value></data>
+  <data name="DemoSpreadsheetTransport" xml:space="preserve"><value>Iompar</value></data>
+  <data name="DemoSpreadsheetLeisure" xml:space="preserve"><value>Fóillíocht</value></data>
+  <data name="DemoSpreadsheetTotal" xml:space="preserve"><value>Iomlán</value></data>
+  <data name="DemoSpreadsheetAverage" xml:space="preserve"><value>Meán</value></data>
+  <data name="DemoDiagramReadOnly" xml:space="preserve"><value>Inléite amháin</value></data>
+  <data name="DemoDiagramMindMapLabel" xml:space="preserve"><value>Mapa intinne: aistriú tí a phleanáil</value></data>
+  <data name="DemoDiagramGitGraphLabel" xml:space="preserve"><value>Stair le craobh chumaiscthe</value></data>
+  <data name="DemoDiagramMapSummary" xml:space="preserve"><value>Nóid: {0}, naisc: {1}, carachtair nuair a shábháiltear: {2}.</value></data>
+  <data name="DemoDiagramNewIdea" xml:space="preserve"><value>Smaoineamh nua</value></data>
+  <data name="DemoDiagramNodeMove" xml:space="preserve"><value>Aistriú tí</value></data>
+  <data name="DemoDiagramNodePaperwork" xml:space="preserve"><value>Páipéarachas</value></data>
+  <data name="DemoDiagramNodeAddress" xml:space="preserve"><value>Athrú seolta</value></data>
+  <data name="DemoDiagramNodeInsurance" xml:space="preserve"><value>Árachas tí</value></data>
+  <data name="DemoDiagramNodeBoxes" xml:space="preserve"><value>Boscaí</value></data>
+  <data name="DemoDiagramNodeKitchen" xml:space="preserve"><value>Cistin</value></data>
+  <data name="DemoDiagramNodeBooks" xml:space="preserve"><value>Leabhair</value></data>
+  <data name="DemoDiagramNodeMovingDay" xml:space="preserve"><value>Lá an aistrithe</value></data>
+  <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Cuir an veain in áirithe</value></data>
+  <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Cuir na comharsana ar an eolas</value></data>
+  <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Roimh an 15ú</value></data>
 </root>

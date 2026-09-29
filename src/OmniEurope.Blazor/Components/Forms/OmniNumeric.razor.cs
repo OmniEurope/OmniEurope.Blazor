@@ -68,6 +68,10 @@ public partial class OmniNumeric<TValue>
         }
     }
 
+    /// <summary>
+    /// After an entry <see cref="Clamp"/> brought back within bounds, renders once more so the field
+    /// replaces the typed text with the clamped value.
+    /// </summary>
     protected override void OnAfterRender(bool firstRender)
     {
         if (_typedBeforeClamp is not null)
@@ -77,10 +81,16 @@ public partial class OmniNumeric<TValue>
         }
     }
 
+    /// <summary>Writes the number in the invariant culture, the only form a number input reads; null leaves the field empty.</summary>
     protected override string? FormatValueAsString(TValue? value) =>
         value is IFormattable number
             ? number.ToString(null, System.Globalization.CultureInfo.InvariantCulture)
             : base.FormatValueAsString(value);
+    /// <summary>
+    /// Parses the text in the invariant culture when it holds a period, in the current culture otherwise,
+    /// then brings it within the bounds when <see cref="Clamp"/> is on. A text that does not parse fails
+    /// with the localized "The entered value is invalid.", naming the field when a display name is set.
+    /// </summary>
     protected override bool TryParseValueFromString(string? value, out TValue result, out string validationErrorMessage)
     {
         var culture = value?.Contains('.', StringComparison.Ordinal) == true

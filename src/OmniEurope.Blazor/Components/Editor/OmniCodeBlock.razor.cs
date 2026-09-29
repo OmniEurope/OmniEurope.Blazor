@@ -118,6 +118,8 @@ public partial class OmniCodeBlock : IAsyncDisposable
 
     private string CopyAnnouncement => OmniClipboardCopy.AnnouncementKey(CopyResult) is { } key ? Localize(key) : string.Empty;
 
+    /// <summary>Checks the parameters.</summary>
+    /// <exception cref="ArgumentOutOfRangeException"><see cref="VisibleCharacters"/> is negative.</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -153,6 +155,8 @@ public partial class OmniCodeBlock : IAsyncDisposable
         return copied;
     }
 
+    /// <summary>Releases the clipboard helper and its pending feedback, when a copy created one.</summary>
+    /// <returns>A task that completes once the helper is released.</returns>
     public async ValueTask DisposeAsync()
     {
         if (_clipboard is not null)

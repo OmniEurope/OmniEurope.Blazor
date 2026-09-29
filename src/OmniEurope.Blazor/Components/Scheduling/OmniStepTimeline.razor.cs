@@ -35,6 +35,10 @@ public partial class OmniStepTimeline
 
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Localize("StepTimelineLabel") : Label;
 
+    /// <summary>
+    /// Lays the steps out again against the current time of the component clock, and keeps the
+    /// <see cref="Columns"/> that at least one drawn step has a value for.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();

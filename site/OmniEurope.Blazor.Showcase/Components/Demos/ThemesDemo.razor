@@ -12,7 +12,7 @@
                                 @bind-TextSizeLevel="_textSizeLevel" @bind-Density="_density" />
         @* La même fenêtre ouverte depuis une entrée de menu (« Thème ») : thème et palette, puis les
            échelles. Un nouveau thème y remet la palette à celle du thème, comme dans les réglages. *@
-        <OmniButton Id="demo-appearance-window" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => _windowOpen = true)"><OmniIcon Name="OmniIconName.Palette" /><span>Fenêtre d'apparence</span></OmniButton>
+        <OmniButton Id="demo-appearance-window" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => _windowOpen = true)"><OmniIcon Name="OmniIconName.Palette" /><span>@Text["DemoThemesAppearanceWindow"]</span></OmniButton>
         <OmniAppearanceWindow @bind-Open="_windowOpen" @bind-Preset="_preset" @bind-Palette="_palette"
                               @bind-TextSizeLevel="_textSizeLevel" @bind-Density="_density" />
         <OmniCard>

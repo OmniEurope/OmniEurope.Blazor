@@ -31,7 +31,7 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniSpreadsheet
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-spreadsheet.js";
+    private const string ModulePath = OmniModules.Spreadsheet;
     private const int PageStep = 10;
 
     private ElementReference _root;
@@ -39,6 +39,7 @@ public partial class OmniSpreadsheet
     private ElementReference _editor;
     private IJSObjectReference? _module;
     private bool _attached;
+    private bool _disposed;
 
     private OmniSpreadsheetData? _evaluated;
     private SpreadsheetEvaluator? _evaluator;
@@ -65,6 +66,10 @@ public partial class OmniSpreadsheet
     [Parameter]
     public OmniSpreadsheetData? Value { get; set; }
 
+    /// <summary>
+    /// Raised with the new sheet after each change: a cell input committed with a different value, or a
+    /// row or column added. Never raised while <see cref="ReadOnly"/>.
+    /// </summary>
     [Parameter]
     public EventCallback<OmniSpreadsheetData> ValueChanged { get; set; }
 
@@ -160,6 +165,7 @@ public partial class OmniSpreadsheet
         return _evaluator.Evaluate(row, column);
     }
 
+    /// <summary>Keeps the active cell inside the sheet when the new <see cref="Value"/> has fewer rows or columns.</summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -168,11 +174,41 @@ public partial class OmniSpreadsheet
         _column = Math.Clamp(_column, 0, Math.Max(0, Sheet.ColumnCount - 1));
     }
 
+    /// <summary>
+    /// Attaches the sheet script once, then moves the focus where the last action asked (the cell editor
+    /// or the grid) and scrolls the active cell into view when requested. Does nothing once disposed;
+    /// a lost circuit is ignored.
+    /// </summary>
+    /// <param name="firstRender">Unused: the script is attached on any render that finds it not attached yet.</param>
+    /// <returns>A task that completes when the script calls are done.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        try
+        {
+            await ApplyRenderRequestsAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+        }
+    }
+
+    private async Task ApplyRenderRequestsAsync()
     {
         if (!_attached)
         {
             _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", ModulePath);
+            if (_disposed)
+            {
+                // Disposed while the script loaded: DisposeAsync had no module to release yet.
+                await _module.DisposeAsync();
+                return;
+            }
+
             await _module.InvokeVoidAsync("attach", _root);
             _attached = true;
         }
@@ -447,8 +483,11 @@ public partial class OmniSpreadsheet
         await ValueChanged.InvokeAsync(next);
     }
 
+    /// <summary>Detaches and releases the sheet script.</summary>
+    /// <returns>A task that completes when the script is released.</returns>
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_module is null)
         {
             return;

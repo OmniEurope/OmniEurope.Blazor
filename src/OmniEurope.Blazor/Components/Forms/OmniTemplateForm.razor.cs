@@ -134,7 +134,7 @@ where TModel : class
         {
             try
             {
-                _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omniInterop.js");
+                _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Interop);
                 await _module.InvokeVoidAsync("focusFirstInvalid", _formRoot);
             }
             catch (Exception exception) when (exception is JSException or JSDisconnectedException or TaskCanceledException)

@@ -1,7 +1,7 @@
 @* The grid in its everyday form, with one column of each filter shape and each text alignment. *@
 <OmniDataGrid TItem="GridRow"
               Items="Rows"
-              Caption="Dossiers ouverts"
+              Caption="@Text["DemoGridOpenCases"]"
               AllowSorting="true"
               Filterable="true"
               ScrollMode="OmniDataGridScrollMode.Paged"
@@ -9,16 +9,16 @@
               PageSize="5"
               HeaderWrap="OmniDataGridHeaderWrap.Truncate">
     <Columns>
-        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence"
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]"
                             FilterType="OmniDataGridColumnFilterType.Text"
                             TextAlign="OmniDataGridTextAlign.Start" />
-        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur"
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]"
                             FilterType="OmniDataGridColumnFilterType.Text"
                             SortOrder="OmniDataGridSortOrder.Ascending" />
-        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="Pays"
+        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="@Text["DemoGridColumnCountry"]"
                             FilterType="OmniDataGridColumnFilterType.Select"
                             TextAlign="OmniDataGridTextAlign.Center" />
-        <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="Montant" FormatString="{0:C0}"
+        <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}"
                             TextAlign="OmniDataGridTextAlign.End"
                             SortOrder="OmniDataGridSortOrder.Descending" />
     </Columns>
@@ -26,7 +26,7 @@
 
 @* Export Markdown pour une IA : toutes les lignes annoncées, lues page par page par le fournisseur,
    pas seulement la page affichée ; en-tête avec le titre, le tri, la limite, l'heure et le compte. *@
-<OmniMarkdownExportButton TItem="GridRow" Export="CreateExport" FileName="dossiers-ouverts" />
+<OmniMarkdownExportButton TItem="GridRow" Export="CreateExport" FileName="@Text["DemoGridExportFileName"]" />
 
 @* Le dessin de la maquette : un cadre habillé comme une carte, un en-tête fin et collant, la durée
    (un nombre) alignée à la fin en chiffres de même chasse sans rien demander, le statut en pastille
@@ -36,7 +36,7 @@
 <OmniDataGrid TItem="RunRow" Id="demo-grid-runs"
               Items="Runs"
               ScrollMode="OmniDataGridScrollMode.All"
-              Caption="Exécutions récentes"
+              Caption="@Text["DemoGridRecentRuns"]"
               AllowSorting="true"
               HighlightActiveColumn="true"
               MaxHeight="17rem"
@@ -44,11 +44,11 @@
               KeyOf="run => run.Run"
               @bind-Value="SelectedRuns">
     <Columns>
-        <OmniDataGridColumn TItem="RunRow" Property="Run" Title="Exécution" />
-        <OmniDataGridColumn TItem="RunRow" Property="Pipeline" Title="Pipeline" SortOrder="OmniDataGridSortOrder.Ascending" />
-        <OmniDataGridColumn TItem="RunRow" Property="Seconds" Title="Durée (s)" />
-        <OmniDataGridColumn TItem="RunRow" Property="Status" Title="Statut">
-            <Template Context="run"><span class="@StatusClass(run.Status)">@run.Status</span></Template>
+        <OmniDataGridColumn TItem="RunRow" Property="Run" Title="@Text["RunsRun"]" />
+        <OmniDataGridColumn TItem="RunRow" Property="Pipeline" Title="@Text["RunsPipeline"]" SortOrder="OmniDataGridSortOrder.Ascending" />
+        <OmniDataGridColumn TItem="RunRow" Property="Seconds" Title="@Text["RunsSeconds"]" />
+        <OmniDataGridColumn TItem="RunRow" Property="Status" Title="@Text["RunsStatus"]">
+            <Template Context="run"><span class="@($"omni-status omni-status--{run.Tone}")">@run.Status</span></Template>
         </OmniDataGridColumn>
     </Columns>
 </OmniDataGrid>
@@ -58,12 +58,12 @@
    badge du pays) n'est pas rognée. *@
 <OmniDataGrid TItem="GridRow" Id="demo-grid-narrow"
               Items="NarrowRows"
-              Caption="Texte long dans une colonne étroite"
+              Caption="@Text["DemoGridNarrowCaption"]"
               ScrollMode="OmniDataGridScrollMode.All">
     <Columns>
-        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" Width="7rem" />
-        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur" Width="11rem" />
-        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="Pays">
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Width="7rem" />
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]" Width="11rem" />
+        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="@Text["DemoGridColumnCountry"]">
             <Template Context="row"><OmniBadge Tone="OmniTone.Info">@row.Country</OmniBadge></Template>
         </OmniDataGridColumn>
     </Columns>
@@ -76,23 +76,23 @@
    (AutoFit="false"). *@
 <OmniDataGrid TItem="GridRow" Id="demo-grid-capped-short"
               Items="FewRows"
-              Caption="Trois dossiers, hauteur de contenu"
+              Caption="@Text["DemoGridShortCaption"]"
               ScrollMode="OmniDataGridScrollMode.Virtual"
               MaxHeight="18rem">
     <Columns>
-        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" />
-        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur" />
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" />
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]" />
     </Columns>
 </OmniDataGrid>
 
 <OmniDataGrid TItem="GridRow" Id="demo-grid-capped-long"
               Items="ManyRows"
-              Caption="Dix mille dossiers, plafond de 18rem"
+              Caption="@Text["DemoGridLongCaption"]"
               AllowColumnAutoFit="true"
               ScrollMode="OmniDataGridScrollMode.Virtual"
               MaxHeight="18rem">
     <Columns>
-        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="Référence" AutoFit="false" />
-        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="Demandeur" />
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" AutoFit="false" />
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]" />
     </Columns>
 </OmniDataGrid>

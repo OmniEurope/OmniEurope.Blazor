@@ -96,6 +96,21 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Export_ASourceThatAnnouncesFewerRowsThanItReturns_IsCountedWhileRead()
+    {
+        var requests = new List<OmniMarkdownTablePageRequest>();
+
+        var document = await Exporter.ExportAsync(Export(25, requests, pageSize: 10, announced: 0), Xunit.TestContext.Current.CancellationToken);
+
+        Assert.Equal([1, 2, 3], requests.Select(request => request.Page));
+        Assert.Equal(25, document.RowCount);
+        Assert.Equal(25, document.TotalCount);
+        Assert.True(document.IsComplete);
+        Assert.Contains("- Lignes exportées : 25 sur 25 annoncées", document.Markdown, StringComparison.Ordinal);
+        Assert.Equal(25, TableRows(document.Markdown));
+    }
+
+    [Fact]
     public async Task Export_FewerRowsThanAnnouncedUnderTheLimit_SaysTheDataChanged()
     {
         var requests = new List<OmniMarkdownTablePageRequest>();

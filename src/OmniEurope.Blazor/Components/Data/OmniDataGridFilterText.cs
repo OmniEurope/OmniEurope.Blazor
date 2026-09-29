@@ -14,6 +14,9 @@ public static class OmniDataGridFilterText
     /// Strips diacritics when asked. Decomposes the string and drops the combining marks, so an
     /// accented letter becomes its plain form and a search for "epee" finds the accented spelling.
     /// </summary>
+    /// <param name="value">The text to normalize; null reads as empty.</param>
+    /// <param name="ignoreDiacritics">True to strip diacritics (the grid's <c>IgnoreDiacritics</c>); false returns the text unchanged.</param>
+    /// <returns>The normalized text, never null.</returns>
     public static string Normalize(string? value, bool ignoreDiacritics)
     {
         if (string.IsNullOrEmpty(value) || !ignoreDiacritics)
@@ -38,6 +41,8 @@ public static class OmniDataGridFilterText
     /// The comparison the grid uses for a filter: the current culture, ignoring case unless
     /// <paramref name="caseSensitive"/> (the grid's <c>CaseSensitiveFilters</c>) is true.
     /// </summary>
+    /// <param name="caseSensitive">True for a case-sensitive comparison.</param>
+    /// <returns><see cref="StringComparison.CurrentCulture"/> or <see cref="StringComparison.CurrentCultureIgnoreCase"/>.</returns>
     public static StringComparison Comparison(bool caseSensitive) =>
         caseSensitive
             ? StringComparison.CurrentCulture

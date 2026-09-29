@@ -55,52 +55,60 @@ public partial class OmniRelativeTime : IDisposable
                 return Localize("RelativeTimeNow");
             }
 
-            var amount = Measure(distance, out var unitKey);
-            return Localize(span < TimeSpan.Zero ? "RelativeTimeFuture" : "RelativeTimePast", Localize(unitKey, amount));
+            // A moment to come reads its unit from keys of its own: languages such as Finnish or Estonian
+            // inflect the unit differently after "in" than after "ago".
+            var future = span < TimeSpan.Zero;
+            var amount = Measure(distance, out var unitKeys);
+            return Localize(future ? "RelativeTimeFuture" : "RelativeTimePast", Localize(future ? unitKeys.Future : unitKeys.Past, amount));
         }
     }
 
-    /// <summary>The largest unit the distance holds at least once, rounded down, and its resource key.</summary>
-    private static int Measure(TimeSpan distance, out string unitKey)
+    /// <summary>
+    /// The largest unit the distance holds at least once, rounded down, and the resource keys of that
+    /// unit for a past and for a future moment.
+    /// </summary>
+    private static int Measure(TimeSpan distance, out (string Past, string Future) unitKeys)
     {
         int amount;
         if (distance < TimeSpan.FromMinutes(1))
         {
-            unitKey = "RelativeTimeSeconds";
+            unitKeys = ("RelativeTimeSeconds", "RelativeTimeFutureSeconds");
             return (int)distance.TotalSeconds;
         }
 
         if (distance < TimeSpan.FromHours(1))
         {
-            unitKey = "RelativeTimeMinutes";
+            unitKeys = ("RelativeTimeMinutes", "RelativeTimeFutureMinutes");
             return (int)distance.TotalMinutes;
         }
 
         if (distance < TimeSpan.FromDays(1))
         {
-            unitKey = "RelativeTimeHours";
+            unitKeys = ("RelativeTimeHours", "RelativeTimeFutureHours");
             return (int)distance.TotalHours;
         }
 
         if (distance < TimeSpan.FromDays(30))
         {
             amount = (int)distance.TotalDays;
-            unitKey = amount == 1 ? "RelativeTimeDay" : "RelativeTimeDays";
+            unitKeys = amount == 1 ? ("RelativeTimeDay", "RelativeTimeFutureDay") : ("RelativeTimeDays", "RelativeTimeFutureDays");
             return amount;
         }
 
         if (distance < TimeSpan.FromDays(365))
         {
             amount = (int)(distance.TotalDays / 30);
-            unitKey = amount == 1 ? "RelativeTimeMonth" : "RelativeTimeMonths";
+            unitKeys = amount == 1 ? ("RelativeTimeMonth", "RelativeTimeFutureMonth") : ("RelativeTimeMonths", "RelativeTimeFutureMonths");
             return amount;
         }
 
         amount = (int)(distance.TotalDays / 365);
-        unitKey = amount == 1 ? "RelativeTimeYear" : "RelativeTimeYears";
+        unitKeys = amount == 1 ? ("RelativeTimeYear", "RelativeTimeFutureYear") : ("RelativeTimeYears", "RelativeTimeFutureYears");
         return amount;
     }
 
+    /// <summary>Checks the parameters.</summary>
+    /// <exception cref="ArgumentNullException"><see cref="TimeZone"/> is null.</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();

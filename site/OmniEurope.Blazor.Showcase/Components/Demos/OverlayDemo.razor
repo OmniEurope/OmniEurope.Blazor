@@ -1,51 +1,51 @@
 <OmniStack Gap="OmniSpacing.Large">
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
         <OmniButton Variant="OmniButtonVariant.Primary" OnClick="@(_ => DialogOpen = true)">
-            Ouvrir la boîte de dialogue
+            @Text["DemoOverlayOpenDialog"]
         </OmniButton>
 
-        <OmniSplitButton Text="Enregistrer" MenuLabel="Autres enregistrements"
-                         OnClick="@(() => Last = "Enregistrer")">
-            <OmniMenuItem OnClick="@(() => Last = "Enregistrer et fermer")">Enregistrer et fermer</OmniMenuItem>
-            <OmniMenuItem OnClick="@(() => Last = "Enregistrer une copie")">Enregistrer une copie</OmniMenuItem>
-            <OmniMenuItem Disabled="true">Publier, indisponible</OmniMenuItem>
+        <OmniSplitButton Text="@Text["DemoOverlaySave"]" MenuLabel="@Text["DemoOverlayMoreSaves"]"
+                         OnClick="@(() => Last = Text["DemoOverlaySave"])">
+            <OmniMenuItem OnClick="@(() => Last = Text["DemoOverlaySaveAndClose"])">@Text["DemoOverlaySaveAndClose"]</OmniMenuItem>
+            <OmniMenuItem OnClick="@(() => Last = Text["DemoOverlaySaveCopy"])">@Text["DemoOverlaySaveCopy"]</OmniMenuItem>
+            <OmniMenuItem Disabled="true">@Text["DemoOverlayPublishUnavailable"]</OmniMenuItem>
         </OmniSplitButton>
 
         @* Clic droit sur la zone, ou touche Menu / Maj+F10 depuis le clavier : les flèches parcourent les
            actions, Échap ferme et rend le focus à la zone. *@
-        <OmniContextMenu Id="demo-context-menu" MenuLabel="Actions du dossier" @bind-Open="MenuOpen" Density="OmniDensity.Compact">
-            <TriggerContent>Actions (clic droit ou Maj+F10)</TriggerContent>
+        <OmniContextMenu Id="demo-context-menu" MenuLabel="@Text["DemoOverlayFolderActions"]" @bind-Open="MenuOpen" Density="OmniDensity.Compact">
+            <TriggerContent>@Text["DemoOverlayContextTrigger"]</TriggerContent>
             <ChildContent>
-                <OmniMenuItem OnClick="@(() => Last = "Dupliquer")"><Icon><OmniIcon Name="OmniIconName.Copy" /></Icon><ChildContent>Dupliquer</ChildContent></OmniMenuItem>
-                <OmniMenuItem OnClick="@(() => Last = "Exporter")"><Icon><OmniIcon Name="OmniIconName.Download" /></Icon><ChildContent>Exporter</ChildContent></OmniMenuItem>
-                <OmniMenuItem Tone="OmniTone.Danger" OnClick="@(() => Last = "Supprimer le dossier")"><Icon><OmniIcon Name="OmniIconName.Delete" /></Icon><ChildContent>Supprimer</ChildContent></OmniMenuItem>
+                <OmniMenuItem OnClick="@(() => Last = Text["DemoOverlayDuplicate"])"><Icon><OmniIcon Name="OmniIconName.Copy" /></Icon><ChildContent>@Text["DemoOverlayDuplicate"]</ChildContent></OmniMenuItem>
+                <OmniMenuItem OnClick="@(() => Last = Text["DemoOverlayExport"])"><Icon><OmniIcon Name="OmniIconName.Download" /></Icon><ChildContent>@Text["DemoOverlayExport"]</ChildContent></OmniMenuItem>
+                <OmniMenuItem Tone="OmniTone.Danger" OnClick="@(() => Last = Text["DemoOverlayDeleteFolder"])"><Icon><OmniIcon Name="OmniIconName.Delete" /></Icon><ChildContent>@Text["DemoOverlayDelete"]</ChildContent></OmniMenuItem>
             </ChildContent>
         </OmniContextMenu>
 
         @* Panneau non modal : un clic ailleurs ou Échap le ferme, Échap rend le focus au bouton. *@
-        <OmniPopover Label="Tâches en cours">
+        <OmniPopover Label="@Text["DemoOverlayRunningTasks"]">
             <TriggerContent><OmniIcon Name="OmniIconName.Hourglass" /> <span>3</span></TriggerContent>
             <ChildContent>
-                <p>Sauvegarde nocturne, étape 2 sur 4.</p>
+                <p>@Text["DemoOverlayBackupStep", 2, 4]</p>
                 <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small"
-                            OnClick="@(_ => Last = "Suivi ouvert")">Voir le suivi</OmniButton>
+                            OnClick="@(_ => Last = Text["DemoOverlayProgressOpened"])">@Text["DemoOverlayViewProgress"]</OmniButton>
             </ChildContent>
         </OmniPopover>
 
-        <OmniPopover PopupLabel="Filtre rapide" Placement="OmniPopoverPlacement.BottomStart"
+        <OmniPopover PopupLabel="@Text["DemoOverlayQuickFilter"]" Placement="OmniPopoverPlacement.BottomStart"
                      TriggerVariant="OmniButtonVariant.Secondary">
-            <TriggerContent>Filtrer</TriggerContent>
+            <TriggerContent>@Text["DemoOverlayFilter"]</TriggerContent>
             <ChildContent>
-                <p>Le panneau s'aligne sur le début du bouton.</p>
+                <p>@Text["DemoOverlayFilterBody"]</p>
             </ChildContent>
         </OmniPopover>
 
-        <OmniProfileMenu Label="Menu du compte" Density="OmniDensity.Compact">
+        <OmniProfileMenu Label="@Text["DemoOverlayAccountMenu"]" Density="OmniDensity.Compact">
             <Summary>Camille Durand</Summary>
             <ChildContent>
-                <OmniMenuItem Href="documentation">Mon profil</OmniMenuItem>
-                <OmniMenuItem OnClick="@(() => Last = "Déconnexion")">Se déconnecter</OmniMenuItem>
-                <OmniMenuItem Disabled="true">Administration, indisponible</OmniMenuItem>
+                <OmniMenuItem Href="documentation">@Text["DemoOverlayMyProfile"]</OmniMenuItem>
+                <OmniMenuItem OnClick="@(() => Last = Text["DemoOverlaySignedOut"])">@Text["DemoOverlaySignOut"]</OmniMenuItem>
+                <OmniMenuItem Disabled="true">@Text["DemoOverlayAdminUnavailable"]</OmniMenuItem>
             </ChildContent>
         </OmniProfileMenu>
     </OmniStack>
@@ -56,10 +56,10 @@
     <OmniComponentsHost OverlayService="Overlays">
         <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
             <OmniButton Id="demo-dialog-sticky" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenStickyDialog())">
-                Dialogue qui ignore le voile
+                @Text["DemoOverlayStickyButton"]
             </OmniButton>
             <OmniButton Id="demo-dialog-blocking" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenBlockingDialog())">
-                Dialogue à fermeture imposée
+                @Text["DemoOverlayBlockingButton"]
             </OmniButton>
         </OmniStack>
     </OmniComponentsHost>
@@ -67,71 +67,71 @@
     @* Largeur : OmniDialogSize plafonne la largeur (Medium, 40rem, par défaut), toujours bornée par
        l'écran ; sous 40rem d'écran, tout dialogue prend la largeur entière. *@
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Overflow="OmniStackOverflow.Scroll">
-        <OmniButton Id="demo-dialog-size-small" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.Small))">Petit</OmniButton>
-        <OmniButton Id="demo-dialog-size-medium" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.Medium))">Moyen</OmniButton>
-        <OmniButton Id="demo-dialog-size-large" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.Large))">Large</OmniButton>
-        <OmniButton Id="demo-dialog-size-xlarge" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.ExtraLarge))">Très large</OmniButton>
-        <OmniButton Id="demo-dialog-size-full" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.FullWidth))">Pleine largeur</OmniButton>
+        <OmniButton Id="demo-dialog-size-small" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.Small))">@Text["DemoOverlaySizeSmall"]</OmniButton>
+        <OmniButton Id="demo-dialog-size-medium" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.Medium))">@Text["DemoOverlaySizeMedium"]</OmniButton>
+        <OmniButton Id="demo-dialog-size-large" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.Large))">@Text["DemoOverlaySizeLarge"]</OmniButton>
+        <OmniButton Id="demo-dialog-size-xlarge" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.ExtraLarge))">@Text["DemoOverlaySizeExtraLarge"]</OmniButton>
+        <OmniButton Id="demo-dialog-size-full" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenSized(OmniDialogSize.FullWidth))">@Text["DemoOverlaySizeFull"]</OmniButton>
     </OmniStack>
 
-    <OmniDialog Title="Largeur du dialogue" Open="SizedOpen" OpenChanged="@(value => SizedOpen = value)" Size="SizedDialog">
-        <p>Ce dialogue est ouvert en taille @SizedDialog.</p>
+    <OmniDialog Title="@Text["DemoOverlaySizedTitle"]" Open="SizedOpen" OpenChanged="@(value => SizedOpen = value)" Size="SizedDialog">
+        <p>@Text["DemoOverlaySizedBody", SizedDialog]</p>
     </OmniDialog>
 
     @* Intention : l'en-tête et le pied prennent la teinte de l'intention, le titre est précédé d'une pastille
        portant son icône ; le corps reste sur la surface du dialogue. Sans intention, rien ne change. *@
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Overflow="OmniStackOverflow.Scroll">
-        <OmniButton Id="demo-dialog-intent-accent" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Accent))">Formulaire (accent)</OmniButton>
-        <OmniButton Id="demo-dialog-intent-info" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Info))">Information</OmniButton>
-        <OmniButton Id="demo-dialog-intent-success" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Success))">Réussite</OmniButton>
-        <OmniButton Id="demo-dialog-intent-warning" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Warning))">Confirmation (avertissement)</OmniButton>
-        <OmniButton Id="demo-dialog-intent-danger" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Danger))">Suppression (danger)</OmniButton>
+        <OmniButton Id="demo-dialog-intent-accent" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Accent))">@Text["DemoOverlayIntentAccent"]</OmniButton>
+        <OmniButton Id="demo-dialog-intent-info" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Info))">@Text["DemoOverlayIntentInfo"]</OmniButton>
+        <OmniButton Id="demo-dialog-intent-success" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Success))">@Text["DemoOverlayIntentSuccess"]</OmniButton>
+        <OmniButton Id="demo-dialog-intent-warning" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Warning))">@Text["DemoOverlayIntentWarning"]</OmniButton>
+        <OmniButton Id="demo-dialog-intent-danger" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => OpenIntent(OmniTone.Danger))">@Text["DemoOverlayIntentDanger"]</OmniButton>
     </OmniStack>
 
-    <OmniDialog Title="Paramètres d'exécution" Open="IntentOpen" OpenChanged="@(value => IntentOpen = value)" Intent="IntentDialog">
-        <ChildContent><p>Ce dialogue porte l'intention @IntentDialog.</p></ChildContent>
+    <OmniDialog Title="@Text["DemoOverlayIntentTitle"]" Open="IntentOpen" OpenChanged="@(value => IntentOpen = value)" Intent="IntentDialog">
+        <ChildContent><p>@Text["DemoOverlayIntentBody", IntentDialog]</p></ChildContent>
         <Footer>
-            <OmniButton OnClick="@(_ => IntentOpen = false)"><OmniIcon Name="OmniIconName.Check" /><span>Valider</span></OmniButton>
-            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => IntentOpen = false)"><OmniIcon Name="OmniIconName.Close" /><span>Annuler</span></OmniButton>
+            <OmniButton OnClick="@(_ => IntentOpen = false)"><OmniIcon Name="OmniIconName.Check" /><span>@Text["DemoOverlayConfirm"]</span></OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => IntentOpen = false)"><OmniIcon Name="OmniIconName.Close" /><span>@Text["DemoOverlayCancel"]</span></OmniButton>
         </Footer>
     </OmniDialog>
 
     @* Menu « ⋮ » : trois points seuls, sans cadre, qui ouvrent une liste verticale (icône puis libellé).
        Il reste dans la fenêtre, s'ouvre au-dessus faute de place, et rend le focus au bouton. *@
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
-        <OmniOverflowMenu Id="demo-overflow-menu" Label="Actions du pipeline">
-            <OmniMenuItem OnClick="@(() => Last = "Modifier")"><Icon><OmniIcon Name="OmniIconName.Edit" /></Icon><ChildContent>Modifier</ChildContent></OmniMenuItem>
-            <OmniMenuItem OnClick="@(() => Last = "Mettre à jour")"><Icon><OmniIcon Name="OmniIconName.Refresh" /></Icon><ChildContent>Mettre à jour</ChildContent></OmniMenuItem>
-            <OmniMenuItem Disabled="true"><Icon><OmniIcon Name="OmniIconName.Upload" /></Icon><ChildContent>Publier, indisponible</ChildContent></OmniMenuItem>
-            <OmniMenuItem Tone="OmniTone.Danger" OnClick="@(() => Last = "Supprimer")"><Icon><OmniIcon Name="OmniIconName.Delete" /></Icon><ChildContent>Supprimer</ChildContent></OmniMenuItem>
+        <OmniOverflowMenu Id="demo-overflow-menu" Label="@Text["DemoOverlayPipelineActions"]">
+            <OmniMenuItem OnClick="@(() => Last = Text["DemoOverlayEdit"])"><Icon><OmniIcon Name="OmniIconName.Edit" /></Icon><ChildContent>@Text["DemoOverlayEdit"]</ChildContent></OmniMenuItem>
+            <OmniMenuItem OnClick="@(() => Last = Text["DemoOverlayUpdate"])"><Icon><OmniIcon Name="OmniIconName.Refresh" /></Icon><ChildContent>@Text["DemoOverlayUpdate"]</ChildContent></OmniMenuItem>
+            <OmniMenuItem Disabled="true"><Icon><OmniIcon Name="OmniIconName.Upload" /></Icon><ChildContent>@Text["DemoOverlayPublishUnavailable"]</ChildContent></OmniMenuItem>
+            <OmniMenuItem Tone="OmniTone.Danger" OnClick="@(() => Last = Text["DemoOverlayDelete"])"><Icon><OmniIcon Name="OmniIconName.Delete" /></Icon><ChildContent>@Text["DemoOverlayDelete"]</ChildContent></OmniMenuItem>
         </OmniOverflowMenu>
-        <OmniOverflowMenu Label="Actions de la ligne" Size="OmniControlSize.Small">
-            <OmniMenuItem OnClick="@(() => Last = "Dupliquer")"><Icon><OmniIcon Name="OmniIconName.Copy" /></Icon><ChildContent>Dupliquer</ChildContent></OmniMenuItem>
+        <OmniOverflowMenu Label="@Text["DemoOverlayRowActions"]" Size="OmniControlSize.Small">
+            <OmniMenuItem OnClick="@(() => Last = Text["DemoOverlayDuplicate"])"><Icon><OmniIcon Name="OmniIconName.Copy" /></Icon><ChildContent>@Text["DemoOverlayDuplicate"]</ChildContent></OmniMenuItem>
         </OmniOverflowMenu>
     </OmniStack>
 
-    <p>Dernière action : @(Last ?? "aucune")</p>
+    <p>@Text["DemoOverlayLastAction", Last ?? Text["DemoOverlayNoAction"]]</p>
 
-    <OmniNotification Severity="OmniSeverity.Info" Title="Information"
-                      Message="Le traitement de nuit démarrera à 23 h." />
-    <OmniNotification Severity="OmniSeverity.Success" Title="Terminé"
-                      Message="Les 14 pièces ont été importées." Dismissible="true"
-                      OnDismiss="@(() => Last = "Notification fermée")" />
-    <OmniNotification Severity="OmniSeverity.Warning" Message="Le quota est presque atteint." />
-    <OmniNotification Severity="OmniSeverity.Danger" Title="Échec"
-                      Message="La connexion au service a échoué." />
+    <OmniNotification Severity="OmniSeverity.Info" Title="@Text["DemoOverlayNoticeInfoTitle"]"
+                      Message="@Text["DemoOverlayNoticeInfo", NightJobStart]" />
+    <OmniNotification Severity="OmniSeverity.Success" Title="@Text["DemoOverlayNoticeDoneTitle"]"
+                      Message="@Text["DemoOverlayNoticeDone", 14]" Dismissible="true"
+                      OnDismiss="@(() => Last = Text["DemoOverlayNotificationClosed"])" />
+    <OmniNotification Severity="OmniSeverity.Warning" Message="@Text["DemoOverlayNoticeQuota"]" />
+    <OmniNotification Severity="OmniSeverity.Danger" Title="@Text["DemoOverlayNoticeFailedTitle"]"
+                      Message="@Text["DemoOverlayNoticeFailed"]" />
 
-    <OmniDialog Title="Confirmer la suppression" Open="DialogOpen"
+    <OmniDialog Title="@Text["DemoOverlayConfirmTitle"]" Open="DialogOpen"
                 OpenChanged="@(value => DialogOpen = value)"
-                CloseOnBackdrop="true" CloseLabel="Fermer">
+                CloseOnBackdrop="true" CloseLabel="@Text["DemoOverlayClose"]">
         <ChildContent>
-            <p>Cette action retire le dossier de la liste. Elle est réversible pendant trente jours.</p>
+            <p>@Text["DemoOverlayConfirmBody"]</p>
         </ChildContent>
         @* Convention du paquet : l'action d'abord, Annuler (Secondary) après elle, au bout du pied,
            chacun avec son icône. OmniOverlayService.ConfirmAsync la suit d'office. *@
         <Footer>
-            <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => Confirm())"><OmniIcon Name="OmniIconName.Delete" /><span>Supprimer</span></OmniButton>
-            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => DialogOpen = false)"><OmniIcon Name="OmniIconName.Close" /><span>Annuler</span></OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Danger" OnClick="@(_ => Confirm())"><OmniIcon Name="OmniIconName.Delete" /><span>@Text["DemoOverlayDelete"]</span></OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" OnClick="@(_ => DialogOpen = false)"><OmniIcon Name="OmniIconName.Close" /><span>@Text["DemoOverlayCancel"]</span></OmniButton>
         </Footer>
     </OmniDialog>
 </OmniStack>

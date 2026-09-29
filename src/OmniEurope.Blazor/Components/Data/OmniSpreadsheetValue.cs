@@ -45,6 +45,7 @@ public sealed record OmniSpreadsheetValue
     /// <summary>An empty cell.</summary>
     public static OmniSpreadsheetValue Empty { get; } = new(OmniSpreadsheetValueKind.Empty, 0d, string.Empty);
 
+    /// <summary>What the cell holds: nothing, a number, text or an error.</summary>
     public OmniSpreadsheetValueKind Kind { get; }
 
     /// <summary>The number, when <see cref="Kind"/> is <see cref="OmniSpreadsheetValueKind.Number"/>; zero otherwise.</summary>
@@ -53,20 +54,38 @@ public sealed record OmniSpreadsheetValue
     /// <summary>The text, or the error code; empty for a number or an empty cell.</summary>
     public string Text { get; }
 
+    /// <summary>True when <see cref="Kind"/> is <see cref="OmniSpreadsheetValueKind.Error"/>; the code is then in <see cref="Text"/>.</summary>
     public bool IsError => Kind == OmniSpreadsheetValueKind.Error;
 
+    /// <summary>A number value, or a <see cref="NumberError"/> when <paramref name="number"/> is not finite (infinity or NaN).</summary>
+    /// <param name="number">The computed or typed number.</param>
+    /// <returns>The number value, or the error value.</returns>
     public static OmniSpreadsheetValue FromNumber(double number) => double.IsFinite(number)
         ? new(OmniSpreadsheetValueKind.Number, number, string.Empty)
         : FromError(NumberError);
 
+    /// <summary>A text value; a <c>null</c> text becomes empty text.</summary>
+    /// <param name="text">The text as typed.</param>
+    /// <returns>The text value.</returns>
     public static OmniSpreadsheetValue FromText(string text) => new(OmniSpreadsheetValueKind.Text, 0d, text ?? string.Empty);
 
-    public static OmniSpreadsheetValue FromError(string code) => new(OmniSpreadsheetValueKind.Error, 0d, code);
+    /// <summary>An error value carrying <paramref name="code"/>, one of the error constants of this type.</summary>
+    /// <param name="code">The error code shown in the cell.</param>
+    /// <returns>The error value.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="code"/> is null.</exception>
+    /// <exception cref="ArgumentException"><paramref name="code"/> is empty or white space.</exception>
+    public static OmniSpreadsheetValue FromError(string code)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(code);
+        return new(OmniSpreadsheetValueKind.Error, 0d, code);
+    }
 
     /// <summary>
     /// What the cell shows: a number in the given culture, grouped by thousands and with up to ten
-    /// decimals, the text as typed, or the error code.
+    /// decimals, the text as typed, or the error code; empty for an empty cell.
     /// </summary>
+    /// <param name="provider">Culture of the number; the current culture when <c>null</c>.</param>
+    /// <returns>The display text.</returns>
     public string ToDisplayString(IFormatProvider? provider = null) => Kind switch
     {
         OmniSpreadsheetValueKind.Number => Number.ToString("#,##0.##########", provider ?? CultureInfo.CurrentCulture),

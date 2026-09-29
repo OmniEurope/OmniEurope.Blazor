@@ -1,6 +1,7 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>An item of an <see cref="OmniTree{TValue}"/>, with its child items declared or loaded on demand.</summary>
+/// <typeparam name="TValue">The type of the value the item stands for; the same as its tree's.</typeparam>
 public partial class OmniTreeItem<TValue>
 {
     private bool _expanded;
@@ -47,8 +48,9 @@ public partial class OmniTreeItem<TValue>
     public Func<CancellationToken, Task>? LoadChildren { get; set; }
 
     /// <summary>
-    /// Raised with the exception when <see cref="LoadChildren"/> fails (a cancelled load is not a
-    /// failure); the item then shows a localized error message.
+    /// Raised with the exception when <see cref="LoadChildren"/> fails; the item then shows a localized
+    /// error message. A cancelled load is not a failure, nor is a load replaced by a newer one: the
+    /// newer load alone decides what the item shows.
     /// </summary>
     [Parameter]
     public EventCallback<Exception> OnLoadError { get; set; }
@@ -64,6 +66,12 @@ public partial class OmniTreeItem<TValue>
     private bool HasChildren => ChildContent is not null || LoadChildren is not null;
     private bool Selected => Context?.SelectedValues.Contains(Value, EqualityComparer<TValue>.Default) == true;
 
+    /// <summary>
+    /// Takes <see cref="Expanded"/> when it differs from the value last received, and a new
+    /// <see cref="LoadChildren"/> (cancelling a load still running and forgetting the loaded children).
+    /// A branch opened this way, or given another loader while open, starts loading its children
+    /// without waiting for the load to finish.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -93,7 +101,7 @@ public partial class OmniTreeItem<TValue>
 
     /// <summary>
     /// Loads the children of a branch opened through its parameters, then renders them. A failure of
-    /// the <see cref="LoadFailed"/> handler reaches the renderer as it would from a lifecycle method.
+    /// the <see cref="OnLoadError"/> handler reaches the renderer as it would from a lifecycle method.
     /// </summary>
     private async Task LoadOpenedBranchAsync()
     {
@@ -126,21 +134,34 @@ public partial class OmniTreeItem<TValue>
 
         _loadCancellation?.Cancel();
         _loadCancellation?.Dispose();
-        _loadCancellation = new CancellationTokenSource();
+        // Each load keeps its own source: a load replaced by a newer one is judged on its own token and
+        // leaves the loading state, the error and the loaded flag to the load that replaced it.
+        var cancellation = new CancellationTokenSource();
+        _loadCancellation = cancellation;
         _loading = true;
         _loadError = false;
         try
         {
-            await LoadChildren(_loadCancellation.Token);
-            _loaded = true;
+            await LoadChildren(cancellation.Token);
+            if (ReferenceEquals(_loadCancellation, cancellation))
+            {
+                _loaded = true;
+            }
         }
-        catch (OperationCanceledException) when (_loadCancellation.IsCancellationRequested) { }
-        catch (Exception exception)
+        catch (OperationCanceledException) when (cancellation.IsCancellationRequested) { }
+        catch (Exception exception) when (ReferenceEquals(_loadCancellation, cancellation))
         {
             _loadError = true;
             await OnLoadError.InvokeAsync(exception);
         }
-        finally { _loading = false; }
+        catch (Exception) { /* A replaced load failed after the fact: its outcome is no longer shown. */ }
+        finally
+        {
+            if (ReferenceEquals(_loadCancellation, cancellation))
+            {
+                _loading = false;
+            }
+        }
     }
     private Task SelectAsync() => Disabled || Context is null ? Task.CompletedTask : Context.ToggleSelectionAsync(Value);
 
@@ -162,6 +183,8 @@ public partial class OmniTreeItem<TValue>
         return Task.CompletedTask;
     }
 
+    /// <summary>Cancels a child load still running.</summary>
+    /// <returns>A completed task.</returns>
     public ValueTask DisposeAsync()
     {
         _loadCancellation?.Cancel();

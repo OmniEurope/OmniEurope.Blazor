@@ -2,115 +2,115 @@
     <OmniRow Gap="OmniSpacing.Medium">
         <OmniColumn Span="12" MediumSpan="6" LargeSpan="4">
             <OmniCard>
-                <Header><OmniHeading Level="OmniHeadingLevel.H4">Colonne fluide</OmniHeading></Header>
-                <ChildContent>Pleine largeur en petit écran, un tiers en grand.</ChildContent>
+                <Header><OmniHeading Level="OmniHeadingLevel.H4">@Text["DemoLayoutFluidColumn"]</OmniHeading></Header>
+                <ChildContent>@Text["DemoLayoutFluidColumnText"]</ChildContent>
                 <Footer><OmniBadge Tone="OmniTone.Neutral">12 / 6 / 4</OmniBadge></Footer>
             </OmniCard>
         </OmniColumn>
         <OmniColumn Span="12" MediumSpan="6" LargeSpan="4">
             <OmniCard>
-                <Header><OmniHeading Level="OmniHeadingLevel.H4">Carte avec entête</OmniHeading></Header>
-                <ChildContent>Entête, corps et pied sont trois zones distinctes.</ChildContent>
+                <Header><OmniHeading Level="OmniHeadingLevel.H4">@Text["DemoLayoutCardWithHeader"]</OmniHeading></Header>
+                <ChildContent>@Text["DemoLayoutCardWithHeaderText"]</ChildContent>
             </OmniCard>
         </OmniColumn>
         <OmniColumn Span="12" LargeSpan="4">
             <OmniCard>
-                <ChildContent>Une carte peut n'avoir que son corps.</ChildContent>
+                <ChildContent>@Text["DemoLayoutBodyOnly"]</ChildContent>
             </OmniCard>
         </OmniColumn>
     </OmniRow>
 
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Wrap="true" Gap="OmniSpacing.Small" Justify="OmniJustification.Between" Align="OmniAlignment.Center">
-        <OmniBadge Tone="OmniTone.Accent">Début</OmniBadge>
-        <OmniBadge Tone="OmniTone.Neutral">Milieu</OmniBadge>
-        <OmniBadge Tone="OmniTone.Success">Fin</OmniBadge>
+        <OmniBadge Tone="OmniTone.Accent">@Text["DemoLayoutStart"]</OmniBadge>
+        <OmniBadge Tone="OmniTone.Neutral">@Text["DemoLayoutMiddle"]</OmniBadge>
+        <OmniBadge Tone="OmniTone.Success">@Text["DemoLayoutEnd"]</OmniBadge>
     </OmniStack>
 
     <OmniFieldset>
-        <Legend>Groupe de champs</Legend>
+        <Legend>@Text["DemoLayoutFieldGroup"]</Legend>
         <ChildContent>
             <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
-                <OmniBadge Tone="OmniTone.Neutral">Un</OmniBadge>
-                <OmniBadge Tone="OmniTone.Neutral">Deux</OmniBadge>
+                <OmniBadge Tone="OmniTone.Neutral">@Text["DemoLayoutOne"]</OmniBadge>
+                <OmniBadge Tone="OmniTone.Neutral">@Text["DemoLayoutTwo"]</OmniBadge>
             </OmniStack>
         </ChildContent>
     </OmniFieldset>
 
     <OmniFieldset Collapsible="true" Expanded="false">
-        <Legend>Réglages avancés</Legend>
-        <ChildContent>Un groupe replié à l'ouverture, que le lecteur déplie s'il en a besoin.</ChildContent>
+        <Legend>@Text["DemoLayoutAdvanced"]</Legend>
+        <ChildContent>@Text["DemoLayoutAdvancedText"]</ChildContent>
     </OmniFieldset>
 
     @* Lié dans les deux sens : ExpandedChanged rapporte ce que fait le lecteur. Sans lui, le groupe
        ne charge aucun script, comme avant. *@
     <OmniFieldset Id="demo-fieldset-bound" Collapsible="true" @bind-Expanded="OptionsExpanded">
-        <Legend>Options suivies</Legend>
-        <ChildContent>L'état replié est connu de la page, qui peut le retenir.</ChildContent>
+        <Legend>@Text["DemoLayoutTracked"]</Legend>
+        <ChildContent>@Text["DemoLayoutTrackedText"]</ChildContent>
     </OmniFieldset>
-    <p id="demo-fieldset-state">Options suivies : @(OptionsExpanded ? "dépliées" : "repliées")</p>
+    <p id="demo-fieldset-state">@(OptionsExpanded ? Text["DemoLayoutTrackedExpanded"] : Text["DemoLayoutTrackedCollapsed"])</p>
 
     <OmniFieldset Disabled="true">
-        <Legend>Groupe désactivé</Legend>
-        <ChildContent>Tout ce que ce groupe contient devient inopérant d'un seul geste.</ChildContent>
+        <Legend>@Text["DemoLayoutDisabledGroup"]</Legend>
+        <ChildContent>@Text["DemoLayoutDisabledGroupText"]</ChildContent>
     </OmniFieldset>
 
     @* L'échelle d'espacement, du plus serré au plus large. *@
     <OmniStack Gap="OmniSpacing.Small">
-        <OmniRow Gap="OmniSpacing.None"><OmniBadge>Aucun</OmniBadge><OmniBadge>écart</OmniBadge></OmniRow>
-        <OmniRow Gap="OmniSpacing.XSmall"><OmniBadge>Très</OmniBadge><OmniBadge>serré</OmniBadge></OmniRow>
-        <OmniRow Gap="OmniSpacing.Small"><OmniBadge>Serré</OmniBadge><OmniBadge>petit</OmniBadge></OmniRow>
-        <OmniRow Gap="OmniSpacing.Medium"><OmniBadge>Courant</OmniBadge><OmniBadge>moyen</OmniBadge></OmniRow>
-        <OmniRow Gap="OmniSpacing.Large"><OmniBadge>Aéré</OmniBadge><OmniBadge>grand</OmniBadge></OmniRow>
-        <OmniRow Gap="OmniSpacing.XLarge"><OmniBadge>Très</OmniBadge><OmniBadge>aéré</OmniBadge></OmniRow>
+        <OmniRow Gap="OmniSpacing.None"><OmniBadge>@Text["DemoLayoutGapNone1"]</OmniBadge><OmniBadge>@Text["DemoLayoutGapNone2"]</OmniBadge></OmniRow>
+        <OmniRow Gap="OmniSpacing.XSmall"><OmniBadge>@Text["DemoLayoutGapXSmall1"]</OmniBadge><OmniBadge>@Text["DemoLayoutGapXSmall2"]</OmniBadge></OmniRow>
+        <OmniRow Gap="OmniSpacing.Small"><OmniBadge>@Text["DemoLayoutGapSmall1"]</OmniBadge><OmniBadge>@Text["DemoLayoutGapSmall2"]</OmniBadge></OmniRow>
+        <OmniRow Gap="OmniSpacing.Medium"><OmniBadge>@Text["DemoLayoutGapMedium1"]</OmniBadge><OmniBadge>@Text["DemoLayoutGapMedium2"]</OmniBadge></OmniRow>
+        <OmniRow Gap="OmniSpacing.Large"><OmniBadge>@Text["DemoLayoutGapLarge1"]</OmniBadge><OmniBadge>@Text["DemoLayoutGapLarge2"]</OmniBadge></OmniRow>
+        <OmniRow Gap="OmniSpacing.XLarge"><OmniBadge>@Text["DemoLayoutGapXLarge1"]</OmniBadge><OmniBadge>@Text["DemoLayoutGapXLarge2"]</OmniBadge></OmniRow>
     </OmniStack>
 
     @* Les quatre répartitions horizontales et les quatre alignements verticaux. *@
     <OmniStack Gap="OmniSpacing.Small">
         <OmniRow Justify="OmniJustification.Start" Gap="OmniSpacing.Small">
-            <OmniBadge Tone="OmniTone.Accent">Aligné au début</OmniBadge>
+            <OmniBadge Tone="OmniTone.Accent">@Text["DemoLayoutAlignStart"]</OmniBadge>
         </OmniRow>
         <OmniRow Justify="OmniJustification.Center" Gap="OmniSpacing.Small">
-            <OmniBadge Tone="OmniTone.Accent">Centré</OmniBadge>
+            <OmniBadge Tone="OmniTone.Accent">@Text["DemoLayoutAlignCenter"]</OmniBadge>
         </OmniRow>
         <OmniRow Justify="OmniJustification.End" Gap="OmniSpacing.Small">
-            <OmniBadge Tone="OmniTone.Accent">Aligné à la fin</OmniBadge>
+            <OmniBadge Tone="OmniTone.Accent">@Text["DemoLayoutAlignEnd"]</OmniBadge>
         </OmniRow>
     </OmniStack>
 
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Start">
-        <OmniBadge>En haut</OmniBadge>
-        <OmniCard><ChildContent>Une carte plus haute que ses voisines.</ChildContent></OmniCard>
+        <OmniBadge>@Text["DemoLayoutTop"]</OmniBadge>
+        <OmniCard><ChildContent>@Text["DemoLayoutTopText"]</ChildContent></OmniCard>
     </OmniStack>
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.End">
-        <OmniBadge>En bas</OmniBadge>
-        <OmniCard><ChildContent>Le badge se cale sur le bas de la rangée.</ChildContent></OmniCard>
+        <OmniBadge>@Text["DemoLayoutBottom"]</OmniBadge>
+        <OmniCard><ChildContent>@Text["DemoLayoutBottomText"]</ChildContent></OmniCard>
     </OmniStack>
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Stretch">
-        <OmniCard><ChildContent>Étirée</ChildContent></OmniCard>
-        <OmniCard><ChildContent>Les deux cartes prennent la même hauteur.</ChildContent></OmniCard>
+        <OmniCard><ChildContent>@Text["DemoLayoutStretched"]</ChildContent></OmniCard>
+        <OmniCard><ChildContent>@Text["DemoLayoutStretchedText"]</ChildContent></OmniCard>
     </OmniStack>
 
     @* Rangées trop étroites : défiler garde chaque bouton à sa taille, replier ne garde que les icônes. *@
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Overflow="OmniStackOverflow.Scroll">
-        <OmniButton><OmniIcon Name="OmniIconName.Check" /><span>Valider le dossier</span></OmniButton>
-        <OmniButton><OmniIcon Name="OmniIconName.Filter" /><span>Filtrer les pièces</span></OmniButton>
-        <OmniButton><OmniIcon Name="OmniIconName.Close" /><span>Clore la demande</span></OmniButton>
+        <OmniButton><OmniIcon Name="OmniIconName.Check" /><span>@Text["DemoLayoutApproveFile"]</span></OmniButton>
+        <OmniButton><OmniIcon Name="OmniIconName.Filter" /><span>@Text["DemoLayoutFilterDocuments"]</span></OmniButton>
+        <OmniButton><OmniIcon Name="OmniIconName.Close" /><span>@Text["DemoLayoutCloseRequest"]</span></OmniButton>
     </OmniStack>
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Overflow="OmniStackOverflow.Collapse">
-        <OmniButton><OmniIcon Name="OmniIconName.Check" /><span>Valider le dossier</span></OmniButton>
-        <OmniButton><OmniIcon Name="OmniIconName.Filter" /><span>Filtrer les pièces</span></OmniButton>
-        <OmniButton><OmniIcon Name="OmniIconName.Close" /><span>Clore la demande</span></OmniButton>
+        <OmniButton><OmniIcon Name="OmniIconName.Check" /><span>@Text["DemoLayoutApproveFile"]</span></OmniButton>
+        <OmniButton><OmniIcon Name="OmniIconName.Filter" /><span>@Text["DemoLayoutFilterDocuments"]</span></OmniButton>
+        <OmniButton><OmniIcon Name="OmniIconName.Close" /><span>@Text["DemoLayoutCloseRequest"]</span></OmniButton>
     </OmniStack>
 
     @* Réglages : une carte par thème, chaque réglage dans son encadré, le contrôle sur sa ligne. *@
-    <OmniSettingsSection Title="Notifications" Description="Ce que l'application vous signale, et comment.">
-        <OmniSettingsTile Title="Alertes par courriel" Description="Un message à chaque changement de statut.">
+    <OmniSettingsSection Title="@Text["DemoLayoutNotifications"]" Description="@Text["DemoLayoutNotificationsText"]">
+        <OmniSettingsTile Title="@Text["DemoLayoutEmailAlerts"]" Description="@Text["DemoLayoutEmailAlertsText"]">
             <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
-            <ChildContent><OmniSwitch @bind-Value="EmailAlerts" aria-label="Alertes par courriel" /></ChildContent>
+            <ChildContent><OmniSwitch @bind-Value="EmailAlerts" aria-label="@Text["DemoLayoutEmailAlerts"]" /></ChildContent>
         </OmniSettingsTile>
-        <OmniSettingsTile Title="Résumé hebdomadaire" Description="Les dossiers de la semaine, le lundi matin.">
+        <OmniSettingsTile Title="@Text["DemoLayoutWeeklyDigest"]" Description="@Text["DemoLayoutWeeklyDigestText"]">
             <Icon><OmniIcon Name="OmniIconName.Check" /></Icon>
-            <ChildContent><OmniSwitch @bind-Value="WeeklyDigest" aria-label="Résumé hebdomadaire" /></ChildContent>
+            <ChildContent><OmniSwitch @bind-Value="WeeklyDigest" aria-label="@Text["DemoLayoutWeeklyDigest"]" /></ChildContent>
         </OmniSettingsTile>
     </OmniSettingsSection>
 
@@ -122,26 +122,26 @@
         {
             <OmniColumn Span="12" LargeSpan="4">
                 <OmniCard Id="@($"demo-density-{level.Key}")" Density="level.Density">
-                    <Header><OmniHeading Level="OmniHeadingLevel.H4">@level.Title</OmniHeading></Header>
+                    <Header><OmniHeading Level="OmniHeadingLevel.H4">@Text[level.TitleKey]</OmniHeading></Header>
                     <ChildContent>
                         <OmniStack Gap="OmniSpacing.Small">
-                            <OmniFormField For="@($"density-{level.Key}-name")" Label="Nom du serveur" Required="true" Description="Visible dans la console.">
+                            <OmniFormField For="@($"density-{level.Key}-name")" Label="@Text["DemoLayoutServerName"]" Required="true" Description="@Text["DemoLayoutServerNameText"]">
                                 <OmniTextBox Id="@($"density-{level.Key}-name")" @bind-Value="ServerName" />
                             </OmniFormField>
-                            <OmniFormField For="@($"density-{level.Key}-id")" Label="Identifiant, lecture seule">
+                            <OmniFormField For="@($"density-{level.Key}-id")" Label="@Text["DemoLayoutIdentifierReadOnly"]">
                                 <OmniTextBox Id="@($"density-{level.Key}-id")" @bind-Value="ServerId" ReadOnly="true" />
                             </OmniFormField>
-                            <OmniFormField For="@($"density-{level.Key}-zone")" Label="Zone, désactivée" Disabled="true">
+                            <OmniFormField For="@($"density-{level.Key}-zone")" Label="@Text["DemoLayoutZoneDisabled"]" Disabled="true">
                                 <OmniTextBox Id="@($"density-{level.Key}-zone")" @bind-Value="ServerZone" Disabled="true" />
                             </OmniFormField>
-                            <OmniCheckBox Id="@($"density-{level.Key}-lock")" @bind-Value="LockedRestore" aria-label="Restauration verrouillée" />
+                            <OmniCheckBox Id="@($"density-{level.Key}-lock")" @bind-Value="LockedRestore" aria-label="@Text["DemoLayoutLockedRestore"]" />
                             <OmniRow Gap="OmniSpacing.Small" Wrap="true">
-                                <OmniButton><OmniIcon Name="OmniIconName.Save" /><span>Enregistrer</span></OmniButton>
-                                <OmniButton Variant="OmniButtonVariant.Secondary"><OmniIcon Name="OmniIconName.Close" /><span>Annuler</span></OmniButton>
-                                <OmniBadge Tone="OmniTone.Info">3 alertes</OmniBadge>
+                                <OmniButton><OmniIcon Name="OmniIconName.Save" /><span>@Text["DemoLayoutSave"]</span></OmniButton>
+                                <OmniButton Variant="OmniButtonVariant.Secondary"><OmniIcon Name="OmniIconName.Close" /><span>@Text["DemoLayoutCancel"]</span></OmniButton>
+                                <OmniBadge Tone="OmniTone.Info">@Text["DemoLayoutAlertCount", 3]</OmniBadge>
                             </OmniRow>
-                            <OmniAlert Severity="OmniSeverity.Success" Title="Déploiement terminé">La version 1.0.1 est en ligne.</OmniAlert>
-                            <OmniSettingsTile Title="Alertes par courriel" Description="À chaque changement.">
+                            <OmniAlert Severity="OmniSeverity.Success" Title="@Text["DemoLayoutDeployed"]">@Text["DemoLayoutDeployedText"]</OmniAlert>
+                            <OmniSettingsTile Title="@Text["DemoLayoutEmailAlerts"]" Description="@Text["DemoLayoutEachChange"]">
                                 <Icon><OmniIcon Name="OmniIconName.Bell" /></Icon>
                                 <ChildContent><OmniSwitch @bind-Value="EmailAlerts" /></ChildContent>
                             </OmniSettingsTile>
@@ -154,12 +154,12 @@
 
     @* Densité propre à un composant : dans une page confortable, chacun de ces composants porte la sienne. *@
     <OmniStack Gap="OmniSpacing.Small">
-        <OmniAlert Severity="OmniSeverity.Info" Density="OmniDensity.Spacious">Une alerte aérée dans une page confortable.</OmniAlert>
-        <OmniTabs Label="Onglets compacts" Density="OmniDensity.Compact" @bind-Value="DensityTab">
-            <OmniTabsItem Key="general" Title="Général">Réglages généraux.</OmniTabsItem>
-            <OmniTabsItem Key="securite" Title="Sécurité">Accès et jetons.</OmniTabsItem>
+        <OmniAlert Severity="OmniSeverity.Info" Density="OmniDensity.Spacious">@Text["DemoLayoutSpaciousAlert"]</OmniAlert>
+        <OmniTabs Label="@Text["DemoLayoutCompactTabs"]" Density="OmniDensity.Compact" @bind-Value="DensityTab">
+            <OmniTabsItem Key="general" Title="@Text["DemoLayoutGeneral"]">@Text["DemoLayoutGeneralText"]</OmniTabsItem>
+            <OmniTabsItem Key="securite" Title="@Text["DemoLayoutSecurity"]">@Text["DemoLayoutSecurityText"]</OmniTabsItem>
         </OmniTabs>
-        <OmniSettingsTile Title="Tuile aérée" Description="Sa propre densité." Density="OmniDensity.Spacious">
+        <OmniSettingsTile Title="@Text["DemoLayoutSpaciousTile"]" Description="@Text["DemoLayoutOwnDensity"]" Density="OmniDensity.Spacious">
             <ChildContent><OmniSwitch @bind-Value="WeeklyDigest" /></ChildContent>
         </OmniSettingsTile>
     </OmniStack>

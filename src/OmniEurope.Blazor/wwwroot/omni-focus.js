@@ -648,10 +648,7 @@ function showMenu(key, options) {
     state.attempts = 0;
     if (state.menu !== menu) {
         state.menu?.removeEventListener('keydown', state.onKeyDown);
-        if (options.keys !== false) {
-            menu.addEventListener('keydown', state.onKeyDown);
-        }
-
+        menu.addEventListener('keydown', state.onKeyDown);
         state.menu = menu;
     }
 
@@ -718,30 +715,6 @@ export function moveMenuFocus(menuOrId, key) {
     if (key === 'Home') next = 0;
     if (key === 'End') next = items.length - 1;
     items[next].focus();
-}
-
-// The context menu of OmniHtmlEditor, which draws its own list and routes its own keys: the same
-// engine, opened at the pointer, its press outside reported without an argument.
-export function openContextMenu(popupId, key, trigger, x, y, dotnet) {
-    showMenu(key, {
-        menuId: popupId,
-        anchor: trigger,
-        placement: 'pointer',
-        x,
-        y,
-        focusLast: false,
-        closeOnOutsideClick: true,
-        keys: false,
-        dismiss: () => void dotnet.invokeMethodAsync('OmniContextMenu.Dismiss')
-    });
-}
-
-export function moveContextMenuFocus(popupId, key) {
-    moveMenuFocus(popupId, key);
-}
-
-export function closeContextMenu(key) {
-    closeMenu(key, false);
 }
 
 const tabsWheelScopes = new Map();

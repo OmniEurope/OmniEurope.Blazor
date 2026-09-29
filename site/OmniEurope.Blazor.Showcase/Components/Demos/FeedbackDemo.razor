@@ -2,60 +2,60 @@
     @* Les six tons de la barre, dans ses deux formes. Indéterminée, elle n'affiche aucun nombre :
        ShowValue y écrit « En cours ». *@
     <OmniStack Gap="OmniSpacing.Small">
-        <OmniProgressBar Label="Téléversement" Value="62" ShowValue="true"
+        <OmniProgressBar Label="@Text["DemoFeedbackUpload"]" Value="62" ShowValue="true"
                          Shape="OmniProgressShape.Linear" Tone="OmniTone.Accent" />
-        <OmniProgressBar Label="Indexation" Value="40" ShowValue="true"
+        <OmniProgressBar Label="@Text["DemoFeedbackIndexing"]" Value="40" ShowValue="true"
                          Tone="OmniTone.Neutral" />
-        <OmniProgressBar Label="Synchronisation" Value="55" ShowValue="true"
+        <OmniProgressBar Label="@Text["DemoFeedbackSync"]" Value="55" ShowValue="true"
                          Tone="OmniTone.Info" />
-        <OmniProgressBar Label="Dossiers traités" Value="88" ShowValue="true"
+        <OmniProgressBar Label="@Text["DemoFeedbackProcessed"]" Value="88" ShowValue="true"
                          Tone="OmniTone.Success" />
-        <OmniProgressBar Label="Quota bientôt atteint" Value="76" ShowValue="true"
+        <OmniProgressBar Label="@Text["DemoFeedbackQuotaNear"]" Value="76" ShowValue="true"
                          Tone="OmniTone.Warning" />
-        <OmniProgressBar Label="Échecs d'import" Value="12" ShowValue="true"
+        <OmniProgressBar Label="@Text["DemoFeedbackImportFailures"]" Value="12" ShowValue="true"
                          Tone="OmniTone.Danger" />
-        <OmniProgressBar Label="Analyse en cours" Indeterminate="true" ShowValue="true" />
+        <OmniProgressBar Label="@Text["DemoFeedbackAnalysing"]" Indeterminate="true" ShowValue="true" />
     </OmniStack>
 
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Large" Align="OmniAlignment.Center">
-        <OmniProgressBar Label="Progression" Value="45" ShowValue="true" Shape="OmniProgressShape.Circular" />
-        <OmniProgressBar Label="Sans fin connue" Indeterminate="true" Shape="OmniProgressShape.Circular" />
+        <OmniProgressBar Label="@Text["DemoFeedbackProgress"]" Value="45" ShowValue="true" Shape="OmniProgressShape.Circular" />
+        <OmniProgressBar Label="@Text["DemoFeedbackNoKnownEnd"]" Indeterminate="true" Shape="OmniProgressShape.Circular" />
     </OmniStack>
 
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
-        <OmniTooltip Text="Le quota est calculé sur trente jours glissants.">
-            <OmniBadge Tone="OmniTone.Neutral">Quota</OmniBadge>
+        <OmniTooltip Text="@Text["DemoFeedbackQuotaTooltip"]">
+            <OmniBadge Tone="OmniTone.Neutral">@Text["DemoFeedbackQuota"]</OmniBadge>
         </OmniTooltip>
-        <OmniTooltip Text="Un dossier archivé reste consultable en lecture seule." Tracking="OmniTooltipTracking.Pinned">
-            <OmniBadge Tone="OmniTone.Accent">Archivé</OmniBadge>
+        <OmniTooltip Text="@Text["DemoFeedbackArchivedTooltip"]" Tracking="OmniTooltipTracking.Pinned">
+            <OmniBadge Tone="OmniTone.Accent">@Text["DemoFeedbackArchived"]</OmniBadge>
         </OmniTooltip>
-        <OmniTooltip Text="Brouillon." MaxWidth="OmniTooltipWidth.Narrow">
-            <OmniBadge Tone="OmniTone.Neutral">Étroite</OmniBadge>
+        <OmniTooltip Text="@Text["DemoFeedbackDraftTooltip"]" MaxWidth="OmniTooltipWidth.Narrow">
+            <OmniBadge Tone="OmniTone.Neutral">@Text["DemoFeedbackNarrow"]</OmniBadge>
         </OmniTooltip>
         @* Au-delà de CompactLength (240 caractères par défaut), l'infobulle s'ouvre sur un aperçu et
            une action « Afficher plus » que le pointeur peut atteindre ; le texte n'est jamais coupé en silence. *@
         <OmniTooltip MaxWidth="OmniTooltipWidth.Wide" Tracking="OmniTooltipTracking.Pinned"
-                     Text="Un dossier archivé reste consultable en lecture seule. Il ne compte plus dans les quotas, n'apparaît plus dans les recherches par défaut et ne reçoit plus de notifications. Pour le rouvrir, un administrateur le restaure depuis l'onglet Archives ; son historique, ses pièces jointes et ses commentaires reviennent alors intacts, avec la date de restauration.">
-            <OmniBadge Tone="OmniTone.Accent">Texte long</OmniBadge>
+                     Text="@Text["DemoFeedbackLongTooltip"]">
+            <OmniBadge Tone="OmniTone.Accent">@Text["DemoFeedbackLongText"]</OmniBadge>
         </OmniTooltip>
     </OmniStack>
 
     @* OmniTitleTooltips, placé une fois dans la mise en page, remplace l'infobulle du navigateur de tout
        attribut title par celle du paquet : 12rem au plus, avec une pointe vers la souris. *@
     <OmniTitleTooltips />
-    <OmniButton Variant="OmniButtonVariant.Secondary" title="Infobulle du paquet sur un simple attribut title.">Survoler</OmniButton>
+    <OmniButton Variant="OmniButtonVariant.Secondary" title="@Text["DemoFeedbackTitleTooltip"]">@Text["DemoFeedbackHover"]</OmniButton>
 
     @* Le squelette prend la forme de ce qu'il remplace le temps du chargement. *@
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Start">
-        <OmniSkeleton Shape="OmniSkeletonShape.Circle" Label="Chargement de l'avatar" />
-        <OmniSkeleton Shape="OmniSkeletonShape.Rectangle" Label="Chargement de la vignette" />
-        <OmniSkeleton Shape="OmniSkeletonShape.Text" LineCount="3" Label="Chargement du dossier" />
+        <OmniSkeleton Shape="OmniSkeletonShape.Circle" Label="@Text["DemoFeedbackLoadingAvatar"]" />
+        <OmniSkeleton Shape="OmniSkeletonShape.Rectangle" Label="@Text["DemoFeedbackLoadingThumbnail"]" />
+        <OmniSkeleton Shape="OmniSkeletonShape.Text" LineCount="3" Label="@Text["DemoFeedbackLoadingFile"]" />
     </OmniStack>
     @* La barre de chargement de page, en remplissage : elle ralentit sans finir tant que dure le
        chargement, va au bout quand il se termine, puis s'efface. *@
     <OmniStack Gap="OmniSpacing.Small">
-        <OmniLoadingBar Mode="OmniLoadingBarMode.Continuous" Label="Chargement de la démonstration" />
-        <OmniButton Size="OmniControlSize.Small" Disabled="@Loading.Loading" OnClick="SimulateLoadAsync">Simuler un chargement</OmniButton>
+        <OmniLoadingBar Mode="OmniLoadingBarMode.Continuous" Label="@Text["DemoFeedbackLoadingDemo"]" />
+        <OmniButton Size="OmniControlSize.Small" Disabled="@Loading.Loading" OnClick="SimulateLoadAsync">@Text["DemoFeedbackSimulateLoad"]</OmniButton>
     </OmniStack>
 </OmniStack>
 
@@ -64,6 +64,6 @@
     <OmniStatusBadge TValue="string" Value="@("failed")" Map="DemoStatuses" />
 </OmniStack>
 
-<OmniStatusStrip Items="RecentRuns" Map="RunTones" Label="Dernières exécutions" />
+<OmniStatusStrip Items="RecentRuns" Map="RunTones" Label="@Text["DemoFeedbackRecentRuns"]" />
 <OmniStatusStrip Items="RecentRuns" Map="RunTones" Shape="OmniStatusStripShape.Segment"
-                 Label="Disponibilité sur les dernières heures" />
+                 Label="@Text["DemoFeedbackAvailability"]" />

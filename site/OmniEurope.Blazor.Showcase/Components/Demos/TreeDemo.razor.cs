@@ -1,7 +1,12 @@
+using OmniEurope.Blazor.Showcase.Resources;
+
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class TreeDemo
 {
+    [Inject]
+    private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
+
     private IReadOnlyList<string> Selected { get; set; } = ["bru"];
 
     private List<string> Archives { get; } = [];

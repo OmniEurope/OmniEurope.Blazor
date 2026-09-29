@@ -5,7 +5,8 @@
 @* The same surface as OmniRadioButtonList: an Error line inside the fieldset after the choices, the
    group marked invalid by it or by a validation message of the form, and described by it. *@
 <fieldset @attributes="AdditionalAttributes" id="@Id" class="@InputCss("omni-choice-list", IsInvalid ? "omni-choice-list--invalid" : null)" disabled="@Disabled"
-          aria-invalid="@(IsInvalid ? "true" : null)" aria-describedby="@DescribedBy">
+          aria-invalid="@(IsInvalid ? "true" : null)" aria-describedby="@DescribedBy"
+          aria-labelledby="@(string.IsNullOrWhiteSpace(Label) ? FormFieldLabelId : null)">
     @if (!string.IsNullOrWhiteSpace(Label))
     {
         <legend class="omni-choice-list__legend">@Label</legend>

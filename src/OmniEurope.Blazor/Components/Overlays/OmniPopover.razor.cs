@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 public partial class OmniPopover
 {
-    private const string FocusModulePath = "./_content/OmniEurope.Blazor/omni-focus.js";
+    private const string FocusModulePath = Internal.OmniModules.Focus;
 
     private readonly string _generatedId = $"omni-popover-{Guid.NewGuid():N}";
     private ElementReference _root;
@@ -121,6 +121,13 @@ public partial class OmniPopover
         await OpenChanged.InvokeAsync(open);
     }
 
+    /// <summary>
+    /// When the panel opens, attaches the script that closes it on a click outside or on Escape. When it
+    /// closes, detaches that script and, when closed by Escape or <see cref="CloseAsync"/>, gives focus
+    /// back to the trigger.
+    /// </summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the script calls are done.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (IsOpen && !_panelActive)

@@ -1,5 +1,10 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// A file field: a drop zone (or a field with a Browse button) that checks the chosen files against
+/// its limits, hands them to <see cref="Upload"/> with progress and cancellation, and lists the files
+/// it holds. Messages are localized.
+/// </summary>
 public partial class OmniUpload
 {
     private readonly string _generatedId = $"omni-upload-{Guid.NewGuid():N}";
@@ -13,18 +18,32 @@ public partial class OmniUpload
     private bool _hasError;
     private bool _showAll;
 
+    /// <summary>Whether several files can be chosen at once and added to the list; off by default, a new file then replaces the list.</summary>
     [Parameter]
     public bool Multiple { get; set; }
 
+    /// <summary>Whether the field is disabled: no file can be chosen, dropped or removed. Off by default.</summary>
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>
+    /// The most files a selection may hold, 10 by default; bound and <see cref="Multiple"/>, the files
+    /// already listed count too. A selection over it is refused whole with a localized error.
+    /// </summary>
     [Parameter]
     public int MaximumFiles { get; set; } = 10;
 
+    /// <summary>
+    /// The largest size of one file, in bytes; 10 MiB by default. A selection holding a larger file is
+    /// refused whole, and <see cref="OmniUploadRequest.OpenReadStream"/> reads no more than this.
+    /// </summary>
     [Parameter]
     public long MaximumFileSize { get; set; } = 10 * 1024 * 1024;
 
+    /// <summary>
+    /// The content types accepted (<c>text/csv</c>), compared without regard to case; a selection
+    /// holding another type is refused whole. Empty (the default) accepts any type.
+    /// </summary>
     [Parameter]
     public IReadOnlyList<string> AllowedContentTypes { get; set; } = Array.Empty<string>();
 
@@ -45,6 +64,7 @@ public partial class OmniUpload
     [Parameter]
     public Func<OmniUploadRequest, Task>? Upload { get; set; }
 
+    /// <summary>Raised with the files of a selection that passed the checks, before <see cref="Upload"/> runs.</summary>
     [Parameter]
     public EventCallback<IReadOnlyList<IBrowserFile>> FilesSelected { get; set; }
 
@@ -63,6 +83,10 @@ public partial class OmniUpload
     [Parameter]
     public IReadOnlyList<OmniUploadFile> Files { get; set; } = Array.Empty<OmniUploadFile>();
 
+    /// <summary>
+    /// Raised with the new list when an accepted selection is added or a file removed. Handling it
+    /// binds <see cref="Files"/>: without it, the field lists the last selection only.
+    /// </summary>
     [Parameter]
     public EventCallback<IReadOnlyList<OmniUploadFile>> FilesChanged { get; set; }
 
@@ -299,6 +323,8 @@ public partial class OmniUpload
             ? OmniIconName.Image
             : OmniIconName.Document;
 
+    /// <summary>Cancels an upload still running and releases its cancellation source.</summary>
+    /// <returns>A completed task.</returns>
     public ValueTask DisposeAsync()
     {
         _uploadCancellation?.Cancel();

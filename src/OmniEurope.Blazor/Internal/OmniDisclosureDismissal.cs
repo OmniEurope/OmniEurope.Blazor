@@ -28,7 +28,7 @@ internal sealed class OmniDisclosureDismissal(IJSRuntime javaScript) : IAsyncDis
 
         if (_module is null)
         {
-            var module = await javaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omni-focus.js");
+            var module = await javaScript.InvokeAsync<IJSObjectReference>("import", OmniModules.Focus);
             if (_disposed)
             {
                 // The owner left the page during the import: configure nothing, release the module.

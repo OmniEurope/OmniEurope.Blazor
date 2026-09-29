@@ -18,14 +18,20 @@
   <data name="SettingsTextSize" xml:space="preserve"><value>Teksti suurus</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Tihedus</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Juhtelementide suurus</value></data>
-  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Juhtelemendid</value></data>
-  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Tekst</value></data>
-  <data name="SettingsDensityShort" xml:space="preserve"><value>Tihedus</value></data>
-  <data name="SettingsScale" xml:space="preserve"><value>Suurused</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Vaikimisi</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>vaikimisi</value></data>
-  <data name="SettingsDecrease" xml:space="preserve"><value>Vähenda</value></data>
-  <data name="SettingsIncrease" xml:space="preserve"><value>Suurenda</value></data>
+  <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Vähenda teksti suurust</value></data>
+  <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Suurenda teksti suurust</value></data>
+  <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Vähenda juhtelementide suurust</value></data>
+  <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Suurenda juhtelementide suurust</value></data>
+  <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
+  <data name="SettingsLook" xml:space="preserve"><value>Teema ja suurused</value></data>
+  <data name="SettingsLookTitle" xml:space="preserve"><value>Teema, palett ja suurused</value></data>
+  <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Tekst {1} · {2}</value></data>
+  <data name="SettingsLookSummaryFull" xml:space="preserve"><value>{0} · Tekst {1} · {2} · Juhtelemendid {3}</value></data>
+  <data name="DensityCompact" xml:space="preserve"><value>Kompaktne</value></data>
+  <data name="DensityComfortable" xml:space="preserve"><value>Mugav</value></data>
+  <data name="DensitySpacious" xml:space="preserve"><value>Avar</value></data>
   <data name="ArcGaugeLabel" xml:space="preserve"><value>Näidik</value></data>
   <data name="LabelValuePair" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="ChartCategoryColumn" xml:space="preserve"><value>Kategooria</value></data>
@@ -85,8 +91,6 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Laienda või ahenda kõik read</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Vabasta külmutatud veerud</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Külmuta veerud uuesti</value></data>
-  <data name="GridShrinkColumn" xml:space="preserve"><value>Kitsenda veergu: {0}</value></data>
-  <data name="GridGrowColumn" xml:space="preserve"><value>Laienda veergu: {0}</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Esimene leht</value></data>
   <data name="PagerLast" xml:space="preserve"><value>Viimane leht</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Ridu lehel</value></data>
@@ -348,6 +352,10 @@
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Profiilimenüü</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Edenemine</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>Käimas</value></data>
+  <data name="TextAreaCount" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="HeaderHome" xml:space="preserve"><value>Avaleht</value></data>
+  <data name="HeaderLogo" xml:space="preserve"><value>Logo</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Raadionuppude valik on vigane.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>See väli on kohustuslik.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Eelmine periood</value></data>
@@ -366,6 +374,7 @@
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} jääb oma kohale.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} teisaldatud: {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Segmentvalik on vigane.</value></data>
+  <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Valik on vigane.</value></data>
   <data name="RatingLabel" xml:space="preserve"><value>Hinnang</value></data>
   <data name="RatingStar" xml:space="preserve"><value>{0}/{1}</value></data>
   <data name="RatingValue" xml:space="preserve"><value>{0}: {1}/{2}</value></data>
@@ -451,8 +460,9 @@
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, algus {1}, kestus</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Kinnita</value></data>
   <data name="GoBack" xml:space="preserve"><value>Tagasi</value></data>
-  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Kuva märgid ja toimingud</value></data>
-  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Peida märgid ja toimingud</value></data>
+  <data name="PageHeaderShowMore" xml:space="preserve"><value>Kuva rohkem</value></data>
+  <data name="PageHeaderScrollTitleStart" xml:space="preserve"><value>Keri pealkiri algusesse</value></data>
+  <data name="PageHeaderScrollTitleEnd" xml:space="preserve"><value>Keri pealkiri lõppu</value></data>
   <data name="DetailNotFound" xml:space="preserve"><value>Üksust ei leitud</value></data>
   <data name="SignIn" xml:space="preserve"><value>Logi sisse</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Ühendus katkes</value></data>
@@ -475,7 +485,7 @@
   <data name="WizardFinish" xml:space="preserve"><value>Lõpeta</value></data>
   <data name="RelativeTimeNow" xml:space="preserve"><value>just nüüd</value></data>
   <data name="RelativeTimePast" xml:space="preserve"><value>{0} tagasi</value></data>
-  <data name="RelativeTimeFuture" xml:space="preserve"><value>{0} hiljem</value></data>
+  <data name="RelativeTimeFuture" xml:space="preserve"><value>{0} pärast</value></data>
   <data name="RelativeTimeSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} t</value></data>
@@ -485,6 +495,15 @@
   <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} kuud</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} aasta</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} aastat</value></data>
+  <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} t</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} päeva</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} päeva</value></data>
+  <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} kuu</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} kuu</value></data>
+  <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} aasta</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} aasta</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Allajoonitud</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Läbikriipsutatud</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Tekstisisene kood</value></data>

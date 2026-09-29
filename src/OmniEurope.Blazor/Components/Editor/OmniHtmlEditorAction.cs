@@ -15,11 +15,22 @@ public enum OmniHtmlEditorAction
     /// <summary>A visual separator between two groups of commands.</summary>
     Separator,
 
+    /// <summary>Bold text; in the source face, <c>strong</c> around the selection.</summary>
     Bold,
+
+    /// <summary>Italic text; in the source face, <c>em</c> around the selection.</summary>
     Italic,
+
+    /// <summary>Underlined text (<c>u</c>).</summary>
     Underline,
+
+    /// <summary>Struck-through text (<c>s</c>).</summary>
     Strikethrough,
+
+    /// <summary>Subscript text (<c>sub</c>).</summary>
     Subscript,
+
+    /// <summary>Superscript text (<c>sup</c>).</summary>
     Superscript,
 
     /// <summary>Inline code (<c>code</c>) around the selection.</summary>
@@ -31,20 +42,40 @@ public enum OmniHtmlEditorAction
     /// <summary>A list of four text sizes, carried by classes rather than inline styles.</summary>
     FontSize,
 
+    /// <summary>Turns the selection into a bulleted list (<c>ul</c>).</summary>
     BulletList,
+
+    /// <summary>Turns the selection into a numbered list (<c>ol</c>).</summary>
     NumberedList,
+
+    /// <summary>Nests a list item one level deeper; outside a list, puts the block in a quote (<c>blockquote</c>).</summary>
     Indent,
+
+    /// <summary>Moves a list item one level up; outside a list, takes the block out of its quote.</summary>
     Outdent,
+
+    /// <summary>Puts the block in a quote (<c>blockquote</c>), or takes it out of the quote it is in.</summary>
     Quote,
+
+    /// <summary>Turns the block into a code block (<c>pre</c>), or a code block back into a paragraph.</summary>
     CodeBlock,
 
     /// <summary>Opens the link field of the editor, then links the selection to the given address.</summary>
     Link,
 
+    /// <summary>Removes the link at the caret, or the links of the selection, keeping their text.</summary>
     Unlink,
+
+    /// <summary>Aligns the selected blocks to the start, removing any alignment class.</summary>
     AlignLeft,
+
+    /// <summary>Centres the selected blocks (class <c>omni-align-center</c>).</summary>
     AlignCenter,
+
+    /// <summary>Aligns the selected blocks to the end (a class, never an inline style).</summary>
     AlignRight,
+
+    /// <summary>Justifies the selected blocks (a class, never an inline style).</summary>
     AlignJustify,
 
     /// <summary>Inserts a table of three rows and three columns at the caret.</summary>
@@ -53,7 +84,10 @@ public enum OmniHtmlEditorAction
     /// <summary>Removes inline formatting, sizes and alignment from the selection.</summary>
     ClearFormatting,
 
+    /// <summary>Restores the value before the last change, from the editor's own history.</summary>
     Undo,
+
+    /// <summary>Applies again the change the last <see cref="Undo"/> took back.</summary>
     Redo,
 
     /// <summary>Switches between <see cref="OmniHtmlEditorMode.Visual"/> and <see cref="OmniHtmlEditorMode.Source"/>.</summary>

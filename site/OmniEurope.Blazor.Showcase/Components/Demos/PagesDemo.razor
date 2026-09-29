@@ -1,58 +1,58 @@
 <OmniStack Gap="OmniSpacing.Large">
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
         <OmniButton Id="pages-demo-load" Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="LoadAsync">
-            <OmniIcon Name="OmniIconName.Refresh" /><span>Recharger la fiche</span>
+            <OmniIcon Name="OmniIconName.Refresh" /><span>@Text["DemoPagesReload"]</span>
         </OmniButton>
         <OmniButton Id="pages-demo-missing" Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ShowMissing">
-            <OmniIcon Name="OmniIconName.Search" /><span>Fiche introuvable</span>
+            <OmniIcon Name="OmniIconName.Search" /><span>@Text["DemoPagesMissing"]</span>
         </OmniButton>
     </OmniStack>
 
     @* L'en-tête est peint avant l'arrivée de la fiche ; le fil d'Ariane vient du service, dont la
        page remplace le dernier maillon quand le nom est connu. *@
     <OmniDetailShell Id="pages-demo-shell" State="State" BackHref="composants/pages"
-                     NotFoundDescription="La fiche demandée a été retirée ou n'a jamais existé.">
+                     NotFoundDescription="@Text["DemoPagesNotFound"]">
         <Header>
             @* Ligne 1 : retour (Primary par défaut), titre, badges, actions et menu « ⋮ » ; ligne 2 : le fil
                d'Ariane, qui finit par le titre. Le sous-titre passe sous le bloc, la ligne 2 portant le fil.
                Framed dessine le cadre ; sans lui, le bloc est posé sur la page, à la même hauteur fixe. *@
-            <OmniPageHeader Framed="true" ShowBack="true" BackHref="composants/pages" Subtitle="Machine virtuelle de la zone Paris.">
+            <OmniPageHeader Framed="true" ShowBack="true" BackHref="composants/pages" Subtitle="@Text["DemoPagesSubtitle"]">
                 <Badges>
-                    <OmniBadge Tone="OmniTone.Success">En ligne</OmniBadge>
+                    <OmniBadge Tone="OmniTone.Success">@Text["DemoPagesOnline"]</OmniBadge>
                 </Badges>
                 <Actions>
-                    <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small"><OmniIcon Name="OmniIconName.Edit" /><span>Modifier</span></OmniButton>
-                    <OmniButton Variant="OmniButtonVariant.Danger" Size="OmniControlSize.Small"><OmniIcon Name="OmniIconName.Delete" /><span>Retirer</span></OmniButton>
+                    <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small"><OmniIcon Name="OmniIconName.Edit" /><span>@Text["DemoPagesEdit"]</span></OmniButton>
+                    <OmniButton Variant="OmniButtonVariant.Danger" Size="OmniControlSize.Small"><OmniIcon Name="OmniIconName.Delete" /><span>@Text["DemoPagesRemove"]</span></OmniButton>
                 </Actions>
                 <MenuContent>
-                    <OmniMenuItem><Icon><OmniIcon Name="OmniIconName.Copy" /></Icon><ChildContent>Dupliquer</ChildContent></OmniMenuItem>
-                    <OmniMenuItem><Icon><OmniIcon Name="OmniIconName.Archive" /></Icon><ChildContent>Archiver</ChildContent></OmniMenuItem>
+                    <OmniMenuItem><Icon><OmniIcon Name="OmniIconName.Copy" /></Icon><ChildContent>@Text["DemoPagesDuplicate"]</ChildContent></OmniMenuItem>
+                    <OmniMenuItem><Icon><OmniIcon Name="OmniIconName.Archive" /></Icon><ChildContent>@Text["DemoPagesArchive"]</ChildContent></OmniMenuItem>
                 </MenuContent>
                 <Filters>
-                    <OmniBadge Tone="OmniTone.Neutral">Production</OmniBadge>
+                    <OmniBadge Tone="OmniTone.Neutral">@Text["DemoPagesProduction"]</OmniBadge>
                     <OmniBadge Tone="OmniTone.Neutral">Linux</OmniBadge>
                 </Filters>
             </OmniPageHeader>
         </Header>
         <ChildContent>
             <OmniDescriptionList Id="pages-demo-essentials" Columns="2">
-                <OmniDescriptionItem Label="Nom">srv-paris-01</OmniDescriptionItem>
-                <OmniDescriptionItem Label="Système"><Icon><OmniIcon Name="OmniIconName.Monitor" /></Icon><ChildContent>Debian 13</ChildContent></OmniDescriptionItem>
-                <OmniDescriptionItem Label="Adresse IP"><Icon><OmniIcon Name="OmniIconName.Globe" /></Icon><ChildContent>10.0.4.21</ChildContent></OmniDescriptionItem>
-                <OmniDescriptionItem Label="Jeton d'accès">
+                <OmniDescriptionItem Label="@Text["DemoPagesName"]">srv-paris-01</OmniDescriptionItem>
+                <OmniDescriptionItem Label="@Text["DemoPagesSystem"]"><Icon><OmniIcon Name="OmniIconName.Monitor" /></Icon><ChildContent>Debian 13</ChildContent></OmniDescriptionItem>
+                <OmniDescriptionItem Label="@Text["DemoPagesIpAddress"]"><Icon><OmniIcon Name="OmniIconName.Globe" /></Icon><ChildContent>10.0.4.21</ChildContent></OmniDescriptionItem>
+                <OmniDescriptionItem Label="@Text["DemoPagesToken"]">
                     <ChildContent>@(TokenShown ? "7f3a-91c2-0bd4" : "••••-••••-••••")</ChildContent>
                     <Actions>
                         <OmniButton Id="pages-demo-reveal" Variant="OmniButtonVariant.Ghost" Size="OmniControlSize.Small"
-                                    Label="@(TokenShown ? "Masquer le jeton" : "Afficher le jeton")"
+                                    Label="@(TokenShown ? Text["DemoPagesHideToken"] : Text["DemoPagesShowToken"])"
                                     OnClick="@(_ => TokenShown = !TokenShown)">
                             <OmniIcon Name="@(TokenShown ? OmniIconName.EyeSlash : OmniIconName.Eye)" />
                         </OmniButton>
                     </Actions>
                 </OmniDescriptionItem>
-                <OmniDescriptionItem Label="Dernier signal">
+                <OmniDescriptionItem Label="@Text["DemoPagesLastSignal"]">
                     <OmniRelativeTime Id="pages-demo-heartbeat" Value="Heartbeat" RefreshInterval="TimeSpan.FromSeconds(15)" />
                 </OmniDescriptionItem>
-                <OmniDescriptionItem Label="Certificat">
+                <OmniDescriptionItem Label="@Text["DemoPagesCertificate"]">
                     <OmniRelativeTime Value="CertificateExpiry" Format="d MMMM yyyy" />
                 </OmniDescriptionItem>
             </OmniDescriptionList>
@@ -60,21 +60,21 @@
     </OmniDetailShell>
 
     @* Le titre reste un paragraphe par défaut ; Level en fait un titre quand l'état vide ouvre une section. *@
-    <OmniEmptyState Title="Aucune sauvegarde" Description="Les sauvegardes planifiées apparaîtront ici après leur première exécution.">
+    <OmniEmptyState Title="@Text["DemoPagesNoBackup"]" Description="@Text["DemoPagesNoBackupText"]">
         <Actions>
-            <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small"><OmniIcon Name="OmniIconName.Add" /><span>Planifier</span></OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small"><OmniIcon Name="OmniIconName.Add" /><span>@Text["DemoPagesSchedule"]</span></OmniButton>
         </Actions>
     </OmniEmptyState>
-    <OmniEmptyState Level="OmniHeadingLevel.H3" Title="Aucun résultat" Description="Aucun serveur ne correspond au filtre.">
+    <OmniEmptyState Level="OmniHeadingLevel.H3" Title="@Text["DemoPagesNoResult"]" Description="@Text["DemoPagesNoResultText"]">
         <Icon><OmniIcon Name="OmniIconName.Search" Size="OmniControlSize.Large" /></Icon>
     </OmniEmptyState>
 
     @* Tuiles de statistique : la seconde, cliquable, est un vrai bouton nommé par son libellé et sa valeur. *@
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
-        <OmniStatTile Value="12,4 k" Label="Tokens aujourd'hui" Detail="Réinitialisation à 18:00">
+        <OmniStatTile Value="@Text["DemoPagesTokensValue", 12.4]" Label="@Text["DemoPagesTokensToday"]" Detail="@Text["DemoPagesTokensReset", ResetTime]">
             <Icon><OmniIcon Name="OmniIconName.Database" /></Icon>
         </OmniStatTile>
-        <OmniStatTile Value="83 %" Label="Hebdomadaire" OnClick="@(() => { })">
+        <OmniStatTile Value="@WeeklyShare" Label="@Text["DemoPagesWeekly"]" OnClick="@(() => { })">
             <Icon><OmniIcon Name="OmniIconName.CalendarCheck" /></Icon>
         </OmniStatTile>
     </OmniStack>

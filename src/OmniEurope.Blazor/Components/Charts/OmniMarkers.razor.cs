@@ -20,6 +20,7 @@ public partial class OmniMarkers
     /// <summary>Rank in the palette of eight chart colours; a larger index wraps around.</summary>
     [Parameter] public int ColorIndex { get; set; }
 
+    /// <summary>Registers the points with the chart so the plot covers them; markers stay out of the legend and the data table.</summary>
     protected override void OnParametersSet() => ChartContext?.RegisterSeries(this, OmniChartSeriesKind.Auxiliary, Data);
 
     private (double X, double Y) Projected(int index) =>

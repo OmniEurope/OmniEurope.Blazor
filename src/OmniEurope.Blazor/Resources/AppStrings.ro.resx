@@ -18,15 +18,25 @@
   <data name="SettingsTextSize" xml:space="preserve"><value>Dimensiunea textului</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Densitate</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Dimensiunea controalelor</value></data>
-  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Controale</value></data>
-  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Text</value></data>
-  <data name="SettingsDensityShort" xml:space="preserve"><value>Densitate</value></data>
-  <data name="SettingsScale" xml:space="preserve"><value>Dimensiuni</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Implicit</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>implicit</value></data>
-  <data name="SettingsDecrease" xml:space="preserve"><value>Micșorează</value></data>
-  <data name="SettingsIncrease" xml:space="preserve"><value>Mărește</value></data>
+  <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Micșorează textul</value></data>
+  <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Mărește textul</value></data>
+  <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Micșorează controalele</value></data>
+  <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Mărește controalele</value></data>
+  <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
+  <data name="SettingsLook" xml:space="preserve"><value>Temă și dimensiuni</value></data>
+  <data name="SettingsLookTitle" xml:space="preserve"><value>Temă, paletă și dimensiuni</value></data>
+  <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Text {1} · {2}</value></data>
+  <data name="SettingsLookSummaryFull" xml:space="preserve"><value>{0} · Text {1} · {2} · Controale {3}</value></data>
+  <data name="DensityCompact" xml:space="preserve"><value>Compactă</value></data>
+  <data name="DensityComfortable" xml:space="preserve"><value>Confortabilă</value></data>
+  <data name="DensitySpacious" xml:space="preserve"><value>Aerisită</value></data>
   <data name="ArcGaugeLabel" xml:space="preserve"><value>Indicator</value></data>
+  <data name="LabelValuePair" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="ChartCategoryColumn" xml:space="preserve"><value>Categorie</value></data>
+  <data name="ChartValueColumn" xml:space="preserve"><value>Valoare</value></data>
+  <data name="ChartSeriesFallback" xml:space="preserve"><value>Seria {0}</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Căutarea a eșuat. Modificați textul introdus pentru a reîncerca.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>1 rezultat disponibil.</value></data>
   <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} rezultate disponibile.</value></data>
@@ -81,8 +91,6 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Extinde sau restrânge toate rândurile</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Detașează coloanele fixate</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Fixează din nou coloanele</value></data>
-  <data name="GridShrinkColumn" xml:space="preserve"><value>Îngustează coloana {0}</value></data>
-  <data name="GridGrowColumn" xml:space="preserve"><value>Lărgește coloana {0}</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Prima pagină</value></data>
   <data name="PagerLast" xml:space="preserve"><value>Ultima pagină</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Rânduri pe pagină</value></data>
@@ -344,6 +352,10 @@
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Meniul profilului</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Progres</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>În curs</value></data>
+  <data name="TextAreaCount" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="HeaderHome" xml:space="preserve"><value>Acasă</value></data>
+  <data name="HeaderLogo" xml:space="preserve"><value>Logo</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Selecția radio nu este validă.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Acest câmp este obligatoriu.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Perioada anterioară</value></data>
@@ -362,6 +374,7 @@
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} rămâne pe loc.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} mutat la {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Selecția segmentată nu este validă.</value></data>
+  <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Alegerea nu este validă.</value></data>
   <data name="RatingLabel" xml:space="preserve"><value>Evaluare</value></data>
   <data name="RatingStar" xml:space="preserve"><value>{0} din {1}</value></data>
   <data name="RatingValue" xml:space="preserve"><value>{0}: {1} din {2}</value></data>
@@ -447,8 +460,9 @@
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, pornit la {1}, durată</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Confirmă</value></data>
   <data name="GoBack" xml:space="preserve"><value>Înapoi</value></data>
-  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Afișează insignele și acțiunile</value></data>
-  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Ascunde insignele și acțiunile</value></data>
+  <data name="PageHeaderShowMore" xml:space="preserve"><value>Mai mult</value></data>
+  <data name="PageHeaderScrollTitleStart" xml:space="preserve"><value>Derulează titlul la început</value></data>
+  <data name="PageHeaderScrollTitleEnd" xml:space="preserve"><value>Derulează titlul la sfârșit</value></data>
   <data name="DetailNotFound" xml:space="preserve"><value>Elementul nu a fost găsit</value></data>
   <data name="SignIn" xml:space="preserve"><value>Conectare</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Conexiune pierdută</value></data>
@@ -481,6 +495,15 @@
   <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} luni</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} an</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} ani</value></data>
+  <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} h</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} zi</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} zile</value></data>
+  <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} lună</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} luni</value></data>
+  <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} an</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} ani</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Subliniat</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Tăiat</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Cod în linie</value></data>

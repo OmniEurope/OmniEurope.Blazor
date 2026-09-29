@@ -45,7 +45,7 @@ public sealed class ConnectionOverlayTests : OmniBunitContext
         var reconnects = 0;
         var overlay = Render<OmniConnectionOverlay>(parameters => parameters
             .Add(component => component.State, OmniConnectionState.Reconnecting)
-            .Add(component => component.SecondsUntilRetry, 5)
+            .Add(component => component.TimeUntilRetry, TimeSpan.FromSeconds(5))
             .Add(component => component.Reason, "délai dépassé")
             .Add(component => component.OnReconnect, () => reconnects++));
 
@@ -65,6 +65,16 @@ public sealed class ConnectionOverlayTests : OmniBunitContext
         Assert.Equal(1, reconnects);
         _focus.VerifyInvoke("activateDialog");
         Assert.DoesNotContain("style=", overlay.Markup, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void Reconnecting_ShowsTheTimeLeftInWholeSecondsRoundedUp()
+    {
+        var overlay = Render<OmniConnectionOverlay>(parameters => parameters
+            .Add(component => component.State, OmniConnectionState.Reconnecting)
+            .Add(component => component.TimeUntilRetry, TimeSpan.FromMilliseconds(4200)));
+
+        Assert.Equal("Nouvelle tentative dans 5 s", overlay.Find(".omni-connection-overlay__countdown").TextContent);
     }
 
     [Fact]
@@ -92,7 +102,7 @@ public sealed class ConnectionOverlayTests : OmniBunitContext
         var reconnects = 0;
         var overlay = Render<OmniConnectionOverlay>(parameters => parameters
             .Add(component => component.State, OmniConnectionState.Failed)
-            .Add(component => component.SecondsUntilRetry, 5)
+            .Add(component => component.TimeUntilRetry, TimeSpan.FromSeconds(5))
             .Add(component => component.OnReconnect, () => reconnects++));
 
         Assert.Equal("Connexion impossible", overlay.Find(".omni-connection-overlay__title").TextContent);
@@ -193,7 +203,7 @@ public sealed class ConnectionOverlayUnreachableScriptTests : OmniBunitContext
             .Add(component => component.State, OmniConnectionState.Reconnecting));
 
         Assert.NotEmpty(overlay.FindAll(".omni-connection-overlay__card--reconnecting"));
-        overlay.Render(parameters => parameters.Add(component => component.SecondsUntilRetry, 5));
+        overlay.Render(parameters => parameters.Add(component => component.TimeUntilRetry, TimeSpan.FromSeconds(5)));
         Assert.NotEmpty(overlay.FindAll(".omni-connection-overlay__card--reconnecting"));
     }
 

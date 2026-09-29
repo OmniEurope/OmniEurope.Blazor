@@ -16,7 +16,7 @@ namespace OmniEurope.Blazor.Components;
 /// <typeparam name="TItem">The type of the rows.</typeparam>
 public partial class OmniDataGrid<TItem>
 {
-    private const string GridModulePath = "./_content/OmniEurope.Blazor/omni-grid.js";
+    private const string GridModulePath = OmniModules.Grid;
 
     private readonly List<OmniDataGridColumnDefinition<TItem>> _columns = [];
     private readonly Dictionary<string, GridColumnFilter> _filters = new(StringComparer.Ordinal);
@@ -976,6 +976,10 @@ public partial class OmniDataGrid<TItem>
     /// <paramref name="replace"/> every other filter is cleared too. A key whose column has not
     /// rendered yet is kept and applies when it does.
     /// </summary>
+    /// <param name="values">Filter value per column key; the column's default operator applies (equality for a key without a column yet).</param>
+    /// <param name="replace">True to clear every filter not in <paramref name="values"/> first.</param>
+    /// <returns>A task that completes when the grid has reloaded and saved its state.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="values"/> is null.</exception>
     public async Task SetFiltersAsync(IReadOnlyDictionary<string, string?> values, bool replace = false)
     {
         ArgumentNullException.ThrowIfNull(values);
@@ -1365,6 +1369,8 @@ public partial class OmniDataGrid<TItem>
     /// Invoked by the grid script when the viewport leaves its horizontal start or comes back to it.
     /// Coming back ends a detachment: the frozen columns are frozen again and the control hides.
     /// </summary>
+    /// <param name="scrolled">True when the viewport has left its horizontal start.</param>
+    /// <returns>A completed task.</returns>
     [JSInvokable]
     public Task OnHorizontalScrollChangedAsync(bool scrolled)
     {
@@ -1707,7 +1713,13 @@ public partial class OmniDataGrid<TItem>
         return Task.CompletedTask;
     }
 
-    /// <summary>Invoked by the grid script when the viewport is scrolled or resized.</summary>
+    /// <summary>
+    /// Invoked by the grid script when the viewport is scrolled or resized. Loads and renders the rows of
+    /// the new window only when the window moved.
+    /// </summary>
+    /// <param name="scrollTop">Vertical scroll offset of the viewport, in CSS pixels.</param>
+    /// <param name="viewportHeight">Height of the viewport, in CSS pixels.</param>
+    /// <returns>A task that completes when the rows of the new window are loaded.</returns>
     [JSInvokable]
     public async Task OnViewportChangedAsync(double scrollTop, double viewportHeight)
     {
@@ -1724,7 +1736,12 @@ public partial class OmniDataGrid<TItem>
         StateHasChanged();
     }
 
-    /// <summary>Scrolls the virtualized viewport so that <paramref name="index"/> sits at its top edge.</summary>
+    /// <summary>
+    /// Scrolls the virtualized viewport so that <paramref name="index"/> sits at its top edge. Does
+    /// nothing when the grid is not virtualized or its script is not loaded yet.
+    /// </summary>
+    /// <param name="index">Zero-based index of the row in the virtualized rows.</param>
+    /// <returns>A task that completes when the scroll was requested.</returns>
     public async Task ScrollToIndexAsync(int index)
     {
         if (!Virtualized || _gridModule is null)
@@ -2100,7 +2117,12 @@ public partial class OmniDataGrid<TItem>
 
     // ---- editing ------------------------------------------------------------------------------
 
-    /// <summary>Puts a row in edit mode, honouring <see cref="EditMode"/>.</summary>
+    /// <summary>
+    /// Puts a row in edit mode, honouring <see cref="EditMode"/> (in single mode the row previously
+    /// edited leaves edit mode without any callback), then raises <see cref="OnRowEdit"/>.
+    /// </summary>
+    /// <param name="item">The row to edit, found by its key.</param>
+    /// <returns>A task that completes when <see cref="OnRowEdit"/> has run.</returns>
     public async Task EditRowAsync(TItem item)
     {
         if (EditMode == OmniDataGridRowMode.Single)
@@ -2113,7 +2135,9 @@ public partial class OmniDataGrid<TItem>
         StateHasChanged();
     }
 
-    /// <summary>Closes the edit state of a row and reports the update.</summary>
+    /// <summary>Closes the edit state of a row and reports the update through <see cref="OnRowUpdate"/>.</summary>
+    /// <param name="item">The edited row, found by its key.</param>
+    /// <returns>A task that completes when <see cref="OnRowUpdate"/> has run.</returns>
     public async Task UpdateRowAsync(TItem item)
     {
         _editedKeys.Remove(ItemKey(item));
@@ -2121,7 +2145,9 @@ public partial class OmniDataGrid<TItem>
         StateHasChanged();
     }
 
-    /// <summary>Closes the edit state of a row without reporting an update.</summary>
+    /// <summary>Closes the edit state of a row without reporting an update, and raises <see cref="OnRowEditCancel"/>.</summary>
+    /// <param name="item">The edited row, found by its key.</param>
+    /// <returns>A task that completes when <see cref="OnRowEditCancel"/> has run.</returns>
     public async Task CancelEditAsync(TItem item)
     {
         _editedKeys.Remove(ItemKey(item));
@@ -2931,6 +2957,11 @@ public partial class OmniDataGrid<TItem>
     /// text .NET can produce, so only its rendered rows are measured. Distinct values only, the
     /// width depends on the text and not on how many rows carry it.
     /// </summary>
+    /// <param name="key">Key of the column being fitted.</param>
+    /// <returns>
+    /// The distinct non-empty cell texts, or <c>null</c> when the column is not visible, does not fit
+    /// to content, or has a template.
+    /// </returns>
     [JSInvokable]
     public string[]? GetColumnAutoFitTexts(string key)
     {
@@ -2960,6 +2991,9 @@ public partial class OmniDataGrid<TItem>
     /// Width chosen by a fit to content, in CSS pixels measured by omni-grid.js. Reported once per
     /// gesture, then applied, persisted and announced like the end of a drag.
     /// </summary>
+    /// <param name="key">Key of the fitted column; ignored when that column is not visible or does not fit to content.</param>
+    /// <param name="width">Measured width in CSS pixels, raised to 48 when smaller.</param>
+    /// <returns>A task that completes when the width is applied, announced and saved.</returns>
     [JSInvokable]
     public async Task OnColumnAutoFitAsync(string key, double width)
     {
@@ -2977,6 +3011,9 @@ public partial class OmniDataGrid<TItem>
     /// Final width of a pointer drag on a column's resize handle, in CSS pixels measured by
     /// omni-grid.js. The gesture itself never round-trips to .NET; only its outcome does.
     /// </summary>
+    /// <param name="key">Key of the resized column; ignored when resizing is off or that column is not visible.</param>
+    /// <param name="width">Final width in CSS pixels, raised to 48 when smaller.</param>
+    /// <returns>A task that completes when the width is applied, announced and saved.</returns>
     [JSInvokable]
     public async Task OnColumnResizedAsync(string key, double width)
     {

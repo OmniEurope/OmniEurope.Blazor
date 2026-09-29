@@ -15,7 +15,11 @@ public partial class OmniRadioButtonList<TValue>
     [Parameter, EditorRequired]
     public IReadOnlyList<OmniOption<TValue>> Options { get; set; } = Array.Empty<OmniOption<TValue>>();
 
-    /// <summary>The legend of the group, which names it. Null or blank draws none.</summary>
+    /// <summary>
+    /// The legend of the group, which names it. Null or blank draws none: the group is then named by the
+    /// label of an enclosing <see cref="OmniFormField"/> whose <c>For</c> is
+    /// <see cref="OmniInputBase{TValue}.Id"/> (<c>aria-labelledby</c>).
+    /// </summary>
     [Parameter]
     public string? Label { get; set; }
 
@@ -59,6 +63,11 @@ public partial class OmniRadioButtonList<TValue>
         }
     }
 
+    /// <summary>Never parses: the list sets its value from the button chosen, never from text.</summary>
+    /// <param name="value">The text, ignored.</param>
+    /// <param name="result">Always the default value.</param>
+    /// <param name="validationErrorMessage">The localized "invalid selection" message.</param>
+    /// <returns>Always false.</returns>
     protected override bool TryParseValueFromString(string? value, out TValue result, out string validationErrorMessage)
     {
         result = default!;

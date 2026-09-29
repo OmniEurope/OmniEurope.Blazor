@@ -16,6 +16,8 @@ public partial class OmniGridLines
     /// <summary>The chart's layout, or one of its own when the lines are drawn outside a chart.</summary>
     private OmniChartContext Context => ChartContext ?? (_standalone ??= new OmniChartContext());
 
+    /// <summary>Checks the parameters.</summary>
+    /// <exception cref="ArgumentOutOfRangeException"><see cref="Count"/> is zero or less.</exception>
     protected override void OnParametersSet()
     {
         if (Count <= 0) throw new ArgumentOutOfRangeException(nameof(Count), "Count must be greater than zero.");

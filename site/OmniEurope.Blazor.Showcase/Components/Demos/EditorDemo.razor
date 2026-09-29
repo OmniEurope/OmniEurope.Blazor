@@ -4,85 +4,85 @@
     <OmniStack Gap="OmniSpacing.Large">
         <OmniHtmlEditor Id="editor-body"
                         @bind-Value="Body"
-                        Label="Corps du courrier"
+                        Label="@Text["DemoEditorBodyLabel"]"
                         Rows="8"
                         ShowPreview="true"
                         Commands="Commands" />
 
         <OmniHtmlEditor Id="editor-source"
                         @bind-Value="Body"
-                        Label="Source du courrier"
+                        Label="@Text["DemoEditorSourceLabel"]"
                         Mode="OmniHtmlEditorMode.Source"
                         Rows="6"
                         ShowPreview="true" />
 
         <OmniHtmlEditor Id="editor-annotated"
                         @bind-Value="Annotated"
-                        Label="Article annoté"
+                        Label="@Text["DemoEditorAnnotatedLabel"]"
                         Rows="6"
                         Extensions="[AnnotationExtension]"
                         Commands="AnnotatedCommands"
                         SelectionChanged="ShowSelection" />
-        <p id="editor-annotated-path" aria-live="polite">Position : @SelectionPath</p>
+        <p id="editor-annotated-path" aria-live="polite">@Text["DemoEditorPosition", SelectionPath ?? Text["DemoEditorOutsideText"]]</p>
 
         @* Une extension : ses commandes et raccourci (Ctrl+Maj+N), sa politique, un clic sur une note
            qui la marque relue, un menu contextuel ; la casse, les caractères spéciaux, l'import de
            tableau et l'affichage des blocs sont des commandes intégrées. *@
         <OmniHtmlEditor Id="editor-extended"
                         @bind-Value="Extended"
-                        Label="Avis commenté"
+                        Label="@Text["DemoEditorExtendedLabel"]"
                         Rows="6"
                         Commands="ExtendedCommands"
                         Extensions="[NoteExtension]" />
 
         <OmniHtmlEditor Id="editor-document"
                         @bind-Value="Report"
-                        Label="Rapport"
+                        Label="@Text["DemoEditorReportLabel"]"
                         Sheet="true"
                         ShowStatusBar="true"
                         Commands="OmniHtmlEditorCommands.Document"
-                        FileName="rapport"
+                        FileName="@Text["DemoEditorReportFileName"]"
                         Rows="12" />
 
         @* The gallery runs under the strict policy, which Monaco cannot: the code editor is shown
            with its plain text engine, the one it falls back to wherever Monaco is not served. *@
         <OmniCodeEditor Id="editor-code"
                         @bind-Value="Settings"
-                        Label="Réglages JSON"
+                        Label="@Text["DemoEditorCodeLabel"]"
                         Language="json"
                         Engine="OmniCodeEditorEngine.PlainText"
                         Height="10rem" />
 
         @* Les icônes des barres d'outils des éditeurs, telles que le catalogue les expose. *@
         <OmniRow Gap="OmniSpacing.Small">
-            <OmniIcon Name="OmniIconName.TextB" AriaLabel="Gras" />
-            <OmniIcon Name="OmniIconName.TextItalic" AriaLabel="Italique" />
-            <OmniIcon Name="OmniIconName.TextUnderline" AriaLabel="Souligné" />
-            <OmniIcon Name="OmniIconName.TextStrikethrough" AriaLabel="Barré" />
-            <OmniIcon Name="OmniIconName.TextSubscript" AriaLabel="Indice" />
-            <OmniIcon Name="OmniIconName.TextSuperscript" AriaLabel="Exposant" />
-            <OmniIcon Name="OmniIconName.ListBullets" AriaLabel="Liste à puces" />
-            <OmniIcon Name="OmniIconName.TextIndent" AriaLabel="Augmenter le retrait" />
-            <OmniIcon Name="OmniIconName.TextOutdent" AriaLabel="Réduire le retrait" />
-            <OmniIcon Name="OmniIconName.Quotes" AriaLabel="Citation" />
-            <OmniIcon Name="OmniIconName.Code" AriaLabel="Code en ligne" />
-            <OmniIcon Name="OmniIconName.CodeBlock" AriaLabel="Bloc de code" />
-            <OmniIcon Name="OmniIconName.Link" AriaLabel="Lien" />
-            <OmniIcon Name="OmniIconName.LinkBreak" AriaLabel="Retirer le lien" />
-            <OmniIcon Name="OmniIconName.TextAlignLeft" AriaLabel="Aligner à gauche" />
-            <OmniIcon Name="OmniIconName.TextAlignCenter" AriaLabel="Centrer" />
-            <OmniIcon Name="OmniIconName.TextAlignRight" AriaLabel="Aligner à droite" />
-            <OmniIcon Name="OmniIconName.TextAlignJustify" AriaLabel="Justifier" />
-            <OmniIcon Name="OmniIconName.ArrowUUpLeft" AriaLabel="Annuler" />
-            <OmniIcon Name="OmniIconName.ArrowUUpRight" AriaLabel="Rétablir" />
-            <OmniIcon Name="OmniIconName.Eraser" AriaLabel="Effacer la mise en forme" />
-            <OmniIcon Name="OmniIconName.FileHtml" AriaLabel="Source HTML" />
-            <OmniIcon Name="OmniIconName.Table" AriaLabel="Tableau" />
+            <OmniIcon Name="OmniIconName.TextB" Label="@Text["DemoEditorIconBold"]" />
+            <OmniIcon Name="OmniIconName.TextItalic" Label="@Text["DemoEditorIconItalic"]" />
+            <OmniIcon Name="OmniIconName.TextUnderline" Label="@Text["DemoEditorIconUnderline"]" />
+            <OmniIcon Name="OmniIconName.TextStrikethrough" Label="@Text["DemoEditorIconStrikethrough"]" />
+            <OmniIcon Name="OmniIconName.TextSubscript" Label="@Text["DemoEditorIconSubscript"]" />
+            <OmniIcon Name="OmniIconName.TextSuperscript" Label="@Text["DemoEditorIconSuperscript"]" />
+            <OmniIcon Name="OmniIconName.ListBullets" Label="@Text["DemoEditorIconBulletList"]" />
+            <OmniIcon Name="OmniIconName.TextIndent" Label="@Text["DemoEditorIconIndent"]" />
+            <OmniIcon Name="OmniIconName.TextOutdent" Label="@Text["DemoEditorIconOutdent"]" />
+            <OmniIcon Name="OmniIconName.Quotes" Label="@Text["DemoEditorIconQuote"]" />
+            <OmniIcon Name="OmniIconName.Code" Label="@Text["DemoEditorIconInlineCode"]" />
+            <OmniIcon Name="OmniIconName.CodeBlock" Label="@Text["DemoEditorIconCodeBlock"]" />
+            <OmniIcon Name="OmniIconName.Link" Label="@Text["DemoEditorIconLink"]" />
+            <OmniIcon Name="OmniIconName.LinkBreak" Label="@Text["DemoEditorIconUnlink"]" />
+            <OmniIcon Name="OmniIconName.TextAlignLeft" Label="@Text["DemoEditorIconAlignLeft"]" />
+            <OmniIcon Name="OmniIconName.TextAlignCenter" Label="@Text["DemoEditorIconAlignCenter"]" />
+            <OmniIcon Name="OmniIconName.TextAlignRight" Label="@Text["DemoEditorIconAlignRight"]" />
+            <OmniIcon Name="OmniIconName.TextAlignJustify" Label="@Text["DemoEditorIconJustify"]" />
+            <OmniIcon Name="OmniIconName.ArrowUUpLeft" Label="@Text["DemoEditorIconUndo"]" />
+            <OmniIcon Name="OmniIconName.ArrowUUpRight" Label="@Text["DemoEditorIconRedo"]" />
+            <OmniIcon Name="OmniIconName.Eraser" Label="@Text["DemoEditorIconClearFormatting"]" />
+            <OmniIcon Name="OmniIconName.FileHtml" Label="@Text["DemoEditorIconHtmlSource"]" />
+            <OmniIcon Name="OmniIconName.Table" Label="@Text["DemoEditorIconTable"]" />
         </OmniRow>
 
         @* Un seul fichier : le champ en lecture seule soudé au bouton Parcourir ; un clic sur l'un ou
            l'autre, ou Entrée, ouvre la fenêtre de sélection. *@
-        <OmniFormField For="editor-manifest" Label="Manifeste de déploiement" Description="Un seul fichier, ouvre la fenêtre de sélection du système.">
+        <OmniFormField For="editor-manifest" Label="@Text["DemoEditorManifest"]" Description="@Text["DemoEditorManifestHelp"]">
             <OmniUpload Display="OmniUploadDisplay.Field"
                         Id="editor-manifest"
                         Accept=".json,.yaml,.yml"
@@ -99,23 +99,23 @@
                     Id="editor-attachments"
                     @bind-Files="Attachments"
                     Upload="UploadAsync"
-                    UploadErrorMessage="Le dépôt a échoué."
+                    UploadErrorMessage="@Text["DemoEditorUploadFailed"]"
                     ReducedList="true" />
 
-        <p>Pièces déposées : @(Uploaded.Count == 0 ? "aucune" : string.Join(", ", Uploaded))</p>
+        <p>@Text["DemoEditorUploaded", Uploaded.Count == 0 ? Text["DemoEditorNoUpload"] : string.Join(", ", Uploaded)]</p>
     </OmniStack>
 </EditForm>
 
 <OmniStack Gap="OmniSpacing.Medium">
-    <OmniCodeBlock Code="dotnet test OmniEurope.Blazor.slnx" Title="Commande de test" Language="shell" />
-    <OmniCodeViewer Code="@ViewerCode" Title="Exemple de configuration" Language="json"
+    <OmniCodeBlock Code="dotnet test OmniEurope.Blazor.slnx" Title="@Text["DemoEditorTestCommand"]" Language="shell" />
+    <OmniCodeViewer Code="@ViewerCode" Title="@Text["DemoEditorConfigurationSample"]" Language="json"
                     HighlightedLines="ViewerHighlights" />
     @* Un extrait garde les numéros de ses lignes dans le fichier : FirstLineNumber. *@
-    <OmniCodeViewer Code="@ExcerptCode" Title="Extrait, lignes 41 à 43" Language="csharp" FirstLineNumber="41"
+    <OmniCodeViewer Code="@ExcerptCode" Title="@Text["DemoEditorExcerptTitle", 41, 43]" Language="csharp" FirstLineNumber="41"
                     HighlightedLines="ExcerptHighlights" ShowWrapToggle="false" />
     <OmniUnifiedDiff Diff="@ExampleDiff" />
 </OmniStack>
 
 <OmniDiffViewer Original="@OriginalConfiguration" Modified="@ChangedConfiguration"
                 Engine="OmniCodeEditorEngine.PlainText" Language="json"
-                Label="Comparer deux configurations" Height="18rem" />
+                Label="@Text["DemoEditorCompareLabel"]" Height="18rem" />

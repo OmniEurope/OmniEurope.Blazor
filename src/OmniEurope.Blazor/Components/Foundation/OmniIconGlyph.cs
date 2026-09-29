@@ -8,6 +8,12 @@ public sealed class OmniIconGlyph
 {
     private const int PhosphorViewBoxSize = 256;
 
+    /// <summary>Creates a glyph from SVG path data drawn on a square view box.</summary>
+    /// <param name="pathData">
+    /// The <c>d</c> attribute of the outline. Only path commands, numbers, separators and white space are
+    /// accepted; anything else, or a null or blank value, throws an <see cref="ArgumentException"/>.
+    /// </param>
+    /// <param name="viewBoxSize">Side of the square view box, in the units of <paramref name="pathData"/>; must be greater than zero.</param>
     public OmniIconGlyph(string pathData, int viewBoxSize)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(pathData);

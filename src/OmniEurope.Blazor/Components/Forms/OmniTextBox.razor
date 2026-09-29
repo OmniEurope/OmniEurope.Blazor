@@ -18,7 +18,8 @@
            readonly="@ReadOnly"
            aria-invalid="@AriaInvalid"
            aria-describedby="@AriaDescribedBy"
-           @oninput="HandleInput" />
+           @oninput="HandleInput"
+           @onblur="BlurCallback" />
 }
 else
 {
@@ -35,6 +36,7 @@ else
                readonly="@ReadOnly"
                aria-invalid="@AriaInvalid"
                aria-describedby="@AriaDescribedBy"
-               @oninput="HandleInput" />
+               @oninput="HandleInput"
+               @onblur="BlurCallback" />
     </span>
 }

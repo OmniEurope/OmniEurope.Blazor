@@ -66,6 +66,10 @@ public partial class OmniSwitch<TValue>
         }
     }
 
+    /// <summary>
+    /// Parses <c>true</c> or <c>false</c> (any case), and an empty text as null for a <c>bool?</c>. Anything
+    /// else fails with the localized "The switch value is invalid."
+    /// </summary>
     protected override bool TryParseValueFromString(string? value, out TValue result, out string validationErrorMessage)
     {
         if (OmniBooleanValue<TValue>.TryParse(value, out result))
@@ -78,6 +82,10 @@ public partial class OmniSwitch<TValue>
         return false;
     }
 
+    /// <summary>
+    /// Throws <see cref="InvalidOperationException"/> when <typeparamref name="TValue"/> is neither
+    /// <c>bool</c> nor <c>bool?</c>, then joins the enclosing <see cref="OmniSettingsTile"/>, if any.
+    /// </summary>
     protected override void OnParametersSet()
     {
         OmniBooleanValue<TValue>.EnsureSupported("OmniSwitch");
@@ -85,6 +93,7 @@ public partial class OmniSwitch<TValue>
         SettingsTile?.Join(this, EffectiveId!);
     }
 
+    /// <summary>Leaves the enclosing <see cref="OmniSettingsTile"/>, if any, then disposes the input.</summary>
     protected override void Dispose(bool disposing)
     {
         if (disposing)

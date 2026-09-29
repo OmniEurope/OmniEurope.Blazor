@@ -18,6 +18,7 @@ public partial class OmniSeriesDataLabels
     /// </summary>
     [Parameter] public Func<double, string>? FormatValue { get; set; }
 
+    /// <summary>Registers the points with the chart so the plot covers them; data labels stay out of the legend and the data table.</summary>
     protected override void OnParametersSet() => ChartContext?.RegisterSeries(this, OmniChartSeriesKind.Auxiliary, Data);
 
     private string Text(OmniChartPoint point) => point.Label ?? FormatValue?.Invoke(point.Y) ?? OmniChartGeometry.Display(point.Y);

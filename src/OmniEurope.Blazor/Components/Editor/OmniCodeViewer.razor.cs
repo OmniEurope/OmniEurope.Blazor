@@ -171,6 +171,12 @@ public partial class OmniCodeViewer : IAsyncDisposable
 
     private string CopyAnnouncement => OmniClipboardCopy.AnnouncementKey(CopyResult) is { } key ? Localize(key) : string.Empty;
 
+    /// <summary>
+    /// Adopts a new <see cref="Wrap"/> value, splits a changed <see cref="Code"/> into lines (a final
+    /// newline opens no empty line), compiles the patterns of a new <see cref="Links"/> list and takes
+    /// the highlighted lines.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><see cref="Links"/> is null.</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -286,6 +292,8 @@ public partial class OmniCodeViewer : IAsyncDisposable
         return copied;
     }
 
+    /// <summary>Releases the clipboard helper and its pending feedback, when a copy created one.</summary>
+    /// <returns>A task that completes once the helper is released.</returns>
     public async ValueTask DisposeAsync()
     {
         if (_clipboard is not null)

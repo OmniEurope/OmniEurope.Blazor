@@ -1,7 +1,16 @@
+using System.Globalization;
+using OmniEurope.Blazor.Showcase.Resources;
+
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class MediaDemo
 {
+    [Inject] private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
+
+    /// <summary>A day of the sample file's timeline, written the way the current culture writes a month and a day.</summary>
+    private static string DayOf(int month, int day) =>
+        new DateOnly(2026, month, day).ToString("M", CultureInfo.CurrentCulture);
+
     /// <summary>
     /// A Phosphor path the library does not embed, to show that any icon of the set can be used
     /// without the package carrying it.

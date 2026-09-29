@@ -40,7 +40,11 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
     [Parameter]
     public bool Disabled { get; set; }
 
-    /// <summary>Accessible name of the group (<c>aria-label</c>), which a radio group needs; none when null.</summary>
+    /// <summary>
+    /// Accessible name of the group (<c>aria-label</c>), which a radio group needs. Null names it by the
+    /// label of an enclosing <see cref="OmniFormField"/> whose <c>For</c> is
+    /// <see cref="OmniInputBase{TValue}.Id"/> (<c>aria-labelledby</c>), else leaves it unnamed.
+    /// </summary>
     [Parameter]
     public string? Label { get; set; }
 

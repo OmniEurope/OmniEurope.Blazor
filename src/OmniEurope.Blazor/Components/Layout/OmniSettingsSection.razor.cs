@@ -1,5 +1,9 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// One theme of a settings page: an <see cref="OmniCard"/> with a level 2 heading, an optional one-line
+/// description, and its settings inside.
+/// </summary>
 public partial class OmniSettingsSection
 {
     /// <summary>The theme the section gathers, shown as its heading.</summary>

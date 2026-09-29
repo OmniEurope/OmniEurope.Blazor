@@ -1,8 +1,13 @@
+using OmniEurope.Blazor.Showcase.Resources;
+
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
 
 public partial class FlowsDemo : IDisposable
 {
     private readonly CancellationTokenSource _lifetime = new();
+
+    [Inject]
+    private IStringLocalizer<ShowcaseStrings> Text { get; set; } = default!;
 
     private FlowsDemoModel Model { get; } = new();
 
@@ -14,7 +19,8 @@ public partial class FlowsDemo : IDisposable
 
     private bool DialogOpen { get; set; }
 
-    private string Outcome { get; set; } = "en cours";
+    /// <summary>What the wizard ended with; <see langword="null"/> while it is still in progress.</summary>
+    private string? Outcome { get; set; }
 
     private string? SignInNote { get; set; }
 
@@ -28,10 +34,10 @@ public partial class FlowsDemo : IDisposable
 
     private string ConnectionText => Connection switch
     {
-        OmniConnectionState.Reconnecting => "reconnexion",
-        OmniConnectionState.Failed => "échec",
-        OmniConnectionState.Rejected => "refusée",
-        _ => "établie"
+        OmniConnectionState.Reconnecting => Text["DemoFlowsConnectionReconnecting"],
+        OmniConnectionState.Failed => Text["DemoFlowsConnectionFailed"],
+        OmniConnectionState.Rejected => Text["DemoFlowsConnectionRejected"],
+        _ => Text["DemoFlowsConnectionEstablished"]
     };
 
     /// <summary>La validation de l'étape des options : une sauvegarde est exigée, et l'étape le dit.</summary>
@@ -41,7 +47,7 @@ public partial class FlowsDemo : IDisposable
         return Task.FromResult(Model.Backup);
     }
 
-    private void Finish() => Outcome = $"serveur « {Model.Name} » créé";
+    private void Finish() => Outcome = Text["DemoFlowsOutcomeCreated", Model.Name];
 
     private void Reset()
     {
@@ -49,15 +55,15 @@ public partial class FlowsDemo : IDisposable
         Model.Backup = false;
         OptionsRefused = false;
         Step = 0;
-        Outcome = "annulé";
+        Outcome = Text["DemoFlowsOutcomeCancelled"];
     }
 
-    private void SubmitSignIn() => SignInNote = $"Formulaire remis à l'hôte pour « {Credentials.Name} ».";
+    private void SubmitSignIn() => SignInNote = Text["DemoFlowsSignInNote", Credentials.Name];
 
     /// <summary>Deux tentatives automatiques de trois secondes, puis l'échec : seule la reprise manuelle reste.</summary>
     private async Task DropAsync()
     {
-        Reason = "le serveur ne répond plus (délai dépassé)";
+        Reason = Text["DemoFlowsReasonTimeout"];
         for (var attempt = 0; attempt < 2; attempt++)
         {
             Connection = OmniConnectionState.Reconnecting;
@@ -83,7 +89,7 @@ public partial class FlowsDemo : IDisposable
 
     private void Reject()
     {
-        Reason = "session expirée côté serveur";
+        Reason = Text["DemoFlowsReasonExpired"];
         Countdown = 0;
         Connection = OmniConnectionState.Rejected;
     }

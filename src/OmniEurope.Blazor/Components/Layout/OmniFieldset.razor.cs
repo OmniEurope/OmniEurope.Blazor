@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 public partial class OmniFieldset
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-focus.js";
+    private const string ModulePath = Internal.OmniModules.Focus;
     private readonly ToggleInterop _toggleInterop;
     private ElementReference _details;
     private IJSObjectReference? _module;
@@ -15,6 +15,7 @@ public partial class OmniFieldset
     private bool _expanded;
     private bool? _expandedParameter;
 
+    /// <summary>Creates the fieldset; Blazor calls it when the component is rendered.</summary>
     public OmniFieldset()
     {
         _toggleInterop = new ToggleInterop(HandleToggledAsync);
@@ -71,6 +72,10 @@ public partial class OmniFieldset
         }
     }
 
+    /// <summary>
+    /// Starts observing the native toggles of the disclosure while the fieldset is <see cref="Collapsible"/>
+    /// and <see cref="ExpandedChanged"/> has a handler, and stops once either no longer holds.
+    /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var wanted = Collapsible && ExpandedChanged.HasDelegate;
@@ -106,6 +111,7 @@ public partial class OmniFieldset
         await ExpandedChanged.InvokeAsync(open);
     }
 
+    /// <summary>Stops observing the disclosure and releases the interop module and the .NET reference.</summary>
     public async ValueTask DisposeAsync()
     {
         if (_module is not null)

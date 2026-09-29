@@ -135,7 +135,7 @@ public sealed class AppBarComponentTests : OmniBunitContext
         Assert.Empty(icon.FindAll("svg > title"));
     }
 
-    // ---- OmniTextBox.DebounceMilliseconds ----
+    // ---- OmniTextBox.Debounce ----
 
     [Fact]
     public async Task TextBoxDebounce_RaisesOnlyTheLastValue_AfterThePause()
@@ -146,7 +146,7 @@ public sealed class AppBarComponentTests : OmniBunitContext
             .Add(component => component.Value, value)
             .Add(component => component.ValueExpression, () => value)
             .Add(component => component.ValueChanged, (string next) => raised.Add(next))
-            .Add(component => component.DebounceMilliseconds, 150));
+            .Add(component => component.Debounce, TimeSpan.FromMilliseconds(150)));
 
         var input = box.Find("input");
         var first = input.InputAsync(new ChangeEventArgs { Value = "a" });

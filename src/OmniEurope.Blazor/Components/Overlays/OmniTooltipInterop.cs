@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 internal sealed class OmniTooltipInterop(IJSRuntime javaScript) : IAsyncDisposable
 {
-    private const string ModulePath = "./_content/OmniEurope.Blazor/omni-tooltip.js";
+    private const string ModulePath = Internal.OmniModules.Tooltip;
 
     private IJSObjectReference? _module;
     private Task? _install;

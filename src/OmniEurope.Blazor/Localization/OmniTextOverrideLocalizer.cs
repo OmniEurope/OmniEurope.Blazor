@@ -16,6 +16,10 @@ public sealed class OmniTextOverrideLocalizer : IStringLocalizer<AppStrings>
     private readonly IStringLocalizer _host;
     private readonly string _prefix;
 
+    /// <summary>Creates a localizer that reads each text from <paramref name="host"/> first, then from <paramref name="package"/>.</summary>
+    /// <param name="package">The package's own resources (<see cref="AppStrings"/>).</param>
+    /// <param name="host">The host's resources, searched for the overriding keys.</param>
+    /// <param name="prefix">The prefix of an overriding key, <c>Omni_</c> for instance; must not be null or empty.</param>
     public OmniTextOverrideLocalizer(IStringLocalizer package, IStringLocalizer host, string prefix)
     {
         ArgumentNullException.ThrowIfNull(package);
@@ -26,6 +30,11 @@ public sealed class OmniTextOverrideLocalizer : IStringLocalizer<AppStrings>
         _prefix = prefix;
     }
 
+    /// <summary>
+    /// The text of <paramref name="name"/>: the host resource named with the prefix and the key when it
+    /// exists in the current UI culture, else the package text.
+    /// </summary>
+    /// <param name="name">The package key.</param>
     public LocalizedString this[string name]
     {
         get
@@ -35,6 +44,12 @@ public sealed class OmniTextOverrideLocalizer : IStringLocalizer<AppStrings>
         }
     }
 
+    /// <summary>
+    /// The text of <paramref name="name"/>, formatted with <paramref name="arguments"/>: the host override
+    /// when it exists, else the package text.
+    /// </summary>
+    /// <param name="name">The package key.</param>
+    /// <param name="arguments">The values of the placeholders of the text.</param>
     public LocalizedString this[string name, params object[] arguments]
     {
         get

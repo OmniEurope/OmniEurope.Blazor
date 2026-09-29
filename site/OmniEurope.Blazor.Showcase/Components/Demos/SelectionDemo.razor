@@ -3,40 +3,40 @@
 <EditForm Model="this">
     <OmniStack Gap="OmniSpacing.Medium">
         <OmniFormField For="demo-country">
-            <LabelContent>Pays</LabelContent>
+            <LabelContent>@Text["DemoSelectionCountry"]</LabelContent>
             <ChildContent>
-                <OmniDropDown TValue="string" Id="demo-country" Options="Countries" @bind-Value="Country" Placeholder="Choisir un pays" />
+                <OmniDropDown TValue="string" Id="demo-country" Options="Countries" @bind-Value="Country" Placeholder="@Text["DemoSelectionCountryPlaceholder"]" />
             </ChildContent>
         </OmniFormField>
 
         <OmniFormField For="demo-city">
-            <LabelContent>Villes desservies</LabelContent>
+            <LabelContent>@Text["DemoSelectionCities"]</LabelContent>
             <ChildContent>
                 <OmniListBox Id="demo-city" Options="Cities" @bind-Value="City" VisibleRows="4" />
             </ChildContent>
         </OmniFormField>
 
         <OmniFormField For="demo-tags">
-            <LabelContent>Étiquettes</LabelContent>
+            <LabelContent>@Text["DemoSelectionTags"]</LabelContent>
             <ChildContent>
                 <OmniListBox Id="demo-tags" Multiple="true" Options="Tags" @bind-Value="SelectedTags" VisibleRows="4" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="demo-tags-compact">
-            <LabelContent>Étiquettes, forme compacte</LabelContent>
+            <LabelContent>@Text["DemoSelectionTagsCompact"]</LabelContent>
             <ChildContent>
                 <OmniMultiSelect TValue="string" Id="demo-tags-compact" Options="Tags" @bind-Value="CompactTags"
-                                 Placeholder="Choisir des étiquettes" />
+                                 Placeholder="@Text["DemoSelectionTagsPlaceholder"]" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="demo-tags-filterable">
-            <LabelContent>Étiquettes, recherche et création</LabelContent>
+            <LabelContent>@Text["DemoSelectionTagsFilterable"]</LabelContent>
             <ChildContent>
                 <OmniMultiSelect TValue="string" Id="demo-tags-filterable" Options="EditableTags"
                                  @bind-Value="FilterableTags"
-                                 Placeholder="Choisir des étiquettes"
+                                 Placeholder="@Text["DemoSelectionTagsPlaceholder"]"
                                  Filterable="true" @bind-FilterText="TagSearch"
-                                 FilterPlaceholder="Rechercher une étiquette">
+                                 FilterPlaceholder="@Text["DemoSelectionTagSearchPlaceholder"]">
                     <OptionTemplate Context="tag">
                         <svg class="demo-tag-swatch" viewBox="0 0 10 10" focusable="false" aria-hidden="true">
                             <circle cx="5" cy="5" r="5" fill="@SwatchOf(tag.Value)" />

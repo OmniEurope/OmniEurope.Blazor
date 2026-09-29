@@ -35,7 +35,7 @@
   <data name="PillarA11yTitle" xml:space="preserve"><value>Testeillä varmistettu saavutettavuus</value></data>
   <data name="PillarA11yBody" xml:space="preserve"><value>Roolit, tilat ja nimet tarkistetaan testisarjassa, eikä niitä vain luvata dokumentaatiossa.</value></data>
   <data name="PillarWeightTitle" xml:space="preserve"><value>Valvottu koko</value></data>
-  <data name="PillarWeightBody" xml:space="preserve"><value>Julkaistu paketti mitataan jokaisessa koontiversiossa tavubudjettia vasten tyylitiedosto mukaan lukien.</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>Jatkuva integraatio tarkistaa, että toimitettu tyylitiedosto on minimoitu kopio, ja mittaa sekä kokoonpanon että NuGet-paketin kokobudjettia vasten.</value></data>
   <data name="DocsPageTitle" xml:space="preserve"><value>Dokumentaatio</value></data>
   <data name="DocsTitle" xml:space="preserve"><value>Dokumentaatio</value></data>
   <data name="DocsLead" xml:space="preserve"><value>Paketin asennuksesta ensimmäiseen mukautettuun teemaan viidessä vaiheessa.</value></data>
@@ -579,4 +579,919 @@
   <data name="VFormNotSaved" xml:space="preserve"><value>Korjaa merkityt kentät ennen tallentamista.</value></data>
   <data name="VFormDescriptionValue" xml:space="preserve"><value>Ottaa päähaaran käyttöön, kun hyväksyntätestit on läpäisty.</value></data>
   <data name="GridFiledColumn" xml:space="preserve"><value>Jätetty</value></data>
+  <data name="DemoGridOpenCases" xml:space="preserve"><value>Avoimet asiat</value></data>
+  <data name="DemoGridRecentRuns" xml:space="preserve"><value>Viimeisimmät suoritukset</value></data>
+  <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Pitkä teksti kapeassa sarakkeessa</value></data>
+  <data name="DemoGridShortCaption" xml:space="preserve"><value>Kolme asiaa, sisällön korkeus</value></data>
+  <data name="DemoGridLongCaption" xml:space="preserve"><value>Kymmenentuhatta asiaa, enintään 18rem</value></data>
+  <data name="DemoGridColumnReference" xml:space="preserve"><value>Viite</value></data>
+  <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Hakija</value></data>
+  <data name="DemoGridColumnCountry" xml:space="preserve"><value>Maa</value></data>
+  <data name="DemoGridColumnAmount" xml:space="preserve"><value>Summa</value></data>
+  <data name="DemoGridCountryBelgium" xml:space="preserve"><value>Belgia</value></data>
+  <data name="DemoGridCountryFrance" xml:space="preserve"><value>Ranska</value></data>
+  <data name="DemoGridCountryLuxembourg" xml:space="preserve"><value>Luxemburg</value></data>
+  <data name="DemoGridCountryNetherlands" xml:space="preserve"><value>Alankomaat</value></data>
+  <data name="DemoGridStatusPending" xml:space="preserve"><value>Odottaa</value></data>
+  <data name="DemoGridExportFileName" xml:space="preserve"><value>avoimet-asiat</value></data>
+  <data name="DemoGridExportSort" xml:space="preserve"><value>Lajittelu</value></data>
+  <data name="DemoGridExportSortValue" xml:space="preserve"><value>viite, nouseva</value></data>
+  <data name="DemoGridAdvancedLines" xml:space="preserve"><value>Viivat</value></data>
+  <data name="DemoGridAdvancedDensity" xml:space="preserve"><value>Tiiviys</value></data>
+  <data name="DemoGridAdvancedPager" xml:space="preserve"><value>Sivutus</value></data>
+  <data name="DemoGridAdvancedSelection" xml:space="preserve"><value>Valinta</value></data>
+  <data name="DemoGridAdvancedFilters" xml:space="preserve"><value>Suodattimet</value></data>
+  <data name="DemoGridAdvancedEdit" xml:space="preserve"><value>Muokkaus</value></data>
+  <data name="DemoGridAdvancedExpand" xml:space="preserve"><value>Laajennus</value></data>
+  <data name="DemoGridAdvancedFooter" xml:space="preserve"><value>Taulukon alatunniste</value></data>
+  <data name="DemoGridAdvancedLinesNone" xml:space="preserve"><value>Ei mitään</value></data>
+  <data name="DemoGridAdvancedLinesHorizontal" xml:space="preserve"><value>Vaakasuorat</value></data>
+  <data name="DemoGridAdvancedLinesVertical" xml:space="preserve"><value>Pystysuorat</value></data>
+  <data name="DemoGridAdvancedLinesBoth" xml:space="preserve"><value>Molemmat</value></data>
+  <data name="DemoGridAdvancedDensityCompact" xml:space="preserve"><value>Tiivis</value></data>
+  <data name="DemoGridAdvancedDensityComfortable" xml:space="preserve"><value>Mukava</value></data>
+  <data name="DemoGridAdvancedDensitySpacious" xml:space="preserve"><value>Väljä</value></data>
+  <data name="DemoGridAdvancedPagerBottom" xml:space="preserve"><value>Alhaalla</value></data>
+  <data name="DemoGridAdvancedPagerTop" xml:space="preserve"><value>Ylhäällä</value></data>
+  <data name="DemoGridAdvancedPagerBoth" xml:space="preserve"><value>Ylhäällä ja alhaalla</value></data>
+  <data name="DemoGridAdvancedSelectionNone" xml:space="preserve"><value>Ei mitään</value></data>
+  <data name="DemoGridAdvancedSelectionSingle" xml:space="preserve"><value>Yksi rivi</value></data>
+  <data name="DemoGridAdvancedSelectionMultiple" xml:space="preserve"><value>Useita rivejä</value></data>
+  <data name="DemoGridAdvancedFilterSimple" xml:space="preserve"><value>Kenttä otsikossa</value></data>
+  <data name="DemoGridAdvancedFilterSimpleWithMenu" xml:space="preserve"><value>Kenttä ja valikko</value></data>
+  <data name="DemoGridAdvancedFilterAdvanced" xml:space="preserve"><value>Kahden ehdon valikko</value></data>
+  <data name="DemoGridAdvancedEditSingle" xml:space="preserve"><value>Yksi rivi kerrallaan</value></data>
+  <data name="DemoGridAdvancedEditMultiple" xml:space="preserve"><value>Useita rivejä</value></data>
+  <data name="DemoGridAdvancedExpandSingle" xml:space="preserve"><value>Yksi avoin ryhmä</value></data>
+  <data name="DemoGridAdvancedExpandMultiple" xml:space="preserve"><value>Useita avoimia ryhmiä</value></data>
+  <data name="DemoGridAdvancedFooterBottom" xml:space="preserve"><value>Taulukon alla</value></data>
+  <data name="DemoGridAdvancedFooterTop" xml:space="preserve"><value>Taulukon yllä</value></data>
+  <data name="DemoGridAdvancedFooterBoth" xml:space="preserve"><value>Yllä ja alla</value></data>
+  <data name="DemoGridAdvancedCaption" xml:space="preserve"><value>Asiat, täysi näkymä</value></data>
+  <data name="DemoGridAdvancedTotal" xml:space="preserve"><value>Yhteensä: {0:C0}</value></data>
+  <data name="DemoGridAdvancedRetained" xml:space="preserve"><value>Valitut rivit: {0}</value></data>
+  <data name="DemoGridAdvancedRetainedNone" xml:space="preserve"><value>ei yhtään</value></data>
+  <data name="DemoDataListEmpty" xml:space="preserve"><value>Tällä sivulla ei ole asioita.</value></data>
+  <data name="DemoDataListLoading" xml:space="preserve"><value>Ladataan asioita.</value></data>
+  <data name="DemoDataListPager" xml:space="preserve"><value>Asioiden sivutus</value></data>
+  <data name="DemoDataListLog" xml:space="preserve"><value>Käsittelyloki</value></data>
+  <data name="DemoDataListKanban" xml:space="preserve"><value>Asioiden seuranta</value></data>
+  <data name="DemoDataListColumnNew" xml:space="preserve"><value>Tarkastettavana</value></data>
+  <data name="DemoDataListColumnReview" xml:space="preserve"><value>Käsittelyssä</value></data>
+  <data name="DemoDataListColumnDone" xml:space="preserve"><value>Valmis</value></data>
+  <data name="DemoDataListLogSearch" xml:space="preserve"><value>Haetaan asiaa</value></data>
+  <data name="DemoDataListLogConnected" xml:space="preserve"><value>Yhteys muodostettu</value></data>
+  <data name="DemoDataListLogStarted" xml:space="preserve"><value>Käsittely aloitettu</value></data>
+  <data name="DemoDataListLogMissing" xml:space="preserve"><value>Asiakirja puuttuu</value></data>
+  <data name="DemoDataListLogRejected" xml:space="preserve"><value>Hyväksyntä hylätty</value></data>
+  <data name="DemoDataListLogAborted" xml:space="preserve"><value>Käsittely keskeytetty</value></data>
+  <data name="DemoChartChartTitle" xml:space="preserve"><value>Vireille pannut asiat neljännesvuosittain</value></data>
+  <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Neljännes</value></data>
+  <data name="DemoChartAxisCases" xml:space="preserve"><value>Asiat</value></data>
+  <data name="DemoChartQuarter" xml:space="preserve"><value>Q{0}</value></data>
+  <data name="DemoChartsExtendedMonthlyTitle" xml:space="preserve"><value>Kuukausikehitys</value></data>
+  <data name="DemoChartsExtendedMonthlyDescription" xml:space="preserve"><value>Arvo osoitettaessa ja näppäimistöllä</value></data>
+  <data name="DemoChartsExtendedAxisMonth" xml:space="preserve"><value>Kuukausi</value></data>
+  <data name="DemoChartsExtendedDeposits" xml:space="preserve"><value>Vireillepanot</value></data>
+  <data name="DemoChartsExtendedDecisions" xml:space="preserve"><value>Päätökset</value></data>
+  <data name="DemoChartsExtendedLegend" xml:space="preserve"><value>Sarjat</value></data>
+  <data name="DemoChartsExtendedDailyTitle" xml:space="preserve"><value>Päivittäinen yleisö 30 päivän ajalta</value></data>
+  <data name="DemoChartsExtendedPageViews" xml:space="preserve"><value>Sivunäytöt päivässä</value></data>
+  <data name="DemoChartsExtendedVisitors" xml:space="preserve"><value>Yksilölliset kävijät päivässä</value></data>
+  <data name="DemoChartsExtendedStackedTitle" xml:space="preserve"><value>Pinottu jakauma</value></data>
+  <data name="DemoChartsExtendedIncoming" xml:space="preserve"><value>Saapuneet</value></data>
+  <data name="DemoChartsExtendedOutgoing" xml:space="preserve"><value>Lähteneet</value></data>
+  <data name="DemoChartsExtendedBacklog" xml:space="preserve"><value>Jono</value></data>
+  <data name="DemoChartsExtendedHorizontalTitle" xml:space="preserve"><value>Vaakasuora vertailu</value></data>
+  <data name="DemoChartsExtendedByCountry" xml:space="preserve"><value>Asiat maittain</value></data>
+  <data name="DemoChartsExtendedStackedBarsTitle" xml:space="preserve"><value>Käsitellyt ja odottavat asiat maittain</value></data>
+  <data name="DemoChartsExtendedProcessed" xml:space="preserve"><value>Käsitellyt</value></data>
+  <data name="DemoChartsExtendedPending" xml:space="preserve"><value>Odottavat</value></data>
+  <data name="DemoChartsExtendedPieTitle" xml:space="preserve"><value>Osuudet alkuperän mukaan</value></data>
+  <data name="DemoChartsExtendedDonutTitle" xml:space="preserve"><value>Osuudet alkuperän mukaan, rengas</value></data>
+  <data name="DemoChartsExtendedOrigin" xml:space="preserve"><value>Alkuperä</value></data>
+  <data name="DemoChartsExtendedGauge" xml:space="preserve"><value>Käsittelyaste</value></data>
+  <data name="DemoChartsExtendedSliceCounter" xml:space="preserve"><value>Asiointipiste</value></data>
+  <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Posti</value></data>
+  <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Verkossa</value></data>
+  <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Muu</value></data>
+  <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Projektin aikataulu</value></data>
+  <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Näytetty asteikko: {0}</value></data>
+  <data name="DemoPlanningScaleDay" xml:space="preserve"><value>päivä</value></data>
+  <data name="DemoPlanningScaleWeek" xml:space="preserve"><value>viikko</value></data>
+  <data name="DemoPlanningScaleMonth" xml:space="preserve"><value>kuukausi</value></data>
+  <data name="DemoPlanningMonthHeading" xml:space="preserve"><value>Sama aikataulu kuukausitasolla ja ilman ryhmiä</value></data>
+  <data name="DemoPlanningMonthLabel" xml:space="preserve"><value>Kuukausiaikataulu</value></data>
+  <data name="DemoPlanningDayLabel" xml:space="preserve"><value>Päiväaikataulu</value></data>
+  <data name="DemoPlanningRunHeading" xml:space="preserve"><value>Suorituksen kulku</value></data>
+  <data name="DemoPlanningRunLabel" xml:space="preserve"><value>Suoritus {0}</value></data>
+  <data name="DemoPlanningTimelineHeading" xml:space="preserve"><value>Aikajana vasemmalla, sitten vuorotellen kummaltakin puolelta</value></data>
+  <data name="DemoPlanningTimelineStart" xml:space="preserve"><value>Aikajana vasemmalla</value></data>
+  <data name="DemoPlanningTimelineAlternateStart" xml:space="preserve"><value>Vuorotteleva aikajana, alkaa vasemmalta</value></data>
+  <data name="DemoPlanningTimelineAlternateEnd" xml:space="preserve"><value>Vuorotteleva aikajana, alkaa oikealta</value></data>
+  <data name="DemoPlanningFiled" xml:space="preserve"><value>Vireillepano</value></data>
+  <data name="DemoPlanningFiledText" xml:space="preserve"><value>Asia on kirjattu.</value></data>
+  <data name="DemoPlanningReview" xml:space="preserve"><value>Valmistelu</value></data>
+  <data name="DemoPlanningReviewText" xml:space="preserve"><value>Käsittelijä on nimetty.</value></data>
+  <data name="DemoPlanningDecision" xml:space="preserve"><value>Päätös</value></data>
+  <data name="DemoPlanningDecisionText" xml:space="preserve"><value>Päätös on annettu tiedoksi.</value></data>
+  <data name="DemoPlanningGroupDesign" xml:space="preserve"><value>Suunnittelu</value></data>
+  <data name="DemoPlanningGroupBuild" xml:space="preserve"><value>Toteutus</value></data>
+  <data name="DemoPlanningTaskScoping" xml:space="preserve"><value>Rajaus</value></data>
+  <data name="DemoPlanningTaskMockups" xml:space="preserve"><value>Mallit</value></data>
+  <data name="DemoPlanningTaskProofreading" xml:space="preserve"><value>Oikoluku</value></data>
+  <data name="DemoPlanningTaskDevelopment" xml:space="preserve"><value>Kehitys</value></data>
+  <data name="DemoPlanningTaskAcceptance" xml:space="preserve"><value>Hyväksyntätestaus</value></data>
+  <data name="DemoSchedulerView" xml:space="preserve"><value>Näkymä</value></data>
+  <data name="DemoSchedulerTimeGrid" xml:space="preserve"><value>Aikaruudukko klo 8–18</value></data>
+  <data name="DemoSchedulerViewDay" xml:space="preserve"><value>Päivä</value></data>
+  <data name="DemoSchedulerViewWeek" xml:space="preserve"><value>Viikko</value></data>
+  <data name="DemoSchedulerViewMonth" xml:space="preserve"><value>Kuukausi</value></data>
+  <data name="DemoSchedulerCaseReview" xml:space="preserve"><value>Asian valmistelu</value></data>
+  <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Arviointitoimikunta</value></data>
+  <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Viikkopalaveri</value></data>
+  <data name="DemoSchedulerRoom" xml:space="preserve"><value>Huone {0}</value></data>
+  <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Joustava sarake</value></data>
+  <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Koko leveys pienellä näytöllä, kolmannes suurella.</value></data>
+  <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Kortti ylätunnisteella</value></data>
+  <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>Ylätunniste, runko ja alatunniste ovat kolme erillistä aluetta.</value></data>
+  <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>Kortissa voi olla pelkkä runko.</value></data>
+  <data name="DemoLayoutStart" xml:space="preserve"><value>Alku</value></data>
+  <data name="DemoLayoutMiddle" xml:space="preserve"><value>Keski</value></data>
+  <data name="DemoLayoutEnd" xml:space="preserve"><value>Loppu</value></data>
+  <data name="DemoLayoutFieldGroup" xml:space="preserve"><value>Kenttäryhmä</value></data>
+  <data name="DemoLayoutOne" xml:space="preserve"><value>Yksi</value></data>
+  <data name="DemoLayoutTwo" xml:space="preserve"><value>Kaksi</value></data>
+  <data name="DemoLayoutAdvanced" xml:space="preserve"><value>Lisäasetukset</value></data>
+  <data name="DemoLayoutAdvancedText" xml:space="preserve"><value>Avattaessa supistettu ryhmä, jonka lukija laajentaa tarvittaessa.</value></data>
+  <data name="DemoLayoutTracked" xml:space="preserve"><value>Seuratut asetukset</value></data>
+  <data name="DemoLayoutTrackedText" xml:space="preserve"><value>Sivu tietää supistetun tilan ja voi muistaa sen.</value></data>
+  <data name="DemoLayoutDisabledGroup" xml:space="preserve"><value>Käytöstä poistettu ryhmä</value></data>
+  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Kaikki ryhmän sisältö poistuu käytöstä yhdellä kertaa.</value></data>
+  <data name="DemoLayoutAlignStart" xml:space="preserve"><value>Tasattu alkuun</value></data>
+  <data name="DemoLayoutAlignCenter" xml:space="preserve"><value>Keskitetty</value></data>
+  <data name="DemoLayoutAlignEnd" xml:space="preserve"><value>Tasattu loppuun</value></data>
+  <data name="DemoLayoutTop" xml:space="preserve"><value>Ylhäällä</value></data>
+  <data name="DemoLayoutTopText" xml:space="preserve"><value>Naapureitaan korkeampi kortti.</value></data>
+  <data name="DemoLayoutBottom" xml:space="preserve"><value>Alhaalla</value></data>
+  <data name="DemoLayoutBottomText" xml:space="preserve"><value>Merkki asettuu rivin alareunaan.</value></data>
+  <data name="DemoLayoutStretched" xml:space="preserve"><value>Venytetty</value></data>
+  <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Molemmat kortit saavat saman korkeuden.</value></data>
+  <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Hyväksy asia</value></data>
+  <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Suodata asiakirjoja</value></data>
+  <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Sulje pyyntö</value></data>
+  <data name="DemoLayoutNotifications" xml:space="preserve"><value>Ilmoitukset</value></data>
+  <data name="DemoLayoutNotificationsText" xml:space="preserve"><value>Mistä sovellus ilmoittaa sinulle ja miten.</value></data>
+  <data name="DemoLayoutEmailAlerts" xml:space="preserve"><value>Sähköpostihälytykset</value></data>
+  <data name="DemoLayoutEmailAlertsText" xml:space="preserve"><value>Viesti jokaisesta tilan muutoksesta.</value></data>
+  <data name="DemoLayoutWeeklyDigest" xml:space="preserve"><value>Viikkoyhteenveto</value></data>
+  <data name="DemoLayoutWeeklyDigestText" xml:space="preserve"><value>Viikon asiat maanantaiaamuna.</value></data>
+  <data name="DemoLayoutServerName" xml:space="preserve"><value>Palvelimen nimi</value></data>
+  <data name="DemoLayoutServerNameText" xml:space="preserve"><value>Näkyy konsolissa.</value></data>
+  <data name="DemoLayoutIdentifierReadOnly" xml:space="preserve"><value>Tunniste, vain luku</value></data>
+  <data name="DemoLayoutZoneDisabled" xml:space="preserve"><value>Alue, ei käytössä</value></data>
+  <data name="DemoLayoutLockedRestore" xml:space="preserve"><value>Lukittu palautus</value></data>
+  <data name="DemoLayoutSave" xml:space="preserve"><value>Tallenna</value></data>
+  <data name="DemoLayoutCancel" xml:space="preserve"><value>Peruuta</value></data>
+  <data name="DemoLayoutDeployed" xml:space="preserve"><value>Käyttöönotto valmis</value></data>
+  <data name="DemoLayoutDeployedText" xml:space="preserve"><value>Versio 1.0.1 on käytössä.</value></data>
+  <data name="DemoLayoutEachChange" xml:space="preserve"><value>Jokaisesta muutoksesta.</value></data>
+  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Väljä hälytys mukavan tiiviillä sivulla.</value></data>
+  <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>Tiiviit välilehdet</value></data>
+  <data name="DemoLayoutGeneral" xml:space="preserve"><value>Yleiset</value></data>
+  <data name="DemoLayoutGeneralText" xml:space="preserve"><value>Yleiset asetukset.</value></data>
+  <data name="DemoLayoutSecurity" xml:space="preserve"><value>Tietoturva</value></data>
+  <data name="DemoLayoutSecurityText" xml:space="preserve"><value>Käyttöoikeudet ja tunnukset.</value></data>
+  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Väljä ruutu</value></data>
+  <data name="DemoLayoutOwnDensity" xml:space="preserve"><value>Oma tiiviys.</value></data>
+  <data name="DemoLayoutTrackedExpanded" xml:space="preserve"><value>Seuratut asetukset: laajennettu</value></data>
+  <data name="DemoLayoutTrackedCollapsed" xml:space="preserve"><value>Seuratut asetukset: supistettu</value></data>
+  <data name="DemoLayoutGapNone1" xml:space="preserve"><value>Ei</value></data>
+  <data name="DemoLayoutGapNone2" xml:space="preserve"><value>väliä</value></data>
+  <data name="DemoLayoutGapXSmall1" xml:space="preserve"><value>Hyvin</value></data>
+  <data name="DemoLayoutGapXSmall2" xml:space="preserve"><value>tiivis</value></data>
+  <data name="DemoLayoutGapSmall1" xml:space="preserve"><value>Tiivis</value></data>
+  <data name="DemoLayoutGapSmall2" xml:space="preserve"><value>pieni</value></data>
+  <data name="DemoLayoutGapMedium1" xml:space="preserve"><value>Tavallinen</value></data>
+  <data name="DemoLayoutGapMedium2" xml:space="preserve"><value>keskikoko</value></data>
+  <data name="DemoLayoutGapLarge1" xml:space="preserve"><value>Väljä</value></data>
+  <data name="DemoLayoutGapLarge2" xml:space="preserve"><value>suuri</value></data>
+  <data name="DemoLayoutGapXLarge1" xml:space="preserve"><value>Hyvin</value></data>
+  <data name="DemoLayoutGapXLarge2" xml:space="preserve"><value>väljä</value></data>
+  <data name="DemoLayoutDensityCompact" xml:space="preserve"><value>Tiivis</value></data>
+  <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Mukava</value></data>
+  <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Väljä</value></data>
+  <data name="DemoLayoutAlertCount" xml:space="preserve"><value>Hälytyksiä: {0}</value></data>
+  <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Korostettu otsikko</value></data>
+  <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Hillitty otsikko</value></data>
+  <data name="DemoTypographyParagraph" xml:space="preserve"><value>Tavallinen kappale teeman perustekstikoossa.</value></data>
+  <data name="DemoTypographySecondary" xml:space="preserve"><value>Toissijainen kappale sisällölle, joka täydentää mutta ei kanna tietoa.</value></data>
+  <data name="DemoTypographyError" xml:space="preserve"><value>Virhemerkintä</value></data>
+  <data name="DemoTypographyStrong" xml:space="preserve"><value>Tärkeä teksti</value></data>
+  <data name="DemoTypographyEmphasis" xml:space="preserve"><value>Korostettu teksti</value></data>
+  <data name="DemoTypographySuccess" xml:space="preserve"><value>Myönteinen tila</value></data>
+  <data name="DemoTypographyTruncated" xml:space="preserve"><value>Pitkä teksti, jonka komponentti katkaisee kolmella pisteellä tilan loppuessa sen sijaan, että se työntäisi asettelua tai rivittyisi arvaamattomasti.</value></data>
+  <data name="DemoTypographyLabel" xml:space="preserve"><value>Kenttään liitetty nimi</value></data>
+  <data name="DemoTypographyInternalLink" xml:space="preserve"><value>Sisäinen linkki</value></data>
+  <data name="DemoTypographyExternalLink" xml:space="preserve"><value>Ulkoinen linkki</value></data>
+  <data name="DemoTypographyLevelHeading" xml:space="preserve"><value>Tason {0} otsikko</value></data>
+  <data name="DemoThemesAppearanceWindow" xml:space="preserve"><value>Ulkoasuikkuna</value></data>
+  <data name="DemoAppShellMinimize" xml:space="preserve"><value>Pienennä ikkuna</value></data>
+  <data name="DemoAppShellMaximize" xml:space="preserve"><value>Suurenna tai palauta ikkuna</value></data>
+  <data name="DemoAppShellClose" xml:space="preserve"><value>Sulje ikkuna</value></data>
+  <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Murupolku</value></data>
+  <data name="DemoNavigationHome" xml:space="preserve"><value>Etusivu</value></data>
+  <data name="DemoNavigationComponents" xml:space="preserve"><value>Komponentit</value></data>
+  <data name="DemoNavigationCurrent" xml:space="preserve"><value>Navigointi</value></data>
+  <data name="DemoNavigationSections" xml:space="preserve"><value>Asian osiot</value></data>
+  <data name="DemoNavigationTabSummary" xml:space="preserve"><value>Yhteenveto</value></data>
+  <data name="DemoNavigationDocuments" xml:space="preserve"><value>Asiakirjat</value></data>
+  <data name="DemoNavigationDocumentsText" xml:space="preserve"><value>Jokaisessa asiakirjassa on sen jättöpäivä.</value></data>
+  <data name="DemoNavigationHistory" xml:space="preserve"><value>Historia</value></data>
+  <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Kaksitoista kirjattua tapahtumaa.</value></data>
+  <data name="DemoNavigationProgress" xml:space="preserve"><value>Asian eteneminen</value></data>
+  <data name="DemoNavigationFiling" xml:space="preserve"><value>Vireillepano</value></data>
+  <data name="DemoNavigationFilingText" xml:space="preserve"><value>Asiakirjat on vastaanotettu.</value></data>
+  <data name="DemoNavigationReview" xml:space="preserve"><value>Valmistelu</value></data>
+  <data name="DemoNavigationReviewText" xml:space="preserve"><value>Asiaa tutkitaan parhaillaan.</value></data>
+  <data name="DemoNavigationDecision" xml:space="preserve"><value>Päätös</value></data>
+  <data name="DemoNavigationDecisionText" xml:space="preserve"><value>Päätös annetaan tiedoksi postitse.</value></data>
+  <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>Asiassa on asiakirjoja: {0}.</value></data>
+  <data name="DemoPagesReload" xml:space="preserve"><value>Lataa tietue uudelleen</value></data>
+  <data name="DemoPagesMissing" xml:space="preserve"><value>Tietuetta ei löydy</value></data>
+  <data name="DemoPagesNotFound" xml:space="preserve"><value>Pyydetty tietue on poistettu tai sitä ei ole koskaan ollut.</value></data>
+  <data name="DemoPagesSubtitle" xml:space="preserve"><value>Virtuaalikone Pariisin alueella.</value></data>
+  <data name="DemoPagesOnline" xml:space="preserve"><value>Verkossa</value></data>
+  <data name="DemoPagesEdit" xml:space="preserve"><value>Muokkaa</value></data>
+  <data name="DemoPagesRemove" xml:space="preserve"><value>Poista</value></data>
+  <data name="DemoPagesDuplicate" xml:space="preserve"><value>Monista</value></data>
+  <data name="DemoPagesArchive" xml:space="preserve"><value>Arkistoi</value></data>
+  <data name="DemoPagesProduction" xml:space="preserve"><value>Tuotanto</value></data>
+  <data name="DemoPagesName" xml:space="preserve"><value>Nimi</value></data>
+  <data name="DemoPagesSystem" xml:space="preserve"><value>Järjestelmä</value></data>
+  <data name="DemoPagesIpAddress" xml:space="preserve"><value>IP-osoite</value></data>
+  <data name="DemoPagesToken" xml:space="preserve"><value>Käyttöoikeustunnus</value></data>
+  <data name="DemoPagesLastSignal" xml:space="preserve"><value>Viimeisin signaali</value></data>
+  <data name="DemoPagesCertificate" xml:space="preserve"><value>Varmenne</value></data>
+  <data name="DemoPagesNoBackup" xml:space="preserve"><value>Ei varmuuskopioita</value></data>
+  <data name="DemoPagesNoBackupText" xml:space="preserve"><value>Ajoitetut varmuuskopiot näkyvät tässä ensimmäisen suorituksensa jälkeen.</value></data>
+  <data name="DemoPagesSchedule" xml:space="preserve"><value>Ajoita</value></data>
+  <data name="DemoPagesNoResult" xml:space="preserve"><value>Ei tuloksia</value></data>
+  <data name="DemoPagesNoResultText" xml:space="preserve"><value>Mikään palvelin ei vastaa suodatinta.</value></data>
+  <data name="DemoPagesHideToken" xml:space="preserve"><value>Piilota tunnus</value></data>
+  <data name="DemoPagesShowToken" xml:space="preserve"><value>Näytä tunnus</value></data>
+  <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1} k</value></data>
+  <data name="DemoPagesTokensToday" xml:space="preserve"><value>Tokenit tänään</value></data>
+  <data name="DemoPagesTokensReset" xml:space="preserve"><value>Nollautuu klo {0:t}</value></data>
+  <data name="DemoPagesWeekly" xml:space="preserve"><value>Viikoittain</value></data>
+  <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Komponentit</value></data>
+  <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Palvelimet</value></data>
+  <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Palvelin</value></data>
+  <data name="DemoBadgesNeutral" xml:space="preserve"><value>Neutraali</value></data>
+  <data name="DemoBadgesAccent" xml:space="preserve"><value>Korostus</value></data>
+  <data name="DemoBadgesInfo" xml:space="preserve"><value>Tieto</value></data>
+  <data name="DemoBadgesSuccess" xml:space="preserve"><value>Onnistuminen</value></data>
+  <data name="DemoBadgesWarning" xml:space="preserve"><value>Varoitus</value></data>
+  <data name="DemoBadgesDanger" xml:space="preserve"><value>Vaara</value></data>
+  <data name="DemoBadgesDraft" xml:space="preserve"><value>Luonnos</value></data>
+  <data name="DemoBadgesOutline" xml:space="preserve"><value>Ääriviiva</value></data>
+  <data name="DemoBadgesApproved" xml:space="preserve"><value>Hyväksytty</value></data>
+  <data name="DemoBadgesPending" xml:space="preserve"><value>Odottaa</value></data>
+  <data name="DemoBadgesRejected" xml:space="preserve"><value>Hylätty</value></data>
+  <data name="DemoBadgesNew" xml:space="preserve"><value>Uusi</value></data>
+  <data name="DemoBadgesInReview" xml:space="preserve"><value>Tarkastettavana</value></data>
+  <data name="DemoBadgesPublished" xml:space="preserve"><value>Julkaistu</value></data>
+  <data name="DemoBadgesFailed" xml:space="preserve"><value>Epäonnistui</value></data>
+  <data name="DemoBadgesFixedSize" xml:space="preserve"><value>Kiinteä koko</value></data>
+  <data name="DemoAlertsMaintenance" xml:space="preserve"><value>Huolto</value></data>
+  <data name="DemoAlertsMaintenanceText" xml:space="preserve"><value>Palvelu ei ole käytettävissä sunnuntaina klo 2–4.</value></data>
+  <data name="DemoAlertsPublished" xml:space="preserve"><value>Paketti julkaistu</value></data>
+  <data name="DemoAlertsPublishedText" xml:space="preserve"><value>OmniEurope.Blazor on saatavilla NuGet.orgissa.</value></data>
+  <data name="DemoAlertsCertificate" xml:space="preserve"><value>Varmenne vanhenee pian</value></data>
+  <data name="DemoAlertsFailure" xml:space="preserve"><value>Virhe</value></data>
+  <data name="DemoAlertsFailureText" xml:space="preserve"><value>Yhteys palveluun epäonnistui.</value></data>
+  <data name="DemoAlertsInfo" xml:space="preserve"><value>Tieto</value></data>
+  <data name="DemoAlertsInfoText" xml:space="preserve"><value>Kirjasto lukee kaikki värinsä CSS-muuttujista.</value></data>
+  <data name="DemoAlertsSaved" xml:space="preserve"><value>Tallennettu</value></data>
+  <data name="DemoAlertsSavedText" xml:space="preserve"><value>Muutokset on otettu käyttöön.</value></data>
+  <data name="DemoAlertsNew" xml:space="preserve"><value>Uutta</value></data>
+  <data name="DemoAlertsNewText" xml:space="preserve"><value>Merkit ja hälytykset käyttävät nyt samaa täyttöä.</value></data>
+  <data name="DemoAlertsCaution" xml:space="preserve"><value>Huomio</value></data>
+  <data name="DemoAlertsCautionText" xml:space="preserve"><value>Tätä asetusta käytetään kaikilla sivuilla.</value></data>
+  <data name="DemoAlertsTooLarge" xml:space="preserve"><value>Tiedosto ylittää sallitun koon.</value></data>
+  <data name="DemoAlertsTip" xml:space="preserve"><value>Vinkki</value></data>
+  <data name="DemoAlertsTipText" xml:space="preserve"><value>Tämä hälytys suljetaan sen ruksista.</value></data>
+  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Allekirjoitusvarmenne vanhenee, päiviä jäljellä: {0}.</value></data>
+  <data name="DemoButtonsSecondary" xml:space="preserve"><value>Toissijainen</value></data>
+  <data name="DemoButtonsGhost" xml:space="preserve"><value>Hillitty</value></data>
+  <data name="DemoButtonsApprove" xml:space="preserve"><value>Hyväksy</value></data>
+  <data name="DemoButtonsSuspend" xml:space="preserve"><value>Keskeytä</value></data>
+  <data name="DemoButtonsDetails" xml:space="preserve"><value>Tiedot</value></data>
+  <data name="DemoButtonsDelete" xml:space="preserve"><value>Poista</value></data>
+  <data name="DemoButtonsUnavailable" xml:space="preserve"><value>Ei saatavilla</value></data>
+  <data name="DemoButtonsSaving" xml:space="preserve"><value>Tallennetaan</value></data>
+  <data name="DemoButtonsSave" xml:space="preserve"><value>Tallenna</value></data>
+  <data name="DemoButtonsPublish" xml:space="preserve"><value>Julkaise</value></data>
+  <data name="DemoButtonsPin" xml:space="preserve"><value>Kiinnitä</value></data>
+  <data name="DemoButtonsSmall" xml:space="preserve"><value>Pieni</value></data>
+  <data name="DemoButtonsMedium" xml:space="preserve"><value>Keskikokoinen</value></data>
+  <data name="DemoButtonsLarge" xml:space="preserve"><value>Suuri</value></data>
+  <data name="DemoButtonsSearch" xml:space="preserve"><value>Hae</value></data>
+  <data name="DemoButtonsPublishLater" xml:space="preserve"><value>Julkaise myöhemmin</value></data>
+  <data name="DemoButtonsDraft" xml:space="preserve"><value>Luonnos</value></data>
+  <data name="DemoButtonsPreview" xml:space="preserve"><value>Esikatselu</value></data>
+  <data name="DemoButtonsView" xml:space="preserve"><value>Näytä</value></data>
+  <data name="DemoButtonsSend" xml:space="preserve"><value>Lähetä</value></data>
+  <data name="DemoButtonsReset" xml:space="preserve"><value>Palauta</value></data>
+  <data name="DemoButtonsNoFormEffect" xml:space="preserve"><value>Ei vaikutusta lomakkeeseen</value></data>
+  <data name="DemoButtonsPrimary" xml:space="preserve"><value>Ensisijainen</value></data>
+  <data name="DemoButtonsClicks" xml:space="preserve"><value>Ensisijaisen painikkeen napsautukset: {0}.</value></data>
+  <data name="DemoButtonsSent" xml:space="preserve"><value>Lomakkeen lähetykset: {0}.</value></data>
+  <data name="DemoFeedbackUpload" xml:space="preserve"><value>Lähetys</value></data>
+  <data name="DemoFeedbackIndexing" xml:space="preserve"><value>Indeksointi</value></data>
+  <data name="DemoFeedbackSync" xml:space="preserve"><value>Synkronointi</value></data>
+  <data name="DemoFeedbackProcessed" xml:space="preserve"><value>Käsitellyt asiat</value></data>
+  <data name="DemoFeedbackQuotaNear" xml:space="preserve"><value>Kiintiö täyttymässä</value></data>
+  <data name="DemoFeedbackImportFailures" xml:space="preserve"><value>Tuontivirheet</value></data>
+  <data name="DemoFeedbackAnalysing" xml:space="preserve"><value>Analyysi käynnissä</value></data>
+  <data name="DemoFeedbackProgress" xml:space="preserve"><value>Edistyminen</value></data>
+  <data name="DemoFeedbackNoKnownEnd" xml:space="preserve"><value>Ei tunnettua loppua</value></data>
+  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>Kiintiö lasketaan liukuvalta 30 päivän jaksolta.</value></data>
+  <data name="DemoFeedbackQuota" xml:space="preserve"><value>Kiintiö</value></data>
+  <data name="DemoFeedbackArchivedTooltip" xml:space="preserve"><value>Arkistoitua asiaa voi yhä tarkastella vain luku -tilassa.</value></data>
+  <data name="DemoFeedbackArchived" xml:space="preserve"><value>Arkistoitu</value></data>
+  <data name="DemoFeedbackDraftTooltip" xml:space="preserve"><value>Luonnos.</value></data>
+  <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Kapea</value></data>
+  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Arkistoitua asiaa voi yhä tarkastella vain luku -tilassa. Se ei enää lasketa kiintiöihin, ei näy oletushauissa eikä saa ilmoituksia. Avatakseen sen uudelleen ylläpitäjä palauttaa sen Arkisto-välilehdeltä; sen historia, liitteet ja kommentit palaavat silloin ennallaan palautuspäivän kera.</value></data>
+  <data name="DemoFeedbackLongText" xml:space="preserve"><value>Pitkä teksti</value></data>
+  <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>Paketin työkaluvihje tavallisessa title-attribuutissa.</value></data>
+  <data name="DemoFeedbackHover" xml:space="preserve"><value>Osoita</value></data>
+  <data name="DemoFeedbackLoadingAvatar" xml:space="preserve"><value>Ladataan avataria</value></data>
+  <data name="DemoFeedbackLoadingThumbnail" xml:space="preserve"><value>Ladataan pikkukuvaa</value></data>
+  <data name="DemoFeedbackLoadingFile" xml:space="preserve"><value>Ladataan asiaa</value></data>
+  <data name="DemoFeedbackLoadingDemo" xml:space="preserve"><value>Ladataan esimerkkiä</value></data>
+  <data name="DemoFeedbackSimulateLoad" xml:space="preserve"><value>Simuloi latausta</value></data>
+  <data name="DemoFeedbackRecentRuns" xml:space="preserve"><value>Viimeisimmät suoritukset</value></data>
+  <data name="DemoFeedbackAvailability" xml:space="preserve"><value>Saatavuus viime tunteina</value></data>
+  <data name="DemoFeedbackReady" xml:space="preserve"><value>Valmis</value></data>
+  <data name="DemoFeedbackFailed" xml:space="preserve"><value>Epäonnistui</value></data>
+  <data name="DemoFeedbackRunSucceeded" xml:space="preserve"><value>Suoritus {0} onnistui</value></data>
+  <data name="DemoFeedbackRunWarning" xml:space="preserve"><value>Suoritus {0}, varoitus</value></data>
+  <data name="DemoFeedbackRunFailed" xml:space="preserve"><value>Suoritus {0} epäonnistui</value></data>
+  <data name="DemoFeedbackSucceeded" xml:space="preserve"><value>Onnistui</value></data>
+  <data name="DemoFeedbackWarning" xml:space="preserve"><value>Varoitus</value></data>
+  <data name="DemoMediaImageContain" xml:space="preserve"><value>Koko kuva ilman rajausta</value></data>
+  <data name="DemoMediaImageCover" xml:space="preserve"><value>Kuva rajattuna täyttämään ruutu</value></data>
+  <data name="DemoMediaImageNatural" xml:space="preserve"><value>Kuva luonnollisessa koossaan</value></data>
+  <data name="DemoMediaTimeline" xml:space="preserve"><value>Asian vaiheet</value></data>
+  <data name="DemoMediaFiling" xml:space="preserve"><value>Vireillepano</value></data>
+  <data name="DemoMediaFilingText" xml:space="preserve"><value>Asia on kirjattu.</value></data>
+  <data name="DemoMediaReview" xml:space="preserve"><value>Valmistelu</value></data>
+  <data name="DemoMediaReviewText" xml:space="preserve"><value>Käsittelijä on nimetty.</value></data>
+  <data name="DemoMediaDecision" xml:space="preserve"><value>Päätös</value></data>
+  <data name="DemoMediaDecisionText" xml:space="preserve"><value>Päätös on annettu tiedoksi.</value></data>
+  <data name="DemoMediaIconCheck" xml:space="preserve"><value>Hyväksytty</value></data>
+  <data name="DemoMediaIconWarning" xml:space="preserve"><value>Varoitus</value></data>
+  <data name="DemoMediaIconFilter" xml:space="preserve"><value>Suodata</value></data>
+  <data name="DemoMediaIconCompass" xml:space="preserve"><value>Kompassi</value></data>
+  <data name="DemoMediaIconClose" xml:space="preserve"><value>Sulje</value></data>
+  <data name="DemoMediaIconInfo" xml:space="preserve"><value>Tieto</value></data>
+  <data name="DemoMediaIconMenu" xml:space="preserve"><value>Valikko</value></data>
+  <data name="DemoMediaIconChevronDown" xml:space="preserve"><value>Laajenna</value></data>
+  <data name="DemoMediaIconSortAscending" xml:space="preserve"><value>Nouseva lajittelu</value></data>
+  <data name="DemoMediaIconSortDescending" xml:space="preserve"><value>Laskeva lajittelu</value></data>
+  <data name="DemoMediaIconThemeLight" xml:space="preserve"><value>Vaalea ulkoasu</value></data>
+  <data name="DemoMediaIconThemeDark" xml:space="preserve"><value>Tumma ulkoasu</value></data>
+  <data name="DemoMediaIconAdd" xml:space="preserve"><value>Lisää</value></data>
+  <data name="DemoMediaIconAirplane" xml:space="preserve"><value>Lentokone</value></data>
+  <data name="DemoMediaIconAirplaneLanding" xml:space="preserve"><value>Laskeutuminen</value></data>
+  <data name="DemoMediaIconAirplaneTakeoff" xml:space="preserve"><value>Lentoonlähtö</value></data>
+  <data name="DemoMediaIconArchive" xml:space="preserve"><value>Arkistoi</value></data>
+  <data name="DemoMediaIconArrowLeft" xml:space="preserve"><value>Takaisin</value></data>
+  <data name="DemoMediaIconArrowRight" xml:space="preserve"><value>Seuraava</value></data>
+  <data name="DemoMediaIconBed" xml:space="preserve"><value>Majoitus</value></data>
+  <data name="DemoMediaIconBell" xml:space="preserve"><value>Ilmoitukset</value></data>
+  <data name="DemoMediaIconBracketsCurly" xml:space="preserve"><value>JSON-tiedot</value></data>
+  <data name="DemoMediaIconCalculator" xml:space="preserve"><value>Laskin</value></data>
+  <data name="DemoMediaIconCards" xml:space="preserve"><value>Kortit</value></data>
+  <data name="DemoMediaIconChartBarHorizontal" xml:space="preserve"><value>Sijoitus</value></data>
+  <data name="DemoMediaIconChat" xml:space="preserve"><value>Viesti</value></data>
+  <data name="DemoMediaIconCheckCircle" xml:space="preserve"><value>Onnistui</value></data>
+  <data name="DemoMediaIconChevronUp" xml:space="preserve"><value>Supista</value></data>
+  <data name="DemoMediaIconCopy" xml:space="preserve"><value>Kopioi</value></data>
+  <data name="DemoMediaIconDatabase" xml:space="preserve"><value>Tietokanta</value></data>
+  <data name="DemoMediaIconDelete" xml:space="preserve"><value>Poista</value></data>
+  <data name="DemoMediaIconDiamond" xml:space="preserve"><value>Jalokivi</value></data>
+  <data name="DemoMediaIconDice" xml:space="preserve"><value>Arvonta</value></data>
+  <data name="DemoMediaIconDocument" xml:space="preserve"><value>Asiakirja</value></data>
+  <data name="DemoMediaIconDownload" xml:space="preserve"><value>Lataa</value></data>
+  <data name="DemoMediaIconEdit" xml:space="preserve"><value>Muokkaa</value></data>
+  <data name="DemoMediaIconError" xml:space="preserve"><value>Virhe</value></data>
+  <data name="DemoMediaIconFlask" xml:space="preserve"><value>Koe</value></data>
+  <data name="DemoMediaIconFunction" xml:space="preserve"><value>Kaava</value></data>
+  <data name="DemoMediaIconGlobe" xml:space="preserve"><value>Maailma</value></data>
+  <data name="DemoMediaIconGlobeHemisphereWest" xml:space="preserve"><value>Matkat</value></data>
+  <data name="DemoMediaIconGraduationCap" xml:space="preserve"><value>Luokka</value></data>
+  <data name="DemoMediaIconGraph" xml:space="preserve"><value>Linkit</value></data>
+  <data name="DemoMediaIconHome" xml:space="preserve"><value>Etusivu</value></data>
+  <data name="DemoMediaIconHourglass" xml:space="preserve"><value>Odotus</value></data>
+  <data name="DemoMediaIconImage" xml:space="preserve"><value>Kuva</value></data>
+  <data name="DemoMediaIconLayers" xml:space="preserve"><value>Tasot</value></data>
+  <data name="DemoMediaIconMapPin" xml:space="preserve"><value>Paikka</value></data>
+  <data name="DemoMediaIconMapPinLine" xml:space="preserve"><value>Paikkojen tuonti</value></data>
+  <data name="DemoMediaIconMedal" xml:space="preserve"><value>Sija</value></data>
+  <data name="DemoMediaIconMonitor" xml:space="preserve"><value>Näyttö</value></data>
+  <data name="DemoMediaIconNumberedList" xml:space="preserve"><value>Numeroitu luettelo</value></data>
+  <data name="DemoMediaIconOffline" xml:space="preserve"><value>Ei yhteyttä</value></data>
+  <data name="DemoMediaIconOpenExternal" xml:space="preserve"><value>Avaa muualla</value></data>
+  <data name="DemoMediaIconPackage" xml:space="preserve"><value>Esine</value></data>
+  <data name="DemoMediaIconPalette" xml:space="preserve"><value>Värit</value></data>
+  <data name="DemoMediaIconPath" xml:space="preserve"><value>Reitti</value></data>
+  <data name="DemoMediaIconPattern" xml:space="preserve"><value>Kuvio</value></data>
+  <data name="DemoMediaIconPictureInPicture" xml:space="preserve"><value>Kuva kuvassa</value></data>
+  <data name="DemoMediaIconPin" xml:space="preserve"><value>Kiinnitä</value></data>
+  <data name="DemoMediaIconPlay" xml:space="preserve"><value>Käynnistä</value></data>
+  <data name="DemoMediaIconProhibit" xml:space="preserve"><value>Kielletty</value></data>
+  <data name="DemoMediaIconRefresh" xml:space="preserve"><value>Päivitä</value></data>
+  <data name="DemoMediaIconRemove" xml:space="preserve"><value>Poista</value></data>
+  <data name="DemoMediaIconReset" xml:space="preserve"><value>Palauta</value></data>
+  <data name="DemoMediaIconRestore" xml:space="preserve"><value>Palauta arkistosta</value></data>
+  <data name="DemoMediaIconRows" xml:space="preserve"><value>Tiiviys</value></data>
+  <data name="DemoMediaIconRuler" xml:space="preserve"><value>Mittaus</value></data>
+  <data name="DemoMediaIconSave" xml:space="preserve"><value>Tallenna</value></data>
+  <data name="DemoMediaIconSearch" xml:space="preserve"><value>Hae</value></data>
+  <data name="DemoMediaIconSettings" xml:space="preserve"><value>Asetukset</value></data>
+  <data name="DemoMediaIconShieldCheck" xml:space="preserve"><value>Hallinta</value></data>
+  <data name="DemoMediaIconSidebar" xml:space="preserve"><value>Sivupalkki</value></data>
+  <data name="DemoMediaIconSliders" xml:space="preserve"><value>Tarkennetut suodattimet</value></data>
+  <data name="DemoMediaIconSparkle" xml:space="preserve"><value>Uutta</value></data>
+  <data name="DemoMediaIconStar" xml:space="preserve"><value>Suosikki</value></data>
+  <data name="DemoMediaIconStarFilled" xml:space="preserve"><value>Aktiivinen suosikki</value></data>
+  <data name="DemoMediaIconSwap" xml:space="preserve"><value>Vaihda</value></data>
+  <data name="DemoMediaIconSync" xml:space="preserve"><value>Synkronoi</value></data>
+  <data name="DemoMediaIconTag" xml:space="preserve"><value>Tunniste</value></data>
+  <data name="DemoMediaIconTextSize" xml:space="preserve"><value>Tekstin koko</value></data>
+  <data name="DemoMediaIconThemeSystem" xml:space="preserve"><value>Järjestelmän ulkoasu</value></data>
+  <data name="DemoMediaIconTimer" xml:space="preserve"><value>Ajastin</value></data>
+  <data name="DemoMediaIconUpgrade" xml:space="preserve"><value>Päivitys</value></data>
+  <data name="DemoMediaIconUpload" xml:space="preserve"><value>Lähetä</value></data>
+  <data name="DemoMediaIconUser" xml:space="preserve"><value>Henkilö</value></data>
+  <data name="DemoMediaIconUserFocus" xml:space="preserve"><value>Etsi henkilö</value></data>
+  <data name="DemoMediaIconEye" xml:space="preserve"><value>Näytä</value></data>
+  <data name="DemoMediaIconGitCommit" xml:space="preserve"><value>Commit</value></data>
+  <data name="DemoMediaIconLock" xml:space="preserve"><value>Lukittu</value></data>
+  <data name="DemoMediaIconRocketLaunch" xml:space="preserve"><value>Ota käyttöön</value></data>
+  <data name="DemoMediaIconUsers" xml:space="preserve"><value>Ryhmä</value></data>
+  <data name="DemoMediaIconStop" xml:space="preserve"><value>Pysäytä</value></data>
+  <data name="DemoMediaIconListChecks" xml:space="preserve"><value>Säännöt</value></data>
+  <data name="DemoMediaIconFolder" xml:space="preserve"><value>Kansio</value></data>
+  <data name="DemoMediaIconQuestion" xml:space="preserve"><value>Ohje</value></data>
+  <data name="DemoMediaIconSquaresFour" xml:space="preserve"><value>Koontinäyttö</value></data>
+  <data name="DemoMediaIconTerminalWindow" xml:space="preserve"><value>Pääte</value></data>
+  <data name="DemoMediaIconWrench" xml:space="preserve"><value>Koonti</value></data>
+  <data name="DemoMediaIconKey" xml:space="preserve"><value>Avain</value></data>
+  <data name="DemoMediaIconBuildings" xml:space="preserve"><value>Organisaatio</value></data>
+  <data name="DemoMediaIconHeartbeat" xml:space="preserve"><value>Valvonta</value></data>
+  <data name="DemoMediaIconCloudArrowUp" xml:space="preserve"><value>Verkkovarmuuskopio</value></data>
+  <data name="DemoMediaIconLink" xml:space="preserve"><value>Linkki</value></data>
+  <data name="DemoMediaIconUserPlus" xml:space="preserve"><value>Lisää henkilö</value></data>
+  <data name="DemoMediaIconLayout" xml:space="preserve"><value>Asettelu</value></data>
+  <data name="DemoMediaIconBroadcast" xml:space="preserve"><value>Lähetys</value></data>
+  <data name="DemoMediaIconCalendarBlank" xml:space="preserve"><value>Päivämäärä</value></data>
+  <data name="DemoMediaIconChartLineUp" xml:space="preserve"><value>Trendi</value></data>
+  <data name="DemoMediaIconFolderOpen" xml:space="preserve"><value>Avoin kansio</value></data>
+  <data name="DemoMediaIconGitFork" xml:space="preserve"><value>Haarautuminen</value></data>
+  <data name="DemoMediaIconGitMerge" xml:space="preserve"><value>Yhdistäminen</value></data>
+  <data name="DemoMediaIconLockKey" xml:space="preserve"><value>Nollaa salasana</value></data>
+  <data name="DemoMediaIconRobot" xml:space="preserve"><value>Automaatio</value></data>
+  <data name="DemoMediaIconArrowDown" xml:space="preserve"><value>Siirrä alas</value></data>
+  <data name="DemoMediaIconBrain" xml:space="preserve"><value>Älykkyys</value></data>
+  <data name="DemoMediaIconCellTower" xml:space="preserve"><value>Antenni</value></data>
+  <data name="DemoMediaIconCloud" xml:space="preserve"><value>Pilvi</value></data>
+  <data name="DemoMediaIconGavel" xml:space="preserve"><value>Sääntely</value></data>
+  <data name="DemoMediaIconGitDiff" xml:space="preserve"><value>Erot</value></data>
+  <data name="DemoMediaIconLinkBreak" xml:space="preserve"><value>Katkennut linkki</value></data>
+  <data name="DemoMediaIconLockOpen" xml:space="preserve"><value>Lukitsematon</value></data>
+  <data name="DemoMediaIconPaperPlaneRight" xml:space="preserve"><value>Lähetä viesti</value></data>
+  <data name="DemoMediaIconPlugsConnected" xml:space="preserve"><value>Yhdistetty</value></data>
+  <data name="DemoMediaIconPuzzlePiece" xml:space="preserve"><value>Laajennus</value></data>
+  <data name="DemoMediaIconShieldWarning" xml:space="preserve"><value>Riski</value></data>
+  <data name="DemoMediaIconSignOut" xml:space="preserve"><value>Kirjaudu ulos</value></data>
+  <data name="DemoMediaIconArrowElbowDownLeft" xml:space="preserve"><value>Rivinvaihto</value></data>
+  <data name="DemoMediaIconBroom" xml:space="preserve"><value>Siivoa</value></data>
+  <data name="DemoMediaIconBug" xml:space="preserve"><value>Vika</value></data>
+  <data name="DemoMediaIconChartLine" xml:space="preserve"><value>Viivakaavio</value></data>
+  <data name="DemoMediaIconChevronRight" xml:space="preserve"><value>Avaa</value></data>
+  <data name="DemoMediaIconCode" xml:space="preserve"><value>Koodi</value></data>
+  <data name="DemoMediaIconGauge" xml:space="preserve"><value>Suorituskyky</value></data>
+  <data name="DemoMediaIconMagnifyingGlassPlus" xml:space="preserve"><value>Lähennä</value></data>
+  <data name="DemoMediaIconPassword" xml:space="preserve"><value>Salasana</value></data>
+  <data name="DemoMediaIconShieldSlash" xml:space="preserve"><value>Suojaus pois</value></data>
+  <data name="DemoMediaIconStamp" xml:space="preserve"><value>Hyväksyntä</value></data>
+  <data name="DemoMediaIconTextAlignLeft" xml:space="preserve"><value>Tasaa vasemmalle</value></data>
+  <data name="DemoMediaIconWifiHigh" xml:space="preserve"><value>Verkko</value></data>
+  <data name="DemoMediaIconArrowElbowDownRight" xml:space="preserve"><value>Alikohde</value></data>
+  <data name="DemoMediaIconArrowLineDown" xml:space="preserve"><value>Siirry alas</value></data>
+  <data name="DemoMediaIconArrowLineUp" xml:space="preserve"><value>Siirry ylös</value></data>
+  <data name="DemoMediaIconArrowUUpRight" xml:space="preserve"><value>Tee uudelleen</value></data>
+  <data name="DemoMediaIconAt" xml:space="preserve"><value>Sähköpostiosoite</value></data>
+  <data name="DemoMediaIconBellSlash" xml:space="preserve"><value>Ilmoitukset mykistetty</value></data>
+  <data name="DemoMediaIconBooks" xml:space="preserve"><value>Kirjasto</value></data>
+  <data name="DemoMediaIconCalendarCheck" xml:space="preserve"><value>Vahvistettu päivämäärä</value></data>
+  <data name="DemoMediaIconChecks" xml:space="preserve"><value>Hyväksy kaikki</value></data>
+  <data name="DemoMediaIconCloudArrowDown" xml:space="preserve"><value>Hae pilvestä</value></data>
+  <data name="DemoMediaIconColumns" xml:space="preserve"><value>Sarakkeet</value></data>
+  <data name="DemoMediaIconCornersOut" xml:space="preserve"><value>Sovita näyttöön</value></data>
+  <data name="DemoMediaIconDotsThreeVertical" xml:space="preserve"><value>Lisää toimintoja</value></data>
+  <data name="DemoMediaIconEyeSlash" xml:space="preserve"><value>Piilota</value></data>
+  <data name="DemoMediaIconFrameCorners" xml:space="preserve"><value>Keskitä uudelleen</value></data>
+  <data name="DemoMediaIconHardDrive" xml:space="preserve"><value>Levy</value></data>
+  <data name="DemoMediaIconLightning" xml:space="preserve"><value>Nopea</value></data>
+  <data name="DemoMediaIconMagnifyingGlassMinus" xml:space="preserve"><value>Loitonna</value></data>
+  <data name="DemoMediaIconMegaphone" xml:space="preserve"><value>Tiedote</value></data>
+  <data name="DemoMediaIconSignIn" xml:space="preserve"><value>Kirjaudu sisään</value></data>
+  <data name="DemoMediaIconTarget" xml:space="preserve"><value>Kohde</value></data>
+  <data name="DemoMediaIconToggleLeft" xml:space="preserve"><value>Pois</value></data>
+  <data name="DemoMediaIconTray" xml:space="preserve"><value>Saapuneet</value></data>
+  <data name="DemoMediaIconCpu" xml:space="preserve"><value>Suoritin</value></data>
+  <data name="DemoMediaIconFilePlus" xml:space="preserve"><value>Uusi tiedosto</value></data>
+  <data name="DemoMediaIconHandTap" xml:space="preserve"><value>Manuaalinen käynnistys</value></data>
+  <data name="DemoMediaIconPause" xml:space="preserve"><value>Tauko</value></data>
+  <data name="DemoMediaIconToggleRight" xml:space="preserve"><value>Päällä</value></data>
+  <data name="DemoMediaIconWebhook" xml:space="preserve"><value>Webhook</value></data>
+  <data name="DemoMediaIconWifiSlash" xml:space="preserve"><value>Verkko katkaistu</value></data>
+  <data name="DemoMediaIconScissors" xml:space="preserve"><value>Leikkaa</value></data>
+  <data name="DemoMediaIconClipboard" xml:space="preserve"><value>Liitä</value></data>
+  <data name="DemoMediaIconThumbsUp" xml:space="preserve"><value>Hyödyllinen</value></data>
+  <data name="DemoMediaIconThumbsDown" xml:space="preserve"><value>Ei hyödyllinen</value></data>
+  <data name="DemoMediaIconLightbulb" xml:space="preserve"><value>Vinkki</value></data>
+  <data name="DemoMediaIconKeyboard" xml:space="preserve"><value>Näppäimistö</value></data>
+  <data name="DemoMediaIconFlag" xml:space="preserve"><value>Ilmoita</value></data>
+  <data name="DemoMediaIconHighlighter" xml:space="preserve"><value>Korosta</value></data>
+  <data name="DemoMediaIconChartPie" xml:space="preserve"><value>Jakauma</value></data>
+  <data name="DemoMediaIconChartDonut" xml:space="preserve"><value>Osuus</value></data>
+  <data name="DemoMediaIconCircle" xml:space="preserve"><value>Ympyrä</value></data>
+  <data name="DemoMediaIconBookmark" xml:space="preserve"><value>Kirjanmerkki</value></data>
+  <data name="DemoMediaIconUserMinus" xml:space="preserve"><value>Poista jäsen</value></data>
+  <data name="DemoMediaIconSelectionSlash" xml:space="preserve"><value>Poista valinta</value></data>
+  <data name="DemoMediaIconSmiley" xml:space="preserve"><value>Erikoismerkit</value></data>
+  <data name="DemoMediaIconSkipBack" xml:space="preserve"><value>Edellinen kappale</value></data>
+  <data name="DemoMediaIconSkipForward" xml:space="preserve"><value>Seuraava kappale</value></data>
+  <data name="DemoMediaIconShuffle" xml:space="preserve"><value>Satunnaistoisto</value></data>
+  <data name="DemoMediaIconRepeat" xml:space="preserve"><value>Toista uudelleen</value></data>
+  <data name="DemoMediaIconRepeatOnce" xml:space="preserve"><value>Toista kerran</value></data>
+  <data name="DemoMediaIconSpeakerHigh" xml:space="preserve"><value>Kova äänenvoimakkuus</value></data>
+  <data name="DemoMediaIconSpeakerLow" xml:space="preserve"><value>Hiljainen äänenvoimakkuus</value></data>
+  <data name="DemoMediaIconSpeakerNone" xml:space="preserve"><value>Ei ääntä</value></data>
+  <data name="DemoMediaIconSpeakerX" xml:space="preserve"><value>Ääni mykistetty</value></data>
+  <data name="DemoMediaIconQueue" xml:space="preserve"><value>Jono</value></data>
+  <data name="DemoMediaIconPlaylist" xml:space="preserve"><value>Soittolista</value></data>
+  <data name="DemoMediaIconListPlus" xml:space="preserve"><value>Lisää luetteloon</value></data>
+  <data name="DemoMediaIconMusicNote" xml:space="preserve"><value>Kappale</value></data>
+  <data name="DemoMediaIconDisc" xml:space="preserve"><value>Albumi</value></data>
+  <data name="DemoMediaIconWaveform" xml:space="preserve"><value>Aaltomuoto</value></data>
+  <data name="DemoMediaIconDotsSixVertical" xml:space="preserve"><value>Vetokahva</value></data>
+  <data name="DemoMediaIconCornersIn" xml:space="preserve"><value>Pienennä näkymä</value></data>
+  <data name="DemoMediaIconPlayCircle" xml:space="preserve"><value>Toista</value></data>
+  <data name="DemoMediaIconPauseCircle" xml:space="preserve"><value>Tauko</value></data>
+  <data name="DemoMediaIconXCircle" xml:space="preserve"><value>Peruuta</value></data>
+  <data name="DemoMediaIconChartBar" xml:space="preserve"><value>Pylväskaavio</value></data>
+  <data name="DemoMediaIconBookOpen" xml:space="preserve"><value>Avoin kirja</value></data>
+  <data name="DemoMediaIconArrowsDownUp" xml:space="preserve"><value>Vaihda pystysuunnassa</value></data>
+  <data name="DemoMediaIconFolderPlus" xml:space="preserve"><value>Uusi kansio</value></data>
+  <data name="DemoMediaIconTelevision" xml:space="preserve"><value>Näyttöruutu</value></data>
+  <data name="DemoMediaIconSealCheck" xml:space="preserve"><value>Vahvistettu</value></data>
+  <data name="DemoMediaIconCheckSquare" xml:space="preserve"><value>Valittu ruutu</value></data>
+  <data name="DemoMediaIconArrowBendUpRight" xml:space="preserve"><value>Siirrä</value></data>
+  <data name="DemoMediaIconStethoscope" xml:space="preserve"><value>Diagnoosi</value></data>
+  <data name="DemoMediaIconChevronLeft" xml:space="preserve"><value>Edellinen</value></data>
+  <data name="DemoMediaIconEnvelope" xml:space="preserve"><value>Sähköposti</value></data>
+  <data name="DemoMediaIconCurrencyEur" xml:space="preserve"><value>Summa euroina</value></data>
+  <data name="DemoMediaIconShareNetwork" xml:space="preserve"><value>Jaa</value></data>
+  <data name="DemoMediaIconBank" xml:space="preserve"><value>Rahoituslaitos</value></data>
+  <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Toimeksianto</value></data>
+  <data name="DemoMediaIconIdentificationBadge" xml:space="preserve"><value>Henkilökortti</value></data>
+  <data name="DemoMediaIconFilePdf" xml:space="preserve"><value>PDF-asiakirja</value></data>
+  <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Tuki</value></data>
+  <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Kumppanuus</value></data>
+  <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Nousu</value></data>
+  <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Projektin nimi</value></data>
+  <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>Vastuuhenkilön sähköposti</value></data>
+  <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>Sähköpostin vahvistus</value></data>
+  <data name="DemoAnnotatedValidationReplicas" xml:space="preserve"><value>Replikat</value></data>
+  <data name="DemoOverlayOpenDialog" xml:space="preserve"><value>Avaa valintaikkuna</value></data>
+  <data name="DemoOverlaySave" xml:space="preserve"><value>Tallenna</value></data>
+  <data name="DemoOverlayMoreSaves" xml:space="preserve"><value>Muut tallennustavat</value></data>
+  <data name="DemoOverlaySaveAndClose" xml:space="preserve"><value>Tallenna ja sulje</value></data>
+  <data name="DemoOverlaySaveCopy" xml:space="preserve"><value>Tallenna kopio</value></data>
+  <data name="DemoOverlayPublishUnavailable" xml:space="preserve"><value>Julkaise, ei saatavilla</value></data>
+  <data name="DemoOverlayFolderActions" xml:space="preserve"><value>Kansion toiminnot</value></data>
+  <data name="DemoOverlayContextTrigger" xml:space="preserve"><value>Toiminnot (hiiren oikea painike tai Vaihto+F10)</value></data>
+  <data name="DemoOverlayDuplicate" xml:space="preserve"><value>Monista</value></data>
+  <data name="DemoOverlayExport" xml:space="preserve"><value>Vie</value></data>
+  <data name="DemoOverlayDelete" xml:space="preserve"><value>Poista</value></data>
+  <data name="DemoOverlayDeleteFolder" xml:space="preserve"><value>Poista kansio</value></data>
+  <data name="DemoOverlayRunningTasks" xml:space="preserve"><value>Käynnissä olevat tehtävät</value></data>
+  <data name="DemoOverlayBackupStep" xml:space="preserve"><value>Yöllinen varmuuskopiointi, vaihe {0}/{1}.</value></data>
+  <data name="DemoOverlayViewProgress" xml:space="preserve"><value>Näytä eteneminen</value></data>
+  <data name="DemoOverlayProgressOpened" xml:space="preserve"><value>Eteneminen avattu</value></data>
+  <data name="DemoOverlayQuickFilter" xml:space="preserve"><value>Pikasuodatin</value></data>
+  <data name="DemoOverlayFilter" xml:space="preserve"><value>Suodata</value></data>
+  <data name="DemoOverlayFilterBody" xml:space="preserve"><value>Paneeli tasataan painikkeen alkureunaan.</value></data>
+  <data name="DemoOverlayAccountMenu" xml:space="preserve"><value>Tilivalikko</value></data>
+  <data name="DemoOverlayMyProfile" xml:space="preserve"><value>Oma profiili</value></data>
+  <data name="DemoOverlaySignOut" xml:space="preserve"><value>Kirjaudu ulos</value></data>
+  <data name="DemoOverlaySignedOut" xml:space="preserve"><value>Kirjauduttu ulos</value></data>
+  <data name="DemoOverlayAdminUnavailable" xml:space="preserve"><value>Hallinta, ei saatavilla</value></data>
+  <data name="DemoOverlayStickyButton" xml:space="preserve"><value>Valintaikkuna, joka ohittaa taustaverhon</value></data>
+  <data name="DemoOverlayBlockingButton" xml:space="preserve"><value>Valintaikkuna, jonka sulkeminen on pakotettu</value></data>
+  <data name="DemoOverlaySizeSmall" xml:space="preserve"><value>Pieni</value></data>
+  <data name="DemoOverlaySizeMedium" xml:space="preserve"><value>Keskikokoinen</value></data>
+  <data name="DemoOverlaySizeLarge" xml:space="preserve"><value>Suuri</value></data>
+  <data name="DemoOverlaySizeExtraLarge" xml:space="preserve"><value>Erittäin suuri</value></data>
+  <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Koko leveys</value></data>
+  <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Valintaikkunan leveys</value></data>
+  <data name="DemoOverlaySizedBody" xml:space="preserve"><value>Tämä valintaikkuna on avattu kokoon {0}.</value></data>
+  <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Lomake (korostus)</value></data>
+  <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Tieto</value></data>
+  <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Onnistuminen</value></data>
+  <data name="DemoOverlayIntentWarning" xml:space="preserve"><value>Vahvistus (varoitus)</value></data>
+  <data name="DemoOverlayIntentDanger" xml:space="preserve"><value>Poisto (vaara)</value></data>
+  <data name="DemoOverlayIntentTitle" xml:space="preserve"><value>Suoritusasetukset</value></data>
+  <data name="DemoOverlayIntentBody" xml:space="preserve"><value>Tämän valintaikkunan tarkoitus: {0}.</value></data>
+  <data name="DemoOverlayConfirm" xml:space="preserve"><value>Vahvista</value></data>
+  <data name="DemoOverlayCancel" xml:space="preserve"><value>Peruuta</value></data>
+  <data name="DemoOverlayPipelineActions" xml:space="preserve"><value>Putken toiminnot</value></data>
+  <data name="DemoOverlayEdit" xml:space="preserve"><value>Muokkaa</value></data>
+  <data name="DemoOverlayUpdate" xml:space="preserve"><value>Päivitä</value></data>
+  <data name="DemoOverlayRowActions" xml:space="preserve"><value>Rivin toiminnot</value></data>
+  <data name="DemoOverlayLastAction" xml:space="preserve"><value>Viimeisin toiminto: {0}</value></data>
+  <data name="DemoOverlayNoAction" xml:space="preserve"><value>ei mitään</value></data>
+  <data name="DemoOverlayNoticeInfoTitle" xml:space="preserve"><value>Tieto</value></data>
+  <data name="DemoOverlayNoticeInfo" xml:space="preserve"><value>Yöajo alkaa klo {0}.</value></data>
+  <data name="DemoOverlayNoticeDoneTitle" xml:space="preserve"><value>Valmis</value></data>
+  <data name="DemoOverlayNoticeDone" xml:space="preserve"><value>Asiakirjat tuotiin ({0} kpl).</value></data>
+  <data name="DemoOverlayNotificationClosed" xml:space="preserve"><value>Ilmoitus suljettu</value></data>
+  <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>Kiintiö on melkein täynnä.</value></data>
+  <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Virhe</value></data>
+  <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>Yhteys palveluun epäonnistui.</value></data>
+  <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Vahvista poisto</value></data>
+  <data name="DemoOverlayClose" xml:space="preserve"><value>Sulje</value></data>
+  <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Tämä toiminto poistaa kansion luettelosta. Sen voi perua 30 päivän ajan.</value></data>
+  <data name="DemoOverlayDeletionConfirmed" xml:space="preserve"><value>Poisto vahvistettu</value></data>
+  <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Suodatin käytössä</value></data>
+  <data name="DemoOverlayStickyBody" xml:space="preserve"><value>Napsautus ikkunan ulkopuolelle ei sulje tätä valintaikkunaa: ruksi ja Esc sulkevat sen.</value></data>
+  <data name="DemoOverlayBlockingTitle" xml:space="preserve"><value>Siirto käynnissä</value></data>
+  <data name="DemoOverlayBlockingBody" xml:space="preserve"><value>Ei ruksi, ei Esc eikä taustaverho: vain valintaikkunan oma painike sulkee sen.</value></data>
+  <data name="DemoOverlayFinish" xml:space="preserve"><value>Valmis</value></data>
+  <data name="DemoOverlayMigrationDone" xml:space="preserve"><value>Siirto valmis</value></data>
+  <data name="DemoEditorBodyLabel" xml:space="preserve"><value>Kirjeen runko</value></data>
+  <data name="DemoEditorSourceLabel" xml:space="preserve"><value>Kirjeen lähdekoodi</value></data>
+  <data name="DemoEditorAnnotatedLabel" xml:space="preserve"><value>Huomautettu artikla</value></data>
+  <data name="DemoEditorPosition" xml:space="preserve"><value>Sijainti: {0}</value></data>
+  <data name="DemoEditorOutsideText" xml:space="preserve"><value>tekstin ulkopuolella</value></data>
+  <data name="DemoEditorRoot" xml:space="preserve"><value>juuri</value></data>
+  <data name="DemoEditorExtendedLabel" xml:space="preserve"><value>Kommentoitu lausunto</value></data>
+  <data name="DemoEditorReportLabel" xml:space="preserve"><value>Raportti</value></data>
+  <data name="DemoEditorReportFileName" xml:space="preserve"><value>raportti</value></data>
+  <data name="DemoEditorCodeLabel" xml:space="preserve"><value>JSON-asetukset</value></data>
+  <data name="DemoEditorIconBold" xml:space="preserve"><value>Lihavointi</value></data>
+  <data name="DemoEditorIconItalic" xml:space="preserve"><value>Kursivointi</value></data>
+  <data name="DemoEditorIconUnderline" xml:space="preserve"><value>Alleviivaus</value></data>
+  <data name="DemoEditorIconStrikethrough" xml:space="preserve"><value>Yliviivaus</value></data>
+  <data name="DemoEditorIconSubscript" xml:space="preserve"><value>Alaindeksi</value></data>
+  <data name="DemoEditorIconSuperscript" xml:space="preserve"><value>Yläindeksi</value></data>
+  <data name="DemoEditorIconBulletList" xml:space="preserve"><value>Luettelomerkit</value></data>
+  <data name="DemoEditorIconIndent" xml:space="preserve"><value>Suurenna sisennystä</value></data>
+  <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Pienennä sisennystä</value></data>
+  <data name="DemoEditorIconQuote" xml:space="preserve"><value>Lainaus</value></data>
+  <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Rivinsisäinen koodi</value></data>
+  <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Koodilohko</value></data>
+  <data name="DemoEditorIconLink" xml:space="preserve"><value>Linkki</value></data>
+  <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Poista linkki</value></data>
+  <data name="DemoEditorIconAlignLeft" xml:space="preserve"><value>Tasaa vasemmalle</value></data>
+  <data name="DemoEditorIconAlignCenter" xml:space="preserve"><value>Keskitä</value></data>
+  <data name="DemoEditorIconAlignRight" xml:space="preserve"><value>Tasaa oikealle</value></data>
+  <data name="DemoEditorIconJustify" xml:space="preserve"><value>Tasaa molemmat reunat</value></data>
+  <data name="DemoEditorIconUndo" xml:space="preserve"><value>Kumoa</value></data>
+  <data name="DemoEditorIconRedo" xml:space="preserve"><value>Tee uudelleen</value></data>
+  <data name="DemoEditorIconClearFormatting" xml:space="preserve"><value>Poista muotoilu</value></data>
+  <data name="DemoEditorIconHtmlSource" xml:space="preserve"><value>HTML-lähdekoodi</value></data>
+  <data name="DemoEditorIconTable" xml:space="preserve"><value>Taulukko</value></data>
+  <data name="DemoEditorManifest" xml:space="preserve"><value>Käyttöönottomanifesti</value></data>
+  <data name="DemoEditorManifestHelp" xml:space="preserve"><value>Yksi tiedosto, avaa järjestelmän tiedostonvalitsimen.</value></data>
+  <data name="DemoEditorUploadFailed" xml:space="preserve"><value>Lähetys epäonnistui.</value></data>
+  <data name="DemoEditorUploaded" xml:space="preserve"><value>Lähetetyt tiedostot: {0}</value></data>
+  <data name="DemoEditorNoUpload" xml:space="preserve"><value>ei yhtään</value></data>
+  <data name="DemoEditorTestCommand" xml:space="preserve"><value>Testikomento</value></data>
+  <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Esimerkkimääritys</value></data>
+  <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Ote, rivit {0}–{1}</value></data>
+  <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Vertaa kahta määritystä</value></data>
+  <data name="DemoEditorSignatureText" xml:space="preserve"><value>Asiapalvelu</value></data>
+  <data name="DemoEditorReferenceText" xml:space="preserve"><value>Viite: {0}</value></data>
+  <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Lisää allekirjoituslohko</value></data>
+  <data name="DemoEditorAddSignature" xml:space="preserve"><value>Lisää allekirjoitus</value></data>
+  <data name="DemoEditorInsertReference" xml:space="preserve"><value>Lisää viite</value></data>
+  <data name="DemoEditorAddNote" xml:space="preserve"><value>Lisää huomautus</value></data>
+  <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>Uusi huomautus.</value></data>
+  <data name="DemoEditorNewNote" xml:space="preserve"><value>Uusi huomautus</value></data>
+  <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Poista huomautus</value></data>
+  <data name="DemoEditorArticleText" xml:space="preserve"><value>1 artikla. Tätä sääntöä sovelletaan vastaanotettuihin asioihin.</value></data>
+  <data name="DemoEditorArticleDelay" xml:space="preserve"><value>Määräaika</value></data>
+  <data name="DemoEditorArticleDocument" xml:space="preserve"><value>Asiakirja</value></data>
+  <data name="DemoEditorArticleDays" xml:space="preserve"><value>{0} päivää</value></data>
+  <data name="DemoEditorArticleForm" xml:space="preserve"><value>Lomake</value></data>
+  <data name="DemoEditorArticleNote" xml:space="preserve"><value>Huomautus: konsolidoitu teksti 1. tammikuuta.</value></data>
+  <data name="DemoEditorOpinion" xml:space="preserve"><value>Puoltava lausunto sillä varauksella{0}.</value></data>
+  <data name="DemoEditorOpinionNote" xml:space="preserve"><value>tarkista määräaika</value></data>
+  <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>sillä varauksella</value></data>
+  <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value>, että asia tarkistetaan</value></data>
+  <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Tämä kappale on {0}.</value></data>
+  <data name="DemoEditorReportImportant" xml:space="preserve"><value>tärkeä</value></data>
+  <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Ensimmäinen kohta</value></data>
+  <data name="DemoEditorReportSecondPoint" xml:space="preserve"><value>Toinen kohta</value></data>
+  <data name="DemoEditorBodyGreeting" xml:space="preserve"><value>Hyvä vastaanottaja</value></data>
+  <data name="DemoEditorBodyText" xml:space="preserve"><value>Asianne on vastaanotettu.</value></data>
+  <data name="DemoEditorEmptyFile" xml:space="preserve"><value>Tiedosto on tyhjä.</value></data>
+  <data name="DemoChoiceShippingLabel" xml:space="preserve"><value>Toimitustapa</value></data>
+  <data name="DemoChoiceExtrasLabel" xml:space="preserve"><value>Asian lisävalinnat</value></data>
+  <data name="DemoChoicePeriodLabel" xml:space="preserve"><value>Jakso</value></data>
+  <data name="DemoChoicePin" xml:space="preserve"><value>Kiinnitä</value></data>
+  <data name="DemoChoiceUnavailable" xml:space="preserve"><value>Ei saatavilla</value></data>
+  <data name="DemoChoiceSaving" xml:space="preserve"><value>Tallennetaan</value></data>
+  <data name="DemoChoiceLabelledCheck" xml:space="preserve"><value>Valintaruutu nimineen</value></data>
+  <data name="DemoChoiceTriStateCheck" xml:space="preserve"><value>Kolmitilainen valintaruutu</value></data>
+  <data name="DemoChoiceTriStateSwitch" xml:space="preserve"><value>Kolmitilainen valitsin</value></data>
+  <data name="DemoChoiceTriStateValue" xml:space="preserve"><value>Kolmiasentoinen tila: {0}</value></data>
+  <data name="DemoChoiceIndeterminate" xml:space="preserve"><value>määrittämätön</value></data>
+  <data name="DemoChoiceOn" xml:space="preserve"><value>päällä</value></data>
+  <data name="DemoChoiceOff" xml:space="preserve"><value>pois</value></data>
+  <data name="DemoChoiceTextFirstCheck" xml:space="preserve"><value>Nimi ennen valintaruutua</value></data>
+  <data name="DemoChoiceTextFirstSwitch" xml:space="preserve"><value>Nimi ennen valitsinta</value></data>
+  <data name="DemoChoicePlatformLabel" xml:space="preserve"><value>Agentin käyttöjärjestelmä</value></data>
+  <data name="DemoChoiceWindowsDescription" xml:space="preserve"><value>Windows Server 2022 tai uudempi</value></data>
+  <data name="DemoChoiceFeaturesLabel" xml:space="preserve"><value>Agentin toiminnot</value></data>
+  <data name="DemoChoiceRunnerTitle" xml:space="preserve"><value>Putkien suorittaja</value></data>
+  <data name="DemoChoiceRunnerDescription" xml:space="preserve"><value>Suorittaa vaiheet tällä koneella.</value></data>
+  <data name="DemoChoiceDockerDescription" xml:space="preserve"><value>Suorittajan edellyttämä.</value></data>
+  <data name="DemoChoiceRating" xml:space="preserve"><value>Arvio</value></data>
+  <data name="DemoChoiceRatingReadOnly" xml:space="preserve"><value>Vain luku -arvio</value></data>
+  <data name="DemoChoiceRatingDisabled" xml:space="preserve"><value>Käytöstä poistettu arvio</value></data>
+  <data name="DemoChoiceShippingStandard" xml:space="preserve"><value>Vakio</value></data>
+  <data name="DemoChoiceShippingExpress" xml:space="preserve"><value>Pikatoimitus</value></data>
+  <data name="DemoChoiceShippingPickup" xml:space="preserve"><value>Nouto toimipisteestä</value></data>
+  <data name="DemoChoiceExtraReceipt" xml:space="preserve"><value>Vastaanottokuittaus</value></data>
+  <data name="DemoChoiceExtraCertifiedCopy" xml:space="preserve"><value>Oikeaksi todistettu jäljennös</value></data>
+  <data name="DemoChoiceExtraTracking" xml:space="preserve"><value>Seuranta sähköpostitse</value></data>
+  <data name="DemoChoicePeriodDay" xml:space="preserve"><value>Päivä</value></data>
+  <data name="DemoChoicePeriodMonth" xml:space="preserve"><value>Kuukausi</value></data>
+  <data name="DemoChoicePeriodYear" xml:space="preserve"><value>Vuosi</value></data>
+  <data name="DemoChoiceFeatureCache" xml:space="preserve"><value>Riippuvuuksien välimuisti</value></data>
+  <data name="DemoChoiceFeatureArtifacts" xml:space="preserve"><value>Artefaktien säilytys</value></data>
+  <data name="DemoChoiceFeatureGpu" xml:space="preserve"><value>GPU-kiihdytys</value></data>
+  <data name="DemoInputsAmount" xml:space="preserve"><value>Summa</value></data>
+  <data name="DemoInputsQuantity" xml:space="preserve"><value>Määrä</value></data>
+  <data name="DemoInputsQuantityHelp" xml:space="preserve"><value>Välillä {0}–{1}: rajojen ulkopuolinen arvo palautetaan lähimpään rajaan.</value></data>
+  <data name="DemoInputsPassword" xml:space="preserve"><value>Salasana</value></data>
+  <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Painike näyttää syötteen kopioimatta sitä minnekään.</value></data>
+  <data name="DemoInputsDate" xml:space="preserve"><value>Voimaantulopäivä</value></data>
+  <data name="DemoInputsDateHelp" xml:space="preserve"><value>Kirjoita tai käytä kalenteria; rajojen ulkopuolisia päiviä ei voi valita.</value></data>
+  <data name="DemoInputsStart" xml:space="preserve"><value>Alkamisaika</value></data>
+  <data name="DemoInputsStartHelp" xml:space="preserve"><value>Tunnit 00–23, minuutit {0} minuutin välein.</value></data>
+  <data name="DemoInputsAppointment" xml:space="preserve"><value>Tapaaminen</value></data>
+  <data name="DemoInputsAppointmentHelp" xml:space="preserve"><value>Kalenteri ja aikasarakkeet samassa paneelissa.</value></data>
+  <data name="DemoInputsColor" xml:space="preserve"><value>Merkintäväri</value></data>
+  <data name="DemoInputsCity" xml:space="preserve"><value>Kaupunki</value></data>
+  <data name="DemoInputsCityHelp" xml:space="preserve"><value>Haku alkaa kahdesta merkistä.</value></data>
+  <data name="DemoInputsCityPlaceholder" xml:space="preserve"><value>Aloita kirjoittaminen</value></data>
+  <data name="DemoInputsPickedSummary" xml:space="preserve"><value>Päivämäärä: {0}; aika: {1}; tapaaminen: {2}</value></data>
+  <data name="DemoInputsNoDate" xml:space="preserve"><value>ei mitään</value></data>
+  <data name="DemoInputsNoTime" xml:space="preserve"><value>ei mitään</value></data>
+  <data name="DemoInputsNoAppointment" xml:space="preserve"><value>ei mitään</value></data>
+  <data name="DemoFormName" xml:space="preserve"><value>Koko nimi</value></data>
+  <data name="DemoFormNameHelp" xml:space="preserve"><value>Siinä muodossa kuin se näkyy laskussa.</value></data>
+  <data name="DemoFormNotes" xml:space="preserve"><value>Huomautukset</value></data>
+  <data name="DemoFormEmail" xml:space="preserve"><value>Sähköpostiosoite</value></data>
+  <data name="DemoFormEmailHelp" xml:space="preserve"><value>Tyyppi valitsee mobiilinäppäimistön ja selaimen automaattisen täytön.</value></data>
+  <data name="DemoFormPhone" xml:space="preserve"><value>Puhelin</value></data>
+  <data name="DemoFormWebsite" xml:space="preserve"><value>Verkkosivusto</value></data>
+  <data name="DemoFormSearch" xml:space="preserve"><value>Hae</value></data>
+  <data name="DemoFormSearchPlaceholder" xml:space="preserve"><value>Suodata luetteloa</value></data>
+  <data name="DemoFormBudget" xml:space="preserve"><value>Budjetti</value></data>
+  <data name="DemoFormTerms" xml:space="preserve"><value>Hyväksyn käyttöehdot</value></data>
+  <data name="DemoFormAlerts" xml:space="preserve"><value>Vastaanota hälytyksiä</value></data>
+  <data name="DemoFormDynamicValues" xml:space="preserve"><value>Lomakkeen arvot: {0}</value></data>
+  <data name="DemoFormDynamicName" xml:space="preserve"><value>Nimi</value></data>
+  <data name="DemoFormDynamicAmount" xml:space="preserve"><value>Summa</value></data>
+  <data name="DemoFormDynamicComment" xml:space="preserve"><value>Kommentti</value></data>
+  <data name="DemoFormDynamicActive" xml:space="preserve"><value>Aktiivinen</value></data>
+  <data name="DemoValidationName" xml:space="preserve"><value>Nimi</value></data>
+  <data name="DemoValidationNameRequired" xml:space="preserve"><value>Nimi on pakollinen.</value></data>
+  <data name="DemoValidationMail" xml:space="preserve"><value>Sähköposti</value></data>
+  <data name="DemoValidationMailRequired" xml:space="preserve"><value>Sähköposti on pakollinen.</value></data>
+  <data name="DemoValidationSend" xml:space="preserve"><value>Lähetä</value></data>
+  <data name="DemoValidationAccepted" xml:space="preserve"><value>Lomake hyväksyttiin.</value></data>
+  <data name="DemoValidationProjectName" xml:space="preserve"><value>Projektin nimi</value></data>
+  <data name="DemoValidationOwnerMail" xml:space="preserve"><value>Vastuuhenkilön sähköposti</value></data>
+  <data name="DemoValidationMailConfirmation" xml:space="preserve"><value>Sähköpostin vahvistus</value></data>
+  <data name="DemoValidationReplicas" xml:space="preserve"><value>Replikat</value></data>
+  <data name="DemoValidationCheck" xml:space="preserve"><value>Tarkista</value></data>
+  <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Simuloi tallentamattomia muutoksia</value></data>
+  <data name="DemoSelectionCountry" xml:space="preserve"><value>Maa</value></data>
+  <data name="DemoSelectionCountryPlaceholder" xml:space="preserve"><value>Valitse maa</value></data>
+  <data name="DemoSelectionCities" xml:space="preserve"><value>Palvellut kaupungit</value></data>
+  <data name="DemoSelectionTags" xml:space="preserve"><value>Tunnisteet</value></data>
+  <data name="DemoSelectionTagsCompact" xml:space="preserve"><value>Tunnisteet, tiivis muoto</value></data>
+  <data name="DemoSelectionTagsFilterable" xml:space="preserve"><value>Tunnisteet, haku ja luonti</value></data>
+  <data name="DemoSelectionTagsPlaceholder" xml:space="preserve"><value>Valitse tunnisteita</value></data>
+  <data name="DemoSelectionTagSearchPlaceholder" xml:space="preserve"><value>Hae tunnistetta</value></data>
+  <data name="DemoSelectionBelgium" xml:space="preserve"><value>Belgia</value></data>
+  <data name="DemoSelectionFrance" xml:space="preserve"><value>Ranska</value></data>
+  <data name="DemoSelectionLuxembourg" xml:space="preserve"><value>Luxemburg</value></data>
+  <data name="DemoSelectionNetherlands" xml:space="preserve"><value>Alankomaat</value></data>
+  <data name="DemoSelectionTagUrgent" xml:space="preserve"><value>Kiireellinen</value></data>
+  <data name="DemoSelectionTagInternal" xml:space="preserve"><value>Sisäinen</value></data>
+  <data name="DemoSelectionTagArchived" xml:space="preserve"><value>Arkistoitu</value></data>
+  <data name="DemoFlowsCreateServer" xml:space="preserve"><value>Luo palvelin</value></data>
+  <data name="DemoFlowsStepIdentity" xml:space="preserve"><value>Tunnistetiedot</value></data>
+  <data name="DemoFlowsNameHelp" xml:space="preserve"><value>Seuraava tulee käyttöön heti, kun nimi on kirjoitettu.</value></data>
+  <data name="DemoFlowsServerName" xml:space="preserve"><value>Palvelimen nimi</value></data>
+  <data name="DemoFlowsStepOptions" xml:space="preserve"><value>Asetukset</value></data>
+  <data name="DemoFlowsDailyBackup" xml:space="preserve"><value>Päivittäinen varmuuskopio</value></data>
+  <data name="DemoFlowsBackupRequired" xml:space="preserve"><value>Valitse päivittäinen varmuuskopio tuotantopalvelimelle.</value></data>
+  <data name="DemoFlowsStepSummary" xml:space="preserve"><value>Yhteenveto</value></data>
+  <data name="DemoFlowsSummaryName" xml:space="preserve"><value>Nimi</value></data>
+  <data name="DemoFlowsSummaryBackup" xml:space="preserve"><value>Varmuuskopio</value></data>
+  <data name="DemoFlowsBackupDaily" xml:space="preserve"><value>Päivittäinen</value></data>
+  <data name="DemoFlowsBackupNone" xml:space="preserve"><value>Ei mitään</value></data>
+  <data name="DemoFlowsOutcome" xml:space="preserve"><value>Tulos: {0}</value></data>
+  <data name="DemoFlowsOutcomePending" xml:space="preserve"><value>käynnissä</value></data>
+  <data name="DemoFlowsOutcomeCreated" xml:space="preserve"><value>palvelin ”{0}” luotu</value></data>
+  <data name="DemoFlowsOutcomeCancelled" xml:space="preserve"><value>peruttu</value></data>
+  <data name="DemoFlowsWizardInDialog" xml:space="preserve"><value>Ohjattu toiminto valintaikkunassa</value></data>
+  <data name="DemoFlowsInviteTitle" xml:space="preserve"><value>Kutsu jäsen</value></data>
+  <data name="DemoFlowsInviteSteps" xml:space="preserve"><value>Kutsun vaiheet</value></data>
+  <data name="DemoFlowsInvite" xml:space="preserve"><value>Kutsu</value></data>
+  <data name="DemoFlowsStepAddress" xml:space="preserve"><value>Osoite</value></data>
+  <data name="DemoFlowsAddressBody" xml:space="preserve"><value>Kutsuttavan henkilön osoite.</value></data>
+  <data name="DemoFlowsStepRole" xml:space="preserve"><value>Rooli</value></data>
+  <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Rooli, jonka hän saa.</value></data>
+  <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Hallinta-alue</value></data>
+  <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Ylläpito</value></data>
+  <data name="DemoFlowsUser" xml:space="preserve"><value>Käyttäjätunnus</value></data>
+  <data name="DemoFlowsPassword" xml:space="preserve"><value>Salasana</value></data>
+  <data name="DemoFlowsSignIn" xml:space="preserve"><value>Kirjaudu sisään</value></data>
+  <data name="DemoFlowsSignInNote" xml:space="preserve"><value>Lomake välitetty isännälle käyttäjälle ”{0}”.</value></data>
+  <data name="DemoFlowsReturnAfterSignIn" xml:space="preserve"><value>Paluu kirjautumisen jälkeen: {0}</value></data>
+  <data name="DemoFlowsExternalRefused" xml:space="preserve"><value>Ulkoinen osoite hylätty: {0}</value></data>
+  <data name="DemoFlowsSimulateDrop" xml:space="preserve"><value>Simuloi katkos</value></data>
+  <data name="DemoFlowsSimulateReject" xml:space="preserve"><value>Simuloi hylkäys</value></data>
+  <data name="DemoFlowsConnection" xml:space="preserve"><value>Yhteys: {0}</value></data>
+  <data name="DemoFlowsConnectionReconnecting" xml:space="preserve"><value>yhdistetään uudelleen</value></data>
+  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>epäonnistui</value></data>
+  <data name="DemoFlowsConnectionRejected" xml:space="preserve"><value>hylätty</value></data>
+  <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>muodostettu</value></data>
+  <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>palvelin ei enää vastaa (aikakatkaisu)</value></data>
+  <data name="DemoFlowsReasonExpired" xml:space="preserve"><value>istunto vanhentui palvelimella</value></data>
+  <data name="DemoTreeLabel" xml:space="preserve"><value>Kansiopuu</value></data>
+  <data name="DemoTreeEurope" xml:space="preserve"><value>Eurooppa</value></data>
+  <data name="DemoTreeBelgium" xml:space="preserve"><value>Belgia</value></data>
+  <data name="DemoTreeCapitalText" xml:space="preserve"><value>{0}, pääkaupunki</value></data>
+  <data name="DemoTreeCapital" xml:space="preserve"><value>pääkaupunki</value></data>
+  <data name="DemoTreeFrance" xml:space="preserve"><value>Ranska</value></data>
+  <data name="DemoTreeLuxembourg" xml:space="preserve"><value>Luxemburg</value></data>
+  <data name="DemoTreeArchives" xml:space="preserve"><value>Arkisto, ladataan avattaessa</value></data>
+  <data name="DemoTreeSelection" xml:space="preserve"><value>Valinta: {0}</value></data>
+  <data name="DemoTreeNoSelection" xml:space="preserve"><value>ei mitään</value></data>
+  <data name="DemoSpreadsheetLabel" xml:space="preserve"><value>Neljännesvuoden budjetti</value></data>
+  <data name="DemoSpreadsheetStatus" xml:space="preserve"><value>Aktiivinen solu: {0}. Neljänneksen summa: {1}</value></data>
+  <data name="DemoSpreadsheetReadOnlyLabel" xml:space="preserve"><value>Sama budjetti vain luku -tilassa</value></data>
+  <data name="DemoSpreadsheetItem" xml:space="preserve"><value>Erä</value></data>
+  <data name="DemoSpreadsheetJanuary" xml:space="preserve"><value>Tammikuu</value></data>
+  <data name="DemoSpreadsheetFebruary" xml:space="preserve"><value>Helmikuu</value></data>
+  <data name="DemoSpreadsheetMarch" xml:space="preserve"><value>Maaliskuu</value></data>
+  <data name="DemoSpreadsheetQuarter" xml:space="preserve"><value>Neljännes</value></data>
+  <data name="DemoSpreadsheetRent" xml:space="preserve"><value>Vuokra</value></data>
+  <data name="DemoSpreadsheetGroceries" xml:space="preserve"><value>Ruokaostokset</value></data>
+  <data name="DemoSpreadsheetEnergy" xml:space="preserve"><value>Energia</value></data>
+  <data name="DemoSpreadsheetTransport" xml:space="preserve"><value>Liikenne</value></data>
+  <data name="DemoSpreadsheetLeisure" xml:space="preserve"><value>Vapaa-aika</value></data>
+  <data name="DemoSpreadsheetTotal" xml:space="preserve"><value>Yhteensä</value></data>
+  <data name="DemoSpreadsheetAverage" xml:space="preserve"><value>Keskiarvo</value></data>
+  <data name="DemoDiagramReadOnly" xml:space="preserve"><value>Vain luku</value></data>
+  <data name="DemoDiagramMindMapLabel" xml:space="preserve"><value>Miellekartta: muuton valmistelu</value></data>
+  <data name="DemoDiagramGitGraphLabel" xml:space="preserve"><value>Historia, jossa yhdistetty haara</value></data>
+  <data name="DemoDiagramMapSummary" xml:space="preserve"><value>Solmuja {0}, linkkejä {1}, merkkejä {2} tallennettuna.</value></data>
+  <data name="DemoDiagramNewIdea" xml:space="preserve"><value>Uusi idea</value></data>
+  <data name="DemoDiagramNodeMove" xml:space="preserve"><value>Muutto</value></data>
+  <data name="DemoDiagramNodePaperwork" xml:space="preserve"><value>Paperityöt</value></data>
+  <data name="DemoDiagramNodeAddress" xml:space="preserve"><value>Osoitteenmuutos</value></data>
+  <data name="DemoDiagramNodeInsurance" xml:space="preserve"><value>Kotivakuutus</value></data>
+  <data name="DemoDiagramNodeBoxes" xml:space="preserve"><value>Laatikot</value></data>
+  <data name="DemoDiagramNodeKitchen" xml:space="preserve"><value>Keittiö</value></data>
+  <data name="DemoDiagramNodeBooks" xml:space="preserve"><value>Kirjat</value></data>
+  <data name="DemoDiagramNodeMovingDay" xml:space="preserve"><value>Muuttopäivä</value></data>
+  <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Varaa pakettiauto</value></data>
+  <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Ilmoita naapureille</value></data>
+  <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Ennen 15. päivää</value></data>
 </root>

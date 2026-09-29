@@ -19,6 +19,7 @@ public partial class OmniCategoryAxis
     /// <summary>The chart's layout, or one of its own when the axis is drawn outside a chart.</summary>
     private OmniChartContext Context => ChartContext ?? (_standalone ??= new OmniChartContext());
 
+    /// <summary>Registers the labels with the chart, or with the axis's own layout outside a chart.</summary>
     protected override void OnParametersSet() => Context.RegisterCategoryAxis(this, Labels);
 
     private static string N(double value) => OmniChartGeometry.Number(value);

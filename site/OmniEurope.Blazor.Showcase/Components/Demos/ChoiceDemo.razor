@@ -2,51 +2,51 @@
 
 <EditForm Model="this">
     <OmniStack Gap="OmniSpacing.Large">
-        <OmniRadioButtonList TValue="string" Label="Mode d'envoi" Name="choice-shipping"
+        <OmniRadioButtonList TValue="string" Label="@Text["DemoChoiceShippingLabel"]" Name="choice-shipping"
                              Options="Shipping" @bind-Value="Method" />
 
-        <OmniCheckBoxList TValue="string" Label="Options du dossier" Options="Extras" @bind-Value="Selected" />
+        <OmniCheckBoxList TValue="string" Label="@Text["DemoChoiceExtrasLabel"]" Options="Extras" @bind-Value="Selected" />
 
-        <OmniSelectBar TValue="string" Label="Période" Options="Periods" @bind-Value="Period" />
+        <OmniSelectBar TValue="string" Label="@Text["DemoChoicePeriodLabel"]" Options="Periods" @bind-Value="Period" />
 
         <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
-            <OmniToggleButton @bind-Value="Pinned">Épingler</OmniToggleButton>
-            <OmniToggleButton Value="false" Disabled="true">Indisponible</OmniToggleButton>
-            <OmniToggleButton Value="true" Busy="true">Enregistrement</OmniToggleButton>
+            <OmniToggleButton @bind-Value="Pinned">@Text["DemoChoicePin"]</OmniToggleButton>
+            <OmniToggleButton Value="false" Disabled="true">@Text["DemoChoiceUnavailable"]</OmniToggleButton>
+            <OmniToggleButton Value="true" Busy="true">@Text["DemoChoiceSaving"]</OmniToggleButton>
         </OmniStack>
 
         <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
-            <OmniCheckBox Id="choice-labelled-check" @bind-Value="Pinned">Case avec son libellé</OmniCheckBox>
-            <OmniCheckBox Id="choice-nullable-check" @bind-Value="Partial">Case à trois états</OmniCheckBox>
-            <OmniSwitch Id="choice-nullable-switch" @bind-Value="Partial">Interrupteur à trois états</OmniSwitch>
-            <span>État à trois positions : @(Partial is null ? "indéterminé" : Partial.Value ? "activé" : "désactivé")</span>
+            <OmniCheckBox Id="choice-labelled-check" @bind-Value="Pinned">@Text["DemoChoiceLabelledCheck"]</OmniCheckBox>
+            <OmniCheckBox Id="choice-nullable-check" @bind-Value="Partial">@Text["DemoChoiceTriStateCheck"]</OmniCheckBox>
+            <OmniSwitch Id="choice-nullable-switch" @bind-Value="Partial">@Text["DemoChoiceTriStateSwitch"]</OmniSwitch>
+            <span>@Text["DemoChoiceTriStateValue", Partial is null ? Text["DemoChoiceIndeterminate"] : Partial.Value ? Text["DemoChoiceOn"] : Text["DemoChoiceOff"]]</span>
         </OmniStack>
         <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Wrap="true">
-            <OmniCheckBox Id="choice-text-first-check" TextFirst="true" @bind-Value="Pinned">Libellé avant la case</OmniCheckBox>
-            <OmniSwitch Id="choice-text-first-switch" TextFirst="true" @bind-Value="Pinned">Libellé avant l'interrupteur</OmniSwitch>
+            <OmniCheckBox Id="choice-text-first-check" TextFirst="true" @bind-Value="Pinned">@Text["DemoChoiceTextFirstCheck"]</OmniCheckBox>
+            <OmniSwitch Id="choice-text-first-switch" TextFirst="true" @bind-Value="Pinned">@Text["DemoChoiceTextFirstSwitch"]</OmniSwitch>
         </OmniStack>
 
         @* Cartes à choisir : l'encadré et la teinte d'accent montrent le choix, sans coche qui déplacerait
            le texte. Le groupe lie le choix : une seule carte dans l'ordre de tabulation, les flèches
            déplacent le choix. Multiple en fait des cases, liées à une liste. Seule, une carte lie un
            booléen. *@
-        <OmniSelectableCardGroup TValue="string" TSelection="string" Label="Système de l'agent" @bind-Value="Platform">
+        <OmniSelectableCardGroup TValue="string" TSelection="string" Label="@Text["DemoChoicePlatformLabel"]" @bind-Value="Platform">
             <OmniSelectableCard Choice="@("linux")" Title="Linux" Description="Debian, Ubuntu, Fedora">
                 <Icon><OmniIcon Name="OmniIconName.TerminalWindow" /></Icon>
             </OmniSelectableCard>
-            <OmniSelectableCard Choice="@("windows")" Title="Windows" Description="Windows Server 2022 et plus">
+            <OmniSelectableCard Choice="@("windows")" Title="Windows" Description="@Text["DemoChoiceWindowsDescription"]">
                 <Icon><OmniIcon Name="OmniIconName.WindowsLogo" /></Icon>
             </OmniSelectableCard>
         </OmniSelectableCardGroup>
-        <OmniSelectableCardGroup Options="Features" Multiple="true" Label="Fonctions de l'agent" @bind-Value="AgentFeatures" />
-        <OmniSelectableCard Title="Exécuteur de pipelines" Description="Lance les étapes sur cette machine." Multiple="true" @bind-Value="Runner">
+        <OmniSelectableCardGroup Options="Features" Multiple="true" Label="@Text["DemoChoiceFeaturesLabel"]" @bind-Value="AgentFeatures" />
+        <OmniSelectableCard Title="@Text["DemoChoiceRunnerTitle"]" Description="@Text["DemoChoiceRunnerDescription"]" Multiple="true" @bind-Value="Runner">
             <Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon>
         </OmniSelectableCard>
-        <OmniSelectableCard Title="Docker" Description="Imposé par l'exécuteur." Multiple="true" Value="true" Disabled="true">
+        <OmniSelectableCard Title="Docker" Description="@Text["DemoChoiceDockerDescription"]" Multiple="true" Value="true" Disabled="true">
             <Icon><OmniIcon Name="OmniIconName.Package" /></Icon>
         </OmniSelectableCard>
-        <OmniRating @bind-Value="Rating" Label="Notation" />
-        <OmniRating Value="ReadonlyRating" ValueExpression="@(() => ReadonlyRating)" ReadOnly="true" Label="Notation en lecture seule" />
-        <OmniRating Value="ReadonlyRating" ValueExpression="@(() => ReadonlyRating)" Disabled="true" Label="Notation désactivée" />
+        <OmniRating @bind-Value="Rating" Label="@Text["DemoChoiceRating"]" />
+        <OmniRating Value="ReadonlyRating" ValueExpression="@(() => ReadonlyRating)" ReadOnly="true" Label="@Text["DemoChoiceRatingReadOnly"]" />
+        <OmniRating Value="ReadonlyRating" ValueExpression="@(() => ReadonlyRating)" Disabled="true" Label="@Text["DemoChoiceRatingDisabled"]" />
     </OmniStack>
 </EditForm>

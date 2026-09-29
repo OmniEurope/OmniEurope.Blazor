@@ -41,6 +41,10 @@ public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
     [Parameter]
     public IStringLocalizer? Localizer { get; set; }
 
+    /// <summary>
+    /// Throws <see cref="InvalidOperationException"/> outside an <see cref="EditForm"/>; otherwise follows
+    /// the form's edit context, validating the whole model on submit and each field as it changes.
+    /// </summary>
     protected override void OnParametersSet()
     {
         if (CurrentEditContext is null)
@@ -262,5 +266,6 @@ public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
         _subscribed = null;
     }
 
+    /// <summary>Stops following the edit context and clears the messages this validator added to it.</summary>
     public void Dispose() => Unsubscribe();
 }

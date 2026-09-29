@@ -309,7 +309,6 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     [InlineData(".omni-card", "border", "var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border))")]
     [InlineData(".omni-dialog", "background", "var(--omni-dialog-background, var(--omni-card-background, var(--omni-color-surface)))")]
     [InlineData(".omni-dialog", "box-shadow", "inset 0 0 0 var(--omni-border-width) var(--omni-card-border-color, transparent), var(--omni-overlay-shadow, var(--omni-shadow-lg))")]
-    [InlineData(".omni-context-menu__popup", "box-shadow", "var(--omni-overlay-shadow, var(--omni-shadow-md))")]
     [InlineData(".omni-menu", "box-shadow", "var(--omni-overlay-shadow, var(--omni-shadow-md))")]
     [InlineData(".omni-popover__panel", "box-shadow", "var(--omni-overlay-shadow, var(--omni-shadow-md))")]
     [InlineData(".omni-data-grid__popover-panel", "box-shadow", "var(--omni-overlay-shadow, var(--omni-shadow-md))")]
@@ -544,7 +543,6 @@ public sealed partial class ShippedLookTests : OmniBunitContext
 
     [Theory]
     [InlineData(".omni-notification")]
-    [InlineData(".omni-context-menu__popup")]
     [InlineData(".omni-menu")]
     [InlineData(".omni-popover__panel")]
     [InlineData(".omni-data-grid__popover-panel")]

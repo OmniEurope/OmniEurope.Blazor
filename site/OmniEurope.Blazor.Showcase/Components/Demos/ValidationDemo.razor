@@ -5,26 +5,26 @@
                   OnValidSubmit="@(_ => Submitted = true)" OnInvalidSubmit="@(_ => Submitted = false)">
     <OmniStack Gap="OmniSpacing.Medium">
         <OmniFormField For="validation-name" Required="true">
-            <LabelContent>Nom</LabelContent>
+            <LabelContent>@Text["DemoValidationName"]</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="validation-name" @bind-Value="Model.Name" />
-                <OmniRequiredValidator TValue="string" For="@(() => Model.Name)" Message="Le nom est obligatoire." />
+                <OmniRequiredValidator TValue="string" For="@(() => Model.Name)" Message="@Text["DemoValidationNameRequired"]" />
             </ChildContent>
         </OmniFormField>
 
         <OmniFormField For="validation-mail" Required="true">
-            <LabelContent>Courriel</LabelContent>
+            <LabelContent>@Text["DemoValidationMail"]</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="validation-mail" @bind-Value="Model.Mail" />
-                <OmniRequiredValidator TValue="string" For="@(() => Model.Mail)" Message="Le courriel est obligatoire." />
+                <OmniRequiredValidator TValue="string" For="@(() => Model.Mail)" Message="@Text["DemoValidationMailRequired"]" />
             </ChildContent>
         </OmniFormField>
 
-        <OmniButton ButtonType="OmniButtonType.Submit" Variant="OmniButtonVariant.Primary">Envoyer</OmniButton>
+        <OmniButton ButtonType="OmniButtonType.Submit" Variant="OmniButtonVariant.Primary">@Text["DemoValidationSend"]</OmniButton>
 
         @if (Submitted)
         {
-            <OmniAlert Severity="OmniSeverity.Success" Live="true">Le formulaire a été accepté.</OmniAlert>
+            <OmniAlert Severity="OmniSeverity.Success" Live="true">@Text["DemoValidationAccepted"]</OmniAlert>
         }
     </OmniStack>
 </OmniTemplateForm>
@@ -32,41 +32,41 @@
 @* Même rôle, règles portées par le modèle : les attributs DataAnnotations n'ont aucun message, le
    validateur les écrit dans la culture courante. *@
 <OmniTemplateForm TModel="AnnotatedValidationDemoModel" Model="Annotated">
-    <OmniDataAnnotationsValidator />
+    <OmniDataAnnotationsValidator Localizer="Text" />
     <OmniStack Gap="OmniSpacing.Medium">
         <OmniFormField For="annotated-name" Required="true">
-            <LabelContent>Nom du projet</LabelContent>
+            <LabelContent>@Text["DemoValidationProjectName"]</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="annotated-name" @bind-Value="Annotated.Name" />
                 <ValidationMessage For="@(() => Annotated.Name)" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="annotated-mail" Required="true">
-            <LabelContent>Courriel du responsable</LabelContent>
+            <LabelContent>@Text["DemoValidationOwnerMail"]</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="annotated-mail" @bind-Value="Annotated.Mail" />
                 <ValidationMessage For="@(() => Annotated.Mail)" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="annotated-mail-confirm" Required="true">
-            <LabelContent>Confirmation du courriel</LabelContent>
+            <LabelContent>@Text["DemoValidationMailConfirmation"]</LabelContent>
             <ChildContent>
                 <OmniTextBox Id="annotated-mail-confirm" @bind-Value="Annotated.MailConfirmation" />
                 <ValidationMessage For="@(() => Annotated.MailConfirmation)" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="annotated-replicas">
-            <LabelContent>Réplicas</LabelContent>
+            <LabelContent>@Text["DemoValidationReplicas"]</LabelContent>
             <ChildContent>
                 <OmniNumeric TValue="int" Id="annotated-replicas" @bind-Value="Annotated.Replicas" />
                 <ValidationMessage For="@(() => Annotated.Replicas)" />
             </ChildContent>
         </OmniFormField>
-        <OmniButton ButtonType="OmniButtonType.Submit" Variant="OmniButtonVariant.Secondary">Vérifier</OmniButton>
+        <OmniButton ButtonType="OmniButtonType.Submit" Variant="OmniButtonVariant.Secondary">@Text["DemoValidationCheck"]</OmniButton>
     </OmniStack>
 </OmniTemplateForm>
 
 @* OmniTemplateForm demande avant de quitter une page aux champs modifiés (GuardUnsavedChanges, actif par
    défaut). Pour des modifications qu'aucun formulaire ne voit, le garde se pose seul. *@
-<OmniCheckBox Id="validation-unsaved" @bind-Value="UnsavedChanges">Simuler des modifications non enregistrées</OmniCheckBox>
+<OmniCheckBox Id="validation-unsaved" @bind-Value="UnsavedChanges">@Text["DemoValidationSimulateUnsaved"]</OmniCheckBox>
 <OmniUnsavedChangesGuard HasChanges="UnsavedChanges" />

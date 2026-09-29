@@ -2,9 +2,14 @@ using Microsoft.JSInterop;
 
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// The main landmark (<c>main</c>) of an <see cref="OmniLayout"/>, beside the sidebar in the
+/// <see cref="OmniBody"/>: the page content, optionally narrowed to a centred column and optionally the
+/// scroll container of the page.
+/// </summary>
 public partial class OmniMain
 {
-    private const string InteropModulePath = "./_content/OmniEurope.Blazor/omniInterop.js";
+    private const string InteropModulePath = Internal.OmniModules.Interop;
 
     private ElementReference _main;
     private IJSObjectReference? _module;
@@ -14,20 +19,25 @@ public partial class OmniMain
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;
 
+    /// <summary>The page content. Required.</summary>
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// Whether the landmark can receive focus from script (<c>tabindex="-1"</c>), so a skip link or a
+    /// navigation can move focus to the content without adding it to the tab order. On by default.
+    /// </summary>
     [Parameter]
     public bool FocusTarget { get; set; } = true;
 
+    /// <summary>The id of the element that names the landmark (<c>aria-labelledby</c>), such as the page title; none by default.</summary>
     [Parameter]
     public string? AriaLabelledBy { get; set; }
 
     /// <summary>
     /// How wide the content runs inside the main area: the whole of it, or a centred column capped
     /// at 90rem (<see cref="OmniLayoutWidth.Wide"/>) or 72rem (<see cref="OmniLayoutWidth.Content"/>).
-    /// Unlike <see cref="OmniLayout.Width"/>, which narrows the whole shell, header and sidebar
-    /// included, this narrows only the content. The two caps are read from
+    /// Only the content narrows; the header and the sidebar keep their width. The two caps are read from
     /// <c>--omni-layout-wide-width</c> and <c>--omni-layout-content-width</c>, so a host can set its own.
     /// </summary>
     [Parameter]
@@ -52,16 +62,32 @@ public partial class OmniMain
     [Parameter]
     public bool AutoHideScrollbar { get; set; }
 
+    /// <summary>
+    /// Whenever <see cref="Scrollable"/> and <see cref="AutoHideScrollbar"/> become both on, loads the
+    /// interop module (once) and starts watching the scrolling that shows the scrollbar; when either
+    /// turns off, stops watching. A lost circuit is ignored.
+    /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (_watching || !Scrollable || !AutoHideScrollbar)
+        var wanted = Scrollable && AutoHideScrollbar;
+        if (wanted == _watching || _disposed)
         {
             return;
         }
 
-        _watching = true;
+        _watching = wanted;
         try
         {
+            if (!wanted)
+            {
+                if (_module is not null)
+                {
+                    await _module.InvokeVoidAsync("unwatchScrolling", _main);
+                }
+
+                return;
+            }
+
             _module ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
             if (!_disposed)
             {
@@ -74,6 +100,7 @@ public partial class OmniMain
         }
     }
 
+    /// <summary>Stops watching the scrolling and releases the interop module, if it was loaded.</summary>
     public async ValueTask DisposeAsync()
     {
         _disposed = true;

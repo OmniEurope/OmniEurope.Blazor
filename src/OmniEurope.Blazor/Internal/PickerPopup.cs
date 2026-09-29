@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Internal;
 /// </summary>
 internal sealed class PickerPopup(IJSRuntime javaScript, Func<bool, Task> dismissed)
 {
-    private const string FocusModulePath = "./_content/OmniEurope.Blazor/omni-focus.js";
+    private const string FocusModulePath = OmniModules.Focus;
 
     private IJSObjectReference? _module;
     private DotNetObjectReference<PickerPopupBridge>? _bridge;

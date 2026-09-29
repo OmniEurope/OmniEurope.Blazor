@@ -168,6 +168,10 @@ public partial class OmniPanelMenuItem
         }
     }
 
+    /// <summary>
+    /// Reports to the parent group whether this entry holds the current page, and starts following the
+    /// route so a group unfolds when the reader navigates into it.
+    /// </summary>
     protected override void OnInitialized()
     {
         _wasActive = IsWithin;
@@ -203,6 +207,10 @@ public partial class OmniPanelMenuItem
         Descendant
     }
 
+    /// <summary>
+    /// Applies a change of <see cref="Expanded"/> by the host as if the reader had toggled the group. The
+    /// first value is only the initial state, which the current route may still override.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();

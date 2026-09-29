@@ -1,5 +1,9 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// A container that sets the appearance, the density and optionally the theme of everything it holds,
+/// through <c>data-omni-theme</c>, <c>data-omni-density</c> and design tokens scoped to its element.
+/// </summary>
 public partial class OmniThemeScope
 {
     private ElementReference _element;
@@ -9,12 +13,15 @@ public partial class OmniThemeScope
     private OmniThemeFont? _appliedFont;
     private OmniAppearance _appliedAppearance;
 
+    /// <summary>The content the scope themes. Required.</summary>
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>Light, dark, or following the system; <see cref="OmniAppearance.System"/> by default.</summary>
     [Parameter]
     public OmniAppearance Appearance { get; set; }
 
+    /// <summary>How tightly the content is laid out; <see cref="OmniDensity.Comfortable"/> by default.</summary>
     [Parameter]
     public OmniDensity Density { get; set; } = OmniDensity.Comfortable;
 
@@ -48,6 +55,11 @@ public partial class OmniThemeScope
     [Parameter]
     public OmniThemeFont? Font { get; set; }
 
+    /// <summary>
+    /// When <see cref="Preset"/>, <see cref="Palette"/>, <see cref="Font"/> or, with one of them set,
+    /// <see cref="Appearance"/> changed, writes the resulting tokens on the scope through <c>omni-theme.js</c>,
+    /// or clears them when none of the three is set any more. The script is loaded on first use only.
+    /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var unchanged = ReferenceEquals(Preset, _appliedPreset) && ReferenceEquals(Palette, _appliedPalette) && ReferenceEquals(Font, _appliedFont);
@@ -56,7 +68,7 @@ public partial class OmniThemeScope
             return;
         }
 
-        _themeModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", "./_content/OmniEurope.Blazor/omni-theme.js");
+        _themeModule ??= await JavaScript.InvokeAsync<IJSObjectReference>("import", Internal.OmniModules.Theme);
         var (light, dark) = Resolve();
         if (light is null || dark is null)
         {
@@ -106,6 +118,7 @@ public partial class OmniThemeScope
         return Palette is null ? (null, null) : (Palette.Light, Palette.Dark);
     }
 
+    /// <summary>Clears the tokens written on the scope and releases the theme script, if it was loaded.</summary>
     public async ValueTask DisposeAsync()
     {
         if (_themeModule is not null)

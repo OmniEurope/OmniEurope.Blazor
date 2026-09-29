@@ -18,16 +18,22 @@
   <data name="SettingsTextSize" xml:space="preserve"><value>Daqs tat-test</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Densità</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Daqs tal-kontrolli</value></data>
-  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Kontrolli</value></data>
-  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Test</value></data>
-  <data name="SettingsDensityShort" xml:space="preserve"><value>Densità</value></data>
-  <data name="SettingsScale" xml:space="preserve"><value>Daqsijiet</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Prestabbilit</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>prestabbilit</value></data>
-  <data name="SettingsDecrease" xml:space="preserve"><value>Naqqas</value></data>
-  <data name="SettingsIncrease" xml:space="preserve"><value>Żid</value></data>
+  <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Naqqas id-daqs tat-test</value></data>
+  <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Kabbar id-daqs tat-test</value></data>
+  <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Naqqas id-daqs tal-kontrolli</value></data>
+  <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Kabbar id-daqs tal-kontrolli</value></data>
+  <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
+  <data name="SettingsLook" xml:space="preserve"><value>Tema u daqsijiet</value></data>
+  <data name="SettingsLookTitle" xml:space="preserve"><value>Tema, paletta u daqsijiet</value></data>
+  <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Test {1} · {2}</value></data>
+  <data name="SettingsLookSummaryFull" xml:space="preserve"><value>{0} · Test {1} · {2} · Kontrolli {3}</value></data>
+  <data name="DensityCompact" xml:space="preserve"><value>Kompatta</value></data>
+  <data name="DensityComfortable" xml:space="preserve"><value>Komda</value></data>
+  <data name="DensitySpacious" xml:space="preserve"><value>Spazjuża</value></data>
   <data name="ArcGaugeLabel" xml:space="preserve"><value>Indikatur</value></data>
-  <data name="ArcGaugeAccessibleName" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="LabelValuePair" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="ChartCategoryColumn" xml:space="preserve"><value>Kategorija</value></data>
   <data name="ChartValueColumn" xml:space="preserve"><value>Valur</value></data>
   <data name="ChartSeriesFallback" xml:space="preserve"><value>Serje {0}</value></data>
@@ -85,8 +91,6 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Espandi jew ikkollassa r-ringieli kollha</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Aqla' l-kolonni ffriżati</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Erġa' ffriża l-kolonni</value></data>
-  <data name="GridShrinkColumn" xml:space="preserve"><value>Naqqas il-wisa' ta' {0}</value></data>
-  <data name="GridGrowColumn" xml:space="preserve"><value>Żid il-wisa' ta' {0}</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>L-ewwel paġna</value></data>
   <data name="PagerLast" xml:space="preserve"><value>L-aħħar paġna</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Ringieli għal kull paġna</value></data>
@@ -348,6 +352,10 @@
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Menu tal-profil</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Progress</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>Għaddej</value></data>
+  <data name="TextAreaCount" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="HeaderHome" xml:space="preserve"><value>Paġna ewlenija</value></data>
+  <data name="HeaderLogo" xml:space="preserve"><value>Logo</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>L-għażla tar-radju mhix valida.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Dan il-qasam huwa obbligatorju.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Il-perjodu ta' qabel</value></data>
@@ -366,6 +374,7 @@
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} jibqa' fejn kien.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} imċaqlaq għal {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>L-għażla segmentata mhix valida.</value></data>
+  <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>L-għażla mhix valida.</value></data>
   <data name="RatingLabel" xml:space="preserve"><value>Klassifikazzjoni</value></data>
   <data name="RatingStar" xml:space="preserve"><value>{0} minn {1}</value></data>
   <data name="RatingValue" xml:space="preserve"><value>{0}: {1} minn {2}</value></data>
@@ -451,8 +460,9 @@
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, beda fi {1}, idum</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Ikkonferma</value></data>
   <data name="GoBack" xml:space="preserve"><value>Lura</value></data>
-  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Uri t-tikketti u l-azzjonijiet</value></data>
-  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Aħbi t-tikketti u l-azzjonijiet</value></data>
+  <data name="PageHeaderShowMore" xml:space="preserve"><value>Uri aktar</value></data>
+  <data name="PageHeaderScrollTitleStart" xml:space="preserve"><value>Skrollja t-titlu lura għall-bidu tiegħu</value></data>
+  <data name="PageHeaderScrollTitleEnd" xml:space="preserve"><value>Skrollja t-titlu sat-tmiem tiegħu</value></data>
   <data name="DetailNotFound" xml:space="preserve"><value>L-element ma nstabx</value></data>
   <data name="SignIn" xml:space="preserve"><value>Idħol</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Konnessjoni mitlufa</value></data>
@@ -475,16 +485,25 @@
   <data name="WizardFinish" xml:space="preserve"><value>Lesti</value></data>
   <data name="RelativeTimeNow" xml:space="preserve"><value>issa stess</value></data>
   <data name="RelativeTimePast" xml:space="preserve"><value>{0} ilu</value></data>
-  <data name="RelativeTimeFuture" xml:space="preserve"><value>fi {0}</value></data>
+  <data name="RelativeTimeFuture" xml:space="preserve"><value>fi żmien {0}</value></data>
   <data name="RelativeTimeSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} h</value></data>
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} jum</value></data>
-  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} jiem</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} ijiem</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} xahar</value></data>
   <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} xhur</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} sena</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} snin</value></data>
+  <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} h</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} jum</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} ijiem</value></data>
+  <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} xahar</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} xhur</value></data>
+  <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} sena</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} snin</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Issottolinja</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Linja min-nofs</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Kodiċi fil-linja</value></data>

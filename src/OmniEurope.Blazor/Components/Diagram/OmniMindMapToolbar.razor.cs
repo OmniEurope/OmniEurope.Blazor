@@ -25,6 +25,8 @@ public partial class OmniMindMapToolbar : IDisposable
 
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Localize("MindMapToolbarLabel") : Label;
 
+    /// <summary>Subscribes to the changes of the enclosing map, leaving a previous map first.</summary>
+    /// <exception cref="InvalidOperationException">The toolbar is not inside an <see cref="OmniMindMap"/>.</exception>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -37,6 +39,7 @@ public partial class OmniMindMapToolbar : IDisposable
         }
     }
 
+    /// <summary>Stops listening to the map.</summary>
     public void Dispose()
     {
         Unsubscribe();

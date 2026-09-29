@@ -1,35 +1,35 @@
 @* Tonal : la teinte de la variante mêlée à la surface, plus légère que le plein par défaut. *@
 <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
-    <OmniBadge Tone="OmniTone.Neutral" Fill="OmniFill.Tonal">Neutre</OmniBadge>
-    <OmniBadge Tone="OmniTone.Accent" Fill="OmniFill.Tonal">Accent</OmniBadge>
-    <OmniBadge Tone="OmniTone.Info" Fill="OmniFill.Tonal">Information</OmniBadge>
-    <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Tonal">Succès</OmniBadge>
-    <OmniBadge Tone="OmniTone.Warning" Fill="OmniFill.Tonal">Avertissement</OmniBadge>
-    <OmniBadge Tone="OmniTone.Danger" Fill="OmniFill.Tonal">Danger</OmniBadge>
+    <OmniBadge Tone="OmniTone.Neutral" Fill="OmniFill.Tonal">@Text["DemoBadgesNeutral"]</OmniBadge>
+    <OmniBadge Tone="OmniTone.Accent" Fill="OmniFill.Tonal">@Text["DemoBadgesAccent"]</OmniBadge>
+    <OmniBadge Tone="OmniTone.Info" Fill="OmniFill.Tonal">@Text["DemoBadgesInfo"]</OmniBadge>
+    <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Tonal">@Text["DemoBadgesSuccess"]</OmniBadge>
+    <OmniBadge Tone="OmniTone.Warning" Fill="OmniFill.Tonal">@Text["DemoBadgesWarning"]</OmniBadge>
+    <OmniBadge Tone="OmniTone.Danger" Fill="OmniFill.Tonal">@Text["DemoBadgesDanger"]</OmniBadge>
 </OmniStack>
 @* En contour, la teinte de la variante passe du fond au trait. *@
 <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
-    <OmniBadge Tone="OmniTone.Neutral" Fill="OmniFill.Outline">Brouillon</OmniBadge>
-    <OmniBadge Tone="OmniTone.Accent" Fill="OmniFill.Outline">Contour</OmniBadge>
-    <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Outline">Validé</OmniBadge>
-    <OmniBadge Tone="OmniTone.Warning" Fill="OmniFill.Outline">En attente</OmniBadge>
-    <OmniBadge Tone="OmniTone.Danger" Fill="OmniFill.Outline">Rejeté</OmniBadge>
+    <OmniBadge Tone="OmniTone.Neutral" Fill="OmniFill.Outline">@Text["DemoBadgesDraft"]</OmniBadge>
+    <OmniBadge Tone="OmniTone.Accent" Fill="OmniFill.Outline">@Text["DemoBadgesOutline"]</OmniBadge>
+    <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Outline">@Text["DemoBadgesApproved"]</OmniBadge>
+    <OmniBadge Tone="OmniTone.Warning" Fill="OmniFill.Outline">@Text["DemoBadgesPending"]</OmniBadge>
+    <OmniBadge Tone="OmniTone.Danger" Fill="OmniFill.Outline">@Text["DemoBadgesRejected"]</OmniBadge>
 </OmniStack>
 @* Plein, par défaut : exactement le fond et le texte du bouton de même intention. *@
 <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small">
-    <OmniBadge Tone="OmniTone.Neutral" Fill="OmniFill.Solid">Brouillon</OmniBadge>
-    <OmniBadge Tone="OmniTone.Accent" Fill="OmniFill.Solid">Nouveau</OmniBadge>
-    <OmniBadge Tone="OmniTone.Info" Fill="OmniFill.Solid">En revue</OmniBadge>
-    <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Solid">Publié</OmniBadge>
-    <OmniBadge Tone="OmniTone.Warning" Fill="OmniFill.Solid">En attente</OmniBadge>
-    <OmniBadge Tone="OmniTone.Danger" Fill="OmniFill.Solid">Échec</OmniBadge>
+    <OmniBadge Tone="OmniTone.Neutral" Fill="OmniFill.Solid">@Text["DemoBadgesDraft"]</OmniBadge>
+    <OmniBadge Tone="OmniTone.Accent" Fill="OmniFill.Solid">@Text["DemoBadgesNew"]</OmniBadge>
+    <OmniBadge Tone="OmniTone.Info" Fill="OmniFill.Solid">@Text["DemoBadgesInReview"]</OmniBadge>
+    <OmniBadge Tone="OmniTone.Success" Fill="OmniFill.Solid">@Text["DemoBadgesPublished"]</OmniBadge>
+    <OmniBadge Tone="OmniTone.Warning" Fill="OmniFill.Solid">@Text["DemoBadgesPending"]</OmniBadge>
+    <OmniBadge Tone="OmniTone.Danger" Fill="OmniFill.Solid">@Text["DemoBadgesFailed"]</OmniBadge>
 </OmniStack>
 @* Un compteur reste au moins carré. L'icône passe par Icon et prend la taille du texte du badge ;
    seule, elle donne un badge carré ; une taille posée sur l'icône l'emporte. *@
 <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Small" Align="OmniAlignment.Center">
     <OmniBadge Tone="OmniTone.Accent">3</OmniBadge>
     <OmniBadge Tone="OmniTone.Danger">128</OmniBadge>
-    <OmniBadge Tone="OmniTone.Success"><Icon><OmniIcon Name="OmniIconName.Check" /></Icon><ChildContent>Publié</ChildContent></OmniBadge>
-    <OmniBadge Tone="OmniTone.Info"><Icon><OmniIcon Name="OmniIconName.Info" AriaLabel="Information" /></Icon></OmniBadge>
-    <OmniBadge Tone="OmniTone.Warning"><Icon><OmniIcon Name="OmniIconName.Warning" Size="OmniControlSize.Medium" /></Icon><ChildContent>Taille imposée</ChildContent></OmniBadge>
+    <OmniBadge Tone="OmniTone.Success"><Icon><OmniIcon Name="OmniIconName.Check" /></Icon><ChildContent>@Text["DemoBadgesPublished"]</ChildContent></OmniBadge>
+    <OmniBadge Tone="OmniTone.Info"><Icon><OmniIcon Name="OmniIconName.Info" Label="@Text["DemoBadgesInfo"]" /></Icon></OmniBadge>
+    <OmniBadge Tone="OmniTone.Warning"><Icon><OmniIcon Name="OmniIconName.Warning" Size="OmniControlSize.Medium" /></Icon><ChildContent>@Text["DemoBadgesFixedSize"]</ChildContent></OmniBadge>
 </OmniStack>

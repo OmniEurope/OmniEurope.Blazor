@@ -18,15 +18,25 @@
   <data name="SettingsTextSize" xml:space="preserve"><value>Размер на текста</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Плътност</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Размер на контролите</value></data>
-  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Контроли</value></data>
-  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Текст</value></data>
-  <data name="SettingsDensityShort" xml:space="preserve"><value>Плътност</value></data>
-  <data name="SettingsScale" xml:space="preserve"><value>Размери</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>По подразбиране</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>по подразбиране</value></data>
-  <data name="SettingsDecrease" xml:space="preserve"><value>Намаляване</value></data>
-  <data name="SettingsIncrease" xml:space="preserve"><value>Увеличаване</value></data>
+  <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Намаляване на размера на текста</value></data>
+  <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Увеличаване на размера на текста</value></data>
+  <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Намаляване на размера на контролите</value></data>
+  <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Увеличаване на размера на контролите</value></data>
+  <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
+  <data name="SettingsLook" xml:space="preserve"><value>Тема и размери</value></data>
+  <data name="SettingsLookTitle" xml:space="preserve"><value>Тема, палитра и размери</value></data>
+  <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Текст {1} · {2}</value></data>
+  <data name="SettingsLookSummaryFull" xml:space="preserve"><value>{0} · Текст {1} · {2} · Контроли {3}</value></data>
+  <data name="DensityCompact" xml:space="preserve"><value>Компактна</value></data>
+  <data name="DensityComfortable" xml:space="preserve"><value>Удобна</value></data>
+  <data name="DensitySpacious" xml:space="preserve"><value>Просторна</value></data>
   <data name="ArcGaugeLabel" xml:space="preserve"><value>Индикатор</value></data>
+  <data name="LabelValuePair" xml:space="preserve"><value>{0}: {1}</value></data>
+  <data name="ChartCategoryColumn" xml:space="preserve"><value>Категория</value></data>
+  <data name="ChartValueColumn" xml:space="preserve"><value>Стойност</value></data>
+  <data name="ChartSeriesFallback" xml:space="preserve"><value>Серия {0}</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Търсенето не бе успешно. Променете въведеното, за да опитате отново.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>Наличен е 1 резултат.</value></data>
   <data name="AutocompleteManyResults" xml:space="preserve"><value>Налични резултати: {0}.</value></data>
@@ -81,8 +91,6 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Разгъване или свиване на всички редове</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Освобождаване на фиксираните колони</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Повторно фиксиране на колоните</value></data>
-  <data name="GridShrinkColumn" xml:space="preserve"><value>Стесняване на колоната {0}</value></data>
-  <data name="GridGrowColumn" xml:space="preserve"><value>Разширяване на колоната {0}</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Първа страница</value></data>
   <data name="PagerLast" xml:space="preserve"><value>Последна страница</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Редове на страница</value></data>
@@ -344,6 +352,10 @@
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Меню на профила</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Напредък</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>В ход</value></data>
+  <data name="TextAreaCount" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="HeaderHome" xml:space="preserve"><value>Начало</value></data>
+  <data name="HeaderLogo" xml:space="preserve"><value>Лого</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Изборът с радиобутони е невалиден.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Това поле е задължително.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Предишен период</value></data>
@@ -362,6 +374,7 @@
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} остава на мястото си.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} е преместено на {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Сегментираният избор е невалиден.</value></data>
+  <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Изборът е невалиден.</value></data>
   <data name="RatingLabel" xml:space="preserve"><value>Оценка</value></data>
   <data name="RatingStar" xml:space="preserve"><value>{0} от {1}</value></data>
   <data name="RatingValue" xml:space="preserve"><value>{0}: {1} от {2}</value></data>
@@ -447,8 +460,9 @@
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, стартирана в {1}, продължителност</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Потвърждаване</value></data>
   <data name="GoBack" xml:space="preserve"><value>Назад</value></data>
-  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Показване на значките и действията</value></data>
-  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Скриване на значките и действията</value></data>
+  <data name="PageHeaderShowMore" xml:space="preserve"><value>Още</value></data>
+  <data name="PageHeaderScrollTitleStart" xml:space="preserve"><value>Превъртане на заглавието към началото</value></data>
+  <data name="PageHeaderScrollTitleEnd" xml:space="preserve"><value>Превъртане на заглавието към края</value></data>
   <data name="DetailNotFound" xml:space="preserve"><value>Елементът не е намерен</value></data>
   <data name="SignIn" xml:space="preserve"><value>Вход</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Връзката е загубена</value></data>
@@ -481,6 +495,15 @@
   <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} месеца</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} година</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} години</value></data>
+  <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} с</value></data>
+  <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} мин</value></data>
+  <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} ч</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} ден</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} дни</value></data>
+  <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} месец</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} месеца</value></data>
+  <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} година</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} години</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Подчертан</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Зачертан</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Код в реда</value></data>

@@ -25,7 +25,17 @@ public partial class OmniSteps
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    private OmniStepsContext Context => new() { Value = Value, SelectAsync = SelectAsync };
+    // The steps in the order they were first rendered: a step without an index takes its position here.
+    private readonly List<OmniStepsItem> _items = [];
+
+    private OmniStepsContext Context => new()
+    {
+        Value = Value,
+        SelectAsync = SelectAsync,
+        Register = item => { if (!_items.Contains(item)) _items.Add(item); },
+        Unregister = item => _items.Remove(item),
+        PositionOf = _items.IndexOf
+    };
 
     private async Task SelectAsync(int index)
     {

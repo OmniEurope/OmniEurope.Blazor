@@ -1,9 +1,15 @@
 namespace OmniEurope.Blazor.Components;
 
+/// <summary>
+/// One setting of an <see cref="OmniSettingsSection"/>: an optional icon, the name and description on the
+/// left, the control on the right, optional details underneath. A switch or check box placed as the
+/// control is labelled by the name and toggled by a click anywhere on the tile.
+/// </summary>
 public partial class OmniSettingsTile
 {
     private readonly OmniSettingsTileContext _context;
 
+    /// <summary>Creates the tile and the context its switch or check box joins; Blazor calls it when the component is rendered.</summary>
     public OmniSettingsTile() => _context = new OmniSettingsTileContext(StateHasChanged);
 
     /// <summary>The name of the setting, and the label of the switch or check box beside it.</summary>

@@ -3,73 +3,73 @@
 <OmniStack Gap="OmniSpacing.Large">
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
         <OmniButton Variant="OmniButtonVariant.Primary" OnClick="@(_ => Count++)">
-            Primaire
+            @Text["DemoButtonsPrimary"]
         </OmniButton>
-        <OmniButton Variant="OmniButtonVariant.Secondary">Secondaire</OmniButton>
-        <OmniButton Variant="OmniButtonVariant.Ghost">Discret</OmniButton>
-        <OmniButton Variant="OmniButtonVariant.Success">Valider</OmniButton>
-        <OmniButton Variant="OmniButtonVariant.Warning">Suspendre</OmniButton>
-        <OmniButton Variant="OmniButtonVariant.Info">Détails</OmniButton>
-        <OmniButton Variant="OmniButtonVariant.Danger">Supprimer</OmniButton>
-        <OmniButton Disabled="true">Indisponible</OmniButton>
-        <OmniButton Busy="true">Enregistrement</OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Secondary">@Text["DemoButtonsSecondary"]</OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Ghost">@Text["DemoButtonsGhost"]</OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Success">@Text["DemoButtonsApprove"]</OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Warning">@Text["DemoButtonsSuspend"]</OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Info">@Text["DemoButtonsDetails"]</OmniButton>
+        <OmniButton Variant="OmniButtonVariant.Danger">@Text["DemoButtonsDelete"]</OmniButton>
+        <OmniButton Disabled="true">@Text["DemoButtonsUnavailable"]</OmniButton>
+        <OmniButton Busy="true">@Text["DemoButtonsSaving"]</OmniButton>
     </OmniStack>
 
     @* Busy garde le contenu et la taille exacts du repos : un voile respire par-dessus. *@
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
         <OmniButton Id="demo-save" Busy="Saving" OnClick="SaveAsync">
             <OmniIcon Name="OmniIconName.Check" />
-            <span>Enregistrer</span>
+            <span>@Text["DemoButtonsSave"]</span>
         </OmniButton>
-        <OmniSplitButton Id="demo-split" Text="Publier" Busy="Saving" OnClick="SaveAsync" />
-        <OmniToggleButton Id="demo-toggle" @bind-Value="Pinned" Busy="Saving">Épingler</OmniToggleButton>
+        <OmniSplitButton Id="demo-split" Text="@Text["DemoButtonsPublish"]" Busy="Saving" OnClick="SaveAsync" />
+        <OmniToggleButton Id="demo-toggle" @bind-Value="Pinned" Busy="Saving">@Text["DemoButtonsPin"]</OmniToggleButton>
     </OmniStack>
 
     @* Trois tailles réellement distinctes : hauteur, marge et corps de texte changent ensemble. Une
        icône seule rend le bouton carré à sa taille ; le bouton bascule et le bouton partagé suivent. *@
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
-        <OmniButton Size="OmniControlSize.Small">Petit</OmniButton>
-        <OmniButton Size="OmniControlSize.Medium">Moyen</OmniButton>
-        <OmniButton Size="OmniControlSize.Large">Grand</OmniButton>
-        <OmniButton Size="OmniControlSize.Small" Variant="OmniButtonVariant.Secondary" Label="Rechercher"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
-        <OmniButton Size="OmniControlSize.Medium" Variant="OmniButtonVariant.Secondary" Label="Rechercher"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
-        <OmniButton Size="OmniControlSize.Large" Variant="OmniButtonVariant.Secondary" Label="Rechercher"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
+        <OmniButton Size="OmniControlSize.Small">@Text["DemoButtonsSmall"]</OmniButton>
+        <OmniButton Size="OmniControlSize.Medium">@Text["DemoButtonsMedium"]</OmniButton>
+        <OmniButton Size="OmniControlSize.Large">@Text["DemoButtonsLarge"]</OmniButton>
+        <OmniButton Size="OmniControlSize.Small" Variant="OmniButtonVariant.Secondary" Label="@Text["DemoButtonsSearch"]"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
+        <OmniButton Size="OmniControlSize.Medium" Variant="OmniButtonVariant.Secondary" Label="@Text["DemoButtonsSearch"]"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
+        <OmniButton Size="OmniControlSize.Large" Variant="OmniButtonVariant.Secondary" Label="@Text["DemoButtonsSearch"]"><OmniIcon Name="OmniIconName.Search" /></OmniButton>
     </OmniStack>
 
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
-        <OmniToggleButton Size="OmniControlSize.Small" @bind-Value="Pinned">Épingler</OmniToggleButton>
-        <OmniToggleButton Size="OmniControlSize.Large" @bind-Value="Pinned">Épingler</OmniToggleButton>
-        <OmniToggleButton @bind-Value="Pinned" Label="Épingler"><OmniIcon Name="OmniIconName.Pin" /></OmniToggleButton>
-        <OmniSplitButton Size="OmniControlSize.Small" Text="Publier" OnClick="SaveAsync"><Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon></OmniSplitButton>
-        <OmniSplitButton Size="OmniControlSize.Large" Text="Publier" OnClick="SaveAsync"><Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon></OmniSplitButton>
+        <OmniToggleButton Size="OmniControlSize.Small" @bind-Value="Pinned">@Text["DemoButtonsPin"]</OmniToggleButton>
+        <OmniToggleButton Size="OmniControlSize.Large" @bind-Value="Pinned">@Text["DemoButtonsPin"]</OmniToggleButton>
+        <OmniToggleButton @bind-Value="Pinned" Label="@Text["DemoButtonsPin"]"><OmniIcon Name="OmniIconName.Pin" /></OmniToggleButton>
+        <OmniSplitButton Size="OmniControlSize.Small" Text="@Text["DemoButtonsPublish"]" OnClick="SaveAsync"><Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon></OmniSplitButton>
+        <OmniSplitButton Size="OmniControlSize.Large" Text="@Text["DemoButtonsPublish"]" OnClick="SaveAsync"><Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon></OmniSplitButton>
     </OmniStack>
 
     @* Le bouton partagé prend les variantes d'OmniButton, les deux parties ensemble ; Secondary, son
        apparence d'origine, reste la valeur par défaut. Une icône peut précéder le texte de la partie
        principale, le chevron du menu ne change pas. *@
     <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium" Align="OmniAlignment.Center">
-        <OmniSplitButton Id="demo-split-primary" Text="Publier" Variant="OmniButtonVariant.Primary" OnClick="@(() => Count++)">
+        <OmniSplitButton Id="demo-split-primary" Text="@Text["DemoButtonsPublish"]" Variant="OmniButtonVariant.Primary" OnClick="@(() => Count++)">
             <Icon><OmniIcon Name="OmniIconName.RocketLaunch" /></Icon>
             <ChildContent>
-                <OmniMenuItem OnClick="@(() => Count++)">Publier plus tard</OmniMenuItem>
+                <OmniMenuItem OnClick="@(() => Count++)">@Text["DemoButtonsPublishLater"]</OmniMenuItem>
             </ChildContent>
         </OmniSplitButton>
-        <OmniSplitButton Text="Brouillon" Variant="OmniButtonVariant.Secondary" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Save" /></Icon></OmniSplitButton>
-        <OmniSplitButton Text="Aperçu" Variant="OmniButtonVariant.Ghost" OnClick="@(() => Count++)" />
-        <OmniSplitButton Text="Valider" Variant="OmniButtonVariant.Success" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Check" /></Icon></OmniSplitButton>
-        <OmniSplitButton Text="Suspendre" Variant="OmniButtonVariant.Warning" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Pause" /></Icon></OmniSplitButton>
-        <OmniSplitButton Text="Consulter" Variant="OmniButtonVariant.Info" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Info" /></Icon></OmniSplitButton>
-        <OmniSplitButton Text="Supprimer" Variant="OmniButtonVariant.Danger" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Delete" /></Icon></OmniSplitButton>
+        <OmniSplitButton Text="@Text["DemoButtonsDraft"]" Variant="OmniButtonVariant.Secondary" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Save" /></Icon></OmniSplitButton>
+        <OmniSplitButton Text="@Text["DemoButtonsPreview"]" Variant="OmniButtonVariant.Ghost" OnClick="@(() => Count++)" />
+        <OmniSplitButton Text="@Text["DemoButtonsApprove"]" Variant="OmniButtonVariant.Success" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Check" /></Icon></OmniSplitButton>
+        <OmniSplitButton Text="@Text["DemoButtonsSuspend"]" Variant="OmniButtonVariant.Warning" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Pause" /></Icon></OmniSplitButton>
+        <OmniSplitButton Text="@Text["DemoButtonsView"]" Variant="OmniButtonVariant.Info" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Info" /></Icon></OmniSplitButton>
+        <OmniSplitButton Text="@Text["DemoButtonsDelete"]" Variant="OmniButtonVariant.Danger" OnClick="@(() => Count++)"><Icon><OmniIcon Name="OmniIconName.Delete" /></Icon></OmniSplitButton>
     </OmniStack>
 
     @* Dans un formulaire, le type décide de ce que le bouton déclenche. *@
     <EditForm Model="this" OnValidSubmit="SendAsync">
         <OmniStack Orientation="OmniStackOrientation.Horizontal" Gap="OmniSpacing.Medium">
-            <OmniButton Id="demo-send" ButtonType="OmniButtonType.Submit" Busy="Sending">Envoyer</OmniButton>
-            <OmniButton ButtonType="OmniButtonType.Reset" Variant="OmniButtonVariant.Ghost">Réinitialiser</OmniButton>
-            <OmniButton ButtonType="OmniButtonType.Button" Variant="OmniButtonVariant.Secondary">Sans effet sur le formulaire</OmniButton>
+            <OmniButton Id="demo-send" ButtonType="OmniButtonType.Submit" Busy="Sending">@Text["DemoButtonsSend"]</OmniButton>
+            <OmniButton ButtonType="OmniButtonType.Reset" Variant="OmniButtonVariant.Ghost">@Text["DemoButtonsReset"]</OmniButton>
+            <OmniButton ButtonType="OmniButtonType.Button" Variant="OmniButtonVariant.Secondary">@Text["DemoButtonsNoFormEffect"]</OmniButton>
         </OmniStack>
     </EditForm>
 </OmniStack>
 
-<p>Clics sur le bouton primaire : @Count. Envois du formulaire : <span id="demo-sent">@Sent</span>.</p>
+<p>@Text["DemoButtonsClicks", Count] <span id="demo-sent">@Text["DemoButtonsSent", Sent]</span></p>

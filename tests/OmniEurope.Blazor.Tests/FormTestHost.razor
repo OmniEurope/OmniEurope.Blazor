@@ -8,7 +8,7 @@
     <OmniSwitch Id="enabled" @bind-Value="Model.Enabled">Enabled</OmniSwitch>
     <OmniCheckBox Id="optional-accepted" @bind-Value="Model.OptionalAccepted">Optional accepted</OmniCheckBox>
     <OmniSwitch Id="optional-enabled" @bind-Value="Model.OptionalEnabled">Optional enabled</OmniSwitch>
-    <OmniRequiredValidator TValue="string" For="@(() => Model.Name)" ValidationDelayMilliseconds="20" />
+    <OmniRequiredValidator TValue="string" For="@(() => Model.Name)" ValidationDelay="TimeSpan.FromMilliseconds(20)" />
 </EditForm>
 
 @code {

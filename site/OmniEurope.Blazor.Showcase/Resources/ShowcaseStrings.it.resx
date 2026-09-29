@@ -7,6 +7,7 @@
   <data name="HeaderBadge" xml:space="preserve"><value>Libreria di componenti</value></data>
   <data name="ModeLight" xml:space="preserve"><value>Tema chiaro</value></data>
   <data name="ModeDark" xml:space="preserve"><value>Tema scuro</value></data>
+  <data name="LanguageSelectorLabel" xml:space="preserve"><value>Lingua della vetrina</value></data>
   <data name="SidebarLabel" xml:space="preserve"><value>Navigazione principale</value></data>
   <data name="MenuLabel" xml:space="preserve"><value>Sezioni del sito</value></data>
   <data name="NavShowcase" xml:space="preserve"><value>Presentazione</value></data>
@@ -34,7 +35,7 @@
   <data name="PillarA11yTitle" xml:space="preserve"><value>Accessibilità garantita dai test</value></data>
   <data name="PillarA11yBody" xml:space="preserve"><value>Ruoli, stati ed etichette sono verificati dalla suite di test, non solo promessi dalla documentazione.</value></data>
   <data name="PillarWeightTitle" xml:space="preserve"><value>Peso sotto controllo</value></data>
-  <data name="PillarWeightBody" xml:space="preserve"><value>Il pacchetto pubblicato viene misurato a ogni build rispetto a un budget di byte, foglio di stile compreso.</value></data>
+  <data name="PillarWeightBody" xml:space="preserve"><value>L'integrazione continua verifica che il foglio di stile distribuito sia la copia minificata e misura l'assembly e il pacchetto NuGet rispetto a un budget di dimensione.</value></data>
   <data name="DocsPageTitle" xml:space="preserve"><value>Documentazione</value></data>
   <data name="DocsTitle" xml:space="preserve"><value>Documentazione</value></data>
   <data name="DocsLead" xml:space="preserve"><value>Dall'installazione del pacchetto al primo tema personalizzato, in cinque passaggi.</value></data>
@@ -172,7 +173,7 @@
   <data name="DemoEditorCapability3" xml:space="preserve"><value>Editor di codice (Monaco fornito dall'host, testo semplice con CSP rigorosa) e caricamento limitato.</value></data>
   <data name="DemoOverlayTitle" xml:space="preserve"><value>Sovrapposizioni</value></data>
   <data name="DemoOverlaySummary" xml:space="preserve"><value>Finestre di dialogo, notifiche e menu a comparsa.</value></data>
-  <data name="DemoOverlayCapability1" xml:space="preserve"><value>Dialogo modale, chiudibile con Esc o dallo sfondo.</value></data>
+  <data name="DemoOverlayCapability1" xml:space="preserve"><value>Dialogo modale, chiudibile con ESC o dallo sfondo.</value></data>
   <data name="DemoOverlayCapability2" xml:space="preserve"><value>Quattro severità di notifica, con chiusura facoltativa.</value></data>
   <data name="DemoOverlayCapability3" xml:space="preserve"><value>Menu contestuale, pulsante diviso e menu dell'account.</value></data>
   <data name="DemoGridAdvancedTitle" xml:space="preserve"><value>Griglia, panoramica completa</value></data>
@@ -314,7 +315,7 @@
   <data name="DemoThemesSummary" xml:space="preserve"><value>Un tema dà la forma, una palette i colori; ogni palette dipinge ogni tema.</value></data>
   <data name="DemoThemesCapability1" xml:space="preserve"><value>OmniThemeScope.Preset e OmniThemeScope.Palette ridipingono lo scope e il suo contenuto, e nient'altro.</value></data>
   <data name="DemoThemesCapability2" xml:space="preserve"><value>Una palette da sola cambia i colori e mantiene la forma distribuita.</value></data>
-  <data name="DemoThemesCapability3" xml:space="preserve"><value>Quattordici temi e quattordici palette, ovvero centonovantasei combinazioni, ciascuna in chiaro e in scuro.</value></data>
+  <data name="DemoThemesCapability3" xml:space="preserve"><value>{0} temi e {1} palette, ovvero {2} combinazioni, ciascuna in chiaro e in scuro.</value></data>
   <data name="DemoSurfacesTitle" xml:space="preserve"><value>Superfici</value></data>
   <data name="DemoSurfacesSummary" xml:space="preserve"><value>Card, menu flottante, schede, menu laterale, link e tooltip.</value></data>
   <data name="DemoSurfacesCapability1" xml:space="preserve"><value>Le card e il menu flottante leggono la forma del tema: sfondo, filetto, raggio e ombra.</value></data>
@@ -424,6 +425,38 @@
   <data name="DemoShellArchived" xml:space="preserve"><value>Archiviati</value></data>
   <data name="DemoShellSettings" xml:space="preserve"><value>Impostazioni</value></data>
   <data name="DemoShellOneOffAction" xml:space="preserve"><value>Azione singola</value></data>
+  <data name="DemoShellToggleMenu" xml:space="preserve"><value>Mostra o nascondi il menu</value></data>
+  <data name="DemoShellAppName" xml:space="preserve"><value>La mia applicazione</value></data>
+  <data name="DemoShellChangeAppearance" xml:space="preserve"><value>Cambia l'aspetto</value></data>
+  <data name="DemoShellMenu" xml:space="preserve"><value>Menu della demo</value></data>
+  <data name="DemoShellSections" xml:space="preserve"><value>Sezioni</value></data>
+  <data name="DemoShellFolders" xml:space="preserve"><value>Cartelle</value></data>
+  <data name="DemoShellMainContent" xml:space="preserve"><value>Contenuto principale</value></data>
+  <data name="DemoShellAppearanceDark" xml:space="preserve"><value>L'aspetto scelto qui è scuro.</value></data>
+  <data name="DemoShellAppearanceLight" xml:space="preserve"><value>L'aspetto scelto qui è chiaro.</value></data>
+  <data name="DemoShellConsole" xml:space="preserve"><value>Console operativa</value></data>
+  <data name="DemoShellSecondaryMenu" xml:space="preserve"><value>Menu secondario</value></data>
+  <data name="DemoShellTools" xml:space="preserve"><value>Strumenti</value></data>
+  <data name="DemoShellLogs" xml:space="preserve"><value>Log</value></data>
+  <data name="DemoShellWideView" xml:space="preserve"><value>Vista ampia</value></data>
+  <data name="DemoShellWideText" xml:space="preserve"><value>L'area del contenuto va da bordo a bordo, limitata alla larghezza ampia (90 rem), senza una colonna di lettura stretta.</value></data>
+  <data name="DemoShellToggleFloatingMenu" xml:space="preserve"><value>Mostra o nascondi il menu flottante</value></data>
+  <data name="DemoShellFloatingMenu" xml:space="preserve"><value>Menu flottante</value></data>
+  <data name="DemoShellFloatingMenuLabel" xml:space="preserve"><value>Menu flottante della demo</value></data>
+  <data name="DemoShellFilters" xml:space="preserve"><value>Filtri</value></data>
+  <data name="DemoShellContent" xml:space="preserve"><value>Contenuto</value></data>
+  <data name="DemoShellFloatingText" xml:space="preserve"><value>Aprire il menu non sposta questo testo: il pannello vi scorre sopra.</value></data>
+  <data name="DemoShellScrollTitle" xml:space="preserve"><value>Contenuto centrato, scorrimento sul bordo</value></data>
+  <data name="DemoShellScrollMenu" xml:space="preserve"><value>Menu della demo a scorrimento</value></data>
+  <data name="DemoShellReadingColumn" xml:space="preserve"><value>Colonna di lettura</value></data>
+  <data name="DemoShellScroll1" xml:space="preserve"><value>La colonna è limitata a 72rem e centrata; il resto della larghezza appartiene ancora all'elemento principale.</value></data>
+  <data name="DemoShellScroll2" xml:space="preserve"><value>È quindi l'elemento principale a scorrere, su tutta la larghezza dell'area: la sua barra resta sul bordo destro della cornice.</value></data>
+  <data name="DemoShellScroll3" xml:space="preserve"><value>Un figlio al 100% di altezza riempirebbe esattamente l'area; un contenuto più alto la fa scorrere.</value></data>
+  <data name="DemoShellScroll4" xml:space="preserve"><value>Il margine inferiore resta garantito alla fine dello scorrimento.</value></data>
+  <data name="DemoShellScroll5" xml:space="preserve"><value>Restringere la finestra riporta la colonna alla larghezza disponibile, margine laterale compreso.</value></data>
+  <data name="DemoShellSplashChecking" xml:space="preserve"><value>Verifica della schermata di avvio</value></data>
+  <data name="DemoShellSplashRemoved" xml:space="preserve"><value>Schermata di avvio rimossa</value></data>
+  <data name="DemoShellSplashAbsent" xml:space="preserve"><value>Nessuna schermata di avvio in questa demo</value></data>
   <data name="ShellToggle" xml:space="preserve"><value>Comprimi o espandi il menu</value></data>
   <data name="ShellLogo" xml:space="preserve"><value>Ae</value></data>
   <data name="ShellBrand" xml:space="preserve"><value>Boutique</value></data>
@@ -546,4 +579,919 @@
   <data name="VFormNotSaved" xml:space="preserve"><value>Correggi i campi segnalati prima di salvare.</value></data>
   <data name="VFormDescriptionValue" xml:space="preserve"><value>Distribuisce il ramo principale dopo la convalida dei test di collaudo.</value></data>
   <data name="GridFiledColumn" xml:space="preserve"><value>Depositato il</value></data>
+  <data name="DemoGridOpenCases" xml:space="preserve"><value>Pratiche aperte</value></data>
+  <data name="DemoGridRecentRuns" xml:space="preserve"><value>Esecuzioni recenti</value></data>
+  <data name="DemoGridNarrowCaption" xml:space="preserve"><value>Testo lungo in una colonna stretta</value></data>
+  <data name="DemoGridShortCaption" xml:space="preserve"><value>Tre pratiche, altezza del contenuto</value></data>
+  <data name="DemoGridLongCaption" xml:space="preserve"><value>Diecimila pratiche, limite di 18rem</value></data>
+  <data name="DemoGridColumnReference" xml:space="preserve"><value>Riferimento</value></data>
+  <data name="DemoGridColumnApplicant" xml:space="preserve"><value>Richiedente</value></data>
+  <data name="DemoGridColumnCountry" xml:space="preserve"><value>Paese</value></data>
+  <data name="DemoGridColumnAmount" xml:space="preserve"><value>Importo</value></data>
+  <data name="DemoGridCountryBelgium" xml:space="preserve"><value>Belgio</value></data>
+  <data name="DemoGridCountryFrance" xml:space="preserve"><value>Francia</value></data>
+  <data name="DemoGridCountryLuxembourg" xml:space="preserve"><value>Lussemburgo</value></data>
+  <data name="DemoGridCountryNetherlands" xml:space="preserve"><value>Paesi Bassi</value></data>
+  <data name="DemoGridStatusPending" xml:space="preserve"><value>In attesa</value></data>
+  <data name="DemoGridExportFileName" xml:space="preserve"><value>pratiche-aperte</value></data>
+  <data name="DemoGridExportSort" xml:space="preserve"><value>Ordinamento</value></data>
+  <data name="DemoGridExportSortValue" xml:space="preserve"><value>riferimento, crescente</value></data>
+  <data name="DemoGridAdvancedLines" xml:space="preserve"><value>Linee</value></data>
+  <data name="DemoGridAdvancedDensity" xml:space="preserve"><value>Densità</value></data>
+  <data name="DemoGridAdvancedPager" xml:space="preserve"><value>Paginazione</value></data>
+  <data name="DemoGridAdvancedSelection" xml:space="preserve"><value>Selezione</value></data>
+  <data name="DemoGridAdvancedFilters" xml:space="preserve"><value>Filtri</value></data>
+  <data name="DemoGridAdvancedEdit" xml:space="preserve"><value>Modifica</value></data>
+  <data name="DemoGridAdvancedExpand" xml:space="preserve"><value>Espansione</value></data>
+  <data name="DemoGridAdvancedFooter" xml:space="preserve"><value>Piè di tabella</value></data>
+  <data name="DemoGridAdvancedLinesNone" xml:space="preserve"><value>Nessuna</value></data>
+  <data name="DemoGridAdvancedLinesHorizontal" xml:space="preserve"><value>Orizzontali</value></data>
+  <data name="DemoGridAdvancedLinesVertical" xml:space="preserve"><value>Verticali</value></data>
+  <data name="DemoGridAdvancedLinesBoth" xml:space="preserve"><value>Entrambe</value></data>
+  <data name="DemoGridAdvancedDensityCompact" xml:space="preserve"><value>Compatta</value></data>
+  <data name="DemoGridAdvancedDensityComfortable" xml:space="preserve"><value>Confortevole</value></data>
+  <data name="DemoGridAdvancedDensitySpacious" xml:space="preserve"><value>Ariosa</value></data>
+  <data name="DemoGridAdvancedPagerBottom" xml:space="preserve"><value>In basso</value></data>
+  <data name="DemoGridAdvancedPagerTop" xml:space="preserve"><value>In alto</value></data>
+  <data name="DemoGridAdvancedPagerBoth" xml:space="preserve"><value>In alto e in basso</value></data>
+  <data name="DemoGridAdvancedSelectionNone" xml:space="preserve"><value>Nessuna</value></data>
+  <data name="DemoGridAdvancedSelectionSingle" xml:space="preserve"><value>Una riga</value></data>
+  <data name="DemoGridAdvancedSelectionMultiple" xml:space="preserve"><value>Più righe</value></data>
+  <data name="DemoGridAdvancedFilterSimple" xml:space="preserve"><value>Campo nell'intestazione</value></data>
+  <data name="DemoGridAdvancedFilterSimpleWithMenu" xml:space="preserve"><value>Campo e menu</value></data>
+  <data name="DemoGridAdvancedFilterAdvanced" xml:space="preserve"><value>Menu a due condizioni</value></data>
+  <data name="DemoGridAdvancedEditSingle" xml:space="preserve"><value>Una riga alla volta</value></data>
+  <data name="DemoGridAdvancedEditMultiple" xml:space="preserve"><value>Più righe</value></data>
+  <data name="DemoGridAdvancedExpandSingle" xml:space="preserve"><value>Un gruppo aperto</value></data>
+  <data name="DemoGridAdvancedExpandMultiple" xml:space="preserve"><value>Più gruppi aperti</value></data>
+  <data name="DemoGridAdvancedFooterBottom" xml:space="preserve"><value>Sotto la tabella</value></data>
+  <data name="DemoGridAdvancedFooterTop" xml:space="preserve"><value>Sopra la tabella</value></data>
+  <data name="DemoGridAdvancedFooterBoth" xml:space="preserve"><value>Sopra e sotto</value></data>
+  <data name="DemoGridAdvancedCaption" xml:space="preserve"><value>Pratiche, vista completa</value></data>
+  <data name="DemoGridAdvancedTotal" xml:space="preserve"><value>Totale: {0:C0}</value></data>
+  <data name="DemoGridAdvancedRetained" xml:space="preserve"><value>Righe selezionate: {0}</value></data>
+  <data name="DemoGridAdvancedRetainedNone" xml:space="preserve"><value>nessuna</value></data>
+  <data name="DemoDataListEmpty" xml:space="preserve"><value>Nessuna pratica in questa pagina.</value></data>
+  <data name="DemoDataListLoading" xml:space="preserve"><value>Caricamento delle pratiche.</value></data>
+  <data name="DemoDataListPager" xml:space="preserve"><value>Paginazione delle pratiche</value></data>
+  <data name="DemoDataListLog" xml:space="preserve"><value>Registro di elaborazione</value></data>
+  <data name="DemoDataListKanban" xml:space="preserve"><value>Monitoraggio delle pratiche</value></data>
+  <data name="DemoDataListColumnNew" xml:space="preserve"><value>Da esaminare</value></data>
+  <data name="DemoDataListColumnReview" xml:space="preserve"><value>In corso</value></data>
+  <data name="DemoDataListColumnDone" xml:space="preserve"><value>Completato</value></data>
+  <data name="DemoDataListLogSearch" xml:space="preserve"><value>Ricerca della pratica</value></data>
+  <data name="DemoDataListLogConnected" xml:space="preserve"><value>Connessione stabilita</value></data>
+  <data name="DemoDataListLogStarted" xml:space="preserve"><value>Elaborazione avviata</value></data>
+  <data name="DemoDataListLogMissing" xml:space="preserve"><value>Documento mancante</value></data>
+  <data name="DemoDataListLogRejected" xml:space="preserve"><value>Convalida rifiutata</value></data>
+  <data name="DemoDataListLogAborted" xml:space="preserve"><value>Elaborazione interrotta</value></data>
+  <data name="DemoChartChartTitle" xml:space="preserve"><value>Pratiche depositate per trimestre</value></data>
+  <data name="DemoChartAxisQuarter" xml:space="preserve"><value>Trimestre</value></data>
+  <data name="DemoChartAxisCases" xml:space="preserve"><value>Pratiche</value></data>
+  <data name="DemoChartQuarter" xml:space="preserve"><value>T{0}</value></data>
+  <data name="DemoChartsExtendedMonthlyTitle" xml:space="preserve"><value>Andamento mensile</value></data>
+  <data name="DemoChartsExtendedMonthlyDescription" xml:space="preserve"><value>Valore al passaggio del mouse e da tastiera</value></data>
+  <data name="DemoChartsExtendedAxisMonth" xml:space="preserve"><value>Mese</value></data>
+  <data name="DemoChartsExtendedDeposits" xml:space="preserve"><value>Depositi</value></data>
+  <data name="DemoChartsExtendedDecisions" xml:space="preserve"><value>Decisioni</value></data>
+  <data name="DemoChartsExtendedLegend" xml:space="preserve"><value>Serie</value></data>
+  <data name="DemoChartsExtendedDailyTitle" xml:space="preserve"><value>Pubblico giornaliero su trenta giorni</value></data>
+  <data name="DemoChartsExtendedPageViews" xml:space="preserve"><value>Pagine viste al giorno</value></data>
+  <data name="DemoChartsExtendedVisitors" xml:space="preserve"><value>Visitatori unici al giorno</value></data>
+  <data name="DemoChartsExtendedStackedTitle" xml:space="preserve"><value>Ripartizione impilata</value></data>
+  <data name="DemoChartsExtendedIncoming" xml:space="preserve"><value>In entrata</value></data>
+  <data name="DemoChartsExtendedOutgoing" xml:space="preserve"><value>In uscita</value></data>
+  <data name="DemoChartsExtendedBacklog" xml:space="preserve"><value>Arretrato</value></data>
+  <data name="DemoChartsExtendedHorizontalTitle" xml:space="preserve"><value>Confronto orizzontale</value></data>
+  <data name="DemoChartsExtendedByCountry" xml:space="preserve"><value>Pratiche per paese</value></data>
+  <data name="DemoChartsExtendedStackedBarsTitle" xml:space="preserve"><value>Pratiche elaborate e in attesa, per paese</value></data>
+  <data name="DemoChartsExtendedProcessed" xml:space="preserve"><value>Elaborate</value></data>
+  <data name="DemoChartsExtendedPending" xml:space="preserve"><value>In attesa</value></data>
+  <data name="DemoChartsExtendedPieTitle" xml:space="preserve"><value>Quote per origine</value></data>
+  <data name="DemoChartsExtendedDonutTitle" xml:space="preserve"><value>Quote per origine, ad anello</value></data>
+  <data name="DemoChartsExtendedOrigin" xml:space="preserve"><value>Origine</value></data>
+  <data name="DemoChartsExtendedGauge" xml:space="preserve"><value>Tasso di elaborazione</value></data>
+  <data name="DemoChartsExtendedSliceCounter" xml:space="preserve"><value>Sportello</value></data>
+  <data name="DemoChartsExtendedSliceMail" xml:space="preserve"><value>Posta</value></data>
+  <data name="DemoChartsExtendedSliceOnline" xml:space="preserve"><value>Online</value></data>
+  <data name="DemoChartsExtendedSliceOther" xml:space="preserve"><value>Altro</value></data>
+  <data name="DemoPlanningGanttLabel" xml:space="preserve"><value>Pianificazione del progetto</value></data>
+  <data name="DemoPlanningScaleShown" xml:space="preserve"><value>Scala visualizzata: {0}</value></data>
+  <data name="DemoPlanningScaleDay" xml:space="preserve"><value>giorno</value></data>
+  <data name="DemoPlanningScaleWeek" xml:space="preserve"><value>settimana</value></data>
+  <data name="DemoPlanningScaleMonth" xml:space="preserve"><value>mese</value></data>
+  <data name="DemoPlanningMonthHeading" xml:space="preserve"><value>La stessa pianificazione, per mese e senza gruppi</value></data>
+  <data name="DemoPlanningMonthLabel" xml:space="preserve"><value>Pianificazione mensile</value></data>
+  <data name="DemoPlanningDayLabel" xml:space="preserve"><value>Pianificazione giornaliera</value></data>
+  <data name="DemoPlanningRunHeading" xml:space="preserve"><value>Svolgimento di un'esecuzione</value></data>
+  <data name="DemoPlanningRunLabel" xml:space="preserve"><value>Esecuzione {0}</value></data>
+  <data name="DemoPlanningTimelineHeading" xml:space="preserve"><value>Timeline a sinistra, poi alternata da ciascun lato</value></data>
+  <data name="DemoPlanningTimelineStart" xml:space="preserve"><value>Timeline a sinistra</value></data>
+  <data name="DemoPlanningTimelineAlternateStart" xml:space="preserve"><value>Timeline alternata, partenza a sinistra</value></data>
+  <data name="DemoPlanningTimelineAlternateEnd" xml:space="preserve"><value>Timeline alternata, partenza a destra</value></data>
+  <data name="DemoPlanningFiled" xml:space="preserve"><value>Deposito</value></data>
+  <data name="DemoPlanningFiledText" xml:space="preserve"><value>La pratica è stata registrata.</value></data>
+  <data name="DemoPlanningReview" xml:space="preserve"><value>Istruttoria</value></data>
+  <data name="DemoPlanningReviewText" xml:space="preserve"><value>È stato designato un funzionario.</value></data>
+  <data name="DemoPlanningDecision" xml:space="preserve"><value>Decisione</value></data>
+  <data name="DemoPlanningDecisionText" xml:space="preserve"><value>La decisione è stata notificata.</value></data>
+  <data name="DemoPlanningGroupDesign" xml:space="preserve"><value>Progettazione</value></data>
+  <data name="DemoPlanningGroupBuild" xml:space="preserve"><value>Realizzazione</value></data>
+  <data name="DemoPlanningTaskScoping" xml:space="preserve"><value>Definizione dell'ambito</value></data>
+  <data name="DemoPlanningTaskMockups" xml:space="preserve"><value>Mockup</value></data>
+  <data name="DemoPlanningTaskProofreading" xml:space="preserve"><value>Revisione</value></data>
+  <data name="DemoPlanningTaskDevelopment" xml:space="preserve"><value>Sviluppo</value></data>
+  <data name="DemoPlanningTaskAcceptance" xml:space="preserve"><value>Collaudo</value></data>
+  <data name="DemoSchedulerView" xml:space="preserve"><value>Vista</value></data>
+  <data name="DemoSchedulerTimeGrid" xml:space="preserve"><value>Griglia oraria dalle 8 alle 18</value></data>
+  <data name="DemoSchedulerViewDay" xml:space="preserve"><value>Giorno</value></data>
+  <data name="DemoSchedulerViewWeek" xml:space="preserve"><value>Settimana</value></data>
+  <data name="DemoSchedulerViewMonth" xml:space="preserve"><value>Mese</value></data>
+  <data name="DemoSchedulerCaseReview" xml:space="preserve"><value>Istruttoria della pratica</value></data>
+  <data name="DemoSchedulerReadingCommittee" xml:space="preserve"><value>Comitato di lettura</value></data>
+  <data name="DemoSchedulerWeeklyMeeting" xml:space="preserve"><value>Riunione settimanale</value></data>
+  <data name="DemoSchedulerRoom" xml:space="preserve"><value>Sala {0}</value></data>
+  <data name="DemoLayoutFluidColumn" xml:space="preserve"><value>Colonna fluida</value></data>
+  <data name="DemoLayoutFluidColumnText" xml:space="preserve"><value>Tutta la larghezza su schermo piccolo, un terzo su schermo grande.</value></data>
+  <data name="DemoLayoutCardWithHeader" xml:space="preserve"><value>Card con intestazione</value></data>
+  <data name="DemoLayoutCardWithHeaderText" xml:space="preserve"><value>Intestazione, corpo e piè di pagina sono tre zone distinte.</value></data>
+  <data name="DemoLayoutBodyOnly" xml:space="preserve"><value>Una card può avere solo il corpo.</value></data>
+  <data name="DemoLayoutStart" xml:space="preserve"><value>Inizio</value></data>
+  <data name="DemoLayoutMiddle" xml:space="preserve"><value>Centro</value></data>
+  <data name="DemoLayoutEnd" xml:space="preserve"><value>Fine</value></data>
+  <data name="DemoLayoutFieldGroup" xml:space="preserve"><value>Gruppo di campi</value></data>
+  <data name="DemoLayoutOne" xml:space="preserve"><value>Uno</value></data>
+  <data name="DemoLayoutTwo" xml:space="preserve"><value>Due</value></data>
+  <data name="DemoLayoutAdvanced" xml:space="preserve"><value>Impostazioni avanzate</value></data>
+  <data name="DemoLayoutAdvancedText" xml:space="preserve"><value>Un gruppo compresso all'apertura, che il lettore espande se ne ha bisogno.</value></data>
+  <data name="DemoLayoutTracked" xml:space="preserve"><value>Opzioni monitorate</value></data>
+  <data name="DemoLayoutTrackedText" xml:space="preserve"><value>Lo stato compresso è noto alla pagina, che può memorizzarlo.</value></data>
+  <data name="DemoLayoutDisabledGroup" xml:space="preserve"><value>Gruppo disattivato</value></data>
+  <data name="DemoLayoutDisabledGroupText" xml:space="preserve"><value>Tutto ciò che questo gruppo contiene diventa inattivo con un solo gesto.</value></data>
+  <data name="DemoLayoutAlignStart" xml:space="preserve"><value>Allineato all'inizio</value></data>
+  <data name="DemoLayoutAlignCenter" xml:space="preserve"><value>Centrato</value></data>
+  <data name="DemoLayoutAlignEnd" xml:space="preserve"><value>Allineato alla fine</value></data>
+  <data name="DemoLayoutTop" xml:space="preserve"><value>In alto</value></data>
+  <data name="DemoLayoutTopText" xml:space="preserve"><value>Una card più alta delle vicine.</value></data>
+  <data name="DemoLayoutBottom" xml:space="preserve"><value>In basso</value></data>
+  <data name="DemoLayoutBottomText" xml:space="preserve"><value>Il badge si allinea alla base della riga.</value></data>
+  <data name="DemoLayoutStretched" xml:space="preserve"><value>Estesa</value></data>
+  <data name="DemoLayoutStretchedText" xml:space="preserve"><value>Le due card hanno la stessa altezza.</value></data>
+  <data name="DemoLayoutApproveFile" xml:space="preserve"><value>Approva la pratica</value></data>
+  <data name="DemoLayoutFilterDocuments" xml:space="preserve"><value>Filtra i documenti</value></data>
+  <data name="DemoLayoutCloseRequest" xml:space="preserve"><value>Chiudi la richiesta</value></data>
+  <data name="DemoLayoutNotifications" xml:space="preserve"><value>Notifiche</value></data>
+  <data name="DemoLayoutNotificationsText" xml:space="preserve"><value>Cosa ti segnala l'applicazione, e come.</value></data>
+  <data name="DemoLayoutEmailAlerts" xml:space="preserve"><value>Avvisi via e-mail</value></data>
+  <data name="DemoLayoutEmailAlertsText" xml:space="preserve"><value>Un messaggio a ogni cambio di stato.</value></data>
+  <data name="DemoLayoutWeeklyDigest" xml:space="preserve"><value>Riepilogo settimanale</value></data>
+  <data name="DemoLayoutWeeklyDigestText" xml:space="preserve"><value>Le pratiche della settimana, il lunedì mattina.</value></data>
+  <data name="DemoLayoutServerName" xml:space="preserve"><value>Nome del server</value></data>
+  <data name="DemoLayoutServerNameText" xml:space="preserve"><value>Visibile nella console.</value></data>
+  <data name="DemoLayoutIdentifierReadOnly" xml:space="preserve"><value>Identificatore, sola lettura</value></data>
+  <data name="DemoLayoutZoneDisabled" xml:space="preserve"><value>Zona, disattivata</value></data>
+  <data name="DemoLayoutLockedRestore" xml:space="preserve"><value>Ripristino bloccato</value></data>
+  <data name="DemoLayoutSave" xml:space="preserve"><value>Salva</value></data>
+  <data name="DemoLayoutCancel" xml:space="preserve"><value>Annulla</value></data>
+  <data name="DemoLayoutDeployed" xml:space="preserve"><value>Distribuzione completata</value></data>
+  <data name="DemoLayoutDeployedText" xml:space="preserve"><value>La versione 1.0.1 è online.</value></data>
+  <data name="DemoLayoutEachChange" xml:space="preserve"><value>A ogni modifica.</value></data>
+  <data name="DemoLayoutSpaciousAlert" xml:space="preserve"><value>Un avviso arioso in una pagina confortevole.</value></data>
+  <data name="DemoLayoutCompactTabs" xml:space="preserve"><value>Schede compatte</value></data>
+  <data name="DemoLayoutGeneral" xml:space="preserve"><value>Generale</value></data>
+  <data name="DemoLayoutGeneralText" xml:space="preserve"><value>Impostazioni generali.</value></data>
+  <data name="DemoLayoutSecurity" xml:space="preserve"><value>Sicurezza</value></data>
+  <data name="DemoLayoutSecurityText" xml:space="preserve"><value>Accesso e token.</value></data>
+  <data name="DemoLayoutSpaciousTile" xml:space="preserve"><value>Riquadro arioso</value></data>
+  <data name="DemoLayoutOwnDensity" xml:space="preserve"><value>La sua densità.</value></data>
+  <data name="DemoLayoutTrackedExpanded" xml:space="preserve"><value>Opzioni monitorate: espanse</value></data>
+  <data name="DemoLayoutTrackedCollapsed" xml:space="preserve"><value>Opzioni monitorate: compresse</value></data>
+  <data name="DemoLayoutGapNone1" xml:space="preserve"><value>Nessuna</value></data>
+  <data name="DemoLayoutGapNone2" xml:space="preserve"><value>spaziatura</value></data>
+  <data name="DemoLayoutGapXSmall1" xml:space="preserve"><value>Molto</value></data>
+  <data name="DemoLayoutGapXSmall2" xml:space="preserve"><value>stretto</value></data>
+  <data name="DemoLayoutGapSmall1" xml:space="preserve"><value>Stretto</value></data>
+  <data name="DemoLayoutGapSmall2" xml:space="preserve"><value>piccolo</value></data>
+  <data name="DemoLayoutGapMedium1" xml:space="preserve"><value>Normale</value></data>
+  <data name="DemoLayoutGapMedium2" xml:space="preserve"><value>medio</value></data>
+  <data name="DemoLayoutGapLarge1" xml:space="preserve"><value>Arioso</value></data>
+  <data name="DemoLayoutGapLarge2" xml:space="preserve"><value>grande</value></data>
+  <data name="DemoLayoutGapXLarge1" xml:space="preserve"><value>Molto</value></data>
+  <data name="DemoLayoutGapXLarge2" xml:space="preserve"><value>arioso</value></data>
+  <data name="DemoLayoutDensityCompact" xml:space="preserve"><value>Compatta</value></data>
+  <data name="DemoLayoutDensityComfortable" xml:space="preserve"><value>Confortevole</value></data>
+  <data name="DemoLayoutDensitySpacious" xml:space="preserve"><value>Ariosa</value></data>
+  <data name="DemoLayoutAlertCount" xml:space="preserve"><value>{0} avvisi</value></data>
+  <data name="DemoTypographyAccentHeading" xml:space="preserve"><value>Titolo accentuato</value></data>
+  <data name="DemoTypographyMutedHeading" xml:space="preserve"><value>Titolo discreto</value></data>
+  <data name="DemoTypographyParagraph" xml:space="preserve"><value>Un paragrafo normale, nella dimensione di base del tema.</value></data>
+  <data name="DemoTypographySecondary" xml:space="preserve"><value>Un paragrafo secondario, per ciò che accompagna senza portare l'informazione.</value></data>
+  <data name="DemoTypographyError" xml:space="preserve"><value>Nota di errore</value></data>
+  <data name="DemoTypographyStrong" xml:space="preserve"><value>Testo importante</value></data>
+  <data name="DemoTypographyEmphasis" xml:space="preserve"><value>Testo in evidenza</value></data>
+  <data name="DemoTypographySuccess" xml:space="preserve"><value>Stato favorevole</value></data>
+  <data name="DemoTypographyTruncated" xml:space="preserve"><value>Un testo lungo che il componente tronca con i puntini di sospensione quando manca lo spazio, invece di spingere il layout o andare a capo in modo imprevedibile.</value></data>
+  <data name="DemoTypographyLabel" xml:space="preserve"><value>Etichetta associata a un campo</value></data>
+  <data name="DemoTypographyInternalLink" xml:space="preserve"><value>Link interno</value></data>
+  <data name="DemoTypographyExternalLink" xml:space="preserve"><value>Link esterno</value></data>
+  <data name="DemoTypographyLevelHeading" xml:space="preserve"><value>Titolo di livello {0}</value></data>
+  <data name="DemoThemesAppearanceWindow" xml:space="preserve"><value>Finestra dell'aspetto</value></data>
+  <data name="DemoAppShellMinimize" xml:space="preserve"><value>Riduci a icona la finestra</value></data>
+  <data name="DemoAppShellMaximize" xml:space="preserve"><value>Ingrandisci o ripristina la finestra</value></data>
+  <data name="DemoAppShellClose" xml:space="preserve"><value>Chiudi la finestra</value></data>
+  <data name="DemoNavigationBreadcrumb" xml:space="preserve"><value>Breadcrumb</value></data>
+  <data name="DemoNavigationHome" xml:space="preserve"><value>Home</value></data>
+  <data name="DemoNavigationComponents" xml:space="preserve"><value>Componenti</value></data>
+  <data name="DemoNavigationCurrent" xml:space="preserve"><value>Navigazione</value></data>
+  <data name="DemoNavigationSections" xml:space="preserve"><value>Sezioni della pratica</value></data>
+  <data name="DemoNavigationTabSummary" xml:space="preserve"><value>Riepilogo</value></data>
+  <data name="DemoNavigationDocuments" xml:space="preserve"><value>Documenti</value></data>
+  <data name="DemoNavigationDocumentsText" xml:space="preserve"><value>Ogni documento riporta la data di deposito.</value></data>
+  <data name="DemoNavigationHistory" xml:space="preserve"><value>Cronologia</value></data>
+  <data name="DemoNavigationHistoryText" xml:space="preserve"><value>Dodici movimenti registrati.</value></data>
+  <data name="DemoNavigationProgress" xml:space="preserve"><value>Avanzamento della pratica</value></data>
+  <data name="DemoNavigationFiling" xml:space="preserve"><value>Deposito</value></data>
+  <data name="DemoNavigationFilingText" xml:space="preserve"><value>I documenti sono stati ricevuti.</value></data>
+  <data name="DemoNavigationReview" xml:space="preserve"><value>Istruttoria</value></data>
+  <data name="DemoNavigationReviewText" xml:space="preserve"><value>La pratica è in fase di esame.</value></data>
+  <data name="DemoNavigationDecision" xml:space="preserve"><value>Decisione</value></data>
+  <data name="DemoNavigationDecisionText" xml:space="preserve"><value>La decisione sarà notificata per posta.</value></data>
+  <data name="DemoNavigationTabSummaryText" xml:space="preserve"><value>La pratica comprende {0} documenti.</value></data>
+  <data name="DemoPagesReload" xml:space="preserve"><value>Ricarica la scheda</value></data>
+  <data name="DemoPagesMissing" xml:space="preserve"><value>Scheda non trovata</value></data>
+  <data name="DemoPagesNotFound" xml:space="preserve"><value>La scheda richiesta è stata rimossa o non è mai esistita.</value></data>
+  <data name="DemoPagesSubtitle" xml:space="preserve"><value>Macchina virtuale della zona Paris.</value></data>
+  <data name="DemoPagesOnline" xml:space="preserve"><value>Online</value></data>
+  <data name="DemoPagesEdit" xml:space="preserve"><value>Modifica</value></data>
+  <data name="DemoPagesRemove" xml:space="preserve"><value>Rimuovi</value></data>
+  <data name="DemoPagesDuplicate" xml:space="preserve"><value>Duplica</value></data>
+  <data name="DemoPagesArchive" xml:space="preserve"><value>Archivia</value></data>
+  <data name="DemoPagesProduction" xml:space="preserve"><value>Produzione</value></data>
+  <data name="DemoPagesName" xml:space="preserve"><value>Nome</value></data>
+  <data name="DemoPagesSystem" xml:space="preserve"><value>Sistema</value></data>
+  <data name="DemoPagesIpAddress" xml:space="preserve"><value>Indirizzo IP</value></data>
+  <data name="DemoPagesToken" xml:space="preserve"><value>Token di accesso</value></data>
+  <data name="DemoPagesLastSignal" xml:space="preserve"><value>Ultimo segnale</value></data>
+  <data name="DemoPagesCertificate" xml:space="preserve"><value>Certificato</value></data>
+  <data name="DemoPagesNoBackup" xml:space="preserve"><value>Nessun backup</value></data>
+  <data name="DemoPagesNoBackupText" xml:space="preserve"><value>I backup pianificati appariranno qui dopo la prima esecuzione.</value></data>
+  <data name="DemoPagesSchedule" xml:space="preserve"><value>Pianifica</value></data>
+  <data name="DemoPagesNoResult" xml:space="preserve"><value>Nessun risultato</value></data>
+  <data name="DemoPagesNoResultText" xml:space="preserve"><value>Nessun server corrisponde al filtro.</value></data>
+  <data name="DemoPagesHideToken" xml:space="preserve"><value>Nascondi il token</value></data>
+  <data name="DemoPagesShowToken" xml:space="preserve"><value>Mostra il token</value></data>
+  <data name="DemoPagesTokensValue" xml:space="preserve"><value>{0:N1} k</value></data>
+  <data name="DemoPagesTokensToday" xml:space="preserve"><value>Token oggi</value></data>
+  <data name="DemoPagesTokensReset" xml:space="preserve"><value>Reimpostazione alle {0:t}</value></data>
+  <data name="DemoPagesWeekly" xml:space="preserve"><value>Settimanale</value></data>
+  <data name="DemoPagesCrumbComponents" xml:space="preserve"><value>Componenti</value></data>
+  <data name="DemoPagesCrumbServers" xml:space="preserve"><value>Server</value></data>
+  <data name="DemoPagesCrumbServer" xml:space="preserve"><value>Server</value></data>
+  <data name="DemoBadgesNeutral" xml:space="preserve"><value>Neutro</value></data>
+  <data name="DemoBadgesAccent" xml:space="preserve"><value>Accento</value></data>
+  <data name="DemoBadgesInfo" xml:space="preserve"><value>Informazione</value></data>
+  <data name="DemoBadgesSuccess" xml:space="preserve"><value>Successo</value></data>
+  <data name="DemoBadgesWarning" xml:space="preserve"><value>Avvertenza</value></data>
+  <data name="DemoBadgesDanger" xml:space="preserve"><value>Pericolo</value></data>
+  <data name="DemoBadgesDraft" xml:space="preserve"><value>Bozza</value></data>
+  <data name="DemoBadgesOutline" xml:space="preserve"><value>Contorno</value></data>
+  <data name="DemoBadgesApproved" xml:space="preserve"><value>Approvato</value></data>
+  <data name="DemoBadgesPending" xml:space="preserve"><value>In attesa</value></data>
+  <data name="DemoBadgesRejected" xml:space="preserve"><value>Rifiutato</value></data>
+  <data name="DemoBadgesNew" xml:space="preserve"><value>Nuovo</value></data>
+  <data name="DemoBadgesInReview" xml:space="preserve"><value>In revisione</value></data>
+  <data name="DemoBadgesPublished" xml:space="preserve"><value>Pubblicato</value></data>
+  <data name="DemoBadgesFailed" xml:space="preserve"><value>Non riuscito</value></data>
+  <data name="DemoBadgesFixedSize" xml:space="preserve"><value>Dimensione fissa</value></data>
+  <data name="DemoAlertsMaintenance" xml:space="preserve"><value>Manutenzione</value></data>
+  <data name="DemoAlertsMaintenanceText" xml:space="preserve"><value>Il servizio non sarà disponibile domenica dalle 2 alle 4.</value></data>
+  <data name="DemoAlertsPublished" xml:space="preserve"><value>Pacchetto pubblicato</value></data>
+  <data name="DemoAlertsPublishedText" xml:space="preserve"><value>OmniEurope.Blazor è disponibile su NuGet.org.</value></data>
+  <data name="DemoAlertsCertificate" xml:space="preserve"><value>Certificato in scadenza</value></data>
+  <data name="DemoAlertsFailure" xml:space="preserve"><value>Errore</value></data>
+  <data name="DemoAlertsFailureText" xml:space="preserve"><value>La connessione al servizio non è riuscita.</value></data>
+  <data name="DemoAlertsInfo" xml:space="preserve"><value>Informazione</value></data>
+  <data name="DemoAlertsInfoText" xml:space="preserve"><value>La libreria legge tutti i suoi colori da variabili CSS.</value></data>
+  <data name="DemoAlertsSaved" xml:space="preserve"><value>Salvato</value></data>
+  <data name="DemoAlertsSavedText" xml:space="preserve"><value>Le modifiche sono state applicate.</value></data>
+  <data name="DemoAlertsNew" xml:space="preserve"><value>Novità</value></data>
+  <data name="DemoAlertsNewText" xml:space="preserve"><value>I badge e gli avvisi ora condividono lo stesso riempimento.</value></data>
+  <data name="DemoAlertsCaution" xml:space="preserve"><value>Attenzione</value></data>
+  <data name="DemoAlertsCautionText" xml:space="preserve"><value>Questa impostazione sarà applicata a tutte le pagine.</value></data>
+  <data name="DemoAlertsTooLarge" xml:space="preserve"><value>Il file supera la dimensione consentita.</value></data>
+  <data name="DemoAlertsTip" xml:space="preserve"><value>Suggerimento</value></data>
+  <data name="DemoAlertsTipText" xml:space="preserve"><value>Questo avviso si chiude con la sua crocetta.</value></data>
+  <data name="DemoAlertsCertificateText" xml:space="preserve"><value>Il certificato di firma scade tra {0} giorni.</value></data>
+  <data name="DemoButtonsSecondary" xml:space="preserve"><value>Secondario</value></data>
+  <data name="DemoButtonsGhost" xml:space="preserve"><value>Discreto</value></data>
+  <data name="DemoButtonsApprove" xml:space="preserve"><value>Approva</value></data>
+  <data name="DemoButtonsSuspend" xml:space="preserve"><value>Sospendi</value></data>
+  <data name="DemoButtonsDetails" xml:space="preserve"><value>Dettagli</value></data>
+  <data name="DemoButtonsDelete" xml:space="preserve"><value>Elimina</value></data>
+  <data name="DemoButtonsUnavailable" xml:space="preserve"><value>Non disponibile</value></data>
+  <data name="DemoButtonsSaving" xml:space="preserve"><value>Salvataggio</value></data>
+  <data name="DemoButtonsSave" xml:space="preserve"><value>Salva</value></data>
+  <data name="DemoButtonsPublish" xml:space="preserve"><value>Pubblica</value></data>
+  <data name="DemoButtonsPin" xml:space="preserve"><value>Fissa</value></data>
+  <data name="DemoButtonsSmall" xml:space="preserve"><value>Piccolo</value></data>
+  <data name="DemoButtonsMedium" xml:space="preserve"><value>Medio</value></data>
+  <data name="DemoButtonsLarge" xml:space="preserve"><value>Grande</value></data>
+  <data name="DemoButtonsSearch" xml:space="preserve"><value>Cerca</value></data>
+  <data name="DemoButtonsPublishLater" xml:space="preserve"><value>Pubblica più tardi</value></data>
+  <data name="DemoButtonsDraft" xml:space="preserve"><value>Bozza</value></data>
+  <data name="DemoButtonsPreview" xml:space="preserve"><value>Anteprima</value></data>
+  <data name="DemoButtonsView" xml:space="preserve"><value>Visualizza</value></data>
+  <data name="DemoButtonsSend" xml:space="preserve"><value>Invia</value></data>
+  <data name="DemoButtonsReset" xml:space="preserve"><value>Reimposta</value></data>
+  <data name="DemoButtonsNoFormEffect" xml:space="preserve"><value>Nessun effetto sul modulo</value></data>
+  <data name="DemoButtonsPrimary" xml:space="preserve"><value>Primario</value></data>
+  <data name="DemoButtonsClicks" xml:space="preserve"><value>Clic sul pulsante primario: {0}.</value></data>
+  <data name="DemoButtonsSent" xml:space="preserve"><value>Invii del modulo: {0}.</value></data>
+  <data name="DemoFeedbackUpload" xml:space="preserve"><value>Caricamento</value></data>
+  <data name="DemoFeedbackIndexing" xml:space="preserve"><value>Indicizzazione</value></data>
+  <data name="DemoFeedbackSync" xml:space="preserve"><value>Sincronizzazione</value></data>
+  <data name="DemoFeedbackProcessed" xml:space="preserve"><value>Pratiche elaborate</value></data>
+  <data name="DemoFeedbackQuotaNear" xml:space="preserve"><value>Quota quasi raggiunta</value></data>
+  <data name="DemoFeedbackImportFailures" xml:space="preserve"><value>Importazioni non riuscite</value></data>
+  <data name="DemoFeedbackAnalysing" xml:space="preserve"><value>Analisi in corso</value></data>
+  <data name="DemoFeedbackProgress" xml:space="preserve"><value>Avanzamento</value></data>
+  <data name="DemoFeedbackNoKnownEnd" xml:space="preserve"><value>Senza fine nota</value></data>
+  <data name="DemoFeedbackQuotaTooltip" xml:space="preserve"><value>La quota è calcolata su trenta giorni mobili.</value></data>
+  <data name="DemoFeedbackQuota" xml:space="preserve"><value>Quota</value></data>
+  <data name="DemoFeedbackArchivedTooltip" xml:space="preserve"><value>Una pratica archiviata resta consultabile in sola lettura.</value></data>
+  <data name="DemoFeedbackArchived" xml:space="preserve"><value>Archiviata</value></data>
+  <data name="DemoFeedbackDraftTooltip" xml:space="preserve"><value>Bozza.</value></data>
+  <data name="DemoFeedbackNarrow" xml:space="preserve"><value>Stretta</value></data>
+  <data name="DemoFeedbackLongTooltip" xml:space="preserve"><value>Una pratica archiviata resta consultabile in sola lettura. Non conta più nelle quote, non compare più nelle ricerche predefinite e non riceve più notifiche. Per riaprirla, un amministratore la ripristina dalla scheda Archivio; la sua cronologia, i suoi allegati e i suoi commenti tornano allora intatti, con la data di ripristino.</value></data>
+  <data name="DemoFeedbackLongText" xml:space="preserve"><value>Testo lungo</value></data>
+  <data name="DemoFeedbackTitleTooltip" xml:space="preserve"><value>Tooltip del pacchetto su un semplice attributo title.</value></data>
+  <data name="DemoFeedbackHover" xml:space="preserve"><value>Passa il mouse</value></data>
+  <data name="DemoFeedbackLoadingAvatar" xml:space="preserve"><value>Caricamento dell'avatar</value></data>
+  <data name="DemoFeedbackLoadingThumbnail" xml:space="preserve"><value>Caricamento della miniatura</value></data>
+  <data name="DemoFeedbackLoadingFile" xml:space="preserve"><value>Caricamento della pratica</value></data>
+  <data name="DemoFeedbackLoadingDemo" xml:space="preserve"><value>Caricamento della demo</value></data>
+  <data name="DemoFeedbackSimulateLoad" xml:space="preserve"><value>Simula un caricamento</value></data>
+  <data name="DemoFeedbackRecentRuns" xml:space="preserve"><value>Ultime esecuzioni</value></data>
+  <data name="DemoFeedbackAvailability" xml:space="preserve"><value>Disponibilità nelle ultime ore</value></data>
+  <data name="DemoFeedbackReady" xml:space="preserve"><value>Pronto</value></data>
+  <data name="DemoFeedbackFailed" xml:space="preserve"><value>Non riuscito</value></data>
+  <data name="DemoFeedbackRunSucceeded" xml:space="preserve"><value>Esecuzione {0} riuscita</value></data>
+  <data name="DemoFeedbackRunWarning" xml:space="preserve"><value>Esecuzione {0} con avvertenza</value></data>
+  <data name="DemoFeedbackRunFailed" xml:space="preserve"><value>Esecuzione {0} non riuscita</value></data>
+  <data name="DemoFeedbackSucceeded" xml:space="preserve"><value>Riuscita</value></data>
+  <data name="DemoFeedbackWarning" xml:space="preserve"><value>Avvertenza</value></data>
+  <data name="DemoMediaImageContain" xml:space="preserve"><value>Immagine intera, senza ritaglio</value></data>
+  <data name="DemoMediaImageCover" xml:space="preserve"><value>Immagine ritagliata per riempire il riquadro</value></data>
+  <data name="DemoMediaImageNatural" xml:space="preserve"><value>Immagine alle dimensioni naturali</value></data>
+  <data name="DemoMediaTimeline" xml:space="preserve"><value>Fasi della pratica</value></data>
+  <data name="DemoMediaFiling" xml:space="preserve"><value>Deposito</value></data>
+  <data name="DemoMediaFilingText" xml:space="preserve"><value>La pratica è stata registrata.</value></data>
+  <data name="DemoMediaReview" xml:space="preserve"><value>Istruttoria</value></data>
+  <data name="DemoMediaReviewText" xml:space="preserve"><value>È stato designato un funzionario.</value></data>
+  <data name="DemoMediaDecision" xml:space="preserve"><value>Decisione</value></data>
+  <data name="DemoMediaDecisionText" xml:space="preserve"><value>La decisione è stata notificata.</value></data>
+  <data name="DemoMediaIconCheck" xml:space="preserve"><value>Convalidato</value></data>
+  <data name="DemoMediaIconWarning" xml:space="preserve"><value>Attenzione</value></data>
+  <data name="DemoMediaIconFilter" xml:space="preserve"><value>Filtra</value></data>
+  <data name="DemoMediaIconCompass" xml:space="preserve"><value>Bussola</value></data>
+  <data name="DemoMediaIconClose" xml:space="preserve"><value>Chiudi</value></data>
+  <data name="DemoMediaIconInfo" xml:space="preserve"><value>Informazione</value></data>
+  <data name="DemoMediaIconMenu" xml:space="preserve"><value>Menu</value></data>
+  <data name="DemoMediaIconChevronDown" xml:space="preserve"><value>Espandi</value></data>
+  <data name="DemoMediaIconSortAscending" xml:space="preserve"><value>Ordinamento crescente</value></data>
+  <data name="DemoMediaIconSortDescending" xml:space="preserve"><value>Ordinamento decrescente</value></data>
+  <data name="DemoMediaIconThemeLight" xml:space="preserve"><value>Aspetto chiaro</value></data>
+  <data name="DemoMediaIconThemeDark" xml:space="preserve"><value>Aspetto scuro</value></data>
+  <data name="DemoMediaIconAdd" xml:space="preserve"><value>Aggiungi</value></data>
+  <data name="DemoMediaIconAirplane" xml:space="preserve"><value>Aereo</value></data>
+  <data name="DemoMediaIconAirplaneLanding" xml:space="preserve"><value>Atterraggio</value></data>
+  <data name="DemoMediaIconAirplaneTakeoff" xml:space="preserve"><value>Decollo</value></data>
+  <data name="DemoMediaIconArchive" xml:space="preserve"><value>Archivia</value></data>
+  <data name="DemoMediaIconArrowLeft" xml:space="preserve"><value>Indietro</value></data>
+  <data name="DemoMediaIconArrowRight" xml:space="preserve"><value>Avanti</value></data>
+  <data name="DemoMediaIconBed" xml:space="preserve"><value>Alloggio</value></data>
+  <data name="DemoMediaIconBell" xml:space="preserve"><value>Notifiche</value></data>
+  <data name="DemoMediaIconBracketsCurly" xml:space="preserve"><value>Dati JSON</value></data>
+  <data name="DemoMediaIconCalculator" xml:space="preserve"><value>Calcolatrice</value></data>
+  <data name="DemoMediaIconCards" xml:space="preserve"><value>Carte</value></data>
+  <data name="DemoMediaIconChartBarHorizontal" xml:space="preserve"><value>Classifica</value></data>
+  <data name="DemoMediaIconChat" xml:space="preserve"><value>Messaggio</value></data>
+  <data name="DemoMediaIconCheckCircle" xml:space="preserve"><value>Riuscito</value></data>
+  <data name="DemoMediaIconChevronUp" xml:space="preserve"><value>Comprimi</value></data>
+  <data name="DemoMediaIconCopy" xml:space="preserve"><value>Copia</value></data>
+  <data name="DemoMediaIconDatabase" xml:space="preserve"><value>Database</value></data>
+  <data name="DemoMediaIconDelete" xml:space="preserve"><value>Elimina</value></data>
+  <data name="DemoMediaIconDiamond" xml:space="preserve"><value>Gemma</value></data>
+  <data name="DemoMediaIconDice" xml:space="preserve"><value>Estrazione</value></data>
+  <data name="DemoMediaIconDocument" xml:space="preserve"><value>Documento</value></data>
+  <data name="DemoMediaIconDownload" xml:space="preserve"><value>Scarica</value></data>
+  <data name="DemoMediaIconEdit" xml:space="preserve"><value>Modifica</value></data>
+  <data name="DemoMediaIconError" xml:space="preserve"><value>Errore</value></data>
+  <data name="DemoMediaIconFlask" xml:space="preserve"><value>Prova</value></data>
+  <data name="DemoMediaIconFunction" xml:space="preserve"><value>Formula</value></data>
+  <data name="DemoMediaIconGlobe" xml:space="preserve"><value>Mondo</value></data>
+  <data name="DemoMediaIconGlobeHemisphereWest" xml:space="preserve"><value>Viaggi</value></data>
+  <data name="DemoMediaIconGraduationCap" xml:space="preserve"><value>Classe</value></data>
+  <data name="DemoMediaIconGraph" xml:space="preserve"><value>Collegamenti</value></data>
+  <data name="DemoMediaIconHome" xml:space="preserve"><value>Home</value></data>
+  <data name="DemoMediaIconHourglass" xml:space="preserve"><value>Attesa</value></data>
+  <data name="DemoMediaIconImage" xml:space="preserve"><value>Immagine</value></data>
+  <data name="DemoMediaIconLayers" xml:space="preserve"><value>Livelli</value></data>
+  <data name="DemoMediaIconMapPin" xml:space="preserve"><value>Luogo</value></data>
+  <data name="DemoMediaIconMapPinLine" xml:space="preserve"><value>Importazione di luoghi</value></data>
+  <data name="DemoMediaIconMedal" xml:space="preserve"><value>Posizione</value></data>
+  <data name="DemoMediaIconMonitor" xml:space="preserve"><value>Visualizzazione</value></data>
+  <data name="DemoMediaIconNumberedList" xml:space="preserve"><value>Elenco numerato</value></data>
+  <data name="DemoMediaIconOffline" xml:space="preserve"><value>Offline</value></data>
+  <data name="DemoMediaIconOpenExternal" xml:space="preserve"><value>Apri altrove</value></data>
+  <data name="DemoMediaIconPackage" xml:space="preserve"><value>Oggetto</value></data>
+  <data name="DemoMediaIconPalette" xml:space="preserve"><value>Colori</value></data>
+  <data name="DemoMediaIconPath" xml:space="preserve"><value>Percorso</value></data>
+  <data name="DemoMediaIconPattern" xml:space="preserve"><value>Motivo</value></data>
+  <data name="DemoMediaIconPictureInPicture" xml:space="preserve"><value>Picture-in-picture</value></data>
+  <data name="DemoMediaIconPin" xml:space="preserve"><value>Fissa</value></data>
+  <data name="DemoMediaIconPlay" xml:space="preserve"><value>Avvia</value></data>
+  <data name="DemoMediaIconProhibit" xml:space="preserve"><value>Vietato</value></data>
+  <data name="DemoMediaIconRefresh" xml:space="preserve"><value>Aggiorna</value></data>
+  <data name="DemoMediaIconRemove" xml:space="preserve"><value>Rimuovi</value></data>
+  <data name="DemoMediaIconReset" xml:space="preserve"><value>Reimposta</value></data>
+  <data name="DemoMediaIconRestore" xml:space="preserve"><value>Annulla archiviazione</value></data>
+  <data name="DemoMediaIconRows" xml:space="preserve"><value>Densità</value></data>
+  <data name="DemoMediaIconRuler" xml:space="preserve"><value>Misura</value></data>
+  <data name="DemoMediaIconSave" xml:space="preserve"><value>Salva</value></data>
+  <data name="DemoMediaIconSearch" xml:space="preserve"><value>Cerca</value></data>
+  <data name="DemoMediaIconSettings" xml:space="preserve"><value>Impostazioni</value></data>
+  <data name="DemoMediaIconShieldCheck" xml:space="preserve"><value>Amministrazione</value></data>
+  <data name="DemoMediaIconSidebar" xml:space="preserve"><value>Barra laterale</value></data>
+  <data name="DemoMediaIconSliders" xml:space="preserve"><value>Filtri avanzati</value></data>
+  <data name="DemoMediaIconSparkle" xml:space="preserve"><value>Novità</value></data>
+  <data name="DemoMediaIconStar" xml:space="preserve"><value>Preferito</value></data>
+  <data name="DemoMediaIconStarFilled" xml:space="preserve"><value>Preferito attivo</value></data>
+  <data name="DemoMediaIconSwap" xml:space="preserve"><value>Scambia</value></data>
+  <data name="DemoMediaIconSync" xml:space="preserve"><value>Sincronizza</value></data>
+  <data name="DemoMediaIconTag" xml:space="preserve"><value>Etichetta</value></data>
+  <data name="DemoMediaIconTextSize" xml:space="preserve"><value>Dimensione del testo</value></data>
+  <data name="DemoMediaIconThemeSystem" xml:space="preserve"><value>Aspetto del sistema</value></data>
+  <data name="DemoMediaIconTimer" xml:space="preserve"><value>Timer</value></data>
+  <data name="DemoMediaIconUpgrade" xml:space="preserve"><value>Aggiornamento</value></data>
+  <data name="DemoMediaIconUpload" xml:space="preserve"><value>Carica</value></data>
+  <data name="DemoMediaIconUser" xml:space="preserve"><value>Persona</value></data>
+  <data name="DemoMediaIconUserFocus" xml:space="preserve"><value>Cerca una persona</value></data>
+  <data name="DemoMediaIconEye" xml:space="preserve"><value>Mostra</value></data>
+  <data name="DemoMediaIconGitCommit" xml:space="preserve"><value>Commit</value></data>
+  <data name="DemoMediaIconLock" xml:space="preserve"><value>Bloccato</value></data>
+  <data name="DemoMediaIconRocketLaunch" xml:space="preserve"><value>Distribuisci</value></data>
+  <data name="DemoMediaIconUsers" xml:space="preserve"><value>Gruppo</value></data>
+  <data name="DemoMediaIconStop" xml:space="preserve"><value>Arresta</value></data>
+  <data name="DemoMediaIconListChecks" xml:space="preserve"><value>Regole</value></data>
+  <data name="DemoMediaIconFolder" xml:space="preserve"><value>Cartella</value></data>
+  <data name="DemoMediaIconQuestion" xml:space="preserve"><value>Guida</value></data>
+  <data name="DemoMediaIconSquaresFour" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="DemoMediaIconTerminalWindow" xml:space="preserve"><value>Terminale</value></data>
+  <data name="DemoMediaIconWrench" xml:space="preserve"><value>Compila</value></data>
+  <data name="DemoMediaIconKey" xml:space="preserve"><value>Chiave</value></data>
+  <data name="DemoMediaIconBuildings" xml:space="preserve"><value>Organizzazione</value></data>
+  <data name="DemoMediaIconHeartbeat" xml:space="preserve"><value>Monitoraggio</value></data>
+  <data name="DemoMediaIconCloudArrowUp" xml:space="preserve"><value>Backup online</value></data>
+  <data name="DemoMediaIconLink" xml:space="preserve"><value>Collegamento</value></data>
+  <data name="DemoMediaIconUserPlus" xml:space="preserve"><value>Aggiungi una persona</value></data>
+  <data name="DemoMediaIconLayout" xml:space="preserve"><value>Layout</value></data>
+  <data name="DemoMediaIconBroadcast" xml:space="preserve"><value>Diffusione</value></data>
+  <data name="DemoMediaIconCalendarBlank" xml:space="preserve"><value>Data</value></data>
+  <data name="DemoMediaIconChartLineUp" xml:space="preserve"><value>Tendenza</value></data>
+  <data name="DemoMediaIconFolderOpen" xml:space="preserve"><value>Cartella aperta</value></data>
+  <data name="DemoMediaIconGitFork" xml:space="preserve"><value>Fork</value></data>
+  <data name="DemoMediaIconGitMerge" xml:space="preserve"><value>Unione</value></data>
+  <data name="DemoMediaIconLockKey" xml:space="preserve"><value>Reimposta la password</value></data>
+  <data name="DemoMediaIconRobot" xml:space="preserve"><value>Automazione</value></data>
+  <data name="DemoMediaIconArrowDown" xml:space="preserve"><value>Sposta giù</value></data>
+  <data name="DemoMediaIconBrain" xml:space="preserve"><value>Intelligenza</value></data>
+  <data name="DemoMediaIconCellTower" xml:space="preserve"><value>Antenna</value></data>
+  <data name="DemoMediaIconCloud" xml:space="preserve"><value>Cloud</value></data>
+  <data name="DemoMediaIconGavel" xml:space="preserve"><value>Regolamento</value></data>
+  <data name="DemoMediaIconGitDiff" xml:space="preserve"><value>Differenze</value></data>
+  <data name="DemoMediaIconLinkBreak" xml:space="preserve"><value>Collegamento interrotto</value></data>
+  <data name="DemoMediaIconLockOpen" xml:space="preserve"><value>Sbloccato</value></data>
+  <data name="DemoMediaIconPaperPlaneRight" xml:space="preserve"><value>Invia un messaggio</value></data>
+  <data name="DemoMediaIconPlugsConnected" xml:space="preserve"><value>Connesso</value></data>
+  <data name="DemoMediaIconPuzzlePiece" xml:space="preserve"><value>Estensione</value></data>
+  <data name="DemoMediaIconShieldWarning" xml:space="preserve"><value>Rischio</value></data>
+  <data name="DemoMediaIconSignOut" xml:space="preserve"><value>Disconnetti</value></data>
+  <data name="DemoMediaIconArrowElbowDownLeft" xml:space="preserve"><value>A capo</value></data>
+  <data name="DemoMediaIconBroom" xml:space="preserve"><value>Pulisci</value></data>
+  <data name="DemoMediaIconBug" xml:space="preserve"><value>Anomalia</value></data>
+  <data name="DemoMediaIconChartLine" xml:space="preserve"><value>Grafico a linee</value></data>
+  <data name="DemoMediaIconChevronRight" xml:space="preserve"><value>Apri</value></data>
+  <data name="DemoMediaIconCode" xml:space="preserve"><value>Codice</value></data>
+  <data name="DemoMediaIconGauge" xml:space="preserve"><value>Prestazioni</value></data>
+  <data name="DemoMediaIconMagnifyingGlassPlus" xml:space="preserve"><value>Aumenta zoom</value></data>
+  <data name="DemoMediaIconPassword" xml:space="preserve"><value>Password</value></data>
+  <data name="DemoMediaIconShieldSlash" xml:space="preserve"><value>Protezione disattivata</value></data>
+  <data name="DemoMediaIconStamp" xml:space="preserve"><value>Approvazione</value></data>
+  <data name="DemoMediaIconTextAlignLeft" xml:space="preserve"><value>Allinea a sinistra</value></data>
+  <data name="DemoMediaIconWifiHigh" xml:space="preserve"><value>Rete</value></data>
+  <data name="DemoMediaIconArrowElbowDownRight" xml:space="preserve"><value>Sottoelemento</value></data>
+  <data name="DemoMediaIconArrowLineDown" xml:space="preserve"><value>Vai in fondo</value></data>
+  <data name="DemoMediaIconArrowLineUp" xml:space="preserve"><value>Vai all'inizio</value></data>
+  <data name="DemoMediaIconArrowUUpRight" xml:space="preserve"><value>Ripeti</value></data>
+  <data name="DemoMediaIconAt" xml:space="preserve"><value>Indirizzo e-mail</value></data>
+  <data name="DemoMediaIconBellSlash" xml:space="preserve"><value>Notifiche disattivate</value></data>
+  <data name="DemoMediaIconBooks" xml:space="preserve"><value>Biblioteca</value></data>
+  <data name="DemoMediaIconCalendarCheck" xml:space="preserve"><value>Data confermata</value></data>
+  <data name="DemoMediaIconChecks" xml:space="preserve"><value>Approva tutto</value></data>
+  <data name="DemoMediaIconCloudArrowDown" xml:space="preserve"><value>Recupera dal cloud</value></data>
+  <data name="DemoMediaIconColumns" xml:space="preserve"><value>Colonne</value></data>
+  <data name="DemoMediaIconCornersOut" xml:space="preserve"><value>Adatta allo schermo</value></data>
+  <data name="DemoMediaIconDotsThreeVertical" xml:space="preserve"><value>Altre azioni</value></data>
+  <data name="DemoMediaIconEyeSlash" xml:space="preserve"><value>Nascondi</value></data>
+  <data name="DemoMediaIconFrameCorners" xml:space="preserve"><value>Ricentra</value></data>
+  <data name="DemoMediaIconHardDrive" xml:space="preserve"><value>Disco</value></data>
+  <data name="DemoMediaIconLightning" xml:space="preserve"><value>Rapido</value></data>
+  <data name="DemoMediaIconMagnifyingGlassMinus" xml:space="preserve"><value>Riduci zoom</value></data>
+  <data name="DemoMediaIconMegaphone" xml:space="preserve"><value>Annuncio</value></data>
+  <data name="DemoMediaIconSignIn" xml:space="preserve"><value>Accedi</value></data>
+  <data name="DemoMediaIconTarget" xml:space="preserve"><value>Obiettivo</value></data>
+  <data name="DemoMediaIconToggleLeft" xml:space="preserve"><value>Disattivato</value></data>
+  <data name="DemoMediaIconTray" xml:space="preserve"><value>Posta in arrivo</value></data>
+  <data name="DemoMediaIconCpu" xml:space="preserve"><value>Processore</value></data>
+  <data name="DemoMediaIconFilePlus" xml:space="preserve"><value>Nuovo file</value></data>
+  <data name="DemoMediaIconHandTap" xml:space="preserve"><value>Attivazione manuale</value></data>
+  <data name="DemoMediaIconPause" xml:space="preserve"><value>Pausa</value></data>
+  <data name="DemoMediaIconToggleRight" xml:space="preserve"><value>Attivato</value></data>
+  <data name="DemoMediaIconWebhook" xml:space="preserve"><value>Webhook</value></data>
+  <data name="DemoMediaIconWifiSlash" xml:space="preserve"><value>Rete interrotta</value></data>
+  <data name="DemoMediaIconScissors" xml:space="preserve"><value>Taglia</value></data>
+  <data name="DemoMediaIconClipboard" xml:space="preserve"><value>Incolla</value></data>
+  <data name="DemoMediaIconThumbsUp" xml:space="preserve"><value>Utile</value></data>
+  <data name="DemoMediaIconThumbsDown" xml:space="preserve"><value>Non utile</value></data>
+  <data name="DemoMediaIconLightbulb" xml:space="preserve"><value>Suggerimento</value></data>
+  <data name="DemoMediaIconKeyboard" xml:space="preserve"><value>Tastiera</value></data>
+  <data name="DemoMediaIconFlag" xml:space="preserve"><value>Segnala</value></data>
+  <data name="DemoMediaIconHighlighter" xml:space="preserve"><value>Evidenzia</value></data>
+  <data name="DemoMediaIconChartPie" xml:space="preserve"><value>Ripartizione</value></data>
+  <data name="DemoMediaIconChartDonut" xml:space="preserve"><value>Proporzione</value></data>
+  <data name="DemoMediaIconCircle" xml:space="preserve"><value>Cerchio</value></data>
+  <data name="DemoMediaIconBookmark" xml:space="preserve"><value>Segnalibro</value></data>
+  <data name="DemoMediaIconUserMinus" xml:space="preserve"><value>Rimuovi un membro</value></data>
+  <data name="DemoMediaIconSelectionSlash" xml:space="preserve"><value>Deseleziona</value></data>
+  <data name="DemoMediaIconSmiley" xml:space="preserve"><value>Caratteri speciali</value></data>
+  <data name="DemoMediaIconSkipBack" xml:space="preserve"><value>Brano precedente</value></data>
+  <data name="DemoMediaIconSkipForward" xml:space="preserve"><value>Brano successivo</value></data>
+  <data name="DemoMediaIconShuffle" xml:space="preserve"><value>Riproduzione casuale</value></data>
+  <data name="DemoMediaIconRepeat" xml:space="preserve"><value>Ripeti</value></data>
+  <data name="DemoMediaIconRepeatOnce" xml:space="preserve"><value>Ripeti una volta</value></data>
+  <data name="DemoMediaIconSpeakerHigh" xml:space="preserve"><value>Volume alto</value></data>
+  <data name="DemoMediaIconSpeakerLow" xml:space="preserve"><value>Volume basso</value></data>
+  <data name="DemoMediaIconSpeakerNone" xml:space="preserve"><value>Volume a zero</value></data>
+  <data name="DemoMediaIconSpeakerX" xml:space="preserve"><value>Audio disattivato</value></data>
+  <data name="DemoMediaIconQueue" xml:space="preserve"><value>Coda</value></data>
+  <data name="DemoMediaIconPlaylist" xml:space="preserve"><value>Playlist</value></data>
+  <data name="DemoMediaIconListPlus" xml:space="preserve"><value>Aggiungi all'elenco</value></data>
+  <data name="DemoMediaIconMusicNote" xml:space="preserve"><value>Brano</value></data>
+  <data name="DemoMediaIconDisc" xml:space="preserve"><value>Album</value></data>
+  <data name="DemoMediaIconWaveform" xml:space="preserve"><value>Forma d'onda</value></data>
+  <data name="DemoMediaIconDotsSixVertical" xml:space="preserve"><value>Maniglia di trascinamento</value></data>
+  <data name="DemoMediaIconCornersIn" xml:space="preserve"><value>Riduci la visualizzazione</value></data>
+  <data name="DemoMediaIconPlayCircle" xml:space="preserve"><value>Riproduci</value></data>
+  <data name="DemoMediaIconPauseCircle" xml:space="preserve"><value>Pausa</value></data>
+  <data name="DemoMediaIconXCircle" xml:space="preserve"><value>Annulla</value></data>
+  <data name="DemoMediaIconChartBar" xml:space="preserve"><value>Istogramma</value></data>
+  <data name="DemoMediaIconBookOpen" xml:space="preserve"><value>Libro aperto</value></data>
+  <data name="DemoMediaIconArrowsDownUp" xml:space="preserve"><value>Scambia verticalmente</value></data>
+  <data name="DemoMediaIconFolderPlus" xml:space="preserve"><value>Nuova cartella</value></data>
+  <data name="DemoMediaIconTelevision" xml:space="preserve"><value>Schermo</value></data>
+  <data name="DemoMediaIconSealCheck" xml:space="preserve"><value>Verificato</value></data>
+  <data name="DemoMediaIconCheckSquare" xml:space="preserve"><value>Casella selezionata</value></data>
+  <data name="DemoMediaIconArrowBendUpRight" xml:space="preserve"><value>Sposta</value></data>
+  <data name="DemoMediaIconStethoscope" xml:space="preserve"><value>Diagnosi</value></data>
+  <data name="DemoMediaIconChevronLeft" xml:space="preserve"><value>Precedente</value></data>
+  <data name="DemoMediaIconEnvelope" xml:space="preserve"><value>E-mail</value></data>
+  <data name="DemoMediaIconCurrencyEur" xml:space="preserve"><value>Importo in euro</value></data>
+  <data name="DemoMediaIconShareNetwork" xml:space="preserve"><value>Condividi</value></data>
+  <data name="DemoMediaIconBank" xml:space="preserve"><value>Istituto finanziario</value></data>
+  <data name="DemoMediaIconBriefcase" xml:space="preserve"><value>Incarico</value></data>
+  <data name="DemoMediaIconIdentificationBadge" xml:space="preserve"><value>Badge identificativo</value></data>
+  <data name="DemoMediaIconFilePdf" xml:space="preserve"><value>Documento PDF</value></data>
+  <data name="DemoMediaIconHeadset" xml:space="preserve"><value>Assistenza</value></data>
+  <data name="DemoMediaIconHandshake" xml:space="preserve"><value>Partnership</value></data>
+  <data name="DemoMediaIconArrowUp" xml:space="preserve"><value>Rialzo</value></data>
+  <data name="DemoAnnotatedValidationName" xml:space="preserve"><value>Nome del progetto</value></data>
+  <data name="DemoAnnotatedValidationMail" xml:space="preserve"><value>E-mail del responsabile</value></data>
+  <data name="DemoAnnotatedValidationMailConfirmation" xml:space="preserve"><value>Conferma dell'e-mail</value></data>
+  <data name="DemoAnnotatedValidationReplicas" xml:space="preserve"><value>Repliche</value></data>
+  <data name="DemoOverlayOpenDialog" xml:space="preserve"><value>Apri la finestra di dialogo</value></data>
+  <data name="DemoOverlaySave" xml:space="preserve"><value>Salva</value></data>
+  <data name="DemoOverlayMoreSaves" xml:space="preserve"><value>Altri salvataggi</value></data>
+  <data name="DemoOverlaySaveAndClose" xml:space="preserve"><value>Salva e chiudi</value></data>
+  <data name="DemoOverlaySaveCopy" xml:space="preserve"><value>Salva una copia</value></data>
+  <data name="DemoOverlayPublishUnavailable" xml:space="preserve"><value>Pubblica, non disponibile</value></data>
+  <data name="DemoOverlayFolderActions" xml:space="preserve"><value>Azioni della cartella</value></data>
+  <data name="DemoOverlayContextTrigger" xml:space="preserve"><value>Azioni (clic destro o MAIUSC+F10)</value></data>
+  <data name="DemoOverlayDuplicate" xml:space="preserve"><value>Duplica</value></data>
+  <data name="DemoOverlayExport" xml:space="preserve"><value>Esporta</value></data>
+  <data name="DemoOverlayDelete" xml:space="preserve"><value>Elimina</value></data>
+  <data name="DemoOverlayDeleteFolder" xml:space="preserve"><value>Elimina la cartella</value></data>
+  <data name="DemoOverlayRunningTasks" xml:space="preserve"><value>Attività in corso</value></data>
+  <data name="DemoOverlayBackupStep" xml:space="preserve"><value>Backup notturno, passaggio {0} di {1}.</value></data>
+  <data name="DemoOverlayViewProgress" xml:space="preserve"><value>Visualizza l'avanzamento</value></data>
+  <data name="DemoOverlayProgressOpened" xml:space="preserve"><value>Avanzamento aperto</value></data>
+  <data name="DemoOverlayQuickFilter" xml:space="preserve"><value>Filtro rapido</value></data>
+  <data name="DemoOverlayFilter" xml:space="preserve"><value>Filtra</value></data>
+  <data name="DemoOverlayFilterBody" xml:space="preserve"><value>Il pannello si allinea all'inizio del pulsante.</value></data>
+  <data name="DemoOverlayAccountMenu" xml:space="preserve"><value>Menu dell'account</value></data>
+  <data name="DemoOverlayMyProfile" xml:space="preserve"><value>Il mio profilo</value></data>
+  <data name="DemoOverlaySignOut" xml:space="preserve"><value>Disconnetti</value></data>
+  <data name="DemoOverlaySignedOut" xml:space="preserve"><value>Disconnessione</value></data>
+  <data name="DemoOverlayAdminUnavailable" xml:space="preserve"><value>Amministrazione, non disponibile</value></data>
+  <data name="DemoOverlayStickyButton" xml:space="preserve"><value>Dialogo che ignora il velo</value></data>
+  <data name="DemoOverlayBlockingButton" xml:space="preserve"><value>Dialogo a chiusura obbligata</value></data>
+  <data name="DemoOverlaySizeSmall" xml:space="preserve"><value>Piccolo</value></data>
+  <data name="DemoOverlaySizeMedium" xml:space="preserve"><value>Medio</value></data>
+  <data name="DemoOverlaySizeLarge" xml:space="preserve"><value>Largo</value></data>
+  <data name="DemoOverlaySizeExtraLarge" xml:space="preserve"><value>Molto largo</value></data>
+  <data name="DemoOverlaySizeFull" xml:space="preserve"><value>Larghezza intera</value></data>
+  <data name="DemoOverlaySizedTitle" xml:space="preserve"><value>Larghezza del dialogo</value></data>
+  <data name="DemoOverlaySizedBody" xml:space="preserve"><value>Questo dialogo è aperto nella dimensione {0}.</value></data>
+  <data name="DemoOverlayIntentAccent" xml:space="preserve"><value>Modulo (accento)</value></data>
+  <data name="DemoOverlayIntentInfo" xml:space="preserve"><value>Informazione</value></data>
+  <data name="DemoOverlayIntentSuccess" xml:space="preserve"><value>Riuscita</value></data>
+  <data name="DemoOverlayIntentWarning" xml:space="preserve"><value>Conferma (avviso)</value></data>
+  <data name="DemoOverlayIntentDanger" xml:space="preserve"><value>Eliminazione (pericolo)</value></data>
+  <data name="DemoOverlayIntentTitle" xml:space="preserve"><value>Parametri di esecuzione</value></data>
+  <data name="DemoOverlayIntentBody" xml:space="preserve"><value>Questo dialogo ha l'intento {0}.</value></data>
+  <data name="DemoOverlayConfirm" xml:space="preserve"><value>Conferma</value></data>
+  <data name="DemoOverlayCancel" xml:space="preserve"><value>Annulla</value></data>
+  <data name="DemoOverlayPipelineActions" xml:space="preserve"><value>Azioni della pipeline</value></data>
+  <data name="DemoOverlayEdit" xml:space="preserve"><value>Modifica</value></data>
+  <data name="DemoOverlayUpdate" xml:space="preserve"><value>Aggiorna</value></data>
+  <data name="DemoOverlayRowActions" xml:space="preserve"><value>Azioni della riga</value></data>
+  <data name="DemoOverlayLastAction" xml:space="preserve"><value>Ultima azione: {0}</value></data>
+  <data name="DemoOverlayNoAction" xml:space="preserve"><value>nessuna</value></data>
+  <data name="DemoOverlayNoticeInfoTitle" xml:space="preserve"><value>Informazione</value></data>
+  <data name="DemoOverlayNoticeInfo" xml:space="preserve"><value>L'elaborazione notturna partirà alle {0}.</value></data>
+  <data name="DemoOverlayNoticeDoneTitle" xml:space="preserve"><value>Completato</value></data>
+  <data name="DemoOverlayNoticeDone" xml:space="preserve"><value>I {0} documenti sono stati importati.</value></data>
+  <data name="DemoOverlayNotificationClosed" xml:space="preserve"><value>Notifica chiusa</value></data>
+  <data name="DemoOverlayNoticeQuota" xml:space="preserve"><value>La quota è quasi raggiunta.</value></data>
+  <data name="DemoOverlayNoticeFailedTitle" xml:space="preserve"><value>Errore</value></data>
+  <data name="DemoOverlayNoticeFailed" xml:space="preserve"><value>La connessione al servizio non è riuscita.</value></data>
+  <data name="DemoOverlayConfirmTitle" xml:space="preserve"><value>Conferma l'eliminazione</value></data>
+  <data name="DemoOverlayClose" xml:space="preserve"><value>Chiudi</value></data>
+  <data name="DemoOverlayConfirmBody" xml:space="preserve"><value>Questa azione rimuove la cartella dall'elenco. È reversibile per trenta giorni.</value></data>
+  <data name="DemoOverlayDeletionConfirmed" xml:space="preserve"><value>Eliminazione confermata</value></data>
+  <data name="DemoOverlayStickyTitle" xml:space="preserve"><value>Filtro in corso</value></data>
+  <data name="DemoOverlayStickyBody" xml:space="preserve"><value>Un clic all'esterno non chiude questo dialogo: lo chiudono la croce ed ESC.</value></data>
+  <data name="DemoOverlayBlockingTitle" xml:space="preserve"><value>Migrazione in corso</value></data>
+  <data name="DemoOverlayBlockingBody" xml:space="preserve"><value>Né la croce, né ESC, né il velo: solo il pulsante del dialogo lo chiude.</value></data>
+  <data name="DemoOverlayFinish" xml:space="preserve"><value>Termina</value></data>
+  <data name="DemoOverlayMigrationDone" xml:space="preserve"><value>Migrazione completata</value></data>
+  <data name="DemoEditorBodyLabel" xml:space="preserve"><value>Corpo della lettera</value></data>
+  <data name="DemoEditorSourceLabel" xml:space="preserve"><value>Sorgente della lettera</value></data>
+  <data name="DemoEditorAnnotatedLabel" xml:space="preserve"><value>Articolo annotato</value></data>
+  <data name="DemoEditorPosition" xml:space="preserve"><value>Posizione: {0}</value></data>
+  <data name="DemoEditorOutsideText" xml:space="preserve"><value>fuori dal testo</value></data>
+  <data name="DemoEditorRoot" xml:space="preserve"><value>radice</value></data>
+  <data name="DemoEditorExtendedLabel" xml:space="preserve"><value>Parere commentato</value></data>
+  <data name="DemoEditorReportLabel" xml:space="preserve"><value>Relazione</value></data>
+  <data name="DemoEditorReportFileName" xml:space="preserve"><value>relazione</value></data>
+  <data name="DemoEditorCodeLabel" xml:space="preserve"><value>Impostazioni JSON</value></data>
+  <data name="DemoEditorIconBold" xml:space="preserve"><value>Grassetto</value></data>
+  <data name="DemoEditorIconItalic" xml:space="preserve"><value>Corsivo</value></data>
+  <data name="DemoEditorIconUnderline" xml:space="preserve"><value>Sottolineato</value></data>
+  <data name="DemoEditorIconStrikethrough" xml:space="preserve"><value>Barrato</value></data>
+  <data name="DemoEditorIconSubscript" xml:space="preserve"><value>Pedice</value></data>
+  <data name="DemoEditorIconSuperscript" xml:space="preserve"><value>Apice</value></data>
+  <data name="DemoEditorIconBulletList" xml:space="preserve"><value>Elenco puntato</value></data>
+  <data name="DemoEditorIconIndent" xml:space="preserve"><value>Aumenta rientro</value></data>
+  <data name="DemoEditorIconOutdent" xml:space="preserve"><value>Riduci rientro</value></data>
+  <data name="DemoEditorIconQuote" xml:space="preserve"><value>Citazione</value></data>
+  <data name="DemoEditorIconInlineCode" xml:space="preserve"><value>Codice in linea</value></data>
+  <data name="DemoEditorIconCodeBlock" xml:space="preserve"><value>Blocco di codice</value></data>
+  <data name="DemoEditorIconLink" xml:space="preserve"><value>Collegamento</value></data>
+  <data name="DemoEditorIconUnlink" xml:space="preserve"><value>Rimuovi collegamento</value></data>
+  <data name="DemoEditorIconAlignLeft" xml:space="preserve"><value>Allinea a sinistra</value></data>
+  <data name="DemoEditorIconAlignCenter" xml:space="preserve"><value>Centra</value></data>
+  <data name="DemoEditorIconAlignRight" xml:space="preserve"><value>Allinea a destra</value></data>
+  <data name="DemoEditorIconJustify" xml:space="preserve"><value>Giustifica</value></data>
+  <data name="DemoEditorIconUndo" xml:space="preserve"><value>Annulla</value></data>
+  <data name="DemoEditorIconRedo" xml:space="preserve"><value>Ripeti</value></data>
+  <data name="DemoEditorIconClearFormatting" xml:space="preserve"><value>Cancella formattazione</value></data>
+  <data name="DemoEditorIconHtmlSource" xml:space="preserve"><value>Sorgente HTML</value></data>
+  <data name="DemoEditorIconTable" xml:space="preserve"><value>Tabella</value></data>
+  <data name="DemoEditorManifest" xml:space="preserve"><value>Manifesto di distribuzione</value></data>
+  <data name="DemoEditorManifestHelp" xml:space="preserve"><value>Un solo file, apre la finestra di selezione del sistema.</value></data>
+  <data name="DemoEditorUploadFailed" xml:space="preserve"><value>Il caricamento non è riuscito.</value></data>
+  <data name="DemoEditorUploaded" xml:space="preserve"><value>File caricati: {0}</value></data>
+  <data name="DemoEditorNoUpload" xml:space="preserve"><value>nessuno</value></data>
+  <data name="DemoEditorTestCommand" xml:space="preserve"><value>Comando di test</value></data>
+  <data name="DemoEditorConfigurationSample" xml:space="preserve"><value>Esempio di configurazione</value></data>
+  <data name="DemoEditorExcerptTitle" xml:space="preserve"><value>Estratto, righe da {0} a {1}</value></data>
+  <data name="DemoEditorCompareLabel" xml:space="preserve"><value>Confronta due configurazioni</value></data>
+  <data name="DemoEditorSignatureText" xml:space="preserve"><value>Il servizio pratiche</value></data>
+  <data name="DemoEditorReferenceText" xml:space="preserve"><value>Riferimento: {0}</value></data>
+  <data name="DemoEditorInsertSignatureBlock" xml:space="preserve"><value>Inserisci il blocco della firma</value></data>
+  <data name="DemoEditorAddSignature" xml:space="preserve"><value>Aggiungi la firma</value></data>
+  <data name="DemoEditorInsertReference" xml:space="preserve"><value>Inserisci il riferimento</value></data>
+  <data name="DemoEditorAddNote" xml:space="preserve"><value>Aggiungi una nota</value></data>
+  <data name="DemoEditorNewNoteSentence" xml:space="preserve"><value>Nuova nota.</value></data>
+  <data name="DemoEditorNewNote" xml:space="preserve"><value>Nuova nota</value></data>
+  <data name="DemoEditorRemoveNote" xml:space="preserve"><value>Rimuovi la nota</value></data>
+  <data name="DemoEditorArticleText" xml:space="preserve"><value>Articolo 1. Il presente regolamento si applica alle pratiche ricevute.</value></data>
+  <data name="DemoEditorArticleDelay" xml:space="preserve"><value>Termine</value></data>
+  <data name="DemoEditorArticleDocument" xml:space="preserve"><value>Documento</value></data>
+  <data name="DemoEditorArticleDays" xml:space="preserve"><value>{0} giorni</value></data>
+  <data name="DemoEditorArticleForm" xml:space="preserve"><value>Modulo</value></data>
+  <data name="DemoEditorArticleNote" xml:space="preserve"><value>Nota: testo consolidato al 1° gennaio.</value></data>
+  <data name="DemoEditorOpinion" xml:space="preserve"><value>Parere favorevole con riserva{0}.</value></data>
+  <data name="DemoEditorOpinionNote" xml:space="preserve"><value>verificare il termine</value></data>
+  <data name="DemoEditorSuggestTrigger" xml:space="preserve"><value>con riserva</value></data>
+  <data name="DemoEditorSuggestCompletion" xml:space="preserve"><value> di verifica</value></data>
+  <data name="DemoEditorReportParagraph" xml:space="preserve"><value>Un paragrafo {0}.</value></data>
+  <data name="DemoEditorReportImportant" xml:space="preserve"><value>importante</value></data>
+  <data name="DemoEditorReportFirstPoint" xml:space="preserve"><value>Primo punto</value></data>
+  <data name="DemoEditorReportSecondPoint" xml:space="preserve"><value>Secondo punto</value></data>
+  <data name="DemoEditorBodyGreeting" xml:space="preserve"><value>Gentile Signora, Egregio Signore,</value></data>
+  <data name="DemoEditorBodyText" xml:space="preserve"><value>La sua pratica è stata ricevuta.</value></data>
+  <data name="DemoEditorEmptyFile" xml:space="preserve"><value>Un file è vuoto.</value></data>
+  <data name="DemoChoiceShippingLabel" xml:space="preserve"><value>Modalità di spedizione</value></data>
+  <data name="DemoChoiceExtrasLabel" xml:space="preserve"><value>Opzioni della pratica</value></data>
+  <data name="DemoChoicePeriodLabel" xml:space="preserve"><value>Periodo</value></data>
+  <data name="DemoChoicePin" xml:space="preserve"><value>Fissa</value></data>
+  <data name="DemoChoiceUnavailable" xml:space="preserve"><value>Non disponibile</value></data>
+  <data name="DemoChoiceSaving" xml:space="preserve"><value>Salvataggio</value></data>
+  <data name="DemoChoiceLabelledCheck" xml:space="preserve"><value>Casella con la sua etichetta</value></data>
+  <data name="DemoChoiceTriStateCheck" xml:space="preserve"><value>Casella a tre stati</value></data>
+  <data name="DemoChoiceTriStateSwitch" xml:space="preserve"><value>Interruttore a tre stati</value></data>
+  <data name="DemoChoiceTriStateValue" xml:space="preserve"><value>Stato a tre posizioni: {0}</value></data>
+  <data name="DemoChoiceIndeterminate" xml:space="preserve"><value>indeterminato</value></data>
+  <data name="DemoChoiceOn" xml:space="preserve"><value>attivato</value></data>
+  <data name="DemoChoiceOff" xml:space="preserve"><value>disattivato</value></data>
+  <data name="DemoChoiceTextFirstCheck" xml:space="preserve"><value>Etichetta prima della casella</value></data>
+  <data name="DemoChoiceTextFirstSwitch" xml:space="preserve"><value>Etichetta prima dell'interruttore</value></data>
+  <data name="DemoChoicePlatformLabel" xml:space="preserve"><value>Sistema dell'agente</value></data>
+  <data name="DemoChoiceWindowsDescription" xml:space="preserve"><value>Windows Server 2022 e successivi</value></data>
+  <data name="DemoChoiceFeaturesLabel" xml:space="preserve"><value>Funzionalità dell'agente</value></data>
+  <data name="DemoChoiceRunnerTitle" xml:space="preserve"><value>Esecutore di pipeline</value></data>
+  <data name="DemoChoiceRunnerDescription" xml:space="preserve"><value>Esegue i passaggi su questa macchina.</value></data>
+  <data name="DemoChoiceDockerDescription" xml:space="preserve"><value>Richiesto dall'esecutore.</value></data>
+  <data name="DemoChoiceRating" xml:space="preserve"><value>Valutazione</value></data>
+  <data name="DemoChoiceRatingReadOnly" xml:space="preserve"><value>Valutazione in sola lettura</value></data>
+  <data name="DemoChoiceRatingDisabled" xml:space="preserve"><value>Valutazione disattivata</value></data>
+  <data name="DemoChoiceShippingStandard" xml:space="preserve"><value>Standard</value></data>
+  <data name="DemoChoiceShippingExpress" xml:space="preserve"><value>Express</value></data>
+  <data name="DemoChoiceShippingPickup" xml:space="preserve"><value>Ritiro in agenzia</value></data>
+  <data name="DemoChoiceExtraReceipt" xml:space="preserve"><value>Avviso di ricevimento</value></data>
+  <data name="DemoChoiceExtraCertifiedCopy" xml:space="preserve"><value>Copia autenticata</value></data>
+  <data name="DemoChoiceExtraTracking" xml:space="preserve"><value>Monitoraggio via e-mail</value></data>
+  <data name="DemoChoicePeriodDay" xml:space="preserve"><value>Giorno</value></data>
+  <data name="DemoChoicePeriodMonth" xml:space="preserve"><value>Mese</value></data>
+  <data name="DemoChoicePeriodYear" xml:space="preserve"><value>Anno</value></data>
+  <data name="DemoChoiceFeatureCache" xml:space="preserve"><value>Cache delle dipendenze</value></data>
+  <data name="DemoChoiceFeatureArtifacts" xml:space="preserve"><value>Conservazione degli artefatti</value></data>
+  <data name="DemoChoiceFeatureGpu" xml:space="preserve"><value>Accelerazione GPU</value></data>
+  <data name="DemoInputsAmount" xml:space="preserve"><value>Importo</value></data>
+  <data name="DemoInputsQuantity" xml:space="preserve"><value>Quantità</value></data>
+  <data name="DemoInputsQuantityHelp" xml:space="preserve"><value>Tra {0} e {1}: un valore fuori dai limiti viene riportato al limite più vicino.</value></data>
+  <data name="DemoInputsPassword" xml:space="preserve"><value>Password</value></data>
+  <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Il pulsante mostra il testo digitato senza copiarlo altrove.</value></data>
+  <data name="DemoInputsDate" xml:space="preserve"><value>Data di decorrenza</value></data>
+  <data name="DemoInputsDateHelp" xml:space="preserve"><value>Digitazione da tastiera o calendario; i giorni fuori dai limiti non si possono scegliere.</value></data>
+  <data name="DemoInputsStart" xml:space="preserve"><value>Ora di inizio</value></data>
+  <data name="DemoInputsStartHelp" xml:space="preserve"><value>Ore da 00 a 23, minuti a passi di {0}.</value></data>
+  <data name="DemoInputsAppointment" xml:space="preserve"><value>Appuntamento</value></data>
+  <data name="DemoInputsAppointmentHelp" xml:space="preserve"><value>Calendario e colonne dell'ora in un unico pannello.</value></data>
+  <data name="DemoInputsColor" xml:space="preserve"><value>Colore di riferimento</value></data>
+  <data name="DemoInputsCity" xml:space="preserve"><value>Città</value></data>
+  <data name="DemoInputsCityHelp" xml:space="preserve"><value>La ricerca parte da due caratteri.</value></data>
+  <data name="DemoInputsCityPlaceholder" xml:space="preserve"><value>Inizia a scrivere</value></data>
+  <data name="DemoInputsPickedSummary" xml:space="preserve"><value>Data: {0}; ora: {1}; appuntamento: {2}</value></data>
+  <data name="DemoInputsNoDate" xml:space="preserve"><value>nessuna</value></data>
+  <data name="DemoInputsNoTime" xml:space="preserve"><value>nessuna</value></data>
+  <data name="DemoInputsNoAppointment" xml:space="preserve"><value>nessuno</value></data>
+  <data name="DemoFormName" xml:space="preserve"><value>Nome completo</value></data>
+  <data name="DemoFormNameHelp" xml:space="preserve"><value>Come apparirà sulla fattura.</value></data>
+  <data name="DemoFormNotes" xml:space="preserve"><value>Osservazioni</value></data>
+  <data name="DemoFormEmail" xml:space="preserve"><value>Indirizzo e-mail</value></data>
+  <data name="DemoFormEmailHelp" xml:space="preserve"><value>Il tipo sceglie la tastiera mobile e il riempimento automatico del browser.</value></data>
+  <data name="DemoFormPhone" xml:space="preserve"><value>Telefono</value></data>
+  <data name="DemoFormWebsite" xml:space="preserve"><value>Sito web</value></data>
+  <data name="DemoFormSearch" xml:space="preserve"><value>Cerca</value></data>
+  <data name="DemoFormSearchPlaceholder" xml:space="preserve"><value>Filtra l'elenco</value></data>
+  <data name="DemoFormBudget" xml:space="preserve"><value>Budget</value></data>
+  <data name="DemoFormTerms" xml:space="preserve"><value>Accetto le condizioni d'uso</value></data>
+  <data name="DemoFormAlerts" xml:space="preserve"><value>Ricevi gli avvisi</value></data>
+  <data name="DemoFormDynamicValues" xml:space="preserve"><value>Valori del modulo: {0}</value></data>
+  <data name="DemoFormDynamicName" xml:space="preserve"><value>Nome</value></data>
+  <data name="DemoFormDynamicAmount" xml:space="preserve"><value>Importo</value></data>
+  <data name="DemoFormDynamicComment" xml:space="preserve"><value>Commento</value></data>
+  <data name="DemoFormDynamicActive" xml:space="preserve"><value>Attivo</value></data>
+  <data name="DemoValidationName" xml:space="preserve"><value>Nome</value></data>
+  <data name="DemoValidationNameRequired" xml:space="preserve"><value>Il nome è obbligatorio.</value></data>
+  <data name="DemoValidationMail" xml:space="preserve"><value>E-mail</value></data>
+  <data name="DemoValidationMailRequired" xml:space="preserve"><value>L'e-mail è obbligatoria.</value></data>
+  <data name="DemoValidationSend" xml:space="preserve"><value>Invia</value></data>
+  <data name="DemoValidationAccepted" xml:space="preserve"><value>Il modulo è stato accettato.</value></data>
+  <data name="DemoValidationProjectName" xml:space="preserve"><value>Nome del progetto</value></data>
+  <data name="DemoValidationOwnerMail" xml:space="preserve"><value>E-mail del responsabile</value></data>
+  <data name="DemoValidationMailConfirmation" xml:space="preserve"><value>Conferma dell'e-mail</value></data>
+  <data name="DemoValidationReplicas" xml:space="preserve"><value>Repliche</value></data>
+  <data name="DemoValidationCheck" xml:space="preserve"><value>Verifica</value></data>
+  <data name="DemoValidationSimulateUnsaved" xml:space="preserve"><value>Simula modifiche non salvate</value></data>
+  <data name="DemoSelectionCountry" xml:space="preserve"><value>Paese</value></data>
+  <data name="DemoSelectionCountryPlaceholder" xml:space="preserve"><value>Scegli un paese</value></data>
+  <data name="DemoSelectionCities" xml:space="preserve"><value>Città servite</value></data>
+  <data name="DemoSelectionTags" xml:space="preserve"><value>Etichette</value></data>
+  <data name="DemoSelectionTagsCompact" xml:space="preserve"><value>Etichette, forma compatta</value></data>
+  <data name="DemoSelectionTagsFilterable" xml:space="preserve"><value>Etichette, ricerca e creazione</value></data>
+  <data name="DemoSelectionTagsPlaceholder" xml:space="preserve"><value>Scegli delle etichette</value></data>
+  <data name="DemoSelectionTagSearchPlaceholder" xml:space="preserve"><value>Cerca un'etichetta</value></data>
+  <data name="DemoSelectionBelgium" xml:space="preserve"><value>Belgio</value></data>
+  <data name="DemoSelectionFrance" xml:space="preserve"><value>Francia</value></data>
+  <data name="DemoSelectionLuxembourg" xml:space="preserve"><value>Lussemburgo</value></data>
+  <data name="DemoSelectionNetherlands" xml:space="preserve"><value>Paesi Bassi</value></data>
+  <data name="DemoSelectionTagUrgent" xml:space="preserve"><value>Urgente</value></data>
+  <data name="DemoSelectionTagInternal" xml:space="preserve"><value>Interno</value></data>
+  <data name="DemoSelectionTagArchived" xml:space="preserve"><value>Archiviato</value></data>
+  <data name="DemoFlowsCreateServer" xml:space="preserve"><value>Crea il server</value></data>
+  <data name="DemoFlowsStepIdentity" xml:space="preserve"><value>Identità</value></data>
+  <data name="DemoFlowsNameHelp" xml:space="preserve"><value>Avanti si attiva appena il nome è inserito.</value></data>
+  <data name="DemoFlowsServerName" xml:space="preserve"><value>Nome del server</value></data>
+  <data name="DemoFlowsStepOptions" xml:space="preserve"><value>Opzioni</value></data>
+  <data name="DemoFlowsDailyBackup" xml:space="preserve"><value>Backup giornaliero</value></data>
+  <data name="DemoFlowsBackupRequired" xml:space="preserve"><value>Seleziona il backup giornaliero per un server di produzione.</value></data>
+  <data name="DemoFlowsStepSummary" xml:space="preserve"><value>Riepilogo</value></data>
+  <data name="DemoFlowsSummaryName" xml:space="preserve"><value>Nome</value></data>
+  <data name="DemoFlowsSummaryBackup" xml:space="preserve"><value>Backup</value></data>
+  <data name="DemoFlowsBackupDaily" xml:space="preserve"><value>Giornaliero</value></data>
+  <data name="DemoFlowsBackupNone" xml:space="preserve"><value>Nessuno</value></data>
+  <data name="DemoFlowsOutcome" xml:space="preserve"><value>Risultato: {0}</value></data>
+  <data name="DemoFlowsOutcomePending" xml:space="preserve"><value>in corso</value></data>
+  <data name="DemoFlowsOutcomeCreated" xml:space="preserve"><value>server «{0}» creato</value></data>
+  <data name="DemoFlowsOutcomeCancelled" xml:space="preserve"><value>annullato</value></data>
+  <data name="DemoFlowsWizardInDialog" xml:space="preserve"><value>Procedura guidata in un dialogo</value></data>
+  <data name="DemoFlowsInviteTitle" xml:space="preserve"><value>Invita un membro</value></data>
+  <data name="DemoFlowsInviteSteps" xml:space="preserve"><value>Passaggi dell'invito</value></data>
+  <data name="DemoFlowsInvite" xml:space="preserve"><value>Invita</value></data>
+  <data name="DemoFlowsStepAddress" xml:space="preserve"><value>Indirizzo</value></data>
+  <data name="DemoFlowsAddressBody" xml:space="preserve"><value>L'indirizzo della persona invitata.</value></data>
+  <data name="DemoFlowsStepRole" xml:space="preserve"><value>Ruolo</value></data>
+  <data name="DemoFlowsRoleBody" xml:space="preserve"><value>Il ruolo che riceverà.</value></data>
+  <data name="DemoFlowsLoginDescription" xml:space="preserve"><value>Area di amministrazione</value></data>
+  <data name="DemoFlowsLoginLogo" xml:space="preserve"><value>Esercizio</value></data>
+  <data name="DemoFlowsUser" xml:space="preserve"><value>Nome utente</value></data>
+  <data name="DemoFlowsPassword" xml:space="preserve"><value>Password</value></data>
+  <data name="DemoFlowsSignIn" xml:space="preserve"><value>Accedi</value></data>
+  <data name="DemoFlowsSignInNote" xml:space="preserve"><value>Modulo consegnato all'host per «{0}».</value></data>
+  <data name="DemoFlowsReturnAfterSignIn" xml:space="preserve"><value>Ritorno dopo l'accesso: {0}</value></data>
+  <data name="DemoFlowsExternalRefused" xml:space="preserve"><value>Indirizzo esterno rifiutato: {0}</value></data>
+  <data name="DemoFlowsSimulateDrop" xml:space="preserve"><value>Simula un'interruzione</value></data>
+  <data name="DemoFlowsSimulateReject" xml:space="preserve"><value>Simula un rifiuto</value></data>
+  <data name="DemoFlowsConnection" xml:space="preserve"><value>Connessione: {0}</value></data>
+  <data name="DemoFlowsConnectionReconnecting" xml:space="preserve"><value>riconnessione</value></data>
+  <data name="DemoFlowsConnectionFailed" xml:space="preserve"><value>errore</value></data>
+  <data name="DemoFlowsConnectionRejected" xml:space="preserve"><value>rifiutata</value></data>
+  <data name="DemoFlowsConnectionEstablished" xml:space="preserve"><value>stabilita</value></data>
+  <data name="DemoFlowsReasonTimeout" xml:space="preserve"><value>il server non risponde più (tempo scaduto)</value></data>
+  <data name="DemoFlowsReasonExpired" xml:space="preserve"><value>sessione scaduta sul server</value></data>
+  <data name="DemoTreeLabel" xml:space="preserve"><value>Struttura delle cartelle</value></data>
+  <data name="DemoTreeEurope" xml:space="preserve"><value>Europa</value></data>
+  <data name="DemoTreeBelgium" xml:space="preserve"><value>Belgio</value></data>
+  <data name="DemoTreeCapitalText" xml:space="preserve"><value>{0}, capitale</value></data>
+  <data name="DemoTreeCapital" xml:space="preserve"><value>capitale</value></data>
+  <data name="DemoTreeFrance" xml:space="preserve"><value>Francia</value></data>
+  <data name="DemoTreeLuxembourg" xml:space="preserve"><value>Lussemburgo</value></data>
+  <data name="DemoTreeArchives" xml:space="preserve"><value>Archivi, caricati all'apertura</value></data>
+  <data name="DemoTreeSelection" xml:space="preserve"><value>Selezione: {0}</value></data>
+  <data name="DemoTreeNoSelection" xml:space="preserve"><value>nessuna</value></data>
+  <data name="DemoSpreadsheetLabel" xml:space="preserve"><value>Budget del trimestre</value></data>
+  <data name="DemoSpreadsheetStatus" xml:space="preserve"><value>Cella attiva: {0}. Totale del trimestre: {1}</value></data>
+  <data name="DemoSpreadsheetReadOnlyLabel" xml:space="preserve"><value>Lo stesso budget, in sola lettura</value></data>
+  <data name="DemoSpreadsheetItem" xml:space="preserve"><value>Voce</value></data>
+  <data name="DemoSpreadsheetJanuary" xml:space="preserve"><value>Gennaio</value></data>
+  <data name="DemoSpreadsheetFebruary" xml:space="preserve"><value>Febbraio</value></data>
+  <data name="DemoSpreadsheetMarch" xml:space="preserve"><value>Marzo</value></data>
+  <data name="DemoSpreadsheetQuarter" xml:space="preserve"><value>Trimestre</value></data>
+  <data name="DemoSpreadsheetRent" xml:space="preserve"><value>Affitto</value></data>
+  <data name="DemoSpreadsheetGroceries" xml:space="preserve"><value>Spesa</value></data>
+  <data name="DemoSpreadsheetEnergy" xml:space="preserve"><value>Energia</value></data>
+  <data name="DemoSpreadsheetTransport" xml:space="preserve"><value>Trasporti</value></data>
+  <data name="DemoSpreadsheetLeisure" xml:space="preserve"><value>Tempo libero</value></data>
+  <data name="DemoSpreadsheetTotal" xml:space="preserve"><value>Totale</value></data>
+  <data name="DemoSpreadsheetAverage" xml:space="preserve"><value>Media</value></data>
+  <data name="DemoDiagramReadOnly" xml:space="preserve"><value>Sola lettura</value></data>
+  <data name="DemoDiagramMindMapLabel" xml:space="preserve"><value>Mappa mentale: preparare un trasloco</value></data>
+  <data name="DemoDiagramGitGraphLabel" xml:space="preserve"><value>Cronologia con un ramo unito</value></data>
+  <data name="DemoDiagramMapSummary" xml:space="preserve"><value>{0} nodi, {1} collegamenti, {2} caratteri una volta salvata.</value></data>
+  <data name="DemoDiagramNewIdea" xml:space="preserve"><value>Nuova idea</value></data>
+  <data name="DemoDiagramNodeMove" xml:space="preserve"><value>Trasloco</value></data>
+  <data name="DemoDiagramNodePaperwork" xml:space="preserve"><value>Pratiche</value></data>
+  <data name="DemoDiagramNodeAddress" xml:space="preserve"><value>Cambiare indirizzo</value></data>
+  <data name="DemoDiagramNodeInsurance" xml:space="preserve"><value>Assicurazione casa</value></data>
+  <data name="DemoDiagramNodeBoxes" xml:space="preserve"><value>Scatoloni</value></data>
+  <data name="DemoDiagramNodeKitchen" xml:space="preserve"><value>Cucina</value></data>
+  <data name="DemoDiagramNodeBooks" xml:space="preserve"><value>Libri</value></data>
+  <data name="DemoDiagramNodeMovingDay" xml:space="preserve"><value>Giorno X</value></data>
+  <data name="DemoDiagramNodeTruck" xml:space="preserve"><value>Prenotare il furgone</value></data>
+  <data name="DemoDiagramNodeNeighbours" xml:space="preserve"><value>Avvisare i vicini</value></data>
+  <data name="DemoDiagramNoteBefore" xml:space="preserve"><value>Entro il 15</value></data>
 </root>

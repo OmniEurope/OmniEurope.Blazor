@@ -38,6 +38,7 @@ public partial class OmniTextArea
     private int CurrentLength => CurrentValueAsString?.Length ?? 0;
     private void HandleInput(ChangeEventArgs args) => CurrentValueAsString = args.Value?.ToString();
 
+    /// <summary>Takes the text as it is, null as an empty string; never fails.</summary>
     protected override bool TryParseValueFromString(string? value, out string result, out string validationErrorMessage)
     {
         result = value ?? string.Empty;
@@ -45,13 +46,22 @@ public partial class OmniTextArea
         return true;
     }
 
+    /// <summary>
+    /// Rejects a <see cref="Rows"/> below 1 or a <see cref="MaxLength"/> of zero or less with an
+    /// <see cref="ArgumentOutOfRangeException"/>.
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
 
-        if (Rows < 1 || MaxLength <= 0)
+        if (Rows < 1)
         {
-            throw new ArgumentOutOfRangeException(nameof(Rows), "Rows and MaxLength must be positive when provided.");
+            throw new ArgumentOutOfRangeException(nameof(Rows), Rows, "Rows must be at least 1.");
+        }
+
+        if (MaxLength <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(MaxLength), MaxLength, "MaxLength must be positive when provided.");
         }
     }
 }

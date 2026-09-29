@@ -18,14 +18,20 @@
   <data name="SettingsTextSize" xml:space="preserve"><value>Tekstin koko</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Tiiviys</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Säädinten koko</value></data>
-  <data name="SettingsControlSizeShort" xml:space="preserve"><value>Säätimet</value></data>
-  <data name="SettingsTextSizeShort" xml:space="preserve"><value>Teksti</value></data>
-  <data name="SettingsDensityShort" xml:space="preserve"><value>Tiiviys</value></data>
-  <data name="SettingsScale" xml:space="preserve"><value>Koot</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Oletus</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>oletus</value></data>
-  <data name="SettingsDecrease" xml:space="preserve"><value>Pienennä</value></data>
-  <data name="SettingsIncrease" xml:space="preserve"><value>Suurenna</value></data>
+  <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Pienennä tekstin kokoa</value></data>
+  <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Suurenna tekstin kokoa</value></data>
+  <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Pienennä säädinten kokoa</value></data>
+  <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Suurenna säädinten kokoa</value></data>
+  <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
+  <data name="SettingsLook" xml:space="preserve"><value>Teema ja koot</value></data>
+  <data name="SettingsLookTitle" xml:space="preserve"><value>Teema, paletti ja koot</value></data>
+  <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Teksti {1} · {2}</value></data>
+  <data name="SettingsLookSummaryFull" xml:space="preserve"><value>{0} · Teksti {1} · {2} · Säätimet {3}</value></data>
+  <data name="DensityCompact" xml:space="preserve"><value>Tiivis</value></data>
+  <data name="DensityComfortable" xml:space="preserve"><value>Mukava</value></data>
+  <data name="DensitySpacious" xml:space="preserve"><value>Väljä</value></data>
   <data name="ArcGaugeLabel" xml:space="preserve"><value>Mittari</value></data>
   <data name="LabelValuePair" xml:space="preserve"><value>{0}: {1}</value></data>
   <data name="ChartCategoryColumn" xml:space="preserve"><value>Luokka</value></data>
@@ -85,8 +91,6 @@
   <data name="GridExpandAll" xml:space="preserve"><value>Laajenna tai supista kaikki rivit</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Irrota kiinnitetyt sarakkeet</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Kiinnitä sarakkeet uudelleen</value></data>
-  <data name="GridShrinkColumn" xml:space="preserve"><value>Kavenna saraketta: {0}</value></data>
-  <data name="GridGrowColumn" xml:space="preserve"><value>Levennä saraketta: {0}</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Ensimmäinen sivu</value></data>
   <data name="PagerLast" xml:space="preserve"><value>Viimeinen sivu</value></data>
   <data name="PagerPageSize" xml:space="preserve"><value>Rivejä sivulla</value></data>
@@ -307,8 +311,8 @@
   <data name="MindMapFitView" xml:space="preserve"><value>Sovita</value></data>
   <data name="MindMapFontSize" xml:space="preserve"><value>Fonttikoko</value></data>
   <data name="MindMapItalic" xml:space="preserve"><value>Kursivointi</value></data>
-  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Nuolet: siirry solmujen välillä, Home: keskussolmu, Shift+nuolet: siirrä, Enter tai F2: nimeä uudelleen, N: uusi solmu, D: monista, C: keskitä, Delete: poista, + ja -: zoomaa, 0: sovita, Ctrl+Z ja Ctrl+Y: kumoa ja tee uudelleen, Shift+F10: valikko, Esc: poista valinta.</value></data>
-  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Nuolet: siirry solmujen välillä, Home: keskussolmu, C: keskitä, + ja -: zoomaa, 0: sovita, Shift+F10: valikko, Esc: poista valinta.</value></data>
+  <data name="MindMapKeyboardHint" xml:space="preserve"><value>Nuolet: siirry solmujen välillä, Home: keskussolmu, Vaihto+nuolet: siirrä, Enter tai F2: nimeä uudelleen, N: uusi solmu, D: monista, C: keskitä, Delete: poista, + ja -: zoomaa, 0: sovita, Ctrl+Z ja Ctrl+Y: kumoa ja tee uudelleen, Vaihto+F10: valikko, Esc: poista valinta.</value></data>
+  <data name="MindMapKeyboardHintReadOnly" xml:space="preserve"><value>Nuolet: siirry solmujen välillä, Home: keskussolmu, C: keskitä, + ja -: zoomaa, 0: sovita, Vaihto+F10: valikko, Esc: poista valinta.</value></data>
   <data name="MindMapLinkCancelHint" xml:space="preserve"><value>Esc: peruuta</value></data>
   <data name="MindMapLinkSelectSource" xml:space="preserve"><value>Napsauta lähdesolmua</value></data>
   <data name="MindMapLinkSelectTarget" xml:space="preserve"><value>Napsauta kohdesolmua</value></data>
@@ -348,6 +352,10 @@
   <data name="ProfileMenuLabel" xml:space="preserve"><value>Profiilivalikko</value></data>
   <data name="ProgressLabel" xml:space="preserve"><value>Edistyminen</value></data>
   <data name="ProgressValue" xml:space="preserve"><value>{0:0} %</value></data>
+  <data name="ProgressIndeterminate" xml:space="preserve"><value>Käynnissä</value></data>
+  <data name="TextAreaCount" xml:space="preserve"><value>{0} / {1}</value></data>
+  <data name="HeaderHome" xml:space="preserve"><value>Etusivu</value></data>
+  <data name="HeaderLogo" xml:space="preserve"><value>Logo</value></data>
   <data name="RadioButtonListInvalid" xml:space="preserve"><value>Valintanappien valinta ei kelpaa.</value></data>
   <data name="RequiredValidatorMessage" xml:space="preserve"><value>Tämä kenttä on pakollinen.</value></data>
   <data name="SchedulerPreviousPeriod" xml:space="preserve"><value>Edellinen jakso</value></data>
@@ -366,6 +374,7 @@
   <data name="SchedulerMoveCancelled" xml:space="preserve"><value>{0} pysyy paikallaan.</value></data>
   <data name="SchedulerMoved" xml:space="preserve"><value>{0} siirretty: {1}.</value></data>
   <data name="SelectBarInvalid" xml:space="preserve"><value>Segmenttivalinta ei kelpaa.</value></data>
+  <data name="SelectableCardGroupInvalid" xml:space="preserve"><value>Valinta ei kelpaa.</value></data>
   <data name="RatingLabel" xml:space="preserve"><value>Arvio</value></data>
   <data name="RatingStar" xml:space="preserve"><value>{0}/{1}</value></data>
   <data name="RatingValue" xml:space="preserve"><value>{0}: {1}/{2}</value></data>
@@ -451,8 +460,9 @@
   <data name="StepTimelineStepDescription" xml:space="preserve"><value>{0}, alkoi {1}, kesto</value></data>
   <data name="ConfirmAction" xml:space="preserve"><value>Vahvista</value></data>
   <data name="GoBack" xml:space="preserve"><value>Takaisin</value></data>
-  <data name="PageHeaderShowDetails" xml:space="preserve"><value>Näytä merkit ja toiminnot</value></data>
-  <data name="PageHeaderHideDetails" xml:space="preserve"><value>Piilota merkit ja toiminnot</value></data>
+  <data name="PageHeaderShowMore" xml:space="preserve"><value>Näytä lisää</value></data>
+  <data name="PageHeaderScrollTitleStart" xml:space="preserve"><value>Vieritä otsikko alkuun</value></data>
+  <data name="PageHeaderScrollTitleEnd" xml:space="preserve"><value>Vieritä otsikko loppuun</value></data>
   <data name="DetailNotFound" xml:space="preserve"><value>Kohdetta ei löytynyt</value></data>
   <data name="SignIn" xml:space="preserve"><value>Kirjaudu sisään</value></data>
   <data name="ConnectionLostTitle" xml:space="preserve"><value>Yhteys katkesi</value></data>
@@ -475,7 +485,7 @@
   <data name="WizardFinish" xml:space="preserve"><value>Valmis</value></data>
   <data name="RelativeTimeNow" xml:space="preserve"><value>juuri nyt</value></data>
   <data name="RelativeTimePast" xml:space="preserve"><value>{0} sitten</value></data>
-  <data name="RelativeTimeFuture" xml:space="preserve"><value>{0} myöhemmin</value></data>
+  <data name="RelativeTimeFuture" xml:space="preserve"><value>{0} päästä</value></data>
   <data name="RelativeTimeSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} t</value></data>
@@ -485,6 +495,15 @@
   <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} kuukautta</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} vuosi</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} vuotta</value></data>
+  <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
+  <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
+  <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} t</value></data>
+  <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} päivän</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} päivän</value></data>
+  <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} kuukauden</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} kuukauden</value></data>
+  <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} vuoden</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} vuoden</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Alleviivaus</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Yliviivaus</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Rivinsisäinen koodi</value></data>

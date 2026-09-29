@@ -12,26 +12,40 @@ par paramètres, délégués et fragments ; le temps, par le `TimeProvider` enre
 
 ```razor
 <OmniPageHeader ShowBack="true" Subtitle="@Projet.Description">
-    <Badges><OmniBadge Variant="OmniBadgeVariant.Warning">Archivé</OmniBadge></Badges>
+    <Badges><OmniBadge Tone="OmniTone.Warning">Archivé</OmniBadge></Badges>
     <Actions><OmniButton OnClick="Modifier"><OmniIcon Name="OmniIconName.Edit" /><span>Modifier</span></OmniButton></Actions>
+    <MenuContent>
+        <OmniMenuItem OnClick="Archiver">Archiver</OmniMenuItem>
+        <OmniMenuItem Tone="OmniTone.Danger" OnClick="Supprimer">Supprimer</OmniMenuItem>
+    </MenuContent>
     <Filters><OmniTextBox @bind-Value="Recherche" /></Filters>
 </OmniPageHeader>
 ```
 
-Un bloc encadré : les ancêtres sur la première ligne, puis retour, titre, badges et actions. Le sous-titre
-et les filtres viennent sous le cadre.
+Deux lignes de hauteur fixe (R-395, demande de l'équipe d'une application cliente), si bien que toutes les pages
+commencent leur contenu à la même hauteur :
+
+- ligne 1 : bouton retour, icône, titre, badges, actions, puis le menu « ⋮ » (`MenuContent`). Un titre
+  trop long défile entre deux chevrons posés de chaque côté au lieu de passer à la ligne. Sur téléphone,
+  un bouton « Voir plus » (`aria-expanded`) déplie badges et actions, le menu « ⋮ » restant visible ;
+- ligne 2, toujours réservée : le fil d'Ariane sous le titre, dont le dernier maillon est le titre de la
+  page, ou le sous-titre quand la page n'a pas d'ancêtre à montrer (ou avec `ShowTrail="false"`).
+
+Le sous-titre, quand la ligne 2 porte le fil, et les filtres viennent sous le bloc. Le script
+`omni-page-header.js` (défilement du titre, dépliage sur téléphone) est libéré par `DisposeAsync`.
 
 | Paramètre | Rôle |
 | --- | --- |
 | `Title` | Le titre. Vide, c'est le dernier maillon du fil qui titre la page, et un maillon encore en chargement affiche un squelette à sa place. |
 | `Level` | Niveau du titre, `H1` par défaut. |
-| `Subtitle`, `Filters` | Une ligne d'explication et une rangée de filtres, sous le cadre. |
-| `ShowTrail`, `TrailLabel` | La ligne des ancêtres (par défaut) et son nom accessible. Sans ancêtre, la ligne garde sa hauteur sans rendre de repère vide, pour que toutes les pages commencent leur contenu à la même hauteur. |
+| `Subtitle`, `Filters` | Une ligne d'explication (sur la ligne 2 sans ancêtre, sous le bloc sinon) et une rangée de filtres, sous le bloc. |
+| `ShowTrail`, `TrailLabel` | Le fil d'Ariane sur la ligne 2 (vrai par défaut) et son nom accessible. `false`, la ligne 2 montre le sous-titre. La ligne garde sa hauteur dans tous les cas. |
 | `ShowBack`, `BackHref`, `BackLabel` | Le bouton retour : vers `BackHref`, sinon vers l'ancêtre le plus proche qui porte un lien, sinon un pas en arrière dans l'historique du navigateur. |
-| `BackVariant` | L'aspect du bouton retour : `Ghost` par défaut (la navigation discrète du web) ; `Primary` pour une flèche mise en avant. |
-| `Badges`, `Actions` | Après le titre. Sous 40rem de large, ils se replient derrière un bouton (`aria-expanded`, `aria-controls`) et prennent une ligne entière une fois ouverts. |
+| `BackVariant` | L'aspect du bouton retour : `Primary` par défaut, la même flèche d'accent sur chaque page ; `Ghost` pour un retour discret. |
+| `Badges`, `Actions` | Après le titre, sur la ligne 1. Sur téléphone, ils se replient derrière le bouton « Voir plus » (`aria-expanded`). |
+| `MenuContent` | Les `OmniMenuItem` du menu « ⋮ » en fin de ligne 1, un `OmniOverflowMenu` ; aucun menu sans lui. Il reste visible sur téléphone. |
 | `Icon` | Icône avant le titre (`aria-hidden`, couleur primaire). Le titre est alors rogné à ses capitales, si bien que le centre de l'icône tombe sur le centre du texte quelle que soit la police. |
-| `Framed` | `false` par défaut : titre, badges et actions posés directement sur la page, sans bordure, fond ni marge intérieure. `true` les met dans un bloc bordé sur la surface. |
+| `Framed` | `false` par défaut : les deux lignes posées directement sur la page, sans bordure, fond ni marge intérieure, le titre commençant à l'aplomb du contenu. `true` les met dans un bloc bordé sur la surface. Le bloc garde sa hauteur fixe dans les deux cas. |
 
 `OmniBreadcrumbService` (inscrit par `AddOmniEuropeBlazor`, portée scoped) tient le fil de la page
 affichée. La bibliothèque ne connaît aucune route : l'hôte inscrit un `IOmniBreadcrumbResolver`, dont
@@ -86,7 +100,7 @@ pages d'authentification s'il le souhaite.
 
 ## Connexion perdue : `OmniConnectionOverlay`
 
-Un voile bloquant au-dessus de tout (`z-index` 130) tant que `State` n'est pas `Connected` :
+Un voile bloquant au-dessus de tout (`--omni-z-blocking`) tant que `State` n'est pas `Connected` :
 
 | État | Titre par défaut | Action |
 | --- | --- | --- |
@@ -107,8 +121,7 @@ paragraphe ; `Level` en fait un titre quand l'état vide ouvre une section.
 ## Tuile de statistique : `OmniStatTile`
 
 `Value` (déjà formatée), `Label` (obligatoire), `Detail` (ligne atténuée facultative) et `Icon` (carré
-teinté, décoratif). Avec `OnClick`, la tuile entière devient un bouton, nommé par `AriaLabel` ou, à
-défaut, par « libellé : valeur » ; sans lui, un simple bloc que rien n'active. La valeur ne passe pas
+teinté, décoratif). Avec `OnClick`, la tuile entière devient un bouton, nommé « libellé : valeur » ; sans lui, un simple bloc que rien n'active. La valeur ne passe pas
 à la ligne, le libellé et le détail peuvent se couper.
 
 ## Assistant : `OmniWizard` et `OmniWizardStep`
@@ -175,6 +188,8 @@ absolue (`Format`, date et heure complètes de la culture par défaut, dans `Tim
 par défaut) s'affiche dans une infobulle au survol et au focus clavier, et décrit l'élément aux lecteurs
 d'écran. L'unité est la plus grande contenue au moins une fois, arrondie vers le bas : secondes,
 minutes, heures, jours, mois de trente jours, années de 365 jours ; moins de cinq secondes donne « à
-l'instant », une date future « dans 5 min ». Maintenant est l'heure du `TimeProvider` enregistré dans les services de l'hôte
+l'instant », une date future « dans 5 min » (ses unités viennent de clés propres au futur,
+`RelativeTimeFutureSeconds` à `RelativeTimeFutureYears`, pour les langues où l'unité s'accorde autrement
+après « dans »). Maintenant est l'heure du `TimeProvider` enregistré dans les services de l'hôte
 (`TimeProvider.System` s'il n'en enregistre aucun). `RefreshInterval` redessine l'étiquette sur un
 minuteur créé par cette horloge, démarré après le rendu, détruit avec le composant.

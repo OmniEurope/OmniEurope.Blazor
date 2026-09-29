@@ -12,9 +12,18 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public enum OmniTextBoxType
 {
+    /// <summary>Plain text (<c>type="text"</c>). The default.</summary>
     Text,
+
+    /// <summary>An email address (<c>type="email"</c>).</summary>
     Email,
+
+    /// <summary>A telephone number (<c>type="tel"</c>).</summary>
     Tel,
+
+    /// <summary>A web address (<c>type="url"</c>).</summary>
     Url,
+
+    /// <summary>A search query (<c>type="search"</c>).</summary>
     Search
 }

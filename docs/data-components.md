@@ -16,19 +16,29 @@ La grille accepte deux sources exclusives.
   filtres actifs, ainsi qu'un `CancellationToken`. Une requête plus ancienne qui se termine après une
   plus récente est ignorée.
 
-`Count` impose le total lorsque l'hôte le connaît déjà. `IsLoading` force l'état occupé.
+`Count` impose le total lorsque l'hôte le connaît déjà. `Busy` dit que l'hôte charge lui-même les
+données d'une grille alimentée par `Items` : la grille se lit occupée et montre le même indicateur que
+pour ses propres requêtes.
 
-Pendant une requête au serveur (chargement d'une page, blocs d'une grille virtualisée demandés au
-défilement, `IsLoading`), une barre de chargement se dessine entre les en-têtes et la première ligne, sur
+Chargement (R-432, demande de l'équipe d'une application cliente) : tout chargement, requête de la grille (premier
+chargement compris, page, tri, filtre, bloc d'une grille virtualisée demandé au défilement) ou
+chargement de l'hôte signalé par `Busy`, dessine une barre entre les en-têtes et la première ligne, sur
 le tableau seul, dans une ligne sans hauteur : rien ne bouge quand elle vient ou part, et les lignes déjà
-là restent lisibles dessous. `ShowLoadingBar` (vrai par défaut) la retire ; `LoadingBarMode` choisit
-entre le balayage (`Sweep`, par défaut) et le remplissage continu (`Continuous`) d'`OmniLoadingBar`. Un
-rafraîchissement en direct garde ses lignes et ne montre pas de barre.
+là restent en place et lisibles dessous ; une grille sans ligne encore garde son corps vide sous la barre
+(ou `LoadingContent`). `ShowLoadingBar` (vrai par défaut) à `false` remplace au contraire les lignes, à
+chaque chargement, par la ligne de chargement (`LoadingContent` ou le texte localisé). `LoadingBarMode`
+choisit entre le balayage (`Sweep`, par défaut) et le remplissage continu (`Continuous`)
+d'`OmniLoadingBar`. Un rafraîchissement en direct garde ses lignes et ne montre pas de barre.
 
-Avec `LoadingContent`, la préparation initiale couvre la grille entière jusqu'à stabilisation
-de la plage virtualisée et chargement des images visibles. La grille conserve sa géométrie pendant
-cette attente et révèle ensuite son contenu en une fois. Une instance déjà préparée ne réaffiche
-pas ce voile lorsqu'elle redevient visible ; un nouveau `IsLoading` reste affiché normalement.
+Échec : quand `Load` lève, la grille affiche un message localisé suivi d'un bouton de reprise ;
+`ErrorContent` (`RenderFragment<Exception>`) remplace le message, le bouton restant, et `OnLoadError`
+reçoit l'exception pour que l'hôte la journalise (une requête annulée n'est pas un échec).
+`OmniDataList` a le même `OnLoadError`.
+
+Avec `LoadingContent`, la préparation initiale montre le gabarit sous les en-têtes jusqu'à
+stabilisation de la plage virtualisée et chargement des images visibles. La grille conserve sa
+géométrie pendant cette attente et révèle ensuite son contenu en une fois. Une instance déjà préparée
+ne réaffiche pas ce gabarit lorsqu'elle redevient visible.
 
 ## Colonnes
 
@@ -58,12 +68,12 @@ Une colonne se déclare par lambda ou par nom de propriété.
   porte sur la seule colonne sans largeur ; à plusieurs, ces colonnes se partagent la place à
   parts égales au-dessus de ce minimum global.
 - Une colonne alignée à la fin (`TextAlign`) aligne aussi son titre, à la fin de l'en-tête.
-- `TextAlign`, `CssClass`, `HeaderCssClass`, `Visible`, `Resizable`, `Sortable`, `Filterable` et
-  `Groupable` complètent la déclaration. `FooterTemplate` et `HeaderTemplate` remplacent les cellules
-  correspondantes.
+- `TextAlign`, `Class`, `HeaderClass`, `Visible`, `Resizable`, `Sortable`, `Filterable` et
+  `Groupable` complètent la déclaration. `HeaderContent` remplace le titre, `FooterContent` la cellule
+  de pied (fragments sans contexte).
 - Une cellule de texte (colonne sans `Template`) tient sur une ligne et se termine par des points de
   suspension au lieu de déborder sur la colonne voisine. Une cellule à gabarit n'est pas rognée, pour
-  ses badges, boutons, menus et champs d'édition ; `CssClass="omni-data-grid__cell--text"` l'inscrit
+  ses badges, boutons, menus et champs d'édition ; `Class="omni-data-grid__cell--text"` l'inscrit
   à la même règle. En affichage en cartes (`Responsive`), le texte revient à la ligne.
 - Des colonnes déclarées dans un `@foreach` peuvent capturer la variable de boucle dans leur
   `Template` ou leur `Value` : un délégué issu de la même lambda ne réinscrit pas la colonne. Les
@@ -78,7 +88,7 @@ Une colonne se déclare par lambda ou par nom de propriété.
   chargées, fourni par .NET (valeur ou `FormatString`), y compris les lignes virtualisées
   hors écran. Une colonne à `Template` n'est mesurée que sur ses lignes affichées, son rendu n'étant
   pas un texte connu de .NET. La largeur retenue respecte le plancher de la grille et le `MinWidth` de
-  la colonne, est persistée avec l'état (`StateKey`) et annoncée une seule fois par `ColumnWidthChanged`.
+  la colonne, est persistée avec l'état (`StateKey`) et annoncée une seule fois par `OnColumnResize`.
 - Sans aucune colonne déclarée, la grille rend une colonne unique portant la valeur de l'élément.
 
 ### Détacher les colonnes figées
@@ -210,7 +220,7 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
 
 ## Tri, filtres et regroupements
 
-- `AllowSorting`, `AllowFiltering`, `AllowColumnResize` et `AllowGrouping` coupent les
+- `AllowSorting`, `Filterable`, `AllowColumnResize` et `AllowGrouping` coupent les
   fonctions au niveau de la grille ; les paramètres de colonne affinent au niveau de la colonne.
 - `FilterMode` vaut `Simple` (une saisie par colonne), `SimpleWithMenu` (saisie plus sélecteur
   d'opérateur) ou `Advanced` (deux conditions jointes par `Et`/`Ou`, appliquées sur action explicite).
@@ -233,7 +243,7 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
   ferme, appliquer ou effacer aussi.
 - `OmniDataGridFilterOperator` couvre contient, ne contient pas, égal, différent, commence par, finit
   par, supérieur, supérieur ou égal, inférieur, inférieur ou égal, est nul, n'est pas nul, est vide
-  et n'est pas vide. Les filtres ignorent la casse ; `CaseSensitiveFilters` la fait compter.
+  et n'est pas vide. Les filtres ignorent la casse et les accents ; `CaseSensitiveFilters` fait compter la casse.
 ### Forme du contrôle de filtre
 
 `FilterType` (`OmniDataGridColumnFilterType`) choisit la forme du contrôle, sur un seul axe, parmi six formes :
@@ -247,10 +257,14 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
 | `DateRange` | début et fin facultatifs (`OmniDataGridFilterDateRange`) ; un jour seul couvre toute la journée, `FilterIncludesTime` ajoute les heures, et un chargeur distant reçoit deux bornes (`OmniDataGridDateRange`) |
 | `Number` | saisie numérique et opérateurs ordonnés (égal, supérieur, inférieur...), pour une colonne dont la valeur est lue par une fonction et dont la grille ne peut pas déduire le type |
 
-Les contrôles de `Combo`, `MultiSelect` et `DateRange` sont aussi publics, `OmniDataGridFilterCombo`, `OmniDataGridFilterMultiSelect` et `OmniDataGridFilterDateRange`, pour être posés à la main dans un `FilterTemplate`.
+Les contrôles de `Combo`, `MultiSelect` et `DateRange` sont aussi publics, `OmniDataGridFilterCombo` (`OnPick` au choix d'une suggestion), `OmniDataGridFilterMultiSelect` (`Filterable`, `FormatValue`) et `OmniDataGridFilterDateRange`, pour être posés à la main dans un `FilterTemplate` ; ils rendent leurs attributs supplémentaires et leur `Id`.
 
-`FilterSearchable` ajoute une boîte de recherche au-dessus d'une liste `MultiSelect`, pour une colonne
-dont le catalogue est trop long à parcourir à l'oeil. Les autres formes l'ignorent.
+`FilterSearchable` ajoute une boîte de recherche au-dessus d'une liste `MultiSelect` (le `Filterable` de
+cette liste), pour une colonne dont le catalogue est trop long à parcourir à l'oeil. Les autres formes
+l'ignorent. `FormatFilterValue` donne le texte affiché pour chaque valeur candidate (le nom traduit d'un
+membre d'énumération), la valeur filtrée restant la même. Les deux noms portent le préfixe `Filter`
+parce que `Filterable` et `FormatValue` désignent déjà le filtre de la colonne et ses cellules
+([public-api-conventions.md](public-api-conventions.md)).
 
 Dans la rangée de filtres, la liste `MultiSelect` est repliée sur une ligne qui résume les valeurs
 cochées et s'ouvre à la demande ; dans un menu d'en-tête elle s'affiche ouverte.
@@ -263,7 +277,7 @@ dit au modèle où il est rendu.
                     FilterType="OmniDataGridColumnFilterType.MultiSelect" FilterSearchable="true" />
 ```
 
-`FilterValues` impose la liste des candidats quand la grille ne peut pas la déduire, notamment sur une
+`FilterValues` (`IReadOnlyList<string>?`) impose la liste des candidats quand la grille ne peut pas la déduire, notamment sur une
 grille alimentée par `Load` qui ne voit que la page courante.
 
 ### Filtre entièrement sur mesure
@@ -285,48 +299,50 @@ candidates, le texte indicatif et le rappel qui applique une nouvelle valeur.
 La valeur écrite reste une chaîne : elle traverse la projection, la requête `Load` et l'état persisté
 comme n'importe quel autre filtre.
 
-- Les libellés `FilterText`, `ApplyFilterText`, `ClearFilterText`, `ContainsText`, `EqualsText`,
-  `NotEqualsText`, `AndOperatorText` et `OrOperatorText` remplacent les textes par défaut, eux-mêmes
-  localisés.
+- Les textes des filtres (libellés, opérateurs, Appliquer, Effacer) viennent des ressources du paquet ;
+  la grille n'a plus de paramètre de texte par instance, un hôte les remplace par
+  `AddOmniEuropeTextOverrides` ([localization.md](localization.md)).
 - `Groups` liste les regroupements actifs par clé de colonne, `GroupsChanged` les publie, et le
   panneau `ShowGroupPanel` les affiche avec un retrait par regroupement. `AllGroupsExpanded` fixe
   l'état initial ; chaque en-tête de groupe se replie individuellement.
 
 ## Sélection, lignes et édition
 
-- `SelectionMode`, `SelectedKeys`/`SelectedKeysChanged`, `Value`/`ValueChanged`, `KeySelector` ou
-  `KeyProperty`.
+- `SelectionMode` et `Value`/`ValueChanged` (lignes choisies, `IReadOnlyList<TItem>`) ; `KeyOf` donne la
+  clé qui reconnaît une ligne d'une page à l'autre. La page, la taille de page et la sélection sont un
+  état interne de la grille, recopié depuis les paramètres quand l'hôte les change.
 - En sélection multiple, une case d'en-tête coche ou décoche les lignes sélectionnables de la page
   affichée ; les sélections des autres pages restent en place. Elle n'existe pas en virtualisation.
-- `RowClick`, `RowDoubleClick`, `RowExpand`, `RowCollapse` et
+- `OnRowClick`, `OnRowDoubleClick`, `OnRowExpand`, `OnRowCollapse` et
   `AllowRowSelectOnRowClick`. Une ligne cliquable devient atteignable au clavier et répond à Entrée
   et Espace. Les cellules de contrôle (case, chevron, boutons d'édition) et les cellules d'une ligne
   en édition gardent leurs clics et leurs touches : cocher une case n'est pas aussi un clic de
   ligne qui la décocherait, et un espace tapé dans un éditeur ne sélectionne pas la ligne.
-- `RowMouseClick` accompagne `RowClick` avec un `OmniDataGridRowMouseEventArgs<TItem>` : l'élément, sa
+- `OnRowClick` et `OnRowDoubleClick` reçoivent un `OmniDataGridRowMouseEventArgs<TItem>` : l'élément, sa
   position et les touches Ctrl, Maj, Alt et Méta tenues (toutes fausses quand la ligne est activée au
-  clavier), pour sélectionner au Ctrl ou Maj clic et agir sur un clic simple. `RowContextMenu` reçoit le
+  clavier), pour sélectionner au Ctrl ou Maj clic et agir sur un clic simple. `OnRowContextMenu` reçoit le
   même objet au clic droit d'une ligne, sans le menu du navigateur ; l'événement remonte, si bien qu'un
   `OmniContextMenu` qui englobe la grille s'ouvre au pointeur.
-- `RowRender` reçoit un `OmniDataGridRowRenderArgs<TItem>` : classe CSS supplémentaire, ligne non
+- `RowRender` reçoit un `OmniDataGridRowRenderArgs<TItem>` : classe CSS supplémentaire (`Class`), ligne non
   sélectionnable, ligne non dépliable. Il ne peut pas produire de style inline.
 - `ShowEditColumn`, actif par défaut, ajoute la colonne d'actions d'édition dès qu'au moins une
   colonne visible porte un `EditTemplate` ; le mettre à `false` retire cette colonne et laisse l'hôte
   déclencher l'édition lui-même. Ses actions sont des boutons icône (crayon, coche, croix) nommés et
   titrés « Modifier », « Enregistrer » et « Annuler », dans une vraie cellule de tableau.
-- `EditMode` vaut `Single` ou `Multiple`. La grille tient son propre état d'édition via
-  `EditRowAsync`, `UpdateRowAsync` et `CancelEditAsync`, et le signale par `EditRequested`, `RowUpdated`
-  et `EditCancelled`.
-- `DetailTemplate` avec `ExpandMode`, `ShowExpandColumn`, `ShowExpandAll` et
-  `ExpandChildItemAriaLabel`. Le bouton d'en-tête de `ShowExpandAll` ouvre ou ferme les lignes de la
-  page affichée, sans toucher aux autres pages, et n'est proposé qu'en `ExpandMode.Multiple`.
+- `EditMode` (`OmniDataGridRowMode` : `Single` par défaut, `Multiple`). La grille tient son propre état
+  d'édition via `EditRowAsync`, `UpdateRowAsync` et `CancelEditAsync`, et le signale par `OnRowEdit`,
+  `OnRowUpdate` et `OnRowEditCancel`.
+- `DetailTemplate` avec `ExpandMode` (`OmniDataGridRowMode`, `Multiple` par défaut), `ShowExpandColumn`
+  et `ShowExpandAll` ; le nom accessible du chevron vient des ressources. Le bouton d'en-tête de
+  `ShowExpandAll` ouvre ou ferme les lignes de la page affichée, sans toucher aux autres pages, et n'est
+  proposé qu'en `OmniDataGridRowMode.Multiple`.
 
 ## Pagination
 
-`OmniPager` sert la grille et reste utilisable seul : boutons précédente, numéros de page et suivante, première et dernière avec `ShowFirstLast`, sélecteur de taille de page. Ses textes (titres et noms accessibles des boutons, résumé) viennent des ressources du paquet, remplaçables par `AddOmniEuropeTextOverrides` ([localization.md](localization.md)).
+`OmniPager` sert la grille et reste utilisable seul : boutons précédente, numéros de page et suivante, première et dernière avec `ShowFirstLast`, sélecteur de taille de page. Ses textes (titres et noms accessibles des boutons, libellé de taille de page, résumé) viennent des ressources du paquet, remplaçables par `AddOmniEuropeTextOverrides` ([localization.md](localization.md)) ; il n'a aucun paramètre de texte par bouton, et chaque bouton numéroté est nommé par son chiffre.
 
 - Seul, il prend ses propres paramètres : `Page`/`PageChanged` et `PageCount`, `PageSize`/`PageSizeChanged` et `PageSizeOptions`, `NumericPageCount` (nombre de numéros affichés), `ShowFirstLast`, `HorizontalAlign`, `Label` (nom de la navigation) et `Disabled`.
-- Dans la grille, on ne le pose pas : la grille le rend et le règle par ses paramètres à elle, `PageSize`/`PageSizeChanged`, `PageSizeOptions`, `NumericPageCount`, `PagerHorizontalAlign` (transmis comme `HorizontalAlign`), `PagerPosition` (barre en haut, en bas ou aux deux) et `ShowPagingSummary` (résumé localisé « premier à dernier sur total ») ; première et dernière y sont toujours montrées.
+- Dans la grille, on ne le pose pas : la grille le rend et le règle par ses paramètres à elle, `PageSize`/`PageSizeChanged`, `PageSizeOptions`, `NumericPageCount`, `PagerHorizontalAlign` (transmis comme `HorizontalAlign`), `PagerPosition` (`OmniDataGridPosition` : `Bottom`, `Top` ou `TopAndBottom`, comme `FooterPosition` pour la ligne de total) et `ShowPagingSummary` (résumé localisé « premier à dernier sur total ») ; première et dernière y sont toujours montrées.
 
 Dans la grille, la barre n'apparaît qu'en `ScrollMode` `Paged` et s'il existe plus d'une page. `AlwaysShowPager` la maintient visible même sur une page
 unique, pour une mise en page qui ne doit pas se réorganiser au fil des filtres. Une liste locale
@@ -353,9 +369,10 @@ sous 40 rem.
 ## Arbre : `OmniTree` et `OmniTreeItem`
 
 `OmniTree<TValue>` est un arbre (`role="tree"`) d'`OmniTreeItem<TValue>`, à sélection simple ou multiple
-(`aria-multiselectable`), la sélection étant liée par `Value`. Chaque entrée (`role="treeitem"`) déclare
-ses enfants dans son contenu ou les charge à la demande à sa première ouverture (état de chargement
-annoncé, échec signalé), y compris quand elle est ouverte d'emblée. Au clavier, Droite développe, Gauche
+(`aria-multiselectable`), la sélection étant liée par `Value`/`ValueChanged` ; `Label` (`string?`) le nomme.
+Chaque entrée (`role="treeitem"`) déclare ses enfants dans son contenu ou les charge à la demande à sa
+première ouverture (état de chargement annoncé, échec signalé et rapporté par `OnLoadError`), y compris
+quand elle est ouverte d'emblée. Au clavier, Droite développe, Gauche
 réduit, Entrée et Espace sélectionnent sans remonter à l'ancêtre ([accessibility-contract.md](accessibility-contract.md)).
 
 ### Ligne enrichie
@@ -410,7 +427,7 @@ des formules calculées sur la feuille.
 - **Accessibilité.** Un seul arrêt de focus, `role="grid"`, la cellule active annoncée par
   `aria-activedescendant`, en-têtes de ligne et de colonne, `aria-readonly` en lecture seule.
 - **Paramètres.** `ReadOnly`, `ShowFormulaBar`, `ShowGridLines`, `AllowAddRows`, `AllowAddColumns`,
-  `AriaLabel`, `ActiveCellChanged` (adresse A1). `AddRowAsync` et `AddColumnAsync` sont publiques.
+  `Label`, `ActiveCellChanged` (adresse A1). `AddRowAsync` et `AddColumnAsync` sont publiques.
 - **CSP.** Aucun attribut `style`. `omni-spreadsheet.js` ne décide que des touches dont le navigateur
   garde l'effet (Blazor ne sait pas annuler une touche au cas par cas), place le curseur en fin de
   saisie et amène la cellule active dans la zone visible. La largeur des colonnes
@@ -426,7 +443,9 @@ fonctions conditionnelles et opérateurs de comparaison.
 `OmniLogViewer` affiche un journal : lignes numérotées avec leur heure et leur sévérité, avertissements et
 erreurs teintés. Il suit la dernière ligne tant que des lignes arrivent et lâche prise dès que le lecteur
 remonte, avec un bouton pour revenir à la plus récente. Un filtre de niveau masque les lignes sous une
-sévérité, et une recherche marque chaque occurrence d'un texte et passe de l'une à l'autre. Le composant
+sévérité (`ShowLevelFilter`, `MinimumLevel`), et une recherche (`ShowSearch`, `SearchText`) marque chaque
+occurrence d'un texte et passe de l'une à l'autre sans masquer de ligne ; `Wrap` fait passer les lignes
+longues à la ligne. Le composant
 n'ouvre aucune connexion : l'hôte lui passe les lignes, en ajout seul (une ligne remplacée avant la
 dernière position déjà vue n'est pas détectée ; une liste plus courte ou dont cette ligne a changé repart
 de zéro).
@@ -437,18 +456,21 @@ de zéro).
 (`OmniMarkdownTableExporter`, service enregistré par `AddOmniEuropeBlazor`), pour une lecture par une IA :
 toutes les lignes annoncées, lues par le fournisseur de pages de l'export, et non la seule page ou fenêtre
 que la grille affiche. Il est occupé pendant la lecture, et une page en échec ne produit aucun fichier.
+`OnExport` reçoit le document produit, `OnExportError` l'exception d'un échec ; `Text` (`string?`) remplace
+le libellé localisé du bouton.
 
 ## Tableau de cartes : `OmniKanban`
 
 `OmniKanban<TItem>` range des cartes en colonnes et laisse le lecteur déplacer une carte d'une colonne
 ou d'une place à une autre, à la souris ou entièrement au clavier. Le tableau ne modifie jamais
-`Items` : un déplacement est rapporté par `OnItemMoved` (`OmniKanbanMove<TItem>(Item, FromColumn,
+`Items` : un déplacement est rapporté par `OnItemMove` (`OmniKanbanMove<TItem>(Item, FromColumn,
 ToColumn, Index)`, `Index` compté parmi les autres cartes de la colonne d'arrivée) et l'hôte l'applique
-puis le sauvegarde ; sans cela la carte reste où elle était.
+puis le sauvegarde ; sans cela la carte reste où elle était. Sans gestionnaire `OnItemMove`, les cartes
+ne se déplacent pas du tout (tableau en lecture).
 
 ```razor
 <OmniKanban TItem="Dossier" Columns="Colonnes" Items="Dossiers" ColumnOf="@(d => d.Etat)"
-            KeyOf="@(d => d.Id)" ItemLabel="@(d => d.Reference)" OnItemMoved="DeplacerAsync">
+            KeyOf="@(d => d.Id)" ItemLabel="@(d => d.Reference)" OnItemMove="DeplacerAsync">
     <CardTemplate Context="d"><strong>@d.Reference</strong> : @d.Demandeur</CardTemplate>
 </OmniKanban>
 ```
@@ -456,7 +478,7 @@ puis le sauvegarde ; sans cela la carte reste où elle était.
 - **Paramètres.** `Columns` (`OmniKanbanColumn(Key, Title)`, dans l'ordre de dessin), `Items`, `ColumnOf`
   (une carte dont la clé ne nomme aucune colonne n'est pas dessinée), `CardTemplate`, `KeyOf` (identité
   stable des éléments, l'élément lui-même par défaut), `ItemLabel` (nom de la carte dans les annonces,
-  son texte par défaut), `ColumnHeaderTemplate` (remplace le titre et le compteur), `ReadOnly`, `Label`
+  son texte par défaut), `ColumnHeaderTemplate` (remplace le titre et le compteur), `Label`
   (« Tableau de cartes » par défaut) et `EmptyColumnText` (« Aucune carte »).
 - **Clavier.** Chaque carte prend le focus. Espace ou Entrée la saisit ; les flèches la portent le long
   de sa colonne et d'une colonne à l'autre, la carte étant dessinée là où elle tomberait ; Espace ou
@@ -476,4 +498,4 @@ puis le sauvegarde ; sans cela la carte reste où elle était.
   fournir aux navigateurs qui l'exigent la donnée d'un glisser. Il n'écrit aucun style et ne dépend
   d'aucune image d'animation. Aucun état ne se marque par un trait latéral : fond, pointillé et ombre.
 - **Preuves.** `KanbanComponentTests` (rendu, rôles et noms, déplacement clavier complet, annulation,
-  abandon, lecture seule, glisser-déposer, libération du pont).
+  abandon, tableau sans gestionnaire de déplacement, glisser-déposer, libération du pont).
