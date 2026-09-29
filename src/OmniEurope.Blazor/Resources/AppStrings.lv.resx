@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Rindu ierobežojums: {0}</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Ģenerēts (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Eksportētās rindas: {0} no {1} norādītajām</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Eksportētās rindas: {0} no vismaz {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Eksports saīsināts: eksportēto rindu skaits {0} no {1}, sasniegts rindu ierobežojums ({2}).</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Eksports nepilnīgs: eksportēto rindu skaits {0} no {1} norādītajām, lasīšanas laikā dati mainījās.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ierobežots eksports: sasniegts rindu ierobežojums ({0}), un avots nenorāda kopskaitu, var būt vēl citas rindas.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Nav rindu.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Reģistrēties</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nav konta?</value></data>

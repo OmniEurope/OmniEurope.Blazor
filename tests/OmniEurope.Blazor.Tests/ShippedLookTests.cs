@@ -13,7 +13,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed partial class ShippedLookTests : OmniBunitContext
 {
-    internal static readonly string Css = Uncommented(File.ReadAllText(Path.Combine(RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css")));
+    internal static readonly string Css = Uncommented(StylesheetSource.Read());
 
     [GeneratedRegex(@"(?<selector>[^{}]+)\{(?<body>[^{}]*)\}")]
     private static partial Regex Rule();

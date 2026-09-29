@@ -133,7 +133,7 @@ public sealed class FoundationComponentTests : OmniBunitContext
     [InlineData(OmniSpacing.XLarge, "xl", "--omni-space-xl")]
     public void StackAndRow_GapClass_IsNamedAfterItsSpacingToken(OmniSpacing gap, string suffix, string? token)
     {
-        var stylesheet = File.ReadAllText(Path.Combine(ShippedLookTests.RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var stylesheet = StylesheetSource.Read();
         var stack = Render<OmniStack>(parameters => parameters.Add(item => item.Gap, gap).AddChildContent("Stack"));
         var row = Render<OmniRow>(parameters => parameters.Add(item => item.Gap, gap).AddChildContent("Row"));
 

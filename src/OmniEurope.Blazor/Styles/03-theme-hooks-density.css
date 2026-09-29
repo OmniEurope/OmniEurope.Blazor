@@ -1,0 +1,204 @@
+/* Theme hooks that only some themes set (Relief's hollow fields without a rule, Givre's colour field,
+   frosted cards, translucent fields and frosted scrim, Aplat's plain grids and flat alerts). Declared
+   again on every scope with their neutral value, so a nested scope with another theme does not inherit
+   them from the scope around it. */
+[data-omni-theme] {
+    --omni-backdrop: none;
+    /* A theme that frosts its cards (--omni-card-filter, Givre) makes the scope a stacking context
+       (isolate), so the frost of a card paints just above the colour field. The consequence is
+       deliberate: under such a theme a scope nested in a page keeps every layer it holds (popovers,
+       dialogs, notifications) inside it, below a positioned element of the page drawn over the scope. */
+    --omni-scope-isolation: auto;
+    --omni-card-filter: none;
+    --omni-input-shadow: 0 0 #0000;
+    --omni-scrim-filter: none;
+    --omni-dialog-background: initial;
+    --omni-input-background: initial;
+    --omni-input-border-color: initial;
+    --omni-grid-background: initial;
+    --omni-alert-shadow: initial;
+}
+
+/* Shape tokens that only some themes set, with their default value, declared on the root and again on
+   every scope so a nested scope with another theme does not inherit them from the scope around it
+   (Papier's 2 px rules, Ardoise's capitals, Épure's headings). The defaults reproduce the shipped look;
+   a shadow default is a transparent one rather than none, so it can sit in a list beside the focus
+   ring. "initial" leaves the token unset: the rule reading it falls back to its own default there (the
+   press of a button, the card border width). The button and card radii are not declared here: a value
+   naming another variable resolves where it is declared, so they fall back at the point of use. */
+:root,
+[data-omni-theme] {
+    /* The focus rings name the accent, so a scope that repaints the palette repaints them: a fixed blue
+       would survive the override and mismatch every custom theme. The danger form rings an invalid
+       field; the inset form rings a surface whose overflow would clip an outer ring (an editor, a
+       scrolling list). A theme that draws its own ring sets all three. */
+    --omni-focus-ring: 0 0 0 0.2rem color-mix(in srgb, var(--omni-color-accent) 28%, transparent);
+    --omni-focus-ring-danger: 0 0 0 0.2rem color-mix(in srgb, var(--omni-color-danger) 25%, transparent);
+    --omni-focus-ring-inset: inset 0 0 0 0.2rem color-mix(in srgb, var(--omni-color-accent) 28%, transparent);
+    --omni-border-width: 1px;
+    --omni-color-overlay: rgb(0 0 0 / 55%);
+    --omni-button-border-width: 1px;
+    --omni-button-border-color: transparent;
+    --omni-button-text-transform: none;
+    /* 0em rather than normal: buttons and tabs subtract it from their end padding, and a calc()
+       reading "normal" would be invalid and drop the whole padding. */
+    --omni-button-letter-spacing: 0em;
+    --omni-button-press-transform: initial;
+    --omni-button-press-shadow: initial;
+    --omni-card-border-width: initial;
+    /* Unset: a heading keeps the font of its scope. */
+    --omni-heading-font-family: initial;
+    --omni-heading-letter-spacing: normal;
+    --omni-heading-text-transform: none;
+    /* Heading scale. Exposed so a theme can retune the whole hierarchy from one place rather than
+       leave six sizes frozen while the body text moves. Each step is clearly below the one above it,
+       and a page title (OmniPageHeader, level 1 by default) takes the h1 size, above every section title. */
+    --omni-font-size-h1: 2rem;
+    --omni-font-size-h2: 1.5rem;
+    --omni-font-size-h3: 1.25rem;
+    --omni-font-size-h4: 1.125rem;
+    --omni-font-size-h5: 1rem;
+    --omni-font-size-h6: 0.875rem;
+}
+
+/* The mind map groups in dark mode: a deep fill of each hue, a bright outline and a pale text, at least
+   4.5:1 on its fill. Declared after the light groups, so a system scope takes them when the system is dark. */
+[data-omni-theme="dark"] {
+    --omni-mindmap-root-fill: #2b2f36; --omni-mindmap-root-stroke: #8a93a3; --omni-mindmap-root-text: #e8eaed;
+    --omni-mindmap-green-fill: #1e3a24; --omni-mindmap-green-stroke: #66bb6a; --omni-mindmap-green-text: #c8e6c9;
+    --omni-mindmap-blue-fill: #16314d; --omni-mindmap-blue-stroke: #64b5f6; --omni-mindmap-blue-text: #bbdefb;
+    --omni-mindmap-yellow-fill: #3d3714; --omni-mindmap-yellow-stroke: #fdd835; --omni-mindmap-yellow-text: #fff59d;
+    --omni-mindmap-red-fill: #4a1c1f; --omni-mindmap-red-stroke: #ef5350; --omni-mindmap-red-text: #ffcdd2;
+    --omni-mindmap-pink-fill: #46192d; --omni-mindmap-pink-stroke: #f06292; --omni-mindmap-pink-text: #f8bbd0;
+    --omni-mindmap-orange-fill: #45290c; --omni-mindmap-orange-stroke: #ffa726; --omni-mindmap-orange-text: #ffe0b2;
+    --omni-mindmap-purple-fill: #33204a; --omni-mindmap-purple-stroke: #ba68c8; --omni-mindmap-purple-text: #e1bee7;
+    --omni-mindmap-teal-fill: #133a36; --omni-mindmap-teal-stroke: #4db6ac; --omni-mindmap-teal-text: #b2dfdb;
+    --omni-mindmap-indigo-fill: #1f2550; --omni-mindmap-indigo-stroke: #7986cb; --omni-mindmap-indigo-text: #c5cae9;
+    --omni-mindmap-gray-fill: #2e3438; --omni-mindmap-gray-stroke: #90a4ae; --omni-mindmap-gray-text: #eceff1;
+    --omni-mindmap-note-fill: #3a3217; --omni-mindmap-note-stroke: #ffd54f; --omni-mindmap-note-text: #ffecb3;
+    --omni-mindmap-edge: #9aa3b2;
+}
+@media (prefers-color-scheme: dark) {
+    [data-omni-theme="system"] {
+        --omni-mindmap-root-fill: #2b2f36; --omni-mindmap-root-stroke: #8a93a3; --omni-mindmap-root-text: #e8eaed;
+        --omni-mindmap-green-fill: #1e3a24; --omni-mindmap-green-stroke: #66bb6a; --omni-mindmap-green-text: #c8e6c9;
+        --omni-mindmap-blue-fill: #16314d; --omni-mindmap-blue-stroke: #64b5f6; --omni-mindmap-blue-text: #bbdefb;
+        --omni-mindmap-yellow-fill: #3d3714; --omni-mindmap-yellow-stroke: #fdd835; --omni-mindmap-yellow-text: #fff59d;
+        --omni-mindmap-red-fill: #4a1c1f; --omni-mindmap-red-stroke: #ef5350; --omni-mindmap-red-text: #ffcdd2;
+        --omni-mindmap-pink-fill: #46192d; --omni-mindmap-pink-stroke: #f06292; --omni-mindmap-pink-text: #f8bbd0;
+        --omni-mindmap-orange-fill: #45290c; --omni-mindmap-orange-stroke: #ffa726; --omni-mindmap-orange-text: #ffe0b2;
+        --omni-mindmap-purple-fill: #33204a; --omni-mindmap-purple-stroke: #ba68c8; --omni-mindmap-purple-text: #e1bee7;
+        --omni-mindmap-teal-fill: #133a36; --omni-mindmap-teal-stroke: #4db6ac; --omni-mindmap-teal-text: #b2dfdb;
+        --omni-mindmap-indigo-fill: #1f2550; --omni-mindmap-indigo-stroke: #7986cb; --omni-mindmap-indigo-text: #c5cae9;
+        --omni-mindmap-gray-fill: #2e3438; --omni-mindmap-gray-stroke: #90a4ae; --omni-mindmap-gray-text: #eceff1;
+        --omni-mindmap-note-fill: #3a3217; --omni-mindmap-note-stroke: #ffd54f; --omni-mindmap-note-text: #ffecb3;
+        --omni-mindmap-edge: #9aa3b2;
+    }
+}
+
+/* Without backdrop-filter, a translucent floating layer would show the page through it unblurred:
+   it falls back to the opaque surface. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    * { --omni-overlay-background: var(--omni-color-surface); }
+}
+
+/* Density: the three values of OmniDensity, set by data-omni-density. The theme scope carries the
+   global value; a section or a component that has a Density of its own carries its own, which wins
+   for everything it holds, since these are inherited custom properties. Comfortable is the default,
+   so it is also the value of :root, and it is declared again for a comfortable section nested in a
+   compact or spacious one. Every block declares the same set of tokens (checked by a test): a token
+   missing from one level would silently keep the value of the enclosing one.
+   Every component with a size of its own reads it here. Its rules keep their own selectors and
+   specificity, so a rule written for a context (a grid's filter row, a file's actions) still wins.
+   The alert disc and its glyph are whole pixels of the same parity, so the glyph never sits on a half
+   pixel; the title line and the close button take the disc size, so all three share one axis.
+   Every length is in rem, so the text size a host sets (data-oe-text-size) scales the paddings and gaps
+   with the text; only hairlines (borders, progress) stay in px. */
+:root,
+[data-omni-density="comfortable"] {
+    --omni-space-sm: 0.5rem;
+    --omni-space-md: 0.75rem;
+    --omni-space-lg: 1rem;
+    --omni-control-height: calc(2.25rem * var(--omni-control-scale, 1));
+    --omni-control-font: calc(0.875rem * var(--omni-control-scale, 1));
+    --omni-button-pad-x: calc(0.875rem * var(--omni-control-scale, 1));
+    --omni-input-pad-y: 0.4375rem;
+    --omni-cell-pad-y: 0.5rem;
+    --omni-grid-row-estimate: 2.25rem;
+    --omni-card-pad: 0.875rem;
+    --omni-alert-pad-y: 0.75rem;
+    --omni-alert-pad-x: 0.875rem;
+    --omni-item-pad-y: 0.4375rem;
+    --omni-tile-pad-y: 0.75rem;
+    --omni-form-gap: 1rem;
+    --omni-cal-cell: 2.25rem;
+    --omni-pop-pad: 0.625rem;
+    --omni-field-gap: 0.375rem;
+    --omni-check-size: 1rem;
+    --omni-switch-h: 1.25rem;
+    --omni-icon-box: 2.25rem;
+    --omni-badge-pad-y: 0.1875rem;
+    --omni-badge-height: max(1.375rem, calc(var(--omni-control-font) - 0.0625rem + 2 * var(--omni-badge-pad-y) + 2 * var(--omni-border-width, 1px)));
+    --omni-section-pad: 1.125rem;
+    --omni-alert-icon: 1.5rem;
+    --omni-alert-glyph: 1rem;
+}
+
+[data-omni-density="compact"] {
+    --omni-space-sm: 0.375rem;
+    --omni-space-md: 0.5rem;
+    --omni-space-lg: 0.75rem;
+    --omni-control-height: calc(1.625rem * var(--omni-control-scale, 1));
+    --omni-control-font: calc(0.75rem * var(--omni-control-scale, 1));
+    --omni-button-pad-x: calc(0.5rem * var(--omni-control-scale, 1));
+    --omni-input-pad-y: 0.125rem;
+    --omni-cell-pad-y: 0.125rem;
+    --omni-grid-row-estimate: 1.5rem;
+    --omni-card-pad: 0.5rem;
+    --omni-alert-pad-y: 0.375rem;
+    --omni-alert-pad-x: 0.625rem;
+    --omni-item-pad-y: 0.1875rem;
+    --omni-tile-pad-y: 0.375rem;
+    --omni-form-gap: 0.5rem;
+    --omni-cal-cell: 1.625rem;
+    --omni-pop-pad: 0.375rem;
+    --omni-field-gap: 0.1875rem;
+    --omni-check-size: 0.875rem;
+    --omni-switch-h: 1rem;
+    --omni-icon-box: 1.625rem;
+    --omni-badge-pad-y: 0.0625rem;
+    --omni-badge-height: max(1.375rem, calc(var(--omni-control-font) - 0.0625rem + 2 * var(--omni-badge-pad-y) + 2 * var(--omni-border-width, 1px)));
+    --omni-section-pad: 0.625rem;
+    --omni-alert-icon: 1.125rem;
+    --omni-alert-glyph: 0.75rem;
+}
+
+[data-omni-density="spacious"] {
+    --omni-space-sm: 0.625rem;
+    --omni-space-md: 1rem;
+    --omni-space-lg: 1.25rem;
+    --omni-control-height: calc(2.75rem * var(--omni-control-scale, 1));
+    --omni-control-font: calc(0.9375rem * var(--omni-control-scale, 1));
+    --omni-button-pad-x: calc(1.125rem * var(--omni-control-scale, 1));
+    --omni-input-pad-y: 0.625rem;
+    --omni-cell-pad-y: 0.75rem;
+    --omni-grid-row-estimate: 2.75rem;
+    --omni-card-pad: 1.125rem;
+    --omni-alert-pad-y: 1rem;
+    --omni-alert-pad-x: 1.125rem;
+    --omni-item-pad-y: 0.625rem;
+    --omni-tile-pad-y: 1rem;
+    --omni-form-gap: 1.375rem;
+    --omni-cal-cell: 2.625rem;
+    --omni-pop-pad: 0.875rem;
+    --omni-field-gap: 0.5625rem;
+    --omni-check-size: 1.125rem;
+    --omni-switch-h: 1.5rem;
+    --omni-icon-box: 2.75rem;
+    --omni-badge-pad-y: 0.3125rem;
+    --omni-badge-height: max(1.375rem, calc(var(--omni-control-font) - 0.0625rem + 2 * var(--omni-badge-pad-y) + 2 * var(--omni-border-width, 1px)));
+    --omni-section-pad: 1.5rem;
+    --omni-alert-icon: 1.75rem;
+    --omni-alert-glyph: 1.125rem;
+}
+

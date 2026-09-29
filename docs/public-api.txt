@@ -1371,7 +1371,7 @@ method public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.Deconstruct
 method public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.Equals(OmniEurope.Blazor.Components.OmniMarkdownTableDocument? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.<Clone>$() : OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>
 method public OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.Equals(OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>? other) : System.Boolean
-method public OmniEurope.Blazor.Components.OmniMarkdownTableExporter.Build<TItem>(OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem> export, System.Collections.Generic.IReadOnlyList<TItem> rows, System.Int32 totalCount, System.DateTimeOffset generatedAt) : System.String
+method public OmniEurope.Blazor.Components.OmniMarkdownTableExporter.Build<TItem>(OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem> export, System.Collections.Generic.IReadOnlyList<TItem> rows, System.Int32 totalCount, System.DateTimeOffset generatedAt, System.Boolean totalIsLowerBound = false) : System.String
 method public OmniEurope.Blazor.Components.OmniMarkdownTableExporter.ExportAsync<TItem>(OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem> export, System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task<OmniEurope.Blazor.Components.OmniMarkdownTableDocument>
 method public OmniEurope.Blazor.Components.OmniMarkdownTableField.<Clone>$() : OmniEurope.Blazor.Components.OmniMarkdownTableField
 method public OmniEurope.Blazor.Components.OmniMarkdownTableField.Deconstruct(out System.String Label, out System.String Value) : System.Void
@@ -2615,6 +2615,7 @@ property public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.IsComplet
 property public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.Markdown : System.String {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.RowCount : System.Int32 {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.TotalCount : System.Int32 {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.TotalIsLowerBound : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniMarkdownTableDocument.Truncated : System.Boolean {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.EmptyText : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniMarkdownTableExport<TItem>.Fields : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniMarkdownTableField> {get(public);init(public)}

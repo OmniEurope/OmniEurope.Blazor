@@ -29,21 +29,32 @@ Controle : `git grep` des anciens chemins : 0 hors `CHANGELOG.md` et plans daté
 Controle : PLAN-005 dans « Plans livrés ».
 
 ### Lot 3 - Comportements différés
-- [ ] `OmniPageHeader` : badges et actions repliés à toute largeur quand ils ne tiennent pas, pas
+- [x] `OmniPageHeader` : badges et actions repliés à toute largeur quand ils ne tiennent pas, pas
       seulement sur téléphone (le `data-compact` d'Aetheus).
-- [ ] `OmniTextBox` avec `Debounce` : le texte en attente n'est plus perdu quand le champ disparaît.
-- [ ] Export Markdown : « au moins N » quand la source n'annonce pas de total et que la limite est
+- [x] `OmniTextBox` avec `Debounce` : le texte en attente n'est plus perdu quand le champ disparaît.
+- [x] Export Markdown : « au moins N » quand la source n'annonce pas de total et que la limite est
       atteinte, texte traduit dans les 24 langues.
 Controle : un test par point, qui échoue avant le correctif.
 
 ### Lot 4 - `OmniDataGrid.razor.cs` sous la limite de taille
-- [ ] Comportements extraits dans des collaborateurs internes (pas de `partial` supplémentaire),
+- [x] Comportements extraits dans des collaborateurs internes (pas de `partial` supplémentaire),
       API publique inchangée.
 Controle : `Test-PublicApi.ps1` vert sans mise à jour, suite complète verte, taille du fichier mesurée.
 
+### Lot 5 - Autres fichiers au-delà de 600 lignes effectives
+La limite compte les lignes de code effectives, sans lignes vides ni commentaires (doc XML comprise),
+mesurées le 2026-09-29.
+- [x] `omni-html-editor.js` (1668), `omni-grid.js` (1054), `omni-focus.js` (642) : modules ES importés
+      par le module d'entrée, exports inchangés.
+- [x] `OmniMindMap.razor.cs` (1264) et `PhosphorIconGlyphs.cs` (738) : collaborateurs internes.
+- [x] `OmniHtmlEditor.razor.cs` (1085) : collaborateurs internes.
+- [x] `omnieurope.blazor.css` (2817) : sources découpées, une seule feuille livrée au même chemin.
+Controle : aucun fichier de `src/` au-delà de 600 lignes effectives ; API publique, suite et sondes vertes.
+
 ## Ordre et dépendances
 
-Lots 1 à 4 en parallèle, fichiers disjoints.
+Lots 1 à 5 en parallèle, fichiers disjoints ; la feuille de style après le lot 3, qui touche le bloc
+de l'en-tête.
 
 ## Critère de clôture
 

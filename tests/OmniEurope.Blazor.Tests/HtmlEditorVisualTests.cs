@@ -312,10 +312,11 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
     public void Script_WritesAndKeepsExactlyTheClassesTheSanitizerAndTheStylesheetKnow()
     {
         var root = ShippedLookTests.RepositoryRoot();
-        var script = File.ReadAllText(Path.Combine(root, "src", "OmniEurope.Blazor", "wwwroot", "omni-html-editor.js"));
+        // The classes live in the document model of the editor script, a module of omni-html-editor.js.
+        var script = File.ReadAllText(Path.Combine(root, "src", "OmniEurope.Blazor", "wwwroot", "html-editor", "model.js"));
         var alignment = System.Text.RegularExpressions.Regex.Match(script, @"const alignClassByDirection = \{(?<body>[^}]*)\}");
         var size = System.Text.RegularExpressions.Regex.Match(script, @"const sizeClasses = \{(?<body>[^}]*)\}");
-        Assert.True(alignment.Success, "omni-html-editor.js must name its alignment classes by direction.");
+        Assert.True(alignment.Success, "html-editor/model.js must name its alignment classes by direction.");
         Assert.True(size.Success);
         var written = System.Text.RegularExpressions.Regex.Matches(alignment.Groups["body"].Value + size.Groups["body"].Value, @"'(?<name>omni-[a-z-]+)'")
             .Select(match => match.Groups["name"].Value)

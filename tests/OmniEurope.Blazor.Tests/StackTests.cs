@@ -86,7 +86,7 @@ public sealed class StackTests : OmniBunitContext
         Assert.Contains("omni-stack--wrap", wrapping.Find(".omni-stack").ClassList);
         Assert.DoesNotContain("omni-stack--wrap", collapsing.Find(".omni-stack").ClassList);
 
-        var css = File.ReadAllText(Path.Combine(ShippedLookTests.RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var css = StylesheetSource.Read();
         Assert.Contains(".omni-stack--wrap { flex-wrap: wrap; }", css, StringComparison.Ordinal);
     }
 }

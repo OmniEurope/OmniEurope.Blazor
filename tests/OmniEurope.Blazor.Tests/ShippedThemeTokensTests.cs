@@ -20,7 +20,9 @@ public sealed class ShippedThemeTokensTests
     internal const string StartMarker = "/* omni:theme-tokens:start */";
     internal const string EndMarker = "/* omni:theme-tokens:end */";
 
-    private static string StylesheetPath => Path.Combine(RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css");
+    // The stylesheet part that holds the generated block (src/OmniEurope.Blazor/Styles): both markers
+    // must sit in that one part.
+    private static string StylesheetPath => StylesheetSource.PartContaining(StartMarker);
 
     [Fact]
     public void The_stylesheet_carries_exactly_the_generated_tokens_of_the_default_theme()
@@ -169,17 +171,5 @@ public sealed class ShippedThemeTokensTests
         var end = css.IndexOf(EndMarker, StringComparison.Ordinal);
         Assert.True(start >= 0 && end > start, "The stylesheet has no generated theme token block.");
         return string.Concat(css.AsSpan(0, start), block, css.AsSpan(end + EndMarker.Length));
-    }
-
-    private static string RepositoryRoot()
-    {
-        var directory = new DirectoryInfo(AppContext.BaseDirectory);
-        while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "OmniEurope.Blazor.slnx")))
-        {
-            directory = directory.Parent;
-        }
-
-        Assert.NotNull(directory);
-        return directory.FullName;
     }
 }

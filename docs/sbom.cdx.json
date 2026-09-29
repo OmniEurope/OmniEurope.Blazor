@@ -2693,7 +2693,7 @@
         },
         {
           "name": "omnieurope:vendored-files",
-          "value": "src/OmniEurope.Blazor/Internal/PhosphorIconGlyphs.cs"
+          "value": "src/OmniEurope.Blazor/Internal/PhosphorIconGlyphs.cs;src/OmniEurope.Blazor/Internal/PhosphorIconGlyphsAToC.cs;src/OmniEurope.Blazor/Internal/PhosphorIconGlyphsDToM.cs;src/OmniEurope.Blazor/Internal/PhosphorIconGlyphsNToZ.cs"
         }
       ]
     }

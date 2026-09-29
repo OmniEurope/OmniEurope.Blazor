@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Korlát: legfeljebb {0} sor</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Létrehozva (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Exportált sorok: {0} / {1} jelzett</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Exportált sorok: {0} / legalább {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Csonkolt export: {0} sor exportálva a(z) {1} sorból, elérte a(z) {2} soros korlátot.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Hiányos export: {0} sor exportálva a jelzett {1} sorból, az adatok olvasás közben megváltoztak.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Korlátozott export: elérte a(z) {0} soros korlátot, és a forrás nem jelez összesített számot, további sorok is lehetnek.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Nincs sor.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Regisztráció</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nincs fiókja?</value></data>

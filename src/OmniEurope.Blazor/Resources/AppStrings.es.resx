@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Límite: {0} filas como máximo</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Generado el (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Filas exportadas: {0} de {1} anunciadas</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Filas exportadas: {0} de al menos {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Exportación truncada: {0} filas exportadas de {1}, se ha alcanzado el límite de {2} filas.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Exportación incompleta: {0} filas exportadas de {1} anunciadas, los datos cambiaron durante la lectura.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Exportación limitada: se ha alcanzado el límite de {0} filas y la fuente no anuncia un total, puede haber más filas.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>No hay filas.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Registrarse</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>¿No tienes cuenta?</value></data>

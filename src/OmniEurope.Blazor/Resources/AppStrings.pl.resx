@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limit wierszy: {0}</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Wygenerowano (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Wyeksportowane wiersze: {0} z {1} oczekiwanych</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Wyeksportowane wiersze: {0} z co najmniej {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Eksport obcięty: wyeksportowano {0} z {1} wierszy, osiągnięto limit {2} wierszy.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Eksport niekompletny: wyeksportowano {0} z {1} oczekiwanych wierszy, dane zmieniły się podczas odczytu.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ograniczony eksport: osiągnięto limit {0} wierszy, a źródło nie podaje łącznej liczby, może istnieć więcej wierszy.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Brak wierszy.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Zarejestruj się</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nie masz konta?</value></data>

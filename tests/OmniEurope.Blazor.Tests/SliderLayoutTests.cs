@@ -10,7 +10,7 @@ public sealed class SliderLayoutTests
     [Fact]
     public void SliderInput_CanShrinkBelowItsIntrinsicWidth()
     {
-        var css = File.ReadAllText(Path.Combine(ShippedLookTests.RepositoryRoot(), "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var css = StylesheetSource.Read();
         var rule = css.Split('\n').Single(line => line.StartsWith(".omni-slider__input {", StringComparison.Ordinal));
 
         Assert.Contains("min-inline-size: 0", rule, StringComparison.Ordinal);

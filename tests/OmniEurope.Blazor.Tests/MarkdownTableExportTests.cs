@@ -111,6 +111,59 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Export_ASourceWithoutTotalThatFillsTheLimit_SaysAtLeast_NotExactlyTheLimit()
+    {
+        var requests = new List<OmniMarkdownTablePageRequest>();
+
+        // 30 rows, no usable total, a limit of 10 reached on a full page: rows 11 to 30 were never read.
+        var document = await Exporter.ExportAsync(Export(30, requests, rowLimit: 10, pageSize: 5, announced: 0), Xunit.TestContext.Current.CancellationToken);
+
+        Assert.Equal([1, 2], requests.Select(request => request.Page));
+        Assert.Equal(10, document.RowCount);
+        Assert.Equal(10, document.TotalCount);
+        Assert.True(document.TotalIsLowerBound);
+        Assert.False(document.Truncated);
+        Assert.False(document.IsComplete);
+        Assert.DoesNotContain("10 sur 10 annoncées", document.Markdown, StringComparison.Ordinal);
+        Assert.Contains("- Lignes exportées : 10 sur au moins 10", document.Markdown, StringComparison.Ordinal);
+        Assert.Contains("> Export limité : la limite de 10 lignes est atteinte et la source n'annonce pas de total, d'autres lignes peuvent exister.",
+            document.Markdown, StringComparison.Ordinal);
+        Assert.Equal(10, TableRows(document.Markdown));
+    }
+
+    [Fact]
+    public async Task Export_ASourceWithoutTotalReadPastTheLimit_KeepsTheRowsItSawAsTheLowerBound()
+    {
+        var requests = new List<OmniMarkdownTablePageRequest>();
+
+        // A limit of 5 read by pages of 2: the third page brings a sixth row, which proves the source
+        // holds more rows than the limit.
+        var document = await Exporter.ExportAsync(Export(30, requests, rowLimit: 5, pageSize: 2, announced: 0), Xunit.TestContext.Current.CancellationToken);
+
+        Assert.Equal(5, document.RowCount);
+        Assert.Equal(6, document.TotalCount);
+        Assert.True(document.TotalIsLowerBound);
+        Assert.True(document.Truncated);
+        Assert.False(document.IsComplete);
+        Assert.Contains("- Lignes exportées : 5 sur au moins 6", document.Markdown, StringComparison.Ordinal);
+        Assert.Equal(5, TableRows(document.Markdown));
+    }
+
+    [Fact]
+    public async Task Export_ASourceWithoutTotalEndingOnAShortPage_KeepsAnExactTotal()
+    {
+        var requests = new List<OmniMarkdownTablePageRequest>();
+
+        var document = await Exporter.ExportAsync(Export(8, requests, rowLimit: 10, pageSize: 5, announced: 0), Xunit.TestContext.Current.CancellationToken);
+
+        Assert.Equal(8, document.TotalCount);
+        Assert.False(document.TotalIsLowerBound);
+        Assert.True(document.IsComplete);
+        Assert.Contains("- Lignes exportées : 8 sur 8 annoncées", document.Markdown, StringComparison.Ordinal);
+        Assert.DoesNotContain("> ", document.Markdown, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public async Task Export_FewerRowsThanAnnouncedUnderTheLimit_SaysTheDataChanged()
     {
         var requests = new List<OmniMarkdownTablePageRequest>();

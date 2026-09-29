@@ -17,7 +17,7 @@ public sealed class ShowcaseThemeTests
     [Fact]
     public void TokenReader_FindsEveryCustomPropertyTheStylesheetDeclares()
     {
-        var css = File.ReadAllText(Path.Combine(Root, "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var css = StylesheetSource.Read();
         var declared = DeclaredRootTokens(css);
         var parsed = ThemeTokenReader.Parse(css).Select(token => token.Name).ToArray();
 
@@ -79,7 +79,7 @@ public sealed class ShowcaseThemeTests
         Assert.Equal(name, token.Name);
         Assert.Equal(expected, token.Group);
 
-        var css = File.ReadAllText(Path.Combine(Root, "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var css = StylesheetSource.Read();
         Assert.Contains(ThemeTokenReader.Parse(css), parsed => parsed.Name == name);
     }
 
@@ -90,7 +90,7 @@ public sealed class ShowcaseThemeTests
     [Fact]
     public void TokenReader_FilesEveryDensityScaledSizeUnderSpacing()
     {
-        var css = File.ReadAllText(Path.Combine(Root, "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var css = StylesheetSource.Read();
         var tokens = ThemeTokenReader.Parse(css);
         var compact = Regex.Match(css, @"\[data-omni-density=""compact""\] \{(?<body>[^}]*)\}").Groups["body"].Value;
         var scaled = Regex.Matches(compact, @"(?<name>--omni-[a-z0-9-]+)\s*:").Select(match => match.Groups["name"].Value).ToArray();
@@ -112,7 +112,7 @@ public sealed class ShowcaseThemeTests
     [Fact]
     public void TokenReader_KeepsEveryShapeTokenOfEveryThemeOutOfTheColours()
     {
-        var css = File.ReadAllText(Path.Combine(Root, "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var css = StylesheetSource.Read();
         var catalogue = ThemeTokenReader.Parse(css).ToDictionary(token => token.Name, token => token.Group, StringComparer.Ordinal);
         var paletteTokens = OmniThemePalettes.All.SelectMany(palette => palette.Light.Keys.Concat(palette.Dark.Keys)).ToHashSet(StringComparer.Ordinal);
         var shapeTokens = OmniThemePresets.All.SelectMany(theme => theme.Shape.Keys.Concat(theme.DarkShape.Keys)).Distinct(StringComparer.Ordinal).ToArray();
@@ -128,7 +128,7 @@ public sealed class ShowcaseThemeTests
     [Fact]
     public void ShippedDarkTheme_OverridesItsTintedAndHighlightedSurfaces()
     {
-        var css = File.ReadAllText(Path.Combine(Root, "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var css = StylesheetSource.Read();
         var darkTheme = Regex.Match(css, @"\[data-omni-theme=""dark""\]\s*\{(?<body>[^}]*)\}");
 
         Assert.True(darkTheme.Success, "The shipped stylesheet has no explicit dark theme block.");
@@ -148,7 +148,7 @@ public sealed class ShowcaseThemeTests
     [Fact]
     public void ShippedLightTheme_KeepsRenderingMarginForFilledControls()
     {
-        var css = File.ReadAllText(Path.Combine(Root, "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var css = StylesheetSource.Read();
         var tokens = ThemeTokenReader.Parse(css).ToDictionary(token => token.Name, token => token.DefaultValue);
 
         foreach (var (fill, over) in new[]
@@ -314,7 +314,7 @@ public sealed class ShowcaseThemeTests
     [Fact]
     public void FilledSurfaces_UseTheTextColourPickedForThem()
     {
-        var css = File.ReadAllText(Path.Combine(Root, "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+        var css = StylesheetSource.Read();
 
         Assert.Matches(@"\.omni-button \{[^}]*background: var\(--omni-button-fill\)[^}]*color: var\(--omni-button-ink\)", css);
         Assert.Matches(@"\.omni-button--primary \{[^}]*--omni-button-fill: var\(--omni-color-accent-fill\)[^}]*--omni-button-ink: var\(--omni-color-on-accent-fill\)", css);

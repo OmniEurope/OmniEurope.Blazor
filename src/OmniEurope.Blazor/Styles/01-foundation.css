@@ -1,0 +1,155 @@
+/* The four web fonts of OmniThemeFonts, served from the package itself (font-src 'self'): variable,
+   Latin subset, SIL Open Font License 1.1, licences beside them in fonts/. Loaded only when used. */
+@font-face { font-display: swap; font-family: "Inter"; font-style: normal; font-weight: 100 900; src: url("fonts/inter-latin-wght-normal.woff2") format("woff2-variations"), url("fonts/inter-latin-wght-normal.woff2") format("woff2"); }
+@font-face { font-display: swap; font-family: "Lexend"; font-style: normal; font-weight: 100 900; src: url("fonts/lexend-latin-wght-normal.woff2") format("woff2-variations"), url("fonts/lexend-latin-wght-normal.woff2") format("woff2"); }
+@font-face { font-display: swap; font-family: "Source Serif 4"; font-style: normal; font-weight: 100 900; src: url("fonts/source-serif-4-latin-wght-normal.woff2") format("woff2-variations"), url("fonts/source-serif-4-latin-wght-normal.woff2") format("woff2"); }
+@font-face { font-display: swap; font-family: "JetBrains Mono"; font-style: normal; font-weight: 100 900; src: url("fonts/jetbrains-mono-latin-wght-normal.woff2") format("woff2-variations"), url("fonts/jetbrains-mono-latin-wght-normal.woff2") format("woff2"); }
+
+:root {
+    /* The focus rings (--omni-focus-ring, its danger and inset forms) name palette tokens, so they are
+       declared with the shape defaults on :root and again on every theme scope (block below the
+       generated tokens): declared on the root alone, they would keep the root's accent inside a scope
+       that repaints it. */
+    /* Layers, lowest first. Only these values stack a surface against the rest of the page; a small
+       z-index inside a component (1 to 4) orders its own parts and is not a layer. */
+    --omni-z-sticky: 10;
+    --omni-z-drawer-backdrop: 25;
+    --omni-z-drawer: 30;
+    --omni-z-popover: 30;
+    --omni-z-progress: 35;
+    /* A floating surface that may open from another one (a grid filter popover, a combo list). */
+    --omni-z-popover-top: 40;
+    --omni-z-overlay: 100;
+    --omni-z-portal: 120;
+    --omni-z-toast: 120;
+    --omni-z-window: 1200;
+    /* A tooltip rises above the window that holds its trigger. */
+    --omni-z-tooltip: 1300;
+    /* The connection overlay: while the circuit is down nothing under it can be acted on. */
+    --omni-z-blocking: 1400;
+    --omni-z-splash: 2147483000;
+    /* Durations of the transitions: the press of a button, a hover or fade, a chevron or a fill that
+       moves, a panel that slides. Looping animations keep their own cycle. */
+    --omni-duration-press: 80ms;
+    --omni-duration-fast: 120ms;
+    --omni-duration-medium: 200ms;
+    --omni-duration-slow: 300ms;
+    --omni-space-xs: 0.25rem;
+    --omni-space-xl: 1.5rem;
+    /* The spacing steps sm to lg, the control height and every other size a component reads live
+       in the density blocks below the generated tokens, comfortable being the default. */
+    /* 14px, the base body size of the hosts this package was drawn for. This package sets no
+       base font-size anywhere, so without this token a component dropped into a page that sets
+       14px renders visibly larger at the browser's 1rem default. */
+    --omni-font-size-base: 0.875rem;
+    /* Sizes above the base, so a host that repaints the scale moves every component with it
+       instead of leaving the small print behind. */
+    --omni-font-size-xs: 0.6875rem;
+    --omni-font-size-sm: 0.75rem;
+    /* Labels, legends, hints and counts: between the small print and the base. */
+    --omni-font-size-label: 0.8125rem;
+    --omni-font-size-lg: 1rem;
+    /* The heading scale, the border width, the scrim and the shape of buttons and headings are shape
+       tokens a theme may set: they are declared with the theme scope reset below the generated tokens. */
+    /* Colours, radii, the body font and the elevation of the shipped look are generated from the
+       first theme and palette of the catalogue (block omni:theme-tokens below). The only webfonts are
+       the four @font-face above. */
+    --omni-font-family-monospace: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    /* The reading serif of the font catalogue (Source Serif), for long prose such as the document sheet. */
+    --omni-font-family-serif: "Source Serif 4", Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+    /* One thickness for every progress and loading bar, in px like the border width: a
+       hairline stays crisp and does not grow with the size of the components. */
+    --omni-progress-thickness: 2px;
+    /* Rounded shapes that are geometric rather than stylistic keep their own tokens: a pill and a
+       disc must stay a pill and a disc whatever the theme does to --omni-radius. */
+    --omni-radius-pill: 999px;
+    --omni-radius-circle: 50%;
+    --omni-shadow-sm: 0 1px 2px rgb(0 0 0 / 30%);
+    --omni-shadow-md: 0 0.5rem 1.5rem rgb(0 0 0 / 16%);
+    /* Ombre qu'une carte empilée jette vers le haut sur celle de derrière ; un thème sombre la fonce. */
+    --omni-shadow-stack: 0 -0.375rem 0.75rem -0.25rem rgb(0 0 0 / 35%);
+    --omni-shadow-lg: 0 1rem 3rem rgb(0 0 0 / 30%);
+    /* The eight categorical series colours are generated with the palette (block below): series 5 to 7
+       are picked so their hue stays clear of the accent and the severities. */
+    --omni-shadow-md-strong: 0 0.5rem 1.5rem rgb(0 0 0 / 25%);
+    /* Public contract for host components, read by no rule of this stylesheet and kept on purpose (PLAN-007
+       decision): --omni-shadow-md-dark here, and in the generated block the hover and press shades of the
+       info, success, warning and danger fills (--omni-color-<severity>-fill-hover, -fill-active), the inks
+       --omni-color-on-<severity> and --omni-color-on-<severity>-fill, and --omni-color-info-subtle. A host
+       drawing its own control on the palette finds there the shades our own controls are built from. */
+    --omni-shadow-md-dark: 0 0.5rem 1.5rem rgb(0 0 0 / 45%);
+}
+
+/* Mind map colour groups: fill, outline and text of each node colour, text at least 4.5:1 on its fill.
+   Light values on the root and on light and system scopes; the dark scopes redefine them (block after
+   the generated tokens), so a light scope nested in a dark one gets its light groups back. */
+:root,
+[data-omni-theme="light"],
+[data-omni-theme="system"] {
+    --omni-mindmap-root-fill: #ffffff;
+    --omni-mindmap-root-stroke: #999999;
+    --omni-mindmap-root-text: #333333;
+    --omni-mindmap-green-fill: #c8e6c9;
+    --omni-mindmap-green-stroke: #66bb6a;
+    --omni-mindmap-green-text: #1b5e20;
+    --omni-mindmap-blue-fill: #bbdefb;
+    --omni-mindmap-blue-stroke: #42a5f5;
+    --omni-mindmap-blue-text: #0d47a1;
+    --omni-mindmap-yellow-fill: #fff9c4;
+    --omni-mindmap-yellow-stroke: #ffee58;
+    --omni-mindmap-yellow-text: #8a4b00;
+    --omni-mindmap-red-fill: #ffcdd2;
+    --omni-mindmap-red-stroke: #ef5350;
+    --omni-mindmap-red-text: #b71c1c;
+    --omni-mindmap-pink-fill: #f8bbd0;
+    --omni-mindmap-pink-stroke: #ec407a;
+    --omni-mindmap-pink-text: #880e4f;
+    --omni-mindmap-orange-fill: #ffe0b2;
+    --omni-mindmap-orange-stroke: #ffa726;
+    --omni-mindmap-orange-text: #9a3b00;
+    --omni-mindmap-purple-fill: #d1c4e9;
+    --omni-mindmap-purple-stroke: #ab47bc;
+    --omni-mindmap-purple-text: #6a1b9a;
+    --omni-mindmap-teal-fill: #b2dfdb;
+    --omni-mindmap-teal-stroke: #26a69a;
+    --omni-mindmap-teal-text: #00695c;
+    --omni-mindmap-indigo-fill: #c5cae9;
+    --omni-mindmap-indigo-stroke: #5c6bc0;
+    --omni-mindmap-indigo-text: #283593;
+    --omni-mindmap-gray-fill: #eceff1;
+    --omni-mindmap-gray-stroke: #90a4ae;
+    --omni-mindmap-gray-text: #37474f;
+    --omni-mindmap-note-fill: #fff8e1;
+    --omni-mindmap-note-stroke: #ffd54f;
+    --omni-mindmap-note-text: #6d4c00;
+    --omni-mindmap-edge: #7b8494;
+}
+
+/* A host may set data-oe-text-size on <html> so rem-based controls, headings and spacing all
+   scale together. Level 5 preserves the browser's normal root size. */
+html[data-oe-text-size="1"] { font-size: 75%; }
+html[data-oe-text-size="2"] { font-size: 81.25%; }
+html[data-oe-text-size="3"] { font-size: 87.5%; }
+html[data-oe-text-size="4"] { font-size: 93.75%; }
+html[data-oe-text-size="5"] { font-size: 100%; }
+html[data-oe-text-size="6"] { font-size: 106.25%; }
+html[data-oe-text-size="7"] { font-size: 112.5%; }
+html[data-oe-text-size="8"] { font-size: 118.75%; }
+html[data-oe-text-size="9"] { font-size: 125%; }
+html[data-oe-text-size="10"] { font-size: 131.25%; }
+
+/* A host may set data-oe-control-size on <html> to scale the controls alone without touching the text of
+   the page: the control height and text (--omni-control-height, --omni-control-font, read by buttons,
+   fields, select bars, tabs and list items) and the side padding of buttons and fields. Level 5 is the
+   drawn size; the steps are those of the text size. */
+html[data-oe-control-size="1"] { --omni-control-scale: 0.75; }
+html[data-oe-control-size="2"] { --omni-control-scale: 0.8125; }
+html[data-oe-control-size="3"] { --omni-control-scale: 0.875; }
+html[data-oe-control-size="4"] { --omni-control-scale: 0.9375; }
+html[data-oe-control-size="5"] { --omni-control-scale: 1; }
+html[data-oe-control-size="6"] { --omni-control-scale: 1.0625; }
+html[data-oe-control-size="7"] { --omni-control-scale: 1.125; }
+html[data-oe-control-size="8"] { --omni-control-scale: 1.1875; }
+html[data-oe-control-size="9"] { --omni-control-scale: 1.25; }
+html[data-oe-control-size="10"] { --omni-control-scale: 1.3125; }
+

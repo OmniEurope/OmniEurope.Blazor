@@ -1,6 +1,4 @@
 using System.Net;
-using System.Text.Json;
-using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 
@@ -18,47 +16,26 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniHtmlEditor
 {
-    private const string InteropModulePath = OmniModules.Interop;
-    private const string VisualModulePath = OmniModules.HtmlEditor;
     private const string DownloadModulePath = OmniModules.DocumentEditor;
-
-    private static readonly (string Value, string Key)[] BlockFormats =
-    [
-        ("p", "HtmlEditorParagraph"), ("h1", "HtmlEditorHeading1"), ("h2", "HtmlEditorHeading2"),
-        ("h3", "HtmlEditorHeading3"), ("h4", "HtmlEditorHeading4")
-    ];
-
-    private static readonly (string Value, string Key)[] FontSizes =
-    [
-        ("small", "HtmlEditorFontSizeSmall"), ("normal", "HtmlEditorFontSizeNormal"),
-        ("large", "HtmlEditorFontSizeLarge"), ("xlarge", "HtmlEditorFontSizeXLarge")
-    ];
 
     private readonly Stack<string> _undo = new();
     private readonly Stack<string> _redo = new();
     private readonly string _generatedId = $"omni-html-editor-{Guid.NewGuid():N}";
+    private readonly HtmlEditorPanels _panels = new();
     private ElementReference _source;
     private ElementReference _surface;
     private ElementReference _linkInput;
-    private IJSObjectReference? _visualModule;
-    private DotNetObjectReference<HtmlEditorInteropBridge>? _bridge;
+    private HtmlEditorVisualSurface? _visual;
+    private HtmlEditorSourceFace? _sourceFace;
+    private HtmlEditorContextMenu? _menu;
     private OmniHtmlEditorMode _mode;
     private bool _modeInitialized;
     private OmniHtmlEditorMode _modeParameter;
-    private bool _mounted;
-    private string? _visualValue;
-    private int _mountedRows;
-    private OmniHtmlSanitizerPolicy? _mountedPolicy;
-    private bool _mountedTracking;
     private HtmlEditorExtensionSet _extensionSet = HtmlEditorExtensionSet.Empty;
-    private HtmlEditorExtensionSet? _mountedSet;
     private OmniHtmlEditorSelection? _caret;
-    private SelectionState _selection = SelectionState.Empty;
+    private HtmlEditorFormatState _selection = HtmlEditorFormatState.Empty;
     private int _selectGeneration;
-    private bool _linkOpen;
-    private bool _focusLink;
-    private string _linkUrl = string.Empty;
-    private string? _linkError;
+    private bool _showBlocks;
     private bool _disposed;
     private IJSObjectReference? _downloadModule;
     private string? _countedValue;
@@ -167,7 +144,7 @@ public partial class OmniHtmlEditor
     [Parameter] public bool ReadOnly { get; set; }
 
     /// <summary>Whether the value is closed to editing, read-only or disabled.</summary>
-    private bool IsLocked => ReadOnly || Disabled;
+    internal bool IsLocked => ReadOnly || Disabled;
 
     /// <summary>Whether the source face shows a sanitised preview under the textarea. The visual face is its own preview.</summary>
     [Parameter] public bool ShowPreview { get; set; } = true;
@@ -210,103 +187,46 @@ public partial class OmniHtmlEditor
 
     internal string CurrentHtml => CurrentValue ?? string.Empty;
 
-    /// <summary>
-    /// What the surface script needs besides the rows: the classes it keeps while tidying (null
-    /// for any), and whether a policy is in force, in which case a span carrying an allowed
-    /// attribute is kept rather than unwrapped.
-    /// </summary>
-    private Dictionary<string, object?> SurfaceOptions
-    {
-        get
-        {
-            var options = new Dictionary<string, object?>(StringComparer.Ordinal) { ["rows"] = Rows };
-            if (EffectivePolicy is not null)
-            {
-                options["policy"] = true;
-                options["classes"] = OmniHtmlSanitizer.ClassesOf(EffectivePolicy);
-            }
+    /// <summary>The value as it stands, null included, for the collaborators that compare it.</summary>
+    internal string? EditorValue => CurrentValue;
 
-            if (_extensionSet.ShortcutKeys.Count > 0)
-            {
-                options["shortcuts"] = _extensionSet.ShortcutKeys;
-            }
+    /// <summary>The extensions taken together, built again only when <see cref="Extensions"/> changes.</summary>
+    internal HtmlEditorExtensionSet ExtensionSet => _extensionSet;
 
-            if (_extensionSet.InlineElements.Count > 0)
-            {
-                options["inline"] = _extensionSet.InlineElements.Select(element => element.Selector).ToArray();
-            }
+    /// <summary>The editable surface of the visual face.</summary>
+    internal ElementReference SurfaceElement => _surface;
 
-            if (_extensionSet.ContextMenu.Count > 0)
-            {
-                options["menu"] = true;
-            }
-
-            if (_extensionSet.Source.Any(extension => extension.SuggestsText))
-            {
-                options["suggest"] = true;
-            }
-
-            if (TracksSelection)
-            {
-                options["selection"] = true;
-            }
-
-            return options;
-        }
-    }
+    /// <summary>The text area of the source face.</summary>
+    internal ElementReference SourceElement => _source;
 
     /// <summary>
     /// Whether the surface reports where the selection is: only when someone listens, through
     /// <see cref="SelectionChanged"/> or a command whose <see cref="OmniHtmlEditorCommand.Pressed"/> or
     /// <see cref="OmniHtmlEditorCommand.Enabled"/> depends on it.
     /// </summary>
-    private bool TracksSelection => SelectionChanged.HasDelegate
+    internal bool TracksSelection => SelectionChanged.HasDelegate
         || _extensionSet.TracksSelection
         || ArrangedCommands.Any(command => command.Pressed is not null || command.Enabled is not null);
 
-    private string Clean(string? html) => OmniHtmlSanitizer.Sanitize(html, EffectivePolicy);
+    /// <summary>The HTML sanitised with the allow-list and the extensions' policies.</summary>
+    internal string Clean(string? html) => OmniHtmlSanitizer.Sanitize(html, EffectivePolicy);
 
     internal string CleanPaste(string? html, string? text) => OmniHtmlSanitizer.SanitizePaste(html, text, EffectivePolicy);
 
     /// <summary>The toolbar before the tidying of separators: the editor's own, arranged by each extension.</summary>
     private IReadOnlyList<OmniHtmlEditorCommand> ArrangedCommands => _extensionSet.Arrange(Commands ?? OmniHtmlEditorCommands.Default);
     internal OmniHtmlEditorMode CurrentMode => _mode;
-    private string SurfaceId => Id ?? _generatedId;
+    internal string SurfaceId => Id ?? _generatedId;
     private string LinkInputId => SurfaceId + "-link";
 
-    /// <summary>
-    /// The toolbar cut at its separators into groups of commands, none empty: a separator at either end
-    /// or next to another one draws nothing. Each group after the first is drawn with its separator
-    /// before it, so a separator always stays with the group it opens and never ends a row of a wrapped
-    /// toolbar; the one that would start a row falls outside the toolbar and is clipped.
-    /// </summary>
-    private List<List<OmniHtmlEditorCommand>> ToolbarGroups
-    {
-        get
-        {
-            var groups = new List<List<OmniHtmlEditorCommand>>();
-            var current = new List<OmniHtmlEditorCommand>();
-            foreach (var command in ArrangedCommands)
-            {
-                if (command.Action != OmniHtmlEditorAction.Separator)
-                {
-                    current.Add(command);
-                }
-                else if (current.Count > 0)
-                {
-                    groups.Add(current);
-                    current = [];
-                }
-            }
+    /// <summary>The visual face, created on first use once the script runtime is injected.</summary>
+    private HtmlEditorVisualSurface Visual => _visual ??= new(this, JSRuntime);
 
-            if (current.Count > 0)
-            {
-                groups.Add(current);
-            }
+    /// <summary>The source face, created on first use once the script runtime is injected.</summary>
+    private HtmlEditorSourceFace SourceFace => _sourceFace ??= new(this, JSRuntime);
 
-            return groups;
-        }
-    }
+    /// <summary>The toolbar cut at its separators into groups of commands (see <see cref="HtmlEditorToolbar.Groups"/>).</summary>
+    private List<List<OmniHtmlEditorCommand>> ToolbarGroups => HtmlEditorToolbar.Groups(ArrangedCommands);
 
     /// <summary>
     /// Rebuilds the extension set when <see cref="Extensions"/> holds other instances, then checks the
@@ -376,49 +296,18 @@ public partial class OmniHtmlEditor
 
         if (_mode == OmniHtmlEditorMode.Visual)
         {
-            if (!_mounted)
-            {
-                // Claimed before the first await: a render arriving while the module loads must not
-                // mount the surface a second time.
-                _mounted = true;
-                _mountedRows = Rows;
-                _visualModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", VisualModulePath);
-                _bridge ??= DotNetObjectReference.Create(new HtmlEditorInteropBridge(this));
-                _visualValue = CurrentValue;
-                _mountedPolicy = EffectivePolicy;
-                _mountedTracking = TracksSelection;
-                _mountedSet = _extensionSet;
-                await _visualModule.InvokeVoidAsync("mount", _surface, _bridge, Clean(CurrentValue), SurfaceOptions);
-            }
-            else if (_visualModule is not null)
-            {
-                if (!string.Equals(CurrentValue, _visualValue, StringComparison.Ordinal))
-                {
-                    _visualValue = CurrentValue;
-                    await _visualModule!.InvokeVoidAsync("setHtml", _surface, Clean(CurrentValue));
-                }
-
-                if (_mountedRows != Rows || !ReferenceEquals(_mountedPolicy, EffectivePolicy) || _mountedTracking != TracksSelection
-                    || !ReferenceEquals(_mountedSet, _extensionSet))
-                {
-                    _mountedRows = Rows;
-                    _mountedPolicy = EffectivePolicy;
-                    _mountedTracking = TracksSelection;
-                    _mountedSet = _extensionSet;
-                    await _visualModule!.InvokeVoidAsync("configure", _surface, SurfaceOptions);
-                }
-            }
+            await Visual.SyncAsync();
         }
 
-        if (_focusLink)
+        if (_panels.FocusLink)
         {
-            _focusLink = false;
+            _panels.FocusLink = false;
             await _linkInput.FocusAsync();
         }
 
-        if (_menuController is not null)
+        if (_menu is not null)
         {
-            await _menuController.SyncAsync(IsMenuOpen, MenuId, _surface, OmniMenuPlacement.Pointer);
+            await _menu.SyncAsync();
         }
     }
 
@@ -439,19 +328,15 @@ public partial class OmniHtmlEditor
         return Task.CompletedTask;
     });
 
-    internal Task HandleVisualInputAsync(string html)
-    {
-        if (IsLocked || _mode != OmniHtmlEditorMode.Visual)
-        {
-            return Task.CompletedTask;
-        }
+    /// <summary>Renders the editor again, from any thread.</summary>
+    internal Task RenderAsync() => InvokeAsync(StateHasChanged);
 
-        var clean = Clean(html);
-        _visualValue = clean;
-        return CommitAsync(clean);
-    }
+    /// <summary>Renders the editor again, already on the dispatcher.</summary>
+    internal void Rerender() => StateHasChanged();
 
-    internal void HandleVisualState(string state) => _selection = SelectionState.Parse(state);
+    internal Task HandleVisualInputAsync(string html) => Visual.TakeInputAsync(html);
+
+    internal void HandleVisualState(string state) => _selection = HtmlEditorFormatState.Parse(state);
 
     internal async Task HandleSelectionAsync(string json)
     {
@@ -522,102 +407,25 @@ public partial class OmniHtmlEditor
             case OmniHtmlEditorAction.ChangeCase when argument is not ("upper" or "lower" or "title"):
                 return;
             case OmniHtmlEditorAction.InsertSpecialCharacter when string.IsNullOrEmpty(argument):
-                OpenPanel(EditorPanel.Characters);
+                _panels.Open(HtmlEditorPanel.Characters);
                 return;
             case OmniHtmlEditorAction.InsertSpecialCharacter:
                 await InsertCharacterAsync(argument!);
                 return;
             case OmniHtmlEditorAction.ImportTable:
-                OpenPanel(EditorPanel.Table);
+                _panels.Open(HtmlEditorPanel.Table);
                 return;
         }
 
         if (_mode == OmniHtmlEditorMode.Visual)
         {
-            await ExecuteVisualAsync(ScriptName(action), argument);
+            await Visual.ExecuteAsync(HtmlEditorToolbar.ScriptName(action), argument);
         }
         else
         {
-            await ExecuteSourceAsync(action, argument);
+            await SourceFace.ExecuteAsync(action, argument);
         }
     }
-
-    private async Task ExecuteVisualAsync(string action, string? argument)
-    {
-        if (!_mounted || _visualModule is null)
-        {
-            return;
-        }
-
-        var html = await _visualModule.InvokeAsync<string?>("exec", _surface, action, argument);
-        if (html is not null)
-        {
-            var clean = Clean(html);
-            _visualValue = clean;
-            await CommitAsync(clean);
-        }
-    }
-
-    private Task ExecuteSourceAsync(OmniHtmlEditorAction action, string? argument)
-    {
-        switch (action)
-        {
-            case OmniHtmlEditorAction.Bold: return WrapSelectionAsync("<strong>", "</strong>");
-            case OmniHtmlEditorAction.Italic: return WrapSelectionAsync("<em>", "</em>");
-            case OmniHtmlEditorAction.Underline: return WrapSelectionAsync("<u>", "</u>");
-            case OmniHtmlEditorAction.Strikethrough: return WrapSelectionAsync("<s>", "</s>");
-            case OmniHtmlEditorAction.Highlight: return WrapSelectionAsync("<mark>", "</mark>");
-            case OmniHtmlEditorAction.Subscript: return WrapSelectionAsync("<sub>", "</sub>");
-            case OmniHtmlEditorAction.Superscript: return WrapSelectionAsync("<sup>", "</sup>");
-            case OmniHtmlEditorAction.InlineCode: return WrapSelectionAsync("<code>", "</code>");
-            case OmniHtmlEditorAction.CodeBlock: return WrapSelectionAsync("<pre>", "</pre>");
-            case OmniHtmlEditorAction.Quote:
-            case OmniHtmlEditorAction.Indent: return WrapSelectionAsync("<blockquote>", "</blockquote>");
-            case OmniHtmlEditorAction.Outdent: return ApplyAsync(value => value.StartsWith("<blockquote>", StringComparison.OrdinalIgnoreCase) && value.EndsWith("</blockquote>", StringComparison.OrdinalIgnoreCase) ? value[12..^13] : value);
-            case OmniHtmlEditorAction.BulletList: return WrapSelectionAsync("<ul><li>", "</li></ul>");
-            case OmniHtmlEditorAction.NumberedList: return WrapSelectionAsync("<ol><li>", "</li></ol>");
-            case OmniHtmlEditorAction.BlockFormat:
-                var tag = BlockFormats.Any(format => format.Value == argument) ? argument! : "p";
-                return WrapSelectionAsync($"<{tag}>", $"</{tag}>");
-            case OmniHtmlEditorAction.FontSize:
-                return argument is "small" or "large" or "xlarge"
-                    ? WrapSelectionAsync($"<span class=\"omni-font-size-{argument}\">", "</span>")
-                    : Task.CompletedTask;
-            case OmniHtmlEditorAction.AlignLeft: return WrapSelectionAsync("<p>", "</p>");
-            case OmniHtmlEditorAction.AlignCenter: return WrapSelectionAsync("<p class=\"omni-align-center\">", "</p>");
-            case OmniHtmlEditorAction.AlignRight: return WrapSelectionAsync("<p class=\"omni-align-end\">", "</p>");
-            case OmniHtmlEditorAction.AlignJustify: return WrapSelectionAsync("<p class=\"omni-align-justify\">", "</p>");
-            case OmniHtmlEditorAction.InsertTable: return WrapSelectionAsync(TableSource, string.Empty);
-            case OmniHtmlEditorAction.Link when !string.IsNullOrEmpty(argument):
-                return WrapSelectionAsync($"<a href=\"{WebUtility.HtmlEncode(argument)}\">", "</a>");
-            default:
-                return Task.CompletedTask;
-        }
-    }
-
-    private const string TableSource =
-        "<table><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table>";
-
-    private async Task WrapSelectionAsync(string prefix, string suffix)
-    {
-        if (IsLocked)
-        {
-            return;
-        }
-
-        await using var module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", InteropModulePath);
-        var result = await module.InvokeAsync<JsonElement>("wrapTextSelection", _source, prefix, suffix);
-        var value = result.GetProperty("value").GetString() ?? string.Empty;
-        var start = result.GetProperty("selectionStart").GetInt32();
-        var end = result.GetProperty("selectionEnd").GetInt32();
-        await CommitAsync(Clean(value));
-        await InvokeAsync(StateHasChanged);
-        await module.InvokeVoidAsync("restoreTextSelection", _source, start, end);
-    }
-
-    private Task ApplyAsync(Func<string, string> transform) => IsLocked
-        ? Task.CompletedTask
-        : CommitAsync(Clean(transform(CurrentValue ?? string.Empty)));
 
     internal async Task InsertHtmlAsync(string html)
     {
@@ -629,11 +437,11 @@ public partial class OmniHtmlEditor
         var clean = Clean(html);
         if (_mode == OmniHtmlEditorMode.Visual)
         {
-            await ExecuteVisualAsync("inserthtml", clean);
+            await Visual.ExecuteAsync("inserthtml", clean);
         }
         else
         {
-            await WrapSelectionAsync(clean, string.Empty);
+            await SourceFace.WrapSelectionAsync(clean, string.Empty);
         }
     }
 
@@ -648,7 +456,8 @@ public partial class OmniHtmlEditor
         await CommitAsync(Clean(html));
     }
 
-    private Task CommitAsync(string value)
+    /// <summary>Takes a sanitised value as the new one, recorded as one undo step when it differs.</summary>
+    internal Task CommitAsync(string value)
     {
         if (!string.Equals(CurrentValue, value, StringComparison.Ordinal))
         {
@@ -693,21 +502,7 @@ public partial class OmniHtmlEditor
     /// Takes in what was typed in the visual surface and not yet reported, so a command, the history
     /// or a mode switch never acts on a value a quarter of a second old.
     /// </summary>
-    private async Task CaptureVisualAsync()
-    {
-        if (_mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
-        {
-            return;
-        }
-
-        var html = await _visualModule.InvokeAsync<string?>("read", _surface);
-        if (html is not null)
-        {
-            var clean = Clean(html);
-            _visualValue = clean;
-            await CommitAsync(clean);
-        }
-    }
+    private Task CaptureVisualAsync() => _visual is null ? Task.CompletedTask : _visual.CaptureAsync();
 
     /// <summary>
     /// Takes in a surface the host changed through its own script, outside a command (a click on
@@ -729,31 +524,10 @@ public partial class OmniHtmlEditor
     });
 
     /// <summary>The body of <see cref="CommitDomAsync"/>, already on the dispatcher (a command's context calls it).</summary>
-    internal async Task CommitSurfaceAsync()
-    {
-        if (IsLocked || _mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
-        {
-            return;
-        }
-
-        var html = await _visualModule.InvokeAsync<string?>("read", _surface);
-        if (html is null)
-        {
-            return;
-        }
-
-        var clean = Clean(html);
-        // A surface that differs from its sanitised value is redrawn after the next render.
-        _visualValue = html;
-        await CommitAsync(clean);
-        if (!string.Equals(clean, html, StringComparison.Ordinal))
-        {
-            StateHasChanged();
-        }
-    }
+    internal Task CommitSurfaceAsync() => _visual is null ? Task.CompletedTask : _visual.CommitSurfaceAsync();
 
     /// <summary>The surface element of the visual face, or null in the source face.</summary>
-    internal ElementReference? SurfaceReference => _mode == OmniHtmlEditorMode.Visual && _mounted ? _surface : null;
+    internal ElementReference? SurfaceReference => _mode == OmniHtmlEditorMode.Visual && _visual is { Mounted: true } ? _surface : null;
 
     /// <summary>The value, once what the visual surface still holds back has been taken in.</summary>
     internal async Task<string> CaptureAsync()
@@ -790,39 +564,9 @@ public partial class OmniHtmlEditor
         await _downloadModule.InvokeVoidAsync("download", name + extension, mimeType, content);
     }
 
-    internal async Task<bool> ReplaceClosestAsync(string selector, string html)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(selector);
-        if (IsLocked || _mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
-        {
-            return false;
-        }
+    internal Task<bool> ReplaceClosestAsync(string selector, string html) => Visual.ReplaceClosestAsync(selector, html);
 
-        await CaptureVisualAsync();
-        var result = await _visualModule.InvokeAsync<string?>("replaceClosest", _surface, selector, Clean(html));
-        if (result is null)
-        {
-            return false;
-        }
-
-        await CommitVisualResultAsync(result);
-        return true;
-    }
-
-    internal async Task ReplaceActivatedAsync(string html)
-    {
-        if (IsLocked || _mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
-        {
-            return;
-        }
-
-        await CaptureVisualAsync();
-        var result = await _visualModule.InvokeAsync<string?>("replaceActivated", _surface, Clean(html));
-        if (result is not null)
-        {
-            await CommitVisualResultAsync(result);
-        }
-    }
+    internal Task ReplaceActivatedAsync(string html) => Visual.ReplaceActivatedAsync(html);
 
     /// <summary>The first proposal of the extensions that suggest text, or null.</summary>
     internal async Task<string?> SuggestAsync(string textBeforeCaret)
@@ -844,54 +588,13 @@ public partial class OmniHtmlEditor
         return null;
     }
 
-    internal async Task SetActivatedTextAsync(string text)
-    {
-        if (IsLocked || _mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
-        {
-            return;
-        }
+    internal Task SetActivatedTextAsync(string text) => Visual.SetActivatedTextAsync(text);
 
-        await CaptureVisualAsync();
-        var result = await _visualModule.InvokeAsync<string?>("setActivatedText", _surface, text ?? string.Empty);
-        if (result is not null)
-        {
-            await CommitVisualResultAsync(result);
-        }
-    }
+    internal Task<OmniHtmlCaretSplit> GetHtmlAroundCaretAsync() => Visual.GetHtmlAroundCaretAsync();
 
-    internal async Task<OmniHtmlCaretSplit> GetHtmlAroundCaretAsync()
-    {
-        if (_mode != OmniHtmlEditorMode.Visual || !_mounted || _visualModule is null)
-        {
-            return new(CurrentValue ?? string.Empty, string.Empty);
-        }
+    internal Task<string> GetSelectedTextAsync() => Visual.GetSelectedTextAsync();
 
-        var json = await _visualModule.InvokeAsync<string?>("aroundCaret", _surface);
-        if (string.IsNullOrEmpty(json))
-        {
-            return new(CurrentValue ?? string.Empty, string.Empty);
-        }
-
-        using var parts = JsonDocument.Parse(json);
-        return new(Clean(parts.RootElement.GetProperty("before").GetString()), Clean(parts.RootElement.GetProperty("after").GetString()));
-    }
-
-    internal async Task<string> GetSelectedTextAsync() =>
-        _mode == OmniHtmlEditorMode.Visual && _mounted && _visualModule is not null
-            ? await _visualModule.InvokeAsync<string?>("selectedText", _surface) ?? string.Empty
-            : string.Empty;
-
-    internal Task InsertTextAsync(string text) =>
-        string.IsNullOrEmpty(text) || _mode != OmniHtmlEditorMode.Visual
-            ? Task.CompletedTask
-            : ExecuteVisualAsync("inserttext", text);
-
-    private Task CommitVisualResultAsync(string html)
-    {
-        var clean = Clean(html);
-        _visualValue = clean;
-        return CommitAsync(clean);
-    }
+    internal Task InsertTextAsync(string text) => Visual.InsertTextAsync(text);
 
     internal async Task HandleShortcutAsync(int index)
     {
@@ -924,155 +627,43 @@ public partial class OmniHtmlEditor
         await _extensionSet.InlineElements[index].Activate(new OmniHtmlEditorElementContext(this, node, text));
     }
 
-    // ── Panels of the built-in special characters and table import ──
+    // ── Panels of the built-in special characters and table import (HtmlEditorPanels) ──
 
-    private enum EditorPanel { None, Characters, Table }
-
-    private EditorPanel _panel;
-    private bool _showBlocks;
-    private string _charCategory = HtmlEditorCharacters.DefaultCategory;
-    private string _charSearch = string.Empty;
-    private IReadOnlyList<IReadOnlyList<string>>? _tableRows;
-    private bool _tableHeader;
-    private string? _tableError;
-    private bool _tableBusy;
-
-    private void OpenPanel(EditorPanel panel)
-    {
-        _linkOpen = false;
-        _panel = panel;
-        _charSearch = string.Empty;
-        _tableRows = null;
-        _tableError = null;
-    }
-
-    private void ClosePanel() => _panel = EditorPanel.None;
-
-    private IEnumerable<int> VisibleCharacters
-    {
-        get
-        {
-            var search = _charSearch.Trim();
-            if (search.Length == 0)
-            {
-                return HtmlEditorCharacters.All.Where(entry => entry.Category == _charCategory).Select(entry => entry.CodePoint);
-            }
-
-            return HtmlEditorCharacters.All.Select(entry => entry.CodePoint).Distinct().Where(codePoint =>
-                HtmlEditorCharacters.Text(codePoint).Contains(search, StringComparison.Ordinal)
-                || Localize(HtmlEditorCharacters.NameKey(codePoint)).Contains(search, StringComparison.CurrentCultureIgnoreCase));
-        }
-    }
+    private IEnumerable<int> VisibleCharacters => _panels.VisibleCharacters(key => Localize(key));
 
     private async Task InsertCharacterAsync(string character)
     {
-        _panel = EditorPanel.None;
+        _panels.Close();
         if (_mode == OmniHtmlEditorMode.Visual)
         {
-            await ExecuteVisualAsync("inserttext", character);
+            await Visual.ExecuteAsync("inserttext", character);
         }
         else
         {
-            await WrapSelectionAsync(WebUtility.HtmlEncode(character), string.Empty);
+            await SourceFace.WrapSelectionAsync(WebUtility.HtmlEncode(character), string.Empty);
         }
     }
 
-    private string TableAccept => string.Join(',', HtmlEditorTableFile.OwnExtensions
-        .Concat(_extensionSet.TableReaders.SelectMany(reader => reader.Extensions))
-        .Distinct(StringComparer.OrdinalIgnoreCase));
+    private string TableAccept => HtmlEditorPanels.TableAccept(_extensionSet.TableReaders);
 
-    private async Task ReadTableFileAsync(IReadOnlyList<IBrowserFile> files)
-    {
-        var file = files.FirstOrDefault();
-        if (file is null)
-        {
-            return;
-        }
-
-        _tableRows = null;
-        _tableError = null;
-        _tableBusy = true;
-        try
-        {
-            var extension = Path.GetExtension(file.Name).ToLowerInvariant();
-            await using var upload = file.OpenReadStream(HtmlEditorTableFile.MaxBytes);
-            using var content = new MemoryStream();
-            await upload.CopyToAsync(content);
-            content.Position = 0;
-            IReadOnlyList<IReadOnlyList<string>> rows;
-            if (extension is ".csv" or ".tsv")
-            {
-                using var reader = new StreamReader(content, System.Text.Encoding.UTF8, detectEncodingFromByteOrderMarks: true);
-                rows = HtmlEditorTableFile.ReadDelimited(await reader.ReadToEndAsync(), extension == ".tsv" ? '\t' : ',');
-            }
-            else if (_extensionSet.TableReaders.FirstOrDefault(candidate => candidate.Extensions.Contains(extension, StringComparer.OrdinalIgnoreCase)) is { } tableReader)
-            {
-                rows = HtmlEditorTableFile.Shape(await tableReader.Read(file.Name, content));
-            }
-            else
-            {
-                _tableError = Localize("HtmlEditorImportTableUnsupported");
-                return;
-            }
-
-            if (rows.Count == 0)
-            {
-                _tableError = Localize("HtmlEditorImportTableEmpty");
-                return;
-            }
-
-            _tableRows = rows;
-            // A first row with no number in it reads as a header, as a spreadsheet's usually does.
-            _tableHeader = rows.Count > 1 && rows[0].All(cell => !double.TryParse(cell, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _));
-        }
-        catch (Exception exception) when (exception is IOException or InvalidOperationException or HttpRequestException or FormatException or NotSupportedException)
-        {
-            _tableError = Localize("HtmlEditorImportTableFailed");
-        }
-        finally
-        {
-            _tableBusy = false;
-        }
-    }
+    private Task ReadTableFileAsync(IReadOnlyList<IBrowserFile> files) => _panels.ReadTableFileAsync(files, _extensionSet.TableReaders);
 
     private async Task InsertTableAsync()
     {
-        if (_tableRows is null)
+        if (_panels.TakeTable() is { } html)
         {
-            return;
+            await InsertHtmlAsync(html);
         }
-
-        var html = HtmlEditorTableFile.ToHtml(_tableRows, _tableHeader);
-        _panel = EditorPanel.None;
-        _tableRows = null;
-        await InsertHtmlAsync(html);
     }
 
-    // ── Context menu: the package's one menu engine (OmniMenuController, omni-focus.js) and its
-    //    OmniMenuItem rows, opened at the pointer over the surface and drawn in place ──
+    // ── Context menu (HtmlEditorContextMenu): opened at the pointer over the surface and drawn in place ──
 
-    private OmniMenuController? _menuController;
-    private EditorMenu? _editorMenu;
-    private RenderFragment<RenderFragment>? _contextMenuList;
-    private string MenuId => SurfaceId + "-menu";
+    private HtmlEditorContextMenu Menu => _menu ??= new(this, JSRuntime, () => Localize("HtmlEditorContextMenu"));
 
-    private OmniMenuController MenuController => _menuController ??= new OmniMenuController(
-        JSRuntime,
-        restoreFocus => DispatchAsync(() => CloseMenuAsync(restoreFocus)));
-
-    private bool IsMenuOpen => _mode == OmniHtmlEditorMode.Visual && _menuController is not null && _menuController.IsOpen(null);
+    private bool IsMenuOpen => _menu is { IsOpen: true };
 
     /// <summary>The <c>role="menu"</c> list around the given rows, drawn by the shared engine.</summary>
-    private RenderFragment<RenderFragment> ContextMenuList => _contextMenuList ??= items => builder => OmniMenuController.BuildMenuList(
-        builder,
-        this,
-        MenuId,
-        "omni-menu omni-html-editor__menu",
-        Localize("HtmlEditorContextMenu"),
-        null,
-        _editorMenu ??= new EditorMenu(this),
-        items,
-        HandleMenuKeyAsync);
+    private RenderFragment<RenderFragment> ContextMenuList => Menu.List;
 
     internal Task HandleContextMenuAsync(double x, double y, string? selection)
     {
@@ -1086,14 +677,11 @@ public partial class OmniHtmlEditor
             _caret = OmniHtmlEditorSelection.Parse(selection);
         }
 
-        MenuController.RequestPlacement(focusLast: false, x, y);
-        return MenuController.SetOpenAsync(true, null, default, StateHasChanged);
+        return Menu.OpenAsync(x, y);
     }
 
     /// <summary>Closes the context menu; the focus goes back to the surface with <paramref name="restoreFocus"/>.</summary>
-    internal Task CloseMenuAsync(bool restoreFocus) => _menuController is null
-        ? Task.CompletedTask
-        : _menuController.SetOpenAsync(false, null, default, StateHasChanged, restoreFocus);
+    internal Task CloseMenuAsync(bool restoreFocus) => _menu is null ? Task.CompletedTask : _menu.CloseAsync(restoreFocus);
 
     /// <summary>
     /// Runs an entry of the context menu where the menu was opened. The item has already closed the menu
@@ -1101,20 +689,12 @@ public partial class OmniHtmlEditor
     /// </summary>
     private async Task RunFromMenuAsync(OmniHtmlEditorCommand command)
     {
-        if (_mounted && _visualModule is not null)
+        if (_visual is not null)
         {
-            await _visualModule.InvokeVoidAsync("restoreMenuSelection", _surface);
+            await _visual.RestoreMenuSelectionAsync();
         }
 
         await RunAsync(command);
-    }
-
-    private Task HandleMenuKeyAsync(KeyboardEventArgs args) => MenuController.HandleMenuKeyAsync(args, MenuId, CloseMenuAsync);
-
-    /// <summary>What the <see cref="OmniMenuItem"/> rows of the context menu close when chosen.</summary>
-    private sealed class EditorMenu(OmniHtmlEditor owner) : IOmniMenu
-    {
-        public Task CloseAsync(bool restoreFocus) => owner.CloseMenuAsync(restoreFocus);
     }
 
     private async Task SwitchModeAsync(OmniHtmlEditorMode target, bool notify)
@@ -1129,13 +709,16 @@ public partial class OmniHtmlEditor
             // The context menu belongs to the visual surface: it must not come back with it.
             await CloseMenuAsync(restoreFocus: false);
             await CaptureVisualAsync();
-            await UnmountAsync();
+            if (_visual is not null)
+            {
+                await _visual.UnmountAsync();
+            }
         }
 
         _mode = target;
-        _selection = SelectionState.Empty;
+        _selection = HtmlEditorFormatState.Empty;
         _caret = null;
-        _linkOpen = false;
+        _panels.HideLink();
         // The parameter is only followed when the parent changes it: a parent that re-renders
         // without binding Mode must not switch the face back.
         if (notify)
@@ -1144,59 +727,37 @@ public partial class OmniHtmlEditor
         }
     }
 
-    private async Task UnmountAsync()
-    {
-        if (_mounted && _visualModule is not null)
-        {
-            _mounted = false;
-            await _visualModule.InvokeVoidAsync("dispose", _surface);
-        }
-
-        _mounted = false;
-    }
-
     internal Task OpenLinkAsync()
     {
-        if (IsLocked)
+        if (!IsLocked)
         {
-            return Task.CompletedTask;
+            _panels.OpenLink();
         }
 
-        _panel = EditorPanel.None;
-        _linkOpen = true;
-        _focusLink = true;
-        _linkError = null;
-        _linkUrl = string.Empty;
         return Task.CompletedTask;
     }
 
     private async Task ApplyLinkAsync()
     {
-        var url = _linkUrl.Trim();
+        var url = _panels.LinkUrl.Trim();
         if (url.Length == 0)
         {
-            await CloseLinkAsync();
+            _panels.CloseLink();
             return;
         }
 
-        try
+        if (_panels.SafeLinkUrl(url) is not { } safe)
         {
-            url = OmniUriPolicy.EnsureSafe(url, nameof(OmniHtmlEditorAction.Link))!;
-        }
-        catch (InvalidOperationException)
-        {
-            _linkError = Localize("HtmlEditorLinkInvalid");
             return;
         }
 
-        _linkOpen = false;
-        await RunBuiltInAsync(OmniHtmlEditorAction.Link, url);
+        _panels.HideLink();
+        await RunBuiltInAsync(OmniHtmlEditorAction.Link, safe);
     }
 
     private Task CloseLinkAsync()
     {
-        _linkOpen = false;
-        _linkError = null;
+        _panels.CloseLink();
         return Task.CompletedTask;
     }
 
@@ -1207,150 +768,16 @@ public partial class OmniHtmlEditor
         _ => Task.CompletedTask
     };
 
-    private bool IsDisabled(OmniHtmlEditorCommand command) => IsLocked
-        || (command.Enabled is { } enabled && !enabled(_mode == OmniHtmlEditorMode.Visual ? _caret : null))
-        || command.Action switch
-    {
-        OmniHtmlEditorAction.Undo => _undo.Count == 0,
-        OmniHtmlEditorAction.Redo => _redo.Count == 0,
-        OmniHtmlEditorAction.Unlink or OmniHtmlEditorAction.ClearFormatting
-            or OmniHtmlEditorAction.ChangeCase or OmniHtmlEditorAction.ShowBlocks => _mode == OmniHtmlEditorMode.Source,
-        OmniHtmlEditorAction.Cut or OmniHtmlEditorAction.Copy or OmniHtmlEditorAction.Paste
-            or OmniHtmlEditorAction.InsertParagraph => _mode == OmniHtmlEditorMode.Source,
-        _ when IsTableAction(command.Action) => _mode == OmniHtmlEditorMode.Source || !_selection.Marks.Contains("intable"),
-        _ => false
-    };
-
-    private static bool IsTableAction(OmniHtmlEditorAction action) =>
-        action is >= OmniHtmlEditorAction.AddRowAbove and <= OmniHtmlEditorAction.SetCellSpan;
+    private bool IsDisabled(OmniHtmlEditorCommand command) =>
+        HtmlEditorToolbar.IsDisabled(command, IsLocked, _mode, _caret, _selection, _undo.Count > 0, _redo.Count > 0);
 
     private string LabelOf(OmniHtmlEditorCommand command) =>
-        !string.IsNullOrWhiteSpace(command.Label) ? command.Label! : Localize(command.Action switch
-        {
-            OmniHtmlEditorAction.Bold => "HtmlEditorBold",
-            OmniHtmlEditorAction.Italic => "HtmlEditorItalic",
-            OmniHtmlEditorAction.Underline => "HtmlEditorUnderline",
-            OmniHtmlEditorAction.Strikethrough => "HtmlEditorStrikethrough",
-            OmniHtmlEditorAction.Subscript => "HtmlEditorSubscript",
-            OmniHtmlEditorAction.Superscript => "HtmlEditorSuperscript",
-            OmniHtmlEditorAction.InlineCode => "HtmlEditorInlineCode",
-            OmniHtmlEditorAction.BlockFormat => "HtmlEditorBlockFormat",
-            OmniHtmlEditorAction.FontSize => "HtmlEditorFontSize",
-            OmniHtmlEditorAction.BulletList => "HtmlEditorBulletList",
-            OmniHtmlEditorAction.NumberedList => "HtmlEditorNumberedList",
-            OmniHtmlEditorAction.Indent => "HtmlEditorIndent",
-            OmniHtmlEditorAction.Outdent => "HtmlEditorOutdent",
-            OmniHtmlEditorAction.Quote => "HtmlEditorQuote",
-            OmniHtmlEditorAction.CodeBlock => "HtmlEditorCodeBlock",
-            OmniHtmlEditorAction.Link => "HtmlEditorLink",
-            OmniHtmlEditorAction.Unlink => "HtmlEditorUnlink",
-            OmniHtmlEditorAction.AlignLeft => "HtmlEditorAlignLeft",
-            OmniHtmlEditorAction.AlignCenter => "HtmlEditorAlignCenter",
-            OmniHtmlEditorAction.AlignRight => "HtmlEditorAlignRight",
-            OmniHtmlEditorAction.AlignJustify => "HtmlEditorAlignJustify",
-            OmniHtmlEditorAction.InsertTable => "HtmlEditorInsertTable",
-            OmniHtmlEditorAction.ClearFormatting => "HtmlEditorClearFormatting",
-            OmniHtmlEditorAction.Undo => "HtmlEditorUndo",
-            OmniHtmlEditorAction.Redo => "HtmlEditorRedo",
-            OmniHtmlEditorAction.ToggleSource => "HtmlEditorSource",
-            OmniHtmlEditorAction.Cut => "HtmlEditorCut",
-            OmniHtmlEditorAction.Copy => "HtmlEditorCopy",
-            OmniHtmlEditorAction.Paste => "HtmlEditorPaste",
-            OmniHtmlEditorAction.InsertParagraph => "HtmlEditorInsertParagraph",
-            OmniHtmlEditorAction.AddRowAbove => "HtmlEditorAddRowAbove",
-            OmniHtmlEditorAction.AddRowBelow => "HtmlEditorAddRowBelow",
-            OmniHtmlEditorAction.DeleteRow => "HtmlEditorDeleteRow",
-            OmniHtmlEditorAction.AddColumnBefore => "HtmlEditorAddColumnBefore",
-            OmniHtmlEditorAction.AddColumnAfter => "HtmlEditorAddColumnAfter",
-            OmniHtmlEditorAction.DeleteColumn => "HtmlEditorDeleteColumn",
-            OmniHtmlEditorAction.MergeCellRight => "HtmlEditorMergeCellRight",
-            OmniHtmlEditorAction.MergeCellDown => "HtmlEditorMergeCellDown",
-            OmniHtmlEditorAction.SplitCell => "HtmlEditorSplitCell",
-            OmniHtmlEditorAction.SetCellSpan => "HtmlEditorSetCellSpan",
-            OmniHtmlEditorAction.ChangeCase => "HtmlEditorChangeCase",
-            OmniHtmlEditorAction.InsertSpecialCharacter => "HtmlEditorInsertSpecialCharacter",
-            OmniHtmlEditorAction.ImportTable => "HtmlEditorImportTable",
-            OmniHtmlEditorAction.ShowBlocks => "HtmlEditorShowBlocks",
-            OmniHtmlEditorAction.Highlight => "HtmlEditorHighlight",
-            _ => "HtmlEditorCustomCommand"
-        });
+        !string.IsNullOrWhiteSpace(command.Label) ? command.Label! : Localize(HtmlEditorToolbar.LabelKey(command.Action));
 
-    private static OmniIconName? IconOf(OmniHtmlEditorCommand command) => command.Icon ?? command.Action switch
-    {
-        OmniHtmlEditorAction.Bold => OmniIconName.TextB,
-        OmniHtmlEditorAction.Italic => OmniIconName.TextItalic,
-        OmniHtmlEditorAction.Underline => OmniIconName.TextUnderline,
-        OmniHtmlEditorAction.Strikethrough => OmniIconName.TextStrikethrough,
-        OmniHtmlEditorAction.Subscript => OmniIconName.TextSubscript,
-        OmniHtmlEditorAction.Superscript => OmniIconName.TextSuperscript,
-        OmniHtmlEditorAction.InlineCode => OmniIconName.Code,
-        OmniHtmlEditorAction.BulletList => OmniIconName.ListBullets,
-        OmniHtmlEditorAction.NumberedList => OmniIconName.NumberedList,
-        OmniHtmlEditorAction.Indent => OmniIconName.TextIndent,
-        OmniHtmlEditorAction.Outdent => OmniIconName.TextOutdent,
-        OmniHtmlEditorAction.Quote => OmniIconName.Quotes,
-        OmniHtmlEditorAction.CodeBlock => OmniIconName.CodeBlock,
-        OmniHtmlEditorAction.Link => OmniIconName.Link,
-        OmniHtmlEditorAction.Unlink => OmniIconName.LinkBreak,
-        OmniHtmlEditorAction.AlignLeft => OmniIconName.TextAlignLeft,
-        OmniHtmlEditorAction.AlignCenter => OmniIconName.TextAlignCenter,
-        OmniHtmlEditorAction.AlignRight => OmniIconName.TextAlignRight,
-        OmniHtmlEditorAction.AlignJustify => OmniIconName.TextAlignJustify,
-        OmniHtmlEditorAction.InsertTable => OmniIconName.Table,
-        OmniHtmlEditorAction.ClearFormatting => OmniIconName.Eraser,
-        OmniHtmlEditorAction.Undo => OmniIconName.ArrowUUpLeft,
-        OmniHtmlEditorAction.Redo => OmniIconName.ArrowUUpRight,
-        OmniHtmlEditorAction.ToggleSource => OmniIconName.FileHtml,
-        OmniHtmlEditorAction.Copy => OmniIconName.Copy,
-        OmniHtmlEditorAction.InsertSpecialCharacter => OmniIconName.Smiley,
-        OmniHtmlEditorAction.ImportTable => OmniIconName.Upload,
-        OmniHtmlEditorAction.ShowBlocks => OmniIconName.Rows,
-        OmniHtmlEditorAction.Highlight => OmniIconName.Highlighter,
-        _ => null
-    };
+    private static OmniIconName? IconOf(OmniHtmlEditorCommand command) => HtmlEditorToolbar.IconOf(command);
 
     /// <summary>The pressed state of a toggle, from the formatting at the caret; null for a plain action.</summary>
-    private string? PressedOf(OmniHtmlEditorCommand command)
-    {
-        if (command.Pressed is { } pressed)
-        {
-            return pressed(_mode == OmniHtmlEditorMode.Visual ? _caret : null) ? "true" : "false";
-        }
-
-        if (command.Action == OmniHtmlEditorAction.ToggleSource)
-        {
-            return _mode == OmniHtmlEditorMode.Source ? "true" : "false";
-        }
-
-        if (command.Action == OmniHtmlEditorAction.ShowBlocks)
-        {
-            return _showBlocks ? "true" : "false";
-        }
-
-        if (_mode != OmniHtmlEditorMode.Visual)
-        {
-            return null;
-        }
-
-        return command.Action switch
-        {
-            OmniHtmlEditorAction.AlignLeft => Pressed(_selection.Align == "left"),
-            OmniHtmlEditorAction.AlignCenter => Pressed(_selection.Align == "center"),
-            OmniHtmlEditorAction.AlignRight => Pressed(_selection.Align == "right"),
-            OmniHtmlEditorAction.AlignJustify => Pressed(_selection.Align == "justify"),
-            OmniHtmlEditorAction.Bold or OmniHtmlEditorAction.Italic or OmniHtmlEditorAction.Underline
-                or OmniHtmlEditorAction.Strikethrough or OmniHtmlEditorAction.Subscript or OmniHtmlEditorAction.Superscript
-                or OmniHtmlEditorAction.InlineCode or OmniHtmlEditorAction.BulletList or OmniHtmlEditorAction.NumberedList
-                or OmniHtmlEditorAction.Quote or OmniHtmlEditorAction.CodeBlock or OmniHtmlEditorAction.Link
-                or OmniHtmlEditorAction.Highlight
-                => Pressed(_selection.Marks.Contains(ScriptName(command.Action))),
-            _ => null
-        };
-
-        static string Pressed(bool value) => value ? "true" : "false";
-    }
-
-    private static string ScriptName(OmniHtmlEditorAction action) => action.ToString().ToLowerInvariant();
+    private string? PressedOf(OmniHtmlEditorCommand command) => HtmlEditorToolbar.PressedOf(command, _mode, _caret, _selection, _showBlocks);
 
     /// <summary>Takes the text as the value once sanitised with the editor's policy; parsing never fails.</summary>
     /// <param name="value">The HTML to parse.</param>
@@ -1376,27 +803,16 @@ public partial class OmniHtmlEditor
         // Blazor calls only DisposeAsync on a component that has both: the form subscription of
         // InputBase is released through its own Dispose.
         ((IDisposable)this).Dispose();
-        if (_visualModule is not null)
+        if (_visual is not null)
         {
-            try
-            {
-                if (_mounted)
-                {
-                    await _visualModule.InvokeVoidAsync("dispose", _surface);
-                }
-
-                await _visualModule.DisposeAsync();
-            }
-            catch (JSDisconnectedException)
-            {
-                // The circuit is already gone, and the listeners with it.
-            }
+            // Disposes the surface and its module (a lost circuit ignored), then the script's reference.
+            await _visual.DisposeAsync();
         }
 
-        if (_menuController is not null)
+        if (_menu is not null)
         {
             // Detaches the script from a menu still open and releases its module; a lost circuit is ignored there.
-            await _menuController.DisposeAsync();
+            await _menu.DisposeAsync();
         }
 
         if (_downloadModule is not null)
@@ -1411,28 +827,6 @@ public partial class OmniHtmlEditor
             }
         }
 
-        _bridge?.Dispose();
         GC.SuppressFinalize(this);
-    }
-
-    /// <summary>The formatting at the caret, as reported by the visual surface.</summary>
-    private sealed record SelectionState(IReadOnlySet<string> Marks, string Block, string Align, string Size)
-    {
-        public static SelectionState Empty { get; } = new(new HashSet<string>(StringComparer.Ordinal), "p", "left", "normal");
-
-        public static SelectionState Parse(string? state)
-        {
-            var parts = (state ?? string.Empty).Split('|');
-            if (parts.Length != 4)
-            {
-                return Empty;
-            }
-
-            return new(
-                parts[0].Split(' ', StringSplitOptions.RemoveEmptyEntries).ToHashSet(StringComparer.Ordinal),
-                parts[1].Length == 0 ? "p" : parts[1],
-                parts[2].Length == 0 ? "left" : parts[2],
-                parts[3].Length == 0 ? "normal" : parts[3]);
-        }
     }
 }

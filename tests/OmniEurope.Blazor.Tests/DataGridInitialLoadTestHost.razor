@@ -1,0 +1,32 @@
+<OmniDataGrid TItem="Row"
+              Load="@Load"
+              KeyOf="@(row => row.Id)"
+              ScrollMode="@ScrollMode"
+              StateKey="@StateKey"
+              StateStore="@StateStore"
+              EstimatedRowHeight="40"
+              ShowHeaderFilterMenu="true">
+    <Columns>
+        <OmniDataGridColumn TItem="Row" Property="Id" Title="N°" />
+        <OmniDataGridColumn TItem="Row" Property="Name" Title="Nom" SortOrder="OmniDataGridSortOrder.Descending" />
+        <OmniDataGridColumn TItem="Row"
+                            Property="Status"
+                            Title="Statut"
+                            Filterable="true"
+                            FilterType="OmniDataGridColumnFilterType.Select"
+                            FilterValues="@(new[] { "Open", "Closed" })"
+                            DefaultFilterValue="Open" />
+    </Columns>
+</OmniDataGrid>
+
+@code {
+    [Parameter] public OmniDataGridScrollMode ScrollMode { get; set; } = OmniDataGridScrollMode.Paged;
+
+    [Parameter] public string? StateKey { get; set; }
+
+    [Parameter] public IOmniDataGridStateStore? StateStore { get; set; }
+
+    [Parameter] public Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<Row>>>? Load { get; set; }
+
+    public sealed record Row(int Id, string Name, string Status);
+}

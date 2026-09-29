@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Ограничение: най-много {0} реда</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Генерирано на (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Експортирани редове: {0} от {1} обявени</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Експортирани редове: {0} от поне {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Съкратен експорт: експортирани {0} реда от {1}, достигнато е ограничението от {2} реда.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Непълен експорт: експортирани {0} реда от {1} обявени, данните се промениха по време на четенето.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ограничен експорт: достигнато е ограничението от {0} реда, а източникът не обявява общ брой, може да има още редове.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Няма редове.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Регистрация</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Нямате акаунт?</value></data>

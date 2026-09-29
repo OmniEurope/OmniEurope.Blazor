@@ -51,15 +51,7 @@ public sealed partial class UtilityClassesTests
             .Select(match => (Selector: match.Groups["selectors"].Value.Trim(), Body: match.Groups["body"].Value))
             .Where(rule => rule.Selector.StartsWith(".omni-u-", StringComparison.Ordinal));
 
-    private static string Styles()
-    {
-        var directory = new DirectoryInfo(AppContext.BaseDirectory);
-        while (directory is not null && !Directory.Exists(Path.Combine(directory.FullName, "src", "OmniEurope.Blazor")))
-            directory = directory.Parent;
-        Assert.NotNull(directory);
-        // Comments are dropped so the one heading the utilities is not read as part of a selector.
-        return Regex.Replace(
-            File.ReadAllText(Path.Combine(directory.FullName, "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css")),
-            @"/\*.*?\*/", string.Empty, RegexOptions.Singleline);
-    }
+    // Comments are dropped so the one heading the utilities is not read as part of a selector.
+    private static string Styles() =>
+        Regex.Replace(StylesheetSource.Read(), @"/\*.*?\*/", string.Empty, RegexOptions.Singleline);
 }

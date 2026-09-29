@@ -25,6 +25,17 @@ public sealed class ShippedStylesheetTests
         Assert.Equal(Normalise(source), shipped);
     }
 
+    /// <summary>
+    /// The source is written as parts (src/OmniEurope.Blazor/Styles); the build must join them in the
+    /// order the tests read them, byte for byte, or the cascade the tests check is not the one shipped.
+    /// </summary>
+    [Fact]
+    public void JoinedStylesheet_IsThePartsInFileNameOrder()
+    {
+        Assert.Equal(Source(), Joined());
+        Assert.All(StylesheetSource.Parts(), part => Assert.Matches(@"^\d{2}-[a-z0-9-]+\.css$", Path.GetFileName(part)));
+    }
+
     [Fact]
     public void TokenReader_ReadsTheSameCatalogueFromTheShippedStylesheetAsFromTheSource()
     {
@@ -58,16 +69,33 @@ public sealed class ShippedStylesheetTests
         return text.Replace(";}", "}", StringComparison.Ordinal).Trim();
     }
 
-    private static string Source() =>
-        File.ReadAllText(Path.Combine(Root, "src", "OmniEurope.Blazor", "wwwroot", "omnieurope.blazor.css"));
+    private static string Source() => StylesheetSource.Read();
 
-    // The library is built in the same configuration as this test assembly, and the minified copy is
-    // produced in every configuration even though only Release ships it.
-    private static string Shipped()
+    // The minified copy is produced in every configuration even though only Release ships it.
+    private static string Shipped() => Built("omnieurope.blazor.css");
+
+    // The joined readable copy, which Debug serves.
+    private static string Joined() => Built(Path.Combine("joined", "omnieurope.blazor.css"));
+
+    // The library is built in the same configuration and layout as this test assembly: next to it under
+    // an --artifacts-path (<artifacts>/bin/OmniEurope.Blazor.Tests/<pivot> beside
+    // <artifacts>/obj/OmniEurope.Blazor/<pivot>), in the project's own obj folder otherwise.
+    private static string Built(string relativePath)
     {
-        var configuration = typeof(ShippedStylesheetTests).Assembly.GetCustomAttribute<AssemblyConfigurationAttribute>()!.Configuration;
-        var path = Path.Combine(Root, "src", "OmniEurope.Blazor", "obj", configuration, "net10.0", "omni-stylesheet", "omnieurope.blazor.css");
-        Assert.True(File.Exists(path), $"The build did not produce the minified stylesheet at {path}.");
+        var output = new DirectoryInfo(AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+        string root;
+        if (output.Parent is { Name: "OmniEurope.Blazor.Tests" } project && project.Parent is { Name: "bin" } bin && bin.Parent is { } artifacts)
+        {
+            root = Path.Combine(artifacts.FullName, "obj", "OmniEurope.Blazor", output.Name, "omni-stylesheet");
+        }
+        else
+        {
+            var configuration = typeof(ShippedStylesheetTests).Assembly.GetCustomAttribute<AssemblyConfigurationAttribute>()!.Configuration;
+            root = Path.Combine(Root, "src", "OmniEurope.Blazor", "obj", configuration, "net10.0", "omni-stylesheet");
+        }
+
+        var path = Path.Combine(root, relativePath);
+        Assert.True(File.Exists(path), $"The build did not produce the stylesheet at {path}.");
         return File.ReadAllText(path);
     }
 

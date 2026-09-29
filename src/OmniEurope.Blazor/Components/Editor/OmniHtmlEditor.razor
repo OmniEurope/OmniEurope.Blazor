@@ -46,7 +46,7 @@
                             {
                                 case OmniHtmlEditorAction.BlockFormat:
                                     <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="@_selection.Block" @onchange="args => ChooseAsync(command, args)">
-                                        @foreach (var (value, key) in BlockFormats)
+                                        @foreach (var (value, key) in HtmlEditorToolbar.BlockFormats)
                                         {
                                             <option value="@value">@Localize(key)</option>
                                         }
@@ -54,7 +54,7 @@
                                     break;
                                 case OmniHtmlEditorAction.FontSize:
                                     <select @key="(command, _selectGeneration)" class="omni-html-editor__select" data-command="@command.Name" aria-label="@LabelOf(command)" title="@LabelOf(command)" disabled="@IsDisabled(command)" value="@_selection.Size" @onchange="args => ChooseAsync(command, args)">
-                                        @foreach (var (value, key) in FontSizes)
+                                        @foreach (var (value, key) in HtmlEditorToolbar.FontSizes)
                                         {
                                             <option value="@value">@Localize(key)</option>
                                         }
@@ -95,7 +95,7 @@
                     </span>
                 }
             </div>
-            @if (_linkOpen)
+            @if (_panels.LinkOpen)
             {
                 <div class="omni-html-editor__link" role="group" aria-label="@Localize("HtmlEditorLink")">
                     <label class="omni-html-editor__link-label" for="@LinkInputId">@Localize("HtmlEditorLinkUrl")</label>
@@ -106,10 +106,10 @@
                            form="@(LinkInputId + "-detached")"
                            inputmode="url"
                            autocomplete="off"
-                           value="@_linkUrl"
-                           aria-invalid="@(_linkError is null ? null : "true")"
-                           aria-describedby="@(_linkError is null ? null : LinkInputId + "-error")"
-                           @oninput="args => _linkUrl = args.Value?.ToString() ?? string.Empty"
+                           value="@_panels.LinkUrl"
+                           aria-invalid="@(_panels.LinkErrorKey is null ? null : "true")"
+                           aria-describedby="@(_panels.LinkErrorKey is null ? null : LinkInputId + "-error")"
+                           @oninput="args => _panels.LinkUrl = args.Value?.ToString() ?? string.Empty"
                            @onkeydown="HandleLinkKeyAsync" />
                     <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small" OnClick="ApplyLinkAsync">
                         <OmniIcon Name="OmniIconName.Check" />
@@ -119,30 +119,30 @@
                         <OmniIcon Name="OmniIconName.Close" />
                         <span>@Localize("HtmlEditorLinkCancel")</span>
                     </OmniButton>
-                    @if (_linkError is not null)
+                    @if (_panels.LinkErrorKey is { } linkErrorKey)
                     {
-                        <p id="@(LinkInputId + "-error")" class="omni-html-editor__link-error" role="alert">@_linkError</p>
+                        <p id="@(LinkInputId + "-error")" class="omni-html-editor__link-error" role="alert">@Localize(linkErrorKey)</p>
                     }
                 </div>
             }
-            @if (_panel == EditorPanel.Characters)
+            @if (_panels.Current == HtmlEditorPanel.Characters)
             {
                 <div class="omni-html-editor__panel" role="group" aria-label="@Localize("HtmlEditorInsertSpecialCharacter")">
                     <div class="omni-html-editor__panel-bar">
                         <div class="omni-html-editor__categories" role="group" aria-label="@Localize("HtmlEditorInsertSpecialCharacter")">
                             @foreach (var category in HtmlEditorCharacters.Categories)
                             {
-                                var current = category == _charCategory && _charSearch.Trim().Length == 0;
+                                var current = category == _panels.CharacterCategory && _panels.CharacterSearch.Trim().Length == 0;
                                 <OmniButton Variant="@(current ? OmniButtonVariant.Primary : OmniButtonVariant.Secondary)" Size="OmniControlSize.Small" aria-pressed="@(current ? "true" : "false")"
-                                            OnClick="@(() => { _charCategory = category; _charSearch = string.Empty; })">
+                                            OnClick="@(() => _panels.ChooseCategory(category))">
                                     <span>@Localize("HtmlEditorCharCategory" + category)</span>
                                 </OmniButton>
                             }
                         </div>
                         <input class="omni-html-editor__link-input omni-html-editor__char-search" type="search" autocomplete="off"
                                aria-label="@Localize("HtmlEditorCharSearch")" placeholder="@Localize("HtmlEditorCharSearch")"
-                               value="@_charSearch" @oninput="args => _charSearch = args.Value?.ToString() ?? string.Empty" />
-                        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ClosePanel">
+                               value="@_panels.CharacterSearch" @oninput="args => _panels.CharacterSearch = args.Value?.ToString() ?? string.Empty" />
+                        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="_panels.Close">
                             <OmniIcon Name="OmniIconName.Close" />
                             <span>@Localize("HtmlEditorClosePanel")</span>
                         </OmniButton>
@@ -167,31 +167,31 @@
                     }
                 </div>
             }
-            else if (_panel == EditorPanel.Table)
+            else if (_panels.Current == HtmlEditorPanel.Table)
             {
                 <div class="omni-html-editor__panel" role="group" aria-label="@Localize("HtmlEditorImportTable")">
                     <div class="omni-html-editor__panel-bar">
                         <OmniUpload Display="OmniUploadDisplay.Field" Accept="@TableAccept" MaximumFileSize="@HtmlEditorTableFile.MaxBytes"
-                                    FilesSelected="ReadTableFileAsync" Disabled="@_tableBusy" Class="omni-html-editor__table-file" />
-                        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ClosePanel">
+                                    FilesSelected="ReadTableFileAsync" Disabled="@_panels.TableBusy" Class="omni-html-editor__table-file" />
+                        <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="_panels.Close">
                             <OmniIcon Name="OmniIconName.Close" />
                             <span>@Localize("HtmlEditorClosePanel")</span>
                         </OmniButton>
                     </div>
                     <p class="omni-html-editor__panel-note">@Localize("HtmlEditorImportTableHint", TableAccept)</p>
-                    @if (_tableError is not null)
+                    @if (_panels.TableErrorKey is { } tableErrorKey)
                     {
-                        <p class="omni-html-editor__link-error" role="alert">@_tableError</p>
+                        <p class="omni-html-editor__link-error" role="alert">@Localize(tableErrorKey)</p>
                     }
-                    @if (_tableRows is { } rows)
+                    @if (_panels.TableRows is { } rows)
                     {
-                        <p class="omni-html-editor__panel-note" role="status">@Localize("HtmlEditorImportTableRows", _tableHeader ? rows.Count - 1 : rows.Count, rows[0].Count)</p>
+                        <p class="omni-html-editor__panel-note" role="status">@Localize("HtmlEditorImportTableRows", _panels.TableHeader ? rows.Count - 1 : rows.Count, rows[0].Count)</p>
                         <div class="omni-html-editor__table-preview omni-rich-text" role="region" aria-label="@Localize("HtmlEditorImportTablePreview")">
-                            @((MarkupString)HtmlEditorTableFile.ToHtml(rows.Take(6).ToList(), _tableHeader))
+                            @((MarkupString)HtmlEditorTableFile.ToHtml(rows.Take(6).ToList(), _panels.TableHeader))
                         </div>
                         <div class="omni-html-editor__panel-bar">
                             <label class="omni-html-editor__check">
-                                <OmniCheckBox @bind-Value="_tableHeader" />
+                                <OmniCheckBox @bind-Value="_panels.TableHeader" />
                                 <span>@Localize("HtmlEditorImportTableHeader")</span>
                             </label>
                             <OmniButton Variant="OmniButtonVariant.Success" Size="OmniControlSize.Small" OnClick="InsertTableAsync">

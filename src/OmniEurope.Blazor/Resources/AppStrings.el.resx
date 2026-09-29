@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Όριο: έως {0} γραμμές</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Δημιουργήθηκε (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Γραμμές που εξήχθησαν: {0} από {1} που δηλώθηκαν</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Γραμμές που εξήχθησαν: {0} από τουλάχιστον {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Περικομμένη εξαγωγή: εξήχθησαν {0} γραμμές από {1}, συμπληρώθηκε το όριο των {2} γραμμών.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Ελλιπής εξαγωγή: εξήχθησαν {0} γραμμές από {1} που δηλώθηκαν, τα δεδομένα άλλαξαν κατά την ανάγνωση.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Περιορισμένη εξαγωγή: συμπληρώθηκε το όριο των {0} γραμμών και η πηγή δεν δηλώνει σύνολο, ενδέχεται να υπάρχουν κι άλλες γραμμές.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Καμία γραμμή.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Εγγραφή</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Δεν έχετε λογαριασμό;</value></data>

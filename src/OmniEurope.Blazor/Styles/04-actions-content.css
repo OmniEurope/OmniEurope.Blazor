@@ -1,0 +1,401 @@
+/* Every variant names four colours and nothing else: its fill, the two shades the factory derives
+   from that fill for hover and press, and the ink picked for it. The rules below read them, so all
+   the variants hover and press the same way. Primary is the default. */
+.omni-button {
+    --omni-button-fill: var(--omni-color-accent-fill);
+    --omni-button-fill-hover: var(--omni-color-accent-fill-hover);
+    --omni-button-fill-active: var(--omni-color-accent-fill-active);
+    --omni-button-ink: var(--omni-color-on-accent-fill);
+    align-items: center;
+    background: var(--omni-button-fill);
+    border: var(--omni-button-border-width) solid var(--omni-button-border-color);
+    border-radius: var(--omni-button-radius, var(--omni-radius));
+    box-shadow: var(--omni-button-shadow);
+    box-sizing: border-box;
+    color: var(--omni-button-ink);
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    font-weight: var(--omni-button-font-weight);
+    gap: var(--omni-space-sm);
+    letter-spacing: var(--omni-button-letter-spacing, 0em);
+    text-transform: var(--omni-button-text-transform);
+    justify-content: center;
+    /* inline-size: a button whose width changes with its content (a counter appearing) grows and
+       shrinks smoothly instead of jumping; a button without an explicit width never animates. */
+    transition: background-color var(--omni-duration-fast) ease, border-color var(--omni-duration-fast) ease, color var(--omni-duration-fast) ease, box-shadow var(--omni-duration-fast) ease, transform var(--omni-duration-press) ease, inline-size var(--omni-duration-medium) ease, width var(--omni-duration-medium) ease;
+}
+
+.omni-button:focus-visible {
+    box-shadow: var(--omni-focus-ring), var(--omni-button-shadow);
+    outline: none;
+}
+
+/* Hover and press move the fill away from the ink laid on it, so the contrast can only rise and the
+   change shows on every fill. The press also carries the theme's own gesture: without the two press
+   tokens the button sinks one pixel and keeps its shadow, the press of the theme Défaut. */
+.omni-button:hover:not(:disabled) { background: var(--omni-button-fill-hover); }
+.omni-button:active:not(:disabled) {
+    background: var(--omni-button-fill-active);
+    box-shadow: var(--omni-button-press-shadow, var(--omni-button-shadow));
+    transform: var(--omni-button-press-transform, translateY(1px));
+}
+
+/* Désactivé : éteint et assombri, une opacité seule l'éclaircissait sur fond clair. */
+/* A disabled button keeps a faded tint of its colour (a blue action stays blue) instead of turning grey-brown. */
+.omni-button:disabled,
+.omni-toggle-button:disabled,
+.omni-split-button__main:disabled,
+.omni-split-button__toggle:disabled { box-shadow: none; cursor: not-allowed; filter: saturate(0.6); opacity: 0.55; }
+
+/* Trois tailles distinctes (hauteur, marge, corps) ; le moyen garde la hauteur du champ voisin.
+   --omni-button-size est aussi le côté d'un bouton à icône seule. */
+.omni-button--small,
+.omni-toggle-button--small,
+.omni-split-button--small { --omni-button-size: calc(var(--omni-control-height) - 0.5rem); --omni-button-padding-inline: var(--omni-space-sm); --omni-button-font-size: var(--omni-font-size-sm); }
+.omni-button--medium,
+.omni-toggle-button--medium,
+.omni-split-button--medium { --omni-button-size: var(--omni-control-height); --omni-button-padding-inline: var(--omni-button-pad-x); }
+.omni-button--large,
+.omni-toggle-button--large,
+.omni-split-button--large { --omni-button-size: calc(var(--omni-control-height) + 0.5rem); --omni-button-padding-inline: var(--omni-space-xl); --omni-button-font-size: var(--omni-font-size-lg); }
+/* Letter spacing adds its width after the last letter too, which pushes the label visibly off
+   centre in a widely tracked theme: the end padding gives that width back. No block padding: the
+   height is the density's control height, which a padding around the icon pushed past in compact. */
+.omni-button { font-size: var(--omni-button-font-size, var(--omni-control-font)); min-height: var(--omni-button-size, var(--omni-control-height)); padding-block: 0; padding-inline: var(--omni-button-padding-inline, var(--omni-button-pad-x)) calc(var(--omni-button-padding-inline, var(--omni-button-pad-x)) - var(--omni-button-letter-spacing, 0em)); }
+.omni-button--small .omni-button__content { gap: var(--omni-space-xs); }
+.omni-button--small { --omni-icon-size: 1rem; }
+/* Icône seule : carré. :where laisse un hôte qui retaille ses boutons l'emporter. */
+.omni-button[aria-label]:where(:has(> .omni-button__content > .omni-icon:only-child)) { min-inline-size: var(--omni-button-size, var(--omni-control-height)); padding-inline: 0; }
+.omni-button--primary { --omni-button-fill: var(--omni-color-accent-fill); --omni-button-fill-hover: var(--omni-color-accent-fill-hover); --omni-button-fill-active: var(--omni-color-accent-fill-active); --omni-button-ink: var(--omni-color-on-accent-fill); }
+/* Secondary is a plain grey drawn from the palette's text and surface, with the page text and no
+   border: in dark mode a border read as a frame around it. It keeps the theme's relief
+   (--omni-button-shadow), or the stepped frames and offset shadows of some themes would vanish from
+   the very buttons that sit beside the others. */
+.omni-button--secondary { --omni-button-fill: var(--omni-color-neutral-fill); --omni-button-fill-hover: var(--omni-color-neutral-fill-hover); --omni-button-fill-active: var(--omni-color-neutral-fill-active); --omni-button-ink: var(--omni-color-text); }
+/* The one justified exception to the shared relief: a ghost button deliberately has no body, so it
+   stays flat whatever the theme draws around buttons, at rest and pressed, or it would read as a
+   second secondary. Its hover and press tint the page like any other hovered surface; its text is the
+   strong accent, like every other accent text. */
+.omni-button--ghost { --omni-button-fill: transparent; --omni-button-fill-hover: var(--omni-color-surface-hover); --omni-button-fill-active: var(--omni-color-surface-highlight); --omni-button-ink: var(--omni-color-accent-strong); --omni-button-shadow: 0 0 #0000; border-color: transparent; }
+.omni-button--ghost:active:not(:disabled) { box-shadow: 0 0 #0000; }
+/* One rule for buttons, solid badges, notification marks and alerts. Information and success take
+   the bright fill, lightened until the dark ink holds 4.5:1; warning and danger take the deep fill,
+   darkened until the light ink does, since dark text on a vivid orange or red passed the ratio but
+   read poorly. Their hover and press shades move away from the ink as well. */
+.omni-button--info { --omni-button-fill: var(--omni-color-info-bright); --omni-button-fill-hover: var(--omni-color-info-bright-hover); --omni-button-fill-active: var(--omni-color-info-bright-active); --omni-button-ink: var(--omni-color-on-bright); }
+.omni-button--success { --omni-button-fill: var(--omni-color-success-bright); --omni-button-fill-hover: var(--omni-color-success-bright-hover); --omni-button-fill-active: var(--omni-color-success-bright-active); --omni-button-ink: var(--omni-color-on-bright); }
+.omni-button--warning { --omni-button-fill: var(--omni-color-warning-deep); --omni-button-fill-hover: var(--omni-color-warning-deep-hover); --omni-button-fill-active: var(--omni-color-warning-deep-active); --omni-button-ink: var(--omni-color-on-deep); }
+.omni-button--danger { --omni-button-fill: var(--omni-color-danger-deep); --omni-button-fill-hover: var(--omni-color-danger-deep-hover); --omni-button-fill-active: var(--omni-color-danger-deep-active); --omni-button-ink: var(--omni-color-on-deep); }
+
+/* The button wraps everything a consumer passes in this single element, so the gap declared on
+   .omni-button never separated an icon from its label: it applied between the button and its one
+   child. The spacing and the vertical centring belong here, where icon and text actually meet: glyph
+   boxes and labels share one centre line, independently of a font's baseline. */
+.omni-button__content {
+    align-items: center;
+    display: inline-flex;
+    gap: var(--omni-space-sm);
+    justify-content: center;
+    line-height: 1.2;
+}
+
+/* Indicator: a danger dot at the top end corner, ringed by the surface so it detaches from the icon it
+   overlaps (the bell of an app bar). Decorative, the accessible name says what it means. On the
+   accent band the ring takes the band. */
+.omni-button--indicator { position: relative; }
+.omni-button__indicator { background: var(--omni-color-danger-fill); block-size: 0.5rem; border-radius: var(--omni-radius-circle); box-shadow: 0 0 0 2px var(--omni-color-surface); inline-size: 0.5rem; inset-block-start: calc(5px - var(--omni-button-border-width, 1px)); inset-inline-end: calc(5px - var(--omni-button-border-width, 1px)); pointer-events: none; position: absolute; }
+.omni-header--accent .omni-button__indicator { box-shadow: 0 0 0 2px var(--omni-color-accent); }
+
+
+@media (prefers-reduced-motion: reduce) {
+    .omni-button { animation: none; transition: none; }
+}
+
+/* Layer: a theme may give cards a fill and a rule of their own (--omni-card-background,
+   --omni-card-border-color); without them a card keeps the palette's surface and border. */
+.omni-card {
+    background: var(--omni-card-background, var(--omni-color-surface));
+    border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border));
+    border-radius: var(--omni-card-radius, var(--omni-radius));
+    box-shadow: var(--omni-card-shadow);
+    color: var(--omni-color-text);
+}
+/* A theme may frost its card surfaces with one hook, --omni-card-filter (Givre), which also isolates the
+   theme scope (--omni-scope-isolation). The blur is not set on the surface itself: a filter would make it
+   the containing block of the fixed tooltips, menus and popovers it holds. A pseudo-element carries it
+   instead, stretched over the surface and sent below every block of the scope (z-index -1, the scope
+   being a stacking context under such a theme): it blurs the colour field, and the surface paints its
+   translucent fill, rim and highlight over it. Without the hook the pseudo-element paints nothing. The
+   surface is positioned but creates no stacking context, so the popovers it holds still rise above the
+   surfaces that follow it. The same frost reaches every surface drawn on the card fill: tiles, the
+   selectable card and the files of an upload. The grid's scrolling viewport cannot carry it (the layer
+   would scroll with the rows): a theme gives the grid a denser fill of its own (--omni-grid-background). */
+.omni-card,
+.omni-stat-tile,
+.omni-settings-tile,
+.omni-appearance-settings__row,
+.omni-selectable-card,
+.omni-upload__file { position: relative; }
+.omni-card::before,
+.omni-stat-tile::before,
+.omni-settings-tile::before,
+.omni-appearance-settings__row::before,
+.omni-selectable-card::before,
+.omni-upload__file::before {
+    backdrop-filter: var(--omni-card-filter, none);
+    border-radius: inherit;
+    content: "";
+    inset: calc(-1 * var(--omni-border-width));
+    pointer-events: none;
+    position: absolute;
+    z-index: -1;
+}
+.omni-card::before { inset: calc(-1 * var(--omni-card-border-width, var(--omni-border-width))); }
+
+.omni-card__header,
+.omni-card__footer { padding: var(--omni-card-pad); }
+.omni-card__header { border-bottom: var(--omni-border-width) solid var(--omni-color-border); }
+.omni-card__body { padding: var(--omni-card-pad); }
+/* Règle générale du débordement : un cadre peut devenir plus étroit que son contenu le plus large, et
+   c'est ce contenu qui défile (barre de choix, rangée, tableau) au lieu de pousser le cadre hors de sa
+   place. */
+.omni-card,
+.omni-card__body,
+.omni-settings-tile { min-inline-size: 0; }
+/* The actions of a card, a tile or a form sit at the end of its footer by default, as
+   the dialog and wizard ones do, without each page asking for it. */
+.omni-card__footer { align-items: center; border-top: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: flex-end; }
+
+/* Icon disc of a tile or a menu item: a grey disc of the palette, rounded by a highlight and a soft
+   shadow. */
+.omni-disc {
+    align-items: center;
+    background: var(--omni-color-neutral-fill);
+    block-size: var(--omni-icon-box);
+    border-radius: var(--omni-radius-circle);
+    box-shadow: inset 0 1px 0 var(--omni-elevation-highlight, transparent), 0 1px 2px var(--omni-elevation-shadow-soft, transparent);
+    color: var(--omni-color-text-muted);
+    display: inline-grid;
+    flex: none;
+    inline-size: var(--omni-icon-box);
+    place-content: center;
+}
+.omni-disc svg { block-size: 1.125rem; inline-size: 1.125rem; }
+.omni-disc--large { block-size: calc(var(--omni-icon-box) * 1.55); inline-size: calc(var(--omni-icon-box) * 1.55); }
+.omni-disc--large svg { block-size: 1.625rem; inline-size: 1.625rem; }
+
+.omni-stack { display: flex; }
+.omni-stack--horizontal { flex-direction: row; }
+.omni-stack--vertical { flex-direction: column; }
+.omni-stack--wrap { flex-wrap: wrap; }
+.omni-stack--gap-none { gap: 0; }
+.omni-stack--gap-xs { gap: var(--omni-space-xs); }
+.omni-stack--gap-sm { gap: var(--omni-space-sm); }
+.omni-stack--gap-md { gap: var(--omni-space-md); }
+.omni-stack--gap-lg { gap: var(--omni-space-lg); }
+.omni-stack--gap-xl { gap: var(--omni-space-xl); }
+.omni-stack--align-start { align-items: flex-start; }
+.omni-stack--align-center { align-items: center; }
+.omni-stack--align-end { align-items: flex-end; }
+.omni-stack--align-stretch { align-items: stretch; }
+.omni-stack--justify-start { justify-content: flex-start; }
+.omni-stack--justify-center { justify-content: center; }
+.omni-stack--justify-end { justify-content: flex-end; }
+.omni-stack--justify-between { justify-content: space-between; }
+
+/* Rangée étroite : défiler ou replier en icônes (sous 480px). Qui défile ne montre pas de barre :
+   comme l'en-tête des onglets, un chevron de chaque côté qui cache encore des éléments, ôté en
+   butée ; la rangée ne prend donc aucune hauteur de plus que ses boutons. */
+.omni-stack-scroll { align-items: center; display: flex; min-inline-size: 0; }
+/* Le rembourrage, repris par une marge négative, laisse sa place à l'anneau de focus que le
+   défilement rognerait. */
+.omni-stack--overflow-scroll { flex: 1 1 auto; flex-wrap: nowrap; margin: -0.1875rem; min-inline-size: 0; overflow-x: auto; overscroll-behavior-x: contain; padding: 0.1875rem; scrollbar-width: none; }
+.omni-stack--overflow-scroll::-webkit-scrollbar { display: none; }
+.omni-stack--overflow-scroll > * { flex: 0 0 auto; }
+.omni-stack-scroll__button { align-items: center; align-self: stretch; background: transparent; border: 0; color: var(--omni-color-text); cursor: pointer; display: inline-flex; flex: 0 0 auto; padding: 0 var(--omni-space-xs); }
+.omni-stack-scroll__button[hidden] { display: none; }
+.omni-stack-scroll__chevron { block-size: 1.25em; inline-size: 1.25em; }
+.omni-stack--overflow-collapse { flex-wrap: nowrap; min-inline-size: 0; }
+
+@media (max-width: 39.99rem) {
+    /* Seul le libellé quitte le flux (il reste lu) ; l'icône, décorative ou nommée, reste. Viser le
+       contenu entier du bouton emportait l'icône avec lui. */
+    .omni-stack--overflow-collapse :is(.omni-button__content,.omni-select-bar__item) > span:not([aria-hidden="true"],[role="img"]) {
+        clip-path: inset(50%);
+        block-size: 1px;
+        inline-size: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+    }
+
+    /* Réduit à son icône, un bouton est carré : sa largeur reprend la hauteur de sa taille. */
+    .omni-stack--overflow-collapse .omni-button:has(> .omni-button__content > :is([aria-hidden="true"],[role="img"],svg,img)) {
+        inline-size: var(--omni-button-size, var(--omni-control-height));
+        padding-inline: 0;
+    }
+
+    /* Un bouton sans icône garderait une surface vide : son libellé reste. */
+    .omni-stack--overflow-collapse :is(.omni-button__content,.omni-select-bar__item):not(:has([aria-hidden="true"],[role="img"],svg,img)) > span {
+        clip-path: none;
+        block-size: auto;
+        inline-size: auto;
+        overflow: visible;
+        position: static;
+    }
+}
+
+/* Alerts. Each intention names its fill and the ink picked for it, with the rule shared by buttons,
+   solid badges and notification marks: information and success on the bright fill with the dark
+   ink, warning and danger on the deep fill with the light ink. No side bar marks the intention: the
+   fill, the icon disc and the glyph do. */
+.omni-alert { --omni-alert-fill: var(--omni-color-info-bright); --omni-alert-on: var(--omni-color-on-bright); align-items: flex-start; border-radius: var(--omni-alert-radius, var(--omni-radius)); box-sizing: border-box; display: flex; gap: var(--omni-space-md); line-height: 1.45; padding: var(--omni-alert-pad-y) var(--omni-alert-pad-x); }
+.omni-alert--info { --omni-alert-fill: var(--omni-color-info-bright); --omni-alert-on: var(--omni-color-on-bright); }
+.omni-alert--success { --omni-alert-fill: var(--omni-color-success-bright); --omni-alert-on: var(--omni-color-on-bright); }
+.omni-alert--warning { --omni-alert-fill: var(--omni-color-warning-deep); --omni-alert-on: var(--omni-color-on-deep); }
+.omni-alert--danger { --omni-alert-fill: var(--omni-color-danger-deep); --omni-alert-on: var(--omni-color-on-deep); }
+/* Solid, drawn like a button: the intention's fill and its ink, a white highlight on the top edge,
+   a neutral shadow and one tinted by the fill. No pale tint and no gradient. A theme may flatten it
+   (--omni-alert-shadow, Aplat). */
+.omni-alert--solid { background: var(--omni-alert-fill); border: 0; box-shadow: var(--omni-alert-shadow, inset 0 1px 0 rgb(255 255 255 / 14%), 0 1px 2px var(--omni-elevation-shadow, rgb(0 0 0 / 20%)), 0 6px 16px -6px color-mix(in srgb, var(--omni-alert-fill) 60%, transparent)); color: var(--omni-alert-on); }
+.omni-alert--solid a { color: inherit; }
+/* Outline keeps the message light on the page: the card's surface, a rule in the intention, the page
+   text. The intention is carried by the disc, painted with the same fill and ink as the solid alert. */
+.omni-alert--outline { background: var(--omni-card-background, var(--omni-color-surface)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-alert-fill) 55%, transparent); color: var(--omni-color-text); }
+/* Tonal: a light tint of the intention behind the page text, no rule; the disc as in Outline. */
+.omni-alert--tonal { background: color-mix(in srgb, var(--omni-alert-fill) 12%, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-border-width) solid transparent; color: var(--omni-color-text); }
+/* The icon is a glyph alone in a disc. The title's line height is the disc size, and so is the close
+   button: disc, title and close share one axis in every density. */
+.omni-alert__icon { align-items: center; background: color-mix(in srgb, var(--omni-alert-on) 18%, transparent); block-size: var(--omni-alert-icon); border-radius: var(--omni-radius-circle); box-sizing: border-box; color: var(--omni-alert-on); display: inline-flex; flex: none; inline-size: var(--omni-alert-icon); justify-content: center; }
+.omni-alert--outline .omni-alert__icon, .omni-alert--tonal .omni-alert__icon { background: var(--omni-alert-fill); }
+.omni-alert__icon svg { block-size: var(--omni-alert-glyph); display: block; flex: none; inline-size: var(--omni-alert-glyph); }
+.omni-alert__body { display: grid; flex: 1 1 auto; gap: 0.125rem; min-width: 0; }
+.omni-alert__title { color: inherit; display: block; font-weight: 600; line-height: var(--omni-alert-icon); }
+/* Without a title, the first line of the message is centred on the disc instead. */
+.omni-alert__content:first-child { padding-block-start: max(0px, calc((var(--omni-alert-icon) - 1.45em) / 2)); }
+/* Present only on a Dismissible alert. The visible box is the disc size; the pointer target is widened
+   to 44 px around it by a transparent layer, so the target stays auditable without a larger button. */
+.omni-alert__dismiss { align-items: center; background: transparent; block-size: var(--omni-alert-icon); border: 0; border-radius: var(--omni-radius-sm); color: inherit; cursor: pointer; display: inline-flex; flex: none; inline-size: var(--omni-alert-icon); justify-content: center; margin-inline-start: auto; padding: 0; position: relative; }
+.omni-alert__dismiss::before { content: ""; inset: min(0px, calc((var(--omni-alert-icon) - 2.75rem) / 2)); position: absolute; }
+.omni-alert__dismiss .omni-icon { height: 0.875rem; width: 0.875rem; }
+.omni-alert__dismiss:hover { background: color-mix(in srgb, currentColor 16%, transparent); }
+.omni-alert__dismiss:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.omni-alert__content > :first-child { margin-block-start: 0; }
+.omni-alert__content > :last-child { margin-block-end: 0; }
+
+.omni-visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+}
+
+.omni-text,
+.omni-heading { color: var(--omni-color-text); }
+.omni-text--neutral { color: var(--omni-color-text); }
+.omni-text--muted { color: var(--omni-color-text-muted); }
+.omni-text--accent { color: var(--omni-color-accent-strong); }
+.omni-text--success { color: var(--omni-color-success); }
+.omni-text--danger { color: var(--omni-color-danger); }
+.omni-text--truncate {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* A long word breaks rather than widen the page: a theme with spaced capitals (Néon, Ardoise, Octet)
+   pushed "Personnalisation" past a 375 px screen (RET-002 n°28, PLAN-004 lot 10). */
+.omni-heading {
+    font-family: var(--omni-heading-font-family);
+    font-weight: var(--omni-heading-font-weight);
+    letter-spacing: var(--omni-heading-letter-spacing);
+    line-height: 1.2;
+    margin-block: 0 0.5em;
+    overflow-wrap: break-word;
+    text-transform: var(--omni-heading-text-transform);
+}
+.omni-heading--h1 { font-size: var(--omni-font-size-h1); }
+.omni-heading--h2 { font-size: var(--omni-font-size-h2); }
+.omni-heading--h3 { font-size: var(--omni-font-size-h3); }
+.omni-heading--h4 { font-size: var(--omni-font-size-h4); }
+.omni-heading--h5 { font-size: var(--omni-font-size-h5); }
+.omni-heading--h6 { font-size: var(--omni-font-size-h6); }
+
+.omni-icon {
+    display: inline-block;
+    flex: 0 0 auto;
+    vertical-align: middle;
+}
+/* An icon without a Size of its own takes the size its container hands down through --omni-icon-size
+   (badge, split button, small button), the medium size elsewhere. :where keeps this at no specificity,
+   so a Size class, or any class of the consumer that sizes the icon, wins over the container. */
+:where(.omni-icon) { height: var(--omni-icon-size, 1.25rem); width: var(--omni-icon-size, 1.25rem); }
+.omni-icon--small { height: 1rem; width: 1rem; }
+.omni-icon--medium { height: 1.25rem; width: 1.25rem; }
+.omni-icon--large { height: 1.5rem; width: 1.5rem; }
+
+/* Pastille tonale : l'encre de la variante mêlée à la surface et au texte, lisible en clair et en sombre. */
+.omni-badge { --omni-badge-ink: var(--omni-color-text-muted); align-items: center; background: color-mix(in srgb, var(--omni-badge-ink) 14%, var(--omni-color-surface)); border: var(--omni-border-width) solid color-mix(in srgb, var(--omni-badge-ink) 32%, transparent); border-radius: var(--omni-radius-sm); box-sizing: border-box; color: color-mix(in srgb, var(--omni-badge-ink) 40%, var(--omni-color-text)); display: inline-flex; font-size: calc(var(--omni-control-font) - 0.0625rem); font-variant-numeric: tabular-nums; font-weight: 650; gap: var(--omni-space-xs); justify-content: center; line-height: 1; min-height: var(--omni-badge-height); min-width: var(--omni-badge-height); padding: var(--omni-badge-pad-y) 0.5rem; white-space: nowrap; }
+.omni-badge { --omni-icon-size: 0.875rem; }
+/* An icon-only badge is a square as tall as the text badges beside it, its glyph in the middle. */
+.omni-badge--icon { aspect-ratio: 1; padding-inline: 0; }
+.omni-badge--neutral { --omni-badge-ink: var(--omni-color-text-muted); }
+.omni-badge--accent { --omni-badge-ink: var(--omni-color-accent-strong); }
+.omni-badge--info { --omni-badge-ink: var(--omni-color-info); }
+.omni-badge--success { --omni-badge-ink: var(--omni-color-success); }
+.omni-badge--warning { --omni-badge-ink: var(--omni-color-warning); }
+.omni-badge--danger { --omni-badge-ink: var(--omni-color-danger); }
+
+.omni-badge--outline { background: transparent; border-color: color-mix(in srgb, var(--omni-badge-ink) 78%, transparent); }
+
+/* Solid: exactly the fill and the ink of the button of the same intention, so a status and the
+   action that concerns it carry the same colour. */
+.omni-badge--solid { background: var(--omni-color-accent-fill); border-color: transparent; color: var(--omni-color-on-accent-fill); }
+/* Neutral is the exception: the secondary button's grey sits within a few percent of the page and of a
+   grid or card surface (1.25:1 on a dark grid), and a solid badge has no shape of its own to be told apart by.
+   It takes the muted text as fill and the surface as ink: 4.5:1 or more on the page, muted and hovered
+   surfaces, 3:1 or more on grid, card and layer frames, in every set (ThemeContrastMatrixTests). */
+.omni-badge--solid.omni-badge--neutral { background: var(--omni-color-text-muted); color: var(--omni-color-surface); }
+.omni-badge--solid.omni-badge--info { background: var(--omni-color-info-bright); color: var(--omni-color-on-bright); }
+.omni-badge--solid.omni-badge--success { background: var(--omni-color-success-bright); color: var(--omni-color-on-bright); }
+.omni-badge--solid.omni-badge--warning { background: var(--omni-color-warning-deep); color: var(--omni-color-on-deep); }
+.omni-badge--solid.omni-badge--danger { background: var(--omni-color-danger-deep); color: var(--omni-color-on-deep); }
+
+/* Souligné au survol seulement. */
+.omni-link { color: var(--omni-color-accent-strong); text-decoration: none; text-underline-offset: 0.15em; }
+.omni-link:hover { text-decoration: underline 0.08em; }
+.omni-link:focus-visible { border-radius: var(--omni-radius-sm); box-shadow: var(--omni-focus-ring); outline: none; }
+/* A link that opens a new tab says so with the external-link icon after its text, on the same baseline. */
+.omni-link__external { display: inline-block; height: 0.875em; margin-inline-start: 0.25em; vertical-align: -0.0625em; width: 0.875em; }
+
+/* A natural image follows its own ratio when max-width narrows it. Contain and cover keep the box the
+   width and height attributes give them, the only box object-fit can fill; height:auto there would
+   replace it by the picture's own ratio and leave nothing to letterbox or crop. */
+.omni-image { display: block; max-width: 100%; }
+.omni-image--natural { height: auto; }
+.omni-image--contain { object-fit: contain; }
+.omni-image--cover { object-fit: cover; }
+
+.omni-skeleton { display: grid; gap: var(--omni-space-sm); }
+/* The placeholder takes the size of what it stands for, so it follows the density like it: a line is
+   half a control high, the circle an avatar, the rectangle two controls. Comfortable keeps 1, 3 and 5 rem. */
+.omni-skeleton__item {
+    animation: omni-pulse 1.6s ease-in-out infinite;
+    background: linear-gradient(90deg, var(--omni-color-surface-muted), var(--omni-color-surface-highlight), var(--omni-color-surface-muted));
+    background-size: 200% 100%;
+    border-radius: var(--omni-radius);
+    display: block;
+    min-height: calc(var(--omni-control-height) / 2 - 0.125rem);
+    width: 100%;
+}
+.omni-skeleton--circle .omni-skeleton__item { aspect-ratio: 1; border-radius: var(--omni-radius-circle); width: calc(var(--omni-control-height) + 0.75rem); }
+.omni-skeleton--rectangle .omni-skeleton__item { min-height: calc(var(--omni-control-height) * 2 + 0.5rem); }
+@keyframes omni-pulse { to { background-position: -200% 0; } }
+

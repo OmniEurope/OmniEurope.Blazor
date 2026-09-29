@@ -15,8 +15,15 @@ namespace OmniEurope.Blazor.Components;
 /// <para>
 /// A title longer than its line is not cut: it scrolls sideways on one line, and a chevron button
 /// shows on each side that still has text (the module <c>omni-page-header.js</c> measures it and marks
-/// the block; it writes no style). On a phone the badges and actions fold behind a "Show more" toggle,
-/// whose <c>aria-expanded</c> says whether they are shown; the "⋮" menu stays in sight.
+/// the block; it writes no style).
+/// </para>
+/// <para>
+/// The badges and actions fold behind a "Show more" toggle, whose <c>aria-expanded</c> says whether
+/// they are shown: on a phone, and at any width as soon as line 1 has no room for them beside the
+/// title. The same module measures line 1 unfolded when the header is resized or its content changes,
+/// and marks the block <c>data-compact</c> when it overflows; the stylesheet then applies the phone
+/// fold. Before the script runs (prerendering), only the phone fold applies. The "⋮" menu stays in
+/// sight either way.
 /// </para>
 /// </remarks>
 public partial class OmniPageHeader
@@ -103,11 +110,17 @@ public partial class OmniPageHeader
     [Parameter]
     public RenderFragment? Icon { get; set; }
 
-    /// <summary>Status badges right after the title. Folded with the actions on a phone.</summary>
+    /// <summary>
+    /// Status badges right after the title. Folded with the actions on a phone, and at any width when
+    /// line 1 has no room for them.
+    /// </summary>
     [Parameter]
     public RenderFragment? Badges { get; set; }
 
-    /// <summary>Actions at the end of line 1, before the "⋮" menu. Folded with the badges on a phone.</summary>
+    /// <summary>
+    /// Actions at the end of line 1, before the "⋮" menu. Folded with the badges on a phone, and at any
+    /// width when line 1 has no room for them.
+    /// </summary>
     [Parameter]
     public RenderFragment? Actions { get; set; }
 
@@ -162,7 +175,10 @@ public partial class OmniPageHeader
         }
     }
 
-    /// <summary>On the first render, attaches the title scroll script to the frame; a lost circuit is ignored.</summary>
+    /// <summary>
+    /// On the first render, attaches the script that folds line 1 when it overflows and scrolls the
+    /// title; a lost circuit is ignored.
+    /// </summary>
     /// <param name="firstRender">True on the first render of the component.</param>
     /// <returns>A task that completes once the script is attached.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -197,7 +213,11 @@ public partial class OmniPageHeader
     private Task GoBackAsync() =>
         Internal.OmniBackNavigation.GoBackAsync(Navigation, JavaScript, !string.IsNullOrWhiteSpace(BackHref) ? BackHref : _breadcrumb?.ParentHref);
 
-    /// <summary>Stops listening to the breadcrumb service and detaches the title scroll.</summary>
+    /// <summary>
+    /// Stops listening to the breadcrumb service and detaches the script: its observers and listeners
+    /// are released and the frame loses its <c>data-compact</c> mark.
+    /// </summary>
+    /// <returns>A task that completes once the script is detached; a lost circuit is ignored.</returns>
     public async ValueTask DisposeAsync()
     {
         _disposed = true;

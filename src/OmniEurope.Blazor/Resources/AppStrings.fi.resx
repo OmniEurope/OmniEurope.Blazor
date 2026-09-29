@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Raja: enintään {0} riviä</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Luotu (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Vietyjä rivejä: {0}/{1} ilmoitetusta</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Vietyjä rivejä: {0}/vähintään {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Vienti katkaistu: {0}/{1} riviä viety, raja ({2} riviä) saavutettiin.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Vienti keskeneräinen: {0}/{1} ilmoitetusta rivistä viety, tiedot muuttuivat lukemisen aikana.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Rajattu vienti: raja ({0} riviä) saavutettiin, eikä lähde ilmoita kokonaismäärää, rivejä voi olla enemmän.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ei rivejä.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Rekisteröidy</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Eikö sinulla ole tiliä?</value></data>

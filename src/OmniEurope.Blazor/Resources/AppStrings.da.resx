@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Grænse: højst {0} rækker</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Genereret (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Eksporterede rækker: {0} af {1} angivne</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Eksporterede rækker: {0} af mindst {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Eksporten er afkortet: {0} af {1} rækker eksporteret, grænsen på {2} rækker er nået.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Eksporten er ufuldstændig: {0} af {1} angivne rækker eksporteret, dataene blev ændret under læsningen.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Begrænset eksport: grænsen på {0} rækker er nået, og kilden angiver intet samlet antal, der kan findes flere rækker.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ingen rækker.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Tilmeld dig</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Ingen konto?</value></data>

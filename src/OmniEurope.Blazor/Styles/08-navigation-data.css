@@ -1,0 +1,483 @@
+/* A tab row stays on one line by default: wrapping turned six tabs into three stacked rows and the
+   selected underline stopped reading as a single row of choices. Overflow is shown rather than
+   hidden, by a fade and a chevron on whichever side still holds tabs, both of which go out at the
+   stop so reaching an end is visible. */
+.omni-tabs { display: flex; flex-direction: column; min-block-size: 0; }
+/* The strip closes on a rule: without it the selected tab's underline floated with nothing to sit
+   on, and the panel below started at no particular place. */
+.omni-tabs__strip {
+    align-items: center;
+    border-block-end: var(--omni-border-width) solid var(--omni-color-border);
+    display: flex;
+    position: relative;
+}
+/* The padding, given back by a negative margin, leaves room for the focus ring of a tab that the
+   scrolling box would otherwise clip; the tabs and their underline keep their place. */
+.omni-tabs__viewport {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: nowrap;
+    margin: -0.25rem;
+    min-width: 0;
+    padding: 0.25rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+/* The chevrons are the affordance; a scrollbar under the tabs would be a second one. */
+.omni-tabs__viewport::-webkit-scrollbar { display: none; }
+.omni-tabs__icon { align-items: center; display: inline-flex; flex: 0 0 auto; }
+.omni-tabs__tab { align-items: center; display: inline-flex; flex: 0 0 auto; gap: var(--omni-space-sm); white-space: nowrap; }
+/* Un compteur d'onglet reste sous la hauteur de ligne : l'onglet garde sa hauteur. */
+.omni-tabs__title { align-items: center; display: inline-flex; gap: var(--omni-space-xs); }
+.omni-tabs__title .omni-badge { font-size: var(--omni-font-size-xs); min-height: 1rem; min-width: 1rem; padding: 0 0.3125rem; }
+.omni-tabs__item { display: contents; }
+
+/* Opaque, and above the fade: a transparent button let a sliver of the tab it covers show
+   through, which read as debris rather than as an edge. The chevrons and the fades take the fill of
+   what holds the tabs: the card fill by default, since tabs mostly sit in a card; a host placing them
+   on another fill names it once in --omni-tabs-edge, on the tabs or any ancestor. */
+.omni-tabs__scroll {
+    align-items: center;
+    background: var(--omni-tabs-edge, var(--omni-card-background, var(--omni-color-surface)));
+    border: 0;
+    color: var(--omni-color-text);
+    cursor: pointer;
+    display: inline-flex;
+    flex: 0 0 auto;
+    padding: var(--omni-space-xs);
+    position: relative;
+    z-index: 1;
+}
+.omni-tabs__scroll[hidden] { display: none; }
+.omni-tabs__chevron { height: 1.25em; width: 1.25em; }
+
+/* The fade sits over the tabs, not over the chevron, and does not take the pointer. */
+.omni-tabs__strip::before,
+.omni-tabs__strip::after {
+    content: "";
+    inset-block: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 2.5rem;
+    z-index: 0;
+}
+.omni-tabs__strip::before { inset-inline-start: 0; }
+.omni-tabs__strip::after { inset-inline-end: 0; }
+.omni-tabs__strip[data-omni-overflow-start]::before {
+    background: linear-gradient(to right, var(--omni-tabs-edge, var(--omni-card-background, var(--omni-color-surface))) 20%, transparent);
+}
+.omni-tabs__strip[data-omni-overflow-end]::after {
+    background: linear-gradient(to left, var(--omni-tabs-edge, var(--omni-card-background, var(--omni-color-surface))) 20%, transparent);
+}
+/* Right to left, the start fade sits on the right edge and the end fade on the left one. */
+.omni-tabs__strip[data-omni-overflow-start]:dir(rtl)::before { background: linear-gradient(to left, var(--omni-tabs-edge, var(--omni-card-background, var(--omni-color-surface))) 20%, transparent); }
+.omni-tabs__strip[data-omni-overflow-end]:dir(rtl)::after { background: linear-gradient(to right, var(--omni-tabs-edge, var(--omni-card-background, var(--omni-color-surface))) 20%, transparent); }
+
+@media (prefers-reduced-motion: reduce) {
+    .omni-tabs__viewport { scroll-behavior: auto; }
+}
+.omni-tabs__tab,
+.omni-steps__button { background: transparent; border: 0; border-block-end: 2px solid transparent; color: var(--omni-color-text); cursor: pointer; font: inherit; padding: var(--omni-space-sm) var(--omni-space-md); }
+/* A tab is tracked like a button, and its end padding gives the letter spacing back for the same
+   reason: without it the label sits visibly off centre in a widely tracked theme. */
+.omni-tabs__tab { color: var(--omni-color-text-muted); font-size: var(--omni-control-font); font-weight: var(--omni-button-font-weight, 600); letter-spacing: var(--omni-button-letter-spacing, 0em); padding-block: calc(var(--omni-item-pad-y) + 1px); padding-inline: var(--omni-space-md) calc(var(--omni-space-md) - var(--omni-button-letter-spacing, 0em)); text-transform: var(--omni-button-text-transform, none); }
+.omni-tabs__tab:hover { background: var(--omni-color-surface-hover); color: var(--omni-color-text); }
+.omni-tabs__tab[aria-selected="true"] { border-block-end-color: var(--omni-color-accent); color: var(--omni-color-accent-strong); }
+/* A tab that takes a drop says so while a drag is over it: its wrapper draws no box, the button does. */
+.omni-tabs__tab--drag-over { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); }
+/* A flex column that may shrink: a grid inside asking for the height its parent leaves free needs
+   a parent that is itself bounded, or it overflows the panel and runs off the bottom of the page. */
+.omni-tabs__panel {
+    display: flex;
+    flex-direction: column;
+    min-block-size: 0;
+    padding: var(--omni-space-lg) 0;
+}
+/* ScrollablePanels: the tabs fill their sized parent and only the selected panel scrolls, so the strip
+   stays put. The scroll stops at the panel's edge rather than chaining to the page behind it. */
+.omni-tabs--scrollable-panels { block-size: 100%; min-block-size: 0; }
+.omni-tabs--scrollable-panels > .omni-tabs__panel { flex: 1 1 auto; min-block-size: 0; overflow-y: auto; overscroll-behavior-y: contain; }
+.omni-tabs__panel[hidden],
+.omni-steps__panel[hidden] { display: none; }
+.omni-steps__list { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
+.omni-steps__item { display: contents; }
+.omni-steps__button { align-items: center; display: inline-flex; gap: var(--omni-space-xs); }
+.omni-steps__number { align-items: center; background: var(--omni-color-surface-muted); border-radius: var(--omni-radius-circle); display: inline-flex; height: calc(var(--omni-control-height) - 0.5rem); justify-content: center; width: calc(var(--omni-control-height) - 0.5rem); }
+.omni-steps__icon { align-items: center; display: inline-flex; }
+.omni-steps__item--selected .omni-steps__number { background: var(--omni-color-accent-fill); color: var(--omni-color-on-accent-fill); }
+.omni-steps__panel { flex-basis: 100%; order: 2; padding-block: var(--omni-space-lg); }
+.omni-popover { display: inline-block; position: relative; }
+.omni-popover__panel { backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); color: var(--omni-color-text); inset-block-start: calc(100% + var(--omni-space-xs)); max-inline-size: min(24rem, calc(100vw - 2 * var(--omni-space-md))); min-inline-size: 16rem; padding: var(--omni-space-md); position: absolute; z-index: var(--omni-z-popover); }
+.omni-popover__panel:focus-visible { outline: none; }
+.omni-popover--bottom-end .omni-popover__panel { inset-inline-end: 0; }
+.omni-popover--bottom-start .omni-popover__panel { inset-inline-start: 0; }
+/* Kept inside the window by omni-focus.js: shifted sideways near an edge, above the trigger when there is no room below. */
+.omni-popover__panel { max-block-size: calc(100vh - 2 * var(--omni-space-md)); overflow: auto; translate: var(--omni-popover-shift-x, 0) 0; }
+.omni-popover__panel--above { inset-block-end: calc(100% + var(--omni-space-xs)); inset-block-start: auto; }
+.omni-profile-menu { display: inline-block; position: relative; }
+/* The trigger is a button that looks like what it shows (the avatar, or the host's Summary). */
+.omni-profile-menu__trigger { align-items: center; background: transparent; border: 0; border-radius: var(--omni-radius); color: inherit; cursor: pointer; display: inline-flex; font: inherit; gap: var(--omni-space-sm); padding: 0; }
+.omni-profile-menu__trigger:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-profile-menu__trigger:disabled { cursor: not-allowed; opacity: 0.55; }
+/* Avatar trigger (no Summary): a round disc of the palette grey, the user glyph or the initials in the
+   page text, the focus ring on the circle. The pointer target reaches 44 px around the disc through a
+   transparent layer, as the dismiss button of an alert does. */
+.omni-profile-menu--avatar > .omni-profile-menu__trigger { border-radius: var(--omni-radius-circle); display: block; position: relative; }
+.omni-profile-menu--avatar > .omni-profile-menu__trigger::before { content: ""; inset: min(0px, calc((var(--omni-icon-box) * 0.9 - 2.75rem) / 2)); position: absolute; }
+.omni-profile-menu__trigger > .omni-profile-menu__avatar { block-size: calc(var(--omni-icon-box) * 0.9); inline-size: calc(var(--omni-icon-box) * 0.9); }
+.omni-profile-menu__initials { color: var(--omni-color-text); font-size: var(--omni-font-size-sm); font-weight: 650; line-height: 1; }
+/* The menu is an .omni-menu. With a Header it holds the identity, then the list of items. An item's
+   icon sits in a disc of the palette grey, like the icons of the tiles; an item without one keeps no
+   empty column. */
+.omni-profile-menu__popup { min-width: 12rem; }
+.omni-profile-menu__popup--header { gap: 0; min-inline-size: 16rem; }
+.omni-profile-menu__items { display: grid; gap: 1px; }
+.omni-profile-menu__header { align-items: center; display: flex; gap: 14px; padding: var(--omni-pop-pad) var(--omni-pop-pad) calc(var(--omni-pop-pad) + 4px); }
+.omni-profile-menu__identity { color: var(--omni-color-text-muted); display: grid; font-size: var(--omni-font-size-label); min-inline-size: 0; }
+.omni-profile-menu__identity > :first-child { color: var(--omni-color-text); font-size: 1.0625rem; font-weight: 700; }
+.omni-profile-menu__popup .omni-menu__icon:empty { display: none; }
+.omni-profile-menu__popup .omni-menu__icon:not(:empty) { --omni-icon-size: 1.125rem; background: var(--omni-color-neutral-fill); block-size: var(--omni-icon-box); border-radius: var(--omni-radius-circle); color: var(--omni-color-text-muted); inline-size: var(--omni-icon-box); }
+
+.omni-data-list { display: grid; gap: var(--omni-space-sm); }
+.omni-data-list__item { border-block-end: var(--omni-border-width) solid var(--omni-color-border); padding: var(--omni-space-md); }
+.omni-data-list__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
+.omni-data-list__state--error { color: var(--omni-color-danger); display: grid; gap: var(--omni-space-sm); justify-items: center; }
+/* Virtualised list: the spacers stand in for the items outside the window. Their height comes from
+   omni-grid.js through a custom property; the negative margins cancel the grid gap next to them, so
+   a spacer adds exactly the height of the items it replaces. */
+.omni-data-list__spacer { block-size: var(--omni-data-list-spacer, 0px); }
+.omni-data-list__spacer[data-omni-spacer="top"] { margin-block-end: calc(-1 * var(--omni-space-sm)); }
+.omni-data-list__spacer[data-omni-spacer="bottom"] { margin-block-start: calc(-1 * var(--omni-space-sm)); }
+.omni-pager { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: center; }
+/* A pager button is one control tall and follows the density; its pointer target reaches 44 px high
+   through a transparent layer, and across to half the gap on each side, never onto its neighbours.
+   The current page takes the selected fill. */
+.omni-pager__button { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); color: var(--omni-color-text); cursor: pointer; font: inherit; min-height: var(--omni-control-height); min-width: var(--omni-control-height); position: relative; }
+.omni-pager__button::before { content: ""; inset-block: min(0px, calc((var(--omni-control-height) - 2.75rem) / 2)); inset-inline: calc(var(--omni-space-sm) / -2); position: absolute; }
+.omni-pager__button[aria-current="page"] { background: var(--omni-color-accent-fill); border-color: var(--omni-color-accent-fill); color: var(--omni-color-on-accent-fill); font-weight: 600; }
+.omni-pager__button:disabled { cursor: not-allowed; opacity: 0.55; }
+.omni-tree,
+.omni-tree__level { display: grid; gap: var(--omni-space-xs); }
+.omni-tree__level { border-inline-start: var(--omni-border-width) solid var(--omni-color-border); margin-inline-start: var(--omni-space-md); padding-inline-start: var(--omni-space-sm); }
+.omni-tree__row { align-items: center; display: flex; }
+/* A tree row is one control tall and follows the density. The row's select button spans the row; the
+   toggle is a square of the control height whose pointer target is widened to 44 px across by a
+   transparent layer, and to the row gap above and below, never into the neighbouring rows. */
+.omni-tree__toggle,
+.omni-tree__select { background: transparent; border: 0; color: var(--omni-color-text); cursor: pointer; font: inherit; min-height: var(--omni-control-height); }
+.omni-tree__toggle { border-radius: var(--omni-radius); flex: none; inline-size: var(--omni-control-height); padding: 0; position: relative; }
+.omni-tree__toggle::before { content: ""; inset-block: calc(var(--omni-space-xs) / -2); inset-inline: min(0px, calc((var(--omni-control-height) - 2.75rem) / 2)); position: absolute; }
+.omni-tree__select { border-radius: var(--omni-radius); flex: 1; padding-inline: var(--omni-space-sm); text-align: start; }
+.omni-tree__item--selected > .omni-tree__row > .omni-tree__select { background: var(--omni-color-surface-muted); color: var(--omni-color-accent-strong); font-weight: 650; }
+.omni-tree__item:focus-visible { border-radius: var(--omni-radius); box-shadow: var(--omni-focus-ring); outline: none; }
+
+/* The frame of the grid is its scrolling viewport, dressed like a card: the card's fill, rule, radius
+   and shadow, unless a theme gives grids a fill of their own (--omni-grid-background, Aplat). Its
+   scrollbar is thin and tinted from the text, so it follows the scope's mode instead of the host page's. */
+.omni-data-grid { --omni-data-grid-column-min-width: 8rem; --omni-data-grid-control-width: 2.75rem; --omni-data-grid-edit-width: 5.25rem; --omni-grid-frame: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); --omni-column-active-fill: color-mix(in srgb, var(--omni-color-accent) 6%, transparent); display: grid; font-size: var(--omni-font-size-base); gap: var(--omni-space-md); min-inline-size: 0; }
+/* position: relative keeps an absolutely placed descendant (a visually hidden label in a cell) inside the scrolled rows: without it the box escaped the viewport clip and made the page scroll. */
+.omni-data-grid__viewport { background: var(--omni-grid-frame); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); overflow: auto; position: relative; scrollbar-color: color-mix(in srgb, var(--omni-color-text) 28%, transparent) transparent; scrollbar-width: thin; }
+/* Fixed layout: virtualization swapping rows never moves the columns. The minimum, pushed by
+   omni-grid.js, keeps columns without a width from collapsing on a narrow screen: the viewport
+   scrolls sideways instead. The separate border model with no spacing: a sticky header keeps its own
+   rule as it scrolls (a collapsed border stays behind in the table), and the cells stay table cells. */
+.omni-data-grid__table { border-collapse: separate; border-spacing: 0; color: var(--omni-color-text); min-inline-size: var(--omni-grid-table-min, 0px); table-layout: fixed; width: 100%; }
+.omni-data-grid__table caption { font-weight: 650; padding: var(--omni-space-sm); text-align: start; }
+.omni-data-grid__table :is(th, td) { padding: var(--omni-cell-pad-y) var(--omni-space-md); text-align: start; }
+.omni-data-grid__table th { font-weight: 600; }
+.omni-data-grid__table td { font-variant-numeric: tabular-nums; }
+/* Row separators only without striping, which already says the same thing; asked for explicitly
+   (Horizontal, Both), they stay. :where keeps them below the GridLines rules. */
+/* Rows keep a thin rule even when striped: the alternating tint alone was too faint to follow a row. */
+:where(.omni-data-grid:not(.omni-data-grid--lines-none):not(.omni-data-grid--lines-vertical), .omni-data-grid--lines-both) tbody :is(td, th) { border-block-end: var(--omni-border-width) solid color-mix(in srgb, var(--omni-color-border) 55%, transparent); }
+:where(.omni-data-grid) tbody > tr:last-child > :is(td, th) { border-block-end: 0; }
+:where(.omni-data-grid) tfoot td { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
+/* Numbers align at the end in figures of one width, to be compared at a glance. A column whose
+   property is numeric gets the class unless its alignment was set. */
+.omni-data-grid .omni-data-grid__cell--numeric { font-variant-numeric: tabular-nums; text-align: end; }
+/* A text cell keeps to one line and ends in an ellipsis: under the fixed table layout a long value
+   otherwise spilled over the next column. Templated cells are left unclipped (badges, buttons, menus,
+   edit inputs); a column opts its template in with this class. The header keeps its own HeaderWrap. */
+.omni-data-grid tbody td.omni-data-grid__cell--text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* A thin sticky header: no fill of its own (it takes the frame's, to hide the rows passing under it),
+   muted text in 600, a rule stronger than the row separators. */
+.omni-data-grid__table thead { inset-block-start: 0; position: sticky; z-index: 3; }
+/* The header row has a tint of its own, so it reads apart from the rows under it (luminosity only,
+   which holds for colour-blind readers too). */
+.omni-data-grid { --omni-header-fill: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-grid-frame)); --omni-header-fill-hover: color-mix(in srgb, var(--omni-color-text) 10%, var(--omni-grid-frame)); }
+.omni-data-grid thead > tr > * { background: var(--omni-header-fill); border: 0; border-block-end: var(--omni-border-width) solid var(--omni-color-border); color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); letter-spacing: 0.02em; position: relative; vertical-align: middle; }
+/* The loading bar row: no height, no fill and no rule of its own; its bar is laid over the foot of the
+   headers (the loading bar track sits above its own top edge), in front of the first row. */
+.omni-data-grid thead > .omni-data-grid__progress > td { background: none; block-size: 0; border: 0; line-height: 0; padding: 0; position: relative; }
+.omni-data-grid thead > tr > .omni-data-grid__column--sortable:hover { background: var(--omni-header-fill-hover); color: var(--omni-color-text); }
+.omni-data-grid thead .omni-data-grid__column--active { --omni-header-fill: color-mix(in srgb, var(--omni-color-accent) 9%, var(--omni-grid-frame)); --omni-header-fill-hover: color-mix(in srgb, var(--omni-color-accent) 15%, var(--omni-grid-frame)); color: var(--omni-color-accent-strong); }
+.omni-data-grid__column--sortable { cursor: pointer; }
+.omni-data-grid__header { align-items: center; display: flex; gap: var(--omni-space-xs); min-inline-size: 0; }
+/* The sort button follows the column alignment (TextAlign reaches the th): a wrapped title of a centred
+   or end-aligned column keeps its lines on that side. */
+.omni-data-grid__sort { align-items: center; background: none; border: 0; color: inherit; cursor: pointer; display: inline-flex; font: inherit; min-inline-size: 0; padding: 0; text-align: inherit; }
+.omni-data-grid--header-truncate .omni-data-grid__title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-data-grid__sort-icon { block-size: 0.9em; display: inline-flex; flex: none; inline-size: 0.9em; margin-inline-start: auto; opacity: 0.7; }
+.omni-data-grid__sort-icon > svg { block-size: 100%; inline-size: 100%; }
+.omni-data-grid__sort-icon--idle { visibility: hidden; }
+/* Idle header actions float over the end of the title instead of taking its room. */
+.omni-data-grid__header-action { opacity: 0; }
+.omni-data-grid__header-action:not(.omni-data-grid__header-action--active) { background: var(--omni-header-fill-hover); inset-block-start: 50%; inset-inline-end: calc(var(--omni-space-sm) + 1.25em); position: absolute; transform: translateY(-50%); }
+.omni-data-grid th:is(:hover, :focus-within) .omni-data-grid__header-action,
+.omni-data-grid__header-action--active { color: var(--omni-color-accent); opacity: 1; }
+.omni-data-grid__icon-button { align-items: center; background: none; border: 0; border-radius: var(--omni-radius); color: inherit; cursor: pointer; display: inline-flex; flex: none; font: inherit; gap: var(--omni-space-xs); padding: var(--omni-space-xs); }
+.omni-data-grid__icon-button:hover { background: color-mix(in srgb, var(--omni-color-text) 10%, transparent); }
+.omni-data-grid :is(.omni-data-grid__sort, .omni-data-grid__icon-button, .omni-data-grid__expand, .omni-data-grid__popover > summary, .omni-data-grid__resize-handle, .omni-data-grid__row--interactive):focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-data-grid__resize-handle { block-size: 100%; cursor: col-resize; inline-size: 0.5rem; inset-block-start: 0; inset-inline-end: 0; position: absolute; touch-action: none; user-select: none; }
+.omni-data-grid__resize-handle::after { background: var(--omni-color-accent); block-size: 55%; content: ""; inline-size: 2px; inset: 22.5% 0 auto auto; opacity: 0; position: absolute; }
+.omni-data-grid__resize-handle:is(:hover, :focus-visible)::after { opacity: 1; }
+.omni-data-grid__viewport--resizing { cursor: col-resize; user-select: none; }
+/* Filter row: one control tall, whatever the filter shape. */
+.omni-data-grid__filters > * { font-weight: normal; padding-block: var(--omni-space-xs); }
+.omni-data-grid__filter-field,
+.omni-data-grid__filter-editor { align-items: center; display: flex; gap: var(--omni-space-xs); min-inline-size: 0; }
+.omni-data-grid__filter-editor { flex: auto; flex-wrap: wrap; }
+.omni-data-grid__filter-editor > :not(label) { flex: 1 1 5rem; min-inline-size: 0; }
+.omni-data-grid__filter-editor--panel { display: grid; }
+/* One condition in a popover: the operator on the first line, the value and a square Clear on the second. */
+.omni-data-grid__filter-entry { align-items: center; display: flex; gap: var(--omni-space-xs); min-inline-size: 0; }
+.omni-data-grid__filter-entry > :not(.omni-data-grid__filter-clear) { flex: 1 1 auto; min-inline-size: 0; }
+.omni-data-grid__filter-clear--icon { flex: 0 0 auto; inline-size: var(--omni-control-height); padding-inline: 0; }
+.omni-data-grid :is(.omni-data-grid__filter-operator, .omni-data-grid__filter-logical) { flex: 0 1 7rem; }
+.omni-data-grid__filters .omni-input { min-block-size: calc(var(--omni-control-height) - 0.25rem); padding-inline: var(--omni-space-sm); }
+.omni-data-grid__filters select.omni-input:not([multiple]):not([size]) { block-size: calc(var(--omni-control-height) - 0.25rem); }
+.omni-data-grid__filter-actions { align-items: center; display: flex; gap: var(--omni-space-xs); justify-content: flex-end; }
+/* A row a live refresh brought in reads bold for the grid's NewRowHighlight, then settles. */
+.omni-data-grid__row--new > td { font-weight: 600; }
+/* A date range stacks its two pickers, each under its own short label. */
+.omni-data-grid__date-range { display: grid; gap: var(--omni-space-xs); min-inline-size: 12rem; }
+.omni-data-grid__date-range-field { display: grid; gap: 0.125rem; }
+.omni-data-grid__date-range-label { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
+/* Popovers are fixed so the scrolling viewport cannot clip them; omni-grid.js places them. */
+.omni-data-grid__popover { min-inline-size: 0; position: relative; }
+.omni-data-grid__popover > summary { cursor: pointer; list-style: none; }
+.omni-data-grid__popover > summary::-webkit-details-marker { display: none; }
+.omni-data-grid__popover-panel { backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); box-sizing: border-box; display: grid; font-weight: normal; gap: var(--omni-space-sm); left: var(--omni-popover-x, auto); max-block-size: min(24rem, 100vh - 1rem); max-inline-size: min(22rem, 100vw - 1rem); min-inline-size: max(12rem, var(--omni-popover-min, 0px)); overflow: auto; padding: var(--omni-space-sm); position: fixed; top: var(--omni-popover-y, auto); z-index: var(--omni-z-popover-top); }
+.omni-data-grid__filter-menu { display: inline-block; }
+.omni-data-grid__filter-menu-toggle { border-radius: var(--omni-radius); display: inline-flex; padding: var(--omni-space-xs); }
+.omni-data-grid__filter-menu-toggle:hover { background: color-mix(in srgb, var(--omni-color-text) 8%, transparent); }
+.omni-data-grid__filter-menu-toggle--active,
+.omni-data-grid__filter-menu[open] > summary { color: var(--omni-color-accent); }
+.omni-data-grid__advanced { flex: auto; }
+.omni-data-grid__advanced-toggle,
+.omni-data-grid__multi-summary { align-items: center; display: flex; gap: var(--omni-space-xs); }
+.omni-data-grid__advanced-summary,
+.omni-data-grid__multi-text { flex: auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-data-grid__multi-text--empty,
+.omni-data-grid__advanced-summary { color: var(--omni-color-text-muted); }
+.omni-data-grid__multi[open] > summary > svg { transform: rotate(180deg); }
+.omni-data-grid .omni-combo__list { inline-size: max(10rem, var(--omni-anchor-w, 100%)); inset: auto; left: var(--omni-anchor-x, auto); position: fixed; top: var(--omni-anchor-y, auto); }
+/* Control columns keep a set width instead of sharing the free space with the data. */
+.omni-data-grid__col { inline-size: var(--omni-col-width, auto); }
+.omni-data-grid__col--control { inline-size: var(--omni-data-grid-control-width); }
+.omni-data-grid__col--edit { inline-size: var(--omni-data-grid-edit-width); }
+.omni-data-grid__table .omni-data-grid__control { padding: 0; text-align: center; }
+/* Row states are one token painted on the cells, so an opaque frozen cell shows them too. */
+.omni-data-grid tbody > tr { --omni-row-fill: transparent; }
+.omni-data-grid--striped .omni-data-grid__row--alternate { --omni-row-fill: color-mix(in srgb, var(--omni-color-text) 4%, transparent); }
+.omni-data-grid--row-hover tbody > tr:hover { --omni-row-fill: color-mix(in srgb, var(--omni-color-text) 7%, transparent); }
+/* Selected: the accent tint and text in 600, a second cue that does not depend on colour, with
+   aria-selected on the row. No side bar. */
+.omni-data-grid tbody > .omni-data-grid__row--selected { --omni-row-fill: color-mix(in srgb, var(--omni-color-accent) 14%, transparent); }
+.omni-data-grid tbody > .omni-data-grid__row--selected > td { font-weight: 600; }
+/* Compact status for lists (a CSS utility, no component): a dot in the fill colour of the intention
+   before the page text. Solid badges stay for a status that stands alone. */
+.omni-status { align-items: center; display: inline-flex; gap: 7px; white-space: nowrap; }
+.omni-status::before { background: var(--omni-status-dot, var(--omni-color-text-muted)); block-size: 0.5rem; border-radius: var(--omni-radius-circle); content: ""; flex: none; inline-size: 0.5rem; }
+.omni-status--success { --omni-status-dot: var(--omni-color-success-fill); }
+.omni-status--info { --omni-status-dot: var(--omni-color-info-fill); }
+.omni-status--warning { --omni-status-dot: var(--omni-color-warning-fill); }
+.omni-status--danger { --omni-status-dot: var(--omni-color-danger-fill); }
+.omni-data-grid tbody td { background: linear-gradient(var(--omni-row-fill), var(--omni-row-fill)); }
+.omni-data-grid tbody td.omni-data-grid__column--active { background: linear-gradient(var(--omni-column-active-fill), var(--omni-column-active-fill)), linear-gradient(var(--omni-row-fill), var(--omni-row-fill)); }
+.omni-data-grid__table .omni-data-grid__column--frozen { inset-inline-start: var(--omni-col-offset, 0px); position: sticky; z-index: 2; }
+.omni-data-grid :is(tbody, tfoot) td.omni-data-grid__column--frozen { background-color: var(--omni-grid-frame); }
+/* The last frozen column casts a shadow on its trailing edge only while rows scroll under it, so it
+   reads as lying above them; at rest the grid stays flat. */
+.omni-data-grid__viewport--scrolled-x .omni-data-grid__column--frozen-last { box-shadow: 0.375rem 0 0.375rem -0.25rem var(--omni-elevation-shadow); }
+/* Right to left, the trailing edge is the left one: the shadow falls to that side. */
+.omni-data-grid__viewport--scrolled-x .omni-data-grid__column--frozen-last:dir(rtl) { box-shadow: -0.375rem 0 0.375rem -0.25rem var(--omni-elevation-shadow); }
+/* Detach control of the frozen columns: a round chip centred on their trailing edge, at the height of
+   the header row (placed by omni-grid.js). Detached, the columns scroll with the row and lose the
+   shadow; the chip stays where it was so the next click freezes them again. */
+.omni-data-grid--has-frozen { position: relative; }
+.omni-data-grid__frozen-toggle { align-items: center; background: var(--omni-grid-frame); block-size: 1.75rem; border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-circle); box-shadow: 0 0.125rem 0.375rem var(--omni-elevation-shadow); color: var(--omni-color-text); cursor: pointer; display: inline-flex; inline-size: 1.75rem; inset-block-start: var(--omni-frozen-toggle-top, 0px); inset-inline-start: var(--omni-frozen-toggle-start, 0px); justify-content: center; margin-block-start: -0.875rem; margin-inline-start: -0.875rem; padding: 0; position: absolute; z-index: 4; }
+.omni-data-grid__frozen-toggle[hidden] { display: none; }
+.omni-data-grid__frozen-toggle:hover { border-color: var(--omni-color-accent); }
+.omni-data-grid__frozen-toggle:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-data-grid__frozen-toggle[aria-pressed="true"] { background: var(--omni-color-accent-fill); border-color: var(--omni-color-accent-fill); color: var(--omni-color-on-accent-fill); }
+.omni-data-grid--frozen-detached .omni-data-grid__table .omni-data-grid__column--frozen { inset-inline-start: auto; position: relative; z-index: auto; }
+.omni-data-grid.omni-data-grid--frozen-detached .omni-data-grid__viewport .omni-data-grid__column--frozen-last { box-shadow: none; }
+.omni-data-grid__row--interactive { cursor: pointer; }
+.omni-data-grid__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
+.omni-data-grid__state--loading { block-size: 10rem; vertical-align: middle; }
+/* The detail toggle of a row is drawn like the row actions, a square as tall as the status badges
+   (--omni-badge-height), so a compact row stays compact. Its pointer target is widened by a transparent
+   layer to 44 px across and to the row's height (--omni-grid-row-estimate), never into the rows above
+   and below, where it would steal their clicks. */
+.omni-data-grid__expand { align-items: center; background: transparent; block-size: var(--omni-badge-height); border: 0; border-radius: var(--omni-radius); color: var(--omni-color-text); cursor: pointer; display: inline-flex; inline-size: var(--omni-badge-height); justify-content: center; padding: 0; position: relative; vertical-align: middle; }
+.omni-data-grid__expand::before { content: ""; inset-block: min(0px, calc((var(--omni-badge-height) - var(--omni-grid-row-estimate)) / 2)); inset-inline: min(0px, calc((var(--omni-badge-height) - 2.75rem) / 2)); position: absolute; }
+.omni-data-grid :is(.omni-data-grid__expand, .omni-data-grid__group-expand) > svg { transform: rotate(-90deg); }
+.omni-data-grid :is(.omni-data-grid__expand, .omni-data-grid__group-expand):not(.omni-data-grid__expand--open):dir(rtl) > svg { transform: rotate(90deg); }
+.omni-data-grid .omni-data-grid__expand--open > svg { transform: none; }
+.omni-data-grid tbody > .omni-data-grid__detail > td { background: var(--omni-color-surface-muted); }
+.omni-data-grid__actions { white-space: nowrap; }
+.omni-data-grid__action--save { color: var(--omni-color-success); }
+.omni-data-grid__action--cancel { color: var(--omni-color-danger); }
+/* Row actions: in a data row, an icon-only button (the host's OmniButton or the grid's own edit
+   actions) is a square as tall and as wide as the status badges of the same row, one density token
+   for both (--omni-badge-height), so a row of statuses and actions reads as one line of equal marks. */
+.omni-data-grid__row > td :is(.omni-button:has(> .omni-button__content > .omni-icon:only-child), .omni-data-grid__icon-button) { --omni-button-size: var(--omni-badge-height); block-size: var(--omni-badge-height); inline-size: var(--omni-badge-height); justify-content: center; min-inline-size: var(--omni-badge-height); padding: 0; vertical-align: middle; }
+.omni-data-grid__row > td .omni-button:has(> .omni-button__content > .omni-icon:only-child) .omni-icon { height: 0.875rem; width: 0.875rem; }
+/* The other actions of a row keep that height too: a button with text and a split button (main part
+   and arrow) take the badge height, the small text and a short padding, so a labelled action stands
+   no taller than the icon-only ones and the status badges beside it. */
+.omni-data-grid__row > td :is(.omni-button, .omni-split-button) { --omni-button-font-size: var(--omni-font-size-sm); --omni-button-padding-inline: var(--omni-space-sm); --omni-button-size: var(--omni-badge-height); --omni-icon-size: 0.875rem; vertical-align: middle; }
+.omni-data-grid__group th { background: var(--omni-color-surface-muted); color: var(--omni-color-text); padding-block: 0; }
+.omni-data-grid__group[data-omni-group-level="1"] th { padding-inline-start: var(--omni-space-lg); }
+.omni-data-grid__group[data-omni-group-level="2"] th { padding-inline-start: var(--omni-space-xl); }
+/* The column alignment (TextAlign) names the table so it outranks the cell default above
+   (.omni-data-grid__table :is(th, td), 0,1,1): a bare class (0,1,0) lost to it on every header and cell. */
+.omni-data-grid__table .omni-data-grid__column--align-start { text-align: start; }
+.omni-data-grid__table .omni-data-grid__column--align-center { text-align: center; }
+.omni-data-grid__table .omni-data-grid__column--align-end { text-align: end; }
+.omni-data-grid th.omni-data-grid__column--align-center .omni-data-grid__header { justify-content: center; }
+.omni-data-grid th.omni-data-grid__column--align-end .omni-data-grid__header { flex-direction: row-reverse; }
+/* Centred and end-aligned sortable headers: the sort icon margin-inline-start: auto (start columns pin
+   the icon to the cell end) took all the free room, so a centred title stayed at the start and an end
+   title had its icon at the far start of the cell, by the previous column. The icon drops that margin and
+   stays beside the title; in a centred column a blank of the icon width before the title (the header gap
+   on each side) balances it, so the title centre is the column centre. */
+.omni-data-grid th:is(.omni-data-grid__column--align-center, .omni-data-grid__column--align-end) .omni-data-grid__sort-icon { margin-inline-start: 0; }
+.omni-data-grid th.omni-data-grid__column--align-center .omni-data-grid__header:has(> .omni-data-grid__sort-icon)::before { content: ""; flex: none; inline-size: 0.9em; }
+.omni-data-grid__summary { color: var(--omni-color-text-muted); margin: 0; }
+.omni-data-grid--lines-none .omni-data-grid__table :is(th, td) { border: 0; }
+.omni-data-grid--lines-vertical tbody td { border-block-end: 0; }
+.omni-data-grid:is(.omni-data-grid--lines-vertical, .omni-data-grid--lines-both) :is(th, td) { border-inline-end: var(--omni-border-width) solid var(--omni-color-border); }
+.omni-data-grid__viewport--sized { block-size: var(--omni-grid-viewport, auto); }
+/* Vertical scroll chains to the page (Aetheus recette R-143): a grid with nothing left to scroll no
+   longer swallows the wheel over its rows. Sideways it stays contained, so a wide grid never turns
+   into a browser back gesture. */
+.omni-data-grid__viewport--virtual { block-size: var(--omni-grid-viewport, 30rem); overscroll-behavior-x: contain; }
+/* MaxHeight: the viewport takes the height of its content, spacers included, up to the cap. */
+.omni-data-grid__viewport--capped { max-block-size: var(--omni-grid-viewport-max, 30rem); }
+.omni-data-grid__viewport--virtual.omni-data-grid__viewport--capped { block-size: auto; }
+/* FillAvailableHeight: the grid takes the free height of its sized parent, never under the minimum. */
+/* The script measures what is left below the grid in the area that scrolls it (attachFill): 100% only
+   holds when every ancestor has a height, which a nested grid rarely has. */
+.omni-data-grid--fill { block-size: var(--omni-grid-fill-height, 100%); display: flex; flex-direction: column; min-block-size: 0; }
+.omni-data-grid--fill .omni-data-grid__viewport--fill { flex: auto; min-block-size: var(--omni-grid-viewport-min, 22.5rem); }
+/* The spacers stand in for the rows outside the rendered window: never clamp them to one row. */
+.omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer),
+.omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td { block-size: var(--omni-row-height); }
+.omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td { max-block-size: var(--omni-row-height); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-data-grid__spacer td { block-size: var(--omni-grid-spacer, 0px); border: 0; padding: 0; }
+.omni-data-grid__row--placeholder td { block-size: var(--omni-grid-row-estimate, 2.5rem); }
+.omni-data-grid__group-panel { align-items: center; color: var(--omni-color-text-muted); display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); }
+.omni-data-grid__group-chip { align-items: center; background: var(--omni-color-surface-muted); border-radius: var(--omni-radius); color: var(--omni-color-text); display: inline-flex; gap: var(--omni-space-xs); padding-inline-start: var(--omni-space-sm); }
+@media (prefers-reduced-motion: no-preference) {
+    .omni-data-grid :is(thead > tr > *, .omni-data-grid__header-action, .omni-data-grid__resize-handle::after, svg) { transition: opacity var(--omni-duration-fast), background-color var(--omni-duration-fast), transform var(--omni-duration-fast); }
+}
+.omni-combo { display: block; position: relative; }
+.omni-combo__input { inline-size: 100%; }
+.omni-combo__list { backdrop-filter: var(--omni-overlay-filter, none); background: var(--omni-overlay-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md)); inset-block-start: calc(100% + 0.125rem); inset-inline: 0; list-style: none; margin: 0; max-block-size: 14rem; overflow-y: auto; padding: 0.25rem; position: absolute; z-index: var(--omni-z-popover-top); }
+.omni-combo__option { border-radius: var(--omni-radius-sm); cursor: pointer; padding: 0.25rem 0.5rem; white-space: nowrap; }
+.omni-combo__option:hover,
+.omni-combo__option--active { background: var(--omni-color-surface-muted); }
+.omni-combo__match { background: color-mix(in srgb, var(--omni-color-accent) 28%, transparent); border-radius: var(--omni-radius-sm); color: inherit; font-weight: 650; padding: 0 0.0625rem; }
+.omni-multi-select { display: grid; gap: var(--omni-space-xs); }
+.omni-multi-select__list { list-style: none; margin: 0; max-block-size: 12rem; overflow-y: auto; padding: 0; }
+.omni-multi-select__option { border-radius: var(--omni-radius-sm); }
+.omni-multi-select__option:hover { background: var(--omni-color-surface-muted); }
+.omni-multi-select__label { align-items: center; cursor: pointer; display: flex; gap: var(--omni-space-xs); padding: 0.25rem 0.375rem; white-space: nowrap; }
+.omni-multi-select__checkbox { flex: 0 0 auto; }
+
+/* Présentation compacte : le résumé tient sur une ligne et le panneau se superpose au contenu
+   plutôt que de le pousser vers le bas. */
+.omni-multi-select-compact { position: relative; }
+.omni-multi-select-compact__summary { align-items: center; cursor: pointer; display: flex; gap: var(--omni-space-sm); justify-content: space-between; list-style: none; }
+.omni-multi-select-compact__summary::-webkit-details-marker { display: none; }
+.omni-multi-select-compact__summary:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+.omni-multi-select-compact__text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.omni-multi-select-compact__chevron { flex: 0 0 auto; height: 1.25em; transition: transform var(--omni-duration-medium) ease; width: 1.25em; }
+.omni-multi-select-compact[open] .omni-multi-select-compact__chevron { transform: rotate(180deg); }
+.omni-multi-select-compact__panel {
+    backdrop-filter: var(--omni-overlay-filter, none);
+    background: var(--omni-overlay-background, var(--omni-color-surface));
+    border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border));
+    border-radius: var(--omni-card-radius, var(--omni-radius));
+    box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md-strong));
+    display: flex;
+    flex-direction: column;
+    inset-block-start: calc(100% + var(--omni-space-xs));
+    inset-inline: 0;
+    max-block-size: 16rem;
+    overflow-y: auto;
+    padding: var(--omni-space-xs);
+    position: absolute;
+    z-index: var(--omni-z-popover);
+}
+/* The clear action is text: the text-grade accent, not the 3.0 mark colour, which fell to 4.24 on the
+   light Électrique palette (PLAN-004 lot 10, T1). */
+.omni-multi-select-compact__clear { background: transparent; border: 0; color: var(--omni-color-accent-strong); cursor: pointer; font: inherit; padding: calc(var(--omni-item-pad-y) - 3px) 0.375rem; }
+.omni-multi-select-compact__list { list-style: none; margin: 0; min-block-size: 0; overflow-y: auto; padding: 0; }
+.omni-multi-select-compact__filter { flex: 0 0 auto; margin-block-end: var(--omni-space-xs); }
+.omni-multi-select-compact__empty { color: var(--omni-color-text-muted); margin: 0; padding: calc(var(--omni-item-pad-y) - 3px) 0.375rem; }
+.omni-multi-select-compact__footer { border-block-start: var(--omni-border-width) solid var(--omni-color-border); flex: 0 0 auto; margin-block-start: calc(var(--omni-pop-pad) - 6px); padding-block-start: calc(var(--omni-pop-pad) - 6px); }
+.omni-multi-select-compact__option { align-items: center; border-radius: var(--omni-radius-sm); cursor: pointer; display: flex; gap: var(--omni-space-xs); padding: calc(var(--omni-item-pad-y) - 3px) 0.375rem; white-space: nowrap; }
+.omni-multi-select-compact__option:hover { background: var(--omni-color-surface-muted); }
+.omni-multi-select-compact__option input { flex: 0 0 auto; }
+.omni-multi-select-compact__option:has(> input:disabled) { background: transparent; color: var(--omni-color-text-muted); cursor: not-allowed; opacity: 0.55; }
+.omni-multi-select-compact__summary[aria-disabled="true"] { cursor: not-allowed; opacity: 0.65; }
+
+@media (prefers-reduced-motion: reduce) {
+    .omni-multi-select-compact__chevron { transition: none; }
+}
+.omni-pager--align-start { justify-content: flex-start; }
+.omni-pager--align-center { justify-content: center; }
+.omni-pager--align-end { justify-content: flex-end; }
+.omni-pager--align-between { justify-content: space-between; }
+.omni-pager__page-size { max-inline-size: 6rem; }
+@media (max-width: 39.99rem) {
+    .omni-data-grid--responsive .omni-data-grid__table thead { display: none; }
+    .omni-data-grid--responsive .omni-data-grid__table tr { display: block; margin-block-end: var(--omni-space-sm); }
+    .omni-data-grid--responsive .omni-data-grid__table td { display: flex; gap: var(--omni-space-sm); justify-content: space-between; }
+    .omni-data-grid--responsive .omni-data-grid__table td::before { content: attr(data-omni-label); font-weight: 650; }
+    /* A card row has the whole width: its text wraps rather than being cut. */
+    .omni-data-grid--responsive .omni-data-grid__table td.omni-data-grid__cell--text { overflow-wrap: anywhere; white-space: normal; }
+}
+
+/* Spreadsheet: one scroll box, letters and numbers pinned to its edges; column width and height
+   are variables a host sets on its own class. */
+.omni-spreadsheet { --omni-spreadsheet-column-width: 7.5rem; --omni-spreadsheet-height: 26rem; --omni-spreadsheet-line: var(--omni-color-border); display: grid; gap: var(--omni-space-sm); min-inline-size: 0; }
+.omni-spreadsheet--no-lines { --omni-spreadsheet-line: transparent; }
+.omni-spreadsheet__toolbar { display: flex; gap: var(--omni-space-xs); }
+.omni-spreadsheet__formula-bar,
+.omni-spreadsheet__viewport { background: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); }
+.omni-spreadsheet__formula-bar { align-items: center; display: flex; gap: var(--omni-space-sm); padding-inline-start: var(--omni-space-sm); }
+.omni-spreadsheet__address { font-weight: 650; min-inline-size: 3rem; }
+.omni-spreadsheet__formula-bar .omni-input { border: 0; box-shadow: none; }
+.omni-spreadsheet__viewport { max-block-size: var(--omni-spreadsheet-height); outline: none; overflow: auto; }
+.omni-spreadsheet :is(.omni-spreadsheet__formula-bar:focus-within, .omni-spreadsheet__viewport:focus-visible) { box-shadow: var(--omni-focus-ring); }
+.omni-spreadsheet__table { border-spacing: 0; table-layout: fixed; width: max-content; }
+.omni-spreadsheet__col { inline-size: var(--omni-spreadsheet-column-width); }
+.omni-spreadsheet__col--header { inline-size: 3rem; }
+.omni-spreadsheet__table :is(th, td) { block-size: calc(var(--omni-control-height) - 0.25rem); border: solid var(--omni-spreadsheet-line); border-width: 0 var(--omni-border-width) var(--omni-border-width) 0; overflow: hidden; padding: 0 var(--omni-space-sm); text-overflow: ellipsis; white-space: nowrap; }
+.omni-spreadsheet__table :is(th, .omni-spreadsheet__corner) { background: color-mix(in srgb, var(--omni-color-text) 7%, var(--omni-color-surface)); color: var(--omni-color-text-muted); font-weight: 600; position: sticky; text-align: center; z-index: 1; }
+.omni-spreadsheet__table thead :is(th, td) { inset-block-start: 0; z-index: 2; }
+.omni-spreadsheet__table :is(tbody th, .omni-spreadsheet__corner) { inset-inline-start: 0; }
+.omni-spreadsheet__table .omni-spreadsheet__corner { z-index: 3; }
+.omni-spreadsheet__table :is(.omni-spreadsheet__column-header--active, .omni-spreadsheet__row-header--active) { background: color-mix(in srgb, var(--omni-color-accent) 20%, var(--omni-color-surface)); color: var(--omni-color-text); }
+.omni-spreadsheet__cell { cursor: cell; }
+.omni-spreadsheet__cell--number { font-variant-numeric: tabular-nums; text-align: end; }
+.omni-spreadsheet__cell--error { color: var(--omni-color-danger); font-weight: 650; text-align: center; }
+.omni-spreadsheet__cell--active { box-shadow: inset 0 0 0 2px var(--omni-color-accent); }
+.omni-spreadsheet__table .omni-spreadsheet__cell--editing { padding: 0; }
+.omni-spreadsheet__editor { background: var(--omni-color-surface); block-size: 100%; border: 0; box-sizing: border-box; color: inherit; font: inherit; inline-size: 100%; outline: none; padding: 0 var(--omni-space-sm); }
+

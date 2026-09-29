@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limite: no máximo {0} linhas</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Gerado em (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Linhas exportadas: {0} de {1} anunciadas</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Linhas exportadas: {0} de pelo menos {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Exportação truncada: {0} linhas exportadas de {1}, foi atingido o limite de {2} linhas.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Exportação incompleta: {0} linhas exportadas de {1} anunciadas, os dados foram alterados durante a leitura.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Exportação limitada: foi atingido o limite de {0} linhas e a fonte não anuncia um total, podem existir mais linhas.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Nenhuma linha.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Registar-se</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Não tem conta?</value></data>

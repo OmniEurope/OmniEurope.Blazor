@@ -639,8 +639,10 @@
   <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Ograničenje: najviše {0} redaka</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Generirano (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Izvezeni redci: {0} od {1} najavljenih</value></data>
+  <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Izvezeni redci: {0} od najmanje {1}</value></data>
   <data name="MarkdownExportTruncated" xml:space="preserve"><value>Skraćeni izvoz: izvezeno {0} od {1} redaka, dosegnuto je ograničenje od {2} redaka.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Nepotpun izvoz: izvezeno {0} od {1} najavljenih redaka, podaci su se promijenili tijekom čitanja.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ograničen izvoz: dosegnuto je ograničenje od {0} redaka, a izvor ne navodi ukupan broj, možda postoji još redaka.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Nema redaka.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Registriraj se</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nemate račun?</value></data>
