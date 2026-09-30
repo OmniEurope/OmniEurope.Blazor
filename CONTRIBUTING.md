@@ -9,7 +9,7 @@ The repository declares a .NET SDK floor in `global.json` (`10.0.100`, `rollForw
 ```powershell
 dotnet restore OmniEurope.Blazor.slnx --locked-mode -p:Configuration=Release
 dotnet build OmniEurope.Blazor.slnx --configuration Release --no-restore
-dotnet test OmniEurope.Blazor.slnx --configuration Release --no-build
+dotnet test --solution OmniEurope.Blazor.slnx --configuration Release --no-build
 ```
 
 ## What a component pull request includes

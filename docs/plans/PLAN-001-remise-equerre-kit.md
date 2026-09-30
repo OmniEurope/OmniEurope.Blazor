@@ -1,9 +1,11 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-001 : Remise d'équerre d'OmniEurope.Blazor au standard du kit (phase A)
 
-> Statut : **ouvert**. Plan fils du lot 7 du plan maître `_Generic` PLAN-001, établi le 2026-09-19.
+> Statut : **terminé** le 2026-09-29, 4 lots sur 4 (clos par `a4cc4cf`) ; la proposition au kit est
+> abandonnée. Plan fils du lot 7 du plan maître `_Generic` PLAN-001, établi le 2026-09-19.
 > Lot 1 livré le 2026-09-19, lot 2 livré le 2026-09-20 avec le cœur de lanceur 1.0.1 et les
-> exceptions mécanisées. Restent le lot 3 (contrats) et le lot 4 (`STD-I18N` de la vitrine).
+> exceptions mécanisées, lot 3 (contrats) par PLAN-008 lot 1, lot 4 (`STD-I18N` de la vitrine) par
+> PLAN-007 lot 12.
 
 ## Objectif
 
@@ -205,8 +207,9 @@ kit ou un ADR de ce dépôt.
 
 ## Ordre et dépendances
 
-Lots 1 et 2 livrés. Les lots 3 et 4 sont indépendants ; le reliquat du lot 4 (les 125 constats
-`STD-I18N`) dépend soit de la localisation des démos de la vitrine, soit d'une évolution du kit.
+Lots 1 à 4 livrés. Les lots 3 et 4 étaient indépendants ; le reliquat du lot 4 (les 125 constats
+`STD-I18N`) a été soldé par la localisation des démos de la vitrine (PLAN-007 lot 12), l'évolution du
+kit étant abandonnée.
 
 ## Critère de clôture
 

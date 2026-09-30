@@ -605,9 +605,10 @@ public partial class OmniDataGrid<TItem>
     }
 
     /// <summary>
-    /// Runs, and is awaited, before the grid's first render, so any restored filters, sorts and column
-    /// widths are already held by the time the child <see cref="OmniDataGridColumn{TItem}"/> content
-    /// first registers.
+    /// Reads the saved state. A store that answers at once is read before the first render; a slower one
+    /// lets the grid render first, so the child <see cref="OmniDataGridColumn{TItem}"/> content registers
+    /// its defaults and the restored filters, sorts and column widths then replace them. The first
+    /// request waits for both.
     /// </summary>
     protected override async Task OnInitializedAsync()
     {

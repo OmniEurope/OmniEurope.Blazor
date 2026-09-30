@@ -95,8 +95,8 @@ ou par `OmniHtmlEditorCommandContext.ExecuteAsync` :
 - `InsertParagraph` : coupe le bloc au curseur en deux paragraphes, comme Entrée.
 - Tableaux (liste `OmniHtmlEditorCommands.Table`, qui commence par `InsertTable`) : `AddRowAbove`,
   `AddRowBelow`, `DeleteRow`, `AddColumnBefore`, `AddColumnAfter`, `DeleteColumn`, `MergeCellRight`,
-  `MergeCellDown`, `SplitCell` et `SetCellSpan` (argument `lignesxcolonnes`, `2x3` ; sans argument,
-  la cellule revient à `1x1`). Elles agissent sur la cellule au curseur, tiennent compte des
+  `MergeCellDown`, `SplitCell` et, hors de cette liste, l'action `SetCellSpan` (argument
+  `lignesxcolonnes`, `2x3` ; sans argument, la cellule revient à `1x1`). Elles agissent sur la cellule au curseur, tiennent compte des
   `rowspan`/`colspan` existants, et ne sont actives que le curseur dans une cellule. Une fusion qui
   couperait une autre cellule fusionnée ne change rien ; le contenu des cellules absorbées rejoint la
   cellule, séparé par un saut de ligne. Supprimer la dernière ligne ou colonne retire le tableau.
@@ -196,13 +196,16 @@ private sealed class PolicyExtension : OmniHtmlEditorExtension
   formulaires, attributs `on*`, `style`, `srcdoc`, `action`, `formaction`, `http-equiv` et noms à
   espace de noms. Les nommer lève `ArgumentException` au rendu de l'éditeur plutôt que d'être ignoré.
 - Les adresses de `href`, `src`, `cite`, `poster` et `longdesc` restent limitées à `http`, `https`,
-  `mailto`, `tel` ou relatives : une adresse `javascript:` ou `data:` est retirée.
+  `mailto`, `tel` ou relatives : une adresse `javascript:` ou `data:` est retirée. Seule exception,
+  `AllowImageDataUris` admet une image portée par son `src` en `data:` (PNG, JPEG, GIF ou WebP en
+  base 64, sur `img` seulement, qui doit être admis) ; une image SVG reste refusée.
 - L'éditeur garde le sanitiseur construit pour une instance de politique : une instance statique
   évite de le reconstruire.
 
 ### Casse, caractères spéciaux, import de tableau, blocs
 
-Quatre commandes intégrées, à placer dans `Commands` comme les autres :
+Cinq commandes intégrées, à placer dans `Commands` comme les autres (aucune n'est dans la barre par
+défaut) :
 
 - `ChangeCase` : une liste (majuscules, minuscules, casse de titre) qui réécrit le texte sélectionné
   nœud de texte par nœud de texte, donc sans toucher au gras, aux liens ni aux éléments autour.
@@ -214,6 +217,8 @@ Quatre commandes intégrées, à placer dans `Commands` comme les autres :
   propose la première ligne en en-tête (cochée d'office quand elle ne contient aucun nombre) et insère le
   tableau au curseur. 100 lignes (plus l'en-tête) et 50 colonnes au plus, 10 Mo.
 - `ShowBlocks` : une bascule qui dessine en pointillé le contour de chaque bloc du document.
+- `Highlight` : surligne le texte sélectionné (élément `mark`, admis par la liste blanche) ; le curseur
+  dans un surlignage, elle le retire.
 
 `ChangeCase` et `ShowBlocks` sont désactivées en face source.
 

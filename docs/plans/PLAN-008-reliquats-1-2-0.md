@@ -16,7 +16,7 @@ taille par l'extraction de vrais collaborateurs.
 - KIT-001/KIT-002 (PLAN-005) : le dépôt est public, les fichiers d'agent et de règles restent ignorés
   par Git.
 - Proposition au kit `_Generic` (règle `STD-I18N`) : abandonnée.
-- Relecture des traductions : faite par le propriétaire.
+- Relecture des traductions : faite par des agents le 2026-09-29 (`5b8827a`), sans locuteur natif ; ce qu'elle a laissé en l'état est dans [localization.md](../localization.md).
 
 ## Lots
 

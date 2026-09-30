@@ -77,8 +77,8 @@
               ValueChanged="@(value => Selection = value)"
               GridLines="Lines">
     <Columns>
-        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Frozen="true" FilterOperators="ReferenceOperators" />
-        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]"
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Filterable="true" Title="@Text["DemoGridColumnReference"]" Frozen="true" FilterOperators="ReferenceOperators" />
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Filterable="true" Title="@Text["DemoGridColumnApplicant"]"
                             FilterType="OmniDataGridColumnFilterType.Combo" FilterSearchable="true">
             <FilterTemplate>
                 @* The same control the column would raise on its own, placed by hand to show that a
@@ -90,7 +90,7 @@
                                          MaxSuggestions="6" />
             </FilterTemplate>
         </OmniDataGridColumn>
-        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="@Text["DemoGridColumnCountry"]" Groupable="true"
+        <OmniDataGridColumn TItem="GridRow" Property="Country" Filterable="true" Title="@Text["DemoGridColumnCountry"]" Groupable="true"
                             FilterType="OmniDataGridColumnFilterType.MultiSelect"
                             FilterValues="CountryValues">
             <FilterTemplate>
@@ -103,7 +103,7 @@
                                                Presentation="@(context.InPopover ? OmniMultiSelectPresentation.List : OmniMultiSelectPresentation.Compact)" />
             </FilterTemplate>
         </OmniDataGridColumn>
-        <OmniDataGridColumn TItem="GridRow" Property="Filed" Title="@Text["GridFiledColumn"]" FormatString="{0:g}"
+        <OmniDataGridColumn TItem="GridRow" Property="Filed" Filterable="true" Title="@Text["GridFiledColumn"]" FormatString="{0:g}"
                             FilterType="OmniDataGridColumnFilterType.DateRange">
             <FilterTemplate>
                 @* A day alone covers the whole day; IncludesTime would pick the hours too. *@
@@ -111,7 +111,7 @@
                                              ValueChanged="@(value => context.ValueChanged(value))" />
             </FilterTemplate>
         </OmniDataGridColumn>
-        <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}" FilterType="OmniDataGridColumnFilterType.Number"
+        <OmniDataGridColumn TItem="GridRow" Property="Amount" Filterable="true" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}" FilterType="OmniDataGridColumnFilterType.Number"
                             TextAlign="OmniDataGridTextAlign.End">
             <FooterContent>@Text["DemoGridAdvancedTotal", Rows.Sum(row => row.Amount)]</FooterContent>
         </OmniDataGridColumn>

@@ -71,6 +71,9 @@
     border-radius: var(--omni-radius);
     display: grid;
     gap: var(--omni-space-md);
+    /* A column that never grows with its content: a component that folds or scrolls when it lacks
+       room (page header, grid) is given the width of the preview, not the width of what it holds. */
+    grid-template-columns: minmax(0, 1fr);
     padding: var(--omni-space-lg);
 }
 

@@ -12,7 +12,7 @@ Le code livré par `OmniEurope.Blazor` ne doit pas :
 
 Les variations visuelles dynamiques passent par un ensemble fini de classes CSS, d'attributs `data-*`, d'états ARIA et, pour le SVG, d'attributs géométriques ou de présentation autorisés ; aucun style inline n'est généré. Les valeurs que seul le navigateur peut connaître passent par le CSSOM (`element.style`), jamais par un attribut écrit dans le balisage : propriétés personnalisées (`setProperty('--omni-…')`), propriétés standard (`style.transform`, `style.inlineSize`, `style.insetInlineStart`…) et, pour une sonde de mesure, `style.cssText`. Les modules concernés :
 
-- `omni-grid.js` : hauteur du tableau virtualisé et des lignes d'espacement, largeur et décalage des colonnes gelées, largeurs de colonne et sonde de mesure de l'ajustement au contenu (`cssText`) ;
+- `omni-grid.js` : hauteur du tableau virtualisé et des lignes d'espacement, largeur et décalage des colonnes gelées, largeurs de colonne et sonde de mesure de l'ajustement au contenu (`cssText`), position des panneaux de filtre et de la liste de suggestions du filtre `Combo` (`--omni-popover-x`, `--omni-popover-y`, `--omni-popover-min`, `--omni-anchor-x`, `--omni-anchor-y`, `--omni-anchor-w`), espaceurs d'`OmniDataList` (`--omni-data-list-spacer`) ;
 - `omni-dialog.js` : déplacement d'un dialogue glissé (`style.transform`) et, pendant le geste, dimensions calculées figées en pixels sur le dialogue et ses descendants (marges, espacements, bordures, par `setProperty` sur des propriétés standard) ;
 - `omni-tooltip.js` : position d'une bulle suivie ou recadrée (`--omni-tooltip-x`, `--omni-tooltip-y`…) ;
 - `omni-theme.js` : jetons d'un préréglage appliqués à une portée (propriétés personnalisées, posées et retirées) ;
@@ -20,7 +20,7 @@ Les variations visuelles dynamiques passent par un ensemble fini de classes CSS,
 - `omni-html-editor.js` : nombre de lignes de la surface (`--omni-html-editor-rows`) ;
 - `omni-focus.js` : position de tout menu du moteur commun, sous son déclencheur ou au pointeur (`--omni-menu-x`, `--omni-menu-y`), et décalage d'un popover recadré dans la fenêtre (`--omni-popover-shift-x`).
 
-`omni-page-header.js` (défilement du titre et dépliage de l'en-tête de page sur téléphone) mesure et bascule des attributs seulement ; il n'écrit aucun style.
+`omni-page-header.js` (défilement du titre, repli des badges et actions de l'en-tête de page quand la ligne 1 déborde, à toute largeur) mesure et bascule des attributs seulement ; il n'écrit aucun style.
 
 `omni-mindmap.js` ne passe même pas par le CSSOM : pendant un geste, il n'écrit que des attributs SVG (`transform`, `d`, géométrie du lasso) et des classes. Les écritures du CSSOM ne sont pas soumises à `style-src` et aucun attribut `style` ni aucune balise `<style>` n'est produit ; le scan CSP couvre ces fichiers. La feuille `_content/OmniEurope.Blazor/omnieurope.blazor.css` est une ressource statique que l'application peut autoriser via `'self'`.
 

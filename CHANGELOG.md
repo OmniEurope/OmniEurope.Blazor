@@ -6,7 +6,14 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Fixed
 
-- Traductions relues dans les 23 langues autres que le français (environ 500 textes corrigés) : contresens (par exemple « commit » rendu par « obligation », « planificateur » par « prise de rendez-vous »), termes incohérents entre le paquet et la vitrine, accords de genre et de nombre dans les annonces, noms de touches selon les conventions Microsoft de chaque langue, anglais aligné sur l'orthographe britannique de la vitrine.
+- Traductions relues dans les 23 langues autres que le français (près de 600 textes corrigés) : contresens (par exemple « commit » rendu par « obligation », « planificateur » par « prise de rendez-vous »), termes incohérents entre le paquet et la vitrine, accords de genre et de nombre dans les annonces, noms de touches selon les conventions Microsoft de chaque langue, anglais aligné sur l'orthographe britannique de la vitrine. Ce que la relecture a laissé en l'état est consigné dans `docs/localization.md` (« Limites connues des traductions »).
+- `OmniDataGrid` alimentée par `Load` : une colonne rendue après la première requête (sous une condition, ou ajoutée plus tard) qui déclare `DefaultFilterValue` ou `SortOrder` fait recharger les lignes avec ce défaut. Auparavant l'en-tête montrait le filtre et les lignes n'étaient pas filtrées.
+
+### Outillage du dépôt (sans effet sur le paquet publié)
+
+- Vitrine : les colonnes des démonstrations de grille déclarent `Filterable` (`false` par défaut sur une colonne), faute de quoi elles ne montraient aucun filtre ; l'aperçu d'une démonstration ne grandit plus avec son contenu, ce qui empêchait l'en-tête de page de se replier.
+- Sondes de la vitrine : sixième sonde `Modules` (`eng/Test-ShowcaseModulesProbe.mjs`), lancée par défaut par `eng/Test-ShowcaseHost.ps1` après `Pickers`, `Density`, `Contrast`, `AutoFit` et `MindMap` : panneaux de filtre de la grille, repli de l'en-tête de page et face visuelle de l'éditeur HTML, échec sur toute erreur console ou violation CSP.
+- Documentation : le rendu statique sans mode interactif est décrit comme non pris en charge pour le chargement distant d'`OmniDataGrid` (`docs/compatibility.md`), l'en-tête de page demande un conteneur qui borne sa largeur (`docs/page-components.md`), et le nombre de requêtes des modules JavaScript découpés est consigné (`docs/performance-budgets.md`).
 
 ## [1.2.0] - 2026-09-29
 
