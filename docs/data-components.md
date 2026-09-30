@@ -14,7 +14,13 @@ La grille accepte deux sources exclusives.
 - `Load` : un délégué asynchrone annulable reçoit un `OmniDataGridLoadRequest` et retourne un
   `OmniDataGridResult<TItem>`. La requête porte `Page`, `PageSize`, `Skip`, `Top`, les tris et les
   filtres actifs, ainsi qu'un `CancellationToken`. Une requête plus ancienne qui se termine après une
-  plus récente est ignorée.
+  plus récente est ignorée. La première requête part une fois les colonnes rendues et l'état
+  enregistré (`StateKey`) lu : elle porte déjà les filtres et tris par défaut des colonnes
+  (`DefaultFilterValue`, `SortOrder`), sans requête préalable non filtrée. Elle part au premier rendu
+  interactif : pendant un prérendu, la grille montre son état de chargement et ne charge rien, et
+  une page rendue en statique, sans mode interactif, en reste là. Une colonne rendue après cette
+  première requête (sous une condition, ou ajoutée plus tard) qui déclare un filtre ou un tri par
+  défaut fait recharger les lignes avec ce défaut.
 
 `Count` impose le total lorsque l'hôte le connaît déjà. `Busy` dit que l'hôte charge lui-même les
 données d'une grille alimentée par `Items` : la grille se lit occupée et montre le même indicateur que
@@ -222,6 +228,10 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
 
 - `AllowSorting`, `Filterable`, `AllowColumnResize` et `AllowGrouping` coupent les
   fonctions au niveau de la grille ; les paramètres de colonne affinent au niveau de la colonne.
+  Sur la grille, les trois premiers valent `true` par défaut et `AllowGrouping` vaut `false`. Sur une
+  colonne, `Sortable` et `Groupable` valent `true` par défaut mais `Filterable` vaut `false` : une
+  colonne ne montre un filtre que si elle déclare `Filterable="true"`, même avec un `FilterType` ou un
+  `FilterTemplate`.
 - `FilterMode` vaut `Simple` (une saisie par colonne), `SimpleWithMenu` (saisie plus sélecteur
   d'opérateur) ou `Advanced` (deux conditions jointes par `Et`/`Ou`, appliquées sur action explicite).
   En `Advanced`, la rangée de filtres montre un déclencheur qui résume la condition appliquée et
@@ -243,7 +253,12 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
   ferme, appliquer ou effacer aussi.
 - `OmniDataGridFilterOperator` couvre contient, ne contient pas, égal, différent, commence par, finit
   par, supérieur, supérieur ou égal, inférieur, inférieur ou égal, est nul, n'est pas nul, est vide
-  et n'est pas vide. Les filtres ignorent la casse et les accents ; `CaseSensitiveFilters` fait compter la casse.
+  et n'est pas vide, plus `In` et `NotIn` (la ligne correspond à l'une des valeurs candidates, ou à
+  aucune) : `In` est l'opérateur du filtre `MultiSelect`, et leur valeur à plusieurs candidats se lit
+  et s'écrit par `OmniDataGridFilterValues`. Les filtres ignorent la casse ; `CaseSensitiveFilters` la fait compter.
+  Les accents comptent par défaut : `IgnoreDiacritics` les fait ignorer, et un hôte qui filtre
+  lui-même derrière `Load` applique la même règle par `OmniDataGridFilterText.Normalize`.
+
 ### Forme du contrôle de filtre
 
 `FilterType` (`OmniDataGridColumnFilterType`) choisit la forme du contrôle, sur un seul axe, parmi six formes :

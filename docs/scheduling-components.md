@@ -15,7 +15,7 @@ attributs géométriques SVG.
 ```
 
 Un rendez-vous est un `OmniSchedulerAppointment` : `Id`, `Title`, `Start`, `End` (`DateTimeOffset`),
-`Description` (sous le titre, dans la liste du jour) et `CssClass` (classes ajoutées à son élément,
+`Description` (sous le titre, dans la liste du jour) et `Class` (classes ajoutées à son élément,
 pour qu'un hôte en distingue certains, par exemple les heures facturables).
 
 | Paramètre | Rôle |
@@ -84,7 +84,7 @@ inclus), `Progress` (0 à 1), `Group`, `DependsOn` (identifiants des tâches à 
 | `OnTaskClick`, `SelectedTaskId` | La tâche activée par clic, Entrée ou Espace ; celle désignée est contournée et `aria-pressed`. |
 | `Label`, `Culture` | Nom accessible (`string?`, « Diagramme de Gantt » par défaut) et culture (`CultureInfo?`) des mois, numéros et en-têtes de semaine et dates. |
 
-L'axe couvre les tâches avec une marge : deux jours avant et trois après au zoom jour, une semaine
+L'axe couvre les tâches avec une marge : deux jours avant et deux après au zoom jour, une semaine
 entière de part et d'autre au zoom semaine, les mois entiers au zoom mois. Un jour mesure 32, 14 ou
 4 pixels selon le zoom : le graphique s'élargit et défile en largeur dans son cadre, la colonne des
 noms restant en place. Les deux colonnes partagent une hauteur de ligne fixe en pixels (36, en-tête

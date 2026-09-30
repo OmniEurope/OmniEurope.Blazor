@@ -345,5 +345,5 @@ Le paquet livre des classes utilitaires préfixées `omni-u-`, pour mettre en fo
 |---|---|
 | Espacement | `omni-u-{m,mt,mb,ms,me,mx,my,p,pt,pb,px,py}-{0,xs,sm,md,lg,xl,2xl}`, `omni-u-mx-auto`. L'échelle est celle des jetons `--omni-space-*` : elle suit la densité. |
 | Texte | `omni-u-text-{muted,accent,success,warning,danger}`, `omni-u-text-center`, `omni-u-text-end`, `omni-u-bold`, `omni-u-mono`, `omni-u-truncate`, `omni-u-nowrap`, `omni-u-small` |
-| Fond | `omni-u-bg-muted`, `omni-u-bg-{accent,success,warning,danger}-subtle` |
+| Fond et bordure | `omni-u-bg-muted`, `omni-u-bg-{accent,success,warning,danger}-subtle`, `omni-u-border-accent` (couleur de bordure seule) |
 | Mise en page | `omni-u-w-100`, `omni-u-grow`, `omni-u-block`, `omni-u-rounded`, `omni-u-pointer` |

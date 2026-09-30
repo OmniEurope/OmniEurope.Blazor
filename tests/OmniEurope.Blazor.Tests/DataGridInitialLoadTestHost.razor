@@ -9,18 +9,23 @@
     <Columns>
         <OmniDataGridColumn TItem="Row" Property="Id" Title="N°" />
         <OmniDataGridColumn TItem="Row" Property="Name" Title="Nom" SortOrder="OmniDataGridSortOrder.Descending" />
-        <OmniDataGridColumn TItem="Row"
-                            Property="Status"
-                            Title="Statut"
-                            Filterable="true"
-                            FilterType="OmniDataGridColumnFilterType.Select"
-                            FilterValues="@(new[] { "Open", "Closed" })"
-                            DefaultFilterValue="Open" />
+        @if (ShowStatus)
+        {
+            <OmniDataGridColumn TItem="Row"
+                                Property="Status"
+                                Title="Statut"
+                                Filterable="true"
+                                FilterType="OmniDataGridColumnFilterType.Select"
+                                FilterValues="@(new[] { "Open", "Closed" })"
+                                DefaultFilterValue="Open" />
+        }
     </Columns>
 </OmniDataGrid>
 
 @code {
     [Parameter] public OmniDataGridScrollMode ScrollMode { get; set; } = OmniDataGridScrollMode.Paged;
+
+    [Parameter] public bool ShowStatus { get; set; } = true;
 
     [Parameter] public string? StateKey { get; set; }
 

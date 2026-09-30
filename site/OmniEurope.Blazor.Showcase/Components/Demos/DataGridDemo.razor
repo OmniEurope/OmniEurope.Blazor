@@ -9,13 +9,13 @@
               PageSize="5"
               HeaderWrap="OmniDataGridHeaderWrap.Truncate">
     <Columns>
-        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]"
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Filterable="true" Title="@Text["DemoGridColumnReference"]"
                             FilterType="OmniDataGridColumnFilterType.Text"
                             TextAlign="OmniDataGridTextAlign.Start" />
-        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]"
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Filterable="true" Title="@Text["DemoGridColumnApplicant"]"
                             FilterType="OmniDataGridColumnFilterType.Text"
                             SortOrder="OmniDataGridSortOrder.Ascending" />
-        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="@Text["DemoGridColumnCountry"]"
+        <OmniDataGridColumn TItem="GridRow" Property="Country" Filterable="true" Title="@Text["DemoGridColumnCountry"]"
                             FilterType="OmniDataGridColumnFilterType.Select"
                             TextAlign="OmniDataGridTextAlign.Center" />
         <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}"

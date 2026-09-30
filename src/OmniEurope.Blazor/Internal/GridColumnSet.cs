@@ -85,10 +85,22 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
         {
             _columns.Add(definition);
         }
-        grid.Query.ApplyInitialSort(definition);
-        grid.Query.ApplyDefaultFilter(definition);
+        var sorted = grid.Query.ApplyInitialSort(definition);
+        var filtered = grid.Query.ApplyDefaultFilter(definition);
         grid.View.InvalidateLocalProjection();
         grid.RebuildRenderSnapshot();
+        if ((sorted || filtered) && grid.Load is not null && grid.View.FirstRequestReady)
+        {
+            // A column rendered after the first request (under a condition, or added later) brings a
+            // default the rows on screen were not loaded with: they are loaded again with it.
+            _ = grid.DispatchAsync(async () =>
+            {
+                await grid.ReloadAsync();
+                grid.Render();
+            });
+            return;
+        }
+
         _ = grid.RenderLaterAsync();
     }
 

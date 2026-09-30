@@ -51,7 +51,8 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
 
     internal int BlockSize => grid.VirtualBlockSize > 0 ? grid.VirtualBlockSize : Math.Max(1, grid.Paging.PageSize);
 
-    private bool FirstRequestReady => _columnsRendered && _parametersObserved;
+    /// <summary>The columns have rendered and the saved state is read: the first request can go, or has gone.</summary>
+    internal bool FirstRequestReady => _columnsRendered && _parametersObserved;
 
     /// <summary>A loader is set and its first request waits for the columns and the saved state.</summary>
     private bool InitialLoadPending => !FirstRequestReady && grid.Load is not null;
@@ -83,11 +84,6 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     internal bool ShowPendingRow => grid.ShowLoadingBar && Loading && IsEmpty;
 
     internal bool IsEmpty => Virtualized ? TotalCount == 0 : VisibleItems.Count == 0;
-
-    /// <summary>The rows of the remote page (held for a live refresh and the auto-fit).</summary>
-    internal IReadOnlyList<TItem> RemoteItems => _remote.Items;
-
-    internal IEnumerable<TItem> CachedVirtualItems => _virtualSource.CachedItems;
 
     /// <summary>
     /// Every item the grid holds in memory, whatever part of it is on screen: the whole filtered and

@@ -27,20 +27,20 @@ internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
     /// <summary>
     /// Applies a column's declared <c>SortOrder</c> the first time that column registers. Columns
     /// register while the child content renders, after the grid's own parameters are set, so this
-    /// runs per column rather than once for the grid.
+    /// runs per column rather than once for the grid. Returns whether it added a sort.
     /// </summary>
-    internal void ApplyInitialSort(OmniDataGridColumnDefinition<TItem> column)
+    internal bool ApplyInitialSort(OmniDataGridColumnDefinition<TItem> column)
     {
         if (column.SortOrder is null || !_initialSortKeys.Add(column.Key))
         {
-            return;
+            return false;
         }
 
-        // A sort already present for this key (typically restored from the persisted state, which
-        // is read before any column registers) takes precedence over the column's own default.
+        // A sort already present for this key (set from code, or restored from the persisted state
+        // before the column registered) takes precedence over the column's own default.
         if (_sorts.Any(sort => sort.Key == column.Key))
         {
-            return;
+            return false;
         }
 
         _sorts.Add(new OmniDataGridSort(column.Key, column.SortOrder == OmniDataGridSortOrder.Descending)
@@ -48,22 +48,25 @@ internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
             Property = column.SortProperty ?? column.Property
         });
         grid.View.InvalidateLocalProjection();
+        return true;
     }
 
     /// <summary>
     /// Applies a column's declared <c>DefaultFilterValue</c> the first time that column registers,
     /// the way <see cref="ApplyInitialSort"/> does for its sort. A filter already held for the key
-    /// (restored state, or set from code before the column rendered) wins.
+    /// (restored state, or set from code before the column rendered) wins. Returns whether it added
+    /// a filter.
     /// </summary>
-    internal void ApplyDefaultFilter(OmniDataGridColumnDefinition<TItem> column)
+    internal bool ApplyDefaultFilter(OmniDataGridColumnDefinition<TItem> column)
     {
         if (string.IsNullOrEmpty(column.DefaultFilterValue) || !_defaultFilterKeys.Add(column.Key)
             || _filters.ContainsKey(column.Key))
         {
-            return;
+            return false;
         }
 
         _filters[column.Key] = GridFilterOperators<TItem>.DefaultFilter(column) with { Value = column.DefaultFilterValue };
+        return true;
     }
 
     /// <summary>

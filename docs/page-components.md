@@ -34,6 +34,10 @@ commencent leur contenu à la même hauteur :
 
 Le sous-titre, quand la ligne 2 porte le fil, et les filtres viennent sous le bloc. Le script
 `omni-page-header.js` (défilement du titre, repli quand la ligne 1 déborde, par l'attribut `data-compact`) est libéré par `DisposeAsync`.
+Le repli et le défilement du titre supposent un conteneur qui borne la largeur de l'en-tête : dans une
+piste de grille `auto` ou un élément flex sans `min-inline-size: 0`, l'en-tête grandit avec son contenu,
+la ligne 1 ne déborde jamais et rien ne se replie. Donner à la piste `minmax(0, 1fr)` ou à l'élément
+`min-inline-size: 0`.
 
 | Paramètre | Rôle |
 | --- | --- |
@@ -105,11 +109,12 @@ Un voile bloquant au-dessus de tout (`--omni-z-blocking`) tant que `State` n'est
 
 | État | Titre par défaut | Action |
 | --- | --- | --- |
-| `Reconnecting` | Connexion perdue | « Se reconnecter maintenant », `OnReconnect`. Un indicateur tourne tant que `Busy` est faux, et `SecondsUntilRetry` affiche le compte à rebours. |
+| `Reconnecting` | Connexion perdue | « Se reconnecter maintenant », `OnReconnect`. Un indicateur tourne tant que `Busy` est faux, et `TimeUntilRetry` (`TimeSpan`) affiche le compte à rebours. |
 | `Failed` | Connexion impossible | « Se reconnecter maintenant », `OnReconnect`. Plus de compte à rebours. |
 | `Rejected` | Session interrompue | « Recharger la page », `OnReload`, sinon rechargement complet de la page. |
 
-`Reason` s'affiche tel quel (« Cause : ... »). `Title` et `Description` remplacent les textes de l'état.
+`Reason` s'affiche tel quel (« Cause : ... »). `Title` et `Description` remplacent les textes de l'état,
+`ReconnectText` et `ReloadText` ceux des deux actions.
 La carte est un `alertdialog` modal nommé et décrit ; elle prend le focus sur son action, garde Tab en
 elle et rend le focus à la reconnexion. Le compte à rebours reste hors de la région vivante, qu'un
 lecteur d'écran lirait sinon à chaque seconde. L'hôte tient le compte : le composant n'a pas d'horloge.

@@ -7,8 +7,9 @@ param(
     # Contrast: the lot 10 control, contrasts and geometry measured on every theme x palette x mode.
     # AutoFit: the fit to content of a grid column, double click, off-screen virtual row and Enter.
     # MindMap: the mind map gestures, trusted drag, wheel zoom, keyboard, context menu, double click.
+    # Modules: the grid filter popovers, the fold of the page header and the visual HTML editor.
     # Omitted: every probe of $scripts below, in its order.
-    [ValidateSet('Pickers', 'Density', 'Contrast', 'AutoFit', 'MindMap')]
+    [ValidateSet('Pickers', 'Density', 'Contrast', 'AutoFit', 'MindMap', 'Modules')]
     [string[]]$Probe
 )
 
@@ -32,6 +33,7 @@ $scripts = [ordered]@{
     Contrast = 'Test-ThemeContrastProbe.mjs'
     AutoFit = 'Test-ShowcaseGridAutoFitProbe.mjs'
     MindMap = 'Test-ShowcaseMindMapProbe.mjs'
+    Modules = 'Test-ShowcaseModulesProbe.mjs'
 }
 if (-not $Probe) { $Probe = @($scripts.Keys) }
 

@@ -162,8 +162,9 @@ graphique (`--omni-chart-color-0` à `-7`) ; un commit de fusion est un point é
   tracés, couleurs, fusion annoncée).
 - `eng/Test-ShowcaseMindMapProbe.mjs` pilote la démonstration de la vitrine publiée dans Chromium avec des
   événements de confiance (glisser, molette, clavier, menu contextuel, double clic) et échoue sur toute
-  violation CSP ou erreur console. Il n'est pas encore branché dans la CI : l'hôte le lance à la main
-  contre la vitrine publiée et un navigateur ouvert avec `--remote-debugging-port`.
+  violation CSP ou erreur console. C'est la sonde `MindMap` d'`eng/Test-ShowcaseHost.ps1`, qui
+  sert la vitrine publiée et ouvre le navigateur lui-même ([testing.md](testing.md)) : une porte
+  manuelle, pas encore branchée dans la CI.
 - Le pincement et l'appui long n'ont pas été exercés sur un écran tactile réel.
 - On ne crée pas de nœud au-delà de 500 ni de lien au-delà de 1 000, comme dans l'éditeur d'origine. Un
   document plus grand reçu de l'hôte est en revanche dessiné et réécrit en entier, là où l'éditeur
