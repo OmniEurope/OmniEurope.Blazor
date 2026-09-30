@@ -84,7 +84,21 @@ const waitFor = async (description, expression, timeout = 15_000) => {
     }
     await pause(100);
   }
-  throw new Error(`Attente dépassée : ${description}.`);
+  // Where the page stands when the wait runs out: without it a timeout says nothing of its cause.
+  const state = await evaluate(`JSON.stringify({
+    path: location.pathname,
+    look: document.getElementById('showcase-theme')?.getAttribute('data-omni-theme') ?? null,
+    stored: (() => { try { return localStorage.getItem('omnieurope.showcase.theme'); } catch { return null; } })(),
+    nodes: document.querySelectorAll('#demo-mindmap [data-omni-node]').length,
+    selected: [...document.querySelectorAll('#demo-mindmap [data-omni-selected=true]')].map(node => node.getAttribute('data-omni-node')),
+    moved: document.querySelector('#demo-mindmap [data-omni-node=node_5]')?.getAttribute('data-y') ?? null,
+    view: document.querySelector('#demo-mindmap .omni-mindmap__viewport')?.getAttribute('transform') ?? null,
+    gesture: document.querySelector('#demo-mindmap svg')?.getAttribute('class') ?? null,
+    property: document.querySelector('#demo-mindmap .omni-mindmap-properties input')?.value ?? null,
+    live: document.querySelector('#demo-mindmap [role=status]')?.textContent.trim() ?? null,
+    top: Math.round(document.querySelector('#demo-mindmap svg')?.getBoundingClientRect().top ?? -1)
+  })`).catch(error => String(error.message));
+  throw new Error(`Attente dépassée : ${description}. Page : ${state}. Console : ${consoleErrors.join(' | ') || 'aucune erreur'}.`);
 };
 
 const check = (condition, message) => {
@@ -108,12 +122,17 @@ await send('Page.addScriptToEvaluateOnNewDocument', {
   source: "window.__omniCsp = []; document.addEventListener('securitypolicyviolation', event => window.__omniCsp.push(`${event.violatedDirective} ${event.blockedURI}`));"
 });
 await send('Page.navigate', { url: siteUrl });
-await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.querySelector('main, #app') !== null");
+// #showcase-theme is rendered by the application itself; #app is already in the static page, and a
+// navigation asked before the router listens changes the address and leaves the home page shown.
+await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null");
 await pause(1500);
 await evaluate("Blazor.navigateTo('/composants/diagramme')");
 await waitFor('la carte mentale de la vitrine', `document.querySelectorAll('${map} [data-omni-node]').length === 10`);
 await evaluate(`document.querySelector('${map} svg').scrollIntoView({ block: 'center' })`);
-await waitFor('l\'ajustement initial', `Number(document.querySelector('${map} .omni-mindmap__viewport').getAttribute('data-zoom')) > 0.2`);
+// The map is first drawn at zoom 1, before its script is loaded; the script is attached, then the map
+// is fitted in the canvas, which on this demonstration brings the zoom under 1. Waiting for a zoom
+// above a floor was true from the first render: a drag sent before the script was attached did nothing.
+await waitFor('l\'ajustement initial', `(() => { const zoom = Number(document.querySelector('${map} .omni-mindmap__viewport').getAttribute('data-zoom')); return zoom > 0.2 && zoom < 1; })()`);
 const results = [];
 
 // Drag: the node follows the pointer, its links with it, and the drop is committed by .NET.

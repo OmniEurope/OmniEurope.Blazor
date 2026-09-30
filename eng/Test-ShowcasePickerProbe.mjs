@@ -139,7 +139,9 @@ await send('Page.addScriptToEvaluateOnNewDocument', {
   source: "window.__omniCsp = []; document.addEventListener('securitypolicyviolation', event => window.__omniCsp.push(`${event.violatedDirective} ${event.blockedURI}`));"
 });
 await send('Page.navigate', { url: siteUrl });
-await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.querySelector('main, #app') !== null", 20_000);
+// #showcase-theme is rendered by the application itself; #app is already in the static page, and a
+// navigation asked before the router listens changes the address and leaves the home page shown.
+await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null", 20_000);
 await pause(1500);
 await evaluate("Blazor.navigateTo('/composants/saisie-avancee')");
 await waitFor('les sélecteurs de la vitrine', `document.getElementById('inputs-date') && document.getElementById('inputs-start') && document.getElementById('inputs-appointment')`, 15_000);

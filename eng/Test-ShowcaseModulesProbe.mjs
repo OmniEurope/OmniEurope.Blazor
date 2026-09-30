@@ -86,7 +86,9 @@ const waitFor = async (description, expression, timeout = 15_000) => {
     }
     await pause(100);
   }
-  throw new Error(`Attente dépassée : ${description}.`);
+  // Where the page stands when the wait runs out: without it a timeout says nothing of its cause.
+  const state = await evaluate("JSON.stringify({ path: location.pathname, blazor: typeof Blazor, title: document.title, text: (document.querySelector('main') ?? document.body).innerText.slice(0, 160) })").catch(error => String(error.message));
+  throw new Error(`Attente dépassée : ${description}. Page : ${state}. Console : ${consoleErrors.join(' | ') || 'aucune erreur'}.`);
 };
 
 const check = (condition, message) => {
@@ -122,7 +124,9 @@ await send('Page.navigate', { url: siteUrl });
 await waitFor('la vitrine', "document.readyState === 'complete'");
 await evaluate("(() => { try { localStorage.removeItem('omnieurope.showcase.theme'); } catch { } })()");
 await send('Page.navigate', { url: siteUrl });
-await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.querySelector('main, #app') !== null");
+// #showcase-theme is rendered by the application itself; #app is already in the static page, and a
+// navigation asked before the router listens changes the address and leaves the home page shown.
+await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null");
 
 // 1. Filter popovers of the advanced grid: opened by a real click, placed by the script, one open at a
 // time, closed by Escape and by a press outside.

@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-009 : Thèmes excellents et reliquats
 
-> Statut : **ouvert**. Établi le 2026-09-30 ; lots 1 à 6, 8 et 9 faits, lot 7 fait sauf les six sondes et la CI, lots 10 à 13 ouverts par les décisions du 2026-09-30.
+> Statut : **ouvert**. Établi le 2026-09-30 ; lots 1 à 13 faits (le 11 dans le kit, non commité). Restent les décisions en attente du propriétaire.
 
 ## Objectif
 
@@ -82,7 +82,7 @@ Controle : captures de la revue du lot 7 ; matrice de contraste verte. La garde 
 
 ### Lot 7 - Revue dans le panel et clôture des thèmes
 - [x] Chaque thème choisi dans la fenêtre Apparence de la vitrine, clair et sombre : fenêtre, dialogue, menu, alertes, formulaire, grille (180 captures, 15 thèmes x 2 modes x 6 vues).
-- [ ] Six sondes de la vitrine (`eng/Test-ShowcaseHost.ps1`) sur une publication fraîche ; CI de `develop`.
+- [x] Six sondes de la vitrine (`eng/Test-ShowcaseHost.ps1`) sur une publication fraîche ; CI de `develop`.
 - [x] `docs/public-api.txt` régénéré.
 Défauts relevés dans la revue et leur sort :
 - Sous un thème qui bouge son fond, la ligne « Fond animé » arrivait après le gel des mesures de la fenêtre et se dessinait sur la ligne suivante : corrigé (`omni-dialog.js` rend leur hauteur aux conteneurs), couvert par la sonde `Modules`.
@@ -91,7 +91,11 @@ Défauts relevés dans la revue et leur sort :
 - Vitrine : le bouton « Fenêtre d'apparence » remplissait sa cellule : corrigé.
 - Sous Relief clair, le dialogue porte un halo blanc sur le voile : laissé, c'est l'ombre claire du thème.
 - Sous Octet, le libellé en capitales espacées du bouton « Défaut » touchait son bord droit : corrigé. La cause était le gel des mesures : la largeur capturée sous le thème d'ouverture restait après un changement de thème (« Aléatoire » débordait de 19 px sous Octet). La fenêtre reprend ses mesures quand le thème, la palette ou la police changent ; le gel tient toujours face à la taille du texte et à la densité. Couvert par la sonde `Modules`.
-Controle : suite unitaire verte (3449 tests) ; sondes à relancer après la dernière publication.
+Controle : suite unitaire verte (4009 tests au 2026-09-30, après les lots 12 et la garde de contraste de l'en-tête de grille). Passe complète des six sondes verte le 2026-09-30 à 18:50 sur la publication de 15:14 (code de `c1f3ab3`) : sélecteurs, densité (2995 éléments, 40 pages), contraste (113 240 mesures, 450 combinaisons, registre vide), ajustement de colonne, carte mentale, modules. CI de `develop` verte à `c1f3ab3`.
+Trois passes complètes avaient échoué avant, pour trois causes trouvées et corrigées :
+- contraste : titres de colonne à 4,48 pour 1 sous Trou noir avec la palette Électrique en clair ; fond des grilles du thème ramené de 4 % à 3 %, paire désormais mesurée par `ThemeContrastMatrixTests` ;
+- modules (intermittent) : la sonde demandait une navigation dès que `#app` existait, avant que le routeur n'écoute ; les sondes attendent `#showcase-theme`, rendu par l'application ;
+- carte mentale : la sonde glissait un nœud dès que le zoom dépassait 0,2, vrai au premier rendu (zoom 1), avant que le script de la carte soit attaché ; reproduit en retardant ce script de 1,5 s (même pas, même état : aucun nœud choisi, nœud à sa place), corrigé en attendant l'ajustement de la carte, vérifié avec 1,5 s et 4 s de retard. Aucun défaut du composant : les trois causes sont dans les sondes et dans un jeton de thème.
 
 ### Lot 8 - Demandes OE de la recette
 Détail dans `(chemin local)`.
@@ -117,9 +121,9 @@ Controle : suite unitaire verte (3449 tests, dont deux gardes ajoutées pour la 
 Controle : `git grep -i` sur ce nom ne rend plus rien dans le dépôt ; suite verte (3449 tests).
 
 ### Lot 11 - `STD-FILESIZE` en lignes effectives dans le kit
-- [ ] le contrôle des règles du kit, son registre et son modèle de test comptent les lignes effectives (ni vides, ni commentaires, doc XML comprise), comme PLAN-008 l'a mesuré ici.
-Non commencé : le 2026-09-30, le dépôt `(chemin local)` porte des modifications non commitées d'une autre session, dont le contrôle des règles, `docs/code-rules.md` et les deux de rappel des règles. Y écrire depuis ici mêlerait deux travaux dans les mêmes fichiers ; la demande passe par la session du kit, ou attend que ce dépôt soit propre.
-Controle : le contrôle des règles ne rend plus de constat `STD-FILESIZE` ; les constats des autres projets sont relevés avant et après.
+- [x] le contrôle des règles du kit, son registre `docs/code-rules.md`, son modèle `docs/tests-template/FileSizeAuditTests.cs` et le texte de ses deux de rappel des règles comptent les lignes effectives : une ligne vide ou faite d'un seul commentaire (`//`, `///`, bloc `/* */`, et dans un `.razor` bloc `@* *@` ou `<!-- -->`) ne compte pas ; du code suivi d'un commentaire compte.
+Fait dans l'arbre de travail du kit le 2026-09-30, sur décision du propriétaire, sans commit : le kit porte les modifications non commitées d'une autre session dans les mêmes fichiers, le commit lui revient. Le crochet déployé (les crochets de l'agent/de rappel des règles) est une copie et garde l'ancien texte tant qu'il n'est pas redéployé ; les copies de `FileSizeAuditTests.cs` d'une application cliente et d'un autre projet comptent encore les lignes brutes.
+Controle : le contrôle des règles ne rend plus de constat (5 avant : `OmniDataGrid.razor.cs` 365 lignes effectives sur 866, `OmniHtmlEditor.razor.cs` 533 sur 832, `OmniChartContext.cs` 511 sur 732, `omni-html-editor.js` 551 sur 713, `omni-mindmap.js` 560 sur 698). Autres projets, avant puis après : une application cliente 4 puis 2 (dont un par un découpage fait chez lui le même jour), une application cliente 8 puis 5, kit 1 puis 1, les cinq autres 0. Le script et le modèle de test rendent le même compte sur neuf fichiers, `.razor` compris.
 
 ### Lot 12 - Pluriels par langue
 - [x] Règle de pluriel cardinal de chacune des 24 langues (catégories CLDR : `zero`, `one`, `two`, `few`, `many`, `other`), choisie d'après la culture d'affichage (`PluralRules`).
@@ -150,7 +154,7 @@ Controle : décompte inchangé et déjà consigné dans `docs/performance-budget
 Rien ici n'est exécuté sans réponse.
 
 - Ce même nom dans cinq messages de commit déjà poussés : réécrire ou non l'historique.
-- Grille `Load` : charger dès le prérendu avec les défauts des colonnes, ou garder le premier rendu interactif.
+- Grille `Load` : charger dès le prérendu avec les défauts des colonnes, ou garder le premier rendu interactif. Avis de l'exécutant : garder le premier rendu interactif. Le rendu interactif part d'un composant neuf et recharge de toute façon : charger au prérendu ferait deux requêtes par affichage, sauf état persisté que l'hôte devrait fournir. L'état enregistré (`StateKey`) n'est pas lisible au prérendu : la première requête ignorerait les filtres et tris gardés, et les lignes changeraient au passage à l'interactif. Enfin le prérendu attendrait les données avant d'envoyer la page, là où la grille montre aujourd'hui son état de chargement tout de suite. Un chargement au prérendu ne vaudrait que comme option à demander, pour un hôte qui veut des lignes dans le HTML servi.
 - Trou noir : l'anneau reste discret en clair pour tenir les seuils de contraste avec toutes les palettes. Le rendre plus visible demande de marquer le thème « contraste non garanti ». Le propriétaire regarde le thème avant de trancher.
 
 ## Ordre et dépendances
