@@ -4,6 +4,9 @@
     <!-- Every public member carries an XML doc (CS1591 is an error under TreatWarningsAsErrors): the
          file ships in the package so consumers get IntelliSense. -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Nullability attributes only on the public and protected surface, where consumers read them:
+         on private and internal members they only weighed down the assembly. -->
+    <Features>$(Features);nullablePublicOnly</Features>
     <PackageId>OmniEurope.Blazor</PackageId>
     <Version>1.3.0</Version>
     <Authors>OmniEurope contributors</Authors>
@@ -24,6 +27,8 @@
     <PackageReference Include="HtmlSanitizer" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
     <PackageReference Include="Microsoft.Extensions.Localization" />
+    <!-- The built-in icon outlines, read once by Internal/PhosphorIconGlyphs.cs. -->
+    <EmbeddedResource Include="Internal\PhosphorIcons.txt" LogicalName="OmniEurope.Blazor.PhosphorIcons.txt" />
     <None Include="../../README.md" Pack="true" PackagePath="/" />
     <None Include="../../NOTICE.md" Pack="true" PackagePath="/" />
     <None Include="../../docs/sbom.cdx.json" Pack="true" PackagePath="compliance/" />

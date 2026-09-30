@@ -12,9 +12,7 @@
       "usage": "Tracés intégrés d'OmniIcon, repris tels quels des poids regular et fill (StarFilled).",
       "vendoredFiles": [
         "src/OmniEurope.Blazor/Internal/PhosphorIconGlyphs.cs",
-        "src/OmniEurope.Blazor/Internal/PhosphorIconGlyphsAToC.cs",
-        "src/OmniEurope.Blazor/Internal/PhosphorIconGlyphsDToM.cs",
-        "src/OmniEurope.Blazor/Internal/PhosphorIconGlyphsNToZ.cs"
+        "src/OmniEurope.Blazor/Internal/PhosphorIcons.txt"
       ],
       "license": {
         "kind": "expression",

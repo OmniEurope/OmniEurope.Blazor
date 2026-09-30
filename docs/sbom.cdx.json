@@ -156,9 +156,9 @@
     {
       "type": "library",
       "name": "coverlet.MTP",
-      "version": "10.0.1",
-      "bom-ref": "pkg:nuget/coverlet.MTP@10.0.1",
-      "purl": "pkg:nuget/coverlet.MTP@10.0.1",
+      "version": "10.1.0",
+      "bom-ref": "pkg:nuget/coverlet.MTP@10.1.0",
+      "purl": "pkg:nuget/coverlet.MTP@10.1.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1636,9 +1636,9 @@
     {
       "type": "library",
       "name": "Microsoft.Web.WebView2",
-      "version": "1.0.4191.47",
-      "bom-ref": "pkg:nuget/Microsoft.Web.WebView2@1.0.4191.47",
-      "purl": "pkg:nuget/Microsoft.Web.WebView2@1.0.4191.47",
+      "version": "1.0.4258.31",
+      "bom-ref": "pkg:nuget/Microsoft.Web.WebView2@1.0.4258.31",
+      "purl": "pkg:nuget/Microsoft.Web.WebView2@1.0.4258.31",
       "licenses": [
         {
           "license": {
@@ -1657,7 +1657,7 @@
         },
         {
           "name": "omnieurope:license-file",
-          "value": "docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4191.47--LICENSE.txt"
+          "value": "docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4258.31--LICENSE.txt"
         },
         {
           "name": "omnieurope:license-file-sha256",
@@ -2693,7 +2693,7 @@
         },
         {
           "name": "omnieurope:vendored-files",
-          "value": "src/OmniEurope.Blazor/Internal/PhosphorIconGlyphs.cs;src/OmniEurope.Blazor/Internal/PhosphorIconGlyphsAToC.cs;src/OmniEurope.Blazor/Internal/PhosphorIconGlyphsDToM.cs;src/OmniEurope.Blazor/Internal/PhosphorIconGlyphsNToZ.cs"
+          "value": "src/OmniEurope.Blazor/Internal/PhosphorIconGlyphs.cs;src/OmniEurope.Blazor/Internal/PhosphorIcons.txt"
         }
       ]
     }

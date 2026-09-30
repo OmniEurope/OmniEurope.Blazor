@@ -4,7 +4,13 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Non publié]
 
+### Changed
+
+- Assembly plus léger, sans changement d'API (PLAN-010) : les tracés d'icônes intégrés quittent le code pour une ressource UTF-8 (`Internal/PhosphorIcons.txt`), lue une fois au premier rendu d'une icône, et les attributs de nullabilité ne sont plus posés que sur la surface publique (`nullablePublicOnly`). `OmniEurope.Blazor.dll` passe de 2 031 104 à 1 900 544 octets ; publié en WebAssembly, 500 585 octets en brotli au lieu de 510 061.
+
 ### Outillage du dépôt (sans effet sur le paquet publié)
+
+- Documentation : `OmniMarkdownExportButton` est présenté comme l'export hors grille ; une grille exporte par sa barre `ExportFormats`.
 
 - Dépendances : `coverlet.MTP` 10.1.0 et `Microsoft.Web.WebView2` 1.0.4258.31 (couverture des tests et exemple Hybrid), ce qui retire les deux avertissements de dérive du catalogue NuGet. Les tâches Linux de la CI sont fixées sur `ubuntu-24.04` : le passage d'`ubuntu-latest` à Ubuntu 26, le 2026-10-19, ne s'appliquera pas sans une décision.
 

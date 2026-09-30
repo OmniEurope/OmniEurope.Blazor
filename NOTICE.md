@@ -12,7 +12,7 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `AngleSharp.Css` | `1.1.2` | MIT | `expression` | - |
 | `AngleSharp.Diffing` | `1.1.1` | MIT | `expression` | - |
 | `bunit` | `2.11.3` | MIT | `expression` | - |
-| `coverlet.MTP` | `10.0.1` | MIT | `expression` | - |
+| `coverlet.MTP` | `10.1.0` | MIT | `expression` | - |
 | `HtmlSanitizer` | `9.2.1039` | MIT | `expression` | - |
 | `Microsoft.ApplicationInsights` | `2.23.0` | MIT | `expression` | - |
 | `Microsoft.AspNetCore.App.Internal.Assets` | `10.0.12` | MIT | `expression` | - |
@@ -79,7 +79,7 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Microsoft.Testing.Extensions.TrxReport.Abstractions` | `2.4.1` | MIT | `expression` | - |
 | `Microsoft.Testing.Platform` | `2.4.1` | MIT | `expression` | - |
 | `Microsoft.Testing.Platform.MSBuild` | `2.4.0` | MIT | `expression` | - |
-| `Microsoft.Web.WebView2` | `1.0.4191.47` | LICENSE.txt | `file` | `docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4191.47--LICENSE.txt` |
+| `Microsoft.Web.WebView2` | `1.0.4258.31` | LICENSE.txt | `file` | `docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4258.31--LICENSE.txt` |
 | `Microsoft.Win32.Registry` | `5.0.0` | MIT | `expression` | - |
 | `Microsoft.Windows.SDK.BuildTools` | `10.0.26100.8249` | https://aka.ms/WinSDKLicenseURL | `url` | - |
 | `Microsoft.Windows.SDK.BuildTools.MSIX` | `1.7.20250829.1` | sdk_license.txt | `file` | `docs/third-party-licenses/Microsoft.Windows.SDK.BuildTools.MSIX--1.7.20250829.1--sdk_license.txt` |
