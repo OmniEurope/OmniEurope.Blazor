@@ -8,7 +8,7 @@
       "source": "https://www.nuget.org/packages/bunit/"
     },
     "coverlet.MTP": {
-      "version": "10.0.1",
+      "version": "10.1.0",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/coverlet.MTP/"
     },
@@ -39,7 +39,7 @@
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebView/"
     },
     "Microsoft.Web.WebView2": {
-      "version": "1.0.4191.47",
+      "version": "1.0.4258.31",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.Web.WebView2/"
     },

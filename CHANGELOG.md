@@ -2,6 +2,12 @@
 
 Les changements notables de ce projet seront documentés ici selon le format Keep a Changelog.
 
+## [Non publié]
+
+### Outillage du dépôt (sans effet sur le paquet publié)
+
+- Dépendances : `coverlet.MTP` 10.1.0 et `Microsoft.Web.WebView2` 1.0.4258.31 (couverture des tests et exemple Hybrid), ce qui retire les deux avertissements de dérive du catalogue NuGet. Les tâches Linux de la CI sont fixées sur `ubuntu-24.04` : le passage d'`ubuntu-latest` à Ubuntu 26, le 2026-10-19, ne s'appliquera pas sans une décision.
+
 ## [1.3.0] - 2026-09-30
 
 ### Breaking changes
