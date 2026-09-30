@@ -76,7 +76,7 @@ public sealed class RailGroupAndBrandLinkTests : OmniBunitContext
     public void A_brand_with_an_address_is_one_link_holding_the_logo_image_and_the_name()
     {
         var header = Render<OmniHeader>(parameters => parameters
-            .Add(component => component.Brand, "a client application")
+            .Add(component => component.Brand, "Atelier")
             .Add(component => component.BrandLogo, "img/logo.svg")
             .Add(component => component.BrandHref, "tasks")
             .AddChildContent("actions"));
@@ -84,7 +84,7 @@ public sealed class RailGroupAndBrandLinkTests : OmniBunitContext
         var link = header.Find("a.omni-header__brand");
         Assert.Equal("tasks", link.GetAttribute("href"));
         Assert.Equal("img/logo.svg", link.QuerySelector("img.omni-header__logo-image")!.GetAttribute("src"));
-        Assert.Equal("a client application", link.QuerySelector(".omni-header__brand-name")!.TextContent);
+        Assert.Equal("Atelier", link.QuerySelector(".omni-header__brand-name")!.TextContent);
     }
 
     [Fact]
@@ -108,7 +108,7 @@ public sealed class RailGroupAndBrandLinkTests : OmniBunitContext
     public void A_brand_without_an_address_stays_a_label()
     {
         var header = Render<OmniHeader>(parameters => parameters
-            .Add(component => component.Brand, "a client application")
+            .Add(component => component.Brand, "Atelier")
             .AddChildContent("actions"));
 
         Assert.Empty(header.FindAll("a.omni-header__brand"));

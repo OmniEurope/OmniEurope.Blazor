@@ -12,7 +12,7 @@ namespace OmniEurope.Blazor.Components;
 /// change produces a new document, raised through <see cref="OmniMindMap.DocumentChanged"/>, which
 /// is what makes undo a matter of keeping the previous instances.
 /// <para>
-/// <see cref="FromJson"/> and <see cref="ToJson"/> read and write the graph format the a client application
+/// <see cref="FromJson"/> and <see cref="ToJson"/> read and write the graph format the original
 /// editor stores: <c>{"rootId", "nodes", "edges", "notes"}</c>. Properties the model does not know
 /// are kept in <c>AdditionalProperties</c> and written back, so the round trip loses nothing.
 /// </para>

@@ -39,7 +39,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
 
     // Waiting for the images of rows already there. The headers always stay and the LoadingContent sits in
     // a row under them, while the rows load and while their images do: a veil over the whole grid hid the
-    // headers, against the shared acceptance rule (RET-002 §3.8, a client application).
+    // headers, against the shared acceptance rule (RET-002 §3.8).
     internal bool Veiled => Preparing && !grid.View.Loading;
 
     /// <summary>Whether Enter on a resize handle can fit its column to content.</summary>

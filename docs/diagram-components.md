@@ -2,7 +2,7 @@
 
 La famille Diagram fournit une carte mentale interactive dessinée en SVG : `OmniMindMap`, sa barre
 d'actions `OmniMindMapToolbar` et son panneau `OmniMindMapNodeProperties`. Le comportement est celui de
-l'éditeur de cartes mentales d'une application cliente, porté sans dépendance ni emprunt à une autre bibliothèque de
+l'éditeur de cartes mentales d'origine, porté sans dépendance ni emprunt à une autre bibliothèque de
 composants ; seuls le clavier et l'accessibilité ont été ajoutés, parce que le contrat les exige.
 S'y ajoutent la disposition en couches d'un graphe orienté (`OmniGraphLayout`) et l'historique de
 commits en graphe (`OmniGitGraph`), décrits plus bas.
@@ -13,12 +13,12 @@ commits en graphe (`OmniGitGraph`), décrits plus bas.
 modification produit un nouveau document, remonté par `DocumentChanged`, et l'historique garde les
 trente derniers.
 
-`OmniMindMapDocument.FromJson` et `ToJson` lisent et écrivent le format de graphe que une application cliente stocke
+`OmniMindMapDocument.FromJson` et `ToJson` lisent et écrivent le format de graphe que cet éditeur stocke
 (`{"rootId","nodes","edges","notes"}`), à la main et dans l'ordre des propriétés du format. Les
 propriétés inconnues sont conservées à chaque niveau (`AdditionalProperties`) et réécrites telles
 quelles. Les caractères accentués et les apostrophes sont écrits comme l'éditeur d'origine les écrivait,
 sans échappement : un document relu puis réécrit redonne le texte stocké octet pour octet, ce que prouve
-un test sur les trois graphes réels du jeu d'essai d'une application cliente. Ce texte est une donnée à stocker ; il
+un test sur les trois graphes réels de son jeu d'essai. Ce texte est une donnée à stocker ; il
 n'est jamais inséré dans du balisage.
 
 Un nœud porte `Id`, `Label`, `Group`, `X` et `Y` (centre), `FontSize`, `Bold`, `Italic`, `Width` et

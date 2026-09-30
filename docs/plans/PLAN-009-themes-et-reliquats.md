@@ -112,9 +112,9 @@ Demande de la session d'une application cliente du 2026-09-30, décision de l'ut
 - [x] Livrés avec ce lot par la session d'une application cliente : ligne à hauteur exacte en `FixedRowHeight` (`box-sizing: border-box`), en-tête collant opaque sous un fond de grille translucide.
 Controle : suite unitaire verte (3449 tests, dont deux gardes ajoutées pour la hauteur de ligne et l'en-tête opaque). Mesuré dans la vitrine : sur `/composants/grille`, Référence, Demandeur et Pays portent un filtre sans rien déclarer et Montant n'en a pas ; les six grilles à `Filterable="false"` n'ont pas de rangée de filtres ; sous Givre, l'en-tête collant a un fond opaque (`rgb(247, 249, 252)`). Session d'une application cliente à prévenir à la livraison.
 
-### Lot 10 - Nom « une application cliente » hors des fichiers du dépôt
-- [ ] Guide des diagrammes, `CHANGELOG.md`, commentaires de code et de test, dossier `TestData/client`, marque d'essai des tests d'en-tête : le nom est remplacé par une formulation neutre.
-Controle : `git grep -i client` ne rend plus rien hors de `docs/plans/` ; suite verte.
+### Lot 10 - Nom d'un projet privé hors des fichiers du dépôt
+- [x] Guide des diagrammes, `CHANGELOG.md`, commentaires de code et de test, dossier de données d'essai (devenu `TestData/mindmap`), marque d'essai des tests d'en-tête : le nom est remplacé par une formulation neutre.
+Controle : `git grep -i` sur ce nom ne rend plus rien dans le dépôt ; suite verte (3449 tests).
 
 ### Lot 11 - `STD-FILESIZE` en lignes effectives dans le kit
 - [ ] le contrôle des règles du kit, son registre et son modèle de test comptent les lignes effectives (ni vides, ni commentaires, doc XML comprise), comme PLAN-008 l'a mesuré ici.
@@ -136,7 +136,7 @@ Controle : compte de requêtes au premier usage mesuré avant et après dans `do
 - Publication : pas de `1.2.1` ; le propriétaire publie plus tard, d'autres changements sont attendus.
 - Paquets NuGet anciens à délister : le propriétaire s'en charge.
 - Listes déroulantes (point 39 de la recette) : l'habillage CSS est gardé (Chromium 135 et suivants, liste du système ailleurs) ; le `<select>` natif reste.
-- Nom « une application cliente » : retiré des fichiers du dépôt (lot 10).
+- Nom d'un projet privé du propriétaire, cité dans le dépôt public : retiré des fichiers (lot 10).
 - `STD-FILESIZE` : le compteur de lignes effectives est porté dans le contrôle des règles du kit (lot 11).
 - Pluriels après un nombre : le standard, soit les règles de pluriel par langue (lot 12).
 - Sous-modules JS à regrouper au build : laissé au jugement de l'exécutant (lot 13).
@@ -145,7 +145,7 @@ Controle : compte de requêtes au premier usage mesuré avant et après dans `do
 
 Rien ici n'est exécuté sans réponse.
 
-- Nom « une application cliente » dans les messages de commit déjà poussés : réécrire ou non l'historique.
+- Ce même nom dans cinq messages de commit déjà poussés : réécrire ou non l'historique.
 - Grille `Load` : charger dès le prérendu avec les défauts des colonnes, ou garder le premier rendu interactif.
 - Trou noir : l'anneau reste discret en clair pour tenir les seuils de contraste avec toutes les palettes. Le rendre plus visible demande de marquer le thème « contraste non garanti ». Le propriétaire regarde le thème avant de trancher.
 
