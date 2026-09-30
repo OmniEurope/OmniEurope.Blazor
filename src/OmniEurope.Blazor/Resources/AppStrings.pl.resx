@@ -493,20 +493,20 @@
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} godz.</value></data>
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} dzień</value></data>
-  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} dni</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0, plural, one {# dzień} few {# dni} many {# dni} other {# dnia}}</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} miesiąc</value></data>
-  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} mies.</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0, plural, one {# miesiąc} few {# miesiące} many {# miesięcy} other {# miesiąca}}</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} rok</value></data>
-  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} l.</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0, plural, one {# rok} few {# lata} many {# lat} other {# roku}}</value></data>
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} godz.</value></data>
   <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} dzień</value></data>
-  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} dni</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0, plural, one {# dzień} few {# dni} many {# dni} other {# dnia}}</value></data>
   <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} miesiąc</value></data>
-  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} mies.</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0, plural, one {# miesiąc} few {# miesiące} many {# miesięcy} other {# miesiąca}}</value></data>
   <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} rok</value></data>
-  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} l.</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0, plural, one {# rok} few {# lata} many {# lat} other {# roku}}</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Podkreślenie</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Przekreślenie</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Kod w wierszu</value></data>
@@ -643,9 +643,9 @@
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Wygenerowano (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Wyeksportowane wiersze: {0} z {1} oczekiwanych</value></data>
   <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Wyeksportowane wiersze: {0} z co najmniej {1}</value></data>
-  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Eksport obcięty: wyeksportowano {0} z {1} wierszy, osiągnięto limit {2} wierszy.</value></data>
-  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Eksport niekompletny: wyeksportowano {0} z {1} oczekiwanych wierszy, dane zmieniły się podczas odczytu.</value></data>
-  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ograniczony eksport: osiągnięto limit {0} wierszy, a źródło nie podaje łącznej liczby, może istnieć więcej wierszy.</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Eksport obcięty: wyeksportowano {0} z {1, plural, one {# wiersza} few {# wierszy} many {# wierszy} other {# wiersza}}, osiągnięto limit {2, plural, one {# wiersza} few {# wierszy} many {# wierszy} other {# wiersza}}.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Eksport niekompletny: wyeksportowano {0} z {1, plural, one {# oczekiwanego wiersza} few {# oczekiwanych wierszy} many {# oczekiwanych wierszy} other {# oczekiwanego wiersza}}, dane zmieniły się podczas odczytu.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ograniczony eksport: osiągnięto limit {0, plural, one {# wiersza} few {# wierszy} many {# wierszy} other {# wiersza}}, a źródło nie podaje łącznej liczby, może istnieć więcej wierszy.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Brak wierszy.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Zarejestruj się</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nie masz konta?</value></data>

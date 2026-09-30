@@ -42,7 +42,7 @@
   <data name="ChartSeriesFallback" xml:space="preserve"><value>Reihe {0}</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Die Suche ist fehlgeschlagen. Ändern Sie die Eingabe, um es erneut zu versuchen.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>1 Ergebnis verfügbar.</value></data>
-  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} Ergebnisse verfügbar.</value></data>
+  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0, plural, one {# Ergebnis verfügbar.} other {# Ergebnisse verfügbar.}}</value></data>
   <data name="AutocompleteSelected" xml:space="preserve"><value>{0} ausgewählt.</value></data>
   <data name="AutocompleteInvalid" xml:space="preserve"><value>Der Wert der Autovervollständigung ist ungültig.</value></data>
   <data name="BreadcrumbLabel" xml:space="preserve"><value>Brotkrümelnavigation</value></data>
@@ -167,7 +167,7 @@
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Erste Zeile als Kopfzeile</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Einfügen</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Tabellenvorschau</value></data>
-  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0} Zeilen, {1} Spalten</value></data>
+  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0, plural, one {# Zeile} other {# Zeilen}}, {1, plural, one {# Spalte} other {# Spalten}}</value></data>
   <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>Die Datei konnte nicht gelesen werden.</value></data>
   <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>Die Datei enthält keine Zeilen.</value></data>
   <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Dieser Dateityp wird nicht unterstützt.</value></data>
@@ -403,11 +403,11 @@
   <data name="TreeLoadFailed" xml:space="preserve"><value>Das Laden ist fehlgeschlagen.</value></data>
   <data name="UploadSelectedFiles" xml:space="preserve"><value>Ausgewählte Dateien</value></data>
   <data name="UploadProgressLabel" xml:space="preserve"><value>Upload</value></data>
-  <data name="UploadMaximumFiles" xml:space="preserve"><value>Sie können höchstens {0} Dateien auswählen.</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Sie können höchstens {0, plural, one {# Datei} other {# Dateien}} auswählen.</value></data>
   <data name="UploadFileTooLarge" xml:space="preserve"><value>Die Datei {0} überschreitet die maximal zulässige Größe.</value></data>
   <data name="UploadTypeRejected" xml:space="preserve"><value>Der Dateityp von {0} ist nicht zulässig.</value></data>
   <data name="UploadOneSelected" xml:space="preserve"><value>1 Datei ausgewählt.</value></data>
-  <data name="UploadManySelected" xml:space="preserve"><value>{0} Dateien ausgewählt.</value></data>
+  <data name="UploadManySelected" xml:space="preserve"><value>{0, plural, one {# Datei ausgewählt.} other {# Dateien ausgewählt.}}</value></data>
   <data name="UploadInProgress" xml:space="preserve"><value>Upload läuft.</value></data>
   <data name="UploadCompleted" xml:space="preserve"><value>Upload abgeschlossen.</value></data>
   <data name="UploadCancelled" xml:space="preserve"><value>Upload abgebrochen.</value></data>
@@ -418,7 +418,7 @@
   <data name="UploadDropMany" xml:space="preserve"><value>Dateien hier ablegen oder</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>durchsuchen</value></data>
   <data name="UploadHintMaximumSize" xml:space="preserve"><value>Höchstens {0} pro Datei</value></data>
-  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Höchstens {0} Dateien</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Höchstens {0, plural, one {# Datei} other {# Dateien}}</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Angehängte Dateien</value></data>
   <data name="UploadRemove" xml:space="preserve"><value>{0} entfernen</value></data>
   <data name="UploadBrowseButton" xml:space="preserve"><value>Durchsuchen</value></data>
@@ -426,7 +426,7 @@
   <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
   <data name="UploadFileCountNone" xml:space="preserve"><value>Keine Dateien</value></data>
   <data name="UploadFileCountOne" xml:space="preserve"><value>1 Datei</value></data>
-  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} Dateien</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0, plural, one {# Datei} other {# Dateien}}</value></data>
   <data name="UploadShowAll" xml:space="preserve"><value>Alle anzeigen ({0})</value></data>
   <data name="UploadShowLess" xml:space="preserve"><value>Weniger anzeigen</value></data>
   <data name="UploadRemoveAll" xml:space="preserve"><value>Alle entfernen</value></data>
@@ -493,20 +493,20 @@
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} Min.</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} Std.</value></data>
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} Tag</value></data>
-  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} Tagen</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0, plural, one {# Tag} other {# Tagen}}</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} Monat</value></data>
-  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} Monaten</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0, plural, one {# Monat} other {# Monaten}}</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} Jahr</value></data>
-  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} Jahren</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0, plural, one {# Jahr} other {# Jahren}}</value></data>
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} Min.</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} Std.</value></data>
   <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} Tag</value></data>
-  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} Tagen</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0, plural, one {# Tag} other {# Tagen}}</value></data>
   <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} Monat</value></data>
-  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} Monaten</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0, plural, one {# Monat} other {# Monaten}}</value></data>
   <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} Jahr</value></data>
-  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} Jahren</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0, plural, one {# Jahr} other {# Jahren}}</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Unterstrichen</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Durchgestrichen</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Inline-Code</value></data>
@@ -579,7 +579,7 @@
   <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} von {1}</value></data>
   <data name="LogViewerFollow" xml:space="preserve"><value>Folgen</value></data>
   <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Zu den neuesten Zeilen</value></data>
-  <data name="LogViewerNewLines" xml:space="preserve"><value>{0} neue Zeilen</value></data>
+  <data name="LogViewerNewLines" xml:space="preserve"><value>{0, plural, one {# neue Zeile} other {# neue Zeilen}}</value></data>
   <data name="LogViewerLevelPrefix" xml:space="preserve"><value>{0}: </value></data>
   <data name="LogLevelTrace" xml:space="preserve"><value>Ablaufverfolgung</value></data>
   <data name="LogLevelDebug" xml:space="preserve"><value>Debug</value></data>
@@ -597,7 +597,7 @@
   <data name="CodeViewerWrap" xml:space="preserve"><value>Zeilenumbruch</value></data>
   <data name="CodeViewerLinkHint" xml:space="preserve"><value>Link folgen</value></data>
   <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Keine Änderungen.</value></data>
-  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0} Zeilen hinzugefügt, {1} Zeilen entfernt</value></data>
+  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0, plural, one {# Zeile hinzugefügt} other {# Zeilen hinzugefügt}}, {1, plural, one {# Zeile entfernt} other {# Zeilen entfernt}}</value></data>
   <data name="UnifiedDiffBinary" xml:space="preserve"><value>Binärdatei: keine Zeilen zu vergleichen.</value></data>
   <data name="UnifiedDiffNoLines" xml:space="preserve"><value>Keine geänderten Zeilen.</value></data>
   <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Zeile vorher</value></data>
@@ -639,13 +639,13 @@
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(öffnet in einem neuen Tab)</value></data>
   <data name="MarkdownExportButton" xml:space="preserve"><value>Als .md exportieren</value></data>
   <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
-  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limit: höchstens {0} Zeilen</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limit: höchstens {0, plural, one {# Zeile} other {# Zeilen}}</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Erstellt am (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Exportierte Zeilen: {0} von {1} angekündigten</value></data>
   <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Exportierte Zeilen: {0} von mindestens {1}</value></data>
-  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Export gekürzt: {0} von {1} Zeilen exportiert, das Limit von {2} Zeilen ist erreicht.</value></data>
-  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export unvollständig: {0} von {1} angekündigten Zeilen exportiert, die Daten haben sich während des Lesens geändert.</value></data>
-  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Export begrenzt: Das Limit von {0} Zeilen ist erreicht und die Quelle nennt keine Gesamtzahl, es können weitere Zeilen vorhanden sein.</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Export gekürzt: {0} von {1, plural, one {# Zeile} other {# Zeilen}} exportiert, das Limit von {2, plural, one {# Zeile} other {# Zeilen}} ist erreicht.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export unvollständig: {0} von {1, plural, one {# angekündigten Zeile} other {# angekündigten Zeilen}} exportiert, die Daten haben sich während des Lesens geändert.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Export begrenzt: Das Limit von {0, plural, one {# Zeile} other {# Zeilen}} ist erreicht und die Quelle nennt keine Gesamtzahl, es können weitere Zeilen vorhanden sein.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Keine Zeilen.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Registrieren</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Noch kein Konto?</value></data>

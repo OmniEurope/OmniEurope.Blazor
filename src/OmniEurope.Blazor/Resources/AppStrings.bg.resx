@@ -167,7 +167,7 @@
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Първият ред като заглавен</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Вмъкване</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Преглед на таблицата</value></data>
-  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0} реда, {1} колони</value></data>
+  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0, plural, one {# ред} other {# реда}}, {1, plural, one {# колона} other {# колони}}</value></data>
   <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>Файлът не можа да бъде прочетен.</value></data>
   <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>Файлът не съдържа нито един ред.</value></data>
   <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Този тип файл не се поддържа.</value></data>
@@ -403,7 +403,7 @@
   <data name="TreeLoadFailed" xml:space="preserve"><value>Зареждането не бе успешно.</value></data>
   <data name="UploadSelectedFiles" xml:space="preserve"><value>Избрани файлове</value></data>
   <data name="UploadProgressLabel" xml:space="preserve"><value>Качване</value></data>
-  <data name="UploadMaximumFiles" xml:space="preserve"><value>Можете да изберете най-много {0} файла.</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Можете да изберете най-много {0, plural, one {# файл} other {# файла}}.</value></data>
   <data name="UploadFileTooLarge" xml:space="preserve"><value>Файлът {0} надвишава максимално разрешения размер.</value></data>
   <data name="UploadTypeRejected" xml:space="preserve"><value>Типът на файла {0} не е разрешен.</value></data>
   <data name="UploadOneSelected" xml:space="preserve"><value>Избран е 1 файл.</value></data>
@@ -418,7 +418,7 @@
   <data name="UploadDropMany" xml:space="preserve"><value>Пуснете файлове тук или</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>прегледайте</value></data>
   <data name="UploadHintMaximumSize" xml:space="preserve"><value>До {0} на файл</value></data>
-  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>До {0} файла</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>До {0, plural, one {# файл} other {# файла}}</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Прикачени файлове</value></data>
   <data name="UploadRemove" xml:space="preserve"><value>Премахване на {0}</value></data>
   <data name="UploadBrowseButton" xml:space="preserve"><value>Преглед</value></data>
@@ -426,7 +426,7 @@
   <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
   <data name="UploadFileCountNone" xml:space="preserve"><value>Няма файлове</value></data>
   <data name="UploadFileCountOne" xml:space="preserve"><value>1 файл</value></data>
-  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} файла</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0, plural, one {# файл} other {# файла}}</value></data>
   <data name="UploadShowAll" xml:space="preserve"><value>Показване на всички ({0})</value></data>
   <data name="UploadShowLess" xml:space="preserve"><value>По-малко</value></data>
   <data name="UploadRemoveAll" xml:space="preserve"><value>Премахване на всички</value></data>
@@ -434,9 +434,9 @@
   <data name="UploadRemoved" xml:space="preserve"><value>{0} е премахнат от списъка.</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Седмичен изглед</value></data>
   <data name="DataAnnotationsRequired" xml:space="preserve"><value>Полето {0} е задължително.</value></data>
-  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Полето {0} трябва да съдържа между {1} и {2} знака.</value></data>
-  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Полето {0} трябва да съдържа най-много {1} знака.</value></data>
-  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Полето {0} трябва да съдържа поне {1} знака.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Полето {0} трябва да съдържа между {1} и {2, plural, one {# знак} other {# знака}}.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Полето {0} трябва да съдържа най-много {1, plural, one {# знак} other {# знака}}.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Полето {0} трябва да съдържа поне {1, plural, one {# знак} other {# знака}}.</value></data>
   <data name="DataAnnotationsRange" xml:space="preserve"><value>Полето {0} трябва да е между {1} и {2}.</value></data>
   <data name="DataAnnotationsEmail" xml:space="preserve"><value>Полето {0} не е валиден имейл адрес.</value></data>
   <data name="DataAnnotationsUrl" xml:space="preserve"><value>Полето {0} не е валиден уеб адрес.</value></data>
@@ -493,20 +493,20 @@
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} мин</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} ч</value></data>
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} ден</value></data>
-  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} дни</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0, plural, one {# ден} other {# дни}}</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} месец</value></data>
-  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} месеца</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0, plural, one {# месец} other {# месеца}}</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} година</value></data>
-  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} години</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0, plural, one {# година} other {# години}}</value></data>
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} с</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} мин</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} ч</value></data>
   <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} ден</value></data>
-  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} дни</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0, plural, one {# ден} other {# дни}}</value></data>
   <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} месец</value></data>
-  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} месеца</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0, plural, one {# месец} other {# месеца}}</value></data>
   <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} година</value></data>
-  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} години</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0, plural, one {# година} other {# години}}</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Подчертан</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Зачертан</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Вграден код</value></data>
@@ -639,13 +639,13 @@
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(отваря се в нов раздел)</value></data>
   <data name="MarkdownExportButton" xml:space="preserve"><value>Експортиране в Markdown</value></data>
   <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
-  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Ограничение: най-много {0} реда</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Ограничение: най-много {0, plural, one {# ред} other {# реда}}</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Генерирано на (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Експортирани редове: {0} от {1} обявени</value></data>
   <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Експортирани редове: {0} от поне {1}</value></data>
-  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Съкратен експорт: експортирани {0} реда от {1}, достигнато е ограничението от {2} реда.</value></data>
-  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Непълен експорт: експортирани {0} реда от {1} обявени, данните се промениха по време на четенето.</value></data>
-  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ограничен експорт: достигнато е ограничението от {0} реда, а източникът не обявява общ брой, може да има още редове.</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Съкратен експорт: {0, plural, one {експортиран # ред} other {експортирани # реда}} от {1}, достигнато е ограничението от {2, plural, one {# ред} other {# реда}}.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Непълен експорт: {0, plural, one {експортиран # ред} other {експортирани # реда}} от {1} обявени, данните се промениха по време на четенето.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ограничен експорт: достигнато е ограничението от {0, plural, one {# ред} other {# реда}}, а източникът не обявява общ брой, може да има още редове.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Няма редове.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Регистрация</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Нямате акаунт?</value></data>

@@ -504,7 +504,7 @@
   <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} d.</value></data>
   <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} d.</value></data>
   <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} mėnesio</value></data>
-  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} mėnesių</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0, plural, one {# mėnesio} few {# mėnesių} other {# mėnesių}}</value></data>
   <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} metų</value></data>
   <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} metų</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Pabrauktas</value></data>

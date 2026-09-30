@@ -55,8 +55,10 @@ public sealed class LibraryTranslationTests
         XDocument.Load(path).Root!.Elements("data")
             .ToDictionary(data => (string)data.Attribute("name")!, data => (string?)data.Element("value") ?? string.Empty);
 
+    // The arguments a text names, each once: a plural block repeats its number in every form, and a
+    // language may need a block where another does not (PluralTextTests checks the forms themselves).
     private static string Placeholders(string value) =>
-        string.Join(",", Regex.Matches(value, @"\{(\d+)(?:[:,][^}]*)?\}").Select(match => match.Groups[1].Value).Order());
+        string.Join(",", Regex.Matches(value, @"\{\s*(\d+)\s*(?:[:,][^}]*)?\}").Select(match => match.Groups[1].Value).Distinct().Order());
 
     private static string RepositoryRoot()
     {

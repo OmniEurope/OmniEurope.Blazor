@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Localization;
 using OmniEurope.Blazor.Internal;
+using OmniEurope.Blazor.Localization;
 using OmniEurope.Blazor.Resources;
 
 namespace OmniEurope.Blazor.Components;
@@ -67,7 +68,7 @@ public abstract class OmniValidatorBase<TValue> : ComponentBase, IDisposable
     /// <param name="arguments">Values for the placeholders of the resource, if any.</param>
     /// <returns>The localized text, or <paramref name="name"/> itself when the key does not exist.</returns>
     protected string Localize(string name, params object[] arguments) =>
-        (arguments.Length == 0 ? StringLocalizer[name] : StringLocalizer[name, arguments]).Value;
+        PluralMessage.Localize(StringLocalizer, name, arguments);
 
     /// <summary>
     /// Throws <see cref="InvalidOperationException"/> outside an <see cref="EditForm"/>; otherwise follows

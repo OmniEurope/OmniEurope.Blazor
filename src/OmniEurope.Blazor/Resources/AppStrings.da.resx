@@ -42,7 +42,7 @@
   <data name="ChartSeriesFallback" xml:space="preserve"><value>Serie {0}</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Søgningen mislykkedes. Ret inputtet for at prøve igen.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>1 resultat tilgængeligt.</value></data>
-  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} resultater tilgængelige.</value></data>
+  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0, plural, one {# resultat tilgængeligt.} other {# resultater tilgængelige.}}</value></data>
   <data name="AutocompleteSelected" xml:space="preserve"><value>{0} valgt.</value></data>
   <data name="AutocompleteInvalid" xml:space="preserve"><value>Værdien for autofuldførelse er ugyldig.</value></data>
   <data name="BreadcrumbLabel" xml:space="preserve"><value>Brødkrummesti</value></data>
@@ -167,7 +167,7 @@
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Første række som overskrift</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Indsæt</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Forhåndsvisning af tabel</value></data>
-  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0} rækker, {1} kolonner</value></data>
+  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0, plural, one {# række} other {# rækker}}, {1, plural, one {# kolonne} other {# kolonner}}</value></data>
   <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>Filen kunne ikke læses.</value></data>
   <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>Filen indeholder ingen rækker.</value></data>
   <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Denne filtype understøttes ikke.</value></data>
@@ -403,11 +403,11 @@
   <data name="TreeLoadFailed" xml:space="preserve"><value>Indlæsningen mislykkedes.</value></data>
   <data name="UploadSelectedFiles" xml:space="preserve"><value>Valgte filer</value></data>
   <data name="UploadProgressLabel" xml:space="preserve"><value>Upload</value></data>
-  <data name="UploadMaximumFiles" xml:space="preserve"><value>Du kan højst vælge {0} filer.</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Du kan højst vælge {0, plural, one {# fil} other {# filer}}.</value></data>
   <data name="UploadFileTooLarge" xml:space="preserve"><value>Filen {0} overskrider den maksimalt tilladte størrelse.</value></data>
   <data name="UploadTypeRejected" xml:space="preserve"><value>Filtypen for {0} er ikke tilladt.</value></data>
   <data name="UploadOneSelected" xml:space="preserve"><value>1 fil valgt.</value></data>
-  <data name="UploadManySelected" xml:space="preserve"><value>{0} filer valgt.</value></data>
+  <data name="UploadManySelected" xml:space="preserve"><value>{0, plural, one {# fil valgt.} other {# filer valgt.}}</value></data>
   <data name="UploadInProgress" xml:space="preserve"><value>Upload i gang.</value></data>
   <data name="UploadCompleted" xml:space="preserve"><value>Upload fuldført.</value></data>
   <data name="UploadCancelled" xml:space="preserve"><value>Upload annulleret.</value></data>
@@ -418,7 +418,7 @@
   <data name="UploadDropMany" xml:space="preserve"><value>Slip filer her eller</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>gennemse</value></data>
   <data name="UploadHintMaximumSize" xml:space="preserve"><value>Højst {0} pr. fil</value></data>
-  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Højst {0} filer</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Højst {0, plural, one {# fil} other {# filer}}</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Vedhæftede filer</value></data>
   <data name="UploadRemove" xml:space="preserve"><value>Fjern {0}</value></data>
   <data name="UploadBrowseButton" xml:space="preserve"><value>Gennemse</value></data>
@@ -426,7 +426,7 @@
   <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
   <data name="UploadFileCountNone" xml:space="preserve"><value>Ingen filer</value></data>
   <data name="UploadFileCountOne" xml:space="preserve"><value>1 fil</value></data>
-  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} filer</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0, plural, one {# fil} other {# filer}}</value></data>
   <data name="UploadShowAll" xml:space="preserve"><value>Vis alle ({0})</value></data>
   <data name="UploadShowLess" xml:space="preserve"><value>Vis færre</value></data>
   <data name="UploadRemoveAll" xml:space="preserve"><value>Fjern alle</value></data>
@@ -493,18 +493,18 @@
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min.</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} t.</value></data>
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} dag</value></data>
-  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} dage</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0, plural, one {# dag} other {# dage}}</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} måned</value></data>
-  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} måneder</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0, plural, one {# måned} other {# måneder}}</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} år</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} år</value></data>
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} sek.</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min.</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} t.</value></data>
   <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} dag</value></data>
-  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} dage</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0, plural, one {# dag} other {# dage}}</value></data>
   <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} måned</value></data>
-  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} måneder</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0, plural, one {# måned} other {# måneder}}</value></data>
   <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} år</value></data>
   <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} år</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Understreget</value></data>
@@ -579,7 +579,7 @@
   <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} af {1}</value></data>
   <data name="LogViewerFollow" xml:space="preserve"><value>Følg</value></data>
   <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Gå til de seneste linjer</value></data>
-  <data name="LogViewerNewLines" xml:space="preserve"><value>{0} nye linjer</value></data>
+  <data name="LogViewerNewLines" xml:space="preserve"><value>{0, plural, one {# ny linje} other {# nye linjer}}</value></data>
   <data name="LogViewerLevelPrefix" xml:space="preserve"><value>{0}: </value></data>
   <data name="LogLevelTrace" xml:space="preserve"><value>Sporing</value></data>
   <data name="LogLevelDebug" xml:space="preserve"><value>Fejlfinding</value></data>
@@ -597,7 +597,7 @@
   <data name="CodeViewerWrap" xml:space="preserve"><value>Linjeombrydning</value></data>
   <data name="CodeViewerLinkHint" xml:space="preserve"><value>Følg linket</value></data>
   <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Ingen ændringer.</value></data>
-  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0} linjer tilføjet, {1} linjer fjernet</value></data>
+  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0, plural, one {# linje tilføjet} other {# linjer tilføjet}}, {1, plural, one {# linje fjernet} other {# linjer fjernet}}</value></data>
   <data name="UnifiedDiffBinary" xml:space="preserve"><value>Binær fil: ingen linjer at sammenligne.</value></data>
   <data name="UnifiedDiffNoLines" xml:space="preserve"><value>Ingen ændrede linjer.</value></data>
   <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Linje før</value></data>
@@ -639,13 +639,13 @@
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(åbner i en ny fane)</value></data>
   <data name="MarkdownExportButton" xml:space="preserve"><value>Eksportér som .md</value></data>
   <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
-  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Grænse: højst {0} rækker</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Grænse: højst {0, plural, one {# række} other {# rækker}}</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Genereret (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Eksporterede rækker: {0} af {1} angivne</value></data>
   <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Eksporterede rækker: {0} af mindst {1}</value></data>
-  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Eksporten er afkortet: {0} af {1} rækker eksporteret, grænsen på {2} rækker er nået.</value></data>
-  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Eksporten er ufuldstændig: {0} af {1} angivne rækker eksporteret, dataene blev ændret under læsningen.</value></data>
-  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Begrænset eksport: grænsen på {0} rækker er nået, og kilden angiver intet samlet antal, der kan findes flere rækker.</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Eksporten er afkortet: {0} af {1, plural, one {# række} other {# rækker}} eksporteret, grænsen på {2, plural, one {# række} other {# rækker}} er nået.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Eksporten er ufuldstændig: {0} af {1, plural, one {# angivet række} other {# angivne rækker}} eksporteret, dataene blev ændret under læsningen.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Begrænset eksport: grænsen på {0, plural, one {# række} other {# rækker}} er nået, og kilden angiver intet samlet antal, der kan findes flere rækker.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ingen rækker.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Tilmeld dig</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Har du ikke en konto?</value></data>

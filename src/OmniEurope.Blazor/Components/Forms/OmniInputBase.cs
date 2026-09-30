@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Localization;
 using OmniEurope.Blazor.Internal;
+using OmniEurope.Blazor.Localization;
 using OmniEurope.Blazor.Resources;
 
 namespace OmniEurope.Blazor.Components;
@@ -102,7 +103,7 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>
     /// <param name="name">The resource key.</param>
     /// <param name="arguments">The values of the key's <c>{n}</c> placeholders.</param>
     protected string Localize(string name, params object[] arguments) =>
-        (arguments.Length == 0 ? StringLocalizer[name] : StringLocalizer[name, arguments]).Value;
+        PluralMessage.Localize(StringLocalizer, name, arguments);
 
     /// <summary>
     /// A text the host may override: <paramref name="value"/> unless it is null, empty or white space,

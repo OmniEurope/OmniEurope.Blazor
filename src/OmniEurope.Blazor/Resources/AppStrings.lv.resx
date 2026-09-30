@@ -493,20 +493,20 @@
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} h</value></data>
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} dienas</value></data>
-  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} dienām</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0, plural, zero {# dienām} one {# dienas} other {# dienām}}</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} mēneša</value></data>
-  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} mēnešiem</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0, plural, zero {# mēnešiem} one {# mēneša} other {# mēnešiem}}</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} gada</value></data>
-  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} gadiem</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0, plural, zero {# gadiem} one {# gada} other {# gadiem}}</value></data>
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} h</value></data>
   <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} dienas</value></data>
-  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} dienām</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0, plural, zero {# dienām} one {# dienas} other {# dienām}}</value></data>
   <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} mēneša</value></data>
-  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} mēnešiem</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0, plural, zero {# mēnešiem} one {# mēneša} other {# mēnešiem}}</value></data>
   <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} gada</value></data>
-  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} gadiem</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0, plural, zero {# gadiem} one {# gada} other {# gadiem}}</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Pasvītrojums</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Pārsvītrojums</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Iekļauts kods</value></data>

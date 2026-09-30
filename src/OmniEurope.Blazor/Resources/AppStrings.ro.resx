@@ -42,7 +42,7 @@
   <data name="ChartSeriesFallback" xml:space="preserve"><value>Seria {0}</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Căutarea a eșuat. Modificați textul introdus pentru a reîncerca.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>1 rezultat disponibil.</value></data>
-  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} rezultate disponibile.</value></data>
+  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0, plural, one {# rezultat disponibil.} few {# rezultate disponibile.} other {# de rezultate disponibile.}}</value></data>
   <data name="AutocompleteSelected" xml:space="preserve"><value>Selectat: {0}.</value></data>
   <data name="AutocompleteInvalid" xml:space="preserve"><value>Valoarea de completare automată nu este validă.</value></data>
   <data name="BreadcrumbLabel" xml:space="preserve"><value>Traseu de navigare</value></data>
@@ -167,7 +167,7 @@
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Primul rând ca antet</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Inserează</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Previzualizare tabel</value></data>
-  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0} rânduri, {1} coloane</value></data>
+  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0, plural, one {# rând} few {# rânduri} other {# de rânduri}}, {1, plural, one {# coloană} few {# coloane} other {# de coloane}}</value></data>
   <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>Fișierul nu a putut fi citit.</value></data>
   <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>Fișierul nu conține niciun rând.</value></data>
   <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Acest tip de fișier nu este acceptat.</value></data>
@@ -403,11 +403,11 @@
   <data name="TreeLoadFailed" xml:space="preserve"><value>Încărcarea a eșuat.</value></data>
   <data name="UploadSelectedFiles" xml:space="preserve"><value>Fișiere selectate</value></data>
   <data name="UploadProgressLabel" xml:space="preserve"><value>Încărcare</value></data>
-  <data name="UploadMaximumFiles" xml:space="preserve"><value>Puteți selecta cel mult {0} fișiere.</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Puteți selecta cel mult {0, plural, one {# fișier} few {# fișiere} other {# de fișiere}}.</value></data>
   <data name="UploadFileTooLarge" xml:space="preserve"><value>Fișierul {0} depășește dimensiunea maximă permisă.</value></data>
   <data name="UploadTypeRejected" xml:space="preserve"><value>Tipul fișierului {0} nu este permis.</value></data>
   <data name="UploadOneSelected" xml:space="preserve"><value>1 fișier selectat.</value></data>
-  <data name="UploadManySelected" xml:space="preserve"><value>{0} fișiere selectate.</value></data>
+  <data name="UploadManySelected" xml:space="preserve"><value>{0, plural, one {# fișier selectat.} few {# fișiere selectate.} other {# de fișiere selectate.}}</value></data>
   <data name="UploadInProgress" xml:space="preserve"><value>Încărcare în curs.</value></data>
   <data name="UploadCompleted" xml:space="preserve"><value>Încărcare finalizată.</value></data>
   <data name="UploadCancelled" xml:space="preserve"><value>Încărcare anulată.</value></data>
@@ -418,7 +418,7 @@
   <data name="UploadDropMany" xml:space="preserve"><value>Plasați fișiere aici sau</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>răsfoiți</value></data>
   <data name="UploadHintMaximumSize" xml:space="preserve"><value>Cel mult {0} per fișier</value></data>
-  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Cel mult {0} fișiere</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Cel mult {0, plural, one {# fișier} few {# fișiere} other {# de fișiere}}</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Fișiere atașate</value></data>
   <data name="UploadRemove" xml:space="preserve"><value>Elimină {0}</value></data>
   <data name="UploadBrowseButton" xml:space="preserve"><value>Răsfoiește</value></data>
@@ -426,7 +426,7 @@
   <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
   <data name="UploadFileCountNone" xml:space="preserve"><value>Niciun fișier</value></data>
   <data name="UploadFileCountOne" xml:space="preserve"><value>1 fișier</value></data>
-  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} fișiere</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0, plural, one {# fișier} few {# fișiere} other {# de fișiere}}</value></data>
   <data name="UploadShowAll" xml:space="preserve"><value>Afișează tot ({0})</value></data>
   <data name="UploadShowLess" xml:space="preserve"><value>Afișează mai puțin</value></data>
   <data name="UploadRemoveAll" xml:space="preserve"><value>Elimină tot</value></data>
@@ -434,9 +434,9 @@
   <data name="UploadRemoved" xml:space="preserve"><value>{0} a fost eliminat din listă.</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Vizualizare săptămână</value></data>
   <data name="DataAnnotationsRequired" xml:space="preserve"><value>Câmpul {0} este obligatoriu.</value></data>
-  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Câmpul {0} trebuie să conțină între {1} și {2} caractere.</value></data>
-  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Câmpul {0} trebuie să conțină cel mult {1} caractere.</value></data>
-  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Câmpul {0} trebuie să conțină cel puțin {1} caractere.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Câmpul {0} trebuie să conțină între {1} și {2, plural, one {# caracter} few {# caractere} other {# de caractere}}.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Câmpul {0} trebuie să conțină cel mult {1, plural, one {# caracter} few {# caractere} other {# de caractere}}.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Câmpul {0} trebuie să conțină cel puțin {1, plural, one {# caracter} few {# caractere} other {# de caractere}}.</value></data>
   <data name="DataAnnotationsRange" xml:space="preserve"><value>Câmpul {0} trebuie să fie între {1} și {2}.</value></data>
   <data name="DataAnnotationsEmail" xml:space="preserve"><value>Câmpul {0} nu este o adresă de e-mail validă.</value></data>
   <data name="DataAnnotationsUrl" xml:space="preserve"><value>Câmpul {0} nu este o adresă web validă.</value></data>
@@ -493,20 +493,20 @@
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} h</value></data>
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} zi</value></data>
-  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} zile</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0, plural, one {# zi} few {# zile} other {# de zile}}</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} lună</value></data>
-  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} luni</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0, plural, one {# lună} few {# luni} other {# de luni}}</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} an</value></data>
-  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} ani</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0, plural, one {# an} few {# ani} other {# de ani}}</value></data>
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} h</value></data>
   <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} zi</value></data>
-  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} zile</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0, plural, one {# zi} few {# zile} other {# de zile}}</value></data>
   <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} lună</value></data>
-  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} luni</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0, plural, one {# lună} few {# luni} other {# de luni}}</value></data>
   <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} an</value></data>
-  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} ani</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0, plural, one {# an} few {# ani} other {# de ani}}</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Subliniat</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Tăiat</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Cod în linie</value></data>
@@ -579,7 +579,7 @@
   <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} din {1}</value></data>
   <data name="LogViewerFollow" xml:space="preserve"><value>Urmărește</value></data>
   <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Salt la ultimele rânduri</value></data>
-  <data name="LogViewerNewLines" xml:space="preserve"><value>{0} rânduri noi</value></data>
+  <data name="LogViewerNewLines" xml:space="preserve"><value>{0, plural, one {# rând nou} few {# rânduri noi} other {# de rânduri noi}}</value></data>
   <data name="LogViewerLevelPrefix" xml:space="preserve"><value>{0}: </value></data>
   <data name="LogLevelTrace" xml:space="preserve"><value>Urmărire</value></data>
   <data name="LogLevelDebug" xml:space="preserve"><value>Depanare</value></data>
@@ -597,7 +597,7 @@
   <data name="CodeViewerWrap" xml:space="preserve"><value>Încadrare text</value></data>
   <data name="CodeViewerLinkHint" xml:space="preserve"><value>Urmează linkul</value></data>
   <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Nicio modificare.</value></data>
-  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0} rânduri adăugate, {1} rânduri șterse</value></data>
+  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0, plural, one {# rând adăugat} few {# rânduri adăugate} other {# de rânduri adăugate}}, {1, plural, one {# rând șters} few {# rânduri șterse} other {# de rânduri șterse}}</value></data>
   <data name="UnifiedDiffBinary" xml:space="preserve"><value>Fișier binar: niciun rând de comparat.</value></data>
   <data name="UnifiedDiffNoLines" xml:space="preserve"><value>Niciun rând modificat.</value></data>
   <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Rândul vechi</value></data>
@@ -639,13 +639,13 @@
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(se deschide într-o filă nouă)</value></data>
   <data name="MarkdownExportButton" xml:space="preserve"><value>Exportă în Markdown</value></data>
   <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
-  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limită: cel mult {0} rânduri</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limită: cel mult {0, plural, one {# rând} few {# rânduri} other {# de rânduri}}</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Generat la (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Rânduri exportate: {0} din {1} anunțate</value></data>
   <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Rânduri exportate: {0} din cel puțin {1}</value></data>
-  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Export trunchiat: {0} rânduri exportate din {1}, limita de {2} rânduri a fost atinsă.</value></data>
-  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export incomplet: {0} rânduri exportate din {1} anunțate, datele s-au modificat în timpul citirii.</value></data>
-  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Export limitat: limita de {0} rânduri a fost atinsă, iar sursa nu anunță un total, pot exista mai multe rânduri.</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Export trunchiat: {0, plural, one {# rând exportat} few {# rânduri exportate} other {# de rânduri exportate}} din {1}, limita de {2, plural, one {# rând} few {# rânduri} other {# de rânduri}} a fost atinsă.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export incomplet: {0, plural, one {# rând exportat} few {# rânduri exportate} other {# de rânduri exportate}} din {1} anunțate, datele s-au modificat în timpul citirii.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Export limitat: limita de {0, plural, one {# rând} few {# rânduri} other {# de rânduri}} a fost atinsă, iar sursa nu anunță un total, pot exista mai multe rânduri.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Niciun rând.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Înregistrare</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nu aveți cont?</value></data>
