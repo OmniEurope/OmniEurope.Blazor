@@ -42,7 +42,7 @@
   <data name="ChartSeriesFallback" xml:space="preserve"><value>Serie {0}</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Sökningen misslyckades. Ändra inmatningen för att försöka igen.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>1 resultat tillgängligt.</value></data>
-  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} resultat tillgängliga.</value></data>
+  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0, plural, one {# resultat tillgängligt.} other {# resultat tillgängliga.}}</value></data>
   <data name="AutocompleteSelected" xml:space="preserve"><value>{0} har valts.</value></data>
   <data name="AutocompleteInvalid" xml:space="preserve"><value>Värdet för autokomplettering är ogiltigt.</value></data>
   <data name="BreadcrumbLabel" xml:space="preserve"><value>Sökväg</value></data>
@@ -167,7 +167,7 @@
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Första raden som rubrik</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Infoga</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Förhandsgranskning av tabellen</value></data>
-  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0} rader, {1} kolumner</value></data>
+  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0, plural, one {# rad} other {# rader}}, {1, plural, one {# kolumn} other {# kolumner}}</value></data>
   <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>Det gick inte att läsa filen.</value></data>
   <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>Filen innehåller inga rader.</value></data>
   <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Den här filtypen stöds inte.</value></data>
@@ -333,7 +333,7 @@
   <data name="MonthViewLabel" xml:space="preserve"><value>Månadsvy</value></data>
   <data name="MultiSelectInvalid" xml:space="preserve"><value>Flervalet är ogiltigt.</value></data>
   <data name="MultiSelectEmpty" xml:space="preserve"><value>Alla</value></data>
-  <data name="MultiSelectSelected" xml:space="preserve"><value>{0} valda</value></data>
+  <data name="MultiSelectSelected" xml:space="preserve"><value>{0, plural, one {# vald} other {# valda}}</value></data>
   <data name="MultiSelectClear" xml:space="preserve"><value>Avmarkera alla</value></data>
   <data name="MultiSelectFilter" xml:space="preserve"><value>Sök</value></data>
   <data name="MultiSelectNoMatch" xml:space="preserve"><value>Inga träffar</value></data>
@@ -403,11 +403,11 @@
   <data name="TreeLoadFailed" xml:space="preserve"><value>Det gick inte att läsa in.</value></data>
   <data name="UploadSelectedFiles" xml:space="preserve"><value>Valda filer</value></data>
   <data name="UploadProgressLabel" xml:space="preserve"><value>Uppladdning</value></data>
-  <data name="UploadMaximumFiles" xml:space="preserve"><value>Du kan välja högst {0} filer.</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Du kan välja högst {0, plural, one {# fil} other {# filer}}.</value></data>
   <data name="UploadFileTooLarge" xml:space="preserve"><value>Filen {0} överskrider den största tillåtna storleken.</value></data>
   <data name="UploadTypeRejected" xml:space="preserve"><value>Filtypen för {0} är inte tillåten.</value></data>
   <data name="UploadOneSelected" xml:space="preserve"><value>1 fil har valts.</value></data>
-  <data name="UploadManySelected" xml:space="preserve"><value>{0} filer har valts.</value></data>
+  <data name="UploadManySelected" xml:space="preserve"><value>{0, plural, one {# fil har valts.} other {# filer har valts.}}</value></data>
   <data name="UploadInProgress" xml:space="preserve"><value>Uppladdning pågår.</value></data>
   <data name="UploadCompleted" xml:space="preserve"><value>Uppladdningen är klar.</value></data>
   <data name="UploadCancelled" xml:space="preserve"><value>Uppladdningen avbröts.</value></data>
@@ -418,7 +418,7 @@
   <data name="UploadDropMany" xml:space="preserve"><value>Släpp filer här eller</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>bläddra</value></data>
   <data name="UploadHintMaximumSize" xml:space="preserve"><value>Högst {0} per fil</value></data>
-  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Högst {0} filer</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Högst {0, plural, one {# fil} other {# filer}}</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Bifogade filer</value></data>
   <data name="UploadRemove" xml:space="preserve"><value>Ta bort {0}</value></data>
   <data name="UploadBrowseButton" xml:space="preserve"><value>Bläddra</value></data>
@@ -426,7 +426,7 @@
   <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
   <data name="UploadFileCountNone" xml:space="preserve"><value>Inga filer</value></data>
   <data name="UploadFileCountOne" xml:space="preserve"><value>1 fil</value></data>
-  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} filer</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0, plural, one {# fil} other {# filer}}</value></data>
   <data name="UploadShowAll" xml:space="preserve"><value>Visa alla ({0})</value></data>
   <data name="UploadShowLess" xml:space="preserve"><value>Visa färre</value></data>
   <data name="UploadRemoveAll" xml:space="preserve"><value>Ta bort alla</value></data>
@@ -493,18 +493,18 @@
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} tim</value></data>
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} dag</value></data>
-  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} dagar</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0, plural, one {# dag} other {# dagar}}</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} månad</value></data>
-  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} månader</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0, plural, one {# månad} other {# månader}}</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} år</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} år</value></data>
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} tim</value></data>
   <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} dag</value></data>
-  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} dagar</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0, plural, one {# dag} other {# dagar}}</value></data>
   <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} månad</value></data>
-  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} månader</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0, plural, one {# månad} other {# månader}}</value></data>
   <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} år</value></data>
   <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} år</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Understruken</value></data>
@@ -579,7 +579,7 @@
   <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} av {1}</value></data>
   <data name="LogViewerFollow" xml:space="preserve"><value>Följ</value></data>
   <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Gå till senaste raderna</value></data>
-  <data name="LogViewerNewLines" xml:space="preserve"><value>{0} nya rader</value></data>
+  <data name="LogViewerNewLines" xml:space="preserve"><value>{0, plural, one {# ny rad} other {# nya rader}}</value></data>
   <data name="LogViewerLevelPrefix" xml:space="preserve"><value>{0}: </value></data>
   <data name="LogLevelTrace" xml:space="preserve"><value>Spårning</value></data>
   <data name="LogLevelDebug" xml:space="preserve"><value>Felsökning</value></data>
@@ -597,7 +597,7 @@
   <data name="CodeViewerWrap" xml:space="preserve"><value>Radbrytning</value></data>
   <data name="CodeViewerLinkHint" xml:space="preserve"><value>Följ länken</value></data>
   <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Inga ändringar.</value></data>
-  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0} rader tillagda, {1} rader borttagna</value></data>
+  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0, plural, one {# rad tillagd} other {# rader tillagda}}, {1, plural, one {# rad borttagen} other {# rader borttagna}}</value></data>
   <data name="UnifiedDiffBinary" xml:space="preserve"><value>Binärfil: inga rader att jämföra.</value></data>
   <data name="UnifiedDiffNoLines" xml:space="preserve"><value>Inga ändrade rader.</value></data>
   <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Rad före</value></data>
@@ -639,13 +639,13 @@
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(öppnas i en ny flik)</value></data>
   <data name="MarkdownExportButton" xml:space="preserve"><value>Exportera som .md</value></data>
   <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
-  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Gräns: högst {0} rader</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Gräns: högst {0, plural, one {# rad} other {# rader}}</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Genererad (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Exporterade rader: {0} av {1} angivna</value></data>
   <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Exporterade rader: {0} av minst {1}</value></data>
-  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Avkortad export: {0} av {1} rader exporterade, gränsen på {2} rader har nåtts.</value></data>
-  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Ofullständig export: {0} av {1} angivna rader exporterade, data ändrades under läsningen.</value></data>
-  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Begränsad export: gränsen på {0} rader har nåtts och källan anger inget totalt antal, det kan finnas fler rader.</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Avkortad export: {0} av {1, plural, one {# rad} other {# rader}} exporterade, gränsen på {2, plural, one {# rad} other {# rader}} har nåtts.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Ofullständig export: {0} av {1, plural, one {# angiven rad} other {# angivna rader}} exporterade, data ändrades under läsningen.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Begränsad export: gränsen på {0, plural, one {# rad} other {# rader}} har nåtts och källan anger inget totalt antal, det kan finnas fler rader.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Inga rader.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Registrera dig</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Inget konto?</value></data>

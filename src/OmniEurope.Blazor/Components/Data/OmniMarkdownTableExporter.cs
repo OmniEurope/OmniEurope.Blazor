@@ -1,4 +1,5 @@
 using System.Text;
+using OmniEurope.Blazor.Localization;
 using OmniEurope.Blazor.Resources;
 
 namespace OmniEurope.Blazor.Components;
@@ -137,9 +138,9 @@ public sealed class OmniMarkdownTableExporter
     {
         Validate(export);
         ArgumentNullException.ThrowIfNull(rows);
-        var culture = CultureInfo.CurrentCulture;
-        string Count(int value) => value.ToString("N0", culture);
-        string Format(string key, params object[] args) => string.Format(culture, _text[key].Value, args);
+        // A count keeps its number beside its grouped text: the wording of a line follows it (1 row, 2 rows).
+        PluralCount Count(int value) => new(value, "N0");
+        string Format(string key, params object[] args) => PluralMessage.Localize(_text, key, args);
 
         var markdown = new StringBuilder();
         markdown.Append("# ").AppendLine(EscapeInline(export.Title));

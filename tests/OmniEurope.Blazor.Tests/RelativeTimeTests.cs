@@ -147,15 +147,19 @@ public sealed class RelativeTimeTests : OmniBunitContext
     /// </summary>
     private sealed class UnitMarkingLocalizer : IStringLocalizer<AppStrings>
     {
-        public LocalizedString this[string name] => this[name, []];
+        // Like a real localizer: the text as stored without arguments, formatted with them.
+        public LocalizedString this[string name] => new(name, Stored(name));
 
-        public LocalizedString this[string name, params object[] arguments] => name switch
+        public LocalizedString this[string name, params object[] arguments] =>
+            new(name, string.Format(CultureInfo.InvariantCulture, Stored(name), arguments));
+
+        private static string Stored(string name) => name switch
         {
-            "RelativeTimeFuture" => new(name, string.Format(CultureInfo.InvariantCulture, "in {0}", arguments)),
-            "RelativeTimePast" => new(name, string.Format(CultureInfo.InvariantCulture, "{0} ago", arguments)),
-            _ when name.StartsWith("RelativeTimeFuture", StringComparison.Ordinal) => new(name, $"[future {name["RelativeTimeFuture".Length..]}]"),
-            _ when name.StartsWith("RelativeTime", StringComparison.Ordinal) => new(name, $"[past {name["RelativeTime".Length..]}]"),
-            _ => new(name, name)
+            "RelativeTimeFuture" => "in {0}",
+            "RelativeTimePast" => "{0} ago",
+            _ when name.StartsWith("RelativeTimeFuture", StringComparison.Ordinal) => $"[future {name["RelativeTimeFuture".Length..]}]",
+            _ when name.StartsWith("RelativeTime", StringComparison.Ordinal) => $"[past {name["RelativeTime".Length..]}]",
+            _ => name
         };
 
         public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures) => [];

@@ -403,7 +403,7 @@
   <data name="TreeLoadFailed" xml:space="preserve"><value>Theip ar an lódáil.</value></data>
   <data name="UploadSelectedFiles" xml:space="preserve"><value>Comhaid roghnaithe</value></data>
   <data name="UploadProgressLabel" xml:space="preserve"><value>Uaslódáil</value></data>
-  <data name="UploadMaximumFiles" xml:space="preserve"><value>Ní féidir níos mó ná {0} comhad a roghnú.</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Ní féidir níos mó ná {0, plural, one {# chomhad} two {# chomhad} few {# chomhad} many {# gcomhad} other {# comhad}} a roghnú.</value></data>
   <data name="UploadFileTooLarge" xml:space="preserve"><value>Sáraíonn an comhad {0} an méid uasta ceadaithe.</value></data>
   <data name="UploadTypeRejected" xml:space="preserve"><value>Níl cineál an chomhaid {0} ceadaithe.</value></data>
   <data name="UploadOneSelected" xml:space="preserve"><value>1 comhad roghnaithe.</value></data>
@@ -418,7 +418,7 @@
   <data name="UploadDropMany" xml:space="preserve"><value>Scaoil comhaid anseo nó</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>brabhsáil</value></data>
   <data name="UploadHintMaximumSize" xml:space="preserve"><value>Suas le {0} in aghaidh an chomhaid</value></data>
-  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Suas le {0} comhad</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Suas le {0, plural, one {# chomhad} two {# chomhad} few {# chomhad} many {# gcomhad} other {# comhad}}</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Comhaid cheangailte</value></data>
   <data name="UploadRemove" xml:space="preserve"><value>Bain {0}</value></data>
   <data name="UploadBrowseButton" xml:space="preserve"><value>Brabhsáil</value></data>
@@ -434,9 +434,9 @@
   <data name="UploadRemoved" xml:space="preserve"><value>Baineadh {0} den liosta.</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Amharc seachtaine</value></data>
   <data name="DataAnnotationsRequired" xml:space="preserve"><value>Tá an réimse {0} riachtanach.</value></data>
-  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Ní mór idir {1} agus {2} carachtar a bheith sa réimse {0}.</value></data>
-  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Ní féidir níos mó ná {1} carachtar a bheith sa réimse {0}.</value></data>
-  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Ní mór {1} carachtar ar a laghad a bheith sa réimse {0}.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Ní mór idir {1} agus {2, plural, one {# charachtar} two {# charachtar} few {# charachtar} many {# gcarachtar} other {# carachtar}} a bheith sa réimse {0}.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Ní féidir níos mó ná {1, plural, one {# charachtar} two {# charachtar} few {# charachtar} many {# gcarachtar} other {# carachtar}} a bheith sa réimse {0}.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Ní mór {1, plural, one {# charachtar} two {# charachtar} few {# charachtar} many {# gcarachtar} other {# carachtar}} ar a laghad a bheith sa réimse {0}.</value></data>
   <data name="DataAnnotationsRange" xml:space="preserve"><value>Ní mór don réimse {0} a bheith idir {1} agus {2}.</value></data>
   <data name="DataAnnotationsEmail" xml:space="preserve"><value>Ní seoladh ríomhphoist bailí é an réimse {0}.</value></data>
   <data name="DataAnnotationsUrl" xml:space="preserve"><value>Ní seoladh gréasáin bailí é an réimse {0}.</value></data>
@@ -495,18 +495,18 @@
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} lá</value></data>
   <data name="RelativeTimeDays" xml:space="preserve"><value>{0} lá</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} mí</value></data>
-  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} mí</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0, plural, one {# mhí} two {# mhí} few {# mhí} many {# mí} other {# mí}}</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} bliain</value></data>
-  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} bliain</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0, plural, one {# bhliain} two {# bhliain} few {# bliana} many {# mbliana} other {# bliain}}</value></data>
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} h</value></data>
   <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} lá</value></data>
   <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} lá</value></data>
   <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} mí</value></data>
-  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} mí</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0, plural, one {# mhí} two {# mhí} few {# mhí} many {# mí} other {# mí}}</value></data>
   <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} bliain</value></data>
-  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} bliain</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0, plural, one {# bhliain} two {# bhliain} few {# bliana} many {# mbliana} other {# bliain}}</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Líne faoi</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Líne tríd</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Cód inlíne</value></data>

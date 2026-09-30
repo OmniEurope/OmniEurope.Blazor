@@ -403,7 +403,7 @@
   <data name="TreeLoadFailed" xml:space="preserve"><value>Lataus epäonnistui.</value></data>
   <data name="UploadSelectedFiles" xml:space="preserve"><value>Valitut tiedostot</value></data>
   <data name="UploadProgressLabel" xml:space="preserve"><value>Lähetys</value></data>
-  <data name="UploadMaximumFiles" xml:space="preserve"><value>Voit valita enintään {0} tiedostoa.</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Voit valita enintään {0, plural, one {# tiedoston} other {# tiedostoa}}.</value></data>
   <data name="UploadFileTooLarge" xml:space="preserve"><value>Tiedosto {0} ylittää suurimman sallitun koon.</value></data>
   <data name="UploadTypeRejected" xml:space="preserve"><value>Tiedoston {0} tyyppi ei ole sallittu.</value></data>
   <data name="UploadOneSelected" xml:space="preserve"><value>1 tiedosto valittu.</value></data>
@@ -418,7 +418,7 @@
   <data name="UploadDropMany" xml:space="preserve"><value>Pudota tiedostot tähän tai</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>selaa</value></data>
   <data name="UploadHintMaximumSize" xml:space="preserve"><value>Enintään {0} tiedostoa kohden</value></data>
-  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Enintään {0} tiedostoa</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Enintään {0, plural, one {# tiedosto} other {# tiedostoa}}</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Liitetiedostot</value></data>
   <data name="UploadRemove" xml:space="preserve"><value>Poista {0}</value></data>
   <data name="UploadBrowseButton" xml:space="preserve"><value>Selaa</value></data>
@@ -426,7 +426,7 @@
   <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
   <data name="UploadFileCountNone" xml:space="preserve"><value>Ei tiedostoja</value></data>
   <data name="UploadFileCountOne" xml:space="preserve"><value>1 tiedosto</value></data>
-  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} tiedostoa</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0, plural, one {# tiedosto} other {# tiedostoa}}</value></data>
   <data name="UploadShowAll" xml:space="preserve"><value>Näytä kaikki ({0})</value></data>
   <data name="UploadShowLess" xml:space="preserve"><value>Näytä vähemmän</value></data>
   <data name="UploadRemoveAll" xml:space="preserve"><value>Poista kaikki</value></data>
@@ -434,9 +434,9 @@
   <data name="UploadRemoved" xml:space="preserve"><value>{0} poistettiin luettelosta.</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Viikkonäkymä</value></data>
   <data name="DataAnnotationsRequired" xml:space="preserve"><value>Kenttä {0} on pakollinen.</value></data>
-  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Kentän {0} pituuden on oltava {1}–{2} merkkiä.</value></data>
-  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Kentän {0} pituus saa olla enintään {1} merkkiä.</value></data>
-  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Kentän {0} pituuden on oltava vähintään {1} merkkiä.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Kentän {0} pituuden on oltava {1}–{2, plural, one {# merkki} other {# merkkiä}}.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Kentän {0} pituus saa olla enintään {1, plural, one {# merkki} other {# merkkiä}}.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Kentän {0} pituuden on oltava vähintään {1, plural, one {# merkki} other {# merkkiä}}.</value></data>
   <data name="DataAnnotationsRange" xml:space="preserve"><value>Kentän {0} arvon on oltava välillä {1}–{2}.</value></data>
   <data name="DataAnnotationsEmail" xml:space="preserve"><value>Kenttä {0} ei ole kelvollinen sähköpostiosoite.</value></data>
   <data name="DataAnnotationsUrl" xml:space="preserve"><value>Kenttä {0} ei ole kelvollinen verkko-osoite.</value></data>
@@ -493,11 +493,11 @@
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} t</value></data>
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} päivä</value></data>
-  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} päivää</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0, plural, one {# päivä} other {# päivää}}</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} kuukausi</value></data>
-  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} kuukautta</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0, plural, one {# kuukausi} other {# kuukautta}}</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} vuosi</value></data>
-  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} vuotta</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0, plural, one {# vuosi} other {# vuotta}}</value></data>
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} t</value></data>
@@ -639,13 +639,13 @@
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(avautuu uuteen välilehteen)</value></data>
   <data name="MarkdownExportButton" xml:space="preserve"><value>Vie .md-muodossa</value></data>
   <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
-  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Raja: enintään {0} riviä</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Raja: enintään {0, plural, one {# rivi} other {# riviä}}</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Luotu (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Vietyjä rivejä: {0}/{1} ilmoitetusta</value></data>
   <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Vietyjä rivejä: {0}/vähintään {1}</value></data>
-  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Vienti katkaistu: {0}/{1} riviä viety, raja ({2} riviä) saavutettiin.</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Vienti katkaistu: {0}/{1, plural, one {# rivi} other {# riviä}} viety, raja ({2, plural, one {# rivi} other {# riviä}}) saavutettiin.</value></data>
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Vienti keskeneräinen: {0}/{1} ilmoitetusta rivistä viety, tiedot muuttuivat lukemisen aikana.</value></data>
-  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Rajattu vienti: raja ({0} riviä) saavutettiin, eikä lähde ilmoita kokonaismäärää, rivejä voi olla enemmän.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Rajattu vienti: raja ({0, plural, one {# rivi} other {# riviä}}) saavutettiin, eikä lähde ilmoita kokonaismäärää, rivejä voi olla enemmän.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ei rivejä.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Rekisteröidy</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Eikö sinulla ole tiliä?</value></data>

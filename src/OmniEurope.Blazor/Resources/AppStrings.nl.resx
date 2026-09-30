@@ -42,7 +42,7 @@
   <data name="ChartSeriesFallback" xml:space="preserve"><value>Reeks {0}</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Het zoeken is mislukt. Wijzig de invoer om het opnieuw te proberen.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>1 resultaat beschikbaar.</value></data>
-  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} resultaten beschikbaar.</value></data>
+  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0, plural, one {# resultaat beschikbaar.} other {# resultaten beschikbaar.}}</value></data>
   <data name="AutocompleteSelected" xml:space="preserve"><value>{0} geselecteerd.</value></data>
   <data name="AutocompleteInvalid" xml:space="preserve"><value>De waarde van automatisch aanvullen is ongeldig.</value></data>
   <data name="BreadcrumbLabel" xml:space="preserve"><value>Kruimelpad</value></data>
@@ -167,7 +167,7 @@
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Eerste rij als koptekst</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Invoegen</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Voorbeeld van de tabel</value></data>
-  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0} rijen, {1} kolommen</value></data>
+  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0, plural, one {# rij} other {# rijen}}, {1, plural, one {# kolom} other {# kolommen}}</value></data>
   <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>Het bestand kon niet worden gelezen.</value></data>
   <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>Het bestand bevat geen rijen.</value></data>
   <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Dit bestandstype wordt niet ondersteund.</value></data>
@@ -403,11 +403,11 @@
   <data name="TreeLoadFailed" xml:space="preserve"><value>Het laden is mislukt.</value></data>
   <data name="UploadSelectedFiles" xml:space="preserve"><value>Geselecteerde bestanden</value></data>
   <data name="UploadProgressLabel" xml:space="preserve"><value>Upload</value></data>
-  <data name="UploadMaximumFiles" xml:space="preserve"><value>U kunt maximaal {0} bestanden selecteren.</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>U kunt maximaal {0, plural, one {# bestand} other {# bestanden}} selecteren.</value></data>
   <data name="UploadFileTooLarge" xml:space="preserve"><value>Het bestand {0} overschrijdt de maximaal toegestane grootte.</value></data>
   <data name="UploadTypeRejected" xml:space="preserve"><value>Het bestandstype van {0} is niet toegestaan.</value></data>
   <data name="UploadOneSelected" xml:space="preserve"><value>1 bestand geselecteerd.</value></data>
-  <data name="UploadManySelected" xml:space="preserve"><value>{0} bestanden geselecteerd.</value></data>
+  <data name="UploadManySelected" xml:space="preserve"><value>{0, plural, one {# bestand geselecteerd.} other {# bestanden geselecteerd.}}</value></data>
   <data name="UploadInProgress" xml:space="preserve"><value>Uploaden bezig.</value></data>
   <data name="UploadCompleted" xml:space="preserve"><value>Uploaden voltooid.</value></data>
   <data name="UploadCancelled" xml:space="preserve"><value>Uploaden geannuleerd.</value></data>
@@ -418,7 +418,7 @@
   <data name="UploadDropMany" xml:space="preserve"><value>Sleep bestanden hierheen of</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>blader</value></data>
   <data name="UploadHintMaximumSize" xml:space="preserve"><value>Maximaal {0} per bestand</value></data>
-  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Maximaal {0} bestanden</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Maximaal {0, plural, one {# bestand} other {# bestanden}}</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Bijgevoegde bestanden</value></data>
   <data name="UploadRemove" xml:space="preserve"><value>{0} verwijderen</value></data>
   <data name="UploadBrowseButton" xml:space="preserve"><value>Bladeren</value></data>
@@ -426,7 +426,7 @@
   <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
   <data name="UploadFileCountNone" xml:space="preserve"><value>Geen bestanden</value></data>
   <data name="UploadFileCountOne" xml:space="preserve"><value>1 bestand</value></data>
-  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} bestanden</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0, plural, one {# bestand} other {# bestanden}}</value></data>
   <data name="UploadShowAll" xml:space="preserve"><value>Alles tonen ({0})</value></data>
   <data name="UploadShowLess" xml:space="preserve"><value>Minder tonen</value></data>
   <data name="UploadRemoveAll" xml:space="preserve"><value>Alles verwijderen</value></data>
@@ -434,9 +434,9 @@
   <data name="UploadRemoved" xml:space="preserve"><value>{0} uit de lijst verwijderd.</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Weekweergave</value></data>
   <data name="DataAnnotationsRequired" xml:space="preserve"><value>Het veld {0} is verplicht.</value></data>
-  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Het veld {0} moet tussen {1} en {2} tekens bevatten.</value></data>
-  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Het veld {0} mag maximaal {1} tekens bevatten.</value></data>
-  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Het veld {0} moet minstens {1} tekens bevatten.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Het veld {0} moet tussen {1} en {2, plural, one {# teken} other {# tekens}} bevatten.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Het veld {0} mag maximaal {1, plural, one {# teken} other {# tekens}} bevatten.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Het veld {0} moet minstens {1, plural, one {# teken} other {# tekens}} bevatten.</value></data>
   <data name="DataAnnotationsRange" xml:space="preserve"><value>Het veld {0} moet tussen {1} en {2} liggen.</value></data>
   <data name="DataAnnotationsEmail" xml:space="preserve"><value>Het veld {0} is geen geldig e-mailadres.</value></data>
   <data name="DataAnnotationsUrl" xml:space="preserve"><value>Het veld {0} is geen geldig webadres.</value></data>
@@ -493,18 +493,18 @@
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} u</value></data>
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} dag</value></data>
-  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} dagen</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0, plural, one {# dag} other {# dagen}}</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} maand</value></data>
-  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} maanden</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0, plural, one {# maand} other {# maanden}}</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} jaar</value></data>
   <data name="RelativeTimeYears" xml:space="preserve"><value>{0} jaar</value></data>
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} u</value></data>
   <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} dag</value></data>
-  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} dagen</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0, plural, one {# dag} other {# dagen}}</value></data>
   <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} maand</value></data>
-  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} maanden</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0, plural, one {# maand} other {# maanden}}</value></data>
   <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} jaar</value></data>
   <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} jaar</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Onderstrepen</value></data>
@@ -579,7 +579,7 @@
   <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} van {1}</value></data>
   <data name="LogViewerFollow" xml:space="preserve"><value>Volgen</value></data>
   <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Naar de nieuwste regels</value></data>
-  <data name="LogViewerNewLines" xml:space="preserve"><value>{0} nieuwe regels</value></data>
+  <data name="LogViewerNewLines" xml:space="preserve"><value>{0, plural, one {# nieuwe regel} other {# nieuwe regels}}</value></data>
   <data name="LogViewerLevelPrefix" xml:space="preserve"><value>{0}: </value></data>
   <data name="LogLevelTrace" xml:space="preserve"><value>Tracering</value></data>
   <data name="LogLevelDebug" xml:space="preserve"><value>Foutopsporing</value></data>
@@ -597,7 +597,7 @@
   <data name="CodeViewerWrap" xml:space="preserve"><value>Regelterugloop</value></data>
   <data name="CodeViewerLinkHint" xml:space="preserve"><value>Link volgen</value></data>
   <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Geen wijzigingen.</value></data>
-  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0} regels toegevoegd, {1} regels verwijderd</value></data>
+  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0, plural, one {# regel toegevoegd} other {# regels toegevoegd}}, {1, plural, one {# regel verwijderd} other {# regels verwijderd}}</value></data>
   <data name="UnifiedDiffBinary" xml:space="preserve"><value>Binair bestand: geen regels om te vergelijken.</value></data>
   <data name="UnifiedDiffNoLines" xml:space="preserve"><value>Geen gewijzigde regels.</value></data>
   <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Regel voor</value></data>
@@ -639,13 +639,13 @@
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(opent in een nieuw tabblad)</value></data>
   <data name="MarkdownExportButton" xml:space="preserve"><value>Exporteren als .md</value></data>
   <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
-  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limiet: maximaal {0} rijen</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limiet: maximaal {0, plural, one {# rij} other {# rijen}}</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Gegenereerd op (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Geëxporteerde rijen: {0} van {1} aangekondigde</value></data>
   <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Geëxporteerde rijen: {0} van minstens {1}</value></data>
-  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Export ingekort: {0} van {1} rijen geëxporteerd, de limiet van {2} rijen is bereikt.</value></data>
-  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export onvolledig: {0} van {1} aangekondigde rijen geëxporteerd, de gegevens zijn tijdens het lezen gewijzigd.</value></data>
-  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Beperkte export: de limiet van {0} rijen is bereikt en de bron meldt geen totaal, er kunnen meer rijen zijn.</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Export ingekort: {0} van {1, plural, one {# rij} other {# rijen}} geëxporteerd, de limiet van {2, plural, one {# rij} other {# rijen}} is bereikt.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export onvolledig: {0} van {1, plural, one {# aangekondigde rij} other {# aangekondigde rijen}} geëxporteerd, de gegevens zijn tijdens het lezen gewijzigd.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Beperkte export: de limiet van {0, plural, one {# rij} other {# rijen}} is bereikt en de bron meldt geen totaal, er kunnen meer rijen zijn.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Geen rijen.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Registreren</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nog geen account?</value></data>

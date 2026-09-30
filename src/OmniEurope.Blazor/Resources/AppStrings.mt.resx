@@ -403,7 +403,7 @@
   <data name="TreeLoadFailed" xml:space="preserve"><value>It-tagħbija ma rnexxietx.</value></data>
   <data name="UploadSelectedFiles" xml:space="preserve"><value>Fajls magħżula</value></data>
   <data name="UploadProgressLabel" xml:space="preserve"><value>Tlugħ</value></data>
-  <data name="UploadMaximumFiles" xml:space="preserve"><value>Tista' tagħżel mhux aktar minn {0} fajls.</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Tista' tagħżel mhux aktar minn {0, plural, one {# fajl} two {# fajls} few {# fajls} many {#-il fajl} other {# fajl}}.</value></data>
   <data name="UploadFileTooLarge" xml:space="preserve"><value>Il-fajl {0} jaqbeż id-daqs massimu permess.</value></data>
   <data name="UploadTypeRejected" xml:space="preserve"><value>It-tip tal-fajl {0} mhux permess.</value></data>
   <data name="UploadOneSelected" xml:space="preserve"><value>Fajl 1 magħżul.</value></data>
@@ -418,7 +418,7 @@
   <data name="UploadDropMany" xml:space="preserve"><value>Waqqa' fajls hawn jew</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>ibbrawżja</value></data>
   <data name="UploadHintMaximumSize" xml:space="preserve"><value>Sa {0} għal kull fajl</value></data>
-  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Sa {0} fajls</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Sa {0, plural, one {# fajl} two {# fajls} few {# fajls} many {#-il fajl} other {# fajl}}</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Fajls mehmuża</value></data>
   <data name="UploadRemove" xml:space="preserve"><value>Neħħi {0}</value></data>
   <data name="UploadBrowseButton" xml:space="preserve"><value>Ibbrawżja</value></data>
@@ -434,9 +434,9 @@
   <data name="UploadRemoved" xml:space="preserve"><value>{0} tneħħa mil-lista.</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Veduta tal-ġimgħa</value></data>
   <data name="DataAnnotationsRequired" xml:space="preserve"><value>Il-qasam {0} huwa obbligatorju.</value></data>
-  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Il-qasam {0} irid ikun fih bejn {1} u {2} karattri.</value></data>
-  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Il-qasam {0} irid ikun fih mhux aktar minn {1} karattri.</value></data>
-  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Il-qasam {0} irid ikun fih mill-inqas {1} karattri.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Il-qasam {0} irid ikun fih bejn {1} u {2, plural, one {# karattru} two {# karattri} few {# karattri} many {#-il karattru} other {# karattru}}.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Il-qasam {0} irid ikun fih mhux aktar minn {1, plural, one {# karattru} two {# karattri} few {# karattri} many {#-il karattru} other {# karattru}}.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Il-qasam {0} irid ikun fih mill-inqas {1, plural, one {# karattru} two {# karattri} few {# karattri} many {#-il karattru} other {# karattru}}.</value></data>
   <data name="DataAnnotationsRange" xml:space="preserve"><value>Il-qasam {0} irid ikun bejn {1} u {2}.</value></data>
   <data name="DataAnnotationsEmail" xml:space="preserve"><value>Il-qasam {0} mhuwiex indirizz tal-email validu.</value></data>
   <data name="DataAnnotationsUrl" xml:space="preserve"><value>Il-qasam {0} mhuwiex indirizz web validu.</value></data>
@@ -493,20 +493,20 @@
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} h</value></data>
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} jum</value></data>
-  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} ijiem</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0, plural, one {# jum} two {# jumejn} few {# ijiem} many {#-il jum} other {# jum}}</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} xahar</value></data>
-  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} xhur</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0, plural, one {# xahar} two {# xahrejn} few {# xhur} many {#-il xahar} other {# xahar}}</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} sena</value></data>
-  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} snin</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0, plural, one {# sena} two {# sentejn} few {# snin} many {#-il sena} other {# sena}}</value></data>
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} h</value></data>
   <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} jum</value></data>
-  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} ijiem</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0, plural, one {# jum} two {# jumejn} few {# ijiem} many {#-il jum} other {# jum}}</value></data>
   <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} xahar</value></data>
-  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} xhur</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0, plural, one {# xahar} two {# xahrejn} few {# xhur} many {#-il xahar} other {# xahar}}</value></data>
   <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} sena</value></data>
-  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} snin</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0, plural, one {# sena} two {# sentejn} few {# snin} many {#-il sena} other {# sena}}</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Issottolinja</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Linja min-nofs</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Kodiċi fil-linja</value></data>
@@ -639,13 +639,13 @@
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(jinfetaħ f'tab ġdida)</value></data>
   <data name="MarkdownExportButton" xml:space="preserve"><value>Esporta bħala .md</value></data>
   <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
-  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limitu: mhux aktar minn {0} ringieli</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Limitu: mhux aktar minn {0, plural, one {# ringiela} two {# ringieli} few {# ringieli} many {#-il ringiela} other {# ringiela}}</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Iġġenerat fi (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Ringieli esportati: {0} minn {1} imħabbra</value></data>
   <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Ringieli esportati: {0} minn tal-inqas {1}</value></data>
-  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Esportazzjoni maqtugħa: {0} ringieli esportati minn {1}, intlaħaq il-limitu ta' {2} ringieli.</value></data>
-  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Esportazzjoni mhux kompluta: {0} ringieli esportati minn {1} imħabbra, id-data nbidlet waqt il-qari.</value></data>
-  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Esportazzjoni limitata: intlaħaq il-limitu ta' {0} ringieli u s-sors ma jħabbarx total, jista' jkun hemm aktar ringieli.</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Esportazzjoni maqtugħa: {0, plural, one {# ringiela esportata} two {# ringieli esportati} few {# ringieli esportati} many {#-il ringiela esportata} other {# ringiela esportata}} minn {1}, intlaħaq il-limitu ta' {2, plural, one {# ringiela} two {# ringieli} few {# ringieli} many {#-il ringiela} other {# ringiela}}.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Esportazzjoni mhux kompluta: {0, plural, one {# ringiela esportata} two {# ringieli esportati} few {# ringieli esportati} many {#-il ringiela esportata} other {# ringiela esportata}} minn {1} imħabbra, id-data nbidlet waqt il-qari.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Esportazzjoni limitata: intlaħaq il-limitu ta' {0, plural, one {# ringiela} two {# ringieli} few {# ringieli} many {#-il ringiela} other {# ringiela}} u s-sors ma jħabbarx total, jista' jkun hemm aktar ringieli.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>L-ebda ringiela.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Irreġistra</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>M'għandekx kont?</value></data>

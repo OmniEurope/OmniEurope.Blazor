@@ -42,7 +42,7 @@
   <data name="ChartSeriesFallback" xml:space="preserve"><value>Σειρά {0}</value></data>
   <data name="AutocompleteSearchFailed" xml:space="preserve"><value>Η αναζήτηση απέτυχε. Τροποποιήστε την καταχώριση για να δοκιμάσετε ξανά.</value></data>
   <data name="AutocompleteOneResult" xml:space="preserve"><value>1 διαθέσιμο αποτέλεσμα.</value></data>
-  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0} διαθέσιμα αποτελέσματα.</value></data>
+  <data name="AutocompleteManyResults" xml:space="preserve"><value>{0, plural, one {# διαθέσιμο αποτέλεσμα.} other {# διαθέσιμα αποτελέσματα.}}</value></data>
   <data name="AutocompleteSelected" xml:space="preserve"><value>Επιλέχθηκε: {0}.</value></data>
   <data name="AutocompleteInvalid" xml:space="preserve"><value>Η τιμή αυτόματης συμπλήρωσης δεν είναι έγκυρη.</value></data>
   <data name="BreadcrumbLabel" xml:space="preserve"><value>Διαδρομή πλοήγησης</value></data>
@@ -167,7 +167,7 @@
   <data name="HtmlEditorImportTableHeader" xml:space="preserve"><value>Πρώτη γραμμή ως κεφαλίδα</value></data>
   <data name="HtmlEditorImportTableInsert" xml:space="preserve"><value>Εισαγωγή</value></data>
   <data name="HtmlEditorImportTablePreview" xml:space="preserve"><value>Προεπισκόπηση πίνακα</value></data>
-  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0} γραμμές, {1} στήλες</value></data>
+  <data name="HtmlEditorImportTableRows" xml:space="preserve"><value>{0, plural, one {# γραμμή} other {# γραμμές}}, {1, plural, one {# στήλη} other {# στήλες}}</value></data>
   <data name="HtmlEditorImportTableFailed" xml:space="preserve"><value>Δεν ήταν δυνατή η ανάγνωση του αρχείου.</value></data>
   <data name="HtmlEditorImportTableEmpty" xml:space="preserve"><value>Το αρχείο δεν περιέχει καμία γραμμή.</value></data>
   <data name="HtmlEditorImportTableUnsupported" xml:space="preserve"><value>Αυτός ο τύπος αρχείου δεν υποστηρίζεται.</value></data>
@@ -403,11 +403,11 @@
   <data name="TreeLoadFailed" xml:space="preserve"><value>Η φόρτωση απέτυχε.</value></data>
   <data name="UploadSelectedFiles" xml:space="preserve"><value>Επιλεγμένα αρχεία</value></data>
   <data name="UploadProgressLabel" xml:space="preserve"><value>Μεταφόρτωση</value></data>
-  <data name="UploadMaximumFiles" xml:space="preserve"><value>Μπορείτε να επιλέξετε έως {0} αρχεία.</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Μπορείτε να επιλέξετε έως {0, plural, one {# αρχείο} other {# αρχεία}}.</value></data>
   <data name="UploadFileTooLarge" xml:space="preserve"><value>Το αρχείο {0} υπερβαίνει το μέγιστο επιτρεπόμενο μέγεθος.</value></data>
   <data name="UploadTypeRejected" xml:space="preserve"><value>Ο τύπος του αρχείου {0} δεν επιτρέπεται.</value></data>
   <data name="UploadOneSelected" xml:space="preserve"><value>Επιλέχθηκε 1 αρχείο.</value></data>
-  <data name="UploadManySelected" xml:space="preserve"><value>Επιλέχθηκαν {0} αρχεία.</value></data>
+  <data name="UploadManySelected" xml:space="preserve"><value>{0, plural, one {Επιλέχθηκε # αρχείο.} other {Επιλέχθηκαν # αρχεία.}}</value></data>
   <data name="UploadInProgress" xml:space="preserve"><value>Μεταφόρτωση σε εξέλιξη.</value></data>
   <data name="UploadCompleted" xml:space="preserve"><value>Η μεταφόρτωση ολοκληρώθηκε.</value></data>
   <data name="UploadCancelled" xml:space="preserve"><value>Η μεταφόρτωση ακυρώθηκε.</value></data>
@@ -418,7 +418,7 @@
   <data name="UploadDropMany" xml:space="preserve"><value>Αποθέστε αρχεία εδώ ή</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>κάντε αναζήτηση</value></data>
   <data name="UploadHintMaximumSize" xml:space="preserve"><value>Έως {0} ανά αρχείο</value></data>
-  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Έως {0} αρχεία</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Έως {0, plural, one {# αρχείο} other {# αρχεία}}</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Συνημμένα αρχεία</value></data>
   <data name="UploadRemove" xml:space="preserve"><value>Αφαίρεση {0}</value></data>
   <data name="UploadBrowseButton" xml:space="preserve"><value>Αναζήτηση</value></data>
@@ -426,7 +426,7 @@
   <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
   <data name="UploadFileCountNone" xml:space="preserve"><value>Κανένα αρχείο</value></data>
   <data name="UploadFileCountOne" xml:space="preserve"><value>1 αρχείο</value></data>
-  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} αρχεία</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0, plural, one {# αρχείο} other {# αρχεία}}</value></data>
   <data name="UploadShowAll" xml:space="preserve"><value>Εμφάνιση όλων ({0})</value></data>
   <data name="UploadShowLess" xml:space="preserve"><value>Εμφάνιση λιγότερων</value></data>
   <data name="UploadRemoveAll" xml:space="preserve"><value>Αφαίρεση όλων</value></data>
@@ -434,9 +434,9 @@
   <data name="UploadRemoved" xml:space="preserve"><value>Το {0} αφαιρέθηκε από τη λίστα.</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Προβολή εβδομάδας</value></data>
   <data name="DataAnnotationsRequired" xml:space="preserve"><value>Το πεδίο {0} είναι υποχρεωτικό.</value></data>
-  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Το πεδίο {0} πρέπει να περιέχει από {1} έως {2} χαρακτήρες.</value></data>
-  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Το πεδίο {0} πρέπει να περιέχει το πολύ {1} χαρακτήρες.</value></data>
-  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Το πεδίο {0} πρέπει να περιέχει τουλάχιστον {1} χαρακτήρες.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Το πεδίο {0} πρέπει να περιέχει από {1} έως {2, plural, one {# χαρακτήρα} other {# χαρακτήρες}}.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Το πεδίο {0} πρέπει να περιέχει το πολύ {1, plural, one {# χαρακτήρα} other {# χαρακτήρες}}.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Το πεδίο {0} πρέπει να περιέχει τουλάχιστον {1, plural, one {# χαρακτήρα} other {# χαρακτήρες}}.</value></data>
   <data name="DataAnnotationsRange" xml:space="preserve"><value>Το πεδίο {0} πρέπει να είναι μεταξύ {1} και {2}.</value></data>
   <data name="DataAnnotationsEmail" xml:space="preserve"><value>Το πεδίο {0} δεν είναι έγκυρη διεύθυνση e-mail.</value></data>
   <data name="DataAnnotationsUrl" xml:space="preserve"><value>Το πεδίο {0} δεν είναι έγκυρη διεύθυνση web.</value></data>
@@ -493,20 +493,20 @@
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} λεπ.</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} ώρ.</value></data>
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} ημέρα</value></data>
-  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} ημέρες</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0, plural, one {# ημέρα} other {# ημέρες}}</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} μήνα</value></data>
-  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} μήνες</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0, plural, one {# μήνα} other {# μήνες}}</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} έτος</value></data>
-  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} έτη</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0, plural, one {# έτος} other {# έτη}}</value></data>
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} δευτ.</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} λεπ.</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} ώρ.</value></data>
   <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} ημέρα</value></data>
-  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} ημέρες</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0, plural, one {# ημέρα} other {# ημέρες}}</value></data>
   <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} μήνα</value></data>
-  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} μήνες</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0, plural, one {# μήνα} other {# μήνες}}</value></data>
   <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} έτος</value></data>
-  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} έτη</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0, plural, one {# έτος} other {# έτη}}</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Υπογράμμιση</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Διακριτή διαγραφή</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Ενσωματωμένος κώδικας</value></data>
@@ -579,7 +579,7 @@
   <data name="LogViewerMatchPosition" xml:space="preserve"><value>{0} από {1}</value></data>
   <data name="LogViewerFollow" xml:space="preserve"><value>Παρακολούθηση</value></data>
   <data name="LogViewerJumpToLatest" xml:space="preserve"><value>Μετάβαση στις πιο πρόσφατες γραμμές</value></data>
-  <data name="LogViewerNewLines" xml:space="preserve"><value>{0} νέες γραμμές</value></data>
+  <data name="LogViewerNewLines" xml:space="preserve"><value>{0, plural, one {# νέα γραμμή} other {# νέες γραμμές}}</value></data>
   <data name="LogViewerLevelPrefix" xml:space="preserve"><value>{0}: </value></data>
   <data name="LogLevelTrace" xml:space="preserve"><value>Ιχνηλάτηση</value></data>
   <data name="LogLevelDebug" xml:space="preserve"><value>Εντοπισμός σφαλμάτων</value></data>
@@ -597,7 +597,7 @@
   <data name="CodeViewerWrap" xml:space="preserve"><value>Αναδίπλωση γραμμών</value></data>
   <data name="CodeViewerLinkHint" xml:space="preserve"><value>Μετάβαση στον σύνδεσμο</value></data>
   <data name="UnifiedDiffEmpty" xml:space="preserve"><value>Καμία αλλαγή.</value></data>
-  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0} γραμμές προστέθηκαν, {1} γραμμές διαγράφηκαν</value></data>
+  <data name="UnifiedDiffStats" xml:space="preserve"><value>{0, plural, one {# γραμμή προστέθηκε} other {# γραμμές προστέθηκαν}}, {1, plural, one {# γραμμή διαγράφηκε} other {# γραμμές διαγράφηκαν}}</value></data>
   <data name="UnifiedDiffBinary" xml:space="preserve"><value>Δυαδικό αρχείο: δεν υπάρχουν γραμμές για σύγκριση.</value></data>
   <data name="UnifiedDiffNoLines" xml:space="preserve"><value>Καμία γραμμή δεν άλλαξε.</value></data>
   <data name="UnifiedDiffOldLine" xml:space="preserve"><value>Παλιά γραμμή</value></data>
@@ -639,13 +639,13 @@
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(ανοίγει σε νέα καρτέλα)</value></data>
   <data name="MarkdownExportButton" xml:space="preserve"><value>Εξαγωγή σε .md</value></data>
   <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
-  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Όριο: έως {0} γραμμές</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Όριο: έως {0, plural, one {# γραμμή} other {# γραμμές}}</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Δημιουργήθηκε (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Γραμμές που εξήχθησαν: {0} από {1} που δηλώθηκαν</value></data>
   <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Γραμμές που εξήχθησαν: {0} από τουλάχιστον {1}</value></data>
-  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Περικομμένη εξαγωγή: εξήχθησαν {0} γραμμές από {1}, συμπληρώθηκε το όριο των {2} γραμμών.</value></data>
-  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Ελλιπής εξαγωγή: εξήχθησαν {0} γραμμές από {1} που δηλώθηκαν, τα δεδομένα άλλαξαν κατά την ανάγνωση.</value></data>
-  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Περιορισμένη εξαγωγή: συμπληρώθηκε το όριο των {0} γραμμών και η πηγή δεν δηλώνει σύνολο, ενδέχεται να υπάρχουν κι άλλες γραμμές.</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Περικομμένη εξαγωγή: {0, plural, one {εξήχθη # γραμμή} other {εξήχθησαν # γραμμές}} από {1}, συμπληρώθηκε το όριο {2, plural, one {της # γραμμής} other {των # γραμμών}}.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Ελλιπής εξαγωγή: {0, plural, one {εξήχθη # γραμμή} other {εξήχθησαν # γραμμές}} από {1} που δηλώθηκαν, τα δεδομένα άλλαξαν κατά την ανάγνωση.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Περιορισμένη εξαγωγή: συμπληρώθηκε το όριο {0, plural, one {της # γραμμής} other {των # γραμμών}} και η πηγή δεν δηλώνει σύνολο, ενδέχεται να υπάρχουν κι άλλες γραμμές.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Καμία γραμμή.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Εγγραφή</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Δεν έχετε λογαριασμό;</value></data>

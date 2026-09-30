@@ -418,7 +418,7 @@
   <data name="UploadDropMany" xml:space="preserve"><value>Lohistage failid siia või</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>sirvige</value></data>
   <data name="UploadHintMaximumSize" xml:space="preserve"><value>Kuni {0} faili kohta</value></data>
-  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Kuni {0} faili</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Kuni {0, plural, one {# fail} other {# faili}}</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Manused</value></data>
   <data name="UploadRemove" xml:space="preserve"><value>Eemalda {0}</value></data>
   <data name="UploadBrowseButton" xml:space="preserve"><value>Sirvi</value></data>
@@ -426,7 +426,7 @@
   <data name="UploadFieldValue" xml:space="preserve"><value>{0} ({1})</value></data>
   <data name="UploadFileCountNone" xml:space="preserve"><value>Faile pole</value></data>
   <data name="UploadFileCountOne" xml:space="preserve"><value>1 fail</value></data>
-  <data name="UploadFileCountMany" xml:space="preserve"><value>{0} faili</value></data>
+  <data name="UploadFileCountMany" xml:space="preserve"><value>{0, plural, one {# fail} other {# faili}}</value></data>
   <data name="UploadShowAll" xml:space="preserve"><value>Kuva kõik ({0})</value></data>
   <data name="UploadShowLess" xml:space="preserve"><value>Kuva vähem</value></data>
   <data name="UploadRemoveAll" xml:space="preserve"><value>Eemalda kõik</value></data>
@@ -434,9 +434,9 @@
   <data name="UploadRemoved" xml:space="preserve"><value>{0} eemaldati loendist.</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Nädalavaade</value></data>
   <data name="DataAnnotationsRequired" xml:space="preserve"><value>Väli {0} on kohustuslik.</value></data>
-  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Välja {0} pikkus peab olema {1} kuni {2} märki.</value></data>
-  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Välja {0} pikkus võib olla kuni {1} märki.</value></data>
-  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Välja {0} pikkus peab olema vähemalt {1} märki.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Välja {0} pikkus peab olema {1} kuni {2, plural, one {# märk} other {# märki}}.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Välja {0} pikkus võib olla kuni {1, plural, one {# märk} other {# märki}}.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Välja {0} pikkus peab olema vähemalt {1, plural, one {# märk} other {# märki}}.</value></data>
   <data name="DataAnnotationsRange" xml:space="preserve"><value>Välja {0} väärtus peab olema vahemikus {1} kuni {2}.</value></data>
   <data name="DataAnnotationsEmail" xml:space="preserve"><value>Väli {0} ei ole kehtiv e-posti aadress.</value></data>
   <data name="DataAnnotationsUrl" xml:space="preserve"><value>Väli {0} ei ole kehtiv veebiaadress.</value></data>
@@ -493,11 +493,11 @@
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} t</value></data>
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} päev</value></data>
-  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} päeva</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0, plural, one {# päev} other {# päeva}}</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} kuu</value></data>
-  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} kuud</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0, plural, one {# kuu} other {# kuud}}</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} aasta</value></data>
-  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} aastat</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0, plural, one {# aasta} other {# aastat}}</value></data>
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} t</value></data>

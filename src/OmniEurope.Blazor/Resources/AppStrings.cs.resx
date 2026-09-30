@@ -493,20 +493,20 @@
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} h</value></data>
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} dnem</value></data>
-  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} dny</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0, plural, one {# dnem} few {# dny} other {# dny}}</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} měsícem</value></data>
-  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} měsíci</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0, plural, one {# měsícem} few {# měsíci} other {# měsíci}}</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} rokem</value></data>
-  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} lety</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0, plural, one {# rokem} few {# lety} other {# lety}}</value></data>
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} h</value></data>
   <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} den</value></data>
-  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} d.</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0, plural, one {# den} few {# dny} other {# dní}}</value></data>
   <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} měsíc</value></data>
-  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} měs.</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0, plural, one {# měsíc} few {# měsíce} other {# měsíců}}</value></data>
   <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} rok</value></data>
-  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} r.</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0, plural, one {# rok} few {# roky} other {# let}}</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Podtržení</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Přeškrtnutí</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Kód v řádku</value></data>
@@ -643,9 +643,9 @@
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Vygenerováno (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Exportované řádky: {0} z {1} očekávaných</value></data>
   <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Exportované řádky: {0} z nejméně {1}</value></data>
-  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Export zkrácen: exportováno {0} z {1} řádků, byl dosažen limit {2} řádků.</value></data>
-  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export neúplný: exportováno {0} z {1} očekávaných řádků, data se během čtení změnila.</value></data>
-  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Omezený export: byl dosažen limit {0} řádků a zdroj neuvádí celkový počet, mohou existovat další řádky.</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Export zkrácen: exportováno {0} z {1, plural, one {# řádku} few {# řádků} other {# řádků}}, byl dosažen limit {2, plural, one {# řádku} few {# řádků} other {# řádků}}.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export neúplný: exportováno {0} z {1, plural, one {# očekávaného řádku} few {# očekávaných řádků} other {# očekávaných řádků}}, data se během čtení změnila.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Omezený export: byl dosažen limit {0, plural, one {# řádku} few {# řádků} other {# řádků}} a zdroj neuvádí celkový počet, mohou existovat další řádky.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Žádné řádky.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Zaregistrovat se</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nemáte účet?</value></data>

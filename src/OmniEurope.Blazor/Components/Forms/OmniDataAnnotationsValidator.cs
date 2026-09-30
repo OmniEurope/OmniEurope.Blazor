@@ -6,6 +6,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Localization;
+using OmniEurope.Blazor.Localization;
 using OmniEurope.Blazor.Resources;
 
 namespace OmniEurope.Blazor.Components;
@@ -191,10 +192,10 @@ public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
         {
             RequiredAttribute => Strings["DataAnnotationsRequired", displayName],
             StringLengthAttribute length when length.MinimumLength > 0 =>
-                Strings["DataAnnotationsStringLength", displayName, length.MinimumLength, length.MaximumLength],
-            StringLengthAttribute length => Strings["DataAnnotationsMaxLength", displayName, length.MaximumLength],
-            MaxLengthAttribute length => Strings["DataAnnotationsMaxLength", displayName, length.Length],
-            MinLengthAttribute length => Strings["DataAnnotationsMinLength", displayName, length.Length],
+                Counted("DataAnnotationsStringLength", displayName, length.MinimumLength, length.MaximumLength),
+            StringLengthAttribute length => Counted("DataAnnotationsMaxLength", displayName, length.MaximumLength),
+            MaxLengthAttribute length => Counted("DataAnnotationsMaxLength", displayName, length.Length),
+            MinLengthAttribute length => Counted("DataAnnotationsMinLength", displayName, length.Length),
             RangeAttribute range => Strings["DataAnnotationsRange", displayName, Format(range.Minimum), Format(range.Maximum)],
             EmailAddressAttribute => Strings["DataAnnotationsEmail", displayName],
             UrlAttribute => Strings["DataAnnotationsUrl", displayName],
@@ -247,6 +248,9 @@ public sealed class OmniDataAnnotationsValidator : ComponentBase, IDisposable
 
     private static string Format(object? value) =>
         Convert.ToString(value, CultureInfo.CurrentCulture) ?? string.Empty;
+
+    /// <summary>A package message whose wording follows a length: "1 character", "2 characters".</summary>
+    private string Counted(string name, params object[] arguments) => PluralMessage.Localize(Strings, name, arguments);
 
     private static IEnumerable<PropertyInfo> ValidatedProperties(
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] Type type) =>

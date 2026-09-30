@@ -403,7 +403,7 @@
   <data name="TreeLoadFailed" xml:space="preserve"><value>Nalaganje ni uspelo.</value></data>
   <data name="UploadSelectedFiles" xml:space="preserve"><value>Izbrane datoteke</value></data>
   <data name="UploadProgressLabel" xml:space="preserve"><value>Nalaganje v strežnik</value></data>
-  <data name="UploadMaximumFiles" xml:space="preserve"><value>Izberete lahko največ {0} datotek.</value></data>
+  <data name="UploadMaximumFiles" xml:space="preserve"><value>Izberete lahko največ {0, plural, one {# datoteko} two {# datoteki} few {# datoteke} other {# datotek}}.</value></data>
   <data name="UploadFileTooLarge" xml:space="preserve"><value>Datoteka {0} presega največjo dovoljeno velikost.</value></data>
   <data name="UploadTypeRejected" xml:space="preserve"><value>Vrsta datoteke {0} ni dovoljena.</value></data>
   <data name="UploadOneSelected" xml:space="preserve"><value>Izbrana je 1 datoteka.</value></data>
@@ -418,7 +418,7 @@
   <data name="UploadDropMany" xml:space="preserve"><value>Spustite datoteke sem ali</value></data>
   <data name="UploadBrowse" xml:space="preserve"><value>prebrskajte</value></data>
   <data name="UploadHintMaximumSize" xml:space="preserve"><value>Največ {0} na datoteko</value></data>
-  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Največ {0} datotek</value></data>
+  <data name="UploadHintMaximumFiles" xml:space="preserve"><value>Največ {0, plural, one {# datoteka} two {# datoteki} few {# datoteke} other {# datotek}}</value></data>
   <data name="UploadAttachedFiles" xml:space="preserve"><value>Priložene datoteke</value></data>
   <data name="UploadRemove" xml:space="preserve"><value>Odstrani {0}</value></data>
   <data name="UploadBrowseButton" xml:space="preserve"><value>Prebrskaj</value></data>
@@ -434,9 +434,9 @@
   <data name="UploadRemoved" xml:space="preserve"><value>Datoteka {0} je odstranjena s seznama.</value></data>
   <data name="WeekViewLabel" xml:space="preserve"><value>Tedenski pogled</value></data>
   <data name="DataAnnotationsRequired" xml:space="preserve"><value>Polje {0} je obvezno.</value></data>
-  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Polje {0} mora vsebovati od {1} do {2} znakov.</value></data>
-  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Polje {0} lahko vsebuje največ {1} znakov.</value></data>
-  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Polje {0} mora vsebovati najmanj {1} znakov.</value></data>
+  <data name="DataAnnotationsStringLength" xml:space="preserve"><value>Polje {0} mora vsebovati od {1} do {2, plural, one {# znaka} two {# znakov} few {# znakov} other {# znakov}}.</value></data>
+  <data name="DataAnnotationsMaxLength" xml:space="preserve"><value>Polje {0} lahko vsebuje največ {1, plural, one {# znak} two {# znaka} few {# znake} other {# znakov}}.</value></data>
+  <data name="DataAnnotationsMinLength" xml:space="preserve"><value>Polje {0} mora vsebovati najmanj {1, plural, one {# znak} two {# znaka} few {# znake} other {# znakov}}.</value></data>
   <data name="DataAnnotationsRange" xml:space="preserve"><value>Polje {0} mora biti med {1} in {2}.</value></data>
   <data name="DataAnnotationsEmail" xml:space="preserve"><value>Polje {0} ni veljaven e-poštni naslov.</value></data>
   <data name="DataAnnotationsUrl" xml:space="preserve"><value>Polje {0} ni veljaven spletni naslov.</value></data>
@@ -493,20 +493,20 @@
   <data name="RelativeTimeMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeHours" xml:space="preserve"><value>{0} h</value></data>
   <data name="RelativeTimeDay" xml:space="preserve"><value>{0} dnem</value></data>
-  <data name="RelativeTimeDays" xml:space="preserve"><value>{0} d</value></data>
+  <data name="RelativeTimeDays" xml:space="preserve"><value>{0, plural, one {# dnem} two {# dnevoma} few {# dnevi} other {# dnevi}}</value></data>
   <data name="RelativeTimeMonth" xml:space="preserve"><value>{0} mesecem</value></data>
-  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0} mes.</value></data>
+  <data name="RelativeTimeMonths" xml:space="preserve"><value>{0, plural, one {# mesecem} two {# mesecema} few {# meseci} other {# meseci}}</value></data>
   <data name="RelativeTimeYear" xml:space="preserve"><value>{0} letom</value></data>
-  <data name="RelativeTimeYears" xml:space="preserve"><value>{0} l.</value></data>
+  <data name="RelativeTimeYears" xml:space="preserve"><value>{0, plural, one {# letom} two {# letoma} few {# leti} other {# leti}}</value></data>
   <data name="RelativeTimeFutureSeconds" xml:space="preserve"><value>{0} s</value></data>
   <data name="RelativeTimeFutureMinutes" xml:space="preserve"><value>{0} min</value></data>
   <data name="RelativeTimeFutureHours" xml:space="preserve"><value>{0} h</value></data>
   <data name="RelativeTimeFutureDay" xml:space="preserve"><value>{0} dan</value></data>
-  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0} d</value></data>
+  <data name="RelativeTimeFutureDays" xml:space="preserve"><value>{0, plural, one {# dan} two {# dneva} few {# dni} other {# dni}}</value></data>
   <data name="RelativeTimeFutureMonth" xml:space="preserve"><value>{0} mesec</value></data>
-  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0} mes.</value></data>
+  <data name="RelativeTimeFutureMonths" xml:space="preserve"><value>{0, plural, one {# mesec} two {# meseca} few {# mesece} other {# mesecev}}</value></data>
   <data name="RelativeTimeFutureYear" xml:space="preserve"><value>{0} leto</value></data>
-  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0} l.</value></data>
+  <data name="RelativeTimeFutureYears" xml:space="preserve"><value>{0, plural, one {# leto} two {# leti} few {# leta} other {# let}}</value></data>
   <data name="HtmlEditorUnderline" xml:space="preserve"><value>Podčrtano</value></data>
   <data name="HtmlEditorStrikethrough" xml:space="preserve"><value>Prečrtano</value></data>
   <data name="HtmlEditorInlineCode" xml:space="preserve"><value>Vrstična koda</value></data>
@@ -639,13 +639,13 @@
   <data name="LinkOpensInNewTab" xml:space="preserve"><value>(odpre se v novem zavihku)</value></data>
   <data name="MarkdownExportButton" xml:space="preserve"><value>Izvozi kot .md</value></data>
   <data name="MarkdownExportField" xml:space="preserve"><value>{0}: {1}</value></data>
-  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Omejitev: največ {0} vrstic</value></data>
+  <data name="MarkdownExportRowLimit" xml:space="preserve"><value>Omejitev: največ {0, plural, one {# vrstica} two {# vrstici} few {# vrstice} other {# vrstic}}</value></data>
   <data name="MarkdownExportGeneratedAt" xml:space="preserve"><value>Ustvarjeno (UTC): {0}</value></data>
   <data name="MarkdownExportRowCount" xml:space="preserve"><value>Izvožene vrstice: {0} od {1} napovedanih</value></data>
   <data name="MarkdownExportRowCountAtLeast" xml:space="preserve"><value>Izvožene vrstice: {0} od najmanj {1}</value></data>
-  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Okrnjen izvoz: izvoženih {0} od {1} vrstic, dosežena je omejitev {2} vrstic.</value></data>
-  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Nepopoln izvoz: izvoženih {0} od {1} napovedanih vrstic, podatki so se med branjem spremenili.</value></data>
-  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Omejen izvoz: dosežena je omejitev {0} vrstic, vir pa ne navaja skupnega števila, morda je vrstic več.</value></data>
+  <data name="MarkdownExportTruncated" xml:space="preserve"><value>Okrnjen izvoz: izvoženih {0} od {1, plural, one {# vrstice} two {# vrstic} few {# vrstic} other {# vrstic}}, dosežena je omejitev {2, plural, one {# vrstice} two {# vrstic} few {# vrstic} other {# vrstic}}.</value></data>
+  <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Nepopoln izvoz: izvoženih {0} od {1, plural, one {# napovedane vrstice} two {# napovedanih vrstic} few {# napovedanih vrstic} other {# napovedanih vrstic}}, podatki so se med branjem spremenili.</value></data>
+  <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Omejen izvoz: dosežena je omejitev {0, plural, one {# vrstice} two {# vrstic} few {# vrstic} other {# vrstic}}, vir pa ne navaja skupnega števila, morda je vrstic več.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Ni vrstic.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Registracija</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Nimate računa?</value></data>
