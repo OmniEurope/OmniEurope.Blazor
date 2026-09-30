@@ -14,6 +14,9 @@ internal static class AppearanceChoices
 
     internal static OmniThemePreset EffectivePreset(OmniThemePreset? preset) => preset ?? OmniThemePresets.All[0];
 
+    /// <summary>Whether the theme moves its colour field, so a setting that holds it still has something to hold.</summary>
+    internal static bool MovesBackdrop(OmniThemePreset? preset) => EffectivePreset(preset).Shape.ContainsKey("--omni-scope-motion");
+
     internal static string ThemeName(OmniThemePreset? preset) =>
         preset is null || ReferenceEquals(preset, OmniThemePresets.All[0]) ? DefaultTheme : preset.Name;
 
@@ -29,6 +32,29 @@ internal static class AppearanceChoices
         var fallback = OmniThemePresets.DefaultPaletteFor(EffectivePreset(preset)).Name;
         return [.. OmniThemePalettes.All.Select(palette => new OmniOption<string>(palette.Name,
             palette.Name == fallback ? $"{palette.Name} ({defaultSuffix})" : palette.Name))];
+    }
+
+    /// <summary>
+    /// One entry of <paramref name="all"/> drawn at random, never <paramref name="current"/> when the
+    /// list holds another: each of the others is as likely as the next.
+    /// </summary>
+    internal static T RandomOther<T>(IReadOnlyList<T> all, T? current)
+        where T : class
+    {
+        var skipped = -1;
+        for (var index = 0; index < all.Count && skipped < 0; index++)
+        {
+            skipped = ReferenceEquals(all[index], current) ? index : -1;
+        }
+
+        if (skipped < 0 || all.Count < 2)
+        {
+            return all[Random.Shared.Next(all.Count)];
+        }
+
+        // One draw among the others: the indexes from the current one on are shifted past it.
+        var drawn = Random.Shared.Next(all.Count - 1);
+        return all[drawn >= skipped ? drawn + 1 : drawn];
     }
 
     /// <summary>The theme an option names; null for the default one or an unknown name.</summary>

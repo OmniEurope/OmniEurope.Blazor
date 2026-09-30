@@ -17,8 +17,11 @@
   <data name="SettingsFont" xml:space="preserve"><value>Czcionka</value></data>
   <data name="SettingsTextSize" xml:space="preserve"><value>Rozmiar tekstu</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Gęstość</value></data>
+  <data name="SettingsBackdropMotion" xml:space="preserve"><value>Animowane tło</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Rozmiar kontrolek</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Domyślnie</value></data>
+  <data name="SettingsRandom" xml:space="preserve"><value>Losowo</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Wylosuj motyw i paletę</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>domyślnie</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Zmniejsz rozmiar tekstu</value></data>
   <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Zwiększ rozmiar tekstu</value></data>

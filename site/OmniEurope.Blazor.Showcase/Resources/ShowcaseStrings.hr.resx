@@ -244,6 +244,7 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Prozračna</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Naslijeđena</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Gustoća</value></data>
+  <data name="WorkshopMotion" xml:space="preserve"><value>Animirana pozadina</value></data>
   <data name="WorkshopHover" xml:space="preserve"><value>Prelazak pokazivačem</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Nametni</value></data>
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Nametnuto</value></data>
@@ -1356,6 +1357,7 @@
   <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Gumb prikazuje unos, a da ga nikamo ne kopira.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Datum stupanja na snagu</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Unos tipkovnicom ili kalendar; dani izvan granica ne mogu se odabrati.</value></data>
+  <data name="DemoInputsDialog" xml:space="preserve"><value>U dijaloškom okviru</value></data>
   <data name="DemoInputsStart" xml:space="preserve"><value>Vrijeme početka</value></data>
   <data name="DemoInputsStartHelp" xml:space="preserve"><value>Sati od 00 do 23, minute u koracima od {0}.</value></data>
   <data name="DemoInputsAppointment" xml:space="preserve"><value>Sastanak</value></data>

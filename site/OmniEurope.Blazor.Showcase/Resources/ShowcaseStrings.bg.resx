@@ -244,6 +244,7 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Просторна</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Наследена</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Плътност</value></data>
+  <data name="WorkshopMotion" xml:space="preserve"><value>Анимиран фон</value></data>
   <data name="WorkshopHover" xml:space="preserve"><value>Посочване</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Принудително</value></data>
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Принудено</value></data>
@@ -1356,6 +1357,7 @@
   <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Бутонът показва въведеното, без да го копира другаде.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Дата на влизане в сила</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Въвеждане от клавиатурата или календар; дните извън границите не могат да се избират.</value></data>
+  <data name="DemoInputsDialog" xml:space="preserve"><value>В диалогов прозорец</value></data>
   <data name="DemoInputsStart" xml:space="preserve"><value>Начален час</value></data>
   <data name="DemoInputsStartHelp" xml:space="preserve"><value>Часове от 00 до 23, минути през {0}.</value></data>
   <data name="DemoInputsAppointment" xml:space="preserve"><value>Среща</value></data>

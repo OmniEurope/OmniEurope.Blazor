@@ -56,6 +56,20 @@ public partial class OmniAppearanceWindow
     [Parameter]
     public EventCallback<OmniThemeFont?> FontChanged { get; set; }
 
+    /// <summary>
+    /// Whether the theme may move its colour field; the host applies it through
+    /// <see cref="OmniThemeScope.BackdropMotion"/>. True by default.
+    /// </summary>
+    [Parameter]
+    public bool BackdropMotion { get; set; } = true;
+
+    /// <summary>
+    /// Raised with the choice; bound, it shows the row under a theme that moves its field (Givre,
+    /// Trou noir), and under no other: the setting would do nothing there.
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> BackdropMotionChanged { get; set; }
+
     /// <summary>Text size, 1 to 10 with 5 as drawn (the host applies it, <c>data-oe-text-size</c>).</summary>
     [Parameter]
     public int TextSizeLevel { get; set; } = 5;
@@ -85,9 +99,10 @@ public partial class OmniAppearanceWindow
 
     private string EffectiveTitle => LocalizeOr(Title, "AppearanceWindowTitle");
 
-    private bool ShowsLook => PresetChanged.HasDelegate || PaletteChanged.HasDelegate || FontChanged.HasDelegate;
+    private bool ShowsBackdropMotion => BackdropMotionChanged.HasDelegate && AppearanceChoices.MovesBackdrop(Preset);
 
-    private bool ShowsScale => TextSizeLevelChanged.HasDelegate || DensityChanged.HasDelegate || ControlSizeLevelChanged.HasDelegate;
+    private bool ShowsRows => PresetChanged.HasDelegate || PaletteChanged.HasDelegate || FontChanged.HasDelegate || ShowsBackdropMotion
+        || TextSizeLevelChanged.HasDelegate || DensityChanged.HasDelegate || ControlSizeLevelChanged.HasDelegate;
 
     private string ThemeName => AppearanceChoices.ThemeName(Preset);
 
@@ -145,6 +160,29 @@ public partial class OmniAppearanceWindow
         }
     }
 
+    /// <summary>
+    /// A theme drawn at random, other than the current one, and with it a palette other than the one in
+    /// force when the palette is bound: any palette paints any theme. The font chosen for the previous
+    /// theme is dropped, as on any new theme.
+    /// </summary>
+    private async Task RandomLookAsync()
+    {
+        var theme = AppearanceChoices.RandomOther(OmniThemePresets.All, AppearanceChoices.EffectivePreset(Preset));
+        var preset = AppearanceChoices.Theme(AppearanceChoices.ThemeName(theme));
+        var inForce = PaletteName;
+        await PresetChanged.InvokeAsync(preset);
+        if (PaletteChanged.HasDelegate)
+        {
+            var palette = AppearanceChoices.RandomOther(OmniThemePalettes.All, OmniThemePalettes.All.FirstOrDefault(item => item.Name == inForce));
+            await PaletteChanged.InvokeAsync(AppearanceChoices.Palette(preset, palette.Name));
+        }
+
+        if (Font is not null && FontChanged.HasDelegate)
+        {
+            await FontChanged.InvokeAsync(null);
+        }
+    }
+
     private Task SetPaletteAsync(string? name) => PaletteChanged.InvokeAsync(AppearanceChoices.Palette(Preset, name));
 
     private Task ResetPaletteAsync() => PaletteChanged.InvokeAsync(null);
@@ -152,6 +190,8 @@ public partial class OmniAppearanceWindow
     private Task SetFontAsync(string? name) => FontChanged.InvokeAsync(AppearanceChoices.Font(Preset, name));
 
     private Task ResetFontAsync() => FontChanged.InvokeAsync(null);
+
+    private Task SetBackdropMotionAsync(bool moves) => BackdropMotionChanged.InvokeAsync(moves);
 
     private Task SetDensityAsync(OmniDensity density) => DensityChanged.InvokeAsync(density);
 

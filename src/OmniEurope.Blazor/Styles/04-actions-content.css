@@ -257,8 +257,9 @@
 .omni-alert--danger { --omni-alert-fill: var(--omni-color-danger-deep); --omni-alert-on: var(--omni-color-on-deep); }
 /* Solid, drawn like a button: the intention's fill and its ink, a white highlight on the top edge,
    a neutral shadow and one tinted by the fill. No pale tint and no gradient. A theme may flatten it
-   (--omni-alert-shadow, Aplat). */
-.omni-alert--solid { background: var(--omni-alert-fill); border: 0; box-shadow: var(--omni-alert-shadow, inset 0 1px 0 rgb(255 255 255 / 14%), 0 1px 2px var(--omni-elevation-shadow, rgb(0 0 0 / 20%)), 0 6px 16px -6px color-mix(in srgb, var(--omni-alert-fill) 60%, transparent)); color: var(--omni-alert-on); }
+   (--omni-alert-shadow, Aplat) or let its colour field through the fill (--omni-alert-fill-opacity,
+   Givre's tinted glass); the fill is whole otherwise. */
+.omni-alert--solid { background: color-mix(in srgb, var(--omni-alert-fill) var(--omni-alert-fill-opacity, 100%), transparent); border: 0; box-shadow: var(--omni-alert-shadow, inset 0 1px 0 rgb(255 255 255 / 14%), 0 1px 2px var(--omni-elevation-shadow, rgb(0 0 0 / 20%)), 0 6px 16px -6px color-mix(in srgb, var(--omni-alert-fill) 60%, transparent)); color: var(--omni-alert-on); }
 .omni-alert--solid a { color: inherit; }
 /* Outline keeps the message light on the page: the card's surface, a rule in the intention, the page
    text. The intention is carried by the disc, painted with the same fill and ink as the solid alert. */

@@ -319,8 +319,8 @@ public partial class OmniDataGrid<TItem>
     public bool AllowSorting { get; set; } = true;
 
     /// <summary>
-    /// Shows the filters of the columns that declare <c>Filterable</c>. True by default; false hides every
-    /// column filter at once.
+    /// Gives a filter to every column that reads a value and does not set its own <c>Filterable</c>. True by
+    /// default; false leaves a filter only on the columns that declare <c>Filterable="true"</c>.
     /// </summary>
     [Parameter]
     public bool Filterable { get; set; } = true;

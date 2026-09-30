@@ -34,7 +34,7 @@ dérogeable, et seulement par un ADR du dépôt).
 - `eng/Test-DependencyPolicy.ps1` : échoue quand `global.json` et cette politique divergent.
 
 La raison technique est documentée dans `docs/dependencies.md` et `docs/reproducibility.md`, et
-tracée dans le journal de [PLAN-004](../plans/PLAN-004-execution-log.md) (lot 3) : les hôtes
+tracée dans le journal de [PLAN-004](../plans/archive/PLAN-004-execution-log.md) (lot 3) : les hôtes
 WebAssembly du dépôt (la vitrine et les échantillons) reçoivent du SDK des paquets implicites à la
 version de son runtime (`Microsoft.NET.ILLink.Tasks`, `Microsoft.NET.Sdk.WebAssembly.Pack`,
 `Microsoft.AspNetCore.App.Internal.Assets`). Leurs `packages.lock.json` ne se restaurent en

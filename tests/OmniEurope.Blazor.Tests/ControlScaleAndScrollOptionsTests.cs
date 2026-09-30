@@ -36,7 +36,7 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
         settings.Find(".omni-appearance-settings__row--scale button").Click();
 
         // The text size has its slider; the density is a choice of three, without one.
-        Assert.Single(settings.FindAll(".omni-appearance-settings--scale input[type=range]"));
+        Assert.Single(settings.FindAll(".omni-appearance-settings--window input[type=range]"));
         Assert.DoesNotContain("Taille des contrôles", settings.Markup, StringComparison.Ordinal);
     }
 
@@ -49,16 +49,17 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
             .Add(component => component.ControlSizeLevelChanged, value => controlSize = value));
 
         settings.Find(".omni-appearance-settings__row--scale button").Click();
-        var rows = settings.FindAll(".omni-appearance-settings--scale .omni-appearance-settings__row");
-        Assert.Equal(3, rows.Count);
-        Assert.Contains("Taille des contrôles", rows[2].TextContent, StringComparison.Ordinal);
-        Assert.Contains("8/10", rows[2].TextContent, StringComparison.Ordinal);
+        // Theme and palette, then the two sizes side by side, then the density.
+        var rows = settings.FindAll(".omni-appearance-settings--window .omni-appearance-settings__row");
+        Assert.Equal(5, rows.Count);
+        Assert.Contains("Taille des contrôles", rows[3].TextContent, StringComparison.Ordinal);
+        Assert.Contains("8/10", rows[3].TextContent, StringComparison.Ordinal);
 
-        // Text size and controls have a slider each; the density row between them has none.
-        settings.FindAll(".omni-appearance-settings--scale input[type=range]")[1].Input("3");
+        // Text size and controls have a slider each; the density row after them has none.
+        settings.FindAll(".omni-appearance-settings--window input[type=range]")[1].Input("3");
         Assert.Equal(3, controlSize);
 
-        settings.FindAll(".omni-appearance-settings--scale .omni-appearance-settings__row")[2].QuerySelectorAll("button").Last().Click();
+        settings.FindAll(".omni-appearance-settings--window .omni-appearance-settings__row")[3].QuerySelectorAll("button").Last().Click();
         Assert.Equal(5, controlSize);
     }
 

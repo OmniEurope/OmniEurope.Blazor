@@ -56,6 +56,14 @@ public partial class OmniThemeScope
     public OmniThemeFont? Font { get; set; }
 
     /// <summary>
+    /// Whether a theme that moves its colour field (Givre, Trou noir) may move it; true by default.
+    /// False holds the field still (<c>data-omni-backdrop-motion="off"</c>). A theme without a moving
+    /// field ignores it, and a system set to reduce motion holds the field still whatever the value.
+    /// </summary>
+    [Parameter]
+    public bool BackdropMotion { get; set; } = true;
+
+    /// <summary>
     /// When <see cref="Preset"/>, <see cref="Palette"/>, <see cref="Font"/> or, with one of them set,
     /// <see cref="Appearance"/> changed, writes the resulting tokens on the scope through <c>omni-theme.js</c>,
     /// or clears them when none of the three is set any more. The script is loaded on first use only.

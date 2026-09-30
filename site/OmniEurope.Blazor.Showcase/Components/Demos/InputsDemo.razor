@@ -54,6 +54,18 @@
         </OmniFormField>
         <p id="inputs-picked">@PickedSummary</p>
 
+        @* Dans un dialogue, le calendrier s'ouvre par-dessus : fixé à la fenêtre, il ne crée pas de barre
+           de défilement dans le dialogue, et il reste sous son champ quand on déplace le dialogue. *@
+        <OmniButton Id="inputs-dialog-open" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => DialogOpen = true)"><OmniIcon Name="OmniIconName.CalendarBlank" /><span>@Text["DemoInputsDialog"]</span></OmniButton>
+        <OmniDialog Id="inputs-dialog" Title="@Text["DemoInputsDate"]" @bind-Open="DialogOpen" Size="OmniDialogSize.Small" Draggable="true">
+            <OmniFormField For="inputs-dialog-date">
+                <LabelContent>@Text["DemoInputsDate"]</LabelContent>
+                <ChildContent>
+                    <OmniDatePicker Id="inputs-dialog-date" @bind-Value="Model.DialogDate" />
+                </ChildContent>
+            </OmniFormField>
+        </OmniDialog>
+
         <OmniFormField For="inputs-color">
             <LabelContent>@Text["DemoInputsColor"]</LabelContent>
             <ChildContent>

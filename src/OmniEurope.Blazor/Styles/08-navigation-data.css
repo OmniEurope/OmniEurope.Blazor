@@ -201,8 +201,9 @@
    edit inputs); a column opts its template in with this class. The header keeps its own HeaderWrap. */
 .omni-data-grid tbody td.omni-data-grid__cell--text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* A thin sticky header: no fill of its own (it takes the frame's, to hide the rows passing under it),
-   muted text in 600, a rule stronger than the row separators. */
-.omni-data-grid__table thead { inset-block-start: 0; position: sticky; z-index: 3; }
+   muted text in 600, a rule stronger than the row separators. The opaque surface behind its cells is what
+   hides the rows under a theme whose frame is translucent (Givre): the tinted frame alone let them show through. */
+.omni-data-grid__table thead { background: var(--omni-color-surface); inset-block-start: 0; position: sticky; z-index: 3; }
 /* The header row has a tint of its own, so it reads apart from the rows under it (luminosity only,
    which holds for colour-blind readers too). */
 .omni-data-grid { --omni-header-fill: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-grid-frame)); --omni-header-fill-hover: color-mix(in srgb, var(--omni-color-text) 10%, var(--omni-grid-frame)); }
@@ -373,9 +374,11 @@
    holds when every ancestor has a height, which a nested grid rarely has. */
 .omni-data-grid--fill { block-size: var(--omni-grid-fill-height, 100%); display: flex; flex-direction: column; min-block-size: 0; }
 .omni-data-grid--fill .omni-data-grid__viewport--fill { flex: auto; min-block-size: var(--omni-grid-viewport-min, 22.5rem); }
-/* The spacers stand in for the rows outside the rendered window: never clamp them to one row. */
+/* The spacers stand in for the rows outside the rendered window: never clamp them to one row.
+   The declared height is the whole row: a cell counts its padding and its rule inside it (border-box),
+   otherwise each row came out taller than declared by that much and the scroll total drifted from the rows. */
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer),
-.omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td { block-size: var(--omni-row-height); }
+.omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td { block-size: var(--omni-row-height); box-sizing: border-box; }
 .omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td { max-block-size: var(--omni-row-height); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .omni-data-grid__spacer td { block-size: var(--omni-grid-spacer, 0px); border: 0; padding: 0; }
 .omni-data-grid__row--placeholder td { block-size: var(--omni-grid-row-estimate, 2.5rem); }

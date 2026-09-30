@@ -327,7 +327,7 @@ public sealed class ShowcaseThemeTests
         Assert.Matches(@"\.omni-alert--success \{[^}]*--omni-alert-fill: var\(--omni-color-success-bright\)[^}]*--omni-alert-on: var\(--omni-color-on-bright\)", css);
         Assert.Matches(@"\.omni-alert--warning \{[^}]*--omni-alert-fill: var\(--omni-color-warning-deep\)[^}]*--omni-alert-on: var\(--omni-color-on-deep\)", css);
         Assert.Matches(@"\.omni-alert--danger \{[^}]*--omni-alert-fill: var\(--omni-color-danger-deep\)[^}]*--omni-alert-on: var\(--omni-color-on-deep\)", css);
-        Assert.Matches(@"\.omni-alert--solid \{[^}]*background: var\(--omni-alert-fill\)[^}]*color: var\(--omni-alert-on\)", css);
+        Assert.Matches(@"\.omni-alert--solid \{[^}]*background: color-mix\(in srgb, var\(--omni-alert-fill\) var\(--omni-alert-fill-opacity, 100%\), transparent\)[^}]*color: var\(--omni-alert-on\)", css);
         Assert.Matches(@"\.omni-tooltip__content \{[^}]*color: var\(--omni-color-on-inverse\)", css);
     }
 

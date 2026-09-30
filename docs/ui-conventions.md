@@ -1,7 +1,8 @@
 # Conventions d'interface
 
 `OmniDialog.Modal=false` ouvre une fenêtre sans voile ni piège de focus. `Draggable=true`
-permet de la déplacer par son en-tête ; `FreezeScale=true` capture les mesures de son contenu
+permet de la déplacer par son en-tête (par ses décalages `left` et `top`, sans transformation : les
+surfaces fixes qu'elle contient, calendrier ou panneau de filtre, restent ancrées à l'écran) ; `FreezeScale=true` capture les mesures de son contenu
 à l'ouverture pour stabiliser ses commandes pendant un changement d'échelle externe. Fermer
 puis rouvrir recalcule ces mesures. Les dialogues restent modaux par défaut.
 

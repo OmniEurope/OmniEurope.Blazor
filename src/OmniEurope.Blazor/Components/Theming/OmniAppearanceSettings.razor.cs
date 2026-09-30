@@ -2,7 +2,7 @@ namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Controlled appearance picker: the mode (light, dark, system) and the font inline, then a row that
-/// opens the <see cref="OmniAppearanceWindow"/> for the theme, the palette and the scales. The host
+/// opens the <see cref="OmniAppearanceWindow"/> for the theme, the palette, the scales and the font. The host
 /// keeps every value and applies it to its theme scope; this component only raises the changes.
 /// </summary>
 /// <remarks>
@@ -42,6 +42,15 @@ public partial class OmniAppearanceSettings
 
     /// <summary>Raised with the font picked, null for the theme's own.</summary>
     [Parameter] public EventCallback<OmniThemeFont?> FontChanged { get; set; }
+
+    /// <summary>
+    /// Whether the theme may move its colour field; the host applies it through
+    /// <see cref="OmniThemeScope.BackdropMotion"/>. True by default.
+    /// </summary>
+    [Parameter] public bool BackdropMotion { get; set; } = true;
+
+    /// <summary>Raised with the choice; bound, the window shows the row under a theme that moves its field.</summary>
+    [Parameter] public EventCallback<bool> BackdropMotionChanged { get; set; }
 
     /// <summary>Text size, 1 to 10 with 5 as drawn (the host applies it, <c>data-oe-text-size</c>).</summary>
     [Parameter] public int TextSizeLevel { get; set; } = 5;
@@ -113,6 +122,16 @@ public partial class OmniAppearanceSettings
         ? EventCallback.Factory.Create<int>(this, ChangeControlSizeAsync)
         : default;
 
+    /// <summary>The window gets the font change only when the host binds it, as it shows the row only then.</summary>
+    private EventCallback<OmniThemeFont?> WindowFontChanged => FontChanged.HasDelegate
+        ? EventCallback.Factory.Create<OmniThemeFont?>(this, ChangeFontAsync)
+        : default;
+
+    /// <summary>The window gets the field motion change only when the host binds it, as it shows the row only then.</summary>
+    private EventCallback<bool> WindowBackdropMotionChanged => BackdropMotionChanged.HasDelegate
+        ? EventCallback.Factory.Create<bool>(this, ChangeBackdropMotionAsync)
+        : default;
+
     private static OmniIconName? ModeIcon(OmniAppearance mode) => mode switch
     {
         OmniAppearance.Light => OmniIconName.ThemeLight,
@@ -148,19 +167,16 @@ public partial class OmniAppearanceSettings
     }
 
     /// <summary>
-    /// The theme picked in the window. The window drops the palette itself; the font is picked here, not
-    /// in the window, so it is dropped here.
+    /// The theme picked in the window, which then drops the palette and the font chosen for the
+    /// previous theme itself, both being bound in it.
     /// </summary>
-    private async Task ChangeThemeAsync(OmniThemePreset? preset)
-    {
-        await PresetChanged.InvokeAsync(preset);
-        if (Font is not null)
-        {
-            await FontChanged.InvokeAsync(null);
-        }
-    }
+    private Task ChangeThemeAsync(OmniThemePreset? preset) => PresetChanged.InvokeAsync(preset);
 
     private Task ChangePaletteAsync(OmniThemePalette? palette) => PaletteChanged.InvokeAsync(palette);
+
+    private Task ChangeFontAsync(OmniThemeFont? font) => FontChanged.InvokeAsync(font);
+
+    private Task ChangeBackdropMotionAsync(bool moves) => BackdropMotionChanged.InvokeAsync(moves);
 
     private Task ChangeTextSizeAsync(int level) => TextSizeLevelChanged.InvokeAsync(level);
 

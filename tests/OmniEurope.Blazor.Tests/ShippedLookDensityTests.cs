@@ -298,7 +298,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     {
         var grid = Render<NumericColumnsTestHost>();
 
-        string[] Classes(string key) => grid.FindAll($"td[data-omni-col='{key}']").Select(cell => cell.ClassName ?? string.Empty).ToArray();
+        string[] Classes(string key) => grid.FindAll($"tbody td[data-omni-col='{key}']").Select(cell => cell.ClassName ?? string.Empty).ToArray();
         var header = grid.FindAll("thead th").Single(cell => cell.TextContent.Contains("Durée", StringComparison.Ordinal));
 
         Assert.Contains("omni-data-grid__cell--numeric", header.ClassList);

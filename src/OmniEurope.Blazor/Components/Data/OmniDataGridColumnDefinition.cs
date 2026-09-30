@@ -24,7 +24,10 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public string? FormatString { get; init; }
     public bool Sortable { get; init; } = true;
     public OmniDataGridSortOrder? SortOrder { get; init; }
-    public bool Filterable { get; init; }
+    /// <summary>Null follows the grid's own Filterable, when the column has something to filter on; a value decides for this column.</summary>
+    public bool? Filterable { get; init; }
+    /// <summary>The column declares a property, a value, a filter predicate or a filter editor: an unset Filterable may follow the grid.</summary>
+    public bool HasFilterSource { get; init; }
     public OmniDataGridColumnFilterType FilterType { get; init; }
     /// <summary>Adds a narrowing box above a MultiSelect filter; ignored by the other types.</summary>
     public bool FilterSearchable { get; init; }

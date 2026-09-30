@@ -244,6 +244,7 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Fairsing</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Oidhreachtúil</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Dlús</value></data>
+  <data name="WorkshopMotion" xml:space="preserve"><value>Cúlra beoite</value></data>
   <data name="WorkshopHover" xml:space="preserve"><value>Ainliú</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Cuir i bhfeidhm</value></data>
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Curtha i bhfeidhm</value></data>
@@ -1356,6 +1357,7 @@
   <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Nochtann an cnaipe an méid a clóscríobhadh gan é a chóipeáil áit ar bith.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Dáta éifeachta</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Clóscríobh é nó úsáid an féilire; ní féidir laethanta lasmuigh de na teorainneacha a roghnú.</value></data>
+  <data name="DemoInputsDialog" xml:space="preserve"><value>I ndialóg</value></data>
   <data name="DemoInputsStart" xml:space="preserve"><value>Am tosaithe</value></data>
   <data name="DemoInputsStartHelp" xml:space="preserve"><value>Uaireanta ó 00 go 23, nóiméid i gcéimeanna de {0}.</value></data>
   <data name="DemoInputsAppointment" xml:space="preserve"><value>Coinne</value></data>

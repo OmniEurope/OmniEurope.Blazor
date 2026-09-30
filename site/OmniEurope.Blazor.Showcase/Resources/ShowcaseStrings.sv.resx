@@ -244,6 +244,7 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Luftig</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Ärvd</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Täthet</value></data>
+  <data name="WorkshopMotion" xml:space="preserve"><value>Animerad bakgrund</value></data>
   <data name="WorkshopHover" xml:space="preserve"><value>Hovring</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Tvinga</value></data>
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Tvingad</value></data>
@@ -1356,6 +1357,7 @@
   <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Knappen visar det inskrivna utan att kopiera det någon annanstans.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Giltighetsdatum</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Skriv in det eller använd kalendern; dagar utanför gränserna kan inte väljas.</value></data>
+  <data name="DemoInputsDialog" xml:space="preserve"><value>I en dialogruta</value></data>
   <data name="DemoInputsStart" xml:space="preserve"><value>Starttid</value></data>
   <data name="DemoInputsStartHelp" xml:space="preserve"><value>Timmar från 00 till 23, minuter i steg om {0}.</value></data>
   <data name="DemoInputsAppointment" xml:space="preserve"><value>Möte</value></data>

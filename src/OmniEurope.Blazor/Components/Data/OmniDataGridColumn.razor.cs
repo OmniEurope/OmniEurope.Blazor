@@ -94,9 +94,16 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public OmniDataGridSortOrder? SortOrder { get; set; }
 
-    /// <summary>Gives this column a filter, shown while the grid's own <c>Filterable</c> is on (its default). Off by default.</summary>
+    /// <summary>
+    /// Whether this column has a filter. Left unset it follows the grid's <c>Filterable</c> (on by default),
+    /// as long as the column has something to filter on: a <see cref="Property"/>, a <see cref="Value"/>, a
+    /// <see cref="FilterPredicate"/> or a <see cref="FilterTemplate"/>; a column made of a template alone
+    /// (row actions) gets none. True or false decides for this column alone, whatever the grid says: false
+    /// takes one column out of a filtered grid, true gives one column a filter in a grid whose
+    /// <c>Filterable</c> is off.
+    /// </summary>
     [Parameter]
-    public bool Filterable { get; set; }
+    public bool? Filterable { get; set; }
 
     /// <summary>
     /// The filter editor: free text (the default, a date range for a date property), number, closed list,
@@ -248,6 +255,7 @@ public partial class OmniDataGridColumn<TItem>
             Sortable = Sortable,
             SortOrder = SortOrder,
             Filterable = Filterable,
+            HasFilterSource = Property is not null || Value is not null || FilterPredicate is not null || FilterTemplate is not null,
             FilterType = ResolveFilterType(),
             FilterSearchable = FilterSearchable,
             FormatFilterValue = FormatFilterValue,
@@ -373,6 +381,7 @@ public partial class OmniDataGridColumn<TItem>
         && left.Sortable == right.Sortable
         && left.SortOrder == right.SortOrder
         && left.Filterable == right.Filterable
+        && left.HasFilterSource == right.HasFilterSource
         && left.FilterType == right.FilterType
         && left.FilterSearchable == right.FilterSearchable
         && Equivalent(left.FormatFilterValue, right.FormatFilterValue)

@@ -1,24 +1,25 @@
-@* The grid in its everyday form, with one column of each filter shape and each text alignment. *@
+@* The grid in its everyday form, with one column of each filter shape and each text alignment. The
+   columns say nothing about their filter and follow the grid, which filters by default; Amount takes
+   itself out with Filterable="false". *@
 <OmniDataGrid TItem="GridRow"
               Items="Rows"
               Caption="@Text["DemoGridOpenCases"]"
               AllowSorting="true"
-              Filterable="true"
               ScrollMode="OmniDataGridScrollMode.Paged"
               AllowAlternatingRows="true"
               PageSize="5"
               HeaderWrap="OmniDataGridHeaderWrap.Truncate">
     <Columns>
-        <OmniDataGridColumn TItem="GridRow" Property="Reference" Filterable="true" Title="@Text["DemoGridColumnReference"]"
+        <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]"
                             FilterType="OmniDataGridColumnFilterType.Text"
                             TextAlign="OmniDataGridTextAlign.Start" />
-        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Filterable="true" Title="@Text["DemoGridColumnApplicant"]"
+        <OmniDataGridColumn TItem="GridRow" Property="Applicant" Title="@Text["DemoGridColumnApplicant"]"
                             FilterType="OmniDataGridColumnFilterType.Text"
                             SortOrder="OmniDataGridSortOrder.Ascending" />
-        <OmniDataGridColumn TItem="GridRow" Property="Country" Filterable="true" Title="@Text["DemoGridColumnCountry"]"
+        <OmniDataGridColumn TItem="GridRow" Property="Country" Title="@Text["DemoGridColumnCountry"]"
                             FilterType="OmniDataGridColumnFilterType.Select"
                             TextAlign="OmniDataGridTextAlign.Center" />
-        <OmniDataGridColumn TItem="GridRow" Property="Amount" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}"
+        <OmniDataGridColumn TItem="GridRow" Property="Amount" Filterable="false" Title="@Text["DemoGridColumnAmount"]" FormatString="{0:C0}"
                             TextAlign="OmniDataGridTextAlign.End"
                             SortOrder="OmniDataGridSortOrder.Descending" />
     </Columns>
@@ -32,12 +33,14 @@
    (un nombre) alignée à la fin en chiffres de même chasse sans rien demander, le statut en pastille
    compacte (classe omni-status), la ligne choisie teintée et en gras, la colonne triée teintée plus
    légèrement (HighlightActiveColumn), des séparateurs de lignes faute d'alternance, et toutes les lignes sans pagination (ScrollMode All)
-   sous un plafond de hauteur. *@
+   sous un plafond de hauteur. Filterable="false" sur la grille : aucune colonne ne montre de filtre,
+   comme les grilles qui suivent. *@
 <OmniDataGrid TItem="RunRow" Id="demo-grid-runs"
               Items="Runs"
               ScrollMode="OmniDataGridScrollMode.All"
               Caption="@Text["DemoGridRecentRuns"]"
               AllowSorting="true"
+              Filterable="false"
               HighlightActiveColumn="true"
               MaxHeight="17rem"
               SelectionMode="OmniDataGridSelectionMode.Single"
@@ -59,6 +62,7 @@
 <OmniDataGrid TItem="GridRow" Id="demo-grid-narrow"
               Items="NarrowRows"
               Caption="@Text["DemoGridNarrowCaption"]"
+              Filterable="false"
               ScrollMode="OmniDataGridScrollMode.All">
     <Columns>
         <OmniDataGridColumn TItem="GridRow" Property="Reference" Title="@Text["DemoGridColumnReference"]" Width="7rem" />
@@ -77,6 +81,7 @@
 <OmniDataGrid TItem="GridRow" Id="demo-grid-capped-short"
               Items="FewRows"
               Caption="@Text["DemoGridShortCaption"]"
+              Filterable="false"
               ScrollMode="OmniDataGridScrollMode.Virtual"
               MaxHeight="18rem">
     <Columns>
@@ -88,6 +93,7 @@
 <OmniDataGrid TItem="GridRow" Id="demo-grid-capped-long"
               Items="ManyRows"
               Caption="@Text["DemoGridLongCaption"]"
+              Filterable="false"
               AllowColumnAutoFit="true"
               ScrollMode="OmniDataGridScrollMode.Virtual"
               MaxHeight="18rem">

@@ -244,6 +244,7 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Ruim</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Overgenomen</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Dichtheid</value></data>
+  <data name="WorkshopMotion" xml:space="preserve"><value>Geanimeerde achtergrond</value></data>
   <data name="WorkshopHover" xml:space="preserve"><value>Aanwijzen</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Forceren</value></data>
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Geforceerd</value></data>
@@ -1356,6 +1357,7 @@
   <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>De knop toont de invoer zonder die ergens anders te kopiëren.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Ingangsdatum</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Invoer met het toetsenbord of via de kalender; dagen buiten de grenzen zijn niet te kiezen.</value></data>
+  <data name="DemoInputsDialog" xml:space="preserve"><value>In een dialoogvenster</value></data>
   <data name="DemoInputsStart" xml:space="preserve"><value>Begintijd</value></data>
   <data name="DemoInputsStartHelp" xml:space="preserve"><value>Uren van 00 tot 23, minuten in stappen van {0}.</value></data>
   <data name="DemoInputsAppointment" xml:space="preserve"><value>Afspraak</value></data>

@@ -230,7 +230,8 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     public void SolidAlert_IsDrawnLikeAButtonWithoutAnySideBar()
     {
         var filled = Body(".omni-alert--solid");
-        Assert.Equal("var(--omni-alert-fill)", Value(filled, "background"));
+        // The fill is whole unless a theme lets its colour field through it (--omni-alert-fill-opacity, Givre).
+        Assert.Equal("color-mix(in srgb, var(--omni-alert-fill) var(--omni-alert-fill-opacity, 100%), transparent)", Value(filled, "background"));
         Assert.Equal("var(--omni-alert-on)", Value(filled, "color"));
         // A theme may flatten it (--omni-alert-shadow, Aplat); the package draws it otherwise.
         Assert.StartsWith("var(--omni-alert-shadow, inset 0 1px 0 rgb(255 255 255 / 14%), 0 1px 2px var(--omni-elevation-shadow", Value(filled, "box-shadow"), StringComparison.Ordinal);
@@ -344,6 +345,8 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         var body = Body("[data-omni-theme]");
         Assert.Equal("none", Value(body, "--omni-backdrop"));
         Assert.Equal("auto", Value(body, "--omni-scope-isolation"));
+        Assert.Equal("none", Value(body, "--omni-scope-motion"));
+        Assert.Equal("initial", Value(body, "--omni-shell-background"));
         Assert.Equal("none", Value(body, "--omni-card-filter"));
         Assert.Equal("0 0 #0000", Value(body, "--omni-input-shadow"));
         Assert.Equal("none", Value(body, "--omni-scrim-filter"));
@@ -352,6 +355,7 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         Assert.Equal("initial", Value(body, "--omni-input-border-color"));
         Assert.Equal("initial", Value(body, "--omni-grid-background"));
         Assert.Equal("initial", Value(body, "--omni-alert-shadow"));
+        Assert.Equal("initial", Value(body, "--omni-alert-fill-opacity"));
     }
 
     /// <summary>

@@ -21,7 +21,7 @@
               PageSizeChanged="OnPageSizeChanged"
               RowRender="@RowRender">
     <Columns>
-        <OmniDataGridColumn TItem="DataGridSurfaceTests.Order" Key="customer" Title="Client" Property="Customer.Name" Filterable="true">
+        <OmniDataGridColumn TItem="DataGridSurfaceTests.Order" Key="customer" Title="Client" Property="Customer.Name">
             <EditTemplate Context="order"><input class="surface-edit" value="@order.Customer?.Name" /></EditTemplate>
         </OmniDataGridColumn>
         <OmniDataGridColumn TItem="DataGridSurfaceTests.Order" Title="Total" Property="Total" FormatString="{0:n2}" SortOrder="OmniDataGridSortOrder.Descending" />

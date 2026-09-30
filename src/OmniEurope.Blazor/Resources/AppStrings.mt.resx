@@ -17,8 +17,11 @@
   <data name="SettingsFont" xml:space="preserve"><value>Tipa</value></data>
   <data name="SettingsTextSize" xml:space="preserve"><value>Daqs tat-test</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Densità</value></data>
+  <data name="SettingsBackdropMotion" xml:space="preserve"><value>Sfond animat</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Daqs tal-kontrolli</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Prestabbilit</value></data>
+  <data name="SettingsRandom" xml:space="preserve"><value>Każwali</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Agħżel tema u paletta b’mod każwali</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>prestabbilit</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Naqqas id-daqs tat-test</value></data>
   <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Kabbar id-daqs tat-test</value></data>

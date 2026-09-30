@@ -1,11 +1,11 @@
 namespace OmniEurope.Blazor.Internal;
 
 /// <summary>
-/// The fourteen themes of the library, drawn for this project. A theme decides the shape only: radii,
+/// The themes of the library, drawn for this project. A theme decides the shape only: radii,
 /// borders, shadows, fonts and the way buttons are drawn and pressed. The first ten take the values of
-/// the reference mockup (<c>docs/plans/PLAN-004-maquette-themes.html</c>, constant <c>THEMES</c>); Relief,
+/// the reference mockup (<c>docs/plans/archive/PLAN-004-maquette-themes.html</c>, constant <c>THEMES</c>); Relief,
 /// Givre, Aplat and Épure recreate four interface styles (neumorphism, glassmorphism, flat design and
-/// minimalism) from our own tokens. Relief, Givre and Aplat declare a <see cref="ThemeDefinition.ContrastWaiver"/>:
+/// minimalism) from our own tokens, and Trou noir is a black page lit by its accent alone. Relief, Givre and Aplat declare a <see cref="ThemeDefinition.ContrastWaiver"/>:
 /// their style wins over the contrast thresholds (owner decision of 2026-09-28), Épure keeps them.
 /// </summary>
 /// <remarks>
@@ -58,11 +58,12 @@ internal static class ThemeCatalog
                 // Press: no movement, the button sinks like a flat key.
                 ("--omni-button-press-transform", "none"), ("--omni-button-press-shadow", "inset 0 0.125rem 0.25rem rgb(0 0 0 / 30%)"),
                 ("--omni-radius", "0"), ("--omni-radius-sm", "0"), ("--omni-radius-lg", "0"),
-                ("--omni-button-radius", "0"), ("--omni-card-radius", "0"),
+                ("--omni-button-radius", "0"), ("--omni-card-radius", "0"), ("--omni-alert-radius", "0"),
                 ("--omni-button-text-transform", "uppercase"), ("--omni-button-letter-spacing", "0.06em"),
                 ("--omni-button-font-weight", "600"),
                 ("--omni-heading-text-transform", "uppercase"), ("--omni-heading-letter-spacing", "0.05em"),
-                ("--omni-card-shadow", NoShadow), ("--omni-font-family", Sans)),
+                ("--omni-card-shadow", NoShadow), ("--omni-button-shadow", NoShadow), ("--omni-alert-shadow", NoShadow),
+                ("--omni-font-family", Sans)),
             Shape()),
 
         new("Galet", "Tout en rondeur, boutons pilule, liseré et ombre diffuse à la place de la bordure.", "Forêt",
@@ -70,9 +71,11 @@ internal static class ThemeCatalog
                 // Press: the pebble squashes a little under the finger.
                 ("--omni-button-press-transform", "scale(0.95)"),
                 ("--omni-radius", "0.875rem"), ("--omni-radius-sm", "0.625rem"), ("--omni-radius-lg", "1.5rem"),
-                ("--omni-button-radius", "999px"), ("--omni-card-radius", "1.5rem"),
+                ("--omni-button-radius", "999px"), ("--omni-card-radius", "1.5rem"), ("--omni-alert-radius", "1.125rem"),
                 ("--omni-card-border-width", "0"),
-                ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 9%, transparent), 0 0.375rem 1.25rem rgb(0 0 0 / 10%)"),
+                ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 7%, transparent), 0 0.75rem 2rem rgb(0 0 0 / 12%)"),
+                // A pebble: shaded underneath, resting on a soft diffuse shadow.
+                ("--omni-button-shadow", "inset 0 -0.125rem 0 rgb(0 0 0 / 10%), 0 0.125rem 0.5rem rgb(0 0 0 / 14%)"),
                 ("--omni-button-font-weight", "600"),
                 ("--omni-font-family", Rounded), ("--omni-heading-font-weight", "700")),
             Shape(
@@ -84,9 +87,9 @@ internal static class ThemeCatalog
                 // Press: the halo tightens under the button, which shrinks a touch.
                 ("--omni-button-press-transform", "scale(0.97)"), ("--omni-button-press-shadow", "0 0.0625rem 0.25rem color-mix(in srgb, var(--omni-color-accent) 55%, transparent)"),
                 ("--omni-radius", "1rem"), ("--omni-radius-sm", "0.625rem"), ("--omni-radius-lg", "1.5rem"),
-                ("--omni-button-radius", "999px"), ("--omni-card-radius", "1.25rem"),
+                ("--omni-button-radius", "999px"), ("--omni-card-radius", "1.25rem"), ("--omni-alert-radius", "1rem"),
                 ("--omni-button-shadow", "0 0.25rem 0.75rem color-mix(in srgb, var(--omni-color-accent) 35%, transparent)"),
-                ("--omni-card-shadow", "0 0.75rem 2rem color-mix(in srgb, var(--omni-color-accent) 18%, transparent)"),
+                ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-accent) 20%, transparent), 0 0.75rem 2.25rem color-mix(in srgb, var(--omni-color-accent) 28%, transparent)"),
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-accent) 48%, var(--omni-color-surface))"),
                 ("--omni-button-font-weight", "500"), ("--omni-heading-font-weight", "600"),
                 ("--omni-font-family", Sans)),
@@ -100,25 +103,28 @@ internal static class ThemeCatalog
             Shape(
                 // Press: no movement, the glow flares up.
                 ("--omni-button-press-transform", "none"), ("--omni-button-press-shadow", "0 0 0.25rem var(--omni-color-accent), 0 0 1.75rem color-mix(in srgb, var(--omni-color-accent) 85%, transparent)"),
-                ("--omni-radius", "0.375rem"), ("--omni-button-radius", "0.375rem"), ("--omni-card-radius", "0.5rem"),
-                ("--omni-button-shadow", "0 0 0.9rem color-mix(in srgb, var(--omni-color-accent) 60%, transparent)"),
-                ("--omni-card-shadow", "0 0 1.5rem color-mix(in srgb, var(--omni-color-accent) 22%, transparent)"),
+                ("--omni-radius", "0.375rem"), ("--omni-button-radius", "0.375rem"), ("--omni-card-radius", "0.5rem"), ("--omni-alert-radius", "0.375rem"),
+                // On a light page a wide glow smears: the tube is tight there, and flares at night (below).
+                ("--omni-button-shadow", "0 0 0.5rem color-mix(in srgb, var(--omni-color-accent) 40%, transparent)"),
+                ("--omni-card-shadow", "0 0 1rem color-mix(in srgb, var(--omni-color-accent) 16%, transparent)"),
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-accent) 45%, var(--omni-color-surface))"),
                 ("--omni-button-text-transform", "uppercase"), ("--omni-button-letter-spacing", "0.1em"),
                 ("--omni-heading-letter-spacing", "0.08em"), ("--omni-heading-text-transform", "uppercase"),
                 ("--omni-font-family", Technical)),
-            Shape()),
+            Shape(
+                ("--omni-button-shadow", "0 0 0.9rem color-mix(in srgb, var(--omni-color-accent) 60%, transparent)"),
+                ("--omni-card-shadow", "0 0 1.5rem color-mix(in srgb, var(--omni-color-accent) 22%, transparent)"))),
 
         new("Papier", "Encre sur papier : filets de 2 px, empattements, aucune ombre.", "Or ancien",
             Shape(
                 // Press: a stamp, the rule doubles and the button slides one pixel diagonally.
                 ("--omni-button-press-transform", "translate(1px, 1px)"), ("--omni-button-press-shadow", "inset 0 0 0 1px var(--omni-color-text)"),
                 ("--omni-radius", "0"), ("--omni-radius-sm", "0"), ("--omni-radius-lg", "0"),
-                ("--omni-button-radius", "0"), ("--omni-card-radius", "0"),
+                ("--omni-button-radius", "0"), ("--omni-card-radius", "0"), ("--omni-alert-radius", "0"),
                 ("--omni-border-width", "2px"), ("--omni-button-border-width", "2px"),
                 ("--omni-button-border-color", "var(--omni-color-text)"),
                 ("--omni-color-border", "var(--omni-color-text)"),
-                ("--omni-card-shadow", NoShadow),
+                ("--omni-card-shadow", NoShadow), ("--omni-button-shadow", NoShadow), ("--omni-alert-shadow", NoShadow),
                 ("--omni-button-font-weight", "700"),
                 ("--omni-font-family", Serif), ("--omni-heading-font-family", Serif)),
             Shape(
@@ -131,7 +137,9 @@ internal static class ThemeCatalog
             Shape(
                 // Press: the button drops into its shadow, which disappears.
                 ("--omni-button-press-transform", "translate(0.25rem, 0.25rem)"), ("--omni-button-press-shadow", "0 0 0 2px var(--omni-color-surface)"),
-                ("--omni-radius", "0.25rem"), ("--omni-button-radius", "0.25rem"), ("--omni-card-radius", "0.25rem"),
+                ("--omni-radius", "0.25rem"), ("--omni-button-radius", "0.25rem"), ("--omni-card-radius", "0.25rem"), ("--omni-alert-radius", "0.25rem"),
+                // A filled alert is a block of the same family: the hard offset shadow, no blur.
+                ("--omni-alert-shadow", "0.25rem 0.25rem 0 var(--omni-color-text)"),
                 ("--omni-border-width", "2px"), ("--omni-button-border-width", "2px"),
                 ("--omni-button-border-color", "var(--omni-color-text)"),
                 ("--omni-color-border", "var(--omni-color-text)"),
@@ -148,7 +156,8 @@ internal static class ThemeCatalog
                 // Press: the console key drops one step and takes a pixel shadow on top.
                 ("--omni-button-press-transform", "translateY(0.125rem)"), ("--omni-button-press-shadow", Staircase("0.1875rem") + ", inset 0 0.1875rem 0 rgb(0 0 0 / 35%)"),
                 ("--omni-radius", "0"), ("--omni-radius-sm", "0"), ("--omni-radius-lg", "0"),
-                ("--omni-button-radius", "0"), ("--omni-card-radius", "0"),
+                ("--omni-button-radius", "0"), ("--omni-card-radius", "0"), ("--omni-alert-radius", "0"),
+                ("--omni-alert-shadow", Staircase("0.1875rem")),
                 ("--omni-border-width", "2px"), ("--omni-card-border-width", "0"),
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 70%, var(--omni-color-surface))"),
                 ("--omni-card-shadow", Staircase("0.25rem")),
@@ -164,7 +173,7 @@ internal static class ThemeCatalog
                 // Press: a ripple leaves the button, like a drop on water.
                 ("--omni-button-press-transform", "scale(0.97)"), ("--omni-button-press-shadow", "0 0 0 0.375rem color-mix(in srgb, var(--omni-color-accent) 22%, transparent)"),
                 ("--omni-radius", "0.5rem"), ("--omni-radius-sm", "0.375rem"), ("--omni-radius-lg", "1rem"),
-                ("--omni-button-radius", "1.125rem 0.25rem"), ("--omni-card-radius", "2rem 0.375rem"),
+                ("--omni-button-radius", "1.125rem 0.25rem"), ("--omni-card-radius", "2rem 0.375rem"), ("--omni-alert-radius", "1.25rem 0.375rem"),
                 ("--omni-card-border-width", "0"),
                 ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-accent) 24%, transparent), 0 0.75rem 1.75rem color-mix(in srgb, var(--omni-color-accent) 16%, transparent)"),
                 ("--omni-button-shadow", "0 0.25rem 0.75rem color-mix(in srgb, var(--omni-color-accent) 28%, transparent)"),
@@ -180,13 +189,18 @@ internal static class ThemeCatalog
                 // Press: the button sinks into the velvet, the highlight vanishes.
                 ("--omni-button-press-transform", "translateY(1px)"), ("--omni-button-press-shadow", "inset 0 0.125rem 0.375rem rgb(0 0 0 / 40%)"),
                 ("--omni-radius", "0.625rem"), ("--omni-radius-sm", "0.375rem"), ("--omni-radius-lg", "1rem"),
-                ("--omni-button-radius", "0.5rem"), ("--omni-card-radius", "1rem"),
+                ("--omni-button-radius", "0.5rem"), ("--omni-card-radius", "1rem"), ("--omni-alert-radius", "0.75rem"),
                 ("--omni-card-border-width", "0"),
-                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 9%), 0 0 0 1px color-mix(in srgb, var(--omni-color-text) 8%, transparent), 0 0.75rem 2rem rgb(0 0 0 / 22%)"),
-                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 20%), 0 0.125rem 0.375rem rgb(0 0 0 / 22%)"),
+                // Velvet has a pile: the card is warmed by the accent, lit along its top edge and sits on
+                // a deep shadow; a button is a cushion, lit above and shaded below.
+                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-accent) 4%, var(--omni-color-surface))"),
+                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 70%), 0 0 0 1px color-mix(in srgb, var(--omni-color-text) 10%, transparent), 0 0.25rem 0.5rem rgb(0 0 0 / 8%), 0 1.25rem 2.5rem rgb(0 0 0 / 20%)"),
+                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 30%), inset 0 -0.125rem 0 rgb(0 0 0 / 16%), 0 0.25rem 0.625rem rgb(0 0 0 / 24%)"),
                 ("--omni-button-font-weight", "600"),
                 ("--omni-font-family", Sans), ("--omni-heading-font-family", Transitional), ("--omni-heading-font-weight", "600")),
-            Shape()),
+            Shape(
+                // The bright top edge of the light card would be a white line at night.
+                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 10%), 0 0 0 1px color-mix(in srgb, var(--omni-color-text) 9%, transparent), 0 1.25rem 2.5rem rgb(0 0 0 / 45%)"))),
 
         // Neumorphism: the surfaces are the colour of the page and stand out by a pair of soft shadows,
         // a light one up and to the left, a dark one down and to the right; a press turns them inward.
@@ -220,18 +234,20 @@ internal static class ThemeCatalog
             Shape(
                 // Charcoal: the light shadow is a faint white, the dark one close to black.
                 ("--omni-button-press-shadow", "inset 0.25rem 0.25rem 0.5rem rgb(0 0 0 / 60%), inset -0.25rem -0.25rem 0.5rem rgb(255 255 255 / 7%)"),
-                ("--omni-card-shadow", "-0.5625rem -0.5625rem 1.25rem rgb(255 255 255 / 9%), 0.5625rem 0.5625rem 1.25rem rgb(0 0 0 / 62%)"),
-                ("--omni-button-shadow", "-0.3125rem -0.3125rem 0.75rem rgb(255 255 255 / 7%), 0.3125rem 0.3125rem 0.75rem rgb(0 0 0 / 60%)"),
+                ("--omni-card-shadow", "-0.5625rem -0.5625rem 1.25rem rgb(255 255 255 / 12%), 0.5625rem 0.5625rem 1.25rem rgb(0 0 0 / 74%)"),
+                ("--omni-button-shadow", "-0.3125rem -0.3125rem 0.75rem rgb(255 255 255 / 10%), 0.3125rem 0.3125rem 0.75rem rgb(0 0 0 / 70%)"),
                 ("--omni-input-shadow", "inset 0.1875rem 0.1875rem 0.4375rem rgb(0 0 0 / 55%), inset -0.1875rem -0.1875rem 0.4375rem rgb(255 255 255 / 7%)"),
                 ("--omni-overlay-shadow", "-0.375rem -0.375rem 1rem rgb(255 255 255 / 6%), 0.625rem 0.75rem 1.75rem rgb(0 0 0 / 60%)")),
             ContrastWaiver: "Relief par ombres douces : bordures et marques non textuelles sous les seuils WCAG."),
 
-        // Glassmorphism, airy glass: frosted panes over a light colour field painted by the theme scope.
-        // The field is four large pastel orbs of the palette (information as sky, the accent as
-        // lavender, success as mint, warning as a peach glow, laid as radial gradients) over a cool white
-        // page in light mode; dimmed on a calm night page in dark mode, where the warm glow turns to the
-        // accent so the night stays cool. The accent stays one deep confident colour for actions, so
-        // it stands out from the pale hues under it. Cards are clearly frosted: a pseudo-element under each card blurs and saturates the field (the card
+        // Glassmorphism, airy glass: frosted panes over a colour field painted by the theme scope. The
+        // field is four very large orbs of the palette with no hard core (the accent as lavender, the
+        // information as sky, success as mint and a small warm glow, laid as radial gradients that reach
+        // under the content) over a cool white page in light mode; on the night page of dark mode the
+        // orbs are deeper and the glow takes the danger hue, an aurora. Each orb drifts on a small
+        // orbit, one turn in two minutes (--omni-scope-motion). The accent stays one deep confident
+        // colour for actions, so it stands out from the pale hues under it. The shell (app bar, sidebar)
+        // is glass too, so the field runs edge to edge. Cards are clearly frosted: a pseudo-element under each card blurs and saturates the field (the card
         // itself takes no filter, which would make it the containing block of the fixed popovers and
         // tooltips it holds), and the card lays over it a milky translucent fill, a 1 px light rim, a top
         // highlight and a large soft shadow. Below the contrast thresholds (waiver): only the focus ring
@@ -242,17 +258,19 @@ internal static class ThemeCatalog
                 ("--omni-button-press-transform", "scale(0.96)"), ("--omni-button-press-shadow", "inset 0 0.125rem 0.5rem rgb(0 0 0 / 20%)"),
                 ("--omni-radius", "0.875rem"), ("--omni-radius-sm", "0.625rem"), ("--omni-radius-lg", "1.5rem"),
                 ("--omni-button-radius", "999px"), ("--omni-card-radius", "1.5rem"), ("--omni-alert-radius", "1.125rem"),
-                ("--omni-backdrop-start", "color-mix(in srgb, var(--omni-color-info-fill) 40%, var(--omni-color-surface))"),
-                ("--omni-backdrop-middle", "color-mix(in srgb, var(--omni-color-accent-fill) 30%, var(--omni-color-surface))"),
-                ("--omni-backdrop-end", "color-mix(in srgb, var(--omni-color-success-fill) 36%, var(--omni-color-surface))"),
-                ("--omni-backdrop-glow", "color-mix(in srgb, var(--omni-color-warning-fill) 34%, var(--omni-color-surface))"),
+                ("--omni-backdrop-start", "color-mix(in srgb, var(--omni-color-info-fill) 42%, var(--omni-color-surface))"),
+                ("--omni-backdrop-middle", "color-mix(in srgb, var(--omni-color-accent-fill) 34%, var(--omni-color-surface))"),
+                ("--omni-backdrop-end", "color-mix(in srgb, var(--omni-color-success-fill) 34%, var(--omni-color-surface))"),
+                ("--omni-backdrop-glow", "color-mix(in srgb, var(--omni-color-warning-fill) 36%, var(--omni-color-surface))"),
                 ("--omni-backdrop", GivreField),
+                ("--omni-scope-motion", "omni-scope-turn 120s linear infinite"),
+                ("--omni-shell-background", "color-mix(in srgb, var(--omni-color-surface) 62%, transparent)"),
                 // One hook frosts every card surface; the scope isolates so the frost paints just above the field.
                 ("--omni-scope-isolation", "isolate"),
                 ("--omni-card-filter", "blur(22px) saturate(1.6)"),
                 ("--omni-color-text-muted", "color-mix(in srgb, var(--omni-color-text) 76%, var(--omni-color-surface))"),
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 26%, transparent)"),
-                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-surface) 58%, transparent)"),
+                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-surface) 52%, transparent)"),
                 ("--omni-card-border-color", "rgb(255 255 255 / 90%)"),
                 ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 95%), 0 0.25rem 0.75rem rgb(0 0 0 / 4%), 0 1.5rem 3rem rgb(0 0 0 / 7%)"),
                 // A grid, an editor or a log is read line by line, and its scrolling frame cannot carry
@@ -260,6 +278,9 @@ internal static class ThemeCatalog
                 ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-surface) 86%, transparent)"),
                 // The dialog sits on the frosted scrim, which already blurs the page: a dense pane.
                 ("--omni-dialog-background", "color-mix(in srgb, var(--omni-color-surface) 92%, transparent)"),
+                // A filled alert is tinted glass: the field shows through its fill, under a light rim.
+                ("--omni-alert-fill-opacity", "82%"),
+                ("--omni-alert-shadow", "inset 0 1px 0 rgb(255 255 255 / 45%), 0 0.5rem 1.5rem rgb(0 0 0 / 8%)"),
                 // Fields and the secondary button are glass as well.
                 ("--omni-input-background", "color-mix(in srgb, var(--omni-color-surface) 66%, transparent)"),
                 ("--omni-color-neutral-fill", "color-mix(in srgb, var(--omni-color-surface) 64%, transparent)"),
@@ -275,17 +296,20 @@ internal static class ThemeCatalog
                 ("--omni-button-font-weight", "500"), ("--omni-heading-font-weight", "600"),
                 ("--omni-font-family", Sans)),
             Shape(
-                ("--omni-backdrop-start", "color-mix(in srgb, var(--omni-color-info-fill) 40%, var(--omni-color-surface))"),
-                ("--omni-backdrop-middle", "color-mix(in srgb, var(--omni-color-accent-fill) 44%, var(--omni-color-surface))"),
-                ("--omni-backdrop-end", "color-mix(in srgb, var(--omni-color-success-fill) 32%, var(--omni-color-surface))"),
-                ("--omni-backdrop-glow", "color-mix(in srgb, var(--omni-color-accent-fill) 26%, var(--omni-color-surface))"),
+                ("--omni-backdrop-start", "color-mix(in srgb, var(--omni-color-info-fill) 50%, var(--omni-color-surface))"),
+                ("--omni-backdrop-middle", "color-mix(in srgb, var(--omni-color-accent-fill) 58%, var(--omni-color-surface))"),
+                ("--omni-backdrop-end", "color-mix(in srgb, var(--omni-color-success-fill) 40%, var(--omni-color-surface))"),
+                ("--omni-backdrop-glow", "color-mix(in srgb, var(--omni-color-danger-fill) 26%, var(--omni-color-surface))"),
+                ("--omni-shell-background", "color-mix(in srgb, var(--omni-color-surface) 50%, transparent)"),
                 ("--omni-color-text-muted", "color-mix(in srgb, var(--omni-color-text) 80%, var(--omni-color-surface))"),
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 28%, transparent)"),
-                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-surface) 50%, transparent)"),
-                ("--omni-card-border-color", "rgb(255 255 255 / 12%)"),
+                // Night glass is a light veil, not a darker pane: the aurora shows through it.
+                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-text) 7%, transparent)"),
+                ("--omni-card-border-color", "rgb(255 255 255 / 14%)"),
                 ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 14%), 0 0.25rem 0.75rem rgb(0 0 0 / 16%), 0 1.5rem 3rem rgb(0 0 0 / 30%)"),
                 ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-surface) 84%, transparent)"),
                 ("--omni-dialog-background", "color-mix(in srgb, var(--omni-color-surface) 90%, transparent)"),
+                ("--omni-alert-shadow", "inset 0 1px 0 rgb(255 255 255 / 16%), 0 0.5rem 1.5rem rgb(0 0 0 / 30%)"),
                 ("--omni-input-background", "color-mix(in srgb, var(--omni-color-surface) 52%, transparent)"),
                 ("--omni-color-neutral-fill", "color-mix(in srgb, var(--omni-color-text) 9%, transparent)"),
                 ("--omni-color-neutral-fill-hover", "color-mix(in srgb, var(--omni-color-text) 15%, transparent)"),
@@ -323,7 +347,9 @@ internal static class ThemeCatalog
                 ("--omni-color-neutral-fill-active", "color-mix(in srgb, var(--omni-color-info-fill) 58%, var(--omni-color-surface))"),
                 ("--omni-card-shadow", NoShadow), ("--omni-button-shadow", NoShadow), ("--omni-alert-shadow", NoShadow),
                 ("--omni-overlay-background", "var(--omni-color-surface)"), ("--omni-overlay-filter", "none"),
-                ("--omni-overlay-shadow", NoShadow),
+                // A menu or a window is the page's own colour laid over the page: without an edge it
+                // cannot be told from it. A flat hairline, no blur, so still no shadow.
+                ("--omni-overlay-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 22%, transparent)"),
                 ("--omni-elevation-shadow-soft", "transparent"), ("--omni-elevation-highlight", "transparent"),
                 ("--omni-focus-ring", FocusRing), ("--omni-focus-ring-danger", FocusRingDanger), ("--omni-focus-ring-inset", FocusRingInset),
                 ("--omni-button-font-weight", "600"), ("--omni-heading-font-weight", "700"),
@@ -352,7 +378,7 @@ internal static class ThemeCatalog
                 ("--omni-color-on-accent-fill", "var(--omni-color-surface)"),
                 ("--omni-card-background", "var(--omni-color-surface)"),
                 ("--omni-card-border-color", "var(--omni-color-border)"),
-                ("--omni-card-shadow", NoShadow), ("--omni-button-shadow", NoShadow),
+                ("--omni-card-shadow", NoShadow), ("--omni-button-shadow", NoShadow), ("--omni-alert-shadow", NoShadow),
                 ("--omni-overlay-background", "var(--omni-color-surface)"), ("--omni-overlay-filter", "none"),
                 ("--omni-overlay-shadow", NoShadow),
                 ("--omni-elevation-shadow-soft", "transparent"), ("--omni-elevation-highlight", "transparent"),
@@ -365,11 +391,54 @@ internal static class ThemeCatalog
                 ("--omni-button-font-weight", "500"),
                 ("--omni-font-family", Humanist)),
             Shape()),
+
+        // A black hole: the page is the palette's surface and nothing else (pure black with Horizon in
+        // dark mode, pure white in light mode), the cards are a faint veil of the text colour closed by
+        // a hairline, so the field shows through them, and the only light is the accent: the glow of
+        // the buttons in dark mode and the ring of the horizon behind the page, which turns once in
+        // four minutes. Every stop of the field stays close to the page, so the theme holds the
+        // contrast thresholds with every palette; the dense surfaces (grids, dialogs) are opaque.
+        new("Trou noir", "Noir absolu, cartes à peine voilées, filet fin et anneau d’accent qui tourne lentement derrière la page.", "Horizon",
+            Shape(
+                // Press: the light falls in, the button shrinks and darkens from its edge.
+                ("--omni-button-press-transform", "scale(0.96)"), ("--omni-button-press-shadow", "inset 0 0 0.75rem rgb(0 0 0 / 55%)"),
+                ("--omni-radius", "0.5rem"), ("--omni-radius-sm", "0.375rem"), ("--omni-radius-lg", "0.875rem"),
+                ("--omni-button-radius", "0.5rem"), ("--omni-card-radius", "0.875rem"), ("--omni-alert-radius", "0.625rem"),
+                // The stops are as far from the page as text, the rule and the neutral badge still read on
+                // them with every palette: 7 % of the accent on a light page, 20 % on a dark one (below).
+                ("--omni-backdrop-ring", "color-mix(in srgb, var(--omni-color-accent) 7%, var(--omni-color-surface))"),
+                ("--omni-backdrop-disc", "color-mix(in srgb, var(--omni-color-accent) 5%, var(--omni-color-surface))"),
+                ("--omni-backdrop-glow", "color-mix(in srgb, var(--omni-color-accent) 3%, var(--omni-color-surface))"),
+                // A firmer rule than the palette's: it keeps its floor on the stops of the field too.
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 36%, var(--omni-color-surface))"),
+                ("--omni-backdrop", TrouNoirField),
+                ("--omni-scope-motion", "omni-scope-turn 240s linear infinite"),
+                ("--omni-card-background", "color-mix(in srgb, var(--omni-color-text) 4%, transparent)"),
+                ("--omni-card-border-color", "color-mix(in srgb, var(--omni-color-text) 13%, transparent)"),
+                ("--omni-card-shadow", "0 1px 2px rgb(0 0 0 / 5%)"),
+                ("--omni-button-shadow", "0 1px 2px rgb(0 0 0 / 22%)"),
+                // A grid is read line by line and its frozen columns cover the rows that slide under
+                // them; a dialog sits over the page: both are opaque, one step off the page.
+                ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-text) 4%, var(--omni-color-surface))"),
+                ("--omni-dialog-background", "color-mix(in srgb, var(--omni-color-text) 5%, var(--omni-color-surface))"),
+                ("--omni-focus-ring", FocusRing), ("--omni-focus-ring-danger", FocusRingDanger), ("--omni-focus-ring-inset", FocusRingInset),
+                ("--omni-button-font-weight", "600"), ("--omni-heading-font-weight", "600"),
+                ("--omni-heading-letter-spacing", "0.01em"),
+                ("--omni-font-family", Geometric)),
+            Shape(
+                ("--omni-backdrop-ring", "color-mix(in srgb, var(--omni-color-accent) 20%, var(--omni-color-surface))"),
+                ("--omni-backdrop-disc", "color-mix(in srgb, var(--omni-color-accent) 13%, var(--omni-color-surface))"),
+                ("--omni-backdrop-glow", "color-mix(in srgb, var(--omni-color-accent) 7%, var(--omni-color-surface))"),
+                // On black a dark shadow shows nothing: the card takes a top highlight and the buttons
+                // glow with the accent, as does the floating layer.
+                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 5%)"),
+                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 12%), 0 0 1.125rem color-mix(in srgb, var(--omni-color-accent) 26%, transparent)"),
+                ("--omni-overlay-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 14%, transparent), 0 1.5rem 4rem rgb(0 0 0 / 85%), 0 0 3.5rem color-mix(in srgb, var(--omni-color-accent) 10%, transparent)"))),
     ];
 
     /// <summary>
-    /// The focus ring of the three themes (Relief, Givre, Aplat) whose surfaces stand out by relief, translucency or fill
-    /// alone: a solid accent ring of 2 px separated from the control by a ring of the surface, so it
+    /// The focus ring of the themes (Relief, Givre, Aplat, Trou noir) whose surfaces stand out by relief, translucency,
+    /// fill or a faint veil alone: a solid accent ring of 2 px separated from the control by a ring of the surface, so it
     /// shows on a pressed hollow, a glass pane or a filled block alike.
     /// </summary>
     private const string FocusRing = "0 0 0 2px var(--omni-color-surface), 0 0 0 4px var(--omni-color-accent)";
@@ -383,18 +452,36 @@ internal static class ThemeCatalog
     /// </summary>
     private const string FocusRingInset = "inset 0 0 0 2px var(--omni-color-accent)";
 
+    /// <summary>The angle the scope turns once per cycle of a moving field (see the stylesheet, <c>--omni-scope-turn</c>).</summary>
+    private const string Turn = "var(--omni-scope-turn)";
+
     /// <summary>
-    /// Givre's colour field: four large pastel orbs (sky, lavender, mint and peach: the three stops the
-    /// contrast checks measure, and a warm glow), each a solid core fading out, laid as radial gradients
-    /// over a base that drifts from the page towards the information hue. Pinned to the viewport by the
-    /// scope, so the frosted panes scroll over it.
+    /// Givre's colour field: four very large orbs (lavender, a warm glow, sky and mint: the stops the
+    /// contrast checks measure), each fading from its centre with no hard core and sized on the
+    /// viewport, so they overlap under the content instead of staying in the corners. Laid as radial
+    /// gradients over a base that drifts from the page towards the information hue, pinned to the
+    /// viewport by the scope, so the frosted panes scroll over it. The centre of each orb rides a
+    /// small orbit read from the scope's turning angle: with the motion off the angle is zero and the
+    /// field is still.
     /// </summary>
     private const string GivreField =
-        "radial-gradient(circle at 6% 8%, var(--omni-backdrop-start) 0 11rem, transparent 32rem), "
-        + "radial-gradient(circle at 96% 10%, var(--omni-backdrop-middle) 0 10rem, transparent 30rem), "
-        + "radial-gradient(circle at 82% 96%, var(--omni-backdrop-end) 0 11rem, transparent 32rem), "
-        + "radial-gradient(circle at 18% 100%, var(--omni-backdrop-glow) 0 8rem, transparent 26rem), "
-        + "linear-gradient(160deg, var(--omni-color-surface) 30%, color-mix(in srgb, var(--omni-color-info-fill) 10%, var(--omni-color-surface)))";
+        $"radial-gradient(circle at calc(14% + 5% * cos({Turn})) calc(10% + 6% * sin({Turn})), var(--omni-backdrop-middle) 0, transparent 46vmax), "
+        + $"radial-gradient(circle at calc(90% + 4% * sin({Turn})) calc(6% + 5% * cos({Turn})), var(--omni-backdrop-glow) 0, transparent 30vmax), "
+        + $"radial-gradient(circle at calc(30% + 6% * sin({Turn} * 2)) calc(66% + 5% * cos({Turn})), var(--omni-backdrop-start) 0, transparent 44vmax), "
+        + $"radial-gradient(circle at calc(88% + 5% * cos({Turn})) calc(82% + 6% * sin({Turn} * 2)), var(--omni-backdrop-end) 0, transparent 48vmax), "
+        + "linear-gradient(160deg, var(--omni-color-surface), color-mix(in srgb, var(--omni-color-info-fill) 8%, var(--omni-color-surface)))";
+
+    /// <summary>
+    /// Trou noir's field, centred high on the right of the viewport: the disc of the horizon in the page
+    /// colour, a thin ring around it that fades outward, a veil that returns to the page further out,
+    /// and under them a conic glow whose origin is the scope's turning angle, so the light sweeps slowly
+    /// around the horizon. Every stop stays close to the page, so text reads on all of them.
+    /// </summary>
+    private const string TrouNoirField =
+        "radial-gradient(circle at 76% 26%, var(--omni-color-surface) 0 12vmax, transparent 12.15vmax), "
+        + "radial-gradient(circle at 76% 26%, transparent 0 12vmax, var(--omni-backdrop-ring) 12.2vmax, transparent 17vmax), "
+        + "radial-gradient(circle at 76% 26%, transparent 0 15vmax, var(--omni-color-surface) 52vmax), "
+        + $"conic-gradient(from {Turn} at 76% 26%, var(--omni-backdrop-disc), transparent 20%, var(--omni-backdrop-glow) 48%, transparent 70%, var(--omni-backdrop-disc))";
 
     /// <summary>
     /// Relief's dark shadow in light mode: the page darkened, so the shadow keeps the hue of the

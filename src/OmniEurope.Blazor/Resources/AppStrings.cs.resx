@@ -17,8 +17,11 @@
   <data name="SettingsFont" xml:space="preserve"><value>Písmo</value></data>
   <data name="SettingsTextSize" xml:space="preserve"><value>Velikost textu</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Hustota</value></data>
+  <data name="SettingsBackdropMotion" xml:space="preserve"><value>Animované pozadí</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Velikost ovládacích prvků</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Výchozí</value></data>
+  <data name="SettingsRandom" xml:space="preserve"><value>Náhodně</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Náhodně vybrat motiv a paletu</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>výchozí</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Zmenšit velikost textu</value></data>
   <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Zvětšit velikost textu</value></data>

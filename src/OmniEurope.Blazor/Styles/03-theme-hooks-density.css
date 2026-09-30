@@ -1,5 +1,5 @@
-/* Theme hooks that only some themes set (Relief's hollow fields without a rule, Givre's colour field,
-   frosted cards, translucent fields and frosted scrim, Aplat's plain grids and flat alerts). Declared
+/* Theme hooks that only some themes set (Relief's hollow fields without a rule, Givre's colour field and
+   its motion, frosted cards, translucent shell, fields and filled alerts and frosted scrim, Aplat's plain grids and flat alerts). Declared
    again on every scope with their neutral value, so a nested scope with another theme does not inherit
    them from the scope around it. */
 [data-omni-theme] {
@@ -9,6 +9,8 @@
        deliberate: under such a theme a scope nested in a page keeps every layer it holds (popovers,
        dialogs, notifications) inside it, below a positioned element of the page drawn over the scope. */
     --omni-scope-isolation: auto;
+    --omni-scope-motion: none;
+    --omni-shell-background: initial;
     --omni-card-filter: none;
     --omni-input-shadow: 0 0 #0000;
     --omni-scrim-filter: none;
@@ -17,6 +19,7 @@
     --omni-input-border-color: initial;
     --omni-grid-background: initial;
     --omni-alert-shadow: initial;
+    --omni-alert-fill-opacity: initial;
 }
 
 /* Shape tokens that only some themes set, with their default value, declared on the root and again on

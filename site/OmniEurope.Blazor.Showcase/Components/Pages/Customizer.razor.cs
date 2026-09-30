@@ -113,6 +113,8 @@ public partial class Customizer : IDisposable
 
     private Task SetDensityAsync(OmniDensity density) => Theme.SetDensityAsync(density);
 
+    private Task SetBackdropMotionAsync(bool moves) => Theme.SetBackdropMotionAsync(moves);
+
     private void OnThemeChanged() => InvokeAsync(StateHasChanged);
 
     private async Task ApplyAsync(ThemeToken token, ChangeEventArgs args)

@@ -1,9 +1,10 @@
 namespace OmniEurope.Blazor.Internal;
 
 /// <summary>
-/// The fourteen palettes of the library. Any palette paints any theme. The first ten are those of the
-/// reference mockup (<c>docs/plans/PLAN-004-maquette-themes.html</c>, constant <c>PALETTES</c>); the last four
-/// (Nuage, Opale, Pastel, Encre) go with the themes Relief, Givre, Aplat and Épure. Each palette carries
+/// The palettes of the library. Any palette paints any theme. The first ten are those of the
+/// reference mockup (<c>docs/plans/archive/PLAN-004-maquette-themes.html</c>, constant <c>PALETTES</c>); the next four
+/// (Nuage, Opale, Pastel, Encre) go with the themes Relief, Givre, Aplat and Épure, and Horizon with
+/// Trou noir. Each palette carries
 /// its dark accent as its own value: equal to the light one by default (recette Aetheus R-053, a
 /// button keeps one colour in both modes), and free to differ for a palette that wants it.
 /// </summary>
@@ -39,5 +40,7 @@ internal static class PaletteCatalog
             "#b04fd0", "#3aa876", "#5bb8e8", "#e6a23c", "#e2556b", "#fbf8fd", "#1b2233", "#1b2233", "#ece8f5", "#b04fd0"),
         new("Encre", "Encre noire sur blanc cassé, un seul bleu d'encre discret.",
             "#27466f", "#2f7d4f", "#3a6ea5", "#9a6a00", "#b3261e", "#fbfbfa", "#141414", "#111111", "#ededed", "#27466f"),
+        new("Horizon", "Ambre d'accrétion sur blanc pur, noir absolu en sombre.",
+            "#d9660b", "#23a36b", "#3d8bd9", "#c9a20a", "#d93a4a", "#ffffff", "#0b0b0d", "#000000", "#ece9e4", "#d9660b"),
     ];
 }
