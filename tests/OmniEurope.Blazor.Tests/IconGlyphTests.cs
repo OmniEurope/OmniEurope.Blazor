@@ -1,11 +1,10 @@
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using Bunit;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
 
-public sealed partial class IconGlyphTests : OmniBunitContext
+public sealed class IconGlyphTests : OmniBunitContext
 {
     [Fact]
     public void EveryBuiltInName_RendersADistinctPhosphorOutline()
@@ -62,9 +61,9 @@ public sealed partial class IconGlyphTests : OmniBunitContext
     [Fact]
     public void EmbeddedOutlines_StayLimitedToTheBuiltInNames()
     {
-        var embedded = Directory
-            .GetFiles(Path.Combine(Root, "src", "OmniEurope.Blazor", "Internal"), "PhosphorIconGlyphs*.cs")
-            .Sum(file => PhosphorFactoryCall().Matches(File.ReadAllText(file)).Count);
+        var embedded = File
+            .ReadAllLines(Path.Combine(Root, "src", "OmniEurope.Blazor", "Internal", "PhosphorIcons.txt"))
+            .Count(line => line.Length > 0 && line[0] != '#');
 
         Assert.Equal(Enum.GetValues<OmniIconName>().Length, embedded);
     }
@@ -87,9 +86,6 @@ public sealed partial class IconGlyphTests : OmniBunitContext
         var licenseFile = phosphor.GetProperty("license").GetProperty("localFile").GetString()!;
         Assert.True(File.Exists(Path.Combine(Root, licenseFile)), $"Texte de licence absent : {licenseFile}");
     }
-
-    [GeneratedRegex(@"OmniIconGlyph\.Phosphor\(")]
-    private static partial Regex PhosphorFactoryCall();
 
     private static string Root
     {
