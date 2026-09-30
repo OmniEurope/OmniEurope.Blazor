@@ -82,6 +82,19 @@ public partial class OmniDataGridColumn<TItem>
     [Parameter]
     public RenderFragment<OmniDataGridFilterContext>? FilterTemplate { get; set; }
 
+    /// <summary>
+    /// The value this column writes in an export of the grid, in place of <see cref="Value"/> or
+    /// <see cref="Property"/>: what a column made of a <see cref="Template"/> alone needs to be exported
+    /// at all, and what a column whose template shows something else than its value (a translated
+    /// status) needs to export that text. A number, a date or a boolean keeps its type in the file.
+    /// </summary>
+    [Parameter]
+    public Func<TItem, object?>? ExportValue { get; set; }
+
+    /// <summary>Whether an export of the grid writes this column. True by default; a column that reads no value is never written.</summary>
+    [Parameter]
+    public bool Exportable { get; set; } = true;
+
     /// <summary>Composite format applied to the cell value, for example <c>{0:n2}</c>.</summary>
     [Parameter]
     public string? FormatString { get; set; }
@@ -275,7 +288,10 @@ public partial class OmniDataGridColumn<TItem>
             Numeric = GridPropertyAccessor.IsNumeric<TItem>(Property),
             Class = Class,
             HeaderClass = HeaderClass,
-            Groupable = Groupable
+            Groupable = Groupable,
+            ExportValue = ExportValue,
+            Exportable = Exportable,
+            HasValueSource = Property is not null || Value is not null
         };
         if (Context is null)
         {
@@ -317,6 +333,8 @@ public partial class OmniDataGridColumn<TItem>
             || !Equals(registered.FilterPredicate, latest.FilterPredicate)
             || !Equals(registered.FilterTemplate, latest.FilterTemplate)
             || !Equals(registered.FormatFilterValue, latest.FormatFilterValue);
+        // Read only when an export runs, never while rendering: adopted without asking for a render.
+        registered.ExportValue = latest.ExportValue;
         registered.Value = latest.Value;
         registered.Template = latest.Template;
         registered.EditTemplate = latest.EditTemplate;
@@ -398,5 +416,8 @@ public partial class OmniDataGridColumn<TItem>
         && left.TextAlign == right.TextAlign
         && string.Equals(left.Class, right.Class, StringComparison.Ordinal)
         && string.Equals(left.HeaderClass, right.HeaderClass, StringComparison.Ordinal)
-        && left.Groupable == right.Groupable;
+        && left.Groupable == right.Groupable
+        && Equivalent(left.ExportValue, right.ExportValue)
+        && left.Exportable == right.Exportable
+        && left.HasValueSource == right.HasValueSource;
 }

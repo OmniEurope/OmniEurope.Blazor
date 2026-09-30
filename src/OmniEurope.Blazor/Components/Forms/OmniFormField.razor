@@ -1,12 +1,31 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
+@* One label for the two layouts: alone, exactly as before, or beside the help mark. *@
+@{
+    RenderFragment label = @<OmniLabel Id="@LabelId" For="@For" Required="@Required">
+        @if (LabelContent is not null) { @LabelContent } else { @Label }
+    </OmniLabel>;
+}
+
 <div @attributes="AdditionalAttributes"
      id="@Id"
      class="@Css("omni-form-field", Disabled ? "omni-form-field--disabled" : null, !string.IsNullOrWhiteSpace(Error) ? "omni-form-field--invalid" : null)">
-    <OmniLabel Id="@LabelId" For="@For" Required="@Required">
-        @if (LabelContent is not null) { @LabelContent } else { @Label }
-    </OmniLabel>
+    @if (string.IsNullOrWhiteSpace(Help))
+    {
+        @label
+    }
+    else
+    {
+        @* The mark stays outside the label: a click on it must not move the focus to the control, and
+           its text is a description, not a part of the control's name. *@
+        <div class="omni-form-field__label-row">
+            @label
+            <OmniTooltip Id="@HelpId" Class="omni-form-field__help" Text="@Help" Focusable="true">
+                <span class="omni-form-field__help-mark" role="img" aria-label="@Localize("FormFieldHelp")"><OmniIcon Name="OmniIconName.Question" /></span>
+            </OmniTooltip>
+        </div>
+    }
     @if (!string.IsNullOrWhiteSpace(Description))
     {
         <div id="@DescriptionId" class="omni-form-field__description">@Description</div>

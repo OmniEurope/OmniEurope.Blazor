@@ -1,4 +1,3 @@
-using System.Globalization;
 using OmniEurope.Blazor.Showcase.Resources;
 
 namespace OmniEurope.Blazor.Showcase.Components.Demos;
@@ -62,20 +61,7 @@ public partial class DataGridDemo
     private RunRow Run(string run, string pipeline, int seconds, string statusKey, string tone) =>
         new(run, pipeline, seconds, Text[statusKey], tone);
 
-    /// <summary>The export of the first grid: every file, read page by page as a remote source would serve it.</summary>
-    private OmniMarkdownTableExport<GridRow> CreateExport() => new()
-    {
-        Title = Text["DemoGridOpenCases"],
-        Columns =
-        [
-            new(Text["DemoGridColumnReference"], row => row.Reference),
-            new(Text["DemoGridColumnApplicant"], row => row.Applicant),
-            new(Text["DemoGridColumnCountry"], row => row.Country),
-            new(Text["DemoGridColumnAmount"], row => row.Amount.ToString("C0", CultureInfo.CurrentCulture))
-        ],
-        Fields = [new(Text["DemoGridExportSort"], Text["DemoGridExportSortValue"])],
-        PageSize = 3,
-        LoadPage = request => Task.FromResult(new OmniDataGridResult<GridRow>(
-            [.. Rows.OrderBy(row => row.Reference, StringComparer.Ordinal).Skip(request.Skip).Take(request.PageSize)], Rows.Count))
-    };
+    /// <summary>The formats asked of the first grid's export bar; the ones nobody writes get no button.</summary>
+    private static readonly IReadOnlyList<OmniTableExportFormat> ExportFormats =
+        [OmniTableExportFormat.Markdown, OmniTableExportFormat.Csv, OmniTableExportFormat.Excel, OmniTableExportFormat.Pdf];
 }

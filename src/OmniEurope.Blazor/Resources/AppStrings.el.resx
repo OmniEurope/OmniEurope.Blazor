@@ -647,6 +647,14 @@
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Ελλιπής εξαγωγή: {0, plural, one {εξήχθη # γραμμή} other {εξήχθησαν # γραμμές}} από {1} που δηλώθηκαν, τα δεδομένα άλλαξαν κατά την ανάγνωση.</value></data>
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Περιορισμένη εξαγωγή: συμπληρώθηκε το όριο {0, plural, one {της # γραμμής} other {των # γραμμών}} και η πηγή δεν δηλώνει σύνολο, ενδέχεται να υπάρχουν κι άλλες γραμμές.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Καμία γραμμή.</value></data>
+  <data name="FormFieldHelp" xml:space="preserve"><value>Βοήθεια</value></data>
+  <data name="GridExportBar" xml:space="preserve"><value>Εξαγωγή του πίνακα</value></data>
+  <data name="GridExportAll" xml:space="preserve"><value>Εξαγωγή όλων</value></data>
+  <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
+  <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
+  <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>
+  <data name="GridExportFormatPdf" xml:space="preserve"><value>PDF</value></data>
+  <data name="GridExportFailed" xml:space="preserve"><value>Η εξαγωγή απέτυχε.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Εγγραφή</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Δεν έχετε λογαριασμό;</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Μη αποθηκευμένες αλλαγές</value></data>

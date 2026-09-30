@@ -41,6 +41,16 @@ public partial class OmniFormField
     public string? Description { get; set; }
 
     /// <summary>
+    /// A help text for the field, behind a "?" at the end of the label: it shows on hover and on keyboard
+    /// focus (the mark is in the Tab order), and is the mark's accessible description. Given an
+    /// <see cref="OmniComponentBase.Id"/>, the text has the id <c>{Id}-help-content</c>, which the control
+    /// can name in <c>aria-describedby</c>. Null or blank, the default, renders no mark and leaves the
+    /// markup unchanged.
+    /// </summary>
+    [Parameter]
+    public string? Help { get; set; }
+
+    /// <summary>
     /// The error shown under the control, which marks the field invalid. It is announced politely when it
     /// appears (a live region, not <c>role="alert"</c>); given an <see cref="OmniComponentBase.Id"/>, the
     /// line has the id <c>{Id}-error</c>, which the control names in <c>aria-describedby</c>. Null or
@@ -60,5 +70,6 @@ public partial class OmniFormField
     private string? LabelId => string.IsNullOrWhiteSpace(For) ? null : $"{For}-label";
     private Internal.OmniFormFieldLabel? FieldLabel => LabelId is { } labelId ? new(For, labelId) : null;
     private string? DescriptionId =>string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(Description) ? null : $"{Id}-description";
+    private string? HelpId => string.IsNullOrWhiteSpace(Id) ? null : $"{Id}-help";
     private string? ErrorId => string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(Error) ? null : $"{Id}-error";
 }

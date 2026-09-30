@@ -62,4 +62,9 @@ internal sealed class OmniDataGridColumnDefinition<TItem>
     public string? Class { get; init; }
     public string? HeaderClass { get; init; }
     public bool Groupable { get; init; } = true;
+    /// <summary>The value an export writes, in place of <see cref="Value"/>.</summary>
+    public Func<TItem, object?>? ExportValue { get; set; }
+    public bool Exportable { get; init; } = true;
+    /// <summary>The column declares a property or a value: an export can write it without an <see cref="ExportValue"/>.</summary>
+    public bool HasValueSource { get; init; }
 }

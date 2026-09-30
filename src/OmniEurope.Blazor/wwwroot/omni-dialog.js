@@ -6,7 +6,10 @@ const frozen = new WeakMap();
 const frozenProperties = ['font-size', 'line-height', 'letter-spacing', 'width', 'height',
     'min-width', 'min-height', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
     'margin-top', 'margin-right', 'margin-bottom', 'margin-left', 'row-gap', 'column-gap',
-    'border-top-width', 'border-right-width', 'border-bottom-width', 'border-left-width'];
+    'border-top-width', 'border-right-width', 'border-bottom-width', 'border-left-width',
+    // The tracks of a grid: a template written in rem (repeat(auto-fit, minmax(19rem, 1fr))) counts its
+    // columns again when the root size changes, and every row of the window would move.
+    'grid-template-columns'];
 
 // Capture computed geometry before writing anything: rem lengths and density tokens are
 // resolved once, so mixed pixel/rem rules cannot drift when the application scale changes.

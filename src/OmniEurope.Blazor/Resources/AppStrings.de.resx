@@ -647,6 +647,14 @@
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Export unvollständig: {0} von {1, plural, one {# angekündigten Zeile} other {# angekündigten Zeilen}} exportiert, die Daten haben sich während des Lesens geändert.</value></data>
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Export begrenzt: Das Limit von {0, plural, one {# Zeile} other {# Zeilen}} ist erreicht und die Quelle nennt keine Gesamtzahl, es können weitere Zeilen vorhanden sein.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Keine Zeilen.</value></data>
+  <data name="FormFieldHelp" xml:space="preserve"><value>Hilfe</value></data>
+  <data name="GridExportBar" xml:space="preserve"><value>Export der Tabelle</value></data>
+  <data name="GridExportAll" xml:space="preserve"><value>Alles exportieren</value></data>
+  <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
+  <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
+  <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>
+  <data name="GridExportFormatPdf" xml:space="preserve"><value>PDF</value></data>
+  <data name="GridExportFailed" xml:space="preserve"><value>Der Export ist fehlgeschlagen.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Registrieren</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Noch kein Konto?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Nicht gespeicherte Änderungen</value></data>

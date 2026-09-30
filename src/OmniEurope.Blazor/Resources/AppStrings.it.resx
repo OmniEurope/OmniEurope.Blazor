@@ -647,6 +647,14 @@
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Esportazione incompleta: {0, plural, one {# riga esportata} other {# righe esportate}} su {1, plural, one {# annunciata} other {# annunciate}}, i dati sono cambiati durante la lettura.</value></data>
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Esportazione limitata: è stato raggiunto il limite di {0, plural, one {# riga} other {# righe}} e la fonte non annuncia un totale, potrebbero esserci altre righe.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Nessuna riga.</value></data>
+  <data name="FormFieldHelp" xml:space="preserve"><value>Aiuto</value></data>
+  <data name="GridExportBar" xml:space="preserve"><value>Esportazione della tabella</value></data>
+  <data name="GridExportAll" xml:space="preserve"><value>Esporta tutto</value></data>
+  <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
+  <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
+  <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>
+  <data name="GridExportFormatPdf" xml:space="preserve"><value>PDF</value></data>
+  <data name="GridExportFailed" xml:space="preserve"><value>Esportazione non riuscita.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Registrati</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Non hai un account?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Modifiche non salvate</value></data>

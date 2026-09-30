@@ -1,0 +1,60 @@
+<OmniDataGrid TItem="Row"
+              Items="@Items"
+              Load="@Load"
+              ExportLoad="@ExportLoad"
+              KeyOf="@(row => row.Id)"
+              PageSize="2"
+              Caption="@Caption"
+              ExportFormats="@Formats"
+              ExportPosition="@Position"
+              ExportTitle="@Title"
+              ExportFields="@Fields"
+              ExportFileName="commandes"
+              ExportRowLimit="@RowLimit"
+              OnExport="@(document => Exported = document)"
+              OnExportError="@(exception => Failure = exception)">
+    <Columns>
+        <OmniDataGridColumn TItem="Row" Property="Id" Title="N°" />
+        <OmniDataGridColumn TItem="Row" Property="Name" Title="Nom" DefaultFilterValue="@NameFilter" SortOrder="@NameSort" />
+        <OmniDataGridColumn TItem="Row" Property="Amount" Title="Montant" FormatString="{0:n2} EUR" />
+        <OmniDataGridColumn TItem="Row" Property="Day" Title="Jour" />
+        <OmniDataGridColumn TItem="Row" Title="Statut" ExportValue="@(row => row.Paid ? "payée" : "due")">
+            <Template Context="row"><strong>@(row.Paid ? "payée" : "due")</strong></Template>
+        </OmniDataGridColumn>
+        <OmniDataGridColumn TItem="Row" Property="Secret" Title="Interne" Exportable="false" />
+        <OmniDataGridColumn TItem="Row" Property="Name" Key="hidden" Title="Masquée" Visible="false" />
+        <OmniDataGridColumn TItem="Row" Title="Actions">
+            <Template Context="row"><button type="button">Ouvrir</button></Template>
+        </OmniDataGridColumn>
+    </Columns>
+</OmniDataGrid>
+
+@code {
+    [Parameter] public IReadOnlyList<Row> Items { get; set; } = [];
+
+    [Parameter] public Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<Row>>>? Load { get; set; }
+
+    [Parameter] public Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<Row>>>? ExportLoad { get; set; }
+
+    [Parameter] public IReadOnlyList<OmniTableExportFormat> Formats { get; set; } = [];
+
+    [Parameter] public OmniDataGridPosition Position { get; set; }
+
+    [Parameter] public string? Caption { get; set; }
+
+    [Parameter] public string? Title { get; set; }
+
+    [Parameter] public IReadOnlyList<OmniTableExportField> Fields { get; set; } = [];
+
+    [Parameter] public int RowLimit { get; set; } = 5000;
+
+    [Parameter] public string? NameFilter { get; set; }
+
+    [Parameter] public OmniDataGridSortOrder? NameSort { get; set; }
+
+    public OmniTableExportDocument? Exported { get; private set; }
+
+    public Exception? Failure { get; private set; }
+
+    public sealed record Row(int Id, string Name, decimal Amount, DateOnly Day, bool Paid, string Secret = "interne");
+}

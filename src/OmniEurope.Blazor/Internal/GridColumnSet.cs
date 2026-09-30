@@ -28,7 +28,8 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
     {
         Key = "value",
         Title = grid.Text("GridValueColumn"),
-        Value = item => item
+        Value = item => item,
+        HasValueSource = true
     };
 
     internal IReadOnlyList<OmniDataGridColumnDefinition<TItem>> VisibleColumns => _visibleColumns;

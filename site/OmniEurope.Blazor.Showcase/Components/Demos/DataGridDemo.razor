@@ -1,8 +1,12 @@
 @* The grid in its everyday form, with one column of each filter shape and each text alignment. The
    columns say nothing about their filter and follow the grid, which filters by default; Amount takes
-   itself out with Filterable="false". *@
+   itself out with Filterable="false". Its export bar, under the table, writes every row the filters
+   select and not the page on screen: Markdown and CSV come from the package, while Excel and PDF only
+   get a button in a host that registers an IOmniTableExportRenderer, which this static site does not. *@
 <OmniDataGrid TItem="GridRow"
               Items="Rows"
+              ExportFormats="ExportFormats"
+              ExportFileName="@Text["DemoGridExportFileName"]"
               Caption="@Text["DemoGridOpenCases"]"
               AllowSorting="true"
               ScrollMode="OmniDataGridScrollMode.Paged"
@@ -24,10 +28,6 @@
                             SortOrder="OmniDataGridSortOrder.Descending" />
     </Columns>
 </OmniDataGrid>
-
-@* Export Markdown pour une IA : toutes les lignes annoncées, lues page par page par le fournisseur,
-   pas seulement la page affichée ; en-tête avec le titre, le tri, la limite, l'heure et le compte. *@
-<OmniMarkdownExportButton TItem="GridRow" Export="CreateExport" FileName="@Text["DemoGridExportFileName"]" />
 
 @* Le dessin de la maquette : un cadre habillé comme une carte, un en-tête fin et collant, la durée
    (un nombre) alignée à la fin en chiffres de même chasse sans rien demander, le statut en pastille

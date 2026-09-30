@@ -647,6 +647,14 @@
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Easpórtáil neamhiomlán: {0} ró easpórtáilte as {1} fógartha, d'athraigh na sonraí le linn na léitheoireachta.</value></data>
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Easpórtáil theoranta: sroicheadh an teorainn de {0} ró agus ní fhógraíonn an fhoinse iomlán, d'fhéadfadh níos mó rónna a bheith ann.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Gan rónna.</value></data>
+  <data name="FormFieldHelp" xml:space="preserve"><value>Cabhair</value></data>
+  <data name="GridExportBar" xml:space="preserve"><value>Easpórtáil an tábla</value></data>
+  <data name="GridExportAll" xml:space="preserve"><value>Easpórtáil gach rud</value></data>
+  <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
+  <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
+  <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>
+  <data name="GridExportFormatPdf" xml:space="preserve"><value>PDF</value></data>
+  <data name="GridExportFailed" xml:space="preserve"><value>Theip ar an easpórtáil.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Cláraigh</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Níl cuntas agat?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Athruithe nár sábháladh</value></data>

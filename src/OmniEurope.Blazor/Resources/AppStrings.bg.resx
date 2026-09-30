@@ -647,6 +647,14 @@
   <data name="MarkdownExportIncomplete" xml:space="preserve"><value>Непълен експорт: {0, plural, one {експортиран # ред} other {експортирани # реда}} от {1} обявени, данните се промениха по време на четенето.</value></data>
   <data name="MarkdownExportLimitReachedWithoutTotal" xml:space="preserve"><value>Ограничен експорт: достигнато е ограничението от {0, plural, one {# ред} other {# реда}}, а източникът не обявява общ брой, може да има още редове.</value></data>
   <data name="MarkdownExportEmpty" xml:space="preserve"><value>Няма редове.</value></data>
+  <data name="FormFieldHelp" xml:space="preserve"><value>Помощ</value></data>
+  <data name="GridExportBar" xml:space="preserve"><value>Експорт на таблицата</value></data>
+  <data name="GridExportAll" xml:space="preserve"><value>Експортиране на всичко</value></data>
+  <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
+  <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
+  <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>
+  <data name="GridExportFormatPdf" xml:space="preserve"><value>PDF</value></data>
+  <data name="GridExportFailed" xml:space="preserve"><value>Експортът беше неуспешен.</value></data>
   <data name="SignUp" xml:space="preserve"><value>Регистрация</value></data>
   <data name="SignUpPrompt" xml:space="preserve"><value>Нямате акаунт?</value></data>
   <data name="UnsavedChangesTitle" xml:space="preserve"><value>Незапазени промени</value></data>

@@ -2,6 +2,10 @@
 .omni-label__required { color: var(--omni-color-danger); }
 .omni-form-field { display: grid; gap: var(--omni-field-gap); }
 .omni-form-field__description { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-sm); }
+/* The help mark of a field sits at the end of its label, never inside it. */
+.omni-form-field__label-row { align-items: center; display: flex; gap: var(--omni-space-xs); }
+.omni-form-field__help-mark { color: var(--omni-color-text-muted); cursor: help; display: inline-flex; }
+.omni-form-field__help .omni-tooltip__trigger { border-radius: 50%; display: inline-flex; }
 .omni-validation-message { color: var(--omni-color-danger); font-size: var(--omni-font-size-sm); font-weight: 500; margin-block-start: 0.25rem; }
 /* The error reads without its colour: a glyph leads it, and the control carries aria-invalid. */
 .omni-form-field__error { align-items: center; color: var(--omni-color-danger); display: flex; font-size: var(--omni-font-size-sm); font-weight: 500; gap: 5px; }

@@ -56,54 +56,12 @@ public sealed class OmniMarkdownTableExporter
     public async Task<OmniMarkdownTableDocument> ExportAsync<TItem>(OmniMarkdownTableExport<TItem> export, CancellationToken cancellationToken = default)
     {
         Validate(export);
-        var pageSize = Math.Min(export.PageSize, export.RowLimit);
-        var maxPages = (export.RowLimit + pageSize - 1) / pageSize;
-        var rows = new List<TItem>();
-        var seen = new HashSet<object>();
-        var totalCount = 0;
-        // A source whose pages hold more rows than it announced has announced no usable count (0 when
-        // it does not know): the exporter then counts the rows itself, reading on to a short page or
-        // the row limit.
-        var counting = false;
-        var lastPageFull = false;
-        for (var page = 1; page <= maxPages; page++)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            var result = await export.LoadPage(new OmniMarkdownTablePageRequest(page, pageSize, cancellationToken));
-            if (page == 1)
-            {
-                totalCount = result.TotalCount;
-            }
-
-            foreach (var item in result.Items)
-            {
-                if (export.RowKey is null || seen.Add(export.RowKey(item)))
-                {
-                    rows.Add(item);
-                }
-            }
-
-            counting |= rows.Count > totalCount;
-            lastPageFull = result.Items.Count >= pageSize;
-            if (!lastPageFull || rows.Count >= (counting ? export.RowLimit : Math.Min(totalCount, export.RowLimit)))
-            {
-                break;
-            }
-        }
-
-        // A counted source: its total is the distinct rows read, including those past the limit. Reading
-        // that stopped on a full page (the limit, not the end of the data) leaves rows unread, so that
-        // total is only a lower bound.
-        var totalIsLowerBound = counting && lastPageFull;
-        if (counting)
-        {
-            totalCount = rows.Count;
-        }
-
-        if (rows.Count > export.RowLimit)
-        {
-            rows.RemoveRange(export.RowLimit, rows.Count - export.RowLimit);
-        }
+        var read = await TableExportReader.ReadAsync(
+            (page, pageSize, token) => export.LoadPage(new OmniMarkdownTablePageRequest(page, pageSize, token)),
+            export.RowLimit, export.PageSize, export.RowKey, cancellationToken);
+        var rows = read.Rows;
+        var totalCount = read.TotalCount;
+        var totalIsLowerBound = read.TotalIsLowerBound;
 
         var generatedAt = _time.GetUtcNow();
         return new OmniMarkdownTableDocument(Build(export, rows, totalCount, generatedAt, totalIsLowerBound), rows.Count, totalCount,
