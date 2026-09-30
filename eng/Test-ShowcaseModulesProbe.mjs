@@ -267,6 +267,36 @@ const shrunk = await windowRows();
 check(shrunk.rows === frozen.rows && shrunk.overlap <= 0 && shrunk.room === frozen.room, `La ligne partie laisse un trou : ${JSON.stringify(shrunk)}.`);
 results.push('fenêtre d\'apparence gelée : une ligne arrive et repart sans recouvrement ni trou');
 
+// A new look retakes the measures: under Octet the labels are spaced capitals in a heavier face, and a
+// width frozen for the previous theme would let them run over their button. The scale stays frozen.
+const windowLabels = () => evaluate(`(() => {
+  const dialog = document.querySelector(${JSON.stringify(appearanceWindow)});
+  const box = dialog.getBoundingClientRect();
+  const tight = [...dialog.querySelectorAll('.omni-button')].filter(button => button.textContent.trim()).map(button => {
+    const edge = button.getBoundingClientRect();
+    const range = document.createRange();
+    range.selectNodeContents(button);
+    const ink = range.getBoundingClientRect();
+    return { text: button.textContent.trim(), before: Math.round(ink.left - edge.left), after: Math.round(edge.right - ink.right), overflow: button.scrollWidth - button.clientWidth };
+  }).filter(label => label.overflow > 0 || label.after < label.before - 2);
+  return { tight, width: Math.round(box.width), height: Math.round(box.height), spacing: getComputedStyle(dialog.querySelector('.omni-button')).letterSpacing };
+})()`);
+await pickTheme('Octet');
+await waitFor('les libellés espacés d\'Octet', `getComputedStyle(document.querySelector(${JSON.stringify(`${appearanceWindow} .omni-button`)})).letterSpacing !== 'normal'`);
+await pause(300);
+const spaced = await windowLabels();
+check(spaced.tight.length === 0, `Libellés à l'étroit dans leur bouton sous Octet : ${JSON.stringify(spaced.tight)}.`);
+const textSize = await evaluate('document.documentElement.dataset.oeTextSize ?? ""');
+await evaluate(`[...document.querySelectorAll(${JSON.stringify(`${appearanceWindow} .omni-button`)})].filter(button => !button.textContent.trim())[1].click()`);
+await waitFor('le changement de taille du texte', `(document.documentElement.dataset.oeTextSize ?? "") !== ${JSON.stringify(textSize)}`);
+await pause(300);
+const scaled = await windowLabels();
+check(scaled.width === spaced.width && scaled.height === spaced.height, `La fenêtre gelée a suivi la taille du texte : ${spaced.width} x ${spaced.height} puis ${scaled.width} x ${scaled.height}.`);
+results.push(`libellés à leur place après un changement de thème (${spaced.spacing}), fenêtre inchangée quand la taille du texte change`);
+await evaluate(`[...document.querySelectorAll(${JSON.stringify(`${appearanceWindow} .omni-button`)})].filter(button => !button.textContent.trim())[0].click()`);
+await pickTheme('Essentiel');
+await pause(300);
+
 await pause(300);
 const csp = await evaluate('window.__omniCsp');
 socket.close();

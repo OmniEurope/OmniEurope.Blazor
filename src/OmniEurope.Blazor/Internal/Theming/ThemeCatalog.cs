@@ -418,8 +418,9 @@ internal static class ThemeCatalog
                 ("--omni-card-shadow", "0 1px 2px rgb(0 0 0 / 5%)"),
                 ("--omni-button-shadow", "0 1px 2px rgb(0 0 0 / 22%)"),
                 // A grid is read line by line and its frozen columns cover the rows that slide under
-                // them; a dialog sits over the page: both are opaque, one step off the page.
-                ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-text) 4%, var(--omni-color-surface))"),
+                // them; a dialog sits over the page: both are opaque, one step off the page. The grid stays
+                // at 3 %: its header darkens the frame by 6 % more, and muted titles must still read there.
+                ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-text) 3%, var(--omni-color-surface))"),
                 ("--omni-dialog-background", "color-mix(in srgb, var(--omni-color-text) 5%, var(--omni-color-surface))"),
                 ("--omni-focus-ring", FocusRing), ("--omni-focus-ring-danger", FocusRingDanger), ("--omni-focus-ring-inset", FocusRingInset),
                 ("--omni-button-font-weight", "600"), ("--omni-heading-font-weight", "600"),

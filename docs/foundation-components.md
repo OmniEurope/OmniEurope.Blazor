@@ -244,8 +244,10 @@ En `Compact`, libellés et commandes s'alignent sur deux colonnes et la ligne de
 tailles » suivi d'un résumé (« Essentiel · Texte 5 · Confortable », taille des contrôles comprise quand
 l'hôte la lie).
 Les mesures de la fenêtre sont capturées à l'ouverture (`FreezeScale`) : les commandes restent stables
-pendant les changements, puis prennent la nouvelle échelle à la prochaine ouverture. Le reste de
-l'application garde son échelle active.
+pendant les changements de taille et de densité, puis prennent la nouvelle échelle à la prochaine
+ouverture. Le reste de l'application garde son échelle active. Un nouveau thème, une nouvelle palette
+ou une nouvelle police font reprendre ces mesures, à l'échelle du moment : les libellés changent de
+police, de casse et d'espacement, et une largeur capturée pour l'ancien thème les rognerait.
 Le thème et la palette de référence se nomment « Essentiel » ; les hôtes qui ont stocké l'ancien nom « Défaut »
 doivent le traiter comme un alias lors de la restauration de leurs préférences.
 La densité est un `OmniDensity` (`Density`/`DensityChanged`), choisi dans un groupe radio segmenté
