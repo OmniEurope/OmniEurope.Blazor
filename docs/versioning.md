@@ -25,3 +25,7 @@ Délister n'est pas supprimer : un projet qui épingle `1.0.0` continue de la re
 ## Rupture assumée : `1.2.0`
 
 `1.2.0` porte des ruptures dans une version mineure, sans passer à `2.0.0` : composants, paramètres, énumérations et types retirés, renommés ou fusionnés, valeurs par défaut changées, et un paramètre inconnu qui ne compile plus (`OE0001`) ni ne se rend (garde d'`OmniComponentBase`). Décision du propriétaire du 2026-09-29 (PLAN-007) : le propriétaire est le seul consommateur du paquet, ses applications suivent la bibliothèque, si bien qu'aucun alias `[Obsolete]` ni aucune couche de compatibilité n'est maintenu pour les anciens noms, par exception à la règle de dépréciation ci-dessus. Chaque rupture est listée sous « Breaking changes » dans `CHANGELOG.md`, avec sa migration.
+
+## Rupture assumée : `1.3.0`
+
+`1.3.0` porte des ruptures dans une version mineure : `OmniDataGridColumn.Filterable` devient `bool?` et suit la grille quand il n'est pas réglé, les textes du paquet qui suivent un nombre portent un bloc `plural` ICU (une lecture directe par `IStringLocalizer<AppStrings>` avec des arguments lève `FormatException`), et deux classes CSS changent (`OmniAppearanceWindow`, tableaux masqués d'`OmniChart`). Décision du propriétaire du 2026-09-30 (PLAN-009) : numéro `1.3.0` plutôt que `2.0.0`, pour le même motif qu'en `1.2.0` (le propriétaire est le seul consommateur du paquet). Chaque rupture est listée sous « Breaking changes » dans `CHANGELOG.md`, avec sa migration.
