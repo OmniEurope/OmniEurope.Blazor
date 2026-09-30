@@ -1,5 +1,7 @@
 const attached = new WeakMap();
 const scaleLocks = new WeakMap();
+// What the freeze wrote on each element, with the inline value it replaced.
+const frozen = new WeakMap();
 
 const frozenProperties = ['font-size', 'line-height', 'letter-spacing', 'width', 'height',
     'min-width', 'min-height', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left',
@@ -14,9 +16,25 @@ function freezeElements(elements) {
         return [element, frozenProperties.map(name => [name, computed.getPropertyValue(name)])];
     });
     for (const [element, values] of snapshots) {
+        const replaced = frozen.get(element) ?? new Map();
         for (const [name, value] of values) {
-            if (value.endsWith('px')) element.style.setProperty(name, value);
+            if (!value.endsWith('px')) continue;
+            if (!replaced.has(name)) replaced.set(name, element.style.getPropertyValue(name));
+            element.style.setProperty(name, value);
         }
+        frozen.set(element, replaced);
+    }
+}
+
+function thawElements(elements) {
+    for (const element of elements) {
+        const replaced = frozen.get(element);
+        if (!replaced) continue;
+        for (const [name, value] of replaced) {
+            if (value) element.style.setProperty(name, value);
+            else element.style.removeProperty(name);
+        }
+        frozen.delete(element);
     }
 }
 
@@ -39,7 +57,34 @@ export function freezeScale(dialog) {
         if (arrived.length > 0) freezeElements(arrived);
     });
     observer.observe(dialog, { childList: true, subtree: true });
-    scaleLocks.set(dialog, observer);
+    // The freeze holds against the scale and the density, which live on the document root and on an
+    // attribute of the scope. A new look (theme, palette, font) rewrites the tokens on the style of a
+    // theme scope: labels change face, case and tracking, and a width frozen for the old look would
+    // clip them. The measures are then taken again under the new look, and once more when a web font
+    // the look asked for has arrived.
+    const looks = new Map();
+    const retake = () => {
+        if (!dialog.isConnected) return;
+        const all = [dialog, ...dialog.querySelectorAll('*')];
+        thawElements(all);
+        freezeElements(all);
+    };
+    const look = new MutationObserver(() => {
+        let changed = false;
+        for (const [scope, seen] of looks) {
+            const now = scope.style.cssText;
+            changed ||= now !== seen;
+            looks.set(scope, now);
+        }
+        if (!changed) return;
+        retake();
+        if (document.fonts?.status === 'loading') document.fonts.ready.then(retake);
+    });
+    for (let scope = dialog.parentElement?.closest('[data-omni-theme]'); scope; scope = scope.parentElement?.closest('[data-omni-theme]')) {
+        looks.set(scope, scope.style.cssText);
+        look.observe(scope, { attributes: true, attributeFilter: ['style'] });
+    }
+    scaleLocks.set(dialog, { disconnect() { observer.disconnect(); look.disconnect(); } });
 }
 
 export function attach(dialog) {

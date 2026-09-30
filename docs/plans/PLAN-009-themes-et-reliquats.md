@@ -90,7 +90,7 @@ Défauts relevés dans la revue et leur sort :
 - Sous Aplat, un menu ou une fenêtre de la couleur de la page n'avait ni bord ni ombre : corrigé (filet plat de 1 px).
 - Vitrine : le bouton « Fenêtre d'apparence » remplissait sa cellule : corrigé.
 - Sous Relief clair, le dialogue porte un halo blanc sur le voile : laissé, c'est l'ombre claire du thème.
-- Sous Octet, le libellé en capitales espacées du bouton « Défaut » touche son bord droit : laissé.
+- Sous Octet, le libellé en capitales espacées du bouton « Défaut » touchait son bord droit : corrigé. La cause était le gel des mesures : la largeur capturée sous le thème d'ouverture restait après un changement de thème (« Aléatoire » débordait de 19 px sous Octet). La fenêtre reprend ses mesures quand le thème, la palette ou la police changent ; le gel tient toujours face à la taille du texte et à la densité. Couvert par la sonde `Modules`.
 Controle : suite unitaire verte (3449 tests) ; sondes à relancer après la dernière publication.
 
 ### Lot 8 - Demandes OE de la recette
@@ -118,17 +118,21 @@ Controle : `git grep -i` sur ce nom ne rend plus rien dans le dépôt ; suite ve
 
 ### Lot 11 - `STD-FILESIZE` en lignes effectives dans le kit
 - [ ] le contrôle des règles du kit, son registre et son modèle de test comptent les lignes effectives (ni vides, ni commentaires, doc XML comprise), comme PLAN-008 l'a mesuré ici.
+Non commencé : le 2026-09-30, le dépôt `(chemin local)` porte des modifications non commitées d'une autre session, dont le contrôle des règles, `docs/code-rules.md` et les deux de rappel des règles. Y écrire depuis ici mêlerait deux travaux dans les mêmes fichiers ; la demande passe par la session du kit, ou attend que ce dépôt soit propre.
 Controle : le contrôle des règles ne rend plus de constat `STD-FILESIZE` ; les constats des autres projets sont relevés avant et après.
 
 ### Lot 12 - Pluriels par langue
-- [ ] Règle de pluriel cardinal de chacune des 24 langues (catégories CLDR : `one`, `two`, `few`, `many`, `other`), choisie d'après la culture d'affichage.
-- [ ] Les chaînes à nombre nu relevées dans `docs/localization.md` (téléversement, journal, diff, import de tableau, temps relatif, export Markdown) portent une forme par catégorie de leur langue.
-- [ ] Guide de localisation, `CHANGELOG.md`, référence d'API si une surface publique apparaît.
-Controle : un test par langue à pluriels multiples sur les nombres qui étaient faux (roumain 20, croate 1 et 21, letton 21 et 31) ; aucune clé sans ses formes dans les 24 fichiers ; suite verte.
+- [x] Règle de pluriel cardinal de chacune des 24 langues (catégories CLDR : `zero`, `one`, `two`, `few`, `many`, `other`), choisie d'après la culture d'affichage (`PluralRules`).
+- [x] Bloc `plural` de la syntaxe ICU dans les ressources, lu par `PluralMessage` : `{0, plural, one {# fichier} other {# fichiers}}`. Aucune surface publique nouvelle ; un remplacement de l'hôte peut porter ses blocs.
+- [x] 341 textes accordés dans 23 fichiers (22 clés : téléversement, validation des longueurs, temps relatif, journal, diff, import de tableau, export Markdown, saisie assistée, sélection multiple). Le hongrois n'a rien à accorder ; les langues qui employaient déjà « Libellé : {0} » le gardent là où il se lit.
+- [x] Guide de localisation, `CHANGELOG.md`.
+Écrit sans locuteur natif, comme le reste des traductions ; l'irlandais et le maltais sont à relire en priorité (`docs/localization.md`).
+Garde modifiée : `LibraryTranslationTests` compare désormais les arguments nommés par un texte sans doublon, puisqu'un bloc répète son nombre dans chaque forme ; les formes elles-mêmes sont vérifiées par `PluralTextTests`.
+Controle : `PluralTextTests` (110 cas) : règle de chaque langue sur ses nombres charnières, chaque bloc des 24 fichiers porte exactement les catégories de sa langue, et les nombres qui étaient faux se lisent juste (roumain « 20 de rânduri noi », croate « najviše 1 datoteku » et « 21 datoteku », letton « 21 dienas » et « 31 dienas »). Suite verte.
 
 ### Lot 13 - Sous-modules JS
-- [ ] Décider entre regroupement au build et chargement au plus juste, puis le faire ou consigner pourquoi non.
-Controle : compte de requêtes au premier usage mesuré avant et après dans `docs/performance-budgets.md`.
+- [x] Décision : pas de regroupement au build. Il demanderait un outil de regroupement (esbuild ou Rollup, donc Node) dans la construction du paquet, qui n'en a aucun aujourd'hui, pour un gain limité au premier usage : 6 requêtes au lieu d'une pour la grille, 4 pour le focus, 5 pour l'éditeur, en deux vagues, ensuite servies par le cache du navigateur. Un assemblage maison qui recollerait des modules ES en retirant leurs `import` serait fragile pour le même gain.
+Controle : décompte inchangé et déjà consigné dans `docs/performance-budgets.md`.
 
 ## Décisions prises le 2026-09-30 (seconde série)
 

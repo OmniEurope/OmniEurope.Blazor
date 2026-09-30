@@ -174,6 +174,35 @@ public sealed partial class ThemeContrastMatrixTests
     }
 
     /// <summary>
+    /// The header of a grid writes its titles in muted text on a fill one step darker than the frame
+    /// (6 % of the text colour over <c>--omni-grid-frame</c>), which a theme may already tint away from
+    /// the surface. The contrast probe found the pair at 4.48 under Trou noir with the Électrique palette
+    /// in light mode (2026-09-30), where the palette matrix alone saw nothing.
+    /// </summary>
+    [Theory]
+    [MemberData(nameof(Sets))]
+    public void Grid_header_titles_read_on_the_tinted_header_fill(string themeName, string paletteName, OmniAppearance mode)
+    {
+        var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
+        var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
+        var tokens = theme.With(palette).For(mode);
+        // The frame of the stylesheet: --omni-grid-background, else the card fill, else the surface; a
+        // translucent one is read over the opaque surface the sticky header lays behind its cells.
+        var frame = ShowcaseThemeTests.Resolve(tokens, tokens.TryGetValue("--omni-grid-background", out var grid) ? grid
+            : tokens.TryGetValue("--omni-card-background", out var card) ? card
+            : tokens["--omni-color-surface"]);
+        var fill = ThemeColor.Mix(ShowcaseThemeTests.Resolve(tokens, tokens["--omni-color-text"]), frame, 0.06);
+        var ink = ShowcaseThemeTests.Resolve(tokens, tokens["--omni-color-text-muted"]);
+
+        var contrast = ThemeColor.Contrast(ink, fill);
+        var failures = contrast < Text
+            ? new[] { string.Create(CultureInfo.InvariantCulture, $"--omni-color-text-muted ({ink}) on the grid header fill ({fill}): {contrast:F2}, below {Text:F1}") }
+            : [];
+
+        AssertOrAccept(themeName, paletteName, mode, failures);
+    }
+
+    /// <summary>
     /// A theme may paint a colour field behind the page (<c>--omni-backdrop</c>, Givre), gradients
     /// between the stops it declares as <c>--omni-backdrop-*</c> tokens (Givre: <c>-start</c>,
     /// <c>-middle</c>, <c>-end</c> and <c>-glow</c>). The stops are read from the field itself, and
