@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Tests;
 /// PLAN-004 lot 8: the static contrast pairs, checked on every token set a consumer can obtain (every
 /// theme, each painted with any palette, in light and in dark), not only on each theme's default
 /// palette. The pairs start from the 47 of the reference mockup (<c>PAIRS</c> in
-/// <c>docs/plans/PLAN-004-maquette-themes.html</c>) and add the ones the plan requires on top of them.
+/// <c>docs/plans/archive/PLAN-004-maquette-themes.html</c>) and add the ones the plan requires on top of them.
 /// </summary>
 /// <remarks>
 /// A theme's shape may write a colour token as a reference or a <c>color-mix</c> (the borders of Halo,
@@ -285,7 +285,7 @@ public sealed partial class ThemeContrastMatrixTests
     /// <summary>
     /// The size of the matrix: every theme with every palette in both modes, every pair of each, so
     /// that a set or a pair skipped by the enumeration cannot pass unseen. The catalogue sizes
-    /// themselves are pinned once, by <see cref="ThemePaletteTests"/>.
+    /// themselves are open and read from the catalogues.
     /// </summary>
     [Fact]
     public void The_matrix_covers_every_set_and_every_pair_of_each()

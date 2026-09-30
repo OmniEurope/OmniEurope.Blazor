@@ -1,0 +1,161 @@
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
+# PLAN-009 : Thèmes excellents et reliquats
+
+> Statut : **ouvert**. Établi le 2026-09-30 ; lots 1 à 6, 8 et 9 faits, lot 7 fait sauf les six sondes et la CI, lots 10 à 13 ouverts par les décisions du 2026-09-30.
+
+## Objectif
+
+Un seul plan pour tout le travail restant du dépôt. D'abord les thèmes : chacun tient sa promesse
+jusque dans les alertes, Givre montre un vrai verre dépoli sur un fond qui bouge à peine, et un
+thème Trou noir rejoint le catalogue. Ensuite les demandes OE des autres projets, puis les décisions
+qui attendent le propriétaire.
+
+## État des lieux (2026-09-30)
+
+Revue du code de `ThemeCatalog.cs` et des captures du jour (`artifacts/theme-probe/`, 14 thèmes) :
+
+- Givre : les quatre taches du champ sont collées aux coins de la fenêtre et s'éteignent avant le
+  centre ; en sombre le champ est presque uni. L'en-tête des grilles et les alertes pleines sont opaques.
+- `--omni-alert-radius` n'est posé que par Essentiel, Relief, Givre, Aplat et Épure : dans Galet, Halo,
+  Néon, Nénuphar et Velours les alertes gardent 2,5 px à côté de cartes très arrondies.
+- `--omni-alert-shadow` n'est posé que par Aplat : Ardoise, Papier et Épure, annoncés sans ombre,
+  gardent l'ombre portée des alertes pleines ; Rétro et Octet n'y portent pas leur ombre dure.
+- Galet, Halo et Velours se distinguent mal en clair ; les ombres de Relief se perdent en sombre ;
+  les lueurs de Néon bavent sur une page claire.
+- Aucun thème n'anime son fond ; aucun réglage n'existe pour cela.
+
+## Décisions (validées le 2026-09-30)
+
+- Le nombre de thèmes et de palettes n'est pas figé : le test de catalogue ne fixe plus un nombre.
+- Fond animé : Givre et Trou noir seulement, avec un réglage pour le couper ; toujours coupé sous
+  `prefers-reduced-motion`.
+- Trou noir : le mode clair est laissé au choix de l'exécutant (page blanche, même accent ambre).
+- Les plans livrés (PLAN-001 à PLAN-008 et leurs annexes) sont archivés dans `docs/plans/archive/`.
+- Ce plan reçoit tout le reliquat : les demandes OE d'une application cliente et les décisions en attente.
+
+## Lots
+
+Chaque lot se termine par un contrôle mesurable avant de passer au suivant.
+
+### Lot 1 - Registre et archive
+- [x] `git mv` de PLAN-001 à PLAN-008 et de leurs annexes vers `docs/plans/archive/`.
+- [x] Références de chemin mises à jour (code, tests, guides, ADR-001).
+- [x] Registre `docs/plans/README.md` : un plan actif, une table d'archives.
+Controle : `git grep -E "plans/PLAN-00[1-8]-"` hors `docs/plans/` : 0 résultat.
+
+### Lot 2 - Alertes à la forme du thème
+- [x] `--omni-alert-radius` dans Galet, Halo, Néon, Nénuphar, Velours.
+- [x] `--omni-alert-shadow` : aucune dans Ardoise, Papier, Épure ; ombre dure dans Rétro ; cadre en escalier dans Octet.
+- [x] Test : tout thème qui arrondit ses cartes d'au moins 0,5 rem pose le rayon de ses alertes ; tout thème sans ombre de carte n'en donne ni à ses alertes ni à ses boutons (`ThemeFieldMotionTests.A_filled_alert_takes_the_shape_of_its_theme`).
+Controle : test vert, captures des alertes relues dans la revue du lot 7.
+
+### Lot 3 - Givre
+- [x] Champ : taches plus grandes, décentrées, qui passent sous le contenu ; champ sombre lisible.
+- [x] Verre : barre du haut et menu latéral en verre (`--omni-shell-background`) ; alertes pleines en verre teinté (`--omni-alert-fill-opacity`, 82 %) sous un liseré clair.
+- [ ] En-tête de grille translucide : écarté. Un en-tête collant translucide laisse lire les lignes qui défilent dessous (défaut relevé par une application cliente le 2026-09-30) ; il reste dense.
+- [x] Matrice de contraste et sonde de contraste relues avec le nouveau champ.
+Controle : captures clair et sombre ; `ThemeContrastMatrixTests` vert ; Givre avec Opale tient 43 paires sur 47 dans les deux modes (thème marqué « contraste non garanti »).
+
+### Lot 4 - Fond animé et son réglage
+- [x] Feuille : `@property --omni-scope-turn`, `@keyframes omni-scope-turn`, crochet `--omni-scope-motion` neutre sans thème, coupé sous `prefers-reduced-motion` et par `data-omni-backdrop-motion="off"`.
+- [x] `OmniThemeScope.BackdropMotion` (vrai par défaut) ; ligne « Fond animé » dans `OmniAppearanceWindow` et `OmniAppearanceSettings`, visible seulement si le thème anime son fond et si l'hôte lie le changement.
+- [x] Texte du réglage dans les 24 langues ; référence d'API publique régénérée (cinq ajouts, aucun retrait).
+- [x] Vitrine : le réglage dans la page Personnalisation et dans la démonstration des thèmes.
+- [x] Mesure du coût.
+Controle : sous Givre l'angle passe de 2,4 à 8,4 degrés en deux secondes, revient à 0 quand le réglage est coupé, et l'animation vaut `none` sous mouvement réduit. Coût sur 180 images (1440 x 900, page Personnalisation) : image médiane à 6,9 ms avec et sans mouvement ; recalcul de style de 0,16 s en mouvement contre 0,05 s à l'arrêt sous Givre, 0,125 s contre 0,052 s sous Trou noir.
+
+### Lot 5 - Thème Trou noir et palette Horizon
+- [x] `PaletteCatalog` : Horizon (noir pur, encre chaude, accent ambre ; blanc pur en clair).
+- [x] `ThemeCatalog` : Trou noir (cartes à peine voilées, filet fin, lueur d'accent, anneau en fond dont la lueur tourne).
+- [x] Test de catalogue sans nombre figé ; sonde de contraste : dégradé conique lu.
+- [x] Guides (`docs/foundation-components.md`, `docs/testing.md`, contrat d'accessibilité) et `CHANGELOG.md`.
+Controle : suite unitaire verte, captures clair et sombre, 47 paires sur 47 avec Horizon dans les deux modes ; la sonde de contraste sur toutes les palettes est celle du lot 7.
+
+### Lot 6 - Caractère des autres thèmes
+- [x] Velours : cartes réchauffées par l'accent, reflet et ombre profonde, boutons en coussin.
+- [x] Halo : liseré et halo d'accent des cartes visibles en clair.
+- [x] Galet : ombre neutre plus franche et bouton ombré par-dessous, distinct de Halo.
+- [x] Relief sombre : ombres claire et sombre relevées (écart faible à l'œil entre avant et après).
+- [x] Néon clair : lueurs resserrées, les larges gardées pour le sombre.
+- [x] Ardoise : boutons sans ombre, comme annoncé ; Papier, annoncé sans ombre lui aussi, de même.
+Controle : captures de la revue du lot 7 ; matrice de contraste verte. La garde « deux thèmes diffèrent par trois jetons de forme au moins » compte désormais aussi la casse et la graisse des titres : sans ombre de bouton, Ardoise ne différait plus d'Épure que par deux des huit jetons comptés.
+
+### Lot 7 - Revue dans le panel et clôture des thèmes
+- [x] Chaque thème choisi dans la fenêtre Apparence de la vitrine, clair et sombre : fenêtre, dialogue, menu, alertes, formulaire, grille (180 captures, 15 thèmes x 2 modes x 6 vues).
+- [ ] Six sondes de la vitrine (`eng/Test-ShowcaseHost.ps1`) sur une publication fraîche ; CI de `develop`.
+- [x] `docs/public-api.txt` régénéré.
+Défauts relevés dans la revue et leur sort :
+- Sous un thème qui bouge son fond, la ligne « Fond animé » arrivait après le gel des mesures de la fenêtre et se dessinait sur la ligne suivante : corrigé (`omni-dialog.js` rend leur hauteur aux conteneurs), couvert par la sonde `Modules`.
+- Sous Givre, le texte de la page se lisait à travers la fenêtre non modale : corrigé (fond posé sur la surface opaque).
+- Sous Aplat, un menu ou une fenêtre de la couleur de la page n'avait ni bord ni ombre : corrigé (filet plat de 1 px).
+- Vitrine : le bouton « Fenêtre d'apparence » remplissait sa cellule : corrigé.
+- Sous Relief clair, le dialogue porte un halo blanc sur le voile : laissé, c'est l'ombre claire du thème.
+- Sous Octet, le libellé en capitales espacées du bouton « Défaut » touche son bord droit : laissé.
+Controle : suite unitaire verte (3449 tests) ; sondes à relancer après la dernière publication.
+
+### Lot 8 - Demandes OE de la recette
+Détail dans `(chemin local)`.
+- [x] 28 : le calendrier d'un sélecteur de date, d'heure ou de date et heure s'ouvre par-dessus un dialogue, sans barre de défilement. Panneau fixé à la fenêtre et placé par script plutôt que portail ; un dialogue déplaçable bouge par `left` et `top`, plus par `transform`.
+- [x] 34 : les tableaux masqués d'`OmniChart` n'allongent plus la zone de défilement (bloc masqué autour d'eux).
+- [x] 36 : le bouton « Modifier » d'`OmniAppearanceSettings` en `Primary`.
+- [x] 39 : liste déroulante habillée, par `appearance: base-select` (Chromium 135 et suivants) ; l'élément reste un `<select>` natif. La liste personnalisée à la place du `<select>` n'a pas été faite : voir les décisions en attente.
+- [x] 40 : la police dans la fenêtre Apparence, en plus de la ligne des réglages.
+- [x] 41 : fenêtre Apparence plus large (46rem), sur deux colonnes, 479 px de haut au lieu de 601.
+- [x] 42 : bouton « Aléatoire » (thème et palette au hasard, autres que ceux en vigueur).
+Controle : mesuré dans la vitrine. 28 : panneau en `position: fixed` à 6 px sous son champ, 362 px au-delà du dialogue, dialogue sans débordement (152 sur 152 px), de même après un glisser de 180 px. 34 : bloc masqué de 1 x 1 px pour un tableau de 136 px. 39 : liste ouverte peinte avec les jetons du calque flottant, clavier natif. 41 : lignes côte à côte, une colonne à 420 px de large. Réponse à la session d'une application cliente : à faire à la livraison.
+
+### Lot 9 - Colonne de grille qui suit le filtre de son tableau
+Demande de la session d'une application cliente du 2026-09-30, décision de l'utilisateur prise là-bas.
+- [x] `OmniDataGridColumn.Filterable` en `bool?` : `null` suit `OmniDataGrid.Filterable`, colonnes de données seulement (`Property`, `Value`, `FilterPredicate` ou `FilterTemplate`). Écrit par la session d'une application cliente dans ce dépôt, relu et intégré ici. Conséquence relevée à la relecture : le `Filterable` de la grille ne conditionne plus `FilterMode`, une colonne qui demande son filtre dans une grille coupée garde l'éditeur du mode déclaré.
+- [x] Tests (`DataGridColumnFilterDefaultTests`, six cas), guide des données, `CHANGELOG.md` (rupture pour tous les consommateurs), référence d'API.
+- [x] Vitrine : les colonnes des démonstrations suivent la grille, Montant s'en retire, les six grilles dessinées sans rangée de filtres posent `Filterable="false"` sur la grille.
+- [x] Livrés avec ce lot par la session d'une application cliente : ligne à hauteur exacte en `FixedRowHeight` (`box-sizing: border-box`), en-tête collant opaque sous un fond de grille translucide.
+Controle : suite unitaire verte (3449 tests, dont deux gardes ajoutées pour la hauteur de ligne et l'en-tête opaque). Mesuré dans la vitrine : sur `/composants/grille`, Référence, Demandeur et Pays portent un filtre sans rien déclarer et Montant n'en a pas ; les six grilles à `Filterable="false"` n'ont pas de rangée de filtres ; sous Givre, l'en-tête collant a un fond opaque (`rgb(247, 249, 252)`). Session d'une application cliente à prévenir à la livraison.
+
+### Lot 10 - Nom « une application cliente » hors des fichiers du dépôt
+- [ ] Guide des diagrammes, `CHANGELOG.md`, commentaires de code et de test, dossier `TestData/client`, marque d'essai des tests d'en-tête : le nom est remplacé par une formulation neutre.
+Controle : `git grep -i client` ne rend plus rien hors de `docs/plans/` ; suite verte.
+
+### Lot 11 - `STD-FILESIZE` en lignes effectives dans le kit
+- [ ] le contrôle des règles du kit, son registre et son modèle de test comptent les lignes effectives (ni vides, ni commentaires, doc XML comprise), comme PLAN-008 l'a mesuré ici.
+Controle : le contrôle des règles ne rend plus de constat `STD-FILESIZE` ; les constats des autres projets sont relevés avant et après.
+
+### Lot 12 - Pluriels par langue
+- [ ] Règle de pluriel cardinal de chacune des 24 langues (catégories CLDR : `one`, `two`, `few`, `many`, `other`), choisie d'après la culture d'affichage.
+- [ ] Les chaînes à nombre nu relevées dans `docs/localization.md` (téléversement, journal, diff, import de tableau, temps relatif, export Markdown) portent une forme par catégorie de leur langue.
+- [ ] Guide de localisation, `CHANGELOG.md`, référence d'API si une surface publique apparaît.
+Controle : un test par langue à pluriels multiples sur les nombres qui étaient faux (roumain 20, croate 1 et 21, letton 21 et 31) ; aucune clé sans ses formes dans les 24 fichiers ; suite verte.
+
+### Lot 13 - Sous-modules JS
+- [ ] Décider entre regroupement au build et chargement au plus juste, puis le faire ou consigner pourquoi non.
+Controle : compte de requêtes au premier usage mesuré avant et après dans `docs/performance-budgets.md`.
+
+## Décisions prises le 2026-09-30 (seconde série)
+
+- Version : la version qui portera ce plan est la `1.3.0`. La rupture de `OmniDataGridColumn.Filterable` y passe en version mineure, assumée. Le numéro est posé à la publication.
+- Publication : pas de `1.2.1` ; le propriétaire publie plus tard, d'autres changements sont attendus.
+- Paquets NuGet anciens à délister : le propriétaire s'en charge.
+- Listes déroulantes (point 39 de la recette) : l'habillage CSS est gardé (Chromium 135 et suivants, liste du système ailleurs) ; le `<select>` natif reste.
+- Nom « une application cliente » : retiré des fichiers du dépôt (lot 10).
+- `STD-FILESIZE` : le compteur de lignes effectives est porté dans le contrôle des règles du kit (lot 11).
+- Pluriels après un nombre : le standard, soit les règles de pluriel par langue (lot 12).
+- Sous-modules JS à regrouper au build : laissé au jugement de l'exécutant (lot 13).
+
+## Décisions en attente du propriétaire
+
+Rien ici n'est exécuté sans réponse.
+
+- Nom « une application cliente » dans les messages de commit déjà poussés : réécrire ou non l'historique.
+- Grille `Load` : charger dès le prérendu avec les défauts des colonnes, ou garder le premier rendu interactif.
+- Trou noir : l'anneau reste discret en clair pour tenir les seuils de contraste avec toutes les palettes. Le rendre plus visible demande de marquer le thème « contraste non garanti ». Le propriétaire regarde le thème avant de trancher.
+
+## Ordre et dépendances
+
+Lots 2 à 7 dans l'ordre (le lot 5 s'appuie sur le crochet du lot 4). Les lots 8 et 9 sont
+indépendants des thèmes ; les points 40 à 42 du lot 8 retouchent le dialogue Apparence et passent
+après le lot 4, qui y ajoute une ligne.
+
+## Critère de clôture
+
+Chaque lot a sa preuve, la CI de `develop` est verte, les sessions demandeuses sont prévenues. Les
+décisions en attente qui restent sans réponse sont reportées dans le plan suivant, pas perdues.

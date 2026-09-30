@@ -10,11 +10,16 @@ namespace OmniEurope.Blazor.Internal;
 /// </summary>
 internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
 {
-    private bool UsesAdvancedFilter => grid.Filterable && grid.FilterMode == OmniDataGridFilterMode.Advanced;
+    private bool UsesAdvancedFilter => grid.FilterMode == OmniDataGridFilterMode.Advanced;
 
-    private bool ShowsOperatorSelector => grid.Filterable && grid.FilterMode != OmniDataGridFilterMode.Simple;
+    private bool ShowsOperatorSelector => grid.FilterMode != OmniDataGridFilterMode.Simple;
 
-    internal bool IsFilterable(OmniDataGridColumnDefinition<TItem> column) => grid.Filterable && column.Filterable;
+    /// <summary>
+    /// A column that says nothing follows its grid, provided it has something to filter on; a column that
+    /// says true or false decides for itself.
+    /// </summary>
+    internal bool IsFilterable(OmniDataGridColumnDefinition<TItem> column) =>
+        column.Filterable ?? (grid.Filterable && column.HasFilterSource);
 
     /// <summary>Whether the filter row shows each column's condition in a popover (advanced mode).</summary>
     internal bool EditsInPopover => UsesAdvancedFilter;

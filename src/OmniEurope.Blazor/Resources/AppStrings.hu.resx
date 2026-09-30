@@ -17,8 +17,11 @@
   <data name="SettingsFont" xml:space="preserve"><value>Betűtípus</value></data>
   <data name="SettingsTextSize" xml:space="preserve"><value>Szövegméret</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Sűrűség</value></data>
+  <data name="SettingsBackdropMotion" xml:space="preserve"><value>Animált háttér</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Vezérlők mérete</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Alapértelmezett</value></data>
+  <data name="SettingsRandom" xml:space="preserve"><value>Véletlenszerű</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Téma és paletta véletlenszerű kiválasztása</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>alapértelmezett</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Szövegméret csökkentése</value></data>
   <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Szövegméret növelése</value></data>

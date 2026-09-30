@@ -5,7 +5,7 @@ namespace OmniEurope.Blazor.Showcase.Theming;
 
 /// <summary>
 /// The contrast ratios of the combination the visitor is previewing, pair by pair, as the reference
-/// mockup lists them next to its preview (<c>docs/plans/PLAN-004-maquette-themes.html</c>, <c>PAIRS</c>).
+/// mockup lists them next to its preview (<c>docs/plans/archive/PLAN-004-maquette-themes.html</c>, <c>PAIRS</c>).
 /// </summary>
 /// <remarks>
 /// The ratios are computed from the token values the page receives, with the WCAG 2 relative

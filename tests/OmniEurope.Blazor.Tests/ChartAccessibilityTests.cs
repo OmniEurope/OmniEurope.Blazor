@@ -69,8 +69,10 @@ public sealed class ChartAccessibilityTests : OmniBunitContext
 
         chart.WaitForAssertion(() =>
         {
-            var table = chart.Find("figure > table.omni-chart__table");
-            Assert.Contains("omni-visually-hidden", table.ClassList);
+            // Hidden by its block, not by itself: a table keeps the height of its rows under a 1px
+            // height, and the page grew by it under every chart.
+            var table = chart.Find("figure > .omni-chart__tables.omni-visually-hidden > table.omni-chart__table");
+            Assert.DoesNotContain("omni-visually-hidden", table.ClassList);
             Assert.Equal("Dossiers", table.QuerySelector("caption")!.TextContent);
             // One column per drawn series (the markers only decorate one), an untitled one numbered.
             Assert.Equal(["Catégorie", "Reçus", "Série 2"], table.QuerySelectorAll("thead th").Select(cell => cell.TextContent));

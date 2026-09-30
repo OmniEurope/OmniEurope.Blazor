@@ -244,6 +244,7 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Aerisită</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Moștenită</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Densitate</value></data>
+  <data name="WorkshopMotion" xml:space="preserve"><value>Fundal animat</value></data>
   <data name="WorkshopHover" xml:space="preserve"><value>Trecere cursor</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Forțează</value></data>
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Forțat</value></data>
@@ -1356,6 +1357,7 @@
   <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Butonul dezvăluie textul introdus fără a-l copia în altă parte.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Data intrării în vigoare</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Introducere de la tastatură sau calendar; zilele din afara limitelor nu pot fi alese.</value></data>
+  <data name="DemoInputsDialog" xml:space="preserve"><value>Într-un dialog</value></data>
   <data name="DemoInputsStart" xml:space="preserve"><value>Ora de început</value></data>
   <data name="DemoInputsStartHelp" xml:space="preserve"><value>Ore de la 00 la 23, minute în pași de {0}.</value></data>
   <data name="DemoInputsAppointment" xml:space="preserve"><value>Programare</value></data>

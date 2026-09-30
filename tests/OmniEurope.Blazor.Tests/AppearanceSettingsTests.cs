@@ -13,7 +13,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.PresetChanged, _ => { }));
         var options = window.Find("select[aria-label='Thème']").QuerySelectorAll("option");
 
-        Assert.Equal(14, options.Length);
+        Assert.Equal(OmniThemePresets.All.Count, options.Length);
         Assert.Single(options, option => option.TextContent == "Essentiel (défaut)");
         Assert.DoesNotContain(options, option => option.TextContent.Contains("paquet", StringComparison.OrdinalIgnoreCase));
     }
@@ -74,7 +74,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.TextSizeLevelChanged, value => textSize = value)
             .Add(component => component.ControlSizeLevelChanged, _ => { }));
 
-        var groups = window.FindAll(".omni-appearance-settings--scale [role=group]");
+        var groups = window.FindAll(".omni-appearance-settings--window [role=group]");
         Assert.Equal(2, groups.Count);
         foreach (var group in groups)
         {
@@ -85,7 +85,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
 
         Assert.Equal("Taille du texte", window.Find($"#{groups[0].GetAttribute("aria-labelledby")}").TextContent.Trim());
         Assert.Equal("8/10", window.Find($"#{groups[0].GetAttribute("aria-describedby")}").TextContent.Trim());
-        var names = window.FindAll(".omni-appearance-settings--scale button[aria-label]").Select(button => button.GetAttribute("aria-label")).ToArray();
+        var names = window.FindAll(".omni-appearance-settings--window button[aria-label]").Select(button => button.GetAttribute("aria-label")).ToArray();
         Assert.Equal(
             ["Réduire la taille du texte", "Augmenter la taille du texte", "Réduire la taille des contrôles", "Augmenter la taille des contrôles"],
             names);
@@ -123,7 +123,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.DensityChanged, _ => { }));
 
         settings.Find(".omni-appearance-settings__row--scale button").Click();
-        var slider = settings.Find(".omni-appearance-settings--scale input[type=range]");
+        var slider = settings.Find(".omni-appearance-settings--window input[type=range]");
         Assert.Equal(("1", "10"), (slider.GetAttribute("min"), slider.GetAttribute("max")));
         Assert.Equal("Taille du texte", slider.GetAttribute("aria-label"));
 
@@ -177,6 +177,119 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         window.Find("select[aria-label='Thème']").Change("2");
 
         Assert.Equal(["theme:Galet", "palette:null", "font:null"], events);
+    }
+
+    [Fact]
+    public void Edit_is_the_main_action_of_its_row()
+    {
+        var settings = Render<OmniAppearanceSettings>();
+
+        var edit = settings.Find(".omni-appearance-settings__row--scale button");
+        Assert.Contains("omni-button--primary", edit.ClassList);
+        Assert.DoesNotContain("omni-button--success", edit.ClassList);
+    }
+
+    [Fact]
+    public void Font_is_offered_in_the_window_too_once_the_host_binds_it()
+    {
+        OmniThemeFont? picked = null;
+        var unbound = Render<OmniAppearanceSettings>();
+        unbound.Find(".omni-appearance-settings__row--scale button").Click();
+        Assert.Empty(unbound.FindAll(".omni-appearance-window select[aria-label='Police']"));
+
+        var settings = Render<OmniAppearanceSettings>(parameters => parameters
+            .Add(component => component.FontChanged, value => picked = value));
+        settings.Find(".omni-appearance-settings__row--scale button").Click();
+
+        // The inline row stays, the window repeats it; the drop-down posts the option index.
+        Assert.Single(settings.FindAll(".omni-appearance-settings:not(.omni-appearance-settings--window) > .omni-appearance-settings__row select[aria-label='Police']"));
+        var inWindow = settings.Find(".omni-appearance-window select[aria-label='Police']");
+        var index = OmniThemeFonts.All.ToList().FindIndex(font => font.Name == "JetBrains Mono");
+        inWindow.Change(index.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        Assert.Equal("JetBrains Mono", picked?.Name);
+    }
+
+    [Fact]
+    public void Window_rows_go_two_by_two_in_the_order_they_are_read()
+    {
+        var window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Givre"))
+            .Add(component => component.PresetChanged, _ => { })
+            .Add(component => component.PaletteChanged, _ => { })
+            .Add(component => component.FontChanged, _ => { })
+            .Add(component => component.BackdropMotionChanged, _ => { })
+            .Add(component => component.TextSizeLevelChanged, _ => { })
+            .Add(component => component.DensityChanged, _ => { })
+            .Add(component => component.ControlSizeLevelChanged, _ => { }));
+
+        // Theme beside palette, text size beside the size of the controls, then the rest: the order of
+        // the markup is the order on screen, so the keyboard follows what the eye reads.
+        var names = window.FindAll(".omni-appearance-settings--window > .omni-appearance-settings__row > .omni-appearance-settings__label")
+            .Select(label => label.TextContent.Trim());
+        Assert.Equal(["Thème", "Palette", "Taille du texte", "Taille des contrôles", "Densité", "Police", "Fond animé"], names);
+
+        // Two columns of at least 19rem in a window of 46rem: two fit, a third never does, and one
+        // remains when the screen narrows the window.
+        Assert.Equal(
+            "repeat(auto-fit, minmax(min(100%, 19rem), 1fr))",
+            ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings--window"), "grid-template-columns"));
+        var box = ShippedLookTests.Body(".omni-appearance-window");
+        Assert.Equal("46rem", ShippedLookTests.Value(box, "inline-size"));
+        Assert.Equal("calc(100vw - 2rem)", ShippedLookTests.Value(box, "max-inline-size"));
+    }
+
+    [Fact]
+    public void Random_draws_another_theme_and_another_palette_and_drops_the_font()
+    {
+        var theme = OmniThemePresets.All.Single(item => item.Name == "Papier");
+        OmniThemePalette? palette = OmniThemePalettes.All.Single(item => item.Name == "Mono");
+        var fontDrops = 0;
+        var window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Preset, theme)
+            .Add(component => component.Palette, palette)
+            .Add(component => component.Font, OmniThemeFonts.All.Single(font => font.Name == "JetBrains Mono")));
+
+        for (var draw = 0; draw < 60; draw++)
+        {
+            var themeBefore = theme;
+            var paletteBefore = (palette ?? OmniThemePresets.DefaultPaletteFor(theme)).Name;
+            var themeEvents = 0;
+            var paletteEvents = 0;
+            window.Render(parameters => parameters
+                .Add(component => component.Preset, theme)
+                .Add(component => component.Palette, palette)
+                .Add(component => component.PresetChanged, value => { themeEvents++; theme = value ?? OmniThemePresets.All[0]; })
+                .Add(component => component.PaletteChanged, value => { paletteEvents++; palette = value; })
+                .Add(component => component.FontChanged, value => fontDrops += value is null ? 1 : 0));
+
+            var random = window.Find(".omni-appearance-settings__random");
+            Assert.Equal("Aléatoire", random.TextContent.Trim());
+            random.Click();
+
+            Assert.Equal((1, 1), (themeEvents, paletteEvents));
+            Assert.Contains(theme, OmniThemePresets.All);
+            Assert.NotSame(themeBefore, theme);
+            Assert.NotEqual(paletteBefore, (palette ?? OmniThemePresets.DefaultPaletteFor(theme)).Name);
+        }
+
+        Assert.Equal(60, fontDrops);
+    }
+
+    [Fact]
+    public void Random_draws_a_theme_alone_when_the_palette_is_not_bound()
+    {
+        OmniThemePreset? drawn = OmniThemePresets.All[0];
+        var window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.PresetChanged, value => drawn = value));
+
+        window.Find(".omni-appearance-settings__random").Click();
+
+        // The first theme is the one in force: the draw is any other, never null.
+        Assert.NotNull(drawn);
+        Assert.NotSame(OmniThemePresets.All[0], drawn);
     }
 
     [Fact]

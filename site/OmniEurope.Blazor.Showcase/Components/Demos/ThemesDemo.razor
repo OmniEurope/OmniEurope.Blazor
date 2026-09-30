@@ -1,20 +1,24 @@
 @* Un thème donne la forme, une palette les couleurs, et toute palette peint tout thème : Preset et
    Palette d'OmniThemeScope, ou OmniThemePreset.With pour composer soi-même. Le thème, la palette,
-   l'apparence et la densité ne changent que le scope et son contenu. La taille du texte, elle,
-   s'applique à toute la page (racine du document, les tailles étant en rem) et est retirée en
-   quittant la démonstration. Une palette seule garde la forme livrée. Le personnalisateur applique
-   la même combinaison à tout le site. *@
+   l'apparence et la densité ne changent que le scope et son contenu. La taille du texte et celle des
+   contrôles, elles, s'appliquent à toute la page (racine du document, les tailles étant en rem) et
+   sont retirées en quittant la démonstration. Une palette seule garde la forme livrée. Le personnalisateur applique
+   la même combinaison à tout le site. Sous un thème dont le fond bouge (Givre, Trou noir), la fenêtre
+   offre de le figer : BackdropMotion, que l'hôte remet à son scope. *@
 @implements IAsyncDisposable
 
 <div class="demo-themes">
-    <OmniThemeScope Appearance="_appearance" Preset="_preset" Palette="_palette" Density="_density" Class="demo-themes__live">
-        <OmniAppearanceSettings @bind-Appearance="_appearance" @bind-Preset="_preset" @bind-Palette="_palette"
-                                @bind-TextSizeLevel="_textSizeLevel" @bind-Density="_density" />
-        @* La même fenêtre ouverte depuis une entrée de menu (« Thème ») : thème et palette, puis les
-           échelles. Un nouveau thème y remet la palette à celle du thème, comme dans les réglages. *@
+    <OmniThemeScope Appearance="_appearance" Preset="_preset" Palette="_palette" Font="_font" Density="_density" BackdropMotion="_backdropMotion" Class="demo-themes__live">
+        <OmniAppearanceSettings @bind-Appearance="_appearance" @bind-Preset="_preset" @bind-Palette="_palette" @bind-Font="_font"
+                                @bind-BackdropMotion="_backdropMotion"
+                                @bind-TextSizeLevel="_textSizeLevel" @bind-ControlSizeLevel="_controlSizeLevel" @bind-Density="_density" />
+        @* La même fenêtre ouverte depuis une entrée de menu (« Thème ») : thème et palette côte à côte,
+           les échelles, la densité et la police. Un nouveau thème y remet la palette et la police à
+           celles du thème, comme dans les réglages ; « Aléatoire » tire un thème et une palette. *@
         <OmniButton Id="demo-appearance-window" Variant="OmniButtonVariant.Secondary" OnClick="@(_ => _windowOpen = true)"><OmniIcon Name="OmniIconName.Palette" /><span>@Text["DemoThemesAppearanceWindow"]</span></OmniButton>
-        <OmniAppearanceWindow @bind-Open="_windowOpen" @bind-Preset="_preset" @bind-Palette="_palette"
-                              @bind-TextSizeLevel="_textSizeLevel" @bind-Density="_density" />
+        <OmniAppearanceWindow @bind-Open="_windowOpen" @bind-Preset="_preset" @bind-Palette="_palette" @bind-Font="_font"
+                              @bind-BackdropMotion="_backdropMotion"
+                              @bind-TextSizeLevel="_textSizeLevel" @bind-ControlSizeLevel="_controlSizeLevel" @bind-Density="_density" />
         <OmniCard>
             <Header><OmniHeading Level="OmniHeadingLevel.H4">@Text["ThemesLivePreview", Caption(LiveSample)]</OmniHeading></Header>
             <ChildContent>

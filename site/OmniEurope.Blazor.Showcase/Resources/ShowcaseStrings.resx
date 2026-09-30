@@ -244,6 +244,7 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Aérée</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Héritée</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Densité</value></data>
+  <data name="WorkshopMotion" xml:space="preserve"><value>Fond animé</value></data>
   <data name="WorkshopHover" xml:space="preserve"><value>Survol</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Forcer</value></data>
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Forcé</value></data>
@@ -1359,6 +1360,7 @@
   <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Le bouton révèle la saisie sans la copier ailleurs.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Date d'effet</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Saisie au clavier ou calendrier ; les jours hors bornes ne se choisissent pas.</value></data>
+  <data name="DemoInputsDialog" xml:space="preserve"><value>Dans un dialogue</value></data>
   <data name="DemoInputsStart" xml:space="preserve"><value>Heure de début</value></data>
   <data name="DemoInputsStartHelp" xml:space="preserve"><value>Heures de 00 à 23, minutes par pas de {0}.</value></data>
   <data name="DemoInputsAppointment" xml:space="preserve"><value>Rendez-vous</value></data>

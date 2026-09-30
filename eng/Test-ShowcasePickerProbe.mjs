@@ -1,7 +1,8 @@
 // Drives the date, time and date and time pickers of the published showcase in a real Chromium
 // through CDP, with trusted input events: the calendar grid from the keyboard (arrows, page keys,
 // Home, End, Enter), the time columns, a choice by mouse, Escape and a press outside, one panel open
-// at a time, the dark mode and the density. It fails on any console error or Content Security Policy
+// at a time, the dark mode, the density, and the calendar of a picker held by a dialog, open over it
+// before and after a drag. It fails on any console error or Content Security Policy
 // violation, the showcase being served with `style-src 'self'`.
 //
 // Usage: node Test-ShowcasePickerProbe.mjs --endpoint http://127.0.0.1:<cdp port> --url http://127.0.0.1:<site port>/
@@ -100,10 +101,13 @@ const key = async (name, modifiers = 0) => {
   await send('Input.dispatchKeyEvent', { type: 'keyUp', key: name, code: name, modifiers, windowsVirtualKeyCode: keyCodes[name], nativeVirtualKeyCode: keyCodes[name] });
 };
 const click = async selector => {
-  const point = await evaluate(`(() => {
+  // The target is measured two frames after the scroll: a picker panel is fixed to the window and
+  // follows its field on the scroll event, one frame later, as it does under a user's wheel.
+  const point = await evaluate(`(async () => {
     const element = document.querySelector(${JSON.stringify(selector)});
     if (!element) return null;
     element.scrollIntoView({ block: 'center' });
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     const box = element.getBoundingClientRect();
     return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
   })()`);
@@ -119,6 +123,9 @@ const value = id => `document.getElementById('${id}').value`;
 const datePanel = '.omni-date--date .omni-calendar';
 const timePanel = '.omni-date--time .omni-calendar';
 const momentPanel = '.omni-date--datetime .omni-calendar';
+// A panel is there for the user once the script has placed it under its field: before that it waits
+// out of sight, and a press aimed at it would land beside it.
+const shown = panel => `document.querySelector('${panel}')?.style.getPropertyValue('--omni-picker-x').endsWith('px') === true`;
 const dateToggle = '#inputs-date ~ .omni-date__toggle';
 const timeToggle = '#inputs-start ~ .omni-date__toggle';
 const momentToggle = '#inputs-appointment ~ .omni-date__toggle';
@@ -179,11 +186,11 @@ results.push('Échap et retour du focus');
 
 // A press outside closes it, and a day chosen with the mouse.
 await click(dateToggle);
-await waitFor('le calendrier rouvert', `document.querySelector('${datePanel}') !== null`);
+await waitFor('le calendrier rouvert', shown(datePanel));
 await click('h1, h2');
 await waitFor('la fermeture par un appui dehors', `document.querySelector('${datePanel}') === null`);
 await click(dateToggle);
-await waitFor('le calendrier rouvert', `document.querySelector('${datePanel}') !== null`);
+await waitFor('le calendrier rouvert', shown(datePanel));
 await click(`${datePanel} [data-date='2026-03-18']`);
 await waitFor('la date choisie à la souris', `${value('inputs-date')} === '18/03/2026'`);
 results.push('appui dehors, choix à la souris');
@@ -209,7 +216,7 @@ await waitFor('un seul panneau ouvert', `document.querySelector('${datePanel}') 
 await key('Escape');
 await waitFor('la fermeture du calendrier', `document.querySelectorAll('.omni-calendar').length === 0`);
 await click(timeToggle);
-await waitFor('le panneau d\'heure rouvert', `document.querySelector('${timePanel}') !== null`);
+await waitFor('le panneau d\'heure rouvert', shown(timePanel));
 await click(`${timePanel} .omni-calendar__foot .omni-button--primary`);
 await waitFor('la fermeture par Valider', `document.querySelector('${timePanel}') === null`);
 await waitFor('le focus rendu au bouton de l\'heure', `${active} === document.querySelector('${timeToggle}')`);
@@ -218,7 +225,7 @@ results.push('heure au clavier (flèches, Tab, Fin), un seul panneau, Valider');
 
 // ---- Date and time ----
 await click(momentToggle);
-await waitFor('le panneau date et heure', `document.querySelector('${momentPanel} [role=grid]') !== null && document.querySelectorAll('${momentPanel} [role=listbox]').length === 2`);
+await waitFor('le panneau date et heure', `document.querySelector('${momentPanel} [role=grid]') !== null && document.querySelectorAll('${momentPanel} [role=listbox]').length === 2 && ${shown(momentPanel)}`);
 const sideBySide = await evaluate(`(() => { const grid = document.querySelector('${momentPanel} .omni-picker__cal').getBoundingClientRect(); const time = document.querySelector('${momentPanel} .omni-time').getBoundingClientRect(); return time.left >= grid.right && Math.abs(time.top - grid.top) < 4; })()`);
 check(sideBySide, 'Le calendrier et les colonnes ne sont pas côte à côte.');
 await click(`${momentPanel} [data-date='2026-03-20']`);
@@ -277,6 +284,60 @@ check(light.panel !== dark.panel && light.text !== dark.text, `Le panneau ne cha
 check(light.chosen && light.chosen !== 'rgba(0, 0, 0, 0)' && dark.chosen && dark.chosen !== 'rgba(0, 0, 0, 0)', 'Le jour choisi n\'est pas rempli.');
 await click('.omni-header .omni-button');
 results.push(`clair ${light.panel} et sombre ${dark.panel}`);
+
+// ---- In a dialog: the calendar opens over it, fixed to the window, and adds it no scrollbar; once the
+// dialog is dragged by its header, the calendar still opens under its field ----
+const dialogToggle = '#inputs-dialog-date ~ .omni-date__toggle';
+const dialogPanel = '#inputs-dialog .omni-calendar';
+const dialogState = () => evaluate(`(() => {
+  const dialog = document.getElementById('inputs-dialog');
+  const panel = document.querySelector('${dialogPanel}');
+  const field = document.getElementById('inputs-dialog-date').closest('.omni-date__field').getBoundingClientRect();
+  const box = dialog.getBoundingClientRect();
+  const drawn = panel.getBoundingClientRect();
+  const hit = document.elementFromPoint(drawn.left + drawn.width / 2, drawn.bottom - 12);
+  return {
+    position: getComputedStyle(panel).position,
+    under: Math.round(drawn.top - field.bottom),
+    start: Math.round(drawn.left - field.left),
+    outside: drawn.bottom > box.bottom + 1 || drawn.top < box.top - 1,
+    scroll: dialog.scrollHeight > dialog.clientHeight || dialog.scrollWidth > dialog.clientWidth,
+    whole: drawn.left >= 0 && drawn.top >= 0 && drawn.right <= innerWidth && drawn.bottom <= innerHeight,
+    reachable: panel.contains(hit),
+    offsets: [dialog.style.left, dialog.style.top],
+    transform: getComputedStyle(dialog).transform
+  };
+})()`);
+const opensOver = state => state.position === 'fixed' && Math.abs(state.under - 6) <= 1 && Math.abs(state.start) <= 1
+  && state.outside && !state.scroll && state.whole && state.reachable && state.transform === 'none';
+await click('#inputs-dialog-open');
+await waitFor('le dialogue ouvert', "document.getElementById('inputs-dialog') !== null");
+await pause(400);
+await click(dialogToggle);
+await waitFor('le calendrier du dialogue', shown(dialogPanel));
+const inDialog = await dialogState();
+check(opensOver(inDialog), `Le calendrier ne s'ouvre pas par-dessus le dialogue : ${JSON.stringify(inDialog)}.`);
+await key('Escape');
+await waitFor('la fermeture du calendrier, le dialogue restant ouvert', `document.querySelector('${dialogPanel}') === null && document.getElementById('inputs-dialog') !== null`);
+
+const grip = await evaluate(`(() => { const box = document.querySelector('#inputs-dialog .omni-dialog__title').getBoundingClientRect(); return { x: box.left + 24, y: box.top + box.height / 2 }; })()`);
+await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: grip.x, y: grip.y });
+await send('Input.dispatchMouseEvent', { type: 'mousePressed', x: grip.x, y: grip.y, button: 'left', clickCount: 1 });
+for (let step = 1; step <= 5; step++) {
+  await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: grip.x - 30 * step, y: grip.y - 24 * step, button: 'left', buttons: 1 });
+}
+await send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: grip.x - 150, y: grip.y - 120, button: 'left', clickCount: 1 });
+await pause(200);
+await click(dialogToggle);
+await waitFor('le calendrier du dialogue déplacé', shown(dialogPanel));
+const dragged = await dialogState();
+check(dragged.offsets[0] === '-150px' && dragged.offsets[1] === '-120px', `Le dialogue n'a pas suivi le glisser : ${JSON.stringify(dragged)}.`);
+check(opensOver(dragged), `Dialogue déplacé, le calendrier n'est plus à sa place : ${JSON.stringify(dragged)}.`);
+await key('Escape');
+await waitFor('la fermeture du calendrier du dialogue déplacé', `document.querySelector('${dialogPanel}') === null`);
+await click('#inputs-dialog .omni-dialog__close');
+await waitFor('la fermeture du dialogue', "document.getElementById('inputs-dialog') === null");
+results.push('dans un dialogue : calendrier par-dessus, sans barre de défilement, encore sous son champ après un glisser');
 
 await pause(300);
 const csp = await evaluate('window.__omniCsp');

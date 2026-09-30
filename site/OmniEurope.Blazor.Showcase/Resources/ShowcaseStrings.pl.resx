@@ -244,6 +244,7 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Przestronna</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Dziedziczona</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Gęstość</value></data>
+  <data name="WorkshopMotion" xml:space="preserve"><value>Animowane tło</value></data>
   <data name="WorkshopHover" xml:space="preserve"><value>Najechanie</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Wymuś</value></data>
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Wymuszone</value></data>
@@ -1356,6 +1357,7 @@
   <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Przycisk odsłania wpisany tekst, nie kopiując go nigdzie.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Data wejścia w życie</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Wpisz z klawiatury lub użyj kalendarza; dni spoza zakresu nie można wybrać.</value></data>
+  <data name="DemoInputsDialog" xml:space="preserve"><value>W oknie dialogowym</value></data>
   <data name="DemoInputsStart" xml:space="preserve"><value>Godzina rozpoczęcia</value></data>
   <data name="DemoInputsStartHelp" xml:space="preserve"><value>Godziny od 00 do 23, minuty co {0}.</value></data>
   <data name="DemoInputsAppointment" xml:space="preserve"><value>Spotkanie</value></data>

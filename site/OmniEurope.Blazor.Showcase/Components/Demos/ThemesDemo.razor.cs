@@ -8,26 +8,39 @@ public partial class ThemesDemo
     private OmniAppearance _appearance = OmniAppearance.System;
     private OmniThemePreset? _preset;
     private OmniThemePalette? _palette;
+    private OmniThemeFont? _font;
     private int _textSizeLevel = 5;
+    private int _controlSizeLevel = 5;
     private OmniDensity _density = OmniDensity.Comfortable;
+    private bool _backdropMotion = true;
     private bool _windowOpen;
     private Sample LiveSample => new(_preset, _palette, _appearance);
     private int _appliedTextSizeLevel;
+    private int _appliedControlSizeLevel = 5;
     private IJSObjectReference? _appearanceModule;
 
     [Inject] private IJSRuntime JavaScript { get; set; } = default!;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (_textSizeLevel == _appliedTextSizeLevel)
+        if (_textSizeLevel == _appliedTextSizeLevel && _controlSizeLevel == _appliedControlSizeLevel)
         {
             return;
         }
 
         _appearanceModule ??= await JavaScript.InvokeAsync<IJSObjectReference>(
             "import", "./_content/OmniEurope.Blazor/omni-appearance.js");
-        await _appearanceModule.InvokeVoidAsync("setTextSizeLevel", _textSizeLevel);
-        _appliedTextSizeLevel = _textSizeLevel;
+        if (_textSizeLevel != _appliedTextSizeLevel)
+        {
+            await _appearanceModule.InvokeVoidAsync("setTextSizeLevel", _textSizeLevel);
+            _appliedTextSizeLevel = _textSizeLevel;
+        }
+
+        if (_controlSizeLevel != _appliedControlSizeLevel)
+        {
+            await _appearanceModule.InvokeVoidAsync("setControlSizeLevel", _controlSizeLevel);
+            _appliedControlSizeLevel = _controlSizeLevel;
+        }
     }
 
     public async ValueTask DisposeAsync()
@@ -40,6 +53,7 @@ public partial class ThemesDemo
         try
         {
             await _appearanceModule.InvokeVoidAsync("clearTextSizeLevel");
+            await _appearanceModule.InvokeVoidAsync("clearControlSizeLevel");
             await _appearanceModule.DisposeAsync();
         }
         catch (JSDisconnectedException)

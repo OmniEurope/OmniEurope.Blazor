@@ -48,6 +48,15 @@
                           @bind-Value:get="Theme.Density" @bind-Value:set="SetDensityAsync" />
         </ChildContent>
     </OmniFormField>
+    @* Offered only under a theme that moves its colour field (Givre, Trou noir). *@
+    @if (Theme.MovesBackdrop)
+    {
+        <div class="showcase-workshop-bar__field">
+            <span class="omni-label" id="workshop-motion-label">@Text["WorkshopMotion"]</span>
+            <OmniSwitch TValue="bool" Id="workshop-motion" aria-labelledby="workshop-motion-label"
+                        @bind-Value:get="Theme.BackdropMotion" @bind-Value:set="SetBackdropMotionAsync" />
+        </div>
+    }
     <OmniFormField For="workshop-hover">
         <LabelContent>@Text["WorkshopHover"]</LabelContent>
         <ChildContent>

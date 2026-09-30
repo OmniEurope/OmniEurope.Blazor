@@ -251,6 +251,8 @@
 
 .demo-themes { display: grid; gap: var(--omni-space-md); grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
 .demo-themes__live { display: grid; gap: var(--omni-space-md); grid-column: 1 / -1; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+/* Le bouton qui ouvre la fenêtre garde sa taille : étiré, il remplissait toute sa cellule. */
+.demo-themes__live > .omni-button { align-self: start; justify-self: start; }
 
 /* Coquille d'application : logo, loupe, pastille de la cloche et avatar, que le paquet n'a pas. */
 .demo-appshell { border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius); overflow: hidden; }

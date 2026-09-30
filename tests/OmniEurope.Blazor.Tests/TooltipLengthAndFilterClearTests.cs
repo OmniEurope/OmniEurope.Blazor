@@ -141,7 +141,7 @@ public sealed class TooltipLengthAndFilterClearTests : OmniBunitContext
     // ---- appearance settings ----
 
     [Fact]
-    public void Compact_scale_row_reads_as_a_short_label_a_summary_and_a_green_edit_action()
+    public void Compact_scale_row_reads_as_a_short_label_a_summary_and_the_main_edit_action()
     {
         var settings = Render<OmniAppearanceSettings>(parameters => parameters
             .Add(component => component.Compact, true)
@@ -155,11 +155,11 @@ public sealed class TooltipLengthAndFilterClearTests : OmniBunitContext
         var row = settings.Find(".omni-appearance-settings__row--scale");
         Assert.Equal("Thème et tailles", row.QuerySelector(".omni-appearance-settings__label")!.TextContent.Trim());
         Assert.Equal("Essentiel · Texte 6 · Compacte · Contrôles 7", row.QuerySelector(".omni-appearance-settings__summary")!.TextContent);
-        Assert.Contains("omni-button--success", row.QuerySelector("button")!.ClassName, StringComparison.Ordinal);
+        Assert.Contains("omni-button--primary", row.QuerySelector("button")!.ClassName, StringComparison.Ordinal);
     }
 
     [Fact]
-    public void Full_scale_row_keeps_its_title_and_the_green_edit_action()
+    public void Full_scale_row_keeps_its_title_and_the_main_edit_action()
     {
         var settings = Render<OmniAppearanceSettings>(parameters => parameters
             .Add(component => component.TextSizeLevelChanged, _ => { })
@@ -168,7 +168,7 @@ public sealed class TooltipLengthAndFilterClearTests : OmniBunitContext
         var row = settings.Find(".omni-appearance-settings__row--scale");
         Assert.Equal("Thème, palette et tailles", row.QuerySelector(".omni-appearance-settings__label")!.TextContent.Trim());
         Assert.Empty(row.QuerySelectorAll(".omni-appearance-settings__summary"));
-        Assert.Contains("omni-button--success", row.QuerySelector("button")!.ClassName, StringComparison.Ordinal);
+        Assert.Contains("omni-button--primary", row.QuerySelector("button")!.ClassName, StringComparison.Ordinal);
     }
 
     // ---- autocomplete option icon ----

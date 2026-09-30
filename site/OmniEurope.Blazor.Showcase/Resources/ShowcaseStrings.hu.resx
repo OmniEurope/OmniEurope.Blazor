@@ -244,6 +244,7 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Tágas</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Örökölt</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Sűrűség</value></data>
+  <data name="WorkshopMotion" xml:space="preserve"><value>Animált háttér</value></data>
   <data name="WorkshopHover" xml:space="preserve"><value>Rámutatás</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Kényszerítés</value></data>
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Kényszerítve</value></data>
@@ -1356,6 +1357,7 @@
   <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>A gomb megjeleníti a beírt szöveget anélkül, hogy bárhová másolná.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Hatálybalépés dátuma</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Billentyűzettel vagy naptárral; a határon kívüli napok nem választhatók.</value></data>
+  <data name="DemoInputsDialog" xml:space="preserve"><value>Párbeszédpanelen</value></data>
   <data name="DemoInputsStart" xml:space="preserve"><value>Kezdési időpont</value></data>
   <data name="DemoInputsStartHelp" xml:space="preserve"><value>Órák 00-tól 23-ig, percek {0} perces lépésközzel.</value></data>
   <data name="DemoInputsAppointment" xml:space="preserve"><value>Találkozó</value></data>

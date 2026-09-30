@@ -370,18 +370,18 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
 
         Assert.Equal("Apparence", window.Find(".omni-dialog__title").TextContent);
         Assert.Equal("false", window.Find(".omni-dialog").GetAttribute("aria-modal"));
-        var look = window.FindAll(".omni-appearance-settings--look .omni-appearance-settings__row");
+        var look = window.FindAll(".omni-appearance-settings--window .omni-appearance-settings__row");
         Assert.Equal(2, look.Count);
         Assert.Contains("Thème", look[0].TextContent, StringComparison.Ordinal);
         Assert.Contains("Palette", look[1].TextContent, StringComparison.Ordinal);
-        Assert.Empty(window.FindAll(".omni-appearance-settings--scale"));
+        Assert.Empty(window.FindAll("input[type=range], [role=radiogroup]"));
 
         var withScales = Render<OmniAppearanceWindow>(parameters => parameters
             .Add(component => component.Open, true)
             .Add(component => component.TextSizeLevelChanged, _ => { })
             .Add(component => component.DensityChanged, _ => { }));
-        Assert.Empty(withScales.FindAll(".omni-appearance-settings--look"));
-        Assert.Equal(2, withScales.FindAll(".omni-appearance-settings--scale .omni-appearance-settings__row").Count);
+        Assert.Empty(withScales.FindAll("select"));
+        Assert.Equal(2, withScales.FindAll(".omni-appearance-settings--window .omni-appearance-settings__row").Count);
     }
 
     [Fact]
@@ -395,8 +395,8 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
 
         settings.Find(".omni-appearance-settings__row--scale button").Click();
 
-        Assert.Equal(2, settings.FindAll(".omni-appearance-window .omni-appearance-settings--look .omni-appearance-settings__row").Count);
-        Assert.Equal(2, settings.FindAll(".omni-appearance-window .omni-appearance-settings--scale .omni-appearance-settings__row").Count);
+        var names = settings.FindAll(".omni-appearance-window .omni-appearance-settings--window .omni-appearance-settings__label").Select(label => label.TextContent.Trim());
+        Assert.Equal(["Thème", "Palette", "Taille du texte", "Densité"], names);
     }
 
     // ---- grid loading bar -----------------------------------------------------------------------

@@ -17,8 +17,11 @@
   <data name="SettingsFont" xml:space="preserve"><value>Schriftart</value></data>
   <data name="SettingsTextSize" xml:space="preserve"><value>Textgröße</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Dichte</value></data>
+  <data name="SettingsBackdropMotion" xml:space="preserve"><value>Animierter Hintergrund</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Steuerelementgröße</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Standard</value></data>
+  <data name="SettingsRandom" xml:space="preserve"><value>Zufällig</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Design und Palette zufällig auswählen</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>Standard</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Textgröße verringern</value></data>
   <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Textgröße erhöhen</value></data>

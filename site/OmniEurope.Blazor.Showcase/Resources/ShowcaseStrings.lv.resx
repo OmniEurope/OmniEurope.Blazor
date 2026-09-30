@@ -244,6 +244,7 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Plašs</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Mantots</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Blīvums</value></data>
+  <data name="WorkshopMotion" xml:space="preserve"><value>Animēts fons</value></data>
   <data name="WorkshopHover" xml:space="preserve"><value>Kursors virs</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Piespiest</value></data>
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Piespiests</value></data>
@@ -1356,6 +1357,7 @@
   <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Poga parāda ievadīto, to nekur nekopējot.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Spēkā stāšanās datums</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Ievadiet ar tastatūru vai izmantojiet kalendāru; dienas ārpus robežām nevar izvēlēties.</value></data>
+  <data name="DemoInputsDialog" xml:space="preserve"><value>Dialoglodziņā</value></data>
   <data name="DemoInputsStart" xml:space="preserve"><value>Sākuma laiks</value></data>
   <data name="DemoInputsStartHelp" xml:space="preserve"><value>Stundas no 00 līdz 23, minūtes ar soli {0}.</value></data>
   <data name="DemoInputsAppointment" xml:space="preserve"><value>Tikšanās</value></data>

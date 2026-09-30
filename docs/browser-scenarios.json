@@ -62,7 +62,7 @@
       "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its six default probes; manual gate, not in CI)",
       "script": "eng/Test-ThemeContrastProbe.mjs",
       "components": ["OmniThemeScope", "OmniButton", "OmniLink", "OmniTabs", "OmniDataGrid", "OmniBadge", "OmniAlert", "OmniCard", "OmniKanban", "OmniStatusStrip"],
-      "assertions": ["392 theme x palette x mode combinations applied through the customizer pickers", "painted colour against the effective background at rest, under forced hover and under focus, at the static thresholds", "shortfalls of the waived themes (Relief, Givre, Aplat) counted under acceptedContrastWaiver, the focus state never waived", "shipped look equal to Essentiel + Essentiel", "grid cells stay table-cell, icon-only buttons show their icon whole", "no horizontal overflow at 375 px", "empty failure registry in artifacts/theme-contrast-registry.json"]
+      "assertions": ["every theme x palette x mode combination of the catalogue (450 on 2026-09-30) applied through the customizer pickers", "painted colour against the effective background at rest, under forced hover and under focus, at the static thresholds", "shortfalls of the waived themes (Relief, Givre, Aplat) counted under acceptedContrastWaiver, the focus state never waived", "shipped look equal to Essentiel + Essentiel", "grid cells stay table-cell, icon-only buttons show their icon whole", "no horizontal overflow at 375 px", "empty failure registry in artifacts/theme-contrast-registry.json"]
     },
     {
       "id": "showcase-script-modules",

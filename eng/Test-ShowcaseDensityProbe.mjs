@@ -29,7 +29,7 @@ const EXEMPT = [
   // Text: a line of text keeps the height of its font, and density sets fonts on controls, not on
   // prose. Text for screen readers only is one pixel by construction.
   ['.omni-visually-hidden', 'texte réservé aux technologies d\'assistance, 1 px par construction'],
-  // Icon glyphs are text marks: the mockup (docs/plans/PLAN-004-maquette-themes.html) sizes every glyph
+  // Icon glyphs are text marks: the mockup (docs/plans/archive/PLAN-004-maquette-themes.html) sizes every glyph
   // in fixed rem outside the density blocks (button, tab, menu, upload, dialog close, date toggle at
   // 1.05rem), the alert glyph being the one token of its own, while the box around a glyph (disc,
   // button, toggle) follows the density. OmniIcon's size is also the consumer's explicit choice.

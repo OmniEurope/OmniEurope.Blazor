@@ -24,6 +24,8 @@ public partial class InputsDemo
 
     private InputsDemoModel Model { get; } = new();
 
+    private bool DialogOpen { get; set; }
+
     /// <summary>The three bound values, read back from the model so a choice is visibly applied.</summary>
     private string PickedSummary => Text[
         "DemoInputsPickedSummary",

@@ -1,9 +1,9 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-@* The mode and the font inline; the theme, the palette and the scales in the appearance window, opened
-   from the last row, so no setting is offered twice. The mode is a segmented choice (radio group):
-   the chosen mode reads by its state, not by its colour alone. *@
+@* The mode and the font inline; the theme, the palette, the scales and the font again in the
+   appearance window, opened from the last row. The mode is a segmented choice (radio group): the
+   chosen mode reads by its state, not by its colour alone. *@
 <div @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-appearance-settings", Compact ? "omni-appearance-settings--compact" : null)">
     <div class="omni-appearance-settings__row">
         <span class="omni-appearance-settings__label"><OmniIcon Name="OmniIconName.Palette" /> @Localize("SettingsMode")</span>
@@ -20,7 +20,7 @@
         </div>
     </div>
     @* Compact, the look reads as one short label and a summary beside the edit action, instead of a
-       title wrapped over several lines. Edit is the one action of the row: Success, the package's green. *@
+       title wrapped over several lines. Edit is the main action of the row: Primary, the accent. *@
     <div class="omni-appearance-settings__row omni-appearance-settings__row--scale">
         <span class="omni-appearance-settings__label" id="@RowId("look")"><OmniIcon Name="OmniIconName.Layers" /> @LookTitle</span>
         <div class="omni-appearance-settings__actions" role="group" aria-labelledby="@RowId("look")">
@@ -28,15 +28,18 @@
             {
                 <span class="omni-appearance-settings__summary">@LookSummary</span>
             }
-            <OmniButton Variant="OmniButtonVariant.Success" OnClick="OpenWindowAsync"><OmniIcon Name="OmniIconName.Edit" /><span>@Localize("Edit")</span></OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Primary" OnClick="OpenWindowAsync"><OmniIcon Name="OmniIconName.Edit" /><span>@Localize("Edit")</span></OmniButton>
         </div>
     </div>
 </div>
-@* The window of the look: theme and palette, then the scales. The same window a host opens from its
-   own menu entry (OmniAppearanceWindow); the font stays inline here, so it is not bound in the window. *@
+@* The window of the look: theme and palette, the scales, the density and the font. The same window a
+   host opens from its own menu entry (OmniAppearanceWindow); the font is offered there too, beside the
+   inline row, once the host binds it. *@
 <OmniAppearanceWindow Open="@_windowOpen" OpenChanged="SetWindowOpenAsync"
                       Preset="Preset" PresetChanged="ChangeThemeAsync"
                       Palette="Palette" PaletteChanged="ChangePaletteAsync"
+                      Font="Font" FontChanged="WindowFontChanged"
+                      BackdropMotion="BackdropMotion" BackdropMotionChanged="WindowBackdropMotionChanged"
                       TextSizeLevel="TextSizeLevel" TextSizeLevelChanged="ChangeTextSizeAsync"
                       Density="Density" DensityChanged="ChangeDensityAsync"
                       ControlSizeLevel="ControlSizeLevel" ControlSizeLevelChanged="WindowControlSizeChanged" />

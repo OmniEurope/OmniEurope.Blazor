@@ -94,13 +94,14 @@ public sealed class ThemePaletteTests : OmniBunitContext
     }
 
     /// <summary>
-    /// PLAN-004 T23: the dark shape reaches the dark half only. Galet, Halo, Papier, Nénuphar, Relief and Givre give
-    /// their cards other tokens in dark mode than in light mode; every other theme gives the same.
+    /// PLAN-004 T23: the dark shape reaches the dark half only. Galet, Halo, Néon, Papier, Nénuphar, Velours,
+    /// Relief, Givre and Trou noir give their cards other tokens in dark mode than in light mode; every other
+    /// theme gives the same.
     /// </summary>
     [Fact]
     public void Only_the_themes_with_a_dark_card_shape_change_their_card_tokens_in_dark_mode()
     {
-        string[] withDarkCards = ["Galet", "Halo", "Papier", "Nénuphar", "Relief", "Givre"];
+        string[] withDarkCards = ["Galet", "Halo", "Néon", "Papier", "Nénuphar", "Velours", "Relief", "Givre", "Trou noir"];
 
         foreach (var preset in OmniThemePresets.All)
         {
@@ -173,14 +174,15 @@ public sealed class ThemePaletteTests : OmniBunitContext
     }
 
     /// <summary>
-    /// The one catalogue-size tripwire: adding or removing a theme or a palette is a deliberate edit of
-    /// these two numbers. Every other test reads the sizes from the catalogues.
+    /// The catalogues are open: a theme or a palette may be added or removed at any time (owner
+    /// decision of 2026-09-30), so no size is written here or anywhere else. What holds whatever their
+    /// size: the shipped look comes first, names are unique, and every theme names a palette of its own.
     /// </summary>
     [Fact]
-    public void The_catalogues_ship_fourteen_themes_and_fourteen_palettes_default_first_each_theme_naming_one()
+    public void The_catalogues_put_the_default_first_and_each_theme_names_a_palette_of_its_own()
     {
-        Assert.Equal(14, OmniThemePresets.All.Count);
-        Assert.Equal(14, OmniThemePalettes.All.Count);
+        Assert.NotEmpty(OmniThemePresets.All);
+        Assert.True(OmniThemePalettes.All.Count >= OmniThemePresets.All.Count, "Fewer palettes than themes: two themes would share their default palette.");
         Assert.Equal("Essentiel", OmniThemePresets.All[0].Name);
         Assert.Equal("Essentiel", OmniThemePalettes.All[0].Name);
         Assert.Equal(OmniThemePresets.All.Count, OmniThemePresets.All.Select(preset => preset.Name).Distinct(StringComparer.Ordinal).Count());
@@ -203,7 +205,10 @@ public sealed class ThemePaletteTests : OmniBunitContext
 
     /// <summary>
     /// Ten themes that differed only by a detail would be one theme ten times: every pair differs on
-    /// at least three of the tokens that decide how things are drawn (PLAN-004 lot 6).
+    /// at least three of the tokens that decide how things are drawn (PLAN-004 lot 6). The headings
+    /// count since PLAN-009: Ardoise then lost its button shadow, as announced, and would otherwise
+    /// differ from Épure by its font and its capitals alone, where their titles are drawn apart
+    /// (spaced capitals against very large bold).
     /// </summary>
     [Fact]
     public void Every_pair_of_themes_differs_on_at_least_three_shape_tokens()
@@ -212,6 +217,7 @@ public sealed class ThemePaletteTests : OmniBunitContext
         [
             "--omni-radius", "--omni-button-radius", "--omni-card-radius", "--omni-border-width",
             "--omni-card-shadow", "--omni-button-shadow", "--omni-font-family", "--omni-button-text-transform",
+            "--omni-heading-text-transform", "--omni-heading-font-weight",
         ];
         var themes = OmniThemePresets.All;
         for (var first = 0; first < themes.Count; first++)
@@ -299,8 +305,8 @@ public sealed class ThemePaletteTests : OmniBunitContext
     }
 
     /// <summary>
-    /// Relief, Givre, Aplat and Épure draw their surfaces with relief, translucency or fill alone, where
-    /// the shipped ring (the accent at 28 % opacity) can vanish: each draws a solid ring instead, a ring of
+    /// Relief, Givre, Aplat, Épure and Trou noir draw their surfaces with relief, translucency, fill or a
+    /// faint veil alone, where the shipped ring (the accent at 28 % opacity) can vanish: each draws a solid ring instead, a ring of
     /// the surface then an opaque ring of a colour that clears 3:1 on it (the accent, or the text).
     /// </summary>
     [Theory]
@@ -308,6 +314,7 @@ public sealed class ThemePaletteTests : OmniBunitContext
     [InlineData("Givre")]
     [InlineData("Aplat")]
     [InlineData("Épure")]
+    [InlineData("Trou noir")]
     public void The_style_themes_draw_a_solid_focus_ring(string name)
     {
         var ring = OmniThemePresets.All.Single(theme => theme.Name == name).Shape["--omni-focus-ring"];

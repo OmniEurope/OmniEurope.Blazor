@@ -26,6 +26,10 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     private const string PaletteKey = "palette";
     private const string ModeKey = "mode";
     private const string DensityKey = "density";
+    private const string MotionKey = "motion";
+
+    /// <summary>The shape token a theme sets when it moves its colour field.</summary>
+    private const string MotionToken = "--omni-scope-motion";
 
     // Names a theme or a palette of the catalogue carried before it was renamed, mapped to its current
     // name, so a combination a visitor kept in the browser under the old name still comes back.
@@ -64,6 +68,12 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
 
     /// <summary>The density of the whole page, which a section with a density of its own overrides.</summary>
     public OmniDensity Density { get; private set; } = OmniDensity.Comfortable;
+
+    /// <summary>Whether the theme may move its colour field; the layout hands it to its theme scope.</summary>
+    public bool BackdropMotion { get; private set; } = true;
+
+    /// <summary>Whether the theme moves its colour field, so the setting that holds it still has something to hold.</summary>
+    public bool MovesBackdrop => Theme.Shape.ContainsKey(MotionToken);
 
     /// <summary>The tokens the visitor edited by hand, laid over both halves of the combination.</summary>
     public IReadOnlyDictionary<string, string> Edits => _edits;
@@ -178,6 +188,13 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     public async Task SetDensityAsync(OmniDensity density, CancellationToken cancellationToken = default)
     {
         Density = density;
+        await PushAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>Lets the theme move its colour field, or holds it still.</summary>
+    public async Task SetBackdropMotionAsync(bool moves, CancellationToken cancellationToken = default)
+    {
+        BackdropMotion = moves;
         await PushAsync(cancellationToken).ConfigureAwait(false);
     }
 
@@ -305,6 +322,11 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
             Density = parsedDensity;
         }
 
+        if (saved.TryGetValue(MotionKey, out var motion) && bool.TryParse(motion, out var parsedMotion))
+        {
+            BackdropMotion = parsedMotion;
+        }
+
         foreach (var (name, value) in saved.Where(entry => entry.Key.StartsWith("--", StringComparison.Ordinal)))
         {
             _edits[name] = value;
@@ -320,7 +342,8 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
             [ThemeKey] = Theme.Name,
             [PaletteKey] = Palette.Name,
             [ModeKey] = Mode.ToString(),
-            [DensityKey] = Density.ToString()
+            [DensityKey] = Density.ToString(),
+            [MotionKey] = BackdropMotion.ToString()
         };
         return JsonSerializer.Serialize(saved);
     }

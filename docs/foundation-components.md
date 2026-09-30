@@ -34,7 +34,7 @@ Ce lot fournit 15 composants. Ils produisent du HTML sémantique, refusent les a
 
 ## Barre d'application
 
-Les pièces de la barre supérieure de la maquette de PLAN-004 (`docs/plans/PLAN-004-maquette-themes.html`) sont dans le paquet, sans feuille de l'hôte :
+Les pièces de la barre supérieure de la maquette de PLAN-004 (`docs/plans/archive/PLAN-004-maquette-themes.html`) sont dans le paquet, sans feuille de l'hôte :
 
 - logo et nom : `OmniHeader.BrandLogo` et `OmniHeader.Brand` ;
 - recherche : `OmniTextBox` avec `Icon` (voir `docs/form-components.md`) ;
@@ -91,24 +91,25 @@ Mesure du surcoût des onze tracés Phosphor, publication WebAssembly identique 
 
 Un **thème** décide la forme : arrondis, épaisseur et couleur relative des bordures, ombres et lueurs, polices (piles système ou polices web servies par le paquet, voir le réglage Police), dessin des boutons, des cartes et des titres, et l'effet d'appui des boutons. Il n'écrit aucune couleur en dur : une bordure ou une lueur colorée se dit par rapport à un jeton (`var(--omni-color-accent)`, `color-mix(...)`), si bien qu'elle suit n'importe quelle palette. Une **palette** décide les couleurs : accent (et accent sombre), succès, information, avertissement, danger, surface et texte des deux modes. La fabrique du paquet en dérive les jetons de chaque mode et les déplace jusqu'aux ratios WCAG.
 
-Toute palette peint tout thème : quatorze thèmes par quatorze palettes, cent quatre-vingt-seize combinaisons, trois cent quatre-vingt-douze jeux de jetons avec les deux modes.
+Toute palette peint tout thème : quinze thèmes par quinze palettes, deux cent vingt-cinq combinaisons, quatre cent cinquante jeux de jetons avec les deux modes. Ces nombres ne sont pas figés : les tests et les sondes lisent le catalogue, et un thème ou une palette de plus n'en casse aucun.
 
 | Thème | Signature de forme | Palette par défaut |
 |---|---|---|
 | Essentiel | Un seul arrondi de 2,5 px partout, bordure de 1 px, élévation discrète, sans empattement, titres en 600 | Essentiel |
-| Ardoise | Angles vifs, aucune ombre, boutons et titres en capitales espacées | Océan |
-| Galet | Boutons pilule, grandes cartes sans bordure, liseré et ombre diffuse, police arrondie | Forêt |
-| Halo | Grandes rondeurs, boutons pilule, halo coloré tiré de l'accent, bordure teintée | Lavande |
-| Néon | Rayon court, lueurs d'accent, bordure à 45 % d'accent, capitales très espacées | Électrique |
-| Papier | Angles vifs, filets de 2 px couleur du texte, aucune ombre, empattements | Or ancien |
-| Rétro | Contours de 2 px, ombres dures décalées sans flou, capitales grasses | Braise |
-| Octet | Angles vifs, cadres en escalier, police d'écran, titres console en capitales | Mono |
+| Ardoise | Angles vifs, aucune ombre (cartes, boutons, alertes), boutons et titres en capitales espacées | Océan |
+| Galet | Boutons pilule ombrés par-dessous et posés sur une ombre diffuse, grandes cartes sans bordure, liseré et ombre diffuse neutres, police arrondie | Forêt |
+| Halo | Grandes rondeurs, boutons pilule, liseré et halo des cartes tirés de l'accent, bordure teintée | Lavande |
+| Néon | Rayon court, lueurs d'accent resserrées en clair et larges en sombre, bordure à 45 % d'accent, capitales très espacées | Électrique |
+| Papier | Angles vifs, filets de 2 px couleur du texte, aucune ombre (cartes, boutons, alertes), empattements | Or ancien |
+| Rétro | Contours de 2 px, ombres dures décalées sans flou jusque sous les alertes pleines, capitales grasses | Braise |
+| Octet | Angles vifs, cadres en escalier (cartes, boutons, alertes pleines), police d'écran, titres console en capitales | Mono |
 | Nénuphar | Coins asymétriques en feuille, lueur douce d'accent, cartes sans bordure | Lagune |
-| Velours | Biseaux à reflet interne, ombres profondes, titres à empattements | Prune |
+| Velours | Cartes réchauffées par l'accent, reflet en haut et ombre profonde, boutons en coussin (éclairés dessus, ombrés dessous), titres à empattements | Prune |
 | Relief | Néomorphisme : surfaces de la couleur de la page, paire d’ombres douces claire en haut à gauche et sombre en bas à droite, appui et champs en creux, police arrondie | Nuage |
-| Givre | Verre dépoli : grandes taches pastel peintes par la portée, cartes dépolies (flou et saturation) à liseré clair, calques flottants et voile de dialogue floutés, boutons pilule | Opale |
+| Givre | Verre dépoli : grandes taches pastel peintes par la portée sous le contenu, qui dérivent lentement, cartes dépolies (flou et saturation) à liseré clair, barre du haut et menu latéral en verre, calques flottants et voile de dialogue floutés, boutons pilule | Opale |
 | Aplat | Design plat : aucune ombre ni dégradé, cartes pleines sans bordure, boutons pilule, appui qui ne fait que foncer, police géométrique | Pastel |
 | Épure | Minimalisme : angles vifs, filets fins, aucune ombre, action principale à l’encre, très grands titres en 800, Inter | Encre |
+| Trou noir | Page nue (noir pur avec Horizon en sombre), cartes à peine voilées fermées par un filet fin, anneau d'accent derrière la page dont la lueur tourne lentement, boutons qui luisent de l'accent en sombre, police géométrique | Horizon |
 
 | Palette | Accent clair | Allure |
 |---|---|---|
@@ -126,17 +127,18 @@ Toute palette peint tout thème : quatorze thèmes par quatorze palettes, cent q
 | Opale | `#4f46e5` | Indigo franc sur blanc nacré, ciel, menthe et pêche en sévérités, nuit bleutée en sombre |
 | Pastel | `#b04fd0` | Lilas et rose sur blanc, bleu marine en sombre, ciel en information |
 | Encre | `#27466f` | Encre noire sur blanc cassé, un seul bleu d’encre discret |
+| Horizon | `#d9660b` | Ambre d'accrétion sur blanc pur, noir absolu en sombre |
 
 ### Combiner un thème et une palette
 
-`OmniThemePresets.All` donne les quatorze thèmes, chacun peint de sa palette par défaut, Essentiel en premier ; `OmniThemePalettes.All` donne les quatorze palettes. Sur une `OmniThemeScope` :
+`OmniThemePresets.All` donne les quinze thèmes, chacun peint de sa palette par défaut, Essentiel en premier ; `OmniThemePalettes.All` donne les quinze palettes. Sur une `OmniThemeScope` :
 
 - `Preset` seul : le thème avec sa palette par défaut ;
 - `Preset` et `Palette` : la forme du thème, les couleurs de la palette ;
 - `Palette` seule : les couleurs de la palette sur la forme livrée ;
 - ni l'un ni l'autre : l'apparence livrée, sans aucun script.
 
-`OmniThemePreset.With(palette)` fait la même combinaison en code : les jetons de la palette, puis `Shape` (la forme, posée sur les deux modes), puis `DarkShape` (les réglages propres au sombre, posés sur le seul mode sombre ; Galet, Halo, Papier, Nénuphar, Relief et Givre y relèvent leurs cartes ou leurs ombres, et Aplat rapproche ses aplats clairs du texte clair ; les sept autres thèmes n’en ont pas). Le nom et la description restent ceux du thème. Un preset écrit à la main (`new OmniThemePreset(nom, description, clair, sombre)`) a une `Shape` et une `DarkShape` vides.
+`OmniThemePreset.With(palette)` fait la même combinaison en code : les jetons de la palette, puis `Shape` (la forme, posée sur les deux modes), puis `DarkShape` (les réglages propres au sombre, posés sur le seul mode sombre ; Galet, Halo, Néon, Papier, Nénuphar, Velours, Relief, Givre et Trou noir y relèvent leurs cartes, leurs ombres ou leurs lueurs, et Aplat rapproche ses aplats clairs du texte clair ; Essentiel, Ardoise, Rétro, Octet et Épure n’en ont pas). Le nom et la description restent ceux du thème. Un preset écrit à la main (`new OmniThemePreset(nom, description, clair, sombre)`) a une `Shape` et une `DarkShape` vides.
 
 ```razor
 <OmniThemeScope Appearance="OmniAppearance.System"
@@ -157,31 +159,53 @@ Toute palette peint tout thème : quatorze thèmes par quatorze palettes, cent q
 
 Le thème ne repeint que sa portée. Les valeurs sont des surcharges des variables de la feuille, écrites par le CSSOM (`omni-theme.js`), jamais par un attribut `style` ; le mode suit `Appearance`, et `System` suit le réglage du système quand il change. Les variables de forme (`--omni-button-*`, `--omni-card-*`, `--omni-heading-*`, `--omni-border-width`) valent par défaut l'apparence livrée : une application peut aussi les redéfinir elle-même.
 
-### Relief, Givre, Aplat et Épure
+### Relief, Givre, Aplat, Épure et Trou noir
 
-Ces quatre thèmes reprennent l'esprit de quatre styles d'interface (néomorphisme, verre dépoli, design plat, minimalisme), redessinés avec les jetons du paquet.
+Les quatre premiers reprennent l'esprit de quatre styles d'interface (néomorphisme, verre dépoli, design plat, minimalisme), redessinés avec les jetons du paquet ; Trou noir est une page nue que seul son accent éclaire.
 
-Relief, Givre et Aplat sont marqués **contraste non garanti** (décision du propriétaire du 2026-09-28) : leur style prime sur les seuils de contraste. La raison est déclarée dans le catalogue (`ThemeDefinition.ContrastWaiver`) et exposée par `OmniThemePreset.ContrastWaiver`, que la vitrine affiche sous l'aperçu. Ces thèmes restent mesurés : `ThemeContrastMatrixTests` écrit leurs écarts dans la sortie du test au lieu d'échouer, et la sonde de contraste les compte sous `acceptedContrastWaiver`. Seul l'anneau de focus n'est jamais couvert : il reste plein et à 3:1 au moins dans tous les thèmes et avec toutes les palettes (`ThemePaletteTests`). Le texte et la bordure d'un contrôle focalisé suivent la dérogation comme les autres états (décision du 2026-09-28). La liste des thèmes marqués est figée dans le test : en marquer un de plus est une modification délibérée, et l'apparence livrée (Essentiel) ne peut pas l'être. Une application qui doit garantir les contrastes choisit un thème non marqué. Épure garde les garanties complètes.
+Relief, Givre et Aplat sont marqués **contraste non garanti** (décision du propriétaire du 2026-09-28) : leur style prime sur les seuils de contraste. La raison est déclarée dans le catalogue (`ThemeDefinition.ContrastWaiver`) et exposée par `OmniThemePreset.ContrastWaiver`, que la vitrine affiche sous l'aperçu. Ces thèmes restent mesurés : `ThemeContrastMatrixTests` écrit leurs écarts dans la sortie du test au lieu d'échouer, et la sonde de contraste les compte sous `acceptedContrastWaiver`. Seul l'anneau de focus n'est jamais couvert : il reste plein et à 3:1 au moins dans tous les thèmes et avec toutes les palettes (`ThemePaletteTests`). Le texte et la bordure d'un contrôle focalisé suivent la dérogation comme les autres états (décision du 2026-09-28). La liste des thèmes marqués est figée dans le test : en marquer un de plus est une modification délibérée, et l'apparence livrée (Essentiel) ne peut pas l'être. Une application qui doit garantir les contrastes choisit un thème non marqué. Épure et Trou noir gardent les garanties complètes.
 
-Ils lisent dix crochets de la feuille, neutres pour tout autre thème et remis à zéro sur chaque portée (`[data-omni-theme]`) pour qu'une portée imbriquée ne les hérite pas :
+Ils lisent treize crochets de la feuille, neutres pour tout autre thème et remis à zéro sur chaque portée (`[data-omni-theme]`) pour qu'une portée imbriquée ne les hérite pas :
 
-- `--omni-backdrop` : calques d'image peints par la portée derrière tout son contenu, fixés à la fenêtre (`none` par défaut) ; Givre y pose quatre grandes taches en dégradés radiaux, `--omni-backdrop-start`, `--omni-backdrop-middle` et `--omni-backdrop-end` (information, accent et succès mêlés à la page, les trois arrêts que mesurent les contrôles de contraste) et une lueur `--omni-backdrop-glow` (l'avertissement en clair, l'accent en sombre), sur un fond qui glisse de la page vers l'information ;
+- `--omni-backdrop` : calques d'image peints par la portée derrière tout son contenu, fixés à la fenêtre (`none` par défaut). Givre y pose quatre très grandes taches en dégradés radiaux sans cœur dur, dimensionnées sur la fenêtre pour se recouvrir sous le contenu : `--omni-backdrop-middle` (l'accent), `--omni-backdrop-start` (l'information), `--omni-backdrop-end` (le succès) et la lueur `--omni-backdrop-glow` (l'avertissement en clair, le danger en sombre), sur un fond qui glisse de la page vers l'information. Trou noir y pose le disque de l'horizon à la couleur de la page, un anneau fin `--omni-backdrop-ring` et une lueur conique (`--omni-backdrop-disc`, `--omni-backdrop-glow`), tous très proches de la page (7 % d'accent au plus en clair, 20 % en sombre). Les contrôles de contraste mesurent chaque arrêt `--omni-backdrop-*` que le fond nomme ;
+- `--omni-scope-motion` : l'animation de ce fond (`none` par défaut), décrite sous « Fond animé » ;
+- `--omni-shell-background` : fond de la barre du haut (`.omni-header`) et du menu latéral (`.omni-sidebar__panel`), repli sur la surface de la page. Givre y pose un verre translucide, si bien que le champ de couleur court d'un bord à l'autre ; la barre et le menu portent alors le même dépoli que les cartes (un `::before` en `z-index: -1` qui applique `--omni-card-filter`), et un thème qui pose ce crochet pose donc aussi `--omni-card-filter`. Un menu latéral ouvert en surimpression, hors de ce dépoli, prend le verre dense du dialogue (`--omni-dialog-background`) ;
 - `--omni-card-filter` et `--omni-scope-isolation` : le dépoli des cartes, en un seul crochet (`none` et `auto` par défaut). Toute surface peinte du fond de carte (carte, tuile de statistique, tuile de réglage, ligne d'apparence, carte à choisir, fichier d'un envoi) est positionnée et porte un pseudo-élément `::before` étiré sous elle, en `z-index: -1`, qui applique `--omni-card-filter` en `backdrop-filter` ; Givre y pose son givre et fait de la portée un contexte d'empilement (`--omni-scope-isolation: isolate`). Le pseudo-élément floute et sature le fond, et la carte pose par-dessus son remplissage translucide, son liseré et son reflet. Le filtre n'est jamais posé sur la carte, qui deviendrait le bloc conteneur des infobulles, menus et popovers fixes qu'elle contient, et la carte ne crée pas de contexte d'empilement, si bien que ses popovers passent toujours au-dessus des cartes suivantes ;
 - `--omni-input-shadow` : ombre des champs (`.omni-input`, `.omni-password`), gardée sous l'anneau de focus ; Relief y creuse ses champs ;
 - `--omni-input-border-color` et `--omni-input-background` : bordure et fond des mêmes champs (la bordure et la surface de la palette par défaut) ; Relief efface la bordure, Givre rend le fond translucide ;
 - `--omni-grid-background` : fond du cadre d'une grille, repli sur `--omni-card-background` ; Aplat y garde la surface de la page, Givre un verre plus dense que ses cartes, lu ligne à ligne ;
-- `--omni-alert-shadow` : ombre d'une alerte pleine, repli sur le relief et la lueur colorée du paquet ; Aplat l'efface ;
+- `--omni-alert-shadow` : ombre d'une alerte pleine, repli sur le relief et la lueur colorée du paquet. Une alerte pleine prend la forme de son thème : Ardoise, Papier, Aplat et Épure, dessinés sans ombre, l'effacent ; Rétro y met son ombre dure décalée et Octet son cadre en escalier. Le rayon suit la même règle par `--omni-alert-radius` (jeton de forme, 2,5 px livré) : tout thème qui arrondit ses cartes d'au moins 0,5 rem, ou qui a des angles vifs, pose le rayon de ses alertes (`ThemeFieldMotionTests`) ;
+- `--omni-alert-fill-opacity` : part du remplissage d'une alerte pleine (100 % par défaut) ; Givre la ramène à 82 %, si bien que le fond se devine à travers l'alerte, verre teinté sous un liseré clair ;
 - `--omni-scrim-filter` : filtre du voile d'un dialogue (`.omni-overlay`, `none` par défaut) ; le voile couvre toute la fenêtre, un filtre n'y déplace donc aucun descendant fixe ; Givre y floute la page sous un voile clair (`--omni-color-overlay` à 22 % de noir en clair) ;
-- `--omni-dialog-background` : fond du dialogue, repli sur `--omni-card-background` ; Givre, dont les cartes sont translucides, lui donne un verre dense posé sur le voile flouté, et Aplat, dont les cartes sont un aplat de couleur, lui rend la surface de la page.
+- `--omni-dialog-background` : fond du dialogue, repli sur `--omni-card-background` ; Givre, dont les cartes sont translucides, lui donne un verre dense posé sur le voile flouté, et Aplat, dont les cartes sont un aplat de couleur, lui rend la surface de la page. Une fenêtre non modale n'a pas de voile sous elle : son fond est posé sur la surface opaque de la page, pour que la page ne se lise pas à travers.
 
 Sans `backdrop-filter`, un calque flottant translucide retombe sur la surface opaque (`@supports not`).
+
+#### Fond animé
+
+Givre et Trou noir font bouger leur fond, et eux seuls (décision du propriétaire du 2026-09-30, figée dans `ThemeFieldMotionTests`). Le mouvement est en CSS pur, sans script :
+
+- la feuille enregistre un angle, `@property --omni-scope-turn` (`<angle>`, non hérité, `0deg`), qu'une animation `omni-scope-turn` mène à 360 degrés ; `--omni-backdrop` est enregistré non hérité lui aussi, pour que ni l'angle ni le fond ne soient recalculés sur chaque élément de la portée à chaque image ;
+- la portée porte `animation: var(--omni-scope-motion, none)` ; un thème qui bouge pose `--omni-scope-motion: omni-scope-turn <N>s linear infinite` (120 s pour Givre, 240 s pour Trou noir, jamais moins d'une minute) et lit `var(--omni-scope-turn)` dans son `--omni-backdrop` : l'orbite des taches de Givre, l'origine de la lueur conique de Trou noir ;
+- le fond reste immobile, angle à zéro, quand `OmniThemeScope.BackdropMotion` vaut `false` (la portée pose `data-omni-backdrop-motion="off"`) et toujours sous `prefers-reduced-motion: reduce`. Un navigateur sans `@property` garde lui aussi le fond immobile.
+
+`BackdropMotion` vaut `true` par défaut. `OmniAppearanceWindow` et `OmniAppearanceSettings` exposent `BackdropMotion` et `BackdropMotionChanged` : la ligne « Fond animé » (un interrupteur, texte dans les 24 langues) n'apparaît que sous un thème qui bouge son fond et seulement si l'hôte lie le changement ; l'hôte stocke la valeur et la remet à sa portée.
+
+```razor
+<OmniThemeScope Preset="@_preset" BackdropMotion="@_backdropMotion">
+    <OmniAppearanceSettings @bind-Preset="_preset" @bind-BackdropMotion="_backdropMotion" />
+</OmniThemeScope>
+```
+
+Coût mesuré dans la vitrine le 2026-09-30 (page Personnalisation, 1440 x 900, 180 images) : image médiane à 6,9 ms avec et sans mouvement sous Givre ; recalcul de style de 0,16 s en mouvement contre 0,05 s à l'arrêt sous Givre, 0,125 s contre 0,052 s sous Trou noir.
 
 Le parti pris de chacun (sous les seuils pour les trois premiers) :
 
 - Relief : cartes, champs et bouton secondaire ont la couleur de la page et ne se détachent que par une paire d'ombres douces marquées (claire en haut à gauche, sombre en bas à droite, la sombre tirée de la page assombrie) ; les champs n'ont plus de bordure et sont creusés par des ombres intérieures, l'appui passe en creux. En sombre, même logique sur l'anthracite de la palette.
-- Givre : verre dépoli aéré. En clair, quatre grandes taches pastel (ciel, lavande, menthe, pêche) sur un blanc froid ; en sombre, les mêmes taches atténuées sur une nuit bleutée, la lueur chaude passant à l'accent pour garder une nuit froide. L'accent reste une seule couleur franche et profonde, qui se détache de toutes les teintes du fond. Les cartes sont réellement dépolies : le fond est flouté et saturé sous elles (voir les crochets ci-dessus), puis la carte pose un remplissage laiteux translucide, un liseré clair de 1 px, un reflet en haut et une grande ombre douce ; les champs, le bouton secondaire et les grilles sont du même verre, plus dense pour les grilles. Libéré des seuils, seul l'anneau de focus reste garanti ; le texte atténué est un cran plus clair que le texte et reste lisible à l'œil sur les taches.
-- Aplat : les cartes sont un aplat franc de l'accent, le bouton principal une pastille claire de l'accent à l'encre presque noire, le bouton secondaire un aplat de l'information, les grilles et le dialogue restent des panneaux de la page, et les alertes pleines perdent leur lueur ; le texte atténué reste celui de la palette.
+- Givre : verre dépoli aéré. En clair, quatre très grandes taches pastel (lavande, ciel, menthe, pêche) sur un blanc froid, qui se recouvrent sous le contenu au lieu de rester dans les coins ; en sombre, des taches plus profondes sur une nuit bleutée, la lueur chaude prenant la teinte du danger, une aurore. Chaque tache dérive sur une petite orbite, un tour en deux minutes. La barre du haut et le menu latéral sont du même verre. L'accent reste une seule couleur franche et profonde, qui se détache de toutes les teintes du fond. Les cartes sont réellement dépolies : le fond est flouté et saturé sous elles (voir les crochets ci-dessus), puis la carte pose un remplissage laiteux translucide, un liseré clair de 1 px, un reflet en haut et une grande ombre douce ; les champs, le bouton secondaire et les grilles sont du même verre, plus dense pour les grilles. Libéré des seuils, seul l'anneau de focus reste garanti ; le texte atténué est un cran plus clair que le texte et reste lisible à l'œil sur les taches.
+- Aplat : les cartes sont un aplat franc de l'accent, le bouton principal une pastille claire de l'accent à l'encre presque noire, le bouton secondaire un aplat de l'information, les grilles et le dialogue restent des panneaux de la page, cernés comme les menus d'un filet plat de 1 px qui les détache d'elle, et les alertes pleines perdent leur lueur ; le texte atténué reste celui de la palette.
 - Épure : l'action principale est dessinée à l'encre du texte, son survol prend l'accent fort de la palette, seule touche de couleur avec les liens et l'onglet courant.
+- Trou noir : la page est la surface de la palette et rien d'autre (noir pur avec Horizon en sombre, blanc pur en clair). Les cartes sont un voile de 4 % du texte fermé par un filet fin, si bien que le fond se voit à travers ; grilles et dialogues sont opaques, un cran au-dessus de la page. La seule lumière est l'accent : la lueur des boutons et des calques flottants en sombre, et l'anneau de l'horizon derrière la page, en haut à droite, dont la lueur fait un tour en quatre minutes. Le filet est plus ferme que celui de la palette (36 % du texte) pour tenir son plancher sur les arrêts du fond. Le thème garde les seuils de contraste avec toutes les palettes : l'anneau est donc volontairement discret, surtout en clair.
 
 ### L'apparence livrée
 
@@ -189,7 +213,7 @@ Sans `OmniThemeScope`, ou avec une portée sans thème ni palette, la page a l'a
 
 ### Jetons de couleur
 
-Chaque sévérité (succès, information, avertissement, danger) et l'accent ont un jeton de texte (`--omni-color-X`, tenu à 4,5 sur la page et sur sa teinte pâle `-subtle`) et un jeton de remplissage (`--omni-color-X-fill`, avec `-fill-hover`, `-fill-active` et son encre `--omni-color-on-X-fill`) : le remplissage ne bouge que jusqu'à 3 contre la page, et c'est l'encre posée dessus qu'on pousse à 4,5, si bien que la couleur de marque reste reconnaissable. Les intentions ont en plus leurs fonds pleins : `--omni-color-info-bright` et `--omni-color-success-bright` avec l'encre `--omni-color-on-bright`, `--omni-color-warning-deep` et `--omni-color-danger-deep` avec `--omni-color-on-deep`, chacun avec son survol et son appui. Le bouton secondaire lit `--omni-color-neutral-fill`. La règle d'usage est dans [ui-conventions.md](ui-conventions.md). `ThemeContrastMatrixTests` vérifie 64 paires sur chacun des 392 jeux (4,5 pour un texte, 3 pour un remplissage ou l’accent contre la page, plancher de 1,7 pour une bordure), et, pour un thème qui peint un fond de couleur (Givre), le texte, le texte atténué et l’accent fort sur chaque arrêt de ce fond et sur la carte translucide posée dessus.
+Chaque sévérité (succès, information, avertissement, danger) et l'accent ont un jeton de texte (`--omni-color-X`, tenu à 4,5 sur la page et sur sa teinte pâle `-subtle`) et un jeton de remplissage (`--omni-color-X-fill`, avec `-fill-hover`, `-fill-active` et son encre `--omni-color-on-X-fill`) : le remplissage ne bouge que jusqu'à 3 contre la page, et c'est l'encre posée dessus qu'on pousse à 4,5, si bien que la couleur de marque reste reconnaissable. Les intentions ont en plus leurs fonds pleins : `--omni-color-info-bright` et `--omni-color-success-bright` avec l'encre `--omni-color-on-bright`, `--omni-color-warning-deep` et `--omni-color-danger-deep` avec `--omni-color-on-deep`, chacun avec son survol et son appui. Le bouton secondaire lit `--omni-color-neutral-fill`. La règle d'usage est dans [ui-conventions.md](ui-conventions.md). `ThemeContrastMatrixTests` vérifie 64 paires sur chacun des jeux du catalogue (450 le 2026-09-30 ; 4,5 pour un texte, 3 pour un remplissage ou l’accent contre la page, plancher de 1,7 pour une bordure), et, pour un thème qui peint un fond de couleur (Givre, Trou noir), le texte, le texte atténué et l’accent fort sur chaque arrêt de ce fond et sur la carte translucide posée dessus.
 
 ### Densité
 
@@ -198,15 +222,20 @@ Chaque sévérité (succès, information, avertissement, danger) et l'accent ont
 ### Réglages d'apparence réutilisables
 
 `OmniAppearanceSettings` porte en ligne le mode clair/sombre/système (groupe radio segmenté) et la police,
-puis une ligne « Thème, palette et tailles » dont le bouton Modifier (`Success`) ouvre la fenêtre de
-l'apparence : thème, palette, taille du texte, densité et taille des contrôles, sans voile et déplaçable.
-Aucun réglage n'est proposé deux fois. `WindowOpen` et `WindowOpenChanged` suivent l'ouverture de cette
-fenêtre, ce qui permet à l'hôte de retirer son éventuel voile de menu.
+puis une ligne « Thème, palette et tailles » dont le bouton Modifier (`Primary`, l'action principale de
+la ligne) ouvre la fenêtre de l'apparence, sans voile et déplaçable. La police se règle en ligne et,
+quand l'hôte lie `FontChanged`, dans la fenêtre aussi. `WindowOpen` et `WindowOpenChanged` suivent
+l'ouverture de cette fenêtre, ce qui permet à l'hôte de retirer son éventuel voile de menu.
 Cette fenêtre est aussi un composant, `OmniAppearanceWindow`, qu'un hôte ouvre depuis sa propre entrée
-de menu (« Thème ») par `Open`/`OpenChanged` : thème, palette et police d'abord, puis taille du texte,
-densité et taille des contrôles, chaque ligne n'apparaissant que si l'hôte lie son changement
+de menu (« Thème ») par `Open`/`OpenChanged`. Plus large que haute (46rem, jamais plus que l'écran), elle
+range ses réglages deux par deux, dans l'ordre de lecture : thème et palette, taille du texte et taille
+des contrôles, puis densité, police et fond animé ; une seule colonne dès que deux de 19rem ne tiennent
+plus. À côté du nom du thème, le bouton « Aléatoire » tire un thème autre que le courant et, si la
+palette est liée, une palette autre que celle en vigueur (`PresetChanged`, `PaletteChanged`, puis
+`FontChanged` avec `null` pour une police choisie pour l'ancien thème). Chaque ligne n'apparaît que si l'hôte lie son changement
 (`PresetChanged`, `PaletteChanged`, `FontChanged`, `TextSizeLevelChanged`, `DensityChanged`,
-`ControlSizeLevelChanged`). Chaque ligne est un groupe nommé par son libellé ; les boutons moins et plus
+`ControlSizeLevelChanged`) ; la ligne « Fond animé » (`BackdropMotionChanged`) demande en plus un thème
+qui bouge son fond (voir « Fond animé »). Chaque ligne est un groupe nommé par son libellé ; les boutons moins et plus
 d'une échelle portent des noms distincts.
 Dans les deux composants, choisir un thème lève `PresetChanged` puis `PaletteChanged` et `FontChanged`
 avec `null` pour une palette ou une police choisie pour le thème précédent : le nouveau thème s'affiche

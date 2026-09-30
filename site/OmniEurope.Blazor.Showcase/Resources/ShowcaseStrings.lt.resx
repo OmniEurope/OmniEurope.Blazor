@@ -244,6 +244,7 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Erdvus</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Paveldėtas</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Tankumas</value></data>
+  <data name="WorkshopMotion" xml:space="preserve"><value>Animuotas fonas</value></data>
   <data name="WorkshopHover" xml:space="preserve"><value>Užvedimas</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Priverstinai</value></data>
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Priverstinis</value></data>
@@ -1356,6 +1357,7 @@
   <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Mygtukas parodo įvestį jos niekur nekopijuodamas.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Įsigaliojimo data</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Įveskite klaviatūra arba naudokite kalendorių; už ribų esančių dienų pasirinkti negalima.</value></data>
+  <data name="DemoInputsDialog" xml:space="preserve"><value>Dialogo lange</value></data>
   <data name="DemoInputsStart" xml:space="preserve"><value>Pradžios laikas</value></data>
   <data name="DemoInputsStartHelp" xml:space="preserve"><value>Valandos nuo 00 iki 23, minutės {0} min. žingsniu.</value></data>
   <data name="DemoInputsAppointment" xml:space="preserve"><value>Susitikimas</value></data>

@@ -132,8 +132,9 @@ public sealed partial class ThemeTokenReader(HttpClient http)
         // How parts are drawn: radii, borders, the card fill and the movement of a pressed button.
         _ when name.StartsWith("--omni-radius", StringComparison.Ordinal) || name.EndsWith("-radius", StringComparison.Ordinal) || name.Contains("-border-", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
         _ when name.EndsWith("-transform", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
-        "--omni-border-width" or "--omni-card-background" or "--omni-dialog-background" or "--omni-input-background" => ThemeTokenGroup.Shape,
-        "--omni-scope-isolation" => ThemeTokenGroup.Shape,
+        "--omni-border-width" or "--omni-card-background" or "--omni-dialog-background" or "--omni-input-background" or "--omni-alert-fill-opacity" => ThemeTokenGroup.Shape,
+        // The scope's own hooks: its stacking, the motion of its colour field, the fill of its shell.
+        "--omni-scope-isolation" or "--omni-scope-motion" or "--omni-shell-background" => ThemeTokenGroup.Shape,
         _ => ThemeTokenGroup.Color
     };
 

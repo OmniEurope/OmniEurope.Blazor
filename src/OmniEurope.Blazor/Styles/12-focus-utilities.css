@@ -37,21 +37,22 @@
 .omni-u-border-accent { border-color: var(--omni-color-accent); }
 
 .omni-window-layer { position: fixed; inset: 0; z-index: var(--omni-z-window); pointer-events: none; display: grid; place-items: center; }
-.omni-window-layer > .omni-dialog { pointer-events: auto; font-size: var(--omni-font-size-base); }
-.omni-appearance-window { inline-size: 28rem; max-inline-size: calc(100vw - 2rem); }
-/* The label and its buttons share a line; the slider under them takes the whole row. */
-.omni-appearance-settings--scale .omni-appearance-settings__row { flex-wrap: wrap; }
-/* In the scale window every setting reads the same: the name on its line, the steps under it, then the slider. */
-.omni-appearance-settings--scale .omni-appearance-settings__label { flex: 1 1 100%; }
-.omni-appearance-settings--scale .omni-appearance-settings__actions { flex-wrap: nowrap; }
-.omni-appearance-settings--scale .omni-badge { inline-size: 3.25em; min-height: var(--omni-control-height); }
-.omni-appearance-settings--scale .omni-appearance-settings__label { min-inline-size: 6em; }
-/* Theme and palette lead the window, laid out as its scales are: the name on its line, then the list
-   and its reset beside it across the width. The two blocks are spaced as the rows of one block. */
-.omni-appearance-settings--look .omni-appearance-settings__row { flex-wrap: wrap; }
-.omni-appearance-settings--look .omni-appearance-settings__label { flex: 1 1 100%; min-inline-size: 6em; }
-.omni-appearance-settings--look .omni-appearance-settings__actions:has(.omni-drop-down) { inline-size: 100%; }
-.omni-appearance-settings--look + .omni-appearance-settings--scale { margin-block-start: var(--omni-space-md); }
+/* A window has no scrim under it: its fill is laid over the surface of the page, so a theme whose
+   dialog fill is translucent (Givre's, made for its frosted scrim) does not let the page read through. */
+.omni-window-layer > .omni-dialog { background: linear-gradient(var(--omni-dialog-background, var(--omni-card-background, var(--omni-color-surface))), var(--omni-dialog-background, var(--omni-card-background, var(--omni-color-surface)))), var(--omni-color-surface); pointer-events: auto; font-size: var(--omni-font-size-base); }
+/* The appearance window: one grid of rows, two by two (theme and palette, the two sizes, then the
+   density and the font), wider than it is tall. The window never exceeds the screen, and its rows fall
+   back to one column as soon as two of 19rem no longer fit; at its full width a third never does. */
+.omni-appearance-window { inline-size: 46rem; max-inline-size: calc(100vw - 2rem); }
+.omni-appearance-settings--window { grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); }
+/* Every row reads the same: its name on a line (the random draw beside the theme's), its controls
+   across the width under it, then the slider of a scale. Two rows of a line share its height, so the
+   content of the shorter one stays at the top. */
+.omni-appearance-settings--window .omni-appearance-settings__row { align-content: start; flex-wrap: wrap; }
+.omni-appearance-settings--window .omni-appearance-settings__label { flex: 1 1 6em; min-inline-size: 6em; }
+.omni-appearance-settings--window .omni-appearance-settings__actions { flex: 1 1 100%; flex-wrap: nowrap; }
+.omni-appearance-settings--window .omni-appearance-settings__actions:has(.omni-drop-down) { inline-size: 100%; }
+.omni-appearance-settings--window .omni-badge { inline-size: 3.25em; min-height: var(--omni-control-height); }
 
 .omni-data-grid--preparing tbody > tr:not(.omni-data-grid__preparation, .omni-data-grid__spacer) { visibility: hidden; }
 .omni-rating { display: inline-flex; align-items: center; gap: 0; white-space: nowrap; color: var(--omni-color-warning); }

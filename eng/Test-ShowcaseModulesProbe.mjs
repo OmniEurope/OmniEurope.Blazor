@@ -1,7 +1,8 @@
 // Drives, in the published showcase and in a real Chromium through CDP, the script paths no other
 // probe reaches: the filter popovers of the data grid (grid/filter-menus.js), the fold of the page
-// header's badges and actions (omni-page-header.js) and the visual face of the HTML editor
-// (omni-html-editor.js and its html-editor/ parts). It fails on any console error or Content Security
+// header's badges and actions (omni-page-header.js), the visual face of the HTML editor
+// (omni-html-editor.js and its html-editor/ parts) and the frozen scale of the appearance window
+// (omni-dialog.js). It fails on any console error or Content Security
 // Policy violation, the showcase being served with `style-src 'self'`.
 //
 // Usage: node Test-ShowcaseModulesProbe.mjs --endpoint http://127.0.0.1:<cdp port> --url http://127.0.0.1:<site port>/
@@ -221,6 +222,50 @@ await click(await evaluate(`(() => { const box = ${boldButton}.getBoundingClient
 await waitFor('le gras dans la source', `${boldMarker}.test(document.querySelector(${JSON.stringify(source)}).value)`);
 await waitFor('l\'état enfoncé du bouton Gras', `${boldButton}.getAttribute('aria-pressed') === 'true'`);
 results.push('commande Gras appliquée à la sélection, bouton enfoncé');
+
+// 4. Frozen scale of the appearance window (omni-dialog.js): the window freezes its measures when it
+// opens, and a row that arrives afterwards (the moving field setting, offered under Givre only) must
+// move what follows it instead of being drawn over it, then leave no hole when it goes.
+const appearanceWindow = '.omni-appearance-window';
+const windowRows = () => evaluate(`(() => {
+  const dialog = document.querySelector(${JSON.stringify(appearanceWindow)});
+  const rows = [...dialog.querySelectorAll('.omni-appearance-settings__row')].map(row => row.getBoundingClientRect());
+  const content = dialog.querySelector('.omni-dialog__content').getBoundingClientRect();
+  // The deepest intersection of two rows, whatever their layout (stacked or side by side).
+  let overlap = 0;
+  for (const [index, row] of rows.entries()) {
+    for (const other of rows.slice(index + 1)) {
+      overlap = Math.max(overlap, Math.min(Math.min(row.right, other.right) - Math.max(row.left, other.left), Math.min(row.bottom, other.bottom) - Math.max(row.top, other.top)));
+    }
+  }
+  const lowest = Math.max(...rows.map(row => row.bottom));
+  return { rows: rows.length, overlap: Math.round(overlap), room: Math.round(content.bottom - lowest), switches: dialog.querySelectorAll('[role="switch"]').length };
+})()`);
+const pickTheme = name => evaluate(`(() => {
+  const select = document.querySelector(${JSON.stringify(`${appearanceWindow} select`)});
+  select.value = [...select.options].find(option => option.textContent.trim().startsWith(${JSON.stringify(name)})).value;
+  select.dispatchEvent(new Event('change', { bubbles: true }));
+})()`);
+await evaluate("Blazor.navigateTo('/composants/themes')");
+await waitFor('la démonstration des thèmes', "document.getElementById('demo-appearance-window') !== null");
+await evaluate("document.getElementById('demo-appearance-window').scrollIntoView({ block: 'center' })");
+await pause(500);
+await click(await centerOf('#demo-appearance-window'));
+await waitFor('le gel de la fenêtre d\'apparence', `document.querySelector(${JSON.stringify(appearanceWindow)})?.style.height.endsWith('px') === true`);
+const frozen = await windowRows();
+check(frozen.switches === 0 && frozen.overlap <= 0, `Fenêtre d'apparence inattendue à l'ouverture : ${JSON.stringify(frozen)}.`);
+await pickTheme('Givre');
+await waitFor('la ligne du fond animé', `document.querySelector(${JSON.stringify(`${appearanceWindow} [role="switch"]`)}) !== null`);
+await pause(300);
+const grown = await windowRows();
+check(grown.rows === frozen.rows + 1, `La ligne du fond animé n'est pas arrivée : ${JSON.stringify(grown)}.`);
+check(grown.overlap <= 0 && grown.room === frozen.room, `La ligne arrivée après le gel recouvre ce qui la suit : ${JSON.stringify(grown)}.`);
+await pickTheme('Essentiel');
+await waitFor('le départ de la ligne du fond animé', `document.querySelector(${JSON.stringify(`${appearanceWindow} [role="switch"]`)}) === null`);
+await pause(300);
+const shrunk = await windowRows();
+check(shrunk.rows === frozen.rows && shrunk.overlap <= 0 && shrunk.room === frozen.room, `La ligne partie laisse un trou : ${JSON.stringify(shrunk)}.`);
+results.push('fenêtre d\'apparence gelée : une ligne arrive et repart sans recouvrement ni trou');
 
 await pause(300);
 const csp = await evaluate('window.__omniCsp');

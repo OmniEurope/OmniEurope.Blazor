@@ -17,8 +17,11 @@
   <data name="SettingsFont" xml:space="preserve"><value>Lettertype</value></data>
   <data name="SettingsTextSize" xml:space="preserve"><value>Tekstgrootte</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Dichtheid</value></data>
+  <data name="SettingsBackdropMotion" xml:space="preserve"><value>Geanimeerde achtergrond</value></data>
   <data name="SettingsControlSize" xml:space="preserve"><value>Grootte van besturingselementen</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Standaard</value></data>
+  <data name="SettingsRandom" xml:space="preserve"><value>Willekeurig</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Een willekeurig thema en palet kiezen</value></data>
   <data name="SettingsDefaultSuffix" xml:space="preserve"><value>standaard</value></data>
   <data name="SettingsTextSizeDecrease" xml:space="preserve"><value>Tekstgrootte verkleinen</value></data>
   <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Tekstgrootte vergroten</value></data>

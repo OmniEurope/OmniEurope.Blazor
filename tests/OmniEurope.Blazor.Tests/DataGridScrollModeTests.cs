@@ -122,5 +122,27 @@ public sealed class DataGridScrollModeTests : OmniBunitContext
         Assert.All(module.Invocations["applyRowHeight"], call => Assert.Null(call.Arguments[1]));
     }
 
+    [Fact]
+    public void A_fixed_row_is_exactly_the_declared_height_padding_and_rule_included()
+    {
+        // The scroll total is computed from the declared height: a cell that added its padding and its
+        // rule on top of it made every row taller than the spacers count.
+        var cell = ShippedLookTests.Body(".omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer),\n.omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td");
+
+        Assert.Equal("var(--omni-row-height)", ShippedLookTests.Value(cell, "block-size"));
+        Assert.Equal("border-box", ShippedLookTests.Value(cell, "box-sizing"));
+    }
+
+    [Fact]
+    public void The_sticky_header_is_opaque_whatever_the_fill_of_the_frame()
+    {
+        // Under a theme whose grid frame is translucent, the rows scrolling under the header must not
+        // show through its titles: the surface colour, which no theme makes translucent, sits behind them.
+        var header = ShippedLookTests.Body(".omni-data-grid__table thead");
+
+        Assert.Equal("sticky", ShippedLookTests.Value(header, "position"));
+        Assert.Equal("var(--omni-color-surface)", ShippedLookTests.Value(header, "background"));
+    }
+
     public sealed record City(int Id, string Name);
 }

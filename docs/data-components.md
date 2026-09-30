@@ -53,8 +53,8 @@ Une colonne se déclare par lambda ou par nom de propriété.
 ```razor
 <OmniDataGrid TItem="Order" Items="@orders" Height="600px">
     <Columns>
-        <OmniDataGridColumn TItem="Order" Property="Customer.Name" Title="Client" Filterable="true" Frozen="true" Width="220px" />
-        <OmniDataGridColumn TItem="Order" Property="Total" Title="Total" FormatString="{0:n2}"
+        <OmniDataGridColumn TItem="Order" Property="Customer.Name" Title="Client" Frozen="true" Width="220px" />
+        <OmniDataGridColumn TItem="Order" Property="Total" Title="Total" FormatString="{0:n2}" Filterable="false"
                             TextAlign="OmniDataGridTextAlign.End" SortOrder="OmniDataGridSortOrder.Descending" />
     </Columns>
 </OmniDataGrid>
@@ -229,9 +229,13 @@ qui défile, ou la page, ne rend que les éléments proches de la zone visible, 
 - `AllowSorting`, `Filterable`, `AllowColumnResize` et `AllowGrouping` coupent les
   fonctions au niveau de la grille ; les paramètres de colonne affinent au niveau de la colonne.
   Sur la grille, les trois premiers valent `true` par défaut et `AllowGrouping` vaut `false`. Sur une
-  colonne, `Sortable` et `Groupable` valent `true` par défaut mais `Filterable` vaut `false` : une
-  colonne ne montre un filtre que si elle déclare `Filterable="true"`, même avec un `FilterType` ou un
-  `FilterTemplate`.
+  colonne, `Sortable` et `Groupable` valent `true` par défaut.
+- Le `Filterable` d'une colonne a trois états. Non réglé, il suit celui de la grille, à condition que la
+  colonne ait de quoi filtrer (`Property`, `Value`, `FilterPredicate` ou `FilterTemplate`) : une colonne
+  faite d'un seul `Template` (actions de ligne) n'a jamais de filtre sans le demander. `false` retire le
+  filtre d'une colonne dans une grille filtrée ; `true` en donne un à une colonne dans une grille dont
+  `Filterable` vaut `false`. Les deux usages : tout filtrer et exclure quelques colonnes, ou ne rien
+  filtrer et choisir les colonnes une à une.
 - `FilterMode` vaut `Simple` (une saisie par colonne), `SimpleWithMenu` (saisie plus sélecteur
   d'opérateur) ou `Advanced` (deux conditions jointes par `Et`/`Ou`, appliquées sur action explicite).
   En `Advanced`, la rangée de filtres montre un déclencheur qui résume la condition appliquée et
@@ -288,7 +292,7 @@ deux quand il est posé à la main dans un `FilterTemplate`, et `OmniDataGridFil
 dit au modèle où il est rendu.
 
 ```razor
-<OmniDataGridColumn TItem="Order" Property="Country" Title="Pays" Filterable="true"
+<OmniDataGridColumn TItem="Order" Property="Country" Title="Pays"
                     FilterType="OmniDataGridColumnFilterType.MultiSelect" FilterSearchable="true" />
 ```
 
@@ -302,7 +306,7 @@ grille. Le contexte porte l'identifiant à poser sur le champ, la valeur courant
 candidates, le texte indicatif et le rappel qui applique une nouvelle valeur.
 
 ```razor
-<OmniDataGridColumn TItem="Order" Property="Total" Title="Total" Filterable="true">
+<OmniDataGridColumn TItem="Order" Property="Total" Title="Total">
     <FilterTemplate Context="filter">
         <input id="@filter.Id" class="omni-input" type="number" value="@filter.Value"
                placeholder="@filter.Placeholder"

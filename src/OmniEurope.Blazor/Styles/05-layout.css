@@ -61,12 +61,19 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-main--scrollbar-autohide { scrollbar-color: transparent transparent; }
 .omni-main--scrollbar-autohide.omni-main--scrolling { scrollbar-color: color-mix(in srgb, var(--omni-color-text) 35%, transparent) transparent; }
 /* The app bar: one row that wraps, on the surface, closed by the card rule and a soft shadow; its
-   height follows the density. Headings in it lose their bottom margin, which a row does not need. */
-.omni-header { align-items: center; background: var(--omni-color-surface); border-block-end: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); box-shadow: 0 1px 3px var(--omni-elevation-shadow-soft, transparent); box-sizing: border-box; color: var(--omni-color-text); display: flex; flex-wrap: wrap; gap: 0.625rem 1rem; padding: calc(var(--omni-item-pad-y) + 1px) var(--omni-header-pad-x); position: relative; }
+   height follows the density. Headings in it lose their bottom margin, which a row does not need. A
+   theme may let its colour field through the shell, the app bar and the sidebar
+   (--omni-shell-background, Givre); the frost that keeps it readable is the one of the cards. */
+.omni-header { align-items: center; background: var(--omni-shell-background, var(--omni-color-surface)); border-block-end: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); box-shadow: 0 1px 3px var(--omni-elevation-shadow-soft, transparent); box-sizing: border-box; color: var(--omni-color-text); display: flex; flex-wrap: wrap; gap: 0.625rem 1rem; padding: calc(var(--omni-item-pad-y) + 1px) var(--omni-header-pad-x); position: relative; }
 /* The side padding of the bar, which the window controls and the sidebar toggle reach through to the edges. */
 .omni-header { --omni-header-pad-x: 0.75rem; }
 .omni-header .omni-heading { margin: 0; }
 .omni-header--sticky { position: sticky; top: 0; z-index: var(--omni-z-sticky); }
+/* The frost of the shell, the hook of the cards (--omni-card-filter, see .omni-card::before): carried by
+   a pseudo-element, so neither the bar nor the sidebar becomes the containing block of the fixed menus
+   and tooltips it holds. It paints nothing without the hook. */
+.omni-header::before,
+.omni-sidebar::before { backdrop-filter: var(--omni-card-filter, none); content: ""; inset: 0; pointer-events: none; position: absolute; z-index: -1; }
 /* Bandeau d'accent : le fond prend l'accent du thème et le texte son contraste ; les boutons
    fantômes, liens, titres et bascules posés dessus suivent la couleur du bandeau au lieu de garder
    des couleurs pensées pour la surface, illisibles sur l'accent. */
@@ -347,6 +354,15 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     .omni-progress--indeterminate .omni-progress__indicator { background: currentColor; opacity: 0.45; transform: none; width: 100%; }
 }
 
+/* A theme may move its colour field (Givre, Trou noir). --omni-scope-turn is an angle that makes one
+   turn per cycle; the theme reads it in its --omni-backdrop (the orbit of a colour orb, the origin of a
+   ring). Both are registered as not inherited: the angle then interpolates, and neither it nor the
+   field it moves is recomputed on every element of the scope at each step. Without @property the
+   angle jumps from nothing to a full turn, the same picture, so the field stays still. */
+@property --omni-scope-turn { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@property --omni-backdrop { syntax: "*"; inherits: false; }
+@keyframes omni-scope-turn { to { --omni-scope-turn: 360deg; } }
+
 /* The scope sets the base size, it does not inherit the host's. The token existed for exactly this
    and was never applied at the root, so a control rendered at whatever size the surrounding page
    used while the grid beside it rendered at the token: two sizes in one component set. */
@@ -360,9 +376,15 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     /* A theme that frosts its cards (Givre) makes the scope a stacking context: the frost of a card is
        painted at the bottom of it, just above the colour field it blurs (see .omni-card::before). */
     isolation: var(--omni-scope-isolation, auto);
+    /* The motion of the field, none unless a theme sets it (--omni-scope-motion). */
+    animation: var(--omni-scope-motion, none);
     font-family: var(--omni-font-family);
     font-size: var(--omni-font-size-base);
 }
+/* The field stands still when the scope asks for it (OmniThemeScope.BackdropMotion) and whenever the
+   user asked the system for less motion. */
+.omni-theme-scope[data-omni-backdrop-motion="off"] { animation: none; }
+@media (prefers-reduced-motion: reduce) { .omni-theme-scope { animation: none; } }
 .omni-body { box-sizing: border-box; display: flex; flex: 1 1 auto; min-height: 0; min-width: 0; }
 /* Two axes: reveal (push takes width, overlay floats) and collapse (nothing, or an icon rail). The
    aside is the slot in the flow, the panel what is painted. */
@@ -382,7 +404,7 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 }
 .omni-sidebar[hidden] { display: none; }
 .omni-sidebar__panel {
-    background: var(--omni-color-surface);
+    background: var(--omni-shell-background, var(--omni-color-surface));
     border-inline-end: var(--omni-border-width) solid var(--omni-color-border);
     box-sizing: border-box;
     flex: 1 1 auto;
@@ -420,6 +442,8 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-sidebar--overlay { flex: 0 0 0; }
 .omni-sidebar--overlay.omni-sidebar--collapse-icons { flex-basis: var(--omni-sidebar-rail); }
 .omni-sidebar--overlay.omni-sidebar--open > .omni-sidebar__panel {
+    /* Floating over the page, outside the frosted slot: the dense pane of a dialog under a translucent shell. */
+    background: var(--omni-dialog-background, var(--omni-shell-background, var(--omni-color-surface)));
     box-shadow: var(--omni-shadow-md);
     inline-size: var(--omni-sidebar-width);
     inset-block: 0;
@@ -469,10 +493,10 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 }
 
 .omni-appearance-settings { display: grid; gap: var(--omni-space-md); min-inline-size: 0; }
-/* Full width, two settings side by side (mode and font, theme and palette, then the scales) as soon as
-   two 30rem columns fit, never more than two; one column below that. The compact form and the scale
-   window keep theirs. */
-.omni-appearance-settings:not(.omni-appearance-settings--compact, .omni-appearance-settings--scale) { grid-template-columns: repeat(auto-fit, minmax(min(100%, max(30rem, calc((100% - var(--omni-space-md)) / 2))), 1fr)); inline-size: 100%; }
+/* Full width, two settings side by side (mode and font, then the row of the window) as soon as two
+   30rem columns fit, never more than two; one column below that. The compact form and the window
+   keep theirs. */
+.omni-appearance-settings:not(.omni-appearance-settings--compact, .omni-appearance-settings--window) { grid-template-columns: repeat(auto-fit, minmax(min(100%, max(30rem, calc((100% - var(--omni-space-md)) / 2))), 1fr)); inline-size: 100%; }
 /* Outside the compact menu, each setting is drawn as a settings tile (fill, rule, padding, icon box and
  hover), so a page that shows the appearance next to other settings sections reads as one set. */
 .omni-appearance-settings__row { align-items: center; background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-radius); display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; min-inline-size: 0; padding: var(--omni-tile-pad-y) 0.875rem; transition: background-color var(--omni-duration-fast) ease; }

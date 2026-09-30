@@ -10,15 +10,15 @@ Le code livré par `OmniEurope.Blazor` ne doit pas :
 - utiliser `eval`, `new Function` ou une API équivalente ;
 - charger automatiquement une ressource depuis une origine distante.
 
-Les variations visuelles dynamiques passent par un ensemble fini de classes CSS, d'attributs `data-*`, d'états ARIA et, pour le SVG, d'attributs géométriques ou de présentation autorisés ; aucun style inline n'est généré. Les valeurs que seul le navigateur peut connaître passent par le CSSOM (`element.style`), jamais par un attribut écrit dans le balisage : propriétés personnalisées (`setProperty('--omni-…')`), propriétés standard (`style.transform`, `style.inlineSize`, `style.insetInlineStart`…) et, pour une sonde de mesure, `style.cssText`. Les modules concernés :
+Les variations visuelles dynamiques passent par un ensemble fini de classes CSS, d'attributs `data-*`, d'états ARIA et, pour le SVG, d'attributs géométriques ou de présentation autorisés ; aucun style inline n'est généré. Les valeurs que seul le navigateur peut connaître passent par le CSSOM (`element.style`), jamais par un attribut écrit dans le balisage : propriétés personnalisées (`setProperty('--omni-…')`), propriétés standard (`style.left`, `style.top`, `style.inlineSize`, `style.insetInlineStart`…) et, pour une sonde de mesure, `style.cssText`. Les modules concernés :
 
 - `omni-grid.js` : hauteur du tableau virtualisé et des lignes d'espacement, largeur et décalage des colonnes gelées, largeurs de colonne et sonde de mesure de l'ajustement au contenu (`cssText`), position des panneaux de filtre et de la liste de suggestions du filtre `Combo` (`--omni-popover-x`, `--omni-popover-y`, `--omni-popover-min`, `--omni-anchor-x`, `--omni-anchor-y`, `--omni-anchor-w`), espaceurs d'`OmniDataList` (`--omni-data-list-spacer`) ;
-- `omni-dialog.js` : déplacement d'un dialogue glissé (`style.transform`) et, pendant le geste, dimensions calculées figées en pixels sur le dialogue et ses descendants (marges, espacements, bordures, par `setProperty` sur des propriétés standard) ;
+- `omni-dialog.js` : déplacement d'un dialogue glissé (`style.left`, `style.top` ; jamais `transform`, qui ferait du dialogue l'origine des surfaces fixes qu'il contient) et, avec `FreezeScale`, dimensions calculées figées en pixels sur le dialogue et ses descendants (marges, espacements, bordures, par `setProperty` sur des propriétés standard), la hauteur figée étant rendue (`removeProperty`) aux conteneurs d'une ligne qui arrive ou repart ;
 - `omni-tooltip.js` : position d'une bulle suivie ou recadrée (`--omni-tooltip-x`, `--omni-tooltip-y`…) ;
 - `omni-theme.js` : jetons d'un préréglage appliqués à une portée (propriétés personnalisées, posées et retirées) ;
 - `omni-code-editor.js` : hauteur de l'éditeur (`--omni-code-editor-height`) ;
 - `omni-html-editor.js` : nombre de lignes de la surface (`--omni-html-editor-rows`) ;
-- `omni-focus.js` : position de tout menu du moteur commun, sous son déclencheur ou au pointeur (`--omni-menu-x`, `--omni-menu-y`), et décalage d'un popover recadré dans la fenêtre (`--omni-popover-shift-x`).
+- `omni-focus.js` : position de tout menu du moteur commun, sous son déclencheur ou au pointeur (`--omni-menu-x`, `--omni-menu-y`), décalage d'un popover recadré dans la fenêtre (`--omni-popover-shift-x`) et position du panneau d'un sélecteur de date ou d'heure sous son champ (`--omni-picker-x`, `--omni-picker-y`, posées sur le panneau, qui quitte la page avec elles).
 
 `omni-page-header.js` (défilement du titre, repli des badges et actions de l'en-tête de page quand la ligne 1 déborde, à toute largeur) mesure et bascule des attributs seulement ; il n'écrit aucun style.
 

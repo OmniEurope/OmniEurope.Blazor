@@ -244,6 +244,7 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Avar</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Päritud</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Tihedus</value></data>
+  <data name="WorkshopMotion" xml:space="preserve"><value>Animeeritud taust</value></data>
   <data name="WorkshopHover" xml:space="preserve"><value>Hõljutus</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Sunni</value></data>
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Sunnitud</value></data>
@@ -1356,6 +1357,7 @@
   <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Nupp näitab sisestust seda kuhugi kopeerimata.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Jõustumise kuupäev</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Sisestage klaviatuurilt või kasutage kalendrit; piiridest väljas olevaid päevi ei saa valida.</value></data>
+  <data name="DemoInputsDialog" xml:space="preserve"><value>Dialoogis</value></data>
   <data name="DemoInputsStart" xml:space="preserve"><value>Algusaeg</value></data>
   <data name="DemoInputsStartHelp" xml:space="preserve"><value>Tunnid 00–23, minutid sammuga {0}.</value></data>
   <data name="DemoInputsAppointment" xml:space="preserve"><value>Kohtumine</value></data>

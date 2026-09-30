@@ -58,7 +58,7 @@ internal static class ThemePresetFactory
 
     /// <summary>
     /// The colour tokens of one mode. The order of the operations is the one of the reference mockup
-    /// (<c>docs/plans/PLAN-004-maquette-themes.html</c>, <c>buildTokens</c>): a divergence changes values.
+    /// (<c>docs/plans/archive/PLAN-004-maquette-themes.html</c>, <c>buildTokens</c>): a divergence changes values.
     /// </summary>
     public static Dictionary<string, string> BuildColors(PaletteDefinition palette, OmniAppearance mode)
     {

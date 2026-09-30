@@ -244,6 +244,7 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Spazjuża</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Ereditata</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Densità</value></data>
+  <data name="WorkshopMotion" xml:space="preserve"><value>Sfond animat</value></data>
   <data name="WorkshopHover" xml:space="preserve"><value>Hover</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Sfurza</value></data>
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Sfurzat</value></data>
@@ -1356,6 +1357,7 @@
   <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Il-buttuna tikxef dak li ttajpja mingħajr ma tikkopjah x'imkien.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Data effettiva</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Ittajpjaha jew uża l-kalendarju; il-jiem barra mil-limiti ma jistgħux jintgħażlu.</value></data>
+  <data name="DemoInputsDialog" xml:space="preserve"><value>Fi djalogu</value></data>
   <data name="DemoInputsStart" xml:space="preserve"><value>Ħin tal-bidu</value></data>
   <data name="DemoInputsStartHelp" xml:space="preserve"><value>Sigħat minn 00 sa 23, minuti f'passi ta' {0}.</value></data>
   <data name="DemoInputsAppointment" xml:space="preserve"><value>Appuntament</value></data>

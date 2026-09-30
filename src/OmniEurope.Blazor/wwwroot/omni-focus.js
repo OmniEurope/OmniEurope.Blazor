@@ -238,6 +238,34 @@ function centrePickerLists(panel) {
     }
 }
 
+// The panel is fixed to the window and placed here, under its field, so whatever scrolls or clips around
+// the picker (a dialog, a card, a grid) can neither cut it nor grow a scrollbar for it. It goes above
+// the field when there is no room below, and stays whole inside the window. Custom properties on the
+// panel only, which leaves the page with it.
+function placePicker(root, panel) {
+    const anchor = (root.querySelector('.omni-date__field') ?? root).getBoundingClientRect();
+    const width = panel.offsetWidth;
+    const height = panel.offsetHeight;
+    const gap = 6;
+    const start = getComputedStyle(root).direction === 'rtl' ? anchor.right - width : anchor.left;
+    const left = Math.max(viewportMargin, Math.min(start, window.innerWidth - width - viewportMargin));
+    const below = anchor.bottom + gap;
+    const top = below + height > window.innerHeight - viewportMargin && anchor.top - height - gap >= viewportMargin
+        ? anchor.top - height - gap
+        : below;
+    const set = (x, y) => {
+        panel.style.setProperty('--omni-picker-x', `${Math.round(x)}px`);
+        panel.style.setProperty('--omni-picker-y', `${Math.round(y)}px`);
+    };
+    set(left, top);
+    // An ancestor with a transform, a filter or a containment is the origin of position: fixed instead
+    // of the window: the panel is then drawn off by that origin, measured here and taken back.
+    const drawn = panel.getBoundingClientRect();
+    if (Math.abs(drawn.left - left) > 1 || Math.abs(drawn.top - top) > 1) {
+        set(2 * left - drawn.left, 2 * top - drawn.top);
+    }
+}
+
 export function attachPicker(root, panel, toggle, dotnet, key) {
     if (!(root instanceof HTMLElement) || !(panel instanceof HTMLElement) || !dotnet || pickerHandlers.has(key)) {
         return;
@@ -270,9 +298,22 @@ export function attachPicker(root, panel, toggle, dotnet, key) {
         }
     };
 
+    // The field moves with any scroll, the page's or a dialog's, and the panel changes height with
+    // the month shown: it is placed again each time.
+    const onMove = () => {
+        if (panel.isConnected) {
+            placePicker(root, panel);
+        }
+    };
+    const resized = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(onMove);
+
     document.addEventListener('pointerdown', onPointerDown, true);
     root.addEventListener('keydown', onKeyDown);
-    pickerHandlers.set(key, { root, dotnet, onPointerDown, onKeyDown });
+    window.addEventListener('scroll', onMove, true);
+    window.addEventListener('resize', onMove);
+    resized?.observe(panel);
+    pickerHandlers.set(key, { root, dotnet, onPointerDown, onKeyDown, onMove, resized });
+    placePicker(root, panel);
     centrePickerLists(panel);
 }
 
@@ -281,6 +322,9 @@ export function detachPicker(key, restore) {
     if (state) {
         document.removeEventListener('pointerdown', state.onPointerDown, true);
         state.root.removeEventListener('keydown', state.onKeyDown);
+        window.removeEventListener('scroll', state.onMove, true);
+        window.removeEventListener('resize', state.onMove);
+        state.resized?.disconnect();
         pickerHandlers.delete(key);
     }
 

@@ -35,6 +35,37 @@
    'normal' line height added a pixel over it. A select ignores line-height, so it takes the height. */
 input.omni-input { line-height: 1.25; }
 select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-height); padding-block: 0; }
+/* The open list of a select, dressed as a menu of the package wherever the browser lets a select be
+   styled (appearance: base-select, Chromium 135 and later); elsewhere the system goes on drawing it.
+   The element stays a native select: its keyboard, its form value and its accessibility are the
+   browser's, and the list opens in the top layer, above any dialog and clipped by nothing. */
+@supports (appearance: base-select) {
+    select.omni-input:not([multiple]):not([size]),
+    select.omni-input:not([multiple]):not([size])::picker(select) { appearance: base-select; }
+    select.omni-input:not([multiple]):not([size]) { align-items: center; cursor: pointer; display: inline-flex; gap: var(--omni-space-sm); justify-content: space-between; }
+    select.omni-input:not([multiple]):not([size]):disabled { cursor: not-allowed; }
+    /* A chevron cut out of a small block, as light as the one the system drew; it turns up while the list is open. */
+    select.omni-input:not([multiple]):not([size])::picker-icon { background: var(--omni-color-text-muted); block-size: 0.375em; clip-path: polygon(0 0, 13% 0, 50% 74%, 87% 0, 100% 0, 50% 100%); content: ""; flex: none; inline-size: 0.6875em; }
+    select.omni-input:not([multiple]):not([size]):open::picker-icon { scale: 1 -1; }
+    select.omni-input:not([multiple]):not([size])::picker(select) {
+        backdrop-filter: var(--omni-overlay-filter, none);
+        background: var(--omni-overlay-background, var(--omni-color-surface));
+        border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border));
+        border-radius: var(--omni-card-radius, var(--omni-radius));
+        box-shadow: var(--omni-overlay-shadow, var(--omni-shadow-md));
+        color: var(--omni-color-text);
+        margin-block: 4px;
+        padding: calc(var(--omni-pop-pad) - 2px);
+    }
+    select.omni-input:not([multiple]):not([size]) option { border-radius: var(--omni-radius-sm); cursor: pointer; font-size: var(--omni-control-font); gap: var(--omni-space-sm); padding: var(--omni-item-pad-y) 0.625rem; }
+    select.omni-input:not([multiple]):not([size]) option:is(:hover, :focus-visible):not(:disabled) { background: var(--omni-color-surface-hover); outline: none; }
+    select.omni-input:not([multiple]):not([size]) option:checked { background: var(--omni-color-accent-subtle); color: var(--omni-color-accent-strong); font-weight: 600; }
+    select.omni-input:not([multiple]):not([size]) option:disabled { cursor: not-allowed; opacity: 0.5; }
+    /* The mark of the chosen option goes to the end of its row, so every text starts on one line. */
+    select.omni-input:not([multiple]):not([size]) option::checkmark { margin-inline-start: auto; order: 1; }
+    select.omni-input:not([multiple]):not([size]) optgroup { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-xs); font-weight: 600; }
+    select.omni-input:not([multiple]):not([size]) optgroup > option { color: var(--omni-color-text); font-weight: 400; }
+}
 .omni-input::placeholder { color: var(--omni-color-text-muted); }
 .omni-input:hover:not(:disabled):not([readonly]) { border-color: color-mix(in srgb, var(--omni-color-text) 45%, var(--omni-color-border)); }
 .omni-input:focus-visible { border-color: var(--omni-color-accent-fill); box-shadow: var(--omni-focus-ring), var(--omni-input-shadow, 0 0 #0000); outline: none; }
@@ -414,10 +445,13 @@ select.omni-input:not([multiple]):not([size]) { block-size: var(--omni-control-h
     box-shadow: var(--omni-overlay-shadow, var(--omni-card-shadow, 0 0 #0000));
     box-sizing: border-box;
     color: var(--omni-color-text);
-    inset-block-start: calc(100% + 6px);
-    inset-inline-start: 0;
+    /* Fixed to the window and placed by omni-focus.js under its field (--omni-picker-x and -y): a
+       dialog, a card or a grid that scrolls or clips its content can neither cut the panel nor grow a
+       scrollbar for it. Until the script has placed it, it waits out of sight, never at a corner. */
+    left: var(--omni-picker-x, -200vw);
     padding: var(--omni-pop-pad);
-    position: absolute;
+    position: fixed;
+    top: var(--omni-picker-y, 0);
     z-index: var(--omni-z-popover);
 }
 .omni-calendar__head { align-items: center; display: flex; gap: 4px; justify-content: space-between; margin-block-end: 6px; }

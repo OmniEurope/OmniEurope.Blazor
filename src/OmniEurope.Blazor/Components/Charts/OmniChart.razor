@@ -33,56 +33,64 @@
     else
     {
         @* Without a table of the host, the chart writes its own for screen readers: one row per
-           category, one column per series, and one table per pie. *@
+           category, one column per series, and one table per pie. They sit in a hidden block: a table
+           ignores the 1px height of the hiding class, keeps the height of its rows and lengthened the
+           page under the chart; a block takes it and clips them. *@
         var series = _context.TableSeries;
-        if (series.Count > 0)
+        var pies = _context.Pies;
+        if (series.Count > 0 || pies.Count > 0)
         {
-            var rows = series.Max(item => item.Data.Count);
-            <table class="omni-chart__table omni-visually-hidden">
-                <caption>@Title</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">@Localize("ChartCategoryColumn")</th>
-                        @for (var column = 0; column < series.Count; column++)
-                        {
-                            <th scope="col">@SeriesName(series[column], column)</th>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (var row = 0; row < rows; row++)
-                    {
-                        <tr>
-                            <th scope="row">@RowName(series, row)</th>
-                            @foreach (var item in series)
+            <div class="omni-chart__tables omni-visually-hidden">
+                @if (series.Count > 0)
+                {
+                    var rows = series.Max(item => item.Data.Count);
+                    <table class="omni-chart__table">
+                        <caption>@Title</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">@Localize("ChartCategoryColumn")</th>
+                                @for (var column = 0; column < series.Count; column++)
+                                {
+                                    <th scope="col">@SeriesName(series[column], column)</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var row = 0; row < rows; row++)
                             {
-                                <td>@(row < item.Data.Count ? OmniChartGeometry.Display(item.Data[row].Y) : null)</td>
+                                <tr>
+                                    <th scope="row">@RowName(series, row)</th>
+                                    @foreach (var item in series)
+                                    {
+                                        <td>@(row < item.Data.Count ? OmniChartGeometry.Display(item.Data[row].Y) : null)</td>
+                                    }
+                                </tr>
                             }
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        foreach (var pie in _context.Pies)
-        {
-            <table class="omni-chart__table omni-visually-hidden">
-                <caption>@(string.IsNullOrWhiteSpace(pie.Title) ? Title : pie.Title)</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">@Localize("ChartCategoryColumn")</th>
-                        <th scope="col">@Localize("ChartValueColumn")</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var slice in pie.Slices)
-                    {
-                        <tr>
-                            <th scope="row">@slice.Label</th>
-                            <td>@OmniChartGeometry.Display(slice.Value)</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                }
+                @foreach (var pie in pies)
+                {
+                    <table class="omni-chart__table">
+                        <caption>@(string.IsNullOrWhiteSpace(pie.Title) ? Title : pie.Title)</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">@Localize("ChartCategoryColumn")</th>
+                                <th scope="col">@Localize("ChartValueColumn")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var slice in pie.Slices)
+                            {
+                                <tr>
+                                    <th scope="row">@slice.Label</th>
+                                    <td>@OmniChartGeometry.Display(slice.Value)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
         }
     }
 </figure>

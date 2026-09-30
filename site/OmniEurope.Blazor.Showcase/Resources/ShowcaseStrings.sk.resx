@@ -244,6 +244,7 @@
   <data name="WorkshopDensitySpacious" xml:space="preserve"><value>Vzdušná</value></data>
   <data name="WorkshopDensityInherited" xml:space="preserve"><value>Zdedená</value></data>
   <data name="WorkshopSectionDensity" xml:space="preserve"><value>Hustota</value></data>
+  <data name="WorkshopMotion" xml:space="preserve"><value>Animované pozadie</value></data>
   <data name="WorkshopHover" xml:space="preserve"><value>Prejdenie</value></data>
   <data name="WorkshopHoverForce" xml:space="preserve"><value>Vynútiť</value></data>
   <data name="WorkshopHoverForced" xml:space="preserve"><value>Vynútené</value></data>
@@ -1356,6 +1357,7 @@
   <data name="DemoInputsPasswordHelp" xml:space="preserve"><value>Tlačidlo zobrazí zadaný text bez toho, aby ho niekam kopírovalo.</value></data>
   <data name="DemoInputsDate" xml:space="preserve"><value>Dátum účinnosti</value></data>
   <data name="DemoInputsDateHelp" xml:space="preserve"><value>Zadajte klávesnicou alebo v kalendári; dni mimo rozsahu nemožno vybrať.</value></data>
+  <data name="DemoInputsDialog" xml:space="preserve"><value>V dialógu</value></data>
   <data name="DemoInputsStart" xml:space="preserve"><value>Čas začiatku</value></data>
   <data name="DemoInputsStartHelp" xml:space="preserve"><value>Hodiny od 00 do 23, minúty po {0}.</value></data>
   <data name="DemoInputsAppointment" xml:space="preserve"><value>Stretnutie</value></data>

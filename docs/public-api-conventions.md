@@ -1,6 +1,6 @@
 # Conventions de l'API publique
 
-Ces règles sont celles de la passe de cohérence 1.2.0 ([PLAN-007](plans/PLAN-007-coherence-et-24-langues.md), « Décisions », validées le 2026-09-29). Un nouveau paramètre les suit ; un écart n'est admis que s'il figure dans la liste des exceptions en fin de document, avec sa raison.
+Ces règles sont celles de la passe de cohérence 1.2.0 ([PLAN-007](plans/archive/PLAN-007-coherence-et-24-langues.md), « Décisions », validées le 2026-09-29). Un nouveau paramètre les suit ; un écart n'est admis que s'il figure dans la liste des exceptions en fin de document, avec sa raison.
 
 ## Nommage et liaison
 
