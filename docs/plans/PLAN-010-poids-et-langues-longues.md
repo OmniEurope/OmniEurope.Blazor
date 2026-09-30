@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # PLAN-010 : Poids de l'assembly et langues longues
 
-> Statut : **ouvert**. Établi le 2026-09-30, après la publication de la 1.3.0 ; décisions du propriétaire du même jour (recommandations 1 et 2 sur l'assembly, les trois volets des langues longues, la page d'export). Lots 1, 2 et 6 faits.
+> Statut : **ouvert**. Établi le 2026-09-30, après la publication de la 1.3.0 ; décisions du propriétaire du même jour (recommandations 1 et 2 sur l'assembly, les trois volets des langues longues, la page d'export). Lots 1, 2, 3, 4 et 6 faits ; restent deux décisions du propriétaire (menu `push` sur téléphone, lot 5).
 
 ## Objectif
 
@@ -52,8 +52,21 @@ Septième sonde, `Languages` : les pages de la vitrine en allemand, finnois, gre
 chaque texte qui déborde de sa boîte (bouton, onglet, libellé, en-tête de grille, menu, pastille) ou
 se coupe sans points de suspension.
 
-- [ ] Contrôle : la sonde échoue sur un débordement provoqué exprès, puis la liste des débordements
-  réels est consignée ici.
+- [x] Contrôle : la sonde se vérifie elle-même au départ de chaque langue sur une boîte qu'elle fait
+  déborder exprès, et échoue si elle ne la voit pas. Première passe (2026-09-30, 4 langues, 1280 et
+  390 px, 320 pages) : 77 textes hors de leur boîte, en 19 formes.
+  - Badges (`/composants/badges`, 390 px, les quatre langues) : un badge (`white-space: nowrap`) se
+    laissait écraser sous son texte par une rangée qui ne passe pas à la ligne, jusqu'à 19 px.
+  - Paragraphe de la démonstration de coquille (`/composants/coquille`, `coquille-application`,
+    `/personnalisation`, 390 px et en grec à 1280 px) : le menu latéral `push` ouvert ne laisse que
+    68 px au contenu, et un mot comme « Darstellung » (71 px) en sortait, jusqu'à 40 px.
+  - Libellés des boutons d'une rangée `Overflow="Collapse"` (`/composants/mise-en-page`, 390 px) :
+    rognés à 1 px exprès pour rester lus ; faux positif, exempté par la sonde (boîte de 1 px sous
+    `clip-path`).
+  - Corps de carte à 1 px (`/composants/mise-en-page`, finnois, 390 px).
+  - Écartés en réglant le détecteur, avant la liste ci-dessus : 2 à 3 px en hauteur sur les titres et
+    boutons (la boîte de la police dépasse une hauteur de ligne serrée ; seuil passé à une demi-ligne)
+    et les libellés SVG des graphiques, placés par coordonnées.
 
 ### Lot 4 : corrections dans le paquet
 
@@ -61,14 +74,33 @@ Là où la sonde trouve un débordement : `hyphens: auto` et `overflow-wrap` sur
 alertes et cartes ; barres de boutons qui passent à la ligne ; largeurs fixes remplacées par des
 largeurs qui suivent le contenu.
 
-- [ ] Contrôle : la sonde `Languages` passe, les six autres aussi.
+Fait : `overflow-wrap: break-word`, `hyphens: auto` et `hyphenate-limit-chars: 10 4 4` sur
+`.omni-theme-scope` (le code garde ses lignes) ; `.omni-badge` ne rétrécit plus (`flex-shrink: 0`) ;
+les rangées de badges de la démonstration passent à la ligne (`Wrap`). La césure dépend du navigateur :
+les navigateurs de vérification (Chromium intégré, Edge sans tête) n'ont aucun dictionnaire (un mot
+long de 60 px reste sur une ligne en allemand comme en anglais), si bien qu'un mot trop long y est
+coupé sans trait d'union ; seul `overflow-wrap` est garanti partout.
+
+- [x] Contrôle : sonde `Languages` validée sur 320 pages (de, fi, el, hu à 1280 et 390 px), aucun
+  texte hors de sa boîte, aucune violation CSP, console propre.
+- [ ] Reste, décision du propriétaire : dans la démonstration de coquille, le menu `push` ouvert à
+  390 px ne laisse que 68 px au contenu, qui passe à la ligne mot par mot sans plus déborder. Une
+  proposition : un menu `push` se superpose au contenu sous 40rem, comme le mode `overlay`.
 
 ### Lot 5 : garde sur la longueur des traductions
 
 Un test signale les textes des emplacements étroits (boutons, onglets, en-têtes) dont la traduction
 dépasse 1,6 fois le texte français ; la traduction trop longue reçoit une variante plus courte.
 
-- [ ] Contrôle : le test échoue sur une traduction allongée exprès, puis passe sur les ressources.
+Mesure avant d'écrire le test (textes du paquet de 20 caractères au plus, sans argument, seuil le plus
+grand de 1,6 fois et de 6 caractères de plus) : 245 traductions dépassent, dans les 23 langues. Ce
+sont pour la plupart des traductions justes et plus longues par nature (« Casse » devient
+« Groß-/Kleinschreibung », « Rose » devient « Vaaleanpunainen »), que la sonde du lot 3 ne voit pas
+déborder. Un test sur le seul rapport de longueurs demanderait 245 exceptions ou 245 raccourcis faits
+sans locuteur natif.
+
+- [ ] Décision du propriétaire : abandonner ce lot au profit de la sonde `Languages`, qui mesure le
+  rendu, ou le restreindre à une liste de clés affichées dans une place fixe.
 
 ### Lot 6 : page d'export
 

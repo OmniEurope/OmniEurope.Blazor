@@ -8,8 +8,9 @@ param(
     # AutoFit: the fit to content of a grid column, double click, off-screen virtual row and Enter.
     # MindMap: the mind map gestures, trusted drag, wheel zoom, keyboard, context menu, double click.
     # Modules: the grid filter popovers, the fold of the page header and the visual HTML editor.
+    # Languages: no text leaves its box in German, Finnish, Greek and Hungarian, at 1280 and 390 px.
     # Omitted: every probe of $scripts below, in its order.
-    [ValidateSet('Pickers', 'Density', 'Contrast', 'AutoFit', 'MindMap', 'Modules')]
+    [ValidateSet('Pickers', 'Density', 'Contrast', 'AutoFit', 'MindMap', 'Modules', 'Languages')]
     [string[]]$Probe
 )
 
@@ -34,6 +35,7 @@ $scripts = [ordered]@{
     AutoFit = 'Test-ShowcaseGridAutoFitProbe.mjs'
     MindMap = 'Test-ShowcaseMindMapProbe.mjs'
     Modules = 'Test-ShowcaseModulesProbe.mjs'
+    Languages = 'Test-ShowcaseLanguagesProbe.mjs'
 }
 if (-not $Probe) { $Probe = @($scripts.Keys) }
 
