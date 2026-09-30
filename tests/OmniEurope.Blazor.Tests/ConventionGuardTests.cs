@@ -81,7 +81,7 @@ public sealed partial class ConventionGuardTests
     public void SidebarToggle_KeepsTheRailWidth_AtEveryControlSize()
     {
         // Its control-height floor made it wider than the rail from control size 7 and moved it off the
-        // axis of the rail icons (+2.6 px at size 10, Pronoia).
+        // axis of the rail icons (+2.6 px at size 10).
         var styles = StylesheetSource.Read();
 
         Assert.Contains(".omni-header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); margin-inline-start: calc(-1 * var(--omni-header-pad-x)); min-inline-size: var(--omni-sidebar-rail); }", styles, StringComparison.Ordinal);

@@ -4,12 +4,12 @@ using OmniEurope.Blazor.Components;
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
-/// The stored graph format of the Pronoia mind map editor, read and written back by
+/// The stored graph format of the original mind map editor, read and written back by
 /// <see cref="OmniMindMapDocument"/>.
 /// </summary>
 /// <remarks>
-/// The fixtures under <c>TestData/pronoia</c> are copies of Pronoia's seed files
-/// (<c>deploy/seed/data/alice/mindmaps.json</c> and <c>bob/mindmaps.json</c>, commit 130bb24): each
+/// The fixtures under <c>TestData/mindmap</c> are copies of that editor's seed files
+/// (<c>alice/mindmaps.json</c> and <c>bob/mindmaps.json</c>): each
 /// entry's <c>dataJson</c> is a graph exactly as that editor stored it.
 /// </remarks>
 public sealed class MindMapDocumentTests
@@ -131,7 +131,7 @@ public sealed class MindMapDocumentTests
         }
 
         Assert.NotNull(directory);
-        return Path.Combine(directory.FullName, "tests", "OmniEurope.Blazor.Tests", "TestData", "pronoia", file);
+        return Path.Combine(directory.FullName, "tests", "OmniEurope.Blazor.Tests", "TestData", "mindmap", file);
     }
 
     /// <summary>
